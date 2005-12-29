@@ -24,7 +24,7 @@ gboolean csv_import_validate_amount ( gchar * string );
 gboolean csv_import_validate_date ( gchar * string );
 gboolean csv_import_validate_number ( gchar * string );
 gboolean csv_import_validate_string ( gchar * string );
-GSList * csv_parse_line ( gchar * contents[], gchar * separator );
+GSList * csv_parse_line ( gchar ** contents, gchar * separator );
 /* END_DECLARATION */
 
 #endif

@@ -58,6 +58,17 @@
 #include "structures.h"
 /*END_INCLUDE*/
 
+#ifdef HAVE_G2BANKING
+#include <g2banking/gbanking.h>
+#include <aqbanking/imexporter.h>
+#include <gwenhywfar/debug.h>
+/* FIXME : je sais pas pourquoi c'est pas pris par mk_include... donc le met ici [cedric] */
+int GrisbiBanking_ImportContext (AB_BANKING *ab, 
+				 AB_IMEXPORTER_CONTEXT *ctx);
+
+#endif
+
+
 /*START_STATIC*/
 /*END_STATIC*/
 

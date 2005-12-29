@@ -50,7 +50,9 @@ extern GSList *liste_comptes_importes;
 
 
 /* *******************************************************************************/
-int GrisbiBanking_ImportContext(AB_BANKING *ab, AB_IMEXPORTER_CONTEXT *ctx){
+int GrisbiBanking_ImportContext (AB_BANKING *ab, 
+				 AB_IMEXPORTER_CONTEXT *ctx)
+{
   AB_IMEXPORTER_ACCOUNTINFO *ai;
   GSList *liste_comptes_importes_gbanking;
   int errors;
@@ -190,14 +192,11 @@ int GrisbiBanking_ImportContext(AB_BANKING *ab, AB_IMEXPORTER_CONTEXT *ctx){
 					    liste_tmp->data);
       liste_tmp=liste_tmp->next;
     }
-    return affichage_recapitulatif_importation();
+    return affichage_recapitulatif_importation(NULL);
   }
 
   return 0;
 }
-
-
-
 /* *******************************************************************************/
 
 

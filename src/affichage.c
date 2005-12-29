@@ -28,6 +28,7 @@
 #include "fichiers_gestion.h"
 #include "utils_file_selection.h"
 #include "gsb_data_account.h"
+#include "navigation.h"
 #include "gsb_transactions_list.h"
 #include "main.h"
 #include "traitement_variables.h"
@@ -518,7 +519,7 @@ void update_fonte_listes ( void )
 
     update_ecran ();
     hauteur_ligne_liste_opes = 0;
-    gsb_transactions_list_move_to_current_transaction ( gsb_data_account_get_current_account () );
+    gsb_transactions_list_move_to_current_transaction ( gsb_gui_navigation_get_current_account () );
 
 }
 /* **************************************************************************************************************************** */

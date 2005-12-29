@@ -345,6 +345,109 @@ GtkWidget * create_navigation_pane ( void )
 }
 
 
+/**
+ * return the current page selected
+ * the value returned is defined by GSB_GENERAL_NOTEBOOK_PAGES
+ *
+ * \param
+ *
+ * \return a gint wich is the numero of the page
+ *
+ * */
+gint gsb_gui_navigation_get_current_page ( void )
+{
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    gint page;
+
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view));
+
+    if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
+	return GSB_HOME_PAGE;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL (navigation_model),
+			 &iter,
+			 NAVIGATION_PAGE, &page,
+			 -1);
+    return page;
+}
+
+
+
+/**
+ * return the account number selected
+ *
+ * \param
+ *
+ * \return a gint, the account number or -1 if none selected
+ * */
+gint gsb_gui_navigation_get_current_account ( void )
+{
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    gint page;
+
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view));
+
+    if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
+	return -1;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL (navigation_model),
+			 &iter,
+			 NAVIGATION_PAGE, &page,
+			 -1);
+    
+    if ( page == GSB_ACCOUNT_PAGE )
+    {
+	gint account_number;
+	gtk_tree_model_get (GTK_TREE_MODEL(navigation_model), &iter, NAVIGATION_ACCOUNT, &account_number, -1);
+
+	return account_number;
+    }
+    return -1;
+}
+
+
+/**
+ * Return the number of the current selected report
+ *
+ * \param
+ *
+ * \return the current number of the report, or 0 if none selected
+ * */
+gint gsb_gui_navigation_get_current_report ( void )
+{
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    gint page;
+
+    if ( ! navigation_tree_view )
+    {
+	return 0;
+    }
+
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view));
+
+    if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
+	return 0;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL (navigation_model),
+			 &iter,
+			 NAVIGATION_PAGE, &page,
+			 -1);
+    
+    if ( page == GSB_REPORTS_PAGE)
+    {
+	gint report_number;
+	gtk_tree_model_get (GTK_TREE_MODEL(navigation_model), &iter, NAVIGATION_REPORT, &report_number, -1);
+
+	return report_number;
+    }
+    return 0;
+}
+
+
+
 
 /**
  * Create a list of tree items that are shortcuts to accounts.
@@ -661,46 +764,6 @@ void gsb_gui_navigation_remove_report ( gint report_number )
 			     GINT_TO_POINTER ( report_number ) );
    
 }
-
-
-/**
- * Return the number of the current selected report
- *
- * \param
- *
- * \return the current number of the report, or 0 if none selected
- * */
-gint gsb_gui_navigation_get_current_report ( void )
-{
-    GtkTreeSelection *selection;
-    GtkTreeIter iter;
-    gint page;
-
-    if ( ! navigation_tree_view )
-    {
-	return 0;
-    }
-
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view));
-
-    if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
-	return 0;
-
-    gtk_tree_model_get ( GTK_TREE_MODEL (navigation_model),
-			 &iter,
-			 NAVIGATION_PAGE, &page,
-			 -1);
-    
-    if ( page == GSB_REPORTS_PAGE)
-    {
-	gint report_number;
-	gtk_tree_model_get (GTK_TREE_MODEL(navigation_model), &iter, NAVIGATION_REPORT, &report_number, -1);
-
-	return report_number;
-    }
-    return 0;
-}
-
 
 
 

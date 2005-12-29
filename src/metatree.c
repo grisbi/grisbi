@@ -765,7 +765,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 	    /* If transaction is reconciled, show reconciled
 	     * transactions. */
 	    if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE &&
-		 !gsb_data_account_get_r (gsb_data_account_get_current_account ()))
+		 !gsb_data_account_get_r (gsb_gui_navigation_get_current_account ()))
 	    {
 		mise_a_jour_affichage_r ( TRUE );
 	    }

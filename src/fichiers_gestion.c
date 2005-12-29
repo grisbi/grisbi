@@ -46,6 +46,7 @@
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
+#include "navigation.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_status.h"
 #include "gsb_transactions_list.h"
@@ -95,8 +96,11 @@ extern GtkWidget *window_vbox_principale;
 
 
 
-/** called by menu, close the last file and open a new one
+/**
+ * called by menu, close the last file and open a new one
+ * 
  * \param none
+ * 
  * \return FALSE
  * */
 gboolean new_file ( void )
@@ -120,12 +124,9 @@ gboolean new_file ( void )
     if ( ! ajout_devise ( NULL ) )
 	return FALSE;
 
-    gsb_data_account_set_current_account ( gsb_data_account_new( type_de_compte ));
-
-    /* si la création s'est mal passée, on se barre */
-
-    if ( gsb_data_account_get_current_account () == -1 )
+    if ( gsb_data_account_new ( type_de_compte ) == -1 )
 	return FALSE;
+
 
     init_gui_new_file ();
     init_variables_new_file ();
@@ -182,7 +183,7 @@ void init_gui_new_file ( void )
 			 0 );
     gtk_widget_show ( tree_view_widget );
 
-    gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_data_account_get_current_account () ) );
+    gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_gui_navigation_get_current_account () ) );
 
     /* Display accounts in menus */
     gsb_menu_update_accounts_in_menus ();
@@ -436,7 +437,7 @@ gboolean gsb_file_open_file ( gchar *filename )
      * have been created */
     affiche_titre_fenetre();
 
-    gsb_menu_update_view_menu (gsb_data_account_get_current_account ());
+    gsb_menu_update_view_menu (gsb_gui_navigation_get_current_account ());
     gsb_menu_update_accounts_in_menus ();
 
     /* append that window to the main window */

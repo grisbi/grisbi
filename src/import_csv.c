@@ -53,7 +53,7 @@ static gint * csv_import_guess_fields_config ( gchar * contents, gint size );
 static gchar * csv_import_guess_separator ( gchar * contents );
 static gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton * ev, 
 				      gint *no_column );
-static gboolean csv_import_try_separator ( gchar * contents, gchar * separator );
+static gint csv_import_try_separator ( gchar * contents, gchar * separator );
 static gint * csv_import_update_fields_config ( gchar * contents, gint size );
 static gboolean csv_import_update_preview ( GtkWidget * assistant );
 static void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str, 

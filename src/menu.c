@@ -39,6 +39,7 @@
 #include "qif.h"
 #include "tip.h"
 #include "gsb_data_account.h"
+#include "navigation.h"
 #include "import.h"
 #include "utils.h"
 #include "parametres.h"
@@ -260,7 +261,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	    NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_grid_mode ), 
 	    etat.affichage_grille },
 	{ "ShowReconciled",	NULL,			_("Show _reconciled"),
-	    gsb_data_account_get_r ( gsb_data_account_get_current_account ()), 
+	    gsb_data_account_get_r ( gsb_gui_navigation_get_current_account ()), 
 	    NULL,			G_CALLBACK ( gsb_gui_toggle_show_reconciled),
 	    0 },
 	{ "ShowClosed",		NULL,			_("Show _closed accounts"),
@@ -581,7 +582,7 @@ gboolean gsb_gui_toggle_show_reconciled ()
     if ( block_menu_cb )
 	return FALSE;
 
-    if ( gsb_data_account_get_r ( gsb_data_account_get_current_account () ) )
+    if ( gsb_data_account_get_r ( gsb_gui_navigation_get_current_account () ) )
 	change_aspect_liste(6);
     else
 	change_aspect_liste(5);
@@ -675,7 +676,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
 	    GtkAction * action = gtk_action_new ( tmp_name, 
 						  gsb_data_account_get_name(i),
 						  "", "" );
-	    if ( gsb_data_account_get_current_account () == i )
+	    if ( gsb_gui_navigation_get_current_account () == i )
 		gtk_action_set_sensitive ( action, FALSE );
 
 	    gtk_action_group_add_action ( action_group, action );

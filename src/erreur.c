@@ -47,6 +47,13 @@
 #include "execinfo.h"
 #endif
 
+#ifdef HAVE_G2BANKING
+#include <g2banking/gbanking.h>
+#include <aqbanking/imexporter.h>
+#include <gwenhywfar/debug.h>
+#endif
+
+
 /*START_STATIC*/
 static gchar *get_debug_time ( void );
 static GtkWidget * print_backtrace ( void );

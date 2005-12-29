@@ -766,6 +766,10 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
     gint page;
     GSList *list_tmp;
 
+    /* FIXME */
+    if (!assistant)
+	return FALSE;
+
     /* We have to do that as soon as possible since this would reset currencies */
     if ( !gsb_data_account_get_accounts_amount () )
       {

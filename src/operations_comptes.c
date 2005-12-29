@@ -29,11 +29,12 @@
 #include "erreur.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
+#include "gsb_form.h"
 #include "utils_dates.h"
+#include "navigation.h"
 #include "menu.h"
 #include "gsb_transactions_list.h"
 #include "comptes_traitements.h"
-#include "operations_formulaire.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -45,14 +46,11 @@
 
 GtkWidget *vbox_liste_comptes;
 
-/* adr du label du dernier relevé */
-
-GtkWidget *label_last_statement;
-
 
 /*START_EXTERN*/
 extern gint compte_courant_onglet;
 extern GtkWidget *formulaire;
+extern GtkWidget *label_last_statement;
 extern gchar *last_date;
 /*END_EXTERN*/
 
@@ -70,7 +68,7 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
     gint current_account;
 
     new_account = GPOINTER_TO_INT ( no_account );
-    current_account = gsb_data_account_get_current_account ();
+    current_account = gsb_gui_navigation_get_current_account ();
 
     devel_debug ( g_strdup_printf ("gsb_data_account_list_gui_change_current_account : %d", new_account ));
 
@@ -93,15 +91,9 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
     
     /*     on se place sur les données du nouveau no_account */
 
-    gsb_data_account_set_current_account (new_account);
-
     gsb_transactions_list_set_visibles_rows_on_account (new_account);
     gsb_transactions_list_set_background_color (new_account);
     gsb_transactions_list_set_transactions_balances (new_account);
-    /*     affiche le nouveau formulaire  */
-    /*     il met aussi à jour la devise courante et les types */
-
-    remplissage_formulaire ( new_account );
 
     /*     mise en place de la date du dernier relevé */
 
@@ -150,14 +142,14 @@ void mise_a_jour_taille_formulaire ( gint largeur_formulaire )
     if ( !largeur_formulaire )
 	return;
 
-    account_number = gsb_data_account_get_current_account ();
+    account_number = gsb_gui_navigation_get_current_account ();
 
     for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) ; row++ )
 	for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
 	{
 	    GtkWidget *widget;
 
-	    widget = widget_formulaire_par_element ( gsb_data_form_get_value ( account_number,
+	    widget = gsb_form_get_element_widget ( gsb_data_form_get_value ( account_number,
 									       column,
 									       row ));
 

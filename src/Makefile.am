@@ -51,7 +51,6 @@ sources = \
 	data_payment.c		\
 	devises.c		\
 	dialog.c		\
-	echeancier_onglet.c	\
 	echeancier_formulaire.c	\
 	echeancier_infos.c	\
 	equilibrage.c		\
@@ -84,7 +83,6 @@ sources = \
 	ofx.c                   \
 	operations_comptes.c	\
 	operations_formulaire.c \
-	operations_onglet.c	\
 	parametres.c		\
 	parse_cmdline.c		\
 	print_config.c		\
@@ -155,7 +153,6 @@ grisbi_INCLUDES =		\
 	data_payment.h		\
 	devises.h		\
 	dialog.h		\
-	echeancier_onglet.h	\
 	echeancier_formulaire.h	\
 	echeancier_infos.h	\
 	equilibrage.h		\
@@ -180,7 +177,6 @@ grisbi_INCLUDES =		\
 	navigation.h		\
 	operations_comptes.h	\
 	operations_formulaire.h	\
-	operations_onglet.h	\
 	parametres.h		\
 	parse_cmdline.h		\
 	print_config.h		\

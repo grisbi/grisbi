@@ -70,11 +70,9 @@ static void update_soldes_minimaux ( gboolean force );
 /*START_EXTERN*/
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
-extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
 extern GSList *liste_struct_devises;
-extern GtkWidget *notebook_formulaire_echeances;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 extern GtkWidget *separateur_formulaire_echeancier;
@@ -326,23 +324,6 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 	 gsb_scheduler_validate_form ();
 
     gtk_widget_reparent ( formulaire_echeancier, ancien_parent );
-
-    /*     en remettant la fenetre, elle passe en onglet 2, après l'onglet du formulaire de */
-    /* 	ventilation ... on la remet en 1 */
-
-    gtk_notebook_reorder_child ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
-				 formulaire_echeancier,
-				 0 );
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
-			    0 );
-
-    /*     de plus, on a perdu le nom de l'étiquette, c'est inutilisé pour l'instant mais on */
-    /* 	sait jamais... */
-
-    gtk_notebook_set_tab_label ( GTK_NOTEBOOK ( notebook_formulaire_echeances ),
-				 formulaire_echeancier,
-				 gtk_label_new ( _("Form")));
-
 
     etat.formulaire_echeance_dans_fenetre = 0;
     gtk_widget_destroy ( dialog );

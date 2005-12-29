@@ -34,7 +34,6 @@ gint gsb_data_account_get_column_sort ( gint no_account,
 				   gint no_column );
 gchar *gsb_data_account_get_comment ( gint no_account );
 gint gsb_data_account_get_currency ( gint no_account );
-gint gsb_data_account_get_current_account ( void );
 gdouble gsb_data_account_get_current_balance ( gint no_account );
 GDate *gsb_data_account_get_current_reconcile_date ( gint no_account );
 gint gsb_data_account_get_current_transaction_number ( gint no_account );
@@ -88,7 +87,6 @@ gboolean gsb_data_account_set_comment ( gint no_account,
 					const gchar *comment );
 gboolean gsb_data_account_set_currency ( gint no_account,
 				    gint currency );
-gboolean gsb_data_account_set_current_account ( gint no_current_account );
 gboolean gsb_data_account_set_current_balance ( gint no_account,
 					   gdouble balance );
 gboolean gsb_data_account_set_current_reconcile_date ( gint no_account,

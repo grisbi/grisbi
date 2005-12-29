@@ -9,17 +9,12 @@
 
 /* START_DECLARATION */
 void affiche_cache_le_formulaire ( void );
-gboolean clique_champ_formulaire ( GtkWidget *entree,
-				   GdkEventButton *ev,
-				   gint *no_origine );
-GtkWidget *creation_formulaire ( void );
+void click_sur_bouton_voir_change ( void );
+gboolean completion_operation_par_tiers ( GtkWidget *entree );
 void degrise_formulaire_operations ( void );
 void echap_formulaire ( void );
-gboolean entree_perd_focus ( GtkWidget *entree,
-			     GdkEventFocus *ev,
-			     gint *no_origine );
-gboolean entree_prend_focus ( GtkWidget *entree );
 void formulaire_a_zero (void);
+gboolean gsb_form_finish_edition ( void );
 gint gsb_form_validate_transfer ( gint transaction_number,
 				  gint new_transaction,
 				  gchar *name_transfer_account );
@@ -33,8 +28,8 @@ void place_type_formulaire ( gint no_type,
 			     gchar *contenu );
 gint recherche_element_suivant_formulaire ( gint element_courant,
 					    gint sens_deplacement );
-void remplissage_formulaire ( gint account_number );
 void verification_bouton_change_devise ( void );
-GtkWidget *widget_formulaire_par_element ( gint no_element );
+void verifie_champs_dates ( gint origine );
+void widget_grab_focus_formulaire ( gint no_element );
 /* END_DECLARATION */
 #endif

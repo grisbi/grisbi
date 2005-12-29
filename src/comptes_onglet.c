@@ -56,7 +56,8 @@ GtkWidget *creation_onglet_comptes ( void )
 
     compte_courant_onglet = 0;
     box = creation_details_compte ();
-/*     remplissage_details_compte (); */
+
+    gtk_widget_show_all (box);
 
     return ( box );
 }

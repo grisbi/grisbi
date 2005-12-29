@@ -36,7 +36,7 @@
 #include "erreur.h"
 #include "utils_devises.h"
 #include "dialog.h"
-#include "operations_formulaire.h"
+#include "gsb_form.h"
 #include "calendar.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -45,6 +45,7 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
+#include "operations_formulaire.h"
 #include "accueil.h"
 #include "gsb_scheduler_list.h"
 #include "gtk_combofix.h"
@@ -63,19 +64,10 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void affiche_date_limite_echeancier ( void );
-static void affiche_personnalisation_echeancier ( void );
 static void basculer_vers_ventilation_echeances ( void );
-static void cache_date_limite_echeancier ( void );
-static void cache_personnalisation_echeancier ( void );
-static gboolean clique_champ_formulaire_echeancier ( GtkWidget *entree,
-					      GdkEventButton *ev,
-					      gint *no_origine );
 static void completion_operation_par_tiers_echeancier ( void );
+static GtkWidget *creation_formulaire_echeancier ( void );
 static void echap_formulaire_echeancier ( void );
-static gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
-					GdkEventFocus *ev,
-					gint *no_origine );
 static gboolean gsb_scheduler_check_form ( void );
 static gint gsb_scheduler_create_scheduled_transaction_from_scheduled_form ( gint scheduled_number );
 static gint gsb_scheduler_create_transaction_from_scheduled_form ( void );
@@ -84,9 +76,6 @@ static gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gi
 								       gint scheduled_number );
 static gboolean gsb_scheduler_increase_date ( gint scheduled_number,
 				       GDate *date );
-static gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
-						 GdkEventKey *ev,
-						 gint no_widget );
 /*END_STATIC*/
 
 
@@ -99,7 +88,6 @@ GtkWidget *hbox_valider_annuler_echeance;
 
 /*START_EXTERN*/
 extern GtkWidget *formulaire;
-extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GSList *liste_struct_devises;
@@ -2541,7 +2529,7 @@ void completion_operation_par_tiers_echeancier ( void )
     {
 	GtkWidget *menu;
 
-	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] );
+	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT], NULL, NULL );
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ),
 			     g_strdup_printf ( "%4.2f",
 					       -gsb_data_transaction_get_amount ( transaction_number)));
@@ -2562,7 +2550,7 @@ void completion_operation_par_tiers_echeancier ( void )
     else
     {
 	GtkWidget *menu;
-	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] );
+	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT], NULL, NULL );
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ),
 			     g_strdup_printf ( "%4.2f",
 					       gsb_data_transaction_get_amount ( transaction_number)));
@@ -2598,7 +2586,7 @@ void completion_operation_par_tiers_echeancier ( void )
     {
 	/* c'est un virement, on l'affiche */
 
-	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY]);
+	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY], NULL, NULL);
 
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
 				g_strconcat ( COLON(_("Transfer")),
@@ -2613,7 +2601,7 @@ void completion_operation_par_tiers_echeancier ( void )
 	
 	if ( char_tmp )
 	{
-	    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY]);
+	    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY], NULL, NULL);
 	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
 				    char_tmp );
 	}
@@ -2684,7 +2672,7 @@ void completion_operation_par_tiers_echeancier ( void )
 
    if ( char_tmp )
     {
-	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY]);
+	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY], NULL, NULL);
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
 				char_tmp );
     }
@@ -2694,7 +2682,7 @@ void completion_operation_par_tiers_echeancier ( void )
 
     if ( gsb_data_transaction_get_notes ( transaction_number))
     {
-	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] );
+	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES], NULL, NULL );
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ),
 			     gsb_data_transaction_get_notes ( transaction_number));
     }

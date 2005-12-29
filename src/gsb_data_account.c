@@ -133,9 +133,6 @@ static GSList *list_accounts;
 /** a pointer to the last account used (to increase the speed) */
 static struct_account *account_buffer;
 
-/** the number of the current account */
-static gint current_account;
-
 /**
  * set the accounts global variables to NULL, usually when we init all the global variables
  * 
@@ -147,7 +144,6 @@ gboolean gsb_data_account_init_variables ( void )
 {
     account_buffer = NULL;
     list_accounts = NULL;
-    current_account = 0;
 
     return FALSE;
 }
@@ -323,31 +319,7 @@ gint gsb_data_account_first_number ( void )
 }
 
 
-/**
- * give the number of the current account 
- * 
- * \param none
- * 
- * \return the number of the current account
- * */
-gint gsb_data_account_get_current_account ( void )
-{
-    /* FIXME : !!!! xxx cette fonction gsb_data_account_get_current_account doit virer, le current account va être celui sélectionné */
-    /* 	    dans le tree */
-    return current_account;
-}
 
-
-/** set the number of the current account 
- * \param none
- * \return FALSE
- * */
-gboolean gsb_data_account_set_current_account ( gint no_current_account )
-{
-    current_account = no_current_account;
-
-    return  FALSE;
-}
 
 
 /**

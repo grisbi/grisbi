@@ -27,12 +27,13 @@
 #include "type_operations.h"
 #include "utils_buttons.h"
 #include "dialog.h"
-#include "operations_formulaire.h"
+#include "gsb_form.h"
 #include "utils_editables.h"
 #include "equilibrage.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
+#include "navigation.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
@@ -86,7 +87,6 @@ GtkWidget * details_paddingbox;
 /*START_EXTERN*/
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *formulaire;
-extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *label_saisie_modif;
 extern gint max;
@@ -584,41 +584,41 @@ void modification_entree_nom_type ( void )
 
 	if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE ))
 	{
-	    if ( (menu = creation_menu_types ( 1, gsb_data_account_get_current_account () , 0 )))
+	    if ( (menu = creation_menu_types ( 1, gsb_gui_navigation_get_current_account () , 0 )))
 	    {
 		gint pos_type;
 
-		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
+		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ),
 					   menu );
 
-		pos_type = cherche_no_menu_type ( gsb_data_account_get_default_debit (gsb_data_account_get_current_account ()) );
+		pos_type = cherche_no_menu_type ( gsb_data_account_get_default_debit (gsb_gui_navigation_get_current_account ()) );
 
 		if ( pos_type != -1 )
-		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
+		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ),
 						  pos_type );
 		else
 		{
 		    struct struct_type_ope *type;
 
-		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ),
+		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ),
 						  0 );
-		    gsb_data_account_set_default_debit ( gsb_data_account_get_current_account (),
-							 gsb_payment_method_get_payment_number_from_option_menu (widget_formulaire_par_element (TRANSACTION_FORM_TYPE)));
+		    gsb_data_account_set_default_debit ( gsb_gui_navigation_get_current_account (),
+							 gsb_payment_method_get_payment_number_from_option_menu (gsb_form_get_element_widget (TRANSACTION_FORM_TYPE)));
 
 		    /* on affiche l'entrée des chèques si nécessaire */
-		    type = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu_item ),
+		    type = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ) -> menu_item ),
 					       "adr_type" );
 
 		    if ( type -> affiche_entree )
-			gtk_widget_show ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) );
+			gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
 		}
 
-		gtk_widget_show ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) );
+		gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) );
 	    }
 	    else
 	    {
-		gtk_widget_hide ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) );
-		gtk_widget_hide ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) );
+		gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) );
+		gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
 	    }
 	}
     }
@@ -1326,8 +1326,8 @@ gint cherche_no_menu_type ( gint demande )
 	return ( FALSE );
 
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE ) && 
-	 GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu ))
-	liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_TYPE) ) -> menu ) -> children;
+	 GTK_MENU_SHELL ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ) -> menu ))
+	liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ) -> menu ) -> children;
     else
 	liste_tmp = NULL;
 
@@ -1349,9 +1349,9 @@ gint cherche_no_menu_type ( gint demande )
 					 "adr_type");
 
 	    if ( type -> affiche_entree )
-		gtk_widget_show ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) );
+		gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
 	    else
-		gtk_widget_hide ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) );
+		gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
 	}
 	i++;
 	liste_tmp = liste_tmp -> next;
@@ -1387,7 +1387,7 @@ gint cherche_no_menu_type_associe ( gint demande )
     {
 	GtkWidget * menu = NULL, *widget;
 
-	widget = widget_formulaire_par_element (TRANSACTION_FORM_CONTRA);
+	widget = gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA);
 	if ( widget )
 	    menu = GTK_OPTION_MENU ( widget ) -> menu;
 	if ( menu )
@@ -1468,7 +1468,7 @@ gint cherche_no_menu_type_echeancier ( gint demande )
 
 		if ( type -> numerotation_auto )
 		{
-		    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
+		    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE], NULL, NULL );
 		    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ),
 					 automatic_numbering_get_current_number ( type ) );
 		}
@@ -1500,27 +1500,27 @@ void changement_choix_type_formulaire ( struct struct_type_ope *type )
 
     if ( type -> affiche_entree )
     {
-	gtk_widget_show ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) );
+	gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
 
 	/* met le no suivant si nécessaire */
 
 	if ( type -> numerotation_auto )
 	{
-	    entree_prend_focus ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) );
-	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) ),
+	    entree_prend_focus ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE), NULL, NULL );
+	    gtk_entry_set_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) ),
 				 automatic_numbering_get_current_number ( type ));
 	}
 	else
 	{
-	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) ),
+	    gtk_entry_set_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) ),
 				 "" );
-	    entree_perd_focus ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE),
+	    entree_perd_focus ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE),
 				FALSE,
 				GINT_TO_POINTER ( TRANSACTION_FORM_CHEQUE ));
 	}
     }
     else
-	gtk_widget_hide ( widget_formulaire_par_element (TRANSACTION_FORM_CHEQUE) );
+	gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
 }
 /* ************************************************************************************************************** */
 
@@ -1541,7 +1541,7 @@ void changement_choix_type_echeancier ( struct struct_type_ope *type )
 
 	if ( type -> numerotation_auto )
 	{
-	    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
+	    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE], NULL, NULL );
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ),
 				 automatic_numbering_get_current_number ( type ));
 	}

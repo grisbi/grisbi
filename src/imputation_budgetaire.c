@@ -39,12 +39,12 @@
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_others.h"
+#include "gsb_form.h"
 #include "gtk_combofix.h"
 #include "main.h"
 #include "utils_buttons.h"
 #include "utils.h"
 #include "utils_editables.h"
-#include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
 #include "include.h"
 #include "structures.h"
@@ -82,7 +82,6 @@ gint no_devise_totaux_ib;
 extern MetatreeInterface * budgetary_interface ;
 extern gchar *dernier_chemin_de_travail;
 extern GtkTreeStore *model;
-extern gint modif_imputation;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
@@ -216,11 +215,6 @@ GtkWidget *onglet_imputations ( void )
     g_signal_connect ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(budgetary_line_tree)),
 		       "changed", G_CALLBACK(metatree_selection_changed),
 		       budgetary_line_tree_model );
-
-    /* la 1ère fois qu'on affichera les catég, il faudra remplir la liste */
-
-    modif_imputation = 1;
-
     return ( vbox );
 }
 /* **************************************************************************************************** */
@@ -335,7 +329,7 @@ void mise_a_jour_combofix_imputation ( void )
     devel_debug ( "mise_a_jour_combofix_imputation" );
 
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_BUDGET ))
-	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_BUDGET) ),
+	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET) ),
 				gsb_data_budget_get_name_list (TRUE, TRUE),
 				TRUE,
 				TRUE );
@@ -346,7 +340,6 @@ void mise_a_jour_combofix_imputation ( void )
 			    TRUE );
 
     mise_a_jour_combofix_imputation_necessaire = 0;
-    modif_imputation = 1;
 }
 
 

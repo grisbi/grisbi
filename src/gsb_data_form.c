@@ -36,6 +36,7 @@
 #include "gsb_data_form.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
+#include "navigation.h"
 #include "gsb_data_form.h"
 /*END_INCLUDE*/
 
@@ -438,7 +439,7 @@ gboolean gsb_data_form_look_for_value ( gint account_number,
  * */
 gboolean gsb_data_form_check_for_value ( gint value )
 {
-    return gsb_data_form_look_for_value ( gsb_data_account_get_current_account (),
+    return gsb_data_form_look_for_value ( gsb_gui_navigation_get_current_account (),
 					  value,
 					  NULL, NULL );
 }

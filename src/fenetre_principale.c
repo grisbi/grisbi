@@ -26,13 +26,13 @@
 /*START_INCLUDE*/
 #include "fenetre_principale.h"
 #include "navigation.h"
-#include "operations_onglet.h"
+#include "gsb_transactions_list.h"
 #include "accueil.h"
 #include "comptes_onglet.h"
-#include "echeancier_onglet.h"
 #include "etats_onglet.h"
 #include "erreur.h"
-#include "gsb_transactions_list.h"
+#include "gsb_form.h"
+#include "gsb_scheduler_list.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
@@ -42,9 +42,26 @@
 #include "structures.h"
 /*END_INCLUDE*/
 
+#ifdef HAVE_G2BANKING
+#include <g2banking/gbanking.h>
+#include <aqbanking/imexporter.h>
+#include <gwenhywfar/debug.h>
+#endif
+
+
 /*START_STATIC*/
-static  GtkWidget *create_main_notebook (void );
+static GtkWidget *create_main_notebook (void );
+static gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook );
 /*END_STATIC*/
+
+/*START_EXTERN*/
+extern GtkTreeStore *budgetary_line_tree_model;
+extern GtkTreeStore * categ_tree_model;
+extern AB_BANKING *gbanking;
+extern GtkWidget * hpaned;
+extern GtkTreeStore *payee_tree_model;
+extern GtkWidget * scheduler_calendar;
+/*END_EXTERN*/
 
 
 /* adr du notebook de base */
@@ -52,39 +69,20 @@ GtkWidget *notebook_general;
 GtkWidget *main_hpaned = NULL;
 GtkWidget *main_vbox;
 
-/* adr de l'onglet accueil */
-GtkWidget *page_accueil;
-
 GtkWidget *notebook_comptes_equilibrage;
 
 /** Notebook of the account pane. */
 GtkWidget *account_page;
 
 /** Title for the heading bar. */
-GtkWidget * headings_title;
+static GtkWidget * headings_title;
 /** Suffix for the heading bar.  */
-GtkWidget * headings_suffix;
-
-
-gint modif_categ;
-gint modif_imputation;
-
-
-/*START_EXTERN*/
-extern GtkTreeStore *budgetary_line_tree_model;
-extern GtkTreeStore * categ_tree_model;
-extern AB_BANKING *gbanking;
-extern GtkWidget * hpaned;
-extern GtkWidget *main_statusbar ;
-extern GtkTreeStore *payee_tree_model;
-extern GtkWidget * scheduler_calendar;
-/*END_EXTERN*/
+static GtkWidget * headings_suffix;
 
 
 #ifdef HAVE_G2BANKING
 extern AB_BANKING *gbanking;
 #endif
-
 
 
 
@@ -96,7 +94,7 @@ extern AB_BANKING *gbanking;
  */
 GtkWidget * create_main_widget ( void )
 {
-    GtkWidget *hbox, *eb, *statusbar;
+    GtkWidget *hbox, *eb;
     GtkStyle * style;
 
     /* All stuff will be put in a huge vbox, with an hbox containing
@@ -137,11 +135,9 @@ GtkWidget * create_main_widget ( void )
     if ( etat.largeur_colonne_comptes_operation )
 	gtk_paned_set_position ( GTK_PANED ( main_hpaned ), 
 				 etat.largeur_colonne_comptes_operation );
-
-    gtk_widget_show ( notebook_general );
-    gtk_widget_show ( main_vbox );
     gtk_widget_show ( main_hpaned );
-    gtk_widget_show ( main_statusbar );
+
+    gtk_widget_show ( main_vbox );
 
     /* Blank the transaction list. */
     gsb_transactions_list_set_store (NULL);
@@ -152,89 +148,118 @@ GtkWidget * create_main_widget ( void )
 
 
 /**
- * Create the main notebook.
+ * Create the main notebook : 
+ * a notebook wich contains the pages : main page, accounts, scheduler... and
+ * the form on the bottom, the form will be showed only for accounts page and
+ * scheduler page
  *
  * \return the notebook
  */
-static GtkWidget *create_main_notebook (void )
+GtkWidget *create_main_notebook (void )
 {
-    GtkWidget *page_operations, *page_echeancier, *page_prop, *page_tiers;
-    GtkWidget *page_categories, *page_imputations, *page_etats;
-#ifdef HAVE_G2BANKING
-    GtkWidget *page_queue;
-#endif
+    GtkWidget *vbox;
 
     devel_debug ( "create_main_notebook" );
 
-    /* création du notebook de base */
+    /* the main right page is a vbox with a notebook on the top
+     * and the form on the bottom */
 
+    vbox = gtk_vbox_new ( FALSE,
+			  0);
+
+    /* append the notebook */
     notebook_general = gtk_notebook_new();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(notebook_general), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(notebook_general), FALSE );
+    gtk_signal_connect_after ( GTK_OBJECT ( notebook_general ), "switch_page",
+			       GTK_SIGNAL_FUNC ( gsb_gui_on_notebook_switch_page ), NULL );
+    gtk_box_pack_start ( GTK_BOX (vbox),
+			 notebook_general,
+			 TRUE,
+			 TRUE,
+			 0 );
+    gtk_widget_show (notebook_general);
 
-    /* Création de la page d'accueil */
-    page_accueil = creation_onglet_accueil();
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ),
-			       page_accueil,
+    /* fill the notebook */
+    gsb_gui_fill_main_notebook(notebook_general);
+
+    /* append the form */
+    gtk_box_pack_start ( GTK_BOX (vbox),
+			 gsb_form_new (),
+			 FALSE,
+			 FALSE,
+			 0 );
+
+    gtk_widget_show (vbox);
+    return (vbox);
+}
+
+
+/**
+ * fill the notebook given in param
+ *
+ * \param notebook a notebook (usually the main_notebook...)
+ *
+ * \return FALSE
+ * */
+gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
+{
+    /* append the main page */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			       creation_onglet_accueil(),
 			       gtk_label_new (SPACIFY(_("Main page"))) );
 
-    /*  Céation de la fenêtre principale qui contient d'un côté */
-    /*  les comptes, et de l'autre les opérations */
+    /* append the account page : a notebook with the account configuration
+     * and the transactions page */
     account_page = gtk_notebook_new ();
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(account_page), FALSE );
     gtk_widget_show ( account_page );
 
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), account_page,
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			       account_page,
 			       gtk_label_new (SPACIFY(_("Accounts"))) );
 
-    page_operations = create_transaction_page ();
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ), page_operations,
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
+			       creation_fenetre_operations (),
 			       gtk_label_new (SPACIFY(_("Transactions"))) );
-
-    /*   création de la fenetre des comptes */
-    page_prop = creation_onglet_comptes ();
-    gtk_widget_show_all ( page_prop );
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ), page_prop,
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
+			       creation_onglet_comptes (),
 			       gtk_label_new (SPACIFY(_("Properties"))) );
 
-    /*   création de la fenetre des echéances */
-    page_echeancier = creation_onglet_echeancier();
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_echeancier,
+    /* append the scheduled transactions page */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			       gsb_scheduler_list_create_list (),
 			       gtk_label_new (SPACIFY(_("Scheduler"))) );
 
-    /* Création de la fenetre des tiers */
-    page_tiers = onglet_tiers();
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_tiers,
+    /* append the payee page */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			       onglet_tiers(),
 			       gtk_label_new (SPACIFY(_("Payee"))) );
 
-    /* création de la fenetre des categories */
-    page_categories = onglet_categories();
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_categories,
+    /* append the categories page */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			       onglet_categories(),
 			       gtk_label_new (SPACIFY(_("Categories"))) );
 
-    /* création de la fenetre des imputations budgétaires */
-    page_imputations = onglet_imputations();
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_imputations,
+    /* append the budget page */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			       onglet_imputations(),
 			       gtk_label_new (SPACIFY(_("Budgetary lines"))) );
 
-    /* création de la fenetre gbanking */
+    /* append the g2banking page */
 #ifdef HAVE_G2BANKING
-    page_queue = GBanking_JobView_new(gbanking, 0);
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_queue,
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			       GBanking_JobView_new(gbanking, 0),
 			       gtk_label_new (SPACIFY(_("Outbox"))) );
 #endif
 
-    /* création de la fenetre des états */
-    page_etats = creation_onglet_etats ();
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_general ), page_etats,
+    /* append the reports page */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			       creation_onglet_etats (),
 			       gtk_label_new (SPACIFY(_("Reports"))) );
 
-    gtk_signal_connect_after ( GTK_OBJECT ( notebook_general ), "switch_page",
-			       GTK_SIGNAL_FUNC ( gsb_gui_on_notebook_switch_page ), NULL );
-
-    return ( notebook_general );
+    return FALSE;
 }
-
 
 
 /**
@@ -244,53 +269,80 @@ static GtkWidget *create_main_notebook (void )
  *
  * \param notebook	Widget that triggered event.
  * \param page		Not used.
- * \param numero_page	Page set.
+ * \param page_number	Page set.
  * \param null		Not used.
  *
  * \return		FALSE
  */
 gboolean gsb_gui_on_notebook_switch_page ( GtkNotebook *notebook,
 					   GtkNotebookPage *page,
-					   guint numero_page,
+					   guint page_number,
 					   gpointer null )
 {
     GtkTreeIter dummy_iter;
 
-    if ( numero_page != GSB_SCHEDULER_PAGE ) 
+    if ( page_number != GSB_SCHEDULER_PAGE ) 
     {
 	gtk_widget_hide_all ( scheduler_calendar );
     }
 
-    switch ( numero_page )
+    switch ( page_number )
     {
-    case GSB_HOME_PAGE:
-	mise_a_jour_accueil (FALSE);
-	break;
+	case GSB_HOME_PAGE:
+	    mise_a_jour_accueil (FALSE);
+	    gsb_form_set_expander_visible (FALSE,
+					   FALSE );
+	    break;
 
-    case GSB_PAYEES_PAGE:
-	if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (payee_tree_model), 
-					       &dummy_iter ) )
-	    remplit_arbre_tiers ();
-	break;
+	case GSB_ACCOUNT_PAGE:
+	    gsb_form_set_expander_visible (TRUE,
+					   TRUE );
+	    break;
 
-    case GSB_CATEGORIES_PAGE:
-	if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (categ_tree_model), 
-					       &dummy_iter ) )
-	    remplit_arbre_categ ();
-	break;
+	case GSB_SCHEDULER_PAGE:
+	    gsb_form_set_expander_visible (TRUE,
+					   FALSE );
+	    gtk_widget_show_all ( scheduler_calendar );
+	    break;
 
-    case GSB_BUDGETARY_LINES_PAGE:
-	if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (budgetary_line_tree_model), 
-					       &dummy_iter ) )
-	    remplit_arbre_imputation ();
-	break;
+	case GSB_PAYEES_PAGE:
+	    gsb_form_set_expander_visible (FALSE,
+					   FALSE );
+	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (payee_tree_model), 
+						   &dummy_iter ) )
+		remplit_arbre_tiers ();
+	    break;
 
-    case GSB_SCHEDULER_PAGE:
-	gtk_widget_show_all ( scheduler_calendar );
-	break;
-	
-    default:
-	break;
+	case GSB_CATEGORIES_PAGE:
+	    gsb_form_set_expander_visible (FALSE,
+					   FALSE );
+	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (categ_tree_model), 
+						   &dummy_iter ) )
+		remplit_arbre_categ ();
+	    break;
+
+	case GSB_BUDGETARY_LINES_PAGE:
+	    gsb_form_set_expander_visible (FALSE,
+					   FALSE );
+	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (budgetary_line_tree_model), 
+						   &dummy_iter ) )
+		remplit_arbre_imputation ();
+	    break;
+
+#ifdef HAVE_G2BANKING
+	case GSB_AQBANKING_PAGE:
+	    gsb_form_set_expander_visible (FALSE,
+					   FALSE );
+	    break;
+#endif
+
+	case GSB_REPORTS_PAGE:
+	    gsb_form_set_expander_visible (FALSE,
+					   FALSE );
+	    break;
+
+	default:
+	    break;
     }
 
     return ( FALSE );

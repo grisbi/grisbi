@@ -25,7 +25,7 @@ void gsb_gui_headings_update ( gchar * title, gchar * suffix );
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page );
 gboolean gsb_gui_on_notebook_switch_page ( GtkNotebook *notebook,
 					   GtkNotebookPage *page,
-					   guint numero_page,
+					   guint page_number,
 					   gpointer null );
 /*END_DECLARATION*/
 

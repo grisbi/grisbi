@@ -30,7 +30,16 @@
 
 
 /* START_DECLARATION */
-GtkWidget *creation_formulaire_echeancier ( void );
+void affiche_date_limite_echeancier ( void );
+void affiche_personnalisation_echeancier ( void );
+void cache_date_limite_echeancier ( void );
+void cache_personnalisation_echeancier ( void );
+gboolean clique_champ_formulaire_echeancier ( GtkWidget *entree,
+					      GdkEventButton *ev,
+					      gint *no_origine );
+gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
+					GdkEventFocus *ev,
+					gint *no_origine );
 void formulaire_echeancier_a_zero ( void );
 gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint scheduled_number,
 								   gint transaction_mother );
@@ -39,5 +48,8 @@ gboolean gsb_scheduler_execute_children_of_scheduled_transaction ( gint schedule
 gboolean gsb_scheduler_form_set_sensitive ( gboolean breakdown_child );
 gboolean gsb_scheduler_increase_scheduled_transaction ( gint scheduled_number );
 void gsb_scheduler_validate_form ( void );
+gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
+						 GdkEventKey *ev,
+						 gint no_widget );
 /* END_DECLARATION */
 #endif

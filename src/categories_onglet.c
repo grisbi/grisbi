@@ -32,6 +32,7 @@
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_others.h"
+#include "gsb_form.h"
 #include "navigation.h"
 #include "gtk_combofix.h"
 #include "main.h"
@@ -39,7 +40,6 @@
 #include "utils.h"
 #include "utils_editables.h"
 #include "etats_config.h"
-#include "operations_formulaire.h"
 #include "include.h"
 #include "echeancier_formulaire.h"
 #include "structures.h"
@@ -197,7 +197,6 @@ int no_devise_totaux_categ;
 extern MetatreeInterface * category_interface ;
 extern gchar *dernier_chemin_de_travail;
 extern GtkTreeStore *model;
-extern gint modif_categ;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
@@ -328,10 +327,6 @@ GtkWidget *onglet_categories ( void )
     g_signal_connect ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(arbre_categ)),
 		       "changed", G_CALLBACK(metatree_selection_changed),
 		       categ_tree_model );
-
-    /* la 1ère fois qu'on affichera les catég, il faudra remplir la liste */
-    modif_categ = 1;
-
     return ( vbox );
 }
 
@@ -444,8 +439,8 @@ void mise_a_jour_combofix_categ ( void )
 
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY )
 	 &&
-	 GTK_IS_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY)))
-	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_par_element (TRANSACTION_FORM_CATEGORY) ),
+	 GTK_IS_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY)))
+	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY) ),
 				list_tmp, TRUE, TRUE );
 
     if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))

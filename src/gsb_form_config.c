@@ -36,12 +36,12 @@
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
 #include "gsb_form.h"
+#include "navigation.h"
 #include "utils_str.h"
 #include "operations_comptes.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
 #include "utils_comptes.h"
-#include "operations_formulaire.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -843,10 +843,10 @@ gboolean gsb_form_config_fill_store ( gint account_number )
 
     /* update the form if necessary */
 
-    if ( !etat.formulaire_distinct_par_compte
-	 ||
-	 account_number == gsb_data_account_get_current_account () )
-	remplissage_formulaire (account_number);
+/*     if ( !etat.formulaire_distinct_par_compte */
+/* 	 || */
+/* 	 account_number == gsb_gui_navigation_get_current_account () ) */
+/* 	remplissage_formulaire (account_number); */
 
     return FALSE;
 }
@@ -924,7 +924,7 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
 
     if ( !etat.formulaire_distinct_par_compte
 	 ||
-	 recupere_no_compte ( accounts_option_menu ) == gsb_data_account_get_current_account ())
+	 recupere_no_compte ( accounts_option_menu ) == gsb_gui_navigation_get_current_account ())
 	mise_a_jour_taille_formulaire ( formulaire -> allocation.width );
 
     return FALSE;

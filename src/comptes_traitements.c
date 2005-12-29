@@ -230,10 +230,10 @@ gboolean delete_account ( void )
 	list_tmp = list_tmp -> next;
     }
 
-    /* check gsb_data_account_get_current_account () and gsb_data_account_get_current_account ()_onglet and put them
+    /* check gsb_gui_navigation_get_current_account () and gsb_gui_navigation_get_current_account ()_onglet and put them
      * on the first account if they are on the deleted account */
 
-    if ( gsb_data_account_get_current_account () == deleted_account )
+    if ( gsb_gui_navigation_get_current_account () == deleted_account )
     {
 	/* update the transaction list */
 
@@ -330,7 +330,7 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 	    gtk_menu_append ( GTK_MENU ( menu ), item );
 
 	    if ( !activate_currrent && 
-		 gsb_data_account_get_current_account () == i)
+		 gsb_gui_navigation_get_current_account () == i)
 	    {
 		gtk_widget_set_sensitive ( item, FALSE );
 	    }      

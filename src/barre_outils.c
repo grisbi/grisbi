@@ -35,6 +35,7 @@
 #include "gsb_transactions_list.h"
 #include "equilibrage.h"
 #include "gsb_data_account.h"
+#include "navigation.h"
 #include "utils_str.h"
 #include "menu.h"
 #include "traitement_variables.h"
@@ -185,7 +186,7 @@ gboolean popup_transaction_view_mode_menu ( GtkWidget * button )
 			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (4) );
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU(menu), 
-				  gsb_data_account_get_nb_rows ( gsb_data_account_get_current_account () ) );
+				  gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () ) );
 
     gtk_widget_show_all ( menu );
     gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 

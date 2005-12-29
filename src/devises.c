@@ -31,6 +31,8 @@
 #include "gsb_data_form.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_form.h"
+#include "navigation.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
@@ -41,7 +43,6 @@
 #include "utils_editables.h"
 #include "etats_config.h"
 #include "utils_buttons.h"
-#include "operations_formulaire.h"
 #include "structures.h"
 #include "devises.h"
 #include "gsb_file_config.h"
@@ -196,8 +197,8 @@ void update_currency_widgets()
 {
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_DEVISE ))
     {
-	gtk_widget_destroy ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_DEVISE) ) -> menu );
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_par_element (TRANSACTION_FORM_DEVISE) ),
+	gtk_widget_destroy ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_DEVISE) ) -> menu );
+	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_DEVISE) ),
 				   creation_option_menu_devises ( -1,
 								  liste_struct_devises ));
     }
@@ -219,7 +220,7 @@ void update_currency_widgets()
 				GTK_OBJECT ( hbox_boutons_modif ) );
     gtk_option_menu_set_history ( GTK_OPTION_MENU (  detail_devise_compte),
 				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( gsb_data_account_get_currency (gsb_data_account_get_current_account ()) ))); 
+						  devise_par_no ( gsb_data_account_get_currency (gsb_gui_navigation_get_current_account ()) ))); 
 
 
     /* on recrée les boutons de devises dans la conf de l'état */

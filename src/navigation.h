@@ -21,6 +21,8 @@ enum navigation_cols {
 GtkWidget * create_navigation_pane ( void );
 void gsb_gui_navigation_add_account ( gint account_nb );
 void gsb_gui_navigation_add_report ( gint report_number );
+gint gsb_gui_navigation_get_current_account ( void );
+gint gsb_gui_navigation_get_current_page ( void );
 gint gsb_gui_navigation_get_current_report ( void );
 void gsb_gui_navigation_remove_account ( gint account_nb );
 void gsb_gui_navigation_remove_report ( gint report_number );
