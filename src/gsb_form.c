@@ -30,14 +30,14 @@
 
 /*START_INCLUDE*/
 #include "gsb_form.h"
-#include "echeancier_formulaire.h"
 #include "exercice.h"
 #include "type_operations.h"
-#include "comptes_traitements.h"
 #include "operations_formulaire.h"
+#include "echeancier_formulaire.h"
 #include "devises.h"
 #include "erreur.h"
 #include "utils_devises.h"
+#include "comptes_traitements.h"
 #include "calendar.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -58,12 +58,15 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_fom_fill_transaction ( gint transaction_number );
 static gboolean gsb_form_clean ( gint account_number );
 static GtkWidget *gsb_form_create_element_from_number ( gint element_number,
 						 gint account_number );
 static gboolean gsb_form_fill_scheduled_part ( void );
-static gboolean gsb_form_fill_transaction_part ( gint account_number );
+static gboolean gsb_form_fill_transaction ( gint transaction_number );
+static gboolean gsb_form_fill_transaction_part ( gint *ptr_account_number );
+static gboolean gsb_form_frequency_button_changed ( GtkWidget *combo_box,
+					     gpointer null );
+static gint gsb_form_get_account_from_button ( void );
 static gint gsb_form_get_account_number_from_origin ( gint origin );
 static gint gsb_form_get_origin ( void );
 static gboolean gsb_form_init_entry_colors ( void );
@@ -185,7 +188,7 @@ GtkWidget *gsb_form_new ( void )
 			formulaire );
     gtk_widget_show (formulaire);
 
-    /* the scheduled part is a table of 3 col x 2 rows */
+    /* the scheduled part is a table of SCHEDULED_WIDTH col x SCHEDULED_HEIGHT rows */
     form_scheduled_part = gtk_table_new ( SCHEDULED_HEIGHT, 
 					  SCHEDULED_WIDTH,
 					  FALSE );
@@ -311,7 +314,7 @@ gboolean gsb_form_show ( void )
 	    break;
     }
 
-    gsb_form_fill_transaction_part (gsb_form_get_account_number_from_origin (origin));
+    gsb_form_fill_transaction_part (GINT_TO_POINTER (origin));
     gtk_widget_show (form_transaction_part);
     
     /* FIXME :transform that to be local variable here */
@@ -330,7 +333,7 @@ gboolean gsb_form_show ( void )
  *
  * \param origin
  *
- * \return the account number or -1 if problem
+ * \return the account number or -2 if problem (-1 is reserved to get account from the button)
  * */
 gint gsb_form_get_account_number_from_origin ( gint origin )
 {
@@ -339,11 +342,11 @@ gint gsb_form_get_account_number_from_origin ( gint origin )
     switch (origin)
     {
 	case -2:
-	    return -1;
+	    return -2;
 	    break;
 
 	case -1:
-/* 	    account_number = gsb_form_get_account_from_button (); */
+	    account_number = gsb_form_get_account_from_button ();
 	    break;
 	    
 	default:
@@ -421,22 +424,25 @@ gboolean gsb_form_fill_scheduled_part ( void )
 	for ( column=0 ; column < SCHEDULED_WIDTH ; column++ )
 	{
 	    gint element_number;
-	    GtkWidget *widget;
+	    GtkWidget *widget = NULL;
 
 	    element_number = row*SCHEDULED_WIDTH + column;
 
 	    switch ( element_number )
 	    {
 		case SCHEDULED_FORM_ACCOUNT:
-		    widget = gtk_option_menu_new ();
+		    widget = gtk_combo_box_new ();
+		    gsb_account_create_name_tree_model ( widget,
+							 NULL,
+							 FALSE );
+		    g_signal_connect_swapped ( G_OBJECT (widget),
+					       "changed",
+					       G_CALLBACK (gsb_form_fill_transaction_part),
+					       GINT_TO_POINTER (-1));
 		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 					   widget,
 					   _("Choose the account"),
 					   _("Choose the account") );
-		    gtk_option_menu_set_menu ( GTK_OPTION_MENU (widget),
-					       creation_option_menu_comptes ( GTK_SIGNAL_FUNC(changement_choix_compte_echeancier),
-										       TRUE,
-										       FALSE ));
 		    break;
 
 		case SCHEDULED_FORM_AUTO:
@@ -463,26 +469,14 @@ gboolean gsb_form_fill_scheduled_part ( void )
 						_("Yearly"));
 		    gtk_combo_box_append_text ( GTK_COMBO_BOX (widget),
 						_("Custom"));
+		    g_signal_connect ( G_OBJECT (widget),
+				       "changed",
+				       G_CALLBACK (gsb_form_frequency_button_changed),
+				       NULL );
 		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 					   widget,
 					   _("Frequency"),
-					   _("Frequency") );
-/* 		    gtk_signal_connect ( GTK_OBJECT  ( item ), */
-/* 					 "activate", */
-/* 					 GTK_SIGNAL_FUNC ( cache_date_limite_echeancier ), */
-/* 					 NULL ); */
-/* 		    gtk_signal_connect ( GTK_OBJECT  ( item ), */
-/* 					 "activate", */
-/* 					 GTK_SIGNAL_FUNC ( affiche_personnalisation_echeancier ), */
-/* 					 NULL ); */
-/* 		    gtk_signal_connect ( GTK_OBJECT  ( item ), */
-/* 					 "activate", */
-/* 					 GTK_SIGNAL_FUNC ( affiche_date_limite_echeancier ), */
-/* 					 NULL ); */
-/* 		    gtk_signal_connect ( GTK_OBJECT  ( item ), */
-/* 					 "activate", */
-/* 					 GTK_SIGNAL_FUNC ( cache_personnalisation_echeancier ), */
-/* 					 NULL ); */
+					   _("Frequency"));
 		    break;
 
 		case SCHEDULED_FORM_LIMIT_DATE:
@@ -518,16 +512,15 @@ gboolean gsb_form_fill_scheduled_part ( void )
 						_("Months"));
 		    gtk_combo_box_append_text ( GTK_COMBO_BOX (widget),
 						_("Years"));
-		    gtk_combo_box_append_text ( GTK_COMBO_BOX (widget),
-						_(""));
-		    gtk_combo_box_append_text ( GTK_COMBO_BOX (widget),
-						_(""));
 		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 					   widget,
 					   _("Custom frequency"),
 					   _("Custom frequency") );
 		    break;
 	    }
+
+	    if (!widget)
+		continue;
 
 	    gtk_signal_connect ( GTK_OBJECT (widget),
 				 "key-press-event",
@@ -543,28 +536,115 @@ gboolean gsb_form_fill_scheduled_part ( void )
 			       GTK_SHRINK | GTK_FILL,
 			       0, 0);
 	}
-
     return FALSE;
+}
+
+/**
+ * called when the frequency button is changed
+ * show/hide the necessary widget according to its state
+ *
+ * \param combo_box
+ *
+ * \return FALSE 
+ * */
+gboolean gsb_form_frequency_button_changed ( GtkWidget *combo_box,
+					     gpointer null )
+{
+    gchar *selected_item;
+
+    selected_item = gtk_combo_box_get_active_text ( GTK_COMBO_BOX (combo_box));
+    
+    if ( !strcmp ( selected_item,
+		   _("Once")))
+    {
+	gtk_widget_hide (form_tab_scheduled[SCHEDULED_FORM_LIMIT_DATE]);
+	gtk_widget_hide (form_tab_scheduled[SCHEDULED_FORM_FREQUENCY_USER_ENTRY]);
+	gtk_widget_hide (form_tab_scheduled[SCHEDULED_FORM_FREQUENCY_USER_BUTTON]);
+    }
+    else
+    {
+	gtk_widget_show (form_tab_scheduled[SCHEDULED_FORM_LIMIT_DATE]);
+	if ( !strcmp ( selected_item,
+		       _("Custom")))
+	{
+	    gtk_widget_show (form_tab_scheduled[SCHEDULED_FORM_FREQUENCY_USER_ENTRY]);
+	    gtk_widget_show (form_tab_scheduled[SCHEDULED_FORM_FREQUENCY_USER_BUTTON]);
+	}
+	else
+	{
+	    gtk_widget_hide (form_tab_scheduled[SCHEDULED_FORM_FREQUENCY_USER_ENTRY]);
+	    gtk_widget_hide (form_tab_scheduled[SCHEDULED_FORM_FREQUENCY_USER_BUTTON]);
+	}
+    }
+    g_free (selected_item);
+    return FALSE;
+}
+
+
+/**
+ * get the account number from the scheduled button and return it
+ *
+ * \param
+ *
+ * \return the account number or -2 if problem
+ * */
+gint gsb_form_get_account_from_button ( void )
+{
+    gint account_number;
+    GtkTreeIter iter;
+
+    /* if no account button, go away... */
+    if (!form_tab_scheduled[SCHEDULED_FORM_ACCOUNT])
+	return -2;
+
+    if ( !gtk_combo_box_get_active_iter ( GTK_COMBO_BOX (form_tab_scheduled[SCHEDULED_FORM_ACCOUNT]),
+					  &iter ))
+	return -2;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL (gtk_combo_box_get_model (GTK_COMBO_BOX (form_tab_scheduled[SCHEDULED_FORM_ACCOUNT]))),
+			 &iter,
+			 1, &account_number,
+			 -1 );
+    return account_number;
 }
 
 
 /**
  * fill the form according to the account_number :
  *
- * \param account_number can be -1 if problem before, so to check...
+ * \param ptr_account_number a pointer corresponding to an int (transformed with GINT_TO_POINTER), the number of account
+ * or -1 to get it from the account button
+ * if comes with -1, the form will be fill ONLY if the account button is visible
+ * need to be a pointer because called directly from a g_signal_connect
  *
  * \return FALSE
  * */
-gboolean gsb_form_fill_transaction_part ( gint account_number )
+gboolean gsb_form_fill_transaction_part ( gint *ptr_account_number )
 {
     gint row, column;
     gint rows_number, columns_number;
-    GtkWidget *table;
+    gint account_number;
+
+    account_number = GPOINTER_TO_INT (ptr_account_number);
 
     devel_debug ( g_strdup_printf ("gsb_form_fill_transaction_part account_number : %d", account_number ));
 
-    if (account_number == -1)
-	return FALSE;
+    /* account_number can be -1 if come here from the accounts choice button,
+     * and -2 if there were a problem with the origin */
+
+    switch (account_number)
+    {
+	case -2:
+	    return FALSE;
+	    break;
+	    
+	case-1:
+	    if ( GTK_WIDGET_VISIBLE (form_tab_scheduled[SCHEDULED_FORM_ACCOUNT]))
+		account_number = gsb_form_get_account_from_button ();
+	    else
+		return FALSE;
+	    break;
+    }
 
     rows_number = gsb_data_form_get_nb_rows (account_number);
     columns_number = gsb_data_form_get_nb_columns (account_number);
@@ -587,7 +667,7 @@ gboolean gsb_form_fill_transaction_part ( gint account_number )
 	    if ( !widget )
 		continue;
 
-	    gtk_table_attach ( GTK_TABLE ( table ),
+	    gtk_table_attach ( GTK_TABLE (form_transaction_part),
 			       widget,
 			       column, column+1,
 			       row, row+1,
@@ -1862,7 +1942,7 @@ gboolean gsb_form_valid ( void )
  *
  * \return FALSE
  * */
-gboolean gsb_fom_fill_transaction ( gint transaction_number )
+gboolean gsb_form_fill_transaction ( gint transaction_number )
 {
     gint origin;
 

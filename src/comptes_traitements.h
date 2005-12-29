@@ -14,6 +14,9 @@ void creation_types_par_defaut ( gint no_compte,
 				 gulong dernier_cheque );
 gboolean delete_account ( void );
 gint demande_type_nouveau_compte ( void );
+gboolean gsb_account_create_name_tree_model ( GtkWidget *combo_box,
+					      GCallback func, 
+					      gboolean include_closed );
 gboolean new_account ( void );
 /* END_DECLARATION */
 #endif

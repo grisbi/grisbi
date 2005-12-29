@@ -608,14 +608,14 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			  GINT_TO_POINTER ( 0 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      item );
-    gtk_signal_connect ( GTK_OBJECT  ( item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( cache_date_limite_echeancier ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT  ( item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( cache_personnalisation_echeancier ),
-			 NULL );
+/*     gtk_signal_connect ( GTK_OBJECT  ( item ), */
+/* 			 "activate", */
+/* 			 GTK_SIGNAL_FUNC ( cache_date_limite_echeancier ), */
+/* 			 NULL ); */
+/*     gtk_signal_connect ( GTK_OBJECT  ( item ), */
+/* 			 "activate", */
+/* 			 GTK_SIGNAL_FUNC ( cache_personnalisation_echeancier ), */
+/* 			 NULL ); */
     gtk_widget_show ( item );
 
     item = gtk_menu_item_new_with_label ( _("Weekly"));
@@ -624,14 +624,14 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			  GINT_TO_POINTER ( 1 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      item );
-    gtk_signal_connect ( GTK_OBJECT  ( item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( affiche_date_limite_echeancier ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT  ( item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( cache_personnalisation_echeancier ),
-			 NULL );
+/*     gtk_signal_connect ( GTK_OBJECT  ( item ), */
+/* 			 "activate", */
+/* 			 GTK_SIGNAL_FUNC ( affiche_date_limite_echeancier ), */
+/* 			 NULL ); */
+/*     gtk_signal_connect ( GTK_OBJECT  ( item ), */
+/* 			 "activate", */
+/* 			 GTK_SIGNAL_FUNC ( cache_personnalisation_echeancier ), */
+/* 			 NULL ); */
     gtk_widget_show ( item );
 
     item = gtk_menu_item_new_with_label ( _("Monthly"));
@@ -640,14 +640,14 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			  GINT_TO_POINTER ( 2 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      item );
-    gtk_signal_connect ( GTK_OBJECT  ( item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( affiche_date_limite_echeancier ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT  ( item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( cache_personnalisation_echeancier ),
-			 NULL );
+/*     gtk_signal_connect ( GTK_OBJECT  ( item ), */
+/* 			 "activate", */
+/* 			 GTK_SIGNAL_FUNC ( affiche_date_limite_echeancier ), */
+/* 			 NULL ); */
+/*     gtk_signal_connect ( GTK_OBJECT  ( item ), */
+/* 			 "activate", */
+/* 			 GTK_SIGNAL_FUNC ( cache_personnalisation_echeancier ), */
+/* 			 NULL ); */
     gtk_widget_show ( item );
 
     item = gtk_menu_item_new_with_label ( _("Yearly"));
@@ -656,14 +656,14 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			  GINT_TO_POINTER ( 3 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      item );
-    gtk_signal_connect ( GTK_OBJECT  ( item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( affiche_date_limite_echeancier ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT  ( item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( cache_personnalisation_echeancier ),
-			 NULL );
+/*     gtk_signal_connect ( GTK_OBJECT  ( item ), */
+/* 			 "activate", */
+/* 			 GTK_SIGNAL_FUNC ( affiche_date_limite_echeancier ), */
+/* 			 NULL ); */
+/*     gtk_signal_connect ( GTK_OBJECT  ( item ), */
+/* 			 "activate", */
+/* 			 GTK_SIGNAL_FUNC ( cache_personnalisation_echeancier ), */
+/* 			 NULL ); */
     gtk_widget_show ( item );
 
     item = gtk_menu_item_new_with_label ( _("Custom"));
@@ -672,14 +672,14 @@ GtkWidget *creation_formulaire_echeancier ( void )
 			  GINT_TO_POINTER ( 4 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      item );
-    gtk_signal_connect ( GTK_OBJECT  ( item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( affiche_date_limite_echeancier ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT  ( item ),
-			 "activate",
-			 GTK_SIGNAL_FUNC ( affiche_personnalisation_echeancier ),
-			 NULL );
+/*     gtk_signal_connect ( GTK_OBJECT  ( item ), */
+/* 			 "activate", */
+/* 			 GTK_SIGNAL_FUNC ( affiche_date_limite_echeancier ), */
+/* 			 NULL ); */
+/*     gtk_signal_connect ( GTK_OBJECT  ( item ), */
+/* 			 "activate", */
+/* 			 GTK_SIGNAL_FUNC ( affiche_personnalisation_echeancier ), */
+/* 			 NULL ); */
     gtk_widget_show ( item );
 
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQUENCY] ),
@@ -1346,37 +1346,6 @@ gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
     return TRUE;
 }
 /******************************************************************************/
-
-/******************************************************************************/
-void affiche_date_limite_echeancier ( void )
-{
-    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] );
-}
-/******************************************************************************/
-
-/******************************************************************************/
-void cache_date_limite_echeancier ( void )
-{
-    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] );
-}
-/******************************************************************************/
-
-/******************************************************************************/
-void affiche_personnalisation_echeancier ( void )
-{
-    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] );
-    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU] );
-}
-/******************************************************************************/
-
-/******************************************************************************/
-void cache_personnalisation_echeancier ( void )
-{
-    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] );
-    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU] );
-}
-/******************************************************************************/
-
 
 /**
  * we come here when we validate a scheduled transaction

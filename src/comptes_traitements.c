@@ -346,6 +346,72 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 
 
 
+/**
+ *  Create a tree_model with the list of accounts.  This list is
+ *  clickable and activates func if specified.
+ *  it's appended here in the combo_box
+ *
+ * \param combo_box the combo-box parent to include that list
+ * \param func Function to call when a line is selected
+ * \param include_closed If set to TRUE, include the closed accounts
+ *
+ * \return FALSE
+ */
+gboolean gsb_account_create_name_tree_model ( GtkWidget *combo_box,
+					      GCallback func, 
+					      gboolean include_closed )
+{
+    GSList *list_tmp;
+    GtkListStore *store;
+    GtkCellRenderer *renderer;
+
+    store = gtk_list_store_new ( 2,
+				 G_TYPE_STRING,
+				 G_TYPE_INT );
+
+    list_tmp = gsb_data_account_get_list_accounts ();
+
+    while ( list_tmp )
+    {
+	gint account_number;
+	GtkTreeIter iter;
+
+	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+
+	if ( !gsb_data_account_get_closed_account (account_number)
+	     ||
+	     include_closed )
+	{
+	    gtk_list_store_append ( GTK_LIST_STORE (store),
+				    &iter );
+	    gtk_list_store_set ( store,
+				 &iter,
+				 0, gsb_data_account_get_name (account_number),
+				 1, account_number,
+				 -1 );
+	}
+	list_tmp = list_tmp -> next;
+    }
+
+    gtk_combo_box_set_model ( GTK_COMBO_BOX (combo_box),
+			      GTK_TREE_MODEL (store));
+    if ( func )
+	g_signal_connect ( G_OBJECT (combo_box),
+			   "changed",
+			   G_CALLBACK(func),
+			   NULL );
+
+    renderer = gtk_cell_renderer_text_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), renderer,
+				    "text", 0,
+				    NULL);
+
+    return FALSE;
+}
+
+
+
 
 
 /* ************************************************************************** */

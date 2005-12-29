@@ -30,10 +30,6 @@
 
 
 /* START_DECLARATION */
-void affiche_date_limite_echeancier ( void );
-void affiche_personnalisation_echeancier ( void );
-void cache_date_limite_echeancier ( void );
-void cache_personnalisation_echeancier ( void );
 gboolean clique_champ_formulaire_echeancier ( GtkWidget *entree,
 					      GdkEventButton *ev,
 					      gint *no_origine );

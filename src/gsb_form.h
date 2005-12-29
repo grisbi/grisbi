@@ -5,12 +5,14 @@
 #include "gsb_form.h"
 /* END_INCLUDE_H */
 
-/* the  the size of the scheduled part of the form */
-#define SCHEDULED_WIDTH 3
-#define SCHEDULED_HEIGHT 2
+/* the  the size of the scheduled part of the form,
+ * fixed here for now, but can become configurable easily
+ * because the filling function use that values for a table */
+#define SCHEDULED_WIDTH 6
+#define SCHEDULED_HEIGHT 1
 
 enum scheduled_form_widget {
-    SCHEDULED_FORM_ACCOUNT = 1,
+    SCHEDULED_FORM_ACCOUNT = 0,
     SCHEDULED_FORM_AUTO,
     SCHEDULED_FORM_FREQUENCY_BUTTON,
     SCHEDULED_FORM_LIMIT_DATE,
