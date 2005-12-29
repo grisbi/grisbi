@@ -50,6 +50,7 @@
 #include "utils_editables.h"
 #include "main.h"
 #include "utils_comptes.h"
+#include "utils.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "fenetre_principale.h"
@@ -60,12 +61,14 @@
 /*START_STATIC*/
 static gboolean gsb_form_activate_expander ( GtkWidget *expander,
 				      gpointer null );
+static gboolean gsb_form_allocate_size ( GtkWidget *table,
+				  GtkAllocation *allocation,
+				  gpointer null );
 static gboolean gsb_form_clean ( gint account_number );
 static GtkWidget *gsb_form_create_element_from_number ( gint element_number,
 						 gint account_number );
 static gboolean gsb_form_fill_scheduled_part ( void );
 static gboolean gsb_form_fill_transaction ( gint transaction_number );
-static gboolean gsb_form_fill_transaction_part ( gint *ptr_account_number );
 static gboolean gsb_form_frequency_button_changed ( GtkWidget *combo_box,
 					     gpointer null );
 static gint gsb_form_get_account_from_button ( void );
@@ -85,6 +88,7 @@ extern gchar *last_date;
 extern GSList *liste_struct_devises;
 extern FILE * out;
 extern GtkTooltips *tooltips_general_grisbi;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -221,6 +225,10 @@ GtkWidget *gsb_form_new ( void )
 					    FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE (form_transaction_part),
 				 10 );
+    g_signal_connect ( G_OBJECT (form_transaction_part),
+		       "size-allocate",
+		       G_CALLBACK (gsb_form_allocate_size),
+		       NULL );
     gtk_box_pack_start ( GTK_BOX (formulaire),
 			 form_transaction_part,
 			 FALSE, FALSE,
@@ -445,8 +453,17 @@ gint gsb_form_get_origin ( void )
  * */
 gboolean gsb_form_hide ( void )
 {
+    gint row, column;
 
+    devel_debug ("gsb_form_hide");
 
+    for ( row=0 ; row < MAX_HEIGHT ; row++ )
+	for ( column=0 ; column < MAX_WIDTH ; column++ )
+	    if ( form_tab_transactions[row][column] )
+	    {
+		gtk_widget_destroy (form_tab_transactions[row][column]);
+		form_tab_transactions[row][column] = NULL;
+	    }
     return FALSE;
 }
 
@@ -675,6 +692,8 @@ gboolean gsb_form_fill_transaction_part ( gint *ptr_account_number )
     account_number = GPOINTER_TO_INT (ptr_account_number);
 
     devel_debug ( g_strdup_printf ("gsb_form_fill_transaction_part account_number : %d", account_number ));
+
+    gsb_form_hide ();
 
     /* account_number can be -1 if come here from the accounts choice button,
      * and -2 if there were a problem with the origin */
@@ -940,7 +959,6 @@ gboolean gsb_form_clean ( gint account_number )
 
 	switch (column)
 	{
-	    case SCHEDULED_FORM_ACCOUNT:
 	    case SCHEDULED_FORM_AUTO:
 	    case SCHEDULED_FORM_FREQUENCY_BUTTON:
 	    case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
@@ -2180,3 +2198,79 @@ gboolean gsb_form_init_entry_colors ( void )
     return FALSE;
 }
 
+/**
+ * set the size of the columns in the form, according to the user conf
+ * and the size of the window
+ *
+ * \param table the table wich receive the 'size-allocate' signal
+ * \param allocation
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_allocate_size ( GtkWidget *table,
+				  GtkAllocation *allocation,
+				  gpointer null )
+{
+    gint row, column;
+    gint account_number;
+
+    if (!gtk_expander_get_expanded (GTK_EXPANDER (form_expander)))
+	return FALSE;
+
+    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+    if ( account_number == -2 )
+	return FALSE;
+
+    for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) ; row++ )
+	for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
+	{
+	    GtkWidget *widget;
+
+	    widget = gsb_form_get_element_widget_2 ( gsb_data_form_get_value ( account_number,
+									       column,
+									       row ),
+						     account_number );
+
+	    if ( widget )
+		gtk_widget_set_usize ( widget,
+				       gsb_data_form_get_width_column (account_number,
+								       column ) * allocation -> width / 100,
+				       FALSE );
+	}
+
+    for ( column = 0 ; column < 6 ; column++ )
+    {
+	gint width_percent;
+
+	switch (column)
+	{
+	    case SCHEDULED_FORM_ACCOUNT:
+		width_percent = 30;
+		break;
+
+	    case SCHEDULED_FORM_AUTO:
+		width_percent = 16;
+		break;
+
+	    case SCHEDULED_FORM_FREQUENCY_BUTTON:
+		width_percent = 16;
+		break;
+
+	    case SCHEDULED_FORM_LIMIT_DATE:
+		width_percent = 12;
+		break;
+
+	    case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
+		width_percent = 7;
+		break;
+
+	    case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
+		width_percent = 12;
+		break;
+	}
+	gtk_widget_set_usize ( form_tab_scheduled[column],
+			       width_percent * allocation -> width / 100,
+			       FALSE );
+    }
+    return FALSE;
+}

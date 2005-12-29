@@ -38,7 +38,6 @@
 #include "gsb_form.h"
 #include "navigation.h"
 #include "utils_str.h"
-#include "operations_comptes.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
 #include "utils_comptes.h"
@@ -922,10 +921,10 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
 
     /* update the form if needed */
 
-    if ( !etat.formulaire_distinct_par_compte
-	 ||
-	 recupere_no_compte ( accounts_option_menu ) == gsb_gui_navigation_get_current_account ())
-	mise_a_jour_taille_formulaire ( formulaire -> allocation.width );
+/*     if ( !etat.formulaire_distinct_par_compte */
+/* 	 || */
+/* 	 recupere_no_compte ( accounts_option_menu ) == gsb_gui_navigation_get_current_account ()) */
+/* 	mise_a_jour_taille_formulaire ( formulaire -> allocation.width ); */
 
     return FALSE;
 }

@@ -55,7 +55,6 @@
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
-#include "operations_comptes.h"
 #include "traitement_variables.h"
 #include "parametres.h"
 #include "utils_rapprochements.h"
@@ -72,7 +71,6 @@
 
 /*START_STATIC*/
 static gboolean assert_selected_transaction ();
-static gboolean changement_taille_liste_ope ( GtkWidget *tree_view, GtkAllocation *allocation );
 static gpointer cherche_operation_from_ligne ( gint ligne,
 					gint no_account );
 static void creation_titres_tree_view ( void );
@@ -672,12 +670,6 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
     g_signal_connect ( G_OBJECT ( tree_view ),
 		       "key_press_event",
 		       G_CALLBACK ( gsb_transactions_list_key_press ),
-		       NULL );
-
-    /*     ajuste les colonnes si modification de la taille */
-    g_signal_connect ( G_OBJECT ( tree_view ),
-		       "size-allocate",
-		       G_CALLBACK ( changement_taille_liste_ope ),
 		       NULL );
 
     /* we have to check when a row is expanded (breakdown child) because the filter doesn't show the
@@ -3272,29 +3264,6 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gpointer tran
 }
 
 
-
-/**
- * Update screen when screen size changes.
- *
- * \param tree_view	Unused.
- * \param allocation	Size of new allocation.
- *
- * \return FALSE
- */
-gboolean changement_taille_liste_ope ( GtkWidget *tree_view, GtkAllocation *allocation )
-{
-    /* Check to avoid useless computation. */
-    if ( allocation -> width == allocation_precedente )
-	return FALSE;
-
-    allocation_precedente = allocation -> width;
-
-    /* Update various elements. */
-    mise_a_jour_taille_formulaire ( allocation_precedente );
-    update_ecran ();
-
-    return ( FALSE );
-}
 
 
 

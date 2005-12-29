@@ -31,6 +31,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 gboolean entree_prend_focus ( GtkWidget *entree,
 			     GdkEventFocus *ev,
 			     gint *ptr_origin );
+gboolean gsb_form_fill_transaction_part ( gint *ptr_account_number );
 gchar *gsb_form_get_element_name ( gint element_number );
 GtkWidget *gsb_form_get_element_widget ( gint element_number );
 gboolean gsb_form_hide ( void );

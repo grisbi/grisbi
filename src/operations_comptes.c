@@ -28,7 +28,6 @@
 #include "operations_comptes.h"
 #include "erreur.h"
 #include "gsb_data_account.h"
-#include "gsb_data_form.h"
 #include "gsb_form.h"
 #include "utils_dates.h"
 #include "navigation.h"
@@ -36,6 +35,7 @@
 #include "gsb_transactions_list.h"
 #include "comptes_traitements.h"
 #include "include.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -49,7 +49,6 @@ GtkWidget *vbox_liste_comptes;
 
 /*START_EXTERN*/
 extern gint compte_courant_onglet;
-extern GtkWidget *formulaire;
 extern GtkWidget *label_last_statement;
 extern gchar *last_date;
 /*END_EXTERN*/
@@ -59,7 +58,9 @@ extern gchar *last_date;
 
 /** 
  * change the list of transactions, according to the new account
+ * 
  * \param no_account a pointer on the number of the account we want to see
+ * 
  * \return FALSE
  * */
 gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
@@ -86,7 +87,7 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
 
 	adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()));
 	gsb_data_account_set_vertical_adjustment_value ( current_account,
-						    gtk_adjustment_get_value ( adjustment ));
+							 gtk_adjustment_get_value ( adjustment ));
     }
     
     /*     on se place sur les données du nouveau no_account */
@@ -94,6 +95,9 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
     gsb_transactions_list_set_visibles_rows_on_account (new_account);
     gsb_transactions_list_set_background_color (new_account);
     gsb_transactions_list_set_transactions_balances (new_account);
+
+    if (etat.formulaire_toujours_affiche)
+	gsb_form_fill_transaction_part (new_account);
 
     /*     mise en place de la date du dernier relevé */
 
@@ -127,40 +131,6 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
     return FALSE;
 }
 
-
-
-/******************************************************************************/
-/* règle la taille des widgets dans le formulaire des opés en fonction */
-/* des paramètres */
-/******************************************************************************/
-void mise_a_jour_taille_formulaire ( gint largeur_formulaire )
-{
-
-    gint row, column;
-    gint account_number;
-
-    if ( !largeur_formulaire )
-	return;
-
-    account_number = gsb_gui_navigation_get_current_account ();
-
-    for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) ; row++ )
-	for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
-	{
-	    GtkWidget *widget;
-
-	    widget = gsb_form_get_element_widget ( gsb_data_form_get_value ( account_number,
-									       column,
-									       row ));
-
-	    if ( widget )
-		gtk_widget_set_usize ( widget,
-				       gsb_data_form_get_width_column (account_number,
-								       column ) * largeur_formulaire / 100,
-				       FALSE );
-	}
-}
-/******************************************************************************/
 
 
 
