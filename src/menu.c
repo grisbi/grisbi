@@ -676,6 +676,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
 	    GtkAction * action = gtk_action_new ( tmp_name, 
 						  gsb_data_account_get_name(i),
 						  "", "" );
+
 	    if ( gsb_gui_navigation_get_current_account () == i )
 		gtk_action_set_sensitive ( action, FALSE );
 

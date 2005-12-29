@@ -3,8 +3,8 @@
 /* Programme de gestion financière personnelle                                   */
 /*           	  license : GPL                                                  */
 /*                                                                               */
-/*     Copyright (C)    2000-2005 Cédric Auger (cedric@grisbi.org)               */
-/*                      2003-2005 Benjamin Drieu (bdrieu@april.org)              */
+/*     Copyright (C)    2000-2006 Cédric Auger (cedric@grisbi.org)               */
+/*                      2003-2006 Benjamin Drieu (bdrieu@april.org)              */
 /*                      http://www.grisbi.org                                    */
 /*      Version : 0.6.0                                                          */
 /*                                                                               */

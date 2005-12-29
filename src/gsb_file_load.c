@@ -36,7 +36,6 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_util.h"
-#include "navigation.h"
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
@@ -6185,8 +6184,8 @@ gboolean gsb_file_load_update_previous_version ( void )
 		gint nb_lignes_ope;
 		GSList *list_tmp;
 
-		affichage_r = gsb_data_account_get_r (gsb_gui_navigation_get_current_account ());
-		nb_lignes_ope = gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () );
+		affichage_r = 0;
+		nb_lignes_ope = 3;
 
 		list_tmp = gsb_data_account_get_list_accounts ();
 

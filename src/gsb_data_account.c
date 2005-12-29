@@ -408,8 +408,11 @@ struct_account *gsb_data_account_get_structure ( gint no )
 
 
 
-/** get the nb of rows displayed on the account given
+/**
+ * get the nb of rows displayed on the account given
+ * 
  * \param no_account no of the account
+ * 
  * \return nb of rows displayed or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_nb_rows ( gint no_account )
@@ -439,7 +442,8 @@ gboolean gsb_data_account_set_nb_rows ( gint no_account,
 	 ||
 	 nb_rows > 4 )
     {
-	printf ( _("Bad nb rows to gsb_data_account_set_nb_rows () in data_account.c\n" ));
+	printf ( _("Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"),
+		   nb_rows );
 	return FALSE;
     }
 

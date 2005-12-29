@@ -387,6 +387,9 @@ gint gsb_gui_navigation_get_current_account ( void )
     GtkTreeIter iter;
     gint page;
 
+    if ( !navigation_tree_view )
+	return -1;
+
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view));
 
     if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
