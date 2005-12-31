@@ -95,13 +95,13 @@ gchar * gnucash_filename = NULL;
  *
  * \return TRUE upon success.  FALSE otherwise.
  */
-gboolean recuperation_donnees_gnucash ( gchar * filename )
+gboolean recuperation_donnees_gnucash ( struct imported_file * imported )
 {
   xmlDocPtr doc;
   struct struct_compte_importation * account;
 
-  gnucash_filename = my_strdup ( filename );
-  doc = parse_gnucash_file ( filename );
+  gnucash_filename = my_strdup ( imported -> name );
+  doc = parse_gnucash_file ( gnucash_filename );
 
   if ( doc )
   {
@@ -118,7 +118,7 @@ gboolean recuperation_donnees_gnucash ( gchar * filename )
   account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
   account -> origine = TYPE_GNUCASH;
   account -> nom_de_compte = _("Invalid Gnucash account");
-  account -> filename = my_strdup ( filename );
+  account -> filename = my_strdup ( imported -> name );
   liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error, account );
   return FALSE;
 }

@@ -26,7 +26,7 @@
 #ifdef NOOFX
 #include "dialog.h"
 /* dummy recuperation_donnees_ofx function implementation for system with no LIBOFX */
-gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
+gboolean recuperation_donnees_ofx ( struct imported_file * imported )
 {
   dialogue_error_hint(_("This build of Grisbi does not support OFX, please recompile Grisbi with OFX support enabled"), 
                       g_strdup_printf (_("Cannot process OFX file '%s'"), nom_fichier));
@@ -77,7 +77,7 @@ int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);
 
 
 /* *******************************************************************************/
-gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
+gboolean recuperation_donnees_ofx ( struct imported_file * imported )
 {
     gchar *argv[2];
     GSList *liste_tmp;
@@ -86,10 +86,10 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
     compte_ofx_importation_en_cours = NULL;
     erreur_import_ofx = 0;
     message_erreur_operation = 0;
-    ofx_filename = nom_fichier;
+    ofx_filename = imported -> name;
 
     /* 	la lib ofx ne tient pas compte du 1er argument */
-    argv[1] = nom_fichier;
+    argv[1] = imported -> name;
 
 #ifdef OFX_0_7
     ofx_context = libofx_get_new_context();
@@ -101,7 +101,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 #endif /* OFX_0_7 */
  
 #ifdef OFX_0_7
-    libofx_proc_file ( ofx_context, nom_fichier, AUTODETECT );
+    libofx_proc_file ( ofx_context, ofx_filename, AUTODETECT );
 #else /* OFX_0_7 */
     ofx_proc_file ( 2, argv );
 #endif /* OFX_0_7 */
@@ -115,7 +115,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 	struct struct_compte_importation * account;
 	account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
 	account -> nom_de_compte = unique_imported_name ( _("Invalid OFX file") );
-	account -> filename = my_strdup ( nom_fichier );
+	account -> filename = my_strdup ( ofx_filename );
 	account -> origine = TYPE_OFX;
 	liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
 							account );

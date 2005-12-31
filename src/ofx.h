@@ -3,11 +3,12 @@
 
 /* START_INCLUDE_H */
 #include "ofx.h"
+#include "import.h"
 /* END_INCLUDE_H */
 
 
 /*START_DECLARATION*/
-gboolean recuperation_donnees_ofx ( gchar *nom_fichier );
+gboolean recuperation_donnees_ofx ( struct imported_file * imported );
 /*END_DECLARATION*/
 
 
