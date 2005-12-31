@@ -1,5 +1,5 @@
-#ifndef _ECHEANCIER_LISTE_H
-#define _ECHEANCIER_LISTE_H (1)
+#ifndef GSB_SCHEDULER_LIST_H
+#define GSB_SCHEDULER_LIST_H
 
 #define COL_NB_DATE 0
 #define COL_NB_ACCOUNT 1
@@ -60,4 +60,5 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view );
 gboolean gsb_scheduler_list_show_notes ( void );
 gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number );
 /* END_DECLARATION */
+
 #endif
