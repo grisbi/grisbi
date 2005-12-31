@@ -28,6 +28,8 @@ sources = \
 	comptes_traitements.c	\
 	csv_parse.c		\
 	import_csv.c		\
+	go-charmap-sel.c	\
+	go-optionmenu.c		\
 	gsb_data_account.c	\
 	gsb_data_budget.c	\
 	gsb_data_category.c	\
