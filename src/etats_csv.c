@@ -104,7 +104,7 @@ void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, 
     }
 
     for ( pad = csv_lastcol ; pad < x ; pad ++ )
-	fprintf ( csv_out, "," );
+	fprintf ( csv_out, ";" );
 
     realsize = (x2 - x);
     if ( realsize > 1 )
@@ -126,7 +126,7 @@ void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, 
     fprintf ( csv_out, "\"" );
 
     for ( x++; x < x2 ; x ++ )
-	fprintf ( csv_out, "," );
+	fprintf ( csv_out, ";" );
 
     csv_lastcol = x2;
 }
