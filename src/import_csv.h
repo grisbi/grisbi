@@ -8,7 +8,7 @@
 
 
 /* START_DECLARATION */
-gboolean csv_import_csv_account ( GtkWidget * assistant, gchar * filename );
+gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * imported );
 GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant );
 gboolean import_enter_csv_preview_page ( GtkWidget * assistant );
 /* END_DECLARATION */

@@ -601,7 +601,7 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
  *
  *
  */
-gboolean csv_import_csv_account ( GtkWidget * assistant, gchar * filename )
+gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * imported )
 {
     struct struct_compte_importation * compte;
     gchar * contents, * separator;
@@ -610,15 +610,23 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, gchar * filename )
     compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
     compte -> nom_de_compte = unique_imported_name ( my_strdup ( _("Imported CSV account" ) ) );
     compte -> origine = TYPE_CSV;
-    compte -> filename = my_strdup ( filename );
+    compte -> filename = my_strdup ( imported -> name );
 
-    contents = g_object_get_data ( G_OBJECT(assistant), "contents" );
+    contents = g_file_get_contents ( compte -> filename, &contents, NULL, NULL );
     separator = g_object_get_data ( G_OBJECT(assistant), "separator" );
 
-    if ( ! csv_fields_config )
+    if ( ! csv_fields_config || ! contents )
     {
 	liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error, 
 							compte );
+	return FALSE;
+    }
+
+    contents = g_convert ( contents, -1, "UTF-8", imported -> coding_system, NULL, NULL,
+			   NULL );
+    if ( ! contents )
+    {
+	printf ("> convert failed\n");
 	return FALSE;
     }
 

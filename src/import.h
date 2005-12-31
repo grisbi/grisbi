@@ -26,6 +26,7 @@ enum import_type {
 
 struct imported_file {
     gchar * name;
+    gchar * coding_system;
     enum import_type type;
 };
 

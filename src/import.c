@@ -40,6 +40,7 @@
 #include "utils_devises.h"
 #include "dialog.h"
 #include "utils_files.h"
+#include "go-charmap-sel.h"
 #include "gsb_assistant.h"
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
@@ -62,10 +63,10 @@
 #include "qif.h"
 #include "utils_comptes.h"
 #include "imputation_budgetaire.h"
+#include "structures.h"
 #include "gsb_file_config.h"
 #include "import.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -113,6 +114,7 @@ extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkTreeStore *model;
+extern GtkWidget *preview;
 extern GtkWidget *tree_view;
 extern GtkWidget *tree_view_vbox;
 extern GtkWidget *window;
@@ -136,6 +138,7 @@ enum import_filesel_columns {
     IMPORT_FILESEL_FILENAME,
     IMPORT_FILESEL_REALNAME,
     IMPORT_FILESEL_TYPE,
+    IMPORT_FILESEL_CODING,
     IMPORT_FILESEL_NUM_COLS,
 };
 
@@ -228,7 +231,7 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     /* Tree view and model. */
     model = GTK_TREE_MODEL ( gtk_tree_store_new ( IMPORT_FILESEL_NUM_COLS, G_TYPE_BOOLEAN, 
 						  G_TYPE_STRING, G_TYPE_STRING, 
-						  G_TYPE_STRING, G_TYPE_INT ));
+						  G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING));
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( model ) );
     gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
 
@@ -413,7 +416,7 @@ void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel *
  */
 gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 {
-    GtkWidget * dialog;
+    GtkWidget * dialog, * hbox, * go_charmap_sel;
     GtkFileFilter * filter;
 
     dialog = gtk_file_chooser_dialog_new ( _("Choose files to import."),
@@ -426,32 +429,40 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("All files") );
     gtk_file_filter_add_pattern ( filter, "*" );
-    gtk_file_chooser_add_filter ( dialog, filter );
-    gtk_file_chooser_set_filter ( dialog, filter );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
+    gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("QIF files") );
     gtk_file_filter_add_pattern ( filter, "*.qif" );
-    gtk_file_chooser_add_filter ( dialog, filter );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("OFX files") );
     gtk_file_filter_add_pattern ( filter, "*.ofx" );
-    gtk_file_chooser_add_filter ( dialog, filter );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("Gnucash files") );
     gtk_file_filter_add_pattern ( filter, "*.gnc" );
     gtk_file_filter_add_pattern ( filter, "*.gnucash" );
-    gtk_file_chooser_add_filter ( dialog, filter );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("CSV files") );
     gtk_file_filter_add_pattern ( filter, "*.csv" );
     gtk_file_filter_add_pattern ( filter, "*.tsv" );
     gtk_file_filter_add_pattern ( filter, "*.txt" );
-    gtk_file_chooser_add_filter ( dialog, filter );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
+    /* Add encoding preview */
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER ( dialog ), hbox );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( COLON(_("Encoding")) ), 
+			 FALSE, FALSE, 0 );
+    go_charmap_sel = go_charmap_sel_new (GO_CHARMAP_SEL_TO_UTF8);
+    gtk_box_pack_start ( GTK_BOX ( hbox ), go_charmap_sel, TRUE, TRUE, 0 );
+    gtk_widget_show_all ( hbox );
 
     if ( gtk_dialog_run ( GTK_DIALOG (dialog ) ) == GTK_RESPONSE_ACCEPT )
     {
@@ -475,6 +486,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 				 IMPORT_FILESEL_FILENAME, g_path_get_basename ( iterator -> data ),
 				 IMPORT_FILESEL_REALNAME, iterator -> data,
 				 IMPORT_FILESEL_TYPE, type,
+				 IMPORT_FILESEL_CODING, go_charmap_sel_get_encoding ( go_charmap_sel ),
 				 -1 ); 
 
 	    /* CSV is special because it needs configuration, so we
@@ -563,23 +575,23 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 	switch ( imported -> type )
 	{
 	    case TYPE_CSV :
-		csv_import_csv_account ( assistant, imported -> name );
+		csv_import_csv_account ( assistant, imported );
 		break;
 
 	    case TYPE_OFX :
-		recuperation_donnees_ofx ( imported -> name );
+		recuperation_donnees_ofx ( imported );
 		break;
 
 	    case TYPE_QIF :
 		if ( (qif_fd = utf8_fopen ( imported -> name, "r" )))
 		{
-		    recuperation_donnees_qif ( qif_fd, imported -> name );
+		    recuperation_donnees_qif ( qif_fd, imported );
 		    fclose ( qif_fd );
 		}
 		break;
 
 	    case TYPE_GNUCASH:
-		recuperation_donnees_gnucash ( imported -> name );
+		recuperation_donnees_gnucash ( imported );
 		break;
 
 	    default:
@@ -742,6 +754,7 @@ GSList * import_selected_files ( GtkWidget * assistant )
 			     IMPORT_FILESEL_SELECTED, &selected,
 			     IMPORT_FILESEL_REALNAME, &(imported -> name), 
 			     IMPORT_FILESEL_TYPE, &(imported -> type), 
+			     IMPORT_FILESEL_CODING, &(imported -> coding_system),
 			     -1 );
 
 	if ( selected )

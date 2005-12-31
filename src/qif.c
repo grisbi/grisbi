@@ -59,7 +59,7 @@ extern GtkWidget *window;
 
 
 /* *******************************************************************************/
-gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
+gboolean recuperation_donnees_qif ( FILE * fichier, struct imported_file * imported )
 {
     gchar *pointeur_char;
     gchar **tab_char;
@@ -76,7 +76,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
     
     compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
     compte -> nom_de_compte = unique_imported_name ( _("Invalid QIF file") );
-    compte -> filename = my_strdup ( filename );
+    compte -> filename = my_strdup ( imported -> name );
     compte -> origine = TYPE_QIF;
 
     do
@@ -93,6 +93,14 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 	    }
 	    else
 		pas_le_premier_compte = 2;
+
+	    retour = g_convert ( retour, -1, "UTF-8", 
+				 imported -> coding_system, NULL, NULL,
+				 NULL );
+	    if ( ! retour )
+	    {
+		printf ("> convert failed\n");
+	    }
 
 	    if ( retour
 		 &&
@@ -295,7 +303,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 		if ( pointeur_char[0] == 'L' )
 		{
 		    compte -> nom_de_compte = get_line_from_string ( pointeur_char ) + 1;
-		    compte -> filename = my_strdup ( filename );
+		    compte -> filename = my_strdup ( imported -> name );
 
 		    /* on vire les crochets s'ils y sont */
 
@@ -340,7 +348,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, gchar * filename )
 	    /* c'est un compte ccard */
 
 	    compte -> nom_de_compte = unique_imported_name ( my_strdup ( _("Credit card")) );
-	    compte -> filename = my_strdup ( filename );
+	    compte -> filename = my_strdup ( imported -> name );
 	    compte -> solde = 0;
 	    retour = 0;
 	}
