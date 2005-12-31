@@ -87,6 +87,12 @@ extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
+/** Different formats supported.  */
+enum report_export_formats {
+    REPORT_EGSB, REPORT_HTML, REPORT_CSV, REPORT_PS, REPORT_TEX,
+    REPORT_MAX_FORMATS,
+};
+
 
 
 /**
@@ -133,7 +139,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							 NULL );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
 			   bouton_exporter_etat,
-			   _("Export selected report to egsb, HTML, Tex, PostScript"), "" );
+			   _("Export selected report to egsb, HTML, Tex, CSV, PostScript"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_exporter_etat, FALSE, FALSE, 0 );
 
     bouton_imprimer_etat = new_stock_button_with_label ( etat.display_toolbar,
@@ -1092,23 +1098,23 @@ gboolean gsb_report_export_change_format ( GtkWidget * combo, GtkWidget * select
     name = safe_file_name ( g_object_get_data ( G_OBJECT ( selector ), "basename" ) );
     switch ( gtk_combo_box_get_active ( GTK_COMBO_BOX(combo) ) )
     {
-	    case 0:		/* EGSB */
+	    case REPORT_EGSB:		/* EGSB */
 		extension = "egsb";
 		break;
 
-	    case 1:		/* HTML */
+	    case REPORT_HTML:		/* HTML */
 		extension = "html";
 		break;
 
-	    case 2:		/* CSV */
+	    case REPORT_CSV:		/* CSV */
 		extension = "csv";
 		break;
 
-	    case 3:		/* Postscript */
+	    case REPORT_PS:		/* Postscript */
 		extension = "ps";
 		break;
 
-	    case 4:		/* Latex */
+	    case REPORT_TEX:		/* Latex */
 		extension = "tex";
 		break;
 
@@ -1156,16 +1162,16 @@ void exporter_etat ( void )
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("CSV file" ) );
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("Postscript file" ) );
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("Latex file" ) );
-    gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), 0 );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), REPORT_HTML );
     g_signal_connect ( G_OBJECT(combo), "changed", 
 		       G_CALLBACK ( gsb_report_export_change_format ), 
 		       (gpointer) fenetre_nom );
     gtk_widget_show_all ( hbox );
     gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER(fenetre_nom), hbox );
 
-    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER(fenetre_nom), 
+    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER(fenetre_nom),
 					g_strconcat ( safe_file_name ( gsb_data_report_get_report_name ( gsb_gui_navigation_get_current_report () ) ),
-						      ".egsb", NULL ) );
+						      ".html", NULL ) );
     
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
     if ( resultat == GTK_RESPONSE_OK )
@@ -1176,19 +1182,19 @@ void exporter_etat ( void )
 
 	switch ( (gint) g_object_get_data ( G_OBJECT(fenetre_nom), "format" ) )
 	{
-	    case 0:		/* EGSB */
+	    case REPORT_EGSB:		/* EGSB */
 		gsb_file_others_save_report ( nom_etat );
 		break;
 		
-	    case 1:		/* HTML */
+	    case REPORT_HTML:		/* HTML */
 		export_etat_courant_vers_html ( nom_etat );
 		break;
 
-	    case 2:		/* CSV */
+	    case REPORT_CSV:		/* CSV */
 		export_etat_courant_vers_csv ( nom_etat );
 		break;
 
-	    case 3:		/* Postscript */
+	    case REPORT_PS:		/* Postscript */
 		print_config_backup = print_config_dup ( );
 		etat.print_config.printer = FALSE;
 		etat.print_config.filetype = POSTSCRIPT_FILE;
@@ -1198,7 +1204,7 @@ void exporter_etat ( void )
 		print_config_set ( print_config_backup );
 		break;
 
-	    case 4:		/* Latex */
+	    case REPORT_TEX:		/* Latex */
 		print_config_backup = print_config_dup ( );
 		etat.print_config.printer = FALSE;
 		etat.print_config.filetype = LATEX_FILE;
