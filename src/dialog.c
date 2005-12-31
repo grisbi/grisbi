@@ -522,7 +522,7 @@ void dialogue_error_brain_damage ()
  */
 void dialogue_error_memory ()
 {
-    dialogue_error_hint ( _("Bad things will happen soon.  Be sure that if to save any modification in a separate file in case they would corrupt files."),
+    dialogue_error_hint ( _("Bad things will happen soon.  Be sure to save any modification in a separate file in case Grisbi would corrupt files."),
 			  _("Cannot allocate memory") );
 
 }
