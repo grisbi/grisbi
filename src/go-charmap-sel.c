@@ -412,6 +412,9 @@ static void cs_init (GOCharmapSel *cs)
 {
 	cs->test = GO_CHARMAP_SEL_TO_UTF8;
 
+	/* There is a problem in mk_include as we access
+	 * go_option_menu_get_type(); through a macro.  So, KEEP this
+	 * comment to make mk_include happy.  --benj  */
 	cs->encodings = GO_OPTION_MENU (go_option_menu_new ());
 
 	g_signal_connect (G_OBJECT (cs->encodings), "changed",
