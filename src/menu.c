@@ -36,7 +36,7 @@
 #include "comptes_traitements.h"
 #include "erreur.h"
 #include "fichiers_gestion.h"
-#include "qif.h"
+#include "export.h"
 #include "tip.h"
 #include "gsb_data_account.h"
 #include "navigation.h"
@@ -171,8 +171,8 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{ "ImportFile",		GTK_STOCK_CONVERT,	_("_Import QIF/OFX/CSV/Gnucash file..."),
 	    NULL,			NULL,			G_CALLBACK( importer_fichier ) },
 
-	{ "ExportFile",		GTK_STOCK_CONVERT,	_("_Export QIF file..."),
-	    NULL,			NULL,			G_CALLBACK( exporter_fichier_qif ) },
+	{ "ExportFile",		GTK_STOCK_CONVERT,	_("_Export accounts as QIF/CSV file..."),
+	    NULL,			NULL,			G_CALLBACK( export_accounts ) },
 
 	{ "Close",		GTK_STOCK_CLOSE,	_("_Close"),
 	    NULL,			NULL,			G_CALLBACK( fermer_fichier ) },
