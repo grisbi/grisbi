@@ -50,7 +50,6 @@
 #include "utils_editables.h"
 #include "main.h"
 #include "utils_comptes.h"
-#include "utils.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "fenetre_principale.h"

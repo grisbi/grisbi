@@ -34,6 +34,7 @@
 
 /*START_INCLUDE*/
 #include "go-optionmenu.h"
+#include "go-optionmenu.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -48,7 +49,7 @@ static  GType go_option_menu_child_type (GtkContainer       *container);
 static  void go_option_menu_class_init (GOOptionMenuClass *class);
 static  void go_option_menu_destroy (GtkObject *object);
 static  void go_option_menu_detacher (GtkWidget     *widget,
-				      GtkMenu	*menu);
+				     GtkMenu	*menu) ;
 static  gint go_option_menu_expose (GtkWidget      *widget,
 			GdkEventExpose *event);
 static GtkWidget* go_option_menu_get_menu (GOOptionMenu *option_menu);
@@ -57,7 +58,7 @@ static  void go_option_menu_get_property (GObject            *object,
 				   GValue             *value,
 				   GParamSpec         *pspec);
 static  void go_option_menu_get_props (GOOptionMenu       *option_menu,
-				       GOOptionMenuProps  *props);
+			   GOOptionMenuProps  *props);
 static  void go_option_menu_hide_all (GtkWidget *widget);
 static  void go_option_menu_init (GOOptionMenu *option_menu);
 static  void go_option_menu_item_destroy_cb (GtkWidget     *widget,

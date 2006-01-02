@@ -8,6 +8,8 @@
 /* START_DECLARATION */
 void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint position,
 			      gint prev, gint next, GCallback enter_callback );
+void gsb_assistant_change_button_next ( GtkWidget * assistant, gchar * title,
+					GtkResponseType response );
 GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
 				gchar * image_filename );
 GtkResponseType gsb_assistant_run ( GtkWidget * assistant );

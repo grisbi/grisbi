@@ -7,7 +7,7 @@
 
 
 /* START_DECLARATION */
-void exporter_fichier_qif ( void );
+void qif_export ( gchar * filename, gint account_nb );
 gboolean recuperation_donnees_qif ( FILE * fichier, struct imported_file * imported );
 /* END_DECLARATION */
 #endif
