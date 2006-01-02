@@ -36,4 +36,10 @@ Right-click on a cell of the transaction list and select the 'Change cell conten
 
 Go to the 'preferences' dialog and select the 'Form content' option.  Then you can click on fields to be displayed and drag them through the form to adjust their position."
 
-12 - "No more tip available !  Please send any tips you know to grisbi-devel@lists.sourceforge.net so that we can include them in next version for all users."
+12 - "By double cliking on a date field, you can pop up a calendar to select a date."
+
+13 - "There are shortcuts in date fields, to avoid typing date or selecting it with mouse.
+
+<i>Up</i> and <i>Down</i> increment and decrement date of one day, <i>Page Up</i> and <i>Page Down</i> increment and decrement date of one month ... and there are more, check out the manual."
+
+14 - "No more tip available !  Please send any tips you know to grisbi-devel@lists.sourceforge.net so that we can include them in next version for all users."
