@@ -36,6 +36,7 @@
 /*START_STATIC*/
 static gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage, 
 				     gint page, gpointer assistant );
+static gboolean gsb_assistant_enter_unsensitive_next ( GtkWidget * assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -59,9 +60,8 @@ extern GtkWidget *window;
 GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
 				gchar * image_filename )
 {
-    GtkWidget * assistant, *notebook, *vbox, *hbox, *label, *image, *view, *eb;
+    GtkWidget * assistant, *notebook, *hbox, *label, *image, *view, *eb;
     GtkWidget * button_cancel, * button_prev, * button_next;
-    GtkTextIter iter;
     GtkStyle * style;
     GtkTextBuffer * buffer;
     
@@ -70,15 +70,18 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
 					   GTK_DIALOG_NO_SEPARATOR,
 					   NULL );
 
-    button_cancel = gtk_dialog_add_button ( assistant, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL );
-    g_object_set_data ( assistant, "button_cancel", button_cancel );
+    button_cancel = gtk_dialog_add_button ( GTK_DIALOG(assistant), 
+					    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL );
+    g_object_set_data ( G_OBJECT(assistant), "button_cancel", button_cancel );
 
-    button_prev = gtk_dialog_add_button ( assistant, GTK_STOCK_GO_BACK, GTK_RESPONSE_NO );
-    g_object_set_data ( assistant, "button_prev", button_prev );
+    button_prev = gtk_dialog_add_button ( GTK_DIALOG(assistant), 
+					  GTK_STOCK_GO_BACK, GTK_RESPONSE_NO );
+    g_object_set_data ( G_OBJECT(assistant), "button_prev", button_prev );
     gtk_widget_set_sensitive ( button_prev, FALSE );
 
-    button_next = gtk_dialog_add_button ( assistant, GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
-    g_object_set_data ( assistant, "button_next", button_next );
+    button_next = gtk_dialog_add_button ( GTK_DIALOG(assistant), 
+					  GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
+    g_object_set_data ( G_OBJECT(assistant), "button_next", button_next );
 
     eb = gtk_event_box_new ();
     style = gtk_widget_get_style ( eb );
@@ -89,21 +92,22 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
 
     label = gtk_label_new ( "" );
-    gtk_label_set_markup ( label, g_strconcat ( "<b><span size=\"x-large\">",
-						title, "</span></b>", NULL ) );
+    gtk_label_set_markup ( GTK_LABEL(label), g_strconcat ( "<b><span size=\"x-large\">",
+							   title, "</span></b>", NULL ) );
     gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 0 );
 
     image = gtk_image_new_from_file ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
 						    image_filename, NULL) );
     gtk_box_pack_start ( GTK_BOX(hbox), image, FALSE, FALSE, 0 );
 
-    gtk_box_pack_start ( GTK_DIALOG(assistant) -> vbox, eb, 
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(assistant) -> vbox ), eb, 
 			 FALSE, FALSE, 0 );
 
     notebook = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( notebook, FALSE );
-    gtk_notebook_set_show_border ( notebook, FALSE );
-    gtk_box_pack_start ( GTK_DIALOG(assistant) -> vbox, notebook, TRUE, TRUE, 0 );
+    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(notebook), FALSE );
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK(notebook), FALSE );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(assistant) -> vbox ), notebook, 
+			 TRUE, TRUE, 0 );
 
     view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);
@@ -114,14 +118,14 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     gtk_text_view_set_left_margin ( GTK_TEXT_VIEW(view), 12 );
     gtk_text_view_set_right_margin ( GTK_TEXT_VIEW(view), 12 );
 
-    gtk_notebook_append_page ( notebook, view, gtk_label_new("") );
+    gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), view, gtk_label_new("") );
 
     g_signal_connect_after ( notebook, "switch-page",
 			     G_CALLBACK ( gsb_assistant_change_page ), assistant );
 
     gsb_assistant_set_next ( assistant, 0, 1 );
-    g_object_set_data ( assistant, "notebook", notebook );
-    g_object_set_data ( assistant, "title", title );
+    g_object_set_data ( G_OBJECT(assistant), "notebook", notebook );
+    g_object_set_data ( G_OBJECT(assistant), "title", title );
 
     return assistant;
 }
@@ -146,12 +150,13 @@ void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint po
 {
     GtkWidget * notebook;
 
-    notebook = g_object_get_data ( assistant, "notebook" );
-    gtk_notebook_insert_page ( notebook, widget, gtk_label_new(""), position );
+    notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
+    gtk_notebook_insert_page ( GTK_NOTEBOOK(notebook), widget, gtk_label_new(""), position );
 
     gsb_assistant_set_prev ( assistant, position, prev );
     gsb_assistant_set_next ( assistant, position, next );
-    g_object_set_data ( assistant, g_strdup_printf ( "enter%d", position ), enter_callback );
+    g_object_set_data ( G_OBJECT(assistant), g_strdup_printf ( "enter%d", position ), 
+			enter_callback );
 
     gtk_widget_show_all ( widget );
 }
@@ -170,60 +175,64 @@ void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint po
  */
 GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 {
-    gint state = 0;
     GtkWidget * notebook, * button_prev, * button_next;
 
-    button_prev = g_object_get_data ( assistant, "button_prev" );
-    button_next = g_object_get_data ( assistant, "button_next" );
+    button_prev = g_object_get_data ( G_OBJECT(assistant), "button_prev" );
+    button_next = g_object_get_data ( G_OBJECT(assistant), "button_next" );
 
     gtk_widget_show_all ( assistant );
 
-    notebook = g_object_get_data ( assistant, "notebook" );
+    notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
 
     while ( TRUE )
     {
-	gint current = gtk_notebook_get_current_page ( notebook );
+	gint current = gtk_notebook_get_current_page ( GTK_NOTEBOOK(notebook) );
 	gint result, prev, next;
 
-	gtk_window_set_title ( assistant, 
+	gtk_window_set_title ( GTK_WINDOW(assistant), 
 			       g_strdup_printf ( "%s (%d of %d)", 
-						 g_object_get_data ( assistant, "title" ),
+						 (gchar *) g_object_get_data ( G_OBJECT(assistant),
+									       "title" ),
 						 current + 1,
-						 gtk_notebook_get_n_pages ( notebook ) ) );
+						 gtk_notebook_get_n_pages ( GTK_NOTEBOOK(notebook) ) ) );
 
-	result = gtk_dialog_run ( assistant );
-	prev = g_object_get_data ( assistant, g_strdup_printf ( "prev%d", current ) );
-	next = g_object_get_data ( assistant, g_strdup_printf ( "next%d", current ) );
+	result = gtk_dialog_run ( GTK_DIALOG(assistant) );
+	prev = (gint) g_object_get_data ( G_OBJECT(assistant),
+					   g_strdup_printf ( "prev%d", current ) );
+	next = (gint) g_object_get_data ( G_OBJECT(assistant),
+					   g_strdup_printf ( "next%d", current ) );
 
-	switch ( result )
-	{
-	    case GTK_RESPONSE_YES:
+	 switch ( result )
+	 {
+	     case GTK_RESPONSE_YES:
 		gtk_widget_set_sensitive ( button_prev, TRUE );
-		if ( gtk_notebook_get_n_pages ( notebook ) == ( next + 1 ) )
+		if ( gtk_notebook_get_n_pages ( GTK_NOTEBOOK(notebook) ) == ( next + 1 ) )
 		{
 		    gtk_widget_destroy ( button_next );
-		    button_next = gtk_dialog_add_button ( assistant, GTK_STOCK_CLOSE, 
+		    button_next = gtk_dialog_add_button ( GTK_DIALOG(assistant),
+							  GTK_STOCK_CLOSE, 
 							  GTK_RESPONSE_APPLY );
 		}
 
-		gtk_notebook_set_page ( notebook, next );
+		gtk_notebook_set_page ( GTK_NOTEBOOK(notebook), next );
 		break;
 
 	    case GTK_RESPONSE_NO:
-		if ( gtk_notebook_get_n_pages ( notebook ) == next )
+		if ( next == -1 )
 		{
 		    gtk_widget_destroy ( button_next );
-		    button_next = gtk_dialog_add_button ( assistant, GTK_STOCK_GO_FORWARD, 
+		    button_next = gtk_dialog_add_button ( GTK_DIALOG(assistant),
+							  GTK_STOCK_GO_FORWARD, 
 							  GTK_RESPONSE_YES );
 		}
 
 		gtk_widget_set_sensitive ( button_next, TRUE );
-		if ( current == 0 )
+		if ( prev == 0 )
 		{
 		    gtk_widget_set_sensitive ( button_prev, FALSE );
 		}
 
-		gtk_notebook_set_page ( notebook, prev );
+		gtk_notebook_set_page ( GTK_NOTEBOOK(notebook), prev );
 		break;
 
 	    case GTK_RESPONSE_APPLY:
@@ -259,7 +268,7 @@ gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * n
     gpointer padding[32];	/* Don't touch, looks like we have a
 				 * buffer overflow problem. */
 
-    callback = (gboolean *) g_object_get_data ( assistant, g_strdup_printf ( "enter%d", page ) );
+    callback = (gboolean *) (GtkWidget *) g_object_get_data ( assistant, g_strdup_printf ( "enter%d", page ) );
 
     if ( callback )
     {
@@ -284,7 +293,7 @@ void gsb_assistant_set_prev ( GtkWidget * assistant, gint page, gint prev )
     gchar * string;
 
     string = g_strdup_printf ( "prev%d", page );
-    g_object_set_data ( assistant, string, prev );
+    g_object_set_data ( G_OBJECT(assistant), string, (gpointer) prev );
     free ( string );
 }
 
@@ -303,11 +312,41 @@ void gsb_assistant_set_next ( GtkWidget * assistant, gint page, gint next )
     gchar * string;
 
     string = g_strdup_printf ( "next%d", page );
-    g_object_set_data ( assistant, string, next );
+    g_object_set_data ( G_OBJECT(assistant), string, (gpointer) next );
     free ( string );
 }
 
 
+
+
+/**
+ *
+ *
+ */
+gboolean gsb_assistant_enter_unsensitive_next ( GtkWidget * assistant )
+{
+    gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ), 
+			       FALSE );
+
+    return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ */
+void gsb_assistant_change_button_next ( GtkWidget * assistant, gchar * title,
+					GtkResponseType response )
+{
+    GtkWidget * button_next;
+
+    button_next = g_object_get_data ( G_OBJECT (assistant), "button_next" );
+    gtk_widget_destroy ( button_next );
+    button_next = gtk_dialog_add_button ( GTK_DIALOG (assistant), title, response );
+    g_object_set_data ( G_OBJECT (assistant), "button_next", button_next );
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
