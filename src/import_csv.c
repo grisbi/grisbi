@@ -612,7 +612,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
     compte -> origine = TYPE_CSV;
     compte -> filename = my_strdup ( imported -> name );
 
-    contents = g_file_get_contents ( compte -> filename, &contents, NULL, NULL );
+    g_file_get_contents ( compte -> filename, &contents, NULL, NULL );
     separator = g_object_get_data ( G_OBJECT(assistant), "separator" );
 
     if ( ! csv_fields_config || ! contents )
