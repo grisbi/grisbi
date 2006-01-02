@@ -79,9 +79,9 @@ void export_accounts ( void )
     dialog = gsb_assistant_new ( _("Exporting Grisbi accounts"), 
 				 _("This assistant will guide you through the process of "
 				   "exporting Grisbi accounts into QIF or CSV files.\n\n"
-				   "As QIF and CSV do not support currencies, all"
-				   "transactions will be converted into currency of their"
-				   "account."),
+				   "As QIF and CSV do not support currencies, all "
+				   "transactions will be converted into currency of their "
+				   "respective account."),
 				 "" );
 
     gsb_assistant_add_page ( dialog, export_create_selection_page(dialog), 1, 0, 2, 
@@ -106,6 +106,7 @@ void export_accounts ( void )
 	    }
 	    else
 	    {
+		/* FIXME: port CSV export to 0.6 first. */
 		printf ("We should export account %s to CSV\n", 
 			gsb_data_account_get_name ( account -> account_nb ) );
 	    }
@@ -113,88 +114,6 @@ void export_accounts ( void )
 	    exported_accounts = exported_accounts -> next;
 	}
     }
-    
-/*     list_tmp = gsb_data_account_get_list_accounts (); */
-
-/*     while ( list_tmp ) */
-/*     { */
-/* 	GtkWidget * vbox, * label, * chooser; */
-/* 	gint i; */
-
-/* 	i = gsb_data_account_get_no_account ( list_tmp -> data ); */
-
-/* 	vbox = gtk_vbox_new ( FALSE, 6 ); */
-/* 	label = gtk_label_new ( g_strdup_printf ( _("Export account %s"), */
-/* 						  gsb_data_account_get_name ( list_tmp -> data ) ) ); */
-/* 	gtk_label_set_use_markup ( label, TRUE ); */
-/* 	gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 ); */
-
-
-
-/* 	list_tmp = list_tmp -> next; */
-/*     } */
-
-
-/*     selected_accounts = NULL; */
-/*     gtk_widget_show_all ( dialog ); */
-
-/* choix_liste_fichier: */
-/*     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog )); */
-
-/*     if ( resultat != GTK_RESPONSE_OK || !selected_accounts ) */
-/*     { */
-/* 	if ( selected_accounts ) */
-/* 	    g_slist_free ( selected_accounts ); */
-
-/* 	gtk_widget_destroy ( dialog ); */
-/* 	return; */
-/*     } */
-
-/*     /\* vérification que tous les fichiers sont enregistrables *\/ */
-
-/*     liste_tmp = selected_accounts; */
-
-/*     while ( liste_tmp ) */
-/*     { */
-/* 	struct stat test_fichier; */
-
-
-/* 	nom_fichier_qif = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( liste_tmp -> data ))); */
-
-
-/* 	if ( utf8_stat ( nom_fichier_qif, &test_fichier ) != -1 ) */
-/* 	{ */
-/* 	    if ( S_ISREG ( test_fichier.st_mode ) ) */
-/* 	    { */
-/* 		if ( ! question_yes_no_hint ( g_strdup_printf (_("File '%s' already exists."), */
-/* 							       nom_fichier_qif), */
-/* 					      _("Do you want to overwrite it?")) ) */
-/* 		    goto choix_liste_fichier; */
-/* 	    } */
-/* 	    else */
-/* 	    { */
-/* 		dialogue_error_hint ( g_strdup_printf ( _("File \"%s\" exists and is not a regular file."), */
-/* 							nom_fichier_qif), */
-/* 				      g_strdup_printf ( _("Error saving file '%s'." ), nom_fichier_qif ) ); */
-/* 		goto choix_liste_fichier; */
-/* 	    } */
-/* 	} */
-
-
-/* 	liste_tmp = liste_tmp -> next; */
-/*     } */
-
-
-
-/*     /\* on est sûr de l'enregistrement, c'est parti ... *\/ */
-
-
-/*     liste_tmp = selected_accounts; */
-
-/*     while ( liste_tmp ) */
-/*     { */
-/* 	/\*       ouverture du fichier, si pb, on marque l'erreur et passe au fichier suivant *\/ */
-
 
     gtk_widget_destroy ( dialog );
 }
@@ -447,14 +366,14 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
     combo = gtk_combo_box_new_text();
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("QIF format" ) );
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("CSV format" ) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), combo, TRUE, TRUE, 12 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), combo, TRUE, TRUE, 6 );
     g_signal_connect ( G_OBJECT(combo), "changed", 
 		       G_CALLBACK ( export_account_change_format ), 
 		       (gpointer) account );
 
     account -> chooser = gtk_file_chooser_widget_new ( GTK_FILE_CHOOSER_ACTION_SAVE );
     gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER(account -> chooser), hbox );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), account -> chooser, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), account -> chooser, TRUE, TRUE, 0 );
 
     gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), 0 );
 
