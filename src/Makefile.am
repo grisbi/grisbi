@@ -21,15 +21,38 @@ sources = \
 	barre_outils.c		\
 	calendar.c		\
 	categories_onglet.c	\
-	classement_operations.c	\
 	classement_echeances.c	\
+	classement_operations.c	\
 	comptes_gestion.c	\
 	comptes_onglet.c	\
 	comptes_traitements.c	\
 	csv_parse.c		\
-	import_csv.c		\
+	data_currency.c		\
+	data_payment.c		\
+	devises.c		\
+	dialog.c		\
+	echeancier_formulaire.c	\
+	echeancier_infos.c	\
+	equilibrage.c		\
+	erreur.c		\
+	etats_affiche.c		\
+	etats_calculs.c		\
+	etats_config.c		\
+	etats_csv.c		\
+	etats_gtktable.c	\
+	etats_html.c		\
+	etats_latex.c		\
+	etats_onglet.c		\
+	etats_support.c		\
+	exercice.c		\
+	export.c		\
+	fenetre_principale.c	\
+	fichiers_gestion.c	\
+	gbanking.c		\
+	gnucash.c               \
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
+	gsb_assistant.c		\
 	gsb_data_account.c	\
 	gsb_data_budget.c	\
 	gsb_data_category.c	\
@@ -48,37 +71,18 @@ sources = \
 	gsb_form.c		\
 	gsb_form_config.c	\
 	gsb_scheduler_list.c	\
-	gsb_transactions_list.c	\
-	data_currency.c		\
-	data_payment.c		\
-	devises.c		\
-	dialog.c		\
-	echeancier_formulaire.c	\
-	echeancier_infos.c	\
-	equilibrage.c		\
-	erreur.c		\
-	etats_affiche.c		\
-	etats_calculs.c		\
-	etats_config.c		\
-	etats_gtktable.c	\
-	etats_html.c		\
-	etats_latex.c		\
-	etats_csv.c		\
-	etats_onglet.c		\
-	etats_support.c		\
-	exercice.c		\
-	fenetre_principale.c	\
-	fichiers_gestion.c	\
-	gnucash.c               \
-	gsb_assistant.c		\
 	gsb_status.c		\
+	gsb_transactions_list.c	\
 	gtk_combofix.c		\
 	help.c			\
+	html.c			\
+	import.c		\
+	import_csv.c		\
 	imputation_budgetaire.c	\
 	main.c			\
 	menu.c			\
-	meta_categories.c	\
 	meta_budgetary.c	\
+	meta_categories.c	\
 	meta_payee.c		\
 	metatree.c		\
 	navigation.c		\
@@ -89,8 +93,7 @@ sources = \
 	parse_cmdline.c		\
 	print_config.c		\
 	qif.c			\
-	import.c		\
-	html.c			\
+	search_glist.c		\
 	tiers_onglet.c		\
 	tip.c			\
 	traitement_variables.c	\
@@ -102,16 +105,14 @@ sources = \
 	utils_devises.c		\
 	utils_editables.c	\
 	utils_exercices.c	\
-	utils_file_selection.c \
+	utils_file_selection.c	\
 	utils_files.c		\
 	utils_montants.c	\
 	utils_operations.c	\
 	utils_rapprochements.c	\
 	utils_str.c		\
 	utils_types.c		\
-	utils_xml.c		\
-	search_glist.c		\
-	gbanking.c
+	utils_xml.c		
 
 grisbi_SOURCES = $(sources) $(sources_config)
 
