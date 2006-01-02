@@ -155,12 +155,14 @@ GtkWidget * export_create_selection_page ( GtkWidget * assistant )
 
     /* Checkbox */
     cell = gtk_cell_renderer_toggle_new ();
+    g_object_set (cell, "xalign", 0.5, NULL);
     g_signal_connect (cell, "toggled", G_CALLBACK (export_account_toggled), model);
     g_object_set_data ( G_OBJECT ( model ), "assistant", assistant );
     column = gtk_tree_view_column_new ();
-    gtk_tree_view_column_pack_start ( GTK_TREE_VIEW_COLUMN(column), cell, FALSE );
+    gtk_tree_view_column_pack_end ( GTK_TREE_VIEW_COLUMN(column), cell, TRUE );
     gtk_tree_view_column_add_attribute ( GTK_TREE_VIEW_COLUMN(column), cell, "active", 0 );
     gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN(column), _("Export") );
+    gtk_tree_view_column_set_alignment ( GTK_TREE_VIEW_COLUMN(column), 0.5 );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( view ), column );
 
     /* Account name */
@@ -418,7 +420,7 @@ gboolean export_account_change_format ( GtkWidget * combo,
     }
     else
     {
-	title = g_get_user_name ();
+	title = (gchar *) g_get_user_name ();
     }
 
     gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER(account -> chooser),
