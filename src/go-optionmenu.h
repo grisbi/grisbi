@@ -81,6 +81,31 @@ struct _GOOptionMenuClass
 };
 
 
+#define CHILD_LEFT_SPACING        4
+#define CHILD_RIGHT_SPACING       1
+#define CHILD_TOP_SPACING         1
+#define CHILD_BOTTOM_SPACING      1
+
+typedef struct _GOOptionMenuProps GOOptionMenuProps;
+
+struct _GOOptionMenuProps
+{
+  gboolean interior_focus;
+  GtkRequisition indicator_size;
+  GtkBorder indicator_spacing;
+  gint focus_width;
+  gint focus_pad;
+};
+
+static const GOOptionMenuProps default_props = {
+  TRUE,
+  { 7, 13 },
+  { 7, 5, 2, 2 },		/* Left, right, top, bottom */
+  1,
+  0
+};
+
+
 GType      go_option_menu_get_type    (void) G_GNUC_CONST;
 GtkWidget* go_option_menu_new         (void);
 GtkWidget* go_option_menu_get_menu    (GOOptionMenu *option_menu);
@@ -90,6 +115,7 @@ void       go_option_menu_remove_menu (GOOptionMenu *option_menu);
 void       go_option_menu_set_history (GOOptionMenu *option_menu,
 				       GSList *selection);
 GtkWidget *go_option_menu_get_history (GOOptionMenu *option_menu);
+GType	   go_option_menu_get_type (void);
 
 G_END_DECLS
 

@@ -34,7 +34,6 @@
 
 /*START_INCLUDE*/
 #include "go-optionmenu.h"
-#include "go-optionmenu.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -49,7 +48,7 @@ static  GType go_option_menu_child_type (GtkContainer       *container);
 static  void go_option_menu_class_init (GOOptionMenuClass *class);
 static  void go_option_menu_destroy (GtkObject *object);
 static  void go_option_menu_detacher (GtkWidget     *widget,
-				     GtkMenu	*menu) {;
+				      GtkMenu	*menu);
 static  gint go_option_menu_expose (GtkWidget      *widget,
 			GdkEventExpose *event);
 static GtkWidget* go_option_menu_get_menu (GOOptionMenu *option_menu);
@@ -58,8 +57,7 @@ static  void go_option_menu_get_property (GObject            *object,
 				   GValue             *value,
 				   GParamSpec         *pspec);
 static  void go_option_menu_get_props (GOOptionMenu       *option_menu,
-			   GOOptionMenuProps  *props);
-static GType go_option_menu_get_type (void);
+				       GOOptionMenuProps  *props);
 static  void go_option_menu_hide_all (GtkWidget *widget);
 static  void go_option_menu_init (GOOptionMenu *option_menu);
 static  void go_option_menu_item_destroy_cb (GtkWidget     *widget,
@@ -111,30 +109,6 @@ extern GtkWidget *window;
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkcheckmenuitem.h>
 #include <gdk/gdkkeysyms.h>
-
-#define CHILD_LEFT_SPACING        4
-#define CHILD_RIGHT_SPACING       1
-#define CHILD_TOP_SPACING         1
-#define CHILD_BOTTOM_SPACING      1
-
-typedef struct _GOOptionMenuProps GOOptionMenuProps;
-
-struct _GOOptionMenuProps
-{
-  gboolean interior_focus;
-  GtkRequisition indicator_size;
-  GtkBorder indicator_spacing;
-  gint focus_width;
-  gint focus_pad;
-};
-
-static const GOOptionMenuProps default_props = {
-  TRUE,
-  { 7, 13 },
-  { 7, 5, 2, 2 },		/* Left, right, top, bottom */
-  1,
-  0
-};
 
 static void go_option_menu_class_init      (GOOptionMenuClass *klass);
 static void go_option_menu_init            (GOOptionMenu      *option_menu);
@@ -318,7 +292,8 @@ GtkWidget* go_option_menu_get_menu (GOOptionMenu *option_menu)
 }
 
 static void go_option_menu_detacher (GtkWidget     *widget,
-				     GtkMenu	*menu) {
+				     GtkMenu	*menu) 
+{
   GOOptionMenu *option_menu;
 
   g_return_if_fail (GO_IS_OPTION_MENU (widget));
