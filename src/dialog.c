@@ -55,10 +55,6 @@ struct conditional_message messages[] =
       N_("Make sure that grisbi was correctly installed and that tips file is readable."),
       FALSE, FALSE, },
 
-    { "qif-does-not-define-currencies", N_("QIF format does not define currencies."),
-      N_("All transactions will be converted into currency of their account."), 
-      FALSE, FALSE, },
-
     { "ofx-security-not-implemented", N_("Security feature not implemented"),
       N_("This file contains security informations, which processing is not implemented at this moment."),
       FALSE, FALSE, },
