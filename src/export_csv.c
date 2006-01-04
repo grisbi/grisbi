@@ -303,8 +303,6 @@ void csv_export ( gchar * filename, gint account_nb )
 	      continue;
 	  }
 
-	  printf ("> Exporting %d\n", pTransaction );
-
 	  /* Si c'est une ventilation d'opération (càd une opération fille),
 	     elle n'est pas traitée à la base du "if" mais plus loin, quand
 	     son opé ventilée sera exportée */
@@ -354,7 +352,7 @@ void csv_export ( gchar * filename, gint account_nb )
 
 	      /* met le tiers */
 	      CSV_CLEAR_FIELD(csv_field_tiers);
-	      csv_field_tiers = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( pTransaction ), FALSE );
+	      csv_field_tiers = g_strdup ( gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( pTransaction ), FALSE ) );
 
 	      /* met le numéro du rapprochement */
 	      if ( gsb_data_transaction_get_reconcile_number ( pTransaction ) )
@@ -390,7 +388,7 @@ void csv_export ( gchar * filename, gint account_nb )
 		  struct struct_type_ope * type = pMiscList -> data;
 
 		  if ( type -> numerotation_auto )
-		      csv_field_cheque = gsb_data_transaction_get_method_of_payment_content ( pTransaction );
+		      csv_field_cheque = g_strdup ( gsb_data_transaction_get_method_of_payment_content ( pTransaction ) );
 	      }
 
 	      if ( gsb_data_transaction_get_budgetary_number ( pTransaction ) != -1 )
@@ -439,8 +437,6 @@ void csv_export ( gchar * filename, gint account_nb )
 		      gint pBreakdownTransaction;
 
 		      pBreakdownTransaction = (gint) pBreakdownTransactionList -> data;
-
-		      printf ("> Exporting breakdown %d\n", pBreakdownTransaction );
 
 		      if ( gsb_data_transaction_get_account_number ( pBreakdownTransaction ) == account_nb &&
 			   gsb_data_transaction_get_mother_transaction_number ( pBreakdownTransaction ) == pTransaction )
@@ -500,7 +496,7 @@ void csv_export ( gchar * filename, gint account_nb )
 			      struct struct_type_ope * type = pMiscList -> data;
 
 			      if ( type -> numerotation_auto )
-				  csv_field_cheque = gsb_data_transaction_get_method_of_payment_content ( pBreakdownTransaction );
+				  csv_field_cheque = g_strdup ( gsb_data_transaction_get_method_of_payment_content ( pBreakdownTransaction ) );
 			  }
 
 			  /* Budgetary lines */
