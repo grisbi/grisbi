@@ -26,13 +26,10 @@
 
 /*START_INCLUDE*/
 #include "export.h"
-#include "dialog.h"
 #include "gsb_assistant.h"
 #include "gsb_data_account.h"
-#include "utils_str.h"
 #include "utils.h"
 #include "qif.h"
-#include "utils_files.h"
 #include "structures.h"
 #include "export.h"
 #include "include.h"
@@ -106,9 +103,7 @@ void export_accounts ( void )
 	    }
 	    else
 	    {
-		/* FIXME: port CSV export to 0.6 first. */
-		printf ("We should export account %s to CSV\n", 
-			gsb_data_account_get_name ( account -> account_nb ) );
+		csv_export ( account -> filename, account -> account_nb );
 	    }
 
 	    exported_accounts = exported_accounts -> next;
