@@ -46,6 +46,7 @@ sources = \
 	etats_support.c		\
 	exercice.c		\
 	export.c		\
+	export_csv.c		\
 	fenetre_principale.c	\
 	fichiers_gestion.c	\
 	gbanking.c		\
