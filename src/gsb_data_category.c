@@ -559,7 +559,7 @@ gint gsb_data_category_new_sub_category ( gint category_number,
 	gsb_data_category_set_sub_category_name ( category_number,
 						  sub_category_number,
 						  name );
-    return category_number;
+    return sub_category_number;
 }
 
 

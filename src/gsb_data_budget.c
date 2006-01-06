@@ -563,7 +563,7 @@ gint gsb_data_budget_new_sub_budget ( gint budget_number,
 	gsb_data_budget_set_sub_budget_name ( budget_number,
 					      sub_budget_number,
 					      name );
-    return budget_number;
+    return sub_budget_number;
 }
 
 
