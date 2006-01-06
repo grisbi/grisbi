@@ -1695,17 +1695,21 @@ inline gboolean metatree_sort_column  ( GtkTreeModel * model,
 			 META_TREE_DATE_COLUMN, &date_b, 
 			 META_TREE_TEXT_COLUMN, &string_b, -1 );
 
-    if ( date_a && date_b )
+    if ( ! date_a && ! date_b )
     {
-	return g_date_compare ( date_a, date_b );
+	return g_utf8_collate ( string_a, string_b );
     }
-    
-    if ( ! date_b )
-	return 1;
-    if ( ! date_a )
-	return -1;
 
-    return g_utf8_collate ( string_a, string_b );
+    if ( ! date_b )
+    {
+	return 1;
+    }
+    else if ( ! date_a )
+    {
+	return -1;
+    }
+
+    return g_date_compare ( date_a, date_b );
 }
 
 
