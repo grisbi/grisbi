@@ -74,7 +74,6 @@ gboolean recuperation_donnees_qif ( FILE * fichier, struct imported_file * impor
     gint pas_le_premier_compte = 0;
 
     /* fichier pointe sur le fichier qui a été reconnu comme qif */
-
     rewind ( fichier );
     
     compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
@@ -969,6 +968,16 @@ void qif_export ( gchar * filename, gint account_nb )
 {
     FILE * fichier_qif;
     gchar * montant_tmp;
+    struct stat test_file;
+
+    if (utf8_stat ( filename, &test_file ) != -1)
+    {
+	if ( ! question_yes_no_hint (_("File already exists"),
+				     g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename) ) )
+	{
+	    return;
+	}
+    }
 
     if ( !( fichier_qif = utf8_fopen ( filename, "w" ) ))
     {

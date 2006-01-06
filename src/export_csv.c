@@ -228,9 +228,17 @@ void csv_export ( gchar * filename, gint account_nb )
 {
   gchar *sMessage = NULL;
   FILE *csv_file;
-  gdouble balance = 0;
+  gdouble balance = 0.0;
+  struct stat test_file;
 
-  balance = 0.0;
+  if (utf8_stat ( filename, &test_file ) != -1)
+  {
+      if ( ! question_yes_no_hint (_("File already exists"),
+				   g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename) ) )
+      {
+	  return;
+      }
+  }
 
   /* Ouverture du fichier, si pb, on marque l'erreur et passe au fichier suivant */
   if ( !( csv_file = utf8_fopen ( filename, "w" ) ))
