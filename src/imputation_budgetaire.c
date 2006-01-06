@@ -316,34 +316,30 @@ gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, GtkTree
 
 
 
-
-
 /***********************************************************************************************************/
 /* Fonction mise_a_jour_combofix_imputation */
 /* recrée les listes de catégories des combofix */
 /* et remet les combofix à jour */
 /***********************************************************************************************************/
-
 void mise_a_jour_combofix_imputation ( void )
 {
     devel_debug ( "mise_a_jour_combofix_imputation" );
 
-    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_BUDGET ))
+    if ( gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET) && 
+	 gsb_data_form_check_for_value ( TRANSACTION_FORM_BUDGET ) )
 	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET) ),
 				gsb_data_budget_get_name_list (TRUE, TRUE),
 				TRUE,
 				TRUE );
 
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
-			    gsb_data_budget_get_name_list (TRUE, TRUE),
-			    TRUE,
-			    TRUE );
+    if ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] )
+	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
+				gsb_data_budget_get_name_list (TRUE, TRUE),
+				TRUE,
+				TRUE );
 
     mise_a_jour_combofix_imputation_necessaire = 0;
 }
-
-
-
 
 
 
@@ -358,15 +354,15 @@ void exporter_ib ( void )
     gchar *nom_ib;
 
     fenetre_nom = file_selection_new (  _("Export the budgetary lines"),FILE_SELECTION_IS_SAVE_DIALOG);
-    file_selection_set_filename ( GTK_FILE_SELECTION ( fenetre_nom ),
-				      dernier_chemin_de_travail );
-    file_selection_set_entry ( GTK_FILE_SELECTION ( fenetre_nom ), ".igsb" );
+    file_selection_set_filename ( GTK_FILE_CHOOSER ( fenetre_nom ),
+				  dernier_chemin_de_travail );
+    file_selection_set_entry ( GTK_FILE_CHOOSER ( fenetre_nom ), ".igsb" );
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
 
     switch ( resultat )
     {
 	case GTK_RESPONSE_OK :
-	    nom_ib =file_selection_get_filename ( GTK_FILE_SELECTION ( fenetre_nom ));
+	    nom_ib =file_selection_get_filename ( GTK_FILE_CHOOSER ( fenetre_nom ));
 
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
@@ -399,8 +395,8 @@ void importer_ib ( void )
 
     dialog = file_selection_new ( _("Import budgetary lines"),
 				  FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
-    file_selection_set_filename ( GTK_FILE_SELECTION ( dialog ), dernier_chemin_de_travail );
-    file_selection_set_entry ( GTK_FILE_SELECTION ( dialog ), ".igsb" );
+    file_selection_set_filename ( GTK_FILE_CHOOSER ( dialog ), dernier_chemin_de_travail );
+    file_selection_set_entry ( GTK_FILE_CHOOSER ( dialog ), ".igsb" );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
@@ -410,7 +406,7 @@ void importer_ib ( void )
 	return;
     }
 
-    budget_name = file_selection_get_filename ( GTK_FILE_SELECTION ( dialog ));
+    budget_name = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
     last_transaction_number = gsb_data_transaction_get_last_number();
@@ -603,8 +599,9 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     GtkTreeSelection * selection;
     GtkTreeModel * model;
     GtkTreeIter iter;
-    gint budget_number = -1, sub_budget_number = -1;
+    gint budget_number = -1, sub_budget_number = -1, type;
     gchar * title;
+
 
     selection = gtk_tree_view_get_selection ( view );
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -652,7 +649,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 
    /* FIXME : should not work, replace new_text_entry ? */
 
-    if ( sub_budget_number )
+    if ( sub_budget_number > 0 )
     {
 	gchar *sub_budget_name;
 
@@ -674,10 +671,8 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     gtk_widget_set_usize ( entry, 400, 0 );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
-    if ( !sub_budget_number )
+    if ( sub_budget_number <= 0 )
     {
-	gint type;
-
 	/* Description entry */
 	label = gtk_label_new ( _("Type"));
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
@@ -699,7 +694,9 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 
     mise_a_jour_combofix_imputation ();
 
-    if ( sub_budget_number )
+    gsb_data_budget_set_type ( budget_number, type );
+
+    if ( sub_budget_number > 0 )
     {
 	fill_sub_division_row ( model, budgetary_interface,
 				get_iter_from_div ( model, budget_number, sub_budget_number ), 
