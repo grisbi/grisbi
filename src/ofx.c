@@ -103,6 +103,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 
     if ( !compte_ofx_importation_en_cours )
     {
+	printf ( "%d\n", erreur_import_ofx );
 	dialogue_error ( _("The new account has not been created."));
 	return ( FALSE );
     }
@@ -262,8 +263,8 @@ int ofx_proc_account_cb(struct OfxAccountData data)
 
     if ( data.account_id_valid )
     {
-	compte_ofx_importation_en_cours -> id_compte = g_strdup ( data.account_id );
-	compte_ofx_importation_en_cours -> nom_de_compte = g_strdup ( data.account_name );
+	compte_ofx_importation_en_cours -> id_compte = latin2utf8 ( data.account_id );
+	compte_ofx_importation_en_cours -> nom_de_compte = latin2utf8 ( data.account_name );
     }
 
     compte_ofx_importation_en_cours -> origine = 1;
@@ -272,7 +273,7 @@ int ofx_proc_account_cb(struct OfxAccountData data)
 	compte_ofx_importation_en_cours -> type_de_compte = data.account_type;
 
     if ( data.currency_valid )
-	compte_ofx_importation_en_cours -> devise = g_strdup ( data.currency );
+	compte_ofx_importation_en_cours -> devise = latin2utf8 ( data.currency );
 
 
     return 0;
@@ -357,7 +358,7 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 			  sizeof ( struct struct_ope_importation ));
 
     if ( data.fi_id_valid )
-	ope_import -> id_operation = g_strdup ( data.fi_id );
+	ope_import -> id_operation = latin2utf8 ( data.fi_id );
 
     date = g_date_new ();
     if ( data.date_posted_valid )
@@ -383,10 +384,10 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 	ope_import -> date = ope_import -> date_de_valeur;
 
     if ( data.name_valid )
-	ope_import -> tiers = g_strdup ( data.name );
+	ope_import -> tiers = latin2utf8 ( data.name );
 
     if ( data.memo_valid )
-	ope_import -> notes = g_strdup ( data.memo );
+	ope_import -> notes = latin2utf8 ( data.memo );
 
     if ( data.check_number_valid )
 	ope_import -> cheque = my_atoi ( data.check_number );
