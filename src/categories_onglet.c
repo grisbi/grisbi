@@ -707,12 +707,11 @@ gboolean popup_category_view_mode_menu ( GtkWidget * button )
 gboolean edit_category ( GtkTreeView * view )
 {
     GtkWidget * dialog, *paddingbox, *table, *label, *entry, *hbox, *radiogroup;
+    gint category_number = -1, sub_category_number = -1, type;
     GtkTreeSelection * selection;
     GtkTreeModel * model;
     GtkTreeIter iter;
     gchar * title;
-    gint category_number = -1;
-    gint sub_category_number = -1;
 
     /* fill category_number and sub_category_number */
 
@@ -760,7 +759,7 @@ gboolean edit_category ( GtkTreeView * view )
 
     /* FIXME : should not work, replace new_text_entry ? */
 
-    if ( sub_category_number )
+    if ( sub_category_number > 0 )
     {
 	gchar *sub_category_name;
 
@@ -772,20 +771,15 @@ gboolean edit_category ( GtkTreeView * view )
     else
     {
 	gchar *category_name;
-
-	category_name = gsb_data_category_get_name ( category_number,
-						     0,
-						     "" );
+	category_name = gsb_data_category_get_name ( category_number, 0, "" );
 	entry = new_text_entry ( &category_name, NULL, NULL );
     }
 
     gtk_widget_set_usize ( entry, 400, 0 );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
-    if ( !sub_category_number )
+    if ( sub_category_number <= 0 )
     {
-	gint type;
-
 	/* Description entry */
 	label = gtk_label_new ( _("Type"));
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
@@ -808,7 +802,9 @@ gboolean edit_category ( GtkTreeView * view )
 
     mise_a_jour_combofix_categ ();
 
-    if ( sub_category_number )
+    gsb_data_category_set_type ( category_number, type );
+
+    if ( sub_category_number > 0 )
     {
 	fill_sub_division_row ( model, category_interface,
 				get_iter_from_div ( model, category_number, sub_category_number ), 
