@@ -49,12 +49,14 @@ static gint csv_import_count_columns ( gchar * contents, gchar * separator );
 static GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * contents, 
 					 gchar * separator );
 static GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field );
-static gint * csv_import_guess_fields_config ( gchar * contents, gint size );
+static gint * csv_import_guess_fields_config ( gchar * contents, gint size, 
+					       gchar * separator );
 static gchar * csv_import_guess_separator ( gchar * contents );
 static gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton * ev, 
 				      gint *no_column );
 static gint csv_import_try_separator ( gchar * contents, gchar * separator );
-static gint * csv_import_update_fields_config ( gchar * contents, gint size );
+static gint * csv_import_update_fields_config ( gchar * contents, gint size, 
+						gchar * separator );
 static gboolean csv_import_update_preview ( GtkWidget * assistant );
 static void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str, 
 			 GtkTreeView * tree_preview );
@@ -160,7 +162,7 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
     GType * types;
     gint size, i;
     GSList * list;
-
+    
     size = csv_import_count_columns ( contents, separator );
     printf (">> SIZE is %d\n", size );
     if ( ! size || ! contents)
@@ -168,8 +170,7 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
 	return NULL;
     }
 
-    csv_fields_config = csv_import_update_fields_config ( contents, size );
-/*     csv_fields_config = csv_import_guess_fields_config ( contents, size ); */
+    csv_fields_config = csv_import_update_fields_config ( contents, size, separator );
 
     /* Remove previous columns if any. */
     list = (GSList *) gtk_tree_view_get_columns ( GTK_TREE_VIEW(tree_preview) );
@@ -248,7 +249,7 @@ gchar * csv_import_guess_separator ( gchar * contents )
     for ( i = 0 ; separators[i] ; i++ )
     {
 	gchar * tmp = contents;
-	int n = csv_import_try_separator ( tmp, separators[i] );;
+	int n = csv_import_try_separator ( tmp, separators[i] );
 
 	if ( n > max )
 	{
@@ -279,15 +280,7 @@ gint csv_import_try_separator ( gchar * contents, gchar * separator )
     GSList * list;
     int cols, i = 0;
 
-    printf ("Skipping three lines\n");
-    for ( i = 0; i < 3; i ++ )
-    {
-	do 
-	{
-	    list = csv_parse_line ( &contents, separator );
-	}
-	while ( list ==  GINT_TO_POINTER(-1) );
-    }
+    printf ("Skipping %d lines\n", csv_skip_lines ( &contents, 2, separator ) );
 
     do 
     {
@@ -305,7 +298,7 @@ gint csv_import_try_separator ( gchar * contents, gchar * separator )
 	    continue;
 	}
 
-	if ( cols != g_slist_length ( list ) || cols == 1 )
+	if ( list && ( cols != g_slist_length ( list ) || cols == 1 ) )
 	{
 	    printf ("> %d != %d, not %s\n", cols, g_slist_length ( list ), separator );
 	    return FALSE;
@@ -358,10 +351,42 @@ gint csv_import_count_columns ( gchar * contents, gchar * separator )
 
 
 /**
+ * Skip n lines in the CSV stream.
+ *
+ * \param contents	Pointer to CSV data.
+ * \param num_lines	Number of lines to skip.
+ *
+ * \return Actual number of lines skipped.
+ */
+gint csv_skip_lines ( gchar ** contents, gint num_lines, gchar * separator )
+{
+    GSList * list;
+    int i;
+
+    for ( i = 0; i < num_lines; i ++ )
+    {
+	do 
+	{
+	    list = csv_parse_line ( contents, separator );
+	}
+	while ( list == GINT_TO_POINTER(-1) );
+
+	if ( ! list )
+	{
+	    return i;
+	}
+    }
+
+    return i;
+}
+
+
+
+/**
  *
  *
  */
-gint * csv_import_update_fields_config ( gchar * contents, gint size )
+gint * csv_import_update_fields_config ( gchar * contents, gint size, gchar * separator )
 {
     gint i, * old_csv_fields_config = csv_fields_config;
 
@@ -369,7 +394,7 @@ gint * csv_import_update_fields_config ( gchar * contents, gint size )
 
     if ( ! old_csv_fields_config )
     {
-	return csv_import_guess_fields_config ( contents, size );
+	return csv_import_guess_fields_config ( contents, size, separator );
     }
 
     csv_fields_config = (gint *) g_malloc ( ( size + 2 ) * sizeof ( gint ) );
@@ -400,15 +425,74 @@ gint * csv_import_update_fields_config ( gchar * contents, gint size )
  *
  *
  */
-gint * csv_import_guess_fields_config ( gchar * contents, gint size )
+gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * separator )
 {
-    gint * default_config;
-    gint benj_config[13] = { 0, 0, 2, 13, 4, 10, 12, 0, 7, 8, 5, 0 };
+    gchar * string;
+    gint line, i, * default_config;
+    GSList * list; 
 
-    default_config = (gint *) g_malloc ( ( size + 1 ) * sizeof ( int ) );
-    bcopy ( benj_config, default_config, size * sizeof(int) );
+    csv_skip_lines ( &contents, 3, separator );
 
-    default_config [ size ] = -1;
+    default_config = (gint *) g_malloc0 ( ( size + 1 ) * sizeof ( int ) );
+
+    for ( line = 0; line < 10 ; line ++ )
+    {
+	gboolean date_validated = 0;
+
+	do
+	{
+	    list = csv_parse_line ( &contents, separator );
+	}
+	while ( list == GINT_TO_POINTER(-1) );
+
+	if ( ! list )
+	    return default_config;
+
+	for ( i = 0 ; i < size && list ; i ++ )
+	{
+	    string = list -> data;
+	    
+	    if ( strlen ( string ) )
+	    {
+		if ( csv_import_validate_date ( string ) && ! date_validated )
+		{
+		    printf ("> %s is date\n", string);
+		    default_config [ i ] = 2; /* Date */
+		}
+		else if ( csv_import_validate_amount ( string ) &&
+			  ! csv_import_validate_number ( string ) )
+		{
+		    printf (">> '%s', %d\n", string, strlen(string) );
+
+		    if ( g_strrstr ( string, "-" ) ) /* This is negative */
+		    {
+			if ( ! default_config [ i ] )
+			{
+			    default_config [ i ] = 12; /* Negative debit */
+			}
+			else if ( default_config [ i ] == 10 )
+			{
+			    default_config [ i ] = 9; /* Neutral amount */
+			}
+		    }
+		    else
+		    {
+			if ( ! default_config [ i ] )
+			{
+			    default_config [ i ] = 10; /* Negative debit */
+			}
+			else if ( default_config [ i ] == 12 )
+			{
+			    default_config [ i ] = 9; /* Neutral amount */
+			}
+		    }
+		}
+	    }
+	    list = list -> next;
+	}
+
+	default_config [ size ] = -1;
+    }
 
     return default_config;
 }
@@ -559,12 +643,13 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
     gchar * contents, * filename = NULL;
     gsize size;
     GError * error;
+    struct imported_file * imported;
 
     /* Find first CSV to import. */
     files = import_selected_files ( assistant );
     while ( files )
     {
-	struct imported_file * imported = files -> data;
+	imported = files -> data;
 
 	if ( imported -> type == TYPE_CSV )
 	{
@@ -581,6 +666,10 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
 	printf ("Unable to read file: %s\n", error -> message);
 	return FALSE;
     }
+
+    /* FIXME: what in case of an error? */
+    contents = g_convert ( contents, -1, "UTF-8", imported -> coding_system, NULL, NULL,
+			   NULL );
 
     g_object_set_data ( G_OBJECT(assistant), "contents", my_strdup ( contents ) );
 

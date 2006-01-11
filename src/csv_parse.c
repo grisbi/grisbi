@@ -191,7 +191,13 @@ gboolean csv_import_validate_date ( gchar * string )
     g_return_val_if_fail ( string, FALSE );
     
     date = gsb_parse_date_string ( string );
-    return date && g_date_valid ( date );
+    if ( date && g_date_valid ( date ) && 
+	 ! csv_import_validate_number ( string ) )
+    {
+	return TRUE;
+    }
+    
+    return FALSE;
 }
 
 
@@ -206,7 +212,7 @@ gboolean csv_import_validate_number ( gchar * string )
 
     while ( *string )
     {
-	if ( ! g_ascii_isdigit ( * string ) ||
+	if ( ! g_ascii_isdigit ( * string ) &&
 	     ! g_ascii_isspace ( * string ) )
 	{
 	    return FALSE;
