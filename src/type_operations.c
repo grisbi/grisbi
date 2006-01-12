@@ -1597,7 +1597,6 @@ gint cherche_no_menu_type_echeancier ( gint demande )
 /* ************************************************************************************************************** */
 void changement_choix_type_formulaire ( struct struct_type_ope *type )
 {
-
     /* affiche l'entrée de chèque si nécessaire */
 
     if ( type -> affiche_entree )
@@ -1610,7 +1609,7 @@ void changement_choix_type_formulaire ( struct struct_type_ope *type )
 	{
 	    entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] );
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_operations[TRANSACTION_FORM_CHEQUE] ),
-				 automatic_numbering_get_current_number ( type ));
+				 automatic_numbering_get_new_number ( type ));
 	}
 	else
 	{
@@ -1668,7 +1667,7 @@ gchar * automatic_numbering_get_new_number ( struct struct_type_ope * type )
 {
     if ( type )
     {
-	return utils_itoa ( type -> no_en_cours );
+	return utils_itoa ( type -> no_en_cours + 1 );
     }
 
     return "1";
