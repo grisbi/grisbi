@@ -374,13 +374,16 @@ gboolean csv_import_parse_sub_category ( struct struct_ope_importation * ope, gc
  * TODO: Use  a real parsing
  *
  */
-gboolean csv_import_parse_amount ( struct struct_ope_importation * ope, gchar * string )
+gboolean csv_import_parse_balance ( struct struct_ope_importation * ope, gchar * string )
 {
     g_return_val_if_fail ( string, FALSE );
-    if ( strlen ( string ) > 0 )
-    {
-	ope -> montant = my_strtod ( string, NULL );
-    }
+
+    /** FIXME: how to handle balance ?  */
+
+/*     if ( strlen ( string ) > 0 ) */
+/*     { */
+/* 	ope -> montant = my_strtod ( string, NULL ); */
+/*     } */
     return TRUE;
 }
 

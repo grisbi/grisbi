@@ -77,7 +77,7 @@ struct csv_field csv_fields[16] = {
     { N_("Voucher number"), 0.0, csv_import_validate_number, csv_import_parse_voucher },
     { N_("Category"),	    0.0, csv_import_validate_string, csv_import_parse_category },
     { N_("Sub-Category"),   0.0, csv_import_validate_string, csv_import_parse_sub_category },
-    { N_("Amount"),	    0.0, csv_import_validate_amount, csv_import_parse_amount },
+    { N_("Balance"),	    0.0, csv_import_validate_amount, csv_import_parse_balance },
     { N_("Credit"),	    0.0, csv_import_validate_amount, csv_import_parse_credit },
     { N_("Debit (absolute)"),0.0, csv_import_validate_amount, csv_import_parse_debit },
     { N_("Debit (negative)"),0.0, csv_import_validate_amount, csv_import_parse_credit },
@@ -454,13 +454,18 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
 	    
 	    if ( strlen ( string ) )
 	    {
-		if ( csv_import_validate_date ( string ) && ! date_validated )
+		if ( csv_import_validate_date ( string ) && ! date_validated &&
+		     ! default_config [ i ] )
 		{
 		    printf ("> %s is date\n", string);
 		    default_config [ i ] = 2; /* Date */
+		    date_validated = TRUE;
 		}
 		else if ( csv_import_validate_amount ( string ) &&
-			  ! csv_import_validate_number ( string ) )
+			  ! csv_import_validate_number ( string ) &&
+			  strlen(string) <= 9 )	/* This is a hack
+						 * since most numbers
+						 are smaller than 8 chars. */
 		{
 		    printf (">> '%s', %d\n", string, strlen(string) );
 
