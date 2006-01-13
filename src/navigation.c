@@ -194,9 +194,9 @@ GtkWidget * create_navigation_pane ( void )
 		       G_CALLBACK (gsb_gui_navigation_check_key_press),
 		       navigation_model  );
 
-    g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view)), 
-		      "changed", ((GCallback) gsb_gui_navigation_select_line), 
-		      navigation_model );
+    g_signal_connect_after (gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view)), 
+			    "changed", ((GCallback) gsb_gui_navigation_select_line), 
+			    navigation_model );
 
     /* Create column */
     column = gtk_tree_view_column_new ( );
@@ -964,6 +964,10 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 	case GSB_BUDGETARY_LINES_PAGE:
 	    title = _("Budgetary lines");
+	    break;
+
+	case GSB_AQBANKING_PAGE:
+	    title = _("AqBanking");
 	    break;
 
 	case GSB_SCHEDULER_PAGE:
