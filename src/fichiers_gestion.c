@@ -201,10 +201,22 @@ void init_gui_new_file ( void )
 void ouvrir_fichier ( void )
 {
     GtkWidget *selection_fichier;
+    GtkFileFilter * filter;
 
     selection_fichier = file_selection_new ( _("Open an accounts file"),
 					     FILE_SELECTION_MUST_EXIST);
     gtk_window_set_position ( GTK_WINDOW ( selection_fichier ), GTK_WIN_POS_MOUSE);
+
+    filter = gtk_file_filter_new ();
+    gtk_file_filter_set_name ( filter, _("Grisbi files (*.gsb)") );
+    gtk_file_filter_add_pattern ( filter, "*.gsb" );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( selection_fichier ), filter );
+    gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER ( selection_fichier ), filter );
+
+    filter = gtk_file_filter_new ();
+    gtk_file_filter_set_name ( filter, _("All files") );
+    gtk_file_filter_add_pattern ( filter, "*" );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( selection_fichier ), filter );
 
     switch ( gtk_dialog_run ( GTK_DIALOG (selection_fichier)))
     {
@@ -215,8 +227,6 @@ void ouvrir_fichier ( void )
 	  break;
     }
     gtk_widget_destroy ( selection_fichier );
-
-    file_selection_set_filename ( GTK_FILE_CHOOSER ( selection_fichier ), "*.gsb" );
 }
 /* ************************************************************************************************************ */
 
@@ -648,7 +658,8 @@ gchar *demande_nom_enregistrement ( void )
     GtkWidget *fenetre_nom;
     gint resultat;
 
-    fenetre_nom = file_selection_new ( _("Name the accounts file"),FILE_SELECTION_IS_SAVE_DIALOG);
+    fenetre_nom = file_selection_new ( _("Name the accounts file"),
+				       FILE_SELECTION_IS_SAVE_DIALOG);
     gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ),
 			   TRUE );
     file_selection_set_filename ( GTK_FILE_CHOOSER ( fenetre_nom ),

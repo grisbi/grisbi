@@ -392,11 +392,23 @@ void importer_ib ( void )
     gint resultat;
     gchar *budget_name;
     gint last_transaction_number;
+    GtkFileFilter * filter;
 
     dialog = file_selection_new ( _("Import budgetary lines"),
 				  FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
     file_selection_set_filename ( GTK_FILE_CHOOSER ( dialog ), dernier_chemin_de_travail );
     file_selection_set_entry ( GTK_FILE_CHOOSER ( dialog ), ".igsb" );
+
+    filter = gtk_file_filter_new ();
+    gtk_file_filter_set_name ( filter, _("Grisbi budgetary lines files (*.igsb)") );
+    gtk_file_filter_add_pattern ( filter, "*.igsb" );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
+    gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
+
+    filter = gtk_file_filter_new ();
+    gtk_file_filter_set_name ( filter, _("All files") );
+    gtk_file_filter_add_pattern ( filter, "*" );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 

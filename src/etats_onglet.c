@@ -1233,6 +1233,7 @@ void importer_etat ( void )
     GtkWidget *fenetre_nom;
     gint resultat;
     gchar *nom_etat;
+    GtkFileFilter * filter;
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), 7 );
@@ -1242,6 +1243,17 @@ void importer_etat ( void )
 				  dernier_chemin_de_travail );
     file_selection_set_entry (  GTK_FILE_CHOOSER ( fenetre_nom ),
 				g_strconcat ( dernier_chemin_de_travail, ".egsb", NULL ));
+
+    filter = gtk_file_filter_new ();
+    gtk_file_filter_set_name ( filter, _("Grisbi report files (*.egsb)") );
+    gtk_file_filter_add_pattern ( filter, "*.egsb" );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( fenetre_nom ), filter );
+    gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER ( fenetre_nom ), filter );
+
+    filter = gtk_file_filter_new ();
+    gtk_file_filter_set_name ( filter, _("All files") );
+    gtk_file_filter_add_pattern ( filter, "*" );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( fenetre_nom ), filter );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
 
