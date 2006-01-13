@@ -73,7 +73,7 @@ int GrisbiBanking_ImportContext (AB_BANKING *ab,
     s=AB_ImExporterAccountInfo_GetAccountName(ai);
     if (s)
       compte_nouveau->nom_de_compte=my_strdup(s);
-    compte_nouveau->origine=GBANKING_IMPORT;
+    compte_nouveau->origine=TYPE_GBANKING;
 
     t=AB_ImExporterAccountInfo_GetFirstTransaction(ai);
     while(t) {
@@ -200,8 +200,4 @@ int GrisbiBanking_ImportContext (AB_BANKING *ab,
 /* *******************************************************************************/
 
 
-
 #endif /* if gbanking is available */
-
-
-
