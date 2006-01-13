@@ -20,6 +20,7 @@ enum import_type {
   TYPE_OFX,
   TYPE_GNUCASH,
   TYPE_CSV,
+  TYPE_GBANKING,
   TYPE_MAX,
 };
 
