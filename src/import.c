@@ -251,8 +251,13 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     for ( i = 0 ; i < TYPE_MAX ; i++ )
     {
 	GtkTreeIter iter; 
-	gtk_list_store_append (GTK_LIST_STORE (list_acc), &iter);
-	gtk_list_store_set (GTK_LIST_STORE (list_acc), &iter, 0, type_string_representation ( i ), -1);
+
+	if ( i != TYPE_GBANKING )
+	{
+	    gtk_list_store_append (GTK_LIST_STORE (list_acc), &iter);
+	    gtk_list_store_set (GTK_LIST_STORE (list_acc), &iter, 0, 
+				type_string_representation ( i ), -1);
+	}
     }
     g_object_set ( renderer, 
 		   "model", list_acc, 
@@ -427,8 +432,13 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     gtk_file_chooser_set_select_multiple ( GTK_FILE_CHOOSER ( dialog ), TRUE );
 
     filter = gtk_file_filter_new ();
-    gtk_file_filter_set_name ( filter, _("All files") );
-    gtk_file_filter_add_pattern ( filter, "*" );
+    gtk_file_filter_set_name ( filter, _("Known files (QIF, OFX, CSV, Gnucash, CSV)") );
+    gtk_file_filter_add_pattern ( filter, "*.qif" );
+    gtk_file_filter_add_pattern ( filter, "*.ofx" );
+    gtk_file_filter_add_pattern ( filter, "*.gnc" );
+    gtk_file_filter_add_pattern ( filter, "*.gnucash" );
+    gtk_file_filter_add_pattern ( filter, "*.csv" );
+    gtk_file_filter_add_pattern ( filter, "*.tsv" );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
     gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
@@ -452,7 +462,11 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     gtk_file_filter_set_name ( filter, _("CSV files") );
     gtk_file_filter_add_pattern ( filter, "*.csv" );
     gtk_file_filter_add_pattern ( filter, "*.tsv" );
-    gtk_file_filter_add_pattern ( filter, "*.txt" );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
+
+    filter = gtk_file_filter_new ();
+    gtk_file_filter_set_name ( filter, _("All files") );
+    gtk_file_filter_add_pattern ( filter, "*" );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
     /* Add encoding preview */
@@ -2816,6 +2830,9 @@ gchar * type_string_representation ( enum import_type type )
 
 	case TYPE_GNUCASH:
 	    return _("Gnucash file");
+
+	case TYPE_GBANKING:
+	    return _("HBCI import");
 
 	default:
 	    return _("Unknown format");
