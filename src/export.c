@@ -26,6 +26,7 @@
 
 /*START_INCLUDE*/
 #include "export.h"
+#include "export_csv.h"
 #include "gsb_assistant.h"
 #include "gsb_data_account.h"
 #include "utils.h"
