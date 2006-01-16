@@ -966,9 +966,11 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    title = _("Budgetary lines");
 	    break;
 
+#ifdef HAVE_G2BANKING
 	case GSB_AQBANKING_PAGE:
 	    title = _("AqBanking");
 	    break;
+#endif
 
 	case GSB_SCHEDULER_PAGE:
 	    title = _("Scheduled transactions");
