@@ -18,6 +18,7 @@ struct csv_field {
     gfloat alignment;
     gboolean (* validate ) ( gchar * );
     gboolean (* parse ) ( struct struct_ope_importation *, gchar * );
+    gchar * alias;
 };
 
 #endif
