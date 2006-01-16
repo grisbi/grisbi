@@ -443,23 +443,23 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
     filter = gtk_file_filter_new ();
-    gtk_file_filter_set_name ( filter, _("QIF files") );
+    gtk_file_filter_set_name ( filter, _("QIF files (*.qif)") );
     gtk_file_filter_add_pattern ( filter, "*.qif" );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
     filter = gtk_file_filter_new ();
-    gtk_file_filter_set_name ( filter, _("OFX files") );
+    gtk_file_filter_set_name ( filter, _("OFX files (*.ofx)") );
     gtk_file_filter_add_pattern ( filter, "*.ofx" );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
     filter = gtk_file_filter_new ();
-    gtk_file_filter_set_name ( filter, _("Gnucash files") );
+    gtk_file_filter_set_name ( filter, _("Gnucash files (*.gnc)") );
     gtk_file_filter_add_pattern ( filter, "*.gnc" );
     gtk_file_filter_add_pattern ( filter, "*.gnucash" );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
     filter = gtk_file_filter_new ();
-    gtk_file_filter_set_name ( filter, _("CSV files") );
+    gtk_file_filter_set_name ( filter, _("CSV files (*.csv,*.tsv)") );
     gtk_file_filter_add_pattern ( filter, "*.csv" );
     gtk_file_filter_add_pattern ( filter, "*.tsv" );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
