@@ -1417,9 +1417,6 @@ static gboolean focus_out_combofix ( GtkWidget *widget,
 {
     gint x,y;
 
-    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-				   "focus-out-event" );
-
     case_sensitive = 0;
 
     gtk_widget_get_pointer ( GTK_WIDGET ( combofix ),
@@ -1474,6 +1471,10 @@ static gboolean focus_out_combofix ( GtkWidget *widget,
     gtk_entry_select_region ( GTK_ENTRY ( combofix -> entry ),
 			      0,
 			      0 );
+
+    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
+				   "focus-out-event" );
+
     return ( FALSE );
 }
 /* **************************************************************************************************** */
