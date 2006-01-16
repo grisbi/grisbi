@@ -48,7 +48,7 @@ static gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value,
 static gint csv_import_count_columns ( gchar * contents, gchar * separator );
 static GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * contents, 
 					 gchar * separator );
-static GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field );
+static GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field, GtkWidget * assistant );
 static gint * csv_import_guess_fields_config ( gchar * contents, gint size, 
 					       gchar * separator );
 static gchar * csv_import_guess_separator ( gchar * contents );
@@ -96,13 +96,16 @@ struct csv_field csv_fields[16] = {
 
 
 /**
+ * Create the preview page of the import assistant.
+ * 
+ * \param assistant	GsbAssistant to add page into.
  *
- *
- *
+ * \return		A newly-allocated GtkVBox.
  */
 GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
 {
-    GtkWidget * vbox, * paddingbox, * tree_preview, * entry, * sw;
+    GtkWidget * vbox, * paddingbox, * tree_preview, * entry, * sw, * validity_label;
+    GtkWidget * warn, * hbox;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
@@ -125,7 +128,21 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
 
     tree_preview = gtk_tree_view_new ();
     g_object_set_data ( G_OBJECT(assistant), "tree_preview", tree_preview );
+    g_object_set_data ( G_OBJECT(tree_preview), "assistant", assistant );
     gtk_container_add (GTK_CONTAINER (sw), tree_preview);
+
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
+
+    warn = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_BUTTON );
+    gtk_box_pack_start ( GTK_BOX(hbox), warn, FALSE, FALSE, 0 );
+    g_object_set_data ( G_OBJECT(assistant), "validity_icon", warn );
+
+    validity_label = gtk_label_new ("");
+    gtk_misc_set_alignment ( GTK_MISC ( validity_label ), 0, 0.5);
+    gtk_label_set_justify ( GTK_LABEL ( validity_label ), GTK_JUSTIFY_LEFT );
+    g_object_set_data ( G_OBJECT(assistant), "validity_label", validity_label );
+    gtk_box_pack_start ( GTK_BOX(hbox), validity_label, TRUE, TRUE, 0 );
 
     return vbox;
 }
@@ -133,34 +150,17 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
 
 
 /**
+ * Create the model containing CSV file preview.
  *
- *
- *
- */
-void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str, 
-			 GtkTreeView * tree_preview )
-{
-    GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
-    GtkTreeIter iter;
-    gboolean toggle_item;
-    GtkTreeModel * tree_model = gtk_tree_view_get_model ( tree_preview );;
-
-    /* Get toggled iter */
-    gtk_tree_model_get_iter ( GTK_TREE_MODEL ( tree_model ), &iter, path );
-    gtk_tree_model_get ( GTK_TREE_MODEL ( tree_model ), &iter, 0, &toggle_item, -1 );
-    gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ), &iter, 0, !toggle_item, -1);
-}
-
-
-
-/**
- *
+ * \param tree_preview		GtkTreeView to associate model to.
+ * \param contents		Contents to place into model
  *
  *
  */
 GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * contents, 
 					 gchar * separator )
 {
+    GtkWidget * assistant;
     GtkTreeStore * model;
     GtkTreeViewColumn * col;
     GtkCellRenderer * cell;
@@ -176,6 +176,8 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
     }
 
     csv_fields_config = csv_import_update_fields_config ( contents, size, separator );
+
+    assistant = g_object_get_data ( G_OBJECT(tree_preview), "assistant" );
 
     /* Remove previous columns if any. */
     list = (GSList *) gtk_tree_view_get_columns ( GTK_TREE_VIEW(tree_preview) );
@@ -193,6 +195,7 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
 						     cell, "active", 0,
 						     NULL);
     gtk_tree_view_append_column ( tree_preview, col );
+    g_object_set_data ( G_OBJECT ( col ), "assistant", assistant );
     g_signal_connect ( cell, "toggled", G_CALLBACK ( skip_line_toggled ), tree_preview );
 
     for ( i = 0 ; i < size ; i ++ ) 
@@ -223,6 +226,7 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
 
 	gtk_tree_view_column_set_clickable ( col, TRUE );
 	g_object_set_data ( G_OBJECT ( col -> button ), "column", col );
+	g_object_set_data ( G_OBJECT ( col ), "assistant", assistant );
 	g_signal_connect ( G_OBJECT ( col -> button ),
 			   "button-press-event",
 			   G_CALLBACK ( csv_import_header_on_click ),
@@ -237,9 +241,42 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
 
 
 /**
+ * Callback triggered when the "skip" attribute of a line in the tree
+ * preview is changed (that is, the checkbox associated is changed).
+ * It marks this line as skipped.
  *
+ * \param cell		Not used.
+ * \param path_str	Textual representation of the path of modified
+ *			checkbox.
+ * \param tree_preview	GtkTreeView triggering event.
  *
+ * \TODO Actually use this data later (plus autodetect in csv_import_guess_separator().
+ */
+void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str, 
+			 GtkTreeView * tree_preview )
+{
+    GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
+    GtkTreeIter iter;
+    gboolean toggle_item;
+    GtkTreeModel * tree_model = gtk_tree_view_get_model ( tree_preview );;
+
+    /* Get toggled iter */
+    gtk_tree_model_get_iter ( GTK_TREE_MODEL ( tree_model ), &iter, path );
+    gtk_tree_model_get ( GTK_TREE_MODEL ( tree_model ), &iter, 0, &toggle_item, -1 );
+    gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ), &iter, 0, !toggle_item, -1);
+}
+
+
+
+/**
+ * Triggered when user clicks on a column header.  Create and pop up a
+ * menu to allow CSV config change.
  *
+ * \param button	Button placed at the title column.
+ * \param ev		Not used.
+ * \param no_column	Position of the column.
+ *
+ * \return		FALSE
  */
 gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton * ev, 
 				      gint *no_column )
@@ -249,8 +286,10 @@ gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton * ev,
     col = g_object_get_data ( G_OBJECT ( button ), "column" );
 
     menu = csv_import_fields_menu ( GTK_TREE_VIEW_COLUMN ( col ), 
-				    GPOINTER_TO_INT ( no_column ) );
-    gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
+				    GPOINTER_TO_INT ( no_column ),
+				    g_object_get_data ( G_OBJECT(col), "assistant" ) );
+    gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, 
+		     gtk_get_current_event_time());
     
     return FALSE;
 }
@@ -258,9 +297,18 @@ gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton * ev,
 
 
 /**
+ * Based on raw text, try to estimate which character is the CSV
+ * separator.  For each separator, try to estimate if this would make
+ * consistent lines with the same amount of columns.  Of course, if
+ * CSV is broken, it will fail and revert back to comma as a
+ * separator, which seems the most used nowadays.
+ * 
+ * This is black magic, believe me !
  *
+ * \param contents	Raw CSV text to parse.
  *
- *
+ * \return		A newly-allocated string containing estimated
+ *			or default CSV separator.
  */
 gchar * csv_import_guess_separator ( gchar * contents )
 {
@@ -292,9 +340,14 @@ gchar * csv_import_guess_separator ( gchar * contents )
 
 
 /**
+ * Try to match separator against raw CSV contents and see if it would
+ * be consistent, see csv_import_guess_separator().
  *
+ * \param contents	Raw CSV contents to parse.
+ * \param separator	Separator to try.
  *
- *
+ * \return		FALSE on failure, number of columns
+ *			otherwise. 
  */
 gint csv_import_try_separator ( gchar * contents, gchar * separator )
 {
@@ -326,8 +379,13 @@ gint csv_import_try_separator ( gchar * contents, gchar * separator )
 
 
 /**
+ * Count number of columns if a raw CSV text were parsed using
+ * a separator.
  *
+ * \param contents	Raw CSV contents to parse.
+ * \param separator	Separator.
  *
+ * \return		Number of columns.
  */
 gint csv_import_count_columns ( gchar * contents, gchar * separator )
 {
@@ -362,9 +420,15 @@ gint csv_import_count_columns ( gchar * contents, gchar * separator )
 
 
 /**
+ * Parse raw CSV text using separator and return a list containing all
+ * fields.
  *
+ * \param contents	A pointer to raw CSV contents to parse.
+ *			Pointer content will be changed to the end of
+ *			parsed line.
+ * \param separator	Separator to use.
  *
- *
+ * \return		Parsed list or NULL upon failure (last line).
  */
 GSList * csv_get_next_line ( gchar ** contents, gchar * separator )
 {
@@ -413,8 +477,16 @@ gint csv_skip_lines ( gchar ** contents, gint num_lines, gchar * separator )
 
 
 /**
+ * Update the CSV fields config structure to a new size.  Mainly used
+ * when separator changes so that we do the allocation.
+ * 
+ * \param contents	Raw CSV contents, used to guess config if not
+ *			set already.
+ * \param size		New size of allocation.
+ * \paran separator	Separator, used to guess config if not set
+ *			already.
  *
- *
+ * \return		A newly allocated integers array.
  */
 gint * csv_import_update_fields_config ( gchar * contents, gint size, gchar * separator )
 {
@@ -450,29 +522,36 @@ gint * csv_import_update_fields_config ( gchar * contents, gint size, gchar * se
 
 
 
-
 /**
+ * Safely checks if a string is contained in another one.
  *
+ * \param original	String to search substring into.
+ * \param substring	Substring to search into original string.
  *
+ * \return		TRUE if substring is contained into original.
  */
 gboolean safe_contains ( gchar * original, gchar * substring )
 {
     g_return_val_if_fail ( original, FALSE );
     g_return_val_if_fail ( substring, FALSE );
 
-    return g_strstr_len ( g_ascii_strdown ( original, -1 ),
-			  strlen ( original ),
-			  g_ascii_strdown ( substring, -1 ) );
-
-    return FALSE;
+    return (gboolean) g_strstr_len ( g_ascii_strdown ( original, -1 ),
+				     strlen ( original ),
+				     g_ascii_strdown ( substring, -1 ) );
 }
 
 
 
 /**
+ * Pre-fills the CSV field configuration using various heuristics.
+ * Should match most cases thought this is purely statistical.
  *
+ * \param contents	Data extracted from CSV file.
+ * \param size		Number of columns of data (dependant of
+ *			separator).
+ * \param separator	Columns separator.
  *
- *
+ * \return		A newly allocated int array, containg guessed fields.
  */
 gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * separator )
 {
@@ -486,6 +565,8 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
     if ( ! list )
 	return default_config;
 
+    /** First, we try to match first line because it might contains of
+     * the fields.  */
     for ( i = 0 ; i < size && list ; i ++ )
     {
 	gint field;
@@ -501,7 +582,6 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
 		   safe_contains ( csv_fields [ field ] . alias, value ) ||
 		   safe_contains ( _( csv_fields [ field ] . alias ), value ) ) )
 	    {
-		printf ("> Field %d is %s\n", i, csv_fields [ field ] . name );
 		default_config [ i ] = field;
 	    }
 	}
@@ -511,6 +591,9 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
     
     csv_skip_lines ( &contents, 2, separator );
 
+    /** Then, we try using heuristics to determine which field is date
+     * and which ones contain amounts.  We cannot guess payees or
+     * comments so we only auto-detect these fields. */
     for ( line = 0; line < 10 ; line ++ )
     {
 	gboolean date_validated = 0;
@@ -529,7 +612,6 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
 		if ( csv_import_validate_date ( string ) && ! date_validated &&
 		     ! default_config [ i ] )
 		{
-		    printf ("> %s is date\n", string);
 		    default_config [ i ] = 2; /* Date */
 		    date_validated = TRUE;
 		}
@@ -539,8 +621,6 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
 						 * since most numbers
 						 are smaller than 8 chars. */
 		{
-		    printf (">> '%s', %d\n", string, strlen(string) );
-
 		    if ( g_strrstr ( string, "-" ) ) /* This is negative */
 		    {
 			if ( ! default_config [ i ] )
@@ -577,9 +657,15 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
 
 
 /**
+ * Callback triggered when separator is changed in the GtkEntry
+ * containing it.
  *
+ * \param entry		Entry that triggered event.
+ * \param value		New value of entry (not used).
+ * \param length	Length of the change (not used).
+ * \param position	Position of the change (not used).
  *
- *
+ * \return		FALSE
  */
 gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value, 
 				       gint length, gint * position )
@@ -587,7 +673,6 @@ gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value,
     gchar * separator = (gchar *) gtk_entry_get_text ( GTK_ENTRY (entry) );
     GtkWidget * assistant = g_object_get_data ( G_OBJECT(entry), "assistant" );
 
-    printf (">> change separator\n" );
     g_object_set_data ( G_OBJECT(assistant), "separator", separator );
     
     if ( strlen ( separator ) )
@@ -601,9 +686,11 @@ gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value,
 
 
 /**
+ * Update tree view containing preview of CSV import.
  *
- *
- *
+ * \param assistant	GsbAssistant containg all UI.
+ * 
+ * \return		FALSE
  */
 gboolean csv_import_update_preview ( GtkWidget * assistant )
 {
@@ -616,8 +703,11 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
     separator = g_object_get_data ( G_OBJECT(assistant), "separator" );
     tree_preview = g_object_get_data ( G_OBJECT(assistant), "tree_preview" );
     contents = g_object_get_data ( G_OBJECT(assistant), "contents" );
+
     if ( ! contents || ! tree_preview || ! separator )
 	return FALSE;
+
+    assistant = g_object_get_data ( G_OBJECT(tree_preview), "assistant" );
 
     model = csv_import_create_model ( tree_preview, contents, separator );
     if ( model )
@@ -651,17 +741,118 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
 	line++;
     }
 
+    csv_import_update_validity_check ( assistant );
+
     return FALSE;
 }
 
 
 
 /**
+ * Find if a specific option is set in CSV field config.
  *
+ * \param searched	Field to test presence.
  *
- *
+ * \return		TRUE is found.  FALSE otherwise.
  */
-GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field )
+gboolean csv_find_field_config ( gint searched )
+{
+    gint f;
+
+    for ( f = 0 ; csv_fields_config [ f ] != -1 ; f ++ )
+    {
+	if ( csv_fields_config [ f ] == searched )
+	{
+	    return TRUE;
+	}
+    }
+    
+    return FALSE;
+}
+
+
+
+/**
+ * Perform various checks on csv field configs.
+ *
+ * \param assistant	A pointer to the GsbAssistant holding CSV
+ *			configuration. 
+ */
+void csv_import_update_validity_check ( GtkWidget * assistant )
+{
+    int i, needed[] = { 2, 4, -1 };
+    gchar * label = NULL;
+
+    if ( ! csv_fields_config )
+	return;
+
+    /* Check all needed fields.  */
+    for ( i = 0 ; needed [ i ] != -1 ; i ++ )
+    {
+	if ( ! csv_find_field_config ( needed [ i ] ) )
+	{
+	    if ( label )
+	    {
+		label = g_strconcat ( label, ", ", _( csv_fields [ needed [ i ] ] . name ), 
+				      NULL );
+	    }
+	    else 
+	    {
+		label = _( csv_fields [ needed [ i ] ] . name );
+	    }
+	}
+    }
+
+    /** After checking all required fields, check the conformity of
+     * transaction amount, which is somewhat complicated. */
+    if ( ! csv_find_field_config ( 10 ) ||
+	 ( csv_find_field_config ( 11 ) && csv_find_field_config ( 12 ) ) )
+    {
+	if ( label )
+	{
+	    label = g_strconcat ( label, ", ", _("transaction amount"), NULL );
+	}
+	else 
+	{
+	    label = g_strdup ( _("transaction amount") );
+	}
+    }
+
+    /** Then, fill in a GtkLabel containing diagnostic messages and
+     * show or hide a warning icon.  */
+    if ( label )
+    {
+	gtk_label_set_markup ( g_object_get_data ( G_OBJECT(assistant), "validity_label" ), 
+			       g_strdup_printf ( _("<b>Following fields are missing:</b> %s"),
+						 label ) );
+	gtk_widget_show ( g_object_get_data ( G_OBJECT(assistant), "validity_icon" ) );
+	gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), 
+						       "button_next" ), FALSE );
+    }
+    else
+    {
+	gtk_label_set_markup ( g_object_get_data ( G_OBJECT(assistant), "validity_label" ), 
+			       _("All mandatory fields are filed in.") );
+	gtk_widget_hide ( g_object_get_data ( G_OBJECT(assistant), "validity_icon" ) );
+	gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), 
+						       "button_next" ), TRUE );
+    }
+}
+
+
+
+/**
+ * Create a menu containing a link to all possible CSV fields.  This
+ * is normally an event triggered by a click on a GtkTreeViewColumn.
+ * 
+ * \param col		Column that triggered event.
+ * \param field		Position of column that triggered event.
+ * \param assistant	Assistant that contains the column.
+ * 
+ * \return		A newly-created GtkMenu.
+ */
+GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field,
+				     GtkWidget * assistant )
 {
     GtkWidget * menu, * item;
     int i;
@@ -672,7 +863,8 @@ GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field )
     {
 	item = gtk_menu_item_new_with_label ( (gchar *) _( csv_fields[i] . name ) );
 	g_object_set_data ( G_OBJECT ( item ), "column", col );
-	g_object_set_data ( G_OBJECT ( item ), "field", (gpointer) field );
+	g_object_set_data ( G_OBJECT ( item ), "field", (gpointer) field - 1 );
+	g_object_set_data ( G_OBJECT ( item ), "assistant", assistant );
 	gtk_signal_connect ( GTK_OBJECT ( item ), "activate",
 			     GTK_SIGNAL_FUNC ( csv_import_change_field ), (gpointer) i );
 	gtk_menu_append ( GTK_MENU ( menu ), item );
@@ -685,8 +877,14 @@ GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field )
 
 
 /**
+ * Event triggered when a pop-up menu associated to a column is
+ * triggered and option is selected.  Changes the CSV field config for
+ * this column.  Title label of column is changed too.
+ * 
+ * \param item		GtkMenuItem that triggered event.
+ * \param no_menu	Position of column that triggered pop up menu.
  *
- *
+ * \return		FALSE
  */
 gboolean csv_import_change_field ( GtkWidget * item, gint no_menu )
 {
@@ -716,15 +914,20 @@ gboolean csv_import_change_field ( GtkWidget * item, gint no_menu )
 
     csv_fields_config [ field ] = no_menu;
 
+    csv_import_update_validity_check ( g_object_get_data ( G_OBJECT(col), "assistant" ) );
+
     return FALSE;
 }
 
 
 
 /**
+ * Fill in all graphical elements of preview page with data from a CSV
+ * file.
  *
+ * \param assistant	Assistant that contains the page.
  *
- *
+ * \return		FALSE
  */
 gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
 {
@@ -766,7 +969,6 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
     entry = g_object_get_data ( G_OBJECT(assistant), "entry" );
     if ( entry )
     {
-/* 	gtk_entry_set_text ( GTK_ENTRY(entry), "," ); */
 	gtk_entry_set_text ( GTK_ENTRY(entry), csv_import_guess_separator ( contents ) );
     }
 
@@ -776,9 +978,15 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
 
 
 /**
+ * Actually do the grunt work, that is, parse the CSV file and create
+ * importation structures in memory.
  *
- *
- *
+ * \param assistant	The assistant that contains configuration for
+ *			import.
+ * \param imported	A pointer to the structure representing file
+ *			import.
+ * 
+ * \return		FALSE
  */
 gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * imported )
 {
