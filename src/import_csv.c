@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger	(cedric@grisbi.org)	      */
-/*			2004-2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -38,34 +38,30 @@
 extern GSList *liste_comptes_importes;
 extern GSList *liste_comptes_importes_error;
 extern gint max;
-extern struct conditional_message messages[] ;
 extern GtkTreeStore *model;
-extern GtkWidget *preview;
 /*END_EXTERN*/
 
 /*START_STATIC*/
-static gboolean csv_find_field_config ( gint searched );
-static GSList * csv_get_next_line ( gchar ** contents, gchar * separator );
 static gboolean csv_import_change_field ( GtkWidget * item, gint no_menu );
 static gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value, 
 				       gint length, gint * position );
 static gint csv_import_count_columns ( gchar * contents, gchar * separator );
 static GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * contents, 
 					 gchar * separator );
-static GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field,
-				     GtkWidget * assistant );
-static gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * separator );
+static GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field, GtkWidget * assistant );
+static gint * csv_import_guess_fields_config ( gchar * contents, gint size, 
+					       gchar * separator );
 static gchar * csv_import_guess_separator ( gchar * contents );
 static gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton * ev, 
 				      gint *no_column );
 static gint csv_import_try_separator ( gchar * contents, gchar * separator );
-static gint * csv_import_update_fields_config ( gchar * contents, gint size, gchar * separator );
+static gint * csv_import_update_fields_config ( gchar * contents, gint size, 
+						gchar * separator );
 static gboolean csv_import_update_preview ( GtkWidget * assistant );
-static void csv_import_update_validity_check ( GtkWidget * assistant );
-static gint csv_skip_lines ( gchar ** contents, gint num_lines, gchar * separator );
-static gboolean safe_contains ( gchar * original, gchar * substring );
 static void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str, 
-			 GtkTreeView * tree_preview );
+				GtkTreeView * tree_preview );
+static gint csv_skip_lines ( gchar ** contents, gint num_lines, gchar * separator );
+static GSList * csv_get_next_line ( gchar ** contents, gchar * separator );
 /*END_STATIC*/
 
 
@@ -96,6 +92,8 @@ struct csv_field csv_fields[16] = {
 
 #define MAX_TOP_LINES 10
 
+/** Contains a pointer to skipped lines in CSV preview. */
+gboolean csv_skipped_lines [ MAX_TOP_LINES ];
 
 
 
@@ -147,6 +145,8 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
     gtk_label_set_justify ( GTK_LABEL ( validity_label ), GTK_JUSTIFY_LEFT );
     g_object_set_data ( G_OBJECT(assistant), "validity_label", validity_label );
     gtk_box_pack_start ( GTK_BOX(hbox), validity_label, TRUE, TRUE, 0 );
+
+    bzero ( csv_skipped_lines, sizeof(gboolean) * MAX_TOP_LINES );
 
     return vbox;
 }
@@ -259,15 +259,19 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
 void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str, 
 			 GtkTreeView * tree_preview )
 {
-    GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
+    GtkTreePath * path = gtk_tree_path_new_from_string (path_str);
+    GtkTreeModel * tree_model = gtk_tree_view_get_model ( tree_preview );;
     GtkTreeIter iter;
     gboolean toggle_item;
-    GtkTreeModel * tree_model = gtk_tree_view_get_model ( tree_preview );;
+    gint * indices;
 
     /* Get toggled iter */
     gtk_tree_model_get_iter ( GTK_TREE_MODEL ( tree_model ), &iter, path );
     gtk_tree_model_get ( GTK_TREE_MODEL ( tree_model ), &iter, 0, &toggle_item, -1 );
     gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ), &iter, 0, !toggle_item, -1);
+
+    indices = gtk_tree_path_get_indices ( path );
+    csv_skipped_lines [ indices[0] ] = !toggle_item;
 }
 
 
@@ -374,7 +378,7 @@ gint csv_import_try_separator ( gchar * contents, gchar * separator )
 	
 	i++;
     } 
-    while ( list && i < 10 );
+    while ( list && i < MAX_TOP_LINES );
 
     printf ("> I believe separator could be %s\n", separator );
     return cols;
@@ -402,12 +406,7 @@ gint csv_import_count_columns ( gchar * contents, gchar * separator )
 
     do
     {
-	list = csv_parse_line ( &tmp, separator );
-	
-	if ( list == GINT_TO_POINTER(-1) )
-	{
-	    continue;
-	}
+	list = csv_get_next_line ( &tmp, separator );
 
 	if ( g_slist_length ( list ) > max )
 	{
@@ -463,7 +462,6 @@ gint csv_skip_lines ( gchar ** contents, gint num_lines, gchar * separator )
     int i;
 
     printf ("Skipping %d lines\n", num_lines );
-
 
     for ( i = 0; i < num_lines; i ++ )
     {
@@ -587,6 +585,7 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
 		   safe_contains ( _( csv_fields [ field ] . alias ), value ) ) )
 	    {
 		default_config [ i ] = field;
+		csv_skipped_lines [ 0 ] = 1;
 	    }
 	}
 
@@ -598,7 +597,7 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
     /** Then, we try using heuristics to determine which field is date
      * and which ones contain amounts.  We cannot guess payees or
      * comments so we only auto-detect these fields. */
-    for ( line = 0; line < 10 ; line ++ )
+    for ( line = 0; line < MAX_TOP_LINES ; line ++ )
     {
 	gboolean date_validated = 0;
 
@@ -736,10 +735,13 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
 	{
 	    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, i, 
 				 gsb_string_truncate ( list -> data ), -1 ); 
-
 	    i++;
-
 	    list = list -> next;
+	}
+
+	if ( csv_skipped_lines [ line ] )
+	{
+	    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, 0, TRUE, -1 ); 
 	}
 
 	line++;
@@ -997,6 +999,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
     struct struct_compte_importation * compte;
     gchar * contents, * separator;
     GSList * list;
+    int index = 0;
 
     compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
     compte -> nom_de_compte = unique_imported_name ( my_strdup ( _("Imported CSV account" ) ) );
@@ -1028,21 +1031,24 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
 	struct struct_ope_importation * ope;
 	int i;
 
-	ope = g_malloc ( sizeof ( struct struct_ope_importation ) );
-	bzero ( ope, sizeof ( struct struct_ope_importation ) );
+	/* Check if this line was specified as to be skipped
+	 * earlier. */
+	if ( index < MAX_TOP_LINES && csv_skipped_lines [ index ] )
+	{
+	    printf ("Skipping line %d\n", index );
+	    list = csv_get_next_line ( &contents, separator );
+	    index++;
+	    continue;
+	}
+	index++;
+
+	ope = g_malloc0 ( sizeof ( struct struct_ope_importation ) );
 	ope -> date = gdate_today ();
-	ope -> id_operation = NULL;
 	ope -> date_tmp = my_strdup ( "" );
 	ope -> tiers = my_strdup ( "" );
 	ope -> notes = my_strdup ( "" );
 	ope -> categ = my_strdup ( "" );
 	ope -> guid = my_strdup ( "" );
-
-	if ( list == GINT_TO_POINTER(-1) )
-	{
-	    list = csv_parse_line ( &contents, separator );
-	    continue;
-	}
 
 	for ( i = 0; csv_fields_config[i] != -1 && list ; i++)
 	{
@@ -1069,11 +1075,11 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
 	    list = list -> next;
 	}
 
-	list = csv_parse_line ( &contents, separator );
-
 	printf (">> Appending new transaction %p\n", ope );
 	compte -> operations_importees = g_slist_append ( compte -> operations_importees,
 							  ope );
+
+	list = csv_get_next_line ( &contents, separator );
     }
     while ( list );
 
