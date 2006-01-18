@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	     2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2005-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -398,7 +398,7 @@ gboolean csv_import_parse_credit ( struct struct_ope_importation * ope, gchar * 
     g_return_val_if_fail ( string, FALSE );
     if ( strlen ( string ) > 0 )
     {
-	ope -> montant = my_strtod ( string, NULL );
+	ope -> montant += my_strtod ( string, NULL );
     }
     return TRUE;
 }
@@ -415,7 +415,7 @@ gboolean csv_import_parse_debit ( struct struct_ope_importation * ope, gchar * s
 
     if ( strlen ( string ) > 0 )
     {
-	ope -> montant = - my_strtod ( string, NULL );
+	ope -> montant -= my_strtod ( string, NULL );
     }
     return TRUE;
 }
