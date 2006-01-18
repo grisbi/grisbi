@@ -4,7 +4,7 @@
 /*                                  menu.c                                    */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -168,7 +168,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{ "SaveAs",		GTK_STOCK_SAVE_AS,	_("_Save as..."),
 	    NULL,			NULL,			G_CALLBACK( gsb_save_file_as ) },	
 
-	{ "ImportFile",		GTK_STOCK_CONVERT,	_("_Import QIF/OFX/CSV/Gnucash file..."),
+	{ "ImportFile",		GTK_STOCK_CONVERT,	_("_Import file..."),
 	    NULL,			NULL,			G_CALLBACK( importer_fichier ) },
 
 	{ "ExportFile",		GTK_STOCK_CONVERT,	_("_Export accounts as QIF/CSV file..."),
