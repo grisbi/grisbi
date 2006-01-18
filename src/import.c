@@ -4,7 +4,7 @@
 /*                                  accueil.c                                 */
 /*                                                                            */
 /*     Copyright (C)	2000-2004 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -170,7 +170,14 @@ void importer_fichier ( void )
     a = gsb_assistant_new ( "Importing transactions into Grisbi",
 			    "This assistant will help you import one or several files into Grisbi."
 			    "\n\n"
-			    "Grisbi will try to do its best to guess which format are imported, but you may have to manually set them in the list of next page.",
+			    "Grisbi will try to do its best to guess which format are imported, but you may have to manually set them in the list of next page.  "
+			    "So far, the following formats are supported:"
+			    "\n\n"
+			    ""
+			    "	• Quicken Interchange format (QIF)\n"
+			    "	• Open Financial Exchange Format (OFX)\n"
+			    "	• Gnucash format\n"
+			    "	• Comma separated-values format (CSV/TSV)",
 			    "csv.png" );
 
     gsb_assistant_add_page ( a, import_create_file_selection_page ( a ), 
@@ -831,6 +838,26 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 		devise = find_currency_from_iso4217_list ( compte -> devise );
 
 	}
+	else
+	{
+	    struct lconv * conv = localeconv();
+	    struct struct_devise * devise = NULL;
+
+	    /* We try to set default currency of account according to
+	     * locale.  We will not prompt user since import dialog is
+	     * too long already. */
+	    if ( conv && conv -> int_curr_symbol && strlen ( conv -> int_curr_symbol ) )
+	    {
+		gchar * name = g_strstrip ( my_strdup ( conv -> int_curr_symbol ) );
+		devise =  find_currency_from_iso4217_list ( name );
+		g_free ( name );
+	    }
+	    if ( ! devise &&
+		 ! find_currency_from_iso4217_list ( "USD" ) )
+	    {
+		dialogue_error_brain_damage ();
+	    }
+	}
 
 	gsb_assistant_add_page ( assistant, cree_ligne_recapitulatif ( list_tmp -> data ), 
 				 page, page - 1, page + 1, G_CALLBACK ( NULL ) );
@@ -1064,8 +1091,6 @@ void traitement_operations_importees ( void )
     else
     {
 	init_variables_new_file ();
-	init_gui_new_file ();
-/* 	init_variables (); */
 	new_file = 1;
     }
 
@@ -1085,6 +1110,8 @@ void traitement_operations_importees ( void )
 		/* create */
 
 		account_number = gsb_import_create_imported_account ( compte );
+		if ( !new_file )
+		    gsb_gui_navigation_add_account ( account_number );
 
 		if ( account_number != -1 )
 		    gsb_import_add_imported_transactions ( compte,
@@ -1182,6 +1209,10 @@ void traitement_operations_importees ( void )
 	mise_a_jour_accueil (FALSE);
 
 
+    }
+    else
+    {
+	init_gui_new_file ();
     }
 
     /* on recrée les combofix des tiers et des catégories */
@@ -1423,8 +1454,6 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
 				      gsb_data_account_get_init_balance (account_number));
     gsb_data_account_set_marked_balance ( account_number, 
 				     gsb_data_account_get_init_balance (account_number));
-
-    gsb_gui_navigation_add_account ( account_number );
 
     return account_number;
 }
