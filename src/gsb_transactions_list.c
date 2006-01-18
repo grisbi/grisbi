@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     copyright (c)	2000-2005 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2005 Benjamin Drieu (bdrieu@april.org) 	      */
+/*			2004-2006 Benjamin Drieu (bdrieu@april.org) 	      */
 /*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
@@ -1396,6 +1396,9 @@ gboolean gsb_transactions_list_set_adjustment_value ( gint account_number )
 /*     update_ecran (); */
 
     adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()));
+    if (! adjustment )
+	return FALSE;
+
     value = gsb_data_account_get_vertical_adjustment_value (account_number);
 
     if ( value != -1 )
@@ -4019,6 +4022,9 @@ gboolean affichage_traits_liste_operation ( void )
     gint x, y;
     GtkAdjustment *adjustment;
     gint derniere_ligne;
+
+    g_return_val_if_fail ( gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () ),
+			   FALSE );
 
     /*  FIXME   sachant qu'on appelle ça à chaque expose-event, cad très souvent ( dès que la souris passe dessus ), */
     /*     ça peut ralentir bcp... à vérifier  */
