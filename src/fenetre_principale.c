@@ -2,7 +2,7 @@
 /*  Fichier qui s'occupe de former les différentes fenêtres de travail      */
 /*                                                                            */
 /*     Copyright (C)	2000-2005 CÃ©dric Auger (cedric@grisbi.org)      */
-/*			     2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2005-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -180,15 +180,15 @@ GtkWidget *create_main_notebook (void )
 			 0 );
     gtk_widget_show (notebook_general);
 
-    /* fill the notebook */
-    gsb_gui_fill_main_notebook(notebook_general);
-
     /* append the form */
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 gsb_form_new (),
 			 FALSE,
 			 FALSE,
 			 0 );
+
+    /* fill the notebook */
+    gsb_gui_fill_main_notebook(notebook_general);
 
     gtk_widget_show (vbox);
     return (vbox);
