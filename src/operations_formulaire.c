@@ -3,7 +3,7 @@
 /* 			formulaire.c                                          */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2004 Alain Portal (aportal@univ-montp2.fr) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
@@ -2054,157 +2054,117 @@ void formulaire_a_zero (void)
 					      row );
 
 	    widget =  gsb_form_get_element_widget (value);
-
-	    switch (value)
+	    if ( widget ) 
 	    {
-		case TRANSACTION_FORM_DATE:
+		switch (value)
+		{
+		    case TRANSACTION_FORM_DATE: 
+			gtk_widget_set_sensitive ( widget, TRUE );
+			gtk_widget_set_style ( widget, style_entree_formulaire[ENGRIS] );
+			gtk_entry_set_text ( GTK_ENTRY ( widget ), _("Date") );
+			break;
 
-		    gtk_widget_set_sensitive ( widget,
-					       TRUE );
-		    gtk_widget_set_style ( widget,
-					   style_entree_formulaire[ENGRIS] );
-		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 _("Date") );
-		    break;
+		    case TRANSACTION_FORM_VALUE_DATE: 
+			gtk_widget_set_style ( widget, style_entree_formulaire[ENGRIS] );
+			gtk_entry_set_text ( GTK_ENTRY ( widget ), _("Value date") );
+			break;
 
-		case TRANSACTION_FORM_VALUE_DATE:
+		    case TRANSACTION_FORM_EXERCICE: 
+			gtk_widget_set_sensitive ( GTK_WIDGET ( widget ), FALSE );
+			break;
 
-		    gtk_widget_set_style ( widget,
-					   style_entree_formulaire[ENGRIS] );
-		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 _("Value date") );
-		    break;
+		    case TRANSACTION_FORM_PARTY: 
+			gtk_widget_set_sensitive ( widget, TRUE );
+			gtk_widget_set_style ( GTK_COMBOFIX ( widget ) -> entry,
+					       style_entree_formulaire[ENGRIS] );
+			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), _("Payee") );
+			break;
 
-		case TRANSACTION_FORM_EXERCICE:
+		    case TRANSACTION_FORM_DEBIT: 
+			gtk_widget_set_style ( widget, style_entree_formulaire[ENGRIS] );
+			gtk_entry_set_text ( GTK_ENTRY ( widget ), _("Debit") );
+			gtk_widget_set_sensitive ( widget, TRUE );
+			break;
 
-		    gtk_widget_set_sensitive ( GTK_WIDGET ( widget ),
-					       FALSE );
-		    break;
+		    case TRANSACTION_FORM_CREDIT:
 
-		case TRANSACTION_FORM_PARTY:
+			gtk_widget_set_style ( widget, style_entree_formulaire[ENGRIS] );
+			gtk_entry_set_text ( GTK_ENTRY ( widget ), _("Credit") );
+			gtk_widget_set_sensitive ( widget, TRUE );
+			break;
 
-		    gtk_widget_set_sensitive ( widget,
-					       TRUE );
-		    gtk_widget_set_style ( GTK_COMBOFIX ( widget ) -> entry,
-					   style_entree_formulaire[ENGRIS] );
-		    gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-					    _("Payee") );
-		    break;
+		    case TRANSACTION_FORM_CATEGORY: 
+			gtk_widget_set_style ( GTK_COMBOFIX ( widget ) -> entry,
+					       style_entree_formulaire[ENGRIS] );
+			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
+						_("Categories : Sub-categories") );
+			gtk_widget_set_sensitive ( widget, TRUE );
+			break;
 
-		case TRANSACTION_FORM_DEBIT:
+		    case TRANSACTION_FORM_FREE:
+			break;
 
-		    gtk_widget_set_style ( widget,
-					   style_entree_formulaire[ENGRIS] );
-		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 _("Debit") );
-		    gtk_widget_set_sensitive ( widget,
-					       TRUE );
-		    break;
+		    case TRANSACTION_FORM_BUDGET: 
+			gtk_widget_set_style ( GTK_COMBOFIX ( widget ) -> entry,
+					       style_entree_formulaire[ENGRIS] );
+			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
+						_("Budgetary line") );
+			break;
 
-		case TRANSACTION_FORM_CREDIT:
+		    case TRANSACTION_FORM_NOTES: 
+			gtk_widget_set_style ( widget, style_entree_formulaire[ENGRIS] );
+			gtk_entry_set_text ( GTK_ENTRY ( widget ), _("Notes") );
+			break;
 
-		    gtk_widget_set_style ( widget,
-					   style_entree_formulaire[ENGRIS] );
-		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 _("Credit") );
-		    gtk_widget_set_sensitive ( widget,
-					       TRUE );
-		    break;
+		    case TRANSACTION_FORM_TYPE:
 
-		case TRANSACTION_FORM_CATEGORY:
+			gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
+						      cherche_no_menu_type ( gsb_data_account_get_default_debit (gsb_gui_navigation_get_current_account ()) ) );
+			gtk_widget_set_sensitive ( GTK_WIDGET ( widget ), FALSE );
+			break;
 
-		    gtk_widget_set_style ( GTK_COMBOFIX ( widget ) -> entry,
-					   style_entree_formulaire[ENGRIS] );
-		    gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-					    _("Categories : Sub-categories") );
-		    gtk_widget_set_sensitive ( widget,
-					       TRUE );
-		    break;
+		    case TRANSACTION_FORM_CONTRA:
+			gtk_widget_hide ( widget ); 
+			break;
 
-		case TRANSACTION_FORM_FREE:
-		    break;
+		    case TRANSACTION_FORM_CHEQUE:
 
-		case TRANSACTION_FORM_BUDGET:
+			gtk_widget_set_style ( widget, style_entree_formulaire[ENGRIS] );
+			gtk_entry_set_text ( GTK_ENTRY ( widget ),
+					     _("Cheque/Transfer number") );
+			break;
 
-		    gtk_widget_set_style ( GTK_COMBOFIX ( widget ) -> entry,
-					   style_entree_formulaire[ENGRIS] );
-		    gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-					    _("Budgetary line") );
-		    break;
+		    case TRANSACTION_FORM_DEVISE:
 
-		case TRANSACTION_FORM_NOTES:
+			gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
+						      g_slist_index ( liste_struct_devises,
+								      devise_par_no ( gsb_data_account_get_currency (gsb_gui_navigation_get_current_account ()) )));
+			gtk_widget_set_sensitive ( GTK_WIDGET ( widget ), FALSE );
+			break;
 
-		    gtk_widget_set_style ( widget,
-					   style_entree_formulaire[ENGRIS] );
-		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 _("Notes") );
-		    break;
+		    case TRANSACTION_FORM_CHANGE: 
+			gtk_widget_hide ( widget ); 
+			break;
 
-		case TRANSACTION_FORM_TYPE:
+		    case TRANSACTION_FORM_BANK: 
+			gtk_widget_set_style ( widget, style_entree_formulaire[ENGRIS] );
+			gtk_entry_set_text ( GTK_ENTRY ( widget ), _("Bank references") );
+			break;
 
-		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
-						  cherche_no_menu_type ( gsb_data_account_get_default_debit (gsb_gui_navigation_get_current_account ()) ) );
-		    gtk_widget_set_sensitive ( GTK_WIDGET ( widget ),
-					       FALSE );
-		    break;
+		    case TRANSACTION_FORM_VOUCHER: 
+			gtk_widget_set_style ( widget, style_entree_formulaire[ENGRIS] );
+			gtk_entry_set_text ( GTK_ENTRY ( widget ), _("Voucher") );
+			break;
 
-		case TRANSACTION_FORM_CONTRA:
+		    case TRANSACTION_FORM_OP_NB: 
+			gtk_label_set_text ( GTK_LABEL ( widget ), "" );
+			break;
 
-		    gtk_widget_hide ( widget );
+		    case TRANSACTION_FORM_MODE: 
+			gtk_label_set_text ( GTK_LABEL ( widget ), "" );
+			break;
 
-		    break;
-
-		case TRANSACTION_FORM_CHEQUE:
-
-		    gtk_widget_set_style ( widget,
-					   style_entree_formulaire[ENGRIS] );
-		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 _("Cheque/Transfer number") );
-		    break;
-
-		case TRANSACTION_FORM_DEVISE:
-
-		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
-						  g_slist_index ( liste_struct_devises,
-								  devise_par_no ( gsb_data_account_get_currency (gsb_gui_navigation_get_current_account ()) )));
-		    gtk_widget_set_sensitive ( GTK_WIDGET ( widget ),
-					       FALSE );
-		    break;
-
-		case TRANSACTION_FORM_CHANGE:
-
-		    gtk_widget_hide ( widget );
-
-		    break;
-
-		case TRANSACTION_FORM_BANK:
-
-		    gtk_widget_set_style ( widget,
-					   style_entree_formulaire[ENGRIS] );
-		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 _("Bank references") );
-		    break;
-
-		case TRANSACTION_FORM_VOUCHER:
-
-		    gtk_widget_set_style ( widget,
-					   style_entree_formulaire[ENGRIS] );
-		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 _("Voucher") );
-		    break;
-
-		case TRANSACTION_FORM_OP_NB:
-
-		    gtk_label_set_text ( GTK_LABEL ( widget ),
-					 "" );
-		    break;
-
-		case TRANSACTION_FORM_MODE:
-
-		    gtk_label_set_text ( GTK_LABEL ( widget ),
-					 "" );
-		    break;
-
+		}
 	    }
 	}
 
