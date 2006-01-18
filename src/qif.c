@@ -283,27 +283,13 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 
 		    /* on vire les crochets s'ils y sont */
 
-		    if ( g_utf8_validate ( compte -> nom_de_compte,-1,NULL ))
-		    {
-			compte -> nom_de_compte = g_strdelimit ( compte -> nom_de_compte,
-								 "[",
-								 ' ' );
-			compte -> nom_de_compte =  g_strdelimit ( compte -> nom_de_compte,
-								  "]",
-								  ' ' );
-			compte -> nom_de_compte =  g_strstrip ( compte -> nom_de_compte );
-
-		    }
-		    else
-		    {
-			compte -> nom_de_compte = latin2utf8 ( g_strdelimit ( compte -> nom_de_compte,
-									      "[",
-									      ' ' ));
-			compte -> nom_de_compte =  latin2utf8 (g_strdelimit ( compte -> nom_de_compte,
-									      "]",
-									      ' ' ));
-			compte -> nom_de_compte =  latin2utf8 (g_strstrip ( compte -> nom_de_compte ));
-		    }
+		    compte -> nom_de_compte = latin2utf8 ( g_strdelimit ( compte -> nom_de_compte,
+									  "[",
+									  ' ' ));
+		    compte -> nom_de_compte =  latin2utf8 (g_strdelimit ( compte -> nom_de_compte,
+									  "]",
+									  ' ' ));
+		    compte -> nom_de_compte =  latin2utf8 (g_strstrip ( compte -> nom_de_compte ));
 		}
 
 		/* on récupère la date du fichier */
@@ -399,8 +385,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 									 ";",
 									 '/' ));
 
-			if ( !g_utf8_validate ( operation -> notes ,-1,NULL ))
-			    operation -> notes = latin2utf8 (operation -> notes ); 
+			operation -> notes = latin2utf8 (operation -> notes ); 
 
 			if ( !strlen ( operation -> notes ))
 			    operation -> notes = NULL;
@@ -438,7 +423,6 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		    }
 
 		    /* récupération du chèque */
-
 		    if ( pointeur_char[0] == 'N' )
 			operation -> cheque = my_strtod ( pointeur_char + 1,
 							  NULL ); 
@@ -448,28 +432,12 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		    /* récupération du tiers */
 
 		    if ( pointeur_char[0] == 'P' )
-		    {
-			if ( g_utf8_validate ( pointeur_char+1,-1,NULL ))
-			{
-			    operation -> tiers = g_strdup ( pointeur_char + 1 );
-			}
-			else
-			    operation -> tiers = latin2utf8 (g_strdup ( pointeur_char + 1 )); 
-		    }
+			operation -> tiers = latin2utf8 ( pointeur_char + 1 ); 
 
 
 		    /* récupération des catég */
-
 		    if ( pointeur_char[0] == 'L' )
-		    {
-			if ( g_utf8_validate ( pointeur_char+1,-1,NULL ))
-			{
-			    operation -> categ = g_strdup ( pointeur_char + 1 );
-			}
-			else
-			    operation -> categ = latin2utf8 (g_strdup ( pointeur_char + 1 )); 
-		    }
-
+			operation -> categ = latin2utf8 ( pointeur_char + 1 );
 
 
 		    /* récupération de la ventilation et de sa categ */
@@ -519,12 +487,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 			    ventilation -> ope_de_ventilation = 1;
 			}
 
-			if ( g_utf8_validate ( pointeur_char+1,-1,NULL ))
-			{
-			    ventilation -> categ = g_strdup ( pointeur_char + 1 );
-			}
-			else
-			    ventilation -> categ = latin2utf8 (g_strdup ( pointeur_char + 1 )); 
+			ventilation -> categ = latin2utf8 (pointeur_char + 1 ); 
 
 
 		    }
@@ -540,8 +503,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 									   ";",
 									   '/' ));
 
-			if ( !g_utf8_validate ( ventilation -> notes ,-1,NULL ))
-			    ventilation -> notes = latin2utf8 (ventilation -> notes ); 
+			ventilation -> notes = latin2utf8 (ventilation -> notes ); 
 
 			if ( !strlen ( ventilation -> notes ))
 			    ventilation -> notes = NULL;
