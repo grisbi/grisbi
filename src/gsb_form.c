@@ -93,7 +93,7 @@ extern GtkWidget *window;
 
 
 /** label of the last statement */
-GtkWidget *label_last_statement;
+GtkWidget *label_last_statement = NULL;
 
 /** the expander */
 static GtkWidget *form_expander;
