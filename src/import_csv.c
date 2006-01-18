@@ -978,6 +978,8 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
 	gtk_entry_set_text ( GTK_ENTRY(entry), csv_import_guess_separator ( contents ) );
     }
 
+    csv_import_update_validity_check ( assistant );
+
     return FALSE;
 }
 
