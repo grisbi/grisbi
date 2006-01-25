@@ -2,7 +2,7 @@
 /*                                  utils_buttons.c                    */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -598,7 +598,7 @@ GtkWidget * new_stock_button_with_label_menu ( GsbButtonStyle style,
 
     if ( callback )
     {
-	g_signal_connect ( G_OBJECT(button), "clicked", 
+	g_signal_connect ( G_OBJECT(button), "button-press-event", 
 			   G_CALLBACK(callback), data );
     }
 
