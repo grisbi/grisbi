@@ -3,7 +3,7 @@
 /* 			equilibrage.c                                         */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2006 Benjamin Drieu (bdrieu@april.org)		      */
 /*			2004 Alain Portal (aportal@univ-montp2.fr) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
@@ -157,6 +157,9 @@ GtkWidget *creation_fenetre_equilibrage ( void )
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ), entree_no_rapprochement,
 			   _("If reconciliation reference ends in a digit, it is automatically incremented at each reconciliation."),
 			   _("Reconciliation reference") );
+    gtk_signal_connect ( GTK_OBJECT ( entree_no_rapprochement ),
+			 "key-press-event",
+			 GTK_SIGNAL_FUNC ( clavier_equilibrage ), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), entree_no_rapprochement, TRUE, TRUE, 0);
 
     separateur = gtk_hseparator_new();
@@ -191,6 +194,9 @@ GtkWidget *creation_fenetre_equilibrage ( void )
     gtk_widget_set_usize ( entree_ancien_solde_equilibrage, 50, FALSE );
     gtk_signal_connect ( GTK_OBJECT ( entree_ancien_solde_equilibrage ), "changed",
 			 GTK_SIGNAL_FUNC ( modif_entree_solde_init_equilibrage ), NULL );
+    gtk_signal_connect ( GTK_OBJECT ( entree_ancien_solde_equilibrage ),
+			 "key-press-event",
+			 GTK_SIGNAL_FUNC ( clavier_equilibrage ), NULL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), entree_ancien_solde_equilibrage,
 				2, 3, 2, 3 );
 
@@ -212,6 +218,9 @@ GtkWidget *creation_fenetre_equilibrage ( void )
     gtk_widget_set_usize ( entree_nouveau_montant_equilibrage, 50, FALSE );
     gtk_signal_connect ( GTK_OBJECT ( entree_nouveau_montant_equilibrage ), "changed",
 			 GTK_SIGNAL_FUNC ( modif_entree_solde_final_equilibrage ), NULL );
+    gtk_signal_connect ( GTK_OBJECT ( entree_nouveau_montant_equilibrage ),
+			 "key-press-event",
+			 GTK_SIGNAL_FUNC ( clavier_equilibrage ), NULL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), entree_nouveau_montant_equilibrage,
 				2, 3, 4, 5 );
 
@@ -442,6 +451,8 @@ void equilibrage ( void )
 
     gtk_widget_show_all ( reconcile_panel );
     gtk_widget_set_sensitive ( navigation_tree_view, FALSE );
+
+    gtk_widget_grab_focus ( GTK_WIDGET ( entree_no_rapprochement ) );
 }
 /******************************************************************************/
 
@@ -808,7 +819,8 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
 
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					   "key-press-event");
-	    if ( ( event -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
+	    if ( ( event -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK && 
+		 widget == entree_nouvelle_date_equilibrage )
 		popup_cal = gsb_calendar_new ( widget );
 	    break;
 
@@ -817,44 +829,78 @@ gboolean clavier_equilibrage ( GtkWidget *widget,
 
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					   "key-press-event");
-	    if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK || event -> keyval != GDK_KP_Add )
-		inc_dec_date ( widget, ONE_DAY );
-	    else
-		inc_dec_date ( widget, ONE_WEEK );
-	    return TRUE;
+	    if ( widget == entree_nouvelle_date_equilibrage )
+	    {
+		if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK || 
+		     event -> keyval != GDK_KP_Add )
+		    inc_dec_date ( widget, ONE_DAY );
+		else
+		    inc_dec_date ( widget, ONE_WEEK );
+		return TRUE;
+	    }
+	    return FALSE;
 
 	case GDK_minus:		/* touches - */
 	case GDK_KP_Subtract:
 
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					   "key-press-event");
-	    if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK || event -> keyval != GDK_KP_Subtract )
-		inc_dec_date ( widget, - ONE_DAY );
-	    else
-		inc_dec_date ( widget, - ONE_WEEK );
-	    return TRUE;
+	    if ( widget == entree_nouvelle_date_equilibrage )
+	    {
+		if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK || event -> keyval != GDK_KP_Subtract )
+		    inc_dec_date ( widget, - ONE_DAY );
+		else
+		    inc_dec_date ( widget, - ONE_WEEK );
+		return TRUE;
+	    }
+	    return FALSE;
 
 	case GDK_Page_Up :		/* touche PgUp */
 	case GDK_KP_Page_Up :
 
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					   "key-press-event");
-	    if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
-		inc_dec_date ( widget, ONE_MONTH );
-	    else
-		inc_dec_date ( widget, ONE_YEAR );
-	    return TRUE;
+	    if ( widget == entree_nouvelle_date_equilibrage )
+	    {
+		if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+		    inc_dec_date ( widget, ONE_MONTH );
+		else
+		    inc_dec_date ( widget, ONE_YEAR );
+		return TRUE;
+	    }
+	    return FALSE;
 
 	case GDK_Page_Down :		/* touche PgDown */
 	case GDK_KP_Page_Down :
 
 	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
 					   "key-press-event");
-	    if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
-		inc_dec_date ( widget, - ONE_MONTH );
-	    else
-		inc_dec_date ( widget, - ONE_YEAR );
-	    return TRUE;
+	    if ( widget == entree_nouvelle_date_equilibrage )
+	    {
+		if ( ( event -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
+		    inc_dec_date ( widget, - ONE_MONTH );
+		else
+		    inc_dec_date ( widget, - ONE_YEAR );
+		return TRUE;
+	    }
+	    return FALSE;
+
+	case GDK_Tab:
+	    /* This is hardcoded because normal cycle does not work
+	     * ... why? -- benj */
+	    if ( widget == entree_no_rapprochement )
+	    {
+		gtk_widget_grab_focus ( GTK_WIDGET ( entree_nouvelle_date_equilibrage ) );
+	    }
+	    if ( widget == entree_nouvelle_date_equilibrage )
+	    {
+		gtk_widget_grab_focus ( GTK_WIDGET ( entree_nouveau_montant_equilibrage ) );
+	    }
+	    if ( widget == entree_nouveau_montant_equilibrage )
+	    {
+		gtk_widget_grab_focus ( GTK_WIDGET ( entree_no_rapprochement ) );
+	    }
+	    return FALSE;
 
 	default:
 	    /* Reverting to default handler */
