@@ -71,6 +71,8 @@ sources = \
 	gsb_file_util.c		\
 	gsb_form.c		\
 	gsb_form_config.c	\
+	gsb_payment_method.c	\
+	gsb_payment_method_config.c	\
 	gsb_scheduler_list.c	\
 	gsb_status.c		\
 	gsb_transactions_list.c	\
@@ -98,7 +100,6 @@ sources = \
 	tiers_onglet.c		\
 	tip.c			\
 	traitement_variables.c	\
-	type_operations.c	\
 	utils.c			\
 	utils_buttons.c		\
 	utils_comptes.c		\
@@ -151,6 +152,8 @@ grisbi_INCLUDES =		\
 	gsb_file_util.h		\
 	gsb_form.h		\
 	gsb_form_config.h	\
+	gsb_payment_method.h	\
+	gsb_payment_method_config.h	\
 	gsb_scheduler_list.h	\
 	gsb_transactions_list.h	\
 	data_currency.h		\
@@ -191,7 +194,6 @@ grisbi_INCLUDES =		\
 	structures.h		\
 	tiers_onglet.h		\
 	traitement_variables.h	\
-	type_operations.h	\
 	utils.h			\
 	utils_c.h		\
 	utils_buttons.h		\

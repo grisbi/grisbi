@@ -196,7 +196,6 @@ int no_devise_totaux_categ;
 /*START_EXTERN*/
 extern MetatreeInterface * category_interface ;
 extern gchar *dernier_chemin_de_travail;
-extern GtkTreeStore *model;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
@@ -441,11 +440,11 @@ void mise_a_jour_combofix_categ ( void )
 	 &&
 	 GTK_IS_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY)))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY) ),
-				list_tmp, TRUE, TRUE );
+				list_tmp );
 
     if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
-				list_tmp, TRUE, TRUE );
+				list_tmp );
 
 
     /* FIXME : this should not be in this function */

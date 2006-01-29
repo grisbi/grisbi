@@ -88,7 +88,6 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source,
 
 /*START_EXTERN*/
 extern gint compte_courant_onglet;
-extern GtkTreeStore *model;
 extern GtkTreeSelection * selection;
 extern gchar *titre_fichier;
 extern GtkWidget *tree_view;

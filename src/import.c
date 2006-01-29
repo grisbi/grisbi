@@ -107,13 +107,11 @@ static gchar * type_string_representation ( enum import_type type );
 /*START_EXTERN*/
 extern     gchar * buffer ;
 extern GtkWidget *formulaire;
-extern gchar *last_date;
 extern GSList *liste_struct_devises;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern GtkTreeStore *model;
 extern GtkWidget *preview;
 extern GtkWidget *tree_view;
 extern GtkWidget *tree_view_vbox;
@@ -1469,7 +1467,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 					    gint account_number )
 {
     GSList *list_tmp;
-    GDate *last_date;
+    GDate *last_date_import;
     gint demande_confirmation;
     GSList *list_tmp_transactions;
 
@@ -1517,7 +1515,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
 
     list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
-    last_date = NULL;
+    last_date_import = NULL;
 
     while ( list_tmp_transactions )
     {
@@ -1526,11 +1524,11 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
 	if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number )
 	{
-	    if ( !last_date
+	    if ( !last_date_import
 		 ||
 		 g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
-				  last_date ) > 0 )
-		last_date = gsb_data_transaction_get_date (transaction_number_tmp);
+				  last_date_import ) > 0 )
+		last_date_import = gsb_data_transaction_get_date (transaction_number_tmp);
 	}
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
@@ -1546,7 +1544,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	/* on ne fait le tour de la liste des opés que si la date de l'opé importée est inférieure à la dernière date */
 	/* de la liste */
 
-	if ( last_date && g_date_compare ( last_date,
+	if ( last_date_import && g_date_compare ( last_date_import,
 					   imported_transaction -> date ) >= 0 )
 	{
 	    /* 	    si l'opé d'import a une id, on recherche ça en priorité */

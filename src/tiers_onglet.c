@@ -80,7 +80,6 @@ GtkTreeStore *payee_tree_model;
 
 
 /*START_EXTERN*/
-extern GtkTreeStore *model;
 extern MetatreeInterface * payee_interface ;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
@@ -507,14 +506,10 @@ void mise_a_jour_combofix_tiers ( void )
 	 gsb_form_get_element_widget (TRANSACTION_FORM_PARTY) &&
 	 GTK_IS_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY) ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY) ),
-				gsb_data_payee_get_name_and_report_list (),
-				TRUE,
-				TRUE );
+				gsb_data_payee_get_name_and_report_list ());
     if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ),
-				gsb_data_payee_get_name_list(),
-				FALSE,
-				TRUE );
+				gsb_data_payee_get_name_list());
 
     mise_a_jour_combofix_tiers_necessaire = 0;
 }

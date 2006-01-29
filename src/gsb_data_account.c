@@ -618,12 +618,15 @@ gboolean gsb_data_account_set_name ( gint no_account,
 }
 
 
-/** find and return the number of account which
+/** 
+ * find and return the number of account which
  * have the name given in param
+ * 
  * \param account_name
+ * 
  * \return the number of account or -1
  * */
-gint gsb_data_account_get_no_account_by_name ( gchar *account_name )
+gint gsb_data_account_get_no_account_by_name ( const gchar *account_name )
 {
     GSList *list_tmp;
 

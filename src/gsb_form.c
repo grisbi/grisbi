@@ -31,7 +31,6 @@
 /*START_INCLUDE*/
 #include "gsb_form.h"
 #include "exercice.h"
-#include "type_operations.h"
 #include "operations_formulaire.h"
 #include "echeancier_formulaire.h"
 #include "devises.h"
@@ -44,17 +43,18 @@
 #include "gsb_data_category.h"
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
-#include "navigation.h"
 #include "utils_dates.h"
+#include "navigation.h"
+#include "gsb_payment_method.h"
+#include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "utils_editables.h"
 #include "main.h"
-#include "utils_comptes.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "fenetre_principale.h"
-#include "include.h"
 #include "gsb_form.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -63,29 +63,28 @@ static gboolean gsb_form_activate_expander ( GtkWidget *expander,
 static gboolean gsb_form_allocate_size ( GtkWidget *table,
 				  GtkAllocation *allocation,
 				  gpointer null );
-static gboolean gsb_form_clean ( gint account_number );
 static GtkWidget *gsb_form_create_element_from_number ( gint element_number,
 						 gint account_number );
+static gboolean gsb_form_element_can_receive_focus ( gint element_number,
+					      gint account_number );
 static gboolean gsb_form_fill_scheduled_part ( void );
 static gboolean gsb_form_fill_transaction ( gint transaction_number );
 static gboolean gsb_form_frequency_button_changed ( GtkWidget *combo_box,
 					     gpointer null );
 static gint gsb_form_get_account_from_button ( void );
-static gint gsb_form_get_account_number_from_origin ( gint origin );
-static GtkWidget *gsb_form_get_element_widget_2 ( gint element_number,
-					   gint account_number );
-static gint gsb_form_get_origin ( void );
 static gboolean gsb_form_init_entry_colors ( void );
-static gboolean gsb_form_valid ( void );
-static gboolean touches_champ_formulaire ( GtkWidget *widget,
+static gboolean gsb_form_key_press_event ( GtkWidget *widget,
 				    GdkEventKey *ev,
 				    gint *ptr_origin );
+static void gsb_form_set_entry_is_empty ( GtkWidget *entry,
+				   gboolean empty );
+static gboolean gsb_form_valid ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *last_date;
 extern GSList *liste_struct_devises;
 extern FILE * out;
+extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -262,7 +261,7 @@ GtkWidget *gsb_form_new ( void )
 			    GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT (form_button_cancel),
 		       "clicked",
-		       GTK_SIGNAL_FUNC (gsb_form_hide),
+		       GTK_SIGNAL_FUNC (gsb_form_escape_form),
 		       NULL );
     gtk_box_pack_end ( GTK_BOX (form_button_part),
 		       form_button_cancel,
@@ -460,6 +459,14 @@ gboolean gsb_form_hide ( void )
 	for ( column=0 ; column < MAX_WIDTH ; column++ )
 	    if ( form_tab_transactions[row][column] )
 	    {
+		/* if there is something in the combofix we destroy, the popup will
+		 * be showed because destroying the gtk_entry will erase it directly,
+		 * so the simpliest way to avoid that is to erase now the entry, but with
+		 * gtk_combofix_set_text [cedric] (didn't succeed with another thing...) */
+		if (GTK_IS_COMBOFIX (form_tab_transactions[row][column]))
+		    gtk_combofix_set_text ( GTK_COMBOFIX (form_tab_transactions[row][column]),
+					    "" );
+
 		gtk_widget_destroy (form_tab_transactions[row][column]);
 		form_tab_transactions[row][column] = NULL;
 	    }
@@ -549,7 +556,7 @@ gboolean gsb_form_fill_scheduled_part ( void )
 				       GINT_TO_POINTER ( SCHEDULER_FORM_FINAL_DATE ) );
 		    g_signal_connect ( G_OBJECT (widget),
 				       "focus-in-event",
-				       GTK_SIGNAL_FUNC ( entree_prend_focus ),
+				       GTK_SIGNAL_FUNC ( gsb_form_entry_get_focus ),
 				       NULL );
 		    g_signal_connect_after ( GTK_OBJECT (widget),
 					     "focus-out-event",
@@ -796,47 +803,67 @@ GtkWidget *gsb_form_create_element_from_number ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_PARTY:
-	    widget = gtk_combofix_new_complex ( gsb_data_payee_get_name_and_report_list(),
-						FALSE,
-						TRUE,
-						TRUE,
-						30 );
+	    widget = gtk_combofix_new_complex ( gsb_data_payee_get_name_and_report_list());
+	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
+					  etat.combofix_force_payee );
+	    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
+					 etat.combofix_max_item );
+	    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
+					      etat.combofix_case_sensitive );
+	    gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
+					      etat.combofix_enter_select_completion );
+	    /* we never mix the payee because the only case of the complex combofix is
+	     * for the report and there is no sense to mix report with the payee */
+	    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
+					  FALSE );
 	    break;
 
 	case TRANSACTION_FORM_CATEGORY:
-	    widget = gtk_combofix_new_complex ( gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE),
-						FALSE,
-						TRUE,
-						TRUE,
-						30 );
+	    widget = gtk_combofix_new_complex ( gsb_data_category_get_name_list (TRUE, TRUE, TRUE, TRUE));
+	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
+					  etat.combofix_force_category );
+	    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
+					 etat.combofix_max_item );
+	    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
+					      etat.combofix_case_sensitive );
+	    gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
+					      etat.combofix_enter_select_completion );
+	    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
+					  etat.combofix_mixed_sort );
 	    break;
 
 	case TRANSACTION_FORM_FREE:
 	    break;
 
 	case TRANSACTION_FORM_BUDGET:
-	    widget = gtk_combofix_new_complex ( gsb_data_budget_get_name_list (TRUE, TRUE),
-						FALSE,
-						TRUE,
-						TRUE,
-						0 );
-
+	    widget = gtk_combofix_new_complex ( gsb_data_budget_get_name_list (TRUE, TRUE));
+	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
+					  etat.combofix_force_category );
+	    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
+					 etat.combofix_max_item );
+	    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
+					      etat.combofix_case_sensitive );
+	    gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
+					      etat.combofix_enter_select_completion );
+	    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
+					  etat.combofix_mixed_sort );
 	    break;
 
 	case TRANSACTION_FORM_TYPE:
-	    widget = gtk_option_menu_new ();
+	    widget = gtk_combo_box_new ();
+	    g_signal_connect ( G_OBJECT (widget),
+			       "changed",
+			       G_CALLBACK (gsb_payment_method_changed_callback),
+			       NULL );
+	    gsb_payment_method_create_combo_list ( widget,
+						   GSB_PAYMENT_DEBIT,
+						   account_number );
+	    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget),
+				       0 );
 	    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 				   widget,
 				   _("Choose the method of payment"),
 				   _("Choose the method of payment") );
-
-	    /* set the debien menu by default */
-
-	    if ( ( menu = creation_menu_types ( 1,
-						account_number,
-						0 )))
-		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget ),
-					   menu );
 	    break;
 
 	case TRANSACTION_FORM_DEVISE:
@@ -864,10 +891,9 @@ GtkWidget *gsb_form_create_element_from_number ( gint element_number,
 				 NULL );
 	    break;
 
-
 	case TRANSACTION_FORM_CONTRA:
 	    /* no menu at begining, appened when choose the contra-account */
-	    widget = gtk_option_menu_new ();
+	    widget = gtk_combo_box_new ();
 	    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 				   widget,
 				   _("Contra-transaction method of payment"),
@@ -886,19 +912,19 @@ GtkWidget *gsb_form_create_element_from_number ( gint element_number,
 	{
 	    gtk_signal_connect ( GTK_OBJECT ( widget ),
 				 "focus-in-event",
-				 GTK_SIGNAL_FUNC ( entree_prend_focus ),
+				 GTK_SIGNAL_FUNC ( gsb_form_entry_get_focus ),
 				 GINT_TO_POINTER ( element_number ));
 	    gtk_signal_connect ( GTK_OBJECT ( widget ),
 				 "focus-out-event",
-				 GTK_SIGNAL_FUNC ( entree_perd_focus ),
+				 GTK_SIGNAL_FUNC ( gsb_form_entry_lose_focus ),
 				 GINT_TO_POINTER ( element_number ));
 	    gtk_signal_connect ( GTK_OBJECT ( widget ),
 				 "button-press-event",
-				 GTK_SIGNAL_FUNC ( clique_champ_formulaire ),
+				 GTK_SIGNAL_FUNC ( gsb_form_button_press_event ),
 				 GINT_TO_POINTER ( element_number ));
 	    gtk_signal_connect ( GTK_OBJECT ( widget ),
 				 "key-press-event",
-				 GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
+				 GTK_SIGNAL_FUNC ( gsb_form_key_press_event ),
 				 GINT_TO_POINTER ( element_number ));
 	}
 	else
@@ -907,26 +933,26 @@ GtkWidget *gsb_form_create_element_from_number ( gint element_number,
 	    {
 		gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget ) -> entry ),
 				     "focus-in-event",
-				     GTK_SIGNAL_FUNC ( entree_prend_focus ),
+				     GTK_SIGNAL_FUNC ( gsb_form_entry_get_focus ),
 				     GINT_TO_POINTER ( element_number ));
 		gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
 				     "focus-out-event",
-				     GTK_SIGNAL_FUNC ( entree_perd_focus ),
+				     GTK_SIGNAL_FUNC ( gsb_form_entry_lose_focus ),
 				     GINT_TO_POINTER ( element_number ));
 		gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
 				     "button-press-event",
-				     GTK_SIGNAL_FUNC ( clique_champ_formulaire ),
+				     GTK_SIGNAL_FUNC ( gsb_form_button_press_event ),
 				     GINT_TO_POINTER ( element_number ));
 		gtk_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
 				     "key-press-event",
-				     GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
+				     GTK_SIGNAL_FUNC ( gsb_form_key_press_event ),
 				     GINT_TO_POINTER ( element_number ));
 	    }
 	    else
 		/* neither an entry, neither a combofix */
 		gtk_signal_connect ( GTK_OBJECT ( widget ),
 				     "key-press-event",
-				     GTK_SIGNAL_FUNC ( touches_champ_formulaire ),
+				     GTK_SIGNAL_FUNC ( gsb_form_key_press_event ),
 				     GINT_TO_POINTER ( element_number ));
 	}
     }
@@ -966,15 +992,15 @@ gboolean gsb_form_clean ( gint account_number )
 		break;
 
 	    case SCHEDULED_FORM_LIMIT_DATE:
-		gtk_widget_set_style ( widget,
-				       style_entree_formulaire[ENGRIS] );
+		gsb_form_set_entry_is_empty ( widget,
+					      TRUE );
 		gtk_entry_set_text ( GTK_ENTRY ( widget ),
 				     _("Limit date") );
 		break;
 
 	    case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
-		gtk_widget_set_style ( widget,
-				       style_entree_formulaire[ENGRIS] );
+		gsb_form_set_entry_is_empty ( widget,
+					      TRUE );
 		gtk_entry_set_text ( GTK_ENTRY ( widget ),
 				     _("User frequency") );
 		break;
@@ -1004,16 +1030,16 @@ gboolean gsb_form_clean ( gint account_number )
 
 			gtk_widget_set_sensitive ( widget,
 						   TRUE );
-			gtk_widget_set_style ( widget,
-					       style_entree_formulaire[ENGRIS] );
+			gsb_form_set_entry_is_empty ( widget,
+						      TRUE );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					     _("Date") );
 			break;
 
 		    case TRANSACTION_FORM_VALUE_DATE:
 
-			gtk_widget_set_style ( widget,
-					       style_entree_formulaire[ENGRIS] );
+			gsb_form_set_entry_is_empty ( widget,
+						      TRUE );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					     _("Value date") );
 			break;
@@ -1028,16 +1054,16 @@ gboolean gsb_form_clean ( gint account_number )
 
 			gtk_widget_set_sensitive ( widget,
 						   TRUE );
-			gtk_widget_set_style ( GTK_COMBOFIX ( widget ) -> entry,
-					       style_entree_formulaire[ENGRIS] );
+			gsb_form_set_entry_is_empty ( GTK_COMBOFIX ( widget ) -> entry,
+						      TRUE );
 			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
 						_("Payee") );
 			break;
 
 		    case TRANSACTION_FORM_DEBIT:
 
-			gtk_widget_set_style ( widget,
-					       style_entree_formulaire[ENGRIS] );
+			gsb_form_set_entry_is_empty ( widget,
+						      TRUE );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					     _("Debit") );
 			gtk_widget_set_sensitive ( widget,
@@ -1046,8 +1072,8 @@ gboolean gsb_form_clean ( gint account_number )
 
 		    case TRANSACTION_FORM_CREDIT:
 
-			gtk_widget_set_style ( widget,
-					       style_entree_formulaire[ENGRIS] );
+			gsb_form_set_entry_is_empty ( widget,
+						      TRUE );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					     _("Credit") );
 			gtk_widget_set_sensitive ( widget,
@@ -1056,8 +1082,8 @@ gboolean gsb_form_clean ( gint account_number )
 
 		    case TRANSACTION_FORM_CATEGORY:
 
-			gtk_widget_set_style ( GTK_COMBOFIX ( widget ) -> entry,
-					       style_entree_formulaire[ENGRIS] );
+			gsb_form_set_entry_is_empty ( GTK_COMBOFIX ( widget ) -> entry,
+						      TRUE );
 			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
 						_("Categories : Sub-categories") );
 			gtk_widget_set_sensitive ( widget,
@@ -1069,24 +1095,24 @@ gboolean gsb_form_clean ( gint account_number )
 
 		    case TRANSACTION_FORM_BUDGET:
 
-			gtk_widget_set_style ( GTK_COMBOFIX ( widget ) -> entry,
-					       style_entree_formulaire[ENGRIS] );
+			gsb_form_set_entry_is_empty ( GTK_COMBOFIX ( widget ) -> entry,
+						      TRUE );
 			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
 						_("Budgetary line") );
 			break;
 
 		    case TRANSACTION_FORM_NOTES:
 
-			gtk_widget_set_style ( widget,
-					       style_entree_formulaire[ENGRIS] );
+			gsb_form_set_entry_is_empty ( widget,
+						      TRUE );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					     _("Notes") );
 			break;
 
 		    case TRANSACTION_FORM_TYPE:
-
-			gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
-						      cherche_no_menu_type ( gsb_data_account_get_default_debit (gsb_gui_navigation_get_current_account ()) ) );
+			gtk_combo_box_set_active ( GTK_COMBO_BOX ( widget ),
+						   gsb_payment_method_get_payment_location ( widget,
+											     gsb_data_account_get_default_debit (account_number)));
 			gtk_widget_set_sensitive ( GTK_WIDGET ( widget ),
 						   FALSE );
 			break;
@@ -1099,8 +1125,8 @@ gboolean gsb_form_clean ( gint account_number )
 
 		    case TRANSACTION_FORM_CHEQUE:
 
-			gtk_widget_set_style ( widget,
-					       style_entree_formulaire[ENGRIS] );
+			gsb_form_set_entry_is_empty ( widget,
+						      TRUE );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					     _("Cheque/Transfer number") );
 			break;
@@ -1109,7 +1135,7 @@ gboolean gsb_form_clean ( gint account_number )
 
 			gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
 						      g_slist_index ( liste_struct_devises,
-								      devise_par_no ( gsb_data_account_get_currency (gsb_gui_navigation_get_current_account ()) )));
+								      devise_par_no ( gsb_data_account_get_currency (account_number))));
 			gtk_widget_set_sensitive ( GTK_WIDGET ( widget ),
 						   FALSE );
 			break;
@@ -1122,16 +1148,16 @@ gboolean gsb_form_clean ( gint account_number )
 
 		    case TRANSACTION_FORM_BANK:
 
-			gtk_widget_set_style ( widget,
-					       style_entree_formulaire[ENGRIS] );
+			gsb_form_set_entry_is_empty ( widget,
+						      TRUE );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					     _("Bank references") );
 			break;
 
 		    case TRANSACTION_FORM_VOUCHER:
 
-			gtk_widget_set_style ( widget,
-					       style_entree_formulaire[ENGRIS] );
+			gsb_form_set_entry_is_empty ( widget,
+						      TRUE );
 			gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					     _("Voucher") );
 			break;
@@ -1153,7 +1179,6 @@ gboolean gsb_form_clean ( gint account_number )
     gtk_object_set_data ( GTK_OBJECT ( formulaire ),
 			  "transaction_number_in_form",
 			  NULL );
-
     return FALSE;
 }
 
@@ -1195,699 +1220,518 @@ GtkWidget *gsb_form_get_element_widget_2 ( gint element_number,
 }
 
 
-/******************************************************************************/
-/* Fonction appelée quand une entry prend le focus */
-/* si elle contient encore des éléments grisés, on les enlève */
-/******************************************************************************/
-gboolean entree_prend_focus ( GtkWidget *entree,
-			     GdkEventFocus *ev,
-			     gint *ptr_origin )
+/**
+ * called when an entry get the focus, if the entry is free,
+ * set it normal and erase the help content
+ *
+ * \param entry
+ * \param ev
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_entry_get_focus ( GtkWidget *entry,
+				    GdkEventFocus *ev,
+				    gpointer null )
 {
-    /*     l'entrée qui arrive peut être un combofix */
-    /* si le style est le gris, on efface le contenu de l'entrée, sinon on fait rien */
+    /* the entry can be a combofix or a real entry */
+    if (GTK_IS_COMBOFIX ( entry ))
+	entry = GTK_COMBOFIX (entry) -> entry;
 
-    if ( GTK_IS_ENTRY ( entree ))
+    if ( gsb_form_check_entry_is_empty (entry) )
     {
-	if ( gtk_widget_get_style ( entree ) == style_entree_formulaire[ENGRIS] )
-	{
-	    gtk_entry_set_text ( GTK_ENTRY ( entree ), "" );
-	    gtk_widget_set_style ( entree, style_entree_formulaire[ENCLAIR] );
-	}
+	gtk_entry_set_text ( GTK_ENTRY (entry), "" );
+	gsb_form_set_entry_is_empty ( entry,
+				      FALSE );
     }
-    else
-    {
-	if ( gtk_widget_get_style ( GTK_COMBOFIX (entree) -> entry ) == style_entree_formulaire[ENGRIS] )
-	{
-	    gtk_combofix_set_text ( GTK_COMBOFIX ( entree ), "" );
-	    gtk_widget_set_style ( GTK_COMBOFIX (entree) -> entry, style_entree_formulaire[ENCLAIR] );
-	}
-    }
-
-
     return FALSE;
 }
-/******************************************************************************/
 
 
-
-/******************************************************************************/
-/* Fonction appelée quand une entry perd le focus */
-/* si elle ne contient rien, on remet la fonction en gris */
-/******************************************************************************/
-gboolean entree_perd_focus ( GtkWidget *entree,
-			     GdkEventFocus *ev,
-			     gint *ptr_origin )
+/**
+ * called when an entry lose the focus
+ *
+ * \param entry
+ * \param ev
+ * \param ptr_origin a pointer gint wich is the number of the element
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
+				     GdkEventFocus *ev,
+				     gint *ptr_origin )
 {
-    gchar *texte;
+    gchar *string;
+    gint element_number;
+    GtkWidget *widget;
+    gint account_number;
 
-    /*     on retire la sélection */
+    /* remove the selection */
 
-    gtk_editable_select_region ( GTK_EDITABLE ( entree ),
+    gtk_editable_select_region ( GTK_EDITABLE ( entry ),
 				 0,
 				 0 );
+    element_number = GPOINTER_TO_INT (ptr_origin);
+    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
 
-    /*     on efface la popup du combofix si elle est affichée(arrive parfois pas trouvé pourquoi) */
+    /* sometimes the combofix popus stays showed, so remove here */
 
-    if ( GPOINTER_TO_INT ( ptr_origin ) == TRANSACTION_FORM_PARTY
+    if ( element_number == TRANSACTION_FORM_PARTY
 	 ||
-	 GPOINTER_TO_INT ( ptr_origin ) == TRANSACTION_FORM_CATEGORY
+	 element_number == TRANSACTION_FORM_CATEGORY
 	 ||
-	 GPOINTER_TO_INT ( ptr_origin ) == TRANSACTION_FORM_BUDGET )
+	 element_number == TRANSACTION_FORM_BUDGET )
     {
-	GtkWidget *combofix;
+	widget = gsb_form_get_element_widget (element_number);
 
-	combofix = gsb_form_get_element_widget ( GPOINTER_TO_INT ( ptr_origin ));
-
-	gtk_grab_remove ( GTK_COMBOFIX ( combofix ) -> popup );
+	gtk_grab_remove ( GTK_COMBOFIX ( widget ) -> popup );
 	gdk_pointer_ungrab ( GDK_CURRENT_TIME );
-	gtk_widget_hide ( GTK_COMBOFIX ( combofix ) ->popup );
+	gtk_widget_hide ( GTK_COMBOFIX ( widget ) ->popup );
     }
 
-    texte = NULL;
+    /* string will be filled only if the field is empty */
+    string = NULL;
 
-    switch ( GPOINTER_TO_INT ( ptr_origin ) )
+    switch ( element_number )
     {
-	/* on sort de la date, soit c'est vide, soit on la vérifie,
-	   la complète si nécessaire et met à jour l'exercice */
 	case TRANSACTION_FORM_DATE :
 
-	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+	    /* check the date, adapt it and the financial year */
+	    if (gsb_date_check_and_complete_entry ( entry ))
 	    {
-		modifie_date ( entree );
-
-		/* si c'est une modif d'opé, on ne change pas l'exercice */
-		/* 		si on n'utilise pas l'exo, la fonction ne fera rien */
-
+		/* we change the financial year only if it's a new transaction */
 		if ( !gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 					    "transaction_number_in_form" ))
 		    affiche_exercice_par_date( gsb_form_get_element_widget (TRANSACTION_FORM_DATE),
 					       gsb_form_get_element_widget (TRANSACTION_FORM_EXERCICE) );
 	    }
 	    else
-		texte = _("Date");
+		string = gsb_form_get_element_name (TRANSACTION_FORM_DATE);
 	    break;
-
-	    /* on sort du tiers : soit vide soit complète le reste de l'opé */
 
 	case TRANSACTION_FORM_PARTY :
 
-	    if ( !completion_operation_par_tiers ( entree ))
-		texte = _("Payee");
+	    /* we complete the transaction */
+	    if ( !completion_operation_par_tiers ( entry ))
+		string = gsb_form_get_element_name (TRANSACTION_FORM_PARTY);
 	    break;
 
 	    /* on sort du débit : soit vide, soit change le menu des types s'il ne correspond pas */
 
 	case TRANSACTION_FORM_DEBIT :
 
-	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+	    /* we change the payment method to adapt it for the debit */
+	    if ( strlen ( gtk_entry_get_text ( GTK_ENTRY (entry))))
 	    {
-		/* on commence par virer ce qu'il y avait dans les crédits */
-
-		if ( gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT) ) == style_entree_formulaire[ENCLAIR] )
+		/* empty the credit */
+		widget = gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT);
+		if (!gsb_form_check_entry_is_empty (widget))
 		{
-		    gtk_entry_set_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT) ),
-					 "" );
-		    entree_perd_focus ( gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT),
-					NULL,
-					GINT_TO_POINTER ( TRANSACTION_FORM_CREDIT ) );
+		    gtk_entry_set_text ( GTK_ENTRY (widget),
+					 gsb_form_get_element_name (TRANSACTION_FORM_CREDIT));
+		    gsb_form_set_entry_is_empty ( widget,
+						  TRUE );
 		}
+		widget = gsb_form_get_element_widget_2 ( TRANSACTION_FORM_TYPE,
+							 account_number );
 
-		/* si c'est un menu de crédit, on y met le menu de débit */
-
-		if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE ))
+		/* change the signe of the method of payment and the contra */
+		if ( gsb_payment_method_get_combo_sign (widget) == GSB_PAYMENT_CREDIT)
 		{
-		    if ( ( GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) )
-			   &&
-			   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ) -> menu ),
-								   "signe_menu" ))
-			   ==
-			   2 )
-			 ||
-			 !GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ))
-		    {
-			/* on crée le nouveau menu et on met le défaut */
+		    gsb_payment_method_create_combo_list ( widget,
+							   GSB_PAYMENT_DEBIT,
+							   account_number );
+		    /* if there is no payment method, the last function hide it, but we have
+		     * to hide the cheque element too */
+		    if ( !GTK_WIDGET_VISIBLE (widget))
+			gtk_widget_hide (gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE));
 
-			GtkWidget *menu;
-
-			if ( ( menu = creation_menu_types ( 1, gsb_gui_navigation_get_current_account (), 0  )))
-			{
-			    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ),
-						       menu );
-			    gtk_option_menu_set_history ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ),
-							  cherche_no_menu_type ( gsb_data_account_get_default_debit (gsb_gui_navigation_get_current_account ()) ) );
-			    gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) );
-			}
-			else
-			{
-			    gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) );
-			    gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
-			}
-
-			/* comme il y a eu un changement de signe, on change aussi le type de l'opé associée */
-			/* s'il est affiché */
-
-			if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA )
-			     &&
-			     GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) )
-			     &&
-			     GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) ) -> menu ),
-								     "signe_menu" ))
-			     ==
-			     1 )
-			{
-			    GtkWidget *menu;
-
-			    menu = creation_menu_types ( 2,
-							 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) ),
-												 "account_transfer" )),
-							 2  );
-
-			    if ( menu )
-				gtk_option_menu_set_menu ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) ),
-							   menu );
-			    else
-				gtk_option_menu_remove_menu ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) ));
-			}
-		    }	
-		    else
-		    {
-			/* on n'a pas recréé de menu, donc soit c'est déjà un menu de débit, soit tous les types */
-			/* sont affichés, soit le widget n'est pas visible */
-			/* on met donc le défaut, sauf si il y a qque chose dans les categ ou que le widget n'est pas visible */
-
-			if ( GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) )
-			     &&
-			     ( !gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY )
-			       ||
-			       gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY) ) == style_entree_formulaire[ENGRIS] ))
-			    gtk_option_menu_set_history ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ),
-							  cherche_no_menu_type ( gsb_data_account_get_default_debit (gsb_gui_navigation_get_current_account ()) ) );
-		    }
+		    widget = gsb_form_get_element_widget_2 ( TRANSACTION_FORM_CONTRA,
+							     account_number );
+		    if ( GTK_WIDGET_VISIBLE (widget))
+			gsb_payment_method_create_combo_list ( gsb_form_get_element_widget_2 ( TRANSACTION_FORM_CONTRA,
+											       account_number ),
+							       GSB_PAYMENT_CREDIT,
+							       account_number );
 		}
 	    }
 	    else
-		texte = _("Debit");
+		string = gsb_form_get_element_name (TRANSACTION_FORM_DEBIT);
 	    break;
-
-	    /* on sort du crédit : soit vide, soit change le menu des types
-	       s'il n'y a aucun tiers ( <=> nouveau tiers ) */
 
 	case TRANSACTION_FORM_CREDIT :
 
-	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+	    /* we change the payment method to adapt it for the debit */
+	    if ( strlen ( gtk_entry_get_text ( GTK_ENTRY (entry))))
 	    {
-		/* on commence par virer ce qu'il y avait dans les débits */
-
-		if ( gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_DEBIT) ) == style_entree_formulaire[ENCLAIR] )
+		/* empty the credit */
+		widget = gsb_form_get_element_widget_2 (TRANSACTION_FORM_DEBIT,
+							account_number );
+		if (!gsb_form_check_entry_is_empty (widget))
 		{
-		    gtk_entry_set_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_DEBIT) ),
-					 "" );
-		    entree_perd_focus ( gsb_form_get_element_widget (TRANSACTION_FORM_DEBIT),
-					NULL,
-					GINT_TO_POINTER ( TRANSACTION_FORM_DEBIT ));
+		    gtk_entry_set_text ( GTK_ENTRY (widget),
+					 gsb_form_get_element_name (TRANSACTION_FORM_DEBIT));
+		    gsb_form_set_entry_is_empty ( widget,
+						  TRUE );
 		}
+		widget = gsb_form_get_element_widget_2 ( TRANSACTION_FORM_TYPE,
+							 account_number );
 
-		/* si c'est un menu de crédit, on y met le menu de débit,
-		   sauf si tous les types sont affichés */
-
-		if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE ))
+		/* change the signe of the method of payment and the contra */
+		if ( gsb_payment_method_get_combo_sign (widget) == GSB_PAYMENT_DEBIT)
 		{
-		    if ( ( GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) )
-			   &&
-			   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ) -> menu ),
-								   "signe_menu" )) == 1 ) ||
-			 !GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ))
-		    {
-			/* on crée le nouveau menu et on met le défaut */
+		    gsb_payment_method_create_combo_list ( widget,
+							   GSB_PAYMENT_CREDIT,
+							   account_number );
+		    /* if there is no payment method, the last function hide it, but we have
+		     * to hide the cheque element too */
+		    if ( !GTK_WIDGET_VISIBLE (widget))
+			gtk_widget_hide (gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE));
 
-			GtkWidget *menu;
-
-			if ( ( menu = creation_menu_types ( 2, gsb_gui_navigation_get_current_account (), 0  ) ) )
-			{
-			    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ),
-						       menu );
-			    gtk_option_menu_set_history ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ),
-							  cherche_no_menu_type ( gsb_data_account_get_default_credit (gsb_gui_navigation_get_current_account ()) ) );
-			    gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) );
-			}
-			else
-			{
-			    gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) );
-			    gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
-			}
-
-			/* comme il y a eu un changement de signe, on change aussi le type de l'opé associée */
-			/* s'il est affiché */
-
-			if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA )
-			     &&
-			     GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) )
-			     &&
-			     GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) ) -> menu ),
-								     "signe_menu" )) == 2 )
-			{
-			    GtkWidget *menu;
-
-			    menu = creation_menu_types ( 1,
-							 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) ),
-												 "account_transfer" )),
-							 2  );
-
-			    if ( menu )
-				gtk_option_menu_set_menu ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) ),
-							   menu );
-			    else
-				gtk_option_menu_remove_menu ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) ));
-			}
-		    }
-		    else
-		    {
-			/* on n'a pas recréé de menu, donc soit c'est déjà un menu de débit, soit tous les types */
-			/* sont affichés, soit le widget n'est pas visible */
-			/* on met donc le défaut, sauf si il y a qque chose dans les categ ou que le widget n'est pas visible */
-
-
-			if ( GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) )
-			     &&
-			     ( !gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY )
-			       ||
-			       gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY) ) == style_entree_formulaire[ENGRIS] ))
-			    gtk_option_menu_set_history ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ),
-							  cherche_no_menu_type ( gsb_data_account_get_default_credit (gsb_gui_navigation_get_current_account ()) ) );
-		    }
+		    widget = gsb_form_get_element_widget_2 ( TRANSACTION_FORM_CONTRA,
+							     account_number );
+		    if ( GTK_WIDGET_VISIBLE (widget))
+			gsb_payment_method_create_combo_list ( widget,
+							       GSB_PAYMENT_DEBIT,
+							       account_number );
 		}
 	    }
 	    else
-		texte = _("Credit");
+		string = gsb_form_get_element_name (TRANSACTION_FORM_CREDIT);
 	    break;
 
 	case TRANSACTION_FORM_VALUE_DATE :
-	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-		modifie_date ( entree );
-	    else
-		texte = _("Value date");
+	    if ( !gsb_date_check_and_complete_entry (entry))
+		string = gsb_form_get_element_name (TRANSACTION_FORM_VALUE_DATE);
 	    break;
-
-	    /* si c'est un virement affiche le bouton des types de l'autre compte */
 
 	case TRANSACTION_FORM_CATEGORY :
 
-	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
+	    if ( strlen ( gtk_entry_get_text ( GTK_ENTRY (entry))))
 	    {
-		if ( strcmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY) ))),
-			      _("Breakdown of transaction") ))
+		if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA ))
 		{
-		    gchar **tab_char;
+		    /* if it's a transfer, set the contra_method of payment menu */
+		    gint contra_account_number;
 
-		    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_EXERCICE ))
-			gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_EXERCICE),
-						   TRUE );
-		    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_BUDGET ))
-			gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET),
-						   TRUE );
-
-		    /* vérification que ce n'est pas un virement */
-
-		    tab_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY) )),
-						":",
-						2 );
-
-		    tab_char[0] = g_strstrip ( tab_char[0] );
-
-		    if ( tab_char[1] )
-			tab_char[1] = g_strstrip ( tab_char[1] );
-
-
-		    if ( strlen ( tab_char[0] ) )
+		    if ( (contra_account_number = gsb_form_check_for_transfer ( gtk_entry_get_text ( GTK_ENTRY (entry)))) >= 0
+			 &&
+			 contra_account_number != account_number )
 		    {
-			if ( !strcmp ( tab_char[0],
-				       _("Transfer") )
-			     && tab_char[1]
-			     && strlen ( tab_char[1] ) )
-			{
-			    /* c'est un virement : on recherche le compte associé et on affiche les types de paiement */
-
-			    if ( strcmp ( tab_char[1],
-					  _("Deleted account") ) )
-			    {
-				/* recherche le no de compte du virement */
-
-				gint account_transfer;
-				GSList *list_tmp;
-
-				account_transfer = -1;
-				list_tmp = gsb_data_account_get_list_accounts ();
-
-				while ( list_tmp )
-				{
-				    gint i;
-
-				    i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-				    if ( !g_strcasecmp ( gsb_data_account_get_name (i),
-							 tab_char[1] ) )
-					account_transfer = i;
-
-				    list_tmp = list_tmp -> next;
-				}
-
-				/* si on a touvé un compte de virement, que celui ci n'est pas le compte */
-				/* courant et que son menu des types n'est pas encore affiché, on crée le menu */
-
-				if ( account_transfer != -1
-				     &&
-				     account_transfer != gsb_gui_navigation_get_current_account ()
-				     &&
-				     gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA ))
-				{
-				    /* si le menu affiché est déjà celui du compte de virement, on n'y touche pas */
-
-				    if ( !GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) )
-					 ||
-					 ( recupere_no_compte ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) )
-					   !=
-					   account_transfer ))
-				    {
-					/* vérifie quel est le montant entré, affiche les types opposés de l'autre compte */
-
-					GtkWidget *menu;
-
-					if ( gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT) ) == style_entree_formulaire[ENCLAIR] )
-					    /* il y a un montant dans le crédit */
-					    menu = creation_menu_types ( 1, account_transfer, 2  );
-					else
-					    /* il y a un montant dans le débit ou défaut */
-					    menu = creation_menu_types ( 2, account_transfer, 2  );
-
-					/* si un menu à été créé, on l'affiche */
-
-					if ( menu )
-					{
-					    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) ),
-								       menu );
-					    gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) );
-					}
-
-					/* on associe le no de compte de virement au formulaire pour le retrouver */
-					/* rapidement s'il y a un chgt débit/crédit */
-
-					gtk_object_set_data ( GTK_OBJECT ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) ),
-							      "account_transfer",
-							      GINT_TO_POINTER ( account_transfer ));
-				    }
-				}
-				else
-				    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA ))
-					gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) );
-			    }
-			    else
-				if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA ))
-				    gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) );
-			}
+			if ( gsb_form_check_entry_is_empty (gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT)))
+			    /* there is something in debit */
+			    gsb_payment_method_create_combo_list ( gsb_form_get_element_widget_2 (TRANSACTION_FORM_CONTRA,
+												  account_number),
+								   GSB_PAYMENT_CREDIT,
+								   contra_account_number );
 			else
-			    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA ))
-				gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) );
+			    /* there is something in credit */
+			    gsb_payment_method_create_combo_list ( gsb_form_get_element_widget_2 (TRANSACTION_FORM_CONTRA,
+												  account_number),
+								   GSB_PAYMENT_DEBIT,
+								   contra_account_number );
 		    }
 		    else
-			if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA ))
-			    gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) );
-
-		    g_strfreev ( tab_char );
+			gtk_widget_hide ( gsb_form_get_element_widget_2 (TRANSACTION_FORM_CONTRA,
+									 account_number ));
 		}
 	    }
 	    else
-		texte = _("Categories : Sub-categories");
+		string = gsb_form_get_element_name (TRANSACTION_FORM_CATEGORY);
 
 	    break;
 
 	case TRANSACTION_FORM_CHEQUE :
 
-	    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-		texte = _("Cheque/Transfer number");
+	    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entry )))))
+		string = gsb_form_get_element_name (TRANSACTION_FORM_CHEQUE);
 	    break;
 
 	case TRANSACTION_FORM_BUDGET :
 
-	    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-		texte = _("Budgetary line");
+	    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entry )))))
+		string = gsb_form_get_element_name (TRANSACTION_FORM_BUDGET);
 	    break;
 
 	case TRANSACTION_FORM_VOUCHER :
 
-	    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-		texte = _("Voucher");
+	    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entry )))))
+		string = gsb_form_get_element_name (TRANSACTION_FORM_VOUCHER);
 
 	    break;
 
 	case TRANSACTION_FORM_NOTES :
 
-	    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-		texte = _("Notes");
+	    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entry )))))
+		string = gsb_form_get_element_name (TRANSACTION_FORM_NOTES);
 	    break;
 
 	case TRANSACTION_FORM_BANK :
 
-	    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-		texte = _("Bank references");
+	    if ( !strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entry )))))
+		string = gsb_form_get_element_name (TRANSACTION_FORM_BANK);
 	    break;
 	default :
 	    break;
     }
 
-    /* si l'entrée était vide, on remet le défaut */
-    /* si l'origine était un combofix, il faut remettre le texte */
-    /* avec le gtk_combofix (sinon risque de complétion), donc utiliser l'origine */
+    /* if string is not NULL, the entry is empty so set the empty field to TRUE */
 
-    if ( texte )
+    if ( string )
     {
-	switch ( GPOINTER_TO_INT ( ptr_origin ))
+	switch ( element_number)
 	{
 	    case TRANSACTION_FORM_PARTY :
 	    case TRANSACTION_FORM_CATEGORY :
 	    case TRANSACTION_FORM_BUDGET :
-		gtk_combofix_set_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (GPOINTER_TO_INT ( ptr_origin )) ),
-					texte );
+		/* need to work with the combofix to avoid some signals if we work
+		 * directly on the entry */
+		gtk_combofix_set_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (element_number) ),
+					string );
 		break;
 
 	    default:
-
-		gtk_entry_set_text ( GTK_ENTRY ( entree ), texte );
+		gtk_entry_set_text ( GTK_ENTRY ( entry ), string );
 		break;
 	}
-	gtk_widget_set_style ( entree, style_entree_formulaire[ENGRIS] );
+	gsb_form_set_entry_is_empty ( entry,
+				      TRUE );
     }
     return FALSE;
 }
-/******************************************************************************/
 
-
-
-/******************************************************************************/
-gboolean clique_champ_formulaire ( GtkWidget *entree,
-				   GdkEventButton *ev,
-				   gint *ptr_origin )
+/**
+ * check if the string in the param is like "Transfer : account"
+ * if yes, return the number of the account
+ * if deleted account, return -2
+ * if no return -1
+ *
+ * \param entry_string
+ *
+ * \return the number of the transfer_account, -1 if not a transfer or account doesn't exist or -2 if deleted account
+ * */
+gint gsb_form_check_for_transfer ( const gchar *entry_string )
 {
-    GtkWidget *popup_cal;
-    struct struct_type_ope *type;
+    const gchar *account_name;
 
-    /* on rend sensitif tout ce qui ne l'était pas sur le formulaire */
+    if ( !entry_string
+	 ||
+	 strncmp ( entry_string,
+		   _("Transfer : "),
+		   strlen (_("Transfer : "))))
+	 return -2;
 
-    degrise_formulaire_operations ();
+    account_name = memchr ( entry_string,
+			    ':',
+			    strlen (entry_string));
+    /* after the : there is a space before the account name */
+    account_name = account_name + 2;
 
-    /* si l'entrée de la date est grise, on met la date courante seulement
-       si la date réelle est grise aussi. Dans le cas contraire,
-       c'est elle qui prend le focus */
+    if ( strcmp ( account_name,
+		  _("Deleted account")))
+	return gsb_data_account_get_no_account_by_name (account_name);
 
-    if ( gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE) ) == style_entree_formulaire[ENGRIS] )
+    else
+	return -1;
+}
+
+
+/**
+ * called when we press the button in an entry field in
+ * the form
+ *
+ * \param entry wich receive the signal
+ * \param ev can be NULL
+ * \param ptr_origin a pointer to int on the element_number
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_button_press_event ( GtkWidget *entry,
+				       GdkEventButton *ev,
+				       gint *ptr_origin )
+{
+    gint element_number;
+    gint account_number;
+
+    element_number = GPOINTER_TO_INT (ptr_origin);
+    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+
+    /* set the form sensitive */
+    gsb_form_change_sensitive_buttons (TRUE);
+
+    /* set the current date into the date entry except if there is already something into the value date */
+    if ( gsb_form_check_entry_is_empty ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE)))
     {
 	if ( !gsb_data_form_check_for_value ( TRANSACTION_FORM_VALUE_DATE )
 	     ||
-	     gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_VALUE_DATE) ) == style_entree_formulaire[ENGRIS] )
+	     gsb_form_check_entry_is_empty ( gsb_form_get_element_widget (TRANSACTION_FORM_VALUE_DATE)))
 	    {
-		if ( !last_date )
-		    last_date = gsb_today();
-
 		gtk_entry_set_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE) ),
-				     last_date );
-		gtk_widget_set_style ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE),
-				       style_entree_formulaire[ENCLAIR] );
+				     gsb_date_today ());
+		gsb_form_set_entry_is_empty ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE),
+					      FALSE );
 	    }
     }
 
-    /*     we set the exercice */
-
+    /*     we set the financial year */
     if ( gsb_form_get_element_widget(TRANSACTION_FORM_EXERCICE) )
 	affiche_exercice_par_date ( gsb_form_get_element_widget(TRANSACTION_FORM_DATE),
 				    gsb_form_get_element_widget(TRANSACTION_FORM_EXERCICE));
 
-
-
-    /*   si le type par défaut est un chèque, on met le nouveau numéro */
-
+    /* set the number of cheque for the method of payment if necessary */
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE )
 	 &&
 	 GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ))
     {
-	type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ) -> menu_item ),
-				     "adr_type" );
+	gint payment_number;
 
-	if ( type -> numerotation_auto )
+	payment_number = gsb_payment_method_get_selected_number (gsb_form_get_element_widget (TRANSACTION_FORM_TYPE));
+	if ( gsb_payment_method_get_automatic_number ( payment_number,
+						       account_number ))
 	{
-	    entree_prend_focus ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE), NULL, NULL );
+	    GtkWidget *widget;
 
-	    if ( !strlen ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) ))))
-		gtk_entry_set_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) ),
-				     automatic_numbering_get_new_number ( type ) );
+	    widget = gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE);
+
+	    gsb_form_entry_get_focus ( widget, NULL, NULL );
+
+	    if ( !strlen (gtk_entry_get_text ( GTK_ENTRY (widget))))
+		gtk_entry_set_text ( GTK_ENTRY (widget),
+				     gsb_payment_method_automatic_numbering_get_new_number (payment_number,
+											    account_number ));
 	}
     }
 
-    /* si ev est null ( cad que ça ne vient pas d'un click mais appelé par ex
-       à la fin de gsb_form_finish_edition ), on se barre */
-
+    /* if ev is NULL, go away here
+     * (means come from a function as gsb_form_finish_edition...) */
     if ( !ev )
 	return FALSE;
 
-    /* énumération suivant l'entrée où on clique */
-
-    switch ( GPOINTER_TO_INT ( ptr_origin ) )
+    /* check for the calendar */
+    switch ( element_number )
     {
 	case TRANSACTION_FORM_DATE :
 	case TRANSACTION_FORM_VALUE_DATE :
-
-	    /* si double click, on popup le calendrier */
 	    if ( ev -> type == GDK_2BUTTON_PRESS )
 	    {
-		popup_cal = gsb_calendar_new ( entree );
+		gsb_calendar_new ( entry );
 		return TRUE;
 	    }
-	    break;
-
-	default :
-
 	    break;
     }
     return FALSE;
 }
-/******************************************************************************/
 
 
-/******************************************************************************/
-gboolean touches_champ_formulaire ( GtkWidget *widget,
+/**
+ * sensitive or unsensitive all the buttons on the form
+ *
+ * \param sensitive TRUE or FALSE
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_change_sensitive_buttons ( gboolean sensitive )
+{
+    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE ))
+	gtk_widget_set_sensitive ( GTK_WIDGET ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ),
+				   sensitive );
+
+    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_DEVISE ))
+	gtk_widget_set_sensitive ( GTK_WIDGET ( gsb_form_get_element_widget (TRANSACTION_FORM_DEVISE) ),
+				   sensitive );
+
+    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_EXERCICE ))
+	gtk_widget_set_sensitive ( GTK_WIDGET ( gsb_form_get_element_widget (TRANSACTION_FORM_EXERCICE) ),
+				   sensitive );
+    return FALSE;
+}
+
+
+/**
+ * called when press a key on an element of the form
+ *
+ * \param widget wich receive the signal
+ * \param ev
+ * \param ptr_origin a pointer number of the element
+ * 
+ * \return FALSE
+ * */
+gboolean gsb_form_key_press_event ( GtkWidget *widget,
 				    GdkEventKey *ev,
 				    gint *ptr_origin )
 {
-    gint origine;
+    gint element_number;
+    gint account_number;
     gint element_suivant;
     GtkWidget *popup_cal;
 
-    origine = GPOINTER_TO_INT ( ptr_origin );
+    element_number = GPOINTER_TO_INT (ptr_origin);
+    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
 
-    /* si etat.entree = 1, la touche entrée finit l'opération ( fonction par défaut ) */
-    /* sinon elle fait comme tab */
-
-    if ( !etat.entree && ( ev -> keyval == GDK_Return || ev -> keyval == GDK_KP_Enter ))
+    /* if etat.entree = 1, entry finish the transaction, else does as tab */
+    if ( !etat.entree
+	 &&
+	 ( ev -> keyval == GDK_Return 
+	   ||
+	   ev -> keyval == GDK_KP_Enter ))
 	ev->keyval = GDK_Tab ;
 
     switch ( ev -> keyval )
     {
-	case GDK_Escape :		/* échap */
-
-	    echap_formulaire();
+	case GDK_Escape :
+	    gsb_form_escape_form ();
 	    break;
-
-
-	    /* 	    touche haut */
 
 	case GDK_Up:
-
-	    element_suivant = recherche_element_suivant_formulaire ( origine,
-								     2 );
+	    /* xxx marche pas pour les combofix */
+	    element_suivant = gsb_form_get_next_element ( account_number,
+							  element_number,
+							  GSB_UP );
 	    widget_grab_focus_formulaire ( element_suivant );
 	    return TRUE;
 	    break;
-
-	    /* 	    touche bas */
 
 	case GDK_Down:
-
-	    element_suivant = recherche_element_suivant_formulaire ( origine,
-								     3 );
+	    /* xxx marche pas pour les combofix */
+	    element_suivant = gsb_form_get_next_element ( account_number,
+							  element_number,
+							  GSB_DOWN );
 	    widget_grab_focus_formulaire ( element_suivant );
 	    return TRUE;
 	    break;
-
-
-	    /* 	    tabulation inversée (+SHIFT) */
 
 	case GDK_ISO_Left_Tab:
-
-	    /* 	    on passe au widget précédent */
-
-	    element_suivant = recherche_element_suivant_formulaire ( origine,
-								     0 );
+	    element_suivant = gsb_form_get_next_element ( account_number,
+							  element_number,
+							  GSB_LEFT );
 	    widget_grab_focus_formulaire ( element_suivant );
-
 	    return TRUE;
 	    break;
 
-	    /* tabulation */
-
 	case GDK_Tab :
-
-	    /* une tabulation passe au widget affiché suivant */
-	    /* et retourne à la date ou enregistre l'opé s'il est à la fin */
-
-	    /* 	    si on est sur le débit et qu'on a entré qque chose dedans, on efface le crédit */
-
-	    if ( origine == TRANSACTION_FORM_DEBIT
-		 &&
-		 strlen ( gtk_entry_get_text ( GTK_ENTRY ( widget ))))
-	    {
-		gtk_widget_set_style ( gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT),
-				       style_entree_formulaire[ENGRIS] );
-		gtk_entry_set_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT) ),
-				     _("Credit") );
-	    }
-	    
-	    /* 	    si on est sur le crédit et qu'on a entré qque chose dedans, on efface le débit */
-
-	    if ( origine == TRANSACTION_FORM_CREDIT
-		 &&
-		 strlen ( gtk_entry_get_text ( GTK_ENTRY ( widget ))))
-	    {
-		gtk_widget_set_style ( gsb_form_get_element_widget (TRANSACTION_FORM_DEBIT),
-				       style_entree_formulaire[ENGRIS] );
-		gtk_entry_set_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_DEBIT) ),
-				     _("Debit") );
-	    }
-
-
-	    element_suivant = recherche_element_suivant_formulaire ( origine,
-								     1 );
+	    element_suivant = gsb_form_get_next_element ( account_number,
+							  element_number,
+							  GSB_RIGHT );
 
 	    if ( element_suivant == -2 )
 		gsb_form_finish_edition();
 	    else
 		widget_grab_focus_formulaire ( element_suivant );
-
 	    return TRUE;
 	    break;
-
-	    /* touches entrée */
 
 	case GDK_KP_Enter :
 	case GDK_Return :
 
 	    /* si la touche CTRL est elle aussi active et si on est sur un champ
 	     * de date, c'est que l'on souhaite ouvrir un calendrier */
-
+/* xxx en suis ici dans le form */
 	    if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK
 		 &&
-		 ( origine == TRANSACTION_FORM_DATE
+		 ( element_number == TRANSACTION_FORM_DATE
 		   ||
-		   origine == TRANSACTION_FORM_VALUE_DATE ))
+		   element_number == TRANSACTION_FORM_VALUE_DATE ))
 	    {
-		popup_cal = gsb_calendar_new ( GTK_WIDGET ( GTK_ENTRY ( gsb_form_get_element_widget (origine) ) ) );
+		popup_cal = gsb_calendar_new ( GTK_WIDGET ( GTK_ENTRY ( gsb_form_get_element_widget (element_number) ) ) );
 		gtk_widget_grab_focus ( GTK_WIDGET ( popup_cal ) );
 		return TRUE;
 	    }
@@ -1902,15 +1746,15 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	case GDK_KP_Add:
 	case GDK_plus:
 
-	    /* si on est dans une entree de date, on augmente d'un jour
+	    /* si on est dans une entry de date, on augmente d'un jour
 	       ou d'une semaine(si ctrl) la date */
 
-	    switch ( origine )
+	    switch ( element_number )
 	    {
 		case TRANSACTION_FORM_VALUE_DATE:
 		case TRANSACTION_FORM_DATE:
 
-		    verifie_champs_dates ( origine );
+		    verifie_champs_dates ( element_number );
 
 		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK ||
 			 ev -> keyval != GDK_KP_Add )
@@ -1936,15 +1780,15 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	case GDK_KP_Subtract:
 	case GDK_minus:
 
-	    /* si on est dans une entree de date, on diminue d'un jour
+	    /* si on est dans une entry de date, on diminue d'un jour
 	       ou d'une semaine(si ctrl) la date */
 
-	    switch ( origine )
+	    switch ( element_number )
 	    {
 		case TRANSACTION_FORM_VALUE_DATE:
 		case TRANSACTION_FORM_DATE:
 
-		    verifie_champs_dates ( origine );
+		    verifie_champs_dates ( element_number );
 
 		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK ||
 			 ev -> keyval != GDK_KP_Subtract  )
@@ -1971,15 +1815,15 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	case GDK_Page_Up :
 	case GDK_KP_Page_Up :
 
-	    /* si on est dans une entree de date, on augmente d'un mois 
+	    /* si on est dans une entry de date, on augmente d'un mois 
 	       ou d'un an (si ctrl) la date */
 
-	    switch ( origine )
+	    switch ( element_number )
 	    {
 		case TRANSACTION_FORM_VALUE_DATE:
 		case TRANSACTION_FORM_DATE:
 
-		    verifie_champs_dates ( origine );
+		    verifie_champs_dates ( element_number );
 
 		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK )
 			inc_dec_date ( widget,
@@ -1999,15 +1843,15 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
 	case GDK_Page_Down :
 	case GDK_KP_Page_Down :
 
-	    /* si on est dans une entree de date, on diminue d'un mois 
+	    /* si on est dans une entry de date, on diminue d'un mois 
 	       ou d'un an (si ctrl) la date */
 
-	    switch ( origine )
+	    switch ( element_number )
 	    {
 		case TRANSACTION_FORM_VALUE_DATE:
 		case TRANSACTION_FORM_DATE:
 
-		    verifie_champs_dates ( origine );
+		    verifie_champs_dates ( element_number );
 
 		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK )
 			inc_dec_date ( widget,
@@ -2025,6 +1869,187 @@ gboolean touches_champ_formulaire ( GtkWidget *widget,
     return FALSE;
 }
 /******************************************************************************/
+
+
+
+/**
+ * return the number of the next valid element in the direction given in param
+ *
+ * \param account_number
+ * \param element_number
+ * \param direction GSB_LEFT, GSB_RIGHT, GSB_UP, GSB_DOWN
+ *
+ * \return 	the next element number
+ * 		-1 if problem or not change
+ * 		-2 if end of the form and need to finish it
+ * */
+gint gsb_form_get_next_element ( gint account_number,
+				 gint element_number,
+				 gint direction )
+{
+    gint row;
+    gint column;
+    gint return_value_number = 0;
+    gint form_column_number;
+    gint form_row_number;
+
+    if ( !gsb_data_form_look_for_value ( account_number,
+					 element_number,
+					 &row,
+					 &column ))
+	return -1;
+
+    form_column_number = gsb_data_form_get_nb_columns (account_number);
+    form_row_number = gsb_data_form_get_nb_rows (account_number);
+
+    while ( !gsb_form_element_can_receive_focus ( return_value_number,
+						  account_number )) 
+    {
+	switch ( direction )
+	{
+	    case GSB_LEFT:
+		if ( !column && !row )
+		{
+		    /* we are at the upper left, go on the bottom right */
+		    column = form_column_number;
+		    row = form_row_number -1; 
+		}
+
+		if ( --column == -1 )
+		{
+		    column = form_column_number - 1;
+		    row--;
+		}
+		return_value_number = gsb_data_form_get_value ( account_number,
+								column,
+								row );
+		break;
+
+	    case GSB_RIGHT:
+		if ( column == (form_column_number - 1)
+		     &&
+		     row == (form_row_number - 1))
+		{
+		    /* we are on the bottom right, we finish the edition or
+		     * go to the upper left */
+		    if ( !etat.entree )
+		    {
+			return_value_number = -2;
+			continue;
+		    }
+		    column = -1;
+		    row = 0; 
+		}
+
+		if ( ++column == form_column_number )
+		{
+		    column = 0;
+		    row++;
+		}
+		return_value_number = gsb_data_form_get_value ( account_number,
+								column,
+								row );
+		break;
+
+	    case GSB_UP:
+		if ( !row )
+		{
+		    return_value_number = -1;
+		    continue;
+		}
+
+		row--;
+		return_value_number = gsb_data_form_get_value ( account_number,
+								column,
+								row );
+		break;
+
+	    case GSB_DOWN:
+
+		if ( row == (form_row_number - 1))
+		{
+		    return_value_number = -1;
+		    continue;
+		}
+		row++;
+		return_value_number = gsb_data_form_get_value ( account_number,
+								column,
+								row );
+		break;
+
+	    default:
+		return_value_number = -1;
+	}
+    }
+    return return_value_number;
+}
+
+
+/**
+ * check if the given element can receive focus
+ *
+ * \param element_number
+ * 
+ * \return TRUE : can receive focus, or FALSE
+ * */
+gboolean gsb_form_element_can_receive_focus ( gint element_number,
+					      gint account_number )
+{
+    GtkWidget *widget;
+
+    /* if element_number is -1 or -2, the iteration while must
+     * stop, so return TRUE */
+    if ( element_number == -1
+	 ||
+	 element_number == -2 )
+	return TRUE;
+
+    widget = gsb_form_get_element_widget_2 ( element_number,
+					     account_number );
+
+    if ( !widget )
+	return FALSE;
+    
+    if ( !GTK_WIDGET_VISIBLE (widget))
+	return FALSE;
+
+    if ( !GTK_WIDGET_SENSITIVE (widget))
+	return FALSE;
+
+    if ( !(GTK_IS_COMBOFIX (widget)
+	   ||
+	   GTK_IS_ENTRY (widget)
+	   ||
+	   GTK_IS_BUTTON (widget)
+	   ||
+	   GTK_IS_COMBO_BOX (widget)))
+	return FALSE;
+
+    return TRUE;
+}
+
+
+
+/**
+ * called when cancel a form
+ *
+ * \param 
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_escape_form ( void )
+{
+    if ( etat.formulaire_toujours_affiche )
+	gsb_form_clean (gsb_form_get_account_number_from_origin (gsb_form_get_origin ()));
+    else
+    {
+	gsb_form_hide ();
+	gtk_expander_set_expanded ( GTK_EXPANDER (form_expander),
+				    FALSE );
+    }
+    gtk_widget_grab_focus (gsb_transactions_list_get_tree_view());
+    return FALSE;
+}
 
 
 
@@ -2109,7 +2134,7 @@ gchar *gsb_form_get_element_name ( gint element_number )
 	    break;
 
 	case TRANSACTION_FORM_CATEGORY:
-	    return (N_("Categories"));
+	    return (N_("Category line"));
 	    break;
 
 	case TRANSACTION_FORM_FREE:
@@ -2273,3 +2298,44 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
     }
     return FALSE;
 }
+
+/**
+ * check if the entry given in param is empty (ie grey) or not
+ *
+ * \param entry must be an entry
+ *
+ * \return TRUE : entry is free, FALSE : not free
+ * */
+gboolean gsb_form_check_entry_is_empty ( GtkWidget *entry )
+{
+    if (!entry)
+	return FALSE;
+
+    return (gtk_widget_get_style ( entry ) == style_entree_formulaire[ENGRIS] );
+}
+
+
+/**
+ * set the style to the entry as empty or not
+ *
+ * \param entry must be an entry
+ * \param empty TRUE or FALSE
+ *
+ * \return 
+ * */
+void gsb_form_set_entry_is_empty ( GtkWidget *entry,
+				   gboolean empty )
+{
+    if (!entry)
+	return;
+    
+    if (empty)
+	gtk_widget_set_style ( entry,
+			       style_entree_formulaire[ENGRIS] );
+    else
+	gtk_widget_set_style (  entry,
+			       style_entree_formulaire[ENCLAIR] );
+}
+
+
+

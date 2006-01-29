@@ -55,7 +55,7 @@ gboolean gsb_data_account_get_mini_balance_wanted_message ( gint no_account );
 gchar *gsb_data_account_get_name ( gint no_account );
 gint gsb_data_account_get_nb_rows ( gint no_account );
 gint gsb_data_account_get_no_account ( gpointer account_ptr );
-gint gsb_data_account_get_no_account_by_name ( gchar *account_name );
+gint gsb_data_account_get_no_account_by_name ( const gchar *account_name );
 gboolean gsb_data_account_get_r ( gint no_account );
 gdouble gsb_data_account_get_reconcile_balance ( gint no_account );
 gint gsb_data_account_get_reconcile_last_number ( gint no_account );

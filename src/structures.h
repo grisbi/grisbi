@@ -112,6 +112,14 @@ struct {
     gint display_message_qif_export_currency;
     gint display_message_ofx_security;
 
+    /* combofix configuration */
+    gint combofix_mixed_sort;  /* TRUE for no separation between the categories */
+    gint combofix_max_item;    /* maximum number of items we want before showing the popup */
+    gint combofix_case_sensitive;  /* TRUE if case sensitive */
+    gint combofix_enter_select_completion; /* TRUE if enter close the popup and keep what is in the entry (else, select the current item in the list) */
+    gint combofix_force_payee;   /* TRUE if no new item can be appended in the payee combofix */
+    gint combofix_force_category;   /* TRUE if no new item can be appended in the category and budget combofix */
+    
     /* Various commands */
     gchar * browser_command;
     gchar * latex_command;
@@ -121,14 +129,12 @@ struct {
     struct print_config print_config;
     
     /*     largeur des panned */
-
     gint largeur_colonne_comptes_operation;
     gint largeur_colonne_echeancier;
     gint largeur_colonne_comptes_comptes;
     gint largeur_colonne_etat;
 
     /* variables sur l'échéancier */
-
     gint formulaire_echeancier_toujours_affiche;
     gint formulaire_echeance_dans_fenetre;        /* à 1 lorsque le formulaire de l'échéancier est dans une fenetre à part */
     gint affichage_commentaire_echeancier;     /* à 1 si le commentaire est affiché */

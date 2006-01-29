@@ -140,7 +140,6 @@ gboolean recuperation_donnees_ofx ( struct imported_file * imported )
 	liste_tmp = liste_tmp -> next;
     }
 
-    
     return ( TRUE );
 }
 /* *******************************************************************************/
@@ -251,8 +250,8 @@ int ofx_proc_account_cb(struct OfxAccountData data)
 
     if ( data.account_id_valid )
     {
-	compte_ofx_importation_en_cours -> id_compte = my_strdup ( data.account_id );
-	compte_ofx_importation_en_cours -> nom_de_compte = unique_imported_name ( my_strdup ( data.account_name ) );
+	compte_ofx_importation_en_cours -> id_compte = latin2utf8 ( data.account_id );
+	compte_ofx_importation_en_cours -> nom_de_compte = unique_imported_name ( latin2utf8 ( data.account_name ) );
 	compte_ofx_importation_en_cours -> filename = ofx_filename;
     }
 
@@ -262,7 +261,7 @@ int ofx_proc_account_cb(struct OfxAccountData data)
 	compte_ofx_importation_en_cours -> type_de_compte = data.account_type;
 
     if ( data.currency_valid )
-	compte_ofx_importation_en_cours -> devise = my_strdup ( data.currency );
+	compte_ofx_importation_en_cours -> devise = latin2utf8 ( data.currency );
 
 
     return 0;
@@ -346,7 +345,7 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
     ope_import = g_malloc0 ( sizeof ( struct struct_ope_importation ));
 
     if ( data.fi_id_valid )
-	ope_import -> id_operation = my_strdup ( data.fi_id );
+	ope_import -> id_operation = latin2utf8 ( data.fi_id );
 
     date = g_date_new ();
     if ( data.date_posted_valid )
@@ -372,10 +371,10 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 	ope_import -> date = ope_import -> date_de_valeur;
 
     if ( data.name_valid )
-	ope_import -> tiers = my_strdup ( data.name );
+	ope_import -> tiers = latin2utf8 ( data.name );
 
     if ( data.memo_valid )
-	ope_import -> notes = my_strdup ( data.memo );
+	ope_import -> notes = latin2utf8 ( data.memo );
 
     if ( data.check_number_valid )
 	ope_import -> cheque = utils_str_atoi ( data.check_number );

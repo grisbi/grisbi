@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*     copyright (c)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
@@ -77,7 +76,6 @@ static gboolean gsb_form_config_update_form_config ( gint account_number );
 extern     gchar * buffer ;
 extern GtkWidget *formulaire;
 extern gint max;
-extern GtkTreeStore *model;
 extern GtkWidget *preview;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *tree_view;

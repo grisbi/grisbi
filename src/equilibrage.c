@@ -104,9 +104,8 @@ gint ancien_retient_affichage_par_compte;
 
 
 /*START_EXTERN*/
-extern GtkWidget *label_last_statement;
+extern GtkWidget *label_last_statement ;
 extern gint mise_a_jour_liste_comptes_accueil;
-extern GtkTreeStore *model;
 extern GtkWidget * navigation_tree_view;
 extern FILE * out;
 extern GtkWidget * reconcile_panel;
@@ -462,9 +461,9 @@ gboolean sortie_entree_date_equilibrage ( GtkWidget *entree )
     /* si l'entrée contenant la date est vide, alors on met la date du jour */
 
     if ( strlen ( g_strstrip ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( entree )))) == 0  )
-	gtk_entry_set_text ( GTK_ENTRY ( entree ), gsb_today() );
+	gtk_entry_set_text ( GTK_ENTRY ( entree ), gsb_date_today() );
 
-    format_date ( entree );
+    gsb_date_check_and_complete_entry ( entree );
     return FALSE;
 }
 /******************************************************************************/

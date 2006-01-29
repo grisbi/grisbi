@@ -52,7 +52,6 @@ static void export_resume_maybe_sensitive_next ( GtkWidget * assistant );
 
 /*START_EXTERN*/
 extern     gchar * buffer ;
-extern GtkTreeStore *model;
 extern gchar *titre_fichier;
 /*END_EXTERN*/
 

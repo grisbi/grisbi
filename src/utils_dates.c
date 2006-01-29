@@ -28,9 +28,9 @@
 /*START_INCLUDE*/
 #include "utils_dates.h"
 #include "calendar.h"
+#include "gsb_form.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
-#include "gsb_data_form.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -47,34 +47,77 @@ extern GtkWidget *entree_date_finale_etat;
 extern GtkWidget *entree_date_init_etat;
 extern GtkWidget *fenetre_preferences;
 extern GtkTreeSelection * selection;
-extern GtkStyle *style_entree_formulaire[2];
 extern GtkWidget *window;
 /*END_EXTERN*/
 
 
+/* save of the last date entried */
+static gchar *last_date;
 
 
 
-/******************************************************************************/
-/* fonction qui retourne la date du jour sous forme de string                 */
-/******************************************************************************/
-gchar *gsb_today ( void )
+
+/**
+ * return the last_date if defined, else the date of the day
+ * set last_date if unset
+ *
+ * \param
+ *
+ * \return a string contains the date
+ * */
+gchar *gsb_date_today ( void )
 {
-    GDate *date;
-    gchar date_str[SIZEOF_FORMATTED_STRING_DATE];
+    if (!last_date)
+    {
+	GDate *date;
+	gchar date_str[SIZEOF_FORMATTED_STRING_DATE];
 
-    date = gdate_today();
-
-    g_date_strftime ( date_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
-
-    return ( my_strdup ( date_str ) );
+	date = gdate_today();
+	g_date_strftime ( date_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
+	gsb_date_set_last_date (date_str);
+    }
+    return (last_date);
 }
-/******************************************************************************/
 
 
-/******************************************************************************/
-/* fonction qui retourne la date du jour au format GDate                      */
-/******************************************************************************/
+/**
+ * set the last_date value
+ * that value is dumped in memory
+ *
+ * \param a string wich contains the last date to remain
+ * 
+ * \return FALSE
+ * */
+gboolean gsb_date_set_last_date ( const gchar *date )
+{
+    last_date = my_strdup (date);
+    return FALSE;
+}
+
+
+/**
+ * set last date to null, so the next
+ * call to gsb_date_today will return the today date
+ * and not the last typed
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_date_free_last_date ( void )
+{
+    last_date = NULL;
+    return FALSE;
+}
+
+
+/**
+ * return the day date in the gdate format
+ *
+ * \param
+ *
+ * \return the date of the day
+ * */
 GDate *gdate_today ( void )
 {
     GDate *date;
@@ -84,7 +127,6 @@ GDate *gdate_today ( void )
 		       time (NULL));
     return ( date );
 }
-/******************************************************************************/
 
 
 
@@ -109,75 +151,47 @@ GDate *gsb_date_copy ( GDate *date )
 
 
     
-/******************************************************************************/
-/* Fonction modifie_date                                                      */
-/* prend en argument une entrÃ©e contenant une date                            */
-/* vÃ©rifie la validitÃ© et la modifie si seulement une partie est donnÃ©e       */
-/* met la date du jour si l'entrÃ©e est vide                                   */
-/* renvoie TRUE si la date est correcte                                       */
-/******************************************************************************/
-gboolean modifie_date ( GtkWidget *entree )
+/**
+ * check the entry to find a date
+ * if the entry is empty, set gsb_date_today
+ * if the entry is set, try to understand and fill it if necessary
+ * for example : 1/4/5 becomes 01/04/2005
+ *
+ * \param entry the entry to check
+ *
+ * \return FALSE if problem with the date, TRUE if ok
+ * */
+gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry )
 {
-    gchar *pointeur_entry;
-
-    /* si l'entrÃ©e est grise, on se barre */
-
-    if (( gtk_widget_get_style ( entree ) == style_entree_formulaire[ENGRIS] ))
+    const gchar *string;
+    
+    /* if the entry is grey (empty), go away */
+    if (gsb_form_check_entry_is_empty (entry))
 	return ( FALSE );
 
-    pointeur_entry = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )) );
+    string = gtk_entry_get_text ( GTK_ENTRY (entry));
 
-    if ( !strlen ( pointeur_entry ))
+    if ( !strlen (string))
     {
-	/* si on est dans la conf des Ã©tats, on ne met pas la date du jour, on */
-	/* laisse vide */
+	/* let the entry empty if we are on the report configuration */
 
-	if ( entree != entree_date_init_etat &&
-	     entree != entree_date_finale_etat )
-	    gtk_entry_set_text ( GTK_ENTRY ( entree ),
-				 gsb_today() );
+	if ( entry != entree_date_init_etat
+	     &&
+	     entry != entree_date_finale_etat )
+	    gtk_entry_set_text ( GTK_ENTRY (entry),
+				 gsb_date_today() );
     }
     else
     {
-	return ( format_date ( entree ) );
+	GDate *date;
 
+	date = gsb_parse_date_string (string);
+	if (!date)
+	    return FALSE;
+
+	gtk_entry_set_text ( GTK_ENTRY ( entry ),
+			     gsb_format_gdate (date));
     }
-    return ( TRUE );
-}
-/******************************************************************************/
-
-
-
-/******************************************************************************/
-/* Fonction format_date                                                       */
-/* Prend en argument une entrÃ©e contenant une date                            */
-/* VÃ©rifie la validitÃ© et la modifie si seulement une partie est donnÃ©e       */
-/* Met la date du jour si l'entrÃ©e est vide                                   */
-/* Renvoie TRUE si la date est correcte                                       */
-/******************************************************************************/
-gboolean format_date ( GtkWidget *entree )
-{
-    gchar *pEntry;
-    GDate *date;
-
-    pEntry = g_strstrip ( ( gchar * ) gtk_entry_get_text ( GTK_ENTRY ( entree ) ) );
-
-    if ( !pEntry || !strlen(pEntry) )
-    {
-	date = gdate_today();
-    }
-    else 
-    {
-	date = gsb_parse_date_string ( pEntry );
-    }
-
-    if ( ! date )
-    {
-	return FALSE;
-    }
-
-    gtk_entry_set_text ( GTK_ENTRY ( entree ), gsb_format_gdate ( date ) );
-
     return ( TRUE );
 }
 
@@ -231,7 +245,6 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
 		return g_date_new_dmy ( jour, mois, annee );
 	    else
 		return NULL;
-
 	}
 	else
 	{
@@ -533,13 +546,13 @@ void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update )
  */
 gboolean popup_calendar ( GtkWidget * button, gpointer data )
 {
-    GtkWidget *popup, *entree, *popup_boxv, *calendrier, *bouton, *frame;
+    GtkWidget *popup, *entry, *popup_boxv, *calendrier, *bouton, *frame;
     GtkRequisition taille_entree, taille_popup;
     GDate * date;
     gint x, y;
 
     /* Find associated gtkentry */
-    entree = g_object_get_data ( G_OBJECT(button), "entry" );
+    entry = g_object_get_data ( G_OBJECT(button), "entry" );
 
     /* Find popup position */
     gdk_window_get_origin ( GTK_BUTTON (button) -> event_window, &x, &y );
@@ -558,9 +571,9 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
     gtk_container_add ( GTK_CONTAINER ( frame ), popup_boxv);
 
     /* Set initial date according to entry */
-    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text (GTK_ENTRY(entree))) ) )
+    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text (GTK_ENTRY(entry))) ) )
     {
-	date = gsb_parse_date_string ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree ) ) );
+	date = gsb_parse_date_string ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
     }
     else
     {
@@ -579,7 +592,7 @@ gboolean popup_calendar ( GtkWidget * button, gpointer data )
 
     /* Create handlers */
     gtk_signal_connect ( GTK_OBJECT ( calendrier), "day-selected-double-click",
-			 ((GCallback)  date_selection ), entree );
+			 ((GCallback)  date_selection ), entry );
     gtk_signal_connect_object ( GTK_OBJECT ( calendrier), "day-selected-double-click",
 				((GCallback)  close_calendar_popup ), popup );
     gtk_signal_connect ( GTK_OBJECT ( popup ), "key-press-event",

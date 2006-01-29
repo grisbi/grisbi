@@ -52,6 +52,10 @@
 /*START_STATIC*/
 static GtkWidget *create_main_notebook (void );
 static gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook );
+static gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
+					  GtkNotebookPage *page,
+					  guint page_number,
+					  gpointer null );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -225,6 +229,10 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
 			       creation_onglet_comptes (),
 			       gtk_label_new (SPACIFY(_("Properties"))) );
+    g_signal_connect ( G_OBJECT (account_page),
+		       "switch_page",
+		       G_CALLBACK (gsb_gui_on_account_switch_page),
+		       NULL );
 
     /* append the scheduled transactions page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
@@ -347,6 +355,38 @@ gboolean gsb_gui_on_notebook_switch_page ( GtkNotebook *notebook,
 
     return ( FALSE );
 }
+
+/**
+ * called when the account notebook changed page between
+ * transactions list and account description
+ *
+ * \param notebook	Widget that triggered event.
+ * \param page		Not used.
+ * \param page_number	Page set.
+ * \param null		Not used.
+ *
+ * \return		FALSE
+ */
+gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
+					  GtkNotebookPage *page,
+					  guint page_number,
+					  gpointer null )
+{
+    switch ( page_number )
+    {
+	case 0:
+	    gsb_form_set_expander_visible (TRUE,
+					   TRUE );
+	    break;
+
+	case 1:
+	    gsb_form_set_expander_visible (FALSE,
+					   FALSE );
+	    break;
+    }
+    return ( FALSE );
+}
+
 
 
 

@@ -126,7 +126,6 @@ static gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
 
 
 /*START_EXTERN*/
-extern GtkTreeStore *model;
 extern GtkTreeViewColumn *transactions_tree_view_columns[TRANSACTION_LIST_COL_NB];
 /*END_EXTERN*/
 

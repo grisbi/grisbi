@@ -81,7 +81,6 @@ static void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * mod
 
 /*START_EXTERN*/
 extern GtkWidget *formulaire;
-extern GtkTreeStore *model;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
 /*END_EXTERN*/
@@ -1219,7 +1218,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
     liste_combofix = g_slist_append ( liste_combofix, liste_division_debit );
     liste_combofix = g_slist_append ( liste_combofix, liste_division_credit );
 
-    combofix = gtk_combofix_new_complex ( liste_combofix, TRUE, TRUE, TRUE, 0 );
+    combofix = gtk_combofix_new_complex (liste_combofix);
     gtk_box_pack_start ( GTK_BOX ( hbox ), combofix, TRUE, TRUE, 0 );
 
     /*       mise en place du choix supprimer le division */

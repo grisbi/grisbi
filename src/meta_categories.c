@@ -74,7 +74,6 @@ static gint category_transaction_sub_div_id ( gpointer  transaction );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeStore *model;
 extern int no_devise_totaux_categ;
 /*END_EXTERN*/
 

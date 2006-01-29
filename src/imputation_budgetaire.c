@@ -81,7 +81,6 @@ gint no_devise_totaux_ib;
 /*START_EXTERN*/
 extern MetatreeInterface * budgetary_interface ;
 extern gchar *dernier_chemin_de_travail;
-extern GtkTreeStore *model;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
@@ -328,15 +327,11 @@ void mise_a_jour_combofix_imputation ( void )
     if ( gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET) && 
 	 gsb_data_form_check_for_value ( TRANSACTION_FORM_BUDGET ) )
 	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET) ),
-				gsb_data_budget_get_name_list (TRUE, TRUE),
-				TRUE,
-				TRUE );
+				gsb_data_budget_get_name_list (TRUE, TRUE));
 
     if ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] )
-	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
-				gsb_data_budget_get_name_list (TRUE, TRUE),
-				TRUE,
-				TRUE );
+    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
+			    gsb_data_budget_get_name_list (TRUE, TRUE));
 
     mise_a_jour_combofix_imputation_necessaire = 0;
 }

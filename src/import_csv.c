@@ -38,30 +38,32 @@
 extern GSList *liste_comptes_importes;
 extern GSList *liste_comptes_importes_error;
 extern gint max;
-extern GtkTreeStore *model;
+extern GtkWidget *preview;
 /*END_EXTERN*/
 
 /*START_STATIC*/
+static gboolean csv_find_field_config ( gint searched );
+static GSList * csv_get_next_line ( gchar ** contents, gchar * separator );
 static gboolean csv_import_change_field ( GtkWidget * item, gint no_menu );
 static gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value, 
 				       gint length, gint * position );
 static gint csv_import_count_columns ( gchar * contents, gchar * separator );
 static GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * contents, 
 					 gchar * separator );
-static GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field, GtkWidget * assistant );
-static gint * csv_import_guess_fields_config ( gchar * contents, gint size, 
-					       gchar * separator );
+static GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field,
+				     GtkWidget * assistant );
+static gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * separator );
 static gchar * csv_import_guess_separator ( gchar * contents );
 static gboolean csv_import_header_on_click ( GtkWidget * button, GdkEventButton * ev, 
 				      gint *no_column );
 static gint csv_import_try_separator ( gchar * contents, gchar * separator );
-static gint * csv_import_update_fields_config ( gchar * contents, gint size, 
-						gchar * separator );
+static gint * csv_import_update_fields_config ( gchar * contents, gint size, gchar * separator );
 static gboolean csv_import_update_preview ( GtkWidget * assistant );
-static void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str, 
-				GtkTreeView * tree_preview );
+static void csv_import_update_validity_check ( GtkWidget * assistant );
 static gint csv_skip_lines ( gchar ** contents, gint num_lines, gchar * separator );
-static GSList * csv_get_next_line ( gchar ** contents, gchar * separator );
+static gboolean safe_contains ( gchar * original, gchar * substring );
+static void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str, 
+			 GtkTreeView * tree_preview );
 /*END_STATIC*/
 
 
@@ -824,7 +826,7 @@ void csv_import_update_validity_check ( GtkWidget * assistant )
 	}
     }
 
-    /** Then, fill in a GtkLabel containing diagnostic messages and
+    /** Then, fill in a GtkLabel containing diagnostic message and
      * show or hide a warning icon.  */
     if ( label )
     {

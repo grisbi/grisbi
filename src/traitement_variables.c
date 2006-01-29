@@ -150,7 +150,6 @@ void modification_fichier ( gboolean modif )
 	etat.modification_fichier = 0;
 	gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, FALSE );
     }
-
 }
 /*****************************************************************************************************/
 
@@ -179,6 +178,15 @@ void init_variables ( void )
 
     crypt_key = NULL;
 
+    /* init the combofix */
+    etat.combofix_mixed_sort = 0;
+    etat.combofix_max_item = 0;
+    etat.combofix_case_sensitive = 0;
+    etat.combofix_enter_select_completion = 0;
+    etat.combofix_force_payee = 0;
+    etat.combofix_force_category = 0;
+
+    
     mise_a_jour_liste_comptes_accueil = 0;
     mise_a_jour_liste_echeances_manuelles_accueil = 0;
     mise_a_jour_liste_echeances_auto_accueil = 0;

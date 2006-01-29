@@ -28,8 +28,8 @@
 #include "operations_comptes.h"
 #include "erreur.h"
 #include "gsb_data_account.h"
-#include "gsb_form.h"
 #include "utils_dates.h"
+#include "gsb_form.h"
 #include "navigation.h"
 #include "menu.h"
 #include "gsb_transactions_list.h"
@@ -49,8 +49,7 @@ GtkWidget *vbox_liste_comptes;
 
 /*START_EXTERN*/
 extern gint compte_courant_onglet;
-extern GtkWidget *label_last_statement;
-extern gchar *last_date;
+extern GtkWidget *label_last_statement ;
 /*END_EXTERN*/
 
 
@@ -125,8 +124,7 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
     compte_courant_onglet = new_account;
 
     /* unset the last date written */
-
-    last_date = NULL;
+    gsb_date_free_last_date ();
 
     return FALSE;
 }

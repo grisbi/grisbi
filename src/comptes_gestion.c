@@ -35,9 +35,9 @@
 #include "erreur.h"
 #include "utils_devises.h"
 #include "dialog.h"
-#include "operations_formulaire.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
+#include "gsb_form.h"
 #include "navigation.h"
 #include "menu.h"
 #include "gsb_scheduler_list.h"
@@ -955,7 +955,7 @@ void modification_details_compte ( void )
 	mise_a_jour_fin_comptes_passifs = 1;
 	mise_a_jour_soldes_minimaux = 1;
 	gsb_gui_navigation_update_account ( compte_courant_onglet );
-	formulaire_a_zero();
+	gsb_form_clean(gsb_form_get_account_number_from_origin (gsb_form_get_origin ()));
     }
 
 

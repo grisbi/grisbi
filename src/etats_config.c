@@ -35,7 +35,6 @@
 #include "utils_devises.h"
 #include "dialog.h"
 #include "utils_exercices.h"
-#include "utils_dates.h"
 #include "calendar.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -44,6 +43,7 @@
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
 #include "gsb_data_report_text_comparison.h"
+#include "utils_dates.h"
 #include "navigation.h"
 #include "classement_operations.h"
 #include "traitement_variables.h"
@@ -1189,7 +1189,7 @@ void recuperation_info_perso_etat ( void )
 
     if ( strlen ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat )))
 	 &&
-	 !format_date ( entree_date_init_etat ))
+	 !gsb_date_check_and_complete_entry ( entree_date_init_etat ))
     {
 	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
 			      g_strdup_printf ( _("Invalid initial date '%s'"), 
@@ -1199,7 +1199,7 @@ void recuperation_info_perso_etat ( void )
 
     if ( strlen ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat )))
 	 &&
-	 !format_date ( entree_date_finale_etat )) {
+	 !gsb_date_check_and_complete_entry ( entree_date_finale_etat )) {
 	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
 			      g_strdup_printf ( _("Invalid final date '%s'"), 
 						gtk_entry_get_text(GTK_ENTRY(entree_date_finale_etat)) ) );
@@ -1399,7 +1399,7 @@ void recuperation_info_perso_etat ( void )
 
     if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ))))
 	 &&
-	 format_date ( entree_date_init_etat ))
+	 gsb_date_check_and_complete_entry ( entree_date_init_etat ))
     {
 	gsb_data_report_set_personal_date_start ( current_report_number,
 						  gsb_parse_date_string ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ) ) ));
@@ -1407,7 +1407,7 @@ void recuperation_info_perso_etat ( void )
 
     if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ))))
 	 &&
-	 format_date ( entree_date_finale_etat ))
+	 gsb_date_check_and_complete_entry ( entree_date_finale_etat ))
     {
 	gsb_data_report_set_personal_date_end ( current_report_number,
 						gsb_parse_date_string ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ) ) ));
@@ -2505,9 +2505,9 @@ gboolean sortie_entree_date_etat ( GtkWidget *entree )
     /* si l'entrée contenant la date est vide, alors on met la date du jour */
 
     if ( strlen ( g_strstrip ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( entree )))) == 0  )
-	gtk_entry_set_text ( GTK_ENTRY ( entree ), gsb_today() );
+	gtk_entry_set_text ( GTK_ENTRY ( entree ), gsb_date_today() );
 
-    format_date ( entree );
+    gsb_date_check_and_complete_entry ( entree );
     return FALSE;
 }
 /******************************************************************************/

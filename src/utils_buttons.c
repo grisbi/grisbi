@@ -65,11 +65,12 @@ extern GtkWidget *window;
  * \param label The label for this checkbutton
  * \param data A pointer to a boolean integer
  * \param hook A GCallBack to execute if not null
+ *
  * \return A newly allocated GtkVBox
  */
 GtkWidget *new_checkbox_with_title ( gchar * label, gint * data, GCallback hook)
 {
-    GtkWidget * checkbox;
+    GtkWidget *checkbox;
 
     checkbox = gtk_check_button_new_with_mnemonic ( label );
     checkbox_set_value ( checkbox, data, TRUE );

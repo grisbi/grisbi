@@ -38,7 +38,7 @@
 #include "affichage.h"
 #include "exercice.h"
 #include "import.h"
-#include "type_operations.h"
+#include "gsb_payment_method_config.h"
 #include "equilibrage.h"
 #include "parametres.h"
 #include "structures.h"
@@ -102,7 +102,6 @@ GtkWidget *entree_jours;
 
 /*START_EXTERN*/
 extern struct conditional_message messages[] ;
-extern GtkTreeStore *model;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar *nom_fichier_backup;

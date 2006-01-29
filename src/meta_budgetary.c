@@ -75,7 +75,6 @@ static gint budgetary_line_transaction_sub_div_id ( gpointer  transaction );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeStore *model;
 extern gint no_devise_totaux_ib;
 /*END_EXTERN*/
 

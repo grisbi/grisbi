@@ -28,7 +28,6 @@
 
 /*START_INCLUDE*/
 #include "comptes_traitements.h"
-#include "type_operations.h"
 #include "comptes_gestion.h"
 #include "dialog.h"
 #include "fichiers_gestion.h"
@@ -424,36 +423,36 @@ void changement_choix_compte_echeancier ( void )
 
     if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
     {
-	/*       il y a qque chose dans le crï¿œit, on met le menu des types crï¿œit */
+	/*       il y a qque chose dans le credit, on met le menu des types credit */
 
-	if ( (menu = creation_menu_types ( 2,
-					   no_compte,
-					   1 )))
-	{
+/* 	if ( (menu = creation_menu_types ( 2, */
+/* 					   no_compte, */
+/* 					   1 ))) */
+/* 	{ */
 	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 				       menu );
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-					  cherche_no_menu_type_echeancier ( gsb_data_account_get_default_credit (no_compte)));
+/* 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
+/* 					  cherche_no_menu_type_echeancier ( gsb_data_account_get_default_credit (no_compte))); */
 	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
-	}
-	else
+/* 	} */
+/* 	else */
 	    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
     }
     else
     {
 	/*       il y a qque chose dans le dï¿œit ou c'est par dï¿œaut, on met le menu des types dï¿œit */
 
-	if ( (menu = creation_menu_types ( 1,
-					   recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]),
-					   1 )))
+/* 	if ( (menu = creation_menu_types ( 1, */
+/* 					   recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]), */
+/* 					   1 ))) */
 	{
 	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 				       menu );
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-					  cherche_no_menu_type_echeancier ( gsb_data_account_get_default_debit (no_compte) ) );
+/* 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
+/* 					  cherche_no_menu_type_echeancier ( gsb_data_account_get_default_debit (no_compte) ) ); */
 	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
 	}
-	else
+/* 	else */
 	    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
     }
 }

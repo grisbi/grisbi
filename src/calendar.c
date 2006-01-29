@@ -459,7 +459,7 @@ void inc_dec_date ( GtkWidget *entree, gint demande )
 
     /* on commence par vérifier que la date est valide */
 
-    if ( !format_date ( entree ) )
+    if ( !gsb_date_check_and_complete_entry ( entree ) )
 	return;
 
     date = gsb_parse_date_string ( g_strstrip ( ( gchar * ) gtk_entry_get_text ( GTK_ENTRY ( entree ) ) ) );

@@ -1,54 +1,53 @@
-/* Ce fichier s'occupe de la gestion des types d'opérations */
-/* type_operations.c */
+/* ************************************************************************** */
+/*                                                                            */
+/*     copyright (c)	2000-2006 C�dric Auger (cedric@grisbi.org)	      */
+/*			2004-2006 Benjamin Drieu (bdrieu@april.org) 	      */
+/*			http://www.grisbi.org   			      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org) */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-
+/**
+ * \file gsb_payment_method_config.c
+ * all that you need for the config of the payment method is here !!!
+ */
 
 #include "include.h"
 
-
 /*START_INCLUDE*/
-#include "type_operations.h"
+#include "gsb_payment_method_config.h"
 #include "utils_buttons.h"
 #include "dialog.h"
-#include "gsb_form.h"
 #include "utils_editables.h"
 #include "equilibrage.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
-#include "navigation.h"
+#include "gsb_form.h"
+#include "gsb_payment_method.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
+#include "operations_formulaire.h"
 #include "structures.h"
-#include "type_operations.h"
-#include "echeancier_formulaire.h"
 #include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static void ajouter_type_operation ( void );
-static gchar * automatic_numbering_get_current_number ( struct struct_type_ope * type );
-static void changement_choix_type_echeancier ( struct struct_type_ope *type );
-static void changement_choix_type_formulaire ( struct struct_type_ope *type );
-static gint cherche_no_menu_type_associe ( gint demande );
 static void fill_payment_method_tree ();
 static gint find_operation_type_by_type ( gint no_compte, gint signe_type, gint exclude );
 static void modification_entree_nom_type ( void );
@@ -63,13 +62,12 @@ static gboolean select_type_ope ( GtkTreeModel *model, GtkTreePath *path,
 static void supprimer_type_operation ( void );
 /*END_STATIC*/
 
-
-
-
-
+/*START_EXTERN*/
+extern GtkWidget *fenetre_preferences;
+extern GtkTreeSelection * selection;
+/*END_EXTERN*/
 
 GtkWidget *payment_method_treeview;
-GtkTreeStore *model;
 
 GtkWidget *bouton_ajouter_type;
 GtkWidget *bouton_retirer_type;
@@ -80,22 +78,10 @@ GtkWidget *entree_automatic_numbering;
 
 GtkWidget *vbox_fleches_tri;
 
+static GtkTreeStore *model;
 
 /** Global to handle sensitiveness */
 GtkWidget * details_paddingbox;
-
-/*START_EXTERN*/
-extern GtkWidget *fenetre_preferences;
-extern GtkWidget *formulaire;
-extern GtkWidget *formulaire_echeancier;
-extern GtkWidget *label_saisie_modif;
-extern gint max;
-extern GtkTreeSelection * selection;
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
-/*END_EXTERN*/
-
-
-
 
 
 
@@ -115,10 +101,10 @@ void payment_method_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
 			PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
 			-1);
 
-    if (type_ope -> signe_type == 1) /* Débit */
+    if (type_ope -> signe_type == 1) /* D�bit */
 	gsb_data_account_set_default_debit ( type_ope -> no_compte,
 					type_ope -> no_type);
-    else if  (type_ope -> signe_type == 2) /* Crédit */
+    else if  (type_ope -> signe_type == 2) /* Cr�dit */
 	gsb_data_account_set_default_credit ( type_ope -> no_compte,
 					 type_ope -> no_type );
 
@@ -156,7 +142,7 @@ void payment_method_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
 
 /**
  * Fill the `model' GtkTreeModel with all payment methods known.  They
- * are organized by account and then my type of payment method: Debit,
+ * are organized by account and then my method_ptr of payment method: Debit,
  * Credit, Neutral.
  */
 void fill_payment_method_tree ()
@@ -172,7 +158,7 @@ void fill_payment_method_tree ()
     while ( list_tmp )
     {
 	gint i;
-	GSList *liste_tmp;
+	GSList *tmp_list;
 
 	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
@@ -219,9 +205,9 @@ void fill_payment_method_tree ()
 
 
 	/* Iter over account payment methods */
-	liste_tmp = gsb_data_account_get_method_payment_list (i);
+	tmp_list = gsb_data_account_get_method_payment_list (i);
 
-	while ( liste_tmp )
+	while ( tmp_list )
 	{
 	    struct struct_type_ope *type_ope;
 	    GtkTreeIter * parent_iter;
@@ -229,7 +215,7 @@ void fill_payment_method_tree ()
 	    gboolean isdefault;
 	    gchar * number;
 
-	    type_ope = liste_tmp->data;
+	    type_ope = tmp_list->data;
 
 	    if ( type_ope -> no_type == gsb_data_account_get_default_debit (i)
 		 ||
@@ -267,12 +253,11 @@ void fill_payment_method_tree ()
 				PAYMENT_METHODS_POINTER_COLUMN, type_ope,
 				-1 );
 
-	    liste_tmp = liste_tmp -> next;
+	    tmp_list = tmp_list -> next;
 	}
 	list_tmp = list_tmp -> next;
     }
 }
-
 
 
 /**
@@ -446,7 +431,7 @@ GtkWidget *onglet_types_operations ( void )
 		       GTK_SHRINK, 0,
 		       0, 0 );
 
-    /* Payment method type */
+    /* Payment method method_ptr */
     label = gtk_label_new ( COLON(_("Type")) );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
@@ -458,21 +443,21 @@ GtkWidget *onglet_types_operations ( void )
     /* Create menu */
     bouton_signe_type = gtk_option_menu_new ();
     menu = gtk_menu_new();
-    /* Neutral type */
+    /* Neutral method_ptr */
     item = gtk_menu_item_new_with_label ( _("Neutral") );
     gtk_signal_connect_object ( GTK_OBJECT ( item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( modification_type_signe ),
 				NULL );
     gtk_menu_append ( GTK_MENU ( menu ), item );
-    /* Debit type */
+    /* Debit method_ptr */
     item = gtk_menu_item_new_with_label ( _("Debit") );
     gtk_signal_connect_object ( GTK_OBJECT ( item ),
 				"activate",
 				GTK_SIGNAL_FUNC ( modification_type_signe ),
 				GINT_TO_POINTER (1) );
     gtk_menu_append ( GTK_MENU ( menu ), item );
-    /* Credit type */
+    /* Credit method_ptr */
     item = gtk_menu_item_new_with_label ( _("Credit") );
     gtk_signal_connect_object ( GTK_OBJECT ( item ),
 				"activate",
@@ -551,7 +536,6 @@ gboolean select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *mode
 }
 
 
-
 /**
  * Callback called when the payment method name is changed in the
  * GtkEntry associated.  It updates the GtkTreeView list of payment
@@ -560,7 +544,6 @@ gboolean select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *mode
 void modification_entree_nom_type ( void )
 {
     struct struct_type_ope *type_ope;
-    GtkWidget * menu;
     GtkTreeSelection *selection;
     GtkTreeIter iter;
     gboolean good, visible;
@@ -584,40 +567,24 @@ void modification_entree_nom_type ( void )
 
 	if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE ))
 	{
-	    if ( (menu = creation_menu_types ( 1, gsb_gui_navigation_get_current_account () , 0 )))
+	    GtkWidget *widget;
+	    gint account_number;
+
+	    widget = gsb_form_get_element_widget (TRANSACTION_FORM_TYPE);
+	    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+
+	    gsb_payment_method_create_combo_list ( widget,
+						   GSB_PAYMENT_DEBIT,
+						   account_number);
+
+	    if (GTK_WIDGET_VISIBLE (widget))
 	    {
-		gint pos_type;
-
-		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ),
-					   menu );
-
-		pos_type = cherche_no_menu_type ( gsb_data_account_get_default_debit (gsb_gui_navigation_get_current_account ()) );
-
-		if ( pos_type != -1 )
-		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ),
-						  pos_type );
-		else
-		{
-		    struct struct_type_ope *type;
-
-		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ),
-						  0 );
-		    gsb_data_account_set_default_debit ( gsb_gui_navigation_get_current_account (),
-							 gsb_payment_method_get_payment_number_from_option_menu (gsb_form_get_element_widget (TRANSACTION_FORM_TYPE)));
-
-		    /* on affiche l'entrée des chèques si nécessaire */
-		    type = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ) -> menu_item ),
-					       "adr_type" );
-
-		    if ( type -> affiche_entree )
-			gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
-		}
-
-		gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) );
+		place_type_formulaire ( gsb_data_account_get_default_debit (account_number),
+					TRANSACTION_FORM_TYPE,
+					NULL );
 	    }
 	    else
 	    {
-		gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) );
 		gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
 	    }
 	}
@@ -657,7 +624,7 @@ void modification_type_numerotation_auto (void)
 	gtk_widget_set_sensitive ( entree_type_dernier_no, TRUE );
 	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
 			    PAYMENT_METHODS_NUMBERING_COLUMN, 
-			    automatic_numbering_get_current_number(type_ope), 
+			    gsb_payment_method_get_automatic_current_number(type_ope), 
 			    -1);
     }
     else
@@ -670,7 +637,6 @@ void modification_type_numerotation_auto (void)
 			    -1);
     }
 }
-
 
 
 /**
@@ -697,13 +663,12 @@ void modification_entree_type_dernier_no ( void )
     {
 	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
 			    PAYMENT_METHODS_NUMBERING_COLUMN, 
-			    automatic_numbering_get_current_number ( type_ope ),
+			    gsb_payment_method_get_automatic_current_number ( type_ope ),
 			    -1);
 
 	fill_reconciliation_tree ();
     }
 }
-
 
 
 /**
@@ -744,7 +709,7 @@ gboolean select_type_ope ( GtkTreeModel *model, GtkTreePath *path,
 
 
 /**
- * This function looks for a struct_type_ope which type matches
+ * This function looks for a method of payment which matches
  * `signe_type' and returns its number.
  *
  * \param no_compte	The account to process.
@@ -770,10 +735,9 @@ gint find_operation_type_by_type ( gint no_compte, gint signe_type, gint exclude
 	    return type_ope -> no_type;
     }
 
-    /* Defaults to first type, whatever it may be */
+    /* Defaults to first method_ptr, whatever it may be */
     return 0;
 }
-
 
 
 /**
@@ -908,7 +872,7 @@ void ajouter_type_operation ( void )
 	    }
 	    else
 	    {
-		/* We are on an account, type will be the same as the
+		/* We are on an account, method_ptr will be the same as the
 		   first node  */
 		if (! gtk_tree_model_iter_children( GTK_TREE_MODEL(model),
 						    &child, &iter ))
@@ -980,7 +944,7 @@ void ajouter_type_operation ( void )
 					       g_slist_append ( gsb_data_account_get_method_payment_list (no_compte), type_ope ) );
 
     /* add to the sorted list */
-    /* FIXME before 0.6 : faire une fonction add pour les types opés et method of payment */
+    /* FIXME before 0.6 : faire une fonction add pour les types op�s et method of payment */
     gsb_data_account_set_sort_list ( no_compte,
 				     g_slist_append ( gsb_data_account_get_sort_list (no_compte),
 						      GINT_TO_POINTER (type_ope -> no_type)));
@@ -1040,7 +1004,7 @@ void supprimer_type_operation ( void )
 	}
 
 	/** If operations are related to this method, we have to ask for
-	  confirmation for this removal, as we need to change type of
+	  confirmation for this removal, as we need to change method_ptr of
 	  related operations.  This is of course not reversible.  */
 	if ( ope_a_changer )
 	{
@@ -1084,16 +1048,16 @@ void supprimer_type_operation ( void )
 	      menu to choose among them */
 	    while ( pointeur_tmp )
 	    {
-		struct struct_type_ope *type;
+		struct struct_type_ope *method_ptr;
 		GtkWidget *menu_item;
-		type = pointeur_tmp -> data;
-		if ( type -> no_type != type_ope -> no_type
-		     && ( type -> signe_type == type_ope -> signe_type
-			  || !type -> signe_type ))
+		method_ptr = pointeur_tmp -> data;
+		if ( method_ptr -> no_type != type_ope -> no_type
+		     && ( method_ptr -> signe_type == type_ope -> signe_type
+			  || !method_ptr -> signe_type ))
 		{
-		    menu_item = gtk_menu_item_new_with_label ( type -> nom_type );
+		    menu_item = gtk_menu_item_new_with_label ( method_ptr -> nom_type );
 		    gtk_object_set_data ( GTK_OBJECT ( menu_item ), "no_type",
-					  GINT_TO_POINTER ( type -> no_type ));
+					  GINT_TO_POINTER ( method_ptr -> no_type ));
 		    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 		}
 		pointeur_tmp = pointeur_tmp -> next;
@@ -1118,13 +1082,13 @@ void supprimer_type_operation ( void )
 		return;
 	    }
 
-	    /* Find new type */
+	    /* Find new method_ptr */
 	    if ( GTK_MENU_SHELL ( menu ) -> children )
-		nouveau_type = gsb_payment_method_get_payment_number_from_option_menu (option_menu);
+		nouveau_type = gsb_payment_method_get_selected_number (option_menu);
 	    else
 		nouveau_type = 0;
 
-	    /* Then, we change type for related operations. */
+	    /* Then, we change method_ptr for related operations. */
 	    pointeur_tmp = ope_a_changer;
 
 	    while ( pointeur_tmp )
@@ -1140,7 +1104,7 @@ void supprimer_type_operation ( void )
 	    gtk_widget_destroy ( GTK_WIDGET(dialog) );
 	}
 
-	/* Remove type from tree & memory */
+	/* Remove method_ptr from tree & memory */
 	gtk_tree_store_remove ( GTK_TREE_STORE(model), &iter );
 	gsb_data_account_set_method_payment_list ( type_ope -> no_compte,
 					      g_slist_remove ( gsb_data_account_get_method_payment_list (type_ope -> no_compte), type_ope ) );
@@ -1176,7 +1140,7 @@ void supprimer_type_operation ( void )
 
 	modification_fichier ( TRUE );
 
-	/* on retire le no de type dans la liste de tri et on réaffiche la liste */
+	/* on retire le no de method_ptr dans la liste de tri et on r�affiche la liste */
 	/*       liste_tri_tmp[type_ope->no_compte] = g_slist_remove ( liste_tri_tmp[type_ope->no_compte], */
 	/* 							    GINT_TO_POINTER ( type_ope -> no_type )); */
 
@@ -1186,7 +1150,7 @@ void supprimer_type_operation ( void )
 
 	/*       remplit_liste_tri_par_type ( type_ope->no_compte ); */
 
-	/*   si le type était par défaut, on met le défaut à 0 */
+	/*   si le method_ptr �tait par d�faut, on met le d�faut � 0 */
     }
 }
 /* ************************************************************************************************************** */
@@ -1195,405 +1159,3 @@ void supprimer_type_operation ( void )
 
 
 
-/* ************************************************************************************************************** */
-/* Fonction creation_menu_types */
-/* argument : 1 : renvoie un menu de débits */
-/* 2 : renvoie un menu de crédits */
-/* l'origine est 0 si vient des opérations, 1 si vient des échéances, 2 pour ne pas mettre de signal quand il y a un chgt */
-/* ************************************************************************************************************** */
-
-GtkWidget *creation_menu_types ( gint demande,
-				 gint compte,
-				 gint origine )
-{
-    GtkWidget *menu;
-    GSList *liste_tmp;
-
-    /*   s'il n'y a pas de menu, on se barre */
-
-    if ( !(liste_tmp = gsb_data_account_get_method_payment_list (compte) ))
-    {
-	return ( NULL );
-    }
-
-    menu = NULL;
-
-    while ( liste_tmp )
-    {
-	struct struct_type_ope *type;
-
-	type = liste_tmp -> data;
-
-	if ( type -> signe_type == demande
-	     ||
-	     !type -> signe_type )
-	{
-	    GtkWidget *item;
-
-	    /* avant de mettre l'item, on crée le menu si nécessaire */
-	    /* le faire ici permet de retourner null si il n'y a rien */
-	    /*   dans le menu (sinon, si rien dans les crédits, mais qque */
-	    /* chose dans les débits, renvoie un menu vide qui sera affiché */
-
-	    if ( !menu )
-	    {
-		menu = gtk_menu_new();
-
-		/* on associe au menu la valeur 1 pour menu de débit et 2 pour menu de crédit */
-
-		gtk_object_set_data ( GTK_OBJECT ( menu ),
-				      "signe_menu",
-				      GINT_TO_POINTER ( demande ) );
-		gtk_object_set_data ( GTK_OBJECT ( menu ),
-				      "no_compte",
-				      GINT_TO_POINTER ( compte ) );
-		gtk_widget_show ( menu );
-	    }
-
-
-	    item = gtk_menu_item_new_with_label ( type -> nom_type );
-
-	    switch ( origine )
-	      {
-	      case 0:
-		gtk_signal_connect_object ( GTK_OBJECT ( item ),
-					    "activate",
-					    GTK_SIGNAL_FUNC ( changement_choix_type_formulaire ),
-					    (GtkObject *) type );
-		break;
-	      case 1:
-		gtk_signal_connect_object ( GTK_OBJECT ( item ),
-					    "activate",
-					    GTK_SIGNAL_FUNC ( changement_choix_type_echeancier ),
-					    (GtkObject *) type );
-		break;
-	      }
-
-	    gtk_object_set_data ( GTK_OBJECT ( item ),
-				  "adr_type",
-				  type );
-	    gtk_object_set_data ( GTK_OBJECT ( item ),
-				  "no_type",
-				  GINT_TO_POINTER ( type -> no_type ));
-	    gtk_menu_append ( GTK_MENU ( menu ),
-			      item );
-	    gtk_widget_show ( item );
-	}
-	liste_tmp = liste_tmp -> next;
-    }
-
-    return ( menu );
-}
-/* ************************************************************************************************************** */
-
-
-/**
- * find and return the curent selected method of payment in
- * the option menu given in param
- *
- * \param payment_option_menu an option_menu created by creation_menu_types
- *
- * \return the number of the method of payment currently selected or 0 if problem
- * */
-gint gsb_payment_method_get_payment_number_from_option_menu ( GtkWidget *payment_option_menu )
-{
-    gint payment_method;
-
-    if ( !payment_option_menu )
-	return 0;
-
-    payment_method = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (payment_option_menu) -> menu_item ),
-							     "no_type" ));
-    return payment_method;
-}
-
-
-/* ************************************************************************************************************** */
-/* Fonction cherche_no_menu_type */
-/*   argument : le numéro du type demandé */
-/* renvoie la place demandée dans l'option menu du formulaire */
-/* pour mettre l'history et affiche l'entrée du chq si nécessaire */
-/* retourne -1 si pas trouvé */
-/* ************************************************************************************************************** */
-
-gint cherche_no_menu_type ( gint demande )
-{
-    GList *liste_tmp;
-    gint retour;
-    gint i;
-
-    if ( !demande )
-	return ( FALSE );
-
-    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE ) && 
-	 GTK_MENU_SHELL ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ) -> menu ))
-	liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ) -> menu ) -> children;
-    else
-	liste_tmp = NULL;
-
-    retour = -1;
-    i=0;
-
-    while ( liste_tmp && retour == -1 )
-    {
-	if ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
-				   "no_type" ) == GINT_TO_POINTER ( demande ))
-	{
-	    struct struct_type_ope *type;
-
-	    retour = i;
-
-	    /* affiche l'entrée chq du formulaire si nécessaire */
-
-	    type = gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
-					 "adr_type");
-
-	    if ( type -> affiche_entree )
-		gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
-	    else
-		gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
-	}
-	i++;
-	liste_tmp = liste_tmp -> next;
-    }
-
-    return ( retour );
-}
-/* ************************************************************************************************************** */
-
-
-
-
-
-
-/* ************************************************************************************************************** */
-/* Fonction cherche_no_menu_type_associe */
-/*   argument : le numéro du type demandé */
-/* renvoie la place demandée dans l'option menu du formulaire du type associé */
-/* retourne -1 si pas trouvé */
-/* ************************************************************************************************************** */
-
-gint cherche_no_menu_type_associe ( gint demande )
-{
-    GList *liste_tmp = NULL;
-    gint retour;
-    gint i;
-
-    if ( !demande )
-	return ( FALSE );
-
-
-    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA ))
-    {
-	GtkWidget * menu = NULL, *widget;
-
-	widget = gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA);
-	if ( widget )
-	    menu = GTK_OPTION_MENU ( widget ) -> menu;
-	if ( menu )
-	    liste_tmp = GTK_MENU_SHELL ( menu ) -> children;
-    }
-
-    retour = -1;
-    i=0;
-
-    while ( liste_tmp && retour == -1 )
-    {
-	if ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
-				   "no_type" ) == GINT_TO_POINTER ( demande ))
-	    retour = i;
-
-	i++;
-	liste_tmp = liste_tmp -> next;
-    }
-
-    return ( retour );
-}
-/* ************************************************************************************************************** */
-
-
-
-
-
-/* ************************************************************************************************************** */
-/* Fonction cherche_no_menu_type_echeancier */
-/*   argument : le numéro du type demandé */
-/* renvoie la place demandée dans l'option menu du formulaire */
-/* pour mettre l'history et affiche l'entrée du chq si nécessaire */
-/* retourne -1 si pas trouvé */
-/* ************************************************************************************************************** */
-
-gint cherche_no_menu_type_echeancier ( gint demande )
-{
-    GList *liste_tmp;
-    gint retour;
-    gint i;
-
-
-    if ( !demande )
-	return ( FALSE );
-
-    if ( !GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu ))
-	return -1;
-
-    liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu ) -> children;
-    retour = -1;
-    i = 0;
-
-    while ( liste_tmp && retour == -1 )
-    {
-	if ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
-				   "no_type" ) == GINT_TO_POINTER ( demande ))
-	{
-	    struct struct_type_ope *type;
-
-	    retour = i;
-
-	    /* affiche l'entrée chq du formulaire si nécessaire */
-
-	    type = gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
-					 "adr_type");
-
-	    /* soit c'est un type qui affiche l'entrée et qui n'est pas numéroté automatiquement */
-	    /* soit c'est un type numéroté auto et c'est une saisie */
-
-	    if ( ( type -> affiche_entree && !type -> numerotation_auto)
-		 ||
-		 ( type -> numerotation_auto
-		   &&
-		   g_object_get_data ( G_OBJECT ( formulaire_echeancier ),
-				       "execute_transaction")))
-	    {
-		/* si c'est une saisie, mais le numéro de chq */
-
-		if ( type -> numerotation_auto )
-		{
-		    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE], NULL, NULL );
-		    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ),
-					 automatic_numbering_get_current_number ( type ) );
-		}
-		gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
-	    }
-	    else
-		gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
-	}
-	i++;
-	liste_tmp = liste_tmp -> next;
-    }
-
-    if ( retour == -1 )
-	return ( FALSE );
-    else
-	return ( retour );
-}
-/* ************************************************************************************************************** */
-
-
-
-/* ************************************************************************************************************** */
-void changement_choix_type_formulaire ( struct struct_type_ope *type )
-{
-    if ( !gsb_data_form_check_for_value ( TRANSACTION_FORM_CHEQUE ))
-	return;
-
-    /* affiche l'entrée de chèque si nécessaire */
-
-    if ( type -> affiche_entree )
-    {
-	gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
-
-	/* met le no suivant si nécessaire */
-
-	if ( type -> numerotation_auto )
-	{
-	    entree_prend_focus ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE), NULL, NULL );
-	    gtk_entry_set_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) ),
-				 automatic_numbering_get_current_number ( type ));
-	}
-	else
-	{
-	    gtk_entry_set_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) ),
-				 "" );
-	    entree_perd_focus ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE),
-				FALSE,
-				GINT_TO_POINTER ( TRANSACTION_FORM_CHEQUE ));
-	}
-    }
-    else
-	gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
-}
-/* ************************************************************************************************************** */
-
-
-
-/* ************************************************************************************************************** */
-void changement_choix_type_echeancier ( struct struct_type_ope *type )
-{
-
-    /* affiche l'entrée de chèque si nécessaire */
-
-    if ( ( type -> affiche_entree && !type -> numerotation_auto )
-	 ||
-	 ( type -> numerotation_auto && !strcmp ( GTK_LABEL ( label_saisie_modif ) -> label,
-						  _("Input") )))
-    {
-	/* si c'est une saisie, met le numéro de chq */
-
-	if ( type -> numerotation_auto )
-	{
-	    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE], NULL, NULL );
-	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ),
-				 automatic_numbering_get_current_number ( type ));
-	}
-	gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
-    }
-    else
-	gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
-}
-
-
-
-/**
- * Get the max content number associated to a type structure,
- * increment it and return it.  Handy to find the next number to fill
- * in the cheque field of the transaction form.
- *
- * \param type	The type structure to compute.
- *
- * \return	A textual representation of the maximum + 1
- */
-gchar * automatic_numbering_get_new_number ( struct struct_type_ope * type )
-{
-    if ( type )
-    {
- 	return utils_str_itoa ( type -> no_en_cours + 1 );
-    }
-  
-    return "1";
-}
-
-
-
-/**
- * Get the max content number associated to a type structure and
- * return it.
- *
- * \param type	The type structure to compute.
- *
- * \return	A textual representation of the maximum.
- */
-gchar * automatic_numbering_get_current_number ( struct struct_type_ope * type )
-{
-    if ( type )
-    {
- 	return utils_str_itoa ( type -> no_en_cours );
-    }
-  
-    return "1";
-}
-
-
-
-/* Local Variables: */
-/* c-basic-offset: 4 */
-/* End: */

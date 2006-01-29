@@ -25,16 +25,23 @@
 #include "affichage_liste.h"
 #include "gsb_transactions_list.h"
 #include "gsb_data_account.h"
+#include "gsb_form.h"
+#include "gtk_combofix.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
 #include "utils.h"
 #include "affichage.h"
+#include "utils_str.h"
 #include "structures.h"
 #include "include.h"
+#include "gsb_data_form.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static GtkWidget *cree_menu_quatres_lignes ( void );
+static gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
+							  gpointer null );
+static gboolean gsb_transactions_list_display_update_combofix ( void );
 static gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
 							 gint origine );
 /*END_STATIC*/
@@ -92,6 +99,7 @@ GSList *lignes_affichage_trois_lignes;
 /*START_EXTERN*/
 extern GtkWidget *formulaire;
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
+extern gint max;
 extern gchar *tips_col_liste_operations[TRANSACTION_LIST_COL_NB];
 extern gchar *titres_colonnes_liste_operations[TRANSACTION_LIST_COL_NB];
 /*END_EXTERN*/
@@ -242,22 +250,22 @@ GtkWidget *onglet_affichage_operations ( void )
 
     /* Connect all menus */
     g_signal_connect ( G_OBJECT ( bouton_affichage_lignes_une_ligne ), "changed",
-		       (GCallback) transactions_list_display_modes_menu_changed,
+		       G_CALLBACK ( transactions_list_display_modes_menu_changed),
 		       NULL );
     g_signal_connect ( G_OBJECT (bouton_affichage_lignes_deux_lignes_1), "changed",
-		       (GCallback) transactions_list_display_modes_menu_changed,
+		       G_CALLBACK ( transactions_list_display_modes_menu_changed),
 		       NULL );
     g_signal_connect ( G_OBJECT(bouton_affichage_lignes_deux_lignes_2), "changed",
-		       (GCallback) transactions_list_display_modes_menu_changed,
+		       G_CALLBACK ( transactions_list_display_modes_menu_changed),
 		       NULL );
     g_signal_connect ( G_OBJECT(bouton_affichage_lignes_trois_lignes_1), "changed",
-		       (GCallback) transactions_list_display_modes_menu_changed,
+		       G_CALLBACK ( transactions_list_display_modes_menu_changed),
 		       NULL );
     g_signal_connect ( G_OBJECT(bouton_affichage_lignes_trois_lignes_2), "changed",
-		       (GCallback) transactions_list_display_modes_menu_changed,
+		       G_CALLBACK ( transactions_list_display_modes_menu_changed),
 		       NULL );
     g_signal_connect ( G_OBJECT(bouton_affichage_lignes_trois_lignes_3), "changed",
-		       (GCallback) transactions_list_display_modes_menu_changed,
+		       G_CALLBACK ( transactions_list_display_modes_menu_changed),
 		       NULL );
 
     /* add the 'loading r into the list at begining' */
@@ -414,6 +422,11 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
     GtkWidget *vbox_pref;
     GtkWidget *paddingbox;
     GtkWidget *radiogroup;
+    GtkWidget *hbox;
+    GtkWidget *label;
+    GtkWidget *entry;
+    GtkWidget *separator;
+    GtkWidget *vbox;
 
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form behavior"),
@@ -433,7 +446,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 new_checkbox_with_title (_("'Accept' and 'Cancel' buttons"),
 						  &etat.affiche_boutons_valider_annuler,
-						  ((GCallback) update_transaction_form)),
+						  (G_CALLBACK ( update_transaction_form))),
 			 FALSE, FALSE, 0 );
 
     /* How to display financial year */
@@ -453,6 +466,86 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 						  ((GCallback) NULL )),
 			 FALSE, FALSE, 0 );
 
+    /* set the combofix configuration */
+
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
+					    COLON(_("Completion box configuration")));
+
+    hbox = gtk_hbox_new ( FALSE,
+			  5);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+			 hbox,
+			 FALSE, FALSE, 0 );
+    vbox = gtk_vbox_new ( FALSE,
+			  5 );
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 vbox,
+			 FALSE, FALSE, 0 );
+
+    gtk_box_pack_start ( GTK_BOX (vbox),
+			 new_checkbox_with_title (_("Mix the categories in list"),
+						  &etat.combofix_mixed_sort,
+						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
+			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (vbox),
+			 new_checkbox_with_title (_("Case sensitive"),
+						  &etat.combofix_case_sensitive,
+						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
+			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (vbox),
+			 new_checkbox_with_title (_("Enter keep the current completion"),
+						  &etat.combofix_enter_select_completion,
+						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
+			 FALSE, FALSE, 0 );
+
+    separator = gtk_vseparator_new ();
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 separator,
+			 FALSE, FALSE, 0 );
+
+    vbox = gtk_vbox_new ( FALSE,
+			  5 );
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 vbox,
+			 FALSE, FALSE, 0 );
+
+    /* !! carreful, hbox change here, cannot use later with the function like that */
+    hbox = gtk_hbox_new ( FALSE,
+			  5 );
+    gtk_box_pack_start ( GTK_BOX (vbox),
+			 hbox,
+			 FALSE, FALSE, 0 );
+
+    label = gtk_label_new (_("Maximum items showed in list\n(0 no limit)"));
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 label,
+			 FALSE, FALSE, 0 );
+
+    entry = gtk_entry_new ();
+    gtk_widget_set_usize ( entry,
+			   30, FALSE );
+    gtk_entry_set_text ( GTK_ENTRY (entry),
+			   utils_str_itoa (etat.combofix_max_item));
+    g_signal_connect ( G_OBJECT (entry),
+		       "changed",
+		       G_CALLBACK (gsb_transactions_list_display_change_max_items),
+		       NULL );
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 entry,
+			 FALSE, FALSE, 0 );
+
+    gtk_box_pack_start ( GTK_BOX (vbox),
+			 new_checkbox_with_title (_("Force the item in the payee"),
+						  &etat.combofix_force_payee,
+						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
+			 FALSE, FALSE, 0 );
+
+    gtk_box_pack_start ( GTK_BOX (vbox),
+			 new_checkbox_with_title (_("Force the item in the category/budget"),
+						  &etat.combofix_force_category,
+						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
+			 FALSE, FALSE, 0 );
+    
     if ( !gsb_data_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
@@ -460,9 +553,93 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 
     return vbox_pref;
 }
-/* ************************************************************************************************************** */
 
 
+/**
+ * called when we change a parameter of the combofix configuration
+ * update the combofix in the form if they exists
+ * as we don't know what was changed, update all the parameter (not a problem
+ * because very fast)
+ * at this level, the etat.___ variable has already been changed
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_display_update_combofix ( void )
+{
+    gint account_number;
+    GtkWidget *combofix;
+
+    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+
+    combofix = gsb_form_get_element_widget_2 ( TRANSACTION_FORM_PARTY,
+					       account_number );
+    if (combofix)
+    {
+	gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
+				      etat.combofix_force_payee );
+	gtk_combofix_set_max_items ( GTK_COMBOFIX (combofix),
+				     etat.combofix_max_item );
+	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
+					  etat.combofix_case_sensitive );
+	gtk_combofix_set_enter_function ( GTK_COMBOFIX (combofix),
+					  etat.combofix_enter_select_completion );
+    }
+
+    combofix = gsb_form_get_element_widget_2 ( TRANSACTION_FORM_CATEGORY,
+					       account_number );
+    if (combofix)
+    {
+	gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
+				      etat.combofix_force_category );
+	gtk_combofix_set_max_items ( GTK_COMBOFIX (combofix),
+				     etat.combofix_max_item );
+	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
+					  etat.combofix_case_sensitive );
+	gtk_combofix_set_enter_function ( GTK_COMBOFIX (combofix),
+					  etat.combofix_enter_select_completion );
+	gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (combofix),
+				      etat.combofix_mixed_sort );
+    }
+
+    combofix = gsb_form_get_element_widget_2 ( TRANSACTION_FORM_BUDGET,
+					       account_number );
+    if (combofix)
+    {
+	gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
+				      etat.combofix_force_category );
+	gtk_combofix_set_max_items ( GTK_COMBOFIX (combofix),
+				     etat.combofix_max_item );
+	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
+					  etat.combofix_case_sensitive );
+	gtk_combofix_set_enter_function ( GTK_COMBOFIX (combofix),
+					  etat.combofix_enter_select_completion );
+	gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (combofix),
+				      etat.combofix_mixed_sort );
+    }
+    return FALSE;
+}
+
+/**
+ * called when change in the max items field
+ * change the variable and update the combofix
+ *
+ * \param entry
+ * \param null
+ *
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
+							  gpointer null )
+{
+    etat.combofix_max_item = utils_str_atoi ( gtk_entry_get_text (GTK_ENTRY (entry)));
+    gsb_transactions_list_display_update_combofix ();
+
+    return FALSE;
+}
+
+							
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -773,6 +773,42 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	    g_strfreev ( pointeur_char );
 	}
 
+	else if ( !strcmp ( attribute_names[i],
+			    "Combofix_mixed_sort" ))
+	{
+	    etat.combofix_mixed_sort = utils_str_atoi( attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Combofix_max_item" ))
+	{
+	    etat.combofix_max_item = utils_str_atoi( attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Combofix_case_sensitive" ))
+	{
+	    etat.combofix_case_sensitive = utils_str_atoi( attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Combofix_enter_select_completion" ))
+	{
+	    etat.combofix_enter_select_completion = utils_str_atoi( attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Combofix_force_payee" ))
+	{
+	    etat.combofix_force_payee = utils_str_atoi( attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Combofix_force_category" ))
+	{
+	    etat.combofix_force_category = utils_str_atoi( attribute_values[i]);
+	}
+
 	i++;
     }
     while ( attribute_names[i] );
@@ -3930,18 +3966,8 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 		if ( !strcmp ( attribute_names[i],
 			       "Periodicite" ))
-		{
 		    gsb_data_scheduled_set_frequency ( scheduled_number,
 						       utils_str_atoi (attribute_values[i]));
-
-		    /* Compatibility issue, we inserted two entries
-		     * after month view. */
-		    if ( gsb_data_scheduled_get_frequency (scheduled_number) > SCHEDULER_PERIODICITY_MONTH_VIEW )
-		    {
-			gsb_data_scheduled_set_frequency ( scheduled_number,
-							   gsb_data_scheduled_get_frequency (scheduled_number)+ 2 );
-		    }
-		}
 
 		if ( !strcmp ( attribute_names[i],
 			       "Intervalle_periodicite" ))
@@ -6361,7 +6387,6 @@ gboolean gsb_file_load_update_previous_version ( void )
 							    
 		list_tmp_transactions = list_tmp_transactions -> next;
 	    }
-
 
 
 	    /* ********************************************************* */

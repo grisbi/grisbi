@@ -29,12 +29,10 @@
 /*START_INCLUDE*/
 #include "gsb_scheduler_list.h"
 #include "utils_exercices.h"
-#include "type_operations.h"
 #include "barre_outils.h"
 #include "erreur.h"
 #include "utils_devises.h"
 #include "dialog.h"
-#include "gsb_form.h"
 #include "echeancier_formulaire.h"
 #include "utils_dates.h"
 #include "gsb_data_account.h"
@@ -42,6 +40,7 @@
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
+#include "gsb_form.h"
 #include "fenetre_principale.h"
 #include "gtk_combofix.h"
 #include "echeancier_infos.h"
@@ -123,7 +122,6 @@ extern gint hauteur_ligne_liste_opes;
 extern GtkWidget *label_saisie_modif;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern GtkTreeStore *model;
 extern GtkWidget *scheduler_button_delete;
 extern GtkWidget *scheduler_button_edit;
 extern GtkWidget *scheduler_button_execute;
@@ -1321,9 +1319,9 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 	 &&
 	 !mother_number )
     {
-	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE], NULL, NULL );
+	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE], NULL, NULL );
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ),
-			     gsb_today() );
+			     gsb_date_today() );
 	gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ),
 				  0,
 				  -1 );
@@ -1345,7 +1343,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
     /* set the date */
 
-    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE], NULL, NULL );
+    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE], NULL, NULL );
     gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ),
 			 gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)));
 
@@ -1353,7 +1351,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
     if ( gsb_data_scheduled_get_party_number (scheduled_number))
     {
-	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY], NULL, NULL );
+	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY], NULL, NULL );
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ),
 				gsb_data_payee_get_name ( gsb_data_scheduled_get_party_number (scheduled_number),
 							  TRUE ));
@@ -1381,7 +1379,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
     if ( gsb_data_scheduled_get_budgetary_number (scheduled_number))
     {
-	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY], NULL, NULL);
+	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY], NULL, NULL);
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
 				gsb_data_budget_get_name ( gsb_data_scheduled_get_budgetary_number (scheduled_number),
 							   gsb_data_scheduled_get_sub_budgetary_number (scheduled_number),
@@ -1403,40 +1401,40 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 	{
 	    /* set the debit method */
 
-	    if ( (menu = creation_menu_types ( 1,
-					       recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
-					       1 )))
-	    {
+/* 	    if ( (menu = creation_menu_types ( 1, */
+/* 					       recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ), */
+/* 					       1 ))) */
+/* 	    { */
 		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 					   menu );
 		gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
-	    }
-	    else
+/* 	    } */
+/* 	    else */
 		gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
 	}
 	else
 	{
 	    /* set the credit method */
 
-	    if ( (menu = creation_menu_types ( 2,
-					       recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
-					       1 )))
-	    {
+/* 	    if ( (menu = creation_menu_types ( 2, */
+/* 					       recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ), */
+/* 					       1 ))) */
+/* 	    { */
 		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
 					   menu );
 		gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
-	    }
-	    else
+/* 	    } */
+/* 	    else */
 		gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
 	}
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-				      cherche_no_menu_type_echeancier (gsb_data_scheduled_get_method_of_payment_number (scheduled_number)));
+/* 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
+/* 				      cherche_no_menu_type_echeancier (gsb_data_scheduled_get_method_of_payment_number (scheduled_number))); */
 
 	if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] )
 	     &&
 	     gsb_data_scheduled_get_method_of_payment_content (scheduled_number))
 	{
-	    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE], NULL, NULL );
+	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE], NULL, NULL );
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ),
 				 gsb_data_scheduled_get_method_of_payment_content (scheduled_number));
 	}
@@ -1453,7 +1451,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
     {
 	if (gsb_data_scheduled_get_limit_date (scheduled_number))
 	{
-	    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE], NULL, NULL );
+	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE], NULL, NULL );
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ),
 				 gsb_format_gdate ( gsb_data_scheduled_get_limit_date (scheduled_number)));
 	}
@@ -1464,7 +1462,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
     if ( gsb_data_scheduled_get_frequency (scheduled_number) == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
     {
-	entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] , NULL, NULL);
+	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] , NULL, NULL);
 	gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] ),
 			     utils_str_itoa (gsb_data_scheduled_get_user_entry (scheduled_number)));
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU] ),
@@ -1481,14 +1479,14 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
 	if ( gsb_data_scheduled_get_amount (scheduled_number) < 0 )
 	{
-	    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT], NULL, NULL );
+	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT], NULL, NULL );
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ),
 				 g_strdup_printf ( "%4.2f",
 						   -gsb_data_scheduled_get_amount (scheduled_number)));
 	}
 	else
 	{
-	    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT], NULL, NULL );
+	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT], NULL, NULL );
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ),
 				 g_strdup_printf ( "%4.2f",
 						   gsb_data_scheduled_get_amount (scheduled_number)));
@@ -1540,7 +1538,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
 	    if ( texte )
 	    {
-		entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY], NULL, NULL );
+		gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY], NULL, NULL );
 		gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
 					texte );
 	    }
@@ -1550,7 +1548,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
 	if ( gsb_data_scheduled_get_notes  (scheduled_number))
 	{
-	    entree_prend_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES], NULL, NULL );
+	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES], NULL, NULL );
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ),
 				 gsb_data_scheduled_get_notes (scheduled_number));
 	}
