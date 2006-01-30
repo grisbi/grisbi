@@ -2,7 +2,7 @@
 /*      etats.c */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2006 Benjamin Drieu (bdrieu@april.org)		      */
 /* 			http://www.grisbi.org				      */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -2600,6 +2600,14 @@ pas_decalage:
 				else
 				    montant = operation -> montant * operation -> taux_change - operation -> frais_change;
 			    }
+			    else if ( devise_operation -> no_devise_en_rapport ==
+				      devise_categ_etat -> no_devise )
+			    {
+				if ( devise_operation -> une_devise_1_egale_x_devise_2 )
+				    montant = operation -> montant * devise_operation -> change;
+				else
+				    montant = operation -> montant / devise_operation -> change;
+			    }
 			    else
 			    {
 				/* ne peut faire la conversion que s'il y a un rapport entre les 2 devises */
@@ -2654,17 +2662,25 @@ pas_decalage:
 				else
 				    montant = operation -> montant * operation -> taux_change - operation -> frais_change;
 			    }
+			    else if ( devise_operation -> no_devise_en_rapport ==
+				      devise_ib_etat -> no_devise )
+			    {
+				if ( devise_operation -> une_devise_1_egale_x_devise_2 )
+				    montant = operation -> montant * devise_operation -> change;
+				else
+				    montant = operation -> montant / devise_operation -> change;
+			    }
 			    else
 			    {
 				/* ne peut faire la conversion que s'il y a un rapport entre les 2 devises */
-				if ( devise_operation -> no_devise != devise_categ_etat -> no_devise_en_rapport )
+				if ( devise_operation -> no_devise != devise_ib_etat -> no_devise_en_rapport )
 				    montant = 0;
 				else
 				{
-				    if ( devise_categ_etat -> une_devise_1_egale_x_devise_2 )
-					montant = operation -> montant / devise_categ_etat -> change;
+				    if ( devise_ib_etat -> une_devise_1_egale_x_devise_2 )
+					montant = operation -> montant / devise_ib_etat -> change;
 				    else
-					montant = operation -> montant * devise_categ_etat -> change;
+					montant = operation -> montant * devise_ib_etat -> change;
 				}
 			    }
 			}
@@ -2707,17 +2723,25 @@ pas_decalage:
 				else
 				    montant = operation -> montant * operation -> taux_change - operation -> frais_change;
 			    }
+			    else if ( devise_operation -> no_devise_en_rapport ==
+				      devise_tiers_etat -> no_devise )
+			    {
+				if ( devise_operation -> une_devise_1_egale_x_devise_2 )
+				    montant = operation -> montant * devise_operation -> change;
+				else
+				    montant = operation -> montant / devise_operation -> change;
+			    }
 			    else
 			    {
 				/* ne peut faire la conversion que s'il y a un rapport entre les 2 devises */
-				if ( devise_operation -> no_devise != devise_categ_etat -> no_devise_en_rapport )
+				if ( devise_operation -> no_devise != devise_tiers_etat -> no_devise_en_rapport )
 				    montant = 0;
 				else
 				{
-				    if ( devise_categ_etat -> une_devise_1_egale_x_devise_2 )
-					montant = operation -> montant / devise_categ_etat -> change;
+				    if ( devise_tiers_etat -> une_devise_1_egale_x_devise_2 )
+					montant = operation -> montant / devise_tiers_etat -> change;
 				    else
-					montant = operation -> montant * devise_categ_etat -> change;
+					montant = operation -> montant * devise_tiers_etat -> change;
 				}
 			    }
 			}
@@ -2775,17 +2799,25 @@ pas_decalage:
 				else
 				    montant = operation -> montant * operation -> taux_change - operation -> frais_change;
 			    }
+			    else if ( devise_operation -> no_devise_en_rapport ==
+				      devise_compte_en_cours_etat -> no_devise )
+			    {
+				if ( devise_operation -> une_devise_1_egale_x_devise_2 )
+				    montant = operation -> montant * devise_operation -> change;
+				else
+				    montant = operation -> montant / devise_operation -> change;
+			    }
 			    else
 			    {
 				/* ne peut faire la conversion que s'il y a un rapport entre les 2 devises */
-				if ( devise_operation -> no_devise != devise_categ_etat -> no_devise_en_rapport )
+				if ( devise_operation -> no_devise != devise_compte_en_cours_etat -> no_devise_en_rapport )
 				    montant = 0;
 				else
 				{
-				    if ( devise_categ_etat -> une_devise_1_egale_x_devise_2 )
-					montant = operation -> montant / devise_categ_etat -> change;
+				    if ( devise_compte_en_cours_etat -> une_devise_1_egale_x_devise_2 )
+					montant = operation -> montant / devise_compte_en_cours_etat -> change;
 				    else
-					montant = operation -> montant * devise_categ_etat -> change;
+					montant = operation -> montant * devise_compte_en_cours_etat -> change;
 				}
 			    }
 			}
@@ -2824,6 +2856,14 @@ pas_decalage:
 				    montant = operation -> montant / operation -> taux_change - operation -> frais_change;
 				else
 				    montant = operation -> montant * operation -> taux_change - operation -> frais_change;
+			    }
+			    else if ( devise_operation -> no_devise_en_rapport ==
+				      devise_categ_etat -> no_devise )
+			    {
+				if ( devise_operation -> une_devise_1_egale_x_devise_2 )
+				    montant = operation -> montant * devise_operation -> change;
+				else
+				    montant = operation -> montant / devise_operation -> change;
 			    }
 			    else
 			    {
@@ -2877,6 +2917,14 @@ pas_decalage:
 				else
 				    montant = operation -> montant * operation -> taux_change - operation -> frais_change;
 			    }
+			    else if ( devise_operation -> no_devise_en_rapport ==
+				      devise_categ_etat -> no_devise )
+			    {
+				if ( devise_operation -> une_devise_1_egale_x_devise_2 )
+				    montant = operation -> montant * devise_operation -> change;
+				else
+				    montant = operation -> montant / devise_operation -> change;
+			    }
 			    else
 			    {
 				/* ne peut faire la conversion que s'il y a un rapport entre les 2 devises */
@@ -2920,7 +2968,7 @@ pas_decalage:
 			     !strcmp ( devise_categ_etat -> nom_devise, _("Euro") ))
 			    montant = operation -> montant / devise_operation -> change;
 			else
-				{
+			{
 			    /* s'il n'y a pas de taux de change, utilise le taux courant */
 			    if ( operation -> taux_change )
 			    {
@@ -2928,6 +2976,14 @@ pas_decalage:
 				    montant = operation -> montant / operation -> taux_change - operation -> frais_change;
 				else
 				    montant = operation -> montant * operation -> taux_change - operation -> frais_change;
+			    }
+			    else if ( devise_operation -> no_devise_en_rapport ==
+				      devise_categ_etat -> no_devise )
+			    {
+				if ( devise_operation -> une_devise_1_egale_x_devise_2 )
+				    montant = operation -> montant * devise_operation -> change;
+				else
+				    montant = operation -> montant / devise_operation -> change;
 			    }
 			    else
 			    {
@@ -3077,3 +3133,4 @@ void denote_struct_sous_jaccentes ( gint origine )
 }
 /*****************************************************************************************************/
 
+ 
