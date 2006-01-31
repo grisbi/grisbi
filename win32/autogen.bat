@@ -15,7 +15,7 @@ goto endofperl
 #  -------------------------------------------------------------------------
 #                               GRISBI for Windows
 #  -------------------------------------------------------------------------
-# $Id: autogen.bat,v 1.1.2.8 2006/01/31 20:48:36 teilginn Exp $
+# $Id: autogen.bat,v 1.1.2.9 2006/01/31 21:05:12 teilginn Exp $
 #  -------------------------------------------------------------------------
 # 
 #  Copyleft 2004 (c) François Terrot
@@ -39,6 +39,9 @@ goto endofperl
 #  History:
 #
 #  $Log: autogen.bat,v $
+#  Revision 1.1.2.9  2006/01/31 21:05:12  teilginn
+#  Remove Perl warnings
+#
 #  Revision 1.1.2.8  2006/01/31 20:48:36  teilginn
 #  last updates
 #
@@ -541,8 +544,8 @@ sub _cb_makefile # {{{
         last READ_MAKE if ($l =~ s/\@NSISBINDIR\@/$config{'directories'}{'nsis'}/);
         last READ_MAKE if ($l =~ s/\@GETTEXTDIR\@/$config{'directories'}{'gettext'}/);
         last READ_MAKE if ($l =~ s/\@INSTSRCDIR\@/$config{'directories'}{'installer'}/);
-        last READ_MAKE if ($l =~ s/\@CFLAGS\@/$config{'compiler'}{'cflags'}/);
-        last READ_MAKE if ($l =~ s/\@LDFLAGS\@/$config{'compiler'}{'ldflags'}/);
+        last READ_MAKE if ($l =~ s/\@CFLAGS\@/$config{'environment'}{'cflags'}/);
+        last READ_MAKE if ($l =~ s/\@LDFLAGS\@/$config{'environment'}{'ldflags'}/);
         ( $l =~ /\@SRCS\@/ ) && do {
             my $srcs = _get_c_file_list("../src");
             $l =~ s/\@SRCS\@/$srcs/;
@@ -669,7 +672,7 @@ sub _cb_grisbi_dev
             last READ_DEV;
         };
         ( $l =~ /\@CFLAGS\@/ ) && do {
-            my $cflags = $config{'compiler'}{'copt'};
+            my $cflags = $config{'environment'}{'cflags'};
             foreach my $copt (@{$config{'includes'}{'item'}})
             {
                 $cflags .= $copt." ";
@@ -680,7 +683,7 @@ sub _cb_grisbi_dev
             last READ_DEV;
         };
         ( $l =~ /\@LDFLAGS\@/ ) && do {
-            my $ldflags = $config{'compiler'}{'ldflags'};
+            my $ldflags = $config{'environment'}{'ldflags'};
             foreach my $ldopt (@{$config{'libraries'}{'item'}})
             {
                 $ldflags .= $ldopt." ";
@@ -1150,7 +1153,7 @@ gtkbin    = GTKBINVERS
 
 [environment]
 compiler  = gcc ; only gcc is supported yet
-cflags    = -Wall $(INCS) -D _WIN32 -mms-bitfields -g -D _WIN32_IE=0x0410
+cflags    = -Wall \$(INCS) -D _WIN32 -mms-bitfields -g -D _WIN32_IE=0x0410
 ldflags   = -L\"\$(GCCBASEDIR)/lib\" -L\"\$(GTKDEVDIR)/lib/\" \$(LIBS) -mwindows
 
 [includes]
