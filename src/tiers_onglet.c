@@ -37,7 +37,6 @@
 #include "gtk_combofix.h"
 #include "utils_buttons.h"
 #include "utils.h"
-#include "echeancier_formulaire.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -83,7 +82,6 @@ GtkTreeStore *payee_tree_model;
 extern MetatreeInterface * payee_interface ;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -502,14 +500,10 @@ void mise_a_jour_combofix_tiers ( void )
 {
     devel_debug ( "mise_a_jour_combofix_tiers" );
 
-    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_PARTY ) &&
-	 gsb_form_get_element_widget (TRANSACTION_FORM_PARTY) &&
-	 GTK_IS_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY) ))
-	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY) ),
+    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_PARTY ))
+	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY,
+									    gsb_form_get_account_number_from_origin (gsb_form_get_origin ())) ),
 				gsb_data_payee_get_name_and_report_list ());
-    if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ))
-	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ),
-				gsb_data_payee_get_name_list());
 
     mise_a_jour_combofix_tiers_necessaire = 0;
 }

@@ -41,7 +41,6 @@
 #include "utils_editables.h"
 #include "etats_config.h"
 #include "include.h"
-#include "echeancier_formulaire.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
@@ -198,7 +197,6 @@ extern MetatreeInterface * category_interface ;
 extern gchar *dernier_chemin_de_travail;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -428,24 +426,20 @@ gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * pa
 void mise_a_jour_combofix_categ ( void )
 {
     GSList *list_tmp;
+    gint account_number;
 
     devel_debug ( "mise_a_jour_combofix_categ" );
 
+    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
     list_tmp = gsb_data_category_get_name_list ( TRUE,
 						 TRUE,
 						 TRUE,
 						 TRUE );
 
-    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY )
-	 &&
-	 GTK_IS_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY)))
-	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY) ),
+    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY ))
+	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY,
+									    account_number )),
 				list_tmp );
-
-    if ( GTK_IS_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))
-	gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
-				list_tmp );
-
 
     /* FIXME : this should not be in this function */
     if ( gsb_gui_navigation_get_current_report () )
@@ -453,7 +447,6 @@ void mise_a_jour_combofix_categ ( void )
 	remplissage_liste_categ_etats ();
 	selectionne_liste_categ_etat_courant ();
     }
-
     mise_a_jour_combofix_categ_necessaire = 0;
 }
 

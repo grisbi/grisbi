@@ -297,7 +297,7 @@ gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
     gint account_number;
 
     account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
-    cheque_entry = gsb_form_get_element_widget_2 ( TRANSACTION_FORM_CHEQUE,
+    cheque_entry = gsb_form_get_element_widget ( TRANSACTION_FORM_CHEQUE,
 						   account_number );
     if ( !cheque_entry)
 	return FALSE;

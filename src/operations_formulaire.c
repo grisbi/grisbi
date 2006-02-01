@@ -117,6 +117,9 @@ extern GtkWidget *tree_view;
 void verifie_champs_dates ( gint origine )
 {
     GtkWidget *widget;
+    gint account_number;
+
+    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
 
     switch ( origine )
     {
@@ -125,7 +128,8 @@ void verifie_champs_dates ( gint origine )
 	    /* si la date de valeur est vide, alors on
 	       récupère la date d'opération comme date de valeur */
 
-	    widget = gsb_form_get_element_widget ( origine );
+	    widget = gsb_form_get_element_widget ( origine,
+						   account_number);
 
 	    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( widget ))))
 	    {
@@ -134,7 +138,8 @@ void verifie_champs_dates ( gint origine )
 
 		GtkWidget *date_entry;
 
-		date_entry = gsb_form_get_element_widget (TRANSACTION_FORM_DATE);
+		date_entry = gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
+							  account_number);
 
 		if ( gtk_widget_get_style (date_entry) == style_entree_formulaire[ENCLAIR]
 		     &&
@@ -164,7 +169,8 @@ void verifie_champs_dates ( gint origine )
 	    /* si le champ est vide, alors on
 	       récupère la date du jour comme date d'opération */
 
-	    widget = gsb_form_get_element_widget ( origine );
+	    widget = gsb_form_get_element_widget ( origine,
+						   account_number );
 
 	    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( widget ))))
 		gtk_entry_set_text ( GTK_ENTRY ( widget ),
@@ -186,7 +192,8 @@ void widget_grab_focus_formulaire ( gint no_element )
     devel_debug ( g_strdup_printf ( "widget_grab_focus_formulaire %d",
 				    no_element ));
 
-    widget = gsb_form_get_element_widget ( no_element );
+    widget = gsb_form_get_element_widget ( no_element,
+					   gsb_form_get_account_number_from_origin (gsb_form_get_origin ()));
 
     if ( !widget )
 	return;
@@ -249,7 +256,8 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 	    {
 		GtkWidget *widget;
 
-		widget = gsb_form_get_element_widget (value);
+		widget = gsb_form_get_element_widget (value,
+						      account_number);
 
 		if ( GTK_IS_ENTRY ( widget ))
 		{
@@ -298,7 +306,8 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 	    value = gsb_data_form_get_value ( account_number,
 					      column,
 					      row );
-	    widget =  gsb_form_get_element_widget (value);
+	    widget =  gsb_form_get_element_widget (value,
+						   account_number);
 
 	    switch (value)
 	    {
@@ -415,7 +424,8 @@ gboolean completion_operation_par_tiers ( GtkWidget *entree )
 		    }
 		    else
 		    {
-			gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
+			gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+								       account_number) );
 		    }
 
 		    break;
@@ -494,11 +504,15 @@ void verification_bouton_change_devise ( void )
 {
     struct struct_devise *devise_compte;
     struct struct_devise *devise;
+    gint account_number;
+
+    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
 
     /*   si la devise n'est pas celle du compte ni l'euro si le compte va y passer, affiche le bouton change */
 
     devise_compte = devise_par_no ( gsb_data_account_get_currency (gsb_gui_navigation_get_current_account ()) );
-    devise = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_DEVISE)) -> menu_item ),
+    devise = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_DEVISE,
+											   account_number)) -> menu_item ),
 				 "adr_devise" );
 
     if ( !( devise -> no_devise == gsb_data_account_get_currency (gsb_gui_navigation_get_current_account ())
@@ -506,9 +520,11 @@ void verification_bouton_change_devise ( void )
 	    ( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
 	    ||
 	    ( !strcmp ( devise_compte -> nom_devise, _("Euro") ) && devise -> passage_euro )))
-	gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_CHANGE) );
+	gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_CHANGE,
+						       account_number) );
     else
-	gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHANGE) );
+	gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHANGE,
+						       account_number) );
 }
 /******************************************************************************/
 
@@ -635,8 +651,9 @@ void place_type_formulaire ( gint no_type,
     gint payment_number;
     gint account_number;
 
-    combo_box = gsb_form_get_element_widget (no_option_menu);
     account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+    combo_box = gsb_form_get_element_widget (no_option_menu,
+					     account_number);
 
     place_type = gsb_payment_method_get_payment_location ( combo_box,
 							   no_type );
@@ -674,7 +691,8 @@ void place_type_formulaire ( gint no_type,
     if ( gsb_payment_method_get_show_entry ( payment_number,
 					     account_number ) )
     {
-	entree_cheque = gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE);
+	entree_cheque = gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+						     account_number);
 
 	if ( contenu )
 	{
@@ -713,13 +731,13 @@ gboolean gsb_form_finish_edition ( void )
     gint new_transaction;
     GSList *list_nb_parties;
     GSList *list_tmp;
-    gint current_account;
+    gint account_number;
 
     /* get the number of the transaction, stored in the form (0 if new) */
 
     transaction_number = GPOINTER_TO_INT (gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 								"transaction_number_in_form" ));
-    current_account = gsb_gui_navigation_get_current_account ();
+    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
 
     /* a new transaction is
      * either transaction_number is 0 (normal transaction)
@@ -768,7 +786,8 @@ gboolean gsb_form_finish_edition ( void )
 	    }
 	    else
 	    {
-		gtk_combofix_set_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY) ),
+		gtk_combofix_set_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY,
+										    account_number ) ),
 					gsb_data_payee_get_name ( GPOINTER_TO_INT (list_tmp -> data), TRUE ));
 
 		/* if it's not the first party and the method of payment has to change its number (cheque),
@@ -782,12 +801,13 @@ gboolean gsb_form_finish_edition ( void )
 		    payment_number = gsb_data_transaction_get_method_of_payment_number (transaction_number);
 
 		    if ( gsb_payment_method_get_automatic_number ( payment_number,
-								   current_account)
+								   account_number)
 			 &&
 			 gsb_data_form_check_for_value ( TRANSACTION_FORM_CHEQUE ))
-			gtk_entry_set_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) ),
+			gtk_entry_set_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+										    account_number) ),
 					     gsb_payment_method_automatic_numbering_get_new_number ( payment_number,
-												     current_account ));
+												     account_number ));
 		}
 		list_tmp = list_tmp -> next;
 	    }
@@ -807,7 +827,7 @@ gboolean gsb_form_finish_edition ( void )
 	    else
 		mother_transaction = 0;
 	    
-	    transaction_number = gsb_data_transaction_new_transaction (current_account);
+	    transaction_number = gsb_data_transaction_new_transaction (account_number);
 
 	    gsb_data_transaction_set_mother_transaction_number ( transaction_number,
 								 mother_transaction);
@@ -848,7 +868,8 @@ gboolean gsb_form_finish_edition ( void )
 
 	/* it was a new transaction, we save the last date entry */
 
-	date_entry = gsb_form_get_element_widget (TRANSACTION_FORM_DATE);
+	date_entry = gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
+						  account_number);
 	gsb_date_set_last_date (gtk_entry_get_text ( GTK_ENTRY ( date_entry )));
 
 	gsb_transactions_list_edit_current_transaction ();
@@ -889,14 +910,17 @@ gboolean gsb_form_finish_edition ( void )
 GSList *gsb_form_get_parties_list_from_report ( void )
 {
     GSList *list_nb_parties;
+    gint account_number;
 
+    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
     list_nb_parties = NULL;
 
     /*     check that the party's form exist, else, append -1 and go away */
 
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_PARTY ))
     {
-	if ( strncmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY) ))),
+	if ( strncmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY,
+													account_number) ))),
 		       COLON(_("Report")),
 		       7 ))
 	    /* the party is not a report, set -1 and go away */
@@ -913,7 +937,8 @@ GSList *gsb_form_get_parties_list_from_report ( void )
 	    GSList *list_transactions;
 	    GSList *list_tmp;
 
-	    tab_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY) ))),
+	    tab_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY,
+														     account_number) ))),
 					":",
 					2 );
 
@@ -976,10 +1001,14 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number )
 {
     gchar **tab_char;
     GSList *list_tmp;
+    gint account_number;
+
+    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
 
     /* on vérifie qu'il y a bien une date */
 
-    if ( gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE) ) != style_entree_formulaire[ENCLAIR] )
+    if ( gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
+							     account_number) ) != style_entree_formulaire[ENCLAIR] )
     {
 	dialogue_error ( _("You must enter a date.") );
 	return (FALSE);
@@ -987,13 +1016,16 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number )
 
     /* vérifie que la date est correcte */
 
-    if ( !gsb_date_check_and_complete_entry ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE) ))
+    if ( !gsb_date_check_and_complete_entry ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
+									   account_number) ))
     {
 	dialogue_error ( _("Invalid date") );
-	gtk_entry_select_region ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE) ),
+	gtk_entry_select_region ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
+									   account_number) ),
 				  0,
 				  -1);
-	gtk_widget_grab_focus ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE) );
+	gtk_widget_grab_focus ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
+							     account_number) );
 	return (FALSE);
     }
 
@@ -1002,15 +1034,19 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number )
 
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_VALUE_DATE )
 	 &&
-	 gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_VALUE_DATE) ) == style_entree_formulaire[ENCLAIR]
+	 gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_VALUE_DATE,
+							     account_number) ) == style_entree_formulaire[ENCLAIR]
 	 &&
-	 !gsb_date_check_and_complete_entry ( gsb_form_get_element_widget (TRANSACTION_FORM_VALUE_DATE) ) )
+	 !gsb_date_check_and_complete_entry ( gsb_form_get_element_widget (TRANSACTION_FORM_VALUE_DATE,
+									   account_number) ) )
     {
 	dialogue_error ( _("Invalid value date.") );
-	gtk_entry_select_region ( GTK_ENTRY (  gsb_form_get_element_widget (TRANSACTION_FORM_VALUE_DATE) ),
+	gtk_entry_select_region ( GTK_ENTRY (  gsb_form_get_element_widget (TRANSACTION_FORM_VALUE_DATE,
+									    account_number) ),
 				  0,
 				  -1);
-	gtk_widget_grab_focus ( gsb_form_get_element_widget (TRANSACTION_FORM_VALUE_DATE) );
+	gtk_widget_grab_focus ( gsb_form_get_element_widget (TRANSACTION_FORM_VALUE_DATE,
+							     account_number) );
 	return (FALSE);
     }
 
@@ -1020,9 +1056,11 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number )
 	 &&
 	 gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY )
 	 &&
-	 gtk_widget_get_style ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY) ) -> entry ) == style_entree_formulaire[ENCLAIR] )
+	 gtk_widget_get_style ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY,
+									    account_number) ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
-	if ( !strcmp ( gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY))->entry)),
+	if ( !strcmp ( gtk_entry_get_text ( GTK_ENTRY ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY,
+												    account_number))->entry)),
 		       _("Breakdown of transaction"))
 	     &&
 	     gsb_data_transaction_get_mother_transaction_number (transaction_number))
@@ -1038,9 +1076,11 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number )
 
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY )
 	 &&
-	 gtk_widget_get_style ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY) ) -> entry ) == style_entree_formulaire[ENCLAIR] )
+	 gtk_widget_get_style ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY,
+									    account_number) ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
-	tab_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY) )),
+	tab_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY,
+												    account_number) )),
 				    ":",
 				    2 );
 
@@ -1104,11 +1144,13 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number )
 
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CHEQUE )
 	 &&
-	 GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) ))
+	 GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+							   account_number) ))
     {
 	struct struct_type_ope *type;
 
-	type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ) -> menu_item ),
+	type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE,
+												 account_number) ) -> menu_item ),
 				     "adr_type" );
 
 	if ( type -> numerotation_auto )
@@ -1117,7 +1159,8 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number )
 
 	    /* vérifie s'il y a quelque chose */
 
-	    if ( gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) ) == style_entree_formulaire[ENGRIS] )
+	    if ( gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+								     account_number) ) == style_entree_formulaire[ENGRIS] )
 	    {
 		if ( question ( _("Selected method of payment has an automatic incremental number\nbut doesn't contain any number.\nContinue anyway?") ) )
 		    goto sort_test_cheques;
@@ -1127,7 +1170,8 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number )
 
 	    /* vérifie si le no de chèque n'est pas déjà utilisé */
 
-	    operation_tmp = operation_par_cheque ( utils_str_atoi ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) )))),
+	    operation_tmp = operation_par_cheque ( utils_str_atoi ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+																	      account_number) )))),
 						   gsb_gui_navigation_get_current_account () );
 
 	    /* si on a trouvé le même no de chèque, si c'est une nouvelle opé, c'est pas normal, */
@@ -1153,7 +1197,8 @@ sort_test_cheques :
 
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_PARTY )
 	 &&
-	 !strncmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY) ))),
+	 !strncmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY,
+												     account_number) ))),
 		    COLON(_("Report")),
 		    7 ))
     {
@@ -1169,7 +1214,8 @@ sort_test_cheques :
 
 	/* on vérifie maintenant si l'état existe */
 
-	tab_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY) ))),
+	tab_char = g_strsplit ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY,
+														 account_number) ))),
 				    ":",
 				    2 );
 
@@ -1213,7 +1259,8 @@ sort_test_cheques :
     /* Check if there is no budgetary line (see #208) */
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_BUDGET )
 	 &&
-	 gtk_widget_get_style ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET) ) -> entry ) == style_entree_formulaire[ENGRIS] )
+	 gtk_widget_get_style ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET,
+									    account_number) ) -> entry ) == style_entree_formulaire[ENGRIS] )
     {
 	dialog_message ( "no-budgetary-line" );
 	return FALSE;
@@ -1250,7 +1297,8 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 					      column,
 					      row );
 
-	    widget =  gsb_form_get_element_widget (value);
+	    widget =  gsb_form_get_element_widget (value,
+						   account_number);
 
 	    switch (value)
 	    {
@@ -1357,14 +1405,17 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 
 		case TRANSACTION_FORM_TYPE:
 
-		    if ( GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ))
+		    if ( GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE,
+									   account_number) ))
 		    {
 			gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 									    gsb_payment_method_get_selected_number (widget));
 
-			if ( GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) )
+			if ( GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+									       account_number) )
 			     &&
-			     gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) ) == style_entree_formulaire[ENCLAIR] )
+			     gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+										 account_number) ) == style_entree_formulaire[ENCLAIR] )
 			{
 			    struct struct_type_ope *type;
 
@@ -1372,7 +1423,8 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 							 "adr_type" );
 
 			    gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-										 g_strstrip ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) )))));
+										 g_strstrip ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+																					account_number) )))));
 
 			    if ( type -> numerotation_auto )
 				type -> no_en_cours = ( utils_str_atoi ( gsb_data_transaction_get_method_of_payment_content ( transaction_number)));
@@ -1447,7 +1499,8 @@ gboolean gsb_form_get_categories ( gint transaction_number,
     if ( !gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY ))
 	return FALSE;
 
-    category_entry = GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY) ) -> entry;
+    category_entry = GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY,
+								 gsb_form_get_account_number_from_origin (gsb_form_get_origin ())) ) -> entry;
 
     if ( gtk_widget_get_style ( category_entry ) == style_entree_formulaire[ENCLAIR] )
     {
@@ -1626,8 +1679,10 @@ gint gsb_form_validate_transfer ( gint transaction_number,
 {
     gint contra_transaction_number;
     gint account_transfer;
+    gint account_number;
 
     account_transfer = gsb_data_account_get_no_account_by_name ( name_transfer_account );
+    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
 
     g_return_val_if_fail ( account_transfer, -1 );
 
@@ -1685,13 +1740,20 @@ gint gsb_form_validate_transfer ( gint transaction_number,
      * FIXME : for the scheduled transactions, we arrive here but there is no button for that,
      * so for now, TRANSACTION_FORM_CONTRA won't be visible so he just copy the method of the scheduled transaction */
 
-    if ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) &&
-	 GTK_IS_WIDGET ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) ) &&
-	 gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA ) &&
-	 GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA) ))
+    if ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA,
+				      account_number)
+	 &&
+	 GTK_IS_WIDGET ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA,
+						      account_number) )
+	 &&
+	 gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA )
+	 &&
+	 GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA,
+							   account_number) ))
     {
 	gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
-							    gsb_payment_method_get_selected_number (gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA)));
+							    gsb_payment_method_get_selected_number (gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA,
+																 account_number)));
     }
 
     /* set the link between the transactions */
@@ -1902,7 +1964,8 @@ void click_sur_bouton_voir_change ( void )
     gint transaction_number;
     struct struct_devise *devise;
 
-    gtk_widget_grab_focus ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE) );
+    gtk_widget_grab_focus ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
+							 gsb_form_get_account_number_from_origin (gsb_form_get_origin ())) );
 
     transaction_number = GPOINTER_TO_INT (gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 								"transaction_number_in_form" ));

@@ -45,7 +45,6 @@
 #include "utils_buttons.h"
 #include "utils.h"
 #include "utils_editables.h"
-#include "echeancier_formulaire.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -83,7 +82,6 @@ extern MetatreeInterface * budgetary_interface ;
 extern gchar *dernier_chemin_de_travail;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -324,14 +322,10 @@ void mise_a_jour_combofix_imputation ( void )
 {
     devel_debug ( "mise_a_jour_combofix_imputation" );
 
-    if ( gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET) && 
-	 gsb_data_form_check_for_value ( TRANSACTION_FORM_BUDGET ) )
-	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET) ),
+    if ( gsb_data_form_check_for_value (TRANSACTION_FORM_BUDGET))
+	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET,
+					       gsb_form_get_account_number_from_origin (gsb_form_get_origin ()))),
 				gsb_data_budget_get_name_list (TRUE, TRUE));
-
-    if ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] )
-    gtk_combofix_set_list ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
-			    gsb_data_budget_get_name_list (TRUE, TRUE));
 
     mise_a_jour_combofix_imputation_necessaire = 0;
 }

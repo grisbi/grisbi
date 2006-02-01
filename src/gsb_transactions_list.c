@@ -2404,7 +2404,8 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
     {
 	GtkWidget *entree_date;
 
-	entree_date = gsb_form_get_element_widget (TRANSACTION_FORM_DATE);
+	entree_date = gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
+						   account_number);
 
 	if ( gtk_widget_get_style ( entree_date ) == style_entree_formulaire[ENGRIS] )
 	    gsb_form_button_press_event ( entree_date,
@@ -2421,9 +2422,11 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 
     if ( gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
-	gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE),
+	gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
+								account_number),
 				   FALSE );
-	gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY),
+	gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY,
+								account_number),
 				   FALSE );
     }
 
@@ -2446,7 +2449,8 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 					     column,
 					     row );
 
-	    widget =  gsb_form_get_element_widget (value);
+	    widget =  gsb_form_get_element_widget (value,
+						   account_number);
 
 	    switch (value)
 	    {
@@ -2568,9 +2572,11 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 				     &&
 				     gsb_data_transaction_get_marked_transaction (contra_transaction_number) == OPERATION_RAPPROCHEE )
 				{
-				    gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT),
+				    gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT,
+											    account_number),
 							       FALSE );
-				    gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_DEBIT),
+				    gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_DEBIT,
+											    account_number),
 							       FALSE );
 				    gtk_widget_set_sensitive ( widget,
 							       FALSE );
@@ -2654,7 +2660,8 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 		    else
 		    {
 			gtk_widget_hide ( widget );
-			gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
+			gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+								       account_number));
 		    }
 
 		    break;
@@ -2741,10 +2748,12 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
     else
 	focus_to = TRANSACTION_FORM_DATE;
 
-    gtk_entry_select_region ( GTK_ENTRY ( gsb_form_get_element_widget (focus_to) ),
+    gtk_entry_select_region ( GTK_ENTRY ( gsb_form_get_element_widget (focus_to,
+								       account_number)),
 			      0,
 			      -1);
-    gtk_widget_grab_focus ( gsb_form_get_element_widget (focus_to) );
+    gtk_widget_grab_focus ( gsb_form_get_element_widget (focus_to,
+							 account_number));
 
     return FALSE;
 }

@@ -570,8 +570,9 @@ void modification_entree_nom_type ( void )
 	    GtkWidget *widget;
 	    gint account_number;
 
-	    widget = gsb_form_get_element_widget (TRANSACTION_FORM_TYPE);
 	    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+	    widget = gsb_form_get_element_widget (TRANSACTION_FORM_TYPE,
+						  account_number);
 
 	    gsb_payment_method_create_combo_list ( widget,
 						   GSB_PAYMENT_DEBIT,
@@ -585,7 +586,8 @@ void modification_entree_nom_type ( void )
 	    }
 	    else
 	    {
-		gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE) );
+		gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+							       account_number));
 	    }
 	}
     }

@@ -46,8 +46,7 @@ gboolean gsb_form_escape_form ( void );
 gboolean gsb_form_fill_transaction_part ( gint *ptr_account_number );
 gint gsb_form_get_account_number_from_origin ( gint origin );
 gchar *gsb_form_get_element_name ( gint element_number );
-GtkWidget *gsb_form_get_element_widget ( gint element_number );
-GtkWidget *gsb_form_get_element_widget_2 ( gint element_number,
+GtkWidget *gsb_form_get_element_widget ( gint element_number,
 					   gint account_number );
 gint gsb_form_get_next_element ( gint account_number,
 				 gint element_number,

@@ -122,12 +122,11 @@ gboolean fermeture_grisbi ( void )
     if (gbanking) {
       int rv;
 
-      rv=AB_Banking_Init(gbanking);
+      rv=AB_Banking_Fini(gbanking);
       if (rv) {
-        printf (_("Could not initialize AqBanking, "
-                  "online banking is not available (%d)\n"), rv);
-        AB_Banking_free(gbanking);
-        gbanking=0;
+	  printf (_("Could not deinitialize AqBanking (%d)\n"), rv);
+	  AB_Banking_free(gbanking);
+	  gbanking=0;
       }
     }
 #endif

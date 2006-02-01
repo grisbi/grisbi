@@ -139,6 +139,7 @@ GtkWidget *vbox_boutons_formulaire;
 
 GtkWidget *formulaire;
 
+xxx il va falloir créer un nouveau gsb_form et continuer à modifier les fonctions de operations_formulaire
 
 /**
  * create an empty form in an gtk_expander
@@ -1019,7 +1020,7 @@ gboolean gsb_form_clean ( gint account_number )
 					      column,
 					      row );
 
-	    widget =  gsb_form_get_element_widget_2 ( value,
+	    widget =  gsb_form_get_element_widget ( value,
 						      account_number );
 
 	    /* better to protect here if widget != NULL (bad experience...) */
@@ -1184,16 +1185,6 @@ gboolean gsb_form_clean ( gint account_number )
 
 
 /**
- * FIXME : transitionnal package, the purpose is to have element_number and account_number
- * in the param
- * xxx */
-GtkWidget *gsb_form_get_element_widget ( gint element_number )
-{
-    return gsb_form_get_element_widget_2 ( element_number,
-					   gsb_gui_navigation_get_current_account());
-}
-
-/**
  * return the pointer to the widget corresponding to the given element
  *
  * \param element_number
@@ -1201,7 +1192,7 @@ GtkWidget *gsb_form_get_element_widget ( gint element_number )
  *
  * \return the widget or NULL
  * */
-GtkWidget *gsb_form_get_element_widget_2 ( gint element_number,
+GtkWidget *gsb_form_get_element_widget ( gint element_number,
 					   gint account_number )
 {
     gint row;
@@ -1281,7 +1272,8 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 	 ||
 	 element_number == TRANSACTION_FORM_BUDGET )
     {
-	widget = gsb_form_get_element_widget (element_number);
+	widget = gsb_form_get_element_widget (element_number,
+					      account_number );
 
 	gtk_grab_remove ( GTK_COMBOFIX ( widget ) -> popup );
 	gdk_pointer_ungrab ( GDK_CURRENT_TIME );
@@ -1301,8 +1293,10 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 		/* we change the financial year only if it's a new transaction */
 		if ( !gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 					    "transaction_number_in_form" ))
-		    affiche_exercice_par_date( gsb_form_get_element_widget (TRANSACTION_FORM_DATE),
-					       gsb_form_get_element_widget (TRANSACTION_FORM_EXERCICE) );
+		    affiche_exercice_par_date( gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
+									    account_number),
+					       gsb_form_get_element_widget (TRANSACTION_FORM_EXERCICE,
+									    account_number));
 	    }
 	    else
 		string = gsb_form_get_element_name (TRANSACTION_FORM_DATE);
@@ -1323,7 +1317,8 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 	    if ( strlen ( gtk_entry_get_text ( GTK_ENTRY (entry))))
 	    {
 		/* empty the credit */
-		widget = gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT);
+		widget = gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT,
+						      account_number);
 		if (!gsb_form_check_entry_is_empty (widget))
 		{
 		    gtk_entry_set_text ( GTK_ENTRY (widget),
@@ -1331,7 +1326,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 		    gsb_form_set_entry_is_empty ( widget,
 						  TRUE );
 		}
-		widget = gsb_form_get_element_widget_2 ( TRANSACTION_FORM_TYPE,
+		widget = gsb_form_get_element_widget ( TRANSACTION_FORM_TYPE,
 							 account_number );
 
 		/* change the signe of the method of payment and the contra */
@@ -1343,12 +1338,13 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 		    /* if there is no payment method, the last function hide it, but we have
 		     * to hide the cheque element too */
 		    if ( !GTK_WIDGET_VISIBLE (widget))
-			gtk_widget_hide (gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE));
+			gtk_widget_hide (gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+								      account_number));
 
-		    widget = gsb_form_get_element_widget_2 ( TRANSACTION_FORM_CONTRA,
+		    widget = gsb_form_get_element_widget ( TRANSACTION_FORM_CONTRA,
 							     account_number );
 		    if ( GTK_WIDGET_VISIBLE (widget))
-			gsb_payment_method_create_combo_list ( gsb_form_get_element_widget_2 ( TRANSACTION_FORM_CONTRA,
+			gsb_payment_method_create_combo_list ( gsb_form_get_element_widget ( TRANSACTION_FORM_CONTRA,
 											       account_number ),
 							       GSB_PAYMENT_CREDIT,
 							       account_number );
@@ -1364,7 +1360,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 	    if ( strlen ( gtk_entry_get_text ( GTK_ENTRY (entry))))
 	    {
 		/* empty the credit */
-		widget = gsb_form_get_element_widget_2 (TRANSACTION_FORM_DEBIT,
+		widget = gsb_form_get_element_widget (TRANSACTION_FORM_DEBIT,
 							account_number );
 		if (!gsb_form_check_entry_is_empty (widget))
 		{
@@ -1373,7 +1369,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 		    gsb_form_set_entry_is_empty ( widget,
 						  TRUE );
 		}
-		widget = gsb_form_get_element_widget_2 ( TRANSACTION_FORM_TYPE,
+		widget = gsb_form_get_element_widget ( TRANSACTION_FORM_TYPE,
 							 account_number );
 
 		/* change the signe of the method of payment and the contra */
@@ -1385,9 +1381,10 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 		    /* if there is no payment method, the last function hide it, but we have
 		     * to hide the cheque element too */
 		    if ( !GTK_WIDGET_VISIBLE (widget))
-			gtk_widget_hide (gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE));
+			gtk_widget_hide (gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+								      account_number));
 
-		    widget = gsb_form_get_element_widget_2 ( TRANSACTION_FORM_CONTRA,
+		    widget = gsb_form_get_element_widget ( TRANSACTION_FORM_CONTRA,
 							     account_number );
 		    if ( GTK_WIDGET_VISIBLE (widget))
 			gsb_payment_method_create_combo_list ( widget,
@@ -1417,21 +1414,22 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 			 &&
 			 contra_account_number != account_number )
 		    {
-			if ( gsb_form_check_entry_is_empty (gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT)))
+			if ( gsb_form_check_entry_is_empty (gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT,
+											 account_number)))
 			    /* there is something in debit */
-			    gsb_payment_method_create_combo_list ( gsb_form_get_element_widget_2 (TRANSACTION_FORM_CONTRA,
+			    gsb_payment_method_create_combo_list ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA,
 												  account_number),
 								   GSB_PAYMENT_CREDIT,
 								   contra_account_number );
 			else
 			    /* there is something in credit */
-			    gsb_payment_method_create_combo_list ( gsb_form_get_element_widget_2 (TRANSACTION_FORM_CONTRA,
+			    gsb_payment_method_create_combo_list ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA,
 												  account_number),
 								   GSB_PAYMENT_DEBIT,
 								   contra_account_number );
 		    }
 		    else
-			gtk_widget_hide ( gsb_form_get_element_widget_2 (TRANSACTION_FORM_CONTRA,
+			gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CONTRA,
 									 account_number ));
 		}
 	    }
@@ -1485,7 +1483,8 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 	    case TRANSACTION_FORM_BUDGET :
 		/* need to work with the combofix to avoid some signals if we work
 		 * directly on the entry */
-		gtk_combofix_set_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (element_number) ),
+		gtk_combofix_set_text ( GTK_COMBOFIX ( gsb_form_get_element_widget (element_number,
+										    account_number) ),
 					string );
 		break;
 
@@ -1559,38 +1558,48 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
     gsb_form_change_sensitive_buttons (TRUE);
 
     /* set the current date into the date entry except if there is already something into the value date */
-    if ( gsb_form_check_entry_is_empty ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE)))
+    if ( gsb_form_check_entry_is_empty ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
+								      account_number)))
     {
 	if ( !gsb_data_form_check_for_value ( TRANSACTION_FORM_VALUE_DATE )
 	     ||
-	     gsb_form_check_entry_is_empty ( gsb_form_get_element_widget (TRANSACTION_FORM_VALUE_DATE)))
+	     gsb_form_check_entry_is_empty ( gsb_form_get_element_widget (TRANSACTION_FORM_VALUE_DATE,
+									  account_number)))
 	    {
-		gtk_entry_set_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE) ),
+		gtk_entry_set_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
+									      account_number)),
 				     gsb_date_today ());
-		gsb_form_set_entry_is_empty ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE),
+		gsb_form_set_entry_is_empty ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
+									   account_number),
 					      FALSE );
 	    }
     }
 
     /*     we set the financial year */
-    if ( gsb_form_get_element_widget(TRANSACTION_FORM_EXERCICE) )
-	affiche_exercice_par_date ( gsb_form_get_element_widget(TRANSACTION_FORM_DATE),
-				    gsb_form_get_element_widget(TRANSACTION_FORM_EXERCICE));
+    if ( gsb_form_get_element_widget(TRANSACTION_FORM_EXERCICE,
+				     account_number))
+	affiche_exercice_par_date ( gsb_form_get_element_widget(TRANSACTION_FORM_DATE,
+								account_number),
+				    gsb_form_get_element_widget(TRANSACTION_FORM_EXERCICE,
+								account_number));
 
     /* set the number of cheque for the method of payment if necessary */
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE )
 	 &&
-	 GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ))
+	 GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE,
+							   account_number)))
     {
 	gint payment_number;
 
-	payment_number = gsb_payment_method_get_selected_number (gsb_form_get_element_widget (TRANSACTION_FORM_TYPE));
+	payment_number = gsb_payment_method_get_selected_number (gsb_form_get_element_widget (TRANSACTION_FORM_TYPE,
+											      account_number));
 	if ( gsb_payment_method_get_automatic_number ( payment_number,
 						       account_number ))
 	{
 	    GtkWidget *widget;
 
-	    widget = gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE);
+	    widget = gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+						  account_number);
 
 	    gsb_form_entry_get_focus ( widget, NULL, NULL );
 
@@ -1631,16 +1640,23 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
  * */
 gboolean gsb_form_change_sensitive_buttons ( gboolean sensitive )
 {
+    gint account_number;
+    
+    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE ))
-	gtk_widget_set_sensitive ( GTK_WIDGET ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE) ),
+	gtk_widget_set_sensitive ( GTK_WIDGET ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE,
+									     account_number)),
 				   sensitive );
 
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_DEVISE ))
-	gtk_widget_set_sensitive ( GTK_WIDGET ( gsb_form_get_element_widget (TRANSACTION_FORM_DEVISE) ),
+	gtk_widget_set_sensitive ( GTK_WIDGET ( gsb_form_get_element_widget (TRANSACTION_FORM_DEVISE,
+									     account_number)),
 				   sensitive );
 
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_EXERCICE ))
-	gtk_widget_set_sensitive ( GTK_WIDGET ( gsb_form_get_element_widget (TRANSACTION_FORM_EXERCICE) ),
+	gtk_widget_set_sensitive ( GTK_WIDGET ( gsb_form_get_element_widget (TRANSACTION_FORM_EXERCICE,
+									     account_number)),
 				   sensitive );
     return FALSE;
 }
@@ -1662,7 +1678,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
     gint element_number;
     gint account_number;
     gint element_suivant;
-    GtkWidget *popup_cal;
 
     element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
@@ -1722,33 +1737,28 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	case GDK_KP_Enter :
 	case GDK_Return :
 
-	    /* si la touche CTRL est elle aussi active et si on est sur un champ
-	     * de date, c'est que l'on souhaite ouvrir un calendrier */
-/* xxx en suis ici dans le form */
+	    /* CONTROL ENTER opens the calendar */
 	    if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK
 		 &&
 		 ( element_number == TRANSACTION_FORM_DATE
 		   ||
 		   element_number == TRANSACTION_FORM_VALUE_DATE ))
 	    {
-		popup_cal = gsb_calendar_new ( GTK_WIDGET ( GTK_ENTRY ( gsb_form_get_element_widget (element_number) ) ) );
-		gtk_widget_grab_focus ( GTK_WIDGET ( popup_cal ) );
+		GtkWidget *popup_cal;
+		popup_cal = gsb_calendar_new ( gsb_form_get_element_widget (element_number,
+									      account_number ));
+		gtk_widget_grab_focus (popup_cal);
 		return TRUE;
 	    }
 
 	    gsb_form_finish_edition();
-
 	    return TRUE;
 	    break;
-
-	    /* touches + */
 
 	case GDK_KP_Add:
 	case GDK_plus:
 
-	    /* si on est dans une entry de date, on augmente d'un jour
-	       ou d'une semaine(si ctrl) la date */
-
+	    /* increase the date of 1 day/week, or the check of 1 */
 	    switch ( element_number )
 	    {
 		case TRANSACTION_FORM_VALUE_DATE:
@@ -1761,7 +1771,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 			inc_dec_date ( widget, ONE_DAY );
 		    else
 			inc_dec_date ( widget, ONE_WEEK );
-
 		    return TRUE;
 		    break;
 
@@ -1774,15 +1783,10 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    }
 	    break;
 
-
-	    /* touches - */
-
 	case GDK_KP_Subtract:
 	case GDK_minus:
 
-	    /* si on est dans une entry de date, on diminue d'un jour
-	       ou d'une semaine(si ctrl) la date */
-
+	    /* decrease the date of 1 day/week, or the check of 1 */
 	    switch ( element_number )
 	    {
 		case TRANSACTION_FORM_VALUE_DATE:
@@ -1795,7 +1799,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 			inc_dec_date ( widget, -ONE_DAY );
 		    else
 			inc_dec_date ( widget, -ONE_WEEK );
-
 		    return TRUE;
 		    break;
 
@@ -1808,16 +1811,10 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    }
 	    break;
 
-
-
-	    /* touche PgUp */
-
 	case GDK_Page_Up :
 	case GDK_KP_Page_Up :
 
-	    /* si on est dans une entry de date, on augmente d'un mois 
-	       ou d'un an (si ctrl) la date */
-
+	    /* increase the date of 1 month/year */
 	    switch ( element_number )
 	    {
 		case TRANSACTION_FORM_VALUE_DATE:
@@ -1837,15 +1834,10 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    }
 	    break;
 
-
-	    /* touche PgDown */
-
 	case GDK_Page_Down :
 	case GDK_KP_Page_Down :
 
-	    /* si on est dans une entry de date, on diminue d'un mois 
-	       ou d'un an (si ctrl) la date */
-
+	    /* decrease the date of 1 month/year */
 	    switch ( element_number )
 	    {
 		case TRANSACTION_FORM_VALUE_DATE:
@@ -1864,11 +1856,9 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 		    break;
 	    }
 	    break;
-    
     }
     return FALSE;
 }
-/******************************************************************************/
 
 
 
@@ -2004,7 +1994,7 @@ gboolean gsb_form_element_can_receive_focus ( gint element_number,
 	 element_number == -2 )
 	return TRUE;
 
-    widget = gsb_form_get_element_widget_2 ( element_number,
+    widget = gsb_form_get_element_widget ( element_number,
 					     account_number );
 
     if ( !widget )
@@ -2250,7 +2240,7 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
 	{
 	    GtkWidget *widget;
 
-	    widget = gsb_form_get_element_widget_2 ( gsb_data_form_get_value ( account_number,
+	    widget = gsb_form_get_element_widget ( gsb_data_form_get_value ( account_number,
 									       column,
 									       row ),
 						     account_number );

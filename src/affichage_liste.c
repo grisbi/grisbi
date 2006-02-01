@@ -573,7 +573,7 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 
     account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
 
-    combofix = gsb_form_get_element_widget_2 ( TRANSACTION_FORM_PARTY,
+    combofix = gsb_form_get_element_widget ( TRANSACTION_FORM_PARTY,
 					       account_number );
     if (combofix)
     {
@@ -587,7 +587,7 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 					  etat.combofix_enter_select_completion );
     }
 
-    combofix = gsb_form_get_element_widget_2 ( TRANSACTION_FORM_CATEGORY,
+    combofix = gsb_form_get_element_widget ( TRANSACTION_FORM_CATEGORY,
 					       account_number );
     if (combofix)
     {
@@ -603,7 +603,7 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 				      etat.combofix_mixed_sort );
     }
 
-    combofix = gsb_form_get_element_widget_2 ( TRANSACTION_FORM_BUDGET,
+    combofix = gsb_form_get_element_widget ( TRANSACTION_FORM_BUDGET,
 					       account_number );
     if (combofix)
     {

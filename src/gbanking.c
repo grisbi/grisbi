@@ -53,149 +53,151 @@ extern GSList *liste_comptes_importes;
 int GrisbiBanking_ImportContext (AB_BANKING *ab, 
 				 AB_IMEXPORTER_CONTEXT *ctx)
 {
-  AB_IMEXPORTER_ACCOUNTINFO *ai;
-  GSList *liste_comptes_importes_gbanking;
-  int errors;
+    AB_IMEXPORTER_ACCOUNTINFO *ai;
+    GSList *liste_comptes_importes_gbanking;
+    int errors;
 
-  errors=0;
-  liste_comptes_importes_gbanking=NULL;
-  ai=AB_ImExporterContext_GetFirstAccountInfo(ctx);
-  while(ai) {
-    struct struct_compte_importation *compte_nouveau;
-    const char *s;
-    AB_TRANSACTION *t;
+    errors=0;
+    liste_comptes_importes_gbanking=NULL;
+    ai=AB_ImExporterContext_GetFirstAccountInfo(ctx);
+    while(ai)
+    {
+	struct struct_compte_importation *compte_nouveau;
+	const char *s;
+	AB_TRANSACTION *t;
 
-    fprintf(stderr, "Importing account.\n");
-    compte_nouveau=calloc(1, sizeof(struct struct_compte_importation));
-    s=AB_ImExporterAccountInfo_GetAccountNumber(ai);
-    if (s)
-      compte_nouveau->id_compte=my_strdup(s);
-    s=AB_ImExporterAccountInfo_GetAccountName(ai);
-    if (s)
-      compte_nouveau->nom_de_compte=my_strdup(s);
-    compte_nouveau->origine=TYPE_GBANKING;
+	fprintf(stderr, "Importing account.\n");
+	compte_nouveau=calloc(1, sizeof(struct struct_compte_importation));
+	s=AB_ImExporterAccountInfo_GetAccountNumber(ai);
+	if (s)
+	    compte_nouveau->id_compte=my_strdup(s);
+	s=AB_ImExporterAccountInfo_GetAccountName(ai);
+	if (s)
+	    compte_nouveau->nom_de_compte=my_strdup(s);
+	compte_nouveau->origine=TYPE_GBANKING;
 
-    t=AB_ImExporterAccountInfo_GetFirstTransaction(ai);
-    while(t) {
-      struct struct_ope_importation *ope_import;
-      const GWEN_TIME *ti;
-      const AB_VALUE *va;
-      const GWEN_STRINGLIST *sl;
+	t=AB_ImExporterAccountInfo_GetFirstTransaction(ai);
+	while(t) {
+	    struct struct_ope_importation *ope_import;
+	    const GWEN_TIME *ti;
+	    const AB_VALUE *va;
+	    const GWEN_STRINGLIST *sl;
 
-      ope_import=calloc(1, sizeof(struct struct_ope_importation));
+	    ope_import=calloc(1, sizeof(struct struct_ope_importation));
 
-      /* date */
-      ope_import->date_de_valeur=NULL;
-      ti=AB_Transaction_GetValutaDate(t);
-      if (ti) {
-	int year, month, day;
+	    /* date */
+	    ope_import->date_de_valeur=NULL;
+	    ti=AB_Transaction_GetValutaDate(t);
+	    if (ti) {
+		int year, month, day;
 
-	if (!GWEN_Time_GetBrokenDownDate(ti, &day, &month, &year)) {
-	  GDate *date;
+		if (!GWEN_Time_GetBrokenDownDate(ti, &day, &month, &year)) {
+		    GDate *date;
 
-	  date=g_date_new_dmy(day, month+1, year);
-	  ope_import->date_de_valeur=date;
-	}
-      }
+		    date=g_date_new_dmy(day, month+1, year);
+		    ope_import->date_de_valeur=date;
+		}
+	    }
 
-      ope_import->date=NULL;
-      ti=AB_Transaction_GetDate(t);
-      if (ti) {
-	int year, month, day;
+	    ope_import->date=NULL;
+	    ti=AB_Transaction_GetDate(t);
+	    if (ti) {
+		int year, month, day;
 
-	if (!GWEN_Time_GetBrokenDownDate(ti, &day, &month, &year)) {
-	  GDate *date;
+		if (!GWEN_Time_GetBrokenDownDate(ti, &day, &month, &year)) {
+		    GDate *date;
 
-	  date=g_date_new_dmy(day, month+1, year);
-	  ope_import->date=date;
-	}
-      }
+		    date=g_date_new_dmy(day, month+1, year);
+		    ope_import->date=date;
+		}
+	    }
 
-      va=AB_Transaction_GetValue(t);
-      if (va) {
-	ope_import->montant=AB_Value_GetValue(va);
-      }
+	    va=AB_Transaction_GetValue(t);
+	    if (va) {
+		ope_import->montant=AB_Value_GetValue(va);
+	    }
 
-      sl=AB_Transaction_GetRemoteName(t);
-      if (sl) {
-	GWEN_BUFFER *nbuf;
-	GWEN_STRINGLISTENTRY *se;
+	    sl=AB_Transaction_GetRemoteName(t);
+	    if (sl) {
+		GWEN_BUFFER *nbuf;
+		GWEN_STRINGLISTENTRY *se;
 
-	nbuf=GWEN_Buffer_new(0, 256, 0, 1);
-	se=GWEN_StringList_FirstEntry(sl);
-	while(se) {
-	  const char *s;
+		nbuf=GWEN_Buffer_new(0, 256, 0, 1);
+		se=GWEN_StringList_FirstEntry(sl);
+		while(se) {
+		    const char *s;
 
-	  s=GWEN_StringListEntry_Data(se);
-	  assert(s);
-	  if (GWEN_Buffer_GetUsedBytes(nbuf))
-	    GWEN_Buffer_AppendByte(nbuf, ' ');
-          GWEN_Buffer_AppendString(nbuf, s);
-	  se=GWEN_StringListEntry_Next(se);
+		    s=GWEN_StringListEntry_Data(se);
+		    assert(s);
+		    if (GWEN_Buffer_GetUsedBytes(nbuf))
+			GWEN_Buffer_AppendByte(nbuf, ' ');
+		    GWEN_Buffer_AppendString(nbuf, s);
+		    se=GWEN_StringListEntry_Next(se);
+		} /* while */
+		if (GWEN_Buffer_GetUsedBytes(nbuf))
+		    ope_import->tiers=my_strdup(GWEN_Buffer_GetStart(nbuf));
+		GWEN_Buffer_free(nbuf);
+	    } /* if remote name */
+
+	    sl=AB_Transaction_GetPurpose(t);
+	    if (sl) {
+		GWEN_BUFFER *nbuf;
+		GWEN_STRINGLISTENTRY *se;
+
+		nbuf=GWEN_Buffer_new(0, 256, 0, 1);
+		se=GWEN_StringList_FirstEntry(sl);
+		while(se) {
+		    const char *s;
+
+		    s=GWEN_StringListEntry_Data(se);
+		    assert(s);
+		    if (GWEN_Buffer_GetUsedBytes(nbuf))
+			GWEN_Buffer_AppendByte(nbuf, ' ');
+		    GWEN_Buffer_AppendString(nbuf, s);
+		    se=GWEN_StringListEntry_Next(se);
+		} /* while */
+		if (GWEN_Buffer_GetUsedBytes(nbuf))
+		    ope_import->notes=my_strdup(GWEN_Buffer_GetStart(nbuf));
+		GWEN_Buffer_free(nbuf);
+	    } /* if purpose */
+
+	    /* append transaction */
+	    DBG_NOTICE(0, "Adding transaction");
+	    compte_nouveau->operations_importees=
+		g_slist_append(compte_nouveau->operations_importees,
+			       ope_import);
+
+	    t=AB_ImExporterAccountInfo_GetNextTransaction(ai);
 	} /* while */
-        if (GWEN_Buffer_GetUsedBytes(nbuf))
-	  ope_import->tiers=my_strdup(GWEN_Buffer_GetStart(nbuf));
-        GWEN_Buffer_free(nbuf);
-      } /* if remote name */
 
-      sl=AB_Transaction_GetPurpose(t);
-      if (sl) {
-	GWEN_BUFFER *nbuf;
-	GWEN_STRINGLISTENTRY *se;
-
-	nbuf=GWEN_Buffer_new(0, 256, 0, 1);
-	se=GWEN_StringList_FirstEntry(sl);
-	while(se) {
-	  const char *s;
-
-	  s=GWEN_StringListEntry_Data(se);
-	  assert(s);
-	  if (GWEN_Buffer_GetUsedBytes(nbuf))
-	    GWEN_Buffer_AppendByte(nbuf, ' ');
-          GWEN_Buffer_AppendString(nbuf, s);
-	  se=GWEN_StringListEntry_Next(se);
-	} /* while */
-        if (GWEN_Buffer_GetUsedBytes(nbuf))
-	  ope_import->notes=my_strdup(GWEN_Buffer_GetStart(nbuf));
-	GWEN_Buffer_free(nbuf);
-      } /* if purpose */
-
-      /* append transaction */
-      DBG_NOTICE(0, "Adding transaction");
-      compte_nouveau->operations_importees=
-	g_slist_append(compte_nouveau->operations_importees,
-		       ope_import);
-
-      t=AB_ImExporterAccountInfo_GetNextTransaction(ai);
+	/* append account */
+	liste_comptes_importes_gbanking=
+	    g_slist_append(liste_comptes_importes_gbanking,
+			   compte_nouveau);
+	ai=AB_ImExporterContext_GetNextAccountInfo(ctx);
     } /* while */
 
-    /* append account */
-    liste_comptes_importes_gbanking=
-      g_slist_append(liste_comptes_importes_gbanking,
-		     compte_nouveau);
-    ai=AB_ImExporterContext_GetNextAccountInfo(ctx);
-  } /* while */
+    if (errors)
+	errors=!question_yes_no_hint(_("Warning" ),
+				     _("An error or warning has occured. "
+				       "Do you still want to import the data ?"));
+    if (!errors)
+    {
+	GSList *liste_tmp;
 
-  if (errors)
-    errors=!question_yes_no_hint(_("Warning" ),
-				 _("An error or warning has occured. "
-				   "Do you still want to import the data ?"));
-  if (!errors){
-    GSList *liste_tmp;
+	liste_tmp = liste_comptes_importes_gbanking;
 
-    liste_tmp = liste_comptes_importes_gbanking;
+	/* ajoute le ou les compte aux autres comptes importés */
 
-    /* ajoute le ou les compte aux autres comptes importés */
-
-    while (liste_tmp){
-      liste_comptes_importes=g_slist_append(liste_comptes_importes,
-					    liste_tmp->data);
-      liste_tmp=liste_tmp->next;
+	while (liste_tmp){
+	    liste_comptes_importes=g_slist_append(liste_comptes_importes,
+						  liste_tmp->data);
+	    liste_tmp=liste_tmp->next;
+	}
+	return affichage_recapitulatif_importation(NULL);
     }
-    return affichage_recapitulatif_importation(NULL);
-  }
 
-  return 0;
+    return 0;
 }
 /* *******************************************************************************/
 
