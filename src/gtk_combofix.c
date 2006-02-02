@@ -641,6 +641,8 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     combofix -> tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (combofix -> model_sort));
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(combofix -> tree_view))),
 				  GTK_SELECTION_SINGLE );
+    gtk_tree_view_set_hover_selection ( GTK_TREE_VIEW (combofix -> tree_view),
+					TRUE );
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW (combofix -> tree_view),
 					FALSE );
     gtk_tree_view_append_column ( GTK_TREE_VIEW (combofix -> tree_view),
@@ -1424,12 +1426,13 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
 }
 
 /**
- * called with a button press event on the tree view
- * check the double click on an item
+ * Called when a button press event is triggered on the tree view.
+ * Select an entry if clicked.
  *
- * \param tree_view
- * \param ev
- * \param combofix
+ * \param tree_view	GtkTreeView that triggered event.  It should be the tree view 
+			attached to a gtk combofix.
+ * \param ev		Triggered event.
+ * \param combofix	The GtkComboFix that contains tree view.
  *
  * \return TRUE to block the signal, FALSE else
  * */
@@ -1437,16 +1440,11 @@ static gboolean gtk_combofix_button_press_event ( GtkWidget *tree_view,
 						  GdkEventButton *ev,
 						  GtkComboFix *combofix )
 {
-    switch (ev -> type)
+    if (ev -> type ==  GDK_BUTTON_PRESS )
     {
-	case GDK_2BUTTON_PRESS:
-	    gtk_combofix_choose_selection (combofix);
-	    return TRUE;
-	    break;
-	default:
-	    break;
+	gtk_combofix_choose_selection (combofix);
+	return TRUE;
     }
-
 
     return FALSE;
 }
