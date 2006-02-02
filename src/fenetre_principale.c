@@ -56,6 +56,8 @@ static gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 					  GtkNotebookPage *page,
 					  guint page_number,
 					  gpointer null );
+static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button_event,
+					   GCallback cb );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -98,20 +100,34 @@ extern AB_BANKING *gbanking;
  */
 GtkWidget * create_main_widget ( void )
 {
-    GtkWidget *hbox, *eb;
+    GtkWidget * hbox, * eb, * arrow_eb, * arrow_left, * arrow_right;
     GtkStyle * style;
 
     /* All stuff will be put in a huge vbox, with an hbox containing
      * quick summary. */
     main_vbox = gtk_vbox_new ( FALSE, 0 );
     eb = gtk_event_box_new ();
+    style = gtk_widget_get_style ( eb );
     hbox = gtk_hbox_new ( FALSE, 0 );
 
-    /* Create two arrows (dummy atm). */
-    gtk_box_pack_start ( GTK_BOX(hbox), gtk_arrow_new ( GTK_ARROW_LEFT,GTK_SHADOW_OUT ), 
-			 FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX(hbox), gtk_arrow_new ( GTK_ARROW_RIGHT,GTK_SHADOW_OUT ), 
-			 FALSE, FALSE, 3 );
+    /* Create two arrows. */
+    arrow_left = gtk_arrow_new ( GTK_ARROW_LEFT, GTK_SHADOW_OUT );
+    arrow_eb = gtk_event_box_new ();
+    gtk_widget_modify_bg ( arrow_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
+    gtk_container_add ( GTK_CONTAINER ( arrow_eb ), arrow_left );
+    g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event", 
+		       G_CALLBACK ( on_simpleclick_event_run ), 
+		       gsb_gui_navigation_select_prev );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), arrow_eb, FALSE, FALSE, 0 );
+
+    arrow_right = gtk_arrow_new ( GTK_ARROW_RIGHT, GTK_SHADOW_OUT );
+    arrow_eb = gtk_event_box_new ();
+    gtk_widget_modify_bg ( arrow_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
+    gtk_container_add ( GTK_CONTAINER ( arrow_eb ), arrow_right );
+    g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event", 
+		       G_CALLBACK ( on_simpleclick_event_run ), 
+		       gsb_gui_navigation_select_next );
+    gtk_box_pack_start ( GTK_BOX(hbox), arrow_eb, FALSE, FALSE, 3 );
 
     /* Define labels. */
     headings_title = gtk_label_new ( "" );
@@ -122,9 +138,8 @@ GtkWidget * create_main_widget ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), headings_suffix, FALSE, FALSE, 0 );
 
     /* Change color with an event box trick. */
-    style = gtk_widget_get_style ( eb );
-    gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
     gtk_container_add ( GTK_CONTAINER ( eb ), hbox );
+    gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
     gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 6 );
 
     gtk_box_pack_start ( GTK_BOX(main_vbox), eb, FALSE, FALSE, 0 );
@@ -356,6 +371,8 @@ gboolean gsb_gui_on_notebook_switch_page ( GtkNotebook *notebook,
     return ( FALSE );
 }
 
+
+
 /**
  * called when the account notebook changed page between
  * transactions list and account description
@@ -416,6 +433,25 @@ void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page )
 {
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page );
 }
+
+
+
+/**
+ * Trigger a callback functions only if button event that triggered it
+ * was a simple click.
+ *
+ */
+gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button_event,
+				    GCallback cb )
+{
+    if ( button_event -> type == GDK_BUTTON_PRESS )
+    {
+	cb ();
+    }
+
+    return TRUE;
+}
+
 
 
 /* Local Variables: */
