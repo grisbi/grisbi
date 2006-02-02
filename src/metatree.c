@@ -360,16 +360,31 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 void metatree_new_division ( GtkTreeModel * model )
 {
     MetatreeInterface * iface;
-    GtkTreeView * tree_view;
-    GtkTreeIter iter, sub_iter;
     gint div_id;
 
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
-    tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
-    if ( !iface || !tree_view )
-	return;
 
     div_id = iface -> add_div ();
+
+    metatree_fill_new_division ( iface, model, div_id );
+
+    modification_fichier ( TRUE );
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+void metatree_fill_new_division ( MetatreeInterface * iface, GtkTreeModel * model, 
+				  gint div_id )
+{
+    GtkTreeIter iter, sub_iter;
+    GtkTreeView * tree_view;
+
+    g_return_if_fail ( iface );
 
     gtk_tree_store_append ( GTK_TREE_STORE(model), &iter, NULL );
     fill_division_row ( model, iface, &iter, iface -> get_div_pointer ( div_id ) );
@@ -381,13 +396,14 @@ void metatree_new_division ( GtkTreeModel * model )
 				iface -> get_div_pointer ( div_id ), NULL );
     }
 
+    tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
+    g_return_if_fail ( tree_view );   
+
     gtk_tree_selection_select_iter ( gtk_tree_view_get_selection ( tree_view ), &iter );
     gtk_tree_view_scroll_to_cell ( tree_view, 
 				   gtk_tree_model_get_path ( model, &iter ),
 				   gtk_tree_view_get_column ( tree_view, 0 ),
 				   TRUE, 0.5, 0.0 );
-
-    modification_fichier ( TRUE );
 }
 
 

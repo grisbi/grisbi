@@ -109,6 +109,8 @@ inline gboolean metatree_sort_column  ( GtkTreeModel * model,
 gboolean supprimer_division ( GtkTreeView * tree_view );
 void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * model, 
 				  gint transaction_number );
+void metatree_fill_new_division ( MetatreeInterface * iface, GtkTreeModel * model, 
+				  gint div_id );
 /*END_DECLARATION*/
 
 #endif
