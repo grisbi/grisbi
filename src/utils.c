@@ -1,11 +1,6 @@
 /* ************************************************************************** */
-/*   									      */
-/*  					                                      */
-/*                                                                            */
-/*                                  fonctions_utiles.c                        */
-/*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /*			2003-2004 Francois Terrot (francois.terrot@grisbi.org)*/
 /* 			http://www.grisbi.org				      */
@@ -41,9 +36,6 @@
 
 /*START_STATIC*/
 /*END_STATIC*/
-
-
-
 
 
 /*START_EXTERN*/
@@ -256,18 +248,23 @@ GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar *
 GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 					  gchar * image_filename)
 {
-    GtkWidget *vbox_title, *vbox_pref, *separator, *hbox, *label, *image;
+    GtkWidget *vbox_pref, *hbox, *label, *image, *eb;
+    GtkStyle * style;
 
-    vbox_pref = gtk_vbox_new ( FALSE, 5 );
+    vbox_pref = gtk_vbox_new ( FALSE, 6 );
     gtk_widget_show ( vbox_pref );
 
-    vbox_title = gtk_vbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox_title, FALSE, FALSE, 0);
+    eb = gtk_event_box_new ();
+    style = gtk_widget_get_style ( eb );
+    gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), eb, FALSE, FALSE, 0);
+
 
     /* Title hbox */
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_title ), hbox, FALSE, FALSE, 0);
+    hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_widget_show ( hbox );
+    gtk_container_add ( GTK_CONTAINER ( eb ), hbox );
+    gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 3 );
 
     /* Icon */
     if ( image_filename )
@@ -288,11 +285,6 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 					NULL ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
     gtk_widget_show ( label );
-
-    /* Separator */
-    separator = gtk_hseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( vbox_title ), separator, FALSE, FALSE, 0);
-    gtk_widget_show ( separator );
 
     return vbox_pref;
 }
