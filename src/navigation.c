@@ -745,8 +745,10 @@ void gsb_gui_navigation_add_report ( gint report_number )
     gtk_tree_path_prepend_index ( path, GSB_REPORTS_PAGE - 1 );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL(navigation_model), &parent, path );
     gtk_tree_store_append ( GTK_TREE_STORE(navigation_model), &iter, &parent );
+    gtk_tree_view_expand_to_path ( GTK_TREE_VIEW(navigation_tree_view), path );
 
-    gsb_gui_navigation_update_report_iter ( GTK_TREE_MODEL(navigation_model), &iter, report_number );    
+    gsb_gui_navigation_update_report_iter ( GTK_TREE_MODEL(navigation_model), &iter, 
+					    report_number );    
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
     gtk_tree_selection_select_iter ( selection, &iter );
@@ -912,7 +914,7 @@ void gsb_gui_navigation_remove_account ( gint account_nb )
  *
  * \return FALSE
  */
-gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
+gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
 					  GtkTreeModel * model )
 {
     GtkTreeIter iter;
@@ -1016,18 +1018,18 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
  */
 gboolean gsb_gui_navigation_set_selection ( gint page, gint account_nb, gpointer report )
 {
-    GtkTreeIter parent, iter;
+    GtkTreeIter iter;
     GtkTreeSelection * selection;
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
     g_return_val_if_fail ( selection, FALSE );
 
-    g_signal_handlers_block_by_func ( selection,
-				      gsb_gui_navigation_select_line,
-				      navigation_model );
+    /* This is no blocked because we want things like headings to be updated. [benj]  */
+/*     g_signal_handlers_block_by_func ( selection, */
+/* 				      gsb_gui_navigation_select_line, */
+/* 				      navigation_model ); */
 
-    gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &parent );
-    gtk_tree_model_iter_children ( GTK_TREE_MODEL(navigation_model), &iter, &parent );
+    gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &iter );
 
     do 
     {
@@ -1051,11 +1053,98 @@ gboolean gsb_gui_navigation_set_selection ( gint page, gint account_nb, gpointer
     }
     while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL(navigation_model), &iter ) );
 
-    g_signal_handlers_unblock_by_func ( selection,
-					gsb_gui_navigation_select_line,
-					navigation_model );
+/*     g_signal_handlers_unblock_by_func ( selection, */
+/* 					gsb_gui_navigation_select_line, */
+/* 					navigation_model ); */
 
     return TRUE;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean gsb_gui_navigation_select_prev ()
+{
+    GtkTreeSelection * selection;
+    GtkTreePath * path;
+    GtkTreeModel * model;
+    GtkTreeIter iter;
+
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
+    g_return_val_if_fail ( selection, FALSE );
+    
+    gtk_tree_selection_get_selected ( selection, &model, &iter );
+    path = gtk_tree_model_get_path ( model, &iter );
+    g_return_val_if_fail ( path, TRUE );
+
+    if ( ! gtk_tree_path_prev ( path ) )
+    {
+	printf (">BOINK\n");
+	gtk_tree_path_up ( path );
+    }
+    else
+    {
+	gtk_tree_model_get_iter ( model, &iter, path );
+	if ( gtk_tree_model_iter_has_child ( model, &iter ) )
+	{
+	    GtkTreeIter parent = iter;
+	    gtk_tree_model_iter_nth_child ( model, &iter, &parent, 
+					    gtk_tree_model_iter_n_children ( model, 
+									     &parent ) - 1 );
+	    path = gtk_tree_model_get_path ( model, &iter );
+	}
+    }
+    
+    gtk_tree_selection_select_path ( selection, path );
+
+    return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean gsb_gui_navigation_select_next ()
+{
+    GtkTreeSelection * selection;
+    GtkTreePath * path;
+    GtkTreeModel * model;
+    GtkTreeIter iter;
+
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
+    g_return_val_if_fail ( selection, FALSE );
+    
+    gtk_tree_selection_get_selected ( selection, &model, &iter );
+    path = gtk_tree_model_get_path ( model, &iter );
+    g_return_val_if_fail ( path, TRUE );
+
+    if ( gtk_tree_model_iter_has_child ( model, &iter ) )
+    {
+	gtk_tree_path_down ( path );
+    }
+    else
+    {
+	if ( ! gtk_tree_model_iter_next ( model, &iter ) )
+	{
+	    gtk_tree_path_up ( path );
+	    gtk_tree_path_next ( path );
+	}
+	else
+	{ 
+	    path = gtk_tree_model_get_path ( model, &iter );
+	}
+    }
+
+    gtk_tree_selection_select_path ( selection, path );
+
+    return FALSE;
 }
 
 
