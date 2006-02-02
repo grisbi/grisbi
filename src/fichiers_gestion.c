@@ -132,7 +132,8 @@ gboolean new_file ( void )
     init_variables_new_file ();
 
     /* on se met sur l'onglet de propriétés du compte */
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), GSB_ACCOUNT_PAGE );
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), GSB_HOME_PAGE );
+    gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );    
 
     modification_fichier ( TRUE );
     return FALSE;
@@ -802,19 +803,8 @@ void affiche_titre_fenetre ( void )
     titre = g_strconcat ( titre, " - ", _("Grisbi"), NULL );
     gtk_window_set_title ( GTK_WINDOW ( window ), titre );
 
-    /* Update headings. */
-    if ( nom_fichier_comptes )
-    {
-	if ( titre_fichier && strlen ( titre_fichier ) )
-	{
-	    titre = g_strconcat ( "Grisbi : " , titre_fichier, NULL );
-	}
-	else
-	{
-	    titre = g_strconcat ( "Grisbi : " , _("My accounts"), NULL );
-	}
-	gsb_gui_headings_update ( titre, "" );
-    }
+    /* Update navigation */
+     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
 }
 
 
