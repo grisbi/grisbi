@@ -90,7 +90,6 @@ GSList * csv_parse_line ( gchar ** contents, gchar * separator )
 			/* End of quoted string. */
 			if ( *tmp == '"' && *(tmp+1) != '"' )
 			{
-			    tmp += 1;
 			    break;
 			}
 			
