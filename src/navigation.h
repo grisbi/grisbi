@@ -26,11 +26,11 @@ gint gsb_gui_navigation_get_current_page ( void );
 gint gsb_gui_navigation_get_current_report ( void );
 void gsb_gui_navigation_remove_account ( gint account_nb );
 void gsb_gui_navigation_remove_report ( gint report_number );
+gboolean gsb_gui_navigation_select_next ();
+gboolean gsb_gui_navigation_select_prev ();
 gboolean gsb_gui_navigation_set_selection ( gint page, gint account_nb, gpointer report );
 void gsb_gui_navigation_update_account ( gint account_nb );
 void gsb_gui_navigation_update_report ( gint report_number ) ;
-gboolean gsb_gui_navigation_select_prev ();
-gboolean gsb_gui_navigation_select_next ();
 /* END_DECLARATION */
 
 #endif

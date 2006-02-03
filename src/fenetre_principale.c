@@ -57,7 +57,7 @@ static gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 					  guint page_number,
 					  gpointer null );
 static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button_event,
-					   GCallback cb );
+				    GCallback cb );
 /*END_STATIC*/
 
 /*START_EXTERN*/
