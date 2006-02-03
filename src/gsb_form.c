@@ -139,7 +139,7 @@ GtkWidget *vbox_boutons_formulaire;
 
 GtkWidget *formulaire;
 
-xxx il va falloir créer un nouveau gsb_form et continuer à modifier les fonctions de operations_formulaire
+/* xxx il va falloir créer un nouveau gsb_form et continuer à modifier les fonctions de operations_formulaire */
 
 /**
  * create an empty form in an gtk_expander
