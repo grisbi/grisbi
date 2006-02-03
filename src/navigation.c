@@ -57,7 +57,7 @@ static  gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel * tree
 							     GtkTreePath *path, 
 							     GtkTreeIter *iter, 
 							     gpointer data );
-static gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
+static gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
 					  GtkTreeModel * model );
 static void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model, 
 					      GtkTreeIter * account_iter,
@@ -83,6 +83,10 @@ static gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 					GtkSelectionData * selection_data );
 static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 					 GtkSelectionData * selection_data );
+static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection, 
+						      GtkTreeIter * iter, gint page, 
+						      gint account_nb, gint report );
+
 /*END_STATIC*/
 
 
@@ -1031,16 +1035,50 @@ gboolean gsb_gui_navigation_set_selection ( gint page, gint account_nb, gpointer
 
     gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &iter );
 
+    gsb_gui_navigation_set_selection_branch ( selection, &iter, page, account_nb, report );
+}
+
+
+
+/**
+ * Set the selection of the navigation list depending on desired page
+ * and/or account or report, but only for a branch of the tree.
+ *
+ * \param selection	Selection to set.
+ * \param iter		Current iter to iterate over.
+ * \param page		Page to switch to.
+ * \param account_nb	If page is GSB_ACCOUNT_PAGE, switch to given
+ *			account.
+ * \param report	If page is GSB_REPORTS, switch to given
+ *			report.
+ * 
+ * \return		TRUE on success.
+ */
+void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection, 
+					       GtkTreeIter * iter, gint page, 
+					       gint account_nb, gint report )
+{
+    if ( gtk_tree_model_iter_has_child ( GTK_TREE_MODEL(navigation_model), iter ) )
+    {
+	GtkTreeIter child;
+    
+	gtk_tree_model_iter_children ( GTK_TREE_MODEL(navigation_model), &child, iter );
+	gsb_gui_navigation_set_selection_branch ( selection, &child, 
+						  page, account_nb, report );
+    }
+
     do 
     {
 	gint iter_page, iter_account_nb;
 	gpointer iter_report;
 
-	gtk_tree_model_get ( GTK_TREE_MODEL(navigation_model), &iter, 
+	gtk_tree_model_get ( GTK_TREE_MODEL(navigation_model), iter, 
 			     NAVIGATION_REPORT, &iter_report, 
 			     NAVIGATION_ACCOUNT, &iter_account_nb,
 			     NAVIGATION_PAGE, &iter_page,
 			     -1 );
+
+	printf (">> %d, %d <=> %d, %d\n", iter_page, iter_account_nb, page, account_nb );
 
 	if ( iter_page == page &&
 	     ! ( page == GSB_ACCOUNT_PAGE && 
@@ -1048,10 +1086,10 @@ gboolean gsb_gui_navigation_set_selection ( gint page, gint account_nb, gpointer
 	     ! ( page == GSB_REPORTS_PAGE &&
 		 iter_report != report ) )
 	{
-	    gtk_tree_selection_select_iter ( selection, &iter );
+	    gtk_tree_selection_select_iter ( selection, iter );
 	}
     }
-    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL(navigation_model), &iter ) );
+    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL(navigation_model), iter ) );
 
 /*     g_signal_handlers_unblock_by_func ( selection, */
 /* 					gsb_gui_navigation_select_line, */
@@ -1083,7 +1121,6 @@ gboolean gsb_gui_navigation_select_prev ()
 
     if ( ! gtk_tree_path_prev ( path ) )
     {
-	printf (">BOINK\n");
 	gtk_tree_path_up ( path );
     }
     else
