@@ -212,6 +212,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
 			       GTK_SIGNAL_FUNC ( sortie_entree_date_equilibrage ), NULL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), entree_nouvelle_date_equilibrage,
 				0, 1, 4, 5 );
+    gtk_widget_grab_focus ( GTK_WIDGET ( entree_nouvelle_date_equilibrage ) );
 
     entree_nouveau_montant_equilibrage = gtk_entry_new ();
     gtk_widget_set_usize ( entree_nouveau_montant_equilibrage, 50, FALSE );
