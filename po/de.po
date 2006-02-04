@@ -34,7 +34,7 @@
 # Copyright (C) 2005 THE PACKAGE'S COPYRIGHT HOLDER.
 # Martin Stromberger <mstromberger@aon.at>, 2004.
 # Benjamin Drieu <bdrieu@april.org>, 2004.
-# Martin Stromberger <fabiolla@aon.at>, 2004, 2005.
+# Martin Stromberger <fabiolla@aon.at>, 2004, 2005, 2006.
 # Alain PORTAL <alain@localhost.localdomain>, 2005.
 #
 msgid ""
@@ -42,7 +42,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-19 11:18+0100\n"
-"PO-Revision-Date: 2005-12-26 18:42+0100\n"
+"PO-Revision-Date: 2006-02-04 20:45+0100\n"
 "Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4110,7 +4110,7 @@ msgstr "alle bis jetzt"
 
 #: src/etats_config.c:46
 msgid "Current month"
-msgstr "aktuelles Monat"
+msgstr "aktueller Monat"
 
 #: src/etats_config.c:47
 msgid "Current year"
@@ -4118,7 +4118,7 @@ msgstr "aktuelles Jahr"
 
 #: src/etats_config.c:48
 msgid "Current month to now"
-msgstr "aktuelles Monat bis jetzt"
+msgstr "aktueller Monat bis jetzt"
 
 #: src/etats_config.c:49
 msgid "Current year to now"
@@ -5038,7 +5038,7 @@ msgstr "Einnahmen und Ausgaben letztes Monat"
 #. revenus et dÃ©penses du mois courant
 #: src/etats_onglet.c:520 src/etats_onglet.c:646
 msgid "Current month incomes and outgoings"
-msgstr "Einnahmen und Ausgaben aktuelles Monat"
+msgstr "Einnahmen und Ausgaben aktueller Monat"
 
 #. on ajoute le budget annuel
 #: src/etats_onglet.c:528 src/etats_onglet.c:690
