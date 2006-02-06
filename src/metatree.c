@@ -69,6 +69,7 @@ static gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTree
 				       gpointer * data );
 static enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model, 
 						GtkTreePath * path );
+static gboolean metatree_model_is_displayed ( GtkTreeModel * model );
 static void metatree_new_sub_division ( GtkTreeModel * model, gint div_id );
 static void move_transaction_to_sub_division ( gpointer  transaction,
 					GtkTreeModel * model,
@@ -86,6 +87,7 @@ static void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * mod
 
 /*START_EXTERN*/
 extern GtkWidget *formulaire;
+extern GtkTreeStore * navigation_model;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
 /*END_EXTERN*/
@@ -986,6 +988,12 @@ gboolean division_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath *
 	gpointer pointer;
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
+
+	if ( model == navigation_model )
+	{
+	    return navigation_row_drop_possible ( drag_dest, dest_path, selection_data );
+	}
+
 	orig_type = metatree_get_row_type ( model, orig_path );
 
 	dest_type = metatree_get_row_type ( model, dest_path );
@@ -1047,6 +1055,12 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 	GSList *list_tmp_transactions;
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
+
+	if ( model == navigation_model )
+	{
+	    return navigation_drag_data_received ( drag_dest, dest_path, selection_data );
+	}
+
 	iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
 	if ( ! iface )
 	    return FALSE;

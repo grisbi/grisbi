@@ -106,6 +106,7 @@ extern GtkWidget *nom_exercice;
 extern gchar *nom_fichier_backup;
 extern GtkWidget *remarque_banque;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
+extern GSList *sort_accounts;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkWidget *tel_banque;
 extern GtkWidget *tel_correspondant;
@@ -361,6 +362,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *tree_lines_showed;
     gchar *scheduler_column_width_ratio;
     gchar *new_string;
+    gchar *sort_accounts_string = "";
+    GSList * tmp;
 
     /* prepare stuff to save generals informations */
 
@@ -424,6 +427,21 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	    scheduler_column_width_ratio  = utils_str_itoa ( scheduler_col_width[i] );
 
 
+    /* Sort order */
+    tmp = sort_accounts;
+    if ( tmp )
+    {
+	sort_accounts_string = utils_str_itoa ( (gint) tmp -> data );
+	tmp = tmp -> next;
+	while ( tmp )
+	{
+	    sort_accounts_string = g_strconcat ( sort_accounts_string, 
+						 "-", utils_str_itoa ( (gint) tmp -> data ),
+						 NULL );
+	    tmp = tmp -> next;
+	}
+    }
+
     /* save the general informations */
 
     new_string = g_markup_printf_escaped ( "\t<General\n"
@@ -457,7 +475,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tCombofix_case_sensitive=\"%d\" />\n"
 					   "\t\tCombofix_enter_select_completion=\"%d\" />\n"
 					   "\t\tCombofix_force_payee=\"%d\" />\n"
-					   "\t\tCombofix_force_category=\"%d\" />\n",
+					   "\t\tCombofix_force_category=\"%d\" />\n"
+					   "\t\tAccounts_order=\"%s\" />\n",
 	VERSION_FICHIER,
 	VERSION,
 	nom_fichier_backup,
@@ -488,7 +507,9 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.combofix_case_sensitive,
 	etat.combofix_enter_select_completion,
 	etat.combofix_force_payee,
-	etat.combofix_force_category );
+	etat.combofix_force_category,
+	sort_accounts_string
+	);
 
     g_free (transactions_view);
     g_free (transaction_column_width_ratio);

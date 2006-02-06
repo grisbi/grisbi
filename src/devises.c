@@ -745,7 +745,7 @@ void retrait_devise ( GtkWidget *bouton, GtkWidget * view )
 	return;
     }
 
-    remove_selected_currency_from_currency_view ( view );
+    remove_selected_currency_from_currency_view ( GTK_TREE_VIEW(view) );
     liste_struct_devises = g_slist_remove ( liste_struct_devises, devise );
     nb_devises--;
 }

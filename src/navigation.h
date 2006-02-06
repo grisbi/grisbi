@@ -31,6 +31,12 @@ gboolean gsb_gui_navigation_select_prev ();
 gboolean gsb_gui_navigation_set_selection ( gint page, gint account_nb, gpointer report );
 void gsb_gui_navigation_update_account ( gint account_nb );
 void gsb_gui_navigation_update_report ( gint report_number ) ;
+gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
+					 GtkTreePath * dest_path,
+					 GtkSelectionData * selection_data );
+gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest, 
+					GtkTreePath * dest_path,
+					GtkSelectionData * selection_data );
 /* END_DECLARATION */
 
 #endif

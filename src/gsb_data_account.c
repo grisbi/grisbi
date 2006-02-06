@@ -395,7 +395,7 @@ struct_account *gsb_data_account_get_structure ( gint no )
 
 	account = tmp -> data;
 
-	if ( account -> account_number == no )
+	if ( account && account -> account_number == no )
 	{
 	    account_buffer = account;
 	    return account;
@@ -1955,11 +1955,7 @@ gboolean gsb_data_account_set_form_organization ( gint no_account,
  * */
 gboolean gsb_data_account_reorder ( GSList *new_order )
 {
-    GSList *last_list;
-    GSList *new_list_accounts;
-    GSList *list_tmp;
-
-    new_list_accounts = NULL;
+    GSList *last_list, *new_list_accounts = NULL, *list_tmp;
 
     while ( new_order )
     {
@@ -1978,16 +1974,12 @@ gboolean gsb_data_account_reorder ( GSList *new_order )
 
     while ( list_tmp )
     {
-	struct_account *account;
-	struct_account *check_account;
-
-	account = list_tmp -> data;
+	struct_account *account = list_tmp -> data;
 	
-	check_account = gsb_data_account_get_structure ( account -> account_number );
-
-	if ( !check_account )
-	    list_accounts = g_slist_append ( list_accounts,
-					     account );
+	if ( ! g_slist_find ( list_accounts, account ) )
+	{
+	    list_accounts = g_slist_append ( list_accounts, account );
+	}
 
 	list_tmp = list_tmp -> next;
     }

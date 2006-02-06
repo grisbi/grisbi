@@ -61,7 +61,7 @@ static gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
 					  GtkTreeModel * model );
 static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection, 
 					       GtkTreeIter * iter, gint page, 
-					       gint account_nb, gint report );
+					       gint account_nb, gpointer report );
 static void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model, 
 					      GtkTreeIter * account_iter,
 					      gint account_nb );
@@ -78,14 +78,13 @@ static  gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree
 							    GtkTreePath *path, 
 							    GtkTreeIter *iter, 
 							    gpointer data );
-static gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
-					 GtkTreePath * dest_path,
-					 GtkSelectionData * selection_data );
-static gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest, 
-					GtkTreePath * dest_path,
-					GtkSelectionData * selection_data );
+static void navigation_change_account_order ( gint orig, gint dest );
 static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 					 GtkSelectionData * selection_data );
+static inline gboolean navigation_sort_column ( GtkTreeModel * model, 
+						GtkTreeIter * a, GtkTreeIter * b, 
+						gpointer user_data );
+
 /*END_STATIC*/
 
 
@@ -94,6 +93,7 @@ extern gint compte_courant_onglet;
 extern GtkTreeSelection * selection;
 extern gchar *titre_fichier;
 extern GtkWidget *tree_view;
+extern GSList *sort_accounts;
 /*END_EXTERN*/
 
 
@@ -127,8 +127,8 @@ GtkWidget * create_navigation_pane ( void )
     GdkPixbuf * pixbuf;
     GtkTreeIter iter, account_iter, reports_iter;
     GtkCellRenderer * renderer;
-    GtkTreeDragDestIface * dst_iface;
-    GtkTreeDragSourceIface * src_iface;
+    GtkTreeDragDestIface * navigation_dst_iface;
+    GtkTreeDragSourceIface * navigation_src_iface;
     GtkTreeViewColumn * column;
     static GtkTargetEntry row_targets[] = {
 	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
@@ -159,6 +159,12 @@ GtkWidget * create_navigation_pane ( void )
 					    G_TYPE_INT, G_TYPE_INT,
 					    G_TYPE_INT );
 
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(navigation_model),
+					   NAVIGATION_PAGE, GTK_SORT_ASCENDING );
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(navigation_model), 
+				      NAVIGATION_PAGE, navigation_sort_column,
+				      NULL, NULL );
+
     /* Enable drag & drop */
     gtk_tree_view_enable_model_drag_source ( GTK_TREE_VIEW(navigation_tree_view),
 					     GDK_BUTTON1_MASK, row_targets, 1,
@@ -172,21 +178,21 @@ GtkWidget * create_navigation_pane ( void )
 			      GTK_TREE_MODEL(navigation_model) );
 
     /* Handle drag & drop */
-    dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (navigation_model);
-    if ( dst_iface )
+    navigation_dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (navigation_model);
+    if ( navigation_dst_iface )
     {
-	dst_iface -> drag_data_received = &navigation_drag_data_received;
-	dst_iface -> row_drop_possible = &navigation_row_drop_possible;
+	navigation_dst_iface -> drag_data_received = &navigation_drag_data_received;
+	navigation_dst_iface -> row_drop_possible = &navigation_row_drop_possible;
     }
 
-    src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (navigation_model);
-    if ( src_iface )
+    navigation_src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE (navigation_model);
+    if ( navigation_src_iface )
     {
 	gtk_selection_add_target (navigation_tree_view,
 				  GDK_SELECTION_PRIMARY,
 				  GDK_SELECTION_TYPE_ATOM,
 				  1);
-	src_iface -> drag_data_get = &navigation_tree_drag_data_get;
+	navigation_src_iface -> drag_data_get = &navigation_tree_drag_data_get;
     }
 
     /* check the keyboard before all, if we need to move other things that the navigation
@@ -345,6 +351,7 @@ GtkWidget * create_navigation_pane ( void )
 
     return vbox;
 }
+
 
 
 /**
@@ -540,6 +547,58 @@ gboolean gsb_gui_navigation_line_visible_p ( GtkTreeModel * model, GtkTreeIter *
     }
 
     return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+inline gboolean navigation_sort_column ( GtkTreeModel * model, 
+					 GtkTreeIter * a, GtkTreeIter * b, 
+					 gpointer user_data )
+{
+    gint page_a, page_b;
+    gint account_a, account_b;
+
+    gtk_tree_model_get ( model, a, 
+			 NAVIGATION_PAGE, &page_a,
+			 NAVIGATION_ACCOUNT, &account_a,
+			 -1 );
+
+    gtk_tree_model_get ( model, b, 
+			 NAVIGATION_PAGE, &page_b,
+			 NAVIGATION_ACCOUNT, &account_b,
+			 -1 );
+
+    printf ("> %d, %d (%d) === %d, %d (%d)\n", 
+	    page_a, account_a, g_slist_index ( sort_accounts, account_a ),
+	    page_b, account_b, g_slist_index ( sort_accounts, account_b ) );
+
+    if ( page_a != GSB_ACCOUNT_PAGE || page_b != GSB_ACCOUNT_PAGE )
+    {
+	if ( page_a == page_b )
+	{
+	    return 0;
+	}
+	if ( page_a < page_b )
+	{
+	    return -1;
+	}
+	return 1;
+    }
+    else
+    {
+	if ( g_slist_index ( sort_accounts, account_a ) >
+	     g_slist_index ( sort_accounts, account_b ) )
+	{
+	    return 1;
+	}	
+
+	return -1;
+    }
 }
 
 
@@ -1002,7 +1061,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
     if ( page == GSB_ACCOUNT_PAGE )
 	gsb_menu_update_accounts_in_menus ();
 
-    return TRUE;
+    return FALSE;
 }
 
 
@@ -1034,7 +1093,10 @@ gboolean gsb_gui_navigation_set_selection ( gint page, gint account_nb, gpointer
 
     gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &iter );
 
-    gsb_gui_navigation_set_selection_branch ( selection, &iter, page, account_nb, report );
+    gsb_gui_navigation_set_selection_branch ( selection, &iter, page, account_nb, 
+					      report );
+
+    return TRUE;
 }
 
 
@@ -1055,7 +1117,7 @@ gboolean gsb_gui_navigation_set_selection ( gint page, gint account_nb, gpointer
  */
 void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection, 
 					       GtkTreeIter * iter, gint page, 
-					       gint account_nb, gint report )
+					       gint account_nb, gpointer report )
 {
     if ( gtk_tree_model_iter_has_child ( GTK_TREE_MODEL(navigation_model), iter ) )
     {
@@ -1094,7 +1156,7 @@ void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection,
 /* 					gsb_gui_navigation_select_line, */
 /* 					navigation_model ); */
 
-    return TRUE;
+    return;
 }
 
 
@@ -1314,12 +1376,34 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 
     if ( dest_path && selection_data )
     {
+	GtkTreeModel * model;
 	GtkTreeIter iter;
-	gchar name[512];
+	GtkTreePath * orig_path;
 
-	if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(navigation_model), &iter, dest_path ) ) {
-	    gtk_tree_model_get (GTK_TREE_MODEL(navigation_model) , &iter, 
-				NAVIGATION_TEXT, &name, -1 );
+	gchar * name;
+
+	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
+
+	if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(model), &iter, dest_path ) ) 
+	{
+	    gpointer src_report, dst_report = -1;
+	    gint src_account, dst_account = -1;
+
+	    gtk_tree_model_get (GTK_TREE_MODEL(model) , &iter, 
+				NAVIGATION_TEXT, &name, 
+				NAVIGATION_REPORT, &dst_report, 
+				NAVIGATION_ACCOUNT, &dst_account,
+				-1 );
+	
+	    if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(model), &iter, orig_path ) )
+	    {
+		gtk_tree_model_get ( model, &iter, 
+				     NAVIGATION_REPORT, &src_report, 
+				     NAVIGATION_ACCOUNT, &src_account,
+				     -1 );
+	    }
+	
+	    navigation_change_account_order ( src_account, dst_account );
 	    printf ( ">> %s\n", name );
 	}
     }
@@ -1341,8 +1425,8 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
     {
 	GtkTreePath * orig_path;
 	GtkTreeModel * model;
-	gpointer src_report, dst_report;
-	gint src_account, dst_account, dst_page;
+	gpointer src_report, dst_report = -1;
+	gint src_account, dst_account = -1, dst_page = -1;
 	GtkTreeIter iter;
 
 	gtk_tree_get_row_drag_data ( selection_data, &model, &orig_path );
@@ -1368,7 +1452,7 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 	{
 	    if ( dst_account >= 0 )
 	    {
-		printf (">> OK account\n");
+		printf (">> OK account %d %d\n", src_account, dst_account);
 		return TRUE;
 	    }
 	}
@@ -1377,7 +1461,7 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 	{
 	    if ( dst_report )
 	    {
-		printf (">> OK report\n");
+		printf (">> OK report %d %d\n", src_report, dst_report);
 		return TRUE;
 	    }
 	}
@@ -1385,6 +1469,44 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 
     printf (">> NOK\n");
     return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+void navigation_change_account_order ( gint orig, gint dest )
+{
+    GSList * tmp, * dest_pointer;
+
+    /* No customization. */
+    if ( ! g_slist_length ( sort_accounts ) )
+    {
+	tmp = gsb_data_account_get_list_accounts ();
+	while ( tmp )
+	{
+	    sort_accounts = g_slist_append ( sort_accounts, 
+					     gsb_data_account_get_no_account ( tmp -> data ) );
+	    tmp = tmp -> next;
+	}
+    }
+
+    sort_accounts = g_slist_remove ( sort_accounts, orig );
+    dest_pointer = g_slist_find ( sort_accounts, (gpointer) dest );
+    if ( dest_pointer )
+    {
+	sort_accounts = g_slist_insert_before ( sort_accounts, dest_pointer, orig );
+    }
+
+    gsb_data_account_reorder ( sort_accounts );
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(navigation_model),
+					   NAVIGATION_PAGE, GTK_SORT_ASCENDING );
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(navigation_model), 
+				      NAVIGATION_PAGE, navigation_sort_column,
+				      NULL, NULL );
 }
 
 

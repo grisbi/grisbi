@@ -168,7 +168,7 @@ static gint last_sub_budget_number = 0;
 gint last_report_number;
 
 /* used to get the sort of the accounts in the version < 0.6 */
-static GSList *sort_accounts;
+GSList *sort_accounts;
 
 /** FIXME : here for now, will be use to save and restore the width of the list */
 gint scheduler_col_width[NB_COLS_SCHEDULER];
@@ -808,6 +808,32 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	{
 	    etat.combofix_force_category = utils_str_atoi( attribute_values[i]);
 	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Accounts_order" ))
+	{
+	    gchar **pointeur_char;
+	    gint i;
+
+	    pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
+
+	    i = 0;
+	    sort_accounts = NULL;
+
+	    while ( pointeur_char[i] )
+	    {
+		sort_accounts = g_slist_append ( sort_accounts,
+						 GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] )));
+		i++;
+	    }
+	    g_strfreev ( pointeur_char );
+
+	    gsb_data_account_reorder ( sort_accounts );
+	    g_slist_free ( sort_accounts );
+
+	    return;
+	}
+
 
 	i++;
     }
