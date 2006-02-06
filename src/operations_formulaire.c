@@ -52,6 +52,7 @@
 #include "gsb_payment_method.h"
 #include "gtk_combofix.h"
 #include "menu.h"
+#include "metatree.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
@@ -81,6 +82,10 @@ static gboolean gsb_transactions_list_recover_breakdowns_of_transaction ( gint n
 
 /*START_EXTERN*/
 extern gboolean block_menu_cb ;
+extern MetatreeInterface * budgetary_interface ;
+extern GtkTreeStore *budgetary_line_tree_model;
+extern GtkTreeStore * categ_tree_model;
+extern MetatreeInterface * category_interface ;
 extern struct struct_devise *devise_compte;
 extern GtkWidget *formulaire;
 extern gint hauteur_ligne_liste_opes;
@@ -92,6 +97,8 @@ extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
+extern MetatreeInterface * payee_interface ;
+extern GtkTreeStore *payee_tree_model;
 extern GtkStyle *style_entree_formulaire[2];
 extern gdouble taux_de_change[2];
 extern GtkWidget *tree_view;
@@ -727,11 +734,10 @@ void place_type_formulaire ( gint no_type,
  * */
 gboolean gsb_form_finish_edition ( void )
 {
-    gint transaction_number;
-    gint new_transaction;
-    GSList *list_nb_parties;
-    GSList *list_tmp;
-    gint account_number;
+    GSList * list_nb_parties, * list_tmp;
+    gint account_number = 0, old_payee = 0, old_categ = 0, old_sub_categ = 0;
+    gint old_budgetary = 0, old_sub_budgetary = 0;
+    gint transaction_number, new_transaction;
 
     /* get the number of the transaction, stored in the form (0 if new) */
 
@@ -746,7 +752,14 @@ gboolean gsb_form_finish_edition ( void )
 
     if ( transaction_number &&
 	 transaction_number >= -1 )
+    {
 	new_transaction = 0;
+	old_payee = gsb_data_transaction_get_party_number ( transaction_number );
+	old_categ = gsb_data_transaction_get_category_number ( transaction_number );
+	old_sub_categ = gsb_data_transaction_get_sub_category_number ( transaction_number );
+	old_budgetary = gsb_data_transaction_get_budgetary_number ( transaction_number );
+	old_sub_budgetary = gsb_data_transaction_get_sub_budgetary_number ( transaction_number );
+    }
     else
 	new_transaction = 1;
 
@@ -894,7 +907,16 @@ gboolean gsb_form_finish_edition ( void )
 
     affiche_dialogue_soldes_minimaux ();
 
+    /* Update new as well as old divisions (in case categ, budget or payee changed). */
     update_transaction_in_trees (transaction_number);
+    metatree_fill_division ( payee_tree_model, payee_interface, old_payee );
+    metatree_fill_division ( categ_tree_model, category_interface, old_categ );
+    metatree_fill_sub_division ( categ_tree_model, category_interface, 
+				 old_categ, old_sub_categ );
+    metatree_fill_division ( budgetary_line_tree_model, budgetary_interface, 
+			     old_budgetary );
+    metatree_fill_sub_division ( budgetary_line_tree_model, budgetary_interface, 
+				 old_budgetary, old_sub_budgetary );
 
     modification_fichier ( TRUE );
     return FALSE;
@@ -1385,10 +1407,14 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 									     gsb_data_transaction_get_amount (transaction_number)<0 );
 			gsb_data_transaction_set_budgetary_number ( transaction_number,
 								    budget_number );
-			gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
-									gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
-															tab_char[1],
-															TRUE ));
+
+			if ( tab_char [ 1 ] && strlen ( tab_char [1] ) )
+			{
+			    gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
+									    gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
+															    tab_char[1],
+															    TRUE ));
+			}
 		    }
 		    g_strfreev ( tab_char );
 		    break;
@@ -1634,6 +1660,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 			 &&
 			 (contra_transaction_number = gsb_data_transaction_get_transaction_number_transfer (transaction_number)))
 		    {
+
 			/* c'était un virement, et ce ne l'est plus, donc on efface l'opé en relation */
 
 			gsb_data_transaction_set_transaction_number_transfer ( contra_transaction_number,
@@ -1651,10 +1678,14 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 									     gsb_data_transaction_get_amount (transaction_number)<0 );
 		    gsb_data_transaction_set_category_number ( transaction_number,
 							       category_number );
-		    gsb_data_transaction_set_sub_category_number ( transaction_number,
-								   gsb_data_category_get_sub_category_number_by_name ( category_number,
-														       tab_char[1],
-														       TRUE ));
+
+		    if ( tab_char[1] && strlen ( tab_char[1] ) )
+		    {
+			gsb_data_transaction_set_sub_category_number ( transaction_number,
+								       gsb_data_category_get_sub_category_number_by_name ( category_number,
+															   tab_char[1],
+															   TRUE ));
+		    }
 		}
 	    }
 	    g_strfreev ( tab_char );
