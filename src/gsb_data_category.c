@@ -1191,6 +1191,8 @@ void gsb_data_category_reset_counters ( void )
 	category = list_tmp -> data;
 	category -> category_balance = 0.0;
 	category -> category_nb_transactions = 0;
+	category -> category_direct_balance = 0.0;
+	category -> category_nb_direct_transactions = 0;
 
 	sub_list_tmp = category -> sub_category_list;
 
@@ -1276,7 +1278,7 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number )
 	sub_category -> sub_category_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise);
 
 
-gsb_data_transaction_get_adjusted_amount (transaction_number);
+	gsb_data_transaction_get_adjusted_amount (transaction_number);
     }
     else
     {

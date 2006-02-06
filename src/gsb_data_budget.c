@@ -1155,6 +1155,8 @@ void gsb_data_budget_reset_counters ( void )
 	budget = list_tmp -> data;
 	budget -> budget_balance = 0.0;
 	budget -> budget_nb_transactions = 0;
+	budget -> budget_direct_balance = 0.0;
+	budget -> budget_nb_direct_transactions = 0;
 
 	sub_list_tmp = budget -> sub_budget_list;
 
