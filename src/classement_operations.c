@@ -415,8 +415,8 @@ gint gsb_transactions_list_sort_by_no_sort (  GtkTreeModel *model,
 							 sort_type ));
 	    break;
 	default :
-	    printf ( "Bug : ask for the sort number %d which doesn't exist... return by date\n",
-		     no_sort );
+/* 	    printf ( "Bug : ask for the sort number %d which doesn't exist... return by date\n", */
+/* 		     no_sort ); */
 	    return ( gsb_transactions_list_sort_by_date ( model,
 							  iter_1,
 							  iter_2,

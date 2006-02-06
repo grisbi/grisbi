@@ -59,6 +59,9 @@ static  gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel * tree
 							     gpointer data );
 static gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
 					  GtkTreeModel * model );
+static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection, 
+					       GtkTreeIter * iter, gint page, 
+					       gint account_nb, gint report );
 static void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model, 
 					      GtkTreeIter * account_iter,
 					      gint account_nb );
@@ -83,10 +86,6 @@ static gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 					GtkSelectionData * selection_data );
 static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 					 GtkSelectionData * selection_data );
-static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection, 
-						      GtkTreeIter * iter, gint page, 
-						      gint account_nb, gint report );
-
 /*END_STATIC*/
 
 
