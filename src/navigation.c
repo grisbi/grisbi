@@ -1,5 +1,5 @@
 /* ************************************************************************** */
-/*     Copyright (C)	     2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2005-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -1498,7 +1498,9 @@ void navigation_change_account_order ( gint orig, gint dest )
     dest_pointer = g_slist_find ( sort_accounts, (gpointer) dest );
     if ( dest_pointer )
     {
-	sort_accounts = g_slist_insert_before ( sort_accounts, dest_pointer, orig );
+	sort_accounts = g_slist_insert ( sort_accounts, orig,
+					 g_slist_position ( sort_accounts, 
+							    dest_pointer ) + 1 );
     }
 
     gsb_data_account_reorder ( sort_accounts );
