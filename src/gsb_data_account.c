@@ -1985,6 +1985,9 @@ gboolean gsb_data_account_reorder ( GSList *new_order )
     }
 
     g_slist_free (last_list);
+    
+    modification_fichier ( TRUE );
+
     return TRUE;
 }
 
