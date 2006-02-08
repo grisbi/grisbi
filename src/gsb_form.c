@@ -31,7 +31,7 @@
 /*START_INCLUDE*/
 #include "gsb_form.h"
 #include "exercice.h"
-#include "operations_formulaire.h"
+#include "gsb_form_transaction.h"
 #include "echeancier_formulaire.h"
 #include "devises.h"
 #include "erreur.h"
@@ -68,17 +68,17 @@ static GtkWidget *gsb_form_create_element_from_number ( gint element_number,
 static gboolean gsb_form_element_can_receive_focus ( gint element_number,
 					      gint account_number );
 static gboolean gsb_form_fill_scheduled_part ( void );
-static gboolean gsb_form_fill_transaction ( gint transaction_number );
 static gboolean gsb_form_frequency_button_changed ( GtkWidget *combo_box,
 					     gpointer null );
 static gint gsb_form_get_account_from_button ( void );
+static gint gsb_form_get_origin ( void );
 static gboolean gsb_form_init_entry_colors ( void );
 static gboolean gsb_form_key_press_event ( GtkWidget *widget,
 				    GdkEventKey *ev,
 				    gint *ptr_origin );
 static void gsb_form_set_entry_is_empty ( GtkWidget *entry,
 				   gboolean empty );
-static gboolean gsb_form_valid ( void );
+static void gsb_form_set_focus ( gint element_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -138,8 +138,6 @@ GtkWidget *vbox_boutons_formulaire;
 
 
 GtkWidget *formulaire;
-
-/* xxx il va falloir créer un nouveau gsb_form et continuer à modifier les fonctions de operations_formulaire */
 
 /**
  * create an empty form in an gtk_expander
@@ -332,10 +330,15 @@ gboolean gsb_form_activate_expander ( GtkWidget *expander,
 				      gpointer null )
 {
     if ( gtk_expander_get_expanded (GTK_EXPANDER (expander)))
+    {
 	gsb_form_hide ();
+	etat.formulaire_toujours_affiche = FALSE;
+    }
     else
-	gsb_form_show ();
-
+    {
+	gsb_form_show (FALSE);
+	etat.formulaire_toujours_affiche = TRUE;
+    }
     return FALSE;
 }
 
@@ -344,11 +347,12 @@ gboolean gsb_form_activate_expander ( GtkWidget *expander,
  * show the form, detect automaticly what we need to show, even for transactions,
  * scheduled_transactions and the buttons valid/cancel
  *
- * \param
+ * \param show TRUE if we want to automatickly turn on the expander, 
+ * 		FALSE if we don't want, so just let it
  *
  * \return FALSE
  * */
-gboolean gsb_form_show ( void )
+gboolean gsb_form_show ( gboolean show )
 {
     gint origin;
 
@@ -372,7 +376,13 @@ gboolean gsb_form_show ( void )
 
     gsb_form_fill_transaction_part (GINT_TO_POINTER (origin));
     gtk_widget_show (form_transaction_part);
-    
+
+    if ( !gtk_expander_get_expanded (GTK_EXPANDER (form_expander))
+	 &&
+	 show )
+	gtk_expander_set_expanded (GTK_EXPANDER (form_expander),
+				   TRUE );
+
     /* FIXME :transform that to be local variable here */
     if ( etat.affiche_boutons_valider_annuler )
 	gtk_widget_show (form_button_part);
@@ -381,7 +391,7 @@ gboolean gsb_form_show ( void )
 }
 
 /**
- * return the account number according to the origin,
+ * return the current account number according,
  * if we are on transactions list, return the current account,
  * if we are on scheduling list, return the selected account on button
  *
@@ -389,9 +399,12 @@ gboolean gsb_form_show ( void )
  *
  * \return the account number or -2 if problem (-1 is reserved to get account from the button)
  * */
-gint gsb_form_get_account_number_from_origin ( gint origin )
+gint gsb_form_get_account_number ( void )
 {
     gint account_number;
+    gint origin;
+
+    origin = gsb_form_get_origin ();
 
     switch (origin)
     {
@@ -1008,7 +1021,6 @@ gboolean gsb_form_clean ( gint account_number )
 	}
     }
 
-
     /* clean the transactions widget */
 
     for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) ; row++ )
@@ -1193,7 +1205,7 @@ gboolean gsb_form_clean ( gint account_number )
  * \return the widget or NULL
  * */
 GtkWidget *gsb_form_get_element_widget ( gint element_number,
-					   gint account_number )
+					 gint account_number )
 {
     gint row;
     gint column;
@@ -1220,19 +1232,26 @@ GtkWidget *gsb_form_get_element_widget ( gint element_number,
  *
  * \return FALSE
  * */
-gboolean gsb_form_entry_get_focus ( GtkWidget *entry,
-				    GdkEventFocus *ev,
-				    gpointer null )
+gboolean gsb_form_entry_get_focus ( GtkWidget *entry )
 {
     /* the entry can be a combofix or a real entry */
     if (GTK_IS_COMBOFIX ( entry ))
-	entry = GTK_COMBOFIX (entry) -> entry;
-
-    if ( gsb_form_check_entry_is_empty (entry) )
     {
-	gtk_entry_set_text ( GTK_ENTRY (entry), "" );
-	gsb_form_set_entry_is_empty ( entry,
-				      FALSE );
+	if ( gsb_form_check_entry_is_empty (GTK_COMBOFIX (entry) -> entry))
+	{
+	    gtk_combofix_set_text ( GTK_COMBOFIX (entry), "" );
+	    gsb_form_set_entry_is_empty ( GTK_COMBOFIX (entry) -> entry,
+					  FALSE );
+	}
+    }
+    else
+    {
+	if ( gsb_form_check_entry_is_empty (entry) )
+	{
+	    gtk_entry_set_text ( GTK_ENTRY (entry), "" );
+	    gsb_form_set_entry_is_empty ( entry,
+					  FALSE );
+	}
     }
     return FALSE;
 }
@@ -1262,7 +1281,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 				 0,
 				 0 );
     element_number = GPOINTER_TO_INT (ptr_origin);
-    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+    account_number = gsb_form_get_account_number ();
 
     /* sometimes the combofix popus stays showed, so remove here */
 
@@ -1305,11 +1324,9 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 	case TRANSACTION_FORM_PARTY :
 
 	    /* we complete the transaction */
-	    if ( !completion_operation_par_tiers ( entry ))
+	    if ( !gsb_form_transaction_complete_form_by_payee (gtk_entry_get_text (GTK_ENTRY (entry))))
 		string = gsb_form_get_element_name (TRANSACTION_FORM_PARTY);
 	    break;
-
-	    /* on sort du débit : soit vide, soit change le menu des types s'il ne correspond pas */
 
 	case TRANSACTION_FORM_DEBIT :
 
@@ -1552,7 +1569,7 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
     gint account_number;
 
     element_number = GPOINTER_TO_INT (ptr_origin);
-    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+    account_number = gsb_form_get_account_number ();
 
     /* set the form sensitive */
     gsb_form_change_sensitive_buttons (TRUE);
@@ -1601,7 +1618,7 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
 	    widget = gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
 						  account_number);
 
-	    gsb_form_entry_get_focus ( widget, NULL, NULL );
+	    gsb_form_entry_get_focus (widget);
 
 	    if ( !strlen (gtk_entry_get_text ( GTK_ENTRY (widget))))
 		gtk_entry_set_text ( GTK_ENTRY (widget),
@@ -1642,7 +1659,7 @@ gboolean gsb_form_change_sensitive_buttons ( gboolean sensitive )
 {
     gint account_number;
     
-    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+    account_number = gsb_form_get_account_number ();
 
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE ))
 	gtk_widget_set_sensitive ( GTK_WIDGET ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE,
@@ -1680,7 +1697,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
     gint element_suivant;
 
     element_number = GPOINTER_TO_INT (ptr_origin);
-    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+    account_number = gsb_form_get_account_number ();
 
     /* if etat.entree = 1, entry finish the transaction, else does as tab */
     if ( !etat.entree
@@ -1701,7 +1718,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    element_suivant = gsb_form_get_next_element ( account_number,
 							  element_number,
 							  GSB_UP );
-	    widget_grab_focus_formulaire ( element_suivant );
+	    gsb_form_set_focus ( element_suivant );
 	    return TRUE;
 	    break;
 
@@ -1710,7 +1727,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    element_suivant = gsb_form_get_next_element ( account_number,
 							  element_number,
 							  GSB_DOWN );
-	    widget_grab_focus_formulaire ( element_suivant );
+	    gsb_form_set_focus ( element_suivant );
 	    return TRUE;
 	    break;
 
@@ -1718,7 +1735,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    element_suivant = gsb_form_get_next_element ( account_number,
 							  element_number,
 							  GSB_LEFT );
-	    widget_grab_focus_formulaire ( element_suivant );
+	    gsb_form_set_focus ( element_suivant );
 	    return TRUE;
 	    break;
 
@@ -1730,7 +1747,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    if ( element_suivant == -2 )
 		gsb_form_finish_edition();
 	    else
-		widget_grab_focus_formulaire ( element_suivant );
+		gsb_form_set_focus ( element_suivant );
 	    return TRUE;
 	    break;
 
@@ -1764,8 +1781,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 		case TRANSACTION_FORM_VALUE_DATE:
 		case TRANSACTION_FORM_DATE:
 
-		    verifie_champs_dates ( element_number );
-
 		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK ||
 			 ev -> keyval != GDK_KP_Add )
 			inc_dec_date ( widget, ONE_DAY );
@@ -1791,8 +1806,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    {
 		case TRANSACTION_FORM_VALUE_DATE:
 		case TRANSACTION_FORM_DATE:
-
-		    verifie_champs_dates ( element_number );
 
 		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK ||
 			 ev -> keyval != GDK_KP_Subtract  )
@@ -1820,8 +1833,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 		case TRANSACTION_FORM_VALUE_DATE:
 		case TRANSACTION_FORM_DATE:
 
-		    verifie_champs_dates ( element_number );
-
 		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK )
 			inc_dec_date ( widget,
 				       ONE_MONTH );
@@ -1843,8 +1854,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 		case TRANSACTION_FORM_VALUE_DATE:
 		case TRANSACTION_FORM_DATE:
 
-		    verifie_champs_dates ( element_number );
-
 		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK )
 			inc_dec_date ( widget,
 				       -ONE_MONTH );
@@ -1860,6 +1869,35 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
     return FALSE;
 }
 
+
+
+/**
+ * set the focus on the given element
+ *
+ * \param element_number
+ *
+ * \return
+ * */
+void gsb_form_set_focus ( gint element_number )
+{
+    GtkWidget *widget;
+
+    devel_debug ( g_strdup_printf ( "gsb_form_set_focus %d",
+				    element_number ));
+
+    widget = gsb_form_get_element_widget ( element_number,
+					   gsb_form_get_account_number ());
+
+    if ( !widget )
+	return;
+    
+    if ( GTK_IS_COMBOFIX ( widget ))
+	gtk_widget_grab_focus ( GTK_COMBOFIX ( widget ) -> entry );
+    else
+	gtk_widget_grab_focus ( widget );
+
+    return;
+}
 
 
 /**
@@ -2030,7 +2068,7 @@ gboolean gsb_form_element_can_receive_focus ( gint element_number,
 gboolean gsb_form_escape_form ( void )
 {
     if ( etat.formulaire_toujours_affiche )
-	gsb_form_clean (gsb_form_get_account_number_from_origin (gsb_form_get_origin ()));
+	gsb_form_clean (gsb_form_get_account_number ());
     else
     {
 	gsb_form_hide ();
@@ -2041,43 +2079,6 @@ gboolean gsb_form_escape_form ( void )
     return FALSE;
 }
 
-
-
-/**
- * check the values in the form and valid them
- *
- * \param
- *
- * \return TRUE if the form is ok, FALSE else
- * */
-gboolean gsb_form_valid ( void )
-{
-    gint origin;
-
-    origin = gsb_form_get_origin ();
-
-
-    return TRUE;
-}
-
-
-/**
- * get the values in the form and fill the given transaction
- *
- * \param transaction_number
- *
- * \return FALSE
- * */
-gboolean gsb_form_fill_transaction ( gint transaction_number )
-{
-    gint origin;
-
-    origin = gsb_form_get_origin ();
-
-
-
-    return FALSE;
-}
 
 
 
@@ -2231,7 +2232,7 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
     if (!gtk_expander_get_expanded (GTK_EXPANDER (form_expander)))
 	return FALSE;
 
-    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+    account_number = gsb_form_get_account_number ();
     if ( account_number == -2 )
 	return FALSE;
 
@@ -2324,7 +2325,7 @@ void gsb_form_set_entry_is_empty ( GtkWidget *entry,
 			       style_entree_formulaire[ENGRIS] );
     else
 	gtk_widget_set_style (  entry,
-			       style_entree_formulaire[ENCLAIR] );
+				style_entree_formulaire[ENCLAIR] );
 }
 
 

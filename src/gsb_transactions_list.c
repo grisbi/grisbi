@@ -28,13 +28,13 @@
 #include "gsb_transactions_list.h"
 #include "accueil.h"
 #include "utils_montants.h"
-#include "utils_exercices.h"
 #include "barre_outils.h"
 #include "comptes_traitements.h"
 #include "erreur.h"
 #include "utils_devises.h"
 #include "dialog.h"
 #include "equilibrage.h"
+#include "utils_exercices.h"
 #include "echeancier_formulaire.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -45,11 +45,10 @@
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "gsb_form.h"
-#include "operations_formulaire.h"
+#include "gsb_form_transaction.h"
 #include "navigation.h"
 #include "gsb_scheduler_list.h"
 #include "classement_operations.h"
-#include "gtk_combofix.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
@@ -61,10 +60,10 @@
 #include "utils.h"
 #include "utils_operations.h"
 #include "utils_str.h"
-#include "structures.h"
 #include "gsb_transactions_list.h"
 #include "include.h"
 #include "import.h"
+#include "structures.h"
 #include "mouse.h"
 /*END_INCLUDE*/
 
@@ -188,7 +187,6 @@ extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
-extern GSList *liste_struct_devises;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
@@ -498,7 +496,6 @@ void remplissage_liste_operations ( gint compte )
     /*     on met les soldes */
 
     gsb_transactions_list_set_transactions_balances ( compte );
-
 }
 /******************************************************************************/
 
@@ -2384,19 +2381,18 @@ gint find_p_r_line ()
  * */
 gboolean gsb_transactions_list_edit_current_transaction ( void )
 {
-    gchar *char_tmp;
     gint row, column;
-    GtkWidget *menu;
     gint focus_to;
     gint transaction_number;
     gint account_number;
+    gint contra_transaction_number;
 
     account_number = gsb_gui_navigation_get_current_account ();
     transaction_number = gsb_data_account_get_current_transaction_number (account_number);
 
-    gsb_form_clean (gsb_form_get_account_number_from_origin (gsb_form_get_origin ()));
+    gsb_form_clean (gsb_form_get_account_number ());
     gsb_form_change_sensitive_buttons (TRUE);
-    gsb_form_show ();
+    gsb_form_show (TRUE);
 
     /* if the transaction is the white line, we set the date and go away */
 
@@ -2442,301 +2438,51 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
     for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) ; row++ )
 	for ( column=0 ; column <  gsb_data_form_get_nb_columns (account_number) ; column++ )
 	{
-	    GtkWidget *widget;
 	    gint value;
 
 	    value = gsb_data_form_get_value (account_number,
 					     column,
 					     row );
-
-	    widget =  gsb_form_get_element_widget (value,
-						   account_number);
-
-	    switch (value)
-	    {
-		case TRANSACTION_FORM_OP_NB:
-
-		    gtk_label_set_text ( GTK_LABEL ( widget ),
-					 utils_str_itoa (transaction_number));
-		    break;
-
-		case TRANSACTION_FORM_DATE:
-
-		    gsb_form_entry_get_focus ( widget, NULL, NULL );
-		    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					 gsb_format_gdate ( gsb_data_transaction_get_date (transaction_number)));
-		    break;
-
-		case TRANSACTION_FORM_VALUE_DATE:
-
-		    if ( gsb_data_transaction_get_value_date (transaction_number))
-		    {
-			gsb_form_entry_get_focus ( widget, NULL, NULL );
-			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     gsb_format_gdate ( gsb_data_transaction_get_value_date (transaction_number)));
-		    }
-		    break;
-
-		case TRANSACTION_FORM_EXERCICE:
-
-		    gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget ),
-						   cherche_no_menu_exercice ( gsb_data_transaction_get_financial_year_number (transaction_number),
-									      widget ));
-
-		    /* 		    si l'opé est ventilée, on désensitive l'exo */
-
-		    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
-			gtk_widget_set_sensitive ( widget,
-						   FALSE );
-
-		    break;
-
-		case TRANSACTION_FORM_PARTY:
-
-		    if ( gsb_data_transaction_get_party_number (transaction_number))
-		    {
-			gsb_form_entry_get_focus ( widget, NULL, NULL );
-			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-						gsb_data_payee_get_name ( gsb_data_transaction_get_party_number (transaction_number), TRUE ));
-		    }
-		    break;
-
-		case TRANSACTION_FORM_DEBIT:
-
-		    if ( gsb_data_transaction_get_amount (transaction_number)< 0 )
-		    {
-			gsb_form_entry_get_focus ( widget, NULL, NULL );
-			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     g_strdup_printf ( "%4.2f",
-							       -gsb_data_transaction_get_amount (transaction_number)));
-		    }
-
-		    /* 		    si l'opé est relevée, on ne peut modifier le montant */
-
-		    if ( gsb_data_transaction_get_marked_transaction (transaction_number)== 3 )
-			gtk_widget_set_sensitive ( widget,
-						   FALSE );
-
-		    break;
-
-		case TRANSACTION_FORM_CREDIT:
-
-		    if ( gsb_data_transaction_get_amount ( transaction_number)>= 0 )
-		    {
-			gsb_form_entry_get_focus ( widget , NULL, NULL);
-			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     g_strdup_printf ( "%4.2f",
-							       gsb_data_transaction_get_amount ( transaction_number)));
-		    }
-
-		    /* 		    si l'opé est relevée, on ne peut modifier le montant */
-
-		    if ( gsb_data_transaction_get_marked_transaction ( transaction_number)== 3 )
-			gtk_widget_set_sensitive ( widget,
-						   FALSE );
-
-		    break;
-
-		case TRANSACTION_FORM_CATEGORY:
-
-		    if ( gsb_data_transaction_get_breakdown_of_transaction ( transaction_number))
-		    {
-			gsb_form_entry_get_focus ( widget, NULL, NULL );
-			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-						_("Breakdown of transaction") );
-		    }
-		    else
-		    {
-			if ( gsb_data_transaction_get_transaction_number_transfer ( transaction_number))
-			{
-			    /* c'est un virement */
-
-			    gsb_form_entry_get_focus ( widget, NULL, NULL );
-
-			    if ( gsb_data_transaction_get_transaction_number_transfer ( transaction_number)!= -1 )
-			    {
-				gint contra_transaction_number;
-
-				gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-							g_strconcat ( COLON(_("Transfer")),
-								      gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer ( transaction_number)),
-								      NULL ));
-
-				/* récupération de la contre opération */
-
-				contra_transaction_number = gsb_data_transaction_get_transaction_number_transfer (transaction_number);
-
-				/* 	  si la contre opération est relevée, on désensitive les categ et les montants */
-
-				if ( contra_transaction_number
-				     &&
-				     gsb_data_transaction_get_marked_transaction (contra_transaction_number) == OPERATION_RAPPROCHEE )
-				{
-				    gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT,
-											    account_number),
-							       FALSE );
-				    gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_DEBIT,
-											    account_number),
-							       FALSE );
-				    gtk_widget_set_sensitive ( widget,
-							       FALSE );
-				}
-			    }
-			    else
-				gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-							_("Transfer") );
-
-			    /* si l'opération est relevée, on empêche le changement de virement */
-
-			    if ( gsb_data_transaction_get_marked_transaction ( transaction_number)== 3 )
-				gtk_widget_set_sensitive ( widget,
-							   FALSE );
-			}
-			else
-			{
-			    /* c'est des catégories normales */
-
-			    char_tmp = gsb_data_category_get_name ( gsb_data_transaction_get_category_number ( transaction_number),
-								    gsb_data_transaction_get_sub_category_number ( transaction_number),
-								    NULL );
-			    if ( char_tmp )
-			    {
-				gsb_form_entry_get_focus ( widget, NULL, NULL );
-				gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-							char_tmp );
-			    }
-			}
-		    }
-		    break;
-
-		case TRANSACTION_FORM_BUDGET:
-
-		    char_tmp = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number),
-							  gsb_data_transaction_get_sub_budgetary_number ( transaction_number),
-							  NULL );
-		    if ( char_tmp )
-		    {
-			gsb_form_entry_get_focus ( widget, NULL, NULL );
-			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-						char_tmp );
-		    }
-
-		    /* 		    si l'opé est ventilée, on dÃ©sensitive l'ib */
-
-		    if ( gsb_data_transaction_get_breakdown_of_transaction ( transaction_number))
-			gtk_widget_set_sensitive ( widget,
-						   FALSE );
-		    break;
-
-		case TRANSACTION_FORM_NOTES:
-
-		    if ( gsb_data_transaction_get_notes ( transaction_number))
-		    {
-			gsb_form_entry_get_focus ( widget, NULL, NULL );
-			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     gsb_data_transaction_get_notes ( transaction_number));
-		    }
-		    break;
-
-		case TRANSACTION_FORM_TYPE:
-
-/* 		    if ( gsb_data_transaction_get_amount ( transaction_number)< 0 ) */
-/* 			menu = creation_menu_types ( 1, account_number, 0  ); */
-/* 		    else */
-/* 			menu = creation_menu_types ( 2, account_number, 0  ); */
-
-		    if ( menu )
-		    {
-			/* on met en place les types et se place sur celui correspondant à l'opé */
-
-			gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget ),
-						   menu );
-			gtk_widget_show ( widget );
-
-			place_type_formulaire ( gsb_data_transaction_get_method_of_payment_number ( transaction_number),
-						TRANSACTION_FORM_TYPE,
-						gsb_data_transaction_get_method_of_payment_content ( transaction_number));
-		    }
-		    else
-		    {
-			gtk_widget_hide ( widget );
-			gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
-								       account_number));
-		    }
-
-		    break;
-
-		case TRANSACTION_FORM_DEVISE:
-
-		    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
-						  g_slist_index ( liste_struct_devises,
-								  devise_par_no ( gsb_data_transaction_get_currency_number ( transaction_number))));
-		    verification_bouton_change_devise ();
-		    break;
-
-		case TRANSACTION_FORM_BANK:
-
-		    if ( gsb_data_transaction_get_bank_references ( transaction_number))
-		    {
-			gsb_form_entry_get_focus ( widget , NULL, NULL);
-			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     gsb_data_transaction_get_bank_references ( transaction_number));
-		    }
-		    break;
-
-		case TRANSACTION_FORM_VOUCHER:
-
-		    if ( gsb_data_transaction_get_voucher ( transaction_number))
-		    {
-			gsb_form_entry_get_focus ( widget, NULL, NULL );
-			gtk_entry_set_text ( GTK_ENTRY ( widget ),
-					     gsb_data_transaction_get_voucher ( transaction_number));
-		    }
-		    break;
-
-		case TRANSACTION_FORM_CONTRA:
-
-		    if ( gsb_data_transaction_get_transaction_number_transfer ( transaction_number))
-		    {
-/* 			if ( gsb_data_transaction_get_amount ( transaction_number)< 0 ) */
-/* 			    menu = creation_menu_types ( 2, gsb_data_transaction_get_account_number_transfer ( transaction_number), 0  ); */
-/* 			else */
-/* 			    menu = creation_menu_types ( 1, gsb_data_transaction_get_account_number_transfer ( transaction_number), 0  ); */
-
-			if ( menu )
-			{
-			    gint contra_transaction_number;
-
-			    /* on met en place les types et se place sur celui correspondant à l'opé */
-
-			    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget ),
-						       menu );
-			    gtk_widget_show ( widget );
-
-			    contra_transaction_number = gsb_data_transaction_get_transaction_number_transfer (transaction_number);
-
-			    if  (contra_transaction_number )
-				place_type_formulaire ( gsb_data_transaction_get_method_of_payment_number (contra_transaction_number),
-							TRANSACTION_FORM_CONTRA,
-							NULL );
-			}
-			else
-			    gtk_widget_hide ( widget );
-		    }
-		    break;
-
-		case TRANSACTION_FORM_MODE:
-
-		    if ( gsb_data_transaction_get_automatic_transaction ( transaction_number))
-			gtk_label_set_text ( GTK_LABEL ( widget ),
-					     _("Auto"));
-		    else
-			gtk_label_set_text ( GTK_LABEL ( widget ),
-					     _("Manual"));
-		    break;
-	    }
+	    gsb_form_transaction_fill_form ( value,
+					     account_number,
+					     transaction_number );
 	}
 
+    /* get the contra transaction */
+    contra_transaction_number = gsb_data_transaction_get_transaction_number_transfer (transaction_number);
+
+    /* if the transaction is marked R, cannot change the amounts */
+    /* if the contra transaction is marked R, cannot change category and amounts */
+    if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
+	 ||
+	 ( contra_transaction_number
+	   &&
+	   gsb_data_transaction_get_marked_transaction (contra_transaction_number) == OPERATION_RAPPROCHEE ))
+    {
+	gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_DEBIT,
+								account_number),
+				   FALSE );
+	gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_CREDIT,
+								account_number),
+				   FALSE );
+
+	/* if it's a transfer, we cannot change too the category */
+	if (contra_transaction_number)
+	    gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY,
+								    account_number),
+				       FALSE );
+    }	
+
+    /* if it's a breakdown transaction, cannot set the financial year and the budget */
+    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+    {
+	gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_EXERCICE,
+								account_number),
+				   FALSE );
+	gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET,
+								account_number),
+				   FALSE );
+    }
 
     /* the form is full, if it's not a breakdown, we give the focus to the date
      * else, we give the focus to the first free form element */
@@ -3528,7 +3274,7 @@ void new_transaction ()
     gsb_transactions_list_edit_current_transaction ();
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
-    gsb_form_show ();
+    gsb_form_show (TRUE);
 }
 
 

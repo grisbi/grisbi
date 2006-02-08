@@ -41,7 +41,7 @@
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
-#include "operations_formulaire.h"
+#include "gsb_form_transaction.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -570,7 +570,7 @@ void modification_entree_nom_type ( void )
 	    GtkWidget *widget;
 	    gint account_number;
 
-	    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+	    account_number = gsb_form_get_account_number ();
 	    widget = gsb_form_get_element_widget (TRANSACTION_FORM_TYPE,
 						  account_number);
 

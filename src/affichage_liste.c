@@ -571,7 +571,7 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
     gint account_number;
     GtkWidget *combofix;
 
-    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+    account_number = gsb_form_get_account_number ();
 
     combofix = gsb_form_get_element_widget ( TRANSACTION_FORM_PARTY,
 					       account_number );

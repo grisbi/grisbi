@@ -79,21 +79,20 @@ static  gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree
 							    GtkTreeIter *iter, 
 							    gpointer data );
 static void navigation_change_account_order ( gint orig, gint dest );
+static inline gboolean navigation_sort_column ( GtkTreeModel * model, 
+					 GtkTreeIter * a, GtkTreeIter * b, 
+					 gpointer user_data );
 static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 					 GtkSelectionData * selection_data );
-static inline gboolean navigation_sort_column ( GtkTreeModel * model, 
-						GtkTreeIter * a, GtkTreeIter * b, 
-						gpointer user_data );
-
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
 extern gint compte_courant_onglet;
 extern GtkTreeSelection * selection;
+extern GSList *sort_accounts;
 extern gchar *titre_fichier;
 extern GtkWidget *tree_view;
-extern GSList *sort_accounts;
 /*END_EXTERN*/
 
 

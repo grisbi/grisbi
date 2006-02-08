@@ -56,7 +56,7 @@ typedef struct
 
 /*START_STATIC*/
 static gint gsb_data_payee_get_pointer_from_name_in_glist ( struct_payee *payee,
-						     gchar *name );
+						     const gchar *name );
 static gint gsb_data_payee_max_number ( void );
 static void gsb_data_payee_reset_counters ( void );
 /*END_STATIC*/
@@ -208,7 +208,7 @@ gint gsb_data_payee_max_number ( void )
  *
  * \return the number of the new payee
  * */
-gint gsb_data_payee_new ( gchar *name )
+gint gsb_data_payee_new ( const gchar *name )
 {
     struct_payee *payee;
 
@@ -290,7 +290,7 @@ gint gsb_data_payee_set_new_number ( gint no_payee,
  *
  * \return the number of the payee or 0 if problem
  * */
-gint gsb_data_payee_get_number_by_name ( gchar *name,
+gint gsb_data_payee_get_number_by_name ( const gchar *name,
 					 gboolean create )
 {
     GSList *list_tmp;
@@ -327,7 +327,7 @@ gint gsb_data_payee_get_number_by_name ( gchar *name,
  * \return 0 if it's the same name
  * */
 gint gsb_data_payee_get_pointer_from_name_in_glist ( struct_payee *payee,
-						     gchar *name )
+						     const gchar *name )
 {
     return ( g_strcasecmp ( payee -> payee_name,
 			    name ));

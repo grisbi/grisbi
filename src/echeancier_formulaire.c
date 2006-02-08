@@ -30,10 +30,8 @@
 #include "exercice.h"
 #include "utils_editables.h"
 #include "comptes_traitements.h"
-#include "utils_exercices.h"
 #include "devises.h"
 #include "erreur.h"
-#include "utils_devises.h"
 #include "dialog.h"
 #include "calendar.h"
 #include "gsb_data_account.h"
@@ -44,7 +42,7 @@
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "gsb_form.h"
-#include "operations_formulaire.h"
+#include "gsb_form_transaction.h"
 #include "accueil.h"
 #include "gsb_payment_method.h"
 #include "gsb_scheduler_list.h"
@@ -53,6 +51,7 @@
 #include "categories_onglet.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
+#include "utils_exercices.h"
 #include "utils_comptes.h"
 #include "utils_types.h"
 #include "utils_operations.h"
@@ -65,7 +64,6 @@
 
 /*START_STATIC*/
 static void basculer_vers_ventilation_echeances ( void );
-static void completion_operation_par_tiers_echeancier ( void );
 static GtkWidget *creation_formulaire_echeancier ( void );
 static void echap_formulaire_echeancier ( void );
 static gboolean gsb_scheduler_check_form ( void );
@@ -887,10 +885,10 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 	    /* on sort du tiers : soit vide soit complète le reste de l'opé */
 
 	case SCHEDULER_FORM_PARTY :
-	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree )))))
-		completion_operation_par_tiers_echeancier ();
-	    else
-		texte = _("Payee");
+/* 	    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree ))))) */
+/* 		completion_operation_par_tiers_echeancier (); */
+/* 	    else */
+/* 		texte = _("Payee"); */
 	    break;
 
 	    /* on sort du débit : soit vide, soit change le menu des types
@@ -1485,7 +1483,7 @@ gboolean gsb_scheduler_check_form ( void )
 
     /* check if it's not a transfer on itself */
 
-    if ( !g_strcasecmp ( g_strstrip ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ))),
+    if ( !g_strcasecmp ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] )),
 			 g_strconcat ( COLON(_("Transfer")),
 				       GTK_LABEL (GTK_BIN ( widget_formulaire_echeancier[5]  )  -> child ) -> label,
 				       NULL )))
@@ -2431,216 +2429,6 @@ gboolean gsb_scheduler_increase_date ( gint scheduled_number,
     return FALSE;
 }
 
-
-/******************************************************************************/
-/* Fonction completion_operation_par_tiers_echeancier */
-/* appelée lorsque le tiers perd le focus */
-/* récupère le tiers, et recherche la dernière opé associée à ce tiers */
-/******************************************************************************/
-void completion_operation_par_tiers_echeancier ( void )
-{
-    gint transaction_number;
-    gint no_compte;
-    gchar *char_tmp;
-    gint payee_number;
-
-    /* s'il y a quelque chose dans les crédit ou débit ou catégories, on se barre */
-
-    if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR]
-	 ||
-	 gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR]
-	 ||
-	 gtk_widget_get_style ( GTK_COMBOFIX (widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY])->entry ) == style_entree_formulaire[ENCLAIR] )
-	return;
-
-    payee_number = gsb_data_payee_get_number_by_name ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY])),
-						  FALSE );
-
-    /* if it's a new party, go away */
-
-    if ( !payee_number )
-	return;
-
-    /* look for the party in the current account and the others after */
-
-    no_compte = recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
-    
-    transaction_number = gsb_transactions_look_for_last_party ( payee_number,
-								0,
-								no_compte );
-
-    /* if found no transaction with that party, go back */
-
-    if ( !transaction_number )
-	return;
-
-    /* remplit les différentes entrées du formulaire */
-
-    /* remplit les montant */
-
-    if ( gsb_data_transaction_get_amount ( transaction_number)< 0 )
-    {
-	GtkWidget *menu;
-
-	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT], NULL, NULL );
-	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ),
-			     g_strdup_printf ( "%4.2f",
-					       -gsb_data_transaction_get_amount ( transaction_number)));
-	/* met le menu des types débits */
-
-
-/* 	if ( (menu = creation_menu_types ( 1, */
-/* 					   recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ), */
-/* 					   1 ))) */
-	{
-	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-				       menu );
-	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
-	}
-/* 	else */
-	    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
-    }
-    else
-    {
-	GtkWidget *menu;
-	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT], NULL, NULL );
-	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ),
-			     g_strdup_printf ( "%4.2f",
-					       gsb_data_transaction_get_amount ( transaction_number)));
-	/* met le menu des types crédits */
-
-
-/* 	if ( (menu = creation_menu_types ( 2, */
-/* 					   recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ), */
-/* 					   1 ))) */
-	{
-	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-				       menu );
-	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
-	}
-/* 	else */
-	    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
-
-    }
-
-    /* met la devise */
-
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ),
-				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( gsb_data_transaction_get_currency_number ( transaction_number))));
-
-    /* mise en forme des catégories */
-
-    /* vérifie si c'est un virement */
-
-    if ( gsb_data_transaction_get_transaction_number_transfer ( transaction_number)
-	 &&
-	 gsb_data_transaction_get_account_number_transfer ( transaction_number)!= -1 )
-    {
-	/* c'est un virement, on l'affiche */
-
-	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY], NULL, NULL);
-
-	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
-				g_strconcat ( COLON(_("Transfer")),
-					      gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer ( transaction_number)),
-					      NULL ));
-    }
-    else
-    {
-	char_tmp = gsb_data_category_get_name ( gsb_data_transaction_get_category_number ( transaction_number),
-						gsb_data_transaction_get_sub_category_number ( transaction_number),
-						NULL );
-	
-	if ( char_tmp )
-	{
-	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY], NULL, NULL);
-	    gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
-				    char_tmp );
-	}
-    }
-
-    /* met l'option menu du type d'opé */
-
-    if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ))
-    {
-	gint place_type;
-
-/* 	place_type = cherche_no_menu_type_echeancier ( gsb_data_transaction_get_method_of_payment_number ( transaction_number)); */
-
-	/*       si la place est trouvée, on la met, sinon on met à la place par défaut */
-
-	if ( place_type != -1 )
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-					  place_type );
-	else
-	{
-/* 	    if ( gsb_data_transaction_get_amount ( transaction_number)< 0 ) */
-/* 		place_type = cherche_no_menu_type_echeancier ( gsb_data_account_get_default_debit (no_compte) ); */
-/* 	    else */
-/* 		place_type = cherche_no_menu_type_echeancier ( gsb_data_account_get_default_credit (no_compte) ); */
-
-	    if ( place_type != -1 )
-		gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-					      place_type );
-	    else
-	    {
-		struct struct_type_ope *type;
-
-		gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-					      0 );
-
-		/*  on met ce type par défaut, vu que celui par défaut marche plus ... */
-
-		if ( gsb_data_transaction_get_amount ( transaction_number)< 0 )
-		    gsb_data_account_set_default_debit ( no_compte,
-							 gsb_payment_method_get_selected_number (widget_formulaire_echeancier[SCHEDULER_FORM_TYPE]));
-		else
-		    gsb_data_account_set_default_credit ( no_compte,
-							 gsb_payment_method_get_selected_number (widget_formulaire_echeancier[SCHEDULER_FORM_TYPE]));
-
-		/* récupère l'adr du type pour afficher l'entrée si nécessaire */
-
-		type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu_item ),
-					     "adr_type" );
-
-		if ( type -> affiche_entree )
-		    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] );
-	    }
-	}
-    }
-
-    /* met en place l'exercice */
-
-    gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ),
-				   cherche_no_menu_exercice ( gsb_data_transaction_get_financial_year_number ( transaction_number),
-							      widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ));
-
-    /* met en place l'imputation budgétaire */
-
-
-    char_tmp = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number),
-					  gsb_data_transaction_get_sub_budgetary_number ( transaction_number),
-					  NULL );
-
-   if ( char_tmp )
-    {
-	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY], NULL, NULL);
-	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
-				char_tmp );
-    }
-
-
-    /*   remplit les notes */
-
-    if ( gsb_data_transaction_get_notes ( transaction_number))
-    {
-	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES], NULL, NULL );
-	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ),
-			     gsb_data_transaction_get_notes ( transaction_number));
-    }
-}
-/******************************************************************************/
 
 
 /**

@@ -955,7 +955,7 @@ void modification_details_compte ( void )
 	mise_a_jour_fin_comptes_passifs = 1;
 	mise_a_jour_soldes_minimaux = 1;
 	gsb_gui_navigation_update_account ( compte_courant_onglet );
-	gsb_form_clean(gsb_form_get_account_number_from_origin (gsb_form_get_origin ()));
+	gsb_form_clean(gsb_form_get_account_number ());
     }
 
 

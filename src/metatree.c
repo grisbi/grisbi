@@ -58,10 +58,14 @@ static gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel 
 				 gpointer division, gpointer sub_division, 
 				 gint * no_div, gint * no_sub_div );
 static GtkTreeIter * get_iter_from_pointer ( GtkTreeModel * model, gpointer pointer );
+static void metatree_fill_division ( GtkTreeModel * model, MetatreeInterface * iface, 
+			      int div_id );
 static void metatree_fill_new_division ( MetatreeInterface * iface, GtkTreeModel * model, 
 				  gint div_id );
 static void metatree_fill_new_sub_division ( MetatreeInterface * iface, GtkTreeModel * model, 
 				      gint div_id, gint sub_div_id );
+static void metatree_fill_sub_division ( GtkTreeModel * model, MetatreeInterface * iface, 
+				  int div_id, int sub_div_id );
 static gboolean metatree_get ( GtkTreeModel * model, GtkTreePath * path,
 			gint column, gpointer * data );
 static gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTreePath * path, 

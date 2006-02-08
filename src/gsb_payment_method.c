@@ -296,7 +296,7 @@ gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
     GtkWidget *cheque_entry;
     gint account_number;
 
-    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+    account_number = gsb_form_get_account_number ();
     cheque_entry = gsb_form_get_element_widget ( TRANSACTION_FORM_CHEQUE,
 						   account_number );
     if ( !cheque_entry)
@@ -315,7 +315,7 @@ gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
 
 	if ( method_ptr -> numerotation_auto )
 	{
-	    gsb_form_entry_get_focus (cheque_entry, NULL, NULL );
+	    gsb_form_entry_get_focus (cheque_entry);
 	    gtk_entry_set_text ( GTK_ENTRY (cheque_entry),
 				 gsb_payment_method_get_automatic_current_number ( method_ptr ));
 	}

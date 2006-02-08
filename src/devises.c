@@ -197,9 +197,9 @@ void update_currency_widgets()
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_DEVISE ))
     {
 	gtk_widget_destroy ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_DEVISE,
-									    gsb_form_get_account_number_from_origin (gsb_form_get_origin ())) ) -> menu );
+									    gsb_form_get_account_number ()) ) -> menu );
 	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_DEVISE,
-										  gsb_form_get_account_number_from_origin (gsb_form_get_origin ())) ),
+										  gsb_form_get_account_number ()) ),
 				   creation_option_menu_devises ( -1,
 								  liste_struct_devises ));
     }

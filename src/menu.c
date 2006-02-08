@@ -31,7 +31,7 @@
 #include "help.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "operations_formulaire.h"
+#include "gsb_form_transaction.h"
 #include "barre_outils.h"
 #include "comptes_traitements.h"
 #include "erreur.h"

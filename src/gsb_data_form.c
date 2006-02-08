@@ -439,7 +439,7 @@ gboolean gsb_data_form_look_for_value ( gint account_number,
  * */
 gboolean gsb_data_form_check_for_value ( gint value )
 {
-    return gsb_data_form_look_for_value ( gsb_form_get_account_number_from_origin (gsb_form_get_origin ()),
+    return gsb_data_form_look_for_value ( gsb_form_get_account_number (),
 					  value,
 					  NULL, NULL );
 }

@@ -430,7 +430,7 @@ void mise_a_jour_combofix_categ ( void )
 
     devel_debug ( "mise_a_jour_combofix_categ" );
 
-    account_number = gsb_form_get_account_number_from_origin (gsb_form_get_origin ());
+    account_number = gsb_form_get_account_number ();
     list_tmp = gsb_data_category_get_name_list ( TRUE,
 						 TRUE,
 						 TRUE,

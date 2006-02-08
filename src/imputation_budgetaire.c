@@ -324,7 +324,7 @@ void mise_a_jour_combofix_imputation ( void )
 
     if ( gsb_data_form_check_for_value (TRANSACTION_FORM_BUDGET))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET,
-					       gsb_form_get_account_number_from_origin (gsb_form_get_origin ()))),
+					       gsb_form_get_account_number ())),
 				gsb_data_budget_get_name_list (TRUE, TRUE));
 
     mise_a_jour_combofix_imputation_necessaire = 0;

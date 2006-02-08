@@ -229,7 +229,6 @@ GtkWidget *gtk_combofix_new_complex ( GSList *list )
     return ( GTK_WIDGET ( combofix ) );
 }
 
-
 /**
  * set the text in the combofix without showing the popup or
  * doing any check

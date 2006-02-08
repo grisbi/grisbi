@@ -936,8 +936,11 @@ gboolean gsb_data_transaction_set_breakdown_of_transaction ( gint no_transaction
 }
 
 
-/** get the notes
+/**
+ * get the notes
+ * 
  * \param no_transaction the number of the transaction
+ * 
  * \return the notes of the transaction
  * */
 gchar *gsb_data_transaction_get_notes ( gint no_transaction )

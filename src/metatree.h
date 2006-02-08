@@ -97,10 +97,6 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			     GtkTreeIter * iter, gpointer division,
 			     gpointer sub_division );
 GtkTreeIter * get_iter_from_div ( GtkTreeModel * model, int div, int sub_div );
-void metatree_fill_division ( GtkTreeModel * model, MetatreeInterface * iface, 
-			      int div_id );
-void metatree_fill_sub_division ( GtkTreeModel * model, MetatreeInterface * iface, 
-				  int div_id, int sub_div_id );
 void metatree_new_division ( GtkTreeModel * model );
 void metatree_register_widget_as_linked ( GtkTreeModel * model, GtkWidget * widget,
 					  gchar * link_type );

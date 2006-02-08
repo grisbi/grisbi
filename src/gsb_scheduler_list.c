@@ -1319,7 +1319,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 	 &&
 	 !mother_number )
     {
-	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE], NULL, NULL );
+/* 	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE], NULL, NULL ); */
 	gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ),
 			     gsb_date_today() );
 	gtk_entry_select_region ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ),
@@ -1343,7 +1343,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
     /* set the date */
 
-    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE], NULL, NULL );
+/*     gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE], NULL, NULL ); */
     gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DATE] ),
 			 gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)));
 
@@ -1351,7 +1351,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
     if ( gsb_data_scheduled_get_party_number (scheduled_number))
     {
-	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY], NULL, NULL );
+/* 	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY], NULL, NULL ); */
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_PARTY] ),
 				gsb_data_payee_get_name ( gsb_data_scheduled_get_party_number (scheduled_number),
 							  TRUE ));
@@ -1379,7 +1379,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
     if ( gsb_data_scheduled_get_budgetary_number (scheduled_number))
     {
-	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY], NULL, NULL);
+/* 	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY], NULL, NULL); */
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_BUDGETARY] ),
 				gsb_data_budget_get_name ( gsb_data_scheduled_get_budgetary_number (scheduled_number),
 							   gsb_data_scheduled_get_sub_budgetary_number (scheduled_number),
@@ -1434,7 +1434,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 	     &&
 	     gsb_data_scheduled_get_method_of_payment_content (scheduled_number))
 	{
-	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE], NULL, NULL );
+/* 	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE], NULL, NULL ); */
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CHEQUE] ),
 				 gsb_data_scheduled_get_method_of_payment_content (scheduled_number));
 	}
@@ -1451,7 +1451,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
     {
 	if (gsb_data_scheduled_get_limit_date (scheduled_number))
 	{
-	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE], NULL, NULL );
+/* 	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE], NULL, NULL ); */
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_FINAL_DATE] ),
 				 gsb_format_gdate ( gsb_data_scheduled_get_limit_date (scheduled_number)));
 	}
@@ -1462,7 +1462,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
     if ( gsb_data_scheduled_get_frequency (scheduled_number) == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
     {
-	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] , NULL, NULL);
+/* 	gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] , NULL, NULL); */
 	gtk_entry_set_text ( GTK_ENTRY (widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_NB] ),
 			     utils_str_itoa (gsb_data_scheduled_get_user_entry (scheduled_number)));
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_FREQ_CUSTOM_MENU] ),
@@ -1479,14 +1479,14 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
 	if ( gsb_data_scheduled_get_amount (scheduled_number) < 0 )
 	{
-	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT], NULL, NULL );
+/* 	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT], NULL, NULL ); */
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ),
 				 g_strdup_printf ( "%4.2f",
 						   -gsb_data_scheduled_get_amount (scheduled_number)));
 	}
 	else
 	{
-	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT], NULL, NULL );
+/* 	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT], NULL, NULL ); */
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ),
 				 g_strdup_printf ( "%4.2f",
 						   gsb_data_scheduled_get_amount (scheduled_number)));
@@ -1538,7 +1538,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
 	    if ( texte )
 	    {
-		gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY], NULL, NULL );
+/* 		gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY], NULL, NULL ); */
 		gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_echeancier[SCHEDULER_FORM_CATEGORY] ),
 					texte );
 	    }
@@ -1548,7 +1548,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
 	if ( gsb_data_scheduled_get_notes  (scheduled_number))
 	{
-	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES], NULL, NULL );
+/* 	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES], NULL, NULL ); */
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_NOTES] ),
 				 gsb_data_scheduled_get_notes (scheduled_number));
 	}

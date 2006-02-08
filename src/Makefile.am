@@ -71,6 +71,7 @@ sources = \
 	gsb_file_util.c		\
 	gsb_form.c		\
 	gsb_form_config.c	\
+	gsb_form_transaction.c	\
 	gsb_payment_method.c	\
 	gsb_payment_method_config.c	\
 	gsb_scheduler_list.c	\
@@ -91,7 +92,6 @@ sources = \
 	navigation.c		\
 	ofx.c                   \
 	operations_comptes.c	\
-	operations_formulaire.c \
 	parametres.c		\
 	parse_cmdline.c		\
 	print_config.c		\
@@ -152,6 +152,7 @@ grisbi_INCLUDES =		\
 	gsb_file_util.h		\
 	gsb_form.h		\
 	gsb_form_config.h	\
+	gsb_form_transaction.h	\
 	gsb_payment_method.h	\
 	gsb_payment_method_config.h	\
 	gsb_scheduler_list.h	\
@@ -183,7 +184,6 @@ grisbi_INCLUDES =		\
 	menu.h			\
 	navigation.h		\
 	operations_comptes.h	\
-	operations_formulaire.h	\
 	parametres.h		\
 	parse_cmdline.h		\
 	print_config.h		\
