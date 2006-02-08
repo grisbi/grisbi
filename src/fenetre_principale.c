@@ -190,8 +190,6 @@ GtkWidget *create_main_notebook (void )
     notebook_general = gtk_notebook_new();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(notebook_general), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(notebook_general), FALSE );
-    gtk_signal_connect_after ( GTK_OBJECT ( notebook_general ), "switch_page",
-			       GTK_SIGNAL_FUNC ( gsb_gui_on_notebook_switch_page ), NULL );
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 notebook_general,
 			 TRUE,
@@ -208,6 +206,9 @@ GtkWidget *create_main_notebook (void )
 
     /* fill the notebook */
     gsb_gui_fill_main_notebook(notebook_general);
+
+    gtk_signal_connect_after ( GTK_OBJECT ( notebook_general ), "switch_page",
+			       GTK_SIGNAL_FUNC ( gsb_gui_on_notebook_switch_page ), NULL );
 
     gtk_widget_show (vbox);
     return (vbox);
