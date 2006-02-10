@@ -3,7 +3,7 @@
 /* des fichiers								      */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -65,7 +65,6 @@
 static void ajoute_new_file_liste_ouverture ( gchar *path_fichier );
 static gchar *demande_nom_enregistrement ( void );
 static gboolean enregistrement_backup ( void );
-static void fichier_selectionne ( GtkWidget *selection_fichier);
 /*END_STATIC*/
 
 
@@ -127,12 +126,12 @@ gboolean new_file ( void )
     if ( gsb_data_account_new ( type_de_compte ) == -1 )
 	return FALSE;
 
-
     init_gui_new_file ();
     init_variables_new_file ();
 
     /* on se met sur l'onglet de propriétés du compte */
-    gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );    
+    mise_a_jour_accueil (FALSE);
+    gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
 
     modification_fichier ( TRUE );
     return FALSE;
@@ -221,12 +220,20 @@ void ouvrir_fichier ( void )
     switch ( gtk_dialog_run ( GTK_DIALOG (selection_fichier)))
     {
 	case GTK_RESPONSE_OK:
-	    fichier_selectionne ( selection_fichier );
-
+	    if ( fermer_fichier() )
+	    {
+		gtk_widget_hide ( selection_fichier );
+		nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_CHOOSER ( selection_fichier ) ) ;
+		dernier_chemin_de_travail = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( selection_fichier),
+										TRUE );
+		gsb_file_open_file (nom_fichier_comptes);
+	    }
+	    break;
       default:
 	  break;
     }
     gtk_widget_destroy ( selection_fichier );
+
 }
 /* ************************************************************************************************************ */
 
@@ -240,40 +247,6 @@ void ouverture_fichier_par_menu ( gpointer null,
 	return;
 
     nom_fichier_comptes = tab_noms_derniers_fichiers_ouverts[no_fichier];
-
-    gsb_file_open_file (nom_fichier_comptes);
-}
-/* ************************************************************************************************************ */
-
-
-
-/* ************************************************************************************************************ */
-void fichier_selectionne ( GtkWidget *selection_fichier)
-{
-
-    /*   on cache la fenetre de sélection et ferme le fichier en cours */
-    /*     si lors de la fermeture, on a voulu enregistrer mais ça n'a pas marché => return */
-
-    gtk_widget_hide ( selection_fichier );
-
-    /*   si la fermeture du fichier se passe mal, on se barre */
-
-    if ( !fermer_fichier() )
-    {
-	gtk_widget_hide ( selection_fichier );
-	return;
-    }
-
-
-    /* on prend le nouveau nom du fichier */
-
-    nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_CHOOSER ( selection_fichier)) ;
-
-    gtk_widget_hide ( selection_fichier );
-
-    /* on met le répertoire courant dans la variable correspondante */
-
-    dernier_chemin_de_travail = file_selection_get_last_directory(GTK_FILE_CHOOSER ( selection_fichier),TRUE);
 
     gsb_file_open_file (nom_fichier_comptes);
 }
