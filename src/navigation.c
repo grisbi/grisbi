@@ -201,7 +201,7 @@ GtkWidget * create_navigation_pane ( void )
 		       G_CALLBACK (gsb_gui_navigation_check_key_press),
 		       navigation_model  );
 
-    g_signal_connect_after (gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view)), 
+    g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view)), 
 			    "changed", ((GCallback) gsb_gui_navigation_select_line), 
 			    navigation_model );
 
@@ -572,10 +572,6 @@ inline gboolean navigation_sort_column ( GtkTreeModel * model,
 			 NAVIGATION_ACCOUNT, &account_b,
 			 -1 );
 
-    printf ("> %d, %d (%d) === %d, %d (%d)\n", 
-	    page_a, account_a, g_slist_index ( sort_accounts, account_a ),
-	    page_b, account_b, g_slist_index ( sort_accounts, account_b ) );
-
     if ( page_a != GSB_ACCOUNT_PAGE || page_b != GSB_ACCOUNT_PAGE )
     {
 	if ( page_a == page_b )
@@ -590,8 +586,8 @@ inline gboolean navigation_sort_column ( GtkTreeModel * model,
     }
     else
     {
-	if ( g_slist_index ( sort_accounts, account_a ) >
-	     g_slist_index ( sort_accounts, account_b ) )
+	if ( g_slist_index ( sort_accounts, (gpointer) account_a ) >
+	     g_slist_index ( sort_accounts, (gpointer) account_b ) )
 	{
 	    return 1;
 	}	
@@ -630,7 +626,7 @@ gboolean gsb_gui_navigation_update_notebook ( GtkTreeSelection * selection,
 			-1 );
     gsb_gui_notebook_change_page ( (GsbGeneralNotebookPages) page );
 
-    if ( account_nb >= 0 )
+    if ( page == GSB_ACCOUNT_PAGE && account_nb >= 0 )
     {
 	gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER(account_nb) );
 	remplissage_details_compte ();
@@ -1138,8 +1134,6 @@ void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection,
 			     NAVIGATION_PAGE, &iter_page,
 			     -1 );
 
-	printf (">> %d, %d <=> %d, %d\n", iter_page, iter_account_nb, page, account_nb );
-
 	if ( iter_page == page &&
 	     ! ( page == GSB_ACCOUNT_PAGE && 
 		 iter_account_nb != account_nb ) &&
@@ -1348,7 +1342,6 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 					 GtkSelectionData * selection_data )
 {
-    printf (">> DATA GET\n");
     if ( path )
     {
 	gtk_tree_set_row_drag_data ( selection_data, GTK_TREE_MODEL(navigation_model), 
@@ -1371,8 +1364,6 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 					 GtkTreePath * dest_path,
 					 GtkSelectionData * selection_data )
 {
-    printf ("navigation_drag_data_received %p, %p\n", dest_path, selection_data);
-
     if ( dest_path && selection_data )
     {
 	GtkTreeModel * model;
@@ -1385,7 +1376,7 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 
 	if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(model), &iter, dest_path ) ) 
 	{
-	    gpointer src_report, dst_report = -1;
+	    gpointer src_report, dst_report = (gpointer) -1;
 	    gint src_account, dst_account = -1;
 
 	    gtk_tree_model_get (GTK_TREE_MODEL(model) , &iter, 
@@ -1403,7 +1394,6 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 	    }
 	
 	    navigation_change_account_order ( src_account, dst_account );
-	    printf ( ">> %s\n", name );
 	}
     }
 
@@ -1424,7 +1414,7 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
     {
 	GtkTreePath * orig_path;
 	GtkTreeModel * model;
-	gpointer src_report, dst_report = -1;
+	gpointer src_report, dst_report = (gpointer) -1;
 	gint src_account, dst_account = -1, dst_page = -1;
 	GtkTreeIter iter;
 
@@ -1451,7 +1441,6 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 	{
 	    if ( dst_account >= 0 )
 	    {
-		printf (">> OK account %d %d\n", src_account, dst_account);
 		return TRUE;
 	    }
 	}
@@ -1460,13 +1449,11 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 	{
 	    if ( dst_report )
 	    {
-		printf (">> OK report %d %d\n", src_report, dst_report);
 		return TRUE;
 	    }
 	}
     }
 
-    printf (">> NOK\n");
     return FALSE;
 }
 
@@ -1488,18 +1475,17 @@ void navigation_change_account_order ( gint orig, gint dest )
 	while ( tmp )
 	{
 	    sort_accounts = g_slist_append ( sort_accounts, 
-					     gsb_data_account_get_no_account ( tmp -> data ) );
+					     (gpointer) gsb_data_account_get_no_account ( tmp -> data ) );
 	    tmp = tmp -> next;
 	}
     }
 
-    sort_accounts = g_slist_remove ( sort_accounts, orig );
+    sort_accounts = g_slist_remove ( sort_accounts, (gpointer) orig );
     dest_pointer = g_slist_find ( sort_accounts, (gpointer) dest );
     if ( dest_pointer )
     {
-	sort_accounts = g_slist_insert ( sort_accounts, orig,
-					 g_slist_position ( sort_accounts, 
-							    dest_pointer ) + 1 );
+	sort_accounts = g_slist_insert ( sort_accounts, (gpointer) orig,
+					 g_slist_position ( sort_accounts, dest_pointer ) + 1 );
     }
 
     gsb_data_account_reorder ( sort_accounts );
