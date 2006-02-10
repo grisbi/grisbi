@@ -112,6 +112,7 @@ extern gchar *nom_fichier_comptes;
 int main (int argc, char *argv[])
 {
     GtkWidget * statusbar;
+    gboolean first_use = FALSE;
 
     initialize_debugging();
 
@@ -192,7 +193,10 @@ int main (int argc, char *argv[])
 
     /* initialisation of the variables */
     init_variables ();
-    gsb_file_config_load_config ();
+    if ( ! gsb_file_config_load_config () )
+    {
+	first_use = TRUE;
+    }
     initialisation_couleurs_listes ();
 
     /* create the toplevel window */
@@ -231,11 +235,10 @@ int main (int argc, char *argv[])
     /* set the size of the window */
     if ( largeur_window && hauteur_window )
 	gtk_window_set_default_size ( GTK_WINDOW ( window ),
-				      largeur_window,
-				      hauteur_window );
+				      largeur_window, hauteur_window );
     else
 	gtk_window_set_default_size ( GTK_WINDOW ( window ),
-				      640, 480 );
+				      800, 600 );
 
     gtk_widget_show ( window );
 
@@ -258,7 +261,16 @@ int main (int argc, char *argv[])
 		nom_fichier_comptes = NULL;
     }
 
-    display_tip ( FALSE );
+    if ( first_use )
+    {
+	dialogue_hint ( _("You can now create your account file ... blah blah.  This will be replaced by a nice assistant."),
+			_("Welcome to Grisbi!"));
+	new_account ();
+    }
+    else
+    {
+	display_tip ( FALSE );
+    }
     gtk_main ();
     exit(0);
 }
