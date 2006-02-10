@@ -618,6 +618,7 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 
     switch ( gsb_data_account_get_nb_rows (account_number))
     {
+	default:
 	case 1 :
 	    item_name = menu_name ( "ViewMenu", "ShowOneLine", NULL );
 	    break;
