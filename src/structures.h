@@ -101,8 +101,10 @@ struct {
     gint utilise_logo;
     gint utilise_fonte_listes;
     gint affichage_grille;         /* à 1 si la grille est affichée */
-    gint display_toolbar;
-    gint show_closed_accounts;
+    gint display_toolbar;	/** Display mode of toolbar. */
+    gboolean show_toolbar;		/** Show toolbar or not.  */
+    gboolean show_headings_bar;	/** Show headings bar or not. */
+    gboolean show_closed_accounts;
 
     /* Various display message stuff  */
     gint display_message_lock_active;
