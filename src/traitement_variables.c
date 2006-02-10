@@ -140,6 +140,12 @@ void modification_fichier ( gboolean modif )
 {
     devel_debug ( g_strdup_printf ("modification_fichier : %d", modif ));
 
+    /* If no file is loaded, do not change menu items. */
+    if ( ! gsb_data_account_get_accounts_amount () )
+    {
+	return;
+    }
+
     if ( modif )
     {
 	etat.modification_fichier = 1;
