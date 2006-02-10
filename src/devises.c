@@ -239,6 +239,30 @@ extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 extern GSList *gsliste_echeances;
 
 
+gint cherche_no_menu_devise ( GtkWidget *option_menu,
+			      gint demande )
+{
+    GList *liste_tmp;
+    gint retour;
+    gint i;
+
+    liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU (option_menu) -> menu ) -> children;
+    retour = -1;
+    i = 0;
+
+    while ( liste_tmp && retour == -1 )
+    {
+	if ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
+				   "no_devise" ) == GINT_TO_POINTER ( demande ))
+	{
+	    return i;
+	}
+	i++;
+	liste_tmp = liste_tmp -> next;
+    }
+    return FALSE;
+}
+
 gint
 sort_tree (GtkTreeModel *model,
 	   GtkTreeIter *a,
@@ -326,10 +350,8 @@ void update_currency_widgets()
 				GTK_OBJECT ( hbox_boutons_modif ) );
     p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
     gtk_option_menu_set_history ( GTK_OPTION_MENU (  detail_devise_compte),
-				  g_slist_position ( liste_struct_devises,
-						     g_slist_find_custom ( liste_struct_devises,
-									   GINT_TO_POINTER ( DEVISE ),
-									   ( GCompareFunc ) recherche_devise_par_no )));
+				  cherche_no_menu_devise ( option_menu_devises ,
+							   DEVISE));
 
     /* on recrée les boutons de devises dans la conf de l'état */
 
@@ -1740,6 +1762,8 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
 				  GtkWidget *frame )
 {
     struct struct_devise *devise;
+    struct struct_devise *devise_associee;
+    GtkWidget *menu;
 
     ligne_selection_devise = ligne;
     devise = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
@@ -1760,8 +1784,33 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
 			       creation_option_menu_devises (devise -> no_devise,
 							     liste_struct_devises ));
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devises ),
-				  devise -> no_devise_en_rapport );
-    create_change_menus (devise);
+				  cherche_no_menu_devise ( option_menu_devises ,
+							   devise -> no_devise_en_rapport));
+    devise_associee = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( option_menu_devises ) -> menu_item ),
+					  "adr_devise" );
+    if ( devise_associee &&
+	 devise_associee != devise_nulle &&
+	 devise_associee -> no_devise )
+    {
+	gtk_widget_set_sensitive ( hbox_ligne_change,
+				   TRUE );
+	create_change_menus(devise); 
+	spin_button_set_value_double ( entree_conversion, &(devise->change));
+    }
+    else
+    {
+	menu = gtk_menu_new ();
+	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( devise_1 ),
+				   menu );
+
+	menu = gtk_menu_new ();
+	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( devise_2 ),
+				   menu );
+
+	spin_button_set_value_double ( entree_conversion, 0 );
+	gtk_widget_set_sensitive ( hbox_ligne_change,
+				   FALSE );
+    }
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( devise_1 ),
 				  !( devise -> une_devise_1_egale_x_devise_2 ));
@@ -1896,16 +1945,12 @@ gboolean change_passera_euro ( GtkWidget *bouton,
 
 	if ( devise -> no_devise > devise -> no_devise_en_rapport )
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devises ),
-					  g_slist_position ( liste_struct_devises,
-							     g_slist_find_custom ( liste_struct_devises,
-										   GINT_TO_POINTER ( devise -> no_devise_en_rapport ),
-										   ( GCompareFunc ) recherche_devise_par_no )) + 1);
+					  cherche_no_menu_devise ( option_menu_devises ,
+								   devise -> no_devise_en_rapport) + 1);
 	else
 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_devises ),
-					  g_slist_position ( liste_struct_devises,
-							     g_slist_find_custom ( liste_struct_devises,
-										   GINT_TO_POINTER ( devise -> no_devise_en_rapport ),
-										   ( GCompareFunc ) recherche_devise_par_no ))  );
+					  cherche_no_menu_devise ( option_menu_devises ,
+								   devise -> no_devise_en_rapport));
 
 	g_signal_handlers_unblock_by_func ( G_OBJECT(option_menu_devises),
 					    G_CALLBACK (changement_devise_associee), 
@@ -2074,6 +2119,8 @@ gboolean changement_devise_associee ( GtkWidget *menu_devises,
     }
     else
     {
+	devise -> no_devise_en_rapport = 0;
+
 	menu = gtk_menu_new ();
 	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( devise_1 ),
 				   menu );
