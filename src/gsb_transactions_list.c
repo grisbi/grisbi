@@ -207,11 +207,11 @@ extern GtkWidget *window;
 
 
 
-
-/******************************************************************************/
-/*  routine qui crée la fenêtre de la liste des opé  */
-/******************************************************************************/
-
+/**
+ * Create the transaction window with all components needed.
+ *
+ *
+ */
 GtkWidget *creation_fenetre_operations ( void )
 {
     GtkWidget *win_operations;
@@ -223,7 +223,8 @@ GtkWidget *creation_fenetre_operations ( void )
     win_operations = gtk_vbox_new ( FALSE, 6 );
 
     /* création de la barre d'outils */
-    barre_outils = creation_barre_outils ();
+    barre_outils = gtk_handle_box_new ();
+    gsb_gui_update_transaction_toolbar ();
     gtk_box_pack_start ( GTK_BOX ( win_operations ), barre_outils, FALSE, FALSE, 0);
     gtk_widget_show ( barre_outils );
 
@@ -240,7 +241,6 @@ GtkWidget *creation_fenetre_operations ( void )
     gtk_widget_show (win_operations);
     return ( win_operations );
 }
-/******************************************************************************/
 
 
 
@@ -1385,8 +1385,6 @@ gboolean gsb_transactions_list_set_adjustment_value ( gint account_number )
     devel_debug ( g_strdup_printf ("gsb_transactions_list_set_adjustment_value account %d",
 				   account_number ));
 
-/*     update_ecran (); */
-
     adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()));
     if (! adjustment )
 	return FALSE;
@@ -1402,12 +1400,24 @@ gboolean gsb_transactions_list_set_adjustment_value ( gint account_number )
     }
     else
     {
-	/* we go at the end of the list */
+	GtkTreeIter iter;
+	/** TODO fix this (fucked because not inside main iteration so
+	 * adjustement is not changed I guess).  */
+	gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( gsb_transactions_list_get_store()), &iter );
+	while ( gtk_tree_model_iter_next(GTK_TREE_MODEL ( gsb_transactions_list_get_store()), &iter) );
 
-	gtk_adjustment_set_value ( adjustment,
-				   adjustment -> upper - adjustment -> page_size );
-	gsb_data_account_set_vertical_adjustment_value ( account_number,
-						    adjustment -> upper - adjustment -> page_size);
+	/* we go at the end of the list */
+	gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view()),
+				       gtk_tree_model_get_path ( GTK_TREE_MODEL ( gsb_transactions_list_get_store()), 
+								 &iter ), NULL, FALSE, 0, 1.0 );
+
+/* 	gtk_adjustment_set_value ( adjustment, */
+/* 				   adjustment -> upper - adjustment -> page_size ); */
+
+/* 	gtk_adjustment_set_value ( adjustment, */
+/* 				   adjustment -> upper - adjustment -> page_size ); */
+/* 	gsb_data_account_set_vertical_adjustment_value ( account_number, */
+/* 						    adjustment -> upper - adjustment -> page_size); */
     }
     return FALSE;
 }
