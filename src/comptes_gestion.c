@@ -31,11 +31,11 @@
 /*START_INCLUDE*/
 #include "comptes_gestion.h"
 #include "banque.h"
-#include "devises.h"
 #include "erreur.h"
-#include "utils_devises.h"
 #include "dialog.h"
+#include "gsb_currency.h"
 #include "gsb_data_account.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form.h"
 #include "navigation.h"
@@ -87,9 +87,7 @@ extern GtkWidget *adr_banque;
 extern     gchar * buffer ;
 extern GtkWidget *code_banque;
 extern gint compte_courant_onglet;
-extern struct struct_devise *devise_compte;
 extern GSList *liste_struct_banques;
-extern GSList *liste_struct_devises;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
@@ -203,9 +201,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), hbox2, FALSE, TRUE, 0 );
     gtk_widget_show ( hbox2 );
 
-    detail_devise_compte = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( detail_devise_compte ),
-			       creation_option_menu_devises ( 0, liste_struct_devises ));
+    detail_devise_compte = gsb_currency_make_combobox (FALSE);
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), detail_devise_compte, TRUE, TRUE, 0 );
     gtk_widget_show ( detail_devise_compte );
 
@@ -616,8 +612,8 @@ GtkWidget *creation_details_compte ( void )
 				"selection-done",
 				GTK_SIGNAL_FUNC ( modif_detail_compte ),
 				GTK_OBJECT ( hbox_boutons_modif ) );
-    gtk_signal_connect_object ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_devise_compte  ) -> menu ),
-				"selection-done",
+    gtk_signal_connect_object ( GTK_OBJECT ( detail_devise_compte ),
+				"changed",
 				GTK_SIGNAL_FUNC ( modif_detail_compte ),
 				GTK_OBJECT ( hbox_boutons_modif ) );
     gtk_signal_connect_object ( GTK_OBJECT ( detail_bouton_adresse_commune ),
@@ -776,7 +772,6 @@ void modif_detail_compte ( GtkWidget *hbox )
 void remplissage_details_compte ( void )
 {
     struct struct_banque *banque;
-    struct struct_devise *devise;
 
     devel_debug ( "remplissage_details_compte" );
 
@@ -788,12 +783,8 @@ void remplissage_details_compte ( void )
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_type_compte ),
 				  gsb_data_account_get_kind (compte_courant_onglet) );
 
-    devise = devise_par_no ( gsb_data_account_get_currency (compte_courant_onglet) );
-
-    gtk_option_menu_set_history ( GTK_OPTION_MENU (  detail_devise_compte),
-				  g_slist_index ( liste_struct_devises,
-						  devise ));
-
+    gsb_currency_set_combobox_history ( detail_devise_compte,
+					gsb_data_account_get_currency (compte_courant_onglet));
 
     if ( gsb_data_account_get_holder_name (compte_courant_onglet) )
 	gtk_entry_set_text ( GTK_ENTRY ( detail_titulaire_compte ),
@@ -961,53 +952,41 @@ void modification_details_compte ( void )
 
     /* vérification de la devise */
 
-    if ( gsb_data_account_get_currency (compte_courant_onglet) != GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_devise_compte ) -> menu_item ),
-							   "no_devise" )) )
+    if ( gsb_data_account_get_currency (compte_courant_onglet) != gsb_currency_get_currency_from_combobox (detail_devise_compte))
     {
-	struct struct_devise *nouvelle_devise;
+	gint new_currency_number;
+	gint account_currency_number;
+	gint result;
 
-	if ( !devise_compte
-	     ||
-	     devise_compte -> no_devise != gsb_data_account_get_currency (compte_courant_onglet) )
-	    devise_compte = devise_par_no ( gsb_data_account_get_currency (compte_courant_onglet) );
+	account_currency_number = gsb_data_account_get_currency (compte_courant_onglet);
+	new_currency_number = gsb_currency_get_currency_from_combobox (detail_devise_compte);
 
-	nouvelle_devise = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_devise_compte ) -> menu_item ),
-						"adr_devise" );
+	result = question_yes_no_hint ( _("Change the transactions currency"),
+					  g_strdup_printf ( _("You are changing the currency of the account, do you want to change the currency of the transactions too ?\(yes will change all the transactions currency from %s to %s, all the transactions with another currency will stay the same)"), 
+							    gsb_data_currency_get_name (account_currency_number),
+							    gsb_data_currency_get_name (new_currency_number)));
 
-	if ( devise_compte -> passage_euro && !nouvelle_devise -> passage_euro )
+	if (result)
 	{
-	    gint resultat;
+	    /* we have to change the currency of the transactions */
 
-	    resultat = question_yes_no_hint ( _("Confirm currency change"),
-					      g_strdup_printf ( _("You are changing from a currency that is in the euro zone (%s) to one that isn't (%s).  Transactions in euros will be lost!  There is no undo for this.\nDo you confirm this change?"), 
-								devise_compte -> nom_devise,
-								nouvelle_devise -> nom_devise));
+	    list_tmp = gsb_data_transaction_get_transactions_list ();
 
-	    if ( !resultat )
-		return;
-	}
-
-	list_tmp = gsb_data_transaction_get_transactions_list ();
-
-	while ( list_tmp )
-	{
-	    gint transaction_number;
-	    transaction_number = gsb_data_transaction_get_transaction_number (list_tmp -> data);
-
-	    if ( gsb_data_transaction_get_account_number (transaction_number) == compte_courant_onglet )
+	    while ( list_tmp )
 	    {
-		if ( gsb_data_transaction_get_currency_number (transaction_number) == gsb_data_account_get_currency (compte_courant_onglet) )
+		gint transaction_number;
+		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp -> data);
+
+		if ( gsb_data_transaction_get_account_number (transaction_number) == compte_courant_onglet
+		     &&
+		     gsb_data_transaction_get_currency_number (transaction_number) == account_currency_number)
 		    gsb_data_transaction_set_currency_number ( transaction_number,
-							       nouvelle_devise -> no_devise );
-		else
-		    if ( !nouvelle_devise -> passage_euro )
-			gsb_data_transaction_set_currency_number ( transaction_number,
-								   nouvelle_devise -> no_devise );
+							       new_currency_number );
+		list_tmp = list_tmp -> next;
 	    }
-	    list_tmp = list_tmp -> next;
 	}
 	gsb_data_account_set_currency ( compte_courant_onglet,
-				   nouvelle_devise -> no_devise );
+					new_currency_number );
 	
 /* FIXME : voir pourquoi remplissage opé et remettre l'ajustement */
 
@@ -1233,13 +1212,13 @@ void sort_du_detail_compte ( void )
 {
     if ( GTK_WIDGET_SENSITIVE ( hbox_boutons_modif ) )
     {
-	gint resultat;
+	gint result;
 
-	resultat = question_yes_no_hint ( _("Apply changes to account?"),
+	result = question_yes_no_hint ( _("Apply changes to account?"),
 					  g_strdup_printf ( _("Account \"%s\" has been modified.\nDo you want to save changes?"),
 							    gsb_data_account_get_name (compte_courant_onglet) ) );
 	
-	if ( !resultat )
+	if ( !result )
 	    gtk_widget_set_sensitive ( hbox_boutons_modif, FALSE );
 	else
 	{

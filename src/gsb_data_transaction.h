@@ -14,7 +14,7 @@ gint gsb_data_transaction_get_account_number ( gint no_transaction );
 gint gsb_data_transaction_get_account_number_transfer ( gint no_transaction );
 gdouble gsb_data_transaction_get_adjusted_amount ( gint no_transaction );
 gdouble gsb_data_transaction_get_adjusted_amount_for_currency ( gint no_transaction,
-								gint no_currency_for_return );
+								gint return_currency_number );
 gdouble gsb_data_transaction_get_amount ( gint no_transaction );
 gint gsb_data_transaction_get_automatic_transaction ( gint no_transaction );
 gchar *gsb_data_transaction_get_bank_references ( gint no_transaction );

@@ -66,11 +66,11 @@ void browse_file ( GtkButton *button, gpointer data )
 				   GTK_WINDOW ( window ));
     gtk_window_set_modal ( GTK_WINDOW ( file_selector ), TRUE );
 
-    switch ( gtk_dialog_run ( file_selector ) )
+    switch ( gtk_dialog_run ( GTK_DIALOG (file_selector)))
     {
 	case GTK_RESPONSE_OK:
 	    gtk_entry_set_text ( GTK_ENTRY(data),
-				 file_selection_get_filename (file_selector) );
+				 file_selection_get_filename (GTK_FILE_CHOOSER (file_selector)));
 
 	default:
 	    gtk_widget_destroy ( file_selector );

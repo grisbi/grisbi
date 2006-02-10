@@ -1093,7 +1093,7 @@ gboolean gsb_report_export_change_format ( GtkWidget * combo, GtkWidget * select
     gchar * name, * extension;
 
     g_object_set_data ( G_OBJECT(selector), "format", 
-			(gpointer) gtk_combo_box_get_active ( GTK_COMBO_BOX(combo) ) );
+			GINT_TO_POINTER ( gtk_combo_box_get_active ( GTK_COMBO_BOX(combo) ) ));
 
     name = safe_file_name ( g_object_get_data ( G_OBJECT ( selector ), "basename" ) );
     switch ( gtk_combo_box_get_active ( GTK_COMBO_BOX(combo) ) )
@@ -1165,7 +1165,7 @@ void exporter_etat ( void )
     gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), REPORT_HTML );
     g_signal_connect ( G_OBJECT(combo), "changed", 
 		       G_CALLBACK ( gsb_report_export_change_format ), 
-		       (gpointer) fenetre_nom );
+		       fenetre_nom );
     gtk_widget_show_all ( hbox );
     gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER(fenetre_nom), hbox );
 

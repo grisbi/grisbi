@@ -453,30 +453,6 @@ gboolean set_double_from_spin ( GtkWidget * spin, gdouble * dummy)
 
 
 
-/**
- * Set an integer to the value of a menu.  Normally called via a GTK
- * "changed" signal handler.
- * 
- * \param menu a pointer to a menu widget.
- * \param dummy unused
- */
-gboolean set_int_from_menu ( GtkWidget * menu, gint * dummy)
-{
-    gint *data;
-    
-    data = g_object_get_data ( G_OBJECT(menu), "pointer" );
-
-    if ( data )
-    {
-	*data = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( menu ) -> menu_item ),
-				    "no_devise" ));
-    }
-
-    /* Mark file as modified */
-    modification_fichier ( TRUE );
-    return (FALSE);
-}
-
 
 
 /* **************************************************************************************************************************** */

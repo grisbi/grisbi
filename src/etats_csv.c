@@ -39,7 +39,7 @@
 /*START_STATIC*/
 static void csv_attach_hsep ( int x, int x2, int y, int y2);
 static void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			  enum alignement align, gpointer ope );
+			  enum alignement align, gint transaction_number );
 static void csv_attach_vsep ( int x, int x2, int y, int y2);
 static gint csv_finish ();
 static gint csv_initialise (GSList * opes_selectionnees, gchar * filename );
@@ -82,13 +82,13 @@ extern gint nb_colonnes;
  * \param x2 right position of the label
  * \param y2 bottom position of the label
  * \param alignment how the text will be aligned in the cell
- * \param ope a pointer to a transaction to link to (not used as csv
+ * \param transaction_number the number a transaction to link to (not used as csv
  *            backend is not interactive)
  */
 void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			  enum alignement align, gpointer ope )
+			  enum alignement align, gint transaction_number )
 {
-    int pad, realsize, realcolumns, i;
+    int pad, realsize, realcolumns;
     gint current_report_number;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
@@ -170,10 +170,6 @@ void csv_attach_hsep ( int x, int x2, int y, int y2)
  */
 gint csv_initialise (GSList * opes_selectionnees, gchar * filename )
 {
-    GtkWidget * file_selector;
-    gfloat colwidth, real_width;
-    int i;
-
     g_return_val_if_fail ( filename, FALSE );
 
     unlink ( filename );	/* We don't care if this fails, this

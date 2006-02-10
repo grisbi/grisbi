@@ -34,7 +34,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_account.h"
 #include "dialog.h"
-#include "data_currency.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "data_payment.h"
 #include "traitement_variables.h"
@@ -192,7 +192,7 @@ gint gsb_data_account_new ( kind_account account_kind )
     account -> account_number = gsb_data_account_max_number () + 1;
     account -> account_name = g_strdup_printf ( _("No name %d"),
 						account -> account_number );
-    account -> currency = gsb_currency_default_currency ();
+    account -> currency = gsb_data_currency_get_default_currency ();
     account -> update_list = 1;
     account -> account_kind = account_kind;
     account -> method_payment_list = gsb_payment_default_payment_list ();

@@ -1268,18 +1268,20 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
     if ( category )
     {
 	category -> category_nb_transactions ++;
-	category -> category_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise );
+	category -> category_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency ());
     }
     else
     {
 	empty_category -> category_nb_transactions ++;
-	empty_category -> category_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise );
+	empty_category -> category_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () );
     }
 
     if ( sub_category )
     {
 	sub_category -> sub_category_nb_transactions ++;
-	sub_category -> sub_category_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise);
+	sub_category -> sub_category_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency ());
+
+
 	gsb_data_transaction_get_adjusted_amount (transaction_number);
     }
     else
@@ -1287,7 +1289,7 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
 	if ( category )
 	{
 	    category -> category_nb_direct_transactions ++;
-	    category -> category_direct_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise );
+	    category -> category_direct_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency ());
 	}
     }
 }
@@ -1313,7 +1315,7 @@ void gsb_data_category_remove_transaction_from_category ( gint transaction_numbe
     if ( category )
     {
 	category -> category_nb_transactions --;
-	category -> category_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise );
+	category -> category_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency ());
 	if ( !category -> category_nb_transactions ) /* Cope with float errors */
 	    category -> category_balance = 0.0;
     }
@@ -1321,7 +1323,7 @@ void gsb_data_category_remove_transaction_from_category ( gint transaction_numbe
     if ( sub_category )
     {
 	sub_category -> sub_category_nb_transactions --;
-	sub_category -> sub_category_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise );
+	sub_category -> sub_category_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency ());
 	if ( !sub_category -> sub_category_nb_transactions ) /* Cope with float errors */
 	    sub_category -> sub_category_balance = 0.0;
     }
@@ -1330,7 +1332,7 @@ void gsb_data_category_remove_transaction_from_category ( gint transaction_numbe
 	if ( category )
 	{
 	    category -> category_nb_direct_transactions --;
-	    category -> category_direct_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise );
+	    category -> category_direct_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency ());
 	}
     }
 }
@@ -1368,7 +1370,7 @@ void gsb_data_category_create_default_category_list ( void )
     {
 	gint categ = gsb_data_category_new ( categories_de_base_debit[i] );
 	gsb_data_category_set_type ( categ, 1 );
-	list_tmp = g_slist_append ( list_tmp, (gpointer) categ );
+	list_tmp = g_slist_append ( list_tmp, GINT_TO_POINTER (categ));
 	i++;
     }
     gsb_data_category_merge_category_list (list_tmp);
@@ -1381,7 +1383,7 @@ void gsb_data_category_create_default_category_list ( void )
     {
 	gint categ = gsb_data_category_new ( categories_de_base_debit[i] );
 	gsb_data_category_set_type ( categ, 1 );
-	list_tmp = g_slist_append ( list_tmp, (gpointer) categ );
+	list_tmp = g_slist_append ( list_tmp, GINT_TO_POINTER (categ));
 	i++;
     }
     gsb_data_category_merge_category_list (list_tmp);
@@ -1407,7 +1409,7 @@ gboolean gsb_data_category_merge_category_list ( GSList *list_to_merge )
     {
 	gint category_number;
 
-	category_number = (gint) ( list_tmp -> data ); 
+	category_number = GPOINTER_TO_INT (list_tmp -> data);
 
 	/* we check category_number but normally it will always != 0 */
 	if ( category_number )

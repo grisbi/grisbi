@@ -466,19 +466,6 @@ gboolean question_conditional_yes_no ( gchar * var )
 }
 
 
-/**
- * xxx
- *
- */
-gboolean blocage_boites_dialogues ( GtkWidget *dialog,
-				    gpointer null )
-{
-    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( dialog ),
-				   "delete_event" );
-
-    return ( TRUE );
-}
-
 
 
 /**

@@ -26,10 +26,10 @@
 #include "metatree.h"
 #include "gsb_transactions_list.h"
 #include "erreur.h"
-#include "utils_devises.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
@@ -256,7 +256,7 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 
     if ( division && iface -> div_nb_transactions (division) )
 	balance = g_strdup_printf ( _("%4.2f %s"), iface -> div_balance ( division ),
-				    devise_code ( iface -> tree_currency () ) );
+				    gsb_data_currency_get_code_or_isocode ( iface -> tree_currency () ) );
     
     if ( iface -> depth == 1 && 
 	 ! gtk_tree_model_iter_has_child ( model, iter ) && 
@@ -321,7 +321,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 
 	balance = g_strdup_printf ( _("%4.2f %s"),
 				    iface -> sub_div_balance ( division, sub_division ),
-				    devise_code ( iface -> tree_currency () ) );
+				    gsb_data_currency_get_code_or_isocode ( iface -> tree_currency () ) );
     }
     
     gtk_tree_store_set ( GTK_TREE_STORE (model), iter,
@@ -396,8 +396,9 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 	label = g_strconcat ( label, " (", _("breakdown"), ")", NULL );
     }
 
-    montant = g_strdup_printf ( "%4.2f %s", gsb_data_transaction_get_amount ( transaction_number),
-				devise_code ( devise_par_no ( gsb_data_transaction_get_currency_number (transaction_number)) ) );
+    montant = g_strdup_printf ( "%4.2f %s",
+				gsb_data_transaction_get_amount ( transaction_number),
+				gsb_data_currency_get_code (gsb_data_transaction_get_currency_number (transaction_number)));
     account = gsb_data_account_get_name ( gsb_data_transaction_get_account_number (transaction_number));
 
     gtk_tree_store_set ( GTK_TREE_STORE(model), iter, 
@@ -993,7 +994,7 @@ gboolean division_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath *
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 
-	if ( model == GTK_TREE_MODEL(navigation_model) )
+	if ( model == GTK_TREE_MODEL (navigation_model))
 	{
 	    return navigation_row_drop_possible ( drag_dest, dest_path, selection_data );
 	}
@@ -1065,7 +1066,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 
-	if ( model == GTK_TREE_MODEL(navigation_model) )
+	if ( model == GTK_TREE_MODEL (navigation_model))
 	{
 	    return navigation_drag_data_received ( drag_dest, dest_path, selection_data );
 	}
@@ -1826,7 +1827,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 	{
 	    balance = g_strdup_printf ( "%4.2f %s", 
 					iface -> div_balance ( div ),
-					devise_code ( iface -> tree_currency () ) );
+					gsb_data_currency_get_code_or_isocode ( iface -> tree_currency () ) );
 	}
 
 	if ( sub_div_id >= 0 )
@@ -1837,7 +1838,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 				   _(iface->no_sub_div_label) ), NULL );
 	    balance = g_strdup_printf ( "%4.2f %s", 
 					iface -> sub_div_balance ( div, sub_div ),
-					devise_code ( iface -> tree_currency () ) );
+					gsb_data_currency_get_code_or_isocode ( iface -> tree_currency () ) );
 	}
 
 	gsb_gui_headings_update ( text, balance );

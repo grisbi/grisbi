@@ -25,14 +25,12 @@
 
 /*START_INCLUDE*/
 #include "meta_budgetary.h"
-#include "utils_devises.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "imputation_budgetaire.h"
 #include "utils_str.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 
@@ -128,9 +126,9 @@ MetatreeInterface * budgetary_interface = &_budgetary_interface;
  *
  *
  */
-struct struct_devise * budgetary_line_tree_currency ( )
+gint budgetary_line_tree_currency ( )
 {
-    return (struct struct_devise *) devise_par_no ( no_devise_totaux_ib );
+    return no_devise_totaux_ib;
 }
 
 

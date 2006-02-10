@@ -7,7 +7,7 @@
 
 /* START_DECLARATION */
 gboolean change_aspect_liste ( gint demande );
-GtkWidget *creation_barre_outils ( void );
 GtkWidget *creation_barre_outils_echeancier ( void );
+void gsb_gui_update_transaction_toolbar ( void );
 /* END_DECLARATION */
 #endif

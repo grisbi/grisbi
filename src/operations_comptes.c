@@ -96,7 +96,7 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
     gsb_transactions_list_set_transactions_balances (new_account);
 
     if (etat.formulaire_toujours_affiche)
-	gsb_form_fill_transaction_part (new_account);
+	gsb_form_fill_transaction_part (GINT_TO_POINTER (new_account));
 
     /*     mise en place de la date du dernier relevé */
 

@@ -72,7 +72,7 @@ int timer_id;
 GtkWidget * gsb_new_statusbar ()
 {
     main_statusbar = gtk_statusbar_new ();
-    context_id = gtk_statusbar_get_context_id ( main_statusbar, "Grisbi" );
+    context_id = gtk_statusbar_get_context_id ( GTK_STATUSBAR (main_statusbar), "Grisbi" );
     message_id = -1;
 
     gtk_widget_show_all ( main_statusbar );
@@ -90,10 +90,10 @@ GtkWidget * gsb_new_statusbar ()
 void gsb_status_message ( gchar * message )
 {
     if ( ! main_statusbar || ! GTK_IS_STATUSBAR ( main_statusbar ) )
-	return NULL;
+	return;
 
     gsb_status_clear ();
-    message_id = gtk_statusbar_push ( main_statusbar, context_id, message );
+    message_id = gtk_statusbar_push ( GTK_STATUSBAR (main_statusbar), context_id, message );
 
     /** Call gtk_main_iteration() to ensure status message is
      * displayed.  This is done because we need to display it
@@ -109,11 +109,11 @@ void gsb_status_message ( gchar * message )
 void gsb_status_clear (  )
 {
     if ( ! main_statusbar || ! GTK_IS_STATUSBAR ( main_statusbar ) )
-	return NULL;
+	return;
 
     if ( message_id >= 0 )
     {
-	gtk_statusbar_remove ( main_statusbar, context_id, message_id );
+	gtk_statusbar_remove ( GTK_STATUSBAR (main_statusbar), context_id, message_id );
 	message_id = -1;
     }
 
@@ -160,7 +160,7 @@ void gsb_status_set_progress ( gdouble ratio, gdouble max )
 	return;
     }
 
-    gtk_progress_bar_set_fraction ( progress_bar, ratio / max );
+    gtk_progress_bar_set_fraction ( GTK_PROGRESS_BAR (progress_bar), ratio / max );
 }
 
 
@@ -191,10 +191,10 @@ gboolean gsb_status_pulse (  )
 {
     if ( ! progress_bar )
     {
-	return;
+	return TRUE;
     }
 
-    gtk_progress_bar_pulse ( progress_bar );
+    gtk_progress_bar_pulse ( GTK_PROGRESS_BAR (progress_bar));
     while ( gtk_events_pending () ) gtk_main_iteration ( );
 
     /* As this is a timeout function, return TRUE so that it

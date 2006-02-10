@@ -29,14 +29,15 @@
 #include "utils_file_selection.h"
 #include "gsb_data_account.h"
 #include "navigation.h"
+#include "barre_outils.h"
 #include "gsb_transactions_list.h"
 #include "main.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
+#include "utils_buttons.h"
 #include "utils.h"
 #include "utils_editables.h"
 #include "structures.h"
-#include "utils_buttons.h"
 #include "include.h"
 /*END_INCLUDE*/
 

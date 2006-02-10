@@ -35,14 +35,14 @@
 #include "utils_montants.h"
 #include "gsb_transactions_list.h"
 #include "utils_exercices.h"
-#include "devises.h"
 #include "erreur.h"
-#include "utils_devises.h"
 #include "dialog.h"
 #include "equilibrage.h"
+#include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report.h"
@@ -83,11 +83,9 @@ static void verification_bouton_change_devise ( void );
 
 /*START_EXTERN*/
 extern gboolean block_menu_cb ;
-extern struct struct_devise *devise_compte;
 extern GtkWidget *formulaire;
 extern gint hauteur_ligne_liste_opes;
 extern GtkItemFactory *item_factory_menu_general;
-extern GSList *liste_struct_devises;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
@@ -95,7 +93,6 @@ extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkStyle *style_entree_formulaire[2];
-extern gdouble taux_de_change[2];
 extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
@@ -416,12 +413,10 @@ void gsb_form_transaction_fill_form ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_DEVISE:
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
-					  g_slist_index ( liste_struct_devises,
-							  devise_par_no ( gsb_data_transaction_get_currency_number (transaction_number))));
+	    gsb_currency_set_combobox_history ( widget,
+						gsb_data_transaction_get_currency_number (account_number));
 	    verification_bouton_change_devise ();
 /* xxx ici changer les devises : virer l'option menu et mettre la struct de data */
-/*     pb en même temps pour le commit... voir en premier */
 	    break;
 
 	case TRANSACTION_FORM_BANK:
@@ -489,24 +484,23 @@ void gsb_form_transaction_fill_form ( gint element_number,
 /******************************************************************************/
 void verification_bouton_change_devise ( void )
 {
-    struct struct_devise *devise_compte;
-    struct struct_devise *devise;
+    gint account_currency_number;
+    gint currency_number;
     gint account_number;
 
     account_number = gsb_form_get_account_number ();
 
     /*   si la devise n'est pas celle du compte ni l'euro si le compte va y passer, affiche le bouton change */
 
-    devise_compte = devise_par_no (gsb_data_account_get_currency (account_number));
-    devise = g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( gsb_form_get_element_widget (TRANSACTION_FORM_DEVISE,
-											   account_number)) -> menu_item ),
-				 "adr_devise" );
+    account_currency_number = gsb_data_account_get_currency (account_number);
+    currency_number = gsb_currency_get_currency_from_combobox (gsb_form_get_element_widget (TRANSACTION_FORM_DEVISE,
+											    account_number));
 
-    if ( !( devise -> no_devise == gsb_data_account_get_currency (gsb_gui_navigation_get_current_account ())
+    if ( !( currency_number == account_currency_number
 	    ||
-	    ( devise_compte -> passage_euro && !strcmp ( devise -> nom_devise, _("Euro") ))
+	    ( gsb_data_currency_get_change_to_euro (account_currency_number) && !strcmp ( gsb_data_currency_get_name (currency_number), _("Euro") ))
 	    ||
-	    ( !strcmp ( devise_compte -> nom_devise, _("Euro") ) && devise -> passage_euro )))
+	    ( !strcmp ( gsb_data_currency_get_name (account_currency_number), _("Euro") ) && gsb_data_currency_get_change_to_euro (currency_number))))
 	gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_CHANGE,
 						       account_number) );
     else
@@ -1376,7 +1370,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 		    /* récupération de la devise */
 
 		    gsb_data_transaction_set_currency_number ( transaction_number,
-							       gsb_currency_get_option_menu_currency (widget));
+							       gsb_currency_get_currency_from_combobox (widget));
 
 		    gsb_currency_check_for_change ( transaction_number );
 
@@ -1891,35 +1885,38 @@ void affiche_cache_le_formulaire ( void )
 void click_sur_bouton_voir_change ( void )
 {
     gint transaction_number;
-    struct struct_devise *devise;
+    gint account_number;
+    gint currency_number;
+    gint account_currency_number;
+    gdouble exchange, exchange_fees;
 
+    account_number = gsb_form_get_account_number ();
     gtk_widget_grab_focus ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
-							 gsb_form_get_account_number ()) );
+							 account_number ));
 
     transaction_number = GPOINTER_TO_INT (gtk_object_get_data ( GTK_OBJECT ( formulaire ),
 								"transaction_number_in_form" ));
 
-    if ( !devise_compte
-	 ||
-	 devise_compte -> no_devise != gsb_data_account_get_currency (gsb_gui_navigation_get_current_account ()) )
-	devise_compte = devise_par_no ( gsb_data_account_get_currency (gsb_gui_navigation_get_current_account ()) );
+    account_currency_number = gsb_data_account_get_currency (account_number);
+    currency_number = gsb_data_transaction_get_currency_number (transaction_number);
 
-    devise = devise_par_no ( gsb_data_transaction_get_currency_number (transaction_number));
+    gsb_currency_exchange_dialog ( account_currency_number, currency_number,
+				   gsb_data_transaction_get_change_between (transaction_number),
+				   gsb_data_transaction_get_exchange_rate (transaction_number),
+				   gsb_data_transaction_get_exchange_fees (transaction_number), 
+				   TRUE );
 
-    demande_taux_de_change ( devise_compte, devise,
-			     gsb_data_transaction_get_change_between (transaction_number),
-			     gsb_data_transaction_get_exchange_rate (transaction_number),
-			     gsb_data_transaction_get_exchange_fees (transaction_number), 
-			     TRUE );
+    exchange = gsb_currency_get_current_exchange ();
+    exchange_fees = gsb_currency_get_current_exchange_fees ();
 
-    if ( taux_de_change[0] ||  taux_de_change[1] )
+    if ( exchange || exchange_fees )
     {
 	gsb_data_transaction_set_exchange_rate (transaction_number,
-						 fabs (taux_de_change[0] ));
+						 fabs (exchange));
 	gsb_data_transaction_set_exchange_fees (transaction_number,
-						 taux_de_change[1] );
+						exchange_fees );
 
-	if ( taux_de_change[0] < 0 )
+	if ( exchange < 0 )
 	    gsb_data_transaction_set_change_between (transaction_number,
 						      1 );
 	else

@@ -28,10 +28,8 @@
 #include "gsb_transactions_list.h"
 #include "accueil.h"
 #include "utils_montants.h"
-#include "barre_outils.h"
 #include "comptes_traitements.h"
 #include "erreur.h"
-#include "utils_devises.h"
 #include "dialog.h"
 #include "equilibrage.h"
 #include "utils_exercices.h"
@@ -39,6 +37,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
@@ -47,6 +46,7 @@
 #include "gsb_form.h"
 #include "gsb_form_transaction.h"
 #include "navigation.h"
+#include "barre_outils.h"
 #include "gsb_scheduler_list.h"
 #include "classement_operations.h"
 #include "main.h"
@@ -177,8 +177,6 @@ extern GtkWidget *bouton_ok_equilibrage;
 extern GdkColor breakdown_background;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_selection;
-extern struct struct_devise *devise_compte;
-extern struct struct_devise *devise_operation;
 extern GtkWidget *formulaire;
 extern GtkWidget *label_equilibrage_ecart;
 extern GtkWidget *label_equilibrage_pointe;
@@ -986,23 +984,14 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    if ( gsb_data_transaction_get_amount ( transaction_number)< -0.001 ) 
 		/* -0.001 is to handle float approximations */
 	    {
-		temp = g_strdup_printf ( "%4.2f", -gsb_data_transaction_get_amount ( transaction_number));
-
-		/* si la devise en cours est différente de celle de l'opé, on la retrouve */
-
-		if ( !devise_operation
-		     ||
-		     devise_operation -> no_devise != gsb_data_transaction_get_currency_number ( transaction_number))
-		    devise_operation = devise_par_no ( gsb_data_transaction_get_currency_number ( transaction_number));
-
-		if ( devise_operation
-		     &&
-		     devise_operation -> no_devise != gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)) )
-		    temp = g_strconcat ( temp,
+		if ( gsb_data_transaction_get_currency_number (transaction_number) != gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)))
+		    temp = g_strconcat ( g_strdup_printf ( "%4.2f", -gsb_data_transaction_get_amount ( transaction_number)),
 					 "(",
-					 devise_code ( devise_operation ),
+					 gsb_data_currency_get_code (gsb_data_transaction_get_currency_number (transaction_number)),
 					 ")",
 					 NULL );
+		else
+		    temp = g_strdup_printf ( "%4.2f", -gsb_data_transaction_get_amount ( transaction_number));
 
 		return ( temp );
 	    }
@@ -1016,23 +1005,14 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 
 	    if ( gsb_data_transaction_get_amount ( transaction_number)>= 0 )
 	    {
-		temp = g_strdup_printf ( "%4.2f", gsb_data_transaction_get_amount ( transaction_number));
-
-		/* si la devise en cours est différente de celle de l'opé, on la retrouve */
-
-		if ( !devise_operation
-		     ||
-		     devise_operation -> no_devise != gsb_data_transaction_get_currency_number ( transaction_number))
-		    devise_operation = devise_par_no ( gsb_data_transaction_get_currency_number ( transaction_number));
-
-		if ( devise_operation
-		     &&
-		     devise_operation -> no_devise != gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)) )
-		    temp = g_strconcat ( temp,
+		if ( gsb_data_transaction_get_currency_number (transaction_number) != gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)) )
+		    temp = g_strconcat ( g_strdup_printf ( "%4.2f", gsb_data_transaction_get_amount ( transaction_number)),
 					 "(",
-					 devise_code ( devise_operation ),
+					 gsb_data_currency_get_code (gsb_data_transaction_get_currency_number (transaction_number)),
 					 ")",
 					 NULL );
+		else
+		    temp = g_strdup_printf ( "%4.2f", gsb_data_transaction_get_amount ( transaction_number));
 
 		return ( temp );
 	    }
@@ -1051,14 +1031,9 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 
 	    amount = gsb_data_transaction_get_adjusted_amount ( transaction_number);
 
-	    if ( !devise_compte
-		 ||
-		 devise_compte -> no_devise != gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)))
-		devise_compte = devise_par_no (gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)));
-
 	    return ( g_strdup_printf ( "%4.2f %s",
 				       amount,
-				       devise_code ( devise_compte ) ));
+				       gsb_data_currency_get_code (gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)))));
 
 	    /* mise en forme du moyen de paiement */
 
@@ -4031,7 +4006,7 @@ void mise_a_jour_labels_soldes ( void )
     /*     gtk_label_set_text ( GTK_LABEL ( solde_label ), */
     /* 			 g_strdup_printf ( PRESPACIFY(_("Current balance: %4.2f %s")), */
     /* 					   gsb_data_account_get_current_balance (gsb_gui_navigation_get_current_account ()), */
-    /* 					   devise_code_by_no ( gsb_data_account_get_currency (gsb_gui_navigation_get_current_account ()) ))); */
+    /* 					   gsb_data_currency_get_code ( gsb_data_account_get_currency (gsb_gui_navigation_get_current_account ()) ))); */
 
 
     /* met le label du solde pointé */
@@ -4039,7 +4014,7 @@ void mise_a_jour_labels_soldes ( void )
     /*     gtk_label_set_text ( GTK_LABEL ( solde_label_pointe ), */
     /* 			 g_strdup_printf ( _("Checked balance: %4.2f %s"), */
     /* 					   gsb_data_account_get_marked_balance (gsb_gui_navigation_get_current_account ()), */
-    /* 					   devise_code_by_no ( gsb_data_account_get_currency (gsb_gui_navigation_get_current_account ()) ))); */
+    /* 					   gsb_data_currency_get_code ( gsb_data_account_get_currency (gsb_gui_navigation_get_current_account ()) ))); */
 }
 /******************************************************************************/
 

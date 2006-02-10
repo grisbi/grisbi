@@ -246,19 +246,6 @@ enum alignement {
 
 
 
-/* Handle an ISO 4217 currency.  Not specific to Grisbi. */
-struct iso_4217_currency 
-{
-    gchar * continent;
-    gchar * currency_name;
-    gchar * country_name;
-    gchar * currency_code;
-    gchar * currency_nickname;
-    gboolean active;
-    gchar *flag_filename;
-};
-
-
 #define STANDARD_WIDTH 6
 #define STANDARD_DIALOG_WIDTH 12
 

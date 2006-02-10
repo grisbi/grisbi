@@ -34,7 +34,7 @@
 #include "utils_editables.h"
 #include "affichage_liste.h"
 #include "banque.h"
-#include "devises.h"
+#include "gsb_currency_config.h"
 #include "affichage.h"
 #include "exercice.h"
 #include "import.h"

@@ -4,14 +4,13 @@
 
 /* START_INCLUDE_H */
 #include "metatree.h"
-#include "structures.h"
 /* END_INCLUDE_H */
 
 
 /** Interface between various tree data and metatree */
 typedef struct metatree_interface {
     gint depth;
-    struct struct_devise * (* tree_currency) ();
+    gint (* tree_currency) ();
     /* Read operations */
     gchar * meta_name;
     gchar * no_div_label;

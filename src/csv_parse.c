@@ -25,11 +25,10 @@
 
 /*START_INCLUDE*/
 #include "csv_parse.h"
-#include "utils_devises.h"
 #include "utils_dates.h"
+#include "gsb_data_currency.h"
 #include "utils_str.h"
 #include "import.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -255,17 +254,13 @@ gboolean csv_import_validate_amount ( gchar * string )
  */
 gboolean csv_import_parse_currency ( struct struct_ope_importation * ope, gchar * string )
 {
-    struct struct_devise * currency;
+    gint currency_number;
 
     g_return_val_if_fail ( string, FALSE );
 
-    currency = devise_par_nom ( string );
-    if ( ! currency )
-    {
-	return FALSE;
-    }
+    currency_number = gsb_data_currency_get_number_by_name (string);
 
-    return currency -> no_devise;
+    return currency_number;
 }
 
 

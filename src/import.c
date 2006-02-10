@@ -30,21 +30,22 @@
 
 /*START_INCLUDE*/
 #include "import.h"
-#include "devises.h"
+#include "gsb_currency_config.h"
 #include "utils.h"
 #include "utils_montants.h"
 #include "comptes_gestion.h"
 #include "comptes_traitements.h"
 #include "import_csv.h"
 #include "gsb_transactions_list.h"
-#include "utils_devises.h"
 #include "dialog.h"
 #include "utils_files.h"
 #include "go-charmap-sel.h"
 #include "gsb_assistant.h"
+#include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
 #include "gsb_data_category.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
@@ -107,7 +108,6 @@ static gchar * type_string_representation ( enum import_type type );
 /*START_EXTERN*/
 extern     gchar * buffer ;
 extern GtkWidget *formulaire;
-extern GSList *liste_struct_devises;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;
@@ -505,7 +505,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 				 IMPORT_FILESEL_FILENAME, g_path_get_basename ( iterator -> data ),
 				 IMPORT_FILESEL_REALNAME, iterator -> data,
 				 IMPORT_FILESEL_TYPE, type,
-				 IMPORT_FILESEL_CODING, go_charmap_sel_get_encoding ( go_charmap_sel ),
+				 IMPORT_FILESEL_CODING, go_charmap_sel_get_encoding ( (GOCharmapSel * )go_charmap_sel ),
 				 -1 ); 
 
 	    /* CSV is special because it needs configuration, so we
@@ -817,29 +817,26 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
     {
 	struct struct_compte_importation * compte;
 	compte = list_tmp -> data;
-
+	gint currency_number = 0;
+		
 	if ( compte -> devise )
 	{
-	    struct struct_devise *devise;
-		    
 	    /* First, we search currency from ISO4217 code for
 	       existing currencies */
-	    devise = devise_par_code_iso ( compte -> devise );
+	    currency_number = gsb_data_currency_get_number_by_code_iso4217 ( compte -> devise );
 
 	    /* Then, by nickname for existing currencies */
-	    if ( ! devise )
-		devise = devise_par_nom ( compte -> devise );
+	    if ( !currency_number )
+		currency_number = gsb_data_currency_get_number_by_name ( compte -> devise );
 
 	    /* Last ressort, we browse ISO4217 currency list and create
 	       currency if found */
-	    if ( ! devise )
-		devise = find_currency_from_iso4217_list ( compte -> devise );
-
+	    if ( !currency_number )
+		currency_number = find_currency_from_iso4217_list ( compte -> devise );
 	}
 	else
 	{
 	    struct lconv * conv = localeconv();
-	    struct struct_devise * devise = NULL;
 
 	    /* We try to set default currency of account according to
 	     * locale.  We will not prompt user since import dialog is
@@ -847,10 +844,10 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 	    if ( conv && conv -> int_curr_symbol && strlen ( conv -> int_curr_symbol ) )
 	    {
 		gchar * name = g_strstrip ( my_strdup ( conv -> int_curr_symbol ) );
-		devise =  find_currency_from_iso4217_list ( name );
+		currency_number =  find_currency_from_iso4217_list ( name );
 		g_free ( name );
 	    }
-	    if ( ! devise &&
+	    if ( ! currency_number &&
 		 ! find_currency_from_iso4217_list ( "USD" ) )
 	    {
 		dialogue_error_brain_damage ();
@@ -1012,28 +1009,25 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
-    compte -> bouton_devise = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_devise ),
-			       creation_option_menu_devises ( 0, liste_struct_devises ));
+    compte -> bouton_devise = gsb_currency_make_combobox (FALSE);
 
     if ( compte -> devise )
     {
-	struct struct_devise *devise;
+	gint currency_number;
 
 	/* First, we search currency from ISO4217 code for existing currencies */
-	devise = devise_par_code_iso ( compte -> devise );
+	currency_number = gsb_data_currency_get_number_by_code_iso4217 ( compte -> devise );
 	/* Then, by nickname for existing currencies */
-	if ( ! devise )
-	  devise = devise_par_nom ( compte -> devise );
+	if ( !currency_number )
+	  currency_number = gsb_data_currency_get_number_by_name ( compte -> devise );
 
-	if ( devise )
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( compte -> bouton_devise ),
-					  g_slist_index ( liste_struct_devises,
-							  devise ));
+	if (currency_number)
+	    gsb_currency_set_combobox_history ( compte -> bouton_devise,
+						currency_number);
 	else
 	{
 	    /* 	    la devise avait un nom mais n'a pas été retrouvée; 2 possibilités : */
-	    /* 		- soit elle n'est pas crÃ©é (l'utilisateur
+	    /* 		- soit elle n'est pas cree (l'utilisateur
 			  la créera une fois la fenetre affichée) */
 	    /* 		- soit elle est créé mais pas avec le bon code */
 	    dialogue_warning_hint ( g_strdup_printf ( _( "Currency of imported account '%s' is %s.  Either this currency doesn't exist so you have to create it in next window, or this currency already exists but the ISO code is wrong.\nTo avoid this message, please set its ISO code in configuration."),
@@ -1426,8 +1420,7 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
     /* choix de la devise du compte */
 
     gsb_data_account_set_currency ( account_number,
-			       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( imported_account -> bouton_devise ) -> menu_item ),
-								       "no_devise" )));
+				    gsb_currency_get_currency_from_combobox (imported_account -> bouton_devise));
 
     /* met le type de compte si différent de 0 */
 
@@ -1652,8 +1645,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	{
 	    /* on récupère à ce niveau la devise choisie dans la liste */
 
-	    imported_transaction -> devise = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( imported_account -> bouton_devise ) -> menu_item ),
-										     "no_devise" ));
+	    imported_transaction -> devise = gsb_currency_get_currency_from_combobox (imported_account -> bouton_devise);
 	    gsb_import_create_transaction ( imported_transaction,
 					    account_number );
 	} 
@@ -2221,8 +2213,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 		    /* on met le no de compte et la devise de l'opération si plus tard on l'enregistre */
 
 		    ope_import -> no_compte = account_number;
-		    ope_import -> devise = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( imported_account -> bouton_devise ) -> menu_item ),
-										   "no_devise" ));
+		    ope_import -> devise = gsb_currency_get_currency_from_combobox (imported_account -> bouton_devise);
 		    liste_opes_import_celibataires = g_slist_append ( liste_opes_import_celibataires,
 								      ope_import );
 		}
@@ -2380,8 +2371,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 		       on marque donc cette opé d'import comme seule */
 
 		    ope_import -> no_compte = account_number;
-		    ope_import -> devise = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( imported_account -> bouton_devise ) -> menu_item ),
-										   "no_devise" ));
+		    ope_import -> devise = gsb_currency_get_currency_from_combobox (imported_account -> bouton_devise);
 		    liste_opes_import_celibataires = g_slist_append ( liste_opes_import_celibataires,
 								      ope_import );
 

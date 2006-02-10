@@ -37,7 +37,6 @@ GtkWidget * new_stock_button_with_label ( GsbButtonStyle style,
 GtkWidget * new_stock_button_with_label_menu ( GsbButtonStyle style,
 					       gchar * stock_id, gchar * name, 
 					       GCallback callback, gpointer data );
-gboolean set_int_from_menu ( GtkWidget * menu, gint * dummy);
 void set_popup_position (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data);
 void spin_button_set_value ( GtkWidget * spin, gint * value );
 /*END_DECLARATION*/

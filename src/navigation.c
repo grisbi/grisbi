@@ -25,9 +25,9 @@
 #include "navigation.h"
 #include "equilibrage.h"
 #include "echeancier_infos.h"
-#include "utils_devises.h"
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_report.h"
 #include "fenetre_principale.h"
 #include "etats_onglet.h"
@@ -586,8 +586,8 @@ inline gboolean navigation_sort_column ( GtkTreeModel * model,
     }
     else
     {
-	if ( g_slist_index ( sort_accounts, (gpointer) account_a ) >
-	     g_slist_index ( sort_accounts, (gpointer) account_b ) )
+	if ( g_slist_index ( sort_accounts, GINT_TO_POINTER (account_a)) >
+	     g_slist_index ( sort_accounts, GINT_TO_POINTER (account_b)))
 	{
 	    return 1;
 	}	
@@ -1008,7 +1008,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
 	    }
 	    suffix = g_strdup_printf ( "%4.2f %s", 
 				       gsb_data_account_get_current_balance ( compte_courant_onglet ),
-				       devise_code ( devise_par_no ( gsb_data_account_get_currency ( compte_courant_onglet ) ) ) );
+				       gsb_data_currency_get_code (gsb_data_account_get_currency ( compte_courant_onglet )));
 	    gsb_menu_update_view_menu ( account_nb );
 	    break;
 
@@ -1376,7 +1376,7 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 
 	if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(model), &iter, dest_path ) ) 
 	{
-	    gpointer src_report, dst_report = (gpointer) -1;
+	    gint src_report, dst_report = -1;
 	    gint src_account, dst_account = -1;
 
 	    gtk_tree_model_get (GTK_TREE_MODEL(model) , &iter, 
@@ -1414,7 +1414,7 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
     {
 	GtkTreePath * orig_path;
 	GtkTreeModel * model;
-	gpointer src_report, dst_report = (gpointer) -1;
+	gint src_report, dst_report = -1;
 	gint src_account, dst_account = -1, dst_page = -1;
 	GtkTreeIter iter;
 
@@ -1475,17 +1475,19 @@ void navigation_change_account_order ( gint orig, gint dest )
 	while ( tmp )
 	{
 	    sort_accounts = g_slist_append ( sort_accounts, 
-					     (gpointer) gsb_data_account_get_no_account ( tmp -> data ) );
+					     GINT_TO_POINTER (gsb_data_account_get_no_account ( tmp -> data )));
 	    tmp = tmp -> next;
 	}
     }
 
-    sort_accounts = g_slist_remove ( sort_accounts, (gpointer) orig );
+    sort_accounts = g_slist_remove ( sort_accounts, GINT_TO_POINTER (orig));
     dest_pointer = g_slist_find ( sort_accounts, (gpointer) dest );
     if ( dest_pointer )
     {
-	sort_accounts = g_slist_insert ( sort_accounts, (gpointer) orig,
-					 g_slist_position ( sort_accounts, dest_pointer ) + 1 );
+	sort_accounts = g_slist_insert ( sort_accounts,
+					 GINT_TO_POINTER (orig),
+					 g_slist_position ( sort_accounts, 
+							    dest_pointer ) + 1 );
     }
 
     gsb_data_account_reorder ( sort_accounts );

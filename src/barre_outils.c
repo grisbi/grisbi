@@ -45,6 +45,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static GtkWidget *creation_barre_outils ( void );
 static gboolean popup_scheduled_view_mode_menu ( GtkWidget * button );
 static gboolean popup_transaction_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
@@ -80,11 +81,11 @@ GtkWidget *fleche_bas;
 
 
 /*START_EXTERN*/
+extern GtkWidget *barre_outils;
 extern gboolean block_menu_cb ;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkWidget * barre_outils;
 /*END_EXTERN*/
 
 
@@ -156,7 +157,7 @@ GtkWidget *creation_barre_outils ( void )
  */
 void gsb_gui_update_transaction_toolbar ( void )
 {
-    GSList * list = NULL;
+    GList * list = NULL;
 
     list = gtk_container_get_children ( GTK_CONTAINER ( barre_outils ) );
     
@@ -164,7 +165,7 @@ void gsb_gui_update_transaction_toolbar ( void )
     {
 	gtk_container_remove ( GTK_CONTAINER ( barre_outils ),
 			       GTK_WIDGET ( list -> data ) );
-	g_slist_free ( list );
+	g_list_free ( list );
     }
     gtk_container_add ( GTK_CONTAINER ( barre_outils ), creation_barre_outils () );
 }

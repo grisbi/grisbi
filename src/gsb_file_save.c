@@ -27,6 +27,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report_amout_comparison.h"
@@ -94,7 +95,6 @@ extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_struct_banques;
-extern GSList *liste_struct_devises;
 extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_rapprochements;
 extern int no_devise_totaux_categ;
@@ -181,7 +181,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 	+ party_part * g_slist_length ( gsb_data_payee_get_payees_list ())
 	+ category_part * g_slist_length ( gsb_data_category_get_categories_list ())
 	+ budgetary_part * g_slist_length ( gsb_data_budget_get_budgets_list ())
-	+ currency_part * g_slist_length ( liste_struct_devises )
+	+ currency_part * g_slist_length ( gsb_data_currency_get_currency_list () )
 	+ bank_part * g_slist_length ( liste_struct_banques )
 	+ financial_year_part * g_slist_length (liste_struct_exercices  )
 	+ reconcile_part * g_slist_length ( liste_struct_rapprochements )
@@ -1154,27 +1154,27 @@ gulong gsb_file_save_currency_part ( gulong iterator,
 {
     GSList *list_tmp;
 	
-    list_tmp = liste_struct_devises;
+    list_tmp = gsb_data_currency_get_currency_list ();
 
     while ( list_tmp )
     {
 	gchar *new_string;
-	struct struct_devise *currency;
+	gint currency_number;
 
-	currency = list_tmp -> data;
+	currency_number = gsb_data_currency_get_no_currency (list_tmp -> data);
 
 	/* now we can fill the file content */
 
 	new_string = g_markup_printf_escaped ( "\t<Currency Nb=\"%d\" Na=\"%s\" Co=\"%s\" Ico=\"%s\" Mte=\"%d\" Dte=\"%s\" Rbc=\"%d\" Rcu=\"%d\" Ch=\"%4.7f\" />\n",
-					       currency -> no_devise,
-					       currency -> nom_devise,
-					       currency -> code_devise,
-					       currency -> code_iso4217_devise,
-					       currency -> passage_euro,
-					       gsb_format_gdate (currency -> date_dernier_change),
-					       currency -> une_devise_1_egale_x_devise_2,
-					       currency -> no_devise_en_rapport,
-					       currency -> change);
+					       currency_number,
+					       gsb_data_currency_get_name (currency_number),
+					       gsb_data_currency_get_code (currency_number),
+					       gsb_data_currency_get_code_iso4217 (currency_number),
+					       gsb_data_currency_get_change_to_euro (currency_number),
+					       gsb_format_gdate (gsb_data_currency_get_change_date (currency_number)),
+					       gsb_data_currency_get_link_currency (currency_number),
+					       gsb_data_currency_get_contra_currency_number (currency_number),
+					       gsb_data_currency_get_change_rate (currency_number));
 
 	/* append the new string to the file content
 	 * and take the new iterator */

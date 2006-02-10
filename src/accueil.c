@@ -31,11 +31,11 @@
 #include "accueil.h"
 #include "classement_echeances.h"
 #include "erreur.h"
-#include "utils_devises.h"
 #include "dialog.h"
 #include "echeancier_formulaire.h"
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
@@ -72,7 +72,6 @@ extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
-extern GSList *liste_struct_devises;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 extern GtkWidget *separateur_formulaire_echeancier;
@@ -483,10 +482,12 @@ void update_liste_comptes_accueil ( gboolean force )
 
     /* Affichage des comptes bancaires et de caisse */
 
-    for ( devise = liste_struct_devises; devise ; devise = devise->next )
+    for ( devise = gsb_data_currency_get_currency_list(); devise ; devise = devise->next )
     {
 	int devise_is_used = 0;
+	gint currency_number;
 
+	currency_number = gsb_data_currency_get_no_currency (devise -> data);
 	list_tmp = gsb_data_account_get_list_accounts ();
 
 	while ( list_tmp )
@@ -495,7 +496,7 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	    i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	    if ( gsb_data_account_get_currency (i) == ((struct struct_devise *) devise -> data) -> no_devise
+	    if ( gsb_data_account_get_currency (i) == currency_number
 		 && ! gsb_data_account_get_closed_account (i)
 		 && ( gsb_data_account_get_kind (i) == GSB_TYPE_BANK
 		      || gsb_data_account_get_kind (i) == GSB_TYPE_CASH ))
@@ -512,7 +513,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	/* solde.                                                                   */
 	paddingbox = new_paddingbox_with_title ( vbox, FALSE,
 						 g_strdup_printf (_("Account balances in %s"),
-								  ((struct struct_devise *) devise -> data) -> nom_devise ));
+								  gsb_data_currency_get_name (currency_number)));
 	pTable = gtk_table_new ( nb_comptes_bancaires + 3, 8, FALSE );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
@@ -543,7 +544,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	    no_compte = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	    if ( !gsb_data_account_get_closed_account (no_compte) &&
-		 gsb_data_account_get_currency (no_compte) == ((struct struct_devise *) devise -> data) -> no_devise
+		 gsb_data_account_get_currency (no_compte) == currency_number
 		 && gsb_data_account_get_kind (no_compte) != GSB_TYPE_LIABILITIES
 		 && gsb_data_account_get_kind (no_compte) != GSB_TYPE_ASSET )
 	    {
@@ -634,7 +635,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Quatrième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( devise_code_by_no (  gsb_data_account_get_currency (no_compte) ));
+		pLabel = gtk_label_new ( gsb_data_currency_get_code (  gsb_data_account_get_currency (no_compte) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   3, 4, i, i+1,
@@ -696,7 +697,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Septième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( devise_code_by_no ( gsb_data_account_get_currency (no_compte) ));
+		pLabel = gtk_label_new ( gsb_data_currency_get_code ( gsb_data_account_get_currency (no_compte) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   6, 7, i, i+1,
@@ -744,7 +745,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Quatrième colonne : elle contient le symbole de la devise du compte */
-	pLabel = gtk_label_new ( devise_code_by_no (((struct struct_devise *) devise -> data) -> no_devise ));
+	pLabel = gtk_label_new ( gsb_data_currency_get_code (currency_number));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   3, 4, i+1, i+2,
@@ -762,7 +763,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Septième colonne : elle contient le symbole de la devise du compte */
-	pLabel = gtk_label_new ( devise_code_by_no (((struct struct_devise *) devise -> data) -> no_devise));
+	pLabel = gtk_label_new (gsb_data_currency_get_code (currency_number) );
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   6, 7, i+1, i+2,
@@ -778,10 +779,13 @@ void update_liste_comptes_accueil ( gboolean force )
 
     /* Affichage des comptes de passif */
 
-    for ( devise = liste_struct_devises; devise ; devise = devise->next )
+    for ( devise = gsb_data_currency_get_currency_list (); devise ; devise = devise->next )
     {
 	int devise_is_used = 0;
 	GSList *list_tmp;
+	gint currency_number;
+
+	currency_number = gsb_data_currency_get_no_currency (devise -> data);
 
 	list_tmp = gsb_data_account_get_list_accounts ();
 
@@ -791,7 +795,7 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	    i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	    if ( gsb_data_account_get_currency (i) == ((struct struct_devise *) devise -> data) -> no_devise
+	    if ( gsb_data_account_get_currency (i) == currency_number
 		 && ! gsb_data_account_get_closed_account (i)
 		 && gsb_data_account_get_kind (i) == GSB_TYPE_LIABILITIES )
 		devise_is_used = 1;
@@ -807,7 +811,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	/* solde.                                                                   */
 	paddingbox = new_paddingbox_with_title ( vbox, FALSE,
 						 g_strdup_printf (_("Liabilities accounts balances in %s"),
-								  ((struct struct_devise *) devise -> data) -> nom_devise ));
+								  gsb_data_currency_get_name (currency_number) ));
 	pTable = gtk_table_new ( nb_comptes_passif + 3, 8, FALSE );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
@@ -838,7 +842,8 @@ void update_liste_comptes_accueil ( gboolean force )
 	    no_compte = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	    if ( !gsb_data_account_get_closed_account (no_compte) &&
-		 gsb_data_account_get_currency (no_compte) == ((struct struct_devise *) devise -> data) -> no_devise &&
+		 gsb_data_account_get_currency (no_compte) == currency_number
+		 &&
 		 gsb_data_account_get_kind (no_compte) == GSB_TYPE_LIABILITIES )
 	    {
 		/* Première colonne : vide */
@@ -964,7 +969,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Quatrième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( devise_code_by_no (  gsb_data_account_get_currency (no_compte) ));
+		pLabel = gtk_label_new ( gsb_data_currency_get_code (  gsb_data_account_get_currency (no_compte) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   3, 4, i, i+1,
@@ -1026,7 +1031,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Septième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( devise_code_by_no ( gsb_data_account_get_currency (no_compte) ));
+		pLabel = gtk_label_new ( gsb_data_currency_get_code ( gsb_data_account_get_currency (no_compte) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   6, 7, i, i+1,
@@ -1074,7 +1079,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Quatrième colonne : elle contient le symbole de la devise du compte */
-	pLabel = gtk_label_new ( devise_code_by_no (((struct struct_devise *) devise -> data) -> no_devise ));
+	pLabel = gtk_label_new ( gsb_data_currency_get_code (currency_number));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   3, 4, i+1, i+2,
@@ -1092,7 +1097,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Septième colonne : elle contient le symbole de la devise du compte */
-	pLabel = gtk_label_new ( devise_code_by_no (((struct struct_devise *) devise -> data) -> no_devise));
+	pLabel = gtk_label_new ( gsb_data_currency_get_code (currency_number));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   6, 7, i+1, i+2,
@@ -1102,16 +1107,18 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	gtk_widget_show_all ( paddingbox );
 	gtk_widget_show_all ( pTable );
-
     }
 
 
     /* Affichage des comptes d'actif */
 
-    for ( devise = liste_struct_devises; devise ; devise = devise->next )
+    for ( devise = gsb_data_currency_get_currency_list (); devise ; devise = devise->next )
     {
 	int devise_is_used = 0;
 	GSList *list_tmp;
+	gint currency_number;
+
+	currency_number = gsb_data_currency_get_no_currency (devise -> data);
 
 	list_tmp = gsb_data_account_get_list_accounts ();
 
@@ -1121,7 +1128,8 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	    i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	    if ( gsb_data_account_get_currency (i) == ((struct struct_devise *) devise -> data) -> no_devise &&
+	    if ( gsb_data_account_get_currency (i) == currency_number
+		 &&
 		 !gsb_data_account_get_closed_account (i) &&
 		 gsb_data_account_get_kind (i) == GSB_TYPE_ASSET )
 		devise_is_used = 1;
@@ -1138,7 +1146,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	/* solde.                                                                   */
 	paddingbox = new_paddingbox_with_title ( vbox, FALSE,
 						 g_strdup_printf (_("Assets accounts balances in %s"),
-								  ((struct struct_devise *) devise -> data) -> nom_devise ));
+								  gsb_data_currency_get_name (currency_number) ));
 	pTable = gtk_table_new ( nb_comptes_actif + 3, 8, FALSE );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
@@ -1169,7 +1177,8 @@ void update_liste_comptes_accueil ( gboolean force )
 	    no_compte = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	    if ( !gsb_data_account_get_closed_account (no_compte) &&
-		 gsb_data_account_get_currency (no_compte) == ((struct struct_devise *) devise -> data) -> no_devise &&
+		 gsb_data_account_get_currency (no_compte) == currency_number
+		 &&
 		 gsb_data_account_get_kind (no_compte) == GSB_TYPE_ASSET )
 	    {
 		/* Première colonne : vide */
@@ -1295,7 +1304,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Quatrième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( devise_code_by_no (  gsb_data_account_get_currency (no_compte) ));
+		pLabel = gtk_label_new ( gsb_data_currency_get_code (  gsb_data_account_get_currency (no_compte) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   3, 4, i, i+1,
@@ -1357,7 +1366,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Septième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( devise_code_by_no ( gsb_data_account_get_currency (no_compte) ));
+		pLabel = gtk_label_new ( gsb_data_currency_get_code ( gsb_data_account_get_currency (no_compte) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   6, 7, i, i+1,
@@ -1405,7 +1414,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Quatrième colonne : elle contient le symbole de la devise du compte */
-	pLabel = gtk_label_new ( devise_code_by_no (((struct struct_devise *) devise -> data) -> no_devise ));
+	pLabel = gtk_label_new (gsb_data_currency_get_code(currency_number) );
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   3, 4, i+1, i+2,
@@ -1423,7 +1432,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Septième colonne : elle contient le symbole de la devise du compte */
-	pLabel = gtk_label_new ( devise_code_by_no (((struct struct_devise *) devise -> data) -> no_devise));
+	pLabel = gtk_label_new ( gsb_data_currency_get_code(currency_number));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   6, 7, i+1, i+2,
@@ -1570,12 +1579,12 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    if ( gsb_data_scheduled_get_amount (scheduled_number) >= 0 )
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
 							 gsb_data_scheduled_get_amount (scheduled_number),
-							 devise_code_by_no(gsb_data_scheduled_get_currency_number (scheduled_number)),
+							 gsb_data_currency_get_code(gsb_data_scheduled_get_currency_number (scheduled_number)),
 							 gsb_data_account_get_name (gsb_data_scheduled_get_account_number (scheduled_number))));
 	    else
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s debit on %s"),
 							 -gsb_data_scheduled_get_amount (scheduled_number),
-							 devise_code_by_no(gsb_data_scheduled_get_currency_number (scheduled_number)),
+							 gsb_data_currency_get_code(gsb_data_scheduled_get_currency_number (scheduled_number)),
 							 gsb_data_account_get_name (gsb_data_scheduled_get_account_number (scheduled_number))));
 
 
@@ -1675,12 +1684,12 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	    if ( gsb_data_transaction_get_amount (transaction_number) >= 0 )
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s credit on %s"),
 							 gsb_data_transaction_get_amount ( transaction_number),
-							 devise_code_by_no( gsb_data_transaction_get_currency_number ( transaction_number)),
+							 gsb_data_currency_get_code( gsb_data_transaction_get_currency_number ( transaction_number)),
 							 gsb_data_account_get_name (gsb_data_transaction_get_account_number (transaction_number)) ));
 	    else
 		label = gtk_label_new ( g_strdup_printf (_("%4.2f %s debit on %s"),
 							 -gsb_data_transaction_get_amount ( transaction_number),
-							 devise_code_by_no( gsb_data_transaction_get_currency_number ( transaction_number)),
+							 gsb_data_currency_get_code( gsb_data_transaction_get_currency_number ( transaction_number)),
 							 gsb_data_account_get_name (gsb_data_transaction_get_account_number (transaction_number)) ));
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
@@ -2092,12 +2101,12 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
     if ( gsb_data_scheduled_get_amount (scheduled_number) >= 0 )
 	label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s credit on %s")),
 						 gsb_data_scheduled_get_amount (scheduled_number),
-						 devise_code_by_no (gsb_data_scheduled_get_currency_number (scheduled_number)),
+						 gsb_data_currency_get_code (gsb_data_scheduled_get_currency_number (scheduled_number)),
 						 gsb_data_account_get_name (gsb_data_scheduled_get_account_number (scheduled_number)) ));
     else
 	label = gtk_label_new ( g_strdup_printf (PRESPACIFY(_("%4.2f %s debit on %s")),
 						 -gsb_data_scheduled_get_amount (scheduled_number),
-						 devise_code_by_no (gsb_data_scheduled_get_currency_number (scheduled_number)),
+						 gsb_data_currency_get_code (gsb_data_scheduled_get_currency_number (scheduled_number)),
 						 gsb_data_account_get_name (gsb_data_scheduled_get_account_number (scheduled_number)) ));
 
 

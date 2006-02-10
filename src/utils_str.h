@@ -11,7 +11,7 @@ gchar * gsb_string_escape_underscores ( gchar * orig );
 GSList *gsb_string_get_list_from_string ( const gchar *string,
 					  gchar *delimiter );
 gchar * gsb_string_truncate ( gchar * string );
-gchar * latin2utf8 ( char * inchar);
+gchar * latin2utf8 ( const gchar * inchar);
 gchar *limit_string ( gchar *string,
 		      gint length );
 gint my_strcasecmp ( gchar *chaine_1,

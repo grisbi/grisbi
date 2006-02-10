@@ -67,47 +67,6 @@ gint recherche_banque_par_no ( struct struct_banque *banque,
 
 
 
-/* ************************************************************************************************************ */
-gint recherche_devise_par_nom ( struct struct_devise *devise,
-				gchar *nom )
-{
-    
-  if ( ! devise ) return FALSE;
-  return ( g_strcasecmp ( devise -> nom_devise, nom ) );
-}
-/* ************************************************************************************************************ */
-
-
-
-/* ************************************************************************************************************ */
-gint recherche_devise_par_code_iso ( struct struct_devise *devise,
-				     gchar *nom )
-{
-    if ( ! devise ) return -1;
-
-    if ( devise -> code_iso4217_devise )
-	return ( g_strcasecmp ( devise -> code_iso4217_devise, nom ) );
-    else
-	return -1;
-}
-/* ************************************************************************************************************ */
-
-
-
-/***********************************************************************************************************/
-/* Fonction recherche_devise_par_no */
-/* appelÃ©e par un g_slist_find_custom */
-/***********************************************************************************************************/
-
-gint recherche_devise_par_no ( struct struct_devise *devise,
-			       gint *no_devise )
-{
-    return ( devise && devise -> no_devise != GPOINTER_TO_INT ( no_devise ));
-}
-/***********************************************************************************************************/
-
-
-
 
 /******************************************************************************/
 gint recherche_rapprochement_par_nom ( struct struct_no_rapprochement *rapprochement,

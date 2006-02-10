@@ -23,11 +23,11 @@
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
 #include "erreur.h"
-#include "utils_devises.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report_amout_comparison.h"
@@ -46,7 +46,6 @@
 #include "gsb_transactions_list.h"
 #include "include.h"
 #include "structures.h"
-#include "devises_constants.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -120,10 +119,8 @@ extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_struct_banques;
-extern GSList *liste_struct_devises;
 extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_rapprochements;
-extern gint no_derniere_devise;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -813,18 +810,18 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 			    "Accounts_order" ))
 	{
 	    gchar **pointeur_char;
-	    gint i;
+	    gint j;
 
 	    pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
 
-	    i = 0;
+	    j = 0;
 	    sort_accounts = NULL;
 
-	    while ( pointeur_char[i] )
+	    while ( pointeur_char[j] )
 	    {
 		sort_accounts = g_slist_append ( sort_accounts,
-						 GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] )));
-		i++;
+						 GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[j] )));
+		j++;
 	    }
 	    g_strfreev ( pointeur_char );
 
@@ -2229,19 +2226,17 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 			      const gchar **attribute_values )
 {
     gint i=0;
-    struct struct_devise *currency;
+    gint currency_number;
 
     if ( !attribute_names[i] )
 	return;
 
-    currency = calloc ( 1,
-		     sizeof ( struct struct_devise ) );
+    currency_number = gsb_data_currency_new (NULL);
 
     do
     {
 	/* 	we test at the begining if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
-
 	if ( !strcmp (attribute_values[i],
 	     "(null)"))
 	{
@@ -2252,11 +2247,8 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    currency -> no_devise = utils_str_atoi (attribute_values[i]);
-	    if ( currency -> no_devise > no_derniere_devise )
-	    {
-		no_derniere_devise = currency -> no_devise;
-	    }
+	    gsb_data_currency_set_new_number ( currency_number,
+					       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2264,7 +2256,8 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Na" ))
 	{
-	    currency -> nom_devise = my_strdup (attribute_values[i]);
+	    gsb_data_currency_set_name ( currency_number,
+					 attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2272,7 +2265,8 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Co" ))
 	{
-	    currency -> code_devise = my_strdup (attribute_values[i]);
+	    gsb_data_currency_set_code ( currency_number,
+					 attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2280,7 +2274,8 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Ico" ))
 	{
-	    currency -> code_iso4217_devise = my_strdup (attribute_values[i]);
+	    gsb_data_currency_set_code_iso4217 ( currency_number,
+						 attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2288,7 +2283,8 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Mte" ))
 	{
-	    currency -> passage_euro = utils_str_atoi (attribute_values[i]);
+	    gsb_data_currency_set_change_to_euro ( currency_number,
+						   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2296,7 +2292,8 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Dte" ))
 	{
-	    currency -> date_dernier_change = gsb_parse_date_string (attribute_values[i]);
+	    gsb_data_currency_set_change_date ( currency_number,
+						gsb_parse_date_string (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2304,7 +2301,8 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Rbc" ))
 	{
-	    currency -> une_devise_1_egale_x_devise_2 = utils_str_atoi (attribute_values[i]);
+	    gsb_data_currency_set_link_currency ( currency_number,
+						  utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2312,7 +2310,8 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Rcu" ))
 	{
-	    currency -> no_devise_en_rapport = utils_str_atoi (attribute_values[i]);
+	    gsb_data_currency_set_contra_currency_number ( currency_number,
+							   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2320,20 +2319,17 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Ch" ))
 	{
-	    currency -> change = my_strtod (attribute_values[i],
-					    NULL );
+	    gsb_data_currency_set_change_rate ( currency_number,
+						my_strtod (attribute_values[i],
+							   NULL ));
 	    i++;
 	    continue;
 	}
-
 
 	/* normally, shouldn't come here */
 	i++;
     }
     while ( attribute_names[i] );
-
-    liste_struct_devises = g_slist_append ( liste_struct_devises,
-					    currency );
 }
 
 /**
@@ -3921,14 +3917,8 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 		if ( !strcmp ( attribute_names[i],
 			       "Devise" ))
-		{
 		    gsb_data_scheduled_set_currency_number ( scheduled_number,
 							     utils_str_atoi (attribute_values[i]));
-		    if ( utils_str_atoi (attribute_values[i]) > no_derniere_devise )
-		    {
-			no_derniere_devise = utils_str_atoi (attribute_values[i]);
-		    }
-		}
 
 		if ( !strcmp ( attribute_names[i],
 			       "Tiers" ))
@@ -4194,100 +4184,66 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 	if ( attribute_names[i] )
 	{
-	    struct struct_devise *devise;
+	    gint currency_number;
 
-	    devise = calloc ( 1,
-			      sizeof ( struct struct_devise ));
-
+	    currency_number = gsb_data_currency_new (NULL);
 
 	    do
 	    {
 		if ( !strcmp ( attribute_names[i],
 			       "No" ))
-		    devise -> no_devise = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_currency_set_new_number ( currency_number,
+						       utils_str_atoi (attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
-		    devise -> nom_devise = my_strdup (attribute_values[i]);
+		    gsb_data_currency_set_name ( currency_number,
+						 attribute_values[i]);
 
 		if ( !strcmp ( attribute_names[i],
 			       "IsoCode" )
 		     &&
 		     strlen (attribute_values[i]))
-		    devise -> code_iso4217_devise = my_strdup (attribute_values[i]);
+		    gsb_data_currency_set_code_iso4217 ( currency_number,
+							 attribute_values[i]);
 
 		if ( !strcmp ( attribute_names[i],
 			       "Code" )
 		     &&
 		     strlen (attribute_values[i]))
-		    devise -> code_devise = my_strdup (attribute_values[i]);
+		    gsb_data_currency_set_code ( currency_number,
+						 attribute_values[i]);
 
 		/* 	   la suite n'est utile que pour les anciennes devises qui sont passées à l'euro */
 		/* 	non utilisées pour les autres */
 
 		if ( !strcmp ( attribute_names[i],
 			       "Passage_euro" ))
-		    devise -> passage_euro = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_currency_set_change_to_euro ( currency_number,
+							   utils_str_atoi (attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
-			       "Date_dernier_change" )
-		     &&
-		     strlen ( attribute_values[i]))
-		{
-		    gchar **pointeur_char;
-
-		    pointeur_char = g_strsplit ( attribute_values[i],
-						 "/",
-						 0 );
-
-		    devise -> date_dernier_change = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
-								     utils_str_atoi ( pointeur_char[1] ),
-								     utils_str_atoi ( pointeur_char[2] ));
-		    g_strfreev ( pointeur_char );
-		}
+			       "Date_dernier_change" ))
+		    gsb_data_currency_set_change_date ( currency_number,
+							gsb_parse_date_string (attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Rapport_entre_devises" ))
-		    devise -> une_devise_1_egale_x_devise_2 = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_currency_set_link_currency ( currency_number,
+							  utils_str_atoi (attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Devise_en_rapport" ))
-		    devise -> no_devise_en_rapport = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_currency_set_contra_currency_number ( currency_number,
+								   utils_str_atoi (attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Change" ))
-		    devise -> change = my_strtod ( attribute_values[i],
-						   NULL );
+		    gsb_data_currency_set_change_rate ( currency_number,
+							my_strtod (attribute_values[i],
+								   NULL ));
 
 		i++;
 	    }
 	    while ( attribute_names[i] );
-
-	    /* Set ISO4217 code if needed (compatibility function). */
-	    if ( ! devise -> code_iso4217_devise || 
-		 ! strlen ( devise -> code_iso4217_devise ) )
-	    {
-		int i;
-		for ( i = 0; iso_4217_currencies[i].continent != NULL; i++ )
-		{
-		    /* Basically, we check if either currency currency
-		     * name or nickname (code) match iso4217 *
-		     * currencies code or nickname.  If so, we set
-		     * iso4217 code accordingly. */
-		    if ( (devise -> nom_devise && 
-			  ! strcmp ( devise -> nom_devise, _(iso_4217_currencies[i].currency_name ) ) ) ||
-			 ( devise -> code_devise && 
-			   ! strcmp ( devise -> code_devise, iso_4217_currencies[i].currency_code ) ) ||
-			 ( iso_4217_currencies[i].currency_nickname && 
-			   devise -> code_devise &&
-			   ! strcmp ( devise -> code_devise, iso_4217_currencies[i].currency_nickname ) ) )
-		    {
-			devise -> code_iso4217_devise = iso_4217_currencies[i].currency_code;
-			break;
-		    }				 
-		}
-	    }
-
-	    liste_struct_devises = g_slist_append ( liste_struct_devises,
-						    devise );
 	}
     }
 
@@ -6098,7 +6054,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
  * */
 gboolean gsb_file_load_update_previous_version ( void )
 {
-    struct struct_devise *devise;
+    gint currency_number;
     struct stat buffer_stat;
     GSList *list_tmp;
     gint i;
@@ -6157,7 +6113,6 @@ gboolean gsb_file_load_update_previous_version ( void )
 		list_tmp_transactions = list_tmp_transactions -> next;
 	    }
 
-
 	    /* ************************************* */
 	    /* 	    ouverture d'un fichier 0.4.1     */
 	    /* ************************************* */
@@ -6171,12 +6126,14 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    /* 	    passage à l'utf8 : on fait le tour des devises pour retrouver l'euro */
 	    /* Handle Euro nicely */
 
-	    devise = devise_par_nom ( my_strdup ("Euro"));
+	    currency_number = gsb_data_currency_get_number_by_name ("Euro");
 
-	    if ( devise )
+	    if (currency_number)
 	    {
-		devise -> code_devise = "€";
-		devise -> code_iso4217_devise = my_strdup ("EUR");
+		gsb_data_currency_set_code ( currency_number,
+					     "€" );
+		gsb_data_currency_set_code_iso4217 ( currency_number,
+						     "EUR" );
 	    }
 
 

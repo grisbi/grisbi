@@ -27,9 +27,11 @@
 /*START_INCLUDE*/
 #include "traitement_variables.h"
 #include "erreur.h"
+#include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
@@ -91,15 +93,11 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
 extern gchar *crypt_key;
-extern struct struct_devise *devise_compte;
-extern struct struct_devise *devise_nulle;
-extern struct struct_devise *devise_operation;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GtkWidget *liste_categ_etat;
 extern GSList *liste_struct_banques;
-extern GSList *liste_struct_devises;
 extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_rapprochements;
 extern gint mise_a_jour_combofix_categ_necessaire;
@@ -111,9 +109,7 @@ extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern gint nb_banques;
-extern gint nb_devises;
 extern gint no_derniere_banque;
-extern gint no_derniere_devise;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -181,6 +177,9 @@ void init_variables ( void )
     gsb_data_report_amount_comparison_init_variables ();
     gsb_data_report_text_comparison_init_variables ();
     gsb_data_scheduled_init_variables ();
+    gsb_data_currency_init_variables ();
+    gsb_currency_init_variables ();
+
 
     crypt_key = NULL;
 
@@ -216,16 +215,9 @@ void init_variables ( void )
     affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
     scheduled_transactions_taken = NULL;
 
-    liste_struct_devises = NULL;
-    nb_devises = 0;
-    no_derniere_devise = 0;
-    devise_nulle = calloc ( 1,
-			    sizeof ( struct struct_devise ));
     no_devise_totaux_tiers = 1;
     no_devise_totaux_categ = 1;
     no_devise_totaux_ib = 1;
-    devise_compte = NULL;
-    devise_operation = NULL;
 
     liste_struct_banques = NULL;
     nb_banques = 0;

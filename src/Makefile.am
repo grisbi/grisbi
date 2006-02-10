@@ -27,9 +27,7 @@ sources = \
 	comptes_onglet.c	\
 	comptes_traitements.c	\
 	csv_parse.c		\
-	data_currency.c		\
 	data_payment.c		\
-	devises.c		\
 	dialog.c		\
 	echeancier_formulaire.c	\
 	echeancier_infos.c	\
@@ -54,9 +52,12 @@ sources = \
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
 	gsb_assistant.c		\
+	gsb_currency.c		\
+	gsb_currency_config.c	\
 	gsb_data_account.c	\
 	gsb_data_budget.c	\
 	gsb_data_category.c	\
+	gsb_data_currency.c	\
 	gsb_data_form.c		\
 	gsb_data_payee.c	\
 	gsb_data_report.c	\
@@ -104,7 +105,6 @@ sources = \
 	utils_buttons.c		\
 	utils_comptes.c		\
 	utils_dates.c		\
-	utils_devises.c		\
 	utils_editables.c	\
 	utils_exercices.c	\
 	utils_file_selection.c	\
@@ -135,9 +135,12 @@ grisbi_INCLUDES =		\
 	constants.h		\
 	import_csv.h		\
 	gsb_assistant.h		\
+	gsb_currency.h		\
+	gsb_currency_config.h	\
 	gsb_data_account.h	\
 	gsb_data_budget.h	\
 	gsb_data_category.h	\
+	gsb_data_currency.h	\
 	gsb_data_form.h		\
 	gsb_data_payee.h	\
 	gsb_data_report.h	\
@@ -157,9 +160,7 @@ grisbi_INCLUDES =		\
 	gsb_payment_method_config.h	\
 	gsb_scheduler_list.h	\
 	gsb_transactions_list.h	\
-	data_currency.h		\
 	data_payment.h		\
-	devises.h		\
 	dialog.h		\
 	echeancier_formulaire.h	\
 	echeancier_infos.h	\
@@ -199,7 +200,6 @@ grisbi_INCLUDES =		\
 	utils_buttons.h		\
 	utils_comptes.h		\
 	utils_dates.h		\
-	utils_devises.h		\
 	utils_editables.h	\
 	utils_exercices.h	\
 	utils_file_selection.h	\

@@ -268,7 +268,7 @@ gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * n
     gpointer padding[32];	/* Don't touch, looks like we have a
 				 * buffer overflow problem. */
 
-    callback = (gboolean *) (GtkWidget *) g_object_get_data ( assistant, g_strdup_printf ( "enter%d", page ) );
+    callback = (gboolean *) (GtkWidget *) g_object_get_data ( G_OBJECT (assistant), g_strdup_printf ( "enter%d", page ) );
 
     if ( callback )
     {

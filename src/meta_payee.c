@@ -25,12 +25,10 @@
 
 /*START_INCLUDE*/
 #include "meta_payee.h"
-#include "utils_devises.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_str.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 
@@ -127,9 +125,9 @@ MetatreeInterface * payee_interface = &_payee_interface;
  *
  *
  */
-struct struct_devise * payee_tree_currency ( )
+gint payee_tree_currency ( )
 {
-    return (struct struct_devise *) devise_par_no ( no_devise_totaux_tiers );
+    return no_devise_totaux_tiers;
 }
 
 

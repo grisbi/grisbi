@@ -37,7 +37,7 @@
 /*START_STATIC*/
 static void latex_attach_hsep ( int x, int x2, int y, int y2);
 static void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			  enum alignement align, gpointer  ope );
+			  enum alignement align, gint transaction_number );
 static void latex_attach_vsep ( int x, int x2, int y, int y2);
 static gint latex_finish ();
 static gint latex_initialise (GSList * opes_selectionnees, gchar * filename );
@@ -83,11 +83,11 @@ extern gint nb_colonnes;
  * \param x2 right position of the label
  * \param y2 bottom position of the label
  * \param alignment how the text will be aligned in the cell
- * \param ope a pointer to a transaction to link to (not used as latex
+ * \param transaction_number a number of transaction to link to (not used as latex
  *            backend is not interactive)
  */
 void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			  enum alignement align, gpointer  ope )
+			  enum alignement align, gint transaction_number )
 {
     int pad, realsize, realcolumns;
     gint current_report_number;

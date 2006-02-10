@@ -1228,25 +1228,25 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number )
     if ( budget )
     {
 	budget -> budget_nb_transactions ++;
-	budget -> budget_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency () -> no_devise );
+	budget -> budget_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency ());
     }
     else
     {
 	empty_budget -> budget_nb_transactions ++;
-	empty_budget -> budget_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency () -> no_devise );
+	empty_budget -> budget_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency ());
     }
 
     if ( sub_budget )
     {
 	sub_budget -> sub_budget_nb_transactions ++;
-	sub_budget -> sub_budget_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency () -> no_devise );
+	sub_budget -> sub_budget_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency ());
     }
     else
     {
 	if ( budget )
 	{
 	    budget -> budget_nb_direct_transactions ++;
-	    budget -> budget_direct_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency () -> no_devise );
+	    budget -> budget_direct_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency ());
 	}
     }
 }
@@ -1272,7 +1272,7 @@ void gsb_data_budget_remove_transaction_from_budget ( gint transaction_number )
     if ( budget )
     {
 	budget -> budget_nb_transactions --;
-	budget -> budget_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency () -> no_devise );
+	budget -> budget_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency ());
 	if ( !budget -> budget_nb_transactions ) /* Cope with float errors */
 	    budget -> budget_balance = 0.0;
     }
@@ -1280,7 +1280,7 @@ void gsb_data_budget_remove_transaction_from_budget ( gint transaction_number )
     if ( sub_budget )
     {
 	sub_budget -> sub_budget_nb_transactions --;
-	sub_budget -> sub_budget_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency () -> no_devise );
+	sub_budget -> sub_budget_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency ());
 	if ( !sub_budget -> sub_budget_nb_transactions ) /* Cope with float errors */
 	    sub_budget -> sub_budget_balance = 0.0;
     }
@@ -1289,7 +1289,7 @@ void gsb_data_budget_remove_transaction_from_budget ( gint transaction_number )
 	if ( budget )
 	{
 	    budget -> budget_nb_direct_transactions --;
-	    budget -> budget_direct_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency () -> no_devise );
+	    budget -> budget_direct_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency ());
 	}
     }
 }

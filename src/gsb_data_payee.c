@@ -664,7 +664,7 @@ void gsb_data_payee_add_transaction_to_payee ( gint transaction_number )
 	payee = empty_payee;
 
 	payee -> payee_nb_transactions ++;
-	payee -> payee_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, payee_tree_currency () -> no_devise );
+	payee -> payee_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, payee_tree_currency ());
 }
 
 
@@ -693,7 +693,7 @@ void gsb_data_payee_remove_transaction_from_payee ( gint transaction_number )
 	payee = empty_payee;
 
 	payee -> payee_nb_transactions --;
-	payee -> payee_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, payee_tree_currency () -> no_devise );
+	payee -> payee_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, payee_tree_currency ());
 
 	if ( !payee -> payee_nb_transactions ) /* Cope with float errors */
 	    payee -> payee_balance = 0.0;

@@ -261,7 +261,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	    NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_grid_mode ), 
 	    etat.affichage_grille },
 	{ "ShowReconciled",	NULL,			_("Show _reconciled"),
-	    gsb_data_account_get_r ( gsb_gui_navigation_get_current_account ()), 
+	    GINT_TO_POINTER (gsb_data_account_get_r ( gsb_gui_navigation_get_current_account ())), 
 	    NULL,			G_CALLBACK ( gsb_gui_toggle_show_reconciled),
 	    0 },
 	{ "ShowClosed",		NULL,			_("Show _closed accounts"),

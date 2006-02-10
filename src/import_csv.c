@@ -944,7 +944,7 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
     gchar * contents, * filename = NULL;
     gsize size;
     GError * error;
-    struct imported_file * imported;
+    struct imported_file * imported = NULL;
 
     /* Find first CSV to import. */
     files = import_selected_files ( assistant );

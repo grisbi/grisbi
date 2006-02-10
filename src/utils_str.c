@@ -200,9 +200,9 @@ double my_strtod ( const char *nptr, const char **endptr )
 
 
 
-gchar * latin2utf8 ( char * inchar)
+gchar * latin2utf8 ( const gchar * inchar)
 {
-    guchar buffer[1024];
+    gchar buffer[1024];
     int outlen, inlen, res;
 
     if (!inchar)

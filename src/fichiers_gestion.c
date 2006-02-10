@@ -30,7 +30,7 @@
 /*START_INCLUDE*/
 #include "fichiers_gestion.h"
 #include "menu.h"
-#include "devises.h"
+#include "gsb_currency_config.h"
 #include "utils_montants.h"
 #include "fenetre_principale.h"
 #include "comptes_traitements.h"

@@ -67,8 +67,8 @@ extern AB_BANKING *gbanking;
 extern GtkWidget * hpaned;
 extern GtkTreeStore *payee_tree_model;
 extern GtkWidget * scheduler_calendar;
-extern GtkWidget *window;
 extern GtkTooltips *tooltips_general_grisbi;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -294,7 +294,7 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     /* append the g2banking page */
 #ifdef HAVE_G2BANKING
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			       GBanking_JobView_new(gbanking, 0),
+			       GTK_WIDGET (GBanking_JobView_new(gbanking, 0)),
 			       gtk_label_new (SPACIFY(_("Outbox"))) );
 #endif
 

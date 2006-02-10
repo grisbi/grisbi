@@ -33,11 +33,10 @@
 #include "exercice.h"
 #include "gsb_form_transaction.h"
 #include "echeancier_formulaire.h"
-#include "devises.h"
 #include "erreur.h"
-#include "utils_devises.h"
 #include "comptes_traitements.h"
 #include "calendar.h"
+#include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -82,7 +81,6 @@ static void gsb_form_set_focus ( gint element_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GSList *liste_struct_devises;
 extern FILE * out;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
@@ -881,18 +879,13 @@ GtkWidget *gsb_form_create_element_from_number ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_DEVISE:
-	    widget = gtk_option_menu_new ();
+	    widget = gsb_currency_make_combobox (TRUE);
 	    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 				   widget,
 				   _("Choose currency"),
 				   _("Choose currency") );
-	    menu = creation_option_menu_devises ( -1,
-						  liste_struct_devises );
-	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget ),
-				       menu );
-	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
-					  g_slist_index ( liste_struct_devises,
-							  devise_par_no ( gsb_data_account_get_currency (account_number))));
+	    gsb_currency_set_combobox_history ( widget,
+						gsb_data_account_get_currency (account_number));
 	    break;
 
 	case TRANSACTION_FORM_CHANGE:
@@ -1146,9 +1139,8 @@ gboolean gsb_form_clean ( gint account_number )
 
 		    case TRANSACTION_FORM_DEVISE:
 
-			gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget ),
-						      g_slist_index ( liste_struct_devises,
-								      devise_par_no ( gsb_data_account_get_currency (account_number))));
+			gsb_currency_set_combobox_history ( widget,
+							    gsb_data_account_get_currency (account_number));
 			gtk_widget_set_sensitive ( GTK_WIDGET ( widget ),
 						   FALSE );
 			break;

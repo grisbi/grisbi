@@ -29,13 +29,12 @@
 #include "etats_config.h"
 #include "search_glist.h"
 #include "tiers_onglet.h"
-#include "devises.h"
 #include "utils.h"
 #include "erreur.h"
-#include "utils_devises.h"
 #include "dialog.h"
 #include "utils_exercices.h"
 #include "calendar.h"
+#include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -107,6 +106,9 @@ static void remplit_liste_comparaisons_montants_etat ( void );
 static void remplit_liste_comparaisons_textes_etat ( void );
 static void retire_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison_number );
 static void retire_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_number );
+static void selectionne_devise_categ_etat_courant ( void );
+static void selectionne_devise_ib_etat_courant ( void );
+static void selectionne_devise_tiers_etat_courant ( void );
 static void selectionne_liste_exo_etat_courant ( void );
 static void selectionne_liste_ib_etat_courant ( void );
 static void selectionne_liste_modes_paiement_etat_courant ( void );
@@ -288,11 +290,11 @@ GDate *date_debut_periode;
 gint exo_en_cours_etat;
 gint changement_de_groupe_etat;
 gint debut_affichage_etat;
-struct struct_devise *devise_compte_en_cours_etat;
-struct struct_devise *devise_categ_etat;
-struct struct_devise *devise_ib_etat;
-struct struct_devise *devise_tiers_etat;
-struct struct_devise *devise_generale_etat;
+gint devise_compte_en_cours_etat;
+gint devise_categ_etat;
+gint devise_ib_etat;
+gint devise_tiers_etat;
+gint devise_generale_etat;
 
 gchar *nom_categ_en_cours;
 gchar *nom_ss_categ_en_cours;
@@ -310,7 +312,6 @@ GtkWidget *liste_mode_paiement_etat;
 
 /*START_EXTERN*/
 extern GtkWidget *frame_liste_etats;
-extern GSList *liste_struct_devises;
 extern GSList *liste_struct_exercices;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern GtkWidget *nom_exercice;
@@ -638,10 +639,8 @@ void personnalisation_etat (void)
 				bouton_titre_en_haut );
 
     /* mise en forme de la devise */
-
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_general_etat ),
-				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( gsb_data_report_get_currency_general (current_report_number))));
+    gsb_currency_set_combobox_history ( bouton_devise_general_etat,
+					gsb_data_report_get_currency_general (current_report_number));
 
     /* onglet dates */
 
@@ -939,9 +938,8 @@ void personnalisation_etat (void)
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant ),
 				   gsb_data_report_get_amount_comparison_used (current_report_number));
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_montant_etat ),
-				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( gsb_data_report_get_amount_comparison_currency (current_report_number))));
+    gsb_currency_set_combobox_history ( bouton_devise_montant_etat,
+					gsb_data_report_get_amount_comparison_currency (current_report_number));
     sens_desensitive_pointeur ( bouton_utilise_montant,
 				vbox_generale_montants_etat );
     remplit_liste_comparaisons_montants_etat ();
@@ -1089,10 +1087,8 @@ void selectionne_devise_categ_etat_courant ( void )
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
-
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_categ_etat ),
-				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( gsb_data_report_get_category_currency (current_report_number))));
+    gsb_currency_set_combobox_history ( bouton_devise_categ_etat,
+					gsb_data_report_get_category_currency (current_report_number));
 }
 /******************************************************************************/
 
@@ -1126,10 +1122,8 @@ void selectionne_devise_ib_etat_courant ( void )
     gint current_report_number;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
-
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_ib_etat ),
-				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( gsb_data_report_get_budget_currency (current_report_number))));
+    gsb_currency_set_combobox_history ( bouton_devise_ib_etat,
+					gsb_data_report_get_budget_currency (current_report_number));
 }
 /******************************************************************************/
 
@@ -1166,10 +1160,8 @@ void selectionne_devise_tiers_etat_courant ( void )
     gint current_report_number;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
-
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_devise_tiers_etat ),
-				  g_slist_index ( liste_struct_devises,
-						  devise_par_no ( gsb_data_report_get_payee_currency (current_report_number))));
+    gsb_currency_set_combobox_history ( bouton_devise_tiers_etat,
+					gsb_data_report_get_payee_currency (current_report_number));
 }
 /******************************************************************************/
 
@@ -1327,8 +1319,7 @@ void recuperation_info_perso_etat ( void )
 					   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_rendre_ope_clickables )));
 
     gsb_data_report_set_currency_general ( current_report_number,
-					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_general_etat ) -> menu_item ),
-										   "no_devise" )));
+					   gsb_currency_get_currency_from_combobox (bouton_devise_general_etat));
     gsb_data_report_set_append_in_payee ( current_report_number,
 					  gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers )));
 
@@ -1563,8 +1554,7 @@ void recuperation_info_perso_etat ( void )
 							 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_categ )));
 
     gsb_data_report_set_category_currency ( current_report_number,
-					    GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_categ_etat ) -> menu_item ),
-										    "no_devise" )));
+					    gsb_currency_get_currency_from_combobox (bouton_devise_categ_etat));
     gsb_data_report_set_category_show_name ( current_report_number,
 					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_categ )));
 
@@ -1623,8 +1613,7 @@ void recuperation_info_perso_etat ( void )
 						     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_ib )));
 
     gsb_data_report_set_budget_currency ( current_report_number,
-					  GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_ib_etat ) -> menu_item ),
-										  "no_devise" )));
+					  gsb_currency_get_currency_from_combobox (bouton_devise_ib_etat));
     gsb_data_report_set_budget_show_name ( current_report_number,
 					   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_ib )));
 
@@ -1675,8 +1664,7 @@ void recuperation_info_perso_etat ( void )
 						  gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_tiers )));
 
     gsb_data_report_set_payee_currency ( current_report_number,
-					 GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_tiers_etat ) -> menu_item ),
-										 "no_devise" )));
+					 gsb_currency_get_currency_from_combobox (bouton_devise_tiers_etat));
     gsb_data_report_set_payee_show_name ( current_report_number,
 					  gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_tiers )));
 
@@ -1752,8 +1740,7 @@ void recuperation_info_perso_etat ( void )
     gsb_data_report_set_amount_comparison_used ( current_report_number,
 						 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant )));
     gsb_data_report_set_amount_comparison_currency ( current_report_number,
-    GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_devise_montant_etat ) -> menu_item ),
-					    "no_devise" )));
+						     gsb_currency_get_currency_from_combobox (bouton_devise_montant_etat));
 
     /* récupération de la liste des comparaisons de montant */
     /*   il y a au moins une structure de créé, si celle si a les 2 montants vides, */
@@ -7310,10 +7297,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( hbox_2 );
 
-    bouton_devise_general_etat = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_general_etat ),
-			       creation_option_menu_devises ( 0,
-							      liste_struct_devises ));
+    bouton_devise_general_etat = gsb_currency_make_combobox (FALSE);
     gtk_box_pack_start ( GTK_BOX ( hbox_2 ),
 			 bouton_devise_general_etat,
 			 FALSE,
@@ -7359,10 +7343,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( hbox_2 );
 
-    bouton_devise_tiers_etat = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_tiers_etat ),
-			       creation_option_menu_devises ( 0,
-							      liste_struct_devises ));
+    bouton_devise_tiers_etat = gsb_currency_make_combobox (FALSE);
     gtk_box_pack_start ( GTK_BOX ( hbox_2 ),
 			 bouton_devise_tiers_etat,
 			 FALSE,
@@ -7407,10 +7388,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( hbox_2 );
 
-    bouton_devise_categ_etat = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_categ_etat ),
-			       creation_option_menu_devises ( 0,
-							      liste_struct_devises ));
+    bouton_devise_categ_etat = gsb_currency_make_combobox (FALSE);
     gtk_box_pack_start ( GTK_BOX ( hbox_2 ),
 			 bouton_devise_categ_etat,
 			 FALSE,
@@ -7456,10 +7434,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( hbox_2 );
 
-    bouton_devise_ib_etat = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_ib_etat ),
-			       creation_option_menu_devises ( 0,
-							      liste_struct_devises ));
+    bouton_devise_ib_etat = gsb_currency_make_combobox (FALSE);
     gtk_box_pack_start ( GTK_BOX ( hbox_2 ),
 			 bouton_devise_ib_etat,
 			 FALSE,
@@ -7504,10 +7479,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( hbox_2 );
 
-    bouton_devise_montant_etat = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_devise_montant_etat ),
-			       creation_option_menu_devises ( 0,
-							      liste_struct_devises ));
+    bouton_devise_montant_etat = gsb_currency_make_combobox (FALSE);
     gtk_box_pack_start ( GTK_BOX ( hbox_2 ),
 			 bouton_devise_montant_etat,
 			 FALSE,

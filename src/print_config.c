@@ -176,7 +176,7 @@ gboolean change_print_to_file ( GtkButton *button, gpointer data )
 
     file_selector = g_object_get_data ( G_OBJECT(button), "entry" );
     gtk_entry_set_text ( GTK_ENTRY(data),
-			 file_selection_get_filename (file_selector) );
+			 file_selection_get_filename (GTK_FILE_CHOOSER (file_selector)));
 
     return FALSE;
 }

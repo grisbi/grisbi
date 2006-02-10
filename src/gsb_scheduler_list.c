@@ -31,13 +31,13 @@
 #include "utils_exercices.h"
 #include "barre_outils.h"
 #include "erreur.h"
-#include "utils_devises.h"
 #include "dialog.h"
 #include "echeancier_formulaire.h"
 #include "utils_dates.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_form.h"
@@ -1364,10 +1364,9 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 								       gsb_data_scheduled_get_account_number (scheduled_number)));
 
     /* set the currency */
-    /* FIXME : me demande si yaurait pas un g_slist_index à mettre ici... */
 
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ),
-				  devise_par_no (gsb_data_scheduled_get_currency_number (scheduled_number)) -> no_devise - 1 );
+/*     gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ), */
+/* 				  devise_par_no (gsb_data_scheduled_get_currency_number (scheduled_number)) -> no_devise - 1 ); */
 
     /* set the financial year */
 
@@ -1395,7 +1394,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
     if ( GTK_WIDGET_VISIBLE ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ))
     {
-	GtkWidget *menu;
+/* 	GtkWidget *menu; */
 
 	if ( gsb_data_scheduled_get_amount (scheduled_number) < 0 )
 	{
@@ -1405,8 +1404,8 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 /* 					       recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ), */
 /* 					       1 ))) */
 /* 	    { */
-		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-					   menu );
+/* 		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
+/* 					   menu ); */
 		gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
 /* 	    } */
 /* 	    else */
@@ -1420,8 +1419,8 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 /* 					       recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ), */
 /* 					       1 ))) */
 /* 	    { */
-		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-					   menu );
+/* 		gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
+/* 					   menu ); */
 		gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
 /* 	    } */
 /* 	    else */
@@ -1643,7 +1642,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 					   gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
 					   gsb_data_payee_get_name ( gsb_data_scheduled_get_party_number (scheduled_number), FALSE ),
 					   gsb_data_scheduled_get_amount (scheduled_number),
-					   devise_name ( devise_par_no (gsb_data_scheduled_get_currency_number (scheduled_number))));
+					   gsb_data_currency_get_name (gsb_data_scheduled_get_currency_number (scheduled_number)));
 
 	    dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 					       make_hint ( _("Delete this scheduled transaction?"),

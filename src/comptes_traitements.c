@@ -416,7 +416,7 @@ gboolean gsb_account_create_name_tree_model ( GtkWidget *combo_box,
 /* ************************************************************************** */
 void changement_choix_compte_echeancier ( void )
 {
-    GtkWidget *menu;
+/*     GtkWidget *menu; */
     gint no_compte;
 
     no_compte = recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
@@ -429,8 +429,8 @@ void changement_choix_compte_echeancier ( void )
 /* 					   no_compte, */
 /* 					   1 ))) */
 /* 	{ */
-	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-				       menu );
+/* 	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
+/* 				       menu ); */
 /* 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
 /* 					  cherche_no_menu_type_echeancier ( gsb_data_account_get_default_credit (no_compte))); */
 	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
@@ -446,8 +446,8 @@ void changement_choix_compte_echeancier ( void )
 /* 					   recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]), */
 /* 					   1 ))) */
 	{
-	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-				       menu );
+/* 	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
+/* 				       menu ); */
 /* 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
 /* 					  cherche_no_menu_type_echeancier ( gsb_data_account_get_default_debit (no_compte) ) ); */
 	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );

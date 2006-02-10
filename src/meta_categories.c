@@ -25,14 +25,12 @@
 
 /*START_INCLUDE*/
 #include "meta_categories.h"
-#include "utils_devises.h"
 #include "gsb_data_category.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "categories_onglet.h"
 #include "utils_str.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 
@@ -128,9 +126,9 @@ MetatreeInterface * category_interface = &_category_interface;
  *
  *
  */
-struct struct_devise * category_tree_currency ( )
+gint category_tree_currency ( )
 {
-    return (struct struct_devise *) devise_par_no ( no_devise_totaux_categ );
+    return no_devise_totaux_categ;
 }
 
 

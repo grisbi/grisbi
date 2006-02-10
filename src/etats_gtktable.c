@@ -41,9 +41,9 @@
 /*START_STATIC*/
 static void gtktable_attach_hsep ( int x, int x2, int y, int y2);
 static void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			     enum alignement align, gpointer  ope );
+			     enum alignement align, gint transaction_number );
 static void gtktable_attach_vsep ( int x, int x2, int y, int y2);
-static void gtktable_click_sur_ope_etat ( gpointer operation );
+static void gtktable_click_sur_ope_etat ( gint transaction_number );
 static gint gtktable_finish ();
 static gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename );
 /*END_STATIC*/
@@ -74,7 +74,7 @@ extern GtkWidget *scrolled_window_etat ;
  *
  */
 void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			     enum alignement align, gpointer  ope )
+			     enum alignement align, gint transaction_number )
 {
     GtkWidget * label;
     GtkStyle * style;
@@ -102,7 +102,7 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 
     style = gtk_style_copy ( gtk_widget_get_style (label));
 
-    if ( ope )
+    if (transaction_number)
     {
 	GtkWidget *event_box;
 	GdkColor color;
@@ -126,7 +126,7 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 	gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
 				    "button_press_event",
 				    GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
-				    (GtkObject *) ope );
+				    (GtkObject *) GINT_TO_POINTER (transaction_number) );
 	gtk_table_attach ( GTK_TABLE ( table_etat ), event_box,
 			   x, x2, y, y2,
 			   GTK_SHRINK | GTK_FILL,
@@ -248,12 +248,8 @@ gint gtktable_finish ()
 /* elle affiche la liste des opés sur cette opé */
 /*****************************************************************************************************/
 
-void gtktable_click_sur_ope_etat ( gpointer operation )
+void gtktable_click_sur_ope_etat ( gint transaction_number )
 {
-    gint transaction_number;
-
-    transaction_number = gsb_data_transaction_get_transaction_number (operation);
-
     /* if it's a child of breakdown, we go on the mother */
     /* FIXME : now, we can go directly on the child... */
 

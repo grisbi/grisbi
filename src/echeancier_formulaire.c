@@ -30,10 +30,10 @@
 #include "exercice.h"
 #include "utils_editables.h"
 #include "comptes_traitements.h"
-#include "devises.h"
 #include "erreur.h"
 #include "dialog.h"
 #include "calendar.h"
+#include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -88,7 +88,6 @@ GtkWidget *hbox_valider_annuler_echeance;
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
-extern GSList *liste_struct_devises;
 extern GtkWidget *main_page_finished_scheduled_transactions_part;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
@@ -243,15 +242,11 @@ GtkWidget *creation_formulaire_echeancier ( void )
 
 
     /* met l'option menu des devises */
-    widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] = gtk_option_menu_new ();
+    widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] = gsb_currency_make_combobox (TRUE);
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ),
 			   widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE],
 			   _("Choose currency"),
 			   _("Choose currency") );
-    menu = creation_option_menu_devises ( -1,
-					  liste_struct_devises );
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ),
-			       menu );
     gtk_signal_connect ( GTK_OBJECT ( widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE] ),
 			 "key-press-event",
 			 GTK_SIGNAL_FUNC ( pression_touche_formulaire_echeancier ),
@@ -913,7 +908,7 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 		     GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu ),
 							     "signe_menu" )) == 2 )
 		{
-		    GtkWidget *menu;
+/* 		    GtkWidget *menu; */
 		    gint no_compte;
 
 		    no_compte = recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
@@ -922,8 +917,8 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 /* 							no_compte, */
 /* 							1 ))) */
 		    {
-			gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-						   menu );
+/* 			gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
+/* 						   menu ); */
 /* 			gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
 /* 						      cherche_no_menu_type_echeancier ( gsb_data_account_get_default_debit (no_compte) ) ); */
 			gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
@@ -958,7 +953,7 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 		     GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ) -> menu ),
 							     "signe_menu" )) == 1 )
 		{
-		    GtkWidget *menu;
+/* 		    GtkWidget *menu; */
 		    gint no_compte;
 
 		    no_compte = recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
@@ -967,8 +962,8 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 /* 							no_compte, */
 /* 							1  ))) */
 		    {
-			gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ),
-						   menu );
+/* 			gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
+/* 						   menu ); */
 /* 			gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
 /* 						      cherche_no_menu_type_echeancier ( gsb_data_account_get_default_credit (no_compte) ) ); */
 			gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
@@ -1572,7 +1567,7 @@ gint gsb_scheduler_create_transaction_from_scheduled_form ( void )
     /* get the currency */
 
     gsb_data_transaction_set_currency_number ( transaction_number,
-					       gsb_currency_get_option_menu_currency (widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE]));
+					       gsb_currency_get_currency_from_combobox (widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE]));
 
     gsb_currency_check_for_change ( transaction_number );
 
@@ -1725,7 +1720,7 @@ gint gsb_scheduler_create_scheduled_transaction_from_scheduled_form ( gint sched
     /* get the currency */
 
     gsb_data_scheduled_set_currency_number ( scheduled_number,
-					     gsb_currency_get_option_menu_currency (widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE]));
+					     gsb_currency_get_currency_from_combobox (widget_formulaire_echeancier[SCHEDULER_FORM_DEVISE]));
 
     /* get the account number */
 

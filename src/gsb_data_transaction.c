@@ -34,13 +34,12 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_transaction.h"
-#include "utils_devises.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
+#include "gsb_data_currency.h"
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 
@@ -545,52 +544,40 @@ gdouble gsb_data_transaction_get_adjusted_amount ( gint no_transaction )
 /** get the amount of the transaction, modified to be ok with the currency
  * given in param 
  * \param no_transaction the number of the transaction
- * \param no_currency_for_return the currency we want to adjust the transaction's amount
+ * \param return_currency_number the currency we want to adjust the transaction's amount
  * \return the amount of the transaction
  * */
 gdouble gsb_data_transaction_get_adjusted_amount_for_currency ( gint no_transaction,
-								gint no_currency_for_return )
+								gint return_currency_number )
 {
     struct_transaction *transaction;
-    struct struct_devise *return_currency;
-    struct struct_devise *transaction_currency;
     gdouble amount = 0;
 
     transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( ! (transaction
 	    &&
-	    no_currency_for_return ))
+	    return_currency_number ))
 	return 0;
 
     /* if the transaction currency is the same of the account's one,
      * we just return the transaction's amount */
 
-    if ( transaction -> currency_number == no_currency_for_return )
+    if ( transaction -> currency_number == return_currency_number )
 	return transaction -> transaction_amount;
-
-    /* get the currencies and check if they exist */
-    
-    return_currency = devise_par_no ( no_currency_for_return );
-    transaction_currency = devise_par_no ( transaction -> currency_number );
-
-    if ( !(return_currency
-	   &&
-	   transaction_currency ))
-	return 0;
 
     /* now we can adjust the amount */
 
-    if ( return_currency -> passage_euro
+    if ( gsb_data_currency_get_change_to_euro (return_currency_number)
 	 &&
-	 !strcmp ( transaction_currency -> nom_devise,
+	 !strcmp ( gsb_data_currency_get_name (transaction -> currency_number),
 		   _("Euro")))
-    	amount = transaction -> transaction_amount * return_currency -> change;
+    	amount = transaction -> transaction_amount * gsb_data_currency_get_change_rate (return_currency_number);
     else
-	if ( transaction_currency -> passage_euro
+	if ( gsb_data_currency_get_change_to_euro (transaction -> currency_number)
 	     &&
-	     !strcmp ( return_currency -> nom_devise, _("Euro") ))
-	    amount = transaction -> transaction_amount / transaction_currency -> change;
+	     !strcmp (gsb_data_currency_get_name (return_currency_number), _("Euro") ))
+	    amount = transaction -> transaction_amount / gsb_data_currency_get_change_rate (transaction -> currency_number);
 	else
 	    if ( transaction -> exchange_rate )
 	    {
@@ -601,14 +588,14 @@ gdouble gsb_data_transaction_get_adjusted_amount_for_currency ( gint no_transact
 	    }
 	    else
 	    {
-		if ( transaction_currency -> no_devise_en_rapport == return_currency -> no_devise
+		if ( gsb_data_currency_get_contra_currency_number (transaction -> currency_number) == return_currency_number
 		     &&
-		     transaction_currency -> change )
+		     gsb_data_currency_get_change_rate (transaction -> currency_number) )
 		{
 		    if ( transaction -> change_between_account_and_transaction )
-			amount = transaction -> transaction_amount * transaction_currency -> change - transaction -> exchange_fees;
+			amount = transaction -> transaction_amount * gsb_data_currency_get_change_rate (transaction -> currency_number) - transaction -> exchange_fees;
 		    else
-			amount = transaction -> transaction_amount / transaction_currency -> change - transaction -> exchange_fees;
+			amount = transaction -> transaction_amount / gsb_data_currency_get_change_rate (transaction -> currency_number) - transaction -> exchange_fees;
 		} 
 	    }
 
