@@ -45,12 +45,17 @@ static ConfigFormat  g_config_format;
 /*--------------------------------------------------------------------------*/
 void load_config_format(GKeyFile *config)
 {
+    gchar * section;
 
-    strcpy(g_config_format.format_date_liste_ope, 
-	   g_key_file_get_string ( config,
-				   "Shown",
-				   tagAFFICHAGE_FORMAT_DATE_LISTE_OPE,
-				   NULL ));
+    section = g_key_file_get_string ( config,
+				      "Display",
+				      tagAFFICHAGE_FORMAT_DATE_LISTE_OPE,
+				      NULL );
+
+    if ( section )
+    {
+	strcpy ( g_config_format.format_date_liste_ope, section );
+    }
 }
 
 
@@ -62,7 +67,7 @@ void load_config_format(GKeyFile *config)
 void save_config_format(GKeyFile *config)
 {
      g_key_file_set_string ( config,
-			    "Shown",
+			    "Display",
 			    tagAFFICHAGE_FORMAT_DATE_LISTE_OPE,
 			    g_config_format.format_date_liste_ope );
 }

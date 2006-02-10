@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2005 Cédric Auger (cedric@grisbi.org)	      */
-/*			     2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2005-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -249,51 +249,61 @@ gboolean gsb_file_config_load_config ( void )
     /* get shown section */
 
     etat.formulaire_toujours_affiche = g_key_file_get_integer ( config,
-								"Shown",
+								"Display",
 								"Show transaction form",
 								NULL );
 
     etat.formulaire_echeancier_toujours_affiche = g_key_file_get_integer ( config,
-									   "Shown",
+									   "Display",
 									   "Show sheduled form",
 									   NULL );
 
     etat.classement_par_date = g_key_file_get_integer ( config,
-							"Shown",
+							"Display",
 							"Order by date",
 							NULL );
 
     etat.affiche_boutons_valider_annuler = g_key_file_get_integer ( config,
-								    "Shown",
+								    "Display",
 								    "Show valid_cancel buttons",
 								    NULL );
 
     etat.largeur_auto_colonnes = g_key_file_get_integer ( config,
-							  "Shown",
+							  "Display",
 							  "Columns width auto",
 							  NULL );
 
     etat.affichage_grille = g_key_file_get_integer ( config,
-						     "Shown",
+						     "Display",
 						     "Show grid",
 						     NULL );
 
     etat.affichage_exercice_automatique = g_key_file_get_integer ( config,
-								   "Shown",
+								   "Display",
 								   "Show automatic financial year",
 								   NULL );
     etat.limit_completion_to_current_account = g_key_file_get_integer ( config,
-									"Shown",
+									"Display",
 									"Limit payee completion",
 									NULL );
 
     etat.display_toolbar = g_key_file_get_integer ( config,
-						    "Shown",
-						    "Show toolbar",
+						    "Display",
+						    "Display toolbar",
 						    NULL );
 
+    etat.show_toolbar = g_key_file_get_integer ( config,
+						 "Display",
+						 "Show toolbar",
+						 NULL );
+
+    etat.show_headings_bar = g_key_file_get_integer ( config,
+						      "Display",
+						      "Show headings bar",
+						      NULL );
+
     etat.show_closed_accounts = g_key_file_get_integer ( config,
-							 "Shown",
+							 "Display",
 							 "Show closed account",
 							 NULL );
 
@@ -534,47 +544,57 @@ gboolean gsb_file_config_save_config ( void )
     /* save shown section */
 
     g_key_file_set_integer ( config,
-			     "Shown",
+			     "Display",
 			     "Show transaction form",
 			     etat.formulaire_toujours_affiche );
 
     g_key_file_set_integer ( config,
-			     "Shown",
+			     "Display",
 			     "Show sheduled form",
 			     etat.formulaire_echeancier_toujours_affiche );
 
     g_key_file_set_integer ( config,
-			     "Shown",
+			     "Display",
 			     "Order by date",
 			     etat.classement_par_date );
 
     g_key_file_set_integer ( config,
-			     "Shown",
+			     "Display",
 			     "Show valid_cancel buttons",
 			     etat.affiche_boutons_valider_annuler );
 
     g_key_file_set_integer ( config,
-			     "Shown",
+			     "Display",
 			     "Show grid",
 			     etat.affichage_grille );
 
     g_key_file_set_integer ( config,
-			     "Shown",
+			     "Display",
 			     "Show automatic financial year",
 			     etat.affichage_exercice_automatique );
 
     g_key_file_set_integer ( config,
-			     "Shown",
+			     "Display",
 			     "Limit payee completion",
 			     etat.limit_completion_to_current_account );
 
     g_key_file_set_integer ( config,
-			     "Shown",
-			     "Show toolbar",
+			     "Display",
+			     "Display toolbar",
 			     etat.display_toolbar );
 
     g_key_file_set_integer ( config,
-			     "Shown",
+			     "Display",
+			     "Show toolbar",
+			     etat.show_toolbar );
+
+    g_key_file_set_integer ( config,
+			     "Display",
+			     "Show headings bar",
+			     etat.show_headings_bar );
+
+    g_key_file_set_integer ( config,
+			     "Display",
 			     "Show closed accounts",
 			     etat.show_closed_accounts );
     /* FIXME : keep that external for now... to see */
@@ -1102,6 +1122,9 @@ void gsb_file_config_clean_config ( void )
     etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
     etat.limit_completion_to_current_account = 0;        /* By default, do full search */
     etat.display_toolbar = GSB_BUTTON_BOTH;        /* How to display toolbar icons. */
+    etat.show_toolbar = TRUE;        /* Show toolbar or not. */
+    etat.show_headings_bar = TRUE;        /* Show toolbar or not. */
+
     etat.show_closed_accounts = FALSE;
 
     pango_desc_fonte_liste = NULL;
