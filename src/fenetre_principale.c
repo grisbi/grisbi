@@ -67,6 +67,8 @@ extern AB_BANKING *gbanking;
 extern GtkWidget * hpaned;
 extern GtkTreeStore *payee_tree_model;
 extern GtkWidget * scheduler_calendar;
+extern GtkWidget *window;
+extern GtkTooltips *tooltips_general_grisbi;
 /*END_EXTERN*/
 
 
@@ -103,9 +105,16 @@ GtkWidget * create_main_widget ( void )
     GtkWidget * hbox, * eb, * arrow_eb, * arrow_left, * arrow_right;
     GtkStyle * style;
 
+    /* Grisbi tooltips are created as soon as possible. */
+    if ( !tooltips_general_grisbi )
+    {
+	tooltips_general_grisbi = gtk_tooltips_new ();
+    }
+
     /* All stuff will be put in a huge vbox, with an hbox containing
      * quick summary. */
     main_vbox = gtk_vbox_new ( FALSE, 0 );
+
     eb = gtk_event_box_new ();
     style = gtk_widget_get_style ( eb );
     hbox = gtk_hbox_new ( FALSE, 0 );
@@ -143,7 +152,11 @@ GtkWidget * create_main_widget ( void )
     gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 6 );
 
     gtk_box_pack_start ( GTK_BOX(main_vbox), eb, FALSE, FALSE, 0 );
-    gtk_widget_show_all ( eb );
+    
+    if ( etat.show_headings_bar )
+    {
+	gtk_widget_show_all ( eb );
+    }
 
     /* Then create and fill the main hpaned. */
     main_hpaned = gtk_hpaned_new ();
@@ -152,8 +165,16 @@ GtkWidget * create_main_widget ( void )
     gtk_paned_add2 ( GTK_PANED( main_hpaned ), create_main_notebook ( ) );
     gtk_container_set_border_width ( GTK_CONTAINER ( main_hpaned ), 6 );
     if ( etat.largeur_colonne_comptes_operation )
-	gtk_paned_set_position ( GTK_PANED ( main_hpaned ), 
-				 etat.largeur_colonne_comptes_operation );
+    {
+	gtk_paned_set_position ( GTK_PANED ( main_hpaned ), etat.largeur_colonne_comptes_operation );
+    }
+    else
+    {
+	gint width, height;
+
+	gtk_window_get_size ( GTK_WINDOW ( window ), &width, &height );
+	gtk_paned_set_position ( GTK_PANED ( main_hpaned ), (gint) width / 4 );
+    }
     gtk_widget_show ( main_hpaned );
 
     gtk_widget_show ( main_vbox );
@@ -321,6 +342,7 @@ gboolean gsb_gui_on_notebook_switch_page ( GtkNotebook *notebook,
 	case GSB_ACCOUNT_PAGE:
 	    gsb_form_set_expander_visible (TRUE,
 					   TRUE );
+
 	    break;
 
 	case GSB_SCHEDULER_PAGE:
