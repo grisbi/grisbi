@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	     2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -248,12 +248,15 @@ gchar * budgetary_line_sub_div_name ( gpointer sub_div )
     gint budget_number;
     gint sub_budget_number;
 
+    if ( ! sub_div )
+	return NULL;
+
     budget_number = gsb_data_budget_get_no_budget_from_sub_budget (sub_div);
     sub_budget_number = gsb_data_budget_get_no_sub_budget (sub_div);
 
     return gsb_data_budget_get_sub_budget_name ( budget_number,
-						     sub_budget_number,
-						     "" );
+						 sub_budget_number,
+						 "" );
 }
 
 
