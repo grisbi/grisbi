@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	     2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -248,6 +248,9 @@ gchar * category_sub_div_name ( gpointer sub_div )
 {
     gint category_number;
     gint sub_category_number;
+
+    if ( ! sub_div )
+	return NULL;
 
     category_number = gsb_data_category_get_no_category_from_sub_category (sub_div);
     sub_category_number = gsb_data_category_get_no_sub_category (sub_div);
@@ -528,7 +531,8 @@ gint category_add_sub_div ( int div_id )
 gboolean category_add_transaction_to_div ( gpointer  trans, 
 					   int div_id )
 {
-    gsb_data_category_add_transaction_to_category ( gsb_data_transaction_get_transaction_number (trans));
+    gsb_data_category_add_transaction_to_category ( gsb_data_transaction_get_transaction_number (trans),
+						    div_id, 0 );
     return TRUE;
 }
 
@@ -541,7 +545,8 @@ gboolean category_add_transaction_to_div ( gpointer  trans,
 gboolean category_add_transaction_to_sub_div ( gpointer  trans, 
 					       int div_id, int sub_div_id )
 {
-    gsb_data_category_add_transaction_to_category ( gsb_data_transaction_get_transaction_number (trans));
+    gsb_data_category_add_transaction_to_category ( gsb_data_transaction_get_transaction_number (trans),
+						    div_id, sub_div_id );
     return TRUE;
 }
 
