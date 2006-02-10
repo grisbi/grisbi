@@ -1237,7 +1237,9 @@ void gsb_data_category_update_counters ( void )
 	gint transaction_number_tmp;
 	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	gsb_data_category_add_transaction_to_category ( transaction_number_tmp );
+	gsb_data_category_add_transaction_to_category ( transaction_number_tmp,
+							gsb_data_transaction_get_category_number ( transaction_number_tmp ),
+							gsb_data_transaction_get_sub_category_number ( transaction_number_tmp ) );
 
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
@@ -1252,14 +1254,16 @@ void gsb_data_category_update_counters ( void )
  *
  * \return
  * */
-void gsb_data_category_add_transaction_to_category ( gint transaction_number )
+void gsb_data_category_add_transaction_to_category ( gint transaction_number,
+						     gint category_id,
+						     gint sub_category_id )
 {
     struct_category *category;
     struct_sub_category *sub_category;
 
-    category = gsb_data_category_get_structure ( gsb_data_transaction_get_category_number (transaction_number));
-    sub_category = gsb_data_category_get_sub_category_structure ( gsb_data_transaction_get_category_number (transaction_number),
-								  gsb_data_transaction_get_sub_category_number (transaction_number));
+    category = gsb_data_category_get_structure ( category_id );
+    sub_category = gsb_data_category_get_sub_category_structure ( category_id,
+								  sub_category_id );
 
     if ( category )
     {
@@ -1276,8 +1280,6 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number )
     {
 	sub_category -> sub_category_nb_transactions ++;
 	sub_category -> sub_category_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () -> no_devise);
-
-
 	gsb_data_transaction_get_adjusted_amount (transaction_number);
     }
     else
@@ -1366,7 +1368,7 @@ void gsb_data_category_create_default_category_list ( void )
     {
 	gint categ = gsb_data_category_new ( categories_de_base_debit[i] );
 	gsb_data_category_set_type ( categ, 1 );
-	list_tmp = g_slist_append ( list_tmp, categ );
+	list_tmp = g_slist_append ( list_tmp, (gpointer) categ );
 	i++;
     }
     gsb_data_category_merge_category_list (list_tmp);
@@ -1379,7 +1381,7 @@ void gsb_data_category_create_default_category_list ( void )
     {
 	gint categ = gsb_data_category_new ( categories_de_base_debit[i] );
 	gsb_data_category_set_type ( categ, 1 );
-	list_tmp = g_slist_append ( list_tmp, categ );
+	list_tmp = g_slist_append ( list_tmp, (gpointer) categ );
 	i++;
     }
     gsb_data_category_merge_category_list (list_tmp);
@@ -1405,7 +1407,7 @@ gboolean gsb_data_category_merge_category_list ( GSList *list_to_merge )
     {
 	gint category_number;
 
-	category_number = list_tmp -> data; 
+	category_number = (gint) ( list_tmp -> data ); 
 
 	/* we check category_number but normally it will always != 0 */
 	if ( category_number )
