@@ -1453,6 +1453,9 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
     gsb_data_account_set_marked_balance ( account_number, 
 				     gsb_data_account_get_init_balance (account_number));
 
+    /* Use two lines view by default. */
+    gsb_data_account_set_nb_rows ( account_number, 2 );
+
     return account_number;
 }
 
