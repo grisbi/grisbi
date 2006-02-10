@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2004-2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -988,12 +988,12 @@ gboolean division_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath *
 	enum meta_tree_row_type orig_type, dest_type;
 	GtkTreePath * orig_path;
 	GtkTreeModel * model;
-	gint no_div;
+	gint orig_no_div, no_div;
 	gpointer pointer;
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 
-	if ( model == navigation_model )
+	if ( model == GTK_TREE_MODEL(navigation_model) )
 	{
 	    return navigation_row_drop_possible ( drag_dest, dest_path, selection_data );
 	}
@@ -1003,6 +1003,8 @@ gboolean division_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath *
 	dest_type = metatree_get_row_type ( model, dest_path );
 	if ( ! metatree_get ( model, dest_path, META_TREE_NO_DIV_COLUMN, 
 			      (gpointer) &no_div ) ||
+	     ! metatree_get ( model, orig_path, META_TREE_NO_DIV_COLUMN, 
+			      (gpointer) &orig_no_div ) ||
 	     ! metatree_get ( model, dest_path, META_TREE_POINTER_COLUMN, 
 			      (gpointer) &pointer ) )
 	{
@@ -1014,7 +1016,9 @@ gboolean division_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath *
 	    case META_TREE_SUB_DIV:
 		if ( dest_type == META_TREE_DIV && 
 		     ! gtk_tree_path_is_ancestor ( dest_path, orig_path ) &&
-		     pointer && no_div != 0 ) /* i.e. ancestor is no "No division" */
+		     pointer && 
+		     orig_no_div != 0 && 
+		     no_div != 0 ) /* i.e. ancestor is no "No division" */
 		    return TRUE;
 		break;
 
@@ -1052,7 +1056,8 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 	GtkTreeIter iter, iter_parent, orig_iter, orig_parent_iter;
 	gchar * name;
 	gint no_dest_division, no_dest_sub_division, no_orig_division, no_orig_sub_division;
-	gpointer sub_division, dest_sub_division, orig_division, dest_division, pointer;
+	gpointer sub_division = NULL, dest_sub_division = NULL;
+	gpointer orig_division = NULL, dest_division = NULL, pointer = NULL;
 	enum meta_tree_row_type orig_type;
 	gpointer  transaction = NULL;
 	MetatreeInterface * iface;
@@ -1060,7 +1065,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 
-	if ( model == navigation_model )
+	if ( model == GTK_TREE_MODEL(navigation_model) )
 	{
 	    return navigation_drag_data_received ( drag_dest, dest_path, selection_data );
 	}
@@ -1102,9 +1107,10 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 		orig_division = iface -> get_div_pointer ( no_orig_division );
 		sub_division = iface -> get_sub_div_pointer ( no_orig_division, no_orig_sub_division );
 
-		dest_sub_division = iface -> get_sub_div_pointer_from_name ( no_dest_division,
-									     iface -> sub_div_name (sub_division),
-									     1 );
+		if ( sub_division )
+		    dest_sub_division = iface -> get_sub_div_pointer_from_name ( no_dest_division,
+										 iface -> sub_div_name (sub_division),
+										 1 );
 		if ( dest_sub_division )
 		    no_dest_sub_division = iface -> sub_div_id ( dest_sub_division );
 		else
@@ -1119,6 +1125,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 		}
 		else
 		{
+		    /* To handle "no categ" ? */
 		    GtkTreeIter * p_iter;
 		    p_iter = get_iter_from_div ( model, no_dest_division, 0 );
 		    if ( p_iter )
@@ -1126,9 +1133,6 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 			iter = *p_iter;
 		    }
 		}
-		fill_sub_division_row ( model, iface, &iter, 
-					dest_division, dest_sub_division );
-
 		list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 		while ( list_tmp_transactions )
@@ -1157,10 +1161,21 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 		{
 		    fill_division_row ( model, iface, &orig_parent_iter, orig_division );
 		}
-
+		
+		/* Remove original division. */
+		iface -> remove_sub_div ( no_orig_division, no_orig_sub_division );
 		gtk_tree_store_remove ( GTK_TREE_STORE(model), &orig_iter );
 
-		iface -> remove_sub_div ( no_orig_division, no_orig_sub_division );
+		/* If it was no sub-category, recreate it. */
+		if ( ! no_orig_sub_division )
+		{
+		    metatree_fill_new_sub_division ( iface, model, 
+						     no_orig_division, no_orig_sub_division );
+		}
+	
+		/* Update dest at last. */
+		fill_sub_division_row ( model, iface, &iter, 
+					dest_division, dest_sub_division );
 
 		modification_fichier(TRUE);
 
@@ -1216,6 +1231,11 @@ void move_transaction_to_sub_division ( gpointer  transaction,
 	    gtk_tree_store_insert ( GTK_TREE_STORE (model), &child_iter, &dest_iter, 0 );
 	    fill_transaction_row ( model, &child_iter, gsb_data_transaction_get_transaction_number (transaction));
 	}
+    }
+    else
+    {
+	gtk_tree_store_append ( GTK_TREE_STORE (model), &child_iter, &dest_iter );
+	fill_transaction_row ( model, &child_iter, gsb_data_transaction_get_transaction_number (transaction));
     }
 
     /* Update new parents */
