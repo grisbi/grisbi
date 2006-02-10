@@ -5,7 +5,7 @@
 /*                                  barre_outis.c                             */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /*			1995-1997 Peter Mattis, Spencer Kimball and	      */
 /*			          Jsh MacDonald				      */
 /* 			http://www.grisbi.org				      */
@@ -84,6 +84,7 @@ extern gboolean block_menu_cb ;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
 extern GtkTooltips *tooltips_general_grisbi;
+extern GtkWidget * barre_outils;
 /*END_EXTERN*/
 
 
@@ -91,17 +92,10 @@ extern GtkTooltips *tooltips_general_grisbi;
 /*******************************************************************************************/
 GtkWidget *creation_barre_outils ( void )
 {
-    GtkWidget *handlebox, *hbox, *menu, *button;
-
-    if ( !tooltips_general_grisbi )
-	tooltips_general_grisbi = gtk_tooltips_new ();
-
-    /* HandleBox */
-    handlebox = gtk_handle_box_new ();
+    GtkWidget *hbox, *menu, *button;
 
     /* Hbox */
     hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_container_add ( GTK_CONTAINER(handlebox), hbox );
 
     /* Add various icons */
     button = new_button_with_label_and_image ( etat.display_toolbar,
@@ -148,9 +142,31 @@ GtkWidget *creation_barre_outils ( void )
 			   _("Change display mode of the list"), "" );
     gtk_box_pack_start ( GTK_BOX(hbox), menu, FALSE, FALSE, 0 );
 
-    gtk_widget_show_all ( handlebox );
+    gtk_widget_show_all ( hbox );
 
-    return ( handlebox );
+    return ( hbox );
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_update_transaction_toolbar ( void )
+{
+    GSList * list = NULL;
+
+    list = gtk_container_get_children ( GTK_CONTAINER ( barre_outils ) );
+    
+    if ( list )
+    {
+	gtk_container_remove ( GTK_CONTAINER ( barre_outils ),
+			       GTK_WIDGET ( list -> data ) );
+	g_slist_free ( list );
+    }
+    gtk_container_add ( GTK_CONTAINER ( barre_outils ), creation_barre_outils () );
 }
 
 
@@ -185,8 +201,8 @@ gboolean popup_transaction_view_mode_menu ( GtkWidget * button )
     g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
 			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (4) );
 
-    gtk_option_menu_set_history ( GTK_OPTION_MENU(menu), 
-				  gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () ) );
+    gtk_menu_set_active ( GTK_MENU(menu), 
+			  gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () ) );
 
     gtk_widget_show_all ( menu );
     gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 

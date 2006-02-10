@@ -3,7 +3,7 @@
 /* affichage.c */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org) */
+/*			2003-2006 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -693,10 +693,11 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
 gboolean change_toolbar_display_mode ( GtkRadioButton * button )
 {
     if ( gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(button)) )
-	{
-	    etat.display_toolbar = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT(button), "display" ));
-	    
-	}
+    {
+	etat.display_toolbar = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT(button), "display" ));
+    }
+
+    gsb_gui_update_transaction_toolbar ();
 
     return FALSE;
 }
@@ -711,7 +712,7 @@ gboolean change_toolbar_display_mode ( GtkRadioButton * button )
  */
 GtkWidget *tab_display_toolbar ( void )
 {
-    GtkWidget *vbox_pref, *paddingbox, *radio, * radiogroup;
+    GtkWidget * vbox_pref, * paddingbox, * radio, * radiogroup;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Toolbars"), "toolbar.png" );
 
@@ -742,6 +743,20 @@ GtkWidget *tab_display_toolbar ( void )
 
     if ( !gsb_data_account_get_accounts_amount () )
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+
+    /** TODO: really add option to hide toolbar?  This could save
+     * space, but if so, we should add all equivalents to menus.  */
+/*     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),  */
+/* 			 new_checkbox_with_title ( _("Display toolbar"), */
+/* 						   &(etat.show_toolbar), */
+/* 						   NULL ), */
+/* 			 FALSE, FALSE, 0 ); */
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), 
+			 new_checkbox_with_title ( _("Display headings bar"),
+						   &(etat.show_headings_bar),
+						   NULL ),
+			 FALSE, FALSE, 0 );
 
     return ( vbox_pref );
 
