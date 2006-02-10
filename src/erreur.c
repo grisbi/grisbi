@@ -4,7 +4,7 @@
 /*                                  erreur.c                                  */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -143,10 +143,8 @@ gboolean fermeture_grisbi ( void )
 /*************************************************************************************************************/
 void traitement_sigsegv ( gint signal_nb )
 {
-    gchar *gsb_file_default_dir, *errmsg;
+    gchar * gsb_file_default_dir, * errmsg = "";
     GtkWidget * dialog, *expander;
-
-    errmsg = _("Grisbi triggered a segmentation fault and cannot continue its execution.\n\n");
 
     /*   il y a 3 possibilités : */
     /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
@@ -160,14 +158,12 @@ void traitement_sigsegv ( gint signal_nb )
 
 	if ( etat.en_train_de_charger )
 	{
-	    errmsg = g_strconcat ( errmsg, _("File is corrupted."), 
-				   "\n\n", NULL );
+	    errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
 	}
 
 	if ( etat.en_train_de_sauvegarder )
 	{
-	    errmsg = g_strconcat ( errmsg, _("Error occured saving file."), 
-				   "\n\n", NULL );
+	    errmsg = g_strconcat ( errmsg, _("Error occured saving file."), NULL );
 	}
     }
     else 
@@ -209,10 +205,10 @@ void traitement_sigsegv ( gint signal_nb )
 			       g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
 						 nom_fichier_comptes ),
 			       NULL );
-	errmsg = g_strconcat ( errmsg, "\n\n", NULL );
     }
 
     errmsg = g_strconcat ( errmsg, 
+			   "\n\n",
 			   _("Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "),
 			   NULL );
 
