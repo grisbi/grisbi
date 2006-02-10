@@ -6,7 +6,9 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-void gsb_data_category_add_transaction_to_category ( gint transaction_number );
+void gsb_data_category_add_transaction_to_category ( gint transaction_number,
+						     gint category_id,
+						     gint sub_category_id );
 void gsb_data_category_create_default_category_list ( void );
 gdouble gsb_data_category_get_balance ( gint no_category );
 GSList *gsb_data_category_get_categories_list ( void );
