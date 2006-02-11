@@ -30,13 +30,13 @@
 /*START_INCLUDE*/
 #include "fichiers_gestion.h"
 #include "menu.h"
-#include "gsb_currency_config.h"
 #include "utils_montants.h"
 #include "fenetre_principale.h"
 #include "comptes_traitements.h"
 #include "erreur.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
+#include "gsb_currency_config.h"
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
 #include "gsb_data_category.h"
@@ -120,7 +120,7 @@ gboolean new_file ( void )
 
     /*     création de la 1ère devise */
 
-    if ( ! ajout_devise ( NULL ) )
+    if ( ! gsb_currency_config_add_currency ( NULL, NULL ) )
 	return FALSE;
 
     if ( gsb_data_account_new ( type_de_compte ) == -1 )

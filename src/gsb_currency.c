@@ -355,7 +355,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 
     if ( !force
 	 && 
-	 (cache = cached_exchange_rate ( account_currency_number, transaction_currency_number )) )
+	 (cache = gsb_currency_config_get_cached_exchange ( account_currency_number, transaction_currency_number )) )
     {
 	current_exchange = cache -> rate;
 	current_exchange_fees = cache -> fees;
@@ -528,8 +528,8 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 	if ( tmp_currency_number != transaction_currency_number )
 	    current_exchange = -current_exchange;
 
-	update_exchange_rate_cache ( account_currency_number, transaction_currency_number, 
-				     current_exchange, current_exchange_fees );
+	gsb_currency_config_set_cached_exchange ( account_currency_number, transaction_currency_number, 
+						  current_exchange, current_exchange_fees );
     }
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 }

@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "import.h"
-#include "gsb_currency_config.h"
 #include "utils.h"
 #include "utils_montants.h"
 #include "comptes_gestion.h"
@@ -41,6 +40,7 @@
 #include "utils_files.h"
 #include "go-charmap-sel.h"
 #include "gsb_assistant.h"
+#include "gsb_currency_config.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
@@ -832,7 +832,7 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 	    /* Last ressort, we browse ISO4217 currency list and create
 	       currency if found */
 	    if ( !currency_number )
-		currency_number = find_currency_from_iso4217_list ( compte -> devise );
+		currency_number = gsb_currency_config_create_currency_from_iso4217list ( compte -> devise );
 	}
 	else
 	{
@@ -844,11 +844,11 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 	    if ( conv && conv -> int_curr_symbol && strlen ( conv -> int_curr_symbol ) )
 	    {
 		gchar * name = g_strstrip ( my_strdup ( conv -> int_curr_symbol ) );
-		currency_number =  find_currency_from_iso4217_list ( name );
+		currency_number =  gsb_currency_config_create_currency_from_iso4217list ( name );
 		g_free ( name );
 	    }
 	    if ( ! currency_number &&
-		 ! find_currency_from_iso4217_list ( "USD" ) )
+		 ! gsb_currency_config_create_currency_from_iso4217list ( "USD" ) )
 	    {
 		dialogue_error_brain_damage ();
 	    }
@@ -879,7 +879,7 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 /*     if ( !gsb_data_account_get_accounts_amount () ) */
 /*     { */
 /* 	menus_sensitifs ( FALSE ); */
-/* 	ajout_devise (NULL); */
+/* 	gsb_currency_config_add_currency (NULL); */
 /*     } */
 
     return ( FALSE );

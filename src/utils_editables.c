@@ -158,9 +158,6 @@ gboolean set_text (GtkEntry *entry, gchar *value,
     if (data)
 	*data = my_strdup ((gchar*) gtk_entry_get_text ( GTK_ENTRY (entry) ));
 
-    /* Mark file as modified */
-    modification_fichier ( TRUE );
-
     return FALSE;
 }
 

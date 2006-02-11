@@ -27,6 +27,7 @@
 #include "utils.h"
 #include "utils_buttons.h"
 #include "dialog.h"
+#include "gsb_currency_config.h"
 #include "gsb_data_account.h"
 #include "gsb_form_config.h"
 #include "traitement_variables.h"
@@ -34,7 +35,6 @@
 #include "utils_editables.h"
 #include "affichage_liste.h"
 #include "banque.h"
-#include "gsb_currency_config.h"
 #include "affichage.h"
 #include "exercice.h"
 #include "import.h"
@@ -295,7 +295,7 @@ void preferences ( gint page )
 			0, _("Totals currencies"),
 			1, TOTALS_PAGE,
 			-1);
-    gtk_notebook_append_page (preference_frame, tab_display_totals(), NULL);
+    gtk_notebook_append_page (preference_frame, gsb_currency_config_create_totals_page(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -360,7 +360,7 @@ void preferences ( gint page )
 			0, _("Currencies"),
 			1, CURRENCIES_PAGE,
 			-1);
-    gtk_notebook_append_page (preference_frame, onglet_devises(), NULL);
+    gtk_notebook_append_page (preference_frame, gsb_currency_config_create_page(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),

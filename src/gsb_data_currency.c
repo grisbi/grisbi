@@ -44,6 +44,7 @@ typedef struct
     gchar *currency_name;
     gchar *currency_code;
     gchar *currency_code_iso4217;
+    gint currency_floating_point; /* number of digits after the point */
 
     /* the next fields shouldn't be used except for old currencies,
      * they should be removed when i will change the currency function */
@@ -447,7 +448,7 @@ gboolean gsb_data_currency_set_code ( gint currency_number,
 
 
 /**
- * return the  of the currency
+ * return the currency_code_iso4217 of the currency
  *
  * \param currency_number the number of the currency
  *
@@ -467,7 +468,7 @@ gchar *gsb_data_currency_get_code_iso4217 ( gint currency_number )
 
 
 /**
- * set the  of the currency
+ * set the currency_code_iso4217 of the currency
  * the value is dupplicate in memory
  *
  * \param currency_number the number of the currency
@@ -494,6 +495,50 @@ gboolean gsb_data_currency_set_code_iso4217 ( gint currency_number,
 	currency -> currency_code_iso4217 = my_strdup (currency_code_iso4217);
     else
 	currency -> currency_code_iso4217 = NULL;
+
+    return TRUE;
+}
+
+
+/**
+ * return the floating_point of the currency
+ *
+ * \param currency_number the number of the currency
+ *
+ * \return the floating_point of the currency or NULL if problem
+ * */
+gint gsb_data_currency_get_floating_point ( gint currency_number )
+{
+    struct_currency *currency;
+
+    currency = gsb_data_currency_get_structure ( currency_number );
+
+    if (!currency)
+	return 0;
+
+    return currency -> currency_floating_point;
+}
+
+
+/**
+ * set the floating_point of the currency
+ *
+ * \param currency_number the number of the currency
+ * \param floating_point the floating_point of the currency
+ *
+ * \return TRUE if ok or FALSE if problem
+ * */
+gboolean gsb_data_currency_set_floating_point ( gint currency_number,
+						gint floating_point )
+{
+    struct_currency *currency;
+
+    currency = gsb_data_currency_get_structure ( currency_number );
+
+    if (!currency)
+	return FALSE;
+
+    currency -> currency_floating_point = floating_point;
 
     return TRUE;
 }
