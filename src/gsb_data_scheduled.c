@@ -91,7 +91,6 @@ static gboolean gsb_data_scheduled_save_scheduled_pointer ( gpointer scheduled )
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern     gchar * buffer ;
 /*END_EXTERN*/
 
 

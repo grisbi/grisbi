@@ -40,7 +40,6 @@ static gboolean gsb_assistant_enter_unsensitive_next ( GtkWidget * assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern     gchar * buffer ;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

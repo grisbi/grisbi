@@ -42,7 +42,6 @@ static int myisolat1ToUTF8(unsigned char* out, int *outlen,
 
 
 /*START_EXTERN*/
-extern     gchar * buffer ;
 extern gint max;
 extern FILE * out;
 /*END_EXTERN*/

@@ -58,6 +58,7 @@ sources = \
 	gsb_data_budget.c	\
 	gsb_data_category.c	\
 	gsb_data_currency.c	\
+	gsb_data_currency_link.c	\
 	gsb_data_form.c		\
 	gsb_data_payee.c	\
 	gsb_data_report.c	\
@@ -141,6 +142,7 @@ grisbi_INCLUDES =		\
 	gsb_data_budget.h	\
 	gsb_data_category.h	\
 	gsb_data_currency.h	\
+	gsb_data_currency_link.h	\
 	gsb_data_form.h		\
 	gsb_data_payee.h	\
 	gsb_data_report.h	\

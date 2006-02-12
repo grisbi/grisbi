@@ -98,7 +98,6 @@ static void gsb_data_category_reset_counters ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern     gchar * buffer ;
 extern gchar *categories_de_base_credit [] ;
 extern gchar *categories_de_base_debit [] ;
 /*END_EXTERN*/

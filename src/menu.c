@@ -76,7 +76,7 @@ GtkUIManager * ui_manager;
 gint recent_files_merge_id = -1, move_to_account_merge_id = -1;
 
 
-    gchar * buffer = 
+static gchar * buffer = 
 "<ui>"
 "  <menubar name='MenuBar'>"
 "    <menu action='FileMenu'>"

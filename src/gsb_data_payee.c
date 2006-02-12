@@ -62,7 +62,6 @@ static void gsb_data_payee_reset_counters ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern     gchar * buffer ;
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_payee */

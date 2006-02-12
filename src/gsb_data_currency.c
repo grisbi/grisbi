@@ -63,7 +63,6 @@ static gboolean gsb_data_currency_set_default_currency ( gint currency_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern     gchar * buffer ;
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_currency */

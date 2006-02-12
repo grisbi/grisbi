@@ -164,7 +164,6 @@ static gint gsb_data_report_max_number ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern     gchar * buffer ;
 /*END_EXTERN*/
 
 

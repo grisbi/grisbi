@@ -69,7 +69,6 @@ extern gint ancienne_categ_speciale_etat;
 extern gint ancienne_ib_etat;
 extern gint ancienne_sous_categ_etat;
 extern gint ancienne_sous_ib_etat;
-extern     gchar * buffer ;
 extern gint changement_de_groupe_etat;
 extern GDate *date_debut_periode;
 extern gint debut_affichage_etat;

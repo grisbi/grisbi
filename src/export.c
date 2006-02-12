@@ -51,7 +51,6 @@ static void export_resume_maybe_sensitive_next ( GtkWidget * assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern     gchar * buffer ;
 extern gchar *titre_fichier;
 /*END_EXTERN*/
 

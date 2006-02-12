@@ -108,7 +108,6 @@ extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
-extern     gchar * buffer ;
 extern gchar *chemin_logo;
 extern GtkWidget *code_banque;
 extern GtkWidget *email_banque;
@@ -6371,15 +6370,32 @@ gboolean gsb_file_load_update_previous_version ( void )
 		list_tmp_transactions = list_tmp_transactions -> next;
 	    }
 
+	    /* new to the 0.6.0 : append the currency_floating_point to the currencies
+	     * now all the amount are gint and no float, and currency_floating_point will
+	     * determine where is the point in the float
+	     * by defaut (in the last releases), the value was automatickly 2 */
+
+	    list_tmp = gsb_data_currency_get_currency_list ();
+
+	    while ( list_tmp )
+	    {
+		i = gsb_data_currency_get_no_currency ( list_tmp -> data );
+
+		gsb_data_currency_set_floating_point ( i,
+						       2 );
+
+		list_tmp = list_tmp -> next;
+	    }
+
 
 	    /* ********************************************************* */
-	    /* 	    à mettre à chaque fois juste avant la version stable */
+	    /* 	 to set just before the new version */
 	    /* ********************************************************* */
 
 	    modification_fichier ( TRUE );
 
 	    /* ************************************* */
-	    /* 	    ouverture d'un fichier 0.6.0     */
+	    /* 	    opening 0.6.0                    */
 	    /* ************************************* */
 
 	case 60:
@@ -6389,8 +6405,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    break;
 
 	default :
-	    /* 	à ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors */
-	    /* la version nécessaire pour l'ouvrir */
+	    /* we don't know here the release of that file, give the release needed */
 
 	    dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file.\nYou are using version %s."),
 					       download_tmp_values.grisbi_version,

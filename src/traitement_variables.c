@@ -32,6 +32,7 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
+#include "gsb_data_currency_link.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
@@ -178,6 +179,9 @@ void init_variables ( void )
     gsb_data_report_text_comparison_init_variables ();
     gsb_data_scheduled_init_variables ();
     gsb_data_currency_init_variables ();
+    gsb_data_currency_link_init_variables ();
+
+
     gsb_currency_init_variables ();
 
 

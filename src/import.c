@@ -106,7 +106,6 @@ static gchar * type_string_representation ( enum import_type type );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern     gchar * buffer ;
 extern GtkWidget *formulaire;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;

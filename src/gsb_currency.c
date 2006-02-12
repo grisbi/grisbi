@@ -72,7 +72,6 @@ enum currency_list_columns {
 
 
 /*START_EXTERN*/
-extern     gchar * buffer ;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;

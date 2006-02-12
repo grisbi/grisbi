@@ -73,7 +73,6 @@ static gboolean gsb_form_config_update_form_config ( gint account_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern     gchar * buffer ;
 extern GtkWidget *formulaire;
 extern gint max;
 extern GtkWidget *preview;
