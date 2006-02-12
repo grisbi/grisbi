@@ -6,6 +6,12 @@
 #include "gsb_data_currency.h"
 /* END_INCLUDE_H */
 
+enum currency_list_columns {
+    CURRENCY_COL_CODE = 0,
+    CURRENCY_COL_NAME,
+    CURRENCY_COL_NUMBER,
+};
+
 /* START_DECLARATION */
 GDate *gsb_data_currency_get_change_date ( gint currency_number );
 gdouble gsb_data_currency_get_change_rate ( gint currency_number );

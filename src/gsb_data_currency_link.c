@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_currency_link.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 
@@ -44,26 +45,19 @@ typedef struct
     gint first_currency;
     gint second_currency;
     gdouble change_rate;
+
+    /* a link is invalid when :
+     * - it's a comparison between 2 same currencies
+     * - the same link exists before
+     * it's set invalid while the configuration */
+    gboolean invalid_link;
+
 } struct_currency_link;
 
 /*START_STATIC*/
-static gdouble gsb_data_currency_link_get_change_rate ( gint currency_link_number );
-static GSList *gsb_data_currency_link_get_currency_link_list ( void );
-static gint gsb_data_currency_link_get_first_currency ( gint currency_link_number );
-static gint gsb_data_currency_link_get_no_currency_link ( gpointer currency_link_ptr );
-static gint gsb_data_currency_link_get_second_currency ( gint currency_link_number );
+static gboolean gsb_data_currency_link_check_for_invalid ( gint currency_link_number );
 static gpointer gsb_data_currency_link_get_structure ( gint currency_link_number );
 static gint gsb_data_currency_link_max_number ( void );
-static gint gsb_data_currency_link_new ( gint currency_link_number );
-static gboolean gsb_data_currency_link_remove ( gint currency_link_number );
-static gboolean gsb_data_currency_link_set_ ( gint currency_link_number,
-				       gint second_currency );
-static gboolean gsb_data_currency_link_set_change_rate ( gint currency_link_number,
-						  gdouble change_rate);
-static gboolean gsb_data_currency_link_set_first_currency ( gint currency_link_number,
-						     gint first_currency );
-static gint gsb_data_currency_link_set_new_number ( gint currency_link_number,
-					     gint new_no_currency_link );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -299,6 +293,7 @@ gint gsb_data_currency_link_get_first_currency ( gint currency_link_number )
 
 /**
  * set the first_currency of the currency_link
+ * check and fill the invalid flag
  *
  * \param currency_link_number the number of the currency_link
  * \param first_currency the first_currency of the currency_link
@@ -316,6 +311,7 @@ gboolean gsb_data_currency_link_set_first_currency ( gint currency_link_number,
 	return FALSE;
 
     currency_link -> first_currency = first_currency;
+    gsb_data_currency_link_check_for_invalid (currency_link_number);
 
     return TRUE;
 }
@@ -343,14 +339,15 @@ gint gsb_data_currency_link_get_second_currency ( gint currency_link_number )
 
 /**
  * set the second_currency of the currency_link
+ * check and fill the invalid flag
  *
  * \param currency_link_number the number of the currency_link
  * \param second_currency the second_currency of the currency_link
  *
  * \return TRUE if ok or FALSE if problem
  * */
-gboolean gsb_data_currency_link_set_ ( gint currency_link_number,
-				       gint second_currency )
+gboolean gsb_data_currency_link_set_second_currency ( gint currency_link_number,
+						      gint second_currency )
 {
     struct_currency_link *currency_link;
 
@@ -360,6 +357,7 @@ gboolean gsb_data_currency_link_set_ ( gint currency_link_number,
 	return FALSE;
 
     currency_link -> second_currency = second_currency;
+    gsb_data_currency_link_check_for_invalid (currency_link_number);
 
     return TRUE;
 }
@@ -407,4 +405,119 @@ gboolean gsb_data_currency_link_set_change_rate ( gint currency_link_number,
 
     return TRUE;
 }
+
+
+
+/**
+ * return the invalid_link of the currency_link
+ * the flag invalid is set automatickly by gsb_data_currency_link_check_for_invalid
+ * when change 1 of the currency
+ *
+ * \param currency_link_number the number of the currency_link
+ *
+ * \return TRUE if the link is invalid 
+ * */
+gint gsb_data_currency_link_get_invalid_link ( gint currency_link_number )
+{
+    struct_currency_link *currency_link;
+
+    currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
+
+    if (!currency_link)
+	return 0;
+
+    return currency_link -> invalid_link;
+}
+
+
+
+/**
+ * return the message error because of the invalid link
+ *
+ * \param currency_link_number the number of the currency_link
+ *
+ * \return a const gchar formatted with markup : error the message 
+ * */
+const gchar *gsb_data_currency_link_get_invalid_message ( gint currency_link_number )
+{
+    struct_currency_link *currency_link;
+
+    currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
+
+    if (!currency_link)
+	return 0;
+
+    if (!currency_link -> invalid_link)
+	return NULL;
+
+    if ( currency_link -> first_currency == currency_link -> second_currency)
+	return _("<span foreground=\"red\">Warning : the two currencies of the link are identicals</span>");
+
+    return _("<span foreground=\"red\">Warning : that link is already defined</span>");
+}
+
+
+/**
+ * check if the link is invalid and set the flag
+ * a link is invalid if :
+ * - the 2 currencies are the same
+ * - another similar link exists already
+ * an invalid link will not be used by grisbi and showed as invalid in the configuration
+ *
+ * \param currency_link_number the number of the currency_link to check
+ *
+ * \return TRUE  if invalid, FALSE if not
+ * */
+gboolean gsb_data_currency_link_check_for_invalid ( gint currency_link_number )
+{
+    struct_currency_link *currency_link;
+    GSList *tmp_list;
+
+    currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
+
+    if (!currency_link)
+	return FALSE;
+
+    /* first check : if the 2 currencies are identical */
+
+    if ( currency_link -> first_currency == currency_link -> second_currency)
+    {
+	currency_link -> invalid_link = TRUE;
+	return TRUE;
+    }
+
+    /* second check : if that link exists already */
+
+    tmp_list = currency_link_list;
+
+    while (tmp_list)
+    {
+	struct_currency_link *tmp_currency_link;
+
+	tmp_currency_link = tmp_list -> data;
+
+	if ( tmp_currency_link -> currency_link_number != currency_link -> currency_link_number
+	     &&
+	     (( tmp_currency_link -> first_currency == currency_link -> first_currency
+		&&
+		tmp_currency_link -> second_currency == currency_link -> second_currency )
+	      ||
+	      ( tmp_currency_link -> first_currency == currency_link -> second_currency
+		&&
+		tmp_currency_link -> second_currency == currency_link -> first_currency )))
+	{
+	    currency_link -> invalid_link = TRUE;
+	    return TRUE;
+	}
+
+	tmp_list = tmp_list -> next;
+    }
+
+    /* it's ok, the link is valid */
+    currency_link -> invalid_link = FALSE;
+
+    return FALSE;
+}
+
+
 

@@ -28,6 +28,7 @@
 #include "utils_buttons.h"
 #include "dialog.h"
 #include "gsb_currency_config.h"
+#include "gsb_currency_link_config.h"
 #include "gsb_data_account.h"
 #include "gsb_form_config.h"
 #include "traitement_variables.h"
@@ -361,6 +362,14 @@ void preferences ( gint page )
 			1, CURRENCIES_PAGE,
 			-1);
     gtk_notebook_append_page (preference_frame, gsb_currency_config_create_page(), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter2,
+			0, _("Currencies links"),
+			1, CURRENCY_LINKS_PAGE,
+			-1);
+    gtk_notebook_append_page (preference_frame, gsb_currency_link_config_create_page (), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),

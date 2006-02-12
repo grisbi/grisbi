@@ -28,6 +28,7 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
+#include "gsb_data_currency_link.h"
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report_amout_comparison.h"
@@ -59,6 +60,8 @@ static void gsb_file_load_bank ( const gchar **attribute_names,
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
 static void gsb_file_load_currency ( const gchar **attribute_names,
 			      const gchar **attribute_values );
+static void gsb_file_load_currency_link ( const gchar **attribute_names,
+				   const gchar **attribute_values );
 static void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
 					    const gchar *element_name,
 					    gpointer user_data,
@@ -484,6 +487,14 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
     {
 	gsb_file_load_currency ( attribute_names,
 				 attribute_values );
+	return;
+    }
+
+    if ( !strcmp ( element_name,
+		   "Currency_link" ))
+    {
+	gsb_file_load_currency_link ( attribute_names,
+				      attribute_values );
 	return;
     }
 
@@ -2321,6 +2332,79 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	    gsb_data_currency_set_change_rate ( currency_number,
 						my_strtod (attribute_values[i],
 							   NULL ));
+	    i++;
+	    continue;
+	}
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+}
+
+
+/**
+ * load the currency_links in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_currency_link ( const gchar **attribute_names,
+				   const gchar **attribute_values )
+{
+    gint i=0;
+    gint link_number;
+
+    if ( !attribute_names[i] )
+	return;
+
+    link_number = gsb_data_currency_link_new (0);
+
+    do
+    {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nb" ))
+	{
+	    gsb_data_currency_link_set_new_number ( link_number,
+						    utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Cu1" ))
+	{
+	    gsb_data_currency_link_set_first_currency ( link_number,
+							utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Cu2" ))
+	{
+	    gsb_data_currency_link_set_second_currency ( link_number,
+							 utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Ex" ))
+	{
+	    gsb_data_currency_link_set_change_rate ( link_number,
+						     my_strtod (attribute_values[i],
+								NULL ));
 	    i++;
 	    continue;
 	}
@@ -4184,6 +4268,15 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 	if ( attribute_names[i] )
 	{
 	    gint currency_number;
+	    struct {
+		gint one_c1_equal_x_c2;
+		gint contra_currency;
+		gdouble exchange;
+	    } tmp_currency_link;
+		
+	    tmp_currency_link.one_c1_equal_x_c2 = 0;
+	    tmp_currency_link.contra_currency = 0;
+	    tmp_currency_link.exchange = 0.0;
 
 	    currency_number = gsb_data_currency_new (NULL);
 
@@ -4213,36 +4306,49 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		    gsb_data_currency_set_code ( currency_number,
 						 attribute_values[i]);
 
-		/* 	   la suite n'est utile que pour les anciennes devises qui sont passées à l'euro */
-		/* 	non utilisées pour les autres */
-
-		if ( !strcmp ( attribute_names[i],
-			       "Passage_euro" ))
-		    gsb_data_currency_set_change_to_euro ( currency_number,
-							   utils_str_atoi (attribute_values[i]));
-
-		if ( !strcmp ( attribute_names[i],
-			       "Date_dernier_change" ))
-		    gsb_data_currency_set_change_date ( currency_number,
-							gsb_parse_date_string (attribute_values[i]));
+		/* beyond the 0.6, the next part is not anymore in the currencies, but alone
+		 * and simplified...
+		 * so we do the transition here */
 
 		if ( !strcmp ( attribute_names[i],
 			       "Rapport_entre_devises" ))
-		    gsb_data_currency_set_link_currency ( currency_number,
-							  utils_str_atoi (attribute_values[i]));
+		    tmp_currency_link.one_c1_equal_x_c2 = utils_str_atoi (attribute_values[i]);
+
 		if ( !strcmp ( attribute_names[i],
 			       "Devise_en_rapport" ))
-		    gsb_data_currency_set_contra_currency_number ( currency_number,
-								   utils_str_atoi (attribute_values[i]));
+		    tmp_currency_link.contra_currency = utils_str_atoi (attribute_values[i]);
+
 		if ( !strcmp ( attribute_names[i],
 			       "Change" ))
-		    gsb_data_currency_set_change_rate ( currency_number,
-							my_strtod (attribute_values[i],
-								   NULL ));
-
+		    tmp_currency_link.exchange = my_strtod (attribute_values[i],
+							    NULL );
 		i++;
 	    }
 	    while ( attribute_names[i] );
+
+	    /* create now the link between currencies if necessary */
+	    if (tmp_currency_link.contra_currency)
+	    {
+		gint  link_number;
+
+		link_number = gsb_data_currency_link_new (0);
+		if (tmp_currency_link.one_c1_equal_x_c2)
+		{
+		    gsb_data_currency_link_set_first_currency ( link_number,
+								currency_number );
+		    gsb_data_currency_link_set_second_currency ( link_number,
+								 tmp_currency_link.contra_currency);
+		}
+		else
+		{
+		    gsb_data_currency_link_set_first_currency ( link_number,
+								tmp_currency_link.contra_currency );
+		    gsb_data_currency_link_set_second_currency ( link_number,
+								 currency_number);
+		}
+		gsb_data_currency_link_set_change_rate ( link_number,
+							 tmp_currency_link.exchange );
+	    }
 	}
     }
 

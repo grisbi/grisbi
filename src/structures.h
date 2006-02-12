@@ -152,27 +152,6 @@ struct {
 } etat;
 
 
-/* devises */
-
-struct struct_devise
-{
-    gint no_devise;
-    gchar *nom_devise;
-    gchar *code_iso4217_devise;
-    gchar *code_devise;
-
-    /*     tous ces champs sont obsolètes, mais gardés pour les anciennes devises qui sont passées à l'euro */
-    /* 	ils ne doivent plus être utilisés sauf dans ce cas */
-
-    gint passage_euro;                                  /* à 1 si cette devise doit passer à l'euro */
-    GDate *date_dernier_change;                     /*   dernière mise à jour du change, NULL si aucun change */
-    gint une_devise_1_egale_x_devise_2;       /* si = 1 : 1 nom_devise = "change" devise_en_rapport */
-    gint no_devise_en_rapport;
-    gdouble change;                                          /* taux de change */
-};
-
-#define NOM_DEVISE_ASSOCIEE GTK_LABEL (GTK_BIN ( GTK_BUTTON ( &(GTK_OPTION_MENU (option_menu_devises) -> button ))) -> child ) -> label
-
 
 /* banques */
 

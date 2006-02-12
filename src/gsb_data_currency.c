@@ -44,7 +44,7 @@ typedef struct
     gchar *currency_name;
     gchar *currency_code;
     gchar *currency_code_iso4217;
-    gint currency_floating_point; /* number of digits after the point */
+    gint currency_floating_point;	 /* number of digits after the point */
 
     /* the next fields shouldn't be used except for old currencies,
      * they should be removed when i will change the currency function */
@@ -451,7 +451,7 @@ gboolean gsb_data_currency_set_code ( gint currency_number,
  *
  * \param currency_number the number of the currency
  *
- * \return the code_iso4217 of the currency or NULL if problem
+ * \return the code_iso4217 of the currency or NULL if problem or not exist
  * */
 gchar *gsb_data_currency_get_code_iso4217 ( gint currency_number )
 {
@@ -822,7 +822,9 @@ gint gsb_data_currency_get_number_by_code_iso4217 ( const gchar *code )
 
 	currency = list_tmp -> data;
 
-	if (!strcmp (currency -> currency_code_iso4217,
+	if (currency -> currency_code_iso4217
+	    &&
+	    !strcmp (currency -> currency_code_iso4217,
 		     code ))
 	    return (currency -> currency_number);
 	list_tmp = list_tmp -> next;

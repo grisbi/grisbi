@@ -28,6 +28,7 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
+#include "gsb_data_currency_link.h"
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report_amout_comparison.h"
@@ -53,6 +54,9 @@ static gulong gsb_file_save_account_part ( gulong iterator,
 static gulong gsb_file_save_bank_part ( gulong iterator,
 				 gulong *length_calculated,
 				 gchar **file_content );
+static gulong gsb_file_save_currency_link_part ( gulong iterator,
+					  gulong *length_calculated,
+					  gchar **file_content );
 static gulong gsb_file_save_currency_part ( gulong iterator,
 				     gulong *length_calculated,
 				     gchar **file_content );
@@ -145,6 +149,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     gint category_part;
     gint budgetary_part;
     gint currency_part;
+    gint currency_link_part;
     gint bank_part;
     gint financial_year_part;
     gint reconcile_part;
@@ -169,7 +174,8 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     party_part = 100;
     category_part = 500;
     budgetary_part = 500;
-    currency_part = 150;
+    currency_part = 100;
+    currency_link_part = 100;
     bank_part = 300;
     financial_year_part = 100;
     reconcile_part = 50;
@@ -182,6 +188,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 	+ category_part * g_slist_length ( gsb_data_category_get_categories_list ())
 	+ budgetary_part * g_slist_length ( gsb_data_budget_get_budgets_list ())
 	+ currency_part * g_slist_length ( gsb_data_currency_get_currency_list () )
+	+ currency_link_part * g_slist_length ( gsb_data_currency_link_get_currency_link_list ())
 	+ bank_part * g_slist_length ( liste_struct_banques )
 	+ financial_year_part * g_slist_length (liste_struct_exercices  )
 	+ reconcile_part * g_slist_length ( liste_struct_rapprochements )
@@ -232,6 +239,10 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     iterator = gsb_file_save_currency_part ( iterator,
 					     &length_calculated,
 					     &file_content );
+
+    iterator = gsb_file_save_currency_link_part ( iterator,
+						  &length_calculated,
+						  &file_content );
 
     iterator = gsb_file_save_bank_part ( iterator,
 					 &length_calculated,
@@ -1187,6 +1198,51 @@ gulong gsb_file_save_currency_part ( gulong iterator,
     }
     return iterator;
 }
+
+/**
+ * save the currency_links
+ *
+ * \param iterator the current iterator
+ * \param length_calculated a pointer to the variable lengh_calculated
+ * \param file_content a pointer to the variable file_content
+ *
+ * \return the new iterator
+ * */
+gulong gsb_file_save_currency_link_part ( gulong iterator,
+					  gulong *length_calculated,
+					  gchar **file_content )
+{
+    GSList *list_tmp;
+	
+    list_tmp = gsb_data_currency_link_get_currency_link_list ();
+
+    while ( list_tmp )
+    {
+	gchar *new_string;
+	gint link_number;
+
+	link_number = gsb_data_currency_link_get_no_currency_link (list_tmp -> data);
+
+	/* now we can fill the file content */
+
+	new_string = g_markup_printf_escaped ( "\t<Currency_link Nb=\"%d\" Cu1=\"%d\" Cu2=\"%d\" Ex=\"%4.7f\" />\n",
+					       link_number,
+					       gsb_data_currency_link_get_first_currency (link_number),
+					       gsb_data_currency_link_get_second_currency (link_number),
+					       gsb_data_currency_link_get_change_rate (link_number));
+
+	/* append the new string to the file content
+	 * and take the new iterator */
+
+	iterator = gsb_file_save_append_part ( iterator,
+					       length_calculated,
+					       file_content,
+					       new_string );
+	list_tmp = list_tmp -> next;
+    }
+    return iterator;
+}
+
 
 
 /**

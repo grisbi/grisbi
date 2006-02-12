@@ -374,7 +374,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Currency properties"));
 
     /* Create table */
-    table = gtk_table_new ( 2, 3, FALSE );
+    table = gtk_table_new ( 4, 2, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
     gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 0 );
@@ -575,7 +575,7 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
 				   FALSE, _("Currency details"));
 
     /* Create table */
-    table = gtk_table_new ( 2, 3, FALSE );
+    table = gtk_table_new ( 4, 2, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
     gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 0 );
@@ -662,7 +662,7 @@ dialog_return:
 		if ( currency_tree_model )
 		{
 		    gsb_currency_append_currency_to_list ( GTK_LIST_STORE ( currency_tree_model ),
-						       currency_number );
+							   currency_number );
 		    gsb_currency_update_currency_list ();
 		    modification_fichier ( TRUE );
 		    gtk_widget_destroy ( GTK_WIDGET ( dialog ));

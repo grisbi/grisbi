@@ -42,6 +42,7 @@
 
 /*START_STATIC*/
 static gboolean gsb_currency_create_combobox_store ( void );
+static GtkListStore *gsb_currency_get_combobox_store ( void );
 static gboolean gsb_currency_select_change_currency ( GtkWidget *combobox_1,
 					       GtkWidget *combobox_2 );
 /*END_STATIC*/
@@ -63,11 +64,6 @@ static GtkListStore *combobox_currency_store;
 static gdouble current_exchange;
 static gdouble current_exchange_fees;
 
-enum currency_list_columns {
-    CURRENCY_COL_CODE = 0,
-    CURRENCY_COL_NAME,
-    CURRENCY_COL_NUMBER,
-};
 
 
 
@@ -75,6 +71,7 @@ enum currency_list_columns {
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
+extern GtkWidget *tree_view;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -121,6 +118,24 @@ gdouble gsb_currency_get_current_exchange (void)
 gdouble gsb_currency_get_current_exchange_fees (void)
 {
     return current_exchange_fees;
+}
+
+
+/**
+ * give the store wich contains the list of currencies
+ * used to set it in a tree_view with a combo renderer
+ * if not created, make it
+ *
+ * \param
+ *
+ * \return the GtkListStore
+ * */
+GtkListStore *gsb_currency_get_combobox_store ( void )
+{
+    if (!combobox_currency_store)
+	gsb_currency_create_combobox_store ();
+
+    return combobox_currency_store;
 }
 
 
