@@ -2,7 +2,7 @@
 /* work with the struct of budget                                             */
 /*                                                                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2005 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -92,7 +92,6 @@ static gpointer gsb_data_budget_get_structure_in_list ( gint no_budget,
 						 GSList *list );
 static gint gsb_data_budget_max_number ( void );
 static gint gsb_data_budget_max_sub_budget_number ( gint budget_number );
-static gboolean gsb_data_budget_merge_category_list ( void );
 static gint gsb_data_budget_new ( gchar *name );
 static gint gsb_data_budget_new_sub_budget ( gint budget_number,
 				      gchar *name );
@@ -1200,29 +1199,34 @@ void gsb_data_budget_update_counters ( void )
 	gint transaction_number_tmp;
 	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	gsb_data_budget_add_transaction_to_budget ( transaction_number_tmp );
+	gsb_data_budget_add_transaction_to_budget ( transaction_number_tmp,
+						    gsb_data_transaction_get_budgetary_number ( transaction_number_tmp ),
+						    gsb_data_transaction_get_sub_budgetary_number ( transaction_number_tmp ) );
 
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
 }
 
 
+
 /**
- * add the given transaction to its budget in the counters
- * if the transaction has no budget, add it to the blank budget
+ * Add the given transaction to a budget in the counters if no budget
+ * is specified, add it to the blank budget.
  *
- * \param transaction_number the transaction we want to work with
- *
- * \return
- * */
-void gsb_data_budget_add_transaction_to_budget ( gint transaction_number )
+ * \param transaction_number	Transaction we want to work with.
+ * \param budget_id		Budget to add transaction into total.
+ * \param sub_budget_id		Sub-budget to add transaction into total.
+ */
+void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
+						 gint budget_id,
+						 gint sub_budget_id )
 {
     struct_budget *budget;
     struct_sub_budget *sub_budget;
 
-    budget = gsb_data_budget_get_structure ( gsb_data_transaction_get_budgetary_number (transaction_number));
-    sub_budget = gsb_data_budget_get_sub_budget_structure ( gsb_data_transaction_get_budgetary_number (transaction_number),
-							    gsb_data_transaction_get_sub_budgetary_number (transaction_number));
+    budget = gsb_data_budget_get_structure (  budget_id );
+    sub_budget = gsb_data_budget_get_sub_budget_structure ( budget_id ,
+							    sub_budget_id );
 
     if ( budget )
     {
@@ -1249,6 +1253,7 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number )
 	}
     }
 }
+
 
 
 /**
@@ -1336,7 +1341,7 @@ gboolean gsb_data_budget_merge_budget_list ( GSList *list_to_merge )
 
 	new_budget = list_tmp -> data;
 
-	/* we try to find the new budget in the currents categories
+	/* we try to find the new budget in the currents budgets
 	 * if don't, it creates it */
 
 	budget_number = gsb_data_budget_get_number_by_name ( new_budget -> budget_name,
@@ -1370,22 +1375,6 @@ gboolean gsb_data_budget_merge_budget_list ( GSList *list_to_merge )
 
 
 
-/**
- * merge the category list with the current budget list
- *
- * \param nothing
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_budget_merge_category_list ( void )
-{
-    if ( !question_yes_no_hint ( _("Merge the categories list"),
-				 _("Warning: this will add all the categories and subcategories to the budgetary lines!\nBesides you can't cancel this afterwards.\nWe advise you not to use this unless you know exactly what you are doing.\nDo you want to continue anyway?")))
-	return FALSE;
-    
-    return (gsb_data_budget_merge_budget_list (gsb_data_category_get_categories_list ()));
-}
-
-
-
-
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
