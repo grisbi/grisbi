@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -716,6 +716,7 @@ gboolean edit_category ( GtkTreeView * view )
     GtkTreeModel * model;
     GtkTreeIter iter;
     gchar * title;
+    GSList * tmp_list;
 
     /* fill category_number and sub_category_number */
 
@@ -802,11 +803,24 @@ gboolean edit_category ( GtkTreeView * view )
     free ( title );
 
     gtk_dialog_run ( GTK_DIALOG(dialog) );
+
+    if ( sub_category_number > 0 )
+    {
+	gsb_data_category_set_sub_category_name ( category_number,
+						  sub_category_number,
+						  gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+    }
+    else
+    {
+	gsb_data_category_set_name ( category_number,
+				     gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+    }
+
+    gsb_data_category_set_type ( category_number, type );
+
     gtk_widget_destroy ( dialog );
 
     mise_a_jour_combofix_categ ();
-
-    gsb_data_category_set_type ( category_number, type );
 
     if ( sub_category_number > 0 )
     {
@@ -821,6 +835,22 @@ gboolean edit_category ( GtkTreeView * view )
 	fill_division_row ( model, category_interface,
 			    get_iter_from_div ( model, category_number, -1 ),
 			    gsb_data_category_get_structure ( category_number ));
+    }
+
+    tmp_list = gsb_data_transaction_get_transactions_list ();
+    while ( tmp_list )
+    {
+	gint transaction_number;
+	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+
+	if ( gsb_data_transaction_get_category_number ( transaction_number ) == category_number )
+	{
+	    /* FIXME: this is VERY, VERY, VERY time consuming, use a
+	     * better approach, that is iterate over tree and change on
+	     * demand if category is the same. */
+	    gsb_transactions_list_update_transaction ( tmp_list -> data );
+	}
+	tmp_list = tmp_list -> next;
     }
 
     return TRUE;

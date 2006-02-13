@@ -2,9 +2,9 @@
 /* fichier qui s'occupe de l'onglet de gestion des imputations                */
 /* 			imputation_budgetaire.c                               */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2005 Benjamin Drieu (bdrieu@april.org)	      */
-/*			2004 Alain Portal (aportal@univ-montp2.fr) 	      */
+/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2006 Alain Portal (aportal@univ-montp2.fr) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -602,7 +602,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     GtkTreeIter iter;
     gint budget_number = -1, sub_budget_number = -1, type;
     gchar * title;
-
+    GSList * tmp_list;
 
     selection = gtk_tree_view_get_selection ( view );
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -691,6 +691,19 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     free ( title );
 
     gtk_dialog_run ( GTK_DIALOG(dialog) );
+
+    if ( sub_budget_number > 0 )
+    {
+	gsb_data_budget_set_sub_budget_name ( budget_number,
+					      sub_budget_number,
+					      gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+    }
+    else
+    {
+	gsb_data_budget_set_name ( budget_number,
+				   gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+    }
+
     gtk_widget_destroy ( dialog );
 
     mise_a_jour_combofix_imputation ();
@@ -710,6 +723,22 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 	fill_division_row ( model, budgetary_interface,
 			    get_iter_from_div ( model, budget_number, -1 ),
 			    gsb_data_budget_get_structure ( budget_number ));
+    }
+
+    tmp_list = gsb_data_transaction_get_transactions_list ();
+    while ( tmp_list )
+    {
+	gint transaction_number;
+	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+
+	if ( gsb_data_transaction_get_budgetary_number ( transaction_number ) == budget_number )
+	{
+	    /* FIXME: this is VERY, VERY, VERY time consuming, use a
+	     * better approach, that is iterate over tree and change on
+	     * demand if category is the same. */
+	    gsb_transactions_list_update_transaction ( tmp_list -> data );
+	}
+	tmp_list = tmp_list -> next;
     }
 
     return TRUE;

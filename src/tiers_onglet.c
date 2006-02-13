@@ -1,7 +1,7 @@
 /* fichier qui s'occupe de l'onglet de gestion du tiers */
 /*           tiers_onglet.c */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
+/*     Copyright (C) 2000-2006 Cédric Auger */
 /* 			cedric@grisbi.org */
 /* 			http://www.grisbi.org */
 
@@ -403,6 +403,7 @@ gboolean edit_payee ( GtkTreeView * view )
     gpointer payee = NULL;
     gint payee_number;
     gchar * title;
+    GSList * tmp_list;
 
     selection = gtk_tree_view_get_selection ( view );
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -421,7 +422,7 @@ gboolean edit_payee ( GtkTreeView * view )
     payee_number = gsb_data_payee_get_no_payee (payee);
 
     title = g_strdup_printf ( _("Properties for %s"), gsb_data_payee_get_name(payee_number,
-									 TRUE));
+									      TRUE));
     dialog = gtk_dialog_new_with_buttons ( title, GTK_WINDOW (window), GTK_DIALOG_MODAL,
 					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
 
@@ -446,7 +447,7 @@ gboolean edit_payee ( GtkTreeView * view )
     entry_name = gtk_entry_new ();
     gtk_entry_set_text ( GTK_ENTRY ( entry_name ),
 			 gsb_data_payee_get_name(payee_number,
-					    TRUE));
+						 TRUE));
     gtk_widget_set_usize ( entry_name, 400, 0 );
     gtk_table_attach ( GTK_TABLE(table), entry_name, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
@@ -472,12 +473,12 @@ gboolean edit_payee ( GtkTreeView * view )
     gtk_dialog_run ( GTK_DIALOG(dialog) );
 
     /* get the name */
-    gsb_data_payee_set_name( payee_number,
-			gtk_entry_get_text ( GTK_ENTRY (entry_name)));
+    gsb_data_payee_set_name ( payee_number,
+			      gtk_entry_get_text ( GTK_ENTRY (entry_name)));
 
     /* get the description */
     gsb_data_payee_set_description ( payee_number,
-				gsb_text_view_get_content ( entry_description ));
+				     gsb_text_view_get_content ( entry_description ));
 
     gtk_widget_destroy ( dialog );
 
@@ -485,6 +486,23 @@ gboolean edit_payee ( GtkTreeView * view )
 
     fill_division_row ( model, payee_interface,
 			get_iter_from_div ( model, payee_number, -1 ), payee );
+
+
+    tmp_list = gsb_data_transaction_get_transactions_list ();
+    while ( tmp_list )
+    {
+	gint transaction_number;
+	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+
+	if ( gsb_data_transaction_get_party_number ( transaction_number ) == payee_number )
+	{
+	    /* FIXME: this is VERY, VERY, VERY time consuming, use a
+	     * better approach, that is iterate over tree and change on
+	     * demand if category is the same. */
+	    gsb_transactions_list_update_transaction ( tmp_list -> data );
+	}
+	tmp_list = tmp_list -> next;
+    }
 
     return TRUE;
 }
