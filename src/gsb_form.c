@@ -1766,6 +1766,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
 	case GDK_KP_Add:
 	case GDK_plus:
+	case GDK_equal:		/* This should make all our US users happy */
 
 	    /* increase the date of 1 day/week, or the check of 1 */
 	    switch ( element_number )
