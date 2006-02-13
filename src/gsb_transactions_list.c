@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     copyright (c)	2000-2005 Cédric Auger (cedric@grisbi.org)	      */
+/*     copyright (c)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
 /*			2004-2006 Benjamin Drieu (bdrieu@april.org) 	      */
-/*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
+/*			2003-2006 Alain Portal (aportal@univ-montp2.fr)	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -2740,7 +2740,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number )
     }
 
     if ( !question_yes_no_hint ( _("Delete a transaction"),
-				 g_strdup_printf ( _("Do you really want to delete the transaction whith the party '%s' ?"),
+				 g_strdup_printf ( _("Do you really want to delete transaction with party '%s' ?"),
 						   gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number),
 								      FALSE ))))
 	return FALSE;
@@ -3213,6 +3213,8 @@ gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint number )
     
     gtk_tree_model_foreach ( GTK_TREE_MODEL (gsb_transactions_list_get_store ()),
 			     (GtkTreeModelForeachFunc) gsb_gui_update_row_foreach, coords );
+
+    update_titres_tree_view ();
 
     return FALSE;
 }
