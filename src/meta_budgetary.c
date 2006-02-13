@@ -38,9 +38,9 @@
 static gint budgetary_line_add_div ();
 static gint budgetary_line_add_sub_div ( int div_id );
 static gboolean budgetary_line_add_transaction_to_div ( gpointer  trans, 
-						 int div_id );
+							int div_id );
 static gboolean budgetary_line_add_transaction_to_sub_div ( gpointer  trans, 
-						     int div_id, int sub_div_id );
+							    int div_id, int sub_div_id );
 static gdouble budgetary_line_div_balance ( gpointer div );
 static gchar * budgetary_line_div_name ( gpointer div );
 static gint budgetary_line_div_nb_transactions ( gpointer div );
@@ -521,7 +521,8 @@ gint budgetary_line_add_sub_div ( int div_id )
 gboolean budgetary_line_add_transaction_to_div ( gpointer  trans, 
 						 int div_id )
 {
-    gsb_data_budget_add_transaction_to_budget ( gsb_data_transaction_get_transaction_number (trans));
+    gsb_data_budget_add_transaction_to_budget ( gsb_data_transaction_get_transaction_number (trans),
+						div_id, -1 );
     return TRUE;
 }
 
@@ -534,7 +535,8 @@ gboolean budgetary_line_add_transaction_to_div ( gpointer  trans,
 gboolean budgetary_line_add_transaction_to_sub_div ( gpointer  trans, 
 						     int div_id, int sub_div_id )
 {
-    gsb_data_budget_add_transaction_to_budget ( gsb_data_transaction_get_transaction_number (trans));
+    gsb_data_budget_add_transaction_to_budget ( gsb_data_transaction_get_transaction_number (trans),
+						div_id, sub_div_id );
     return TRUE;
 }
 
