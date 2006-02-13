@@ -2,7 +2,7 @@
    dans les paramètres */
 /* affichage.c */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org) */
 /*			2003-2006 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
@@ -39,6 +39,7 @@
 #include "utils_editables.h"
 #include "structures.h"
 #include "include.h"
+#include "fenetre_principale.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -723,6 +724,8 @@ GtkWidget *tab_display_toolbar ( void )
     radiogroup = radio = gtk_radio_button_new_with_label ( NULL, _("Text") );
     g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_TEXT) );
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
+    if ( etat.display_toolbar == GSB_BUTTON_TEXT )
+	gtk_toggle_button_set_active ( radio, TRUE );
     g_signal_connect ( G_OBJECT(radio), "toggled", 
 		       G_CALLBACK(change_toolbar_display_mode), NULL );
 
@@ -730,6 +733,8 @@ GtkWidget *tab_display_toolbar ( void )
 							  _("Icons") );
     g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_ICON) );
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
+    if ( etat.display_toolbar == GSB_BUTTON_ICON )
+	gtk_toggle_button_set_active ( radio, TRUE );
     g_signal_connect ( G_OBJECT(radio), "toggled", 
 		       G_CALLBACK(change_toolbar_display_mode), NULL );
 
@@ -737,6 +742,8 @@ GtkWidget *tab_display_toolbar ( void )
 							  _("Both") );
     g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_BOTH) );
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );    
+    if ( etat.display_toolbar == GSB_BUTTON_BOTH )
+	gtk_toggle_button_set_active ( radio, TRUE );
     g_signal_connect ( G_OBJECT(radio), "toggled", 
 		       G_CALLBACK(change_toolbar_display_mode), NULL );
 
