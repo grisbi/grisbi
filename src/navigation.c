@@ -25,6 +25,7 @@
 #include "navigation.h"
 #include "equilibrage.h"
 #include "echeancier_infos.h"
+#include "erreur.h"
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
 #include "gsb_data_currency.h"
@@ -978,6 +979,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
     gchar * title, * suffix = "";
     gint account_nb, page;
     gint report_number;
+    gint currency_number;
 
     devel_debug ("gsb_gui_navigation_select_line");
 
@@ -1013,9 +1015,12 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
 	    {
 		title = g_strconcat ( title, " (", _("closed"), ")", NULL );
 	    }
-	    suffix = g_strdup_printf ( "%4.2f %s", 
-				       gsb_data_account_get_current_balance ( compte_courant_onglet ),
-				       gsb_data_currency_get_code (gsb_data_account_get_currency ( compte_courant_onglet )));
+
+	    currency_number = gsb_data_account_get_currency ( compte_courant_onglet );
+	    suffix = g_strdup_printf ( "%s %s", 
+				       utils_str_amount_to_str ( gsb_data_account_get_current_balance ( compte_courant_onglet ),
+								 gsb_data_currency_get_floating_point (currency_number)),
+				       gsb_data_currency_get_code (currency_number));
 	    gsb_menu_update_view_menu ( account_nb );
 	    break;
 

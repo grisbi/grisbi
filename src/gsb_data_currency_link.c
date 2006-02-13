@@ -364,8 +364,7 @@ gboolean gsb_data_currency_link_set_second_currency ( gint currency_link_number,
 
 
 /**
- * return the change_rate of the currency_link
- *
+ * return the change_rate of the currency_link *
  * \param currency_link_number the number of the currency_link
  *
  * \return the change_rate of the currency_link or 0 if problem

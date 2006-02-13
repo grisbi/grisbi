@@ -36,6 +36,7 @@
 #include "gsb_data_transaction.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_currency_link.h"
 #include "utils_dates.h"
 #include "utils_str.h"
@@ -519,9 +520,110 @@ gboolean gsb_data_transaction_set_amount ( gint no_transaction,
 
 
 
-/** get the amount of the transaction, modified to be ok with the currency
- * of the account
+/**
+ * return a string with the amount of the transaction according its currency
+ * so, a printable version of the brut amount of that transaction
+ * ex : for euro, currency with 2 digits after the point
+ * for 123,45 ; it's stored 12345 in memory, that function return 123,45 in a tring
+ * 
  * \param no_transaction the number of the transaction
+ * \param absolute if TRUE use the absolute value of the amount
+ * 
+ * \return a newly allocated string containing the amount of the transaction, would be freed
+ * */
+gchar *gsb_data_transaction_get_str_amount ( gint no_transaction,
+					     gboolean absolute )
+{
+    struct_transaction *transaction;
+    gint floating_point;
+    glong tmp_long;
+
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
+
+    if ( !transaction )
+	return NULL;
+
+    floating_point = gsb_data_currency_get_floating_point (transaction -> currency_number);
+
+    tmp_long = 0 + transaction -> transaction_amount;
+    if (absolute)
+	return utils_str_amount_to_str ( labs (tmp_long),
+					 floating_point );
+    else
+	return utils_str_amount_to_str ( tmp_long,
+					 floating_point );
+}
+
+
+/**
+ * return a string of the amount of the transaction, modified to be ok with the currency of
+ * the account
+ * 
+ * \param no_transaction the number of the transaction
+ * \param return_currency_number the currency we want to adjust the transaction's amount
+ * 
+ * \return a newly allocated string containing the modified amount of the transaction, would be freed
+ * */
+gchar *gsb_data_transaction_get_str_adjusted_amount_for_currency ( gint no_transaction,
+								   gint return_currency_number )
+{
+    struct_transaction *transaction;
+    glong amount = 0;
+    gint link_number;
+    gint floating_point;
+
+    transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
+
+    if ( ! (transaction
+	    &&
+	    return_currency_number ))
+	return NULL;
+
+    /* if the transaction currency is the same of the account's one,
+     * we just return the transaction's amount */
+
+    if ( transaction -> currency_number == return_currency_number )
+	return gsb_data_transaction_get_str_amount (no_transaction,
+						    FALSE );
+
+    /* now we can adjust the amount */
+
+    if ( (link_number = gsb_data_currency_link_search ( transaction -> currency_number,
+							return_currency_number )))
+    {
+	/* there is a hard link between the transaction currency and the return currency */
+
+	if ( gsb_data_currency_link_get_first_currency (link_number) == transaction -> currency_number)
+	    amount = lrint (transaction -> transaction_amount * gsb_data_currency_link_get_change_rate (link_number));
+	else
+	    amount = lrint (transaction -> transaction_amount / gsb_data_currency_link_get_change_rate (link_number));
+    }
+    else
+    {
+	/* no hard link between the 2 currencies, the exchange must have been saved in the transaction itself */
+	
+	if ( transaction -> exchange_rate )
+	{
+	    if ( transaction -> change_between_account_and_transaction )
+		amount = lrint (transaction -> transaction_amount / transaction -> exchange_rate - transaction -> exchange_fees);
+	    else
+		amount = lrint (transaction -> transaction_amount * transaction -> exchange_rate - transaction -> exchange_fees);
+	}
+    }
+
+    floating_point = gsb_data_currency_get_floating_point (return_currency_number);
+
+    return utils_str_amount_to_str ( amount,
+				     floating_point );
+}
+
+
+/**
+ * get the amount of the transaction, modified to be ok with the currency
+ * of the account
+ * 
+ * \param no_transaction the number of the transaction
+ * 
  * \return the amount of the transaction
  * */
 gdouble gsb_data_transaction_get_adjusted_amount ( gint no_transaction )
@@ -540,10 +642,13 @@ gdouble gsb_data_transaction_get_adjusted_amount ( gint no_transaction )
 
 
 
-/** get the amount of the transaction, modified to be ok with the currency
+/**
+ * get the amount of the transaction, modified to be ok with the currency
  * given in param 
+ * 
  * \param no_transaction the number of the transaction
  * \param return_currency_number the currency we want to adjust the transaction's amount
+ * 
  * \return the amount of the transaction
  * */
 gdouble gsb_data_transaction_get_adjusted_amount_for_currency ( gint no_transaction,
@@ -574,9 +679,9 @@ gdouble gsb_data_transaction_get_adjusted_amount_for_currency ( gint no_transact
 	/* there is a hard link between the transaction currency and the return currency */
 
 	if ( gsb_data_currency_link_get_first_currency (link_number) == transaction -> currency_number)
-	    amount = transaction -> transaction_amount * gsb_data_currency_link_get_change_rate (link_number);
+	    amount = lrint (transaction -> transaction_amount * gsb_data_currency_link_get_change_rate (link_number));
 	else
-	    amount = transaction -> transaction_amount / gsb_data_currency_link_get_change_rate (link_number);
+	    amount = lrint (transaction -> transaction_amount / gsb_data_currency_link_get_change_rate (link_number));
     }
     else
     {
@@ -585,14 +690,11 @@ gdouble gsb_data_transaction_get_adjusted_amount_for_currency ( gint no_transact
 	if ( transaction -> exchange_rate )
 	{
 	    if ( transaction -> change_between_account_and_transaction )
-		amount = transaction -> transaction_amount / transaction -> exchange_rate - transaction -> exchange_fees;
+		amount = lrint (transaction -> transaction_amount / transaction -> exchange_rate - transaction -> exchange_fees);
 	    else
-		amount = transaction -> transaction_amount * transaction -> exchange_rate - transaction -> exchange_fees;
+		amount = lrint (transaction -> transaction_amount * transaction -> exchange_rate - transaction -> exchange_fees);
 	}
     }
-
-    amount = ( rint (amount * 100 )) / 100;
-	
     return amount;
 }
 

@@ -24,6 +24,8 @@ gint my_strncasecmp ( gchar *chaine_1,
 		      gchar *chaine_2,
 		      gint longueur );
 double my_strtod ( const char *nptr, const char **endptr );
+gchar *utils_str_amount_to_str ( glong amount,
+				 gint floating_point);
 gint utils_str_atoi ( const gchar *chaine );
 gchar *utils_str_itoa ( gint integer );
 /* END_DECLARATION */

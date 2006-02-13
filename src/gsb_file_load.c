@@ -973,8 +973,8 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		       "Initial_balance" ))
 	{
 	    gsb_data_account_set_init_balance (account_number,
-					  my_strtod ( attribute_values[i],
-						      NULL ));
+					       my_strtod ( attribute_values[i],
+							   NULL ));
 	    i++;
 	    continue;
 	}
@@ -983,8 +983,8 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		       "Minimum_wanted_balance" ))
 	{
 	    gsb_data_account_set_mini_balance_wanted ( account_number, 
-						  my_strtod ( attribute_values[i],
-							      NULL ));
+						       my_strtod ( attribute_values[i],
+								   NULL ));
 	    i++;
 	    continue;
 	}
@@ -3809,7 +3809,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 			       "M" ))
 		    gsb_data_transaction_set_amount ( transaction_number,
 						      my_strtod ( attribute_values[i],
-								  NULL ));
+								  NULL ) * 100);
 
 		if ( !strcmp ( attribute_names[i],
 			       "De" ))
@@ -3825,13 +3825,13 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 			       "Tc" ))
 		    gsb_data_transaction_set_exchange_rate ( transaction_number,
 							     my_strtod ( attribute_values[i],
-									 NULL ) );
+									 NULL ));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Fc" ))
 		    gsb_data_transaction_set_exchange_fees ( transaction_number,
 							     my_strtod ( attribute_values[i],
-									 NULL ) );
+									 NULL ) * 100 );
 
 		if ( !strcmp ( attribute_names[i],
 			       "T" ))
@@ -3958,8 +3958,8 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		if ( !strcmp ( attribute_names[i],
 			       "Montant" ))
 		    gsb_data_scheduled_set_amount ( scheduled_number,
-						    my_strtod (attribute_values[i],
-							       NULL));
+						    my_strtod ( attribute_values[i],
+								NULL ) * 100);
 
 		if ( !strcmp ( attribute_names[i],
 			       "Devise" ))
@@ -4633,12 +4633,12 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 			       "Mont_1" ))
 		    gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
 									 my_strtod ( attribute_values[i],
-										     NULL ));
+										     NULL ) * 100);
 		if ( !strcmp ( attribute_names[i],
 			       "Mont_2" ))
 		    gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
 									  my_strtod ( attribute_values[i],
-										      NULL ));
+										      NULL ) * 100);
 		i++;
 	    }
 	    while ( attribute_names[i] );
@@ -5091,8 +5091,8 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 		   "Solde_initial" ))
     {
 	gsb_data_account_set_init_balance (account_number,
-				      my_strtod ( text,
-						  NULL ));
+					   my_strtod ( text,
+						       NULL ) * 100 );
 	return;
     }
 
@@ -5100,8 +5100,8 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 		   "Solde_mini_voulu" ))
     {
 	gsb_data_account_set_mini_balance_wanted ( account_number, 
-					      my_strtod ( text,
-							  NULL ));
+						   my_strtod ( text,
+							       NULL ) * 100 );
 	return;
     }
 
@@ -5109,8 +5109,8 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 		   "Solde_mini_autorise" ))
     {
 	gsb_data_account_set_mini_balance_authorized ( account_number, 
-						  my_strtod ( text,
-							      NULL ));
+						       my_strtod ( text,
+								   NULL ) * 100 );
 	return;
     }
 
@@ -5137,8 +5137,8 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 		   "Solde_dernier_releve" ))
     {
 	gsb_data_account_set_reconcile_balance ( account_number,
-					    my_strtod ( text,
-							NULL ) );
+						 my_strtod ( text,
+							     NULL ) * 100 );
 	return;
     }
 

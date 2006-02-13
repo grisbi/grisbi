@@ -128,7 +128,7 @@ static void p_press (void);
 static void popup_transaction_context_menu ( gboolean full, int x, int y );
 static void r_press (void);
 static gint schedule_transaction ( gint transaction_number );
-static gdouble solde_debut_affichage ( gint no_account );
+static glong solde_debut_affichage ( gint no_account );
 static void update_titres_tree_view ( void );
 /*END_STATIC*/
 
@@ -941,8 +941,7 @@ gboolean gsb_transactions_list_fill_row ( gint transaction_number,
 gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 						 gint cell_content_number )
 {
-    gchar *temp;
-    gdouble amount;
+    gint account_currency;
 
     /* if it's a breakdown and we want to see the party,
      * we show the category */
@@ -973,67 +972,53 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 
 	case TRANSACTION_LIST_BUDGET:
 
-	    temp = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number),
-					      gsb_data_transaction_get_sub_budgetary_number ( transaction_number),
-					      NULL );
-	    return temp;
+	    return ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number),
+						gsb_data_transaction_get_sub_budgetary_number ( transaction_number),
+						NULL ));
 
-
-	    /* mise en forme du débit */
 	case TRANSACTION_LIST_DEBIT:
-	    if ( gsb_data_transaction_get_amount ( transaction_number)< -0.001 ) 
-		/* -0.001 is to handle float approximations */
+	case TRANSACTION_LIST_CREDIT:
+	    /* give the amount of the transaction on the transaction currency */
+	    if ( (cell_content_number == TRANSACTION_LIST_DEBIT
+		  &&
+		  gsb_data_transaction_get_amount ( transaction_number)< 0 )
+		 ||
+		 (cell_content_number == TRANSACTION_LIST_CREDIT
+		  &&
+		  gsb_data_transaction_get_amount ( transaction_number) >= 0 ))
 	    {
 		if ( gsb_data_transaction_get_currency_number (transaction_number) != gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)))
-		    temp = g_strconcat ( g_strdup_printf ( "%4.2f", -gsb_data_transaction_get_amount ( transaction_number)),
-					 "(",
-					 gsb_data_currency_get_code (gsb_data_transaction_get_currency_number (transaction_number)),
-					 ")",
-					 NULL );
+		    return ( g_strconcat ( gsb_data_transaction_get_str_amount (transaction_number,
+										TRUE ),
+					   "(",
+					   gsb_data_currency_get_code (gsb_data_transaction_get_currency_number (transaction_number)),
+					   ")",
+					   NULL ));
 		else
-		    temp = g_strdup_printf ( "%4.2f", -gsb_data_transaction_get_amount ( transaction_number));
-
-		return ( temp );
+		    return (gsb_data_transaction_get_str_amount (transaction_number,
+								 TRUE ));
 	    }
 	    else
-		return ( NULL );
-
-	    break;
-
-	    /* mise en forme du crédit */
-	case TRANSACTION_LIST_CREDIT:
-
-	    if ( gsb_data_transaction_get_amount ( transaction_number)>= 0 )
-	    {
-		if ( gsb_data_transaction_get_currency_number (transaction_number) != gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)) )
-		    temp = g_strconcat ( g_strdup_printf ( "%4.2f", gsb_data_transaction_get_amount ( transaction_number)),
-					 "(",
-					 gsb_data_currency_get_code (gsb_data_transaction_get_currency_number (transaction_number)),
-					 ")",
-					 NULL );
-		else
-		    temp = g_strdup_printf ( "%4.2f", gsb_data_transaction_get_amount ( transaction_number));
-
-		return ( temp );
-	    }
-	    else
-		return ( NULL );
-
+		return NULL;
 	    break;
 
 	case TRANSACTION_LIST_BALANCE:
 	    return NULL;
 
-	    /* mise en forme du amount dans la devise du compte */
-
 	case TRANSACTION_LIST_AMOUNT:
-	    /* on doit calculer et afficher le amount de l'ope */
+	    /* give the amount of the transaction in the currency of the account */
 
-	    amount = gsb_data_transaction_get_adjusted_amount ( transaction_number);
-
-	    return ( g_strdup_printf ( "%4.2f %s",
-				       amount,
-				       gsb_data_currency_get_code (gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)))));
+	    account_currency = gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number));
+	    if ( account_currency != gsb_data_transaction_get_currency_number (transaction_number))
+		return ( g_strconcat ( "(",
+				       gsb_data_transaction_get_str_adjusted_amount_for_currency ( transaction_number,
+												   account_currency ),
+				       gsb_data_currency_get_code (account_currency),
+				       ")",
+				       NULL ));
+	    else 
+		return NULL;
+	    break;
 
 	    /* mise en forme du moyen de paiement */
 
@@ -1256,12 +1241,13 @@ gboolean gsb_transactions_list_expand_row ( GtkTreeView *tree_view,
  * */
 gboolean gsb_transactions_list_set_transactions_balances ( gint no_account )
 {
-    gdouble solde_courant;
+    glong current_total;
     gint column_balance;
     gint line_balance;
     GtkTreePath *path_sorted;
     GtkTreePath *path;
     GtkTreeModel *model;
+    gint floating_point;
 
     devel_debug ( g_strdup_printf ("gsb_transactions_list_set_transactions_balances, no_account : %d", no_account ));
 
@@ -1285,9 +1271,11 @@ gboolean gsb_transactions_list_set_transactions_balances ( gint no_account )
     /* path is the path in the transactions list (origin) */
     path = gsb_transactions_list_get_list_path_from_sorted_path ( path_sorted );
 
+    floating_point = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (no_account));
+
     /*     on calcule le solde de démarrage */
 
-    solde_courant = solde_debut_affichage ( no_account );
+    current_total = solde_debut_affichage ( no_account );
 
     while ( path )
     {
@@ -1308,7 +1296,7 @@ gboolean gsb_transactions_list_set_transactions_balances ( gint no_account )
 		continue;
 	    }
 
-	    solde_courant = solde_courant + gsb_data_transaction_get_adjusted_amount (transaction_number);
+	    current_total = current_total + gsb_data_transaction_get_adjusted_amount (transaction_number);
 
 	    gtk_tree_model_get_iter ( model,
 				      &iter,
@@ -1316,13 +1304,13 @@ gboolean gsb_transactions_list_set_transactions_balances ( gint no_account )
 
 	    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
 				 &iter,
-				 column_balance, g_strdup_printf ( "%4.2f",
-								   solde_courant ),
+				 column_balance, utils_str_amount_to_str ( current_total,
+									   floating_point ),
 				 -1 );
 
 	    /* 	on met la couleur du solde */
 
-	    if ( solde_courant > -0.01 )
+	    if ( current_total >= 0 )
 		gtk_tree_store_set ( GTK_TREE_STORE ( model ),
 				     &iter,
 				     TRANSACTION_COL_NB_AMOUNT_COLOR, NULL,
@@ -1447,9 +1435,9 @@ gint find_balance_line ( void )
 /* c'est soit le solde initial du compte si on affiche les R */
 /* soit le solde initial - les opés R si elles ne sont pas affichées */
 /******************************************************************************/
-gdouble solde_debut_affichage ( gint no_account )
+glong solde_debut_affichage ( gint no_account )
 {
-    gdouble solde;
+    glong solde;
     GSList *list_tmp_transactions;
 
     solde = gsb_data_account_get_init_balance (no_account);

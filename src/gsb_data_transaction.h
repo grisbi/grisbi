@@ -36,6 +36,10 @@ gchar *gsb_data_transaction_get_notes ( gint no_transaction );
 gint gsb_data_transaction_get_party_number ( gint no_transaction );
 gpointer gsb_data_transaction_get_pointer_to_transaction ( gint transaction_number );
 gint gsb_data_transaction_get_reconcile_number ( gint no_transaction );
+gchar *gsb_data_transaction_get_str_adjusted_amount_for_currency ( gint no_transaction,
+								   gint return_currency_number );
+gchar *gsb_data_transaction_get_str_amount ( gint no_transaction,
+					     gboolean absolute );
 gint gsb_data_transaction_get_sub_budgetary_number ( gint no_transaction );
 gint gsb_data_transaction_get_sub_category_number ( gint no_transaction );
 gchar *gsb_data_transaction_get_transaction_id ( gint no_transaction );

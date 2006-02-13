@@ -97,6 +97,79 @@ gchar *utils_str_itoa ( gint integer )
 /***********************************************************************************************************/
 
 
+/*
+ * convert the integer in string, same as utils_str_itoa but with modifications :
+ * - place a . at the good place given by floating_point (if = 2 <=> 2 digits after the .)
+ * - set a space every 3 digits
+ *
+ *   \param amount
+ *   \param floating_point
+ *
+ *   \return a newly allocated string, to free with g_free after use
+ */
+gchar *utils_str_amount_to_str ( glong amount,
+				 gint floating_point)
+{
+    div_t result_div;
+    gchar *chaine;
+    gint i = 0, j=0;
+    glong num;
+
+    /* for a long int : max 11 char
+     * so with the possible -, the spaces and the .
+     * we arrive to maximum 14 char : -21 474 836.48 + 1 for the 0 terminal */
+    chaine = g_malloc0 ( 15*sizeof (gchar) );
+    
+    num = labs(amount);
+
+    // Construct the result in the reverse order from right to left, then reverse it.
+    do
+    {
+	if ( i
+	     &&
+	     i == floating_point)
+	{
+	    chaine[i] = '.';
+	    result_div.quot = num;
+	}
+	else
+	{
+	    if (i > floating_point)
+		j++;
+
+	    if ( j==4 )
+	    {
+		j=0;
+		chaine[i] = ' ';
+		result_div.quot = num;
+	    }
+	    else
+	    {
+		result_div = div ( num, 10 );
+		chaine[i] = result_div.rem + '0';
+	    }
+	}
+	i++;
+    }
+    while ( ( num = result_div.quot ));
+
+    // Add the sign at the end of the string just before to reverse it to avoid
+    // to have to insert it at the begin just after...
+    if (amount < 0)
+    {
+        chaine[i++] = '-';
+    }
+    
+    chaine[i] = 0;
+
+    g_strreverse ( chaine );
+
+    return ( chaine );
+}
+
+
+
+
 
 /***********************************************************************************************************/
 /* cette fonction protÃšge atoi qui plante quand on lui envoie un null */
