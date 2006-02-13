@@ -388,6 +388,10 @@ gboolean gsb_file_open_file ( gchar *filename )
     gsb_status_message ( _("Creating main window"));
     main_widget = create_main_widget();
 
+    /* check the schedulers */
+    gsb_status_message ( _("Checking scheduled transactions"));
+    gsb_scheduler_list_check_scheduled_transactions_time_limit ();
+
     /* check the amounts of all the accounts */
     gsb_status_message ( _("Checking amounts"));
     list_tmp = gsb_data_account_get_list_accounts ();
@@ -410,10 +414,6 @@ gboolean gsb_file_open_file ( gchar *filename )
 							   gsb_data_account_get_current_balance (i) < gsb_data_account_get_mini_balance_wanted (i) );
 	list_tmp = list_tmp -> next;
     }
-
-    /* check the schedulers */
-    gsb_status_message ( _("Checking scheduled transactions"));
-    gsb_scheduler_list_check_scheduled_transactions_time_limit ();
 
     /* set the name of the file in the window title
      * and in the menu of the main window, so main_widget must

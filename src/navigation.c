@@ -979,10 +979,17 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
     gint account_nb, page;
     gint report_number;
 
+    devel_debug ("gsb_gui_navigation_select_line");
+
     if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
 	return FALSE;
 
     gtk_tree_model_get (model, &iter, NAVIGATION_PAGE, &page, -1);
+
+    gsb_gui_navigation_update_notebook ( selection, model );
+    if ( page == GSB_ACCOUNT_PAGE )
+	gsb_menu_update_accounts_in_menus ();
+
 
     switch ( page )
     {
@@ -1052,10 +1059,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
     }
 
     gsb_gui_headings_update ( title, suffix );
-    gsb_gui_navigation_update_notebook ( selection, model );
-    if ( page == GSB_ACCOUNT_PAGE )
-	gsb_menu_update_accounts_in_menus ();
-
     return FALSE;
 }
 
