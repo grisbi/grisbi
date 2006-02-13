@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*  Fichier qui s'occupe de former les différentes fenêtres de travail      */
 /*                                                                            */
-/*     Copyright (C)	2000-2005 CÃ©dric Auger (cedric@grisbi.org)      */
+/*     Copyright (C)	2000-2006 CÃ©dric Auger (cedric@grisbi.org)      */
 /*			2005-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -67,8 +67,8 @@ extern AB_BANKING *gbanking;
 extern GtkWidget * hpaned;
 extern GtkTreeStore *payee_tree_model;
 extern GtkWidget * scheduler_calendar;
-extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window;
+extern GtkTooltips *tooltips_general_grisbi;
 /*END_EXTERN*/
 
 
@@ -81,6 +81,8 @@ GtkWidget *notebook_comptes_equilibrage;
 
 /** Notebook of the account pane. */
 GtkWidget *account_page;
+
+static GtkWidget * headings_eb;
 
 /** Title for the heading bar. */
 static GtkWidget * headings_title;
@@ -102,7 +104,7 @@ extern AB_BANKING *gbanking;
  */
 GtkWidget * create_main_widget ( void )
 {
-    GtkWidget * hbox, * eb, * arrow_eb, * arrow_left, * arrow_right;
+    GtkWidget * hbox, * arrow_eb, * arrow_left, * arrow_right;
     GtkStyle * style;
 
     /* Grisbi tooltips are created as soon as possible. */
@@ -115,8 +117,9 @@ GtkWidget * create_main_widget ( void )
      * quick summary. */
     main_vbox = gtk_vbox_new ( FALSE, 0 );
 
-    eb = gtk_event_box_new ();
-    style = gtk_widget_get_style ( eb );
+    headings_eb = gtk_event_box_new ();
+    style = gtk_widget_get_style ( headings_eb );
+
     hbox = gtk_hbox_new ( FALSE, 0 );
 
     /* Create two arrows. */
@@ -147,16 +150,12 @@ GtkWidget * create_main_widget ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), headings_suffix, FALSE, FALSE, 0 );
 
     /* Change color with an event box trick. */
-    gtk_container_add ( GTK_CONTAINER ( eb ), hbox );
-    gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
+    gtk_container_add ( GTK_CONTAINER ( headings_eb ), hbox );
+    gtk_widget_modify_bg ( headings_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
     gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 6 );
 
-    gtk_box_pack_start ( GTK_BOX(main_vbox), eb, FALSE, FALSE, 0 );
-    
-    if ( etat.show_headings_bar )
-    {
-	gtk_widget_show_all ( eb );
-    }
+    gtk_box_pack_start ( GTK_BOX(main_vbox), headings_eb, FALSE, FALSE, 0 );
+    gsb_gui_update_show_headings ();
 
     /* Then create and fill the main hpaned. */
     main_hpaned = gtk_hpaned_new ();
@@ -307,6 +306,7 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 }
 
 
+
 /**
  * Handler triggered when the main notebook changed page.  It is
  * responsible for initial widgets fill, because it is not done at the
@@ -443,6 +443,26 @@ void gsb_gui_headings_update ( gchar * title, gchar * suffix )
 			   g_strconcat ( "<b>", title, "</b>", NULL ) );
     gtk_label_set_markup ( GTK_LABEL(headings_suffix), 
 			   g_strconcat ( "<b>", suffix, "</b>", NULL ) );
+}
+
+
+
+/**
+ * Display or hide the headings bar depending on configuration.
+ *
+ * return		FALSE
+ */
+gboolean gsb_gui_update_show_headings ()
+{
+    if ( etat.show_headings_bar )
+    {
+	gtk_widget_show_all ( headings_eb );
+    }
+    else
+    {
+	gtk_widget_hide_all ( headings_eb );
+    }
+    return FALSE;
 }
 
 
