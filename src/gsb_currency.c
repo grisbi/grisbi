@@ -33,6 +33,7 @@
 #include "gsb_currency_config.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
+#include "gsb_data_currency_link.h"
 #include "gsb_data_transaction.h"
 #include "utils_str.h"
 #include "utils.h"
@@ -303,19 +304,8 @@ void gsb_currency_check_for_change ( gint transaction_number )
     account_currency_number = gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number));
     transaction_currency_number = gsb_data_transaction_get_currency_number (transaction_number);
 
-    /* si c'est la devise du compte ou */
-    /* si c'est un compte qui doit passer à l'euro ( la transfo se fait au niveau de l'affichage de la liste ) */
-    /* ou si c'est un compte en euro et l'opé est dans une devise qui doit passer à l'euro -> pas de change à demander */
-
-    if ( !( transaction_currency_number == account_currency_number
-	    ||
-	    ( gsb_data_currency_get_change_to_euro (account_currency_number)
-	      &&
-	      !strcmp ( gsb_data_currency_get_name (transaction_currency_number), _("Euro") ))
-	    ||
-	    ( !strcmp (gsb_data_currency_get_name (account_currency_number), _("Euro") )
-	      &&
-	      gsb_data_currency_get_change_to_euro (transaction_currency_number))))
+    if ( !gsb_data_currency_link_search ( account_currency_number,
+					  transaction_currency_number ))
     {
 	/* it's a foreign currency, ask for the exchange rate and fees */
 
@@ -481,44 +471,10 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     }
     else
     {
-	/* check if there is a hard association between the account and transaction currency */
-	if ( gsb_data_currency_get_contra_currency_number (account_currency_number) == transaction_currency_number )
-	{
-	    /* there is a hard association */
-	    gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox_1),
-				       gsb_data_currency_get_link_currency (account_currency_number));
-	    gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox_2),
-				       gsb_data_currency_get_link_currency (account_currency_number));
-
-	    /* if there is already a change, we set it */
-	    if ( gsb_data_currency_get_change_date (account_currency_number))
-		gtk_entry_set_text ( GTK_ENTRY ( entry ),
-				     g_strdup_printf ( "%f",
-						       gsb_data_currency_get_change_rate (account_currency_number)));
-	}
-	else
-	    if ( gsb_data_currency_get_contra_currency_number (transaction_currency_number) == account_currency_number )
-	    {
-		/* there is a hard association */
-		gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox_1),
-					   !gsb_data_currency_get_link_currency (transaction_currency_number));
-		gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox_2),
-					   !gsb_data_currency_get_link_currency (transaction_currency_number));
-
-		/* if there is already a change, we set it */
-		if ( gsb_data_currency_get_change_date (transaction_currency_number))
-		    gtk_entry_set_text ( GTK_ENTRY ( entry ),
-					 g_strdup_printf ( "%f",
-							   gsb_data_currency_get_change_rate (transaction_currency_number)));
-	    }
-	    else
-	    {
-		/* no association */
-		gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox_1),
-					   0 );
-		gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox_2),
-					   0 );
-	    }
+	gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox_1),
+				   0 );
+	gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox_2),
+				   0 );
     }
 
     /* show the dialog */

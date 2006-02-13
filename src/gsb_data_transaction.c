@@ -36,7 +36,7 @@
 #include "gsb_data_transaction.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
-#include "gsb_data_currency.h"
+#include "gsb_data_currency_link.h"
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "include.h"
@@ -550,14 +550,15 @@ gdouble gsb_data_transaction_get_adjusted_amount_for_currency ( gint no_transact
 								gint return_currency_number )
 {
     struct_transaction *transaction;
-    gdouble amount = 0;
+    gdouble amount = 0.0;
+    gint link_number;
 
     transaction = gsb_data_transaction_get_transaction_by_no ( no_transaction);
 
     if ( ! (transaction
 	    &&
 	    return_currency_number ))
-	return 0;
+	return 0.0;
 
     /* if the transaction currency is the same of the account's one,
      * we just return the transaction's amount */
@@ -567,36 +568,28 @@ gdouble gsb_data_transaction_get_adjusted_amount_for_currency ( gint no_transact
 
     /* now we can adjust the amount */
 
-    if ( gsb_data_currency_get_change_to_euro (return_currency_number)
-	 &&
-	 !strcmp ( gsb_data_currency_get_name (transaction -> currency_number),
-		   _("Euro")))
-    	amount = transaction -> transaction_amount * gsb_data_currency_get_change_rate (return_currency_number);
-    else
-	if ( gsb_data_currency_get_change_to_euro (transaction -> currency_number)
-	     &&
-	     !strcmp (gsb_data_currency_get_name (return_currency_number), _("Euro") ))
-	    amount = transaction -> transaction_amount / gsb_data_currency_get_change_rate (transaction -> currency_number);
+    if ( (link_number = gsb_data_currency_link_search ( transaction -> currency_number,
+							return_currency_number )))
+    {
+	/* there is a hard link between the transaction currency and the return currency */
+
+	if ( gsb_data_currency_link_get_first_currency (link_number) == transaction -> currency_number)
+	    amount = transaction -> transaction_amount * gsb_data_currency_link_get_change_rate (link_number);
 	else
-	    if ( transaction -> exchange_rate )
-	    {
-		if ( transaction -> change_between_account_and_transaction )
-		    amount = transaction -> transaction_amount / transaction -> exchange_rate - transaction -> exchange_fees;
-		else
-		    amount = transaction -> transaction_amount * transaction -> exchange_rate - transaction -> exchange_fees;
-	    }
+	    amount = transaction -> transaction_amount / gsb_data_currency_link_get_change_rate (link_number);
+    }
+    else
+    {
+	/* no hard link between the 2 currencies, the exchange must have been saved in the transaction itself */
+	
+	if ( transaction -> exchange_rate )
+	{
+	    if ( transaction -> change_between_account_and_transaction )
+		amount = transaction -> transaction_amount / transaction -> exchange_rate - transaction -> exchange_fees;
 	    else
-	    {
-		if ( gsb_data_currency_get_contra_currency_number (transaction -> currency_number) == return_currency_number
-		     &&
-		     gsb_data_currency_get_change_rate (transaction -> currency_number) )
-		{
-		    if ( transaction -> change_between_account_and_transaction )
-			amount = transaction -> transaction_amount * gsb_data_currency_get_change_rate (transaction -> currency_number) - transaction -> exchange_fees;
-		    else
-			amount = transaction -> transaction_amount / gsb_data_currency_get_change_rate (transaction -> currency_number) - transaction -> exchange_fees;
-		} 
-	    }
+		amount = transaction -> transaction_amount * transaction -> exchange_rate - transaction -> exchange_fees;
+	}
+    }
 
     amount = ( rint (amount * 100 )) / 100;
 	

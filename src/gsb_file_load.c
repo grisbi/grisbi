@@ -2291,47 +2291,10 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	}
 
 	if ( !strcmp ( attribute_names[i],
-		       "Mte" ))
+		       "Fl" ))
 	{
-	    gsb_data_currency_set_change_to_euro ( currency_number,
+	    gsb_data_currency_set_floating_point ( currency_number,
 						   utils_str_atoi (attribute_values[i]));
-	    i++;
-	    continue;
-	}
-
-	if ( !strcmp ( attribute_names[i],
-		       "Dte" ))
-	{
-	    gsb_data_currency_set_change_date ( currency_number,
-						gsb_parse_date_string (attribute_values[i]));
-	    i++;
-	    continue;
-	}
-
-	if ( !strcmp ( attribute_names[i],
-		       "Rbc" ))
-	{
-	    gsb_data_currency_set_link_currency ( currency_number,
-						  utils_str_atoi (attribute_values[i]));
-	    i++;
-	    continue;
-	}
-
-	if ( !strcmp ( attribute_names[i],
-		       "Rcu" ))
-	{
-	    gsb_data_currency_set_contra_currency_number ( currency_number,
-							   utils_str_atoi (attribute_values[i]));
-	    i++;
-	    continue;
-	}
-
-	if ( !strcmp ( attribute_names[i],
-		       "Ch" ))
-	{
-	    gsb_data_currency_set_change_rate ( currency_number,
-						my_strtod (attribute_values[i],
-							   NULL ));
 	    i++;
 	    continue;
 	}

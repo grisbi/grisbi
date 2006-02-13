@@ -1176,16 +1176,12 @@ gulong gsb_file_save_currency_part ( gulong iterator,
 
 	/* now we can fill the file content */
 
-	new_string = g_markup_printf_escaped ( "\t<Currency Nb=\"%d\" Na=\"%s\" Co=\"%s\" Ico=\"%s\" Mte=\"%d\" Dte=\"%s\" Rbc=\"%d\" Rcu=\"%d\" Ch=\"%4.7f\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Currency Nb=\"%d\" Na=\"%s\" Co=\"%s\" Ico=\"%s\" Fl=\"%d\" />\n",
 					       currency_number,
 					       gsb_data_currency_get_name (currency_number),
 					       gsb_data_currency_get_code (currency_number),
 					       gsb_data_currency_get_code_iso4217 (currency_number),
-					       gsb_data_currency_get_change_to_euro (currency_number),
-					       gsb_format_gdate (gsb_data_currency_get_change_date (currency_number)),
-					       gsb_data_currency_get_link_currency (currency_number),
-					       gsb_data_currency_get_contra_currency_number (currency_number),
-					       gsb_data_currency_get_change_rate (currency_number));
+					       gsb_data_currency_get_floating_point (currency_number));
 
 	/* append the new string to the file content
 	 * and take the new iterator */

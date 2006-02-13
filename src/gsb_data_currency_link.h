@@ -17,6 +17,8 @@ gint gsb_data_currency_link_get_second_currency ( gint currency_link_number );
 gboolean gsb_data_currency_link_init_variables ( void );
 gint gsb_data_currency_link_new ( gint currency_link_number );
 gboolean gsb_data_currency_link_remove ( gint currency_link_number );
+gint gsb_data_currency_link_search ( gint currency_1,
+				     gint currency_2 );
 gboolean gsb_data_currency_link_set_change_rate ( gint currency_link_number,
 						  gdouble change_rate);
 gboolean gsb_data_currency_link_set_first_currency ( gint currency_link_number,

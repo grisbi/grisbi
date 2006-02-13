@@ -520,4 +520,50 @@ gboolean gsb_data_currency_link_check_for_invalid ( gint currency_link_number )
 }
 
 
+/**
+ * look for a link between the 2 currencies given in the param
+ *
+ * \param currency_1 the number of the first currency
+ * \param currency_2 the number of the second currency
+ *
+ * \return the number of the link, 0 if not found, -1 if they are the same currencies
+ * */
+gint gsb_data_currency_link_search ( gint currency_1,
+				     gint currency_2 )
+{
+    GSList *tmp_list;
+
+    if (!currency_1
+	||
+	!currency_2 )
+	return 0;
+
+    if ( currency_1 == currency_2 )
+	return -1;
+
+    tmp_list = currency_link_list;
+
+    while (tmp_list)
+    {
+	struct_currency_link *tmp_currency_link;
+
+	tmp_currency_link = tmp_list -> data;
+
+	if ( !tmp_currency_link -> invalid_link
+	     &&
+	     (( tmp_currency_link -> first_currency == currency_1
+		&&
+		tmp_currency_link -> second_currency == currency_2 )
+	      ||
+	      ( tmp_currency_link -> first_currency == currency_2
+		&&
+		tmp_currency_link -> second_currency == currency_1 )))
+	    return tmp_currency_link -> currency_link_number;
+
+	tmp_list = tmp_list -> next;
+    }
+    return 0;
+}
+
+
 

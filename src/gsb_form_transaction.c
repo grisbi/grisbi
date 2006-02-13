@@ -42,7 +42,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
-#include "gsb_data_currency.h"
+#include "gsb_data_currency_link.h"
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report.h"
@@ -496,15 +496,12 @@ void verification_bouton_change_devise ( void )
     currency_number = gsb_currency_get_currency_from_combobox (gsb_form_get_element_widget (TRANSACTION_FORM_DEVISE,
 											    account_number));
 
-    if ( !( currency_number == account_currency_number
-	    ||
-	    ( gsb_data_currency_get_change_to_euro (account_currency_number) && !strcmp ( gsb_data_currency_get_name (currency_number), _("Euro") ))
-	    ||
-	    ( !strcmp ( gsb_data_currency_get_name (account_currency_number), _("Euro") ) && gsb_data_currency_get_change_to_euro (currency_number))))
-	gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_CHANGE,
+    if ( gsb_data_currency_link_search ( account_currency_number,
+					 currency_number ))
+	gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHANGE,
 						       account_number) );
     else
-	gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHANGE,
+	gtk_widget_show ( gsb_form_get_element_widget (TRANSACTION_FORM_CHANGE,
 						       account_number) );
 }
 /******************************************************************************/
