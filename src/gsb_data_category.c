@@ -3,7 +3,7 @@
 /*                                                                            */
 /*                                  data_account                              */
 /*                                                                            */
-/*     Copyright (C)	2000-2005 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -1246,8 +1246,8 @@ void gsb_data_category_update_counters ( void )
 
 
 /**
- * add the given transaction to its category in the counters
- * if the transaction has no category, add it to the blank category
+ * Add the given transaction to a category in the counters if no
+ * category is specified, add it to the blank category.
  *
  * \param transaction_number the transaction we want to work with
  *
@@ -1279,7 +1279,6 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
     {
 	sub_category -> sub_category_nb_transactions ++;
 	sub_category -> sub_category_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency ());
-
 
 	gsb_data_transaction_get_adjusted_amount (transaction_number);
     }
