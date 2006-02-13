@@ -687,10 +687,9 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 
 	    if ( iface -> transaction_div_id (gsb_data_transaction_get_pointer_to_transaction (transaction_number_tmp)) == no_division )
 	    {
-		iface -> add_transaction_to_sub_div ( gsb_data_transaction_get_pointer_to_transaction (transaction_number_tmp), nouveau_no_division,
-						      nouveau_no_sub_division );
-		iface -> transaction_set_div_id ( gsb_data_transaction_get_pointer_to_transaction (transaction_number_tmp), nouveau_no_division );
-		iface -> transaction_set_sub_div_id ( gsb_data_transaction_get_pointer_to_transaction (transaction_number_tmp), nouveau_no_sub_division );
+		move_transaction_to_sub_division ( list_tmp_transactions -> data, model,
+						   NULL, NULL, nouveau_no_division,
+						   nouveau_no_sub_division );
 	    }
 	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
@@ -994,7 +993,7 @@ gboolean division_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath *
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 
-	if ( model == GTK_TREE_MODEL (navigation_model))
+	if ( model == GTK_TREE_MODEL(navigation_model) )
 	{
 	    return navigation_row_drop_possible ( drag_dest, dest_path, selection_data );
 	}
@@ -1066,7 +1065,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 
-	if ( model == GTK_TREE_MODEL (navigation_model))
+	if ( model == GTK_TREE_MODEL(navigation_model) )
 	{
 	    return navigation_drag_data_received ( drag_dest, dest_path, selection_data );
 	}
@@ -1221,7 +1220,23 @@ void move_transaction_to_sub_division ( gpointer  transaction,
     new_sub_division = iface -> get_sub_div_pointer ( no_division, no_sub_division );
 
     /* Insert new row */
-    gtk_tree_model_get_iter ( model, &dest_iter, dest_path );
+    if ( dest_path )
+    {
+	gtk_tree_model_get_iter ( model, &dest_iter, dest_path );
+    }
+    else
+    {
+	GtkTreeIter * p_iter = get_iter_from_div ( model, no_division, no_sub_division );
+	if ( p_iter )
+	{
+	    dest_iter = *p_iter;
+	}
+	else
+	{
+	    return;
+	}
+    }
+
     /* Avoid filling "empty" not yet selected subdivisions */
     if ( gtk_tree_model_iter_children ( model, &child_iter, &dest_iter ) )
     {
@@ -1261,6 +1276,7 @@ void move_transaction_to_sub_division ( gpointer  transaction,
     /* Change parameters */
     iface -> transaction_set_div_id ( transaction, no_division );
     iface -> transaction_set_sub_div_id ( transaction, no_sub_division );
+    gsb_transactions_list_update_transaction ( transaction );
 
     if ( orig_path )
     {
@@ -1357,7 +1373,8 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 								     ( !sub_division ? 
 								       iface -> div_name ( division ) :
 								       iface -> sub_div_name ( sub_division ) ) ),
-						   _("If you want to remove this (sub-)division but want to keep transactions, you can transfer them to another (sub-)division.  Otherwise, transactions can be simply deleted along with their division.") ));
+						   g_strdup_printf ( _("If you want to remove it but want to keep transactions, you can transfer them to another (sub-)%s.  Otherwise, transactions can be simply deleted along with their division."), 
+								     g_ascii_strdown ( iface -> meta_name, -1 ) ) ) );
 
     /*       mise en place du choix tranfert vers un autre division */
 
@@ -1800,6 +1817,8 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
     GtkTreeView * tree_view;
     GtkTreeIter iter;
     gboolean selection_is_set = FALSE;
+    gpointer div, sub_div = NULL;
+    gint div_id, sub_div_id;
 
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
     tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
@@ -1808,8 +1827,6 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 
     if ( selection && gtk_tree_selection_get_selected ( selection, &model, &iter ) )
     {
-	gpointer div, sub_div = NULL;
-	gint div_id, sub_div_id;
 	gchar * text, * balance = "";
 	gpointer pointer;
 
@@ -1848,8 +1865,8 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
     /* Update sensitiveness of linked widgets. */
     metatree_set_linked_widgets_sensitive ( model, selection_is_set, "selection" );
     if ( selection_is_set && 
-	 metatree_get_row_type ( model, gtk_tree_model_get_path ( model, &iter ) ) == 
-	 META_TREE_DIV )
+	 metatree_get_row_type ( model, gtk_tree_model_get_path ( model, &iter ) ) == META_TREE_DIV &&
+	 div_id )
     {
 	metatree_set_linked_widgets_sensitive ( model, TRUE, "sub-division" );
     }
