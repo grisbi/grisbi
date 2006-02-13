@@ -4,7 +4,7 @@
 /*                                                                            */
 /*                                  barre_outis.c                             */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
 /*			2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /*			1995-1997 Peter Mattis, Spencer Kimball and	      */
 /*			          Jsh MacDonald				      */
@@ -86,6 +86,7 @@ extern gboolean block_menu_cb ;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
 extern GtkTooltips *tooltips_general_grisbi;
+extern GtkWidget * barre_outils;
 /*END_EXTERN*/
 
 
@@ -165,7 +166,7 @@ void gsb_gui_update_transaction_toolbar ( void )
     {
 	gtk_container_remove ( GTK_CONTAINER ( barre_outils ),
 			       GTK_WIDGET ( list -> data ) );
-	g_list_free ( list );
+	g_slist_free ( list );
     }
     gtk_container_add ( GTK_CONTAINER ( barre_outils ), creation_barre_outils () );
 }
