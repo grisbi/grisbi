@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -81,6 +81,10 @@ struct conditional_message messages[] =
 
     { "recover-breakdown", N_("Recover breakdown?"),
       N_("This is a breakdown of transaction, associated transactions can be recovered as in last transaction with this payee.  Do you want to recover them?"),
+      FALSE, FALSE, },
+
+    { "no-inconsistency-found", N_("No inconsistency found."),
+      N_("Grisbi found no known inconsistency in accounts processed."),
       FALSE, FALSE, },
 
 /*
@@ -541,6 +545,8 @@ void dialog_message ( gchar * label, ... )
 	i ++;
     }
 }
+
+
 
 /**
  * create and return a window with the text given in param
