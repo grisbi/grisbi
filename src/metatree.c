@@ -1864,6 +1864,11 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 
     /* Update sensitiveness of linked widgets. */
     metatree_set_linked_widgets_sensitive ( model, selection_is_set, "selection" );
+    if ( ! div_id )
+    {
+	metatree_set_linked_widgets_sensitive ( model, FALSE, "selection" );
+    }
+
     if ( selection_is_set && 
 	 metatree_get_row_type ( model, gtk_tree_model_get_path ( model, &iter ) ) == META_TREE_DIV &&
 	 div_id )
