@@ -3,7 +3,7 @@
 /*                                                                            */
 /*                                  menu.c                                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
 /*			2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org				      */
 /*                                                                            */
@@ -32,6 +32,7 @@
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "gsb_form_transaction.h"
+#include "gsb_file_debug.h"
 #include "barre_outils.h"
 #include "comptes_traitements.h"
 #include "erreur.h"
@@ -90,6 +91,8 @@ static gchar * buffer =
 "      <separator/>"
 "      <menuitem action='ImportFile'/>"
 "      <menuitem action='ExportFile'/>"
+"      <separator/>"
+"      <menuitem action='DebugFile'/>"
 "      <separator/>"
 "      <menuitem action='Close'/>"
 "      <menuitem action='Quit'/>"
@@ -151,122 +154,125 @@ GtkWidget *init_menus ( GtkWidget *vbox )
     GtkActionGroup * action_group;
     GtkActionEntry entries[] = {
 	{ "FileMenu",		NULL,			_("_File"),
-	    NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "New",		GTK_STOCK_NEW,		_("_New account file..."),
-	    NULL,			NULL,			G_CALLBACK( new_file ) },
+	  NULL,			NULL,			G_CALLBACK( new_file ) },
 
 	{ "Open",		GTK_STOCK_OPEN,		_("_Open..."),
-	    NULL,			NULL,			G_CALLBACK( ouvrir_fichier ) },
+	  NULL,			NULL,			G_CALLBACK( ouvrir_fichier ) },
 
 	{ "RecentFiles",	NULL,			_("_Recently opened files"),
-	    NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "Save",		GTK_STOCK_SAVE,		_("_Save"),
-	    NULL,			NULL,			G_CALLBACK( enregistrement_fichier ) },
+	  NULL,			NULL,			G_CALLBACK( enregistrement_fichier ) },
 
 	{ "SaveAs",		GTK_STOCK_SAVE_AS,	_("_Save as..."),
-	    NULL,			NULL,			G_CALLBACK( gsb_save_file_as ) },	
+	  NULL,			NULL,			G_CALLBACK( gsb_save_file_as ) },	
 
 	{ "ImportFile",		GTK_STOCK_CONVERT,	_("_Import file..."),
-	    NULL,			NULL,			G_CALLBACK( importer_fichier ) },
+	  NULL,			NULL,			G_CALLBACK( importer_fichier ) },
 
 	{ "ExportFile",		GTK_STOCK_CONVERT,	_("_Export accounts as QIF/CSV file..."),
-	    NULL,			NULL,			G_CALLBACK( export_accounts ) },
+	  NULL,			NULL,			G_CALLBACK( export_accounts ) },
+
+	{ "DebugFile",		GTK_STOCK_FIND,		_("_Debug account file..."),
+	  NULL,			NULL,			G_CALLBACK( gsb_file_debug ) },
 
 	{ "Close",		GTK_STOCK_CLOSE,	_("_Close"),
-	    NULL,			NULL,			G_CALLBACK( fermer_fichier ) },
+	  NULL,			NULL,			G_CALLBACK( fermer_fichier ) },
 
 	{ "Quit",		GTK_STOCK_QUIT,		_("_Quit"),
-	    NULL,			NULL,			G_CALLBACK( fermeture_grisbi ) },
+	  NULL,			NULL,			G_CALLBACK( fermeture_grisbi ) },
 
 	{ "EditMenu",		NULL,			_("_Edit"),
-	    NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "NewTransaction",	GTK_STOCK_NEW,		_("_New transaction"),	
-	    "",			NULL,			G_CALLBACK( new_transaction ) },
+	  "",			NULL,			G_CALLBACK( new_transaction ) },
 
 	{ "RemoveTransaction",	GTK_STOCK_DELETE,	_("_Remove transaction"),	
-	    "",			NULL,			G_CALLBACK( remove_transaction ) },
+	  "",			NULL,			G_CALLBACK( remove_transaction ) },
 
 	{ "CloneTransaction",	GTK_STOCK_COPY,		_("_Clone transaction"),	
-	    "",			NULL,			G_CALLBACK( clone_selected_transaction ) },
+	  "",			NULL,			G_CALLBACK( clone_selected_transaction ) },
 
 	{ "EditTransaction",	GTK_STOCK_PROPERTIES,	_("_Edit transaction"),	
-	    "",			NULL,			G_CALLBACK( gsb_transactions_list_edit_current_transaction ) },
+	  "",			NULL,			G_CALLBACK( gsb_transactions_list_edit_current_transaction ) },
 
 	{ "ConvertToScheduled",	GTK_STOCK_CONVERT,	_("Convert to _scheduled transaction"),
-	    NULL,			NULL,			G_CALLBACK( schedule_selected_transaction ) },
+	  NULL,			NULL,			G_CALLBACK( schedule_selected_transaction ) },
 
 	{ "MoveToAnotherAccount",NULL,			_("_Move transaction to another account"),
-	    NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "Preferences",	GTK_STOCK_PREFERENCES,	_("_Preferences"),
-	    NULL,			NULL,			G_CALLBACK( preferences ) },
+	  NULL,			NULL,			G_CALLBACK( preferences ) },
 
 	/* View menu */
 	{ "ViewMenu",		NULL,			_("_View"),
-	    NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "NewAccount",		GTK_STOCK_NEW,		_("_New account"),
-	    "",			NULL,			G_CALLBACK( new_account ) },
+	  "",			NULL,			G_CALLBACK( new_account ) },
 
 	{ "RemoveAccount",	GTK_STOCK_DELETE,	_("_Remove current account"),
-	    "",			NULL,			G_CALLBACK( delete_account ) },
+	  "",			NULL,			G_CALLBACK( delete_account ) },
 
 	/* Help Menu */
 	{ "HelpMenu",		NULL,			_("_Help"),
-	    NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "Manual",		GTK_STOCK_HELP,		_("_Manual"),
-	    NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "QuickStart",		NULL,			_("_Quick start"),
-	    NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "Translation",	NULL,			_("_Translation"),
-	    NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "About",		GTK_STOCK_ABOUT,	_("_About Grisbi..."),
-	    NULL,			NULL,			G_CALLBACK( a_propos ) },
+	  NULL,			NULL,			G_CALLBACK( a_propos ) },
 
 	{ "GrisbiWebsite",	NULL,			_("_Grisbi website"),
-	    NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "ReportBug",		NULL,			_("_Report a bug"),
-	    NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "Tip",		GTK_STOCK_DIALOG_INFO,	_("_Tip of the day"),
-	    NULL,			NULL,			G_CALLBACK( force_display_tip ) },
+	  NULL,			NULL,			G_CALLBACK( force_display_tip ) },
 
     };
     GtkRadioActionEntry radio_entries[] = {
 	{ "ShowOneLine",	NULL,			_("Show _one line per transaction"),
-	    NULL,			NULL,			ONE_LINE_PER_TRANSACTION },
+	  NULL,			NULL,			ONE_LINE_PER_TRANSACTION },
 
 	{ "ShowTwoLines",	NULL,			_("Show _two lines per transaction"),
-	    NULL,			NULL,			TWO_LINES_PER_TRANSACTION },
+	  NULL,			NULL,			TWO_LINES_PER_TRANSACTION },
 
 	{ "ShowThreeLines",	NULL,			_("Show _three lines per transaction"),
-	    NULL,			NULL,			THREE_LINES_PER_TRANSACTION },
+	  NULL,			NULL,			THREE_LINES_PER_TRANSACTION },
 
 	{ "ShowFourLines",	NULL,			_("Show _four lines per transaction"),
-	    NULL,			NULL,			FOUR_LINES_PER_TRANSACTION },
+	  NULL,			NULL,			FOUR_LINES_PER_TRANSACTION },
     }; 
     GtkToggleActionEntry toggle_entries[] = {
 	{ "ShowTransactionForm",NULL,			_("Show transaction _form"),
-	    NULL,			NULL,			G_CALLBACK ( affiche_cache_le_formulaire ), 
-	    etat.formulaire_toujours_affiche },
+	  NULL,			NULL,			G_CALLBACK ( affiche_cache_le_formulaire ), 
+	  etat.formulaire_toujours_affiche },
 	{ "ShowGrid",		NULL,			_("Show _grid"),
-	    NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_grid_mode ), 
-	    etat.affichage_grille },
+	  NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_grid_mode ), 
+	  etat.affichage_grille },
 	{ "ShowReconciled",	NULL,			_("Show _reconciled"),
-	    GINT_TO_POINTER (gsb_data_account_get_r ( gsb_gui_navigation_get_current_account ())), 
-	    NULL,			G_CALLBACK ( gsb_gui_toggle_show_reconciled),
-	    0 },
+	  GINT_TO_POINTER (gsb_data_account_get_r ( gsb_gui_navigation_get_current_account ())), 
+	  NULL,			G_CALLBACK ( gsb_gui_toggle_show_reconciled),
+	  0 },
 	{ "ShowClosed",		NULL,			_("Show _closed accounts"),
-	    NULL,			NULL,			G_CALLBACK ( NULL ),
-	    etat.show_closed_accounts } 
+	  NULL,			NULL,			G_CALLBACK ( NULL ),
+	  etat.show_closed_accounts } 
     };
 
     ui_manager = gtk_ui_manager_new ();
