@@ -4035,7 +4035,7 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 
 	/* we show a message because it can take some time */
 
-	message_window = GTK_WIDGET (gsb_dialog_create_information_window ( make_hint(_("Loading the releved transactions"),
+	message_window = GTK_WIDGET (gsb_dialog_create_information_window ( make_hint(_("Loading archived reconciled transactions."),
 										      _("This operation can take some time...") )));
 	gtk_widget_show (message_window);
 	update_ecran ();
