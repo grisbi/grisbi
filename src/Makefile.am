@@ -68,6 +68,7 @@ sources = \
 	gsb_data_scheduled.c	\
 	gsb_data_transaction.c	\
 	gsb_file_config.c	\
+	gsb_file_debug.c	\
 	gsb_file_load.c		\
 	gsb_file_others.c	\
 	gsb_file_save.c		\
