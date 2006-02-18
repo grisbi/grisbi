@@ -424,6 +424,7 @@ void latex_safe ( gchar * text )
 		
 	    case '&':
 	    case '%':
+	    case '#':
 	    case '\\':
 	    case '$':
 		fprintf ( latex_out, "\\" );
