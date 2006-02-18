@@ -1,7 +1,7 @@
 /*  Fichier qui s'occupe d'afficher les états via une impression latex */
 /*      etats_latex.c */
 
-/*     Copyright (C)	2004 Benjamin Drieu (bdrieu@april.org)		      */
+/*     Copyright (C)	2004-2006 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org				      */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -432,6 +432,7 @@ void latex_safe ( gchar * text )
 		
 	    case '%':
 	    case '&':
+	    case '#':
 	    case '\\':
 	    case '$':
 		fprintf ( out, "\\" );
