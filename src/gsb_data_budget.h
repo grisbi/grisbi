@@ -7,7 +7,8 @@
 
 /* START_DECLARATION */
 void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
-						 gint budget_id, gint sub_budget_id);
+						 gint budget_id,
+						 gint sub_budget_id );
 gdouble gsb_data_budget_get_balance ( gint no_budget );
 GSList *gsb_data_budget_get_budgets_list ( void );
 gdouble gsb_data_budget_get_direct_balance ( gint no_budget );

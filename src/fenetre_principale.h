@@ -27,7 +27,6 @@ gboolean gsb_gui_on_notebook_switch_page ( GtkNotebook *notebook,
 					   GtkNotebookPage *page,
 					   guint page_number,
 					   gpointer null );
-gboolean gsb_gui_update_show_headings ();
 /*END_DECLARATION*/
 
 #endif
