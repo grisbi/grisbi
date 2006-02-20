@@ -32,8 +32,10 @@
 #include "metatree.h"
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_transaction.h"
 #include "gsb_form.h"
 #include "utils_editables.h"
+#include "gsb_form_transaction.h"
 #include "gtk_combofix.h"
 #include "utils_buttons.h"
 #include "utils.h"
@@ -51,11 +53,6 @@ static gboolean popup_payee_view_mode_menu ( GtkWidget * button );
 
 
 
-#include "xpm/book-closed.xpm"
-#include "xpm/book-open.xpm"
-
-
-
 gint mise_a_jour_combofix_tiers_necessaire;
 
 GtkWidget *arbre_tiers;
@@ -64,10 +61,6 @@ GtkWidget *text_box;
 GtkWidget *bouton_modif_tiers_modifier;
 GtkWidget *bouton_modif_tiers_annuler;
 GtkWidget *bouton_supprimer_tiers;
-GdkPixmap *pixmap_ouvre;
-GdkBitmap *masque_ouvre;
-GdkPixmap *pixmap_ferme;
-GdkBitmap *masque_ferme;
 GtkWidget *bouton_ajouter_tiers;
 
 gint no_devise_totaux_tiers;
@@ -103,15 +96,6 @@ GtkWidget *onglet_tiers ( void )
     static GtkTargetEntry row_targets[] = {
 	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
-
-
-    /* création des pixmaps pour la liste */
-    pixmap_ouvre = gdk_pixmap_create_from_xpm_d ( GTK_WIDGET(window) -> window,
-						  &masque_ouvre, NULL, 
-						  (gchar **) book_open_xpm );
-    pixmap_ferme = gdk_pixmap_create_from_xpm_d ( GTK_WIDGET(window) -> window,
-						  &masque_ferme, NULL, 
-						  (gchar **) book_closed_xpm );
 
     /* création de la fenêtre qui sera renvoyée */
 
