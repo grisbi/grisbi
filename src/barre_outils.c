@@ -84,7 +84,6 @@ GtkWidget *fleche_bas;
 extern GtkWidget *barre_outils;
 extern gboolean block_menu_cb ;
 extern GtkWidget *formulaire;
-extern GtkItemFactory *item_factory_menu_general;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkUIManager * ui_manager;
 /*END_EXTERN*/
@@ -333,7 +332,6 @@ gboolean change_aspect_liste ( gint demande )
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
 											  menu_name ( "ViewMenu", "ShowReconciled", NULL ) ) ), 
 					   TRUE );
-
 	    block_menu_cb = FALSE;
 
 	    break;
@@ -346,9 +344,9 @@ gboolean change_aspect_liste ( gint demande )
 	    modification_fichier ( TRUE );
 
 	    block_menu_cb = TRUE;
-	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-						 gsb_string_escape_underscores( menu_name(_("_View"), _("Show reconciled transactions"), NULL) ) );
-	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), FALSE );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
+											  menu_name ( "ViewMenu", "ShowReconciled", NULL ) ) ), 
+					   FALSE );
 	    block_menu_cb = FALSE;
 
 	    break;
