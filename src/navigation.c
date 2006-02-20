@@ -36,6 +36,7 @@
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "comptes_gestion.h"
+#include "utils_str.h"
 #include "gsb_file_config.h"
 #include "navigation.h"
 #include "include.h"
@@ -202,7 +203,7 @@ GtkWidget * create_navigation_pane ( void )
 		       G_CALLBACK (gsb_gui_navigation_check_key_press),
 		       navigation_model  );
 
-    g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view)), 
+    g_signal_connect_after (gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view)), 
 			    "changed", ((GCallback) gsb_gui_navigation_select_line), 
 			    navigation_model );
 
