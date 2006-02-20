@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*     Copyright (C)	2004-2005 Alain Portal (aportal@univ-montp2.fr)	      */
-/*                  	     2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*                  	2006-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -22,19 +22,39 @@
 #include "include.h"
 
 /*START_INCLUDE*/
+#include "gsb_file_debug.h"
+#include "dialog.h"
+#include "utils_exercices.h"
+#include "gsb_data_account.h"
+#include "gsb_data_currency.h"
+#include "gsb_data_transaction.h"
+#include "gsb_status.h"
+#include "include.h"
 #include "structures.h"
+#include "gsb_assistant.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-gboolean reconciliation_check ( void );
-gboolean duplicate_categ_check ( void );
-gboolean duplicate_budgetary_line_check ( void );
-gboolean contra_transaction_check ( void );
-gboolean financial_years_check ( void );
+static gchar * gsb_debug_reconcile_test ( void );
+static gboolean gsb_debug_enter_test_page ( GtkWidget * assistant );
+static void gsb_debug_add_report_page ( GtkWidget * assistant, gint page, 
+					struct gsb_debug_test * test, gchar * summary );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
+
+
+/** Tests  */
+struct gsb_debug_test debug_tests [4] = {
+    /* Check for reconciliation inconcistency.  */
+    { N_("Incorrect reconcile totals"),
+      N_("This test will look for accounts where reconcile totals do not match reconciled transactions."),
+      N_("instructions xxx"),
+      gsb_debug_reconcile_test, NULL },
+
+    { NULL, NULL, NULL, NULL, NULL },
+};
 
 
 
@@ -45,16 +65,60 @@ gboolean financial_years_check ( void );
  */
 gboolean gsb_file_debug ( void )
 {
-    gboolean inconsistency = FALSE;
+    GtkWidget * assistant, * text_view;
 
     gsb_status_message ( _("Checking file for possible corruption...") );
 
-    inconsistency = reconciliation_check();
-/*     inconsistency |= duplicate_categ_check(); */
-/*     inconsistency |= duplicate_budgetary_line_check(); */
-/*     inconsistency |= contra_transaction_check(); */
-/*     inconsistency |= financial_years_check(); */
+    assistant = gsb_assistant_new ( _("Grisbi accounts debug"),
+				    _("This assistant will help you to search your account "
+				      "file for inconsistencies, which can be caused either "
+				      "by bugs or by erroneous manipulation."),
+				    "bug.png" );
 
+    text_view = gtk_text_view_new ();
+    gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD);
+    gtk_text_view_set_editable ( GTK_TEXT_VIEW(text_view), FALSE );
+    gtk_text_view_set_cursor_visible ( GTK_TEXT_VIEW(text_view), FALSE );
+    gtk_text_view_set_left_margin ( GTK_TEXT_VIEW(text_view), 12 );
+    gtk_text_view_set_right_margin ( GTK_TEXT_VIEW(text_view), 12 );
+
+    g_object_set_data ( G_OBJECT(assistant), "text-view", text_view );
+
+    gsb_assistant_add_page ( assistant, text_view, 1, 0, -1, 
+			     G_CALLBACK ( gsb_debug_enter_test_page ) );
+    
+    gsb_assistant_run ( assistant );
+    gtk_widget_destroy ( assistant );
+    
+    return FALSE;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean gsb_debug_enter_test_page ( GtkWidget * assistant )
+{
+/*     GtkTextBuffer * text_buffer = NULL; */
+/*     GtkTextIter text_iter; */
+    gboolean inconsistency = FALSE;
+    gint i, page = 2;
+
+    for ( i = 0 ; debug_tests [i] . name != NULL ; i ++ )
+    {
+	gchar * result = debug_tests [ i ] . test ();
+
+	if ( result )
+	{
+	    inconsistency = TRUE;
+	    gsb_debug_add_report_page ( assistant, page, &(debug_tests[i]), result );
+	    page ++;
+	}
+    }
+    
     gsb_status_message ( _("Done") );
 
     if ( !inconsistency )
@@ -67,22 +131,55 @@ gboolean gsb_file_debug ( void )
 
 
 
+/**
+ *
+ *
+ */
+void gsb_debug_add_report_page ( GtkWidget * assistant, gint page, 
+				 struct gsb_debug_test * test, gchar * summary )
+{
+    GtkWidget * vbox, * label, * button;
+
+    vbox = gtk_vbox_new ( FALSE, 6 );
+    label = gtk_label_new ( "" );
+    gtk_label_set_markup ( GTK_LABEL(label), make_hint ( test -> name, summary ) );
+    gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
+    gtk_box_pack_start ( GTK_BOX(vbox), label, TRUE, TRUE, 0 );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+
+    if ( test -> fix )
+    {
+	button = gtk_button_new_with_label ( _("Try to fix this inconsistency.") );
+	gtk_box_pack_start ( GTK_BOX(vbox), button, FALSE, FALSE, 0 );
+	g_signal_connect ( G_OBJECT(button), "clicked", G_CALLBACK ( test -> fix ), FALSE );
+    }
+
+    gtk_widget_show_all ( vbox );
+
+    gsb_assistant_add_page ( assistant, vbox, page, page - 1, -1, NULL );
+    gsb_assistant_set_next ( assistant, page - 1, page );
+    gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
+}
+
+
+
+
 /******************************************************************************/
 /* reconciliation_check.                                                      */
 /* Cette fonction est appelée après la création de toutes les listes.         */
 /* Elle permet de vérifier la cohérence des rapprochements suite à la         */
 /* découverte des bogues #466 et #488.                                        */
 /******************************************************************************/
-gboolean reconciliation_check ( void )
+gchar * gsb_debug_reconcile_test ( void )
 {
   gint affected_accounts = 0;
   gint tested_account = 0;
   GSList *pUserAccountsList = NULL;
-  gchar *pHint = NULL, *pText = "";
+  gchar *pText = "";
 
   /* S'il n'y a pas de compte, on quitte */
   if ( ! gsb_data_account_get_accounts_amount ( ) )
-    return 0;
+    return NULL;
     
   /* On fera la vérification des comptes dans l'ordre préféré
      de l'utilisateur. On fait une copie de la liste. */
@@ -91,7 +188,8 @@ gboolean reconciliation_check ( void )
   /* Pour chacun des comptes, faire */
   do
   {
-      gint account_nb = GPOINTER_TO_INT ( pUserAccountsList -> data );
+      gpointer p_account = pUserAccountsList -> data;
+      gint account_nb = gsb_data_account_get_no_account ( p_account );
 
       /* Si le compte a été rapproché au moins une fois.
 	 Seule la date permet de l'affirmer. */
@@ -112,7 +210,7 @@ gboolean reconciliation_check ( void )
 
 	  while ( pTransactionList )
 	  {
-	      gint transaction = pTransactionList -> data;
+	      gint transaction = GPOINTER_TO_INT ( pTransactionList -> data );
 
 	      /* On ne prend en compte que les opérations rapprochées.
 		 On ne prend pas en compte les opérations de ventilation. */
@@ -157,129 +255,16 @@ gboolean reconciliation_check ( void )
 			    "The following accounts are inconsistent:\n\n"), 
 			  pText, NULL );
 
-    if ( affected_accounts > 1 )
-    {
-      pHint = g_strdup_printf ( _("%d accounts have inconsistencies."), 
-				affected_accounts );
-    }
-    else
-    {
-      pHint = _("An account has inconsistencies.");
-    }
-
-    dialogue_warning_hint ( pText, pHint );
-
-    g_free ( pText );
-    g_free ( pHint );
   }
   g_slist_free ( pUserAccountsList );
 
-  return affected_accounts;
+  if ( affected_accounts )
+  {
+      return pText;
+  }
+
+  return NULL;
 }
-
-
-
-/* /\** */
-/*  * Find if two sub categories are the same */
-/*  * */
-/*  *\/ */
-/* gint find_duplicate_categ ( struct struct_sous_categ * a, struct struct_sous_categ * b ) */
-/* { */
-/*     if ( a != b && a -> no_sous_categ == b -> no_sous_categ ) */
-/*     { */
-/* 	return 0; */
-/*     } */
-/*     return 1; */
-/* } */
-
-
-
-/* /\** */
-/*  * */
-/*  * */
-/*  *\/ */
-/* gboolean duplicate_categ_check () */
-/* { */
-/*     GSList * tmp; */
-/*     gint num_duplicate = 0; */
-/*     gchar * output = _("Some sub-categories are duplicates:\n\n"); */
-
-/*     tmp = liste_struct_categories; */
-/*     while ( tmp ) */
-/*     { */
-/* 	struct struct_categ * categ = tmp -> data; */
-/* 	GSList * tmp_sous_categ = categ -> liste_sous_categ; */
-
-/* 	while ( tmp_sous_categ ) */
-/* 	{ */
-/* 	    GSList * duplicate; */
-/* 	    duplicate = g_slist_find_custom ( categ -> liste_sous_categ,  */
-/* 					      tmp_sous_categ -> data, */
-/* 					      (GCompareFunc) find_duplicate_categ ); */
-/* 	    /\* Second comparison is just there to find only one of them. *\/ */
-/* 	    if ( duplicate && duplicate > tmp_sous_categ ) */
-/* 	    { */
-/* 		output = g_strconcat ( output,  */
-/* 				       g_strdup_printf ( _("In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"),  */
-/* 							 categ -> nom_categ, */
-/* 							 ((struct struct_sous_categ *) tmp_sous_categ -> data) -> nom_sous_categ, */
-/* 							 ((struct struct_sous_categ *) duplicate -> data) -> nom_sous_categ ), */
-/* 				       NULL ); */
-/* 		num_duplicate ++; */
-/* 	    } */
-/* 	    tmp_sous_categ = tmp_sous_categ -> next; */
-/* 	} */
-	
-/* 	tmp = tmp -> next; */
-/*     } */
-
-/*     if ( num_duplicate ) */
-/*     { */
-/* 	output = g_strconcat ( output, "\n", */
-/* 			       _("Due to a bug in previous versions of Grisbi, " */
-/* 				 "sub-categories may share the same numeric id in some " */
-/* 				 "cases, resulting in transactions having two sub-categories.  " */
-/* 				 "If you choose to continue, Grisbi will " */
-/* 				 "remove one of each duplicates and " */
-/* 				 "recreate it with a new id.\n\n" */
-/* 				 "No transactions will be lost, but in some cases, you " */
-/* 				 "will have to manually move transactions to this new " */
-/* 				 "sub-category."), */
-/* 			       NULL ); */
-/* 	if ( question_yes_no_hint ( _("Fix inconsistencies in sub-categories?"), output ) ) */
-/* 	{ */
-/* 	    tmp = liste_struct_categories; */
-/* 	    while ( tmp ) */
-/* 	    { */
-/* 		struct struct_categ * categ = tmp -> data; */
-/* 		GSList * tmp_sous_categ = categ -> liste_sous_categ; */
-
-/* 		while ( tmp_sous_categ ) */
-/* 		{ */
-/* 		    GSList * duplicate; */
-/* 		    duplicate = g_slist_find_custom ( categ -> liste_sous_categ,  */
-/* 						      tmp_sous_categ -> data, */
-/* 						      (GCompareFunc) find_duplicate_categ ); */
-/* 		    if ( duplicate ) */
-/* 		    { */
-/* 			struct struct_sous_categ * duplicate_categ = duplicate -> data; */
-
-/* 			categ -> no_derniere_sous_categ++; */
-/* 			duplicate_categ -> no_sous_categ = categ -> no_derniere_sous_categ; */
-/* 		    } */
-/* 		    tmp_sous_categ = tmp_sous_categ -> next; */
-/* 		} */
-	
-/* 		tmp = tmp -> next; */
-/* 	    } */
-
-/* 	    mise_a_jour_categ(); */
-/* 	} */
-/* 	g_free ( output ); */
-/*     } */
-
-/*     return num_duplicate; */
-/* } */
 
 
 
@@ -670,3 +655,8 @@ gboolean reconciliation_check ( void )
 /*   return corrupted_file; */
 /* } */
 
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
