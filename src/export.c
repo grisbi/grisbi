@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger	(cedric@grisbi.org)	      */
-/*			     2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2006-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -78,7 +78,7 @@ void export_accounts ( void )
 				   "As QIF and CSV do not support currencies, all "
 				   "transactions will be converted into currency of their "
 				   "respective account."),
-				 "" );
+				 "xxx" );
 
     gsb_assistant_add_page ( dialog, export_create_selection_page(dialog), 1, 0, 2, 
 			     G_CALLBACK ( export_resume_maybe_sensitive_next ) );
