@@ -126,8 +126,8 @@ GtkWidget *creation_fenetre_equilibrage ( void )
     GtkTooltips *tips;
 
     fenetre_equilibrage = gtk_frame_new ( "" );
-    vbox = gtk_vbox_new ( FALSE, 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 6 );
+    vbox = gtk_vbox_new ( FALSE, 3 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 3 );
     gtk_container_add ( GTK_CONTAINER ( fenetre_equilibrage ), vbox );
 
     gtk_signal_connect ( GTK_OBJECT ( vbox ), "key_press_event",
@@ -167,7 +167,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
     /* on met un premier tab en haut contenant dates et soldes des relevés
        avec possibilité de modif du courant */ 
     table = gtk_table_new ( 3, 5, FALSE );
-    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 6 );
+    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 3 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 0);
 
     separateur = gtk_hseparator_new();
@@ -269,7 +269,7 @@ GtkWidget *creation_fenetre_equilibrage ( void )
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label_equilibrage_ecart, 1, 2, 4, 5);
 
     /* on met les boutons */
-    hbox = gtk_hbox_new ( TRUE, 5);
+    hbox = gtk_hbox_new ( TRUE, 3 );
     gtk_box_pack_end ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
     bouton = gtk_button_new_from_stock ( GTK_STOCK_CANCEL );
@@ -379,7 +379,7 @@ void equilibrage ( void )
     }
     else
 	gtk_entry_set_text ( GTK_ENTRY ( entree_no_rapprochement ),
-			     "" );
+			     "1" );
 
     /* récupère l'ancienne date et l'augmente d'1 mois et le met dans entree_nouvelle_date_equilibrage */
 
