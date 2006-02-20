@@ -282,10 +282,9 @@ gboolean change_aspect_liste ( gint demande )
 	    gtk_widget_queue_draw ( gsb_scheduler_list_get_tree_view () );
 
 	    block_menu_cb = TRUE;
-	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-						 gsb_string_escape_underscores(menu_name(_("_View"), _("Show grid"), NULL) ) );
-	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), 
-					    etat.affichage_grille );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
+											  menu_name ( "ViewMenu", "ShowGrid", NULL ) ) ), 
+					   TRUE );
 	    block_menu_cb = FALSE;
 
 	    break;
