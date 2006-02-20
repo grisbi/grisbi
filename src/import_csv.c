@@ -83,7 +83,7 @@ struct csv_field csv_fields[16] = {
     { N_("Category"),	    0.0, csv_import_validate_string, csv_import_parse_category, "" },
     { N_("Sub-Category"),   0.0, csv_import_validate_string, csv_import_parse_sub_category, "" },
     { N_("Balance"),	    0.0, csv_import_validate_amount, csv_import_parse_balance, "" },
-    { N_("Credit"),	    0.0, csv_import_validate_amount, csv_import_parse_credit, "" },
+    { N_("Credit (amount)"),0.0, csv_import_validate_amount, csv_import_parse_credit, "" },
     { N_("Debit (absolute)"),0.0, csv_import_validate_amount, csv_import_parse_debit,
       N_("Debit") },
     { N_("Debit (negative)"),0.0, csv_import_validate_amount, csv_import_parse_credit, "" },
