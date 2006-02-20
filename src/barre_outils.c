@@ -86,7 +86,7 @@ extern gboolean block_menu_cb ;
 extern GtkWidget *formulaire;
 extern GtkItemFactory *item_factory_menu_general;
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkWidget * barre_outils;
+extern GtkUIManager * ui_manager;
 /*END_EXTERN*/
 
 
@@ -294,30 +294,30 @@ gboolean change_aspect_liste ( gint demande )
 	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
 
 	case 1 :
-	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-						 gsb_string_escape_underscores( menu_name(_("_View"), _("Show one line per transaction"), NULL) ));
-	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
+											  menu_name ( "ViewMenu", "ShowOneLine", NULL ) ) ), 
+					   TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
 	    modification_fichier ( TRUE );
 	    break;
 	case 2 :
-	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-						 gsb_string_escape_underscores( menu_name(_("_View"), _("Show two lines per transaction"), NULL) ) );
-	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
+											  menu_name ( "ViewMenu", "ShowTwoLines", NULL ) ) ), 
+					   TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
 	    modification_fichier ( TRUE );
 	    break;
 	case 3 :
-	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-						 gsb_string_escape_underscores( menu_name(_("_View"), _("Show three lines per transaction"), NULL) ) );
-	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
+											  menu_name ( "ViewMenu", "ShowThreeLines", NULL ) ) ), 
+					   TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
 	    modification_fichier ( TRUE );
 	    break;
 	case 4 :
-	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-						 gsb_string_escape_underscores(menu_name(_("_View"), _("Show four lines per transaction"), NULL) ) );
-	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
+											  menu_name ( "ViewMenu", "ShowFourLines", NULL ) ) ), 
+					   TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
 	    modification_fichier ( TRUE );
 	    break;
@@ -330,9 +330,10 @@ gboolean change_aspect_liste ( gint demande )
 	    modification_fichier ( TRUE );
 
 	    block_menu_cb = TRUE;
-	    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-						 gsb_string_escape_underscores( menu_name(_("_View"), _("Show reconciled transactions"), NULL) ) );
-	    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM(widget), TRUE );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
+											  menu_name ( "ViewMenu", "ShowReconciled", NULL ) ) ), 
+					   TRUE );
+
 	    block_menu_cb = FALSE;
 
 	    break;
