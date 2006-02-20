@@ -1073,7 +1073,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number )
 												 account_number) ) -> menu_item ),
 				     "adr_type" );
 
-	if ( type -> numerotation_auto )
+	if ( type && type -> numerotation_auto )
 	{
 	    gpointer operation_tmp;
 
