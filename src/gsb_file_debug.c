@@ -32,6 +32,7 @@
 #include "include.h"
 #include "structures.h"
 #include "gsb_assistant.h"
+#include "gsb_data_category.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -39,10 +40,12 @@ static gchar * gsb_debug_reconcile_test ( void );
 static gboolean gsb_debug_enter_test_page ( GtkWidget * assistant );
 static void gsb_debug_add_report_page ( GtkWidget * assistant, gint page, 
 					struct gsb_debug_test * test, gchar * summary );
+static gboolean gsb_debug_try_fix ( gboolean (* fix) () );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
+
 
 
 /** Tests  */
@@ -50,8 +53,24 @@ struct gsb_debug_test debug_tests [4] = {
     /* Check for reconciliation inconcistency.  */
     { N_("Incorrect reconcile totals"),
       N_("This test will look for accounts where reconcile totals do not match reconciled transactions."),
-      N_("instructions xxx"),
+      N_("Grisbi found accounts where reconciliation totals are inconsistent "
+	 "with the sum of reconcilied transactions.  Generally, the cause is "
+	 "too many transfers to other accounts are reconciled.  You have to "
+	 "manually unreconcile some transferts in inconsistent accounts."), 
       gsb_debug_reconcile_test, NULL },
+
+    { N_("Duplicate categories check"),
+      N_("xxx"),
+      N_("Due to a bug in previous versions of Grisbi, "
+	 "sub-categories may share the same numeric id in some "
+	 "cases, resulting in transactions having two sub-categories.  "
+	 "If you choose to continue, Grisbi will "
+	 "remove one of each duplicates and "
+	 "recreate it with a new id.entifier\n\n"
+	 "No transactions will be lost, but in some cases, you "
+	 "will have to manually move transactions to this new "
+	 "sub-category."),
+      gsb_debug_duplicate_categ_check, gsb_debug_duplicate_categ_fix },
 
     { NULL, NULL, NULL, NULL, NULL },
 };
@@ -144,14 +163,32 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
     label = gtk_label_new ( "" );
     gtk_label_set_markup ( GTK_LABEL(label), make_hint ( test -> name, summary ) );
     gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
-    gtk_box_pack_start ( GTK_BOX(vbox), label, TRUE, TRUE, 0 );
+    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_LEFT );
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+
+    gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+
+    if ( test -> instructions )
+    {
+	GtkWidget * expander, * label;
+	expander = gtk_expander_new ( g_strconcat ( "<b>",_("Details"), "</b>", NULL ) );
+	gtk_expander_set_use_markup ( GTK_EXPANDER(expander), TRUE );
+	label = gtk_label_new ( "" );
+	gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
+	gtk_label_set_markup ( GTK_LABEL(label), test -> instructions );
+	gtk_misc_set_padding ( GTK_MISC(label), 12, 6 );
+	gtk_container_add ( GTK_CONTAINER(expander), label );
+	gtk_box_pack_start ( GTK_BOX(vbox), expander, FALSE, FALSE, 6 );
+    }
 
     if ( test -> fix )
     {
 	button = gtk_button_new_with_label ( _("Try to fix this inconsistency.") );
 	gtk_box_pack_start ( GTK_BOX(vbox), button, FALSE, FALSE, 0 );
-	g_signal_connect ( G_OBJECT(button), "clicked", G_CALLBACK ( test -> fix ), FALSE );
+	g_signal_connect_swapped ( G_OBJECT(button), "clicked", 
+				   G_CALLBACK ( gsb_debug_try_fix ), 
+				   (gpointer) test -> fix );
     }
 
     gtk_widget_show_all ( vbox );
@@ -161,6 +198,31 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
     gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
 }
 
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean gsb_debug_try_fix ( gboolean (* fix) () )
+{
+
+    if ( fix () )
+    {
+	dialogue_hint ( _("Grisbi successfully repaired this account file.  "
+			  "You may now save your modifications."),
+			_("Fix completed"));
+    }
+    else
+    {
+	dialogue_error_hint ( _("Grisbi was unable to repair this account file.  "
+				"No modification has been done."),
+			      _("Unable to fix account"));
+    }
+
+    return FALSE;
+}
 
 
 
@@ -246,129 +308,17 @@ gchar * gsb_debug_reconcile_test ( void )
   }
   while ( (  pUserAccountsList = pUserAccountsList -> next ) );
 
-  if ( affected_accounts )
-  {
-    pText = g_strconcat ( _("Grisbi found accounts where reconciliation totals are inconsistent "
-			    "with the sum of reconcilied transactions.  Generally, the cause is "
-			    "too many transfers to other accounts are reconciled.  You have to "
-			    "manually unreconcile some transferts in inconsistent accounts.\n"
-			    "The following accounts are inconsistent:\n\n"), 
-			  pText, NULL );
-
-  }
   g_slist_free ( pUserAccountsList );
 
   if ( affected_accounts )
   {
+      pText [ strlen(pText) - 1 ] = '\0';
       return pText;
   }
 
   return NULL;
 }
 
-
-
-/* /\** */
-/*  * Find if two sub budgetary lines are the same */
-/*  * */
-/*  *\/ */
-/* gint find_duplicate_budgetary_line ( struct struct_sous_imputation * a,  */
-/* 				     struct struct_sous_imputation * b ) */
-/* { */
-/*     if ( a != b && a -> no_sous_imputation == b -> no_sous_imputation ) */
-/*     { */
-/* 	return 0; */
-/*     } */
-/*     return 1; */
-/* } */
-
-
-
-/* /\** */
-/*  * */
-/*  * */
-/*  *\/ */
-/* gboolean duplicate_budgetary_line_check () */
-/* { */
-/*     GSList * tmp; */
-/*     gint num_duplicate = 0; */
-/*     gchar * output = ""; */
-
-/*     tmp = liste_struct_imputation; */
-/*     while ( tmp ) */
-/*     { */
-/* 	struct struct_imputation * budgetary_line = tmp -> data; */
-/* 	GSList * tmp_sous_budgetary_line = budgetary_line -> liste_sous_imputation; */
-
-/* 	while ( tmp_sous_budgetary_line ) */
-/* 	{ */
-/* 	    GSList * duplicate; */
-/* 	    duplicate = g_slist_find_custom ( budgetary_line -> liste_sous_imputation,  */
-/* 					      tmp_sous_budgetary_line -> data, */
-/* 					      (GCompareFunc) find_duplicate_budgetary_line ); */
-/* 	    /\* Second comparison is just there to find only one of them. *\/ */
-/* 	    if ( duplicate && duplicate > tmp_sous_budgetary_line ) */
-/* 	    { */
-/* 		output = g_strconcat ( output,  */
-/* 				       g_strdup_printf ( _("Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"),  */
-/* 							 budgetary_line -> nom_imputation, */
-/* 							 ((struct struct_sous_imputation *) tmp_sous_budgetary_line -> data) -> nom_sous_imputation, */
-/* 							 budgetary_line -> nom_imputation, */
-/* 							 ((struct struct_sous_imputation *) duplicate -> data) -> nom_sous_imputation ), */
-/* 				       NULL ); */
-/* 		num_duplicate ++; */
-/* 	    } */
-/* 	    tmp_sous_budgetary_line = tmp_sous_budgetary_line -> next; */
-/* 	} */
-	
-/* 	tmp = tmp -> next; */
-/*     } */
-
-/*     if ( num_duplicate ) */
-/*     { */
-/* 	output = g_strconcat ( output, "\n", */
-/* 			       _("Due to a bug in previous versions of Grisbi, " */
-/* 				 "sub-budgetary lines may share the same numeric id in some " */
-/* 				 "cases, resulting in transactions having two sub-budgetary lines.  " */
-/* 				 "If you choose to continue, Grisbi will " */
-/* 				 "remove one of each duplicates and " */
-/* 				 "recreate it with a new id.\n\n" */
-/* 				 "No transactions will be lost, but in some cases, you " */
-/* 				 "will have to manually move transactions to this new " */
-/* 				 "sub-budgetary line."), */
-/* 			       NULL ); */
-/* 	if ( question_yes_no_hint ( _("Fix inconsistencies in sub-budgetary lines?"), output ) ) */
-/* 	{ */
-/* 	    tmp = liste_struct_imputation; */
-/* 	    while ( tmp ) */
-/* 	    { */
-/* 		struct struct_imputation * budgetary_line = tmp -> data; */
-/* 		GSList * tmp_sous_budgetary_line = budgetary_line -> liste_sous_imputation; */
-
-/* 		while ( tmp_sous_budgetary_line ) */
-/* 		{ */
-/* 		    GSList * duplicate; */
-/* 		    duplicate = g_slist_find_custom ( budgetary_line -> liste_sous_imputation,  */
-/* 						      tmp_sous_budgetary_line -> data, */
-/* 						      (GCompareFunc) find_duplicate_budgetary_line ); */
-/* 		    if ( duplicate ) */
-/* 		    { */
-/* 			struct struct_sous_imputation * duplicate_budgetary_line = duplicate -> data; */
-
-/* 			duplicate_budgetary_line -> no_sous_imputation = ++(budgetary_line -> no_derniere_sous_imputation); */
-/* 		    } */
-/* 		    tmp_sous_budgetary_line = tmp_sous_budgetary_line -> next; */
-/* 		} */
-	
-/* 		tmp = tmp -> next; */
-/* 	    } */
-
-/* 	    mise_a_jour_imputation(); */
-/* 	} */
-/*     } */
-
-/*     return num_duplicate; */
-/* } */
 
 
 /* /\******************************************************************************\/ */
