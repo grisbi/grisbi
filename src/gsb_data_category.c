@@ -1440,10 +1440,12 @@ gboolean gsb_data_category_merge_category_list ( GSList *list_to_merge )
 /**
  * Find if two sub categories are the same
  *
- * \TODO
+ * \param a		First sub-category to compare.
+ * \param b		Second sub-category to compare.	
  *
+ * \return		Same as a <=> b.
  */
-gint find_duplicate_categ ( struct_sub_category * a, struct_sub_category * b )
+gint gsb_data_sub_category_compare ( struct_sub_category * a, struct_sub_category * b )
 {
     if ( a != b && a -> sub_category_number == b -> sub_category_number )
     {
@@ -1481,7 +1483,7 @@ gchar * gsb_debug_duplicate_categ_check ()
 	    GSList * duplicate;
 	    duplicate = g_slist_find_custom ( categ -> sub_category_list,
 					      tmp_sous_categ -> data,
-					      (GCompareFunc) find_duplicate_categ );
+					      (GCompareFunc) gsb_data_sub_category_compare );
 	    /* Second comparison is just there to find only one of them. */
 	    if ( duplicate && duplicate > tmp_sous_categ )
 	    {
@@ -1511,9 +1513,9 @@ gchar * gsb_debug_duplicate_categ_check ()
 
 
 /**
- * Fix any xxx \TODO
+ * Fix any duplicate in sub categories.  
  *
- *
+ * \return	TRUE on success.  FALSE otherwise.
  */
 gboolean gsb_debug_duplicate_categ_fix ()
 {
@@ -1530,7 +1532,7 @@ gboolean gsb_debug_duplicate_categ_fix ()
 	    GSList * duplicate;
 	    duplicate = g_slist_find_custom ( categ -> sub_category_list,
 					      tmp_sous_categ -> data,
-					      (GCompareFunc) find_duplicate_categ );
+					      (GCompareFunc) gsb_data_sub_category_compare );
 	    if ( duplicate )
 	    {
 		struct_sub_category * duplicate_categ = duplicate -> data;
@@ -1545,6 +1547,7 @@ gboolean gsb_debug_duplicate_categ_fix ()
 
     return TRUE;
 }
+
 
 
 /* Local Variables: */
