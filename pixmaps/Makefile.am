@@ -10,6 +10,7 @@ grisbi_pixmaps_DATA = \
 	bank-account.png \
 	banks.png \
 	budgetary_lines.png \
+	bug.png \
 	categories.png \
 	comments.png \
 	currencies.png \
