@@ -36,6 +36,7 @@
 #include "utils_dates.h"
 #include "fenetre_principale.h"
 #include "navigation.h"
+#include "gsb_real.h"
 #include "gsb_form_transaction.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
@@ -43,7 +44,6 @@
 #include "comptes_gestion.h"
 #include "structures.h"
 #include "metatree.h"
-#include "import.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -256,8 +256,10 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			      NULL );
 
     if ( division && iface -> div_nb_transactions (division) )
-	balance = g_strdup_printf ( _("%4.2f %s"), iface -> div_balance ( division ),
-				    gsb_data_currency_get_code_or_isocode ( iface -> tree_currency () ) );
+	balance = g_strconcat ( gsb_real_get_string ( gsb_real_adjust_exponent (iface -> div_balance ( division ),
+										gsb_data_currency_get_floating_point (iface -> tree_currency ()))),
+				gsb_data_currency_get_code_or_isocode ( iface -> tree_currency ()),
+				NULL );
     
     if ( iface -> depth == 1 && 
 	 ! gtk_tree_model_iter_has_child ( model, iter ) && 
@@ -320,9 +322,9 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 	    gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
 	}
 
-	balance = g_strdup_printf ( _("%4.2f %s"),
-				    iface -> sub_div_balance ( division, sub_division ),
-				    gsb_data_currency_get_code_or_isocode ( iface -> tree_currency () ) );
+	balance = g_strconcat ( gsb_real_get_string (iface -> sub_div_balance ( division, sub_division )),
+				gsb_data_currency_get_code_or_isocode ( iface -> tree_currency ()),
+				NULL );
     }
     
     gtk_tree_store_set ( GTK_TREE_STORE (model), iter,
@@ -397,9 +399,10 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 	label = g_strconcat ( label, " (", _("breakdown"), ")", NULL );
     }
 
-    montant = g_strdup_printf ( "%4.2f %s",
-				gsb_data_transaction_get_amount ( transaction_number),
-				gsb_data_currency_get_code (gsb_data_transaction_get_currency_number (transaction_number)));
+    montant = g_strconcat ( gsb_real_get_string (gsb_data_transaction_get_amount (transaction_number)),
+			    " ",
+			    gsb_data_currency_get_code (gsb_data_transaction_get_currency_number (transaction_number)),
+			    NULL );
     account = gsb_data_account_get_name ( gsb_data_transaction_get_account_number (transaction_number));
 
     gtk_tree_store_set ( GTK_TREE_STORE(model), iter, 
@@ -1207,10 +1210,12 @@ void move_transaction_to_sub_division ( gpointer  transaction,
     gpointer old_division, new_division;
     gpointer old_sub_division, new_sub_division;
     MetatreeInterface * iface;
+    gint transaction_number;
 	
     if ( ! model )
 	return;
 
+    transaction_number = gsb_data_transaction_get_transaction_number (transaction);
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
 
     old_division = iface -> get_div_pointer ( iface -> transaction_div_id (transaction) );
@@ -1246,13 +1251,13 @@ void move_transaction_to_sub_division ( gpointer  transaction,
 	if ( name )
 	{
 	    gtk_tree_store_insert ( GTK_TREE_STORE (model), &child_iter, &dest_iter, 0 );
-	    fill_transaction_row ( model, &child_iter, gsb_data_transaction_get_transaction_number (transaction));
+	    fill_transaction_row ( model, &child_iter, transaction_number);
 	}
     }
     else
     {
 	gtk_tree_store_append ( GTK_TREE_STORE (model), &child_iter, &dest_iter );
-	fill_transaction_row ( model, &child_iter, gsb_data_transaction_get_transaction_number (transaction));
+	fill_transaction_row ( model, &child_iter, transaction_number);
     }
 
     /* Update new parents */
@@ -1277,7 +1282,7 @@ void move_transaction_to_sub_division ( gpointer  transaction,
     /* Change parameters */
     iface -> transaction_set_div_id ( transaction, no_division );
     iface -> transaction_set_sub_div_id ( transaction, no_sub_division );
-    gsb_transactions_list_update_transaction ( transaction );
+    gsb_transactions_list_update_transaction (transaction_number);
 
     if ( orig_path )
     {
@@ -1843,9 +1848,9 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 			     NULL );
 	if ( div ) 
 	{
-	    balance = g_strdup_printf ( "%4.2f %s", 
-					iface -> div_balance ( div ),
-					gsb_data_currency_get_code_or_isocode ( iface -> tree_currency () ) );
+	    balance = g_strconcat ( gsb_real_get_string (iface -> div_balance ( div )),
+				    gsb_data_currency_get_code_or_isocode ( iface -> tree_currency ()),
+				    NULL );
 	}
 
 	if ( sub_div_id >= 0 )
@@ -1854,9 +1859,9 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 	    text = g_strconcat ( text, " : ", 
 				 ( sub_div ? iface -> sub_div_name ( sub_div ) :
 				   _(iface->no_sub_div_label) ), NULL );
-	    balance = g_strdup_printf ( "%4.2f %s", 
-					iface -> sub_div_balance ( div, sub_div ),
-					gsb_data_currency_get_code_or_isocode ( iface -> tree_currency () ) );
+	    balance = g_strconcat ( gsb_real_get_string (iface -> sub_div_balance ( div, sub_div )),
+					gsb_data_currency_get_code_or_isocode ( iface -> tree_currency ()),
+					NULL );
 	}
 
 	gsb_gui_headings_update ( text, balance );

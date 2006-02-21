@@ -42,6 +42,7 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_form.h"
 #include "fenetre_principale.h"
+#include "gsb_real.h"
 #include "gtk_combofix.h"
 #include "echeancier_infos.h"
 #include "traitement_variables.h"
@@ -825,7 +826,7 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
 
     /* that can be filled for mother and children of breakdown */
     line[COL_NB_NOTES] = gsb_data_scheduled_get_notes (scheduled_number);
-    line[COL_NB_AMOUNT] = g_strdup_printf ( "%4.2f", gsb_data_scheduled_get_amount (scheduled_number));
+    line[COL_NB_AMOUNT] = gsb_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
 
     return FALSE;
 }
@@ -1396,7 +1397,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
     {
 /* 	GtkWidget *menu; */
 
-	if ( gsb_data_scheduled_get_amount (scheduled_number) < 0 )
+	if ( gsb_data_scheduled_get_amount (scheduled_number).mantissa < 0 )
 	{
 	    /* set the debit method */
 
@@ -1476,19 +1477,17 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
     {
 	/* set the amount  */
 
-	if ( gsb_data_scheduled_get_amount (scheduled_number) < 0 )
+	if ( gsb_data_scheduled_get_amount (scheduled_number).mantissa < 0 )
 	{
 /* 	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT], NULL, NULL ); */
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ),
-				 g_strdup_printf ( "%4.2f",
-						   -gsb_data_scheduled_get_amount (scheduled_number)));
+				 gsb_real_get_string ( gsb_real_abs (gsb_data_scheduled_get_amount (scheduled_number))));
 	}
 	else
 	{
 /* 	    gsb_form_entry_get_focus ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT], NULL, NULL ); */
 	    gtk_entry_set_text ( GTK_ENTRY ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ),
-				 g_strdup_printf ( "%4.2f",
-						   gsb_data_scheduled_get_amount (scheduled_number)));
+				 gsb_real_get_string (gsb_data_scheduled_get_amount (scheduled_number)));
 	}
 
 	/* set the category, if account_number_transfer is -1, we have no categ, no transfer and no breakdown
@@ -1564,7 +1563,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
     {
 	if ( scheduled_number < 0 
 	     ||
-	     gsb_data_scheduled_get_amount (scheduled_number) < 0 )
+	     gsb_data_scheduled_get_amount (scheduled_number).mantissa < 0 )
 	    focus_number = SCHEDULER_FORM_DEBIT;
 	else
 	    focus_number = SCHEDULER_FORM_CREDIT;
@@ -1638,10 +1637,10 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 	    GtkWidget *dialog;
 	    gchar *occurences;
 
-	    occurences = g_strdup_printf ( _("Do you want to delete just this occurrence or the whole scheduled transaction?\n\n%s : %s [%4.2f %s]"),
+	    occurences = g_strdup_printf ( _("Do you want to delete just this occurrence or the whole scheduled transaction?\n\n%s : %s [%s %s]"),
 					   gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
 					   gsb_data_payee_get_name ( gsb_data_scheduled_get_party_number (scheduled_number), FALSE ),
-					   gsb_data_scheduled_get_amount (scheduled_number),
+					   gsb_real_get_string (gsb_data_scheduled_get_amount (scheduled_number)),
 					   gsb_data_currency_get_name (gsb_data_scheduled_get_currency_number (scheduled_number)));
 
 	    dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,

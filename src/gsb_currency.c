@@ -35,7 +35,7 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_currency_link.h"
 #include "gsb_data_transaction.h"
-#include "utils_str.h"
+#include "gsb_real.h"
 #include "utils.h"
 #include "structures.h"
 #include "include.h"
@@ -62,8 +62,8 @@ static GtkListStore *combobox_currency_store;
  * gsb_currency_get_current_exchange
  * gsb_currency_get_current_exchange_fees
  * */
-static gdouble current_exchange;
-static gdouble current_exchange_fees;
+static gsb_real current_exchange;
+static gsb_real current_exchange_fees;
 
 
 
@@ -72,6 +72,7 @@ static gdouble current_exchange_fees;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
+extern gsb_real null_real ;
 extern GtkWidget *tree_view;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -92,8 +93,8 @@ void gsb_currency_init_variables ( void )
 	gtk_list_store_clear (combobox_currency_store);
 
     combobox_currency_store = NULL;
-    current_exchange = 0.0;
-    current_exchange_fees = 0.0;
+    current_exchange = null_real;
+    current_exchange_fees = null_real;
 }
 
 /**
@@ -101,9 +102,9 @@ void gsb_currency_init_variables ( void )
  * that variable should have been filed before with gsb_currency_exchange_dialog
  * \param
  *
- * \return a gdouble, the current exchange
+ * \return a gsb_real, the current exchange
  * */
-gdouble gsb_currency_get_current_exchange (void)
+gsb_real gsb_currency_get_current_exchange (void)
 {
     return current_exchange;
 }
@@ -114,9 +115,9 @@ gdouble gsb_currency_get_current_exchange (void)
  *
  * \param
  *
- * \return a gdouble, the current exchange fees
+ * \return a gsb_real, the current exchange fees
  * */
-gdouble gsb_currency_get_current_exchange_fees (void)
+gsb_real gsb_currency_get_current_exchange_fees (void)
 {
     return current_exchange_fees;
 }
@@ -312,15 +313,15 @@ void gsb_currency_check_for_change ( gint transaction_number )
 	gsb_currency_exchange_dialog ( account_currency_number,
 				       transaction_currency_number,
 				       1,
-				       0.0,
-				       0.0,
+				       null_real,
+				       null_real,
 				       FALSE );
 
 	gsb_data_transaction_set_exchange_rate ( transaction_number,
-						 fabs (current_exchange));
+						 gsb_real_abs (current_exchange));
 	gsb_data_transaction_set_exchange_fees ( transaction_number,
 						 current_exchange_fees);
-	if ( current_exchange < 0 )
+	if ( current_exchange.mantissa < 0 )
 	    gsb_data_transaction_set_change_between ( transaction_number,
 						      1 );
     }
@@ -346,8 +347,8 @@ void gsb_currency_check_for_change ( gint transaction_number )
 void gsb_currency_exchange_dialog ( gint account_currency_number,
 				    gint transaction_currency_number ,
 				    gint link_currency,
-				    gdouble exchange_rate,
-				    gdouble exchange_fees,
+				    gsb_real exchange_rate,
+				    gsb_real exchange_fees,
 				    gboolean force )
 {
     GtkWidget *dialog, *label, *entry, *hbox, *fees_entry, *paddingbox;
@@ -448,7 +449,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     gtk_widget_show_all ( dialog );
 
     /* if the rate or fees exist already, fill them here */
-    if ( exchange_rate || exchange_fees )
+    if ( exchange_rate.mantissa || exchange_fees.mantissa )
     {
 	if ( link_currency )
 	{
@@ -465,9 +466,9 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 				       !link_currency );
 	}
 	gtk_entry_set_text ( GTK_ENTRY ( entry ),
-			     g_strdup_printf ( "%f", exchange_rate ));
+			     gsb_real_get_string (exchange_rate));
 	gtk_entry_set_text ( GTK_ENTRY ( fees_entry ),
-			     g_strdup_printf ( "%4.2f", fabs ( exchange_fees )));
+			     gsb_real_get_string (gsb_real_abs (exchange_rate)));
     }
     else
     {
@@ -482,21 +483,20 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 
     if ( result )
     {
-	current_exchange = 0;
-	current_exchange_fees = 0;
+	current_exchange = null_real;
+	current_exchange_fees = null_real;
     }
     else
     {
 	gint tmp_currency_number;
 
-	current_exchange = my_strtod ( gtk_entry_get_text ( GTK_ENTRY ( entry )),
-				       NULL );
-	current_exchange_fees = my_strtod ( gtk_entry_get_text ( GTK_ENTRY ( fees_entry )),
-					    NULL );
+	current_exchange = gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( entry )));
+	current_exchange_fees = gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( fees_entry )));
+
 	tmp_currency_number = gsb_data_currency_get_number_by_name (gtk_combo_box_get_active_text (GTK_COMBO_BOX (combobox_1)));
 
 	if ( tmp_currency_number != transaction_currency_number )
-	    current_exchange = -current_exchange;
+	    current_exchange = gsb_real_opposite (current_exchange);
 
 	gsb_currency_config_set_cached_exchange ( account_currency_number, transaction_currency_number, 
 						  current_exchange, current_exchange_fees );

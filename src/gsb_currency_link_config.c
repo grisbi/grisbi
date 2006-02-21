@@ -33,8 +33,8 @@
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_currency_link.h"
+#include "gsb_real.h"
 #include "traitement_variables.h"
-#include "utils_str.h"
 #include "utils.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -354,8 +354,7 @@ void gsb_currency_link_config_append_line ( GtkTreeModel *model,
 			 LINK_1_COLUMN, "1",
 			 LINK_CURRENCY1_COLUMN, gsb_data_currency_get_name (gsb_data_currency_link_get_first_currency(link_number)),
 			 LINK_EQUAL_COLUMN, "=",
-			 LINK_EXCHANGE_COLUMN, g_strdup_printf ( "%4.7f",
-								 gsb_data_currency_link_get_change_rate (link_number)),
+			 LINK_EXCHANGE_COLUMN, gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number)),
 			 LINK_CURRENCY2_COLUMN, gsb_data_currency_get_name (gsb_data_currency_link_get_second_currency(link_number)),
 			 LINK_INVALID_COLUMN, invalid,
 			 LINK_NUMBER_COLUMN, link_number,
@@ -432,8 +431,7 @@ gboolean gsb_currency_link_config_select_currency ( GtkTreeSelection *tree_selec
 				      G_CALLBACK (gsb_currency_link_config_modify_link),
 				      tree_view );
     gtk_entry_set_text ( GTK_ENTRY (exchange_entry),
-			 g_strdup_printf ( "%4.7f",
-					   gsb_data_currency_link_get_change_rate (link_number)));
+			 gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number)));
     g_signal_handlers_unblock_by_func ( G_OBJECT (exchange_entry),
 					G_CALLBACK (gsb_currency_link_config_modify_link),
 					tree_view );
@@ -498,8 +496,7 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     gsb_data_currency_link_set_second_currency ( link_number,
 						 gsb_currency_get_currency_from_combobox (combobox_2));
     gsb_data_currency_link_set_change_rate ( link_number,
-					     my_strtod ( gtk_entry_get_text ( GTK_ENTRY (exchange_entry)),
-							 NULL ));
+					     gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (exchange_entry))));
 
     if ( gsb_data_currency_link_get_invalid_link (link_number))
 	invalid = GTK_STOCK_DIALOG_WARNING;
@@ -509,8 +506,7 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     gtk_list_store_set ( GTK_LIST_STORE (model),
 			 &iter,
 			 LINK_CURRENCY1_COLUMN, gsb_data_currency_get_name (gsb_data_currency_link_get_first_currency(link_number)),
-			 LINK_EXCHANGE_COLUMN, g_strdup_printf ( "%4.7f",
-								 gsb_data_currency_link_get_change_rate (link_number)),
+			 LINK_EXCHANGE_COLUMN, gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number)),
 			 LINK_CURRENCY2_COLUMN, gsb_data_currency_get_name (gsb_data_currency_link_get_second_currency(link_number)),
 			 LINK_INVALID_COLUMN, invalid,
 			 -1 );

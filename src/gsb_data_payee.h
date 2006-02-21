@@ -10,7 +10,7 @@
 
 /* START_DECLARATION */
 void gsb_data_payee_add_transaction_to_payee ( gint transaction_number );
-gdouble gsb_data_payee_get_balance ( gint no_payee );
+gsb_real gsb_data_payee_get_balance ( gint no_payee );
 gchar *gsb_data_payee_get_description ( gint no_payee );
 gpointer gsb_data_payee_get_empty_payee ( void );
 gchar *gsb_data_payee_get_name ( gint no_payee,

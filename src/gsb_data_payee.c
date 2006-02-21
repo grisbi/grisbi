@@ -33,6 +33,7 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_report.h"
 #include "gsb_data_transaction.h"
+#include "gsb_real.h"
 #include "utils_str.h"
 #include "meta_payee.h"
 #include "include.h"
@@ -50,7 +51,7 @@ typedef struct
     gchar *payee_description;
 
     gint payee_nb_transactions;
-    gdouble payee_balance;
+    gsb_real payee_balance;
 } struct_payee;
 
 
@@ -62,6 +63,7 @@ static void gsb_data_payee_reset_counters ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_payee */
@@ -568,14 +570,14 @@ gint gsb_data_payee_get_nb_transactions ( gint no_payee )
  *
  * \return balance of the payee or 0 if problem
  * */
-gdouble gsb_data_payee_get_balance ( gint no_payee )
+gsb_real gsb_data_payee_get_balance ( gint no_payee )
 {
     struct_payee *payee;
 
     payee = gsb_data_payee_get_structure ( no_payee );
 
     if (!payee)
-	return 0;
+	return null_real;
 
     return payee -> payee_balance;
 }
@@ -599,7 +601,7 @@ void gsb_data_payee_reset_counters ( void )
 	struct_payee *payee;
 
 	payee = list_tmp -> data;
-	payee -> payee_balance = 0.0;
+	payee -> payee_balance = null_real;
 	payee -> payee_nb_transactions = 0;
 
 	list_tmp = list_tmp -> next;
@@ -607,7 +609,7 @@ void gsb_data_payee_reset_counters ( void )
     
     /* reset the blank payee counters */
 
-    empty_payee -> payee_balance = 0.0;
+    empty_payee -> payee_balance = null_real;
     empty_payee -> payee_nb_transactions = 0;
 }
 
@@ -663,7 +665,9 @@ void gsb_data_payee_add_transaction_to_payee ( gint transaction_number )
 	payee = empty_payee;
 
 	payee -> payee_nb_transactions ++;
-	payee -> payee_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, payee_tree_currency ());
+	payee -> payee_balance = gsb_real_add ( payee -> payee_balance,
+						gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+													payee_tree_currency (), -1));
 }
 
 
@@ -692,10 +696,12 @@ void gsb_data_payee_remove_transaction_from_payee ( gint transaction_number )
 	payee = empty_payee;
 
 	payee -> payee_nb_transactions --;
-	payee -> payee_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, payee_tree_currency ());
+	payee -> payee_balance = gsb_real_sub ( payee -> payee_balance,
+						gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+													payee_tree_currency (), -1));
 
 	if ( !payee -> payee_nb_transactions ) /* Cope with float errors */
-	    payee -> payee_balance = 0.0;
+	    payee -> payee_balance = null_real;
 }
 
 

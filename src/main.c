@@ -95,6 +95,7 @@ extern gint largeur_window;
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
+
 /**                                                                              
  * Main function
  *

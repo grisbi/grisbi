@@ -33,10 +33,10 @@
 #include "fenetre_principale.h"
 #include "etats_onglet.h"
 #include "menu.h"
+#include "gsb_real.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "comptes_gestion.h"
-#include "utils_str.h"
 #include "gsb_file_config.h"
 #include "navigation.h"
 #include "include.h"
@@ -1019,8 +1019,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
 
 	    currency_number = gsb_data_account_get_currency ( compte_courant_onglet );
 	    suffix = g_strdup_printf ( "%s %s", 
-				       utils_str_amount_to_str ( gsb_data_account_get_current_balance ( compte_courant_onglet ),
-								 gsb_data_currency_get_floating_point (currency_number)),
+				       gsb_real_get_string (gsb_data_account_get_current_balance (compte_courant_onglet)),
 				       gsb_data_currency_get_code (currency_number));
 	    gsb_menu_update_view_menu ( account_nb );
 	    break;

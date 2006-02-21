@@ -36,6 +36,7 @@
 #include "dialog.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
+#include "gsb_real.h"
 #include "utils_str.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -56,8 +57,8 @@ typedef struct
     /** @name gui category list content (not saved) */
     gint category_nb_transactions;
     gint category_nb_direct_transactions;
-    gdouble category_balance;
-    gdouble category_direct_balance;
+    gsb_real category_balance;
+    gsb_real category_direct_balance;
 } struct_category;
 
 
@@ -75,7 +76,7 @@ typedef struct
 
     /** @name gui sub-category list content (not saved)*/
     gint sub_category_nb_transactions;
-    gdouble sub_category_balance;
+    gsb_real sub_category_balance;
 } struct_sub_category;
 
 
@@ -95,11 +96,13 @@ static gint gsb_data_category_new ( gchar *name );
 static gint gsb_data_category_new_sub_category ( gint category_number,
 					  gchar *name );
 static void gsb_data_category_reset_counters ( void );
+static gint gsb_data_sub_category_compare ( struct_sub_category * a, struct_sub_category * b );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern gchar *categories_de_base_credit [] ;
 extern gchar *categories_de_base_debit [] ;
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 
@@ -1115,14 +1118,14 @@ gint gsb_data_category_get_nb_direct_transactions ( gint no_category )
  *
  * \return balance of the category or 0 if problem
  * */
-gdouble gsb_data_category_get_balance ( gint no_category )
+gsb_real gsb_data_category_get_balance ( gint no_category )
 {
     struct_category *category;
 
     category = gsb_data_category_get_structure ( no_category );
 
     if (!category)
-	return 0;
+	return null_real;
 
     return category -> category_balance;
 }
@@ -1136,8 +1139,8 @@ gdouble gsb_data_category_get_balance ( gint no_category )
  *
  * \return balance of the sub-category or 0 if problem
  * */
-gdouble gsb_data_category_get_sub_category_balance ( gint no_category,
-						     gint no_sub_category )
+gsb_real gsb_data_category_get_sub_category_balance ( gint no_category,
+						      gint no_sub_category )
 {
     struct_sub_category *sub_category;
 
@@ -1145,7 +1148,7 @@ gdouble gsb_data_category_get_sub_category_balance ( gint no_category,
 								  no_sub_category );
 
     if (!sub_category)
-	return 0;
+	return null_real;
 
     return sub_category -> sub_category_balance;
 }
@@ -1157,14 +1160,14 @@ gdouble gsb_data_category_get_sub_category_balance ( gint no_category,
  *
  * \return balance of the category or 0 if problem
  * */
-gdouble gsb_data_category_get_direct_balance ( gint no_category )
+gsb_real gsb_data_category_get_direct_balance ( gint no_category )
 {
     struct_category *category;
 
     category = gsb_data_category_get_structure ( no_category );
 
     if (!category)
-	return 0;
+	return null_real;
 
     return category -> category_direct_balance;
 }
@@ -1190,9 +1193,9 @@ void gsb_data_category_reset_counters ( void )
 	GSList *sub_list_tmp;
 
 	category = list_tmp -> data;
-	category -> category_balance = 0.0;
+	category -> category_balance = null_real;
 	category -> category_nb_transactions = 0;
-	category -> category_direct_balance = 0.0;
+	category -> category_direct_balance = null_real;
 	category -> category_nb_direct_transactions = 0;
 
 	sub_list_tmp = category -> sub_category_list;
@@ -1204,7 +1207,7 @@ void gsb_data_category_reset_counters ( void )
 	    sub_category = sub_list_tmp -> data;
 
 	    sub_category -> sub_category_nb_transactions = 0;
-	    sub_category -> sub_category_balance = 0.0;
+	    sub_category -> sub_category_balance = null_real;
 
 	    sub_list_tmp = sub_list_tmp -> next;
 	}
@@ -1212,9 +1215,9 @@ void gsb_data_category_reset_counters ( void )
     }
     
     /* reset the empty category */
-    empty_category -> category_balance = 0.0;
+    empty_category -> category_balance = null_real;
     empty_category -> category_nb_transactions = 0;
-    empty_category -> category_direct_balance = 0.0;
+    empty_category -> category_direct_balance = null_real;
     empty_category -> category_nb_direct_transactions = 0;
 }
 
@@ -1269,27 +1272,35 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
     if ( category )
     {
 	category -> category_nb_transactions ++;
-	category -> category_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency ());
+	category -> category_balance = gsb_real_add ( category -> category_balance,
+						      gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+													      category_tree_currency (), -1));
     }
     else
     {
 	empty_category -> category_nb_transactions ++;
-	empty_category -> category_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency () );
+	empty_category -> category_balance = gsb_real_add ( category -> category_balance,
+							    gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+														    category_tree_currency (), -1));
     }
 
     if ( sub_category )
     {
 	sub_category -> sub_category_nb_transactions ++;
-	sub_category -> sub_category_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency ());
+	sub_category -> sub_category_balance = gsb_real_add ( sub_category -> sub_category_balance,
+							      gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+														      category_tree_currency (), -1));
 
-	gsb_data_transaction_get_adjusted_amount (transaction_number);
+	gsb_data_transaction_get_adjusted_amount (transaction_number, -1);
     }
     else
     {
 	if ( category )
 	{
 	    category -> category_nb_direct_transactions ++;
-	    category -> category_direct_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency ());
+	    category -> category_direct_balance = gsb_real_add ( category -> category_direct_balance,
+								 gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+															 category_tree_currency (), -1));
 	}
     }
 }
@@ -1315,24 +1326,30 @@ void gsb_data_category_remove_transaction_from_category ( gint transaction_numbe
     if ( category )
     {
 	category -> category_nb_transactions --;
-	category -> category_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency ());
+	category -> category_balance = gsb_real_sub ( category -> category_balance,
+						      gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+													      category_tree_currency (), -1));
 	if ( !category -> category_nb_transactions ) /* Cope with float errors */
-	    category -> category_balance = 0.0;
+	    category -> category_balance = null_real;
     }
 
     if ( sub_category )
     {
 	sub_category -> sub_category_nb_transactions --;
-	sub_category -> sub_category_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency ());
+	sub_category -> sub_category_balance = gsb_real_sub ( sub_category -> sub_category_balance,
+							      gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+														      category_tree_currency (), -1));
 	if ( !sub_category -> sub_category_nb_transactions ) /* Cope with float errors */
-	    sub_category -> sub_category_balance = 0.0;
+	    sub_category -> sub_category_balance = null_real;
     }
     else
     {
 	if ( category )
 	{
 	    category -> category_nb_direct_transactions --;
-	    category -> category_direct_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, category_tree_currency ());
+	    category -> category_direct_balance = gsb_real_sub ( category -> category_direct_balance,
+								 gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+															 category_tree_currency (), -1));
 	}
     }
 }

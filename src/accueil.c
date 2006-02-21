@@ -42,6 +42,7 @@
 #include "utils_dates.h"
 #include "navigation.h"
 #include "fenetre_principale.h"
+#include "gsb_real.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "main.h"
@@ -54,7 +55,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean click_sur_compte_accueil ( gint *no_compte );
+static gboolean click_sur_compte_accueil ( gint *account_number );
 static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 				   GdkEventButton *event,
 				   gint scheduled_number );
@@ -70,23 +71,24 @@ static void update_soldes_minimaux ( gboolean force );
 /*START_EXTERN*/
 extern GdkColor couleur_bleue;
 extern GdkColor couleur_jaune;
+extern GdkColor couleur_nom_compte_normal;
+extern GdkColor couleur_nom_compte_prelight;
+extern GdkColor couleur_solde_alarme_orange_normal;
+extern GdkColor couleur_solde_alarme_orange_prelight;
+extern GdkColor couleur_solde_alarme_rouge_normal;
+extern GdkColor couleur_solde_alarme_rouge_prelight;
+extern GdkColor couleur_solde_alarme_verte_normal;
+extern GdkColor couleur_solde_alarme_verte_prelight;
 extern GtkWidget *formulaire;
 extern GtkWidget *formulaire_echeancier;
 extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget *hbox_valider_annuler_echeance;
+extern gsb_real null_real ;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 extern GtkWidget *separateur_formulaire_echeancier;
 extern gchar *titre_fichier;
 extern GtkWidget *window;
-extern GdkColor CouleurSoldeAlarmeVerteNormal;
-extern GdkColor CouleurSoldeAlarmeVertePrelight;
-extern GdkColor CouleurSoldeAlarmeOrangeNormal;
-extern GdkColor CouleurSoldeAlarmeOrangePrelight;
-extern GdkColor CouleurSoldeAlarmeRougeNormal;
-extern GdkColor CouleurSoldeAlarmeRougePrelight;
-extern GdkColor CouleurNomCompteNormal;
-extern GdkColor CouleurNomComptePrelight;
 /*END_EXTERN*/
 
 gchar *chemin_logo;
@@ -366,12 +368,11 @@ void update_liste_comptes_accueil ( gboolean force )
     GtkWidget *pTable, *pEventBox, *pLabel, *vbox, *paddingbox;
     GtkStyle *pStyleLabelNomCompte, *pStyleLabelSoldeCourant, 
 	     *pStyleLabelSoldePointe;
-    GSList *liste_operations_tmp, *devise;
-    glong montant, solde_global_courant, solde_global_pointe;
+    GSList *devise;
+    gsb_real solde_global_courant, solde_global_pointe;
     GList *children;
     gint i;
     gint nb_comptes_bancaires=0, nb_comptes_passif=0, nb_comptes_actif=0;
-    gdouble solde_pointe_affichage_liste;
     GSList *list_tmp;
 
     if ( !force
@@ -391,8 +392,8 @@ void update_liste_comptes_accueil ( gboolean force )
 
     /* Initialisation du style « Nom du compte » */
     pStyleLabelNomCompte = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
-    pStyleLabelNomCompte->fg[GTK_STATE_NORMAL] = CouleurNomCompteNormal;
-    pStyleLabelNomCompte->fg[GTK_STATE_PRELIGHT] = CouleurNomComptePrelight;
+    pStyleLabelNomCompte->fg[GTK_STATE_NORMAL] = couleur_nom_compte_normal;
+    pStyleLabelNomCompte->fg[GTK_STATE_PRELIGHT] = couleur_nom_compte_prelight;
     gtk_widget_destroy (pLabel);
 
     /* Remove previous child */
@@ -487,8 +488,8 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	/* Affichage des comptes et de leur solde */
 	i = 1;
-	solde_global_courant = 0 ;
-	solde_global_pointe = 0 ;
+	solde_global_courant = null_real ;
+	solde_global_pointe = null_real;
 
 	/* Pour chaque compte non cloturé (pour chaque ligne), */
 	/* créer toutes les colonnes et les remplir            */
@@ -497,17 +498,17 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	while ( list_tmp )
 	{
-	    gint no_compte;
+	    gint account_number;
 
-	    no_compte = gsb_data_account_get_no_account ( list_tmp -> data );
+	    account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	    if ( !gsb_data_account_get_closed_account (no_compte) &&
-		 gsb_data_account_get_currency (no_compte) == currency_number
-		 && gsb_data_account_get_kind (no_compte) != GSB_TYPE_LIABILITIES
-		 && gsb_data_account_get_kind (no_compte) != GSB_TYPE_ASSET )
+	    if ( !gsb_data_account_get_closed_account (account_number) &&
+		 gsb_data_account_get_currency (account_number) == currency_number
+		 && gsb_data_account_get_kind (account_number) != GSB_TYPE_LIABILITIES
+		 && gsb_data_account_get_kind (account_number) != GSB_TYPE_ASSET )
 	    {
 		/* Première colonne : vide */
-		pLabel = gtk_label_new ( g_strconcat ( gsb_data_account_get_name (no_compte), " : ", NULL ));
+		pLabel = gtk_label_new ( g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
@@ -518,7 +519,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Deuxième colonne : elle contient le nom du compte */
-		pLabel = gtk_label_new ( g_strconcat ( gsb_data_account_get_name (no_compte), " : ", NULL ));
+		pLabel = gtk_label_new ( g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
@@ -535,7 +536,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
-					    GINT_TO_POINTER (no_compte) );
+					    GINT_TO_POINTER (account_number) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   1, 2, i, i+1,
 				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
@@ -545,28 +546,29 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Troisième colonne : elle contient le solde pointé du compte */
-		pLabel = gtk_label_new ( utils_str_amount_to_str ( gsb_data_account_get_marked_balance (no_compte),
-								   gsb_data_currency_get_floating_point (gsb_data_account_get_currency (no_compte))));
+		pLabel = gtk_label_new (gsb_real_get_string (gsb_data_account_get_marked_balance (account_number)));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
 		/* Mise en place du style du label en fonction du solde pointé */
 		pStyleLabelSoldePointe = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
-		if ( gsb_data_account_get_marked_balance (no_compte) >= gsb_data_account_get_mini_balance_wanted (no_compte) )
+		if ( gsb_real_cmp ( gsb_data_account_get_marked_balance (account_number),
+				    gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
 		{
-		    pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
-		    pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
+		    pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_verte_normal;
+		    pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_verte_prelight;
 		}
 		else
 		{
-		    if ( gsb_data_account_get_marked_balance (no_compte) >= gsb_data_account_get_mini_balance_authorized (no_compte) )
+		    if ( gsb_real_cmp ( gsb_data_account_get_marked_balance (account_number),
+					gsb_data_account_get_mini_balance_authorized (account_number)) != -1 )
 		    {
-			pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeOrangeNormal;
-			pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeOrangePrelight;
+			pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_orange_normal;
+			pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_orange_prelight;
 		    }
 		    else
 		    {
-			pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeRougeNormal;
-			pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeRougePrelight;
+			pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_rouge_normal;
+			pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_rouge_prelight;
 		    }
 		}
 		gtk_widget_set_style ( pLabel, pStyleLabelSoldePointe );
@@ -584,7 +586,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( gsb_data_account_list_gui_change_current_account ),
-					    GINT_TO_POINTER (no_compte) );
+					    GINT_TO_POINTER (account_number) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   2, 3, i, i+1,
 				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
@@ -594,7 +596,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Quatrième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( gsb_data_currency_get_code (  gsb_data_account_get_currency (no_compte) ));
+		pLabel = gtk_label_new ( gsb_data_currency_get_code (  gsb_data_account_get_currency (account_number) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   3, 4, i, i+1,
@@ -608,28 +610,29 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Sixième colonne : elle contient le solde courant du compte */
-		pLabel = gtk_label_new ( utils_str_amount_to_str ( gsb_data_account_get_current_balance (no_compte),
-								   gsb_data_currency_get_floating_point (gsb_data_account_get_currency (no_compte))));
+		pLabel = gtk_label_new ( gsb_real_get_string (gsb_data_account_get_current_balance (account_number)));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
 		/* Mise en place du style du label en fonction du solde courant */
 		pStyleLabelSoldeCourant = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
-		if ( gsb_data_account_get_current_balance (no_compte) >= gsb_data_account_get_mini_balance_wanted (no_compte) )
+		if ( gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
+				    gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
 		{
-		    pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
-		    pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
+		    pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_verte_normal;
+		    pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_verte_prelight;
 		}
 		else
 		{
-		    if ( gsb_data_account_get_current_balance (no_compte) >= gsb_data_account_get_mini_balance_authorized (no_compte) )
+		    if ( gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
+					gsb_data_account_get_mini_balance_authorized (account_number)) != -1 )
 		    {
-			pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeOrangeNormal;
-			pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeOrangePrelight;
+			pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_orange_normal;
+			pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_orange_prelight;
 		    }
 		    else
 		    {
-			pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeRougeNormal;
-			pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeRougePrelight;
+			pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_rouge_normal;
+			pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_rouge_prelight;
 		    }
 		}
 		gtk_widget_set_style ( pLabel, pStyleLabelSoldeCourant );
@@ -647,7 +650,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( gsb_data_account_list_gui_change_current_account ),
-					    GINT_TO_POINTER (no_compte) );
+					    GINT_TO_POINTER (account_number) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   5, 6, i, i+1,
 				   GTK_FILL| GTK_SHRINK, GTK_FILL| GTK_SHRINK,
@@ -657,7 +660,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Septième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( gsb_data_currency_get_code ( gsb_data_account_get_currency (no_compte) ));
+		pLabel = gtk_label_new ( gsb_data_currency_get_code ( gsb_data_account_get_currency (account_number) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   6, 7, i, i+1,
@@ -672,8 +675,10 @@ void update_liste_comptes_accueil ( gboolean force )
 
 		/* ATTENTION : les sommes effectuées ici présupposent que
 		   TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
-		solde_global_courant += gsb_data_account_get_current_balance (no_compte);
-		solde_global_pointe += gsb_data_account_get_marked_balance (no_compte) ;
+		solde_global_courant = gsb_real_add ( solde_global_courant,
+						      gsb_data_account_get_current_balance (account_number));
+		solde_global_pointe = gsb_real_add ( solde_global_pointe,
+						     gsb_data_account_get_marked_balance (account_number));
 	    }
 	    i++;
 	    list_tmp = list_tmp -> next;
@@ -696,8 +701,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Troisième colonne : elle contient le solde total pointé des comptes */
-	pLabel = gtk_label_new ( utils_str_amount_to_str ( solde_global_pointe,
-							   gsb_data_currency_get_floating_point (currency_number)));
+	pLabel = gtk_label_new ( gsb_real_get_string (solde_global_pointe));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   2, 3, i+1, i+2,
@@ -715,8 +719,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Sixième colonne : elle contient le solde total courant des comptes */
-	pLabel = gtk_label_new ( utils_str_amount_to_str ( solde_global_courant,
-							   gsb_data_currency_get_floating_point (currency_number)));
+	pLabel = gtk_label_new ( gsb_real_get_string (solde_global_courant));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   5, 6, i+1, i+2,
@@ -789,8 +792,8 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	/* Affichage des comptes et de leur solde */
 	i = 1;
-	solde_global_courant = 0 ;
-	solde_global_pointe = 0 ;
+	solde_global_courant = null_real;
+	solde_global_pointe = null_real;
 
 	/* Pour chaque compte non cloturé (pour chaque ligne), */
 	/* créer toutes les colonnes et les remplir            */
@@ -799,17 +802,17 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	while ( list_tmp )
 	{
-	    gint no_compte;
+	    gint account_number;
 
-	    no_compte = gsb_data_account_get_no_account ( list_tmp -> data );
+	    account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	    if ( !gsb_data_account_get_closed_account (no_compte) &&
-		 gsb_data_account_get_currency (no_compte) == currency_number
+	    if ( !gsb_data_account_get_closed_account (account_number) &&
+		 gsb_data_account_get_currency (account_number) == currency_number
 		 &&
-		 gsb_data_account_get_kind (no_compte) == GSB_TYPE_LIABILITIES )
+		 gsb_data_account_get_kind (account_number) == GSB_TYPE_LIABILITIES )
 	    {
 		/* Première colonne : vide */
-		pLabel = gtk_label_new ( g_strconcat ( gsb_data_account_get_name (no_compte), " : ", NULL ));
+		pLabel = gtk_label_new ( g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
@@ -820,7 +823,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Deuxième colonne : elle contient le nom du compte */
-		pLabel = gtk_label_new ( g_strconcat ( gsb_data_account_get_name (no_compte), " : ", NULL ));
+		pLabel = gtk_label_new ( g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
@@ -837,7 +840,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
-					    GINT_TO_POINTER ( GINT_TO_POINTER (no_compte) ) );
+					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   1, 2, i, i+1,
 				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
@@ -846,65 +849,30 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* Calcul du solde pointé : je ne sais plus pourquoi on fait
-		   ce calcul, sans doute le solde pointé n'est-il pas disponible
-		   en tant que variable globale */
-		solde_pointe_affichage_liste = gsb_data_account_get_init_balance (no_compte);
-
-		/* on commence la boucle : fait le tour de toutes les opérations */
-		/* met à jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
-		/* affiche l'opération à l'écran en fonction de l'affichage de R */
-		liste_operations_tmp = gsb_data_transaction_get_transactions_list ();
-
-		while ( liste_operations_tmp )
-		{
-		    gint transaction_number;
-
-		    transaction_number = gsb_data_transaction_get_transaction_number (liste_operations_tmp->data);
-
-		    if ( gsb_data_transaction_get_account_number (transaction_number) == no_compte )
-		    {
-			/* si c'est une opé de ventilation, on la saute */
-			if ( !gsb_data_transaction_get_mother_transaction_number (transaction_number))
-			{
-			    /* quelle que soit l'opération (relevée ou non), on calcule les soldes courant */
-			    montant = gsb_data_transaction_get_adjusted_amount (transaction_number);
-
-			    /* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
-			    if ( gsb_data_transaction_get_marked_transaction (transaction_number))
-				solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
-			}
-		    }
-		    liste_operations_tmp = liste_operations_tmp -> next;
-		}
-
-		/* on enregistre le solde final */
-		gsb_data_account_set_marked_balance ( no_compte, 
-						 solde_pointe_affichage_liste );
-
 		/* Troisième colonne : elle contient le solde pointé du compte */
-		pLabel = gtk_label_new ( utils_str_amount_to_str ( gsb_data_account_get_marked_balance (no_compte),
-								   gsb_data_currency_get_floating_point (gsb_data_account_get_currency (no_compte))));
+		pLabel = gtk_label_new (gsb_real_get_string (gsb_data_account_get_marked_balance (account_number)));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
 		/* Mise en place du style du label en fonction du solde pointé */
 		pStyleLabelSoldePointe = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
-		if ( gsb_data_account_get_marked_balance (no_compte) >= gsb_data_account_get_mini_balance_wanted (no_compte) )
+		if ( gsb_real_cmp ( gsb_data_account_get_marked_balance (account_number),
+				    gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
 		{
-		    pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
-		    pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
+		    pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_verte_normal;
+		    pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_verte_prelight;
 		}
 		else
 		{
-		    if ( gsb_data_account_get_marked_balance (no_compte) >= gsb_data_account_get_mini_balance_authorized (no_compte) )
+		    if ( gsb_real_cmp ( gsb_data_account_get_marked_balance (account_number),
+					gsb_data_account_get_mini_balance_authorized (account_number)) != -1 )
 		    {
-			pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeOrangeNormal;
-			pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeOrangePrelight;
+			pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_orange_normal;
+			pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_orange_prelight;
 		    }
 		    else
 		    {
-			pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeRougeNormal;
-			pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeRougePrelight;
+			pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_rouge_normal;
+			pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_rouge_prelight;
 		    }
 		}
 		gtk_widget_set_style ( pLabel, pStyleLabelSoldePointe );
@@ -922,7 +890,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
-					    GINT_TO_POINTER ( GINT_TO_POINTER (no_compte) ));
+					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   2, 3, i, i+1,
 				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
@@ -932,7 +900,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Quatrième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( gsb_data_currency_get_code (  gsb_data_account_get_currency (no_compte) ));
+		pLabel = gtk_label_new ( gsb_data_currency_get_code (  gsb_data_account_get_currency (account_number) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   3, 4, i, i+1,
@@ -946,28 +914,29 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Sixième colonne : elle contient le solde courant du compte */
-		pLabel = gtk_label_new ( utils_str_amount_to_str ( gsb_data_account_get_current_balance (no_compte),
-								   gsb_data_currency_get_floating_point (gsb_data_account_get_currency (no_compte))));
+		pLabel = gtk_label_new ( gsb_real_get_string (gsb_data_account_get_current_balance (account_number)));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
 		/* Mise en place du style du label en fonction du solde courant */
 		pStyleLabelSoldeCourant = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
-		if ( gsb_data_account_get_current_balance (no_compte) >= gsb_data_account_get_mini_balance_wanted (no_compte) )
+		if ( gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
+				    gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
 		{
-		    pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
-		    pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
+		    pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_verte_normal;
+		    pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_verte_prelight;
 		}
 		else
 		{
-		    if ( gsb_data_account_get_current_balance (no_compte) >= gsb_data_account_get_mini_balance_authorized (no_compte) )
+		    if ( gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
+					gsb_data_account_get_mini_balance_authorized (account_number)) != -1 )
 		    {
-			pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeOrangeNormal;
-			pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeOrangePrelight;
+			pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_orange_normal;
+			pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_orange_prelight;
 		    }
 		    else
 		    {
-			pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeRougeNormal;
-			pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeRougePrelight;
+			pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_rouge_normal;
+			pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_rouge_prelight;
 		    }
 		}
 		gtk_widget_set_style ( pLabel, pStyleLabelSoldeCourant );
@@ -985,7 +954,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
-					    GINT_TO_POINTER ( GINT_TO_POINTER (no_compte) ));
+					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   5, 6, i, i+1,
 				   GTK_FILL| GTK_SHRINK, GTK_FILL| GTK_SHRINK,
@@ -995,7 +964,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Septième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( gsb_data_currency_get_code ( gsb_data_account_get_currency (no_compte) ));
+		pLabel = gtk_label_new ( gsb_data_currency_get_code ( gsb_data_account_get_currency (account_number) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   6, 7, i, i+1,
@@ -1010,8 +979,10 @@ void update_liste_comptes_accueil ( gboolean force )
 
 		/* ATTENTION : les sommes effectuées ici présupposent que
 		   TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
-		solde_global_courant += gsb_data_account_get_current_balance (no_compte) ;
-		solde_global_pointe += gsb_data_account_get_marked_balance (no_compte) ;
+		solde_global_courant = gsb_real_add ( solde_global_courant,
+						      gsb_data_account_get_current_balance (account_number));
+		solde_global_pointe = gsb_real_add ( solde_global_pointe,
+						     gsb_data_account_get_marked_balance (account_number));
 	    }
 	    i++;
 	    list_tmp = list_tmp -> next;
@@ -1034,8 +1005,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Troisième colonne : elle contient le solde total pointé des comptes */
-	pLabel = gtk_label_new ( utils_str_amount_to_str ( solde_global_pointe,
-							   currency_number ));
+	pLabel = gtk_label_new ( gsb_real_get_string (solde_global_pointe));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   2, 3, i+1, i+2,
@@ -1053,8 +1023,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Sixième colonne : elle contient le solde total courant des comptes */
-	pLabel = gtk_label_new ( utils_str_amount_to_str ( solde_global_courant,
-							   currency_number ));
+	pLabel = gtk_label_new ( gsb_real_get_string (solde_global_courant));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   5, 6, i+1, i+2,
@@ -1129,8 +1098,8 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	/* Affichage des comptes et de leur solde */
 	i = 1;
-	solde_global_courant = 0 ;
-	solde_global_pointe = 0 ;
+	solde_global_courant = null_real;
+	solde_global_pointe = null_real;
 
 	/* Pour chaque compte non cloturé (pour chaque ligne), */
 	/* créer toutes les colonnes et les remplir            */
@@ -1139,17 +1108,17 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	while ( list_tmp )
 	{
-	    gint no_compte;
+	    gint account_number;
 
-	    no_compte = gsb_data_account_get_no_account ( list_tmp -> data );
+	    account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	    if ( !gsb_data_account_get_closed_account (no_compte) &&
-		 gsb_data_account_get_currency (no_compte) == currency_number
+	    if ( !gsb_data_account_get_closed_account (account_number) &&
+		 gsb_data_account_get_currency (account_number) == currency_number
 		 &&
-		 gsb_data_account_get_kind (no_compte) == GSB_TYPE_ASSET )
+		 gsb_data_account_get_kind (account_number) == GSB_TYPE_ASSET )
 	    {
 		/* Première colonne : vide */
-		pLabel = gtk_label_new ( g_strconcat ( gsb_data_account_get_name (no_compte), " : ", NULL ));
+		pLabel = gtk_label_new ( g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
@@ -1160,7 +1129,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Deuxième colonne : elle contient le nom du compte */
-		pLabel = gtk_label_new ( g_strconcat ( gsb_data_account_get_name (no_compte), " : ", NULL ));
+		pLabel = gtk_label_new ( g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
@@ -1177,7 +1146,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
-					    GINT_TO_POINTER ( GINT_TO_POINTER (no_compte) ) );
+					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   1, 2, i, i+1,
 				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
@@ -1186,65 +1155,30 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* Calcul du solde pointé : je ne sais plus pourquoi on fait
-		   ce calcul, sans doute le solde pointé n'est-il pas disponible
-		   en tant que variable globale */
-		solde_pointe_affichage_liste = gsb_data_account_get_init_balance (no_compte);
-
-		/* on commence la boucle : fait le tour de toutes les opérations */
-		/* met à jour les solde_courant_affichage_liste et solde_pointe_affichage_liste */
-		/* affiche l'opération à l'écran en fonction de l'affichage de R */
-		liste_operations_tmp = gsb_data_transaction_get_transactions_list ();
-
-		while ( liste_operations_tmp )
-		{
-		    gint transaction_number;
-
-		    transaction_number = gsb_data_transaction_get_transaction_number (liste_operations_tmp->data);
-
-		    if ( gsb_data_transaction_get_account_number (transaction_number) == no_compte )
-		    {
-			/* si c'est une opé de ventilation, on la saute */
-			if ( !gsb_data_transaction_get_mother_transaction_number (transaction_number))
-			{
-			    /* quelle que soit l'opération (relevée ou non), on calcule les soldes courant */
-			    montant = gsb_data_transaction_get_adjusted_amount (transaction_number);
-
-			    /* si l'opé est pointée ou relevée, on ajoute ce montant au solde pointé */
-			    if ( gsb_data_transaction_get_marked_transaction (transaction_number))
-				solde_pointe_affichage_liste = solde_pointe_affichage_liste + montant;
-			}
-		    }
-		    liste_operations_tmp = liste_operations_tmp -> next;
-		}
-
-		/* on enregistre le solde final */
-		gsb_data_account_set_marked_balance ( no_compte, 
-						 solde_pointe_affichage_liste );
-
 		/* Troisième colonne : elle contient le solde pointé du compte */
-		pLabel = gtk_label_new ( utils_str_amount_to_str ( gsb_data_account_get_marked_balance (no_compte),
-								   gsb_data_currency_get_floating_point (gsb_data_account_get_currency (no_compte))));
+		pLabel = gtk_label_new (gsb_real_get_string (gsb_data_account_get_marked_balance (account_number)));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
 		/* Mise en place du style du label en fonction du solde pointé */
 		pStyleLabelSoldePointe = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
-		if ( gsb_data_account_get_marked_balance (no_compte) >= gsb_data_account_get_mini_balance_wanted (no_compte) )
+		if ( gsb_real_cmp ( gsb_data_account_get_marked_balance (account_number),
+				    gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
 		{
-		    pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
-		    pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
+		    pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_verte_normal;
+		    pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_verte_prelight;
 		}
 		else
 		{
-		    if ( gsb_data_account_get_marked_balance (no_compte) >= gsb_data_account_get_mini_balance_authorized (no_compte) )
+		    if ( gsb_real_cmp ( gsb_data_account_get_marked_balance (account_number),
+					gsb_data_account_get_mini_balance_authorized (account_number)) != -1 )
 		    {
-			pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeOrangeNormal;
-			pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeOrangePrelight;
+			pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_orange_normal;
+			pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_orange_prelight;
 		    }
 		    else
 		    {
-			pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeRougeNormal;
-			pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeRougePrelight;
+			pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_rouge_normal;
+			pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_rouge_prelight;
 		    }
 		}
 		gtk_widget_set_style ( pLabel, pStyleLabelSoldePointe );
@@ -1262,7 +1196,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
-					    GINT_TO_POINTER ( GINT_TO_POINTER (no_compte) ));
+					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   2, 3, i, i+1,
 				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
@@ -1272,7 +1206,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Quatrième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( gsb_data_currency_get_code (  gsb_data_account_get_currency (no_compte) ));
+		pLabel = gtk_label_new ( gsb_data_currency_get_code (  gsb_data_account_get_currency (account_number) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   3, 4, i, i+1,
@@ -1286,28 +1220,29 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Sixième colonne : elle contient le solde courant du compte */
-		pLabel = gtk_label_new ( utils_str_amount_to_str ( gsb_data_account_get_current_balance (no_compte),
-								   gsb_data_currency_get_floating_point (gsb_data_account_get_currency (no_compte))));
+		pLabel = gtk_label_new ( gsb_real_get_string (gsb_data_account_get_current_balance (account_number)));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
 		/* Mise en place du style du label en fonction du solde courant */
 		pStyleLabelSoldeCourant = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
-		if ( gsb_data_account_get_current_balance (no_compte) >= gsb_data_account_get_mini_balance_wanted (no_compte) )
+		if ( gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
+				    gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
 		{
-		    pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeVerteNormal;
-		    pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeVertePrelight;
+		    pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_verte_normal;
+		    pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_verte_prelight;
 		}
 		else
 		{
-		    if ( gsb_data_account_get_current_balance (no_compte) >= gsb_data_account_get_mini_balance_authorized (no_compte) )
+		    if ( gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
+					gsb_data_account_get_mini_balance_authorized (account_number)) != -1 )
 		    {
-			pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeOrangeNormal;
-			pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeOrangePrelight;
+			pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_orange_normal;
+			pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_orange_prelight;
 		    }
 		    else
 		    {
-			pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = CouleurSoldeAlarmeRougeNormal;
-			pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = CouleurSoldeAlarmeRougePrelight;
+			pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_rouge_normal;
+			pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_rouge_prelight;
 		    }
 		}
 		gtk_widget_set_style ( pLabel, pStyleLabelSoldeCourant );
@@ -1325,7 +1260,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
-					    GINT_TO_POINTER ( no_compte ));
+					    GINT_TO_POINTER ( account_number ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   5, 6, i, i+1,
 				   GTK_FILL| GTK_SHRINK, GTK_FILL| GTK_SHRINK,
@@ -1335,7 +1270,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Septième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( gsb_data_currency_get_code ( gsb_data_account_get_currency (no_compte) ));
+		pLabel = gtk_label_new ( gsb_data_currency_get_code ( gsb_data_account_get_currency (account_number) ));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 				   6, 7, i, i+1,
@@ -1350,8 +1285,10 @@ void update_liste_comptes_accueil ( gboolean force )
 
 		/* ATTENTION : les sommes effectuées ici présupposent que
 		   TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
-		solde_global_courant += gsb_data_account_get_current_balance (no_compte) ;
-		solde_global_pointe += gsb_data_account_get_marked_balance (no_compte) ;
+		solde_global_courant = gsb_real_add ( solde_global_courant,
+						      gsb_data_account_get_current_balance (account_number));
+		solde_global_pointe = gsb_real_add ( solde_global_pointe,
+						     gsb_data_account_get_marked_balance (account_number));
 	    }
 	    i++;
 	    list_tmp = list_tmp -> next;
@@ -1374,8 +1311,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Troisième colonne : elle contient le solde total pointé des comptes */
-	pLabel = gtk_label_new ( utils_str_amount_to_str ( solde_global_pointe,
-							   currency_number ));
+	pLabel = gtk_label_new ( gsb_real_get_string (solde_global_pointe));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   2, 3, i+1, i+2,
@@ -1393,8 +1329,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Sixième colonne : elle contient le solde total courant des comptes */
-	pLabel = gtk_label_new ( utils_str_amount_to_str ( solde_global_courant,
-							   currency_number ));
+	pLabel = gtk_label_new ( gsb_real_get_string (solde_global_courant));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   5, 6, i+1, i+2,
@@ -1425,12 +1360,12 @@ void update_liste_comptes_accueil ( gboolean force )
 /* cette fonction est appelée quand on click sur un compte dans l'accueil */
 /* elle fait un click sur le bouton du compte dans l'onglet des opérations */
 /* ************************************************************************* */
-gboolean click_sur_compte_accueil ( gint *no_compte )
+gboolean click_sur_compte_accueil ( gint *account_number )
 {
-    gsb_data_account_list_gui_change_current_account ( no_compte );
+    gsb_data_account_list_gui_change_current_account ( account_number );
     remplissage_details_compte ();
     gsb_gui_notebook_change_page ( GSB_ACCOUNT_PAGE );
-    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, GPOINTER_TO_INT (no_compte), NULL );
+    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, GPOINTER_TO_INT (account_number), NULL );
 
     return FALSE;
 }
@@ -1539,16 +1474,14 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 
 	    /* label à droite */
 
-	    if ( gsb_data_scheduled_get_amount (scheduled_number) >= 0 )
+	    if ( gsb_data_scheduled_get_amount (scheduled_number).mantissa >= 0 )
 		label = gtk_label_new ( g_strdup_printf ( _("%s %s credit on %s"),
-							  utils_str_amount_to_str ( gsb_data_scheduled_get_amount (scheduled_number),
-										    gsb_data_currency_get_floating_point (currency_number)),
+							  gsb_real_get_string (gsb_data_scheduled_get_amount (scheduled_number)),
 							  gsb_data_currency_get_code(currency_number),
 							  gsb_data_account_get_name (account_number)));
 	    else
 		label = gtk_label_new ( g_strdup_printf ( _("%s %s debit on %s"),
-							  utils_str_amount_to_str ( -gsb_data_scheduled_get_amount (scheduled_number),
-										    gsb_data_currency_get_floating_point (currency_number)),
+							  gsb_real_get_string (gsb_real_abs (gsb_data_scheduled_get_amount (scheduled_number))),
 							  gsb_data_currency_get_code(currency_number),
 							  gsb_data_account_get_name (account_number)));
 
@@ -1651,16 +1584,14 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 
 	    /* label à droite */
 
-	    if ( gsb_data_transaction_get_amount (transaction_number) >= 0 )
+	    if ( gsb_data_transaction_get_amount (transaction_number).mantissa >= 0 )
 		label = gtk_label_new ( g_strdup_printf ( _("%s %s credit on %s"),
-							  utils_str_amount_to_str ( gsb_data_transaction_get_amount (transaction_number),
-										    gsb_data_currency_get_floating_point (currency_number)),
+							  gsb_real_get_string (gsb_data_transaction_get_amount (transaction_number)),
 							  gsb_data_currency_get_code(currency_number),
 							  gsb_data_account_get_name (account_number)));
 	    else
 		label = gtk_label_new ( g_strdup_printf ( _("%s %s debit on %s"),
-							  utils_str_amount_to_str ( -gsb_data_transaction_get_amount (transaction_number),
-										    gsb_data_currency_get_floating_point (currency_number)),
+							  gsb_real_get_string (gsb_real_abs (gsb_data_transaction_get_amount (transaction_number))),
 							  gsb_data_currency_get_code(currency_number),
 							  gsb_data_account_get_name (account_number)));
 
@@ -1724,21 +1655,13 @@ void update_soldes_minimaux ( gboolean force )
     while ( list_tmp )
     {
 	gint i;
-	gint solde_courant;
-	gint solde_mini;
-	gint solde_mini_voulu;
-
 
 	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	/* le plus simple est de faire les comparaisons de soldes sur des integer */
-
-	solde_courant = rint ( gsb_data_account_get_current_balance (i) * 100 );
-	solde_mini = rint ( gsb_data_account_get_mini_balance_authorized (i) * 100 );
-	solde_mini_voulu = rint ( gsb_data_account_get_mini_balance_wanted (i) * 100 );
-
-
-	if ( solde_courant < solde_mini && gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES )
+	if ( gsb_real_cmp ( gsb_data_account_get_current_balance (i),
+			    gsb_data_account_get_mini_balance_authorized (i)) == -1
+	     &&
+	     gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES )
 	{
 	    if ( !vbox_1 )
 	    {
@@ -1755,9 +1678,15 @@ void update_soldes_minimaux ( gboolean force )
 	    show_paddingbox ( frame_etat_soldes_minimaux_autorises );
 	}
 
-	if ( solde_courant < solde_mini_voulu && gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
+	if ( gsb_real_cmp ( gsb_data_account_get_current_balance (i),
+			    gsb_data_account_get_mini_balance_wanted (i)) == -1
 	     &&
-	     solde_courant > solde_mini && gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES)
+	     gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
+	     &&
+	     gsb_real_cmp ( gsb_data_account_get_current_balance (i),
+			    gsb_data_account_get_mini_balance_authorized (i)) == -1
+	     &&
+	     gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES)
 	{
 	    if ( !vbox_2 )
 	    {
@@ -1815,31 +1744,23 @@ void affiche_dialogue_soldes_minimaux ( void )
     while ( list_tmp )
     {
 	gint i;
-	gint solde_courant;
-	gint solde_mini;
-	gint solde_mini_voulu;
 
 	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	/* le plus simple est de faire les comparaisons de soldes sur des integer */
-
-	solde_courant = rint ( gsb_data_account_get_current_balance (i) * 100 );
-	solde_mini = rint ( gsb_data_account_get_mini_balance_authorized (i) * 100 );
-	solde_mini_voulu = rint ( gsb_data_account_get_mini_balance_wanted (i) * 100 );
-
-
-	if ( solde_courant < solde_mini
+	if ( gsb_real_cmp ( gsb_data_account_get_current_balance (i),
+			    gsb_data_account_get_mini_balance_authorized (i)) == -1
 	     &&
 	     gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
 	     &&
 	     !gsb_data_account_get_mini_balance_authorized_message (i) )
 	{
-	    if ( solde_courant  < solde_mini_voulu )
+	    if ( gsb_real_cmp ( gsb_data_account_get_current_balance (i),
+				gsb_data_account_get_mini_balance_wanted (i)) == -1 )
 	    {
 		liste_autorise_et_voulu = g_slist_append ( liste_autorise_et_voulu,
 							   gsb_data_account_get_name (i) );
 		gsb_data_account_set_mini_balance_wanted_message ( i,
-							      1 );
+								   1 );
 	    }
 	    else
 	    {
@@ -1847,12 +1768,14 @@ void affiche_dialogue_soldes_minimaux ( void )
 						  gsb_data_account_get_name (i) );
 	    }
 	    gsb_data_account_set_mini_balance_authorized_message ( i,
-							      1 );
+								   1 );
 	}
 
-	if ( solde_courant < solde_mini_voulu
+	if ( gsb_real_cmp ( gsb_data_account_get_current_balance (i),
+			    gsb_data_account_get_mini_balance_wanted (i)) == -1
 	     &&
-	     solde_courant > solde_mini
+	     gsb_real_cmp ( gsb_data_account_get_current_balance (i),
+			    gsb_data_account_get_mini_balance_authorized (i)) == 1
 	     &&
 	     gsb_data_account_get_kind (i) != GSB_TYPE_LIABILITIES
 	     &&
@@ -1861,17 +1784,19 @@ void affiche_dialogue_soldes_minimaux ( void )
 	    liste_voulu = g_slist_append ( liste_voulu,
 					   gsb_data_account_get_name (i) );
 	    gsb_data_account_set_mini_balance_wanted_message ( i,
-							  1 );
+							       1 );
 	}
 
 	/* 	si on repasse au dessus des seuils, c'est comme si on n'avait rien affiché */
 
-	if ( solde_courant > solde_mini )
+	if ( gsb_real_cmp ( gsb_data_account_get_current_balance (i),
+			    gsb_data_account_get_mini_balance_authorized (i)) == 1 )
 	    gsb_data_account_set_mini_balance_authorized_message ( i,
-							      0 );
-	if ( solde_courant > solde_mini_voulu )
+								   0 );
+	if ( gsb_real_cmp ( gsb_data_account_get_current_balance (i),
+			    gsb_data_account_get_mini_balance_wanted (i)) == 1 )
 	    gsb_data_account_set_mini_balance_wanted_message ( i,
-							  0 );
+							       0 );
 
 	list_tmp = list_tmp -> next;
     }
@@ -1999,7 +1924,7 @@ void update_fin_comptes_passifs ( gboolean force )
 
 	if ( gsb_data_account_get_kind (i) == GSB_TYPE_LIABILITIES
 	     &&
-	     gsb_data_account_get_current_balance (i) >= 0 )
+	     gsb_data_account_get_current_balance (i).mantissa >= 0 )
 	    liste_tmp = g_slist_append ( liste_tmp, gsb_data_account_get_name (i) );
 
 	list_tmp = list_tmp -> next;
@@ -2075,16 +2000,14 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
 
     /* append in the vbox the finished scheduled transaction */
 
-    if ( gsb_data_scheduled_get_amount (scheduled_number) >= 0 )
+    if ( gsb_data_scheduled_get_amount (scheduled_number).mantissa >= 0 )
 	label = gtk_label_new ( g_strdup_printf ( _("%s %s credit on %s"),
-						  utils_str_amount_to_str ( gsb_data_scheduled_get_amount (scheduled_number),
-									    gsb_data_currency_get_floating_point (currency_number)),
+						  gsb_real_get_string (gsb_data_scheduled_get_amount (scheduled_number)),
 						  gsb_data_currency_get_code(currency_number),
 						  gsb_data_account_get_name (account_number)));
     else
 	label = gtk_label_new ( g_strdup_printf ( _("%s %s debit on %s"),
-						  utils_str_amount_to_str ( -gsb_data_scheduled_get_amount (scheduled_number),
-									    gsb_data_currency_get_floating_point (currency_number)),
+						  gsb_real_get_string (gsb_real_abs (gsb_data_scheduled_get_amount (scheduled_number))),
 						  gsb_data_currency_get_code(currency_number),
 						  gsb_data_account_get_name (account_number)));
 

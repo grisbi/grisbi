@@ -27,7 +27,6 @@
 /*START_INCLUDE*/
 #include "gsb_transactions_list.h"
 #include "accueil.h"
-#include "utils_montants.h"
 #include "comptes_traitements.h"
 #include "erreur.h"
 #include "dialog.h"
@@ -47,6 +46,7 @@
 #include "gsb_form_transaction.h"
 #include "navigation.h"
 #include "barre_outils.h"
+#include "gsb_real.h"
 #include "gsb_scheduler_list.h"
 #include "classement_operations.h"
 #include "main.h"
@@ -62,7 +62,6 @@
 #include "utils_str.h"
 #include "gsb_transactions_list.h"
 #include "include.h"
-#include "import.h"
 #include "structures.h"
 #include "mouse.h"
 /*END_INCLUDE*/
@@ -128,7 +127,8 @@ static void p_press (void);
 static void popup_transaction_context_menu ( gboolean full, int x, int y );
 static void r_press (void);
 static gint schedule_transaction ( gint transaction_number );
-static glong solde_debut_affichage ( gint no_account );
+static gsb_real solde_debut_affichage ( gint no_account,
+				 gint floating_point);
 static void update_titres_tree_view ( void );
 /*END_STATIC*/
 
@@ -173,13 +173,10 @@ static GtkTreeModel *transactions_sortable_model = NULL;
 
 
 /*START_EXTERN*/
-extern GtkWidget *bouton_ok_equilibrage;
 extern GdkColor breakdown_background;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_selection;
 extern GtkWidget *formulaire;
-extern GtkWidget *label_equilibrage_ecart;
-extern GtkWidget *label_equilibrage_pointe;
 extern gchar *labels_boutons [] ;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
@@ -192,11 +189,8 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget *notebook_general;
-extern gdouble operations_pointees;
 extern PangoFontDescription *pango_desc_fonte_liste;
 extern GtkTreeSelection * selection;
-extern gdouble solde_final;
-extern gdouble solde_initial;
 extern GtkStyle *style_entree_formulaire[2];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkWidget *tree_view;
@@ -456,10 +450,6 @@ void update_titres_tree_view ( void )
     }
 }
 /******************************************************************************/
-
-
-
-
 
 
 
@@ -981,22 +971,20 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    /* give the amount of the transaction on the transaction currency */
 	    if ( (cell_content_number == TRANSACTION_LIST_DEBIT
 		  &&
-		  gsb_data_transaction_get_amount ( transaction_number)< 0 )
+		  gsb_data_transaction_get_amount ( transaction_number).mantissa < 0 )
 		 ||
 		 (cell_content_number == TRANSACTION_LIST_CREDIT
 		  &&
-		  gsb_data_transaction_get_amount ( transaction_number) >= 0 ))
+		  gsb_data_transaction_get_amount ( transaction_number).mantissa >= 0 ))
 	    {
 		if ( gsb_data_transaction_get_currency_number (transaction_number) != gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)))
-		    return ( g_strconcat ( gsb_data_transaction_get_str_amount (transaction_number,
-										TRUE ),
+		    return ( g_strconcat ( gsb_real_get_string ( gsb_data_transaction_get_amount (transaction_number)),
 					   "(",
 					   gsb_data_currency_get_code (gsb_data_transaction_get_currency_number (transaction_number)),
 					   ")",
 					   NULL ));
 		else
-		    return (gsb_data_transaction_get_str_amount (transaction_number,
-								 TRUE ));
+		    return (gsb_real_get_string ( gsb_data_transaction_get_amount (transaction_number)));
 	    }
 	    else
 		return NULL;
@@ -1011,8 +999,8 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    account_currency = gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number));
 	    if ( account_currency != gsb_data_transaction_get_currency_number (transaction_number))
 		return ( g_strconcat ( "(",
-				       gsb_data_transaction_get_str_adjusted_amount_for_currency ( transaction_number,
-												   account_currency ),
+				       gsb_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number,
+												      gsb_data_currency_get_floating_point (account_currency))),
 				       gsb_data_currency_get_code (account_currency),
 				       ")",
 				       NULL ));
@@ -1241,7 +1229,7 @@ gboolean gsb_transactions_list_expand_row ( GtkTreeView *tree_view,
  * */
 gboolean gsb_transactions_list_set_transactions_balances ( gint no_account )
 {
-    glong current_total;
+    gsb_real current_total;
     gint column_balance;
     gint line_balance;
     GtkTreePath *path_sorted;
@@ -1275,7 +1263,8 @@ gboolean gsb_transactions_list_set_transactions_balances ( gint no_account )
 
     /*     on calcule le solde de démarrage */
 
-    current_total = solde_debut_affichage ( no_account );
+    current_total = solde_debut_affichage ( no_account,
+					    floating_point);
 
     while ( path )
     {
@@ -1295,8 +1284,8 @@ gboolean gsb_transactions_list_set_transactions_balances ( gint no_account )
 		path = gsb_transactions_list_get_list_path_from_sorted_path ( path_sorted);
 		continue;
 	    }
-
-	    current_total = current_total + gsb_data_transaction_get_adjusted_amount (transaction_number);
+	    current_total = gsb_real_add ( current_total,
+					   gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point));
 
 	    gtk_tree_model_get_iter ( model,
 				      &iter,
@@ -1304,13 +1293,12 @@ gboolean gsb_transactions_list_set_transactions_balances ( gint no_account )
 
 	    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
 				 &iter,
-				 column_balance, utils_str_amount_to_str ( current_total,
-									   floating_point ),
+				 column_balance, gsb_real_get_string (current_total),
 				 -1 );
 
 	    /* 	on met la couleur du solde */
 
-	    if ( current_total >= 0 )
+	    if ( current_total.mantissa >= 0 )
 		gtk_tree_store_set ( GTK_TREE_STORE ( model ),
 				     &iter,
 				     TRANSACTION_COL_NB_AMOUNT_COLOR, NULL,
@@ -1426,24 +1414,23 @@ gint find_balance_line ( void )
 }
 
 
-
-
-
 /******************************************************************************/
 /* cette fonction calcule le solde de départ pour l'affichage de la première opé */
 /* du compte */
 /* c'est soit le solde initial du compte si on affiche les R */
 /* soit le solde initial - les opés R si elles ne sont pas affichées */
 /******************************************************************************/
-glong solde_debut_affichage ( gint no_account )
+gsb_real solde_debut_affichage ( gint no_account,
+				 gint floating_point)
 {
-    glong solde;
+    gsb_real solde;
     GSList *list_tmp_transactions;
 
-    solde = gsb_data_account_get_init_balance (no_account);
+    solde = gsb_data_account_get_init_balance (no_account,
+					       floating_point );
 
     if ( gsb_data_account_get_r (no_account) )
-	return (solde);
+	return solde;
 
     /*     les R ne sont pas affichés, on les déduit du solde initial */
 
@@ -1461,7 +1448,9 @@ glong solde_debut_affichage ( gint no_account )
 	     !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp)
 	     &&
 	     gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == 3 )
-	    solde = solde + gsb_data_transaction_get_adjusted_amount (transaction_number_tmp);
+	    solde = gsb_real_add ( solde,
+				   gsb_data_transaction_get_adjusted_amount (transaction_number_tmp,
+									     floating_point ));
 
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
@@ -1551,7 +1540,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 	    if ( etat.equilibrage &&
 		 line_in_transaction == find_p_r_line())
 	    {
-		gsb_reconcile_mark_transaction (gsb_data_transaction_get_pointer_to_transaction (transaction_number));
+		gsb_reconcile_mark_transaction (transaction_number);
 		return TRUE;
 	    }
 
@@ -2486,8 +2475,9 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
 /******************************************************************************/
 void p_press (void)
 {
-    gdouble montant;
+    gsb_real amount;
     gint transaction_number;
+    gint account_number;
     GtkTreeIter *iter;
     gint col;
     GtkTreeModel *model;
@@ -2496,7 +2486,8 @@ void p_press (void)
     if ( col == -1 )
 	return;
 
-    transaction_number = gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ());
+    account_number = gsb_gui_navigation_get_current_account ();
+    transaction_number = gsb_data_account_get_current_transaction_number (account_number);
 
     /*     take the model of the account */
 
@@ -2506,24 +2497,21 @@ void p_press (void)
 
     if ( transaction_number == -1
 	 ||
-	 gsb_data_transaction_get_marked_transaction ( transaction_number)== 3 )
+	 gsb_data_transaction_get_marked_transaction (transaction_number)== OPERATION_RAPPROCHEE )
 	return;
 
-    iter = gsb_transactions_list_get_iter_from_transaction (gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()),
+    iter = gsb_transactions_list_get_iter_from_transaction (gsb_data_account_get_current_transaction_number (account_number),
 							    0 );
 
     if ( gsb_data_transaction_get_marked_transaction ( transaction_number))
     {
-	montant = gsb_data_transaction_get_adjusted_amount ( transaction_number);
+	amount = gsb_data_transaction_get_adjusted_amount (transaction_number, -1);
 
-	if ( etat.equilibrage )
-	    operations_pointees = operations_pointees - montant;
-
-	gsb_data_account_set_marked_balance ( gsb_gui_navigation_get_current_account (),
-					 gsb_data_account_get_marked_balance (gsb_gui_navigation_get_current_account ()) - montant );
+	gsb_data_account_set_marked_balance ( account_number,
+					      gsb_real_sub ( gsb_data_account_get_marked_balance (account_number),
+							     amount ));
 	gsb_data_transaction_set_marked_transaction ( transaction_number,
-						      0 );
-
+						      OPERATION_NORMALE );
 	gtk_tree_store_set ( GTK_TREE_STORE ( model ),
 			     iter,
 			     col, NULL,
@@ -2531,16 +2519,13 @@ void p_press (void)
     }
     else
     {
-	montant = gsb_data_transaction_get_adjusted_amount ( transaction_number);
+	amount = gsb_data_transaction_get_adjusted_amount (transaction_number, -1);
 
-	if ( etat.equilibrage )
-	    operations_pointees = operations_pointees + montant;
-
-	gsb_data_account_set_marked_balance ( gsb_gui_navigation_get_current_account (),
-					 gsb_data_account_get_marked_balance (gsb_gui_navigation_get_current_account ()) + montant );
+	gsb_data_account_set_marked_balance ( account_number,
+					      gsb_real_add ( gsb_data_account_get_marked_balance (account_number),
+							     amount ));
 	gsb_data_transaction_set_marked_transaction ( transaction_number,
-						      1 );
-
+						      OPERATION_POINTEE );
 	gtk_tree_store_set ( GTK_TREE_STORE ( model ),
 			     iter,
 			     col, _("P"),
@@ -2560,40 +2545,15 @@ void p_press (void)
 	    gint transaction_number_tmp;
 	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == gsb_gui_navigation_get_current_account ()
-		 &&
-		 gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number)
+	    if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number)
 		gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
 							      gsb_data_transaction_get_marked_transaction ( transaction_number));
-
 	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
     }
 
     if ( etat.equilibrage )
-    {
-	gtk_label_set_text ( GTK_LABEL ( label_equilibrage_pointe ),
-			     g_strdup_printf ("%4.2f",
-					      operations_pointees ));
-
-	if ( fabs ( solde_final - solde_initial - operations_pointees ) < 0.01 )
-	{
-	    gtk_label_set_text ( GTK_LABEL ( label_equilibrage_ecart ),
-				 g_strdup_printf ( "%4.2f",
-						   0.0 ));
-	    gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_ok_equilibrage ),
-				       TRUE );
-	}
-	else
-	{
-	    gtk_label_set_text ( GTK_LABEL ( label_equilibrage_ecart ),
-				 g_strdup_printf ( "%4.2f",
-						   solde_final - solde_initial - operations_pointees ));
-	    gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_ok_equilibrage ),
-				       FALSE );
-	}
-    }
-
+	gsb_reconcile_update_amounts (account_number);
 
     /*     met à jour les labels des soldes  */
 
@@ -2615,6 +2575,7 @@ void p_press (void)
 void r_press (void)
 {
     gint transaction_number;
+    gint account_number;
     GtkTreeIter *iter;
     gint col;
     GtkTreeModel *model;
@@ -2623,7 +2584,8 @@ void r_press (void)
     if ( col == -1 )
 	return;
 
-    transaction_number = gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ());
+    account_number = gsb_gui_navigation_get_current_account ();
+    transaction_number = gsb_data_account_get_current_transaction_number (account_number);
 
     /* si on est sur l'opération vide -> on se barre */
 
@@ -2632,7 +2594,7 @@ void r_press (void)
 
     model = GTK_TREE_MODEL (gsb_transactions_list_get_store());
 
-    iter = gsb_transactions_list_get_iter_from_transaction (gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()),
+    iter = gsb_transactions_list_get_iter_from_transaction (gsb_data_account_get_current_transaction_number (account_number),
 							    0 );
 
     if ( !gsb_data_transaction_get_marked_transaction ( transaction_number))
@@ -2644,7 +2606,7 @@ void r_press (void)
 
 	/* on met soit le R, soit on change la sélection vers l'opé suivante */
 
-	if ( gsb_data_account_get_r (gsb_gui_navigation_get_current_account ()) )
+	if ( gsb_data_account_get_r (account_number) )
 	    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
 				 iter,
 				 col, _("R"),
@@ -2661,10 +2623,10 @@ void r_press (void)
 				 iter,
 				 TRANSACTION_COL_NB_VISIBLE, FALSE,
 				 -1 );
-	    gsb_data_account_set_current_transaction_number ( gsb_gui_navigation_get_current_account (),
+	    gsb_data_account_set_current_transaction_number ( account_number,
 							 next_transaction_number);
-	    gsb_transactions_list_set_background_color (gsb_gui_navigation_get_current_account ());
-	    gsb_transactions_list_set_transactions_balances (gsb_gui_navigation_get_current_account ());
+	    gsb_transactions_list_set_background_color (account_number);
+	    gsb_transactions_list_set_transactions_balances (account_number);
 	}
 
 	modification_fichier( TRUE );
@@ -2695,7 +2657,7 @@ void r_press (void)
 	    gint transaction_number_tmp;
 	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == gsb_gui_navigation_get_current_account ()
+	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number
 		 &&
 		 gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number)
 		gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
@@ -2719,7 +2681,8 @@ void r_press (void)
 gboolean gsb_transactions_list_delete_transaction ( gint transaction_number )
 {
     gint transaction_number_tmp;
-    gdouble montant;
+    gsb_real amount;
+    gint account_number;
 
     /* vérifications de bases */
 
@@ -2730,6 +2693,8 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number )
 
     devel_debug ( g_strdup_printf ("gsb_transactions_list_delete_transaction no %d",
 				   transaction_number ));
+
+    account_number = gsb_data_transaction_get_account_number (transaction_number);
 
     /* check if the transaction is not reconciled */
 
@@ -2747,7 +2712,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number )
 
     /* find the next transaction to be selected */
 
-    if ( gsb_data_account_get_current_transaction_number (gsb_data_transaction_get_account_number (transaction_number)) == transaction_number)
+    if ( gsb_data_account_get_current_transaction_number (account_number) == transaction_number)
     {
 	gint next_transaction_number;
 
@@ -2762,7 +2727,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number )
 	    next_transaction_number = gsb_transactions_list_get_transaction_next ( next_transaction_number,
 										   gsb_data_transaction_get_mother_transaction_number (next_transaction_number));
 
-	gsb_data_account_set_current_transaction_number ( gsb_data_transaction_get_account_number (transaction_number),
+	gsb_data_account_set_current_transaction_number ( account_number,
 						     next_transaction_number);
     }
 
@@ -2789,7 +2754,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number )
 	{
 	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == gsb_data_transaction_get_account_number (transaction_number))
+	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number)
 	    {
 		if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number )
 		{
@@ -2829,19 +2794,21 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number )
     gsb_transactions_list_delete_transaction_from_tree_view ( gsb_data_transaction_get_pointer_to_transaction (transaction_number));
     gsb_data_transaction_remove_transaction ( transaction_number);
 
-    gsb_transactions_list_set_background_color (gsb_data_transaction_get_account_number (transaction_number));
-    gsb_transactions_list_set_transactions_balances (gsb_data_transaction_get_account_number (transaction_number));
+    gsb_transactions_list_set_background_color (account_number);
+    gsb_transactions_list_set_transactions_balances (account_number);
 
     /*     calcul des nouveaux soldes */
 
-    montant = gsb_data_transaction_get_adjusted_amount ( transaction_number);
+    amount = gsb_data_transaction_get_adjusted_amount ( transaction_number, -1);
 
-    gsb_data_account_set_current_balance ( gsb_data_transaction_get_account_number (transaction_number),
-				      gsb_data_account_get_current_balance (gsb_data_transaction_get_account_number (transaction_number)) - montant );
+    gsb_data_account_set_current_balance ( account_number,
+					   gsb_real_sub ( gsb_data_account_get_current_balance (account_number),
+							  amount ));
 
     if ( gsb_data_transaction_get_marked_transaction ( transaction_number))
-	gsb_data_account_set_marked_balance ( gsb_data_transaction_get_account_number (transaction_number),
-					      gsb_data_account_get_marked_balance (gsb_data_transaction_get_account_number (transaction_number)) - montant );
+	gsb_data_account_set_marked_balance ( account_number,
+					      gsb_real_sub ( gsb_data_account_get_marked_balance (account_number),
+							     amount ));
 
     /*     on met à jour les labels de solde */
 
@@ -2850,7 +2817,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number )
     /* si on est en train d'équilibrer => recalcule le total pointé */
 
     if ( etat.equilibrage )
-	calcule_total_pointe_compte ( gsb_data_transaction_get_account_number (transaction_number));
+	gsb_reconcile_update_amounts (account_number);
 
     /* on réaffiche la liste de l'état des comptes de l'accueil */
 
@@ -3381,10 +3348,7 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 	if ( mise_a_jour_combofix_imputation_necessaire )
 	    mise_a_jour_combofix_imputation ();
 
-	gsb_data_account_set_current_balance ( source_account, 
-					       calcule_solde_compte ( source_account ));
-	gsb_data_account_set_marked_balance ( source_account, 
-					      calcule_solde_pointe_compte ( source_account ));
+	gsb_data_account_calculate_current_and_marked_balances (source_account);
 
 	mise_a_jour_labels_soldes ();
 	mise_a_jour_accueil (FALSE);
@@ -3424,10 +3388,7 @@ void move_selected_operation_to_account_nb ( gint *account )
 
 	update_transaction_in_trees (gsb_data_account_get_current_transaction_number (source_account));
 
-	gsb_data_account_set_current_balance ( source_account, 
-					  calcule_solde_compte ( source_account ));
-	gsb_data_account_set_marked_balance ( source_account, 
-					 calcule_solde_pointe_compte ( source_account ));
+	gsb_data_account_calculate_current_and_marked_balances (source_account);
 
 	mise_a_jour_labels_soldes ();
 
@@ -3468,7 +3429,7 @@ gboolean move_operation_to_account ( gint transaction_number,
 
 	gsb_data_transaction_set_account_number_transfer ( contra_transaction_number,
 							   target_account);
-	gsb_transactions_list_update_transaction ( gsb_data_transaction_get_pointer_to_transaction (contra_transaction_number));
+	gsb_transactions_list_update_transaction (contra_transaction_number);
     }
 
     /* if it's a breakdown, move the children too */
@@ -4723,14 +4684,14 @@ gchar *gsb_transactions_get_category_real_name ( gint transaction_number )
 
 	    if ( gsb_data_transaction_get_account_number_transfer (transaction_number)== -1 )
 	    {
-		if ( gsb_data_transaction_get_amount ( transaction_number)< 0 )
+		if ( gsb_data_transaction_get_amount ( transaction_number).mantissa < 0 )
 		    tmp = _("Transfer to a deleted account");
 		else
 		    tmp = _("Transfer from a deleted account");
 	    }
 	    else
 	    {
-		if ( gsb_data_transaction_get_amount (transaction_number)< 0 )
+		if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
 		    tmp = g_strdup_printf ( _("Transfer to %s"),
 					    gsb_data_account_get_name ( gsb_data_transaction_get_account_number_transfer (transaction_number)) );
 		else

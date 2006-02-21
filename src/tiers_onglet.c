@@ -483,7 +483,7 @@ gboolean edit_payee ( GtkTreeView * view )
 	    /* FIXME: this is VERY, VERY, VERY time consuming, use a
 	     * better approach, that is iterate over tree and change on
 	     * demand if category is the same. */
-	    gsb_transactions_list_update_transaction ( tmp_list -> data );
+	    gsb_transactions_list_update_transaction (transaction_number);
 	}
 	tmp_list = tmp_list -> next;
     }

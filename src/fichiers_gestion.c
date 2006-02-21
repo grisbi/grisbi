@@ -30,7 +30,6 @@
 /*START_INCLUDE*/
 #include "fichiers_gestion.h"
 #include "menu.h"
-#include "utils_montants.h"
 #include "fenetre_principale.h"
 #include "comptes_traitements.h"
 #include "erreur.h"
@@ -47,6 +46,7 @@
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
 #include "navigation.h"
+#include "gsb_real.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_status.h"
 #include "gsb_transactions_list.h"
@@ -400,18 +400,17 @@ gboolean gsb_file_open_file ( gchar *filename )
     {
 	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	gsb_data_account_set_current_balance ( i, 
-					       calcule_solde_compte ( i ));
-	gsb_data_account_set_marked_balance ( i, 
-					      calcule_solde_pointe_compte ( i ));
+	gsb_data_account_calculate_current_and_marked_balances (i);
 
 	/* set the minimum balances to be shown or not
 	 * if we are already under the minimum, we will show nothing */
 
 	gsb_data_account_set_mini_balance_authorized_message ( i,
-							       gsb_data_account_get_current_balance (i) < gsb_data_account_get_mini_balance_authorized (i));
+							       gsb_real_cmp ( gsb_data_account_get_current_balance (i),
+									      gsb_data_account_get_mini_balance_authorized (i)) == -1 );
 	gsb_data_account_set_mini_balance_wanted_message ( i,
-							   gsb_data_account_get_current_balance (i) < gsb_data_account_get_mini_balance_wanted (i) );
+							   gsb_real_cmp ( gsb_data_account_get_current_balance (i),
+									  gsb_data_account_get_mini_balance_wanted (i)) == -1 );
 	list_tmp = list_tmp -> next;
     }
 

@@ -2,6 +2,7 @@
 #define _IMPORT_H (1)
 /* START_INCLUDE_H */
 #include "import.h"
+#include "gsb_data_transaction.h"
 /* END_INCLUDE_H */
 
 
@@ -49,7 +50,7 @@ struct struct_compte_importation
 
     GSList *operations_importees;          /* liste des struct des opés importées */
 
-    gdouble solde;
+    gsb_real solde;
     gchar *date_solde_qif;            /* utilisé temporairement pour un fichier qif */
 
     GtkWidget *bouton_devise;             /* adr du bouton de la devise dans le récapitulatif */
@@ -65,15 +66,6 @@ struct struct_compte_importation
 
     /* Used by gnucash import */
     gchar * guid;
-};
-
-
-/** Etat de rapprochement d'une opération */
-enum operation_etat_rapprochement {
-  OPERATION_NORMALE = 0,
-  OPERATION_POINTEE,
-  OPERATION_TELERAPPROCHEE,
-  OPERATION_RAPPROCHEE,
 };
 
 
@@ -99,7 +91,7 @@ struct struct_ope_importation
 
     gchar *categ;
 
-    gdouble montant;
+    gsb_real montant;
 
     enum operation_etat_rapprochement p_r;
 

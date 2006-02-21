@@ -32,6 +32,7 @@
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
+#include "gsb_real.h"
 #include "search_glist.h"
 #include "import.h"
 #include "include.h"
@@ -44,6 +45,7 @@
 /*START_EXTERN*/
 extern GSList *liste_comptes_importes;
 extern GSList *liste_comptes_importes_error;
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 
@@ -288,13 +290,11 @@ gboolean recuperation_donnees_qif ( FILE * fichier, struct imported_file * impor
 
 			pointeur_char = g_strjoinv ( NULL,
 						     tab_char );
-			compte -> solde = my_strtod ( pointeur_char + 1,
-						      NULL );
+			compte -> solde = gsb_real_get_from_string (pointeur_char + 1);
 			g_strfreev ( tab_char );
 		    }
 		    else
-			compte -> solde = my_strtod ( pointeur_char + 1,
-						      NULL );
+			compte -> solde = gsb_real_get_from_string (pointeur_char + 1);
 
 		    g_strfreev ( tab );
 
@@ -353,7 +353,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, struct imported_file * impor
 
 	    compte -> nom_de_compte = unique_imported_name ( my_strdup ( _("Credit card")) );
 	    compte -> filename = my_strdup ( imported -> name );
-	    compte -> solde = 0;
+	    compte -> solde = null_real;
 	    retour = 0;
 	}
 
@@ -456,15 +456,12 @@ gboolean recuperation_donnees_qif ( FILE * fichier, struct imported_file * impor
 
 			    pointeur_char = g_strjoinv ( NULL,
 							 tab_char );
-			    operation -> montant = my_strtod ( pointeur_char + 1,
-							       NULL ); 
+			    operation -> montant = gsb_real_get_from_string (pointeur_char + 1);
 
 			    g_strfreev ( tab_char );
 			}
 			else
-			    operation -> montant = my_strtod ( pointeur_char + 1,
-							       NULL );
-
+			    operation -> montant = gsb_real_get_from_string (pointeur_char + 1);
 
 			g_strfreev ( tab );
 		    }
@@ -599,16 +596,12 @@ gboolean recuperation_donnees_qif ( FILE * fichier, struct imported_file * impor
 
 			    pointeur_char = g_strjoinv ( NULL,
 							 tab_char );
-			    ventilation -> montant = my_strtod ( pointeur_char + 1,
-								 NULL ); 
-
+			    ventilation -> montant = gsb_real_get_from_string (pointeur_char + 1);
 
 			    g_strfreev ( tab_char );
 			}
 			else
-			    ventilation -> montant = my_strtod ( pointeur_char + 1,
-								 NULL );
-
+			    ventilation -> montant = gsb_real_get_from_string (pointeur_char + 1);
 
 			g_strfreev ( tab );
 		    }
@@ -966,7 +959,6 @@ changement_format_date:
 void qif_export ( gchar * filename, gint account_nb )
 {
     FILE * fichier_qif;
-    gchar * montant_tmp;
     struct stat test_file;
 
     if (utf8_stat ( filename, &test_file ) != -1)
@@ -1016,7 +1008,6 @@ void qif_export ( gchar * filename, gint account_nb )
 	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_nb )
 	    {
 		GSList *pointeur;
-		gdouble montant;
 		struct struct_type_ope *type;
 
 		if ( begining )
@@ -1030,14 +1021,9 @@ void qif_export ( gchar * filename, gint account_nb )
 
 		    /* met le solde initial */
 
-		    montant_tmp = g_strdup_printf ( "%4.2f",
-						    gsb_data_account_get_init_balance (account_nb) );
-		    montant_tmp = g_strdelimit ( montant_tmp,
-						 ",",
-						 '.' );
 		    fprintf ( fichier_qif,
 			      "T%s\n",
-			      montant_tmp );
+			      gsb_real_get_string (gsb_data_account_get_init_balance (account_nb, -1)));
 
 		    fprintf ( fichier_qif,
 			      "CX\nPOpening Balance\n" );
@@ -1089,17 +1075,9 @@ void qif_export ( gchar * filename, gint account_nb )
 
 		    /* met le montant, transforme la devise si necessaire */
 
-		    montant = gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp);
-
-		    montant_tmp = g_strdup_printf ( "%4.2f",
-						    montant );
-		    montant_tmp = g_strdelimit ( montant_tmp,
-						 ",",
-						 '.' );
-
 		    fprintf ( fichier_qif,
 			      "T%s\n",
-			      montant_tmp );
+			      gsb_real_get_string (gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, -1)));
 
 		    /* met le chèque si c'est un type à numérotation automatique */
 
@@ -1202,10 +1180,7 @@ void qif_export ( gchar * filename, gint account_nb )
 
 				fprintf ( fichier_qif,
 					  "$%s\n",
-					  g_strdelimit ( g_strdup_printf ( "%4.2f",
-									   gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2) ),
-							 ",",
-							 '.' ));
+					  gsb_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2, -1)));
 			    }
 			    list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
 			}
@@ -1253,10 +1228,7 @@ void qif_export ( gchar * filename, gint account_nb )
 
 	    fprintf ( fichier_qif,
 		      "T%s\n",
-		      g_strdelimit ( g_strdup_printf ( "%4.2f",
-						       gsb_data_account_get_init_balance (account_nb) ),
-				     ",",
-				     '.' ));
+		      gsb_real_get_string (gsb_data_account_get_init_balance (account_nb, -1)));
 
 	    fprintf ( fichier_qif,
 		      "CX\nPOpening Balance\n" );

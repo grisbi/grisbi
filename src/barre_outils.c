@@ -36,7 +36,6 @@
 #include "equilibrage.h"
 #include "gsb_data_account.h"
 #include "navigation.h"
-#include "utils_str.h"
 #include "menu.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
@@ -165,7 +164,7 @@ void gsb_gui_update_transaction_toolbar ( void )
     {
 	gtk_container_remove ( GTK_CONTAINER ( barre_outils ),
 			       GTK_WIDGET ( list -> data ) );
-	g_slist_free ( list );
+	g_list_free ( list );
     }
     gtk_container_add ( GTK_CONTAINER ( barre_outils ), creation_barre_outils () );
 }

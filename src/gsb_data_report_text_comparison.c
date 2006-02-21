@@ -58,10 +58,10 @@ typedef struct
 
     /** @name cheque comparison */
     gint first_comparison;			/**< 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= !=, 6= =0, 7= !=0, 8= >0, 9= <0 */
-    gdouble first_amount;
+    gint first_amount;
     gint link_first_to_second_part;		/**< 0=and, 1=or, 2=except, 3=none */
     gint second_comparison;			/**< 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= != */
-    gdouble second_amount;
+    gint second_amount;
 
     /** @name dynamic values used for the gui */
     gpointer vbox_line;
@@ -615,7 +615,7 @@ gboolean gsb_data_report_text_comparison_set_first_comparison ( gint text_compar
  *
  * \return the first_amount of the text_comparison, -1 if problem
  * */
-gdouble gsb_data_report_text_comparison_get_first_amount ( gint text_comparison_number )
+gint gsb_data_report_text_comparison_get_first_amount ( gint text_comparison_number )
 {
     struct_text_comparison *text_comparison;
 
@@ -636,7 +636,7 @@ gdouble gsb_data_report_text_comparison_get_first_amount ( gint text_comparison_
  * \return TRUE if ok
  * */
 gboolean gsb_data_report_text_comparison_set_first_amount ( gint text_comparison_number,
-							    gdouble first_amount)
+							    gint first_amount)
 {
     struct_text_comparison *text_comparison;
 
@@ -744,7 +744,7 @@ gboolean gsb_data_report_text_comparison_set_second_comparison ( gint text_compa
  *
  * \return the second_amount of the text_comparison, -1 if problem
  * */
-gdouble gsb_data_report_text_comparison_get_second_amount ( gint text_comparison_number )
+gint gsb_data_report_text_comparison_get_second_amount ( gint text_comparison_number )
 {
     struct_text_comparison *text_comparison;
 
@@ -765,7 +765,7 @@ gdouble gsb_data_report_text_comparison_get_second_amount ( gint text_comparison
  * \return TRUE if ok
  * */
 gboolean gsb_data_report_text_comparison_set_second_amount ( gint text_comparison_number,
-							     gdouble second_amount)
+							     gint second_amount)
 {
     struct_text_comparison *text_comparison;
 

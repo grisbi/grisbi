@@ -33,6 +33,7 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_exercices.h"
+#include "gsb_real.h"
 #include "gsb_transactions_list.h"
 #include "utils_str.h"
 #include "utils_rapprochements.h"
@@ -803,13 +804,16 @@ gint gsb_transactions_list_sort_by_budget ( GtkTreeModel *model,
 
 
 
-/** used to compare 2 iters and sort the by credit amount first, and 
+/**
+ * used to compare 2 iters and sort the by credit amount first, and 
  * by date and no transaction after
  * always put the white line below
+ * 
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
  * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * 
  * \return -1 if iter_1 is above iter_2
  * */
 gint gsb_transactions_list_sort_by_credit ( GtkTreeModel *model,
@@ -834,34 +838,14 @@ gint gsb_transactions_list_sort_by_credit ( GtkTreeModel *model,
 	return return_value;
 
     /* for the amounts, we have to check also the currency */
-
-    if ( fabs (gsb_data_transaction_get_amount ( transaction_number_1) - gsb_data_transaction_get_amount ( transaction_number_2)) < 0.01
-	 &&
-	 gsb_data_transaction_get_currency_number ( transaction_number_1)== gsb_data_transaction_get_currency_number ( transaction_number_2))
-	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
-    else
-    {
-	if ( gsb_data_transaction_get_currency_number ( transaction_number_1)== gsb_data_transaction_get_currency_number ( transaction_number_2))
-	    return_value = gsb_data_transaction_get_amount ( transaction_number_1)- gsb_data_transaction_get_amount ( transaction_number_2);
-	else
-	{
-	    gdouble amount_1, amount_2;
-
-	    amount_1 = gsb_data_transaction_get_adjusted_amount ( transaction_number_1);
-	    amount_2 = gsb_data_transaction_get_adjusted_amount ( transaction_number_2);
-	    return_value = amount_1 - amount_2;
-
-	}
-    }
-
+    return_value = gsb_real_cmp ( gsb_data_transaction_get_adjusted_amount ( transaction_number_1, -1),
+				  gsb_data_transaction_get_adjusted_amount ( transaction_number_2, -1));
 
     if ( return_value )
 	return return_value;
     else
 	return gsb_transactions_list_sort_by_transaction_date_and_no();
 }
-
-
 
 
 
@@ -897,24 +881,8 @@ gint gsb_transactions_list_sort_by_debit ( GtkTreeModel *model,
 
     /* for the amounts, we have to check also the currency */
 
-    if ( fabs (gsb_data_transaction_get_amount ( transaction_number_1)- gsb_data_transaction_get_amount ( transaction_number_2)) < 0.01
-	 &&
-	 gsb_data_transaction_get_currency_number ( transaction_number_1)== gsb_data_transaction_get_currency_number ( transaction_number_2))
-	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
-    else
-    {
-	if ( gsb_data_transaction_get_currency_number ( transaction_number_1)== gsb_data_transaction_get_currency_number ( transaction_number_2))
-	    return_value = gsb_data_transaction_get_amount ( transaction_number_2)- gsb_data_transaction_get_amount ( transaction_number_1);
-	else
-	{
-	    gdouble amount_1, amount_2;
-
-	    amount_1 = gsb_data_transaction_get_adjusted_amount ( transaction_number_1);
-	    amount_2 = gsb_data_transaction_get_adjusted_amount ( transaction_number_2);
-	    return_value = amount_2 - amount_1;
-
-	}
-    }
+    return_value = gsb_real_cmp ( gsb_data_transaction_get_adjusted_amount ( transaction_number_2, -1),
+				  gsb_data_transaction_get_adjusted_amount ( transaction_number_1, -1));
 
     if ( return_value )
 	return return_value;
@@ -955,25 +923,8 @@ gint gsb_transactions_list_sort_by_amount ( GtkTreeModel *model,
 	return return_value;
 
     /* for the amounts, we have to check also the currency */
-
-    if ( fabs (gsb_data_transaction_get_amount ( transaction_number_1)- gsb_data_transaction_get_amount ( transaction_number_2)) < 0.01
-	 &&
-	 gsb_data_transaction_get_currency_number ( transaction_number_1)== gsb_data_transaction_get_currency_number ( transaction_number_2))
-	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
-    else
-    {
-	if ( gsb_data_transaction_get_currency_number ( transaction_number_1)== gsb_data_transaction_get_currency_number ( transaction_number_2))
-	    return_value = fabs(gsb_data_transaction_get_amount ( transaction_number_1)) - fabs (gsb_data_transaction_get_amount ( transaction_number_2));
-	else
-	{
-	    gdouble amount_1, amount_2;
-
-	    amount_1 = gsb_data_transaction_get_adjusted_amount ( transaction_number_1);
-	    amount_2 = gsb_data_transaction_get_adjusted_amount ( transaction_number_2);
-	    return_value = fabs(amount_1) - fabs(amount_2);
-
-	}
-    }
+    return_value = gsb_real_cmp ( gsb_data_transaction_get_adjusted_amount ( transaction_number_1, -1),
+				  gsb_data_transaction_get_adjusted_amount ( transaction_number_2, -1));
 
     if ( return_value )
 	return return_value;

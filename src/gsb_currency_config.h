@@ -6,9 +6,9 @@
 struct cached_exchange_rate {
     gint currency1_number;	/** First currency */
     gint currency2_number;	/** Second currency */
-    gdouble rate;				/** Exchange rate betweend
+    gsb_real rate;				/** Exchange rate betweend
 						  currency1 and currency 2 */
-    gdouble fees;				/** Fees associated with
+    gsb_real fees;				/** Fees associated with
 						  exchange rate */
 };
 
@@ -27,6 +27,6 @@ struct cached_exchange_rate *gsb_currency_config_get_cached_exchange ( gint curr
 								       gint currency2_number );
 void gsb_currency_config_set_cached_exchange ( gint currency1_number, 
 					       gint currency2_number,
-					       gdouble change, gdouble fees );
+					       gsb_real change, gsb_real fees );
 /* END_DECLARATION */
 #endif

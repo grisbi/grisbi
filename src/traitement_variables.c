@@ -82,14 +82,14 @@ GdkColor breakdown_background;
 
 
 /* colors of the amounts in the first page */
-GdkColor CouleurSoldeAlarmeVerteNormal;
-GdkColor CouleurSoldeAlarmeVertePrelight;
-GdkColor CouleurSoldeAlarmeOrangeNormal;
-GdkColor CouleurSoldeAlarmeOrangePrelight;
-GdkColor CouleurSoldeAlarmeRougeNormal;
-GdkColor CouleurSoldeAlarmeRougePrelight;
-GdkColor CouleurNomCompteNormal;
-GdkColor CouleurNomComptePrelight;
+GdkColor couleur_solde_alarme_verte_normal;
+GdkColor couleur_solde_alarme_verte_prelight;
+GdkColor couleur_solde_alarme_orange_normal;
+GdkColor couleur_solde_alarme_orange_prelight;
+GdkColor couleur_solde_alarme_rouge_normal;
+GdkColor couleur_solde_alarme_rouge_prelight;
+GdkColor couleur_nom_compte_normal;
+GdkColor couleur_nom_compte_prelight;
 
 GdkColor couleur_bleue;
 GdkColor couleur_jaune;
@@ -339,48 +339,48 @@ void initialisation_couleurs_listes ( void )
 
     /* Initialisation des couleurs des différents labels */
     /* Pourra être intégré à la configuration générale */
-    CouleurSoldeAlarmeVerteNormal.red =     0.00 * 65535 ;
-    CouleurSoldeAlarmeVerteNormal.green =   0.50 * 65535 ;
-    CouleurSoldeAlarmeVerteNormal.blue =    0.00 * 65535 ;
-    CouleurSoldeAlarmeVerteNormal.pixel = 1;
+    couleur_solde_alarme_verte_normal.red =     0.00 * 65535 ;
+    couleur_solde_alarme_verte_normal.green =   0.50 * 65535 ;
+    couleur_solde_alarme_verte_normal.blue =    0.00 * 65535 ;
+    couleur_solde_alarme_verte_normal.pixel = 1;
 
-    CouleurSoldeAlarmeVertePrelight.red =   0.00 * 65535 ;
-    CouleurSoldeAlarmeVertePrelight.green = 0.90 * 65535 ;
-    CouleurSoldeAlarmeVertePrelight.blue =  0.00 * 65535 ;
-    CouleurSoldeAlarmeVertePrelight.pixel = 1;
-
-
-    CouleurSoldeAlarmeOrangeNormal.red =     0.90 * 65535 ;
-    CouleurSoldeAlarmeOrangeNormal.green =   0.60 * 65535 ;
-    CouleurSoldeAlarmeOrangeNormal.blue =    0.00 * 65535 ;
-    CouleurSoldeAlarmeOrangeNormal.pixel = 1;
-
-    CouleurSoldeAlarmeOrangePrelight.red =   1.00 * 65535 ;
-    CouleurSoldeAlarmeOrangePrelight.green = 0.80 * 65535 ;
-    CouleurSoldeAlarmeOrangePrelight.blue =  0.00 * 65535 ;
-    CouleurSoldeAlarmeOrangePrelight.pixel = 1;
+    couleur_solde_alarme_verte_prelight.red =   0.00 * 65535 ;
+    couleur_solde_alarme_verte_prelight.green = 0.90 * 65535 ;
+    couleur_solde_alarme_verte_prelight.blue =  0.00 * 65535 ;
+    couleur_solde_alarme_verte_prelight.pixel = 1;
 
 
-    CouleurSoldeAlarmeRougeNormal.red =     0.60 * 65535 ;
-    CouleurSoldeAlarmeRougeNormal.green =   0.00 * 65535 ;
-    CouleurSoldeAlarmeRougeNormal.blue =    0.00 * 65535 ;
-    CouleurSoldeAlarmeRougeNormal.pixel = 1;
+    couleur_solde_alarme_orange_normal.red =     0.90 * 65535 ;
+    couleur_solde_alarme_orange_normal.green =   0.60 * 65535 ;
+    couleur_solde_alarme_orange_normal.blue =    0.00 * 65535 ;
+    couleur_solde_alarme_orange_normal.pixel = 1;
 
-    CouleurSoldeAlarmeRougePrelight.red =   1.00 * 65535 ;
-    CouleurSoldeAlarmeRougePrelight.green = 0.00 * 65535 ;
-    CouleurSoldeAlarmeRougePrelight.blue =  0.00 * 65535 ;
-    CouleurSoldeAlarmeRougePrelight.pixel = 1;
+    couleur_solde_alarme_orange_prelight.red =   1.00 * 65535 ;
+    couleur_solde_alarme_orange_prelight.green = 0.80 * 65535 ;
+    couleur_solde_alarme_orange_prelight.blue =  0.00 * 65535 ;
+    couleur_solde_alarme_orange_prelight.pixel = 1;
 
 
-    CouleurNomCompteNormal.red =     0.00 * 65535 ;
-    CouleurNomCompteNormal.green =   0.00 * 65535 ;
-    CouleurNomCompteNormal.blue =    0.00 * 65535 ;
-    CouleurNomCompteNormal.pixel = 1;
+    couleur_solde_alarme_rouge_normal.red =     0.60 * 65535 ;
+    couleur_solde_alarme_rouge_normal.green =   0.00 * 65535 ;
+    couleur_solde_alarme_rouge_normal.blue =    0.00 * 65535 ;
+    couleur_solde_alarme_rouge_normal.pixel = 1;
 
-    CouleurNomComptePrelight.red =   0.61 * 65535 ;
-    CouleurNomComptePrelight.green = 0.61 * 65535 ;
-    CouleurNomComptePrelight.blue =  0.61 * 65535 ;
-    CouleurNomComptePrelight.pixel = 1;
+    couleur_solde_alarme_rouge_prelight.red =   1.00 * 65535 ;
+    couleur_solde_alarme_rouge_prelight.green = 0.00 * 65535 ;
+    couleur_solde_alarme_rouge_prelight.blue =  0.00 * 65535 ;
+    couleur_solde_alarme_rouge_prelight.pixel = 1;
+
+
+    couleur_nom_compte_normal.red =     0.00 * 65535 ;
+    couleur_nom_compte_normal.green =   0.00 * 65535 ;
+    couleur_nom_compte_normal.blue =    0.00 * 65535 ;
+    couleur_nom_compte_normal.pixel = 1;
+
+    couleur_nom_compte_prelight.red =   0.61 * 65535 ;
+    couleur_nom_compte_prelight.green = 0.61 * 65535 ;
+    couleur_nom_compte_prelight.blue =  0.61 * 65535 ;
+    couleur_nom_compte_prelight.pixel = 1;
 
     couleur_bleue.red = 500;
     couleur_bleue.green = 500;
@@ -392,8 +392,6 @@ void initialisation_couleurs_listes ( void )
     couleur_jaune.green =40000;
     couleur_jaune.blue = 0;
     couleur_jaune.pixel = 1;
-
-
 }
 /*****************************************************************************************************/
 

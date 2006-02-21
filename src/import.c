@@ -31,7 +31,6 @@
 /*START_INCLUDE*/
 #include "import.h"
 #include "utils.h"
-#include "utils_montants.h"
 #include "comptes_gestion.h"
 #include "comptes_traitements.h"
 #include "import_csv.h"
@@ -51,6 +50,7 @@
 #include "utils_dates.h"
 #include "navigation.h"
 #include "menu.h"
+#include "gsb_real.h"
 #include "gsb_status.h"
 #include "fichiers_gestion.h"
 #include "traitement_variables.h"
@@ -1296,10 +1296,9 @@ void cree_liens_virements_ope_import ( void )
 			  g_strcasecmp ( gsb_data_account_get_name (transaction_number_tmp),
 					 g_strstrip ( gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp)))) 
 			 &&
-			 ( fabs ( gsb_data_transaction_get_amount (transaction_number_tmp))
-			   ==
-			   fabs ( gsb_data_transaction_get_adjusted_amount_for_currency ( contra_transaction_number_tmp,
-											  gsb_data_account_get_currency (transaction_number_tmp))))
+			 !gsb_real_cmp ( gsb_real_abs (gsb_data_transaction_get_amount (transaction_number_tmp)),
+					 gsb_real_abs (gsb_data_transaction_get_adjusted_amount_for_currency ( contra_transaction_number_tmp,
+													       gsb_data_account_get_currency (transaction_number_tmp), -1)))
 			 &&
 			 ( gsb_data_transaction_get_party_number (transaction_number_tmp)
 			   ==
@@ -1439,11 +1438,11 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
     /* met le solde init */
 
     gsb_data_account_set_init_balance ( account_number,
-				   imported_account -> solde);
+					imported_account -> solde);
     gsb_data_account_set_current_balance ( account_number, 
-				      gsb_data_account_get_init_balance (account_number));
+					   imported_account -> solde);
     gsb_data_account_set_marked_balance ( account_number, 
-				     gsb_data_account_get_init_balance (account_number));
+					  imported_account -> solde);
 
     /* Use two lines view by default. */
     gsb_data_account_set_nb_rows ( account_number, 2 );
@@ -1593,7 +1592,8 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
 		    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number )
 		    {
-			if ( fabs ( gsb_data_transaction_get_amount (transaction_number_tmp)- imported_transaction -> montant ) < 0.01
+			if ( !gsb_real_cmp ( gsb_data_transaction_get_amount (transaction_number_tmp),
+					     imported_transaction -> montant )
 			     &&
 			     ( g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
 						date_debut_comparaison ) >= 0 )
@@ -1654,9 +1654,8 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
     gsb_data_account_set_update_list ( account_number,
 				       1 );
-/*     calcule_solde_compte ( account_number ); */
-/*     calcule_solde_pointe_compte ( account_number ); */
 
+/*     gsb_data_account_calculate_current_and_marked_balances (account_number); */
 }
 /* *******************************************************************************/
 
@@ -1731,10 +1730,10 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	     &&
 	     !ope_import -> ope_de_ventilation )
 	{
-	    gpointer operation;
+	    gint transaction_number;
 	    gchar *tiers;
 
-	    operation = ope_import -> ope_correspondante;
+	    transaction_number = gsb_data_transaction_get_transaction_number (ope_import -> ope_correspondante);
 
 	    hbox = gtk_hbox_new ( FALSE,
 				  5 );
@@ -1754,10 +1753,10 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 				 0 );
 	    gtk_widget_show ( ope_import -> bouton );
 
-	    label = gtk_label_new ( g_strdup_printf ( _("Transactions to import : %s ; %s ; %4.2f"),
+	    label = gtk_label_new ( g_strdup_printf ( _("Transactions to import : %s ; %s ; %s"),
 						      gsb_format_gdate ( ope_import -> date ),
 						      ope_import -> tiers,
-						      ope_import -> montant ));
+						      gsb_real_get_string (ope_import -> montant)));
 	    gtk_box_pack_start ( GTK_BOX ( hbox ),
 				 label,
 				 FALSE,
@@ -1784,19 +1783,19 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 				 0 );
 	    gtk_widget_show ( label );
 
-	    tiers = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( gsb_data_transaction_get_transaction_number (operation )), FALSE );
+	    tiers = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number (transaction_number), FALSE );
 
-	    if ( gsb_data_transaction_get_notes ( gsb_data_transaction_get_transaction_number (operation)))
-		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %s ; %s ; %4.2f ; %s"),
-							  gsb_format_gdate ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation) ) ),
+	    if ( gsb_data_transaction_get_notes (transaction_number))
+		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %s ; %s ; %s ; %s"),
+							  gsb_format_gdate ( gsb_data_transaction_get_date (transaction_number)),
 							  tiers,
-							  gsb_data_transaction_get_amount ( gsb_data_transaction_get_transaction_number (operation )),
-							  gsb_data_transaction_get_notes ( gsb_data_transaction_get_transaction_number (operation ))));
+							  gsb_real_get_string (gsb_data_transaction_get_amount (transaction_number)),
+							  gsb_data_transaction_get_notes (transaction_number)));
 	    else
-		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %s ; %s ; %4.2f"),
-							  gsb_format_gdate ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation))),
+		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %s ; %s ; %s"),
+							  gsb_format_gdate ( gsb_data_transaction_get_date (transaction_number)),
 							  tiers,
-							  gsb_data_transaction_get_amount ( gsb_data_transaction_get_transaction_number (operation ))));
+							  gsb_real_get_string (gsb_data_transaction_get_amount (transaction_number))));
 
 	    gtk_box_pack_start ( GTK_BOX ( hbox ),
 				 label,
@@ -1949,7 +1948,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 
 		category_number = gsb_data_category_get_number_by_name ( g_strstrip (tab_str[0]),
 									 TRUE,
-									 imported_transaction -> montant < 0 );
+									 imported_transaction -> montant.mantissa < 0 );
 		gsb_data_transaction_set_category_number ( transaction_number,
 							   category_number );
 		gsb_data_transaction_set_sub_category_number ( transaction_number,
@@ -1975,7 +1974,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	struct struct_type_ope *type_choisi;
 	GSList *list_tmp;
 
-	if ( gsb_data_transaction_get_amount (transaction_number)< 0 )
+	if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
 	    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 								gsb_data_account_get_default_debit (account_number));
 	else
@@ -2002,9 +2001,9 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	    {
 		if ( !type -> signe_type
 		     ||
-		     ( type -> signe_type == 1 && gsb_data_transaction_get_amount (transaction_number)< 0 )
+		     ( type -> signe_type == 1 && gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
 		     ||
-		     ( type -> signe_type == 2 && gsb_data_transaction_get_amount (transaction_number)> 0 ))
+		     ( type -> signe_type == 2 && gsb_data_transaction_get_amount (transaction_number).mantissa >= 0 ))
 		{
 		    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 									type -> no_type );
@@ -2033,7 +2032,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     {
 	/* comme ce n'est pas un chèque, on met sur le type par défaut */
 
-	if ( gsb_data_transaction_get_amount (transaction_number)< 0 )
+	if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
 	    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 								gsb_data_account_get_default_debit (account_number));
 	else
@@ -2042,7 +2041,6 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	
 	gsb_data_transaction_set_method_of_payment_content ( transaction_number,
 							     utils_str_itoa ( imported_transaction -> cheque ) );
-
     }
 
     /* récupération du pointé */
@@ -2178,7 +2176,8 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
 		if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number )
 		{
-		    if ( fabs ( gsb_data_transaction_get_amount (transaction_number_tmp)- ope_import -> montant ) < 0.01
+		    if ( !gsb_real_cmp ( gsb_data_transaction_get_amount (transaction_number_tmp),
+					 ope_import -> montant )
 			 &&
 			 ( g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
 					    date_debut_comparaison ) >= 0 )
@@ -2293,8 +2292,8 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 		    g_date_add_days ( date_fin_comparaison,
 				      valeur_echelle_recherche_date_import );
 
-
-		    if ( fabs ( autre_ope_import -> montant - ope_import -> montant ) < 0.01
+		    if ( !gsb_real_cmp ( autre_ope_import -> montant,
+					 ope_import -> montant  )
 			 &&
 			 ( g_date_compare ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation)),
 					    date_debut_comparaison ) >= 0 )

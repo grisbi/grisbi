@@ -41,7 +41,7 @@ static gboolean budgetary_line_add_transaction_to_div ( gpointer  trans,
 						 int div_id );
 static gboolean budgetary_line_add_transaction_to_sub_div ( gpointer  trans, 
 						     int div_id, int sub_div_id );
-static gdouble budgetary_line_div_balance ( gpointer div );
+static gsb_real budgetary_line_div_balance ( gpointer div );
 static gchar * budgetary_line_div_name ( gpointer div );
 static gint budgetary_line_div_nb_transactions ( gpointer div );
 static GSList * budgetary_line_div_sub_div_list ( gpointer div );
@@ -61,7 +61,7 @@ static void budgetary_line_scheduled_set_div_id ( gint scheduled_number,
 static void budgetary_line_scheduled_set_sub_div_id ( gint scheduled_number,
 					       int no_sub_div );
 static gint budgetary_line_scheduled_sub_div_id ( gint scheduled_number );
-static gdouble budgetary_line_sub_div_balance ( gpointer div, gpointer sub_div );
+static gsb_real budgetary_line_sub_div_balance ( gpointer div, gpointer sub_div );
 static gchar * budgetary_line_sub_div_name ( gpointer sub_div );
 static gint budgetary_line_sub_div_nb_transactions ( gpointer div, gpointer sub_div );
 static gint budgetary_line_transaction_div_id ( gpointer  transaction );
@@ -74,6 +74,7 @@ static gint budgetary_line_transaction_sub_div_id ( gpointer  transaction );
 
 /*START_EXTERN*/
 extern gint no_devise_totaux_ib;
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 
@@ -263,7 +264,7 @@ gchar * budgetary_line_sub_div_name ( gpointer sub_div )
  *
  *
  */
-gdouble budgetary_line_div_balance ( gpointer div )
+gsb_real budgetary_line_div_balance ( gpointer div )
 {
     gint budget_number;
 
@@ -278,7 +279,7 @@ gdouble budgetary_line_div_balance ( gpointer div )
  *
  *
  */
-gdouble budgetary_line_sub_div_balance ( gpointer div, gpointer sub_div )
+gsb_real budgetary_line_sub_div_balance ( gpointer div, gpointer sub_div )
 {
     gint budget_number;
     gint sub_budget_number;
@@ -289,13 +290,13 @@ gdouble budgetary_line_sub_div_balance ( gpointer div, gpointer sub_div )
     if ( sub_div )
     {
 	return gsb_data_budget_get_sub_budget_balance ( budget_number,
-							    sub_budget_number );
+							sub_budget_number );
     }
     else if ( div )
     {
 	return gsb_data_budget_get_direct_balance ( budget_number );
     }
-    return 0;
+    return null_real;
 }
 
 

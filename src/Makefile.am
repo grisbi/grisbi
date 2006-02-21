@@ -78,6 +78,7 @@ sources = \
 	gsb_form_transaction.c	\
 	gsb_payment_method.c	\
 	gsb_payment_method_config.c	\
+	gsb_real.c		\
 	gsb_scheduler_list.c	\
 	gsb_status.c		\
 	gsb_transactions_list.c	\
@@ -112,7 +113,6 @@ sources = \
 	utils_exercices.c	\
 	utils_file_selection.c	\
 	utils_files.c		\
-	utils_montants.c	\
 	utils_operations.c	\
 	utils_rapprochements.c	\
 	utils_str.c		\
@@ -163,6 +163,7 @@ grisbi_INCLUDES =		\
 	gsb_form_transaction.h	\
 	gsb_payment_method.h	\
 	gsb_payment_method_config.h	\
+	gsb_real.h		\
 	gsb_scheduler_list.h	\
 	gsb_transactions_list.h	\
 	data_payment.h		\
@@ -209,7 +210,6 @@ grisbi_INCLUDES =		\
 	utils_exercices.h	\
 	utils_file_selection.h	\
 	utils_files.h		\
-	utils_montants.h	\
 	utils_operations.h	\
 	utils_rapprochements.h	\
 	utils_str.h		\

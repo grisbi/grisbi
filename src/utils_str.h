@@ -7,7 +7,6 @@
 
 /* START_DECLARATION */
 gchar *get_line_from_string ( gchar *string );
-gchar * gsb_string_escape_underscores ( gchar * orig );
 GSList *gsb_string_get_list_from_string ( const gchar *string,
 					  gchar *delimiter );
 gchar * gsb_string_truncate ( gchar * string );
@@ -24,9 +23,9 @@ gint my_strncasecmp ( gchar *chaine_1,
 		      gchar *chaine_2,
 		      gint longueur );
 double my_strtod ( const char *nptr, const char **endptr );
-gchar *utils_str_amount_to_str ( glong amount,
-				 gint floating_point);
 gint utils_str_atoi ( const gchar *chaine );
 gchar *utils_str_itoa ( gint integer );
+gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
+					       gint exponent );
 /* END_DECLARATION */
 #endif

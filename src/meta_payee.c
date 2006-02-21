@@ -39,7 +39,7 @@ static gboolean payee_add_transaction_to_div ( gpointer  trans,
 					int div_id );
 static gboolean payee_add_transaction_to_sub_div ( gpointer  trans, 
 					    int div_id, int sub_div_id );
-static gdouble payee_div_balance ( gpointer div );
+static gsb_real payee_div_balance ( gpointer div );
 static gchar *payee_div_name ( gpointer div );
 static gint payee_div_nb_transactions ( gpointer div );
 static GSList * payee_div_sub_div_list ( gpointer div );
@@ -59,7 +59,7 @@ static void payee_scheduled_set_div_id ( gint scheduled_number,
 static void payee_scheduled_set_sub_div_id ( gint scheduled_number,
 				      int no_sub_div );
 static gint payee_scheduled_sub_div_id ( gint scheduled_number );
-static gdouble payee_sub_div_balance ( gpointer div, gpointer sub_div );
+static gsb_real payee_sub_div_balance ( gpointer div, gpointer sub_div );
 static gint payee_sub_div_id ( gpointer sub_payee );
 static gchar * payee_sub_div_name ( gpointer sub_div );
 static gint payee_sub_div_nb_transactions ( gpointer div, gpointer sub_div );
@@ -73,6 +73,7 @@ static gint payee_transaction_sub_div_id ( gpointer  transaction );
 
 /*START_EXTERN*/
 extern gint no_devise_totaux_tiers;
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 
@@ -220,7 +221,7 @@ gchar * payee_sub_div_name ( gpointer sub_div )
  *
  *
  */
-gdouble payee_div_balance ( gpointer div )
+gsb_real payee_div_balance ( gpointer div )
 {
     return gsb_data_payee_get_balance ( gsb_data_payee_get_no_payee (div));
 }
@@ -231,9 +232,9 @@ gdouble payee_div_balance ( gpointer div )
  *
  *
  */
-gdouble payee_sub_div_balance ( gpointer div, gpointer sub_div )
+gsb_real payee_sub_div_balance ( gpointer div, gpointer sub_div )
 {
-    return 0;
+    return null_real;
 }
 
 

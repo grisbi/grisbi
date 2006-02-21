@@ -36,6 +36,7 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
+#include "gsb_real.h"
 #include "main.h"
 #include "utils_rapprochements.h"
 #include "search_glist.h"
@@ -228,7 +229,7 @@ void csv_export ( gchar * filename, gint account_nb )
 {
   gchar *sMessage = NULL;
   FILE *csv_file;
-  gdouble balance = 0.0;
+  gsb_real balance;
   struct stat test_file;
 
   if (utf8_stat ( filename, &test_file ) != -1)
@@ -285,15 +286,15 @@ void csv_export ( gchar * filename, gint account_nb )
 						       "]", NULL ) );
 
       /* met le solde initial */
-      balance = gsb_data_account_get_init_balance ( account_nb );
-      csv_field_solde = g_strdup_printf ( "%4.2f", balance );
-      if ( balance >= 0 )
+      balance = gsb_data_account_get_init_balance ( account_nb, -1);
+      csv_field_solde = gsb_real_get_string (balance);
+      if ( balance.mantissa >= 0 )
       {
-	  csv_field_credit = g_strdup_printf ( "%4.2f", balance );
+	  csv_field_credit = gsb_real_get_string (balance);
       }
       else
       {
-	  csv_field_debit = g_strdup_printf ( "%4.2f", -balance );
+	  csv_field_debit = gsb_real_get_string (gsb_real_abs (balance));
       }
 
       csv_add_record(csv_file,TRUE);
@@ -302,7 +303,7 @@ void csv_export ( gchar * filename, gint account_nb )
       pTransactionList = gsb_data_transaction_get_transactions_list ();
       while ( pTransactionList )
       {
-	  gdouble amount;
+	  gsb_real amount;
 	  gint pTransaction = gsb_data_transaction_get_transaction_number (pTransactionList -> data);
 
 	  if ( gsb_data_transaction_get_account_number ( pTransaction ) != account_nb )
@@ -375,14 +376,14 @@ void csv_export ( gchar * filename, gint account_nb )
 		  csv_field_info_bank = g_strdup ( gsb_data_transaction_get_bank_references ( pTransaction ) );
 
 	      /* met le montant, transforme la devise si necessaire */
-	      amount = gsb_data_transaction_get_adjusted_amount ( pTransaction );
-	      if (amount > -0.0 )
+	      amount = gsb_data_transaction_get_adjusted_amount ( pTransaction, -1 );
+	      if (amount.mantissa >= 0 )
 	      {
-		  csv_field_credit = g_strdup_printf ( "%4.2f", amount );
+		  csv_field_credit = gsb_real_get_string (amount);
 	      }
 	      else
 	      {
-		  csv_field_debit  = g_strdup_printf ( "%4.2f", -amount );
+		  csv_field_debit  = gsb_real_get_string (gsb_real_abs (amount));
 	      }
 
 	      /* met le chèque si c'est un type à numérotation automatique */
@@ -415,8 +416,9 @@ void csv_export ( gchar * filename, gint account_nb )
 	      csv_field_piece = g_strdup( gsb_data_transaction_get_voucher ( pTransaction ) );
 
 	      /* Balance */
-	      balance += amount;
-	      csv_field_solde = g_strdup_printf ( "%4.2f", balance );
+	      balance = gsb_real_add ( balance,
+				       amount );
+	      csv_field_solde = gsb_real_get_string (balance);
 
 	      /* Number */
 	      csv_field_operation = g_strdup_printf("%d", pTransaction );
@@ -484,8 +486,8 @@ void csv_export ( gchar * filename, gint account_nb )
 			      csv_field_notes = g_strdup(gsb_data_transaction_get_notes ( pBreakdownTransaction ));
 
 			  /* met le montant de la ventilation */
-			  amount = gsb_data_transaction_get_adjusted_amount ( pBreakdownTransaction );
-			  csv_field_montant = g_strdup_printf ( "%4.2f", amount );
+			  amount = gsb_data_transaction_get_adjusted_amount ( pBreakdownTransaction, -1 );
+			  csv_field_montant = gsb_real_get_string (amount);
 
 			  /* met le rapprochement */
 			  if ( gsb_data_transaction_get_reconcile_number ( pBreakdownTransaction ) )

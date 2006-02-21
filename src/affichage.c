@@ -724,7 +724,7 @@ GtkWidget *tab_display_toolbar ( void )
     g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_TEXT) );
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
     if ( etat.display_toolbar == GSB_BUTTON_TEXT )
-	gtk_toggle_button_set_active ( radio, TRUE );
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
     g_signal_connect ( G_OBJECT(radio), "toggled", 
 		       G_CALLBACK(change_toolbar_display_mode), NULL );
 
@@ -733,7 +733,7 @@ GtkWidget *tab_display_toolbar ( void )
     g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_ICON) );
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
     if ( etat.display_toolbar == GSB_BUTTON_ICON )
-	gtk_toggle_button_set_active ( radio, TRUE );
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
     g_signal_connect ( G_OBJECT(radio), "toggled", 
 		       G_CALLBACK(change_toolbar_display_mode), NULL );
 
@@ -742,7 +742,7 @@ GtkWidget *tab_display_toolbar ( void )
     g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_BOTH) );
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );    
     if ( etat.display_toolbar == GSB_BUTTON_BOTH )
-	gtk_toggle_button_set_active ( radio, TRUE );
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
     g_signal_connect ( G_OBJECT(radio), "toggled", 
 		       G_CALLBACK(change_toolbar_display_mode), NULL );
 

@@ -25,18 +25,23 @@
 #include "gsb_file_debug.h"
 #include "dialog.h"
 #include "utils_exercices.h"
+#include "gsb_assistant.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_transaction.h"
+#include "gsb_data_budget.h"
+#include "gsb_data_category.h"
 #include "gsb_status.h"
 #include "include.h"
 #include "structures.h"
-#include "gsb_assistant.h"
-#include "gsb_data_category.h"
-#include "gsb_data_budget.h"
+#include "gsb_file_debug.h"
+#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void gsb_debug_add_report_page ( GtkWidget * assistant, gint page, 
+				 struct gsb_debug_test * test, gchar * summary );
+static gboolean gsb_debug_enter_test_page ( GtkWidget * assistant );
 static gchar * gsb_debug_reconcile_test ( void );
 static gchar * gsb_debug_transfer_test ( void );
 static gboolean gsb_debug_enter_test_page ( GtkWidget * assistant );
@@ -46,6 +51,7 @@ static gboolean gsb_debug_try_fix ( gboolean (* fix) () );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+gsb_real null_real;
 /*END_EXTERN*/
 
 
@@ -278,14 +284,14 @@ gchar * gsb_debug_reconcile_test ( void )
       if ( gsb_data_account_get_current_reconcile_date ( account_nb ) )
       {
 	  GSList *pTransactionList;
-	  gdouble reconcilied_amount = 0;
+	  gsb_real reconcilied_amount = null_real;
 
 	  /* On va recalculer le montant rapproché du compte (c-à-d le solde initial
 	     plus le montant des opérations rapprochées) et le comparer à la valeur
 	     stockée dans le fichier. Si les valeurs diffèrent, on affiche une boite
 	     d'avertissement */
       
-	  reconcilied_amount = gsb_data_account_get_init_balance ( account_nb );
+	  reconcilied_amount = gsb_data_account_get_init_balance ( account_nb, -1 );
 
 	  /* On récupère la liste des opérations */
 	  pTransactionList = gsb_data_transaction_get_transactions_list ();;
@@ -300,26 +306,28 @@ gchar * gsb_debug_reconcile_test ( void )
 		     == 3 ) &&	/* FIXME: use enum */
 		   ! gsb_data_transaction_get_breakdown_of_transaction ( transaction ) )
 	      {
-		  reconcilied_amount += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction, 
-												gsb_data_account_get_currency ( account_nb ) );
+		  reconcilied_amount = gsb_real_add ( reconcilied_amount,
+						      gsb_data_transaction_get_adjusted_amount_for_currency ( transaction, 
+													      gsb_data_account_get_currency (account_nb),
+													      -1 ));
 	      }
 
 	      pTransactionList = pTransactionList -> next;
 	  }
 
-	  if ( fabs ( reconcilied_amount - 
-		      gsb_data_account_get_reconcile_balance ( account_nb ) ) >= 0.01 )
+	  if ( gsb_real_abs ( gsb_real_sub ( reconcilied_amount,
+					     gsb_data_account_get_reconcile_balance (account_nb))).mantissa >= 0 )
 	  {
 	      affected_accounts ++;
 
 	      pText = g_strconcat ( pText,
 				    g_strdup_printf ( _("<span weight=\"bold\">%s</span>\n"
-							"  Last reconciliation amount : %4.2f%s\n"
-							"  Computed reconciliation amount : %4.2f%s\n"),
+							"  Last reconciliation amount : %s%s\n"
+							"  Computed reconciliation amount : %s%s\n"),
 						      gsb_data_account_get_name ( account_nb ), 
-						      gsb_data_account_get_reconcile_balance ( account_nb ),
+						      gsb_real_get_string (gsb_data_account_get_reconcile_balance ( account_nb )),
 						      gsb_data_currency_get_name ( gsb_data_account_get_currency ( account_nb ) ),
-						      reconcilied_amount, 
+						      gsb_real_get_string (reconcilied_amount),
 						      gsb_data_currency_get_name ( gsb_data_account_get_currency ( account_nb ) ) ),
 				    NULL );
 	  }

@@ -35,6 +35,7 @@
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_data_transaction.h"
 #include "navigation.h"
+#include "gsb_real.h"
 #include "print_config.h"
 #include "utils_rapprochements.h"
 #include "utils_types.h"
@@ -50,8 +51,8 @@ static gint classement_ope_perso_etat ( gint transaction_number_1,
 static gint compare_cheques_etat ( gint chq_ope,
 			    gint chq_test,
 			    gint comparateur );
-static gint compare_montants_etat ( gdouble montant_ope,
-			     gdouble montant_test,
+static gint compare_montants_etat ( gsb_real montant_ope,
+			     gsb_real montant_test,
 			     gint comparateur );
 static void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 				   struct struct_etat_affichage *affichage,
@@ -99,14 +100,14 @@ extern struct struct_etat_affichage gtktable_affichage;
 extern struct struct_etat_affichage latex_affichage ;
 extern gint ligne_debut_partie;
 extern GSList *liste_struct_exercices;
-extern gdouble montant_categ_etat;
-extern gdouble montant_compte_etat;
-extern gdouble montant_exo_etat;
-extern gdouble montant_ib_etat;
-extern gdouble montant_periode_etat;
-extern gdouble montant_sous_categ_etat;
-extern gdouble montant_sous_ib_etat;
-extern gdouble montant_tiers_etat;
+extern gsb_real montant_categ_etat;
+extern gsb_real montant_compte_etat;
+extern gsb_real montant_exo_etat;
+extern gsb_real montant_ib_etat;
+extern gsb_real montant_periode_etat;
+extern gsb_real montant_sous_categ_etat;
+extern gsb_real montant_sous_ib_etat;
+extern gsb_real montant_tiers_etat;
 extern gint nb_colonnes;
 extern gint nb_ope_categ_etat;
 extern gint nb_ope_compte_etat;
@@ -125,6 +126,7 @@ extern gchar *nom_ss_categ_en_cours;
 extern gchar *nom_ss_ib_en_cours;
 extern gchar *nom_tiers_en_cours;
 extern GtkWidget *notebook_general;
+extern gsb_real null_real ;
 extern GtkTreeSelection * selection;
 /*END_EXTERN*/
 
@@ -530,7 +532,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 		    if ( gsb_data_report_get_amount_comparison_only_report_non_null (report_number)
 			 &&
-			 fabs ( gsb_data_transaction_get_amount ( transaction_number_tmp)) < 0.01 )
+			 !gsb_data_transaction_get_amount (transaction_number_tmp).mantissa )
 			goto operation_refusee;
 
 
@@ -545,7 +547,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 			while ( liste_tmp )
 			{
-			    gdouble montant;
+			    gsb_real montant;
 			    gint ope_dans_premier_test;
 			    gint ope_dans_second_test;
 			    gint ope_dans_test;
@@ -553,7 +555,7 @@ GSList *recupere_opes_etat ( gint report_number )
 			    
 			    amount_comparison_number = GPOINTER_TO_INT (liste_tmp -> data);
 
-			    montant = gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp);
+			    montant = gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, -1);
 
 			    /* on vérifie maintenant en fonction de la ligne de test si on garde cette opé */
 
@@ -1369,94 +1371,84 @@ gint compare_cheques_etat ( gint chq_ope,
 /* renvoie 1 si l'opé passe le test, 0 sinon */
 /*****************************************************************************************************/
 
-gint compare_montants_etat ( gdouble montant_ope,
-			     gdouble montant_test,
+gint compare_montants_etat ( gsb_real montant_ope,
+			     gsb_real montant_test,
 			     gint comparateur )
 {
-    gint retour;
-    gint montant_ope_int;
-    gint montant_test_int;
-    retour = 0;
-
-    /*   le plus simple est de comparer des integer sinon, le = n'a pas grande valeur en float */
-
-    montant_ope_int = rint ( montant_ope * 100 );
-    montant_test_int = rint ( montant_test * 100 );
+    gint retour = 0;
 
     switch ( comparateur )
     {
 	case 0:
 	    /* =  */
 
-	    if ( montant_ope_int == montant_test_int )
+	    if ( !gsb_real_cmp (montant_ope, montant_test))
 		retour = 1;
 	    break;
 
 	case 1:
 	    /* <  */
 
-	    if ( montant_ope_int < montant_test_int )
+	    if ( gsb_real_cmp (montant_ope, montant_test) < 0)
 		retour = 1;
 	    break;
 
 	case 2:
 	    /* <=  */
 
-	    if ( montant_ope_int <= montant_test_int )
+	    if ( gsb_real_cmp (montant_ope, montant_test) <= 0)
 		retour = 1;
 	    break;
 
 	case 3:
 	    /* >  */
 
-	    if ( montant_ope_int > montant_test_int )
+	    if ( gsb_real_cmp (montant_ope, montant_test) > 0)
 		retour = 1;
 	    break;
 
 	case 4:
 	    /* >=  */
 
-	    if ( montant_ope_int >= montant_test_int )
+	    if ( gsb_real_cmp (montant_ope, montant_test) >= 0)
 		retour = 1;
 	    break;
 
 	case 5:
 	    /* !=  */
 
-	    if ( montant_ope_int != montant_test_int )
+	    if ( gsb_real_cmp (montant_ope, montant_test))
 		retour = 1;
 	    break;
 
 	case 6:
 	    /* nul  */
 
-	    if ( !montant_ope_int )
+	    if ( !montant_ope.mantissa )
 		retour = 1;
 	    break;
 
 	case 7:
 	    /* non nul  */
 
-	    if ( montant_ope_int )
+	    if ( montant_ope.mantissa )
 		retour = 1;
 	    break;
 
 	case 8:
 	    /* positif  */
 
-	    if ( montant_ope_int > 0 )
+	    if ( montant_ope.mantissa > 0 )
 		retour = 1;
 	    break;
 
 	case 9:
 	    /* négatif  */
 
-	    if ( montant_ope_int < 0 )
+	    if ( montant_ope.mantissa < 0 )
 		retour = 1;
 	    break;
-
     }
-
     return ( retour );
 }
 /*****************************************************************************************************/
@@ -1865,7 +1857,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
     gchar *decalage_base, *decalage_categ, *decalage_sous_categ, *decalage_ib;
     gchar *decalage_sous_ib, *decalage_compte, *decalage_tiers;
     gint i, ligne, current_report_number;
-    gdouble total_partie, total_general;
+    gsb_real total_partie, total_general;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -1908,7 +1900,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		}
 		else
 		{
-		    if ( gsb_data_transaction_get_amount (transaction_number)< 0 )
+		    if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
 			liste_ope_depenses = g_slist_append ( liste_ope_depenses,
 							      gsb_data_transaction_get_pointer_to_transaction (transaction_number));
 		    else
@@ -1920,7 +1912,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 	    {
 		/* le classement racine n'est pas la catég, on sépare en fonction du montant */
 
-		if ( gsb_data_transaction_get_amount (transaction_number)< 0 )
+		if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
 		    liste_ope_depenses = g_slist_append ( liste_ope_depenses,
 							  gsb_data_transaction_get_pointer_to_transaction (transaction_number) );
 		else
@@ -2112,7 +2104,7 @@ pas_decalage:
 
     /* on met le titre */
 
-    total_general = 0;
+    total_general = null_real;
     nb_ope_general_etat = 0;
     ligne = etat_affiche_affiche_titre ( 0 );
 
@@ -2147,15 +2139,15 @@ pas_decalage:
 	ancien_compte_etat = -1;
 	ancien_tiers_etat = -1;
 
-	montant_categ_etat = 0;
-	montant_sous_categ_etat = 0;
-	montant_ib_etat = 0;
-	montant_sous_ib_etat = 0;
-	montant_compte_etat = 0;
-	montant_tiers_etat = 0;
-	montant_periode_etat = 0;
-	montant_exo_etat = 0;
-	total_partie = 0;
+	montant_categ_etat = null_real;
+	montant_sous_categ_etat = null_real;
+	montant_ib_etat = null_real;
+	montant_sous_ib_etat = null_real;
+	montant_compte_etat = null_real;
+	montant_tiers_etat = null_real;
+	montant_periode_etat = null_real;
+	montant_exo_etat = null_real;
+	total_partie = null_real;
 	date_debut_periode = NULL;
 	exo_en_cours_etat = -1;
 
@@ -2242,7 +2234,7 @@ pas_decalage:
 	while ( pointeur_tmp )
 	{
 	    gint transaction_number;
-	    gdouble montant;
+	    gsb_real montant;
 
 	    transaction_number = gsb_data_transaction_get_transaction_number (pointeur_tmp -> data);
 
@@ -2320,10 +2312,12 @@ pas_decalage:
 	    if ( gsb_data_report_get_category_used (current_report_number))
 	    {
 		montant = gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-										  devise_categ_etat );
+										  devise_categ_etat, -1 );
 
-		montant_categ_etat = montant_categ_etat + montant;
-		montant_sous_categ_etat = montant_sous_categ_etat + montant;
+		montant_categ_etat = gsb_real_add ( montant_categ_etat,
+						    montant );
+		montant_sous_categ_etat = gsb_real_add ( montant_sous_categ_etat,
+							 montant );
 		nb_ope_categ_etat++;
 		nb_ope_sous_categ_etat++;
 	    }
@@ -2333,9 +2327,11 @@ pas_decalage:
 	    if ( gsb_data_report_get_budget_used (current_report_number))
 	    {
 		montant = gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-										  devise_ib_etat );
-		montant_ib_etat = montant_ib_etat + montant;
-		montant_sous_ib_etat = montant_sous_ib_etat + montant;
+										  devise_ib_etat, -1 );
+		montant_ib_etat = gsb_real_add ( montant_ib_etat,
+						 montant );
+		montant_sous_ib_etat = gsb_real_add ( montant_sous_ib_etat,
+						      montant );
 		nb_ope_ib_etat++;
 		nb_ope_sous_ib_etat++;
 	    }
@@ -2345,8 +2341,9 @@ pas_decalage:
 	    if ( gsb_data_report_get_payee_used (current_report_number))
 	    {
 		montant = gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-										  devise_tiers_etat );
-		montant_tiers_etat = montant_tiers_etat + montant;
+										  devise_tiers_etat, -1 );
+		montant_tiers_etat = gsb_real_add ( montant_tiers_etat,
+						    montant );
 		nb_ope_tiers_etat++;
 	    }
 
@@ -2359,18 +2356,20 @@ pas_decalage:
 		if ( gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number)) != devise_compte_en_cours_etat )
 		    devise_compte_en_cours_etat = gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number));
 
-		montant = gsb_data_transaction_get_adjusted_amount (transaction_number);
+		montant = gsb_data_transaction_get_adjusted_amount (transaction_number, -1);
 
-		montant_compte_etat = montant_compte_etat + montant;
+		montant_compte_etat = gsb_real_add ( montant_compte_etat,
+						     montant );
 		nb_ope_compte_etat++;
 	    }
 
 	    /* calcule les montants totaux */
 
 	    montant = gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-									      devise_generale_etat );
+									      devise_generale_etat, -1 );
 
-	    total_general = total_general + montant;
+	    total_general = gsb_real_add ( total_general,
+					   montant );
 	    nb_ope_general_etat++;
 
 	    /* calcule le montant de la periode */
@@ -2378,9 +2377,10 @@ pas_decalage:
 	    if ( gsb_data_report_get_period_split (current_report_number))
 	    {
 		montant = gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-										  devise_categ_etat );
+										  devise_categ_etat, -1 );
 
-		montant_periode_etat = montant_periode_etat + montant;
+		montant_periode_etat = gsb_real_add ( montant_periode_etat,
+						      montant );
 		nb_ope_periode_etat++;
 	    }
 
@@ -2389,12 +2389,14 @@ pas_decalage:
 	    if ( gsb_data_report_get_financial_year_split (current_report_number))
 	    {
 		montant = gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-										  devise_categ_etat );
-		montant_exo_etat = montant_exo_etat + montant;
+										  devise_categ_etat, -1 );
+		montant_exo_etat = gsb_real_add ( montant_exo_etat,
+						  montant );
 		nb_ope_exo_etat++;
 	    }
 
-	    total_partie = total_partie + montant;
+	    total_partie = gsb_real_add ( total_partie,
+					  montant );
 	    nb_ope_partie_etat++;
 
 	    changement_de_groupe_etat = 0;

@@ -10,9 +10,9 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
 						     gint category_id,
 						     gint sub_category_id );
 void gsb_data_category_create_default_category_list ( void );
-gdouble gsb_data_category_get_balance ( gint no_category );
+gsb_real gsb_data_category_get_balance ( gint no_category );
 GSList *gsb_data_category_get_categories_list ( void );
-gdouble gsb_data_category_get_direct_balance ( gint no_category );
+gsb_real gsb_data_category_get_direct_balance ( gint no_category );
 gchar *gsb_data_category_get_name ( gint no_category,
 				    gint no_sub_category,
 				    gchar *return_value_error );
@@ -29,8 +29,8 @@ gint gsb_data_category_get_number_by_name ( gchar *name,
 					    gboolean create,
 					    gint category_type );
 gpointer gsb_data_category_get_structure ( gint no_category );
-gdouble gsb_data_category_get_sub_category_balance ( gint no_category,
-						     gint no_sub_category );
+gsb_real gsb_data_category_get_sub_category_balance ( gint no_category,
+						      gint no_sub_category );
 GSList *gsb_data_category_get_sub_category_list ( gint no_category );
 gchar *gsb_data_category_get_sub_category_name ( gint no_category,
 						 gint no_sub_category,

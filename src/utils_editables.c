@@ -27,6 +27,7 @@
 
 /*START_INCLUDE*/
 #include "utils_editables.h"
+#include "gsb_real.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
@@ -39,6 +40,7 @@ static gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy );
 
 
 /*START_EXTERN*/
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 
@@ -339,19 +341,18 @@ void increment_decrement_champ ( GtkWidget *entry, gint increment )
 /**
  * calcule le total du contenu de l'entrÃ©e donnÃ©e en argument 
  * accepte les + et les - 
+ * 
  * \param entry entrÃ©e d'un montant 
- * \return gdouble total de ce qui est dans l'entrÃ©e 
+ * 
+ * \return gsb_real total de ce qui est dans l'entrÃ©e 
  */
-gdouble calcule_total_entree ( GtkWidget *entry )
+gsb_real gsb_utils_edit_calculate_entry ( GtkWidget *entry )
 {
     gchar *string;
     gchar *pointeur;
-    gdouble total;
-
-    total = 0;
+    gsb_real total = null_real;
 	
-    string = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entry )));
-
+    string = g_strdup (gtk_entry_get_text ( GTK_ENTRY (entry)));
     pointeur = string + strlen (string);
 
     while ( pointeur != string )
@@ -360,16 +361,15 @@ gdouble calcule_total_entree ( GtkWidget *entry )
 	     ||
 	     pointeur[0] == '-' )
 	{
-	    total = total + my_strtod ( pointeur,
-					NULL );
+	    total = gsb_real_add ( total,
+				   gsb_real_get_from_string (pointeur));
 	    pointeur[0] = 0;
 	}
 	pointeur--;
     }
-    total = total + my_strtod ( pointeur,
-				NULL );
-
-
+    total = gsb_real_add ( total,
+			   gsb_real_get_from_string (pointeur));
+    g_free (string);
     return total;
 }
 

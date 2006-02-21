@@ -2,6 +2,7 @@
 #define _ETATS_AFFICHE_H (1)
 /* START_INCLUDE_H */
 #include "etats_affiche.h"
+#include "structures.h"
 /* END_INCLUDE_H */
 
 #include "structures.h"
@@ -48,10 +49,10 @@ gint etat_affiche_affiche_total_compte ( gint ligne );
 gint etat_affiche_affiche_total_exercice ( gint transaction_number,
 					   gint ligne,
 					   gint force );
-gint etat_affiche_affiche_total_general ( gdouble total_general,
+gint etat_affiche_affiche_total_general ( gsb_real total_general,
 					  gint ligne );
 gint etat_affiche_affiche_total_ib ( gint ligne );
-gint etat_affiche_affiche_total_partiel ( gdouble total_partie,
+gint etat_affiche_affiche_total_partiel ( gsb_real total_partie,
 					  gint ligne,
 					  gint type );
 gint etat_affiche_affiche_total_periode ( gint transaction_number, 

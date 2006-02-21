@@ -39,6 +39,7 @@
 #include "gsb_file_util.h"
 #include "utils_dates.h"
 #include "navigation.h"
+#include "gsb_real.h"
 #include "utils_str.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
@@ -686,11 +687,11 @@ gulong gsb_file_save_account_part ( gulong iterator,
 					       "\t\tBank_branch_code=\"%s\"\n"
 					       "\t\tBank_account_number=\"%s\"\n"
 					       "\t\tKey=\"%s\"\n"
-					       "\t\tInitial_balance=\"%4.7f\"\n"
-					       "\t\tMinimum_wanted_balance=\"%4.7f\"\n"
-					       "\t\tMinimum_authorised_balance=\"%4.7f\"\n"
+					       "\t\tInitial_balance=\"%s\"\n"
+					       "\t\tMinimum_wanted_balance=\"%s\"\n"
+					       "\t\tMinimum_authorised_balance=\"%s\"\n"
 					       "\t\tLast_reconcile_date=\"%s\"\n"
-					       "\t\tLast_reconcile_balance=\"%4.7f\"\n"
+					       "\t\tLast_reconcile_balance=\"%s\"\n"
 					       "\t\tLast_reconcile_number=\"%d\"\n"
 					       "\t\tClosed_account=\"%d\"\n"
 					       "\t\tShow_marked=\"%d\"\n"
@@ -719,11 +720,11 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    gsb_data_account_get_bank_branch_code (account_number),
 	    gsb_data_account_get_bank_account_number (account_number),
 	    gsb_data_account_get_bank_account_key (account_number),
-	    gsb_data_account_get_init_balance (account_number),
-	    gsb_data_account_get_mini_balance_wanted (account_number),
-	    gsb_data_account_get_mini_balance_authorized (account_number),
+	    gsb_real_get_string (gsb_data_account_get_init_balance (account_number, -1)),
+	    gsb_real_get_string (gsb_data_account_get_mini_balance_wanted (account_number)),
+	    gsb_real_get_string (gsb_data_account_get_mini_balance_authorized (account_number)),
 	    last_reconcile_date,
-	    gsb_data_account_get_reconcile_balance (account_number),
+	    gsb_real_get_string (gsb_data_account_get_reconcile_balance (account_number)),
 	    gsb_data_account_get_reconcile_last_number (account_number),
 	    gsb_data_account_get_closed_account (account_number),
 	    gsb_data_account_get_r (account_number),
@@ -845,17 +846,17 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 	
 	/* now we can fill the file content */
 
-	new_string = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Am=\"%4.7f\" Cu=\"%d\" Exb=\"%d\" Exr=\"%4.7f\" Exf=\"%4.7f\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Tra=\"%d\" Mo=\"%d\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Am=\"%s\" Cu=\"%d\" Exb=\"%d\" Exr=\"%s\" Exf=\"%s\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Tra=\"%d\" Mo=\"%d\" />\n",
 					       gsb_data_transaction_get_account_number ( transaction_number ),
 					       transaction_number,
 					       gsb_data_transaction_get_transaction_id ( transaction_number),
 					       gsb_format_gdate ( gsb_data_transaction_get_date ( transaction_number )),
 					       gsb_format_gdate ( gsb_data_transaction_get_value_date ( transaction_number )),
-					       gsb_data_transaction_get_amount ( transaction_number ),
+					       gsb_real_get_string (gsb_data_transaction_get_amount ( transaction_number )),
 					       gsb_data_transaction_get_currency_number (transaction_number ),
 					       gsb_data_transaction_get_change_between (transaction_number ),
-					       gsb_data_transaction_get_exchange_rate (transaction_number ),
-					       gsb_data_transaction_get_exchange_fees ( transaction_number),
+					       gsb_real_get_string (gsb_data_transaction_get_exchange_rate (transaction_number )),
+					       gsb_real_get_string (gsb_data_transaction_get_exchange_fees ( transaction_number)),
 					       gsb_data_transaction_get_party_number ( transaction_number),
 					       gsb_data_transaction_get_category_number ( transaction_number),
 					       gsb_data_transaction_get_sub_category_number (transaction_number),
@@ -914,11 +915,11 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 
 	/* now we can fill the file content */
 
-	new_string = g_markup_printf_escaped ( "\t<Scheduled Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" Am=\"%4.7f\" Cu=\"%d\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Tra=\"%d\" Pn=\"%d\" CPn=\"%d\" Pc=\"%s\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" No=\"%s\" Au=\"%d\" Pe=\"%d\" Pei=\"%d\" Pep=\"%d\" Dtl=\"%s\" Br=\"%d\" Mo=\"%d\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Scheduled Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" Am=\"%s\" Cu=\"%d\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Tra=\"%d\" Pn=\"%d\" CPn=\"%d\" Pc=\"%s\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" No=\"%s\" Au=\"%d\" Pe=\"%d\" Pei=\"%d\" Pep=\"%d\" Dtl=\"%s\" Br=\"%d\" Mo=\"%d\" />\n",
 					       scheduled_number,
 					       gsb_format_gdate (gsb_data_scheduled_get_date ( scheduled_number)),
 					       gsb_data_scheduled_get_account_number ( scheduled_number),
-					       gsb_data_scheduled_get_amount ( scheduled_number),
+					       gsb_real_get_string (gsb_data_scheduled_get_amount ( scheduled_number)),
 					       gsb_data_scheduled_get_currency_number ( scheduled_number),
 					       gsb_data_scheduled_get_party_number ( scheduled_number),
 					       gsb_data_scheduled_get_category_number ( scheduled_number),
@@ -1221,11 +1222,11 @@ gulong gsb_file_save_currency_link_part ( gulong iterator,
 
 	/* now we can fill the file content */
 
-	new_string = g_markup_printf_escaped ( "\t<Currency_link Nb=\"%d\" Cu1=\"%d\" Cu2=\"%d\" Ex=\"%4.7f\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Currency_link Nb=\"%d\" Cu1=\"%d\" Cu2=\"%d\" Ex=\"%s\" />\n",
 					       link_number,
 					       gsb_data_currency_link_get_first_currency (link_number),
 					       gsb_data_currency_link_get_second_currency (link_number),
-					       gsb_data_currency_link_get_change_rate (link_number));
+					       gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number)));
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -1772,8 +1773,8 @@ gulong gsb_file_save_report_part ( gulong iterator,
 						   "\t\tComparison_1=\"%d\"\n"
 						   "\t\tLink_1_2=\"%d\"\n"
 						   "\t\tComparison_2=\"%d\"\n"
-						   "\t\tAmount_1=\"%4.2f\"\n"
-						   "\t\tAmount_2=\"%4.2f\" />\n",
+						   "\t\tAmount_1=\"%d\"\n"
+						   "\t\tAmount_2=\"%d\" />\n",
 						   text_comparison_number,
 						   report_number,
 						   gsb_data_report_text_comparison_get_link_to_last_text_comparison (text_comparison_number),
@@ -1817,16 +1818,16 @@ gulong gsb_file_save_report_part ( gulong iterator,
 						   "\t\tComparison_1=\"%d\"\n"
 						   "\t\tLink_1_2=\"%d\"\n"
 						   "\t\tComparison_2=\"%d\"\n"
-						   "\t\tAmount_1=\"%4.7f\"\n"
-						   "\t\tAmount_2=\"%4.7f\" />\n",
+						   "\t\tAmount_1=\"%s\"\n"
+						   "\t\tAmount_2=\"%s\" />\n",
 						   amount_comparison_number,
 						   report_number,
 						   gsb_data_report_amount_comparison_get_link_to_last_amount_comparison (amount_comparison_number),
 						   gsb_data_report_amount_comparison_get_first_comparison (amount_comparison_number),
 						   gsb_data_report_amount_comparison_get_link_first_to_second_part (amount_comparison_number),
 						   gsb_data_report_amount_comparison_get_second_comparison (amount_comparison_number),
-						   gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number),
-						   gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number));
+						   gsb_real_get_string (gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number)),
+						   gsb_real_get_string (gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number)));
 
 	    /* append the new string to the file content
 	     * and take the new iterator */

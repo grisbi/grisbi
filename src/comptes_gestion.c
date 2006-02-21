@@ -40,13 +40,14 @@
 #include "gsb_form.h"
 #include "navigation.h"
 #include "menu.h"
+#include "gsb_real.h"
 #include "gsb_scheduler_list.h"
+#include "gsb_transactions_list.h"
 #include "categories_onglet.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
 #include "etats_config.h"
-#include "gsb_transactions_list.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
 #include "utils_comptes.h"
@@ -855,20 +856,16 @@ void remplissage_details_compte ( void )
 
 
     gtk_entry_set_text ( GTK_ENTRY ( detail_solde_init ),
-			 g_strdup_printf ( "%4.2f",
-					   gsb_data_account_get_init_balance (compte_courant_onglet) ));
+			 gsb_real_get_string (gsb_data_account_get_init_balance (compte_courant_onglet, -1)));
 
     gtk_entry_set_text ( GTK_ENTRY ( detail_solde_mini_autorise ),
-			 g_strdup_printf ( "%4.2f",
-					   gsb_data_account_get_mini_balance_authorized (compte_courant_onglet) ));
+			 gsb_real_get_string (gsb_data_account_get_mini_balance_authorized (compte_courant_onglet)));
 
     gtk_entry_set_text ( GTK_ENTRY ( detail_solde_mini_voulu ),
-			 g_strdup_printf ( "%4.2f",
-					   gsb_data_account_get_mini_balance_wanted (compte_courant_onglet) ));
+			 gsb_real_get_string (gsb_data_account_get_mini_balance_wanted (compte_courant_onglet)));
 
     gtk_text_buffer_set_text ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (detail_commentaire)),
 			       ( gsb_data_account_get_comment (compte_courant_onglet) ? gsb_data_account_get_comment (compte_courant_onglet) : "") , -1 );
-
 
     gtk_widget_set_sensitive ( hbox_boutons_modif,
 			       FALSE );
@@ -886,6 +883,7 @@ void modification_details_compte ( void )
 {
     GtkTextIter start, end;
     GtkTextBuffer *buffer;
+    gsb_real tmp_number;
 
     /* vérification que le compte a un nom */
 
@@ -1083,19 +1081,15 @@ void modification_details_compte ( void )
 
     /* vérification du solde initial */
 
-    if ( gsb_data_account_get_init_balance (compte_courant_onglet) != my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
-									     NULL ) )
+    tmp_number = gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init )));
+    if ( gsb_real_cmp ( gsb_data_account_get_init_balance (compte_courant_onglet, -1),
+			tmp_number ))
     {
-
 	gsb_data_account_set_init_balance (compte_courant_onglet,
-				      my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_init ))),
-						  NULL ));
-
-/* FIXME : voir pourquoi remplissage opé et remettre l'ajustement */
-
-/* 	value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value; */
-	remplissage_liste_operations ( compte_courant_onglet );
-/* 	gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value = value; */
+					   tmp_number );
+	/* as we changed the initial balance, we need to recalculate the amount
+	 * of each line in the list */
+	gsb_transactions_list_set_transactions_balances (compte_courant_onglet);
 
 	mise_a_jour_liste_comptes_accueil = 1;
 	mise_a_jour_soldes_minimaux = 1;
@@ -1104,14 +1098,14 @@ void modification_details_compte ( void )
 
     /* vérification du solde mini autorisé */
 
-    if ( gsb_data_account_get_mini_balance_authorized (compte_courant_onglet) != my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_autorise ))),
-											NULL ) )
+    tmp_number = gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (detail_solde_mini_autorise)));
+    if ( gsb_real_cmp ( gsb_data_account_get_mini_balance_authorized (compte_courant_onglet),
+			tmp_number ))
     {
 	gsb_data_account_set_mini_balance_authorized ( compte_courant_onglet, 
-						  my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_autorise ))),
-							      NULL ));
+						       gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_autorise ))));
 	gsb_data_account_set_mini_balance_authorized_message ( compte_courant_onglet,
-							  0 );
+							       0 );
 
 	mise_a_jour_liste_comptes_accueil = 1;
 	mise_a_jour_soldes_minimaux = 1;
@@ -1121,14 +1115,14 @@ void modification_details_compte ( void )
 
     /* vérification du solde mini voulu */
 
-    if ( gsb_data_account_get_mini_balance_wanted (compte_courant_onglet) != my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
-										    NULL ) )
+    tmp_number = gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (detail_solde_mini_voulu)));
+    if ( gsb_real_cmp ( gsb_data_account_get_mini_balance_wanted (compte_courant_onglet),
+			tmp_number ))
     {
 	gsb_data_account_set_mini_balance_wanted ( compte_courant_onglet, 
-					      my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))),
-							  NULL ));
+						   gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( detail_solde_mini_voulu ))));
 	gsb_data_account_set_mini_balance_wanted_message ( compte_courant_onglet,
-						      0 );
+							   0 );
 
 	mise_a_jour_soldes_minimaux = 1;
     }

@@ -44,6 +44,7 @@
 #include "gsb_data_report_text_comparison.h"
 #include "utils_dates.h"
 #include "navigation.h"
+#include "gsb_real.h"
 #include "classement_operations.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
@@ -268,14 +269,14 @@ gint ancienne_categ_speciale_etat;
 gint ancienne_sous_categ_etat;
 gint ancien_compte_etat;
 gint ancien_tiers_etat;
-gdouble montant_categ_etat;
-gdouble montant_sous_categ_etat;
-gdouble montant_ib_etat;
-gdouble montant_sous_ib_etat;
-gdouble montant_compte_etat;
-gdouble montant_tiers_etat;
-gdouble montant_periode_etat;
-gdouble montant_exo_etat;
+gsb_real montant_categ_etat;
+gsb_real montant_sous_categ_etat;
+gsb_real montant_ib_etat;
+gsb_real montant_sous_ib_etat;
+gsb_real montant_compte_etat;
+gsb_real montant_tiers_etat;
+gsb_real montant_periode_etat;
+gsb_real montant_exo_etat;
 gint nb_ope_categ_etat;
 gint nb_ope_sous_categ_etat;
 gint nb_ope_ib_etat;
@@ -1794,11 +1795,9 @@ void recuperation_info_perso_etat ( void )
 								      GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_second_comparison (amount_comparison_number)) -> menu_item ),
 													      "no_comparateur" )));
 	    gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
-								 my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number))),
-									     NULL ));
+								 gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number)))));
 	    gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
-								  my_strtod ( (gchar *) gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number))),
-									      NULL ));
+								  gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number)))));
 
 	    comparison_list = comparison_list -> next;
 	}
@@ -5168,11 +5167,9 @@ void remplit_liste_comparaisons_montants_etat ( void )
 				      gsb_data_report_amount_comparison_get_second_comparison (amount_comparison_number));
 
 	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number)),
-			     g_strdup_printf ( "%4.2f",
-					       gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number)));
+			     gsb_real_get_string (gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number)));
 	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number)),
-			     g_strdup_printf ( "%4.2f",
-					       gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number)));
+			     gsb_real_get_string (gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number)));
 
 	/* on sensitive/désensitive les entrées si nécessaire */
 

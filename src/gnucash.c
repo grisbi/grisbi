@@ -28,9 +28,11 @@
 #include "gnucash.h"
 #include "utils_xml.h"
 #include "dialog.h"
+#include "gsb_real.h"
 #include "utils_str.h"
 #include "import.h"
 #include "utils_files.h"
+#include "gsb_data_transaction.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -38,12 +40,12 @@
 static struct struct_compte_importation * find_imported_account_by_name ( gchar * name );
 static struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
 static struct gnucash_category * find_imported_categ_by_uid ( gchar * guid );
-static struct gnucash_split * find_split ( GSList * split_list, gdouble amount, 
+static struct gnucash_split * find_split ( GSList * split_list, gsb_real amount, 
 				    struct struct_compte_importation * account, 
 				    struct gnucash_category * categ );
 static gchar * get_currency ( xmlNodePtr currency_node );
-static gdouble gnucash_value ( gchar * value );
-static struct gnucash_split * new_split ( gdouble amount, gchar * account, gchar * categ );
+static gsb_real gnucash_value ( gchar * value );
+static struct gnucash_split * new_split ( gsb_real amount, gchar * account, gchar * categ );
 static struct struct_ope_importation * new_transaction_from_split ( struct gnucash_split * split,
 							     gchar * tiers, GDate * date );
 static xmlDocPtr parse_gnucash_file ( gchar * filename );
@@ -51,13 +53,14 @@ static void recuperation_donnees_gnucash_book ( xmlNodePtr book_node );
 static void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node );
 static void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node );
 static void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node );
-static void update_split ( struct gnucash_split * split, gdouble amount, 
+static void update_split ( struct gnucash_split * split, gsb_real amount, 
 		    gchar * account, gchar * categ );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern GSList *liste_comptes_importes;
 extern GSList *liste_comptes_importes_error;
+extern gsb_real null_real ;
 extern gchar * tempname;
 /*END_EXTERN*/
 
@@ -72,7 +75,7 @@ struct gnucash_category {
 };
 
 struct gnucash_split {
-  gdouble amount;
+  gsb_real amount;
   gchar * category;
   gchar * account;
   gchar * contra_account;
@@ -208,7 +211,7 @@ void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node )
 
     compte -> nom_de_compte = child_content ( compte_node, "name" );
     compte -> filename = gnucash_filename;
-    compte -> solde = 0;
+    compte -> solde = null_real;
     compte -> devise = get_currency ( get_child(compte_node, "commodity") );
     compte -> guid = child_content ( compte_node, "id" );
     compte -> operations_importees = NULL;
@@ -284,7 +287,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
   GDate * date;
   xmlNodePtr splits, split_node, date_node;
   GSList * split_list = NULL;
-  gdouble total = 0;
+  gsb_real total = null_real;
 
   /* Transaction amount, category, account, etc.. */
   splits = get_child ( transaction_node, "splits" );
@@ -296,7 +299,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
       struct gnucash_category * categ = NULL;
       struct gnucash_split * split;
       enum operation_etat_rapprochement p_r = OPERATION_NORMALE;
-      gdouble amount;
+      gsb_real amount;
 
       /**
        * Gnucash transactions are in fact "splits", much like grisbi's
@@ -322,7 +325,8 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 	      /* All of this stuff is here since we are dealing with
 		 the account split, not the category one */
 	      account_name = split_account -> nom_de_compte;
-	      total += amount;
+	      total = gsb_real_add ( total,
+				     amount );
 	      if ( strcmp(child_content(split_node, "reconciled-state"), "n") )
 		p_r = OPERATION_RAPPROCHEE;
 	    }
@@ -519,7 +523,7 @@ struct gnucash_category * find_imported_categ_by_uid ( gchar * guid )
  *
  * \return		Numeric value of argument 'value'.
  */
-gdouble gnucash_value ( gchar * value )
+gsb_real gnucash_value ( gchar * value )
 {
   gchar **tab_value;
   gdouble number, mantisse;
@@ -529,7 +533,7 @@ gdouble gnucash_value ( gchar * value )
   number = utils_str_atoi ( tab_value[0] );
   mantisse = utils_str_atoi ( tab_value[1] );
 
-  return number / mantisse;
+  return gsb_real_double_to_real (number / mantisse);
 }
 
 
@@ -625,7 +629,7 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
  *
  * \return		A gnucash_split upon success.  NULL otherwise.
  */
-struct gnucash_split * find_split ( GSList * split_list, gdouble amount, 
+struct gnucash_split * find_split ( GSList * split_list, gsb_real amount, 
 				    struct struct_compte_importation * account, 
 				    struct gnucash_category * categ )
 {
@@ -635,7 +639,9 @@ struct gnucash_split * find_split ( GSList * split_list, gdouble amount,
   while ( tmp )
     {
       struct gnucash_split * split = tmp -> data;
-      if ( amount == - split -> amount &&
+      if ( !gsb_real_cmp ( amount,
+			   gsb_real_opposite (split -> amount))
+	   &&
 	   ! ( split -> account && split -> category ) &&
 	   ! ( split -> category && categ ) )
 	{
@@ -662,7 +668,7 @@ struct gnucash_split * find_split ( GSList * split_list, gdouble amount,
  * \param account	Account to set if not NULL.
  * \param categ		Category to set if not NULL.
  */
-void update_split ( struct gnucash_split * split, gdouble amount, 
+void update_split ( struct gnucash_split * split, gsb_real amount, 
 		    gchar * account, gchar * categ )
 {
   if ( categ )
@@ -695,7 +701,7 @@ void update_split ( struct gnucash_split * split, gdouble amount,
  *
  * \return		A newly created gnucash_split.
  */
-struct gnucash_split * new_split ( gdouble amount, gchar * account, gchar * categ )
+struct gnucash_split * new_split ( gsb_real amount, gchar * account, gchar * categ )
 {
   struct gnucash_split * split;
 
@@ -746,7 +752,7 @@ struct struct_ope_importation * new_transaction_from_split ( struct gnucash_spli
       struct struct_ope_importation * contra_transaction;
 	  
       contra_transaction = calloc ( 1, sizeof ( struct struct_ope_importation ));
-      contra_transaction -> montant = -split -> amount;
+      contra_transaction -> montant = gsb_real_opposite (split -> amount);
       contra_transaction -> notes = split -> notes;
       contra_transaction -> tiers = tiers;
       contra_transaction -> date = date;

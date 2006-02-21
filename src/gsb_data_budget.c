@@ -33,6 +33,7 @@
 #include "gsb_data_budget.h"
 #include "meta_budgetary.h"
 #include "gsb_data_transaction.h"
+#include "gsb_real.h"
 #include "utils_str.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -54,8 +55,8 @@ typedef struct
     /** @name gui budget list content (not saved) */
     gint budget_nb_transactions;
     gint budget_nb_direct_transactions;
-    gdouble budget_balance;
-    gdouble budget_direct_balance;
+    gsb_real budget_balance;
+    gsb_real budget_direct_balance;
 } struct_budget;
 
 
@@ -73,9 +74,8 @@ typedef struct
 
     /** @name gui sub-budget list content (not saved)*/
     gint sub_budget_nb_transactions;
-    gdouble sub_budget_balance;
+    gsb_real sub_budget_balance;
 } struct_sub_budget;
-
 
 
 /*START_STATIC*/
@@ -94,9 +94,11 @@ static gint gsb_data_budget_new ( gchar *name );
 static gint gsb_data_budget_new_sub_budget ( gint budget_number,
 				      gchar *name );
 static void gsb_data_budget_reset_counters ( void );
+static gint gsb_data_sub_budget_compare ( struct_sub_budget * a, struct_sub_budget * b );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_budget */
@@ -1077,14 +1079,14 @@ gint gsb_data_budget_get_nb_direct_transactions ( gint no_budget )
  *
  * \return balance of the budget or 0 if problem
  * */
-gdouble gsb_data_budget_get_balance ( gint no_budget )
+gsb_real gsb_data_budget_get_balance ( gint no_budget )
 {
     struct_budget *budget;
 
     budget = gsb_data_budget_get_structure ( no_budget );
 
     if (!budget)
-	return 0;
+	return null_real;
 
     return budget -> budget_balance;
 }
@@ -1098,8 +1100,8 @@ gdouble gsb_data_budget_get_balance ( gint no_budget )
  *
  * \return balance of the sub-budget or 0 if problem
  * */
-gdouble gsb_data_budget_get_sub_budget_balance ( gint no_budget,
-						 gint no_sub_budget )
+gsb_real gsb_data_budget_get_sub_budget_balance ( gint no_budget,
+						  gint no_sub_budget )
 {
     struct_sub_budget *sub_budget;
 
@@ -1107,7 +1109,7 @@ gdouble gsb_data_budget_get_sub_budget_balance ( gint no_budget,
 							    no_sub_budget );
 
     if (!sub_budget)
-	return 0;
+	return null_real;
 
     return sub_budget -> sub_budget_balance;
 }
@@ -1119,14 +1121,14 @@ gdouble gsb_data_budget_get_sub_budget_balance ( gint no_budget,
  *
  * \return balance of the budget or 0 if problem
  * */
-gdouble gsb_data_budget_get_direct_balance ( gint no_budget )
+gsb_real gsb_data_budget_get_direct_balance ( gint no_budget )
 {
     struct_budget *budget;
 
     budget = gsb_data_budget_get_structure ( no_budget );
 
     if (!budget)
-	return 0;
+	return null_real;
 
     return budget -> budget_direct_balance;
 }
@@ -1152,9 +1154,9 @@ void gsb_data_budget_reset_counters ( void )
 	GSList *sub_list_tmp;
 
 	budget = list_tmp -> data;
-	budget -> budget_balance = 0.0;
+	budget -> budget_balance = null_real;
 	budget -> budget_nb_transactions = 0;
-	budget -> budget_direct_balance = 0.0;
+	budget -> budget_direct_balance = null_real;
 	budget -> budget_nb_direct_transactions = 0;
 
 	sub_list_tmp = budget -> sub_budget_list;
@@ -1166,7 +1168,7 @@ void gsb_data_budget_reset_counters ( void )
 	    sub_budget = sub_list_tmp -> data;
 
 	    sub_budget -> sub_budget_nb_transactions = 0;
-	    sub_budget -> sub_budget_balance = 0.0;
+	    sub_budget -> sub_budget_balance = null_real;
 
 	    sub_list_tmp = sub_list_tmp -> next;
 	}
@@ -1174,9 +1176,9 @@ void gsb_data_budget_reset_counters ( void )
     }
 
     /* reset the empty budget */
-    empty_budget -> budget_balance = 0.0;
+    empty_budget -> budget_balance = null_real;
     empty_budget -> budget_nb_transactions = 0;
-    empty_budget -> budget_direct_balance = 0.0;
+    empty_budget -> budget_direct_balance = null_real;
     empty_budget -> budget_nb_direct_transactions = 0;
 }
 
@@ -1232,25 +1234,33 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
     if ( budget )
     {
 	budget -> budget_nb_transactions ++;
-	budget -> budget_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency ());
+	budget -> budget_balance = gsb_real_add ( budget -> budget_balance,
+						  gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+													  budgetary_line_tree_currency (), -1));
     }
     else
     {
 	empty_budget -> budget_nb_transactions ++;
-	empty_budget -> budget_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency ());
+	empty_budget -> budget_balance = gsb_real_add ( budget -> budget_balance,
+							gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+														budgetary_line_tree_currency (), -1));
     }
 
     if ( sub_budget )
     {
 	sub_budget -> sub_budget_nb_transactions ++;
-	sub_budget -> sub_budget_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency ());
+	sub_budget -> sub_budget_balance = gsb_real_add ( sub_budget -> sub_budget_balance,
+							  gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+														  budgetary_line_tree_currency (), -1));
     }
     else
     {
 	if ( budget )
 	{
 	    budget -> budget_nb_direct_transactions ++;
-	    budget -> budget_direct_balance += gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency ());
+	    budget -> budget_direct_balance = gsb_real_add ( budget -> budget_direct_balance,
+							     gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+														     budgetary_line_tree_currency (), -1));
 	}
     }
 }
@@ -1277,24 +1287,30 @@ void gsb_data_budget_remove_transaction_from_budget ( gint transaction_number )
     if ( budget )
     {
 	budget -> budget_nb_transactions --;
-	budget -> budget_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency ());
+	budget -> budget_balance = gsb_real_sub ( budget -> budget_balance,
+						  gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+													  budgetary_line_tree_currency (), -1));
 	if ( !budget -> budget_nb_transactions ) /* Cope with float errors */
-	    budget -> budget_balance = 0.0;
+	    budget -> budget_balance = null_real;
     }
 
     if ( sub_budget )
     {
 	sub_budget -> sub_budget_nb_transactions --;
-	sub_budget -> sub_budget_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency ());
+	sub_budget -> sub_budget_balance = gsb_real_sub ( sub_budget -> sub_budget_balance,
+							  gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+														  budgetary_line_tree_currency (), -1));
 	if ( !sub_budget -> sub_budget_nb_transactions ) /* Cope with float errors */
-	    sub_budget -> sub_budget_balance = 0.0;
+	    sub_budget -> sub_budget_balance = null_real;
     }
     else
     {
 	if ( budget )
 	{
 	    budget -> budget_nb_direct_transactions --;
-	    budget -> budget_direct_balance -= gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number, budgetary_line_tree_currency ());
+	    budget -> budget_direct_balance = gsb_real_sub ( budget -> budget_direct_balance,
+							     gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+														     budgetary_line_tree_currency (), -1));
 	}
     }
 }

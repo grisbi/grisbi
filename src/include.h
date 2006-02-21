@@ -1,4 +1,7 @@
 /* fichier d'en tête include.h */
+#ifndef _INCLUDE_H
+#define _INCLUDE_H (1)
+
 
 
 #include "config.h"
@@ -37,6 +40,20 @@
 #define AB_BANKING void
 #endif
 
+/** \struct
+ * describe an real 
+ * */
+/** FIXME : that structure is defined here
+ * because mk_include don't take it if i define it
+ * in gsb_real.h or gsb_real.c
+ * i will have to adapt mk_include to accept the typedef struct */
+
+typedef struct
+{
+    glong mantissa;
+    gint exponent;
+} gsb_real;
+
 
 /* Define gettext functions */
 #ifdef ENABLE_NLS
@@ -56,3 +73,5 @@
 #  define dcgettext(Domain,String,Type) (String)
 #  define bindtextdomain(Domain,Directory) (Domain) 
 #endif /* ENABLE_NLS */
+
+#endif /* _INCLUDE_H */

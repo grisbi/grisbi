@@ -44,7 +44,7 @@ typedef struct
 
     gint first_currency;
     gint second_currency;
-    gdouble change_rate;
+    gsb_real change_rate;
 
     /* a link is invalid when :
      * - it's a comparison between 2 same currencies
@@ -61,6 +61,7 @@ static gint gsb_data_currency_link_max_number ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_currency_link */
@@ -369,14 +370,14 @@ gboolean gsb_data_currency_link_set_second_currency ( gint currency_link_number,
  *
  * \return the change_rate of the currency_link or 0 if problem
  * */
-gdouble gsb_data_currency_link_get_change_rate ( gint currency_link_number )
+gsb_real gsb_data_currency_link_get_change_rate ( gint currency_link_number )
 {
     struct_currency_link *currency_link;
 
     currency_link = gsb_data_currency_link_get_structure ( currency_link_number );
 
     if (!currency_link)
-	return 0.0;
+	return null_real;
 
     return currency_link -> change_rate;
 }
@@ -391,7 +392,7 @@ gdouble gsb_data_currency_link_get_change_rate ( gint currency_link_number )
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_currency_link_set_change_rate ( gint currency_link_number,
-						  gdouble change_rate)
+						  gsb_real change_rate)
 {
     struct_currency_link *currency_link;
 

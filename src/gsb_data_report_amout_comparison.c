@@ -48,10 +48,10 @@ typedef struct
     /** @name saved values of the structure */
     gint link_to_last_amount_comparison;	/* -1=first comparison, 0=and, 1=or, 2=except */
     gint first_comparison;			/* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= !=, 6= =0, 7= !=0, 8= >0, 9= <0 */
-    gdouble first_amount;
+    gsb_real first_amount;
     gint link_first_to_second_part;		/* 0=and, 1=or, 2=except, 3=none */
     gint second_comparison;			/* 0= =, 1= <, 2= <=, 3= >, 4= >=, 5= != */
-    gdouble second_amount;
+    gsb_real second_amount;
 
     /** @name dynamic values used for the gui */
     gpointer hbox_line;
@@ -73,6 +73,7 @@ static gint gsb_data_report_amount_comparison_max_number ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 
@@ -415,14 +416,14 @@ gboolean gsb_data_report_amount_comparison_set_first_comparison ( gint amount_co
  *
  * \return the  of the amount_comparison, -1 if problem
  * */
-gdouble gsb_data_report_amount_comparison_get_first_amount ( gint amount_comparison_number )
+gsb_real gsb_data_report_amount_comparison_get_first_amount ( gint amount_comparison_number )
 {
     struct_amount_comparison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
     if ( !amount_comparison )
-	return 0;
+	return null_real;
 
     return amount_comparison -> first_amount;
 }
@@ -436,7 +437,7 @@ gdouble gsb_data_report_amount_comparison_get_first_amount ( gint amount_compari
  * \return TRUE if ok
  * */
 gboolean gsb_data_report_amount_comparison_set_first_amount ( gint amount_comparison_number,
-							      gdouble first_amount)
+							      gsb_real first_amount)
 {
     struct_amount_comparison *amount_comparison;
 
@@ -544,14 +545,14 @@ gboolean gsb_data_report_amount_comparison_set_second_comparison ( gint amount_c
  *
  * \return the  of the amount_comparison, -1 if problem
  * */
-gdouble gsb_data_report_amount_comparison_get_second_amount ( gint amount_comparison_number )
+gsb_real gsb_data_report_amount_comparison_get_second_amount ( gint amount_comparison_number )
 {
     struct_amount_comparison *amount_comparison;
 
     amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
 
     if ( !amount_comparison )
-	return 0;
+	return null_real;
 
     return amount_comparison -> second_amount;
 }
@@ -565,7 +566,7 @@ gdouble gsb_data_report_amount_comparison_get_second_amount ( gint amount_compar
  * \return TRUE if ok
  * */
 gboolean gsb_data_report_amount_comparison_set_second_amount ( gint amount_comparison_number,
-							       gdouble second_amount)
+							       gsb_real second_amount)
 {
     struct_amount_comparison *amount_comparison;
 

@@ -40,6 +40,7 @@ gboolean recuperation_donnees_ofx ( struct imported_file * imported )
 /*START_INCLUDE*/
 #include "ofx.h"
 #include "dialog.h"
+#include "gsb_real.h"
 #include "utils_str.h"
 #include "import.h"
 #include "ofx.h"
@@ -380,7 +381,7 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 	ope_import -> cheque = utils_str_atoi ( data.check_number );
 
     if ( data.amount_valid )
-	ope_import -> montant = data.amount;
+	ope_import -> montant = gsb_real_double_to_real (data.amount);
 
     if ( data.transactiontype_valid )
 	ope_import -> type_de_transaction = data.transactiontype;

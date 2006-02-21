@@ -34,10 +34,13 @@
 
 /*START_STATIC*/
 static gint count_char_from_string ( gchar *search_char, gchar *string );
+static gchar * gsb_string_escape_underscores ( gchar * orig );
 static gint my_strcmp ( gchar *chaine_1,
 		 gchar *chaine_2 );
 static int myisolat1ToUTF8(unsigned char* out, int *outlen,
 		    const unsigned char* in, int *inlen);
+static gchar *utils_str_amount_to_str ( glong amount,
+				 gint floating_point);
 /*END_STATIC*/
 
 
@@ -94,7 +97,6 @@ gchar *utils_str_itoa ( gint integer )
 
     return ( chaine );
 }
-/***********************************************************************************************************/
 
 
 /*
@@ -167,6 +169,48 @@ gchar *utils_str_amount_to_str ( glong amount,
     return ( chaine );
 }
 
+
+
+/**
+ * used for now only while loading a file before the 0.6.0 version
+ * reduce the exponant IN THE STRING of the amount because before the 0.6.0
+ * all the gdouble where saved with an exponent very big
+ * ie : in the file we have "12.340000"
+ * and that fonction return "12.34" wich will be nicely imported
+ * with gsb_data_transaction_set_amount_from_string
+ *
+ * \param amount_string
+ * \param exponent the exponent we want at the end (normally always 2, but if ever...)
+ *
+ * \return a newly allocated string with only 'exponent' digits after the separator (need to be freed)
+ * */
+gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
+					       gint exponent )
+{
+    gint i=0;
+    gchar *return_string;
+
+    if (!amount_string)
+	return NULL;
+
+    return_string = g_strdup (amount_string);
+
+    while (i != -1
+	   &&
+	   return_string[i])
+    {
+	if ( return_string[i] == '.'
+	     ||
+	     return_string[i] == ',' )
+	{
+	    return_string[i+exponent+1] = 0;
+	    i = -1;
+	}
+	else
+	    i++;
+    }
+    return return_string;
+}
 
 
 
@@ -283,7 +327,7 @@ gchar * latin2utf8 ( const gchar * inchar)
     if ( g_utf8_validate ( inchar,
 			   -1,
 			   NULL ))
-	return inchar;
+	return my_strdup (inchar);
 			
     inlen = strlen(inchar);
     outlen = 1024;

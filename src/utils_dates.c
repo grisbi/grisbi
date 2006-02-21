@@ -129,8 +129,11 @@ GDate *gdate_today ( void )
 
 
 
-/** copy the date given in param
+/**
+ * copy the date given in param
+ * 
  * \param date a GDate to copy
+ * 
  * \return a copy or NULL if no date
  * */
 GDate *gsb_date_copy ( GDate *date )

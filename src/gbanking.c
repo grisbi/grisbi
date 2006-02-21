@@ -34,6 +34,7 @@
 /*START_INCLUDE*/
 #include "gbanking.h"
 #include "import.h"
+#include "gsb_real.h"
 #include "utils_str.h"
 #include "dialog.h"
 #include "include.h"
@@ -114,7 +115,7 @@ int GrisbiBanking_ImportContext (AB_BANKING *ab,
 
 	    va=AB_Transaction_GetValue(t);
 	    if (va) {
-		ope_import->montant=AB_Value_GetValue(va);
+		ope_import->montant=gsb_real_double_to_real (AB_Value_GetValue(va));
 	    }
 
 	    sl=AB_Transaction_GetRemoteName(t);

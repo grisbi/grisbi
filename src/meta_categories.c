@@ -41,7 +41,7 @@ static gboolean category_add_transaction_to_div ( gpointer  trans,
 					   int div_id );
 static gboolean category_add_transaction_to_sub_div ( gpointer  trans, 
 					       int div_id, int sub_div_id );
-static gdouble category_div_balance ( gpointer div );
+static gsb_real category_div_balance ( gpointer div );
 static gchar * category_div_name ( gpointer div );
 static gint category_div_nb_transactions ( gpointer div );
 static GSList * category_div_sub_div_list ( gpointer div );
@@ -60,7 +60,7 @@ static void category_scheduled_set_div_id ( gint scheduled_number,
 static void category_scheduled_set_sub_div_id ( gint scheduled_number,
 					 int no_sub_div );
 static gint category_scheduled_sub_div_id ( gint scheduled_number);
-static gdouble category_sub_div_balance ( gpointer div, gpointer sub_div );
+static gsb_real category_sub_div_balance ( gpointer div, gpointer sub_div );
 static gchar * category_sub_div_name ( gpointer sub_div );
 static gint category_sub_div_nb_transactions ( gpointer div, gpointer sub_div );
 static gint category_transaction_div_id ( gpointer  transaction );
@@ -73,6 +73,7 @@ static gint category_transaction_sub_div_id ( gpointer  transaction );
 
 /*START_EXTERN*/
 extern int no_devise_totaux_categ;
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 static MetatreeInterface _category_interface = {
@@ -264,7 +265,7 @@ gchar * category_sub_div_name ( gpointer sub_div )
  *
  *
  */
-gdouble category_div_balance ( gpointer div )
+gsb_real category_div_balance ( gpointer div )
 {
     gint category_number;
 
@@ -279,7 +280,7 @@ gdouble category_div_balance ( gpointer div )
  *
  *
  */
-gdouble category_sub_div_balance ( gpointer div, gpointer sub_div )
+gsb_real category_sub_div_balance ( gpointer div, gpointer sub_div )
 {
     gint category_number;
     gint sub_category_number;
@@ -296,7 +297,7 @@ gdouble category_sub_div_balance ( gpointer div, gpointer sub_div )
     {
 	return gsb_data_category_get_direct_balance ( category_number );
     }
-    return 0;
+    return null_real;
 }
 
 

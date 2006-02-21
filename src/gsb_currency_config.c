@@ -1283,7 +1283,7 @@ struct cached_exchange_rate *gsb_currency_config_get_cached_exchange ( gint curr
  */
 void gsb_currency_config_set_cached_exchange ( gint currency1_number, 
 					       gint currency2_number,
-					       gdouble change, gdouble fees )
+					       gsb_real change, gsb_real fees )
 {
     struct cached_exchange_rate * tmp;
 

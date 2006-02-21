@@ -33,7 +33,6 @@
 #include "gsb_transactions_list.h"
 #include "utils.h"
 #include "structures.h"
-#include "import.h"
 #include "etats_config.h"
 #include "etats_affiche.h"
 /*END_INCLUDE*/

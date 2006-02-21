@@ -27,7 +27,9 @@
 #include "csv_parse.h"
 #include "utils_dates.h"
 #include "gsb_data_currency.h"
+#include "gsb_real.h"
 #include "utils_str.h"
+#include "gsb_data_transaction.h"
 #include "import.h"
 /*END_INCLUDE*/
 
@@ -392,7 +394,8 @@ gboolean csv_import_parse_credit ( struct struct_ope_importation * ope, gchar * 
     g_return_val_if_fail ( string, FALSE );
     if ( strlen ( string ) > 0 )
     {
-	ope -> montant += my_strtod ( string, NULL );
+	ope -> montant = gsb_real_add ( ope -> montant,
+					gsb_real_get_from_string (string));
     }
     return TRUE;
 }
@@ -409,7 +412,8 @@ gboolean csv_import_parse_debit ( struct struct_ope_importation * ope, gchar * s
 
     if ( strlen ( string ) > 0 )
     {
-	ope -> montant -= my_strtod ( string, NULL );
+	ope -> montant = gsb_real_sub ( ope -> montant,
+					gsb_real_get_from_string (string));
     }
     return TRUE;
 }

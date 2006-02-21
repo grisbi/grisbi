@@ -28,7 +28,6 @@
 /*START_INCLUDE*/
 #include "echeancier_formulaire.h"
 #include "exercice.h"
-#include "utils_editables.h"
 #include "comptes_traitements.h"
 #include "erreur.h"
 #include "dialog.h"
@@ -45,7 +44,9 @@
 #include "gsb_form_transaction.h"
 #include "accueil.h"
 #include "gsb_payment_method.h"
+#include "gsb_real.h"
 #include "gsb_scheduler_list.h"
+#include "utils_editables.h"
 #include "gtk_combofix.h"
 #include "main.h"
 #include "categories_onglet.h"
@@ -1559,10 +1560,10 @@ gint gsb_scheduler_create_transaction_from_scheduled_form ( void )
 
     if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	gsb_data_transaction_set_amount ( transaction_number,
-					  -calcule_total_entree (widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT]));
+					  gsb_real_opposite (gsb_utils_edit_calculate_entry (widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT])));
     else
 	gsb_data_transaction_set_amount ( transaction_number,
-					  calcule_total_entree (widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT]));
+					  gsb_utils_edit_calculate_entry (widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT]));
 
     /* get the currency */
 
@@ -1638,7 +1639,7 @@ gint gsb_scheduler_create_transaction_from_scheduled_form ( void )
 
 	    budget_number = gsb_data_budget_get_number_by_name ( tab_char[0],
 								 TRUE,
-								 gsb_data_transaction_get_amount (transaction_number) < 0 );
+								 gsb_data_transaction_get_amount (transaction_number).mantissa < 0 );
 	    gsb_data_transaction_set_budgetary_number ( transaction_number,
 							budget_number );
 	    gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
@@ -1712,10 +1713,10 @@ gint gsb_scheduler_create_scheduled_transaction_from_scheduled_form ( gint sched
 
     if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT] ) == style_entree_formulaire[ENCLAIR] )
 	gsb_data_scheduled_set_amount ( scheduled_number,
-					-calcule_total_entree (widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT]));
+					gsb_real_opposite (gsb_utils_edit_calculate_entry (widget_formulaire_echeancier[SCHEDULER_FORM_DEBIT])));
     else
 	gsb_data_scheduled_set_amount ( scheduled_number,
-					calcule_total_entree (widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT]));
+					gsb_utils_edit_calculate_entry (widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT]));
 
     /* get the currency */
 
@@ -1765,7 +1766,7 @@ gint gsb_scheduler_create_scheduled_transaction_from_scheduled_form ( gint sched
 
 	    budget_number = gsb_data_budget_get_number_by_name ( tab_char[0],
 								 TRUE,
-								 gsb_data_scheduled_get_amount (scheduled_number) < 0 );
+								 gsb_data_scheduled_get_amount (scheduled_number).mantissa < 0 );
 	    gsb_data_scheduled_set_budgetary_number ( scheduled_number,
 						      budget_number );
 	    gsb_data_scheduled_set_sub_budgetary_number ( scheduled_number,
@@ -1851,7 +1852,7 @@ gint gsb_scheduler_create_scheduled_transaction_from_scheduled_form ( gint sched
 
 		    category_number = gsb_data_category_get_number_by_name ( tab_char[0],
 									     TRUE,
-									     gsb_data_scheduled_get_amount (scheduled_number) < 0);
+									     gsb_data_scheduled_get_amount (scheduled_number).mantissa < 0);
 		    gsb_data_scheduled_set_category_number ( scheduled_number,
 							     category_number);
 		    gsb_data_scheduled_set_sub_category_number ( scheduled_number,
@@ -1974,7 +1975,7 @@ gboolean gsb_scheduler_get_category_for_transaction_from_form ( gint transaction
 
 		    category_number = gsb_data_category_get_number_by_name ( tab_char[0],
 									     TRUE,
-									     gsb_data_transaction_get_amount (transaction_number) < 0 );
+									     gsb_data_transaction_get_amount (transaction_number).mantissa < 0 );
 		    gsb_data_transaction_set_category_number ( transaction_number,
 							       category_number );
 

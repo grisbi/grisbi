@@ -49,7 +49,7 @@ typedef struct
     /** @name general stuff */
     gint scheduled_number;
     gint account_number;
-    gdouble scheduled_amount;
+    gsb_real scheduled_amount;
     gint party_number;
     gchar *notes;
     gshort automatic_scheduled;			/**< 0=manual, 1=automatic (scheduled scheduled) */
@@ -86,11 +86,12 @@ typedef struct
 /*START_STATIC*/
 static gint gsb_data_scheduled_get_last_number (void);
 static gint gsb_data_scheduled_get_last_white_number (void);
-static struct_scheduled *gsb_data_scheduled_get_scheduled_by_no ( gint no_scheduled );
+static struct_scheduled *gsb_data_scheduled_get_scheduled_by_no ( gint scheduled_number );
 static gboolean gsb_data_scheduled_save_scheduled_pointer ( gpointer scheduled );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 
@@ -255,11 +256,11 @@ gboolean gsb_data_scheduled_save_scheduled_pointer ( gpointer scheduled )
  * return the scheduled which the number is in the parameter. 
  * the new scheduled is stored in the buffer
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * 
  * \return a pointer to the scheduled, NULL if not found
  * */
-struct_scheduled *gsb_data_scheduled_get_scheduled_by_no ( gint no_scheduled )
+struct_scheduled *gsb_data_scheduled_get_scheduled_by_no ( gint scheduled_number )
 {
     GSList *scheduled_list_tmp;
 
@@ -267,15 +268,15 @@ struct_scheduled *gsb_data_scheduled_get_scheduled_by_no ( gint no_scheduled )
 
     if ( scheduled_buffer[0]
 	 &&
-	 scheduled_buffer[0] -> scheduled_number == no_scheduled )
+	 scheduled_buffer[0] -> scheduled_number == scheduled_number )
 	return scheduled_buffer[0];
 
     if ( scheduled_buffer[1]
 	 &&
-	 scheduled_buffer[1] -> scheduled_number == no_scheduled )
+	 scheduled_buffer[1] -> scheduled_number == scheduled_number )
 	return scheduled_buffer[1];
 
-    if ( no_scheduled < 0 )
+    if ( scheduled_number < 0 )
 	scheduled_list_tmp = white_scheduled_list;
     else
 	scheduled_list_tmp = scheduled_list;
@@ -286,7 +287,7 @@ struct_scheduled *gsb_data_scheduled_get_scheduled_by_no ( gint no_scheduled )
 
 	scheduled = scheduled_list_tmp -> data;
 
-	if ( scheduled -> scheduled_number == no_scheduled )
+	if ( scheduled -> scheduled_number == scheduled_number )
 	{
 	    gsb_data_scheduled_save_scheduled_pointer ( scheduled );
 	    return scheduled;
@@ -305,15 +306,15 @@ struct_scheduled *gsb_data_scheduled_get_scheduled_by_no ( gint no_scheduled )
 /**
  * get the account_number
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the account of the scheduled or -1 if problem
  * */
-gint gsb_data_scheduled_get_account_number ( gint no_scheduled )
+gint gsb_data_scheduled_get_account_number ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -325,17 +326,17 @@ gint gsb_data_scheduled_get_account_number ( gint no_scheduled )
 /**
  * set the account_number
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param no_account
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_account_number ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_account_number ( gint scheduled_number,
 						 gint no_account )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -350,15 +351,15 @@ gboolean gsb_data_scheduled_set_account_number ( gint no_scheduled,
 /**
  * get the GDate of the scheduled 
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the GDate of the scheduled
  * */
-GDate *gsb_data_scheduled_get_date ( gint no_scheduled )
+GDate *gsb_data_scheduled_get_date ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return NULL;
@@ -368,16 +369,16 @@ GDate *gsb_data_scheduled_get_date ( gint no_scheduled )
 
 
 /** set the GDate of the scheduled
- * \param no_scheduled
+ * \param scheduled_number
  * \param no_account
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_date ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_date ( gint scheduled_number,
 				       GDate *date )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -393,18 +394,18 @@ gboolean gsb_data_scheduled_set_date ( gint no_scheduled,
  * get the amount of the scheduled without any currency change
  * (so just get the given amout)
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the amount of the scheduled
  * */
-gdouble gsb_data_scheduled_get_amount ( gint no_scheduled )
+gsb_real gsb_data_scheduled_get_amount ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
-	return 0;
+	return null_real;
 
     return scheduled -> scheduled_amount;
 }
@@ -413,17 +414,17 @@ gdouble gsb_data_scheduled_get_amount ( gint no_scheduled )
 /**
  * set the amount of the scheduled
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param amount
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_amount ( gint no_scheduled,
-					 gdouble amount )
+gboolean gsb_data_scheduled_set_amount ( gint scheduled_number,
+					 gsb_real amount )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -439,15 +440,15 @@ gboolean gsb_data_scheduled_set_amount ( gint no_scheduled,
 /** 
  * get the currency_number 
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the currency number of the scheduled
  * */
-gint gsb_data_scheduled_get_currency_number ( gint no_scheduled )
+gint gsb_data_scheduled_get_currency_number ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -459,17 +460,17 @@ gint gsb_data_scheduled_get_currency_number ( gint no_scheduled )
 /**
  * set the currency_number
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param no_currency
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_currency_number ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_currency_number ( gint scheduled_number,
 						  gint no_currency )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -485,15 +486,15 @@ gboolean gsb_data_scheduled_set_currency_number ( gint no_scheduled,
 /**
  * get the party_number 
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the currency number of the scheduled
  * */
-gint gsb_data_scheduled_get_party_number ( gint no_scheduled )
+gint gsb_data_scheduled_get_party_number ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -504,17 +505,17 @@ gint gsb_data_scheduled_get_party_number ( gint no_scheduled )
 
 /**
  * set the party_number
- * \param no_scheduled
+ * \param scheduled_number
  * \param value
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_party_number ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_party_number ( gint scheduled_number,
 					       gint no_party )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -529,15 +530,15 @@ gboolean gsb_data_scheduled_set_party_number ( gint no_scheduled,
 /**
  * get the category_number 
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the category number of the scheduled
  * */
-gint gsb_data_scheduled_get_category_number ( gint no_scheduled )
+gint gsb_data_scheduled_get_category_number ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -549,17 +550,17 @@ gint gsb_data_scheduled_get_category_number ( gint no_scheduled )
 /**
  * set the category_number
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param value
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_category_number ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_category_number ( gint scheduled_number,
 						  gint no_category )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -573,15 +574,15 @@ gboolean gsb_data_scheduled_set_category_number ( gint no_scheduled,
 /**
  * get the sub_category_number 
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the sub_category number of the scheduled
  * */
-gint gsb_data_scheduled_get_sub_category_number ( gint no_scheduled )
+gint gsb_data_scheduled_get_sub_category_number ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -593,17 +594,17 @@ gint gsb_data_scheduled_get_sub_category_number ( gint no_scheduled )
 /**
  * set the sub_category_number
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param value
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_sub_category_number ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_sub_category_number ( gint scheduled_number,
 						      gint no_sub_category )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -617,15 +618,15 @@ gboolean gsb_data_scheduled_set_sub_category_number ( gint no_scheduled,
 /**
  * get if the scheduled is a breakdown_of_scheduled
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return TRUE if the scheduled is a breakdown of scheduled
  * */
-gint gsb_data_scheduled_get_breakdown_of_scheduled ( gint no_scheduled )
+gint gsb_data_scheduled_get_breakdown_of_scheduled ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -636,17 +637,17 @@ gint gsb_data_scheduled_get_breakdown_of_scheduled ( gint no_scheduled )
 
 /**
  * set if the scheduled is a breakdown_of_scheduled
- * \param no_scheduled
+ * \param scheduled_number
  * \param is_breakdown
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_breakdown_of_scheduled ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_breakdown_of_scheduled ( gint scheduled_number,
 							 gint is_breakdown )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -660,15 +661,15 @@ gboolean gsb_data_scheduled_set_breakdown_of_scheduled ( gint no_scheduled,
 /**
  * get the notes
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the notes of the scheduled
  * */
-gchar *gsb_data_scheduled_get_notes ( gint no_scheduled )
+gchar *gsb_data_scheduled_get_notes ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return NULL;
@@ -681,17 +682,17 @@ gchar *gsb_data_scheduled_get_notes ( gint no_scheduled )
  * set the notes
  * the notes parameter will be copy before stored in memory
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param notes a gchar with the new notes
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_notes ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_notes ( gint scheduled_number,
 					const gchar *notes )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -711,15 +712,15 @@ gboolean gsb_data_scheduled_set_notes ( gint no_scheduled,
 /**
  * get the method_of_payment_number
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the method_of_payment_number
  * */
-gint gsb_data_scheduled_get_method_of_payment_number ( gint no_scheduled )
+gint gsb_data_scheduled_get_method_of_payment_number ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -731,17 +732,17 @@ gint gsb_data_scheduled_get_method_of_payment_number ( gint no_scheduled )
 /**
  * set the method_of_payment_number
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param 
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_method_of_payment_number ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_method_of_payment_number ( gint scheduled_number,
 							   gint number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -755,15 +756,15 @@ gboolean gsb_data_scheduled_set_method_of_payment_number ( gint no_scheduled,
 /**
  * get the method_of_payment_content
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the method_of_payment_content of the scheduled
  * */
-gchar *gsb_data_scheduled_get_method_of_payment_content ( gint no_scheduled )
+gchar *gsb_data_scheduled_get_method_of_payment_content ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return NULL;
@@ -776,17 +777,17 @@ gchar *gsb_data_scheduled_get_method_of_payment_content ( gint no_scheduled )
  * set the method_of_payment_content
  * dupplicate the parameter before storing it in the scheduled
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param method_of_payment_content a gchar with the new method_of_payment_content
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_method_of_payment_content ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_method_of_payment_content ( gint scheduled_number,
 							    const gchar *method_of_payment_content )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -807,15 +808,15 @@ gboolean gsb_data_scheduled_set_method_of_payment_content ( gint no_scheduled,
 /**
  * get the automatic_scheduled
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return 1 if the scheduled was taken automaticly
  * */
-gint gsb_data_scheduled_get_automatic_scheduled ( gint no_scheduled )
+gint gsb_data_scheduled_get_automatic_scheduled ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -827,17 +828,17 @@ gint gsb_data_scheduled_get_automatic_scheduled ( gint no_scheduled )
 /**
  * set the automatic_scheduled
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param  automatic_scheduled
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_automatic_scheduled ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_automatic_scheduled ( gint scheduled_number,
 						      gint automatic_scheduled )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -852,15 +853,15 @@ gboolean gsb_data_scheduled_set_automatic_scheduled ( gint no_scheduled,
 /**
  * get the financial_year_number
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the financial_year_number
  * */
-gint gsb_data_scheduled_get_financial_year_number ( gint no_scheduled )
+gint gsb_data_scheduled_get_financial_year_number ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -872,17 +873,17 @@ gint gsb_data_scheduled_get_financial_year_number ( gint no_scheduled )
 /**
  * set the financial_year_number
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param  financial_year_number
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_financial_year_number ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_financial_year_number ( gint scheduled_number,
 							gint financial_year_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -897,15 +898,15 @@ gboolean gsb_data_scheduled_set_financial_year_number ( gint no_scheduled,
 /**
  * get the budgetary_number
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the budgetary_number of the scheduled
  * */
-gint gsb_data_scheduled_get_budgetary_number ( gint no_scheduled )
+gint gsb_data_scheduled_get_budgetary_number ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -917,17 +918,17 @@ gint gsb_data_scheduled_get_budgetary_number ( gint no_scheduled )
 /**
  * set the budgetary_number
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param budgetary_number
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_budgetary_number ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_budgetary_number ( gint scheduled_number,
 						   gint budgetary_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -941,15 +942,15 @@ gboolean gsb_data_scheduled_set_budgetary_number ( gint no_scheduled,
 /**
  * get the  sub_budgetary_number
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the sub_budgetary_number number of the scheduled
  * */
-gint gsb_data_scheduled_get_sub_budgetary_number ( gint no_scheduled )
+gint gsb_data_scheduled_get_sub_budgetary_number ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -961,17 +962,17 @@ gint gsb_data_scheduled_get_sub_budgetary_number ( gint no_scheduled )
 /**
  * set the sub_budgetary_number
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param sub_budgetary_number
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_sub_budgetary_number ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_sub_budgetary_number ( gint scheduled_number,
 						       gint sub_budgetary_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -985,15 +986,15 @@ gboolean gsb_data_scheduled_set_sub_budgetary_number ( gint no_scheduled,
 
 /** 
  * get the  account_number_transfer
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the account_number_transfer number of the scheduled
  * */
-gint gsb_data_scheduled_get_account_number_transfer ( gint no_scheduled )
+gint gsb_data_scheduled_get_account_number_transfer ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -1005,17 +1006,17 @@ gint gsb_data_scheduled_get_account_number_transfer ( gint no_scheduled )
 /**
  * set the account_number_transfer
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param account_number_transfer
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_account_number_transfer ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_account_number_transfer ( gint scheduled_number,
 							  gint account_number_transfer )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -1030,15 +1031,15 @@ gboolean gsb_data_scheduled_set_account_number_transfer ( gint no_scheduled,
 /**
  * get the  mother_scheduled_number
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the mother_scheduled_number of the scheduled or 0 if the scheduled doen't exist
  * */
-gint gsb_data_scheduled_get_mother_scheduled_number ( gint no_scheduled )
+gint gsb_data_scheduled_get_mother_scheduled_number ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no (no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
 
     if ( !scheduled )
 	return 0;
@@ -1050,17 +1051,17 @@ gint gsb_data_scheduled_get_mother_scheduled_number ( gint no_scheduled )
 /**
  * set the mother_scheduled_number
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param mother_scheduled_number
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_mother_scheduled_number ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_mother_scheduled_number ( gint scheduled_number,
 							  gint mother_scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -1075,15 +1076,15 @@ gboolean gsb_data_scheduled_set_mother_scheduled_number ( gint no_scheduled,
 /**
  * get the contra_method_of_payment_number
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the contra_method_of_payment_number
  * */
-gint gsb_data_scheduled_get_contra_method_of_payment_number ( gint no_scheduled )
+gint gsb_data_scheduled_get_contra_method_of_payment_number ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -1095,17 +1096,17 @@ gint gsb_data_scheduled_get_contra_method_of_payment_number ( gint no_scheduled 
 /**
  * set the contra_method_of_payment_number
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param 
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_contra_method_of_payment_number ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_contra_method_of_payment_number ( gint scheduled_number,
 								  gint number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -1119,15 +1120,15 @@ gboolean gsb_data_scheduled_set_contra_method_of_payment_number ( gint no_schedu
 /**
  * get the frequency
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the frequency
  * */
-gint gsb_data_scheduled_get_frequency ( gint no_scheduled )
+gint gsb_data_scheduled_get_frequency ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -1139,17 +1140,17 @@ gint gsb_data_scheduled_get_frequency ( gint no_scheduled )
 /**
  * set the frequency
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param 
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_frequency ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_frequency ( gint scheduled_number,
 					    gint number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -1163,15 +1164,15 @@ gboolean gsb_data_scheduled_set_frequency ( gint no_scheduled,
 /**
  * get the user_interval
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the user_interval
  * */
-gint gsb_data_scheduled_get_user_interval ( gint no_scheduled )
+gint gsb_data_scheduled_get_user_interval ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -1183,17 +1184,17 @@ gint gsb_data_scheduled_get_user_interval ( gint no_scheduled )
 /**
  * set the user_interval
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param 
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_user_interval ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_user_interval ( gint scheduled_number,
 						gint number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -1207,15 +1208,15 @@ gboolean gsb_data_scheduled_set_user_interval ( gint no_scheduled,
 /**
  * get the user_entry
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the user_entry
  * */
-gint gsb_data_scheduled_get_user_entry ( gint no_scheduled )
+gint gsb_data_scheduled_get_user_entry ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return -1;
@@ -1227,17 +1228,17 @@ gint gsb_data_scheduled_get_user_entry ( gint no_scheduled )
 /**
  * set the user_entry
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param 
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_user_entry ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_user_entry ( gint scheduled_number,
 					     gint number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;
@@ -1252,15 +1253,15 @@ gboolean gsb_data_scheduled_set_user_entry ( gint no_scheduled,
 /**
  * get the limit_GDate of the scheduled 
  * 
- * \param no_scheduled the number of the scheduled
+ * \param scheduled_number the number of the scheduled
  * 
  * \return the limit_GDate of the scheduled
  * */
-GDate *gsb_data_scheduled_get_limit_date ( gint no_scheduled )
+GDate *gsb_data_scheduled_get_limit_date ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return NULL;
@@ -1271,17 +1272,17 @@ GDate *gsb_data_scheduled_get_limit_date ( gint no_scheduled )
 
 /** set the limit_GDate of the scheduled
  * 
- * \param no_scheduled
+ * \param scheduled_number
  * \param no_account
  *
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_limit_date ( gint no_scheduled,
+gboolean gsb_data_scheduled_set_limit_date ( gint scheduled_number,
 					     GDate *date )
 {
     struct_scheduled *scheduled;
 
-    scheduled = gsb_data_scheduled_get_scheduled_by_no ( no_scheduled);
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
 	return FALSE;

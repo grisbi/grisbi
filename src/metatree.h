@@ -24,8 +24,8 @@ typedef struct metatree_interface {
     gint (* sub_div_nb_transactions) (gpointer,gpointer);
     gchar * (* div_name) (gpointer);
     gchar * (* sub_div_name) (gpointer);
-    gdouble (* div_balance) (gpointer);
-    gdouble (* sub_div_balance) (gpointer,gpointer);
+    gsb_real (* div_balance) (gpointer);
+    gsb_real (* sub_div_balance) (gpointer,gpointer);
     gint (* div_id) (gpointer);
     gint (* sub_div_id) (gpointer);
     GSList * (* div_list) ();

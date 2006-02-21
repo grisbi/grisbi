@@ -19,7 +19,7 @@ gpointer gsb_data_report_text_comparison_get_entry_first_amount ( gint text_comp
 gpointer gsb_data_report_text_comparison_get_entry_second_amount ( gint text_comparison_number );
 gpointer gsb_data_report_text_comparison_get_entry_text ( gint text_comparison_number );
 gint gsb_data_report_text_comparison_get_field ( gint text_comparison_number );
-gdouble gsb_data_report_text_comparison_get_first_amount ( gint text_comparison_number );
+gint gsb_data_report_text_comparison_get_first_amount ( gint text_comparison_number );
 gint gsb_data_report_text_comparison_get_first_comparison ( gint text_comparison_number );
 gpointer gsb_data_report_text_comparison_get_hbox_cheque ( gint text_comparison_number );
 gpointer gsb_data_report_text_comparison_get_hbox_second_part ( gint text_comparison_number );
@@ -27,7 +27,7 @@ gpointer gsb_data_report_text_comparison_get_hbox_text ( gint text_comparison_nu
 gint gsb_data_report_text_comparison_get_link_first_to_second_part ( gint text_comparison_number );
 gint gsb_data_report_text_comparison_get_link_to_last_text_comparison ( gint text_comparison_number );
 gint gsb_data_report_text_comparison_get_operator ( gint text_comparison_number );
-gdouble gsb_data_report_text_comparison_get_second_amount ( gint text_comparison_number );
+gint gsb_data_report_text_comparison_get_second_amount ( gint text_comparison_number );
 gint gsb_data_report_text_comparison_get_second_comparison ( gint text_comparison_number );
 gchar *gsb_data_report_text_comparison_get_text ( gint text_comparison_number );
 gint gsb_data_report_text_comparison_get_use_text ( gint text_comparison_number );
@@ -60,7 +60,7 @@ gboolean gsb_data_report_text_comparison_set_entry_text ( gint text_comparison_n
 gboolean gsb_data_report_text_comparison_set_field ( gint text_comparison_number,
 						     gint field);
 gboolean gsb_data_report_text_comparison_set_first_amount ( gint text_comparison_number,
-							    gdouble first_amount);
+							    gint first_amount);
 gboolean gsb_data_report_text_comparison_set_first_comparison ( gint text_comparison_number,
 								gint first_comparison);
 gboolean gsb_data_report_text_comparison_set_hbox_cheque ( gint text_comparison_number,
@@ -78,7 +78,7 @@ gboolean gsb_data_report_text_comparison_set_operator ( gint text_comparison_num
 gboolean gsb_data_report_text_comparison_set_report_number ( gint text_comparison_number,
 							     gint report_number);
 gboolean gsb_data_report_text_comparison_set_second_amount ( gint text_comparison_number,
-							     gdouble second_amount);
+							     gint second_amount);
 gboolean gsb_data_report_text_comparison_set_second_comparison ( gint text_comparison_number,
 								 gint second_comparison);
 gboolean gsb_data_report_text_comparison_set_text ( gint text_comparison_number,
