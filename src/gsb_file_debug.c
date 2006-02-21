@@ -38,6 +38,7 @@
 
 /*START_STATIC*/
 static gchar * gsb_debug_reconcile_test ( void );
+static gchar * gsb_debug_transfer_test ( void );
 static gboolean gsb_debug_enter_test_page ( GtkWidget * assistant );
 static void gsb_debug_add_report_page ( GtkWidget * assistant, gint page, 
 					struct gsb_debug_test * test, gchar * summary );
@@ -50,7 +51,7 @@ static gboolean gsb_debug_try_fix ( gboolean (* fix) () );
 
 
 /** Tests  */
-struct gsb_debug_test debug_tests [4] = {
+struct gsb_debug_test debug_tests [5] = {
     /* Check for reconciliation inconcistency.  */
     { N_("Incorrect reconcile totals"),
       N_("This test will look for accounts where reconcile totals do not match reconciled transactions."),
@@ -63,12 +64,12 @@ struct gsb_debug_test debug_tests [4] = {
     { N_("Duplicate sub-categories check"),
       N_("xxx"),
       N_("Due to a bug in previous versions of Grisbi, "
-	 "sub-categories may share the same numeric id in some "
+	 "sub-categories may share the same numeric identifier in some "
 	 "cases, resulting in transactions having two sub-categories.  "
 	 "If you choose to continue, Grisbi will "
 	 "remove one of each duplicates and "
-	 "recreate it with a new id.entifier\n\n"
-	 "No transactions will be lost, but in some cases, you "
+	 "recreate it with a new identifier.\n\n"
+	 "No transaction will be lost, but in some cases, you "
 	 "will have to manually move transactions to this new "
 	 "sub-category."),
       gsb_debug_duplicate_categ_check, gsb_debug_duplicate_categ_fix },
@@ -85,6 +86,11 @@ struct gsb_debug_test debug_tests [4] = {
 	 "will have to manually move transactions to this new "
 	 "sub-budgetary line."),
       gsb_debug_duplicate_budget_check, gsb_debug_duplicate_budget_fix },
+
+    { N_("Orphan countra-transactions check"),
+      N_("xxx"),
+      N_("xxx."),
+      gsb_debug_transfer_test, NULL },
 
     { NULL, NULL, NULL, NULL, NULL },
 };
@@ -109,7 +115,7 @@ gboolean gsb_file_debug ( void )
 				    "bug.png" );
 
     text_view = gtk_text_view_new ();
-    gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD);
+    gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD );
     gtk_text_view_set_editable ( GTK_TEXT_VIEW(text_view), FALSE );
     gtk_text_view_set_cursor_visible ( GTK_TEXT_VIEW(text_view), FALSE );
     gtk_text_view_set_left_margin ( GTK_TEXT_VIEW(text_view), 12 );
@@ -335,151 +341,101 @@ gchar * gsb_debug_reconcile_test ( void )
 
 
 
-/* /\******************************************************************************\/ */
-/* /\* contra_transaction_check.                                                  *\/ */
-/* /\* Cette fonction est appelée après la création de toutes les listes.         *\/ */
-/* /\* Elle permet de vérifier la cohérence des virements entre comptes           *\/ */
-/* /\* suite à la découverte du bogue #542                                        *\/ */
-/* /\******************************************************************************\/ */
-/* gboolean contra_transaction_check ( void ) */
-/* { */
-/*   gint affected_accounts = 0; */
-/*   gboolean corrupted_file = FALSE; */
-/*   GSList *pUserAccountsList = NULL; */
-/*   gchar *pHint = NULL, *pText = ""; */
+/******************************************************************************/
+/* contra_transaction_check.                                                  */
+/* Cette fonction est appelée après la création de toutes les listes.         */
+/* Elle permet de vérifier la cohérence des virements entre comptes           */
+/* suite à la découverte du bogue #542                                        */
+/******************************************************************************/
+gchar * gsb_debug_transfer_test ( void )
+{
+  gboolean corrupted_file = FALSE;
+  GSList * pUserAccountsList;
+  gchar * pText = "";
 
-/*   /\* S'il n'y a pas de compte, on quitte *\/ */
-/*   if ( !nb_comptes ) */
-/*     return FALSE; */
-    
-/*   /\* On fera la vérification des comptes dans l'ordre préféré */
-/*      de l'utilisateur. On fait une copie de la liste. *\/ */
-/*   pUserAccountsList = g_slist_copy ( ordre_comptes ); */
+  pUserAccountsList = gsb_data_account_get_list_accounts ();
   
-/*   /\* Pour chacun des comptes, faire *\/ */
-/*   do */
-/*   { */
-/*     gboolean corrupted_account = FALSE; */
-/*     GSList *pTransactionList; */
-/*     gchar *account_name = NULL; */
+  do
+  {
+    gboolean corrupted_account = FALSE;
+    GSList *pTransactionList;
+    gpointer p_account = pUserAccountsList -> data;
+    gint account_nb = gsb_data_account_get_no_account ( p_account );
 
-/*     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data ); */
-      
-/*     /\* On affiche le nom du compte testé. Si le compte n'est pas affecté, */
-/*        on libèrera la mémoire *\/ */
-/*     account_name = g_strdup_printf ("%s", NOM_DU_COMPTE); */
-    
-/*     /\* On récupère la liste des opérations *\/ */
-/*     pTransactionList = LISTE_OPERATIONS; */
+    pTransactionList = gsb_data_transaction_get_transactions_list ();
 
-/*     while ( pTransactionList ) */
-/*     { */
-/*       struct structure_operation *pTransaction; */
+    while ( pTransactionList )
+    {
+	gint transaction, transfer_transaction;
 
-/*       pTransaction = pTransactionList -> data; */
+	transaction = gsb_data_transaction_get_transaction_number ( pTransactionList -> data );
+	transfer_transaction = gsb_data_transaction_get_transaction_number_transfer ( transaction );
 
-/*       /\* Si l'opération est un virement vers un compte non supprimé *\/ */
-/*       if ( pTransaction -> relation_no_operation != 0 && */
-/* 	   pTransaction -> relation_no_compte != -1 ) */
-/*       { */
-/* 	GSList *pList; */
-/* 	gpointer **save_ptab; */
+	/* Si l'opération est un virement vers un compte non supprimé */
+	if ( gsb_data_transaction_get_account_number ( transaction ) == account_nb &&
+	     transfer_transaction &&
+	     gsb_data_transaction_get_account_number_transfer ( transaction ) != -1 )
+	{
+	    
+	    if ( gsb_data_transaction_get_account_number ( transfer_transaction ) !=
+		 gsb_data_transaction_get_account_number_transfer ( transaction ) )
+	    {
+		/* S'il n'y avait pas eu encore d'erreur dans ce compte,
+		   on affiche son nom */
+		if ( !corrupted_account ) {
+		    pText = g_strconcat ( pText,
+					  g_strdup_printf ( "\n<span weight=\"bold\">%s</span>\n",
+							    gsb_data_account_get_name ( account_nb ) ),
+					  NULL );
+		}
+		pText = g_strconcat ( pText,
+				      g_strdup_printf ( _("Transaction #%d is linked to non existent transaction #%d.\n"),
+							transaction, transfer_transaction ),
+				      NULL );
+		corrupted_file = corrupted_account = TRUE;
+	    }
+	    else
+	    {
+		if ( gsb_data_transaction_get_transaction_number_transfer ( transfer_transaction ) != transaction )
+		{
+		    /* S'il n'y avait pas eu encore d'erreur dans ce compte,
+		       on affiche son nom */
+		    if ( !corrupted_account ) {
+			pText = g_strconcat ( pText,
+					      g_strdup_printf ( "\n<span weight=\"bold\">%s</span>\n",
+								gsb_data_account_get_name ( account_nb ) ),
+					      NULL );
+		    }
+		    pText = g_strconcat ( pText,
+					  g_strdup_printf ( _("Transaction #%d is linked to transaction #%d, "
+							      "but the later is linked to transaction #%d.\n"),
+							    transaction,
+							    transfer_transaction,
+							    gsb_data_transaction_get_transaction_number_transfer ( transfer_transaction ) ),
+					  NULL );
+		    corrupted_file = corrupted_account = TRUE;
+		}
+	    }
+	}
 
-/* 	save_ptab = p_tab_nom_de_compte_variable; */
+	pTransactionList = pTransactionList -> next;
+    }
 
-/* 	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + pTransaction -> relation_no_compte; */
+    pUserAccountsList = pUserAccountsList -> next;
 
-/* 	pList = g_slist_find_custom ( LISTE_OPERATIONS, */
-/* 				      GINT_TO_POINTER ( pTransaction -> relation_no_operation ), */
-/* 				      (GCompareFunc) recherche_operation_par_no ) ; */
-	
-/* 	if ( !pList ) */
-/* 	{ */
-/* 	  /\* S'il n'y avait pas eu encore d'erreur dans ce compte, */
-/* 	     on affiche son nom *\/ */
-/* 	  if ( !corrupted_account ) { */
-/* 	    pText = g_strconcat ( pText, */
-/* 				  g_strdup_printf ( "\n<span weight=\"bold\">%s</span>\n", */
-/* 						    account_name),  */
-/* 				  NULL ); */
-/* 	  } */
-/* 	  pText = g_strconcat ( pText, */
-/* 				g_strdup_printf ( _("Transaction #%d should have a contra #%d, " */
-/* 						    "but this one doesn't exist.\n"), */
-/* 						    pTransaction -> no_operation, */
-/* 						    pTransaction -> relation_no_operation), */
-/* 				NULL ); */
-/* 	  corrupted_account = TRUE; */
-/* 	} */
-/* 	else */
-/* 	{ */
-/* 	  struct structure_operation *pContraTransaction; */
-	  
-/* 	  pContraTransaction = pList -> data; */
-	
-/* 	  if ( pTransaction -> relation_no_operation != pContraTransaction -> no_operation || */
-/* 	       pContraTransaction -> relation_no_operation != pTransaction -> no_operation ) */
-/* 	  { */
-/* 	    /\* S'il n'y avait pas eu encore d'erreur dans ce compte, */
-/* 	       on affiche son nom *\/ */
-/* 	    if ( !corrupted_account ) { */
-/* 	      pText = g_strconcat ( pText, */
-/* 				    g_strdup_printf ( "\n<span weight=\"bold\">%s</span>\n", */
-/* 						      account_name),  */
-/* 				    NULL ); */
-/* 	    } */
-/* 	    pText = g_strconcat ( pText, */
-/* 				  g_strdup_printf ( _("Transaction #%d have a contra #%d, " */
-/* 						      "but transaction #%d have a contra #%d " */
-/* 						      "instead of #%d.\n"), */
-/* 						    pTransaction -> no_operation, */
-/* 						    pTransaction -> relation_no_operation, */
-/* 						    pContraTransaction -> no_operation, */
-/* 						    pContraTransaction -> relation_no_operation, */
-/* 						    pTransaction -> no_operation), */
-/* 				  NULL ); */
-/* 	    corrupted_account = TRUE; */
-/* 	  } */
-/* 	} */
-/* 	p_tab_nom_de_compte_variable = save_ptab; */
-/*       } */
-/*       pTransactionList = pTransactionList -> next; */
-/*     } */
-/*     if ( corrupted_account ) { */
-/*       corrupted_file = TRUE; */
-/*       affected_accounts++; */
-/*     } */
-/*     g_free ( account_name ); */
-/*   } */
-/*   while ( ( pUserAccountsList = pUserAccountsList -> next ) ); */
+  }
+  while ( pUserAccountsList );
 
-/*   if ( affected_accounts ) */
-/*   { */
-/*     pText = g_strconcat ( _("Grisbi found transfer transactions where links are inconsistent " */
-/* 			    "among themselves.  Unfortunately, we don't know at the moment " */
-/* 			    "how it has happened.\n" */
-/* 			    "The following accounts are inconsistent:\n"),  */
-/* 			  pText, NULL ); */
+  if ( corrupted_file )
+  {
+      /* Skip both last and first carriage return. */
+      pText [ strlen(pText) - 1 ] = '\0';
+      return pText + 1;
+  }
 
-/*     if ( affected_accounts > 1 ) */
-/*     { */
-/*       pHint = g_strdup_printf ( _("%d accounts have inconsistencies."),  */
-/* 				affected_accounts ); */
-/*     } */
-/*     else */
-/*     { */
-/*       pHint = _("An account has inconsistencies."); */
-/*     } */
+  return NULL;
+}
 
-/*     dialogue_warning_hint ( pText, pHint ); */
-
-/*     g_free ( pText ); */
-/*     g_free ( pHint ); */
-/*   } */
-/*   g_slist_free ( pUserAccountsList ); */
-
-/*   return corrupted_file; */
-/* } */
 
 
 /* /\******************************************************************************\/ */
