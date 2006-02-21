@@ -5,7 +5,7 @@
 /*                                  accueil.c                                 */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -2102,6 +2102,8 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
 
     return FALSE;
 }
+
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

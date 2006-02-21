@@ -39,7 +39,6 @@
 #include "utils_editables.h"
 #include "structures.h"
 #include "include.h"
-#include "fenetre_principale.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

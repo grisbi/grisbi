@@ -60,5 +60,7 @@ gboolean gsb_data_category_set_type ( gint no_category,
 gboolean gsb_data_category_sub_category_remove ( gint no_category,
 						 gint no_sub_category );
 void gsb_data_category_update_counters ( void );
+gchar * gsb_debug_duplicate_categ_check ();
+gboolean gsb_debug_duplicate_categ_fix ();
 /* END_DECLARATION */
 #endif

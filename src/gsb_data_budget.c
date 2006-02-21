@@ -32,10 +32,8 @@
 /*START_INCLUDE*/
 #include "gsb_data_budget.h"
 #include "meta_budgetary.h"
-#include "gsb_data_category.h"
 #include "gsb_data_transaction.h"
 #include "utils_str.h"
-#include "dialog.h"
 #include "include.h"
 /*END_INCLUDE*/
 

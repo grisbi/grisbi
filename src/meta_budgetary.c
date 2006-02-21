@@ -38,9 +38,9 @@
 static gint budgetary_line_add_div ();
 static gint budgetary_line_add_sub_div ( int div_id );
 static gboolean budgetary_line_add_transaction_to_div ( gpointer  trans, 
-							int div_id );
+						 int div_id );
 static gboolean budgetary_line_add_transaction_to_sub_div ( gpointer  trans, 
-							    int div_id, int sub_div_id );
+						     int div_id, int sub_div_id );
 static gdouble budgetary_line_div_balance ( gpointer div );
 static gchar * budgetary_line_div_name ( gpointer div );
 static gint budgetary_line_div_nb_transactions ( gpointer div );

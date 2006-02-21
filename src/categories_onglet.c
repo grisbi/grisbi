@@ -34,6 +34,7 @@
 #include "gsb_file_others.h"
 #include "gsb_form.h"
 #include "navigation.h"
+#include "gsb_form_transaction.h"
 #include "gtk_combofix.h"
 #include "main.h"
 #include "utils_buttons.h"

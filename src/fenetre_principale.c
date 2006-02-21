@@ -56,6 +56,7 @@ static gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 					  GtkNotebookPage *page,
 					  guint page_number,
 					  gpointer null );
+static gboolean gsb_gui_update_show_headings ();
 static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button_event,
 				    GCallback cb );
 /*END_STATIC*/
@@ -67,8 +68,8 @@ extern AB_BANKING *gbanking;
 extern GtkWidget * hpaned;
 extern GtkTreeStore *payee_tree_model;
 extern GtkWidget * scheduler_calendar;
-extern GtkWidget *window;
 extern GtkTooltips *tooltips_general_grisbi;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 
