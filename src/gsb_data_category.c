@@ -23,7 +23,7 @@
 /* ************************************************************************** */
 
 /**
- * \file gsb_category_data.c
+ * \file gsb_data_category.c
  * work with the category structure, no GUI here
  */
 
@@ -589,6 +589,8 @@ gint gsb_data_category_new_sub_category_with_number ( gint number,
 
     category -> sub_category_list = g_slist_append ( category -> sub_category_list,
 						     sub_category );
+
+    sub_category_buffer = sub_category;
 
     return sub_category -> sub_category_number;
 }
@@ -1434,3 +1436,117 @@ gboolean gsb_data_category_merge_category_list ( GSList *list_to_merge )
 }
 
 
+
+/**
+ * Find if two sub categories are the same
+ *
+ * \TODO
+ *
+ */
+gint find_duplicate_categ ( struct_sub_category * a, struct_sub_category * b )
+{
+    if ( a != b && a -> sub_category_number == b -> sub_category_number )
+    {
+	return 0;
+    }
+    return 1;
+}
+
+
+
+/**
+ * \brief Debug check to verify if some sub categories are doubled.
+ * 
+ * This is a bug caused in old version of Grisbi and this check has to
+ * be there since we need to access to the structures directly without
+ * resorting to numeric ids.
+ *
+ * \return	NULL if no error found.  A string describing any issue
+ *		if any.
+ */
+gchar * gsb_debug_duplicate_categ_check ()
+{
+    GSList * tmp;
+    gint num_duplicate = 0;
+    gchar * output = "";
+
+    tmp = category_list;
+    while ( tmp )
+    {
+	struct_category * categ = tmp -> data;
+	GSList * tmp_sous_categ = categ -> sub_category_list;
+
+	while ( tmp_sous_categ )
+	{
+	    GSList * duplicate;
+	    duplicate = g_slist_find_custom ( categ -> sub_category_list,
+					      tmp_sous_categ -> data,
+					      (GCompareFunc) find_duplicate_categ );
+	    /* Second comparison is just there to find only one of them. */
+	    if ( duplicate && duplicate > tmp_sous_categ )
+	    {
+		output = g_strconcat ( output,
+				       g_strdup_printf ( _("In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"),
+							 categ -> category_name,
+							 ((struct_sub_category *) tmp_sous_categ -> data) -> sub_category_name,
+							 ((struct_sub_category *) duplicate -> data) -> sub_category_name ),
+				       NULL );
+		num_duplicate ++;
+	    }
+	    tmp_sous_categ = tmp_sous_categ -> next;
+	}
+	
+	tmp = tmp -> next;
+    }
+
+    if ( num_duplicate )
+    {
+	output [ strlen ( output ) - 1 ] = '\0';
+	return output;
+    }
+    
+    return NULL;
+}
+
+
+
+/**
+ * Fix any xxx \TODO
+ *
+ *
+ */
+gboolean gsb_debug_duplicate_categ_fix ()
+{
+    GSList * tmp;
+
+    tmp = category_list;
+    while ( tmp )
+    {
+	struct_category * categ = tmp -> data;
+	GSList * tmp_sous_categ = categ -> sub_category_list;
+
+	while ( tmp_sous_categ )
+	{
+	    GSList * duplicate;
+	    duplicate = g_slist_find_custom ( categ -> sub_category_list,
+					      tmp_sous_categ -> data,
+					      (GCompareFunc) find_duplicate_categ );
+	    if ( duplicate )
+	    {
+		struct_sub_category * duplicate_categ = duplicate -> data;
+
+		duplicate_categ -> sub_category_number = gsb_data_category_max_sub_category_number ( categ -> category_number ) + 1;
+	    }
+	    tmp_sous_categ = tmp_sous_categ -> next;
+	}
+	
+	tmp = tmp -> next;
+    }
+
+    return TRUE;
+}
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
