@@ -559,6 +559,7 @@ gint gsb_data_budget_new_sub_budget ( gint budget_number,
 	gsb_data_budget_set_sub_budget_name ( budget_number,
 					      sub_budget_number,
 					      name );
+
     return sub_budget_number;
 }
 
@@ -590,6 +591,8 @@ gint gsb_data_budget_new_sub_budget_with_number ( gint number,
 
     budget -> sub_budget_list = g_slist_append ( budget -> sub_budget_list,
 						 sub_budget );
+
+    sub_budget_buffer = sub_budget;
 
     return sub_budget -> sub_budget_number;
 }
@@ -1368,6 +1371,119 @@ gboolean gsb_data_budget_merge_budget_list ( GSList *list_to_merge )
 	    list_tmp = list_tmp -> next;
 	}
     }
+    return TRUE;
+}
+
+
+
+/**
+ * Find if two sub budgets are the same
+ *
+ * \param a		First sub-budget to compare.
+ * \param b		Second sub-budget to compare.	
+ *
+ * \return		Same as a <=> b.
+ */
+gint gsb_data_sub_budget_compare ( struct_sub_budget * a, struct_sub_budget * b )
+{
+    if ( a != b && a -> sub_budget_number == b -> sub_budget_number )
+    {
+	return 0;
+    }
+    return 1;
+}
+
+
+
+/**
+ * \brief Debug check to verify if some sub budgets are doubled.
+ * 
+ * This is a bug caused in old version of Grisbi and this check has to
+ * be there since we need to access to the structures directly without
+ * resorting to numeric ids.
+ *
+ * \return	NULL if no error found.  A string describing any issue
+ *		if any.
+ */
+gchar * gsb_debug_duplicate_budget_check ()
+{
+    GSList * tmp;
+    gint num_duplicate = 0;
+    gchar * output = "";
+
+    tmp = budget_list;
+    while ( tmp )
+    {
+	struct_budget * budget = tmp -> data;
+	GSList * tmp_sous_budget = budget -> sub_budget_list;
+
+	while ( tmp_sous_budget )
+	{
+	    GSList * duplicate;
+	    duplicate = g_slist_find_custom ( budget -> sub_budget_list,
+					      tmp_sous_budget -> data,
+					      (GCompareFunc) gsb_data_sub_budget_compare );
+	    /* Second comparison is just there to find only one of them. */
+	    if ( duplicate && duplicate > tmp_sous_budget )
+	    {
+		output = g_strconcat ( output,
+				       g_strdup_printf ( _("In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"),
+							 budget -> budget_name,
+							 ((struct_sub_budget *) tmp_sous_budget -> data) -> sub_budget_name,
+							 ((struct_sub_budget *) duplicate -> data) -> sub_budget_name ),
+				       NULL );
+		num_duplicate ++;
+	    }
+	    tmp_sous_budget = tmp_sous_budget -> next;
+	}
+	
+	tmp = tmp -> next;
+    }
+
+    if ( num_duplicate )
+    {
+	output [ strlen ( output ) - 1 ] = '\0';
+	return output;
+    }
+    
+    return NULL;
+}
+
+
+
+/**
+ * Fix any duplicate in sub budgets.  
+ *
+ * \return	TRUE on success.  FALSE otherwise.
+ */
+gboolean gsb_debug_duplicate_budget_fix ()
+{
+    GSList * tmp;
+
+    tmp = budget_list;
+    while ( tmp )
+    {
+	struct_budget * budget = tmp -> data;
+	GSList * tmp_sous_budget = budget -> sub_budget_list;
+
+	while ( tmp_sous_budget )
+	{
+	    GSList * duplicate;
+	    duplicate = g_slist_find_custom ( budget -> sub_budget_list,
+					      tmp_sous_budget -> data,
+					      (GCompareFunc) gsb_data_sub_budget_compare );
+	    if ( duplicate )
+	    {
+		struct_sub_budget * duplicate_budget = duplicate -> data;
+
+		duplicate_budget -> sub_budget_number = gsb_data_budget_max_sub_budget_number ( budget -> budget_number ) + 1;
+	    }
+	    tmp_sous_budget = tmp_sous_budget -> next;
+	}
+	
+	tmp = tmp -> next;
+    }
+
     return TRUE;
 }
 

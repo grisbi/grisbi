@@ -33,6 +33,7 @@
 #include "structures.h"
 #include "gsb_assistant.h"
 #include "gsb_data_category.h"
+#include "gsb_data_budget.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -59,7 +60,7 @@ struct gsb_debug_test debug_tests [4] = {
 	 "manually unreconcile some transferts in inconsistent accounts."), 
       gsb_debug_reconcile_test, NULL },
 
-    { N_("Duplicate categories check"),
+    { N_("Duplicate sub-categories check"),
       N_("xxx"),
       N_("Due to a bug in previous versions of Grisbi, "
 	 "sub-categories may share the same numeric id in some "
@@ -71,6 +72,19 @@ struct gsb_debug_test debug_tests [4] = {
 	 "will have to manually move transactions to this new "
 	 "sub-category."),
       gsb_debug_duplicate_categ_check, gsb_debug_duplicate_categ_fix },
+
+    { N_("Duplicate sub-budgetary lines check"),
+      N_("xxx"),
+      N_("Due to a bug in previous versions of Grisbi, "
+	 "sub-budgetary lines may share the same numeric id in some "
+	 "cases, resulting in transactions having two sub-budgetary lines.  "
+	 "If you choose to continue, Grisbi will "
+	 "remove one of each duplicates and "
+	 "recreate it with a new id.entifier\n\n"
+	 "No transactions will be lost, but in some cases, you "
+	 "will have to manually move transactions to this new "
+	 "sub-budgetary line."),
+      gsb_debug_duplicate_budget_check, gsb_debug_duplicate_budget_fix },
 
     { NULL, NULL, NULL, NULL, NULL },
 };
