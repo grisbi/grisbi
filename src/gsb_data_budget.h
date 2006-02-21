@@ -57,5 +57,7 @@ gboolean gsb_data_budget_set_type ( gint no_budget,
 gboolean gsb_data_budget_sub_budget_remove ( gint no_budget,
 					     gint no_sub_budget );
 void gsb_data_budget_update_counters ( void );
+gchar * gsb_debug_duplicate_budget_check ();
+gboolean gsb_debug_duplicate_budget_fix ();
 /* END_DECLARATION */
 #endif
