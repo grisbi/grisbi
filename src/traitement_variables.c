@@ -202,24 +202,20 @@ void init_variables ( void )
 
     crypt_key = NULL;
 
-    /* init the combofix */
-    etat.combofix_mixed_sort = 0;
-    etat.combofix_max_item = 0;
-    etat.combofix_case_sensitive = 0;
-    etat.combofix_enter_select_completion = 0;
-    etat.combofix_force_payee = 0;
-    etat.combofix_force_category = 0;
+    /* init the etat structure,
+     * after that, just what is needed to set different than 0
+     * will be set  */
 
-    
+    memset ( &etat, 0, sizeof (etat));
+	
+    etat.force_enregistrement = 1;
+    etat.utilise_logo = 1;
+
     mise_a_jour_liste_comptes_accueil = 0;
     mise_a_jour_liste_echeances_manuelles_accueil = 0;
     mise_a_jour_liste_echeances_auto_accueil = 0;
     mise_a_jour_soldes_minimaux = 0;
     mise_a_jour_fin_comptes_passifs = 0;
-
-    etat.force_enregistrement = 1;
-    etat.modification_fichier = 0;
-    etat.utilise_logo = 1;
 
     nom_fichier_comptes = NULL;
 
@@ -259,7 +255,6 @@ void init_variables ( void )
 
     initialise_tab_affichage_ope();
 
-    etat.fichier_deja_ouvert = 0;
     valeur_echelle_recherche_date_import = 2;
 
     tooltips_general_grisbi = NULL;
@@ -284,10 +279,6 @@ void init_variables ( void )
 
     for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
 	scheduler_col_width[i] = scheduler_col_width_init[i];
-
-    /* by default, we don't fill the transactions list with the R transactions */
-    etat.fill_r_at_begining = 0;
-    etat.fill_r_done = 0;
 }
 /*****************************************************************************************************/
 

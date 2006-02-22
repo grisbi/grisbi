@@ -78,6 +78,7 @@ static gboolean gsb_form_key_press_event ( GtkWidget *widget,
 static void gsb_form_set_entry_is_empty ( GtkWidget *entry,
 				   gboolean empty );
 static void gsb_form_set_focus ( gint element_number );
+static void gsb_form_check_auto_separator ( GtkWidget *entry );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -1336,7 +1337,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 						  TRUE );
 		}
 		widget = gsb_form_get_element_widget ( TRANSACTION_FORM_TYPE,
-							 account_number );
+						       account_number );
 
 		/* change the signe of the method of payment and the contra */
 		if ( gsb_payment_method_get_combo_sign (widget) == GSB_PAYMENT_CREDIT)
@@ -1354,10 +1355,11 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 							     account_number );
 		    if ( GTK_WIDGET_VISIBLE (widget))
 			gsb_payment_method_create_combo_list ( gsb_form_get_element_widget ( TRANSACTION_FORM_CONTRA,
-											       account_number ),
+											     account_number ),
 							       GSB_PAYMENT_CREDIT,
 							       account_number );
 		}
+		gsb_form_check_auto_separator (entry);
 	    }
 	    else
 		string = gsb_form_get_element_name (TRANSACTION_FORM_DEBIT);
@@ -1379,7 +1381,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 						  TRUE );
 		}
 		widget = gsb_form_get_element_widget ( TRANSACTION_FORM_TYPE,
-							 account_number );
+						       account_number );
 
 		/* change the signe of the method of payment and the contra */
 		if ( gsb_payment_method_get_combo_sign (widget) == GSB_PAYMENT_DEBIT)
@@ -1400,6 +1402,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 							       GSB_PAYMENT_DEBIT,
 							       account_number );
 		}
+		gsb_form_check_auto_separator (entry);
 	    }
 	    else
 		string = gsb_form_get_element_name (TRANSACTION_FORM_CREDIT);
@@ -1506,6 +1509,81 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
     }
     return FALSE;
 }
+
+
+/**
+ * called when leave an amount entry, il the automatic separator
+ * is on, set the separator in the entry if there is none
+ *
+ * \param entry
+ *
+ * \return
+ * */
+void gsb_form_check_auto_separator ( GtkWidget *entry )
+{
+    gint account_number;
+    gchar *string;
+    gint floating_point;
+    gchar *tmp = NULL;
+    gint i;
+
+    if (!etat.automatic_separator
+	||
+	!entry )
+	return;
+    
+    /* we need a g_strdup to permit to do the g_free later
+     * because if strlen < floating point we need to
+     * malloc another string */
+    string = g_strdup (gtk_entry_get_text (GTK_ENTRY(entry)));
+
+    account_number = gsb_form_get_account_number ();
+    floating_point = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (account_number));
+
+    if ( index (string, '.')
+	 ||
+	 index (string, ','))
+    {
+	g_free (string);
+	return;
+    }
+
+    /* if string is < the floating_point, increase it to have
+     * 1 character more (to set the 0 before the .) */
+    if (strlen(string) <= floating_point)
+    {
+	gchar *concat_tmp;
+
+	tmp = g_malloc (floating_point - strlen(string) + 2);
+	for (i=0 ; i<(floating_point - strlen(string) + 1) ; i++)
+	    tmp[i] = '0';
+	tmp[floating_point - strlen(string) + 1] = 0;
+	concat_tmp = g_strconcat ( tmp,
+				   string,
+				   NULL );
+	g_free (tmp);
+	g_free (string);
+	string = concat_tmp;
+    }
+
+    tmp = g_malloc ((strlen(string)+2) * sizeof (gchar));
+
+    memcpy ( tmp, string, strlen(string) - floating_point);
+
+    i = strlen(string) - floating_point;
+    tmp[i] = '.';
+    i++;
+    memcpy ( tmp + i,
+	     string + i - 1,
+	     floating_point );
+    i = i + floating_point;
+    tmp[i] = 0;
+    gtk_entry_set_text (GTK_ENTRY (entry),
+			tmp );
+    g_free (tmp);
+    g_free (string);
+}
+
 
 /**
  * check if the string in the param is like "Transfer : account"

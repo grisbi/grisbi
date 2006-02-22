@@ -106,6 +106,7 @@ struct {
     gboolean show_headings_bar;	/** Show headings bar or not. */
     gboolean show_closed_accounts;
 
+    gboolean automatic_separator; /* TRUE if do automatic separator */
     /* Various display message stuff  */
     gint display_message_lock_active;
     gint display_message_file_readable;

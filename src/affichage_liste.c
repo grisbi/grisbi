@@ -466,6 +466,16 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 						  ((GCallback) NULL )),
 			 FALSE, FALSE, 0 );
 
+    /* automatic amount separatior fields */
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
+					    COLON(_("Automatic amount separator")));
+
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+			 new_checkbox_with_title (_("Set automatically the separator in amounts field"),
+						  &etat.automatic_separator,
+						  ((GCallback) NULL )),
+			 FALSE, FALSE, 0 );
+
     /* set the combofix configuration */
 
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
