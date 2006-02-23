@@ -1963,9 +1963,9 @@ gboolean gsb_scheduler_get_category_for_transaction_from_form ( gint transaction
 		{
 		    /* it's a transfert */
 
-		    gsb_form_validate_transfer ( transaction_number,
-						 1,
-						 tab_char[1] );
+/* 		    gsb_form_validate_transfer ( transaction_number, */
+/* 						 1, */
+/* 						 tab_char[1] ); */
 		}
 		else
 		{
@@ -2130,7 +2130,7 @@ gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint tran
 
 	    contra_transaction_number = gsb_form_validate_transfer ( transaction_number,
 								     TRUE,
-								     gsb_data_account_get_name (gsb_data_scheduled_get_account_number_transfer (scheduled_number)));
+								     gsb_data_scheduled_get_account_number_transfer (scheduled_number));
 	    gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
 								gsb_data_scheduled_get_contra_method_of_payment_number (scheduled_number));
 	}

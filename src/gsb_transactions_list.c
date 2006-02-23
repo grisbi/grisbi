@@ -191,7 +191,6 @@ extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget *notebook_general;
 extern PangoFontDescription *pango_desc_fonte_liste;
 extern GtkTreeSelection * selection;
-extern GtkStyle *style_entree_formulaire[2];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkWidget *tree_view;
 extern GtkWidget *window;
@@ -2339,6 +2338,8 @@ gint find_p_r_line ()
  * Called to edit a transaction, put it in the form unsensitive some
  * form part if necessary (for breakdowns for example)
  * 
+ * \param
+ *
  * \return FALSE
  * */
 gboolean gsb_transactions_list_edit_current_transaction ( void )
@@ -2357,27 +2358,25 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
     gsb_form_show (TRUE);
 
     /* if the transaction is the white line, we set the date and go away */
-
     if ( transaction_number == -1 )
     {
-	GtkWidget *entree_date;
+	GtkWidget *date_entry;
 
-	entree_date = gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
-						   account_number);
+	date_entry = gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
+						  account_number);
 
-	if ( gtk_widget_get_style ( entree_date ) == style_entree_formulaire[ENGRIS] )
-	    gsb_form_button_press_event ( entree_date,
+	if ( gsb_form_check_entry_is_empty (date_entry))
+	    gsb_form_button_press_event ( date_entry,
 					  NULL,
 					  GINT_TO_POINTER ( TRANSACTION_FORM_DATE ) );
 
-	gtk_entry_select_region ( GTK_ENTRY ( entree_date ), 0, -1);
-	gtk_widget_grab_focus ( GTK_WIDGET ( entree_date ) );
+	gtk_entry_select_region ( GTK_ENTRY (date_entry), 0, -1);
+	gtk_widget_grab_focus ( GTK_WIDGET (date_entry));
 	return FALSE;
     }
 
     /* if the transaction is a breakdown, we unsensitive the date and party
      * and we do as if it was a modification of transaction */
-
     if ( gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
 	gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
@@ -2389,14 +2388,13 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
     }
 
 
-    /*   l'opé n'est pas -1, c'est une modif, on remplit les champs */
-
+    /* set the number of the transaction in the form, can be -2
+     * for white line breakdown */
     gtk_object_set_data ( GTK_OBJECT ( formulaire ),
 			  "transaction_number_in_form",
 			  GINT_TO_POINTER (transaction_number));
 
-    /*     on fait le tour du formulaire en ne remplissant que ce qui est nécessaire */
-
+    /* fill what is necessary in the form */
     for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) ; row++ )
 	for ( column=0 ; column <  gsb_data_form_get_nb_columns (account_number) ; column++ )
 	{
@@ -3284,7 +3282,7 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number )
     if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number))
 	gsb_form_validate_transfer ( new_transaction_number,
 				     1,
-				     gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer (transaction_number)) );
+				     gsb_data_transaction_get_account_number_transfer (transaction_number));
 
     gsb_transactions_list_append_new_transaction (new_transaction_number);
 

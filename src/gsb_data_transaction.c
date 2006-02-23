@@ -1523,12 +1523,15 @@ gboolean gsb_data_transaction_set_mother_transaction_number ( gint transaction_n
 
 
 
-/** create a new transaction and append it to the list in the right account
+/**
+ * create a new transaction and append it to the list in the right account
  * set the transaction number given in param (if no number, give the last number + 1)
  * set the number of the account, the number of the transaction and the currency number
  * which is by default the currency of the account
+ * 
  * \param no_account the number of the account where the transaction should be made
  * \param transaction_number the number of the transaction
+ * 
  * \return the number of the new transaction
  * */
 gint gsb_data_transaction_new_transaction_with_number ( gint no_account,
@@ -1563,9 +1566,12 @@ gint gsb_data_transaction_new_transaction_with_number ( gint no_account,
 }
 
 
-/** create a new transaction with gsb_data_transaction_new_transaction_with_number
+/**
+ * create a new transaction with gsb_data_transaction_new_transaction_with_number
  * but set automatickly the last number
+ * 
  * \param no_account the number of the account where the transaction should be made
+ * 
  * \return the number of the new transaction
  * */
 gint gsb_data_transaction_new_transaction ( gint no_account )
@@ -1626,12 +1632,15 @@ gint gsb_data_transaction_new_white_line ( gint mother_transaction_number)
 
 
 
-/** copy the content of a transaction into the second one
+/**
+ * copy the content of a transaction into the second one
  * the 2 transactions must exist before
  * only the account_number and the transaction_number will be saved in the target transaction
  * all the char are dupplicated, and transaction_id is set to NULL
+ * 
  * \param source_transaction_number the transaction we want to copy
  * \param target_transaction_number the trnasaction we want to fill with the content of the first one
+ * 
  * \return TRUE if ok, FALSE else
  * */
 gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
@@ -1703,3 +1712,39 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
     g_free (transaction);
     return TRUE;
 }
+
+/**
+ * find a transaction by the method of payment content in a given account
+ *
+ * \param string
+ * \param account_number
+ *
+ * \return the number of the transaction or 0 if not found
+ * */
+gint gsb_data_transaction_find_by_payment_content ( const gchar *string,
+						    gint account_number )
+{
+    GSList *tmp_list;
+
+    if (!string)
+	return 0;
+
+    tmp_list = transactions_list;
+    while (tmp_list)
+    {
+	struct_transaction *transaction;
+
+	transaction = tmp_list -> data;
+
+	if ( transaction -> method_of_payment_content
+	     &&
+	     transaction -> account_number == account_number
+	     &&
+	     !strcmp ( string,
+		       transaction -> method_of_payment_content ))
+	    return transaction -> transaction_number;
+	tmp_list = tmp_list -> next;
+    }
+    return 0;
+}
+

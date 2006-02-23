@@ -354,7 +354,7 @@ gchar *gsb_data_payee_get_name ( gint no_payee,
 	if (can_return_null)
 	    return NULL;
 	else
-	    return (  my_strdup (_("No payee defined")));
+	    return ( _("No payee defined"));
     }
 
     return payee -> payee_name;

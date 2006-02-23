@@ -40,6 +40,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
 #include "utils_dates.h"
@@ -62,6 +63,7 @@ static gboolean gsb_form_activate_expander ( GtkWidget *expander,
 static gboolean gsb_form_allocate_size ( GtkWidget *table,
 				  GtkAllocation *allocation,
 				  gpointer null );
+static void gsb_form_check_auto_separator ( GtkWidget *entry );
 static GtkWidget *gsb_form_create_element_from_number ( gint element_number,
 						 gint account_number );
 static gboolean gsb_form_element_can_receive_focus ( gint element_number,
@@ -78,7 +80,6 @@ static gboolean gsb_form_key_press_event ( GtkWidget *widget,
 static void gsb_form_set_entry_is_empty ( GtkWidget *entry,
 				   gboolean empty );
 static void gsb_form_set_focus ( gint element_number );
-static void gsb_form_check_auto_separator ( GtkWidget *entry );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -1593,7 +1594,10 @@ void gsb_form_check_auto_separator ( GtkWidget *entry )
  *
  * \param entry_string
  *
- * \return the number of the transfer_account, -1 if not a transfer or account doesn't exist or -2 if deleted account
+ * \return the number of the transfer_account
+ * 		-1 if transfer to a non existant account
+ * 		-2 if deleted account
+ * 		-3 if not a transfer
  * */
 gint gsb_form_check_for_transfer ( const gchar *entry_string )
 {
@@ -1604,7 +1608,7 @@ gint gsb_form_check_for_transfer ( const gchar *entry_string )
 	 strncmp ( entry_string,
 		   _("Transfer : "),
 		   strlen (_("Transfer : "))))
-	 return -2;
+	 return -3;
 
     account_name = memchr ( entry_string,
 			    ':',
@@ -1617,7 +1621,7 @@ gint gsb_form_check_for_transfer ( const gchar *entry_string )
 	return gsb_data_account_get_no_account_by_name (account_name);
 
     else
-	return -1;
+	return -2;
 }
 
 

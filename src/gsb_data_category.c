@@ -599,6 +599,49 @@ gint gsb_data_category_new_sub_category_with_number ( gint number,
 }
 
 
+/**
+ * get a string like 'category : sub-category', a transaction number
+ * and fill the transaction with the category and sub-category
+ * if the category or sub-category doesn't exist, create them
+ *
+ * \param transaction_number
+ * \param string
+ *
+ * \return TRUE ok, FALSE if fail
+ * */
+gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
+							const gchar *string )
+{
+    gchar **tab_char;
+    gint category_number = 0;
+    
+    if (!string
+	||
+	!strlen (string))
+	return FALSE;
+
+    tab_char = g_strsplit ( string,
+			    " : ",
+			    2 );
+    if (tab_char[0])
+    {
+	category_number = gsb_data_category_get_number_by_name ( tab_char[0],
+								 TRUE,
+								 gsb_data_transaction_get_amount (transaction_number).mantissa <0 );
+	gsb_data_transaction_set_category_number ( transaction_number,
+						   category_number );
+    }
+
+    if (tab_char[1]
+	&&
+	category_number)
+	gsb_data_transaction_set_sub_category_number ( transaction_number,
+						       gsb_data_category_get_sub_category_number_by_name ( category_number,
+													   tab_char[1],
+													   TRUE ));
+    g_strfreev (tab_char);
+    return TRUE;
+}
 
 /**
  * return the number of the category wich has the name in param

@@ -56,7 +56,7 @@ extern gint max;
  * \param sign GSB_PAYMENT_DEBIT or GSB_PAYMENT_CREDIT
  * \param account_number
  *
- * \return FALSE if problem, TRUE if ok
+ * \return FALSE if fail, TRUE if ok
  * */
 gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
 						gint sign,
@@ -277,6 +277,42 @@ gint gsb_payment_method_get_payment_location ( GtkWidget *combo_box,
     return payment_location;
 }
 
+
+/**
+ * set the given payment number in the combobox
+ * if not found, set the default payment number for that account
+ *
+ * \param combo_box
+ * \param payment_number
+ * \param account_number
+ *
+ * \return TRUE if we can set the payment_number, FALSE if it's the default wich is set
+ * */
+gboolean gsb_payment_method_set_combobox_history ( GtkWidget *combo_box,
+						   gint payment_number,
+						   gint account_number )
+{
+    gint location;
+    gboolean return_value;
+
+    location = gsb_payment_method_get_payment_location ( combo_box,
+							 payment_number );
+    if (location)
+	return_value = TRUE;
+    else
+    {
+	if ( gsb_payment_method_get_combo_sign (combo_box) == GSB_PAYMENT_CREDIT)
+	    location = gsb_payment_method_get_payment_location ( combo_box,
+								 gsb_data_account_get_default_credit (account_number));
+	else
+	    location = gsb_payment_method_get_payment_location ( combo_box,
+								 gsb_data_account_get_default_debit (account_number));
+	return_value= FALSE;
+    }
+    gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_box),
+			       location );
+    return return_value;
+}
 
 
 /**

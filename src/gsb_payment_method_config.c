@@ -41,7 +41,6 @@
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
-#include "gsb_form_transaction.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -574,20 +573,23 @@ void modification_entree_nom_type ( void )
 	    widget = gsb_form_get_element_widget (TRANSACTION_FORM_TYPE,
 						  account_number);
 
-	    gsb_payment_method_create_combo_list ( widget,
-						   GSB_PAYMENT_DEBIT,
-						   account_number);
+	    if (widget)
+	    {
+		gsb_payment_method_create_combo_list ( widget,
+						       GSB_PAYMENT_DEBIT,
+						       account_number);
 
-	    if (GTK_WIDGET_VISIBLE (widget))
-	    {
-		place_type_formulaire ( gsb_data_account_get_default_debit (account_number),
-					TRANSACTION_FORM_TYPE,
-					NULL );
-	    }
-	    else
-	    {
-		gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
-							       account_number));
+		if (GTK_WIDGET_VISIBLE (widget))
+		{
+		    gsb_payment_method_set_combobox_history ( widget,
+							      gsb_data_account_get_default_debit (account_number),
+							      account_number );
+		}
+		else
+		{
+		    gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+								   account_number));
+		}
 	    }
 	}
     }

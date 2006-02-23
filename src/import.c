@@ -1557,8 +1557,8 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 		 &&
 		 imported_transaction -> cheque
 		 &&
-		 operation_par_cheque ( imported_transaction -> cheque,
-					account_number ))
+		 gsb_data_transaction_find_by_payment_content ( utils_str_itoa (imported_transaction -> cheque),
+								account_number ))
 		/* 	comme on est sûr que cette opé a déjà été enregistree, on met l'action à 2, cad on demande l'avis de personne pour */
 		/*  pas l'enregistrer */
 		imported_transaction -> action = 2;

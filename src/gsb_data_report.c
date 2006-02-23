@@ -216,7 +216,7 @@ GSList *gsb_data_report_get_report_list ( void )
  * */
 static struct_report *gsb_data_report_get_report_by_no ( gint report_number )
 {
-    GSList *reports_list_tmp;
+    GSList *tmp_list;
 
     /* check first if the report is in the buffer */
 
@@ -225,13 +225,13 @@ static struct_report *gsb_data_report_get_report_by_no ( gint report_number )
 	 report_buffer -> report_number == report_number )
 	return report_buffer;
 
-    reports_list_tmp = report_list;
+    tmp_list = report_list;
 
-    while ( reports_list_tmp )
+    while ( tmp_list )
     {
 	struct_report *report;
 
-	report = reports_list_tmp -> data;
+	report = tmp_list -> data;
 
 	if ( report -> report_number == report_number )
 	{
@@ -239,7 +239,7 @@ static struct_report *gsb_data_report_get_report_by_no ( gint report_number )
 	    return report;
 	}
 
-	reports_list_tmp = reports_list_tmp -> next;
+	tmp_list = tmp_list -> next;
     }
 
     /* here, we didn't find any report with that number */
@@ -258,7 +258,7 @@ static struct_report *gsb_data_report_get_report_by_no ( gint report_number )
  * */
 gpointer gsb_data_report_get_pointer_to_report ( gint report_number )
 {
-    GSList *reports_list_tmp;
+    GSList *tmp_list;
 
     /* check first if the report is in the buffer */
 
@@ -267,13 +267,13 @@ gpointer gsb_data_report_get_pointer_to_report ( gint report_number )
 	 report_buffer -> report_number == report_number )
 	return report_buffer;
 
-    reports_list_tmp = report_list;
+    tmp_list = report_list;
 
-    while ( reports_list_tmp )
+    while ( tmp_list )
     {
 	struct_report *report;
 
-	report = reports_list_tmp -> data;
+	report = tmp_list -> data;
 
 	if ( report -> report_number == report_number )
 	{
@@ -281,7 +281,7 @@ gpointer gsb_data_report_get_pointer_to_report ( gint report_number )
 	    return report;
 	}
 
-	reports_list_tmp = reports_list_tmp -> next;
+	tmp_list = tmp_list -> next;
     }
 
     /* here, we didn't find any report with that number */
@@ -452,6 +452,49 @@ gboolean gsb_data_report_remove ( gint no_report )
      g_free (report);
 
     return TRUE;
+}
+
+
+/**
+ * return the number of the report found by its name
+ * that report is stored in the buffer
+ * 
+ * \param name
+ * 
+ * \return the number of the report or 0 if not found
+ * */
+gint gsb_data_report_get_report_by_name ( const gchar *name )
+{
+    GSList *tmp_list;
+
+    if (!name)
+	return 0;
+
+    /* check first if the report is in the buffer */
+    if ( report_buffer
+	 &&
+	 !strcmp ( report_buffer -> report_name,
+		   name ))
+	return report_buffer -> report_number;
+
+    tmp_list = report_list;
+
+    while ( tmp_list )
+    {
+	struct_report *report;
+
+	report = tmp_list -> data;
+
+	if ( !strcmp ( report -> report_name,
+		       name ))
+	{
+	    report_buffer = report;
+	    return report -> report_number;
+	}
+	tmp_list = tmp_list -> next;
+    }
+    /* here, we didn't find any report with that name */
+    return 0;
 }
 
 

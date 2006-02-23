@@ -31,11 +31,11 @@
 #include "gsb_data_transaction.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_real.h"
 #include "gsb_status.h"
 #include "include.h"
 #include "structures.h"
 #include "gsb_file_debug.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -44,14 +44,11 @@ static void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
 static gboolean gsb_debug_enter_test_page ( GtkWidget * assistant );
 static gchar * gsb_debug_reconcile_test ( void );
 static gchar * gsb_debug_transfer_test ( void );
-static gboolean gsb_debug_enter_test_page ( GtkWidget * assistant );
-static void gsb_debug_add_report_page ( GtkWidget * assistant, gint page, 
-					struct gsb_debug_test * test, gchar * summary );
 static gboolean gsb_debug_try_fix ( gboolean (* fix) () );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-gsb_real null_real;
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 

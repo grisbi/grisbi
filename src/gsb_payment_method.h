@@ -40,5 +40,8 @@ gint gsb_payment_method_get_payment_location ( GtkWidget *combo_box,
 gint gsb_payment_method_get_selected_number ( GtkWidget *combo_box );
 gboolean gsb_payment_method_get_show_entry ( gint payment_number,
 					     gint account_number );
+gboolean gsb_payment_method_set_combobox_history ( GtkWidget *combo_box,
+						   gint payment_number,
+						   gint account_number );
 /* END_DECLARATION */
 #endif

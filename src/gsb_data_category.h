@@ -10,6 +10,8 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
 						     gint category_id,
 						     gint sub_category_id );
 void gsb_data_category_create_default_category_list ( void );
+gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
+							const gchar *string );
 gsb_real gsb_data_category_get_balance ( gint no_category );
 GSList *gsb_data_category_get_categories_list ( void );
 gsb_real gsb_data_category_get_direct_balance ( gint no_category );

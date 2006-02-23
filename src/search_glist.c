@@ -116,21 +116,6 @@ gint recherche_exercice_par_no ( struct struct_exercice *exercice,
 
 
 
-/******************************************************************************/
-/* Fonction recherche_operation_par_cheque					      */
-/* appelée par un slist_find_custom					      */
-/* recherche une opé par son numéro de cheque dans la liste des opérations	      */
-/******************************************************************************/
-gint recherche_operation_par_cheque ( gpointer operation,
-				      gint *no_chq )
-{
-  if ( gsb_data_transaction_get_method_of_payment_content ( gsb_data_transaction_get_transaction_number (operation )))
-    return ( ! ( utils_str_atoi (gsb_data_transaction_get_method_of_payment_content ( gsb_data_transaction_get_transaction_number (operation ))) == GPOINTER_TO_INT ( no_chq ) ));
-  return -1;
-}
-/******************************************************************************/
-
-
 
 
 

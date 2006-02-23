@@ -17,11 +17,8 @@ void gsb_form_transaction_fill_form ( gint element_number,
 				      gint transaction_number );
 gint gsb_form_validate_transfer ( gint transaction_number,
 				  gint new_transaction,
-				  gchar *name_transfer_account );
+				  gint account_transfer );
 gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_update_transaction ( gint transaction_number );
-void place_type_formulaire ( gint no_type,
-			     gint no_option_menu,
-			     gchar *contenu );
 /* END_DECLARATION */
 #endif

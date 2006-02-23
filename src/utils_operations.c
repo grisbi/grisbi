@@ -53,31 +53,6 @@ extern GtkTreeStore *payee_tree_model;
 /*END_EXTERN*/
 
 
-
-
-
-/*****************************************************************************************************/
-/* renvoie l'adr de l'opÃ© demandÃ©e par son no de cheque */
-/* ou NULL si pas trouvÃ©e */
-/*****************************************************************************************************/
-gpointer operation_par_cheque ( gint no_cheque,
-				gint no_compte )
-{
-    GSList *liste_tmp;
-
-    liste_tmp = g_slist_find_custom ( gsb_data_transaction_get_transactions_list (),
-				      GINT_TO_POINTER ( no_cheque ),
-				      (GCompareFunc) recherche_operation_par_cheque );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
-
-    return NULL;
-}
-/*****************************************************************************************************/
-
-
-
 /*****************************************************************************************************/
 /* renvoie l'adr de l'opÃ© demandÃ©e par son no id*/
 /* ou NULL si pas trouvÃ©e */

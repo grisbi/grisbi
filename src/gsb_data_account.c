@@ -1105,6 +1105,8 @@ gboolean gsb_data_account_set_column_sort ( gint account_number,
  *
  * \return the number of the transaction or 0 if problem
  * */
+/* FIXME : devrait virer pour une fonction dans gsb_transactions_list qui
+ * prend le no de la selection en cours */
 gint gsb_data_account_get_current_transaction_number ( gint account_number )
 {
     struct_account *account;
