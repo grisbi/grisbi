@@ -92,7 +92,10 @@ struct gsb_debug_test debug_tests [5] = {
 
     { N_("Orphan countra-transactions check"),
       N_("xxx"),
-      N_("xxx."),
+      N_("In some rare cases, transfers are incorrectly linked to contra-transactions.  "
+	 "This might be because of bugs or because of imports that failed.\n"
+	 "To fix this, you will have to manually edit your .gsb file "
+	 "(with a text editor) and fix transactions using their numeric ID."),
       gsb_debug_transfer_test, NULL },
 
     { NULL, NULL, NULL, NULL, NULL },
@@ -108,6 +111,7 @@ struct gsb_debug_test debug_tests [5] = {
 gboolean gsb_file_debug ( void )
 {
     GtkWidget * assistant, * text_view;
+    GtkTextBuffer * text_buffer;
 
     gsb_status_message ( _("Checking file for possible corruption...") );
 
@@ -124,7 +128,11 @@ gboolean gsb_file_debug ( void )
     gtk_text_view_set_left_margin ( GTK_TEXT_VIEW(text_view), 12 );
     gtk_text_view_set_right_margin ( GTK_TEXT_VIEW(text_view), 12 );
 
-    g_object_set_data ( G_OBJECT(assistant), "text-view", text_view );
+    text_buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW ( text_view ) );
+    g_object_set_data ( G_OBJECT ( assistant ), "text-buffer", text_buffer );
+    gtk_text_buffer_create_tag ( text_buffer, "bold", "weight", PANGO_WEIGHT_BOLD, NULL);  
+    gtk_text_buffer_create_tag ( text_buffer, "x-large", "scale", PANGO_SCALE_X_LARGE, NULL);
+    gtk_text_buffer_create_tag ( text_buffer, "indented", "left-margin", 24, NULL);
 
     gsb_assistant_add_page ( assistant, text_view, 1, 0, -1, 
 			     G_CALLBACK ( gsb_debug_enter_test_page ) );
@@ -144,10 +152,22 @@ gboolean gsb_file_debug ( void )
  */
 gboolean gsb_debug_enter_test_page ( GtkWidget * assistant )
 {
-/*     GtkTextBuffer * text_buffer = NULL; */
-/*     GtkTextIter text_iter; */
+    GtkTextBuffer * text_buffer = NULL;
+    GtkTextIter text_iter;
     gboolean inconsistency = FALSE;
     gint i, page = 2;
+
+    text_buffer = g_object_get_data ( G_OBJECT(assistant), "text-buffer" );
+
+    while ( gtk_notebook_get_n_pages ( g_object_get_data ( G_OBJECT (assistant), 
+							   "notebook" ) ) > 2 )
+    {
+	gtk_notebook_remove_page ( g_object_get_data ( G_OBJECT (assistant), "notebook" ), 
+				   -1 );
+    }
+
+    gtk_text_buffer_set_text ( text_buffer, "\n", -1);
+    gtk_text_buffer_get_iter_at_offset ( text_buffer, &text_iter, 1 );
 
     for ( i = 0 ; debug_tests [i] . name != NULL ; i ++ )
     {
@@ -155,6 +175,24 @@ gboolean gsb_debug_enter_test_page ( GtkWidget * assistant )
 
 	if ( result )
 	{
+	    if ( ! inconsistency )
+	    {
+		/* No inconsistency found yet so put title. */
+		gtk_text_buffer_insert_with_tags_by_name ( text_buffer, &text_iter,
+							   _("Inconsistencies found\n\n"), 
+							   -1, "x-large", NULL );
+		gtk_text_buffer_insert ( text_buffer, &text_iter,
+					 _("The following debug tests found inconsistencies "
+					   "in this accounts file:\n\n"),
+					 -1 );
+	    }
+
+	    gtk_text_buffer_insert_with_tags_by_name ( text_buffer, &text_iter,
+						       g_strconcat ( "• ",
+								     debug_tests[i] . name,
+								     "\n", NULL ),
+						       -1, "indented", NULL );
+
 	    inconsistency = TRUE;
 	    gsb_debug_add_report_page ( assistant, page, &(debug_tests[i]), result );
 	    page ++;
@@ -165,7 +203,12 @@ gboolean gsb_debug_enter_test_page ( GtkWidget * assistant )
 
     if ( !inconsistency )
     {
-	dialog_message ( "no-inconsistency-found" );
+	gtk_text_buffer_insert_with_tags_by_name ( text_buffer, &text_iter,
+						   _("No inconsistency found\n\n"), 
+						   -1, "x-large", NULL );
+	gtk_text_buffer_insert ( text_buffer, &text_iter,
+				 _("Congratulations, your account file is in good shape!\n"),
+				 -1 );
     }
     
     return TRUE;
@@ -184,7 +227,7 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     label = gtk_label_new ( "" );
-    gtk_label_set_markup ( GTK_LABEL(label), make_hint ( test -> name, summary ) );
+    gtk_label_set_markup ( GTK_LABEL(label), make_hint ( _( test -> name ), summary ) );
     gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_LEFT );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
@@ -199,7 +242,7 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
 	gtk_expander_set_use_markup ( GTK_EXPANDER(expander), TRUE );
 	label = gtk_label_new ( "" );
 	gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
-	gtk_label_set_markup ( GTK_LABEL(label), test -> instructions );
+	gtk_label_set_markup ( GTK_LABEL(label), _( test -> instructions ) );
 	gtk_misc_set_padding ( GTK_MISC(label), 12, 6 );
 	gtk_container_add ( GTK_CONTAINER(expander), label );
 	gtk_box_pack_start ( GTK_BOX(vbox), expander, FALSE, FALSE, 6 );
