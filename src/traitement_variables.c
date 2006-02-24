@@ -33,6 +33,7 @@
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_currency_link.h"
+#include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
@@ -114,7 +115,6 @@ extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GtkWidget *liste_categ_etat;
 extern GSList *liste_struct_banques;
-extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_rapprochements;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
@@ -195,7 +195,7 @@ void init_variables ( void )
     gsb_data_scheduled_init_variables ();
     gsb_data_currency_init_variables ();
     gsb_data_currency_link_init_variables ();
-
+    gsb_data_fyear_init_variables ();
 
     gsb_currency_init_variables ();
 
@@ -244,12 +244,6 @@ void init_variables ( void )
     titre_fichier = _("My accounting");
     adresse_commune = NULL;
     adresse_secondaire = NULL;
-
-    if ( liste_struct_exercices )
-    {
-	g_slist_free ( liste_struct_exercices );
-	liste_struct_exercices = NULL;
-    }
 
     liste_categ_etat = NULL;
 

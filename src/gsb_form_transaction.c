@@ -32,7 +32,7 @@
 #include "gsb_form_transaction.h"
 #include "accueil.h"
 #include "gsb_transactions_list.h"
-#include "utils_exercices.h"
+#include "exercice.h"
 #include "erreur.h"
 #include "dialog.h"
 #include "equilibrage.h"
@@ -46,7 +46,6 @@
 #include "gsb_data_report.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
-#include "exercice.h"
 #include "gsb_form.h"
 #include "navigation.h"
 #include "gsb_payment_method.h"
@@ -59,12 +58,11 @@
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
-#include "utils_operations.h"
 #include "etats_calculs.h"
 #include "utils.h"
-#include "structures.h"
+#include "utils_operations.h"
 #include "include.h"
-#include "gtk_combofix.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -833,7 +831,6 @@ GSList *gsb_form_get_parties_list_from_report ( void )
  * */
 gboolean gsb_form_validate_form_transaction ( gint transaction_number )
 {
-    GSList *list_tmp;
     gint account_number;
     GtkWidget *widget;
 

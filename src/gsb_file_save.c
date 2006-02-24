@@ -30,6 +30,7 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_currency_link.h"
 #include "gsb_data_form.h"
+#include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
@@ -100,14 +101,12 @@ extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_struct_banques;
-extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_rapprochements;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern GtkWidget *nom_banque;
 extern GtkWidget *nom_correspondant;
-extern GtkWidget *nom_exercice;
 extern gchar *nom_fichier_backup;
 extern GtkWidget *remarque_banque;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
@@ -191,7 +190,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 	+ currency_part * g_slist_length ( gsb_data_currency_get_currency_list () )
 	+ currency_link_part * g_slist_length ( gsb_data_currency_link_get_currency_link_list ())
 	+ bank_part * g_slist_length ( liste_struct_banques )
-	+ financial_year_part * g_slist_length (liste_struct_exercices  )
+	+ financial_year_part * g_slist_length (gsb_data_fyear_get_fyears_list ())
 	+ reconcile_part * g_slist_length ( liste_struct_rapprochements )
 	+ report_part * g_slist_length ( gsb_data_report_get_report_list ());
 
@@ -1311,23 +1310,23 @@ gulong gsb_file_save_financial_year_part ( gulong iterator,
 {
     GSList *list_tmp;
 	
-    list_tmp = liste_struct_exercices;
+    list_tmp = gsb_data_fyear_get_fyears_list ();
 
     while ( list_tmp )
     {
 	gchar *new_string;
-	struct struct_exercice *financial_year;
+	gint fyear_number;
 
-	financial_year = list_tmp -> data;
+	fyear_number = GPOINTER_TO_INT (list_tmp -> data);
 
 	/* now we can fill the file content */
 
 	new_string = g_markup_printf_escaped( "\t<Financial_year Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" Edte=\"%s\" Sho=\"%d\" />\n",
-					      financial_year -> no_exercice,
-					      financial_year -> nom_exercice,
-					      gsb_format_gdate (financial_year -> date_debut),
-					      gsb_format_gdate (financial_year -> date_fin),
-					      financial_year -> affiche_dans_formulaire);
+					      fyear_number,
+					      gsb_data_fyear_get_name (fyear_number),
+					      gsb_format_gdate (gsb_data_fyear_get_begining_date(fyear_number)),
+					      gsb_format_gdate (gsb_data_fyear_get_end_date(fyear_number)),
+					      gsb_data_fyear_get_form_show (fyear_number));
 
 	/* append the new string to the file content
 	 * and take the new iterator */

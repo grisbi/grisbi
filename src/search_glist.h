@@ -11,10 +11,6 @@ gint cherche_string_equivalente_dans_slist ( gchar *string_list,
 					     gchar *string_cmp );
 gint recherche_banque_par_no ( struct struct_banque *banque,
 			       gint *no_banque );
-gint recherche_exercice_par_no ( struct struct_exercice *exercice,
-				 gint *no_exercice );
-gint recherche_operation_par_cheque ( gpointer operation,
-				      gint *no_chq );
 gint recherche_operation_par_id ( gpointer operation,
 				  gchar *id_recherchee );
 gint recherche_rapprochement_par_no ( struct struct_no_rapprochement *rapprochement,

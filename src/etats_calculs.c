@@ -26,9 +26,11 @@
 #include "etats_calculs.h"
 #include "search_glist.h"
 #include "etats_affiche.h"
+#include "utils_dates.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
@@ -99,7 +101,6 @@ extern struct struct_etat_affichage gtktable_affichage ;
 extern struct struct_etat_affichage gtktable_affichage;
 extern struct struct_etat_affichage latex_affichage ;
 extern gint ligne_debut_partie;
-extern GSList *liste_struct_exercices;
 extern gsb_real montant_categ_etat;
 extern gsb_real montant_compte_etat;
 extern gsb_real montant_exo_etat;
@@ -175,8 +176,7 @@ GSList *recupere_opes_etat ( gint report_number )
 {
     GSList *transactions_report_list;
     gint no_exercice_recherche;
-    GSList *liste_tmp;
-    GSList *list_tmp;
+    GSList *tmp_list;
 
     transactions_report_list = NULL;
 
@@ -187,106 +187,53 @@ GSList *recupere_opes_etat ( gint report_number )
 
     if ( gsb_data_report_get_use_financial_year (report_number))
     {
-	GDate *date_jour;
-	struct struct_exercice *exo;
-	struct struct_exercice *exo_courant;
-	struct struct_exercice *exo_precedent;
+	gint fyear_number;
+	gint last_fyear_number;
 
-	liste_tmp = liste_struct_exercices;
-	date_jour = g_date_new ();
-	g_date_set_time ( date_jour,
-			  time ( NULL ));
-
-
-	exo_courant = NULL;
-	exo_precedent = NULL;
-
-	/*  dans tous les cas, on recherche l'exo courant */
-
-
-	while ( liste_tmp )
-	{
-	    exo = liste_tmp -> data;
-
-	    if ( g_date_compare ( date_jour,
-				  exo -> date_debut ) >= 0
-		 &&
-		 g_date_compare ( date_jour,
-				  exo -> date_fin ) <= 0 )
-	    {
-		exo_courant = exo;
-		liste_tmp = NULL;
-	    }
-	    else
-		liste_tmp = liste_tmp -> next;
-	}
-
-
-	/* si on veut l'exo précédent, c'est ici */
+	/* get the current financial year */
+	fyear_number = gsb_data_fyear_get_from_date (gdate_today ());
 
 	switch ( gsb_data_report_get_financial_year_type (report_number))
 	{
 	    case 1:
-		/* on recherche l'exo courant */
+		/* want the current financial year */
 
-		if ( exo_courant )
-		    no_exercice_recherche = exo_courant -> no_exercice;
+		if (fyear_number)
+		    no_exercice_recherche = fyear_number;
 		break;
 
 	    case 2:
-		/* on recherche l'exo précédent */
+		/* want the last financial year */
 
-		liste_tmp = liste_struct_exercices;
+		fyear_number = gsb_data_fyear_get_from_date (gdate_today ());
+		last_fyear_number = 0;
 
-		while ( liste_tmp )
+		tmp_list = gsb_data_fyear_get_fyears_list ();
+		while (tmp_list)
 		{
-		    struct struct_exercice *exo;
+		    gint tmp_fyear_number;
 
-		    exo = liste_tmp -> data;
+		    tmp_fyear_number = gsb_data_fyear_get_no_fyear (tmp_list -> data);
 
-		    if ( exo_courant )
+		    if (gsb_data_fyear_compare (fyear_number, tmp_fyear_number) == 1)
 		    {
-			/* si l'exo est avant exo_courant et après exo_precedent, c'est le nouvel exo_precedent */
-
-			if ( g_date_compare ( exo -> date_fin,
-					      exo_courant -> date_debut ) <= 0 )
+			if (last_fyear_number)
 			{
-			    if ( exo_precedent )
-			    {
-				if ( g_date_compare ( exo -> date_debut,
-						      exo_precedent -> date_fin ) >= 0 )
-				    exo_precedent = exo;
-			    }
-			    else
-				exo_precedent = exo;
+			    if (gsb_data_fyear_compare (last_fyear_number, tmp_fyear_number) == -1)
+				last_fyear_number = tmp_fyear_number;
+			}
+			else
+			{
+			    last_fyear_number = tmp_fyear_number;
 			}
 		    }
-		    else
-		    {
-			/* 		      il n'y a pas d'exo courant, donc si l'exo est en date inférieur à la date du jour, */
-			/* et après l'exo_precedent, c'est le nouvel exo précédent */
-
-			if ( g_date_compare ( exo -> date_fin,
-					      date_jour ) <= 0 )
-			{
-			    if ( exo_precedent )
-			    {
-				if ( g_date_compare ( exo -> date_debut,
-						      exo_precedent -> date_fin ) >= 0 )
-				    exo_precedent = exo;
-			    }
-			    else
-				exo_precedent = exo;
-			}
-
-		    }
-
-		    liste_tmp = liste_tmp -> next;
+		    tmp_list = tmp_list -> next;
 		}
 
-		if ( exo_precedent )
-		    no_exercice_recherche = exo_precedent -> no_exercice;
+		/* here, last_fyear_number is on the last financial year */
 
+		if (last_fyear_number)
+		    no_exercice_recherche = last_fyear_number;
 		break;
 	}
     }
@@ -296,31 +243,32 @@ GSList *recupere_opes_etat ( gint report_number )
 
     /* commence par rechercher si on a utilisé "le plus grand" */
 
-    liste_tmp = gsb_data_report_get_text_comparison_list (report_number);
+    tmp_list = gsb_data_report_get_text_comparison_list (report_number);
 
-    while ( liste_tmp )
+    while ( tmp_list )
     {
 	gint text_comparison_number;
 
-	text_comparison_number = GPOINTER_TO_INT (liste_tmp -> data);
+	text_comparison_number = GPOINTER_TO_INT (tmp_list -> data);
 
 	if ( gsb_data_report_text_comparison_get_first_comparison (text_comparison_number) == 6
 	     ||
 	     gsb_data_report_text_comparison_get_second_comparison (text_comparison_number) == 6 )
 	{
 	    /* on utilise "le plus grand" qque part, donc on va remplir les 3 variables */
+	    GSList *accounts_list;
 
 	    dernier_chq = 0;
 	    dernier_pc = 0;
 	    dernier_no_rappr = 0;
 
-	    list_tmp = gsb_data_account_get_list_accounts ();
+	    accounts_list = gsb_data_account_get_list_accounts ();
 
-	    while ( list_tmp )
+	    while ( accounts_list )
 	    {
 		gint i;
 
-		i = gsb_data_account_get_no_account ( list_tmp -> data );
+		i = gsb_data_account_get_no_account ( accounts_list -> data );
 
 		/* on commence par vérifier que le compte fait partie de l'état */
 
@@ -383,22 +331,22 @@ GSList *recupere_opes_etat ( gint report_number )
 			list_tmp_transactions = list_tmp_transactions -> next;
 		    }
 		}
-		list_tmp = list_tmp -> next;
+		accounts_list = accounts_list -> next;
 	    }
-	    liste_tmp = NULL;
+	    tmp_list = NULL;
 	}
 	else
-	    liste_tmp = liste_tmp -> next;
+	    tmp_list = tmp_list -> next;
     }
 
 
-    list_tmp = gsb_data_account_get_list_accounts ();
+    tmp_list = gsb_data_account_get_list_accounts ();
 
-    while ( list_tmp )
+    while ( tmp_list )
     {
 	gint i;
 
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
+	i = gsb_data_account_get_no_account ( tmp_list -> data );
 
 	if ( !gsb_data_report_get_account_use_chosen (report_number)
 	     ||
@@ -435,17 +383,18 @@ GSList *recupere_opes_etat ( gint report_number )
 		    if ( gsb_data_report_get_text_comparison_used (report_number))
 		    {
 			gint garde_ope;
+			GSList *comparison_list;
 
-			liste_tmp = gsb_data_report_get_text_comparison_list (report_number);
+			comparison_list = gsb_data_report_get_text_comparison_list (report_number);
 			garde_ope = 0;
 
-			while ( liste_tmp )
+			while ( comparison_list )
 			{
 			    gchar *texte;
 			    gint ope_dans_test;
 			    gint text_comparison_number;
 
-			    text_comparison_number = GPOINTER_TO_INT (liste_tmp -> data);
+			    text_comparison_number = GPOINTER_TO_INT (comparison_list -> data);
 
 			    /* on commence par récupérer le texte du champs recherché */
 
@@ -503,7 +452,7 @@ GSList *recupere_opes_etat ( gint report_number )
 				    garde_ope = garde_ope && (!ope_dans_test);
 				    break;
 			    }
-			    liste_tmp = liste_tmp -> next;
+			    comparison_list = comparison_list -> next;
 			}
 
 			/* on ne garde l'opération que si garde_ope = 1 */
@@ -541,11 +490,12 @@ GSList *recupere_opes_etat ( gint report_number )
 		    if ( gsb_data_report_get_amount_comparison_used (report_number))
 		    {
 			gint garde_ope;
+			GSList *comparison_list;
 
-			liste_tmp = gsb_data_report_get_amount_comparison_list (report_number);
+			comparison_list = gsb_data_report_get_amount_comparison_list (report_number);
 			garde_ope = 0;
 
-			while ( liste_tmp )
+			while ( comparison_list )
 			{
 			    gsb_real montant;
 			    gint ope_dans_premier_test;
@@ -553,7 +503,7 @@ GSList *recupere_opes_etat ( gint report_number )
 			    gint ope_dans_test;
 			    gint amount_comparison_number;
 			    
-			    amount_comparison_number = GPOINTER_TO_INT (liste_tmp -> data);
+			    amount_comparison_number = GPOINTER_TO_INT (comparison_list -> data);
 
 			    montant = gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, -1);
 
@@ -630,7 +580,7 @@ GSList *recupere_opes_etat ( gint report_number )
 				    garde_ope = garde_ope && (!ope_dans_test);
 				    break;
 			    }
-			    liste_tmp = liste_tmp -> next;
+			    comparison_list = comparison_list -> next;
 			}
 
 			/* on ne garde l'opération que si garde_ope = 1 */
@@ -957,7 +907,7 @@ operation_refusee:
 		list_tmp_transactions = list_tmp_transactions -> next;
 	    }
 	}
-	list_tmp = list_tmp -> next;
+	tmp_list = tmp_list -> next;
     }
 
     return ( transactions_report_list );

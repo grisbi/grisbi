@@ -19,6 +19,8 @@ enum operation_etat_rapprochement {
 /* START_DECLARATION */
 gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
 						 gint target_transaction_number );
+gint gsb_data_transaction_find_by_payment_content ( const gchar *string,
+						    gint account_number );
 gint gsb_data_transaction_get_account_number ( gint transaction_number );
 gint gsb_data_transaction_get_account_number_transfer ( gint transaction_number );
 gsb_real gsb_data_transaction_get_adjusted_amount ( gint transaction_number,

@@ -30,6 +30,7 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_currency_link.h"
 #include "gsb_data_form.h"
+#include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
@@ -122,14 +123,12 @@ extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_struct_banques;
-extern GSList *liste_struct_exercices;
 extern GSList *liste_struct_rapprochements;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern GtkWidget *nom_banque;
 extern GtkWidget *nom_correspondant;
-extern GtkWidget *nom_exercice;
 extern gchar *nom_fichier_backup;
 extern gsb_real null_real ;
 extern GtkWidget *remarque_banque;
@@ -2515,13 +2514,13 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 				    const gchar **attribute_values )
 {
     gint i=0;
-    struct struct_exercice *financial_year;
+    gint fyear_number;
+    GDate *date;
 
     if ( !attribute_names[i] )
 	return;
 
-    financial_year = calloc ( 1,
-			      sizeof ( struct struct_exercice ) );
+    fyear_number = gsb_data_fyear_new (NULL);
 
     do
     {
@@ -2538,7 +2537,8 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    financial_year -> no_exercice = utils_str_atoi (attribute_values[i]);
+	    fyear_number = gsb_data_fyear_set_new_number (fyear_number,
+							  utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2546,7 +2546,8 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Na" ))
 	{
-	    financial_year -> nom_exercice = my_strdup (attribute_values[i]);
+	    gsb_data_fyear_set_name ( fyear_number,
+				      attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2554,7 +2555,10 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Bdte" ))
 	{
-	    financial_year -> date_debut = gsb_parse_date_string (attribute_values[i]);
+	    date = gsb_parse_date_string (attribute_values[i]);
+	    gsb_data_fyear_set_begining_date ( fyear_number,
+					       date );
+	    g_date_free (date);
 	    i++;
 	    continue;
 	}
@@ -2562,7 +2566,10 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Edte" ))
 	{
-	    financial_year -> date_fin = gsb_parse_date_string (attribute_values[i]);
+	    date = gsb_parse_date_string (attribute_values[i]);
+	    gsb_data_fyear_set_end_date ( fyear_number,
+					  date );
+	    g_date_free (date);
 	    i++;
 	    continue;
 	}
@@ -2570,7 +2577,8 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Sho" ))
 	{
-	    financial_year -> affiche_dans_formulaire = utils_str_atoi (attribute_values[i]);
+	    gsb_data_fyear_set_form_show ( fyear_number,
+					   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2579,9 +2587,6 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 	i++;
     }
     while ( attribute_names[i] );
-
-    liste_struct_exercices = g_slist_append ( liste_struct_exercices,
-					      financial_year );
 }
 
 
@@ -4412,71 +4417,44 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Exercice" ))
     {
-	gint i;
-
-	i = 0;
+	gint i = 0;
 
 	if ( attribute_names[i] )
 	{
-	    struct struct_exercice *exercice;
+	    gint fyear_number;
 
-	    exercice = calloc ( 1,
-				sizeof ( struct struct_exercice ));
+	    fyear_number = gsb_data_fyear_new (NULL);
 
 	    do
 	    {
 		if ( !strcmp ( attribute_names[i],
 			       "No" ))
-		    exercice -> no_exercice = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_fyear_set_new_number ( fyear_number,
+						    utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
-		    exercice -> nom_exercice = my_strdup ( attribute_values[i]);
+		    gsb_data_fyear_set_name ( fyear_number,
+					      attribute_values[i]);
 
 		if ( !strcmp ( attribute_names[i],
-			       "Date_debut" )
-		     &&
-		     strlen (attribute_values[i]))
-		{
-		    gchar **pointeur_char;
-
-		    pointeur_char = g_strsplit ( attribute_values[i],
-						 "/",
-						 0 );
-
-		    exercice -> date_debut = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
-							      utils_str_atoi ( pointeur_char[1] ),
-							      utils_str_atoi ( pointeur_char[2] ));
-		    g_strfreev ( pointeur_char );
-		}
+			       "Date_debut" ))
+		    gsb_data_fyear_set_begining_date ( fyear_number,
+						       gsb_parse_date_string (attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
-			       "Date_fin" )
-		     &&
-		     strlen (attribute_values[i]))
-		{
-		    gchar **pointeur_char;
-
-		    pointeur_char = g_strsplit ( attribute_values[i],
-						 "/",
-						 0 );
-
-		    exercice -> date_fin = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
-							    utils_str_atoi ( pointeur_char[1] ),
-							    utils_str_atoi ( pointeur_char[2] ));
-		    g_strfreev ( pointeur_char );
-		}
+			       "Date_fin" ))
+		    gsb_data_fyear_set_end_date ( fyear_number,
+						  gsb_parse_date_string (attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Affiche" ))
-		    exercice -> affiche_dans_formulaire = utils_str_atoi ( attribute_values[i]);
+		    gsb_data_fyear_set_form_show ( fyear_number,
+						   utils_str_atoi ( attribute_values[i]));
 
 		i++;
 	    }
 	    while ( attribute_names[i] );
-
-	    liste_struct_exercices = g_slist_append ( liste_struct_exercices,
-						      exercice );
 	}
     }
 

@@ -54,13 +54,14 @@ sources = \
 	gsb_assistant.c		\
 	gsb_currency.c		\
 	gsb_currency_config.c	\
+	gsb_currency_link_config.c	\
 	gsb_data_account.c	\
 	gsb_data_budget.c	\
 	gsb_data_category.c	\
 	gsb_data_currency.c	\
 	gsb_data_currency_link.c	\
-	gsb_currency_link_config.c	\
 	gsb_data_form.c		\
+	gsb_data_fyear.c	\
 	gsb_data_payee.c	\
 	gsb_data_report.c	\
 	gsb_data_report_amout_comparison.c	\
@@ -110,7 +111,6 @@ sources = \
 	utils_comptes.c		\
 	utils_dates.c		\
 	utils_editables.c	\
-	utils_exercices.c	\
 	utils_file_selection.c	\
 	utils_files.c		\
 	utils_operations.c	\
@@ -140,13 +140,14 @@ grisbi_INCLUDES =		\
 	gsb_assistant.h		\
 	gsb_currency.h		\
 	gsb_currency_config.h	\
+	gsb_currency_link_config.h	\
 	gsb_data_account.h	\
 	gsb_data_budget.h	\
 	gsb_data_category.h	\
 	gsb_data_currency.h	\
 	gsb_data_currency_link.h	\
-	gsb_currency_link_config.h	\
 	gsb_data_form.h		\
+	gsb_data_fyear.c	\
 	gsb_data_payee.h	\
 	gsb_data_report.h	\
 	gsb_data_report_amout_comparison.h	\
@@ -207,7 +208,6 @@ grisbi_INCLUDES =		\
 	utils_comptes.h		\
 	utils_dates.h		\
 	utils_editables.h	\
-	utils_exercices.h	\
 	utils_file_selection.h	\
 	utils_files.h		\
 	utils_operations.h	\

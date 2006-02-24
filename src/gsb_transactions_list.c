@@ -31,13 +31,13 @@
 #include "erreur.h"
 #include "dialog.h"
 #include "equilibrage.h"
-#include "utils_exercices.h"
 #include "echeancier_formulaire.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_form.h"
+#include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
@@ -1021,7 +1021,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    /* mise en place de l'exo */
 
 	case TRANSACTION_LIST_EXERCICE:
-	    return ( exercice_name_by_no (  gsb_data_transaction_get_financial_year_number ( transaction_number)));
+	    return ( gsb_data_fyear_get_name (gsb_data_transaction_get_financial_year_number ( transaction_number)));
 
 	    /* mise en place des catégories */
 

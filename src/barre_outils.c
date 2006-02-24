@@ -217,7 +217,6 @@ gboolean popup_transaction_view_mode_menu ( GtkWidget * button )
 /****************************************************************************************************/
 gboolean change_aspect_liste ( gint demande )
 {
-    GtkWidget * widget;
     GSList *list_tmp;
 
     block_menu_cb = TRUE;

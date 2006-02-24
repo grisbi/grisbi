@@ -32,20 +32,16 @@
 /*START_INCLUDE*/
 #include "search_glist.h"
 #include "gsb_data_transaction.h"
-#include "utils_str.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint recherche_exercice_par_nom ( struct struct_exercice *exercice,
-				  gchar *nom );
 /*END_STATIC*/
 
 
 
 
 /*START_EXTERN*/
-extern GtkWidget *nom_exercice;
 /*END_EXTERN*/
 
 
@@ -84,34 +80,6 @@ gint recherche_rapprochement_par_no ( struct struct_no_rapprochement *rapprochem
     return ( !(rapprochement -> no_rapprochement == GPOINTER_TO_INT ( no_rap )));
 }
 /******************************************************************************/
-
-
-
-
-/* ************************************************************************************************************ */
-gint recherche_exercice_par_nom ( struct struct_exercice *exercice,
-				  gchar *nom )
-{
-    return ( g_strcasecmp ( g_strstrip ( exercice -> nom_exercice ),
-			    nom ) );
-}
-/* ************************************************************************************************************ */
-
-
-
-/***********************************************************************************************************/
-/* Fonction recherche_exercice_par_no */
-/* appelée par un g_slist_find_custom */
-/***********************************************************************************************************/
-
-gint recherche_exercice_par_no ( struct struct_exercice *exercice,
-				 gint *no_exercice )
-{
-    return ( exercice -> no_exercice != GPOINTER_TO_INT ( no_exercice ));
-}
-/***********************************************************************************************************/
-
-
 
 
 

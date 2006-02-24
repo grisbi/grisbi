@@ -32,12 +32,12 @@
 #include "utils.h"
 #include "erreur.h"
 #include "dialog.h"
-#include "utils_exercices.h"
 #include "calendar.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
@@ -313,9 +313,7 @@ GtkWidget *liste_mode_paiement_etat;
 
 /*START_EXTERN*/
 extern GtkWidget *frame_liste_etats;
-extern GSList *liste_struct_exercices;
 extern gint mise_a_jour_combofix_tiers_necessaire;
-extern GtkWidget *nom_exercice;
 extern GtkWidget *notebook_aff_donnees;
 extern GtkWidget *notebook_config_etat;
 extern GtkWidget *notebook_etats;
@@ -498,7 +496,7 @@ void personnalisation_etat (void)
     /* onglet généralités */
 
 
-    /* on met le nom de l'état */
+    /* on met le name de l'état */
 
     gtk_entry_set_text ( GTK_ENTRY ( entree_nom_etat ),
 			 gsb_data_report_get_report_name (current_report_number) );
@@ -989,16 +987,18 @@ void selectionne_liste_exo_etat_courant ( void )
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
-
     gtk_clist_unselect_all ( GTK_CLIST ( liste_exo_etat ));
 
     pointeur_sliste = gsb_data_report_get_financial_year_list (current_report_number);
 
     while ( pointeur_sliste )
     {
+	gint row;
+
+	row = gtk_clist_find_row_from_data ( GTK_CLIST ( liste_exo_etat ),
+					     pointeur_sliste -> data );
 	gtk_clist_select_row ( GTK_CLIST ( liste_exo_etat ),
-			       g_slist_index ( liste_struct_exercices,
-					       exercice_par_no ( GPOINTER_TO_INT ( pointeur_sliste -> data ))),
+			       row,
 			       0 );
 	pointeur_sliste = pointeur_sliste -> next;
     }
@@ -1201,7 +1201,7 @@ void recuperation_info_perso_etat ( void )
 
 
     /* on récupère maintenant toutes les données */
-    /* récupération du nom du rapport */
+    /* récupération du name du rapport */
 
     pointeur_char = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_etat )));
 
@@ -2080,10 +2080,10 @@ GtkWidget *onglet_etat_dates ( void )
 
     while ( plages_dates[i] )
     {
-	gint ligne;
+	gint row;
 	gchar * plage = _(plages_dates[i]);
 
-	ligne = gtk_clist_append ( GTK_CLIST ( liste_plages_dates_etat ),
+	row = gtk_clist_append ( GTK_CLIST ( liste_plages_dates_etat ),
 				   &plage );
 	i++;
     }
@@ -2317,14 +2317,14 @@ GtkWidget *onglet_etat_dates ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-/* vérifie où l'on clique et empèche la désélection de ligne */
+/* vérifie où l'on clique et empèche la désélection de row */
 /******************************************************************************/
 void click_liste_etat ( GtkCList *liste,
 			GdkEventButton *evenement,
 			gint origine )
 {
     gint colonne, x, y;
-    gint ligne;
+    gint row;
 
     /*   origine = 0 si ça vient des dates, dans ce cas on sensitive les entrées init et fin */
     /* origine = 1 si ça vient du choix de type de classement */
@@ -2343,21 +2343,21 @@ void click_liste_etat ( GtkCList *liste,
     gtk_clist_get_selection_info ( GTK_CLIST ( liste ),
 				   x,
 				   y,
-				   &ligne,
+				   &row,
 				   &colonne);
 
     if ( GTK_CLIST ( liste ) -> selection
 	 &&
-	 GPOINTER_TO_INT ( GTK_CLIST ( liste ) -> selection -> data ) == ligne )
+	 GPOINTER_TO_INT ( GTK_CLIST ( liste ) -> selection -> data ) == row )
 	return;
 
     gtk_clist_select_row ( GTK_CLIST ( liste ),
-			   ligne,
+			   row,
 			   0 );
 
     if ( !origine )
     {
-	if ( ligne == 1 )
+	if ( row == 1 )
 	{
 	    gtk_widget_set_sensitive ( entree_date_init_etat,
 				       TRUE );
@@ -2567,24 +2567,23 @@ void remplissage_liste_exo_etats ( void )
 
     gtk_clist_clear ( GTK_CLIST ( liste_exo_etat ) );
 
-    list_tmp = liste_struct_exercices;
+    list_tmp = gsb_data_fyear_get_fyears_list ();
 
     while ( list_tmp )
     {
-	struct struct_exercice *exercice;
-	gchar *nom[1];
-	gint ligne;
+	gint fyear_number;
+	gchar *name[1];
+	gint row;
 
-	exercice = list_tmp -> data;
+	fyear_number = gsb_data_fyear_get_no_fyear (list_tmp -> data);
 
-	nom[0] = exercice -> nom_exercice;
+	name[0] = gsb_data_fyear_get_name (fyear_number);
 
-	ligne = gtk_clist_append ( GTK_CLIST ( liste_exo_etat ),
-				   nom );
-
+	row = gtk_clist_append ( GTK_CLIST ( liste_exo_etat ),
+				   name );
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_exo_etat ),
-				 ligne,
-				 GINT_TO_POINTER ( exercice -> no_exercice ));
+				 row,
+				 GINT_TO_POINTER (fyear_number));
 
 	list_tmp = list_tmp -> next;
     }
@@ -2814,19 +2813,19 @@ void remplissage_liste_comptes_etats ( void )
     while ( list_tmp )
     {
 	gint i;
-	gchar *nom[1];
-	gint ligne;
+	gchar *name[1];
+	gint row;
 
 
 	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	nom[0] = gsb_data_account_get_name (i);
+	name[0] = gsb_data_account_get_name (i);
 
-	ligne = gtk_clist_append ( GTK_CLIST ( liste_comptes_etat ),
-				   nom );
+	row = gtk_clist_append ( GTK_CLIST ( liste_comptes_etat ),
+				   name );
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_comptes_etat ),
-				 ligne,
+				 row,
 				 GINT_TO_POINTER (i));
 	list_tmp = list_tmp -> next;
     }
@@ -3114,18 +3113,18 @@ void remplissage_liste_comptes_virements ( void )
     while ( list_tmp )
     {
 	gint i;
-	gchar *nom[1];
-	gint ligne;
+	gchar *name[1];
+	gint row;
 
 	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	nom[0] = gsb_data_account_get_name (i);
+	name[0] = gsb_data_account_get_name (i);
 
-	ligne = gtk_clist_append ( GTK_CLIST ( liste_comptes_virements ),
-				   nom );
+	row = gtk_clist_append ( GTK_CLIST ( liste_comptes_virements ),
+				   name );
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_comptes_virements ),
-				 ligne,
+				 row,
 				 GINT_TO_POINTER (i));
 	list_tmp = list_tmp -> next;
     }
@@ -3407,17 +3406,17 @@ void remplissage_liste_categ_etats ( void )
     while ( list_tmp )
     {
 	gint category_number;
-	gchar *nom[1];
+	gchar *name[1];
 	gint line;
 
 	category_number = gsb_data_category_get_no_category ( list_tmp -> data );
 
-	nom[0] = gsb_data_category_get_name (category_number,
+	name[0] = gsb_data_category_get_name (category_number,
 					     0,
 					     NULL );
 
 	line = gtk_clist_append ( GTK_CLIST ( liste_categ_etat ),
-				  nom );
+				  name );
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_categ_etat ),
 				 line,
@@ -3681,17 +3680,17 @@ void remplissage_liste_ib_etats ( void )
     while ( list_tmp )
     {
 	gint budget_number;
-	gchar *nom[1];
+	gchar *name[1];
 	gint line;
 
 	budget_number = gsb_data_budget_get_no_budget ( list_tmp -> data );
 
-	nom[0] = gsb_data_budget_get_name (budget_number,
+	name[0] = gsb_data_budget_get_name (budget_number,
 					   0,
 					   NULL );
 
 	line = gtk_clist_append ( GTK_CLIST ( liste_ib_etat ),
-				  nom );
+				  name );
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_ib_etat ),
 				 line,
@@ -3877,18 +3876,18 @@ void remplissage_liste_tiers_etats ( void )
     {
 	gint payee_number;
 	gchar *name[1];
-	gint ligne;
+	gint row;
 
 	payee_number = gsb_data_payee_get_no_payee ( payee_list -> data );
 
 	name[0] = gsb_data_payee_get_name (payee_number,
 				      TRUE );
 
-	ligne = gtk_clist_append ( GTK_CLIST ( liste_tiers_etat ),
+	row = gtk_clist_append ( GTK_CLIST ( liste_tiers_etat ),
 				   name );
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_tiers_etat ),
-				 ligne,
+				 row,
 				 GINT_TO_POINTER (payee_number));
 
 	payee_list = payee_list -> next;
@@ -3963,7 +3962,7 @@ GtkWidget *onglet_etat_texte ( void )
 
 
     /* on va ensuite créer la liste qui contiendra les critères */
-    /* le remplissage ou la ligne vide se mettent plus tard */
+    /* le remplissage ou la row vide se mettent plus tard */
 
     scrolled_window = gtk_scrolled_window_new ( FALSE,
 						FALSE );
@@ -4006,7 +4005,7 @@ void remplit_liste_comparaisons_textes_etat ( void )
 			       (( GtkBoxChild *) ( GTK_BOX ( liste_textes_etat ) -> children -> data )) -> widget );
 
 
-    /*   s'il n'y a rien dans la liste, on met juste une ligne vide */
+    /*   s'il n'y a rien dans la liste, on met juste une row vide */
 
     if ( !list_tmp )
     {
@@ -4014,7 +4013,7 @@ void remplit_liste_comparaisons_textes_etat ( void )
 	return;
     }
 
-    /*   on fait le tour de la liste des comparaisons de texte, ajoute une ligne */
+    /*   on fait le tour de la liste des comparaisons de texte, ajoute une row */
     /* et la remplit à chaque fois */
 
     while ( list_tmp )
@@ -4024,7 +4023,7 @@ void remplit_liste_comparaisons_textes_etat ( void )
 
 	text_comparison_number = GPOINTER_TO_INT (list_tmp -> data);
 
-	/* on crée la ligne et remplit les widget de la structure */
+	/* on crée la row et remplit les widget de la structure */
 
 	widget = cree_ligne_comparaison_texte (text_comparison_number);
 	gsb_data_report_text_comparison_set_vbox_line ( text_comparison_number,
@@ -4039,7 +4038,7 @@ void remplit_liste_comparaisons_textes_etat ( void )
 	/* on remplit maintenant les widget avec les valeurs de la stucture */
 
 	/*       s'il n'y a pas de lien avec la struct précédente, on le vire */
-	/* on rajoute le && car parfois le bouton de lien se met quand même en 1ère ligne */
+	/* on rajoute le && car parfois le bouton de lien se met quand même en 1ère row */
 
 	if ( gsb_data_report_text_comparison_get_link_to_last_text_comparison (text_comparison_number) != -1
 	     &&
@@ -4128,8 +4127,8 @@ void remplit_liste_comparaisons_textes_etat ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-/* cette fonction ajoute une ligne vierge */
-/* si ancien_comp_textes n'est pas nul, la ligne est insérée juste après celle de l'argument */
+/* cette fonction ajoute une row vierge */
+/* si ancien_comp_textes n'est pas nul, la row est insérée juste après celle de l'argument */
 /******************************************************************************/
 
 void ajoute_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_number )
@@ -4141,7 +4140,7 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_num
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
-    /* on récupère tout de suite la position à laquelle il faut insérer la ligne */
+    /* on récupère tout de suite la position à laquelle il faut insérer la row */
 
     if ( last_text_comparison_number )
 	position = g_slist_index ( gsb_data_report_get_text_comparison_list (current_report_number),
@@ -4155,7 +4154,7 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_num
     gsb_data_report_text_comparison_set_report_number ( text_comparison_number,
 							current_report_number );
     
-    /* on crée la ligne et remplit les widget de la structure */
+    /* on crée la row et remplit les widget de la structure */
 
     widget = cree_ligne_comparaison_texte (text_comparison_number);
     gsb_data_report_text_comparison_set_vbox_line ( text_comparison_number,
@@ -4167,8 +4166,8 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_num
 			 0 );
     gtk_widget_show ( widget );
 
-    /* on vire le lien de la ligne s'il n'y a pas encore de liste */
-    /*   (cad si c'est la 1ère ligne) */
+    /* on vire le lien de la row s'il n'y a pas encore de liste */
+    /*   (cad si c'est la 1ère row) */
 
     if ( !gsb_data_report_get_text_comparison_list (current_report_number))
     {
@@ -4187,7 +4186,7 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_num
 			       FALSE );
 
 
-    /*   par défaut, la ligne de chq est non sensitive */
+    /*   par défaut, la row de chq est non sensitive */
 
     gtk_widget_set_sensitive ( gsb_data_report_text_comparison_get_button_use_text (text_comparison_number),
 			       FALSE );
@@ -4205,7 +4204,7 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_num
 								position ));
 
 
-    /* on met la ligne à sa place dans la liste */
+    /* on met la row à sa place dans la liste */
 
     gtk_box_reorder_child ( GTK_BOX ( liste_textes_etat ),
 			    gsb_data_report_text_comparison_get_vbox_line (text_comparison_number),
@@ -4214,7 +4213,7 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_num
 /******************************************************************************/
 
 /******************************************************************************/
-/* crée la hbox de la ligne et la renvoie */
+/* crée la hbox de la row et la renvoie */
 /* remplie en même temps les widget de la struct envoyée en argument, sauf hbox_ligne */
 /******************************************************************************/
 GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
@@ -4230,7 +4229,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 			  5 );
 
 
-    /* création de la 1ère ligne */
+    /* création de la 1ère row */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -4280,7 +4279,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 			 0 );
 
     /* la suite se met dans hbox_txt */
-    /* en 2ème ligne */
+    /* en 2ème row */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -4351,7 +4350,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
     gtk_widget_show (gsb_data_report_text_comparison_get_entry_text (text_comparison_number));
 
 
-    /* on crée maintenant la 2ème ligne qui concerne les tests de chq */
+    /* on crée maintenant la 2ème row qui concerne les tests de chq */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -4533,12 +4532,12 @@ void retire_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_num
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
-    /* il faut qu'il y ai plus d'une ligne affichée */
+    /* il faut qu'il y ai plus d'une row affichée */
 
     if ( g_slist_length ( gsb_data_report_get_text_comparison_list (current_report_number)) < 2 )
 	return;
 
-    /* on commence par supprimer la ligne dans la liste */
+    /* on commence par supprimer la row dans la liste */
 
     gtk_widget_destroy (gsb_data_report_text_comparison_get_vbox_line (last_text_comparison_number));
 
@@ -4574,10 +4573,10 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     GtkWidget *menu;
     GtkWidget *menu_item;
 
-    /*   pour chaque item, on désensitive les check button et la ligne des tests de no, et */
-    /* on rend sensitif la ligne des test en txt */
+    /*   pour chaque item, on désensitive les check button et la row des tests de no, et */
+    /* on rend sensitif la row des test en txt */
     /*     sauf pour les items à no (chq et pc) où on rend sensitif les check button et la */
-    /*     ligne correspondans au check button, et désensitive celle où le check button n'est pas */
+    /*     row correspondans au check button, et désensitive celle où le check button n'est pas */
     /* mis */
 
     bouton = gtk_option_menu_new ();
@@ -5052,7 +5051,7 @@ GtkWidget *onglet_etat_montant ( void )
 
 
     /* on va ensuite créer la liste qui contiendra les critères */
-    /* le remplissage ou la ligne vide se mettent plus tard */
+    /* le remplissage ou la row vide se mettent plus tard */
 
     scrolled_window = gtk_scrolled_window_new ( FALSE,
 						FALSE );
@@ -5111,7 +5110,7 @@ void remplit_liste_comparaisons_montants_etat ( void )
 			       (( GtkBoxChild *) ( GTK_BOX ( liste_montants_etat ) -> children -> data )) -> widget );
 
 
-    /*   s'il n'y a rien dans la liste, on met juste une ligne vide */
+    /*   s'il n'y a rien dans la liste, on met juste une row vide */
 
     if ( !list_tmp )
     {
@@ -5119,7 +5118,7 @@ void remplit_liste_comparaisons_montants_etat ( void )
 	return;
     }
 
-    /*   on fait le tour de la liste des comparaisons de montant, ajoute une ligne */
+    /*   on fait le tour de la liste des comparaisons de montant, ajoute une row */
     /* et la remplit à chaque fois */
 
     while ( list_tmp )
@@ -5130,7 +5129,7 @@ void remplit_liste_comparaisons_montants_etat ( void )
 	amount_comparison_number = GPOINTER_TO_INT (list_tmp -> data);
 	hbox = cree_ligne_comparaison_montant (amount_comparison_number);
 
-	/* on crée la ligne et remplit les widget de la structure */
+	/* on crée la row et remplit les widget de la structure */
 
 	gsb_data_report_amount_comparison_set_hbox_line ( amount_comparison_number,
 							  hbox);
@@ -5144,7 +5143,7 @@ void remplit_liste_comparaisons_montants_etat ( void )
 	/* on remplit maintenant les widget avec les valeurs de la stucture */
 
 	/*       s'il n'y a pas de lien avec la struct précédente, on le vire */
-	/* on rajoute le && car parfois le bouton de lien se met quand même en 1ère ligne */
+	/* on rajoute le && car parfois le bouton de lien se met quand même en 1ère row */
 
 	if ( gsb_data_report_amount_comparison_get_link_to_last_amount_comparison (amount_comparison_number) != -1
 	     &&
@@ -5197,8 +5196,8 @@ void remplit_liste_comparaisons_montants_etat ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-/* cette fonction ajoute une ligne vierge */
-/* si ancien_comp_montants n'est pas nul, la ligne est insérée juste après celle de l'argument */
+/* cette fonction ajoute une row vierge */
+/* si ancien_comp_montants n'est pas nul, la row est insérée juste après celle de l'argument */
 /******************************************************************************/
 
 void ajoute_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison_number )
@@ -5211,7 +5210,7 @@ void ajoute_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison
     current_report_number = gsb_gui_navigation_get_current_report ();
 
 
-    /* on récupère tout de suite la position à laquelle il faut insérer la ligne */
+    /* on récupère tout de suite la position à laquelle il faut insérer la row */
 
     if ( last_amount_comparison_number )
 	position = g_slist_index ( gsb_data_report_get_amount_comparison_list (current_report_number),
@@ -5225,7 +5224,7 @@ void ajoute_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison
     gsb_data_report_amount_comparison_set_report_number ( amount_comparison_number,
 							  current_report_number);
 
-    /* on crée la ligne et remplit les widget de la structure */
+    /* on crée la row et remplit les widget de la structure */
 
     hbox = cree_ligne_comparaison_montant (amount_comparison_number);
     gsb_data_report_amount_comparison_set_hbox_line ( amount_comparison_number,
@@ -5237,8 +5236,8 @@ void ajoute_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison
 			 0 );
     gtk_widget_show ( hbox );
 
-    /* on vire le lien de la ligne s'il n'y a pas encore de liste */
-    /*   (cad si c'est la 1ère ligne) */
+    /* on vire le lien de la row s'il n'y a pas encore de liste */
+    /*   (cad si c'est la 1ère row) */
 
     if ( !gsb_data_report_get_amount_comparison_list (current_report_number))
     {
@@ -5264,7 +5263,7 @@ void ajoute_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison
 								  position ));
 
 
-    /* on met la ligne à sa place dans la liste */
+    /* on met la row à sa place dans la liste */
 
     gtk_box_reorder_child ( GTK_BOX ( liste_montants_etat ),
 			    gsb_data_report_amount_comparison_get_hbox_line (amount_comparison_number),
@@ -5273,7 +5272,7 @@ void ajoute_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison
 /******************************************************************************/
 
 /******************************************************************************/
-/* crée la hbox de la ligne et la renvoie */
+/* crée la hbox de la row et la renvoie */
 /* remplie en même temps les widget de la struct envoyée en argument, sauf hbox_ligne */
 /******************************************************************************/
 GtkWidget *cree_ligne_comparaison_montant ( gint amount_comparison_number )
@@ -5869,12 +5868,12 @@ void retire_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison
 
     current_report_number = gsb_gui_navigation_get_current_report ();
     
-    /* il faut qu'il y ai plus d'une ligne affichée */
+    /* il faut qu'il y ai plus d'une row affichée */
     
     if ( g_slist_length ( gsb_data_report_get_amount_comparison_list (current_report_number)) < 2 )
 	return;
 
-    /* on commence par supprimer la ligne dans la liste */
+    /* on commence par supprimer la row dans la liste */
 
     gtk_widget_destroy ( gsb_data_report_amount_comparison_get_hbox_line (last_amount_comparison_number));
 
@@ -6357,7 +6356,7 @@ GtkWidget *page_organisation_donnees ( void )
 			vbox );
     gtk_widget_show ( vbox );
 
-    /* mise en place de la ligne type - choix perso */
+    /* mise en place de la row type - choix perso */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -6419,7 +6418,7 @@ GtkWidget *page_organisation_donnees ( void )
     gtk_widget_show ( bouton_type_separe_plages_etat );
 
 
-    /* mise en place de la ligne de début de semaine */
+    /* mise en place de la row de début de semaine */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -6621,7 +6620,7 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
     gtk_widget_show ( vbox_onglet );
 
 
-    /* choix du nom du rapport */
+    /* choix du name du rapport */
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -7552,7 +7551,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     gtk_widget_show ( vbox );
 
 
-    /* on permet d'afficher le nom du compte */
+    /* on permet d'afficher le name du compte */
 
     bouton_afficher_noms_comptes = gtk_check_button_new_with_label ( _("Display account name") );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -7597,7 +7596,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			vbox );
     gtk_widget_show ( vbox );
 
-    /* permet d'afficher le nom du tiers, activé uniquement si on utilise les tiers */
+    /* permet d'afficher le name du tiers, activé uniquement si on utilise les tiers */
 
     bouton_afficher_noms_tiers = gtk_check_button_new_with_label ( _("Display payee's name") );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -7658,7 +7657,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     gtk_widget_show ( vbox );
 
 
-    /* affichage possible du nom de la categ */
+    /* affichage possible du name de la categ */
 
     bouton_afficher_noms_categ = gtk_check_button_new_with_label ( _("Display the (sub)category's name") );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
@@ -8034,13 +8033,13 @@ void remplissage_liste_modes_paiement_etats ( void )
 
     while ( list_tmp )
     {
-	gint ligne;
+	gint row;
 
-	ligne = gtk_clist_append ( GTK_CLIST ( liste_mode_paiement_etat ),
+	row = gtk_clist_append ( GTK_CLIST ( liste_mode_paiement_etat ),
 				   (gchar **) &list_tmp -> data );
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_mode_paiement_etat ),
-				 ligne,
+				 row,
 				 list_tmp -> data );
 
 	list_tmp = list_tmp -> next;

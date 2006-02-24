@@ -24,12 +24,11 @@
 
 /*START_INCLUDE*/
 #include "etats_support.h"
-#include "utils_exercices.h"
-#include "gsb_data_report.h"
 #include "utils_dates.h"
+#include "gsb_data_fyear.h"
+#include "gsb_data_report.h"
 #include "navigation.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -39,8 +38,7 @@
 
 
 /*START_EXTERN*/
-extern GSList *liste_struct_exercices;
-extern GtkWidget *nom_exercice;
+extern GtkTreeSelection * selection;
 /*END_EXTERN*/
 
 
@@ -49,36 +47,23 @@ extern GtkWidget *nom_exercice;
 gchar * etats_titre ()
 {
     gchar *titre;
-    GDate *date_jour;
     gint current_report_number;
+    GDate *today_date;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
-
-    date_jour = g_date_new ();
-    g_date_set_time ( date_jour,
-		      time ( NULL ));
-
     titre = gsb_data_report_get_report_name (current_report_number);
+    today_date = gdate_today ();
 
     if ( gsb_data_report_get_use_financial_year (current_report_number))
     {
-	GSList *liste_tmp;
-	struct struct_exercice *exo;
-	struct struct_exercice *exo_courant;
-	struct struct_exercice *exo_precedent;
+	GSList *tmp_list;
+	gint fyear_number;
+	gint last_fyear_number;
 
-	/* initialise les variables pour la recherche d'exo */
-
-	liste_tmp = liste_struct_exercices;
-
-	exo_courant = NULL;
-	exo_precedent = NULL;
-	exo = NULL;
-
-	switch ( gsb_data_report_get_financial_year_type (current_report_number))
+	switch (gsb_data_report_get_financial_year_type (current_report_number))
 	{
 	    case 0:
-		/* tous les exos */
+		/* all the financial years */
 
 		titre = g_strconcat ( titre,
 				      ", ", _("all financial years"),
@@ -86,30 +71,13 @@ gchar * etats_titre ()
 		break;
 
 	    case 1:
-		/* exercice courant */
+		/* current financial year */
+		fyear_number = gsb_data_fyear_get_from_date (today_date);
 
-		/* on recherche l'exo courant */
-
-		while ( liste_tmp )
-		{
-		    exo = liste_tmp -> data;
-
-		    if ( g_date_compare ( date_jour,
-					  exo -> date_debut ) >= 0
-			 &&
-			 g_date_compare ( date_jour,
-					  exo -> date_fin ) <= 0 )
-			liste_tmp = NULL;
-		    else
-			liste_tmp = liste_tmp -> next;
-		}
-
-		/* 	  à ce niveau, exo contient l'exercice courant ou NULL */
-
-		if ( exo )
+		if (fyear_number)
 		    titre = g_strconcat ( titre,
 					  ", ", _("current financial year") , " (",
-					  exo -> nom_exercice,
+					  gsb_data_fyear_get_name (fyear_number),
 					  ")",
 					  NULL );
 		else
@@ -119,52 +87,39 @@ gchar * etats_titre ()
 		break;
 
 	    case 2:
-		/* exo précédent */
-		/* on recherche l'exo précédent */
+		/* last financial year */
 
-		while ( liste_tmp )
+		fyear_number = gsb_data_fyear_get_from_date (today_date);
+		last_fyear_number = 0;
+
+		tmp_list = gsb_data_fyear_get_fyears_list ();
+		while (tmp_list)
 		{
-		    struct struct_exercice *exo;
+		    gint tmp_fyear_number;
 
-		    exo = liste_tmp -> data;
+		    tmp_fyear_number = gsb_data_fyear_get_no_fyear (tmp_list -> data);
 
-		    if ( exo_courant )
+		    if (gsb_data_fyear_compare (fyear_number, tmp_fyear_number) == 1)
 		    {
-			/* exo_courant est forcemment après exo_precedent */
-			/* si l'exo en court est après exo_courant, on met exo_courant */
-			/* dans exo_precedent, et l'exo en court dans exo_courant */
-			/*   sinon, on compare avec exo_precedent */
-
-			if ( g_date_compare ( exo -> date_debut,
-					      exo_courant -> date_fin ) >= 0 )
+			if (last_fyear_number)
 			{
-			    exo_precedent = exo_courant;
-			    exo_courant = exo;
+			    if (gsb_data_fyear_compare (last_fyear_number, tmp_fyear_number) == -1)
+				last_fyear_number = tmp_fyear_number;
 			}
 			else
 			{
-			    /* l'exo en cours est avant exo_courant, on le compare à exo_precedent */
-
-			    if ( !exo_precedent
-				 ||
-				 g_date_compare ( exo -> date_debut,
-						  exo_precedent -> date_fin ) >= 0 )
-				exo_precedent = exo;
+			    last_fyear_number = tmp_fyear_number;
 			}
 		    }
-		    else
-			exo_courant = exo;
-
-
-		    liste_tmp = liste_tmp -> next;
+		    tmp_list = tmp_list -> next;
 		}
+		
+		/* here, last_fyear_number is on the last financial year */
 
-		/* 	  à ce niveau, exo_precedent contient l'exercice précédent ou NULL */
-
-		if ( exo_precedent )
+		if (last_fyear_number)
 		    titre = g_strconcat ( titre,
 					  ", ", _("former financial year") , " (",
-					  exo_precedent -> nom_exercice,
+					  gsb_data_fyear_get_name (last_fyear_number),
 					  ")",
 					  NULL );
 		else
@@ -174,12 +129,11 @@ gchar * etats_titre ()
 		break;
 
 	    case 3:
-		/* exos perso */
-		/* 	  un ou plusieurs exos ont été sélectionnés, on récupère le nom de chacuns */
+		/* personal selection of financial years */
 
-		liste_tmp = gsb_data_report_get_financial_year_list (current_report_number);
+		tmp_list = gsb_data_report_get_financial_year_list (current_report_number);
 
-		if ( g_slist_length ( liste_tmp ) > 1 )
+		if ( g_slist_length ( tmp_list ) > 1 )
 		    titre = g_strconcat ( titre,
 					  ", ", _("financial years"), " ",
 					  NULL );
@@ -188,24 +142,23 @@ gchar * etats_titre ()
 					  ", ", _("financial year"), " ",
 					  NULL );
 
-		while ( liste_tmp )
+		while ( tmp_list )
 		{
-		    exo = exercice_par_no ( GPOINTER_TO_INT ( liste_tmp -> data ));
+		    gint fyear_number;
 
-		    if ( liste_tmp == g_slist_last ( gsb_data_report_get_financial_year_list (current_report_number)))
+		    fyear_number = GPOINTER_TO_INT (tmp_list -> data);
+
+		    if ( tmp_list == g_slist_last (gsb_data_report_get_financial_year_list (current_report_number)))
 			titre = g_strconcat ( titre,
-					      exo -> nom_exercice,
+					      gsb_data_fyear_get_name (fyear_number),
 					      NULL );
 		    else
 			titre = g_strconcat ( titre,
-					      exo -> nom_exercice,
+					      gsb_data_fyear_get_name (fyear_number),
 					      ", ",
 					      NULL );
-		    liste_tmp = liste_tmp -> next;
+		    tmp_list = tmp_list -> next;
 		}
-
-
-
 		break;
 	}
     }     
@@ -252,7 +205,7 @@ gchar * etats_titre ()
 		titre = g_strconcat ( titre,
 				      ", ", 
 				      g_strdup_printf ( _("total at %s"),
-							gsb_format_gdate ( date_jour ) ),
+							gsb_format_gdate (today_date)),
 				      NULL );
 		break;
 
@@ -262,13 +215,13 @@ gchar * etats_titre ()
 		g_date_strftime ( buffer_date,
 				  14,
 				  "%B",
-				  date_jour );
+				  today_date );
 
 		titre = g_strconcat ( titre,
 				      ", ", 
 				      g_strdup_printf ( _("%s %d"),
 							buffer_date,
-							g_date_year ( date_jour )),
+							g_date_year (today_date)),
 				      NULL );
 		break;
 
@@ -277,7 +230,7 @@ gchar * etats_titre ()
 
 		titre = g_strconcat ( titre,
 				      ", ", g_strdup_printf ( _("year %d"),
-							      g_date_year ( date_jour )),
+							      g_date_year (today_date)),
 				      NULL );
 		break;
 
@@ -287,7 +240,7 @@ gchar * etats_titre ()
 		titre = g_strconcat ( titre,
 				      ", ", 
 				      g_strdup_printf ( _("month total at %s"),
-							gsb_format_gdate ( date_jour ) ),
+							gsb_format_gdate (today_date)),
 				      NULL );
 		break;
 
@@ -297,25 +250,25 @@ gchar * etats_titre ()
 		titre = g_strconcat ( titre,
 				      ", ", 
 				      g_strdup_printf ( _("year total at %s"),
-							gsb_format_gdate ( date_jour ) ),
+							gsb_format_gdate (today_date)),
 				      NULL );
 		break;
 
 	    case 7:
 		/* mois précédent */
 
-		g_date_subtract_months ( date_jour,
+		g_date_subtract_months ( today_date,
 					 1 );
 		g_date_strftime ( buffer_date,
 				  14,
 				  "%B",
-				  date_jour );
+				  today_date );
 
 		titre = g_strconcat ( titre,
 				      ", ", 
 				      g_strdup_printf ( _("%s %d"),
 							buffer_date,
-							g_date_year ( date_jour )),
+							g_date_year (today_date)),
 				      NULL );
 		break;
 
@@ -324,7 +277,7 @@ gchar * etats_titre ()
 
 		titre = g_strconcat ( titre,
 				      ", ", g_strdup_printf ( _("year %d"),
-							      g_date_year ( date_jour ) - 1),
+							      g_date_year (today_date) - 1),
 				      NULL );
 		break;
 
@@ -342,7 +295,7 @@ gchar * etats_titre ()
 				      ", ", 
 				      g_strdup_printf ( _("Result from %s to %s"),
 							gsb_format_gdate ( date_tmp ),
-							gsb_format_gdate ( date_jour ) ),
+							gsb_format_gdate (today_date)),
 				      NULL );
 		break;
 
@@ -361,7 +314,7 @@ gchar * etats_titre ()
 		g_date_strftime ( buffer_date,
 				  14,
 				  "%B",
-				  date_jour );
+				  today_date);
 
 		titre = g_strconcat ( titre,
 				      ", ", 
@@ -371,7 +324,7 @@ gchar * etats_titre ()
 				      " ",
 				      g_strdup_printf ( _("to %s %d"),
 							buffer_date,
-							g_date_year ( date_jour )),
+							g_date_year (today_date)),
 				      NULL );
 		break;
 
@@ -390,7 +343,7 @@ gchar * etats_titre ()
 		g_date_strftime ( buffer_date,
 				  14,
 				  "%B",
-				  date_jour );
+				  today_date);
 
 
 		titre = g_strconcat ( titre,
@@ -401,7 +354,7 @@ gchar * etats_titre ()
 				      " ",
 				      g_strdup_printf ( _("to %s %d"),
 							buffer_date,
-							g_date_year ( date_jour )),
+							g_date_year (today_date)),
 				      NULL );
 		break;
 
@@ -420,7 +373,7 @@ gchar * etats_titre ()
 		g_date_strftime ( buffer_date,
 				  14,
 				  "%B",
-				  date_jour );
+				  today_date);
 
 		titre = g_strconcat ( titre,
 				      ", ", 
@@ -430,7 +383,7 @@ gchar * etats_titre ()
 				      " ",
 				      g_strdup_printf ( _("to %s %d"),
 							buffer_date,
-							g_date_year ( date_jour )),
+							g_date_year (today_date)),
 				      NULL );
 		break;
 	}

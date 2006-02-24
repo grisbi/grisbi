@@ -243,8 +243,11 @@ gint gsb_data_transaction_get_transaction_number ( gpointer transaction_pointer 
 }
 
 
-/** save the pointer in a buffer to increase the speed later
+/**
+ * save the pointer in a buffer to increase the speed later
+ * 
  * \param transaction the pointer to the transaction
+ * 
  * \return TRUE or FALSE if pb
  * */
 gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction )

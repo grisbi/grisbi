@@ -36,6 +36,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
@@ -52,7 +53,6 @@
 #include "categories_onglet.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
-#include "utils_exercices.h"
 #include "utils_comptes.h"
 #include "utils_types.h"
 #include "utils_operations.h"
@@ -1603,8 +1603,7 @@ gint gsb_scheduler_create_transaction_from_scheduled_form ( void )
     {
 	case -2:
 	    gsb_data_transaction_set_financial_year_number ( transaction_number,
-							     recherche_exo_correspondant ( gsb_data_transaction_get_date (transaction_number)));
-
+							     gsb_data_fyear_get_from_date  (gsb_data_transaction_get_date (transaction_number)));
 	    break;
 
 	case -1:
@@ -2058,7 +2057,7 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 
     if ( gsb_data_scheduled_get_financial_year_number (scheduled_number) == -2 )
 	gsb_data_transaction_set_financial_year_number ( transaction_number,
-							 recherche_exo_correspondant ( gsb_data_transaction_get_date (transaction_number)));
+							 gsb_data_fyear_get_from_date ( gsb_data_transaction_get_date (transaction_number)));
     else
 	gsb_data_transaction_set_financial_year_number ( transaction_number,
 							 gsb_data_scheduled_get_financial_year_number (scheduled_number));

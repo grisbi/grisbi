@@ -31,9 +31,9 @@
 /*START_INCLUDE*/
 #include "export_csv.h"
 #include "dialog.h"
-#include "utils_exercices.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
+#include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
@@ -425,7 +425,7 @@ void csv_export ( gchar * filename, gint account_nb )
 
 	      /* Financial Year */
 	      if ( gsb_data_transaction_get_financial_year_number ( pTransaction ) != -1 )
-		  csv_field_exercice  = g_strdup(exercice_name_by_no(gsb_data_transaction_get_financial_year_number ( pTransaction )));
+		  csv_field_exercice  = g_strdup(gsb_data_fyear_get_name(gsb_data_transaction_get_financial_year_number ( pTransaction )));
 
 	      /*  on met soit un virement, soit une ventilation, soit les catégories */
 
@@ -527,7 +527,7 @@ void csv_export ( gchar * filename, gint account_nb )
 
 			  /* Financial Year */
 			  if ( gsb_data_transaction_get_financial_year_number ( pBreakdownTransaction ) != -1 )
-			      csv_field_exercice  = g_strdup(exercice_name_by_no(gsb_data_transaction_get_financial_year_number ( pBreakdownTransaction )));
+			      csv_field_exercice  = g_strdup(gsb_data_fyear_get_name(gsb_data_transaction_get_financial_year_number ( pBreakdownTransaction )));
 
 			  csv_add_record(csv_file,FALSE);
 		      }

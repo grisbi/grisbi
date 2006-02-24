@@ -30,9 +30,9 @@
 #include "erreur.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
+#include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
-#include "utils_exercices.h"
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
 #include "utils_str.h"
@@ -1106,8 +1106,8 @@ gint gsb_transactions_list_sort_by_financial_year ( GtkTreeModel *model,
 	GDate *date_1;
 	GDate *date_2;
 
-	date_1 = gsb_financial_year_get_begining_date (gsb_data_transaction_get_financial_year_number ( transaction_number_1));
-	date_2 = gsb_financial_year_get_begining_date (gsb_data_transaction_get_financial_year_number ( transaction_number_2));
+	date_1 = gsb_data_fyear_get_begining_date (gsb_data_transaction_get_financial_year_number ( transaction_number_1));
+	date_2 = gsb_data_fyear_get_begining_date (gsb_data_transaction_get_financial_year_number ( transaction_number_2));
 
 	if ( date_1 )
 	{

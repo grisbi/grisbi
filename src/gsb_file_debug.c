@@ -24,10 +24,10 @@
 /*START_INCLUDE*/
 #include "gsb_file_debug.h"
 #include "dialog.h"
-#include "utils_exercices.h"
 #include "gsb_assistant.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
+#include "gsb_data_fyear.h"
 #include "gsb_data_transaction.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -533,9 +533,9 @@ gchar * gsb_debug_transfer_test ( void )
 /* 						      "breakdown line #%d of this transaction has a " */
 /* 						      "financial year named %s\n"), */
 /* 						    pTransaction -> no_operation, */
-/* 						    exercice_name_by_no ( pTransaction -> no_exercice ), */
+/* 						    gsb_data_fyear_get_name ( pTransaction -> no_exercice ), */
 /* 						    pBreakdownTransaction -> no_operation, */
-/* 						    exercice_name_by_no ( pBreakdownTransaction -> no_exercice ) ), */
+/* 						    gsb_data_fyear_get_name ( pBreakdownTransaction -> no_exercice ) ), */
 /* 				  NULL ); */
 /* 	    corrupted_account = TRUE; */
 /* 	  } */

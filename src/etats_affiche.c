@@ -30,11 +30,11 @@
 #include "etats_affiche.h"
 #include "etats_calculs.h"
 #include "etats_support.h"
-#include "utils_exercices.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
+#include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_report.h"
 #include "gsb_data_transaction.h"
@@ -1098,16 +1098,16 @@ gint etat_affiche_affiche_total_exercice ( gint transaction_number,
 	    {
 		if ( nb_ope_periode_etat <= 1 )
 		    text = g_strdup_printf ( COLON(_("Result of %s (%d transaction)")),
-					     exercice_name_by_no ( exo_en_cours_etat ),
+					     gsb_data_fyear_get_name ( exo_en_cours_etat ),
 					     nb_ope_periode_etat );
 		else
 		    text = g_strdup_printf ( COLON(_("Result of %s (%d transactions)")),
-					     exercice_name_by_no ( exo_en_cours_etat ),
+					     gsb_data_fyear_get_name ( exo_en_cours_etat ),
 					     nb_ope_periode_etat );
 	    }
 	    else
 		text = g_strdup_printf ( COLON(_("Result of %s")),
-					 exercice_name_by_no ( exo_en_cours_etat ));
+					 gsb_data_fyear_get_name ( exo_en_cours_etat ));
 	}
 	else
 	{
@@ -1230,7 +1230,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	{
 	    if ( gsb_data_transaction_get_financial_year_number ( transaction_number))
 	    {
-		text = exercice_name_by_no ( gsb_data_transaction_get_financial_year_number ( transaction_number));
+		text = gsb_data_fyear_get_name ( gsb_data_transaction_get_financial_year_number ( transaction_number));
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{

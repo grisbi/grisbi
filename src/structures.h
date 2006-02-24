@@ -174,15 +174,6 @@ struct struct_banque
 
 
 
-struct struct_exercice
-{
-    gint no_exercice;
-    gchar *nom_exercice;
-    GDate *date_debut;
-    GDate *date_fin;
-    gint affiche_dans_formulaire;
-};
-
 struct struct_type_ope
 {
     gint no_type;
