@@ -128,7 +128,7 @@ static struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Central America"), N_("Costa Rican Colon"), N_("Costa Rica"), "CRC", NULL, TRUE },
     { N_("Central America"), N_("Guatemalan Quetzal"), N_("Guatemala"), "GTQ", NULL, TRUE },
     { N_("Central America"), N_("Honduran Lempira"), N_("Honduras"), "HNL", NULL, TRUE },
-    { N_("Central America"), N_("Mexican Peso"), N_("Mexico"), "MXP", NULL, FALSE },
+    { N_("Central America"), N_("Mexican Peso"), N_("Mexico"), "MXP", NULL, TRUE },
     { N_("Central America"), N_("Panama Balboa"), N_("Panama"), "PAB", NULL, TRUE },
     { N_("Europe"), N_("Albanian Lek"), N_("Albania"), "ALL", NULL, TRUE },
     { N_("Europe"), N_("Austrian Schilling"), N_("Austria"), "ATS", NULL, FALSE },
