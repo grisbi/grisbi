@@ -28,7 +28,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_scheduler_list.h"
-#include "exercice.h"
+#include "gsb_fyear.h"
 #include "barre_outils.h"
 #include "erreur.h"
 #include "dialog.h"

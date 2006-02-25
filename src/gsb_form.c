@@ -30,7 +30,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_form.h"
-#include "exercice.h"
+#include "gsb_fyear.h"
 #include "gsb_form_transaction.h"
 #include "echeancier_formulaire.h"
 #include "erreur.h"

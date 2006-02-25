@@ -37,7 +37,7 @@
 #include "affichage_liste.h"
 #include "banque.h"
 #include "affichage.h"
-#include "exercice.h"
+#include "gsb_fyear_config.h"
 #include "import.h"
 #include "gsb_payment_method_config.h"
 #include "equilibrage.h"

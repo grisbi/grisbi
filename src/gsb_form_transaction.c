@@ -32,7 +32,7 @@
 #include "gsb_form_transaction.h"
 #include "accueil.h"
 #include "gsb_transactions_list.h"
-#include "exercice.h"
+#include "gsb_fyear.h"
 #include "erreur.h"
 #include "dialog.h"
 #include "equilibrage.h"

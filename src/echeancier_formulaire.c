@@ -27,7 +27,7 @@
 
 /*START_INCLUDE*/
 #include "echeancier_formulaire.h"
-#include "exercice.h"
+#include "gsb_fyear.h"
 #include "comptes_traitements.h"
 #include "erreur.h"
 #include "dialog.h"

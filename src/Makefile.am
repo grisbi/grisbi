@@ -42,7 +42,6 @@ sources = \
 	etats_latex.c		\
 	etats_onglet.c		\
 	etats_support.c		\
-	exercice.c		\
 	export.c		\
 	export_csv.c		\
 	fenetre_principale.c	\
@@ -77,6 +76,8 @@ sources = \
 	gsb_form.c		\
 	gsb_form_config.c	\
 	gsb_form_transaction.c	\
+	gsb_fyear.c		\
+	gsb_fyear_config.c	\
 	gsb_payment_method.c	\
 	gsb_payment_method_config.c	\
 	gsb_real.c		\
@@ -162,6 +163,8 @@ grisbi_INCLUDES =		\
 	gsb_form.h		\
 	gsb_form_config.h	\
 	gsb_form_transaction.h	\
+	gsb_fyear.h		\
+	gsb_fyear_config.h	\
 	gsb_payment_method.h	\
 	gsb_payment_method_config.h	\
 	gsb_real.h		\
@@ -180,7 +183,6 @@ grisbi_INCLUDES =		\
 	etats_latex.h		\
 	etats_onglet.h		\
 	etats_support.h		\
-	exercice.h		\
 	fenetre_principale.h	\
 	fichiers_gestion.h	\
 	format.h		\
