@@ -140,8 +140,9 @@ gchar * get_next_tip ()
   gsize length;
 
   // If there any problem during tip file reading, return NULL 
-  if (!g_file_get_contents ( g_strconcat ( HELP_PATH, C_DIRECTORY_SEPARATOR, "tips.txt", NULL ),
-			&buffer, &length, NULL ))
+  if ( ! g_file_get_contents ( g_strconcat ( DATA_PATH, C_DIRECTORY_SEPARATOR, "tips.txt", 
+					     NULL ),
+			       &buffer, &length, NULL ) )
   {
       return NULL;
   }
