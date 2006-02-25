@@ -1111,6 +1111,9 @@ void gsb_file_config_clean_config ( void )
     largeur_window = 0;
     hauteur_window = 0;
 
+    etat.force_enregistrement = 1;
+    etat.utilise_logo = 1;
+
     etat.r_modifiable = 0;       /* on ne peux modifier les opé relevées */
     etat.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
     buffer_dernier_fichier = my_strdup ( "" );
@@ -1121,6 +1124,7 @@ void gsb_file_config_clean_config ( void )
     etat.formulaire_echeancier_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
     etat.limit_completion_to_current_account = 0;        /* By default, do full search */
+
     etat.display_toolbar = GSB_BUTTON_BOTH;        /* How to display toolbar icons. */
     etat.show_toolbar = TRUE;        /* Show toolbar or not. */
     etat.show_headings_bar = TRUE;        /* Show toolbar or not. */

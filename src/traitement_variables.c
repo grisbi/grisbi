@@ -199,17 +199,7 @@ void init_variables ( void )
 
     gsb_currency_init_variables ();
 
-
     crypt_key = NULL;
-
-    /* init the etat structure,
-     * after that, just what is needed to set different than 0
-     * will be set  */
-
-    memset ( &etat, 0, sizeof (etat));
-	
-    etat.force_enregistrement = 1;
-    etat.utilise_logo = 1;
 
     mise_a_jour_liste_comptes_accueil = 0;
     mise_a_jour_liste_echeances_manuelles_accueil = 0;
