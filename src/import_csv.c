@@ -364,6 +364,8 @@ gint csv_import_try_separator ( gchar * contents, gchar * separator )
     GSList * list;
     int cols, i = 0;
 
+    csv_skip_lines ( &contents, 3, separator);
+
     list = csv_get_next_line ( &contents, separator );
     cols = g_slist_length ( list );
     printf ("> I believe first line is %d cols\n", cols );
@@ -594,7 +596,7 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
 	list = list -> next;
     }
     
-    csv_skip_lines ( &contents, 2, separator );
+    csv_skip_lines ( &contents, 3, separator );
 
     /** Then, we try using heuristics to determine which field is date
      * and which ones contain amounts.  We cannot guess payees or
