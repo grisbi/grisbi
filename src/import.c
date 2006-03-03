@@ -171,10 +171,10 @@ void importer_fichier ( void )
 			    "So far, the following formats are supported:"
 			    "\n\n"
 			    ""
-			    "	• Quicken Interchange format (QIF)\n"
-			    "	• Open Financial Exchange Format (OFX)\n"
-			    "	• Gnucash format\n"
-			    "	• Comma separated-values format (CSV/TSV)",
+			    "	→ Quicken Interchange format (QIF)\n"
+			    "	→ Open Financial Exchange Format (OFX)\n"
+			    "	→ Gnucash format\n"
+			    "	→ Comma separated-values format (CSV/TSV)",
 			    "csv.png" );
 
     gsb_assistant_add_page ( a, import_create_file_selection_page ( a ), 
@@ -648,7 +648,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 	    }
 
 	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, 
-						      g_strconcat ( "• ",
+						      g_strconcat ( "→ ",
 								    compte -> nom_de_compte,
 								    " (", 
 								    type_string_representation ( compte -> origine ),
@@ -691,7 +691,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 	    compte = list -> data;
 
 	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, 
-						      g_strconcat ( "• ",
+						      g_strconcat ( "→ ",
 								    compte -> nom_de_compte,
 								    " (", 
 								    type_string_representation ( compte -> origine ),

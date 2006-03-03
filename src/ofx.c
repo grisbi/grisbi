@@ -1,41 +1,26 @@
-/* ce fichier de la gestion du format ofx */
-
-
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-
+/* ************************************************************************** */
+/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 
 #include "include.h"
-
-#ifdef NOOFX
-#include "dialog.h"
-/* dummy recuperation_donnees_ofx function implementation for system with no LIBOFX */
-gboolean recuperation_donnees_ofx ( struct imported_file * imported )
-{
-  dialogue_error_hint(_("This build of Grisbi does not support OFX, please recompile Grisbi with OFX support enabled"), 
-                      g_strdup_printf (_("Cannot process OFX file '%s'"), nom_fichier));
-  return FALSE;
-}
-#else
-
-#include <libofx/libofx.h>
-
 
 /*START_INCLUDE*/
 #include "ofx.h"
@@ -47,9 +32,27 @@ gboolean recuperation_donnees_ofx ( struct imported_file * imported )
 #include "include.h"
 /*END_INCLUDE*/
 
+#ifdef NOOFX
 
-/* on doit mettre le compte en cours d'importation en global pour que la libofx puisse le traiter */
-/* de plus un fichier ofx peut intégrer plusieurs comptes, donc on crée une liste... */
+#include "dialog.h"
+/* dummy recuperation_donnees_ofx function implementation for system with no LIBOFX */
+gboolean recuperation_donnees_ofx ( struct imported_file * imported )
+{
+  dialogue_error_hint ( _("This build of Grisbi does not support OFX, please "
+			  "recompile Grisbi with OFX support enabled"), 
+			g_strdup_printf (_("Cannot process OFX file '%s'"), 
+					 imported -> name ) );
+  return FALSE;
+}
+
+#else  /* NOOFX */
+
+#include <libofx/libofx.h>
+
+
+/* on doit mettre le compte en cours d'importation en global pour que
+ * la libofx puisse le traiter de plus un fichier ofx peut intégrer
+ * plusieurs comptes, donc on crée une liste... */
 
 GSList *liste_comptes_importes_ofx;
 struct struct_compte_importation *compte_ofx_importation_en_cours;
@@ -57,15 +60,10 @@ gint erreur_import_ofx;
 gint  message_erreur_operation;
 gchar * ofx_filename;
 
-
 /*START_EXTERN*/
 extern GSList *liste_comptes_importes;
 extern GSList *liste_comptes_importes_error;
 /*END_EXTERN*/
-
-
-
-
 
 #ifdef OFX_0_7
 LibofxContextPtr ofx_context;

@@ -562,7 +562,7 @@ GtkWidget * new_stock_button_with_label_menu ( GsbButtonStyle style,
     vbox = new_stock_image_label ( style, stock_id, name );
 
     hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX(hbox), vbox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(hbox), vbox, TRUE, TRUE, 0 );
 
     arrow = gtk_arrow_new ( GTK_ARROW_DOWN, GTK_SHADOW_NONE );
     gtk_box_pack_start ( GTK_BOX(hbox), arrow, FALSE, FALSE, 0 );
@@ -623,7 +623,7 @@ GtkWidget * new_image_label ( GsbButtonStyle style, gchar * image_name, gchar * 
     {
 	image = gtk_image_new_from_file (g_strconcat(PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
 						     image_name, NULL));
-	gtk_box_pack_start ( GTK_BOX(vbox), image, FALSE, FALSE, 0 );
+	gtk_box_pack_start ( GTK_BOX(vbox), image, TRUE, TRUE, 0 );
     }
 
     /* Define label */
@@ -633,7 +633,7 @@ GtkWidget * new_image_label ( GsbButtonStyle style, gchar * image_name, gchar * 
 	gtk_label_set_text_with_mnemonic ( GTK_LABEL(label), name );
 	gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
 	gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_CENTER );
-	gtk_box_pack_start ( GTK_BOX(vbox), label, FALSE, FALSE, 0 );
+	gtk_box_pack_start ( GTK_BOX(vbox), label, TRUE, TRUE, 0 );
     }
 
     gtk_widget_show_all ( vbox );

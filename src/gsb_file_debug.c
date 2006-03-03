@@ -189,7 +189,7 @@ gboolean gsb_debug_enter_test_page ( GtkWidget * assistant )
 
 	    gtk_text_buffer_insert_with_tags_by_name ( text_buffer, &text_iter,
 						       g_strconcat ( "• ",
-								     debug_tests[i] . name,
+								     _( debug_tests[i] . name ),
 								     "\n", NULL ),
 						       -1, "indented", NULL );
 
@@ -276,6 +276,7 @@ gboolean gsb_debug_try_fix ( gboolean (* fix) () )
 
     if ( fix () )
     {
+	modification_fichier ( TRUE );	
 	dialogue_hint ( _("Grisbi successfully repaired this account file.  "
 			  "You may now save your modifications."),
 			_("Fix completed"));
@@ -456,7 +457,7 @@ gchar * gsb_debug_transfer_test ( void )
 		    }
 		    pText = g_strconcat ( pText,
 					  g_strdup_printf ( _("Transaction #%d is linked to transaction #%d, "
-							      "but the later is linked to transaction #%d.\n"),
+							      "which is linked to transaction #%d.\n"),
 							    transaction,
 							    transfer_transaction,
 							    gsb_data_transaction_get_transaction_number_transfer ( transfer_transaction ) ),
