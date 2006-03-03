@@ -297,6 +297,12 @@ gint gsb_data_account_max_number ( void )
 
 	account = tmp -> data;
 
+	/* Bulletproof, baby */
+	if ( ! account )
+	{
+	    return 0;
+	}
+
 	if ( account -> account_number > number_tmp )
 	    number_tmp = account -> account_number;
 
