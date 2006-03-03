@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-03-03 17:37+0100\n"
-"PO-Revision-Date: 2006-03-03 17:50+0100\n"
+"PO-Revision-Date: 2006-03-03 18:06+0100\n"
 "Last-Translator: Benjamin Drieu,,, <benj@atlin>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: (null)\n"
@@ -7350,98 +7350,80 @@ msgid "Welcome to Grisbi!"
 msgstr "À propos de Grisbi"
 
 #: src/menu.c:156
-#, fuzzy
 msgid "_File"
-msgstr "Fichier"
+msgstr "_Fichier"
 
 #: src/menu.c:159
-#, fuzzy
 msgid "_New account file..."
-msgstr "Nouveau fichier de compte"
+msgstr "_Nouveau fichier de compte"
 
 #: src/menu.c:162
-#, fuzzy
 msgid "_Open..."
-msgstr "_Ouvrir"
+msgstr "_Ouvrir..."
 
 #: src/menu.c:165
-#, fuzzy
 msgid "_Recently opened files"
-msgstr "Derniers fichiers"
+msgstr "_Derniers fichiers"
 
 #: src/menu.c:168
-#, fuzzy
 msgid "_Save"
-msgstr "Enregistrer"
+msgstr "_Enregistrer"
 
 #: src/menu.c:171
-#, fuzzy
 msgid "_Save as..."
-msgstr "Enregistrer sous"
+msgstr "Enregistrer _sous"
 
 #: src/menu.c:174
-#, fuzzy
 msgid "_Import file..."
-msgstr "Importer un fichier d'état"
+msgstr "_Importer un fichier..."
 
 #: src/menu.c:177
-#, fuzzy
 msgid "_Export accounts as QIF/CSV file..."
-msgstr "Comptes vers un fichier CSV ..."
+msgstr "_Exporter vers un fichier QIF/CSV ..."
 
 #: src/menu.c:180
-#, fuzzy
 msgid "_Debug account file..."
-msgstr "Nouveau fichier de compte"
+msgstr "_Déboguer le fichier de compte..."
 
 #: src/menu.c:183
-#, fuzzy
 msgid "_Close"
-msgstr "Fermer"
+msgstr "_Fermer"
 
 #: src/menu.c:186
 msgid "_Quit"
 msgstr "_Quitter"
 
 #: src/menu.c:189
-#, fuzzy
 msgid "_Edit"
-msgstr "Édition"
+msgstr "_Édition"
 
 #: src/menu.c:192
-#, fuzzy
 msgid "_New transaction"
-msgstr "Nouvelle opération"
+msgstr "_Nouvelle opération"
 
 #: src/menu.c:195
-#, fuzzy
 msgid "_Remove transaction"
-msgstr "Supprimer une opération"
+msgstr "_Supprimer une opération"
 
 #: src/menu.c:198
-#, fuzzy
 msgid "_Clone transaction"
-msgstr "Cloner l'opération"
+msgstr "_Cloner l'opération"
 
 #: src/menu.c:201
-#, fuzzy
 msgid "_Edit transaction"
-msgstr "Éditer l'opération"
+msgstr "_Éditer l'opération"
 
 #: src/menu.c:204
-#, fuzzy
 msgid "Convert to _scheduled transaction"
-msgstr "Saisie d'une opération planifiée"
+msgstr "Saisie d'une opération _planifiée"
 
 #: src/menu.c:207
-#, fuzzy
 msgid "_Move transaction to another account"
-msgstr "Déplacer l'opération vers un autre compte"
+msgstr "_Déplacer l'opération vers un autre compte"
 
 #: src/menu.c:210
-#, fuzzy
 msgid "_Preferences"
-msgstr "Paramètres"
+msgstr "_Préférences"
 
 #. View menu
 #: src/menu.c:214
@@ -7449,93 +7431,77 @@ msgid "_View"
 msgstr "_Affichage"
 
 #: src/menu.c:217
-#, fuzzy
 msgid "_New account"
-msgstr "Nouveau compte"
+msgstr "_Nouveau compte"
 
 #: src/menu.c:220
-#, fuzzy
 msgid "_Remove current account"
-msgstr "Supprimer un compte"
+msgstr "_Supprimer le compte courant"
 
 #. Help Menu
 #: src/menu.c:224
-#, fuzzy
 msgid "_Help"
-msgstr "Aide"
+msgstr "_Aide"
 
 #: src/menu.c:227
-#, fuzzy
 msgid "_Manual"
-msgstr "Manuel"
+msgstr "_Manuel"
 
 #: src/menu.c:230
-#, fuzzy
 msgid "_Quick start"
-msgstr "Démarrage rapide"
+msgstr "_Démarrage rapide"
 
 #: src/menu.c:233
-#, fuzzy
 msgid "_Translation"
-msgstr "Traduction"
+msgstr "_Traduction"
 
 #: src/menu.c:236
-#, fuzzy
 msgid "_About Grisbi..."
-msgstr "À propos de Grisbi"
+msgstr "_À propos de Grisbi"
 
 #: src/menu.c:239
-#, fuzzy
 msgid "_Grisbi website"
-msgstr "Site web Grisbi"
+msgstr "_Site web Grisbi"
 
 #: src/menu.c:242
-#, fuzzy
 msgid "_Report a bug"
-msgstr "Signaler un bogue"
+msgstr "Signaler un _bogue"
 
 #: src/menu.c:245
 msgid "_Tip of the day"
 msgstr "_Astuce du jour"
 
 #: src/menu.c:250
-#, fuzzy
 msgid "Show _one line per transaction"
-msgstr "1 ligne par opération"
+msgstr "Montrer _une ligne par opération"
 
 #: src/menu.c:253
-#, fuzzy
 msgid "Show _two lines per transaction"
-msgstr "2 lignes par opération"
+msgstr "Montrer _deux lignes par opération"
 
 #: src/menu.c:256
-#, fuzzy
 msgid "Show _three lines per transaction"
-msgstr "3 lignes par opération"
+msgstr "Montrer _trois lignes par opération"
 
 #: src/menu.c:259
-#, fuzzy
 msgid "Show _four lines per transaction"
-msgstr "4 lignes par opération"
+msgstr "Montrer _quatre lignes par opération"
 
 #: src/menu.c:263
-#, fuzzy
 msgid "Show transaction _form"
-msgstr "Formulaire de saisie d'opérations"
+msgstr "Montrer le _formulaire de saisie d'opérations"
 
 #: src/menu.c:266
 msgid "Show _grid"
 msgstr "Afficher la _grille"
 
 #: src/menu.c:269
-#, fuzzy
 msgid "Show _reconciled"
-msgstr "Rapprocher"
+msgstr "Montrer les opérations _rapprochées"
 
 #: src/menu.c:273
-#, fuzzy
 msgid "Show _closed accounts"
-msgstr "Comptes clos"
+msgstr "Montrer les comptes _clos"
 
 #: src/menu.c:393
 msgid "_C"
@@ -7543,14 +7509,13 @@ msgstr "_fr"
 
 #. * Find a unique name for budget
 #: src/meta_budgetary.c:468
-#, fuzzy
 msgid "New budget"
 msgstr "Nouvelle imputation"
 
 #: src/meta_budgetary.c:474
-#, fuzzy, c-format
+#, c-format
 msgid "New budget #%d"
-msgstr "Nouvelle imputation"
+msgstr "Nouvelle imputation %d"
 
 #. * Find a unique name for budget
 #: src/meta_budgetary.c:499
