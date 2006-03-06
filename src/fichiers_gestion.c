@@ -914,10 +914,10 @@ void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
 	{
 	    nb_derniers_fichiers_ouverts--;
 
-	    for ( j = i; j < nb_derniers_fichiers_ouverts-1; j++ )
+	    for ( j = i; ( j + 1 ) < nb_derniers_fichiers_ouverts; j++ )
 	    {
 		tab_noms_derniers_fichiers_ouverts[j] = tab_noms_derniers_fichiers_ouverts[j+1];
-
+		
 	    }
 	}
     }
