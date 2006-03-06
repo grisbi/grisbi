@@ -304,7 +304,7 @@ gboolean gsb_file_config_load_config ( void )
 
     etat.show_closed_accounts = g_key_file_get_integer ( config,
 							 "Display",
-							 "Show closed account",
+							 "Show closed accounts",
 							 NULL );
 
     /* FIXME : why use load_config_format ? external from here
