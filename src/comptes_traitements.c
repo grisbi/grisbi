@@ -150,6 +150,7 @@ gboolean new_account ( void )
  * \return FALSE FALSE
  * */
 
+
 gboolean delete_account ( void )
 {
     gint deleted_account;
@@ -172,11 +173,6 @@ gboolean delete_account ( void )
 	return FALSE;
     }
 
-    /* delete the transactions list page */
-
-    gtk_notebook_remove_page ( GTK_NOTEBOOK ( tree_view_vbox ),
-			       deleted_account + 1 );
-
     /* delete the schedules transactions on that account */
 
     list_tmp = gsb_data_scheduled_get_scheduled_list ();
@@ -189,6 +185,8 @@ gboolean delete_account ( void )
 
 	if ( gsb_data_scheduled_get_account_number (scheduled_number) == deleted_account )
 	    gsb_data_scheduled_remove_scheduled (scheduled_number);
+
+	list_tmp = list_tmp -> next;
     }
 
 
