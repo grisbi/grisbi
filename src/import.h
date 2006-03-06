@@ -1,9 +1,12 @@
 #ifndef _IMPORT_H
 #define _IMPORT_H (1)
+
 /* START_INCLUDE_H */
 #include "import.h"
-#include "gsb_data_transaction.h"
 /* END_INCLUDE_H */
+
+/* mk_include seems not to catch enums */
+#include "gsb_data_transaction.h"
 
 
 /* START_DECLARATION */

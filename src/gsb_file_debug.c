@@ -33,6 +33,7 @@
 #include "gsb_data_category.h"
 #include "gsb_real.h"
 #include "gsb_status.h"
+#include "traitement_variables.h"
 #include "include.h"
 #include "structures.h"
 #include "gsb_file_debug.h"
