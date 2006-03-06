@@ -61,6 +61,7 @@ static gboolean help_translation ();
 static gboolean help_website ();
 static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
 			     GtkContainer * p_box) ;
+static gboolean gsb_gui_toggle_show_closed_accounts ();
 /*END_STATIC*/
 
 
@@ -70,6 +71,7 @@ extern gsize nb_derniers_fichiers_ouverts ;
 extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern GtkWidget *window;
+extern GtkTreeStore * navigation_model;
 /*END_EXTERN*/
 
 
@@ -273,7 +275,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	  NULL,			G_CALLBACK ( gsb_gui_toggle_show_reconciled),
 	  0 },
 	{ "ShowClosed",		NULL,			_("Show _closed accounts"),
-	  NULL,			NULL,			G_CALLBACK ( NULL ),
+	  NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_show_closed_accounts ),
 	  etat.show_closed_accounts } 
     };
 
@@ -640,6 +642,23 @@ gboolean gsb_gui_toggle_show_reconciled ()
 	change_aspect_liste(6);
     else
 	change_aspect_liste(5);
+
+    return FALSE;
+}
+
+
+
+/**
+ * Show or hide closed accounts.
+ *
+ * \return FALSE
+ */
+gboolean gsb_gui_toggle_show_closed_accounts ()
+{
+    etat.show_closed_accounts = ! etat.show_closed_accounts;
+    modification_fichier ( TRUE );
+
+    create_account_list ( navigation_model );
 
     return FALSE;
 }
