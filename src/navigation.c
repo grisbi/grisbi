@@ -44,7 +44,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void create_account_list ( GtkTreeModel * model, GtkTreeIter * account_iter );
 static void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_iter );
 static gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 					      GdkEventKey *ev,
@@ -245,7 +244,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_ACCOUNT, -1,
 		       NAVIGATION_SENSITIVE, 1,
 		       -1);
-    create_account_list ( GTK_TREE_MODEL(navigation_model), &account_iter );
+    create_account_list ( GTK_TREE_MODEL(navigation_model) );
 
     /* Scheduler */
     pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
@@ -421,6 +420,7 @@ gint gsb_gui_navigation_get_current_account ( void )
 }
 
 
+
 /**
  * Return the number of the current selected report
  *
@@ -468,22 +468,39 @@ gint gsb_gui_navigation_get_current_report ( void )
  * \param model		Tree model to insert items into.
  * \param account_iter	Parent iter.
  */
-void create_account_list ( GtkTreeModel * model, GtkTreeIter * account_iter )
+void create_account_list ( GtkTreeModel * model )
 {
     GSList *list_tmp;
+    GtkTreeIter parent, child;
+    GtkTreePath * path;
+
+    gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &parent );
+
+    /* Remove childs if any. */
+    while ( gtk_tree_model_iter_children ( model, &child, &parent ) )
+    {
+	gtk_tree_store_remove ( GTK_TREE_STORE(model), &child );
+    }
 
     /* Fill in with accounts. */
     list_tmp = gsb_data_account_get_list_accounts ();
     while ( list_tmp )
     {
 	gint i = gsb_data_account_get_no_account ( list_tmp -> data );
-	GtkTreeIter iter;
 
-	gtk_tree_store_append(GTK_TREE_STORE(model), &iter, account_iter);
-	gsb_gui_navigation_update_account_iter ( model, &iter, i);
+	if ( etat.show_closed_accounts || 
+	     ! gsb_data_account_get_closed_account ( i ) )
+	{
+	    gsb_gui_navigation_add_account ( i );
+	}
 
 	list_tmp = list_tmp -> next;
     }
+
+    /* Expand stuff */
+    path = gtk_tree_model_get_path ( navigation_model, &parent );
+    gtk_tree_view_expand_to_path ( GTK_TREE_VIEW(navigation_tree_view), path );
+    gtk_tree_path_free ( path );
 }
 
 

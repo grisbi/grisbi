@@ -37,6 +37,7 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest, 
 					GtkTreePath * dest_path,
 					GtkSelectionData * selection_data );
+void create_account_list ( GtkTreeModel * model );
 /* END_DECLARATION */
 
 #endif
