@@ -50,14 +50,15 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void affiche_aide_locale ( gpointer null,
-			   gint origine );
 static gboolean gsb_gui_toggle_grid_mode ();
 static void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *current, 
 				     gpointer user_data );
 static gboolean gsb_gui_toggle_show_reconciled ();
-static void lien_web ( GtkWidget *widget,
-		gint origine );
+static gboolean help_bugreport ();
+static gboolean help_manual ();
+static gboolean help_quick_start ();
+static gboolean help_translation ();
+static gboolean help_website ();
 static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
 			     GtkContainer * p_box) ;
 /*END_STATIC*/
@@ -225,27 +226,28 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "Manual",		GTK_STOCK_HELP,		_("_Manual"),
-	  NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( help_manual ) },
 
 	{ "QuickStart",		NULL,			_("_Quick start"),
-	  NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( help_quick_start ) },
 
 	{ "Translation",	NULL,			_("_Translation"),
-	  NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( help_translation ) },
 
 	{ "About",		GTK_STOCK_ABOUT,	_("_About Grisbi..."),
 	  NULL,			NULL,			G_CALLBACK( a_propos ) },
 
 	{ "GrisbiWebsite",	NULL,			_("_Grisbi website"),
-	  NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( help_website ) },
 
 	{ "ReportBug",		NULL,			_("_Report a bug"),
-	  NULL,			NULL,			G_CALLBACK( NULL ) },
+	  NULL,			NULL,			G_CALLBACK( help_bugreport ) },
 
 	{ "Tip",		GTK_STOCK_DIALOG_INFO,	_("_Tip of the day"),
 	  NULL,			NULL,			G_CALLBACK( force_display_tip ) },
 
     };
+
     GtkRadioActionEntry radio_entries[] = {
 	{ "ShowOneLine",	NULL,			_("Show _one line per transaction"),
 	  NULL,			NULL,			ONE_LINE_PER_TRANSACTION },
@@ -365,49 +367,94 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
 
 
 
-void lien_web ( GtkWidget *widget,
-		gint origine )
+/**
+ * Start a browser processus with local copy of manual on command
+ * line.
+ *
+ * \return FALSE
+ */
+gboolean help_manual ()
 {
-    switch ( origine )
+    gchar *lang = _("_C");
+    struct stat test_file;
+
+    if ( utf8_stat ( g_strconcat ( HELP_PATH, "/", lang+1, "/manual.html", NULL ), 
+		     &test_file ) != -1 )
     {
-	case 1:
-	    lance_navigateur_web ( "http://www.grisbi.org");
-	    break;	
-
-	case 2:
-	    lance_navigateur_web ( "http://www.grisbi.org/bugtracking");
-	    break;
-
-	case 3:
-	    lance_navigateur_web ( "http://www.grisbi.org/manuel.html");
-	    break;
+	lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", lang+1, "/manual.html", 
+					     NULL ) );
     }
+    else
+    {
+	lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", lang+1, "/grisbi-manuel.html", 
+					     NULL ) );
+    }
+
+    return FALSE;
 }
-/* **************************************************************************************************** */
 
 
-/* **************************************************************************************************** */
-void affiche_aide_locale ( gpointer null,
-			   gint origine )
+
+/**
+ * Start a browser processus with local copy of the quick start page
+ * on command line.
+ *
+ * \return FALSE
+ */
+gboolean help_quick_start ()
 {
     gchar *lang = _("_C");
 
-    /* we use lang to translate it, else C will be translated as for checked transactions */
+    lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", lang+1, "/quickstart.html", 
+					 NULL ));
 
-    switch ( origine )
-    {
-	case 1:
-	    lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", lang+1, "/grisbi-manuel.html", NULL ));
-	    break;	
+    return FALSE;
+}
 
-	case 2:
-	    lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", lang+1, "/quickstart.html", NULL ));
-	    break;
 
-	case 3:
-	    lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", lang+1, "/translation.html", NULL ));
-	    break;
-    }
+
+/**
+ * Start a browser processus with local copy of the translation page
+ * on command line.
+ *
+ * \return FALSE
+ */
+gboolean help_translation ()
+{
+    gchar *lang = _("_C");
+
+    lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", lang+1, "/translation.html", 
+					 NULL ));
+
+    return FALSE;
+}
+
+
+
+/**
+ * Start a browser processus with Grisbi website displayed.
+ *
+ * \return FALSE
+ */
+gboolean help_website ()
+{
+    lance_navigateur_web ( "http://www.grisbi.org/" );
+
+    return FALSE;
+}
+
+
+
+/**
+ * Start a browser processus with Grisbi bug report page displayed.
+ *
+ * \return FALSE
+ */
+gboolean help_bugreport ()
+{
+    lance_navigateur_web ( "http://www.grisbi.org/bugtracking/" );
+
+    return FALSE;
 }
 
 
@@ -458,6 +505,7 @@ gboolean gsb_gui_sensitive_menu_item_from_string ( gchar * item_name, gboolean s
     }
     return FALSE;
 }
+
 
 
 /**
