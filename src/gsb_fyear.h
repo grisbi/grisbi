@@ -8,7 +8,7 @@
 
 /* START_DECLARATION */
 gint gsb_fyear_get_fyear_from_combobox ( GtkWidget *combo_box,
-					 GDate *date );
+					 const GDate *date );
 void gsb_fyear_init_variables ( void );
 GtkWidget *gsb_fyear_make_combobox ( void );
 gboolean gsb_fyear_set_combobox_history ( GtkWidget *combo_box,

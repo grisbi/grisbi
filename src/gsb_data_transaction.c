@@ -419,9 +419,12 @@ GDate *gsb_data_transaction_get_date ( gint transaction_number )
 }
 
 
-/** set the GDate of the transaction
+/**
+ * set the GDate of the transaction
+ * 
  * \param transaction_number
  * \param no_account
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_date ( gint transaction_number,

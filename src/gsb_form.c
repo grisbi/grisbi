@@ -784,7 +784,6 @@ GtkWidget *gsb_form_create_element_from_number ( gint element_number,
 						 gint account_number )
 {
     GtkWidget *widget;
-    GtkWidget *menu;
 
     if ( !element_number )
 	return NULL;

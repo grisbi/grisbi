@@ -187,7 +187,7 @@ gboolean gsb_fyear_set_combobox_history ( GtkWidget *combo_box,
  * \return the number of fyear or 0 if problem
  * */
 gint gsb_fyear_get_fyear_from_combobox ( GtkWidget *combo_box,
-					 GDate *date )
+					 const GDate *date )
 {
     gint fyear_number;
     GtkTreeIter iter;
@@ -201,11 +201,12 @@ gint gsb_fyear_get_fyear_from_combobox ( GtkWidget *combo_box,
 			 &iter,
 			 FYEAR_COL_NUMBER, &fyear_number,
 			 -1 );
-
+printf ( "%d %d\n", fyear_number, date );
     if (!fyear_number
 	&&
 	date )
 	fyear_number = gsb_data_fyear_get_from_date (date);
+    printf ( "numb : %d\n", fyear_number );
 
     return fyear_number;
 }

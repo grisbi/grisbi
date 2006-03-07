@@ -992,9 +992,9 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number )
 
     if (widget)
     {
-	if (strncmp ( gtk_combofix_get_text (GTK_COMBOFIX (widget)),
-		      _("Report"),
-		      strlen (_("Report"))))
+	if (!strncmp ( gtk_combofix_get_text (GTK_COMBOFIX (widget)),
+		       _("Report"),
+		       strlen (_("Report"))))
 	{
 	    gchar **tab_char;
 
@@ -1014,18 +1014,22 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number )
 	    tab_char = g_strsplit ( gtk_combofix_get_text (GTK_COMBOFIX (widget)),
 				    " : ",
 				    2 );
+
+	    if (!tab_char[1])
+	    {
+		dialogue_error  ( _("The word \"Report\" is reserved. Please use another one."));
+		g_strfreev (tab_char);
+		return FALSE;
+	    }
+
 	    if (!gsb_data_report_get_report_by_name (tab_char[1]))
 	    {
 		g_strfreev (tab_char);
 		dialogue_error ( _("Invalid multiple payee.") );
+		g_strfreev (tab_char);
 		return (FALSE);
 	    }
 	    g_strfreev (tab_char);
-	}
-	else
-	{
-	    dialogue_error  ( _("The word \"Report\" is reserved. Please use another one."));
-	    return FALSE;
 	}
     }
     return ( TRUE );
@@ -1043,6 +1047,12 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
     gint row, column;
     gint account_number;
 
+    /* we set a date variable to avoid to parse 2 times, one time for the date,
+     * and perhaps a second time with the financial year
+     * (cannot take it from the transaction if the fyear field is before the date field...) */
+
+    GDate *date = NULL;
+
     account_number = gsb_data_transaction_get_account_number (transaction_number);
 
     for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) ; row++ )
@@ -1051,7 +1061,6 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 	    gint value;
 	    GtkWidget *widget;
 	    gchar **tab_char;
-	    gint tmp_int;
 
 	    value = gsb_data_form_get_value ( account_number,
 					      column,
@@ -1063,8 +1072,11 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 	    switch (value)
 	    {
 		case TRANSACTION_FORM_DATE:
+		    if (!date)
+			date = gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY (widget)));
+
 		    gsb_data_transaction_set_date ( transaction_number,
-						    gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY (widget))));
+						    date );
 
 		    break;
 
@@ -1080,9 +1092,12 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 /* xxx en suis ici pour continuer à vérifier ce fichier une fois que fait les exercices */
 		case TRANSACTION_FORM_EXERCICE:
 /* FIXME : voir pour faire la différence date/date de valeur à partir de la conf ?*/
+		    if (!date)
+			date = gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY (widget)));
+
 		    gsb_data_transaction_set_financial_year_number ( transaction_number,
 								     gsb_fyear_get_fyear_from_combobox ( widget,
-													 gsb_data_transaction_get_date (transaction_number)));
+													 date ));
 		    break;
 
 		case TRANSACTION_FORM_PARTY:
