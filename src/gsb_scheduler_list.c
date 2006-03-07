@@ -28,7 +28,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_scheduler_list.h"
-#include "gsb_fyear.h"
 #include "barre_outils.h"
 #include "erreur.h"
 #include "dialog.h"
@@ -1371,10 +1370,10 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
     /* set the financial year */
 
-    gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ),
-				   cherche_no_menu_exercice ( gsb_data_scheduled_get_financial_year_number (scheduled_number),
-							      widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ));
-
+/*     gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ), */
+/* 				   cherche_no_menu_exercice ( gsb_data_scheduled_get_financial_year_number (scheduled_number), */
+/* 							      widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] )); */
+/*  */
     /* set the budget */
 
     if ( gsb_data_scheduled_get_budgetary_number (scheduled_number))

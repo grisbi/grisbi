@@ -37,13 +37,23 @@
 #include "gsb_data_account.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_transaction.h"
+#include "gsb_fyear.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "dialog.h"
-#include "gsb_fyear.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
+
+static GtkWidget *paddingbox_details;	/** Widget handling financial year details */
+static GtkWidget *clist_exercices_parametres;
+static GtkWidget *bouton_supprimer_exercice;
+static GtkWidget *nom_exercice;
+static GtkWidget *debut_exercice;
+static GtkWidget *fin_exercice;
+static GtkWidget *affichage_exercice;
+static gint ligne_selection_exercice;
+
 
 /*START_STATIC*/
 static void ajout_exercice ( GtkWidget *bouton,
@@ -63,15 +73,7 @@ static gboolean update_financial_year_list ( GtkEntry *entry, gchar *value,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *affichage_exercice;
-extern GtkWidget *bouton_supprimer_exercice;
-extern GtkWidget *clist_exercices_parametres;
-extern GtkWidget *debut_exercice;
 extern GtkWidget *fenetre_preferences;
-extern GtkWidget *fin_exercice;
-extern gint ligne_selection_exercice;
-extern GtkWidget *nom_exercice;
-extern GtkWidget *paddingbox_details;
 /*END_EXTERN*/
 
 
@@ -239,7 +241,7 @@ GtkWidget *onglet_exercices ( void )
     /* Activate in transaction form? */
     affichage_exercice = new_checkbox_with_title (_("Activate financial year in transaction form"),
 						  NULL, 
-						  G_CALLBACK(update_financial_year_menus));
+						  G_CALLBACK(gsb_fyear_update_fyear_list));
     gtk_box_pack_start ( GTK_BOX ( paddingbox_details ), affichage_exercice,
 			 FALSE, FALSE, 0 );
 
@@ -315,7 +317,7 @@ void ajout_exercice ( GtkWidget *bouton,
     gtk_widget_grab_focus ( nom_exercice );
 
     /* Update various menus */
-    update_financial_year_menus ();
+    gsb_fyear_update_fyear_list ();
 }
 
 
@@ -340,7 +342,7 @@ void supprime_exercice ( GtkWidget *bouton, GtkWidget *liste )
 	gtk_clist_select_row ( GTK_CLIST(liste), 0, 0 );
 
     /* Update various menus */
-    update_financial_year_menus ();
+    gsb_fyear_update_fyear_list ();
 }
 /* **************************************************************************************************************************** */
 

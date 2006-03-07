@@ -33,6 +33,7 @@
 #include "gsb_transactions_list.h"
 #include "gsb_form_transaction.h"
 #include "barre_outils.h"
+#include "navigation.h"
 #include "comptes_traitements.h"
 #include "erreur.h"
 #include "fichiers_gestion.h"
@@ -40,10 +41,11 @@
 #include "tip.h"
 #include "gsb_data_account.h"
 #include "gsb_file_debug.h"
-#include "navigation.h"
 #include "import.h"
 #include "utils.h"
+#include "traitement_variables.h"
 #include "parametres.h"
+#include "utils_files.h"
 #include "menu.h"
 #include "include.h"
 #include "structures.h"
@@ -53,6 +55,7 @@
 static gboolean gsb_gui_toggle_grid_mode ();
 static void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *current, 
 				     gpointer user_data );
+static gboolean gsb_gui_toggle_show_closed_accounts ();
 static gboolean gsb_gui_toggle_show_reconciled ();
 static gboolean help_bugreport ();
 static gboolean help_manual ();
@@ -61,17 +64,16 @@ static gboolean help_translation ();
 static gboolean help_website ();
 static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
 			     GtkContainer * p_box) ;
-static gboolean gsb_gui_toggle_show_closed_accounts ();
 /*END_STATIC*/
 
 
 
 /*START_EXTERN*/
+extern GtkTreeStore * navigation_model;
 extern gsize nb_derniers_fichiers_ouverts ;
 extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern GtkWidget *window;
-extern GtkTreeStore * navigation_model;
 /*END_EXTERN*/
 
 

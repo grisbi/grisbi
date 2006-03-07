@@ -16,7 +16,6 @@ gpointer gsb_data_payee_get_empty_payee ( void );
 gchar *gsb_data_payee_get_name ( gint no_payee,
 				 gboolean can_return_null);
 GSList *gsb_data_payee_get_name_and_report_list ( void );
-GSList *gsb_data_payee_get_name_list ( void );
 gint gsb_data_payee_get_nb_transactions ( gint no_payee );
 gint gsb_data_payee_get_no_payee ( gpointer payee_ptr );
 gint gsb_data_payee_get_number_by_name ( const gchar *name,

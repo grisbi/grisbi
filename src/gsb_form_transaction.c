@@ -32,7 +32,6 @@
 #include "gsb_form_transaction.h"
 #include "accueil.h"
 #include "gsb_transactions_list.h"
-#include "gsb_fyear.h"
 #include "erreur.h"
 #include "dialog.h"
 #include "equilibrage.h"
@@ -47,6 +46,7 @@
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "gsb_form.h"
+#include "gsb_fyear.h"
 #include "navigation.h"
 #include "gsb_payment_method.h"
 #include "gsb_real.h"
@@ -297,9 +297,8 @@ void gsb_form_transaction_fill_form ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_EXERCICE:
-	    gtk_option_menu_set_history (  GTK_OPTION_MENU ( widget ),
-					   cherche_no_menu_exercice ( gsb_data_transaction_get_financial_year_number (transaction_number),
-								      widget ));
+	    gsb_fyear_set_combobox_history ( widget,
+					     gsb_data_transaction_get_financial_year_number (transaction_number));
 	    break;
 
 	case TRANSACTION_FORM_PARTY:
@@ -1080,20 +1079,10 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 		    break;
 /* xxx en suis ici pour continuer à vérifier ce fichier une fois que fait les exercices */
 		case TRANSACTION_FORM_EXERCICE:
-
-		    /* if financial year is -1, we are on "not showed", so if it's a modification
-		     * of transaction, no problem, if it's a new transaction, set it to 0 */
-		    tmp_int = gsb_financial_year_get_number_from_option_menu (widget);
-		    if ( tmp_int == -1 )
-		    {
-			if (transaction_number <= 0)
-			    gsb_data_transaction_set_financial_year_number ( transaction_number,
-									     0 );
-		    }
-		    else
-			gsb_data_transaction_set_financial_year_number ( transaction_number,
-									 tmp_int );
-
+/* FIXME : voir pour faire la différence date/date de valeur à partir de la conf ?*/
+		    gsb_data_transaction_set_financial_year_number ( transaction_number,
+								     gsb_fyear_get_fyear_from_combobox ( widget,
+													 gsb_data_transaction_get_date (transaction_number)));
 		    break;
 
 		case TRANSACTION_FORM_PARTY:

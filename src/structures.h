@@ -63,7 +63,10 @@
 
 
 /* variables contenant juste 0 ou 1 */
-
+/* FIXME : scinder cette structure en 3 parties : */
+/* la partie configurée par le fichier */
+/* la partie configurée par la conf */
+/* la partie configurée pendant le fonctionnement de grisbi */
 struct {
     gint modification_fichier;
     gint ctrl;

@@ -31,231 +31,263 @@
 /*START_INCLUDE*/
 #include "gsb_fyear.h"
 #include "gsb_data_fyear.h"
-#include "utils_dates.h"
-#include "echeancier_formulaire.h"
-#include "gsb_data_form.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 
-GtkWidget *paddingbox_details;	/** Widget handling financial year details */
-GtkWidget *clist_exercices_parametres;
-GtkWidget *bouton_supprimer_exercice;
-GtkWidget *nom_exercice;
-GtkWidget *debut_exercice;
-GtkWidget *fin_exercice;
-GtkWidget *affichage_exercice;
-gint ligne_selection_exercice;
+/**
+ * this is a tree model filter with 3 columns :
+ * the name, the number and a boolean to show it or not
+ * */
+static GtkTreeModel *fyear_model;
 
+/**
+ * this is a tree model filter from fyear_model_filter wich
+ * show only the financial years wich must be showed
+ * */
+static GtkTreeModel *fyear_model_filter;
+
+
+enum currency_list_columns {
+    FYEAR_COL_NAME = 0,
+    FYEAR_COL_NUMBER,
+    FYEAR_COL_VIEW,
+};
 
 
 /*START_STATIC*/
+static gboolean gsb_fyear_create_combobox_store ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *formulaire;
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
 
 
 
 /**
- * Rebuild financial years menus in various forms
- */
-gboolean update_financial_year_menus ()
+ * set to NULL the static variables
+ *
+ * \param
+ *
+ * \return
+ * */
+void gsb_fyear_init_variables ( void )
 {
-/* FIXME : what to do and do it again with the new form */
-/*     if ( widget_formulaire_operations[TRANSACTION_FORM_EXERCICE] && */
-/* 	 GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]) -> menu ) */
-/*     { */
-/* 	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]) -> menu ); */
-/* 	gtk_option_menu_set_menu ( GTK_OPTION_MENU (widget_formulaire_operations[TRANSACTION_FORM_EXERCICE]), */
-/* 				   creation_menu_exercices (0) ); */
-/*     } */
+    if (fyear_model_filter
+	&&
+	GTK_IS_LIST_STORE (fyear_model))
+	gtk_list_store_clear (GTK_LIST_STORE (fyear_model));
 
-    if ( widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] &&
-	 GTK_OPTION_MENU(widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]) -> menu )
+    fyear_model = NULL;
+    fyear_model_filter = NULL;
+}
+
+
+/**
+ * create and return a combobox with the financial years
+ *
+ * \param
+ *
+ * \return a widget combobox or NULL
+ * */
+GtkWidget *gsb_fyear_make_combobox ( void )
+{
+    GtkCellRenderer *renderer;
+    GtkWidget *combo_box;
+
+    if (!fyear_model_filter)
+	gsb_fyear_create_combobox_store ();
+
+    combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL (fyear_model_filter));
+
+    renderer = gtk_cell_renderer_text_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), renderer,
+				    "text", FYEAR_COL_NAME,
+				    NULL);
+
+    gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_box),
+			       0 );
+    return (combo_box);
+}
+
+
+
+/**
+ * set the combobox on the fyear given in param
+ * if the fyear exists but is not showed normally, we show it because it's for
+ * a modification of a transaction (when the form will be freed, that fyear won't be showed again)
+ *
+ * \combo_box the combo-box to set
+ * \fyear_number the fyear we want to set on the combo-box, if 0, will be set on "Automatic"
+ *
+ * \return TRUE fyear found, FALSE fyear not found, nothing change
+ * */
+gboolean gsb_fyear_set_combobox_history ( GtkWidget *combo_box,
+					  gint fyear_number )
+{
+    GtkTreeIter iter;
+    gint result;
+
+    if (!combo_box)
+	return FALSE;
+
+    if (!fyear_model)
+	gsb_fyear_create_combobox_store ();
+
+    /* we look for the fyear in the model and not in the filter
+     * because of if the fyear is not showed */
+    result = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (fyear_model),
+					     &iter );
+    while (result)
     {
-	gtk_widget_destroy ( GTK_OPTION_MENU(widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]) -> menu );
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU (widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]),
-				   creation_menu_exercices (1) );
+	gint value;
+	gboolean show;
+
+	gtk_tree_model_get ( GTK_TREE_MODEL (fyear_model),
+			     &iter,
+			     FYEAR_COL_NUMBER, &value,
+			     FYEAR_COL_VIEW, &show,
+			     -1 );
+
+	if (value == fyear_number)
+	{
+	    GtkTreeIter child_iter;
+
+	    /* if normally not showed, we show it now and later
+	     * it will be back to show */
+	    if (!show)
+		gtk_list_store_set ( GTK_LIST_STORE (fyear_model),
+				     &iter,
+				     FYEAR_COL_VIEW, TRUE,
+				     -1 );
+	    /* as we were in the model and not the filter, we need to change the iter */
+	    gtk_tree_model_filter_convert_child_iter_to_iter ( GTK_TREE_MODEL_FILTER (fyear_model_filter),
+							       &child_iter,
+							       &iter );
+	    gtk_combo_box_set_active_iter ( GTK_COMBO_BOX (combo_box),
+					    &child_iter );
+	    return TRUE;
+	}
+	result = gtk_tree_model_iter_next ( GTK_TREE_MODEL (fyear_model),
+					    &iter );
     }
     return FALSE;
 }
 
 
-/* ************************************************************************************************************ */
-/* Fonction creation_menu_exercices */
-/* crée un menu qui contient les noms des exercices associés à leur no et adr */
-/* et le renvoie */
-/* origine = 0 si ça vient des opérations */
-/* origine = 1 si ça vient de l'échéancier ; dans ce cas on rajoute automatique */
-/* ************************************************************************************************************ */
-
-GtkWidget *creation_menu_exercices ( gint origine )
+/** 
+ * Get and return the number of the fyear in the combobox given
+ * in param
+ * if the fyear is 0, try to find a fyear with the givent date
+ * 
+ * \param combo_box a combo_box with the financials years
+ * \param date date to find a corresponding fyear if the combobox is on Automatic or NULL
+ * 
+ * \return the number of fyear or 0 if problem
+ * */
+gint gsb_fyear_get_fyear_from_combobox ( GtkWidget *combo_box,
+					 GDate *date )
 {
-    GtkWidget *menu;
-    GtkWidget *menu_item;
-    GSList *tmp_list;
+    gint fyear_number;
+    GtkTreeIter iter;
 
-    menu = gtk_menu_new ();
-    gtk_widget_show ( menu );
+    if (!fyear_model_filter)
+	gsb_fyear_create_combobox_store ();
 
+    gtk_combo_box_get_active_iter ( GTK_COMBO_BOX (combo_box),
+				    &iter );
+    gtk_tree_model_get ( GTK_TREE_MODEL (fyear_model_filter),
+			 &iter,
+			 FYEAR_COL_NUMBER, &fyear_number,
+			 -1 );
 
-    /* si ça vient de l'échéancier, le 1er est automatique */
-    /* on lui associe -2 */
+    if (!fyear_number
+	&&
+	date )
+	fyear_number = gsb_data_fyear_get_from_date (date);
 
-    if ( origine )
-    {
-	menu_item = gtk_menu_item_new_with_label ( _("Automatic") );
-	gtk_menu_append ( GTK_MENU ( menu ),
-			  menu_item );
-	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			      "no_exercice",
-			      GINT_TO_POINTER (-2));
-	gtk_widget_show ( menu_item );
-    }
-
-    /* le premier nom est Aucun */
-    /* on lui associe 0 */
-
-    menu_item = gtk_menu_item_new_with_label ( _("None") );
-    gtk_menu_append ( GTK_MENU ( menu ),
-		      menu_item );
-    gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			  "no_exercice",
-			  NULL );
-    gtk_widget_show ( menu_item );
-
-
-    /* le second est non affiché */
-    /* on lui associe -1 */
-
-    menu_item = gtk_menu_item_new_with_label ( _("Not displayed") );
-    gtk_menu_append ( GTK_MENU ( menu ),
-		      menu_item );
-    gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			  "no_exercice",
-			  GINT_TO_POINTER (-1));
-    gtk_widget_show ( menu_item );
-
-
-    tmp_list = gsb_data_fyear_get_fyears_list ();
-
-    while (tmp_list)
-    {
-	gint fyear_number;
-
-	fyear_number = GPOINTER_TO_INT (tmp_list -> data);
-
-	if (gsb_data_fyear_get_form_show (fyear_number))
-	{
-	    menu_item = gtk_menu_item_new_with_label (gsb_data_fyear_get_name(fyear_number));
-	    gtk_menu_append ( GTK_MENU ( menu ),
-			      menu_item );
-
-	    gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-				  "no_exercice",
-				  GINT_TO_POINTER (fyear_number));
-	    gtk_widget_show ( menu_item );
-	}
-	tmp_list = tmp_list -> next;
-    }
-    return ( menu );
+    return fyear_number;
 }
-/* ************************************************************************************************************ */
 
 
 /**
- * get the number of the selected financial year in the option menu
- * in the param
- * that option menu has to be created before with creation_menu_exercices
+ * update the list of the currencies, wich change all
+ * the current combobox content
+ * set the first row with Automatic with 0 as number
  *
- * \param financial_year_option_menu
+ * \param
  *
- * \return the number of the financial year
- * */
-gint gsb_financial_year_get_number_from_option_menu ( GtkWidget *option_menu )
+ * \return FALSE
+ */
+gboolean gsb_fyear_update_fyear_list ( void )
 {
-    gint financial_year_number;
+    GSList *list_tmp;
+    GtkTreeIter iter;
 
-    financial_year_number = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (option_menu) -> menu_item ),
-								    "no_exercice" ));
-    return financial_year_number;
-}
+    gtk_list_store_clear (GTK_LIST_STORE (fyear_model));
 
+    /* put at the begining 'Automatic' wich mean at the validation of
+     * the transaction, the fyear will take the value of the date */
+    gtk_list_store_append ( GTK_LIST_STORE (fyear_model),
+			    &iter );
+    gtk_list_store_set ( GTK_LIST_STORE (fyear_model),
+			 &iter,
+			 FYEAR_COL_NAME, _("Automatic"),
+			 FYEAR_COL_NUMBER, 0,
+			 FYEAR_COL_VIEW, TRUE,
+			 -1 );
 
-/* ************************************************************************************************************** */
-/* fonction affiche_exercice_par_date */
-/* met automatiquement l'option menu de l'exercice par rapport */
-/* à la date dans le formulaire */
-/* ************************************************************************************************************** */
+    /* fill the list */
+    list_tmp = gsb_data_fyear_get_fyears_list ();
 
-void affiche_exercice_par_date ( GtkWidget *entree_date,
-				 GtkWidget *option_menu_exercice )
-{
-    GDate *date_courante;
-
-    if ( !etat.affichage_exercice_automatique
-	 ||
-	!option_menu_exercice )
-	return;
-
-    date_courante = gsb_parse_date_string (gtk_entry_get_text ( GTK_ENTRY (entree_date)));
-    if (!date_courante)
-	return;
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( option_menu_exercice ),
-				  cherche_no_menu_exercice ( gsb_data_fyear_get_from_date (date_courante),
-							     option_menu_exercice ));
-}
-/* ************************************************************************************************************** */
-
-
-/* ************************************************************************************************************** */
-/* Fonction cherche_no_menu_exercice */
-/*   argument : le numÃ©ro de l'exercice demandÃ© */
-/* renvoie la place demandÃ©e dans l'option menu du formulaire */
-/* pour mettre l'history */
-/* ************************************************************************************************************** */
-
-gint cherche_no_menu_exercice ( gint no_demande,
-				GtkWidget *option_menu )
-{
-    GList *liste_tmp;
-    gint trouve;
-    gint non_affiche;
-    gint i;
-
-    liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU ( option_menu ) -> menu ) -> children;
-    i= 0;
-    non_affiche = 0;
-
-    while ( liste_tmp )
+    while ( list_tmp )
     {
+	gint fyear_number;
 
-	trouve = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
-							 "no_exercice" ));
+	fyear_number = gsb_data_fyear_get_no_fyear (list_tmp -> data);
 
-	/*       si trouve = no demandÃ©, c'est bon, on se barre */
-
-	if ( trouve == no_demande )
-	    return ( i );
-
-	/*  si on est sur la position du non affichÃ©, on le sauve */
-
-	if ( trouve == -1 )
-	    non_affiche = i;
-
-	i++;
-	liste_tmp = liste_tmp -> next;
+	gtk_list_store_append ( GTK_LIST_STORE (fyear_model),
+				&iter );
+	gtk_list_store_set ( GTK_LIST_STORE (fyear_model),
+			     &iter,
+			     FYEAR_COL_NAME, gsb_data_fyear_get_name (fyear_number),
+			     FYEAR_COL_NUMBER, fyear_number,
+			     FYEAR_COL_VIEW, gsb_data_fyear_get_form_show (fyear_number),
+			     -1 );
+	list_tmp = list_tmp -> next;
     }
-
-    /*   l'exo n'est pas affichÃ©, on retourne la position de non affichÃ© */
-
-    return ( non_affiche );
+    return FALSE;
 }
-/* ************************************************************************************************************** */
+
+
+/**
+ * create and fill the list store of the fyear
+ * come here mean that fyear_model_filter is NULL
+ *
+ * \param
+ *
+ * \return TRUE ok, FALSE problem
+ * */
+gboolean gsb_fyear_create_combobox_store ( void )
+{
+    /* the fyear list store, contains 3 columns :
+     * FYEAR_COL_NAME : the name of the fyear
+     * FYEAR_COL_NUMBER : the number of the fyear
+     * FYEAR_COL_VIEW : it tha fyear should be showed */
+
+    fyear_model = GTK_TREE_MODEL ( gtk_list_store_new ( 3,
+							G_TYPE_STRING,
+							G_TYPE_INT,
+							G_TYPE_BOOLEAN ));
+    fyear_model_filter = gtk_tree_model_filter_new ( fyear_model,
+						     NULL );
+    gtk_tree_model_filter_set_visible_column ( GTK_TREE_MODEL_FILTER (fyear_model_filter),
+					       FYEAR_COL_VIEW );
+    gsb_fyear_update_fyear_list ();
+    return TRUE;
+}
+
 
 
 

@@ -202,8 +202,9 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry )
 /**
  * Create and return a GDate from a string reprensentation of a date.
  *
- * \param	
+ * \param a sting wich represent a date
  *
+ * \return a newly allocated gdate
  */
 GDate *gsb_parse_date_string ( const gchar *date_string )
 {

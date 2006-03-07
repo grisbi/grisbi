@@ -27,7 +27,6 @@
 
 /*START_INCLUDE*/
 #include "echeancier_formulaire.h"
-#include "gsb_fyear.h"
 #include "comptes_traitements.h"
 #include "erreur.h"
 #include "dialog.h"
@@ -41,7 +40,6 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
-#include "gsb_form.h"
 #include "gsb_form_transaction.h"
 #include "accueil.h"
 #include "gsb_payment_method.h"
@@ -91,7 +89,6 @@ extern GtkWidget *main_page_finished_scheduled_transactions_part;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern FILE * out;
 extern GtkStyle *style_entree_formulaire[2];
 /*END_EXTERN*/
 
@@ -133,10 +130,10 @@ gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
 
 		/* on ne change l'exercice que si c'est une nouvelle échéance */
 
-		if ( !gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ),
-					    "scheduled_number" ))
-		    affiche_exercice_par_date( widget_formulaire_echeancier[SCHEDULER_FORM_DATE],
-					       widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] );
+/* 		if ( !gtk_object_get_data ( GTK_OBJECT ( formulaire_echeancier ), */
+/* 					    "scheduled_number" )) */
+/* 		    affiche_exercice_par_date( widget_formulaire_echeancier[SCHEDULER_FORM_DATE], */
+/* 					       widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE] ); */
 	    }
 	    else
 		texte = _("Date");
@@ -863,23 +860,23 @@ gint gsb_scheduler_create_transaction_from_scheduled_form ( void )
     /* if no_exercice is -2 : it's automatic
      * if -1 : it's not showed */
 
-    switch (gsb_financial_year_get_number_from_option_menu (widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]))
-    {
-	case -2:
-	    gsb_data_transaction_set_financial_year_number ( transaction_number,
-							     gsb_data_fyear_get_from_date  (gsb_data_transaction_get_date (transaction_number)));
-	    break;
-
-	case -1:
-	    gsb_data_transaction_set_financial_year_number ( transaction_number,
-							     0 );
-
-	    break;
-
-	default:
-	    gsb_data_transaction_set_financial_year_number ( transaction_number,
-							     gsb_financial_year_get_number_from_option_menu (widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]));
-    }
+/*     switch (gsb_financial_year_get_number_from_option_menu (widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE])) */
+/*     { */
+/* 	case -2: */
+/* 	    gsb_data_transaction_set_financial_year_number ( transaction_number, */
+/* 							     gsb_data_fyear_get_from_date  (gsb_data_transaction_get_date (transaction_number))); */
+/* 	    break; */
+/*  */
+/* 	case -1: */
+/* 	    gsb_data_transaction_set_financial_year_number ( transaction_number, */
+/* 							     0 ); */
+/*  */
+/* 	    break; */
+/*  */
+/* 	default: */
+/* 	    gsb_data_transaction_set_financial_year_number ( transaction_number, */
+/* 							     gsb_financial_year_get_number_from_option_menu (widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE])); */
+/*     } */
 
     /* get the budget */
 
@@ -1007,8 +1004,8 @@ gint gsb_scheduler_create_scheduled_transaction_from_scheduled_form ( gint sched
 
     /* get the financial year */
 
-    gsb_data_scheduled_set_financial_year_number ( scheduled_number,
-						   gsb_financial_year_get_number_from_option_menu (widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE]));
+/*     gsb_data_scheduled_set_financial_year_number ( scheduled_number, */
+/* 						   gsb_financial_year_get_number_from_option_menu (widget_formulaire_echeancier[SCHEDULER_FORM_EXERCICE])); */
 
     /* get the budget */
 

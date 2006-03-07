@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_form.h"
-#include "gsb_fyear.h"
 #include "gsb_form_transaction.h"
 #include "echeancier_formulaire.h"
 #include "erreur.h"
@@ -44,6 +43,7 @@
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
 #include "utils_dates.h"
+#include "gsb_fyear.h"
 #include "navigation.h"
 #include "gsb_payment_method.h"
 #include "gsb_transactions_list.h"
@@ -806,14 +806,11 @@ GtkWidget *gsb_form_create_element_from_number ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_EXERCICE:
-	    widget = gtk_option_menu_new ();
+	    widget = gsb_fyear_make_combobox ();
 	    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 				   widget,
 				   _("Choose the financial year"),
 				   _("Choose the financial year") );
-	    menu = gtk_menu_new ();
-	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget ),
-				       creation_menu_exercices (0) );
 	    break;
 
 	case TRANSACTION_FORM_PARTY:
@@ -1053,6 +1050,14 @@ gboolean gsb_form_clean ( gint account_number )
 			break;
 
 		    case TRANSACTION_FORM_EXERCICE:
+
+			/* editing a transaction can show some fyear wich shouldn't be showed,
+			 * so hide them here */
+			gsb_fyear_update_fyear_list ();
+
+			/* set the combo_box on 'Automatic' */
+			gsb_fyear_set_combobox_history ( widget,
+							 0 );
 
 			gtk_widget_set_sensitive ( GTK_WIDGET ( widget ),
 						   FALSE );
@@ -1300,19 +1305,8 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
     {
 	case TRANSACTION_FORM_DATE :
 
-	    /* check the date, adapt it and the financial year */
-	    if (gsb_date_check_and_complete_entry ( entry ))
-	    {
-		/* we change the financial year only if it's a new transaction */
-		if ( !gtk_object_get_data ( GTK_OBJECT ( formulaire ),
-					    "transaction_number_in_form" ))
-		    affiche_exercice_par_date( gsb_form_get_element_widget (TRANSACTION_FORM_DATE,
-									    account_number),
-					       gsb_form_get_element_widget (TRANSACTION_FORM_EXERCICE,
-									    account_number));
-	    }
-	    else
-		string = gsb_form_get_element_name (TRANSACTION_FORM_DATE);
+	    /* check and finish the date */
+	    gsb_date_check_and_complete_entry ( entry );
 	    break;
 
 	case TRANSACTION_FORM_PARTY :
@@ -1665,14 +1659,6 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
 					      FALSE );
 	    }
     }
-
-    /*     we set the financial year */
-    if ( gsb_form_get_element_widget(TRANSACTION_FORM_EXERCICE,
-				     account_number))
-	affiche_exercice_par_date ( gsb_form_get_element_widget(TRANSACTION_FORM_DATE,
-								account_number),
-				    gsb_form_get_element_widget(TRANSACTION_FORM_EXERCICE,
-								account_number));
 
     /* set the number of cheque for the method of payment if necessary */
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE )

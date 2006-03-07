@@ -73,7 +73,6 @@ extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget *notebook_general;
 extern GtkStyle *style_entree_formulaire[2];
-extern GtkWidget *tree_view_vbox;
 extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
 

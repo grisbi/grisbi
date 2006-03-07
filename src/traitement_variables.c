@@ -40,6 +40,7 @@
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_fyear.h"
 #include "menu.h"
 #include "structures.h"
 #include "traitement_variables.h"
@@ -198,7 +199,7 @@ void init_variables ( void )
     gsb_data_fyear_init_variables ();
 
     gsb_currency_init_variables ();
-
+    gsb_fyear_init_variables ();
     crypt_key = NULL;
 
     mise_a_jour_liste_comptes_accueil = 0;

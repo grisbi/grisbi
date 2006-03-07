@@ -18,6 +18,7 @@ enum navigation_cols {
 
 
 /* START_DECLARATION */
+void create_account_list ( GtkTreeModel * model );
 GtkWidget * create_navigation_pane ( void );
 void gsb_gui_navigation_add_account ( gint account_nb );
 void gsb_gui_navigation_add_report ( gint report_number );
@@ -37,7 +38,6 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest, 
 					GtkTreePath * dest_path,
 					GtkSelectionData * selection_data );
-void create_account_list ( GtkTreeModel * model );
 /* END_DECLARATION */
 
 #endif

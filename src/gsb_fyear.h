@@ -7,12 +7,12 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-void affiche_exercice_par_date ( GtkWidget *entree_date,
-				 GtkWidget *option_menu_exercice );
-gint cherche_no_menu_exercice ( gint no_demande,
-				GtkWidget *option_menu );
-GtkWidget *creation_menu_exercices ( gint origine );
-gint gsb_financial_year_get_number_from_option_menu ( GtkWidget *option_menu );
-gboolean update_financial_year_menus ();
+gint gsb_fyear_get_fyear_from_combobox ( GtkWidget *combo_box,
+					 GDate *date );
+void gsb_fyear_init_variables ( void );
+GtkWidget *gsb_fyear_make_combobox ( void );
+gboolean gsb_fyear_set_combobox_history ( GtkWidget *combo_box,
+					  gint fyear_number );
+gboolean gsb_fyear_update_fyear_list ( void );
 /* END_DECLARATION */
 #endif

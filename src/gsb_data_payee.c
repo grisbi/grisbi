@@ -56,6 +56,7 @@ typedef struct
 
 
 /*START_STATIC*/
+static GSList *gsb_data_payee_get_name_list ( void );
 static gint gsb_data_payee_get_pointer_from_name_in_glist ( struct_payee *payee,
 						     const gchar *name );
 static gint gsb_data_payee_max_number ( void );
