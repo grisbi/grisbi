@@ -1567,7 +1567,6 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 
     return TRUE;
 }
-/******************************************************************************/
 
 /******************************************************************************/
 /* Fonction gsb_transactions_list_key_press */
@@ -1576,6 +1575,11 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 					   GdkEventKey *ev )
 {
+    gint account_number;
+    gint transaction_number;
+    
+    account_number = gsb_gui_navigation_get_current_account ();
+
     switch ( ev -> keyval )
     {
 	case GDK_Return :		/* entrée */
@@ -1587,17 +1591,17 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 	case GDK_Up :		/* touches flèche haut */
 	case GDK_KP_Up :
 
-	    gsb_transactions_list_current_transaction_up ( gsb_gui_navigation_get_current_account () );
+	    gsb_transactions_list_current_transaction_up (account_number);
 	    break;
 
 	case GDK_Down :		/* touches flèche bas */
 	case GDK_KP_Down :
 
-	    gsb_transactions_list_current_transaction_down ( gsb_gui_navigation_get_current_account () );
+	    gsb_transactions_list_current_transaction_down (account_number);
 	    break;
 
 	case GDK_Delete:		/*  del  */
-	    gsb_transactions_list_delete_transaction ( gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()) );
+	    gsb_transactions_list_delete_transaction ( gsb_data_account_get_current_transaction_number (account_number));
 	    break;
 
 	case GDK_P:			/* touche P */
@@ -1612,6 +1616,17 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 
 	    if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
 		r_press ();
+	    break;
+
+	case GDK_space:
+	    transaction_number = gsb_data_account_get_current_transaction_number (account_number);
+	    if ( transaction_number > 0
+		 &&
+		 etat.equilibrage )
+	    {
+		gsb_reconcile_mark_transaction (transaction_number);
+		gsb_transactions_list_current_transaction_down (account_number);
+	    }
 	    break;
     }
 

@@ -7,6 +7,6 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkWidget *onglet_exercices ( void );
+GtkWidget *gsb_fyear_config_create_page ( void );
 /* END_DECLARATION */
 #endif

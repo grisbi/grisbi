@@ -201,12 +201,10 @@ gint gsb_fyear_get_fyear_from_combobox ( GtkWidget *combo_box,
 			 &iter,
 			 FYEAR_COL_NUMBER, &fyear_number,
 			 -1 );
-printf ( "%d %d\n", fyear_number, date );
     if (!fyear_number
 	&&
 	date )
 	fyear_number = gsb_data_fyear_get_from_date (date);
-    printf ( "numb : %d\n", fyear_number );
 
     return fyear_number;
 }
@@ -225,6 +223,11 @@ gboolean gsb_fyear_update_fyear_list ( void )
 {
     GSList *list_tmp;
     GtkTreeIter iter;
+
+    /* if no filter, thats because not created, but don't create here
+     * because we can come here without needed of fyear button */
+    if (!fyear_model_filter)
+	return FALSE;
 
     gtk_list_store_clear (GTK_LIST_STORE (fyear_model));
 

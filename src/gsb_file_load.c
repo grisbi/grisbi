@@ -2587,6 +2587,8 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 	i++;
     }
     while ( attribute_names[i] );
+
+    gsb_data_fyear_check_for_invalid (fyear_number);
 }
 
 
@@ -4455,6 +4457,8 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		i++;
 	    }
 	    while ( attribute_names[i] );
+
+	    gsb_data_fyear_check_for_invalid (fyear_number);
 	}
     }
 

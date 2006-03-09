@@ -36,6 +36,9 @@
 
 /*START_STATIC*/
 static void close_calendar_popup ( GtkWidget *popup );
+static void date_set_value ( GtkWidget * hbox, GDate ** value, gboolean update );
+static GtkWidget * get_entry_from_date_entry (GtkWidget * hbox);
+static GtkWidget * new_date_entry ( gchar ** value, GCallback hook );
 static gboolean popup_calendar ( GtkWidget * button, gpointer data );
 static gboolean set_date (GtkEntry *entry, gchar *value, gint length, gint * position);
 /*END_STATIC*/

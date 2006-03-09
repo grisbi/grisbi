@@ -33,6 +33,7 @@
 #include "gsb_data_fyear.h"
 #include "utils_dates.h"
 #include "utils_str.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 
@@ -48,8 +49,18 @@ typedef struct
     GDate *end_date;
     gboolean showed_in_form;
 
+    /* 0 if the fyear is valid, >0 if invalid (the number
+     * contains why it's invalid) */
+    gint invalid_fyear;
 } struct_fyear;
 
+/**
+ * describe the invalid numbers
+ * */
+enum fyear_invalid {
+    FYEAR_INVALID_DATE_ORDER = 1,
+    FYEAR_INVALID_CROSS,
+};
 
 /*START_STATIC*/
 static GSList *gsb_data_fyear_get_name_list ( void );
@@ -514,6 +525,103 @@ gboolean gsb_data_fyear_set_form_show ( gint fyear_number,
 
 
 /**
+ * return the invalid_fyear of the fyear
+ * the flag invalid is set automatickly by gsb_data_fyear_check_for_invalid
+ *
+ * \param fyear_number the number of the fyear
+ *
+ * \return TRUE if the fyear is invalid 
+ * */
+gint gsb_data_fyear_get_invalid ( gint fyear_number )
+{
+    struct_fyear *fyear;
+
+    fyear = gsb_data_fyear_get_structure ( fyear_number );
+
+    if (!fyear)
+	return FALSE;
+
+    return fyear -> invalid_fyear;
+}
+
+/**
+ * return the message error because of the invalid fyear
+ *
+ * \param fyear_number the number of the fyear
+ *
+ * \return a const gchar formatted with markup : error the message or NULL if not exist
+ * */
+const gchar *gsb_data_fyear_get_invalid_message ( gint fyear_number )
+{
+    struct_fyear *fyear;
+    gchar *string = NULL;
+
+    fyear = gsb_data_fyear_get_structure ( fyear_number );
+
+    if (!fyear
+	||
+	!fyear -> invalid_fyear)
+	return NULL;
+
+    switch (fyear -> invalid_fyear)
+    {
+	case FYEAR_INVALID_DATE_ORDER:
+	    string = _("<span foreground=\"red\">Warning : the dates are not in good order</span>");
+	    break;
+	case FYEAR_INVALID_CROSS:
+	    string = _("<span foreground=\"red\">Warning : that financial year cross with another one</span>");
+	    break;
+    }
+
+    return string;
+}
+
+
+/**
+ * check if the fyear is invalid and set the flag
+ * a fyear is invalid
+ * an invalid fyear will not be used by grisbi and showed as invalid in the configuration
+ *
+ * \param fyear_number the number of the fyear to check
+ *
+ * \return TRUE  if invalid, FALSE if not
+ * */
+gboolean gsb_data_fyear_check_for_invalid ( gint fyear_number )
+{
+    struct_fyear *fyear;
+
+    fyear = gsb_data_fyear_get_structure ( fyear_number );
+
+    if (!fyear)
+	return FALSE;
+
+    /* first : we check that the first date is above the second */
+    if ( g_date_compare (fyear -> begining_date,
+			 fyear -> end_date) > 0)
+    {
+	fyear -> invalid_fyear = FYEAR_INVALID_DATE_ORDER;
+	return TRUE;
+    }
+/* xxx le test de cross ne marche pas, à refaire + reste à faire : ne pas mettre dans le formulaire un fyear invalid */
+    /* second : we check if there is not a cross with another fyear */
+    if ( (gsb_data_fyear_get_from_date (fyear -> begining_date) != fyear_number)
+	 ||
+	 (gsb_data_fyear_get_from_date (fyear -> end_date) != fyear_number))
+    {
+	fyear -> invalid_fyear = FYEAR_INVALID_CROSS;
+	return TRUE;
+    }
+
+
+
+    /* it's ok, the fyear is valid */
+    fyear -> invalid_fyear = FALSE;
+
+    return FALSE;
+}
+
+
+/**
  * return a g_slist of names of all the fyears
  * it's not a copy of the gchar...
  *
@@ -550,7 +658,7 @@ GSList *gsb_data_fyear_get_name_list ( void )
  *
  * \return the number of financial year or 0 if not on that date
  * */
-gint gsb_data_fyear_get_from_date ( GDate *date )
+gint gsb_data_fyear_get_from_date ( const GDate *date )
 {
     GSList *tmp_list;
 

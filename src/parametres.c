@@ -31,13 +31,13 @@
 #include "gsb_currency_link_config.h"
 #include "gsb_data_account.h"
 #include "gsb_form_config.h"
+#include "gsb_fyear_config.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils_editables.h"
 #include "affichage_liste.h"
 #include "banque.h"
 #include "affichage.h"
-#include "gsb_fyear_config.h"
 #include "import.h"
 #include "gsb_payment_method_config.h"
 #include "equilibrage.h"
@@ -385,7 +385,7 @@ void preferences ( gint page )
 			0, _("Financial years"),
 			1, FINANCIAL_YEARS_PAGE,
 			-1);
-    gtk_notebook_append_page (preference_frame, onglet_exercices(), NULL);
+    gtk_notebook_append_page (preference_frame, gsb_fyear_config_create_page(), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),

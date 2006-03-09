@@ -60,7 +60,7 @@ extern GtkWidget *tree_view;
 
 /** Columns numbers for links list  */
 enum link_list_column {
-    LINK_1_COLUMN,
+    LINK_1_COLUMN = 0,
     LINK_CURRENCY1_COLUMN,
     LINK_EQUAL_COLUMN,
     LINK_EXCHANGE_COLUMN,
@@ -470,9 +470,11 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     gchar *invalid;
     GtkWidget *label;
 
-    gtk_tree_selection_get_selected ( gtk_tree_view_get_selection ( GTK_TREE_VIEW (tree_view)),
-				      &model,
-				      &iter );
+    if ( !gtk_tree_selection_get_selected ( gtk_tree_view_get_selection ( GTK_TREE_VIEW (tree_view)),
+					    &model,
+					    &iter ))
+	return FALSE;
+
     gtk_tree_model_get ( GTK_TREE_MODEL (model),
 			 &iter,
 			 LINK_NUMBER_COLUMN, &link_number,
@@ -488,8 +490,6 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
 				     "combobox_2" );
     exchange_entry = g_object_get_data ( G_OBJECT (model),
 					 "exchange_entry" );
-    tree_view = g_object_get_data ( G_OBJECT (model),
-				    "tree_view" );
 
     gsb_data_currency_link_set_first_currency ( link_number,
 						gsb_currency_get_currency_from_combobox (combobox_1));
