@@ -347,6 +347,34 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
 
 
 /**
+ * Create and return a GDate from a string locale independant
+ * representation of a date.  It expects format %m/%d/%Y (american
+ * style).
+ *
+ * \param	
+ *
+ */
+GDate *gsb_parse_date_string_safe ( const gchar *date_string )
+{
+    gchar **tab_date;
+    GDate * date;
+	
+    tab_date = g_strsplit ( date_string, "/", 3 );
+    if ( tab_date[0] && tab_date[1] && tab_date[2] )
+    {
+	date = g_date_new_dmy ( utils_str_atoi ( tab_date[1] ),
+				utils_str_atoi ( tab_date[0] ),
+				utils_str_atoi ( tab_date[2] ) );
+	g_strfreev ( tab_date );
+	return date;
+    }
+
+    return NULL;
+}
+
+
+
+/**
  * Convenience function that return the string representation of a
  * date based on locale settings.
  *
@@ -377,10 +405,34 @@ gchar * gsb_format_gdate ( GDate *date )
 
     if ( !date || !g_date_valid ( date ))
     {
-	return "";
+	return my_strdup ( "" );
     }
 
     g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%x", date );
+
+    return my_strdup ( retour_str );
+}
+
+
+
+/**
+ * Convenience function that return the string representation of a
+ * date without locale.
+ *
+ * \param date		A GDate structure containing the date to represent.
+ *
+ * \return		A string representing date.
+ */
+gchar * gsb_format_gdate_safe ( GDate *date )
+{
+    gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
+
+    if ( !date || !g_date_valid ( date ))
+    {
+	return my_strdup ( "" );
+    }
+
+    g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, "%m/%d/%Y", date );
 
     return my_strdup ( retour_str );
 }
