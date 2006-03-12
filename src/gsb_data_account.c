@@ -390,6 +390,11 @@ struct_account *gsb_data_account_get_structure ( gint no )
 {
     GSList *tmp;
 
+    if ( no < 0 )
+    {
+	return NULL;
+    }
+
     /* before checking all the accounts, we check the buffer */
 
     if ( account_buffer
@@ -2166,8 +2171,8 @@ gboolean gsb_data_account_reorder ( GSList *new_order )
 
     while ( new_order )
     {
-	new_list_accounts = g_slist_append ( new_list_accounts,
-					     gsb_data_account_get_structure ( GPOINTER_TO_INT ( new_order -> data )));
+	new_list_accounts = g_slist_append ( new_list_accounts, 
+					     gsb_data_account_get_structure ( new_order -> data ) );
 	new_order = new_order -> next;
     }
 
@@ -2176,7 +2181,6 @@ gboolean gsb_data_account_reorder ( GSList *new_order )
 
     /* now we go to check if all accounts are in the list and
      * append the at the end */
-
     list_tmp = last_list;
 
     while ( list_tmp )
