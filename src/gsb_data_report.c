@@ -159,7 +159,6 @@ typedef struct
 
 /*START_STATIC*/
 static gpointer gsb_data_report_get_pointer_to_report ( gint report_number );
-static  struct_report *gsb_data_report_get_report_by_no ( gint report_number );
 static gint gsb_data_report_max_number ( void );
 /*END_STATIC*/
 
@@ -206,6 +205,22 @@ GSList *gsb_data_report_get_report_list ( void )
     return report_list;
 }
 
+
+
+/**
+ * Set the reports list.
+ * 
+ * \param list		New list to set.
+ * 
+ * \return a g_slist on the reports
+ * */
+void gsb_data_report_set_report_list ( GSList * list )
+{
+    report_list = list;
+}
+
+
+
 /**
  * return a pointer on the report which the number is in the parameter. 
  * that report is stored in the buffer
@@ -214,7 +229,7 @@ GSList *gsb_data_report_get_report_list ( void )
  * 
  * \return a pointer to the report, NULL if not found
  * */
-static struct_report *gsb_data_report_get_report_by_no ( gint report_number )
+gpointer gsb_data_report_get_report_by_no ( gint report_number )
 {
     GSList *tmp_list;
 
@@ -223,7 +238,7 @@ static struct_report *gsb_data_report_get_report_by_no ( gint report_number )
     if ( report_buffer
 	 &&
 	 report_buffer -> report_number == report_number )
-	return report_buffer;
+	return (gpointer) report_buffer;
 
     tmp_list = report_list;
 
@@ -3905,12 +3920,12 @@ gint gsb_data_report_dup ( gint report_number )
 
     new_report_number = gsb_data_report_new ( NULL );
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = (struct_report *) gsb_data_report_get_report_by_no (report_number);
 
     if ( !report )
 	return 0;
 
-    new_report = gsb_data_report_get_report_by_no (new_report_number);
+    new_report = (struct_report *) gsb_data_report_get_report_by_no (new_report_number);
 
     if ( !new_report )
 	return 0;
