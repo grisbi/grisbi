@@ -622,6 +622,9 @@ void change_logo_accueil ( GtkWidget * file_selector )
 	}
 	gtk_widget_show ( preview );
 	gtk_container_add ( GTK_CONTAINER(logo_button), preview );
+
+	/* Mark file as modified */
+	modification_fichier ( TRUE );
     }
 }
 /* **************************************************************************************************************************** */
@@ -677,6 +680,9 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
 
     /* Update window title */
     affiche_titre_fenetre();
+
+    /* Mark file as modified */
+    modification_fichier ( TRUE );
 
     return FALSE;
 }

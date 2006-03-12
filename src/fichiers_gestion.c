@@ -436,6 +436,8 @@ gboolean gsb_file_open_file ( gchar *filename )
     /* update the main page */
     mise_a_jour_accueil (TRUE);
 
+    modification_fichier ( FALSE );
+
     gsb_status_message ( _("Done") );
 
     /* on se met sur l'onglet de propriétés du compte */
