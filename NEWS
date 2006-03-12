@@ -1,16 +1,21 @@
 New in version CVS HEAD :
  - New english file structure
  - Encryption of the file
- - Totally redesigned transaction list with native GTK2 widgets
- - Optional grid in transaction list
- - New "view" menu
+ - Improved user interface
+   + Tabs deprecated in favor of a navigation tree
+   + Redesigned categories/payees/budgetary lines trees
+   + Totally redesigned transaction list with native GTK2 widgets
+   + Optional grid in transaction list
+   + New "view" menu
+   + Custom sort for transaction list columns
  - Extensive use of idle to speed up process
- - Custom sort for transaction list columns
  - Form structure defined by user
  - End of the obligation to use Euro
- - Gnucash files import
  - Use of + and - in amount entry
  - Tip of the day support
+ - Grisbi suggests a default currency according to your locale settings
+ - Dates are now printed and parsed according to the locale,
+   no more ugly european dates!
 
 New in version 0.5.0 :
  - GTK2 & libxml2 support
