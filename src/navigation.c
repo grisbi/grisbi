@@ -79,12 +79,13 @@ static  gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree
 							    GtkTreePath *path, 
 							    GtkTreeIter *iter, 
 							    gpointer data );
-static void navigation_change_account_order ( gint orig, gint dest );
+static void navigation_change_account_order ( GtkTreeModel * model, gint orig, gint dest );
 static inline gboolean navigation_sort_column ( GtkTreeModel * model, 
 					 GtkTreeIter * a, GtkTreeIter * b, 
 					 gpointer user_data );
 static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 					 GtkSelectionData * selection_data );
+static void navigation_change_report_order ( GtkTreeModel * model, gint orig, gint dest );
 /*END_STATIC*/
 
 
@@ -101,10 +102,7 @@ extern GtkWidget *tree_view;
 GtkWidget * navigation_tree_view;
 
 /** Model of the navigation tree. */
-GtkTreeStore * navigation_model;
-
-/** Fitered model, without closed accounts. */
-GtkTreeModelFilter * navigation_model_filtered;
+GtkTreeModel * navigation_model;
 
 /** Widget that hold the scheduler calendar. */
 GtkWidget * scheduler_calendar;
@@ -140,12 +138,6 @@ GtkWidget * create_navigation_pane ( void )
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_ETCHED_IN);
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_NEVER,
 				    GTK_POLICY_AUTOMATIC);
-
-    /* Filter to display (or not) closed accounts. */
-/*     navigation_model_filtered = GTK_TREE_MODEL_FILTER ( gtk_tree_model_filter_new ( navigation_model, NULL ) ); */
-/*     gtk_tree_model_filter_set_visible_func ( navigation_model_filtered,  */
-/* 					     gsb_gui_navigation_line_visible_p, */
-/* 					     NULL, NULL ); */
 
     /* Create the view */
     navigation_tree_view = gtk_tree_view_new ();
@@ -242,6 +234,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_FONT, 800,
 		       NAVIGATION_PAGE, GSB_HOME_PAGE,
 		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_REPORT, -1,
 		       NAVIGATION_SENSITIVE, 1,
 		       -1);
     create_account_list ( GTK_TREE_MODEL(navigation_model) );
@@ -257,6 +250,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_FONT, 800,
 		       NAVIGATION_PAGE, GSB_SCHEDULER_PAGE,
 		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_REPORT, -1,
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
 
@@ -271,6 +265,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_FONT, 800,
 		       NAVIGATION_PAGE, GSB_PAYEES_PAGE,
 		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_REPORT, -1,
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
 
@@ -285,6 +280,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_FONT, 800,
 		       NAVIGATION_PAGE, GSB_CATEGORIES_PAGE,
 		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_REPORT, -1,
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
 
@@ -299,6 +295,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_FONT, 800,
 		       NAVIGATION_PAGE, GSB_BUDGETARY_LINES_PAGE,
 		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_REPORT, -1,
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
 
@@ -314,6 +311,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_FONT, 800,
 		       NAVIGATION_PAGE, GSB_AQBANKING_PAGE,
 		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_REPORT, -1,
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
 #endif
@@ -329,6 +327,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_FONT, 800,
 		       NAVIGATION_PAGE, GSB_REPORTS_PAGE,
 		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_REPORT, -1,
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
     create_report_list ( GTK_TREE_MODEL(navigation_model), &reports_iter );
@@ -498,7 +497,7 @@ void create_account_list ( GtkTreeModel * model )
     }
 
     /* Expand stuff */
-    path = gtk_tree_model_get_path ( navigation_model, &parent );
+    path = gtk_tree_model_get_path ( GTK_TREE_MODEL(navigation_model), &parent );
     gtk_tree_view_expand_to_path ( GTK_TREE_VIEW(navigation_tree_view), path );
     gtk_tree_path_free ( path );
 }
@@ -574,24 +573,53 @@ gboolean gsb_gui_navigation_line_visible_p ( GtkTreeModel * model, GtkTreeIter *
  *
  *
  */
-inline gboolean navigation_sort_column ( GtkTreeModel * model, 
-					 GtkTreeIter * a, GtkTreeIter * b, 
-					 gpointer user_data )
+gboolean navigation_sort_column ( GtkTreeModel * model, 
+				  GtkTreeIter * a, GtkTreeIter * b, 
+				  gpointer user_data )
 {
-    gint page_a, page_b;
-    gint account_a, account_b;
+    gint page_a, page_b, account_a, account_b, report_a, report_b;
+    GSList * sort_reports = gsb_data_report_get_report_list ();
+    gpointer preport_a, preport_b;
+
+    if ( ! model )
+	return FALSE;
 
     gtk_tree_model_get ( model, a, 
 			 NAVIGATION_PAGE, &page_a,
 			 NAVIGATION_ACCOUNT, &account_a,
+			 NAVIGATION_REPORT, &report_a,
 			 -1 );
 
     gtk_tree_model_get ( model, b, 
 			 NAVIGATION_PAGE, &page_b,
 			 NAVIGATION_ACCOUNT, &account_b,
+			 NAVIGATION_REPORT, &report_b,
 			 -1 );
 
-    if ( page_a != GSB_ACCOUNT_PAGE || page_b != GSB_ACCOUNT_PAGE )
+    preport_a = gsb_data_report_get_report_by_no ( report_a );
+    preport_b = gsb_data_report_get_report_by_no ( report_b );
+
+    if ( page_a == GSB_ACCOUNT_PAGE && page_b == GSB_ACCOUNT_PAGE )
+    {
+	if ( g_slist_index ( sort_accounts, GINT_TO_POINTER (account_a)) >
+	     g_slist_index ( sort_accounts, GINT_TO_POINTER (account_b)))
+	{
+	    return 1;
+	}	
+
+	return -1;
+    }
+    else if ( page_a == GSB_REPORTS_PAGE && page_b == GSB_REPORTS_PAGE )
+    {
+	if ( g_slist_index ( sort_reports, preport_a ) > 
+	     g_slist_index ( sort_reports, preport_b ) )
+	{
+	    return 1;
+	}
+
+	return -1;
+    }
+    else
     {
 	if ( page_a == page_b )
 	{
@@ -602,16 +630,6 @@ inline gboolean navigation_sort_column ( GtkTreeModel * model,
 	    return -1;
 	}
 	return 1;
-    }
-    else
-    {
-	if ( g_slist_index ( sort_accounts, GINT_TO_POINTER (account_a)) >
-	     g_slist_index ( sort_accounts, GINT_TO_POINTER (account_b)))
-	{
-	    return 1;
-	}	
-
-	return -1;
     }
 }
 
@@ -1382,9 +1400,6 @@ gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTre
  *  
  *
  */
-/* gboolean navigation_drag_data_received ( GtkWidget * widget, GdkDragContext * context,  */
-/* 					 gint x, gint y, GtkSelectionData * data,  */
-/* 					 guint info, guint time, gpointer null ) */
 gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 					 GtkTreePath * dest_path,
 					 GtkSelectionData * selection_data )
@@ -1394,7 +1409,6 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 	GtkTreeModel * model;
 	GtkTreeIter iter;
 	GtkTreePath * orig_path;
-
 	gchar * name;
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
@@ -1418,7 +1432,8 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 				     -1 );
 	    }
 	
-	    navigation_change_account_order ( src_account, dst_account );
+	    navigation_change_account_order ( model, src_account, dst_account );
+	    navigation_change_report_order ( model, src_report, dst_report );
 	}
     }
 
@@ -1462,20 +1477,16 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 	}
 	
 	/* We handle an account */
-	if ( src_account >= 0 )
+	if ( src_account >= 0 && dst_account >= 0 )
 	{
-	    if ( dst_account >= 0 )
-	    {
-		return TRUE;
-	    }
+	    printf ("> Possible (account)\n");
+	    return TRUE;
 	}
 	/* We handle a report */
-	else if ( src_report )
+	else if ( src_report > 0 && dst_report > 0 )
 	{
-	    if ( dst_report )
-	    {
-		return TRUE;
-	    }
+	    printf ("> Possible (report, %d, %d)\n", src_report, dst_report);
+	    return TRUE;
 	}
     }
 
@@ -1489,7 +1500,7 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
  *
  *
  */
-void navigation_change_account_order ( gint orig, gint dest )
+void navigation_change_account_order ( GtkTreeModel * model, gint orig, gint dest )
 {
     GSList * tmp, * dest_pointer;
 
@@ -1516,9 +1527,42 @@ void navigation_change_account_order ( gint orig, gint dest )
     }
 
     gsb_data_account_reorder ( sort_accounts );
-    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(navigation_model),
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(model),
 					   NAVIGATION_PAGE, GTK_SORT_ASCENDING );
-    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(navigation_model), 
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(model), 
+				      NAVIGATION_PAGE, navigation_sort_column,
+				      NULL, NULL );
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+void navigation_change_report_order ( GtkTreeModel * model, gint orig, gint dest )
+{
+    GSList * tmp, * dest_pointer;
+    gpointer orig_report = gsb_data_report_get_report_by_no ( orig );
+    gpointer dest_report = gsb_data_report_get_report_by_no ( dest );
+
+    printf ("> %d, %d\n", orig, dest);
+
+    tmp = gsb_data_report_get_report_list ();
+
+    dest_pointer = g_slist_find ( tmp, dest_report );
+    if ( dest_pointer )
+    {
+	tmp = g_slist_remove ( tmp, orig_report );
+	tmp = g_slist_insert ( tmp, orig_report,
+			       g_slist_position ( tmp, dest_pointer ) + 1 );
+	gsb_data_report_set_report_list ( tmp );
+    }
+
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(model),
+					   NAVIGATION_PAGE, GTK_SORT_ASCENDING );
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(model), 
 				      NAVIGATION_PAGE, navigation_sort_column,
 				      NULL, NULL );
 }
