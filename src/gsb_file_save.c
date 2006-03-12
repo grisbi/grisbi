@@ -560,7 +560,6 @@ gulong gsb_file_save_account_part ( gulong iterator,
     {
 	gchar *first_string_to_free;
 	gchar *second_string_to_free;
-	gchar *third_string_to_free;
 	gint account_number;
 	gint j, k;
 	gchar *last_reconcile_date;
@@ -577,15 +576,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 
 	if ( gsb_data_account_get_current_reconcile_date (account_number) )
 	{
-	    last_reconcile_date = g_strconcat ( first_string_to_free = utils_str_itoa ( g_date_day ( gsb_data_account_get_current_reconcile_date (account_number) ) ),
-						"/",
-						second_string_to_free = utils_str_itoa ( g_date_month ( gsb_data_account_get_current_reconcile_date (account_number) ) ),
-						"/",
-						third_string_to_free = utils_str_itoa ( g_date_year ( gsb_data_account_get_current_reconcile_date (account_number) ) ),
-						NULL );
-	    g_free (first_string_to_free);
-	    g_free (second_string_to_free);
-	    g_free (third_string_to_free);
+	    last_reconcile_date = gsb_format_gdate_safe ( gsb_data_account_get_current_reconcile_date (account_number) );
 	}
 	else
 	    last_reconcile_date = my_strdup ("");
@@ -850,8 +841,8 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 					       gsb_data_transaction_get_account_number ( transaction_number ),
 					       transaction_number,
 					       gsb_data_transaction_get_transaction_id ( transaction_number),
-					       gsb_format_gdate ( gsb_data_transaction_get_date ( transaction_number )),
-					       gsb_format_gdate ( gsb_data_transaction_get_value_date ( transaction_number )),
+					       gsb_format_gdate_safe ( gsb_data_transaction_get_date ( transaction_number )),
+					       gsb_format_gdate_safe ( gsb_data_transaction_get_value_date ( transaction_number )),
 					       gsb_real_get_string (gsb_data_transaction_get_amount ( transaction_number )),
 					       gsb_data_transaction_get_currency_number (transaction_number ),
 					       gsb_data_transaction_get_change_between (transaction_number ),
@@ -917,7 +908,7 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 
 	new_string = g_markup_printf_escaped ( "\t<Scheduled Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" Am=\"%s\" Cu=\"%d\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Tra=\"%d\" Pn=\"%d\" CPn=\"%d\" Pc=\"%s\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" No=\"%s\" Au=\"%d\" Pe=\"%d\" Pei=\"%d\" Pep=\"%d\" Dtl=\"%s\" Br=\"%d\" Mo=\"%d\" />\n",
 					       scheduled_number,
-					       gsb_format_gdate (gsb_data_scheduled_get_date ( scheduled_number)),
+					       gsb_format_gdate_safe (gsb_data_scheduled_get_date ( scheduled_number)),
 					       gsb_data_scheduled_get_account_number ( scheduled_number),
 					       gsb_real_get_string (gsb_data_scheduled_get_amount ( scheduled_number)),
 					       gsb_data_scheduled_get_currency_number ( scheduled_number),
@@ -936,7 +927,7 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 					       gsb_data_scheduled_get_frequency ( scheduled_number),
 					       gsb_data_scheduled_get_user_interval ( scheduled_number),
 					       gsb_data_scheduled_get_user_entry ( scheduled_number),
-					       gsb_format_gdate (gsb_data_scheduled_get_limit_date ( scheduled_number)),
+					       gsb_format_gdate_safe (gsb_data_scheduled_get_limit_date ( scheduled_number)),
 					       gsb_data_scheduled_get_breakdown_of_scheduled ( scheduled_number),
 					       gsb_data_scheduled_get_mother_scheduled_number ( scheduled_number));
 
@@ -1324,8 +1315,8 @@ gulong gsb_file_save_financial_year_part ( gulong iterator,
 	new_string = g_markup_printf_escaped( "\t<Financial_year Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" Edte=\"%s\" Sho=\"%d\" />\n",
 					      fyear_number,
 					      gsb_data_fyear_get_name (fyear_number),
-					      gsb_format_gdate (gsb_data_fyear_get_begining_date(fyear_number)),
-					      gsb_format_gdate (gsb_data_fyear_get_end_date(fyear_number)),
+					      gsb_format_gdate_safe (gsb_data_fyear_get_begining_date(fyear_number)),
+					      gsb_format_gdate_safe (gsb_data_fyear_get_end_date(fyear_number)),
 					      gsb_data_fyear_get_form_show (fyear_number));
 
 	/* append the new string to the file content
@@ -1687,8 +1678,8 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    gsb_data_report_get_financial_year_type (report_number),
 	    financial_year_select,
 	    gsb_data_report_get_date_type (report_number),
-	    gsb_format_gdate (gsb_data_report_get_personal_date_start (report_number)),
-	    gsb_format_gdate (gsb_data_report_get_personal_date_end (report_number)),
+	    gsb_format_gdate_safe (gsb_data_report_get_personal_date_start (report_number)),
+	    gsb_format_gdate_safe (gsb_data_report_get_personal_date_end (report_number)),
 	    gsb_data_report_get_period_split (report_number),
 	    gsb_data_report_get_period_split_type (report_number),
 	    gsb_data_report_get_financial_year_split (report_number),

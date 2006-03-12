@@ -345,6 +345,9 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	    return FALSE;
 	}
 
+	/* We need to reorder accounts just now. */
+	gsb_data_account_reorder ( sort_accounts );
+
 	g_markup_parse_context_free (context);
 	g_free (markup_parser);
 	g_free (file_content);
@@ -842,9 +845,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	    }
 	    g_strfreev ( pointeur_char );
 
-	    gsb_data_account_reorder ( sort_accounts );
-	    g_slist_free ( sort_accounts );
-
 	    return;
 	}
 
@@ -1007,7 +1007,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		       "Last_reconcile_date" ))
 	{
 	    gsb_data_account_set_current_reconcile_date ( account_number,
-							  gsb_parse_date_string (attribute_values[i]));
+							  gsb_parse_date_string_safe (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -1128,8 +1128,8 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 		while ( pointeur_char[j] )
 		{
 		    gsb_data_account_set_sort_list ( account_number,
-						g_slist_append ( gsb_data_account_get_sort_list (account_number),
-								 GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[j] ))) );
+						     g_slist_append ( gsb_data_account_get_sort_list (account_number),
+								      GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[j] ))) );
 		    j++;
 		}
 		g_strfreev ( pointeur_char );
@@ -1404,7 +1404,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 		       "Dt" ))
 	{
 	    gsb_data_transaction_set_date ( transaction_number,
-					    gsb_parse_date_string (attribute_values[i]));
+					    gsb_parse_date_string_safe (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -1414,7 +1414,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 		       "Dv" ))
 	{
 	    gsb_data_transaction_set_value_date ( transaction_number,
-						  gsb_parse_date_string (attribute_values[i]));
+						  gsb_parse_date_string_safe (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -1698,7 +1698,7 @@ void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
 		       "Dt" ))
 	{
 	    gsb_data_scheduled_set_date ( scheduled_number,
-					  gsb_parse_date_string (attribute_values[i]));
+					  gsb_parse_date_string_safe (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -1869,7 +1869,7 @@ void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
 		       "Dtl" ))
 	{
 	    gsb_data_scheduled_set_limit_date ( scheduled_number,
-						gsb_parse_date_string (attribute_values[i]));
+						gsb_parse_date_string_safe (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2555,7 +2555,7 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Bdte" ))
 	{
-	    date = gsb_parse_date_string (attribute_values[i]);
+	    date = gsb_parse_date_string_safe (attribute_values[i]);
 	    gsb_data_fyear_set_begining_date ( fyear_number,
 					       date );
 	    g_date_free (date);
@@ -2566,7 +2566,7 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Edte" ))
 	{
-	    date = gsb_parse_date_string (attribute_values[i]);
+	    date = gsb_parse_date_string_safe (attribute_values[i]);
 	    gsb_data_fyear_set_end_date ( fyear_number,
 					  date );
 	    g_date_free (date);
@@ -2969,7 +2969,7 @@ void gsb_file_load_report ( const gchar **attribute_names,
 		       "Date_begining" ))
 	{
 	    gsb_data_report_set_personal_date_start ( report_number,
-						      gsb_parse_date_string (attribute_values[i]));
+						      gsb_parse_date_string_safe (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2978,7 +2978,7 @@ void gsb_file_load_report ( const gchar **attribute_names,
 		       "Date_end" ))
 	{
 	    gsb_data_report_set_personal_date_end ( report_number,
-						    gsb_parse_date_string (attribute_values[i]));
+						    gsb_parse_date_string_safe (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -5254,8 +5254,8 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 	    while ( pointeur_char[i] )
 	    {
 		gsb_data_account_set_sort_list ( account_number,
-					    g_slist_append ( gsb_data_account_get_sort_list (account_number),
-							     GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] ))) );
+						 g_slist_append ( gsb_data_account_get_sort_list (account_number),
+								  GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] ))) );
 		i++;
 	    }
 	    g_strfreev ( pointeur_char );
@@ -6337,11 +6337,6 @@ gboolean gsb_file_load_update_previous_version ( void )
 								    0 );
 		list_tmp_transactions = list_tmp_transactions -> next;
 	    }
-
-	    /* now the order of the accounts are the order in the GSList */
-
-	    gsb_data_account_reorder ( sort_accounts );
-	    g_slist_free ( sort_accounts );
 
 	    list_tmp = gsb_data_account_get_list_accounts ();
 
