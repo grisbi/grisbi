@@ -92,7 +92,7 @@ static void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * mod
 
 /*START_EXTERN*/
 extern GtkWidget *formulaire;
-extern GtkTreeStore * navigation_model;
+extern GtkTreeModel * navigation_model;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
 /*END_EXTERN*/

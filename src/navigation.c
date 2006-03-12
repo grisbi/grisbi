@@ -80,12 +80,12 @@ static  gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree
 							    GtkTreeIter *iter, 
 							    gpointer data );
 static void navigation_change_account_order ( GtkTreeModel * model, gint orig, gint dest );
-static inline gboolean navigation_sort_column ( GtkTreeModel * model, 
-					 GtkTreeIter * a, GtkTreeIter * b, 
-					 gpointer user_data );
+static void navigation_change_report_order ( GtkTreeModel * model, gint orig, gint dest );
+static gboolean navigation_sort_column ( GtkTreeModel * model, 
+				  GtkTreeIter * a, GtkTreeIter * b, 
+				  gpointer user_data );
 static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 					 GtkSelectionData * selection_data );
-static void navigation_change_report_order ( GtkTreeModel * model, gint orig, gint dest );
 /*END_STATIC*/
 
 

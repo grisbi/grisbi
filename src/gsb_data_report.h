@@ -59,6 +59,7 @@ gint gsb_data_report_get_period_split_type ( gint report_number );
 GDate *gsb_data_report_get_personal_date_end ( gint report_number );
 GDate *gsb_data_report_get_personal_date_start ( gint report_number );
 gint gsb_data_report_get_report_by_name ( const gchar *name );
+gpointer gsb_data_report_get_report_by_no ( gint report_number );
 gint gsb_data_report_get_report_can_click ( gint report_number );
 GSList *gsb_data_report_get_report_list ( void );
 gchar *gsb_data_report_get_report_name ( gint report_number );
@@ -197,6 +198,7 @@ gboolean gsb_data_report_set_personal_date_start ( gint report_number,
 						   GDate *personal_date_start );
 gboolean gsb_data_report_set_report_can_click ( gint report_number,
 						gint report_can_click );
+void gsb_data_report_set_report_list ( GSList * list );
 gboolean gsb_data_report_set_report_name ( gint report_number,
 					   const gchar *report_name );
 gboolean gsb_data_report_set_show_r ( gint report_number,
@@ -252,4 +254,5 @@ gboolean gsb_data_report_set_transfer_reports_only ( gint report_number,
 gboolean gsb_data_report_set_use_financial_year ( gint report_number,
 						  gint use_financial_year );
 /* END_DECLARATION */
+
 #endif

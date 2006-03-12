@@ -72,6 +72,7 @@ static gint gsb_data_fyear_max_number ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GtkWidget *formulaire;
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_fyear */
