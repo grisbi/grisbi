@@ -39,6 +39,7 @@
 #include "utils.h"
 #include "structures.h"
 #include "include.h"
+#include "gsb_file_config.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -59,6 +60,8 @@ enum currency_list_columns {
     CURRENCY_COL_CODE = 0,
     CURRENCY_COL_NAME,
     CURRENCY_COL_NUMBER,
+    CURRENCY_COL_FLAG,
+    CURRENCY_NUM_COL,		/** Number of columns */
 };
 
 
@@ -138,7 +141,7 @@ gsb_real gsb_currency_get_current_exchange_fees (void)
  * */
 GtkWidget *gsb_currency_make_combobox ( gboolean set_name )
 {
-    GtkCellRenderer *renderer;
+    GtkCellRenderer *text_renderer, *flag_renderer;
     GtkWidget *combo_box;
 
     if (!combobox_currency_store)
@@ -146,15 +149,23 @@ GtkWidget *gsb_currency_make_combobox ( gboolean set_name )
 
     combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL (combobox_currency_store));
 
-    renderer = gtk_cell_renderer_text_new ();
-    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
+    /* Flag renderer */
+    flag_renderer = gtk_cell_renderer_pixbuf_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), flag_renderer, FALSE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), flag_renderer,
+				    "pixbuf", CURRENCY_COL_FLAG, NULL );
+    
+    GTK_CELL_RENDERER(flag_renderer) -> xpad = 3; /* Ugly but how to set it otherwise ?*/
+
+    text_renderer = gtk_cell_renderer_text_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), text_renderer, FALSE);
 
     if (set_name)
-	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), renderer,
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), text_renderer,
 					"text", CURRENCY_COL_NAME,
 					NULL);
     else
-	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), renderer,
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), text_renderer,
 					"text", CURRENCY_COL_CODE,
 					NULL);
 
@@ -249,15 +260,24 @@ gboolean gsb_currency_update_currency_list ( void )
 
     while ( list_tmp )
     {
-	gint currency_number;
 	GtkTreeIter iter;
+	GdkPixbuf * pixbuf;
+	gchar * string;
+	gint currency_number;
 
 	currency_number = gsb_data_currency_get_no_currency (list_tmp -> data);
 
-	gtk_list_store_append ( GTK_LIST_STORE (combobox_currency_store),
-				&iter );
-	gtk_list_store_set ( combobox_currency_store,
-			     &iter,
+	string = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+			      "flags", C_DIRECTORY_SEPARATOR,
+			      gsb_data_currency_get_code_iso4217 (currency_number),
+			      ".png", NULL );
+	pixbuf = gdk_pixbuf_new_from_file ( string, NULL );	
+	g_free (string);
+
+
+	gtk_list_store_append ( GTK_LIST_STORE (combobox_currency_store), &iter );
+	gtk_list_store_set ( combobox_currency_store, &iter,
+			     CURRENCY_COL_FLAG, pixbuf,
 			     CURRENCY_COL_CODE, gsb_data_currency_get_code_or_isocode (currency_number),
 			     CURRENCY_COL_NAME, g_strconcat ( gsb_data_currency_get_name (currency_number),
 							      " (",
@@ -536,10 +556,11 @@ gboolean gsb_currency_create_combobox_store ( void )
      * CURRENCY_COL_NAME : the name(code) of the currency
      * CURRENCY_COL_NUMBER : the number of the currency */
 
-    combobox_currency_store = gtk_list_store_new ( 3,
+    combobox_currency_store = gtk_list_store_new ( CURRENCY_NUM_COL,
 						   G_TYPE_STRING,
 						   G_TYPE_STRING,
-						   G_TYPE_INT );
+						   G_TYPE_INT,
+						   GDK_TYPE_PIXBUF );
     gsb_currency_update_currency_list ();
     return TRUE;
 }
