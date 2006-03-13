@@ -107,7 +107,7 @@ GtkStyle *style_entree_formulaire[2];
  * the buttons valid/cancel */
 static GtkWidget *form_scheduled_part;
 static GtkWidget *form_transaction_part;
-static GtkWidget *form_button_part;
+GtkWidget *form_button_part;
 
 /** when the automatic complete transaction is done
  * for a breakdown of transaction, we propose to recover too
@@ -127,17 +127,11 @@ static GtkWidget *form_tab_scheduled[SCHEDULED_FORM_MAX_WIDGETS];
 
 /* FIXME : next values need to be static and changed */
 
-/* vbox contenant le séparateur et les boutons valider/annuler */
-/* affichée ou non suivant la conf */
-
-GtkWidget *vbox_boutons_formulaire;
-
-
 /* contient les adresses des widgets dans le formulaire en fonction */
 /* de leur place */
-
-
 GtkWidget *formulaire;
+
+
 
 /**
  * create an empty form in an gtk_expander
@@ -146,11 +140,9 @@ GtkWidget *formulaire;
  *
  * \return the form
  * */
-GtkWidget *gsb_form_new ( void )
+GtkWidget * gsb_form_new ( void )
 {
-    GtkWidget *hbox;
-    GtkWidget *label;
-    GtkWidget *separator;
+    GtkWidget * hbox, * label, * separator, * hbox_buttons;
 
     /* Create the expander */
     form_expander = gtk_expander_new ( "" );
@@ -231,54 +223,38 @@ GtkWidget *gsb_form_new ( void )
 			 FALSE, FALSE,
 			 0 );
 
-    /* add a separator between the transaction and button part */
-    separator = gtk_hseparator_new ();
-    gtk_box_pack_start ( GTK_BOX (formulaire),
-			 separator,
-			 FALSE, FALSE,
-			 0 );
-
     /* the buttons part is a hbox, with the recuperate child breakdown
      * on the left and valid/cancel on the right */
-    form_button_part = gtk_hbox_new ( FALSE,
-				      0 );
-    gtk_box_pack_start ( GTK_BOX (formulaire),
-			 form_button_part,
-			 FALSE, FALSE,
-			 0 );
+    form_button_part = gtk_vbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (formulaire), form_button_part, FALSE, FALSE, 0 );
+
+    /* add a separator between the transaction and button part */
+    separator = gtk_hseparator_new ();
+    gtk_box_pack_start ( GTK_BOX (form_button_part), separator, FALSE, FALSE, 0 );
+
+    /* Hbox containing buttons */
+    hbox_buttons = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (form_button_part), hbox_buttons, FALSE, FALSE, 0 );
 
     /* create the check button to recover the children of breakdowns */
     form_button_recover_breakdown = gtk_check_button_new_with_label ( _("Recover the children"));
-    gtk_box_pack_start ( GTK_BOX (form_button_part),
+    gtk_box_pack_start ( GTK_BOX (hbox_buttons),
 			 form_button_recover_breakdown,
 			 FALSE, FALSE,
 			 0 );
 
     /* create the valid/cancel buttons */
-    form_button_cancel = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-    gtk_button_set_relief ( GTK_BUTTON (form_button_cancel),
-			    GTK_RELIEF_NONE );
-    g_signal_connect ( G_OBJECT (form_button_cancel),
-		       "clicked",
-		       GTK_SIGNAL_FUNC (gsb_form_escape_form),
-		       NULL );
-    gtk_box_pack_end ( GTK_BOX (form_button_part),
-		       form_button_cancel,
-		       FALSE, FALSE,
-		       0 );
-
     form_button_valid = gtk_button_new_from_stock (GTK_STOCK_OK);
-    gtk_button_set_relief ( GTK_BUTTON (form_button_valid),
-			    GTK_RELIEF_NONE );
-    g_signal_connect ( G_OBJECT (form_button_valid),
-		       "clicked",
-		       GTK_SIGNAL_FUNC (gsb_form_finish_edition),
-		       NULL );
-    gtk_box_pack_end ( GTK_BOX (form_button_part),
-		       form_button_valid,
-		       FALSE, FALSE,
-		       0 );
+    gtk_button_set_relief ( GTK_BUTTON (form_button_valid), GTK_RELIEF_NONE );
+    g_signal_connect ( G_OBJECT (form_button_valid), "clicked",
+		       GTK_SIGNAL_FUNC (gsb_form_finish_edition), NULL );
+    gtk_box_pack_end ( GTK_BOX (hbox_buttons), form_button_valid, FALSE, FALSE, 0 );
 
+    form_button_cancel = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+    gtk_button_set_relief ( GTK_BUTTON (form_button_cancel), GTK_RELIEF_NONE );
+    g_signal_connect ( G_OBJECT (form_button_cancel), "clicked",
+		       GTK_SIGNAL_FUNC (gsb_form_escape_form), NULL );
+    gtk_box_pack_end ( GTK_BOX (hbox_buttons), form_button_cancel, FALSE, FALSE, 0 );
 
     /* init the colors for the entries */
     gsb_form_init_entry_colors ();
@@ -288,6 +264,11 @@ GtkWidget *gsb_form_new ( void )
      * and i'm too lazy to write gtk_widget_show everywhere... */
     gtk_widget_show_all (form_expander);
     gtk_widget_hide (form_expander);
+
+    if ( ! etat.affiche_boutons_valider_annuler )
+    {
+	gtk_widget_hide_all ( form_button_part );
+    }
     
     return form_expander;
 }
@@ -2315,7 +2296,7 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
 
     for ( column = 0 ; column < 6 ; column++ )
     {
-	gint width_percent;
+	gint width_percent = 0;
 
 	switch (column)
 	{
