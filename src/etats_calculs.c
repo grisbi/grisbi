@@ -2,7 +2,7 @@
 /*      etats.c */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2006 Benjamin Drieu (bdrieu@april.org)		      */
 /* 			http://www.grisbi.org				      */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -46,10 +46,10 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint classement_liste_opes_etat ( gint transaction_number_1,
-				  gint transaction_number_2 );
-static gint classement_ope_perso_etat ( gint transaction_number_1,
-				 gint transaction_number_2 );
+static gint classement_liste_opes_etat ( gpointer transaction_1,
+					 gpointer transaction_2 );
+static gint classement_ope_perso_etat ( gpointer transaction_1,
+					gpointer transaction_2 );
 static gint compare_cheques_etat ( gint chq_ope,
 			    gint chq_test,
 			    gint comparateur );
@@ -1447,11 +1447,13 @@ void impression_etat_courant ( )
 /* en fonction du choix du type de classement */
 /*****************************************************************************************************/
 
-gint classement_liste_opes_etat ( gint transaction_number_1,
-				  gint transaction_number_2 )
+gint classement_liste_opes_etat ( gpointer transaction_1, gpointer transaction_2 )
 {
+    gint current_report_number, transaction_number_1, transaction_number_2;
     GSList *pointeur;
-    gint current_report_number;
+
+    transaction_number_1 = gsb_data_transaction_get_transaction_number ( transaction_1 );
+    transaction_number_2 = gsb_data_transaction_get_transaction_number ( transaction_2 );
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -1465,7 +1467,7 @@ classement_suivant:
 
     if ( !pointeur )
     {
-	return ( classement_ope_perso_etat ( transaction_number_1, transaction_number_2 ));
+	return ( classement_ope_perso_etat ( transaction_1, transaction_2 ));
 
     }
 
@@ -1618,11 +1620,12 @@ classement_suivant:
 /* si les 2 opés sont équivalentes à ce niveau, on classe par no d'opé */
 /*****************************************************************************************************/
 
-gint classement_ope_perso_etat ( gint transaction_number_1,
-				 gint transaction_number_2 )
+gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 )
 {
-    gint retour;
-    gint current_report_number;
+    gint retour, current_report_number, transaction_number_1, transaction_number_2;
+
+    transaction_number_1 = gsb_data_transaction_get_transaction_number ( transaction_1 );
+    transaction_number_2 = gsb_data_transaction_get_transaction_number ( transaction_2 );
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
