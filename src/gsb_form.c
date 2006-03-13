@@ -80,6 +80,7 @@ static gboolean gsb_form_key_press_event ( GtkWidget *widget,
 static void gsb_form_set_entry_is_empty ( GtkWidget *entry,
 				   gboolean empty );
 static void gsb_form_set_focus ( gint element_number );
+static gint gsb_form_get_element_expandable ( gint element_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -194,7 +195,7 @@ GtkWidget * gsb_form_new ( void )
 					  SCHEDULED_WIDTH,
 					  FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE (form_scheduled_part),
-				 10 );
+				 6 );
     gtk_box_pack_start ( GTK_BOX (formulaire),
 			 form_scheduled_part,
 			 FALSE, FALSE,
@@ -210,10 +211,8 @@ GtkWidget * gsb_form_new ( void )
 
     /* the transactions part is a variable table,
      * so set to 1x1 for now, it will change when we show it */
-    form_transaction_part = gtk_table_new ( 1, 1,
-					    FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE (form_transaction_part),
-				 10 );
+    form_transaction_part = gtk_table_new ( 1, 1, FALSE );
+    gtk_table_set_col_spacings ( GTK_TABLE (form_transaction_part), 6 );
     g_signal_connect ( G_OBJECT (form_transaction_part),
 		       "size-allocate",
 		       G_CALLBACK (gsb_form_allocate_size),
@@ -596,8 +595,8 @@ gboolean gsb_form_fill_scheduled_part ( void )
 			       widget,
 			       column, column+1,
 			       row, row+1,
-			       GTK_SHRINK | GTK_FILL,
-			       GTK_SHRINK | GTK_FILL,
+			       GTK_EXPAND | GTK_FILL,
+			       GTK_EXPAND | GTK_FILL,
 			       0, 0);
 	}
     return FALSE;
@@ -728,11 +727,8 @@ gboolean gsb_form_fill_transaction_part ( gint *ptr_account_number )
 	for ( column=0 ; column < columns_number ; column++ )
 	{
 	    GtkWidget *widget;
-
-	    widget = gsb_form_create_element_from_number ( gsb_data_form_get_value ( account_number,
-										     column,
-										     row ),
-							   account_number );
+	    gint element = gsb_data_form_get_value ( account_number, column, row );
+	    widget = gsb_form_create_element_from_number ( element, account_number );
 	    form_tab_transactions[row][column] = widget;
 
 	    if ( !widget )
@@ -742,8 +738,8 @@ gboolean gsb_form_fill_transaction_part ( gint *ptr_account_number )
 			       widget,
 			       column, column+1,
 			       row, row+1,
-			       GTK_SHRINK | GTK_FILL,
-			       GTK_SHRINK | GTK_FILL,
+			       gsb_form_get_element_expandable ( element ),
+			       gsb_form_get_element_expandable ( element ),
 			       0, 0);
 	    gtk_widget_show (widget);
 	}
@@ -858,7 +854,7 @@ GtkWidget *gsb_form_create_element_from_number ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_DEVISE:
-	    widget = gsb_currency_make_combobox (TRUE);
+	    widget = gsb_currency_make_combobox (FALSE);
 	    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 				   widget,
 				   _("Choose currency"),
@@ -1199,6 +1195,32 @@ GtkWidget *gsb_form_get_element_widget ( gint element_number,
 	return form_tab_transactions[row][column];
     
     return NULL;
+}
+
+
+
+/**
+ * Determine element is expandable or not in a GtkTable.
+ *
+ * \param TODO
+ * 
+ * \return
+ */
+gint gsb_form_get_element_expandable ( gint element_number )
+{
+    switch ( element_number )
+    {
+	case TRANSACTION_FORM_DEVISE:
+	case TRANSACTION_FORM_TYPE:
+	case TRANSACTION_FORM_OP_NB:
+	case TRANSACTION_FORM_MODE:
+	    printf ("%s is shrinkable\n", gsb_form_get_element_name(element_number)); 
+	    return GTK_SHRINK;
+
+	default:
+	    return GTK_EXPAND | GTK_FILL;
+
+    }
 }
 
 
