@@ -1,10 +1,11 @@
 /* ************************************************************************** */
-/* Ce fichier s'occupe de la configuration des états                          */
+/* Ce fichier s'occupe de la configuration des états                         */
 /* 			etats_config.c                                        */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Alain Portal (aportal@univ-montp2.fr) 	      */
-/*			http://www.grisbi.org   			      */
+/*			     2004 Alain Portal (aportal@univ-montp2.fr)	      */
+/*			     2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*			http://www.grisbi.org/   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -312,7 +313,6 @@ GtkWidget *liste_mode_paiement_etat;
 
 
 /*START_EXTERN*/
-extern GtkWidget *frame_liste_etats;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern GtkWidget *notebook_aff_donnees;
 extern GtkWidget *notebook_config_etat;
@@ -322,6 +322,7 @@ extern GtkWidget *notebook_selection;
 extern GtkWidget *onglet_config_etat;
 extern GtkTreeSelection * selection;
 extern GtkStyle *style_label;
+extern GtkWidget * navigation_tree_view;
 /*END_EXTERN*/
 
 
@@ -964,18 +965,15 @@ void personnalisation_etat (void)
 
     /* on empêche le changement d'état */
 
-    gtk_widget_set_sensitive ( frame_liste_etats,
-			       FALSE );
+    gtk_widget_set_sensitive ( navigation_tree_view, FALSE );
 }
 /******************************************************************************/
 
 /******************************************************************************/
 void annule_modif_config ( void )
 {
-    gtk_widget_set_sensitive ( frame_liste_etats,
-			       TRUE );
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_etats ),
-			    0 );
+    gtk_widget_set_sensitive ( navigation_tree_view, TRUE );
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_etats ), 0 );
 }
 /******************************************************************************/
 
@@ -1859,8 +1857,7 @@ void recuperation_info_perso_etat ( void )
     /* on repasse à la 1ère page du notebook */
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_etats ),
 			    0 );
-    gtk_widget_set_sensitive ( frame_liste_etats,
-			       TRUE );
+    gtk_widget_set_sensitive ( navigation_tree_view, TRUE );
 
     gsb_gui_navigation_update_report ( gsb_gui_navigation_get_current_report ());
 }
