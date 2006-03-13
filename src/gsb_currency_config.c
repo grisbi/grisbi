@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2006 Benjamin Drieu (bdrieu@april.org)		      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -91,18 +91,6 @@ extern GtkWidget *tree_view;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
-/* Handle an ISO 4217 currency.  Not specific to Grisbi. */
-struct iso_4217_currency 
-{
-    gchar * continent;
-    gchar * currency_name;
-    gchar * country_name;
-    gchar * currency_code;
-    gchar * currency_nickname;
-    gboolean active;
-    gchar *flag_filename;
-    gint floating_point;  /* number of digit after the point => 2 : 0.00 / 1 : 0.0 */
-};
 
 /* struct iso_4217_currency; */
 struct iso_4217_currency iso_4217_currencies[] = {

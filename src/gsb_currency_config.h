@@ -12,6 +12,19 @@ struct cached_exchange_rate {
 						  exchange rate */
 };
 
+/** ISO 4217 currency.  Not specific to Grisbi. */
+struct iso_4217_currency 
+{
+    gchar * continent;
+    gchar * currency_name;
+    gchar * country_name;
+    gchar * currency_code;
+    gchar * currency_nickname;
+    gboolean active;
+    gchar *flag_filename;
+    gint floating_point;  /** number of digit after the point => 2 : 0.00 / 1 : 0.0 */
+};
+
 
 /* START_INCLUDE_H */
 #include "gsb_currency_config.h"
