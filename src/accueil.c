@@ -1697,6 +1697,7 @@ void update_soldes_minimaux ( gboolean force )
 	    }
 
 	    label = gtk_label_new ( gsb_data_account_get_name (i) );
+	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_box_pack_start ( GTK_BOX ( vbox_2 ), label, FALSE, FALSE, 0 );
 	    gtk_widget_show ( label );
 

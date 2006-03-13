@@ -74,13 +74,11 @@ extern GtkWidget *entree_titre_fichier;
 extern GtkWidget *fenetre_preferences;
 extern gint hauteur_ligne_liste_opes;
 extern GtkWidget *hbox_title;
-extern GtkWidget *hbox_valider_annuler_echeance;
 extern GtkWidget *label_titre_fichier;
 extern GtkWidget *logo_accueil;
 extern PangoFontDescription *pango_desc_fonte_liste;
-extern GtkWidget *separateur_formulaire_echeancier;
 extern gchar *titre_fichier;
-extern GtkWidget *vbox_boutons_formulaire;
+extern GtkWidget *form_button_part;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -108,15 +106,11 @@ gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data )
 {
     if ( etat.affiche_boutons_valider_annuler )
     {
-	gtk_widget_show ( vbox_boutons_formulaire );
-	gtk_widget_show ( separateur_formulaire_echeancier );
-	gtk_widget_show ( hbox_valider_annuler_echeance );
+	gtk_widget_show_all ( form_button_part );
     }
     else
     {
-	gtk_widget_hide ( vbox_boutons_formulaire );
-	gtk_widget_hide ( separateur_formulaire_echeancier );
-	gtk_widget_hide ( hbox_valider_annuler_echeance );
+	gtk_widget_hide_all ( form_button_part );
     }
     return ( FALSE );
 }
