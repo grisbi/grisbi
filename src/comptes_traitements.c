@@ -4,7 +4,7 @@
 /*                         comptes_traitements.c                              */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2006 Benjamin Drieu (bdrieu@april.org)		      */
 /*			2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /*			http://www.grisbi.org				      */
 /*                                                                            */
@@ -313,9 +313,7 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 
 	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	if ( !gsb_data_account_get_closed_account (i)
-	     ||
-	     include_closed )
+	if (  i >= 0 && ( !gsb_data_account_get_closed_account (i) || include_closed ) )
 	{
 	    item = gtk_menu_item_new_with_label ( gsb_data_account_get_name (i));
 	    gtk_object_set_data ( GTK_OBJECT ( item ),
@@ -374,9 +372,8 @@ gboolean gsb_account_create_name_tree_model ( GtkWidget *combo_box,
 
 	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	if ( !gsb_data_account_get_closed_account (account_number)
-	     ||
-	     include_closed )
+	if ( i >= 0 && ( !gsb_data_account_get_closed_account (account_number)
+			 || include_closed ) )
 	{
 	    gtk_list_store_append ( GTK_LIST_STORE (store),
 				    &iter );
