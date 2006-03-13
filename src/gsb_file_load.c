@@ -49,6 +49,7 @@
 #include "gsb_transactions_list.h"
 #include "include.h"
 #include "structures.h"
+#include "gsb_currency_config.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -138,6 +139,7 @@ extern GtkWidget *tel_correspondant;
 extern gchar *titre_fichier;
 extern gint valeur_echelle_recherche_date_import;
 extern GtkWidget *web_banque;
+extern struct iso_4217_currency * iso_4217_currencies[];
 /*END_EXTERN*/
 
 static struct
@@ -2263,8 +2265,21 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Co" ))
 	{
-	    gsb_data_currency_set_code ( currency_number,
-					 attribute_values[i]);
+	    struct iso_4217_currency * currency = iso_4217_currencies;
+
+	    gsb_data_currency_set_code ( currency_number, attribute_values[i]);
+
+	    /* Check if a iso code is the same as currency code (old import).  */
+	    while ( currency -> country_name )
+	    {
+		if ( !strcmp ( currency -> currency_code, attribute_values[i] ) )
+		{
+		    gsb_data_currency_set_code_iso4217 ( currency_number,
+							 attribute_values[i]);
+		}
+		currency++;
+	    }
+
 	    i++;
 	    continue;
 	}
@@ -4273,8 +4288,23 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 			       "Code" )
 		     &&
 		     strlen (attribute_values[i]))
+		{
+		    struct iso_4217_currency * currency = iso_4217_currencies;
+
 		    gsb_data_currency_set_code ( currency_number,
 						 attribute_values[i]);
+
+		    /* Check if a iso code is the same as currency code (old import).  */
+		    while ( currency -> country_name )
+		    {
+			if ( !strcmp ( currency -> currency_code, attribute_values[i] ) )
+			{
+			    gsb_data_currency_set_code_iso4217 ( currency_number,
+								 attribute_values[i]);
+			}
+			currency++;
+		    }
+		}
 
 		/* beyond the 0.6, the next part is not anymore in the currencies, but alone
 		 * and simplified...
