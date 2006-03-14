@@ -18,7 +18,7 @@ MKD.png MMK.png MNT.png MOP.png MRO.png MTL.png MUR.png MVR.png		\
 MWK.png MXP.png MYR.png MZM.png NAD.png NAU.png NGN.png NIG.png		\
 NIO.png NLG.png NOK.png NPR.png NZD.png OMR.png PAB.png PEN.png		\
 PGK.png PHP.png PKR.png PLN.png PTE.png PYG.png QAR.png ROL.png		\
-RUB.png RWF.png SAN.png SAR.png SBD.png SCR.png SDD.png SEK.png		\
+RUR.png RWF.png SAN.png SAR.png SBD.png SCR.png SDD.png SEK.png		\
 SEN.png SGD.png SHP.png SIT.png SKK.png SLC.png SLL.png SOS.png		\
 SRD.png STD.png SVC.png SYP.png SZL.png THB.png TJS.png TMM.png		\
 TND.png TOP.png TPE.png TRL.png TTD.png TUV.png TWD.png TZS.png		\
