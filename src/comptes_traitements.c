@@ -372,8 +372,8 @@ gboolean gsb_account_create_name_tree_model ( GtkWidget *combo_box,
 
 	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	if ( i >= 0 && ( !gsb_data_account_get_closed_account (account_number)
-			 || include_closed ) )
+	if ( account_number >= 0 && ( !gsb_data_account_get_closed_account (account_number)
+				      || include_closed ) )
 	{
 	    gtk_list_store_append ( GTK_LIST_STORE (store),
 				    &iter );
