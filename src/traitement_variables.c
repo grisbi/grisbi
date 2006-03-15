@@ -48,6 +48,7 @@
 #include "include.h"
 #include "echeancier_infos.h"
 #include "gsb_transactions_list.h"
+#include "gsb_data_form.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -138,6 +139,7 @@ extern GtkWidget *solde_label_pointe ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkTooltips *tooltips_general_grisbi;
 extern gint valeur_echelle_recherche_date_import;
+extern GtkWidget *form_tab_transactions[MAX_HEIGHT][MAX_WIDTH];
 /*END_EXTERN*/
 
 
@@ -180,8 +182,8 @@ void modification_fichier ( gboolean modif )
 
 void init_variables ( void )
 {
-    gint i;
     gint scheduler_col_width_init[NB_COLS_SCHEDULER] = { 10, 26, 20, 14, 14, 28, 8};
+    gint i, row, column;
 
     devel_debug ( "init_variables" );
 
@@ -264,6 +266,10 @@ void init_variables ( void )
 
     for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
 	scheduler_col_width[i] = scheduler_col_width_init[i];
+
+    for ( row=0 ; row < MAX_HEIGHT ; row++ )
+	for ( column=0 ; column < MAX_WIDTH ; column++ )
+	    form_tab_transactions[row][column] = NULL;
 }
 /*****************************************************************************************************/
 
