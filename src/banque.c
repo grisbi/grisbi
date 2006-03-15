@@ -4,7 +4,7 @@
 /*                                banque.c                                    */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /*			http://www.grisbi.org				      */
 /*                                                                            */
@@ -327,8 +327,6 @@ GtkWidget *creation_menu_banques ( void )
     GSList *pointeur;
 
     menu = gtk_menu_new ();
-    gtk_widget_show ( menu );
-
 
     /* le premier nom est Aucune */
 
@@ -341,8 +339,6 @@ GtkWidget *creation_menu_banques ( void )
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_banque",
 			  NULL );
-    gtk_widget_show ( menu_item );
-
 
     pointeur = liste_struct_banques;
 
@@ -365,10 +361,17 @@ GtkWidget *creation_menu_banques ( void )
 			   "activate",
 			   GTK_SIGNAL_FUNC ( changement_de_banque ),
 			   NULL );
-	gtk_widget_show ( menu_item );
 
 	pointeur = pointeur -> next;
     }
+
+    gtk_menu_append ( GTK_MENU ( menu ), gtk_separator_menu_item_new() );
+    menu_item = gtk_menu_item_new_with_label ( _("Add new bank") );
+    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    g_signal_connect ( G_OBJECT ( menu_item ), "activate",
+		       GTK_SIGNAL_FUNC ( edit_bank ), NULL );
+
+    gtk_widget_show_all ( menu );
 
     return ( menu );
 }
