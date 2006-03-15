@@ -379,10 +379,6 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 										       "font-desc", TRANSACTION_COL_NB_FONT,
 										       NULL );
 
-/* 	g_object_set ( G_OBJECT ( GTK_CELL_RENDERER (cell_renderer)), */
-/* 		       "xalign", alignment[i], */
-/* 		       NULL ); */
-
 	gtk_tree_view_column_set_alignment ( transactions_tree_view_columns[i],
 					     alignment[i] );
 	gtk_tree_view_column_set_sizing ( transactions_tree_view_columns[i],
@@ -390,6 +386,8 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 	gtk_tree_view_column_set_sort_column_id ( transactions_tree_view_columns[i], i );
 	gtk_tree_view_column_set_expand ( transactions_tree_view_columns[i], TRUE );
 	gtk_tree_view_column_set_resizable ( transactions_tree_view_columns[i], TRUE );
+
+	gtk_tree_view_column_set_min_width ( transactions_tree_view_columns[i], 1 );
     }
 
     /* get the position of the amount column to set it in red */
