@@ -121,7 +121,7 @@ static GtkWidget *form_button_valid;
 static GtkWidget *form_button_cancel;
 
 /** contains the pointeurs to the widget in the transaction part form */
-static GtkWidget *form_tab_transactions[MAX_HEIGHT][MAX_WIDTH];
+GtkWidget *form_tab_transactions[MAX_HEIGHT][MAX_WIDTH];
 
 /** contains the pointeurs to the widget in the scheduled part form */
 static GtkWidget *form_tab_scheduled[SCHEDULED_FORM_MAX_WIDGETS];
@@ -457,7 +457,7 @@ gboolean gsb_form_hide ( void )
 		 * be showed because destroying the gtk_entry will erase it directly,
 		 * so the simpliest way to avoid that is to erase now the entry, but with
 		 * gtk_combofix_set_text [cedric] (didn't succeed with another thing...) */
-		if (GTK_IS_COMBOFIX (form_tab_transactions[row][column]))
+		if ( GTK_IS_COMBOFIX ( form_tab_transactions[row][column] ) )
 		    gtk_combofix_set_text ( GTK_COMBOFIX (form_tab_transactions[row][column]),
 					    "" );
 
