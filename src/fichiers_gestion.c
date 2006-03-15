@@ -419,6 +419,7 @@ gboolean gsb_file_open_file ( gchar *filename )
      * have been created */
     affiche_titre_fenetre();
 
+    gsb_status_message ( _("Creating interface"));
     gsb_menu_update_view_menu (gsb_gui_navigation_get_current_account ());
     gsb_menu_update_accounts_in_menus ();
 
