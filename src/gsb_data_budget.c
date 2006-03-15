@@ -745,7 +745,7 @@ gchar *gsb_data_budget_get_name ( gint no_budget,
     if (!budget)
 	return return_value_error;
 
-    return_value = budget -> budget_name;
+    return_value = g_strdup ( budget -> budget_name );
 
     if ( no_sub_budget )
     {
