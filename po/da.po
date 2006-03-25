@@ -1,19 +1,20 @@
-# SOME DESCRIPTIVE TITLE.
+# translation of da.po to
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Dmitri Popov <dmpop@openoffice.org>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-03 17:36+0200\n"
-"PO-Revision-Date: 2006-03-23 17:12+0100\n"
+"PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.1\n"
 
 #: src/accueil.c:176
 msgid "No user"
@@ -2557,7 +2558,7 @@ msgstr ""
 msgid "Final date"
 msgstr ""
 
-#. on met dans la partie de gauche une liste contenant les comptes Ã 
+#. on met dans la partie de gauche une liste contenant les comptes Ã
 #. sÃ©lectionner
 #: src/etats_config.c:2502
 msgid "Select transactions only for given accounts"
@@ -3143,7 +3144,7 @@ msgstr ""
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr ""
 
-#. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
+#. on met dans la partie de gauche une liste contenant les modes de paiement Ã
 #. sÃ©lectionner
 #: src/etats_config.c:7638
 msgid "Select the transactions by method of payment"
@@ -5064,7 +5065,7 @@ msgstr ""
 
 #: src/utils_files.c:194
 msgid "Browse"
-msgstr ""
+msgstr "Gennemse"
 
 #: src/utils_tiers.c:121
 msgid "No third party defined"
