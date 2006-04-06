@@ -509,7 +509,7 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 	/* 	on recharge l'ancien logo */
 
 	if ( !chemin_logo ||
-	     !strlen ( g_strstrip ( chemin_logo )) )
+	     !strlen ( g_strstrip ( g_strdup ( chemin_logo )) ) )
 	{
 	    chemin_logo = NULL;
 	    if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
