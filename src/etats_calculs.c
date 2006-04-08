@@ -1563,66 +1563,149 @@ classement_suivant:
 
 	case 1:
 
+	    /* FIXME vient de refaire ça pour les categs, il faut le faire pour les ib 
+	     * mais pas le temps car en train de faire ma compta !! */
+
+	    /* aide mémoire...
+	     * principe de fonctionnement :
+	     * en haut les categs,
+	     * en dessous les sans categs,
+	     * en dessous les ventils
+	     * en dessous les virements
+	     *
+	     * pour chaque possibilité de l'opé 1, on va tester chaque possibilité de l'opé 2
+	     * cad on va tester l'opé 1 sur categ, pas de categ, ventil, virement
+	     * et pour chacun on teste l'opé 2 sur categ, pas de categ, ventil, virement
+	     * */
 	    if ( etat_courant -> utilise_categ )
 	    {
-		struct struct_categ * categ1, * categ2;
+		struct struct_categ * categ1 = NULL, * categ2 = NULL;
 		GSList * tmp;
 
 		/* Si les catégories sont nulles, on doit départager
 		 * entre virements, pas de categ ou opé ventilée on
 		 * met en 1er les opés sans categ, ensuite les
 		 * ventilations et enfin les virements */
-		if ( !operation_1 -> categorie )
+
+		if (operation_1 -> categorie)
 		{
-		    if ( operation_1 -> operation_ventilee )
+		    if (operation_2 -> categorie)
 		    {
-			if ( operation_2 -> relation_no_operation )
-			    return ( -1 );
-			else
-			    if ( !operation_2 -> operation_ventilee )
-				return ( 1 );
-		    }
-		    else
-		    {
-			if ( operation_1 -> relation_no_operation )
+			/* on a 2 categories, on retourne la strcmp entre les 2 */
+			gint retour;
+
+			if ( operation_1 -> categorie == operation_2 -> categorie )
 			{
-			    if ( !operation_2 -> relation_no_operation )
-				return ( 1 );
+			    /*       les catégories sont identiques, passe au classement suivant (ss categ) */
+			    pointeur = pointeur -> next;
+			    goto classement_suivant;
+			}
+
+			tmp = g_slist_find_custom ( liste_struct_categories,
+						    GINT_TO_POINTER ( operation_1 -> categorie ),
+						    ( GCompareFunc ) recherche_categorie_par_no );
+			if ( tmp )
+			    categ1 = tmp -> data;
+
+			tmp = g_slist_find_custom ( liste_struct_categories,
+						    GINT_TO_POINTER ( operation_2 -> categorie ),
+						    ( GCompareFunc ) recherche_categorie_par_no );
+			if ( tmp )
+			    categ2 = tmp -> data;
+
+			/* on vérifie quand même que les categs existent pour pas tout faire planter */
+			if (categ1)
+			{
+			    if (categ2)
+				retour = g_utf8_collate ( categ1 -> nom_categ, categ2 -> nom_categ );
+			    else
+				retour = -1;
 			}
 			else
-			    if ( operation_2 -> relation_no_operation
-				 ||
-				 operation_2 -> operation_ventilee )
-				return ( -1 );
+			{
+			    if (categ2)
+				retour = 1;
+			    else
+			    {
+				/* les 2 categs n'existent pas, on va donc passer les sous categs... et
+				 * aller au classement suivant */
+				pointeur = pointeur -> next;
+				retour = 0;
+			    }
+			}
+
+			if (retour)
+			    return retour;
+			else
+			{
+			    /*       les catégories sont identiques bien que de no différent,
+			     *       passe au classement suivant (ss categ) */
+			    pointeur = pointeur -> next;
+			    goto classement_suivant;
+			}
 		    }
+		    /* laissé comme ça pour se souvenir car compliqué, mais pourrait faire juste
+		     * un return -1 */
+		    if (operation_2 -> operation_ventilee)
+			return -1;
+		    if (operation_2 -> relation_no_operation)
+			return -1;
+		    return -1;
 		}
-		if ( ! operation_1 -> categorie || ! operation_2 -> categorie )
+		if (operation_1 -> operation_ventilee)
 		{
-		    return operation_1 -> categorie - operation_2 -> categorie;
+		    if (operation_2 -> categorie)
+			return 1;
+		    if (operation_2 -> relation_no_operation)
+			return -1;
+		    if (operation_2 -> operation_ventilee)
+		    {
+			/* on a 2 opérations ventilées, on ne peut départager ni au niveau catégorie,
+			 * ni au niveau sous categ, on passe donc le pointeur suivant pour aller à
+			 * celui d'encore après */
+			pointeur = pointeur -> next;
+			pointeur = pointeur -> next;
+			goto classement_suivant;
+		    }
+		    /* c'est une categ null, donc return 1 */
+		    return 1;
 		}
-
-		tmp = g_slist_find_custom ( liste_struct_categories,
-					    GINT_TO_POINTER ( operation_1 -> categorie ),
-					    ( GCompareFunc ) recherche_categorie_par_no );
-		if ( tmp )
-		    categ1 = tmp -> data;
-
-		tmp = g_slist_find_custom ( liste_struct_categories,
-					    GINT_TO_POINTER ( operation_2 -> categorie ),
-					    ( GCompareFunc ) recherche_categorie_par_no );
-		if ( tmp )
-		    categ2 = tmp -> data;
-
-		if ( operation_1 -> categorie != operation_2 -> categorie )
-		    return g_utf8_collate ( categ1 -> nom_categ, categ2 -> nom_categ );
-
+		if (operation_1 -> relation_no_operation)
+		{
+		    if (operation_2 -> categorie)
+			return 1;
+		    if (operation_2 -> operation_ventilee)
+			return 1;
+		    if (operation_2 -> relation_no_operation)
+		    {
+			/* les 2 opés sont des virements, on retourne un strcmp sur les comptes du virement
+			 * mais comme je suis très paresseux, je retourne juste la différence entre les nos
+			 * de comptes (FIXME...) */
+			if (operation_1 -> relation_no_compte == operation_2 -> relation_no_compte)
+			{
+			    /*       les virements sont identiques, passe au classement suivant après les ss categ) */
+			    pointeur = pointeur -> next;
+			    pointeur = pointeur -> next;
+			    goto classement_suivant;
+			}
+			return (operation_1 -> relation_no_compte == operation_2 -> relation_no_compte);
+		    }
+		    /* l'opé 2 n'a pas de categ */
+		    return 1;
+		}
+		/* à ce niveau, la categ de l'opé est nulle et ce n'est ni un virement ni une ventil,
+		 * on choise en fonction de l'opé 2 */
+		if (operation_2 -> categorie)
+		    return 1;
+		if (operation_2 -> operation_ventilee)
+		    return -1;
+		if (operation_2 -> relation_no_operation)
+		    return -1;
+		/* la categ de l'opé 2 est null aussi, on saute les ss categ pour aller voir la suite */
+		pointeur = pointeur -> next;
+		pointeur = pointeur -> next;
+		goto classement_suivant;
 	    }
-
-	    /*       les catégories sont identiques, passe au classement suivant */
-
-	    pointeur = pointeur -> next;
-	    goto classement_suivant;
-
 	    break;
 
 	    /* classement des sous catégories */
