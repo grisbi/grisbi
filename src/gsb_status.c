@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	     2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2005-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -225,6 +225,21 @@ void gsb_status_stop_activity (  )
     gsb_status_remove_progress ();
 }
 
+
+
+void gsb_status_wait ( )
+{
+    gdk_window_set_cursor ( window -> window, 
+			    gdk_cursor_new_for_display ( gdk_display_get_default ( ), 
+							 GDK_WATCH ) );
+    update_ecran ();
+}
+
+void gsb_status_stop_wait ( )
+{
+    update_ecran ();
+    gdk_window_set_cursor ( window -> window, NULL );
+}
 
 
 /* Local Variables: */
