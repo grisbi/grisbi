@@ -138,6 +138,8 @@ void affichage_etat ( gint report_number, struct struct_etat_affichage * afficha
 {
     GSList *liste_opes_selectionnees;
 
+    gsb_status_wait ( );
+
     if ( !report_number )
     {
 	report_number = gsb_gui_navigation_get_current_report ();
@@ -160,6 +162,8 @@ void affichage_etat ( gint report_number, struct struct_etat_affichage * afficha
 
     etat_affichage_output = affichage;
     etape_finale_affichage_etat ( liste_opes_selectionnees, affichage, filename );
+
+    gsb_status_stop_wait ( );
 }
 /*****************************************************************************************************/
 

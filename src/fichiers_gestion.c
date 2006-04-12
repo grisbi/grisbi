@@ -276,6 +276,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 	 !strlen (filename))
 	return FALSE;
 
+    gsb_status_wait ();
     gsb_status_message ( _("Loading accounts") );
 
     /* try to load the file */
@@ -440,6 +441,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     modification_fichier ( FALSE );
 
     gsb_status_message ( _("Done") );
+    gsb_status_stop_wait ();
 
     /* on se met sur l'onglet de propriétés du compte */
     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );    
