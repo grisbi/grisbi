@@ -124,9 +124,10 @@ GtkWidget * create_preferences_tree ( )
     GtkCellRenderer *cell;
 
     /* Create model */
-    preference_tree_model = gtk_tree_store_new (2, 
+    preference_tree_model = gtk_tree_store_new (3, 
 						G_TYPE_STRING, 
-						G_TYPE_INT);
+						G_TYPE_INT,
+						G_TYPE_INT );
 
     /* Create container + TreeView */
     sw = gtk_scrolled_window_new (NULL, NULL);
@@ -146,6 +147,9 @@ GtkWidget * create_preferences_tree ( )
 						  cell,
 						  "text", 0,
 						  NULL);
+    gtk_tree_view_column_add_attribute ( GTK_TREE_VIEW_COLUMN(column), cell, 
+					 "weight", 2 );
+
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view),
 				 GTK_TREE_VIEW_COLUMN (column));
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW (tree_view), FALSE );
@@ -265,6 +269,7 @@ void preferences ( gint page )
 			&iter,
 			0, _("Display"),
 			1, NOT_A_PAGE,
+			2, 800, 
 			-1);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
@@ -313,6 +318,7 @@ void preferences ( gint page )
 			&iter,
 			0, _("Transactions"),
 			1, NOT_A_PAGE,
+			2, 800, 
 			-1);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
@@ -323,6 +329,24 @@ void preferences ( gint page )
 			-1);
     gtk_notebook_append_page (preference_frame, 
 			      GTK_WIDGET(onglet_affichage_operations()), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter2,
+			0, _("Reconciliation"),
+			1, RECONCILIATION_PAGE,
+			-1);
+    gtk_notebook_append_page (preference_frame, tab_display_reconciliation(), NULL);
+
+    /* Transaction form subtree */
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter,
+			0, _("Transaction form"),
+			1, NOT_A_PAGE,
+			2, 800, 
+			-1);
+
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -340,13 +364,13 @@ void preferences ( gint page )
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_diverse_form_and_lists(), NULL);
 
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2,&iter );
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 			&iter2,
-			0, _("Reconciliation"),
-			1, RECONCILIATION_PAGE,
+			0, _("Form completion"),
+			1, TRANSACTION_FORM_COMPLETION_PAGE,
 			-1);
-    gtk_notebook_append_page (preference_frame, tab_display_reconciliation(), NULL);
+    gtk_notebook_append_page (preference_frame, onglet_form_completion(), NULL);
 
     /* Resources subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
@@ -354,6 +378,7 @@ void preferences ( gint page )
 			&iter,
 			0, _("Resources"),
 			1, NOT_A_PAGE,
+			2, 800, 
 			-1);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
@@ -400,16 +425,6 @@ void preferences ( gint page )
     gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(fenetre_preferences) -> vbox ), 
 			 hpaned, TRUE, TRUE, 0);
-
-    /** TODO: honor page argument */
-    /*   if ( page != NOT_A_PAGE ) */
-    /*     { */
-    /*       gtk_widget_show_all ( tree_view ); */
-    /*       gtk_tree_model_foreach ( GTK_TREE_MODEL(preference_tree_model), */
-    /* 			       (GtkTreeModelForeachFunc) select_row_from_page,  */
-    /* 			       (gpointer) page ); */
-    /*     } */
-
 
     while ( 1 )
     {
