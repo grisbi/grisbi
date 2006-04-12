@@ -878,6 +878,10 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view )
 					       gsb_data_form_get_width_column ( account_number,
 										column ) * width / 100 );
     }
+
+    gdk_window_set_cursor ( tree_view -> window, 
+			    gdk_cursor_new ( GDK_FLEUR ) );
+
     return FALSE;
 }
 
@@ -1244,7 +1248,6 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
 						   rectangle.x, rectangle.y,
 						   0, 0,
 						   rectangle.width, rectangle.height );
-
     gtk_drag_source_set_icon_pixbuf ( tree_view,
 				      pixbuf_cursor );
     g_object_unref (pixbuf_cursor);
