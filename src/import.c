@@ -171,10 +171,10 @@ void importer_fichier ( void )
 			    "So far, the following formats are supported:"
 			    "\n\n"
 			    ""
-			    "	→ Quicken Interchange format (QIF)\n"
-			    "	→ Open Financial Exchange Format (OFX)\n"
-			    "	→ Gnucash format\n"
-			    "	→ Comma separated-values format (CSV/TSV)",
+			    "	• Quicken Interchange format (QIF)\n"
+			    "	• Open Financial Exchange Format (OFX)\n"
+			    "	• Gnucash format\n"
+			    "	• Comma separated-values format (CSV/TSV)",
 			    "csv.png" );
 
     gsb_assistant_add_page ( a, import_create_file_selection_page ( a ), 
@@ -190,13 +190,19 @@ void importer_fichier ( void )
 
     if ( gsb_assistant_run ( a ) == GTK_RESPONSE_APPLY )
     {
+	gtk_widget_destroy ( a );
+
+	gsb_status_wait ( );
 	traitement_operations_importees ();
 	remplit_arbre_categ ();
 	remplit_arbre_imputation ();
 	remplit_arbre_tiers ();
+	gsb_status_stop_wait ( );
     }
-
-    gtk_widget_destroy ( a );
+    else 
+    {
+	gtk_widget_destroy ( a );
+    }
 }
 
 
@@ -267,8 +273,10 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
 		   "model", list_acc, 
 		   "text-column", 0, 
 		   "editable", TRUE, 
+		   "editable-set", FALSE, 
 		   "has-entry", FALSE, 
 		   NULL );
+
     column = gtk_tree_view_column_new_with_attributes ( _("Type"), renderer,
 							"text", IMPORT_FILESEL_TYPENAME, 
 							NULL);
@@ -648,7 +656,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 	    }
 
 	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, 
-						      g_strconcat ( "→ ",
+						      g_strconcat ( "• ",
 								    compte -> nom_de_compte,
 								    " (", 
 								    type_string_representation ( compte -> origine ),
@@ -691,7 +699,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 	    compte = list -> data;
 
 	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, 
-						      g_strconcat ( "→ ",
+						      g_strconcat ( "• ",
 								    compte -> nom_de_compte,
 								    " (", 
 								    type_string_representation ( compte -> origine ),
@@ -793,7 +801,6 @@ GSList * import_selected_files ( GtkWidget * assistant )
  */
 gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 {
-    GtkWidget *button_next;
     gint page;
     GSList *list_tmp;
 
@@ -865,11 +872,7 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 			     page, page - 1, -1, G_CALLBACK ( NULL ) );
 
     /* Replace button. */
-    button_next = g_object_get_data ( G_OBJECT (assistant), "button_next" );
-    gtk_widget_destroy ( button_next );
-    button_next = gtk_dialog_add_button ( GTK_DIALOG (assistant), GTK_STOCK_GO_FORWARD,
-					  GTK_RESPONSE_YES );
-    g_object_set_data ( G_OBJECT (assistant), "button_next", button_next );
+    gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
 
     printf (">>> NTH pages %d\n", gtk_notebook_get_n_pages ( g_object_get_data ( G_OBJECT (assistant), "notebook" ) ) );
 
