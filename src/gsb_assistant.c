@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	     2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2005-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -36,7 +36,6 @@
 /*START_STATIC*/
 static gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage, 
 				     gint page, gpointer assistant );
-static gboolean gsb_assistant_enter_unsensitive_next ( GtkWidget * assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -174,10 +173,9 @@ void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint po
  */
 GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 {
-    GtkWidget * notebook, * button_prev, * button_next;
+    GtkWidget * notebook, * button_prev;
 
     button_prev = g_object_get_data ( G_OBJECT(assistant), "button_prev" );
-    button_next = g_object_get_data ( G_OBJECT(assistant), "button_next" );
 
     gtk_widget_show_all ( assistant );
 
@@ -207,10 +205,8 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 		gtk_widget_set_sensitive ( button_prev, TRUE );
 		if ( gtk_notebook_get_n_pages ( GTK_NOTEBOOK(notebook) ) == ( next + 1 ) )
 		{
-		    gtk_widget_destroy ( button_next );
-		    button_next = gtk_dialog_add_button ( GTK_DIALOG(assistant),
-							  GTK_STOCK_CLOSE, 
-							  GTK_RESPONSE_APPLY );
+		    gsb_assistant_change_button_next ( assistant, GTK_STOCK_CLOSE, 
+						       GTK_RESPONSE_APPLY );
 		}
 
 		gtk_notebook_set_page ( GTK_NOTEBOOK(notebook), next );
@@ -219,13 +215,12 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 	    case GTK_RESPONSE_NO:
 		if ( next == -1 )
 		{
-		    gtk_widget_destroy ( button_next );
-		    button_next = gtk_dialog_add_button ( GTK_DIALOG(assistant),
-							  GTK_STOCK_GO_FORWARD, 
-							  GTK_RESPONSE_YES );
+		    gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, 
+						       GTK_RESPONSE_YES );
 		}
 
-		gtk_widget_set_sensitive ( button_next, TRUE );
+		gsb_assistant_sensitive_button_next ( assistant, TRUE );
+
 		if ( prev == 0 )
 		{
 		    gtk_widget_set_sensitive ( button_prev, FALSE );
@@ -322,10 +317,10 @@ void gsb_assistant_set_next ( GtkWidget * assistant, gint page, gint next )
  *
  *
  */
-gboolean gsb_assistant_enter_unsensitive_next ( GtkWidget * assistant )
+gboolean gsb_assistant_sensitive_button_next ( GtkWidget * assistant, gboolean state )
 {
     gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ), 
-			       FALSE );
+			       state );
 
     return FALSE;
 }
