@@ -1,7 +1,7 @@
 /* ce fichier contient les paramètres de l'affichage de la liste d'opé */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2003 Benjamin Drieu (bdrieu@april.org) */
+/*			2006 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -419,15 +419,7 @@ void recuperation_noms_colonnes_et_tips ( void )
 /* ************************************************************************************************************** */
 GtkWidget *onglet_diverse_form_and_lists ( void )
 {
-    GtkWidget *vbox_pref;
-    GtkWidget *paddingbox;
-    GtkWidget *radiogroup;
-    GtkWidget *hbox;
-    GtkWidget *label;
-    GtkWidget *entry;
-    GtkWidget *separator;
-    GtkWidget *vbox;
-
+    GtkWidget *vbox_pref, *paddingbox, *radiogroup;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form behavior"),
 					       "form.png" );
@@ -456,77 +448,78 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 					    _("according to transaction date"),
 					    &etat.affichage_exercice_automatique, 
 					    NULL);
-    /* Payee search fields */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
-					    COLON(_("Payee completion")));
-
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 new_checkbox_with_title (_("Limit payee completion to current account"),
-						  &etat.limit_completion_to_current_account,
-						  ((GCallback) NULL )),
-			 FALSE, FALSE, 0 );
 
     /* automatic amount separatior fields */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
 					    COLON(_("Automatic amount separator")));
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 new_checkbox_with_title (_("Set automatically the separator in amounts field"),
+			 new_checkbox_with_title (_("Automagically add separator in amounts fields if unspecified"),
 						  &etat.automatic_separator,
 						  ((GCallback) NULL )),
 			 FALSE, FALSE, 0 );
 
-    /* set the combofix configuration */
+    if ( !gsb_data_account_get_accounts_amount () )
+    {
+	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    }
 
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
-					    COLON(_("Completion box configuration")));
+    return vbox_pref;
+}
 
-    hbox = gtk_hbox_new ( FALSE,
-			  5);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 hbox,
+
+
+/* ************************************************************************************************************** */
+/* renvoie le widget contenu dans l'onglet divers du formulaire/liste des paramètres */
+/* ************************************************************************************************************** */
+GtkWidget *onglet_form_completion ( void )
+{
+    GtkWidget *vbox_pref, *hbox, *label, *entry;
+
+    vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"),
+					       "form.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+			 new_checkbox_with_title (_("Limit payee completion to current account"),
+						  &etat.limit_completion_to_current_account,
+						  ((GCallback) NULL )),
 			 FALSE, FALSE, 0 );
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 vbox,
-			 FALSE, FALSE, 0 );
 
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 new_checkbox_with_title (_("Mix the categories in list"),
+    gtk_box_pack_start ( GTK_BOX (vbox_pref),
+			 new_checkbox_with_title (_("Mix credit/debit categories"),
 						  &etat.combofix_mixed_sort,
 						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
 			 FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 new_checkbox_with_title (_("Case sensitive"),
+    gtk_box_pack_start ( GTK_BOX (vbox_pref),
+			 new_checkbox_with_title (_("Case sensitive completion"),
 						  &etat.combofix_case_sensitive,
 						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
 			 FALSE, FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 new_checkbox_with_title (_("Enter keep the current completion"),
+    gtk_box_pack_start ( GTK_BOX (vbox_pref),
+			 new_checkbox_with_title (_("Enter keeps current completion"),
 						  &etat.combofix_enter_select_completion,
 						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
 			 FALSE, FALSE, 0 );
 
-    separator = gtk_vseparator_new ();
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 separator,
+    gtk_box_pack_start ( GTK_BOX (vbox_pref),
+			 new_checkbox_with_title (_("Don't allow new payee creation"),
+						  &etat.combofix_force_payee,
+						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
 			 FALSE, FALSE, 0 );
 
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 vbox,
+    gtk_box_pack_start ( GTK_BOX (vbox_pref),
+			 new_checkbox_with_title (_("Don't allow new category/budget creation"),
+						  &etat.combofix_force_category,
+						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
 			 FALSE, FALSE, 0 );
 
-    /* !! carreful, hbox change here, cannot use later with the function like that */
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
-    gtk_box_pack_start ( GTK_BOX (vbox),
+    gtk_box_pack_start ( GTK_BOX (vbox_pref),
 			 hbox,
 			 FALSE, FALSE, 0 );
 
-    label = gtk_label_new (_("Maximum items showed in list\n(0 no limit)"));
+    label = gtk_label_new (_("Maximum items showed in drop down lists (0 for no limit)"));
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 label,
 			 FALSE, FALSE, 0 );
@@ -543,18 +536,6 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 entry,
 			 FALSE, FALSE, 0 );
-
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 new_checkbox_with_title (_("Force the item in the payee"),
-						  &etat.combofix_force_payee,
-						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
-			 FALSE, FALSE, 0 );
-
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 new_checkbox_with_title (_("Force the item in the category/budget"),
-						  &etat.combofix_force_category,
-						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
-			 FALSE, FALSE, 0 );
     
     if ( !gsb_data_account_get_accounts_amount () )
     {
@@ -562,7 +543,9 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
     }
 
     return vbox_pref;
+
 }
+
 
 
 /**
