@@ -207,6 +207,9 @@ gint gsb_data_currency_new ( const gchar *name )
 
     currency_list = g_slist_append ( currency_list, currency );
 
+    if ( ! gsb_data_currency_get_default_currency () )
+	gsb_data_currency_set_default_currency ( currency -> currency_number );
+
     return currency -> currency_number;
 }
 

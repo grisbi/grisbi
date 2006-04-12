@@ -195,7 +195,11 @@ gint gsb_data_account_new ( kind_account account_kind )
     account -> account_number = gsb_data_account_max_number () + 1;
     account -> account_name = g_strdup_printf ( _("No name %d"),
 						account -> account_number );
+
     account -> currency = gsb_data_currency_get_default_currency ();
+
+    gsb_data_account_calculate_current_and_marked_balances ( account -> account_number );
+
     account -> update_list = 1;
     account -> account_kind = account_kind;
     account -> method_payment_list = gsb_payment_default_payment_list ();
