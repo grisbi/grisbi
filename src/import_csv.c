@@ -46,7 +46,7 @@ static gboolean csv_find_field_config ( gint searched );
 static GSList * csv_get_next_line ( gchar ** contents, gchar * separator );
 static gboolean csv_import_change_field ( GtkWidget * item, gint no_menu );
 static gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value, 
-				       gint length, gint * position );
+					      gint length, gint * position );
 static gint csv_import_count_columns ( gchar * contents, gchar * separator );
 static GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * contents, 
 					 gchar * separator );
@@ -64,6 +64,7 @@ static gint csv_skip_lines ( gchar ** contents, gint num_lines, gchar * separato
 static gboolean safe_contains ( gchar * original, gchar * substring );
 static void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str, 
 			 GtkTreeView * tree_preview );
+static gboolean csv_import_combo_changed ( GtkComboBox * combo, GtkEntry * entry );
 /*END_STATIC*/
 
 
@@ -97,6 +98,19 @@ struct csv_field csv_fields[16] = {
 /** Contains a pointer to skipped lines in CSV preview. */
 gboolean csv_skipped_lines [ MAX_TOP_LINES ];
 
+/** Contain pre-defined CSV separators */
+struct csv_separators {
+    gchar * name;		/** Visible name of CSV separator */
+    gchar * value; 		/** Real value */
+} csv_separators[] =		/* Contains all pre-defined CSV separators. */
+{
+    { "Comma",		"," },
+    { "Semi-colon",	";" },
+    { "Colon",		":" },
+    { "Tabulation",	"\t" },
+    { "Other",		NULL },
+};
+
 
 
 /**
@@ -109,17 +123,40 @@ gboolean csv_skipped_lines [ MAX_TOP_LINES ];
 GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
 {
     GtkWidget * vbox, * paddingbox, * tree_preview, * entry, * sw, * validity_label;
-    GtkWidget * warn, * hbox;
+    GtkWidget * warn, * hbox, * combobox;
+    int i = 0;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     paddingbox = new_paddingbox_with_title ( vbox, TRUE, "Choose CSV separator" );
 
+    hbox = gtk_hbox_new ( FALSE, 12 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
+
+    combobox = gtk_combo_box_new_text ();
+    do
+    {
+	gchar * complete_name = g_strdup_printf ( "%s : \"%s\"", 
+						  csv_separators [ i ] . name,
+						  ( csv_separators [ i ] . value ? 
+						    csv_separators [ i ] . value : "" ) );
+	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), complete_name );
+	g_free ( complete_name );
+
+    }
+    while ( csv_separators [ i ++ ] . value );
+
+    gtk_box_pack_start ( GTK_BOX(hbox), combobox, TRUE, TRUE, 0 );
+
     entry = new_text_entry ( NULL, G_CALLBACK ( csv_import_change_separator ), assistant );
     g_object_set_data ( G_OBJECT(entry), "assistant", assistant );
+    g_object_set_data ( G_OBJECT(entry), "combobox", combobox );
     g_object_set_data ( G_OBJECT(assistant), "entry", entry );    
-    gtk_box_pack_start ( GTK_BOX(paddingbox), entry, FALSE, FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX(hbox), entry, FALSE, FALSE, 0 );
+
+    g_signal_connect ( G_OBJECT ( combobox ), "changed", 
+		       G_CALLBACK ( csv_import_combo_changed ), entry );
 
     paddingbox = new_paddingbox_with_title ( vbox, TRUE, "Select CSV fields" );
 
@@ -255,8 +292,6 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
  * \param path_str	Textual representation of the path of modified
  *			checkbox.
  * \param tree_preview	GtkTreeView triggering event.
- *
- * \TODO Actually use this data later (plus autodetect in csv_import_guess_separator().
  */
 void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str, 
 			 GtkTreeView * tree_preview )
@@ -664,6 +699,33 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
 
 
 /**
+ * Callback triggered when user changed the pre-defined csv separators
+ * combobox.  Update the text entry and thus the preview.
+ *
+ * \param combo		GtkComboBox that triggered event.
+ * \param entry		Associated entry to change.
+ *
+ * \return		FALSE
+ */
+gboolean csv_import_combo_changed ( GtkComboBox * combo, GtkEntry * entry )
+{
+    gint active = gtk_combo_box_get_active ( combo );
+
+    if ( csv_separators [ active ] . value )
+    {
+	gtk_entry_set_text ( entry, csv_separators [ active ] . value );
+    }
+    else
+    {
+	gtk_entry_set_text ( entry, "" );
+    }
+
+    return FALSE;
+}
+
+
+
+/**
  * Callback triggered when separator is changed in the GtkEntry
  * containing it.
  *
@@ -679,6 +741,8 @@ gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value,
 {
     gchar * separator = (gchar *) gtk_entry_get_text ( GTK_ENTRY (entry) );
     GtkWidget * assistant = g_object_get_data ( G_OBJECT(entry), "assistant" );
+    GtkWidget * combobox = g_object_get_data ( G_OBJECT(entry), "combobox" );
+    int i = 0;
 
     g_object_set_data ( G_OBJECT(assistant), "separator", separator );
     
@@ -686,6 +750,19 @@ gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value,
     {
 	csv_import_update_preview ( assistant );
     }
+
+    /* Update combobox if we can. */
+    while ( csv_separators [ i ] . value )
+    {
+	if ( ! strcmp ( csv_separators [ i ] . value, separator ) )
+	{
+	    break;
+	}
+	i ++ ;
+    }
+    g_signal_handlers_block_by_func ( combobox, csv_import_combo_changed, entry );
+    gtk_combo_box_set_active ( combobox, i );
+    g_signal_handlers_unblock_by_func ( combobox, csv_import_combo_changed, entry );
 
     return FALSE;
 }
