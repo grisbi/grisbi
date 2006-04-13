@@ -363,11 +363,15 @@ gboolean gsb_file_open_file ( gchar *filename )
 		dialogue_error_hint ( _("Grisbi was unable to load file.  Additionally, Grisbi was unable to load a backup file instead."),
 				      g_strdup_printf ( _("Error loading file '%s'"), filename) );
 		g_free (backup_filename);
+		gsb_status_stop_wait ();
 		return FALSE;
 	    }
 	}
 	else
+	{
+	    gsb_status_stop_wait ();
 	    return FALSE;
+	}
     }
 
     /* ok, here the file or backup is loaded */
