@@ -30,6 +30,7 @@
 #include "import.h"
 #include "utils.h"
 #include "utils_editables.h"
+#include "structures.h"
 #include "include.h"
 #include "import_csv.h"
 /*END_INCLUDE*/
@@ -46,7 +47,8 @@ static gboolean csv_find_field_config ( gint searched );
 static GSList * csv_get_next_line ( gchar ** contents, gchar * separator );
 static gboolean csv_import_change_field ( GtkWidget * item, gint no_menu );
 static gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value, 
-					      gint length, gint * position );
+				       gint length, gint * position );
+static gboolean csv_import_combo_changed ( GtkComboBox * combo, GtkEntry * entry );
 static gint csv_import_count_columns ( gchar * contents, gchar * separator );
 static GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * contents, 
 					 gchar * separator );
@@ -64,7 +66,6 @@ static gint csv_skip_lines ( gchar ** contents, gint num_lines, gchar * separato
 static gboolean safe_contains ( gchar * original, gchar * substring );
 static void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str, 
 			 GtkTreeView * tree_preview );
-static gboolean csv_import_combo_changed ( GtkComboBox * combo, GtkEntry * entry );
 /*END_STATIC*/
 
 
@@ -93,10 +94,9 @@ struct csv_field csv_fields[16] = {
     { NULL },
 };
 
-#define MAX_TOP_LINES 10
 
-/** Contains a pointer to skipped lines in CSV preview. */
-gboolean csv_skipped_lines [ MAX_TOP_LINES ];
+
+
 
 /** Contain pre-defined CSV separators */
 struct csv_separators {
@@ -129,7 +129,7 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
-    paddingbox = new_paddingbox_with_title ( vbox, TRUE, "Choose CSV separator" );
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE, "Choose CSV separator" );
 
     hbox = gtk_hbox_new ( FALSE, 12 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
@@ -184,8 +184,6 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
     gtk_label_set_justify ( GTK_LABEL ( validity_label ), GTK_JUSTIFY_LEFT );
     g_object_set_data ( G_OBJECT(assistant), "validity_label", validity_label );
     gtk_box_pack_start ( GTK_BOX(hbox), validity_label, TRUE, TRUE, 0 );
-
-    bzero ( csv_skipped_lines, sizeof(gboolean) * MAX_TOP_LINES );
 
     return vbox;
 }
@@ -308,7 +306,7 @@ void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str,
     gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ), &iter, 0, !toggle_item, -1);
 
     indices = gtk_tree_path_get_indices ( path );
-    csv_skipped_lines [ indices[0] ] = !toggle_item;
+    etat.csv_skipped_lines [ indices[0] ] = !toggle_item;
 }
 
 
@@ -417,7 +415,7 @@ gint csv_import_try_separator ( gchar * contents, gchar * separator )
 	
 	i++;
     } 
-    while ( list && i < MAX_TOP_LINES );
+    while ( list && i < CSV_MAX_TOP_LINES );
 
     printf ("> I believe separator could be %s\n", separator );
     return cols;
@@ -454,7 +452,7 @@ gint csv_import_count_columns ( gchar * contents, gchar * separator )
 
 	i++;
     } 
-    while ( list && i < MAX_TOP_LINES );
+    while ( list && i < CSV_MAX_TOP_LINES );
 
     return max;
 }
@@ -624,7 +622,7 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
 		   safe_contains ( _( csv_fields [ field ] . alias ), value ) ) )
 	    {
 		default_config [ i ] = field;
-		csv_skipped_lines [ 0 ] = 1;
+		etat.csv_skipped_lines [ 0 ] = 1;
 	    }
 	}
 
@@ -636,7 +634,7 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
     /** Then, we try using heuristics to determine which field is date
      * and which ones contain amounts.  We cannot guess payees or
      * comments so we only auto-detect these fields. */
-    for ( line = 0; line < MAX_TOP_LINES ; line ++ )
+    for ( line = 0; line < CSV_MAX_TOP_LINES ; line ++ )
     {
 	gboolean date_validated = 0;
 
@@ -749,6 +747,7 @@ gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value,
     if ( strlen ( separator ) )
     {
 	csv_import_update_preview ( assistant );
+	etat.csv_separator = g_strdup ( separator );
     }
 
     /* Update combobox if we can. */
@@ -799,7 +798,7 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
 	gtk_tree_view_set_model ( GTK_TREE_VIEW(tree_preview), model );
     }
 
-    while ( line < MAX_TOP_LINES )
+    while ( line < CSV_MAX_TOP_LINES )
     {
 	GtkTreeIter iter;
 	gint i = 1;
@@ -820,7 +819,7 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
 	    list = list -> next;
 	}
 
-	if ( csv_skipped_lines [ line ] )
+	if ( etat.csv_skipped_lines [ line ] )
 	{
 	    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, 0, TRUE, -1 ); 
 	}
@@ -1056,7 +1055,14 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
     entry = g_object_get_data ( G_OBJECT(assistant), "entry" );
     if ( entry )
     {
-	gtk_entry_set_text ( GTK_ENTRY(entry), csv_import_guess_separator ( contents ) );
+	if ( etat.csv_separator )
+	{
+	    gtk_entry_set_text ( GTK_ENTRY(entry), etat.csv_separator );
+	}
+	else
+	{
+	    gtk_entry_set_text ( GTK_ENTRY(entry), csv_import_guess_separator ( contents ) );
+	}
     }
 
     csv_import_update_validity_check ( assistant );
@@ -1116,7 +1122,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
 
 	/* Check if this line was specified as to be skipped
 	 * earlier. */
-	if ( index < MAX_TOP_LINES && csv_skipped_lines [ index ] )
+	if ( index < CSV_MAX_TOP_LINES && etat.csv_skipped_lines [ index ] )
 	{
 	    printf ("Skipping line %d\n", index );
 	    list = csv_get_next_line ( &contents, separator );
