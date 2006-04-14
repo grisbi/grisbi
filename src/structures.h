@@ -62,6 +62,9 @@
 #define POSTSPACIFY(s) (g_strconcat ( s, " ", NULL ))
 
 
+#define CSV_MAX_TOP_LINES 10	/** How many lines to show in CSV preview.  */
+
+
 /* variables contenant juste 0 ou 1 */
 /* FIXME : scinder cette structure en 3 parties : */
 /* la partie configurée par le fichier */
@@ -153,6 +156,14 @@ struct {
     gint fill_r_at_begining;
     /* TRUE if the R transactions are filled in the list */
     gint fill_r_done;
+
+    gchar * csv_separator;	/** CSV separator to use while parsing
+				 * a CSV file. */
+    gboolean csv_skipped_lines [ CSV_MAX_TOP_LINES ]; /** Contains a
+						       * pointer to
+						       * skipped lines
+						       * in CSV
+						       * preview. */
 } etat;
 
 
