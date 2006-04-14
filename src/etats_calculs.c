@@ -38,6 +38,7 @@
 #include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "gsb_real.h"
+#include "gsb_status.h"
 #include "print_config.h"
 #include "utils_rapprochements.h"
 #include "utils_types.h"
@@ -46,10 +47,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint classement_liste_opes_etat ( gpointer transaction_1,
-					 gpointer transaction_2 );
-static gint classement_ope_perso_etat ( gpointer transaction_1,
-					gpointer transaction_2 );
+static gint classement_liste_opes_etat ( gpointer transaction_1, gpointer transaction_2 );
+static gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 );
 static gint compare_cheques_etat ( gint chq_ope,
 			    gint chq_test,
 			    gint comparateur );
@@ -138,7 +137,7 @@ void affichage_etat ( gint report_number, struct struct_etat_affichage * afficha
 {
     GSList *liste_opes_selectionnees;
 
-    gsb_status_wait ( );
+    gsb_status_wait ( FALSE );
 
     if ( !report_number )
     {
@@ -163,7 +162,7 @@ void affichage_etat ( gint report_number, struct struct_etat_affichage * afficha
     etat_affichage_output = affichage;
     etape_finale_affichage_etat ( liste_opes_selectionnees, affichage, filename );
 
-    gsb_status_stop_wait ( );
+    gsb_status_stop_wait ( FALSE );
 }
 /*****************************************************************************************************/
 

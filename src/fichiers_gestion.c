@@ -276,7 +276,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 	 !strlen (filename))
 	return FALSE;
 
-    gsb_status_wait ();
+    gsb_status_wait ( TRUE );
     gsb_status_message ( _("Loading accounts") );
 
     /* try to load the file */
@@ -363,13 +363,13 @@ gboolean gsb_file_open_file ( gchar *filename )
 		dialogue_error_hint ( _("Grisbi was unable to load file.  Additionally, Grisbi was unable to load a backup file instead."),
 				      g_strdup_printf ( _("Error loading file '%s'"), filename) );
 		g_free (backup_filename);
-		gsb_status_stop_wait ();
+		gsb_status_stop_wait ( TRUE );
 		return FALSE;
 	    }
 	}
 	else
 	{
-	    gsb_status_stop_wait ();
+	    gsb_status_stop_wait ( TRUE );
 	    return FALSE;
 	}
     }
@@ -445,7 +445,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     modification_fichier ( FALSE );
 
     gsb_status_message ( _("Done") );
-    gsb_status_stop_wait ();
+    gsb_status_stop_wait ( TRUE );
 
     /* on se met sur l'onglet de propriétés du compte */
     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );    

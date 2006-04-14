@@ -190,14 +190,13 @@ void importer_fichier ( void )
 
     if ( gsb_assistant_run ( a ) == GTK_RESPONSE_APPLY )
     {
-	gtk_widget_destroy ( a );
-
-	gsb_status_wait ( );
+	gsb_status_wait ( TRUE );
 	traitement_operations_importees ();
+	gtk_widget_destroy ( a );
 	remplit_arbre_categ ();
 	remplit_arbre_imputation ();
 	remplit_arbre_tiers ();
-	gsb_status_stop_wait ( );
+	gsb_status_stop_wait ( TRUE );
     }
     else 
     {

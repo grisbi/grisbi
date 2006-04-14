@@ -30,6 +30,7 @@
 /*START_INCLUDE*/
 #include "gsb_status.h"
 #include "main.h"
+#include "utils.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -227,18 +228,41 @@ void gsb_status_stop_activity (  )
 
 
 
-void gsb_status_wait ( )
+/**
+ * Change current cursor to a animated watch (if animation supported
+ * by environment).
+ * 
+ * \param force_update		Call a gtk iteration to ensure cursor
+ *				is updated.  May cause trouble if
+ *				called from some signal handlers.
+ */
+void gsb_status_wait ( gboolean force_update )
 {
     gdk_window_set_cursor ( window -> window, 
 			    gdk_cursor_new_for_display ( gdk_display_get_default ( ), 
 							 GDK_WATCH ) );
-    update_ecran ();
+    if ( force_update )
+    {
+	update_ecran ();
+    }
 }
 
-void gsb_status_stop_wait ( )
+
+/**
+ * Change current cursor to default cursor.
+ * 
+ * \param force_update		Call a gtk iteration to ensure cursor
+ *				is updated.  May cause trouble if
+ *				called from some signal handlers.
+ */
+void gsb_status_stop_wait ( gboolean force_update )
 {
-    update_ecran ();
     gdk_window_set_cursor ( window -> window, NULL );
+
+    if ( force_update )
+    {
+	update_ecran ();
+    }
 }
 
 
