@@ -42,9 +42,9 @@
 #include "navigation.h"
 #include "gsb_real.h"
 #include "utils_str.h"
+#include "structures.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "structures.h"
 #include "include.h"
 #include "echeancier_infos.h"
 /*END_INCLUDE*/
@@ -374,6 +374,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *scheduler_column_width_ratio;
     gchar *new_string;
     gchar *sort_accounts_string = "";
+    gchar *skipped_lines_string;
     GSList * tmp;
 
     /* prepare stuff to save generals informations */
@@ -453,6 +454,16 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	}
     }
 
+    /* CSV skipped lines */
+    skipped_lines_string = utils_str_itoa ( etat.csv_skipped_lines[0] );
+    for ( i = 1; i < CSV_MAX_TOP_LINES ; i ++ )
+    {
+	skipped_lines_string = g_strconcat ( skipped_lines_string,
+					     "-", 
+					     utils_str_itoa ( etat.csv_skipped_lines[i] ),
+					     NULL );
+    }
+
     /* save the general informations */
 
     new_string = g_markup_printf_escaped ( "\t<General\n"
@@ -488,7 +499,10 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tCombofix_force_payee=\"%d\"\n"
 					   "\t\tCombofix_force_category=\"%d\"\n"
 					   "\t\tAutomatic_amount_separator=\"%d\"\n"
-					   "\t\tAccounts_order=\"%s\" />\n",
+					   "\t\tAccounts_order=\"%s\"\n"
+					   "\t\tCSV_separator=\"%s\"\n"
+					   "\t\tCSV_skipped_lines=\"%s\"\n"
+					   "/>",
 	VERSION_FICHIER,
 	VERSION,
 	nom_fichier_backup,
@@ -521,7 +535,9 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.combofix_force_payee,
 	etat.combofix_force_category,
 	etat.automatic_separator,
-	sort_accounts_string );
+	sort_accounts_string,
+	etat.csv_separator,
+	skipped_lines_string );
 
     g_free (transactions_view);
     g_free (transaction_column_width_ratio);

@@ -120,6 +120,7 @@ extern GtkWidget *email_banque;
 extern GtkWidget *email_correspondant;
 extern GtkWidget *fax_correspondant;
 extern GtkWidget *formulaire;
+extern struct iso_4217_currency iso_4217_currencies[] ;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
@@ -139,7 +140,6 @@ extern GtkWidget *tel_correspondant;
 extern gchar *titre_fichier;
 extern gint valeur_echelle_recherche_date_import;
 extern GtkWidget *web_banque;
-extern struct iso_4217_currency * iso_4217_currencies[];
 /*END_EXTERN*/
 
 static struct
@@ -846,8 +846,29 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 		j++;
 	    }
 	    g_strfreev ( pointeur_char );
+	}
 
-	    return;
+	else if ( !strcmp ( attribute_names[i],
+			    "CSV_separator" ))
+	{
+	    etat.csv_separator = my_strdup ( attribute_values[i] );
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "CSV_skipped_lines" ))
+	{
+	    if ( attribute_values[i] && strlen ( attribute_values[i] ) )
+	    {
+		gchar ** pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
+		gint line = 0;
+
+		while ( pointeur_char[line] )
+		{
+		    etat.csv_skipped_lines[line] = utils_str_atoi ( pointeur_char[line] );
+		    line ++;
+		}
+		g_strfreev ( pointeur_char );
+	    }
 	}
 
 

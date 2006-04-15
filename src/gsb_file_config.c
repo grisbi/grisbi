@@ -38,10 +38,10 @@
 #include "main.h"
 #include "utils_files.h"
 #include "print_config.h"
+#include "structures.h"
 #include "gsb_file_config.h"
 #include "utils_buttons.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -1171,7 +1171,9 @@ void gsb_file_config_clean_config ( void )
     etat.print_config.paper_config.width = 21;
     etat.print_config.paper_config.height = 29.7;
     etat.print_config.orientation = LANDSCAPE;
-    
+
+    bzero ( etat.csv_skipped_lines, sizeof(gboolean) * CSV_MAX_TOP_LINES );
+
     set_default_config_format();
 }
 
