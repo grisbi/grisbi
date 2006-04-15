@@ -57,8 +57,25 @@ void file_selection_set_entry(GtkFileSelection* filesel,const gchar* utf8string)
  *  
  */
 gchar* file_selection_get_entry(GtkFileSelection* filesel)
+
 {
+#ifdef _WIN32
+   // Convert shortnames to long one before returning
+   gchar      long_name[MAX_PATH];
+   gchar*     short_name;    
+   short_name = gtk_entry_get_text(GTK_ENTRY (filesel->selection_entry));
+   if( win32_get_long_path_name(short_name, long_name, MAX_PATH))
+   {
+       g_free(short_name);
+       return g_filename_to_utf8(g_strdup(long_name),-1,NULL,NULL,NULL);
+   }
+   else
+{
+       return g_filename_to_utf8(short_name,-1,NULL,NULL,NULL);
+   }       
+#else
     return g_filename_to_utf8(gtk_entry_get_text(GTK_ENTRY (filesel->selection_entry)),-1,NULL,NULL,NULL);
+#endif
 }
 /** file_selection_set_filename
  *
