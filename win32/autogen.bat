@@ -15,7 +15,7 @@ goto endofperl
 #  -------------------------------------------------------------------------
 #                               GRISBI for Windows
 #  -------------------------------------------------------------------------
-# $Id: autogen.bat,v 1.10 2006/04/15 16:04:00 teilginn Exp $
+# $Id: autogen.bat,v 1.11 2006/04/15 19:11:58 teilginn Exp $
 #  -------------------------------------------------------------------------
 # 
 #  Copyleft 2004 (c) François Terrot
@@ -39,6 +39,9 @@ goto endofperl
 #  History:
 #
 #  $Log: autogen.bat,v $
+#  Revision 1.11  2006/04/15 19:11:58  teilginn
+#  add libz in link (-lz)
+#
 #  Revision 1.10  2006/04/15 16:04:00  teilginn
 #  merge modification done for 0.5.8
 #
@@ -1176,7 +1179,7 @@ item[7] = -I\"\$(GTKDEVDIR)/include/libxml2-2.4.12\"
 item[0] = -latk-1.0 -lpango-1.0 -lpangowin32-1.0 -lpangoft2-1.0 
 item[1] = -lglib-2.0 -lgobject-2.0  -lgmodule-2.0  -lgthread-2.0 
 item[2] = -lgtk-win32-2.0 -lgdk-win32-2.0 -lgdk_pixbuf-2.0 
-item[3] = -lintl -liconv 
+item[3] = -lintl -liconv -lz
 item[4] = \$(GTKDEVDIR)/lib/libxml2.lib 
 item[5] = \$(GTKDEVDIR)/lib/libofx.lib
 
