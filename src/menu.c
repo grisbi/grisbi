@@ -45,7 +45,6 @@
 #include "utils.h"
 #include "export.h"
 
-
 extern GtkItemFactory *item_factory_menu_general;
 
 /***********************************************/
@@ -88,7 +87,11 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{menu_name(_("Edit"), _("New transaction"), NULL),  "<CTRL>T", G_CALLBACK (new_transaction ), 0, "<StockItem>", GTK_STOCK_NEW },
 	{menu_name(_("Edit"), _("Use selected transaction as a template"), NULL),  "<CTRL><SHIFT>T", G_CALLBACK ( new_transaction_from_selected ), 0, "<StockItem>", GTK_STOCK_NEW },
 	{menu_name(_("Edit"), _("Remove transaction"), NULL),   NULL, G_CALLBACK (remove_transaction ), 0, "<StockItem>", GTK_STOCK_DELETE },
+#ifndef _WIN32
 	{menu_name(_("Edit"), _("Clone transaction"), NULL), "<CTRL>C", G_CALLBACK ( clone_selected_transaction), 0, "<StockItem>", GTK_STOCK_COPY },
+#else
+	{menu_name(_("Edit"), _("Clone transaction"), NULL), "<CTRL><ALT>T", G_CALLBACK ( clone_selected_transaction), 0, "<StockItem>", GTK_STOCK_COPY },
+#endif
 	{menu_name(_("Edit"), _("Edit transaction"), NULL),   NULL, G_CALLBACK ( edition_operation), 0, "<StockItem>", GTK_STOCK_PROPERTIES },
 	{menu_name(_("Edit"), "Sep1", NULL),    NULL, NULL, 0, "<Separator>", NULL },
 	{menu_name(_("Edit"), _("Convert transaction to scheduled transaction"), NULL),   NULL, NULL, 0, "<StockItem>", GTK_STOCK_CONVERT },
