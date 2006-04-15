@@ -1,7 +1,7 @@
 ; --------------------------------------------------------------------------
 ;                            GRISBI for CYGWIN
 ; --------------------------------------------------------------------------
-; $Id: config-nsh.in,v 1.1.2.3 2005/06/05 09:53:16 teilginn Exp $
+; $Id: config-nsh.in,v 1.1.2.4 2006/04/15 15:31:46 teilginn Exp $
 ; --------------------------------------------------------------------------
 ; Authors    : Francois Terrot (grisbi@terrot.net)
 ;
@@ -55,13 +55,20 @@
 ; PACKAGE_DOC_VERSION : the 3 digit of the version of the documentation
 ;   example : "0.4.0"
 ; --------------------------------------------------------------------------
+!verbose push
+!verbose 2
+
+;!define IS_TEST_VERSION
+;!define ULTRA_MODERN_UI
 
 !define BUILDDIR "${GRISBIDIR}\build"
 !define WIN32DIR "${GRISBIDIR}\win32"
-!define BUILDENV "gcc"
+
+!define BUILDENV "gcc-gtk@GTKVER@"
 !define VERSIONID "@CORE@"
 !define BUILDID  "@BUILD@"
-!define PATCHID  "@PATCH@"!define GTKVERS  "@GTKVERS@"
+!define PATCHID  "@PATCH@"
+!define GTKVERS  "@GTKVER@"
 !define GTKBINDIR  "@GTKBINDIR@"
 !define REQUIRED_PATCH "@BUILD@"
 
@@ -70,8 +77,8 @@
     !define VERSIONSTR "${VERSIONID}"
 !endif
 
-!ifndef PACKAGE_DOC_VERSION
-    !define PACKAGE_DOC_VERSION "0.4.0"
+!ifndef PRODUCT_DOC_VERSION
+    !define PRODUCT_DOC_VERSION "0.5.1"
 !endif
 !define LIB_WINDOWS     "autres"
 !define LIB_SHFOLDER    "ShFolder (Only when needed)"
@@ -79,10 +86,12 @@
 !define LIB_OFX_SUPPORT "$(lcOfxSupport)"
 !define LIB_LIBOFX      "libofx-0.7.0"
 !define LIB_LIBXML2     "libxml2"
-!define LIB_LIBICONV2   "libiconv-2"
+!define LIB_LIBINTL2   "libintl2"
+!define LIB_LIBINTL3   "libintl3"
+
 
 !macro  SECTION_LANG aLANG aTEXT
-Section "${aTEXT}"  ${aLANG}
+Section "${aTEXT}"  sectLocale${aLANG}
     SectionIn 1 2 3
     !insertmacro CopyLocaleFiles "${aLANG}"
 SectionEnd
@@ -100,5 +109,6 @@ SubSectionEnd
 !insertmacro INSTALL_GTKFILE "gtk20.mo"  "lib\locale\@GTKLOCALES@\LC_MESSAGES" "-"
 !macroend
 
+!verbose pop
 ;eof 
 ; vim:ft=nsis:
