@@ -44,11 +44,11 @@
 #include "menu.h"
 #include "structures.h"
 #include "traitement_variables.h"
+#include "gsb_data_form.h"
 #include "gsb_scheduler_list.h"
 #include "include.h"
 #include "echeancier_infos.h"
 #include "gsb_transactions_list.h"
-#include "gsb_data_form.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -112,6 +112,7 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
 extern gchar *crypt_key;
+extern GtkWidget *form_tab_transactions[MAX_HEIGHT][MAX_WIDTH];
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
@@ -139,7 +140,6 @@ extern GtkWidget *solde_label_pointe ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkTooltips *tooltips_general_grisbi;
 extern gint valeur_echelle_recherche_date_import;
-extern GtkWidget *form_tab_transactions[MAX_HEIGHT][MAX_WIDTH];
 /*END_EXTERN*/
 
 

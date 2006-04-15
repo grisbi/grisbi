@@ -29,7 +29,6 @@
 
 
 /*START_INCLUDE*/
-#include "accueil.h"
 #include "comptes_gestion.h"
 #include "banque.h"
 #include "erreur.h"
@@ -53,6 +52,7 @@
 #include "tiers_onglet.h"
 #include "utils_comptes.h"
 #include "structures.h"
+#include "accueil.h"
 #include "include.h"
 /*END_INCLUDE*/
 

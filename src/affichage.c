@@ -72,13 +72,13 @@ extern GtkWidget *entree_adresse_commune;
 extern GtkWidget *entree_adresse_secondaire;
 extern GtkWidget *entree_titre_fichier;
 extern GtkWidget *fenetre_preferences;
+extern GtkWidget *form_button_part;
 extern gint hauteur_ligne_liste_opes;
 extern GtkWidget *hbox_title;
 extern GtkWidget *label_titre_fichier;
 extern GtkWidget *logo_accueil;
 extern PangoFontDescription *pango_desc_fonte_liste;
 extern gchar *titre_fichier;
-extern GtkWidget *form_button_part;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

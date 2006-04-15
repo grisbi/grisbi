@@ -50,7 +50,7 @@ gint gsb_form_get_next_element ( gint account_number,
 				 gint element_number,
 				 gint direction );
 gboolean gsb_form_hide ( void );
-GtkWidget *gsb_form_new ( void );
+GtkWidget * gsb_form_new ( void );
 gboolean gsb_form_set_expander_visible ( gboolean visible,
 					 gboolean transactions_list );
 gboolean gsb_form_show ( gboolean show );

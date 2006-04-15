@@ -48,6 +48,7 @@ static void deselection_ligne_banque ( GtkWidget *liste,
 				gint colonne,
 				GdkEventButton *ev,
 				GtkWidget *frame );
+static void edit_bank ( GtkWidget * button, struct struct_banque * bank );
 static void selection_ligne_banque ( GtkWidget *liste,
 			      gint ligne,
 			      gint colonne,

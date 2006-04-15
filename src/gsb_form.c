@@ -72,6 +72,7 @@ static gboolean gsb_form_fill_scheduled_part ( void );
 static gboolean gsb_form_frequency_button_changed ( GtkWidget *combo_box,
 					     gpointer null );
 static gint gsb_form_get_account_from_button ( void );
+static gint gsb_form_get_element_expandable ( gint element_number );
 static gint gsb_form_get_origin ( void );
 static gboolean gsb_form_init_entry_colors ( void );
 static gboolean gsb_form_key_press_event ( GtkWidget *widget,
@@ -80,7 +81,6 @@ static gboolean gsb_form_key_press_event ( GtkWidget *widget,
 static void gsb_form_set_entry_is_empty ( GtkWidget *entry,
 				   gboolean empty );
 static void gsb_form_set_focus ( gint element_number );
-static gint gsb_form_get_element_expandable ( gint element_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/

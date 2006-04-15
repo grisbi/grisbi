@@ -38,8 +38,8 @@
 #include "gsb_real.h"
 #include "utils.h"
 #include "structures.h"
-#include "include.h"
 #include "gsb_file_config.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

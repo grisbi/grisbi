@@ -314,6 +314,7 @@ GtkWidget *liste_mode_paiement_etat;
 
 /*START_EXTERN*/
 extern gint mise_a_jour_combofix_tiers_necessaire;
+extern GtkWidget * navigation_tree_view;
 extern GtkWidget *notebook_aff_donnees;
 extern GtkWidget *notebook_config_etat;
 extern GtkWidget *notebook_etats;
@@ -322,7 +323,6 @@ extern GtkWidget *notebook_selection;
 extern GtkWidget *onglet_config_etat;
 extern GtkTreeSelection * selection;
 extern GtkStyle *style_label;
-extern GtkWidget * navigation_tree_view;
 /*END_EXTERN*/
 
 
