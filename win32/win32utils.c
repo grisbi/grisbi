@@ -26,6 +26,7 @@
 #include <winbase.h>
 #include <winerror.h>
 #include <shlobj.h>
+#include <stdio.h>
 
 #include "win32utils.h"
 
@@ -143,7 +144,7 @@ HRESULT win32_get_folder_path(gchar* folder_path,const int csidl)        /* {{{ 
 {   
 
     HRESULT hr             = NO_ERROR;
-    gboolean create_folder = csidl & CSIDL_FLAG_CREATE;
+    //gboolean create_folder = csidl & CSIDL_FLAG_CREATE;
     gchar*   utf8filename  = NULL;
     
     PFNSHGETFOLDERPATH  pGetFolderPath = _win32_getfolderpath();
@@ -233,12 +234,29 @@ gchar* win32_get_grisbirc_folder_path()  /* {{{ */
 
 
 /**
- * store full path with filename retrieved from argv[0]
+ * store full path with filename retrieved from argv[0] converted to utf-8 for any internal use
  */
-void  win32_set_app_path(gchar* app_dir)
+void  win32_set_app_path(gchar* syslocale_app_dir)
 {
-    
-    g_strlcpy(grisbi_exe_path,app_dir,MAX_PATH);
+    gchar* uft8_app_dir = NULL;
+    if (!syslocale_app_dir)
+    {
+        g_strlcpy(grisbi_exe_path,"",MAX_PATH);
+    }
+    else
+    {
+        uft8_app_dir = g_filename_to_utf8(syslocale_app_dir, -1, NULL, NULL, NULL);
+        if (uft8_app_dir == NULL)
+        {
+            uft8_app_dir = g_strdup(syslocale_app_dir);
+        }
+        g_strlcpy(grisbi_exe_path,uft8_app_dir,MAX_PATH);
+    }
+    if (uft8_app_dir)
+    {
+        g_free(uft8_app_dir);
+        uft8_app_dir = NULL;
+    }
 }
  
 /**
@@ -341,6 +359,9 @@ BOOL win32_shell_execute_open(const gchar* file)
    return ((int)ShellExecute(NULL, "open", file, NULL, NULL, SW_SHOWNORMAL)>32);
 }
 
+/*
+ * Start a new process based on CreateProcess
+ */
 BOOL win32_create_process(gchar* application_path,gchar* arg_line,gboolean detach,gboolean with_sdterr)
 {
 
@@ -369,7 +390,7 @@ BOOL win32_create_process(gchar* application_path,gchar* arg_line,gboolean detac
 
         if (hStdError == INVALID_HANDLE_VALUE) 
         { 
-            printf("Could not open file (error %d)\n", GetLastError());
+            printf("Could not open file (error %d)\n", (int)GetLastError());
         }
         else
         {
@@ -431,6 +452,162 @@ BOOL win32_create_process(gchar* application_path,gchar* arg_line,gboolean detac
    return (gboolean)(dw==0);
 }
 
+/* 
+ * The GetLongPathName API call is only available on Windows 98/ME and Windows 2000/XP. 
+ * It is not available on Windows 95 & NT. This function will emulate it on all system.
+ * The algorithm recursively strips off path components, then reassembles them with
+ * their long name equivalents.
+ * 
+ *
+ * \param lpszShortPath [in]  Pointer to a null-terminated path to be converted limited to MAX_PATH characters
+ * \param lpszLongPath  [out] Pointer to the buffer to receive the long path. 
+ * \param cchBuffer     [in]  Size of the buffer, in TCHARs. 
+ * \caveats
+ *    The provided buffer MUST have been ALLOCATED before calling the function.
+ *   
+ * @return 
+ *    If the function succeeds, the return value is the length of the string copied to the lpszLongPath parameter,
+ *    in TCHARs. This length does not include the terminating null character.
+ *    If the function fails for any other reason, the return value is zero.
+ *    To get extended error information, call GetLastError.
+ *
+ *    If the lpszLongPath buffer is too small to contain the path, the return
+ *    value is the size of the buffer required to hold the path, including the
+ *    terminating null character, in TCHARs. Therefore, if the return value is
+ *    greater than cchBuffer, call the function again with a buffer is at least
+ *    this large.
+ * 
+ * @note
+ *   This function is inspired on the "GetLongPathName API Function Emulation" 
+ *   provided by Randall Garacci on the CodeGuru site
+ *   http://www.codeguru.com/Cpp/W-P/files/article.php/c4461/
+ *   Here after the code:
+ *   DWORD GetLongPathName(CString  strShortPath,
+ *                          CString& strLongPath  )
+ *    {
+ *      int iFound = strShortPath.ReverseFind('\\');
+ *      if (iFound > 1)
+ *      {
+ *        // recurse to peel off components
+ *        //
+ *        if (GetLongPathName(strShortPath.Left(iFound),
+ *                            strLongPath) > 0)
+ *        {
+ *          strLongPath += '\\';
+ *    
+ *          if (strShortPath.Right(1) != "\\")
+ *          {
+ *            WIN32_FIND_DATA findData;
+ *    
+ *            // append the long component name to the path
+ *            //
+ *            if (INVALID_HANDLE_VALUE != ::FindFirstFile
+ *               (strShortPath, &findData))
+ *            {
+ *              strLongPath += findData.cFileName;
+ *            }
+ *            else
+ *            {
+ *              // if FindFirstFile fails, return the error code
+ *              //
+ *              strLongPath.Empty();
+ *              return 0;
+ *            }
+ *          }
+ *        }
+ *      }
+ *      else
+ *      {
+ *        strLongPath = strShortPath;
+ *      }
+ *    
+ *      return strLongPath.GetLength();
+ *    }
+ * 
+ * @note (for reading purpose \ and replaced by / in the samples)
+ *   dir1/dir2/file  "long dir1/long dir2/long filename"
+ *   /dir1/dir2/file "/long dir1/long dir2/long filename"
+ *   c:/dir1/dir2/file -> "c:/long dir1/long dir2/long file name"
+ *   
+ * @caveats   
+ *   \\server\dir is not supported in this version of the implementation 
+ *   duplicate directory separator are not supported by this implementation
+ *
+ */
+#define _WIN32_CHAR_IS_DIR_SEPARATOR(c) ((c=='\\')||(c== '/'))
+
+DWORD win32_get_long_path_name(LPCTSTR lpszShortPath, LPTSTR lpszLongPath, DWORD ccBuffer)
+{
+    int iFound = -1;
+        
+    iFound = strlen(lpszShortPath);
+    
+    
+    // UNC path form is not supported, return immediatly
+    if ( (iFound >= 2) && (_WIN32_CHAR_IS_DIR_SEPARATOR(lpszShortPath[0])) && (_WIN32_CHAR_IS_DIR_SEPARATOR(lpszShortPath[1]) ))
+    {
+        return -1;
+    }
+        
+    //// remove duplicate (or more) '\' from path by going back to the first of the serie
+    //while ((iFound > 0) && (lpszShortPath[iFound-1] == '\')) { iFound--; }
+    // 
+    /*
+     * Reverse find '\\' in szShortPath 
+     */
+    for ( iFound = strlen(lpszShortPath)-1; (iFound >= 0) && (! _WIN32_CHAR_IS_DIR_SEPARATOR(lpszShortPath[iFound])) ; --iFound);
+    // Remove duplicated directory separator
+
+    /*
+     * Last item to convert detection:
+     * 01234567890
+     * c:/dir1/    iFound = 2;path[1] = ':'
+     * /dir1/...   iFound = 0;path[1]!= ':'
+     * dir1/       iFound =-1;path[1]!= ':';path[2] != '\' ** FIXME Not supported **
+     */
+    /*
+     * If we point to a '\'  at the third position of the string, check if we are in the <disk>:\ case
+     */
+    if ((iFound == 2) && (lpszShortPath[1]==':')) { iFound = -1 ; }
+    
+    // There is still part in the string which can be converted
+    if (iFound >  1) 
+    {
+        TCHAR szLeftOfShortName[MAX_PATH+1];
+
+        strcpy((TCHAR*)szLeftOfShortName,(TCHAR*)lpszShortPath);
+        szLeftOfShortName[iFound] = 0;
+        
+        if (win32_get_long_path_name(szLeftOfShortName,lpszLongPath,ccBuffer) > 0)
+        {
+
+            if ( lpszShortPath[strlen(lpszShortPath)-1] != '\\' )
+            {
+                // search and append the long component name to the path
+                WIN32_FIND_DATA findData;
+                if (INVALID_HANDLE_VALUE != FindFirstFile(lpszShortPath,&findData))
+                {
+                    strcat((TCHAR*)lpszLongPath,"\\");
+                    strcat((TCHAR*)lpszLongPath,findData.cFileName);
+                }
+                else // if FindFirstFile fails, return the error code
+                {
+                    *lpszLongPath = 0;
+                    return 0;
+                }
+            }
+        }
+    }
+    // nothing to convert ( c:\ \ )
+    else 
+    {
+        strcpy((TCHAR*)lpszLongPath,(TCHAR*)lpszShortPath);
+    }
+    return strlen((TCHAR*)lpszLongPath);
+}
+
+#if 0
+#endif
 // -------------------------------------------------------------------------
 // End of WinUtils
 // -------------------------------------------------------------------------
