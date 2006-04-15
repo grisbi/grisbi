@@ -36,6 +36,7 @@
 /*START_STATIC*/
 static gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage, 
 				     gint page, gpointer assistant );
+static gboolean gsb_assistant_sensitive_button_next ( GtkWidget * assistant, gboolean state );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -258,11 +259,12 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage, 
 				     gint page, gpointer assistant )
 {
-    gboolean (* callback) ( GtkWidget * );
-    gpointer padding[32];	/* Don't touch, looks like we have a
-				 * buffer overflow problem. */
+    typedef gboolean ( * gsb_assistant_callback ) ( GtkWidget * );
+    gsb_assistant_callback callback;
+/*     gpointer padding[32];	/\* Don't touch, looks like we have a */
+/* 				 * buffer overflow problem. *\/ */
 
-    callback = (gboolean *) (GtkWidget *) g_object_get_data ( G_OBJECT (assistant), g_strdup_printf ( "enter%d", page ) );
+    callback = ( gsb_assistant_callback ) g_object_get_data ( G_OBJECT (assistant), g_strdup_printf ( "enter%d", page ) );
 
     if ( callback )
     {
