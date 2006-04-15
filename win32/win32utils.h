@@ -62,6 +62,7 @@ extern gchar*  win32_get_windows_folder_path      (void);
 extern gchar*  win32_get_grisbirc_folder_path     (void);
 extern void    win32_set_app_path(gchar*);
 extern gchar*  win32_app_subdir_folder_path       (gchar*);
+extern gchar* win32_get_tmp_dir();
 
 #define PIXMAPS_DIR win32_app_subdir_folder_path("pixmaps")  /* pixmaps */
 #define HELP_PATH   win32_app_subdir_folder_path("help")     /* help */
@@ -104,11 +105,13 @@ extern win_version    win32_get_windows_version(void);
 extern win_technology win32_get_windows_technology(win_version);
 
 BOOL win32_shell_execute_open(const gchar* file);
+BOOL win32_create_process(gchar* application_path,gchar* arg_line,gboolean detach,gboolean with_sdterr);
 // GetLongPathName
 // -------------------------------------------------------------------------
 typedef HRESULT (__stdcall * PFNSHGETGETLONGPATHNAMEA)(LPCTSTR, LPTSTR, DWORD);  // "GetLongPathNameA"
 typedef HRESULT (__stdcall * PFNSHGETGETLONGPATHNAMEW)(LPCTSTR, LPTSTR, DWORD); // "GetLongPathNameW"
-#ifdef UNICODE
+
+#ifdef UNICODE
 #define GetLongPathName     GetLongPathNameA
 #define SZ_GETLONGPATHNAME  "GetLongPathNameA"
 #define PFNGETLONGPATHNAME  PFNSHGETGETLONGPATHNAMEA
@@ -117,6 +120,6 @@ typedef HRESULT (__stdcall * PFNSHGETGETLONGPATHNAMEW)(LPCTSTR, LPTSTR, DWORD); 
 #define SZ_GETLONGPATHNAME  "GetLongPathNameW"
 #define PFNGETLONGPATHNAME  PFNSHGETGETLONGPATHNAMEW
 #endif
-
+DWORD win32_get_long_path_name(LPCTSTR lpszShortPath, LPTSTR lpszLongPath, DWORD ccBuffer);
 #endif//!WINUTILS_H_C61461B7_ACF2_4011_888A_030AD5F25F8F
 

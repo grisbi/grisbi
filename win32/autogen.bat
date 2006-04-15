@@ -15,12 +15,12 @@ goto endofperl
 #  -------------------------------------------------------------------------
 #                               GRISBI for Windows
 #  -------------------------------------------------------------------------
-# $Id: autogen.bat,v 1.9 2005/10/14 14:25:55 teilginn Exp $
+# $Id: autogen.bat,v 1.10 2006/04/15 16:04:00 teilginn Exp $
 #  -------------------------------------------------------------------------
 # 
 #  Copyleft 2004 (c) François Terrot
 #           2005 (c) François Terrot
-#  
+#
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License as
 #  published by the Free Software Foundation; either version 2 of the
@@ -39,11 +39,17 @@ goto endofperl
 #  History:
 #
 #  $Log: autogen.bat,v $
-#  Revision 1.9  2005/10/14 14:25:55  teilginn
-#  prepare to change gtk2.4 to gtk 2.6
+#  Revision 1.10  2006/04/15 16:04:00  teilginn
+#  merge modification done for 0.5.8
 #
-#  Revision 1.8  2005/06/05 10:06:54  teilginn
-#  Better languages (po) variables list management
+#  Revision 1.1.2.10  2006/04/15 15:12:32  teilginn
+#  updates for GTK 2.6
+#
+#  Revision 1.1.2.9  2006/01/31 21:05:12  teilginn
+#  Remove Perl warnings
+#
+#  Revision 1.1.2.8  2006/01/31 20:48:36  teilginn
+#  last updates
 #
 #  Revision 1.1.2.7  2005/06/05 09:49:11  teilginn
 #  Better languages (po) variables list management
@@ -102,7 +108,7 @@ use strict;
 our $LOCALLIBDIR;
 our $LOCALSITEDIR;
 our $LOCALARCHDIR;
-BEGIN 
+BEGIN
 {
     require 5.006;
     use File::Basename; my $INSTDIR = dirname $0; $INSTDIR =~ s/\\/\//g;
@@ -146,9 +152,6 @@ my $gccbasedir ;
 my $grisbidir  ;
 my $startdir   ;
 
-my $gtkvers_minimum   = '2.6.6'; # Minimum GTK2 version Grisbi is compliant with
-my $gtkvers_preferred = '2.6.6'; # Preferred version (My current version)
-my $gtkvers_maximum   = '2.6.x'; # Maximum GTK2 version Grisbi is compliant with
 # 
 # ==========================================================================
 # FUNCTIONS
@@ -449,6 +452,7 @@ sub _pkgconfig # {{{
 # \param  $ the line without the last '\n' to modify
 # \return $ the modified line
 # --------------------------------------------------------------------------
+
 sub _cb_default #{{{
 {
     return shift;
@@ -457,20 +461,20 @@ sub _cb_config_ini #{{{
 {
     my $l = shift;
     READ_INI: {
-        last READ_INI if ($l =~ s/GCCBASEDIR/$config{'directories'}{'mingw'}/);
-        last READ_INI if ($l =~ s/PERLBASEDIR/$config{'directories'}{'perl'}/);
-        last READ_INI if ($l =~ s/NSISBINDIR/$config{'directories'}{'nsis'}/);
-        last READ_INI if ($l =~ s/GETTEXT/$config{'directories'}{'gettext'}/);
-        last READ_INI if ($l =~ s/GTKBINDIR/$config{'directories'}{'gtkbin'}/);
-        last READ_INI if ($l =~ s/GTKDEVDIR/$config{'directories'}{'gtkdev'}/);
-        last READ_INI if ($l =~ s/BUILDDIR/$config{'directories'}{'prefix'}/);
-        last READ_INI if ($l =~ s/WINGRISBIDIR/$config{'directories'}{'grisbi'}/);
-        last READ_INI if ($l =~ s/CORE/$config{'grisbi'}{'core'}/);
-        last READ_INI if ($l =~ s/BUILD/$config{'grisbi'}{'build'}/);
-        last READ_INI if ($l =~ s/PATCH/$config{'grisbi'}{'patch'}/);
-        last READ_INI if ($l =~ s/GTKDEVVERS/$config{'grisbi'}{'gtkdev'}/);
-        last READ_INI if ($l =~ s/GTKBINVERS/$config{'grisbi'}{'gtkbin'}/);
-        last READ_INI if ($l =~ s/REQUIRE/$config{'grisbi'}{'build'}/);
+        last READ_INI if ($l =~ s/ GCCBASEDIR/ $config{'directories'}{'mingw'}/);
+        last READ_INI if ($l =~ s/ PERLBASEDIR/ $config{'directories'}{'perl'}/);
+        last READ_INI if ($l =~ s/ NSISBINDIR/ $config{'directories'}{'nsis'}/);
+        last READ_INI if ($l =~ s/ GETTEXT/ $config{'directories'}{'gettext'}/);
+        last READ_INI if ($l =~ s/ GTKBINDIR/ $config{'directories'}{'gtkbin'}/);
+        last READ_INI if ($l =~ s/ GTKDEVDIR/ $config{'directories'}{'gtkdev'}/);
+        last READ_INI if ($l =~ s/ BUILDDIR/ $config{'directories'}{'prefix'}/);
+        last READ_INI if ($l =~ s/ WINGRISBIDIR/ $config{'directories'}{'grisbi'}/);
+        last READ_INI if ($l =~ s/ CORE/ $config{'grisbi'}{'core'}/);
+        last READ_INI if ($l =~ s/ BUILD/ $config{'grisbi'}{'build'}/);
+        last READ_INI if ($l =~ s/ PATCH/ $config{'grisbi'}{'patch'}/);
+        last READ_INI if ($l =~ s/ GTKDEVVERS/ $config{'grisbi'}{'gtkdev'}/);
+        last READ_INI if ($l =~ s/ GTKBINVERS/ $config{'grisbi'}{'gtkbin'}/);
+        last READ_INI if ($l =~ s/ REQUIRE/ $config{'grisbi'}{'build'}/);
     }
     
     $l =~ s/\s+$//;
@@ -546,11 +550,34 @@ sub _cb_makefile # {{{
         last READ_MAKE if ($l =~ s/\@NSISBINDIR\@/$config{'directories'}{'nsis'}/);
         last READ_MAKE if ($l =~ s/\@GETTEXTDIR\@/$config{'directories'}{'gettext'}/);
         last READ_MAKE if ($l =~ s/\@INSTSRCDIR\@/$config{'directories'}{'installer'}/);
+        last READ_MAKE if ($l =~ s/\@CFLAGS\@/$config{'environment'}{'cflags'}/);
+        last READ_MAKE if ($l =~ s/\@LDFLAGS\@/$config{'environment'}{'ldflags'}/);
         ( $l =~ /\@SRCS\@/ ) && do {
             my $srcs = _get_c_file_list("../src");
             $l =~ s/\@SRCS\@/$srcs/;
             last READ_MAKE;
         };
+        ( $l =~ /\@INCS\@/ ) && do {
+            my $incs;
+            my $ref = $config{'includes'}{'item'};
+            foreach my $item (@$ref)
+            {
+                $incs .= " \\\n". $item;
+            }
+            $l =~ s/\@INCS\@/$incs/;
+            last READ_MAKE;
+        };
+        ( $l =~ /\@LIBS\@/ ) && do {
+            my $libs;
+            my $ref = $config{'libraries'}{'item'};
+            foreach my $item (@$ref)
+            {
+                $libs .= " \\\n". $item;
+            }
+            $l =~ s/\@LIBS\@/$libs/;
+            last READ_MAKE;
+        };
+
         ( $l =~ /\@WIN32\@/ ) && do {
             my $win32 = _get_c_file_list("../win32");
             $l =~ s/\@WIN32\@/$win32/;
@@ -648,6 +675,29 @@ sub _cb_grisbi_dev
             {
                 $l .= _dev_cpp_format_unit_section($i++,$file,'.\win32','Win32',0);
             }
+            last READ_DEV;
+        };
+        ( $l =~ /\@CFLAGS\@/ ) && do {
+            my $cflags = $config{'environment'}{'cflags'};
+            foreach my $copt (@{$config{'includes'}{'item'}})
+            {
+                $cflags .= $copt." ";
+            }
+            $cflags =~s/\//\\/g;
+            
+            $l =~s/\@CFLAGS\@/$cflags/;
+            last READ_DEV;
+        };
+        ( $l =~ /\@LDFLAGS\@/ ) && do {
+            my $ldflags = $config{'environment'}{'ldflags'};
+            foreach my $ldopt (@{$config{'libraries'}{'item'}})
+            {
+                $ldflags .= $ldopt." ";
+            }
+            $ldflags =~s/\s+/ _\@\@_/g ;
+            $ldflags =~s/\//\\/g;
+
+            $l =~s/\@LDFLAGS\@/$ldflags/;
             last READ_DEV;
         };
     }
@@ -783,7 +833,6 @@ sub _runtime_configure # {{{
 {
     my ($targets) = @_;
     $targets = join ':', qw/build libraries pixmaps help dtd/ unless $targets;
-    
 my $gtkcompliant   = 0;
 my $runtime_prefix = 0;
 my $target_found   = 0;
@@ -859,6 +908,7 @@ my $dest_dir       = "";
     exit;
 } # }}}
 # }}}
+
 # --------------------------------------------------------------------------
 # Configuration functions
 # --------------------------------------------------------------------------
@@ -909,7 +959,7 @@ sub _configuration_autodetect # {{{
     $gtkbinvers =~ s/^.*((\d)\.(\d).(\d+)).*$/$1/;
 
     die "*** ERROR *** Gtk+ version $gtkbinvers is not supported for building Grisbi\n\n \
-        Please use GTK+ version 2.6.x (x>=6) (from http://www.gtk.org/win32) [$2!=2]\n" if ($2 != 2); 
+        Please use GTK+ version 2.4.x (x>=14) (from http://www.gtk.org/win32) [$2!=2]\n" if ($2 != 2); 
 
     die "*** ERROR *** Gtk+ version $gtkbinvers is not yet supported for building Grisbi\n\n \
         Please use GTK+ version 2.4.x (x>=14) (from http://www.gtk.org/win32) [$3>6]\n" if ($3 > 6); 
@@ -921,38 +971,24 @@ sub _configuration_autodetect # {{{
         Please use GTK+ version 2.4.x (x>=14) (from http://www.gtk.org/win32) [[$3==4]&&[$4<14]}\n" if (($3 == 4)&&($4 < 14)); 
         
     #
-    # GTK DEVELOPMENT FILES
-    #
-    
-    my ($gtk2dev_versreq_major) = (2);
-    my ($gtk2dev_versreq_minor,$gtk2dev_versreq_patch) = (6,6);
-    my ($gtk2dev_versmin_minor,$gtk2dev_versmin_patch) = (6,6);
-    my ($gtk2dev_versmax_minor,$gtk2dev_versmax_patch) = (6,6);
-
     my ($pkgn,$gtkdevvers) = _pkgconfig($config{'directories'}{'mingw'}."/lib/pkgconfig/gtk+-2.0.pc");
-    die "*** ERROR *** Unable to detect GTK+ develoment version\n\n \
-        Please reinstall GTK+ ${gtk2dev_versreq_major}.${gtk2dev_versreq_minor}.x (x>=${gtk2dev_versreq_patch}) DevPack\n" 
-        if (not defined($pkgn) or not defined($gtkdevvers));
+    die "*** ERROR *** Unable to detect GTK+ development version\n\n \
+        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if (not defined($pkgn) or not defined($gtkdevvers));
 
     die "*** ERROR *** Unable to determine GTK+ development version\n\n \
-        Please reinstall GTK+ ${gtk2dev_versreq_major}.${gtk2dev_versreq_minor}.x (x>=${gtk2dev_versreq_patch}) DevPack\n"
-        unless ($gtkdevvers =~ m/((\d)\.(\d+)\.(\d+))/ );
+        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" unless ($gtkdevvers =~ m/((\d)\.(\d+)\.(\d+))/ );
 
     die "*** ERROR *** Gtk+ dev version $gtkdevvers  is not supported for building Grisbi\n\n \
-        Please reinstall GTK+ ${gtk2dev_versreq_major}.${gtk2dev_versreq_minor}.x (x>=${gtk2dev_versreq_patch}) DevPack\n"
-        if ($2 != $gtk2dev_versreq_major); 
+        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if ($2 != 2); 
 
     die "*** ERROR *** Gtk+ dev version $gtkdevvers is not yet supported for building Grisbi\n\n \
-        Please reinstall GTK+ ${gtk2dev_versreq_major}.${gtk2dev_versreq_minor}.x (x>=${gtk2dev_versreq_patch}) DevPack\n"
-        if ($3 > ${gtk2dev_versmax_minor}); 
+        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if ($3 > 6); 
 
     die "*** ERROR *** Gtk+ dev version $gtkdevvers is no more supported for building Grisbi\n\n \
-        Please reinstall GTK+ ${gtk2dev_versreq_major}.${gtk2dev_versreq_minor}.x (x>=${gtk2dev_versreq_patch}) DevPack\n" 
-        if ($3 < ${gtk2dev_versmin_minor}); 
+        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if ($3 < 4); 
 
     die "*** ERROR *** Gtk+ dev version $gtkdevvers is no more supported for building Grisbi\n\n \
-        Please reinstall GTK+ ${gtk2dev_versreq_major}.${gtk2dev_versreq_minor}.x (x>=${gtk2dev_versreq_patch}) DevPack\n" 
-        if (($3 == ${gtk2dev_versreq_minor})&&($4 < ${gtk2dev_versmin_patch})); 
+        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if (($3 == 4)&&($4 < 14)); 
     
     $config{'directories'}{'gtkdev'} = $config{'directories'}{'mingw'};
 
@@ -980,10 +1016,11 @@ sub _configuration_autodetect # {{{
     $config{'grisbi'}{'core'} = $core unless ($config{'grisbi'}{'core'});
 
     my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
-    $year %= 100;
-    $year  =~ s/^(\d)$/0$1/;
+    $year %= 100; # localtime year is 00..99 from year 1900..1999 and 1xx for year 20xx
+    $mon++;       # localtime month is 0..11
+    $year =~ s/^(\d)$/0$1/;
     $mon  =~ s/^(\d)$/0$1/;
-    $mday  =~ s/^(\d)$/0$1/;
+    $mday =~ s/^(\d)$/0$1/;
 
     $config{'grisbi'}{'build'} = "$year$mon$mday" unless ($config{'grisbi'}{'build'});
     $config{'grisbi'}{'patch'} = "$year$mon$mday" unless ($config{'grisbi'}{'patch'});
@@ -1006,11 +1043,12 @@ sub _configuration_check # {{{
         die "\n";
     }
     die "Unable to determine prefix directory name, please edit $config_ini\n"   unless ( $config{'directories'}{'prefix'} );
-    die "gtk runtime directory    is empty, please edit $config_ini\n" unless ( $config{'directories'}{'gtkbin'} );
+    die "gtk runtime directory is empty, please edit $config_ini\n" unless ( $config{'directories'}{'gtkbin'} );
     die "mingw directory  is empty, please edit $config_ini\n" unless ( $config{'directories'}{'mingw'} );
     #die "no target defined, please use configure.pl or make \n" unless ($targets);
 
 } # }}}
+
 # ==========================================================================
 # __MAIN___                                              {{{ PART_3
 # ==========================================================================
@@ -1110,7 +1148,7 @@ if ($opt_templates)
 # _TEMPLATES_
 # ==========================================================================
 __DATA__
-<file name="autogen.ini" callback"_cb_config_ini" >  {{{
+<file name="autogen.ini" callback="_cb_config_ini" >  {{{
 [grisbi]
 core      = CORE
 build     = BUILD
@@ -1118,8 +1156,30 @@ patch     = PATCH
 require   = BUILD
 gtkdev    = GTKDEVVERS
 gtkbin    = GTKBINVERS
+
 [environment]
 compiler  = gcc ; only gcc is supported yet
+cflags    = -Wall \$(INCS) -D _WIN32 -mms-bitfields -g -D _WIN32_IE=0x0410
+ldflags   = -L\"\$(GCCBASEDIR)/lib\" -L\"\$(GTKDEVDIR)/lib/\" \$(LIBS) -mwindows
+
+[includes]
+item[0] = -I\"../win32\" -I\"../src\" 
+item[1] = -I\"\$(GCCBASEDIR)/include\"
+item[2] = -I\"\$(GTKDEVDIR)/include\"
+item[3] = -I\"\$(GTKDEVDIR)/lib/glib-2.0/include\" -I\"\$(GTKDEVDIR)/include/glib-2.0\" 
+item[4] = -I\"\$(GTKDEVDIR)/lib/gtk-2.0/include\" -I\"\$(GTKDEVDIR)/include/gtk-2.0\" 
+item[5] = -I\"\$(GTKDEVDIR)/include/atk-1.0\" -I\"\$(GTKDEVDIR)/include/pango-1.0\" 
+item[6] = -I\"\$(GTKDEVDIR)/include/libiconv-1.9.1\" 
+item[7] = -I\"\$(GTKDEVDIR)/include/libxml2-2.4.12\"
+
+[libraries]
+item[0] = -latk-1.0 -lpango-1.0 -lpangowin32-1.0 -lpangoft2-1.0 
+item[1] = -lglib-2.0 -lgobject-2.0  -lgmodule-2.0  -lgthread-2.0 
+item[2] = -lgtk-win32-2.0 -lgdk-win32-2.0 -lgdk_pixbuf-2.0 
+item[3] = -lintl -liconv 
+item[4] = \$(GTKDEVDIR)/lib/libxml2.lib 
+item[5] = \$(GTKDEVDIR)/lib/libofx.lib
+
 [directories]
 gtkdev    = GTKDEVDIR
 gtkbin    = GTKBINDIR
@@ -1168,9 +1228,8 @@ A ICON MOVEABLE PURE LOADONCALL DISCARDABLE "Grisbi.ico"
 <file name="../Grisbi.dev" src="grisbi.dev.in" callback="_cb_grisbi_dev"></file>
 <file name="config.nsh" src="config-nsh.in" callback="_cb_config_nsh"></file>
 __END__ 
-#
 # ==========================================================================
-#__RUNTIME__ # {{{
+#__RUNTIME__# {{{
 <gtk version="all">
 <prefix>
     <target name=build dest= ></target>
@@ -1178,8 +1237,10 @@ __END__
         <copy from=${gtkdevdir}/bin >osp151.dll</copy>
         <copy from=${gtkdevdir}/bin >libofx.dll</copy>
         <copy from=${gtkdevdir}/bin >libintl-2.dll</copy>
-        <copy from=${gtkdevdir}/bin >libxml2.dll</copy>
         <copy from=${gtkdevdir}/bin >libiconv-2.dll</copy>
+        <copy from=${gtkdevdir}/bin >libxml2.dll</copy>
+        <copy from=${gtkdevdir}/gettext/bin >libintl3.dll</copy>
+        <copy from=${gtkdevdir}/gettext/bin >libiconv2.dll</copy>
     </target>
     <target name=dtd  dest=dtd>
         <copy from=${gtkdevdir}/bin/dtd ignore=['CVS','Makefile','topic']>.</copy>
