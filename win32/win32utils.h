@@ -61,14 +61,14 @@ extern gchar*  win32_get_my_documents_folder_path (void);
 extern gchar*  win32_get_windows_folder_path      (void);
 extern gchar*  win32_get_grisbirc_folder_path     (void);
 extern void    win32_set_app_path(gchar*);
-extern gchar*  win32_app_subdir_folder_path       (gchar*);
-extern gchar* win32_get_tmp_dir();
+extern gchar*  win32_app_subdir_folder_path       (gchar*);extern gchar* win32_get_tmp_dir();
 
 #define PIXMAPS_DIR win32_app_subdir_folder_path("pixmaps")  /* pixmaps */
 #define HELP_PATH   win32_app_subdir_folder_path("help")     /* help */
 #define LOCALEDIR   win32_app_subdir_folder_path("lib/locale")   /* locale */
 #define LOGO_PATH   win32_app_subdir_folder_path("pixmaps/grisbi-logo.png")
 #define ANIM_PATH   win32_app_subdir_folder_path("pixmaps/euro.gif")  /* pixmaps */
+#define DATA_PATH   win32_app_subdir_folder_path("help/tips")
 
 // -------------------------------------------------------------------------
 // Windows(c) Version ID and Technology                               PART_3 
