@@ -15,7 +15,7 @@ goto endofperl
 #  -------------------------------------------------------------------------
 #                               GRISBI for Windows
 #  -------------------------------------------------------------------------
-# $Id: autogen.bat,v 1.1.2.9 2006/01/31 21:05:12 teilginn Exp $
+# $Id: autogen.bat,v 1.1.2.10 2006/04/15 15:12:32 teilginn Exp $
 #  -------------------------------------------------------------------------
 # 
 #  Copyleft 2004 (c) François Terrot
@@ -39,6 +39,9 @@ goto endofperl
 #  History:
 #
 #  $Log: autogen.bat,v $
+#  Revision 1.1.2.10  2006/04/15 15:12:32  teilginn
+#  updates for GTK 2.6
+#
 #  Revision 1.1.2.9  2006/01/31 21:05:12  teilginn
 #  Remove Perl warnings
 #
@@ -1231,9 +1234,10 @@ __END__
         <copy from=${gtkdevdir}/bin >osp151.dll</copy>
         <copy from=${gtkdevdir}/bin >libofx.dll</copy>
         <copy from=${gtkdevdir}/bin >libintl-2.dll</copy>
-        <copy from=${gtkdevdir}/bin >libintl3.dll</copy>
-        <copy from=${gtkdevdir}/bin >libxml2.dll</copy>
         <copy from=${gtkdevdir}/bin >libiconv-2.dll</copy>
+        <copy from=${gtkdevdir}/bin >libxml2.dll</copy>
+        <copy from=${gtkdevdir}/gettext/bin >libintl3.dll</copy>
+        <copy from=${gtkdevdir}/gettext/bin >libiconv2.dll</copy>
     </target>
     <target name=dtd  dest=dtd>
         <copy from=${gtkdevdir}/bin/dtd ignore=['CVS','Makefile','topic']>.</copy>
