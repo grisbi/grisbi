@@ -1,0 +1,53 @@
+[Project]
+FileName=grisbi.dev
+Name=Grisbi
+UnitCount=@#UNITS@
+Type=0
+Ver=1
+ObjFiles=
+Includes=.;./src;./win32;../win32;../src
+Libs=
+PrivateResource=grisbi_private.rc
+ResourceIncludes=./win32
+MakeIncludes=
+;Compiler=-I"<INCLUDE>\gtk-2.0" _@@_-I"<INCLUDE>\..\lib\gtk-2.0\include" _@@_-I"<INCLUDE>\atk-1.0" _@@_-I"<INCLUDE>\pango-1.0" _@@_-I"<INCLUDE>\glib-2.0" _@@_-I"<INCLUDE>\..\lib\glib-2.0\include" _@@_-mms-bitfields_@@_-g_@@_-Wall_@@_-D _WIN32 _@@_-D _WIN32_IE=0x0400_@@_
+Compiler=@CFLAGS@
+CppCompiler=
+;Linker=-lgtk-win32-2.0 _@@_-lgdk-win32-2.0 _@@_-latk-1.0 _@@_-lgdk_pixbuf-2.0 _@@_-lpangowin32-1.0 _@@_-lgdi32 _@@_-lpango-1.0 _@@_-lgobject-2.0 _@@_-lgmodule-2.0 _@@_-lglib-2.0_@@_-llibintl_@@_-llibiconv_@@_-llibxml2_@@_-llibofx_@@_-mwindows_@@_
+Linker=@LDFLAGS@
+IsCpp=0
+Icon=
+ExeOutput=.\build
+ObjectOutput=.\build\obj
+OverrideOutput=0
+OverrideOutputName=.\build\grisbi.exe
+HostApplication=
+Folders=contrib,headers,res,sources,win32
+CommandLine=
+UseCustomMakefile=0
+CustomMakefile=
+IncludeVersionInfo=0
+SupportXPThemes=0
+CompilerSet=0
+CompilerSettings=0000000000000001001000
+
+@UNITS@
+
+[VersionInfo]
+Major=0
+Minor=1
+Release=1
+Build=1
+LanguageID=1033
+CharsetID=1252
+CompanyName=grisbi.org
+FileVersion=
+FileDescription=Developed using the Dev-C++ IDE
+InternalName=grisbi.exe
+LegalCopyright=(c) grisbi.org 
+LegalTrademarks=grisbi.org
+OriginalFilename=Grisbi
+ProductName=Grisbi for Windows
+ProductVersion=
+AutoIncBuildNr=0
+
