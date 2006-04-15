@@ -28,6 +28,7 @@
 
 
 #include "include.h"
+#include <strings.h> // for memset
 
 /*START_INCLUDE*/
 #include "gsb_file_config.h"
@@ -1172,7 +1173,7 @@ void gsb_file_config_clean_config ( void )
     etat.print_config.paper_config.height = 29.7;
     etat.print_config.orientation = LANDSCAPE;
 
-    bzero ( etat.csv_skipped_lines, sizeof(gboolean) * CSV_MAX_TOP_LINES );
+    memset ( etat.csv_skipped_lines, '\0', sizeof(gboolean) * CSV_MAX_TOP_LINES );
 
     set_default_config_format();
 }
