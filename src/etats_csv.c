@@ -28,6 +28,7 @@
 #include "dialog.h"
 #include "etats.h"
 #include "utils_files.h"
+#include "utils_file_selection.h"
 
 
 struct struct_etat_affichage csv_affichage = {
@@ -78,7 +79,7 @@ void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, 
 	fprintf ( csv_out, "\n" );
     }
 
-    for ( pad = csv_lastcol ; pad < x ; pad ++ )
+    for ( pad = csv_lastcol ; pad <= x ; pad ++ )
 	fprintf ( csv_out, ";" );
 
     realsize = (x2 - x);
