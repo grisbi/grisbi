@@ -4,7 +4,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
 /*			     2004 Alain Portal (aportal@univ-montp2.fr)	      */
-/*			     2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2006-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org/   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -121,6 +121,13 @@ static void selectionne_partie_liste_compte_vir_etat ( gint *type_compte );
 static void sensitive_hbox_fonction_bouton_txt ( gint text_comparison_number );
 static gboolean sortie_entree_date_etat ( GtkWidget *entree );
 static void stylise_tab_label_etat ( gint *no_page );
+static gboolean report_tree_view_selection_changed ( GtkTreeSelection *selection,
+						     GtkTreeModel *model );
+static gboolean report_tree_selectable_func (GtkTreeSelection *selection,
+					     GtkTreeModel *model,
+					     GtkTreePath *path,
+					     gboolean path_currently_selected,
+					     gpointer data);
 /*END_STATIC*/
 
 
@@ -311,6 +318,11 @@ GtkWidget *vbox_mode_paiement_etat;
 GtkWidget *liste_mode_paiement_etat;
 
 
+GtkTreeSelection * report_selection;
+GtkTreeStore * report_tree_model;
+GtkWidget * report_tree_view;
+
+
 
 /*START_EXTERN*/
 extern gint mise_a_jour_combofix_tiers_necessaire;
@@ -323,6 +335,9 @@ extern GtkWidget *notebook_selection;
 extern GtkWidget *onglet_config_etat;
 extern GtkTreeSelection * selection;
 extern GtkStyle *style_label;
+extern GtkWidget * navigation_tree_view;
+extern GtkWidget * reports_toolbar;
+extern GtkWidget * window;
 /*END_EXTERN*/
 
 
@@ -333,12 +348,13 @@ extern GtkStyle *style_label;
 /******************************************************************************/
 void personnalisation_etat (void)
 {
-    GtkWidget *separateur;
-    GtkWidget *bouton;
-    GtkWidget *hbox;
+    GtkWidget * dialog, *sw, *paned;
     GtkCTreeNode *parent;
     GSList *list_tmp;
-    gint current_report_number;
+    gint current_report_number, page = 0;
+    GtkTreeViewColumn *column;
+    GtkCellRenderer *cell;
+    GtkTreeIter iter, iter2;
 
     if ( !(current_report_number = gsb_gui_navigation_get_current_report()))
 	return;
@@ -347,158 +363,239 @@ void personnalisation_etat (void)
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
 				7 );
 
+    dialog = gtk_dialog_new_with_buttons ( _("Report properties"), 
+					   GTK_WINDOW (window), GTK_DIALOG_MODAL, 
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_OK, GTK_RESPONSE_OK,
+					   NULL );
 
-    if ( !onglet_config_etat )
-    {
-	onglet_config_etat = gtk_vbox_new ( FALSE,
-					    5 );
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_etats ),
-				   onglet_config_etat,
-				   gtk_label_new ( _("Reports setup")));
-	gtk_widget_show ( onglet_config_etat );
+    /* Create model */
+    report_tree_model = gtk_tree_store_new (3, 
+					    G_TYPE_STRING, 
+					    G_TYPE_INT,
+					    G_TYPE_INT );
+    /* Create container + TreeView */
+    sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
+					 GTK_SHADOW_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+				    GTK_POLICY_NEVER,
+				    GTK_POLICY_AUTOMATIC);
+    report_tree_view = gtk_tree_view_new();
+    gtk_tree_view_set_model (GTK_TREE_VIEW (report_tree_view), 
+			     GTK_TREE_MODEL (report_tree_model));
 
-	/* on commence par créer le notebook parent de la config des états */
+    /* Make column */
+    cell = gtk_cell_renderer_text_new ();
+    column = 
+	gtk_tree_view_column_new_with_attributes ("Categories",
+						  cell,
+						  "text", 0,
+						  NULL);
+    gtk_tree_view_column_add_attribute ( GTK_TREE_VIEW_COLUMN(column), cell, 
+					 "weight", 2 );
 
-	notebook_config_etat = gtk_notebook_new ();
-	gtk_notebook_set_scrollable ( GTK_NOTEBOOK ( notebook_config_etat ),
-				      TRUE );
-	gtk_box_pack_start ( GTK_BOX ( onglet_config_etat ),
-			     notebook_config_etat,
-			     TRUE,
-			     TRUE,
-			     0 );
-	gtk_widget_show ( notebook_config_etat );
+    gtk_tree_view_append_column (GTK_TREE_VIEW (report_tree_view),
+				 GTK_TREE_VIEW_COLUMN (column));
+    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW (report_tree_view), FALSE );
 
+    /* Handle select */
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (report_tree_view));
+    g_signal_connect (selection, "changed", 
+		      ((GCallback) report_tree_view_selection_changed),
+		      report_tree_model);
 
-	/* on ajoute les onglets dans l'onglet de base correspondant */
+    /* Choose which entries will be selectable */
+    gtk_tree_selection_set_select_function ( selection, report_tree_selectable_func, 
+					     NULL, NULL );
 
-	/* remplissage de l'onglet de sélection */
+    /* Put the tree in the scroll */
+    gtk_container_add (GTK_CONTAINER (sw), report_tree_view);
 
-	notebook_selection = gtk_notebook_new ();
-	gtk_container_set_border_width ( GTK_CONTAINER ( notebook_selection ),
-					 5 );
-	gtk_notebook_set_scrollable ( GTK_NOTEBOOK ( notebook_selection ),
-				      TRUE );
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-				   notebook_selection,
-				   gtk_label_new (_("Data selection")) );
-	gtk_widget_show ( notebook_selection );
+    /* expand all rows after the treeview widget has been realized */
+    g_signal_connect (report_tree_view, "realize",
+		      ((GCallback)gtk_tree_view_expand_all), NULL);
 
+    paned = gtk_hpaned_new();
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), paned,
+			 TRUE, TRUE, 0 );
 
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
-				   onglet_etat_dates (),
-				   gtk_label_new (SPACIFY(_("Dates"))) );
+    gtk_paned_add1(GTK_PANED(paned), sw);
 
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
-				   onglet_etat_virements (),
-				   gtk_label_new (SPACIFY(_("Transfers"))) );
+    /* on commence par créer le notebook parent de la config des états */
+    notebook_config_etat = gtk_notebook_new ();
+    gtk_paned_add2(GTK_PANED(paned), notebook_config_etat );
 
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
-				   onglet_etat_comptes (),
-				   gtk_label_new (SPACIFY(_("Accounts"))) );
-
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
-				   onglet_etat_tiers (),
-				   gtk_label_new (SPACIFY(_("Payee"))) );
-
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
-				   onglet_etat_categories (),
-				   gtk_label_new (SPACIFY(_("Categories"))) );
-
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
-				   onglet_etat_ib (),
-				   gtk_label_new (SPACIFY(_("Budgetary lines"))) );
-
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
-				   onglet_etat_texte (),
-				   gtk_label_new (SPACIFY(_("Texts"))) );
-
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
-				   onglet_etat_montant (),
-				   gtk_label_new (SPACIFY(_("Amounts"))) );
-
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
-				   onglet_etat_mode_paiement (),
-				   gtk_label_new (SPACIFY(_("Payment methods"))) );
-
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_selection ),
-				   onglet_etat_divers (),
-				   gtk_label_new (SPACIFY(_("Misc."))) );
-
-	/* remplissage de l'onglet d'organisation */
-
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-				   page_organisation_donnees (),
-				   gtk_label_new (_("Data organisation")) );
+    gtk_notebook_set_scrollable ( GTK_NOTEBOOK ( notebook_config_etat ),
+				  TRUE );
+    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_config_etat ), 
+				 FALSE );
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook_config_etat ), 
+				   FALSE );
 
 
-	/* remplissage de l'onglet d'affichage */
+    /* on ajoute les onglets dans l'onglet de base correspondant */
 
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-				   page_affichage_donnees (),
-				   gtk_label_new (_("Data display")) );
+    /* remplissage de l'onglet de sélection */
 
 
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_config_etat),
-				0 );
+    /* Display subtree */
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter, NULL);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter,
+			0, _("Data selection"),
+			1, -1,
+			2, 800, -1);
 
-	/* mise en place des boutons appliquer et annuler */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       onglet_etat_dates (),
+			       gtk_label_new (SPACIFY(_("Dates"))) );
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			0, _("Dates"),
+			1, page++,
+			2, 400, -1);
 
-	separateur = gtk_hseparator_new ();
-	gtk_box_pack_start ( GTK_BOX ( onglet_config_etat ),
-			     separateur,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( separateur );
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       onglet_etat_virements (),
+			       gtk_label_new (SPACIFY(_("Transfers"))) );
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			0, _("Transfers"),
+			1, page++,
+			2, 400, -1);
 
-	hbox = gtk_hbox_new ( FALSE,
-			      5 );
-	gtk_box_pack_start ( GTK_BOX ( onglet_config_etat ),
-			     hbox,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( hbox );
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       onglet_etat_comptes (),
+			       gtk_label_new (SPACIFY(_("Accounts"))) );
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			0, _("Accounts"),
+			1, page++,
+			2, 400, -1);
 
-	bouton = gtk_button_new_from_stock (GTK_STOCK_APPLY);
-	gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-				GTK_RELIEF_NONE );
-	gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			     "clicked",
-			     GTK_SIGNAL_FUNC ( recuperation_info_perso_etat ),
-			     NULL );
-	gtk_box_pack_end ( GTK_BOX ( hbox ),
-			   bouton,
-			   FALSE,
-			   FALSE,
-			   0 );
-	gtk_widget_show ( bouton );
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       onglet_etat_tiers (),
+			       gtk_label_new (SPACIFY(_("Payee"))) );
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			0, _("Payee"),
+			1, page++,
+			2, 400, -1);
 
-	bouton = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
-	gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-				GTK_RELIEF_NONE );
-	gtk_signal_connect ( GTK_OBJECT ( bouton ),
-			     "clicked",
-			     GTK_SIGNAL_FUNC ( annule_modif_config ),
-			     NULL );
-	gtk_box_pack_end ( GTK_BOX ( hbox ),
-			   bouton,
-			   FALSE,
-			   FALSE,
-			   0 );
-	gtk_widget_show ( bouton);
-    }
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       onglet_etat_categories (),
+			       gtk_label_new (SPACIFY(_("Categories"))) );
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			0, _("Categories"),
+			1, page++,
+			2, 400, -1);
+
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       onglet_etat_ib (),
+			       gtk_label_new (SPACIFY(_("Budgetary lines"))) );
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			0, _("Budgetary lines"),
+			1, page++,
+			2, 400, -1);
+
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       onglet_etat_texte (),
+			       gtk_label_new (SPACIFY(_("Texts"))) );
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			0, _("Texts"),
+			1, page++,
+			2, 400, -1);
+
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       onglet_etat_montant (),
+			       gtk_label_new (SPACIFY(_("Amounts"))) );
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			0, _("Amounts"),
+			1, page++,
+			2, 400, -1);
+
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       onglet_etat_mode_paiement (),
+			       gtk_label_new (SPACIFY(_("Payment methods"))) );
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			0, _("Payment methods"),
+			1, page++,
+			2, 400, -1);
+
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       onglet_etat_divers (),
+			       gtk_label_new (SPACIFY(_("Misc."))) );
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			0, _("Miscellaneous"),
+			1, page++,
+			2, 400, -1);
+
+
+    /* remplissage de l'onglet d'organisation */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       page_organisation_donnees(),
+			       gtk_label_new (SPACIFY(_("Data organization"))) );
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter, NULL);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter,
+			0, _("Data organization"),
+			1, page++,
+			2, 800, -1);
+
+    /* remplissage de l'onglet d'affichage */
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter, NULL);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter,
+			0, _("Data display"),
+			1, -1,
+			2, 800, -1);
+
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       onglet_affichage_etat_generalites (),
+			       gtk_label_new (SPACIFY(_("Generalities"))) );
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			0, _("Generalities"),
+			1, page++,
+			2, 400, -1);
+
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       onglet_affichage_etat_divers (),
+			       gtk_label_new (SPACIFY(_("Titles"))) );
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			0, _("Titles"),
+			1, page++,
+			2, 400, -1);
+
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       onglet_affichage_etat_operations (),
+			       gtk_label_new (SPACIFY(_("Transactions"))) );
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			0, _("Transactions"),
+			1, page++,
+			2, 400, -1);
+
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       onglet_affichage_etat_devises (),
+			       gtk_label_new (SPACIFY(_("Currencies"))) );
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			0, _("Currencies"),
+			1, page++,
+			2, 400, -1);
 
 
     /* on va maintenant remplir toutes les infos de l'état */
 
-
     /* onglet généralités */
 
-
     /* on met le name de l'état */
-
     gtk_entry_set_text ( GTK_ENTRY ( entree_nom_etat ),
 			 gsb_data_report_get_report_name (current_report_number) );
 
@@ -957,23 +1054,67 @@ void personnalisation_etat (void)
 
     selectionne_liste_modes_paiement_etat_courant ();
 
+    gtk_widget_show_all ( dialog );
 
-    /* on se met sur la bonne page */
+    switch ( gtk_dialog_run ( GTK_DIALOG(dialog) ) )
+    {
+	case GTK_RESPONSE_OK:
+	    recuperation_info_perso_etat ();
+	    break;
 
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_etats ),
-			    1 );
+	default:
+	    annule_modif_config ();
+	    break;
+    }
 
-    /* on empêche le changement d'état */
-
-    gtk_widget_set_sensitive ( navigation_tree_view, FALSE );
+    gtk_widget_destroy ( dialog );
 }
-/******************************************************************************/
+
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean report_tree_view_selection_changed ( GtkTreeSelection *selection,
+					      GtkTreeModel *model )
+{
+    GtkTreeIter iter;
+    gint selected;
+
+    if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
+	return(FALSE);
+
+    gtk_tree_model_get ( model, &iter, 1, &selected, -1 );
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_config_etat ), selected);
+
+    return FALSE;
+}
+
+
+
+gboolean report_tree_selectable_func (GtkTreeSelection *selection,
+				      GtkTreeModel *model,
+				      GtkTreePath *path,
+				      gboolean path_currently_selected,
+				      gpointer data)
+{
+    GtkTreeIter iter;
+    gint selectable;
+
+    gtk_tree_model_get_iter ( model, &iter, path );
+    gtk_tree_model_get ( model, &iter, 1, &selectable, -1 );
+
+    return ( selectable != -1 );
+}
+
+
 
 /******************************************************************************/
 void annule_modif_config ( void )
 {
-    gtk_widget_set_sensitive ( navigation_tree_view, TRUE );
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_etats ), 0 );
+/* TODO */
 }
 /******************************************************************************/
 
@@ -6559,41 +6700,9 @@ void click_bas_classement_etat ( void )
     gtk_ctree_expand_recursive ( GTK_CTREE ( liste_type_classement_etat ),
 				 node );
 }
-/******************************************************************************/
 
-/******************************************************************************/
-GtkWidget *page_affichage_donnees ( void )
-{
-    /* on crée un notebook */
 
-    notebook_aff_donnees = gtk_notebook_new ();
-    gtk_notebook_set_scrollable ( GTK_NOTEBOOK (notebook_aff_donnees  ),
-				  TRUE );
-    gtk_container_set_border_width ( GTK_CONTAINER ( notebook_aff_donnees ),
-				     5 );
-    gtk_widget_show ( notebook_aff_donnees );
 
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
-			       onglet_affichage_etat_generalites (),
-			       gtk_label_new (SPACIFY(_("Generalities"))) );
-
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
-			       onglet_affichage_etat_divers (),
-			       gtk_label_new (SPACIFY(_("Titles"))) );
-
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
-			       onglet_affichage_etat_operations (),
-			       gtk_label_new (SPACIFY(_("Transactions"))) );
-
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_aff_donnees ),
-			       onglet_affichage_etat_devises (),
-			       gtk_label_new (SPACIFY(_("Currencies"))) );
-
-    return ( notebook_aff_donnees );
-}
-/******************************************************************************/
-
-/******************************************************************************/
 GtkWidget *onglet_affichage_etat_generalites ( void )
 {
     GtkWidget *widget_retour;

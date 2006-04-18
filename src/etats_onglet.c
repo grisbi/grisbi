@@ -2,7 +2,7 @@
 /*      etats.c */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2002-2004 Benjamin Drieu (bdrieu@april.org) */
+/*			2002-2006 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -74,6 +74,7 @@ GtkWidget *notebook_config_etat;
 GtkWidget *notebook_selection;
 GtkWidget *notebook_aff_donnees;
 GtkWidget *onglet_config_etat;
+GtkWidget *reports_toolbar;
 
 
 /*START_EXTERN*/
@@ -199,8 +200,8 @@ GtkWidget *creation_onglet_etats ( void )
     GtkWidget *tab, *vbox;
 
     tab = gtk_vbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( tab ), gsb_gui_create_report_toolbar(), 
-			 FALSE, FALSE, 0 );
+    reports_toolbar = gsb_gui_create_report_toolbar();
+    gtk_box_pack_start ( GTK_BOX ( tab ), reports_toolbar, FALSE, FALSE, 0 );
 
     /* création du notebook contenant l'état et la config */
     notebook_etats = gtk_notebook_new ();
@@ -936,7 +937,7 @@ void change_choix_nouvel_etat ( GtkWidget *menu_item, GtkWidget *label_descripti
 	case 3:
 	    /* etat vierge  */
 
-	    description = _("This report is an empty one. You need to customise it entirely.");
+	    description = _("This report is an empty one. You need to customize it entirely.");
 	    break;
 
 	case 4:
