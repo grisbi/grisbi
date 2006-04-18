@@ -246,19 +246,22 @@ gint cherche_no_menu_devise ( GtkWidget *option_menu,
     gint retour;
     gint i;
 
-    liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU (option_menu) -> menu ) -> children;
-    retour = -1;
-    i = 0;
-
-    while ( liste_tmp && retour == -1 )
+    if ( GTK_OPTION_MENU (option_menu) -> menu)
     {
-	if ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
-				   "no_devise" ) == GINT_TO_POINTER ( demande ))
-	{
-	    return i;
-	}
-	i++;
-	liste_tmp = liste_tmp -> next;
+        liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU (option_menu) -> menu ) -> children;
+        retour = -1;
+        i = 0;
+
+        while ( liste_tmp && retour == -1 )
+        {
+            if ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
+                                       "no_devise" ) == GINT_TO_POINTER ( demande ))
+            {
+                return i;
+            }
+            i++;
+            liste_tmp = liste_tmp -> next;
+        }
     }
     return FALSE;
 }
