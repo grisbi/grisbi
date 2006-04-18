@@ -172,7 +172,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	if ( !my_strcasecmp ( type,
 			      "bank" )
 	     ||
-	     !my_strcasecmp ( tab[1],
+	     !my_strcasecmp ( type,
 			      _("bank")))
 	    compte -> type_de_compte = 0;
 	else
@@ -180,7 +180,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	    if ( !my_strcasecmp ( type,
 				  "invst" )
 		 ||
-		 !my_strcasecmp ( tab[1],
+		 !my_strcasecmp ( type,
 				  _("invst")))
 	    {
 /* 		on considère le compte d'investissement comme un compte bancaire mais met un */
@@ -193,7 +193,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		if ( !my_strcasecmp ( type,
 				      "cash" )
 		     ||
-		     !my_strcasecmp ( tab[1],
+		     !my_strcasecmp ( type,
 				      _("cash")))
 		    compte -> type_de_compte = 7;
 		else
@@ -201,7 +201,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		    if ( !my_strcasecmp ( type,
 					  "oth a" )
 			 ||
-			 !my_strcasecmp ( tab[1],
+			 !my_strcasecmp ( type,
 					  _("oth a")))
 			 compte -> type_de_compte = 2;
 		    else
@@ -209,7 +209,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 			if ( !my_strcasecmp ( type,
 					      "oth l" )
 			     ||
-			     !my_strcasecmp ( tab[1],
+			     !my_strcasecmp ( type,
 					      _("oth l")))
 			    compte -> type_de_compte = 3;
 			else
@@ -231,7 +231,7 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	if ( my_strcasecmp ( type,
 			      "ccard" )
 	     &&
-	     my_strcasecmp ( tab[1],
+	     my_strcasecmp ( type,
 			     _("ccard")))
 	{
 	    /* ce n'est pas une ccard, on récupère les infos */
