@@ -96,7 +96,7 @@ extern GtkWidget *window_vbox_principale;
 
 
 /**
- * called by menu, close the last file and open a new one
+ * Called by menu, close the last file and open a new one
  * 
  * \param none
  * 
@@ -126,17 +126,21 @@ gboolean new_file ( void )
     if ( gsb_data_account_new ( type_de_compte ) == -1 )
 	return FALSE;
 
+    /* FIXME: hardcoded!  Yes, first account is always numbered 1 and
+     * first currencty too, but be cleaner. */
+    gsb_data_account_set_currency ( 1, 1 );
+
     init_gui_new_file ();
     init_variables_new_file ();
 
     /* on se met sur l'onglet de propriétés du compte */
-    mise_a_jour_accueil (FALSE);
+    mise_a_jour_accueil ( TRUE );
     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
 
     modification_fichier ( TRUE );
     return FALSE;
 }
-/* ************************************************************************************************************ */
+
 
 
 /**
