@@ -346,11 +346,14 @@ gint utf8_remove(const gchar* utf8filename)
 /** 
  * Sanitize a safe filename.  All chars that are not normally allowed
  * are replaced by underscores.
- * Then the filename is converted to locale
  *
+ * \note: there is no convertion from utf8 to locale here. the result string is to
+ * be used by GTK dialog. Internal filename string should stay in utf8. only the utf8_xxx have
+ * to convert the filename to syslocale charset.
+ * 
  * \param filename Filename to sanitize.
  */
 gchar * safe_file_name ( gchar* filename )
 {
-    return g_filename_from_utf8(g_strdelimit( g_strdup(filename), "/\\:*?\"<>|", '_' ),-1,NULL,NULL,NULL);
+    return g_strdelimit( g_strdup(filename), "/\\:*?\"'<>|", '_' );
 }
