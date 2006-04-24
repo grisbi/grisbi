@@ -51,6 +51,7 @@ sources = \
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
 	gsb_assistant.c		\
+	gsb_crypt.c		\
 	gsb_currency.c		\
 	gsb_currency_config.c	\
 	gsb_currency_link_config.c	\

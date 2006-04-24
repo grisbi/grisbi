@@ -20,7 +20,6 @@
 
 #include "include.h"
 
-#include <rpc/des_crypt.h>
 #include <zlib.h>
 
 
@@ -32,22 +31,18 @@
 #include "gsb_data_transaction.h"
 #include "utils_str.h"
 #include "utils_files.h"
-#include "structures.h"
 #include "include.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt );
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
 extern gchar *nom_fichier_comptes;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
-/* filled when we ask to keep the password in memory */
-gchar *crypt_key;
 
 /**
  * compress or uncompress  the string given in the param
@@ -169,286 +164,6 @@ gint gsb_file_util_compress_file ( gchar **file_content,
 
     /* normally souldn't come here */
     return length;
-}
-
-
-
-/**
- * crypt if necessary the string given in the param
- * if the string is crypted, the parameter string is freed
- *
- * \param file_name	File name, used to 
- * \param file_content	A string which is the file
- * \param crypt		TRUE to crypt, FALSE to uncrypt
- * \param length	The length of the grisbi data,
- *                      without "Grisbi encrypted file " if comes to crypt
- *                      with "Grisbi encrypted file " if comes to decrypt 
- *
- * \return the length of the new file_content or 0 if problem
- */
-gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
-				gboolean crypt, gulong length )
-{
-    gint result;
-    gchar *key;
-    gulong position;
-
-    devel_debug ( g_strdup_printf ("gsb_file_util_crypt_file : %d", crypt ));
-
-    if ( crypt )
-    {
-	/* we want to encrypt the file */
-
-	gchar *encrypted_file;
-
-	/* check first if we want to encrypt that file */
-
-	if ( !etat.crypt_file )
-	    return length;
-
-	/* now, if we know here a key to crypt, we use it, else, we ask for it */
-
-	if ( crypt_key )
-	    key = crypt_key;
-	else
-	    key = gsb_file_util_ask_for_crypt_key ( file_name, TRUE);
-
-	/* if we have no key, we will no crypt that file */
-
-	if ( !key )
-	    return length;
-
-	/* we create a copy of the file in memory which will begin by "Grisbi encrypted file " */
-
-	encrypted_file = g_malloc ( (length + 22) * sizeof ( gchar ));
-	strncpy ( encrypted_file,
-		  "Grisbi encrypted file ",
-		  22 );
-	memmove ( encrypted_file + 22,
-		  *file_content,
-		  length );
-	
-	position = 0;
-
-	while ( position < length)
-	{
-	    gulong size;
-
-	    if ( (length - position ) < 8192 )
-	    {
-		size = length - position;
-
-		/* the encryption need to be by block of 8, so the last bytes of the
-		 * file won't be encrypted... i don't think it's annoying, if it is,
-		 * we can change here to increase the lenght of the file */
-		size = size / 8 * 8;
-	    }
-	    else
-		size = 8192;
-
-	    result = ecb_crypt ( key,
-				 encrypted_file + 22 + position,
-				 size,
-				 DES_ENCRYPT );
-
-	    if ( result == DESERR_BADPARAM )
-	    {
-		dialogue_error ( _("Error while crypting the file, the file saved won't be crypted."));
-		return length;
-	    }
-
-	    position = position + 8192;
-	}
-	free (*file_content);
-	*file_content = encrypted_file;
-
-	/* the actual length is the initial + 22 (size of Grisbi encrypted file */
-	return length + 22;
-    }
-    else
-    {
-	/* we want to decrypt the file */
-
-	gchar *decrypted_file;
-
-	/* we set the length on the rigt size */
-
-	length = length - 22;
-	
-return_bad_password:
-
-	/* now, if we know here a key to crypt, we use it, else, we ask for it */
-
-	if ( crypt_key )
-	    key = crypt_key;
-	else
-	    key = gsb_file_util_ask_for_crypt_key ( file_name, FALSE);
-
-	/* if we have no key, we stop the loading */
-
-	if ( !key )
-	    return 0;
-
-	/* we create a copy of the file in memory which will begin by "Grisbi encrypted file " */
-
-	decrypted_file = g_malloc ( length * sizeof ( gchar ));
-	memmove ( decrypted_file,
-		  *file_content + 22,
-		  length );
-	
-	position = 0;
-
-	while ( position < length)
-	{
-	    gint size;
-
-	    if ( (length - position ) < 8192 )
-	    {
-		size = length - position;
-
-		/* the encryption need to be by block of 8, so the last bytes of the
-		 * file won't be encrypted... i don't think it's annoying, if it is,
-		 * we can change here to increase the lenght of the file */
-		size = size / 8 * 8;
-	    }
-	    else
-		size = 8192;
-
-	    result = ecb_crypt ( key,
-				 decrypted_file + position,
-				 size,
-				 DES_DECRYPT );
-
-	    if ( result == DESERR_BADPARAM )
-	    {
-		dialogue_error ( _("Error while decrypting the file, the file cannot be opened."));
-		return 0;
-	    }
-
-	    position = position + 8192;
-	}
-
-	/* befor freeing file_content and go back, we check that the password was correct
-	 * if not, we free the decrypted_file and ask again for the password */
-
-	if ( strncmp ( decrypted_file,
-		       "<?xml version=\"1.0\"?>",
-		       18 )
-	     &&
-	     strncmp ( decrypted_file,
-		       "Grisbi compressed file ",
-		       23 ))
-	{
-	    /* it seems that it was not the correct password */
-
-	    free ( decrypted_file );
-
-	    dialogue_error ( _( "The password was incorrect ! Please try again..."));
-	    crypt_key = NULL;
-	    goto return_bad_password;
-	}
-
-	free (*file_content);
-	*file_content = decrypted_file;
-	return length;
-    }
-
-    /* normally never come here */
-    return 0;
-}
-
-
-/**
- * ask for the crypting key
- * return the key, and save it in the variable crypt_key if asked
- *
- * \param encrypt : TRUE if comes to encrypt, FALSE to decrypt
- *
- * \return a string which is the crypt key or NULL if it was
- * cancelled. */
-gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt )
-{
-    gchar *key = NULL;
-    GtkWidget *dialog, *button, *label, *entry, *hbox, *hbox2, *vbox, *icon;
-    gint result;
-
-    dialog = gtk_dialog_new_with_buttons ( _("Grisbi password"),
-					   GTK_WINDOW ( window ),
-					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   ( encrypt ? _("Crypt file") : _("Decrypt file") ),
-					   GTK_RESPONSE_OK,
-					   NULL );
-    gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK );
-
-    hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox), hbox, TRUE, TRUE, 6 );
-
-    /* Ugly dance to force alignement. */
-    vbox = gtk_vbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 6 );
-    icon = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_AUTHENTICATION,
-				      GTK_ICON_SIZE_DIALOG );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), icon, FALSE, FALSE, 6 );
-    
-    vbox = gtk_vbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, TRUE, TRUE, 6 );
-
-    label = gtk_label_new ("");
-    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_LEFT );
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
-    gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
-
-    if ( encrypt )
-	gtk_label_set_markup ( GTK_LABEL (label),
-			       g_strdup_printf ( _( "Please enter password to encrypt file\n'<tt>%s</tt>'" ),
-						 file_name ) );
-    else
-	gtk_label_set_markup ( GTK_LABEL (label), 
-			       g_strdup_printf ( _( "Please enter password to decrypt file\n'<tt>%s</tt>'" ),
-						 file_name ) );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 6 );
-
-    hbox2 = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox2, FALSE, FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 gtk_label_new ( COLON(_("Password")) ), 
-			 FALSE, FALSE, 0 );
-
-    entry = gtk_entry_new ();
-    gtk_entry_set_activates_default ( GTK_ENTRY ( entry ), TRUE );
-    gtk_entry_set_visibility ( GTK_ENTRY ( entry ), FALSE );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), entry, TRUE, TRUE, 0 );
-
-    button = gtk_check_button_new_with_label ( _("Don't ask password again for this session."));
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
-
-    gtk_widget_show_all ( dialog );
-    result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
-
-    switch (result)
-    {	
-	case GTK_RESPONSE_OK:
-
-	    key = my_strdup (gtk_entry_get_text ( GTK_ENTRY ( entry )));
-
-	    if (!strlen (key))
-		key = NULL;
-
-	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button )))
-		crypt_key = key;
-	    else
-		crypt_key = NULL;
-	    break;
-
-	case GTK_RESPONSE_CANCEL:
-	    key = NULL;
-    }
-
-    gtk_widget_destroy ( dialog );
-
-    return key;
 }
 
 

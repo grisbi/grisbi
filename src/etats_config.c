@@ -94,7 +94,6 @@ static GtkWidget *onglet_etat_montant ( void );
 static GtkWidget *onglet_etat_texte ( void );
 static GtkWidget *onglet_etat_tiers ( void );
 static GtkWidget *onglet_etat_virements ( void );
-static GtkWidget *page_affichage_donnees ( void );
 static GtkWidget *page_organisation_donnees ( void );
 static gboolean pression_touche_date_etat ( GtkWidget *widget,
 				     GdkEventKey *ev );
@@ -106,6 +105,13 @@ static void remplissage_liste_modes_paiement_etats ( void );
 static void remplissage_liste_tiers_etats ( void );
 static void remplit_liste_comparaisons_montants_etat ( void );
 static void remplit_liste_comparaisons_textes_etat ( void );
+static gboolean report_tree_selectable_func (GtkTreeSelection *selection,
+				      GtkTreeModel *model,
+				      GtkTreePath *path,
+				      gboolean path_currently_selected,
+				      gpointer data);
+static gboolean report_tree_view_selection_changed ( GtkTreeSelection *selection,
+					      GtkTreeModel *model );
 static void retire_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison_number );
 static void retire_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_number );
 static void selectionne_devise_categ_etat_courant ( void );
@@ -121,13 +127,6 @@ static void selectionne_partie_liste_compte_vir_etat ( gint *type_compte );
 static void sensitive_hbox_fonction_bouton_txt ( gint text_comparison_number );
 static gboolean sortie_entree_date_etat ( GtkWidget *entree );
 static void stylise_tab_label_etat ( gint *no_page );
-static gboolean report_tree_view_selection_changed ( GtkTreeSelection *selection,
-						     GtkTreeModel *model );
-static gboolean report_tree_selectable_func (GtkTreeSelection *selection,
-					     GtkTreeModel *model,
-					     GtkTreePath *path,
-					     gboolean path_currently_selected,
-					     gpointer data);
 /*END_STATIC*/
 
 
@@ -327,7 +326,6 @@ GtkWidget * report_tree_view;
 /*START_EXTERN*/
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern GtkWidget * navigation_tree_view;
-extern GtkWidget *notebook_aff_donnees;
 extern GtkWidget *notebook_config_etat;
 extern GtkWidget *notebook_etats;
 extern GtkWidget *notebook_general;
@@ -335,9 +333,7 @@ extern GtkWidget *notebook_selection;
 extern GtkWidget *onglet_config_etat;
 extern GtkTreeSelection * selection;
 extern GtkStyle *style_label;
-extern GtkWidget * navigation_tree_view;
-extern GtkWidget * reports_toolbar;
-extern GtkWidget * window;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 
