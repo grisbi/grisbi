@@ -49,6 +49,7 @@
 #include "parametres.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "utils_files.h"
 
 #ifdef _WIN32
 // Special include for Windows only
@@ -276,7 +277,7 @@ int main (int argc, char *argv[])
 		}
 		else
 		{
-		    nom_fichier_comptes = argv[1];
+		    nom_fichier_comptes = utf8_long_file_name(argv[1]);
 		    ouverture_confirmee();
 		}
 		break;
@@ -294,12 +295,12 @@ int main (int argc, char *argv[])
 
 		    /* ouvre le fichier demandé */
 
-		    nom_fichier_comptes = argv[2];
+		    nom_fichier_comptes = utf8_long_file_name(argv[2]);
 		    ouverture_confirmee();
 		}
 		else
 		{
-		    nom_fichier_comptes = argv[1];
+		    nom_fichier_comptes = utf8_long_file_name(argv[1]);
 		    ouverture_confirmee();
 		}
 		break;
