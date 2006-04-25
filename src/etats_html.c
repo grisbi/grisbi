@@ -387,7 +387,7 @@ gint html_finish ()
         if (*etat.print_config.printer_name)
         {
 
-            if (win32_create_process(etat.print_config.printer_name,html_tempname,FALSE,FALSE))
+            if (win32_create_process(etat.print_config.printer_name,html_tempname,NULL,FALSE,FALSE))
             {
                 dialogue_error ( _("Cannot send job to printer") );
             }
