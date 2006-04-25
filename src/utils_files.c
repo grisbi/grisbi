@@ -220,7 +220,9 @@ GtkWidget * my_file_chooser ()
 FILE* utf8_fopen(gchar* utf8filename,gchar* mode)
 {
     FILE*  pfd               = NULL;
-    gchar* syslocale_filename = g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL);
+    
+    gchar* syslocale_filename = g_locale_from_utf8(utf8filename,-1,NULL,NULL,NULL);
+
     if (syslocale_filename != NULL)
     {
         pfd = fopen(syslocale_filename,mode);
@@ -243,7 +245,7 @@ FILE* utf8_fopen(gchar* utf8filename,gchar* mode)
 gint utf8_open(gchar* utf8filename,gint mode)
 {
     gint fd                  = -1;
-    gchar* syslocale_filename = g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL);
+    gchar* syslocale_filename = g_locale_from_utf8(utf8filename,-1,NULL,NULL,NULL);
     if (syslocale_filename != NULL)
     {
         fd = open(syslocale_filename,mode);
@@ -266,7 +268,7 @@ gint utf8_open(gchar* utf8filename,gint mode)
 gint utf8_stat(gchar* utf8filename,struct stat* filestat)
 {
     gint status               = -1;
-    gchar* syslocale_filename = g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL);
+    gchar* syslocale_filename = g_locale_from_utf8(utf8filename,-1,NULL,NULL,NULL);
     if (syslocale_filename != NULL)
     {
         status = stat(syslocale_filename,filestat);
@@ -288,7 +290,7 @@ gint utf8_stat(gchar* utf8filename,struct stat* filestat)
 xmlDocPtr utf8_xmlParseFile(const gchar *utf8filename)
 { 
     xmlDocPtr ptr = NULL;
-    gchar* syslocale_filename = g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL);
+    gchar* syslocale_filename = g_locale_from_utf8(utf8filename,-1,NULL,NULL,NULL);
     if (syslocale_filename != NULL)
     {
         ptr = xmlParseFile(syslocale_filename);
@@ -311,7 +313,7 @@ xmlDocPtr utf8_xmlParseFile(const gchar *utf8filename)
 gint utf8_xmlSaveFormatFile(const gchar *utf8filename, xmlDocPtr cur, gint format)
 { 
     gint   status             = -1;
-    gchar* syslocale_filename = g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL);
+    gchar* syslocale_filename = g_locale_from_utf8(utf8filename,-1,NULL,NULL,NULL);
     if (syslocale_filename != NULL)
     {
         status = xmlSaveFormatFile(syslocale_filename,cur,format);
@@ -332,7 +334,7 @@ gint utf8_xmlSaveFormatFile(const gchar *utf8filename, xmlDocPtr cur, gint forma
 gint utf8_remove(const gchar* utf8filename)
 {
     gint   status             = -1;
-    gchar* syslocale_filename = g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL);
+    gchar* syslocale_filename = g_locale_from_utf8(utf8filename,-1,NULL,NULL,NULL);
     if (syslocale_filename != NULL)
     {
         status = remove(syslocale_filename);
@@ -357,3 +359,27 @@ gchar * safe_file_name ( gchar* filename )
 {
     return g_strdelimit( g_strdup(filename), "/\\:*?\"'<>|", '_' );
 }
+
+/**
+ * Convert short filename to long filename when needed.
+ * 
+ * \note This function is provide for all OS, just to reduce the number
+ * of specific WIN32 depend line in the code.
+ *
+ * Under Windows the function return the long filename (converted in UTF8 charset) when the convertion is possible.
+ * Otherwise (conversion issue or other operating system) the function return the provided filename.
+ * 
+ * \param utf8_short_file_name UTF8 short file name string
+ *
+ * \return In any case a new allocated buffer with g_strdup
+ *
+ */
+gchar* utf8_long_file_name (gchar* utf8_short_file_name)
+{
+#ifdef _WIN32
+   return win32_get_utf8_long_name(utf8_short_file_name);
+#else
+  return g_strdup(utf8_short_file_name);
+#endif
+  }
+
