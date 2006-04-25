@@ -191,7 +191,9 @@ void charge_configuration ( void )
 		    etat.dernier_fichier_auto = my_atoi(xmlNodeGetContent ( node_io));
 		}
 		if ( !strcmp ( node_io -> name, "Nom_dernier_fichier" ) ) {
-		    nom_fichier_comptes = xmlNodeGetContent ( node_io);
+                    /* 0.5.8: Work around Windows bug which provide only the 'short' name when double click on a file
+                     * => old version have stored this 'short name' */
+		    nom_fichier_comptes = utf8_long_file_name(xmlNodeGetContent ( node_io));
 		}
 		if ( !strcmp ( node_io -> name, "Enregistrement_automatique" ) ) {
 		    etat.sauvegarde_auto = my_atoi(xmlNodeGetContent ( node_io));
@@ -215,7 +217,9 @@ void charge_configuration ( void )
 		    tab_noms_derniers_fichiers_ouverts = malloc ( nb_max_derniers_fichiers_ouverts * sizeof(gchar *) );
 		    while ( node_filename ) {
 			if ( !strcmp ( node_filename -> name, "fichier" ) ) {
-			    tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts] = xmlNodeGetContent ( node_filename );
+                    /* 0.5.8: Work around Windows bug which provide only the 'short' name when double click on a file
+                     * => old version have stored this 'short name' */
+			    tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts] = utf8_long_file_name(xmlNodeGetContent ( node_filename ));
 			    nb_derniers_fichiers_ouverts++;
 			}
 			node_filename = node_filename->next;
