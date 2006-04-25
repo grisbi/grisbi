@@ -27,6 +27,7 @@
 
 #include "dialog.h"
 #include "etats.h"
+#include "etats_support.h"
 #include "utils_files.h"
 #include "utils_file_selection.h"
 
@@ -43,7 +44,12 @@ FILE * csv_out;
 gint csv_lastcol = 0;
 gint csv_lastline = 1;
 
-
+/* RFC4810 considerations:
+ * 
+ * As it's not clear in RFC4180 if it's possible to have Double quoted enclosed and not enclosed field on the same line,
+ * All the fields will be double quoted enclosed!
+ *
+ */
 
 /**
  * Backend function that is responsible for printing a label at a
@@ -63,6 +69,7 @@ gint csv_lastline = 1;
  * \param alignment how the text will be aligned in the cell
  * \param ope a pointer to a transaction to link to (not used as csv
  *            backend is not interactive)
+ *            
  */
 void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
 			  enum alignement align, struct structure_operation * ope )
@@ -80,7 +87,7 @@ void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, 
     }
 
     for ( pad = csv_lastcol ; pad <= x ; pad ++ )
-	fprintf ( csv_out, ";" );
+	fprintf ( csv_out, "\"\";" );
 
     realsize = (x2 - x);
     if ( realsize > 1 )
@@ -104,7 +111,7 @@ void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, 
     fprintf ( csv_out, "\"" );
 
     for ( x++; x < x2 ; x ++ )
-	fprintf ( csv_out, ";" );
+	fprintf ( csv_out, "\"\";" ); 
 
     csv_lastcol = x2;
 }
@@ -211,6 +218,7 @@ gint csv_initialise (GSList * opes_selectionnees)
 	dialogue_error ( g_strdup_printf (_("File '%s' already exists"), filename ));
 	return FALSE;
     }
+    return TRUE;
 }
 
 
@@ -233,26 +241,39 @@ gint csv_finish ()
  * Print a csv safe string into the csv_out file descriptor.  All chars
  * that cannot be printed via csv are converted to their csv
  * equivalent (i.e. backslashes are escaped).
+ * 
+ * utf8 string are translated to syslocal charset
+ *
+ * \note  Compliant with RFC4180 about CSV file ...
  *
  * \param text Text to print.
  */
 void csv_safe ( gchar * text ) 
 {
+    gchar* syslocale_text = text; 
+
     if ( ! text || ! strlen(text))
 	return;
+    
+#ifdef _WIN32
+    syslocale_text = g_locale_from_utf8(text,-1,NULL,NULL,NULL);
+#endif
 
-    for ( ; * text; text ++ )
+    for ( ; * syslocale_text; syslocale_text ++ )
     {
-	switch ( * text )
+	switch ( * syslocale_text )
 	{
 	    case '"':
-		fprintf ( csv_out, "\\" );
-
+		fprintf ( csv_out, "\"" );
 	    default:
-		fprintf ( csv_out, "%c", *text );
+		fprintf ( csv_out, "%c", *syslocale_text );
 		break;
 	}
     }
+    
+#ifdef _WIN32
+    g_free (syslocale_text);
+#endif
 }
 
 /* Local variables: */
