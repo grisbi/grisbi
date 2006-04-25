@@ -30,6 +30,7 @@
 
 #include "include.h"
 #include "utils_file_selection.h"
+#include "utils.h"
 #include <gtk/gtk.h>
 
 /** file_selection_set_entry.
@@ -57,7 +58,6 @@ void file_selection_set_entry(GtkFileSelection* filesel,const gchar* utf8string)
  *  
  */
 gchar* file_selection_get_entry(GtkFileSelection* filesel)
-
 {
 #ifdef _WIN32
    // Convert shortnames to long one before returning
