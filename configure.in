@@ -19,7 +19,7 @@ dnl Check if we have backtrace support
 AC_CHECK_FUNCS(backtrace)
 
 dnl Check for NLS support.                                                      
-ALL_LINGUAS="fr de da"
+ALL_LINGUAS="fr de da zh_CN he"
 AM_GNU_GETTEXT
 AC_CHECK_LIB(intl,main)
 
@@ -54,9 +54,15 @@ AM_CONDITIONAL(NOOFX, test x$noofx = xtrue)
 dnl
 dnl Check for g2banking
 dnl
+AC_AQBANKING()
+if test "$have_aqbanking" = "yes"; then
+  CFLAGS="$CFLAGS $aqbanking_includes"
+  LDFLAGS="$LDFLAGS $aqbanking_libs"
+fi
+
 AC_G2BANKING()
 if test "$have_g2banking" = "yes"; then
-  CFLAGS="$CFLAGS $g2banking_includes"
+  CFLAGS="$CFLAGS $g2banking_includes -DHAVE_G2BANKING"
   LDFLAGS="$LDFLAGS $g2banking_libs"
 fi
 
@@ -64,9 +70,22 @@ fi
 dnl
 dnl Standard GTK checks
 dnl
-PKG_CHECK_MODULES(GRISBI, gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 libxml-2.0 >= 2.0)
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 libxml-2.0 >= 2.0)
 LDFLAGS="${LDFLAGS} ${GRISBI_LIBS}"
 CFLAGS="${CFLAGS} ${GRISBI_CFLAGS}"
+
+dnl
+dnl OpenSSL Check
+dnl
+PKG_CHECK_MODULES(OpenSSL, libssl, , nossl=true)
+if test x$nossl != xtrue
+then
+	LDFLAGS="${LDFLAGS} ${GRISBI_LIBS}"
+	CFLAGS="${CFLAGS} ${GRISBI_CFLAGS}"
+else
+	AC_MSG_RESULT([OpenSSL support not available, this Grisbi build will not be able to crypt/decrypt files.])
+	CFLAGS="${CFLAGS} -DNOSSL"
+fi
 
 
 AC_SUBST(prefix)
