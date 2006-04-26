@@ -38,7 +38,7 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_util.h"
-#include "gsb_crypt.h"
+#include "gsb_plugins.h"
 #include "utils_dates.h"
 #include "navigation.h"
 #include "gsb_real.h"
@@ -155,6 +155,8 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     gint financial_year_part;
     gint reconcile_part;
     gint report_part;
+
+    gsb_plugin * plugin;
 
     devel_debug ( g_strdup_printf ("gsb_file_save_save_file : %s",
 				   filename ));
@@ -275,7 +277,26 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 						 iterator,
 						 TRUE );
 
-    iterator = gsb_file_util_crypt_file ( filename, &file_content, TRUE, iterator );
+    if ( etat.crypt_file )
+    {
+	if ( plugin = gsb_find_plugin ( "openssl" ) )
+	{
+	    gint (*crypt_function) ( gchar *, gchar **, gboolean, gulong );
+	    
+	    crypt_function = plugin -> plugin_run;
+	    iterator = crypt_function ( filename, &file_content, TRUE, iterator );	
+	}
+	else
+	{
+	    dialogue_error_hint ( _("Grisbi was unable to load required plugin to "
+				    "handle that file.\n\n"
+				    "Please make sure if is installed (i.e. check "
+				    "that 'grisbi-ssl' package is installed) and "
+				    "try again."),
+				  _("Encryption plugin not found." ) );
+	    return FALSE;
+	}
+    }
     
     /* the file is in memory, we can save it */
 
@@ -297,7 +318,6 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     }
     
     fclose (grisbi_file);
-    free ( file_content);
 
     /* if it's a new file, we set the permission */
 

@@ -38,7 +38,7 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_util.h"
-#include "gsb_crypt.h"
+#include "gsb_plugins.h"
 #include "utils_dates.h"
 #include "gsb_real.h"
 #include "utils_str.h"
@@ -290,6 +290,8 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	GMarkupParseContext *context;
 	gulong long_length = 0;
 
+	gsb_plugin * plugin;
+
 	/* for zlib, need a gulong for size and g_file_get_contents a guint...
 	 * perhaps it exists another mean than that ? */
 
@@ -297,12 +299,31 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 
 	/* first, we check if the file is crypted, if it is, we decrypt it */
 
-	if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ))
-	    if ( !( long_length = gsb_file_util_crypt_file ( filename, &file_content, 
-							      FALSE, long_length )))
+	if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) )
+	{
+	    if ( plugin = gsb_find_plugin ( "openssl" ) )
+	    {
+		gint (*crypt_function) ( gchar *, gchar **, gboolean, gulong );
+		
+		crypt_function = plugin -> plugin_run;
+		long_length = crypt_function ( filename, &file_content, FALSE, long_length );
+		
+		if ( ! long_length )
+		    return FALSE;
+	    }
+	    else
+	    {
+		dialogue_error_hint ( _("Grisbi was unable to load required plugin to "
+					"handle that file.\n\n"
+					"Please make sure if is installed (i.e. check "
+					"that 'grisbi-ssl' package is installed) and "
+					"try again."),
+				      _("Encryption plugin not found." ) );
 		return FALSE;
+	    }
+	}
 
-	/* after, we check if the file is compressed, if it is, we uncompress it */
+ 	/* after, we check if the file is compressed, if it is, we uncompress it */
 
 	if ( !strncmp ( file_content, "Grisbi compressed file ", 23 ))
 	    if ( !( length = gsb_file_util_compress_file ( &file_content, 
