@@ -70,9 +70,18 @@ fi
 dnl
 dnl Standard GTK checks
 dnl
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 libxml-2.0 >= 2.0)
-LDFLAGS="${LDFLAGS} ${GRISBI_LIBS}"
-CFLAGS="${CFLAGS} ${GRISBI_CFLAGS}"
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2)
+LDFLAGS="${LDFLAGS} ${GTK_LIBS}"
+CFLAGS="${CFLAGS} ${GTK_CFLAGS}"
+
+
+dnl
+dnl XML2
+dnl
+PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.0)
+LDFLAGS="${LDFLAGS} ${XML2_LIBS}"
+CFLAGS="${CFLAGS} ${XML2_CFLAGS}"
+
 
 dnl
 dnl OpenSSL Check
@@ -80,8 +89,8 @@ dnl
 PKG_CHECK_MODULES(OpenSSL, libssl, , nossl=true)
 if test x$nossl != xtrue
 then
-	LDFLAGS="${LDFLAGS} ${GRISBI_LIBS}"
-	CFLAGS="${CFLAGS} ${GRISBI_CFLAGS}"
+	LDFLAGS="${LDFLAGS} ${OpenSSL_LIBS}"
+	CFLAGS="${CFLAGS} ${OpenSSL_CFLAGS}"
 else
 	AC_MSG_RESULT([OpenSSL support not available, this Grisbi build will not be able to crypt/decrypt files.])
 	CFLAGS="${CFLAGS} -DNOSSL"
