@@ -1,7 +1,7 @@
 /* Fichier help.c */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2003 Benjamin Drieu (bdrieu@april.org) */
+/*			2006 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -26,6 +26,7 @@
 #include "help.h"
 #include "utils_buttons.h"
 #include "dialog.h"
+#include "gsb_plugins.h"
 #include "utils_str.h"
 #include "structures.h"
 #include "include.h"
@@ -114,7 +115,8 @@ NULL );
 	"http://www.grisbi.org/manuel.html",
 	NULL };
 
-    const gchar *license = "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA";
+    const gchar *license = "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n\n"
+	"This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit. (http://www.openssl.org/)";
 
     dialogue = gtk_dialog_new_with_buttons ( _("About..."),
 					     GTK_WINDOW (window),
@@ -146,7 +148,11 @@ NULL );
     gtk_label_set_markup ( GTK_LABEL (label), 
 			   g_strconcat ( "<span size=\"x-large\" weight=\"bold\">",
 
-					 "Grisbi ", VERSION, "</span>", NULL ) );
+					 "Grisbi ", VERSION, "</span>\n", 
+					 "<span size=\"small\">",
+					 gsb_plugin_get_list (), 
+					 "</span>", NULL ) );
+    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_CENTER );
     gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
 
