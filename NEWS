@@ -11,11 +11,16 @@ New in version CVS HEAD :
  - Extensive use of idle to speed up process
  - Form structure defined by user
  - End of the obligation to use Euro
+ - Gnucash and CSV files import
  - Use of + and - in amount entry
+ - Tip of the day
+ - Import and Export dialogs use assistants
+ - Reconciled transactions are "archived" by default
  - Tip of the day support
  - Grisbi suggests a default currency according to your locale settings
  - Dates are now printed and parsed according to the locale,
-   no more ugly european dates!
+   no more ugly european dates
+ - And more!
 
 New in version 0.5.0 :
  - GTK2 & libxml2 support
