@@ -13,15 +13,128 @@ dnl Standard checks
 AC_ISC_POSIX
 AC_PROG_CC
 AC_STDC_HEADERS
-AC_PROG_RANLIB
+AM_PROG_LIBTOOL
+AC_SUBST(LIBTOOL_DEPS)
 
 dnl Check if we have backtrace support
 AC_CHECK_FUNCS(backtrace)
 
 dnl Check for NLS support.                                                      
-ALL_LINGUAS="fr de da zh_CN he"
+ALL_LINGUAS="fr de da"
 AM_GNU_GETTEXT
 AC_CHECK_LIB(intl,main)
+
+
+dnl
+dnl Standard GTK checks
+dnl
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2)
+LDFLAGS="${LDFLAGS} ${GTK_LIBS}"
+CFLAGS="${CFLAGS} ${GTK_CFLAGS}"
+
+
+dnl
+dnl Check whether GLib modules are supported, to determine whether we
+dnl can support plugins.
+dnl
+AC_MSG_CHECKING(whether GLib supports loadable modules)
+ac_save_CFLAGS="$CFLAGS"
+ac_save_LIBS="$LIBS"
+CFLAGS="$CFLAGS $GLIB_CFLAGS"
+LIBS="$GLIB_LIBS $LIBS"
+AC_TRY_RUN([
+#include <glib.h>
+#include <gmodule.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int 
+main ()
+{
+  if (g_module_supported())
+    return 0;	/* success */
+  else
+    return 1;	/* failure */
+}
+], ac_cv_glib_supports_modules=yes, ac_cv_glib_supports_modules=no,
+   [echo $ac_n "cross compiling; assumed OK... $ac_c"
+    ac_cv_glib_supports_modules=yes])
+CFLAGS="$ac_save_CFLAGS"
+LIBS="$ac_save_LIBS"
+if test "$ac_cv_glib_supports_modules" = yes ; then
+  AC_MSG_RESULT(yes)
+  have_plugins=yes
+else
+  AC_MSG_RESULT(no)
+  have_plugins=no
+fi
+
+
+dnl
+dnl check whether plugins should be enabled and, if they should be,
+dnl
+AC_ARG_WITH(plugins,
+[  --with-plugins    support plugins.],
+[
+  case "$withval" in
+  "" | y | ye | yes )
+    if test x$have_plugins = xno
+    then
+      AC_MSG_ERROR([GLib on this platform doesn't support loadable modules, so you can't enable plugins.])
+    fi
+    ;;
+  n | no)
+    have_plugins=no
+    ;;
+  *)
+    if test x$have_plugins = xno
+    then
+      AC_MSG_ERROR([GLib on this platform doesn't support loadable modules, so you can't enable plugins.])
+    fi
+    ;;
+  esac
+])
+
+
+dnl
+dnl Where plugins are located
+dnl
+AM_CONDITIONAL(HAVE_PLUGINS, test x$have_plugins = xyes)
+if test x$have_plugins = xyes
+then
+  AC_DEFINE(HAVE_PLUGINS, 1, [Define if plugins are enabled])
+fi
+
+
+dnl
+dnl XML2
+dnl
+PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.0, , noxml2=true)
+if test x$noxml2 != xtrue
+then
+	LDFLAGS="${LDFLAGS} ${XML2_LIBS}"
+	CFLAGS="${CFLAGS} ${XML2_CFLAGS}"
+else
+	AC_MSG_RESULT([libxml2 support not available, this Grisbi build will not be able to load Gnucash files.])
+	CFLAGS="${CFLAGS} -DNOXML2"
+fi
+AM_CONDITIONAL(HAVE_XML2, test x$noxml2 != xtrue)
+
+
+dnl
+dnl OpenSSL Check
+dnl
+PKG_CHECK_MODULES(OpenSSL, libssl, , nossl=true)
+if test x$nossl != xtrue
+then
+	LDFLAGS="${LDFLAGS} ${OpenSSL_LIBS}"
+	CFLAGS="${CFLAGS} ${OpenSSL_CFLAGS}"
+else
+	AC_MSG_RESULT([OpenSSL support not available, this Grisbi build will not be able to crypt/decrypt files.])
+	CFLAGS="${CFLAGS} -DNOSSL"
+fi
+AM_CONDITIONAL(HAVE_SSL, test x$nossl != xtrue)
+
 
 dnl
 dnl Check for libofx
@@ -48,7 +161,7 @@ else
     noofx=true
     CFLAGS="${CFLAGS} -DNOOFX"
 fi
-AM_CONDITIONAL(NOOFX, test x$noofx = xtrue)
+AM_CONDITIONAL(HAVE_OFX, test x$noofx != xtrue)
 
 
 dnl
@@ -65,36 +178,8 @@ if test "$have_g2banking" = "yes"; then
   CFLAGS="$CFLAGS $g2banking_includes -DHAVE_G2BANKING"
   LDFLAGS="$LDFLAGS $g2banking_libs"
 fi
+AM_CONDITIONAL(HAVE_G2BANKING, test "$have_g2banking" = "yes")
 
-
-dnl
-dnl Standard GTK checks
-dnl
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2)
-LDFLAGS="${LDFLAGS} ${GTK_LIBS}"
-CFLAGS="${CFLAGS} ${GTK_CFLAGS}"
-
-
-dnl
-dnl XML2
-dnl
-PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.0)
-LDFLAGS="${LDFLAGS} ${XML2_LIBS}"
-CFLAGS="${CFLAGS} ${XML2_CFLAGS}"
-
-
-dnl
-dnl OpenSSL Check
-dnl
-PKG_CHECK_MODULES(OpenSSL, libssl, , nossl=true)
-if test x$nossl != xtrue
-then
-	LDFLAGS="${LDFLAGS} ${OpenSSL_LIBS}"
-	CFLAGS="${CFLAGS} ${OpenSSL_CFLAGS}"
-else
-	AC_MSG_RESULT([OpenSSL support not available, this Grisbi build will not be able to crypt/decrypt files.])
-	CFLAGS="${CFLAGS} -DNOSSL"
-fi
 
 
 AC_SUBST(prefix)
@@ -117,4 +202,8 @@ pixmaps/Makefile
 pixmaps/flags/Makefile
 po/Makefile.in
 src/Makefile
+src/plugins/g2banking/Makefile
+src/plugins/gnucash/Makefile
+src/plugins/ofx/Makefile
+src/plugins/openssl/Makefile
 ])
