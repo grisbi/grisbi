@@ -33,6 +33,7 @@
 #include "barre_outils.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "equilibrage.h"
 #include "gsb_data_account.h"
 #include "navigation.h"
@@ -81,8 +82,10 @@ GtkWidget *fleche_bas;
 
 /*START_EXTERN*/
 extern GtkWidget *barre_outils;
+extern GtkWidget *barre_outils;
 extern gboolean block_menu_cb ;
 extern GtkWidget *formulaire;
+extern GtkTooltips *tooltips_general_grisbi;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkUIManager * ui_manager;
 /*END_EXTERN*/

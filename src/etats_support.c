@@ -38,6 +38,7 @@
 
 
 /*START_EXTERN*/
+extern GSList * plugins ;
 extern GtkTreeSelection * selection;
 /*END_EXTERN*/
 

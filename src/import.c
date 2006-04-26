@@ -35,6 +35,7 @@
 #include "comptes_traitements.h"
 #include "import_csv.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "dialog.h"
 #include "utils_files.h"
 #include "go-charmap-sel.h"
@@ -113,6 +114,7 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget *preview;
 extern GtkWidget *tree_view;
+extern GtkWidget *tree_view_vbox;
 extern GtkWidget *tree_view_vbox;
 extern GtkWidget *window;
 /*END_EXTERN*/

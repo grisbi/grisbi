@@ -33,6 +33,7 @@
 #include "navigation.h"
 #include "menu.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "comptes_traitements.h"
 #include "include.h"
 #include "structures.h"

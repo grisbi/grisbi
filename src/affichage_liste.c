@@ -24,6 +24,7 @@
 /*START_INCLUDE*/
 #include "affichage_liste.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "gsb_data_account.h"
 #include "gsb_form.h"
 #include "gtk_combofix.h"
@@ -101,6 +102,8 @@ extern GtkWidget *formulaire;
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
 extern gint max;
 extern gchar *tips_col_liste_operations[TRANSACTION_LIST_COL_NB];
+extern gchar *tips_col_liste_operations[TRANSACTION_LIST_COL_NB];
+extern gchar *titres_colonnes_liste_operations[TRANSACTION_LIST_COL_NB];
 extern gchar *titres_colonnes_liste_operations[TRANSACTION_LIST_COL_NB];
 /*END_EXTERN*/
 

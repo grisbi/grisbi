@@ -50,6 +50,7 @@
 #include "utils.h"
 #include "utils_comptes.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "structures.h"
 #include "gsb_scheduler_list.h"
 #include "include.h"
@@ -118,6 +119,8 @@ extern GdkColor breakdown_background;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkGC *gc_separateur_operation;
+extern GdkGC *gc_separateur_operation;
+extern gint hauteur_ligne_liste_opes;
 extern gint hauteur_ligne_liste_opes;
 extern GtkWidget *label_saisie_modif;
 extern gint mise_a_jour_liste_echeances_auto_accueil;

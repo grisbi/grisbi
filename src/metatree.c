@@ -25,6 +25,7 @@
 /*START_INCLUDE*/
 #include "metatree.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "erreur.h"
 #include "dialog.h"
 #include "gsb_data_account.h"

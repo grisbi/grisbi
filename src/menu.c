@@ -31,6 +31,7 @@
 #include "help.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "gsb_form_transaction.h"
 #include "barre_outils.h"
 #include "navigation.h"

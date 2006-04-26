@@ -26,6 +26,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "accueil.h"
 #include "comptes_traitements.h"
 #include "erreur.h"
@@ -67,69 +68,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean assert_selected_transaction ();
-static gpointer cherche_operation_from_ligne ( gint ligne,
-					gint no_account );
-static void creation_titres_tree_view ( void );
-static gint find_balance_col ( void );
-static gint find_balance_line ( void );
-static gint find_p_r_line ();
-static gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint number );
-static GtkWidget * gsb_gui_create_cell_contents_menu ( int x, int y );
-static gboolean gsb_gui_update_row_foreach ( GtkTreeModel *model, GtkTreePath *path,
-				      GtkTreeIter *iter, gint coords[2] );
-static gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
-					      GdkEventButton *ev );
-static void gsb_transactions_list_change_expanders ( gint only_current_account );
-static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
-						  gint *no_column );
-static gboolean gsb_transactions_list_check_mark ( gpointer transaction );
-static void gsb_transactions_list_convert_sorted_iter_to_tree_iter ( GtkTreeIter *tree_iter,
-							      GtkTreeIter *sorted_iter );
-static GtkTreeStore *gsb_transactions_list_create_store ( void );
-static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model );
-static void gsb_transactions_list_create_tree_view_columns ( void );
-static gboolean gsb_transactions_list_current_transaction_down ( gint no_account );
-static gboolean gsb_transactions_list_current_transaction_up ( gint no_account );
-static gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gpointer transaction );
-static gboolean gsb_transactions_list_expand_row ( GtkTreeView *tree_view,
-					    GtkTreeIter *iter_in_sort,
-					    GtkTreePath *path,
-					    gpointer null );
-static gboolean gsb_transactions_list_fill_store ( GtkTreeStore *store );
-static gpointer gsb_transactions_list_find_white_breakdown ( gpointer *breakdown_mother );
-static GtkTreeModel *gsb_transactions_list_get_filter (void);
-static GtkTreePath *gsb_transactions_list_get_list_path_from_sorted_path ( GtkTreePath *path_sorted );
-static GtkTreePath *gsb_transactions_list_get_path_from_transaction ( gint transaction_number );
-static GtkTreeModel *gsb_transactions_list_get_sortable (void);
-static GtkTreePath *gsb_transactions_list_get_sorted_path_from_list_path ( GtkTreePath *path,
-								    gint no_account );
-static gint gsb_transactions_list_get_transaction_from_path ( GtkTreePath *path );
-static gint gsb_transactions_list_get_transaction_next ( gint transaction_number,
-						  gint child_transaction );
-static gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
-						 gint cell_content_number );
-static void gsb_transactions_list_set_filter (GtkTreeModel *filter_model);
-static GtkTreeModel *gsb_transactions_list_set_filter_store ( GtkTreeStore *store );
-static void gsb_transactions_list_set_sortable (GtkTreeModel *sortable_model);
-static GtkTreeModel *gsb_transactions_list_set_sorting_store ( GtkTreeModel *filter_model );
-static void gsb_transactions_list_set_tree_view (GtkWidget *tree_view);
-static gboolean gsb_transactions_list_sort_column_changed ( GtkTreeViewColumn *tree_view_column );
-static void gsb_transactions_list_swap_children ( GtkTreeIter *new_mother_iter,
-					   GtkTreeIter *last_mother_iter );
-static gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
-							   GdkEventButton *ev,
-							   gint *no_column );
-static gboolean move_operation_to_account ( gint transaction_number,
-				     gint target_account );
-static void move_selected_operation_to_account ( GtkMenuItem * menu_item );
-static void p_press (void);
-static void popup_transaction_context_menu ( gboolean full, int x, int y );
-static void r_press (void);
-static gint schedule_transaction ( gint transaction_number );
-static gsb_real solde_debut_affichage ( gint no_account,
-				 gint floating_point);
-static void update_titres_tree_view ( void );
 /*END_STATIC*/
 
 
@@ -173,10 +111,14 @@ static GtkTreeModel *transactions_sortable_model = NULL;
 
 
 /*START_EXTERN*/
+extern gint allocation_precedente;
+extern GtkWidget *barre_outils;
 extern GdkColor breakdown_background;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_selection;
 extern GtkWidget *formulaire;
+extern GdkGC *gc_separateur_operation;
+extern gint hauteur_ligne_liste_opes;
 extern gchar *labels_boutons [] ;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
@@ -191,8 +133,15 @@ extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget *notebook_general;
 extern PangoFontDescription *pango_desc_fonte_liste;
 extern GtkTreeSelection * selection;
+extern GtkWidget *solde_label ;
+extern GtkWidget *solde_label_pointe ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
+extern gchar *tips_col_liste_operations[TRANSACTION_LIST_COL_NB];
+extern gchar *titres_colonnes_liste_operations[TRANSACTION_LIST_COL_NB];
+extern GtkTooltips *tooltips_general_grisbi;
+extern GtkTreeViewColumn *transactions_tree_view_columns[TRANSACTION_LIST_COL_NB];
 extern GtkWidget *tree_view;
+extern GtkWidget *tree_view_vbox;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

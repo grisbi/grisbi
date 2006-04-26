@@ -52,6 +52,7 @@
 #include "gsb_file_config.h"
 #include "fichiers_gestion.h"
 #include "gsb_status.h"
+#include "gsb_plugins.h"
 #include "traitement_variables.h"
 #include "comptes_traitements.h"
 #include "parse_cmdline.h"
@@ -164,6 +165,10 @@ int main (int argc, char *argv[])
 	/* en cas d'erreur dans les options ou si on a passé --version ou --help */
 	exit(0);
     }
+
+#ifdef HAVE_PLUGINS
+    gsb_plugins_scan_dir ( PLUGINS_DIR );
+#endif
 
 #ifdef HAVE_G2BANKING
     gbanking=GBanking_new("grisbi", 0);

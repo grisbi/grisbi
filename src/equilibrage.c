@@ -30,6 +30,7 @@
 #include "equilibrage.h"
 #include "dialog.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "utils_dates.h"
 #include "calendar.h"
 #include "gsb_data_account.h"

@@ -111,7 +111,6 @@ gchar *adresse_secondaire;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
-extern gchar *crypt_key;
 extern GtkWidget *form_tab_transactions[MAX_HEIGHT][MAX_WIDTH];
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
@@ -136,8 +135,11 @@ extern gchar *nom_fichier_backup;
 extern GSList *scheduled_transactions_taken;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
 extern GtkWidget *solde_label ;
+extern GtkWidget *solde_label ;
+extern GtkWidget *solde_label_pointe ;
 extern GtkWidget *solde_label_pointe ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
+extern GtkTooltips *tooltips_general_grisbi;
 extern GtkTooltips *tooltips_general_grisbi;
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
@@ -202,7 +204,9 @@ void init_variables ( void )
 
     gsb_currency_init_variables ();
     gsb_fyear_init_variables ();
-    crypt_key = NULL;
+
+    /* /!\ FIXME */
+/*     crypt_key = NULL; */
 
     mise_a_jour_liste_comptes_accueil = 0;
     mise_a_jour_liste_echeances_manuelles_accueil = 0;

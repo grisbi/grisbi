@@ -31,6 +31,7 @@
 #include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "utils.h"
 #include "structures.h"
 #include "etats_config.h"

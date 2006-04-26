@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /* Ce fichier s'occupe des astuces					      */
 /*                                                                            */
-/*     Copyright (C)	2004      Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -46,7 +46,7 @@ gint max;
  */
 void force_display_tip (  )
 {
-  display_tip ( TRUE );
+    display_tip ( TRUE );
 }
 
 
@@ -59,69 +59,69 @@ void force_display_tip (  )
  */
 void display_tip ( gboolean force )
 {
-  GtkWidget * checkbox;
-  GtkWidget * dialog = NULL;
-  gchar * tip;
+    GtkWidget * checkbox;
+    GtkWidget * dialog = NULL;
+    gchar * tip;
 
-  if ( !force && etat.show_tip )
-    return;
+    if ( !force && etat.show_tip )
+	return;
 
-  etat.last_tip ++;
-  tip = get_next_tip ();
+    etat.last_tip ++;
+    tip = get_next_tip ();
 
-  // If no tips found ... no dialog will be displayed...
-  if (!tip)
-  {
-      dialog_message ( "no-tip-available" );
-      return;
-  }
-  dialog = dialogue_special_no_run ( GTK_MESSAGE_INFO, GTK_BUTTONS_NONE,
-				     make_hint ( _("Did you know that..."),
-						 /* We use the grisbi-tips catalog */
-						 dgettext("grisbi-tips", (tip) ) ) );
-  gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
-
-  checkbox = new_checkbox_with_title ( _("Do not show this message again"), 
-				       &(etat.show_tip), NULL );
-  gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -> vbox ), checkbox, FALSE, FALSE, 6 );
-  gtk_widget_show ( checkbox );
-
-  gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-			   GTK_STOCK_GO_BACK, 1,
-			   GTK_STOCK_GO_FORWARD, 2,
-			   GTK_STOCK_CLOSE, 3,
-			   NULL );
- 
-  /* We iterate as user can select several tips. */
-  while ( TRUE )
+    // If no tips found ... no dialog will be displayed...
+    if (!tip)
     {
-      if ( max == etat.last_tip )
-	change_button_sensitiveness ( dialog, 1, FALSE );
-      if ( etat.last_tip == 1 )
-	change_button_sensitiveness ( dialog, 0, FALSE );
+	dialog_message ( "no-tip-available" );
+	return;
+    }
+    dialog = dialogue_special_no_run ( GTK_MESSAGE_INFO, GTK_BUTTONS_NONE,
+				       make_hint ( _("Did you know that..."),
+						   /* We use the grisbi-tips catalog */
+						   dgettext("grisbi-tips", (tip) ) ) );
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
 
-      switch ( gtk_dialog_run ( GTK_DIALOG(dialog) ) )
+    checkbox = new_checkbox_with_title ( _("Do not show this message again"), 
+					 &(etat.show_tip), NULL );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -> vbox ), checkbox, FALSE, FALSE, 6 );
+    gtk_widget_show ( checkbox );
+
+    gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+			     GTK_STOCK_GO_BACK, 1,
+			     GTK_STOCK_GO_FORWARD, 2,
+			     GTK_STOCK_CLOSE, 3,
+			     NULL );
+ 
+    /* We iterate as user can select several tips. */
+    while ( TRUE )
+    {
+	if ( max == etat.last_tip )
+	    change_button_sensitiveness ( dialog, 1, FALSE );
+	if ( etat.last_tip == 1 )
+	    change_button_sensitiveness ( dialog, 0, FALSE );
+
+	switch ( gtk_dialog_run ( GTK_DIALOG(dialog) ) )
 	{
-	case 1:
-	  if ( etat.last_tip > 1 )
-	    etat.last_tip --;
-	  change_button_sensitiveness ( dialog, 1, TRUE ); 
-	  gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ), 
-				 make_hint ( _("Did you know that..."),
-					     dgettext("grisbi-tips", get_next_tip ()) ) );
-	  break;
+	    case 1:
+		if ( etat.last_tip > 1 )
+		    etat.last_tip --;
+		change_button_sensitiveness ( dialog, 1, TRUE ); 
+		gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ), 
+				       make_hint ( _("Did you know that..."),
+						   dgettext("grisbi-tips", get_next_tip ()) ) );
+		break;
 
-	case 2:
-	  etat.last_tip ++;
-	  gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ), 
-				 make_hint ( _("Did you know that..."),
-					     dgettext("grisbi-tips", get_next_tip () ) ) );
-	  change_button_sensitiveness ( dialog, 0, TRUE );
-	  break;
+	    case 2:
+		etat.last_tip ++;
+		gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ), 
+				       make_hint ( _("Did you know that..."),
+						   dgettext("grisbi-tips", get_next_tip () ) ) );
+		change_button_sensitiveness ( dialog, 0, TRUE );
+		break;
 
-	default:
-	  gtk_widget_destroy ( dialog );
-	  return;
+	    default:
+		gtk_widget_destroy ( dialog );
+		return;
 	}
     }
 }

@@ -50,6 +50,7 @@
 #include "gsb_scheduler_list.h"
 #include "gsb_status.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "traitement_variables.h"
 #include "main.h"
 #include "accueil.h"
@@ -88,6 +89,7 @@ extern GSList *scheduled_transactions_to_take;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern GtkWidget *table_etat ;
 extern gchar *titre_fichier;
+extern GtkWidget *tree_view_vbox;
 extern GtkWidget *tree_view_vbox;
 extern GtkWidget *window;
 extern GtkWidget *window_vbox_principale;

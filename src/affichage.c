@@ -31,6 +31,7 @@
 #include "navigation.h"
 #include "barre_outils.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "main.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
@@ -73,6 +74,7 @@ extern GtkWidget *entree_adresse_secondaire;
 extern GtkWidget *entree_titre_fichier;
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *form_button_part;
+extern gint hauteur_ligne_liste_opes;
 extern gint hauteur_ligne_liste_opes;
 extern GtkWidget *hbox_title;
 extern GtkWidget *label_titre_fichier;

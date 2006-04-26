@@ -31,6 +31,7 @@
 /*START_INCLUDE*/
 #include "gsb_fyear_config.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "dialog.h"
 #include "utils_dates.h"
 #include "gsb_data_account.h"

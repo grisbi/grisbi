@@ -85,6 +85,7 @@ extern struct struct_etat_affichage latex_affichage ;
 extern GtkWidget *notebook_general;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
+extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

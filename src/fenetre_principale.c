@@ -27,6 +27,7 @@
 #include "fenetre_principale.h"
 #include "navigation.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "accueil.h"
 #include "comptes_onglet.h"
 #include "etats_onglet.h"
@@ -68,6 +69,7 @@ extern AB_BANKING *gbanking;
 extern GtkWidget * hpaned;
 extern GtkTreeStore *payee_tree_model;
 extern GtkWidget * scheduler_calendar;
+extern GtkTooltips *tooltips_general_grisbi;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window;
 /*END_EXTERN*/

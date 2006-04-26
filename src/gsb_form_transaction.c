@@ -32,6 +32,7 @@
 #include "gsb_form_transaction.h"
 #include "accueil.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "erreur.h"
 #include "dialog.h"
 #include "equilibrage.h"
@@ -84,6 +85,7 @@ static gboolean gsb_transactions_list_recover_breakdowns_of_transaction ( gint n
 /*START_EXTERN*/
 extern gboolean block_menu_cb ;
 extern GtkWidget *formulaire;
+extern gint hauteur_ligne_liste_opes;
 extern gint hauteur_ligne_liste_opes;
 extern GtkItemFactory *item_factory_menu_general;
 extern gint mise_a_jour_combofix_categ_necessaire;

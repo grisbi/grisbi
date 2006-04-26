@@ -35,6 +35,7 @@
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "utils_str.h"
 #include "utils_rapprochements.h"
 #include "utils_types.h"
@@ -127,6 +128,7 @@ static gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
 
 
 /*START_EXTERN*/
+extern GtkTreeViewColumn *transactions_tree_view_columns[TRANSACTION_LIST_COL_NB];
 extern GtkTreeViewColumn *transactions_tree_view_columns[TRANSACTION_LIST_COL_NB];
 /*END_EXTERN*/
 

@@ -36,6 +36,7 @@
 #include "gsb_real.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
+#include "gsb_transactions_list.old.h"
 #include "comptes_gestion.h"
 #include "gsb_file_config.h"
 #include "navigation.h"
