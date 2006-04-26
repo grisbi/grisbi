@@ -1,7 +1,7 @@
 # Process this file with automake to produce Makefile.in
 
 localedir = $(datadir)/locale
-INCLUDES = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DLOGO_PATH="\"$(datadir)/pixmaps/grisbi/grisbi-logo.png\"" -DANIM_PATH="\"$(datadir)/pixmaps/grisbi/euro.gif\"" -DDATA_PATH="\"$(datadir)/grisbi\"" -DHELP_PATH="\"$(datadir)/doc/grisbi\""  -Wall @g2banking_includes@
+INCLUDES = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DPLUGINS_DIR="\"$(libdir)/grisbi\"" -DLOGO_PATH="\"$(datadir)/pixmaps/grisbi/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/grisbi\"" -DHELP_PATH="\"$(datadir)/doc/grisbi\""  -Wall @g2banking_includes@
 bin_PROGRAMS = grisbi
 
 config_dir = config
@@ -51,7 +51,6 @@ sources = \
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
 	gsb_assistant.c		\
-	gsb_crypt.c		\
 	gsb_currency.c		\
 	gsb_currency_config.c	\
 	gsb_currency_link_config.c	\
@@ -81,6 +80,7 @@ sources = \
 	gsb_fyear_config.c	\
 	gsb_payment_method.c	\
 	gsb_payment_method_config.c	\
+	gsb_plugins.c		\
 	gsb_real.c		\
 	gsb_scheduler_list.c	\
 	gsb_status.c		\
@@ -226,3 +226,7 @@ EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime $(grisbi_INCLUDES)
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime
+
+if HAVE_PLUGINS
+SUBDIRS = plugins/g2banking plugins/gnucash plugins/ofx plugins/openssl
+endif
