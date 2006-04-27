@@ -164,7 +164,9 @@ NULL );
 
     /* Authors */
     label = gtk_label_new ("");
-    gtk_label_set_markup ( GTK_LABEL(label), auteurs );
+    gtk_label_set_markup ( GTK_LABEL(label), g_strjoinv ( "@", 
+							  g_strsplit ( auteurs, 
+								       "[at]", 0 ) ) );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), sw,
