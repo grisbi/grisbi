@@ -361,7 +361,6 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 		    /* récupération de la date */
 		    /* on la met pour l'instant dans date_tmp, et après avoir récupéré toutes */
 		    /* les opés on transformera les dates en gdate */
-
 		    if ( pointeur_char[0] == 'D' )
 			operation -> date_tmp = g_strdup ( pointeur_char + 1 );
 
@@ -616,6 +615,8 @@ changement_format_date:
 		/* récupération de la date qui est du format jj/mm/aaaa ou jj/mm/aa ou jj/mm'aa à partir de 2000 */
 		/* 	      si format_date = 0, c'est sous la forme jjmm sinon mmjj */
 
+                // #153 Some banks/software are producing qif files using '.' as date separators! 
+                g_strdelimit(operation -> date_tmp,".",'/');
 
 		tab_str = g_strsplit ( operation -> date_tmp,
 				       "/",
