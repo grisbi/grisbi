@@ -119,7 +119,9 @@ typedef HRESULT (__stdcall * PFNSHGETGETLONGPATHNAMEW)(LPCTSTR, LPTSTR, DWORD); 
 #define SZ_GETLONGPATHNAME  "GetLongPathNameW"
 #define PFNGETLONGPATHNAME  PFNSHGETGETLONGPATHNAMEW
 #endif
-gchar* win32_utf6_get_long_name(gchar*);
-DWORD win32_get_long_path_name(LPCTSTR lpszShortPath, LPTSTR lpszLongPath, DWORD ccBuffer);
+gchar* win32_long_name(gchar*);
+gchar* win32_full_path(gchar*);
+void win32_set_current_directory(gchar* utf8_dir);
+
 #endif//!WINUTILS_H_C61461B7_ACF2_4011_888A_030AD5F25F8F
 
