@@ -66,7 +66,10 @@ int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);
 gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 {
     gchar *argv[2];
-
+#ifdef _WIN32
+    gchar* current_working_directory = g_get_current_dir();
+#endif
+    
     liste_comptes_importes_ofx = NULL;
     compte_ofx_importation_en_cours = NULL;
     erreur_import_ofx = 0;
@@ -74,6 +77,29 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 
     /* 	la lib ofx ne tient pas compte du 1er argument */
     argv[1] = nom_fichier;
+
+#ifdef _WIN32
+    // There is some problem with not system global libofx installation:
+    // dtd file search is done with hardcoded pathes definition
+    // For windows version tihs path is set to "dtd;../dtd;." which work well when
+    // current directory is set to the grisbi.exe directory - startinig grisbi from app shortcut -
+    // but when user starts grisbi using file association feature by dbl-clicking on gsb file
+    // current directory is set to the gsb file location!
+    // => this fix is a "grosse bidouille" which set temporally the current directory to the
+    // grisbi app path!
+    win32_set_current_directory(win32_app_subdir_folder_path(""));
+
+    // Add some checks to have a more 'user friendly' error reporting
+    if (   (!LoadLibrary("libofx.dll")) 
+         ||(!LoadLibrary("osp151.dll"))
+         ||(!g_file_test("dtd/ofx160.dtd",G_FILE_TEST_EXISTS))
+        )
+    {
+        dialogue_error_hint(_("The OFX support can not be enabled!"), 
+                      g_strdup_printf (_("Cannot process OFX file '%s'"), nom_fichier));
+        return (FALSE);
+    }
+#endif
 
 #ifdef OFX_0_7
     ofx_context = libofx_get_new_context();
@@ -96,6 +122,11 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
         return (FALSE);
     }
 
+#ifdef _WIN32
+    // Restore as soon as possible old current directory
+    win32_set_current_directory(current_working_directory);
+    utils_free(current_working_directory);
+#endif
     /*     le dernier compte n'a pas été ajouté à la liste */
 
     liste_comptes_importes_ofx = g_slist_append ( liste_comptes_importes_ofx,
