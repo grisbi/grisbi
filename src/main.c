@@ -277,7 +277,7 @@ int main (int argc, char *argv[])
 		}
 		else
 		{
-		    nom_fichier_comptes = utf8_long_file_name(argv[1]);
+		    nom_fichier_comptes = utf8_full_path(argv[1]);
 		    ouverture_confirmee();
 		}
 		break;
@@ -295,17 +295,34 @@ int main (int argc, char *argv[])
 
 		    /* ouvre le fichier demandé */
 
-		    nom_fichier_comptes = utf8_long_file_name(argv[2]);
+		    nom_fichier_comptes = utf8_full_path(argv[2]);
 		    ouverture_confirmee();
 		}
 		else
 		{
-		    nom_fichier_comptes = utf8_long_file_name(argv[1]);
+		    nom_fichier_comptes = utf8_full_path(argv[1]);
 		    ouverture_confirmee();
 		}
 		break;
 	}
-
+        /* 
+         * Behave of automatic file opening and with file provided by command line 
+         * as when the user open it using file selection dialog aka changelast_working directory to the file directory
+         * In case of command line, we need to take account of relative path and contruct an absolute one
+         */
+#ifdef _WIN32
+        {
+            gchar* account_file_dirname = g_path_get_dirname(nom_fichier_comptes);
+            gchar* old_value_to_free    = dernier_chemin_de_travail;
+            if (account_file_dirname)
+            {
+                dernier_chemin_de_travail = utf8_full_path(account_file_dirname);
+            }
+            utils_free(old_value_to_free); 
+            utils_free(account_file_dirname); 
+        }
+#endif
+        
 	/*   à ce niveau, le fichier doit être chargé, on met sur l'onglet demandé si nécessaire */
 
 	if ( nb_comptes
