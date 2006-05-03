@@ -32,6 +32,7 @@
 #include "utils_files.h"
 #include "print_config.h"
 #include "dialog.h"
+#include "utils.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -49,7 +50,8 @@ extern GtkWidget *window;
  * Handler triggered by clicking on the button of a "print to file"
  * combo.  Pop ups a file selector.
  *
- * \param button GtkButton widget that triggered this handler.
+ * \param button GtkButton widget that triggered this handler.:625
+ *
  * \param data A pointer to a GtkEntry that will be filled with the
  *             result of the file selector.
  */
@@ -361,25 +363,82 @@ gchar * safe_file_name ( gchar* filename )
 }
 
 /**
- * Convert short filename to long filename when needed.
+ * Compute the full (absolute and long version nuder Windows) of a path.
  * 
- * \note This function is provide for all OS, just to reduce the number
- * of specific WIN32 depend line in the code.
- *
- * Under Windows the function return the long filename (converted in UTF8 charset) when the convertion is possible.
- * Otherwise (conversion issue or other operating system) the function return the provided filename.
+ * The function use utf8 charset for path as entry and output.
+ * A path can be a directory or a file name.
  * 
- * \param utf8_short_file_name UTF8 short file name string
+ * \caveats Under linux, be aware the function is using the current directory value to estimate the absolute path.
+ * If you call this function after having change the current directory, the result may be incosnsistent with the reality!
+ * example : you file is /home/foo/bar 
+ *  If the current directory is /home/foo  utf8_full_path(bar) will return "/home/foo/bar"
+ *  If you change directory  to /tmp utf8_full_path(bar) will return "/tmp/bar"
+ * 
+ * \param utf8_short_path path (file or directory) to expand
  *
- * \return In any case a new allocated buffer with g_strdup
+ * \return In any case a new allocated buffer to free using g_free after use.
+ * At least the function return a copy of the path given as parameter.
  *
+ * \note As I do not remember if there is any equivalent Windows _fullpath() function 
+ *  I have implemented a more than very light algorithm.
  */
-gchar* utf8_long_file_name (gchar* utf8_short_file_name)
+gboolean utf8_path_is_ended_by_dir_separator(gchar* utf8_path)
 {
-#ifdef _WIN32
-   return win32_get_utf8_long_name(utf8_short_file_name);
-#else
-  return g_strdup(utf8_short_file_name);
+    return ((g_strrstr_len(utf8_path,1,"/"))||(g_strrstr_len(utf8_path,1,"\\")));
+}
+gchar* utf8_full_path(gchar* utf8_short_path)
+{
+    gchar* utf8_full_path       = NULL;
+    gchar* syslocale_full_path  = NULL;
+    gchar* syslocale_short_path = g_locale_from_utf8(utf8_short_path,-1,NULL,NULL,NULL);
+    
+    if (syslocale_short_path)
+    {
+
+#ifdef _WIN32 
+        gchar* absolute_short_path  = NULL;
+
+        absolute_short_path = win32_full_path(syslocale_short_path);
+        syslocale_full_path = win32_long_name(absolute_short_path);
+
+        utils_free(absolute_short_path);
+#else 
+        // Note:When utf8_short_path is already an absolute one , we do nothing as utf8_short_path
+        // will be returned by default when syslocale_full_path is NULL
+        // 
+        if (!g_path_is_absolute(utf8_short_path))
+        {
+            gchar* current_dir = g_get_current_dir();
+            syslocale_full_path = g_strconcat(current_dir,"/",utf8_short_path, (is_directory) ? "/" : NULL , NULL);
+            utils_free(current_dir);
+        }
 #endif
-  }
+
+        utils_free(syslocale_short_path);
+    }
+
+    if (syslocale_full_path)
+    {
+        utf8_full_path = g_locale_to_utf8(syslocale_full_path,-1,NULL,NULL,NULL);
+        utils_free(syslocale_full_path);
+    }
+    else
+    {
+        utf8_full_path = g_strdup(utf8_short_path);
+    }
+
+    // Be sure that the 'last' dir separator is still present when needed
+    if (utf8_path_is_ended_by_dir_separator(utf8_short_path)||g_file_test(utf8_short_path,G_FILE_TEST_IS_DIR))
+    {
+        if (!utf8_path_is_ended_by_dir_separator(utf8_full_path))
+        {
+            gchar* old_utf8_full_path = utf8_full_path;
+            utf8_full_path = g_strconcat(old_utf8_full_path,C_DIRECTORY_SEPARATOR,NULL);
+            utils_free(old_utf8_full_path);
+        }
+    }
+    
+    return utf8_full_path;
+}
+
 
