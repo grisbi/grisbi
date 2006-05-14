@@ -35,22 +35,17 @@
 #include "gsb_file_config.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
+#include "gsb_plugins.h"
 #include "gsb_status.h"
 #include "traitement_variables.h"
 #include "utils_files.h"
 #include "utils_str.h"
-#include "include.h"
 #include "structures.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 #ifdef HAVE_BACKTRACE
 #include "execinfo.h"
-#endif
-
-#ifdef HAVE_G2BANKING
-#include <g2banking/gbanking.h>
-#include <aqbanking/imexporter.h>
-#include <gwenhywfar/debug.h>
 #endif
 
 
@@ -60,13 +55,9 @@ static GtkWidget * print_backtrace ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern AB_BANKING *gbanking;
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
-/* #ifdef HAVE_AQBANKING */
-/* extern AB_BANKING *gbanking; */
-/* #endif */
 
 
 gint debugging_grisbi;
@@ -80,7 +71,6 @@ gint debugging_grisbi;
 
 gboolean fermeture_grisbi ( void )
 {
-
     /*     si le fichier n'est pas enregistré, on le propose */
 
     if ( etat.modification_fichier &&
@@ -117,21 +107,10 @@ gboolean fermeture_grisbi ( void )
 
     gsb_file_util_modify_lock ( FALSE );
 
-
-#ifdef HAVE_G2BANKING
-    if (gbanking) {
-      int rv;
-
-      rv=AB_Banking_Fini(gbanking);
-      if (rv) {
-	  printf (_("Could not deinitialize AqBanking (%d)\n"), rv);
-	  AB_Banking_free(gbanking);
-	  gbanking=0;
-      }
-    }
-#endif
-
     gtk_main_quit();
+
+    gsb_plugins_release ( );
+
     return TRUE;
 }
 /*************************************************************************************************************/
@@ -233,6 +212,9 @@ void traitement_sigsegv ( gint signal_nb )
     /*     on évite le message du fichier ouvert à la prochaine ouverture */
 
     gsb_file_util_modify_lock ( FALSE );
+
+    gsb_plugins_release ( );
+
     exit(1);
 }
 

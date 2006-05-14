@@ -33,10 +33,6 @@
 # include <config.h>
 #endif
 
-#ifdef HAVE_G2BANKING
-#include "gbanking.h"
-#endif
-
 
 /* Fichier de base contenant la procédure main */
 
@@ -61,16 +57,6 @@
 #include "structures.h"
 /*END_INCLUDE*/
 
-#ifdef HAVE_G2BANKING
-#include <g2banking/gbanking.h>
-#include <aqbanking/imexporter.h>
-#include <gwenhywfar/debug.h>
-/* FIXME : je sais pas pourquoi c'est pas pris par mk_include... donc le met ici [cedric] */
-int GrisbiBanking_ImportContext (AB_BANKING *ab, 
-				 AB_IMEXPORTER_CONTEXT *ctx);
-
-#endif
-
 
 /*START_STATIC*/
 /*END_STATIC*/
@@ -84,10 +70,6 @@ GtkWidget *window;
 GtkWidget *window_vbox_principale;
 GtkItemFactory *item_factory_menu_general;
 gint id_fonction_idle;
-
-#ifdef HAVE_G2BANKING
-AB_BANKING *gbanking=0;
-#endif
 
 
 /*START_EXTERN*/
@@ -109,6 +91,7 @@ int main (int argc, char *argv[])
 {
     GtkWidget * statusbar;
     gboolean first_use = FALSE;
+    gsb_plugin * plugin;
 
     initialize_debugging();
 
@@ -118,9 +101,6 @@ int main (int argc, char *argv[])
     struct stat buffer_stat;
     cmdline_options  opt;
 
-#ifdef HAVE_G2BANKING
-    int rv;
-#endif
 
 #ifdef _WIN32
     /* Retrieve exception information and store them under grisbi.rpt file!
@@ -168,18 +148,6 @@ int main (int argc, char *argv[])
 
 #ifdef HAVE_PLUGINS
     gsb_plugins_scan_dir ( PLUGINS_DIR );
-#endif
-
-#ifdef HAVE_G2BANKING
-    gbanking=GBanking_new("grisbi", 0);
-    GBanking_SetImportContextFn(gbanking, GrisbiBanking_ImportContext);
-    rv=AB_Banking_Init(gbanking);
-    if (rv) {
-	printf (_("Could not initialize AqBanking, "
-		  "online banking will not be available\n"));
-	AB_Banking_free(gbanking);
-	gbanking=0;
-    }
 #endif
 
     /* create the icon of grisbi (set in the panel of gnome or other) */
@@ -272,6 +240,8 @@ int main (int argc, char *argv[])
 	display_tip ( FALSE );
     }
     gtk_main ();
+
+    gsb_plugins_release ( );
     exit(0);
 }
 

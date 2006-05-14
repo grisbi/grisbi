@@ -27,28 +27,21 @@
 #include "fenetre_principale.h"
 #include "navigation.h"
 #include "gsb_transactions_list.h"
-#include "gsb_transactions_list.old.h"
 #include "accueil.h"
 #include "comptes_onglet.h"
 #include "etats_onglet.h"
 #include "erreur.h"
+#include "gsb_plugins.h"
 #include "gsb_form.h"
 #include "gsb_scheduler_list.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
-#include "include.h"
 #include "fenetre_principale.h"
 #include "structures.h"
+#include "include.h"
 /*END_INCLUDE*/
-
-#ifdef HAVE_G2BANKING
-#include <g2banking/gbanking.h>
-#include <aqbanking/imexporter.h>
-#include <gwenhywfar/debug.h>
-#endif
-
 
 /*START_STATIC*/
 static GtkWidget *create_main_notebook (void );
@@ -65,11 +58,9 @@ static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button
 /*START_EXTERN*/
 extern GtkTreeStore *budgetary_line_tree_model;
 extern GtkTreeStore * categ_tree_model;
-extern AB_BANKING *gbanking;
 extern GtkWidget * hpaned;
 extern GtkTreeStore *payee_tree_model;
 extern GtkWidget * scheduler_calendar;
-extern GtkTooltips *tooltips_general_grisbi;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -91,11 +82,6 @@ static GtkWidget * headings_eb;
 static GtkWidget * headings_title;
 /** Suffix for the heading bar.  */
 static GtkWidget * headings_suffix;
-
-
-#ifdef HAVE_G2BANKING
-extern AB_BANKING *gbanking;
-#endif
 
 
 
@@ -247,6 +233,8 @@ GtkWidget *create_main_notebook (void )
  * */
 gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 {
+    gsb_plugin * plugin;
+
     /* append the main page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 			       creation_onglet_accueil(),
@@ -293,17 +281,21 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 			       onglet_imputations(),
 			       gtk_label_new (SPACIFY(_("Budgetary lines"))) );
 
-    /* append the g2banking page */
-#ifdef HAVE_G2BANKING
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			       GTK_WIDGET (GBanking_JobView_new(gbanking, 0)),
-			       gtk_label_new (SPACIFY(_("Outbox"))) );
-#endif
-
     /* append the reports page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 			       creation_onglet_etats (),
 			       gtk_label_new (SPACIFY(_("Reports"))) );
+
+    /* append the g2banking page */
+#ifdef HAVE_PLUGINS
+    if ( plugin = gsb_find_plugin ( "g2banking" ) )
+    {
+	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+				   GTK_WIDGET ( plugin -> plugin_run ( ) ),
+				   gtk_label_new (SPACIFY(_("Outbox")) ) );
+    }
+
+#endif
 
     return FALSE;
 }
@@ -378,19 +370,9 @@ gboolean gsb_gui_on_notebook_switch_page ( GtkNotebook *notebook,
 		remplit_arbre_imputation ();
 	    break;
 
-#ifdef HAVE_G2BANKING
-	case GSB_AQBANKING_PAGE:
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
-	    break;
-#endif
-
-	case GSB_REPORTS_PAGE:
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
-	    break;
-
 	default:
+	    gsb_form_set_expander_visible (FALSE,
+					   FALSE );
 	    break;
     }
 

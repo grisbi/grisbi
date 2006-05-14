@@ -8,10 +8,9 @@ typedef enum GSB_GENERAL_NOTEBOOK_PAGES {
     GSB_PAYEES_PAGE,
     GSB_CATEGORIES_PAGE,
     GSB_BUDGETARY_LINES_PAGE,
-#ifdef HAVE_G2BANKING
-    GSB_AQBANKING_PAGE,
-#endif
     GSB_REPORTS_PAGE,
+    /** FIXME (later) : define an api so that plugin register here itself.  */
+    GSB_AQBANKING_PAGE,
 } GsbGeneralNotebookPages;
 
 /* START_INCLUDE_H */

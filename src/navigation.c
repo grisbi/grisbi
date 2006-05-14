@@ -30,13 +30,13 @@
 #include "operations_comptes.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_report.h"
+#include "gsb_plugins.h"
 #include "fenetre_principale.h"
 #include "etats_onglet.h"
 #include "menu.h"
 #include "gsb_real.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "gsb_transactions_list.old.h"
 #include "comptes_gestion.h"
 #include "gsb_file_config.h"
 #include "navigation.h"
@@ -300,23 +300,6 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
 
-#ifdef HAVE_G2BANKING
-    /* Gbanking */
-    pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     "aqbanking.png", NULL ), NULL );
-    gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
-    gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
-		       NAVIGATION_PIX, pixbuf,
-		       NAVIGATION_TEXT, _("Aqbanking"), 
-		       NAVIGATION_PIX_VISIBLE, TRUE, 
-		       NAVIGATION_FONT, 800,
-		       NAVIGATION_PAGE, GSB_AQBANKING_PAGE,
-		       NAVIGATION_ACCOUNT, -1,
-		       NAVIGATION_REPORT, -1,
-		       NAVIGATION_SENSITIVE, 1,
-		       -1 );
-#endif
-
     /* Reports */
     pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
 						     "reports.png", NULL ), NULL );
@@ -332,6 +315,25 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
     create_report_list ( GTK_TREE_MODEL(navigation_model), &reports_iter );
+
+    /** FIXME (later) : define an api so that plugin register here itself.  */
+    if ( gsb_find_plugin ( "g2banking" ) )
+    {
+	/* Gbanking */
+	pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+							 "aqbanking.png", NULL ), NULL );
+	gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
+	gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
+			   NAVIGATION_PIX, pixbuf,
+			   NAVIGATION_TEXT, _("Aqbanking"), 
+			   NAVIGATION_PIX_VISIBLE, TRUE, 
+			   NAVIGATION_FONT, 800,
+			   NAVIGATION_PAGE, GSB_AQBANKING_PAGE,
+			   NAVIGATION_ACCOUNT, -1,
+			   NAVIGATION_REPORT, -1,
+			   NAVIGATION_SENSITIVE, 1,
+			   -1 );
+    }
 
     /* Finish tree. */
     gtk_tree_view_expand_all ( GTK_TREE_VIEW(navigation_tree_view) );
@@ -1072,11 +1074,13 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
 	    title = _("Budgetary lines");
 	    break;
 
-#ifdef HAVE_G2BANKING
 	case GSB_AQBANKING_PAGE:
-	    title = _("AqBanking");
+	    /** FIXME (later) : define an api so that plugin register here itself.  */
+	    if ( gsb_find_plugin ( "g2banking" ) )
+	    {
+		title = _("AqBanking");
+	    }
 	    break;
-#endif
 
 	case GSB_SCHEDULER_PAGE:
 	    title = _("Scheduled transactions");

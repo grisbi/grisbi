@@ -34,14 +34,8 @@
 #include <gtk/gtk.h>
 
 
-
-/* to avoid an error because of mk_include and g2banking */
-#ifndef HAVE_G2BANKING
-#define AB_BANKING void
-#endif
-
 /** \struct
- * describe an real 
+ *  Describe a real number.
  * */
 /** FIXME : that structure is defined here
  * because mk_include don't take it if i define it
