@@ -103,6 +103,15 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	    continue;
 	}
 
+	if ( ! g_module_symbol ( plugin -> handle, "plugin_release",
+				 (gpointer) &( plugin -> plugin_release ) ) )
+	{
+	    dialogue_error ( g_strdup_printf ( "Plugin %s has no release symbol", 
+					       filename ) );
+	    g_free ( plugin );
+	    continue;
+	}
+
 	plugins = g_slist_append ( plugins, plugin );
 
     }
@@ -167,6 +176,27 @@ gchar * gsb_plugin_get_list ()
     }
 
     return list;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_plugins_release ( )
+{
+    GSList * tmp = plugins;
+
+    while ( tmp )
+    {
+	gsb_plugin * plugin = (gsb_plugin *) tmp -> data;
+
+	plugin -> plugin_release ();
+
+	tmp = tmp -> next;
+    }        
 }
 
 

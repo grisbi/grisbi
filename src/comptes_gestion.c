@@ -43,7 +43,6 @@
 #include "gsb_real.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "gsb_transactions_list.old.h"
 #include "categories_onglet.h"
 #include "traitement_variables.h"
 #include "utils_str.h"

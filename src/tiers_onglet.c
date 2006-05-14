@@ -75,7 +75,6 @@ GtkTreeStore *payee_tree_model;
 extern MetatreeInterface * payee_interface ;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

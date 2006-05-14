@@ -35,7 +35,6 @@
 #include "comptes_traitements.h"
 #include "import_csv.h"
 #include "gsb_transactions_list.h"
-#include "gsb_transactions_list.old.h"
 #include "dialog.h"
 #include "utils_files.h"
 #include "go-charmap-sel.h"
@@ -72,6 +71,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gboolean affichage_recapitulatif_importation ( GtkWidget * assistant );
 static enum import_type autodetect_file_type ( gchar * filename, FILE * fichier, 
 					gchar * pointeur_char );
 static gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button );
@@ -89,6 +89,7 @@ static void gsb_import_add_imported_transactions ( struct struct_compte_importat
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
 				     gint account_number );
+static void gsb_import_register_account ( GSList * tmp );
 static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
 static gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *path_str,
 				 gpointer model );
@@ -114,7 +115,6 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget *preview;
 extern GtkWidget *tree_view;
-extern GtkWidget *tree_view_vbox;
 extern GtkWidget *tree_view_vbox;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -2864,6 +2864,11 @@ gchar * type_string_representation ( enum import_type type )
 }
 
 
+
+void gsb_import_register_account ( GSList * tmp )
+{
+    liste_comptes_importes = g_slist_append ( liste_comptes_importes, tmp );
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

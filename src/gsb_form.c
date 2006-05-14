@@ -47,7 +47,6 @@
 #include "navigation.h"
 #include "gsb_payment_method.h"
 #include "gsb_transactions_list.h"
-#include "gsb_transactions_list.old.h"
 #include "gtk_combofix.h"
 #include "utils_editables.h"
 #include "main.h"
@@ -87,7 +86,6 @@ static void gsb_form_set_focus ( gint element_number );
 /*START_EXTERN*/
 extern FILE * out;
 extern GtkTreeSelection * selection;
-extern GtkTooltips *tooltips_general_grisbi;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window;
 /*END_EXTERN*/

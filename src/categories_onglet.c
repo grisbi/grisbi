@@ -198,7 +198,6 @@ extern MetatreeInterface * category_interface ;
 extern gchar *dernier_chemin_de_travail;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window;
 /*END_EXTERN*/
 

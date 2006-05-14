@@ -10,7 +10,6 @@
 
 
 /* START_DECLARATION */
-gboolean affichage_recapitulatif_importation ( GtkWidget * assistant );
 GSList * import_selected_files ( GtkWidget * assistant );
 void importer_fichier ( void );
 GtkWidget *onglet_importation (void);

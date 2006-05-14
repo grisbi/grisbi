@@ -77,7 +77,6 @@ extern GtkWidget *formulaire;
 extern gint max;
 extern GtkWidget *preview;
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *tree_view;
 extern GtkWidget *window;
 /*END_EXTERN*/
