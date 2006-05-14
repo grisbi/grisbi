@@ -46,7 +46,6 @@ sources = \
 	export_csv.c		\
 	fenetre_principale.c	\
 	fichiers_gestion.c	\
-	gbanking.c		\
 	gnucash.c               \
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
@@ -218,8 +217,7 @@ grisbi_INCLUDES =		\
 	utils_str.h		\
 	utils_types.h		\
 	utils_xml.h		\
-	search_glist.h		\
-	gbanking.h
+	search_glist.h
 
 
 EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime $(grisbi_INCLUDES)
