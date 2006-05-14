@@ -311,6 +311,13 @@ G_MODULE_EXPORT gint plugin_run ( gchar * file_name, gchar **file_content,
 
 
 
+/** Release plugin  */
+G_MODULE_EXPORT gboolean plugin_release ( )
+{
+}
+
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
