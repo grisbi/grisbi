@@ -351,7 +351,7 @@ void preferences ( gint page )
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 			&iter2,
-			0, _("Form content"),
+			0, _("Content"),
 			1, TRANSACTION_FORM_PAGE,
 			-1);
     gtk_notebook_append_page (preference_frame, gsb_form_config_create_page(), NULL);
@@ -359,7 +359,7 @@ void preferences ( gint page )
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2,&iter );
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 			&iter2,
-			0, _("Form behavior"),
+			0, _("Behavior"),
 			1, TRANSACTION_FORM_BEHAVIOR_PAGE,
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_diverse_form_and_lists(), NULL);
@@ -367,7 +367,7 @@ void preferences ( gint page )
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2,&iter );
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 			&iter2,
-			0, _("Form completion"),
+			0, _("Completion"),
 			1, TRANSACTION_FORM_COMPLETION_PAGE,
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_form_completion(), NULL);
