@@ -174,13 +174,10 @@ if test "$have_aqbanking" = "yes"; then
 fi
 
 AC_G2BANKING()
-if test "$have_g2banking" = "yes"; then
-  CFLAGS="$CFLAGS $g2banking_includes -DHAVE_G2BANKING"
-  LDFLAGS="$LDFLAGS $g2banking_libs"
-fi
 AM_CONDITIONAL(HAVE_G2BANKING, test "$have_g2banking" = "yes")
 
-
+AC_SUBST(g2banking_libs)
+AC_SUBST(g2banking_includes)
 
 AC_SUBST(prefix)
 AC_SUBST(CFLAGS)
