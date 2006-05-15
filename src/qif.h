@@ -8,6 +8,6 @@
 
 /* START_DECLARATION */
 void qif_export ( gchar * filename, gint account_nb );
-gboolean recuperation_donnees_qif ( FILE * fichier, struct imported_file * imported );
+gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file * imported );
 /* END_DECLARATION */
 #endif
