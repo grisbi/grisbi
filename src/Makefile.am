@@ -3,6 +3,7 @@
 localedir = $(datadir)/locale
 INCLUDES = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DPLUGINS_DIR="\"$(libdir)/grisbi\"" -DLOGO_PATH="\"$(datadir)/pixmaps/grisbi/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/grisbi\"" -DHELP_PATH="\"$(datadir)/doc/grisbi\""  -Wall @g2banking_includes@
 bin_PROGRAMS = grisbi
+grisbi_LDFLAGS = -Wl,-E
 
 config_dir = config
 
@@ -97,7 +98,6 @@ sources = \
 	meta_payee.c		\
 	metatree.c		\
 	navigation.c		\
-	ofx.c                   \
 	operations_comptes.c	\
 	parametres.c		\
 	parse_cmdline.c		\
