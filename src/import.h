@@ -14,24 +14,24 @@ GSList * import_selected_files ( GtkWidget * assistant );
 void importer_fichier ( void );
 GtkWidget *onglet_importation (void);
 gchar * unique_imported_name ( gchar * account_name );
+void register_import_format ();
 /* END_DECLARATION */
-
-
-enum import_type {
-  TYPE_UNKNOWN = 0,
-  TYPE_QIF,
-  TYPE_OFX,
-  TYPE_GNUCASH,
-  TYPE_CSV,
-  TYPE_GBANKING,
-  TYPE_MAX,
-};
 
 
 struct imported_file {
     gchar * name;
     gchar * coding_system;
-    enum import_type type;
+    gchar * type;
+};
+
+
+typedef gboolean ( * import_function ) ( GtkWidget * assistant, struct imported_file * );
+
+struct import_format {
+    gchar * name;
+    gchar * complete_name;
+    gchar * extension;
+    gboolean ( * import ) ( GtkWidget * assistant, struct imported_file * );
 };
 
 
@@ -40,7 +40,7 @@ struct struct_compte_importation
 {
     gchar *id_compte;
 
-    enum import_type origine;    /* 0=qif, 1=ofx, 2=html, 3=gnucash, 4=csv */
+    gchar * origine;    /* 0=qif, 1=ofx, 2=html, 3=gnucash, 4=csv */
 
     gchar *nom_de_compte;
     gchar *filename;

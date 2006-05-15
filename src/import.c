@@ -1,7 +1,4 @@
 /* ************************************************************************** */
-/* ce fichier de la gestion de l'import de fichiers (qif, ofx, csv, gnucash)  */
-/*                                                                            */
-/*                                  accueil.c                                 */
 /*                                                                            */
 /*     Copyright (C)	2000-2004 Cédric Auger (cedric@grisbi.org)	      */
 /*			2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
@@ -60,7 +57,6 @@
 #include "utils_str.h"
 #include "utils_operations.h"
 #include "gnucash.h"
-#include "ofx.h"
 #include "qif.h"
 #include "utils_comptes.h"
 #include "imputation_budgetaire.h"
@@ -68,12 +64,13 @@
 #include "gsb_file_config.h"
 #include "import.h"
 #include "include.h"
+#include "gsb_plugins.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static gboolean affichage_recapitulatif_importation ( GtkWidget * assistant );
-static enum import_type autodetect_file_type ( gchar * filename, FILE * fichier, 
-					gchar * pointeur_char );
+static gchar * autodetect_file_type ( gchar * filename, FILE * fichier, 
+				      gchar * pointeur_char );
 static gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button );
 static gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 				       gint result,
@@ -89,7 +86,8 @@ static void gsb_import_add_imported_transactions ( struct struct_compte_importat
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
 				     gint account_number );
-static void gsb_import_register_account ( GSList * tmp );
+void gsb_import_register_account ( struct struct_compte_importation * account );
+void gsb_import_register_account_error ( struct struct_compte_importation * account );
 static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
 static gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *path_str,
 				 gpointer model );
@@ -104,7 +102,6 @@ static gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *pat
 			      const gchar *value, GtkListStore * model );
 static void pointe_opes_importees ( struct struct_compte_importation *imported_account );
 static void traitement_operations_importees ( void );
-static gchar * type_string_representation ( enum import_type type );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -120,6 +117,16 @@ extern GtkWidget *window;
 /*END_EXTERN*/
 
 
+/** Suppported import formats.  Plugins may register themselves. */
+GSList * import_formats = NULL;
+
+/** Known built-in import formats.  Others are plugins.  */
+struct import_format builtin_formats[] = {
+{ "QIF", "Quicken Interchange Format", "qif", (import_function) recuperation_donnees_qif },
+{ "CSV", "Comma Separated Values",     "csv", (import_function) csv_import_csv_account },
+{ NULL,  NULL,				NULL,		NULL },
+};
+
 
 /** used to keep the number of the mother transaction while importing breakdown transactions */
 static gint mother_transaction_number;
@@ -130,7 +137,6 @@ GtkWidget *dialog_recapitulatif;
 GtkWidget *table_recapitulatif;
 gint virements_a_chercher;
 
-enum import_type file_type;
 enum import_filesel_columns { 
     IMPORT_FILESEL_SELECTED = 0,
     IMPORT_FILESEL_TYPENAME,
@@ -152,32 +158,70 @@ enum import_pages {
 
 
 
-/* *******************************************************************************/
-/* fonction importer_fichier */
-/* appelée par le menu importer */
-/* *******************************************************************************/
+/**
+ *
+ *
+ */
+void register_import_formats ()
+{
+    int i;
 
+    for ( i = 0; builtin_formats [ i ] . name != NULL ; i ++ )
+    {
+	register_import_format ( &builtin_formats [ i ] );
+    }
+}
+
+
+
+/**
+ *
+ *
+ *  
+ */
+void register_import_format ( struct import_format * format )
+{
+    printf ("> Adding format %s\n", format -> name );
+    import_formats = g_slist_append ( import_formats, format );
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
 void importer_fichier ( void )
 {
+    GSList * tmp = import_formats;
+    gchar * formats = "";
     GtkWidget * a;
 
     liste_comptes_importes = NULL;
     liste_comptes_importes_error = NULL;
     virements_a_chercher = 0;
 
+    while ( tmp )
+    {
+	struct import_format * format = (struct import_format *) tmp -> data;
+	formats = g_strconcat ( formats, 
+				"	• ",
+				format -> complete_name,
+				" (", format -> name, ")\n",
+				NULL );
+	tmp = tmp -> next;
+    }
 
     a = gsb_assistant_new ( "Importing transactions into Grisbi",
-			    "This assistant will help you import one or several files into Grisbi."
-			    "\n\n"
-			    "Grisbi will try to do its best to guess which format are imported, but you may have to manually set them in the list of next page.  "
-			    "So far, the following formats are supported:"
-			    "\n\n"
-			    ""
-			    "	• Quicken Interchange format (QIF)\n"
-			    "	• Open Financial Exchange Format (OFX)\n"
-			    "	• Gnucash format\n"
-			    "	• Comma separated-values format (CSV/TSV)",
+			    g_strconcat ( "This assistant will help you import one or several files into Grisbi."
+					  "\n\n"
+					  "Grisbi will try to do its best to guess which format are imported, but you may have to manually set them in the list of next page.  "
+					  "So far, the following formats are supported:"
+					  "\n\n",
+					  formats, NULL ),
 			    "csv.png" );
+
 
     gsb_assistant_add_page ( a, import_create_file_selection_page ( a ), 
 			     IMPORT_FILESEL_PAGE, IMPORT_STARTUP_PAGE, IMPORT_RESUME_PAGE, 
@@ -219,7 +263,7 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     GtkTreeViewColumn *column;
     GtkCellRenderer *renderer;
     GtkTreeModel * model, * list_acc;
-    int i;
+    GSList * tmp;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
@@ -242,7 +286,7 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     /* Tree view and model. */
     model = GTK_TREE_MODEL ( gtk_tree_store_new ( IMPORT_FILESEL_NUM_COLS, G_TYPE_BOOLEAN, 
 						  G_TYPE_STRING, G_TYPE_STRING, 
-						  G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING));
+						  G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING));
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( model ) );
     gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
 
@@ -258,18 +302,22 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     renderer = gtk_cell_renderer_combo_new ();
     g_signal_connect ( G_OBJECT (renderer), "edited", G_CALLBACK ( import_switch_type), 
 		       model );
+
     list_acc = GTK_TREE_MODEL (gtk_list_store_new (1, G_TYPE_STRING));
-    for ( i = 0 ; i < TYPE_MAX ; i++ )
+
+    tmp = import_formats;
+    while ( tmp )
     {
 	GtkTreeIter iter; 
+	struct import_format * format = (struct import_format *) tmp -> data;
 
-	if ( i != TYPE_GBANKING )
-	{
-	    gtk_list_store_append (GTK_LIST_STORE (list_acc), &iter);
-	    gtk_list_store_set (GTK_LIST_STORE (list_acc), &iter, 0, 
-				type_string_representation ( i ), -1);
-	}
+	gtk_list_store_append (GTK_LIST_STORE (list_acc), &iter);
+	gtk_list_store_set (GTK_LIST_STORE (list_acc), &iter, 0, 
+			    format -> name, -1);
+
+	tmp = tmp -> next;
     }
+
     g_object_set ( renderer, 
 		   "model", list_acc, 
 		   "text-column", 0, 
@@ -307,25 +355,28 @@ gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 			      const gchar *value, GtkListStore * model )
 {
      GtkTreeIter iter;
-     guint i = 0;
      GtkWidget * assistant;
 
      assistant = g_object_get_data ( G_OBJECT (model), "assistant" );
 
      if ( gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( model ), &iter, path ))
      {
-	 for ( i = 0 ; i < TYPE_MAX ; i ++ )
+	 GSList * tmp = import_formats;
+
+	 while ( tmp )
 	 {
-	     if ( ! strcmp ( value, type_string_representation ( i ) ) )
+	     struct import_format * format = (struct import_format *) tmp -> data;
+
+	     if ( ! strcmp ( value, format -> name ) )
 	     {
 		 gtk_tree_store_set ( GTK_TREE_STORE (model), &iter,
 				      IMPORT_FILESEL_TYPENAME, value, 
-				      IMPORT_FILESEL_TYPE, i, 
+				      IMPORT_FILESEL_TYPE, format -> name, 
 				      -1 );
 		 
 		 /* CSV is special because it needs configuration, so
 		  * we add a conditional jump there. */
-		 if ( i == TYPE_CSV )
+		 if ( ! strcmp ( value, "CSV" ) )
 		 {
 		     gsb_assistant_set_next ( assistant, IMPORT_FILESEL_PAGE, 
 					      IMPORT_CSV_PAGE );
@@ -335,6 +386,8 @@ gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 
 		 import_preview_maybe_sensitive_next ( assistant, GTK_TREE_MODEL ( model ));
 	     }
+
+	     tmp = tmp -> next;
 	 }
      }
 
@@ -410,14 +463,16 @@ void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel *
     do 
     {
 	gboolean selected;
-	enum import_type type;
+	gchar * type;
+
 	gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 
 			     IMPORT_FILESEL_SELECTED, &selected, 
 			     IMPORT_FILESEL_TYPE, &type,
 			     -1 );
-	if ( selected && type != TYPE_UNKNOWN )
+	if ( selected && strcmp ( type, _("Unknown") ) )
 	{
-	    gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ), 
+	    gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), 
+							   "button_next" ), 
 				       TRUE );
 	    return;
 	}
@@ -436,6 +491,9 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 {
     GtkWidget * dialog, * hbox, * go_charmap_sel;
     GtkFileFilter * filter;
+    gchar * files;
+    GSList * tmp;
+    struct import_format * format;
 
     dialog = gtk_file_chooser_dialog_new ( _("Choose files to import."),
 					   NULL, GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -444,38 +502,42 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 					   NULL );
     gtk_file_chooser_set_select_multiple ( GTK_FILE_CHOOSER ( dialog ), TRUE );
 
+    tmp = import_formats;
+    format = (struct import_format *) tmp -> data;
+    files = format -> extension;
+    tmp = tmp -> next;
+
+    while ( tmp )
+    {
+	files = g_strconcat ( files, ", ", format -> extension, NULL );
+	tmp = tmp -> next;
+    }
+
     filter = gtk_file_filter_new ();
-    gtk_file_filter_set_name ( filter, _("Known files (QIF, OFX, CSV, Gnucash, CSV)") );
-    gtk_file_filter_add_pattern ( filter, "*.qif" );
-    gtk_file_filter_add_pattern ( filter, "*.ofx" );
-    gtk_file_filter_add_pattern ( filter, "*.gnc" );
-    gtk_file_filter_add_pattern ( filter, "*.gnucash" );
-    gtk_file_filter_add_pattern ( filter, "*.csv" );
-    gtk_file_filter_add_pattern ( filter, "*.tsv" );
+    gtk_file_filter_set_name ( filter, g_strdup_printf ( _("Known files (%s)"),
+							   files ) );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
     gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
-    filter = gtk_file_filter_new ();
-    gtk_file_filter_set_name ( filter, _("QIF files (*.qif)") );
-    gtk_file_filter_add_pattern ( filter, "*.qif" );
-    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
+    tmp = import_formats;
+    while ( tmp )
+    {
+	GtkFileFilter * format_filter;	
+	format_filter = gtk_file_filter_new ();
+	gtk_file_filter_set_name ( format_filter,
+				   g_strdup_printf ( _("%s files (*.%s)"),
+						     format -> name, 
+						     format -> extension ) );
+	gtk_file_filter_add_pattern ( format_filter, 
+				      g_strconcat ( "*.", format -> extension, NULL ) );
+	gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), format_filter );
 
-    filter = gtk_file_filter_new ();
-    gtk_file_filter_set_name ( filter, _("OFX files (*.ofx)") );
-    gtk_file_filter_add_pattern ( filter, "*.ofx" );
-    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
+	/* Global filter */
+	gtk_file_filter_add_pattern ( filter, 
+				      g_strconcat ( "*.", format -> extension, NULL ) );
 
-    filter = gtk_file_filter_new ();
-    gtk_file_filter_set_name ( filter, _("Gnucash files (*.gnc)") );
-    gtk_file_filter_add_pattern ( filter, "*.gnc" );
-    gtk_file_filter_add_pattern ( filter, "*.gnucash" );
-    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
-
-    filter = gtk_file_filter_new ();
-    gtk_file_filter_set_name ( filter, _("CSV files (*.csv,*.tsv)") );
-    gtk_file_filter_add_pattern ( filter, "*.csv" );
-    gtk_file_filter_add_pattern ( filter, "*.tsv" );
-    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
+	tmp = tmp -> next;
+    }
 
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("All files") );
@@ -504,12 +566,12 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 	while ( iterator && model )
 	{
 	    GtkTreeIter iter;
-	    enum import_type type = autodetect_file_type ( iterator -> data, NULL, NULL );
+	    gchar * type = autodetect_file_type ( iterator -> data, NULL, NULL );
 
 	    gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
 	    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, 
 				 IMPORT_FILESEL_SELECTED, TRUE,
-				 IMPORT_FILESEL_TYPENAME, type_string_representation (type),
+				 IMPORT_FILESEL_TYPENAME, type,
 				 IMPORT_FILESEL_FILENAME, g_path_get_basename ( iterator -> data ),
 				 IMPORT_FILESEL_REALNAME, iterator -> data,
 				 IMPORT_FILESEL_TYPE, type,
@@ -518,13 +580,13 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 
 	    /* CSV is special because it needs configuration, so we
 	     * add a conditional jump there. */
-	    if ( type == TYPE_CSV )
+	    if ( ! strcmp ( type, "CSV" ) )
 	    {
 		gsb_assistant_set_next ( assistant, IMPORT_FILESEL_PAGE, IMPORT_CSV_PAGE );
 		gsb_assistant_set_prev ( assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE );
 	    }
 
-	    if ( type != TYPE_UNKNOWN )
+	    if ( strcmp ( type, _("Unknown") ) )
 	    {
 		/* A valid file was selected, so we can now go ahead. */
 		gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ), 
@@ -588,9 +650,9 @@ GtkWidget * import_create_resume_page ( GtkWidget * assistant )
 gboolean import_enter_resume_page ( GtkWidget * assistant )
 {
     GSList * files = import_selected_files ( assistant ), * list;
-    FILE * qif_fd;
     GtkTextBuffer * buffer;
     GtkTextIter iter;
+    gchar * error_message = "";
 
     liste_comptes_importes_error = NULL;
     liste_comptes_importes = NULL;
@@ -598,31 +660,20 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
     while ( files )
     {
 	struct imported_file * imported = files -> data;
+	GSList * tmp = import_formats;
 
-	switch ( imported -> type )
+	while ( tmp )
 	{
-	    case TYPE_CSV :
-		csv_import_csv_account ( assistant, imported );
-		break;
+	    struct import_format * format = (struct import_format *) tmp -> data;
 
-	    case TYPE_OFX :
-		recuperation_donnees_ofx ( imported );
-		break;
+	    if ( !strcmp ( imported -> type, format -> name ) )
+	    {
+		format -> import ( assistant, imported );
+		tmp = tmp -> next;
+		continue;
+	    }
 
-	    case TYPE_QIF :
-		if ( (qif_fd = utf8_fopen ( imported -> name, "r" )))
-		{
-		    recuperation_donnees_qif ( qif_fd, imported );
-		    fclose ( qif_fd );
-		}
-		break;
-
-	    case TYPE_GNUCASH:
-		recuperation_donnees_gnucash ( imported );
-		break;
-
-	    default:
-		break;
+	    tmp = tmp -> next;
 	}
 
 	files = files -> next;
@@ -660,7 +711,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 						      g_strconcat ( "• ",
 								    compte -> nom_de_compte,
 								    " (", 
-								    type_string_representation ( compte -> origine ),
+								    compte -> origine,
 								    ")\n\n", 
 								    NULL ),
 						      -1, "indented", NULL );
@@ -685,6 +736,11 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 	gtk_text_buffer_insert (buffer, &iter, 
 				_("No file has been imported, please double check that they are valid files.  Please make sure that they are not compressed and that their format is valid."), 
 				-1 );
+	if ( strlen ( error_message ) )
+	{
+	    gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
+	    gtk_text_buffer_insert (buffer, &iter, error_message, -1 );
+	}
 	gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
     }
 
@@ -703,7 +759,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 						      g_strconcat ( "• ",
 								    compte -> nom_de_compte,
 								    " (", 
-								    type_string_representation ( compte -> origine ),
+								    compte -> origine,
 								    ")\n\n", 
 								    NULL ),
 						      -1, "indented", NULL );
@@ -2760,51 +2816,50 @@ gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_butto
 
 
 
-enum import_type autodetect_file_type ( gchar * filename, FILE * fichier, 
-					gchar * pointeur_char )
+/**
+ *
+ *
+ */
+gchar * autodetect_file_type ( gchar * filename, FILE * fichier, 
+			       gchar * pointeur_char )
 {
     gchar * extension;
-    enum import_type type = TYPE_UNKNOWN;
+    gchar * type;
 
     extension = strrchr ( filename, '.' );
     if ( extension )
     {
-	if ( !strcasecmp ( extension + 1, "csv" ) )
+	GSList * tmp = import_formats;
+
+	while ( tmp )
 	{
-	    return TYPE_CSV;
-	}
-	if ( !strcasecmp ( extension + 1, "ofx" ) )
-	{
-	    return TYPE_OFX;
-	}
-	if ( !strcasecmp ( extension + 1, "gnc" ) )
-	{
-	    return TYPE_GNUCASH;
-	}
-	if ( !strcasecmp ( extension + 1, "gnucash" ) )
-	{
-	    return TYPE_GNUCASH;
-	}
-	if ( !strcasecmp ( extension + 1, "qif" ) )
-	{
-	    return TYPE_QIF;
+	    struct import_format * format = (struct import_format *) tmp -> data;
+
+	    if ( !strcasecmp ( extension + 1, format -> extension ) )
+	    {
+		return format -> name;
+	    }	
+
+	    tmp = tmp -> next;
 	}
     }
     
     if ( ! pointeur_char )
     {
-	return TYPE_UNKNOWN;
+	return _("Unknown");
     }
+
+    /** FIXME: add auto-detection to plugin. */
     
     if ( g_strrstr ( pointeur_char, "ofx" ) || g_strrstr ( pointeur_char, "OFX" ))
     {
-	type = TYPE_OFX;
+	type = "OFX";
     }
     else if ( !my_strncasecmp ( pointeur_char, "!Type", 5 ) ||
 	      !my_strncasecmp ( pointeur_char, "!Account", 8 ) || 
 	      !my_strncasecmp ( pointeur_char, "!Option", 7 ))
     {
-	type = TYPE_QIF;
+	type = "QIF";
     }
     else
     {
@@ -2814,16 +2869,16 @@ enum import_type autodetect_file_type ( gchar * filename, FILE * fichier,
 	    get_line_from_file ( fichier, &pointeur_char );
 	    if ( !strncmp ( pointeur_char, "<gnc-v2", 7 ))
 	    {
-		type = TYPE_GNUCASH;
+		type = "Gnucash";
 	    }
 	    else
 	    {
-		type = TYPE_UNKNOWN;
+		type = _("Unknown");
 	    }
 	}
 	else
 	{
-	    type = TYPE_UNKNOWN;
+	    type = _("Unknown");
 	}
     }
 
@@ -2833,42 +2888,28 @@ enum import_type autodetect_file_type ( gchar * filename, FILE * fichier,
 
 
 /**
+ * Add an imported account to the list of imported accounts.
  *
- *
- *
+ * \param account	Account to register.
  */
-gchar * type_string_representation ( enum import_type type )
+void gsb_import_register_account ( struct struct_compte_importation * account )
 {
-    switch ( type )
-    {
-	case TYPE_OFX:
-	    return _("OFX file");
-
-	case TYPE_QIF:
-	    return _("QIF file");
-
-	case TYPE_CSV:
-	    return _("CSV file");
-
-	case TYPE_GNUCASH:
-	    return _("Gnucash file");
-
-	case TYPE_GBANKING:
-	    return _("HBCI import");
-
-	default:
-	    return _("Unknown format");
-    }
-    
-    return _("Unknown format");
+    liste_comptes_importes = g_slist_append ( liste_comptes_importes, account );
 }
 
 
 
-void gsb_import_register_account ( GSList * tmp )
+/**
+ * Add an imported account to the list of imported accounts in error.
+ *
+ * \param account	Account to register.
+ */
+void gsb_import_register_account_error ( struct struct_compte_importation * account )
 {
-    liste_comptes_importes = g_slist_append ( liste_comptes_importes, tmp );
+    liste_comptes_importes_error = g_slist_append ( liste_comptes_importes, account );
 }
+
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
