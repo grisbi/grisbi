@@ -1,3 +1,9 @@
+New in version 0.5.9 :
+ - Bug fixes
+ - Bug fixes
+ - Bug fixes
+ - Grisbi does not care anymore about file permissions
+
 New in version 0.5.8 :
  - Bug fixes
  - Some minor UI tweaking
