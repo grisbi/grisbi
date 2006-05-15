@@ -15,6 +15,7 @@ void importer_fichier ( void );
 GtkWidget *onglet_importation (void);
 gchar * unique_imported_name ( gchar * account_name );
 void register_import_format ();
+void traitement_operations_importees ( void );
 /* END_DECLARATION */
 
 
