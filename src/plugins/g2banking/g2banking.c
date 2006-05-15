@@ -133,7 +133,14 @@ int GrisbiBanking_ImportContext (AB_BANKING *ab,
 	    compte_nouveau->nom_de_compte=my_strdup(s);
 	compte_nouveau->origine=TYPE_GBANKING;
 
-	compte_nouveau -> action = 0 ; /** Means create account every time.  */
+	if ( gsb_data_account_get_no_account_by_name ( compte_nouveau->id_compte ) != -1 )
+	{
+	    compte_nouveau -> action = 0;
+	}
+	else
+	{
+	    compte_nouveau -> action = 1;
+	}
 
 	t=AB_ImExporterAccountInfo_GetFirstTransaction(ai);
 	while(t) {
