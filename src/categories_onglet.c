@@ -198,6 +198,7 @@ extern MetatreeInterface * category_interface ;
 extern gchar *dernier_chemin_de_travail;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
+extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -807,14 +808,38 @@ gboolean edit_category ( GtkTreeView * view )
 
     if ( sub_category_number > 0 )
     {
-	gsb_data_category_set_sub_category_name ( category_number,
-						  sub_category_number,
-						  gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+	if ( gsb_data_category_get_sub_category_number_by_name ( category_number,
+								 (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
+								 FALSE ) )
+	{
+	    dialogue_warning_hint ( _("Sub-category names must be both unique and not empty.  Please use another name for this sub-category."),
+				    g_strdup_printf ( _("Sub-category '%s' already exists."),
+						      gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) );
+	    return FALSE;
+	    
+	}
+	else
+	{
+	    gsb_data_category_set_sub_category_name ( category_number,
+						      sub_category_number,
+						      gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+	}
     }
     else
     {
-	gsb_data_category_set_name ( category_number,
-				     gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+	if ( gsb_data_category_get_number_by_name ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
+						    FALSE, 0 ) )
+	{
+	    dialogue_warning_hint ( _("Category names must be both unique and not empty.  Please use another name for this category."),
+				    g_strdup_printf ( _("Category '%s' already exists."),
+						      gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) );
+	    return FALSE;
+	}
+	else
+	{
+	    gsb_data_category_set_name ( category_number,
+					 gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+	}
     }
 
     gsb_data_category_set_type ( category_number, type );
