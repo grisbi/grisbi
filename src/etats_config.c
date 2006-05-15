@@ -422,8 +422,6 @@ void personnalisation_etat (void)
     notebook_config_etat = gtk_notebook_new ();
     gtk_paned_add2(GTK_PANED(paned), notebook_config_etat );
 
-    gtk_notebook_set_scrollable ( GTK_NOTEBOOK ( notebook_config_etat ),
-				  TRUE );
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_config_etat ), 
 				 FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook_config_etat ), 
@@ -2097,10 +2095,11 @@ void stylise_tab_label_etat ( gint *no_page )
 	    break;
     }
 
-    gtk_widget_set_style ( gtk_notebook_get_tab_label ( GTK_NOTEBOOK ( notebook_selection ),
-							gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook_selection ),
-										    GPOINTER_TO_INT ( no_page ))),
-			   style );
+    /** FIXME: use that in the navigation list  */
+/*     gtk_widget_set_style ( gtk_notebook_get_tab_label ( GTK_NOTEBOOK ( notebook_selection ), */
+/* 							gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook_selection ), */
+/* 										    GPOINTER_TO_INT ( no_page ))), */
+/* 			   style ); */
 
 }
 /******************************************************************************/
@@ -2108,31 +2107,16 @@ void stylise_tab_label_etat ( gint *no_page )
 /******************************************************************************/
 GtkWidget *onglet_etat_dates ( void )
 {
-    GtkWidget *widget_retour;
-    GtkWidget *separateur;
-    GtkWidget *vbox;
-    GtkWidget *scrolled_window;
+    GtkWidget *scrolled_window, *separateur, *vbox;
+    GtkWidget *hbox, *label, *frame, *hbox_onglet;
     gchar **plages_dates;
     gint i;
-    GtkWidget *hbox;
-    GtkWidget *label;
-    GtkWidget *frame;
-    GtkWidget *hbox_onglet;
-
-    widget_retour = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_show ( widget_retour );
 
 
     hbox_onglet = gtk_hbox_new ( FALSE,
 				 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( hbox_onglet ),
 				     10 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
-					    hbox_onglet );
     gtk_widget_show ( hbox_onglet );
 
 
@@ -2445,8 +2429,7 @@ GtkWidget *onglet_etat_dates ( void )
 		       0 );
     gtk_widget_show ( entree_date_finale_etat );
 
-
-    return ( widget_retour );
+    return ( hbox_onglet );
 }
 /******************************************************************************/
 
@@ -2727,7 +2710,6 @@ void remplissage_liste_exo_etats ( void )
 /******************************************************************************/
 GtkWidget *onglet_etat_comptes ( void )
 {
-    GtkWidget *widget_retour;
     GtkWidget *scrolled_window;
     GtkWidget *bouton;
     GtkWidget *vbox;
@@ -2735,20 +2717,10 @@ GtkWidget *onglet_etat_comptes ( void )
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
 
-    widget_retour = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_show ( widget_retour );
-
-
     vbox_onglet = gtk_vbox_new ( FALSE,
 				 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
 				     10 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
-					    vbox_onglet );
     gtk_widget_show ( vbox_onglet );
 
 
@@ -2804,16 +2776,13 @@ GtkWidget *onglet_etat_comptes ( void )
 
     scrolled_window = gtk_scrolled_window_new ( FALSE,
 						FALSE );
-    gtk_widget_set_usize ( scrolled_window,
-			   300,
-			   FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_AUTOMATIC,
 				     GTK_POLICY_AUTOMATIC );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 scrolled_window,
-			 FALSE,
-			 FALSE,
+			 TRUE,
+			 TRUE,
 			 0 );
     gtk_widget_show ( scrolled_window );
 
@@ -2928,7 +2897,7 @@ GtkWidget *onglet_etat_comptes ( void )
     gtk_widget_show ( bouton );
 
 
-    return ( widget_retour );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 
@@ -2991,26 +2960,15 @@ void selectionne_partie_liste_compte_etat ( gint *type_compte )
 /******************************************************************************/
 GtkWidget *onglet_etat_virements ( void )
 {
-    GtkWidget *widget_retour;
     GtkWidget *scrolled_window;
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
     GtkWidget *bouton;
 
-    widget_retour = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_show ( widget_retour );
-
-
     vbox_onglet = gtk_vbox_new ( FALSE,
 				 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
 				     10 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
-					    vbox_onglet );
     gtk_widget_show ( vbox_onglet );
 
 
@@ -3080,8 +3038,8 @@ GtkWidget *onglet_etat_virements ( void )
 				     GTK_POLICY_AUTOMATIC );
     gtk_box_pack_start ( GTK_BOX ( hbox_liste_comptes_virements ),
 			 scrolled_window,
-			 FALSE,
-			 FALSE,
+			 TRUE,
+			 TRUE,
 			 0 );
     gtk_widget_show ( scrolled_window );
 
@@ -3091,9 +3049,6 @@ GtkWidget *onglet_etat_virements ( void )
     gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_comptes_virements ),
 				       0,
 				       TRUE );
-    gtk_widget_set_usize ( liste_comptes_virements,
-			   300,
-			   FALSE );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 			liste_comptes_virements );
     gtk_widget_show ( liste_comptes_virements );
@@ -3228,7 +3183,7 @@ GtkWidget *onglet_etat_virements ( void )
 			 bouton_exclure_non_virements_etat );
 
 
-    return ( widget_retour );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 
@@ -3290,7 +3245,6 @@ void selectionne_partie_liste_compte_vir_etat ( gint *type_compte )
 /******************************************************************************/
 GtkWidget *onglet_etat_categories ( void )
 {
-    GtkWidget *widget_retour;
     GtkWidget *vbox;
     GtkWidget *label;
     GtkWidget *scrolled_window;
@@ -3298,20 +3252,10 @@ GtkWidget *onglet_etat_categories ( void )
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
 
-    widget_retour = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_show ( widget_retour );
-
-
     vbox_onglet = gtk_vbox_new ( FALSE,
 				 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
 				     10 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
-					    vbox_onglet );
     gtk_widget_show ( vbox_onglet );
 
     /* on propose de détailler les categ utilisées */
@@ -3491,7 +3435,7 @@ GtkWidget *onglet_etat_categories ( void )
     gtk_widget_show ( bouton_exclure_ope_sans_categ );
 
 
-    return ( widget_retour );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 
@@ -3565,7 +3509,6 @@ void remplissage_liste_categ_etats ( void )
 /******************************************************************************/
 GtkWidget *onglet_etat_ib ( void )
 {
-    GtkWidget *widget_retour;
     GtkWidget *vbox;
     GtkWidget *label;
     GtkWidget *scrolled_window;
@@ -3573,20 +3516,10 @@ GtkWidget *onglet_etat_ib ( void )
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
 
-    widget_retour = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_show ( widget_retour );
-
-
     vbox_onglet = gtk_vbox_new ( FALSE,
 				 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
 				     10 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
-					    vbox_onglet );
     gtk_widget_show ( vbox_onglet );
 
 
@@ -3765,7 +3698,7 @@ GtkWidget *onglet_etat_ib ( void )
 
 
 
-    return ( widget_retour );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 
@@ -3839,7 +3772,6 @@ void remplissage_liste_ib_etats ( void )
 /******************************************************************************/
 GtkWidget *onglet_etat_tiers ( void )
 {
-    GtkWidget *widget_retour;
     GtkWidget *hbox;
     GtkWidget *vbox;
     GtkWidget *label;
@@ -3847,20 +3779,10 @@ GtkWidget *onglet_etat_tiers ( void )
     GtkWidget *bouton;
     GtkWidget *vbox_onglet;
 
-    widget_retour = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_show ( widget_retour );
-
-
     vbox_onglet = gtk_vbox_new ( FALSE,
 				 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
 				     10 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
-					    vbox_onglet );
     gtk_widget_show ( vbox_onglet );
 
 
@@ -3988,7 +3910,7 @@ GtkWidget *onglet_etat_tiers ( void )
     gtk_widget_show ( bouton );
 
 
-    return ( widget_retour );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 
@@ -4034,25 +3956,14 @@ void remplissage_liste_tiers_etats ( void )
 /******************************************************************************/
 GtkWidget *onglet_etat_texte ( void )
 {
-    GtkWidget *widget_retour;
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
     GtkWidget *scrolled_window;
-
-    widget_retour = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_show ( widget_retour );
-
 
     vbox_onglet = gtk_vbox_new ( FALSE,
 				 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
 				     10 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
-					    vbox_onglet );
     gtk_widget_show ( vbox_onglet );
 
 
@@ -4116,7 +4027,7 @@ GtkWidget *onglet_etat_texte ( void )
 					    liste_textes_etat );
     gtk_widget_show ( liste_textes_etat );
 
-    return ( widget_retour );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 
@@ -5122,25 +5033,14 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
 /******************************************************************************/
 GtkWidget *onglet_etat_montant ( void )
 {
-    GtkWidget *widget_retour;
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
     GtkWidget *scrolled_window;
-
-    widget_retour = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_show ( widget_retour );
-
 
     vbox_onglet = gtk_vbox_new ( FALSE,
 				 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
 				     10 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
-					    vbox_onglet );
     gtk_widget_show ( vbox_onglet );
 
 
@@ -5221,7 +5121,7 @@ GtkWidget *onglet_etat_montant ( void )
     gtk_widget_show ( bouton_exclure_ope_nulles_etat );
 
 
-    return ( widget_retour );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 
@@ -6035,26 +5935,16 @@ void retire_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison
 /******************************************************************************/
 GtkWidget *onglet_etat_divers ( void )
 {
-    GtkWidget *widget_retour;
     GtkWidget *vbox_onglet;
     GtkWidget *hbox;
     GtkWidget *vbox;
     GtkWidget *frame;
     GtkWidget *label;
 
-    widget_retour = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_show ( widget_retour );
-
     vbox_onglet = gtk_vbox_new ( FALSE,
 				 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
 				     10 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
-					    vbox_onglet );
     gtk_widget_show ( vbox_onglet );
 
 
@@ -6151,14 +6041,13 @@ GtkWidget *onglet_etat_divers ( void )
 
 
 
-    return ( widget_retour );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 
 /******************************************************************************/
 GtkWidget *page_organisation_donnees ( void )
 {
-    GtkWidget *widget_retour;
     GtkWidget *label;
     GtkWidget *hbox;
     GtkWidget *scrolled_window;
@@ -6166,42 +6055,21 @@ GtkWidget *page_organisation_donnees ( void )
     GtkWidget *vbox;
     GtkWidget *fleche;
     GtkWidget *vbox_onglet;
-    GtkWidget *hbox_haut;
     GtkWidget *menu;
     GtkWidget *menu_item;
     gint i;
-
-    widget_retour = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_show ( widget_retour );
 
     vbox_onglet = gtk_vbox_new ( FALSE,
 				 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
 				     10 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
-					    vbox_onglet );
     gtk_widget_show ( vbox_onglet );
 
-
-    /*   hbox du haut de la fenetre, le type de classement et ce qu'on utilise dans le classement */
-
-    hbox_haut = gtk_hbox_new ( FALSE,
-			       5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 hbox_haut,
-			 FALSE,
-			 FALSE,
-			 10 );
-    gtk_widget_show ( hbox_haut );
 
     /* choix de ce qu'on utilise dans le classement */
 
     frame = gtk_frame_new ( COLON(_("Informations used for the group")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox_haut ),
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 frame,
 			 FALSE,
 			 FALSE,
@@ -6302,7 +6170,7 @@ GtkWidget *page_organisation_donnees ( void )
     /* choix du type de classement */
 
     frame = gtk_frame_new ( COLON(_("Group level organisation")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox_haut ),
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 frame,
 			 FALSE,
 			 FALSE,
@@ -6322,13 +6190,10 @@ GtkWidget *page_organisation_donnees ( void )
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_AUTOMATIC,
 				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_set_usize ( scrolled_window,
-			   200,
-			   100 );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 scrolled_window,
-			 FALSE,
-			 FALSE,
+			 TRUE,
+			 TRUE,
 			 0 );
     gtk_widget_show ( scrolled_window );
 
@@ -6600,7 +6465,7 @@ GtkWidget *page_organisation_donnees ( void )
 			 0 );
     gtk_widget_show ( bouton_debut_semaine );
 
-    return ( widget_retour );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 
@@ -6701,24 +6566,14 @@ void click_bas_classement_etat ( void )
 
 GtkWidget *onglet_affichage_etat_generalites ( void )
 {
-    GtkWidget *widget_retour;
     GtkWidget *label;
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
-
-    widget_retour = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_show ( widget_retour );
 
     vbox_onglet = gtk_vbox_new ( FALSE,
 				 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
 				     10 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
-					    vbox_onglet );
     gtk_widget_show ( vbox_onglet );
 
 
@@ -6788,14 +6643,13 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 			 0 );
     gtk_widget_show ( bouton_inclure_dans_tiers );
 
-    return ( widget_retour );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 
 /******************************************************************************/
 GtkWidget *onglet_affichage_etat_operations ( void )
 {
-    GtkWidget *widget_retour;
     GtkWidget *label;
     GtkWidget *hbox;
     GtkWidget *separateur;
@@ -6804,20 +6658,10 @@ GtkWidget *onglet_affichage_etat_operations ( void )
     GtkWidget *menu;
     GtkWidget *menu_item;
 
-
-    widget_retour = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_show ( widget_retour );
-
     vbox_onglet = gtk_vbox_new ( FALSE,
 				 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
 				     10 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
-					    vbox_onglet );
     gtk_widget_show ( vbox_onglet );
 
     hbox = gtk_hbox_new ( FALSE,
@@ -7335,38 +7179,27 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 			 bouton_titre_en_haut );
 
-    return ( widget_retour );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 
 /******************************************************************************/
 GtkWidget *onglet_affichage_etat_devises ( void )
 {
-    GtkWidget *widget_retour;
     GtkWidget *label;
     GtkWidget *hbox;
-    GtkWidget *hbox_2;
     GtkWidget *vbox_onglet;
 
-
-    widget_retour = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_show ( widget_retour );
 
     vbox_onglet = gtk_vbox_new ( FALSE,
 				 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
 				     10 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
-					    vbox_onglet );
     gtk_widget_show ( vbox_onglet );
 
 
 
-    hbox = gtk_hbox_new ( TRUE,
+    hbox = gtk_hbox_new ( FALSE,
 			  5 );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 hbox,
@@ -7386,32 +7219,15 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    hbox_2 = gtk_hbox_new ( TRUE,
-			    5 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 hbox_2,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox_2 );
-
     bouton_devise_general_etat = gsb_currency_make_combobox (FALSE);
-    gtk_box_pack_start ( GTK_BOX ( hbox_2 ),
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_devise_general_etat,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( bouton_devise_general_etat );
 
-    label = gtk_label_new ( "" );
-    gtk_box_pack_start ( GTK_BOX ( hbox_2 ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
-
-    hbox = gtk_hbox_new ( TRUE,
+    hbox = gtk_hbox_new ( FALSE,
 			  5 );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 hbox,
@@ -7432,32 +7248,16 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    hbox_2 = gtk_hbox_new ( TRUE,
-			    5 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 hbox_2,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox_2 );
-
     bouton_devise_tiers_etat = gsb_currency_make_combobox (FALSE);
-    gtk_box_pack_start ( GTK_BOX ( hbox_2 ),
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_devise_tiers_etat,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( bouton_devise_tiers_etat );
 
-    label = gtk_label_new ( "" );
-    gtk_box_pack_start ( GTK_BOX ( hbox_2 ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
 
-    hbox = gtk_hbox_new ( TRUE,
+    hbox = gtk_hbox_new ( FALSE,
 			  5 );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 hbox,
@@ -7477,33 +7277,17 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    hbox_2 = gtk_hbox_new ( TRUE,
-			    5 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 hbox_2,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox_2 );
 
     bouton_devise_categ_etat = gsb_currency_make_combobox (FALSE);
-    gtk_box_pack_start ( GTK_BOX ( hbox_2 ),
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_devise_categ_etat,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( bouton_devise_categ_etat );
 
-    label = gtk_label_new ( "" );
-    gtk_box_pack_start ( GTK_BOX ( hbox_2 ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
 
-
-    hbox = gtk_hbox_new ( TRUE,
+    hbox = gtk_hbox_new ( FALSE,
 			  5 );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 hbox,
@@ -7523,32 +7307,16 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    hbox_2 = gtk_hbox_new ( TRUE,
-			    5 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 hbox_2,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox_2 );
-
     bouton_devise_ib_etat = gsb_currency_make_combobox (FALSE);
-    gtk_box_pack_start ( GTK_BOX ( hbox_2 ),
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_devise_ib_etat,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( bouton_devise_ib_etat );
 
-    label = gtk_label_new ( "" );
-    gtk_box_pack_start ( GTK_BOX ( hbox_2 ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
 
-    hbox = gtk_hbox_new ( TRUE,
+    hbox = gtk_hbox_new ( FALSE,
 			  5 );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 hbox,
@@ -7568,76 +7336,37 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    hbox_2 = gtk_hbox_new ( TRUE,
-			    5 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 hbox_2,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox_2 );
-
     bouton_devise_montant_etat = gsb_currency_make_combobox (FALSE);
-    gtk_box_pack_start ( GTK_BOX ( hbox_2 ),
+    gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_devise_montant_etat,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( bouton_devise_montant_etat );
 
-    label = gtk_label_new ( "" );
-    gtk_box_pack_start ( GTK_BOX ( hbox_2 ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
 
-
-
-    return ( widget_retour );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 
 /******************************************************************************/
 GtkWidget *onglet_affichage_etat_divers ( void )
 {
-    GtkWidget *widget_retour;
     GtkWidget *vbox_onglet;
     GtkWidget *frame;
-    GtkWidget *hbox;
     GtkWidget *vbox;
-
-    widget_retour = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_show ( widget_retour );
 
     vbox_onglet = gtk_vbox_new ( FALSE,
 				 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
 				     10 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
-					    vbox_onglet );
     gtk_widget_show ( vbox_onglet );
-
-
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
 
 
     /* mise en place de la frame des comptes */
 
     frame = gtk_frame_new ( COLON(_("Accounts")));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 frame,
 			 FALSE,
 			 FALSE,
@@ -7683,7 +7412,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* mise en place de la frame des tiers */
 
     frame = gtk_frame_new ( COLON(_("Payee")));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 frame,
 			 FALSE,
 			 FALSE,
@@ -7730,20 +7459,10 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 bouton_affiche_sous_total_tiers );
 
 
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
-
-
     /* mise en place de la frame des catégories */
 
     frame = gtk_frame_new ( COLON(_("Categories")));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 frame,
 			 FALSE,
 			 FALSE,
@@ -7837,7 +7556,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* mise en place de la frame des ib */
 
     frame = gtk_frame_new ( COLON(_("Budgetary lines")));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 frame,
 			 FALSE,
 			 FALSE,
@@ -7924,14 +7643,13 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 			 bouton_afficher_pas_de_sous_ib );
 
-    return ( widget_retour );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 
 /******************************************************************************/
 GtkWidget *onglet_etat_mode_paiement ( void )
 {
-    GtkWidget *widget_retour;
     GtkWidget *scrolled_window;
     GtkWidget *bouton;
     GtkWidget *vbox;
@@ -7939,19 +7657,10 @@ GtkWidget *onglet_etat_mode_paiement ( void )
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
 
-    widget_retour = gtk_scrolled_window_new ( FALSE,
-					      FALSE );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( widget_retour ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_widget_show ( widget_retour );
-
     vbox_onglet = gtk_vbox_new ( FALSE,
 				 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
 				     10 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( widget_retour ),
-					    vbox_onglet );
     gtk_widget_show ( vbox_onglet );
 
 
@@ -8007,16 +7716,13 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 
     scrolled_window = gtk_scrolled_window_new ( FALSE,
 						FALSE );
-    gtk_widget_set_usize ( scrolled_window,
-			   300,
-			   FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_AUTOMATIC,
 				     GTK_POLICY_AUTOMATIC );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 scrolled_window,
-			 FALSE,
-			 FALSE,
+			 TRUE,
+			 TRUE,
 			 0 );
     gtk_widget_show ( scrolled_window );
 
@@ -8076,7 +7782,7 @@ GtkWidget *onglet_etat_mode_paiement ( void )
     gtk_widget_show ( bouton );
 
 
-    return ( widget_retour );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 
