@@ -301,7 +301,8 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 
 	if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) )
 	{
-	    if ( plugin = gsb_find_plugin ( "openssl" ) )
+	    plugin = gsb_plugin_find ( "openssl" );
+	    if ( plugin )
 	    {
 		gint (*crypt_function) ( gchar *, gchar **, gboolean, gulong );
 		

@@ -317,7 +317,7 @@ GtkWidget * create_navigation_pane ( void )
     create_report_list ( GTK_TREE_MODEL(navigation_model), &reports_iter );
 
     /** FIXME (later) : define an api so that plugin register here itself.  */
-    if ( gsb_find_plugin ( "g2banking" ) )
+    if ( gsb_plugin_find ( "g2banking" ) )
     {
 	/* Gbanking */
 	pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
@@ -1076,7 +1076,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
 
 	case GSB_AQBANKING_PAGE:
 	    /** FIXME (later) : define an api so that plugin register here itself.  */
-	    if ( gsb_find_plugin ( "g2banking" ) )
+	    if ( gsb_plugin_find ( "g2banking" ) )
 	    {
 		title = _("AqBanking");
 	    }

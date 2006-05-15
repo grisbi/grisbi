@@ -279,7 +279,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 
     if ( etat.crypt_file )
     {
-	if ( plugin = gsb_find_plugin ( "openssl" ) )
+	if ( plugin = gsb_plugin_find ( "openssl" ) )
 	{
 	    gint (*crypt_function) ( gchar *, gchar **, gboolean, gulong );
 	    

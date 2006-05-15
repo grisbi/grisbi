@@ -65,7 +65,7 @@ void gsb_plugins_scan_dir ( const char *dirname )
 					  filename, NULL );
 
 	if ( ! ( plugin -> handle = 
-		 g_module_open (complete_filename, G_MODULE_BIND_MASK ) ) )
+		 g_module_open (complete_filename, 0 ) ) )
 	{
 	    dialogue_error ( g_strdup_printf ( "Couldn't load module %s: %s", filename,
 					       g_module_error() ) );
@@ -126,7 +126,7 @@ void gsb_plugins_scan_dir ( const char *dirname )
  *
  *
  */
-gsb_plugin * gsb_find_plugin ( gchar * plugin_name )
+gsb_plugin * gsb_plugin_find ( gchar * plugin_name )
 {
     GSList * tmp = plugins;
 

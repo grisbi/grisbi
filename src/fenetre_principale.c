@@ -288,7 +288,8 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 
     /* append the g2banking page */
 #ifdef HAVE_PLUGINS
-    if ( plugin = gsb_find_plugin ( "g2banking" ) )
+    plugin = gsb_plugin_find ( "g2banking" );
+    if ( plugin )
     {
 	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 				   GTK_WIDGET ( plugin -> plugin_run ( ) ),
