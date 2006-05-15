@@ -847,11 +847,10 @@ gint recherche_exo_correspondant ( GDate *date )
 
 	exo = liste_tmp -> data;
 
-	if ( g_date_compare ( exo -> date_debut,
-			      date ) <= 0
-	     &&
-	     g_date_compare ( exo -> date_fin,
-			      date ) >= 0 )
+	if ( exo -> date_debut && 
+	     exo -> date_fin &&
+	     g_date_compare ( exo -> date_debut, date ) <= 0 &&
+	     g_date_compare ( exo -> date_fin, date ) >= 0 )
 	    return ( exo -> no_exercice );
 
 	liste_tmp = liste_tmp -> next;

@@ -4,7 +4,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
 /*			2004-2005 Alain Portal (aportal@univ-montp2.fr)	      */
-/*			2004 Benjamin Drieu (bdrieu@april.org)  	      */
+/*			2006 Benjamin Drieu (bdrieu@april.org)  	      */
 /* 			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -2129,7 +2129,8 @@ void verification_echeances_a_terme ( void )
 		    pointeur_liste = ancien_pointeur;
 		}
 
-		if ( ! date_suivante_echeance ( ECHEANCE_COURANTE, 
+		if ( ! pointeur_liste ||
+		     ! date_suivante_echeance ( ECHEANCE_COURANTE, 
 						g_memdup ( pGDateCurrent,
 							   sizeof ( pGDateCurrent ) ) ) )
 		{
