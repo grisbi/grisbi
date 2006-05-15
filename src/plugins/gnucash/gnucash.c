@@ -48,7 +48,7 @@ G_MODULE_EXPORT void plugin_register () {
 G_MODULE_EXPORT gint plugin_run ( gchar * file_name, gchar **file_content,
 				  gboolean crypt, gulong length )
 {
-    return gsb_file_util_crypt_file ( file_name, file_content, crypt, length );    
+    return FALSE;
 }
 
 
