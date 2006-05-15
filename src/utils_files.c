@@ -409,7 +409,9 @@ gchar* utf8_full_path(gchar* utf8_short_path)
         if (!g_path_is_absolute(utf8_short_path))
         {
             gchar* current_dir = g_get_current_dir();
-            syslocale_full_path = g_strconcat(current_dir,"/",utf8_short_path, (is_directory) ? "/" : NULL , NULL);
+	    gboolean is_directory = g_file_test ( utf8_short_path, G_FILE_TEST_IS_DIR );
+
+            syslocale_full_path = g_strconcat(current_dir,"/", utf8_short_path, (is_directory) ? "/" : NULL , NULL);
             utils_free(current_dir);
         }
 #endif
