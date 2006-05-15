@@ -1,7 +1,7 @@
 /*  Fichier qui s'occupe d'afficher les états via une impression latex */
 /*      etats_latex.c */
 
-/*     Copyright (C)	2004 Benjamin Drieu (bdrieu@april.org)		      */
+/*     Copyright (C)	2006 Benjamin Drieu (bdrieu@april.org)		      */
 /* 			http://www.grisbi.org				      */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -246,7 +246,7 @@ gint latex_initialise (GSList * opes_selectionnees)
 	     "\\documentclass{article}\n\n"
 	     "\\special{! TeXDict begin /landplus90{true}store end }\n"
 	     "\\usepackage{a4}\n"
-	     "\\usepackage[utf8]{inputenc}\n"
+	     "\\usepackage[utf8x]{inputenc}\n"
 	     "\\usepackage{eurosym}\n"
 	     "\\usepackage{boxedminipage}\n"
 	     "\\usepackage{longtable}\n"
@@ -329,9 +329,11 @@ gint latex_finish ()
 	  dialogue_error ( _("LaTeX run was unable to complete, see console output for details.") );
 	else 
 	  {
-	    command = g_strdup_printf ( "%s %s \"%s.dvi\" -o \"%s\"",  etat.dvips_command,
+	    command = g_strdup_printf ( "%s %s \"%s.dvi\" -t \"%s\" -o \"%s\"",  
+					etat.dvips_command,
 					( etat.print_config.orientation == LANDSCAPE ? "-t landscape" : ""),
 					latex_tempname,
+					etat.print_config.paper_config.dvips_name,
 					(etat.print_config.printer ? 
 					 (g_strconcat ( latex_tempname, ".ps", NULL )) : 
 					 etat.print_config.printer_filename) );

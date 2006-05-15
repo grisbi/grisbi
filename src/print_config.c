@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2004 Benjamin Drieu (bdrieu@april.org)		      */
+/*     Copyright (C)	2006 Benjamin Drieu (bdrieu@april.org)		      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -37,13 +37,12 @@ gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer u
 /** This array contains paper sizes to be used to construct print
   copies of reports. */
 struct paper_config paper_sizes[8] = {
-    {"A3", 297, 420},
-    {"A4", 210, 297},
-    {"A5", 148, 210},
-    {"A6", 105, 148},
-    {"USletter", 215, 279.4},
-    {"USlegal", 215, 355.6},
-    {"USexecutive", 184.15, 266.7},
+    {"A3", "A3", 297, 420},
+    {"A4", "A4", 210, 297},
+    {"A5", "A5", 148, 210},
+    {"A6", "A6", 105, 148},
+    {"USletter", "Letter", 215, 279.4},
+    {"USlegal", "Legal", 215, 355.6},
     {NULL, 0, 0},
 };
 
@@ -277,7 +276,7 @@ GtkWidget * print_config_paper ( GtkWidget * dialog )
     for ( i = 0; paper_sizes[i].name; i++ )
     {
 	item = gtk_menu_item_new_with_label (g_strdup_printf ("%s (%2.1fcm × %2.1fcm)",
-							      _(paper_sizes[i].name),
+							      _(paper_sizes[i].dvips_name),
 							      paper_sizes[i].width/10,
 							      paper_sizes[i].height/10));
 	if ( !strcmp ( _(paper_sizes[i].name), etat.print_config.paper_config.name ))
