@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-19 11:18+0100\n"
+"POT-Creation-Date: 2006-05-15 12:43+0200\n"
 "PO-Revision-Date: 2005-12-19 11:22+0100\n"
 "Last-Translator: E. Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Nederlands\n"
@@ -576,7 +576,7 @@ msgstr "Bank details"
 #. Name
 #. Create currency name entry
 #. Financial year name
-#: src/banque.c:545 src/banque.c:651 src/devises.c:1503 src/exercice.c:129
+#: src/banque.c:545 src/banque.c:651 src/devises.c:1528 src/exercice.c:129
 #: src/exercice.c:240 src/import.c:362 src/type_operations.c:380
 msgid "Name"
 msgstr "Naam"
@@ -1178,16 +1178,16 @@ msgstr "Sub-categorie toevoegen"
 
 #. on met le bouton exporter
 #. mise en place du bouton exporter
-#: src/categories_onglet.c:428 src/etats_onglet.c:365 src/export.c:463
-#: src/imputation_budgetaire.c:340 src/menu.c:77 src/traitement_variables.c:90
+#: src/categories_onglet.c:428 src/etats_onglet.c:368 src/export.c:463
+#: src/imputation_budgetaire.c:340 src/menu.c:76 src/traitement_variables.c:90
 #: src/traitement_variables.c:213
 msgid "Export"
 msgstr "Exporteer"
 
 #. on met le bouton importer
 #. mise en place du bouton importer
-#: src/categories_onglet.c:444 src/etats_onglet.c:376 src/import.c:2847
-#: src/imputation_budgetaire.c:356 src/menu.c:75 src/menu.c:76
+#: src/categories_onglet.c:444 src/etats_onglet.c:379 src/import.c:2847
+#: src/imputation_budgetaire.c:356 src/menu.c:74 src/menu.c:75
 #: src/parametres.c:189
 msgid "Import"
 msgstr "Importeer"
@@ -1300,7 +1300,7 @@ msgstr "Opsplitsen van transactie"
 #: src/echeancier_formulaire.c:2989 src/echeancier_liste.c:1226
 #: src/echeancier_ventilation.c:771 src/echeancier_ventilation.c:1580
 #: src/echeancier_ventilation.c:1671 src/echeancier_ventilation.c:2020
-#: src/echeancier_ventilation.c:2293 src/ofx.c:443
+#: src/echeancier_ventilation.c:2293 src/ofx.c:474
 #: src/operations_formulaire.c:1015 src/operations_formulaire.c:1925
 #: src/operations_formulaire.c:1930 src/operations_formulaire.c:2380
 #: src/operations_formulaire.c:2942 src/operations_liste.c:1648
@@ -1356,17 +1356,17 @@ msgid "Export categories"
 msgstr "Exporteer categoriën"
 
 #: src/categories_onglet.c:3058 src/erreur.c:218 src/erreur.c:220
-#: src/etats_onglet.c:1186 src/fichiers_gestion.c:575
+#: src/etats_onglet.c:1195 src/fichiers_gestion.c:575
 #: src/fichiers_gestion.c:577 src/imputation_budgetaire.c:2787
 msgid "Save file"
 msgstr "Bestand opslaan"
 
-#: src/categories_onglet.c:3059 src/etats_onglet.c:1187
+#: src/categories_onglet.c:3059 src/etats_onglet.c:1196
 #: src/imputation_budgetaire.c:2788
 msgid "File exists. Do you want to overwrite it?"
 msgstr "Bestand bestaat al!  Wilt u het overschrijven?"
 
-#: src/categories_onglet.c:3064 src/etats_onglet.c:1192
+#: src/categories_onglet.c:3064 src/etats_onglet.c:1201
 #: src/imputation_budgetaire.c:2793
 #, c-format
 msgid "Invalid filename \"%s\"!"
@@ -1401,7 +1401,7 @@ msgstr "De twee categorie lijsten samen voegen"
 msgid "Replace the old categories list"
 msgstr "De oud categorie lijst vervangen"
 
-#: src/categories_onglet.c:3215 src/etats_onglet.c:1250
+#: src/categories_onglet.c:3215 src/etats_onglet.c:1259
 #: src/imputation_budgetaire.c:2942
 msgid "Cannot import file."
 msgstr "Kan het bestand niet importeren"
@@ -1724,17 +1724,17 @@ msgstr "De Euro omzetting is onomkeerbaar weet U zeker dat U wilt door gaan?"
 msgid "Exchange rate between the 2 currencies is 0."
 msgstr "De wisselkoers tussen de 2 valuta is 0."
 
-#: src/comptes_gestion.c:1240 src/devises.c:382 src/devises.c:959
-#: src/devises.c:1778 src/devises.c:1860 src/devises.c:2203 src/devises.c:2208
-#: src/devises.c:2339 src/echeancier_formulaire.c:2038
+#: src/comptes_gestion.c:1240 src/devises.c:407 src/devises.c:984
+#: src/devises.c:1830 src/devises.c:1912 src/devises.c:2253 src/devises.c:2258
+#: src/devises.c:2389 src/echeancier_formulaire.c:2038
 #: src/echeancier_formulaire.c:2040 src/echeancier_formulaire.c:2421
 #: src/echeancier_formulaire.c:2423 src/echeancier_liste.c:1951
-#: src/echeancier_liste.c:1953 src/etats_calculs.c:2586
-#: src/etats_calculs.c:2591 src/etats_calculs.c:2640 src/etats_calculs.c:2645
-#: src/etats_calculs.c:2693 src/etats_calculs.c:2698 src/etats_calculs.c:2761
-#: src/etats_calculs.c:2766 src/etats_calculs.c:2811 src/etats_calculs.c:2816
-#: src/etats_calculs.c:2863 src/etats_calculs.c:2868 src/etats_calculs.c:2915
-#: src/etats_calculs.c:2920 src/operations_formulaire.c:2695
+#: src/echeancier_liste.c:1953 src/etats_calculs.c:2669
+#: src/etats_calculs.c:2674 src/etats_calculs.c:2731 src/etats_calculs.c:2736
+#: src/etats_calculs.c:2792 src/etats_calculs.c:2797 src/etats_calculs.c:2868
+#: src/etats_calculs.c:2873 src/etats_calculs.c:2926 src/etats_calculs.c:2931
+#: src/etats_calculs.c:2986 src/etats_calculs.c:2991 src/etats_calculs.c:3046
+#: src/etats_calculs.c:3051 src/operations_formulaire.c:2695
 #: src/operations_formulaire.c:2696 src/operations_liste.c:1580
 #: src/operations_liste.c:1582 src/ventilation.c:2972 src/ventilation.c:2974
 #: src/ventilation.c:3191 src/ventilation.c:3193
@@ -1747,12 +1747,12 @@ msgstr ""
 "Onmogelijk om de Euro valuta te vinden, hij is waarschijnlijk verwijdert."
 
 #. mise en place des boutons du bas
-#: src/comptes_onglet.c:158 src/menu.c:102
+#: src/comptes_onglet.c:158 src/menu.c:105
 msgid "New account"
 msgstr "Nieuwe rekening"
 
 #. mise en place du bouton "supprimer un compte"
-#: src/comptes_onglet.c:168 src/menu.c:103 src/traitement_variables.c:99
+#: src/comptes_onglet.c:168 src/menu.c:106 src/traitement_variables.c:99
 #: src/traitement_variables.c:222
 msgid "Remove an account"
 msgstr "Verwijder rekening"
@@ -1776,12 +1776,12 @@ msgstr ""
 "Deze rekening zal onherroepelijk worden verwijder, samen met alle transactie "
 "die hieraan gekoppeld zijn. Er is geen herstel mogelijkheid."
 
-#: src/comptes_traitements.c:568 src/ofx.c:431
+#: src/comptes_traitements.c:568 src/ofx.c:462
 msgid "Deposit"
 msgstr "Storting"
 
 #. c'est un compte ccard
-#: src/comptes_traitements.c:580 src/qif.c:324
+#: src/comptes_traitements.c:580 src/qif.c:310
 msgid "Credit card"
 msgstr "Credit card"
 
@@ -1807,7 +1807,7 @@ msgstr ""
 "betalingsmethodes worden aangemaakt, die u heeft gekozen.\n"
 "U zult rekenings soort zelf kunnen later nog kunnen veranderen."
 
-#: src/csv.c:221 src/qif.c:1089 src/qif.c:1547
+#: src/csv.c:221 src/qif.c:1052 src/qif.c:1510
 #, c-format
 msgid ""
 "Error for the file \"%s\" :\n"
@@ -1878,7 +1878,7 @@ msgstr "Verwijder rekening"
 #: src/devises.c:75 src/devises.c:76 src/devises.c:77 src/devises.c:78
 #: src/devises.c:79 src/devises.c:80 src/devises.c:81 src/devises.c:82
 #: src/devises.c:83 src/devises.c:84 src/devises.c:85 src/devises.c:86
-#: src/devises.c:492
+#: src/devises.c:517
 msgid "Africa"
 msgstr "Afrika"
 
@@ -2160,7 +2160,7 @@ msgstr "Zimbabwe"
 #: src/devises.c:115 src/devises.c:116 src/devises.c:117 src/devises.c:118
 #: src/devises.c:119 src/devises.c:120 src/devises.c:121 src/devises.c:122
 #: src/devises.c:123 src/devises.c:124 src/devises.c:125 src/devises.c:126
-#: src/devises.c:493
+#: src/devises.c:518
 msgid "Asia"
 msgstr "Azië"
 
@@ -2481,7 +2481,7 @@ msgid "China"
 msgstr "China"
 
 #: src/devises.c:127 src/devises.c:128 src/devises.c:129 src/devises.c:130
-#: src/devises.c:131 src/devises.c:132 src/devises.c:494
+#: src/devises.c:131 src/devises.c:132 src/devises.c:519
 msgid "Central America"
 msgstr "Midden Amerika"
 
@@ -2541,7 +2541,7 @@ msgstr "Panama"
 #: src/devises.c:153 src/devises.c:154 src/devises.c:155 src/devises.c:156
 #: src/devises.c:157 src/devises.c:158 src/devises.c:159 src/devises.c:160
 #: src/devises.c:161 src/devises.c:162 src/devises.c:163 src/devises.c:164
-#: src/devises.c:165 src/devises.c:166 src/devises.c:167 src/devises.c:495
+#: src/devises.c:165 src/devises.c:166 src/devises.c:167 src/devises.c:520
 msgid "Europe"
 msgstr "Europa"
 
@@ -2816,7 +2816,7 @@ msgstr "De Oekraïne"
 #: src/devises.c:168 src/devises.c:169 src/devises.c:170 src/devises.c:171
 #: src/devises.c:172 src/devises.c:173 src/devises.c:174 src/devises.c:175
 #: src/devises.c:176 src/devises.c:177 src/devises.c:178 src/devises.c:179
-#: src/devises.c:180 src/devises.c:181 src/devises.c:496
+#: src/devises.c:180 src/devises.c:181 src/devises.c:521
 msgid "Northern America"
 msgstr "Noord Amerika"
 
@@ -2932,7 +2932,7 @@ msgstr "Verenigde Staten van Amerika"
 #: src/devises.c:186 src/devises.c:187 src/devises.c:188 src/devises.c:189
 #: src/devises.c:190 src/devises.c:191 src/devises.c:192 src/devises.c:193
 #: src/devises.c:194 src/devises.c:195 src/devises.c:196 src/devises.c:197
-#: src/devises.c:198 src/devises.c:497
+#: src/devises.c:198 src/devises.c:522
 msgid "Pacific Ocean"
 msgstr "Grote Oceaan"
 
@@ -3042,7 +3042,7 @@ msgstr "Vanuatu"
 
 #: src/devises.c:199 src/devises.c:200 src/devises.c:201 src/devises.c:202
 #: src/devises.c:203 src/devises.c:204 src/devises.c:205 src/devises.c:206
-#: src/devises.c:207 src/devises.c:498
+#: src/devises.c:207 src/devises.c:523
 msgid "Southern America"
 msgstr "Zuid Amerika"
 
@@ -3116,63 +3116,63 @@ msgid "Venezuela"
 msgstr "Venezuela"
 
 #. le 1er item c'est aucune devise
-#: src/devises.c:425
+#: src/devises.c:450
 msgid "No associated currency"
 msgstr "Er is geen valuta gekoppeld"
 
-#: src/devises.c:589
+#: src/devises.c:614
 msgid "Country name"
 msgstr "Land naam"
 
 #. Currency name
-#: src/devises.c:600 src/devises.c:713
+#: src/devises.c:625 src/devises.c:738
 msgid "Currency name"
 msgstr "Valuta naam"
 
-#: src/devises.c:610 src/devises.c:1380
+#: src/devises.c:635 src/devises.c:1405
 msgid "ISO Code"
 msgstr "ISO Code"
 
 #. Create code entry
-#: src/devises.c:621 src/devises.c:1381 src/devises.c:1518
+#: src/devises.c:646 src/devises.c:1406 src/devises.c:1543
 msgid "Sign"
 msgstr "Symbool"
 
-#: src/devises.c:648
+#: src/devises.c:673
 msgid "Include obsolete currencies"
 msgstr "Inclusief oude valuta"
 
-#: src/devises.c:677 src/import.c:456
+#: src/devises.c:702 src/import.c:456
 msgid "Add a currency"
 msgstr "Voeg een valuta toe"
 
-#: src/devises.c:695
+#: src/devises.c:720
 msgid "ISO 4217 currencies"
 msgstr "ISO 4217 valuta"
 
-#: src/devises.c:702
+#: src/devises.c:727
 msgid "Currency details"
 msgstr "Valuta details"
 
 #. Currency ISO code
-#: src/devises.c:730
+#: src/devises.c:755
 msgid "Currency ISO 4217 code"
 msgstr "Valuta ISO 4217 code"
 
 #. Currency usual sign
-#: src/devises.c:745
+#: src/devises.c:770
 msgid "Currency sign"
 msgstr "Valuta Code"
 
-#: src/devises.c:821
+#: src/devises.c:846
 msgid "All fields are not filled in!"
 msgstr "Nog niet alle velden zijn ingevuld!"
 
-#: src/devises.c:877
+#: src/devises.c:902
 msgid "..."
 msgstr "..."
 
-#: src/devises.c:966
+#: src/devises.c:991
 #, c-format
 msgid ""
 "The %s currency is used in the current account.\n"
@@ -3181,101 +3181,100 @@ msgstr ""
 "De %s valuta wordt nog gebruikt in het huidige account.\n"
 "U kant deze niet verwijderen."
 
-#: src/devises.c:1026
+#: src/devises.c:1051
 msgid "Enter exchange rate"
 msgstr "Aanpassen wisselkoers"
 
-#: src/devises.c:1036
+#: src/devises.c:1061
 #, c-format
 msgid "Please enter exchange rate for %s"
 msgstr "Vul aub een wisselkoers in voor %s"
 
-#: src/devises.c:1048
+#: src/devises.c:1073
 msgid "A"
 msgstr "A"
 
-#: src/devises.c:1056
+#: src/devises.c:1081
 msgid "equals"
 msgstr "is gelijk aan"
 
-#: src/devises.c:1118
+#: src/devises.c:1143
 msgid "Exchange fees"
 msgstr "Wisselkoers kosten"
 
-#: src/devises.c:1379 src/import.c:372
+#: src/devises.c:1404 src/import.c:372
 msgid "Currency"
 msgstr "Valuta"
 
-#: src/devises.c:1385 src/etats_config.c:6196 src/parametres.c:287
+#: src/devises.c:1410 src/etats_config.c:6196 src/parametres.c:287
 msgid "Currencies"
 msgstr "Valuta's"
 
-#: src/devises.c:1389
+#: src/devises.c:1414
 msgid "Known currencies"
 msgstr "Bekende valuta"
 
-#: src/devises.c:1482
+#: src/devises.c:1507
 msgid "Currency properties"
 msgstr "Valuta eigenschappen"
 
 #. Create code entry
-#: src/devises.c:1534
+#: src/devises.c:1559
 msgid "ISO code"
 msgstr "ISO code"
 
 #. Will switch to Euro?
-#: src/devises.c:1550
+#: src/devises.c:1575
 msgid "Will switch to Euro"
 msgstr "Gaat om naar Euro"
 
-#: src/devises.c:1561
+#: src/devises.c:1586
 msgid "Associated currency"
 msgstr "Gekoppelde valuta"
 
-#: src/devises.c:1582
+#: src/devises.c:1607
 msgid "One"
 msgstr "Een"
 
-#: src/devises.c:1590
+#: src/devises.c:1615
 msgid "costs"
 msgstr "Kost"
 
-#: src/devises.c:1682 src/parametres.c:270
+#: src/devises.c:1707 src/parametres.c:270
 msgid "Totals currencies"
 msgstr "Gebruikte valuta"
 
-#: src/devises.c:1689
+#: src/devises.c:1714
 msgid "Currency for third parties tree"
 msgstr "Boom valuta van begunstigde"
 
-#: src/devises.c:1699
+#: src/devises.c:1724
 msgid "Currency for categories tree"
 msgstr "Boom voor valuta categorie"
 
-#: src/devises.c:1709
+#: src/devises.c:1734
 msgid "Currency for budgetary lines tree"
 msgstr "Boom voor valuta budget regels"
 
-#: src/devises.c:1925
+#: src/devises.c:1973
 msgid "Last exchange rate"
 msgstr "Laatste wisselkoers"
 
-#: src/devises.c:1931
+#: src/devises.c:1979
 msgid "No exchange rate defined"
 msgstr "Geen wisselkoers gedefinieerd"
 
-#: src/devises.c:2257
+#: src/devises.c:2307
 msgid "No name"
 msgstr "Geen naam"
 
-#: src/dialog.c:244 src/dialog.c:364 src/fichiers_io.c:6548
-#: src/fichiers_io.c:9471
+#: src/dialog.c:244 src/dialog.c:364 src/fichiers_io.c:6540
 msgid "Do not show this message again"
 msgstr "Laat dit bericht niet meer zien"
 
 #: src/dialog.c:401 src/echeancier_formulaire.c:1623
 #: src/echeancier_liste.c:664 src/type_operations.c:1569
-#: src/type_operations.c:1640
+#: src/type_operations.c:1639
 msgid "Input"
 msgstr "Vul in"
 
@@ -3711,7 +3710,7 @@ msgstr ""
 "Dit rapport is gemaakt met Grisbi versie %s, Grisbi zal toch proberen om hem "
 "te importen."
 
-#: src/etat_io.c:68 src/fichiers_io.c:8914 src/fichiers_io.c:9267
+#: src/etat_io.c:68 src/fichiers_io.c:8906 src/fichiers_io.c:9259
 msgid "Version mismatch"
 msgstr "Versies komen niet over een"
 
@@ -4069,7 +4068,7 @@ msgstr "Nummer"
 msgid "Payment methods"
 msgstr "Betaal methodes"
 
-#: src/etats_affiche.c:2293 src/ofx.c:411
+#: src/etats_affiche.c:2293 src/ofx.c:442
 msgid "Check"
 msgstr "Controleer"
 
@@ -4172,8 +4171,8 @@ msgstr "Overschrijvingen"
 #. mise en place de la frame des comptes
 #. Accounts menu
 #: src/etats_config.c:135 src/etats_config.c:7171 src/export.c:443
-#: src/fenetre_principale.c:89 src/menu.c:100 src/menu.c:101 src/menu.c:102
-#: src/menu.c:103 src/menu.c:104 src/menu.c:105 src/operations_comptes.c:380
+#: src/fenetre_principale.c:89 src/menu.c:103 src/menu.c:104 src/menu.c:105
+#: src/menu.c:106 src/menu.c:107 src/menu.c:108 src/operations_comptes.c:380
 #: src/operations_comptes.c:385 src/operations_comptes.c:446
 #: src/operations_comptes.c:459 src/operations_onglet.c:71
 #: src/traitement_variables.c:99 src/traitement_variables.c:222
@@ -4889,7 +4888,7 @@ msgstr "Kan het bestand '%s' niet openen om te schrijven"
 msgid "Cannot send job to printer"
 msgstr "Het is niet mogelijk om een print opdracht te versturen"
 
-#: src/etats_latex.c:241 src/export.c:289 src/qif.c:1056
+#: src/etats_latex.c:241 src/export.c:289 src/qif.c:1019
 #, c-format
 msgid "File '%s' already exists"
 msgstr "Bestand '%s' bestand reeds"
@@ -4909,14 +4908,15 @@ msgstr ""
 #. Reports menu
 #: src/etats_onglet.c:95 src/etats_onglet.c:300 src/etats_onglet.c:303
 #: src/etats_onglet.c:306 src/etats_onglet.c:309 src/etats_onglet.c:312
-#: src/etats_onglet.c:315 src/etats_onglet.c:1074 src/etats_onglet.c:1077
+#: src/etats_onglet.c:315 src/etats_onglet.c:318 src/etats_onglet.c:1077
 #: src/etats_onglet.c:1080 src/etats_onglet.c:1083 src/etats_onglet.c:1086
-#: src/etats_onglet.c:1089 src/etats_onglet.c:1119 src/etats_onglet.c:1122
+#: src/etats_onglet.c:1089 src/etats_onglet.c:1092 src/etats_onglet.c:1095
 #: src/etats_onglet.c:1125 src/etats_onglet.c:1128 src/etats_onglet.c:1131
-#: src/etats_onglet.c:1134 src/fenetre_principale.c:120 src/menu.c:108
-#: src/menu.c:109 src/menu.c:110 src/menu.c:111 src/menu.c:112 src/menu.c:113
-#: src/menu.c:114 src/menu.c:115 src/menu.c:116 src/menu.c:117 src/menu.c:118
-#: src/menu.c:119 src/menu.c:120 src/menu.c:121 src/menu.c:122
+#: src/etats_onglet.c:1134 src/etats_onglet.c:1137 src/etats_onglet.c:1140
+#: src/etats_onglet.c:1143 src/fenetre_principale.c:120 src/menu.c:111
+#: src/menu.c:112 src/menu.c:113 src/menu.c:114 src/menu.c:115 src/menu.c:116
+#: src/menu.c:117 src/menu.c:118 src/menu.c:119 src/menu.c:120 src/menu.c:121
+#: src/menu.c:122 src/menu.c:123 src/menu.c:124 src/menu.c:125
 #: src/traitement_variables.c:123 src/traitement_variables.c:126
 #: src/traitement_variables.c:129 src/traitement_variables.c:132
 #: src/traitement_variables.c:135 src/traitement_variables.c:138
@@ -4930,7 +4930,7 @@ msgstr "Rapporten"
 
 #. mise en place du bouton ajouter
 #. on ajoute un Ã©tat vierge appelÃ© nouvel Ã©tat
-#: src/etats_onglet.c:236 src/etats_onglet.c:736 src/menu.c:110
+#: src/etats_onglet.c:236 src/etats_onglet.c:739 src/menu.c:113
 #: src/traitement_variables.c:123 src/traitement_variables.c:249
 msgid "New report"
 msgstr "Nieuw rapport"
@@ -4941,8 +4941,8 @@ msgid "Customize report"
 msgstr "Afwijkende rapport"
 
 #. on met le bouton dupliquer
-#: src/etats_onglet.c:271 src/etats_onglet.c:300 src/etats_onglet.c:1074
-#: src/etats_onglet.c:1119 src/menu.c:112 src/traitement_variables.c:129
+#: src/etats_onglet.c:271 src/etats_onglet.c:300 src/etats_onglet.c:1077
+#: src/etats_onglet.c:1125 src/menu.c:115 src/traitement_variables.c:129
 #: src/traitement_variables.c:255
 msgid "Clone report"
 msgstr "Kloon rapport"
@@ -4952,52 +4952,57 @@ msgstr "Kloon rapport"
 msgid "Delete report"
 msgstr "Verwijder rapport"
 
-#: src/etats_onglet.c:303 src/etats_onglet.c:1077 src/etats_onglet.c:1122
-#: src/menu.c:113 src/traitement_variables.c:132
+#: src/etats_onglet.c:303 src/etats_onglet.c:1080 src/etats_onglet.c:1128
+#: src/menu.c:116 src/traitement_variables.c:132
 #: src/traitement_variables.c:258
 msgid "Print report"
 msgstr "Print rapport"
 
-#: src/etats_onglet.c:306 src/etats_onglet.c:1083 src/etats_onglet.c:1128
-#: src/menu.c:118 src/traitement_variables.c:138
+#: src/etats_onglet.c:306 src/etats_onglet.c:1089 src/etats_onglet.c:1137
+#: src/menu.c:121 src/traitement_variables.c:138
 #: src/traitement_variables.c:264
 msgid "Export report file"
 msgstr "Exporteer rapport bestand"
 
-#: src/etats_onglet.c:309 src/etats_onglet.c:1080 src/etats_onglet.c:1125
-#: src/menu.c:114 src/traitement_variables.c:135
+#: src/etats_onglet.c:309 src/etats_onglet.c:1083 src/etats_onglet.c:1131
+#: src/menu.c:117 src/traitement_variables.c:135
 #: src/traitement_variables.c:261
 msgid "Export report as HTML..."
 msgstr "Exporteer naar HTML ..."
 
-#: src/etats_onglet.c:312 src/etats_onglet.c:1086 src/etats_onglet.c:1131
-#: src/menu.c:120 src/traitement_variables.c:141
+#: src/etats_onglet.c:312 src/etats_onglet.c:1086 src/etats_onglet.c:1134
+#: src/menu.c:118
+msgid "Export report as CSV..."
+msgstr "Exporteer naar CSV ..."
+
+#: src/etats_onglet.c:315 src/etats_onglet.c:1092 src/etats_onglet.c:1140
+#: src/menu.c:123 src/traitement_variables.c:141
 #: src/traitement_variables.c:267
 msgid "Remove report"
 msgstr "Verwijder rapport"
 
-#: src/etats_onglet.c:315 src/etats_onglet.c:1089 src/etats_onglet.c:1134
-#: src/menu.c:122 src/traitement_variables.c:144
+#: src/etats_onglet.c:318 src/etats_onglet.c:1095 src/etats_onglet.c:1143
+#: src/menu.c:125 src/traitement_variables.c:144
 #: src/traitement_variables.c:270
 msgid "Edit report"
 msgstr "Bewerk rapport"
 
 #. Print report
 #. Set up dialog
-#: src/etats_onglet.c:337 src/print_config.c:64
+#: src/etats_onglet.c:340 src/print_config.c:64
 msgid "Print"
 msgstr "Print"
 
 #. on met le bouton rafraichir
-#: src/etats_onglet.c:351
+#: src/etats_onglet.c:354
 msgid "Refresh"
 msgstr "Vernieuwen"
 
-#: src/etats_onglet.c:473
+#: src/etats_onglet.c:476
 msgid "Choose template for new report"
 msgstr "Kies een sjabloon voor het rapport"
 
-#: src/etats_onglet.c:474
+#: src/etats_onglet.c:477
 msgid ""
 "You are about to create a new report.  For convenience, you can choose "
 "between the following templates.  Reports may be customized later."
@@ -5005,58 +5010,58 @@ msgstr ""
 "U staat op het punt een nieuw rapport te maken. Voor het gemak kunt U uit de "
 "volgende sjablonen kiezen.  Rapporten zijn later nog te veranderen."
 
-#: src/etats_onglet.c:477
+#: src/etats_onglet.c:480
 msgid "Report type"
 msgstr "Rapport soort"
 
-#: src/etats_onglet.c:488
+#: src/etats_onglet.c:491
 msgid "Description"
 msgstr "Omschrijving"
 
-#: src/etats_onglet.c:509
+#: src/etats_onglet.c:512
 msgid "Last month incomes and outgoings"
 msgstr "Inkomsten en uitgave van vorige maand"
 
 #. revenus et dÃ©penses du mois courant
-#: src/etats_onglet.c:520 src/etats_onglet.c:646
+#: src/etats_onglet.c:523 src/etats_onglet.c:649
 msgid "Current month incomes and outgoings"
 msgstr "Inkomsten en uitgave van de huidige maand"
 
 #. on ajoute le budget annuel
-#: src/etats_onglet.c:528 src/etats_onglet.c:690
+#: src/etats_onglet.c:531 src/etats_onglet.c:693
 msgid "Annual budget"
 msgstr "Dit jaar"
 
 #. remise de chÃ¨ques
-#: src/etats_onglet.c:536 src/etats_onglet.c:785
+#: src/etats_onglet.c:539 src/etats_onglet.c:788
 msgid "Cheques deposit"
 msgstr "Cheque storting"
 
 #. dÃ©penses mensuelles par tiers
-#: src/etats_onglet.c:544 src/etats_onglet.c:839
+#: src/etats_onglet.c:547 src/etats_onglet.c:842
 msgid "Monthly outgoings by third party"
 msgstr "Maandelijkse uitgave van begunstigden"
 
 #. recherche
-#: src/etats_onglet.c:552 src/etats_onglet.c:897
+#: src/etats_onglet.c:555 src/etats_onglet.c:900
 msgid "Search"
 msgstr "Zoeken"
 
-#: src/etats_onglet.c:560
+#: src/etats_onglet.c:563
 msgid "Blank report"
 msgstr "Leeg rapport"
 
 #. revenus et dÃ©penses du mois prÃ©cÃ©dent
-#: src/etats_onglet.c:604
+#: src/etats_onglet.c:607
 msgid "Previous month incomes and outgoings"
 msgstr "Inkomsten en uitgave van vorige maand"
 
-#: src/etats_onglet.c:951
+#: src/etats_onglet.c:954
 msgid "Unknown report type, creation cancelled"
 msgstr "Onbekend rapport type, aanmaken gestopt"
 
 #. revenus et dÃ©penses du mois dernier
-#: src/etats_onglet.c:993
+#: src/etats_onglet.c:996
 msgid ""
 "This report displays totals for last month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -5067,7 +5072,7 @@ msgstr ""
 "kiezen. Standaard zijn ze allemaal geselecteerd."
 
 #. revenus et dÃ©penses du mois en cours
-#: src/etats_onglet.c:999
+#: src/etats_onglet.c:1002
 msgid ""
 "This report displays totals of current month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -5078,7 +5083,7 @@ msgstr ""
 "kiezen. Standaard zijn ze allemaal geselecteerd."
 
 #. budget annuel
-#: src/etats_onglet.c:1005
+#: src/etats_onglet.c:1008
 msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
@@ -5087,12 +5092,12 @@ msgstr ""
 "kiezen Standaard zijn alle rekeningen geselecteerd."
 
 #. etat vierge
-#: src/etats_onglet.c:1011
+#: src/etats_onglet.c:1014
 msgid "This report is an empty one. You need to customise it entirely."
 msgstr "Dit verslag is leeg. U zult zelf alles moeten kiezen."
 
 #. remise de chÃ¨ques
-#: src/etats_onglet.c:1017
+#: src/etats_onglet.c:1020
 msgid ""
 "This report displays the cheques deposit. You just need to select the account"
 "(s). By default all accounts are selected."
@@ -5101,7 +5106,7 @@ msgstr ""
 "kiezen. Standaard zijn alle rekeningen geselecteerd."
 
 #. dÃ©penses mensuelles par tiers
-#: src/etats_onglet.c:1023
+#: src/etats_onglet.c:1026
 msgid ""
 "This report displays current month's outgoings sorted by third parties. You "
 "just need to select the account(s). By default all accounts areselected."
@@ -5111,7 +5116,7 @@ msgstr ""
 "geselecteerd."
 
 #. recherche
-#: src/etats_onglet.c:1029
+#: src/etats_onglet.c:1032
 msgid ""
 "This report displays all the information for all transactions of all "
 "accounts for the current year. You just have to add the amount, date, third "
@@ -5122,30 +5127,30 @@ msgstr ""
 "van dit jaar. U hoeft alleen een bedrag, datum, begunstigde etc in te vullen "
 "volgens Uw wensen. Standaard zijn alle transacties klikbaar."
 
-#: src/etats_onglet.c:1034
+#: src/etats_onglet.c:1037
 msgid "???? should not be displayed..."
 msgstr "???? moeten niet getoond worden...."
 
-#: src/etats_onglet.c:1055
+#: src/etats_onglet.c:1058
 #, c-format
 msgid "Delete report \"%s\"?"
 msgstr "Rapport \"%s\" verwijderen?"
 
-#: src/etats_onglet.c:1057
+#: src/etats_onglet.c:1060
 msgid "This will irreversibly remove this report.  There is no undo for this."
 msgstr ""
 "Het rapport zal definitief worden verwijderd. Dit kan niet ongedaan gemaakt "
 "worden."
 
-#: src/etats_onglet.c:1160
+#: src/etats_onglet.c:1169
 msgid "Export report"
 msgstr "Exporteer rapport"
 
-#: src/etats_onglet.c:1200 src/imputation_budgetaire.c:2800
+#: src/etats_onglet.c:1209 src/imputation_budgetaire.c:2800
 msgid "Cannot save file."
 msgstr "Kan het bestand niet opslaan."
 
-#: src/etats_onglet.c:1225
+#: src/etats_onglet.c:1234
 msgid "Import a report"
 msgstr "Importeer een rapport"
 
@@ -5281,11 +5286,11 @@ msgstr ""
 msgid "Export files"
 msgstr "Exporteer bestand"
 
-#: src/export.c:182 src/qif.c:969
+#: src/export.c:182 src/qif.c:932
 msgid "Select accounts to export"
 msgstr "Selecteer rekening om te exporteren"
 
-#: src/export.c:292 src/qif.c:1058
+#: src/export.c:292 src/qif.c:1021
 msgid ""
 "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr ""
@@ -5297,7 +5302,7 @@ msgstr ""
 msgid "File name '%s' invalid!"
 msgstr "Bestands naam '%s' is niet geldig!"
 
-#: src/export.c:377 src/qif.c:949
+#: src/export.c:377 src/qif.c:912
 msgid "Your file must have a name (saved) to be exported."
 msgstr "Het bestand moet bewaart zijn voordat U het kan exporteren"
 
@@ -5305,12 +5310,12 @@ msgstr "Het bestand moet bewaart zijn voordat U het kan exporteren"
 msgid "Export format does not define currencies."
 msgstr "Dit formaat exporteert geen valuta's."
 
-#: src/export.c:382 src/qif.c:955
+#: src/export.c:382 src/qif.c:918
 msgid "All transactions will be converted into currency of their account."
 msgstr ""
 "Alle transacties zullen worden om geschreven naar de valuta van hun rekening."
 
-#: src/export.c:443 src/menu.c:105 src/operations_comptes.c:380
+#: src/export.c:443 src/menu.c:108 src/operations_comptes.c:380
 #: src/operations_comptes.c:385 src/operations_comptes.c:446
 #: src/operations_comptes.c:459 src/traitement_variables.c:225
 msgid "Closed accounts"
@@ -5328,11 +5333,11 @@ msgstr "Rekeningen naar een CVS Bestand ..."
 #. File menu
 #. {menu_name(_("File"), _("Export"), _("QIF file ...")),   NULL,G_CALLBACK ( exporter_fichier_qif ), 0, NULL ,NULL  },
 #. Print to file
-#: src/export.c:463 src/menu.c:65 src/menu.c:66 src/menu.c:67 src/menu.c:68
-#: src/menu.c:69 src/menu.c:70 src/menu.c:71 src/menu.c:72 src/menu.c:73
-#: src/menu.c:74 src/menu.c:75 src/menu.c:76 src/menu.c:77 src/menu.c:79
-#: src/menu.c:80 src/menu.c:81 src/menu.c:82 src/menu.c:83 src/menu.c:201
-#: src/menu.c:205 src/menu.c:225 src/menu.c:251 src/menu.c:262
+#: src/export.c:463 src/menu.c:64 src/menu.c:65 src/menu.c:66 src/menu.c:67
+#: src/menu.c:68 src/menu.c:69 src/menu.c:70 src/menu.c:71 src/menu.c:72
+#: src/menu.c:73 src/menu.c:74 src/menu.c:75 src/menu.c:76 src/menu.c:78
+#: src/menu.c:79 src/menu.c:80 src/menu.c:81 src/menu.c:82 src/menu.c:204
+#: src/menu.c:208 src/menu.c:228 src/menu.c:254 src/menu.c:265
 #: src/print_config.c:207 src/traitement_variables.c:58
 #: src/traitement_variables.c:65 src/traitement_variables.c:87
 #: src/traitement_variables.c:90 src/traitement_variables.c:93
@@ -5362,19 +5367,19 @@ msgstr "Categorie lijst (transacties)"
 msgid "Budgetary lines list (transactions)"
 msgstr "Budget regels lijst (transacties)"
 
-#: src/fichier_configuration.c:444
+#: src/fichier_configuration.c:448
 msgid "File : "
 msgstr "Bestand : "
 
-#: src/fichier_configuration.c:447
+#: src/fichier_configuration.c:451
 msgid "Error opening config"
 msgstr "Fout tijdens laden van config"
 
-#: src/fichier_configuration.c:688
+#: src/fichier_configuration.c:692
 msgid "A4"
 msgstr "A4"
 
-#: src/fichier_configuration.c:885
+#: src/fichier_configuration.c:889
 #, c-format
 msgid "Error saving file '%s': %s"
 msgstr "Fout: bestand '%s': %s niet opgeslagen"
@@ -5469,28 +5474,28 @@ msgid ""
 "please check it and try again."
 msgstr ""
 
-#: src/fichiers_io.c:182
+#: src/fichiers_io.c:174
 msgid "Invalid accounts file"
 msgstr "Ongeldig rekenings bestand"
 
 #. Ã  ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors
 #. la version nÃ©cessaire pour l'ouvrir
-#: src/fichiers_io.c:213 src/fichiers_io.c:218
+#: src/fichiers_io.c:205 src/fichiers_io.c:210
 #, c-format
 msgid "Grisbi version %s is needed to open this file"
 msgstr "Grisbi versie %s is nodig om dit bestand te openen"
 
-#: src/fichiers_io.c:227 src/fichiers_io.c:238
+#: src/fichiers_io.c:219 src/fichiers_io.c:230
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "Kan het bestand '%s' niet openen %s"
 
-#: src/fichiers_io.c:230
+#: src/fichiers_io.c:222
 #, c-format
 msgid "Cannot open file '%s' : this is not a grisbi file"
 msgstr "Kan het bestand '%s' niet openen, dit is geen grisbi bestand"
 
-#: src/fichiers_io.c:272
+#: src/fichiers_io.c:264
 #, c-format
 msgid ""
 "Warning: Grisbi data format has changed. Grisbi made a backup under '%s'.\n"
@@ -5500,12 +5505,12 @@ msgstr ""
 "backup gemaakt in '%s'.\n"
 "Bewaar deze voor langer tijd, U weet maar nooit."
 
-#: src/fichiers_io.c:307 src/fichiers_io.c:2053 src/fichiers_io.c:4310
+#: src/fichiers_io.c:299 src/fichiers_io.c:2045 src/fichiers_io.c:4302
 #, c-format
 msgid "File \"%s\" is already opened"
 msgstr "Bestand \"%s\" is al geopend."
 
-#: src/fichiers_io.c:308 src/fichiers_io.c:2054 src/fichiers_io.c:4311
+#: src/fichiers_io.c:300 src/fichiers_io.c:2046 src/fichiers_io.c:4303
 msgid ""
 "Either this file is already opened by another user or it wasn't closed "
 "correctly (maybe Grisbi crashed?).\n"
@@ -5520,7 +5525,7 @@ msgstr ""
 "voorkeuren menu aanvinken."
 
 #. FIXME
-#: src/fichiers_io.c:1914
+#: src/fichiers_io.c:1906
 msgid ""
 "There was a bug in versions before 0.4.0, which could lead to orphan "
 "transactions (either transfers without countra-transaction, or breakdown "
@@ -5536,16 +5541,16 @@ msgstr ""
 "Grisbi zocht naar dit soort transacties en heef er gevonden:\n"
 "\n"
 
-#: src/fichiers_io.c:1920
+#: src/fichiers_io.c:1912
 msgid "breakdown transactions, all of them were deleted.\n"
 msgstr "de opsplits transacties, deze zijn allemaal verwijderd.\n"
 
-#: src/fichiers_io.c:1927
+#: src/fichiers_io.c:1919
 msgid "transfers without contra-transaction, which categories were deleted.\n"
 msgstr ""
 "transacties zonder tegen transacties, of de categorieën zijn verwijdert.\n"
 
-#: src/fichiers_io.c:1932
+#: src/fichiers_io.c:1924
 msgid ""
 "These modifications should not impact on neither Grisbi's behavior nor your "
 "accounts balances."
@@ -5553,12 +5558,12 @@ msgstr ""
 "Deze aanpassingen zullen geen verschil maken op de werking van Grisbi nog op "
 "de balans van de rekeningen"
 
-#: src/fichiers_io.c:6544
+#: src/fichiers_io.c:6536
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "Kan het bestand niet \"%s\" niet opslaan."
 
-#: src/fichiers_io.c:6546
+#: src/fichiers_io.c:6538
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -5569,25 +5574,25 @@ msgstr ""
 "slot.  Bewaar het bestand met een andere naam of actiever de \"%s\" optie in "
 "het voorkeuren menu.  Een alternatief is de \"%s\" optie hier onder."
 
-#: src/fichiers_io.c:6547 src/parametres.c:536
+#: src/fichiers_io.c:6539 src/parametres.c:536
 msgid "Force saving of locked files"
 msgstr "Forceren om geblokkeerde bestanden op te slaan"
 
-#: src/fichiers_io.c:8651 src/fichiers_io.c:8870 src/fichiers_io.c:9224
+#: src/fichiers_io.c:8643 src/fichiers_io.c:8862 src/fichiers_io.c:9216
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Kan het bestand '%s': %s niet opslaan."
 
-#: src/fichiers_io.c:8699
+#: src/fichiers_io.c:8691
 #, c-format
 msgid "Cannot lock file '%s': %s"
 msgstr "Kan bestand '%s': %s niet vergrendelen"
 
-#: src/fichiers_io.c:8904
+#: src/fichiers_io.c:8896
 msgid "This file is not a Grisbi category list file"
 msgstr "Dit bestand is geen Grisbi categorielijst bestand"
 
-#: src/fichiers_io.c:8913
+#: src/fichiers_io.c:8905
 #, c-format
 msgid ""
 "This categories list has been produced with grisbi version %s, Grisbi will "
@@ -5596,15 +5601,15 @@ msgstr ""
 "Deze categorielijst is gemaakt met Grisbi versie %s, Grisbi zal toch "
 "proberen om hem in te lezen."
 
-#: src/fichiers_io.c:8921
+#: src/fichiers_io.c:8913
 msgid "Invalid categories file"
 msgstr "Ongeldige categorie bestand"
 
-#: src/fichiers_io.c:9257
+#: src/fichiers_io.c:9249
 msgid "This file is not a grisbi budgetary lines file"
 msgstr "Dit bestand is geen Grisbi budget regel bestand"
 
-#: src/fichiers_io.c:9266
+#: src/fichiers_io.c:9258
 #, c-format
 msgid ""
 "This budgetary lines list has been produced with grisbi version %s, Grisbi "
@@ -5613,19 +5618,9 @@ msgstr ""
 "Deze budget regel lijst is gemaakt met Grisbi versie %s, Grisbi zal toch "
 "proberen om hem in te lezen."
 
-#: src/fichiers_io.c:9274
+#: src/fichiers_io.c:9266
 msgid "Invalid budgetary lines file"
 msgstr "Ongeldige budget regel bestand"
-
-#: src/fichiers_io.c:9468
-msgid ""
-"Your account file should not be readable by anybody else, but it is. You "
-"should change its permissions.\n"
-"Should this be fixed now?"
-msgstr ""
-"Uw rekenings bestand mag niet leesbaar zijn voor andere, maar dit is wel het "
-"geval. Het wordt U aangeraden om dit wel te doen.\n"
-"Wilt U dit nu veranderen?"
 
 #: src/gnucash.c:517
 #, c-format
@@ -6177,53 +6172,53 @@ msgstr "Samen voegen van de budget regels"
 msgid "Replace the old list of budgetary lines"
 msgstr "Vervang de oude lijst met van budget regels"
 
-#: src/main.c:146
+#: src/main.c:147
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Er is een sigaction fout: het programma sluit zich af\n"
 
-#: src/menu.c:67
+#: src/menu.c:66
 msgid "New account file"
 msgstr "Nieuwe bestand voor rekening"
 
-#: src/menu.c:68
+#: src/menu.c:67
 msgid "_Open"
 msgstr "_Open"
 
-#: src/menu.c:70 src/traitement_variables.c:58 src/traitement_variables.c:65
+#: src/menu.c:69 src/traitement_variables.c:58 src/traitement_variables.c:65
 #: src/traitement_variables.c:207
 msgid "Save"
 msgstr "Opslaan"
 
-#: src/menu.c:71 src/traitement_variables.c:87 src/traitement_variables.c:210
+#: src/menu.c:70 src/traitement_variables.c:87 src/traitement_variables.c:210
 msgid "Save as"
 msgstr "Opslaan als"
 
-#: src/menu.c:73 src/menu.c:201 src/menu.c:205 src/menu.c:225 src/menu.c:251
-#: src/menu.c:262
+#: src/menu.c:72 src/menu.c:204 src/menu.c:208 src/menu.c:228 src/menu.c:254
+#: src/menu.c:265
 msgid "Recently opened files"
 msgstr "Recent geopend"
 
-#: src/menu.c:76
+#: src/menu.c:75
 msgid "QIF\\/OFX\\/Gnucash file ..."
 msgstr "QIF\\/OFX\\/Gnucash bestand ..."
 
-#: src/menu.c:80 src/traitement_variables.c:96 src/traitement_variables.c:219
+#: src/menu.c:79 src/traitement_variables.c:96 src/traitement_variables.c:219
 msgid "Debug file"
 msgstr "Debug bestand"
 
-#: src/menu.c:82 src/traitement_variables.c:93 src/traitement_variables.c:216
+#: src/menu.c:81 src/traitement_variables.c:93 src/traitement_variables.c:216
 msgid "Close"
 msgstr "Sluiten"
 
-#: src/menu.c:83
+#: src/menu.c:82
 msgid "Exit"
 msgstr "Afsluiten"
 
 #. Edit menu
-#: src/menu.c:86 src/menu.c:87 src/menu.c:88 src/menu.c:89 src/menu.c:90
-#: src/menu.c:91 src/menu.c:92 src/menu.c:93 src/menu.c:94 src/menu.c:95
-#: src/menu.c:96 src/menu.c:97 src/operations_comptes.c:403
+#: src/menu.c:85 src/menu.c:86 src/menu.c:87 src/menu.c:88 src/menu.c:89
+#: src/menu.c:91 src/menu.c:93 src/menu.c:95 src/menu.c:96 src/menu.c:97
+#: src/menu.c:98 src/menu.c:99 src/menu.c:100 src/operations_comptes.c:403
 #: src/operations_comptes.c:408 src/operations_comptes.c:487
 #: src/operations_comptes.c:503 src/operations_comptes.c:510
 #: src/traitement_variables.c:102 src/traitement_variables.c:105
@@ -6237,95 +6232,91 @@ msgid "Edit"
 msgstr "Bewerken"
 
 #. New transaction
-#: src/menu.c:88 src/operations_liste.c:2666 src/traitement_variables.c:102
+#: src/menu.c:87 src/operations_liste.c:2666 src/traitement_variables.c:102
 #: src/traitement_variables.c:228
 msgid "New transaction"
 msgstr "Nieuwe transactie"
 
 #. New transaction from
-#: src/menu.c:89 src/operations_liste.c:2674 src/traitement_variables.c:105
+#: src/menu.c:88 src/operations_liste.c:2674 src/traitement_variables.c:105
 #: src/traitement_variables.c:231
 msgid "Use selected transaction as a template"
 msgstr "Gebruik de gekozen transactie als sjabloon"
 
-#: src/menu.c:90 src/traitement_variables.c:108 src/traitement_variables.c:234
+#: src/menu.c:89 src/traitement_variables.c:108 src/traitement_variables.c:234
 msgid "Remove transaction"
 msgstr "Verwijder transactie"
 
 #. Clone transaction
-#: src/menu.c:91 src/operations_liste.c:2694 src/traitement_variables.c:111
-#: src/traitement_variables.c:237
+#: src/menu.c:91 src/menu.c:93 src/operations_liste.c:2694
+#: src/traitement_variables.c:111 src/traitement_variables.c:237
 msgid "Clone transaction"
 msgstr "Kloon transactie"
 
 #. Edit transaction
-#: src/menu.c:92 src/operations_liste.c:2653 src/traitement_variables.c:114
+#: src/menu.c:95 src/operations_liste.c:2653 src/traitement_variables.c:114
 #: src/traitement_variables.c:240
 msgid "Edit transaction"
 msgstr "Bewerk transacties"
 
 #. Convert to scheduled transaction
-#: src/menu.c:94 src/operations_liste.c:2707 src/traitement_variables.c:117
+#: src/menu.c:97 src/operations_liste.c:2707 src/traitement_variables.c:117
 #: src/traitement_variables.c:243
 msgid "Convert transaction to scheduled transaction"
 msgstr "Transactie omzetten naar een geplande transactie"
 
 #. Move to another account
-#: src/menu.c:95 src/operations_comptes.c:403 src/operations_comptes.c:408
+#: src/menu.c:98 src/operations_comptes.c:403 src/operations_comptes.c:408
 #: src/operations_comptes.c:488 src/operations_comptes.c:503
 #: src/operations_comptes.c:510 src/operations_liste.c:2717
 #: src/traitement_variables.c:120 src/traitement_variables.c:246
 msgid "Move transaction to another account"
 msgstr "Verplaats de transactie naar een andere rekening"
 
-#: src/menu.c:97
+#: src/menu.c:100
 msgid "Preferences"
 msgstr "Voorkeuren"
 
-#: src/menu.c:115
-msgid "Export report as CSV..."
-msgstr "Exporteer naar CSV ..."
-
-#: src/menu.c:117 src/traitement_variables.c:126
+#: src/menu.c:120 src/traitement_variables.c:126
 #: src/traitement_variables.c:252
 msgid "Import report file"
 msgstr "Importeer rapport bestand"
 
 #. Help menu
-#: src/menu.c:125 src/menu.c:126 src/menu.c:127 src/menu.c:128 src/menu.c:129
-#: src/menu.c:130 src/menu.c:131 src/menu.c:132 src/menu.c:133 src/menu.c:134
+#: src/menu.c:128 src/menu.c:129 src/menu.c:130 src/menu.c:131 src/menu.c:132
+#: src/menu.c:133 src/menu.c:134 src/menu.c:135 src/menu.c:136 src/menu.c:137
 msgid "Help"
 msgstr "Hulp"
 
-#: src/menu.c:127
+#: src/menu.c:130
 msgid "Grisbi Manual"
 msgstr "Grisbi handleiding"
 
-#: src/menu.c:128
+#: src/menu.c:131
 msgid "Quickstart"
 msgstr "Snelstart"
 
-#: src/menu.c:129
+#: src/menu.c:132
 msgid "Translation"
 msgstr "Vertaling"
 
-#: src/menu.c:130
+#: src/menu.c:133
 msgid "About"
 msgstr "Info"
 
-#: src/menu.c:132
+#: src/menu.c:135
 msgid "Grisbi website"
 msgstr "Grisbi website"
 
-#: src/menu.c:133
+#: src/menu.c:136
 msgid "Report a bug"
 msgstr "Meld een bug"
 
-#: src/menu.c:134
+#: src/menu.c:137
 msgid "On line User's guide"
 msgstr "Online gebruikers handleiding"
 
-#: src/menu.c:296
+#: src/menu.c:299
 msgid "_C"
 msgstr "_C"
 
@@ -6337,33 +6328,33 @@ msgstr ""
 "Deze compilatie van Grisbi ondersteunt geen OFX support, compileer Grisbi "
 "opnieuw met OFX support enabled"
 
-#: src/ofx.c:36 src/ofx.c:95
+#: src/ofx.c:36 src/ofx.c:99 src/ofx.c:121
 #, c-format
 msgid "Cannot process OFX file '%s'"
 msgstr "OFX kan het bestand '%s' niet maken"
 
 #. Case of Windows, libofx.dll is not present or Grisbi failed in dynamically loading ofx_proc_file
-#: src/ofx.c:94
+#: src/ofx.c:98 src/ofx.c:120
 msgid "The OFX support can not be enabled!"
 msgstr "OFX support aan niet worden enabled!"
 
-#: src/ofx.c:106
+#: src/ofx.c:137
 msgid "The new account has not been created."
 msgstr "De nieuwe rekening is niet aangemaakt"
 
-#: src/ofx.c:111
+#: src/ofx.c:142
 msgid "Warning"
 msgstr "Waarschuwing"
 
-#: src/ofx.c:112
+#: src/ofx.c:143
 msgid "An error or warning has occured. Do you still want to import the file ?"
 msgstr "Er was een foutmelding. Wild U het bestand nog steeds importeren?"
 
-#: src/ofx.c:168 src/ofx.c:180
+#: src/ofx.c:199 src/ofx.c:211
 msgid "The file has returned the next message :\n"
 msgstr "Het bestand geeft de volgende melding :\n"
 
-#: src/ofx.c:174 src/ofx.c:186
+#: src/ofx.c:205 src/ofx.c:217
 msgid "The file has returned a warning message which is no valid."
 msgstr "Het bestand heeft een niet bekende foutmelding gegeven."
 
@@ -6384,7 +6375,7 @@ msgstr "Het bestand heeft een niet bekende foutmelding gegeven."
 #. printf ( "currency %s\n", data.currency );
 #. printf ( "memo_valid %d\n", data.memo_valid );
 #. printf ( "memo %s\n", data.memo );
-#: src/ofx.c:228
+#: src/ofx.c:259
 msgid ""
 "That file contains something on proc_security_cb.\n"
 "I didn't have any file to test that function.\n"
@@ -6394,51 +6385,51 @@ msgstr ""
 "Er is een bestand om deze functie te testen.\n"
 "Neem aub contact op met het Grisbi team om deze functie te kunnen gebruiken."
 
-#: src/ofx.c:347
+#: src/ofx.c:378
 msgid "A transaction try to be saved but no account was created...\n"
 msgstr "Een bestand wil zich opslaan in een rekening die niet bestaat ...\n"
 
-#: src/ofx.c:415
+#: src/ofx.c:446
 msgid "Interest"
 msgstr "Rente"
 
-#: src/ofx.c:419
+#: src/ofx.c:450
 msgid "Dividend"
 msgstr "Dividend"
 
-#: src/ofx.c:423
+#: src/ofx.c:454
 msgid "Service charge"
 msgstr "Service kosten"
 
-#: src/ofx.c:427
+#: src/ofx.c:458
 msgid "Fee"
 msgstr "Kosten"
 
-#: src/ofx.c:435
+#: src/ofx.c:466
 msgid "Cash dispenser"
 msgstr "Pin automaat"
 
-#: src/ofx.c:439
+#: src/ofx.c:470
 msgid "Point of sale"
 msgstr "Punt van verkoop"
 
-#: src/ofx.c:447
+#: src/ofx.c:478
 msgid "Electronic payment"
 msgstr "Elektronische betaling"
 
-#: src/ofx.c:451
+#: src/ofx.c:482
 msgid "Cash"
 msgstr "Contant"
 
-#: src/ofx.c:455
+#: src/ofx.c:486
 msgid "Direct deposit"
 msgstr "Automatische afschrijving"
 
-#: src/ofx.c:459
+#: src/ofx.c:490
 msgid "Merchant initiated debit"
 msgstr "Schuld bij handelaar"
 
-#: src/ofx.c:463
+#: src/ofx.c:494
 msgid "Repeating payment/standing order"
 msgstr "Herhaling van betaling/staande opdracht"
 
@@ -6849,7 +6840,7 @@ msgstr "de datum"
 msgid "oth l"
 msgstr "Maandelijks"
 
-#: src/qif.c:153 src/qif.c:339
+#: src/qif.c:153 src/qif.c:325
 msgid "This file is empty!"
 msgstr "Het bestand is leeg!"
 
@@ -6861,19 +6852,19 @@ msgstr ""
 "Grisbi heef een bestedings account gevonden die nog niet gekoppeld is. "
 "Grisbi zal toch proberen om deze te importeren als een bank rekening."
 
-#: src/qif.c:332
+#: src/qif.c:318
 msgid "Imported account with no name"
 msgstr "Importeer rekening zonder naam"
 
-#: src/qif.c:618 src/qif.c:621
+#: src/qif.c:579 src/qif.c:582
 msgid " [Transaction imported without date]"
 msgstr " [Transactie geïmporteerd zonder datum]"
 
-#: src/qif.c:771
+#: src/qif.c:734
 msgid "Dates can't be parsed in QIF file."
 msgstr "Data kunnen niet worden opgeslagen in een QIF bestand."
 
-#: src/qif.c:772
+#: src/qif.c:735
 msgid ""
 "Grisbi automatically tries to parse dates from QIF files using heuristics.  "
 "Please double check that they are valid and contact grisbi development team "
@@ -6883,15 +6874,15 @@ msgstr ""
 "Controleer zelf of deze data kloppen, voor hulp kunt U contact opnemen met "
 "het grisbi ontwikkel team"
 
-#: src/qif.c:954
+#: src/qif.c:917
 msgid "QIF format does not define currencies."
 msgstr "QIF bestand bevat geen valuta's"
 
-#: src/qif.c:958
+#: src/qif.c:921
 msgid "Export QIF files"
 msgstr "QIF bestanden exporteren"
 
-#: src/qif.c:1063
+#: src/qif.c:1026
 #, c-format
 msgid "File name '%s' invalid !"
 msgstr "Bestands naam '%s' is niet geldig!"
@@ -7059,16 +7050,16 @@ msgstr ""
 "Grisbi kon '%s' niet uitvoeren\n"
 "Pas de instellingen aan om het probleem op te lossen."
 
-#: src/utils_files.c:60
+#: src/utils_files.c:62
 msgid "Print to file"
 msgstr "Print naar bestand"
 
 #. aie, pb de mÃ©moire, on vire
-#: src/utils_files.c:141 src/utils_files.c:158
+#: src/utils_files.c:143 src/utils_files.c:160
 msgid "Memory allocation error"
 msgstr "De toewijzings fout van het geheugen"
 
-#: src/utils_files.c:199
+#: src/utils_files.c:201
 msgid "Browse"
 msgstr "Browse"
 
@@ -7083,6 +7074,15 @@ msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 "Deze overschijving heeft gecontroleerde contra-transacite(s), verwijdering "
 "afgebroken."
+
+#~ msgid ""
+#~ "Your account file should not be readable by anybody else, but it is. You "
+#~ "should change its permissions.\n"
+#~ "Should this be fixed now?"
+#~ msgstr ""
+#~ "Uw rekenings bestand mag niet leesbaar zijn voor andere, maar dit is wel "
+#~ "het geval. Het wordt U aangeraden om dit wel te doen.\n"
+#~ "Wilt U dit nu veranderen?"
 
 #~ msgid "A3"
 #~ msgstr "A3"
