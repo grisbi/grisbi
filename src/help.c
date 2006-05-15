@@ -41,7 +41,7 @@ void a_propos ( GtkWidget *bouton,
     GtkWidget *hbox;
     gint i;
 
-    const gchar *generalites = _("Grisbi is a personnal accounting application for Linux\nSuch a program allows you to sort your financial transactions, whatever they are, in a convenient and intuitive way.  Thus, you will be able to manage them as to fit your needs the more you can.\nGrisbi aims both at simplicty and efficiency for common use, and at a powerful use for power users.  We will always try to respect this as features will come.");
+    const gchar *generalites = _("Grisbi is a free personal finance manager for everyone.\nSuch a program allows you to sort your financial transactions, whatever they are, in a convenient and intuitive way.  Thus, you will be able to manage them as to fit your needs the more you can.\nGrisbi aims both at simplicty and efficiency for common use, and at a powerful use for power users.  We will always try to respect this as features will come.");
 
     const gchar *auteurs[] = { 
       _("Alain Pichon (aph[at]grisbi.org): RHEL and Fedora packaging"),
