@@ -2,7 +2,7 @@
 /* Contient toutes les procédures relatives à l'accès au disque */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org) */
+/*			2003-2006 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -142,14 +142,6 @@ gboolean charge_operations ( void )
 					   nom_fichier_comptes ));
 	return ( FALSE );
 	}
-
-    if ( result != -1
-	 && 
-	 buffer_stat.st_mode != 33152
-	 &&
-	 !etat.display_message_file_readable )
-	propose_changement_permissions();
-
 
     /* on commence par ouvrir le fichier en xml */
 
@@ -9453,35 +9445,5 @@ gboolean charge_ib_version_0_4_0 ( xmlDocPtr doc )
 }
 /***********************************************************************************************************/
 
-
-
-/***********************************************************************************************************/
-void propose_changement_permissions ( void )
-{
-    GtkWidget *dialog, *vbox, *checkbox;
-    gint resultat;
-
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( window ),
-				      GTK_DIALOG_DESTROY_WITH_PARENT,
-				      GTK_MESSAGE_QUESTION,
-				      GTK_BUTTONS_YES_NO,
-				      _("Your account file should not be readable by anybody else, but it is. You should change its permissions.\nShould this be fixed now?") );
-
-    vbox = GTK_DIALOG(dialog) -> vbox;
-    checkbox = new_checkbox_with_title ( _("Do not show this message again"),
-					 &(etat.display_message_file_readable), NULL);
-    gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, FALSE, FALSE, 6 );
-    gtk_widget_show_all ( dialog );
-
-    resultat = gtk_dialog_run ( GTK_DIALOG(dialog) );
-
-    if ( resultat == GTK_RESPONSE_YES )
-    {
-	chmod ( nom_fichier_comptes, S_IRUSR | S_IWUSR );
-    }
-
-    gtk_widget_destroy ( dialog );
-}
-/***********************************************************************************************************/
 
 
