@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-15 12:43+0200\n"
-"PO-Revision-Date: 2005-12-19 11:19+0100\n"
+"PO-Revision-Date: 2006-05-15 20:44+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:120
 msgid "No user"
@@ -5742,7 +5742,7 @@ msgstr "Benjamin Drieu (bdrieu[at]april.org): Inglés"
 
 #: src/help.c:67
 msgid "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Spanish"
-msgstr "Carlos M. Cámara Mora (carcam_moceu[at]yahoo.es): Español"
+msgstr "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Español"
 
 #: src/help.c:68
 msgid "Daniel Cartron (cartron[at]grisbi.org): English"
@@ -5774,7 +5774,7 @@ msgstr "Martin Stromberger (Fabiolla[at]aon.at): Alemán"
 
 #: src/help.c:75
 msgid "Mircea Aronovici (bucuresti[at]free.fr): Romanian"
-msgstr ""
+msgstr "Mircea Aronovici (bucuresti[at]free.fr): Rumano."
 
 #: src/help.c:76
 msgid "Ryszard Jeziorski (r.jeziorski[at]dart.kielce.pl): Polish"
