@@ -24,7 +24,7 @@
 
 
 /*START_INCLUDE*/
-#include "gbanking.h"
+#include "g2banking.h"
 #include "import.h"
 #include "gsb_real.h"
 #include "utils_str.h"
@@ -131,7 +131,7 @@ int GrisbiBanking_ImportContext (AB_BANKING *ab,
 	s=AB_ImExporterAccountInfo_GetAccountName(ai);
 	if (s)
 	    compte_nouveau->nom_de_compte=my_strdup(s);
-	compte_nouveau->origine=TYPE_GBANKING;
+	compte_nouveau->origine = "gbanking";
 
 	if ( gsb_data_account_get_no_account_by_name ( compte_nouveau->id_compte ) != -1 )
 	{
