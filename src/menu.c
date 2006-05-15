@@ -749,9 +749,14 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
 	if ( !gsb_data_account_get_closed_account ( i ))
 	{
 	    gchar * tmp_name = g_strdup_printf ( "MoveToAccount%d", i );
-	    GtkAction * action = gtk_action_new ( tmp_name, 
-						  gsb_data_account_get_name(i),
-						  "", "" );
+	    gchar * account_name = gsb_data_account_get_name(i);
+	    GtkAction * action;
+
+	    if ( ! account_name )
+	    {
+		account_name = _("Unnamed account");
+	    }
+	    action = gtk_action_new ( tmp_name, account_name, "", "" );
 
 	    if ( gsb_gui_navigation_get_current_account () == i )
 		gtk_action_set_sensitive ( action, FALSE );
