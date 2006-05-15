@@ -2366,80 +2366,90 @@ gint verification_validation_operation ( struct structure_operation *operation )
 
     if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ) -> entry ) == style_entree_formulaire[ENCLAIR] )
     {
-	tableau_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] )),
-				    ":",
-				    2 );
+        
+        // Warning: As result of a 'gtk_entry_get_text()' call 'transaction_category_text' must not be freed (see gtk_entry_get_text)
+        gchar* transaction_category_text = gtk_combofix_get_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ));
+        
+        if ((transaction_category_text && *transaction_category_text))
+        {
+            // Under windows when 'transaction_category_text' is empty or null tableau_char[0] is null but tableau_char[1] is set to
+            // 'unallocated' which is not NULL (but 0xabababab)
+            // Best way to fix this is to check 'transaction_category_text' value before spliiting it as described in g_strsplit doc.
+            tableau_char = g_strsplit ( transaction_category_text,
+                                        ":",
+                                        2 );
 
-	tableau_char[0] = g_strstrip ( tableau_char[0] );
+            tableau_char[0] = g_strstrip ( tableau_char[0] );
 
-	if ( tableau_char[1] )
-	    tableau_char[1] = g_strstrip ( tableau_char[1] );
-
-
-	    /* Si c'est un virement, on fait les vérifications */
-	    if ( !strcmp ( tableau_char[0], _("Transfer") ) )
-	    {
-		/* S'il n'y a rien après "Transfer", alors : */
-		if ( !tableau_char[1] ||
-		     !strlen ( tableau_char[1] ) )
-		{
-		    dialogue_error ( _("There is no associated account for this transfer.") );
-		    g_strfreev ( tableau_char );
-		    return (FALSE);
-		}
-		/* si c'est un virement vers un compte supprimé, laisse passer */
-
-		if ( strcmp ( tableau_char[1],
-			      _("Deleted account") ) )
-		{
-		    /* recherche le no de compte du virement */
-
-		    gint compte_virement;
-		    gint i;
-
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
-
-		    compte_virement = -1;
-
-		    for ( i = 0 ; i < nb_comptes ; i++ )
-		    {
-			if ( !g_strcasecmp ( NOM_DU_COMPTE,
-					     tableau_char[1] ) )
-			    compte_virement = i;
-			p_tab_nom_de_compte_variable++;
-		    }
+            if ( tableau_char[1] )
+                tableau_char[1] = g_strstrip ( tableau_char[1] );
 
 
-		    if ( compte_virement == -1 )
-		    {
-			dialogue_warning ( _("Associated account of this transfer is invalid.") );
-			g_strfreev ( tableau_char );
-			return (FALSE);
-		    }
+            /* Si c'est un virement, on fait les vérifications */
+            if ( !strcmp ( tableau_char[0], _("Transfer") ) )
+            {
+                /* S'il n'y a rien après "Transfer", alors : */
+                if ( !tableau_char[1] ||
+                     !strlen ( tableau_char[1] ) )
+                {
+                    dialogue_error ( _("There is no associated account for this transfer.") );
+                    g_strfreev ( tableau_char );
+                    return (FALSE);
+                }
+                /* si c'est un virement vers un compte supprimé, laisse passer */
 
-		    if ( compte_virement == compte_courant )
-		    {
-			dialogue_error ( _("Can't issue a transfer its own account.") );
-			g_strfreev ( tableau_char );
-			return (FALSE);
-		    }
+                if ( strcmp ( tableau_char[1],
+                              _("Deleted account") ) )
+                {
+                    /* recherche le no de compte du virement */
 
-/* 		    vérifie si le compte n'est pas clos */
+                    gint compte_virement;
+                    gint i;
 
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
+                    p_tab_nom_de_compte_variable = p_tab_nom_de_compte;
 
-		    if ( COMPTE_CLOTURE )
-		    {
-			dialogue_error ( _("Can't issue a transfer on a closed account." ));
-			g_strfreev ( tableau_char );
-			return ( FALSE );
-		    }
+                    compte_virement = -1;
 
-		    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+                    for ( i = 0 ; i < nb_comptes ; i++ )
+                    {
+                        if ( !g_strcasecmp ( NOM_DU_COMPTE,
+                                             tableau_char[1] ) )
+                            compte_virement = i;
+                        p_tab_nom_de_compte_variable++;
+                    }
 
-		}
-	}
-	g_strfreev ( tableau_char );
+
+                    if ( compte_virement == -1 )
+                    {
+                        dialogue_warning ( _("Associated account of this transfer is invalid.") );
+                        g_strfreev ( tableau_char );
+                        return (FALSE);
+                    }
+
+                    if ( compte_virement == compte_courant )
+                    {
+                        dialogue_error ( _("Can't issue a transfer its own account.") );
+                        g_strfreev ( tableau_char );
+                        return (FALSE);
+                    }
+
+                    /* 		    vérifie si le compte n'est pas clos */
+
+                    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + compte_virement;
+
+                    if ( COMPTE_CLOTURE )
+                    {
+                        dialogue_error ( _("Can't issue a transfer on a closed account." ));
+                        g_strfreev ( tableau_char );
+                        return ( FALSE );
+                    }
+
+                    p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
+
+                }
+            }
+            g_strfreev ( tableau_char );
+        }
     }
 
     /* pour les types qui sont à incrémentation automatique ( surtout les chèques ) */
