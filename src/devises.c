@@ -243,25 +243,26 @@ gint cherche_no_menu_devise ( GtkWidget *option_menu,
 			      gint demande )
 {
     GList *liste_tmp;
-    gint retour;
     gint i;
 
-    if ( GTK_OPTION_MENU (option_menu) -> menu)
+    if ( ! option_menu || ! GTK_OPTION_MENU (option_menu) -> menu )
+	return FALSE;
+
+    liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU (option_menu) -> menu ) -> children;
+    i = 0;
+
+    while ( liste_tmp )
     {
-        liste_tmp = GTK_MENU_SHELL ( GTK_OPTION_MENU (option_menu) -> menu ) -> children;
         retour = -1;
         i = 0;
 
-        while ( liste_tmp && retour == -1 )
+        if ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
+                                   "no_devise" ) == GINT_TO_POINTER ( demande ))
         {
-            if ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
-                                       "no_devise" ) == GINT_TO_POINTER ( demande ))
-            {
-                return i;
-            }
-            i++;
-            liste_tmp = liste_tmp -> next;
+             return i;
         }
+        i++;
+        liste_tmp = liste_tmp -> next;
     }
     return FALSE;
 }
@@ -1776,8 +1777,11 @@ gboolean selection_ligne_devise ( GtkWidget *liste,
     entry_set_value(entree_nom_devise_parametres, &(devise->nom_devise));
     entry_set_value(entree_code_devise_parametres, &(devise->code_devise));
     entry_set_value(entree_iso_code_devise_parametres, &(devise->code_iso4217_devise));
-    checkbox_set_value ( check_button_euro, &(devise->passage_euro), TRUE);
-    change_passera_euro ( check_button_euro, NULL );
+    if ( check_button_euro )
+    {
+	checkbox_set_value ( check_button_euro, &(devise->passage_euro), TRUE);
+	change_passera_euro ( check_button_euro, NULL );
+    }
 
     /* crée le menu des devises en enlevant la devise courante */
     g_signal_handlers_block_by_func ( G_OBJECT(option_menu_devises),
