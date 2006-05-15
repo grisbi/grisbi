@@ -161,6 +161,8 @@ int main (int argc, char *argv[])
 
     /* initialisation of the variables */
     init_variables ();
+    register_import_formats ();
+
     if ( ! gsb_file_config_load_config () )
     {
 	first_use = TRUE;
