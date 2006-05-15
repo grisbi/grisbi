@@ -760,7 +760,7 @@ gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value,
 	i ++ ;
     }
     g_signal_handlers_block_by_func ( combobox, csv_import_combo_changed, entry );
-    gtk_combo_box_set_active ( combobox, i );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX(combobox), i );
     g_signal_handlers_unblock_by_func ( combobox, csv_import_combo_changed, entry );
 
     return FALSE;
@@ -1030,7 +1030,7 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
     {
 	imported = files -> data;
 
-	if ( imported -> type == TYPE_CSV )
+	if ( !strcmp ( imported -> type, "CSV" ) )
 	{
 	    filename = imported -> name;
 	    break;
@@ -1092,7 +1092,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
 
     compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
     compte -> nom_de_compte = unique_imported_name ( my_strdup ( _("Imported CSV account" ) ) );
-    compte -> origine = TYPE_CSV;
+    compte -> origine = my_strdup ( "CSV" );
     compte -> filename = my_strdup ( imported -> name );
 
     g_file_get_contents ( compte -> filename, &contents, NULL, NULL );

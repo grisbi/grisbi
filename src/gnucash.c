@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /* Ce fichier s'occupe de la gestion du format gnucash			      */
 /*                                                                            */
-/*     Copyright (C)	2004      Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -118,7 +118,7 @@ gboolean recuperation_donnees_gnucash ( struct imported_file * imported )
 
   /* So, we failed to import file. */
   account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
-  account -> origine = TYPE_GNUCASH;
+  account -> origine = _( "Gnucash" );
   account -> nom_de_compte = _("Invalid Gnucash account");
   account -> filename = my_strdup ( imported -> name );
   liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error, account );
@@ -190,7 +190,7 @@ void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node )
     compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
 
     /* Gnucash import */
-    compte -> origine = TYPE_GNUCASH;
+    compte -> origine = my_strdup ( "Gnucash" );
 
     if ( !strcmp(type, "BANK") || !strcmp(type, "CREDIT") ) 
     {

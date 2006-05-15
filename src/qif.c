@@ -56,14 +56,13 @@ extern gsb_real null_real ;
  * Open a QIF file and fills in data in a struct_compte_importation
  * data structure.
  *
- * \param fichier	File handle of imported file, ready for
- *			reading.
+ * \param assistant	Not used.
  * \param imported	A pointer to structure containing name and
  *			format of imported file.
  *
  * \return		TRUE on success.
  */
-gboolean recuperation_donnees_qif ( FILE * fichier, struct imported_file * imported )
+gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file * imported )
 {
     gchar *pointeur_char;
     gchar **tab_char;
@@ -73,6 +72,12 @@ gboolean recuperation_donnees_qif ( FILE * fichier, struct imported_file * impor
     GSList *liste_tmp;
     gchar **tab;
     gint pas_le_premier_compte = 0;
+    FILE * fichier = utf8_fopen ( imported -> name, "r" );
+
+    if ( ! fichier )
+    {
+	return FALSE;
+    }
 
     /* fichier pointe sur le fichier qui a été reconnu comme qif */
     rewind ( fichier );
@@ -80,7 +85,7 @@ gboolean recuperation_donnees_qif ( FILE * fichier, struct imported_file * impor
     compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
     compte -> nom_de_compte = unique_imported_name ( _("Invalid QIF file") );
     compte -> filename = my_strdup ( imported -> name );
-    compte -> origine = TYPE_QIF;
+    compte -> origine = my_strdup ( "QIF" );
 
     do
     {
@@ -181,14 +186,18 @@ gboolean recuperation_donnees_qif ( FILE * fichier, struct imported_file * impor
 	    {
 		liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
 								compte );
+		fclose ( fichier );
 		return FALSE;
 	    }
 	    else
+	    {
+		fclose ( fichier );
 		return TRUE;
+	    }
 	}
 
 	compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
-	compte -> origine = TYPE_QIF;
+	compte -> origine = my_strdup ( "QIF" );
 
 	/* récupération du type de compte */
 
@@ -369,10 +378,14 @@ gboolean recuperation_donnees_qif ( FILE * fichier, struct imported_file * impor
 	    {
 		liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
 								compte );
+		fclose ( fichier );
 		return (FALSE);
 	    }
 	    else
+	    {
+		fclose ( fichier );
 		return (TRUE);
+	    }
 	}
 
 
@@ -795,6 +808,7 @@ changement_format_date:
 		    {
 			liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
 									compte );
+			fclose ( fichier );
 			return (FALSE);
 		    }
 
@@ -945,6 +959,8 @@ changement_format_date:
 	pas_le_premier_compte = 1;
     }
     while ( retour != EOF );
+
+    fclose ( fichier );
 
     return ( TRUE );
 }
