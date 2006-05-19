@@ -253,7 +253,6 @@ gint cherche_no_menu_devise ( GtkWidget *option_menu,
 
     while ( liste_tmp )
     {
-        retour = -1;
         i = 0;
 
         if ( gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
