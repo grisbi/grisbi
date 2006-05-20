@@ -1,4 +1,4 @@
-gboolean recuperation_donnees_qif ( FILE *fichier );
+gboolean recuperation_donnees_qif ( FILE *fichier, gboolean first_operation_is_account_information );
 void fichier_choisi_importation_qif ( GtkWidget *fenetre );
 void exporter_fichier_qif ( void );
 void click_compte_export_qif ( GtkWidget *bouton,

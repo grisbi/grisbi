@@ -204,7 +204,7 @@ gboolean fichier_choisi_importation ( GtkWidget *fenetre )
 		  !my_strncasecmp ( pointeur_char, "!Account", 8 ) || 
 		  !my_strncasecmp ( pointeur_char, "!Option", 7 ))
         {
-		result = recuperation_donnees_qif ( fichier );
+		result = recuperation_donnees_qif ( fichier, FALSE );
         }
 	else if ( !strncmp ( pointeur_char, "<?xml", 5 ))
 	{

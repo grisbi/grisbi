@@ -36,8 +36,18 @@
 
 
 
-/* *******************************************************************************/
-gboolean recuperation_donnees_qif ( FILE *fichier )
+/** Read QIF file and constructs account/opeartions data to be imported.
+ *
+ * @param fichier file to read
+ * @param first_operation_is_account_information first opeartion found are account information.
+ *      When TRUE first operation will be used to set account name and initial amount.
+ *      When FALSE all data are used as standard operation. 
+ *
+ * @note Until we find a solution to detect if the file is used for an account creation
+ * the account_creation parameter should always be set to FALSE to avoid to lose operations.
+ *
+ */
+gboolean recuperation_donnees_qif ( FILE *fichier, gboolean first_operation_is_account_information )
 {
     gchar *pointeur_char;
     gchar **tab_char;
@@ -234,74 +244,86 @@ gboolean recuperation_donnees_qif ( FILE *fichier )
 	     my_strcasecmp ( type,
 			     _("ccard")))
 	{
-	    /* ce n'est pas une ccard, on récupère les infos */
+            /* Getting account information from the first operation is not consistent with all usage of QIF file 
+             * It seems that only mony is using thr first operation to set account initial value and name
+             * So this feature has been susepnded from Grisbi (version 0.5.9 and next ?) 
+             */
+            if(first_operation_is_account_information) // should always been FALSE waiting for a way to detects account creation */
+            { 
+                /* ce n'est pas une ccard, on récupère les infos */
 
-	    do
-	    {
-		free ( pointeur_char );
+                do
+                {
+                    free ( pointeur_char );
 
-		retour = get_line_from_file ( fichier,
-					      &pointeur_char );
-
-
-		/* récupération du solde initial ( on doit virer la , que money met pour séparer les milliers ) */
-		/* on ne vire la , que s'il y a un . */
-
-		if ( pointeur_char[0] == 'T' )
-		{
-		    tab = g_strsplit ( pointeur_char,
-				       ".",
-				       2 );
-
-		    if( tab[1] )
-		    {
-			tab_char = g_strsplit ( pointeur_char,
-						",",
-						FALSE );
-
-			pointeur_char = g_strjoinv ( NULL,
-						     tab_char );
-			compte -> solde = my_strtod ( pointeur_char + 1,
-						      NULL );
-			g_strfreev ( tab_char );
-		    }
-		    else
-			compte -> solde = my_strtod ( pointeur_char + 1,
-						      NULL );
-
-		    g_strfreev ( tab );
-
-		}
+                    retour = get_line_from_file ( fichier,
+                                                  &pointeur_char );
 
 
-		/* récupération du nom du compte */
-		/* 	      parfois, le nom est entre crochet et parfois non ... */
+                    /* récupération du solde initial ( on doit virer la , que money met pour séparer les milliers ) */
+                    /* on ne vire la , que s'il y a un . */
 
-		if ( pointeur_char[0] == 'L' )
-		{
-		    compte -> nom_de_compte = get_line_from_string ( pointeur_char ) + 1;
+                    if ( pointeur_char[0] == 'T' )
+                    {
+                        tab = g_strsplit ( pointeur_char,
+                                           ".",
+                                           2 );
 
-		    /* on vire les crochets s'ils y sont */
+                        if( tab[1] )
+                        {
+                            tab_char = g_strsplit ( pointeur_char,
+                                                    ",",
+                                                    FALSE );
 
-		    compte -> nom_de_compte = latin2utf8 ( g_strdelimit ( compte -> nom_de_compte,
-									  "[",
-									  ' ' ));
-		    compte -> nom_de_compte =  latin2utf8 (g_strdelimit ( compte -> nom_de_compte,
-									  "]",
-									  ' ' ));
-		    compte -> nom_de_compte =  latin2utf8 (g_strstrip ( compte -> nom_de_compte ));
-		}
+                            pointeur_char = g_strjoinv ( NULL,
+                                                         tab_char );
+                            compte -> solde = my_strtod ( pointeur_char + 1,
+                                                          NULL );
+                            g_strfreev ( tab_char );
+                        }
+                        else
+                            compte -> solde = my_strtod ( pointeur_char + 1,
+                                                          NULL );
 
-		/* on récupère la date du fichier */
-		/*  on ne la traite pas maintenant mais quand on traitera toutes les dates */
+                        g_strfreev ( tab );
 
-		if ( pointeur_char[0] == 'D' )
-		    compte -> date_solde_qif = get_line_from_string ( pointeur_char ) + 1;
+                    }
 
-	    }
-	    while ( pointeur_char[0] != '^'
-		    &&
-		    retour != EOF );
+
+                    /* récupération du nom du compte */
+                    /* 	      parfois, le nom est entre crochet et parfois non ... */
+
+                    if ( pointeur_char[0] == 'L' )
+                    {
+                        compte -> nom_de_compte = get_line_from_string ( pointeur_char ) + 1;
+
+                        /* on vire les crochets s'ils y sont */
+
+                        compte -> nom_de_compte = latin2utf8 ( g_strdelimit ( compte -> nom_de_compte,
+                                                                              "[",
+                                                                              ' ' ));
+                        compte -> nom_de_compte =  latin2utf8 (g_strdelimit ( compte -> nom_de_compte,
+                                                                              "]",
+                                                                              ' ' ));
+                        compte -> nom_de_compte =  latin2utf8 (g_strstrip ( compte -> nom_de_compte ));
+                    }
+
+                    /* on récupère la date du fichier */
+                    /*  on ne la traite pas maintenant mais quand on traitera toutes les dates */
+
+                    if ( pointeur_char[0] == 'D' )
+                        compte -> date_solde_qif = get_line_from_string ( pointeur_char ) + 1;
+
+                }
+                while ( pointeur_char[0] != '^'
+                        &&
+                        retour != EOF );
+            }
+            else
+            {
+                compte -> solde = 0;
+                retour = 0;
+            }
 	}
 	else
 	{
