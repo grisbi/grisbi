@@ -30,6 +30,7 @@
 #include "etats_support.h"
 #include "utils_files.h"
 #include "utils_file_selection.h"
+#include "utils.h"
 
 
 struct struct_etat_affichage csv_affichage = {
@@ -251,6 +252,7 @@ gint csv_finish ()
 void csv_safe ( gchar * text ) 
 {
     gchar* syslocale_text = text; 
+    gchar* ptr_in_buffer  = text;
 
     if ( ! text || ! strlen(text))
 	return;
@@ -259,20 +261,20 @@ void csv_safe ( gchar * text )
     syslocale_text = g_locale_from_utf8(text,-1,NULL,NULL,NULL);
 #endif
 
-    for ( ; * syslocale_text; syslocale_text ++ )
+    for ( ; * ptr_in_buffer; ptr_in_buffer ++ )
     {
-	switch ( * syslocale_text )
+	switch ( * ptr_in_buffer )
 	{
 	    case '"':
 		fprintf ( csv_out, "\"" );
 	    default:
-		fprintf ( csv_out, "%c", *syslocale_text );
+		fprintf ( csv_out, "%c", *ptr_in_buffer );
 		break;
 	}
     }
     
 #ifdef _WIN32
-    g_free (syslocale_text);
+    utils_free (syslocale_text);
 #endif
 }
 
