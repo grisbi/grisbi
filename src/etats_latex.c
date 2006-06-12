@@ -430,8 +430,9 @@ void latex_safe ( gchar * text )
 		}
 		break;		    
 		
-	    case '%':
+	    case '_':
 	    case '&':
+	    case '%':
 	    case '#':
 	    case '\\':
 	    case '$':
