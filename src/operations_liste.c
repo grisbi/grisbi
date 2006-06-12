@@ -75,6 +75,7 @@ extern struct operation_echeance *echeance_selectionnnee;
 extern gint no_derniere_echeance;
 extern GSList *gsliste_echeances; 
 extern gint nb_echeances;
+extern GSList *echeances_saisies;
 
 
 /* FIXME INSTABLE : REPRENDRE AUSSI L'ANCIEN FICHIER, VERIFIER QU'IL N'Y A PAS EU DE CORRECTIONS DE BUGS DANS CE FICHIER */
@@ -2232,6 +2233,13 @@ void supprime_operation ( struct structure_operation *operation )
 
     LISTE_OPERATIONS = g_slist_remove ( LISTE_OPERATIONS,
 					operation );
+
+    if ( g_slist_find ( echeances_saisies, operation ) )
+    {
+	echeances_saisies = g_slist_remove ( echeances_saisies, operation );
+	update_liste_echeances_auto_accueil ();
+    }
+
     free ( operation );
     NB_OPE_COMPTE--;
 
