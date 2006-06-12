@@ -2133,6 +2133,8 @@ void supprime_operation ( struct structure_operation *operation )
 	    ope_liee -> relation_no_compte = 0;
 
 	    supprime_operation ( ope_liee );
+	    p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
+
 	}
     }
 
@@ -2238,6 +2240,7 @@ void supprime_operation ( struct structure_operation *operation )
     {
 	echeances_saisies = g_slist_remove ( echeances_saisies, operation );
 	update_liste_echeances_auto_accueil ();
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte + operation -> no_compte;
     }
 
     free ( operation );
@@ -2256,7 +2259,7 @@ void supprime_operation ( struct structure_operation *operation )
     {
 	GSList *pointeur_liste_ope;
 
-	p_tab_nom_de_compte_variable =  p_tab_nom_de_compte_courant;
+	p_tab_nom_de_compte_variable = p_tab_nom_de_compte_courant;
 
 	pointeur_liste_ope = LISTE_OPERATIONS;
 	operations_pointees = 0;
