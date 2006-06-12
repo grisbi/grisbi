@@ -424,6 +424,7 @@ void latex_safe ( gchar * text )
 		}
 		break;		    
 		
+	    case '_':
 	    case '&':
 	    case '%':
 	    case '#':
