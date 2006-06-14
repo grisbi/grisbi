@@ -121,8 +121,8 @@ GSList * import_formats = NULL;
 
 /** Known built-in import formats.  Others are plugins.  */
 struct import_format builtin_formats[] = {
-{ "QIF", "Quicken Interchange Format", "qif", (import_function) recuperation_donnees_qif },
 { "CSV", "Comma Separated Values",     "csv", (import_function) csv_import_csv_account },
+{ "QIF", "Quicken Interchange Format", "qif", (import_function) recuperation_donnees_qif },
 { NULL,  NULL,				NULL,		NULL },
 };
 
@@ -503,12 +503,13 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 
     tmp = import_formats;
     format = (struct import_format *) tmp -> data;
-    files = format -> extension;
+    files = g_strconcat ( "*.", format -> extension, NULL );
     tmp = tmp -> next;
 
     while ( tmp )
     {
-	files = g_strconcat ( files, ", ", format -> extension, NULL );
+	format = (struct import_format *) tmp -> data;
+	files = g_strconcat ( files, ", *.", format -> extension, NULL );
 	tmp = tmp -> next;
     }
 
@@ -522,6 +523,9 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     while ( tmp )
     {
 	GtkFileFilter * format_filter;	
+
+	format = (struct import_format *) tmp -> data;
+
 	format_filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name ( format_filter,
 				   g_strdup_printf ( _("%s files (*.%s)"),
