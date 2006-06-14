@@ -211,6 +211,10 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 					    &length_calculated,
 					    &file_content );
 
+    iterator = gsb_file_save_currency_part ( iterator,
+					     &length_calculated,
+					     &file_content );
+
     iterator = gsb_file_save_account_part ( iterator,
 					    &length_calculated,
 					    &file_content );
@@ -238,10 +242,6 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     iterator = gsb_file_save_budgetary_part ( iterator,
 					      &length_calculated,
 					      &file_content );
-
-    iterator = gsb_file_save_currency_part ( iterator,
-					     &length_calculated,
-					     &file_content );
 
     iterator = gsb_file_save_currency_link_part ( iterator,
 						  &length_calculated,
@@ -279,7 +279,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 
     if ( etat.crypt_file )
     {
-	if ( plugin = gsb_plugin_find ( "openssl" ) )
+	if ( ( plugin = gsb_plugin_find ( "openssl" ) ) )
 	{
 	    gint (*crypt_function) ( gchar *, gchar **, gboolean, gulong );
 	    
@@ -874,14 +874,14 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 	
 	/* now we can fill the file content */
 
-	new_string = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Am=\"%s\" Cu=\"%d\" Exb=\"%d\" Exr=\"%s\" Exf=\"%s\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Tra=\"%d\" Mo=\"%d\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Cu=\"%d\" Am=\"%s\" Exb=\"%d\" Exr=\"%s\" Exf=\"%s\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Tra=\"%d\" Mo=\"%d\" />\n",
 					       gsb_data_transaction_get_account_number ( transaction_number ),
 					       transaction_number,
 					       gsb_data_transaction_get_transaction_id ( transaction_number),
 					       gsb_format_gdate_safe ( gsb_data_transaction_get_date ( transaction_number )),
 					       gsb_format_gdate_safe ( gsb_data_transaction_get_value_date ( transaction_number )),
-					       gsb_real_get_string (gsb_data_transaction_get_amount ( transaction_number )),
 					       gsb_data_transaction_get_currency_number (transaction_number ),
+					       gsb_real_get_string (gsb_data_transaction_get_amount ( transaction_number )),
 					       gsb_data_transaction_get_change_between (transaction_number ),
 					       gsb_real_get_string (gsb_data_transaction_get_exchange_rate (transaction_number )),
 					       gsb_real_get_string (gsb_data_transaction_get_exchange_fees ( transaction_number)),
