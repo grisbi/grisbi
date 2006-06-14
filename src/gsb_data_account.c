@@ -127,6 +127,7 @@ static gint gsb_data_account_max_number ( void );
 extern gsb_real null_real ;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
+extern GSList * sort_accounts;
 /*END_EXTERN*/
 
 
@@ -147,7 +148,9 @@ static struct_account *account_buffer;
 gboolean gsb_data_account_init_variables ( void )
 {
     account_buffer = NULL;
+
     list_accounts = NULL;
+    sort_accounts = NULL;
 
     return FALSE;
 }
@@ -2176,7 +2179,7 @@ gboolean gsb_data_account_reorder ( GSList *new_order )
     while ( new_order )
     {
 	new_list_accounts = g_slist_append ( new_list_accounts, 
-					     gsb_data_account_get_structure ( new_order -> data ) );
+					     gsb_data_account_get_structure ( (gint) new_order -> data ) );
 	new_order = new_order -> next;
     }
 
