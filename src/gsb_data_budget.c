@@ -1199,8 +1199,7 @@ void gsb_data_budget_update_counters ( void )
 
     while ( list_tmp_transactions )
     {
-	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+	gint transaction_number_tmp = gsb_data_transaction_get_transaction_number ( list_tmp_transactions -> data);
 
 	gsb_data_budget_add_transaction_to_budget ( transaction_number_tmp,
 						    gsb_data_transaction_get_budgetary_number ( transaction_number_tmp ),
@@ -1241,7 +1240,7 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
     else
     {
 	empty_budget -> budget_nb_transactions ++;
-	empty_budget -> budget_balance = gsb_real_add ( budget -> budget_balance,
+	empty_budget -> budget_balance = gsb_real_add ( empty_budget -> budget_balance,
 							gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
 														budgetary_line_tree_currency (), -1));
     }

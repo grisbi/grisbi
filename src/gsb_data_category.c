@@ -1264,6 +1264,8 @@ void gsb_data_category_reset_counters ( void )
     empty_category -> category_nb_direct_transactions = 0;
 }
 
+
+
 /**
  * update the counters of the categories
  *
@@ -1291,6 +1293,7 @@ void gsb_data_category_update_counters ( void )
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
 }
+
 
 
 /**
@@ -1322,7 +1325,7 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
     else
     {
 	empty_category -> category_nb_transactions ++;
-	empty_category -> category_balance = gsb_real_add ( category -> category_balance,
+	empty_category -> category_balance = gsb_real_add ( empty_category -> category_balance,
 							    gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
 														    category_tree_currency (), -1));
     }
