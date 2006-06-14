@@ -124,6 +124,7 @@ gchar *gsb_real_get_string ( gsb_real number )
 }
 
 
+
 /**
  * get a real number from a string
  * the string can be formatted :
@@ -137,12 +138,48 @@ gchar *gsb_real_get_string ( gsb_real number )
  * */
 gsb_real gsb_real_get_from_string ( const gchar *string )
 {
+    return gsb_real_get_from_string_normalized ( string, -1 );
+}
+
+
+
+/**
+ * get a real number from a string
+ * the string can be formatted :
+ * - handle , or . as separator
+ * - spaces are ignored
+ * - another character makes a 0 return
+ *
+ * \param string
+ *
+ * \return the number in the string transformed to gsb_real
+ */
+gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default_mantissa )
+{
     gsb_real number = null_real;
-    gint i = 0;
-    gint sign;
+    gint i = 0, sign;
+    gchar * separator, * tmp;
 
     if ( !string)
 	return number;
+
+    if ( default_mantissa > 0 )
+    {
+	separator = strrchr ( string, '.' );
+	if ( ! separator )
+	    separator = strrchr ( string, ',' );
+
+	if ( separator )
+	{
+	    tmp = string + strlen ( string ) - 1;
+	    while ( * tmp == '0' && ( tmp - separator > default_mantissa ) &&
+		    tmp >= string ) 
+	    {
+		* tmp = '\0';
+		tmp --;
+	    }
+	}
+    }
 
     if (string[0] == '-')
     {
@@ -186,6 +223,7 @@ gsb_real gsb_real_get_from_string ( const gchar *string )
     number.mantissa = sign * number.mantissa;
     return number;
 }
+
 
 
 /**
