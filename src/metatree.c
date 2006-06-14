@@ -1823,7 +1823,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
     GtkTreeView * tree_view;
     GtkTreeIter iter;
     gboolean selection_is_set = FALSE;
-    gpointer div, sub_div = NULL;
+    gpointer div = NULL, sub_div = NULL;
     gint div_id, sub_div_id;
 
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
@@ -1843,9 +1843,19 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 			     -1);
 
 	div = iface -> get_div_pointer ( div_id );
+
+	if ( ! div && pointer )
+	{
+	    div_id = iface -> transaction_div_id ( pointer );
+	    div = iface -> get_div_pointer ( div_id );
+
+	    sub_div_id = iface -> transaction_sub_div_id ( pointer );
+	}
+
 	text = g_strconcat ( _(iface -> meta_name),  " : ", 
 			     (div ? iface -> div_name ( div ) : _(iface->no_div_label) ),
 			     NULL );
+
 	if ( div ) 
 	{
 	    balance = g_strconcat ( gsb_real_get_string (iface -> div_balance ( div )),
