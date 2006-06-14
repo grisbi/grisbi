@@ -1467,20 +1467,29 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 
 
 	if ( !strcmp ( attribute_names[i],
-		       "Am" ))
+		       "Cu" ))
 	{
-	    gsb_data_transaction_set_amount ( transaction_number,
-					      gsb_real_get_from_string (attribute_values[i]));
+	    gsb_data_transaction_set_currency_number ( transaction_number,
+						       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
 
 
+
 	if ( !strcmp ( attribute_names[i],
-		       "Cu" ))
+		       "Am" ))
 	{
-	    gsb_data_transaction_set_currency_number ( transaction_number,
-						       utils_str_atoi (attribute_values[i]));
+	    gint floating_point = -1;
+	 
+	    if ( gsb_data_transaction_get_currency_number ( transaction_number ) )
+	    {
+		floating_point = gsb_data_currency_get_floating_point ( gsb_data_transaction_get_currency_number ( transaction_number ) );
+	    }
+
+	    gsb_data_transaction_set_amount ( transaction_number,
+					      gsb_real_get_from_string_normalized (attribute_values[i],
+										   floating_point ) );
 	    i++;
 	    continue;
 	}
@@ -2276,6 +2285,9 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	return;
 
     currency_number = gsb_data_currency_new (NULL);
+
+    /* Default */
+    gsb_data_currency_set_floating_point ( currency_number, 2 );
 
     do
     {
@@ -4308,6 +4320,9 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 	    tmp_currency_link.exchange = null_real;
 
 	    currency_number = gsb_data_currency_new (NULL);
+
+	    /* Default */
+	    gsb_data_currency_set_floating_point ( currency_number, 2 );
 
 	    do
 	    {
