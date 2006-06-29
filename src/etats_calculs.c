@@ -1703,6 +1703,11 @@ classement_suivant:
 		pointeur = pointeur -> next;
 		goto classement_suivant;
 	    }
+	    /* don't use category, go to the next sort */
+	    pointeur = pointeur -> next;
+	    pointeur = pointeur -> next;
+	    goto classement_suivant;
+
 	    break;
 
 	    /* classement des sous catégories */
