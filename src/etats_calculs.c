@@ -1563,9 +1563,6 @@ classement_suivant:
 
 	case 1:
 
-	    /* FIXME vient de refaire ça pour les categs, il faut le faire pour les ib 
-	     * mais pas le temps car en train de faire ma compta !! */
-
 	    /* aide mémoire...
 	     * principe de fonctionnement :
 	     * en haut les categs,
@@ -1716,8 +1713,8 @@ classement_suivant:
 		 &&
 		 etat_courant -> afficher_sous_categ )
 	    {
-		struct struct_sous_categ * scateg1, * scateg2;
-		struct struct_categ * categ1, * categ2;
+		struct struct_sous_categ * scateg1 = NULL, * scateg2 = NULL;
+		struct struct_categ * categ1 = NULL, * categ2 = NULL;
 		GSList * tmp;
 
 		if ( ! operation_1 -> categorie || ! operation_2 -> categorie )
@@ -1772,30 +1769,82 @@ classement_suivant:
 
 	    if ( etat_courant -> utilise_ib )
 	    {
-		struct struct_imputation * ib1, * ib2;
+		struct  struct_imputation *ib1 = NULL, * ib2 = NULL;
 		GSList * tmp;
 
-		if ( !operation_1 -> imputation || !operation_2 -> imputation )
-		    return ( operation_1 -> imputation - operation_2 -> imputation );
+		if (operation_1 -> imputation)
+		{
+		    if (operation_2 -> imputation)
+		    {
+			/* on a 2 ib, on retourne la strcmp entre les 2 */
+			gint retour;
 
-		tmp = g_slist_find_custom ( liste_struct_imputation,
-					    GINT_TO_POINTER ( operation_1 -> imputation ),
-					    ( GCompareFunc ) recherche_imputation_par_no );
-		if ( tmp )
-		    ib1 = tmp -> data;
+			if ( operation_1 -> imputation == operation_2 -> imputation )
+			{
+			    /*       les ib sont identiques, passe au classement suivant (ss ib) */
+			    pointeur = pointeur -> next;
+			    goto classement_suivant;
+			}
 
-		tmp = g_slist_find_custom ( liste_struct_imputation,
-					    GINT_TO_POINTER ( operation_2 -> imputation ),
-					    ( GCompareFunc ) recherche_imputation_par_no );
-		if ( tmp )
-		    ib2 = tmp -> data;
+			tmp = g_slist_find_custom ( liste_struct_imputation,
+						    GINT_TO_POINTER ( operation_1 -> imputation ),
+						    ( GCompareFunc ) recherche_imputation_par_no );
+			if ( tmp )
+			    ib1 = tmp -> data;
 
-		if ( ib1 && ib2 && ( ib1 != ib2 ) )
-		    return g_utf8_collate ( ib1 -> nom_imputation, ib2 -> nom_imputation );
+			tmp = g_slist_find_custom ( liste_struct_imputation,
+						    GINT_TO_POINTER ( operation_2 -> imputation ),
+						    ( GCompareFunc ) recherche_imputation_par_no );
+			if ( tmp )
+			    ib2 = tmp -> data;
+
+			/* on vérifie quand même que les ib existent pour pas tout faire planter */
+			if (ib1)
+			{
+			    if (ib2)
+				retour = g_utf8_collate ( ib1 -> nom_imputation, ib2 -> nom_imputation );
+			    else
+				retour = -1;
+			}
+			else
+			{
+			    if (ib2)
+				retour = 1;
+			    else
+			    {
+				/* les 2 ib n'existent pas, on va donc passer les sous ib... et
+				 * aller au classement suivant */
+				pointeur = pointeur -> next;
+				retour = 0;
+			    }
+			}
+
+			if (retour)
+			    return retour;
+			else
+			{
+			    /*       les ib sont identiques bien que de no différent,
+			     *       passe au classement suivant (ss ib) */
+			    pointeur = pointeur -> next;
+			    goto classement_suivant;
+			}
+		    }
+		    return -1;
+		}
+
+		/* à ce niveau, la ib de l'opé 1 est nulle
+		 * on choise en fonction de l'opé 2 */
+		if (operation_2 -> imputation)
+		    return 1;
+		/* la ib de l'opé 2 est null aussi, on saute les ss ib pour aller voir la suite */
+		pointeur = pointeur -> next;
+		pointeur = pointeur -> next;
+		goto classement_suivant;
 	    }
 
-	    /*       les ib sont identiques, passe au classement suivant */
+	    /* on n'utilise pas les ib, passe à la suite */
 
+	    pointeur = pointeur -> next;
 	    pointeur = pointeur -> next;
 	    goto classement_suivant;
 
@@ -1809,8 +1858,8 @@ classement_suivant:
 		 &&
 		 etat_courant -> afficher_sous_ib )
 	    {
-		struct struct_imputation * ib1, * ib2;
-		struct struct_sous_imputation * sib1, * sib2;
+		struct struct_imputation * ib1 = NULL, * ib2 = NULL;
+		struct struct_sous_imputation * sib1 = NULL, * sib2 = NULL;
 		GSList * tmp;
 
 		if ( !operation_1 -> imputation || !operation_2 -> imputation )
