@@ -2,6 +2,7 @@
 #define _ETATS_AFFICHE_H (1)
 /* START_INCLUDE_H */
 #include "etats_affiche.h"
+#include "structures.h"
 /* END_INCLUDE_H */
 
 #include "structures.h"

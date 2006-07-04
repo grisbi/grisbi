@@ -67,6 +67,7 @@ static gboolean gsb_fyear_config_modify_fyear ( GtkWidget *tree_view );
 static gboolean gsb_fyear_config_remove_fyear ( GtkWidget *tree_view );
 static gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
 				   gpointer null );
+static void gsb_fyear_update_invalid ( GtkWidget *tree_view );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -579,29 +580,75 @@ gboolean gsb_fyear_config_modify_fyear ( GtkWidget *tree_view )
      widget = g_object_get_data ( G_OBJECT (model),
 				 "invalid_label" );
 
-   if (gsb_data_fyear_check_for_invalid (fyear_number))
-   {
-	invalid = GTK_STOCK_DIALOG_WARNING;
-	gtk_label_set_markup ( GTK_LABEL (widget),
-			       gsb_data_fyear_get_invalid_message (fyear_number));
-	gtk_widget_show (widget);
-   }
-    else
-    {
-	invalid = NULL;
-	gtk_widget_hide (widget);
-    }
+     /* the fyear is invalid, we ask to check all the others
+      * to make them invalid too */
+     gsb_fyear_update_invalid (tree_view);
 
-    gtk_list_store_set ( GTK_LIST_STORE (model),
-			 &iter,
-			 FYEAR_NAME_COLUMN, gsb_data_fyear_get_name (fyear_number),
-			 FYEAR_BEGIN_DATE_COLUMN, gsb_format_gdate (gsb_data_fyear_get_begining_date (fyear_number)),
-			 FYEAR_END_DATE_COLUMN, gsb_format_gdate (gsb_data_fyear_get_end_date (fyear_number)) ,
-			 FYEAR_INVALID_COLUMN, invalid,
-			 FYEAR_NUMBER_COLUMN, fyear_number,
-			 -1 );
-    modification_fichier (TRUE);
-    return FALSE;
+     if (gsb_data_fyear_get_invalid (fyear_number))
+     {
+	 /* and now focus on the current fyear */
+	 invalid = GTK_STOCK_DIALOG_WARNING;
+	 gtk_label_set_markup ( GTK_LABEL (widget),
+				gsb_data_fyear_get_invalid_message (fyear_number));
+	 gtk_widget_show (widget);
+     }
+     else
+     {
+	 invalid = NULL;
+	 gtk_widget_hide (widget);
+     }
+
+     gtk_list_store_set ( GTK_LIST_STORE (model),
+			  &iter,
+			  FYEAR_NAME_COLUMN, gsb_data_fyear_get_name (fyear_number),
+			  FYEAR_BEGIN_DATE_COLUMN, gsb_format_gdate (gsb_data_fyear_get_begining_date (fyear_number)),
+			  FYEAR_END_DATE_COLUMN, gsb_format_gdate (gsb_data_fyear_get_end_date (fyear_number)) ,
+			  FYEAR_INVALID_COLUMN, invalid,
+			  FYEAR_NUMBER_COLUMN, fyear_number,
+			  -1 );
+     modification_fichier (TRUE);
+     return FALSE;
+}
+
+/**
+ * update the invalid fyears in the list view
+ *
+ * \param tree_view the tree_view
+ *
+ * \return
+ * */
+void gsb_fyear_update_invalid ( GtkWidget *tree_view )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+
+    /* first update all the invalids flags for the fyears */
+    gsb_data_fyear_check_all_for_invalid ();
+
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+
+    /* now go throw the list and show/hide the invalid flag */
+    if (!gtk_tree_model_get_iter_first ( model, &iter ))
+	return;
+
+    do
+    {
+	gint fyear_number;
+	gchar *invalid;
+
+	gtk_tree_model_get ( model, &iter,
+			     FYEAR_NUMBER_COLUMN, &fyear_number,
+			     -1 );
+	if (gsb_data_fyear_get_invalid (fyear_number))
+	    invalid = GTK_STOCK_DIALOG_WARNING;
+	else
+	    invalid = NULL;
+
+	gtk_list_store_set ( GTK_LIST_STORE (model), &iter,
+			     FYEAR_INVALID_COLUMN, invalid,
+			     -1 );
+    }
+    while ( gtk_tree_model_iter_next ( model, &iter ));
 }
 
 

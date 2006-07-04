@@ -7,6 +7,7 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
+void gsb_data_fyear_check_all_for_invalid ( void );
 gboolean gsb_data_fyear_check_for_invalid ( gint fyear_number );
 gint gsb_data_fyear_compare ( gint fyear_number_1,
 			      gint fyear_number_2 );

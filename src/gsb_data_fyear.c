@@ -60,6 +60,7 @@ typedef struct
 enum fyear_invalid {
     FYEAR_INVALID_DATE_ORDER = 1,
     FYEAR_INVALID_CROSS,
+    FYEAR_INVALID_DATE,
 };
 
 /*START_STATIC*/
@@ -72,7 +73,6 @@ static gint gsb_data_fyear_max_number ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *formulaire;
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_fyear */
@@ -572,9 +572,36 @@ const gchar *gsb_data_fyear_get_invalid_message ( gint fyear_number )
 	case FYEAR_INVALID_CROSS:
 	    string = _("<span foreground=\"red\">Warning : that financial year cross with another one</span>");
 	    break;
+	case FYEAR_INVALID_DATE:
+	    string = _("<span foreground=\"red\">Warning : Invalid date</span>");
+	    break;
     }
 
     return string;
+}
+
+/**
+ * check all the fyear if the are invalid and set their flag
+ * normaly called to each change of a fyear
+ * an invalid fyear will not be used by grisbi and showed as invalid in the configuration
+ *
+ * \param fyear_number the number of the fyear to check
+ *
+ * \return TRUE  if invalid, FALSE if not
+ * */
+void gsb_data_fyear_check_all_for_invalid ( void )
+{
+    GSList *tmp_list;
+
+    tmp_list = fyear_list;
+
+    while (tmp_list)
+    {
+	fyear_buffer = tmp_list -> data;
+	gsb_data_fyear_check_for_invalid ( fyear_buffer -> fyear_number);
+	
+	tmp_list = tmp_list -> next;
+    }
 }
 
 
@@ -596,6 +623,15 @@ gboolean gsb_data_fyear_check_for_invalid ( gint fyear_number )
     if (!fyear)
 	return FALSE;
 
+    /* check if there is some good date */
+    if (!fyear -> begining_date
+	||
+	!fyear -> end_date)
+    {
+	fyear -> invalid_fyear = FYEAR_INVALID_DATE;
+	return TRUE;
+    }
+
     /* first : we check that the first date is above the second */
     if ( g_date_compare (fyear -> begining_date,
 			 fyear -> end_date) > 0)
@@ -603,7 +639,7 @@ gboolean gsb_data_fyear_check_for_invalid ( gint fyear_number )
 	fyear -> invalid_fyear = FYEAR_INVALID_DATE_ORDER;
 	return TRUE;
     }
-/* xxx le test de cross ne marche pas, à refaire + reste à faire : ne pas mettre dans le formulaire un fyear invalid */
+
     /* second : we check if there is not a cross with another fyear */
     if ( (gsb_data_fyear_get_from_date (fyear -> begining_date) != fyear_number)
 	 ||
@@ -612,8 +648,6 @@ gboolean gsb_data_fyear_check_for_invalid ( gint fyear_number )
 	fyear -> invalid_fyear = FYEAR_INVALID_CROSS;
 	return TRUE;
     }
-
-
 
     /* it's ok, the fyear is valid */
     fyear -> invalid_fyear = FALSE;
@@ -654,14 +688,16 @@ GSList *gsb_data_fyear_get_name_list ( void )
 
 /**
  * get the financial year corresponding to the given date
+ * if there is more than 1 financial year corresponding to that date, return -1
  *
  * \param date
  *
- * \return the number of financial year or 0 if not on that date
+ * \return the number of financial year, 0 if none on that date, -1 if more than 1 on that date
  * */
 gint gsb_data_fyear_get_from_date ( const GDate *date )
 {
     GSList *tmp_list;
+    gint return_value = 0;
 
     tmp_list = fyear_list;
     while (tmp_list)
@@ -670,13 +706,22 @@ gint gsb_data_fyear_get_from_date ( const GDate *date )
 
 	fyear = tmp_list -> data;
 
-	if ( g_date_compare ( date, fyear -> begining_date) >= 0
-	     &&
-	     g_date_compare ( date, fyear -> end_date) <= 0 )
-	    return fyear -> fyear_number;
+	/* check the fyear only if the dates are valid */
+	if (fyear -> begining_date && fyear -> end_date)
+	{
+	    if ( g_date_compare ( date, fyear -> begining_date) >= 0
+		 &&
+		 g_date_compare ( date, fyear -> end_date) <= 0 )
+	    {
+		if (return_value)
+		    return_value = -1;
+		else
+		    return_value = fyear -> fyear_number;
+	    }
+	}
 	tmp_list = tmp_list -> next;
     }
-    return 0;
+    return return_value;
 }
 
 

@@ -35,8 +35,8 @@
 /*START_STATIC*/
 static gint count_char_from_string ( gchar *search_char, gchar *string );
 static gchar * gsb_string_escape_underscores ( gchar * orig );
-static gint my_strcmp ( gchar *chaine_1,
-		 gchar *chaine_2 );
+static gint my_strcmp ( gchar *string_1,
+		 gchar *string_2 );
 static int myisolat1ToUTF8(unsigned char* out, int *outlen,
 		    const unsigned char* in, int *inlen);
 static gchar *utils_str_amount_to_str ( glong amount,
@@ -414,23 +414,23 @@ gchar *my_strdelimit ( const gchar *string,
 /* ******************************************************************************* */
 /* my_strcasecmp : compare 2 chaines sensitive que ce soit utf8 ou ascii */
 /* ******************************************************************************* */
-gint my_strcmp ( gchar *chaine_1,
-		 gchar *chaine_2 )
+gint my_strcmp ( gchar *string_1,
+		 gchar *string_2 )
 {
-    if ( chaine_1
+    if ( string_1
 	 &&
-	 chaine_2 )
+	 string_2 )
     {
-	if ( g_utf8_validate ( chaine_1, -1, NULL )
+	if ( g_utf8_validate ( string_1, -1, NULL )
 	     &&
-	     g_utf8_validate ( chaine_2, -1, NULL ))
+	     g_utf8_validate ( string_2, -1, NULL ))
 	{
 	    gint retour;
  	    gchar *new_1, *new_2;
 	    
-	    new_1 = g_utf8_collate_key ( chaine_1,
+	    new_1 = g_utf8_collate_key ( string_1,
 					 -1 );
-	    new_2 = g_utf8_collate_key ( chaine_2,
+	    new_2 = g_utf8_collate_key ( string_2,
 					 -1 );
 	    retour = strcmp ( new_1,
 			      new_2 );
@@ -439,8 +439,8 @@ gint my_strcmp ( gchar *chaine_1,
 	    return ( retour );
 	}
 	else
-	    return ( strcmp ( chaine_1,
-			      chaine_2 ));
+	    return ( strcmp ( string_1,
+			      string_2 ));
     }
 
     return 0;
@@ -450,26 +450,36 @@ gint my_strcmp ( gchar *chaine_1,
 
 
 
-/* ******************************************************************************* */
-/* my_strcasecmp : compare 2 chaines case-insensitive que ce soit utf8 ou ascii */
-/* ******************************************************************************* */
-gint my_strcasecmp ( gchar *chaine_1,
-		     gchar *chaine_2 )
+/**
+ * compare 2 strings unsensitive
+ * if a string is NULL, it will go after the non NULL
+ *
+ * \param string_1
+ * \param string_2
+ *
+ * \return -1 string_1 before string_2 (or string_2 NULL) ; 0 if same or NULL everyone ; +1 if string_1 after string_2 (or string_1 NULL)
+ * */
+gint my_strcasecmp ( gchar *string_1,
+		     gchar *string_2 )
 {
-    if ( chaine_1
+    if (!string_1 && string_2)
+	return 1;
+    if (string_1 && !string_2)
+	return -1;
+    if ( string_1
 	 &&
-	 chaine_2 )
+	 string_2 )
     {
-	if ( g_utf8_validate ( chaine_1, -1, NULL )
+	if ( g_utf8_validate ( string_1, -1, NULL )
 	     &&
-	     g_utf8_validate ( chaine_2, -1, NULL ))
+	     g_utf8_validate ( string_2, -1, NULL ))
 	{
 	    gint retour;
  	    gchar *new_1, *new_2;
 	    
-	    new_1 = g_utf8_collate_key ( g_utf8_casefold ( chaine_1,-1 ),
+	    new_1 = g_utf8_collate_key ( g_utf8_casefold ( string_1,-1 ),
 					 -1 );
-	    new_2 = g_utf8_collate_key ( g_utf8_casefold (  chaine_2,-1 ),
+	    new_2 = g_utf8_collate_key ( g_utf8_casefold (  string_2,-1 ),
 					 -1 );
 	    retour = strcmp ( new_1,
 			      new_2 );
@@ -478,8 +488,8 @@ gint my_strcasecmp ( gchar *chaine_1,
 	    return ( retour );
 	}
 	else
-	    return ( g_ascii_strcasecmp ( chaine_1,
-					  chaine_2 ));
+	    return ( g_ascii_strcasecmp ( string_1,
+					  string_2 ));
     }
 
     return 0;
@@ -492,24 +502,24 @@ gint my_strcasecmp ( gchar *chaine_1,
 /* ******************************************************************************* */
 /* my_strncasecmp : compare 2 chaines case-insensitive que ce soit utf8 ou ascii */
 /* ******************************************************************************* */
-gint my_strncasecmp ( gchar *chaine_1,
-		      gchar *chaine_2,
+gint my_strncasecmp ( gchar *string_1,
+		      gchar *string_2,
 		      gint longueur )
 {
-    if ( chaine_1
+    if ( string_1
 	 &&
-	 chaine_2 )
+	 string_2 )
     {
-	if ( g_utf8_validate ( chaine_1, -1, NULL )
+	if ( g_utf8_validate ( string_1, -1, NULL )
 	     &&
-	     g_utf8_validate ( chaine_2, -1, NULL ))
+	     g_utf8_validate ( string_2, -1, NULL ))
 	{
 	    gint retour;
  	    gchar *new_1, *new_2;
 	    
-	    new_1 = g_utf8_collate_key ( g_utf8_casefold ( chaine_1,longueur ),
+	    new_1 = g_utf8_collate_key ( g_utf8_casefold ( string_1,longueur ),
 					 longueur );
-	    new_2 = g_utf8_collate_key ( g_utf8_casefold (  chaine_2,longueur ),
+	    new_2 = g_utf8_collate_key ( g_utf8_casefold (  string_2,longueur ),
 					 longueur );
 	    retour = strcasecmp ( new_1, new_2);
 	    g_free ( new_1 );
@@ -517,8 +527,8 @@ gint my_strncasecmp ( gchar *chaine_1,
 	    return ( retour );
 	}
 	else
-	    return ( g_ascii_strncasecmp ( chaine_1,
-					   chaine_2,
+	    return ( g_ascii_strncasecmp ( string_1,
+					   string_2,
 					   longueur ));
     }
 

@@ -39,10 +39,10 @@
 #include "navigation.h"
 #include "gsb_real.h"
 #include "gsb_status.h"
+#include "utils_str.h"
 #include "print_config.h"
 #include "utils_rapprochements.h"
 #include "utils_types.h"
-#include "utils_str.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
@@ -1255,10 +1255,10 @@ gint compare_cheques_etat ( gint chq_ope,
 			    gint chq_test,
 			    gint comparateur )
 {
-    gint retour;
+    gint return_value;
 
 
-    retour = 0;
+    return_value = 0;
 
     switch ( comparateur )
     {
@@ -1266,53 +1266,53 @@ gint compare_cheques_etat ( gint chq_ope,
 	    /* =  */
 
 	    if ( chq_ope == chq_test )
-		retour = 1;
+		return_value = 1;
 	    break;
 
 	case 1:
 	    /* <  */
 
 	    if ( chq_ope < chq_test )
-		retour = 1;
+		return_value = 1;
 	    break;
 
 	case 2:
 	    /* <=  */
 
 	    if ( chq_ope <= chq_test )
-		retour = 1;
+		return_value = 1;
 	    break;
 
 	case 3:
 	    /* >  */
 
 	    if ( chq_ope > chq_test )
-		retour = 1;
+		return_value = 1;
 	    break;
 
 	case 4:
 	    /* >=  */
 
 	    if ( chq_ope >= chq_test )
-		retour = 1;
+		return_value = 1;
 	    break;
 
 	case 5:
 	    /* !=  */
 
 	    if ( chq_ope != chq_test )
-		retour = 1;
+		return_value = 1;
 	    break;
 
 	case 6:
 	    /* le plus grand */
 
 	    if ( chq_ope == chq_test )
-		retour = 1;
+		return_value = 1;
 	    break;
     }
 
-    return ( retour );
+    return ( return_value );
 }
 /*****************************************************************************************************/
 
@@ -1328,7 +1328,7 @@ gint compare_montants_etat ( gsb_real montant_ope,
 			     gsb_real montant_test,
 			     gint comparateur )
 {
-    gint retour = 0;
+    gint return_value = 0;
 
     switch ( comparateur )
     {
@@ -1336,73 +1336,73 @@ gint compare_montants_etat ( gsb_real montant_ope,
 	    /* =  */
 
 	    if ( !gsb_real_cmp (montant_ope, montant_test))
-		retour = 1;
+		return_value = 1;
 	    break;
 
 	case 1:
 	    /* <  */
 
 	    if ( gsb_real_cmp (montant_ope, montant_test) < 0)
-		retour = 1;
+		return_value = 1;
 	    break;
 
 	case 2:
 	    /* <=  */
 
 	    if ( gsb_real_cmp (montant_ope, montant_test) <= 0)
-		retour = 1;
+		return_value = 1;
 	    break;
 
 	case 3:
 	    /* >  */
 
 	    if ( gsb_real_cmp (montant_ope, montant_test) > 0)
-		retour = 1;
+		return_value = 1;
 	    break;
 
 	case 4:
 	    /* >=  */
 
 	    if ( gsb_real_cmp (montant_ope, montant_test) >= 0)
-		retour = 1;
+		return_value = 1;
 	    break;
 
 	case 5:
 	    /* !=  */
 
 	    if ( gsb_real_cmp (montant_ope, montant_test))
-		retour = 1;
+		return_value = 1;
 	    break;
 
 	case 6:
 	    /* nul  */
 
 	    if ( !montant_ope.mantissa )
-		retour = 1;
+		return_value = 1;
 	    break;
 
 	case 7:
 	    /* non nul  */
 
 	    if ( montant_ope.mantissa )
-		retour = 1;
+		return_value = 1;
 	    break;
 
 	case 8:
 	    /* positif  */
 
 	    if ( montant_ope.mantissa > 0 )
-		retour = 1;
+		return_value = 1;
 	    break;
 
 	case 9:
 	    /* négatif  */
 
 	    if ( montant_ope.mantissa < 0 )
-		retour = 1;
+		return_value = 1;
 	    break;
     }
-    return ( retour );
+    return ( return_value );
 }
 /*****************************************************************************************************/
 
@@ -1452,8 +1452,10 @@ void impression_etat_courant ( )
 
 gint classement_liste_opes_etat ( gpointer transaction_1, gpointer transaction_2 )
 {
-    gint current_report_number, transaction_number_1, transaction_number_2;
+    gint transaction_number_1, transaction_number_2;
     GSList *pointeur;
+    gint current_report_number;
+    gint return_value;
 
     transaction_number_1 = gsb_data_transaction_get_transaction_number ( transaction_1 );
     transaction_number_2 = gsb_data_transaction_get_transaction_number ( transaction_2 );
@@ -1479,139 +1481,306 @@ classement_suivant:
 	/* classement des catégories */
 
 	case 1:
-
-	    if ( gsb_data_report_get_category_used (current_report_number))
+	    /* aide mémoire...
+	     * principe de fonctionnement :
+	     * en haut les categs,
+	     * en dessous les sans categs,
+	     * en dessous les ventils
+	     * en dessous les virements
+	     *
+	     * pour chaque possibilité de l'opé 1, on va tester chaque possibilité de l'opé 2
+	     * cad on va tester l'opé 1 sur categ, pas de categ, ventil, virement
+	     * et pour chacun on teste l'opé 2 sur categ, pas de categ, ventil, virement
+	     * */
+	    if (gsb_data_report_get_category_used (current_report_number))
 	    {
-		if ( gsb_data_transaction_get_category_number (transaction_number_1) != transaction_number_2)
-		    return ( gsb_data_transaction_get_category_number (transaction_number_1) - gsb_data_transaction_get_category_number (transaction_number_2));
+		gint category_number_1;
+		gint category_number_2;
+		
+		category_number_1 = gsb_data_transaction_get_category_number (transaction_number_1);
+		category_number_2 = gsb_data_transaction_get_category_number (transaction_number_2);
 
-		/*     si  les catégories sont nulles, on doit départager entre virements, pas */
-		/* de categ ou opé ventilée */
-		/* on met en 1er les opés sans categ, ensuite les ventilations et enfin les virements */
+		/* Si les catégories sont nulles, on doit départager
+		 * entre virements, pas de categ ou opé ventilée on
+		 * met en 1er les opés sans categ, ensuite les
+		 * ventilations et enfin les virements */
 
-		if ( !gsb_data_transaction_get_category_number (transaction_number_1))
+		if (category_number_1)
 		{
-		    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_1))
+		    if (category_number_2)
 		    {
-			if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_2))
-			    return ( -1 );
-			else
-			    if ( !gsb_data_transaction_get_breakdown_of_transaction (transaction_number_2))
-				return ( 1 );
-		    }
-		    else
-		    {
-			if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_1))
+			/* 2 categories, return sorted */
+			gchar *category_name_1;
+			gchar *category_name_2;
+
+			if ( category_number_1 == category_number_2 )
 			{
-			    if ( !gsb_data_transaction_get_transaction_number_transfer (transaction_number_2))
-				return ( 1 );
+			    /* the 2 categories are the same, go to sub categ */
+			    pointeur = pointeur -> next;
+			    goto classement_suivant;
 			}
+
+			category_name_1 = gsb_data_category_get_name (category_number_1, 0, NULL);
+			category_name_2 = gsb_data_category_get_name (category_number_2, 0, NULL);
+			return_value = my_strcasecmp (category_name_1, category_name_2);
+
+			if (return_value)
+			    return return_value;
 			else
-			    if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_2)
-				 ||
-				 gsb_data_transaction_get_breakdown_of_transaction (transaction_number_2))
-				return ( -1 );
+			{
+			    /* the categories have the same name, go to sub categ */
+			    pointeur = pointeur -> next;
+			    goto classement_suivant;
+			}
 		    }
+		    /* here, categ 2 is 0 and categ 1 is not 0, so categ 1 goes before categ 2 */
+		    return -1;
 		}
+
+		/* come here if transaction_1 has no category, so can be transfer or breakdown */
+		if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_1))
+		{
+		    if (category_number_2)
+			/* transaction_2 has a category => go before transaction_1 */
+			return 1;
+		    if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_2))
+			/* transaction_2 is a transfer, and transaction_1 a breakdown, so breakdown first please */
+			return -1;
+		    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_2))
+		    {
+			/* ok, the 2 transactions are breakdown, so cannot separate them with category and
+			 * sub category, so go to 2 times after that sort */
+			pointeur = pointeur -> next;
+			pointeur = pointeur -> next;
+			goto classement_suivant;
+		    }
+		    /* category_number_2 is 0, so go go before the transaction_1 (without categ come before breakdown or transfer) */
+		    return 1;
+		}
+
+		/* come here if transaction_1 has no category and is not a breakdown */
+		if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_1))
+		{
+		    if (category_number_2)
+			/* transaction_2 has a category => go before transaction_1 */
+			return 1;
+		    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_2))
+			/* transaction_2 is a breakdown, and transaction_1 a transfer, so breakdown first please */
+			return 1;
+		    if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_2))
+		    {
+			/* the 2 transactions are transfer, we return a strcmp on their name */
+			return_value = my_strcasecmp ( gsb_data_account_get_name (gsb_data_transaction_get_transaction_number_transfer (transaction_number_1)),
+						       gsb_data_account_get_name (gsb_data_transaction_get_transaction_number_transfer (transaction_number_2)));
+
+			if (return_value)
+			    return return_value;
+			else
+			{
+			    /* transfer to the same name of accout, go to the next sort after the sub categ */
+			    pointeur = pointeur -> next;
+			    pointeur = pointeur -> next;
+			    goto classement_suivant;
+			}
+		    }
+		    /* transaction_2 has no categ, so go before transaction_1 */
+		    return 1;
+		}
+
+		/* come here if transaction_1 has no categ, no transfer and no breakdown,
+		 * return according to transaction_2 */
+
+		if (category_number_2)
+		    return 1;
+		if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number_2)
+		    ||
+		    gsb_data_transaction_get_transaction_number_transfer (transaction_number_2))
+		    return -1;
+
+		/* transaction_2 has too no categ, no transfer and no breakdown,
+		 * so jumb sub categ and go to the next sort */
+ 		pointeur = pointeur -> next;
+ 		pointeur = pointeur -> next;
+ 		goto classement_suivant;
 	    }
-
-	    /*       les catégories sont identiques, passe au classement suivant */
-
-	    pointeur = pointeur -> next;
-	    goto classement_suivant;
-
+	    else
+	    {
+		/* don't use category, go to the next sort */
+		pointeur = pointeur -> next;
+		pointeur = pointeur -> next;
+		goto classement_suivant;
+	    }
 	    break;
 
 	    /* classement des sous catégories */
-
 	case 2:
 
+	    /* normaly can come here only if it's a real category, so don't check here */
 	    if ( gsb_data_report_get_category_used (current_report_number)
 		 &&
 		 gsb_data_report_get_category_show_sub_category (current_report_number))
 	    {
-		if ( gsb_data_transaction_get_sub_category_number (transaction_number_1) != gsb_data_transaction_get_sub_category_number (transaction_number_2))
-		    return ( gsb_data_transaction_get_sub_category_number (transaction_number_1)- gsb_data_transaction_get_sub_category_number (transaction_number_2));
+		/* we sort by sub-categ, alphabetic order, and first with sub-categ, no sub-categ come after */
+		gchar *categ_name_1;
+		gchar *categ_name_2;
+
+		categ_name_1 = gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number_1),
+							    gsb_data_transaction_get_sub_category_number (transaction_number_1),
+							    NULL);
+		categ_name_2 = gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number_2),
+							    gsb_data_transaction_get_sub_category_number (transaction_number_2),
+							    NULL);
+		return_value = my_strcasecmp (categ_name_1, categ_name_2);
+
+		if (return_value)
+		    return return_value;
+		else
+		{
+		    /* the sub-categs have the same name, go to next sort */
+		    pointeur = pointeur -> next;
+		    goto classement_suivant;
+		}
 	    }
-
-	    /*       les ss-catégories sont identiques, passe au classement suivant */
-
-	    pointeur = pointeur -> next;
-	    goto classement_suivant;
-
+	    else
+	    {
+		/* don't use sub_categ */
+		pointeur = pointeur -> next;
+		goto classement_suivant;
+	    }
 	    break;
 
 	    /* classement des ib */
-
 	case 3:
 
 	    if ( gsb_data_report_get_budget_used (current_report_number))
 	    {
-		if ( gsb_data_transaction_get_budgetary_number (transaction_number_1)!= gsb_data_transaction_get_budgetary_number (transaction_number_2))
-		    return ( gsb_data_transaction_get_budgetary_number (transaction_number_1)- gsb_data_transaction_get_budgetary_number (transaction_number_2));
+		/* we sort by budget, alphabetic order, and first with budgets, no budgets come after */
+		gchar *budget_name_1;
+		gchar *budget_name_2;
+
+		budget_name_1 = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number (transaction_number_1), 0, NULL);
+		budget_name_2 = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number (transaction_number_2), 0, NULL);
+		return_value = my_strcasecmp (budget_name_1, budget_name_2);
+
+		if (return_value)
+		    return return_value;
+		else
+		{
+		    /* the budgets have the same name, go to sub budget */
+		    pointeur = pointeur -> next;
+		    goto classement_suivant;
+		}
 	    }
-
-	    /*       les ib sont identiques, passe au classement suivant */
-
-	    pointeur = pointeur -> next;
-	    goto classement_suivant;
+	    else
+	    {
+		/* don't use budgets */
+		pointeur = pointeur -> next;
+		pointeur = pointeur -> next;
+		goto classement_suivant;
+	    }
 
 	    break;
 
 	    /* classement des sous ib */
-
 	case 4:
 
 	    if ( gsb_data_report_get_budget_used (current_report_number)
 		 &&
 		 gsb_data_report_get_budget_show_sub_budget (current_report_number))
 	    {
-		if ( gsb_data_transaction_get_sub_budgetary_number (transaction_number_1) != gsb_data_transaction_get_sub_budgetary_number (transaction_number_2))
-		    return ( gsb_data_transaction_get_sub_budgetary_number (transaction_number_1) - gsb_data_transaction_get_sub_budgetary_number (transaction_number_2));
+		/* we sort by sub-budget, alphabetic order, and first with sub-budgets, no sub-budgets come after */
+		gchar *budget_name_1;
+		gchar *budget_name_2;
+
+		budget_name_1 = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number (transaction_number_1),
+							   gsb_data_transaction_get_sub_budgetary_number (transaction_number_1),
+							   NULL);
+		budget_name_2 = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number (transaction_number_2),
+							   gsb_data_transaction_get_sub_budgetary_number (transaction_number_2),
+							   NULL);
+		return_value = my_strcasecmp (budget_name_1, budget_name_2);
+
+		if (return_value)
+		    return return_value;
+		else
+		{
+		    /* the sub-budgets have the same name, go to next sort */
+		    pointeur = pointeur -> next;
+		    goto classement_suivant;
+		}
 	    }
-
-	    /*       les ib sont identiques, passe au classement suivant */
-
-	    pointeur = pointeur -> next;
-	    goto classement_suivant;
-
+	    else
+	    {
+		/* don't use sub-budget */
+		pointeur = pointeur -> next;
+		goto classement_suivant;
+	    }
 	    break;
 
-
 	    /* classement des comptes */
-
 	case 5:
 
 	    if ( gsb_data_report_get_account_group_reports (current_report_number))
 	    {
-		if ( gsb_data_transaction_get_account_number (transaction_number_1) != gsb_data_transaction_get_account_number (transaction_number_2))
-		    return ( gsb_data_transaction_get_account_number (transaction_number_1) - gsb_data_transaction_get_account_number (transaction_number_2));
+		/* sort by account, alphabetic order FIXME : perhaps ask in parameters for alphabetic or different order ?*/
+		gchar *account_name_1;
+		gchar *account_name_2;
+
+		account_name_1 = gsb_data_account_get_name ( gsb_data_transaction_get_account_number (transaction_number_1));
+		account_name_2 = gsb_data_account_get_name ( gsb_data_transaction_get_account_number (transaction_number_2));
+		return_value = my_strcasecmp (account_name_1, account_name_2);
+
+		if (return_value)
+		    return return_value;
+		else
+		{
+		    /* the accounts have the same name, go to next sort */
+		    pointeur = pointeur -> next;
+		    goto classement_suivant;
+		}
 	    }
-
-	    /*       les comptes sont identiques, passe au classement suivant */
-
-	    pointeur = pointeur -> next;
-	    goto classement_suivant;
+	    else
+	    {
+		/* don't use account sort, go to next sort */
+		pointeur = pointeur -> next;
+		goto classement_suivant;
+	    }
 	    break;
 
 
 	    /* classement des tiers */
-
 	case 6:
 
 	    if ( gsb_data_report_get_payee_used (current_report_number))
 	    {
-		if ( gsb_data_transaction_get_party_number (transaction_number_1)!= gsb_data_transaction_get_party_number (transaction_number_2))
-		    return ( gsb_data_transaction_get_party_number (transaction_number_1)- gsb_data_transaction_get_party_number (transaction_number_2));
+		/* sort by party, alphabetic order */
+		gchar *party_name_1;
+		gchar *party_name_2;
+
+		party_name_1 = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number (transaction_number_1), TRUE);
+		party_name_2 = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number (transaction_number_2), TRUE);
+		return_value = my_strcasecmp (party_name_1, party_name_2);
+
+		if (return_value)
+		    return return_value;
+		else
+		{
+		    /* the payees have the same name, go to next sort */
+		    pointeur = pointeur -> next;
+		    goto classement_suivant;
+		}
 	    }
-
-	    /*       les tiers sont identiques, passe au classement suivant */
-
-	    pointeur = pointeur -> next;
-	    goto classement_suivant;
+	    else
+	    {
+		/* don't use payee sort, go to next sort */
+		pointeur = pointeur -> next;
+		goto classement_suivant;
+	    }
 	    break;
     }
-    return (0);
+    /* not a good idea to return 0 because means equal,
+     * normaly don't come here */
+    return (-1);
 }
 /*****************************************************************************************************/
 
@@ -1625,7 +1794,9 @@ classement_suivant:
 
 gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 )
 {
-    gint retour, current_report_number, transaction_number_1, transaction_number_2;
+    gint return_value;
+    gint current_report_number;
+    gint transaction_number_1, transaction_number_2;
 
     transaction_number_1 = gsb_data_transaction_get_transaction_number ( transaction_1 );
     transaction_number_2 = gsb_data_transaction_get_transaction_number ( transaction_2 );
@@ -1637,14 +1808,14 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	case 0:
 	    /* date  */
 
-	    retour = g_date_compare ( gsb_data_transaction_get_date (transaction_number_1),
+	    return_value = g_date_compare ( gsb_data_transaction_get_date (transaction_number_1),
 				      gsb_data_transaction_get_date (transaction_number_2));
 	    break;
 
 	case 1:
 	    /* no opé  */
 
-	    retour = transaction_number_1 - transaction_number_2;
+	    return_value = transaction_number_1 - transaction_number_2;
 	    break;
 
 	case 2:
@@ -1653,9 +1824,9 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    if ( !gsb_data_transaction_get_party_number ( transaction_number_1)
 		 ||
 		 !gsb_data_transaction_get_party_number ( transaction_number_2))
-		retour = gsb_data_transaction_get_party_number ( transaction_number_2)- gsb_data_transaction_get_party_number ( transaction_number_1);
+		return_value = gsb_data_transaction_get_party_number ( transaction_number_2)- gsb_data_transaction_get_party_number ( transaction_number_1);
 	    else
-		retour = g_strcasecmp ( gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number_1), TRUE ),
+		return_value = g_strcasecmp ( gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number_1), TRUE ),
 					gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number_2), TRUE ));
 	    break;
 
@@ -1665,7 +1836,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    if ( !gsb_data_transaction_get_category_number ( transaction_number_1)
 		 ||
 		 !gsb_data_transaction_get_category_number ( transaction_number_2))
-		retour = gsb_data_transaction_get_category_number ( transaction_number_2)- gsb_data_transaction_get_category_number ( transaction_number_1);
+		return_value = gsb_data_transaction_get_category_number ( transaction_number_2)- gsb_data_transaction_get_category_number ( transaction_number_1);
 	    else
 	    {
 		if ( gsb_data_transaction_get_category_number ( transaction_number_1)== gsb_data_transaction_get_category_number ( transaction_number_2)
@@ -1673,9 +1844,9 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 		     ( !gsb_data_transaction_get_sub_category_number ( transaction_number_1)
 		       ||
 		       !gsb_data_transaction_get_sub_category_number ( transaction_number_2)))
-		    retour = gsb_data_transaction_get_sub_category_number ( transaction_number_2)- gsb_data_transaction_get_sub_category_number ( transaction_number_1);
+		    return_value = gsb_data_transaction_get_sub_category_number ( transaction_number_2)- gsb_data_transaction_get_sub_category_number ( transaction_number_1);
 		else
-		    retour = g_strcasecmp ( gsb_data_category_get_name ( gsb_data_transaction_get_category_number ( transaction_number_1),
+		    return_value = g_strcasecmp ( gsb_data_category_get_name ( gsb_data_transaction_get_category_number ( transaction_number_1),
 									 gsb_data_transaction_get_sub_category_number ( transaction_number_1),
 									 NULL ),
 					    gsb_data_category_get_name ( gsb_data_transaction_get_category_number ( transaction_number_2),
@@ -1690,7 +1861,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    if ( !gsb_data_transaction_get_budgetary_number ( transaction_number_1)
 		 ||
 		 !gsb_data_transaction_get_budgetary_number ( transaction_number_2))
-		retour = gsb_data_transaction_get_budgetary_number ( transaction_number_2)- gsb_data_transaction_get_budgetary_number ( transaction_number_1);
+		return_value = gsb_data_transaction_get_budgetary_number ( transaction_number_2)- gsb_data_transaction_get_budgetary_number ( transaction_number_1);
 	    else
 	    {
 		if ( gsb_data_transaction_get_budgetary_number ( transaction_number_1)== gsb_data_transaction_get_budgetary_number ( transaction_number_2)
@@ -1698,9 +1869,9 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 		     ( !gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1)
 		       ||
 		       !gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2)))
-		    retour = gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2) - gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1);
+		    return_value = gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2) - gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1);
 		else
-		    retour = g_strcasecmp ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number_1),
+		    return_value = g_strcasecmp ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number_1),
 								       gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1),
 								       NULL ),
 					    gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number_2),
@@ -1715,10 +1886,10 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    if ( gsb_data_transaction_get_notes ( transaction_number_1)
 		 &&
 		 gsb_data_transaction_get_notes ( transaction_number_2))
-		retour = g_strcasecmp ( gsb_data_transaction_get_notes ( transaction_number_1),
+		return_value = g_strcasecmp ( gsb_data_transaction_get_notes ( transaction_number_1),
 					gsb_data_transaction_get_notes ( transaction_number_2));
 	    else
-		retour = GPOINTER_TO_INT ( gsb_data_transaction_get_notes ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_notes ( transaction_number_1));
+		return_value = GPOINTER_TO_INT ( gsb_data_transaction_get_notes ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_notes ( transaction_number_1));
 	    break;
 
 	case 6:
@@ -1727,13 +1898,13 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    if ( !gsb_data_transaction_get_method_of_payment_number ( transaction_number_1)
 		 ||
 		 !gsb_data_transaction_get_method_of_payment_number ( transaction_number_2))
-		retour = gsb_data_transaction_get_method_of_payment_number ( transaction_number_2)- gsb_data_transaction_get_method_of_payment_number ( transaction_number_1);
+		return_value = gsb_data_transaction_get_method_of_payment_number ( transaction_number_2)- gsb_data_transaction_get_method_of_payment_number ( transaction_number_1);
 	    else
 	    {
 		/* les opés peuvent provenir de 2 comptes différents, il faut donc trouver les 2 types dans les */
 		/* listes différentes */
 
-		retour = g_strcasecmp ( type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_1),
+		return_value = g_strcasecmp ( type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_1),
 							      gsb_data_transaction_get_account_number (transaction_number_1)),
 					type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_2),
 							      gsb_data_transaction_get_account_number (transaction_number_2)));
@@ -1746,10 +1917,10 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    if ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_1)
 		 &&
 		 gsb_data_transaction_get_method_of_payment_content ( transaction_number_2))
-		retour = g_strcasecmp ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_1),
+		return_value = g_strcasecmp ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_1),
 					gsb_data_transaction_get_method_of_payment_content ( transaction_number_2));
 	    else
-		retour = GPOINTER_TO_INT ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_1));
+		return_value = GPOINTER_TO_INT ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_1));
 	    break;
 
 	case 8:
@@ -1758,10 +1929,10 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    if ( gsb_data_transaction_get_voucher ( transaction_number_1)
 		 &&
 		 gsb_data_transaction_get_voucher ( transaction_number_2))
-		retour = g_strcasecmp ( gsb_data_transaction_get_voucher ( transaction_number_1),
+		return_value = g_strcasecmp ( gsb_data_transaction_get_voucher ( transaction_number_1),
 					gsb_data_transaction_get_voucher ( transaction_number_2));
 	    else
-		retour = GPOINTER_TO_INT ( gsb_data_transaction_get_voucher ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_voucher ( transaction_number_1));
+		return_value = GPOINTER_TO_INT ( gsb_data_transaction_get_voucher ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_voucher ( transaction_number_1));
 	    break;
 
 	case 9:
@@ -1770,10 +1941,10 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    if ( gsb_data_transaction_get_bank_references ( transaction_number_1)
 		 &&
 		 gsb_data_transaction_get_bank_references ( transaction_number_2))
-		retour = g_strcasecmp ( gsb_data_transaction_get_bank_references ( transaction_number_1),
+		return_value = g_strcasecmp ( gsb_data_transaction_get_bank_references ( transaction_number_1),
 					gsb_data_transaction_get_bank_references ( transaction_number_2));
 	    else
-		retour = GPOINTER_TO_INT ( gsb_data_transaction_get_bank_references ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_bank_references ( transaction_number_1));
+		return_value = GPOINTER_TO_INT ( gsb_data_transaction_get_bank_references ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_bank_references ( transaction_number_1));
 	    break;
 
 	case 10:
@@ -1782,21 +1953,21 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    if ( !gsb_data_transaction_get_reconcile_number ( transaction_number_1)
 		 ||
 		 !gsb_data_transaction_get_reconcile_number ( transaction_number_2))
-		retour = gsb_data_transaction_get_reconcile_number ( transaction_number_2)- gsb_data_transaction_get_reconcile_number ( transaction_number_1);
+		return_value = gsb_data_transaction_get_reconcile_number ( transaction_number_2)- gsb_data_transaction_get_reconcile_number ( transaction_number_1);
 	    else
-		retour = g_strcasecmp ( rapprochement_name_by_no( gsb_data_transaction_get_reconcile_number ( transaction_number_1)),
+		return_value = g_strcasecmp ( rapprochement_name_by_no( gsb_data_transaction_get_reconcile_number ( transaction_number_1)),
 					rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( transaction_number_2)));
 	    break;
 
 	default :
-	    retour = 0;
+	    return_value = 0;
     }
 
 
-    if ( !retour )
-	    retour = transaction_number_1 - transaction_number_2;
+    if ( !return_value )
+	    return_value = transaction_number_1 - transaction_number_2;
 
-    return ( retour );
+    return ( return_value );
 }
 
 

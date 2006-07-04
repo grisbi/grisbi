@@ -3,6 +3,7 @@
 
 /* START_INCLUDE_H */
 #include "import.h"
+#include "gsb_data_transaction.h"
 /* END_INCLUDE_H */
 
 /* mk_include seems not to catch enums */
@@ -13,9 +14,8 @@
 GSList * import_selected_files ( GtkWidget * assistant );
 void importer_fichier ( void );
 GtkWidget *onglet_importation (void);
+void register_import_formats ();
 gchar * unique_imported_name ( gchar * account_name );
-void register_import_format ();
-void traitement_operations_importees ( void );
 /* END_DECLARATION */
 
 

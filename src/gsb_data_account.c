@@ -126,8 +126,8 @@ static gint gsb_data_account_max_number ( void );
 /*START_EXTERN*/
 extern gsb_real null_real ;
 extern GtkTreeSelection * selection;
+extern GSList *sort_accounts;
 extern GtkWidget *tree_view;
-extern GSList * sort_accounts;
 /*END_EXTERN*/
 
 

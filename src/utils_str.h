@@ -13,14 +13,14 @@ gchar * gsb_string_truncate ( gchar * string );
 gchar * latin2utf8 ( const gchar * inchar);
 gchar *limit_string ( gchar *string,
 		      gint length );
-gint my_strcasecmp ( gchar *chaine_1,
-		     gchar *chaine_2 );
+gint my_strcasecmp ( gchar *string_1,
+		     gchar *string_2 );
 gchar *my_strdelimit ( const gchar *string,
 		       gchar *delimiters,
 		       gchar *new_delimiters );
 gchar *my_strdup ( const gchar *string );
-gint my_strncasecmp ( gchar *chaine_1,
-		      gchar *chaine_2,
+gint my_strncasecmp ( gchar *string_1,
+		      gchar *string_2,
 		      gint longueur );
 double my_strtod ( const char *nptr, const char **endptr );
 gint utils_str_atoi ( const gchar *chaine );

@@ -56,21 +56,19 @@
 #include "tiers_onglet.h"
 #include "utils_str.h"
 #include "utils_operations.h"
-#include "gnucash.h"
 #include "qif.h"
 #include "utils_comptes.h"
 #include "imputation_budgetaire.h"
 #include "structures.h"
 #include "gsb_file_config.h"
-#include "import.h"
 #include "include.h"
-#include "gsb_plugins.h"
+#include "import.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static gboolean affichage_recapitulatif_importation ( GtkWidget * assistant );
 static gchar * autodetect_file_type ( gchar * filename, FILE * fichier, 
-				      gchar * pointeur_char );
+			       gchar * pointeur_char );
 static gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button );
 static gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 				       gint result,
@@ -86,8 +84,8 @@ static void gsb_import_add_imported_transactions ( struct struct_compte_importat
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
 				     gint account_number );
-void gsb_import_register_account ( struct struct_compte_importation * account );
-void gsb_import_register_account_error ( struct struct_compte_importation * account );
+static void gsb_import_register_account ( struct struct_compte_importation * account );
+static void gsb_import_register_account_error ( struct struct_compte_importation * account );
 static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
 static gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *path_str,
 				 gpointer model );
@@ -101,6 +99,8 @@ static gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 static gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 			      const gchar *value, GtkListStore * model );
 static void pointe_opes_importees ( struct struct_compte_importation *imported_account );
+static void register_import_format ( struct import_format * format );
+static void traitement_operations_importees ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -109,6 +109,7 @@ extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
+extern GSList * plugins ;
 extern GtkWidget *preview;
 extern GtkWidget *tree_view;
 extern GtkWidget *tree_view_vbox;

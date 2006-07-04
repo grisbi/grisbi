@@ -49,6 +49,7 @@ static struct gnucash_split * new_split ( gsb_real amount, gchar * account, gcha
 static struct struct_ope_importation * new_transaction_from_split ( struct gnucash_split * split,
 							     gchar * tiers, GDate * date );
 static xmlDocPtr parse_gnucash_file ( gchar * filename );
+static gboolean recuperation_donnees_gnucash ( struct imported_file * imported );
 static void recuperation_donnees_gnucash_book ( xmlNodePtr book_node );
 static void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node );
 static void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node );

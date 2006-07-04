@@ -52,6 +52,7 @@
 #include "traitement_variables.h"
 #include "comptes_traitements.h"
 #include "parse_cmdline.h"
+#include "import.h"
 #include "utils_files.h"
 #include "include.h"
 #include "structures.h"
