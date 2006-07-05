@@ -45,6 +45,8 @@ FILE * csv_out;
 gint csv_lastcol = 0;
 gint csv_lastline = 1;
 
+#define GSB_CSV_SEPARATOR ';'
+
 /* RFC4810 considerations:
  * 
  * As it's not clear in RFC4180 if it's possible to have Double quoted enclosed and not enclosed field on the same line,
@@ -88,7 +90,7 @@ void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, 
     }
 
     for ( pad = csv_lastcol ; pad <= x ; pad ++ )
-	fprintf ( csv_out, "\"\";" );
+	fprintf ( csv_out, "\"\"%c", GSB_CSV_SEPARATOR );
 
     realsize = (x2 - x);
     if ( realsize > 1 )
@@ -109,10 +111,10 @@ void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, 
 
     fprintf ( csv_out, "\"" );
     csv_safe(text);
-    fprintf ( csv_out, "\"" );
+    fprintf ( csv_out, "\"%c", GSB_CSV_SEPARATOR );
 
     for ( x++; x < x2 ; x ++ )
-	fprintf ( csv_out, "\"\";" ); 
+	fprintf ( csv_out, "\"\"%c",GSB_CSV_SEPARATOR ); 
 
     csv_lastcol = x2;
 }
@@ -259,6 +261,7 @@ void csv_safe ( gchar * text )
     
 #ifdef _WIN32
     syslocale_text = g_locale_from_utf8(text,-1,NULL,NULL,NULL);
+    if (syslocale_text) { ptr_in_buffer  = syslocale_text; }
 #endif
 
     for ( ; * ptr_in_buffer; ptr_in_buffer ++ )
