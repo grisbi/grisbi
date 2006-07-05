@@ -611,15 +611,27 @@ gint gsb_data_budget_new_sub_budget_with_number ( gint number,
  *
  * \return the number of the budget or 0 if problem
  * */
-gint gsb_data_budget_get_number_by_name ( gchar *name,
+gint gsb_data_budget_get_number_by_name ( const gchar *name,
 					  gboolean create,
 					  gint budget_type )
 {
     GSList *list_tmp;
     gint budget_number = 0;
+    gchar *new_name;
+
+    if (!name)
+	return 0;
+
+    new_name = g_strstrip (my_strdup (name));
+
+    if (!strlen (new_name))
+    {
+	g_free (new_name);
+	return 0;
+    }
 
     list_tmp = g_slist_find_custom ( budget_list,
-				     name,
+				     new_name,
 				     (GCompareFunc) gsb_data_budget_get_pointer_from_name_in_glist );
 
     if ( list_tmp )
@@ -633,11 +645,12 @@ gint gsb_data_budget_get_number_by_name ( gchar *name,
     {
 	if (create)
 	{
-	    budget_number = gsb_data_budget_new (name);
+	    budget_number = gsb_data_budget_new (new_name);
 	    gsb_data_budget_set_type ( budget_number,
 				       budget_type );
 	}
     }
+    g_free (new_name);
     return budget_number;
 }
 
@@ -654,20 +667,32 @@ gint gsb_data_budget_get_number_by_name ( gchar *name,
  * \return the number of the sub-budget or 0 if problem
  * */
 gint gsb_data_budget_get_sub_budget_number_by_name ( gint budget_number,
-						     gchar *name,
+						     const gchar *name,
 						     gboolean create )
 {
     GSList *list_tmp;
     struct_budget *budget;
     gint sub_budget_number = 0;
+    gchar *new_name;
+
+    if (!name)
+	return 0;
 
     budget = gsb_data_budget_get_structure ( budget_number );
 
     if (!budget)
 	return 0;
 
+    new_name = g_strstrip (my_strdup (name));
+
+    if (!strlen (new_name))
+    {
+	g_free (new_name);
+	return 0;
+    }
+
     list_tmp = g_slist_find_custom ( budget -> sub_budget_list,
-				     name,
+				     new_name,
 				     (GCompareFunc) gsb_data_budget_get_pointer_from_sub_name_in_glist );
 
     if ( list_tmp )
@@ -681,8 +706,9 @@ gint gsb_data_budget_get_sub_budget_number_by_name ( gint budget_number,
     {
 	if (create)
 	    sub_budget_number = gsb_data_budget_new_sub_budget ( budget_number,
-								 name);
+								 new_name);
     }
+    g_free (new_name);
     return sub_budget_number;
 }
 
@@ -1503,6 +1529,47 @@ gboolean gsb_debug_duplicate_budget_fix ()
 }
 
 
+/**
+ * fill the budget of the transaction from the string given in param
+ * create the budget if necessary
+ * if string is NULL, free the budget of the transaction
+ *
+ * \param transaction_number
+ * \param string
+ *
+ * \return
+ * */
+void gsb_data_budget_set_budget_from_string ( gint transaction_number,
+					      const gchar *string )
+{
+    gchar **tab_char;
+    gint budget_number;
+
+    if (!string)
+    {
+	gsb_data_transaction_set_budgetary_number ( transaction_number,
+						    0 );
+	gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
+							0 );
+	return;
+    }
+
+    tab_char = g_strsplit ( string,
+			    ":",
+			    2 );
+
+    /* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
+    budget_number = gsb_data_budget_get_number_by_name ( tab_char[0],
+							 TRUE,
+							 gsb_data_transaction_get_amount (transaction_number).mantissa <0 );
+    gsb_data_transaction_set_budgetary_number ( transaction_number,
+						budget_number );
+    gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
+						    gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
+												    tab_char[1],
+												    TRUE ));
+    g_strfreev (tab_char);
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

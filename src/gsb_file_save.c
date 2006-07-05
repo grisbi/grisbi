@@ -283,7 +283,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 	{
 	    gint (*crypt_function) ( gchar *, gchar **, gboolean, gulong );
 	    
-	    crypt_function = plugin -> plugin_run;
+	    crypt_function = (gpointer) plugin -> plugin_run;
 	    iterator = crypt_function ( filename, &file_content, TRUE, iterator );	
 	}
 	else

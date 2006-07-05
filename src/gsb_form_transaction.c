@@ -92,7 +92,6 @@ extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern GtkStyle *style_entree_formulaire[2];
 extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
@@ -1060,7 +1059,6 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 	{
 	    gint value;
 	    GtkWidget *widget;
-	    gchar **tab_char;
 
 	    value = gsb_data_form_get_value ( account_number,
 					      column,
@@ -1082,16 +1080,16 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 
 		case TRANSACTION_FORM_VALUE_DATE:
 
-		    if (!gsb_form_check_entry_is_empty (widget)) 
-			gsb_data_transaction_set_value_date ( transaction_number,
-							      gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY (widget))));
-		    else
+		    if (gsb_form_check_entry_is_empty (widget)) 
 			gsb_data_transaction_set_value_date ( transaction_number,
 							      NULL );
+		    else
+			gsb_data_transaction_set_value_date ( transaction_number,
+							      gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY (widget))));
 		    break;
-/* xxx en suis ici pour continuer à vérifier ce fichier une fois que fait les exercices */
+
 		case TRANSACTION_FORM_EXERCICE:
-/* FIXME : voir pour faire la différence date/date de valeur à partir de la conf ?*/
+		    /* FIXME : voir pour faire la différence date/date de valeur à partir de la conf ? pour la date pour choisir l'exo*/
 		    if (!date)
 			date = gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY (widget)));
 
@@ -1102,81 +1100,69 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 
 		case TRANSACTION_FORM_PARTY:
 
-		    if ( gtk_widget_get_style ( GTK_COMBOFIX ( widget ) -> entry ) == style_entree_formulaire[ENCLAIR] )
-			gsb_data_transaction_set_party_number ( transaction_number,
-								gsb_data_payee_get_number_by_name ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget )),
-											       TRUE ));
-		    else
+		    if (gsb_form_check_entry_is_empty (widget)) 
 			gsb_data_transaction_set_party_number ( transaction_number,
 								0 );
-
+		    else
+			gsb_data_transaction_set_party_number ( transaction_number,
+								gsb_data_payee_get_number_by_name ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget )),
+												    TRUE ));
 		    break;
 
 		case TRANSACTION_FORM_DEBIT:
 
-		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
+		    if (!gsb_form_check_entry_is_empty (widget)) 
 			gsb_data_transaction_set_amount ( transaction_number,
 							  gsb_real_opposite (gsb_utils_edit_calculate_entry ( widget )));
 		    break;
 
 		case TRANSACTION_FORM_CREDIT:
 
-		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
+		    if (!gsb_form_check_entry_is_empty (widget)) 
 			gsb_data_transaction_set_amount ( transaction_number,
 							  gsb_utils_edit_calculate_entry ( widget ));
 		    break;
 
 		case TRANSACTION_FORM_BUDGET:
-
-		    tab_char = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( widget )),
-					    ":",
-					    2 );
-
-		    tab_char[0] = g_strstrip ( tab_char[0] );
-
-		    if ( tab_char[1] )
-			tab_char[1] = g_strstrip ( tab_char[1] );
-
-		    if ( strlen ( tab_char[0] ) )
+		    if (gsb_form_check_entry_is_empty (widget)) 
 		    {
-			gint budget_number;
-
-			budget_number = gsb_data_budget_get_number_by_name ( g_strstrip (tab_char[0]),
-									     TRUE,
-									     gsb_data_transaction_get_amount (transaction_number).mantissa <0 );
 			gsb_data_transaction_set_budgetary_number ( transaction_number,
-								    budget_number );
+								    0 );
 			gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
-									gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
-															tab_char[1],
-															TRUE ));
+									0 );
 		    }
-		    g_strfreev ( tab_char );
+		    else
+			gsb_data_budget_set_budget_from_string ( transaction_number,
+								 gtk_combofix_get_text ( GTK_COMBOFIX ( widget )));
 		    break;
 
 		case TRANSACTION_FORM_NOTES:
 
-		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			gsb_data_transaction_set_notes ( transaction_number,
-							 g_strstrip ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
-		    else
+		    if (gsb_form_check_entry_is_empty (widget)) 
 			gsb_data_transaction_set_notes ( transaction_number,
 							 NULL );
+		    else
+			gsb_data_transaction_set_notes ( transaction_number,
+							 my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget ))));
 		    break;
 
 		case TRANSACTION_FORM_TYPE:
 
+		    /* set the type only if visible */
 		    if ( GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_TYPE,
 									   account_number) ))
 		    {
+			GtkWidget *widget_tmp;
+
 			gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 									    gsb_payment_method_get_selected_number (widget));
 
-			if ( GTK_WIDGET_VISIBLE ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
-									       account_number) )
+			/* set the number of cheque only if visible */
+			widget_tmp = gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
+								  account_number);
+			if ( GTK_WIDGET_VISIBLE (widget_tmp)
 			     &&
-			     gtk_widget_get_style ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
-										 account_number) ) == style_entree_formulaire[ENCLAIR] )
+			     !gsb_form_check_entry_is_empty (widget_tmp))
 			{
 			    struct struct_type_ope *type;
 
@@ -1184,11 +1170,10 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 							 "adr_type" );
 
 			    gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-										 g_strstrip ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
-																					account_number) )))));
+										 my_strdup ( gtk_entry_get_text ( GTK_ENTRY (widget_tmp))));
 
 			    if ( type -> numerotation_auto )
-				type -> no_en_cours = ( utils_str_atoi ( gsb_data_transaction_get_method_of_payment_content ( transaction_number)));
+				type -> no_en_cours = ( utils_str_atoi ( gsb_data_transaction_get_method_of_payment_content (transaction_number)));
 			}
 			else
 			    gsb_data_transaction_set_method_of_payment_content ( transaction_number,
@@ -1204,34 +1189,30 @@ void gsb_form_take_datas_from_form ( gint transaction_number )
 		    break;
 
 		case TRANSACTION_FORM_DEVISE:
-
-		    /* récupération de la devise */
-
 		    gsb_data_transaction_set_currency_number ( transaction_number,
 							       gsb_currency_get_currency_from_combobox (widget));
-
 		    gsb_currency_check_for_change ( transaction_number );
 
 		    break;
 
 		case TRANSACTION_FORM_BANK:
 
-		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			gsb_data_transaction_set_bank_references ( transaction_number,
-								   g_strstrip ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
-		    else
+		    if (gsb_form_check_entry_is_empty (widget)) 
 			gsb_data_transaction_set_bank_references ( transaction_number,
 								   NULL);
+		    else
+			gsb_data_transaction_set_bank_references ( transaction_number,
+								   my_strdup ( gtk_entry_get_text (GTK_ENTRY(widget))));
 		    break;
 
 		case TRANSACTION_FORM_VOUCHER:
 
-		    if ( gtk_widget_get_style ( widget ) == style_entree_formulaire[ENCLAIR] )
-			gsb_data_transaction_set_voucher ( transaction_number,
-							   g_strstrip ( my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget )))));
-		    else
+		    if (gsb_form_check_entry_is_empty (widget)) 
 			gsb_data_transaction_set_voucher ( transaction_number,
 							   NULL);
+		    else
+			gsb_data_transaction_set_voucher ( transaction_number,
+							   my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget ))));
 
 		    break;
 	    }

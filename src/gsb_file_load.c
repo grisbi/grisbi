@@ -306,7 +306,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	    {
 		gint (*crypt_function) ( gchar *, gchar **, gboolean, gulong );
 		
-		crypt_function = plugin -> plugin_run;
+		crypt_function = (gpointer) plugin -> plugin_run;
 		long_length = crypt_function ( filename, &file_content, FALSE, long_length );
 		
 		if ( ! long_length )

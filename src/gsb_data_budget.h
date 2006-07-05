@@ -22,7 +22,7 @@ gint gsb_data_budget_get_nb_transactions ( gint no_budget );
 gint gsb_data_budget_get_no_budget ( gpointer budget_ptr );
 gint gsb_data_budget_get_no_budget_from_sub_budget ( gpointer sub_budget_ptr );
 gint gsb_data_budget_get_no_sub_budget ( gpointer sub_budget_ptr );
-gint gsb_data_budget_get_number_by_name ( gchar *name,
+gint gsb_data_budget_get_number_by_name ( const gchar *name,
 					  gboolean create,
 					  gint budget_type );
 gpointer gsb_data_budget_get_structure ( gint no_budget );
@@ -35,7 +35,7 @@ gchar *gsb_data_budget_get_sub_budget_name ( gint no_budget,
 gint gsb_data_budget_get_sub_budget_nb_transactions ( gint no_budget,
 						      gint no_sub_budget );
 gint gsb_data_budget_get_sub_budget_number_by_name ( gint budget_number,
-						     gchar *name,
+						     const gchar *name,
 						     gboolean create );
 gpointer gsb_data_budget_get_sub_budget_structure ( gint no_budget,
 						    gint no_sub_budget );
@@ -47,6 +47,8 @@ gint gsb_data_budget_new_sub_budget_with_number ( gint number,
 gint gsb_data_budget_new_with_number ( gint number );
 gboolean gsb_data_budget_remove ( gint no_budget );
 void gsb_data_budget_remove_transaction_from_budget ( gint transaction_number );
+void gsb_data_budget_set_budget_from_string ( gint transaction_number,
+					      const gchar *string );
 gboolean gsb_data_budget_set_name ( gint no_budget,
 				    const gchar *name );
 gboolean gsb_data_budget_set_sub_budget_name ( gint no_budget,
