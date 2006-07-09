@@ -3,7 +3,6 @@
 
 #include "config.h"
 #include <sys/stat.h>
-#include <libxml/parser.h>
 
 /* START_INCLUDE_H */
 #include "utils_files.h"
@@ -20,7 +19,6 @@ gchar * safe_file_name ( gchar* filename );
 FILE* utf8_fopen(gchar* utf8filename,gchar* mode);
 gint utf8_remove(const gchar* utf8filename);
 gint utf8_stat(gchar* utf8filename,struct stat* filestat);
-xmlDocPtr utf8_xmlParseFile(const gchar *utf8filename);
 /*END_DECLARATION*/
 
 #endif

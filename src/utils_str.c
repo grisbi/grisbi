@@ -24,7 +24,6 @@
 
 #include "include.h"
 #include <stdlib.h>
-#include <libxml/parser.h>
 
 
 /*START_INCLUDE*/
@@ -318,62 +317,8 @@ double my_strtod ( const char *nptr, const char **endptr )
 
 gchar * latin2utf8 ( const gchar * inchar)
 {
-    gchar buffer[1024];
-    int outlen, inlen, res;
-
-    if (!inchar)
-	return NULL;
-
-    if ( g_utf8_validate ( inchar,
-			   -1,
-			   NULL ))
-	return my_strdup (inchar);
-			
-    inlen = strlen(inchar);
-    outlen = 1024;
-
-    res = myisolat1ToUTF8(buffer, &outlen, inchar, &inlen);
-    buffer[outlen] = 0;
-
-    return (my_strdup ( buffer ));
+    return g_locale_from_utf8 ( inchar, -1, NULL, NULL, NULL );
 }
-
-int myisolat1ToUTF8(unsigned char* out, int *outlen,
-		    const unsigned char* in, int *inlen)
-{
-    unsigned char* outstart = out;
-    const unsigned char* base = in;
-    unsigned char* outend = out + *outlen;
-    const unsigned char* inend;
-    const unsigned char* instop;
-    xmlChar c = *in;
-
-    inend = in + (*inlen);
-    instop = inend;
-
-    while (in < inend && out < outend - 1) {
-	if (c >= 0x80) {
-	    *out++= ((c >>  6) & 0x1F) | 0xC0;
-	    *out++= (c & 0x3F) | 0x80;
-	    ++in;
-	    c = *in;
-	}
-	if (instop - in > outend - out) instop = in + (outend - out); 
-	while (c < 0x80 && in < instop) {
-	    *out++ =  c;
-	    ++in;
-	    c = *in;
-	}
-    }	
-    if (in < inend && out < outend && c < 0x80) {
-	*out++ =  c;
-	++in;
-    }
-    *outlen = out - outstart;
-    *inlen = in - base;
-    return(0);
-}
-/* **************************************************************************************************** */
 
 
 

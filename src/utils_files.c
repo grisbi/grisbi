@@ -36,7 +36,6 @@
 /*START_STATIC*/
 static void browse_file ( GtkButton *button, gpointer data );
 static gint utf8_open(gchar* utf8filename,gint mode);
-static gint        utf8_xmlSaveFormatFile(const gchar *utf8filename, xmlDocPtr cur, gint format);
 /*END_STATIC*/
 
 
@@ -250,34 +249,6 @@ gint utf8_open(gchar* utf8filename,gint mode)
 gint utf8_stat(gchar* utf8filename,struct stat* filestat)
 {
     return stat(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),filestat);
-}
-/**
- * \brief utf8 version of xmlParseFile 
- * 
- * convert utf8 file path into the locale OS charset before calling xmlParseFile
- *
- * \param utf8filename file to  path coded using utf8 charset
- *
- * \return xmlParseFile returned value
- */
-xmlDocPtr utf8_xmlParseFile(const gchar *utf8filename)
-{ 
-    return xmlParseFile(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
-}
-/**
- * \brief utf8 version of xmlSaveFormatFile 
- * 
- * convert utf8 file path into the locale OS charset before calling xmlSaveFormatFile
- *
- * \param utf8filename file to  path coded using utf8 charset
- * \param cur                   xmlDocPtr structure to save
- * \param format                file format to use
- *
- * \return xmlSaveFormatFile returned value
- */
-gint        utf8_xmlSaveFormatFile(const gchar *utf8filename, xmlDocPtr cur, gint format)
-{ 
-    return xmlSaveFormatFile(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),cur,format);
 }
 /**
  * \brief utf8 version of stat (see stat for more detail about mode)
