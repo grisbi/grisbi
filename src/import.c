@@ -1517,6 +1517,10 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
     /* Use two lines view by default. */
     gsb_data_account_set_nb_rows ( account_number, 2 );
 
+    /* set the new form organization */
+    gsb_data_form_new_organization ( account_number );
+    gsb_data_form_set_default_organization ( account_number );
+
     return account_number;
 }
 
