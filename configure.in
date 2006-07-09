@@ -28,7 +28,7 @@ AC_CHECK_LIB(intl,main)
 dnl
 dnl Standard GTK checks
 dnl
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 cairo)
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2)
 LDFLAGS="${LDFLAGS} ${GTK_LIBS}"
 CFLAGS="${CFLAGS} ${GTK_CFLAGS}"
 
@@ -110,11 +110,8 @@ dnl
 dnl XML2
 dnl
 PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.0, , noxml2=true)
-if test x$noxml2 != xtrue
+if test x$noxml2 == xtrue
 then
-	LDFLAGS="${LDFLAGS} ${XML2_LIBS}"
-	CFLAGS="${CFLAGS} ${XML2_CFLAGS}"
-else
 	AC_MSG_RESULT([libxml2 support not available, this Grisbi build will not be able to load Gnucash files.])
 	CFLAGS="${CFLAGS} -DNOXML2"
 fi
