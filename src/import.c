@@ -566,7 +566,17 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 	while ( iterator && model )
 	{
 	    GtkTreeIter iter;
-	    gchar * type = autodetect_file_type ( iterator -> data, NULL, NULL );
+	    gchar * type, * pointeur_char;
+	    GError * error;
+
+	    /* Open file */
+	    if ( ! g_file_get_contents ( iterator -> data, &pointeur_char, NULL, &error ) )
+	    {
+		printf ("Unable to read file: %s\n", error -> message);
+		return FALSE;
+	    }
+
+	    type = autodetect_file_type ( iterator -> data, NULL, pointeur_char );
 
 	    gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
 	    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, 
@@ -2863,18 +2873,9 @@ gchar * autodetect_file_type ( gchar * filename, FILE * fichier,
     }
     else
     {
-	if ( !strncmp ( pointeur_char, "<?xml", 5 ) &&
-	     fichier != NULL )
+	if ( strstr ( pointeur_char, "<gnc-v2" ) )
 	{
-	    get_line_from_file ( fichier, &pointeur_char );
-	    if ( !strncmp ( pointeur_char, "<gnc-v2", 7 ))
-	    {
-		type = "Gnucash";
-	    }
-	    else
-	    {
-		type = _("Unknown");
-	    }
+	    type = "Gnucash";
 	}
 	else
 	{
