@@ -674,6 +674,11 @@ gchar *demande_nom_enregistrement ( void )
 	    return NULL;
     }
 
+    if ( ! g_strrstr ( nouveau_nom, ".gsb" ) )
+    {
+	nouveau_nom = g_strconcat ( nouveau_nom, ".gsb", NULL );
+    }
+
     return nouveau_nom;
 }
 /* ************************************************************************************************************ */
