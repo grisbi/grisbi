@@ -21,9 +21,10 @@
 
 #include "include.h"
 
+#include <libxml/parser.h>
+
 /*START_INCLUDE*/
 #include "gnucash.h"
-#include "utils_xml.h"
 #include "dialog.h"
 #include "gsb_real.h"
 #include "utils_str.h"
@@ -37,8 +38,6 @@
 /*END_EXTERN*/
 
 /*START_STATIC*/
-static struct struct_compte_importation * find_imported_account_by_name ( gchar * name );
-static struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
 static struct gnucash_category * find_imported_categ_by_uid ( gchar * guid );
 static struct gnucash_split * find_split ( GSList * split_list, gsb_real amount, 
 				    struct struct_compte_importation * account, 
@@ -57,6 +56,10 @@ static void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node );
 static void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node );
 static void update_split ( struct gnucash_split * split, gsb_real amount, 
 		    gchar * account, gchar * categ );
+static struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
+static struct struct_compte_importation * find_imported_account_by_name ( gchar * name );
+static xmlNodePtr get_child ( xmlNodePtr node, gchar * child_name );
+static gchar * child_content ( xmlNodePtr node, gchar * child_name );
 /*END_STATIC*/
 
 
@@ -159,7 +162,7 @@ gboolean recuperation_donnees_gnucash ( GtkWidget * assistant,
   /* So, we failed to import file. */
   account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
   account -> origine = _( "Gnucash" );
-  account -> nom_de_compte = _("Invalid Gnucash account");
+  account -> nom_de_compte = _("Invalid Gnucash account, please check gnucash file is not compressed.");
   account -> filename = my_strdup ( imported -> name );
 
   gsb_import_register_account_error ( account );
