@@ -47,7 +47,6 @@ sources = \
 	export_csv.c		\
 	fenetre_principale.c	\
 	fichiers_gestion.c	\
-	gnucash.c               \
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
 	gsb_assistant.c		\
@@ -118,8 +117,7 @@ sources = \
 	utils_operations.c	\
 	utils_rapprochements.c	\
 	utils_str.c		\
-	utils_types.c		\
-	utils_xml.c		
+	utils_types.c
 
 grisbi_SOURCES = $(sources) $(sources_config)
 
@@ -218,7 +216,6 @@ grisbi_INCLUDES =		\
 	utils_rapprochements.h	\
 	utils_str.h		\
 	utils_types.h		\
-	utils_xml.h		\
 	search_glist.h
 
 
