@@ -25,6 +25,7 @@
 #include "erreur.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
+#include "gsb_data_bank.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
@@ -110,37 +111,25 @@ static gboolean gsb_file_load_update_previous_version ( void );
 
 
 /*START_EXTERN*/
-extern GtkWidget *adr_banque;
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
-extern GtkWidget *code_banque;
-extern GtkWidget *email_banque;
-extern GtkWidget *email_correspondant;
-extern GtkWidget *fax_correspondant;
 extern GtkWidget *formulaire;
 extern struct iso_4217_currency iso_4217_currencies[] ;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
-extern GSList *liste_struct_banques;
 extern GSList *liste_struct_rapprochements;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern GtkWidget *nom_banque;
-extern GtkWidget *nom_correspondant;
 extern gchar *nom_fichier_backup;
 extern gsb_real null_real ;
-extern GtkWidget *remarque_banque;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
-extern GtkWidget *tel_banque;
-extern GtkWidget *tel_correspondant;
 extern gchar *titre_fichier;
 extern gint valeur_echelle_recherche_date_import;
-extern GtkWidget *web_banque;
 /*END_EXTERN*/
 
 static struct
@@ -2447,13 +2436,10 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 			  const gchar **attribute_values )
 {
     gint i=0;
-    struct struct_banque *bank;
+    gint bank_number = 0;
 
     if ( !attribute_names[i] )
 	return;
-
-    bank = calloc ( 1,
-		    sizeof ( struct struct_banque ) );
 
     do
     {
@@ -2470,7 +2456,8 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    bank -> no_banque = utils_str_atoi (attribute_values[i]);
+	    bank_number = gsb_data_bank_set_new_number ( gsb_data_bank_new (NULL),
+							 utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2478,7 +2465,8 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Na" ))
 	{
-	    bank -> nom_banque = my_strdup (attribute_values[i]);
+	    gsb_data_bank_set_name ( bank_number,
+				     attribute_values[i] );
 	    i++;
 	    continue;
 	}
@@ -2486,7 +2474,8 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Co" ))
 	{
-	    bank -> code_banque = my_strdup (attribute_values[i]);
+	    gsb_data_bank_set_code ( bank_number,
+				     attribute_values[i] );
 	    i++;
 	    continue;
 	}
@@ -2494,7 +2483,8 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Adr" ))
 	{
-	    bank -> adr_banque = my_strdup (attribute_values[i]);
+	    gsb_data_bank_set_bank_address ( bank_number,
+					     attribute_values[i] );
 	    i++;
 	    continue;
 	}
@@ -2502,7 +2492,8 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Tel" ))
 	{
-	    bank -> tel_banque = my_strdup (attribute_values[i]);
+	    gsb_data_bank_set_bank_tel ( bank_number,
+					 attribute_values[i] );
 	    i++;
 	    continue;
 	}
@@ -2510,7 +2501,8 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Mail" ))
 	{
-	    bank -> email_banque = my_strdup (attribute_values[i]);
+	    gsb_data_bank_set_bank_mail ( bank_number,
+					  attribute_values[i] );
 	    i++;
 	    continue;
 	}
@@ -2518,7 +2510,8 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Web" ))
 	{
-	    bank -> web_banque = my_strdup (attribute_values[i]);
+	    gsb_data_bank_set_bank_web ( bank_number,
+					 attribute_values[i] );
 	    i++;
 	    continue;
 	}
@@ -2526,7 +2519,8 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nac" ))
 	{
-	    bank -> nom_correspondant = my_strdup (attribute_values[i]);
+	    gsb_data_bank_set_correspondent_name ( bank_number,
+						   attribute_values[i] );
 	    i++;
 	    continue;
 	}
@@ -2534,7 +2528,8 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Faxc" ))
 	{
-	    bank -> fax_correspondant = my_strdup (attribute_values[i]);
+	    gsb_data_bank_set_correspondent_fax ( bank_number,
+						  attribute_values[i] );
 	    i++;
 	    continue;
 	}
@@ -2542,7 +2537,8 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Telc" ))
 	{
-	    bank -> tel_correspondant = my_strdup (attribute_values[i]);
+	    gsb_data_bank_set_correspondent_tel ( bank_number,
+						  attribute_values[i] );
 	    i++;
 	    continue;
 	}
@@ -2550,7 +2546,8 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Mailc" ))
 	{
-	    bank -> email_correspondant = my_strdup (attribute_values[i]);
+	    gsb_data_bank_set_correspondent_mail ( bank_number,
+						   attribute_values[i] );
 	    i++;
 	    continue;
 	}
@@ -2558,7 +2555,8 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Rem" ))
 	{
-	    bank -> remarque_banque = my_strdup (attribute_values[i]);
+	    gsb_data_bank_set_bank_note ( bank_number,
+					  attribute_values[i] );
 	    i++;
 	    continue;
 	}
@@ -2568,9 +2566,6 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	i++;
     }
     while ( attribute_names[i] );
-
-    liste_struct_banques = g_slist_append ( liste_struct_banques,
-					    bank );
 }
 
 
@@ -4420,87 +4415,75 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 	if ( attribute_names[i] )
 	{
-	    struct struct_banque *banque;
-
-	    banque = calloc ( 1,
-			      sizeof ( struct struct_banque ));
+	    gint bank_number = 0;
 
 	    do
 	    {
 		if ( !strcmp ( attribute_names[i],
 			       "No" ))
-		    banque -> no_banque = utils_str_atoi ( attribute_values[i]);
+		{
+		    bank_number = gsb_data_bank_set_new_number ( gsb_data_bank_new (NULL),
+								 utils_str_atoi (attribute_values[i]));
+		}
 		
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
-		    banque -> nom_banque = my_strdup (attribute_values[i]);
+		    gsb_data_bank_set_name ( bank_number,
+					     attribute_values[i] );
 		
 		if ( !strcmp ( attribute_names[i],
-			       "Code" )
-		     &&
-		     strlen (attribute_values[i]))
-		    banque -> code_banque = my_strdup (attribute_values[i]);
+			       "Code" ))
+		    gsb_data_bank_set_code ( bank_number,
+					     attribute_values[i] );
 		
 		if ( !strcmp ( attribute_names[i],
-			       "Adresse" )
-		     &&
-		     strlen (attribute_values[i]))
-		    banque -> adr_banque = my_strdup (attribute_values[i]);
+			       "Adresse" ))
+		    gsb_data_bank_set_bank_address ( bank_number,
+						     attribute_values[i] );
 		
 		if ( !strcmp ( attribute_names[i],
-			       "Tel" )
-		     &&
-		     strlen (attribute_values[i]))
-		    banque -> tel_banque = my_strdup (attribute_values[i]);
+			       "Tel" ))
+		    gsb_data_bank_set_bank_tel ( bank_number,
+						 attribute_values[i] );
 		
 		if ( !strcmp ( attribute_names[i],
-			       "Mail" )
-		     &&
-		     strlen (attribute_values[i]))
-		    banque -> email_banque = my_strdup (attribute_values[i]);
+			       "Mail" ))
+		    gsb_data_bank_set_bank_mail ( bank_number,
+						  attribute_values[i] );
 		
 		if ( !strcmp ( attribute_names[i],
-			       "Web" )
-		     &&
-		     strlen (attribute_values[i]))
-		    banque -> web_banque = my_strdup (attribute_values[i]);
+			       "Web" ))
+		    gsb_data_bank_set_bank_web ( bank_number,
+						 attribute_values[i] );
 		
 		if ( !strcmp ( attribute_names[i],
-			       "Nom_correspondant" )
-		     &&
-		     strlen (attribute_values[i]))
-		    banque -> nom_correspondant = my_strdup (attribute_values[i]);
+			       "Nom_correspondant" ))
+		    gsb_data_bank_set_correspondent_name ( bank_number,
+							   attribute_values[i] );
 		
 		if ( !strcmp ( attribute_names[i],
-			       "Fax_correspondant" )
-		     &&
-		     strlen (attribute_values[i]))
-		    banque -> fax_correspondant = my_strdup (attribute_values[i]);
+			       "Fax_correspondant" ))
+		    gsb_data_bank_set_correspondent_fax ( bank_number,
+							  attribute_values[i] );
 		
 		if ( !strcmp ( attribute_names[i],
-			       "Tel_correspondant" )
-		     &&
-		     strlen (attribute_values[i]))
-		    banque -> tel_correspondant = my_strdup (attribute_values[i]);
+			       "Tel_correspondant" ))
+		    gsb_data_bank_set_correspondent_tel ( bank_number,
+							  attribute_values[i] );
 		
 		if ( !strcmp ( attribute_names[i],
-			       "Mail_correspondant" )
-		     &&
-		     strlen (attribute_values[i]))
-		    banque -> email_correspondant = my_strdup (attribute_values[i]);
+			       "Mail_correspondant" ))
+		    gsb_data_bank_set_correspondent_mail ( bank_number,
+							   attribute_values[i] );
 		
 		if ( !strcmp ( attribute_names[i],
-			       "Remarques" )
-		     &&
-		     strlen (attribute_values[i]))
-		    banque -> remarque_banque = my_strdup (attribute_values[i]);
+			       "Remarques" ))
+		    gsb_data_bank_set_bank_note ( bank_number,
+						  attribute_values[i] );
 
 		i++;
 	    }
 	    while ( attribute_names[i] );
-
-	    liste_struct_banques = g_slist_append ( liste_struct_banques,
-						    banque );
 	}
     }
 
@@ -6551,6 +6534,40 @@ gboolean gsb_file_load_update_previous_version ( void )
 
 		list_tmp = list_tmp -> next;
 	    }
+
+	    /* a bug before 0.6 (and perhaps after ? still not found for now) set
+	     * a negative number for certain banks, so change that here */
+
+	    list_tmp = gsb_data_bank_get_bank_list ();
+
+	    while ( list_tmp )
+	    {
+		i = gsb_data_bank_get_no_bank ( list_tmp -> data );
+
+		if ( i<0 )
+		{
+		    gint new_number;
+		    GSList *account_list;
+
+		    new_number = gsb_data_bank_set_new_number ( i, gsb_data_bank_max_number () + 1);
+
+		    /* only accounts are associated with bank number */
+		    account_list = gsb_data_account_get_list_accounts ();
+		    while (account_list)
+		    {
+			gint account_number;
+
+			account_number = gsb_data_account_get_no_account (account_list -> data);
+			if (gsb_data_account_get_bank (account_number) == i)
+			    gsb_data_account_set_bank ( account_number, new_number );
+
+			account_list = account_list -> next;
+		    }
+		}
+
+		list_tmp = list_tmp -> next;
+	    }
+
 
 
 	    /* ********************************************************* */

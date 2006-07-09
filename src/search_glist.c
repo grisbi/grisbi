@@ -48,21 +48,6 @@
 
 
 
-/* ************************************************************************************************************ */
-/* Fonction recherche_banque_par_no */
-/* appelée par g_slist_find_custom */
-/* ************************************************************************************************************ */
-
-gint recherche_banque_par_no ( struct struct_banque *banque,
-			       gint *no_banque )
-{
-    return ( !( banque -> no_banque == GPOINTER_TO_INT ( no_banque )) );
-}
-/* ************************************************************************************************************ */
-
-
-
-
 
 /******************************************************************************/
 gint recherche_rapprochement_par_nom ( struct struct_no_rapprochement *rapprochement,

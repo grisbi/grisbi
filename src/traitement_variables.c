@@ -29,6 +29,7 @@
 #include "erreur.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
+#include "gsb_data_bank.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
@@ -117,7 +118,6 @@ extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GtkWidget *liste_categ_etat;
-extern GSList *liste_struct_banques;
 extern GSList *liste_struct_rapprochements;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
@@ -127,8 +127,6 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern gint nb_banques;
-extern gint no_derniere_banque;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -199,6 +197,7 @@ void init_variables ( void )
     gsb_data_currency_init_variables ();
     gsb_data_currency_link_init_variables ();
     gsb_data_fyear_init_variables ();
+    gsb_data_bank_init_variables ();
 
     gsb_currency_init_variables ();
     gsb_fyear_init_variables ();
@@ -228,11 +227,6 @@ void init_variables ( void )
     no_devise_totaux_tiers = 1;
     no_devise_totaux_categ = 1;
     no_devise_totaux_ib = 1;
-
-    liste_struct_banques = NULL;
-    nb_banques = 0;
-    no_derniere_banque = 0;
-
 
     liste_struct_rapprochements = NULL;
 

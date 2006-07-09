@@ -27,22 +27,156 @@
 
 /*START_INCLUDE*/
 #include "utils_editables.h"
+#include "gsb_data_account.h"
+#include "gsb_data_bank.h"
 #include "gsb_real.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static  gboolean gsb_editable_changed ( GtkWidget *entry,
+				       gboolean default_func (gint, const gchar *));
+static gboolean gsb_editable_text_area_changed ( GtkTextBuffer *buffer,
+					  gboolean default_func (gint, const gchar *));
 static gboolean set_text (GtkEntry *entry, gchar *value, 
 		   gint length, gint * position);
 static gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy );
+static void text_area_set_value ( GtkWidget * text_view, gchar ** value );
 /*END_STATIC*/
-
 
 /*START_EXTERN*/
 extern gsb_real null_real ;
 /*END_EXTERN*/
 
+
+/*
+ * creates a new GtkEntry wich will modify the value according to the entry
+ * but made for values in grisbi structure :
+ * for each change, will call the corresponding given function : gsb_data_... ( number, string content )
+ * ie the target function must be :
+ * 	(default_func) ( gint number_for_func,
+ * 			 gchar *string )
+ * ex : gsb_data_account_set_name ( account_number, name )
+ *
+ * \param value a string to fill the entry
+ * \param hook an optional function to execute as a handler if the
+ * 	entry's contents are modified.
+ * 	hook should be :
+ * 		gboolean hook ( GtkWidget *entry,
+ * 				gpointer data )
+ *
+ * \param data An optional pointer to pass to hooks.
+ * \param default_func The function to call to change the value in memory (function must be func ( number, string ) )
+ * \param number_for_func a gint wich we be used to call default_func
+ *
+ * \return a new GtkEntry
+ * */
+GtkWidget *gsb_editable_new_text_entry ( gchar *value,
+					 GCallback hook,
+					 gpointer data,
+					 GCallback default_func,
+					 gint number_for_func )
+{
+    GtkWidget * entry;
+
+    /* first, create and fill the entry */
+    entry = gtk_entry_new ();
+
+    if (value)
+	gtk_entry_set_text ( GTK_ENTRY(entry), value );
+
+    /* set the default func :
+     * the func will be send to gsb_editable_set_text by the data,
+     * the number_for_func will be set as data for object */
+    g_object_set_data ( G_OBJECT (entry),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+    g_object_set_data ( G_OBJECT ( entry ), "changed", 
+			(gpointer) g_signal_connect_after (GTK_OBJECT(entry), "changed",
+							   ((GCallback) gsb_editable_changed), default_func ));
+    if ( hook )
+	g_object_set_data ( G_OBJECT ( entry ), "changed-hook", 
+			    (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "changed",
+							      ((GCallback) hook), data ));
+    return entry;
+}
+
+
+/** 
+ * set the value in a gsb_editable_entry
+ * a value is in 2 parts :
+ * 	a string, wich be showed in the entry
+ * 	a number, wich is used when there is a change in that entry (see gsb_editable_new_text_entry)
+ *
+ * \param entry
+ * \param value a string to set in the entry
+ * \param number_for_func the number to give to the called function when something is changed
+ *
+ * \return
+ */
+void gsb_editable_set_value ( GtkWidget *entry,
+			      gchar *value,
+			      gint number_for_func )
+{
+    /* Block everything */
+    if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(entry),
+				 (gulong) g_object_get_data (G_OBJECT (entry), 
+							     "changed"));
+    if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(entry),
+				 (gulong) g_object_get_data (G_OBJECT (entry), 
+							     "changed-hook"));
+
+    /* Fill in value */
+    if (value)
+	gtk_entry_set_text ( GTK_ENTRY ( entry ), value );
+    else
+	gtk_entry_set_text ( GTK_ENTRY ( entry ), "" );
+
+    g_object_set_data ( G_OBJECT (entry),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+
+    /* Unblock everything */
+    if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(entry),
+				   (gulong) g_object_get_data (G_OBJECT (entry), 
+							       "changed"));
+    if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(entry),
+				   (gulong) g_object_get_data (G_OBJECT (entry), 
+							       "changed-hook"));
+}
+
+
+
+/**
+ * called when something change in an entry of a gsb_editable_text
+ * by gsb_editable_new_text_entry
+ *
+ * \param entry The reference GtkEntry
+ * \param default_func the function to call to change the value in memory
+ *
+ * \return FALSE
+ */
+static gboolean gsb_editable_changed ( GtkWidget *entry,
+				       gboolean default_func (gint, const gchar *))
+{
+    gint number_for_func;
+
+    /* just to be sure... */
+    if (!default_func || !entry)
+	return FALSE;
+
+    number_for_func = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (entry), "number_for_func"));
+    default_func ( number_for_func,
+		   gtk_entry_get_text ( GTK_ENTRY (entry)));
+
+    /* Mark file as modified */
+    modification_fichier ( TRUE );
+
+    return FALSE;
+}
 
 
 
@@ -50,6 +184,7 @@ extern gsb_real null_real ;
 /*
  * Creates a new GtkEntry with a pointer to a string that will be
  * modified according to the entry's value.
+ * FIXME : to delete
  *
  * \param value A pointer to a string
  * \param hook An optional function to execute as a handler if the
@@ -90,60 +225,57 @@ GtkWidget * new_text_entry ( gchar ** value, GCallback hook, gpointer data )
 
 
 
+
 /** 
  * TODO: document
+ * FIXME : to delete
  */
 void entry_set_value ( GtkWidget * entry, gchar ** value )
 {
+    printf ( "devrait pas venir ici (entry_set_value), arrêt du prog\n" );
+    exit (0);
     /* Block everything */
-    if ( g_object_get_data ((GObject*) entry, "insert-hook") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(entry),
-				 (gulong) g_object_get_data ((GObject*) entry, 
-							     "insert-hook"));
-    if ( g_object_get_data ((GObject*) entry, "insert-text") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(entry),
-				 (gulong) g_object_get_data ((GObject*) entry, 
-							     "insert-text"));
-    if ( g_object_get_data ((GObject*) entry, "delete-hook") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(entry),
-				 (gulong) g_object_get_data ((GObject*) entry, 
-							     "delete-hook"));
-    if ( g_object_get_data ((GObject*) entry, "delete-text") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(entry),
-				 (gulong) g_object_get_data ((GObject*) entry, 
-							     "delete-text"));
+/*     if ( g_object_get_data ((GObject*) entry, "changed") > 0 ) */
+/* 	g_signal_handler_block ( GTK_OBJECT(entry), */
+/* 				 (gulong) g_object_get_data ((GObject*) entry,  */
+/* 							     "changed")); */
+/*     if ( g_object_get_data ((GObject*) entry, "changed-hook") > 0 ) */
+/* 	g_signal_handler_block ( GTK_OBJECT(entry), */
+/* 				 (gulong) g_object_get_data ((GObject*) entry,  */
+/* 							     "changed-hook")); */
 
     /* Fill in value */
-    if (value && *value)
-	gtk_entry_set_text ( GTK_ENTRY ( entry ), *value );
-    else
-	gtk_entry_set_text ( GTK_ENTRY ( entry ), "" );
-
-    g_object_set_data ( G_OBJECT(entry), "pointer", value );
+/*     if (value && *value) */
+/* 	gtk_entry_set_text ( GTK_ENTRY ( entry ), *value ); */
+/*     else */
+/* 	gtk_entry_set_text ( GTK_ENTRY ( entry ), "" ); */
+/*  */
+/*     g_object_set_data ( G_OBJECT(entry), "pointer", value ); */
 
     /* Unblock everything */
-    if ( g_object_get_data ((GObject*) entry, "insert-hook") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
-				   (gulong) g_object_get_data ((GObject*) entry, 
-							       "insert-hook"));
-    if ( g_object_get_data ((GObject*) entry, "insert-text") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
-				   (gulong) g_object_get_data ((GObject*) entry, 
-							       "insert-text"));
-    if ( g_object_get_data ((GObject*) entry, "delete-hook") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
-				   (gulong) g_object_get_data ((GObject*) entry, 
-							       "delete-hook"));
-    if ( g_object_get_data ((GObject*) entry, "delete-text") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
-				   (gulong) g_object_get_data ((GObject*) entry, 
-							       "delete-text"));
+/*     if ( g_object_get_data ((GObject*) entry, "changed") > 0 ) */
+/* 	g_signal_handler_unblock ( GTK_OBJECT(entry), */
+/* 				   (gulong) g_object_get_data ((GObject*) entry,  */
+/* 							       "insert-hook")); */
+/*     if ( g_object_get_data ((GObject*) entry, "changed") > 0 ) */
+/* 	g_signal_handler_unblock ( GTK_OBJECT(entry), */
+/* 				   (gulong) g_object_get_data ((GObject*) entry,  */
+/* 							       "insert-text")); */
+/*     if ( g_object_get_data ((GObject*) entry, "changed") > 0 ) */
+/* 	g_signal_handler_unblock ( GTK_OBJECT(entry), */
+/* 				   (gulong) g_object_get_data ((GObject*) entry,  */
+/* 							       "delete-hook")); */
+/*     if ( g_object_get_data ((GObject*) entry, "changed") > 0 ) */
+/* 	g_signal_handler_unblock ( GTK_OBJECT(entry), */
+/* 				   (gulong) g_object_get_data ((GObject*) entry,  */
+/* 							       "delete-text")); */
 }
 
 
 
 /**
  * Set a string to the value of an GtkEntry.
+ * FIXME : to delete
  *
  * \param entry The reference GtkEntry
  * \param value Handler parameter.  Not used.
@@ -163,6 +295,134 @@ gboolean set_text (GtkEntry *entry, gchar *value,
 }
 
 
+/*
+ * creates a new GtkTextView wich will automatickly modify the value according to the text in memory
+ * in grisbi structure :
+ * for each change, will call the corresponding given function : gsb_data_... ( number, string content )
+ * ie the target function must be :
+ * 	(default_func) ( gint number_for_func,
+ * 			 gchar *string )
+ * ex : gsb_data_bank_set_bank_note ( account_number, text )
+ * rem : do the same as gsb_editable_new_text_entry but for a text_view
+ *
+ * \param value a string to fill the text_view
+ * \param hook an optional function to execute as a handler if the
+ * 	text_view's contents are modified : !!! send the text_buffer, and not the text_view
+ * 	hook should be :
+ * 		gboolean hook ( GtkTextBuffer *text_buffer,
+ * 				gpointer data )
+ *
+ * \param data An optional pointer to pass to hooks.
+ * \param default_func The function to call to change the value in memory (function must be func ( number, string ) )
+ * \param number_for_func a gint wich we be used to call default_func
+ *
+ * \return a new GtkTextView
+ * */
+GtkWidget *gsb_editable_new_text_area ( gchar *value,
+					GCallback hook,
+					gpointer data,
+					GCallback default_func,
+					gint number_for_func )
+{
+    GtkWidget *text_view;
+    GtkTextBuffer *buffer;
+
+    text_view = gsb_editable_text_view_new(value);
+
+    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+
+    /* set the default function and save the number_for_func */
+    g_object_set_data ( G_OBJECT (buffer),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+    g_object_set_data ( G_OBJECT ( buffer ), "changed",
+			(gpointer) g_signal_connect_after (G_OBJECT(buffer), "changed",
+							   ((GCallback) gsb_editable_text_area_changed), default_func ));
+    if ( hook )
+	g_object_set_data ( G_OBJECT ( buffer ), "changed-hook",
+			    (gpointer) g_signal_connect_after  (G_OBJECT(buffer), "changed",
+								((GCallback) hook), data ));
+    return text_view;
+}
+
+
+/** 
+ * set the value in a gsb_editable_text_area
+ * a value is in 2 parts :
+ * 	a string, wich be showed in the text_view
+ * 	a number, wich is used when there is a change in that text_view (see gsb_editable_new_text_entry)
+ *
+ * \param text_view
+ * \param value a string to set in the text_view
+ * \param number_for_func the number to give to the called function when something is changed
+ *
+ * \return
+ */
+void gsb_editable_text_area_set_value ( GtkWidget *text_view,
+					gchar *value,
+					gint number_for_func )
+{
+    GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+
+    /* Block everything */
+    if ( g_object_get_data (G_OBJECT(buffer), "changed") > 0 )
+	g_signal_handler_block ( G_OBJECT(buffer),
+				 (gulong) g_object_get_data ( G_OBJECT(buffer), "changed" ));
+    if ( g_object_get_data (G_OBJECT(buffer), "changed-hook") > 0 )
+	g_signal_handler_block ( G_OBJECT(buffer),
+				 (gulong) g_object_get_data ( G_OBJECT(buffer), 
+							      "changed-hook" ));
+
+    /* Fill in value */
+    if (value)
+	gtk_text_buffer_set_text (buffer, value, -1 );
+    else
+	gtk_text_buffer_set_text (buffer, "", -1 );
+
+    g_object_set_data ( G_OBJECT (buffer),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+
+    /* Unblock everything */
+    if ( g_object_get_data (G_OBJECT(buffer), "changed") > 0 )
+	g_signal_handler_unblock ( G_OBJECT(buffer),
+				   (gulong) g_object_get_data ( G_OBJECT(buffer), 
+							       "changed" ));
+    if ( g_object_get_data (G_OBJECT(buffer), "change-hook") > 0 )
+	g_signal_handler_unblock ( G_OBJECT(buffer),
+				   (gulong) g_object_get_data ( G_OBJECT(buffer), 
+							       "change-hook" ));
+}
+
+
+/**
+ * Set a string to the value of an GtkTextView
+ *
+ * \param buffer The reference GtkTextBuffer
+ * \param dummy Handler parameter.  Not used.
+ */
+gboolean gsb_editable_text_area_changed ( GtkTextBuffer *buffer,
+					  gboolean default_func (gint, const gchar *))
+{
+    GtkTextIter start, end;
+    gint number_for_func;
+
+    /* just to be sure... */
+    if (!default_func || !buffer)
+	return FALSE;
+
+    number_for_func = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (buffer), "number_for_func"));
+
+    gtk_text_buffer_get_iter_at_offset ( buffer, &start, 0 );
+    gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );
+
+    default_func ( number_for_func,
+		   gtk_text_buffer_get_text (buffer, &start, &end, 0));
+
+    /* Mark file as modified */
+    modification_fichier ( TRUE );
+
+    return FALSE;
+}
+
 
 
 /**
@@ -179,9 +439,9 @@ GtkWidget * new_text_area ( gchar ** value, GCallback hook )
     GtkTextBuffer *buffer;
 
     if (value)
-	text_view = gsb_new_text_view(*value);
+	text_view = gsb_editable_text_view_new(*value);
     else
-	text_view = gsb_new_text_view(NULL);
+	text_view = gsb_editable_text_view_new(NULL);
 
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
 
@@ -199,57 +459,6 @@ GtkWidget * new_text_area ( gchar ** value, GCallback hook )
 							 ((GCallback) hook),
 							 NULL));
     return text_view;
-}
-
-
-/**
- * create a normalised text view for grisbi and add the value inside
- *
- * \param value a pointer to a string
- *
- * \return a GtkWidget which is a text_view with the string inside
- * */
-GtkWidget *gsb_new_text_view ( gchar *value )
-{
-    GtkWidget * text_view;
-    GtkTextBuffer *buffer;
-
-    text_view = gtk_text_view_new ();
-    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
-    gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (text_view), 3);
-    gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (text_view), 3);
-    gtk_text_view_set_left_margin (GTK_TEXT_VIEW (text_view), 3);
-    gtk_text_view_set_right_margin (GTK_TEXT_VIEW (text_view), 3);
-    gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD );
-
-    if (value)
-	gtk_text_buffer_set_text (buffer, value, -1);
-
-    return text_view;
-}
-
-/**
- * get the entire content of a text view
- *
- * \param the text_view
- *
- * \return a gchar which is the content of the text view 
- * */
-gchar *gsb_text_view_get_content ( GtkWidget *text_view )
-{
-    GtkTextIter start, end;
-    GtkTextBuffer *buffer;
-
-    g_return_val_if_fail (text_view,
-			  NULL);
-    g_return_val_if_fail (GTK_IS_TEXT_VIEW (text_view),
-			  NULL);
-    
-    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
-    gtk_text_buffer_get_iter_at_offset ( buffer, &start, 0 );
-    gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );
-
-    return (gtk_text_buffer_get_text (buffer, &start, &end, 0));
 }
 
 
@@ -290,8 +499,6 @@ void text_area_set_value ( GtkWidget * text_view, gchar ** value )
 }
 
 
-
-
 /**
  * Set a string to the value of an GtkTextView
  *
@@ -318,6 +525,57 @@ gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy )
 }
 
 
+/**
+ * create a normalised text view for grisbi and add the value inside
+ *
+ * \param value a pointer to a string
+ *
+ * \return a GtkWidget which is a text_view with the string inside
+ * */
+GtkWidget *gsb_editable_text_view_new ( gchar *value )
+{
+    GtkWidget * text_view;
+    GtkTextBuffer *buffer;
+
+    text_view = gtk_text_view_new ();
+    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+    gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (text_view), 3);
+    gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (text_view), 3);
+    gtk_text_view_set_left_margin (GTK_TEXT_VIEW (text_view), 3);
+    gtk_text_view_set_right_margin (GTK_TEXT_VIEW (text_view), 3);
+    gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD );
+
+    if (value)
+	gtk_text_buffer_set_text (buffer, value, -1);
+
+    return text_view;
+}
+
+/**
+ * get the entire content of a text view
+ *
+ * \param the text_view
+ *
+ * \return a gchar which is the content of the text view 
+ * */
+gchar *gsb_editable_text_view_get_content ( GtkWidget *text_view )
+{
+    GtkTextIter start, end;
+    GtkTextBuffer *buffer;
+
+    g_return_val_if_fail (text_view,
+			  NULL);
+    g_return_val_if_fail (GTK_IS_TEXT_VIEW (text_view),
+			  NULL);
+    
+    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+    gtk_text_buffer_get_iter_at_offset ( buffer, &start, 0 );
+    gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );
+
+    return (gtk_text_buffer_get_text (buffer, &start, &end, 0));
+}
+
+
 
 /**
  *  Increment or decrement the value of a GtkEntry.
@@ -327,15 +585,13 @@ gboolean set_text_from_area ( GtkTextBuffer *buffer, gpointer dummy )
  */
 void increment_decrement_champ ( GtkWidget *entry, gint increment )
 {
-    double number;
+    gdouble number;
 
-    number = my_strtod ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entry ))), NULL );
+    number = utils_str_atoi (gtk_entry_get_text ( GTK_ENTRY ( entry )));
     number += increment;
 
     gtk_entry_set_text ( GTK_ENTRY ( entry ), utils_str_itoa ( number ) );
 }
-
-
 
 
 /**

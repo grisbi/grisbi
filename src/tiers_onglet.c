@@ -33,8 +33,8 @@
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
-#include "gsb_form.h"
 #include "utils_editables.h"
+#include "gsb_form.h"
 #include "gsb_form_transaction.h"
 #include "gtk_combofix.h"
 #include "utils_buttons.h"
@@ -441,7 +441,7 @@ gboolean edit_payee ( GtkTreeView * view )
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
-    entry_description = gsb_new_text_view (gsb_data_payee_get_description (payee_number));
+    entry_description = gsb_editable_text_view_new (gsb_data_payee_get_description (payee_number));
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
@@ -462,7 +462,7 @@ gboolean edit_payee ( GtkTreeView * view )
 
     /* get the description */
     gsb_data_payee_set_description ( payee_number,
-				     gsb_text_view_get_content ( entry_description ));
+				     gsb_editable_text_view_get_content ( entry_description ));
 
     gtk_widget_destroy ( dialog );
 

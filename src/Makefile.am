@@ -55,6 +55,7 @@ sources = \
 	gsb_currency_config.c	\
 	gsb_currency_link_config.c	\
 	gsb_data_account.c	\
+	gsb_data_bank.c		\
 	gsb_data_budget.c	\
 	gsb_data_category.c	\
 	gsb_data_currency.c	\
@@ -143,6 +144,7 @@ grisbi_INCLUDES =		\
 	gsb_currency_config.h	\
 	gsb_currency_link_config.h	\
 	gsb_data_account.h	\
+	gsb_data_bank.h		\
 	gsb_data_budget.h	\
 	gsb_data_category.h	\
 	gsb_data_currency.h	\

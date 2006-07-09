@@ -9,8 +9,6 @@
 /* START_DECLARATION */
 gint cherche_string_equivalente_dans_slist ( gchar *string_list,
 					     gchar *string_cmp );
-gint recherche_banque_par_no ( struct struct_banque *banque,
-			       gint *no_banque );
 gint recherche_operation_par_id ( gpointer operation,
 				  gchar *id_recherchee );
 gint recherche_rapprochement_par_no ( struct struct_no_rapprochement *rapprochement,

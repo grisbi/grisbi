@@ -35,6 +35,7 @@
 #include "dialog.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
+#include "gsb_data_bank.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form.h"
@@ -85,10 +86,7 @@ GtkWidget *hbox_boutons_modif;
 
 
 /*START_EXTERN*/
-extern GtkWidget *adr_banque;
-extern GtkWidget *code_banque;
 extern gint compte_courant_onglet;
-extern GSList *liste_struct_banques;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
@@ -578,7 +576,7 @@ void modif_detail_compte ( GtkWidget *hbox )
 
 void remplissage_details_compte ( void )
 {
-    struct struct_banque *banque;
+    gint bank_number;
 
     devel_debug ( "remplissage_details_compte" );
 
@@ -612,22 +610,23 @@ void remplissage_details_compte ( void )
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( detail_bouton_adresse_commune ),
 				       TRUE );
 
-/*     remplissage des infos sur la banque */
-
-    banque = banque_par_no ( gsb_data_account_get_bank (compte_courant_onglet) );
+    /*     remplissage des infos sur la banque */
+    bank_number = gsb_data_account_get_bank (compte_courant_onglet);
     
-    if ( banque )
+    if (bank_number)
     {
+	gchar *string;
+
+/* xxx à modifier avec option menu des banques */
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_option_menu_banque ),
-				      g_slist_index ( liste_struct_banques,
-						      banque )+ 1 );
-	if ( banque -> code_banque )
+				      bank_number + 1 );
+	string = gsb_data_bank_get_code (bank_number);
+	if (string)
 	    gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
-				 banque -> code_banque );
+				 string );
 	else
 	    gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
 				 "" );
-
     }
     else
     {
@@ -1037,17 +1036,23 @@ void sort_du_detail_compte ( void )
 /* ************************************************************************************************************ */
 void changement_de_banque ( GtkWidget * menu_shell )
 {
-    struct struct_banque *banque;
+    gint bank_number;
 
-    banque = g_object_get_data ( G_OBJECT ( menu_shell ), "adr_banque" );
+    bank_number = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( menu_shell ), "no_banque" ));
 
-    if ( banque )
+    if (bank_number)
     {
-	if ( banque->code_banque )
+	gchar *string;
+
+	string = gsb_data_bank_get_code (bank_number);
+	if (string)
 	{
 	    gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
-				 banque->code_banque );
+				 string );
 	}
+	else
+	    gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
+				 "" );
 	gtk_widget_set_sensitive ( bouton_detail,
 				   TRUE );
     }
@@ -1058,8 +1063,6 @@ void changement_de_banque ( GtkWidget * menu_shell )
 	gtk_widget_set_sensitive ( bouton_detail,
 				   FALSE );
     }
-
-
 }
 /* ************************************************************************************************************ */
 

@@ -30,25 +30,24 @@
 #include "banque.h"
 #include "comptes_gestion.h"
 #include "dialog.h"
-#include "utils_editables.h"
 #include "gsb_data_account.h"
+#include "gsb_data_bank.h"
+#include "utils_editables.h"
 #include "traitement_variables.h"
-#include "utils_str.h"
 #include "utils.h"
-#include "search_glist.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist );
+static gint ajout_banque ( GtkWidget *bouton, GtkWidget *clist );
 static GtkWidget * bank_form ( GtkWidget * parent );
 static void deselection_ligne_banque ( GtkWidget *liste,
 				gint ligne,
 				gint colonne,
 				GdkEventButton *ev,
 				GtkWidget *frame );
-static void edit_bank ( GtkWidget * button, struct struct_banque * bank );
+static void edit_bank ( GtkWidget * button, gint bank_number );
 static void selection_ligne_banque ( GtkWidget *liste,
 			      gint ligne,
 			      gint colonne,
@@ -56,17 +55,13 @@ static void selection_ligne_banque ( GtkWidget *liste,
 			      GtkWidget *frame );
 static void supprime_banque ( GtkWidget *bouton,
 		       GtkWidget *liste );
-static void update_bank_form ( struct struct_banque * bank, GtkWidget * frame );
-static gboolean update_bank_list ( GtkEntry *entry, gchar *value, 
-			    gint length, gint * position );
+static void update_bank_form ( gint bank_number,
+			GtkWidget * frame );
+static gboolean update_bank_list ( GtkEntry *entry, 
+			    gpointer data );
 static gboolean update_bank_menu ();
 /*END_STATIC*/
 
-
-
-GSList *liste_struct_banques;
-gint nb_banques;
-gint no_derniere_banque;
 
 GtkWidget *clist_banques_parametres;
 GtkWidget *bouton_supprimer_banque;
@@ -103,21 +98,15 @@ extern GtkWidget *window;
  * Update bank name in list.  Normally called as a signal handler.
  *
  * \param entry Widget that triggered signal
- * \param value Handler parameter, not used
- * \param length Handler parameter, not used
- * \param position Handler parameter, not used
+ * \param data not used
+ *
+ * \return FALSE
  */
-gboolean update_bank_list ( GtkEntry *entry, gchar *value, 
-			    gint length, gint * position )
+gboolean update_bank_list ( GtkEntry *entry, 
+			    gpointer data )
 {
-    struct struct_banque * bank;
-
     if ( GTK_IS_CLIST ( clist_banques_parametres ) )
     {
-	bank = gtk_clist_get_row_data ( GTK_CLIST ( clist_banques_parametres ),
-					ligne_selection_banque );
-	if ( gtk_object_get_data ( GTK_OBJECT(nom_banque), "pointer" ))
-	{
 	    if (gtk_entry_get_text (GTK_ENTRY(nom_banque)))
 		gtk_clist_set_text ( GTK_CLIST(clist_banques_parametres),
 				     ligne_selection_banque, 0,
@@ -126,9 +115,7 @@ gboolean update_bank_list ( GtkEntry *entry, gchar *value,
 		gtk_clist_set_text ( GTK_CLIST(clist_banques_parametres),
 				     ligne_selection_banque, 1, 
 				     gtk_entry_get_text (GTK_ENTRY(nom_correspondant)));
-	}
     }
-
     update_bank_menu();
     return FALSE;
 }
@@ -147,13 +134,14 @@ gboolean update_bank_menu ()
 				"selection-done",
 				GTK_SIGNAL_FUNC ( modif_detail_compte ),
 				GTK_OBJECT ( hbox_boutons_modif ) );
-
+/* xxx à changer avec les banques 
+ * changer l'option menu */
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_option_menu_banque ),
-				  g_slist_index ( liste_struct_banques,
-						  banque_par_no ( gsb_data_account_get_bank (compte_courant_onglet))) +1 );
-
+				  gsb_data_account_get_bank (compte_courant_onglet) + 1 );
+			
     return FALSE;
 }
+
 
 
 /* ***************************************************************************************************** */
@@ -161,9 +149,9 @@ gboolean update_bank_menu ()
 /* appelée par le bouton ajouter de l'onglet banques des paramètres */
 /* ***************************************************************************************************** */
 
-struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
+gint ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
 {
-    struct struct_banque *banque;
+    gint bank_number;
     gchar *ligne[2];
     gint ligne_insert;
 
@@ -175,26 +163,23 @@ struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
 
     /* crée une nouvelle banque au nom de "nouvelle banque" en mettant
        tous les paramètres à 0 */
-    banque = calloc ( 1, sizeof ( struct struct_banque ));
-    if (!banque)
+    bank_number = gsb_data_bank_new (_("New bank"));
+
+    if (!bank_number)
     {
 	dialogue_error ( _("Cannot allocate memory, bad things will happen soon") );
-	return NULL;
+	return 0;
     }
-    banque -> no_banque = ++nb_banques;
-    banque -> nom_banque = my_strdup ( _("New bank") );
-    banque -> nom_correspondant = "";
-    liste_struct_banques = g_slist_append ( liste_struct_banques, banque );
-    ligne[0] = banque -> nom_banque;
-    ligne[1] = "";
 
+    ligne[0] = gsb_data_bank_get_name (bank_number);
+    ligne[1] = "";
 
     if ( clist && GTK_IS_CLIST(clist) )
     {
 	ligne_insert = gtk_clist_append ( GTK_CLIST ( clist ), ligne );
 
 	/* on associe à la ligne la struct de la banque */
-	gtk_clist_set_row_data ( GTK_CLIST ( clist ), ligne_insert, banque );
+	gtk_clist_set_row_data ( GTK_CLIST ( clist ), ligne_insert, GINT_TO_POINTER (bank_number));
 
 	/* on sélectionne le nouveau venu */
 	gtk_clist_select_row ( GTK_CLIST ( clist ), ligne_insert, 0 );
@@ -206,7 +191,7 @@ struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
 
     update_bank_menu ();
 
-    return banque;
+    return bank_number;
 }
 
 
@@ -220,17 +205,13 @@ struct struct_banque * ajout_banque ( GtkWidget *bouton, GtkWidget *clist )
 void supprime_banque ( GtkWidget *bouton,
 		       GtkWidget *liste )
 {
-    struct struct_banque *banque;
+    gint bank_number;
     gboolean resultat;
-    gint i;
     gboolean bank_is_used=FALSE;
-    gint bank_nb_to_remove;
     GSList *list_tmp;
 
-    banque = gtk_clist_get_row_data ( GTK_CLIST ( liste ),
-				      ligne_selection_banque );
-
-    bank_nb_to_remove = banque -> no_banque;
+    bank_number = GPOINTER_TO_INT (gtk_clist_get_row_data ( GTK_CLIST ( liste ),
+							    ligne_selection_banque ));
 
     list_tmp = gsb_data_account_get_list_accounts ();
 
@@ -240,7 +221,7 @@ void supprime_banque ( GtkWidget *bouton,
 
 	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	if ( gsb_data_account_get_bank (i) == bank_nb_to_remove )
+	if ( gsb_data_account_get_bank (i) == bank_number )
 	    bank_is_used = TRUE;
 
 	list_tmp = list_tmp -> next;
@@ -249,67 +230,21 @@ void supprime_banque ( GtkWidget *bouton,
     if ( bank_is_used )
 	resultat = question_yes_no_hint ( _("Confirmation of bank removal"),
 					  g_strdup_printf ( _("Bank \"%s\" is used by one or several accounts.\nDo you really want to remove it?"),
-							    banque -> nom_banque));
+							    gsb_data_bank_get_name (bank_number)));
     else
 	resultat = question_yes_no_hint ( _("Confirmation of bank removal"),
 					  g_strdup_printf ( _("Are you sure you want to remove bank \"%s\"?\n"),
-							    banque -> nom_banque));
+							    gsb_data_bank_get_name (bank_number)));
 
     if ( resultat )
     {
-	/* La suppression de la banque est confirmée, On fait le tour des
-	   comptes pour en modifier le numéro de banque associée */
-
-	list_tmp = gsb_data_account_get_list_accounts ();
-
-	while ( list_tmp )
-	{
-	    gint i;
-
-	    i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	    if ( gsb_data_account_get_bank (i) == bank_nb_to_remove )
-		gsb_data_account_set_bank ( i,
-				       0 );
-	    if ( gsb_data_account_get_bank (i) > bank_nb_to_remove )
-		gsb_data_account_set_bank ( i,
-				       gsb_data_account_get_bank (i));
-
-	    list_tmp = list_tmp -> next;
-	}
-
-
 	/* On retire la banque de la liste */
 
 	gtk_clist_remove ( GTK_CLIST ( liste ),
 			   ligne_selection_banque );
-	liste_struct_banques = g_slist_remove ( liste_struct_banques,
-						banque );
-	free ( banque );
-
-	/* Puis on fait le tour des banques pour recaler leurs numéros
-	   et ne pas créer de trous dans la suite des numéros */
-
-	for ( i = bank_nb_to_remove+1 ; i <= nb_banques ; i++ )
-	{
-	    GSList *pList;
-
-	    pList = g_slist_find_custom ( liste_struct_banques,
-					  GINT_TO_POINTER ( i ),
-					 ( GCompareFunc ) recherche_banque_par_no );
-
-	    if ( pList )
-	    {
-		struct struct_banque *pBank;
-	    
-		pBank = pList -> data;
-		pBank -> no_banque--;
-	    }
-	}
-	nb_banques--;
+	gsb_data_bank_remove (bank_number);
 	modification_fichier ( TRUE );
     }
-
     update_bank_menu ();
 }
 
@@ -325,7 +260,7 @@ GtkWidget *creation_menu_banques ( void )
 {
     GtkWidget *menu;
     GtkWidget *menu_item;
-    GSList *pointeur;
+    GSList *list_tmp;
 
     menu = gtk_menu_new ();
 
@@ -335,35 +270,28 @@ GtkWidget *creation_menu_banques ( void )
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			  "adr_banque",
-			  NULL );
-    gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_banque",
 			  NULL );
+    list_tmp = gsb_data_bank_get_bank_list ();
 
-    pointeur = liste_struct_banques;
-
-    while ( pointeur )
+    while ( list_tmp )
     {
-	struct struct_banque *banque;
+	gint bank_number;
 
-	banque = pointeur -> data;
+	bank_number = gsb_data_bank_get_no_bank (list_tmp->data);
 
-	menu_item = gtk_menu_item_new_with_label ( banque -> nom_banque );
+	menu_item = gtk_menu_item_new_with_label (gsb_data_bank_get_name (bank_number));
 	gtk_menu_append ( GTK_MENU ( menu ),
 			  menu_item );
 	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			      "adr_banque",
-			      banque );
-	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			      "no_banque",
-			      GINT_TO_POINTER ( banque -> no_banque ));
+			      GINT_TO_POINTER (bank_number));
 	g_signal_connect ( G_OBJECT ( menu_item ),
 			   "activate",
 			   GTK_SIGNAL_FUNC ( changement_de_banque ),
 			   NULL );
 
-	pointeur = pointeur -> next;
+	list_tmp = list_tmp -> next;
     }
 
     gtk_menu_append ( GTK_MENU ( menu ), gtk_separator_menu_item_new() );
@@ -431,18 +359,18 @@ GtkWidget *onglet_banques ( void )
 	    gtk_widget_set_sensitive ( vbox_pref, FALSE );
 	else
 	{
-	    liste_tmp = liste_struct_banques;
+	    liste_tmp = gsb_data_bank_get_bank_list ();
 
 	    while ( liste_tmp )
 	    {
-		struct struct_banque *banque;
+		gint bank_number;
 		gchar *ligne[2];
 		gint ligne_insert;
 
-		banque = liste_tmp -> data;
+		bank_number = gsb_data_bank_get_no_bank (liste_tmp -> data);
 
-		ligne[0] = banque -> nom_banque;
-		ligne[1] = banque -> nom_correspondant;
+		ligne[0] = gsb_data_bank_get_name (bank_number);
+		ligne[1] = gsb_data_bank_get_correspondent_name (bank_number);
 
 		ligne_insert = gtk_clist_append ( GTK_CLIST ( clist_banques_parametres ),
 						  ligne );
@@ -451,7 +379,7 @@ GtkWidget *onglet_banques ( void )
 
 		gtk_clist_set_row_data ( GTK_CLIST ( clist_banques_parametres ),
 					 ligne_insert,
-					 banque );
+					 GINT_TO_POINTER (bank_number));
 
 		liste_tmp = liste_tmp -> next;
 	    }
@@ -529,12 +457,12 @@ void selection_ligne_banque ( GtkWidget *liste,
 			      GdkEventButton *ev,
 			      GtkWidget *frame )
 {
-    struct struct_banque *banque;
+    gint bank_number;
 
     ligne_selection_banque = ligne;
-    banque = gtk_clist_get_row_data ( GTK_CLIST ( liste ), ligne );
+    bank_number = GPOINTER_TO_INT (gtk_clist_get_row_data ( GTK_CLIST ( liste ), ligne ));
 
-    update_bank_form ( banque, frame );
+    update_bank_form ( bank_number, frame );
 }
 
 
@@ -554,18 +482,18 @@ void deselection_ligne_banque ( GtkWidget *liste,
 				GdkEventButton *ev,
 				GtkWidget *frame )
 {
-    entry_set_value ( nom_banque, NULL );
-    entry_set_value ( code_banque, NULL );
-    entry_set_value ( tel_banque, NULL );
-    entry_set_value ( email_banque, NULL );
-    entry_set_value ( web_banque, NULL );
-    entry_set_value ( nom_correspondant, NULL );
-    entry_set_value ( tel_correspondant, NULL );
-    entry_set_value ( fax_correspondant, NULL );
-    entry_set_value ( email_correspondant, NULL );
+    gsb_editable_set_value ( nom_banque, NULL, 0 );
+    gsb_editable_set_value ( code_banque, NULL, 0 );
+    gsb_editable_set_value ( tel_banque, NULL, 0 );
+    gsb_editable_set_value ( email_banque, NULL, 0 );
+    gsb_editable_set_value ( web_banque, NULL, 0 );
+    gsb_editable_set_value ( nom_correspondant, NULL, 0 );
+    gsb_editable_set_value ( tel_correspondant, NULL, 0 );
+    gsb_editable_set_value ( fax_correspondant, NULL, 0 );
+    gsb_editable_set_value ( email_correspondant, NULL, 0 );
 
-    text_area_set_value ( adr_banque, NULL );
-    text_area_set_value ( remarque_banque, NULL );
+    gsb_editable_text_area_set_value ( adr_banque, NULL, 0 );
+    gsb_editable_text_area_set_value ( remarque_banque, NULL, 0 );
 
     gtk_widget_set_sensitive ( frame, FALSE );
     gtk_widget_set_sensitive ( bouton_supprimer_banque, FALSE );
@@ -598,7 +526,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    nom_banque = new_text_entry ( NULL, G_CALLBACK(update_bank_list), NULL );
+    nom_banque = gsb_editable_new_text_entry ( NULL, G_CALLBACK(update_bank_list), NULL, G_CALLBACK (gsb_data_bank_set_name), 0);
     gtk_size_group_add_widget ( size_group, nom_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       nom_banque, 1, 2, 0, 1,
@@ -613,7 +541,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    code_banque = new_text_entry ( NULL, NULL, NULL );
+    code_banque = gsb_editable_new_text_entry ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_code), 0);
     gtk_size_group_add_widget ( size_group, code_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       code_banque, 1, 2, 1, 2,
@@ -635,7 +563,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
 					  GTK_SHADOW_IN );
     /* Create the text view */
-    adr_banque = new_text_area ( NULL, NULL );
+    adr_banque = gsb_editable_new_text_area ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_address), 0);
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), adr_banque );
     gtk_size_group_add_widget ( size_group, adr_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -651,7 +579,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 4, 5,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    tel_banque = new_text_entry ( NULL, NULL, NULL );
+    tel_banque = gsb_editable_new_text_entry ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_tel), 0);
     gtk_size_group_add_widget ( size_group, tel_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       tel_banque, 1, 2, 4, 5,
@@ -666,7 +594,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 3, 4,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    email_banque = new_text_entry ( NULL, NULL, NULL );
+    email_banque = gsb_editable_new_text_entry ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_mail), 0);
     gtk_size_group_add_widget ( size_group, email_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       email_banque, 1, 2, 3, 4,
@@ -681,7 +609,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 5, 6,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    web_banque = new_text_entry ( NULL, NULL, NULL );
+    web_banque = gsb_editable_new_text_entry ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_web), 0);
     gtk_size_group_add_widget ( size_group, web_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       web_banque, 1, 2, 5, 6,
@@ -704,7 +632,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    nom_correspondant = new_text_entry ( NULL, G_CALLBACK(update_bank_list), NULL );
+    nom_correspondant = gsb_editable_new_text_entry ( NULL, G_CALLBACK(update_bank_list), NULL, G_CALLBACK (gsb_data_bank_set_correspondent_name), 0);
     gtk_size_group_add_widget ( size_group, nom_correspondant );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       nom_correspondant, 1, 2, 0, 1,
@@ -719,7 +647,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    tel_correspondant = new_text_entry ( NULL, NULL, NULL );
+    tel_correspondant = gsb_editable_new_text_entry ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_correspondent_tel), 0);
     gtk_size_group_add_widget ( size_group, tel_correspondant );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       tel_correspondant, 1, 2, 1, 2,
@@ -734,7 +662,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 3, 4,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    fax_correspondant = new_text_entry ( NULL, NULL, NULL );
+    fax_correspondant = gsb_editable_new_text_entry ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_correspondent_fax), 0);
     gtk_size_group_add_widget ( size_group, fax_correspondant );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       fax_correspondant, 1, 2, 3, 4,
@@ -749,7 +677,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 2, 3,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    email_correspondant = new_text_entry ( NULL, NULL, NULL );
+    email_correspondant = gsb_editable_new_text_entry ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_correspondent_mail), 0);
     gtk_size_group_add_widget ( size_group, email_correspondant );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       email_correspondant, 1, 2, 2, 3,
@@ -766,7 +694,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 					  GTK_SHADOW_IN );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
 			 TRUE, TRUE, 5 );
-    remarque_banque = new_text_area ( NULL, NULL );
+    remarque_banque = gsb_editable_new_text_area ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_note), 0);
     gtk_widget_set_usize ( remarque_banque, FALSE, 100 );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), remarque_banque );
 
@@ -775,21 +703,22 @@ GtkWidget * bank_form ( GtkWidget * parent )
 
 
 
-void update_bank_form ( struct struct_banque * bank, GtkWidget * frame )
+void update_bank_form ( gint bank_number,
+			GtkWidget * frame )
 {
-    entry_set_value ( nom_banque, &(bank -> nom_banque) );
-    entry_set_value ( code_banque, &(bank -> code_banque) );
-    entry_set_value ( tel_banque, &(bank -> tel_banque) );
-    entry_set_value ( email_banque, &(bank -> email_banque) );
-    entry_set_value ( web_banque, &(bank -> web_banque) );
+    gsb_editable_set_value ( nom_banque, gsb_data_bank_get_name (bank_number), bank_number);
+    gsb_editable_set_value ( code_banque, gsb_data_bank_get_code (bank_number), bank_number);
+    gsb_editable_set_value ( tel_banque, gsb_data_bank_get_bank_tel (bank_number), bank_number);
+    gsb_editable_set_value ( email_banque, gsb_data_bank_get_bank_mail (bank_number), bank_number);
+    gsb_editable_set_value ( web_banque, gsb_data_bank_get_bank_web (bank_number), bank_number);
 
-    entry_set_value ( nom_correspondant, &(bank -> nom_correspondant) );
-    entry_set_value ( tel_correspondant, &(bank -> tel_correspondant) );
-    entry_set_value ( email_correspondant, &(bank -> email_correspondant) );
-    entry_set_value ( fax_correspondant, &(bank -> fax_correspondant) );
+    gsb_editable_set_value ( nom_correspondant, gsb_data_bank_get_correspondent_name (bank_number), bank_number);
+    gsb_editable_set_value ( tel_correspondant, gsb_data_bank_get_correspondent_tel (bank_number), bank_number);
+    gsb_editable_set_value ( email_correspondant, gsb_data_bank_get_correspondent_mail (bank_number), bank_number);
+    gsb_editable_set_value ( fax_correspondant, gsb_data_bank_get_correspondent_fax (bank_number), bank_number);
 
-    text_area_set_value ( adr_banque, &(bank -> adr_banque) );
-    text_area_set_value ( remarque_banque, &(bank -> remarque_banque) );
+    gsb_editable_text_area_set_value ( adr_banque, gsb_data_bank_get_bank_address (bank_number), bank_number );
+    gsb_editable_text_area_set_value ( remarque_banque, gsb_data_bank_get_bank_note (bank_number), bank_number );
 
     gtk_widget_set_sensitive ( frame, TRUE );
     if ( GTK_IS_WIDGET(bouton_supprimer_banque))
@@ -800,20 +729,20 @@ void update_bank_form ( struct struct_banque * bank, GtkWidget * frame )
 
 void view_bank ( GtkWidget * button, gpointer data )
 {
-    struct struct_banque * bank;
+    gint bank_number;
 
-    bank = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_option_menu_banque ) -> menu_item ),
-				 "adr_banque" ); 
+    bank_number = GPOINTER_TO_INT (gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_option_menu_banque ) -> menu_item ),
+							 "no_banque" ));
 
-    if ( !bank )
+    if ( !bank_number )
 	return;
 
-    edit_bank ( button, bank );
+    edit_bank ( button, bank_number);
 }
 
 
 
-void edit_bank ( GtkWidget * button, struct struct_banque * bank )
+void edit_bank ( GtkWidget * button, gint bank_number )
 {
     GtkWidget * dialog, *form, * scrolled_window, *vbox;
 
@@ -840,42 +769,15 @@ void edit_bank ( GtkWidget * button, struct struct_banque * bank )
 
     gtk_widget_show_all ( GTK_DIALOG(dialog)->vbox );
 
-    if (! bank )
+    if (!bank_number )
     {
-	bank = ajout_banque ( NULL, NULL );
+	bank_number = ajout_banque ( NULL, NULL );
     }
-    update_bank_form ( bank, GTK_DIALOG(dialog)->vbox );
+    update_bank_form ( bank_number, GTK_DIALOG(dialog)->vbox );
 
     gtk_dialog_run (GTK_DIALOG(dialog));
     gtk_widget_destroy ( dialog );
 }
-
-
-
-
-
-
-/* **************************************************************************************************** */
-/* cette fonction renvoie l'adr de la banque demandée en argument */
-/* et NULL si pas trouvée */
-/* **************************************************************************************************** */
-struct struct_banque *banque_par_no ( gint no_banque )
-{
-    if ( no_banque )
-    {
-	GSList *liste_tmp;
-
-	liste_tmp = g_slist_find_custom ( liste_struct_banques,
-					  GINT_TO_POINTER ( no_banque ),
-					  (GCompareFunc) recherche_banque_par_no );
-
-	if ( liste_tmp )
-	    return ( liste_tmp -> data );
-    }
-    return NULL;
-}
-/* **************************************************************************************************** */
-
 
 
 /* Local Variables: */

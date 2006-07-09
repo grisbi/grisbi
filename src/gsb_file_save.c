@@ -25,6 +25,7 @@
 #include "erreur.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
+#include "gsb_data_bank.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
@@ -88,36 +89,24 @@ static gulong gsb_file_save_transaction_part ( gulong iterator,
 
 
 /*START_EXTERN*/
-extern GtkWidget *adr_banque;
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
-extern GtkWidget *code_banque;
-extern GtkWidget *email_banque;
-extern GtkWidget *email_correspondant;
-extern GtkWidget *fax_correspondant;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
-extern GSList *liste_struct_banques;
 extern GSList *liste_struct_rapprochements;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern GtkWidget *nom_banque;
-extern GtkWidget *nom_correspondant;
 extern gchar *nom_fichier_backup;
-extern GtkWidget *remarque_banque;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
 extern GSList *sort_accounts;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
-extern GtkWidget *tel_banque;
-extern GtkWidget *tel_correspondant;
 extern gchar *titre_fichier;
 extern gint valeur_echelle_recherche_date_import;
-extern GtkWidget *web_banque;
 /*END_EXTERN*/
 
 
@@ -192,7 +181,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 	+ budgetary_part * g_slist_length ( gsb_data_budget_get_budgets_list ())
 	+ currency_part * g_slist_length ( gsb_data_currency_get_currency_list () )
 	+ currency_link_part * g_slist_length ( gsb_data_currency_link_get_currency_link_list ())
-	+ bank_part * g_slist_length ( liste_struct_banques )
+	+ bank_part * g_slist_length ( gsb_data_bank_get_bank_list ())
 	+ financial_year_part * g_slist_length (gsb_data_fyear_get_fyears_list ())
 	+ reconcile_part * g_slist_length ( liste_struct_rapprochements )
 	+ report_part * g_slist_length ( gsb_data_report_get_report_list ());
@@ -1285,30 +1274,29 @@ gulong gsb_file_save_bank_part ( gulong iterator,
 {
     GSList *list_tmp;
 	
-    list_tmp = liste_struct_banques;
+    list_tmp = gsb_data_bank_get_bank_list ();
 
     while ( list_tmp )
     {
+	gint bank_number;
 	gchar *new_string;
-	struct struct_banque *bank;
 
-	bank = list_tmp -> data;
+	bank_number = gsb_data_bank_get_no_bank (list_tmp -> data);
 
 	/* now we can fill the file content */
-
 	new_string = g_markup_printf_escaped ( "\t<Bank Nb=\"%d\" Na=\"%s\" Co=\"%s\" Adr=\"%s\" Tel=\"%s\" Mail=\"%s\" Web=\"%s\" Nac=\"%s\" Faxc=\"%s\" Telc=\"%s\" Mailc=\"%s\" Rem=\"%s\" />\n",
-					       bank -> no_banque,
-					       bank -> nom_banque,
-					       bank -> code_banque,
-					       bank -> adr_banque,
-					       bank -> tel_banque,
-					       bank -> email_banque,
-					       bank -> web_banque,
-					       bank -> nom_correspondant,
-					       bank -> fax_correspondant,
-					       bank -> tel_correspondant,
-					       bank -> email_correspondant,
-					       bank -> remarque_banque);
+					       bank_number,
+					       gsb_data_bank_get_name (bank_number),
+					       gsb_data_bank_get_code (bank_number),
+					       gsb_data_bank_get_bank_address (bank_number),
+					       gsb_data_bank_get_bank_tel (bank_number),
+					       gsb_data_bank_get_bank_mail (bank_number),
+					       gsb_data_bank_get_bank_web (bank_number),
+					       gsb_data_bank_get_correspondent_name (bank_number),
+					       gsb_data_bank_get_correspondent_fax (bank_number),
+					       gsb_data_bank_get_correspondent_tel (bank_number),
+					       gsb_data_bank_get_correspondent_mail (bank_number),
+					       gsb_data_bank_get_bank_note (bank_number));
 
 	/* append the new string to the file content
 	 * and take the new iterator */

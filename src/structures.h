@@ -168,26 +168,6 @@ struct {
 
 
 
-/* banques */
-
-struct struct_banque
-{
-    gint no_banque;
-    gchar *code_banque;
-    gchar *nom_banque;
-    gchar *adr_banque;
-    gchar *tel_banque;
-    gchar *email_banque;
-    gchar *web_banque;
-    gchar *remarque_banque;
-    gchar *nom_correspondant;
-    gchar *tel_correspondant;
-    gchar *email_correspondant;
-    gchar *fax_correspondant;
-};
-
-
-
 struct struct_type_ope
 {
     gint no_type;

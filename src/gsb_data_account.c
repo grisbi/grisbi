@@ -273,8 +273,11 @@ gboolean gsb_data_account_delete ( gint account_number )
 
 
 
-/** return the amount of accounts
+/**
+ * return the amount of accounts
+ * 
  * \param none
+ * 
  * \return amount of accounts
  * */
 gint gsb_data_account_get_accounts_amount ( void )
@@ -287,8 +290,11 @@ gint gsb_data_account_get_accounts_amount ( void )
 
 
 
-/** find and return the last number of account
+/**
+ * find and return the last number of account
+ * 
  * \param none
+ * 
  * \return last number of account
  * */
 gint gsb_data_account_max_number ( void )
@@ -319,8 +325,11 @@ gint gsb_data_account_max_number ( void )
 }
 
 
-/** find and return the first number of account
+/**
+ * find and return the first number of account
+ * 
  * \param none
+ * 
  * \return first number of account, -1 if no accounts
  * */
 gint gsb_data_account_first_number ( void )
