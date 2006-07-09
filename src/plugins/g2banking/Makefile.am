@@ -13,8 +13,8 @@ g2banking_la_LDFLAGS = -module -avoid-version
 # Libs must be cleared, or else libtool won't create a shared module.
 # If your module needs to be linked against any particular libraries,
 # add them here.
-LIBS = @g2banking_libs@
-CFLAGS = @g2banking_includes@ -DHAVE_G2BANKING
+LIBS = @g2banking_libs@ @GTK_LIBS@
+CFLAGS = @g2banking_includes@ -DHAVE_G2BANKING @GTK_CFLAGS@
 
 endif
 
