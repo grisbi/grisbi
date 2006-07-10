@@ -35,10 +35,10 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "utils_editables.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
-#include "utils_editables.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
@@ -51,30 +51,25 @@
 /*START_STATIC*/
 static void gsb_currency_append_currency_to_list ( GtkListStore *model,
 					    gint currency_number );
-static gboolean gsb_currency_config_code_entry_changed ( GtkEditable *editable, gchar * text,
-						  gint length, gpointer data );
-static GtkWidget * gsb_currency_config_create_box_popup (void);
+static GtkWidget *gsb_currency_config_create_box_popup (void);
 static gint gsb_currency_config_create_currency ( const gchar *currency_name,
 					   const gchar *currency_code, 
 					   const gchar *currency_isocode,
 					   gint floating_point );
 static GtkWidget *gsb_currency_config_create_list ();
+static gboolean gsb_currency_config_entry_changed ( GtkWidget *entry,
+					     GtkWidget *tree_view );
 static void gsb_currency_config_fill_popup_list ( GtkTreeView * tree_view,
 					   gboolean include_obsolete );
-static gboolean gsb_currency_config_floating_entry_changed ( GtkEditable *editable,
-						      gchar * text,
-						      gint length,
-						      gpointer data );
-static gint gsb_currency_config_get_selected ( GtkTreeView * tree_view );
-static gboolean gsb_currency_config_isocode_entry_changed ( GtkEditable *editable, gchar * text,
-						     gint length, gpointer data );
-static gboolean gsb_currency_config_name_entry_changed ( GtkEditable *editable, gchar * text,
-						  gint length, gpointer data );
+static gboolean gsb_currency_config_fill_tree ( GtkTreeModel *model );
+static gint gsb_currency_config_get_selected ( GtkTreeView *tree_view );
 static GtkWidget * gsb_currency_config_new_combobox ( gint * value, GCallback hook );
 static void gsb_currency_config_remove_currency ( GtkWidget *button,
 					   GtkWidget *tree_view );
 static void gsb_currency_config_remove_selected_from_view ( GtkTreeView * tree_view );
-static gboolean gsb_currency_config_select_currency ( GtkTreeSelection *selection, GtkTreeModel *model );
+static gboolean gsb_currency_config_select_currency ( GtkTreeSelection *selection,
+					       gpointer null );
+static gboolean gsb_currency_config_select_currency_popup ( GtkTreeSelection *selection, GtkTreeModel *model );
 static gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTreePath * path, 
 					      GtkTreeIter * iter, GtkTreeView * tree_view );
 static gboolean gsb_currency_config_set_int_from_combobox ( GtkWidget *combobox, gint * dummy);
@@ -267,15 +262,17 @@ enum currency_list_column {
     CURRENCY_ISO_CODE_COLUMN,
     CURRENCY_NICKNAME_COLUMN,
     CURRENCY_FLOATING_COLUMN,
-    CURRENCY_POINTER_COLUMN,
+    CURRENCY_NUMBER_COLUMN,
     NUM_CURRENCIES_COLUMNS,
 };
 
-/** Exchange rates cache, used by
- * gsb_currency_config_set_cached_exchange
- * and 
- * gsb_currency_config_get_cached_exchange */
-GSList * cached_exchange_rates = NULL;
+
+
+/* ********************************************************************************************************************************** */
+/* FIRST PART about the configuration list of currencies */
+/* separate from the list to add new currency because too dark for me [cedric] -> 2 different gtk_tree_view */
+/* perhaps add currency to set in another file ? */
+/* ********************************************************************************************************************************** */
 
 
 /**
@@ -312,7 +309,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window, TRUE, TRUE, 0);
     g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( currency_list_view ) ), 
 		       "changed", G_CALLBACK ( gsb_currency_config_select_currency ), 
-		       currency_tree_model );
+		       NULL );
 
     /* if nothing opened, all is unsensitive */
     if ( !gsb_data_account_get_accounts_amount () )
@@ -320,22 +317,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
     else
     {
 	/* fill the list with the known currencies */
-
-	GSList *tmp_list;
-
-	tmp_list = gsb_data_currency_get_currency_list ();
-
-	while ( tmp_list )
-	{
-	    gint currency_number;
-
-	    currency_number = gsb_data_currency_get_no_currency (tmp_list -> data);
-
-	    gsb_currency_append_currency_to_list ( GTK_LIST_STORE ( currency_tree_model ),
-					       currency_number );
-	    tmp_list = tmp_list -> next;
-	}
-
+	gsb_currency_config_fill_tree (currency_tree_model);
     }
 
     /* Create Add/Remove buttons */
@@ -373,11 +355,12 @@ GtkWidget *gsb_currency_config_create_page ( void )
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    entry = new_text_entry ( NULL, (GCallback) gsb_currency_config_name_entry_changed, NULL );
+    entry = gsb_editable_new_text_entry ( NULL,
+					  G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view,
+					  G_CALLBACK (gsb_data_currency_set_name), 0 );
     gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 0, 1, 
 		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_name", entry );
-    g_object_set_data ( G_OBJECT(entry), "tree_view", currency_list_view );
 
     /* Create code entry */
     label = gtk_label_new (COLON(_("Sign")));
@@ -385,12 +368,12 @@ GtkWidget *gsb_currency_config_create_page ( void )
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    entry = new_text_entry ( NULL, (GCallback) gsb_currency_config_code_entry_changed,
-			     NULL );
+    entry = gsb_editable_new_text_entry ( NULL,
+					  G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view,
+					  G_CALLBACK (gsb_data_currency_set_code), 0 );
     gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 1, 2,
 		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_code", entry );
-    g_object_set_data ( G_OBJECT(entry), "tree_view", currency_list_view );
 
     /* Create code entry */
     label = gtk_label_new ( COLON(_("ISO code")) );
@@ -398,12 +381,12 @@ GtkWidget *gsb_currency_config_create_page ( void )
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 2, 3,
 		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    entry = new_text_entry ( NULL, (GCallback) gsb_currency_config_isocode_entry_changed, 
-			     NULL );
+    entry = gsb_editable_new_text_entry ( NULL,
+					  G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view,
+					  G_CALLBACK (gsb_data_currency_set_code_iso4217), 0 );
     gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 2, 3,
 		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_iso_code", entry );
-    g_object_set_data ( G_OBJECT(entry), "tree_view", currency_list_view );
 
     /* Create floating point entry */
     label = gtk_label_new ( COLON(_("Floating point")) );
@@ -411,13 +394,15 @@ GtkWidget *gsb_currency_config_create_page ( void )
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 3, 4,
 		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    entry = new_text_entry ( NULL, (GCallback) gsb_currency_config_floating_entry_changed, 
-			     NULL );
+    entry = gsb_editable_new_int_entry ( 0,
+					 G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view, 
+					 G_CALLBACK (gsb_data_currency_set_floating_point), 0 );
     gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 3, 4,
 		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_floating_point", entry );
-    g_object_set_data ( G_OBJECT(entry), "tree_view", currency_list_view );
 
+    /* for now we want nothing in the entry of floating point */
+    gsb_editable_int_erase_entry ( entry );
     return ( vbox_pref );
 }
 
@@ -446,7 +431,7 @@ GtkWidget *gsb_currency_config_create_list ()
        CURRENCY_ISO_CODE_COLUMN,
        CURRENCY_NICKNAME_COLUMN,
        CURRENCY_FLOATING_COLUMN,
-       CURRENCY_POINTER_COLUMN */
+       CURRENCY_NUMBER_COLUMN */
     model = gtk_list_store_new (NUM_CURRENCIES_COLUMNS,
 				GDK_TYPE_PIXBUF, G_TYPE_BOOLEAN,
 				G_TYPE_STRING, G_TYPE_STRING,
@@ -518,6 +503,379 @@ GtkWidget *gsb_currency_config_create_list ()
     return treeview;
 }
 
+
+/**
+ * fill the currencies list with all the known currencies
+ *
+ * \param model
+ *
+ * \return FALSE
+ * */
+gboolean gsb_currency_config_fill_tree ( GtkTreeModel *model )
+{
+    GSList *tmp_list;
+
+    if (!model)
+	return FALSE;
+
+    tmp_list = gsb_data_currency_get_currency_list ();
+
+    while ( tmp_list )
+    {
+	gint currency_number;
+
+	currency_number = gsb_data_currency_get_no_currency (tmp_list -> data);
+
+	gsb_currency_append_currency_to_list ( GTK_LIST_STORE (model),
+					       currency_number );
+	tmp_list = tmp_list -> next;
+    }
+
+    return FALSE;
+}
+
+/**
+ * append the given currency in the list of known currencies
+ * call both for known currencies and word currencies
+ *
+ * \param model the tree_model of the known currencies
+ * \param currency_number
+ *
+ * \return
+ *
+ */
+void gsb_currency_append_currency_to_list ( GtkListStore *model,
+					    gint currency_number )
+{
+    GdkPixbuf * pixbuf;
+    GtkTreeIter iter;
+    gchar *string;
+
+    string = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+			  "flags", C_DIRECTORY_SEPARATOR,
+			  gsb_data_currency_get_code_iso4217 (currency_number),
+			  ".png", NULL );
+    pixbuf = gdk_pixbuf_new_from_file ( string,
+					NULL );	
+    g_free (string);
+
+    gtk_list_store_append (GTK_LIST_STORE(model), &iter);
+    gtk_list_store_set ( GTK_LIST_STORE ( model ), &iter,
+			 CURRENCY_FLAG_COLUMN, pixbuf,
+			 CURRENCY_NAME_COLUMN, gsb_data_currency_get_name (currency_number),
+			 CURRENCY_ISO_CODE_COLUMN, gsb_data_currency_get_code_iso4217 (currency_number),
+			 CURRENCY_NICKNAME_COLUMN, gsb_data_currency_get_code (currency_number),
+			 CURRENCY_FLOATING_COLUMN,  gsb_data_currency_get_floating_point (currency_number),
+			 CURRENCY_NUMBER_COLUMN, currency_number,
+			 CURRENCY_HAS_FLAG, TRUE,
+			 -1);
+}
+
+
+
+/**
+ * Remove selected currency from currency list.  First, be sure there
+ * is no use for it.
+ *
+ * \param button	Widget that triggered event.
+ * \param tree_view		GtkTreeView that contains selected currency.
+ */
+void gsb_currency_config_remove_currency ( GtkWidget *button,
+					   GtkWidget *tree_view )
+{
+    GSList *list_tmp;
+    gint currency_number;
+
+    currency_number = gsb_currency_config_get_selected ( GTK_TREE_VIEW ( tree_view ) );
+    if ( !currency_number )
+	return;
+
+    /* we look for that currency in all the transactions,
+     * if we find it, we cannot delete it */
+
+    list_tmp = gsb_data_transaction_get_transactions_list ();
+
+    while ( list_tmp )
+    {
+	gint transaction_number;
+	transaction_number = gsb_data_transaction_get_transaction_number (list_tmp -> data);
+
+	if ( gsb_data_transaction_get_currency_number (transaction_number) == currency_number )
+	{
+	    dialogue_error_hint ( g_strdup_printf ( _("Currency '%s' is used in current file.  Grisbi can't delete it."),
+						    gsb_data_currency_get_name (currency_number)),
+				  g_strdup_printf ( _("Impossible to remove currency '%s'"), 
+						    gsb_data_currency_get_name (currency_number) ));
+	    return;
+	}
+	else
+	    list_tmp = list_tmp -> next;
+    }
+
+    /* check the currency in the scheduled transactions */
+    list_tmp = gsb_data_scheduled_get_scheduled_list ();
+
+    while ( list_tmp )
+    {
+	gint scheduled_number;
+
+	scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp -> data);
+	if ( gsb_data_scheduled_get_currency_number (scheduled_number) == currency_number )
+	{
+	    dialogue_error_hint ( g_strdup_printf ( _("Currency '%s' is used in current file.  Grisbi can't delete it."),
+						    gsb_data_currency_get_name (currency_number)),
+				  g_strdup_printf ( _("Impossible to remove currency '%s'"), 
+						    gsb_data_currency_get_name (currency_number) ));
+	    return;
+	}
+	else
+	    list_tmp = list_tmp -> next;
+    }
+
+    gsb_currency_config_remove_selected_from_view ( GTK_TREE_VIEW(tree_view) );
+    gsb_data_currency_remove (currency_number);
+}
+
+/**
+ * Remove selected currency from tree.  In fact, this is a generic
+ * function that could be used for any purpose (and could be then
+ * renamed).
+ *
+ * \param tree_view	GtkTreeView to remove selected entry from.
+ */
+void gsb_currency_config_remove_selected_from_view ( GtkTreeView * tree_view )
+{
+    GtkTreeSelection * selection = gtk_tree_view_get_selection ( tree_view );
+    GtkTreeIter iter;
+    GtkTreeModel * tree_model;
+
+    if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
+	return;
+
+    gtk_list_store_remove ( GTK_LIST_STORE (tree_model), &iter );
+}
+
+
+/**
+ * Obtain selected currency from currency tree.
+ *
+ * \param tree_view		GtkTreeView to remove currency from.
+ * 
+ * \return		the number of the selected currency.
+ */
+gint gsb_currency_config_get_selected ( GtkTreeView *tree_view )
+{
+    GtkTreeSelection * selection = gtk_tree_view_get_selection ( tree_view );
+    GtkTreeIter iter;
+    GtkTreeModel * tree_model;
+    gint currency_number;
+
+    if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
+	return(FALSE);
+
+    gtk_tree_model_get ( tree_model,
+			 &iter, 
+			 CURRENCY_NUMBER_COLUMN, &currency_number,
+			 -1 );
+    return currency_number;
+}
+
+/**
+ * called when user change something in an entry
+ * set the content of the entry for in the tree_view
+ * (changes in memory done automatickly by gsb_editable_new_text_entry)
+ *
+ * \param entry
+ * \param tree_view
+ *
+ * \return FALSE
+ */
+gboolean gsb_currency_config_entry_changed ( GtkWidget *entry,
+					     GtkWidget *tree_view )
+{
+    gint currency_number;
+    GtkTreeSelection * selection;
+    GtkTreeModel *tree_model;
+    GtkTreeIter iter;
+
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+    currency_number = gsb_currency_config_get_selected (GTK_TREE_VIEW (tree_view));
+
+    if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
+	return(FALSE);
+
+    gtk_list_store_set ( GTK_LIST_STORE (tree_model), &iter,
+			 CURRENCY_NAME_COLUMN, gsb_data_currency_get_name (currency_number),
+			 CURRENCY_ISO_CODE_COLUMN, gsb_data_currency_get_code_iso4217 (currency_number),
+			 CURRENCY_NICKNAME_COLUMN, gsb_data_currency_get_code (currency_number),
+			 CURRENCY_FLOATING_COLUMN,  gsb_data_currency_get_floating_point (currency_number),
+			 -1);
+    gsb_currency_update_combobox_currency_list ();
+    modification_fichier ( TRUE );
+
+    return FALSE;
+}
+
+
+/**
+ * called when select a currency in the known list of currencies
+ * fill the corresponding entries to append it
+ *
+ * \param selection
+ * \param model the tree_model
+ *
+ */
+gboolean gsb_currency_config_select_currency ( GtkTreeSelection *selection,
+					       gpointer null )
+{
+    gint currency_number;
+    GtkWidget *entry_name, *entry_iso_code, *entry_code, *entry_floating_point;
+    gchar *currency_name, *currency_iso_code, *currency_nickname;
+    gint currency_floating;
+    GtkTreeIter iter;
+    GtkTreeModel *model;
+
+    if ( !selection || !gtk_tree_selection_get_selected (selection, &model, &iter))
+	return(FALSE);
+
+    /* get the entries */
+    entry_name = g_object_get_data ( G_OBJECT(model), "entry_name" );
+    entry_iso_code = g_object_get_data ( G_OBJECT(model), "entry_iso_code" );
+    entry_code = g_object_get_data ( G_OBJECT(model), "entry_code" );
+    entry_floating_point = g_object_get_data ( G_OBJECT(model), "entry_floating_point" );
+
+    /* get the contents of the selected line */
+    gtk_tree_model_get ( model, &iter, 
+			 CURRENCY_NAME_COLUMN, &currency_name,
+			 CURRENCY_ISO_CODE_COLUMN, &currency_iso_code,
+			 CURRENCY_NICKNAME_COLUMN, &currency_nickname, 
+			 CURRENCY_FLOATING_COLUMN, &currency_floating, 
+			 CURRENCY_NUMBER_COLUMN, &currency_number,
+			 -1 );
+
+    gsb_editable_set_value ( entry_name, currency_name, currency_number );
+    gsb_editable_set_value ( entry_iso_code, currency_iso_code, currency_number );
+    gsb_editable_set_value ( entry_code, currency_nickname, currency_number );
+    gsb_editable_int_set_value ( entry_floating_point, currency_floating, currency_number );
+
+    return ( FALSE );
+} 
+
+
+
+/******************************** that next part is for config page of totals, perhaps
+ * should go elsewhere ?? 
+ * *********************************************************************************** */
+
+/**
+ * show combo_box with the currencies to choose the currency
+ * for totals of lists (payee, categories, budgets
+ *
+ * \param
+ *
+ * \return the widget to set in the conf
+ */
+GtkWidget *gsb_currency_config_create_totals_page ( void )
+{
+    GtkWidget *vbox_pref, *combo_box, *table, *label;
+
+    vbox_pref = new_vbox_with_title_and_icon ( _("Totals currencies"),
+					       "currencies.png" );
+
+    table = gtk_table_new ( 2, 2, FALSE );
+    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
+    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
+
+    label = gtk_label_new (_("Currency for payees tree"));
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+    gtk_table_attach ( GTK_TABLE ( table ), label, 
+		       0, 1, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    combo_box = gsb_currency_config_new_combobox ( &no_devise_totaux_tiers, 
+					       remplit_arbre_tiers );
+    gtk_table_attach ( GTK_TABLE ( table ), combo_box,
+		       1, 2, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+
+    label = gtk_label_new (_("Currency for categories tree"));
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+    gtk_table_attach ( GTK_TABLE ( table ), label,
+		       0, 1, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    combo_box = gsb_currency_config_new_combobox ( &no_devise_totaux_categ, 
+					       remplit_arbre_categ );
+    gtk_table_attach ( GTK_TABLE ( table ), combo_box,
+		       1, 2, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+
+    label = gtk_label_new (_("Currency for budgetary lines tree"));
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+    gtk_table_attach ( GTK_TABLE ( table ), label,
+		       0, 1, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    combo_box = gsb_currency_config_new_combobox ( &no_devise_totaux_ib, 
+					       remplit_arbre_imputation );
+    gtk_table_attach ( GTK_TABLE ( table ), combo_box,
+		       1, 2, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), table, TRUE, TRUE, 0);
+
+    return ( vbox_pref );
+}
+
+/**
+ * Create a new GtkComboBox with a pointer to an integer that will be
+ * modified according to the entry's value.
+ *
+ * \param value A pointer to a gint wich contains the currency number
+ * \param hook An optional function to execute as a handler
+ *
+ * \return A newly allocated option menu.
+ */
+GtkWidget * gsb_currency_config_new_combobox ( gint * value, GCallback hook )
+{
+    GtkWidget *combo_box;
+
+    combo_box = gsb_currency_make_combobox (FALSE);
+
+    if (value && *value)
+	gsb_currency_set_combobox_history ( combo_box,
+					    *value );
+
+    g_signal_connect ( GTK_OBJECT (combo_box), "changed", (GCallback) gsb_currency_config_set_int_from_combobox, value );
+    g_signal_connect ( GTK_OBJECT (combo_box), "changed", (GCallback) hook, value );
+    g_object_set_data ( G_OBJECT ( combo_box ), "pointer", value);
+
+    return combo_box;
+}
+
+
+/**
+ * Set an integer to the value of a menu.  Normally called via a GTK
+ * "changed" signal handler.
+ * 
+ * \param menu a pointer to a menu widget.
+ * \param dummy unused
+ */
+gboolean gsb_currency_config_set_int_from_combobox ( GtkWidget *combobox, gint * dummy)
+{
+    gint *data;
+    
+    data = g_object_get_data ( G_OBJECT(combobox), "pointer" );
+
+    if ( data )
+    {
+	*data = gsb_currency_get_currency_from_combobox (combobox);
+    }
+
+    /* Mark file as modified */
+    modification_fichier ( TRUE );
+    return (FALSE);
+}
+
+
+
+/* ********************************************************************************************************************************** */
+/* NEXT PART about the list to add a new currency */
+/* ********************************************************************************************************************************** */
 
 /**
  * Pop up a dialog to create a new currency, do some sanity checks and
@@ -651,9 +1009,9 @@ dialog_return:
 		{
 		    gsb_currency_append_currency_to_list ( GTK_LIST_STORE ( currency_tree_model ),
 							   currency_number );
-		    gsb_currency_update_currency_list ();
-		    modification_fichier ( TRUE );
+		    gsb_currency_update_combobox_currency_list ();
 		    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
+		    modification_fichier ( TRUE );
 		    return TRUE;
 		}
 	    }
@@ -667,44 +1025,6 @@ dialog_return:
     }
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
     return TRUE;
-}
-
-
-/**
- * append the given currency in the list of known currencies
- *
- * \param model the tree_model of the known currencies
- * \param currency_number
- *
- * \return
- *
- */
-void gsb_currency_append_currency_to_list ( GtkListStore *model,
-					    gint currency_number )
-{
-    GdkPixbuf * pixbuf;
-    GtkTreeIter iter;
-    gchar *string;
-
-    string = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-			  "flags", C_DIRECTORY_SEPARATOR,
-			  gsb_data_currency_get_code_iso4217 (currency_number),
-			  ".png", NULL );
-    pixbuf = gdk_pixbuf_new_from_file ( string,
-					NULL );	
-    g_free (string);
-
-    gtk_list_store_append (GTK_LIST_STORE(model), &iter);
-    gtk_list_store_set ( GTK_LIST_STORE ( model ), &iter,
-			 CURRENCY_FLAG_COLUMN, pixbuf,
-			 COUNTRY_NAME_COLUMN, "",
-			 CURRENCY_NAME_COLUMN, gsb_data_currency_get_name (currency_number),
-			 CURRENCY_ISO_CODE_COLUMN, gsb_data_currency_get_code_iso4217 (currency_number),
-			 CURRENCY_NICKNAME_COLUMN, gsb_data_currency_get_code (currency_number),
-			 CURRENCY_FLOATING_COLUMN,  gsb_data_currency_get_floating_point (currency_number),
-			 CURRENCY_POINTER_COLUMN, currency_number,
-			 CURRENCY_HAS_FLAG, TRUE,
-			 -1);
 }
 
 
@@ -763,90 +1083,6 @@ gint gsb_currency_config_create_currency_from_iso4217list ( gchar *currency_name
 }
 
 
-/**
- * Remove selected currency from currency list.  First, be sure there
- * is no use for it.
- *
- * \param button	Widget that triggered event.
- * \param tree_view		GtkTreeView that contains selected currency.
- */
-void gsb_currency_config_remove_currency ( GtkWidget *button,
-					   GtkWidget *tree_view )
-{
-    GSList *list_tmp;
-    gint currency_number;
-
-    currency_number = gsb_currency_config_get_selected ( GTK_TREE_VIEW ( tree_view ) );
-    if ( !currency_number )
-	return;
-
-    /* we look for that currency in all the transactions,
-     * if we find it, we cannot delete it */
-
-    list_tmp = gsb_data_transaction_get_transactions_list ();
-
-    while ( list_tmp )
-    {
-	gint transaction_number;
-	transaction_number = gsb_data_transaction_get_transaction_number (list_tmp -> data);
-
-	if ( gsb_data_transaction_get_currency_number (transaction_number) == currency_number )
-	{
-	    dialogue_error_hint ( g_strdup_printf ( _("Currency '%s' is used in current file.  Grisbi can't delete it."),
-						    gsb_data_currency_get_name (currency_number)),
-				  g_strdup_printf ( _("Impossible to remove currency '%s'"), 
-						    gsb_data_currency_get_name (currency_number) ));
-	    return;
-	}
-	else
-	    list_tmp = list_tmp -> next;
-    }
-
-    /* check the currency in the scheduled transactions */
-    list_tmp = gsb_data_scheduled_get_scheduled_list ();
-
-    while ( list_tmp )
-    {
-	gint scheduled_number;
-
-	scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp -> data);
-	if ( gsb_data_scheduled_get_currency_number (scheduled_number) == currency_number )
-	{
-	    dialogue_error_hint ( g_strdup_printf ( _("Currency '%s' is used in current file.  Grisbi can't delete it."),
-						    gsb_data_currency_get_name (currency_number)),
-				  g_strdup_printf ( _("Impossible to remove currency '%s'"), 
-						    gsb_data_currency_get_name (currency_number) ));
-	    return;
-	}
-	else
-	    list_tmp = list_tmp -> next;
-    }
-
-    gsb_currency_config_remove_selected_from_view ( GTK_TREE_VIEW(tree_view) );
-    gsb_data_currency_remove (currency_number);
-}
-
-
-/**
- * Remove selected currency from tree.  In fact, this is a generic
- * function that could be used for any purpose (and could be then
- * renamed).
- *
- * \param tree_view	GtkTreeView to remove selected entry from.
- */
-void gsb_currency_config_remove_selected_from_view ( GtkTreeView * tree_view )
-{
-    GtkTreeSelection * selection = gtk_tree_view_get_selection ( tree_view );
-    GtkTreeIter iter;
-    GtkTreeModel * tree_model;
-
-    if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
-	return;
-
-    gtk_list_store_remove ( GTK_LIST_STORE (tree_model), &iter );
-}
-
-
 
 /**
  * create the box wich contains the world currencies list for the
@@ -857,7 +1093,7 @@ void gsb_currency_config_remove_selected_from_view ( GtkTreeView * tree_view )
  * \return a vbox
  *
  */
-GtkWidget * gsb_currency_config_create_box_popup (void)
+GtkWidget *gsb_currency_config_create_box_popup (void)
 { 
     GtkWidget * sw, * treeview, * vbox, * checkbox;
     GtkTreeModel * model;
@@ -873,7 +1109,7 @@ GtkWidget * gsb_currency_config_create_box_popup (void)
     gtk_widget_set_usize ( treeview, FALSE, 200 );
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW(treeview) );
     g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( treeview ) ), 
-		       "changed", G_CALLBACK ( gsb_currency_config_select_currency ), 
+		       "changed", G_CALLBACK ( gsb_currency_config_select_currency_popup ), 
 		       model );
 
     gtk_container_add (GTK_CONTAINER (sw), treeview);
@@ -944,7 +1180,7 @@ void gsb_currency_config_fill_popup_list ( GtkTreeView * tree_view,
 				CURRENCY_ISO_CODE_COLUMN, _(currency -> currency_code),
 				CURRENCY_NICKNAME_COLUMN, _(currency -> currency_nickname),
 				CURRENCY_FLOATING_COLUMN, currency -> floating_point,
-				CURRENCY_POINTER_COLUMN, currency,
+				CURRENCY_NUMBER_COLUMN, currency,
 				CURRENCY_HAS_FLAG, TRUE,
 				-1);
 	    g_free (string);
@@ -986,7 +1222,7 @@ gboolean gsb_currency_config_update_list ( GtkWidget * checkbox,
  * \param model the tree_model
  *
  */
-gboolean gsb_currency_config_select_currency ( GtkTreeSelection *selection, GtkTreeModel *model )
+gboolean gsb_currency_config_select_currency_popup ( GtkTreeSelection *selection, GtkTreeModel *model )
 {
     gchar * currency_name, * currency_iso_code, * currency_nickname;
     gint currency_floating;
@@ -1009,281 +1245,21 @@ gboolean gsb_currency_config_select_currency ( GtkTreeSelection *selection, GtkT
 			 CURRENCY_FLOATING_COLUMN, &currency_floating, 
 			 -1 );
 
-    if ( ! currency_name ) 
+    if ( !currency_name ) 
 	currency_name = "";
-    if ( ! currency_nickname ) 
+    if ( !currency_nickname ) 
 	currency_nickname = "";
-    if ( ! currency_iso_code ) 
+    if ( !currency_iso_code ) 
 	currency_iso_code = "";
 
-    /* need to block the callback to avoid to modify the file even if we just select a currency */
-    g_signal_handlers_block_by_func ( G_OBJECT (entry_name),
-				     G_CALLBACK (gsb_currency_config_name_entry_changed),
-				     NULL );
     gtk_entry_set_text ( GTK_ENTRY ( entry_name ), currency_name );
-    g_signal_handlers_unblock_by_func ( G_OBJECT (entry_name),
-				     G_CALLBACK (gsb_currency_config_name_entry_changed),
-				     NULL );
-
-    g_signal_handlers_block_by_func ( G_OBJECT (entry_iso_code),
-				     G_CALLBACK (gsb_currency_config_isocode_entry_changed),
-				     NULL );
     gtk_entry_set_text ( GTK_ENTRY ( entry_iso_code ), currency_iso_code );
-    g_signal_handlers_unblock_by_func ( G_OBJECT (entry_iso_code),
-				     G_CALLBACK (gsb_currency_config_isocode_entry_changed),
-				     NULL );
-
-    g_signal_handlers_block_by_func ( G_OBJECT (entry_code),
-				     G_CALLBACK (gsb_currency_config_code_entry_changed),
-				     NULL );
     gtk_entry_set_text ( GTK_ENTRY ( entry_code ), currency_nickname );
-    g_signal_handlers_unblock_by_func ( G_OBJECT (entry_code),
-				     G_CALLBACK (gsb_currency_config_code_entry_changed),
-				     NULL );
-
-    g_signal_handlers_block_by_func ( G_OBJECT (entry_floating_point),
-				     G_CALLBACK (gsb_currency_config_floating_entry_changed),
-				     NULL );
     gtk_entry_set_text ( GTK_ENTRY ( entry_floating_point ), utils_str_itoa (currency_floating));
-    g_signal_handlers_unblock_by_func ( G_OBJECT (entry_floating_point),
-				     G_CALLBACK (gsb_currency_config_floating_entry_changed),
-				     NULL );
     return ( FALSE );
 } 
 
 
-
-/**
- * Obtain selected currency from currency tree.
- *
- * \param tree_view		GtkTreeView to remove currency from.
- * 
- * \return		the number of the selected currency.
- */
-gint gsb_currency_config_get_selected ( GtkTreeView * tree_view )
-{
-    GtkTreeSelection * selection = gtk_tree_view_get_selection ( tree_view );
-    GtkTreeIter iter;
-    GtkTreeModel * tree_model;
-    gint currency_number;
-
-    if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
-	return(FALSE);
-
-    gtk_tree_model_get ( tree_model,
-			 &iter, 
-			 CURRENCY_POINTER_COLUMN, &currency_number,
-			 -1 );
-    return currency_number;
-}
-
-
-
-/**
- * called when user change something in the name entry
- * set the new name for the current selected currency
- *
- * \param editable the entry
- * \param text the new text - not used
- * \param length length of the new text
- * \param data not used
- *
- * \return FALSE
- */
-gboolean gsb_currency_config_name_entry_changed ( GtkEditable *editable, gchar * text,
-						  gint length, gpointer data )
-{
-    gint currency_number;
-    GtkTreeSelection * selection;
-    GtkTreeModel * tree_model;
-    GtkTreeIter iter;
-
-    selection = gtk_tree_view_get_selection ( g_object_get_data ( G_OBJECT (editable), "tree_view" ) );
-    currency_number = gsb_currency_config_get_selected ( g_object_get_data ( G_OBJECT (editable), "tree_view" ) );
-
-    if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
-	return(FALSE);
-
-    gsb_data_currency_set_name ( currency_number,
-				 gtk_entry_get_text ( GTK_ENTRY (editable)));
-    gtk_list_store_set ( GTK_LIST_STORE ( tree_model ), &iter,
-			 CURRENCY_NAME_COLUMN, gsb_data_currency_get_name (currency_number),
-			 -1);
-    gsb_currency_update_currency_list ();
-    modification_fichier ( TRUE );
-
-    return FALSE;
-}
-
-
-
-/**
- * called when user change something in the code entry
- * set the new code for the current selected currency
- *
- * \param editable the entry
- * \param text the new text - not used
- * \param length length of the new text
- * \param data not used
- *
- * \return FALSE
- */
-gboolean gsb_currency_config_code_entry_changed ( GtkEditable *editable, gchar * text,
-						  gint length, gpointer data )
-{
-    gint currency_number;
-    GtkTreeModel * tree_model;
-    GtkTreeSelection * selection;
-    GtkTreeIter iter;
-
-    selection = gtk_tree_view_get_selection ( g_object_get_data ( G_OBJECT (editable), "tree_view" ) );
-    currency_number = gsb_currency_config_get_selected ( g_object_get_data ( G_OBJECT (editable), "tree_view" ) );
-
-    if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
-	return(FALSE);
-
-    gsb_data_currency_set_code ( currency_number,
-				 gtk_entry_get_text ( GTK_ENTRY (editable)));
-
-    gtk_list_store_set ( GTK_LIST_STORE ( tree_model ), &iter,
-			 CURRENCY_NICKNAME_COLUMN, gsb_data_currency_get_code (currency_number),
-			 -1);
-    gsb_currency_update_currency_list ();
-    modification_fichier ( TRUE );
-
-    return FALSE;
-}
-
-
-
-/**
- * called when user change something in the isocode entry
- * set the new isocode for the current selected currency
- *
- * \param editable the entry
- * \param text the new text - not used
- * \param length length of the new text
- * \param data not used
- *
- * \return FALSE
- */
-gboolean gsb_currency_config_isocode_entry_changed ( GtkEditable *editable, gchar * text,
-						     gint length, gpointer data )
-{
-    gint currency_number;
-    GtkTreeModel * tree_model;
-    GtkTreeSelection * selection;
-    GtkTreeIter iter;
-
-    selection = gtk_tree_view_get_selection ( g_object_get_data ( G_OBJECT (editable), "tree_view" ) );
-    currency_number = gsb_currency_config_get_selected ( g_object_get_data ( G_OBJECT (editable), "tree_view" ) );
-
-    if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
-	return(FALSE);
-
-    gsb_data_currency_set_code_iso4217 ( currency_number,
-					 gtk_entry_get_text ( GTK_ENTRY (editable)));
-
-
-    gtk_list_store_set ( GTK_LIST_STORE ( tree_model ), &iter,
-			 CURRENCY_ISO_CODE_COLUMN, gsb_data_currency_get_code_iso4217 (currency_number),
-			 -1);
-    gsb_currency_update_currency_list ();
-    modification_fichier ( TRUE );
-
-    return FALSE;
-}
-
-/**
- * called when the user change the value in the floating point entry
- *
- * \param editable the entry
- * \param text
- * \param length
- * \param data not used
- *
- * \return FALSE
- * */
-gboolean gsb_currency_config_floating_entry_changed ( GtkEditable *editable,
-						      gchar * text,
-						      gint length,
-						      gpointer data )
-{
-    gint currency_number;
-    GtkTreeModel *tree_model;
-    GtkTreeSelection *selection;
-    GtkTreeIter iter;
-
-    selection = gtk_tree_view_get_selection ( g_object_get_data ( G_OBJECT (editable), "tree_view" ) );
-    currency_number = gsb_currency_config_get_selected ( g_object_get_data ( G_OBJECT (editable), "tree_view" ) );
-
-    if ( !selection || ! gtk_tree_selection_get_selected (selection, &tree_model, &iter))
-	return(FALSE);
-
-    gsb_data_currency_set_floating_point ( currency_number,
-					   utils_str_atoi (gtk_entry_get_text ( GTK_ENTRY (editable))));
-    gtk_list_store_set ( GTK_LIST_STORE ( tree_model ), &iter,
-			 CURRENCY_FLOATING_COLUMN, gsb_data_currency_get_floating_point (currency_number),
-			 -1);
-    modification_fichier ( TRUE );
-
-    return FALSE;
-}
-
-
-/**
- * Find whether echange rate between two currencies is known.  If so,
- * returns a cached_exchange_rate structure with exchange rate
- * information.
- *
- * \param currency1 First currency
- * \param currency2 Second currency
- *
- * \return NULL on failure, a pointer to a cached_exchange_rate
- * structure on success.
- */
-struct cached_exchange_rate *gsb_currency_config_get_cached_exchange ( gint currency1_number, 
-								       gint currency2_number )
-{
-    GSList * tmp_list = cached_exchange_rates;
-
-    while ( tmp_list )
-    {
-	struct cached_exchange_rate * tmp;
-
-	tmp = tmp_list -> data;
-	if ( currency1_number == tmp -> currency1_number && currency2_number == tmp -> currency2_number )
-	    return tmp;
-
-	tmp_list = tmp_list -> next;
-    }
-    return NULL;
-}
-
-
-/**
- * Update exchange rate cache according to arguments.
- *
- * \param currency1 First currency.
- * \param currency2 Second currency.
- * \param change    Exchange rate between two currencies.
- * \param fees      Fees of transaction.
- */
-void gsb_currency_config_set_cached_exchange ( gint currency1_number, 
-					       gint currency2_number,
-					       gsb_real change, gsb_real fees )
-{
-    struct cached_exchange_rate * tmp;
-
-    tmp = (struct cached_exchange_rate *) g_malloc(sizeof(struct cached_exchange_rate));
-
-    tmp -> currency1_number = currency1_number;
-    tmp -> currency2_number = currency2_number;
-    tmp -> rate = change;
-    tmp -> fees = fees;
-
-    cached_exchange_rates = g_slist_append ( cached_exchange_rates, tmp );
-}
 
 
 
@@ -1338,109 +1314,6 @@ gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTree
 }
 
 
-/**
- * show combo_box with the currencies to choose the currency
- * for totals of lists (payee, categories, budgets
- *
- * \param
- *
- * \return the widget to set in the conf
- */
-GtkWidget *gsb_currency_config_create_totals_page ( void )
-{
-    GtkWidget *vbox_pref, *combo_box, *table, *label;
-
-    vbox_pref = new_vbox_with_title_and_icon ( _("Totals currencies"),
-					       "currencies.png" );
-
-    table = gtk_table_new ( 2, 2, FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
-    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
-
-    label = gtk_label_new (_("Currency for payees tree"));
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 
-		       0, 1, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    combo_box = gsb_currency_config_new_combobox ( &no_devise_totaux_tiers, 
-					       remplit_arbre_tiers );
-    gtk_table_attach ( GTK_TABLE ( table ), combo_box,
-		       1, 2, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-
-    label = gtk_label_new (_("Currency for categories tree"));
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-    gtk_table_attach ( GTK_TABLE ( table ), label,
-		       0, 1, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    combo_box = gsb_currency_config_new_combobox ( &no_devise_totaux_categ, 
-					       remplit_arbre_categ );
-    gtk_table_attach ( GTK_TABLE ( table ), combo_box,
-		       1, 2, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-
-    label = gtk_label_new (_("Currency for budgetary lines tree"));
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-    gtk_table_attach ( GTK_TABLE ( table ), label,
-		       0, 1, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    combo_box = gsb_currency_config_new_combobox ( &no_devise_totaux_ib, 
-					       remplit_arbre_imputation );
-    gtk_table_attach ( GTK_TABLE ( table ), combo_box,
-		       1, 2, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), table, TRUE, TRUE, 0);
-
-    return ( vbox_pref );
-}
-
-
-/**
- * Create a new GtkComboBox with a pointer to an integer that will be
- * modified according to the entry's value.
- *
- * \param value A pointer to a gint wich contains the currency number
- * \param hook An optional function to execute as a handler
- *
- * \return A newly allocated option menu.
- */
-GtkWidget * gsb_currency_config_new_combobox ( gint * value, GCallback hook )
-{
-    GtkWidget *combo_box;
-
-    combo_box = gsb_currency_make_combobox (FALSE);
-
-    if (value && *value)
-	gsb_currency_set_combobox_history ( combo_box,
-					    *value );
-
-    g_signal_connect ( GTK_OBJECT (combo_box), "changed", (GCallback) gsb_currency_config_set_int_from_combobox, value );
-    g_signal_connect ( GTK_OBJECT (combo_box), "changed", (GCallback) hook, value );
-    g_object_set_data ( G_OBJECT ( combo_box ), "pointer", value);
-
-    return combo_box;
-}
-
-
-/**
- * Set an integer to the value of a menu.  Normally called via a GTK
- * "changed" signal handler.
- * 
- * \param menu a pointer to a menu widget.
- * \param dummy unused
- */
-gboolean gsb_currency_config_set_int_from_combobox ( GtkWidget *combobox, gint * dummy)
-{
-    gint *data;
-    
-    data = g_object_get_data ( G_OBJECT(combobox), "pointer" );
-
-    if ( data )
-    {
-	*data = gsb_currency_get_currency_from_combobox (combobox);
-    }
-
-    /* Mark file as modified */
-    modification_fichier ( TRUE );
-    return (FALSE);
-}
-
-
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

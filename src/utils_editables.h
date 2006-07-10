@@ -7,6 +7,15 @@
 
 /* START_DECLARATION */
 void entry_set_value ( GtkWidget * entry, gchar ** value );
+void gsb_editable_int_erase_entry ( GtkWidget *entry );
+void gsb_editable_int_set_value ( GtkWidget *entry,
+				  gint value,
+				  gint number_for_func );
+GtkWidget *gsb_editable_new_int_entry ( gint value,
+					GCallback hook,
+					gpointer data,
+					GCallback default_func,
+					gint number_for_func );
 GtkWidget *gsb_editable_new_text_area ( gchar *value,
 					GCallback hook,
 					gpointer data,

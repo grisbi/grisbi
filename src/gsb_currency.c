@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_currency.h"
-#include "gsb_currency_config.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_currency_link.h"
@@ -40,9 +39,15 @@
 #include "structures.h"
 #include "gsb_file_config.h"
 #include "include.h"
+#include "gsb_currency_config.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static struct cached_exchange_rate *gsb_currency_config_get_cached_exchange ( gint currency1_number, 
+								       gint currency2_number );
+static void gsb_currency_config_set_cached_exchange ( gint currency1_number, 
+					       gint currency2_number,
+					       gsb_real change, gsb_real fees );
 static gboolean gsb_currency_create_combobox_store ( void );
 static gboolean gsb_currency_select_change_currency ( GtkWidget *combobox_1,
 					       GtkWidget *combobox_2 );
@@ -63,6 +68,12 @@ enum currency_list_columns {
     CURRENCY_COL_FLAG,
     CURRENCY_NUM_COL,		/** Number of columns */
 };
+
+/** Exchange rates cache, used by
+ * gsb_currency_config_set_cached_exchange
+ * and 
+ * gsb_currency_config_get_cached_exchange */
+GSList * cached_exchange_rates = NULL;
 
 
 /**
@@ -244,14 +255,14 @@ gint gsb_currency_get_currency_from_combobox ( GtkWidget *combo_box )
 
 
 /**
- * update the list of the currencies, wich change all
+ * update the list of the currencies for combobox, wich change all
  * the current combobox content
  *
  * \param
  *
  * \return FALSE
  */
-gboolean gsb_currency_update_currency_list ( void )
+gboolean gsb_currency_update_combobox_currency_list ( void )
 {
     GSList *list_tmp;
 
@@ -512,6 +523,61 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 }
 
+/**
+ * Find whether echange rate between two currencies is known.  If so,
+ * returns a cached_exchange_rate structure with exchange rate
+ * information.
+ *
+ * \param currency1 First currency
+ * \param currency2 Second currency
+ *
+ * \return NULL on failure, a pointer to a cached_exchange_rate
+ * structure on success.
+ */
+struct cached_exchange_rate *gsb_currency_config_get_cached_exchange ( gint currency1_number, 
+								       gint currency2_number )
+{
+    GSList * tmp_list = cached_exchange_rates;
+
+    while ( tmp_list )
+    {
+	struct cached_exchange_rate * tmp;
+
+	tmp = tmp_list -> data;
+	if ( currency1_number == tmp -> currency1_number && currency2_number == tmp -> currency2_number )
+	    return tmp;
+
+	tmp_list = tmp_list -> next;
+    }
+    return NULL;
+}
+
+
+/**
+ * Update exchange rate cache according to arguments.
+ *
+ * \param currency1 First currency.
+ * \param currency2 Second currency.
+ * \param change    Exchange rate between two currencies.
+ * \param fees      Fees of transaction.
+ */
+void gsb_currency_config_set_cached_exchange ( gint currency1_number, 
+					       gint currency2_number,
+					       gsb_real change, gsb_real fees )
+{
+    struct cached_exchange_rate * tmp;
+
+    tmp = (struct cached_exchange_rate *) g_malloc(sizeof(struct cached_exchange_rate));
+
+    tmp -> currency1_number = currency1_number;
+    tmp -> currency2_number = currency2_number;
+    tmp -> rate = change;
+    tmp -> fees = fees;
+
+    cached_exchange_rates = g_slist_append ( cached_exchange_rates, tmp );
+}
+
+
 
 
 /* 
@@ -561,7 +627,7 @@ gboolean gsb_currency_create_combobox_store ( void )
 						   G_TYPE_STRING,
 						   G_TYPE_INT,
 						   GDK_TYPE_PIXBUF );
-    gsb_currency_update_currency_list ();
+    gsb_currency_update_combobox_currency_list ();
     return TRUE;
 }
 

@@ -36,10 +36,5 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
 gint gsb_currency_config_create_currency_from_iso4217list ( gchar *currency_name );
 GtkWidget *gsb_currency_config_create_page ( void );
 GtkWidget *gsb_currency_config_create_totals_page ( void );
-struct cached_exchange_rate *gsb_currency_config_get_cached_exchange ( gint currency1_number, 
-								       gint currency2_number );
-void gsb_currency_config_set_cached_exchange ( gint currency1_number, 
-					       gint currency2_number,
-					       gsb_real change, gsb_real fees );
 /* END_DECLARATION */
 #endif

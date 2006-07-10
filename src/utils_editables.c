@@ -37,6 +37,8 @@
 /*START_STATIC*/
 static  gboolean gsb_editable_changed ( GtkWidget *entry,
 				       gboolean default_func (gint, const gchar *));
+static  gboolean gsb_editable_int_changed ( GtkWidget *entry,
+					   gboolean default_func (gint, gint));
 static gboolean gsb_editable_text_area_changed ( GtkTextBuffer *buffer,
 					  gboolean default_func (gint, const gchar *));
 static gboolean set_text (GtkEntry *entry, gchar *value, 
@@ -416,6 +418,173 @@ gboolean gsb_editable_text_area_changed ( GtkTextBuffer *buffer,
 
     default_func ( number_for_func,
 		   gtk_text_buffer_get_text (buffer, &start, &end, 0));
+
+    /* Mark file as modified */
+    modification_fichier ( TRUE );
+
+    return FALSE;
+}
+
+/*
+ * creates a new GtkEntry wich will modify the value according to the entry for a gint
+ * but made for values in grisbi structure :
+ * for each change, will call the corresponding given function : gsb_data_... ( number, gint value content )
+ * ie the target function must be :
+ * 	(default_func) ( gint number_for_func,
+ * 			 gint value )
+ * ex : gsb_data_account_get_column_sort ( gint account_number,
+ *						 gint no_column )
+ *
+ * \param value a gint to fill the entry
+ * \param hook an optional function to execute as a handler if the
+ * 	entry's contents are modified.
+ * 	hook should be :
+ * 		gboolean hook ( GtkWidget *entry,
+ * 				gpointer data )
+ *
+ * \param data An optional pointer to pass to hooks.
+ * \param default_func The function to call to change the value in memory (function must be func ( number, gint ) )
+ * \param number_for_func a gint wich we be used to call default_func
+ *
+ * \return a new GtkEntry
+ * */
+GtkWidget *gsb_editable_new_int_entry ( gint value,
+					GCallback hook,
+					gpointer data,
+					GCallback default_func,
+					gint number_for_func )
+{
+    GtkWidget * entry;
+
+    /* first, create and fill the entry */
+    entry = gtk_entry_new ();
+
+    gtk_entry_set_text ( GTK_ENTRY(entry),
+			 utils_str_itoa (value));
+
+    /* set the default func :
+     * the func will be send to gsb_editable_set_text by the data,
+     * the number_for_func will be set as data for object */
+    g_object_set_data ( G_OBJECT (entry),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+    g_object_set_data ( G_OBJECT ( entry ), "changed", 
+			(gpointer) g_signal_connect_after (GTK_OBJECT(entry), "changed",
+							   ((GCallback) gsb_editable_int_changed), default_func ));
+    if ( hook )
+	g_object_set_data ( G_OBJECT ( entry ), "changed-hook", 
+			    (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "changed",
+							       ((GCallback) hook), data ));
+    return entry;
+}
+
+
+/** 
+ * set the value in a gsb_editable_int_entry
+ * a value is in 2 parts :
+ * 	a string, wich be showed in the entry
+ * 	a number, wich is used when there is a change in that entry (see gsb_editable_new_int_entry)
+ *
+ * \param entry
+ * \param value a gint to set in the entry
+ * \param number_for_func the number to give to the called function when something is changed
+ *
+ * \return
+ */
+void gsb_editable_int_set_value ( GtkWidget *entry,
+				  gint value,
+				  gint number_for_func )
+{
+    /* Block everything */
+    if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(entry),
+				 (gulong) g_object_get_data (G_OBJECT (entry), 
+							     "changed"));
+    if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(entry),
+				 (gulong) g_object_get_data (G_OBJECT (entry), 
+							     "changed-hook"));
+
+    /* Fill in value */
+    gtk_entry_set_text ( GTK_ENTRY(entry),
+			 utils_str_itoa (value));
+
+    g_object_set_data ( G_OBJECT (entry),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+
+    /* Unblock everything */
+    if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(entry),
+				   (gulong) g_object_get_data (G_OBJECT (entry), 
+							       "changed"));
+    if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(entry),
+				   (gulong) g_object_get_data (G_OBJECT (entry), 
+							       "changed-hook"));
+}
+
+
+/**
+ * erase the entry of the int_editable
+ * used because if we give 0 0 to set value, will show 0 in the entry but
+ * cannot erase it
+ * this function will delete too the number_for_func associated with the entry
+ *
+ * \param entry
+ *
+ * \return
+ * */
+void gsb_editable_int_erase_entry ( GtkWidget *entry )
+{
+    /* Block everything */
+    if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(entry),
+				 (gulong) g_object_get_data (G_OBJECT (entry), 
+							     "changed"));
+    if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(entry),
+				 (gulong) g_object_get_data (G_OBJECT (entry), 
+							     "changed-hook"));
+
+    /* Fill in value */
+    gtk_entry_set_text ( GTK_ENTRY(entry),
+			 "" );
+
+    g_object_set_data ( G_OBJECT (entry),
+			"number_for_func", NULL );
+
+    /* Unblock everything */
+    if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(entry),
+				   (gulong) g_object_get_data (G_OBJECT (entry), 
+							       "changed"));
+    if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(entry),
+				   (gulong) g_object_get_data (G_OBJECT (entry), 
+							       "changed-hook"));
+}
+
+
+/**
+ * called when something change in an entry of a gsb_editable_int
+ * by gsb_editable_new_int_entry
+ *
+ * \param entry The reference GtkEntry
+ * \param default_func the function to call to change the value in memory
+ *
+ * \return FALSE
+ */
+static gboolean gsb_editable_int_changed ( GtkWidget *entry,
+					   gboolean default_func (gint, gint))
+{
+    gint number_for_func;
+
+    /* just to be sure... */
+    if (!default_func || !entry)
+	return FALSE;
+
+    number_for_func = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (entry), "number_for_func"));
+    default_func ( number_for_func,
+		   utils_str_atoi (gtk_entry_get_text ( GTK_ENTRY (entry))));
 
     /* Mark file as modified */
     modification_fichier ( TRUE );
