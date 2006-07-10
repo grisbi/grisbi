@@ -69,8 +69,8 @@ extern gsb_real null_real ;
  * 				gpointer data )
  *
  * \param data An optional pointer to pass to hooks.
- * \param default_func The function to call to change the value in memory (function must be func ( number, string ) )
- * \param number_for_func a gint wich we be used to call default_func
+ * \param default_func The function to call to change the value in memory (function must be func ( number, string ) ) or NULL
+ * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
  *
  * \return a new GtkEntry
  * */
@@ -93,9 +93,10 @@ GtkWidget *gsb_editable_new_text_entry ( gchar *value,
      * the number_for_func will be set as data for object */
     g_object_set_data ( G_OBJECT (entry),
 			"number_for_func", GINT_TO_POINTER (number_for_func));
-    g_object_set_data ( G_OBJECT ( entry ), "changed", 
-			(gpointer) g_signal_connect_after (GTK_OBJECT(entry), "changed",
-							   ((GCallback) gsb_editable_changed), default_func ));
+    if (default_func)
+	g_object_set_data ( G_OBJECT ( entry ), "changed", 
+			    (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "changed",
+							       ((GCallback) gsb_editable_changed), default_func ));
     if ( hook )
 	g_object_set_data ( G_OBJECT ( entry ), "changed-hook", 
 			    (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "changed",
@@ -315,8 +316,8 @@ gboolean set_text (GtkEntry *entry, gchar *value,
  * 				gpointer data )
  *
  * \param data An optional pointer to pass to hooks.
- * \param default_func The function to call to change the value in memory (function must be func ( number, string ) )
- * \param number_for_func a gint wich we be used to call default_func
+ * \param default_func The function to call to change the value in memory (function must be func ( number, string ) ) or NULL
+ * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
  *
  * \return a new GtkTextView
  * */
@@ -336,9 +337,10 @@ GtkWidget *gsb_editable_new_text_area ( gchar *value,
     /* set the default function and save the number_for_func */
     g_object_set_data ( G_OBJECT (buffer),
 			"number_for_func", GINT_TO_POINTER (number_for_func));
-    g_object_set_data ( G_OBJECT ( buffer ), "changed",
-			(gpointer) g_signal_connect_after (G_OBJECT(buffer), "changed",
-							   ((GCallback) gsb_editable_text_area_changed), default_func ));
+    if (default_func)
+	g_object_set_data ( G_OBJECT ( buffer ), "changed",
+			    (gpointer) g_signal_connect_after (G_OBJECT(buffer), "changed",
+							       ((GCallback) gsb_editable_text_area_changed), default_func ));
     if ( hook )
 	g_object_set_data ( G_OBJECT ( buffer ), "changed-hook",
 			    (gpointer) g_signal_connect_after  (G_OBJECT(buffer), "changed",
@@ -443,8 +445,8 @@ gboolean gsb_editable_text_area_changed ( GtkTextBuffer *buffer,
  * 				gpointer data )
  *
  * \param data An optional pointer to pass to hooks.
- * \param default_func The function to call to change the value in memory (function must be func ( number, gint ) )
- * \param number_for_func a gint wich we be used to call default_func
+ * \param default_func The function to call to change the value in memory (function must be func ( number, gint ) ) or NULL
+ * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
  *
  * \return a new GtkEntry
  * */
@@ -467,9 +469,10 @@ GtkWidget *gsb_editable_new_int_entry ( gint value,
      * the number_for_func will be set as data for object */
     g_object_set_data ( G_OBJECT (entry),
 			"number_for_func", GINT_TO_POINTER (number_for_func));
-    g_object_set_data ( G_OBJECT ( entry ), "changed", 
-			(gpointer) g_signal_connect_after (GTK_OBJECT(entry), "changed",
-							   ((GCallback) gsb_editable_int_changed), default_func ));
+    if (default_func)
+	g_object_set_data ( G_OBJECT ( entry ), "changed", 
+			    (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "changed",
+							       ((GCallback) gsb_editable_int_changed), default_func ));
     if ( hook )
 	g_object_set_data ( G_OBJECT ( entry ), "changed-hook", 
 			    (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "changed",
