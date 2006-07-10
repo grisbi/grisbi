@@ -14,7 +14,7 @@ ofx_la_LDFLAGS = -module -avoid-version -lofx
 # If your module needs to be linked against any particular libraries,
 # add them here.
 
-LIBS = -lofx
+LIBS = 
 
 endif
 
