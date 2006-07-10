@@ -122,13 +122,10 @@ dnl
 dnl OpenSSL Check
 dnl
 PKG_CHECK_MODULES(OpenSSL, libssl, , nossl=true)
-if test x$nossl != xtrue
+if test x$nossl == xtrue
 then
-	LDFLAGS="${LDFLAGS} ${OpenSSL_LIBS}"
-	CFLAGS="${CFLAGS} ${OpenSSL_CFLAGS}"
-else
 	AC_MSG_RESULT([OpenSSL support not available, this Grisbi build will not be able to crypt/decrypt files.])
-	CFLAGS="${CFLAGS} -DNOSSL"
+	CFLAGS="${CFLAGS}"
 fi
 AM_CONDITIONAL(HAVE_SSL, test x$nossl != xtrue)
 
@@ -174,6 +171,9 @@ AC_SUBST(g2banking_includes)
 
 AC_SUBST(GTK_LIBS)
 AC_SUBST(GTK_CFLAGS)
+
+AC_SUBST(XML2_LIBS)
+AC_SUBST(XML2_CFLAGS)
 
 AC_SUBST(prefix)
 AC_SUBST(CFLAGS)
