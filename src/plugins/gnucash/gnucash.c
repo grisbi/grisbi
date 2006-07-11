@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	     2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2006-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -80,7 +80,7 @@ G_MODULE_EXPORT const gchar plugin_name[] = "gnucash";
 
 /** Initialization function. */
 G_MODULE_EXPORT void plugin_register () {
-    printf ("Initializating gnucash plugin\n");
+    devel_debug ("Initializating gnucash plugin\n");
 
     register_import_format ( &gnucash_format );
 }

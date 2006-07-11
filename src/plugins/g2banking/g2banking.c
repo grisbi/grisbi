@@ -57,20 +57,20 @@ G_MODULE_EXPORT const gchar plugin_name[] = "g2banking";
 G_MODULE_EXPORT void plugin_register () {
     int rv;
 
-    printf ("Initializating g2banking plugin\n");
+    devel_debug ("Initializating g2banking plugin\n");
 
     gbanking=GBanking_new("grisbi", 0);
     GBanking_SetImportContextFn(gbanking, GrisbiBanking_ImportContext);
     rv=AB_Banking_Init(gbanking);
     if (rv) {
-	printf (_("Could not initialize AqBanking, "
-		  "online banking will not be available\n"));
+	dialogue_error_hint ( _("Online banking will not be available"),
+			      _("Could not initialize AqBanking.") );
 	AB_Banking_free(gbanking);
 	gbanking=0;
     }
     else
     {
-	printf ("g2banking successfully registered.");
+	devel_debug ("g2banking successfully registered.");
     }
 }
 
@@ -93,7 +93,7 @@ G_MODULE_EXPORT gboolean plugin_release ( )
 
 	rv=AB_Banking_Fini(gbanking);
 	if (rv) {
-	    printf (_("Could not deinitialize AqBanking (%d)\n"), rv);
+	    devel_debug (_("Could not uninitialize AqBanking (%d)\n"), rv);
 	    AB_Banking_free(gbanking);
 	    gbanking=0;
 	}
@@ -123,7 +123,7 @@ int GrisbiBanking_ImportContext (AB_BANKING *ab,
 	const char *s;
 	AB_TRANSACTION *t;
 
-	fprintf(stderr, "Importing account.\n");
+	devel_debug (stderr, "Importing account.\n");
 	compte_nouveau=calloc(1, sizeof(struct struct_compte_importation));
 	s=AB_ImExporterAccountInfo_GetAccountNumber(ai);
 	if (s)

@@ -297,7 +297,7 @@ G_MODULE_EXPORT const gchar plugin_name[] = "openssl";
 
 /** Initialization function. */
 G_MODULE_EXPORT void plugin_register () {
-    printf ("Initializating openssl plugin\n");
+    devel_debug ("Initializating openssl plugin\n");
 }
 
 

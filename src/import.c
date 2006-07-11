@@ -177,7 +177,7 @@ void register_import_formats ()
  */
 void register_import_format ( struct import_format * format )
 {
-    printf ("> Adding format %s\n", format -> name );
+    devel_debug ( g_strdup_printf ( "Adding '%s' as an import format", format -> name ) );
     import_formats = g_slist_append ( import_formats, format );
 }
 
