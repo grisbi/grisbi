@@ -239,7 +239,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     {
 	dialogue_error_hint (g_strdup_printf (_("Cannot open file '%s': %s"),
 					      filename,
-					      latin2utf8 (strerror(errno))),
+					      _("File does not exist") ),
 			     g_strdup_printf ( _("Error loading file '%s'"), filename));
 	remove_file_from_last_opened_files_list (filename);
 	return FALSE;
@@ -2624,7 +2624,10 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 	    date = gsb_parse_date_string_safe (attribute_values[i]);
 	    gsb_data_fyear_set_begining_date ( fyear_number,
 					       date );
-	    g_date_free (date);
+	    if ( date )
+	    {
+		g_date_free (date);
+	    }
 	    i++;
 	    continue;
 	}
@@ -2635,7 +2638,10 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 	    date = gsb_parse_date_string_safe (attribute_values[i]);
 	    gsb_data_fyear_set_end_date ( fyear_number,
 					  date );
-	    g_date_free (date);
+	    if ( date )
+	    {
+		g_date_free (date);
+	    }
 	    i++;
 	    continue;
 	}
