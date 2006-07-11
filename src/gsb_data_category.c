@@ -1412,45 +1412,42 @@ void gsb_data_category_remove_transaction_from_category ( gint transaction_numbe
  * */
 void gsb_data_category_create_default_category_list ( void )
 {
-    GSList *list_tmp;
     gint i;
     
     /* FIXME : should ask here for different kind of categories,
      * or leave them blank...
      * */
 
-    /** FIXME: this does not really work, placeholder  */
-    dialogue_warning_hint ("Please don't report bugs on the pre-made category list which is buggy.",
-			   "This does not work properly yet.");
-
-    /** In fact, we merge the category list with nothing, ending in
-     * creating the base categories. */
-
-    list_tmp = NULL;
     i = 0;
 
     while ( categories_de_base_debit[i] )
     {
-	gint categ = gsb_data_category_new ( categories_de_base_debit[i] );
-	gsb_data_category_set_type ( categ, 1 );
-	list_tmp = g_slist_append ( list_tmp, GINT_TO_POINTER (categ));
+	gchar **tab_char = g_strsplit ( _(categories_de_base_debit[i]), " : ", 2 );
+	gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
+
+	if ( tab_char[1] )
+	{
+	    gsb_data_category_get_sub_category_number_by_name ( categ,
+								_(tab_char[1]),
+								TRUE );
+	}
 	i++;
     }
-    gsb_data_category_merge_category_list (list_tmp);
-    g_slist_free (list_tmp);
 
-    list_tmp = NULL;
     i = 0;
 
     while ( categories_de_base_credit[i] )
     {
-	gint categ = gsb_data_category_new ( categories_de_base_debit[i] );
-	gsb_data_category_set_type ( categ, 1 );
-	list_tmp = g_slist_append ( list_tmp, GINT_TO_POINTER (categ));
+	gchar **tab_char = g_strsplit ( categories_de_base_credit[i], " : ", 2 );
+	gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
+	if ( tab_char[1] )
+	{
+	    gsb_data_category_get_sub_category_number_by_name ( categ,
+								tab_char[1],
+								TRUE );
+	}
 	i++;
     }
-    gsb_data_category_merge_category_list (list_tmp);
-    g_slist_free (list_tmp);
 }
 
 
