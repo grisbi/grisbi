@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-14 16:28+0200\n"
-"PO-Revision-Date: 2006-05-14 16:29+0200\n"
+"PO-Revision-Date: 2006-07-11 16:11+0200\n"
 "Last-Translator: Benjamin Drieu,,, <benj@atlin>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: (null)\n"
@@ -54,9 +54,8 @@ msgid "Enter a scheduled transaction"
 msgstr "Saisie d'une opération planifiée"
 
 #: src/accueil.c:473
-#, fuzzy
 msgid "Account balances in "
-msgstr "Solde des comptes en %s"
+msgstr "Solde des comptes en "
 
 #. CrÃ©ation et remplissage de la premiÃ¨re ligne du tableau
 #: src/accueil.c:480 src/accueil.c:759 src/accueil.c:1043
@@ -85,14 +84,14 @@ msgid "Assets accounts balances in "
 msgstr "Solde des comptes d'actif en %s"
 
 #: src/accueil.c:1406 src/accueil.c:1516 src/accueil.c:1933
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s credit on %s"
-msgstr "Crédit de %4.2f %s sur %s"
+msgstr "Crédit de %s %s sur %s"
 
 #: src/accueil.c:1411 src/accueil.c:1521 src/accueil.c:1938
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s debit on %s"
-msgstr "Débit de %4.2f %s sur %s"
+msgstr "Débit de %s %s sur %s"
 
 #: src/accueil.c:1740
 #, fuzzy, c-format
@@ -144,10 +143,8 @@ msgid "Use the logo"
 msgstr "Utiliser le logo"
 
 #: src/affichage.c:190
-#, fuzzy
 msgid "Click on preview to change logo"
-msgstr ""
-"Cliquer sur la prévisualisation pour modifier le logo de l'onglet « Accueil »"
+msgstr "Cliquer sur la prévisualisation pour modifier le logo"
 
 #. Change fonts
 #: src/affichage.c:194
@@ -218,9 +215,8 @@ msgid "Icons"
 msgstr "Revenus"
 
 #: src/affichage.c:741
-#, fuzzy
 msgid "Both"
-msgstr "oth l"
+msgstr "Les deux"
 
 #: src/affichage.c:763
 #, fuzzy
@@ -250,9 +246,8 @@ msgstr "Date de valeur"
 #: src/gsb_scheduler_list.c:332 src/gsb_transactions_list.c:3109
 #: src/import.c:2488 src/import_csv.c:81 src/meta_payee.c:83
 #: src/traitement_variables.c:61
-#, fuzzy
 msgid "Payee"
-msgstr "Débiteur/Créditeur"
+msgstr "Tiers"
 
 #: src/affichage_liste.c:55 src/echeancier_formulaire.c:268
 #: src/echeancier_formulaire.c:1476 src/etats_affiche.c:2292
@@ -534,9 +529,8 @@ msgid "None"
 msgstr "Aucun"
 
 #: src/banque.c:370
-#, fuzzy
 msgid "Add new bank"
-msgstr "Nouvelle banque"
+msgstr "Ajouter une nouvelle banque"
 
 #. ligne de l'Ã©tablissement financier
 #: src/banque.c:396 src/comptes_gestion.c:237
@@ -613,9 +607,8 @@ msgid "Edit bank"
 msgstr "Éditer la banque"
 
 #: src/barre_outils.c:102
-#, fuzzy
 msgid "Transaction"
-msgstr "Opérations"
+msgstr "Opération"
 
 #: src/barre_outils.c:107
 #, fuzzy
@@ -625,9 +618,8 @@ msgstr "Total catégorie (%d opération)"
 #: src/barre_outils.c:112 src/barre_outils.c:422 src/categories_onglet.c:634
 #: src/etats_onglet.c:158 src/imputation_budgetaire.c:518
 #: src/tiers_onglet.c:236
-#, fuzzy
 msgid "Delete"
-msgstr "Sélectionner"
+msgstr "Supprimer"
 
 #: src/barre_outils.c:116
 #, fuzzy
@@ -667,34 +659,29 @@ msgid "Simple view"
 msgstr "Vue simple"
 
 #: src/barre_outils.c:189
-#, fuzzy
 msgid "Two lines view"
 msgstr "Mode « deux lignes »"
 
 #: src/barre_outils.c:194
-#, fuzzy
 msgid "Three lines view"
 msgstr "Mode « trois lignes »"
 
 #: src/barre_outils.c:199 src/categories_onglet.c:692
 #: src/imputation_budgetaire.c:578 src/tiers_onglet.c:288
-#, fuzzy
 msgid "Complete view"
-msgstr "Ventilation incomplète"
+msgstr "Vue complète"
 
 #: src/barre_outils.c:367 src/gsb_scheduler_list.c:1970
 msgid "Unique view"
 msgstr "Vue unique"
 
 #: src/barre_outils.c:367 src/gsb_scheduler_list.c:1970
-#, fuzzy
 msgid "Week view"
-msgstr "Semaine"
+msgstr "Vue hebdomadaire"
 
 #: src/barre_outils.c:367 src/gsb_scheduler_list.c:1970
-#, fuzzy
 msgid "Month view"
-msgstr "Mois"
+msgstr "Vue mensuelle"
 
 #: src/barre_outils.c:368 src/gsb_scheduler_list.c:1971
 msgid "Two months view"
@@ -705,14 +692,12 @@ msgid "Quarter view"
 msgstr "Vue trimestrielle"
 
 #: src/barre_outils.c:369 src/gsb_scheduler_list.c:1972
-#, fuzzy
 msgid "Year view"
-msgstr "Année"
+msgstr "Vue annuelle"
 
 #: src/barre_outils.c:369 src/gsb_scheduler_list.c:1972
-#, fuzzy
 msgid "Custom view"
-msgstr "Personnalisé"
+msgstr "Vue personnalisée"
 
 #: src/barre_outils.c:412
 msgid "_New scheduled"
@@ -744,9 +729,8 @@ msgid "Display scheduled transactions comments"
 msgstr "Affichage des opérations planifiées"
 
 #: src/barre_outils.c:457
-#, fuzzy
 msgid "Execute"
-msgstr "Executive"
+msgstr "Executer"
 
 #: src/barre_outils.c:464
 #, fuzzy
@@ -881,7 +865,6 @@ msgid "Studies : Lessons"
 msgstr "Etudes : Cours"
 
 #: src/categories_onglet.c:91
-#, fuzzy
 msgid "Studies : Scool fees"
 msgstr "Etudes : Frais de scolarité"
 
@@ -890,12 +873,10 @@ msgid "Studies : Books"
 msgstr "Etudes : Livres"
 
 #: src/categories_onglet.c:93
-#, fuzzy
 msgid "Miscelanious : Gifts"
-msgstr "Frais divers : Cadeaux"
+msgstr "Divers : Cadeaux"
 
 #: src/categories_onglet.c:94
-#, fuzzy
 msgid "Financial expenses : Miscelanious"
 msgstr "Frais financiers : Divers"
 
@@ -916,17 +897,14 @@ msgid "Financial expenses : Refunding"
 msgstr "Frais financiers : Remboursement"
 
 #: src/categories_onglet.c:99
-#, fuzzy
 msgid "Professionnal expenses : Non refundable"
-msgstr "Frais professionnels : Non remboursés"
+msgstr "Frais professionnels : Non remboursables"
 
 #: src/categories_onglet.c:100
-#, fuzzy
 msgid "Professionnal expenses : Refundable"
-msgstr "Frais professionnels : Non remboursés"
+msgstr "Frais professionnels : remboursables"
 
 #: src/categories_onglet.c:101
-#, fuzzy
 msgid "Taxes : Miscelanious"
 msgstr "Impôts : Autres impôts"
 
@@ -1233,9 +1211,8 @@ msgid "Export categories"
 msgstr "Exporter les catégories"
 
 #: src/categories_onglet.c:501
-#, fuzzy
 msgid "Import categories"
-msgstr "Exporter les catégories"
+msgstr "Importer des catégories"
 
 #: src/categories_onglet.c:507
 #, fuzzy
@@ -1244,9 +1221,8 @@ msgstr "Exporter les catégories"
 
 #: src/categories_onglet.c:513 src/etats_onglet.c:1255
 #: src/fichiers_gestion.c:220 src/import.c:481 src/imputation_budgetaire.c:399
-#, fuzzy
 msgid "All files"
-msgstr "Tous les exercices"
+msgstr "Tous les fichiers"
 
 #: src/categories_onglet.c:533
 #, fuzzy
@@ -1280,7 +1256,6 @@ msgid "Replace existing"
 msgstr "Remplacer l'existant"
 
 #: src/categories_onglet.c:592
-#, fuzzy
 msgid ""
 "New\n"
 "category"
@@ -1292,7 +1267,6 @@ msgid "Create a new category"
 msgstr "Créer un nouveau compte"
 
 #: src/categories_onglet.c:602
-#, fuzzy
 msgid ""
 "New sub\n"
 "category"
@@ -1359,9 +1333,9 @@ msgstr "Sous-catégories"
 #: src/categories_onglet.c:737 src/categories_onglet.c:741
 #: src/imputation_budgetaire.c:621 src/imputation_budgetaire.c:626
 #: src/tiers_onglet.c:408
-#, fuzzy, c-format
+#, c-format
 msgid "Properties for %s"
-msgstr "Résultat pour %s"
+msgstr "Propriétés pour %s"
 
 #: src/categories_onglet.c:739
 #, fuzzy
