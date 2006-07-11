@@ -256,10 +256,8 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			      NULL );
 
     if ( division && iface -> div_nb_transactions (division) )
-	balance = g_strconcat ( gsb_real_get_string ( gsb_real_adjust_exponent (iface -> div_balance ( division ),
-										gsb_data_currency_get_floating_point (iface -> tree_currency ()))),
-				gsb_data_currency_get_code_or_isocode ( iface -> tree_currency ()),
-				NULL );
+	balance = gsb_format_amount ( iface -> div_balance ( division ),
+				      iface -> tree_currency () );
     
     if ( iface -> depth == 1 && 
 	 ! gtk_tree_model_iter_has_child ( model, iter ) && 
@@ -322,9 +320,8 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 	    gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
 	}
 
-	balance = g_strconcat ( gsb_real_get_string (iface -> sub_div_balance ( division, sub_division )),
-				gsb_data_currency_get_code_or_isocode ( iface -> tree_currency ()),
-				NULL );
+	balance = gsb_format_amount ( iface -> sub_div_balance ( division, sub_division ),
+				      iface -> tree_currency () );
     }
     
     gtk_tree_store_set ( GTK_TREE_STORE (model), iter,
@@ -399,10 +396,8 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 	label = g_strconcat ( label, " (", _("breakdown"), ")", NULL );
     }
 
-    montant = g_strconcat ( gsb_real_get_string (gsb_data_transaction_get_amount (transaction_number)),
-			    " ",
-			    gsb_data_currency_get_code (gsb_data_transaction_get_currency_number (transaction_number)),
-			    NULL );
+    montant = gsb_format_amount ( gsb_data_transaction_get_amount (transaction_number),
+				  gsb_data_transaction_get_currency_number (transaction_number) );
     account = gsb_data_account_get_name ( gsb_data_transaction_get_account_number (transaction_number));
 
     gtk_tree_store_set ( GTK_TREE_STORE(model), iter, 
@@ -1858,9 +1853,8 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 
 	if ( div ) 
 	{
-	    balance = g_strconcat ( gsb_real_get_string (iface -> div_balance ( div )),
-				    gsb_data_currency_get_code_or_isocode ( iface -> tree_currency ()),
-				    NULL );
+	    balance = gsb_format_amount ( iface -> div_balance ( div ),
+					  iface -> tree_currency () );
 	}
 
 	if ( sub_div_id >= 0 )
@@ -1869,9 +1863,8 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 	    text = g_strconcat ( text, " : ", 
 				 ( sub_div ? iface -> sub_div_name ( sub_div ) :
 				   _(iface->no_sub_div_label) ), NULL );
-	    balance = g_strconcat ( gsb_real_get_string (iface -> sub_div_balance ( div, sub_div )),
-					gsb_data_currency_get_code_or_isocode ( iface -> tree_currency ()),
-					NULL );
+	    balance = gsb_format_amount ( iface -> sub_div_balance ( div, sub_div ),
+					  iface -> tree_currency () );
 	}
 
 	gsb_gui_headings_update ( text, balance );
