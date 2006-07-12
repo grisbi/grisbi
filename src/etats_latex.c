@@ -271,7 +271,6 @@ gint latex_initialise (GSList * opes_selectionnees, gchar * filename )
 	     "\\documentclass{article}\n\n"
 	     "\\special{! TeXDict begin /landplus90{true}store end }\n"
 	     "\\usepackage{a4}\n"
-	     "\\usepackage[utf8]{inputenc}\n"
 	     "\\usepackage{eurosym}\n"
 	     "\\usepackage{boxedminipage}\n"
 	     "\\usepackage{longtable}\n"
