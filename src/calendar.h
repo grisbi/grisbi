@@ -15,12 +15,12 @@
 
 
 /*START_DECLARATION*/
-gboolean clavier_calendrier ( GtkCalendar *pCalendar,
-			      GdkEventKey *ev,
-			      GtkWidget *entry );
-void date_selection ( GtkCalendar *pCalendar,
-		      GtkWidget *entry );
+gboolean gsb_calendar_key_press_event ( GtkCalendar *pCalendar,
+					GdkEventKey *ev,
+					GtkWidget *entry );
 GtkWidget *gsb_calendar_new ( GtkWidget *entry );
+gboolean gsb_calendar_select_date ( GtkCalendar *pCalendar,
+				    GtkWidget *entry );
 void inc_dec_date ( GtkWidget *entree, gint demande );
 /*END_DECLARATION*/
 

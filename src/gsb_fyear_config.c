@@ -36,6 +36,8 @@
 #include "gsb_data_account.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_transaction.h"
+#include "utils_buttons.h"
+#include "utils_editables.h"
 #include "gsb_fyear.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -63,7 +65,8 @@ static void gsb_fyear_config_append_line ( GtkTreeModel *model,
 static gboolean gsb_fyear_config_associate_transactions ( void );
 static GtkWidget *gsb_fyear_config_create_list ();
 static void gsb_fyear_config_fill_list ( GtkTreeModel *model );
-static gboolean gsb_fyear_config_modify_fyear ( GtkWidget *tree_view );
+static gboolean gsb_fyear_config_modify_fyear ( GtkWidget *entry,
+					 GtkWidget *tree_view);
 static gboolean gsb_fyear_config_remove_fyear ( GtkWidget *tree_view );
 static gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
 				   gpointer null );
@@ -186,11 +189,9 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    entry = gtk_entry_new ();
-    g_signal_connect_swapped ( G_OBJECT (entry),
-			       "changed",
-			       G_CALLBACK (gsb_fyear_config_modify_fyear),
-			       tree_view );
+    entry = gsb_editable_new_text_entry ( NULL,
+					  G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
+					  G_CALLBACK (gsb_data_fyear_set_name), 0 );
     g_object_set_data ( G_OBJECT (tree_model),
 			"fyear_name_entry", entry );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -206,11 +207,9 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 		       label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    entry = gtk_entry_new ();
-    g_signal_connect_swapped ( G_OBJECT (entry),
-			       "changed",
-			       G_CALLBACK (gsb_fyear_config_modify_fyear),
-			       tree_view );
+    entry = gsb_editable_date_new ( NULL,
+				    G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
+				    G_CALLBACK (gsb_data_fyear_set_begining_date), 0 );
     g_object_set_data ( G_OBJECT (tree_model),
 			"fyear_begin_date_entry", entry );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -226,11 +225,9 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 		       label, 0, 1, 2, 3,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    entry = gtk_entry_new ();
-    g_signal_connect_swapped ( G_OBJECT (entry),
-			       "changed",
-			       G_CALLBACK (gsb_fyear_config_modify_fyear),
-			       tree_view );
+    entry = gsb_editable_date_new ( NULL,
+				    G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
+				    G_CALLBACK (gsb_data_fyear_set_end_date), 0 );
     g_object_set_data ( G_OBJECT (tree_model),
 			"fyear_end_date_entry", entry );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -239,11 +236,9 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 		       0, 0 );
 
     /* Activate in transaction form? */
-    button = gtk_check_button_new_with_label (_("Activate financial year in transaction form"));
-    g_signal_connect_swapped ( G_OBJECT (button),
-			       "toggled",
-			       G_CALLBACK (gsb_fyear_config_modify_fyear),
-			       tree_view );
+    button = gsb_editable_checkbutton_new ( _("Activate financial year in transaction form"), FALSE,
+					    NULL, NULL,
+					    G_CALLBACK (gsb_data_fyear_set_form_show), 0);
     g_object_set_data ( G_OBJECT (tree_model),
 			"fyear_show_button", button );
     gtk_box_pack_start ( GTK_BOX (paddingbox), button,
@@ -419,7 +414,6 @@ gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
     GtkTreeModel *model;
     GtkTreeIter iter;
     gint fyear_number;
-    gchar *string;
     GtkWidget *tree_view;
     GtkWidget *widget;
 
@@ -436,72 +430,36 @@ gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
     tree_view = GTK_WIDGET (gtk_tree_selection_get_tree_view (tree_selection));
 
     /* set the name */
-    string = gsb_data_fyear_get_name (fyear_number);
     widget = g_object_get_data ( G_OBJECT (model),
 				 "fyear_name_entry" );
-    g_signal_handlers_block_by_func ( G_OBJECT (widget),
-				      G_CALLBACK (gsb_fyear_config_modify_fyear),
-				      tree_view );
-    if (string)
-	gtk_entry_set_text ( GTK_ENTRY (widget),
-			     string );
-    else
-	gtk_entry_set_text ( GTK_ENTRY (widget),
-			     "" );
-    g_signal_handlers_unblock_by_func ( G_OBJECT (widget),
-					G_CALLBACK (gsb_fyear_config_modify_fyear),
-					tree_view );
+    gsb_editable_set_value ( widget,
+			     gsb_data_fyear_get_name (fyear_number),
+			     fyear_number );
 
     /* set the begining date */
-    string = gsb_format_gdate (gsb_data_fyear_get_begining_date (fyear_number));
     widget = g_object_get_data ( G_OBJECT (model),
 				 "fyear_begin_date_entry" );
-    g_signal_handlers_block_by_func ( G_OBJECT (widget),
-				      G_CALLBACK (gsb_fyear_config_modify_fyear),
-				      tree_view );
-    if (string)
-	gtk_entry_set_text ( GTK_ENTRY (widget),
-			     string );
-    else
-	gtk_entry_set_text ( GTK_ENTRY (widget),
-			     "" );
-    g_signal_handlers_unblock_by_func ( G_OBJECT (widget),
-					G_CALLBACK (gsb_fyear_config_modify_fyear),
-					tree_view );
+    gsb_editable_date_set_value ( widget,
+				  gsb_data_fyear_get_begining_date (fyear_number),
+				  fyear_number );
 
     /* set the end date */
-    string = gsb_format_gdate (gsb_data_fyear_get_end_date (fyear_number));
     widget = g_object_get_data ( G_OBJECT (model),
 				 "fyear_end_date_entry" );
-    g_signal_handlers_block_by_func ( G_OBJECT (widget),
-				      G_CALLBACK (gsb_fyear_config_modify_fyear),
-				      tree_view );
-    if (string)
-	gtk_entry_set_text ( GTK_ENTRY (widget),
-			     string );
-    else
-	gtk_entry_set_text ( GTK_ENTRY (widget),
-			     "" );
-    g_signal_handlers_unblock_by_func ( G_OBJECT (widget),
-					G_CALLBACK (gsb_fyear_config_modify_fyear),
-					tree_view );
+    gsb_editable_date_set_value ( widget,
+				  gsb_data_fyear_get_end_date (fyear_number),
+				  fyear_number );
 
     /* set the button */
-
     widget = g_object_get_data ( G_OBJECT (model),
 				 "fyear_show_button" );
-    g_signal_handlers_block_by_func ( G_OBJECT (widget),
-				      G_CALLBACK (gsb_fyear_config_modify_fyear),
-				      tree_view );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (widget),
-				   gsb_data_fyear_get_form_show (fyear_number));
-    g_signal_handlers_unblock_by_func ( G_OBJECT (widget),
-					G_CALLBACK (gsb_fyear_config_modify_fyear),
-					tree_view );
+    gsb_editable_checkbutton_set_value ( widget,
+					 gsb_data_fyear_get_form_show (fyear_number),
+					 fyear_number );
 
+    /* set the invalid label */
     widget = g_object_get_data ( G_OBJECT (model),
 				 "invalid_label" );
-
     if (gsb_data_fyear_get_invalid (fyear_number))
     {
 	gtk_label_set_markup ( GTK_LABEL (widget),
@@ -511,6 +469,7 @@ gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
     else
 	gtk_widget_hide (widget);
 
+    /* sensitive what is needed */
     gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (model),
 						   "paddingbox_details" ),
 			       TRUE );
@@ -524,12 +483,15 @@ gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
 
 /**
  * called when something change for a fyear 
+ * update the list and the invalid
  *
+ * \param entry the entry wich change
  * \param tree_view the tree_view
  *
  * \return FALSE
  * */
-gboolean gsb_fyear_config_modify_fyear ( GtkWidget *tree_view )
+gboolean gsb_fyear_config_modify_fyear ( GtkWidget *entry,
+					 GtkWidget *tree_view)
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
@@ -551,39 +513,14 @@ gboolean gsb_fyear_config_modify_fyear ( GtkWidget *tree_view )
     if (!fyear_number)
 	return FALSE;
 
-    /* set the name */
-    widget = g_object_get_data ( G_OBJECT (model),
-				 "fyear_name_entry" );
-    gsb_data_fyear_set_name ( fyear_number,
-			      gtk_entry_get_text ( GTK_ENTRY (widget)));
-
-    /* set the begining date */
-    widget = g_object_get_data ( G_OBJECT (model),
-				 "fyear_begin_date_entry" );
-    gsb_data_fyear_set_begining_date ( fyear_number,
-				       gsb_parse_date_string (gtk_entry_get_text (GTK_ENTRY (widget))));
-
-    /* set the end date */
-    widget = g_object_get_data ( G_OBJECT (model),
-				 "fyear_end_date_entry" );
-    gsb_data_fyear_set_end_date ( fyear_number,
-				       gsb_parse_date_string (gtk_entry_get_text (GTK_ENTRY (widget))));
-
-    /* set the button */
-
-    widget = g_object_get_data ( G_OBJECT (model),
-				 "fyear_show_button" );
-    gsb_data_fyear_set_form_show ( fyear_number,
-				   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)));
-
     /* check the invalid and show the message if needed */
-     widget = g_object_get_data ( G_OBJECT (model),
+    widget = g_object_get_data ( G_OBJECT (model),
 				 "invalid_label" );
 
-     /* the fyear is invalid, we ask to check all the others
-      * to make them invalid too */
+     /* check all the fyear to set them invalid if need */
      gsb_fyear_update_invalid (tree_view);
 
+     /* and check if the current fyear was set as invalid */
      if (gsb_data_fyear_get_invalid (fyear_number))
      {
 	 /* and now focus on the current fyear */
@@ -606,7 +543,6 @@ gboolean gsb_fyear_config_modify_fyear ( GtkWidget *tree_view )
 			  FYEAR_INVALID_COLUMN, invalid,
 			  FYEAR_NUMBER_COLUMN, fyear_number,
 			  -1 );
-     modification_fichier (TRUE);
      return FALSE;
 }
 

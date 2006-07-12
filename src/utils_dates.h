@@ -12,6 +12,14 @@ GDate *gsb_date_copy ( GDate *date );
 gboolean gsb_date_free_last_date ( void );
 gboolean gsb_date_set_last_date ( const gchar *date );
 gchar *gsb_date_today ( void );
+GtkWidget *gsb_editable_date_new ( gchar *value,
+				   GCallback hook,
+				   gpointer data,
+				   GCallback default_func,
+				   gint number_for_func );
+void gsb_editable_date_set_value ( GtkWidget *hbox,
+				   GDate *value,
+				   gint number_for_func );
 gchar * gsb_format_date ( gint day, gint month, gint year );
 gchar * gsb_format_gdate ( GDate *date );
 gchar * gsb_format_gdate_safe ( GDate *date );

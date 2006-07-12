@@ -26,6 +26,8 @@
 
 /*START_INCLUDE*/
 #include "utils_buttons.h"
+#include "gsb_data_fyear.h"
+#include "utils_editables.h"
 #include "utils.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
@@ -35,6 +37,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static  gboolean gsb_editable_checkbutton_changed ( GtkWidget *button,
+						   gboolean default_func (gint, gboolean));
 static GtkWidget * new_image_label ( GsbButtonStyle style, gchar * image_name, gchar * name );
 static GtkWidget * new_spin_button ( gdouble * value, 
 			      gdouble lower, gdouble upper, 
@@ -53,6 +57,135 @@ static void spin_button_set_value_double ( GtkWidget * spin, gdouble * value );
 /*START_EXTERN*/
 extern GtkWidget *window;
 /*END_EXTERN*/
+
+
+/*
+ * creates a new checkbox associated to a value in a grisbi structure
+ * for each change, will call the corresponding given function : gsb_data_... ( number, gboolean )
+ * ie the target function must be :
+ * 	(default_func) ( gint number_for_func,
+ * 			 gboolean yes/no )
+ * ex : gsb_data_fyear_set_form_show ( fyear_number, showed_in_form )
+ *
+ * \param label the text associated to the checkbox
+ * \param value a boolean for the state of the checkbox
+ * \param hook an optional function to execute as a handler if the
+ * 	button is modified.
+ * 	hook should be :
+ * 		gboolean hook ( GtkWidget *button,
+ * 				gpointer data )
+ *
+ * \param data An optional pointer to pass to hooks.
+ * \param default_func The function to call to change the value in memory (function must be func ( number, gboolean ) ) or NULL
+ * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ *
+ * \return a new GtkCheckButton
+ * */
+/* FIXME : keep gsb_editable_... to keep compatibility with function like that, perhaps change that begining and put all that functions in
+ * 1 file ? */
+GtkWidget *gsb_editable_checkbutton_new ( gchar *label,
+					  gboolean value,
+					  GCallback hook,
+					  gpointer data,
+					  GCallback default_func,
+					  gint number_for_func )
+{
+    GtkWidget *button;
+
+    /* first, create and set the button */
+    button = gtk_check_button_new_with_mnemonic (label);
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (button),
+				   value );
+
+    /* set the default func :
+     * the func will be send to gsb_editable_checkbutton_changed by the data,
+     * the number_for_func will be set as data for object */
+    g_object_set_data ( G_OBJECT (button),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+    if (default_func)
+	g_object_set_data ( G_OBJECT (button), "changed", 
+			    (gpointer) g_signal_connect_after (GTK_OBJECT(button), "toggled",
+							       ((GCallback) gsb_editable_checkbutton_changed), default_func ));
+    if ( hook )
+	g_object_set_data ( G_OBJECT (button), "changed-hook", 
+			    (gpointer) g_signal_connect_after (GTK_OBJECT(button), "toggled",
+							      ((GCallback) hook), data ));
+    return button;
+}
+
+
+/** 
+ * set the value in a gsb_editable_checkbutton
+ * a value is in 2 parts :
+ * 	a boolean, so value TRUE or FALSE
+ * 	a number, wich is used when there is a change in that button (see gsb_editable_checkbutton_new)
+ *
+ * \param button
+ * \param value a gboolean
+ * \param number_for_func the number to give to the called function when something is changed
+ *
+ * \return
+ */
+void gsb_editable_checkbutton_set_value ( GtkWidget *button,
+					  gboolean value,
+					  gint number_for_func )
+{
+    /* Block everything */
+    if ( g_object_get_data (G_OBJECT (button), "changed") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(button),
+				 (gulong) g_object_get_data (G_OBJECT (button), 
+							     "changed"));
+    if ( g_object_get_data (G_OBJECT (button), "changed-hook") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(button),
+				 (gulong) g_object_get_data (G_OBJECT (button), 
+							     "changed-hook"));
+
+    /* Fill in value */
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (button),
+				   value );
+    g_object_set_data ( G_OBJECT (button),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+
+    /* Unblock everything */
+    if ( g_object_get_data (G_OBJECT (button), "changed") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(button),
+				   (gulong) g_object_get_data (G_OBJECT (button), 
+							       "changed"));
+    if ( g_object_get_data (G_OBJECT (button), "changed-hook") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(button),
+				   (gulong) g_object_get_data (G_OBJECT (button), 
+							       "changed-hook"));
+}
+
+
+
+/**
+ * called when something change in an button of a gsb_editable_checkbutton
+ * by gsb_editable_new_text_entry
+ *
+ * \param button The reference GtkCheckButton
+ * \param default_func the function to call to change the value in memory
+ *
+ * \return FALSE
+ */
+static gboolean gsb_editable_checkbutton_changed ( GtkWidget *button,
+						   gboolean default_func (gint, gboolean))
+{
+    gint number_for_func;
+
+    /* just to be sure... */
+    if (!default_func || !button)
+	return FALSE;
+
+    number_for_func = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (button), "number_for_func"));
+    default_func ( number_for_func,
+		   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)));
+
+    /* Mark file as modified */
+    modification_fichier ( TRUE );
+
+    return FALSE;
+}
 
 
 

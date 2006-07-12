@@ -17,6 +17,15 @@ typedef enum GSB_BUTTON_STYLE {
 void checkbox_set_value ( GtkWidget * checkbox, gint * data, gboolean update );
 GtkWidget *cree_bouton_url ( const gchar *adr,
 			     const gchar *inscription );
+GtkWidget *gsb_editable_checkbutton_new ( gchar *label,
+					  gboolean value,
+					  GCallback hook,
+					  gpointer data,
+					  GCallback default_func,
+					  gint number_for_func );
+void gsb_editable_checkbutton_set_value ( GtkWidget *button,
+					  gboolean value,
+					  gint number_for_func );
 GtkWidget * new_button_with_label_and_image ( GsbButtonStyle style,
 					      gchar * name, gchar * filename,
 					      GCallback callback, gpointer data );
