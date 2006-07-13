@@ -32,12 +32,18 @@
 #include "gsb_form.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
+#include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static  gboolean gsb_editable_date_changed ( GtkWidget *entry,
 					    gboolean default_func (gint, const GDate *));
+static  gboolean gsb_editable_date_check ( GtkWidget *entry,
+					  gpointer null );
+static gboolean gsb_editable_date_focus_out ( GtkWidget *entry,
+				       GdkEventFocus *ev,
+				       gpointer null );
 static GDate *gsb_editable_date_get_date ( GtkWidget *hbox );
 static gboolean gsb_editable_date_popup_calendar ( GtkWidget *button,
 					    GtkWidget *entry );
@@ -47,6 +53,7 @@ static gboolean gsb_editable_date_popup_calendar ( GtkWidget *button,
 /*START_EXTERN*/
 extern GtkWidget *entree_date_finale_etat;
 extern GtkWidget *entree_date_init_etat;
+extern FILE * out;
 extern GtkTreeSelection * selection;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -175,17 +182,7 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry )
 
     string = gtk_entry_get_text ( GTK_ENTRY (entry));
 
-    if ( !strlen (string))
-    {
-	/* let the entry empty if we are on the report configuration */
-
-	if ( entry != entree_date_init_etat
-	     &&
-	     entry != entree_date_finale_etat )
-	    gtk_entry_set_text ( GTK_ENTRY (entry),
-				 gsb_date_today() );
-    }
-    else
+    if ( strlen (string))
     {
 	GDate *date;
 
@@ -195,6 +192,18 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry )
 
 	gtk_entry_set_text ( GTK_ENTRY ( entry ),
 			     gsb_format_gdate (date));
+	g_date_free (date);
+    }
+	else
+    {
+	/* let the entry empty if we are on the report configuration
+	 * FIXME : should set a boolean at this function to choose to let the entry free or not */
+
+	if ( entry != entree_date_init_etat
+	     &&
+	     entry != entree_date_finale_etat )
+	    gtk_entry_set_text ( GTK_ENTRY (entry),
+				 gsb_date_today() );
     }
     return ( TRUE );
 }
@@ -202,144 +211,245 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry )
 
 
 /**
- * Create and return a GDate from a string reprensentation of a date.
+ * Create and try to return a GDate from a string reprensentation of a date.
+ * separator can be / . - :
+ * and numbers can be stick (ex 01012001)
  *
- * \param a sting wich represent a date
+ * \param a string wich represent a date
  *
  * \return a newly allocated gdate
  */
 GDate *gsb_parse_date_string ( const gchar *date_string )
 {
-    gchar * separators[4] = { "/", ".", "-", NULL };
-    int jour = -1, mois = -1, annee = -1, i;
+    gchar *separators = "/-:";
+    gint day = -1, month = -1, year = -1;
+    GDate *date;
+    gchar *string;
     gchar **tab_date;
-    GDate * date;
 
     if ( !date_string
 	 ||
 	 !strlen (date_string))
 	return NULL;
 
-    date = (GDate *) g_malloc ( sizeof (GDate) );
+    /* to keep the const gchar in that function */
+    string = g_strdup (date_string);
 
-    g_date_set_parse ( date, date_string );
-    if ( g_date_valid ( date ) )
-	return date;
+    /* to use the glib parser at its best, we change here all the separators
+     * to . */
+    g_strdelimit ( string,
+		   separators, '.' );
 
-    for ( i = 0; separators[i]; i++ )
+    /* first check : try the parser of glib */
+    /* i have a proble with the glib parser :
+     * if if type 311206 and i want 31/12/2006, glib returns 06/12/2031...
+     * so if there is no separator, i prefer use my own function and don't work with
+     * glib */
+    if (g_strrstr (string, "."))
     {
-	date = gdate_today();
-	
-	tab_date = g_strsplit ( date_string, separators[i], 3 );
-
-	if ( tab_date[2] && tab_date[1] )
+	date = g_date_new ();
+	g_date_set_parse ( date, string );
+	if ( g_date_valid ( date ) )
 	{
-	    /* on a rentrÃ© les 3 chiffres de la date */
-	    jour = utils_str_atoi ( tab_date[0] );
-	    mois = utils_str_atoi ( tab_date[1] );
-	    annee = utils_str_atoi ( tab_date[2] );
-	    
-	    if ( annee < 100 )
+	    /* the parser of glib worked fine
+	     * but can now improve it for years :
+	     * it's easier to write 1/1/1 instead of 1/1/2001
+	     * so if year is > 70 and <= 99, we add 1900
+	     * if year is < 70, we add 2000 to it */
+
+	    year = g_date_get_year (date);
+
+	    if (year < 100)
 	    {
-		if ( annee < 80 )
-		    annee = annee + 2000;
+		if (year >= 70)
+		    g_date_add_years (date, 1900);
 		else
-		    annee = annee + 1900;
+		    g_date_add_years (date, 2000);
 	    }
-	    if ( g_date_valid_dmy (jour, mois, annee ) )
-		return g_date_new_dmy ( jour, mois, annee );
+	    g_free (string);
+	    return date;
+	}
+	g_date_free (date);
+    }
+
+    /* parser didn't work, try to parse ourselves */
+    tab_date = g_strsplit ( string, ".", 3 );
+
+    /* needn't anymore string now */
+    g_free (string);
+
+    if ( tab_date[2] && tab_date[1] )
+    {
+	/* we have the 3 numbers of the date,
+	 * here we assume that we have dd/mm/yy
+	 * FIXME : for other locales ? (for now just
+	 * try international, but not enough, should use locales)
+	 * or set in preferences ? */
+	day = utils_str_atoi (tab_date[0]);
+	month = utils_str_atoi (tab_date[1]);
+	year = utils_str_atoi (tab_date[2]);
+
+	/* needn't tab_date anymore */
+	g_strfreev ( tab_date );
+
+	/* check for quick entry */
+	if ( year < 100 )
+	{
+	    if ( year >= 70 )
+		year = year + 1900;
+	    else
+		year = year + 2000;
+	}
+
+	if ( g_date_valid_dmy (day, month, year))
+	    return g_date_new_dmy ( day, month, year );
+	else
+	{
+	    /* ok, dd/mm/yy doesn't work, will try international
+	     * style : yy/mm/dd */
+	    if (g_date_valid_dmy (year, month, day))
+		return g_date_new_dmy (year, month, day);
 	    else
 		return NULL;
 	}
-	else
-	{
-	    if ( tab_date[1] )
-	    {
-		/* on a rentrÃ© la date sous la forme xx/xx,
-		   il suffit de mettre l'annÃ©e courante */
-		jour = utils_str_atoi ( tab_date[0] );
-		mois = utils_str_atoi ( tab_date[1] );
-		annee = g_date_year ( date );
-		if ( g_date_valid_dmy (jour, mois, annee ) )
-		    return g_date_new_dmy ( jour, mois, annee );
-		else
-		    return NULL;
+    }
+    else
+    {
+	/* we will need current year and month,
+	 * set them already */
+	date = gdate_today();
+	month = g_date_month (date);
+	year = g_date_year (date);
+	g_date_free (date);
 
-	    }
+	if (tab_date[1])
+	{
+	    /* we have xx/xx, as the day is the most important,
+	     * we assume it is dd/mm, so we add the year */
+	    day = utils_str_atoi (tab_date[0]);
+	    month = utils_str_atoi (tab_date[1]);
+	    if ( g_date_valid_dmy (day, month, year ) )
+		return g_date_new_dmy ( day, month, year );
 	    else
 	    {
-		/* on a rentrÃ© que le jour de la date, il
-		   faut mettre le mois et l'annÃ©e courante
-		   ou bien on a rentrÃ© la date sous forme
-		   jjmm ou jjmmaa ou jjmmaaaa */
-		gchar buffer[3];
-		
-		switch ( strlen ( tab_date[0] ) )
-		{
-		/* forme jj ou j */
-		case 1:
-		case 2:
-		    jour = utils_str_atoi ( tab_date[0] );
-		    mois = g_date_month ( date );
-		    annee = g_date_year ( date );
-		    if ( g_date_valid_dmy (jour, mois, annee ) )
-			return g_date_new_dmy ( jour, mois, annee );
-		    else
-			return NULL;
-
-		/* forme jjmm */
-		case 4 :
-		    buffer[0] = tab_date[0][0];
-		    buffer[1] = tab_date[0][1];
-		    buffer[2] = 0;
-
-		    jour = utils_str_atoi ( buffer );
-		    mois = utils_str_atoi ( tab_date[0] + 2 );
-		    annee = g_date_year ( date );
-		    if ( g_date_valid_dmy (jour, mois, annee ) )
-			return g_date_new_dmy ( jour, mois, annee );
-		    else
-			return NULL;
-
-		/* forme jjmmaa */
-		case 6:
-		    buffer[0] = tab_date[0][0];
-		    buffer[1] = tab_date[0][1];
-		    buffer[2] = 0;
-
-		    jour = utils_str_atoi ( buffer );
-		    buffer[0] = tab_date[0][2];
-		    buffer[1] = tab_date[0][3];
-
-		    mois = utils_str_atoi ( buffer );
-		    annee = utils_str_atoi ( tab_date[0] + 4 ) + 2000;
-		    if ( g_date_valid_dmy (jour, mois, annee ) )
-			return g_date_new_dmy ( jour, mois, annee );
-		    else
-			return NULL;
-
-		/* forme jjmmaaaa */
-		case 8:
-		    buffer[0] = tab_date[0][0];
-		    buffer[1] = tab_date[0][1];
-		    buffer[2] = 0;
-
-		    jour = utils_str_atoi ( buffer );
-		    buffer[0] = tab_date[0][2];
-		    buffer[1] = tab_date[0][3];
-
-		    mois = utils_str_atoi ( buffer );
-		    annee = utils_str_atoi ( tab_date[0] + 4 );
-		    if ( g_date_valid_dmy (jour, mois, annee ) )
-			return g_date_new_dmy ( jour, mois, annee );
-		    else
-			return NULL;
-		}
+		/* dd/mm doesn't work, i don't know if mm/dd can appen,
+		 * do it here because nothing to lose */
+		if (g_date_valid_dmy (year, month, day))
+		    return g_date_new_dmy (year, month, day);
+		else
+		    return NULL;
 	    }
 	}
-	g_strfreev ( tab_date );
-    }
+	else
+	{
+	    /* there is only 1 number, so can be :
+	     * - 1 or 2 digits : it's dd
+	     * - 4 digits : it should be ddmm (or mmdd ?)
+	     * - 6 digits : it should be ddmmyy (or yymmdd ?)
+	     * - 8 digits : it should be ddmmyyyy (or yyyymmdd)
+	     *   */
+	    gchar *tmp_string;
 
+	    switch (strlen (tab_date[0]))
+	    {
+		/* d or dd */
+		case 1:
+		case 2:
+		    day = utils_str_atoi (tab_date[0]);
+		    if ( g_date_valid_dmy (day, month, year))
+			return g_date_new_dmy (day, month, year);
+		    else
+			return NULL;
+		    break;
+
+		    /* ddmm */
+		case 4 :
+		    month = utils_str_atoi ( tab_date[0] + 2 );
+		    tab_date[0][2] = 0;
+		    day = utils_str_atoi (tab_date[0]);
+		    g_strfreev (tab_date);
+
+		    if ( g_date_valid_dmy (day, month, year))
+			return g_date_new_dmy ( day, month, year );
+		    else
+		    {
+			/* we try mmdd */
+			if (g_date_valid_dmy (month, day, year))
+			    return g_date_new_dmy (month, day, year);
+			else
+			    return NULL;
+		    }
+		    break;
+
+		    /* ddmmy */
+		case 5:
+		    /* ddmmyy */
+		case 6:
+		    printf ("ça passe\n" );
+		    year = utils_str_atoi ( tab_date[0] + 4 );
+		    if (year < 70)
+			year = year + 2000;
+		    else
+			year = year + 1900;
+
+		    tab_date[0][4] = 0;
+		    month = utils_str_atoi ( tab_date[0] + 2 );
+		    tab_date[0][2] = 0;
+		    day = utils_str_atoi (tab_date[0]);
+		    g_strfreev (tab_date);
+
+		    if ( g_date_valid_dmy (day, month, year ) )
+			return g_date_new_dmy ( day, month, year );
+		    else
+		    {
+			/* try yymmdd */
+			if (g_date_valid_dmy (year, month, day))
+			    return g_date_new_dmy (year, month, day);
+			else
+			    return NULL;
+		    }
+		    break;
+
+		    /* ddmmyyyy */
+		case 8:
+		    /* ddmmyyyy should pass before if we set that case 8: just
+		     * after case 6: ; but in that case we cannot have yyyymmdd
+		     * so we do something here */
+
+		    /* first we save the string in case ddmmyyyy doesn't work */
+		    tmp_string = g_strdup (tab_date[0]);
+		    
+		    /* the first part is the same as for case 6: */
+		    year = utils_str_atoi ( tab_date[0] + 4 );
+		    tab_date[0][4] = 0;
+		    month = utils_str_atoi ( tab_date[0] + 2 );
+		    tab_date[0][2] = 0;
+		    day = utils_str_atoi (tab_date[0]);
+		    g_strfreev (tab_date);
+
+		    if ( g_date_valid_dmy (day, month, year))
+		    {
+			g_free (tmp_string);
+			return g_date_new_dmy ( day, month, year );
+		    }
+		     
+		    /* it is not ddmmyyyy, so we try yyyymmdd */
+		    day = utils_str_atoi ( tmp_string + 6 );
+		    tmp_string[6] = 0;
+		    month = utils_str_atoi ( tmp_string + 4 );
+		    tmp_string[4] = 0;
+		    year = utils_str_atoi (tmp_string);
+		    g_free (tmp_string);
+
+		    if (g_date_valid_dmy (year, month, day))
+			return g_date_new_dmy (year, month, day);
+		    else
+			return NULL;
+		    break;
+	    }
+	}
+    }
+    g_strfreev ( tab_date );
     return NULL;
 }
 
@@ -465,6 +575,9 @@ GtkWidget *gsb_editable_date_new ( gchar *value,
 				   gint number_for_func )
 {
     GtkWidget *entry, *hbox, *button;
+    GtkStyle *style;
+    GdkColor normal_color;
+    GdkColor red_color;
 
     /* the hbox will contain an entry an a button */
     hbox = gtk_hbox_new ( FALSE, 6 );
@@ -476,17 +589,57 @@ GtkWidget *gsb_editable_date_new ( gchar *value,
     g_object_set_data ( G_OBJECT (entry),
 			"number_for_func", GINT_TO_POINTER (number_for_func));
 
+    /* changing the style makes something not beautiful with the frame,
+     * i think it's possible to change that, but without frame is pretty
+     * for me, so set like that for now */
+    gtk_entry_set_has_frame ( GTK_ENTRY (entry),
+			      FALSE );
+
+    /* set the red/normal style */
+    normal_color.red = COULEUR_NOIRE_RED;
+    normal_color.green = COULEUR_NOIRE_GREEN;
+    normal_color.blue = COULEUR_NOIRE_BLUE;
+    normal_color.pixel = 0;
+
+    red_color.red = COULEUR_ROUGE_RED;
+    red_color.green = COULEUR_ROUGE_GREEN;
+    red_color.blue = COULEUR_ROUGE_BLUE;
+    red_color.pixel = 0;
+
+    /* prepare the style */
+    style = gtk_style_new ();
+    style -> text[GTK_STATE_NORMAL] = normal_color;
+    g_object_set_data ( G_OBJECT (entry),
+			"normal_style", style );
+
+    style = gtk_style_new ();
+    style -> text[GTK_STATE_NORMAL] = red_color;
+    g_object_set_data ( G_OBJECT (entry),
+			"red_style", style );
+
+    /* set the function wich check what is writen in real time */
+    g_signal_connect_after ( G_OBJECT (entry), "changed",
+			     G_CALLBACK (gsb_editable_date_check),
+			     NULL );
+
+    /* set the focus out function, wich will try to find a good date
+     * from the date entried (ie 1/1/1 will give 01/01/2001) */
+    g_signal_connect_after ( G_OBJECT (entry), "focus-out-event",
+			     G_CALLBACK (gsb_editable_date_focus_out),
+			     NULL );
+
+    /* set the content, that will check the date too */
     if (value)
 	gtk_entry_set_text ( GTK_ENTRY(entry), value );
 
     /* set the default func */
     if (default_func)
 	g_object_set_data ( G_OBJECT ( entry ), "changed", 
-			    (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "changed",
-							       ((GCallback) gsb_editable_date_changed), default_func ));
+			    (gpointer) g_signal_connect_after (G_OBJECT(entry), "changed",
+							       G_CALLBACK (gsb_editable_date_changed), default_func ));
     if ( hook )
 	g_object_set_data ( G_OBJECT ( entry ), "changed-hook", 
-			    (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "changed",
+			    (gpointer) g_signal_connect_after (G_OBJECT(entry), "changed",
 							      ((GCallback) hook), data ));
 
     /* create the button to show a calendar */
@@ -495,7 +648,7 @@ GtkWidget *gsb_editable_date_new ( gchar *value,
 			    GTK_RELIEF_NONE );
     gtk_box_pack_start ( GTK_BOX(hbox), button,
 			 FALSE, FALSE, 0 );
-    g_signal_connect ( GTK_OBJECT ( button ), "clicked",
+    g_signal_connect ( G_OBJECT ( button ), "clicked",
 		       G_CALLBACK (gsb_editable_date_popup_calendar), entry );
 
     /* to find it easily, set the adr to the entry  and the hbox */
@@ -505,6 +658,72 @@ GtkWidget *gsb_editable_date_new ( gchar *value,
     return hbox;
 }
 
+
+/**
+ * check the content of the date entry each time something is written
+ * set the content red if not a good date
+ *
+ * \param entry
+ * \param null
+ *
+ * \return FALSE
+ * */
+static gboolean gsb_editable_date_check ( GtkWidget *entry,
+					  gpointer null )
+{
+    GDate *date;
+    GtkStyle *style;
+
+    date = gsb_parse_date_string (gtk_entry_get_text ( GTK_ENTRY (entry)));
+
+    if (date)
+    {
+	/* the content is ok */
+	style = g_object_get_data ( G_OBJECT (entry),
+				    "normal_style" );
+	g_date_free (date);
+    }
+    else
+	/* the date is not correct */
+	style = g_object_get_data ( G_OBJECT (entry),
+				    "red_style" );
+
+    gtk_widget_set_style ( entry,
+			   style );
+    return FALSE;
+}
+
+/**
+ * called when the editable date receive a focus out
+ * try to make a good date from an user entry
+ * ie 1/1/1 => 01/01/2001
+ *
+ * \param entry
+ * \param ev the GdkEventFocus
+ * \param null not used
+ *
+ * \return FALSE
+ * */
+gboolean gsb_editable_date_focus_out ( GtkWidget *entry,
+				       GdkEventFocus *ev,
+				       gpointer null )
+{
+    GDate *date;
+
+    if (!entry)
+	return FALSE;
+
+    date = gsb_parse_date_string (gtk_entry_get_text (GTK_ENTRY (entry)));
+
+    if (!date)
+	return FALSE;
+
+    gtk_entry_set_text ( GTK_ENTRY ( entry ),
+			 gsb_format_gdate (date));
+    g_date_free (date);
+
+    return FALSE;
+}
 
 
 /**
@@ -526,11 +745,11 @@ void gsb_editable_date_set_value ( GtkWidget *hbox,
 
     /* Block everything */
     if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(entry),
+	g_signal_handler_block ( G_OBJECT(entry),
 				 (gulong) g_object_get_data (G_OBJECT (entry), 
 							     "changed"));
     if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(entry),
+	g_signal_handler_block ( G_OBJECT(entry),
 				 (gulong) g_object_get_data (G_OBJECT (entry), 
 							     "changed-hook"));
 
@@ -546,11 +765,11 @@ void gsb_editable_date_set_value ( GtkWidget *hbox,
 
     /* Unblock everything */
     if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
+	g_signal_handler_unblock ( G_OBJECT(entry),
 				   (gulong) g_object_get_data (G_OBJECT (entry), 
 							       "changed"));
     if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
+	g_signal_handler_unblock ( G_OBJECT(entry),
 				   (gulong) g_object_get_data (G_OBJECT (entry), 
 							       "changed-hook"));
 }
@@ -639,19 +858,19 @@ gboolean gsb_editable_date_popup_calendar ( GtkWidget *button,
 				   GTK_CALENDAR_WEEK_START_MONDAY );
 
     /* Create handlers */
-    gtk_signal_connect ( GTK_OBJECT (calendar), "day-selected-double-click",
-			 G_CALLBACK (gsb_calendar_select_date), entry );
-    gtk_signal_connect ( GTK_OBJECT (calendar), "key-press-event",
-			 G_CALLBACK (gsb_calendar_key_press_event), entry );
+    g_signal_connect ( G_OBJECT (calendar), "day-selected-double-click",
+		       G_CALLBACK (gsb_calendar_select_date), entry );
+    g_signal_connect ( G_OBJECT (calendar), "key-press-event",
+		       G_CALLBACK (gsb_calendar_key_press_event), entry );
     gtk_box_pack_start ( GTK_BOX ( popup_boxv ),
 			 calendar,
 			 TRUE, TRUE, 0 );
 
     /* Add the "cancel" button */
     cancel_button = gtk_button_new_with_label ( _("Cancel") );
-    gtk_signal_connect_object ( GTK_OBJECT (cancel_button), "clicked",
-				G_CALLBACK (gtk_widget_destroy),
-				GTK_WIDGET ( popup ) );
+    g_signal_connect_swapped ( G_OBJECT (cancel_button), "clicked",
+			       G_CALLBACK (gtk_widget_destroy),
+			       G_OBJECT ( popup ) );
     gtk_box_pack_start ( GTK_BOX ( popup_boxv ), cancel_button,
 			 TRUE, TRUE, 0 );
 
