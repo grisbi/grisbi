@@ -5639,51 +5639,51 @@ msgstr "Vincent Marqueton (vincent[at]marqueton.com): Fink 软件包"
 
 #: src/help.c:65
 msgid "Alain Portal (dionysos[at]grisbi.org): English"
-msgstr "Alain Portal (dionysos[at]grisbi.org): English"
+msgstr "Alain Portal (dionysos[at]grisbi.org): 英语"
 
 #: src/help.c:66
 msgid "Benjamin Drieu (bdrieu[at]april.org): English"
-msgstr "Benjamin Drieu (bdrieu[at]april.org): English"
+msgstr "Benjamin Drieu (bdrieu[at]april.org): 英语"
 
 #: src/help.c:67
 msgid "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Spanish"
-msgstr "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Spanish"
+msgstr "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es):  西班牙语"
 
 #: src/help.c:68
 msgid "Daniel Cartron (cartron[at]grisbi.org): English"
-msgstr "Daniel Cartron (cartron[at]grisbi.org): English"
+msgstr "Daniel Cartron (cartron[at]grisbi.org): 英语"
 
 #: src/help.c:69
 msgid "Edwin Huijsing (e.huijsing[at]fiberworld.nl): Dutch"
-msgstr "Edwin Huijsing (e.huijsing[at]fiberworld.nl): Dutch"
+msgstr "Edwin Huijsing (e.huijsing[at]fiberworld.nl): 荷兰语"
 
 #: src/help.c:70
 msgid "Fabio Erculiani (fabio.erculiani[at]tiscali.it): Italian"
-msgstr "Fabio Erculiani (fabio.erculiani[at]tiscali.it): Italian"
+msgstr "Fabio Erculiani (fabio.erculiani[at]tiscali.it): 意大利语"
 
 #: src/help.c:71
 msgid "Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"
-msgstr "Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"
+msgstr "Flavio Henrique Somensi (flavio[at]opens.com.br): 巴西 葡萄牙语"
 
 #: src/help.c:72
 msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"
-msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"
+msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org): 意大利语"
 
 #: src/help.c:73
 msgid "Marek Donar (mdonar[at]post.cz): Czech"
-msgstr ""
+msgstr "Marek Donar (mdonar[at]post.cz): 捷克语"
 
 #: src/help.c:74
 msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
-msgstr "Martin Stromberger (Fabiolla[at]aon.at): German"
+msgstr "Martin Stromberger (Fabiolla[at]aon.at): 德语"
 
 #: src/help.c:75
 msgid "Mircea Aronovici (bucuresti[at]free.fr): Romanian"
-msgstr ""
+msgstr "Mircea Aronovici (bucuresti[at]free.fr): 罗马尼亚语"
 
 #: src/help.c:76
 msgid "Ryszard Jeziorski (r.jeziorski[at]dart.kielce.pl): Polish"
-msgstr "Ryszard Jeziorski (r.jeziorski[at]dart.kielce.pl): Polish"
+msgstr "Ryszard Jeziorski (r.jeziorski[at]dart.kielce.pl): 波兰语"
 
 #: src/help.c:82
 msgid "Development list (discuss, participate, criticize, ...): "
