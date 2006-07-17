@@ -1181,6 +1181,8 @@ void exporter_etat ( void )
 	
 	gsb_status_message ( _("Exporting report ...") );
 
+	gsb_status_wait ( TRUE );
+
 	switch ( (gint) g_object_get_data ( G_OBJECT(fenetre_nom), "format" ) )
 	{
 	    case REPORT_EGSB:		/* EGSB */
@@ -1218,6 +1220,8 @@ void exporter_etat ( void )
 	    default :
 		break;
 	}
+
+	gsb_status_stop_wait ( TRUE );
 
 	gsb_status_message ( _("Done") );
     }
