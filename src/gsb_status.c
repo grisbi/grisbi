@@ -63,6 +63,9 @@ GtkWidget * progress_bar = NULL;
  * GtkProgressBar.  */
 int timer_id;
 
+/** Window under cursor at the time the cursor animation changed. */
+GdkWindow * tracked_window;
+
 
 /**
  * Create and return a new GtkStatusBar to hold various status
@@ -238,9 +241,32 @@ void gsb_status_stop_activity (  )
  */
 void gsb_status_wait ( gboolean force_update )
 {
+    GdkWindow * current_window;
+
     gdk_window_set_cursor ( window -> window, 
 			    gdk_cursor_new_for_display ( gdk_display_get_default ( ), 
 							 GDK_WATCH ) );
+
+    current_window = gdk_display_get_window_at_pointer ( gdk_display_get_default ( ),
+							 NULL, NULL );
+
+    if ( current_window && GDK_IS_WINDOW ( current_window ) &&
+	 current_window != window -> window )
+    {
+	GdkWindow * parent = gdk_window_get_toplevel ( current_window );
+	
+	if ( parent && parent != current_window )
+	{
+	    current_window = parent;
+	}	    
+
+	gdk_window_set_cursor ( current_window, 
+				gdk_cursor_new_for_display ( gdk_display_get_default ( ), 
+							     GDK_WATCH ) );
+
+	tracked_window = current_window;
+    }
+
     if ( force_update )
     {
 	update_ecran ();
@@ -258,6 +284,12 @@ void gsb_status_wait ( gboolean force_update )
 void gsb_status_stop_wait ( gboolean force_update )
 {
     gdk_window_set_cursor ( window -> window, NULL );
+
+    if ( tracked_window && gdk_window_is_visible ( tracked_window ) )
+    {
+	gdk_window_set_cursor ( tracked_window, NULL );
+	tracked_window = NULL;
+    }
 
     if ( force_update )
     {
