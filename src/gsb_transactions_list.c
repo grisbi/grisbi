@@ -3344,7 +3344,7 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 
     source_account = gsb_gui_navigation_get_current_account ();
     target_account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
-							     "no_compte" ) );  
+							     "account_number" ) );  
 
     if ( move_operation_to_account ( gsb_data_account_get_current_transaction_number (source_account),
 				     target_account ))

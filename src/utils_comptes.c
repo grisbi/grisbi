@@ -2,7 +2,7 @@
 /*                                  utils_comptes.c                           */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -62,7 +62,7 @@ gint recherche_compte_dans_option_menu ( GtkWidget *option_menu,
 	gint *no;
 
 	no = gtk_object_get_data ( GTK_OBJECT ( liste_tmp -> data ),
-				   "no_compte" );
+				   "account_number" );
 	if ( GPOINTER_TO_INT (no) == no_compte )
 	    return g_list_position ( liste_menu,
 				     liste_tmp );
@@ -89,7 +89,7 @@ gint recupere_no_compte ( GtkWidget *option_menu )
 	return -1;
 
     no_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT (  GTK_OPTION_MENU ( option_menu ) -> menu_item ),
-							"no_compte" ));
+							"account_number" ));
     return no_compte;
 }
 /* ************************************************************************** */

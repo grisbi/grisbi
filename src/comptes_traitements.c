@@ -317,7 +317,7 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 	{
 	    item = gtk_menu_item_new_with_label ( gsb_data_account_get_name (i));
 	    gtk_object_set_data ( GTK_OBJECT ( item ),
-				  "no_compte",
+				  "account_number",
 				  GINT_TO_POINTER (i));
 	    if ( func )
 		gtk_signal_connect ( GTK_OBJECT ( item ), "activate", GTK_SIGNAL_FUNC(func), NULL );
