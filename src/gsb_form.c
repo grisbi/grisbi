@@ -96,7 +96,7 @@ extern GtkWidget *window;
 GtkWidget *label_last_statement = NULL;
 
 /** the expander */
-static GtkWidget *form_expander;
+static GtkWidget *form_expander = NULL;
 
 /** the 2 styles, grey or normal for the entries of the
  * form, need to be in static later */
@@ -135,16 +135,12 @@ GtkWidget *formulaire;
 
 
 /**
- * create an empty form in an gtk_expander
+ * Create an empty form in an GtkExpander.
  *
- * \param
- *
- * \return the form
+ * \return Expander that contains form.
  * */
 GtkWidget * gsb_form_new ( void )
 {
-    GtkWidget * hbox, * label, * separator, * hbox_buttons;
-
     /* Create the expander */
     form_expander = gtk_expander_new ( "" );
     gtk_expander_set_expanded ( GTK_EXPANDER ( form_expander ),
@@ -154,14 +150,33 @@ GtkWidget * gsb_form_new ( void )
 		       G_CALLBACK (gsb_form_activate_expander),
 		       NULL );
 
-    /* Expander has a composite label */
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_expander_set_label_widget ( GTK_EXPANDER(form_expander), hbox );
+    gsb_form_create_widgets ();
 
-    /* Kludge : otherwise, GtkExpander won't give us as many space
-       as we need. */
-    gtk_widget_set_size_request ( hbox, 2048, -1 );
+    return form_expander;
+}
+
+
+
+/**
+ *  Do the grunt job of creating widgets in for the Grisbi form.
+ *  Fills them in form_expander, a GtkExpander normally created by
+ *  gsb_form_new().  It is reentrant, that is calling it over and over
+ *  will reinitialize form content and delete previous content.
+ */
+void gsb_form_create_widgets ()
+{
+    GtkWidget * hbox, * label, * separator, * hbox_buttons;
+    GtkWidget * child = gtk_bin_get_child ( GTK_BIN(form_expander) );
+
+    gsb_form_hide ();
+    if ( child && GTK_IS_WIDGET(child) )
+    {
+	gtk_container_remove ( GTK_CONTAINER(form_expander), child );
+    }
+
+    /* Expander has a composite label */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_expander_set_label_widget ( GTK_EXPANDER(form_expander), hbox );
 
     /* set the label transaction form */
     label = gtk_label_new ( "" );
@@ -184,7 +199,7 @@ GtkWidget * gsb_form_new ( void )
      * top : the values specific for the scheduled transactions
      * middle : the values for transactions and scheduled transactions
      * bottom : the buttons valid/cancel */
-    
+
     formulaire = gtk_vbox_new ( FALSE,
 				5 );
     gtk_container_add ( GTK_CONTAINER ( form_expander ),
@@ -258,19 +273,23 @@ GtkWidget * gsb_form_new ( void )
     /* init the colors for the entries */
     gsb_form_init_entry_colors ();
 
-    /* first show all in the form_expander and second hide the form_expander
-     * because at the begining we are on the main page
-     * and i'm too lazy to write gtk_widget_show everywhere... */
-    gtk_widget_show_all (form_expander);
-    gtk_widget_hide (form_expander);
+    /* Kludge : otherwise, GtkExpander won't give us as many space
+       as we need. */
+    gtk_widget_set_size_request ( hbox, 2048, -1 );
+
+    gtk_widget_show_all ( hbox );
+    gtk_widget_show_all ( formulaire );
+    gtk_widget_hide ( form_scheduled_part );
 
     if ( ! etat.affiche_boutons_valider_annuler )
     {
 	gtk_widget_hide_all ( form_button_part );
     }
-    
-    return form_expander;
+
+    gsb_form_show ( FALSE );
 }
+
+
 
 /**
  * show or hide the expander
