@@ -185,7 +185,7 @@ GtkWidget * create_main_widget ( void )
  */
 GtkWidget *create_main_notebook (void )
 {
-    GtkWidget *vbox;
+    GtkWidget * vbox, * form;
 
     devel_debug ( "create_main_notebook" );
 
@@ -207,11 +207,13 @@ GtkWidget *create_main_notebook (void )
     gtk_widget_show (notebook_general);
 
     /* append the form */
+    form = gsb_form_new ();
     gtk_box_pack_start ( GTK_BOX (vbox),
-			 gsb_form_new (),
+			 form,
 			 FALSE,
 			 FALSE,
 			 0 );
+    gtk_widget_hide (form);
 
     /* fill the notebook */
     gsb_gui_fill_main_notebook(notebook_general);
@@ -338,12 +340,13 @@ gboolean gsb_gui_on_notebook_switch_page ( GtkNotebook *notebook,
 	case GSB_ACCOUNT_PAGE:
 	    gsb_form_set_expander_visible (TRUE,
 					   TRUE );
-
+	    gsb_form_show ( FALSE );
 	    break;
 
 	case GSB_SCHEDULER_PAGE:
 	    gsb_form_set_expander_visible (TRUE,
 					   FALSE );
+	    gsb_form_show ( FALSE );
 	    gtk_widget_show_all ( scheduler_calendar );
 	    break;
 
