@@ -9,7 +9,8 @@ if HAVE_XML2
 plugin_LTLIBRARIES = gnucash.la
 gnucash_la_SOURCES = gnucash.c gnucash.h
 gnucash_la_LDFLAGS = -module -avoid-version $(XML2_LIBS)
-gnucash_la_CFLAGS = $(XML2_CFLAGS)
+
+CFLAGS = @CFLAGS@ $(XML2_CFLAGS)
 
 
 # Libs must be cleared, or else libtool won't create a shared module.
