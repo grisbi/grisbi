@@ -325,7 +325,7 @@ GtkWidget * create_navigation_pane ( void )
 	gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
 	gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
 			   NAVIGATION_PIX, pixbuf,
-			   NAVIGATION_TEXT, _("Aqbanking"), 
+			   NAVIGATION_TEXT, _("AqBanking"), 
 			   NAVIGATION_PIX_VISIBLE, TRUE, 
 			   NAVIGATION_FONT, 800,
 			   NAVIGATION_PAGE, GSB_AQBANKING_PAGE,
