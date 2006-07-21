@@ -26,8 +26,8 @@
 #define START_INCLUDE
 #include "tip.h"
 #include "dialog.h"
+#include "gsb_automem.h"
 #include "utils_str.h"
-#include "utils_buttons.h"
 #include "gsb_file_config.h"
 #include "include.h"
 #include "structures.h"
@@ -81,8 +81,8 @@ void display_tip ( gboolean force )
 						   dgettext("grisbi-tips", (tip) ) ) );
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
 
-    checkbox = new_checkbox_with_title ( _("Do not show this message again"), 
-					 &(etat.show_tip), NULL );
+    checkbox = gsb_automem_checkbutton_new ( _("Do not show this message again"), 
+					     &(etat.show_tip), NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -> vbox ), checkbox, FALSE, FALSE, 6 );
     gtk_widget_show ( checkbox );
 

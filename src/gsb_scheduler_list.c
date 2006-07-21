@@ -33,6 +33,7 @@
 #include "dialog.h"
 #include "echeancier_formulaire.h"
 #include "utils_dates.h"
+#include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -46,7 +47,6 @@
 #include "echeancier_infos.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
-#include "utils_buttons.h"
 #include "utils.h"
 #include "utils_comptes.h"
 #include "gsb_transactions_list.h"
@@ -70,9 +70,9 @@ static gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
 						gpointer null );
 static gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
 						   GtkTreeIter *iter,
-						   gchar *line[NB_COLS_SCHEDULER] );
+						   const gchar *line[NB_COLS_SCHEDULER] );
 static gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
-						    gchar *line[NB_COLS_SCHEDULER]  );
+						    const gchar *line[NB_COLS_SCHEDULER]  );
 static GDate *gsb_scheduler_list_get_end_date_scheduled_showed ( void );
 static GtkTreeIter *gsb_scheduler_list_get_iter_from_scheduled_number ( gint scheduled_number );
 static GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_number );
@@ -615,7 +615,7 @@ void gsb_scheduler_list_add_scheduled_to_list ( gint scheduled_number,
     GDate *pGDateCurrent;
     gint virtual_transaction = 0;
     GtkTreeIter *mother_iter;
-    gchar *line[NB_COLS_SCHEDULER];
+    const gchar *line[NB_COLS_SCHEDULER];
 
     devel_debug ( g_strdup_printf ( "gsb_scheduler_list_add_scheduled_to_list %d",
 				    scheduled_number ));
@@ -759,7 +759,7 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
  * \return FALSE
  * */
 gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
-						    gchar *line[NB_COLS_SCHEDULER]  )
+						    const gchar *line[NB_COLS_SCHEDULER]  )
 {
     if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
     {
@@ -771,8 +771,8 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
 
 	if ( gsb_data_scheduled_get_category_number (scheduled_number))
 	    line[COL_NB_PARTY] = gsb_data_category_get_name ( gsb_data_scheduled_get_category_number (scheduled_number),
-							       gsb_data_scheduled_get_sub_category_number (scheduled_number),
-							       NULL );
+							      gsb_data_scheduled_get_sub_category_number (scheduled_number),
+							      NULL );
 	else
 	    line[COL_NB_PARTY] = NULL;
     }
@@ -844,7 +844,7 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
  * */
 gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
 						   GtkTreeIter *iter,
-						   gchar *line[NB_COLS_SCHEDULER] )
+						   const gchar *line[NB_COLS_SCHEDULER] )
 {
     gint i;
 
@@ -1494,7 +1494,7 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
 	if ( gsb_data_scheduled_get_account_number_transfer (scheduled_number) != -1 )
 	{
-	    gchar *texte;
+	    const gchar *texte;
 
 	    if ( gsb_data_scheduled_get_category_number (scheduled_number))
 	    {
@@ -2021,8 +2021,8 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
 
     label = gtk_label_new ( _("Show transactions for the next "));
     gtk_box_pack_start ( GTK_BOX(hbox2), label, FALSE, FALSE, 0 );
-    entry = new_int_spin_button ( &affichage_echeances_perso_nb_libre, 
-				  0.0, 65536.0, 1.0, 5.0, 1.0, 1.0, 0, NULL );
+    entry = gsb_automem_spin_button_new ( &affichage_echeances_perso_nb_libre, 
+					  NULL, NULL );
     gtk_box_pack_start ( GTK_BOX(hbox2), entry, FALSE, FALSE, 6 );
 
     omenu = gtk_option_menu_new ();

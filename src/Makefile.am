@@ -50,6 +50,8 @@ sources = \
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
 	gsb_assistant.c		\
+	gsb_autofunc.c		\
+	gsb_automem.c		\
 	gsb_currency.c		\
 	gsb_currency_config.c	\
 	gsb_currency_link_config.c	\
@@ -138,6 +140,8 @@ grisbi_INCLUDES =		\
 	constants.h		\
 	import_csv.h		\
 	gsb_assistant.h		\
+	gsb_autofunc.h		\
+	gsb_automem.h		\
 	gsb_currency.h		\
 	gsb_currency_config.h	\
 	gsb_currency_link_config.h	\

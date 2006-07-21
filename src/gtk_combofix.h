@@ -134,7 +134,7 @@ GtkWidget *gtk_combofix_new_complex ( GSList *list );
  * \return
  * */
 void gtk_combofix_set_text ( GtkComboFix *combofix,
-			     gchar *text );
+			     const gchar *text );
 
 
 /**
@@ -170,7 +170,7 @@ void gtk_combofix_set_force_text ( GtkComboFix *combofix,
  * \return
  * */
 void gtk_combofix_set_max_items ( GtkComboFix *combofix,
-				   gint max_items );
+				  gint max_items );
 
 /**
  * set if the list has to be automatickly sorted or not

@@ -220,7 +220,7 @@ GtkWidget * dialogue_special_no_run ( GtkMessageType param, GtkButtonsType butto
 
 
 /**
- * xxx
+ * TODO : comment
  *
  */
 gboolean dialogue_update_var ( GtkWidget * checkbox, gint message )

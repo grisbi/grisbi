@@ -30,12 +30,12 @@
 /*START_INCLUDE*/
 #include "gsb_currency_config.h"
 #include "dialog.h"
+#include "gsb_autofunc.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
-#include "utils_editables.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
@@ -355,7 +355,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    entry = gsb_editable_new_text_entry ( NULL,
+    entry = gsb_autofunc_entry_new ( NULL,
 					  G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view,
 					  G_CALLBACK (gsb_data_currency_set_name), 0 );
     gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 0, 1, 
@@ -368,7 +368,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    entry = gsb_editable_new_text_entry ( NULL,
+    entry = gsb_autofunc_entry_new ( NULL,
 					  G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view,
 					  G_CALLBACK (gsb_data_currency_set_code), 0 );
     gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 1, 2,
@@ -381,7 +381,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 2, 3,
 		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    entry = gsb_editable_new_text_entry ( NULL,
+    entry = gsb_autofunc_entry_new ( NULL,
 					  G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view,
 					  G_CALLBACK (gsb_data_currency_set_code_iso4217), 0 );
     gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 2, 3,
@@ -394,15 +394,15 @@ GtkWidget *gsb_currency_config_create_page ( void )
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 3, 4,
 		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    entry = gsb_editable_new_int_entry ( 0,
-					 G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view, 
-					 G_CALLBACK (gsb_data_currency_set_floating_point), 0 );
+    entry = gsb_autofunc_int_new ( 0,
+				   G_CALLBACK (gsb_currency_config_entry_changed), currency_list_view, 
+				   G_CALLBACK (gsb_data_currency_set_floating_point), 0 );
     gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 3, 4,
 		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_floating_point", entry );
 
     /* for now we want nothing in the entry of floating point */
-    gsb_editable_int_erase_entry ( entry );
+    gsb_autofunc_int_erase_entry ( entry );
     return ( vbox_pref );
 }
 
@@ -683,7 +683,7 @@ gint gsb_currency_config_get_selected ( GtkTreeView *tree_view )
 /**
  * called when user change something in an entry
  * set the content of the entry for in the tree_view
- * (changes in memory done automatickly by gsb_editable_new_text_entry)
+ * (changes in memory done automatickly by gsb_autofunc_entry_new)
  *
  * \param entry
  * \param tree_view
@@ -753,10 +753,10 @@ gboolean gsb_currency_config_select_currency ( GtkTreeSelection *selection,
 			 CURRENCY_NUMBER_COLUMN, &currency_number,
 			 -1 );
 
-    gsb_editable_set_value ( entry_name, currency_name, currency_number );
-    gsb_editable_set_value ( entry_iso_code, currency_iso_code, currency_number );
-    gsb_editable_set_value ( entry_code, currency_nickname, currency_number );
-    gsb_editable_int_set_value ( entry_floating_point, currency_floating, currency_number );
+    gsb_autofunc_entry_set_value ( entry_name, currency_name, currency_number );
+    gsb_autofunc_entry_set_value ( entry_iso_code, currency_iso_code, currency_number );
+    gsb_autofunc_entry_set_value ( entry_code, currency_nickname, currency_number );
+    gsb_autofunc_int_set_value ( entry_floating_point, currency_floating, currency_number );
 
     return ( FALSE );
 } 

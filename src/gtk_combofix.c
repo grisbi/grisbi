@@ -28,6 +28,7 @@
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
 #include "gsb_form.h"
+#include "utils_str.h"
 #include "gtk_combofix.h"
 /*END_INCLUDE*/
 
@@ -103,7 +104,6 @@ enum combofix_key_direction {
 
 /*START_EXTERN*/
 extern gint max;
-extern FILE * out;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
 extern GtkWidget *window;
@@ -239,7 +239,7 @@ GtkWidget *gtk_combofix_new_complex ( GSList *list )
  * \return
  * */
 void gtk_combofix_set_text ( GtkComboFix *combofix,
-			     gchar *text )
+			     const gchar *text )
 {
     g_return_if_fail (combofix);
     g_return_if_fail (GTK_IS_COMBOFIX (combofix));
@@ -809,7 +809,7 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
     {
 	gchar *new_string;
 
-	new_string = g_strdup (entry_string);
+	new_string = my_strdup (entry_string);
 
 	while (!completed_string
 	       &&

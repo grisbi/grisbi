@@ -29,10 +29,9 @@
 
 /*START_INCLUDE*/
 #include "gsb_payment_method_config.h"
-#include "utils_buttons.h"
 #include "dialog.h"
-#include "utils_editables.h"
 #include "equilibrage.h"
+#include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
@@ -402,7 +401,7 @@ GtkWidget *onglet_types_operations ( void )
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    entree_type_nom = new_text_entry ( NULL, modification_entree_nom_type, NULL );
+    entree_type_nom = gsb_automem_entry_new ( NULL, modification_entree_nom_type, NULL );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       entree_type_nom, 1, 3, 0, 1,
 		       GTK_EXPAND | GTK_FILL, 0,
@@ -416,15 +415,16 @@ GtkWidget *onglet_types_operations ( void )
 		       label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    entree_type_dernier_no = new_int_spin_button (NULL, 0, G_MAXDOUBLE, 1, 5, 5, 
-						  2, 0, (GCallback) modification_entree_type_dernier_no );
+    entree_type_dernier_no = gsb_automem_spin_button_new ( NULL,
+							   G_CALLBACK (modification_entree_type_dernier_no), NULL );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       entree_type_dernier_no, 1, 2, 1, 2,
 		       GTK_EXPAND | GTK_FILL, 0,
 		       0, 0 );
     entree_automatic_numbering = 
-	new_checkbox_with_title (_("Activate"),
-				 NULL, modification_type_numerotation_auto);
+	gsb_automem_checkbutton_new (_("Activate"),
+				  NULL,
+				  G_CALLBACK (modification_type_numerotation_auto), NULL);
     gtk_table_attach ( GTK_TABLE ( table ),
 		       entree_automatic_numbering, 2, 3, 1, 2,
 		       GTK_SHRINK, 0,
@@ -499,10 +499,10 @@ gboolean select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *mode
 	! g_value_get_boolean(&value_visible))
     {
 	/* Blanking entries */
-	entry_set_value ( entree_type_nom, NULL );
-	spin_button_set_value ( entree_type_dernier_no, NULL );
+	gsb_automem_entry_set_value ( entree_type_nom, NULL );
+	gsb_automem_spin_button_set_value ( entree_type_dernier_no, NULL );
 	gtk_entry_set_text ( GTK_ENTRY ( entree_type_dernier_no ), "" );
-	checkbox_set_value ( entree_automatic_numbering, NULL, TRUE );
+	gsb_automem_checkbutton_set_value ( entree_automatic_numbering, NULL );
 	/* Some widgets are useless */
 	gtk_widget_set_sensitive ( entree_type_dernier_no, FALSE );
 	gtk_widget_set_sensitive ( details_paddingbox, FALSE );
@@ -518,10 +518,10 @@ gboolean select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *mode
 			    PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
 			    -1);
 	/* Filling entries */
-	entry_set_value ( entree_type_nom, &(type_ope -> nom_type) );
-	spin_button_set_value ( entree_type_dernier_no, &(type_ope -> no_en_cours) );
-	checkbox_set_value ( entree_automatic_numbering, 
-			     &(type_ope -> numerotation_auto), TRUE );
+	gsb_automem_entry_set_value ( entree_type_nom, &(type_ope -> nom_type) );
+	gsb_automem_spin_button_set_value ( entree_type_dernier_no, &(type_ope -> no_en_cours) );
+	gsb_automem_checkbutton_set_value ( entree_automatic_numbering, 
+			     &(type_ope -> numerotation_auto));
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ),
 				      type_ope -> signe_type );
 	/* Activating widgets */

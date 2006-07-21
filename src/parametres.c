@@ -25,8 +25,8 @@
 #include "parametres.h"
 #include "menu.h"
 #include "utils.h"
-#include "utils_buttons.h"
 #include "dialog.h"
+#include "gsb_automem.h"
 #include "gsb_currency_config.h"
 #include "gsb_currency_link_config.h"
 #include "gsb_data_account.h"
@@ -34,7 +34,6 @@
 #include "gsb_fyear_config.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
-#include "utils_editables.h"
 #include "affichage_liste.h"
 #include "banque.h"
 #include "affichage.h"
@@ -490,17 +489,17 @@ GtkWidget *onglet_messages_and_warnings ( void )
     label = gtk_label_new ( SPACIFY(COLON(_("Number of days before a warning message advertising a scheduled transaction"))) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
-    entree_jours = new_int_spin_button ( &(nb_days_before_scheduled),
-					 /* Limit to one year */
-					 0, 365, 1, 5, 1, 1, 0, NULL ); 
+    entree_jours = gsb_automem_spin_button_new ( &nb_days_before_scheduled,
+						 NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), entree_jours, FALSE, FALSE, 0 );
 
     /* Tip of the day */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Tip of the day"));
 
     /* Display or not tips */
-    tip_checkbox = new_checkbox_with_title ( _("Display tip of the day"),
-					     &(etat.show_tip), NULL );
+    tip_checkbox = gsb_automem_checkbutton_new ( _("Display tip of the day"),
+					      &(etat.show_tip),
+					      NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), tip_checkbox, FALSE, FALSE, 0 );
 
     /* Warnings */
@@ -622,34 +621,34 @@ GtkWidget *onglet_fichier ( void )
 
     /* Automatically load last file on startup? */
     bouton_avec_demarrage =
-	new_checkbox_with_title (_("Automatically load last file on startup"),
-				 &(etat.dernier_fichier_auto), NULL );
+	gsb_automem_checkbutton_new (_("Automatically load last file on startup"),
+				  &(etat.dernier_fichier_auto), NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_avec_demarrage, 
 			 FALSE, FALSE, 0 );
 
-    bouton_save_auto = new_checkbox_with_title (_("Automatically save on exit"),
-						&(etat.sauvegarde_auto), NULL);
+    bouton_save_auto = gsb_automem_checkbutton_new (_("Automatically save on exit"),
+						 &(etat.sauvegarde_auto), NULL, NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_save_auto, 
 			 FALSE, FALSE, 0 );
 
     /* Warn if file is used by someone else? */
     bouton_force_enregistrement = 
-	new_checkbox_with_title ( _("Force saving of locked files"),
-				  &(etat.force_enregistrement), NULL );
+	gsb_automem_checkbutton_new ( _("Force saving of locked files"),
+				   &(etat.force_enregistrement), NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_force_enregistrement,
 			 FALSE, FALSE, 0 );
 
     /* crypt the grisbi file */
     crypt_file_button = 
-	new_checkbox_with_title ( _("Encrypt Grisbi file"),
-				  &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled));
+	gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
+				   &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), crypt_file_button,
 			 FALSE, FALSE, 0 );
 
     /* Compression level of files */
     check_button_compress_file = 
-	new_checkbox_with_title ( _("Compress Grisbi file"),
-				  &(etat.compress_file), NULL );
+	gsb_automem_checkbutton_new ( _("Compress Grisbi file"),
+				   &(etat.compress_file), NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_button_compress_file,
 			 FALSE, FALSE, 0 );
 
@@ -660,10 +659,8 @@ GtkWidget *onglet_fichier ( void )
     label = gtk_label_new ( COLON(_("Memorise last opened files")) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0 );
-    spin_button_derniers_fichiers_ouverts = 
-	new_int_spin_button ( &(nb_max_derniers_fichiers_ouverts),
-			      0.0, 20.0, 1.0, 5.0, 1.0, 1.0, 0, 
-			      G_CALLBACK ( affiche_derniers_fichiers_ouverts ) );
+    spin_button_derniers_fichiers_ouverts = gsb_automem_spin_button_new ( &(nb_max_derniers_fichiers_ouverts),
+									  G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_derniers_fichiers_ouverts,
 			 FALSE, FALSE, 0 );
 
@@ -673,14 +670,14 @@ GtkWidget *onglet_fichier ( void )
 
     /* Backup at each opening? */
     bouton_save_demarrage = 
-	new_checkbox_with_title ( _("Make a backup copy after opening files"),
-				  &(etat.sauvegarde_demarrage), NULL );
+	gsb_automem_checkbutton_new ( _("Make a backup copy after opening files"),
+				   &(etat.sauvegarde_demarrage), NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_save_demarrage,
 			 FALSE, FALSE, 0 );
 
     /* Automatic backup ? */
-    bouton_demande_backup = new_checkbox_with_title (_("Make a backup copy before saving files"),
-						     NULL, (GCallback) changement_choix_backup);
+    bouton_demande_backup = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
+							 NULL, G_CALLBACK (changement_choix_backup), NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_demande_backup,
 			 FALSE, FALSE, 0 );
 
@@ -689,7 +686,7 @@ GtkWidget *onglet_fichier ( void )
 	gboolean dummy = (nom_fichier_backup != NULL &&
 			  strlen(nom_fichier_backup) > 0);
 	/* Ugly dance ... */
-	checkbox_set_value ( bouton_demande_backup, &dummy, FALSE );
+	gsb_automem_checkbutton_set_value ( bouton_demande_backup, &dummy );
 
 	/* Mise en forme de l'entrée du chemin de la backup */
 	hbox = gtk_hbox_new ( FALSE, 5 );
@@ -732,8 +729,8 @@ GtkWidget *onglet_fichier ( void )
 
     /* Compression level of backups */
     check_button_compress_backup =
-	new_checkbox_with_title ( _("Compress Grisbi backup"),
-				  &(etat.compress_backup), NULL );
+	gsb_automem_checkbutton_new ( _("Compress Grisbi backup"),
+				   &(etat.compress_backup), NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_button_compress_backup,
 			 FALSE, FALSE, 0 );
 
@@ -824,7 +821,7 @@ GtkWidget *onglet_programmes (void)
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entree = new_text_entry ( &etat.latex_command, NULL, NULL );
+    entree = gsb_automem_entry_new ( &etat.latex_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entree, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     label = gtk_label_new ( _("dvips command"));
@@ -832,7 +829,7 @@ GtkWidget *onglet_programmes (void)
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entree = new_text_entry ( &etat.dvips_command, NULL, NULL );
+    entree = gsb_automem_entry_new ( &etat.dvips_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entree, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
 
@@ -848,7 +845,7 @@ GtkWidget *onglet_programmes (void)
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entree = new_text_entry ( &etat.browser_command, NULL, NULL );
+    entree = gsb_automem_entry_new ( &etat.browser_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entree, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     text = g_strconcat ( "<i>", _("You may use %s to expand URL.\n"

@@ -24,11 +24,11 @@
 /*START_INCLUDE*/
 #include "affichage_liste.h"
 #include "gsb_transactions_list.h"
+#include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_form.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
-#include "utils_buttons.h"
 #include "utils.h"
 #include "affichage.h"
 #include "utils_str.h"
@@ -271,17 +271,17 @@ GtkWidget *onglet_affichage_operations ( void )
     /* add the 'loading r into the list at begining' */
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 new_checkbox_with_title (_("Load the R transactions into the list at the begining\n(use if look often the R transactions)"),
-						  &etat.fill_r_at_begining,
-						  NULL ),
+			 gsb_automem_checkbutton_new (_("Load the R transactions into the list at the begining\n(use if look often the R transactions)"),
+						      &etat.fill_r_at_begining,
+						      NULL, NULL ),
 			 FALSE, FALSE, 0 );
 
     /* Then add the "sort by" buttons */
-    paddingbox = new_radiogroup_with_title (vbox_pref,
-					    _("Sort transaction list"),
-					    _("by value date"),
-					    _("by date"),
-					    &etat.classement_par_date, NULL);
+    paddingbox = gsb_automem_radiobutton_new_with_title (vbox_pref,
+							 _("Sort transaction list"),
+							 _("by value date"),
+							 _("by date"),
+							 &etat.classement_par_date, NULL, NULL);
 
 
     /* Account distinction */
@@ -289,9 +289,9 @@ GtkWidget *onglet_affichage_operations ( void )
 					    COLON(_("Account distinction")));
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 new_checkbox_with_title (_("Remember display settings for each account separately"),
-						  &etat.retient_affichage_par_compte,
-						  NULL ),
+			 gsb_automem_checkbutton_new (_("Remember display settings for each account separately"),
+						      &etat.retient_affichage_par_compte,
+						      NULL, NULL ),
 			 FALSE, FALSE, 0 );
 
     if ( !gsb_data_account_get_accounts_amount () )
@@ -425,38 +425,38 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 					       "form.png" );
 
     /* What to do if RETURN is pressed into transaction form */
-    radiogroup = new_radiogroup_with_title (vbox_pref,
-					    _("Pressing RETURN in transaction form"),
-					    _("selects next field"),
-					    _("terminates transaction"),
-					    &etat.entree, NULL);
+    radiogroup = gsb_automem_radiobutton_new_with_title (vbox_pref,
+							 _("Pressing RETURN in transaction form"),
+							 _("selects next field"),
+							 _("terminates transaction"),
+							 &etat.entree, NULL, NULL);
 
     /* Displayed fields */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
 					    COLON(_("Displayed fields")));
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 new_checkbox_with_title (_("'Accept' and 'Cancel' buttons"),
-						  &etat.affiche_boutons_valider_annuler,
-						  (G_CALLBACK ( update_transaction_form))),
+			 gsb_automem_checkbutton_new (_("'Accept' and 'Cancel' buttons"),
+						      &etat.affiche_boutons_valider_annuler,
+						      G_CALLBACK ( update_transaction_form), NULL),
 			 FALSE, FALSE, 0 );
 
     /* How to display financial year */
-    radiogroup = new_radiogroup_with_title (vbox_pref,
-					    _("By default, use financial year"),
-					    _("last selected financial year"),
-					    _("according to transaction date"),
-					    &etat.affichage_exercice_automatique, 
-					    NULL);
+    radiogroup = gsb_automem_radiobutton_new_with_title (vbox_pref,
+							 _("By default, use financial year"),
+							 _("last selected financial year"),
+							 _("according to transaction date"),
+							 &etat.affichage_exercice_automatique, 
+							 NULL, NULL);
 
     /* automatic amount separatior fields */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
 					    COLON(_("Automatic amount separator")));
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 new_checkbox_with_title (_("Automagically add separator in amounts fields if unspecified"),
-						  &etat.automatic_separator,
-						  ((GCallback) NULL )),
+			 gsb_automem_checkbutton_new (_("Automagically add separator in amounts fields if unspecified"),
+						      &etat.automatic_separator,
+						      NULL, NULL),
 			 FALSE, FALSE, 0 );
 
     if ( !gsb_data_account_get_accounts_amount () )
@@ -480,37 +480,37 @@ GtkWidget *onglet_form_completion ( void )
 					       "form.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-			 new_checkbox_with_title (_("Limit payee completion to current account"),
-						  &etat.limit_completion_to_current_account,
-						  ((GCallback) NULL )),
+			 gsb_automem_checkbutton_new (_("Limit payee completion to current account"),
+						      &etat.limit_completion_to_current_account,
+						      NULL, NULL),
 			 FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
-			 new_checkbox_with_title (_("Mix credit/debit categories"),
-						  &etat.combofix_mixed_sort,
-						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
+			 gsb_automem_checkbutton_new (_("Mix credit/debit categories"),
+						      &etat.combofix_mixed_sort,
+						      G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
 			 FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
-			 new_checkbox_with_title (_("Case sensitive completion"),
-						  &etat.combofix_case_sensitive,
-						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
+			 gsb_automem_checkbutton_new (_("Case sensitive completion"),
+						      &etat.combofix_case_sensitive,
+						      G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
 			 FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
-			 new_checkbox_with_title (_("Enter keeps current completion"),
-						  &etat.combofix_enter_select_completion,
-						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
-			 FALSE, FALSE, 0 );
-
-    gtk_box_pack_start ( GTK_BOX (vbox_pref),
-			 new_checkbox_with_title (_("Don't allow new payee creation"),
-						  &etat.combofix_force_payee,
-						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
+			 gsb_automem_checkbutton_new (_("Enter keeps current completion"),
+						      &etat.combofix_enter_select_completion,
+						      G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
 			 FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
-			 new_checkbox_with_title (_("Don't allow new category/budget creation"),
-						  &etat.combofix_force_category,
-						  (G_CALLBACK ( gsb_transactions_list_display_update_combofix))),
+			 gsb_automem_checkbutton_new (_("Don't allow new payee creation"),
+						      &etat.combofix_force_payee,
+						      G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
+			 FALSE, FALSE, 0 );
+
+    gtk_box_pack_start ( GTK_BOX (vbox_pref),
+			 gsb_automem_checkbutton_new (_("Don't allow new category/budget creation"),
+						      &etat.combofix_force_category,
+						      G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
 			 FALSE, FALSE, 0 );
 
     hbox = gtk_hbox_new ( FALSE,

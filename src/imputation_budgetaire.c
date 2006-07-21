@@ -35,6 +35,8 @@
 #include "erreur.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
+#include "gsb_autofunc.h"
+#include "gsb_automem.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
@@ -43,9 +45,8 @@
 #include "gsb_form_transaction.h"
 #include "gtk_combofix.h"
 #include "main.h"
-#include "utils_buttons.h"
 #include "utils.h"
-#include "utils_editables.h"
+#include "utils_buttons.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -56,6 +57,8 @@ static gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, 
 static GtkWidget *creation_barre_outils_ib ( void );
 static gboolean edit_budgetary_line ( GtkTreeView * view );
 static void exporter_ib ( void );
+static gboolean gsb_budget_page_sub_entry_changed ( GtkWidget *entry,
+					     gint *sub_budget_tmp );
 static void importer_ib ( void );
 static gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
@@ -473,7 +476,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
 
     /* New budgetary line button */
-    button = new_button_with_label_and_image ( etat.display_toolbar,
+    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
 					       _("New\nbudgetary line"), "new-ib.png",
 					       G_CALLBACK(metatree_new_division),
 					       budgetary_line_tree_model );
@@ -482,7 +485,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* New sub budgetary line button */
-    button = new_button_with_label_and_image ( etat.display_toolbar,
+    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
 					       _("New sub\nbudgetary line"), 
 					       "new-sub-ib.png",
 					       G_CALLBACK(appui_sur_ajout_sub_division),
@@ -494,7 +497,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* Import button */
-    button = new_stock_button_with_label ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_OPEN, 
 					   _("Import"),
 					   G_CALLBACK(importer_ib),
@@ -504,7 +507,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* Export button */
-    button = new_stock_button_with_label ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_SAVE, 
 					   _("Export"),
 					   G_CALLBACK(exporter_ib),
@@ -514,7 +517,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* Delete button */
-    button = new_stock_button_with_label ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_DELETE, _("Delete"),
 					   G_CALLBACK(supprimer_division),
 					   budgetary_line_tree );
@@ -524,7 +527,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* Properties button */
-    button = new_stock_button_with_label ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_PROPERTIES, _("Properties"),
 					   G_CALLBACK(edit_budgetary_line), 
 					   budgetary_line_tree );
@@ -534,7 +537,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* View button */
-    button = new_stock_button_with_label_menu ( etat.display_toolbar,
+    button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
 						GTK_STOCK_SELECT_COLOR, 
 						_("View"),
 						G_CALLBACK(popup_budgetary_line_view_mode_menu),
@@ -601,7 +604,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     GtkTreeSelection * selection;
     GtkTreeModel * model;
     GtkTreeIter iter;
-    gint budget_number = -1, sub_budget_number = -1, type;
+    gint budget_number = -1, sub_budget_number = -1;
     gchar * title;
     GSList * tmp_list;
 
@@ -649,26 +652,22 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
-   /* FIXME : should not work, replace new_text_entry ? */
-
     if ( sub_budget_number > 0 )
     {
-	gchar *sub_budget_name;
-
-	sub_budget_name = gsb_data_budget_get_sub_budget_name ( budget_number,
-								sub_budget_number,
-								"" );
-	entry = new_text_entry ( &sub_budget_name, NULL, NULL );
+	/* we have a problem because gsb_autofunc_entry_new need a function gsb_data_..._set_... with 2 args,
+	 * but gsb_data_budget_set_sub_budget_name has 3 args, need to use hook
+	 * the hook function will receive the sub_budget number, and the budget_number will be associated
+	 * automatickly with the entry by autofunc_entry_new */
+	entry = gsb_autofunc_entry_new ( gsb_data_budget_get_sub_budget_name ( budget_number,
+									       sub_budget_number,
+									       NULL ),
+					 G_CALLBACK (gsb_budget_page_sub_entry_changed), GINT_TO_POINTER (sub_budget_number),
+					 NULL, budget_number);
     }
     else
-    {
-	gchar *budget_name;
-
-	budget_name = gsb_data_budget_get_name ( budget_number,
-						 0,
-						 "" );
-	entry = new_text_entry ( &budget_name, NULL, NULL );
-    }
+	entry = gsb_autofunc_entry_new ( gsb_data_budget_get_name ( budget_number, 0, NULL ),
+					 NULL, NULL,
+					 G_CALLBACK (gsb_data_budget_set_name), budget_number );
 
     gtk_widget_set_usize ( entry, 400, 0 );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
@@ -680,10 +679,11 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
 	gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
 			   GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-	/* FIXME : must use other than new_radiogroup because &gsb_data_budget_get_type (budget_number) don't compile */
-	type = gsb_data_budget_get_type (budget_number);
-	radiogroup = new_radiogroup ( _("Credit"), _("Debit"), 
-				      &type, NULL );
+
+	radiogroup = gsb_autofunc_radiobutton_new ( _("Credit"), _("Debit"), 
+						    gsb_data_budget_get_type (budget_number),
+						    NULL, NULL,
+						    G_CALLBACK (gsb_data_budget_set_type), budget_number);
 	gtk_table_attach ( GTK_TABLE(table), radiogroup, 
 			   1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
     }
@@ -692,24 +692,9 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     free ( title );
 
     gtk_dialog_run ( GTK_DIALOG(dialog) );
-
-    if ( sub_budget_number > 0 )
-    {
-	gsb_data_budget_set_sub_budget_name ( budget_number,
-					      sub_budget_number,
-					      gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
-    }
-    else
-    {
-	gsb_data_budget_set_name ( budget_number,
-				   gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
-    }
-
     gtk_widget_destroy ( dialog );
 
     mise_a_jour_combofix_imputation ();
-
-    gsb_data_budget_set_type ( budget_number, type );
 
     if ( sub_budget_number > 0 )
     {
@@ -734,7 +719,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 
 	if ( gsb_data_transaction_get_budgetary_number ( transaction_number ) == budget_number )
 	{
-	    /* FIXME: this is VERY, VERY, VERY time consuming, use a
+	    /* xxx FIXME: this is VERY, VERY, VERY time consuming, use a
 	     * better approach, that is iterate over tree and change on
 	     * demand if category is the same. */
 	    gsb_transactions_list_update_transaction (transaction_number);
@@ -744,6 +729,36 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 
     return TRUE;
 }
+
+
+/**
+ * called when there is a change in the sub-budget entry to modify it
+ * cannot use the autofunc function because 2 arguments : categ_number and
+ * sub_categ_number, so come here
+ *
+ * \param entry the GtkEntry wich contains the sub-budget
+ * \param sub_categ_tmp a pointer wich is the sub_budget_number
+ *
+ * \return FALSE 
+ * */
+gboolean gsb_budget_page_sub_entry_changed ( GtkWidget *entry,
+					     gint *sub_budget_tmp )
+{
+    gint budget_number;
+    gint sub_budget_number;
+
+    if (!entry)
+	return FALSE;
+
+    budget_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (entry),
+							"number_for_func" ));
+    sub_budget_number = GPOINTER_TO_INT (sub_budget_tmp);
+    gsb_data_budget_set_sub_budget_name ( budget_number,
+					  sub_budget_number,
+					  gtk_entry_get_text (GTK_ENTRY (entry)));
+    return FALSE;
+}
+
 
 
 

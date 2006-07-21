@@ -34,7 +34,6 @@
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
-extern FILE * out;
 /*END_EXTERN*/
 
 /*START_STATIC*/

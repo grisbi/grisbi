@@ -36,8 +36,6 @@ static gint count_char_from_string ( gchar *search_char, gchar *string );
 static gchar * gsb_string_escape_underscores ( gchar * orig );
 static gint my_strcmp ( gchar *string_1,
 		 gchar *string_2 );
-static int myisolat1ToUTF8(unsigned char* out, int *outlen,
-		    const unsigned char* in, int *inlen);
 static gchar *utils_str_amount_to_str ( glong amount,
 				 gint floating_point);
 /*END_STATIC*/
@@ -45,7 +43,6 @@ static gchar *utils_str_amount_to_str ( glong amount,
 
 /*START_EXTERN*/
 extern gint max;
-extern FILE * out;
 /*END_EXTERN*/
 
 
@@ -192,7 +189,7 @@ gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
     if (!amount_string)
 	return NULL;
 
-    return_string = g_strdup (amount_string);
+    return_string = my_strdup (amount_string);
 
     while (i != -1
 	   &&
@@ -404,8 +401,8 @@ gint my_strcmp ( gchar *string_1,
  *
  * \return -1 string_1 before string_2 (or string_2 NULL) ; 0 if same or NULL everyone ; +1 if string_1 after string_2 (or string_1 NULL)
  * */
-gint my_strcasecmp ( gchar *string_1,
-		     gchar *string_2 )
+gint my_strcasecmp ( const gchar *string_1,
+		     const gchar *string_2 )
 {
     if (!string_1 && string_2)
 	return 1;
@@ -482,7 +479,7 @@ gint my_strncasecmp ( gchar *string_1,
 /* ******************************************************************************* */
 
 /**
- * protect the g_strdup function if the string is NULL
+ * protect the my_strdup function if the string is NULL
  * UPDATE : if the lentgth of string in 0 (ie ""), return NULL
  * 	very useful while loading file and other stuff, if makes problem,
  * 	create a second my_strdup without that ??
@@ -500,6 +497,7 @@ gchar *my_strdup ( const gchar *string )
     else
 	return NULL;
 }
+
 
 
 /**
@@ -520,7 +518,7 @@ gchar *limit_string ( gchar *string,
 	return NULL;
 
     if ( strlen ( string ) <= length )
-	return g_strdup (string);
+	return my_strdup (string);
 
     string_return = my_strdup ( string );
     string_return[length-3] = '.';

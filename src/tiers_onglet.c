@@ -30,6 +30,7 @@
 #include "tiers_onglet.h"
 #include "erreur.h"
 #include "metatree.h"
+#include "gsb_automem.h"
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
@@ -37,8 +38,8 @@
 #include "gsb_form.h"
 #include "gsb_form_transaction.h"
 #include "gtk_combofix.h"
-#include "utils_buttons.h"
 #include "utils.h"
+#include "utils_buttons.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -224,7 +225,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_container_add ( GTK_CONTAINER(handlebox), hbox );
 
     /* Add various icons */
-    button = new_button_with_label_and_image ( etat.display_toolbar,
+    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
 					       _("New payee"), "new-payee.png",
 					       G_CALLBACK(metatree_new_division),
 					       payee_tree_model );
@@ -232,7 +233,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 			   _("Create a new payee"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
-    button = new_stock_button_with_label ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_DELETE, _("Delete"),
 					   G_CALLBACK(supprimer_division),
 					   payee_tree );
@@ -241,7 +242,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 			   _("Delete selected payee"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
-    button = new_stock_button_with_label ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_PROPERTIES, _("Properties"),
 					   G_CALLBACK(edit_payee), 
 					   payee_tree );
@@ -250,7 +251,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 			   _("Edit selected payee"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
-    button = new_stock_button_with_label_menu ( etat.display_toolbar,
+    button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
 						GTK_STOCK_SELECT_COLOR, 
 						_("View"),
 						G_CALLBACK(popup_payee_view_mode_menu),

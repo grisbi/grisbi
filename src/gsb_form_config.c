@@ -32,13 +32,13 @@
 #include "utils.h"
 #include "comptes_traitements.h"
 #include "dialog.h"
+#include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
 #include "gsb_form.h"
 #include "navigation.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
-#include "utils_buttons.h"
 #include "utils_comptes.h"
 #include "include.h"
 #include "structures.h"
@@ -160,9 +160,9 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 
     /* the button to choose the configuration for all/one account */
 
-    button = new_checkbox_with_title ( _("Each account has his own form"),
-				       &etat.formulaire_distinct_par_compte,
-				       G_CALLBACK ( gsb_form_config_switch_general_to_several_form ));
+    button = gsb_automem_checkbutton_new ( _("Each account has his own form"),
+					&etat.formulaire_distinct_par_compte,
+					G_CALLBACK ( gsb_form_config_switch_general_to_several_form ), NULL);
     gtk_box_pack_start ( GTK_BOX (hbox ),
 			 button,
 			 FALSE,

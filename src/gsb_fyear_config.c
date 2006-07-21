@@ -33,11 +33,10 @@
 #include "gsb_transactions_list.h"
 #include "dialog.h"
 #include "utils_dates.h"
+#include "gsb_autofunc.h"
 #include "gsb_data_account.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_transaction.h"
-#include "utils_buttons.h"
-#include "utils_editables.h"
 #include "gsb_fyear.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -74,7 +73,6 @@ static void gsb_fyear_update_invalid ( GtkWidget *tree_view );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern FILE * out;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
 /*END_EXTERN*/
@@ -189,9 +187,9 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    entry = gsb_editable_new_text_entry ( NULL,
-					  G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
-					  G_CALLBACK (gsb_data_fyear_set_name), 0 );
+    entry = gsb_autofunc_entry_new ( NULL,
+				     G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
+				     G_CALLBACK (gsb_data_fyear_set_name), 0 );
     g_object_set_data ( G_OBJECT (tree_model),
 			"fyear_name_entry", entry );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -207,7 +205,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 		       label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    entry = gsb_editable_date_new ( NULL,
+    entry = gsb_autofunc_date_new ( NULL,
 				    G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
 				    G_CALLBACK (gsb_data_fyear_set_begining_date), 0 );
     g_object_set_data ( G_OBJECT (tree_model),
@@ -225,7 +223,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 		       label, 0, 1, 2, 3,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    entry = gsb_editable_date_new ( NULL,
+    entry = gsb_autofunc_date_new ( NULL,
 				    G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
 				    G_CALLBACK (gsb_data_fyear_set_end_date), 0 );
     g_object_set_data ( G_OBJECT (tree_model),
@@ -236,7 +234,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 		       0, 0 );
 
     /* Activate in transaction form? */
-    button = gsb_editable_checkbutton_new ( _("Activate financial year in transaction form"), FALSE,
+    button = gsb_autofunc_checkbutton_new ( _("Activate financial year in transaction form"), FALSE,
 					    NULL, NULL,
 					    G_CALLBACK (gsb_data_fyear_set_form_show), 0);
     g_object_set_data ( G_OBJECT (tree_model),
@@ -432,28 +430,28 @@ gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
     /* set the name */
     widget = g_object_get_data ( G_OBJECT (model),
 				 "fyear_name_entry" );
-    gsb_editable_set_value ( widget,
-			     gsb_data_fyear_get_name (fyear_number),
-			     fyear_number );
+    gsb_autofunc_entry_set_value ( widget,
+				   gsb_data_fyear_get_name (fyear_number),
+				   fyear_number );
 
     /* set the begining date */
     widget = g_object_get_data ( G_OBJECT (model),
 				 "fyear_begin_date_entry" );
-    gsb_editable_date_set_value ( widget,
+    gsb_autofunc_date_set_value ( widget,
 				  gsb_data_fyear_get_begining_date (fyear_number),
 				  fyear_number );
 
     /* set the end date */
     widget = g_object_get_data ( G_OBJECT (model),
 				 "fyear_end_date_entry" );
-    gsb_editable_date_set_value ( widget,
+    gsb_autofunc_date_set_value ( widget,
 				  gsb_data_fyear_get_end_date (fyear_number),
 				  fyear_number );
 
     /* set the button */
     widget = g_object_get_data ( G_OBJECT (model),
 				 "fyear_show_button" );
-    gsb_editable_checkbutton_set_value ( widget,
+    gsb_autofunc_checkbutton_set_value ( widget,
 					 gsb_data_fyear_get_form_show (fyear_number),
 					 fyear_number );
 

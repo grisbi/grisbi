@@ -145,12 +145,12 @@ GtkWidget * create_navigation_pane ( void )
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(navigation_tree_view), FALSE );
     gtk_container_add ( GTK_CONTAINER(sw), navigation_tree_view );
 
-    navigation_model = gtk_tree_store_new ( NAVIGATION_TOTAL, 
-					    GDK_TYPE_PIXBUF,
-					    G_TYPE_BOOLEAN, G_TYPE_STRING, 
-					    G_TYPE_INT, G_TYPE_INT, 
-					    G_TYPE_INT, G_TYPE_INT,
-					    G_TYPE_INT );
+    navigation_model = GTK_TREE_MODEL (gtk_tree_store_new ( NAVIGATION_TOTAL, 
+							    GDK_TYPE_PIXBUF,
+							    G_TYPE_BOOLEAN, G_TYPE_STRING, 
+							    G_TYPE_INT, G_TYPE_INT, 
+							    G_TYPE_INT, G_TYPE_INT,
+							    G_TYPE_INT ));
 
     gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(navigation_model),
 					   NAVIGATION_PAGE, GTK_SORT_ASCENDING );
@@ -1015,7 +1015,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
 					  GtkTreeModel * model )
 {
     GtkTreeIter iter;
-    gchar * title, * suffix = "";
+    gchar * title = NULL, * suffix = "";
     gint account_nb, page;
     gint report_number;
     gint currency_number;

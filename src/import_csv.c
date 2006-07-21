@@ -26,10 +26,10 @@
 #include "import_csv.h"
 #include "csv_parse.h"
 #include "utils_dates.h"
+#include "gsb_automem.h"
 #include "utils_str.h"
 #include "import.h"
 #include "utils.h"
-#include "utils_editables.h"
 #include "structures.h"
 #include "include.h"
 #include "import_csv.h"
@@ -149,7 +149,7 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
 
     gtk_box_pack_start ( GTK_BOX(hbox), combobox, TRUE, TRUE, 0 );
 
-    entry = new_text_entry ( NULL, G_CALLBACK ( csv_import_change_separator ), assistant );
+    entry = gsb_automem_entry_new ( NULL, G_CALLBACK ( csv_import_change_separator ), assistant );
     g_object_set_data ( G_OBJECT(entry), "assistant", assistant );
     g_object_set_data ( G_OBJECT(entry), "combobox", combobox );
     g_object_set_data ( G_OBJECT(assistant), "entry", entry );    
@@ -372,12 +372,12 @@ gchar * csv_import_guess_separator ( gchar * contents )
 
     if ( cmax )
     {
-	return g_strdup ( cmax );
+	return my_strdup ( cmax );
     }
 
     /* Comma is the most used separator, so as we are puzzled we try
      * this one. */
-    return g_strdup ( "," );
+    return my_strdup ( "," );
 }
 
 
@@ -747,7 +747,7 @@ gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value,
     if ( strlen ( separator ) )
     {
 	csv_import_update_preview ( assistant );
-	etat.csv_separator = g_strdup ( separator );
+	etat.csv_separator = my_strdup ( separator );
     }
 
     /* Update combobox if we can. */
@@ -900,7 +900,7 @@ void csv_import_update_validity_check ( GtkWidget * assistant )
 	}
 	else 
 	{
-	    label = g_strdup ( _("transaction amount") );
+	    label = my_strdup ( _("transaction amount") );
 	}
     }
 

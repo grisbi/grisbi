@@ -335,7 +335,7 @@ gint gsb_data_fyear_get_pointer_from_name_in_glist ( struct_fyear *fyear,
  *
  * \return the name of the fyear or NULL if fail
  * */
-gchar *gsb_data_fyear_get_name ( gint fyear_number )
+const gchar *gsb_data_fyear_get_name ( gint fyear_number )
 {
     struct_fyear *fyear;
 

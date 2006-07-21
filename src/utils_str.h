@@ -13,8 +13,8 @@ gchar * gsb_string_truncate ( gchar * string );
 gchar * latin2utf8 ( const gchar * inchar);
 gchar *limit_string ( gchar *string,
 		      gint length );
-gint my_strcasecmp ( gchar *string_1,
-		     gchar *string_2 );
+gint my_strcasecmp ( const gchar *string_1,
+		     const gchar *string_2 );
 gchar *my_strdelimit ( const gchar *string,
 		       gchar *delimiters,
 		       gchar *new_delimiters );

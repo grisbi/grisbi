@@ -47,7 +47,8 @@ GSList * plugins = NULL;
 void gsb_plugins_scan_dir ( const char *dirname )
 {
     GDir * plugin_dir;
-    gchar * filename, * plugin_name;
+    const gchar * filename;
+    gchar * plugin_name;
 
     plugin_dir = g_dir_open ( dirname, 0, NULL );
     if ( ! plugin_dir )

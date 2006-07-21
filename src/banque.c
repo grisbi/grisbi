@@ -30,9 +30,9 @@
 #include "banque.h"
 #include "comptes_gestion.h"
 #include "dialog.h"
+#include "gsb_autofunc.h"
 #include "gsb_data_account.h"
 #include "gsb_data_bank.h"
-#include "utils_editables.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "structures.h"
@@ -482,18 +482,18 @@ void deselection_ligne_banque ( GtkWidget *liste,
 				GdkEventButton *ev,
 				GtkWidget *frame )
 {
-    gsb_editable_set_value ( nom_banque, NULL, 0 );
-    gsb_editable_set_value ( code_banque, NULL, 0 );
-    gsb_editable_set_value ( tel_banque, NULL, 0 );
-    gsb_editable_set_value ( email_banque, NULL, 0 );
-    gsb_editable_set_value ( web_banque, NULL, 0 );
-    gsb_editable_set_value ( nom_correspondant, NULL, 0 );
-    gsb_editable_set_value ( tel_correspondant, NULL, 0 );
-    gsb_editable_set_value ( fax_correspondant, NULL, 0 );
-    gsb_editable_set_value ( email_correspondant, NULL, 0 );
+    gsb_autofunc_entry_set_value ( nom_banque, NULL, 0 );
+    gsb_autofunc_entry_set_value ( code_banque, NULL, 0 );
+    gsb_autofunc_entry_set_value ( tel_banque, NULL, 0 );
+    gsb_autofunc_entry_set_value ( email_banque, NULL, 0 );
+    gsb_autofunc_entry_set_value ( web_banque, NULL, 0 );
+    gsb_autofunc_entry_set_value ( nom_correspondant, NULL, 0 );
+    gsb_autofunc_entry_set_value ( tel_correspondant, NULL, 0 );
+    gsb_autofunc_entry_set_value ( fax_correspondant, NULL, 0 );
+    gsb_autofunc_entry_set_value ( email_correspondant, NULL, 0 );
 
-    gsb_editable_text_area_set_value ( adr_banque, NULL, 0 );
-    gsb_editable_text_area_set_value ( remarque_banque, NULL, 0 );
+    gsb_autofunc_textview_set_value ( adr_banque, NULL, 0 );
+    gsb_autofunc_textview_set_value ( remarque_banque, NULL, 0 );
 
     gtk_widget_set_sensitive ( frame, FALSE );
     gtk_widget_set_sensitive ( bouton_supprimer_banque, FALSE );
@@ -526,7 +526,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    nom_banque = gsb_editable_new_text_entry ( NULL, G_CALLBACK(update_bank_list), NULL, G_CALLBACK (gsb_data_bank_set_name), 0);
+    nom_banque = gsb_autofunc_entry_new ( NULL, G_CALLBACK(update_bank_list), NULL, G_CALLBACK (gsb_data_bank_set_name), 0);
     gtk_size_group_add_widget ( size_group, nom_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       nom_banque, 1, 2, 0, 1,
@@ -541,7 +541,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    code_banque = gsb_editable_new_text_entry ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_code), 0);
+    code_banque = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_code), 0);
     gtk_size_group_add_widget ( size_group, code_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       code_banque, 1, 2, 1, 2,
@@ -563,7 +563,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
 					  GTK_SHADOW_IN );
     /* Create the text view */
-    adr_banque = gsb_editable_new_text_area ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_address), 0);
+    adr_banque = gsb_autofunc_textview_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_address), 0);
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), adr_banque );
     gtk_size_group_add_widget ( size_group, adr_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -579,7 +579,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 4, 5,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    tel_banque = gsb_editable_new_text_entry ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_tel), 0);
+    tel_banque = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_tel), 0);
     gtk_size_group_add_widget ( size_group, tel_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       tel_banque, 1, 2, 4, 5,
@@ -594,7 +594,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 3, 4,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    email_banque = gsb_editable_new_text_entry ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_mail), 0);
+    email_banque = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_mail), 0);
     gtk_size_group_add_widget ( size_group, email_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       email_banque, 1, 2, 3, 4,
@@ -609,7 +609,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 5, 6,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    web_banque = gsb_editable_new_text_entry ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_web), 0);
+    web_banque = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_web), 0);
     gtk_size_group_add_widget ( size_group, web_banque );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       web_banque, 1, 2, 5, 6,
@@ -632,7 +632,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    nom_correspondant = gsb_editable_new_text_entry ( NULL, G_CALLBACK(update_bank_list), NULL, G_CALLBACK (gsb_data_bank_set_correspondent_name), 0);
+    nom_correspondant = gsb_autofunc_entry_new ( NULL, G_CALLBACK(update_bank_list), NULL, G_CALLBACK (gsb_data_bank_set_correspondent_name), 0);
     gtk_size_group_add_widget ( size_group, nom_correspondant );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       nom_correspondant, 1, 2, 0, 1,
@@ -647,7 +647,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    tel_correspondant = gsb_editable_new_text_entry ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_correspondent_tel), 0);
+    tel_correspondant = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_correspondent_tel), 0);
     gtk_size_group_add_widget ( size_group, tel_correspondant );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       tel_correspondant, 1, 2, 1, 2,
@@ -662,7 +662,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 3, 4,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    fax_correspondant = gsb_editable_new_text_entry ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_correspondent_fax), 0);
+    fax_correspondant = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_correspondent_fax), 0);
     gtk_size_group_add_widget ( size_group, fax_correspondant );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       fax_correspondant, 1, 2, 3, 4,
@@ -677,7 +677,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 		       label, 0, 1, 2, 3,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    email_correspondant = gsb_editable_new_text_entry ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_correspondent_mail), 0);
+    email_correspondant = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_correspondent_mail), 0);
     gtk_size_group_add_widget ( size_group, email_correspondant );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       email_correspondant, 1, 2, 2, 3,
@@ -694,7 +694,7 @@ GtkWidget * bank_form ( GtkWidget * parent )
 					  GTK_SHADOW_IN );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
 			 TRUE, TRUE, 5 );
-    remarque_banque = gsb_editable_new_text_area ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_note), 0);
+    remarque_banque = gsb_autofunc_textview_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_note), 0);
     gtk_widget_set_usize ( remarque_banque, FALSE, 100 );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), remarque_banque );
 
@@ -706,19 +706,19 @@ GtkWidget * bank_form ( GtkWidget * parent )
 void update_bank_form ( gint bank_number,
 			GtkWidget * frame )
 {
-    gsb_editable_set_value ( nom_banque, gsb_data_bank_get_name (bank_number), bank_number);
-    gsb_editable_set_value ( code_banque, gsb_data_bank_get_code (bank_number), bank_number);
-    gsb_editable_set_value ( tel_banque, gsb_data_bank_get_bank_tel (bank_number), bank_number);
-    gsb_editable_set_value ( email_banque, gsb_data_bank_get_bank_mail (bank_number), bank_number);
-    gsb_editable_set_value ( web_banque, gsb_data_bank_get_bank_web (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( nom_banque, gsb_data_bank_get_name (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( code_banque, gsb_data_bank_get_code (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( tel_banque, gsb_data_bank_get_bank_tel (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( email_banque, gsb_data_bank_get_bank_mail (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( web_banque, gsb_data_bank_get_bank_web (bank_number), bank_number);
 
-    gsb_editable_set_value ( nom_correspondant, gsb_data_bank_get_correspondent_name (bank_number), bank_number);
-    gsb_editable_set_value ( tel_correspondant, gsb_data_bank_get_correspondent_tel (bank_number), bank_number);
-    gsb_editable_set_value ( email_correspondant, gsb_data_bank_get_correspondent_mail (bank_number), bank_number);
-    gsb_editable_set_value ( fax_correspondant, gsb_data_bank_get_correspondent_fax (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( nom_correspondant, gsb_data_bank_get_correspondent_name (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( tel_correspondant, gsb_data_bank_get_correspondent_tel (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( email_correspondant, gsb_data_bank_get_correspondent_mail (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( fax_correspondant, gsb_data_bank_get_correspondent_fax (bank_number), bank_number);
 
-    gsb_editable_text_area_set_value ( adr_banque, gsb_data_bank_get_bank_address (bank_number), bank_number );
-    gsb_editable_text_area_set_value ( remarque_banque, gsb_data_bank_get_bank_note (bank_number), bank_number );
+    gsb_autofunc_textview_set_value ( adr_banque, gsb_data_bank_get_bank_address (bank_number), bank_number );
+    gsb_autofunc_textview_set_value ( remarque_banque, gsb_data_bank_get_bank_note (bank_number), bank_number );
 
     gtk_widget_set_sensitive ( frame, TRUE );
     if ( GTK_IS_WIDGET(bouton_supprimer_banque))

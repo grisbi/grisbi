@@ -28,6 +28,7 @@
 /*START_INCLUDE*/
 #include "go-charmap-sel.h"
 #include "go-optionmenu.h"
+#include "utils_str.h"
 #include "go-charmap-sel.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -537,7 +538,7 @@ static void cs_class_init (GtkWidgetClass *widget_klass)
 		if (!lgroups[i].collate_key) {
 			g_warning ("Failed to generate collation key for [%s] [%s]",
 				   cgroup_name, group_name);
-			lgroups[i].collate_key = g_strdup (group_name);
+			lgroups[i].collate_key = my_strdup (group_name);
 		}
 	}
 	qsort (lgroups, G_N_ELEMENTS (lgroups) - 2, sizeof (lgroups[0]),
@@ -557,7 +558,7 @@ static void cs_class_init (GtkWidgetClass *widget_klass)
 		if (!charset_trans_array[i].collate_key) {
 			g_warning ("Failed to generate collation key for [%s] [%s]",
 				   ctitle, title);
-			charset_trans_array[i].collate_key = g_strdup (title);
+			charset_trans_array[i].collate_key = my_strdup (title);
 		}
 	}
 	qsort (charset_trans_array, G_N_ELEMENTS (charset_trans_array) - 1,
@@ -602,18 +603,18 @@ static void cs_class_init (GtkWidgetClass *widget_klass)
 				alias = g_strndup (aliases, sep - aliases);
 				aliases = sep + 1;
 			} else {
-				alias = g_strdup (aliases);
+				alias = my_strdup (aliases);
 				aliases = NULL;
 			}
 
 			if (ci->to_utf8_iconv_name == NULL &&
 			    iconv_supported ("UTF-8", alias)) {
-				ci->to_utf8_iconv_name = g_strdup (alias);
+				ci->to_utf8_iconv_name = my_strdup (alias);
 			}
 
 			if (ci->from_utf8_iconv_name == NULL &&
 			    iconv_supported (alias, "UTF-8")) {
-				ci->from_utf8_iconv_name = g_strdup (alias);
+				ci->from_utf8_iconv_name = my_strdup (alias);
 			}
 
 			g_hash_table_insert (encoding_hash, alias, ci);

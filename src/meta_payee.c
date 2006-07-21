@@ -40,13 +40,13 @@ static gboolean payee_add_transaction_to_div ( gpointer  trans,
 static gboolean payee_add_transaction_to_sub_div ( gpointer  trans, 
 					    int div_id, int sub_div_id );
 static gsb_real payee_div_balance ( gpointer div );
-static gchar *payee_div_name ( gpointer div );
+static const gchar *payee_div_name ( gpointer div );
 static gint payee_div_nb_transactions ( gpointer div );
 static GSList * payee_div_sub_div_list ( gpointer div );
 static gint payee_div_type ( gpointer div );
-static gpointer payee_get_div_pointer_from_name ( gchar * name, gboolean create );
+static gpointer payee_get_div_pointer_from_name ( const gchar * name, gboolean create );
 static gpointer payee_get_sub_div_pointer ( int div_id, int sub_div_id );
-static gpointer payee_get_sub_div_pointer_from_name ( int div_id, gchar * name, 
+static gpointer payee_get_sub_div_pointer_from_name ( int div_id, const gchar * name, 
 					       gboolean create );
 static gboolean payee_remove_sub_div ( int div_id, int sub_div_id );
 static gboolean payee_remove_transaction_from_div ( gpointer  trans, 
@@ -61,7 +61,7 @@ static void payee_scheduled_set_sub_div_id ( gint scheduled_number,
 static gint payee_scheduled_sub_div_id ( gint scheduled_number );
 static gsb_real payee_sub_div_balance ( gpointer div, gpointer sub_div );
 static gint payee_sub_div_id ( gpointer sub_payee );
-static gchar * payee_sub_div_name ( gpointer sub_div );
+static const gchar * payee_sub_div_name ( gpointer sub_div );
 static gint payee_sub_div_nb_transactions ( gpointer div, gpointer sub_div );
 static gint payee_transaction_div_id ( gpointer  transaction );
 static void payee_transaction_set_div_id ( gpointer  transaction, 
@@ -150,7 +150,7 @@ gpointer payee_get_sub_div_pointer ( int div_id, int sub_div_id )
  *
  *
  */
-gpointer payee_get_div_pointer_from_name ( gchar * name, gboolean create )
+gpointer payee_get_div_pointer_from_name ( const gchar * name, gboolean create )
 {
     return gsb_data_payee_get_structure ( gsb_data_payee_get_number_by_name ( name,
 								    FALSE ));
@@ -162,7 +162,7 @@ gpointer payee_get_div_pointer_from_name ( gchar * name, gboolean create )
  *
  *
  */
-gpointer payee_get_sub_div_pointer_from_name ( int div_id, gchar * name, 
+gpointer payee_get_sub_div_pointer_from_name ( int div_id, const gchar * name, 
 					       gboolean create )
 {
     return NULL;
@@ -196,12 +196,12 @@ gint payee_sub_div_nb_transactions ( gpointer div, gpointer sub_div )
  *
  *
  */
-gchar *payee_div_name ( gpointer div )
+const gchar *payee_div_name ( gpointer div )
 {
     /* FIXME : later we should use the list with the number of payee, and not a pointer */
 
     return gsb_data_payee_get_name( gsb_data_payee_get_no_payee(div),
-			       TRUE);
+				    TRUE);
 }
 
 
@@ -210,7 +210,7 @@ gchar *payee_div_name ( gpointer div )
  *
  *
  */
-gchar * payee_sub_div_name ( gpointer sub_div )
+const gchar * payee_sub_div_name ( gpointer sub_div )
 {
     return "";
 }

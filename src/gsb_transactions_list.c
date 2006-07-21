@@ -953,15 +953,15 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    /* mise en forme du tiers */
 
 	case TRANSACTION_LIST_PARTY:
-	    return ( gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number), TRUE ));
+	    return ( my_strdup (gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number), TRUE )));
 
 	    /* mise en forme de l'ib */
 
 	case TRANSACTION_LIST_BUDGET:
 
-	    return ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number),
-						gsb_data_transaction_get_sub_budgetary_number ( transaction_number),
-						NULL ));
+	    return ( my_strdup (gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number),
+							  gsb_data_transaction_get_sub_budgetary_number ( transaction_number),
+							  NULL )));
 
 	case TRANSACTION_LIST_DEBIT:
 	case TRANSACTION_LIST_CREDIT:
@@ -1008,24 +1008,24 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    /* mise en forme du moyen de paiement */
 
 	case TRANSACTION_LIST_TYPE:
-	    return ( type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number),
-					   gsb_data_transaction_get_account_number (transaction_number)));
+	    return ( my_strdup (type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number),
+						     gsb_data_transaction_get_account_number (transaction_number))));
 
 	    /* mise en forme du no de rapprochement */
 
 	case TRANSACTION_LIST_RECONCILE_NB:
-	    return ( rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( transaction_number)));
+	    return ( my_strdup (rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( transaction_number))));
 
 	    /* mise en place de l'exo */
 
 	case TRANSACTION_LIST_EXERCICE:
-	    return ( gsb_data_fyear_get_name (gsb_data_transaction_get_financial_year_number ( transaction_number)));
+	    return ( my_strdup (gsb_data_fyear_get_name (gsb_data_transaction_get_financial_year_number ( transaction_number))));
 
 	    /* mise en place des catégories */
 
 	case TRANSACTION_LIST_CATEGORY:
 
-	    return ( gsb_transactions_get_category_real_name ( transaction_number ));
+	    return ( my_strdup (gsb_transactions_get_category_real_name ( transaction_number )));
 
 	    /* mise en forme R/P */
 
@@ -1049,17 +1049,17 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    /* mise en place de la pièce comptable */
 
 	case TRANSACTION_LIST_VOUCHER:
-	    return ( gsb_data_transaction_get_voucher ( transaction_number));
+	    return ( my_strdup (gsb_data_transaction_get_voucher ( transaction_number)));
 
 	    /* mise en forme des notes */
 
 	case TRANSACTION_LIST_NOTES:
-	    return ( gsb_data_transaction_get_notes ( transaction_number));
+	    return ( my_strdup (gsb_data_transaction_get_notes ( transaction_number)));
 
 	    /* mise en place de l'info banque/guichet */
 
 	case TRANSACTION_LIST_BANK:
-	    return ( gsb_data_transaction_get_bank_references ( transaction_number));
+	    return ( my_strdup (gsb_data_transaction_get_bank_references ( transaction_number)));
 
 	    /* mise en place du no d'opé */
 
@@ -2990,7 +2990,7 @@ void demande_mise_a_jour_tous_comptes ( void )
 /**
  * Pop up a menu with several actions to apply to current transaction.
  * 
- * \param xxx
+ * \param 
  *
  */
 void popup_transaction_context_menu ( gboolean full, int x, int y )
@@ -4713,9 +4713,9 @@ gchar *gsb_transactions_get_category_real_name ( gint transaction_number )
 	}
 	else
 	    /* it's a normal category */
-	    tmp = gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
-					       gsb_data_transaction_get_sub_category_number (transaction_number),
-					       NULL );
+	    tmp = my_strdup (gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
+							 gsb_data_transaction_get_sub_category_number (transaction_number),
+							 NULL ));
     }
     return tmp;
 }

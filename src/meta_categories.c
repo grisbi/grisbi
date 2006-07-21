@@ -42,13 +42,13 @@ static gboolean category_add_transaction_to_div ( gpointer  trans,
 static gboolean category_add_transaction_to_sub_div ( gpointer  trans, 
 					       int div_id, int sub_div_id );
 static gsb_real category_div_balance ( gpointer div );
-static gchar * category_div_name ( gpointer div );
+static const gchar * category_div_name ( gpointer div );
 static gint category_div_nb_transactions ( gpointer div );
 static GSList * category_div_sub_div_list ( gpointer div );
 static gint category_div_type ( gpointer div );
-static gpointer category_get_div_pointer_from_name ( gchar * name, gboolean create );
+static gpointer category_get_div_pointer_from_name ( const gchar * name, gboolean create );
 static gpointer category_get_sub_div_pointer ( int div_id, int sub_div_id );
-static gpointer category_get_sub_div_pointer_from_name ( int div_id, gchar * name, gboolean create );
+static gpointer category_get_sub_div_pointer_from_name ( int div_id, const gchar * name, gboolean create );
 static gpointer category_get_without_div_pointer ( );
 static gboolean category_remove_transaction_from_div ( gpointer  trans, 
 						int div_id );
@@ -61,7 +61,7 @@ static void category_scheduled_set_sub_div_id ( gint scheduled_number,
 					 int no_sub_div );
 static gint category_scheduled_sub_div_id ( gint scheduled_number);
 static gsb_real category_sub_div_balance ( gpointer div, gpointer sub_div );
-static gchar * category_sub_div_name ( gpointer sub_div );
+static const gchar * category_sub_div_name ( gpointer sub_div );
 static gint category_sub_div_nb_transactions ( gpointer div, gpointer sub_div );
 static gint category_transaction_div_id ( gpointer  transaction );
 static void category_transaction_set_div_id ( gpointer  transaction, 
@@ -161,7 +161,7 @@ gpointer category_get_sub_div_pointer ( int div_id, int sub_div_id )
  *
  *
  */
-gpointer category_get_div_pointer_from_name ( gchar * name, gboolean create )
+gpointer category_get_div_pointer_from_name ( const gchar * name, gboolean create )
 {
     return gsb_data_category_get_structure (gsb_data_category_get_number_by_name ( name, create, 0 ));
 }
@@ -172,7 +172,7 @@ gpointer category_get_div_pointer_from_name ( gchar * name, gboolean create )
  *
  *
  */
-gpointer category_get_sub_div_pointer_from_name ( int div_id, gchar * name, gboolean create )
+gpointer category_get_sub_div_pointer_from_name ( int div_id, const gchar * name, gboolean create )
 {
     return gsb_data_category_get_sub_category_structure ( div_id,
 							  gsb_data_category_get_sub_category_number_by_name( div_id, name, create));
@@ -226,7 +226,7 @@ gint category_sub_div_nb_transactions ( gpointer div, gpointer sub_div )
  *
  *
  */
-gchar * category_div_name ( gpointer div )
+const gchar * category_div_name ( gpointer div )
 {
     gint category_number;
 
@@ -243,7 +243,7 @@ gchar * category_div_name ( gpointer div )
  *
  *
  */
-gchar * category_sub_div_name ( gpointer sub_div )
+const gchar * category_sub_div_name ( gpointer sub_div )
 {
     gint category_number;
     gint sub_category_number;

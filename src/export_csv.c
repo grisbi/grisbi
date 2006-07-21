@@ -38,6 +38,7 @@
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
 #include "main.h"
+#include "utils_str.h"
 #include "utils_rapprochements.h"
 #include "search_glist.h"
 #include "utils_files.h"
@@ -256,26 +257,26 @@ void csv_export ( gchar * filename, gint account_nb )
 
       if (g_csv_with_title_line)
       {
-	  csv_field_operation  = g_strdup(_("Transactions"));
-	  csv_field_ventil     = g_strdup(_("Breakdown"));
-	  csv_field_date       = g_strdup(_("Date"));
-	  csv_field_date_val   = g_strdup(_("Value date"));
-	  csv_field_cheque     = g_strdup(_("Cheques"));
-	  csv_field_exercice   = g_strdup(_("Financial year"));
-	  csv_field_pointage   = g_strdup(_("C/R"));
-	  csv_field_tiers      = g_strdup(_("Payee"));
-	  csv_field_credit     = g_strdup(_("Credit"));
-	  csv_field_debit      = g_strdup(_("Debit"));
-	  csv_field_montant    = g_strdup(_("Amount"));
-	  csv_field_solde      = g_strdup(_("Balance"));
-	  csv_field_categ      = g_strdup(_("Category"));
-	  csv_field_sous_categ = g_strdup(_("Sub-categories"));
-	  csv_field_notes      = g_strdup(_("Notes"));
-	  csv_field_imput      = g_strdup(_("Budgetary lines"));
-	  csv_field_sous_imput = g_strdup(_("Sub-budgetary lines"));
-	  csv_field_piece      = g_strdup(_("Voucher"));
-	  csv_field_rappro     = g_strdup(_("Reconciliation number"));
-	  csv_field_info_bank  = g_strdup(_("Bank references"));
+	  csv_field_operation  = my_strdup (_("Transactions"));
+	  csv_field_ventil     = my_strdup (_("Breakdown"));
+	  csv_field_date       = my_strdup (_("Date"));
+	  csv_field_date_val   = my_strdup (_("Value date"));
+	  csv_field_cheque     = my_strdup (_("Cheques"));
+	  csv_field_exercice   = my_strdup (_("Financial year"));
+	  csv_field_pointage   = my_strdup (_("C/R"));
+	  csv_field_tiers      = my_strdup (_("Payee"));
+	  csv_field_credit     = my_strdup (_("Credit"));
+	  csv_field_debit      = my_strdup (_("Debit"));
+	  csv_field_montant    = my_strdup (_("Amount"));
+	  csv_field_solde      = my_strdup (_("Balance"));
+	  csv_field_categ      = my_strdup (_("Category"));
+	  csv_field_sous_categ = my_strdup (_("Sub-categories"));
+	  csv_field_notes      = my_strdup (_("Notes"));
+	  csv_field_imput      = my_strdup (_("Budgetary lines"));
+	  csv_field_sous_imput = my_strdup (_("Sub-budgetary lines"));
+	  csv_field_piece      = my_strdup (_("Voucher"));
+	  csv_field_rappro     = my_strdup (_("Reconciliation number"));
+	  csv_field_info_bank  = my_strdup (_("Bank references"));
       }
 
       csv_add_record(csv_file,TRUE);
@@ -344,20 +345,20 @@ void csv_export ( gchar * filename, gint account_nb )
 	      switch ( gsb_data_transaction_get_marked_transaction ( pTransaction ) )
 	      {
 		  case 0: /* CHECKED_TRANSACTION */
-		      csv_field_pointage = g_strdup(_("C"));
+		      csv_field_pointage = my_strdup (_("C"));
 		      break;
 		  case 1: /* RECONCILED_TRANSACTION */
-		      csv_field_pointage = g_strdup(_("R"));
+		      csv_field_pointage = my_strdup (_("R"));
 		      break;
 		  case 2: /* TELECHECKED_TRANSACTION */
-		      csv_field_pointage = g_strdup(_("T"));
+		      csv_field_pointage = my_strdup (_("T"));
 		      break;
 	      }
 
 	      /* met les notes */
 	      CSV_CLEAR_FIELD(csv_field_notes);
 	      if ( gsb_data_transaction_get_notes ( pTransaction ) )
-		  csv_field_notes = g_strdup(gsb_data_transaction_get_notes ( pTransaction ));
+		  csv_field_notes = my_strdup (gsb_data_transaction_get_notes ( pTransaction ));
 
 	      /* met le tiers */
 	      CSV_CLEAR_FIELD(csv_field_tiers);
@@ -373,7 +374,7 @@ void csv_export ( gchar * filename, gint account_nb )
 		 qu'au niveau de l'opération mère */
 	      CSV_CLEAR_FIELD(csv_field_info_bank);
 	      if ( gsb_data_transaction_get_bank_references ( pTransaction ) )
-		  csv_field_info_bank = g_strdup ( gsb_data_transaction_get_bank_references ( pTransaction ) );
+		  csv_field_info_bank = my_strdup ( gsb_data_transaction_get_bank_references ( pTransaction ) );
 
 	      /* met le montant, transforme la devise si necessaire */
 	      amount = gsb_data_transaction_get_adjusted_amount ( pTransaction, -1 );
@@ -397,23 +398,23 @@ void csv_export ( gchar * filename, gint account_nb )
 		  struct struct_type_ope * type = pMiscList -> data;
 
 		  if ( type -> numerotation_auto )
-		      csv_field_cheque = g_strdup ( gsb_data_transaction_get_method_of_payment_content ( pTransaction ) );
+		      csv_field_cheque = my_strdup ( gsb_data_transaction_get_method_of_payment_content ( pTransaction ) );
 	      }
 
 	      if ( gsb_data_transaction_get_budgetary_number ( pTransaction ) != -1 )
 	      {
-		  csv_field_imput = g_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( pTransaction ), 0, "" ) );
+		  csv_field_imput = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( pTransaction ), 0, "" ) );
 
 		  if ( gsb_data_transaction_get_sub_budgetary_number ( pTransaction ) != -1 )
 		  {
-		      csv_field_sous_imput = g_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_budgetary_number ( pTransaction ),
+		      csv_field_sous_imput = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_budgetary_number ( pTransaction ),
 											      gsb_data_transaction_get_sub_budgetary_number ( pTransaction ),
 											      NULL ) );
 		  }
 	      }
 
 	      /* Piece comptable */
-	      csv_field_piece = g_strdup( gsb_data_transaction_get_voucher ( pTransaction ) );
+	      csv_field_piece = my_strdup ( gsb_data_transaction_get_voucher ( pTransaction ) );
 
 	      /* Balance */
 	      balance = gsb_real_add ( balance,
@@ -425,7 +426,7 @@ void csv_export ( gchar * filename, gint account_nb )
 
 	      /* Financial Year */
 	      if ( gsb_data_transaction_get_financial_year_number ( pTransaction ) != -1 )
-		  csv_field_exercice  = g_strdup(gsb_data_fyear_get_name(gsb_data_transaction_get_financial_year_number ( pTransaction )));
+		  csv_field_exercice  = my_strdup (gsb_data_fyear_get_name(gsb_data_transaction_get_financial_year_number ( pTransaction )));
 
 	      /*  on met soit un virement, soit une ventilation, soit les catégories */
 
@@ -437,7 +438,7 @@ void csv_export ( gchar * filename, gint account_nb )
 	      {
 		  GSList *pBreakdownTransactionList;
 
-		  csv_field_categ = g_strdup(_("Breakdown of transaction"));
+		  csv_field_categ = my_strdup (_("Breakdown of transaction"));
 		  csv_add_record(csv_file,FALSE);
 
 		  pBreakdownTransactionList = gsb_data_transaction_get_transactions_list ();
@@ -452,16 +453,16 @@ void csv_export ( gchar * filename, gint account_nb )
 			   gsb_data_transaction_get_mother_transaction_number ( pBreakdownTransaction ) == pTransaction )
 		      {
 			  /* on commence par mettre la catég et sous categ de l'opé et de l'opé de ventilation */
-			  csv_field_ventil = g_strdup(_("B")); // -> mark 
+			  csv_field_ventil = my_strdup (_("B")); // -> mark 
 
 			  csv_field_operation = g_strdup_printf("%d", pBreakdownTransaction );
 
 			  if ( gsb_data_transaction_get_transaction_number_transfer ( pBreakdownTransaction ) )
 			  {
 			      /* c'est un virement */
-			      csv_field_categ = g_strdup(_("Transfer"));
+			      csv_field_categ = my_strdup (_("Transfer"));
 
-			      csv_field_sous_categ = g_strdup(g_strconcat ( "[", 
+			      csv_field_sous_categ = my_strdup (g_strconcat ( "[", 
 									    gsb_data_account_get_name ( gsb_data_transaction_get_account_number_transfer ( pBreakdownTransaction ) ),
 									    "]", NULL ));
 			  }
@@ -469,11 +470,11 @@ void csv_export ( gchar * filename, gint account_nb )
 			  {
 			      if ( gsb_data_transaction_get_category_number ( pBreakdownTransaction ) != -1 )
 			      {
-				  csv_field_categ = g_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_category_number ( pBreakdownTransaction ), 0, "" ) );
+				  csv_field_categ = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_category_number ( pBreakdownTransaction ), 0, "" ) );
 
 				  if ( gsb_data_transaction_get_sub_category_number ( pBreakdownTransaction ) != -1 )
 				  {
-				      csv_field_sous_categ = g_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_category_number ( pBreakdownTransaction ),
+				      csv_field_sous_categ = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_category_number ( pBreakdownTransaction ),
 													      gsb_data_transaction_get_sub_category_number ( pBreakdownTransaction ),
 													      NULL ) );
 				  }
@@ -483,7 +484,7 @@ void csv_export ( gchar * filename, gint account_nb )
 
 			  /* met les notes de la ventilation */
 			  if ( gsb_data_transaction_get_notes ( pBreakdownTransaction ) )
-			      csv_field_notes = g_strdup(gsb_data_transaction_get_notes ( pBreakdownTransaction ));
+			      csv_field_notes = my_strdup (gsb_data_transaction_get_notes ( pBreakdownTransaction ));
 
 			  /* met le montant de la ventilation */
 			  amount = gsb_data_transaction_get_adjusted_amount ( pBreakdownTransaction, -1 );
@@ -492,7 +493,7 @@ void csv_export ( gchar * filename, gint account_nb )
 			  /* met le rapprochement */
 			  if ( gsb_data_transaction_get_reconcile_number ( pBreakdownTransaction ) )
 			  {
-			      csv_field_rappro = g_strdup ( rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( pBreakdownTransaction ) ) );
+			      csv_field_rappro = my_strdup ( rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( pBreakdownTransaction ) ) );
 			  }
 
 			  /* met le ch�que si c'est un type � num�rotation automatique */
@@ -506,28 +507,28 @@ void csv_export ( gchar * filename, gint account_nb )
 			      struct struct_type_ope * type = pMiscList -> data;
 
 			      if ( type -> numerotation_auto )
-				  csv_field_cheque = g_strdup ( gsb_data_transaction_get_method_of_payment_content ( pBreakdownTransaction ) );
+				  csv_field_cheque = my_strdup ( gsb_data_transaction_get_method_of_payment_content ( pBreakdownTransaction ) );
 			  }
 
 			  /* Budgetary lines */
 			  if ( gsb_data_transaction_get_budgetary_number ( pBreakdownTransaction ) != -1 )
 			  {
-			      csv_field_imput = g_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( pBreakdownTransaction ), 0, "" ) );
+			      csv_field_imput = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( pBreakdownTransaction ), 0, "" ) );
 
 			      if ( gsb_data_transaction_get_sub_budgetary_number ( pBreakdownTransaction ) != -1 )
 			      {
-				  csv_field_sous_imput = g_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_budgetary_number ( pBreakdownTransaction ),
+				  csv_field_sous_imput = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_budgetary_number ( pBreakdownTransaction ),
 													  gsb_data_transaction_get_sub_budgetary_number ( pBreakdownTransaction ),
 													  NULL ) );
 			      }
 			  }
 
 			  /* Piece comptable */
-			  csv_field_piece = g_strdup( gsb_data_transaction_get_voucher ( pBreakdownTransaction ) );
+			  csv_field_piece = my_strdup ( gsb_data_transaction_get_voucher ( pBreakdownTransaction ) );
 
 			  /* Financial Year */
 			  if ( gsb_data_transaction_get_financial_year_number ( pBreakdownTransaction ) != -1 )
-			      csv_field_exercice  = g_strdup(gsb_data_fyear_get_name(gsb_data_transaction_get_financial_year_number ( pBreakdownTransaction )));
+			      csv_field_exercice  = my_strdup (gsb_data_fyear_get_name(gsb_data_transaction_get_financial_year_number ( pBreakdownTransaction )));
 
 			  csv_add_record(csv_file,FALSE);
 		      }
@@ -541,19 +542,19 @@ void csv_export ( gchar * filename, gint account_nb )
 		  /* Si c'est un virement ... */
 		  if ( gsb_data_transaction_get_transaction_number_transfer ( pTransaction ))
 		  {
-		      csv_field_categ = g_strdup(_("Transfer"));
+		      csv_field_categ = my_strdup (_("Transfer"));
 
 		      /* ... vers un compte existant */
 		      if ( gsb_data_transaction_get_account_number_transfer (  pTransaction ) >= 0 )
 		      {
-			  csv_field_sous_categ = g_strdup(g_strconcat ( "[", 
+			  csv_field_sous_categ = my_strdup (g_strconcat ( "[", 
 									gsb_data_account_get_name ( gsb_data_transaction_get_account_number_transfer ( pTransaction ) ), 
 									"]", NULL ));
 		      }
 		      /* ... vers un compte supprimé */
 		      else
 		      {
-			  csv_field_sous_categ = g_strdup(g_strconcat ( "[", _("Deleted account"), "]", NULL ));
+			  csv_field_sous_categ = my_strdup (g_strconcat ( "[", _("Deleted account"), "]", NULL ));
 		      }
 		  }
 		  else
@@ -561,11 +562,11 @@ void csv_export ( gchar * filename, gint account_nb )
 		      /* c'est du type categ : sous-categ */
 		      if ( gsb_data_transaction_get_category_number ( pTransaction ) != -1 )
 		      {
-			  csv_field_categ = g_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_category_number ( pTransaction ), 0, "" ) );
+			  csv_field_categ = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_category_number ( pTransaction ), 0, "" ) );
 
 			  if ( gsb_data_transaction_get_sub_category_number ( pTransaction ) != -1 )
 			  {
-			      csv_field_sous_categ = g_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_category_number ( pTransaction ),
+			      csv_field_sous_categ = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_category_number ( pTransaction ),
 												      gsb_data_transaction_get_sub_category_number ( pTransaction ),
 												      NULL ) );
 			  }

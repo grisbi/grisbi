@@ -33,7 +33,6 @@
 /*START_INCLUDE*/
 #include "gsb_data_category.h"
 #include "meta_categories.h"
-#include "dialog.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
@@ -85,16 +84,16 @@ typedef struct
 static GSList *gsb_data_category_append_sub_category_to_list ( GSList *category_list,
 							GSList *sub_category_list );
 static gint gsb_data_category_get_pointer_from_name_in_glist ( struct_category *category,
-							gchar *name );
+							const gchar *name );
 static gint gsb_data_category_get_pointer_from_sub_name_in_glist ( struct_sub_category *sub_category,
-							    gchar *name );
+							    const gchar *name );
 static gpointer gsb_data_category_get_structure_in_list ( gint no_category,
 						   GSList *list );
 static gint gsb_data_category_max_number ( void );
 static gint gsb_data_category_max_sub_category_number ( gint category_number );
-static gint gsb_data_category_new ( gchar *name );
+static gint gsb_data_category_new ( const gchar *name );
 static gint gsb_data_category_new_sub_category ( gint category_number,
-					  gchar *name );
+					  const gchar *name );
 static void gsb_data_category_reset_counters ( void );
 static gint gsb_data_sub_category_compare ( struct_sub_category * a, struct_sub_category * b );
 /*END_STATIC*/
@@ -426,7 +425,7 @@ gint gsb_data_category_max_sub_category_number ( gint category_number )
  *
  * \return the number of the new category
  * */
-gint gsb_data_category_new ( gchar *name )
+gint gsb_data_category_new ( const gchar *name )
 {
     gint category_number;
 
@@ -548,7 +547,7 @@ gboolean gsb_data_category_sub_category_remove ( gint no_category,
  * \return the number of the new sub-category or 0 if problem
  * */
 gint gsb_data_category_new_sub_category ( gint category_number,
-					  gchar *name )
+					  const gchar *name )
 {
     gint sub_category_number;
 
@@ -653,7 +652,7 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
  * 0:credit / 1:debit / 2:special (transfert, breakdown...) *
  * \return the number of the category or 0 if problem
  * */
-gint gsb_data_category_get_number_by_name ( gchar *name,
+gint gsb_data_category_get_number_by_name ( const gchar *name,
 					    gboolean create,
 					    gint category_type )
 {
@@ -696,7 +695,7 @@ gint gsb_data_category_get_number_by_name ( gchar *name,
  * \return the number of the sub-category or 0 if problem
  * */
 gint gsb_data_category_get_sub_category_number_by_name ( gint category_number,
-							 gchar *name,
+							 const gchar *name,
 							 gboolean create )
 {
     GSList *list_tmp;
@@ -741,7 +740,7 @@ gint gsb_data_category_get_sub_category_number_by_name ( gint category_number,
  * \return 0 if it's the same name
  * */
 gint gsb_data_category_get_pointer_from_name_in_glist ( struct_category *category,
-							gchar *name )
+							const gchar *name )
 {
     return ( g_strcasecmp ( category -> category_name,
 			    name ));
@@ -758,7 +757,7 @@ gint gsb_data_category_get_pointer_from_name_in_glist ( struct_category *categor
  * \return 0 if it's the same name
  * */
 gint gsb_data_category_get_pointer_from_sub_name_in_glist ( struct_sub_category *sub_category,
-							    gchar *name )
+							    const gchar *name )
 {
     if ( ! sub_category -> sub_category_name )
     {
@@ -779,9 +778,9 @@ gint gsb_data_category_get_pointer_from_sub_name_in_glist ( struct_sub_category 
  *
  * \return the name of the category, category : sub-category or NULL/No category if problem
  * */
-gchar *gsb_data_category_get_name ( gint no_category,
-				    gint no_sub_category,
-				    gchar *return_value_error )
+const gchar *gsb_data_category_get_name ( gint no_category,
+					  gint no_sub_category,
+					  const gchar *return_value_error )
 {
     struct_category *category;
     gchar *return_value;
@@ -851,9 +850,9 @@ gboolean gsb_data_category_set_name ( gint no_category,
  *
  * \return the name of the category or NULL/No sub-category if problem
  * */
-gchar *gsb_data_category_get_sub_category_name ( gint no_category,
-						 gint no_sub_category,
-						 gchar *return_value_error )
+const gchar *gsb_data_category_get_sub_category_name ( gint no_category,
+						       gint no_sub_category,
+						       const gchar *return_value_error )
 {
     struct_sub_category *sub_category;
 

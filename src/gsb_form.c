@@ -49,7 +49,7 @@
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "utils_editables.h"
-#include "main.h"
+#include "utils_str.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "fenetre_principale.h"
@@ -84,7 +84,6 @@ static void gsb_form_set_focus ( gint element_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern FILE * out;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window;
@@ -1548,10 +1547,10 @@ void gsb_form_check_auto_separator ( GtkWidget *entry )
 	!entry )
 	return;
     
-    /* we need a g_strdup to permit to do the g_free later
+    /* we need a my_strdup to permit to do the g_free later
      * because if strlen < floating point we need to
      * malloc another string */
-    string = g_strdup (gtk_entry_get_text (GTK_ENTRY(entry)));
+    string = my_strdup (gtk_entry_get_text (GTK_ENTRY(entry)));
 
     account_number = gsb_form_get_account_number ();
     floating_point = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (account_number));

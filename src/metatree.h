@@ -12,18 +12,18 @@ typedef struct metatree_interface {
     gint depth;
     gint (* tree_currency) ();
     /* Read operations */
-    gchar * meta_name;
-    gchar * no_div_label;
-    gchar * no_sub_div_label;
+    const gchar * meta_name;
+    const gchar * no_div_label;
+    const gchar * no_sub_div_label;
     gpointer (* get_without_div_pointer) ();
     gpointer (* get_div_pointer) (int);
     gpointer (* get_sub_div_pointer) (int,int);
-    gpointer (* get_div_pointer_from_name) (gchar *,gboolean);
-    gpointer (* get_sub_div_pointer_from_name) (int,gchar *,gboolean);
+    gpointer (* get_div_pointer_from_name) (const gchar *,gboolean);
+    gpointer (* get_sub_div_pointer_from_name) (int,const gchar *,gboolean);
     gint (* div_nb_transactions) (gpointer);
     gint (* sub_div_nb_transactions) (gpointer,gpointer);
-    gchar * (* div_name) (gpointer);
-    gchar * (* sub_div_name) (gpointer);
+    const gchar * (* div_name) (gpointer);
+    const gchar * (* sub_div_name) (gpointer);
     gsb_real (* div_balance) (gpointer);
     gsb_real (* sub_div_balance) (gpointer,gpointer);
     gint (* div_id) (gpointer);

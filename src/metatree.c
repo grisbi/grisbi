@@ -29,14 +29,13 @@
 #include "dialog.h"
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
-#include "gsb_data_currency.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_currency.h"
 #include "utils_dates.h"
 #include "fenetre_principale.h"
 #include "navigation.h"
-#include "gsb_real.h"
 #include "gsb_form_transaction.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
@@ -237,6 +236,7 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			 GtkTreeIter * iter, gpointer division )
 {
     gchar * label = NULL, * balance = NULL;
+    const gchar *string_tmp;
     GtkTreeIter dumb_iter;
 
     if ( ! metatree_model_is_displayed ( model ) )
@@ -244,14 +244,14 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 
     devel_debug ( g_strdup_printf ("fill_division_row %p", division) );
 
-    label = ( division ? iface -> div_name (division) : _(iface->no_div_label) );
+    string_tmp = ( division ? iface -> div_name (division) : _(iface->no_div_label) );
     
     if ( ! division )
 	division = iface -> get_without_div_pointer ();
 
     if ( division &&
 	 iface -> div_nb_transactions ( division ) )
-	label = g_strconcat ( label, " (",
+	label = g_strconcat ( string_tmp, " (",
 			      utils_str_itoa ( iface -> div_nb_transactions (division) ), ")",
 			      NULL );
 
@@ -276,6 +276,7 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			META_TREE_FONT_COLUMN, 800,
 			META_TREE_DATE_COLUMN, NULL,
 			-1);
+    g_free (label);
 }
 
 
@@ -296,6 +297,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			     gpointer sub_division )
 {
     gchar * balance = NULL, *label;
+    const gchar *string_tmp;
     GtkTreeIter dumb_iter;
     gint nb_ecritures = 0;
 
@@ -304,7 +306,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 
     devel_debug ( g_strdup_printf ("fill_sub_division_row %p %p", division, sub_division) );
 
-    label = ( sub_division ? iface -> sub_div_name (sub_division) : _(iface -> no_sub_div_label) );
+    string_tmp = ( sub_division ? iface -> sub_div_name (sub_division) : _(iface -> no_sub_div_label) );
 
     if ( ! division )
 	division = iface -> get_without_div_pointer ();
@@ -313,7 +315,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     
     if ( nb_ecritures )
     {
-	label = g_strconcat ( label, " (", utils_str_itoa ( nb_ecritures ), ")", NULL );
+	label = g_strconcat ( string_tmp, " (", utils_str_itoa ( nb_ecritures ), ")", NULL );
 	
 	if ( ! gtk_tree_model_iter_has_child ( model, iter ) )
 	{
@@ -334,6 +336,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			 META_TREE_FONT_COLUMN, 400,
 			 META_TREE_DATE_COLUMN, NULL,
 			 -1 );
+    g_free (label);
 }
 
 
@@ -355,7 +358,7 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
     {
 	if ( strlen ( gsb_data_transaction_get_notes ( transaction_number)) > 30 )
 	{
-	    gchar * tmp = (gsb_data_transaction_get_notes ( transaction_number)) + 30;
+	    gchar * tmp = my_strdup (gsb_data_transaction_get_notes ( transaction_number)) + 30;
 
 	    tmp = strchr ( tmp, ' ' );
 	    if ( !tmp )
@@ -363,7 +366,7 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 		/* We do not risk splitting the string
 		   in the middle of a UTF-8 accent
 		   ... the end is probably near btw. */
-		notes = gsb_data_transaction_get_notes ( transaction_number);
+		notes = my_strdup (gsb_data_transaction_get_notes ( transaction_number));
 	    }
 	    else 
 	    {
@@ -372,16 +375,17 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 		notes = g_strconcat ( trunc, " ...", NULL );
 		free ( trunc );
 	    }
+	    g_free (tmp);
 	}
 	else 
 	{
-	    notes = gsb_data_transaction_get_notes ( transaction_number);
+	    notes = my_strdup (gsb_data_transaction_get_notes ( transaction_number));
 	}
     }
     else
     {
-	notes = gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number),
-				    TRUE);
+	notes = my_strdup (gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number),
+						   TRUE));
     }
 
     label = gsb_format_gdate ( gsb_data_transaction_get_date (transaction_number));
@@ -389,6 +393,7 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
     if ( notes )
     {
 	label = g_strconcat ( label, " : ", notes, NULL );
+	g_free (notes);
     }
 
     if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number))
@@ -1183,7 +1188,6 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 	    default:
 		break;
 	}
-
     }
     
     return FALSE;

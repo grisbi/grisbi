@@ -59,12 +59,12 @@ static void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 				   struct struct_etat_affichage *affichage,
 				   gchar * filename );
 static void impression_etat ( gint report_number );
-static gchar *recupere_texte_test_etat ( gint transaction_number,
-				  gint champ );
+static const gchar *recupere_texte_test_etat ( gint transaction_number,
+					gint champ );
 static gint verifie_chq_test_etat ( gint text_comparison_number,
-			     gchar *no_chq );
+			     const gchar *no_chq );
 static gint verifie_texte_test_etat ( gint text_comparison_number,
-			       gchar *texte_ope );
+			       const gchar *texte_ope );
 /*END_STATIC*/
 
 
@@ -119,12 +119,12 @@ extern gint nb_ope_periode_etat;
 extern gint nb_ope_sous_categ_etat;
 extern gint nb_ope_sous_ib_etat;
 extern gint nb_ope_tiers_etat;
-extern gchar *nom_categ_en_cours;
-extern gchar *nom_compte_en_cours;
-extern gchar *nom_ib_en_cours;
-extern gchar *nom_ss_categ_en_cours;
-extern gchar *nom_ss_ib_en_cours;
-extern gchar *nom_tiers_en_cours;
+extern const gchar *nom_categ_en_cours;
+extern const gchar *nom_compte_en_cours;
+extern const gchar *nom_ib_en_cours;
+extern const gchar *nom_ss_categ_en_cours;
+extern const gchar *nom_ss_ib_en_cours;
+extern const gchar *nom_tiers_en_cours;
 extern GtkWidget *notebook_general;
 extern gsb_real null_real ;
 extern GtkTreeSelection * selection;
@@ -393,7 +393,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 			while ( comparison_list )
 			{
-			    gchar *texte;
+			    const gchar *texte;
 			    gint ope_dans_test;
 			    gint text_comparison_number;
 
@@ -922,10 +922,10 @@ operation_refusee:
 /* récupère le texte pour faire le test sur les textes */
 /*****************************************************************************************************/
 
-gchar *recupere_texte_test_etat ( gint transaction_number,
-				  gint champ )
+const gchar *recupere_texte_test_etat ( gint transaction_number,
+					gint champ )
 {
-    gchar *texte;
+    const gchar *texte;
 
     switch ( champ )
     {
@@ -1018,7 +1018,7 @@ gchar *recupere_texte_test_etat ( gint transaction_number,
 /*****************************************************************************************************/
 
 gint verifie_texte_test_etat ( gint text_comparison_number,
-			       gchar *texte_ope )
+			       const gchar *texte_ope )
 {
     gint ope_dans_test;
     gchar *position;
@@ -1114,7 +1114,7 @@ gint verifie_texte_test_etat ( gint text_comparison_number,
 /*****************************************************************************************************/
 
 gint verifie_chq_test_etat ( gint text_comparison_number,
-			     gchar *no_chq )
+			     const gchar *no_chq )
 {
     gint ope_dans_test;
     gint ope_dans_premier_test;
@@ -1510,8 +1510,8 @@ classement_suivant:
 		    if (category_number_2)
 		    {
 			/* 2 categories, return sorted */
-			gchar *category_name_1;
-			gchar *category_name_2;
+			const gchar *category_name_1;
+			const gchar *category_name_2;
 
 			if ( category_number_1 == category_number_2 )
 			{
@@ -1621,8 +1621,8 @@ classement_suivant:
 		 gsb_data_report_get_category_show_sub_category (current_report_number))
 	    {
 		/* we sort by sub-categ, alphabetic order, and first with sub-categ, no sub-categ come after */
-		gchar *categ_name_1;
-		gchar *categ_name_2;
+		const gchar *categ_name_1;
+		const gchar *categ_name_2;
 
 		categ_name_1 = gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number_1),
 							    gsb_data_transaction_get_sub_category_number (transaction_number_1),
@@ -1655,8 +1655,8 @@ classement_suivant:
 	    if ( gsb_data_report_get_budget_used (current_report_number))
 	    {
 		/* we sort by budget, alphabetic order, and first with budgets, no budgets come after */
-		gchar *budget_name_1;
-		gchar *budget_name_2;
+		const gchar *budget_name_1;
+		const gchar *budget_name_2;
 
 		budget_name_1 = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number (transaction_number_1), 0, NULL);
 		budget_name_2 = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number (transaction_number_2), 0, NULL);
@@ -1689,8 +1689,8 @@ classement_suivant:
 		 gsb_data_report_get_budget_show_sub_budget (current_report_number))
 	    {
 		/* we sort by sub-budget, alphabetic order, and first with sub-budgets, no sub-budgets come after */
-		gchar *budget_name_1;
-		gchar *budget_name_2;
+		const gchar *budget_name_1;
+		const gchar *budget_name_2;
 
 		budget_name_1 = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number (transaction_number_1),
 							   gsb_data_transaction_get_sub_budgetary_number (transaction_number_1),
@@ -1754,8 +1754,8 @@ classement_suivant:
 	    if ( gsb_data_report_get_payee_used (current_report_number))
 	    {
 		/* sort by party, alphabetic order */
-		gchar *party_name_1;
-		gchar *party_name_2;
+		const gchar *party_name_1;
+		const gchar *party_name_2;
 
 		party_name_1 = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number (transaction_number_1), TRUE);
 		party_name_2 = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number (transaction_number_2), TRUE);

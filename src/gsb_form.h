@@ -36,6 +36,7 @@ gboolean gsb_form_change_sensitive_buttons ( gboolean sensitive );
 gboolean gsb_form_check_entry_is_empty ( GtkWidget *entry );
 gint gsb_form_check_for_transfer ( const gchar *entry_string );
 gboolean gsb_form_clean ( gint account_number );
+void gsb_form_create_widgets ();
 gboolean gsb_form_entry_get_focus ( GtkWidget *entry );
 gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 				     GdkEventFocus *ev,
@@ -51,7 +52,6 @@ gint gsb_form_get_next_element ( gint account_number,
 				 gint direction );
 gboolean gsb_form_hide ( void );
 GtkWidget * gsb_form_new ( void );
-void gsb_form_create_widgets ();
 gboolean gsb_form_set_expander_visible ( gboolean visible,
 					 gboolean transactions_list );
 gboolean gsb_form_show ( gboolean show );

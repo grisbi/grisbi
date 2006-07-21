@@ -101,7 +101,6 @@ extern GtkWidget *label_last_statement ;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkWidget * navigation_tree_view;
 extern gsb_real null_real ;
-extern FILE * out;
 extern GtkWidget * reconcile_panel;
 extern GtkWidget *vbox_fleches_tri;
 /*END_EXTERN*/
@@ -308,7 +307,8 @@ void equilibrage ( void )
     {
 	gchar *new_rap;
 
-	new_rap = rapprochement_name_by_no ( gsb_data_account_get_reconcile_last_number (account_number) );
+	/* FIXME : possibly bug here if rapprochement_name_by_no return NULL, check with the news function or use my_strdup*/
+	new_rap = my_strdup (rapprochement_name_by_no ( gsb_data_account_get_reconcile_last_number (account_number)));
 
 	if ( new_rap )
 	{
@@ -372,7 +372,7 @@ void equilibrage ( void )
 
 	    gtk_entry_set_text ( GTK_ENTRY ( entree_no_rapprochement ),
 				 new_rap );
-
+	    g_free (new_rap);
 	}
     }
     else

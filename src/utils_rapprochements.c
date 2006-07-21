@@ -70,12 +70,12 @@ struct struct_no_rapprochement *rapprochement_par_no ( gint no_rapprochement )
 /* renvoie l'adr l'adr du rapprochement demandÃ© par son nom */
 /* ou NULL si pas trouvÃ© */
 /* ********************************************************************************************************* */
-struct struct_no_rapprochement *rapprochement_par_nom ( gchar *nom_rapprochement )
+struct struct_no_rapprochement *rapprochement_par_nom ( const gchar *nom_rapprochement )
 {
     GSList *liste_tmp;
 
     liste_tmp = g_slist_find_custom ( liste_struct_rapprochements,
-				      g_strstrip ( nom_rapprochement ),
+				      nom_rapprochement,
 				      (GCompareFunc) recherche_rapprochement_par_nom );
 
     if ( liste_tmp )
@@ -90,7 +90,7 @@ struct struct_no_rapprochement *rapprochement_par_nom ( gchar *nom_rapprochement
 /* ********************************************************************************************************* */
 /* renvoie le nom du rapprochement ou NULL s'il n'existe pas */
 /* ********************************************************************************************************* */
-gchar *rapprochement_name_by_no ( gint no_rapprochement )
+const gchar *rapprochement_name_by_no ( gint no_rapprochement )
 {
     struct struct_no_rapprochement *rapprochement;
 

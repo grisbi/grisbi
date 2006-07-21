@@ -66,7 +66,7 @@ struct gsb_debug_test debug_tests [5] = {
       gsb_debug_reconcile_test, NULL },
 
     { N_("Duplicate sub-categories check"),
-      N_("xxx"),
+      N_("free"),
       N_("Due to a bug in previous versions of Grisbi, "
 	 "sub-categories may share the same numeric identifier in some "
 	 "cases, resulting in transactions having two sub-categories.  "
@@ -79,7 +79,7 @@ struct gsb_debug_test debug_tests [5] = {
       gsb_debug_duplicate_categ_check, gsb_debug_duplicate_categ_fix },
 
     { N_("Duplicate sub-budgetary lines check"),
-      N_("xxx"),
+      N_("free"),
       N_("Due to a bug in previous versions of Grisbi, "
 	 "sub-budgetary lines may share the same numeric id in some "
 	 "cases, resulting in transactions having two sub-budgetary lines.  "
@@ -92,7 +92,7 @@ struct gsb_debug_test debug_tests [5] = {
       gsb_debug_duplicate_budget_check, gsb_debug_duplicate_budget_fix },
 
     { N_("Orphan countra-transactions check"),
-      N_("xxx"),
+      N_("free"),
       N_("In some rare cases, transfers are incorrectly linked to contra-transactions.  "
 	 "This might be because of bugs or because of imports that failed.\n"
 	 "To fix this, you will have to manually edit your .gsb file "

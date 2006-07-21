@@ -304,12 +304,12 @@ gint devise_ib_etat;
 gint devise_tiers_etat;
 gint devise_generale_etat;
 
-gchar *nom_categ_en_cours;
-gchar *nom_ss_categ_en_cours;
-gchar *nom_ib_en_cours;
-gchar *nom_ss_ib_en_cours;
-gchar *nom_compte_en_cours;
-gchar *nom_tiers_en_cours;
+const gchar *nom_categ_en_cours;
+const gchar *nom_ss_categ_en_cours;
+const gchar *nom_ib_en_cours;
+const gchar *nom_ss_ib_en_cours;
+const gchar *nom_compte_en_cours;
+const gchar *nom_tiers_en_cours;
 gint titres_affiches;
 
 GtkWidget *bouton_detaille_mode_paiement_etat;
@@ -2694,7 +2694,7 @@ void remplissage_liste_exo_etats ( void )
 
 	fyear_number = gsb_data_fyear_get_no_fyear (list_tmp -> data);
 
-	name[0] = gsb_data_fyear_get_name (fyear_number);
+	name[0] = my_strdup (gsb_data_fyear_get_name (fyear_number));
 
 	row = gtk_clist_append ( GTK_CLIST ( liste_exo_etat ),
 				   name );
@@ -3489,9 +3489,9 @@ void remplissage_liste_categ_etats ( void )
 
 	category_number = gsb_data_category_get_no_category ( list_tmp -> data );
 
-	name[0] = gsb_data_category_get_name (category_number,
-					     0,
-					     NULL );
+	name[0] = my_strdup (gsb_data_category_get_name (category_number,
+							0,
+							NULL ));
 
 	line = gtk_clist_append ( GTK_CLIST ( liste_categ_etat ),
 				  name );
@@ -3752,9 +3752,9 @@ void remplissage_liste_ib_etats ( void )
 
 	budget_number = gsb_data_budget_get_no_budget ( list_tmp -> data );
 
-	name[0] = gsb_data_budget_get_name (budget_number,
-					   0,
-					   NULL );
+	name[0] = my_strdup (gsb_data_budget_get_name (budget_number,
+						      0,
+						      NULL ));
 
 	line = gtk_clist_append ( GTK_CLIST ( liste_ib_etat ),
 				  name );
@@ -3936,11 +3936,11 @@ void remplissage_liste_tiers_etats ( void )
 
 	payee_number = gsb_data_payee_get_no_payee ( payee_list -> data );
 
-	name[0] = gsb_data_payee_get_name (payee_number,
-				      TRUE );
+	name[0] = my_strdup (gsb_data_payee_get_name (payee_number,
+						     TRUE ));
 
 	row = gtk_clist_append ( GTK_CLIST ( liste_tiers_etat ),
-				   name );
+				 name );
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_tiers_etat ),
 				 row,

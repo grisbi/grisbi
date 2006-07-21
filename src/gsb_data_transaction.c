@@ -320,7 +320,7 @@ struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transactio
  * \param no_account the number of account, may be -1, in that case we will look for the transaction in all accounts
  * \return the id of the transaction
  * */
-gchar *gsb_data_transaction_get_transaction_id ( gint transaction_number )
+const gchar *gsb_data_transaction_get_transaction_id ( gint transaction_number )
 {
     struct_transaction *transaction;
 
@@ -965,7 +965,7 @@ gboolean gsb_data_transaction_set_breakdown_of_transaction ( gint transaction_nu
  * 
  * \return the notes of the transaction
  * */
-gchar *gsb_data_transaction_get_notes ( gint transaction_number )
+const gchar *gsb_data_transaction_get_notes ( gint transaction_number )
 {
     struct_transaction *transaction;
 
@@ -1049,7 +1049,7 @@ gboolean gsb_data_transaction_set_method_of_payment_number ( gint transaction_nu
  * \param transaction_number the number of the transaction
  * \return the method_of_payment_content of the transaction
  * */
-gchar *gsb_data_transaction_get_method_of_payment_content ( gint transaction_number )
+const gchar *gsb_data_transaction_get_method_of_payment_content ( gint transaction_number )
 {
     struct_transaction *transaction;
 
@@ -1325,7 +1325,7 @@ gboolean gsb_data_transaction_set_sub_budgetary_number ( gint transaction_number
  * \param transaction_number the number of the transaction
  * \return  voucher
  * */
-gchar *gsb_data_transaction_get_voucher ( gint transaction_number )
+const gchar *gsb_data_transaction_get_voucher ( gint transaction_number )
 {
     struct_transaction *transaction;
 
@@ -1370,7 +1370,7 @@ gboolean gsb_data_transaction_set_voucher ( gint transaction_number,
  * \param transaction_number the number of the transaction
  * \return bank_references
  * */
-gchar *gsb_data_transaction_get_bank_references ( gint transaction_number )
+const gchar *gsb_data_transaction_get_bank_references ( gint transaction_number )
 {
     struct_transaction *transaction;
 

@@ -264,6 +264,7 @@ void gsb_form_transaction_fill_form ( gint element_number,
 {
     GtkWidget *widget;
     gchar *char_tmp;
+    const gchar *const_char_tmp;
 
     widget =  gsb_form_get_element_widget (element_number,
 					   account_number);
@@ -361,30 +362,28 @@ void gsb_form_transaction_fill_form ( gint element_number,
 		else
 		{
 		    /* it's a normal category */
-		    char_tmp = gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
-							    gsb_data_transaction_get_sub_category_number (transaction_number),
-							    NULL );
-		    if (char_tmp)
+		    const_char_tmp = gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
+								  gsb_data_transaction_get_sub_category_number (transaction_number),
+								  NULL );
+		    if (const_char_tmp)
 		    {
 			gsb_form_entry_get_focus (widget);
 			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-						char_tmp );
-			g_free (char_tmp);
+						const_char_tmp );
 		    }
 		}
 	    }
 	    break;
 
 	case TRANSACTION_FORM_BUDGET:
-	    char_tmp = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number (transaction_number),
-						  gsb_data_transaction_get_sub_budgetary_number (transaction_number),
-						  NULL );
-	    if ( char_tmp )
+	    const_char_tmp = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number (transaction_number),
+							gsb_data_transaction_get_sub_budgetary_number (transaction_number),
+							NULL );
+	    if ( const_char_tmp )
 	    {
 		gsb_form_entry_get_focus (widget);
 		gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-					char_tmp );
-		g_free (char_tmp);
+					const_char_tmp );
 	    }
 	    break;
 

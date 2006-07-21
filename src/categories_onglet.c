@@ -28,6 +28,8 @@
 #include "erreur.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
+#include "gsb_autofunc.h"
+#include "gsb_automem.h"
 #include "gsb_data_category.h"
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
@@ -37,10 +39,9 @@
 #include "gsb_form_transaction.h"
 #include "gtk_combofix.h"
 #include "main.h"
-#include "utils_buttons.h"
 #include "utils.h"
-#include "utils_editables.h"
 #include "etats_config.h"
+#include "utils_buttons.h"
 #include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -51,6 +52,8 @@ static gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePa
 static GtkWidget *creation_barre_outils_categ ( void );
 static gboolean edit_category ( GtkTreeView * view );
 static gboolean exporter_categ ( GtkButton * widget, gpointer data );
+static gboolean gsb_category_page_sub_entry_changed ( GtkWidget *entry,
+					       gint *sub_categ_tmp );
 static void importer_categ ( void );
 static gboolean popup_category_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
@@ -588,7 +591,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
 
     /* New category button */
-    button = new_button_with_label_and_image ( etat.display_toolbar,
+    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
 					       _("New\ncategory"), 
 					       "new-categ.png", 
 					       G_CALLBACK(metatree_new_division),
@@ -598,7 +601,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* New sub category button */
-    button = new_button_with_label_and_image ( etat.display_toolbar,
+    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
 					       _("New sub\ncategory"), 
 					       "new-sub-categ.png",
 					       G_CALLBACK(appui_sur_ajout_sub_division),
@@ -610,7 +613,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* Import button */
-    button = new_stock_button_with_label ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_OPEN, 
 					   _("Import"),
 					   G_CALLBACK(importer_categ),
@@ -620,7 +623,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* Export button */
-    button = new_stock_button_with_label ( etat.display_toolbar, 
+    button = gsb_automem_stock_button_new ( etat.display_toolbar, 
 					   GTK_STOCK_SAVE, 
 					   _("Export"),
 					   G_CALLBACK(exporter_categ),
@@ -630,7 +633,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* Delete button */
-    button = new_stock_button_with_label ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_DELETE, _("Delete"),
 					   G_CALLBACK(supprimer_division), arbre_categ );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL(categ_tree_model), button, "selection" );
@@ -639,7 +642,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* Properties button */
-    button = new_stock_button_with_label ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_PROPERTIES, _("Properties"),
 					   G_CALLBACK(edit_category), arbre_categ );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL(categ_tree_model), button, "selection" );
@@ -648,7 +651,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* View button */
-    button = new_stock_button_with_label_menu ( etat.display_toolbar,
+    button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
 						GTK_STOCK_SELECT_COLOR, 
 						_("View"),
 						G_CALLBACK(popup_category_view_mode_menu),
@@ -712,7 +715,7 @@ gboolean popup_category_view_mode_menu ( GtkWidget * button )
 gboolean edit_category ( GtkTreeView * view )
 {
     GtkWidget * dialog, *paddingbox, *table, *label, *entry, *hbox, *radiogroup;
-    gint category_number = -1, sub_category_number = -1, type;
+    gint category_number = -1, sub_category_number = -1;
     GtkTreeSelection * selection;
     GtkTreeModel * model;
     GtkTreeIter iter;
@@ -763,23 +766,22 @@ gboolean edit_category ( GtkTreeView * view )
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
-    /* FIXME : should not work, replace new_text_entry ? */
-
     if ( sub_category_number > 0 )
     {
-	gchar *sub_category_name;
-
-	sub_category_name = gsb_data_category_get_sub_category_name ( category_number,
-								      sub_category_number,
-								      "" );
-	entry = new_text_entry ( &sub_category_name, NULL, NULL );
+	/* we have a problem because gsb_autofunc_entry_new need a function gsb_data_..._set_... with 2 args,
+	 * but gsb_data_category_set_sub_category_name has 3 args, need to use hook
+	 * the hook function will receive the sub_category number, and the category_number will be associated
+	 * automatickly with the entry by autofunc_entry_new */
+	entry = gsb_autofunc_entry_new ( gsb_data_category_get_sub_category_name ( category_number,
+										   sub_category_number,
+										   NULL ),
+					 G_CALLBACK (gsb_category_page_sub_entry_changed), GINT_TO_POINTER (sub_category_number),
+					 NULL, category_number);
     }
     else
-    {
-	gchar *category_name;
-	category_name = gsb_data_category_get_name ( category_number, 0, "" );
-	entry = new_text_entry ( &category_name, NULL, NULL );
-    }
+	entry = gsb_autofunc_entry_new ( gsb_data_category_get_name ( category_number, 0, NULL ),
+					 NULL, NULL,
+					 G_CALLBACK (gsb_data_category_set_name), category_number );
 
     gtk_widget_set_usize ( entry, 400, 0 );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
@@ -791,11 +793,11 @@ gboolean edit_category ( GtkTreeView * view )
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
 	gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
 			   GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-	/* FIXME : must use other than new_radiogroup because &gsb_data_category_get_type (category_number) don't compile */
-	type = gsb_data_category_get_type (category_number);
-	radiogroup = new_radiogroup ( _("Credit"), _("Debit"),
-				      &type,
-				      NULL );
+
+	radiogroup = gsb_autofunc_radiobutton_new (  _("Credit"), _("Debit"),
+						     gsb_data_category_get_type (category_number),
+						     NULL, NULL,
+						     G_CALLBACK (gsb_data_category_set_type), category_number );
 	gtk_table_attach ( GTK_TABLE(table), radiogroup, 
 			   1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
     }
@@ -804,45 +806,7 @@ gboolean edit_category ( GtkTreeView * view )
     free ( title );
 
     gtk_dialog_run ( GTK_DIALOG(dialog) );
-
-    if ( sub_category_number > 0 )
-    {
-	if ( gsb_data_category_get_sub_category_number_by_name ( category_number,
-								 (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
-								 FALSE ) )
-	{
-	    dialogue_warning_hint ( _("Sub-category names must be both unique and not empty.  Please use another name for this sub-category."),
-				    g_strdup_printf ( _("Sub-category '%s' already exists."),
-						      gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) );
-	    return FALSE;
-	    
-	}
-	else
-	{
-	    gsb_data_category_set_sub_category_name ( category_number,
-						      sub_category_number,
-						      gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
-	}
-    }
-    else
-    {
-	if ( gsb_data_category_get_number_by_name ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
-						    FALSE, 0 ) )
-	{
-	    dialogue_warning_hint ( _("Category names must be both unique and not empty.  Please use another name for this category."),
-				    g_strdup_printf ( _("Category '%s' already exists."),
-						      gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) );
-	    return FALSE;
-	}
-	else
-	{
-	    gsb_data_category_set_name ( category_number,
-					 gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
-	}
-    }
-
-    gsb_data_category_set_type ( category_number, type );
-
+    /* changes are done automatickly, so just close the dialog */
     gtk_widget_destroy ( dialog );
 
     mise_a_jour_combofix_categ ();
@@ -870,7 +834,7 @@ gboolean edit_category ( GtkTreeView * view )
 
 	if ( gsb_data_transaction_get_category_number ( transaction_number ) == category_number )
 	{
-	    /* FIXME: this is VERY, VERY, VERY time consuming, use a
+	    /* xxx FIXME: this is VERY, VERY, VERY time consuming, use a
 	     * better approach, that is iterate over tree and change on
 	     * demand if category is the same. */
 	    gsb_transactions_list_update_transaction (transaction_number);
@@ -882,6 +846,33 @@ gboolean edit_category ( GtkTreeView * view )
 }
 
 
+/**
+ * called when there is a change in the sub-category entry to modify it
+ * cannot use the autofunc function because 2 arguments : categ_number and
+ * sub_categ_number, so come here
+ *
+ * \param entry the GtkEntry wich contains the sub-category
+ * \param sub_categ_tmp a pointer wich is the sub_category_number
+ *
+ * \return FALSE 
+ * */
+gboolean gsb_category_page_sub_entry_changed ( GtkWidget *entry,
+					       gint *sub_categ_tmp )
+{
+    gint category_number;
+    gint sub_category_number;
+
+    if (!entry)
+	return FALSE;
+
+    category_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (entry),
+							  "number_for_func" ));
+    sub_category_number = GPOINTER_TO_INT (sub_categ_tmp);
+    gsb_data_category_set_sub_category_name ( category_number,
+					      sub_category_number,
+					      gtk_entry_get_text (GTK_ENTRY (entry)));
+    return FALSE;
+}
 
 
 /* Local Variables: */

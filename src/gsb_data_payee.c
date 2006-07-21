@@ -343,8 +343,8 @@ gint gsb_data_payee_get_pointer_from_name_in_glist ( struct_payee *payee,
  *
  * \return the name of the payee or NULL/No payee if problem
  * */
-gchar *gsb_data_payee_get_name ( gint no_payee,
-				 gboolean can_return_null)
+const gchar *gsb_data_payee_get_name ( gint no_payee,
+				       gboolean can_return_null)
 {
     struct_payee *payee;
 
@@ -372,7 +372,7 @@ gchar *gsb_data_payee_get_name ( gint no_payee,
  * \return TRUE if ok or FALSE if problem
  * */
 gboolean gsb_data_payee_set_name ( gint no_payee,
-			      const gchar *name )
+				   const gchar *name )
 {
     struct_payee *payee;
 
@@ -494,7 +494,7 @@ GSList *gsb_data_payee_get_name_and_report_list ( void )
  *
  * \return the description of the payee or NULL if problem
  * */
-gchar *gsb_data_payee_get_description ( gint no_payee )
+const gchar *gsb_data_payee_get_description ( gint no_payee )
 {
     struct_payee *payee;
 

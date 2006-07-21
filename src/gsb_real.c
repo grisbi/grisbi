@@ -33,12 +33,14 @@
 
 /*START_INCLUDE*/
 #include "gsb_real.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 gsb_real null_real = { 0 , 0 };
 
 
 /*START_STATIC*/
+static gsb_real gsb_real_double_to_real ( gdouble number );
 static gboolean gsb_real_normalize ( gsb_real *number_1,
 			      gsb_real *number_2 );
 static gdouble gsb_real_real_to_double ( gsb_real number );
@@ -159,21 +161,24 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
     gsb_real number = null_real;
     gint i = 0, sign;
     gchar * separator, * tmp;
+    gchar *string_tmp;
 
     if ( !string)
 	return number;
 
+    string_tmp = my_strdup (string);
+
     if ( default_mantissa > 0 )
     {
-	separator = strrchr ( string, '.' );
+	separator = strrchr ( string_tmp, '.' );
 	if ( ! separator )
-	    separator = strrchr ( string, ',' );
+	    separator = strrchr ( string_tmp, ',' );
 
 	if ( separator )
 	{
-	    tmp = string + strlen ( string ) - 1;
+	    tmp = string_tmp + strlen ( string_tmp ) - 1;
 	    while ( * tmp == '0' && ( tmp - separator > default_mantissa ) &&
-		    tmp >= string ) 
+		    tmp >= string_tmp ) 
 	    {
 		* tmp = '\0';
 		tmp --;
@@ -181,7 +186,7 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
 	}
     }
 
-    if (string[0] == '-')
+    if (string_tmp[0] == '-')
     {
 	sign = -1;
 	i++;
@@ -190,37 +195,41 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
     {
 	sign = 1;
 	/* sometimes we can have "+12" so we pass the + */
-	if (string[0] == '+' )
+	if (string_tmp[0] == '+' )
 	    i++;
     }
 
-    while (string[i])
+    while (string_tmp[i])
     {
-	switch (string[i])
+	switch (string_tmp[i])
 	{
 	    case ',':
 	    case '.':
-		number.exponent = strlen (string) -i -1;
+		number.exponent = strlen (string_tmp) -i -1;
 		break;
 
 	    case ' ':
 		break;
 
 	    default:
-		if (string[i] >= '0'
+		if (string_tmp[i] >= '0'
 		    &&
-		    string[i] <= '9' )
+		    string_tmp[i] <= '9' )
 		{
 		    number.mantissa = number.mantissa * 10;
-		    number.mantissa = number.mantissa + string[i] - '0';
+		    number.mantissa = number.mantissa + string_tmp[i] - '0';
 		}
 		else
+		{
 		    /* if there is another char, we do nothing */
+		    g_free (string_tmp);
 		    return null_real;
+		}
 	}
 	i++;
     }
     number.mantissa = sign * number.mantissa;
+    g_free (string_tmp);
     return number;
 }
 

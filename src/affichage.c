@@ -27,6 +27,7 @@
 #include "affichage.h"
 #include "fichiers_gestion.h"
 #include "utils_file_selection.h"
+#include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "navigation.h"
 #include "barre_outils.h"
@@ -34,10 +35,9 @@
 #include "main.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
-#include "utils_buttons.h"
 #include "utils.h"
-#include "utils_editables.h"
 #include "structures.h"
+#include "utils_buttons.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -338,8 +338,8 @@ GtkWidget *onglet_display_addresses ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0);
 
-    entree_titre_fichier = new_text_entry (&titre_fichier,
-					   ((GCallback)update_homepage_title), NULL);
+    entree_titre_fichier = gsb_automem_entry_new (&titre_fichier,
+						 ((GCallback)update_homepage_title), NULL);
     gtk_box_pack_start ( GTK_BOX ( hbox ), entree_titre_fichier,
 			 TRUE, TRUE, 0);
 
@@ -361,7 +361,7 @@ GtkWidget *onglet_display_addresses ( void )
 			 FALSE, FALSE, 0);
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
 					  GTK_SHADOW_IN );
-    entree_adresse_commune = new_text_area ( &adresse_commune, NULL );
+    entree_adresse_commune = gsb_automem_textview_new ( &adresse_commune, NULL, NULL );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 			entree_adresse_commune );
 
@@ -380,7 +380,7 @@ GtkWidget *onglet_display_addresses ( void )
 					  GTK_SHADOW_IN );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
 			 FALSE, FALSE, 0);
-    entree_adresse_secondaire = new_text_area ( &adresse_secondaire, NULL );
+    entree_adresse_secondaire = gsb_automem_textview_new ( &adresse_secondaire, NULL, NULL );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 			entree_adresse_secondaire );
 
@@ -754,15 +754,15 @@ GtkWidget *tab_display_toolbar ( void )
     /** TODO: really add option to hide toolbar?  This could save
      * space, but if so, we should add all equivalents to menus.  */
 /*     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),  */
-/* 			 new_checkbox_with_title ( _("Display toolbar"), */
+/* 			 gsb_automem_checkbutton_new ( _("Display toolbar"), */
 /* 						   &(etat.show_toolbar), */
 /* 						   NULL ), */
 /* 			 FALSE, FALSE, 0 ); */
 
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), 
-			 new_checkbox_with_title ( _("Display headings bar"),
-						   &(etat.show_headings_bar),
-						   NULL ),
+			 gsb_automem_checkbutton_new ( _("Display headings bar"),
+						       &(etat.show_headings_bar),
+						       NULL, NULL ),
 			 FALSE, FALSE, 0 );
 
     return ( vbox_pref );

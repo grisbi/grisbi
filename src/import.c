@@ -32,8 +32,8 @@
 #include "comptes_traitements.h"
 #include "import_csv.h"
 #include "gsb_transactions_list.h"
+#include "erreur.h"
 #include "dialog.h"
-#include "utils_files.h"
 #include "go-charmap-sel.h"
 #include "gsb_assistant.h"
 #include "gsb_currency_config.h"
@@ -42,6 +42,7 @@
 #include "operations_comptes.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
+#include "gsb_data_form.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
@@ -84,6 +85,8 @@ static void gsb_import_add_imported_transactions ( struct struct_compte_importat
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
 				     gint account_number );
+static void gsb_import_register_account ( struct struct_compte_importation * account );
+static void gsb_import_register_account_error ( struct struct_compte_importation * account );
 static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
 static gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *path_str,
 				 gpointer model );
@@ -97,6 +100,8 @@ static gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 static gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 			      const gchar *value, GtkListStore * model );
 static void pointe_opes_importees ( struct struct_compte_importation *imported_account );
+static void register_import_format ( struct import_format * format );
+static void traitement_operations_importees ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -1322,13 +1327,14 @@ void cree_liens_virements_ope_import ( void )
 	    gchar *contra_account_name;
 	    gint contra_account_number;
 
-	    contra_account_name = gsb_data_transaction_get_bank_references (transaction_number_tmp);
+	    contra_account_name = my_strdup (gsb_data_transaction_get_bank_references (transaction_number_tmp));
 	    if ( contra_account_name && strlen ( contra_account_name ) )
 	    {
 		contra_account_name++;
 		contra_account_name[strlen(contra_account_name)-1] = 0;
 	    }
 	    contra_account_number = gsb_data_account_get_no_account_by_name ( contra_account_name );
+	    g_free (contra_account_name);
 
 	    if ( contra_account_number == -1 )
 	    {
@@ -1361,10 +1367,10 @@ void cree_liens_virements_ope_import ( void )
 						       gsb_data_account_get_name (transaction_number_tmp),
 						       "]",
 						       NULL),
-					  g_strstrip ( gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp )))
+					  g_strstrip ( my_strdup (gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp ))))
 			  ||
 			  g_strcasecmp ( gsb_data_account_get_name (transaction_number_tmp),
-					 g_strstrip ( gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp)))) 
+					 g_strstrip ( my_strdup (gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp))))) 
 			 &&
 			 !gsb_real_cmp ( gsb_real_abs (gsb_data_transaction_get_amount (transaction_number_tmp)),
 					 gsb_real_abs (gsb_data_transaction_get_adjusted_amount_for_currency ( contra_transaction_number_tmp,
@@ -1805,7 +1811,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	     !ope_import -> ope_de_ventilation )
 	{
 	    gint transaction_number;
-	    gchar *tiers;
+	    const gchar *tiers;
 
 	    transaction_number = gsb_data_transaction_get_transaction_number (ope_import -> ope_correspondante);
 

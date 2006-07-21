@@ -18,7 +18,7 @@ gint gsb_data_fyear_get_from_date ( const GDate *date );
 GSList *gsb_data_fyear_get_fyears_list ( void );
 gint gsb_data_fyear_get_invalid ( gint fyear_number );
 const gchar *gsb_data_fyear_get_invalid_message ( gint fyear_number );
-gchar *gsb_data_fyear_get_name ( gint fyear_number );
+const gchar *gsb_data_fyear_get_name ( gint fyear_number );
 gint gsb_data_fyear_get_no_fyear ( gpointer fyear_ptr );
 gboolean gsb_data_fyear_init_variables ( void );
 gint gsb_data_fyear_new ( const gchar *name );

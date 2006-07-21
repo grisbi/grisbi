@@ -15,9 +15,9 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
 gsb_real gsb_data_category_get_balance ( gint no_category );
 GSList *gsb_data_category_get_categories_list ( void );
 gsb_real gsb_data_category_get_direct_balance ( gint no_category );
-gchar *gsb_data_category_get_name ( gint no_category,
-				    gint no_sub_category,
-				    gchar *return_value_error );
+const gchar *gsb_data_category_get_name ( gint no_category,
+					  gint no_sub_category,
+					  const gchar *return_value_error );
 GSList *gsb_data_category_get_name_list ( gboolean set_debit,
 					  gboolean set_credit,
 					  gboolean set_special,
@@ -27,20 +27,20 @@ gint gsb_data_category_get_nb_transactions ( gint no_category );
 gint gsb_data_category_get_no_category ( gpointer category_ptr );
 gint gsb_data_category_get_no_category_from_sub_category ( gpointer sub_category_ptr );
 gint gsb_data_category_get_no_sub_category ( gpointer sub_category_ptr );
-gint gsb_data_category_get_number_by_name ( gchar *name,
+gint gsb_data_category_get_number_by_name ( const gchar *name,
 					    gboolean create,
 					    gint category_type );
 gpointer gsb_data_category_get_structure ( gint no_category );
 gsb_real gsb_data_category_get_sub_category_balance ( gint no_category,
 						      gint no_sub_category );
 GSList *gsb_data_category_get_sub_category_list ( gint no_category );
-gchar *gsb_data_category_get_sub_category_name ( gint no_category,
-						 gint no_sub_category,
-						 gchar *return_value_error );
+const gchar *gsb_data_category_get_sub_category_name ( gint no_category,
+						       gint no_sub_category,
+						       const gchar *return_value_error );
 gint gsb_data_category_get_sub_category_nb_transactions ( gint no_category,
 							  gint no_sub_category );
 gint gsb_data_category_get_sub_category_number_by_name ( gint category_number,
-							 gchar *name,
+							 const gchar *name,
 							 gboolean create );
 gpointer gsb_data_category_get_sub_category_structure ( gint no_category,
 							gint no_sub_category );

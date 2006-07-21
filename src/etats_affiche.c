@@ -41,9 +41,9 @@
 #include "utils_dates.h"
 #include "navigation.h"
 #include "gsb_real.h"
+#include "utils_str.h"
 #include "utils_rapprochements.h"
 #include "utils_types.h"
-#include "utils_str.h"
 #include "structures.h"
 #include "etats_config.h"
 #include "include.h"
@@ -100,12 +100,12 @@ extern gint nb_ope_periode_etat;
 extern gint nb_ope_sous_categ_etat;
 extern gint nb_ope_sous_ib_etat;
 extern gint nb_ope_tiers_etat;
-extern gchar *nom_categ_en_cours;
-extern gchar *nom_compte_en_cours;
-extern gchar *nom_ib_en_cours;
-extern gchar *nom_ss_categ_en_cours;
-extern gchar *nom_ss_ib_en_cours;
-extern gchar *nom_tiers_en_cours;
+extern const gchar *nom_categ_en_cours;
+extern const gchar *nom_compte_en_cours;
+extern const gchar *nom_ib_en_cours;
+extern const gchar *nom_ss_categ_en_cours;
+extern const gchar *nom_ss_ib_en_cours;
+extern const gchar *nom_tiers_en_cours;
 extern gsb_real null_real ;
 extern gint titres_affiches;
 /*END_EXTERN*/
@@ -1083,7 +1083,7 @@ gint etat_affiche_affiche_total_exercice ( gint transaction_number,
 	    exo_en_cours_etat = gsb_data_transaction_get_financial_year_number (transaction_number);
 	    return ligne;
 	}
-	
+
 	/* on vérifie maintenant s'il faut afficher un total ou pas */
 
 	if ( !force
@@ -1125,9 +1125,9 @@ gint etat_affiche_affiche_total_exercice ( gint transaction_number,
 		text = g_strdup_printf ( COLON(_("Result without financial year")));
 	}
 
-    
-    
-    /*       si on arrive ici, c'est qu'il y a un chgt de période ou que c'est forcé */
+
+
+	/*       si on arrive ici, c'est qu'il y a un chgt de période ou que c'est forcé */
 
 	etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, 0 );
 	ligne++;
@@ -1207,6 +1207,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	    colonne = colonne + 2;
+	    g_free (text);
 	}
 
 	if ( gsb_data_report_get_show_report_date (current_report_number))
@@ -1224,13 +1225,14 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	    colonne = colonne + 2;
+	    g_free (text);
 	}
 
 	if ( gsb_data_report_get_show_report_financial_year (current_report_number))
 	{
 	    if ( gsb_data_transaction_get_financial_year_number ( transaction_number))
 	    {
-		text = gsb_data_fyear_get_name ( gsb_data_transaction_get_financial_year_number ( transaction_number));
+		text = my_strdup (gsb_data_fyear_get_name ( gsb_data_transaction_get_financial_year_number ( transaction_number)));
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
@@ -1240,6 +1242,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
+		g_free (text);
 	    }
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	    colonne = colonne + 2;
@@ -1250,7 +1253,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	{
 	    if ( gsb_data_transaction_get_party_number ( transaction_number))
 	    {
-		text = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number), TRUE );
+		text = my_strdup (gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number), TRUE ));
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
@@ -1260,6 +1263,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
+		g_free (text);
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1268,14 +1272,12 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	if ( gsb_data_report_get_show_report_category (current_report_number))
 	{
-	    gchar *pointeur;
-
-	    pointeur = NULL;
+	    gchar *pointeur = NULL;
 
 	    if ( gsb_data_transaction_get_category_number (transaction_number))
-		pointeur = gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
-							gsb_data_transaction_get_sub_category_number (transaction_number),
-							NULL );
+		pointeur = my_strdup (gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
+								  gsb_data_transaction_get_sub_category_number (transaction_number),
+								  NULL ));
 	    else
 	    {
 		/* si c'est un virement, on le marque, sinon c'est qu'il n'y a pas de categ */
@@ -1304,6 +1306,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		{
 		    etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
+		g_free (pointeur);
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1317,9 +1320,9 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	    {
 		gchar *pointeur;
 
-		pointeur = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number),
-						      gsb_data_transaction_get_sub_budgetary_number ( transaction_number),
-						      NULL );
+		pointeur = my_strdup (gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number),
+								gsb_data_transaction_get_sub_budgetary_number ( transaction_number),
+								NULL ));
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
@@ -1329,6 +1332,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		{
 		    etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
+		g_free (pointeur);
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1340,7 +1344,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	{
 	    if ( gsb_data_transaction_get_notes ( transaction_number))
 	    {
-		text =  gsb_data_transaction_get_notes ( transaction_number);
+		text = my_strdup (gsb_data_transaction_get_notes ( transaction_number));
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
@@ -1350,6 +1354,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
+		g_free (text);
 	    }
 	    else
 	    {
@@ -1362,8 +1367,8 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	if ( gsb_data_report_get_show_report_method_of_payment (current_report_number))
 	{
-	    text = type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number),
-					 gsb_data_transaction_get_account_number (transaction_number));
+	    text = my_strdup (type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number),
+						   gsb_data_transaction_get_account_number (transaction_number)));
 	    if ( text )
 	    {
 		if ( gsb_data_report_get_report_can_click (current_report_number))
@@ -1378,6 +1383,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	    colonne = colonne + 2;
+	    g_free (text);
 	}
 
 
@@ -1416,10 +1422,10 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		    list_tmp_transactions = list_tmp_transactions -> next;
 		}
 	    }
-	    
+
 	    if ( gsb_data_transaction_get_method_of_payment_content ( transaction_number))
 	    {
-		text = gsb_data_transaction_get_method_of_payment_content ( transaction_number);
+		text = my_strdup (gsb_data_transaction_get_method_of_payment_content ( transaction_number));
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
@@ -1429,6 +1435,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
+		g_free (text);
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1440,7 +1447,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	{
 	    if ( gsb_data_transaction_get_voucher ( transaction_number))
 	    {
-		text = gsb_data_transaction_get_voucher ( transaction_number);
+		text = my_strdup (gsb_data_transaction_get_voucher ( transaction_number));
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
@@ -1450,6 +1457,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
+		g_free (text);
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1462,7 +1470,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	{
 	    if ( gsb_data_transaction_get_bank_references ( transaction_number))
 	    {
-		text = gsb_data_transaction_get_bank_references ( transaction_number);
+		text = my_strdup (gsb_data_transaction_get_bank_references ( transaction_number));
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
@@ -1472,6 +1480,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
+		g_free (text);
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1480,18 +1489,19 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	if ( gsb_data_report_get_show_report_marked (current_report_number))
 	{
-	    text = rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( transaction_number));
+	    text = my_strdup (rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( transaction_number)));
 
 	    if ( text )
 	    {
-		    if ( gsb_data_report_get_report_can_click (current_report_number))
-		    {
-			etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
-		    }
-		    else
-		    {
-			etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
-		    }
+		if ( gsb_data_report_get_report_can_click (current_report_number))
+		{
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		}
+		else
+		{
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		}
+		g_free (text);
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1514,6 +1524,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	{
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, RIGHT, 0 );
 	}
+	g_free (text);
 
 
 	if ( ligne_debut_partie == -1 )
@@ -1799,9 +1810,9 @@ gint etat_affiche_affiche_sous_categ_etat ( gint transaction_number,
 
 	if ( gsb_data_report_get_category_show_name (current_report_number))
 	{
-	    pointeur_char = gsb_data_category_get_sub_category_name ( gsb_data_transaction_get_category_number (transaction_number),
-								      gsb_data_transaction_get_sub_category_number (transaction_number),
-								      0 );
+	    pointeur_char = my_strdup (gsb_data_category_get_sub_category_name ( gsb_data_transaction_get_category_number (transaction_number),
+										gsb_data_transaction_get_sub_category_number (transaction_number),
+										0 ));
 
 	    if ( !pointeur_char )
 	    {
@@ -1816,6 +1827,7 @@ gint etat_affiche_affiche_sous_categ_etat ( gint transaction_number,
 	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
 					ligne, ligne + 1, LEFT, 0 );
 	    ligne++;
+	    g_free (pointeur_char);
 	}
 
 	ligne_debut_partie = ligne;

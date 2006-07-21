@@ -725,13 +725,13 @@ gint gsb_transactions_list_sort_by_party ( GtkTreeModel *model,
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
-	gchar *temp_1;
-	gchar *temp_2;
+	const gchar *temp_1;
+	const gchar *temp_2;
 
 	temp_1 = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number_1),
-				    TRUE );
+					   TRUE );
 	temp_2 = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number_2),
-				    TRUE );
+					   TRUE );
 
 	/* g_utf8_collate is said not very fast, must try with big big account to check
 	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */
@@ -786,8 +786,8 @@ gint gsb_transactions_list_sort_by_budget ( GtkTreeModel *model,
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
-	gchar *temp_1;
-	gchar *temp_2;
+	const gchar *temp_1;
+	const gchar *temp_2;
 
 	temp_1 = gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number_1),
 					    gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1),
@@ -987,8 +987,8 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
     }
     else
     {
-	gchar *temp_1;
-	gchar *temp_2;
+	const gchar *temp_1;
+	const gchar *temp_2;
 
 	temp_1 = type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_1),
 				       gsb_data_transaction_get_account_number (transaction_number_1));
@@ -1056,8 +1056,8 @@ gint gsb_transactions_list_sort_by_reconcile_nb ( GtkTreeModel *model,
 	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
     else
     {
-	gchar *temp_1;
-	gchar *temp_2;
+	const gchar *temp_1;
+	const gchar *temp_2;
 
 	temp_1 = rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( transaction_number_1));
 	temp_2 = rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( transaction_number_2));
@@ -1256,8 +1256,8 @@ gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
 					     GtkSortType sort_type )
 {
     gint return_value;
-    gchar *temp_1;
-    gchar *temp_2;
+    const gchar *temp_1;
+    const gchar *temp_2;
 
 
     /*     general test first (white line, other rows of the transaction */
@@ -1306,8 +1306,8 @@ gint gsb_transactions_list_sort_by_notes ( GtkTreeModel *model,
 					   GtkSortType sort_type )
 {
     gint return_value;
-    gchar *temp_1;
-    gchar *temp_2;
+    const gchar *temp_1;
+    const gchar *temp_2;
 
 
     /*     general test first (white line, other rows of the transaction */
@@ -1357,8 +1357,8 @@ gint gsb_transactions_list_sort_by_bank ( GtkTreeModel *model,
 					  GtkSortType sort_type )
 {
     gint return_value;
-    gchar *temp_1;
-    gchar *temp_2;
+    const gchar *temp_1;
+    const gchar *temp_2;
 
 
     /*     general test first (white line, other rows of the transaction */
@@ -1408,8 +1408,8 @@ gint gsb_transactions_list_sort_by_chq ( GtkTreeModel *model,
 					 GtkSortType sort_type )
 {
     gint return_value;
-    gchar *temp_1;
-    gchar *temp_2;
+    const gchar *temp_1;
+    const gchar *temp_2;
 
 
     /*     general test first (white line, other rows of the transaction */

@@ -50,7 +50,7 @@ static void latex_safe ( gchar * text ) ;
 int lastline = 0;
 int lastcol = 0;
 int last_is_hsep = 0;
-FILE * out;
+FILE *file_out;
 gchar * tempname;
 
 
@@ -104,15 +104,15 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
 	lastline = y2;
 	if ( ! last_is_hsep )
 	{
-	    fprintf ( out, "\\\\\n" );
+	    fprintf ( file_out, "\\\\\n" );
 	}
     }
 
     for ( pad = lastcol ; pad < x ; pad ++ )
-	fprintf ( out, "&" );
+	fprintf ( file_out, "&" );
 
     if ( (x2 - x) > 1 )
-	fprintf ( out, "\\multicolumn{%d}{l}{", (x2 - x) );
+	fprintf ( file_out, "\\multicolumn{%d}{l}{", (x2 - x) );
 
     realsize = (x2 - x);
     if ( realsize > 1 )
@@ -129,7 +129,7 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
     else 
 	realcolumns = nb_colonnes;
 
-    fprintf ( out, 
+    fprintf ( file_out, 
 	      "\\begin{boxedminipage}{%f\\text%s}\n", 
 	      (float) realsize / (float) realcolumns,
 	      ( etat.print_config.orientation == LANDSCAPE ? "height" : "width") );
@@ -137,11 +137,11 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
     switch ( align )
     {
 	case LEFT:
-	    fprintf ( out, "\\raggedright\n" );
+	    fprintf ( file_out, "\\raggedright\n" );
 	    break;
 
 	case RIGHT:
-	    fprintf ( out, "\\raggedleft\n" );
+	    fprintf ( file_out, "\\raggedleft\n" );
 	    break;
 
 	case CENTER:
@@ -150,32 +150,32 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
 
     if ( ((int) properties) & TEXT_BOLD )
     {
-	fprintf ( out, "\\bf\n");
+	fprintf ( file_out, "\\bf\n");
     }
     if ( ((int) properties) & TEXT_ITALIC )
     {
-	fprintf ( out, "\\em\n");
+	fprintf ( file_out, "\\em\n");
     }
     if ( ((int) properties) & TEXT_HUGE )
     {
-	fprintf ( out, "\\huge\n");
+	fprintf ( file_out, "\\huge\n");
     }
     if ( ((int) properties) & TEXT_LARGE )
     {
-	fprintf ( out, "\\Large\n");
+	fprintf ( file_out, "\\Large\n");
     }
     if ( ((int) properties) & TEXT_SMALL )
     {
-	fprintf ( out, "\\small\n");
+	fprintf ( file_out, "\\small\n");
     }
 
     latex_safe(text);
-    fprintf ( out, "\\end{boxedminipage}" );
+    fprintf ( file_out, "\\end{boxedminipage}" );
 
     if ( (x2 - x) > 1 )
-	fprintf ( out, "}\n" );
+	fprintf ( file_out, "}\n" );
 
-    fprintf ( out, "&" );
+    fprintf ( file_out, "&" );
 
     last_is_hsep = 0;
     lastcol = x2;
@@ -199,14 +199,14 @@ void latex_attach_vsep ( int x, int x2, int y, int y2)
     if ( y >= lastline )
     {
 	if ( ! last_is_hsep )
-	    fprintf ( out, "\\\\\n" );
+	    fprintf ( file_out, "\\\\\n" );
 	lastline = y2;
     }
 
     for ( pad = lastcol ; pad < x ; pad ++ )
-	fprintf ( out, "&" );
+	fprintf ( file_out, "&" );
 
-    fprintf ( out, "{\\vrule}&" );
+    fprintf ( file_out, "{\\vrule}&" );
 
     last_is_hsep = 0;
     lastcol = x2;
@@ -226,10 +226,10 @@ void latex_attach_vsep ( int x, int x2, int y, int y2)
 void latex_attach_hsep ( int x, int x2, int y, int y2)
 {
     if ( ! last_is_hsep )
-	fprintf ( out, "\\\\\n" );
+	fprintf ( file_out, "\\\\\n" );
     lastline = y2;
 
-    fprintf ( out, "\\hline\n" );
+    fprintf ( file_out, "\\hline\n" );
 
     last_is_hsep = 1;
     lastcol = x2;
@@ -260,14 +260,14 @@ gint latex_initialise (GSList * opes_selectionnees, gchar * filename )
     }
 
     unlink ( filename );
-    out = utf8_fopen ( filename, "w+x" );
-    if ( ! out )
+    file_out = utf8_fopen ( filename, "w+x" );
+    if ( ! file_out )
     {
 	dialogue_error ( g_strdup_printf ("File '%s' already exists.", filename ));;
 	return FALSE;
     }
 
-    fprintf (out, 
+    fprintf (file_out, 
 	     "\\documentclass{article}\n\n"
 	     "\\special{! TeXDict begin /landplus90{true}store end }\n"
 	     "\\usepackage{a4}\n"
@@ -279,20 +279,20 @@ gint latex_initialise (GSList * opes_selectionnees, gchar * filename )
 
     if ( etat.print_config.orientation == LANDSCAPE )
     {
-	fprintf (out, "\\usepackage{portland}\n");
+	fprintf (file_out, "\\usepackage{portland}\n");
     }
 
-    fprintf (out,
+    fprintf (file_out,
 	     "\\setpapersize{%s}\n"
 	     "\\setmarginsrb{1cm}{1cm}{1cm}{1cm}{0cm}{0cm}{0cm}{0cm}\n\n"
 	     "\\begin{document}\n\n", etat.print_config.paper_config.name);
 
     if ( etat.print_config.orientation == LANDSCAPE )
       {
-	fprintf (out, "\\landscape\n\n");
+	fprintf (file_out, "\\landscape\n\n");
       }
 	  
-    fprintf (out,
+    fprintf (file_out,
 	     "\\fboxsep \\parskip\n"
 	     "\\fboxrule 0pt\n"
 	     "\\tabcolsep 0pt\n"
@@ -310,21 +310,21 @@ gint latex_initialise (GSList * opes_selectionnees, gchar * filename )
     if ( gsb_data_report_get_show_report_transactions (current_report_number))
     {
 	colwidth = real_width / ((float) (nb_colonnes / 2) + 1 );
-	fprintf ( out, "p{%fcm}", colwidth);
+	fprintf ( file_out, "p{%fcm}", colwidth);
 	for (i = 0 ; i < nb_colonnes/2 ; i++)
 	{
-	    fprintf ( out, "p{%fcm}p{1pt}", colwidth );
+	    fprintf ( file_out, "p{%fcm}p{1pt}", colwidth );
 	}
-	fprintf ( out, "}" );
+	fprintf ( file_out, "}" );
     }
     else 
     {
 	colwidth = real_width / (float) nb_colonnes;
 	for (i = 0 ; i < nb_colonnes ; i++)
 	{
-	    fprintf (out, "p{%fcm}", colwidth);
+	    fprintf (file_out, "p{%fcm}", colwidth);
 	}
-	fprintf (out, "p{1pt}}\n");
+	fprintf (file_out, "p{1pt}}\n");
     }
 
     return TRUE;
@@ -341,10 +341,10 @@ gint latex_finish ()
 {
     gchar * command;
 
-    fprintf (out, "\n"
+    fprintf (file_out, "\n"
 	     "\\end{longtable}\n"
 	     "\\end{document}\n");
-    fclose (out);
+    fclose (file_out);
 
     if ( etat.print_config.printer || etat.print_config.filetype == POSTSCRIPT_FILE )
     {
@@ -396,7 +396,7 @@ gint latex_finish ()
 
 
 /** 
- * Print a latex safe string into the out file descriptor.  All chars
+ * Print a latex safe string into the file_out file descriptor.  All chars
  * that cannot be printed via latex are converted to their latex
  * equivalent (i.e. backslashes are escaped).
  *
@@ -416,15 +416,15 @@ void latex_safe ( gchar * text )
 
 	    case ' ':
 		if ( start )
-		    fprintf ( out, "~" );
+		    fprintf ( file_out, "~" );
 		else
-		    fprintf ( out, "%c", *text );
+		    fprintf ( file_out, "%c", *text );
 		break;
 
 	    case 'â':
 		if ( *(text+1) == '‚' && *(text+2) == '¬' )
 		{
-		    fprintf ( out, "\\officialeuro" );
+		    fprintf ( file_out, "\\officialeuro" );
 		    text+=2;
 		}
 		break;		    
@@ -435,11 +435,11 @@ void latex_safe ( gchar * text )
 	    case '#':
 	    case '\\':
 	    case '$':
-		fprintf ( out, "\\" );
+		fprintf ( file_out, "\\" );
 
 	    default:
 		start = 0;
-		fprintf ( out, "%c", *text );
+		fprintf ( file_out, "%c", *text );
 		break;
 	}
     }

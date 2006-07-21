@@ -83,16 +83,16 @@ static GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *budget_list,
 						    GSList *sub_budget_list );
 static void gsb_data_budget_create_default_budget_list ( void );
 static gint gsb_data_budget_get_pointer_from_name_in_glist ( struct_budget *budget,
-						      gchar *name );
+						      const gchar *name );
 static gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( struct_sub_budget *sub_budget,
-							  gchar *name );
+							  const gchar *name );
 static gpointer gsb_data_budget_get_structure_in_list ( gint no_budget,
 						 GSList *list );
 static gint gsb_data_budget_max_number ( void );
 static gint gsb_data_budget_max_sub_budget_number ( gint budget_number );
-static gint gsb_data_budget_new ( gchar *name );
+static gint gsb_data_budget_new ( const gchar *name );
 static gint gsb_data_budget_new_sub_budget ( gint budget_number,
-				      gchar *name );
+				      const gchar *name );
 static void gsb_data_budget_reset_counters ( void );
 static gint gsb_data_sub_budget_compare ( struct_sub_budget * a, struct_sub_budget * b );
 /*END_STATIC*/
@@ -424,7 +424,7 @@ gint gsb_data_budget_max_sub_budget_number ( gint budget_number )
  *
  * \return the number of the new budget
  * */
-gint gsb_data_budget_new ( gchar *name )
+gint gsb_data_budget_new ( const gchar *name )
 {
     gint budget_number;
 
@@ -548,7 +548,7 @@ gboolean gsb_data_budget_sub_budget_remove ( gint no_budget,
  * \return the number of the new sub-budget or 0 if problem
  * */
 gint gsb_data_budget_new_sub_budget ( gint budget_number,
-				      gchar *name )
+				      const gchar *name )
 {
     gint sub_budget_number;
 
@@ -725,7 +725,7 @@ gint gsb_data_budget_get_sub_budget_number_by_name ( gint budget_number,
  * \return 0 if it's the same name
  * */
 gint gsb_data_budget_get_pointer_from_name_in_glist ( struct_budget *budget,
-						      gchar *name )
+						      const gchar *name )
 {
     return ( g_strcasecmp ( budget -> budget_name,
 			    name ));
@@ -742,7 +742,7 @@ gint gsb_data_budget_get_pointer_from_name_in_glist ( struct_budget *budget,
  * \return 0 if it's the same name
  * */
 gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( struct_sub_budget *sub_budget,
-							  gchar *name )
+							  const gchar *name )
 {
     return ( g_strcasecmp ( sub_budget -> sub_budget_name,
 			    name ));
@@ -759,9 +759,9 @@ gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( struct_sub_budget *sub
  *
  * \return the name of the budget, budget : sub-budget or NULL/No budget if problem
  * */
-gchar *gsb_data_budget_get_name ( gint no_budget,
-				  gint no_sub_budget,
-				  gchar *return_value_error )
+const gchar *gsb_data_budget_get_name ( gint no_budget,
+					gint no_sub_budget,
+					const gchar *return_value_error )
 {
     struct_budget *budget;
     gchar *return_value;
@@ -771,7 +771,7 @@ gchar *gsb_data_budget_get_name ( gint no_budget,
     if (!budget)
 	return return_value_error;
 
-    return_value = g_strdup ( budget -> budget_name );
+    return_value = my_strdup ( budget -> budget_name );
 
     if ( no_sub_budget )
     {
@@ -831,9 +831,9 @@ gboolean gsb_data_budget_set_name ( gint no_budget,
  *
  * \return the name of the budget or NULL/No sub-budget if problem
  * */
-gchar *gsb_data_budget_get_sub_budget_name ( gint no_budget,
-					     gint no_sub_budget,
-					     gchar *return_value_error )
+const gchar *gsb_data_budget_get_sub_budget_name ( gint no_budget,
+						   gint no_sub_budget,
+						   const gchar *return_value_error )
 {
     struct_sub_budget *sub_budget;
 
