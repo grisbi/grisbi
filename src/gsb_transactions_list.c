@@ -2449,12 +2449,19 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
     /* if it's a breakdown transaction, cannot set the financial year and the budget */
     if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
     {
-	gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_EXERCICE,
-								account_number),
-				   FALSE );
-	gtk_widget_set_sensitive ( gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET,
-								account_number),
-				   FALSE );
+	GtkWidget * widget;
+
+	widget = gsb_form_get_element_widget (TRANSACTION_FORM_EXERCICE, account_number);
+	if ( widget )
+	{
+	    gtk_widget_set_sensitive ( widget, FALSE );
+	}
+	
+	widget = gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET, account_number);
+	if ( widget )
+	{
+	    gtk_widget_set_sensitive ( widget, FALSE );
+	}
     }
 
     /* the form is full, if it's not a breakdown, we give the focus to the date
@@ -3746,9 +3753,9 @@ gboolean affichage_traits_liste_operation ( void )
     /* 	pour éviter de dessiner les traits en dessous */
 
 /*     derniere_ligne = hauteur_ligne_liste_opes * GTK_TREE_STORE ( gsb_transactions_list_get_store()) -> length; */
-    derniere_ligne = 10; /* FIXME àvirer */
-    hauteur = MIN ( derniere_ligne,
-		    hauteur );
+/* /\*     derniere_ligne = 10; /\\* FIXME àvirer *\\/ *\/ */
+/*     hauteur = MIN ( derniere_ligne, */
+/* 		    hauteur ); */
 
     /*     le plus facile en premier... les lignes verticales */
     /*     dépend de si on est en train de ventiler ou non */
@@ -3783,8 +3790,8 @@ gboolean affichage_traits_liste_operation ( void )
 				largeur, y );
 	    y = y + hauteur_ligne_liste_opes*gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () );
 	}
-	while ( y < ( adjustment -> page_size ) &&
-		y < derniere_ligne );
+	while ( y < ( adjustment -> page_size ) /* && */
+/* 		y < derniere_ligne */ );
     }
 
     return FALSE;
