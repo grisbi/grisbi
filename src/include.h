@@ -68,4 +68,7 @@ typedef struct
 #  define bindtextdomain(Domain,Directory) (Domain) 
 #endif /* ENABLE_NLS */
 
+
+#define EXPORTABLE
+
 #endif /* _INCLUDE_H */
