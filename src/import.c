@@ -100,7 +100,7 @@ static gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 static gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 			      const gchar *value, GtkListStore * model );
 static void pointe_opes_importees ( struct struct_compte_importation *imported_account );
-static void register_import_format ( struct import_format * format );
+static EXPORTABLE void register_import_format ( struct import_format * format );
 static void traitement_operations_importees ( void );
 /*END_STATIC*/
 
@@ -163,7 +163,7 @@ enum import_pages {
  *
  *
  */
-void register_import_formats ()
+EXPORTABLE void register_import_formats ()
 {
     int i;
 
@@ -180,7 +180,7 @@ void register_import_formats ()
  *
  *  
  */
-void register_import_format ( struct import_format * format )
+EXPORTABLE void register_import_format ( struct import_format * format )
 {
     devel_debug ( g_strdup_printf ( "Adding '%s' as an import format", format -> name ) );
     import_formats = g_slist_append ( import_formats, format );
@@ -193,7 +193,7 @@ void register_import_format ( struct import_format * format )
  *
  *
  */
-void importer_fichier ( void )
+EXPORTABLE void importer_fichier ( void )
 {
     GSList * tmp = import_formats;
     gchar * formats = "";
