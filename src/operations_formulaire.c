@@ -996,6 +996,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 		    gchar **tableau_char;
 
 		    gtk_widget_hide ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] );
+		    gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET], TRUE);
 
 		    /* vérification que ce n'est pas un virement */
 
@@ -1099,6 +1100,7 @@ gboolean entree_perd_focus ( GtkWidget *entree,
 		}
 		else
 		{
+		    gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET], FALSE);
 		    gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] );
 		}
 	    }
@@ -1820,6 +1822,7 @@ gboolean completion_operation_par_tiers ( void )
 
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
 				_("Breakdown of transaction") );
+	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET], FALSE);
 	gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] );
 
 	/* affiche la question de récupération */

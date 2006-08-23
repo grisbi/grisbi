@@ -4930,6 +4930,13 @@ gboolean charge_operations_version_0_5_0 ( xmlDocPtr doc )
 				    operation -> no_operation_ventilee_associee = my_atoi ( xmlGetProp ( node_ope,
 												      "Va" ));
 
+				    /* if breakdown, no budget (correct bug) */
+				    if (operation -> operation_ventilee)
+				    {
+					operation -> imputation = 0;
+					operation -> sous_imputation = 0;
+				    }
+
 
 				    /* on met le compte associe */
 

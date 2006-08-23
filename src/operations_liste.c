@@ -1706,6 +1706,7 @@ void edition_operation ( void )
 	entree_prend_focus ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] );
 	gtk_combofix_set_text ( GTK_COMBOFIX ( widget_formulaire_operations[TRANSACTION_FORM_CATEGORY] ),
 				_("Breakdown of transaction") );
+	gtk_widget_set_sensitive ( widget_formulaire_operations[TRANSACTION_FORM_BUDGET], FALSE);
 	gtk_widget_show ( widget_formulaire_operations[TRANSACTION_FORM_BREAKDOWN] );
 
 	/* met la liste des opé de ventilation dans liste_adr_ventilation */
