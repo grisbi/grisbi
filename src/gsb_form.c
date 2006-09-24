@@ -55,6 +55,7 @@
 #include "fenetre_principale.h"
 #include "gsb_form.h"
 #include "include.h"
+#include <strings.h>
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -1555,9 +1556,9 @@ void gsb_form_check_auto_separator ( GtkWidget *entry )
     account_number = gsb_form_get_account_number ();
     floating_point = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (account_number));
 
-    if ( index (string, '.')
+    if ( strchr (string, '.')
 	 ||
-	 index (string, ','))
+	 strchr (string, ','))
     {
 	g_free (string);
 	return;
