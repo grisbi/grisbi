@@ -356,7 +356,7 @@ void gsb_file_util_change_permissions ( void )
      * Windows version : for that the corresponding parameter
      * check box is not displayed and the paramater is forced to
      * not display msg. */
-#ifdef _WIN32
+#ifndef _WIN32
     resultat = question_conditional_yes_no ( "account-file-readable" );
 
     if ( resultat == TRUE )

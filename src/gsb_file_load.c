@@ -263,7 +263,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 			       &buffer_stat);
     
     /* check the access to the file and propose to change it */
-#ifdef _WIN32
+#ifndef _WIN32
     if ( buffer_stat.st_mode != 33152 )
 	gsb_file_util_change_permissions();
 #endif /* _WIN32 */
