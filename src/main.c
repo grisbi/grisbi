@@ -140,11 +140,13 @@ int main (int argc, char *argv[])
 	printf (_("Error on sigaction: SIGSEGV won't be trapped\n"));
 #endif
 
-    /* parse des options de la ligne de commande */
-    if (parse_options(argc, argv, &opt)) 
+    /* parse command line parameter, exit with correct error code when needed */
     {
-	/* en cas d'erreur dans les options ou si on a passé --version ou --help */
-	exit(0);
+        CMDLINE_ERRNO status = CMDLINE_SYNTAX_OK;/* be optimistic ;-) */
+        if (!parse_options(argc, argv, &opt,&status))
+        {
+            exit(status);
+        }
     }
 
 #ifdef HAVE_PLUGINS
@@ -231,6 +233,13 @@ int main (int argc, char *argv[])
 	    if (!gsb_file_open_file(nom_fichier_comptes))
 		nom_fichier_comptes = NULL;
     }
+
+#ifdef IS_DEVELOPMENT_VERSION
+    
+dialogue_hint("Warning, please be aware that the version you run is a DEVELOPMENT version.\n \
+In any case you do work with this version on your original accounting files.\n \
+(File format may change and set the files incompatible with previous version)\n ",VERSION);
+#endif
 
     if ( first_use )
     {

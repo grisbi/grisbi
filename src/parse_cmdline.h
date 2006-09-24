@@ -17,8 +17,11 @@
 /* *******************************************************************************/
 #ifndef   __PARSE_CMDLINE_H
 #define   __PARSE_CMDLINE_H (1)
+/*START_INCLUDE*/
+#include <glib.h>
+/*END_INCLUDE*/
 
-struct _cmdline_options 
+typedef struct _cmdline_options 
 {
 
     gint        demande_page;
@@ -31,23 +34,24 @@ struct _cmdline_options
     
     gchar      *fichier;
     
-};
-typedef struct _cmdline_options cmdline_options;
+} cmdline_options;
 
-/* Parse les paramètres de la ligne de commande et les range dans pOpt             */
-/* renvoie true si les paramètres doivent conduire à l'arrêt du programme          */
-/* (affichage numéro de version ou erreur de paramètres par exemple), false si     */
-/* on continue                                                                     */
-
-/* gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt); */
-/* START_INCLUDE_H */
-#include "parse_cmdline.h"
-#include "structures.h"
-/* END_INCLUDE_H */
+typedef enum
+{
+    CMDLINE_SYNTAX_OK = 0,
+    CMDLINE_MISSING_PARAMETER,
+    CMDLINE_SYNTAX_ERROR,
+    CMDLINE_UNKNOWN_OPTION,
+    CMDLINE_TOO_MANY_PARAMETERS,
+    CMDLINE_TAB_ID_OUT_OF_RANGE,
+    CMDLINE_GETOPT_CONFIGURATION_ERROR,
+    CMDLINE_OTHER
+} CMDLINE_ERRNO;
+#define CMDLINE_ERROR(err)  (gint)(-err)
 
 
 /*START_DECLARATION*/
-gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt);
+gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErrno);
 /*END_DECLARATION*/
 
 
