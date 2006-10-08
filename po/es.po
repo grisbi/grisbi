@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-15 12:43+0200\n"
-"PO-Revision-Date: 2006-07-13 10:42+0200\n"
+"PO-Revision-Date: 2006-10-08 18:29+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1460,7 +1460,7 @@ msgstr ""
 #: src/check.c:234
 #, c-format
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
-msgstr "ln <i>%s</i>, <i> es una duplicado de <i>%s</i>.\n"
+msgstr "ln <i>%s</i>, <i> es un duplicado de <i>%s</i>.\n"
 
 #: src/check.c:250
 msgid ""
