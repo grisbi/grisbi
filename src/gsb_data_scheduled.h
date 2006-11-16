@@ -57,7 +57,7 @@ gboolean gsb_data_scheduled_set_contra_method_of_payment_number ( gint scheduled
 gboolean gsb_data_scheduled_set_currency_number ( gint scheduled_number,
 						  gint no_currency );
 gboolean gsb_data_scheduled_set_date ( gint scheduled_number,
-				       GDate *date );
+				       const GDate *date );
 gboolean gsb_data_scheduled_set_financial_year_number ( gint scheduled_number,
 							gint financial_year_number );
 gboolean gsb_data_scheduled_set_frequency ( gint scheduled_number,

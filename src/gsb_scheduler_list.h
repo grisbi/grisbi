@@ -55,7 +55,6 @@ gboolean affichage_traits_liste_echeances ( void );
 void gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 					       GDate *end_date );
 gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity periodicity );
-void gsb_scheduler_list_check_scheduled_transactions_time_limit ( void );
 GtkWidget *gsb_scheduler_list_create_list ( void );
 gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number );
 gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number );

@@ -51,7 +51,7 @@ typedef enum
 
 
 /*START_DECLARATION*/
-gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErrno);
+gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErrval);
 /*END_DECLARATION*/
 
 

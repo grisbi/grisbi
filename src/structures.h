@@ -179,19 +179,6 @@ struct struct_type_ope
 
 
 
-/* la struct_ope_liee est utilisée pour le passage de la 0.3.1 à la 0.3.2 */
-/* pour transformer les no d'opés */
-/* à virer ensuite */
-
-struct struct_ope_liee
-{
-    gint ancien_no_ope;
-    gint compte_ope;
-    gint nouveau_no_ope;
-    gpointer ope_liee;
-    gint ope_ventilee;
-};
-
 /* si en 2 parties, séparé d'un - */
 /* si la 2ème est un numéro, elle est incrémentée à chaque équilibrage */
 

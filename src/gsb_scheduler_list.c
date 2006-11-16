@@ -39,9 +39,9 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_form.h"
-#include "gsb_form_scheduler.h"
 #include "fenetre_principale.h"
 #include "gsb_real.h"
+#include "gsb_scheduler.h"
 #include "echeancier_infos.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -70,8 +70,6 @@ static gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number
 static GtkTreeIter *gsb_scheduler_list_get_iter_from_scheduled_number ( gint scheduled_number );
 static GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_number );
 static GtkTreeModel *gsb_scheduler_list_get_model ( void );
-static GDate *gsb_scheduler_list_get_next_date ( gint scheduled_number,
-					  GDate *pGDateCurrent );
 static GtkTreeModelSort *gsb_scheduler_list_get_sorted_model ( void );
 static gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 					GdkEventKey *ev );
@@ -94,7 +92,6 @@ extern GdkColor couleur_grise;
 extern GtkWidget *formulaire;
 extern GdkGC *gc_separateur_operation;
 extern gint hauteur_ligne_liste_opes;
-extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern GtkWidget * navigation_tree_view;
 extern GtkWidget *scheduler_button_delete;
@@ -646,7 +643,7 @@ void gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 				 -1 );
 	else
 	{
-	    pGDateCurrent = gsb_scheduler_list_get_next_date ( scheduled_number, pGDateCurrent );
+	    pGDateCurrent = gsb_scheduler_get_next_date ( scheduled_number, pGDateCurrent );
 
 	    line[COL_NB_DATE] = gsb_format_gdate ( pGDateCurrent );
 	    /* now, it's not real transactions */
@@ -1492,7 +1489,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 	switch ( result )
 	{
 	    case 0:
-		if ( gsb_form_scheduler_increase_scheduled (scheduled_number))
+		if ( gsb_scheduler_increase_scheduled (scheduled_number))
 		    gsb_scheduler_list_update_transaction_in_list (scheduled_number);
 		break;
 
@@ -1515,199 +1512,6 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
     return FALSE;
 }
 
-
-
-/**
- * check the scheduled transactions if the are in time limit
- * and make the transactions if necessary
- * 
- * \param
- * 
- * \return
- * */
-void gsb_scheduler_list_check_scheduled_transactions_time_limit ( void )
-{
-    GDate *pGDateCurrent;
-    GSList *tmp_list;
-    gboolean automatic_transactions_taken = FALSE;
-
-    devel_debug ( "gsb_scheduler_list_check_scheduled_transactions_time_limit" );
-
-    /* the scheduled transactions to take will be check here,
-     * but the scheduled transactions taken will be add to the already appended ones */
-
-    scheduled_transactions_to_take = NULL;
-
-    /* get the date today + nb_days_before_scheduled */
-
-    pGDateCurrent = gdate_today ();
-    g_date_add_days ( pGDateCurrent,
-		      nb_days_before_scheduled );
-
-    /* check all the scheduled transactions,
-     * if automatic, it's taken
-     * if manual, appended into scheduled_transactions_to_take */
-
-    tmp_list = gsb_data_scheduled_get_scheduled_list ();
-
-    while ( tmp_list )
-    {
-	gint scheduled_number;
-
-	scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
-
-	/* we check that scheduled transaction only if it's not a child of a breakdown */
-
-	if ( !gsb_data_scheduled_get_mother_scheduled_number (scheduled_number)
-	     &&
-	     gsb_data_scheduled_get_date (scheduled_number)
-	     &&
-	     g_date_compare ( gsb_data_scheduled_get_date (scheduled_number),
-			      pGDateCurrent ) <= 0 )
-	{
-	    if ( gsb_data_scheduled_get_automatic_scheduled (scheduled_number))
-	    {
-		gint transaction_number;
-
-		/* take automaticly the scheduled transaction untill today */
-
-
-		transaction_number = gsb_scheduler_create_transaction_from_scheduled_transaction (scheduled_number,
-												  0 );
-		if ( gsb_data_scheduled_get_breakdown_of_scheduled (scheduled_number))
-		    gsb_scheduler_execute_children_of_scheduled_transaction ( scheduled_number,
-									      transaction_number );
-
-		scheduled_transactions_taken = g_slist_append ( scheduled_transactions_taken,
-								GINT_TO_POINTER (transaction_number));
-		automatic_transactions_taken = TRUE;
-
-		/* set the scheduled transaction to the next date,
-		 * if it's not finished, we check them again if it need to be
-		 * executed more than one time (the easiest way is to check
-		 * all again, i don't think it will have thousand of scheduled transactions, 
-		 * so no much waste of time...) */
-		if (gsb_form_scheduler_increase_scheduled (scheduled_number))
-		{
-		    scheduled_transactions_to_take = NULL;
-		    tmp_list = gsb_data_scheduled_get_scheduled_list ();
-		}
-		else
-		    /* the scheduled is finish, so we needn't to check it again ... */
-		    tmp_list = tmp_list -> next;
-	    }
-	    else
-	    {
-		/* it's a manual scheduled transaction, we put it in the slist */
-		scheduled_transactions_to_take = g_slist_append ( scheduled_transactions_to_take ,
-								  GINT_TO_POINTER (scheduled_number));
-		tmp_list = tmp_list -> next;
-	    }
-	}
-	else
-	    tmp_list = tmp_list -> next;
-    }
-
-    if ( automatic_transactions_taken )
-    {
-	mise_a_jour_liste_echeances_auto_accueil = 1;
-	modification_fichier ( TRUE );
-    }
-
-    if ( scheduled_transactions_to_take )
-	mise_a_jour_liste_echeances_manuelles_accueil = 1;
-}
-
-
-
-
-/**
- * find and return the next date after the given date for the given scheduled
- * transaction
- *
- * \param scheduled_number
- * \param pGDateCurrent the current date, we want the next one after that one
- *
- * \return the next date or NULL if over the limit
- * */
-GDate *gsb_scheduler_list_get_next_date ( gint scheduled_number,
-					  GDate *pGDateCurrent )
-{
-    if ( !gsb_data_scheduled_get_frequency (scheduled_number)
-	 ||
-	 !pGDateCurrent
-	 ||
-	 !g_date_valid (pGDateCurrent))
-    {
-	return ( NULL );
-    }
-
-    switch (gsb_data_scheduled_get_frequency (scheduled_number))
-    {
-	case SCHEDULER_PERIODICITY_WEEK_VIEW:
-	    g_date_add_days ( pGDateCurrent, 7 );
-	    /* magouille car il semble y avoir un bug dans g_date_add_days
-	       qui ne fait pas l'addition si on ne met pas la ligne suivante */
-	    g_date_add_months ( pGDateCurrent, 0 );
-	    break;
-
-	case SCHEDULER_PERIODICITY_MONTH_VIEW:
-	    g_date_add_months ( pGDateCurrent, 1 );
-	    break;
-
-	case SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW:
-	    g_date_add_months ( pGDateCurrent, 2 );
-	    break;
-
-	case SCHEDULER_PERIODICITY_TRIMESTER_VIEW:
-	    g_date_add_months ( pGDateCurrent, 3 );
-	    break;
-
-	case SCHEDULER_PERIODICITY_YEAR_VIEW:
-	    g_date_add_years ( pGDateCurrent, 1 );
-
-	case SCHEDULER_PERIODICITY_CUSTOM_VIEW:
-	    if ( gsb_data_scheduled_get_user_entry (scheduled_number) <= 0 )
-		return NULL;
-
-	    switch (gsb_data_scheduled_get_user_interval (scheduled_number))
-	    {
-		case PERIODICITY_DAYS:
-		    g_date_add_days ( pGDateCurrent, 
-				      gsb_data_scheduled_get_user_entry (scheduled_number));
-		    g_date_add_months ( pGDateCurrent, 0 );
-		    break;
-
-		case PERIODICITY_WEEKS:
-		    g_date_add_days ( pGDateCurrent, 
-				      gsb_data_scheduled_get_user_entry (scheduled_number) * 7 );
-		    g_date_add_months ( pGDateCurrent, 0 );
-		    break;
-
-		case PERIODICITY_MONTHS:
-		    g_date_add_months ( pGDateCurrent,
-					gsb_data_scheduled_get_user_entry (scheduled_number));
-		    break;
-
-		case PERIODICITY_YEARS:
-		    g_date_add_years ( pGDateCurrent,
-				       gsb_data_scheduled_get_user_entry (scheduled_number));
-		    g_date_add_months ( pGDateCurrent, 0 );
-		    break;
-	    }
-	    break;
-    }
-
-    if ( gsb_data_scheduled_get_limit_date (scheduled_number)
-	 &&
-	 g_date_compare ( pGDateCurrent,
-			  gsb_data_scheduled_get_limit_date (scheduled_number)) > 0 )
-    {
-	pGDateCurrent = NULL;
-    }
-    
-    return ( pGDateCurrent );
-}
 
 
 

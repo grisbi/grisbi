@@ -27,7 +27,6 @@
 
 /*START_INCLUDE*/
 #include "echeancier_formulaire.h"
-#include "comptes_traitements.h"
 #include "erreur.h"
 #include "dialog.h"
 #include "calendar.h"
@@ -44,6 +43,7 @@
 #include "accueil.h"
 #include "gsb_payment_method.h"
 #include "gsb_real.h"
+#include "gsb_scheduler.h"
 #include "gsb_scheduler_list.h"
 #include "utils_editables.h"
 #include "gtk_combofix.h"
@@ -56,21 +56,31 @@
 #include "utils_operations.h"
 #include "structures.h"
 #include "gsb_data_form.h"
-#include "echeancier_infos.h"
 #include "echeancier_formulaire.h"
 #include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gboolean clique_champ_formulaire_echeancier ( GtkWidget *entree,
+					      GdkEventButton *ev,
+					      gint *no_origine );
 static void echap_formulaire_echeancier ( void );
+static gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
+					GdkEventFocus *ev,
+					gint *no_origine );
+static void formulaire_echeancier_a_zero ( void );
 static gboolean gsb_scheduler_check_form ( void );
 static gint gsb_scheduler_create_scheduled_transaction_from_scheduled_form ( gint scheduled_number );
 static gint gsb_scheduler_create_transaction_from_scheduled_form ( void );
+static gboolean gsb_scheduler_form_set_sensitive ( gboolean breakdown_child );
 static gboolean gsb_scheduler_get_category_for_transaction_from_form ( gint transaction_number );
-static gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint transaction_number,
-								       gint scheduled_number );
 static gboolean gsb_scheduler_increase_date ( gint scheduled_number,
 				       GDate *date );
+static gboolean gsb_scheduler_increase_scheduled_transaction ( gint scheduled_number );
+static void gsb_scheduler_validate_form ( void );
+static gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
+						 GdkEventKey *ev,
+						 gint no_widget );
 /*END_STATIC*/
 
 
@@ -83,8 +93,6 @@ GtkWidget *hbox_valider_annuler_echeance;
 
 /*START_EXTERN*/
 extern GtkWidget *formulaire;
-extern GtkWidget *formulaire_echeancier;
-extern GtkWidget *frame_formulaire_echeancier;
 extern GtkWidget *main_page_finished_scheduled_transactions_part;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_liste_echeances_auto_accueil;

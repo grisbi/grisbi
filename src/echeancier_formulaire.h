@@ -30,22 +30,11 @@
 
 
 /* START_DECLARATION */
-gboolean clique_champ_formulaire_echeancier ( GtkWidget *entree,
-					      GdkEventButton *ev,
-					      gint *no_origine );
-gboolean entree_perd_focus_echeancier ( GtkWidget *entree,
-					GdkEventFocus *ev,
-					gint *no_origine );
-void formulaire_echeancier_a_zero ( void );
 gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint scheduled_number,
 								   gint transaction_mother );
 gboolean gsb_scheduler_execute_children_of_scheduled_transaction ( gint scheduled_number,
 								   gint transaction_number );
-gboolean gsb_scheduler_form_set_sensitive ( gboolean breakdown_child );
-gboolean gsb_scheduler_increase_scheduled_transaction ( gint scheduled_number );
-void gsb_scheduler_validate_form ( void );
-gboolean pression_touche_formulaire_echeancier ( GtkWidget *widget,
-						 GdkEventKey *ev,
-						 gint no_widget );
+gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint transaction_number,
+								       gint scheduled_number );
 /* END_DECLARATION */
 #endif

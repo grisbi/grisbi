@@ -18,23 +18,25 @@
 
 #include "include.h"
 
+#include <stdio.h>
+#include <getopt.h>
+
 /*START_INCLUDE*/
 #include "parse_cmdline.h"
 #include "main.h"
 #include "utils_str.h"
+#include "parse_cmdline.h"
 #include "include.h"
-#include <stdio.h>
-#include <getopt.h>
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean       is_valid_window_number(gint);
-static CMDLINE_ERRNO  parse_tab_parameters(char*, cmdline_options*);
-static void           show_help(FILE*);
-static void           show_version(FILE*);
-static void           show_synoptic(FILE*);
-static void           show_usage(FILE* output, gint errval, gchar* extra);
-static void           show_errstr(FILE* output, gint errval, gchar* extra);
+static gboolean is_valid_window_number(gint w);
+static CMDLINE_ERRNO parse_tab_parameters(char *tab_parameters, cmdline_options* pOpt);
+static void show_errstr(FILE* output, gint errval, gchar* extra);
+static void show_help(FILE* output);
+static void show_synoptic(FILE* output);
+static void   show_usage(FILE* output, gint errval, gchar* extra);
+static void show_version(FILE* output);
 /*END_STATIC*/
 
 
@@ -82,7 +84,7 @@ static struct option long_options[] =           /*!< configure the list of 'long
  *
  * \note  See short_options and long_options variables to have possible options.
  */
-gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErrval) /* {{{ */
+gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErrval)
 {
     gboolean still_args_to_treat = TRUE; /*!< used to stop treating the command line args using getopt */ 
     int      option_index        = 0;    /*!< Index of the field of argv to compute */
@@ -166,7 +168,7 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
 		
     return ((gboolean)((*pErrval)==0)&&(!app_must_stop));
 	
-} /* }}} */
+}
 
 
 /**
@@ -177,10 +179,10 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
  *
  * \private
  */
-void show_synoptic(FILE* output) /* {{{ */
+void show_synoptic(FILE* output)
 { 
     fprintf(output,_("\nGrisbi\n\n  Personal accounting program under GNU General Public Licence\n\n")); 
-} /* }}} */
+}
 
 
 /**
@@ -190,11 +192,11 @@ void show_synoptic(FILE* output) /* {{{ */
  * \param output to choose between stdout and stderr or another file descriptor
  *
  **/
-void show_version(FILE* output) /* {{{ */
+void show_version(FILE* output)
 {
     show_synoptic(output);
     printf(N_("Version %s\n\n"), VERSION);	
-} /* }}} */
+}
 
 
 /**
@@ -205,12 +207,12 @@ void show_version(FILE* output) /* {{{ */
  *
  * \private
  */
-void show_help(FILE* output) /* {{{ */
+void show_help(FILE* output)
 {
     show_synoptic(output);
     show_usage(output,0,NULL);
     fprintf(output,HELP_STRING);
-} /* }}} */
+}
 
 
 /**
@@ -223,11 +225,11 @@ void show_help(FILE* output) /* {{{ */
  *
  * \private
  */
-void   show_usage(FILE* output, gint errval, gchar* extra) /* {{{ */
+void   show_usage(FILE* output, gint errval, gchar* extra)
 {
     show_errstr(output,errval,extra);
     fprintf(output,USAGE_STRING);
-} /*  }}} */
+}
 
 
 /**
@@ -240,7 +242,7 @@ void   show_usage(FILE* output, gint errval, gchar* extra) /* {{{ */
  *
  * \private
  */
-void show_errstr(FILE* output, gint errval, gchar* extra) /* {{{ */
+void show_errstr(FILE* output, gint errval, gchar* extra)
 {
     switch (CMDLINE_ERROR(errval))
     {
@@ -268,7 +270,7 @@ void show_errstr(FILE* output, gint errval, gchar* extra) /* {{{ */
             fprintf(output,_("Syntax error!\n\n"));
             break;
     }
-} /* }}} */
+}
 
 
 /**
@@ -283,7 +285,7 @@ void show_errstr(FILE* output, gint errval, gchar* extra) /* {{{ */
  * \retval CMDLINE_TAB_ID_OUT_OF_RANGE
  *
  */
-CMDLINE_ERRNO parse_tab_parameters(char *tab_parameters, cmdline_options* pOpt) /* {{{ */
+CMDLINE_ERRNO parse_tab_parameters(char *tab_parameters, cmdline_options* pOpt)
 {
 	gchar **split_chiffres;
 	gint    w, x, y, z;
@@ -333,7 +335,7 @@ CMDLINE_ERRNO parse_tab_parameters(char *tab_parameters, cmdline_options* pOpt) 
 	
     return CMDLINE_SYNTAX_OK;
 
-} /* }}}*/
+}
 
 	
 
@@ -349,14 +351,14 @@ CMDLINE_ERRNO parse_tab_parameters(char *tab_parameters, cmdline_options* pOpt) 
  *
  * \return TRUE is w can be a tab index, FALSE otherwise.
  */
-gboolean is_valid_window_number(gint w) /* {{{ */
+gboolean is_valid_window_number(gint w)
 {
 	/* Valeurs valides:
 	 * 1)  -1: fenêtre de configuration
 	 * 2)  0..NB_MAX_ONGLET-1: onglet
 	 */
 	return ((w >= -1) && (w < NB_MAX_ONGLET));
-} /* }}} */
+}
 
 
 /* Local Variables: */

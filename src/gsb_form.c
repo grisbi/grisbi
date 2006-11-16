@@ -54,6 +54,8 @@
 #include "navigation.h"
 #include "gsb_payment_method.h"
 #include "gsb_real.h"
+#include "echeancier_formulaire.h"
+#include "gsb_scheduler.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "utils_editables.h"
@@ -68,7 +70,6 @@
 #include "fenetre_principale.h"
 #include "gsb_form.h"
 #include "include.h"
-#include <strings.h>
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -2273,7 +2274,7 @@ gboolean gsb_form_finish_edition ( void )
 								      transaction_number );
 
 	/* now we can increase the scheduled transaction */
-	increase_result = gsb_form_scheduler_increase_scheduled (saved_scheduled_number);
+	increase_result = gsb_scheduler_increase_scheduled (saved_scheduled_number);
 
 	/* the next step is to update the list, but do it only if we are on the scheduled
 	 * list, else we needn't because the update will be done when going to that list */

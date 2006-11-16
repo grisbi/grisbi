@@ -65,6 +65,7 @@ sources = \
 	gsb_data_fyear.c	\
 	gsb_data_mix.c		\
 	gsb_data_payee.c	\
+	gsb_data_reconcile.c	\
 	gsb_data_report.c	\
 	gsb_data_report_amout_comparison.c	\
 	gsb_data_report_text_comparison.c	\
@@ -87,6 +88,7 @@ sources = \
 	gsb_payment_method_config.c	\
 	gsb_plugins.c		\
 	gsb_real.c		\
+	gsb_scheduler.c		\
 	gsb_scheduler_list.c	\
 	gsb_status.c		\
 	gsb_transaction_model.c	\
@@ -160,6 +162,7 @@ grisbi_INCLUDES =		\
 	gsb_data_fyear.c	\
 	gsb_data_mix.h		\
 	gsb_data_payee.h	\
+	gsb_data_reconcile.s	\
 	gsb_data_report.h	\
 	gsb_data_report_amout_comparison.h	\
 	gsb_data_report_text_comparison.h	\
@@ -180,6 +183,7 @@ grisbi_INCLUDES =		\
 	gsb_payment_method.h	\
 	gsb_payment_method_config.h	\
 	gsb_real.h		\
+	gsb_scheduler.h		\
 	gsb_scheduler_list.h	\
 	gsb_transaction_model.h	\
 	gsb_transactions_list.h	\

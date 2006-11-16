@@ -129,11 +129,13 @@ GDate *gdate_today ( void )
  * 
  * \return a copy or NULL if no date
  * */
-GDate *gsb_date_copy ( GDate *date )
+GDate *gsb_date_copy ( const GDate *date )
 {
     GDate *new_date;
 
-    if ( !date )
+    if ( !date
+	 ||
+	 !g_date_valid (date))
 	return NULL;
 
     new_date = g_date_new_dmy ( g_date_get_day ( date ),

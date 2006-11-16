@@ -43,6 +43,7 @@
 #include "navigation.h"
 #include "fenetre_principale.h"
 #include "gsb_real.h"
+#include "gsb_scheduler.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "main.h"
@@ -1284,7 +1285,7 @@ gboolean click_sur_compte_accueil ( gint *account_number )
 void update_liste_echeances_manuelles_accueil ( gboolean force )
 {
     /* need to set that in first because can change mise_a_jour_liste_echeances_manuelles_accueil */
-    gsb_scheduler_list_check_scheduled_transactions_time_limit ();
+    gsb_scheduler_check_scheduled_transactions_time_limit ();
 
     if ( !force
 	 &&
