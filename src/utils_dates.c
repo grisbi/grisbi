@@ -27,7 +27,7 @@
 
 /*START_INCLUDE*/
 #include "utils_dates.h"
-#include "gsb_form.h"
+#include "gsb_form_widget.h"
 #include "utils_str.h"
 #include "parametres.h"
 #include "calendar.h"
@@ -159,12 +159,17 @@ GDate *gsb_date_copy ( GDate *date )
 gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry )
 {
     const gchar *string;
+
+    if (!entry)
+	return FALSE;
     
     /* if the entry is grey (empty), go away */
-    if (gsb_form_check_entry_is_empty (entry))
+    if (gsb_form_widget_check_empty (entry))
 	return ( FALSE );
 
     string = gtk_entry_get_text ( GTK_ENTRY (entry));
+    if (!string)
+	return FALSE;
 
     if ( strlen (string))
     {

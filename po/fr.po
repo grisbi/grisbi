@@ -6202,6 +6202,11 @@ msgstr "Change"
 msgid "Contra-transaction method of payment"
 msgstr "Mode de règlement de la contre-opération"
 
+#: src/gsb_form.c:1605 src/gsb_form.c:1606 src/gsb_form_transaction.c:353
+msgid "Transfer : "
+msgstr "Virement : "
+
+
 #: src/gsb_form.c:987
 #, fuzzy
 msgid "User frequency"
@@ -6210,11 +6215,6 @@ msgstr "Périodicité personnalisée"
 #: src/gsb_form.c:1120 src/gsb_form.c:2211
 msgid "Cheque/Transfer number"
 msgstr "N° Chèque/Virement"
-
-#: src/gsb_form.c:1605 src/gsb_form.c:1606 src/gsb_form_transaction.c:353
-#, fuzzy
-msgid "Transfer : "
-msgstr "Virement"
 
 #: src/gsb_form.c:2191
 #, fuzzy

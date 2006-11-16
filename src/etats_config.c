@@ -1845,7 +1845,7 @@ void recuperation_info_perso_etat ( void )
 											       "no_operateur" )));
 
 	string = g_strstrip ( my_strdup (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)))));
-	if ( strlen (string))
+	if ( string && strlen (string))
 	    gsb_data_report_text_comparison_set_text ( text_comparison_number,
 						       string );
 	else

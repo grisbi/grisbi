@@ -46,6 +46,7 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
+#include "gsb_form_scheduler.h"
 #include "navigation.h"
 #include "menu.h"
 #include "gsb_real.h"
@@ -105,7 +106,6 @@ static void traitement_operations_importees ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *formulaire;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;
@@ -1252,10 +1252,9 @@ void traitement_operations_importees ( void )
 /* 				     TRUE, */
 /* 				     TRUE, */
 /* 				     0 ); */
-		/* on met à jour l'option menu du formulaire des échéances */
-
-		update_options_menus_comptes ();
-
+		/* update the name of accounts in form */
+		gsb_account_update_name_tree_model ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
+						     FALSE );
 
 		/* 	on réaffiche la liste des comptes */
 

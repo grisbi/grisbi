@@ -29,6 +29,7 @@
 #include "utils_file_selection.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
+#include "gsb_form.h"
 #include "navigation.h"
 #include "barre_outils.h"
 #include "gsb_transactions_list.h"
@@ -72,7 +73,6 @@ extern GtkWidget *entree_adresse_commune;
 extern GtkWidget *entree_adresse_secondaire;
 extern GtkWidget *entree_titre_fichier;
 extern GtkWidget *fenetre_preferences;
-extern GtkWidget *form_button_part;
 extern gint hauteur_ligne_liste_opes;
 extern GtkWidget *hbox_title;
 extern GtkWidget *label_titre_fichier;
@@ -106,11 +106,11 @@ gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data )
 {
     if ( etat.affiche_boutons_valider_annuler )
     {
-	gtk_widget_show_all ( form_button_part );
+	gtk_widget_show_all (gsb_form_get_button_part ());
     }
     else
     {
-	gtk_widget_hide_all ( form_button_part );
+	gtk_widget_hide_all (gsb_form_get_button_part ());
     }
     return ( FALSE );
 }

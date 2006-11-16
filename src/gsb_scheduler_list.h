@@ -26,7 +26,7 @@
 
 
 enum scheduler_periodicity {
-    SCHEDULER_PERIODICITY_ONCE_VIEW,
+    SCHEDULER_PERIODICITY_ONCE_VIEW = 0,
     SCHEDULER_PERIODICITY_WEEK_VIEW,
     SCHEDULER_PERIODICITY_MONTH_VIEW,
     SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW,
@@ -37,6 +37,14 @@ enum scheduler_periodicity {
 };
 
 
+enum periodicity_units {
+    PERIODICITY_DAYS,
+    PERIODICITY_WEEKS,
+    PERIODICITY_MONTHS,
+    PERIODICITY_YEARS,
+};
+
+
 /* START_INCLUDE_H */
 #include "gsb_scheduler_list.h"
 /* END_INCLUDE_H */
@@ -44,6 +52,8 @@ enum scheduler_periodicity {
 
 /* START_DECLARATION */
 gboolean affichage_traits_liste_echeances ( void );
+void gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
+					       GDate *end_date );
 gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity periodicity );
 void gsb_scheduler_list_check_scheduled_transactions_time_limit ( void );
 GtkWidget *gsb_scheduler_list_create_list ( void );
@@ -51,11 +61,12 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number );
 gboolean gsb_scheduler_list_execute_transaction ( gint scheduled_number );
 gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view );
-gint gsb_scheduler_list_get_current_scheduled_number ( GtkWidget *tree_view );
+gint gsb_scheduler_list_get_current_scheduled_number ( void );
+GDate *gsb_scheduler_list_get_end_date_scheduled_showed ( void );
+gint gsb_scheduler_list_get_last_scheduled_number ( void );
 GtkWidget *gsb_scheduler_list_get_tree_view ( void );
-gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
-					GdkEventKey *ev );
 gboolean gsb_scheduler_list_remove_transaction_from_list ( gint scheduled_number );
+gboolean gsb_scheduler_list_select ( gint scheduled_number );
 gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view );
 gboolean gsb_scheduler_list_show_notes ( void );
 gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number );

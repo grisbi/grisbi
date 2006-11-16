@@ -34,7 +34,7 @@
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_others.h"
-#include "gsb_form.h"
+#include "gsb_form_widget.h"
 #include "navigation.h"
 #include "gsb_form_transaction.h"
 #include "gtk_combofix.h"
@@ -430,19 +430,16 @@ gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * pa
 void mise_a_jour_combofix_categ ( void )
 {
     GSList *list_tmp;
-    gint account_number;
 
     devel_debug ( "mise_a_jour_combofix_categ" );
 
-    account_number = gsb_form_get_account_number ();
     list_tmp = gsb_data_category_get_name_list ( TRUE,
 						 TRUE,
 						 TRUE,
 						 TRUE );
 
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY ))
-	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_CATEGORY,
-									    account_number )),
+	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY)),
 				list_tmp );
 
     /* FIXME : this should not be in this function */

@@ -80,7 +80,7 @@ G_MODULE_EXPORT void plugin_register () {
 G_MODULE_EXPORT GtkWidget * plugin_run ( gchar * file_name, gchar **file_content,
 					 gboolean crypt, gulong length )
 {
-    return GBanking_JobView_new(gbanking, 0);
+/*     return GBanking_JobView_new(gbanking, 0); */
 }
 
 

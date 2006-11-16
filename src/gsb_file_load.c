@@ -38,8 +38,8 @@
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
-#include "gsb_file_util.h"
 #include "utils_dates.h"
+#include "gsb_file_util.h"
 #include "gsb_plugins.h"
 #include "gsb_real.h"
 #include "utils_str.h"
@@ -47,9 +47,9 @@
 #include "fichiers_gestion.h"
 #include "utils_files.h"
 #include "gsb_scheduler_list.h"
-#include "echeancier_infos.h"
 #include "gsb_transactions_list.h"
 #include "include.h"
+#include "echeancier_infos.h"
 #include "structures.h"
 #include "gsb_currency_config.h"
 /*END_INCLUDE*/
@@ -6217,6 +6217,7 @@ gboolean gsb_file_load_update_previous_version ( void )
     GSList *list_tmp;
     gint i;
     GSList *list_tmp_transactions;
+    GSList *list_tmp_scheduled;
     gint version_number;
 
     version_number = utils_str_atoi ( g_strjoinv ( "",
@@ -6331,6 +6332,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    /* ************************************* */
 
 	case 58:
+	case 59:
 
 	    /* all the change between the 0.5.0 and 0.6.0 are set here because a confuse between
 	     * the number of version and the number of file structure */
@@ -6402,18 +6404,17 @@ gboolean gsb_file_load_update_previous_version ( void )
 
 	    /* a problem untill the 0.5.7, the children of a scheduled breakdown are marked
 	     * as a breakdown mother */
+	    list_tmp_scheduled = gsb_data_scheduled_get_scheduled_list ();
 
-	    list_tmp_transactions = gsb_data_scheduled_get_scheduled_list ();
-
-	    while ( list_tmp_transactions )
+	    while (list_tmp_scheduled)
 	    {
 		gint scheduled_number;
-		scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp_transactions -> data);
+		scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp_scheduled -> data);
 
 		if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
 		    gsb_data_scheduled_set_breakdown_of_scheduled ( scheduled_number,
 								    0 );
-		list_tmp_transactions = list_tmp_transactions -> next;
+		list_tmp_scheduled = list_tmp_scheduled -> next;
 	    }
 
 	    list_tmp = gsb_data_account_get_list_accounts ();
@@ -6436,32 +6437,72 @@ gboolean gsb_file_load_update_previous_version ( void )
 	     * are not marked R, and the mother is...
 	     * very annoying now, we MUST mark them as R, so check here... */
 
+	    /* we use that to correct another bug, sometimes, the mother of breakdown
+	     * has a financial year an budget... bad things because makes errors in reports,
+	     * so change that here */
+
+	    /* another fix, some childrean of breakdown have not the same values of the mother
+	     * for some fields wich should be ; fix here */
+
 	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 	    while ( list_tmp_transactions )
 	    {
 		gint transaction_number;
+		gint mother_number;
+
 		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
 		/*  if it's a breakdown and marked R, we look for the children */
-
-		if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
-		     &&
-		     gsb_data_transaction_get_marked_transaction (transaction_number) == 3)
+		if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
 		{
-		    GSList *list_tmp_transactions_2;
-		    list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
-
-		    while ( list_tmp_transactions_2 )
+		    /* change the problem of marked transactions */
+		    if (gsb_data_transaction_get_marked_transaction (transaction_number) == 3)
 		    {
-			gint transaction_number_2;
-			transaction_number_2 = gsb_data_transaction_get_transaction_number (list_tmp_transactions_2 -> data);
+			GSList *list_tmp_transactions_2;
+			list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
 
-			if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_2) == transaction_number)
-			    gsb_data_transaction_set_marked_transaction ( transaction_number_2,
-									  3 );
-			list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
+			while ( list_tmp_transactions_2 )
+			{
+			    gint transaction_number_2;
+			    transaction_number_2 = gsb_data_transaction_get_transaction_number (list_tmp_transactions_2 -> data);
+
+			    if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_2) == transaction_number)
+				gsb_data_transaction_set_marked_transaction ( transaction_number_2,
+									      3 );
+			    list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
+			}
 		    }
+
+		    /* erase what shouldn't be set */
+		    gsb_data_transaction_set_budgetary_number (transaction_number, 0);
+		    gsb_data_transaction_set_sub_budgetary_number (transaction_number, 0);
+		    gsb_data_transaction_set_financial_year_number (transaction_number, 0);
+		    gsb_data_transaction_set_voucher (transaction_number, NULL);
+		}
+
+		/* if t's a child, fix the values to be the same as for mother */
+		mother_number = gsb_data_scheduled_get_mother_scheduled_number (transaction_number);
+		if (mother_number)
+		{
+		    /* set the value date */
+		    gsb_data_transaction_set_value_date ( transaction_number,
+							  gsb_date_copy (gsb_data_transaction_get_value_date (mother_number)));
+		    /* set the party */
+		    gsb_data_transaction_set_party_number ( transaction_number,
+							    gsb_data_transaction_get_party_number (mother_number));
+		    /* set the currency */
+		    gsb_data_transaction_set_currency_number ( transaction_number,
+							       gsb_data_transaction_get_currency_number (mother_number));
+		    /* set the type */
+		    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+									gsb_data_transaction_get_method_of_payment_number (mother_number));
+		    /* set the type content */
+		    gsb_data_transaction_set_method_of_payment_content ( transaction_number,
+									 gsb_data_transaction_get_method_of_payment_content (mother_number));
+		    /* set the bank */
+		    gsb_data_transaction_set_bank_references ( transaction_number,
+							       gsb_data_transaction_get_bank_references (mother_number));
 		}
 		list_tmp_transactions = list_tmp_transactions -> next;
 	    }
@@ -6470,13 +6511,13 @@ gboolean gsb_file_load_update_previous_version ( void )
 	     * now 7 choice => in scheduler_periodicity, we have to change
 	     * the last choices to the new numbers */
 
-	    list_tmp_transactions = gsb_data_scheduled_get_scheduled_list ();
+	    list_tmp_scheduled = gsb_data_scheduled_get_scheduled_list ();
 
-	    while ( list_tmp_transactions )
+	    while (list_tmp_scheduled)
 	    {
 		gint scheduled_number;
 
-		scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp_transactions -> data);
+		scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp_scheduled -> data);
 
 		switch ( gsb_data_scheduled_get_frequency (scheduled_number))
 		{
@@ -6521,7 +6562,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 			break;
 		}
 							    
-		list_tmp_transactions = list_tmp_transactions -> next;
+		list_tmp_scheduled = list_tmp_scheduled -> next;
 	    }
 
 	    /* new to the 0.6.0 : append the currency_floating_point to the currencies

@@ -78,30 +78,31 @@ gint gsb_transactions_list_append_white_line ( gint mother_transaction_number,
 gint gsb_transactions_list_clone_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_delete_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_edit_current_transaction ( void );
+gboolean gsb_transactions_list_edit_transaction ( gint transaction_number );
+gboolean gsb_transactions_list_edit_transaction_by_pointer ( gint *transaction_number );
 gboolean gsb_transactions_list_fill_row ( gint transaction_number,
 					  GtkTreeIter *iter,
 					  GtkTreeStore *store,
 					  gint line_in_transaction );
-GtkTreeIter *gsb_transactions_list_get_iter_from_transaction ( gint transaction_number,
-							       gint line_in_transaction );
+GtkTreeModel *gsb_transactions_list_get_filter (void);
+GtkTreeModel *gsb_transactions_list_get_sortable (void);
 GtkTreeStore *gsb_transactions_list_get_store (void);
 GtkWidget *gsb_transactions_list_get_tree_view (void);
 gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 					   GdkEventKey *ev );
 GtkWidget *gsb_transactions_list_make_gui_list ( void );
 gboolean gsb_transactions_list_move_to_current_transaction ( gint no_account );
+gboolean gsb_transactions_list_select ( gint transaction_number );
 gboolean gsb_transactions_list_set_adjustment_value ( gint account_number );
 gboolean gsb_transactions_list_set_background_color ( gint no_account );
-gboolean gsb_transactions_list_set_current_transaction ( gint transaction_number );
 void gsb_transactions_list_set_store (GtkTreeStore *store);
 gboolean gsb_transactions_list_set_transactions_balances ( gint no_account );
 void gsb_transactions_list_set_visible_rows_number ( gint rows_number );
 gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint no_account );
 gboolean gsb_transactions_list_set_visibles_rows_on_transaction ( gint transaction_number );
 void mise_a_jour_affichage_r ( gint affichage_r );
-void mise_a_jour_labels_soldes ( void );
 void move_selected_operation_to_account_nb ( gint *account );
-void new_transaction () ;
+gboolean new_transaction () ;
 gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view );
 void remove_transaction ();
 void remplissage_liste_operations ( gint compte );

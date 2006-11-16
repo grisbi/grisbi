@@ -144,8 +144,6 @@ struct {
     gint largeur_colonne_etat;
 
     /* variables sur l'échéancier */
-    gint formulaire_echeancier_toujours_affiche;
-    gint formulaire_echeance_dans_fenetre;        /* à 1 lorsque le formulaire de l'échéancier est dans une fenetre à part */
     gint affichage_commentaire_echeancier;     /* à 1 si le commentaire est affiché */
 
     /* Tips */

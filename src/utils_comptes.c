@@ -26,16 +26,15 @@
 
 /*START_INCLUDE*/
 #include "utils_comptes.h"
-#include "comptes_traitements.h"
-#include "echeancier_formulaire.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gint recherche_compte_dans_option_menu ( GtkWidget *option_menu,
+					 gint no_compte );
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
 
 
@@ -94,24 +93,6 @@ gint recupere_no_compte ( GtkWidget *option_menu )
 }
 /* ************************************************************************** */
 
-
-
-
-/* ************************************************************************** */
-/* il y a eu un chgt dans les comptes, cette fonction modifie les */
-/* options menus qui contiennent les noms de compte */
-/* ************************************************************************** */
-
-void update_options_menus_comptes ( void )
-{
-    /*     on met Ã  jour l'option menu de l'Ã©chÃ©ancier */
-
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] ),
-			       creation_option_menu_comptes(GTK_SIGNAL_FUNC(changement_choix_compte_echeancier),
-							    TRUE,
-							    FALSE ));
-}
-/* ************************************************************************** */
 
 
 

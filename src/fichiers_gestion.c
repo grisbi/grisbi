@@ -47,7 +47,6 @@
 #include "gsb_file_util.h"
 #include "navigation.h"
 #include "gsb_real.h"
-#include "gsb_scheduler_list.h"
 #include "gsb_status.h"
 #include "gsb_transactions_list.h"
 #include "traitement_variables.h"
@@ -79,12 +78,14 @@ extern gchar *dernier_chemin_de_travail;
 extern GtkWidget *main_hpaned ;
 extern GtkWidget *main_vbox;
 extern gint max;
+extern GtkWidget * navigation_tree_view;
 extern gsize nb_derniers_fichiers_ouverts ;
 extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *notebook_general;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
+extern GtkTreeSelection * selection;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern GtkWidget *table_etat ;
 extern gchar *titre_fichier;
@@ -397,10 +398,6 @@ gboolean gsb_file_open_file ( gchar *filename )
     gsb_status_message ( _("Creating main window"));
     main_widget = create_main_widget();
 
-    /* check the schedulers */
-    gsb_status_message ( _("Checking scheduled transactions"));
-    gsb_scheduler_list_check_scheduled_transactions_time_limit ();
-
     /* check the amounts of all the accounts */
     gsb_status_message ( _("Checking amounts"));
     list_tmp = gsb_data_account_get_list_accounts ();
@@ -451,12 +448,14 @@ gboolean gsb_file_open_file ( gchar *filename )
     gsb_status_message ( _("Done") );
     gsb_status_stop_wait ( TRUE );
 
-    /* on se met sur l'onglet de propriétés du compte */
+    /* go to the home page */
     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );    
+
+    /* set the focus to the selection tree at left */
+    gtk_widget_grab_focus (navigation_tree_view);
 
     return TRUE;
 }
-
 
 
 /**
@@ -739,11 +738,6 @@ gboolean fermer_fichier ( void )
 	    g_slist_free ( gsb_data_scheduled_get_scheduled_list () );
 	    g_slist_free ( scheduled_transactions_to_take );
 	    g_slist_free ( scheduled_transactions_taken );
-
-	    gtk_signal_disconnect_by_func ( GTK_OBJECT ( notebook_general ),
-					    GTK_SIGNAL_FUNC ( gsb_gui_on_notebook_switch_page ),
-					    NULL );
-
 	    gtk_widget_destroy ( main_vbox );
 
 	    init_variables ();

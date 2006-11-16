@@ -30,7 +30,6 @@ sources = \
 	csv_parse.c		\
 	data_payment.c		\
 	dialog.c		\
-	echeancier_formulaire.c	\
 	echeancier_infos.c	\
 	equilibrage.c		\
 	erreur.c		\
@@ -52,6 +51,7 @@ sources = \
 	gsb_assistant.c		\
 	gsb_autofunc.c		\
 	gsb_automem.c		\
+	gsb_combo_box.c		\
 	gsb_currency.c		\
 	gsb_currency_config.c	\
 	gsb_currency_link_config.c	\
@@ -63,6 +63,7 @@ sources = \
 	gsb_data_currency_link.c	\
 	gsb_data_form.c		\
 	gsb_data_fyear.c	\
+	gsb_data_mix.c		\
 	gsb_data_payee.c	\
 	gsb_data_report.c	\
 	gsb_data_report_amout_comparison.c	\
@@ -77,7 +78,9 @@ sources = \
 	gsb_file_util.c		\
 	gsb_form.c		\
 	gsb_form_config.c	\
+	gsb_form_scheduler.c	\
 	gsb_form_transaction.c	\
+	gsb_form_widget.c	\
 	gsb_fyear.c		\
 	gsb_fyear_config.c	\
 	gsb_payment_method.c	\
@@ -86,6 +89,7 @@ sources = \
 	gsb_real.c		\
 	gsb_scheduler_list.c	\
 	gsb_status.c		\
+	gsb_transaction_model.c	\
 	gsb_transactions_list.c	\
 	gtk_combofix.c		\
 	help.c			\
@@ -142,6 +146,7 @@ grisbi_INCLUDES =		\
 	gsb_assistant.h		\
 	gsb_autofunc.h		\
 	gsb_automem.h		\
+	gsb_combo_box.h		\
 	gsb_currency.h		\
 	gsb_currency_config.h	\
 	gsb_currency_link_config.h	\
@@ -153,6 +158,7 @@ grisbi_INCLUDES =		\
 	gsb_data_currency_link.h	\
 	gsb_data_form.h		\
 	gsb_data_fyear.c	\
+	gsb_data_mix.h		\
 	gsb_data_payee.h	\
 	gsb_data_report.h	\
 	gsb_data_report_amout_comparison.h	\
@@ -166,17 +172,19 @@ grisbi_INCLUDES =		\
 	gsb_file_util.h		\
 	gsb_form.h		\
 	gsb_form_config.h	\
+	gsb_form_scheduler.h	\
 	gsb_form_transaction.h	\
+	gsb_form_widget.h	\
 	gsb_fyear.h		\
 	gsb_fyear_config.h	\
 	gsb_payment_method.h	\
 	gsb_payment_method_config.h	\
 	gsb_real.h		\
 	gsb_scheduler_list.h	\
+	gsb_transaction_model.h	\
 	gsb_transactions_list.h	\
 	data_payment.h		\
 	dialog.h		\
-	echeancier_formulaire.h	\
 	echeancier_infos.h	\
 	equilibrage.h		\
 	erreur.h		\

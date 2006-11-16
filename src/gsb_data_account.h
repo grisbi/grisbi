@@ -67,7 +67,7 @@ gint gsb_data_account_get_sort_column ( gint account_number );
 GSList *gsb_data_account_get_sort_list ( gint account_number );
 gint gsb_data_account_get_sort_type ( gint account_number );
 gint gsb_data_account_get_split_neutral_payment ( gint account_number );
-gdouble gsb_data_account_get_vertical_adjustment_value ( gint account_number );
+GtkTreePath *gsb_data_account_get_vertical_adjustment_value ( gint account_number );
 gboolean gsb_data_account_init_variables ( void );
 gint gsb_data_account_new ( kind_account account_kind );
 gboolean gsb_data_account_reorder ( GSList *new_order );
@@ -147,7 +147,7 @@ gboolean gsb_data_account_set_split_neutral_payment ( gint account_number,
 gboolean gsb_data_account_set_update_list ( gint account_number,
 					    gboolean value );
 gboolean gsb_data_account_set_vertical_adjustment_value ( gint account_number,
-							  gint vertical_adjustment_value );
+							  GtkTreePath *vertical_adjustment_value );
 /* END_DECLARATION */
 
 

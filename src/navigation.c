@@ -30,6 +30,8 @@
 #include "operations_comptes.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_report.h"
+#include "gsb_form.h"
+#include "gsb_form_scheduler.h"
 #include "fenetre_principale.h"
 #include "etats_onglet.h"
 #include "menu.h"
@@ -37,7 +39,12 @@
 #include "gsb_real.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
+#include "main.h"
+#include "accueil.h"
 #include "comptes_gestion.h"
+#include "categories_onglet.h"
+#include "imputation_budgetaire.h"
+#include "tiers_onglet.h"
 #include "gsb_file_config.h"
 #include "navigation.h"
 #include "include.h"
@@ -59,20 +66,18 @@ static  gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel * tree
 							     GtkTreePath *path, 
 							     GtkTreeIter *iter, 
 							     gpointer data );
-static gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
-					  GtkTreeModel * model );
+static gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
+					  GtkTreeModel *model );
 static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection, 
 					       GtkTreeIter * iter, gint page, 
-					       gint account_nb, gpointer report );
+					       gint account_number, gpointer report );
 static void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model, 
 					      GtkTreeIter * account_iter,
-					      gint account_nb );
+					      gint account_number );
 static  gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel * tree_model, 
 							     GtkTreePath *path, 
 							     GtkTreeIter *iter, 
 							     gpointer data );
-static gboolean gsb_gui_navigation_update_notebook ( GtkTreeSelection * selection,
-					      GtkTreeModel * model );
 static void gsb_gui_navigation_update_report_iter ( GtkTreeModel * model, 
 					     GtkTreeIter * report_iter,
 					     gint report_number );
@@ -91,7 +96,10 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source,
 
 
 /*START_EXTERN*/
-extern gint compte_courant_onglet;
+extern GtkTreeStore *budgetary_line_tree_model;
+extern GtkTreeStore * categ_tree_model;
+extern GtkWidget *notebook_general;
+extern GtkTreeStore *payee_tree_model;
 extern GtkTreeSelection * selection;
 extern GSList *sort_accounts;
 extern gchar *titre_fichier;
@@ -111,7 +119,10 @@ GtkWidget * scheduler_calendar;
 /** Widget that hold all reconciliation widgets. */
 GtkWidget * reconcile_panel;
 
-
+/* contains the number of the last account
+ * when switching between 2 accounts
+ * at the end of the switch, contains the current account number */
+static gint buffer_last_account;
 
 
 /**
@@ -196,7 +207,8 @@ GtkWidget * create_navigation_pane ( void )
 		       navigation_model  );
 
     g_signal_connect_after (gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view)), 
-			    "changed", ((GCallback) gsb_gui_navigation_select_line), 
+			    "changed", 
+			    G_CALLBACK (gsb_gui_navigation_select_line),
 			    navigation_model );
 
     /* Create column */
@@ -387,6 +399,8 @@ gint gsb_gui_navigation_get_current_page ( void )
 
 /**
  * return the account number selected
+ * rem : if we want the current account number, for transactions or scheduled, go to
+ * see gsb_form_get_account_number
  *
  * \param
  *
@@ -421,6 +435,22 @@ gint gsb_gui_navigation_get_current_account ( void )
     return -1;
 }
 
+
+/*
+ * return the content of buffer_last_account
+ * used while changing an account, as long as the work
+ * is not finished, that variable contains the last account number
+ *
+ * \param
+ *
+ * \return the last account number (become the current account number once the
+ * 		switch is finished...)
+ * 
+ * */
+gint gsb_gui_navigation_get_last_account ( void )
+{
+    return buffer_last_account;
+}
 
 
 /**
@@ -551,17 +581,17 @@ void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_iter )
 gboolean gsb_gui_navigation_line_visible_p ( GtkTreeModel * model, GtkTreeIter * iter,
 					     gpointer data )
 {
-    guint account_nb, page;
+    guint account_number, page;
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( model ), iter,
 			 NAVIGATION_PAGE, &page,
-			 NAVIGATION_ACCOUNT, &account_nb, 
+			 NAVIGATION_ACCOUNT, &account_number, 
 			 -1 );
 
-    if ( page != GSB_ACCOUNT_PAGE || account_nb < 0 )
+    if ( page != GSB_ACCOUNT_PAGE || account_number < 0 )
 	return TRUE;
 
-    if ( (! gsb_data_account_get_closed_account(account_nb)) || etat.show_closed_accounts )
+    if ( (! gsb_data_account_get_closed_account(account_number)) || etat.show_closed_accounts )
     {
         return TRUE;
     }
@@ -638,55 +668,6 @@ gboolean navigation_sort_column ( GtkTreeModel * model,
 
 
 
-/**
- * Selects the account or management page with an optional account
- * selected in general notebook.
- *
- * \param selection	Selection of tree that triggered event.
- * \param selection	Model of tree that triggered event.
- *
- * \return		FALSE
- */
-gboolean gsb_gui_navigation_update_notebook ( GtkTreeSelection * selection,
-					      GtkTreeModel * model )
-{
-    GtkTreeIter iter;
-    gint report_number;
-    gint account_nb, page;
-
-    if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
-	return(FALSE);
-
-    /* we go on the account page */ 
-
-    gtk_tree_model_get (model, &iter, 
-			NAVIGATION_PAGE, &page,
-			NAVIGATION_ACCOUNT, &account_nb,
-			NAVIGATION_REPORT, &report_number,
-			-1 );
-    gsb_gui_notebook_change_page ( (GsbGeneralNotebookPages) page );
-
-    if ( page == GSB_ACCOUNT_PAGE && account_nb >= 0 )
-    {
-	gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER(account_nb) );
-	remplissage_details_compte ();
-    }
-
-    if ( page == GSB_REPORTS_PAGE )
-    {
-	if ( report_number > 0 )
-	{
-	    gsb_gui_update_gui_to_report ( report_number );
-	}
-	else
-	{
-	    gsb_gui_unsensitive_report_widgets ();
-	}
-    }
-
-    return FALSE;
-}
-
 
 
 /**
@@ -706,13 +687,13 @@ static gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel * tree
 							     GtkTreeIter *iter, 
 							     gpointer data )
 {
-    gint account_nb;
+    gint account_number;
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( tree_model ), iter,
-			 NAVIGATION_ACCOUNT, &account_nb, 
+			 NAVIGATION_ACCOUNT, &account_number, 
 			 -1 );
 
-    if ( account_nb == GPOINTER_TO_INT ( data ) )
+    if ( account_number == GPOINTER_TO_INT ( data ) )
     {
 	gsb_gui_navigation_update_account_iter ( tree_model, iter, GPOINTER_TO_INT(data) );
 	return TRUE;
@@ -871,13 +852,13 @@ void gsb_gui_navigation_remove_report ( gint report_number )
 /**
  * Update informations for an account in navigation pane.
  *
- * \param account_nb	Number of the account that has to be updated.
+ * \param account_number	Number of the account that has to be updated.
  */
-void gsb_gui_navigation_update_account ( gint account_nb )
+void gsb_gui_navigation_update_account ( gint account_number )
 {
     gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model), 
 			     (GtkTreeModelForeachFunc) gsb_gui_navigation_update_account_iterator, 
-			     GINT_TO_POINTER ( account_nb ) );
+			     GINT_TO_POINTER ( account_number ) );
 }
 
 
@@ -891,12 +872,12 @@ void gsb_gui_navigation_update_account ( gint account_nb )
  */
 void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model, 
 					      GtkTreeIter * account_iter,
-					      gint account_nb )
+					      gint account_number )
 {
     GdkPixbuf * pixbuf;
     gchar * account_icon;
 	    
-    switch ( gsb_data_account_get_kind ( account_nb ) )
+    switch ( gsb_data_account_get_kind ( account_number ) )
     {
 	case GSB_TYPE_BANK:
 	    account_icon = "bank-account";
@@ -922,11 +903,11 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model,
     gtk_tree_store_set(GTK_TREE_STORE(model), account_iter, 
 		       NAVIGATION_PIX, pixbuf,
 		       NAVIGATION_PIX_VISIBLE, TRUE, 
-		       NAVIGATION_TEXT, gsb_data_account_get_name ( account_nb ), 
+		       NAVIGATION_TEXT, gsb_data_account_get_name ( account_number ), 
 		       NAVIGATION_FONT, 400,
 		       NAVIGATION_PAGE, GSB_ACCOUNT_PAGE,
-		       NAVIGATION_ACCOUNT, account_nb,
-		       NAVIGATION_SENSITIVE, !gsb_data_account_get_closed_account ( account_nb ),
+		       NAVIGATION_ACCOUNT, account_number,
+		       NAVIGATION_SENSITIVE, !gsb_data_account_get_closed_account ( account_number ),
 		       -1 );
 }
 
@@ -949,13 +930,13 @@ static gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree
 							     GtkTreeIter *iter, 
 							     gpointer data )
 {
-    gint account_nb;
+    gint account_number;
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( tree_model ), iter,
-			 NAVIGATION_ACCOUNT, &account_nb, 
+			 NAVIGATION_ACCOUNT, &account_number, 
 			 -1 );
 
-    if ( account_nb == GPOINTER_TO_INT ( data ) )
+    if ( account_number == GPOINTER_TO_INT ( data ) )
     {
 	gtk_tree_store_remove ( GTK_TREE_STORE(tree_model), iter );
 	return TRUE;
@@ -969,9 +950,9 @@ static gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree
 /**
  * Add an account to the navigation pane.
  *
- * \param account_nb	Account ID to add.
+ * \param account_number	Account ID to add.
  */
-void gsb_gui_navigation_add_account ( gint account_nb )
+void gsb_gui_navigation_add_account ( gint account_number )
 {
     GtkTreeIter parent, iter;
     GtkTreeSelection * selection;
@@ -979,7 +960,7 @@ void gsb_gui_navigation_add_account ( gint account_nb )
     gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &parent );
     gtk_tree_store_append ( GTK_TREE_STORE(navigation_model), &iter, &parent );
 
-    gsb_gui_navigation_update_account_iter ( GTK_TREE_MODEL(navigation_model), &iter, account_nb );    
+    gsb_gui_navigation_update_account_iter ( GTK_TREE_MODEL(navigation_model), &iter, account_number );    
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
     gtk_tree_selection_select_iter ( selection, &iter );
@@ -990,13 +971,13 @@ void gsb_gui_navigation_add_account ( gint account_nb )
 /**
  * Remove account from the navigation pane.
  *
- * \param account_nb	Account ID to remove.
+ * \param account_number	Account ID to remove.
  */
-void gsb_gui_navigation_remove_account ( gint account_nb )
+void gsb_gui_navigation_remove_account ( gint account_number )
 {
     gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model), 
 			     (GtkTreeModelForeachFunc) gsb_gui_navigation_remove_account_iterator, 
-			     GINT_TO_POINTER ( account_nb ) );
+			     GINT_TO_POINTER ( account_number ) );
    
 }
 
@@ -1005,36 +986,39 @@ void gsb_gui_navigation_remove_account ( gint account_nb )
 /**
  * Callback executed when the selection of the navigation tree
  * changed.
+ * we must write here the changes to do when changing something in that selection,
+ * not with a callback "switch-page" on the main notebook
  *
  * \param selection	The selection that triggered event.
  * \param model		Tree model associated to selection.
  *
  * \return FALSE
  */
-gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
-					  GtkTreeModel * model )
+gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
+					  GtkTreeModel *model )
 {
-    GtkTreeIter iter;
     gchar * title = NULL, * suffix = "";
-    gint account_nb, page;
+    gint account_number, page_number;
     gint report_number;
     gint currency_number;
+    GtkTreeIter dummy_iter;
 
     devel_debug ("gsb_gui_navigation_select_line");
 
-    if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
-	return FALSE;
+    page_number = gsb_gui_navigation_get_current_page ();
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
 
-    gtk_tree_model_get (model, &iter, NAVIGATION_PAGE, &page, -1);
+    if ( page_number != GSB_SCHEDULER_PAGE ) 
+    {
+	gtk_widget_hide_all ( scheduler_calendar );
+    }
 
-    gsb_gui_navigation_update_notebook ( selection, model );
-    if ( page == GSB_ACCOUNT_PAGE )
-	gsb_menu_update_accounts_in_menus ();
-
-
-    switch ( page )
+    switch ( page_number )
     {
 	case GSB_HOME_PAGE:
+	    notice_debug ("Home page selected");
+
+	    /* set the title */
 	    if ( titre_fichier && strlen ( titre_fichier ) )
 	    {
 		title = g_strconcat ( "Grisbi : " , titre_fichier, NULL );
@@ -1043,62 +1027,156 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
 	    {
 		title = g_strconcat ( "Grisbi : " , _("My accounts"), NULL );
 	    }
+
+	    /* what to be done if switch to that page */
+	    mise_a_jour_accueil (FALSE);
+	    gsb_form_set_expander_visible (FALSE,
+					   FALSE );
 	    break;
 
 	case GSB_ACCOUNT_PAGE:
-	    gtk_tree_model_get (model, &iter, NAVIGATION_ACCOUNT, &account_nb, -1);
+	    notice_debug ("Account page selected");
+
+	    /* set the title */
+	    account_number = gsb_gui_navigation_get_current_account ();
+
 	    title = g_strconcat ( _("Account transactions"), " : ",
-				  gsb_data_account_get_name ( account_nb ),
+				  gsb_data_account_get_name ( account_number ),
 				  NULL );
-	    if ( gsb_data_account_get_closed_account ( account_nb ) )
+	    if ( gsb_data_account_get_closed_account ( account_number ) )
 	    {
 		title = g_strconcat ( title, " (", _("closed"), ")", NULL );
 	    }
 
-	    currency_number = gsb_data_account_get_currency ( compte_courant_onglet );
+	    currency_number = gsb_data_account_get_currency (account_number);
 	    suffix = g_strdup_printf ( "%s %s", 
-				       gsb_real_get_string (gsb_data_account_get_current_balance (compte_courant_onglet)),
+				       gsb_real_get_string (gsb_data_account_get_current_balance (account_number)),
 				       gsb_data_currency_get_code (currency_number));
-	    gsb_menu_update_view_menu ( account_nb );
+	    gsb_menu_update_view_menu ( account_number );
+
+	    /* what to be done if switch to that page */
+	    account_number = gsb_gui_navigation_get_current_account ();
+
+	    if (account_number >= 0 )
+	    {
+		gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER(account_number) );
+		remplissage_details_compte ();
+	    }
+	    gsb_menu_update_accounts_in_menus ();
+
+	    /* set the form */
+	    gsb_form_set_expander_visible (TRUE,
+					   TRUE );
+	    gsb_form_show ( FALSE );
+
+	    buffer_last_account = account_number;
+	    break;
+
+	case GSB_SCHEDULER_PAGE:
+	    notice_debug ("Scheduler page selected");
+
+	    /* set the title */
+	    title = _("Scheduled transactions");
+
+	    /* what to be done if switch to that page */
+	    /* update the list (can do that because short list, so very fast) */
+	    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
+	    gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
+
+	    gsb_scheduler_list_select (gsb_scheduler_list_get_last_scheduled_number ());
+
+	    /* set the form */
+	    gsb_form_set_expander_visible (TRUE,
+					   FALSE );
+	    gsb_form_scheduler_clean ();
+	    gsb_form_show ( FALSE );
+
+	    /* show the calendar */
+	    gtk_widget_show_all ( scheduler_calendar );
 	    break;
 
 	case GSB_PAYEES_PAGE:
+	    notice_debug ("Payee page selected");
+
+	    /* set the title */
 	    title = _("Payees");
+
+	    /* what to be done if switch to that page */
+	    gsb_form_set_expander_visible (FALSE,
+					   FALSE );
+	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (payee_tree_model), 
+						   &dummy_iter ) )
+		remplit_arbre_tiers ();
 	    break;
 
 	case GSB_CATEGORIES_PAGE:
+	    notice_debug ("Category page selected");
+
+	    /* set the title */
 	    title = _("Categories");
+
+	    /* what to be done if switch to that page */
+	    gsb_form_set_expander_visible (FALSE,
+					   FALSE );
+	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (categ_tree_model), 
+						   &dummy_iter ) )
+		remplit_arbre_categ ();
 	    break;
 
 	case GSB_BUDGETARY_LINES_PAGE:
+	    notice_debug ("Budgetary page selected");
+
+	    /* set the title */
 	    title = _("Budgetary lines");
+
+	    /* what to be done if switch to that page */
+	    gsb_form_set_expander_visible (FALSE,
+					   FALSE );
+	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (budgetary_line_tree_model), 
+						   &dummy_iter ) )
+		remplit_arbre_imputation ();
 	    break;
 
 	case GSB_AQBANKING_PAGE:
+	    notice_debug ("Aqbanking page selected");
+
+	    /* set the title */
 	    /** FIXME (later) : define an api so that plugin register here itself.  */
 	    if ( gsb_plugin_find ( "g2banking" ) )
 	    {
 		title = _("AqBanking");
 	    }
-	    break;
 
-	case GSB_SCHEDULER_PAGE:
-	    title = _("Scheduled transactions");
+	    /* what to be done if switch to that page */
+	    gsb_form_set_expander_visible (FALSE,
+					   FALSE );
 	    break;
 
 	case GSB_REPORTS_PAGE:
-	    gtk_tree_model_get (model, &iter, NAVIGATION_REPORT, &report_number, -1);
+	    notice_debug ("Reports page selected");
+
+	    /* set the title */
+	    report_number = gsb_gui_navigation_get_current_report ();
+
 	    if ( report_number )
-	    {
 		title = g_strconcat ( _("Report"), " : ", gsb_data_report_get_report_name (report_number), NULL );
-	    }
 	    else
-	    {
 		title = _("Reports");
-	    }
+
+	    /* what to be done if switch to that page */
+	    gsb_form_set_expander_visible (FALSE,
+					   FALSE );
+
+	    report_number = gsb_gui_navigation_get_current_report ();
+
+	    if ( report_number )
+		gsb_gui_update_gui_to_report ( report_number );
+	    else
+		gsb_gui_unsensitive_report_widgets ();
 	    break;
 
 	default:
+	    notice_debug ("B0rk page selected");
 	    title = "B0rk";
 	    break;
     }
@@ -1114,14 +1192,14 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection * selection,
  * page and/or account or report.
  *
  * \param page		Page to switch to.
- * \param account_nb	If page is GSB_ACCOUNT_PAGE, switch to given
+ * \param account_number	If page is GSB_ACCOUNT_PAGE, switch to given
  *			account.
  * \param report	If page is GSB_REPORTS, switch to given
  *			report.
  * 
  * \return		TRUE on success.
  */
-gboolean gsb_gui_navigation_set_selection ( gint page, gint account_nb, gpointer report )
+gboolean gsb_gui_navigation_set_selection ( gint page, gint account_number, gpointer report )
 {
     GtkTreeIter iter;
     GtkTreeSelection * selection;
@@ -1136,7 +1214,7 @@ gboolean gsb_gui_navigation_set_selection ( gint page, gint account_nb, gpointer
 
     gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &iter );
 
-    gsb_gui_navigation_set_selection_branch ( selection, &iter, page, account_nb, 
+    gsb_gui_navigation_set_selection_branch ( selection, &iter, page, account_number, 
 					      report );
 
     return TRUE;
@@ -1151,7 +1229,7 @@ gboolean gsb_gui_navigation_set_selection ( gint page, gint account_nb, gpointer
  * \param selection	Selection to set.
  * \param iter		Current iter to iterate over.
  * \param page		Page to switch to.
- * \param account_nb	If page is GSB_ACCOUNT_PAGE, switch to given
+ * \param account_number	If page is GSB_ACCOUNT_PAGE, switch to given
  *			account.
  * \param report	If page is GSB_REPORTS, switch to given
  *			report.
@@ -1160,7 +1238,7 @@ gboolean gsb_gui_navigation_set_selection ( gint page, gint account_nb, gpointer
  */
 void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection, 
 					       GtkTreeIter * iter, gint page, 
-					       gint account_nb, gpointer report )
+					       gint account_number, gpointer report )
 {
     if ( gtk_tree_model_iter_has_child ( GTK_TREE_MODEL(navigation_model), iter ) )
     {
@@ -1168,7 +1246,7 @@ void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection,
     
 	gtk_tree_model_iter_children ( GTK_TREE_MODEL(navigation_model), &child, iter );
 	gsb_gui_navigation_set_selection_branch ( selection, &child, 
-						  page, account_nb, report );
+						  page, account_number, report );
     }
 
     do 
@@ -1184,7 +1262,7 @@ void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection,
 
 	if ( iter_page == page &&
 	     ! ( page == GSB_ACCOUNT_PAGE && 
-		 iter_account_nb != account_nb ) &&
+		 iter_account_nb != account_number ) &&
 	     ! ( page == GSB_REPORTS_PAGE &&
 		 iter_report != report ) )
 	{
@@ -1319,23 +1397,9 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 	    break;
 
 	case GSB_ACCOUNT_PAGE:
-	    switch ( ev -> keyval )
-	    {
-		case GDK_Return :		/* entrée */
-		case GDK_KP_Enter :
-		case GDK_Up :		/* touches flèche haut */
-		case GDK_KP_Up :
-		case GDK_Down :		/* touches flèche bas */
-		case GDK_KP_Down :
-		case GDK_Delete:		/*  del  */
-		case GDK_P:			/* touche P */
-		case GDK_p:			/* touche p */
-		case GDK_r:			/* touche r */
-		case GDK_R:			/* touche R */
-		    gsb_transactions_list_key_press ( gsb_transactions_list_get_tree_view (),
-						      ev );
-		    return TRUE;
-	    }
+	    /* when come here, if we press the right key, give the focus to the list */
+	    if (ev -> keyval == GDK_Right)
+		gtk_widget_grab_focus (gsb_transactions_list_get_tree_view ());
 	    break;
 
 	case GSB_PAYEES_PAGE:
@@ -1351,20 +1415,9 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 	    break;
 
 	case GSB_SCHEDULER_PAGE:
-	    switch ( ev -> keyval )
-	    {
-		case GDK_Return :		/* touches entrée */
-		case GDK_KP_Enter :
-		case GDK_Up :		/* touches flèche haut */
-		case GDK_KP_Up :
-		case GDK_Down :		/* touches flèche bas */
-		case GDK_KP_Down :
-		case GDK_Delete :               /*  del  */
-
-		    gsb_scheduler_list_key_press  ( gsb_scheduler_list_get_tree_view (),
-						    ev );
-		    return TRUE;
-	    }
+	    /* when come here, if we press the right key, give the focus to the list */
+	    if (ev -> keyval == GDK_Right)
+		gtk_widget_grab_focus (gsb_scheduler_list_get_tree_view ());
 	    break;
 
 	case GSB_REPORTS_PAGE:

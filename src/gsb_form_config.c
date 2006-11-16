@@ -36,6 +36,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
 #include "gsb_form.h"
+#include "gsb_form_widget.h"
 #include "navigation.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
@@ -475,7 +476,7 @@ GtkWidget *gsb_form_config_create_buttons_table ( void )
 	    gchar *string;
 	    gchar *changed_string;
 
-	    string = gsb_form_get_element_name (current_element_number);
+	    string = gsb_form_widget_get_name (current_element_number);
 
 	    if ( string )
 	    {
@@ -656,10 +657,9 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
     account_number = recupere_no_compte ( accounts_option_menu );
 
     /* update the table */
-
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( toggle_button )))
     {
-	/* 	on l'a enclenché, on rajoute l'élément */
+	/* button is on, append the element */
 
 	gint place_trouvee = 0;
 	gint ligne_premier_elt = -1;
@@ -671,8 +671,7 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 					       j,
 					       i ))
 		{
-		    /* 		    s'il n'y a qu'un elt, on le met et on termine, sinon on continue à chercher */
-		    /* 			pour le 2ème */
+		    /* if only 1 element, end here, else continue to look after the second one */
 
 		    if ( no_second_element == -1 )
 		    {
@@ -833,9 +832,9 @@ gboolean gsb_form_config_fill_store ( gint account_number )
 	for ( column = 0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
 	    gtk_list_store_set ( GTK_LIST_STORE ( store ),
 				 &iter,
-				 column, gsb_form_get_element_name (gsb_data_form_get_value ( account_number,
-												     column,
-												     row )),
+				 column, gsb_form_widget_get_name (gsb_data_form_get_value ( account_number,
+											     column,
+											     row )),
 				 -1 );
     }
 

@@ -11,13 +11,14 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
 						     gint sub_category_id );
 void gsb_data_category_create_default_category_list ( void );
 gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
-							const gchar *string );
+							const gchar *string,
+							gboolean is_transaction );
 gsb_real gsb_data_category_get_balance ( gint no_category );
 GSList *gsb_data_category_get_categories_list ( void );
 gsb_real gsb_data_category_get_direct_balance ( gint no_category );
-const gchar *gsb_data_category_get_name ( gint no_category,
-					  gint no_sub_category,
-					  const gchar *return_value_error );
+gchar *gsb_data_category_get_name ( gint no_category,
+				    gint no_sub_category,
+				    const gchar *return_value_error );
 GSList *gsb_data_category_get_name_list ( gboolean set_debit,
 					  gboolean set_credit,
 					  gboolean set_special,

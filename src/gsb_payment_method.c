@@ -28,6 +28,7 @@
 #include "gsb_payment_method.h"
 #include "gsb_data_account.h"
 #include "gsb_form.h"
+#include "gsb_form_widget.h"
 #include "utils_str.h"
 #include "gsb_payment_method.h"
 #include "gsb_data_form.h"
@@ -95,7 +96,6 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
     while ( tmp_list )
     {
 	struct struct_type_ope *method_ptr;
-
 
 	method_ptr = tmp_list -> data;
 
@@ -333,8 +333,7 @@ gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
     gint account_number;
 
     account_number = gsb_form_get_account_number ();
-    cheque_entry = gsb_form_get_element_widget ( TRANSACTION_FORM_CHEQUE,
-						   account_number );
+    cheque_entry = gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE);
     if ( !cheque_entry)
 	return FALSE;
 
@@ -410,10 +409,10 @@ struct struct_type_ope *gsb_payment_method_get_structure ( gint payment_number,
  * \param payment_number
  * \param account_number
  *
- * \return	A textual representation of the maximum + 1
+ * \return	the maximum + 1
  */
-gchar *gsb_payment_method_automatic_numbering_get_new_number ( gint payment_number,
-							       gint account_number )
+gint gsb_payment_method_automatic_numbering_get_new_number ( gint payment_number,
+							     gint account_number )
 {
     struct struct_type_ope *method_ptr;
 
@@ -421,10 +420,35 @@ gchar *gsb_payment_method_automatic_numbering_get_new_number ( gint payment_numb
 						    account_number );
     if ( method_ptr )
     {
- 	return utils_str_itoa ( method_ptr -> no_en_cours + 1 );
+ 	return method_ptr -> no_en_cours + 1;
     }
   
-    return "1";
+    return 1;
+}
+
+/**
+ * set the current number of a payment method
+ *
+ * \param payment_number
+ * \param account_number
+ * \param new_number a gint
+ *
+ * \return TRUE ok, FALSE pb
+ * */
+gboolean gsb_payment_method_automatic_numbering_set_number ( gint payment_number,
+							     gint account_number,
+							     gint new_number )
+{
+    struct struct_type_ope *method_ptr;
+
+    method_ptr = gsb_payment_method_get_structure ( payment_number,
+						    account_number );
+    
+    if (!method_ptr)
+	return FALSE;
+
+    method_ptr -> no_en_cours = new_number;
+    return TRUE;
 }
 
 

@@ -965,7 +965,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 					       gsb_data_transaction_get_account_number (transaction_number), 
 					       NULL );
 
-	    gsb_transactions_list_set_current_transaction ( transaction_number );
+	    gsb_transactions_list_select ( transaction_number );
 	    gsb_transactions_list_move_to_current_transaction ( gsb_data_transaction_get_account_number (transaction_number) );
 	}
 	else

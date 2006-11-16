@@ -24,8 +24,11 @@ enum payment_methods_columns {
 
 
 /* START_DECLARATION */
-gchar *gsb_payment_method_automatic_numbering_get_new_number ( gint payment_number,
-							       gint account_number );
+gint gsb_payment_method_automatic_numbering_get_new_number ( gint payment_number,
+							     gint account_number );
+gboolean gsb_payment_method_automatic_numbering_set_number ( gint payment_number,
+							     gint account_number,
+							     gint new_number );
 gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
 					       gpointer null );
 gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,

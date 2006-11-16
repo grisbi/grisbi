@@ -32,13 +32,13 @@
 #include "classement_echeances.h"
 #include "erreur.h"
 #include "dialog.h"
-#include "echeancier_formulaire.h"
 #include "gsb_data_account.h"
 #include "operations_comptes.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_form.h"
 #include "utils_dates.h"
 #include "navigation.h"
 #include "fenetre_principale.h"
@@ -59,8 +59,6 @@ static gboolean click_sur_compte_accueil ( gint *account_number );
 static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 				   GdkEventButton *event,
 				   gint scheduled_number );
-static gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventButton *event,
-						gpointer  operation );
 static void update_fin_comptes_passifs ( gboolean force );
 static void update_liste_comptes_accueil ( gboolean force );
 static void update_liste_echeances_auto_accueil ( gboolean force );
@@ -80,13 +78,9 @@ extern GdkColor couleur_solde_alarme_rouge_prelight;
 extern GdkColor couleur_solde_alarme_verte_normal;
 extern GdkColor couleur_solde_alarme_verte_prelight;
 extern GtkWidget *formulaire;
-extern GtkWidget *formulaire_echeancier;
-extern GtkWidget *frame_formulaire_echeancier;
-extern GtkWidget *hbox_valider_annuler_echeance;
 extern gsb_real null_real ;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
-extern GtkWidget *separateur_formulaire_echeancier;
 extern gchar *titre_fichier;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -295,10 +289,10 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 				   GdkEventButton *event,
 				   gint scheduled_number )
 {
-    GtkWidget *ancien_parent, *dialog;
-    gint resultat, width;
+    GtkWidget *parent_save, *dialog;
+    gint result;
 
-    ancien_parent = formulaire_echeancier -> parent;
+    parent_save = formulaire -> parent;
 
     /* crée la boite de dialogue */
     dialog = gtk_dialog_new_with_buttons ( _("Enter a scheduled transaction"),
@@ -308,50 +302,33 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,
 					   NULL );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER );
+    gtk_dialog_set_default_response ( GTK_DIALOG (dialog),
+				      GTK_RESPONSE_OK );
 
-    /* met le formulaire dans la boite de dialogue */
-    width = frame_formulaire_echeancier -> allocation . width;
-    if ( width <= 1 )
-	width = 639 ;
-    gtk_widget_unrealize ( formulaire_echeancier );
-    gtk_widget_reparent ( formulaire_echeancier, GTK_DIALOG ( dialog ) -> vbox );
-    gtk_widget_set_usize ( GTK_WIDGET ( dialog ), width, FALSE );
+    /* first we reparent the form in the dialog */
+    gtk_widget_reparent ( formulaire, GTK_DIALOG ( dialog ) -> vbox );
 
-    etat.formulaire_echeance_dans_fenetre = 1;
+    /* next we fill the form,
+     * don't use gsb_form_show because we are neither on transactions list, neither scheduled list */
+    gsb_form_fill_from_account (gsb_data_scheduled_get_account_number (scheduled_number));
 
-    /* remplit le formulaire */
+    /* fill the form with the scheduled transaction */
     gsb_scheduler_list_execute_transaction(scheduled_number);
 
-    gtk_widget_show ( formulaire_echeancier );
-    if ( etat.affiche_boutons_valider_annuler )
-    {
-	gtk_widget_hide ( separateur_formulaire_echeancier );
-	gtk_widget_hide ( hbox_valider_annuler_echeance );
-    }
+    /* cannot use the ok/cancel buttons of the form, use the dialog's one */
+    gtk_widget_hide (gsb_form_get_button_part ());
 
-    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+    result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
-    if ( resultat == GTK_RESPONSE_OK )
-	 gsb_scheduler_validate_form ();
+    if ( result == GTK_RESPONSE_OK )
+	 gsb_form_finish_edition ();
 
-    gtk_widget_reparent ( formulaire_echeancier, ancien_parent );
-
-    etat.formulaire_echeance_dans_fenetre = 0;
+    gtk_widget_reparent ( formulaire, parent_save );
     gtk_widget_destroy ( dialog );
 
-    /* remet les boutons valider/annuler si necessaire */
-
-    if ( etat.affiche_boutons_valider_annuler )
-    {
-	gtk_widget_show ( separateur_formulaire_echeancier );
-	gtk_widget_show ( hbox_valider_annuler_echeance );
-    }
-
-    formulaire_echeancier_a_zero();
-
-    if ( !etat.formulaire_echeancier_toujours_affiche )
-	gtk_expander_set_expanded ( GTK_EXPANDER (frame_formulaire_echeancier), FALSE );
-
+    /* update the home page */
+    update_liste_echeances_manuelles_accueil (TRUE);
+    update_liste_comptes_accueil (TRUE);
     return FALSE;
 }
 /* ************************************************************************* */
@@ -1491,10 +1468,10 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 				 "leave-notify-event",
 				 GTK_SIGNAL_FUNC ( met_en_normal ),
 				 NULL );
-	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
-				 "button-press-event",
-				 (GtkSignalFunc) select_expired_scheduled_transaction,
-				 gsb_data_transaction_get_pointer_to_transaction (transaction_number));
+	    g_signal_connect_swapped ( G_OBJECT ( event_box ),
+				       "button-press-event",
+				       G_CALLBACK (gsb_transactions_list_edit_transaction_by_pointer),
+				       GINT_TO_POINTER (transaction_number));
 	    gtk_widget_show ( event_box );
 
 	    /* label à gauche */
@@ -1884,17 +1861,13 @@ void update_fin_comptes_passifs ( gboolean force )
 
 
 
-gboolean select_expired_scheduled_transaction ( GtkWidget * event_box, GdkEventButton *event,
-						gpointer  operation )
-{
-    gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER (gsb_data_transaction_get_account_number (gsb_data_transaction_get_transaction_number (operation))));
-    gsb_transactions_list_edit_current_transaction ();
-    return ( FALSE );
-}
 
-/** update the finished scheduled transactions part in the main page
+/**
+ * update the finished scheduled transactions part in the main page
  * the scheduled transaction in param is finished
+ * 
  * \param scheduled_number
+ * 
  * \return FALSE
  * */
 gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_number )
@@ -1902,32 +1875,24 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
     GtkWidget *label;
     gint account_number;
     gint currency_number;
+    GtkWidget *page;
 
     account_number = gsb_data_scheduled_get_account_number (scheduled_number);
     currency_number = gsb_data_scheduled_get_currency_number (scheduled_number);
 
     /* check if the vbox is already made, and make it if necesssary */
+    page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (main_page_finished_scheduled_transactions_part), 0);
 
-    if ( !GTK_BIN ( main_page_finished_scheduled_transactions_part ) -> child )
+    if ( !page )
     {
-	GtkWidget *vbox;
-
-	vbox = gtk_vbox_new ( FALSE,
+	page = gtk_vbox_new ( FALSE,
 			      5 );
-	gtk_container_add ( GTK_CONTAINER ( main_page_finished_scheduled_transactions_part ),
-			    vbox );
-	gtk_widget_show ( vbox );
-
-	label = gtk_label_new ("");
-	gtk_box_pack_start ( GTK_BOX ( vbox ),
-			     label,
-			     FALSE,
-			     FALSE,
-			     0 );
-	gtk_widget_show ( label );
+	gtk_notebook_append_page  (GTK_NOTEBOOK (main_page_finished_scheduled_transactions_part),
+				   page, NULL );
+	gtk_widget_show ( page );
     }
 
-    /* append in the vbox the finished scheduled transaction */
+    /* append in the page the finished scheduled transaction */
 
     if ( gsb_data_scheduled_get_amount (scheduled_number).mantissa >= 0 )
 	label = gtk_label_new ( g_strdup_printf ( _("%s %s credit on %s"),
@@ -1943,14 +1908,14 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
     gtk_misc_set_alignment ( GTK_MISC ( label ),
 			     0,
 			     0.5);
-    gtk_box_pack_start ( GTK_BOX ( GTK_BIN ( main_page_finished_scheduled_transactions_part ) -> child ),
+    gtk_box_pack_start ( GTK_BOX (page),
 			 label,
 			 FALSE,
 			 TRUE,
 			 5 );
     gtk_widget_show (  label );
 
-    gtk_widget_show ( main_page_finished_scheduled_transactions_part );
+    show_paddingbox (main_page_finished_scheduled_transactions_part);
 
     return FALSE;
 }

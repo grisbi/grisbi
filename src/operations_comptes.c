@@ -50,6 +50,7 @@ GtkWidget *vbox_liste_comptes;
 /*START_EXTERN*/
 extern gint compte_courant_onglet;
 extern GtkWidget *label_last_statement ;
+extern GtkTreeSelection * selection;
 /*END_EXTERN*/
 
 
@@ -66,9 +67,13 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
 {
     gint new_account;
     gint current_account;
+    GtkTreePath *path;
 
     new_account = GPOINTER_TO_INT ( no_account );
-    current_account = gsb_gui_navigation_get_current_account ();
+
+    /* the selection on the navigation bar has already changed, so
+     * have to use a buffer variable to get the last account */
+    current_account = gsb_gui_navigation_get_last_account ();
 
     devel_debug ( g_strdup_printf ("gsb_data_account_list_gui_change_current_account : %d", new_account ));
 
@@ -79,14 +84,19 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
 				  TRUE );
 
     /* save the adjustment of the last account */
-
-    if ( gsb_data_account_get_vertical_adjustment_value (current_account) != -1 )
+    path = gsb_data_account_get_vertical_adjustment_value (current_account);
+    if (path)
     {
-	GtkAdjustment *adjustment;
+	GtkTreePath *new_path;
 
-	adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()));
-	gsb_data_account_set_vertical_adjustment_value ( current_account,
-							 gtk_adjustment_get_value ( adjustment ));
+	if (gtk_tree_view_get_visible_range (GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
+					     &new_path, NULL ))
+	{
+	    gsb_data_account_set_vertical_adjustment_value ( current_account,
+							     new_path);
+	    gtk_tree_path_free (new_path);
+	}
+	gtk_tree_path_free (path);
     }
     
     /*     on se place sur les données du nouveau no_account */
@@ -95,8 +105,8 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
     gsb_transactions_list_set_background_color (new_account);
     gsb_transactions_list_set_transactions_balances (new_account);
 
-    if (etat.formulaire_toujours_affiche)
-	gsb_form_fill_transaction_part (GINT_TO_POINTER (new_account));
+/*     if (etat.formulaire_toujours_affiche) */
+/* 	gsb_form_fill_from_account (new_account); */
 
     /*     mise en place de la date du dernier relevé */
 
@@ -109,10 +119,6 @@ gboolean gsb_data_account_list_gui_change_current_account ( gint *no_account )
 	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
 			     _("Last statement: none") );
 
-
-    /* affiche le solde final en bas */
-
-    mise_a_jour_labels_soldes ();
 
     gsb_gui_sensitive_menu_item ( "EditMenu", "MoveToAnotherAccount", 
 				  gsb_data_account_get_name (new_account),

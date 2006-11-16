@@ -27,7 +27,7 @@
 
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
-#include "gsb_form.h"
+#include "gsb_form_widget.h"
 #include "utils_str.h"
 #include "gtk_combofix.h"
 /*END_INCLUDE*/
@@ -896,7 +896,7 @@ static gboolean gtk_combofix_expose_entry ( GtkComboFix *combofix )
 {
     if (block_expose_event
 	||
-	gsb_form_check_entry_is_empty (combofix -> entry))
+	gsb_form_widget_check_empty (combofix -> entry))
 	return FALSE;
     block_expose_event = 1;
 

@@ -254,11 +254,6 @@ gboolean gsb_file_config_load_config ( void )
 								"Show transaction form",
 								NULL );
 
-    etat.formulaire_echeancier_toujours_affiche = g_key_file_get_integer ( config,
-									   "Display",
-									   "Show sheduled form",
-									   NULL );
-
     etat.classement_par_date = g_key_file_get_integer ( config,
 							"Display",
 							"Order by date",
@@ -548,11 +543,6 @@ gboolean gsb_file_config_save_config ( void )
 			     "Display",
 			     "Show transaction form",
 			     etat.formulaire_toujours_affiche );
-
-    g_key_file_set_integer ( config,
-			     "Display",
-			     "Show sheduled form",
-			     etat.formulaire_echeancier_toujours_affiche );
 
     g_key_file_set_integer ( config,
 			     "Display",
@@ -992,13 +982,6 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     }
 
     if ( !strcmp ( element_name,
-		   "Affichage_formulaire_echeancier" ))
-    {
-	etat.formulaire_echeancier_toujours_affiche = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
 		   "Tri_par_date" ))
     {
 	etat.classement_par_date = utils_str_atoi (text);
@@ -1122,7 +1105,6 @@ void gsb_file_config_clean_config ( void )
     etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
     nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
     etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
-    etat.formulaire_echeancier_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
     etat.limit_completion_to_current_account = 0;        /* By default, do full search */
 

@@ -35,7 +35,7 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
 #include "utils_editables.h"
-#include "gsb_form.h"
+#include "gsb_form_widget.h"
 #include "gsb_form_transaction.h"
 #include "gtk_combofix.h"
 #include "utils.h"
@@ -504,8 +504,7 @@ void mise_a_jour_combofix_tiers ( void )
     devel_debug ( "mise_a_jour_combofix_tiers" );
 
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_PARTY ))
-	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_PARTY,
-									    gsb_form_get_account_number ()) ),
+	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY)),
 				gsb_data_payee_get_name_and_report_list ());
 
     mise_a_jour_combofix_tiers_necessaire = 0;

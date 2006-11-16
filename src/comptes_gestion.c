@@ -33,12 +33,14 @@
 #include "banque.h"
 #include "erreur.h"
 #include "dialog.h"
+#include "comptes_traitements.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_bank.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form.h"
+#include "gsb_form_scheduler.h"
 #include "navigation.h"
 #include "menu.h"
 #include "gsb_real.h"
@@ -51,7 +53,6 @@
 #include "etats_config.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
-#include "utils_comptes.h"
 #include "structures.h"
 #include "accueil.h"
 #include "include.h"
@@ -985,7 +986,10 @@ void modification_details_compte ( void )
 	remplit_arbre_imputation ();
 	remplit_arbre_tiers ();
 
-	update_options_menus_comptes ();
+	/* update the name of accounts in form */
+	gsb_account_update_name_tree_model ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
+					     FALSE );
+
 	remplissage_liste_comptes_etats ();
 	selectionne_liste_comptes_etat_courant ();
     }

@@ -542,9 +542,6 @@ GtkWidget *gsb_automem_spin_button_new_full ( gint *value,
     adjustment = GTK_ADJUSTMENT( gtk_adjustment_new ( initial, lower, upper, 
 						      step_increment, page_increment,
 						      page_size ));
-/* xxx ICI ICI : à faire en dernier avant de tester, mis à 1 le nb de digits pour le moment, voir si faudrait pas mettre à 0 */
-/*     ensuite vérifier les modifs de categs et sous categ */
-/*     puis voir le bug de l'échéancier, puis modif des fyear */
 
     spin = gtk_spin_button_new ( adjustment, climb_rate, 0 );
     gtk_spin_button_set_numeric ( GTK_SPIN_BUTTON (spin), TRUE );

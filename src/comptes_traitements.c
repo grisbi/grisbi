@@ -35,6 +35,7 @@
 #include "operations_comptes.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_form_scheduler.h"
 #include "navigation.h"
 #include "menu.h"
 #include "gsb_scheduler_list.h"
@@ -44,12 +45,9 @@
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
-#include "utils_comptes.h"
 #include "etats_config.h"
 #include "structures.h"
-#include "gsb_data_form.h"
 #include "fenetre_principale.h"
-#include "echeancier_formulaire.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -72,8 +70,6 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget *notebook_general;
-extern GtkStyle *style_entree_formulaire[2];
-extern GtkWidget *widget_formulaire_echeancier[SCHEDULER_FORM_TOTAL_WIDGET];
 /*END_EXTERN*/
 
 
@@ -113,8 +109,9 @@ gboolean new_account ( void )
     /* update the combofix for categ */ 
     mise_a_jour_combofix_categ();
 
-    /* update options menus of accounts */ 
-    update_options_menus_comptes ();
+    /* update the name of accounts in form */
+    gsb_account_update_name_tree_model ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
+					 FALSE );
 
     /* update the main page */ 
     mise_a_jour_liste_comptes_accueil = 1;
@@ -262,9 +259,9 @@ gboolean delete_account ( void )
     remplit_arbre_imputation ();
     remplit_arbre_tiers ();
 
-    /* update options menus of accounts */
-
-    update_options_menus_comptes ();
+    /* update the name of accounts in form */
+    gsb_account_update_name_tree_model ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
+					 FALSE );
 
     gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
@@ -404,53 +401,53 @@ gboolean gsb_account_create_name_tree_model ( GtkWidget *combo_box,
 }
 
 
-
-
-
-/* ************************************************************************** */
-void changement_choix_compte_echeancier ( void )
+/**
+ * update the list of accounts in a combo_box filled
+ * by gsb_account_create_name_tree_model
+ *
+ * \param combo_box
+ * \param include_closed
+ *
+ * \return FALSE
+ * */
+gboolean gsb_account_update_name_tree_model ( GtkWidget *combo_box,
+					      gboolean include_closed )
 {
-/*     GtkWidget *menu; */
-    gint no_compte;
+    GSList *list_tmp;
+    GtkListStore *store;
 
-    no_compte = recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT] );
+    if (!combo_box)
+	return FALSE;
 
-    if ( gtk_widget_get_style ( widget_formulaire_echeancier[SCHEDULER_FORM_CREDIT] ) == style_entree_formulaire[ENCLAIR] )
+    store = GTK_LIST_STORE (gtk_combo_box_get_model ( GTK_COMBO_BOX (combo_box)));;
+    gtk_list_store_clear (store);
+
+    list_tmp = gsb_data_account_get_list_accounts ();
+
+    while ( list_tmp )
     {
-	/*       il y a qque chose dans le credit, on met le menu des types credit */
+	gint account_number;
+	GtkTreeIter iter;
 
-/* 	if ( (menu = creation_menu_types ( 2, */
-/* 					   no_compte, */
-/* 					   1 ))) */
-/* 	{ */
-/* 	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
-/* 				       menu ); */
-/* 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
-/* 					  cherche_no_menu_type_echeancier ( gsb_data_account_get_default_credit (no_compte))); */
-	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
-/* 	} */
-/* 	else */
-	    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
-    }
-    else
-    {
-	/*       il y a qque chose dans le dï¿œit ou c'est par dï¿œaut, on met le menu des types dï¿œit */
+	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
-/* 	if ( (menu = creation_menu_types ( 1, */
-/* 					   recupere_no_compte ( widget_formulaire_echeancier[SCHEDULER_FORM_ACCOUNT]), */
-/* 					   1 ))) */
+	if ( account_number >= 0 && ( !gsb_data_account_get_closed_account (account_number)
+				      || include_closed ) )
 	{
-/* 	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
-/* 				       menu ); */
-/* 	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] ), */
-/* 					  cherche_no_menu_type_echeancier ( gsb_data_account_get_default_debit (no_compte) ) ); */
-	    gtk_widget_show ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
+	    gtk_list_store_append ( GTK_LIST_STORE (store),
+				    &iter );
+	    gtk_list_store_set ( store,
+				 &iter,
+				 0, gsb_data_account_get_name (account_number),
+				 1, account_number,
+				 -1 );
 	}
-/* 	else */
-	    gtk_widget_hide ( widget_formulaire_echeancier[SCHEDULER_FORM_TYPE] );
+	list_tmp = list_tmp -> next;
     }
+    return FALSE;
 }
-/* ************************************************************************** */
+
+
 
 /* ************************************************************************** */
 void creation_types_par_defaut ( gint no_compte,

@@ -6,7 +6,6 @@
 
 
 /* START_DECLARATION */
-void changement_choix_compte_echeancier ( void );
 GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func, 
 					   gboolean activate_currrent,
 					   gboolean include_closed );
@@ -16,6 +15,8 @@ gboolean delete_account ( void );
 gint demande_type_nouveau_compte ( void );
 gboolean gsb_account_create_name_tree_model ( GtkWidget *combo_box,
 					      GCallback func, 
+					      gboolean include_closed );
+gboolean gsb_account_update_name_tree_model ( GtkWidget *combo_box,
 					      gboolean include_closed );
 gboolean new_account ( void );
 /* END_DECLARATION */

@@ -32,6 +32,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_budget.h"
 #include "meta_budgetary.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
 #include "utils_str.h"
@@ -758,10 +759,11 @@ gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( struct_sub_budget *sub
  * \param return_value_error if problem, the value we return
  *
  * \return the name of the budget, budget : sub-budget or NULL/No budget if problem
+ * 	the returned value need to be freed
  * */
-const gchar *gsb_data_budget_get_name ( gint no_budget,
-					gint no_sub_budget,
-					const gchar *return_value_error )
+gchar *gsb_data_budget_get_name ( gint no_budget,
+				  gint no_sub_budget,
+				  const gchar *return_value_error )
 {
     struct_budget *budget;
     gchar *return_value;
@@ -769,7 +771,7 @@ const gchar *gsb_data_budget_get_name ( gint no_budget,
     budget = gsb_data_budget_get_structure ( no_budget );
 
     if (!budget)
-	return return_value_error;
+	return my_strdup (return_value_error);
 
     return_value = my_strdup ( budget -> budget_name );
 
@@ -1535,39 +1537,68 @@ gboolean gsb_debug_duplicate_budget_fix ()
  * if string is NULL, free the budget of the transaction
  *
  * \param transaction_number
- * \param string
+ * \param string a string like "budget : sub_budget"
+ * \param is_transaction TRUE if it's for a transaction, FALSE for a scheduled transaction
  *
  * \return
  * */
 void gsb_data_budget_set_budget_from_string ( gint transaction_number,
-					      const gchar *string )
+					      const gchar *string,
+					      gboolean is_transaction )
 {
     gchar **tab_char;
     gint budget_number;
 
-    if (!string)
+    /* the simpliest is to split in 2 parts, transaction and scheduled,
+     * but the 2 parts are exactly the same, exept the call to the functions */
+    if (is_transaction)
     {
+	if (!string)
+	{
+	    gsb_data_transaction_set_budgetary_number ( transaction_number, 0 );
+	    gsb_data_transaction_set_sub_budgetary_number ( transaction_number, 0 );
+	    return;
+	}
+
+	tab_char = g_strsplit ( string,
+				":",
+				2 );
+
+	/* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
+	budget_number = gsb_data_budget_get_number_by_name ( tab_char[0],
+							     TRUE,
+							     gsb_data_transaction_get_amount (transaction_number).mantissa <0 );
 	gsb_data_transaction_set_budgetary_number ( transaction_number,
-						    0 );
+						    budget_number );
 	gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
-							0 );
-	return;
+							gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
+													tab_char[1],
+													TRUE ));
     }
+    else
+    {
+	if (!string)
+	{
+	    gsb_data_scheduled_set_budgetary_number ( transaction_number, 0 );
+	    gsb_data_scheduled_set_sub_budgetary_number ( transaction_number, 0 );
+	    return;
+	}
 
-    tab_char = g_strsplit ( string,
-			    ":",
-			    2 );
+	tab_char = g_strsplit ( string,
+				":",
+				2 );
 
-    /* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
-    budget_number = gsb_data_budget_get_number_by_name ( tab_char[0],
-							 TRUE,
-							 gsb_data_transaction_get_amount (transaction_number).mantissa <0 );
-    gsb_data_transaction_set_budgetary_number ( transaction_number,
-						budget_number );
-    gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
-						    gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
-												    tab_char[1],
-												    TRUE ));
+	/* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
+	budget_number = gsb_data_budget_get_number_by_name ( tab_char[0],
+							     TRUE,
+							     gsb_data_scheduled_get_amount (transaction_number).mantissa <0 );
+	gsb_data_scheduled_set_budgetary_number ( transaction_number,
+						    budget_number );
+	gsb_data_scheduled_set_sub_budgetary_number ( transaction_number,
+						      gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
+												      tab_char[1],
+												      TRUE ));
+    }
     g_strfreev (tab_char);
 }
 

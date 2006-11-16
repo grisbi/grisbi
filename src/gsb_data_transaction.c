@@ -40,6 +40,7 @@
 #include "utils_dates.h"
 #include "gsb_real.h"
 #include "utils_str.h"
+#include "gsb_data_transaction.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -462,9 +463,12 @@ GDate *gsb_data_transaction_get_value_date ( gint transaction_number )
 }
 
 
-/** set the value GDate of the transaction
+/** 
+ * set the value GDate of the transaction
+ * 
  * \param transaction_number
  * \param date the value date
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
@@ -1383,10 +1387,13 @@ const gchar *gsb_data_transaction_get_bank_references ( gint transaction_number 
 }
 
 
-/** set the bank_references
+/**
+ * set the bank_references
  * it's a copy of the parameter which will be stored in the transaction
+ * 
  * \param transaction_number
  * \param bank_references
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_bank_references ( gint transaction_number,
@@ -1754,3 +1761,85 @@ gint gsb_data_transaction_find_by_payment_content ( const gchar *string,
     return 0;
 }
 
+/**
+ * return the number of transaction in the given account
+ *
+ * \param account_number 
+ * \param include_breakdown TRUE if we want to include the breakdown children in the amount, FALSE if we want only the first level transactions
+ * \param include_marked TRUE if we want to include the R transactions
+ * 
+ * \return the number of transactions in the account
+ *
+ * */
+gint gsb_data_transaction_get_number_by_account ( gint account_number,
+						  gboolean include_breakdown,
+						  gboolean include_marked )
+{
+    gint number=0;
+    GSList *tmp_list;
+
+    if (account_number < 0)
+	return 0;
+
+    tmp_list = gsb_data_transaction_get_transactions_list ();
+
+    while (tmp_list)
+    {
+	struct_transaction *transaction;
+	
+	transaction = tmp_list -> data;
+
+	if (transaction -> account_number == account_number)
+	{
+	    if ( (include_breakdown
+		 ||
+		 !transaction -> mother_transaction_number)
+		 &&
+		 (include_marked
+		  ||
+		  transaction -> marked_transaction != OPERATION_RAPPROCHEE))
+		number++;
+	}
+	tmp_list = tmp_list -> next;
+    }
+    return number;
+}
+
+
+
+/**
+ * find the white line corresponding to the transaction
+ * given in param and return the number
+ * if the transaction is not a breakdown, return -1, the general white line
+ *
+ * \param transaction_number a breakdown transaction number
+ *
+ * \return the number of the white line of the breakdown or -1
+ * */
+gint gsb_data_transaction_get_white_line ( gint transaction_number )
+{
+    struct_transaction *transaction;
+    GSList *tmp_list;
+
+    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
+
+    if ( !transaction
+	 ||
+	 !transaction -> breakdown_of_transaction)
+	return -1;
+
+    tmp_list = white_transactions_list;
+
+    while ( tmp_list )
+    {
+	struct_transaction *tmp_transaction;
+
+	tmp_transaction = tmp_list -> data;
+
+	if ( tmp_transaction -> mother_transaction_number == transaction_number )
+	    return tmp_transaction -> transaction_number;
+
+	tmp_list = tmp_list -> next;
+    }
+    return -1;
+}

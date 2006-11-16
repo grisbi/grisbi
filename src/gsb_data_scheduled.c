@@ -983,6 +983,44 @@ gboolean gsb_data_scheduled_set_sub_budgetary_number ( gint scheduled_number,
 }
 
 
+/**
+ * this function check if the scheduled transaction is a transfer or
+ * not, to avoid many lines in the source code
+ *
+ * \param scheduled_number
+ *
+ * \return TRUE : is a transfer, FALSE : is not a transfer
+ * */
+gboolean gsb_data_scheduled_is_transfer ( gint scheduled_number )
+{
+    struct_scheduled *scheduled;
+
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
+
+    if ( !scheduled )
+	return FALSE;
+
+    /* it's more complex than for a transaction, because no transaction number to transfer,
+     * we have only account_number_transfer, and it can be 0...
+     * first, need to check if it's -1 => neither transfer, neither categ */
+
+    if (scheduled -> account_number_transfer == -1)
+	return FALSE;
+
+    /* next, if account_number_transfer is > 0, it's a transfer */
+    if (scheduled -> account_number_transfer > 0)
+	return TRUE;
+    
+    /* ok, now we have an account_number_transfer at 0, so it can be
+     * a normal scheduled transactions (with categs), or breakdown */
+    if (scheduled -> category_number
+	||
+	scheduled -> breakdown_of_scheduled)
+	return FALSE;
+    return TRUE;
+}
+
+
 
 /** 
  * get the  account_number_transfer
@@ -1497,3 +1535,39 @@ GSList *gsb_data_scheduled_get_children ( gint scheduled_number )
 }
 
 
+/**
+ * find the white line corresponding to the scheduled transaction
+ * given in param and return the number
+ * if the scheduled is not a breakdown, return -1, the general white line
+ *
+ * \param scheduled_number a breakdown scheduled number
+ *
+ * \return the number of the white line of the breakdown or -1
+ * */
+gint gsb_data_scheduled_get_white_line ( gint scheduled_number)
+{
+    struct_scheduled *scheduled;
+    GSList *tmp_list;
+
+    scheduled = gsb_data_scheduled_get_scheduled_by_no (scheduled_number);
+
+    if (!scheduled
+	 ||
+	 !scheduled -> breakdown_of_scheduled)
+       return -1;
+
+    tmp_list = white_scheduled_list;
+
+    while ( tmp_list )
+    {
+	struct_scheduled *tmp_scheduled;
+
+	tmp_scheduled = tmp_list -> data;
+
+	if ( tmp_scheduled -> mother_scheduled_number == scheduled_number )
+	    return tmp_scheduled -> scheduled_number;
+
+	tmp_list = tmp_list -> next;
+    }
+    return -1;
+}

@@ -5,22 +5,6 @@
 #include "gsb_form.h"
 /* END_INCLUDE_H */
 
-/* the  the size of the scheduled part of the form,
- * fixed here for now, but can become configurable easily
- * because the filling function use that values for a table */
-#define SCHEDULED_WIDTH 6
-#define SCHEDULED_HEIGHT 1
-
-enum scheduled_form_widget {
-    SCHEDULED_FORM_ACCOUNT = 0,
-    SCHEDULED_FORM_AUTO,
-    SCHEDULED_FORM_FREQUENCY_BUTTON,
-    SCHEDULED_FORM_LIMIT_DATE,
-    SCHEDULED_FORM_FREQUENCY_USER_ENTRY,
-    SCHEDULED_FORM_FREQUENCY_USER_BUTTON,
-    SCHEDULED_FORM_MAX_WIDGETS,
-};
-
 enum direction_move {
     GSB_LEFT = 0,
     GSB_RIGHT,
@@ -28,13 +12,20 @@ enum direction_move {
     GSB_DOWN
 };
 
+/** returned values want ask for the origin
+ * must be < 0 because 0 and more are reserved for account numbers */
+enum origin_values {
+    ORIGIN_VALUE_OTHER = -3,
+    ORIGIN_VALUE_HOME,
+    ORIGIN_VALUE_SCHEDULED
+};
+
+
 /* START_DECLARATION */
 gboolean gsb_form_button_press_event ( GtkWidget *entry,
 				       GdkEventButton *ev,
 				       gint *ptr_origin );
 gboolean gsb_form_change_sensitive_buttons ( gboolean sensitive );
-gboolean gsb_form_check_entry_is_empty ( GtkWidget *entry );
-gint gsb_form_check_for_transfer ( const gchar *entry_string );
 gboolean gsb_form_clean ( gint account_number );
 void gsb_form_create_widgets ();
 gboolean gsb_form_entry_get_focus ( GtkWidget *entry );
@@ -42,18 +33,26 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 				     GdkEventFocus *ev,
 				     gint *ptr_origin );
 gboolean gsb_form_escape_form ( void );
-gboolean gsb_form_fill_transaction_part ( gint *ptr_account_number );
+gboolean gsb_form_fill_by_transaction ( gint transaction_number,
+					gint is_transaction );
+void gsb_form_fill_element ( gint element_number,
+			     gint account_number,
+			     gint transaction_number,
+			     gboolean is_transaction );
+gboolean gsb_form_fill_from_account ( gint account_number );
+gboolean gsb_form_finish_edition ( void );
 gint gsb_form_get_account_number ( void );
-gchar *gsb_form_get_element_name ( gint element_number );
-GtkWidget *gsb_form_get_element_widget ( gint element_number,
-					 gint account_number );
-gint gsb_form_get_next_element ( gint account_number,
-				 gint element_number,
-				 gint direction );
-gboolean gsb_form_hide ( void );
-GtkWidget * gsb_form_new ( void );
+GtkWidget *gsb_form_get_button_part ( void );
+gint gsb_form_get_origin ( void );
+GtkWidget *gsb_form_get_scheduler_part ( void );
+gboolean gsb_form_key_press_event ( GtkWidget *widget,
+				    GdkEventKey *ev,
+				    gint *ptr_origin );
+GtkWidget *gsb_form_new ( void );
 gboolean gsb_form_set_expander_visible ( gboolean visible,
 					 gboolean transactions_list );
+gboolean gsb_form_set_sensitive ( gboolean breakdown,
+				  gboolean breakdown_child);
 gboolean gsb_form_show ( gboolean show );
 /* END_DECLARATION */
 #endif

@@ -38,7 +38,6 @@
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
-#include "fenetre_principale.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -56,11 +55,7 @@ static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeStore *budgetary_line_tree_model;
-extern GtkTreeStore * categ_tree_model;
 extern GtkWidget * hpaned;
-extern GtkTreeStore *payee_tree_model;
-extern GtkWidget * scheduler_calendar;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -218,9 +213,6 @@ GtkWidget *create_main_notebook (void )
     /* fill the notebook */
     gsb_gui_fill_main_notebook(notebook_general);
 
-    gtk_signal_connect_after ( GTK_OBJECT ( notebook_general ), "switch_page",
-			       GTK_SIGNAL_FUNC ( gsb_gui_on_notebook_switch_page ), NULL );
-
     gtk_widget_show (vbox);
     return (vbox);
 }
@@ -305,84 +297,6 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 
 
 
-/**
- * Handler triggered when the main notebook changed page.  It is
- * responsible for initial widgets fill, because it is not done at the
- * first time to speed up startup.
- *
- * \param notebook	Widget that triggered event.
- * \param page		Not used.
- * \param page_number	Page set.
- * \param null		Not used.
- *
- * \return		FALSE
- */
-gboolean gsb_gui_on_notebook_switch_page ( GtkNotebook *notebook,
-					   GtkNotebookPage *page,
-					   guint page_number,
-					   gpointer null )
-{
-    GtkTreeIter dummy_iter;
-
-    if ( page_number != GSB_SCHEDULER_PAGE ) 
-    {
-	gtk_widget_hide_all ( scheduler_calendar );
-    }
-
-    switch ( page_number )
-    {
-	case GSB_HOME_PAGE:
-	    mise_a_jour_accueil (FALSE);
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
-	    break;
-
-	case GSB_ACCOUNT_PAGE:
-	    gsb_form_set_expander_visible (TRUE,
-					   TRUE );
-	    gsb_form_show ( FALSE );
-	    break;
-
-	case GSB_SCHEDULER_PAGE:
-	    gsb_form_set_expander_visible (TRUE,
-					   FALSE );
-	    gsb_form_show ( FALSE );
-	    gtk_widget_show_all ( scheduler_calendar );
-	    break;
-
-	case GSB_PAYEES_PAGE:
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
-	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (payee_tree_model), 
-						   &dummy_iter ) )
-		remplit_arbre_tiers ();
-	    break;
-
-	case GSB_CATEGORIES_PAGE:
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
-	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (categ_tree_model), 
-						   &dummy_iter ) )
-		remplit_arbre_categ ();
-	    break;
-
-	case GSB_BUDGETARY_LINES_PAGE:
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
-	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (budgetary_line_tree_model), 
-						   &dummy_iter ) )
-		remplit_arbre_imputation ();
-	    break;
-
-	default:
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
-	    break;
-    }
-
-    return ( FALSE );
-}
-
 
 
 /**
@@ -433,6 +347,19 @@ void gsb_gui_headings_update ( gchar * title, gchar * suffix )
     gtk_label_set_markup ( GTK_LABEL(headings_suffix), 
 			   g_strconcat ( "<b>", suffix, "</b>", NULL ) );
 }
+
+/**
+ * Update headings bar with a new suffix.
+ *
+ * \param suffix	String to display as a suffix in headings bar.
+ *
+ */
+void gsb_gui_headings_update_suffix ( gchar * suffix )
+{
+    gtk_label_set_markup ( GTK_LABEL(headings_suffix), 
+			   g_strconcat ( "<b>", suffix, "</b>", NULL ) );
+}
+
 
 
 

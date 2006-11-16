@@ -36,6 +36,7 @@
 #include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "gsb_real.h"
+#include "gsb_transaction_model.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
@@ -548,37 +549,40 @@ gboolean gsb_reconcile_mark_transaction ( gint  transaction_number )
     model = GTK_TREE_MODEL (gsb_transactions_list_get_store());
     montant = gsb_data_transaction_get_adjusted_amount (transaction_number, -1);
 
-    iter = gsb_transactions_list_get_iter_from_transaction ( transaction_number,
+    iter = gsb_transaction_model_get_iter_from_transaction ( transaction_number,
 							     0 );
 
-    if ( gsb_data_transaction_get_marked_transaction ( transaction_number))
+    if (iter)
     {
-	gsb_data_account_set_marked_balance ( account_number,
-					      gsb_real_sub ( gsb_data_account_get_marked_balance (account_number),
-							     montant ));
-	gsb_data_transaction_set_marked_transaction ( transaction_number,
-						      OPERATION_NORMALE );
-	gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-			     iter,
-			     col, NULL,
-			     -1 );
-    }
-    else
-    {
-	gsb_data_account_set_marked_balance ( account_number,
-					      gsb_real_add ( gsb_data_account_get_marked_balance (account_number),
-							     montant ));
-	gsb_data_transaction_set_marked_transaction ( transaction_number,
-						      OPERATION_POINTEE );
-	gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-			     iter,
-			     col, _("P"),
-			     -1 );
+	if ( gsb_data_transaction_get_marked_transaction ( transaction_number))
+	{
+	    gsb_data_account_set_marked_balance ( account_number,
+						  gsb_real_sub ( gsb_data_account_get_marked_balance (account_number),
+								 montant ));
+	    gsb_data_transaction_set_marked_transaction ( transaction_number,
+							  OPERATION_NORMALE );
+	    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+				 iter,
+				 col, NULL,
+				 -1 );
+	}
+	else
+	{
+	    gsb_data_account_set_marked_balance ( account_number,
+						  gsb_real_add ( gsb_data_account_get_marked_balance (account_number),
+								 montant ));
+	    gsb_data_transaction_set_marked_transaction ( transaction_number,
+							  OPERATION_POINTEE );
+	    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+				 iter,
+				 col, _("P"),
+				 -1 );
+	}
+	gtk_tree_iter_free (iter);
     }
 
     /* si c'est une opération ventilée, on recherche les opérations filles
        pour leur mettre le même pointage que la mère */
-
     if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
     {
 	GSList *list_tmp_transactions;
@@ -598,7 +602,6 @@ gboolean gsb_reconcile_mark_transaction ( gint  transaction_number )
     }
 
     gsb_reconcile_update_amounts (account_number);
-    mise_a_jour_labels_soldes ();
     modification_fichier( TRUE );
     return FALSE;
 }

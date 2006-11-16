@@ -357,9 +357,7 @@ void gsb_file_util_change_permissions ( void )
      * check box is not displayed and the paramater is forced to
      * not display msg. */
 #ifndef _WIN32
-    resultat = question_conditional_yes_no ( "account-file-readable" );
-
-    if ( resultat == TRUE )
+    if ( question_conditional_yes_no ( "account-file-readable" ) == TRUE )
     {
 	chmod ( nom_fichier_comptes, S_IRUSR | S_IWUSR );
     }

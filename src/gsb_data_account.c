@@ -109,7 +109,7 @@ typedef struct
 
     /** @name current graphic position in the list */
 
-    gdouble vertical_adjustment_value;
+    GtkTreePath *vertical_adjustment_value;
 
     /** @name struct of the form's organization */
     gpointer form_organization;
@@ -208,7 +208,7 @@ gint gsb_data_account_new ( kind_account account_kind )
     account -> method_payment_list = gsb_payment_default_payment_list ();
     account -> sort_type = GTK_SORT_DESCENDING;
     account -> current_transaction_number = -1;
-    account -> vertical_adjustment_value = (gdouble) -1;
+    account -> vertical_adjustment_value = NULL;
 
     /*     if it's the first account, we set default conf (R not displayed and 3 lines per transaction) */
     /*     else we keep the conf of the last account */
@@ -2017,28 +2017,35 @@ gboolean gsb_data_account_set_default_credit ( gint account_number,
  * 
  * \param account_number no of the account
  * 
- * \return vertical_adjustment_value or 0 if the account doesn't exist
+ * \return a copy of the vertical path (need to be freed) or NULL if no defined
  * */
-gdouble gsb_data_account_get_vertical_adjustment_value ( gint account_number )
+GtkTreePath *gsb_data_account_get_vertical_adjustment_value ( gint account_number )
 {
     struct_account *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
     if (!account )
-	return 0;
+	return NULL;
 
-    return account -> vertical_adjustment_value;
+    if (account -> vertical_adjustment_value)
+	return gtk_tree_path_copy (account -> vertical_adjustment_value);
+    else
+	return NULL;
 }
 
 
-/** set vertical_adjustment_value in the account given
+/**
+ * set vertical_adjustment_value in the account given
+ * 
  * \param account_number no of the account
  * \param vertical_adjustment_value vertical_adjustment_value to set
+ * 	value are copied in memory so can free after that function
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_vertical_adjustment_value ( gint account_number,
-							  gint vertical_adjustment_value )
+							  GtkTreePath *vertical_adjustment_value )
 {
     struct_account *account;
 
@@ -2047,7 +2054,9 @@ gboolean gsb_data_account_set_vertical_adjustment_value ( gint account_number,
     if (!account )
 	return FALSE;
 
-    account -> vertical_adjustment_value = vertical_adjustment_value;
+    if (account -> vertical_adjustment_value)
+	gtk_tree_path_free (account -> vertical_adjustment_value);
+    account -> vertical_adjustment_value = gtk_tree_path_copy (vertical_adjustment_value);
 
     return TRUE;
 }

@@ -41,7 +41,7 @@
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_others.h"
-#include "gsb_form.h"
+#include "gsb_form_widget.h"
 #include "gsb_form_transaction.h"
 #include "gtk_combofix.h"
 #include "main.h"
@@ -327,13 +327,11 @@ void mise_a_jour_combofix_imputation ( void )
     devel_debug ( "mise_a_jour_combofix_imputation" );
 
     if ( gsb_data_form_check_for_value (TRANSACTION_FORM_BUDGET))
-	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_get_element_widget (TRANSACTION_FORM_BUDGET,
-					       gsb_form_get_account_number ())),
+	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget (TRANSACTION_FORM_BUDGET)),
 				gsb_data_budget_get_name_list (TRUE, TRUE));
 
     mise_a_jour_combofix_imputation_necessaire = 0;
 }
-
 
 
 /**

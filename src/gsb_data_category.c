@@ -34,6 +34,7 @@
 #include "gsb_data_category.h"
 #include "meta_categories.h"
 #include "gsb_data_account.h"
+#include "gsb_data_mix.h"
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
 #include "utils_str.h"
@@ -137,10 +138,11 @@ gboolean gsb_data_category_init_variables ( void )
     sub_category_buffer = NULL;
 
     /* create the empty category */
-
     empty_category = calloc ( 1,
 			      sizeof ( struct_category ));
-    empty_category -> category_name = _("No category line");
+    /* set an empty name for that empty categ, else every transaction
+     * without category will have that name */
+    empty_category -> category_name = "";
 
     return FALSE;
 }
@@ -605,11 +607,13 @@ gint gsb_data_category_new_sub_category_with_number ( gint number,
  *
  * \param transaction_number
  * \param string
+ * \param is_transaction TRUE if it's for a transaction, FALSE for a scheduled transaction
  *
  * \return TRUE ok, FALSE if fail
  * */
 gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
-							const gchar *string )
+							const gchar *string,
+							gboolean is_transaction )
 {
     gchar **tab_char;
     gint category_number = 0;
@@ -626,18 +630,20 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
     {
 	category_number = gsb_data_category_get_number_by_name ( tab_char[0],
 								 TRUE,
-								 gsb_data_transaction_get_amount (transaction_number).mantissa <0 );
-	gsb_data_transaction_set_category_number ( transaction_number,
-						   category_number );
+								 gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa <0 );
+	gsb_data_mix_set_category_number ( transaction_number,
+					   category_number,
+					   is_transaction );
     }
 
     if (tab_char[1]
 	&&
 	category_number)
-	gsb_data_transaction_set_sub_category_number ( transaction_number,
-						       gsb_data_category_get_sub_category_number_by_name ( category_number,
-													   tab_char[1],
-													   TRUE ));
+	gsb_data_mix_set_sub_category_number ( transaction_number,
+					       gsb_data_category_get_sub_category_number_by_name ( category_number,
+												   tab_char[1],
+												   TRUE ),
+					       is_transaction );
     g_strfreev (tab_char);
     return TRUE;
 }
@@ -777,10 +783,11 @@ gint gsb_data_category_get_pointer_from_sub_name_in_glist ( struct_sub_category 
  * \param return_value_error if problem, the value we return
  *
  * \return the name of the category, category : sub-category or NULL/No category if problem
+ * 		the returned value need to be freed after use
  * */
-const gchar *gsb_data_category_get_name ( gint no_category,
-					  gint no_sub_category,
-					  const gchar *return_value_error )
+gchar *gsb_data_category_get_name ( gint no_category,
+				    gint no_sub_category,
+				    const gchar *return_value_error )
 {
     struct_category *category;
     gchar *return_value;
@@ -788,9 +795,9 @@ const gchar *gsb_data_category_get_name ( gint no_category,
     category = gsb_data_category_get_structure ( no_category );
 
     if (!category)
-	return return_value_error;
+	return my_strdup (return_value_error);
 
-    return_value = category -> category_name;
+    return_value = my_strdup (category -> category_name);
 
     if ( no_sub_category )
     {

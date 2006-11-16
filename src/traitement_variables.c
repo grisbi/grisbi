@@ -1,27 +1,31 @@
-/* Fichier traitement_variables.c */
-/* Contient toutes les procédures relatives au traitement des variables */
+/* ************************************************************************** */
+/*                                                                            */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*     Copyright (C) 2000-2003  Cédric Auger */
-/* 			cedric@grisbi.org */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-
+/**
+ * \file traitement_variables.c
+ * works with global variables of grisbi (initialisation...)
+ */
 
 #include "include.h"
-
 
 
 /*START_INCLUDE*/
@@ -41,15 +45,15 @@
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_form_widget.h"
 #include "gsb_fyear.h"
 #include "menu.h"
 #include "structures.h"
 #include "traitement_variables.h"
-#include "gsb_data_form.h"
 #include "gsb_scheduler_list.h"
 #include "include.h"
-#include "echeancier_infos.h"
 #include "gsb_transactions_list.h"
+#include "echeancier_infos.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -113,7 +117,6 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
 extern gchar *crypt_key;
-extern GtkWidget *form_tab_transactions[MAX_HEIGHT][MAX_WIDTH];
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
@@ -181,7 +184,7 @@ void modification_fichier ( gboolean modif )
 void init_variables ( void )
 {
     gint scheduler_col_width_init[NB_COLS_SCHEDULER] = { 10, 26, 20, 14, 14, 28, 8};
-    gint i, row, column;
+    gint i;
 
     devel_debug ( "init_variables" );
 
@@ -263,9 +266,10 @@ void init_variables ( void )
     for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
 	scheduler_col_width[i] = scheduler_col_width_init[i];
 
-    for ( row=0 ; row < MAX_HEIGHT ; row++ )
-	for ( column=0 ; column < MAX_WIDTH ; column++ )
-	    form_tab_transactions[row][column] = NULL;
+    /* free the form */
+    if (gsb_form_widget_get_list ())
+	gsb_form_widget_free_list ();
+
 }
 /*****************************************************************************************************/
 

@@ -46,6 +46,9 @@ const gchar *gsb_data_transaction_get_method_of_payment_content ( gint transacti
 gint gsb_data_transaction_get_method_of_payment_number ( gint transaction_number );
 gint gsb_data_transaction_get_mother_transaction_number ( gint transaction_number );
 const gchar *gsb_data_transaction_get_notes ( gint transaction_number );
+gint gsb_data_transaction_get_number_by_account ( gint account_number,
+						  gboolean include_breakdown,
+						  gboolean include_marked );
 gint gsb_data_transaction_get_party_number ( gint transaction_number );
 gpointer gsb_data_transaction_get_pointer_to_transaction ( gint transaction_number );
 gint gsb_data_transaction_get_reconcile_number ( gint transaction_number );
@@ -57,6 +60,7 @@ gint gsb_data_transaction_get_transaction_number_transfer ( gint transaction_num
 GSList *gsb_data_transaction_get_transactions_list ( void );
 GDate *gsb_data_transaction_get_value_date ( gint transaction_number );
 const gchar *gsb_data_transaction_get_voucher ( gint transaction_number );
+gint gsb_data_transaction_get_white_line ( gint transaction_number );
 gboolean gsb_data_transaction_init_variables ( void );
 gint gsb_data_transaction_new_transaction ( gint no_account );
 gint gsb_data_transaction_new_transaction_with_number ( gint no_account,

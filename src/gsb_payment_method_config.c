@@ -36,6 +36,7 @@
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form.h"
+#include "gsb_form_widget.h"
 #include "gsb_payment_method.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
@@ -570,8 +571,7 @@ void modification_entree_nom_type ( void )
 	    gint account_number;
 
 	    account_number = gsb_form_get_account_number ();
-	    widget = gsb_form_get_element_widget (TRANSACTION_FORM_TYPE,
-						  account_number);
+	    widget = gsb_form_widget_get_widget (TRANSACTION_FORM_TYPE);
 
 	    if (widget)
 	    {
@@ -587,8 +587,7 @@ void modification_entree_nom_type ( void )
 		}
 		else
 		{
-		    gtk_widget_hide ( gsb_form_get_element_widget (TRANSACTION_FORM_CHEQUE,
-								   account_number));
+		    gtk_widget_hide ( gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
 		}
 	    }
 	}

@@ -26,7 +26,7 @@
 #include "gsb_transactions_list.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
-#include "gsb_form.h"
+#include "gsb_form_widget.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -561,13 +561,9 @@ GtkWidget *onglet_form_completion ( void )
  * */
 gboolean gsb_transactions_list_display_update_combofix ( void )
 {
-    gint account_number;
     GtkWidget *combofix;
 
-    account_number = gsb_form_get_account_number ();
-
-    combofix = gsb_form_get_element_widget ( TRANSACTION_FORM_PARTY,
-					       account_number );
+    combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
     if (combofix)
     {
 	gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
@@ -580,8 +576,7 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 					  etat.combofix_enter_select_completion );
     }
 
-    combofix = gsb_form_get_element_widget ( TRANSACTION_FORM_CATEGORY,
-					       account_number );
+    combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
     if (combofix)
     {
 	gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
@@ -596,8 +591,7 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 				      etat.combofix_mixed_sort );
     }
 
-    combofix = gsb_form_get_element_widget ( TRANSACTION_FORM_BUDGET,
-					       account_number );
+    combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_BUDGET );
     if (combofix)
     {
 	gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),

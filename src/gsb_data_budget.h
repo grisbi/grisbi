@@ -12,9 +12,9 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
 gsb_real gsb_data_budget_get_balance ( gint no_budget );
 GSList *gsb_data_budget_get_budgets_list ( void );
 gsb_real gsb_data_budget_get_direct_balance ( gint no_budget );
-const gchar *gsb_data_budget_get_name ( gint no_budget,
-					gint no_sub_budget,
-					const gchar *return_value_error );
+gchar *gsb_data_budget_get_name ( gint no_budget,
+				  gint no_sub_budget,
+				  const gchar *return_value_error );
 GSList *gsb_data_budget_get_name_list ( gboolean set_debit,
 					gboolean set_credit );
 gint gsb_data_budget_get_nb_direct_transactions ( gint no_budget );
@@ -48,7 +48,8 @@ gint gsb_data_budget_new_with_number ( gint number );
 gboolean gsb_data_budget_remove ( gint no_budget );
 void gsb_data_budget_remove_transaction_from_budget ( gint transaction_number );
 void gsb_data_budget_set_budget_from_string ( gint transaction_number,
-					      const gchar *string );
+					      const gchar *string,
+					      gboolean is_transaction );
 gboolean gsb_data_budget_set_name ( gint no_budget,
 				    const gchar *name );
 gboolean gsb_data_budget_set_sub_budget_name ( gint no_budget,

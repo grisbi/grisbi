@@ -163,7 +163,9 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
     gchar * separator, * tmp;
     gchar *string_tmp;
 
-    if ( !string)
+    if ( !string
+	 ||
+	 !strlen (string))
 	return number;
 
     string_tmp = my_strdup (string);
