@@ -162,6 +162,11 @@ gint csv_initialise (GSList * opes_selectionnees)
     gint resultat;
     GtkWidget * file_selector;
 
+    // Reset Globals related to report exporting
+    //
+    csv_lastcol  = 0;
+    csv_lastline = 1;
+
     file_selector = gtk_file_selection_new ( _("Export report as CSV..."));
     file_selection_set_filename ( GTK_FILE_SELECTION ( file_selector ),
 				  dernier_chemin_de_travail );
