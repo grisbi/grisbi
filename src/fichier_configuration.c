@@ -121,7 +121,7 @@ void charge_configuration ( void )
 		}
 		if ( !strcmp ( node_general -> name, "Dernier_chemin_de_travail" ) ) {
 		    dernier_chemin_de_travail = xmlNodeGetContent ( node_general);
-		    if ( !dernier_chemin_de_travail )
+		    if ((!dernier_chemin_de_travail )||(!*dernier_chemin_de_travail))
 			dernier_chemin_de_travail = g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL );
 		}
 		if ( !strcmp ( node_general -> name, "Affichage_alerte_permission" ) ) {
