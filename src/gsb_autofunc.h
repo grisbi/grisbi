@@ -16,14 +16,6 @@ GtkWidget *gsb_autofunc_checkbutton_new ( const gchar *label,
 void gsb_autofunc_checkbutton_set_value ( GtkWidget *button,
 					  gboolean value,
 					  gint number_for_func );
-GtkWidget *gsb_autofunc_date_new ( const gchar *value,
-				   GCallback hook,
-				   gpointer data,
-				   GCallback default_func,
-				   gint number_for_func );
-void gsb_autofunc_date_set_value ( GtkWidget *hbox,
-				   GDate *value,
-				   gint number_for_func );
 GtkWidget *gsb_autofunc_entry_new ( const gchar *value,
 				    GCallback hook,
 				    gpointer data,

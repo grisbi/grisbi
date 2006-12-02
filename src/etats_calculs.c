@@ -32,6 +32,7 @@
 #include "gsb_data_category.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_reconcile.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
 #include "gsb_data_report_text_comparison.h"
@@ -41,7 +42,6 @@
 #include "gsb_status.h"
 #include "utils_str.h"
 #include "print_config.h"
-#include "utils_rapprochements.h"
 #include "utils_types.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -1001,7 +1001,7 @@ const gchar *recupere_texte_test_etat ( gint transaction_number,
 	case 10:
 	    /* no rappr */
 
-	    texte = rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number (transaction_number));
+	    texte = gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number (transaction_number));
 	    break;
 
 	default:
@@ -1133,7 +1133,7 @@ gint verifie_chq_test_etat ( gint text_comparison_number,
 						       gsb_data_report_text_comparison_get_first_comparison (text_comparison_number));
     else
     {
-	struct struct_no_rapprochement *rapprochement;
+	gint reconcile_number;
 
 	switch (gsb_data_report_text_comparison_get_field (text_comparison_number))
 	{
@@ -1155,13 +1155,12 @@ gint verifie_chq_test_etat ( gint text_comparison_number,
 
 	    case 10:
 		/* rappr */
-		/* no_chq contient le nom du rapprochement de l'opé, or pour le plus grand, on cherche */
-		/* le no du rapprochement, on le cherche ici */
+		/* no_chq contains the reconcile_number */
 
-		rapprochement = rapprochement_par_nom ( no_chq );
+		reconcile_number = gsb_data_reconcile_get_number_by_name (no_chq);
 
-		if ( rapprochement )
-		    ope_dans_premier_test = compare_cheques_etat ( rapprochement -> no_rapprochement,
+		if (reconcile_number)
+		    ope_dans_premier_test = compare_cheques_etat ( reconcile_number,
 								   dernier_no_rappr,
 								   gsb_data_report_text_comparison_get_first_comparison (text_comparison_number));
 		break;
@@ -1955,8 +1954,8 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 		 !gsb_data_transaction_get_reconcile_number ( transaction_number_2))
 		return_value = gsb_data_transaction_get_reconcile_number ( transaction_number_2)- gsb_data_transaction_get_reconcile_number ( transaction_number_1);
 	    else
-		return_value = g_strcasecmp ( rapprochement_name_by_no( gsb_data_transaction_get_reconcile_number ( transaction_number_1)),
-					rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( transaction_number_2)));
+		return_value = g_strcasecmp ( gsb_data_reconcile_get_name( gsb_data_transaction_get_reconcile_number ( transaction_number_1)),
+					      gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number ( transaction_number_2)));
 	    break;
 
 	default :

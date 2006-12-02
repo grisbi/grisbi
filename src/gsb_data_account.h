@@ -93,7 +93,7 @@ gboolean gsb_data_account_set_currency ( gint account_number,
 gboolean gsb_data_account_set_current_balance ( gint account_number,
 						gsb_real balance );
 gboolean gsb_data_account_set_current_reconcile_date ( gint account_number,
-						       GDate *date );
+						       const GDate *date );
 gboolean gsb_data_account_set_current_transaction_number ( gint account_number,
 							   gint transaction_number );
 gboolean gsb_data_account_set_default_credit ( gint account_number,

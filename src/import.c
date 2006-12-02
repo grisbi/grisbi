@@ -39,7 +39,6 @@
 #include "gsb_currency_config.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
-#include "operations_comptes.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_form.h"
@@ -1261,7 +1260,7 @@ void traitement_operations_importees ( void )
 		gsb_menu_update_accounts_in_menus();
 	    }
 
-	    gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER(i) );
+	    navigation_change_account ( GINT_TO_POINTER(i) );
 	    remplissage_details_compte ();
 
 	    list_tmp = list_tmp -> next;

@@ -27,7 +27,6 @@
 /*START_INCLUDE*/
 #include "etats_gtktable.h"
 #include "gsb_data_account.h"
-#include "operations_comptes.h"
 #include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "gsb_transactions_list.h"
@@ -259,7 +258,7 @@ void gtktable_click_sur_ope_etat ( gint transaction_number )
     {
 	/* passage sur le compte concerné */
 
-	gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_data_transaction_get_account_number (transaction_number)));;
+	navigation_change_account ( GINT_TO_POINTER ( gsb_data_transaction_get_account_number (transaction_number)));;
 
 	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
 

@@ -33,8 +33,7 @@
 #include "accueil.h"
 #include "erreur.h"
 #include "dialog.h"
-#include "equilibrage.h"
-#include "calendar.h"
+#include "gsb_calendar_entry.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -54,7 +53,7 @@
 #include "navigation.h"
 #include "gsb_payment_method.h"
 #include "gsb_real.h"
-#include "echeancier_formulaire.h"
+#include "gsb_reconcile.h"
 #include "gsb_scheduler.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
@@ -66,10 +65,10 @@
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils_operations.h"
-#include "structures.h"
 #include "fenetre_principale.h"
 #include "gsb_form.h"
 #include "include.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -85,7 +84,6 @@ static gboolean gsb_form_get_categories ( gint transaction_number,
 				   gboolean is_transaction );
 static gint gsb_form_get_element_expandable ( gint element_number );
 static gboolean gsb_form_hide ( void );
-static gboolean gsb_form_init_entry_colors ( void );
 static void gsb_form_take_datas_from_form ( gint transaction_number,
 				     gboolean is_transaction );
 static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
@@ -108,10 +106,6 @@ GtkWidget *label_last_statement = NULL;
 
 /** the expander */
 static GtkWidget *form_expander = NULL;
-
-/** the 2 styles, grey or normal for the entries of the
- * form, need to be in static later */
-GtkStyle *style_entree_formulaire[2];
 
 /** the 3 parts of the form :
  * for scheduled transactions
@@ -298,9 +292,6 @@ void gsb_form_create_widgets ()
     g_signal_connect ( G_OBJECT (form_button_cancel), "clicked",
 		       G_CALLBACK (gsb_form_escape_form), NULL );
     gtk_box_pack_end ( GTK_BOX (hbox_buttons), form_button_cancel, FALSE, FALSE, 0 );
-
-    /* init the colors for the entries */
-    gsb_form_init_entry_colors ();
 
     /* Kludge : otherwise, GtkExpander won't give us as many space
        as we need. */
@@ -590,11 +581,7 @@ void gsb_form_fill_element ( gint element_number,
 
 	case TRANSACTION_FORM_DATE:
 	    gsb_form_entry_get_focus (widget);
-	    char_tmp = gsb_format_gdate ( gsb_data_mix_get_date (transaction_number, is_transaction));
-
-	    gtk_entry_set_text ( GTK_ENTRY ( widget ),
-				 char_tmp );
-	    g_free (char_tmp);
+	    gsb_calendar_entry_set_date ( widget, gsb_data_mix_get_date (transaction_number, is_transaction));
 	    break;
 
 	case TRANSACTION_FORM_VALUE_DATE:
@@ -604,10 +591,7 @@ void gsb_form_fill_element ( gint element_number,
 		 gsb_data_transaction_get_value_date (transaction_number))
 	    {
 		gsb_form_entry_get_focus (widget);
-		char_tmp = gsb_format_gdate ( gsb_data_transaction_get_value_date (transaction_number));
-		gtk_entry_set_text ( GTK_ENTRY ( widget ),
-				     char_tmp);
-		g_free (char_tmp);
+		gsb_calendar_entry_set_date ( widget, gsb_data_transaction_get_value_date (transaction_number));
 	    }
 	    break;
 
@@ -1304,7 +1288,7 @@ gboolean gsb_form_clean ( gint account_number )
 /**
  * Determine element is expandable or not in a GtkTable.
  *
- * \param TODO
+ * \param element_number 
  * 
  * \return
  */
@@ -1411,17 +1395,6 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 
     switch ( element_number )
     {
-	case TRANSACTION_FORM_DATE :
-
-	    /* check and finish the date */
-	    gsb_date_check_and_complete_entry ( entry );
-	    break;
-
-	case TRANSACTION_FORM_VALUE_DATE :
-	    if ( !gsb_date_check_and_complete_entry (entry))
-		string = gsb_form_widget_get_name (TRANSACTION_FORM_VALUE_DATE);
-	    break;
-
 	case TRANSACTION_FORM_PARTY :
 
 	    /* we complete the transaction */
@@ -1734,23 +1707,21 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
      * in that case, transaction_number_in_form is 0 and set to -1, as a white line */
     if (!g_object_get_data (G_OBJECT (formulaire), "transaction_number_in_form"))
     {
+	GtkWidget *date_entry;
+
 	/* set the new transaction number */
 	g_object_set_data ( G_OBJECT (formulaire),
 			    "transaction_number_in_form",
 			    GINT_TO_POINTER (-1));
 
-	/* set the current date into the date entry except if there is already something into the value date */
-	if ( gsb_form_widget_check_empty ( gsb_form_widget_get_widget (TRANSACTION_FORM_DATE)))
+	/* set the current date into the date entry */
+	date_entry = gsb_form_widget_get_widget (TRANSACTION_FORM_DATE);
+	if ( gsb_form_widget_check_empty (date_entry))
 	{
-	    if ( !gsb_data_form_check_for_value ( TRANSACTION_FORM_VALUE_DATE )
-		 ||
-		 gsb_form_widget_check_empty ( gsb_form_widget_get_widget (TRANSACTION_FORM_VALUE_DATE)))
-	    {
-		gtk_entry_set_text ( GTK_ENTRY ( gsb_form_widget_get_widget (TRANSACTION_FORM_DATE)),
-				     gsb_date_today ());
-		gsb_form_widget_set_empty ( gsb_form_widget_get_widget (TRANSACTION_FORM_DATE),
-					    FALSE );
-	    }
+	    gtk_entry_set_text ( GTK_ENTRY (date_entry),
+				 gsb_date_today ());
+	    gsb_form_widget_set_empty ( date_entry,
+					FALSE );
 	}
 
 	/* set the form sensitive */
@@ -1793,18 +1764,6 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
     if ( !ev )
 	return FALSE;
 
-    /* check for the calendar */
-    switch ( element_number )
-    {
-	case TRANSACTION_FORM_DATE :
-	case TRANSACTION_FORM_VALUE_DATE :
-	    if ( ev -> type == GDK_2BUTTON_PRESS )
-	    {
-		gsb_calendar_new ( entry );
-		return TRUE;
-	    }
-	    break;
-    }
     return FALSE;
 }
 
@@ -1908,19 +1867,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	case GDK_KP_Enter :
 	case GDK_Return :
 
-	    /* CONTROL ENTER opens the calendar */
-	    if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK
-		 &&
-		 ( element_number == TRANSACTION_FORM_DATE
-		   ||
-		   element_number == TRANSACTION_FORM_VALUE_DATE ))
-	    {
-		GtkWidget *popup_cal;
-		popup_cal = gsb_calendar_new ( gsb_form_widget_get_widget (element_number));
-		gtk_widget_grab_focus (popup_cal);
-		return TRUE;
-	    }
-
 	    /* need to check here if we are performing a scheduled transaction in home page
 	     * or another transaction, because if we are in home page, cannot finish like that,
 	     * we need to finish with the dialog wich contains the form */
@@ -1953,95 +1899,21 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	case GDK_plus:
 	case GDK_equal:		/* This should make all our US users happy */
 
-	    /* increase the date of 1 day/week, or the check of 1 */
-	    switch ( element_number )
-	    {
-		case TRANSACTION_FORM_VALUE_DATE:
-		case TRANSACTION_FORM_DATE:
-
-		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK ||
-			 ev -> keyval != GDK_KP_Add )
-			inc_dec_date ( widget, ONE_DAY );
-		    else
-			inc_dec_date ( widget, ONE_WEEK );
-		    return TRUE;
-		    break;
-
-		case TRANSACTION_FORM_CHEQUE:
-
-		    increment_decrement_champ ( widget,
-						1 );
-		    return TRUE;
-		    break;
-	    }
+	    /* increase the check of 1 */
+	    if (element_number == TRANSACTION_FORM_CHEQUE)
+		increment_decrement_champ ( widget,
+					    1 );
+	    return TRUE;
 	    break;
 
 	case GDK_KP_Subtract:
 	case GDK_minus:
 
-	    /* decrease the date of 1 day/week, or the check of 1 */
-	    switch ( element_number )
-	    {
-		case TRANSACTION_FORM_VALUE_DATE:
-		case TRANSACTION_FORM_DATE:
-
-		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK ||
-			 ev -> keyval != GDK_KP_Subtract  )
-			inc_dec_date ( widget, -ONE_DAY );
-		    else
-			inc_dec_date ( widget, -ONE_WEEK );
-		    return TRUE;
-		    break;
-
-		case TRANSACTION_FORM_CHEQUE:
-		    
-		    increment_decrement_champ ( widget,
-						-1 );
-		    return TRUE;
-		    break;
-	    }
-	    break;
-
-	case GDK_Page_Up :
-	case GDK_KP_Page_Up :
-
-	    /* increase the date of 1 month/year */
-	    switch ( element_number )
-	    {
-		case TRANSACTION_FORM_VALUE_DATE:
-		case TRANSACTION_FORM_DATE:
-
-		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK )
-			inc_dec_date ( widget,
-				       ONE_MONTH );
-		    else
-			inc_dec_date ( widget,
-				       ONE_YEAR );
-
-		    return TRUE;
-		    break;
-	    }
-	    break;
-
-	case GDK_Page_Down :
-	case GDK_KP_Page_Down :
-
-	    /* decrease the date of 1 month/year */
-	    switch ( element_number )
-	    {
-		case TRANSACTION_FORM_VALUE_DATE:
-		case TRANSACTION_FORM_DATE:
-
-		    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK )
-			inc_dec_date ( widget,
-				       -ONE_MONTH );
-		    else
-			inc_dec_date ( widget,
-				       -ONE_YEAR );
-
-		    return TRUE;
-		    break;
-	    }
+	    /* decrease the check of 1 */
+	    if (element_number == TRANSACTION_FORM_CHEQUE)
+		increment_decrement_champ ( widget,
+					    -1 );
+	    return TRUE;
 	    break;
     }
     return FALSE;
@@ -2259,7 +2131,7 @@ gboolean gsb_form_finish_edition ( void )
 	 !new_transaction )
     {
 	gsb_data_account_calculate_marked_balance (account_number);
-	gsb_reconcile_update_amounts (account_number);
+	gsb_reconcile_update_amounts (NULL, NULL);
     }
 
     /* if we executed a scheduled transation, need to increase the date of the scheduled
@@ -2292,8 +2164,6 @@ gboolean gsb_form_finish_edition ( void )
 	 &&
 	 !execute_scheduled)
     {
-	GtkWidget *date_entry;
-
 	/* we are on a new transaction, if that transaction is a breakdown,
 	 * we give the focus to the new white line created for that and
 	 * edit it, for that we need to open the transaction to select the
@@ -2311,8 +2181,7 @@ gboolean gsb_form_finish_edition ( void )
 	}
 
 	/* it was a new transaction, we save the last date entry */
-	date_entry = gsb_form_widget_get_widget (TRANSACTION_FORM_DATE);
-	gsb_date_set_last_date (gtk_entry_get_text ( GTK_ENTRY (date_entry)));
+	gsb_date_set_last_date (gtk_entry_get_text ( GTK_ENTRY (gsb_form_widget_get_widget (TRANSACTION_FORM_DATE))));
 
 	/* we need to use edit_transaction to make a new child breakdown if necessary */
 	if (is_transaction)
@@ -2374,9 +2243,10 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
     }
 
     /* check the date ok */
-    if ( !gsb_date_check_and_complete_entry (widget))
+    if ( !gsb_calendar_entry_date_valid (widget))
     {
-	dialogue_error ( _("Invalid date") );
+	dialogue_error ( g_strdup_printf ( _("Invalid date %s"),
+					   gtk_entry_get_text (GTK_ENTRY (widget))));
 	gtk_entry_select_region ( GTK_ENTRY (widget),
 				  0,
 				  -1);
@@ -2390,9 +2260,10 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 	 &&
 	 !gsb_form_widget_check_empty (widget)
 	 &&
-	 !gsb_date_check_and_complete_entry (widget))
+	 !gsb_calendar_entry_date_valid (widget))
     {
-	dialogue_error ( _("Invalid value date.") );
+	dialogue_error ( g_strdup_printf ( _("Invalid value date %s"),
+					   gtk_entry_get_text (GTK_ENTRY (widget))));
 	gtk_entry_select_region ( GTK_ENTRY (widget),
 				  0,
 				  -1);
@@ -2578,13 +2449,15 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 				     gboolean is_transaction )
 {
     GSList *tmp_list;
+    GDate *date;
 
     devel_debug ( g_strdup_printf ( "gsb_form_take_datas_from_form %d", transaction_number ));
 
     /* we set a date variable to avoid to parse 2 times, one time for the date,
      * and perhaps a second time with the financial year
      * (cannot take it from the transaction if the fyear field is before the date field...) */
-    GDate *date = NULL;
+    /* get the date first, because the financial year will use it and it can set before the date in the form */
+    date = gsb_calendar_entry_get_date (gsb_form_widget_get_widget (TRANSACTION_FORM_DATE));
 
     tmp_list = gsb_form_widget_get_list ();
 
@@ -2597,9 +2470,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 	    switch (element -> element_number)
 	    {
 		case TRANSACTION_FORM_DATE:
-		    if (!date)
-			date = gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY (element -> element_widget)));
-
+		    /* set date before */
 		    gsb_data_mix_set_date ( transaction_number, date, is_transaction );
 
 		    break;
@@ -2608,15 +2479,15 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		    if (gsb_form_widget_check_empty (element -> element_widget)) 
 			gsb_data_mix_set_value_date ( transaction_number, NULL, is_transaction );
 		    else
-			gsb_data_mix_set_value_date ( transaction_number, gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY (element -> element_widget))), is_transaction );
+			gsb_data_mix_set_value_date ( transaction_number,
+						      gsb_calendar_entry_get_date (element -> element_widget),
+						      is_transaction );
 		    break;
 
 		case TRANSACTION_FORM_EXERCICE:
 		    /* FIXME : voir pour faire la différence date/date de valeur à partir de la conf ? pour la date pour choisir l'exo*/
-		    if (!date)
-			date = gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY (element -> element_widget)));
-
-		    gsb_data_mix_set_financial_year_number ( transaction_number, gsb_fyear_get_fyear_from_combobox ( element -> element_widget, date ), is_transaction);
+		    gsb_data_mix_set_financial_year_number ( transaction_number,
+							     gsb_fyear_get_fyear_from_combobox ( element -> element_widget, date ), is_transaction);
 		    break;
 
 		case TRANSACTION_FORM_PARTY:
@@ -2939,41 +2810,6 @@ gboolean gsb_form_escape_form ( void )
 
 
 
-
-/**
- * init the colors for the differents states of the entries
- *
- * \param
- *
- * \return FALSE
- * */
-gboolean gsb_form_init_entry_colors ( void )
-{
-    GdkColor normal_color;
-    GdkColor grey_color;
-
-    normal_color.red = COULEUR_NOIRE_RED;
-    normal_color.green = COULEUR_NOIRE_GREEN;
-    normal_color.blue = COULEUR_NOIRE_BLUE;
-    normal_color.pixel = 0;
-
-    grey_color.red = COULEUR_GRISE_RED;
-    grey_color.green = COULEUR_GRISE_GREEN;
-    grey_color.blue = COULEUR_GRISE_BLUE;
-    grey_color.pixel = 0;
-
-    style_entree_formulaire[ENCLAIR] = gtk_style_new();
-    style_entree_formulaire[ENCLAIR] -> text[GTK_STATE_NORMAL] = normal_color;
-
-    style_entree_formulaire[ENGRIS] = gtk_style_new();
-    style_entree_formulaire[ENGRIS] -> text[GTK_STATE_NORMAL] = grey_color;
-
-    g_object_ref ( style_entree_formulaire[ENCLAIR] );
-    g_object_ref ( style_entree_formulaire[ENGRIS] );
-
-    return FALSE;
-}
-
 /**
  * set the size of the columns in the form, according to the user conf
  * and the size of the window
@@ -2989,6 +2825,7 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
 {
     gint row, column;
     gint account_number;
+    GtkWidget *widget;
 
     if (!gtk_expander_get_expanded (GTK_EXPANDER (form_expander)))
 	return FALSE;
@@ -3000,8 +2837,6 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
     for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) ; row++ )
 	for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
 	{
-	    GtkWidget *widget;
-
 	    widget = gsb_form_widget_get_widget ( gsb_data_form_get_value ( account_number,
 									    column,
 									    row ));
@@ -3017,35 +2852,40 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
     {
 	gint width_percent = 0;
 
-	switch (column)
+	widget = gsb_form_scheduler_get_element_widget(column);
+
+	if (widget)
 	{
-	    case SCHEDULED_FORM_ACCOUNT:
-		width_percent = 30;
-		break;
+	    switch (column)
+	    {
+		case SCHEDULED_FORM_ACCOUNT:
+		    width_percent = 30;
+		    break;
 
-	    case SCHEDULED_FORM_AUTO:
-		width_percent = 16;
-		break;
+		case SCHEDULED_FORM_AUTO:
+		    width_percent = 16;
+		    break;
 
-	    case SCHEDULED_FORM_FREQUENCY_BUTTON:
-		width_percent = 16;
-		break;
+		case SCHEDULED_FORM_FREQUENCY_BUTTON:
+		    width_percent = 16;
+		    break;
 
-	    case SCHEDULED_FORM_LIMIT_DATE:
-		width_percent = 12;
-		break;
+		case SCHEDULED_FORM_LIMIT_DATE:
+		    width_percent = 12;
+		    break;
 
-	    case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
-		width_percent = 7;
-		break;
+		case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
+		    width_percent = 7;
+		    break;
 
-	    case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
-		width_percent = 12;
-		break;
+		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
+		    width_percent = 12;
+		    break;
+	    }
+	    gtk_widget_set_usize ( widget,
+				   width_percent * allocation -> width / 100,
+				   FALSE );
 	}
-	gtk_widget_set_usize ( gsb_form_scheduler_get_element_widget(column),
-			       width_percent * allocation -> width / 100,
-			       FALSE );
     }
     return FALSE;
 }

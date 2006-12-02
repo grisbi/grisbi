@@ -36,6 +36,7 @@
 #include "navigation.h"
 #include "comptes_traitements.h"
 #include "erreur.h"
+#include "dialog.h"
 #include "fichiers_gestion.h"
 #include "export.h"
 #include "tip.h"
@@ -72,6 +73,7 @@ static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget,
 extern GtkTreeModel * navigation_model;
 extern gsize nb_derniers_fichiers_ouverts ;
 extern gint nb_max_derniers_fichiers_ouverts ;
+extern GtkTreeSelection * selection;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -80,7 +82,6 @@ extern GtkWidget *window;
 gboolean block_menu_cb = FALSE;
 GtkUIManager * ui_manager;
 gint recent_files_merge_id = -1, move_to_account_merge_id = -1;
-
 
 static gchar * buffer = 
 "<ui>"
@@ -657,10 +658,21 @@ gboolean gsb_gui_toggle_show_reconciled ()
  */
 gboolean gsb_gui_toggle_show_closed_accounts ()
 {
+    /* problem, if we toggle while reconciling, the selection goes to the home page, but we want to stay
+     * on the account page. so block here */
+    /* FIXME a bug here, when do while reconciliation, there is no change with the if below, but the button of the
+     * menu is toggled, as i didn't understand how it works, i let that for benj [cedric] */
+    if (etat.equilibrage)
+    {
+	dialogue_warning (_("Cannot switch to the closed accounts while reconciling. Please cancel the reconciliation before doing that."));
+	return FALSE;
+    }
+
     etat.show_closed_accounts = ! etat.show_closed_accounts;
-    modification_fichier ( TRUE );
 
     create_account_list ( navigation_model );
+
+    modification_fichier ( TRUE );
 
     return FALSE;
 }

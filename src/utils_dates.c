@@ -30,7 +30,7 @@
 #include "gsb_form_widget.h"
 #include "utils_str.h"
 #include "parametres.h"
-#include "calendar.h"
+#include "gsb_calendar_entry.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -38,8 +38,6 @@
 
 
 /*START_EXTERN*/
-extern GtkWidget *entree_date_finale_etat;
-extern GtkWidget *entree_date_init_etat;
 /*END_EXTERN*/
 
 
@@ -150,15 +148,17 @@ GDate *gsb_date_copy ( const GDate *date )
     
 /**
  * check the entry to find a date
- * if the entry is empty, set gsb_date_today
+ * if the entry is empty, set gsb_date_today according to set_today
  * if the entry is set, try to understand and fill it if necessary
  * for example : 1/4/5 becomes 01/04/2005
  *
  * \param entry the entry to check
+ * \param set_today if TRUE and the entry is empty, will set into the today date
  *
- * \return FALSE if problem with the date, TRUE if ok
+ * \return FALSE if problem with the date, TRUE if ok or entry empty
  * */
-gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry )
+gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
+					     gboolean set_today )
 {
     const gchar *string;
 
@@ -167,7 +167,7 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry )
     
     /* if the entry is grey (empty), go away */
     if (gsb_form_widget_check_empty (entry))
-	return ( FALSE );
+	return (TRUE);
 
     string = gtk_entry_get_text ( GTK_ENTRY (entry));
     if (!string)
@@ -185,14 +185,9 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry )
 			     gsb_format_gdate (date));
 	g_date_free (date);
     }
-	else
+    else
     {
-	/* let the entry empty if we are on the report configuration
-	 * FIXME : should set a boolean at this function to choose to let the entry free or not */
-
-	if ( entry != entree_date_init_etat
-	     &&
-	     entry != entree_date_finale_etat )
+	if (set_today)
 	    gtk_entry_set_text ( GTK_ENTRY (entry),
 				 gsb_date_today() );
     }
@@ -208,7 +203,7 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry )
  *
  * \param a string wich represent a date
  *
- * \return a newly allocated gdate
+ * \return a newly allocated gdate or NULL if cannot set
  */
 GDate *gsb_parse_date_string ( const gchar *date_string )
 {
@@ -499,7 +494,7 @@ gchar *gsb_format_date ( gint day, gint month, gint year )
  *
  * \return		A string representing date.
  */
-gchar * gsb_format_gdate ( GDate *date )
+gchar *gsb_format_gdate ( GDate *date )
 {
     gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
 

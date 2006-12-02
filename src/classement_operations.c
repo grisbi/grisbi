@@ -32,11 +32,11 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_reconcile.h"
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
 #include "utils_str.h"
-#include "utils_rapprochements.h"
 #include "utils_types.h"
 #include "structures.h"
 #include "include.h"
@@ -154,7 +154,7 @@ gint gsb_transactions_list_sort_column_0 ( GtkTreeModel *model,
 						   iter_2,
 						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[TRANSACTION_COL_NB_CHECK])),
 						   gsb_data_account_get_column_sort ( GPOINTER_TO_INT ( no_account ),
-										 TRANSACTION_COL_NB_CHECK ));
+										      TRANSACTION_COL_NB_CHECK ));
 }
 
 /** called by a click on the column
@@ -1059,8 +1059,8 @@ gint gsb_transactions_list_sort_by_reconcile_nb ( GtkTreeModel *model,
 	const gchar *temp_1;
 	const gchar *temp_2;
 
-	temp_1 = rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( transaction_number_1));
-	temp_2 = rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( transaction_number_2));
+	temp_1 = gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number ( transaction_number_1));
+	temp_2 = gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number ( transaction_number_2));
 
 	/* g_utf8_collate is said not very fast, must try with big big account to check
 	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */

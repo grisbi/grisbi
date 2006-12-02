@@ -36,13 +36,13 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_reconcile.h"
 #include "gsb_data_report.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "navigation.h"
 #include "gsb_real.h"
 #include "utils_str.h"
-#include "utils_rapprochements.h"
 #include "utils_types.h"
 #include "structures.h"
 #include "etats_config.h"
@@ -1489,7 +1489,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	if ( gsb_data_report_get_show_report_marked (current_report_number))
 	{
-	    text = my_strdup (rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( transaction_number)));
+	    text = my_strdup (gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number ( transaction_number)));
 
 	    if ( text )
 	    {

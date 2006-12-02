@@ -116,7 +116,7 @@ gboolean gsb_data_transaction_set_sub_category_number ( gint transaction_number,
 gboolean gsb_data_transaction_set_transaction_id ( gint transaction_number,
 						   const gchar *transaction_id );
 gboolean gsb_data_transaction_set_transaction_number_transfer ( gint transaction_number,
-							 gint transaction_number_transfer );
+								gint transaction_number_transfer );
 gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
 					       GDate *date );
 gboolean gsb_data_transaction_set_voucher ( gint transaction_number,

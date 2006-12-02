@@ -31,6 +31,7 @@
 /*START_INCLUDE*/
 #include "traitement_variables.h"
 #include "erreur.h"
+#include "gsb_calendar_entry.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_bank.h"
@@ -40,11 +41,13 @@
 #include "gsb_data_currency_link.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_reconcile.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_form_scheduler.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
 #include "menu.h"
@@ -121,7 +124,6 @@ extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GtkWidget *liste_categ_etat;
-extern GSList *liste_struct_rapprochements;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
@@ -201,9 +203,14 @@ void init_variables ( void )
     gsb_data_currency_link_init_variables ();
     gsb_data_fyear_init_variables ();
     gsb_data_bank_init_variables ();
+    gsb_data_reconcile_init_variables ();
 
     gsb_currency_init_variables ();
     gsb_fyear_init_variables ();
+
+    /* init the colors for the entries */
+    gsb_form_widget_init_entry_colors ();
+    gsb_calendar_init_entry_colors ();
 
     /* /!\ FIXME */
 /*     crypt_key = NULL; */
@@ -231,8 +238,6 @@ void init_variables ( void )
     no_devise_totaux_categ = 1;
     no_devise_totaux_ib = 1;
 
-    liste_struct_rapprochements = NULL;
-
     titre_fichier = _("My accounts");
     adresse_commune = NULL;
     adresse_secondaire = NULL;
@@ -246,7 +251,6 @@ void init_variables ( void )
     tooltips_general_grisbi = NULL;
 
     /* 	on initialise la liste des labels des titres de colonnes */
-
     if ( !liste_labels_titres_colonnes_liste_ope )
     {
 	i=0;
@@ -267,9 +271,8 @@ void init_variables ( void )
 	scheduler_col_width[i] = scheduler_col_width_init[i];
 
     /* free the form */
-    if (gsb_form_widget_get_list ())
-	gsb_form_widget_free_list ();
-
+    gsb_form_widget_free_list ();
+    gsb_form_scheduler_free_list ();
 }
 /*****************************************************************************************************/
 

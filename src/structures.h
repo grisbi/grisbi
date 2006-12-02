@@ -48,6 +48,9 @@
 #define COULEUR_NOIRE_RED 0
 #define COULEUR_NOIRE_GREEN 0
 #define COULEUR_NOIRE_BLUE 0
+#define COULEUR_BLANCHE_RED 65535
+#define COULEUR_BLANCHE_GREEN 65535
+#define COULEUR_BLANCHE_BLUE 65535
 #define COULEUR_GRISE_RED 50000
 #define COULEUR_GRISE_GREEN 50000
 #define COULEUR_GRISE_BLUE 50000
@@ -177,16 +180,6 @@ struct struct_type_ope
     gint no_compte;
 };
 
-
-
-/* si en 2 parties, séparé d'un - */
-/* si la 2ème est un numéro, elle est incrémentée à chaque équilibrage */
-
-struct struct_no_rapprochement
-{
-    gint no_rapprochement;
-    gchar *nom_rapprochement;
-};
 
 
 

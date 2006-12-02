@@ -32,7 +32,6 @@
 #include "dialog.h"
 #include "fichiers_gestion.h"
 #include "gsb_data_account.h"
-#include "operations_comptes.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form_scheduler.h"
@@ -74,8 +73,11 @@ extern GtkWidget *notebook_general;
 
 
 
-/** called to create a new account
+/**
+ * called to create a new account
+ * 
  * \param none
+ * 
  * \return FALSE FALSE
  */
 
@@ -93,13 +95,11 @@ gboolean new_account ( void )
 
     /*     ask for the kind_account */ 
     type_de_compte = demande_type_nouveau_compte ();
-
     if ( type_de_compte == -1 )
 	return FALSE;
 
     /*     create the new account */ 
     no_compte = gsb_data_account_new ( type_de_compte );
-
     if ( no_compte == -1 )
     {
 	dialogue_error_memory ();
@@ -125,19 +125,17 @@ gboolean new_account ( void )
     gsb_menu_update_accounts_in_menus (); 
     compte_courant_onglet = no_compte;
 
+    /* Add an entry in navigation pane. */
+    gsb_gui_navigation_add_account ( no_compte );
+
     /* Go to accounts properties */
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 			    GSB_ACCOUNT_PAGE );
     gtk_notebook_set_page ( GTK_NOTEBOOK ( account_page ), 1 );
     remplissage_details_compte ();
-
-    /* Add an entry in navigation pane. */
-    gsb_gui_navigation_add_account ( no_compte );
-
     modification_fichier ( TRUE );
     return FALSE;
 }
-/* ************************************************************************** */
 
 
 
@@ -232,7 +230,7 @@ gboolean delete_account ( void )
 
 	page_number = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook_general));
 
-	gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_data_account_first_number () ));
+	navigation_change_account ( GINT_TO_POINTER ( gsb_data_account_first_number () ));
 
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
     }

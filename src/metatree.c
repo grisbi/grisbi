@@ -28,7 +28,6 @@
 #include "erreur.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
-#include "operations_comptes.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
@@ -958,7 +957,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 		mise_a_jour_affichage_r ( TRUE );
 	    }
 
-	    gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_data_transaction_get_account_number (transaction_number)));
+	    navigation_change_account ( GINT_TO_POINTER ( gsb_data_transaction_get_account_number (transaction_number)));
 	    remplissage_details_compte ();
 	    gsb_gui_notebook_change_page ( GSB_ACCOUNT_PAGE );
 	    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, 

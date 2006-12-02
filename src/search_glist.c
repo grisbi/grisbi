@@ -49,29 +49,6 @@
 
 
 
-/******************************************************************************/
-gint recherche_rapprochement_par_nom ( struct struct_no_rapprochement *rapprochement,
-				       gchar *no_rap )
-{
-    return ( strcmp ( rapprochement -> nom_rapprochement,
-		      no_rap ));
-}
-/******************************************************************************/
-
-/******************************************************************************/
-gint recherche_rapprochement_par_no ( struct struct_no_rapprochement *rapprochement,
-				      gint *no_rap )
-{
-    return ( !(rapprochement -> no_rapprochement == GPOINTER_TO_INT ( no_rap )));
-}
-/******************************************************************************/
-
-
-
-
-
-
-
 /* *******************************************************************************/
 gint recherche_operation_par_id ( gpointer operation,
 				  gchar *id_recherchee )

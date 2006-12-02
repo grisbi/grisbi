@@ -381,6 +381,19 @@ gboolean gsb_gui_update_show_headings ()
     return FALSE;
 }
 
+/**
+ * sensitive or unsensitive the headings
+ *
+ * \param sensitive TRUE to sensitive
+ *
+ * \return
+ * */
+void gsb_gui_sensitive_headings ( gboolean sensitive )
+{
+    if (headings_eb)
+	gtk_widget_set_sensitive ( headings_eb,
+				   sensitive );
+}
 
 
 /**

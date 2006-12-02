@@ -434,12 +434,6 @@ gboolean gtk_combofix_set_list ( GtkComboFix *combofix,
 
     if (combofix -> complex)
     {
-	gtk_combofix_fill_store ( combofix,
-				  list,
-				  0 );
-    }
-    else
-    {
 	GSList *tmp_list;
 	gint list_number = 0;
 	gint length;
@@ -470,6 +464,12 @@ gboolean gtk_combofix_set_list ( GtkComboFix *combofix,
 	    list_number++;
 	    tmp_list = tmp_list -> next;
 	}
+    }
+    else
+    {
+	gtk_combofix_fill_store ( combofix,
+				  list,
+				  0 );
     }
     return TRUE;
 }
@@ -688,7 +688,9 @@ static gboolean gtk_combofix_fill_store ( GtkComboFix *combofix,
     /* normally the list cannot begin by a child, but we check here to
      * avoid a big crash */
 
-    if ( ((gchar *)(list -> data))[0] == '\t' )
+    if ( list -> data
+	 &&
+	 ((gchar *)(list -> data))[0] == '\t' )
     {
 	printf ( "GtkComboFix error : the first entry in the list is a child, cannot fill the combofix\n");
 	return FALSE;
@@ -703,37 +705,40 @@ static gboolean gtk_combofix_fill_store ( GtkComboFix *combofix,
 	string = tmp_list -> data;
 
 	/* create the new iter where it's necessary and iter will focus on it */
-	if ( string[0] == '\t' )
+	if (string)
 	{
-	    /* it's a child */
-	    gtk_tree_store_append ( combofix -> store,
-				    &iter_child,
-				    &iter_parent );
-	    gtk_tree_store_set ( combofix -> store,
-				 &iter_child,
-				 COMBOFIX_COL_VISIBLE_STRING, string + 1,
-				 COMBOFIX_COL_REAL_STRING, g_strconcat ( last_parent,
-									 " : ",
-									 string + 1,
-									 NULL ),
-				 COMBOFIX_COL_VISIBLE, TRUE,
-				 COMBOFIX_COL_LIST_NUMBER, list_number,
-				 -1 );
-	}
-	else
-	{
-	    /* it's a parent */
-	    gtk_tree_store_append ( combofix -> store,
-				    &iter_parent,
-				    NULL );
-	    gtk_tree_store_set ( combofix -> store,
-				 &iter_parent,
-				 COMBOFIX_COL_VISIBLE_STRING, string,
-				 COMBOFIX_COL_REAL_STRING, string,
-				 COMBOFIX_COL_VISIBLE, TRUE,
-				 COMBOFIX_COL_LIST_NUMBER, list_number,
-				 -1 );
-	    last_parent = string;
+	    if ( string[0] == '\t' )
+	    {
+		/* it's a child */
+		gtk_tree_store_append ( combofix -> store,
+					&iter_child,
+					&iter_parent );
+		gtk_tree_store_set ( combofix -> store,
+				     &iter_child,
+				     COMBOFIX_COL_VISIBLE_STRING, string + 1,
+				     COMBOFIX_COL_REAL_STRING, g_strconcat ( last_parent,
+									     " : ",
+									     string + 1,
+									     NULL ),
+				     COMBOFIX_COL_VISIBLE, TRUE,
+				     COMBOFIX_COL_LIST_NUMBER, list_number,
+				     -1 );
+	    }
+	    else
+	    {
+		/* it's a parent */
+		gtk_tree_store_append ( combofix -> store,
+					&iter_parent,
+					NULL );
+		gtk_tree_store_set ( combofix -> store,
+				     &iter_parent,
+				     COMBOFIX_COL_VISIBLE_STRING, string,
+				     COMBOFIX_COL_REAL_STRING, string,
+				     COMBOFIX_COL_VISIBLE, TRUE,
+				     COMBOFIX_COL_LIST_NUMBER, list_number,
+				     -1 );
+		last_parent = string;
+	    }
 	}
 	tmp_list = tmp_list -> next;
     }

@@ -30,7 +30,7 @@
 /*START_INCLUDE*/
 #include "gsb_payment_method_config.h"
 #include "dialog.h"
-#include "equilibrage.h"
+#include "gsb_reconcile_config.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
@@ -74,8 +74,6 @@ GtkWidget *entree_type_nom;
 GtkWidget *entree_type_dernier_no;
 GtkWidget *bouton_signe_type;
 GtkWidget *entree_automatic_numbering;
-
-GtkWidget *vbox_fleches_tri;
 
 static GtkTreeStore *model;
 

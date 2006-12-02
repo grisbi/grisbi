@@ -70,6 +70,7 @@ extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
 
+/* xxx unifier les noms de fonctions ici */
 
 /**
  * if only the date and payee are filled in the form, fill all the fields with

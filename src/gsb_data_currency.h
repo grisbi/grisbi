@@ -8,7 +8,7 @@
 
 
 /* START_DECLARATION */
-gchar *gsb_data_currency_get_code ( gint currency_number );
+const gchar *gsb_data_currency_get_code ( gint currency_number );
 gchar *gsb_data_currency_get_code_iso4217 ( gint currency_number );
 gchar *gsb_data_currency_get_code_or_isocode ( gint currency_number );
 GSList *gsb_data_currency_get_currency_list ( void );

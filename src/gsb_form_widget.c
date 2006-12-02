@@ -32,6 +32,7 @@
 #include "gsb_form_widget.h"
 #include "gsb_form_transaction.h"
 #include "erreur.h"
+#include "gsb_calendar_entry.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -42,8 +43,9 @@
 #include "gsb_fyear.h"
 #include "gsb_payment_method.h"
 #include "gtk_combofix.h"
-#include "include.h"
 #include "structures.h"
+#include "traitement_variables.h"
+#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -51,12 +53,17 @@ static gboolean gsb_form_widget_can_focus ( gint element_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkStyle *style_entree_formulaire[2];
 extern GtkTooltips *tooltips_general_grisbi;
 /*END_EXTERN*/
 
 /** contains a list of struct_element according to the current form */
 static GSList *form_list_widgets = NULL;
+
+/** the 2 styles, grey and normal for the entries of the form */
+static GtkStyle *style_entree_formulaire[2];
+#define ENCLAIR 0
+#define ENGRIS 1
+
 
 
 
@@ -120,6 +127,41 @@ gboolean gsb_form_widget_free_list ( void )
 
 
 /**
+ * init the colors for the differents states of the entries
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_widget_init_entry_colors ( void )
+{
+    GdkColor normal_color;
+    GdkColor grey_color;
+
+    normal_color.red = COULEUR_NOIRE_RED;
+    normal_color.green = COULEUR_NOIRE_GREEN;
+    normal_color.blue = COULEUR_NOIRE_BLUE;
+    normal_color.pixel = 0;
+
+    grey_color.red = COULEUR_GRISE_RED;
+    grey_color.green = COULEUR_GRISE_GREEN;
+    grey_color.blue = COULEUR_GRISE_BLUE;
+    grey_color.pixel = 0;
+
+    style_entree_formulaire[ENCLAIR] = gtk_style_new();
+    style_entree_formulaire[ENCLAIR] -> text[GTK_STATE_NORMAL] = normal_color;
+
+    style_entree_formulaire[ENGRIS] = gtk_style_new();
+    style_entree_formulaire[ENGRIS] -> text[GTK_STATE_NORMAL] = grey_color;
+
+    g_object_ref ( style_entree_formulaire[ENCLAIR] );
+    g_object_ref ( style_entree_formulaire[ENGRIS] );
+
+    return FALSE;
+}
+
+
+/**
  * create and return the widget according to its element number
  *
  * \param element_number the number corresponding to the widget wanted
@@ -140,9 +182,12 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
     switch (element_number)
     {
 	case TRANSACTION_FORM_DATE:
+	case TRANSACTION_FORM_VALUE_DATE:
+	    widget = gsb_calendar_entry_new ();
+	    break;
+
 	case TRANSACTION_FORM_DEBIT:
 	case TRANSACTION_FORM_CREDIT:
-	case TRANSACTION_FORM_VALUE_DATE:
 	case TRANSACTION_FORM_NOTES:
 	case TRANSACTION_FORM_CHEQUE:
 	case TRANSACTION_FORM_VOUCHER:

@@ -1485,10 +1485,7 @@ gboolean gsb_data_scheduled_remove_scheduled ( gint scheduled_number )
 				      scheduled );
 
     /* we free the buffer to avoid big possibly crashes */
-
-    if ( scheduled_buffer[0] == scheduled )
 	scheduled_buffer[0] = NULL;
-    if ( scheduled_buffer[1] == scheduled )
 	scheduled_buffer[1] = NULL;
 
     g_free (scheduled);
@@ -1518,8 +1515,8 @@ GSList *gsb_data_scheduled_get_children ( gint scheduled_number )
 	 !scheduled -> breakdown_of_scheduled)
 	return NULL;
 
+    /* get the normal children */
     tmp_list = scheduled_list;
-
     while ( tmp_list )
     {
 	struct_scheduled *tmp_scheduled;
@@ -1532,6 +1529,22 @@ GSList *gsb_data_scheduled_get_children ( gint scheduled_number )
 
 	tmp_list = tmp_list -> next;
     }
+
+    /* get the white line too */
+    tmp_list = white_scheduled_list;
+    while ( tmp_list )
+    {
+	struct_scheduled *tmp_scheduled;
+
+	tmp_scheduled = tmp_list -> data;
+
+	if ( tmp_scheduled -> mother_scheduled_number == scheduled_number )
+	    children_list = g_slist_append ( children_list,
+					     GINT_TO_POINTER ( tmp_scheduled -> scheduled_number ));
+
+	tmp_list = tmp_list -> next;
+    }
+
     return children_list;
 }
 

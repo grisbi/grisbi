@@ -25,6 +25,7 @@ gboolean gsb_form_widget_free_list ( void );
 GSList *gsb_form_widget_get_list ( void );
 gchar *gsb_form_widget_get_name ( gint element_number );
 GtkWidget *gsb_form_widget_get_widget ( gint element_number );
+gboolean gsb_form_widget_init_entry_colors ( void );
 gint gsb_form_widget_next_element ( gint account_number,
 				    gint element_number,
 				    gint direction );

@@ -188,6 +188,9 @@ gboolean gsb_data_form_dup_organization ( gint origin_account,
     memcpy ( new_form,
 	     origin_form,
 	     sizeof (form_organization));
+
+    gsb_data_account_set_form_organization ( target_account,
+					     new_form );
  
     return TRUE;
 }

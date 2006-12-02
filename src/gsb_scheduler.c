@@ -39,7 +39,6 @@
 #include "gsb_form_transaction.h"
 #include "accueil.h"
 #include "gsb_payment_method.h"
-#include "echeancier_formulaire.h"
 #include "gsb_scheduler_list.h"
 #include "main.h"
 #include "traitement_variables.h"
@@ -47,6 +46,10 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint scheduled_number,
+								   gint transaction_mother );
+static gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint transaction_number,
+								       gint scheduled_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -83,12 +86,12 @@ gboolean gsb_scheduler_increase_scheduled ( gint scheduled_number )
     /* we continue to work only if new_date is not null (null mean reach the end) */
     if (new_date)
     {
+	/* set the new date */
+	gsb_data_scheduled_set_date ( scheduled_number, new_date);
+
 	if ( gsb_data_scheduled_get_breakdown_of_scheduled ( scheduled_number ))
 	{
 	    GSList *children_numbers_list;
-
-	    /* set the new date */
-	    gsb_data_scheduled_set_date ( scheduled_number, new_date);
 
 	    /* if there is some children, set the new date too */
 	    children_numbers_list = gsb_data_scheduled_get_children ( scheduled_number );

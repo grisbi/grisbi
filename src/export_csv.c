@@ -35,11 +35,11 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_reconcile.h"
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
 #include "main.h"
 #include "utils_str.h"
-#include "utils_rapprochements.h"
 #include "search_glist.h"
 #include "utils_files.h"
 #include "include.h"
@@ -367,7 +367,7 @@ void csv_export ( gchar * filename, gint account_nb )
 	      /* met le num√©ro du rapprochement */
 	      if ( gsb_data_transaction_get_reconcile_number ( pTransaction ) )
 	      {
-		  csv_field_rappro = g_strdup ( rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( pTransaction ) ) );
+		  csv_field_rappro = my_strdup ( gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number ( pTransaction ) ) );
 	      }
  
 	      /* Met les informations bancaires de l'op√©ration. Elles n'existent
@@ -493,7 +493,7 @@ void csv_export ( gchar * filename, gint account_nb )
 			  /* met le rapprochement */
 			  if ( gsb_data_transaction_get_reconcile_number ( pBreakdownTransaction ) )
 			  {
-			      csv_field_rappro = my_strdup ( rapprochement_name_by_no ( gsb_data_transaction_get_reconcile_number ( pBreakdownTransaction ) ) );
+			      csv_field_rappro = my_strdup ( gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number ( pBreakdownTransaction ) ) );
 			  }
 
 			  /* met le ch„®que si c'est un type „† num„©rotation automatique */

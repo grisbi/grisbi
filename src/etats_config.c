@@ -33,7 +33,7 @@
 #include "utils.h"
 #include "erreur.h"
 #include "dialog.h"
-#include "calendar.h"
+#include "gsb_calendar_entry.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -43,7 +43,6 @@
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
 #include "gsb_data_report_text_comparison.h"
-#include "utils_dates.h"
 #include "navigation.h"
 #include "gsb_real.h"
 #include "classement_operations.h"
@@ -70,7 +69,6 @@ static void click_liste_etat ( GtkCList *liste,
 			gint origine );
 static void click_type_categ_etat ( gint type );
 static void click_type_ib_etat ( gint type );
-static gboolean clique_sur_entree_date_etat ( GtkWidget *entree, GdkEventButton *ev );
 static GtkWidget *cree_bouton_champ ( gint text_comparison_number );
 static GtkWidget *cree_bouton_comparateur_montant ( gint amount_comparison_number );
 static GtkWidget *cree_bouton_comparateur_texte ( gint text_comparison_number );
@@ -95,8 +93,6 @@ static GtkWidget *onglet_etat_texte ( void );
 static GtkWidget *onglet_etat_tiers ( void );
 static GtkWidget *onglet_etat_virements ( void );
 static GtkWidget *page_organisation_donnees ( void );
-static gboolean pression_touche_date_etat ( GtkWidget *widget,
-				     GdkEventKey *ev );
 static void recuperation_info_perso_etat ( void );
 static void remplissage_liste_comptes_virements ( void );
 static void remplissage_liste_exo_etats ( void );
@@ -125,7 +121,6 @@ static void selectionne_liste_virements_etat_courant ( void );
 static void selectionne_partie_liste_compte_etat ( gint *type_compte );
 static void selectionne_partie_liste_compte_vir_etat ( gint *type_compte );
 static void sensitive_hbox_fonction_bouton_txt ( gint text_comparison_number );
-static gboolean sortie_entree_date_etat ( GtkWidget *entree );
 static void stylise_tab_label_etat ( gint *no_page );
 /*END_STATIC*/
 
@@ -804,12 +799,12 @@ void personnalisation_etat (void)
     /* on remplit les dates perso si elles existent */
 
     if ( gsb_data_report_get_personal_date_start (current_report_number))
-	gtk_entry_set_text ( GTK_ENTRY ( entree_date_init_etat ),
-			     gsb_format_gdate ( gsb_data_report_get_personal_date_start (current_report_number)) );
+	gsb_calendar_entry_set_date ( entree_date_init_etat,
+				      gsb_data_report_get_personal_date_start (current_report_number));
 
     if ( gsb_data_report_get_personal_date_end (current_report_number))
-	gtk_entry_set_text ( GTK_ENTRY ( entree_date_finale_etat ),
-			     gsb_format_gdate ( gsb_data_report_get_personal_date_end (current_report_number)) );
+	gsb_calendar_entry_set_date ( entree_date_finale_etat,
+				      gsb_data_report_get_personal_date_end (current_report_number));
 
     /* on remplit les détails de la séparation des dates */
 
@@ -1313,9 +1308,7 @@ void recuperation_info_perso_etat ( void )
 
     /* vérification que les dates init et finales sont correctes */
 
-    if ( strlen ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat )))
-	 &&
-	 !gsb_date_check_and_complete_entry ( entree_date_init_etat ))
+    if (!gsb_calendar_entry_date_valid (entree_date_init_etat))
     {
 	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
 			      g_strdup_printf ( _("Invalid initial date '%s'"), 
@@ -1323,9 +1316,8 @@ void recuperation_info_perso_etat ( void )
 	return;
     }
 
-    if ( strlen ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat )))
-	 &&
-	 !gsb_date_check_and_complete_entry ( entree_date_finale_etat )) {
+    if (!gsb_calendar_entry_date_valid (entree_date_finale_etat))
+    {
 	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
 			      g_strdup_printf ( _("Invalid final date '%s'"), 
 						gtk_entry_get_text(GTK_ENTRY(entree_date_finale_etat)) ) );
@@ -1522,21 +1514,10 @@ void recuperation_info_perso_etat ( void )
     gsb_data_report_set_date_type ( current_report_number,
 				    GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data ));
 
-    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ))))
-	 &&
-	 gsb_date_check_and_complete_entry ( entree_date_init_etat ))
-    {
-	gsb_data_report_set_personal_date_start ( current_report_number,
-						  gsb_parse_date_string ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ) ) ));
-    }
-
-    if ( strlen ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ))))
-	 &&
-	 gsb_date_check_and_complete_entry ( entree_date_finale_etat ))
-    {
-	gsb_data_report_set_personal_date_end ( current_report_number,
-						gsb_parse_date_string ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ) ) ));
-    }
+    gsb_data_report_set_personal_date_start ( current_report_number,
+					      gsb_calendar_entry_get_date (entree_date_init_etat));
+    gsb_data_report_set_personal_date_end ( current_report_number,
+					    gsb_calendar_entry_get_date (entree_date_finale_etat));
 
     gsb_data_report_set_period_split ( current_report_number,
 				       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat )));
@@ -2364,22 +2345,10 @@ GtkWidget *onglet_etat_dates ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    entree_date_init_etat = gtk_entry_new_with_max_length ( 10 );
+    entree_date_init_etat = gsb_calendar_entry_new ();
     gtk_widget_set_usize ( entree_date_init_etat,
 			   100,
 			   FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( entree_date_init_etat ),
-			 "button_press_event",
-			 GTK_SIGNAL_FUNC ( clique_sur_entree_date_etat ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( entree_date_init_etat ),
-			 "key_press_event",
-			 GTK_SIGNAL_FUNC ( pression_touche_date_etat ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( entree_date_init_etat ),
-			 "focus_out_event",
-			 GTK_SIGNAL_FUNC ( sortie_entree_date_etat ),
-			 NULL );
     gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       entree_date_init_etat,
 		       FALSE,
@@ -2406,22 +2375,10 @@ GtkWidget *onglet_etat_dates ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    entree_date_finale_etat = gtk_entry_new_with_max_length ( 10 );
+    entree_date_finale_etat = gsb_calendar_entry_new ();
     gtk_widget_set_usize ( entree_date_finale_etat,
 			   100,
 			   FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( entree_date_finale_etat ),
-			 "button_press_event",
-			 GTK_SIGNAL_FUNC ( clique_sur_entree_date_etat ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( entree_date_finale_etat ),
-			 "key_press_event",
-			 GTK_SIGNAL_FUNC ( pression_touche_date_etat ),
-			 NULL );
-    gtk_signal_connect ( GTK_OBJECT ( entree_date_finale_etat ),
-			 "focus_out_event",
-			 GTK_SIGNAL_FUNC ( sortie_entree_date_etat ),
-			 NULL );
     gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       entree_date_finale_etat,
 		       FALSE,
@@ -2489,129 +2446,6 @@ void click_liste_etat ( GtkCList *liste,
 				       FALSE );
 	}
     }
-}
-/******************************************************************************/
-
-/******************************************************************************/
-gboolean clique_sur_entree_date_etat ( GtkWidget *entree, GdkEventButton *ev )
-{
-    GtkWidget *popup_cal;
-
-    if ( ev -> type == GDK_2BUTTON_PRESS )
-    {
-	popup_cal = gsb_calendar_new ( entree );
-	return TRUE;
-    }
-    return FALSE;
-}
-/******************************************************************************/
-
-/******************************************************************************/
-gboolean pression_touche_date_etat ( GtkWidget *widget,
-				     GdkEventKey *ev )
-{
-    GtkWidget *popup_cal;
-
-    switch ( ev -> keyval )
-    {
-	case GDK_Return :		/* touches entrée */
-	case GDK_KP_Enter :
-
-	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-					   "key_press_event");
-
-	    /* si la touche CTRL est elle aussi active, alors c'est que l'on est
-	       probablement sur un champ de date et que l'on souhaite ouvrir
-	       un calendrier */
-	    if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
-	    {
-		popup_cal = gsb_calendar_new ( widget );
-	    }
-	    /* si la touche CTRL n'est pas active, alors on valide simplement
-	       la saisie de l'échéance */
-	    else
-	    {
-	      return FALSE;
-	    }
-	    return TRUE;
-
-	case GDK_plus :		/* touches + */
-	case GDK_KP_Add :
-
-	    /* si on est dans une entree de date, on augmente d'un jour
-	       (d'une semaine) la date */
-
-	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-					   "key-press-event");
-	    if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
-		inc_dec_date ( widget, ONE_DAY );
-	    else
-		inc_dec_date ( widget, ONE_WEEK );
-	    return TRUE;
-
-	case GDK_minus :		/* touches - */
-	case GDK_KP_Subtract :
-
-	    /* si on est dans une entree de date, on diminue d'un jour
-	       (d'une semaine) la date */
-
-	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-					   "key-press-event");
-	    if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
-		inc_dec_date ( widget, - ONE_DAY );
-	    else
-		inc_dec_date ( widget, - ONE_WEEK );
-	    return TRUE;
-
-	case GDK_Page_Up :		/* touche PgUp */
-	case GDK_KP_Page_Up :
-
-	    /* si on est dans une entree de date,
-	       on augmente d'un mois (d'un an) la date */
-
-	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-					   "key-press-event");
-	    if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
-		inc_dec_date ( widget, ONE_MONTH );
-	    else
-		inc_dec_date ( widget, ONE_YEAR );
-	    return TRUE;
-	    break;
-
-	case GDK_Page_Down :		/* touche PgDown */
-	case GDK_KP_Page_Down :
-
-	    /* si on est dans une entree de date,
-	       on augmente d'un mois (d'un an) la date */
-
-	    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( widget ),
-					   "key-press-event");
-	    if ( ( ev -> state & GDK_SHIFT_MASK ) != GDK_SHIFT_MASK )
-		inc_dec_date ( widget, - ONE_MONTH );
-	    else
-		inc_dec_date ( widget, - ONE_YEAR );
-	    return TRUE;
-
-	default :
-	    /* Reverting to default handler */
-	    return FALSE;
-    }
-
-    //  return TRUE; c'est le cas des opérations
-    return FALSE;
-}
-/******************************************************************************/
-
-/******************************************************************************/
-gboolean sortie_entree_date_etat ( GtkWidget *entree )
-{
-    /* si l'entrée contenant la date est vide, alors on met la date du jour */
-
-    if ( strlen ( g_strstrip ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( entree )))) == 0  )
-	gtk_entry_set_text ( GTK_ENTRY ( entree ), gsb_date_today() );
-
-    gsb_date_check_and_complete_entry ( entree );
-    return FALSE;
 }
 /******************************************************************************/
 

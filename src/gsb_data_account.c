@@ -37,6 +37,7 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
+#include "utils_dates.h"
 #include "data_payment.h"
 #include "gsb_real.h"
 #include "traitement_variables.h"
@@ -179,6 +180,7 @@ GSList *gsb_data_account_get_list_accounts ( void )
 gint gsb_data_account_new ( kind_account account_kind )
 {
     struct_account *account;
+    gint last_number;
 
     account = calloc ( 1,
 		       sizeof ( struct_account ));
@@ -189,13 +191,13 @@ gint gsb_data_account_new ( kind_account account_kind )
 	return -1;
     }
 
+    last_number = gsb_data_account_max_number ();
     /* we have to append the account first because some functions later will
      * look for that account */
-
     list_accounts = g_slist_append ( list_accounts,
 				     account );
 
-    account -> account_number = gsb_data_account_max_number () + 1;
+    account -> account_number = last_number + 1;
     account -> account_name = g_strdup_printf ( _("No name %d"),
 						account -> account_number );
 
@@ -222,11 +224,11 @@ gint gsb_data_account_new ( kind_account account_kind )
     }
     else
     {
-	account -> show_r = gsb_data_account_get_r ( gsb_data_account_max_number ());
-	account -> nb_rows_by_transaction = gsb_data_account_get_nb_rows ( gsb_data_account_max_number ());
+	account -> show_r = gsb_data_account_get_r (last_number);
+	account -> nb_rows_by_transaction = gsb_data_account_get_nb_rows (last_number);
 
 	/* try to copy the form of the last account, else make a new form */
-	if ( !gsb_data_form_dup_organization ( gsb_data_account_max_number () - 1,
+	if ( !gsb_data_form_dup_organization ( last_number,
 					       account -> account_number ))
 	{
 	    gsb_data_form_new_organization (account -> account_number);
@@ -1270,13 +1272,16 @@ GDate *gsb_data_account_get_current_reconcile_date ( gint account_number )
 }
 
 
-/** set the reconcile_date of the account
+/**
+ * set the reconcile_date of the account
+ * 
  * \param account_number no of the account
  * \param date date to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_current_reconcile_date ( gint account_number,
-						       GDate *date )
+						       const GDate *date )
 {
     struct_account *account;
 
@@ -1285,7 +1290,7 @@ gboolean gsb_data_account_set_current_reconcile_date ( gint account_number,
     if (!account )
 	return FALSE;
 
-    account -> reconcile_date = date;
+    account -> reconcile_date = gsb_date_copy (date);
 
     return TRUE;
 }

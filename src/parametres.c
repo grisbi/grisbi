@@ -39,7 +39,7 @@
 #include "affichage.h"
 #include "import.h"
 #include "gsb_payment_method_config.h"
-#include "equilibrage.h"
+#include "gsb_reconcile_config.h"
 #include "parametres.h"
 #include "structures.h"
 #include "include.h"

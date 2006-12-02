@@ -67,6 +67,10 @@ gchar *gsb_real_get_string ( gsb_real number )
     gint i = 0, j=0;
     glong num;
 
+    /* FIXME : should return 0.00 according to the currency and no 0 */
+    if (number.mantissa == 0)
+	return my_strdup ("0");
+
     /* for a long int : max 11 char
      * so with the possible -, the spaces and the .
      * we arrive to maximum 14 char : -21 474 836.48 + 1 for the 0 terminal */

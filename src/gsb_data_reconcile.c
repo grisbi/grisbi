@@ -45,19 +45,9 @@ typedef struct
 
 
 /*START_STATIC*/
-static gchar *gsb_data_reconcile_get_name ( gint reconcile_number );
-static gint gsb_data_reconcile_get_no_reconcile ( gpointer reconcile_ptr );
-static gint gsb_data_reconcile_get_number_by_name ( const gchar *name );
-static GSList *gsb_data_reconcile_get_reconcile_list ( void );
 static gpointer gsb_data_reconcile_get_structure ( gint reconcile_number );
-static gboolean gsb_data_reconcile_init_variables ( void );
 static gint gsb_data_reconcile_max_number ( void );
-static gint gsb_data_reconcile_new ( const gchar *name );
 static gboolean gsb_data_reconcile_remove ( gint reconcile_number );
-static gboolean gsb_data_reconcile_set_name ( gint reconcile_number,
-				       const gchar *name );
-static gint gsb_data_reconcile_set_new_number ( gint reconcile_number,
-					 gint new_no_reconcile );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -285,7 +275,7 @@ gint gsb_data_reconcile_set_new_number ( gint reconcile_number,
  *
  * \return the name of the reconcile or NULL if problem
  * */
-gchar *gsb_data_reconcile_get_name ( gint reconcile_number )
+const gchar *gsb_data_reconcile_get_name ( gint reconcile_number )
 {
     struct_reconcile *reconcile;
 
@@ -341,7 +331,9 @@ gint gsb_data_reconcile_get_number_by_name ( const gchar *name )
 {
     GSList *list_tmp;
 
-    if (!name)
+    if (!name
+	||
+	!strlen (name))
 	return FALSE;
 
     list_tmp = reconcile_list;

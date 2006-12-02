@@ -37,7 +37,6 @@
 #include "utils_file_selection.h"
 #include "gsb_currency_config.h"
 #include "gsb_data_account.h"
-#include "operations_comptes.h"
 #include "gsb_data_category.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
@@ -187,7 +186,7 @@ void init_gui_new_file ( void )
 			 0 );
     gtk_widget_show ( tree_view_widget );
 
-    gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER ( gsb_gui_navigation_get_current_account () ) );
+    navigation_change_account ( GINT_TO_POINTER ( gsb_gui_navigation_get_current_account () ) );
 
     /* Display accounts in menus */
     gsb_menu_update_accounts_in_menus ();

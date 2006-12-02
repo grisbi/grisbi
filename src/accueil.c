@@ -33,7 +33,6 @@
 #include "erreur.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
-#include "operations_comptes.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
@@ -553,7 +552,7 @@ void update_liste_comptes_accueil ( gboolean force )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( gsb_data_account_list_gui_change_current_account ),
+					    GTK_SIGNAL_FUNC ( navigation_change_account ),
 					    GINT_TO_POINTER (account_number) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   1, 2, i, i+1,
@@ -612,7 +611,7 @@ void update_liste_comptes_accueil ( gboolean force )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( gsb_data_account_list_gui_change_current_account ),
+					    GTK_SIGNAL_FUNC ( navigation_change_account ),
 					    GINT_TO_POINTER (account_number) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   3, 4, i, i+1,
@@ -1268,7 +1267,7 @@ void update_liste_comptes_accueil ( gboolean force )
 /* ************************************************************************* */
 gboolean click_sur_compte_accueil ( gint *account_number )
 {
-    gsb_data_account_list_gui_change_current_account ( account_number );
+    navigation_change_account ( account_number );
     remplissage_details_compte ();
     gsb_gui_notebook_change_page ( GSB_ACCOUNT_PAGE );
     gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, GPOINTER_TO_INT (account_number), NULL );

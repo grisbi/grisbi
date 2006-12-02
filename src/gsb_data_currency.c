@@ -394,7 +394,7 @@ GSList *gsb_data_currency_get_name_list ( void )
  *
  * \return the currency_code of the currency or NULL if problem
  * */
-gchar *gsb_data_currency_get_code ( gint currency_number )
+const gchar *gsb_data_currency_get_code ( gint currency_number )
 {
     struct_currency *currency;
 

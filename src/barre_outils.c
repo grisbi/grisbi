@@ -33,10 +33,10 @@
 #include "barre_outils.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "equilibrage.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "navigation.h"
+#include "gsb_reconcile.h"
 #include "menu.h"
 #include "traitement_variables.h"
 #include "utils_buttons.h"
@@ -129,7 +129,7 @@ GtkWidget *creation_barre_outils ( void )
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
 					       _("Reconcile"),
 					       "reconciliation.png",
-					       G_CALLBACK ( equilibrage ),
+					       G_CALLBACK (gsb_reconcile_run_reconciliation),
 					       GINT_TO_POINTER(-1) );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
 			   _("Start account reconciliation"), "" );

@@ -34,10 +34,6 @@ enum transaction_form_widget {
 #define MAX_WIDTH 6
 #define MAX_HEIGHT 4
 
-/* Constantes pour style_entree_formulaire[] */
-#define ENCLAIR 0
-#define ENGRIS 1
-
 /* START_DECLARATION */
 gboolean gsb_data_form_check_for_value ( gint value );
 gboolean gsb_data_form_dup_organization ( gint origin_account,

@@ -33,6 +33,7 @@
 #include "gsb_data_form.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_reconcile.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
 #include "gsb_data_report_text_comparison.h"
@@ -121,7 +122,6 @@ extern struct iso_4217_currency iso_4217_currencies[] ;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
-extern GSList *liste_struct_rapprochements;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -2674,14 +2674,13 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 void gsb_file_load_reconcile ( const gchar **attribute_names,
 			       const gchar **attribute_values )
 {
-    struct struct_no_rapprochement *reconcile_struct;
     gint i=0;
+    gint reconcile_number = 0;
 
     if ( !attribute_names[i] )
 	return;
 
-    reconcile_struct = calloc ( 1,
-				sizeof ( struct struct_no_rapprochement ) );
+    reconcile_number = gsb_data_reconcile_new (NULL);
 
     do
     {
@@ -2698,7 +2697,8 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    reconcile_struct -> no_rapprochement = utils_str_atoi (attribute_values[i]);
+	    reconcile_number = gsb_data_reconcile_set_new_number ( reconcile_number,
+								   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2706,7 +2706,8 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Na" ))
 	{
-	    reconcile_struct -> nom_rapprochement = my_strdup (attribute_values[i]);
+	    gsb_data_reconcile_set_name ( reconcile_number,
+					  attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -2715,9 +2716,6 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
 	i++;
     }
     while ( attribute_names[i] );
-
-    liste_struct_rapprochements = g_slist_append ( liste_struct_rapprochements,
-						   reconcile_struct );
 }
 
 /**
@@ -4550,27 +4548,25 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 	if ( attribute_names[i] )
 	{
-	    struct struct_no_rapprochement *rapprochement;
+	    gint reconcile_number;
 
-	    rapprochement = calloc ( 1,
-				     sizeof ( struct struct_no_rapprochement ));
+	    reconcile_number = gsb_data_reconcile_new (NULL);
 
 	    do
 	    {
 		if ( !strcmp ( attribute_names[i],
 			       "No" ))
-		    rapprochement -> no_rapprochement = utils_str_atoi ( attribute_values[i]);
+		    reconcile_number = gsb_data_reconcile_set_new_number (reconcile_number,
+									  utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
-		    rapprochement -> nom_rapprochement = my_strdup ( attribute_values[i]);
+		    gsb_data_reconcile_set_name ( reconcile_number,
+						  attribute_values[i]);
 
 		i++;
 	    }
 	    while ( attribute_names[i] );
-
-	    liste_struct_rapprochements = g_slist_append ( liste_struct_rapprochements,
-							   rapprochement );
 	}
     }
 

@@ -56,7 +56,6 @@ void a_propos ( GtkWidget *bouton,
 
     const gchar *auteurs = g_strconcat ( 
 "\n", "<b><big>", _("Programming"), "</big></b>\n",
-CPREFIX, _("Alain Portal (aportal[at]univ-monpt2.fr)"), CSUFFIX,
 CPREFIX, _("Benjamin Drieu (bdrieu[at]april.org)"), CSUFFIX,
 CPREFIX, _("Cedric Auger (cedric[at]grisbi.org)"), CSUFFIX,
 CPREFIX, _("Francois Terrot (grisbi[at]terrot.net)"), CSUFFIX,

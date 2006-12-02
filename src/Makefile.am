@@ -20,7 +20,6 @@ sources = \
 	affichage_liste.c	\
 	banque.c		\
 	barre_outils.c		\
-	calendar.c		\
 	categories_onglet.c	\
 	classement_echeances.c	\
 	classement_operations.c	\
@@ -31,7 +30,6 @@ sources = \
 	data_payment.c		\
 	dialog.c		\
 	echeancier_infos.c	\
-	equilibrage.c		\
 	erreur.c		\
 	etats_affiche.c		\
 	etats_calculs.c		\
@@ -52,6 +50,7 @@ sources = \
 	gsb_autofunc.c		\
 	gsb_automem.c		\
 	gsb_combo_box.c		\
+	gsb_calendar_entry.c	\
 	gsb_currency.c		\
 	gsb_currency_config.c	\
 	gsb_currency_link_config.c	\
@@ -88,6 +87,8 @@ sources = \
 	gsb_payment_method_config.c	\
 	gsb_plugins.c		\
 	gsb_real.c		\
+	gsb_reconcile.c		\
+	gsb_reconcile_config.c	\
 	gsb_scheduler.c		\
 	gsb_scheduler_list.c	\
 	gsb_status.c		\
@@ -106,7 +107,6 @@ sources = \
 	meta_payee.c		\
 	metatree.c		\
 	navigation.c		\
-	operations_comptes.c	\
 	parametres.c		\
 	parse_cmdline.c		\
 	print_config.c		\
@@ -123,7 +123,6 @@ sources = \
 	utils_file_selection.c	\
 	utils_files.c		\
 	utils_operations.c	\
-	utils_rapprochements.c	\
 	utils_str.c		\
 	utils_types.c
 
@@ -136,7 +135,6 @@ grisbi_INCLUDES =		\
 	affichage_liste.h	\
 	banque.h		\
 	barre_outils.h		\
-	calendar.h		\
 	categories_onglet.h	\
 	classement_operations.h	\
 	classement_echeances.h	\
@@ -149,6 +147,7 @@ grisbi_INCLUDES =		\
 	gsb_autofunc.h		\
 	gsb_automem.h		\
 	gsb_combo_box.h		\
+	gsb_calendar_entry.h	\
 	gsb_currency.h		\
 	gsb_currency_config.h	\
 	gsb_currency_link_config.h	\
@@ -183,6 +182,8 @@ grisbi_INCLUDES =		\
 	gsb_payment_method.h	\
 	gsb_payment_method_config.h	\
 	gsb_real.h		\
+	gsb_reconcile.h		\
+	gsb_reconcile_config.h	\
 	gsb_scheduler.h		\
 	gsb_scheduler_list.h	\
 	gsb_transaction_model.h	\
@@ -190,7 +191,6 @@ grisbi_INCLUDES =		\
 	data_payment.h		\
 	dialog.h		\
 	echeancier_infos.h	\
-	equilibrage.h		\
 	erreur.h		\
 	etats_calculs.h		\
 	etats_config.h		\
@@ -209,7 +209,6 @@ grisbi_INCLUDES =		\
 	main.h			\
 	menu.h			\
 	navigation.h		\
-	operations_comptes.h	\
 	parametres.h		\
 	parse_cmdline.h		\
 	print_config.h		\
@@ -229,7 +228,6 @@ grisbi_INCLUDES =		\
 	utils_file_selection.h	\
 	utils_files.h		\
 	utils_operations.h	\
-	utils_rapprochements.h	\
 	utils_str.h		\
 	utils_types.h		\
 	search_glist.h

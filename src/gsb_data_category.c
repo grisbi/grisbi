@@ -933,7 +933,6 @@ GSList *gsb_data_category_get_name_list ( gboolean set_debit,
     return_list = NULL;
 
     /* fill debit_list and/or credit_list and them sub-categories */
-
     tmp_list = category_list;
 
     while ( tmp_list )

@@ -33,6 +33,7 @@
 #include "gsb_data_form.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_reconcile.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
 #include "gsb_data_report_text_comparison.h"
@@ -97,7 +98,6 @@ extern gchar *chemin_logo;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
-extern GSList *liste_struct_rapprochements;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -183,7 +183,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 	+ currency_link_part * g_slist_length ( gsb_data_currency_link_get_currency_link_list ())
 	+ bank_part * g_slist_length ( gsb_data_bank_get_bank_list ())
 	+ financial_year_part * g_slist_length (gsb_data_fyear_get_fyears_list ())
-	+ reconcile_part * g_slist_length ( liste_struct_rapprochements )
+	+ reconcile_part * g_slist_length (gsb_data_reconcile_get_reconcile_list ())
 	+ report_part * g_slist_length ( gsb_data_report_get_report_list ());
 
     iterator = 0;
@@ -1333,10 +1333,9 @@ gulong gsb_file_save_financial_year_part ( gulong iterator,
 	gchar *new_string;
 	gint fyear_number;
 
-	fyear_number = GPOINTER_TO_INT (list_tmp -> data);
+	fyear_number = gsb_data_fyear_get_no_fyear (list_tmp -> data);
 
 	/* now we can fill the file content */
-
 	new_string = g_markup_printf_escaped( "\t<Financial_year Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" Edte=\"%s\" Sho=\"%d\" />\n",
 					      fyear_number,
 					      gsb_data_fyear_get_name (fyear_number),
@@ -1371,21 +1370,20 @@ gulong gsb_file_save_reconcile_part ( gulong iterator,
 				      gchar **file_content )
 {
     GSList *list_tmp;
-	
-    list_tmp = liste_struct_rapprochements;
+
+    list_tmp = gsb_data_reconcile_get_reconcile_list ();
 
     while ( list_tmp )
     {
 	gchar *new_string;
-	struct struct_no_rapprochement *reconcile_struct;
+	gint reconcile_number;
 
-	reconcile_struct = list_tmp -> data;
+	reconcile_number = gsb_data_reconcile_get_no_reconcile (list_tmp -> data);
 
 	/* now we can fill the file content */
-
 	new_string = g_markup_printf_escaped ( "\t<Reconcile Nb=\"%d\" Na=\"%s\" />\n",
-					       reconcile_struct -> no_rapprochement,
-					       reconcile_struct -> nom_rapprochement );
+					       reconcile_number,
+					       gsb_data_reconcile_get_name (reconcile_number));
 
 	/* append the new string to the file content
 	 * and take the new iterator */

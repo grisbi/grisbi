@@ -92,6 +92,7 @@ typedef struct
 
 
 /*START_STATIC*/
+static GSList *gsb_data_transaction_get_children ( gint transaction_number );
 static gint gsb_data_transaction_get_last_white_number (void);
 static struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transaction_number );
 static gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction );
@@ -278,8 +279,10 @@ struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transactio
 {
     GSList *transactions_list_tmp;
 
-    /* check first if the transaction is in the buffer */
+    if (!transaction_number)
+	return NULL;
 
+    /* check first if the transaction is in the buffer */
     if ( transaction_buffer[0]
 	 &&
 	 transaction_buffer[0] -> transaction_number == transaction_number )
@@ -311,7 +314,6 @@ struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transactio
     }
 
     /* here, we didn't find any transaction with that number */
-
     return NULL;
 }
 
@@ -1443,7 +1445,7 @@ gint gsb_data_transaction_get_transaction_number_transfer ( gint transaction_num
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_transaction_number_transfer ( gint transaction_number,
-							 gint transaction_number_transfer )
+								gint transaction_number_transfer )
 {
     struct_transaction *transaction;
 
@@ -1698,6 +1700,8 @@ gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
 /**
  * remove the transaction from the transaction's list
  * free the transaction
+ * if there is a contra-transaction, remove it too
+ * if there is some children, remove them and their contra-transaction if they exist
  * 
  * \param transaction_number
  *
@@ -1707,24 +1711,127 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 {
     struct_transaction *transaction;
 
-    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
+    transaction = gsb_data_transaction_get_transaction_by_no (transaction_number);
 
     if ( !transaction )
 	return FALSE;
 
+    /* check if it's a transfer */
+    if (transaction -> transaction_number_transfer)
+    {
+	struct_transaction *contra_transaction;
+
+	contra_transaction = gsb_data_transaction_get_transaction_by_no (transaction -> transaction_number_transfer);
+	if (contra_transaction)
+	{
+	    transactions_list = g_slist_remove ( transactions_list,
+						 contra_transaction );
+	    g_free (contra_transaction);
+	}
+    }
+
+    /* check if it's a breakdown */
+    if (transaction -> breakdown_of_transaction)
+    {
+	GSList *tmp_list;
+
+	tmp_list = gsb_data_transaction_get_children (transaction_number);
+	while (tmp_list)
+	{
+	    struct_transaction *child_transaction;
+	    struct_transaction *contra_transaction;
+
+	    child_transaction = tmp_list -> data;
+
+	    contra_transaction = gsb_data_transaction_get_transaction_by_no (child_transaction -> transaction_number_transfer);
+	    if (contra_transaction)
+	    {
+		/* it's a transfer, delete the transfer */
+		transactions_list = g_slist_remove ( transactions_list,
+						     contra_transaction );
+		g_free (contra_transaction);
+		/* we free the buffer to avoid big possibly crashes */
+		transaction_buffer[0] = NULL;
+		transaction_buffer[1] = NULL;
+	    }
+
+	    /* delete the child */
+	    transactions_list = g_slist_remove ( transactions_list,
+						 child_transaction );
+	    g_free (child_transaction);
+	    tmp_list = tmp_list -> next;
+	}
+    }
+
+    /* now can remove safely the transaction */
     transactions_list = g_slist_remove ( transactions_list,
 					 transaction );
 
     /* we free the buffer to avoid big possibly crashes */
-
-    if ( transaction_buffer[0] == transaction )
-	transaction_buffer[0] = NULL;
-    if ( transaction_buffer[1] == transaction )
-	transaction_buffer[1] = NULL;
+    transaction_buffer[0] = NULL;
+    transaction_buffer[1] = NULL;
 
     g_free (transaction);
     return TRUE;
 }
+
+
+
+/**
+ * find the children of the breakdown given in param and
+ * return their adress in a GSList
+ * the list sould be freed
+ *
+ * \param transaction_number a breakdown of transaction
+ *
+ * \return a GSList of the address of the children, NULL if no child
+ * */
+GSList *gsb_data_transaction_get_children ( gint transaction_number )
+{
+    struct_transaction *transaction;
+    GSList *children_list = NULL;
+    GSList *tmp_list;
+
+    transaction = gsb_data_transaction_get_transaction_by_no (transaction_number);
+
+    if ( !transaction
+	 ||
+	 !transaction -> breakdown_of_transaction)
+	return NULL;
+
+    /* get the normal children */
+    tmp_list = transactions_list;
+    while ( tmp_list )
+    {
+	struct_transaction *tmp_transaction;
+
+	tmp_transaction = tmp_list -> data;
+
+	if ( tmp_transaction -> mother_transaction_number == transaction_number )
+	    children_list = g_slist_append ( children_list,
+					     tmp_transaction);
+	tmp_list = tmp_list -> next;
+    }
+
+    /* get the white line too */
+    tmp_list = white_transactions_list;
+    while ( tmp_list )
+    {
+	struct_transaction *tmp_transaction;
+
+	tmp_transaction = tmp_list -> data;
+
+	if ( tmp_transaction -> mother_transaction_number == transaction_number )
+	    children_list = g_slist_append ( children_list,
+					     tmp_transaction);
+	tmp_list = tmp_list -> next;
+    }
+
+    return children_list;
+}
+
+
+
 
 /**
  * find a transaction by the method of payment content in a given account

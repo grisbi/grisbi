@@ -23,24 +23,25 @@
 
 /*START_INCLUDE*/
 #include "navigation.h"
-#include "equilibrage.h"
 #include "echeancier_infos.h"
 #include "erreur.h"
 #include "gsb_data_account.h"
-#include "operations_comptes.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_report.h"
+#include "utils_dates.h"
 #include "gsb_form.h"
 #include "gsb_form_scheduler.h"
 #include "fenetre_principale.h"
-#include "etats_onglet.h"
 #include "menu.h"
+#include "etats_onglet.h"
 #include "gsb_plugins.h"
 #include "gsb_real.h"
+#include "gsb_reconcile.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "main.h"
 #include "accueil.h"
+#include "comptes_traitements.h"
 #include "comptes_gestion.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
@@ -56,6 +57,7 @@ static void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_ite
 static gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 					      GdkEventKey *ev,
 					      GtkTreeModel *model );
+static gint gsb_gui_navigation_get_last_account ( void );
 static gboolean gsb_gui_navigation_line_visible_p ( GtkTreeModel * model, GtkTreeIter * iter,
 					     gpointer data );
 static  gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree_model, 
@@ -98,6 +100,8 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source,
 /*START_EXTERN*/
 extern GtkTreeStore *budgetary_line_tree_model;
 extern GtkTreeStore * categ_tree_model;
+extern gint compte_courant_onglet;
+extern GtkWidget *label_last_statement ;
 extern GtkWidget *notebook_general;
 extern GtkTreeStore *payee_tree_model;
 extern GtkTreeSelection * selection;
@@ -356,7 +360,7 @@ GtkWidget * create_navigation_pane ( void )
     gtk_box_pack_end ( GTK_BOX(vbox), scheduler_calendar, FALSE, FALSE, 0 );
 
     /* Create reconcile stuff (hidden for now). */
-    reconcile_panel = creation_fenetre_equilibrage();
+    reconcile_panel = gsb_reconcile_create_box ();
     gtk_box_pack_end ( GTK_BOX(vbox), reconcile_panel, FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( vbox );
@@ -968,6 +972,82 @@ void gsb_gui_navigation_add_account ( gint account_number )
 
 
 
+/** 
+ * change the list of transactions, according to the new account
+ * 
+ * \param no_account a pointer on the number of the account we want to see
+ * 
+ * \return FALSE
+ * */
+gboolean navigation_change_account ( gint *no_account )
+{
+    gint new_account;
+    gint current_account;
+    GtkTreePath *path;
+
+    new_account = GPOINTER_TO_INT ( no_account );
+
+    /* the selection on the navigation bar has already changed, so
+     * have to use a buffer variable to get the last account */
+    current_account = gsb_gui_navigation_get_last_account ();
+
+    devel_debug ( g_strdup_printf ("navigation_change_account : %d", new_account ));
+
+    /* sensitive the last account in the menu */
+    gsb_gui_sensitive_menu_item ( "EditMenu", "MoveToAnotherAccount", 
+				  gsb_data_account_get_name (current_account),
+				  TRUE );
+
+    /* save the adjustment of the last account */
+    path = gsb_data_account_get_vertical_adjustment_value (current_account);
+    if (path)
+    {
+	GtkTreePath *new_path;
+
+	if (gtk_tree_view_get_visible_range (GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
+					     &new_path, NULL ))
+	{
+	    gsb_data_account_set_vertical_adjustment_value ( current_account,
+							     new_path);
+	    gtk_tree_path_free (new_path);
+	}
+	gtk_tree_path_free (path);
+    }
+    
+    /*     on se place sur les données du nouveau no_account */
+    gsb_transactions_list_set_visibles_rows_on_account (new_account);
+    gsb_transactions_list_set_background_color (new_account);
+    gsb_transactions_list_set_transactions_balances (new_account);
+
+    /*     mise en place de la date du dernier relevé */
+
+    if ( gsb_data_account_get_current_reconcile_date (new_account) )
+	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
+			     g_strdup_printf ( _("Last statement: %s"), 
+					       gsb_format_gdate ( gsb_data_account_get_current_reconcile_date (new_account) ) ) );
+
+    else
+	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
+			     _("Last statement: none") );
+
+
+    gsb_gui_sensitive_menu_item ( "EditMenu", "MoveToAnotherAccount", 
+				  gsb_data_account_get_name (new_account),
+				  FALSE );
+
+    gsb_transactions_list_set_adjustment_value (new_account);
+
+    /* Set current account, then. */
+    compte_courant_onglet = new_account;
+
+    /* unset the last date written */
+    gsb_date_free_last_date ();
+
+    return FALSE;
+}
+
+
+
 /**
  * Remove account from the navigation pane.
  *
@@ -1059,7 +1139,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 	    if (account_number >= 0 )
 	    {
-		gsb_data_account_list_gui_change_current_account ( GINT_TO_POINTER(account_number) );
+		navigation_change_account ( GINT_TO_POINTER(account_number) );
 		remplissage_details_compte ();
 	    }
 	    gsb_menu_update_accounts_in_menus ();
