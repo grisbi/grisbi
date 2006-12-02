@@ -305,21 +305,28 @@ int main (int argc, char *argv[])
 		}
 		break;
 	}
-        /* 
+       /* 
          * Behave of automatic file opening and with file provided by command line 
          * as when the user open it using file selection dialog aka changelast_working directory to the file directory
          * In case of command line, we need to take account of relative path and contruct an absolute one
+         * 0.5.9-1 : In all other cases, use "My Documents" as last working directory
          */
 #ifdef _WIN32
+        dernier_chemin_de_travail = win32_get_my_documents_folder_path(); // By default
+        if ((nom_fichier_comptes)&&(*nom_fichier_comptes)&&(g_file_test(nom_fichier_comptes,G_FILE_TEST_EXISTS)))
         {
             gchar* account_file_dirname = g_path_get_dirname(nom_fichier_comptes);
             gchar* old_value_to_free    = dernier_chemin_de_travail;
+         
             if (account_file_dirname)
             {
                 dernier_chemin_de_travail = utf8_full_path(account_file_dirname);
             }
             utils_free(old_value_to_free); 
             utils_free(account_file_dirname); 
+        }
+        else
+        {
         }
 #endif
         
