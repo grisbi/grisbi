@@ -69,14 +69,22 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 #ifdef _WIN32
     gchar* current_working_directory = g_get_current_dir();
 #endif
+    gchar* syslocale_filename = g_locale_from_utf8(nom_fichier,-1,NULL,NULL,NULL);
     
     liste_comptes_importes_ofx = NULL;
     compte_ofx_importation_en_cours = NULL;
     erreur_import_ofx = 0;
     message_erreur_operation = 0;
 
+    if (syslocale_filename == NULL)
+    {
+        dialogue_error_hint(_("The OFX support can not be enabled!"), 
+                      g_strdup_printf (_("Cannot process OFX file '%s'"), nom_fichier));
+        return (FALSE);
+    }
+
     /* 	la lib ofx ne tient pas compte du 1er argument */
-    argv[1] = nom_fichier;
+    argv[1] = syslocale_filename;
 
 #ifdef _WIN32
     // There is some problem with not system global libofx installation:
@@ -111,7 +119,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 #endif /* OFX_0_7 */
 
 #ifdef OFX_0_7
-    if ( libofx_proc_file ( ofx_context, nom_fichier, AUTODETECT ) < 0 )
+    if ( libofx_proc_file ( ofx_context, syslocale_filename, AUTODETECT ) < 0 )
 #else /* OFX_0_7 */
     if ( ofx_proc_file ( 2, argv ) < 0 )
 #endif /* OFX_0_7 */
@@ -158,6 +166,7 @@ gboolean recuperation_donnees_ofx ( gchar *nom_fichier )
 	}
     }
 
+    utils_free (syslocale_filename);
 
     return ( TRUE );
 }
