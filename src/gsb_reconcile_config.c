@@ -60,7 +60,6 @@ GtkTreeSelection *reconcile_selection;
 
 
 
-
 /** 
  * TODO: document this + move
  */

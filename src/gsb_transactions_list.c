@@ -481,8 +481,9 @@ GtkWidget *gsb_transactions_list_make_gui_list ( void )
     return scrolled_window;
 }
 
+
 /**
- * called after a click on a column title ; the sort of the list is automatic,
+ * called by a click on a column title ; the sort of the list is automatic,
  * that function make the background color and the rest to be updated
  *
  * \param tree_view_column the tree_view_column clicked
@@ -492,30 +493,69 @@ gboolean gsb_transactions_list_sort_column_changed ( GtkTreeViewColumn *tree_vie
 {
     GtkSortType sort_type;
     gint sort_column_id;
+    gint account_number;
+    GtkTreeSortable *sortable;
+    gint new_column;
+    GSList *tmp_list;
 
     devel_debug ( "gsb_transactions_list_sort_column_changed" );
 
-    /* the third click give no sort for the column
-     * we forbid that here, so now, there is always a column which sort the tree view */
+    account_number = gsb_gui_navigation_get_current_account ();
+    sortable = GTK_TREE_SORTABLE (gsb_transactions_list_get_sortable());
 
-    gtk_tree_sortable_get_sort_column_id ( GTK_TREE_SORTABLE ( gsb_transactions_list_get_sortable()),
+    gtk_tree_sortable_get_sort_column_id ( sortable,
 					   &sort_column_id,
 					   &sort_type );
 
+    /* if sort_column_id == -1, it's because we changed 3 times the direction,
+     * and there is now no column sort, so we get back to the last column */
+    if (sort_column_id  == -1)
+	new_column = gtk_tree_view_column_get_sort_column_id ( tree_view_column );
+    else
+	new_column = sort_column_id;
+
+    /* now have to save the new column and sort type in the account
+     * or in all account if global conf for all accounts */
+    tmp_list = gsb_data_account_get_list_accounts ();
+    while (tmp_list)
+    {
+	gint tmp_account;
+
+	tmp_account = gsb_data_account_get_no_account (tmp_list -> data);
+
+	if (tmp_account == account_number
+	    ||
+	    !etat.retient_affichage_par_compte)
+	{
+	    /* set the new column to sort */
+	    gsb_data_account_set_sort_column ( tmp_account,
+					       new_column );
+	    /* save the sort_type */
+	    gsb_data_account_set_sort_type ( tmp_account,
+					     sort_type );
+	}
+	tmp_list = tmp_list -> next;
+    }
+ 
+    /* the third click give no sort for the column
+     * we forbid that here, so now, there is always a column which sort the tree view */
     if ( sort_column_id == -1 )
     {
-	gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE (gsb_transactions_list_get_sortable()),
-					       gtk_tree_view_column_get_sort_column_id ( tree_view_column ),
+	gtk_tree_sortable_set_sort_column_id ( sortable,
+					       new_column,
 					       sort_type );
+
 	return FALSE;
     }
 
-    gsb_transactions_list_set_background_color ( gsb_gui_navigation_get_current_account ());
-    gsb_transactions_list_set_transactions_balances ( gsb_gui_navigation_get_current_account ());
+    gsb_transactions_list_set_background_color (account_number);
+    gsb_transactions_list_set_transactions_balances (account_number);
 
     modification_fichier ( TRUE );
     return FALSE;
 }
+
+
 
 /******************************************************************************/
 /* cette fonction est appelée pour créer les tree_view_column des listes d'opé et */
@@ -755,53 +795,20 @@ GtkTreeModel *gsb_transactions_list_set_filter_store ( GtkTreeStore *store )
 GtkTreeModel *gsb_transactions_list_set_sorting_store ( GtkTreeModel *filter_model )
 {
     GtkTreeModel *sortable_model;
+    gint i;
 
     devel_debug ("gsb_transactions_list_set_sorting_store");
-    /* xxx à virer le no_account */
-    gint no_account = 0;
 
     /* make the model_sort, on the model_filter */
     sortable_model = gtk_tree_model_sort_new_with_model ( filter_model );
-    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( sortable_model ),
-					   gsb_data_account_get_sort_column ( no_account ),
-					   gsb_data_account_get_sort_type ( no_account ));
 
     /*     set the compare functions by click on the column */
-    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( sortable_model ),
-				      TRANSACTION_COL_NB_CHECK,
-				      (GtkTreeIterCompareFunc) gsb_transactions_list_sort_column_0,
-				      GINT_TO_POINTER ( no_account ),
-				      NULL );
-    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( sortable_model ),
-				      TRANSACTION_COL_NB_DATE,
-				      (GtkTreeIterCompareFunc) gsb_transactions_list_sort_column_1,
-				      GINT_TO_POINTER ( no_account ),
-				      NULL );
-    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( sortable_model ),
-				      TRANSACTION_COL_NB_PARTY,
-				      (GtkTreeIterCompareFunc) gsb_transactions_list_sort_column_2,
-				      GINT_TO_POINTER ( no_account ),
-				      NULL );
-    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( sortable_model ),
-				      TRANSACTION_COL_NB_PR,
-				      (GtkTreeIterCompareFunc) gsb_transactions_list_sort_column_3,
-				      GINT_TO_POINTER ( no_account ),
-				      NULL );
-    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( sortable_model ),
-				      TRANSACTION_COL_NB_DEBIT,
-				      (GtkTreeIterCompareFunc) gsb_transactions_list_sort_column_4,
-				      GINT_TO_POINTER ( no_account ),
-				      NULL );
-    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( sortable_model ),
-				      TRANSACTION_COL_NB_CREDIT,
-				      (GtkTreeIterCompareFunc) gsb_transactions_list_sort_column_5,
-				      GINT_TO_POINTER ( no_account ),
-				      NULL );
-    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( sortable_model ),
-				      TRANSACTION_COL_NB_BALANCE,
-				      (GtkTreeIterCompareFunc) gsb_transactions_list_sort_column_6,
-				      GINT_TO_POINTER ( no_account ),
-				      NULL );
+    for (i=0 ; i<TRANSACTION_LIST_COL_NB ; i++)
+	gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( sortable_model ),
+					  i,
+					  (GtkTreeIterCompareFunc) gsb_transactions_list_sort_column,
+					  GINT_TO_POINTER (i),
+					  NULL );
     return sortable_model;
 }
 
@@ -3466,9 +3473,16 @@ gboolean affichage_traits_liste_operation ( void )
 
 
 
-/** called when press a button on the title column
- * if it's a right click, we show a menu to choose with what
- * we will sort
+/**
+ * called when press a button on the title column
+ * check in fact the right click and show a popup to chose the element number of
+ * the column to sort the list
+ *
+ * \param button
+ * \param ev
+ * \param no_column a pointer wich is the number of the column the user press
+ *
+ * \return FALSE
  * */
 gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
 							   GdkEventButton *ev,
@@ -3477,11 +3491,14 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
     GtkWidget *menu, *menu_item;
     gint i;
     gint active_sort;
+    gint column_number;
 
     switch ( ev -> button )
     {
 	case 3:
 	    /* we press the right button, show the popup */
+
+	    column_number = GPOINTER_TO_INT (no_column);
 
 	    menu = gtk_menu_new ();
 
@@ -3512,7 +3529,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
 
 
 	    active_sort = gsb_data_account_get_column_sort ( gsb_gui_navigation_get_current_account (),
-							     GPOINTER_TO_INT ( no_column ));
+							     column_number);
 
 	    /*     get the name of the labels of the columns and put them in a menu */
 
@@ -3520,7 +3537,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
 	    {
 		gchar *temp;
 
-		switch ( tab_affichage_ope[i][GPOINTER_TO_INT (no_column)] )
+		switch ( tab_affichage_ope[i][column_number] )
 		{
 		    case 0:
 			temp = NULL;
@@ -3528,7 +3545,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
 
 		    default:
 			temp = g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
-						  tab_affichage_ope[i][GPOINTER_TO_INT (no_column)] - 1 );
+						  tab_affichage_ope[i][column_number] - 1 );
 		}
 
 		if ( temp
@@ -3543,13 +3560,13 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
 			menu_item = gtk_radio_menu_item_new_with_label ( NULL,
 									 temp );
 
-		    if ( tab_affichage_ope[i][GPOINTER_TO_INT (no_column)] == active_sort )
+		    if ( tab_affichage_ope[i][column_number] == active_sort )
 			gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item ),
 							 TRUE );
 
 		    g_object_set_data ( G_OBJECT ( menu_item ),
 					"no_sort",
-					GINT_TO_POINTER (tab_affichage_ope[i][GPOINTER_TO_INT (no_column)]));
+					GINT_TO_POINTER (tab_affichage_ope[i][column_number]));
 		    g_signal_connect ( G_OBJECT(menu_item),
 				       "activate",
 				       G_CALLBACK ( gsb_transactions_list_change_sort_type ),
@@ -3575,12 +3592,15 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
 
     return FALSE;
 }
-/******************************************************************************/
 
 
-/** called when we click on the new sort type
+/**
+ * called when choose a new element to sort the list (from the popup of a right click on
+ * the title of columns)
+ *
  * \param menu_item The GtkMenuItem
- * \param no_column
+ * \param no_column a pointer containing the number of the column we change
+ *
  * \return FALSE
  * */
 gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
@@ -3589,44 +3609,52 @@ gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
     gint sort_column_id;
     GtkSortType order;
     GtkTreeSortable *sortable;
+    gint column_number;
+    gint account_number;
 
     if ( !gtk_check_menu_item_get_active ( GTK_CHECK_MENU_ITEM ( menu_item )))
 	return FALSE;
 
-    gsb_data_account_set_column_sort ( gsb_gui_navigation_get_current_account (),
-				       GPOINTER_TO_INT ( no_column ),
+    column_number = GPOINTER_TO_INT (no_column);
+    sortable = GTK_TREE_SORTABLE (gsb_transactions_list_get_sortable ());
+    account_number = gsb_gui_navigation_get_current_account ();
+
+    /* set the new column to sort */
+    gsb_data_account_set_sort_column ( account_number,
+				       column_number );
+
+    /* set the new element number used to sort this column */
+    gsb_data_account_set_column_sort ( account_number,
+				       column_number,
 				       GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( menu_item),
 									     "no_sort" )));
-    sortable = GTK_TREE_SORTABLE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( gsb_transactions_list_get_tree_view())));
 
-
+    /* get the current sorted to check if we don't change the column */
     gtk_tree_sortable_get_sort_column_id ( sortable,
 					   &sort_column_id,
 					   &order );
 
     gtk_tree_sortable_set_sort_column_id ( sortable,
-					   GPOINTER_TO_INT ( no_column ),
+					   column_number,
 					   GTK_SORT_ASCENDING );
 
     /* we have to check because if we ask for a sort on another line but same column,
      * the tree will not update ; so in that case, we have to invert 2 times the order
      * */
-
-    if ( sort_column_id == GPOINTER_TO_INT ( no_column )
+    if ( sort_column_id == column_number
 	 &&
 	 order == GTK_SORT_ASCENDING )
     {
 	gtk_tree_sortable_set_sort_column_id ( sortable,
-					       GPOINTER_TO_INT ( no_column ),
+					       column_number,
 					       GTK_SORT_DESCENDING );
 	gtk_tree_sortable_set_sort_column_id ( sortable,
-					       GPOINTER_TO_INT ( no_column ),
+					       column_number,
 					       GTK_SORT_ASCENDING );
     }
     gsb_transactions_list_sort_column_changed ( transactions_tree_view_columns[GPOINTER_TO_INT (no_column)]);
     return FALSE;
 }
-/******************************************************************************/
 
 
 

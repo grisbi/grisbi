@@ -8,6 +8,10 @@
 /* START_DECLARATION */
 gint gsb_strcasecmp ( gchar *string_1,
 		      gchar *string_2 );
+gint gsb_transactions_list_sort_column ( GtkTreeModel *model,
+					 GtkTreeIter *iter_1,
+					 GtkTreeIter *iter_2,
+					 gint *column_number );
 gint gsb_transactions_list_sort_column_0 ( GtkTreeModel *model,
 					   GtkTreeIter *iter_1,
 					   GtkTreeIter *iter_2,

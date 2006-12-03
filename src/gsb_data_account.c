@@ -106,7 +106,7 @@ typedef struct
     /** @name tree_view sort stuff */
     gint sort_type;          /**< GTK_SORT_DESCENDING / GTK_SORT_ASCENDING */
     gint sort_column;             /**< used to hide the arrow when change the column */
-    gint transactions_column_sort[TRANSACTION_LIST_COL_NB];  /**< contains the default sort type for each column */
+    gint column_element_sort[TRANSACTION_LIST_COL_NB];  /**< contains for each column the element number used to sort the list */
 
     /** @name current graphic position in the list */
 
@@ -1064,11 +1064,14 @@ gsb_real gsb_data_account_calculate_marked_balance ( gint account_number )
 }
 
 
-
-/** get the column_sort of the account
+/* xxx changer le nom de la fonction suivante en plus explicite : gsb_data_account_get_element_sort par ex */
+/**
+ * get the element number used to sort the list in a column
+ *
  * \param account_number no of the account
  * \param no_column no of the column
- * \return  or NULL if the account doesn't exist
+ * 
+ * \return  the element_number used to sort or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_column_sort ( gint account_number,
 					gint no_column )
@@ -1089,19 +1092,22 @@ gint gsb_data_account_get_column_sort ( gint account_number,
     if (!account )
 	return 0;
 
-    return account -> transactions_column_sort[no_column];
+    return account -> column_element_sort[no_column];
 }
 
 
-/** set the column_sort of the account
+/**
+ * set the element number used to sort the column given in param
+ *
  * \param account_number no of the account
  * \param no_column no of the column
- * \param column_sort  column_sort to set
+ * \param element_number  element number used to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_column_sort ( gint account_number,
 					    gint no_column,
-					    gint column_sort )
+					    gint element_number )
 {
     struct_account *account;
 
@@ -1116,10 +1122,11 @@ gboolean gsb_data_account_set_column_sort ( gint account_number,
 	return FALSE;
     }
 
-    if (!account )
+    /* need to set <0 too because some functions return problem with -1 for account */
+    if (account <= 0 )
 	return FALSE;
 
-    account -> transactions_column_sort[no_column] = column_sort;
+    account -> column_element_sort[no_column] = element_number;
 
     return TRUE;
 }
@@ -1720,9 +1727,13 @@ gint gsb_data_account_get_reconcile_sort_type ( gint account_number )
 }
 
 
-/** set reconcile_sort_type in the account given
+/**
+ * set reconcile_sort_type in the account given
+ * ie GTK_SORT_DESCENDING / GTK_SORT_ASCENDING
+ * 
  * \param account_number no of the account
- * \param sort_type sort_type to set
+ * \param sort_type sort_type to set (GTK_SORT_DESCENDING / GTK_SORT_ASCENDING)
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_reconcile_sort_type ( gint account_number,
@@ -2067,8 +2078,11 @@ gboolean gsb_data_account_set_vertical_adjustment_value ( gint account_number,
 }
 
 
-/** get sort_type on the account given
+/**
+ * get sort_type on the account given
+ * 
  * \param account_number no of the account
+ * 
  * \return sort_type or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_sort_type ( gint account_number )
@@ -2084,9 +2098,12 @@ gint gsb_data_account_get_sort_type ( gint account_number )
 }
 
 
-/** set sort_type in the account given
+/**
+ * set sort_type in the account given
+ * 
  * \param account_number no of the account
  * \param sort_type sort_type to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_sort_type ( gint account_number,
@@ -2107,8 +2124,11 @@ gboolean gsb_data_account_set_sort_type ( gint account_number,
 
 
 
-/** get sort_column on the account given
+/**
+ * get sort_column on the account given
+ * 
  * \param account_number no of the account
+ * 
  * \return sort_column or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_sort_column ( gint account_number )
@@ -2124,9 +2144,13 @@ gint gsb_data_account_get_sort_column ( gint account_number )
 }
 
 
-/** set sort_column in the account given
+
+/**
+ * set sort_column in the account given
+ * 
  * \param account_number no of the account
  * \param sort_column sort_column to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_sort_column ( gint account_number,

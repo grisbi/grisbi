@@ -403,8 +403,9 @@ gint gsb_gui_navigation_get_current_page ( void )
 
 /**
  * return the account number selected
- * rem : if we want the current account number, for transactions or scheduled, go to
- * see gsb_form_get_account_number
+ * rem : this is only for account number of the transactions list,
+ * 	if we want the current account number, for transactions or scheduled, go to
+ * 	see gsb_form_get_account_number
  *
  * \param
  *
@@ -1014,13 +1015,15 @@ gboolean navigation_change_account ( gint *no_account )
 	gtk_tree_path_free (path);
     }
     
-    /*     on se place sur les données du nouveau no_account */
+    /* set the appearance of the list according to the new account */
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE (gsb_transactions_list_get_sortable ()),
+					   gsb_data_account_get_sort_column (new_account),
+					   gsb_data_account_get_sort_type (new_account));
     gsb_transactions_list_set_visibles_rows_on_account (new_account);
     gsb_transactions_list_set_background_color (new_account);
     gsb_transactions_list_set_transactions_balances (new_account);
 
     /*     mise en place de la date du dernier relevé */
-
     if ( gsb_data_account_get_current_reconcile_date (new_account) )
 	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
 			     g_strdup_printf ( _("Last statement: %s"), 
