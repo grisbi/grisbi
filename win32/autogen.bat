@@ -15,7 +15,7 @@ goto endofperl
 #  -------------------------------------------------------------------------
 #                               GRISBI for Windows
 #  -------------------------------------------------------------------------
-# $Id: autogen.bat,v 1.1.2.10 2006/04/15 15:12:32 teilginn Exp $
+# $Id: autogen.bat,v 1.1.2.11 2006/12/03 10:33:59 teilginn Exp $
 #  -------------------------------------------------------------------------
 # 
 #  Copyleft 2004 (c) François Terrot
@@ -39,6 +39,10 @@ goto endofperl
 #  History:
 #
 #  $Log: autogen.bat,v $
+#  Revision 1.1.2.11  2006/12/03 10:33:59  teilginn
+#  Gtk 2.6 or higher is required to run Grisbi
+#  Gtk 2.6 is required to build Grisbi (2.4 is no more supported)
+#
 #  Revision 1.1.2.10  2006/04/15 15:12:32  teilginn
 #  updates for GTK 2.6
 #
@@ -953,19 +957,19 @@ sub _configuration_autodetect # {{{
     $gtkbinvers =  _uninstallstring "WinGTK-2_is1","DisplayName"; # gtk from gimp
     $gtkbinvers =  _ReadHklmSoftware ("GTK/2.0","Version") unless ($gtkbinvers); # gtk from gaim
       
-    $gtkbinvers =~ s/^.*((\d)\.(\d).(\d+)).*$/$1/;
+    $gtkbinvers =~ s/^.*((\d)\.(\d+).(\d+)).*$/$1/;
 
     die "*** ERROR *** Gtk+ version $gtkbinvers is not supported for building Grisbi\n\n \
-        Please use GTK+ version 2.4.x (x>=14) (from http://www.gtk.org/win32) [$2!=2]\n" if ($2 != 2); 
+        Please use GTK+ version 2.6.x (x>=8) (from http://www.gtk.org/win32) [$2!=2]\n" if ($2 != 2); 
 
-    die "*** ERROR *** Gtk+ version $gtkbinvers is not yet supported for building Grisbi\n\n \
-        Please use GTK+ version 2.4.x (x>=14) (from http://www.gtk.org/win32) [$3>6]\n" if ($3 > 6); 
-
-    die "*** ERROR *** Gtk+ version $gtkbinvers is no more supported for building Grisbi\n\n \
-        Please use GTK+ version 2.4.x (x>=14) (from http://www.gtk.org/win32) [$3<4]\n" if ($3 < 4); 
+        #warn "*** ERROR *** Gtk+ version $gtkbinvers is not yet supported for building Grisbi\n\n \
+        #Please use GTK+ version 2.6.x (x>=8) (from http://www.gtk.org/win32) [$3>6]\n" if ($3 > 6); 
 
     die "*** ERROR *** Gtk+ version $gtkbinvers is no more supported for building Grisbi\n\n \
-        Please use GTK+ version 2.4.x (x>=14) (from http://www.gtk.org/win32) [[$3==4]&&[$4<14]}\n" if (($3 == 4)&&($4 < 14)); 
+        Please use GTK+ version 2.6.x (x>=8) (from http://www.gtk.org/win32) [$3<4]\n" if ($3 < 6); 
+
+    die "*** ERROR *** Gtk+ version $gtkbinvers is no more supported for building Grisbi\n\n \
+        Please use GTK+ version 2.6.x (x>=8) (from http://www.gtk.org/win32) [[$3==4]&&[$4<14]}\n" if (($3 == 4)&&($4 < 14)); 
         
     #
     my ($pkgn,$gtkdevvers) = _pkgconfig($config{'directories'}{'mingw'}."/lib/pkgconfig/gtk+-2.0.pc");
@@ -973,19 +977,19 @@ sub _configuration_autodetect # {{{
         Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if (not defined($pkgn) or not defined($gtkdevvers));
 
     die "*** ERROR *** Unable to determine GTK+ development version\n\n \
-        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" unless ($gtkdevvers =~ m/((\d)\.(\d+)\.(\d+))/ );
+        Please reinstall GTK+ 2.6.x (x>=8) DevPack\n" unless ($gtkdevvers =~ m/((\d)\.(\d+)\.(\d+))/ );
 
     die "*** ERROR *** Gtk+ dev version $gtkdevvers  is not supported for building Grisbi\n\n \
-        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if ($2 != 2); 
+        Please reinstall GTK+ 2.6.x (x>=8) DevPack\n" if ($2 != 2); 
 
-    die "*** ERROR *** Gtk+ dev version $gtkdevvers is not yet supported for building Grisbi\n\n \
-        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if ($3 > 6); 
-
-    die "*** ERROR *** Gtk+ dev version $gtkdevvers is no more supported for building Grisbi\n\n \
-        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if ($3 < 4); 
+    warn "*** ERROR *** Gtk+ dev version $gtkdevvers is not yet supported for building Grisbi\n\n \
+        Please prefer GTK+ 2.6.x (x>=8) DevPack\n" if ($3 > 6); 
 
     die "*** ERROR *** Gtk+ dev version $gtkdevvers is no more supported for building Grisbi\n\n \
-        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if (($3 == 4)&&($4 < 14)); 
+        Please reinstall GTK+ 2.6.x (x>=8) DevPack\n" if ($3 < 6); 
+
+    die "*** ERROR *** Gtk+ dev version $gtkdevvers is no more supported for building Grisbi\n\n \
+        Please reinstall GTK+ 2.6.x (x>=8) DevPack\n" if (($3 == 4)&&($4 < 14)); 
     
     $config{'directories'}{'gtkdev'} = $config{'directories'}{'mingw'};
 
