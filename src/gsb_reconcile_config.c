@@ -59,7 +59,6 @@ GtkWidget * button_move_up, * button_move_down;
 GtkTreeSelection *reconcile_selection;
 
 
-
 /** 
  * TODO: document this + move
  */
