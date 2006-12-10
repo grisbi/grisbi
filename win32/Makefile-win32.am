@@ -12,6 +12,7 @@ GTKDEVDIR    = @GTKDEVDIR@
 GCCBASEDIR   = @GCCBASEDIR@
 PERLBASEDIR  = @PERLBASEDIR@
 GETTEXTDIR   = @GETTEXTDIR@
+PLUGINSDIR   = ../src/plugins
 
 # --------------------------------------------------------------------------
 # Applications ...
@@ -28,10 +29,10 @@ PERL      = $(PERLBASEDIR)/bin/perl.exe
 # --------------------------------------------------------------------------
 OBJDIR    = $(BUILDDIR)/obj
 LOCALE    = $(BUILDDIR)/lib/locale
-VPATH     = ../src:../win32
+VPATH     = ../src:../win32 @PLUGINS@
 
 .SUFFIXES:
-.SUFFIXES: .c .o .res .rc .mo .po
+.SUFFIXES: .c .o .res .rc .mo .po .dll .o
 
 # --------------------------------------------------------------------------
 # Project source files lists
@@ -40,6 +41,7 @@ VPATH     = ../src:../win32
 # --------------------------------------------------------------------------
 SRCS      = @SRCS@
 WIN32     = @WIN32@
+PLUGINS	  = @PLUGINS@
 
 # --------------------------------------------------------------------------
 #  Project build files lists
@@ -66,10 +68,12 @@ LDFLAGS   = @LDFLAGS@
 # command lines targets
 # --------------------------------------------------------------------------
 #! Build all application and languages files.
-all   : exe lang
+all   : exe lang plugins
 
 #! Only build application related files
 exe   : $(EXE)
+
+plugins: @PLUGINS@
 
 lang = @LANGS@
 	
@@ -112,7 +116,7 @@ update:
 
 #! update the dependency rules of the Makefile.
 depend: 
-	makedepend -o.c -f../win32/Makefile -- $(CFLAGS) -- $(SRCS:%.c=../src/%.c) $(WIN32:%.c=../win32/%.c) 
+	makedepend -o.c -f../win32/Makefile -- $(CFLAGS) -- $(SRCS:%.c=../src/%.c) $(WIN32:%.c=../win32/%.c) $(PLUGINS:%c=../src/plugins/) 
 	
 
 # Clean targets
@@ -135,6 +139,10 @@ $(EXE) : $(LINKOBJS)
 	@echo "Linking $@"
 	@mkdir -p $(@D)
 	+$(CC) -o $@ $(LINKOBJS) $(LDFLAGS)
+
+$(PLUGINSDIR)/%.dll : $(OBJDIR)/%.o
+	@echo "Linking plugins $@"
+	$(CC) -o $@ $< $(LINKOBJS) $(LDFLAGS) -shared -Wl,--out-implib,$(@D)/$*.a
 
 $(OBJDIR)/%.o : %.c
 	@echo "Compiling $<"

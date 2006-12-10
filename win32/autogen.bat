@@ -15,11 +15,12 @@ goto endofperl
 #  -------------------------------------------------------------------------
 #                               GRISBI for Windows
 #  -------------------------------------------------------------------------
-# $Id: autogen.bat,v 1.11 2006/04/15 19:11:58 teilginn Exp $
+# $Id: autogen.bat,v 1.12 2006/12/10 17:20:39 teilginn Exp $
 #  -------------------------------------------------------------------------
 # 
 #  Copyleft 2004 (c) François Terrot
 #           2005 (c) François Terrot
+#           2006 (c) François Terrot
 #
 #  This program is free software; you can redistribute it and/or
 #  modify it under the terms of the GNU General Public License as
@@ -39,6 +40,9 @@ goto endofperl
 #  History:
 #
 #  $Log: autogen.bat,v $
+#  Revision 1.12  2006/12/10 17:20:39  teilginn
+#  last modifications to make grisbi win32 compliant with gtk 2.8
+#
 #  Revision 1.11  2006/04/15 19:11:58  teilginn
 #  add libz in link (-lz)
 #
@@ -146,6 +150,7 @@ my $config_ini = "autogen.ini";   # configuration file (config.ini)
 my %cache_in;                     # configuration parameters from cache
 my %config;                       # configuration parameters from config.ini
 my %opt;                          # configuration parameters from arg line
+my %src_plugins;
 my @targets = ();
 my $g_outdir = realpath(getcwd());
 
@@ -154,6 +159,9 @@ my $gtkdevdir ;
 my $gccbasedir ;
 my $grisbidir  ;
 my $startdir   ;
+
+my %GTKBIN_RECOMMENDED = ( 'maj'=> 2 , 'min' => 8 , 'rel' => 7 );
+my %GTKDEV_RECOMMENDED = ( 'maj'=> 2 , 'min' => 8 , 'rel' => 7 );
 
 # 
 # ==========================================================================
@@ -242,6 +250,46 @@ sub _get_po_file_list
     close DIR;
     return @pos;
 } 
+sub _get_plugins_list
+{
+    my ($dir) = @_;
+    my %plugins;
+    opendir DIR,$dir or die "autogen.pl *** WARNING *** unable to get plugins list from $dir: $@\n";
+    rewinddir DIR;
+    LS_DIR: foreach my $entry (readdir DIR)
+    {
+        next LS_DIR if ($entry =~ m/^..?$/ );
+        # only directory is used ...
+        next LS_DIR unless (-d "$dir/$entry" );
+        # skip . and ..
+        next LS_DIR if ($entry =~ m/^CVS$/ );
+        opendir SUBD, "$dir/$entry" or do { 
+            warn "autogen.pl:get_plugins_list() *** WARNING *** unable to enter $dir/$entry : $@ *\n";
+            next LS_DIR;
+        };
+        rewinddir SUBD;
+
+        # my $plheaders = "";
+        my $plsources = "";
+
+        LS_SUBD: foreach my $subfile (readdir SUBD)
+        {
+            # only listing file are used, skip all directories
+            next LS_SUBD if (-d "$dir/$entry/$subfile");
+            $plsources .= " $entry/$subfile" if ( $subfile =~m/.c$/ );
+            #   push @plheaders,("$subfile") if ( $subfile =~m/.h$/ );
+        }
+        closedir SUBD;
+
+        $plugins{$entry}{'sources'}{'ref'} = $plsources;
+        # $plugins{$entry}{'sources'}{'num'} = $#plsources;print $#plsources;
+        # $plugins{$entry}{'headers'}{'ref'} = \@plheaders;
+        # $plugins{$entry}{'headers'}{'num'} = $#plheaders;
+        # $plugins{$entry}{'num'} = $#plheaders + $#plsources;
+    }
+    closedir DIR;
+    return %plugins;
+}
 # --------------------------------------------------------------------------
 #/**
 # * create directy if not exists in the current selected by _cd directory
@@ -544,6 +592,7 @@ sub _cb_grisbi_private_h # {{{
 sub _cb_makefile # {{{
 {
     my $l = shift;
+
     READ_MAKE: {
         last READ_MAKE if ($l =~ s/\@GCCBASEDIR\@/$config{'directories'}{'mingw'}/);
         last READ_MAKE if ($l =~ s/\@GTKBASEDIR\@/$config{'directories'}{'gtkbin'}/);
@@ -568,6 +617,33 @@ sub _cb_makefile # {{{
                 $incs .= " \\\n". $item;
             }
             $l =~ s/\@INCS\@/$incs/;
+            last READ_MAKE;
+        };
+        ( $l =~ /^VPATH.*\@PLUGINS\@/ ) && do {
+            my $vpath = "";
+            foreach my $p (keys %src_plugins)
+            {
+                $vpath .= " ../src/plugins/$p";
+            }
+            $l =~ s/\@PLUGINS\@/$vpath/;
+            last READ_MAKE;
+        };
+        ( $l =~ /^PLUGINS.*\@PLUGINS\@/ ) && do {
+            my $src_c = "";
+            foreach my $p (keys %src_plugins)
+            {
+                $src_c .= "$src_plugins{$p}{'sources'}{'ref'}" ; 
+            }
+            $l =~ s/\@PLUGINS\@/$src_c/;
+            last READ_MAKE;
+        };
+        ( $l =~/^plugins:.*\@PLUGINS\@/ ) && do {
+            my $dep = "";
+            foreach my $p (keys %src_plugins)
+            {
+                $dep .= "\$(PLUGINSDIR)/$p.dll ";
+            }
+            $l =~ s/\@PLUGINS\@/$dep/;
             last READ_MAKE;
         };
         ( $l =~ /\@LIBS\@/ ) && do {
@@ -626,9 +702,9 @@ sub _cb_makefile # {{{
 #
 
 # --------------------------------------------------------------------------
-# grisbi.dev template callback
+# grisbi.dev template callback {{{
 # --------------------------------------------------------------------------
-sub _dev_cpp_format_unit_section
+sub _dev_cpp_format_unit_section 
 {
     my ($unit,$file,$dir,$folder,$compile) = @_;
 
@@ -707,7 +783,8 @@ sub _cb_grisbi_dev
     
     $l =~ s/\s+$//;
     return $l;
-} 
+}
+# }}}
 # --------------------------------------------------------------------------
 # \brief the _configure function takes the template configuration data from
 #   the _DATA_ area of the script and create the corresponding file
@@ -835,7 +912,7 @@ sub _runtime_get_targets_list() # {{{
 sub _runtime_configure # {{{
 {
     my ($targets) = @_;
-    $targets = join ':', qw/build libraries pixmaps help dtd/ unless $targets;
+    $targets = join ':', qw/build plugins libraries pixmaps help dtd/ unless $targets;
 my $gtkcompliant   = 0;
 my $runtime_prefix = 0;
 my $target_found   = 0;
@@ -952,26 +1029,28 @@ sub _configuration_autodetect # {{{
     $config{'directories'}{'gtkbin'} = _dirname _uninstallstring "WinGTK-2_is1" unless ($config{'directories'}{'gtkbin'});
     $config{'directories'}{'gtkbin'} = _dirname _uninstallstring "GTK 2.0" unless ($config{'directories'}{'gtkbin'});
     
-    die "*** ERROR *** autogen is not able to find any GTK2 2.4 binary packages on yout host\n\n \
-        Please install GTK 2.4.14 or 2.4 higher version from http://www.gtk.org/win32/\n" unless $config{'directories'}{'gtkbin'};
+    die "*** ERROR *** autogen is not able to find any GTK2  binary packages on yout host\n\n \
+        Please install GTK " . $GTKBIN_RECOMMENDED{'maj'}.".".$GTKBIN_RECOMMENDED{'min'}.".".$GTKBIN_RECOMMENDED{'rel'}.
+        " or ".$GTKBIN_RECOMMENDED{'maj'}.".".$GTKBIN_RECOMMENDED{'min'} ." higher version from http://www.gtk.org/win32/\n" unless $config{'directories'}{'gtkbin'};
+
     
     my $gtkbinvers;
     $gtkbinvers =  _uninstallstring "WinGTK-2_is1","DisplayName"; # gtk from gimp
     $gtkbinvers =  _ReadHklmSoftware ("GTK/2.0","Version") unless ($gtkbinvers); # gtk from gaim
       
-    $gtkbinvers =~ s/^.*((\d)\.(\d).(\d+)).*$/$1/;
+    $gtkbinvers =~ s/^.*((\d)\.(\d+).(\d+)).*$/$1/;
 
     die "*** ERROR *** Gtk+ version $gtkbinvers is not supported for building Grisbi\n\n \
-        Please use GTK+ version 2.4.x (x>=14) (from http://www.gtk.org/win32) [$2!=2]\n" if ($2 != 2); 
+        Please use GTK+ version 2.8.x (x>=7) (from http://www.gtk.org/win32) [$2!=2]\n" if ($2 != 2); 
 
-    die "*** ERROR *** Gtk+ version $gtkbinvers is not yet supported for building Grisbi\n\n \
-        Please use GTK+ version 2.4.x (x>=14) (from http://www.gtk.org/win32) [$3>6]\n" if ($3 > 6); 
-
-    die "*** ERROR *** Gtk+ version $gtkbinvers is no more supported for building Grisbi\n\n \
-        Please use GTK+ version 2.4.x (x>=14) (from http://www.gtk.org/win32) [$3<4]\n" if ($3 < 4); 
+        #warn "*** ERROR *** Gtk+ version $gtkbinvers is not yet supported for building Grisbi\n\n \
+        #Please use GTK+ version 2.6.x (x>=8) (from http://www.gtk.org/win32) [$3>6]\n" if ($3 > 6); 
 
     die "*** ERROR *** Gtk+ version $gtkbinvers is no more supported for building Grisbi\n\n \
-        Please use GTK+ version 2.4.x (x>=14) (from http://www.gtk.org/win32) [[$3==4]&&[$4<14]}\n" if (($3 == 4)&&($4 < 14)); 
+        Please use GTK+ version 2.6.x (x>=8) (from http://www.gtk.org/win32) [$3<4]\n" if ($3 < 6); 
+
+    die "*** ERROR *** Gtk+ version $gtkbinvers is no more supported for building Grisbi\n\n \
+        Please use GTK+ version 2.6.x (x>=9) (from http://www.gtk.org/win32) [[$3==4]&&[$4<14]}\n" if (($3 == 4)&&($4 < 14)); 
         
     #
     my ($pkgn,$gtkdevvers) = _pkgconfig($config{'directories'}{'mingw'}."/lib/pkgconfig/gtk+-2.0.pc");
@@ -979,19 +1058,19 @@ sub _configuration_autodetect # {{{
         Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if (not defined($pkgn) or not defined($gtkdevvers));
 
     die "*** ERROR *** Unable to determine GTK+ development version\n\n \
-        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" unless ($gtkdevvers =~ m/((\d)\.(\d+)\.(\d+))/ );
+        Please reinstall GTK+ 2.6.x (x>=8) DevPack\n" unless ($gtkdevvers =~ m/((\d)\.(\d+)\.(\d+))/ );
 
     die "*** ERROR *** Gtk+ dev version $gtkdevvers  is not supported for building Grisbi\n\n \
-        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if ($2 != 2); 
+        Please reinstall GTK+ 2.6.x (x>=8) DevPack\n" if ($2 != 2); 
 
-    die "*** ERROR *** Gtk+ dev version $gtkdevvers is not yet supported for building Grisbi\n\n \
-        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if ($3 > 6); 
-
-    die "*** ERROR *** Gtk+ dev version $gtkdevvers is no more supported for building Grisbi\n\n \
-        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if ($3 < 4); 
+    warn "*** ERROR *** Gtk+ dev version $gtkdevvers is not yet supported for building Grisbi\n\n \
+        Please prefer GTK+ ".$GTKBIN_RECOMMENDED{'maj'}.".".$GTKBIN_RECOMMENDED{'min'}.".x (x>=8) DevPack\n" if ($3 > $GTKBIN_RECOMMENDED{'min'} ); 
 
     die "*** ERROR *** Gtk+ dev version $gtkdevvers is no more supported for building Grisbi\n\n \
-        Please reinstall GTK+ 2.4.x (x>=14) DevPack\n" if (($3 == 4)&&($4 < 14)); 
+        Please reinstall GTK+ 2.6.x (x>=8) DevPack\n" if ($3 < 6); 
+
+    die "*** ERROR *** Gtk+ dev version $gtkdevvers is no more supported for building Grisbi\n\n \
+        Please reinstall GTK+ 2.6.x (x>=8) DevPack\n" if (($3 == 4)&&($4 < 14)); 
     
     $config{'directories'}{'gtkdev'} = $config{'directories'}{'mingw'};
 
@@ -1138,6 +1217,7 @@ if ($opt_templates)
         }
         elsif (($opt_force)||(!-f $target)|| (_last_modified($config_ini,$target) == 1))
         {
+            %src_plugins = _get_plugins_list("../src/plugins");
             _templates_configure($target) or warn "*** autogen.bat ERROR * Unable to found a template for $target***\n";
         }
     }
@@ -1171,7 +1251,7 @@ item[1] = -I\"\$(GCCBASEDIR)/include\"
 item[2] = -I\"\$(GTKDEVDIR)/include\"
 item[3] = -I\"\$(GTKDEVDIR)/lib/glib-2.0/include\" -I\"\$(GTKDEVDIR)/include/glib-2.0\" 
 item[4] = -I\"\$(GTKDEVDIR)/lib/gtk-2.0/include\" -I\"\$(GTKDEVDIR)/include/gtk-2.0\" 
-item[5] = -I\"\$(GTKDEVDIR)/include/atk-1.0\" -I\"\$(GTKDEVDIR)/include/pango-1.0\" 
+item[5] = -I\"\$(GTKDEVDIR)/include/atk-1.0\" -I\"\$(GTKDEVDIR)/include/pango-1.0\" -I\"\$(GTKDEVDIR)/include/cairo\" 
 item[6] = -I\"\$(GTKDEVDIR)/include/libiconv-1.9.1\" 
 item[7] = -I\"\$(GTKDEVDIR)/include/libxml2-2.4.12\"
 
@@ -1179,7 +1259,7 @@ item[7] = -I\"\$(GTKDEVDIR)/include/libxml2-2.4.12\"
 item[0] = -latk-1.0 -lpango-1.0 -lpangowin32-1.0 -lpangoft2-1.0 
 item[1] = -lglib-2.0 -lgobject-2.0  -lgmodule-2.0  -lgthread-2.0 
 item[2] = -lgtk-win32-2.0 -lgdk-win32-2.0 -lgdk_pixbuf-2.0 
-item[3] = -lintl -liconv -lz
+item[3] = -lintl -liconv -lz -lcrypto
 item[4] = \$(GTKDEVDIR)/lib/libxml2.lib 
 item[5] = \$(GTKDEVDIR)/lib/libofx.lib
 
@@ -1231,11 +1311,13 @@ A ICON MOVEABLE PURE LOADONCALL DISCARDABLE "Grisbi.ico"
 <file name="../Grisbi.dev" src="grisbi.dev.in" callback="_cb_grisbi_dev"></file>
 <file name="config.nsh" src="config-nsh.in" callback="_cb_config_nsh"></file>
 __END__ 
+# }}}
 # ==========================================================================
 #__RUNTIME__# {{{
 <gtk version="all">
 <prefix>
     <target name=build dest= ></target>
+    <target name=plugins dest=plugins ></target>
     <target name=libraries  dest= >
         <copy from=${gtkdevdir}/bin >osp151.dll</copy>
         <copy from=${gtkdevdir}/bin >libofx.dll</copy>
@@ -1309,3 +1391,4 @@ Print this complete help message and exit
 
 __END__
 :endofperl
+
