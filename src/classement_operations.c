@@ -44,7 +44,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint gsb_transactions_list_breakdown_test ( GtkSortType sort_type );
 static gint gsb_transactions_list_general_test ( GtkTreeModel *model,
 					  GtkTreeIter *iter_1,
 					  GtkTreeIter *iter_2,
@@ -110,7 +109,7 @@ static gint gsb_transactions_list_sort_by_reconcile_nb ( GtkTreeModel *model,
 						  GtkTreeIter *iter_1,
 						  GtkTreeIter *iter_2,
 						  GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_transaction_date_and_no ( void );
+static gint gsb_transactions_list_sort_by_transaction_date_and_no ( GtkSortType sort_type );
 static gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
 					  GtkTreeIter *iter_1,
 					  GtkTreeIter *iter_2,
@@ -361,16 +360,14 @@ gint gsb_transactions_list_general_test ( GtkTreeModel *model,
     transaction_number_1 = gsb_data_transaction_get_transaction_number (transaction_1);
     transaction_number_2 = gsb_data_transaction_get_transaction_number (transaction_2);
 
-    /* check first for the general white line, it's always set at the end */
-    if ( transaction_number_1 == -1
-	 &&
-	 !gsb_data_transaction_get_mother_transaction_number (transaction_number_1))
+    /* check first for the white lines, it's always set at the end */
+    if ( transaction_number_1 <= 0 )
 	return_value = 1;
-
-    if ( transaction_number_2 == -1
-	 &&
-	 !gsb_data_transaction_get_mother_transaction_number (transaction_number_2))
-	return_value = -1;
+    else
+    {
+	if (transaction_number_2 <= 0)
+	    return_value = -1;
+    }
 
     if ( transaction_number_1 == transaction_number_2 )
 	return_value = line_1 - line_2;
@@ -386,66 +383,6 @@ gint gsb_transactions_list_general_test ( GtkTreeModel *model,
 
 
 /**
- * used by all the sort functions for the transaction list,
- * keep the breakdown under the mother, and white breakdown under
- * the others
- * 
- * \param sort_type
- * 
- * \return 0 if that test cannot say the return_value between the 2 lines,
- * or the return_value if it's possible here
- * */
-gint gsb_transactions_list_breakdown_test ( GtkSortType sort_type )
-{
-    gint return_value = 0;
-
-    if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_1))
-    {
-	if ( transaction_number_2 == gsb_data_transaction_get_mother_transaction_number (transaction_number_1))
-	    return_value = 1;
-	else
-	{
-	    if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number_2))
-	    {
-		if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number_2)== gsb_data_transaction_get_mother_transaction_number ( transaction_number_1))
-		{
-		    if ( transaction_number_1 < 0 )
-			return_value = 1;
-		    else
-		    {
-			if ( transaction_number_2 < 0 )
-			    return_value = -1;
-		    }
-		}
-		else
-		{
-		    transaction_number_1 = gsb_data_transaction_get_mother_transaction_number ( transaction_number_1);
-		    transaction_number_2 = gsb_data_transaction_get_mother_transaction_number ( transaction_number_2);
-		}
-	    }
-	    else
-		transaction_number_1 = gsb_data_transaction_get_mother_transaction_number ( transaction_number_1);
-	}
-    }
-    else
-    {
-	if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number_2))
-	{
-	    if ( transaction_number_1 == gsb_data_transaction_get_mother_transaction_number ( transaction_number_2))
-		return_value = -1;
-	    else
-		transaction_number_2 = gsb_data_transaction_get_mother_transaction_number ( transaction_number_2);
-	}
-    }
-
-    if ( sort_type == GTK_SORT_ASCENDING )
-	return return_value;
-    else
-	return -return_value;
-}
-
-
-/**
  * used to compare the 2 dates first, and if they are the same
  * the 2 no of transactions to find the good return for sort
  * called at the end of each sort test, if they are equal
@@ -454,15 +391,15 @@ gint gsb_transactions_list_breakdown_test ( GtkSortType sort_type )
  * 
  * \return -1 if transaction_1 is above transaction_2
  * */
-gint gsb_transactions_list_sort_by_transaction_date_and_no ( void )
+gint gsb_transactions_list_sort_by_transaction_date_and_no ( GtkSortType sort_type )
 {
     gint return_value;
 
-    if ( ! gsb_data_transaction_get_date (transaction_number_1) )
+    if ( !gsb_data_transaction_get_date (transaction_number_1) )
     {
 	return 1;
     }
-    if ( ! gsb_data_transaction_get_date (transaction_number_2) )
+    if ( !gsb_data_transaction_get_date (transaction_number_2) )
     {
 	return -1;
     }
@@ -470,10 +407,11 @@ gint gsb_transactions_list_sort_by_transaction_date_and_no ( void )
     return_value = g_date_compare ( gsb_data_transaction_get_date (transaction_number_1),
 				    gsb_data_transaction_get_date (transaction_number_2));
 
-    if ( return_value )
-	return return_value;
-    else
-	return transaction_number_1 - transaction_number_2;
+    /* no difference in the dates, sort by number of transaction */
+    if ( !return_value )
+	return_value = transaction_number_1 - transaction_number_2;
+    
+    return return_value;
 }
 
 
@@ -501,11 +439,6 @@ gint gsb_transactions_list_sort_by_no ( GtkTreeModel *model,
 							iter_1,
 							iter_2,
 							sort_type );
-    if ( return_value )
-	return return_value;
-
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
     if ( return_value )
 	return return_value;
 
@@ -538,12 +471,7 @@ gint gsb_transactions_list_sort_by_date ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
-    return gsb_transactions_list_sort_by_transaction_date_and_no();
+    return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
 }
 
 
@@ -573,18 +501,13 @@ gint gsb_transactions_list_sort_by_value_date ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
     return_value = g_date_compare ( gsb_data_transaction_get_value_date (transaction_number_1),
 				    gsb_data_transaction_get_value_date (transaction_number_2));
 
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no();
+	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
 
 }
 
@@ -615,13 +538,8 @@ gint gsb_transactions_list_sort_by_party ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
     if ( gsb_data_transaction_get_party_number ( transaction_number_1)== gsb_data_transaction_get_party_number ( transaction_number_2))
-	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
+	return_value = gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
     else
     {
 	const gchar *temp_1;
@@ -643,7 +561,7 @@ gint gsb_transactions_list_sort_by_party ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no ();
+	return gsb_transactions_list_sort_by_transaction_date_and_no (sort_type);
 }
 
 
@@ -674,15 +592,10 @@ gint gsb_transactions_list_sort_by_budget ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
     if ( gsb_data_transaction_get_budgetary_number ( transaction_number_1) == gsb_data_transaction_get_budgetary_number ( transaction_number_2)
 	 &&
 	 gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1)== gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2))
-	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
+	return_value = gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
     else
     {
 	const gchar *temp_1;
@@ -706,7 +619,7 @@ gint gsb_transactions_list_sort_by_budget ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no();
+	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
 }
 
 
@@ -740,11 +653,6 @@ gint gsb_transactions_list_sort_by_credit ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
     /* for the amounts, we have to check also the currency */
     return_value = gsb_real_cmp ( gsb_data_transaction_get_adjusted_amount ( transaction_number_1, -1),
 				  gsb_data_transaction_get_adjusted_amount ( transaction_number_2, -1));
@@ -752,7 +660,7 @@ gint gsb_transactions_list_sort_by_credit ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no();
+	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
 }
 
 
@@ -782,11 +690,6 @@ gint gsb_transactions_list_sort_by_debit ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
     /* for the amounts, we have to check also the currency */
 
     return_value = gsb_real_cmp ( gsb_data_transaction_get_adjusted_amount ( transaction_number_2, -1),
@@ -795,7 +698,7 @@ gint gsb_transactions_list_sort_by_debit ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no();
+	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
 }
 
 
@@ -825,11 +728,6 @@ gint gsb_transactions_list_sort_by_amount ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
     /* for the amounts, we have to check also the currency */
     return_value = gsb_real_cmp ( gsb_data_transaction_get_adjusted_amount ( transaction_number_1, -1),
 				  gsb_data_transaction_get_adjusted_amount ( transaction_number_2, -1));
@@ -837,7 +735,7 @@ gint gsb_transactions_list_sort_by_amount ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no();
+	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
 }
 
 
@@ -867,11 +765,6 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
     /* if it's the same type, we sort by the content of the types */
 
     if ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_1)== gsb_data_transaction_get_method_of_payment_number ( transaction_number_2))
@@ -882,7 +775,7 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
 							  -1 ));
 
 	if ( !return_value )
-	    return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
+	    return_value = gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
     }
     else
     {
@@ -914,7 +807,7 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
 							  -1 ));
 
 	if ( !return_value )
-	    return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
+	    return_value = gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
     }
     return return_value;
 }
@@ -946,13 +839,8 @@ gint gsb_transactions_list_sort_by_reconcile_nb ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
     if ( gsb_data_transaction_get_reconcile_number ( transaction_number_1)== gsb_data_transaction_get_reconcile_number ( transaction_number_2))
-	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
+	return_value = gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
     else
     {
 	const gchar *temp_1;
@@ -972,7 +860,7 @@ gint gsb_transactions_list_sort_by_reconcile_nb ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no();
+	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
 }
 
 
@@ -1002,13 +890,8 @@ gint gsb_transactions_list_sort_by_financial_year ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
     if ( gsb_data_transaction_get_financial_year_number ( transaction_number_1)== gsb_data_transaction_get_financial_year_number ( transaction_number_2))
-	return_value = gsb_transactions_list_sort_by_transaction_date_and_no();
+	return_value = gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
     else
     {
 	GDate *date_1;
@@ -1037,7 +920,7 @@ gint gsb_transactions_list_sort_by_financial_year ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no();
+	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
 
 }
 
@@ -1070,11 +953,6 @@ gint gsb_transactions_list_sort_by_category ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
     /** we want to take the name of the categ, so, either
      * breakdown of transaction
      * transfer : ...
@@ -1095,7 +973,7 @@ gint gsb_transactions_list_sort_by_category ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no();
+	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
 }
 
 
@@ -1124,18 +1002,13 @@ gint gsb_transactions_list_sort_by_mark ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
     return_value = gsb_data_transaction_get_marked_transaction ( transaction_number_1)- gsb_data_transaction_get_marked_transaction ( transaction_number_2);
 
 
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no();
+	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
 }
 
 
@@ -1168,11 +1041,6 @@ gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
     temp_1 = gsb_data_transaction_get_voucher ( transaction_number_1);
     temp_2 = gsb_data_transaction_get_voucher ( transaction_number_2);
 
@@ -1186,7 +1054,7 @@ gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no();
+	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
 }
 
 
@@ -1218,11 +1086,6 @@ gint gsb_transactions_list_sort_by_notes ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
     temp_1 = gsb_data_transaction_get_notes ( transaction_number_1);
     temp_2 = gsb_data_transaction_get_notes ( transaction_number_2);
 
@@ -1236,7 +1099,7 @@ gint gsb_transactions_list_sort_by_notes ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no();
+	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
 }
 
 
@@ -1269,11 +1132,6 @@ gint gsb_transactions_list_sort_by_bank ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
     temp_1 = gsb_data_transaction_get_bank_references ( transaction_number_1);
     temp_2 = gsb_data_transaction_get_bank_references ( transaction_number_2);
 
@@ -1287,7 +1145,7 @@ gint gsb_transactions_list_sort_by_bank ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no();
+	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
 }
 
 
@@ -1320,11 +1178,6 @@ gint gsb_transactions_list_sort_by_chq ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
 
-    return_value = gsb_transactions_list_breakdown_test ( sort_type );
-
-    if ( return_value )
-	return return_value;
-
     temp_1 = gsb_data_transaction_get_method_of_payment_content ( transaction_number_1);
     temp_2 = gsb_data_transaction_get_method_of_payment_content ( transaction_number_2);
 
@@ -1338,7 +1191,7 @@ gint gsb_transactions_list_sort_by_chq ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no();
+	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
 }
 
 

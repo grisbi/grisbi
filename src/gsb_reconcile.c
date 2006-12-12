@@ -39,6 +39,7 @@
 #include "navigation.h"
 #include "fenetre_principale.h"
 #include "gsb_real.h"
+#include "gsb_reconcile_list.h"
 #include "gsb_transactions_list.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
@@ -79,6 +80,8 @@ static GtkWidget *reconcile_marked_balance_label;
 static GtkWidget *reconcile_variation_balance_label;
 static GtkWidget *reconcile_ok_button;
 
+static GtkWidget *reconcile_sort_list_button;
+
 /* previous values from the user, to be restored after the reconciliation */
 static gint reconcile_save_rows_number;
 static gint reconcile_save_show_marked;
@@ -94,7 +97,7 @@ static gint reconcile_save_account_display;
  */
 GtkWidget *gsb_reconcile_create_box ( void )
 {
-    GtkWidget *frame, *label, *table, *vbox, *hbox, *bouton, *separator;
+    GtkWidget *frame, *label, *table, *vbox, *hbox, *button, *separator;
     GtkTooltips *tips;
 
     frame = gtk_frame_new ( "" );
@@ -236,15 +239,28 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_misc_set_alignment ( GTK_MISC ( reconcile_variation_balance_label ), 1, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_variation_balance_label, 1, 2, 4, 5);
 
-    /* make the buttons */
+    /* set the button to sort with the method of paymen */
+    separator = gtk_hseparator_new();
+    gtk_box_pack_start ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
+
+    hbox = gtk_hbox_new ( TRUE, 3 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
+
+    reconcile_sort_list_button = gtk_check_button_new_with_label (_("Sort the list by method of payment"));
+    gtk_button_set_relief ( GTK_BUTTON (reconcile_sort_list_button), GTK_RELIEF_NONE);
+    g_signal_connect ( G_OBJECT (reconcile_sort_list_button), "clicked",
+		       G_CALLBACK (gsb_reconcile_list_button_clicked), NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_sort_list_button, FALSE, FALSE, 0);
+
+   /* make the buttons */
     hbox = gtk_hbox_new ( TRUE, 3 );
     gtk_box_pack_end ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
-    bouton = gtk_button_new_from_stock ( GTK_STOCK_CANCEL );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton), GTK_RELIEF_NONE);
-    g_signal_connect ( G_OBJECT (bouton), "clicked",
+    button = gtk_button_new_from_stock ( GTK_STOCK_CANCEL );
+    gtk_button_set_relief ( GTK_BUTTON ( button), GTK_RELIEF_NONE);
+    g_signal_connect ( G_OBJECT (button), "clicked",
 		       G_CALLBACK (gsb_reconcile_cancel), NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton, FALSE, FALSE, 0);
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0);
 
     reconcile_ok_button = gtk_button_new_from_stock ( GTK_STOCK_OK );
     gtk_button_set_relief ( GTK_BUTTON ( reconcile_ok_button), GTK_RELIEF_NONE);
@@ -430,9 +446,14 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     }
 
     /* 1 line on the transaction list */
-    reconcile_save_rows_number = gsb_data_account_get_nb_rows ( account_number );
+    reconcile_save_rows_number = gsb_data_account_get_nb_rows (account_number);
     if (reconcile_save_rows_number != 1)
 	gsb_transactions_list_set_visible_rows_number ( 1 );
+
+    /* sort by method of payment if in conf */
+    if (gsb_data_account_get_reconcile_sort_type (account_number))
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (reconcile_sort_list_button),
+				       TRUE );
 
     gtk_widget_show_all ( reconcile_panel );
 

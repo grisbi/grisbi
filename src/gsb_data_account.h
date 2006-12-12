@@ -85,7 +85,7 @@ gboolean gsb_data_account_set_closed_account ( gint account_number,
 					       gint closed_account );
 gboolean gsb_data_account_set_column_sort ( gint account_number,
 					    gint no_column,
-					    gint column_sort );
+					    gint element_number );
 gboolean gsb_data_account_set_comment ( gint account_number,
 					const gchar *comment );
 gboolean gsb_data_account_set_currency ( gint account_number,

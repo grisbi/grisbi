@@ -12,33 +12,5 @@ gint gsb_transactions_list_sort_column ( GtkTreeModel *model,
 					 GtkTreeIter *iter_1,
 					 GtkTreeIter *iter_2,
 					 gint *column_number );
-gint gsb_transactions_list_sort_column_0 ( GtkTreeModel *model,
-					   GtkTreeIter *iter_1,
-					   GtkTreeIter *iter_2,
-					   gint *no_account );
-gint gsb_transactions_list_sort_column_1 ( GtkTreeModel *model,
-					   GtkTreeIter *iter_1,
-					   GtkTreeIter *iter_2,
-					   gint *no_account );
-gint gsb_transactions_list_sort_column_2 ( GtkTreeModel *model,
-					   GtkTreeIter *iter_1,
-					   GtkTreeIter *iter_2,
-					   gint *no_account );
-gint gsb_transactions_list_sort_column_3 ( GtkTreeModel *model,
-					   GtkTreeIter *iter_1,
-					   GtkTreeIter *iter_2,
-					   gint *no_account );
-gint gsb_transactions_list_sort_column_4 ( GtkTreeModel *model,
-					   GtkTreeIter *iter_1,
-					   GtkTreeIter *iter_2,
-					   gint *no_account );
-gint gsb_transactions_list_sort_column_5 ( GtkTreeModel *model,
-					   GtkTreeIter *iter_1,
-					   GtkTreeIter *iter_2,
-					   gint *no_account );
-gint gsb_transactions_list_sort_column_6 ( GtkTreeModel *model,
-					   GtkTreeIter *iter_1,
-					   GtkTreeIter *iter_2,
-					   gint *no_account );
 /* END_DECLARATION */
 #endif

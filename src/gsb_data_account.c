@@ -38,7 +38,7 @@
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
-#include "data_payment.h"
+#include "gsb_data_payment.h"
 #include "gsb_real.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
@@ -100,7 +100,7 @@ typedef struct
 
     /** @name reconcile sort */
     gint reconcile_sort_type;                           /**< 1 : sort by method of payment ; 0 : sort by date */
-    GSList *sort_list;                        /**< the method of payment sorted in a list */
+    GSList *sort_list;                        /**< the method of payment numbers sorted in a list (if split neutral, the negative method has a negative method of payment number)*/
     gint split_neutral_payment;               /**< if 1 : neutral payments are splitted into debits/credits */
 
     /** @name tree_view sort stuff */
@@ -1710,9 +1710,12 @@ gboolean gsb_data_account_set_comment ( gint account_number,
 
 
 
-/** get reconcile_sort_type on the account given
+/**
+ * get reconcile_sort_type on the account given
+ * 
  * \param account_number no of the account
- * \return sort_type or 0 if the account doesn't exist
+ * 
+ * \return 1 if the list should be sorted by method of payment, 0 if normal sort
  * */
 gint gsb_data_account_get_reconcile_sort_type ( gint account_number )
 {
@@ -1729,10 +1732,10 @@ gint gsb_data_account_get_reconcile_sort_type ( gint account_number )
 
 /**
  * set reconcile_sort_type in the account given
- * ie GTK_SORT_DESCENDING / GTK_SORT_ASCENDING
+ * 1 if the list should be sorted by method of payment, 0 if normal sort
  * 
  * \param account_number no of the account
- * \param sort_type sort_type to set (GTK_SORT_DESCENDING / GTK_SORT_ASCENDING)
+ * \param sort_type 
  * 
  * \return TRUE, ok ; FALSE, problem
  * */
@@ -1752,8 +1755,13 @@ gboolean gsb_data_account_set_reconcile_sort_type ( gint account_number,
 }
 
 
-/** get the sort_list of the account
+/** 
+ * get the sort_list of the account
+ * this is a sorted list containing the numbers of the method of payment
+ * used to sort the list while reconciling, according to the method of payments
+ * 
  * \param account_number no of the account
+ * 
  * \return the g_slist or NULL if the account doesn't exist
  * */
 GSList *gsb_data_account_get_sort_list ( gint account_number )
@@ -1768,10 +1776,14 @@ GSList *gsb_data_account_get_sort_list ( gint account_number )
     return account -> sort_list;
 }
 
-
-/** set the sort_list list of the account
+/** 
+ * set the sort_list list of the account
+ * this is a sorted list containing the numbers of the method of payment
+ * used to sort the list while reconciling, according to the method of payments
+ * 
  * \param account_number no of the account
  * \param list g_slist to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_sort_list ( gint account_number,
@@ -1790,8 +1802,11 @@ gboolean gsb_data_account_set_sort_list ( gint account_number,
 }
 
 
-/** get split_neutral_payment on the account given
+/**
+ * get split_neutral_payment on the account given
+ * 
  * \param account_number no of the account
+ * 
  * \return split_neutral_payment or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_split_neutral_payment ( gint account_number )
@@ -1807,9 +1822,12 @@ gint gsb_data_account_get_split_neutral_payment ( gint account_number )
 }
 
 
-/** set split_neutral_payment in the account given
+/** 
+ * set split_neutral_payment in the account given
+ * 
  * \param account_number no of the account
  * \param split_neutral_payment split_neutral_payment to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_split_neutral_payment ( gint account_number,
@@ -2080,10 +2098,11 @@ gboolean gsb_data_account_set_vertical_adjustment_value ( gint account_number,
 
 /**
  * get sort_type on the account given
+ * ie GTK_SORT_DESCENDING / GTK_SORT_ASCENDING
  * 
  * \param account_number no of the account
  * 
- * \return sort_type or 0 if the account doesn't exist
+ * \return GTK_SORT_DESCENDING / GTK_SORT_ASCENDING
  * */
 gint gsb_data_account_get_sort_type ( gint account_number )
 {
@@ -2100,9 +2119,10 @@ gint gsb_data_account_get_sort_type ( gint account_number )
 
 /**
  * set sort_type in the account given
+ * ie GTK_SORT_DESCENDING / GTK_SORT_ASCENDING
  * 
  * \param account_number no of the account
- * \param sort_type sort_type to set
+ * \param sort_type sort_type to set (GTK_SORT_DESCENDING / GTK_SORT_ASCENDING)
  * 
  * \return TRUE, ok ; FALSE, problem
  * */

@@ -27,7 +27,6 @@ sources = \
 	comptes_onglet.c	\
 	comptes_traitements.c	\
 	csv_parse.c		\
-	data_payment.c		\
 	dialog.c		\
 	echeancier_infos.c	\
 	erreur.c		\
@@ -64,6 +63,7 @@ sources = \
 	gsb_data_fyear.c	\
 	gsb_data_mix.c		\
 	gsb_data_payee.c	\
+	gsb_data_payment.c		\
 	gsb_data_reconcile.c	\
 	gsb_data_report.c	\
 	gsb_data_report_amout_comparison.c	\
@@ -89,6 +89,7 @@ sources = \
 	gsb_real.c		\
 	gsb_reconcile.c		\
 	gsb_reconcile_config.c	\
+	gsb_reconcile_list.c	\
 	gsb_scheduler.c		\
 	gsb_scheduler_list.c	\
 	gsb_status.c		\
@@ -161,6 +162,7 @@ grisbi_INCLUDES =		\
 	gsb_data_fyear.c	\
 	gsb_data_mix.h		\
 	gsb_data_payee.h	\
+	gsb_data_payment.h		\
 	gsb_data_reconcile.s	\
 	gsb_data_report.h	\
 	gsb_data_report_amout_comparison.h	\
@@ -184,11 +186,11 @@ grisbi_INCLUDES =		\
 	gsb_real.h		\
 	gsb_reconcile.h		\
 	gsb_reconcile_config.h	\
+	gsb_reconcile_list.h	\
 	gsb_scheduler.h		\
 	gsb_scheduler_list.h	\
 	gsb_transaction_model.h	\
 	gsb_transactions_list.h	\
-	data_payment.h		\
 	dialog.h		\
 	echeancier_infos.h	\
 	erreur.h		\
