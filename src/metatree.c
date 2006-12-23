@@ -243,7 +243,7 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     devel_debug ( g_strdup_printf ("fill_division_row %p", division) );
 
     string_tmp = ( division ? iface -> div_name (division) : _(iface->no_div_label) );
-    
+
     if ( ! division )
 	division = iface -> get_without_div_pointer ();
 
@@ -252,6 +252,8 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 	label = g_strconcat ( string_tmp, " (",
 			      utils_str_itoa ( iface -> div_nb_transactions (division) ), ")",
 			      NULL );
+    else
+	label = my_strdup (string_tmp);
 
     if ( division && iface -> div_nb_transactions (division) )
 	balance = gsb_format_amount ( iface -> div_balance ( division ),
@@ -274,7 +276,8 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			META_TREE_FONT_COLUMN, 800,
 			META_TREE_DATE_COLUMN, NULL,
 			-1);
-    g_free (label);
+    if (label)
+	g_free (label);
 }
 
 
@@ -294,7 +297,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			     GtkTreeIter * iter, gpointer division,
 			     gpointer sub_division )
 {
-    gchar * balance = NULL, *label;
+    gchar * balance = NULL, *label = NULL;
     const gchar *string_tmp;
     GtkTreeIter dumb_iter;
     gint nb_ecritures = 0;
@@ -323,6 +326,8 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 	balance = gsb_format_amount ( iface -> sub_div_balance ( division, sub_division ),
 				      iface -> tree_currency () );
     }
+    else
+	label = my_strdup (string_tmp);
     
     gtk_tree_store_set ( GTK_TREE_STORE (model), iter,
 			 META_TREE_TEXT_COLUMN, label,
@@ -334,7 +339,8 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			 META_TREE_FONT_COLUMN, 400,
 			 META_TREE_DATE_COLUMN, NULL,
 			 -1 );
-    g_free (label);
+    if (label)
+	g_free (label);
 }
 
 
