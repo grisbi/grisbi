@@ -24,7 +24,6 @@
 
 /*START_INCLUDE*/
 #include "etats_calculs.h"
-#include "search_glist.h"
 #include "etats_affiche.h"
 #include "utils_dates.h"
 #include "gsb_data_account.h"
@@ -32,6 +31,7 @@
 #include "gsb_data_category.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_payment.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
@@ -42,8 +42,6 @@
 #include "gsb_status.h"
 #include "utils_str.h"
 #include "print_config.h"
-#include "utils_types.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -304,16 +302,13 @@ GSList *recupere_opes_etat ( gint report_number )
 				 &&
 				 gsb_data_transaction_get_method_of_payment_number (transaction_number_tmp))
 			    {
-				struct struct_type_ope *type_ope;
+				gint payment_number;
 
-				type_ope = type_ope_par_no ( gsb_data_transaction_get_method_of_payment_number (transaction_number_tmp),
-							     i );
+				payment_number = gsb_data_transaction_get_method_of_payment_number (transaction_number_tmp);
 
-				if ( type_ope
+				if ( gsb_data_payment_get_show_entry (payment_number)
 				     &&
-				     type_ope -> affiche_entree
-				     &&
-				     type_ope -> numerotation_auto )
+				     gsb_data_payment_get_automatic_numbering (payment_number))
 				    dernier_chq = utils_str_atoi ( gsb_data_transaction_get_method_of_payment_content (transaction_number_tmp));
 			    }
 
@@ -695,21 +690,15 @@ GSList *recupere_opes_etat ( gint report_number )
 
 		    if ( gsb_data_report_get_method_of_payment_used (report_number))
 		    {
-			struct struct_type_ope *type_ope;
+			gint payment_number;
 
-			if ( ! gsb_data_transaction_get_method_of_payment_number ( transaction_number_tmp))
-			    goto operation_refusee;
+			payment_number = gsb_data_transaction_get_method_of_payment_number (transaction_number_tmp);
 
-			/* normalement p_tab... est sur le compte en cours */
-
-			type_ope = type_ope_par_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_tmp),
-						     i );
-
-			if ( !type_ope )
+			if ( !payment_number )
 			    goto operation_refusee;
 
 			if ( !g_slist_find_custom ( gsb_data_report_get_method_of_payment_list (report_number),
-						    type_ope -> nom_type,
+						    gsb_data_payment_get_name (payment_number),
 						    (GCompareFunc) cherche_string_equivalente_dans_slist ))
 			    goto operation_refusee;
 		    }
@@ -916,6 +905,15 @@ operation_refusee:
     return ( transactions_report_list );
 }
 /*****************************************************************************************************/
+
+/* ************************************************************************************************************** */
+gint cherche_string_equivalente_dans_slist ( gchar *string_list,
+					     gchar *string_cmp )
+{
+    return ( strcmp ( string_list,
+		      string_cmp ));
+}
+/* ************************************************************************************************************** */
 
 
 /*****************************************************************************************************/
@@ -1902,11 +1900,8 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    {
 		/* les opés peuvent provenir de 2 comptes différents, il faut donc trouver les 2 types dans les */
 		/* listes différentes */
-
-		return_value = g_strcasecmp ( type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_1),
-							      gsb_data_transaction_get_account_number (transaction_number_1)),
-					type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_2),
-							      gsb_data_transaction_get_account_number (transaction_number_2)));
+		return_value = g_strcasecmp ( gsb_data_payment_get_name (gsb_data_transaction_get_method_of_payment_number (transaction_number_1)),
+					      gsb_data_payment_get_name (gsb_data_transaction_get_method_of_payment_number (transaction_number_2)));
 	    }
 	    break;
 

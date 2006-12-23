@@ -34,12 +34,13 @@
 #include "utils_dates.h"
 #include "gsb_currency.h"
 #include "gsb_data_fyear.h"
+#include "gsb_data_payment.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form_transaction.h"
 #include "accueil.h"
-#include "gsb_payment_method.h"
 #include "gsb_scheduler_list.h"
+#include "gsb_transactions_list.h"
 #include "main.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
@@ -248,7 +249,7 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint scheduled_number,
 								   gint transaction_mother )
 {
-    gint transaction_number, payment_method;
+    gint transaction_number, payment_number;
     gint account_number;
 
     account_number = gsb_data_scheduled_get_account_number (scheduled_number);
@@ -277,20 +278,19 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
     gsb_data_transaction_set_notes ( transaction_number,
 				     gsb_data_scheduled_get_notes (scheduled_number));
 
-    payment_method = gsb_data_scheduled_get_method_of_payment_number (scheduled_number);
-    if ( payment_method )
+    payment_number = gsb_data_scheduled_get_method_of_payment_number (scheduled_number);
+    if ( payment_number )
     {
-	if (gsb_payment_method_get_show_entry (payment_method, account_number))
+	if (gsb_data_payment_get_show_entry (payment_number))
 	{
-	    if (gsb_payment_method_get_automatic_number (payment_method, account_number))
+	    if (gsb_data_payment_get_automatic_numbering (payment_number))
 	    {
 		gint number;
 
-		number = gsb_payment_method_automatic_numbering_get_new_number ( payment_method, account_number );
+		number = gsb_data_payment_get_last_number (payment_number) + 1;
 		gsb_data_transaction_set_method_of_payment_content ( transaction_number,
 								     utils_str_itoa (number));
-		gsb_payment_method_automatic_numbering_set_number ( payment_method, account_number,
-								    number );
+		gsb_data_payment_set_last_number ( payment_number, number );
 	    }
 	    else
 		gsb_data_transaction_set_method_of_payment_content ( transaction_number,

@@ -231,7 +231,6 @@ gint gsb_data_fyear_new ( const gchar *name )
 /**
  * remove a fyear
  * set all the fyears of transaction which are this one to 0
- * update combofix and mark file as modified
  *
  * \param fyear_number the fyear we want to remove
  *

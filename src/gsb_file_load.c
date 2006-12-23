@@ -33,6 +33,7 @@
 #include "gsb_data_form.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_payment.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
@@ -78,6 +79,8 @@ static void gsb_file_load_general_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
 					     const gchar *text );
+static gint gsb_file_load_get_new_payment_number ( gint account_number,
+					    gint payment_number );
 static void gsb_file_load_party ( const gchar **attribute_names,
 			   const gchar **attribute_values );
 static void gsb_file_load_payment_part ( const gchar **attribute_names,
@@ -143,7 +146,6 @@ static struct
     gboolean general_part;
     gboolean account_part;
     gboolean report_part;
-
 } download_tmp_values;
 
 static gint account_number;
@@ -165,6 +167,16 @@ GSList *sort_accounts;
 /** FIXME : here for now, will be use to save and restore the width of the list */
 gint scheduler_col_width[NB_COLS_SCHEDULER];
 
+/* temporary structure used to go from the 0.5.x versions to 0.6.x versions
+ * because before, method of payment were saved in each account, and now
+ * there is a general list of method of payment */
+struct payment_conversion_struct
+{
+    gint account_number;
+    gint last_payment_number;
+    gint new_payment_number;
+};
+static GSList *payment_conversion_list;
 
 
 /*!
@@ -327,17 +339,18 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	if ( gsb_file_load_check_new_structure (file_content))
 	{
 	    /* fill the GMarkupParser for a new xml structure */
-
 	    markup_parser -> start_element = (void *) gsb_file_load_start_element;
 	    markup_parser -> error = (void *) gsb_file_load_error;
 	}
 	else
 	{
 	    /* fill the GMarkupParser for the last xml structure */
-
 	    markup_parser -> start_element = (void *) gsb_file_load_start_element_before_0_6;
 	    markup_parser -> end_element = (void *) gsb_file_load_end_element_before_0_6;
 	    markup_parser -> text = (void *) gsb_file_load_text_element_before_0_6;
+
+	    /* we will have to convert the method of payments numbers */
+	    payment_conversion_list = NULL;
 	}
 
 	context = g_markup_parse_context_new ( markup_parser,
@@ -1162,9 +1175,8 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 
 		while ( pointeur_char[j] )
 		{
-		    gsb_data_account_set_sort_list ( account_number,
-						     g_slist_append ( gsb_data_account_get_sort_list (account_number),
-								      GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[j] ))) );
+		    gsb_data_account_sort_list_add ( account_number,
+						     utils_str_atoi ( pointeur_char[j] ));
 		    j++;
 		}
 		g_strfreev ( pointeur_char );
@@ -1291,13 +1303,12 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
 				  const gchar **attribute_values )
 {
     gint i=0;
-    struct struct_type_ope *payment_method;
+    gint payment_number;
 
     if ( !attribute_names[i] )
 	return;
     
-    payment_method = calloc ( 1,
-			      sizeof ( struct struct_type_ope ));
+    payment_number = gsb_data_payment_new (NULL);
 
     do
     {
@@ -1314,7 +1325,8 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Number" ))
 	{
-	    payment_method -> no_type = utils_str_atoi (attribute_values[i]);
+	    payment_number = gsb_data_payment_set_new_number ( payment_number,
+							       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -1322,7 +1334,8 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Name" ))
 	{
-	    payment_method -> nom_type = my_strdup (attribute_values[i]);
+	    gsb_data_payment_set_name ( payment_number, 
+					attribute_values[i]);
 	    i++;
 	    continue;
 	}
@@ -1330,7 +1343,8 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Sign" ))
 	{
-	    payment_method -> signe_type = utils_str_atoi (attribute_values[i]);
+	    gsb_data_payment_set_sign ( payment_number,
+					utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -1338,7 +1352,8 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Show_entry" ))
 	{
-	    payment_method -> affiche_entree = utils_str_atoi (attribute_values[i]);
+	    gsb_data_payment_set_show_entry ( payment_number,
+					      utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -1346,7 +1361,8 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Automatic_number" ))
 	{
-	    payment_method -> numerotation_auto = utils_str_atoi (attribute_values[i]);
+	    gsb_data_payment_set_automatic_numbering ( payment_number,
+						       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -1354,7 +1370,8 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Current_number" ))
 	{
-	    payment_method -> no_en_cours = utils_str_atoi (attribute_values[i]);
+	    gsb_data_payment_set_last_number ( payment_number,
+					       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -1362,7 +1379,8 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Account" ))
 	{
-	    payment_method -> no_compte = utils_str_atoi (attribute_values[i]);
+	    gsb_data_payment_set_account_number ( payment_number,
+						  utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -1371,10 +1389,6 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
 	i++;
     }
     while ( attribute_names[i] );
-
-    gsb_data_account_set_method_payment_list ( payment_method -> no_compte,
-					  g_slist_append ( gsb_data_account_get_method_payment_list (payment_method -> no_compte),
-							   payment_method ));
 }
 
 
@@ -2767,8 +2781,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 		       "General_sort_type" ))
 	{
 	    gsb_data_report_set_sorting_type ( report_number,
-					       gsb_string_get_list_from_string (attribute_values[i],
-										"/-/" ));
+					       gsb_string_get_int_list_from_string (attribute_values[i],
+										    "/-/" ));
 	    i++;
 	    continue;
 	}
@@ -3020,8 +3034,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 		       "Financial_year_select" ))
 	{
 	    gsb_data_report_set_financial_year_list ( report_number,
-						      gsb_string_get_list_from_string (attribute_values[i],
-										       "/-/" ));
+						      gsb_string_get_int_list_from_string (attribute_values[i],
+											   "/-/" ));
 	    i++;
 	    continue;
 	}
@@ -3102,8 +3116,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 		       "Account_selected" ))
 	{
 	    gsb_data_report_set_account_numbers ( report_number,
-						  gsb_string_get_list_from_string (attribute_values[i],
-										   "/-/" ));
+						  gsb_string_get_int_list_from_string (attribute_values[i],
+										       "/-/" ));
 	    i++;
 	    continue;
 	}
@@ -3148,8 +3162,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 		       "Transfer_selected_accounts" ))
 	{
 	    gsb_data_report_set_transfer_account_numbers ( report_number,
-							   gsb_string_get_list_from_string (attribute_values[i],
-											    "/-/" ));
+							   gsb_string_get_int_list_from_string (attribute_values[i],
+												"/-/" ));
 	    i++;
 	    continue;
 	}
@@ -3185,8 +3199,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 		       "Categ_selected" ))
 	{
 	    gsb_data_report_set_category_numbers ( report_number,
-						   gsb_string_get_list_from_string (attribute_values[i],
-										    "/-/" ));
+						   gsb_string_get_int_list_from_string (attribute_values[i],
+											"/-/" ));
 	    i++;
 	    continue;
 	}
@@ -3276,8 +3290,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 		       "Budget_selected" ))
 	{
 	    gsb_data_report_set_budget_numbers ( report_number,
-						 gsb_string_get_list_from_string (attribute_values[i],
-										  "/-/" ));
+						 gsb_string_get_int_list_from_string (attribute_values[i],
+										      "/-/" ));
 	    i++;
 	    continue;
 	}
@@ -3367,8 +3381,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 		       "Payee_selected" ))
 	{
 	    gsb_data_report_set_payee_numbers ( report_number,
-						gsb_string_get_list_from_string (attribute_values[i],
-										 "/-/" ));
+						gsb_string_get_int_list_from_string (attribute_values[i],
+										     "/-/" ));
 	    i++;
 	    continue;
 	}
@@ -3422,8 +3436,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 		       "Payment_method_list" ))
 	{
 	    gsb_data_report_set_method_of_payment_list ( report_number,
-							 gsb_string_get_list_from_string (attribute_values[i],
-											  "/-/" ));
+							 gsb_string_get_string_list_from_string (attribute_values[i],
+												 "/-/" ));
 	    i++;
 	    continue;
 	}
@@ -3773,41 +3787,56 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 	if ( attribute_names[i] )
 	{
-	    struct struct_type_ope *type;
+	    gint payment_number;
+	    gint last_number = 0;
+	    struct payment_conversion_struct *conversion;
 
-	    type = calloc ( 1,
-			    sizeof ( struct struct_type_ope ));
+	    payment_number = gsb_data_payment_new (NULL);
 
 	    do
 	    {
 		if ( !strcmp ( attribute_names[i],
 			       "No" ))
-		    type -> no_type = utils_str_atoi ( attribute_values[i] );
+		    /* we just save the last number to do the conversion later */
+		    last_number = utils_str_atoi (attribute_values[i]);
+
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
-		    type -> nom_type = my_strdup ( attribute_values[i] );
+		    gsb_data_payment_set_name ( payment_number, 
+						attribute_values[i]);
 		if ( !strcmp ( attribute_names[i],
 			       "Signe" ))
-		    type -> signe_type = utils_str_atoi ( attribute_values[i] );
+		    gsb_data_payment_set_sign ( payment_number,
+						utils_str_atoi (attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Affiche_entree" ))
-		    type -> affiche_entree = utils_str_atoi ( attribute_values[i] );
+		    gsb_data_payment_set_show_entry ( payment_number,
+						      utils_str_atoi (attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "Numerotation_auto" ))
-		    type -> numerotation_auto = utils_str_atoi ( attribute_values[i] );
+		    gsb_data_payment_set_automatic_numbering ( payment_number,
+							       utils_str_atoi (attribute_values[i]));
 		if ( !strcmp ( attribute_names[i],
 			       "No_en_cours" ))
-		    type -> no_en_cours = utils_str_atoi ( attribute_values[i] );
+		    gsb_data_payment_set_last_number ( payment_number,
+						       utils_str_atoi (attribute_values[i]));
 
 		i++;
 	    }
 	    while ( attribute_names[i] );
 
-	    type -> no_compte = account_number;
+	    /* before 0.6, account_number was not saved in the method of payment */
+	    gsb_data_payment_set_account_number ( payment_number,
+						  account_number );
 
-	    gsb_data_account_set_method_payment_list ( account_number,
-						  g_slist_append ( gsb_data_account_get_method_payment_list (account_number),
-								   type ));
+	    /* append a conversion structure */
+	    conversion = g_malloc (sizeof (struct payment_conversion_struct));
+	    conversion -> account_number = account_number;
+	    conversion -> last_payment_number = last_number;
+	    conversion -> new_payment_number = payment_number;
+	    payment_conversion_list = g_slist_append ( payment_conversion_list,
+						       conversion );
+
 	    return;
 	}
     }
@@ -5311,9 +5340,6 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Ordre_du_tri" ))
     {
-	gsb_data_account_set_sort_list ( account_number,
-					 NULL );
-
 	if (text)
 	{
 	    gchar **pointeur_char;
@@ -5327,9 +5353,8 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 
 	    while ( pointeur_char[i] )
 	    {
-		gsb_data_account_set_sort_list ( account_number,
-						 g_slist_append ( gsb_data_account_get_sort_list (account_number),
-								  GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] ))) );
+		gsb_data_account_sort_list_add ( account_number,
+						 utils_str_atoi ( pointeur_char[i] ));
 		i++;
 	    }
 	    g_strfreev ( pointeur_char );
@@ -5492,8 +5517,8 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 		   "Type_classement" ))
     {
 	gsb_data_report_set_sorting_type ( last_report_number,
-					   gsb_string_get_list_from_string ( text,
-									     "/" ));
+					   gsb_string_get_int_list_from_string ( text,
+										 "/" ));
 	return;
     }
 
@@ -6215,6 +6240,7 @@ gboolean gsb_file_load_update_previous_version ( void )
     GSList *list_tmp_transactions;
     GSList *list_tmp_scheduled;
     gint version_number;
+    gint account_number;
 
     version_number = utils_str_atoi ( g_strjoinv ( "",
 						   g_strsplit ( download_tmp_values.file_version,
@@ -6367,34 +6393,92 @@ gboolean gsb_file_load_update_previous_version ( void )
 		}
 	    } 
 
-	    /* a problem untill the 0.5.7 :
-	     * all new method of payment are not added to the sorting list for reconciliation,
-	     * we add them here */
+	    /* to go from 0.5.x to 0.6.x, there is a change in the method of payment :
+	     * before, they were saved in each account, and have for each accounts numbers 1, 2, 3...
+	     * now, they are saved in a general list and we must adapt the numbers to avoid several method of payments
+	     * 		with the same number
+	     * the change is done while downloading the file, all we need to do now is to change
+	     * the payment number of all the transactions and scheduled transactions to set the new number */
+	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+	    while ( list_tmp_transactions )
+	    {
+		gint transaction_number;
 
+		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+
+		gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+								    gsb_file_load_get_new_payment_number ( gsb_data_transaction_get_account_number (transaction_number),
+													   gsb_data_transaction_get_method_of_payment_number (transaction_number)));
+
+		list_tmp_transactions = list_tmp_transactions -> next;
+	    }
+
+	    /* do the same for scheduled transactions */
+	    list_tmp_scheduled = gsb_data_scheduled_get_scheduled_list ();
+	    while (list_tmp_scheduled)
+	    {
+		gint scheduled_number;
+		scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp_scheduled -> data);
+
+		gsb_data_scheduled_set_method_of_payment_number ( scheduled_number,
+								  gsb_file_load_get_new_payment_number ( gsb_data_scheduled_get_account_number (scheduled_number),
+													 gsb_data_scheduled_get_method_of_payment_number (scheduled_number)));
+
+		list_tmp_scheduled = list_tmp_scheduled -> next;
+	    }
+
+	    /* do the same for the sort list of accounts and default payment */
 	    list_tmp = gsb_data_account_get_list_accounts ();
-
 	    while ( list_tmp )
 	    {
-		GSList *method_payment_list;
+		GSList *sorted_list;
+		GSList *new_sorted_list = NULL;
 
-		i = gsb_data_account_get_no_account ( list_tmp -> data );
-		method_payment_list = gsb_data_account_get_method_payment_list ( i );
+		account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
-		while (method_payment_list)
+		gsb_data_account_set_default_debit ( account_number,
+						     gsb_file_load_get_new_payment_number ( account_number,
+											    gsb_data_account_get_default_debit (account_number)));
+		gsb_data_account_set_default_credit ( account_number,
+						      gsb_file_load_get_new_payment_number ( account_number,
+											     gsb_data_account_get_default_credit (account_number)));
+
+		sorted_list = gsb_data_account_get_sort_list (account_number);
+		while (sorted_list)
 		{
-		    struct struct_type_ope *type;
+		    gint new_number;
 
-		    type = method_payment_list -> data;
-		    
-		    if ( !g_slist_find ( gsb_data_account_get_sort_list (i),
-					 GINT_TO_POINTER (type -> no_type)))
-			/* FIXME before 0.6 : faire une fonction add pour les types opés et method of payment */
-			gsb_data_account_set_sort_list ( i,
-							 g_slist_append ( gsb_data_account_get_sort_list (i),
-									  GINT_TO_POINTER (type -> no_type)));
+		    new_number = gsb_file_load_get_new_payment_number ( account_number,
+									GPOINTER_TO_INT (sorted_list -> data));
+		    if (new_number)
+			new_sorted_list = g_slist_append ( new_sorted_list,
+							   GINT_TO_POINTER (new_number));
 
-		    method_payment_list = method_payment_list -> next;
+		    sorted_list = sorted_list -> next;
 		}
+		gsb_data_account_sort_list_free (account_number);
+		gsb_data_account_set_sort_list (account_number, new_sorted_list);
+
+		list_tmp = list_tmp -> next;
+	    }
+
+	    /* a problem untill the 0.5.7 :
+	     * all new method of payment are not added to the sorting list for reconciliation,
+	     * so check all the method of payment, and if 1 is not in the sorted list for its account */
+	    list_tmp = gsb_data_payment_get_payments_list ();
+	    while (list_tmp)
+	    {
+		gint payment_number;
+		GSList *sorted_list;
+		gint account_number;
+
+		payment_number = gsb_data_payment_get_number (list_tmp -> data);
+		account_number = gsb_data_payment_get_account_number (payment_number);
+		sorted_list = gsb_data_account_get_sort_list (account_number);
+		if ( !g_slist_find ( sorted_list,
+				     GINT_TO_POINTER (payment_number)))
+		    gsb_data_account_sort_list_add ( account_number,
+						     payment_number );
 		list_tmp = list_tmp -> next;
 	    }
 
@@ -6414,17 +6498,16 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    }
 
 	    list_tmp = gsb_data_account_get_list_accounts ();
-
 	    while ( list_tmp )
 	    {
-		i = gsb_data_account_get_no_account ( list_tmp -> data );
+		account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
 		/* set the new form organization */
-		gsb_data_form_new_organization (i);
-		gsb_data_form_set_default_organization (i);
+		gsb_data_form_new_organization (account_number);
+		gsb_data_form_set_default_organization (account_number);
 
 		/* 	   set the current sort by date and ascending sort */
-		init_default_sort_column (i);
+		init_default_sort_column (account_number);
 
 		list_tmp = list_tmp -> next;
 	    }
@@ -6437,7 +6520,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 	     * has a financial year an budget... bad things because makes errors in reports,
 	     * so change that here */
 
-	    /* another fix, some childrean of breakdown have not the same values of the mother
+	    /* another fix, some children of breakdown have not the same values of the mother
 	     * for some fields wich should be ; fix here */
 
 	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
@@ -6660,6 +6743,37 @@ gboolean gsb_file_load_update_previous_version ( void )
 
 
     return TRUE;
+}
+
+/**
+ * while going from 0.5.x to 0.6.x, there is a change of number of method of payment
+ * that function returns the new number of method of payment, from the last one and its account
+ * this is a temporary function wich should be removed the day when 0.5.x are not longer supported
+ *
+ * \param account_number
+ * \param payment_number
+ *
+ * \return the new number of payment or 0 if not found
+ * */
+gint gsb_file_load_get_new_payment_number ( gint account_number,
+					    gint payment_number )
+{
+    GSList *tmp_list;
+    
+    tmp_list = payment_conversion_list;
+    while (tmp_list)
+    {
+	struct payment_conversion_struct *conversion;
+
+	conversion = tmp_list -> data;
+
+	if ( conversion -> account_number == account_number
+	     &&
+	     conversion -> last_payment_number == payment_number )
+	    return conversion -> new_payment_number;
+	tmp_list = tmp_list -> next;
+    }
+    return 0;
 }
 
 

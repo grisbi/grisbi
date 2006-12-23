@@ -31,8 +31,6 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
-#include "gsb_data_transaction.h"
-#include "search_glist.h"
 #include "metatree.h"
 /*END_INCLUDE*/
 
@@ -51,26 +49,6 @@ extern MetatreeInterface * category_interface ;
 extern MetatreeInterface * payee_interface ;
 extern GtkTreeStore *payee_tree_model;
 /*END_EXTERN*/
-
-
-/*****************************************************************************************************/
-/* renvoie l'adr de l'opÃ© demandÃ©e par son no id*/
-/* ou NULL si pas trouvÃ©e */
-/*****************************************************************************************************/
-gpointer operation_par_id ( gchar *no_id,
-					       gint no_compte )
-{
-    GSList *liste_tmp;
-
-    liste_tmp = g_slist_find_custom ( gsb_data_transaction_get_transactions_list (),
-				      g_strstrip ( no_id ),
-				      (GCompareFunc) recherche_operation_par_id );
-
-    if ( liste_tmp )
-	return ( liste_tmp -> data );
-
-    return NULL;
-}
 
 
 

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     copyright (c)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2006 Benjamin Drieu (bdrieu@april.org) 	      */
+/*     copyright (c)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2007 Benjamin Drieu (bdrieu@april.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -24,250 +24,94 @@
  * \file gsb_payment_method_config.c
  * all that you need for the config of the payment method is here !!!
  */
-
 #include "include.h"
 
 /*START_INCLUDE*/
 #include "gsb_payment_method_config.h"
 #include "dialog.h"
 #include "gsb_reconcile_config.h"
-#include "gsb_automem.h"
+#include "gsb_autofunc.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
+#include "gsb_data_payment.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
 #include "gsb_payment_method.h"
+#include "gsb_transactions_list.h"
 #include "traitement_variables.h"
-#include "utils_str.h"
 #include "utils.h"
+#include "utils_str.h"
 #include "structures.h"
+#include "gsb_payment_method_config.h"
 #include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void ajouter_type_operation ( void );
-static void fill_payment_method_tree ();
-static gint find_operation_type_by_type ( gint no_compte, gint signe_type, gint exclude );
-static void modification_entree_nom_type ( void );
-static void modification_entree_type_dernier_no ( void );
-static void modification_type_numerotation_auto (void);
-static void modification_type_signe ( gint *no_menu );
-static void payment_method_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
-			      gpointer data );
-static gboolean select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *model );
-static gboolean select_type_ope ( GtkTreeModel *model, GtkTreePath *path, 
-			   GtkTreeIter *iter, struct struct_type_ope * data );
-static void supprimer_type_operation ( void );
+static gboolean gsb_payment_method_config_add ( GtkWidget *button,
+					 GtkWidget *tree_view );
+static gboolean gsb_payment_method_config_auto_button_changed ( GtkWidget *button,
+							 GtkWidget *tree_view );
+static gboolean gsb_payment_method_config_auto_entry_changed ( GtkWidget *spin_button,
+							GtkWidget *tree_view );
+static void gsb_payment_method_config_fill_list ( GtkTreeModel *model);
+static gboolean gsb_payment_method_config_foreach_select ( GtkTreeModel *model, GtkTreePath *path, 
+						    GtkTreeIter *iter, gint *payment_number_data );
+static gint gsb_payment_method_config_get_transaction_by_sign ( gint account_number,
+							 gint signe_type,
+							 gint exclude );
+static gboolean gsb_payment_method_config_name_changed ( GtkWidget *entry,
+						  GtkWidget *tree_view );
+static gboolean gsb_payment_method_config_remove ( GtkWidget *button,
+					    GtkWidget *tree_view );
+static gboolean gsb_payment_method_config_select ( GtkTreeSelection *selection,
+					    GtkWidget *tree_view );
+static gboolean gsb_payment_method_config_show_entry_changed ( GtkWidget *button,
+							GtkWidget *tree_view );
+static gboolean gsb_payment_method_config_sign_changed ( GtkWidget *menu_item,
+						  gint *sign );
+static gboolean gsb_payment_method_config_switch_payment ( gint payment_number );
+static gboolean gsb_payment_method_config_toggled ( GtkCellRendererToggle *cell,
+					     gchar *path_str,
+					     GtkTreeView *tree_view );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern GtkWidget *fenetre_preferences;
 extern GtkTreeSelection * selection;
+extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
-GtkWidget *payment_method_treeview;
+static GtkWidget *payment_method_treeview;
 
-GtkWidget *bouton_ajouter_type;
-GtkWidget *bouton_retirer_type;
-GtkWidget *entree_type_nom;
-GtkWidget *entree_type_dernier_no;
-GtkWidget *bouton_signe_type;
-GtkWidget *entree_automatic_numbering;
+static GtkWidget *payment_remove_button;
+static GtkWidget *payment_name_entry;
+static GtkWidget *payment_last_number_entry;
+static GtkWidget *payment_sign_button;
+static GtkWidget *button_auto_numbering;
+static GtkWidget *button_show_entry;
 
-static GtkTreeStore *model;
 
 /** Global to handle sensitiveness */
-GtkWidget * details_paddingbox;
-
-
-
-/* FIXME: document + move on bottom */
-void payment_method_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
-			      gpointer data )
-{
-    GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
-    GtkTreeIter iter, parent, child;
-    gboolean toggle_item;
-    struct struct_type_ope * type_ope;
-
-    /* get toggled iter */
-    gtk_tree_model_get_iter (GTK_TREE_MODEL(model), &iter, path);
-    gtk_tree_model_get (GTK_TREE_MODEL(model), &iter, 
-			PAYMENT_METHODS_DEFAULT_COLUMN, &toggle_item, 
-			PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
-			-1);
-
-    if (type_ope -> signe_type == 1) /* Débit */
-	gsb_data_account_set_default_debit ( type_ope -> no_compte,
-					type_ope -> no_type);
-    else if  (type_ope -> signe_type == 2) /* Crédit */
-	gsb_data_account_set_default_credit ( type_ope -> no_compte,
-					 type_ope -> no_type );
-
-    if (! toggle_item)
-    {
-	gtk_tree_model_iter_parent ( GTK_TREE_MODEL(model), &parent, &iter );
-
-	if ( gtk_tree_model_iter_children (GTK_TREE_MODEL(model), &child, &parent) )
-	{
-	    do 
-	    {
-		gtk_tree_store_set (GTK_TREE_STORE (model), &child, 
-				    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE, 
-				    -1);
-	    }
-	    while ( gtk_tree_model_iter_next (GTK_TREE_MODEL(model), &child) );
-	} 
-	else
-	{
-	    /* Should not happen theorically */
-	    dialogue_error_brain_damage () ;
-	}
-
-	/* set new value */
-	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
-			    PAYMENT_METHODS_DEFAULT_COLUMN, 1, 
-			    -1);
-    }
-
-    /* clean up */
-    gtk_tree_path_free (path);
-}
-
-
-
-/**
- * Fill the `model' GtkTreeModel with all payment methods known.  They
- * are organized by account and then my method_ptr of payment method: Debit,
- * Credit, Neutral.
- */
-void fill_payment_method_tree ()
-{
-    GtkTreeIter account_iter, debit_iter, credit_iter;
-    GSList *list_tmp;
-
-
-    /* Fill tree, iter over with accounts */
-
-    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint i;
-	GSList *tmp_list;
-
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	gtk_tree_store_append (model, &account_iter, NULL);
-	gtk_tree_store_set (model, &account_iter,
-			    PAYMENT_METHODS_NAME_COLUMN, gsb_data_account_get_name (i),
-			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
-			    /* This is a hack: account number is put in 
-			       Debit/Credit nodes */
-			    PAYMENT_METHODS_TYPE_COLUMN, i,
-			    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
-			    PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
-			    PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
-			    PAYMENT_METHODS_POINTER_COLUMN, NULL, 
-			    -1 );
-
-	/* Create the "Debit" node */
-	gtk_tree_store_append (model, &debit_iter, &account_iter);
-	gtk_tree_store_set (model, &debit_iter,
-			    PAYMENT_METHODS_NAME_COLUMN, _("Debit"),
-			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
-			    /* This is a hack: account number is put in 
-			       Debit/Credit nodes */
-			    PAYMENT_METHODS_TYPE_COLUMN, i,
-			    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
-			    PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
-			    PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
-			    PAYMENT_METHODS_POINTER_COLUMN, NULL, 
-			    -1 );
-
-	/* Create the "Debit" node */
-	gtk_tree_store_append (model, &credit_iter, &account_iter);
-	gtk_tree_store_set (model, &credit_iter,
-			    PAYMENT_METHODS_NAME_COLUMN, _("Credit"),
-			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
-			    /* This is a hack: account number is put in 
-			       Debit/Credit nodes */
-			    PAYMENT_METHODS_TYPE_COLUMN, i,
-			    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
-			    PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
-			    PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
-			    PAYMENT_METHODS_POINTER_COLUMN, NULL, 
-			    -1 );
-
-
-	/* Iter over account payment methods */
-	tmp_list = gsb_data_account_get_method_payment_list (i);
-
-	while ( tmp_list )
-	{
-	    struct struct_type_ope *type_ope;
-	    GtkTreeIter * parent_iter;
-	    GtkTreeIter method_iter;
-	    gboolean isdefault;
-	    gchar * number;
-
-	    type_ope = tmp_list->data;
-
-	    if ( type_ope -> no_type == gsb_data_account_get_default_debit (i)
-		 ||
-		 type_ope -> no_type == gsb_data_account_get_default_credit (i) )
-		isdefault = 1;
-	    else
-		isdefault = 0;
-
-	    if ( !type_ope -> signe_type )
-		parent_iter = &account_iter;
-	    else
-		if ( type_ope -> signe_type == 1 )
-		    parent_iter = &debit_iter;
-		else
-		    parent_iter = &credit_iter;
-
-	    if ( type_ope -> numerotation_auto )
-	    {
-		number = utils_str_itoa ( type_ope -> no_en_cours );
-	    }
-	    else
-	    {
-		number = "";
-	    }
-
-	    /* Insert a child node */
-	    gtk_tree_store_append (model, &method_iter, parent_iter);
-	    gtk_tree_store_set (model, &method_iter,
-				PAYMENT_METHODS_NAME_COLUMN, type_ope -> nom_type,
-				PAYMENT_METHODS_NUMBERING_COLUMN, number,
-				PAYMENT_METHODS_TYPE_COLUMN, type_ope -> signe_type,
-				PAYMENT_METHODS_DEFAULT_COLUMN, isdefault,
-				PAYMENT_METHODS_ACTIVABLE_COLUMN, type_ope->signe_type!=0,
-				PAYMENT_METHODS_VISIBLE_COLUMN, TRUE,
-				PAYMENT_METHODS_POINTER_COLUMN, type_ope,
-				-1 );
-
-	    tmp_list = tmp_list -> next;
-	}
-	list_tmp = list_tmp -> next;
-    }
-}
+static GtkWidget *details_paddingbox;
 
 
 /**
  * Creates the "Payment methods" tab.  It uses a nice GtkTreeView.
  *
+ * \param
+ *
  * \returns A newly allocated vbox
  */
-GtkWidget *onglet_types_operations ( void )
+GtkWidget *gsb_payment_method_config_create ( void )
 {
     GtkWidget *vbox_pref, *hbox, *scrolled_window, *paddingbox;
     GtkWidget *vbox, *table, *menu, *item, *label;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
+    GtkWidget *bouton_ajouter_type;
+    GtkTreeStore *payment_method_model;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Reconciliation"),
 					       "reconciliation.png" );
@@ -294,20 +138,21 @@ GtkWidget *onglet_types_operations ( void )
 			 TRUE, TRUE, 0 );
 
     /* Create tree view */
-    model = gtk_tree_store_new (NUM_PAYMENT_METHODS_COLUMNS,
-				G_TYPE_STRING,
-				G_TYPE_STRING,
-				G_TYPE_BOOLEAN,
-				G_TYPE_INT,
-				G_TYPE_BOOLEAN,
-				G_TYPE_BOOLEAN,
-				G_TYPE_POINTER);
-    payment_method_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (model) );
+    payment_method_model = gtk_tree_store_new (NUM_PAYMENT_METHODS_COLUMNS,
+					       G_TYPE_STRING,
+					       G_TYPE_STRING,
+					       G_TYPE_BOOLEAN,
+					       G_TYPE_INT,
+					       G_TYPE_BOOLEAN,
+					       G_TYPE_BOOLEAN,
+					       G_TYPE_INT,
+					       G_TYPE_INT );
+    payment_method_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (payment_method_model) );
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (payment_method_treeview), TRUE);
     g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview)), 
 		      "changed", 
-		      G_CALLBACK (select_payment_method),
-		      model);
+		      G_CALLBACK (gsb_payment_method_config_select),
+		      payment_method_treeview);
 
     /* Account */
     cell = gtk_cell_renderer_text_new ();
@@ -321,7 +166,7 @@ GtkWidget *onglet_types_operations ( void )
 
     /* Defaults */
     cell = gtk_cell_renderer_toggle_new ();
-    g_signal_connect (cell, "toggled", G_CALLBACK (payment_method_toggled), model);
+    g_signal_connect (cell, "toggled", G_CALLBACK (gsb_payment_method_config_toggled), payment_method_treeview);
     gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), TRUE );
     g_object_set (cell, "xalign", 0.5, NULL);
     column = gtk_tree_view_column_new ( );
@@ -351,7 +196,7 @@ GtkWidget *onglet_types_operations ( void )
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 			payment_method_treeview );
 
-    fill_payment_method_tree ();
+    gsb_payment_method_config_fill_list (GTK_TREE_MODEL (payment_method_model));
 
     /* Create "Add" & "Remove" buttons */
     vbox = gtk_vbox_new ( FALSE, 6 );
@@ -362,23 +207,23 @@ GtkWidget *onglet_types_operations ( void )
     bouton_ajouter_type = gtk_button_new_from_stock (GTK_STOCK_ADD);
     gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_type ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_ajouter_type ),
-			 "clicked",
-			 (GtkSignalFunc ) ajouter_type_operation,
-			 NULL );
+    g_signal_connect ( G_OBJECT ( bouton_ajouter_type ),
+		       "clicked",
+		       G_CALLBACK (gsb_payment_method_config_add),
+		       payment_method_treeview );
     gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_ajouter_type,
 			 TRUE, FALSE, 5 );
 
     /* "Remove payment method" button */
-    bouton_retirer_type = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-    gtk_button_set_relief ( GTK_BUTTON ( bouton_retirer_type ),
+    payment_remove_button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+    gtk_button_set_relief ( GTK_BUTTON ( payment_remove_button ),
 			    GTK_RELIEF_NONE );
-    gtk_widget_set_sensitive ( bouton_retirer_type, FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_retirer_type ),
-			 "clicked",
-			 (GtkSignalFunc ) supprimer_type_operation,
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_retirer_type,
+    gtk_widget_set_sensitive ( payment_remove_button, FALSE );
+    g_signal_connect ( G_OBJECT ( payment_remove_button ),
+		       "clicked",
+		       G_CALLBACK (gsb_payment_method_config_remove),
+		       payment_method_treeview );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), payment_remove_button,
 			 TRUE, FALSE, 5 );
 
     /* Payment method details */
@@ -387,7 +232,7 @@ GtkWidget *onglet_types_operations ( void )
     gtk_widget_set_sensitive ( details_paddingbox, FALSE );
 
     /* Payment method name */
-    table = gtk_table_new ( 2, 2, FALSE );
+    table = gtk_table_new ( 3, 3, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
     gtk_table_set_row_spacings ( GTK_TABLE ( table ), 6 );
     gtk_box_pack_start ( GTK_BOX ( details_paddingbox ), table,
@@ -400,11 +245,24 @@ GtkWidget *onglet_types_operations ( void )
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    entree_type_nom = gsb_automem_entry_new ( NULL, modification_entree_nom_type, NULL );
+    payment_name_entry = gsb_autofunc_entry_new ( NULL,
+					       G_CALLBACK (gsb_payment_method_config_name_changed), payment_method_treeview,
+					       G_CALLBACK (gsb_data_payment_set_name), 0 );
     gtk_table_attach ( GTK_TABLE ( table ),
-		       entree_type_nom, 1, 3, 0, 1,
+		       payment_name_entry, 1, 2, 0, 1,
 		       GTK_EXPAND | GTK_FILL, 0,
 		       0, 0 );
+
+    /* button show entry, automatic numbering button will be shown only if entry is showed */
+    button_show_entry = gsb_autofunc_checkbutton_new ( _("Need entry field"),
+						       FALSE,
+						       G_CALLBACK (gsb_payment_method_config_show_entry_changed), payment_method_treeview,
+						       G_CALLBACK (gsb_data_payment_set_show_entry), 0 );
+    gtk_table_attach ( GTK_TABLE ( table ),
+		       button_show_entry, 2, 3, 0, 1,
+		       GTK_SHRINK, 0,
+		       0, 0 );
+
 
     /* Automatic numbering */
     label = gtk_label_new ( COLON(_("Automatic numbering")) );
@@ -414,18 +272,21 @@ GtkWidget *onglet_types_operations ( void )
 		       label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    entree_type_dernier_no = gsb_automem_spin_button_new ( NULL,
-							   G_CALLBACK (modification_entree_type_dernier_no), NULL );
+    payment_last_number_entry = gsb_autofunc_spin_new ( 0,
+						     G_CALLBACK (gsb_payment_method_config_auto_entry_changed), payment_method_treeview,
+						     G_CALLBACK (gsb_data_payment_set_last_number), 0 );
     gtk_table_attach ( GTK_TABLE ( table ),
-		       entree_type_dernier_no, 1, 2, 1, 2,
+		       payment_last_number_entry, 1, 2, 1, 2,
 		       GTK_EXPAND | GTK_FILL, 0,
 		       0, 0 );
-    entree_automatic_numbering = 
-	gsb_automem_checkbutton_new (_("Activate"),
-				  NULL,
-				  G_CALLBACK (modification_type_numerotation_auto), NULL);
+
+    /* button automatic numbering, activate it sensitive the automatic numbering entry */
+    button_auto_numbering = gsb_autofunc_checkbutton_new ( _("Activate"),
+							   FALSE,
+							   G_CALLBACK (gsb_payment_method_config_auto_button_changed), payment_method_treeview,
+							   G_CALLBACK (gsb_data_payment_set_automatic_numbering), 0 );
     gtk_table_attach ( GTK_TABLE ( table ),
-		       entree_automatic_numbering, 2, 3, 1, 2,
+		       button_auto_numbering, 2, 3, 1, 2,
 		       GTK_SHRINK, 0,
 		       0, 0 );
 
@@ -439,33 +300,33 @@ GtkWidget *onglet_types_operations ( void )
 		       0, 0 );
 
     /* Create menu */
-    bouton_signe_type = gtk_option_menu_new ();
+    payment_sign_button = gtk_option_menu_new ();
     menu = gtk_menu_new();
     /* Neutral method_ptr */
     item = gtk_menu_item_new_with_label ( _("Neutral") );
-    gtk_signal_connect_object ( GTK_OBJECT ( item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( modification_type_signe ),
-				NULL );
+    g_signal_connect ( G_OBJECT ( item ),
+		       "activate",
+		       G_CALLBACK ( gsb_payment_method_config_sign_changed ),
+		       GINT_TO_POINTER (GSB_PAYMENT_NEUTRAL));
     gtk_menu_append ( GTK_MENU ( menu ), item );
     /* Debit method_ptr */
     item = gtk_menu_item_new_with_label ( _("Debit") );
-    gtk_signal_connect_object ( GTK_OBJECT ( item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( modification_type_signe ),
-				GINT_TO_POINTER (1) );
+    g_signal_connect ( G_OBJECT ( item ),
+		       "activate",
+		       G_CALLBACK ( gsb_payment_method_config_sign_changed ),
+		       GINT_TO_POINTER (GSB_PAYMENT_DEBIT));
     gtk_menu_append ( GTK_MENU ( menu ), item );
     /* Credit method_ptr */
     item = gtk_menu_item_new_with_label ( _("Credit") );
-    gtk_signal_connect_object ( GTK_OBJECT ( item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( modification_type_signe ),
-				GINT_TO_POINTER (2) );
+    g_signal_connect ( G_OBJECT ( item ),
+		       "activate",
+		       G_CALLBACK ( gsb_payment_method_config_sign_changed ),
+		       GINT_TO_POINTER (GSB_PAYMENT_CREDIT));
     gtk_menu_append ( GTK_MENU ( menu ), item );
     /* Set menu */
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_signe_type ), menu );
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( payment_sign_button ), menu );
     gtk_table_attach ( GTK_TABLE ( table ),
-		       bouton_signe_type, 1, 3, 2, 3,
+		       payment_sign_button, 1, 3, 2, 3,
 		       GTK_EXPAND | GTK_FILL, 0,
 		       0, 0 );
 
@@ -480,222 +341,255 @@ GtkWidget *onglet_types_operations ( void )
 
 
 /**
+ * Fill the `model' GtkTreeModel with all payment methods known.  They
+ * are organized by account and then my method_ptr of payment method: Debit,
+ * Credit, Neutral.
+ *
+ *  \param model
+ *
+ *  \return
+ */
+void gsb_payment_method_config_fill_list ( GtkTreeModel *model)
+{
+    GSList *list_tmp;
+
+    gtk_tree_store_clear ( GTK_TREE_STORE (model) );
+
+    /* Fill tree, iter over with accounts */
+    list_tmp = gsb_data_account_get_list_accounts ();
+
+    while ( list_tmp )
+    {
+	gint account_number;
+	GSList *payment_list;
+	GtkTreeIter account_iter, debit_iter, credit_iter;
+
+	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+
+	gtk_tree_store_append (GTK_TREE_STORE (model), &account_iter, NULL);
+	gtk_tree_store_set (GTK_TREE_STORE (model), &account_iter,
+			    PAYMENT_METHODS_NAME_COLUMN, gsb_data_account_get_name (account_number),
+			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
+			    PAYMENT_METHODS_TYPE_COLUMN, 0,
+			    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
+			    PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
+			    PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
+			    PAYMENT_METHODS_NUMBER_COLUMN, NULL, 
+			    PAYMENT_METHODS_ACCOUNT_COLUMN, account_number,
+			    -1 );
+
+	/* Create the "Debit" node */
+	gtk_tree_store_append (GTK_TREE_STORE (model), &debit_iter, &account_iter);
+	gtk_tree_store_set (GTK_TREE_STORE (model), &debit_iter,
+			    PAYMENT_METHODS_NAME_COLUMN, _("Debit"),
+			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
+			    PAYMENT_METHODS_TYPE_COLUMN, 0,
+			    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
+			    PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
+			    PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
+			    PAYMENT_METHODS_NUMBER_COLUMN, NULL, 
+			    PAYMENT_METHODS_ACCOUNT_COLUMN, account_number,
+			    -1 );
+
+	/* Create the "Debit" node */
+	gtk_tree_store_append (GTK_TREE_STORE (model), &credit_iter, &account_iter);
+	gtk_tree_store_set (GTK_TREE_STORE (model), &credit_iter,
+			    PAYMENT_METHODS_NAME_COLUMN, _("Credit"),
+			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
+			    /* This is a hack: account number is put in 
+			       Debit/Credit nodes */
+			    PAYMENT_METHODS_TYPE_COLUMN, 0,
+			    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
+			    PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
+			    PAYMENT_METHODS_VISIBLE_COLUMN, FALSE, 
+			    PAYMENT_METHODS_NUMBER_COLUMN, NULL, 
+			    PAYMENT_METHODS_ACCOUNT_COLUMN, account_number,
+			    -1 );
+
+
+	/* Iter over account payment methods */
+	payment_list = gsb_data_payment_get_payments_list ();
+	while (payment_list)
+	{
+	    gint payment_number;
+	    GtkTreeIter *parent_iter = NULL;
+	    GtkTreeIter method_iter;
+	    gboolean isdefault;
+	    gchar *number;
+
+	    payment_number = gsb_data_payment_get_number (payment_list -> data);
+
+	    /* check if we have to show this payment here */
+	    if (gsb_data_payment_get_account_number (payment_number) != account_number)
+	    {
+		payment_list = payment_list -> next;
+		continue;
+	    }
+
+	    /* set if default value */
+	    if ( payment_number == gsb_data_account_get_default_debit (account_number)
+		 ||
+		 payment_number == gsb_data_account_get_default_credit (account_number) )
+		isdefault = 1;
+	    else
+		isdefault = 0;
+
+	    /* look for the parent iter according to the sign */
+	    switch (gsb_data_payment_get_sign (payment_number))
+	    {
+		case GSB_PAYMENT_NEUTRAL:
+		    parent_iter = &account_iter;
+		    break;
+		case GSB_PAYMENT_DEBIT:
+		    parent_iter = &debit_iter;
+		    break;
+		case GSB_PAYMENT_CREDIT:
+		    parent_iter = &credit_iter;
+		    break;
+	    }
+
+	    /* set the last number */
+	    if ( gsb_data_payment_get_automatic_numbering (payment_number))
+		number = utils_str_itoa (gsb_data_payment_get_last_number (payment_number));
+	    else
+		number = "";
+
+	    /* Insert a child node */
+	    gtk_tree_store_append (GTK_TREE_STORE (model), &method_iter, parent_iter);
+	    gtk_tree_store_set (GTK_TREE_STORE (model), &method_iter,
+				PAYMENT_METHODS_NAME_COLUMN, gsb_data_payment_get_name (payment_number),
+				PAYMENT_METHODS_NUMBERING_COLUMN, number,
+				PAYMENT_METHODS_TYPE_COLUMN, gsb_data_payment_get_sign (payment_number),
+				PAYMENT_METHODS_DEFAULT_COLUMN, isdefault,
+				PAYMENT_METHODS_ACTIVABLE_COLUMN, gsb_data_payment_get_sign (payment_number) != 0,
+				PAYMENT_METHODS_VISIBLE_COLUMN, gsb_data_payment_get_sign (payment_number) != 0,
+				PAYMENT_METHODS_NUMBER_COLUMN, payment_number,
+				PAYMENT_METHODS_ACCOUNT_COLUMN, account_number,
+				-1 );
+
+	    payment_list = payment_list -> next;
+	}
+	list_tmp = list_tmp -> next;
+    }
+}
+
+
+/**
  * Callback used when a payment method is selected in payment methods
  * list.
+ *
+ * \param selection the tree selection
+ * \param tree_view
+ *
+ * \return FALSE
  */
-gboolean select_payment_method ( GtkTreeSelection *selection, GtkTreeModel *model )
+gboolean gsb_payment_method_config_select ( GtkTreeSelection *selection,
+					    GtkWidget *tree_view )
 {
     GtkTreeIter iter;
-    GValue value_visible = {0, };
     gboolean good;
 
     good = gtk_tree_selection_get_selected (selection, NULL, &iter);
     if (good)
-	gtk_tree_model_get_value (model, &iter, 
-				  PAYMENT_METHODS_VISIBLE_COLUMN, &value_visible);
+    {
+	GtkTreeModel *model;
+	gint payment_number;
 
-    if (! good ||
-	! g_value_get_boolean(&value_visible))
-    {
-	/* Blanking entries */
-	gsb_automem_entry_set_value ( entree_type_nom, NULL );
-	gsb_automem_spin_button_set_value ( entree_type_dernier_no, NULL );
-	gtk_entry_set_text ( GTK_ENTRY ( entree_type_dernier_no ), "" );
-	gsb_automem_checkbutton_set_value ( entree_automatic_numbering, NULL );
-	/* Some widgets are useless */
-	gtk_widget_set_sensitive ( entree_type_dernier_no, FALSE );
-	gtk_widget_set_sensitive ( details_paddingbox, FALSE );
-	/* We set menu to "Neutral" as a default*/
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ), 0);	
-	/* Nothing to remove */
-	gtk_widget_set_sensitive ( bouton_retirer_type, TRUE );
-    }
-    else
-    {
-	struct struct_type_ope * type_ope;
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
 	gtk_tree_model_get (model, &iter, 
-			    PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
-			    -1);
-	/* Filling entries */
-	gsb_automem_entry_set_value ( entree_type_nom, &(type_ope -> nom_type) );
-	gsb_automem_spin_button_set_value ( entree_type_dernier_no, &(type_ope -> no_en_cours) );
-	gsb_automem_checkbutton_set_value ( entree_automatic_numbering, 
-			     &(type_ope -> numerotation_auto));
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_signe_type ),
-				      type_ope -> signe_type );
-	/* Activating widgets */
-	gtk_widget_set_sensitive ( details_paddingbox, TRUE );
-	gtk_widget_set_sensitive ( entree_type_dernier_no, 
-				   type_ope -> numerotation_auto != 0 );
-	/* We can remove this entry */
-	gtk_widget_set_sensitive ( bouton_retirer_type, TRUE );
-    }
-    return ( FALSE );
-}
+			    PAYMENT_METHODS_NUMBER_COLUMN, &payment_number,
+			    -1 );
 
-
-/**
- * Callback called when the payment method name is changed in the
- * GtkEntry associated.  It updates the GtkTreeView list of payment
- * methods as well as it updates transaction form.
- */
-void modification_entree_nom_type ( void )
-{
-    struct struct_type_ope *type_ope;
-    GtkTreeSelection *selection;
-    GtkTreeIter iter;
-    gboolean good, visible;
-
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview));
-    good = gtk_tree_selection_get_selected (selection, NULL, &iter);
-
-    if (good)
-	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
-			     PAYMENT_METHODS_VISIBLE_COLUMN, &visible,
-			     PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
-			     -1 );
-
-    if (good && visible)
-    {
-	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
-			    PAYMENT_METHODS_NAME_COLUMN, type_ope -> nom_type, 
-			    -1);
-	fill_reconciliation_tree ();
-	
-
-	if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE ))
+	if (payment_number )
 	{
-	    GtkWidget *widget;
-	    gint account_number;
+	    gtk_widget_set_sensitive ( details_paddingbox, TRUE );
 
-	    account_number = gsb_form_get_account_number ();
-	    widget = gsb_form_widget_get_widget (TRANSACTION_FORM_TYPE);
+	    /* Filling entries */
+	    gsb_autofunc_entry_set_value ( payment_name_entry,
+					   gsb_data_payment_get_name (payment_number),
+					   payment_number );
+	    gsb_autofunc_spin_set_value ( payment_last_number_entry,
+					  gsb_data_payment_get_last_number (payment_number),
+					  payment_number );
+	    gsb_autofunc_checkbutton_set_value ( button_show_entry,
+						 gsb_data_payment_get_show_entry (payment_number),
+						 payment_number );
+	    gsb_autofunc_checkbutton_set_value ( button_auto_numbering,
+						 gsb_data_payment_get_automatic_numbering (payment_number),
+						 payment_number );
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( payment_sign_button ),
+					  gsb_data_payment_get_sign (payment_number));
+	    /* Activating widgets */
+	    gtk_widget_set_sensitive ( button_auto_numbering,
+				       gsb_data_payment_get_show_entry (payment_number));
+	    gtk_widget_set_sensitive ( payment_last_number_entry, 
+				       gsb_data_payment_get_automatic_numbering (payment_number));
+	    /* We can remove this entry */
+	    gtk_widget_set_sensitive ( payment_remove_button, TRUE );
+	}
+	else
+	{
+	    /* Blanking entries */
+	    gsb_autofunc_entry_set_value ( payment_name_entry, NULL, 0);
+	    gsb_autofunc_spin_set_value ( payment_last_number_entry, 0, 0 );
+	    gsb_autofunc_checkbutton_set_value ( button_show_entry, FALSE, 0 );
+	    gsb_autofunc_checkbutton_set_value ( button_auto_numbering, FALSE, 0 );
+	    /* Some widgets are useless */
+	    gtk_widget_set_sensitive ( button_auto_numbering, FALSE );
+	    gtk_widget_set_sensitive ( payment_last_number_entry, FALSE );
+	    /* We set menu to "Neutral" as a default*/
+	    gtk_option_menu_set_history ( GTK_OPTION_MENU ( payment_sign_button ), 0);	
+	    /* Nothing to remove */
+	    gtk_widget_set_sensitive ( payment_remove_button, TRUE );
 
-	    if (widget)
-	    {
-		gsb_payment_method_create_combo_list ( widget,
-						       GSB_PAYMENT_DEBIT,
-						       account_number);
-
-		if (GTK_WIDGET_VISIBLE (widget))
-		{
-		    gsb_payment_method_set_combobox_history ( widget,
-							      gsb_data_account_get_default_debit (account_number),
-							      account_number );
-		}
-		else
-		{
-		    gtk_widget_hide ( gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
-		}
-	    }
+	    gtk_widget_set_sensitive ( details_paddingbox, FALSE );
 	}
     }
-}
-
-
-
-/**
- * Callback called when automatic numbering is activated or
- * deactivated for current payment method.  It activates or
- * deactivates the "current number" field and updates display of
- * current number in the list.
- */
-void modification_type_numerotation_auto (void)
-{
-    struct struct_type_ope *type_ope;
-    GtkTreeSelection * selection;
-    gboolean good, visible;
-    GtkTreeIter iter;
-
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview));
-    good = gtk_tree_selection_get_selected (selection, NULL, &iter);
-
-    gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
-			 PAYMENT_METHODS_VISIBLE_COLUMN, &visible,
-			 PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
-			 -1 );
-
-    if (!good || !visible)
-	return; /* Should not theorically happen, though */
-
-    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( entree_automatic_numbering )))
-    {
-	type_ope -> numerotation_auto = 1;
-	type_ope -> affiche_entree = 1;
-	gtk_widget_set_sensitive ( entree_type_dernier_no, TRUE );
-	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
-			    PAYMENT_METHODS_NUMBERING_COLUMN, 
-			    gsb_payment_method_get_automatic_current_number(type_ope), 
-			    -1);
-    }
     else
     {
-	type_ope -> numerotation_auto = 0;
-	type_ope -> affiche_entree = 0;
-	gtk_widget_set_sensitive ( entree_type_dernier_no, FALSE );
-	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
-			    PAYMENT_METHODS_NUMBERING_COLUMN, "", 
-			    -1);
+	/* Blanking entries */
+	gsb_autofunc_entry_set_value ( payment_name_entry, NULL, 0);
+	gsb_autofunc_spin_set_value ( payment_last_number_entry, 0, 0 );
+	gsb_autofunc_checkbutton_set_value ( button_show_entry, FALSE, 0 );
+	gsb_autofunc_checkbutton_set_value ( button_auto_numbering, FALSE, 0 );
+	/* Some widgets are useless */
+	gtk_widget_set_sensitive ( button_auto_numbering, FALSE );
+	gtk_widget_set_sensitive ( payment_last_number_entry, FALSE );
+	/* We set menu to "Neutral" as a default*/
+	gtk_option_menu_set_history ( GTK_OPTION_MENU ( payment_sign_button ), 0);	
+	/* Nothing to remove */
+	gtk_widget_set_sensitive ( payment_remove_button, TRUE );
+
+	gtk_widget_set_sensitive ( details_paddingbox, FALSE );
     }
-}
-
-
-/**
- * Callback called when the GtkSpinButton corresponding to the last
- * automatic number of the payment method is changed.  It updates the
- * list.
- */
-void modification_entree_type_dernier_no ( void )
-{
-    struct struct_type_ope *type_ope;
-    GtkTreeSelection *selection;
-    GtkTreeIter iter;
-    gboolean good, visible;
-
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview));
-    good = gtk_tree_selection_get_selected (selection, NULL, &iter);
-
-    gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
-			 PAYMENT_METHODS_VISIBLE_COLUMN, &visible,
-			 PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
-			 -1 );
-
-    if (good && visible)
-    {
-	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
-			    PAYMENT_METHODS_NUMBERING_COLUMN, 
-			    gsb_payment_method_get_automatic_current_number ( type_ope ),
-			    -1);
-
-	fill_reconciliation_tree ();
-    }
+   return ( FALSE );
 }
 
 
 /**
  * This is a GtkTreeModelForeachFunc function.  It is used together
  * with gtk_tree_model_foreach() to search for `data' in the list.
- * Upon success, select_type_ope() also scrolls on current entry.
+ * Upon success, gsb_payment_method_config_foreach_select() also scrolls on current entry.
  *
  * \param model A pointer to the GtkTreeModel of the list.
  * \param path A GtkTreePath set to the current entry.
  * \param iter A GtkTreeIter set to the current entry.
- * \param data The struct_type_ope to match with current entry.
+ * \param payment_number_data The payment number to match with current entry.
  *
  * \returns TRUE on success, which means gtk_tree_model_foreach() will
  *          stop browsing the tree.  FALSE otherwise.
  */
-gboolean select_type_ope ( GtkTreeModel *model, GtkTreePath *path, 
-			   GtkTreeIter *iter, struct struct_type_ope * data )
+gboolean gsb_payment_method_config_foreach_select ( GtkTreeModel *model, GtkTreePath *path, 
+						    GtkTreeIter *iter, gint *payment_number_data )
 {
     GtkTreeSelection *selection;
-    struct struct_type_ope *type_ope;
+    gint payment_number;
 
     gtk_tree_model_get ( GTK_TREE_MODEL(model), iter, 
-			 PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
+			 PAYMENT_METHODS_NUMBER_COLUMN, &payment_number,
 			 -1 );
 
-    if (type_ope == data)
+    if (payment_number == GPOINTER_TO_INT (payment_number_data))
     {
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview));
 	gtk_tree_selection_select_iter (selection, iter);
@@ -708,33 +602,320 @@ gboolean select_type_ope ( GtkTreeModel *model, GtkTreePath *path,
 }
 
 
+/**
+ * Callback called when toggle the default payment method
+ *
+ * \param cell
+ * \param path_str
+ * \param tree_view
+ *
+ * \return FALSE
+ * */
+gboolean gsb_payment_method_config_toggled ( GtkCellRendererToggle *cell,
+					     gchar *path_str,
+					     GtkTreeView *tree_view )
+{
+    GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
+    GtkTreeIter iter, parent, child;
+    gboolean toggle_item;
+    gint payment_number;
+    GtkTreeModel *model;
+
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+
+    /* get toggled iter */
+    gtk_tree_model_get_iter (GTK_TREE_MODEL(model), &iter, path);
+    gtk_tree_model_get (GTK_TREE_MODEL(model), &iter, 
+			PAYMENT_METHODS_DEFAULT_COLUMN, &toggle_item, 
+			PAYMENT_METHODS_NUMBER_COLUMN, &payment_number,
+			-1);
+
+    if (gsb_data_payment_get_sign (payment_number) == GSB_PAYMENT_DEBIT)
+	gsb_data_account_set_default_debit ( gsb_data_payment_get_account_number (payment_number),
+					     payment_number );
+    else
+    {
+	if (gsb_data_payment_get_sign (payment_number) == GSB_PAYMENT_CREDIT)
+	    gsb_data_account_set_default_credit (gsb_data_payment_get_account_number (payment_number),
+						 payment_number );
+    }
+
+    if (! toggle_item)
+    {
+	gtk_tree_model_iter_parent ( GTK_TREE_MODEL(model), &parent, &iter );
+
+	if ( gtk_tree_model_iter_children (GTK_TREE_MODEL(model), &child, &parent) )
+	{
+	    do 
+	    {
+		gtk_tree_store_set (GTK_TREE_STORE (model), &child, 
+				    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE, 
+				    -1);
+	    }
+	    while ( gtk_tree_model_iter_next (GTK_TREE_MODEL(model), &child) );
+	} 
+	else
+	{
+	    /* Should not happen theorically */
+	    dialogue_error_brain_damage () ;
+	}
+
+	/* set new value */
+	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
+			    PAYMENT_METHODS_DEFAULT_COLUMN, 1, 
+			    -1);
+    }
+
+    /* clean up */
+    gtk_tree_path_free (path);
+    modification_fichier (TRUE);
+    return FALSE;
+}
+
+
+
+/**
+ * Callback called when the payment method name is changed in the
+ * GtkEntry associated.  It updates the GtkTreeView list of payment
+ * methods as well as it updates transaction form.
+ *
+ * \param entry the entry changed (payment method name)
+ * \param tree_view
+ *
+ * \return FALSE
+ */
+gboolean gsb_payment_method_config_name_changed ( GtkWidget *entry,
+						  GtkWidget *tree_view )
+{
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    gboolean good;
+
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+    good = gtk_tree_selection_get_selected (selection, NULL, &iter);
+
+    if (good)
+    {
+	GtkTreeModel *model;
+	gint payment_number;
+
+	model = gtk_tree_view_get_model ( GTK_TREE_VIEW (tree_view));
+	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
+			     PAYMENT_METHODS_NUMBER_COLUMN, &payment_number,
+			     -1 );
+
+	if (payment_number)
+	{
+	    /* update the tree view */
+	    gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
+				PAYMENT_METHODS_NAME_COLUMN, gsb_data_payment_get_name (payment_number), 
+				-1);
+	    fill_reconciliation_tree ();
+
+
+	    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE ))
+	    {
+		GtkWidget *widget;
+		gint account_number;
+
+		account_number = gsb_form_get_account_number ();
+		widget = gsb_form_widget_get_widget (TRANSACTION_FORM_TYPE);
+
+		if (widget)
+		{
+		    gsb_payment_method_create_combo_list ( widget,
+							   GSB_PAYMENT_DEBIT,
+							   account_number, 0);
+
+		    if (GTK_WIDGET_VISIBLE (widget))
+		    {
+			gsb_payment_method_set_combobox_history ( widget,
+								  gsb_data_account_get_default_debit (account_number),
+								  account_number );
+		    }
+		    else
+		    {
+			gtk_widget_hide ( gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
+		    }
+		}
+	    }
+	    /* update the transactions list */
+	    gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_TYPE);
+	}
+    }
+    return FALSE;
+}
+
+
+/**
+ * Callback called when show entry  is activated or
+ * deactivated for current payment method.  It activates or
+ * deactivates the automatic numbering button
+ *
+ * \param button the checkbutton wich send the signal
+ * \param tree_view
+ *
+ * \return FALSE
+ */
+gboolean gsb_payment_method_config_show_entry_changed ( GtkWidget *button,
+							GtkWidget *tree_view )
+{
+    GtkTreeSelection * selection;
+    gboolean good;
+    GtkTreeIter iter;
+
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+    good = gtk_tree_selection_get_selected (selection, NULL, &iter);
+
+    if (good)
+    {
+	GtkTreeModel *model;
+	gint payment_number;
+
+	model = gtk_tree_view_get_model ( GTK_TREE_VIEW (tree_view));
+	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
+			     PAYMENT_METHODS_NUMBER_COLUMN, &payment_number,
+			     -1 );
+	if (payment_number )
+	    gtk_widget_set_sensitive ( button_auto_numbering,
+				       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (button_show_entry)));
+    }
+    return FALSE;
+}
+
+
+/**
+ * Callback called when automatic numbering is activated or
+ * deactivated for current payment method.  It activates or
+ * deactivates the "current number" field and updates display of
+ * current number in the list.
+ *
+ * \param button the checkbutton wich send the signal
+ * \param tree_view
+ *
+ * \return FALSE
+ */
+gboolean gsb_payment_method_config_auto_button_changed ( GtkWidget *button,
+							 GtkWidget *tree_view )
+{
+    GtkTreeSelection * selection;
+    gboolean good;
+    GtkTreeIter iter;
+
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+    good = gtk_tree_selection_get_selected (selection, NULL, &iter);
+
+    if (good)
+    {
+	GtkTreeModel *model;
+	gint payment_number;
+
+	model = gtk_tree_view_get_model ( GTK_TREE_VIEW (tree_view));
+	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
+			     PAYMENT_METHODS_NUMBER_COLUMN, &payment_number,
+			     -1 );
+
+	if (payment_number)
+	{
+	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_auto_numbering )))
+	    {
+		gtk_widget_set_sensitive ( payment_last_number_entry, TRUE );
+		gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
+				    PAYMENT_METHODS_NUMBERING_COLUMN, 
+				    gsb_data_payment_get_last_number (payment_number), 
+				    -1);
+	    }
+	    else
+	    {
+		gtk_widget_set_sensitive ( payment_last_number_entry, FALSE );
+		gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
+				    PAYMENT_METHODS_NUMBERING_COLUMN, "", 
+				    -1);
+	    }
+	}
+    }
+    return FALSE;
+}
+
+
+/**
+ * Callback called when the GtkSpinButton corresponding to the last
+ * automatic number of the payment method is changed.  It updates the
+ * list.
+ *
+ * \param spin_button
+ * \param tree_view
+ * 
+ * \return FALSE
+ * 
+ */
+gboolean gsb_payment_method_config_auto_entry_changed ( GtkWidget *spin_button,
+							GtkWidget *tree_view )
+{
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    gboolean good;
+
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+    good = gtk_tree_selection_get_selected (selection, NULL, &iter);
+
+    if (good)
+    {
+	GtkTreeModel *model;
+	gint payment_number;
+
+	model = gtk_tree_view_get_model ( GTK_TREE_VIEW (tree_view));
+	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
+			     PAYMENT_METHODS_NUMBER_COLUMN, &payment_number,
+			     -1 );
+	if (payment_number)
+	    gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
+				PAYMENT_METHODS_NUMBERING_COLUMN, 
+				utils_str_itoa (gsb_data_payment_get_last_number (payment_number)),
+				-1);
+    }
+    return FALSE;
+}
+
+
 
 /**
  * This function looks for a method of payment which matches
  * `signe_type' and returns its number.
  *
- * \param no_compte	The account to process.
+ * \param account_number	The account to process.
  * \param signe_type	A payment method sign to match against payment
  *			methods of specified account.
+ *			(GSB_PAYMENT_NEUTRAL, GSB_PAYMENT_DEBIT, GSB_PAYMENT_CREDIT)
  * \param exclude	A payment method that should not be checked,
  *			as it may be the one which is to be removed.
  *
  * \return		The matching payment method number on success, 
  *			0 otherwise (for transfer).
  */
-gint find_operation_type_by_type ( gint no_compte, gint signe_type, gint exclude )
+gint gsb_payment_method_config_get_transaction_by_sign ( gint account_number,
+							 gint signe_type,
+							 gint exclude )
 {
-    GSList * pointer;
+    GSList *tmp_list;
 
-    for ( pointer = gsb_data_account_get_method_payment_list (no_compte); pointer; pointer = pointer -> next )
+    tmp_list = gsb_data_payment_get_payments_list ();
+
+    while (tmp_list)
     {
-	struct struct_type_ope * type_ope;
-	type_ope = (struct struct_type_ope *) pointer -> data;
+	gint payment_number;
 
-	if ( type_ope -> signe_type == signe_type &&
-	     type_ope -> no_type != exclude )
-	    return type_ope -> no_type;
-    }
+	payment_number = gsb_data_payment_get_number (tmp_list -> data);
+
+	if ( gsb_data_payment_get_account_number (payment_number) == account_number
+	     &&
+	     payment_number != exclude
+	     &&
+	     gsb_data_payment_get_sign (payment_number) == signe_type )
+	    return payment_number;
+
+	tmp_list = tmp_list -> next;
+    };
 
     /* Defaults to first method_ptr, whatever it may be */
     return 0;
@@ -742,154 +923,171 @@ gint find_operation_type_by_type ( gint no_compte, gint signe_type, gint exclude
 
 
 /**
- * TODO: document this
+ * callback called when changing the sign type of the method of payment
+ *
+ * \param menu_item the widget wich receive the signal
+ * \param sign a pointer to an int : GSB_PAYMENT_NEUTRAL, GSB_PAYMENT_DEBIT or GSB_PAYMENT_CREDIT
+ *
+ * \return FALSE
  */
-void modification_type_signe ( gint *no_menu )
+gboolean gsb_payment_method_config_sign_changed ( GtkWidget *menu_item,
+						  gint *sign )
 {
-    struct struct_type_ope *type_ope;
     GtkTreeSelection *selection;
     GtkTreeIter iter;
-    gboolean good, visible;
+    gboolean good;
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview));
     good = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
     if (good)
+    {
+	GtkTreeModel *model;
+	gint payment_number;
+
+	model = gtk_tree_view_get_model ( GTK_TREE_VIEW (payment_method_treeview));
 	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
-			     PAYMENT_METHODS_VISIBLE_COLUMN, &visible,
-			     PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
+			     PAYMENT_METHODS_NUMBER_COLUMN, &payment_number,
 			     -1 );
 
-    if (good && visible)
-    {
-
-	/* FIXME: Set default for account */
-
-	/* Call this callback so that we "unselect" things */
-	select_payment_method ( selection, GTK_TREE_MODEL(model) );
-
-	switch (type_ope -> signe_type)
+	if (payment_number)
 	{
-	    case 1:			/* Debit */
-		if ( gsb_data_account_get_default_debit (type_ope -> no_compte) == type_ope -> no_type)
-		{
-		    gsb_data_account_set_default_debit ( type_ope -> no_compte,
-						    find_operation_type_by_type (type_ope->no_compte,
-										 type_ope->signe_type,
-										 type_ope->no_type));
-		}
-		break;
+	    gint account_number;
 
-	    case 2:			/* Credit */
-		if ( gsb_data_account_get_default_credit (type_ope -> no_compte) == type_ope -> no_type)
-		{
-		    gsb_data_account_set_default_credit ( type_ope -> no_compte,
-						     find_operation_type_by_type (type_ope->no_compte,
-										  type_ope->signe_type,
-										  type_ope->no_type) );
-		}
-		break;
+	    /* Call this callback so that we "unselect" things */
+	    gsb_payment_method_config_select ( selection, payment_method_treeview);
 
-	    default:
-		break;		/* Other */
+	    account_number = gsb_data_payment_get_account_number (payment_number);
+
+	    /* as we have changed the sign of the method of payment, check if it was the default
+	     * for the account, and if yes, change the default for that account */
+	    switch (gsb_data_payment_get_sign (payment_number))
+	    {
+		case GSB_PAYMENT_DEBIT:
+		    if ( gsb_data_account_get_default_debit (account_number) == payment_number)
+		    {
+			/* the current method of payment was a debit and was the default debit for its account,
+			 * so change the default to another debit */
+			gsb_data_account_set_default_debit ( account_number,
+							     gsb_payment_method_config_get_transaction_by_sign (account_number,
+											  GSB_PAYMENT_DEBIT,
+											  payment_number));
+		    }
+		    break;
+
+		case GSB_PAYMENT_CREDIT:
+		    if ( gsb_data_account_get_default_credit (account_number) == payment_number)
+		    {
+			/* the current method of payment was a credit and was the default credit for its account,
+			 * so change the default to another credit */
+			gsb_data_account_set_default_credit ( account_number,
+							      gsb_payment_method_config_get_transaction_by_sign (account_number,
+											   GSB_PAYMENT_CREDIT,
+											   payment_number));
+		    }
+		    break;
+	    }
+	    gsb_data_payment_set_sign ( payment_number,
+					GPOINTER_TO_INT (sign));
+
+	    /* Update tree */
+	    g_signal_handlers_block_by_func ( selection,
+					      G_CALLBACK (gsb_payment_method_config_select),
+					      model );
+	    gsb_payment_method_config_fill_list (model);
+	    gtk_tree_view_expand_all ( GTK_TREE_VIEW(payment_method_treeview) );
+	    g_signal_handlers_unblock_by_func ( selection,
+						G_CALLBACK (gsb_payment_method_config_select),
+						model );
+	    gtk_tree_model_foreach ( GTK_TREE_MODEL (model), 
+				     (GtkTreeModelForeachFunc) gsb_payment_method_config_foreach_select,
+				     GINT_TO_POINTER (payment_number));
+	    /* need to change the reconciliation tree becaus if it was a neutral changing to credit/debit
+	     * and neutral was split... */
+	    fill_reconciliation_tree ();
+	    /* xxx verif ici si on change un neutral splité en debit par ex, il faut surement refaire la liste du sort */
 	}
-
-	type_ope -> signe_type = GPOINTER_TO_INT ( no_menu );
-
-	/* Update tree */
-	g_signal_handlers_block_by_func ( selection,
-					  G_CALLBACK (select_payment_method),
-					  model );
-	gtk_tree_store_clear ( GTK_TREE_STORE (model) );
-	fill_payment_method_tree ();
-	gtk_tree_view_expand_all ( GTK_TREE_VIEW(payment_method_treeview) );
-	g_signal_handlers_unblock_by_func ( selection,
-					    G_CALLBACK (select_payment_method),
-					    model );
-	gtk_tree_model_foreach ( GTK_TREE_MODEL (model), 
-				 (GtkTreeModelForeachFunc) select_type_ope,
-				 (gpointer) type_ope );
-	fill_reconciliation_tree ();
-
     }
-
+    return FALSE;
 }
 
 
-
-
-/* ************************************************************************************************************** */
-void ajouter_type_operation ( void )
+/**
+ * callback called by the button to add a new method of payment
+ *
+ * \param button
+ * \param tree_view the payment method config tree view
+ *
+ * \return FALSE
+ * */
+gboolean gsb_payment_method_config_add ( GtkWidget *button,
+					 GtkWidget *tree_view )
 {
-    struct struct_type_ope *type_ope;
     GtkTreeSelection * selection;
     GtkTreeIter iter, parent, root, child, *final;
     GtkTreePath * treepath;
-    gint no_compte, type_final;
-    gboolean good, visible;
-    GValue value_name = {0, };
+    gint account_number, type_final;
+    gboolean good;
+    gint payment_number;
+    GtkTreeModel *model;
 
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview));
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
     good = gtk_tree_selection_get_selected (selection, NULL, &iter);
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
 
     if ( good )
     {
+	/* there is a selection, get corrent iters */
 	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
-			     PAYMENT_METHODS_VISIBLE_COLUMN, &visible,
-			     PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
+			     PAYMENT_METHODS_NUMBER_COLUMN, &payment_number,
 			     -1 );
-
-	if ( visible ) /* This is a payment method */
+	if (payment_number)
 	{
 	    /* Select parent */
 	    gtk_tree_model_iter_parent ( GTK_TREE_MODEL(model),
 					 &parent, &iter );
 	    final = &parent;
-	    type_final = type_ope -> signe_type;
+	    type_final = gsb_data_payment_get_sign (payment_number);
 	    gtk_tree_model_iter_parent (GTK_TREE_MODEL(model), &root, &parent);
 	}
 	else
 	{
-	    gtk_tree_model_get_value ( GTK_TREE_MODEL(model), &iter, 
-				       PAYMENT_METHODS_NAME_COLUMN, &value_name);
+	    gchar *name;
+
+	    gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
+				 PAYMENT_METHODS_NAME_COLUMN, &name,
+				 -1 );
 
 	    if (gtk_tree_model_iter_parent (GTK_TREE_MODEL(model), &root, &iter))
 	    {
-		gchar * a_name = (gchar*) g_value_get_string(&value_name);
 		/* We are on "Credit" or "Debit" or "Neutral" */
 		final = &iter;
-		if ( !strcmp(a_name, _("Credit")) )
+		if ( !strcmp(name, _("Credit")) )
 		{
-		    type_final = 2;
+		    type_final = GSB_PAYMENT_CREDIT;
 		}
-		else if ( !strcmp(a_name, _("Debit")) )
+		else if ( !strcmp(name, _("Debit")) )
 		{
-		    type_final = 1;
+		    type_final = GSB_PAYMENT_DEBIT;
 		}
 		else 		/* Neutral */
 		{
-		    type_final = 0;
+		    type_final = GSB_PAYMENT_NEUTRAL;
 		}	      
 	    }
 	    else
 	    {
 		/* We are on an account, method_ptr will be the same as the
 		   first node  */
-		if (! gtk_tree_model_iter_children( GTK_TREE_MODEL(model),
-						    &child, &iter ))
+		if (!gtk_tree_model_iter_children( GTK_TREE_MODEL(model),
+						   &child, &iter ))
 		    /* Should not happen! */
 		    dialogue_error_brain_damage ();
 
-
 		final = &child;
-		type_final = 1;	/* Debit */
-
-		gtk_tree_model_get ( GTK_TREE_MODEL(model), final, 
-				     PAYMENT_METHODS_TYPE_COLUMN, &no_compte,
-				     -1);
+		type_final = GSB_PAYMENT_DEBIT;
 	    }
 	}
-
     }
     else
     {
@@ -898,265 +1096,260 @@ void ajouter_type_operation ( void )
 	gtk_tree_model_iter_children( GTK_TREE_MODEL(model),
 				      &child, &iter );
 	final = &child;
-	type_final = 1;		/* Debit */
+	type_final = GSB_PAYMENT_DEBIT;
 
     }
 
-    /* This is a hack: account number is put in Debit/Credit nodes */
+    /* final is now set on debit or credit line where we want to set the method of payment */
     gtk_tree_model_get ( GTK_TREE_MODEL(model), final, 
-			 PAYMENT_METHODS_TYPE_COLUMN, &no_compte,
+			 PAYMENT_METHODS_ACCOUNT_COLUMN, &account_number,
 			 -1);
 
-    type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
+    /* create the new method of payment */
+    payment_number = gsb_data_payment_new ( _("New payment method") );
+    gsb_data_payment_set_sign ( payment_number,
+				type_final );
+    gsb_data_payment_set_account_number ( payment_number,
+					  account_number );
 
-    if ( gsb_data_account_get_method_payment_list (no_compte) )
-	type_ope -> no_type = ((struct struct_type_ope *)
-			       (g_slist_last ( gsb_data_account_get_method_payment_list (no_compte) )->data))->no_type + 1;
-    else
-	type_ope -> no_type = 1;
-
-    type_ope -> nom_type = my_strdup ( _("New payment method") );
-    type_ope -> signe_type = type_final;
-    type_ope -> affiche_entree = 0;
-    type_ope -> numerotation_auto = 0;
-    type_ope -> no_en_cours = 0;
-    type_ope -> no_compte = no_compte;
-
-    gtk_tree_store_append (model, &iter, final);
-    gtk_tree_store_set (model, &iter,
-			PAYMENT_METHODS_NAME_COLUMN, type_ope -> nom_type,
+    /* append it to the store */
+    gtk_tree_store_append (GTK_TREE_STORE (model), &iter, final);
+    gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
+			PAYMENT_METHODS_NAME_COLUMN, gsb_data_payment_get_name (payment_number),
 			PAYMENT_METHODS_NUMBERING_COLUMN, "",
 			PAYMENT_METHODS_TYPE_COLUMN, type_final,
 			PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			PAYMENT_METHODS_ACTIVABLE_COLUMN, type_final != 0, 
-			PAYMENT_METHODS_VISIBLE_COLUMN, TRUE, 
-			PAYMENT_METHODS_POINTER_COLUMN, type_ope, 
+			PAYMENT_METHODS_VISIBLE_COLUMN, type_final != 0, 
+			PAYMENT_METHODS_NUMBER_COLUMN, payment_number, 
 			-1 );
 
     /* Select and view new position */
     gtk_tree_selection_select_iter ( selection, &iter );
     treepath = gtk_tree_model_get_path ( GTK_TREE_MODEL(model), &iter );
-    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW(payment_method_treeview), treepath, NULL, 
+    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW(tree_view), treepath, NULL, 
 				   TRUE, 0.5, 0);
     gtk_tree_path_free ( treepath );
 
-    /* Add to payment methods */
-    gsb_data_account_set_method_payment_list ( no_compte,
-					       g_slist_append ( gsb_data_account_get_method_payment_list (no_compte), type_ope ) );
-
     /* add to the sorted list */
-    /* FIXME before 0.6 : faire une fonction add pour les types opés et method of payment */
-    gsb_data_account_set_sort_list ( no_compte,
-				     g_slist_append ( gsb_data_account_get_sort_list (no_compte),
-						      GINT_TO_POINTER (type_ope -> no_type)));
+    gsb_data_account_sort_list_add ( account_number,
+				     payment_number );
     fill_reconciliation_tree ();
 
     /* Mark file as modified */
     modification_fichier ( TRUE );
+    return FALSE;
 }
 
 
 /**
- * FIXME: document
+ * callback called by a clicked signal on the removing button
+ *
+ * \param button
+ * \param tree_view
+ *
+ * \return FALSE
  *
  */
-void supprimer_type_operation ( void )
+gboolean gsb_payment_method_config_remove ( GtkWidget *button,
+					    GtkWidget *tree_view )
 {
-    struct struct_type_ope *type_ope;
+    gint payment_number;
+    gint account_number;
     GtkTreeSelection * selection;
-    GSList *pointeur_tmp;
-    GSList *ope_a_changer;
     GtkTreeIter iter;
-    gboolean good, visible;
+    gboolean good;
+    GSList *list_tmp_transactions;
+    GtkTreeModel *model;
 
     /** First, we find related GtkTreeIter and stsruct_type_ope pointer. */
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview));
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
     good = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
-    if ( good )
+    if ( !good )
+	return FALSE;
+
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
+    gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
+			 PAYMENT_METHODS_NUMBER_COLUMN, &payment_number,
+			 -1 );
+    if ( !payment_number )
+	return FALSE;
+
+    /* we check if some transactions have this method of payment,
+     * if yes, we propose to switch to another method of payment or cancel */
+
+    /* first, check if there is some transactions */
+    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+    while (list_tmp_transactions)
     {
-	GSList *list_tmp_transactions;
-	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
-			     PAYMENT_METHODS_VISIBLE_COLUMN, &visible,
-			     PAYMENT_METHODS_POINTER_COLUMN, &type_ope,
-			     -1 );
+	gint transaction_number;
+	transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	if ( ! type_ope )
-	    return;
-
-	/** We then put related operations in a temporary list */
-
-	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
-	ope_a_changer = NULL;
-
-	while ( list_tmp_transactions )
+	if ( gsb_data_transaction_get_method_of_payment_number (transaction_number) == payment_number)
 	{
-	    gint transaction_number_tmp;
-	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
-
-	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == type_ope -> no_compte
-		 &&
-		 gsb_data_transaction_get_method_of_payment_number (transaction_number_tmp) == type_ope -> no_type)
-	    {
-		ope_a_changer = g_slist_append ( ope_a_changer,
-						 GINT_TO_POINTER (transaction_number_tmp));
-	    }
+	    /* ok, there is some transactions with that method of payment, we switch to another one or cancel */
+	    if ( !gsb_payment_method_config_switch_payment (payment_number))
+		return FALSE;
+	    list_tmp_transactions = NULL;
+	}
+	else
 	    list_tmp_transactions = list_tmp_transactions -> next;
-	}
-
-	/** If operations are related to this method, we have to ask for
-	  confirmation for this removal, as we need to change method_ptr of
-	  related operations.  This is of course not reversible.  */
-	if ( ope_a_changer )
-	{
-	    GtkWidget *dialog, *label, * option_menu, *separateur, *hbox, *menu;
-	    gint resultat, nouveau_type;
-
-	    dialog = gtk_dialog_new_with_buttons ( _("Delete a payment method"),
-						   (GtkWindow *) fenetre_preferences,
-						   GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-						   GTK_STOCK_CANCEL, GTK_RESPONSE_HELP,
-						   GTK_STOCK_OK, GTK_RESPONSE_OK,
-						   NULL );
-	    gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog) -> vbox), 6 );
-
-	    label = gtk_label_new ( _("Some transactions still use that payment method.  As deletion of this method is irreversible, these transactions are to be associated with another payment method."));
-	    gtk_label_set_selectable ( GTK_LABEL (label), TRUE );
-	    gtk_label_set_line_wrap ( GTK_LABEL (label), TRUE );
-	    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), label,
-				 FALSE, FALSE, 6 );
-
-	    separateur = gtk_hseparator_new ();
-	    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-				 separateur,
-				 FALSE, FALSE, 0 );
-	    gtk_widget_show ( separateur );
-
-	    hbox = gtk_hbox_new ( FALSE, 6 );
-	    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
-				 FALSE, FALSE, 0 );
-
-
-	    label = gtk_label_new ( POSTSPACIFY(_("Associate transactions with")));
-	    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-				 FALSE, FALSE, 6 );
-
-	    option_menu = gtk_option_menu_new ();
-	    menu = gtk_menu_new ();
-	    pointeur_tmp = gsb_data_account_get_method_payment_list (type_ope -> no_compte);
-
-	    /** Then, we find neutral types of types the same sign and build a
-	      menu to choose among them */
-	    while ( pointeur_tmp )
-	    {
-		struct struct_type_ope *method_ptr;
-		GtkWidget *menu_item;
-		method_ptr = pointeur_tmp -> data;
-		if ( method_ptr -> no_type != type_ope -> no_type
-		     && ( method_ptr -> signe_type == type_ope -> signe_type
-			  || !method_ptr -> signe_type ))
-		{
-		    menu_item = gtk_menu_item_new_with_label ( method_ptr -> nom_type );
-		    gtk_object_set_data ( GTK_OBJECT ( menu_item ), "no_type",
-					  GINT_TO_POINTER ( method_ptr -> no_type ));
-		    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
-		}
-		pointeur_tmp = pointeur_tmp -> next;
-	    }
-	    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu ), menu );
-	    gtk_box_pack_start ( GTK_BOX ( hbox ), option_menu,
-				 FALSE, FALSE, 0 );
-
-	    /** If no operation is available, do not give choice to
-	      user. */
-	    if ( !GTK_MENU_SHELL ( menu ) -> children )
-		gtk_widget_set_sensitive ( hbox, FALSE );
-
-	    gtk_widget_show_all ( GTK_WIDGET(dialog) );
-
-	    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
-
-	    if ( resultat != GTK_RESPONSE_OK )
-	    {
-		if ( GTK_IS_DIALOG ( dialog ))
-		    gtk_widget_destroy ( GTK_WIDGET(dialog) );
-		return;
-	    }
-
-	    /* Find new method_ptr */
-	    if ( GTK_MENU_SHELL ( menu ) -> children )
-		nouveau_type = gsb_payment_method_get_selected_number (option_menu);
-	    else
-		nouveau_type = 0;
-
-	    /* Then, we change method_ptr for related operations. */
-	    pointeur_tmp = ope_a_changer;
-
-	    while ( pointeur_tmp )
-	    {
-		gint transaction_number;
-
-		transaction_number = GPOINTER_TO_INT ( pointeur_tmp -> data );
-
-		gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-								    nouveau_type );
-		pointeur_tmp = pointeur_tmp -> next;
-	    }
-	    gtk_widget_destroy ( GTK_WIDGET(dialog) );
-	}
-
-	/* Remove method_ptr from tree & memory */
-	gtk_tree_store_remove ( GTK_TREE_STORE(model), &iter );
-	gsb_data_account_set_method_payment_list ( type_ope -> no_compte,
-					      g_slist_remove ( gsb_data_account_get_method_payment_list (type_ope -> no_compte), type_ope ) );
-
-	/* If it was a default, change default */
-	switch (type_ope -> signe_type)
-	{
-	    case 1:			/* Debit */
-		if ( gsb_data_account_get_default_debit (type_ope -> no_compte) == type_ope -> no_type)
-		{
-		    gsb_data_account_set_default_debit ( type_ope -> no_compte,
-						    find_operation_type_by_type (type_ope->no_compte,
-										 type_ope->signe_type,
-										 type_ope->no_type));
-		}
-		break;
-
-	    case 2:			/* Credit */
-		if ( gsb_data_account_get_default_credit (type_ope -> no_compte) == type_ope -> no_type)
-		{
-		    gsb_data_account_set_default_credit ( type_ope -> no_compte,
-						     find_operation_type_by_type (type_ope->no_compte,
-										  type_ope->signe_type,
-										  type_ope->no_type));
-		}
-		break;
-
-	    default:
-		break;		/* Other */
-	}
-
-	free ( type_ope );
-
-	modification_fichier ( TRUE );
-
-	/* on retire le no de method_ptr dans la liste de tri et on réaffiche la liste */
-	/*       liste_tri_tmp[type_ope->no_compte] = g_slist_remove ( liste_tri_tmp[type_ope->no_compte], */
-	/* 							    GINT_TO_POINTER ( type_ope -> no_type )); */
-
-	/*       if ( !type_ope -> signe_type && neutres_inclus_tmp[type_ope->no_compte] ) */
-	/* 	liste_tri_tmp[type_ope->no_compte] = g_slist_remove ( liste_tri_tmp[type_ope->no_compte], */
-	/* 							      GINT_TO_POINTER ( -type_ope -> no_type )); */
-
-	/*       remplit_liste_tri_par_type ( type_ope->no_compte ); */
-
-	/*   si le method_ptr était par défaut, on met le défaut à 0 */
     }
+
+    account_number = gsb_data_payment_get_account_number (payment_number);
+
+    /* If it was a default, change default */
+    switch (gsb_data_payment_get_sign (payment_number))
+    {
+	case GSB_PAYMENT_DEBIT:
+	    if ( gsb_data_account_get_default_debit (account_number) == payment_number)
+	    {
+		gsb_data_account_set_default_debit ( account_number,
+						     gsb_payment_method_config_get_transaction_by_sign (account_number,
+										  GSB_PAYMENT_DEBIT,
+										  payment_number));
+	    }
+	    break;
+
+	case GSB_PAYMENT_CREDIT:
+	    if ( gsb_data_account_get_default_credit (account_number) == payment_number)
+	    {
+		gsb_data_account_set_default_credit ( account_number,
+						      gsb_payment_method_config_get_transaction_by_sign (account_number,
+										   GSB_PAYMENT_CREDIT,
+										   payment_number));
+	    }
+	    break;
+    }
+
+    /* remove that method of payment from the sort list */
+    gsb_data_account_sort_list_remove ( account_number,
+					payment_number );
+
+    /* Remove the method of payment from tree & memory */
+    gtk_tree_store_remove ( GTK_TREE_STORE(model), &iter );
+    gsb_data_payment_remove (payment_number);
+
+    modification_fichier ( TRUE );
+    return FALSE;
 }
-/* ************************************************************************************************************** */
 
 
+/**
+ * called to switch the transactions from a method of payment to another
+ * popup a dialog to ask for what method of payment we want to move
+ *
+ * \param payment_number the method of payment we come from
+ *
+ * \return TRUE done, FALSE cancel
+ * */
+gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
+{
+    GtkWidget *dialog, *label, * combo_box, *separator, *hbox;
+    gint resultat;
+    gint new_payment_number;
+    GSList *tmp_list;
+    gint account_number;
+
+    dialog = gtk_dialog_new_with_buttons ( _("Delete a payment method"),
+					   GTK_WINDOW (fenetre_preferences),
+					   GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_HELP,
+					   GTK_STOCK_OK, GTK_RESPONSE_OK,
+					   NULL );
+    gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog) -> vbox), 6 );
+
+    account_number = gsb_data_payment_get_account_number (payment_number);
+
+    /* create first the combo_box with the possible target to the method of payment,
+     * if no target, say it in the label and let that function choose if it has to be shown or not */
+    combo_box = gtk_combo_box_new ();
+    if (!gsb_payment_method_create_combo_list ( combo_box,
+						gsb_data_payment_get_sign (payment_number),
+						account_number,
+						payment_number ))
+    {
+	dialogue_error ( _("Problem while filling the target method of payment to delete it.\nThis is not normal, please contact the grisbi team."));
+	return FALSE;
+    }
+
+    if (GTK_WIDGET_VISIBLE (combo_box))
+	label = gtk_label_new ( _("Some transactions still use that payment method.  As deletion of this method is irreversible, these transactions are to be associated with another payment method."));
+    else
+	label = gtk_label_new (_("No target method of payment to switch the transactions to another method of payment. If you continue, the transactions with this method of payment will have no new one."));
+    gtk_label_set_line_wrap ( GTK_LABEL (label), TRUE );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), label,
+			 FALSE, FALSE, 6 );
+    gtk_widget_show (label);
+
+    separator = gtk_hseparator_new ();
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
+			 separator,
+			 FALSE, FALSE, 0 );
+    gtk_widget_show ( separator );
+
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
+			 FALSE, FALSE, 0 );
+    gtk_widget_show (hbox);
+
+    label = gtk_label_new ( POSTSPACIFY(_("Associate transactions with")));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+			 FALSE, FALSE, 6 );
+    gtk_widget_show (label);
+
+    /* the combo_box was created before */
+    gtk_box_pack_start ( GTK_BOX ( hbox ), combo_box,
+			 FALSE, FALSE, 0 );
+
+    if (!GTK_WIDGET_VISIBLE (combo_box))
+	gtk_widget_set_sensitive ( hbox, FALSE );
+
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+
+    if ( resultat != GTK_RESPONSE_OK )
+    {
+	if ( GTK_IS_DIALOG ( dialog ))
+	    gtk_widget_destroy ( GTK_WIDGET(dialog) );
+	return FALSE;
+    }
+
+    /* Find new method of payment */
+    new_payment_number = gsb_payment_method_get_selected_number (combo_box);
+
+    /* Then, we change the method of payment for related operations. */
+    tmp_list = gsb_data_transaction_get_transactions_list ();
+    while (tmp_list)
+    {
+	gint transaction_number;
+	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+
+	if ( gsb_data_transaction_get_method_of_payment_number (transaction_number) == payment_number)
+	    gsb_data_transaction_set_method_of_payment_number (transaction_number, new_payment_number);
+	tmp_list = tmp_list -> next;
+    }
+
+    /* change too for the scheduled transactions */
+    tmp_list = gsb_data_scheduled_get_scheduled_list ();
+    while (tmp_list)
+    {
+	gint scheduled_number;
+
+	scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
+
+	if ( gsb_data_scheduled_get_method_of_payment_number (scheduled_number) == payment_number)
+	    gsb_data_scheduled_set_method_of_payment_number ( scheduled_number, new_payment_number);
+
+	tmp_list = tmp_list -> next;
+    }
+
+    /* change for the transactions tree_view */
+    gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_TYPE);
+
+    gtk_widget_destroy ( GTK_WIDGET(dialog) );
+    return TRUE;
+}
 
 
 

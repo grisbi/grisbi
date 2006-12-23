@@ -32,13 +32,13 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_payment.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
 #include "utils_str.h"
-#include "utils_types.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -161,8 +161,8 @@ gint gsb_transactions_list_sort_column ( GtkTreeModel *model,
 	return 0;
 
     /* get the element used to sort the list */
-    element_number = gsb_data_account_get_column_sort ( account_number,
-							GPOINTER_TO_INT (column_number));
+    element_number = gsb_data_account_get_element_sort ( account_number,
+							 GPOINTER_TO_INT (column_number));
 
     return gsb_transactions_list_sort_by_no_sort ( model,
 						   iter_1,
@@ -782,10 +782,8 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
 	const gchar *temp_1;
 	const gchar *temp_2;
 
-	temp_1 = type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_1),
-				       gsb_data_transaction_get_account_number (transaction_number_1));
-	temp_2 = type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_2),
-				       gsb_data_transaction_get_account_number (transaction_number_2));
+	temp_1 = gsb_data_payment_get_name (gsb_data_transaction_get_method_of_payment_number (transaction_number_1));
+	temp_2 = gsb_data_payment_get_name (gsb_data_transaction_get_method_of_payment_number (transaction_number_2));
 
 	/* g_utf8_collate is said not very fast, must try with big big account to check
 	 * if it's enough, for me it's ok (cedric), eventually, change with gsb_strcasecmp */

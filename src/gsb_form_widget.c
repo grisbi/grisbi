@@ -45,6 +45,7 @@
 #include "gtk_combofix.h"
 #include "structures.h"
 #include "traitement_variables.h"
+#include "gsb_data_payment.h"
 #include "include.h"
 /*END_INCLUDE*/
 
@@ -258,7 +259,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 			       NULL );
 	    gsb_payment_method_create_combo_list ( widget,
 						   GSB_PAYMENT_DEBIT,
-						   account_number );
+						   account_number, 0 );
 	    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget),
 				       0 );
 	    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),

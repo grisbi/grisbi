@@ -31,12 +31,11 @@
 #include "gsb_data_account.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_payment.h"
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
-#include "search_glist.h"
 #include "import.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -1023,9 +1022,6 @@ void qif_export ( gchar * filename, gint account_nb )
 
 	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_nb )
 	    {
-		GSList *pointeur;
-		struct struct_type_ope *type;
-
 		if ( begining )
 		{
 		    /* this is the begining of the qif file, we set some beginings things */
@@ -1096,20 +1092,10 @@ void qif_export ( gchar * filename, gint account_nb )
 			      gsb_real_get_string (gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, -1)));
 
 		    /* met le chèque si c'est un type à numérotation automatique */
-
-		    pointeur = g_slist_find_custom ( gsb_data_account_get_method_payment_list (account_nb),
-						     GINT_TO_POINTER ( gsb_data_transaction_get_method_of_payment_number ( transaction_number_tmp)),
-						     (GCompareFunc) recherche_type_ope_par_no );
-
-		    if ( pointeur )
-		    {
-			type = pointeur -> data;
-
-			if ( type -> numerotation_auto )
-			    fprintf ( fichier_qif,
-				      "N%s\n",
-				      gsb_data_transaction_get_method_of_payment_content ( transaction_number_tmp));
-		    }
+		    if ( gsb_data_payment_get_automatic_numbering (gsb_data_transaction_get_method_of_payment_number (transaction_number_tmp)))
+			fprintf ( fichier_qif,
+				  "N%s\n",
+				  gsb_data_transaction_get_method_of_payment_content ( transaction_number_tmp));
 			
 		    /* met le tiers */
 			

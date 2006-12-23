@@ -42,6 +42,7 @@
 #include "gsb_data_form.h"
 #include "gsb_data_mix.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_payment.h"
 #include "gsb_data_report.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
@@ -125,7 +126,7 @@ static GtkWidget *form_button_recover_breakdown;
 static GtkWidget *form_button_valid;
 static GtkWidget *form_button_cancel;
 
-/* FIXME : next values need to be static and changed */
+/* xxx next values need to be static and changed */
 
 /* contient les adresses des widgets dans le formulaire en fonction */
 /* de leur place */
@@ -722,11 +723,11 @@ void gsb_form_fill_element ( gint element_number,
 	    if (gsb_data_mix_get_amount (number, is_transaction).mantissa < 0)
 		gsb_payment_method_create_combo_list ( widget,
 						       GSB_PAYMENT_DEBIT,
-						       account_number );
+						       account_number, 0 );
 	    else
 		gsb_payment_method_create_combo_list ( widget,
 						       GSB_PAYMENT_CREDIT,
-						       account_number );
+						       account_number, 0 );
 
 	    /* don't show the cheque entry for a child of breakdown */
 	    if ( GTK_WIDGET_VISIBLE (widget))
@@ -738,7 +739,7 @@ void gsb_form_fill_element ( gint element_number,
 							      number,
 							      account_number )
 		    &&
-		    gsb_payment_method_get_show_entry (number, account_number)
+		    gsb_data_payment_get_show_entry (number)
 		    &&
 		    is_transaction
 		    &&
@@ -788,11 +789,11 @@ void gsb_form_fill_element ( gint element_number,
 		    if ( gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa < 0 )
 			gsb_payment_method_create_combo_list ( widget,
 							       GSB_PAYMENT_CREDIT,
-							       number);
+							       number, 0);
 		    else
 			gsb_payment_method_create_combo_list ( widget,
 							       GSB_PAYMENT_DEBIT,
-							       number);
+							       number, 0);
 
 		    if (GTK_WIDGET_VISIBLE (widget))
 		    {
@@ -1087,7 +1088,13 @@ gboolean gsb_form_fill_from_account ( gint account_number )
 			       gsb_form_get_element_expandable ( element ),
 			       gsb_form_get_element_expandable ( element ),
 			       0, 0);
-	    gtk_widget_show (widget);
+	    /* we want to show all the widget created except the method of payment
+	     * and contra, the know themselves if they have to be shown or not,
+	     * so just let them */
+	    if (element != TRANSACTION_FORM_TYPE
+		&&
+		element != TRANSACTION_FORM_CONTRA )
+		gtk_widget_show (widget);
 	}
     gsb_form_clean (account_number);
     return FALSE;
@@ -1430,7 +1437,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 		    {
 			gsb_payment_method_create_combo_list ( widget,
 							       GSB_PAYMENT_DEBIT,
-							       account_number );
+							       account_number, 0 );
 			/* if there is no payment method, the last function hide it, but we have
 			 * to hide the cheque element too */
 			if ( !GTK_WIDGET_VISIBLE (widget))
@@ -1440,7 +1447,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 			if ( GTK_WIDGET_VISIBLE (widget))
 			    gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA),
 								   GSB_PAYMENT_CREDIT,
-								   account_number );
+								   account_number, 0 );
 		    }
 		}
 		gsb_form_check_auto_separator (entry);
@@ -1476,7 +1483,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 		    {
 			gsb_payment_method_create_combo_list ( widget,
 							       GSB_PAYMENT_CREDIT,
-							       account_number );
+							       account_number, 0 );
 			/* if there is no payment method, the last function hide it, but we have
 			 * to hide the cheque element too */
 			if ( !GTK_WIDGET_VISIBLE (widget))
@@ -1486,7 +1493,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 			if ( GTK_WIDGET_VISIBLE (widget))
 			    gsb_payment_method_create_combo_list ( widget,
 								   GSB_PAYMENT_DEBIT,
-								   account_number );
+								   account_number, 0 );
 		    }
 		}
 		gsb_form_check_auto_separator (entry);
@@ -1513,12 +1520,12 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 			    /* there is something in debit */
 			    gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA),
 								   GSB_PAYMENT_CREDIT,
-								   contra_account_number );
+								   contra_account_number, 0 );
 			else
 			    /* there is something in credit */
 			    gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA),
 								   GSB_PAYMENT_DEBIT,
-								   contra_account_number );
+								   contra_account_number, 0 );
 		    }
 		    else
 			gtk_widget_hide ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA));
@@ -1744,8 +1751,7 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
 
 	    account_number = gsb_form_get_account_number ();
 	    payment_number = gsb_payment_method_get_selected_number (widget);
-	    if ( gsb_payment_method_get_automatic_number ( payment_number,
-							   account_number ))
+	    if ( gsb_data_payment_get_automatic_numbering ( payment_number ))
 	    {
 		widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE);
 
@@ -1753,8 +1759,7 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
 
 		if ( !strlen (gtk_entry_get_text ( GTK_ENTRY (widget))))
 		    gtk_entry_set_text ( GTK_ENTRY (widget),
-					 utils_str_itoa (gsb_payment_method_automatic_numbering_get_new_number (payment_number,
-														account_number )));
+					 utils_str_itoa (gsb_data_payment_get_last_number (payment_number) + 1));
 	    }
 	}
     }
@@ -2032,13 +2037,11 @@ gboolean gsb_form_finish_edition ( void )
 		    /* needn't to use mix here because can only be a transaction */
 		    payment_number = gsb_data_transaction_get_method_of_payment_number (transaction_number);
 
-		    if ( gsb_payment_method_get_automatic_number ( payment_number,
-								   account_number)
+		    if ( gsb_data_payment_get_automatic_numbering (payment_number)
 			 &&
 			 gsb_data_form_check_for_value ( TRANSACTION_FORM_CHEQUE ))
 			gtk_entry_set_text ( GTK_ENTRY ( gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE)),
-					     utils_str_itoa (gsb_payment_method_automatic_numbering_get_new_number ( payment_number,
-														     account_number )));
+					     utils_str_itoa (gsb_data_payment_get_last_number (payment_number) + 1));
 		}
 		list_tmp = list_tmp -> next;
 	    }
@@ -2361,7 +2364,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 	combo_box = gsb_form_widget_get_widget (TRANSACTION_FORM_TYPE);
 	payment = gsb_payment_method_get_selected_number (combo_box);
 
-	if (gsb_payment_method_get_automatic_number (payment, account_number))
+	if (gsb_data_payment_get_automatic_numbering (payment))
 	{
 	    /* check if there is something in */
 
@@ -2375,8 +2378,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 		/* check that the number is not used */
 		gint tmp_transaction_number;
 		
-		tmp_transaction_number = gsb_data_transaction_find_by_payment_content ( gtk_entry_get_text (GTK_ENTRY (widget)),
-											account_number );
+		tmp_transaction_number = gsb_data_transaction_check_content_payment (payment, utils_str_atoi (gtk_entry_get_text (GTK_ENTRY (widget))));
 
 		if ( tmp_transaction_number
 		     &&
@@ -2531,8 +2533,11 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		    if ( GTK_WIDGET_VISIBLE ( gsb_form_widget_get_widget (TRANSACTION_FORM_TYPE)))
 		    {
 			GtkWidget *widget_tmp;
+			gint payment_number;
 
-			gsb_data_mix_set_method_of_payment_number ( transaction_number, gsb_payment_method_get_selected_number (element -> element_widget), is_transaction);
+			payment_number = gsb_payment_method_get_selected_number (element -> element_widget);
+
+			gsb_data_mix_set_method_of_payment_number ( transaction_number, payment_number, is_transaction);
 
 			/* set the number of cheque only if visible */
 			widget_tmp = gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE);
@@ -2540,17 +2545,14 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 			     &&
 			     !gsb_form_widget_check_empty (widget_tmp))
 			{
-			    struct struct_type_ope *type;
+			    gsb_data_mix_set_method_of_payment_content ( transaction_number, gtk_entry_get_text (GTK_ENTRY (widget_tmp)), is_transaction);
 
-			    type = gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( element -> element_widget ) -> menu_item ),
-							 "adr_type" );
-
-			    gsb_data_mix_set_method_of_payment_content ( transaction_number, my_strdup ( gtk_entry_get_text ( GTK_ENTRY (widget_tmp))), is_transaction);
-
+			    /* get the last number to increase next time */
 			    if ( is_transaction
 				 &&
-				 type -> numerotation_auto )
-				type -> no_en_cours = ( utils_str_atoi ( gsb_data_mix_get_method_of_payment_content (transaction_number, is_transaction)));
+				 gsb_data_payment_get_automatic_numbering (payment_number))
+				gsb_data_payment_set_last_number ( payment_number,
+								   utils_str_atoi (gtk_entry_get_text (GTK_ENTRY (widget_tmp))));
 			}
 			else
 			    gsb_data_mix_set_method_of_payment_content ( transaction_number, NULL, is_transaction);

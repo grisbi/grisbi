@@ -112,7 +112,6 @@ sources = \
 	parse_cmdline.c		\
 	print_config.c		\
 	qif.c			\
-	search_glist.c		\
 	tiers_onglet.c		\
 	tip.c			\
 	traitement_variables.c	\
@@ -124,8 +123,7 @@ sources = \
 	utils_file_selection.c	\
 	utils_files.c		\
 	utils_operations.c	\
-	utils_str.c		\
-	utils_types.c
+	utils_str.c
 
 grisbi_SOURCES = $(sources) $(sources_config)
 
@@ -230,9 +228,7 @@ grisbi_INCLUDES =		\
 	utils_file_selection.h	\
 	utils_files.h		\
 	utils_operations.h	\
-	utils_str.h		\
-	utils_types.h		\
-	search_glist.h
+	utils_str.h
 
 
 EXTRA_DIST = grisbi.desktop grisbi.keys grisbi.mime $(grisbi_INCLUDES)

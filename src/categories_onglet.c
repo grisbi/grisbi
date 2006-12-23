@@ -36,7 +36,7 @@
 #include "gsb_file_others.h"
 #include "gsb_form_widget.h"
 #include "navigation.h"
-#include "gsb_form_transaction.h"
+#include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "main.h"
 #include "utils.h"
@@ -717,7 +717,6 @@ gboolean edit_category ( GtkTreeView * view )
     GtkTreeModel * model;
     GtkTreeIter iter;
     gchar * title;
-    GSList * tmp_list;
 
     /* fill category_number and sub_category_number */
 
@@ -823,21 +822,8 @@ gboolean edit_category ( GtkTreeView * view )
 			    gsb_data_category_get_structure ( category_number ));
     }
 
-    tmp_list = gsb_data_transaction_get_transactions_list ();
-    while ( tmp_list )
-    {
-	gint transaction_number;
-	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
-
-	if ( gsb_data_transaction_get_category_number ( transaction_number ) == category_number )
-	{
-	    /* xxx FIXME: this is VERY, VERY, VERY time consuming, use a
-	     * better approach, that is iterate over tree and change on
-	     * demand if category is the same. */
-	    gsb_transactions_list_update_transaction (transaction_number);
-	}
-	tmp_list = tmp_list -> next;
-    }
+    /* update the transactions list */
+    gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CATEGORY);
 
     return TRUE;
 }

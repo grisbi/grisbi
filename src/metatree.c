@@ -35,7 +35,6 @@
 #include "utils_dates.h"
 #include "fenetre_principale.h"
 #include "navigation.h"
-#include "gsb_form_transaction.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
 #include "utils_str.h"

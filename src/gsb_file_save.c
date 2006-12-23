@@ -33,6 +33,7 @@
 #include "gsb_data_form.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_payment.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
@@ -639,15 +640,15 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    {
 		sort_kind_column = g_strconcat ( first_string_to_free = sort_kind_column,
 						 "-",
-						 second_string_to_free = utils_str_itoa ( gsb_data_account_get_column_sort ( account_number,
-												j )),
+						 second_string_to_free = utils_str_itoa ( gsb_data_account_get_element_sort ( account_number,
+															      j )),
 						 NULL );
 		g_free (first_string_to_free);
 		g_free (second_string_to_free);
 	    }
 	    else
-		sort_kind_column = utils_str_itoa ( gsb_data_account_get_column_sort ( account_number,
-								     j ));
+		sort_kind_column = utils_str_itoa ( gsb_data_account_get_element_sort ( account_number,
+											j ));
 	}
 
 	/* set the form organization */
@@ -795,43 +796,31 @@ gulong gsb_file_save_payment_part ( gulong iterator,
 {
     GSList *list_tmp;
 
-    list_tmp = gsb_data_account_get_list_accounts ();
+    list_tmp = gsb_data_payment_get_payments_list ();
 
-    while ( list_tmp )
+    while (list_tmp)
     {
-	GSList *list_tmp_2;
-	gint i;
+	gint payment_number;
 	gchar *new_string;
 
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
-	list_tmp_2 = gsb_data_account_get_method_payment_list (i);
+	payment_number = gsb_data_payment_get_number (list_tmp -> data);
 
-	while ( list_tmp_2 )
-	{
-	    struct struct_type_ope *method;
+	/* now we can fill the file content */
+	new_string = g_markup_printf_escaped ( "\t<Payment Number=\"%d\" Name=\"%s\" Sign=\"%d\" Show_entry=\"%d\" Automatic_number=\"%d\" Current_number=\"%d\" Account=\"%d\" />\n",
+					       payment_number,
+					       gsb_data_payment_get_name (payment_number),
+					       gsb_data_payment_get_sign (payment_number),
+					       gsb_data_payment_get_show_entry (payment_number),
+					       gsb_data_payment_get_automatic_numbering (payment_number),
+					       gsb_data_payment_get_last_number (payment_number),
+					       gsb_data_payment_get_account_number (payment_number));
 
-	    method = list_tmp_2 -> data;
-
-	    /* now we can fill the file content */
-
-	    new_string = g_markup_printf_escaped ( "\t<Payment Number=\"%d\" Name=\"%s\" Sign=\"%d\" Show_entry=\"%d\" Automatic_number=\"%d\" Current_number=\"%d\" Account=\"%d\" />\n",
-						   method -> no_type,
-						   method -> nom_type,
-						   method -> signe_type,
-						   method -> affiche_entree,
-						   method -> numerotation_auto,
-						   method -> no_en_cours,
-						   i );
-
-	    /* append the new string to the file content
-	     * and take the new iterator */
-
-	    iterator = gsb_file_save_append_part ( iterator,
-						   length_calculated,
-						   file_content,
-						   new_string );
-	    list_tmp_2 = list_tmp_2 -> next;
-	}
+	/* append the new string to the file content
+	 * and take the new iterator */
+	iterator = gsb_file_save_append_part ( iterator,
+					       length_calculated,
+					       file_content,
+					       new_string );
 	list_tmp = list_tmp -> next;
     }
     return iterator;
@@ -1579,11 +1568,11 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	{
 	    if ( payment_method_list )
 		payment_method_list = g_strconcat ( payment_method_list,
-					      "/-/",
-					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
-					      NULL );
+						    "/-/",
+						    pointer_list -> data,
+						    NULL );
 	    else
-		payment_method_list = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+		payment_method_list = my_strdup (pointer_list -> data );
 
 	    pointer_list = pointer_list -> next;
 	}

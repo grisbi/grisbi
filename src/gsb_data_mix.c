@@ -60,46 +60,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint gsb_data_mix_get_change_between ( gint transaction_number,
-				       gboolean is_transaction );
-static gsb_real gsb_data_mix_get_exchange_fees ( gint transaction_number,
-					  gboolean is_transaction );
-static gsb_real gsb_data_mix_get_exchange_rate ( gint transaction_number,
-					  gboolean is_transaction );
-static gint gsb_data_mix_get_marked_transaction ( gint transaction_number,
-					   gboolean is_transaction );
-static gpointer gsb_data_mix_get_pointer_to_transaction ( gint transaction_number,
-						   gboolean is_transaction );
-static gint gsb_data_mix_get_reconcile_number ( gint transaction_number,
-					 gboolean is_transaction );
-static const gchar *gsb_data_mix_get_transaction_id ( gint transaction_number,
-					       gboolean is_transaction );
-static GDate *gsb_data_mix_get_value_date ( gint transaction_number,
-				     gboolean is_transaction );
-static gboolean gsb_data_mix_set_account_number ( gint transaction_number,
-					   gint no_account,
-					   gboolean is_transaction );
-static gboolean gsb_data_mix_set_automatic_transaction ( gint transaction_number,
-						  gint automatic_transaction,
-						  gboolean is_transaction );
-static gboolean gsb_data_mix_set_change_between ( gint transaction_number,
-					   gint value,
-					   gboolean is_transaction );
-static gboolean gsb_data_mix_set_exchange_fees ( gint transaction_number,
-					  gsb_real rate,
-					  gboolean is_transaction );
-static gboolean gsb_data_mix_set_exchange_rate ( gint transaction_number,
-					  gsb_real rate,
-					  gboolean is_transaction );
-static gboolean gsb_data_mix_set_marked_transaction ( gint transaction_number,
-					       gint marked_transaction,
-					       gboolean is_transaction );
-static gboolean gsb_data_mix_set_reconcile_number ( gint transaction_number,
-					     gint reconcile_number,
-					     gboolean is_transaction );
-static gboolean gsb_data_mix_set_transaction_id ( gint transaction_number,
-					   const gchar *transaction_id,
-					   gboolean is_transaction );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -131,17 +91,6 @@ GSList *gsb_data_mix_get_transactions_list ( gboolean is_transaction )
 	return (gsb_data_scheduled_get_scheduled_list ());
 }
 
-gpointer gsb_data_mix_get_pointer_to_transaction ( gint transaction_number,
-						   gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_get_pointer_to_transaction ( transaction_number));
-    else
-	/* the next function doesn't exists, and i think it's no usefull, so retur NULL */
-	/* 	return (gsb_data_scheduled_get_pointer_to_scheduled ( transaction_number)); */
-	return NULL;
-}
-
 gint gsb_data_mix_get_transaction_number ( gpointer transaction_pointer,
 					   gboolean is_transaction )
 {
@@ -151,22 +100,6 @@ gint gsb_data_mix_get_transaction_number ( gpointer transaction_pointer,
 	return (gsb_data_scheduled_get_scheduled_number ( transaction_pointer));
 }
 
-const gchar *gsb_data_mix_get_transaction_id ( gint transaction_number,
-					       gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_get_transaction_id ( transaction_number));
-}
-
-gboolean gsb_data_mix_set_transaction_id ( gint transaction_number,
-					   const gchar *transaction_id,
-					   gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_set_transaction_id ( transaction_number,
-							  transaction_id));
-}
-
 gint gsb_data_mix_get_account_number ( gint transaction_number,
 				       gboolean is_transaction )
 {
@@ -174,18 +107,6 @@ gint gsb_data_mix_get_account_number ( gint transaction_number,
 	return (gsb_data_transaction_get_account_number ( transaction_number));
     else
 	return (gsb_data_scheduled_get_account_number ( transaction_number));
-}
-
-gboolean gsb_data_mix_set_account_number ( gint transaction_number,
-					   gint no_account,
-					   gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_set_account_number ( transaction_number,
-							  no_account));
-    else
-	return (gsb_data_scheduled_set_account_number ( transaction_number,
-							no_account));
 }
 
 GDate *gsb_data_mix_get_date ( gint transaction_number,
@@ -207,13 +128,6 @@ gboolean gsb_data_mix_set_date ( gint transaction_number,
     else
 	return (gsb_data_scheduled_set_date ( transaction_number,
 					      date));
-}
-
-GDate *gsb_data_mix_get_value_date ( gint transaction_number,
-				     gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_get_value_date ( transaction_number));
 }
 
 gboolean gsb_data_mix_set_value_date ( gint transaction_number,
@@ -268,53 +182,6 @@ gboolean gsb_data_mix_set_currency_number ( gint transaction_number,
 							 no_currency));
 }
 
-gint gsb_data_mix_get_change_between ( gint transaction_number,
-				       gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_get_change_between ( transaction_number));
-}
-
-gboolean gsb_data_mix_set_change_between ( gint transaction_number,
-					   gint value,
-					   gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_set_change_between ( transaction_number,
-							  value));
-}
-
-gsb_real gsb_data_mix_get_exchange_rate ( gint transaction_number,
-					  gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_get_exchange_rate ( transaction_number));
-}
-
-gboolean gsb_data_mix_set_exchange_rate ( gint transaction_number,
-					  gsb_real rate,
-					  gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_set_exchange_rate ( transaction_number,
-							 rate));
-}
-
-gsb_real gsb_data_mix_get_exchange_fees ( gint transaction_number,
-					  gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_get_exchange_fees ( transaction_number));
-}
-
-gboolean gsb_data_mix_set_exchange_fees ( gint transaction_number,
-					  gsb_real rate,
-					  gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_set_exchange_fees ( transaction_number,
-							 rate));
-}
 
 gint gsb_data_mix_get_party_number ( gint transaction_number,
 				     gboolean is_transaction )
@@ -442,15 +309,6 @@ gboolean gsb_data_mix_set_method_of_payment_number ( gint transaction_number,
 								  number));
 }
 
-const gchar *gsb_data_mix_get_method_of_payment_content ( gint transaction_number,
-							  gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_get_method_of_payment_content ( transaction_number));
-    else
-	return (gsb_data_scheduled_get_method_of_payment_content ( transaction_number));
-}
-
 gboolean gsb_data_mix_set_method_of_payment_content ( gint transaction_number,
 						      const gchar *method_of_payment_content,
 						      gboolean is_transaction )
@@ -463,53 +321,12 @@ gboolean gsb_data_mix_set_method_of_payment_content ( gint transaction_number,
 								   method_of_payment_content));
 }
 
-gint gsb_data_mix_get_marked_transaction ( gint transaction_number,
-					   gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_get_marked_transaction ( transaction_number));
-}
-
-gboolean gsb_data_mix_set_marked_transaction ( gint transaction_number,
-					       gint marked_transaction,
-					       gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_set_marked_transaction ( transaction_number,
-							      marked_transaction));
-}
-
 gint gsb_data_mix_get_automatic_transaction ( gint transaction_number,
 					      gboolean is_transaction )
 {
     if (is_transaction)
 	return (gsb_data_transaction_get_automatic_transaction ( transaction_number));
     return 0;
-}
-
-gboolean gsb_data_mix_set_automatic_transaction ( gint transaction_number,
-						  gint automatic_transaction,
-						  gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_set_automatic_transaction ( transaction_number,
-								 automatic_transaction));
-}
-
-gint gsb_data_mix_get_reconcile_number ( gint transaction_number,
-					 gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_get_reconcile_number ( transaction_number));
-}
-
-gboolean gsb_data_mix_set_reconcile_number ( gint transaction_number,
-					     gint reconcile_number,
-					     gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_set_reconcile_number ( transaction_number,
-							    reconcile_number));
 }
 
 gint gsb_data_mix_get_financial_year_number ( gint transaction_number,

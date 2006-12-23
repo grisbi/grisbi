@@ -27,21 +27,17 @@
 /*START_INCLUDE*/
 #include "gsb_payment_method.h"
 #include "gsb_data_account.h"
+#include "gsb_data_payment.h"
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
 #include "utils_str.h"
-#include "gsb_payment_method.h"
 #include "gsb_data_form.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static struct struct_type_ope *gsb_payment_method_get_structure ( gint payment_number,
-							   gint account_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint max;
 /*END_EXTERN*/
 
 
@@ -56,12 +52,14 @@ extern gint max;
  * \param combo_box
  * \param sign GSB_PAYMENT_DEBIT or GSB_PAYMENT_CREDIT
  * \param account_number
+ * \param exclude if we want to exclude a method of payment from the list, set the number here, else set 0
  *
  * \return FALSE if fail, TRUE if ok
  * */
 gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
 						gint sign,
-						gint account_number )
+						gint account_number,
+						gint exclude )
 {
     GtkListStore *store;
     GSList *tmp_list;
@@ -91,18 +89,21 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
 				  GTK_TREE_MODEL (store));
     }
 
-    tmp_list = gsb_data_account_get_method_payment_list (account_number);
-
-    while ( tmp_list )
+    /* we check all the method of payment to find wich of them we want in our store */
+    tmp_list = gsb_data_payment_get_payments_list ();
+    while (tmp_list)
     {
-	struct struct_type_ope *method_ptr;
+	gint payment_number;
 
-	method_ptr = tmp_list -> data;
+	payment_number = gsb_data_payment_get_number (tmp_list -> data);
 
-	/* we add the method of payment for the same sign or for neutrals */
-	if ( method_ptr -> signe_type == sign
-	     ||
-	     method_ptr -> signe_type == GSB_PAYMENT_NEUTRAL)
+	if ( gsb_data_payment_get_account_number (payment_number) == account_number
+	     &&
+	     ( gsb_data_payment_get_sign (payment_number) == sign
+	       ||
+	       gsb_data_payment_get_sign (payment_number) == GSB_PAYMENT_NEUTRAL )
+	     &&
+	     payment_number != exclude )
 	{
 	    GtkTreeIter iter;
 
@@ -110,8 +111,8 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
 				    &iter );
 	    gtk_list_store_set ( GTK_LIST_STORE (store),
 				 &iter,
-				 0, method_ptr -> nom_type,
-				 1, method_ptr -> no_type,
+				 0, gsb_data_payment_get_name (payment_number),
+				 1, payment_number,
 				 -1 );
 	    store_filled = 1;
 	}
@@ -173,7 +174,9 @@ gint gsb_payment_method_get_selected_number ( GtkWidget *combo_box )
     GtkTreeModel *model;
     GtkTreeIter iter;
 
-    if ( !combo_box )
+    if ( !combo_box
+	 ||
+	 !GTK_WIDGET_VISIBLE (combo_box))
 	return 0;
 
     model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));
@@ -189,47 +192,6 @@ gint gsb_payment_method_get_selected_number ( GtkWidget *combo_box )
 }
 
 
-/**
- * check if the selected payment has automatic number
- *
- * \param payment_number
- * \param account_number
- *
- * \return TRUE : has automatic number, FALSE else
- * */
-gboolean gsb_payment_method_get_automatic_number ( gint payment_number,
-						   gint account_number )
-{
-    struct struct_type_ope *method_ptr;
-
-    method_ptr = gsb_payment_method_get_structure ( payment_number,
-						    account_number );
-    if (method_ptr)
-	return method_ptr -> numerotation_auto;
-
-    return FALSE;
-}
-
-/**
- * check if the selected payment need to show the entry
- *
- * \param payment_number
- * \param account_number
- *
- * \return TRUE if need to show the entry, FALSE else
- * */
-gboolean gsb_payment_method_get_show_entry ( gint payment_number,
-					     gint account_number )
-{
-    struct struct_type_ope *method_ptr;
-
-    method_ptr = gsb_payment_method_get_structure ( payment_number,
-						    account_number );
-    if (method_ptr)
-	return method_ptr -> affiche_entree;
-
-    return FALSE;
-}
 
 
 /**
@@ -327,7 +289,6 @@ gboolean gsb_payment_method_set_combobox_history ( GtkWidget *combo_box,
 gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
 					       gpointer null )
 {
-    struct struct_type_ope *method_ptr;
     gint payment_number;
     GtkWidget *cheque_entry;
     gint account_number;
@@ -338,21 +299,18 @@ gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
 	return FALSE;
 
     payment_number = gsb_payment_method_get_selected_number (combo_box);
-    method_ptr = gsb_payment_method_get_structure ( payment_number,
-						    account_number );
 
-    if (!method_ptr)
+    if (!payment_number)
 	return FALSE;
 
-    if ( method_ptr -> affiche_entree )
+    if (gsb_data_payment_get_show_entry (payment_number))
     {
 	/* set the next number if needed */
-
-	if ( method_ptr -> numerotation_auto )
+	if (gsb_data_payment_get_automatic_numbering (payment_number))
 	{
 	    gsb_form_entry_get_focus (cheque_entry);
 	    gtk_entry_set_text ( GTK_ENTRY (cheque_entry),
-				 gsb_payment_method_get_automatic_current_number ( method_ptr ));
+				 utils_str_itoa (gsb_data_payment_get_last_number (payment_number)));
 	}
 	else
 	{
@@ -368,107 +326,6 @@ gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
 	gtk_widget_hide (cheque_entry);
 
     return FALSE;
-}
-
-
-/**
- * look for a payment number in a given account and return
- * a pointer to its structure
- *
- * \param payment_number wich we look for
- * \param account_number
- *
- * \return a pointer to the structure of the payment_number, NULL if problem
- * */
-struct struct_type_ope *gsb_payment_method_get_structure ( gint payment_number,
-							   gint account_number )
-{
-    GSList *tmp_list;
-    tmp_list = gsb_data_account_get_method_payment_list (account_number);
-
-    while ( tmp_list )
-    {
-	struct struct_type_ope *method_ptr;
-
-	method_ptr = tmp_list -> data;
-	if ( method_ptr -> no_type == payment_number )
-	    return method_ptr;
-
-	tmp_list = tmp_list -> next;
-    }
-    return NULL;
-}
-
-
-
-/**
- * Get the max content number associated to a method_ptr structure,
- * increment it and return it.  Handy to find the next number to fill
- * in the cheque field of the transaction form.
- *
- * \param payment_number
- * \param account_number
- *
- * \return	the maximum + 1
- */
-gint gsb_payment_method_automatic_numbering_get_new_number ( gint payment_number,
-							     gint account_number )
-{
-    struct struct_type_ope *method_ptr;
-
-    method_ptr = gsb_payment_method_get_structure ( payment_number,
-						    account_number );
-    if ( method_ptr )
-    {
- 	return method_ptr -> no_en_cours + 1;
-    }
-  
-    return 1;
-}
-
-/**
- * set the current number of a payment method
- *
- * \param payment_number
- * \param account_number
- * \param new_number a gint
- *
- * \return TRUE ok, FALSE pb
- * */
-gboolean gsb_payment_method_automatic_numbering_set_number ( gint payment_number,
-							     gint account_number,
-							     gint new_number )
-{
-    struct struct_type_ope *method_ptr;
-
-    method_ptr = gsb_payment_method_get_structure ( payment_number,
-						    account_number );
-    
-    if (!method_ptr)
-	return FALSE;
-
-    method_ptr -> no_en_cours = new_number;
-    return TRUE;
-}
-
-
-
-/**
- * Get the max content number associated to a method_ptr structure and
- * return it.
- *
- * \param method_ptr	The method_ptr structure to compute.
- *
- * \return	A textual representation of the maximum.
- */
-gchar *gsb_payment_method_get_automatic_current_number ( struct struct_type_ope * method_ptr )
-{
-    if ( method_ptr )
-    {
- 	return utils_str_itoa ( method_ptr -> no_en_cours );
-    }
-  
-    return "1";
 }
 
 

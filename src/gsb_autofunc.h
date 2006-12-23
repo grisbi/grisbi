@@ -40,6 +40,14 @@ GtkWidget *gsb_autofunc_radiobutton_new ( const gchar *choice1,
 					  gpointer data,
 					  GCallback default_func,
 					  gint number_for_func );
+GtkWidget *gsb_autofunc_spin_new ( gint value,
+				   GCallback hook,
+				   gpointer data,
+				   GCallback default_func,
+				   gint number_for_func );
+void gsb_autofunc_spin_set_value ( GtkWidget *spin_button,
+				   gint value,
+				   gint number_for_func );
 GtkWidget *gsb_autofunc_textview_new ( const gchar *value,
 				       GCallback hook,
 				       gpointer data,

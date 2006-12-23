@@ -35,15 +35,14 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_payment.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
 #include "main.h"
 #include "utils_str.h"
-#include "search_glist.h"
 #include "utils_files.h"
 #include "include.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -387,19 +386,10 @@ void csv_export ( gchar * filename, gint account_nb )
 		  csv_field_debit  = gsb_real_get_string (gsb_real_abs (amount));
 	      }
 
-	      /* met le chÃ¨que si c'est un type Ã  numÃ©rotation automatique */
+	      /* met le cheque si c'est un type a numerotation automatique */
 	      payment_method = gsb_data_transaction_get_method_of_payment_number ( pTransaction );
-	      pMiscList = g_slist_find_custom ( gsb_data_account_get_method_payment_list ( account_nb ),
-						GINT_TO_POINTER ( payment_method ),
-						(GCompareFunc) recherche_type_ope_par_no );
-
-	      if ( pMiscList )
-	      {
-		  struct struct_type_ope * type = pMiscList -> data;
-
-		  if ( type -> numerotation_auto )
-		      csv_field_cheque = my_strdup ( gsb_data_transaction_get_method_of_payment_content ( pTransaction ) );
-	      }
+	      if (gsb_data_payment_get_automatic_numbering (payment_method))
+		  csv_field_cheque = my_strdup ( gsb_data_transaction_get_method_of_payment_content ( pTransaction ) );
 
 	      if ( gsb_data_transaction_get_budgetary_number ( pTransaction ) != -1 )
 	      {
@@ -498,17 +488,8 @@ void csv_export ( gchar * filename, gint account_nb )
 
 			  /* met le chã¨que si c'est un type ã  numã©rotation automatique */
 			  payment_method = gsb_data_transaction_get_method_of_payment_number ( pBreakdownTransaction );
-			  pMiscList = g_slist_find_custom ( gsb_data_account_get_method_payment_list ( account_nb ),
-							    GINT_TO_POINTER ( payment_method ),
-							    (GCompareFunc) recherche_type_ope_par_no );
-
-			  if ( pMiscList )
-			  {
-			      struct struct_type_ope * type = pMiscList -> data;
-
-			      if ( type -> numerotation_auto )
-				  csv_field_cheque = my_strdup ( gsb_data_transaction_get_method_of_payment_content ( pBreakdownTransaction ) );
-			  }
+			  if (gsb_data_payment_get_automatic_numbering (payment_method))
+			      csv_field_cheque = my_strdup ( gsb_data_transaction_get_method_of_payment_content ( pBreakdownTransaction ) );
 
 			  /* Budgetary lines */
 			  if ( gsb_data_transaction_get_budgetary_number ( pBreakdownTransaction ) != -1 )

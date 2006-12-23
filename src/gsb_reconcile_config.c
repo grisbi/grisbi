@@ -31,17 +31,18 @@
 /*START_INCLUDE*/
 #include "gsb_reconcile_config.h"
 #include "gsb_data_account.h"
-#include "navigation.h"
+#include "gsb_data_payment.h"
+#include "utils_str.h"
 #include "utils.h"
-#include "utils_types.h"
 #include "structures.h"
 #include "gsb_reconcile_config.h"
 #include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void deplacement_type_tri_bas ( void );
-static void deplacement_type_tri_haut ( GtkWidget * button, gpointer data );
+static gboolean deplacement_type_tri_bas ( void );
+static gboolean deplacement_type_tri_haut ( GtkWidget * button, gpointer data );
+static gboolean gsb_reconcile_config_update_account_sort_list ( gint account_number );
 static void reconcile_by_date_toggled ( GtkCellRendererToggle *cell, 
 				 gchar *path_str, gpointer data );
 static void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell, 
@@ -72,70 +73,81 @@ void fill_reconciliation_tree ()
 
     while ( list_tmp )
     {
-	gint i;
-	GSList * liste_tmp;
+	gint account_number;
+	GSList *sorted_list;
 
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
+	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	gtk_tree_store_append (reconcile_model, &account_iter, NULL);
 	gtk_tree_store_set (reconcile_model, &account_iter,
-			    RECONCILIATION_NAME_COLUMN, gsb_data_account_get_name (i),
+			    RECONCILIATION_NAME_COLUMN, gsb_data_account_get_name (account_number),
 			    RECONCILIATION_VISIBLE_COLUMN, TRUE,
-			    RECONCILIATION_SORT_COLUMN, !gsb_data_account_get_reconcile_sort_type(i),
-			    RECONCILIATION_SPLIT_NEUTRAL_COLUMN, gsb_data_account_get_split_neutral_payment (i),
-			    RECONCILIATION_ACCOUNT_COLUMN, i,
+			    RECONCILIATION_SORT_COLUMN, !gsb_data_account_get_reconcile_sort_type(account_number),
+			    RECONCILIATION_SPLIT_NEUTRAL_COLUMN, gsb_data_account_get_split_neutral_payment (account_number),
+			    RECONCILIATION_ACCOUNT_COLUMN, account_number,
 			    RECONCILIATION_TYPE_COLUMN, -1,
 			    -1 );
 
-	liste_tmp = gsb_data_account_get_sort_list (i);
+	/* the sorted list is a list of numbers of method of payment, in the good order */
+	sorted_list = gsb_data_account_get_sort_list (account_number);
 
-	while ( liste_tmp )
+	while ( sorted_list )
 	{
-	    struct struct_type_ope * type_ope;
+	    gint payment_number;
 
-	    type_ope = type_ope_par_no ( abs(GPOINTER_TO_INT(liste_tmp -> data)),
-					 i );
-	    if ( type_ope )
+	    /* in the sorted list, a number can be negative, when split a neutral into 2 parts
+	     * so payment number here can be negative for neutral payments */
+	    payment_number = GPOINTER_TO_INT (sorted_list -> data);
+
+	    if (payment_number)
 	    {
-		gchar * nom;
+		gchar *name = NULL;
 
-		gtk_tree_store_append (reconcile_model, &payment_method_iter, 
+		gtk_tree_store_append (reconcile_model,
+				       &payment_method_iter, 
 				       &account_iter);
 
-		if ( (type_ope -> signe_type == 1
-		      ||
-		      !type_ope -> signe_type)
-		     &&
-		     gsb_data_account_get_split_neutral_payment (i) 
-		     &&
-		     GPOINTER_TO_INT(liste_tmp->data) < 0 )
-		    nom = g_strconcat ( type_ope -> nom_type, " ( - )", NULL );
-		else 
-		    if ((type_ope -> signe_type == 2
-			 ||
-			 ! type_ope -> signe_type)
-			&&
-			gsb_data_account_get_split_neutral_payment (i)
-			&&
-			GPOINTER_TO_INT(liste_tmp->data) > 0 )
-			nom = g_strconcat ( type_ope -> nom_type, " ( + )", NULL );
-		    else
-			nom = type_ope -> nom_type;
+		/* if split the neutrals, show here with the name */
+		switch (gsb_data_payment_get_sign (abs (payment_number)))
+		{
+		    case GSB_PAYMENT_DEBIT:
+		    case GSB_PAYMENT_CREDIT:
+			name = my_strdup (gsb_data_payment_get_name (payment_number));
+			break;
+
+		    case GSB_PAYMENT_NEUTRAL:
+			    if (gsb_data_account_get_split_neutral_payment (account_number))
+			    {
+				/* the neutrals are splitted */
+				if (payment_number < 0)
+				    name = g_strconcat ( gsb_data_payment_get_name (-payment_number),
+							 " ( - )", NULL );
+				else
+				    name = g_strconcat ( gsb_data_payment_get_name (payment_number),
+							 " ( + )", NULL );
+			    }
+			    else
+				name = my_strdup (gsb_data_payment_get_name (payment_number));
+			    break;
+		}
 
 		gtk_tree_store_set (reconcile_model, &payment_method_iter,
-				    RECONCILIATION_NAME_COLUMN, nom,
+				    RECONCILIATION_NAME_COLUMN, name,
 				    RECONCILIATION_VISIBLE_COLUMN, FALSE,
 				    RECONCILIATION_SORT_COLUMN, FALSE,
 				    RECONCILIATION_SPLIT_NEUTRAL_COLUMN, FALSE,
-				    RECONCILIATION_ACCOUNT_COLUMN, i,
-				    RECONCILIATION_TYPE_COLUMN, type_ope -> no_type,
+				    RECONCILIATION_ACCOUNT_COLUMN, account_number,
+				    RECONCILIATION_TYPE_COLUMN, abs (payment_number),
 				    -1 );
+		if (name)
+		    g_free (name);
 	    }
-	    liste_tmp = liste_tmp -> next;
+	    sorted_list = sorted_list -> next;
 	}
 
-	if ( gtk_tree_model_iter_has_child( GTK_TREE_MODEL(reconcile_model), &account_iter) &&
-	     gsb_data_account_get_reconcile_sort_type (i) )
+	if ( gtk_tree_model_iter_has_child( GTK_TREE_MODEL(reconcile_model), &account_iter)
+	     &&
+	     gsb_data_account_get_reconcile_sort_type (account_number) )
 	{
 	    GtkTreePath * treepath;
 	    treepath = gtk_tree_model_get_path (GTK_TREE_MODEL(reconcile_model), &account_iter);
@@ -192,21 +204,20 @@ void select_reconciliation_entry ( GtkTreeSelection * tselection,
 /** 
  * TODO: document this
  */
-void deplacement_type_tri_haut ( GtkWidget * button, gpointer data )
+gboolean deplacement_type_tri_haut ( GtkWidget * button, gpointer data )
 {
     GtkTreePath * treepath;
     gboolean good, visible;
     GtkTreeIter iter, other;
-    GSList * elt;
-    gint no_type;
-    gint no_compte;
+    gint payment_number;
+    gint account_number;
 
     good = gtk_tree_selection_get_selected (reconcile_selection, NULL, &iter);
     if (good)
 	gtk_tree_model_get ( GTK_TREE_MODEL(reconcile_model), &iter, 
 			     RECONCILIATION_VISIBLE_COLUMN, &visible,
-			     RECONCILIATION_ACCOUNT_COLUMN, &no_compte,
-			     RECONCILIATION_TYPE_COLUMN, &no_type,
+			     RECONCILIATION_ACCOUNT_COLUMN, &account_number,
+			     RECONCILIATION_TYPE_COLUMN, &payment_number,
 			     -1 );
 
     if ( good && ! visible )
@@ -225,41 +236,28 @@ void deplacement_type_tri_haut ( GtkWidget * button, gpointer data )
 
     select_reconciliation_entry ( reconcile_selection, 
 				  GTK_TREE_MODEL(reconcile_model) );
-
-    for ( elt = gsb_data_account_get_sort_list (no_compte) ; elt -> next ; elt = elt -> next )
-    {
-	if ( elt -> next &&
-	     GPOINTER_TO_INT(elt -> next -> data) == no_type )
-	{
-	    gsb_data_account_set_sort_list ( no_compte,
-					     g_slist_remove ( gsb_data_account_get_sort_list (no_compte), (gpointer) no_type ) );
-	    gsb_data_account_set_sort_list ( no_compte,
-					     g_slist_insert_before ( gsb_data_account_get_sort_list (no_compte), elt, (gpointer) no_type ) );
-	    break;
-	}
-    }  
+    gsb_reconcile_config_update_account_sort_list (account_number);
+    return FALSE;
 }
-
 
 
 /** 
  * TODO: document this
  */
-void deplacement_type_tri_bas ( void )
+gboolean deplacement_type_tri_bas ( void )
 {
     GtkTreePath * treepath;
     gboolean good, visible;
     GtkTreeIter iter, other;
-    GSList * elt;
-    gint no_type;
-    gint no_compte;
+    gint payment_number;
+    gint account_number;
 
     good = gtk_tree_selection_get_selected (reconcile_selection, NULL, &iter);
     if (good)
 	gtk_tree_model_get ( GTK_TREE_MODEL(reconcile_model), &iter, 
 			     RECONCILIATION_VISIBLE_COLUMN, &visible,
-			     RECONCILIATION_ACCOUNT_COLUMN, &no_compte,
-			     RECONCILIATION_TYPE_COLUMN, &no_type,
+			     RECONCILIATION_ACCOUNT_COLUMN, &account_number,
+			     RECONCILIATION_TYPE_COLUMN, &payment_number,
 			     -1 );
 
     if ( good && ! visible )
@@ -278,21 +276,64 @@ void deplacement_type_tri_bas ( void )
 
     select_reconciliation_entry ( reconcile_selection, 
 				  GTK_TREE_MODEL(reconcile_model) );
-
-    for ( elt = gsb_data_account_get_sort_list (no_compte) ; elt -> next ; elt = elt -> next )
-    {
-	if ( elt -> next && ((gint) elt -> data) == no_type )
-	{
-	    gint ref = ((gint) elt -> next -> data);
-	    gsb_data_account_set_sort_list ( no_compte,
-					     g_slist_remove ( gsb_data_account_get_sort_list (no_compte), (gpointer) ref ) );
-	    gsb_data_account_set_sort_list ( no_compte,
-					     g_slist_insert_before ( gsb_data_account_get_sort_list (no_compte), elt, (gpointer) ref ) );
-	    break;
-	}
-    }  
+    gsb_reconcile_config_update_account_sort_list (account_number);
+    return FALSE;
 }
 
+
+
+/**
+ * update the sort list of an account according to the model 
+ * called when change something in the order of method of payment
+ *
+ * \param account_number
+ *
+ * \return FALSE
+ * */
+gboolean gsb_reconcile_config_update_account_sort_list ( gint account_number )
+{
+    GtkTreeIter iter;
+
+    gsb_data_account_sort_list_free (account_number);
+
+    if (gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (reconcile_model),
+					&iter ))
+    {
+	/* first, we try to find the account line */
+	do
+	{
+	    gint account_number_tmp;
+
+	    gtk_tree_model_get ( GTK_TREE_MODEL(reconcile_model), &iter, 
+				 RECONCILIATION_ACCOUNT_COLUMN, &account_number_tmp,
+				 -1 );
+	    if (account_number_tmp == account_number)
+	    {
+		/* ok, we are on the good account,
+		 * now we append the method of payment in the same order as the list */
+		GtkTreeIter iter_child;
+
+		if (gtk_tree_model_iter_children ( GTK_TREE_MODEL (reconcile_model), &iter_child, &iter))
+		{
+		    do
+		    {
+			gint payment_number;
+
+			gtk_tree_model_get ( GTK_TREE_MODEL(reconcile_model), &iter_child, 
+					     RECONCILIATION_TYPE_COLUMN, &payment_number,
+					     -1 );
+			gsb_data_account_sort_list_add ( account_number, payment_number );
+		    }
+		    while (gtk_tree_model_iter_next (GTK_TREE_MODEL (reconcile_model), &iter_child));
+		}
+	    }
+	}
+	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (reconcile_model), &iter)
+	       &&
+	       !gsb_data_account_get_sort_list (account_number));
+    }
+    return FALSE;
+}
 
 
 
@@ -306,7 +347,7 @@ void reconcile_by_date_toggled ( GtkCellRendererToggle *cell,
     GtkTreePath * treepath;
     GtkTreeIter iter;
     gboolean toggle;
-    gint no_compte;
+    gint account_number;
 
     treepath = gtk_tree_path_new_from_string ( path_str );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL (reconcile_model),
@@ -314,7 +355,7 @@ void reconcile_by_date_toggled ( GtkCellRendererToggle *cell,
 
     gtk_tree_model_get (GTK_TREE_MODEL(reconcile_model), &iter, 
 			RECONCILIATION_SORT_COLUMN, &toggle, 
-			RECONCILIATION_ACCOUNT_COLUMN, &no_compte,
+			RECONCILIATION_ACCOUNT_COLUMN, &account_number,
 			-1);
 
     toggle ^= 1;
@@ -326,7 +367,7 @@ void reconcile_by_date_toggled ( GtkCellRendererToggle *cell,
 
     /* Set to 1 (sort by types) if toggle is not selected */
 
-    gsb_data_account_set_reconcile_sort_type ( no_compte,
+    gsb_data_account_set_reconcile_sort_type ( account_number,
 					       ! toggle );
 
     if (toggle)
@@ -350,81 +391,57 @@ void reconcile_by_date_toggled ( GtkCellRendererToggle *cell,
 void reconcile_include_neutral_toggled ( GtkCellRendererToggle *cell, 
 					 gchar *path_str, gpointer data )
 {
-    GSList * liste_tmp;
     GtkTreePath * treepath;
     GtkTreeIter iter;
-    gboolean toggle, clear_tree = 0;
-    gint no_compte;
+    gboolean toggle;
+    gint account_number;
 
+    /* invert the toggle */
     treepath = gtk_tree_path_new_from_string ( path_str );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL (reconcile_model),
 			      &iter, treepath );
 
     gtk_tree_model_get (GTK_TREE_MODEL(reconcile_model), &iter, 
 			RECONCILIATION_SPLIT_NEUTRAL_COLUMN, &toggle, 
-			RECONCILIATION_ACCOUNT_COLUMN, &no_compte,
+			RECONCILIATION_ACCOUNT_COLUMN, &account_number,
 			-1);
-
     toggle ^= 1;
-
-    gsb_data_account_set_split_neutral_payment ( no_compte,
-						 toggle );
-
-    /* set new value */
     gtk_tree_store_set (GTK_TREE_STORE (reconcile_model), &iter, 
 			RECONCILIATION_SPLIT_NEUTRAL_COLUMN, toggle, 
 			-1);
 
-    if ( toggle )
+    /* and save it */
+    gsb_data_account_set_split_neutral_payment ( account_number,
+						 toggle );
+
+    GSList *sorted_list;
+
+    sorted_list = gsb_data_account_get_sort_list (account_number);
+
+    while ( sorted_list )
     {
-	liste_tmp = gsb_data_account_get_sort_list (no_compte);
+	gint payment_number;
 
-	while ( liste_tmp )
+	payment_number = GPOINTER_TO_INT (sorted_list -> data);
+
+	/* need to do that first to avoid problems later with remove,
+	 * but cannot use again sorted list after that */
+	sorted_list = sorted_list -> next;
+
+	/* payment_number can be negative, so do for it abs */
+	if ( gsb_data_payment_get_sign (abs (payment_number)) == GSB_PAYMENT_NEUTRAL )
 	{
-	    struct struct_type_ope *type_ope = NULL;
-
-	    if ( GPOINTER_TO_INT ( liste_tmp->data ) > 0 )
-	    {
-		type_ope = type_ope_par_no ( GPOINTER_TO_INT ( liste_tmp -> data ),
-					     gsb_gui_navigation_get_current_account () );
-
-		if ( type_ope && !type_ope->signe_type )
-		{
-		    gsb_data_account_set_sort_list ( no_compte,
-						     g_slist_append ( gsb_data_account_get_sort_list (no_compte),
-								      GINT_TO_POINTER ( - GPOINTER_TO_INT ( liste_tmp->data ))));
-
-		    clear_tree = 1;
-		}
-	    }
-	    liste_tmp = liste_tmp -> next;
-	}
-    }
-    else
-    {
-	/* on efface tous les nombres négatifs de la liste */
-
-	liste_tmp = gsb_data_account_get_sort_list (no_compte);
-
-	while ( liste_tmp )
-	{
-	    if ( GPOINTER_TO_INT ( liste_tmp->data ) < 0 )
-	    {
-		gsb_data_account_set_sort_list ( no_compte,
-						 g_slist_remove ( gsb_data_account_get_sort_list (no_compte), liste_tmp -> data ) );
-		liste_tmp = gsb_data_account_get_sort_list (no_compte);
-		clear_tree = 1;
-	    }
+	    if (toggle)
+		gsb_data_account_sort_list_add ( account_number,
+						 -payment_number );
 	    else
-		liste_tmp = liste_tmp -> next;
+		if (payment_number < 0 )
+		    gsb_data_account_sort_list_remove ( account_number,
+							payment_number );
 	}
     }
-
-    if ( clear_tree )
-    {
-	gtk_tree_store_clear ( GTK_TREE_STORE(reconcile_model) );
-	fill_reconciliation_tree ( );
-    } 
+    gtk_tree_store_clear ( GTK_TREE_STORE(reconcile_model) );
+    fill_reconciliation_tree ( );
 }
 
 
@@ -464,7 +481,7 @@ GtkWidget * tab_display_reconciliation ( void )
 					   G_TYPE_BOOLEAN, /* Sort by date */
 					   G_TYPE_BOOLEAN, /* Split neutrals */
 					   G_TYPE_POINTER, /* Account pointer */
-					   G_TYPE_INT ); /* type_ope -> no_type */
+					   G_TYPE_INT ); /* payment number */
     reconcile_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (reconcile_model) );
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (reconcile_treeview), TRUE);
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (reconcile_treeview)),

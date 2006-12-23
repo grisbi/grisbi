@@ -19,8 +19,6 @@ void gsb_automem_checkbutton_set_value ( GtkWidget *checkbutton,
 GtkWidget *gsb_automem_entry_new ( gchar **value,
 				   GCallback hook,
 				   gpointer data );
-void gsb_automem_entry_set_value ( GtkWidget *entry,
-				   gchar **value );
 GtkWidget *gsb_automem_imagefile_button_new ( GsbButtonStyle style,
 					      const gchar * name, const gchar * filename,
 					      GCallback callback, gpointer data );
@@ -32,8 +30,6 @@ GtkWidget *gsb_automem_radiobutton_new_with_title ( GtkWidget *parent,
 GtkWidget *gsb_automem_spin_button_new ( gint *value, 
 					 GCallback hook,
 					 gpointer data );
-void gsb_automem_spin_button_set_value ( GtkWidget *spin,
-					 gint *value );
 GtkWidget *gsb_automem_stock_button_menu_new ( GsbButtonStyle style,
 					       const gchar * stock_id, const gchar * name, 
 					       GCallback callback, gpointer data );

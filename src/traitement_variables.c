@@ -41,6 +41,7 @@
 #include "gsb_data_currency_link.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_payment.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
@@ -204,6 +205,7 @@ void init_variables ( void )
     gsb_data_fyear_init_variables ();
     gsb_data_bank_init_variables ();
     gsb_data_reconcile_init_variables ();
+    gsb_data_payment_init_variables ();
 
     gsb_currency_init_variables ();
     gsb_fyear_init_variables ();
@@ -480,8 +482,8 @@ void init_default_sort_column ( gint no_account )
     for ( i = 0 ; i<4 ; i++ )
 	for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
 	{
-	    if ( !gsb_data_account_get_column_sort ( no_account,
-						j )
+	    if ( !gsb_data_account_get_element_sort ( no_account,
+						      j )
 		 &&
 		 tab_affichage_ope[i][j]
 		 &&

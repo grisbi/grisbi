@@ -169,20 +169,6 @@ struct {
 
 
 
-struct struct_type_ope
-{
-    gint no_type;
-    gchar *nom_type;
-    gint signe_type;   /* 0=neutre, 1=débit, 2=crédit */
-    gint affiche_entree;    /* par ex pour virement, chèques ... */
-    gint numerotation_auto;        /* pour les chèques */
-    gint no_en_cours;
-    gint no_compte;
-};
-
-
-
-
 enum alignement {
     LEFT, CENTER, RIGHT,
 };

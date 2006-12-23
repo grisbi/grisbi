@@ -37,6 +37,7 @@
 #include "dialog.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency_link.h"
+#include "gsb_data_payment.h"
 #include "utils_dates.h"
 #include "gsb_real.h"
 #include "utils_str.h"
@@ -1868,6 +1869,40 @@ gint gsb_data_transaction_find_by_payment_content ( const gchar *string,
     return 0;
 }
 
+
+/**
+ * find a transaction by its id
+ *
+ * \param id a string containing an id
+ *
+ * \return the number of transaction or 0 if none found
+ * */
+gint gsb_data_transaction_find_by_id ( gchar *id )
+{
+    GSList *tmp_list;
+
+    if (!id)
+	return 0;
+
+    tmp_list = transactions_list;
+    while (tmp_list)
+    {
+	struct_transaction *transaction;
+
+	transaction = tmp_list -> data;
+
+	if ( transaction -> transaction_id
+	     &&
+	     !strcmp ( id,
+		       transaction -> transaction_id ))
+	    return transaction -> transaction_number;
+	tmp_list = tmp_list -> next;
+    }
+    return 0;
+}
+
+
+
 /**
  * return the number of transaction in the given account
  *
@@ -1950,3 +1985,45 @@ gint gsb_data_transaction_get_white_line ( gint transaction_number )
     }
     return -1;
 }
+
+
+/**
+ * check if a number of cheque is not already used for a automatic numbering method of payment
+ *
+ * \param payment_number an automatic numbering method of payment
+ * \param number the number we want to set as content for that method of payment
+ * 		(ie the number of cheque...)
+ *
+ * \return the number of the transaction if one is found, FALSE if none found, so can use it
+ * */
+gint gsb_data_transaction_check_content_payment ( gint payment_number,
+						  gint number )
+{
+    GSList *tmp_list;
+
+    if (!gsb_data_payment_get_automatic_numbering (payment_number))
+	/* the method of payment is not an automatic numbering, return TRUE because
+	 * can always use this number */
+	return FALSE;
+
+    if (!number)
+	return FALSE;
+
+    tmp_list = transactions_list;
+    while (tmp_list)
+    {
+	struct_transaction *transaction;
+
+	transaction = tmp_list -> data;
+
+	if ( transaction -> method_of_payment_number == payment_number
+	     &&
+	     utils_str_atoi (transaction -> method_of_payment_content) == number )
+	    return transaction -> transaction_number;
+	tmp_list = tmp_list -> next;
+    }
+    return FALSE;
+}
+
+
+

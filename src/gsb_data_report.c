@@ -3862,6 +3862,7 @@ gboolean gsb_data_report_set_amount_comparison_list ( gint report_number,
 
 /**
  * get the  method_of_payment_list
+ * this is a list of string of method of payment we want to see in the report
  * 
  * \param report_number the number of the report
  *

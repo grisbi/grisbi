@@ -51,6 +51,8 @@ static  gboolean gsb_autofunc_entry_changed ( GtkWidget *entry,
 					     gboolean default_func (gint, const gchar *));
 static  gboolean gsb_autofunc_int_changed ( GtkWidget *entry,
 					   gboolean default_func (gint, gint));
+static  gboolean gsb_autofunc_spin_changed ( GtkWidget *spin_button,
+					    gboolean default_func (gint, gint));
 static  gboolean gsb_autofunc_textview_changed ( GtkTextBuffer *buffer,
 						gboolean default_func (gint, const gchar *));
 /*END_STATIC*/
@@ -80,6 +82,7 @@ static  gboolean gsb_autofunc_textview_changed ( GtkTextBuffer *buffer,
  * \param data An optional pointer to pass to hooks.
  * \param default_func The function to call to change the value in memory (function must be func ( number, string ) ) or NULL
  * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * 				that number can be changed with gsb_autofunc_entry_set_value
  *
  * \return a new GtkEntry
  * */
@@ -328,7 +331,7 @@ static gboolean gsb_autofunc_textview_changed ( GtkTextBuffer *buffer,
  * ie the target function must be :
  * 	(default_func) ( gint number_for_func,
  * 			 gint value )
- * ex : gsb_data_account_get_column_sort ( gint account_number,
+ * ex : gsb_data_account_get_element_sort ( gint account_number,
  *						 gint no_column )
  *
  * \param value a gint to fill the entry
@@ -489,6 +492,137 @@ static gboolean gsb_autofunc_int_changed ( GtkWidget *entry,
     return FALSE;
 }
 
+
+/*
+ * creates a new GtkSpinButton with a int inside (not float) wich will modify the value according to the entry for a gint
+ * but made for values in grisbi structure :
+ * for each change, will call the corresponding given function : gsb_data_... ( number, gint value content )
+ * ie the target function must be :
+ * 	(default_func) ( gint number_for_func,
+ * 			 gint value )
+ * ex : gsb_data_account_get_element_sort ( gint account_number,
+ *						 gint no_column )
+ *
+ * for now, there is standard values for the adjustement of the spin-button, change the param if necessary later
+ * 	to adapt the values
+ *
+ * \param value a gint to fill the entry of the spin button
+ * \param hook an optional function to execute as a handler if the
+ * 	entry's contents are modified.
+ * 	hook should be :
+ * 		gboolean hook ( GtkWidget *entry,
+ * 				gpointer data )
+ *
+ * \param data An optional pointer to pass to hooks.
+ * \param default_func The function to call to change the value in memory (function must be func ( number, gint ) ) or NULL
+ * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with number_for_func)
+ *
+ * \return a new GtkSpinButton
+ * */
+GtkWidget *gsb_autofunc_spin_new ( gint value,
+				   GCallback hook,
+				   gpointer data,
+				   GCallback default_func,
+				   gint number_for_func )
+{
+    GtkWidget *spin_button;
+
+    /* create and fill the spin button */
+    spin_button = gtk_spin_button_new_with_range ( 0.0, G_MAXDOUBLE, 1.0 );
+
+    gtk_spin_button_set_value ( GTK_SPIN_BUTTON (spin_button),
+				value );
+
+    /* set the default func :
+     * the func will be send to gsb_editable_set_text by the data,
+     * the number_for_func will be set as data for object */
+    g_object_set_data ( G_OBJECT (spin_button),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+    if (default_func)
+	g_object_set_data ( G_OBJECT (spin_button), "changed", 
+			    (gpointer) g_signal_connect_after (G_OBJECT(spin_button), "value-changed",
+							       G_CALLBACK (gsb_autofunc_int_changed), default_func ));
+    if ( hook )
+	g_object_set_data ( G_OBJECT (spin_button), "changed-hook", 
+			    (gpointer) g_signal_connect_after (GTK_OBJECT(spin_button), "value-changed",
+							       G_CALLBACK ( hook), data ));
+    return spin_button;
+}
+
+
+/** 
+ * set the value in a autofunc_spin entry
+ * a value is in 2 parts :
+ * 	a gint, wich be showed in the spint button
+ * 	a number, wich is used when there is a change in that sping button (see gsb_autofunc_int_new)
+ *
+ * \param spin_button
+ * \param value a gint to set in the spin_button
+ * \param number_for_func the number to give to the called function when something is changed
+ *
+ * \return
+ */
+void gsb_autofunc_spin_set_value ( GtkWidget *spin_button,
+				   gint value,
+				   gint number_for_func )
+{
+    /* Block everything */
+    if ( g_object_get_data (G_OBJECT (spin_button), "changed") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(spin_button),
+				 (gulong) g_object_get_data (G_OBJECT (spin_button), 
+							     "changed"));
+    if ( g_object_get_data (G_OBJECT (spin_button), "changed-hook") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(spin_button),
+				 (gulong) g_object_get_data (G_OBJECT (spin_button), 
+							     "changed-hook"));
+
+    /* Fill in value */
+    gtk_spin_button_set_value ( GTK_SPIN_BUTTON (spin_button),
+				value );
+
+    g_object_set_data ( G_OBJECT (spin_button),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+
+    /* Unblock everything */
+    if ( g_object_get_data (G_OBJECT (spin_button), "changed") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(spin_button),
+				   (gulong) g_object_get_data (G_OBJECT (spin_button), 
+							       "changed"));
+    if ( g_object_get_data (G_OBJECT (spin_button), "changed-hook") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(spin_button),
+				   (gulong) g_object_get_data (G_OBJECT (spin_button), 
+							       "changed-hook"));
+}
+
+
+
+/**
+ * called when something change in an spin_button of a autofunc_spin
+ * 	by gsb_autofunc_spin_new
+ *
+ * \param spin_button The reference GtkSpinButton
+ * \param default_func the function to call to change the value in memory
+ *
+ * \return FALSE
+ */
+static gboolean gsb_autofunc_spin_changed ( GtkWidget *spin_button,
+					    gboolean default_func (gint, gint))
+{
+    gint number_for_func;
+
+    /* just to be sure... */
+    if (!default_func || !spin_button)
+	return FALSE;
+
+    number_for_func = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (spin_button), "number_for_func"));
+    default_func ( number_for_func,
+		   gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON (spin_button)));
+
+    /* Mark file as modified */
+    modification_fichier ( TRUE );
+
+    return FALSE;
+}
 
 
 /*

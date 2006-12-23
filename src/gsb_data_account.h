@@ -32,8 +32,6 @@ gchar *gsb_data_account_get_bank_account_key ( gint account_number );
 gchar *gsb_data_account_get_bank_account_number ( gint account_number );
 gchar *gsb_data_account_get_bank_branch_code ( gint account_number );
 gint gsb_data_account_get_closed_account ( gint account_number );
-gint gsb_data_account_get_column_sort ( gint account_number,
-					gint no_column );
 gchar *gsb_data_account_get_comment ( gint account_number );
 gint gsb_data_account_get_currency ( gint account_number );
 gsb_real gsb_data_account_get_current_balance ( gint account_number );
@@ -41,6 +39,8 @@ GDate *gsb_data_account_get_current_reconcile_date ( gint account_number );
 gint gsb_data_account_get_current_transaction_number ( gint account_number );
 gint gsb_data_account_get_default_credit ( gint account_number );
 gint gsb_data_account_get_default_debit ( gint account_number );
+gint gsb_data_account_get_element_sort ( gint account_number,
+					 gint no_column );
 gpointer gsb_data_account_get_form_organization ( gint account_number );
 gchar *gsb_data_account_get_holder_address ( gint account_number );
 gchar *gsb_data_account_get_holder_name ( gint account_number );
@@ -50,7 +50,6 @@ gsb_real gsb_data_account_get_init_balance ( gint account_number,
 kind_account gsb_data_account_get_kind ( gint account_number );
 GSList *gsb_data_account_get_list_accounts ( void );
 gsb_real gsb_data_account_get_marked_balance ( gint account_number );
-GSList *gsb_data_account_get_method_payment_list ( gint account_number );
 gsb_real gsb_data_account_get_mini_balance_authorized ( gint account_number );
 gboolean gsb_data_account_get_mini_balance_authorized_message ( gint account_number );
 gsb_real gsb_data_account_get_mini_balance_wanted ( gint account_number );
@@ -114,8 +113,6 @@ gboolean gsb_data_account_set_kind ( gint account_number,
 				     kind_account account_kind );
 gboolean gsb_data_account_set_marked_balance ( gint account_number,
 					       gsb_real balance );
-gboolean gsb_data_account_set_method_payment_list ( gint account_number,
-						    GSList *list );
 gboolean gsb_data_account_set_mini_balance_authorized ( gint account_number,
 							gsb_real balance );
 gboolean gsb_data_account_set_mini_balance_authorized_message ( gint account_number,
@@ -148,6 +145,11 @@ gboolean gsb_data_account_set_update_list ( gint account_number,
 					    gboolean value );
 gboolean gsb_data_account_set_vertical_adjustment_value ( gint account_number,
 							  GtkTreePath *vertical_adjustment_value );
+gboolean gsb_data_account_sort_list_add ( gint account_number,
+					  gint payment_number );
+gboolean gsb_data_account_sort_list_free ( gint account_number );
+gboolean gsb_data_account_sort_list_remove ( gint account_number,
+					     gint payment_number );
 /* END_DECLARATION */
 
 

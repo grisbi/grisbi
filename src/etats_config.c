@@ -28,7 +28,7 @@
 
 /*START_INCLUDE*/
 #include "etats_config.h"
-#include "search_glist.h"
+#include "etats_calculs.h"
 #include "tiers_onglet.h"
 #include "utils.h"
 #include "erreur.h"
@@ -40,6 +40,7 @@
 #include "gsb_data_category.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_payment.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
 #include "gsb_data_report_text_comparison.h"
@@ -48,7 +49,6 @@
 #include "classement_operations.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
-#include "etats_calculs.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
@@ -7623,7 +7623,7 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 /******************************************************************************/
 void remplissage_liste_modes_paiement_etats ( void )
 {
-    GSList *liste_nom_types;
+    GSList *liste_nom_types = NULL;
     GSList *list_tmp;
 
 
@@ -7632,42 +7632,26 @@ void remplissage_liste_modes_paiement_etats ( void )
 
     gtk_clist_clear ( GTK_CLIST ( liste_mode_paiement_etat ) );
 
-    /* on va commencer par créer une liste de textes contenant les noms */
-    /* des modes de paiement sans doublon */
+    /* create a list of unique names */
 
-    list_tmp = gsb_data_account_get_list_accounts ();
-    liste_nom_types = NULL;
+    list_tmp = gsb_data_payment_get_payments_list ();
 
-    while ( list_tmp )
+    while (list_tmp)
     {
-	gint i;
-	GSList *list_tmp_2;
+	gint payment_number;
 
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
+	payment_number = gsb_data_payment_get_number (list_tmp -> data);
 
-	list_tmp_2 = gsb_data_account_get_method_payment_list (i);
-
-	while ( list_tmp_2 )
-	{
-	    struct struct_type_ope *type_ope;
-
-	    type_ope = list_tmp_2 -> data;
-
-	    if ( !g_slist_find_custom ( liste_nom_types,
-					type_ope -> nom_type,
-					(GCompareFunc) cherche_string_equivalente_dans_slist ))
-		liste_nom_types = g_slist_append ( liste_nom_types,
-						   my_strdup ( type_ope -> nom_type ));
-
-	    list_tmp_2 = list_tmp_2 -> next;
-	}
+	if ( !g_slist_find_custom ( liste_nom_types,
+				    gsb_data_payment_get_name (payment_number),
+				    (GCompareFunc) cherche_string_equivalente_dans_slist ))
+	    liste_nom_types = g_slist_append ( liste_nom_types,
+					       my_strdup (gsb_data_payment_get_name (payment_number)));
 
 	list_tmp = list_tmp -> next;
     }
 
-    /* on a donc une liste de noms de types d'opé non redondant, on classe */
-    /* par ordre alphabétique et on affiche */
-
+    /* sort and set that list in the clist and associate the name to the row */
     liste_nom_types = g_slist_sort ( liste_nom_types,
 				     (GCompareFunc) gsb_strcasecmp );
 

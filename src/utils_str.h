@@ -7,8 +7,10 @@
 
 /* START_DECLARATION */
 gchar *get_line_from_string ( gchar *string );
-GSList *gsb_string_get_list_from_string ( const gchar *string,
-					  gchar *delimiter );
+GSList *gsb_string_get_int_list_from_string ( const gchar *string,
+					      gchar *delimiter );
+GSList *gsb_string_get_string_list_from_string ( const gchar *string,
+						 gchar *delimiter );
 gchar * gsb_string_truncate ( gchar * string );
 gchar * latin2utf8 ( const gchar * inchar);
 gchar *limit_string ( gchar *string,

@@ -20,10 +20,8 @@ gint gsb_form_transactions_look_for_last_party ( gint no_party,
 gint gsb_form_validate_transfer ( gint transaction_number,
 				  gint new_transaction,
 				  gint account_transfer );
-gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_recover_breakdowns_of_transaction ( gint new_transaction_number,
 								   gint no_last_breakdown,
 								   gint no_account );
-gboolean gsb_transactions_list_update_transaction ( gint transaction_number );
 /* END_DECLARATION */
 #endif

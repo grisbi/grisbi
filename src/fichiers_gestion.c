@@ -38,6 +38,7 @@
 #include "gsb_currency_config.h"
 #include "gsb_data_account.h"
 #include "gsb_data_category.h"
+#include "gsb_data_payment.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file_config.h"
@@ -105,6 +106,7 @@ extern GtkWidget *window_vbox_principale;
 gboolean new_file ( void )
 {
     kind_account type_de_compte;
+    gint account_number;
 
     /*   si la fermeture du fichier en cours se passe mal, on se barre */
 
@@ -122,9 +124,13 @@ gboolean new_file ( void )
 
     if ( ! gsb_currency_config_add_currency ( NULL, NULL ) )
 	return FALSE;
-
-    if ( gsb_data_account_new ( type_de_compte ) == -1 )
+    /* xxx voir ici, devrait utiliser la fonction new_compte */
+    account_number = gsb_data_account_new (type_de_compte);
+    if ( account_number == -1 )
 	return FALSE;
+
+    /* set the default method of payment */
+    gsb_data_payment_create_default (account_number);
 
     /* FIXME: hardcoded!  Yes, first account is always numbered 1 and
      * first currencty too, but be cleaner. */

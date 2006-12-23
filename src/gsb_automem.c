@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                  gsb_automem.c                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cedric Auger (cedric@grisbi.org)	      */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2007 Cedric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -46,6 +46,8 @@ static  gboolean gsb_automem_checkbutton_changed ( GtkWidget *checkbutton,
 						  gpointer null );
 static  gboolean gsb_automem_entry_changed (GtkWidget *entry,
 					   gpointer null );
+static void gsb_automem_entry_set_value ( GtkWidget *entry,
+				   gchar **value );
 static GtkWidget *gsb_automem_radiobutton_new ( const gchar *choice1,
 					 const gchar *choice2,
 					 gboolean *value,
@@ -59,6 +61,8 @@ static GtkWidget *gsb_automem_spin_button_new_full ( gint *value,
 					      gdouble page_size, 
 					      gdouble climb_rate,
 					      GCallback hook, gpointer data );
+static void gsb_automem_spin_button_set_value ( GtkWidget *spin,
+					 gint *value );
 static  gboolean gsb_automem_textview_changed ( GtkTextBuffer *buffer,
 					       gpointer null );
 static void gsb_automem_textview_set_value ( GtkWidget *text_view,

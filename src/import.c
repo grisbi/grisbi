@@ -43,6 +43,7 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_payment.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "gsb_form_scheduler.h"
@@ -56,7 +57,6 @@
 #include "categories_onglet.h"
 #include "tiers_onglet.h"
 #include "utils_str.h"
-#include "utils_operations.h"
 #include "qif.h"
 #include "utils_comptes.h"
 #include "imputation_budgetaire.h"
@@ -1431,11 +1431,13 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
     /* ajoute ce compte aux anciens */
 
     gint account_number;
-
+/* xxx voir ici, devrait peut être utiliser la fonction new_account */
     /*     on crée et initialise le nouveau compte  */
     /*     le type par défaut est 0 (compte bancaire) */
-
     account_number = gsb_data_account_new( GSB_TYPE_BANK );
+    /* set the default method of payment */
+    gsb_data_payment_create_default (account_number);
+
 
     /*     si ça c'est mal passé, on se barre */
 
@@ -1617,14 +1619,13 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	/* de la liste */
 
 	if ( last_date_import && g_date_compare ( last_date_import,
-					   imported_transaction -> date ) >= 0 )
+						  imported_transaction -> date ) >= 0 )
 	{
 	    /* 	    si l'opé d'import a une id, on recherche ça en priorité */
 
 	    if ( imported_transaction -> id_operation
 		 &&
-		 operation_par_id ( imported_transaction -> id_operation,
-				    account_number ))
+		 gsb_data_transaction_find_by_id (imported_transaction -> id_operation))
 		/* comme on est sûr que cette opé a déjà été enregistree, on met l'action à 2, cad on demande l'avis de personne pour */
 		/*     pas l'enregistrer */
 		imported_transaction -> action = 2;
@@ -2043,73 +2044,75 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 				     imported_transaction -> notes );
 
     /* récupération du chèque et mise en forme du type d'opération */
-
     if ( imported_transaction -> cheque )
     {
-	/* c'est un chèque, on va rechercher un type à incrémentation automatique et mettre l'opé sous ce type */
-	/* si un tel type n'existe pas, on met quand même le no dans contenu_type et on met le type par défaut */
-
-	struct struct_type_ope *type_choisi;
-	GSList *list_tmp;
+	/* it's a cheque, try to find a method of payment with automatic increment, if don't find
+	 * set in default method of payment */
+	gint payment_number;
+	gint sign;
 
 	if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
-	    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-								gsb_data_account_get_default_debit (account_number));
-	else
-	    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-								gsb_data_account_get_default_credit (account_number));
-
-	gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-							     utils_str_itoa ( imported_transaction -> cheque ) );
-
-	list_tmp = gsb_data_account_get_method_payment_list (account_number);
-	type_choisi = NULL;
-
-	while ( list_tmp )
 	{
-	    struct struct_type_ope *type;
-
-	    type = list_tmp -> data;
-
-	    /* si l'opé on trouve un type à incrémentation automatique et que le signe du type est bon, on l'enregistre */
-	    /*   et on arrête la recherche, sinon, on l'enregistre mais on continue la recherche dans l'espoir de trouver */
-	    /* mieux */
-
-	    if ( type -> numerotation_auto )
-	    {
-		if ( !type -> signe_type
-		     ||
-		     ( type -> signe_type == 1 && gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
-		     ||
-		     ( type -> signe_type == 2 && gsb_data_transaction_get_amount (transaction_number).mantissa >= 0 ))
-		{
-		    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-									type -> no_type );
-		    type_choisi = type;
-		    list_tmp = NULL;
-		}
-		else
-		{
-		    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-									type -> no_type );
-		    type_choisi = type;
-		    list_tmp = list_tmp -> next;
-		}
-	    }
-	    else
-		list_tmp = list_tmp -> next;
+	    sign = GSB_PAYMENT_DEBIT;
+	    payment_number = gsb_data_account_get_default_debit (account_number);
+	   }
+	else
+	{
+	    sign = GSB_PAYMENT_CREDIT;
+	    payment_number = gsb_data_account_get_default_credit (account_number);
 	}
 
-	/* type_choisi contient l'adr du type qui a été utilisé, on peut y mettre le dernier no de chèque */
+	if ( !gsb_data_payment_get_automatic_numbering (payment_number))
+	{
+	    /* the default method is not an automatic numbering, try to find one in the method of payment of this account */
+	    GSList *list_tmp;
 
-	if ( type_choisi )
-	    type_choisi -> no_en_cours = MAX ( imported_transaction -> cheque,
-					       type_choisi -> no_en_cours );
+	    list_tmp = gsb_data_payment_get_payments_list ();
+	    while (list_tmp)
+	    {
+		gint payment_number_tmp;
+
+		payment_number_tmp = gsb_data_payment_get_number (list_tmp -> data);
+
+		if ( gsb_data_payment_get_account_number (payment_number_tmp) == account_number
+		     &&
+		     gsb_data_payment_get_automatic_numbering (payment_number_tmp)
+		     &&
+		     ( gsb_data_payment_get_sign (payment_number_tmp) == sign
+		       ||
+		       gsb_data_payment_get_sign (payment_number_tmp) == GSB_PAYMENT_NEUTRAL ))
+		{
+		    payment_number = payment_number_tmp;
+		    break;
+		}
+	    }
+	    list_tmp = list_tmp -> next;
+	}
+	/* now, either payment_number is an automatic numbering method of payment,
+	 * either it's the default method of payment,
+	 * first save it */
+	gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+							    payment_number );
+
+	if ( gsb_data_payment_get_automatic_numbering (payment_number))
+	    /* we are on the default payment_number, save just the cheque number */
+	    gsb_data_transaction_set_method_of_payment_content ( transaction_number,
+								 utils_str_itoa ( imported_transaction -> cheque ) );
+	else
+	{
+	    /* we are on a automatic numbering payment, we will save the cheque only
+	     * if it's not used before, else we show an warning message */
+	    if (gsb_data_transaction_check_content_payment (payment_number, imported_transaction -> cheque))
+		dialogue_warning ( g_strdup_printf ( _("Warning : the cheque number %ld is already used.\nWe skip it"),
+						     imported_transaction -> cheque ));
+	    else
+		gsb_data_transaction_set_method_of_payment_content ( transaction_number,
+								     utils_str_itoa ( imported_transaction -> cheque ) );
+	}
     }
     else
     {
 	/* comme ce n'est pas un chèque, on met sur le type par défaut */
-
 	if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
 	    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 								gsb_data_account_get_default_debit (account_number));
@@ -2122,7 +2125,6 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     }
 
     /* récupération du pointé */
-
     gsb_data_transaction_set_marked_transaction ( transaction_number,
 						  imported_transaction -> p_r );
 
@@ -2156,13 +2158,11 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
 
     /* on se place sur le compte dans lequel on va pointer les opés */
-
     account_number = recupere_no_compte ( imported_account -> bouton_compte_mark );
 
     /* si le compte importé a une id, on la vérifie ici */
     /*     si elle est absente, on met celle importée */
     /*     si elle est différente, on demande si on la remplace */
-
     if ( imported_account -> id_compte )
     {
 	if ( gsb_data_account_get_id (account_number) )
@@ -2172,61 +2172,46 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 	    {
 		/* 		l'id du compte choisi et l'id du compte importé sont différents */
 		/* 		    on propose encore d'arrêter... */
-
-
 		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
 					    _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
 		    gsb_data_account_set_id (account_number,
-					my_strdup ( imported_account -> id_compte ));
+					     my_strdup ( imported_account -> id_compte ));
 		else
 		    return;
 	    }
 	}
 	else
 	    gsb_data_account_set_id (account_number,
-				my_strdup ( imported_account -> id_compte ));
+				     my_strdup ( imported_account -> id_compte ));
 
     }
 
     /* on fait le tour des opés importées et recherche dans la liste d'opé s'il y a la correspondance */
-
-
     list_tmp = imported_account -> operations_importees;
     liste_opes_import_celibataires = NULL;
 
     while ( list_tmp )
     {
-	GSList *liste_ope;
+	GSList *liste_ope_importees_tmp;
 	GSList *ope_trouvees;
 	struct struct_ope_importation *ope_import;
-	gpointer operation;
+	gint transaction_number;
 	gint i;
-	struct struct_ope_importation *autre_ope_import;
 
 	ope_import = list_tmp -> data;
 	ope_trouvees = NULL;
-	operation = NULL;
 
 	/* si l'opé d'import a une id, on recherche dans la liste d'opé pour trouver
 	   une id comparable */
-
-	if ( ope_import -> id_operation )
-	{
-	    gpointer ope;
-
-	    ope = operation_par_id ( ope_import -> id_operation,
-				     account_number );
-
-	    if ( ope )
-		ope_trouvees = g_slist_append ( ope_trouvees,
-						ope );
-	}
+	if ( ope_import -> id_operation
+	     &&
+	     (transaction_number = gsb_data_transaction_find_by_id (ope_import -> id_operation)))
+	    ope_trouvees = g_slist_append ( ope_trouvees,
+					    GINT_TO_POINTER (transaction_number));
 
 	/* si on n'a rien trouvé par id, */
 	/* on fait le tour de la liste d'opés pour trouver des opés comparable */
 	/* cad même date avec + ou - une échelle et même montant et pas une opé de ventil */
-
-
 	if ( !ope_trouvees )
 	{
 	    GDate *date_debut_comparaison;
@@ -2249,25 +2234,24 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
 	    while ( list_tmp_transactions )
 	    {
-		gint transaction_number_tmp;
-		transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-		if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number )
+		if ( gsb_data_transaction_get_account_number (transaction_number) == account_number )
 		{
-		    if ( !gsb_real_cmp ( gsb_data_transaction_get_amount (transaction_number_tmp),
+		    if ( !gsb_real_cmp ( gsb_data_transaction_get_amount (transaction_number),
 					 ope_import -> montant )
 			 &&
-			 ( g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
+			 ( g_date_compare ( gsb_data_transaction_get_date (transaction_number),
 					    date_debut_comparaison ) >= 0 )
 			 &&
-			 ( g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
+			 ( g_date_compare ( gsb_data_transaction_get_date (transaction_number),
 					    date_fin_comparaison ) <= 0 )
 
 			 &&
-			 !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp))
+			 !gsb_data_transaction_get_mother_transaction_number (transaction_number))
 			/* on a retouvé une opé de même date et même montant, on l'ajoute à la liste des opés trouvées */
 			ope_trouvees = g_slist_append ( ope_trouvees,
-							operation );
+							GINT_TO_POINTER (transaction_number));
 		}
 		list_tmp_transactions = list_tmp_transactions -> next;
 	    }
@@ -2276,7 +2260,6 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 	/* soit il n'y en n'a qu'une, et on la pointe, soit il y en a plusieurs, et on recherche dans */
 	/* 	les opés importées s'il y en a d'autre comparables, et on pointe les opés en fonction */
 	/* du nb de celles importées */
-
 	switch ( g_slist_length ( ope_trouvees ))
 	{
 	    case 0:
@@ -2301,24 +2284,24 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 		/* si elle est déjà pointée ou relevée, on ne fait rien */
 		/* si l'opé d'import a une id et pas l'opé, on marque l'id dans l'opé */
 
-		operation = ope_trouvees -> data;
+		transaction_number = GPOINTER_TO_INT (ope_trouvees -> data);
 
-		if ( !gsb_data_transaction_get_transaction_id ( gsb_data_transaction_get_transaction_number (operation))
+		if ( !gsb_data_transaction_get_transaction_id (transaction_number)
 		     &&
 		     ope_import -> id_operation )
-		    gsb_data_transaction_set_transaction_id ( gsb_data_transaction_get_transaction_number (operation),
+		    gsb_data_transaction_set_transaction_id ( transaction_number,
 							      ope_import -> id_operation );
 
-		if ( !gsb_data_transaction_get_marked_transaction ( gsb_data_transaction_get_transaction_number (operation )))
+		if ( !gsb_data_transaction_get_marked_transaction (transaction_number))
 		{
-		    gsb_data_transaction_set_marked_transaction ( gsb_data_transaction_get_transaction_number (operation ),
+		    gsb_data_transaction_set_marked_transaction ( transaction_number,
 								  2 );
 		    gsb_data_account_set_update_list ( account_number,
-						  1 );
+						       1 );
 
 		    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 
-		    if ( gsb_data_transaction_get_breakdown_of_transaction ( gsb_data_transaction_get_transaction_number (operation )))
+		    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
 		    {
 			GSList *list_tmp_transactions;
 
@@ -2329,12 +2312,11 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 			    gint transaction_number_tmp;
 			    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-			    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number )
-			    {
-				if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == gsb_data_transaction_get_transaction_number (operation))
-				    gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
-										  2 );
-			    }
+			    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number
+				 &&
+				 gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number)
+				gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
+									      2 );
 			    list_tmp_transactions = list_tmp_transactions -> next;
 			}
 		    }
@@ -2347,44 +2329,45 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 		/* on va voir s'il y a d'autres opées importées ayant la même date et le même montant
 		   si on retrouve autant d'opé importées que d'opé trouvées, on peut marquer cette
 		   opé sans s'en préoccuper */
-
-
 		i=0;
-		liste_ope = imported_account -> operations_importees;
+		liste_ope_importees_tmp = imported_account -> operations_importees;
 
-		while ( liste_ope )
+		while ( liste_ope_importees_tmp )
 		{
+		    struct struct_ope_importation *ope_import_tmp;
 		    GDate *date_debut_comparaison;
 		    GDate *date_fin_comparaison;
 
-		    autre_ope_import = liste_ope -> data;
-		    date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( autre_ope_import -> date ),
-							      g_date_get_month ( autre_ope_import -> date ),
-							      g_date_get_year ( autre_ope_import -> date ));
+		    ope_import_tmp = liste_ope_importees_tmp -> data;
+
+		    /* we look for a date around ope_import_tmp with +- valeur_echelle_recherche_date_import */
+		    date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( ope_import_tmp -> date ),
+							      g_date_get_month ( ope_import_tmp -> date ),
+							      g_date_get_year ( ope_import_tmp -> date ));
 		    g_date_subtract_days ( date_debut_comparaison,
 					   valeur_echelle_recherche_date_import );
 
-		    date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( autre_ope_import -> date ),
-							    g_date_get_month ( autre_ope_import -> date ),
-							    g_date_get_year ( autre_ope_import -> date ));
+		    date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( ope_import_tmp -> date ),
+							    g_date_get_month ( ope_import_tmp -> date ),
+							    g_date_get_year ( ope_import_tmp -> date ));
 		    g_date_add_days ( date_fin_comparaison,
 				      valeur_echelle_recherche_date_import );
 
-		    if ( !gsb_real_cmp ( autre_ope_import -> montant,
+		    if ( !gsb_real_cmp ( ope_import_tmp -> montant,
 					 ope_import -> montant  )
 			 &&
-			 ( g_date_compare ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation)),
+			 ( g_date_compare ( ope_import -> date,
 					    date_debut_comparaison ) >= 0 )
 			 &&
-			 ( g_date_compare ( gsb_data_transaction_get_date (gsb_data_transaction_get_transaction_number (operation)),
+			 ( g_date_compare ( ope_import -> date,
 					    date_fin_comparaison ) <= 0 )
 
 			 &&
-			 !autre_ope_import -> ope_de_ventilation )
+			 !ope_import_tmp -> ope_de_ventilation )
 			/* on a retouvé une opé d'import de même date et même montant, on incrémente le nb d'opé d'import semblables trouvees */
 			i++;
 
-		    liste_ope = liste_ope -> next;
+		    liste_ope_importees_tmp = liste_ope_importees_tmp -> next;
 		}
 
 		if ( i ==  g_slist_length ( ope_trouvees ))
@@ -2400,24 +2383,26 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
 		    while ( list_tmp_2 )
 		    {
-			operation = list_tmp_2 -> data;
+			gint transaction_number;
 
-			if ( !gsb_data_transaction_get_transaction_id ( gsb_data_transaction_get_transaction_number (operation))
+			transaction_number = GPOINTER_TO_INT (list_tmp_2 -> data);
+
+			if ( !gsb_data_transaction_get_transaction_id (transaction_number)
 			     &&
 			     ope_import -> id_operation )
-			    gsb_data_transaction_set_transaction_id ( gsb_data_transaction_get_transaction_number (operation),
+			    gsb_data_transaction_set_transaction_id ( transaction_number,
 								      ope_import -> id_operation );
 
-			if ( !gsb_data_transaction_get_marked_transaction ( gsb_data_transaction_get_transaction_number (operation )))
+			if ( !gsb_data_transaction_get_marked_transaction (transaction_number))
 			{
-			    gsb_data_transaction_set_marked_transaction ( gsb_data_transaction_get_transaction_number (operation ),
+			    gsb_data_transaction_set_marked_transaction ( transaction_number,
 									  2 );
 			    gsb_data_account_set_update_list ( account_number,
-							  1 );
+							       1 );
 
 			    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 
-			    if ( gsb_data_transaction_get_breakdown_of_transaction ( gsb_data_transaction_get_transaction_number (operation )))
+			    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
 			    {
 				GSList *list_tmp_transactions;
 
@@ -2430,7 +2415,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
 				    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number )
 				    {
-					if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == gsb_data_transaction_get_transaction_number (operation))
+					if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number)
 					    gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
 											  2 );
 				    }

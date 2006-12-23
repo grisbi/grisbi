@@ -36,6 +36,7 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_payment.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_report.h"
 #include "gsb_data_transaction.h"
@@ -43,7 +44,6 @@
 #include "navigation.h"
 #include "gsb_real.h"
 #include "utils_str.h"
-#include "utils_types.h"
 #include "structures.h"
 #include "etats_config.h"
 #include "include.h"
@@ -1367,9 +1367,8 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	if ( gsb_data_report_get_show_report_method_of_payment (current_report_number))
 	{
-	    text = my_strdup (type_ope_name_by_no ( gsb_data_transaction_get_method_of_payment_number ( transaction_number),
-						   gsb_data_transaction_get_account_number (transaction_number)));
-	    if ( text )
+	    text = my_strdup (gsb_data_payment_get_name (gsb_data_transaction_get_method_of_payment_number ( transaction_number)));
+	    if (text)
 	    {
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
@@ -1379,11 +1378,11 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
+		g_free (text);
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	    colonne = colonne + 2;
-	    g_free (text);
 	}
 
 

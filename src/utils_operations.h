@@ -6,8 +6,6 @@
 
 
 /* START_DECLARATION */
-gpointer operation_par_id ( gchar *no_id,
-					       gint no_compte );
 void update_transaction_in_trees ( gint transaction_number );
 /* END_DECLARATION */
 #endif

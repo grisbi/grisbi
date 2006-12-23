@@ -33,10 +33,9 @@
 #include "gsb_automem.h"
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
-#include "gsb_data_transaction.h"
 #include "utils_editables.h"
 #include "gsb_form_widget.h"
-#include "gsb_form_transaction.h"
+#include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "utils.h"
 #include "utils_buttons.h"
@@ -472,22 +471,8 @@ gboolean edit_payee ( GtkTreeView * view )
     fill_division_row ( model, payee_interface,
 			get_iter_from_div ( model, payee_number, -1 ), payee );
 
-
-    tmp_list = gsb_data_transaction_get_transactions_list ();
-    while ( tmp_list )
-    {
-	gint transaction_number;
-	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
-
-	if ( gsb_data_transaction_get_party_number ( transaction_number ) == payee_number )
-	{
-	    /* FIXME: this is VERY, VERY, VERY time consuming, use a
-	     * better approach, that is iterate over tree and change on
-	     * demand if category is the same. */
-	    gsb_transactions_list_update_transaction (transaction_number);
-	}
-	tmp_list = tmp_list -> next;
-    }
+    /* update the transactions list */
+    gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_PARTY);
 
     return TRUE;
 }

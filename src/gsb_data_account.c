@@ -1,10 +1,7 @@
 /* ************************************************************************** */
-/* work with the struct of accounts                                           */
 /*                                                                            */
-/*                                  gsb_data_account                          */
-/*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -38,7 +35,6 @@
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
-#include "gsb_data_payment.h"
 #include "gsb_real.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
@@ -64,7 +60,6 @@ typedef struct
     gchar *holder_address;
 
     /** @name method of payment */
-    GSList *method_payment_list;         /**< list of method of payment struct */
     gint default_debit;
     gint default_credit;
 
@@ -182,8 +177,7 @@ gint gsb_data_account_new ( kind_account account_kind )
     struct_account *account;
     gint last_number;
 
-    account = calloc ( 1,
-		       sizeof ( struct_account ));
+    account = g_malloc0 (sizeof ( struct_account ));
 
     if ( !account )
     {
@@ -206,8 +200,10 @@ gint gsb_data_account_new ( kind_account account_kind )
     gsb_data_account_calculate_current_and_marked_balances ( account -> account_number );
 
     account -> update_list = 1;
+    
+    /* set the kind of account */
     account -> account_kind = account_kind;
-    account -> method_payment_list = gsb_payment_default_payment_list ();
+
     account -> sort_type = GTK_SORT_DESCENDING;
     account -> current_transaction_number = -1;
     account -> vertical_adjustment_value = NULL;
@@ -257,10 +253,7 @@ gboolean gsb_data_account_delete ( gint account_number )
     if (!account )
 	return FALSE;
 
-    g_slist_free ( account -> method_payment_list );
-    /* FIXME : faire une fonction pour mieux faire ça quand la struct liste opé sera faite */
     g_slist_free ( account -> sort_list );
-
     list_accounts = g_slist_remove ( list_accounts,
 				     account );
 
@@ -1064,7 +1057,6 @@ gsb_real gsb_data_account_calculate_marked_balance ( gint account_number )
 }
 
 
-/* xxx changer le nom de la fonction suivante en plus explicite : gsb_data_account_get_element_sort par ex */
 /**
  * get the element number used to sort the list in a column
  *
@@ -1073,8 +1065,8 @@ gsb_real gsb_data_account_calculate_marked_balance ( gint account_number )
  * 
  * \return  the element_number used to sort or 0 if the account doesn't exist
  * */
-gint gsb_data_account_get_column_sort ( gint account_number,
-					gint no_column )
+gint gsb_data_account_get_element_sort ( gint account_number,
+					 gint no_column )
 {
     struct_account *account;
 
@@ -1082,7 +1074,7 @@ gint gsb_data_account_get_column_sort ( gint account_number,
 	 ||
 	 no_column > TRANSACTION_LIST_COL_NB )
     {
-	g_strdup_printf ( _("Bad no column to gsb_data_account_get_column_sort () in data_account.c\nno_column = %d\n" ),
+	g_strdup_printf ( _("Bad no column to gsb_data_account_get_element_sort () in data_account.c\nno_column = %d\n" ),
 			  no_column );
 	return FALSE;
     }
@@ -1712,6 +1704,7 @@ gboolean gsb_data_account_set_comment ( gint account_number,
 
 /**
  * get reconcile_sort_type on the account given
+ * 1 if the list should be sorted by method of payment, 0 if normal sort
  * 
  * \param account_number no of the account
  * 
@@ -1798,6 +1791,78 @@ gboolean gsb_data_account_set_sort_list ( gint account_number,
 
     account -> sort_list = list;
 
+    return TRUE;
+}
+
+
+/**
+ * add a number of method of payment to the sort list of the account
+ *
+ * \param account_number
+ * \param payment_number a gint wich is the number of method of payment
+ *
+ * \return TRUE ok, FALSE problem
+ * */
+gboolean gsb_data_account_sort_list_add ( gint account_number,
+					  gint payment_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	return FALSE;
+
+    account -> sort_list = g_slist_append ( account -> sort_list,
+					    GINT_TO_POINTER (payment_number));
+
+    return TRUE;
+}
+
+/**
+ * remove a number of method of payment to the sort list of the account
+ *
+ * \param account_number
+ * \param payment_number a gint wich is the number of method of payment
+ *
+ * \return TRUE ok, FALSE problem
+ * */
+gboolean gsb_data_account_sort_list_remove ( gint account_number,
+					     gint payment_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	return FALSE;
+
+    account -> sort_list = g_slist_remove ( account -> sort_list,
+					    GINT_TO_POINTER (payment_number));
+
+    return TRUE;
+}
+
+/**
+ * free the sort list of the account
+ *
+ * \param account_number
+ *
+ * \return TRUE ok, FALSE problem
+ * */
+gboolean gsb_data_account_sort_list_free ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	return FALSE;
+    if (!account -> sort_list)
+	return TRUE;
+
+    g_slist_free (account -> sort_list);
+    account -> sort_list = NULL;
     return TRUE;
 }
 
@@ -1929,43 +1994,6 @@ gboolean gsb_data_account_set_holder_address ( gint account_number,
     return TRUE;
 }
 
-
-/** get the method_payment_list  of the account
- * \param account_number no of the account
- * \return the g_slist or NULL if the account doesn't exist
- * */
-GSList *gsb_data_account_get_method_payment_list ( gint account_number )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	return NULL;
-
-    return account -> method_payment_list;
-}
-
-
-/** set the method_payment_list of the account
- * \param account_number no of the account
- * \param list g_slist to set
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_data_account_set_method_payment_list ( gint account_number,
-						    GSList *list )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	return FALSE;
-
-    account -> method_payment_list = list;
-
-    return TRUE;
-}
 
 
 /** get default_debit on the account given

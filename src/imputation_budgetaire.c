@@ -42,7 +42,7 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file_others.h"
 #include "gsb_form_widget.h"
-#include "gsb_form_transaction.h"
+#include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "main.h"
 #include "utils.h"
@@ -604,7 +604,6 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     GtkTreeIter iter;
     gint budget_number = -1, sub_budget_number = -1;
     gchar * title;
-    GSList * tmp_list;
 
     selection = gtk_tree_view_get_selection ( view );
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -709,21 +708,8 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 			    gsb_data_budget_get_structure ( budget_number ));
     }
 
-    tmp_list = gsb_data_transaction_get_transactions_list ();
-    while ( tmp_list )
-    {
-	gint transaction_number;
-	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
-
-	if ( gsb_data_transaction_get_budgetary_number ( transaction_number ) == budget_number )
-	{
-	    /* xxx FIXME: this is VERY, VERY, VERY time consuming, use a
-	     * better approach, that is iterate over tree and change on
-	     * demand if category is the same. */
-	    gsb_transactions_list_update_transaction (transaction_number);
-	}
-	tmp_list = tmp_list -> next;
-    }
+    /* update the transactions list */
+    gsb_transactions_list_update_transaction (TRANSACTION_LIST_BUDGET);
 
     return TRUE;
 }

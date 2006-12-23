@@ -32,6 +32,7 @@
 #include "dialog.h"
 #include "fichiers_gestion.h"
 #include "gsb_data_account.h"
+#include "gsb_data_payment.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form_scheduler.h"
@@ -43,7 +44,6 @@
 #include "imputation_budgetaire.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
-#include "utils_str.h"
 #include "etats_config.h"
 #include "structures.h"
 #include "fenetre_principale.h"
@@ -105,6 +105,9 @@ gboolean new_account ( void )
 	dialogue_error_memory ();
 	return FALSE;
     }
+
+    /* set the default method of payment */
+    gsb_data_payment_create_default (no_compte);
 
     /* update the combofix for categ */ 
     mise_a_jour_combofix_categ();
@@ -445,156 +448,6 @@ gboolean gsb_account_update_name_tree_model ( GtkWidget *combo_box,
     return FALSE;
 }
 
-
-
-/* ************************************************************************** */
-void creation_types_par_defaut ( gint no_compte,
-				 gulong dernier_cheque )
-{
-    /* si des types d'opï¿œexistaient dï¿œï¿œ on les vire */
-
-    if ( gsb_data_account_get_method_payment_list (no_compte) )
-	g_slist_free ( gsb_data_account_get_method_payment_list (no_compte) );
-
-    gsb_data_account_set_method_payment_list ( no_compte,
-					  NULL );
-    gsb_data_account_set_default_debit ( no_compte,
-				    0 );
-    gsb_data_account_set_default_credit ( no_compte,
-				     0 );
-
-    if ( gsb_data_account_get_kind (no_compte) == GSB_TYPE_BANK )
-    {
-	/* c'est un compte bancaire, on ajoute virement, prï¿œï¿œement, chï¿œue et cb */
-	/* 	  modification par rapport ï¿œavant, les nouveaux n: */
-	/* 	    1=virement, 2=dï¿œot, 3=cb, 4=prï¿œï¿œement, 5=chï¿œue */
-	/* les modifs pour chaque opï¿œ se feront ï¿œleur chargement */
-
-	struct struct_type_ope *type_ope;
-
-	type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
-	type_ope -> no_type = 1;
-	type_ope -> nom_type = my_strdup ( _("Transfer") );
-	type_ope -> signe_type = 0;
-	type_ope -> affiche_entree = 1;
-	type_ope -> numerotation_auto = 0;
-	type_ope -> no_en_cours = 0;
-	type_ope -> no_compte = no_compte;
-
-	gsb_data_account_set_method_payment_list ( no_compte,
-					      g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
-							       type_ope ) );
-
-	type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
-	type_ope -> no_type = 2;
-	type_ope -> nom_type = my_strdup ( _("Deposit") );
-	type_ope -> signe_type = 2;
-	type_ope -> affiche_entree = 0;
-	type_ope -> numerotation_auto = 0;
-	type_ope -> no_en_cours = 0;
-	type_ope -> no_compte = no_compte;
-
-	gsb_data_account_set_method_payment_list ( no_compte,
-					      g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
-							       type_ope ) );
-
-	type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
-	type_ope -> no_type = 3;
-	type_ope -> nom_type = my_strdup ( _("Credit card") );
-	type_ope -> signe_type = 1;
-	type_ope -> affiche_entree = 0;
-	type_ope -> numerotation_auto = 0;
-	type_ope -> no_en_cours = 0;
-	type_ope -> no_compte = no_compte;
-
-	gsb_data_account_set_method_payment_list ( no_compte,
-					      g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
-							       type_ope ) );
-
-	type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
-	type_ope -> no_type = 4;
-	type_ope -> nom_type = my_strdup ( _("Direct debit") );
-	type_ope -> signe_type = 1;
-	type_ope -> affiche_entree = 0;
-	type_ope -> numerotation_auto = 0;
-	type_ope -> no_en_cours = 0;
-	type_ope -> no_compte = no_compte;
-
-	gsb_data_account_set_method_payment_list ( no_compte,
-					      g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
-							       type_ope ) );
-
-	type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
-	type_ope -> no_type = 5;
-	type_ope -> nom_type = my_strdup ( _("Cheque") );
-	type_ope -> signe_type = 1;
-	type_ope -> affiche_entree = 1;
-	type_ope -> numerotation_auto = 1;
-	type_ope -> no_en_cours = dernier_cheque;
-	type_ope -> no_compte = no_compte;
-
-	gsb_data_account_set_method_payment_list ( no_compte,
-					      g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
-							       type_ope ) );
-
-	gsb_data_account_set_default_debit ( no_compte,
-					3 );
-	gsb_data_account_set_default_credit ( no_compte,
-					 2 );
-
-	/* on crï¿œ le tri pour compte bancaire qui sera 1 2 3 4 5 */
-
-	gsb_data_account_set_sort_list ( no_compte,
-				    g_slist_append ( gsb_data_account_get_sort_list (no_compte),
-				     GINT_TO_POINTER ( 1 )) );
-	gsb_data_account_set_sort_list ( no_compte,
-				    g_slist_append ( gsb_data_account_get_sort_list (no_compte),
-				     GINT_TO_POINTER ( 2 )) );
-	gsb_data_account_set_sort_list ( no_compte,
-				    g_slist_append ( gsb_data_account_get_sort_list (no_compte),
-				     GINT_TO_POINTER ( 3 )) );
-	gsb_data_account_set_sort_list ( no_compte,
-				    g_slist_append ( gsb_data_account_get_sort_list (no_compte),
-				     GINT_TO_POINTER ( 4 )) );
-	gsb_data_account_set_sort_list ( no_compte,
-				    g_slist_append ( gsb_data_account_get_sort_list (no_compte),
-				     GINT_TO_POINTER ( 5 )) );
-    }
-    else
-    {
-	if ( gsb_data_account_get_kind (no_compte) == GSB_TYPE_LIABILITIES )
-	{
-	    /* c'est un compte de passif, on ne met que le virement */
-
-	    struct struct_type_ope *type_ope;
-
-	    type_ope = g_malloc ( sizeof ( struct struct_type_ope ));
-	    type_ope -> no_type = 1;
-	    type_ope -> nom_type = my_strdup ( _("Transfer") );
-	    type_ope -> signe_type = 0;
-	    type_ope -> affiche_entree = 1;
-	    type_ope -> numerotation_auto = 0;
-	    type_ope -> no_en_cours = 0;
-	    type_ope -> no_compte = no_compte;
-
-	    gsb_data_account_set_method_payment_list ( no_compte,
-						  g_slist_append ( gsb_data_account_get_method_payment_list (no_compte),
-								   type_ope ) );
-
-	    gsb_data_account_set_default_debit ( no_compte,
-					    1 );
-	    gsb_data_account_set_default_credit ( no_compte,
-					     1 );
-
-	    /* on crï¿œ le tri pour compte passif qui sera 1 */
-
-	    gsb_data_account_set_sort_list ( no_compte,
-					g_slist_append ( gsb_data_account_get_sort_list (no_compte),
-							 GINT_TO_POINTER ( 1 )) );
-	}
-    }
-}
-/* ************************************************************************** */
 
 /* ************************************************************************** */
 /* Cette fonction est appelï¿œ lors de la crï¿œtion d'un nouveau compte.        */

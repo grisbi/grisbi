@@ -9,8 +9,6 @@
 GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func, 
 					   gboolean activate_currrent,
 					   gboolean include_closed );
-void creation_types_par_defaut ( gint no_compte,
-				 gulong dernier_cheque );
 gboolean delete_account ( void );
 gint demande_type_nouveau_compte ( void );
 gboolean gsb_account_create_name_tree_model ( GtkWidget *combo_box,
