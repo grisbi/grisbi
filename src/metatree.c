@@ -242,42 +242,45 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 
     devel_debug ( g_strdup_printf ("fill_division_row %p", division) );
 
-    string_tmp = ( division ? iface -> div_name (division) : _(iface->no_div_label) );
-
     if ( ! division )
 	division = iface -> get_without_div_pointer ();
 
-    if ( division &&
-	 iface -> div_nb_transactions ( division ) )
-	label = g_strconcat ( string_tmp, " (",
-			      utils_str_itoa ( iface -> div_nb_transactions (division) ), ")",
-			      NULL );
-    else
-	label = my_strdup (string_tmp);
-
-    if ( division && iface -> div_nb_transactions (division) )
-	balance = gsb_format_amount ( iface -> div_balance ( division ),
-				      iface -> tree_currency () );
-    
-    if ( iface -> depth == 1 && 
-	 ! gtk_tree_model_iter_has_child ( model, iter ) && 
-	iface -> div_nb_transactions ( division ) )
+    if ( division )
     {
-	gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
-    }
+	string_tmp = iface -> div_name (division);
+	if (!string_tmp)
+	    string_tmp = _(iface->no_div_label);
 
-    gtk_tree_store_set (GTK_TREE_STORE(model), iter,
-			META_TREE_TEXT_COLUMN, label,
-			META_TREE_POINTER_COLUMN, division,
-			META_TREE_BALANCE_COLUMN, balance,
-			META_TREE_XALIGN_COLUMN, 1.0,
-			META_TREE_NO_DIV_COLUMN, iface -> div_id ( division ),
-			META_TREE_NO_SUB_DIV_COLUMN, -1,
-			META_TREE_FONT_COLUMN, 800,
-			META_TREE_DATE_COLUMN, NULL,
-			-1);
-    if (label)
-	g_free (label);
+	if ( iface -> div_nb_transactions ( division ))
+	{
+	    label = g_strconcat ( string_tmp, " (",
+				  utils_str_itoa ( iface -> div_nb_transactions (division) ), ")",
+				  NULL );
+	    balance = gsb_format_amount ( iface -> div_balance ( division ),
+					  iface -> tree_currency () );
+	}
+	else
+	    label = my_strdup (string_tmp);
+
+	if ( iface -> depth == 1 && 
+	     ! gtk_tree_model_iter_has_child ( model, iter ) && 
+	     iface -> div_nb_transactions ( division ) )
+	{
+	    gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
+	}
+	gtk_tree_store_set (GTK_TREE_STORE(model), iter,
+			    META_TREE_TEXT_COLUMN, label,
+			    META_TREE_POINTER_COLUMN, division,
+			    META_TREE_BALANCE_COLUMN, balance,
+			    META_TREE_XALIGN_COLUMN, 1.0,
+			    META_TREE_NO_DIV_COLUMN, iface -> div_id ( division ),
+			    META_TREE_NO_SUB_DIV_COLUMN, -1,
+			    META_TREE_FONT_COLUMN, 800,
+			    META_TREE_DATE_COLUMN, NULL,
+			    -1);
+	if (label)
+	    g_free (label);
+    }
 }
 
 
@@ -354,15 +357,20 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 			    gint transaction_number )
 {
     gchar * account, * montant, * label, * notes = NULL; /* free */
+    const gchar *string;
 
     if ( ! metatree_model_is_displayed ( model ) )
 	return;
 
-    if ( gsb_data_transaction_get_notes ( transaction_number))
+    string = gsb_data_transaction_get_notes ( transaction_number);
+
+    if (string)
     {
 	if ( strlen ( gsb_data_transaction_get_notes ( transaction_number)) > 30 )
 	{
-	    gchar * tmp = my_strdup (gsb_data_transaction_get_notes ( transaction_number)) + 30;
+	    const gchar *tmp;
+
+	    tmp = string + 30;
 
 	    tmp = strchr ( tmp, ' ' );
 	    if ( !tmp )
@@ -375,11 +383,10 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 	    else 
 	    {
 		gchar * trunc = g_strndup ( gsb_data_transaction_get_notes ( transaction_number), 
-					    ( tmp - gsb_data_transaction_get_notes ( transaction_number)) );
+					    (tmp - string));
 		notes = g_strconcat ( trunc, " ...", NULL );
-		free ( trunc );
+		g_free ( trunc );
 	    }
-	    g_free (tmp);
 	}
 	else 
 	{
@@ -408,7 +415,6 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
     montant = gsb_format_amount ( gsb_data_transaction_get_amount (transaction_number),
 				  gsb_data_transaction_get_currency_number (transaction_number) );
     account = gsb_data_account_get_name ( gsb_data_transaction_get_account_number (transaction_number));
-
     gtk_tree_store_set ( GTK_TREE_STORE(model), iter, 
 			 META_TREE_POINTER_COLUMN, gsb_data_transaction_get_pointer_to_transaction (transaction_number),
 			 META_TREE_TEXT_COLUMN, label,

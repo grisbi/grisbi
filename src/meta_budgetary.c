@@ -175,7 +175,7 @@ gpointer budgetary_line_get_sub_div_pointer_from_name ( int div_id, const gchar 
 							gboolean create )
 {
     return gsb_data_budget_get_sub_budget_structure ( div_id,
-							  gsb_data_budget_get_sub_budget_number_by_name( div_id, name, create));
+						      gsb_data_budget_get_sub_budget_number_by_name( div_id, name, create));
 }
 
 
@@ -523,7 +523,7 @@ gboolean budgetary_line_add_transaction_to_div ( gpointer  trans,
 						 int div_id )
 {
     gsb_data_budget_add_transaction_to_budget ( gsb_data_transaction_get_transaction_number (trans),
-						div_id, -1 );
+						div_id, 0 );
     return TRUE;
 }
 
