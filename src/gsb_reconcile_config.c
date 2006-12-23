@@ -54,10 +54,11 @@ static void select_reconciliation_entry ( GtkTreeSelection * tselection,
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-GtkWidget *reconcile_treeview;
-GtkTreeStore *reconcile_model;
-GtkWidget * button_move_up, * button_move_down;
-GtkTreeSelection *reconcile_selection;
+static GtkWidget *reconcile_treeview;
+static GtkTreeStore *reconcile_model;
+static GtkWidget *button_move_up;
+static GtkWidget *button_move_down;
+static GtkTreeSelection *reconcile_selection;
 
 
 /** 
