@@ -1172,7 +1172,8 @@ gboolean gsb_transactions_list_fill_row ( gint transaction_number,
 			     iter,
 			     column, string,
 			     -1 );
-	g_free (string);
+	if (string)
+	    g_free (string);
     }
 
     /* if we use a custom font... */
@@ -1325,15 +1326,15 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 
 	case TRANSACTION_LIST_MARK:
 	    if ( gsb_data_transaction_get_marked_transaction ( transaction_number)== 1 )
-		return ( _("P") );
+		return ( my_strdup (_("P")));
 	    else
 	    {
 		if ( gsb_data_transaction_get_marked_transaction ( transaction_number)== 2 )
-		    return ( _("T") );
+		    return ( my_strdup (_("T")));
 		else
 		{
 		    if ( gsb_data_transaction_get_marked_transaction ( transaction_number)== 3 )
-			return ( _("R"));
+			return ( my_strdup (_("R")));
 		    else
 			return ( NULL );
 		}
@@ -1503,7 +1504,8 @@ gboolean gsb_transactions_list_update_transaction_value ( gint element_number )
 				     &iter,
 				     column_element, string,
 				     -1 );
-		g_free (string);
+		if (string)
+		    g_free (string);
 
 		/* go to the next transaction */
 		for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB - line_element ; i++ )
