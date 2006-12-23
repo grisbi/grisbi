@@ -1225,7 +1225,8 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	    colonne = colonne + 2;
-	    g_free (text);
+	    if (text)
+		g_free (text);
 	}
 
 	if ( gsb_data_report_get_show_report_financial_year (current_report_number))
@@ -1242,7 +1243,8 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
-		g_free (text);
+		if (text)
+		    g_free (text);
 	    }
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	    colonne = colonne + 2;
@@ -1263,7 +1265,8 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
-		g_free (text);
+		if (text)
+		    g_free (text);
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1272,10 +1275,8 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	if ( gsb_data_report_get_show_report_category (current_report_number))
 	{
-	    gchar *pointeur = NULL;
-
 	    if ( gsb_data_transaction_get_category_number (transaction_number))
-		pointeur = my_strdup (gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
+		text = my_strdup (gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
 								  gsb_data_transaction_get_sub_category_number (transaction_number),
 								  NULL ));
 	    else
@@ -1288,25 +1289,27 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		    /* c'est un virement */
 
 		    if ( gsb_data_transaction_get_amount ( transaction_number).mantissa < 0 )
-			pointeur = g_strdup_printf ( _("Transfer to %s"),
+			text = g_strdup_printf ( _("Transfer to %s"),
 						     gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer ( transaction_number)) );
 		    else
-			pointeur = g_strdup_printf ( _("Transfer from %s"),
+			text = g_strdup_printf ( _("Transfer from %s"),
 						     gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer ( transaction_number)) );
 		}
+		else
+		    text = NULL;
 	    }
 
-	    if ( pointeur )
+	    if ( text )
 	    {
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
-		    etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
 		}
 		else
 		{
-		    etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
-		g_free (pointeur);
+		g_free (text);
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1318,21 +1321,20 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	{
 	    if ( gsb_data_transaction_get_budgetary_number ( transaction_number))
 	    {
-		gchar *pointeur;
-
-		pointeur = my_strdup (gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number),
-								gsb_data_transaction_get_sub_budgetary_number ( transaction_number),
+		text = my_strdup (gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number),
+								 gsb_data_transaction_get_sub_budgetary_number ( transaction_number),
 								NULL ));
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
-		    etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
 		}
 		else
 		{
-		    etat_affiche_attach_label ( pointeur, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
-		g_free (pointeur);
+		if (text)
+		    g_free (text);
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1354,7 +1356,8 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
-		g_free (text);
+		if (text)
+		    g_free (text);
 	    }
 	    else
 	    {
@@ -1434,7 +1437,8 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
-		g_free (text);
+		if (text)
+		    g_free (text);
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1456,7 +1460,8 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
-		g_free (text);
+		if (text)
+		    g_free (text);
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1479,7 +1484,8 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		{
 		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
 		}
-		g_free (text);
+		if (text)
+		    g_free (text);
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1523,7 +1529,8 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	{
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, RIGHT, 0 );
 	}
-	g_free (text);
+	if (text)
+	    g_free (text);
 
 
 	if ( ligne_debut_partie == -1 )
@@ -1820,7 +1827,7 @@ gint etat_affiche_affiche_sous_categ_etat ( gint transaction_number,
 						  _("No subcategory"),
 						  NULL );
 		else
-		    pointeur_char = "";
+		    pointeur_char = my_strdup ("");
 	    }
 
 	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
