@@ -9,6 +9,7 @@ enum reconciliation_columns {
     RECONCILIATION_SPLIT_NEUTRAL_COLUMN,
     RECONCILIATION_ACCOUNT_COLUMN,
     RECONCILIATION_TYPE_COLUMN,
+    RECONCILIATION_SENSITIVE_COLUMN,
     NUM_RECONCILIATION_COLUMNS,
 };
 
@@ -18,7 +19,7 @@ enum reconciliation_columns {
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-void fill_reconciliation_tree ();
-GtkWidget * tab_display_reconciliation ( void );
+GtkWidget *gsb_reconcile_config_create ( void );
+void gsb_reconcile_config_fill (void);
 /* END_DECLARATION */
 #endif

@@ -15,6 +15,7 @@ gint gsb_data_payment_create_default  ( gint account_number );
 gint gsb_data_payment_get_account_number ( gint payment_number );
 gint gsb_data_payment_get_automatic_numbering ( gint payment_number );
 gint gsb_data_payment_get_last_number ( gint payment_number );
+GSList *gsb_data_payment_get_list_for_account ( gint account_number );
 const gchar *gsb_data_payment_get_name ( gint payment_number );
 gint gsb_data_payment_get_number ( gpointer payment_ptr );
 GSList *gsb_data_payment_get_payments_list ( void );

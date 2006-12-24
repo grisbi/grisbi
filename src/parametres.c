@@ -33,13 +33,13 @@
 #include "gsb_form_config.h"
 #include "gsb_fyear_config.h"
 #include "gsb_payment_method_config.h"
+#include "gsb_reconcile_config.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "affichage_liste.h"
 #include "banque.h"
 #include "affichage.h"
 #include "import.h"
-#include "gsb_reconcile_config.h"
 #include "parametres.h"
 #include "structures.h"
 #include "include.h"
@@ -335,7 +335,7 @@ void preferences ( gint page )
 			0, _("Reconciliation"),
 			1, RECONCILIATION_PAGE,
 			-1);
-    gtk_notebook_append_page (preference_frame, tab_display_reconciliation(), NULL);
+    gtk_notebook_append_page (preference_frame, gsb_reconcile_config_create(), NULL);
 
     /* Transaction form subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);

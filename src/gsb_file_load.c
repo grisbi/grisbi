@@ -6767,10 +6767,18 @@ gint gsb_file_load_get_new_payment_number ( gint account_number,
 
 	conversion = tmp_list -> data;
 
+	/* for the sorted list in accounts, payment_number can be negative if
+	 * we split the neutrals payment, so return too a negative value
+	 * in that case */
 	if ( conversion -> account_number == account_number
 	     &&
-	     conversion -> last_payment_number == payment_number )
-	    return conversion -> new_payment_number;
+	     conversion -> last_payment_number == abs (payment_number))
+	{
+	    if (payment_number < 0)
+		return -conversion -> new_payment_number;
+	    else
+		return conversion -> new_payment_number;
+	}
 	tmp_list = tmp_list -> next;
     }
     return 0;

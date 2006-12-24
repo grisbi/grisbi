@@ -142,6 +142,38 @@ GSList *gsb_data_payment_get_payments_list ( void )
 }
 
 /**
+ * return a newly allocated list with the payments numbers for
+ * the asked account
+ * usefull to know for example if there is some method of payments for that account
+ *
+ * \param account_number
+ *
+ * \return a newly allocated GSList of payments number (to be freed), or NULL if none
+ * */
+GSList *gsb_data_payment_get_list_for_account ( gint account_number )
+{
+    GSList *tmp_list;
+    GSList *returned_list = NULL;
+
+    tmp_list = payment_list;
+
+    while ( tmp_list )
+    {
+	struct_payment *payment;
+
+	payment = tmp_list -> data;
+
+	if ( payment -> account_number == account_number )
+	    returned_list = g_slist_append ( returned_list,
+					     GINT_TO_POINTER (payment -> payment_number));
+
+	tmp_list = tmp_list -> next;
+    }
+    return returned_list;
+}
+
+
+/**
  * return the number of the payment given in param
  * and initialise the buffer
  *
