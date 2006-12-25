@@ -301,7 +301,7 @@ void gsb_reconcile_config_fill ( void )
 				    RECONCILIATION_SORT_COLUMN, FALSE,
 				    RECONCILIATION_SPLIT_NEUTRAL_COLUMN, FALSE,
 				    RECONCILIATION_ACCOUNT_COLUMN, account_number,
-				    RECONCILIATION_TYPE_COLUMN, abs (payment_number),
+				    RECONCILIATION_TYPE_COLUMN, payment_number,
 				    RECONCILIATION_SENSITIVE_COLUMN, TRUE,
 				    -1 );
 		if (name)

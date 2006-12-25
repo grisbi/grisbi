@@ -209,16 +209,11 @@ gboolean delete_account ( void )
 	    gint transaction_number;
 	    transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	    if ( gsb_data_transaction_get_account_number (transaction_number) == i )
-	    {
-		if ( gsb_data_transaction_get_account_number_transfer (transaction_number) == deleted_account )
-		{
-		    gsb_data_transaction_set_account_number_transfer ( transaction_number,
-								       -1);
-		    gsb_data_account_set_update_list ( i,
-						  1 );
-		}
-	    }
+	    if ( gsb_data_transaction_get_account_number (transaction_number) == i
+		 &&
+		 gsb_data_transaction_get_account_number_transfer (transaction_number) == deleted_account )
+		gsb_data_transaction_set_account_number_transfer ( transaction_number,
+								   -1);
 	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
 	list_tmp = list_tmp -> next;

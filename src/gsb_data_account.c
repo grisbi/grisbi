@@ -66,7 +66,6 @@ typedef struct
     /** @name showed list stuff */
     gint show_r;                      /**< 1 : reconciled transactions are showed */
     gint nb_rows_by_transaction;      /**< 1, 2, 3, 4  */
-    gint update_list;                /**< 1 when the list need to be updated when showed */
 
     /** @name remaining of the balances */
     gsb_real init_balance;
@@ -115,14 +114,17 @@ typedef struct
 /*START_STATIC*/
 static gsb_real gsb_data_account_calculate_current_balance ( gint account_number );
 static struct_account *gsb_data_account_get_structure ( gint no );
-static gboolean gsb_data_account_get_update_list ( gint account_number );
 static gint gsb_data_account_max_number ( void );
+static gboolean gsb_data_account_set_default_sort_values ( gint account_number );
+static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
+					 gint target_account );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern gsb_real null_real ;
 extern GtkTreeSelection * selection;
 extern GSList *sort_accounts;
+extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
@@ -191,32 +193,34 @@ gint gsb_data_account_new ( kind_account account_kind )
     list_accounts = g_slist_append ( list_accounts,
 				     account );
 
+    /* set the base */
     account -> account_number = last_number + 1;
     account -> account_name = g_strdup_printf ( _("No name %d"),
 						account -> account_number );
-
     account -> currency = gsb_data_currency_get_default_currency ();
 
-    gsb_data_account_calculate_current_and_marked_balances ( account -> account_number );
-
-    account -> update_list = 1;
-    
     /* set the kind of account */
     account -> account_kind = account_kind;
 
-    account -> sort_type = GTK_SORT_DESCENDING;
+    /* select the white line */
     account -> current_transaction_number = -1;
     account -> vertical_adjustment_value = NULL;
 
     /*     if it's the first account, we set default conf (R not displayed and 3 lines per transaction) */
     /*     else we keep the conf of the last account */
-    /*     same for the form organization */
+    /*     same for the form organization
+     *     same for sorting the transactions list */
 
     if ( account -> account_number == 1 )
     {
 	account -> nb_rows_by_transaction = 3;
+
+	/* set the form organization by default */
 	gsb_data_form_new_organization (account -> account_number);
 	gsb_data_form_set_default_organization (account -> account_number);
+
+	/* sort the transactions by default */
+	gsb_data_account_set_default_sort_values (account -> account_number);
     }
     else
     {
@@ -230,6 +234,11 @@ gint gsb_data_account_new ( kind_account account_kind )
 	    gsb_data_form_new_organization (account -> account_number);
 	    gsb_data_form_set_default_organization (account -> account_number);
 	}
+
+	/* try to copy the sort values of the last account, else set default values */
+	if ( !gsb_data_form_dup_sort_values ( last_number,
+					      account -> account_number ))
+	    gsb_data_account_set_default_sort_values (account -> account_number);
     }
 
     return account -> account_number;
@@ -1097,9 +1106,9 @@ gint gsb_data_account_get_element_sort ( gint account_number,
  * 
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_data_account_set_column_sort ( gint account_number,
-					    gint no_column,
-					    gint element_number )
+gboolean gsb_data_account_set_element_sort ( gint account_number,
+					     gint no_column,
+					     gint element_number )
 {
     struct_account *account;
 
@@ -1109,7 +1118,7 @@ gboolean gsb_data_account_set_column_sort ( gint account_number,
 	 ||
 	 no_column > TRANSACTION_LIST_COL_NB )
     {
-	g_strdup_printf ( _("Bad no column to gsb_data_account_set_column_sort () in data_account.c\nno_column = %d\n" ),
+	g_strdup_printf ( _("Bad no column to gsb_data_account_set_element_sort () in data_account.c\nno_column = %d\n" ),
 			  no_column );
 	return FALSE;
     }
@@ -1380,46 +1389,11 @@ gboolean gsb_data_account_set_reconcile_last_number ( gint account_number,
 
 
 
-/** get the update_list on the account given
+/**
+ * get the currency on the account given
+ * 
  * \param account_number no of the account
- * \return update_list or 0 if the account doesn't exist
- * */
-gboolean gsb_data_account_get_update_list ( gint account_number )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	return 0;
-
-    return account -> update_list;
-}
-
-
-/** set the update_list in the account given
- * \param account_number no of the account
- * \param value 
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_data_account_set_update_list ( gint account_number,
-					    gboolean value )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	return FALSE;
-
-    account -> update_list = value;
-
-    return TRUE;
-}
-
-
-/** get the currency on the account given
- * \param account_number no of the account
+ * 
  * \return last number of reconcile or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_currency ( gint account_number )
@@ -2262,9 +2236,12 @@ gboolean gsb_data_account_set_form_organization ( gint account_number,
 }
 
 
-/** set a new order in the list of accounts
+/**
+ * set a new order in the list of accounts
  * all the accounts which are not in the new order are appened at the end of the new list
+ * 
  * \param new_order a g_slist which contains the number of accounts in the new order
+ * 
  * \return FALSE
  * */
 gboolean gsb_data_account_reorder ( GSList *new_order )
@@ -2304,4 +2281,73 @@ gboolean gsb_data_account_reorder ( GSList *new_order )
     return TRUE;
 }
 
+
+/**
+ * initalize the sort variables for an account to the default value
+ * used normally only when creating a new account if it's the first one
+ * in all others cases, we will take a copy of that values of the previous account
+ *
+ * \param account_number
+ *
+ * \return FALSE
+ * */
+gboolean gsb_data_account_set_default_sort_values ( gint account_number )
+{
+    gint i, j;
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	return FALSE;
+
+    for ( i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
+	for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
+	{
+	    /* by default the sorting element will be the first found for each column */
+	    if ( !account -> column_element_sort[j]
+		 &&
+		 tab_affichage_ope[i][j]
+		 &&
+		 tab_affichage_ope[i][j] != TRANSACTION_LIST_BALANCE )
+		account -> column_element_sort[j] = tab_affichage_ope[i][j];
+	}
+
+     /* the default sort is by date and ascending */
+    account -> sort_type = GTK_SORT_ASCENDING;
+    account -> sort_column = TRANSACTION_COL_NB_DATE;
+   return FALSE;
+}
+
+
+/**
+ * copy the sort values from an account to another
+ *
+ * \param origin_account
+ * \param target_account
+ *
+ * \return TRUE ok, FALSE problem
+ * */
+gboolean gsb_data_form_dup_sort_values ( gint origin_account,
+					 gint target_account )
+{
+    gint j;
+    struct_account *origin_account_ptr;
+    struct_account *target_account_ptr;
+
+    origin_account_ptr = gsb_data_account_get_structure (origin_account);
+    target_account_ptr = gsb_data_account_get_structure (target_account);
+
+    if (!origin_account_ptr
+	||
+	!target_account_ptr)
+	return FALSE;
+
+    for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
+	target_account_ptr -> column_element_sort[j] = origin_account_ptr -> column_element_sort[j];
+
+    target_account_ptr -> sort_type = origin_account_ptr -> sort_type;
+    target_account_ptr -> sort_column = origin_account_ptr -> sort_column;
+    return TRUE;
+}
 

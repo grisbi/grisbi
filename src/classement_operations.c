@@ -173,12 +173,15 @@ gint gsb_transactions_list_sort_column ( GtkTreeModel *model,
 
 
 
-/** find the right function to sort the list and sort the 2 iters given
+/**
+ * find the right function to sort the list and sort the 2 iters given
+ * 
  * \param model
  * \param iter_1
  * \param iter_2
  * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \param no_sort permit to find the right function
+ * 
  * \return -1 if iter_1 is above iter_2
  * */
 gint gsb_transactions_list_sort_by_no_sort (  GtkTreeModel *model,

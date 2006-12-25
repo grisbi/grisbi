@@ -20,6 +20,6 @@ enum reconciliation_columns {
 
 /* START_DECLARATION */
 GtkWidget *gsb_reconcile_config_create ( void );
-void gsb_reconcile_config_fill (void);
+void gsb_reconcile_config_fill ( void );
 /* END_DECLARATION */
 #endif

@@ -267,8 +267,15 @@ void init_variables ( void )
     mise_a_jour_combofix_categ_necessaire = 0;
     mise_a_jour_combofix_imputation_necessaire = 0;
 
+    /* init default combofix values */
+    etat.combofix_mixed_sort = FALSE;
+    etat.combofix_max_item = FALSE;
+    etat.combofix_case_sensitive = FALSE;
+    etat.combofix_enter_select_completion = FALSE;
+    etat.combofix_force_payee = FALSE;
+    etat.combofix_force_category = FALSE;
+    
     /*     on met à jour les valeurs par défaut des largeurs de colonnes de la liste d'échéances */
-
     for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
 	scheduler_col_width[i] = scheduler_col_width_init[i];
 
@@ -469,37 +476,6 @@ void initialise_tab_affichage_ope ( void )
 
 }
 /*****************************************************************************************************/
-
-/** set the default column_sort for each account when loading a file before 0.6.0
- * or make a new file
- * \param no_account
- * \return
- * */
-void init_default_sort_column ( gint no_account )
-{
-    gint i, j;
-
-    for ( i = 0 ; i<4 ; i++ )
-	for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
-	{
-	    if ( !gsb_data_account_get_element_sort ( no_account,
-						      j )
-		 &&
-		 tab_affichage_ope[i][j]
-		 &&
-		 tab_affichage_ope[i][j] != TRANSACTION_LIST_BALANCE )
-		gsb_data_account_set_column_sort ( no_account,
-					      j,
-					      tab_affichage_ope[i][j] );
-	}
-
-    /* the default sort is by date and ascending */
-
-    gsb_data_account_set_sort_type ( no_account,
-				GTK_SORT_ASCENDING );
-    gsb_data_account_set_sort_column ( no_account,
-				  TRANSACTION_COL_NB_DATE );
-}
 
 
   

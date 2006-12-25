@@ -89,6 +89,8 @@ gboolean gsb_reconcile_list_button_clicked ( GtkWidget *button,
 	gtk_tree_sortable_set_sort_column_id ( sortable,
 					       GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
 					       GTK_SORT_ASCENDING );
+	gtk_tree_view_set_headers_clickable ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
+					      FALSE );
     }
     else
     {
@@ -99,6 +101,8 @@ gboolean gsb_reconcile_list_button_clicked ( GtkWidget *button,
 	/* unset the default func */
 	gtk_tree_sortable_set_default_sort_func ( sortable,
 						  NULL, NULL, NULL );
+	gtk_tree_view_set_headers_clickable ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
+					      TRUE );
     }
 
     account_number = gsb_gui_navigation_get_current_account ();
@@ -129,7 +133,7 @@ gint gsb_reconcile_list_sort_func ( GtkTreeModel *model,
     gint transaction_number_1, transaction_number_2;
     gint line_1, line_2;
     gint position_1, position_2;
-    gint method_number_1, method_number_2;
+    gint payment_number_1, payment_number_2;
     gint account_number;
 
     /* ***** the first part is a fast copy of the generals tests in the transaction list sort ***** */
@@ -171,10 +175,36 @@ gint gsb_reconcile_list_sort_func ( GtkTreeModel *model,
     if ( transaction_number_1 == transaction_number_2 )
 	return (line_1 - line_2);
 
-    /* check if same method of payment */
-    if ( gsb_data_transaction_get_method_of_payment_number (transaction_number_1)
-	 ==
-	 gsb_data_transaction_get_method_of_payment_number (transaction_number_2))
+    payment_number_1 = gsb_data_transaction_get_method_of_payment_number (transaction_number_1);
+    payment_number_2 = gsb_data_transaction_get_method_of_payment_number (transaction_number_2);
+
+    /* ***** second part : specific tests on method of payment */
+    /* if we are here, all the previous test passed, so we know it's 2 different transactions
+     * with 2 different method of payment, we sort according to the conf */
+    account_number = gsb_gui_navigation_get_current_account ();
+
+    /* get the position of the 1st method */
+    if ( gsb_data_account_get_split_neutral_payment (account_number)
+	 &&
+	 gsb_data_payment_get_sign (payment_number_1) == GSB_PAYMENT_NEUTRAL
+	 &&
+	 gsb_data_transaction_get_amount (transaction_number_1).mantissa < 0 )
+	payment_number_1 = -payment_number_1;
+    position_1 = g_slist_index ( gsb_data_account_get_sort_list (account_number),
+				 GINT_TO_POINTER (payment_number_1));
+
+    /* get the position of the 2nd method */
+    if ( gsb_data_account_get_split_neutral_payment (account_number)
+	 &&
+	 gsb_data_payment_get_sign (payment_number_2) == GSB_PAYMENT_NEUTRAL
+	 &&
+	 gsb_data_transaction_get_amount (transaction_number_2).mantissa < 0 )
+	payment_number_2 = -payment_number_2;
+    position_2 = g_slist_index ( gsb_data_account_get_sort_list (account_number),
+				 GINT_TO_POINTER (payment_number_2));
+    return_value = position_1 - position_2;
+
+    if (!return_value)
     {
 	/* same method of payment, return by date or no */
 	GDate *date_1;
@@ -195,38 +225,7 @@ gint gsb_reconcile_list_sort_func ( GtkTreeModel *model,
 	/* no difference in the dates, sort by number of transaction */
 	if ( !return_value )
 	    return_value = transaction_number_1 - transaction_number_2;
-
-	return return_value;
     }
-
-    /* ***** second part : specific tests on method of payment */
-    /* if we are here, all the previous test passed, so we know it's 2 different transactions
-     * with 2 different method of payment, we sort according to the conf */
-
-    account_number = gsb_gui_navigation_get_current_account ();
-
-    /* get the position of the 1st method */
-    method_number_1 = gsb_data_transaction_get_method_of_payment_number (transaction_number_1);
-    if ( gsb_data_account_get_split_neutral_payment (account_number)
-	 &&
-	 !gsb_data_payment_get_sign (method_number_1)
-	 &&
-	 gsb_data_transaction_get_amount (transaction_number_1).mantissa < 0 )
-	method_number_1 = -method_number_1;
-    position_1 = g_slist_index ( gsb_data_account_get_sort_list (account_number),
-				 GINT_TO_POINTER (method_number_1));
-
-    /* get the position of the 2nd method */
-    method_number_2 = gsb_data_transaction_get_method_of_payment_number (transaction_number_2);
-    if ( gsb_data_account_get_split_neutral_payment (account_number)
-	 &&
-	 gsb_data_payment_get_sign (method_number_2)
-	 &&
-	 gsb_data_transaction_get_amount (transaction_number_2).mantissa < 0 )
-	method_number_2 = -method_number_2;
-    position_2 = g_slist_index ( gsb_data_account_get_sort_list (account_number),
-				 GINT_TO_POINTER (method_number_2));
-
-    return (position_1 - position_2);
+    return return_value;
 }
 

@@ -106,7 +106,9 @@ gboolean gsb_form_widget_free_list ( void )
 	element = tmp_list -> data;
 
 	/* just to make sure... */
-	if (element)
+	if (element
+	    &&
+	    GTK_IS_WIDGET (element -> element_widget))
 	{
 	    /* if there is something in the combofix we destroy, the popup will
 	     * be showed because destroying the gtk_entry will erase it directly,
@@ -215,7 +217,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    gtk_combofix_set_enter_function ( GTK_COMBOFIX (widget),
 					      etat.combofix_enter_select_completion );
 	    /* we never mix the payee because the only case of the complex combofix is
-	     * for the report and there is no sense to mix report with the payee */
+	     * for the report and there is non sense to mix report with the payee */
 	    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
 					  FALSE );
 	    break;

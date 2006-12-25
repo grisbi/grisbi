@@ -713,10 +713,8 @@ void gsb_form_fill_element ( gint element_number,
 	     * we set the payment box of the mother */
 	    number = gsb_data_mix_get_mother_transaction_number (transaction_number, is_transaction);
 	    if (!number)
-	    {
 		/* it's not a child breakdown, so set number to transaction_number */
 		number = transaction_number;
-	    }
 
 	    /* ok, now number contains either the transaction_number, either the mother transaction number,
 	     * we can check the sign with it */
@@ -1217,9 +1215,9 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_TYPE:
-		    gtk_combo_box_set_active ( GTK_COMBO_BOX ( element -> element_widget ),
-					       gsb_payment_method_get_payment_location ( element -> element_widget,
-											 gsb_data_account_get_default_debit (account_number)));
+		    gsb_payment_method_set_combobox_history ( element -> element_widget,
+							      gsb_data_account_get_default_debit (account_number),
+							      account_number );
 		    gtk_widget_set_sensitive ( GTK_WIDGET ( element -> element_widget ),
 					       FALSE );
 		    break;
@@ -1906,9 +1904,11 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
 	    /* increase the check of 1 */
 	    if (element_number == TRANSACTION_FORM_CHEQUE)
+	    {
 		increment_decrement_champ ( widget,
 					    1 );
-	    return TRUE;
+		return TRUE;
+	    }
 	    break;
 
 	case GDK_KP_Subtract:
@@ -1916,9 +1916,11 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
 	    /* decrease the check of 1 */
 	    if (element_number == TRANSACTION_FORM_CHEQUE)
+	    {
 		increment_decrement_champ ( widget,
 					    -1 );
-	    return TRUE;
+		return TRUE;
+	    }
 	    break;
     }
     return FALSE;
@@ -2062,6 +2064,18 @@ gboolean gsb_form_finish_edition ( void )
 	    gsb_data_mix_set_mother_transaction_number ( transaction_number,
 							 mother_transaction,
 							 is_transaction );
+	}
+	else
+	{
+	    /* it's not a new transaction, if it's not a child breakdown,
+	     * we remove the amount of that transaction from the balance of the account,
+	     * because later, the amount will be add again to the balance */
+	    if ( is_transaction
+		 &&
+		 !gsb_data_transaction_get_mother_transaction_number (transaction_number))
+		gsb_data_account_set_current_balance ( account_number,
+						       gsb_real_sub ( gsb_data_account_get_current_balance (account_number),
+								      gsb_data_transaction_get_adjusted_amount (transaction_number, -1)));
 	}
 
 	/* take the datas in the form, except the category */

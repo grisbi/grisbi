@@ -82,9 +82,6 @@ gboolean gsb_data_account_set_bank_branch_code ( gint account_number,
 						 const gchar *bank_branch_code );
 gboolean gsb_data_account_set_closed_account ( gint account_number,
 					       gint closed_account );
-gboolean gsb_data_account_set_column_sort ( gint account_number,
-					    gint no_column,
-					    gint element_number );
 gboolean gsb_data_account_set_comment ( gint account_number,
 					const gchar *comment );
 gboolean gsb_data_account_set_currency ( gint account_number,
@@ -99,6 +96,9 @@ gboolean gsb_data_account_set_default_credit ( gint account_number,
 					       gint default_credit );
 gboolean gsb_data_account_set_default_debit ( gint account_number,
 					      gint default_debit );
+gboolean gsb_data_account_set_element_sort ( gint account_number,
+					     gint no_column,
+					     gint element_number );
 gboolean gsb_data_account_set_form_organization ( gint account_number,
 						  gpointer form_organization );
 gboolean gsb_data_account_set_holder_address ( gint account_number,
@@ -141,8 +141,6 @@ gboolean gsb_data_account_set_sort_type ( gint account_number,
 					  gint sort_type );
 gboolean gsb_data_account_set_split_neutral_payment ( gint account_number,
 						      gint split_neutral_payment );
-gboolean gsb_data_account_set_update_list ( gint account_number,
-					    gboolean value );
 gboolean gsb_data_account_set_vertical_adjustment_value ( gint account_number,
 							  GtkTreePath *vertical_adjustment_value );
 gboolean gsb_data_account_sort_list_add ( gint account_number,

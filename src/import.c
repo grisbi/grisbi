@@ -1729,11 +1729,6 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	} 
 	list_tmp = list_tmp -> next;
     }
-
-
-    gsb_data_account_set_update_list ( account_number,
-				       1 );
-
 /*     gsb_data_account_calculate_current_and_marked_balances (account_number); */
 }
 /* *******************************************************************************/
@@ -2140,9 +2135,6 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     else
 	mother_transaction_number  = transaction_number;
 
-    gsb_data_account_set_update_list ( account_number,
-				  1 );
-
     return (transaction_number);
 }
 /* *******************************************************************************/
@@ -2296,9 +2288,6 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 		{
 		    gsb_data_transaction_set_marked_transaction ( transaction_number,
 								  2 );
-		    gsb_data_account_set_update_list ( account_number,
-						       1 );
-
 		    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 
 		    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
@@ -2397,8 +2386,6 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 			{
 			    gsb_data_transaction_set_marked_transaction ( transaction_number,
 									  2 );
-			    gsb_data_account_set_update_list ( account_number,
-							       1 );
 
 			    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 

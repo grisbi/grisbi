@@ -252,7 +252,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
 		       G_CALLBACK (gsb_reconcile_list_button_clicked), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_sort_list_button, FALSE, FALSE, 0);
 
-   /* make the buttons */
+    /* make the buttons */
     hbox = gtk_hbox_new ( TRUE, 3 );
     gtk_box_pack_end ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 

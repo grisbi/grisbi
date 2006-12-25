@@ -1432,7 +1432,6 @@ gboolean gsb_transactions_list_update_transaction ( gint transaction_number )
 						       gsb_data_currency_get_code (gsb_data_account_get_currency (account_number))));
 
     /* on réaffichera l'accueil */
-
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_fin_comptes_passifs = 1;
@@ -3856,10 +3855,10 @@ gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
 				       column_number );
 
     /* set the new element number used to sort this column */
-    gsb_data_account_set_column_sort ( account_number,
-				       column_number,
-				       GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( menu_item),
-									     "no_sort" )));
+    gsb_data_account_set_element_sort ( account_number,
+					column_number,
+					GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( menu_item),
+									      "no_sort" )));
 
     /* get the current sorted to check if we don't change the column */
     gtk_tree_sortable_get_sort_column_id ( sortable,

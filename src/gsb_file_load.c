@@ -1215,9 +1215,9 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 
 	    for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
 	    {
-		gsb_data_account_set_column_sort ( account_number,
-					      j,
-					      utils_str_atoi ( pointeur_char[j] ));
+		gsb_data_account_set_element_sort ( account_number,
+						    j,
+						    utils_str_atoi ( pointeur_char[j] ));
 	    }
 	    g_strfreev ( pointeur_char );
 	    i++;
@@ -5390,9 +5390,9 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 
 	for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
 	{
-	    gsb_data_account_set_column_sort ( account_number,
-					  i,
-					  utils_str_atoi ( pointeur_char[i] ));
+	    gsb_data_account_set_element_sort ( account_number,
+						i,
+						utils_str_atoi ( pointeur_char[i] ));
 	}
 	g_strfreev ( pointeur_char );
 	return;
@@ -6495,21 +6495,6 @@ gboolean gsb_file_load_update_previous_version ( void )
 		    gsb_data_scheduled_set_breakdown_of_scheduled ( scheduled_number,
 								    0 );
 		list_tmp_scheduled = list_tmp_scheduled -> next;
-	    }
-
-	    list_tmp = gsb_data_account_get_list_accounts ();
-	    while ( list_tmp )
-	    {
-		account_number = gsb_data_account_get_no_account ( list_tmp -> data );
-
-		/* set the new form organization */
-		gsb_data_form_new_organization (account_number);
-		gsb_data_form_set_default_organization (account_number);
-
-		/* 	   set the current sort by date and ascending sort */
-		init_default_sort_column (account_number);
-
-		list_tmp = list_tmp -> next;
 	    }
 
 	    /* there is a bug untill now, which is some children of breakdown

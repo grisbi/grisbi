@@ -125,9 +125,9 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
     /* if nothing in the store, hide it */
     if (store_filled)
     {
-	gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_box),
-				   gsb_payment_method_get_payment_location ( combo_box,
-									     gsb_data_account_get_default_debit (account_number)));
+	gsb_payment_method_set_combobox_history ( combo_box,
+						  gsb_data_account_get_default_debit (account_number),
+						  account_number );
 	gtk_widget_show (combo_box);
     }
     else
@@ -200,12 +200,11 @@ gint gsb_payment_method_get_selected_number ( GtkWidget *combo_box )
  * \param combo_box
  * \param payment_number
  *
- * \return the location of the payment or 0 if problem
+ * \return the location of the payment or -1 if not found
  * */
 gint gsb_payment_method_get_payment_location ( GtkWidget *combo_box,
 					       gint payment_number )
 {
-    gint payment_location = 0;
     gint i = 0;
     GtkTreeModel *model;
     GtkTreeIter iter;
@@ -213,7 +212,7 @@ gint gsb_payment_method_get_payment_location ( GtkWidget *combo_box,
     if ( !payment_number
 	 ||
 	 !combo_box )
-	return 0;
+	return -1;
 
     model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));
     if (gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (model),
@@ -228,15 +227,13 @@ gint gsb_payment_method_get_payment_location ( GtkWidget *combo_box,
 				 1, &tmp,
 				 -1 );
 	    if ( tmp == payment_number )
-		payment_location = i;
+		return i;
 	    i++; 
 	}
 	while ( gtk_tree_model_iter_next (GTK_TREE_MODEL (model),
-					  &iter)
-		&&
-		!payment_location );
+					  &iter));
     }
-    return payment_location;
+    return -1;
 }
 
 
@@ -259,7 +256,8 @@ gboolean gsb_payment_method_set_combobox_history ( GtkWidget *combo_box,
 
     location = gsb_payment_method_get_payment_location ( combo_box,
 							 payment_number );
-    if (location)
+
+    if (location != -1)
 	return_value = TRUE;
     else
     {
@@ -269,7 +267,7 @@ gboolean gsb_payment_method_set_combobox_history ( GtkWidget *combo_box,
 	else
 	    location = gsb_payment_method_get_payment_location ( combo_box,
 								 gsb_data_account_get_default_debit (account_number));
-	return_value= FALSE;
+	return_value = FALSE;
     }
     gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_box),
 			       location );
