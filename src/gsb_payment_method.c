@@ -35,6 +35,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gint gsb_payment_method_get_payment_location ( GtkWidget *combo_box,
+					       gint payment_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/

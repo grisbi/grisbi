@@ -392,6 +392,39 @@ gint my_strcmp ( gchar *string_1,
 
 
 /**
+ * do the same as g_strcasecmp but works alse with the accents on the words
+ * 
+ * \param string_1 the first string to cmp
+ * \param string_2 the second string to cmp
+ * 
+ * \return -1 if string_1 berfore string_2
+ * */
+gint gsb_strcasecmp ( gchar *string_1,
+		      gchar *string_2 )
+{
+    string_1 = my_strdup ( string_1 );
+    string_1 = g_strdelimit ( string_1, "éÉèÈêÊ", 'e' );
+    string_1 = g_strdelimit ( string_1, "çÇ", 'c' );
+    string_1 = g_strdelimit ( string_1, "àÀ", 'a' );
+    string_1 = g_strdelimit ( string_1, "ùûÙÛ", 'u' );
+    string_1 = g_strdelimit ( string_1, "ôÔ", 'o' );
+    string_1 = g_strdelimit ( string_1, "îÎ", 'i' );
+
+    string_2 = my_strdup ( string_2 );
+    string_2 = g_strdelimit ( string_2, "éÉèÈêÊ", 'e' );
+    string_2 = g_strdelimit ( string_2, "çÇ", 'c' );
+    string_2 = g_strdelimit ( string_2, "àÀ", 'a' );
+    string_2 = g_strdelimit ( string_2, "ùûÙÛ", 'u' );
+    string_2 = g_strdelimit ( string_2, "ôÔ", 'o' );
+    string_2 = g_strdelimit ( string_2, "îÎ", 'i' );
+
+    return ( g_strcasecmp ( string_1, string_2 ));
+}
+/* ************************************************************************** */
+
+
+
+/**
  * compare 2 strings unsensitive
  * if a string is NULL, it will go after the non NULL
  *

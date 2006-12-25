@@ -7,6 +7,8 @@
 
 /* START_DECLARATION */
 gchar *get_line_from_string ( gchar *string );
+gint gsb_strcasecmp ( gchar *string_1,
+		      gchar *string_2 );
 GSList *gsb_string_get_int_list_from_string ( const gchar *string,
 					      gchar *delimiter );
 GSList *gsb_string_get_string_list_from_string ( const gchar *string,

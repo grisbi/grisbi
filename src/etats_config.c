@@ -46,9 +46,8 @@
 #include "gsb_data_report_text_comparison.h"
 #include "navigation.h"
 #include "gsb_real.h"
-#include "classement_operations.h"
-#include "traitement_variables.h"
 #include "utils_str.h"
+#include "traitement_variables.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/

@@ -22,7 +22,6 @@ sources = \
 	barre_outils.c		\
 	categories_onglet.c	\
 	classement_echeances.c	\
-	classement_operations.c	\
 	comptes_gestion.c	\
 	comptes_onglet.c	\
 	comptes_traitements.c	\
@@ -95,6 +94,7 @@ sources = \
 	gsb_status.c		\
 	gsb_transaction_model.c	\
 	gsb_transactions_list.c	\
+	gsb_transactions_list_sort.c	\
 	gtk_combofix.c		\
 	help.c			\
 	html.c			\
@@ -135,7 +135,6 @@ grisbi_INCLUDES =		\
 	banque.h		\
 	barre_outils.h		\
 	categories_onglet.h	\
-	classement_operations.h	\
 	classement_echeances.h	\
 	comptes_gestion.h	\
 	comptes_onglet.h	\
@@ -189,6 +188,7 @@ grisbi_INCLUDES =		\
 	gsb_scheduler_list.h	\
 	gsb_transaction_model.h	\
 	gsb_transactions_list.h	\
+	gsb_transactions_list_sort.h	\
 	dialog.h		\
 	echeancier_infos.h	\
 	erreur.h		\

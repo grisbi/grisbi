@@ -1,9 +1,7 @@
 /* ************************************************************************** */
-/* Contient toutes les fonctions utilisées pour classer la liste des opé      */
-/* 			classement_liste.c                                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Alain Portal (aportal@univ-montp2.fr) 	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -22,11 +20,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * \file gsb_transactions_list_sort.c
+ * functions to sort the transactions list according to the columns
+ */
+
+
 #include "include.h"
 
 
 /*START_INCLUDE*/
-#include "classement_operations.h"
+#include "gsb_transactions_list_sort.h"
 #include "erreur.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -37,17 +41,13 @@
 #include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "gsb_real.h"
-#include "gsb_transactions_list.h"
 #include "utils_str.h"
+#include "gsb_transactions_list.h"
 #include "structures.h"
 #include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint gsb_transactions_list_general_test ( GtkTreeModel *model,
-					  GtkTreeIter *iter_1,
-					  GtkTreeIter *iter_2,
-					  GtkSortType sort_type );
 static gint gsb_transactions_list_sort_by_amount ( GtkTreeModel *model,
 					    GtkTreeIter *iter_1,
 					    GtkTreeIter *iter_2,
@@ -122,6 +122,10 @@ static gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
 					     GtkTreeIter *iter_1,
 					     GtkTreeIter *iter_2,
 					     GtkSortType sort_type );
+static gint gsb_transactions_list_sort_general_test ( GtkTreeModel *model,
+					       GtkTreeIter *iter_1,
+					       GtkTreeIter *iter_2,
+					       GtkSortType sort_type );
 /*END_STATIC*/
 
 
@@ -329,10 +333,10 @@ gint gsb_transactions_list_sort_by_no_sort (  GtkTreeModel *model,
  * \return 0 if that test cannot say the return_value between the 2 lines,
  * or the return_value if it's possible here
  * */
-gint gsb_transactions_list_general_test ( GtkTreeModel *model,
-					  GtkTreeIter *iter_1,
-					  GtkTreeIter *iter_2,
-					  GtkSortType sort_type )
+gint gsb_transactions_list_sort_general_test ( GtkTreeModel *model,
+					       GtkTreeIter *iter_1,
+					       GtkTreeIter *iter_2,
+					       GtkSortType sort_type )
 {
     gint return_value = 0;
     gpointer transaction_1;
@@ -354,7 +358,7 @@ gint gsb_transactions_list_general_test ( GtkTreeModel *model,
 	 !transaction_2 )
     {
 	debug_message ( _( "Local variable value NULL" ),
-			_( "in the function gsb_transactions_list_general_test, transaction_1 or transaction_2 is NULL ; it souldn't happen, it's seems that the function is called by a bad way" ),
+			_( "in the function gsb_transactions_list_sort_general_test, transaction_1 or transaction_2 is NULL ; it souldn't happen, it's seems that the function is called by a bad way" ),
 			DEBUG_LEVEL_ALERT,
 			FALSE );
 	return 0;
@@ -413,7 +417,7 @@ gint gsb_transactions_list_sort_by_transaction_date_and_no ( GtkSortType sort_ty
     /* no difference in the dates, sort by number of transaction */
     if ( !return_value )
 	return_value = transaction_number_1 - transaction_number_2;
-    
+
     return return_value;
 }
 
@@ -438,10 +442,10 @@ gint gsb_transactions_list_sort_by_no ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -467,10 +471,10 @@ gint gsb_transactions_list_sort_by_date ( GtkTreeModel *model,
     gint return_value;
 
     /*     general test first (white line, other rows of the transaction */
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -497,10 +501,10 @@ gint gsb_transactions_list_sort_by_value_date ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -534,10 +538,10 @@ gint gsb_transactions_list_sort_by_party ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -588,10 +592,10 @@ gint gsb_transactions_list_sort_by_budget ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -649,10 +653,10 @@ gint gsb_transactions_list_sort_by_credit ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -686,10 +690,10 @@ gint gsb_transactions_list_sort_by_debit ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -724,10 +728,10 @@ gint gsb_transactions_list_sort_by_amount ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -761,10 +765,10 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -833,10 +837,10 @@ gint gsb_transactions_list_sort_by_reconcile_nb ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -884,10 +888,10 @@ gint gsb_transactions_list_sort_by_financial_year ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -947,10 +951,10 @@ gint gsb_transactions_list_sort_by_category ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -996,10 +1000,10 @@ gint gsb_transactions_list_sort_by_mark ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -1035,10 +1039,10 @@ gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -1080,10 +1084,10 @@ gint gsb_transactions_list_sort_by_notes ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -1126,10 +1130,10 @@ gint gsb_transactions_list_sort_by_bank ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -1172,10 +1176,10 @@ gint gsb_transactions_list_sort_by_chq ( GtkTreeModel *model,
 
     /*     general test first (white line, other rows of the transaction */
 
-    return_value = gsb_transactions_list_general_test ( model,
-							iter_1,
-							iter_2,
-							sort_type );
+    return_value = gsb_transactions_list_sort_general_test ( model,
+							     iter_1,
+							     iter_2,
+							     sort_type );
     if ( return_value )
 	return return_value;
 
@@ -1197,36 +1201,6 @@ gint gsb_transactions_list_sort_by_chq ( GtkTreeModel *model,
 
 
 
-
-
-
-/** do the same as g_strcasecmp but works alse with the accents on the words
- * \param string_1 the first string to cmp
- * \param string_2 the second string to cmp
- * \return -1 if string_1 berfore string_2
- * */
-gint gsb_strcasecmp ( gchar *string_1,
-		      gchar *string_2 )
-{
-    string_1 = my_strdup ( string_1 );
-    string_1 = g_strdelimit ( string_1, "éÉèÈêÊ", 'e' );
-    string_1 = g_strdelimit ( string_1, "çÇ", 'c' );
-    string_1 = g_strdelimit ( string_1, "àÀ", 'a' );
-    string_1 = g_strdelimit ( string_1, "ùûÙÛ", 'u' );
-    string_1 = g_strdelimit ( string_1, "ôÔ", 'o' );
-    string_1 = g_strdelimit ( string_1, "îÎ", 'i' );
-
-    string_2 = my_strdup ( string_2 );
-    string_2 = g_strdelimit ( string_2, "éÉèÈêÊ", 'e' );
-    string_2 = g_strdelimit ( string_2, "çÇ", 'c' );
-    string_2 = g_strdelimit ( string_2, "àÀ", 'a' );
-    string_2 = g_strdelimit ( string_2, "ùûÙÛ", 'u' );
-    string_2 = g_strdelimit ( string_2, "ôÔ", 'o' );
-    string_2 = g_strdelimit ( string_2, "îÎ", 'i' );
-
-    return ( g_strcasecmp ( string_1, string_2 ));
-}
-/* ************************************************************************** */
 
 
 /* Local Variables: */

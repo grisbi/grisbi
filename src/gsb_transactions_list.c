@@ -50,7 +50,7 @@
 #include "gsb_scheduler_list.h"
 #include "utils_str.h"
 #include "gsb_transaction_model.h"
-#include "classement_operations.h"
+#include "gsb_transactions_list_sort.h"
 #include "main.h"
 #include "categories_onglet.h"
 #include "imputation_budgetaire.h"
