@@ -680,7 +680,7 @@ void gsb_form_widget_set_focus ( gint element_number )
 
 
 /**
- * check if the entry given in param is empty (ie grey) or not
+ * check if the entry or combofix given in param is empty (ie grey) or not
  *
  * \param entry must be an entry
  *
@@ -690,8 +690,13 @@ gboolean gsb_form_widget_check_empty ( GtkWidget *entry )
 {
     if (!entry
 	||
-	!GTK_IS_ENTRY (entry))
+	(!GTK_IS_ENTRY (entry)
+	 &&
+	 !GTK_IS_COMBOFIX (entry)))
 	return FALSE;
+
+    if (GTK_IS_COMBOFIX (entry))
+	entry = GTK_COMBOFIX (entry) -> entry;
 
     return (gtk_widget_get_style ( entry ) == style_entree_formulaire[ENGRIS] );
 }

@@ -2483,122 +2483,122 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 
 	element = tmp_list -> data;
 
-	    switch (element -> element_number)
-	    {
-		case TRANSACTION_FORM_DATE:
-		    /* set date before */
-		    gsb_data_mix_set_date ( transaction_number, date, is_transaction );
+	switch (element -> element_number)
+	{
+	    case TRANSACTION_FORM_DATE:
+		/* set date before */
+		gsb_data_mix_set_date ( transaction_number, date, is_transaction );
 
-		    break;
+		break;
 
-		case TRANSACTION_FORM_VALUE_DATE:
-		    if (gsb_form_widget_check_empty (element -> element_widget)) 
-			gsb_data_mix_set_value_date ( transaction_number, NULL, is_transaction );
-		    else
-			gsb_data_mix_set_value_date ( transaction_number,
-						      gsb_calendar_entry_get_date (element -> element_widget),
-						      is_transaction );
-		    break;
+	    case TRANSACTION_FORM_VALUE_DATE:
+		if (gsb_form_widget_check_empty (element -> element_widget)) 
+		    gsb_data_mix_set_value_date ( transaction_number, NULL, is_transaction );
+		else
+		    gsb_data_mix_set_value_date ( transaction_number,
+						  gsb_calendar_entry_get_date (element -> element_widget),
+						  is_transaction );
+		break;
 
-		case TRANSACTION_FORM_EXERCICE:
-		    /* FIXME : voir pour faire la différence date/date de valeur à partir de la conf ? pour la date pour choisir l'exo*/
-		    gsb_data_mix_set_financial_year_number ( transaction_number,
-							     gsb_fyear_get_fyear_from_combobox ( element -> element_widget, date ), is_transaction);
-		    break;
+	    case TRANSACTION_FORM_EXERCICE:
+		/* FIXME : voir pour faire la différence date/date de valeur à partir de la conf ? pour la date pour choisir l'exo*/
+		gsb_data_mix_set_financial_year_number ( transaction_number,
+							 gsb_fyear_get_fyear_from_combobox ( element -> element_widget, date ), is_transaction);
+		break;
 
-		case TRANSACTION_FORM_PARTY:
-		    if (gsb_form_widget_check_empty (element -> element_widget)) 
-			gsb_data_mix_set_party_number ( transaction_number, 0, is_transaction );
-		    else
-			gsb_data_mix_set_party_number ( transaction_number, gsb_data_payee_get_number_by_name ( gtk_combofix_get_text ( GTK_COMBOFIX ( element -> element_widget )), TRUE ), is_transaction);
-		    break;
+	    case TRANSACTION_FORM_PARTY:
+		if (gsb_form_widget_check_empty (element -> element_widget)) 
+		    gsb_data_mix_set_party_number ( transaction_number, 0, is_transaction );
+		else
+		    gsb_data_mix_set_party_number ( transaction_number, gsb_data_payee_get_number_by_name ( gtk_combofix_get_text ( GTK_COMBOFIX ( element -> element_widget )), TRUE ), is_transaction);
+		break;
 
-		case TRANSACTION_FORM_DEBIT:
-		    if (!gsb_form_widget_check_empty (element -> element_widget)) 
-			gsb_data_mix_set_amount ( transaction_number, gsb_real_opposite (gsb_utils_edit_calculate_entry ( element -> element_widget )), is_transaction);
-		    break;
+	    case TRANSACTION_FORM_DEBIT:
+		if (!gsb_form_widget_check_empty (element -> element_widget)) 
+		    gsb_data_mix_set_amount ( transaction_number, gsb_real_opposite (gsb_utils_edit_calculate_entry ( element -> element_widget )), is_transaction);
+		break;
 
-		case TRANSACTION_FORM_CREDIT:
-		    if (!gsb_form_widget_check_empty (element -> element_widget)) 
-			gsb_data_mix_set_amount ( transaction_number, gsb_utils_edit_calculate_entry ( element -> element_widget ), is_transaction);
-		    break;
+	    case TRANSACTION_FORM_CREDIT:
+		if (!gsb_form_widget_check_empty (element -> element_widget)) 
+		    gsb_data_mix_set_amount ( transaction_number, gsb_utils_edit_calculate_entry ( element -> element_widget ), is_transaction);
+		break;
 
-		case TRANSACTION_FORM_BUDGET:
-		    if (gsb_form_widget_check_empty (element -> element_widget)) 
+	    case TRANSACTION_FORM_BUDGET:
+		if (gsb_form_widget_check_empty (element -> element_widget)) 
+		{
+		    gsb_data_mix_set_budgetary_number ( transaction_number, 0, is_transaction );
+		    gsb_data_mix_set_sub_budgetary_number ( transaction_number, 0, is_transaction );
+		}
+		else
+		    gsb_data_budget_set_budget_from_string ( transaction_number,
+							     gtk_combofix_get_text ( GTK_COMBOFIX ( element -> element_widget )),
+							     is_transaction );
+		break;
+
+	    case TRANSACTION_FORM_NOTES:
+		if (gsb_form_widget_check_empty (element -> element_widget)) 
+		    gsb_data_mix_set_notes ( transaction_number, NULL, is_transaction );
+		else
+		    gsb_data_mix_set_notes ( transaction_number, my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( element -> element_widget ))), is_transaction);
+		break;
+
+	    case TRANSACTION_FORM_TYPE:
+		/* set the type only if visible */
+		if ( GTK_WIDGET_VISIBLE ( gsb_form_widget_get_widget (TRANSACTION_FORM_TYPE)))
+		{
+		    GtkWidget *widget_tmp;
+		    gint payment_number;
+
+		    payment_number = gsb_payment_method_get_selected_number (element -> element_widget);
+
+		    gsb_data_mix_set_method_of_payment_number ( transaction_number, payment_number, is_transaction);
+
+		    /* set the number of cheque only if visible */
+		    widget_tmp = gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE);
+		    if ( GTK_WIDGET_VISIBLE (widget_tmp)
+			 &&
+			 !gsb_form_widget_check_empty (widget_tmp))
 		    {
-			    gsb_data_mix_set_budgetary_number ( transaction_number, 0, is_transaction );
-			    gsb_data_mix_set_sub_budgetary_number ( transaction_number, 0, is_transaction );
-		    }
-		    else
-			gsb_data_budget_set_budget_from_string ( transaction_number,
-								 gtk_combofix_get_text ( GTK_COMBOFIX ( element -> element_widget )),
-								 is_transaction );
-		    break;
+			gsb_data_mix_set_method_of_payment_content ( transaction_number, gtk_entry_get_text (GTK_ENTRY (widget_tmp)), is_transaction);
 
-		case TRANSACTION_FORM_NOTES:
-		    if (gsb_form_widget_check_empty (element -> element_widget)) 
-			gsb_data_mix_set_notes ( transaction_number, NULL, is_transaction );
-		    else
-			gsb_data_mix_set_notes ( transaction_number, my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( element -> element_widget ))), is_transaction);
-		    break;
-
-		case TRANSACTION_FORM_TYPE:
-		    /* set the type only if visible */
-		    if ( GTK_WIDGET_VISIBLE ( gsb_form_widget_get_widget (TRANSACTION_FORM_TYPE)))
-		    {
-			GtkWidget *widget_tmp;
-			gint payment_number;
-
-			payment_number = gsb_payment_method_get_selected_number (element -> element_widget);
-
-			gsb_data_mix_set_method_of_payment_number ( transaction_number, payment_number, is_transaction);
-
-			/* set the number of cheque only if visible */
-			widget_tmp = gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE);
-			if ( GTK_WIDGET_VISIBLE (widget_tmp)
+			/* get the last number to increase next time */
+			if ( is_transaction
 			     &&
-			     !gsb_form_widget_check_empty (widget_tmp))
-			{
-			    gsb_data_mix_set_method_of_payment_content ( transaction_number, gtk_entry_get_text (GTK_ENTRY (widget_tmp)), is_transaction);
-
-			    /* get the last number to increase next time */
-			    if ( is_transaction
-				 &&
-				 gsb_data_payment_get_automatic_numbering (payment_number))
-				gsb_data_payment_set_last_number ( payment_number,
-								   utils_str_atoi (gtk_entry_get_text (GTK_ENTRY (widget_tmp))));
-			}
-			else
-			    gsb_data_mix_set_method_of_payment_content ( transaction_number, NULL, is_transaction);
+			     gsb_data_payment_get_automatic_numbering (payment_number))
+			    gsb_data_payment_set_last_number ( payment_number,
+							       utils_str_atoi (gtk_entry_get_text (GTK_ENTRY (widget_tmp))));
 		    }
 		    else
-		    {
-			gsb_data_mix_set_method_of_payment_number ( transaction_number, 0, is_transaction );
 			gsb_data_mix_set_method_of_payment_content ( transaction_number, NULL, is_transaction);
-		    }
-		    break;
+		}
+		else
+		{
+		    gsb_data_mix_set_method_of_payment_number ( transaction_number, 0, is_transaction );
+		    gsb_data_mix_set_method_of_payment_content ( transaction_number, NULL, is_transaction);
+		}
+		break;
 
-		case TRANSACTION_FORM_DEVISE:
-		    gsb_data_mix_set_currency_number ( transaction_number, gsb_currency_get_currency_from_combobox (element -> element_widget), is_transaction);
-		    if (is_transaction)
-			gsb_currency_check_for_change ( transaction_number );
+	    case TRANSACTION_FORM_DEVISE:
+		gsb_data_mix_set_currency_number ( transaction_number, gsb_currency_get_currency_from_combobox (element -> element_widget), is_transaction);
+		if (is_transaction)
+		    gsb_currency_check_for_change ( transaction_number );
 
-		    break;
+		break;
 
-		case TRANSACTION_FORM_BANK:
-		    if (gsb_form_widget_check_empty (element -> element_widget)) 
-			gsb_data_mix_set_bank_references ( transaction_number, NULL, is_transaction);
-		    else
-			gsb_data_mix_set_bank_references ( transaction_number, my_strdup ( gtk_entry_get_text (GTK_ENTRY(element -> element_widget))), is_transaction);
-		    break;
+	    case TRANSACTION_FORM_BANK:
+		if (gsb_form_widget_check_empty (element -> element_widget)) 
+		    gsb_data_mix_set_bank_references ( transaction_number, NULL, is_transaction);
+		else
+		    gsb_data_mix_set_bank_references ( transaction_number, my_strdup ( gtk_entry_get_text (GTK_ENTRY(element -> element_widget))), is_transaction);
+		break;
 
-		case TRANSACTION_FORM_VOUCHER:
-		    if (gsb_form_widget_check_empty (element -> element_widget)) 
-			gsb_data_mix_set_voucher ( transaction_number, NULL, is_transaction);
-		    else
-			gsb_data_mix_set_voucher ( transaction_number, my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( element -> element_widget ))), is_transaction);
-		    break;
-	    }
+	    case TRANSACTION_FORM_VOUCHER:
+		if (gsb_form_widget_check_empty (element -> element_widget)) 
+		    gsb_data_mix_set_voucher ( transaction_number, NULL, is_transaction);
+		else
+		    gsb_data_mix_set_voucher ( transaction_number, my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( element -> element_widget ))), is_transaction);
+		break;
+	}
 	tmp_list = tmp_list -> next;
     }
 }
@@ -2619,7 +2619,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 				   gint new_transaction,
 				   gboolean is_transaction )
 {
-    GtkWidget *category_entry;
+    GtkWidget *category_combofix;
 
     devel_debug ( g_strdup_printf ( "gsb_form_get_categories %d, new : %d", 
 				    transaction_number,
@@ -2628,14 +2628,14 @@ gboolean gsb_form_get_categories ( gint transaction_number,
     if ( !gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY ))
 	return FALSE;
 
-    category_entry = GTK_COMBOFIX ( gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY)) -> entry;
+    category_combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
 
-    if (!gsb_form_widget_check_empty (category_entry))
+    if (!gsb_form_widget_check_empty (category_combofix))
     {
 	const gchar *string;
 	gint contra_transaction_number;
 
-	string = gtk_entry_get_text ( GTK_ENTRY ( category_entry ));
+	string = gtk_combofix_get_text ( GTK_COMBOFIX (category_combofix));
 
 	if ( strcmp ( string,
 		      _("Breakdown of transaction") ))

@@ -1249,14 +1249,14 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    /* mise en forme du tiers */
 
 	case TRANSACTION_LIST_PARTY:
-	    return ( my_strdup (gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number), TRUE )));
+	    return ( my_strdup (gsb_data_payee_get_name ( gsb_data_transaction_get_party_number (transaction_number), TRUE )));
 
 	    /* mise en forme de l'ib */
 
 	case TRANSACTION_LIST_BUDGET:
 
-	    return ( my_strdup (gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number),
-							   gsb_data_transaction_get_sub_budgetary_number ( transaction_number),
+	    return ( my_strdup (gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number (transaction_number),
+							   gsb_data_transaction_get_sub_budgetary_number (transaction_number),
 							   NULL )));
 
 	case TRANSACTION_LIST_DEBIT:
