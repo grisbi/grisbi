@@ -85,8 +85,6 @@ static void gsb_import_add_imported_transactions ( struct struct_compte_importat
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
 				     gint account_number );
-static void gsb_import_register_account ( struct struct_compte_importation * account );
-static void gsb_import_register_account_error ( struct struct_compte_importation * account );
 static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
 static gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *path_str,
 				 gpointer model );
@@ -100,11 +98,13 @@ static gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 static gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 			      const gchar *value, GtkListStore * model );
 static void pointe_opes_importees ( struct struct_compte_importation *imported_account );
-static EXPORTABLE void register_import_format ( struct import_format * format );
 static void traitement_operations_importees ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern void register_import_format ( struct import_format * format );
+extern void gsb_import_register_account ( struct struct_compte_importation * account );
+extern void gsb_import_register_account_error ( struct struct_compte_importation * account );
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;
