@@ -28,6 +28,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_fyear.h"
+#include "gsb_data_reconcile.h"
 #include "gsb_data_transaction.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -320,10 +321,12 @@ gchar * gsb_debug_reconcile_test ( void )
   {
       gpointer p_account = pUserAccountsList -> data;
       gint account_nb = gsb_data_account_get_no_account ( p_account );
+      gint reconcile_number;
 
       /* Si le compte a été rapproché au moins une fois.
 	 Seule la date permet de l'affirmer. */
-      if ( gsb_data_account_get_current_reconcile_date ( account_nb ) )
+      reconcile_number = gsb_data_reconcile_get_account_last_number (account_nb);
+      if (reconcile_number)
       {
 	  GSList *pTransactionList;
 	  gsb_real reconcilied_amount = null_real;
@@ -358,7 +361,7 @@ gchar * gsb_debug_reconcile_test ( void )
 	  }
 
 	  if ( gsb_real_abs ( gsb_real_sub ( reconcilied_amount,
-					     gsb_data_account_get_reconcile_balance (account_nb))).mantissa >= 0 )
+					     gsb_data_reconcile_get_final_balance (reconcile_number))).mantissa >= 0 )
 	  {
 	      affected_accounts ++;
 
@@ -367,7 +370,7 @@ gchar * gsb_debug_reconcile_test ( void )
 							"  Last reconciliation amount : %s%s\n"
 							"  Computed reconciliation amount : %s%s\n"),
 						      gsb_data_account_get_name ( account_nb ), 
-						      gsb_real_get_string (gsb_data_account_get_reconcile_balance ( account_nb )),
+						      gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number)),
 						      gsb_data_currency_get_name ( gsb_data_account_get_currency ( account_nb ) ),
 						      gsb_real_get_string (reconcilied_amount),
 						      gsb_data_currency_get_name ( gsb_data_account_get_currency ( account_nb ) ) ),

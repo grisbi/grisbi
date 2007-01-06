@@ -1,22 +1,29 @@
-/* file gsb_file_save.c
- * used to save the gsb files */
-/*     Copyright (C)	2000-2005 Cédric Auger (cedric@grisbi.org) */
-/* 			http://www.grisbi.org */
+/* ************************************************************************** */
+/*                                                                            */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-
+/**
+ * \file gsb_file_save.c
+ * save the file
+ */
 
 #include "include.h"
 
@@ -184,7 +191,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 	+ currency_link_part * g_slist_length ( gsb_data_currency_link_get_currency_link_list ())
 	+ bank_part * g_slist_length ( gsb_data_bank_get_bank_list ())
 	+ financial_year_part * g_slist_length (gsb_data_fyear_get_fyears_list ())
-	+ reconcile_part * g_slist_length (gsb_data_reconcile_get_reconcile_list ())
+	+ reconcile_part * g_list_length (gsb_data_reconcile_get_reconcile_list ())
 	+ report_part * g_slist_length ( gsb_data_report_get_report_list ());
 
     iterator = 0;
@@ -589,27 +596,19 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	gchar *second_string_to_free;
 	gint account_number;
 	gint j, k;
-	gchar *last_reconcile_date;
 	gchar *sort_list;
 	gchar *sort_kind_column;
 	gchar *form_organization;
 	gchar *form_columns_width;
 	GSList *list_tmp_2;
 	gchar *new_string;
+	gchar *init_balance;
+	gchar *mini_wanted;
+	gchar *mini_auto;
 
 	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	/* set the last reconcile date */
-
-	if ( gsb_data_account_get_current_reconcile_date (account_number) )
-	{
-	    last_reconcile_date = gsb_format_gdate_safe ( gsb_data_account_get_current_reconcile_date (account_number) );
-	}
-	else
-	    last_reconcile_date = my_strdup ("");
-
 	/* set the sort_list */
-
 	list_tmp_2 = gsb_data_account_get_sort_list (account_number);
 	sort_list = NULL;
 
@@ -631,7 +630,6 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	}
 
 	/* set the default sort kind for the columns */
-
 	sort_kind_column = NULL;
 
 	for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
@@ -652,7 +650,6 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	}
 
 	/* set the form organization */
-
 	form_organization = NULL;
 
 	for ( k=0 ; k<MAX_HEIGHT ; k++ )
@@ -674,7 +671,6 @@ gulong gsb_file_save_account_part ( gulong iterator,
 										  k ));
 
 	/* set the form columns width */
-
 	form_columns_width = NULL;
 
 	for ( k=0 ; k<MAX_WIDTH ; k++ )
@@ -692,8 +688,12 @@ gulong gsb_file_save_account_part ( gulong iterator,
 		form_columns_width = utils_str_itoa ( gsb_data_form_get_width_column ( account_number,
 										       k ));
 
-	/* now we can fill the file content */
+	/* set the reals */
+	init_balance = gsb_real_get_string (gsb_data_account_get_init_balance (account_number, -1));
+	mini_wanted = gsb_real_get_string (gsb_data_account_get_mini_balance_wanted (account_number));
+	mini_auto = gsb_real_get_string (gsb_data_account_get_mini_balance_authorized (account_number));
 
+	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Account\n"
 					       "\t\tName=\"%s\"\n"
 					       "\t\tId=\"%s\"\n"
@@ -708,9 +708,6 @@ gulong gsb_file_save_account_part ( gulong iterator,
 					       "\t\tInitial_balance=\"%s\"\n"
 					       "\t\tMinimum_wanted_balance=\"%s\"\n"
 					       "\t\tMinimum_authorised_balance=\"%s\"\n"
-					       "\t\tLast_reconcile_date=\"%s\"\n"
-					       "\t\tLast_reconcile_balance=\"%s\"\n"
-					       "\t\tLast_reconcile_number=\"%d\"\n"
 					       "\t\tClosed_account=\"%d\"\n"
 					       "\t\tShow_marked=\"%d\"\n"
 					       "\t\tLines_per_transaction=\"%d\"\n"
@@ -738,12 +735,9 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    gsb_data_account_get_bank_branch_code (account_number),
 	    gsb_data_account_get_bank_account_number (account_number),
 	    gsb_data_account_get_bank_account_key (account_number),
-	    gsb_real_get_string (gsb_data_account_get_init_balance (account_number, -1)),
-	    gsb_real_get_string (gsb_data_account_get_mini_balance_wanted (account_number)),
-	    gsb_real_get_string (gsb_data_account_get_mini_balance_authorized (account_number)),
-	    last_reconcile_date,
-	    gsb_real_get_string (gsb_data_account_get_reconcile_balance (account_number)),
-	    gsb_data_account_get_reconcile_last_number (account_number),
+	    init_balance,
+	    mini_wanted,
+	    mini_auto,
 	    gsb_data_account_get_closed_account (account_number),
 	    gsb_data_account_get_r (account_number),
 	    gsb_data_account_get_nb_rows (account_number),
@@ -762,11 +756,13 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    form_organization,
 	    form_columns_width );
 
-	g_free (last_reconcile_date);
 	g_free (sort_list);
 	g_free (sort_kind_column);
 	g_free (form_organization);
 	g_free (form_columns_width);
+	g_free (init_balance);
+	g_free (mini_auto);
+	g_free (mini_wanted);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -847,22 +843,35 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
     {
 	gint transaction_number;
 	gchar *new_string;
+	gchar *amount;
+	gchar *exchange_rate;
+	gchar *exchange_fees;
+	gchar *date;
+	gchar *value_date;
 
 	transaction_number = gsb_data_transaction_get_transaction_number ( list_tmp -> data );
-	
-	/* now we can fill the file content */
 
+	/* set the reals */
+	amount = gsb_real_get_string (gsb_data_transaction_get_amount ( transaction_number ));
+	exchange_rate = gsb_real_get_string (gsb_data_transaction_get_exchange_rate (transaction_number ));
+	exchange_fees = gsb_real_get_string (gsb_data_transaction_get_exchange_fees ( transaction_number));
+	
+	/* set the dates */
+	date = gsb_format_gdate_safe ( gsb_data_transaction_get_date ( transaction_number ));
+	value_date = gsb_format_gdate_safe ( gsb_data_transaction_get_value_date ( transaction_number ));
+
+	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Cu=\"%d\" Am=\"%s\" Exb=\"%d\" Exr=\"%s\" Exf=\"%s\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Tra=\"%d\" Mo=\"%d\" />\n",
 					       gsb_data_transaction_get_account_number ( transaction_number ),
 					       transaction_number,
 					       gsb_data_transaction_get_transaction_id ( transaction_number),
-					       gsb_format_gdate_safe ( gsb_data_transaction_get_date ( transaction_number )),
-					       gsb_format_gdate_safe ( gsb_data_transaction_get_value_date ( transaction_number )),
+					       date,
+					       value_date,
 					       gsb_data_transaction_get_currency_number (transaction_number ),
-					       gsb_real_get_string (gsb_data_transaction_get_amount ( transaction_number )),
+					       amount,
 					       gsb_data_transaction_get_change_between (transaction_number ),
-					       gsb_real_get_string (gsb_data_transaction_get_exchange_rate (transaction_number )),
-					       gsb_real_get_string (gsb_data_transaction_get_exchange_fees ( transaction_number)),
+					       exchange_rate,
+					       exchange_fees,
 					       gsb_data_transaction_get_party_number ( transaction_number),
 					       gsb_data_transaction_get_category_number ( transaction_number),
 					       gsb_data_transaction_get_sub_category_number (transaction_number),
@@ -881,6 +890,12 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 					       gsb_data_transaction_get_transaction_number_transfer (transaction_number),
 					       gsb_data_transaction_get_account_number_transfer (transaction_number),
 					       gsb_data_transaction_get_mother_transaction_number (transaction_number));
+
+	g_free (amount);
+	g_free (exchange_rate);
+	g_free (exchange_fees);
+	g_free (date);
+	g_free (value_date);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -916,16 +931,25 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
     {
 	gint scheduled_number;
 	gchar *new_string;
+	gchar *amount;
+	gchar *date;
+	gchar *limit_date;
 
 	scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp -> data);
 
-	/* now we can fill the file content */
+	/* set the real */
+	amount = gsb_real_get_string (gsb_data_scheduled_get_amount ( scheduled_number));
 
+	/* set the dates */
+	date = gsb_format_gdate_safe (gsb_data_scheduled_get_date ( scheduled_number));
+	limit_date = gsb_format_gdate_safe (gsb_data_scheduled_get_limit_date ( scheduled_number));
+
+	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Scheduled Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" Am=\"%s\" Cu=\"%d\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Tra=\"%d\" Pn=\"%d\" CPn=\"%d\" Pc=\"%s\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" No=\"%s\" Au=\"%d\" Pe=\"%d\" Pei=\"%d\" Pep=\"%d\" Dtl=\"%s\" Br=\"%d\" Mo=\"%d\" />\n",
 					       scheduled_number,
-					       gsb_format_gdate_safe (gsb_data_scheduled_get_date ( scheduled_number)),
+					       date,
 					       gsb_data_scheduled_get_account_number ( scheduled_number),
-					       gsb_real_get_string (gsb_data_scheduled_get_amount ( scheduled_number)),
+					       amount,
 					       gsb_data_scheduled_get_currency_number ( scheduled_number),
 					       gsb_data_scheduled_get_party_number ( scheduled_number),
 					       gsb_data_scheduled_get_category_number ( scheduled_number),
@@ -942,9 +966,13 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 					       gsb_data_scheduled_get_frequency ( scheduled_number),
 					       gsb_data_scheduled_get_user_interval ( scheduled_number),
 					       gsb_data_scheduled_get_user_entry ( scheduled_number),
-					       gsb_format_gdate_safe (gsb_data_scheduled_get_limit_date ( scheduled_number)),
+					       limit_date,
 					       gsb_data_scheduled_get_breakdown_of_scheduled ( scheduled_number),
 					       gsb_data_scheduled_get_mother_scheduled_number ( scheduled_number));
+
+	g_free (amount);
+	g_free (date);
+	g_free (limit_date);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -1223,16 +1251,19 @@ gulong gsb_file_save_currency_link_part ( gulong iterator,
     {
 	gchar *new_string;
 	gint link_number;
+	gchar *change_rate;
 
 	link_number = gsb_data_currency_link_get_no_currency_link (list_tmp -> data);
 
-	/* now we can fill the file content */
+	/* set the number */
+	change_rate = gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number));
 
+	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Currency_link Nb=\"%d\" Cu1=\"%d\" Cu2=\"%d\" Ex=\"%s\" />\n",
 					       link_number,
 					       gsb_data_currency_link_get_first_currency (link_number),
 					       gsb_data_currency_link_get_second_currency (link_number),
-					       gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number)));
+					       change_rate);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
@@ -1321,20 +1352,28 @@ gulong gsb_file_save_financial_year_part ( gulong iterator,
     {
 	gchar *new_string;
 	gint fyear_number;
+	gchar *begining_date;
+	gchar *end_date;
 
 	fyear_number = gsb_data_fyear_get_no_fyear (list_tmp -> data);
+
+	/* set the date */
+	begining_date = gsb_format_gdate_safe (gsb_data_fyear_get_begining_date(fyear_number));
+	end_date = gsb_format_gdate_safe (gsb_data_fyear_get_end_date(fyear_number));
 
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped( "\t<Financial_year Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" Edte=\"%s\" Sho=\"%d\" />\n",
 					      fyear_number,
 					      gsb_data_fyear_get_name (fyear_number),
-					      gsb_format_gdate_safe (gsb_data_fyear_get_begining_date(fyear_number)),
-					      gsb_format_gdate_safe (gsb_data_fyear_get_end_date(fyear_number)),
+					      begining_date,
+					      end_date,
 					      gsb_data_fyear_get_form_show (fyear_number));
+
+	g_free (begining_date);
+	g_free (end_date);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
-
 	iterator = gsb_file_save_append_part ( iterator,
 					       length_calculated,
 					       file_content,
@@ -1358,7 +1397,7 @@ gulong gsb_file_save_reconcile_part ( gulong iterator,
 				      gulong *length_calculated,
 				      gchar **file_content )
 {
-    GSList *list_tmp;
+    GList *list_tmp;
 
     list_tmp = gsb_data_reconcile_get_reconcile_list ();
 
@@ -1366,17 +1405,43 @@ gulong gsb_file_save_reconcile_part ( gulong iterator,
     {
 	gchar *new_string;
 	gint reconcile_number;
+	gchar *init_date;
+	gchar *final_date;
+	gchar *init_balance;
+	gchar *final_balance;
 
 	reconcile_number = gsb_data_reconcile_get_no_reconcile (list_tmp -> data);
 
+	/* set the reconcile dates */
+	init_date = gsb_format_gdate_safe (gsb_data_reconcile_get_init_date (reconcile_number));
+	if (!init_date)
+	    init_date  = my_strdup ("");
+
+	final_date = gsb_format_gdate_safe (gsb_data_reconcile_get_final_date (reconcile_number));
+	if (!final_date)
+	    final_date = my_strdup ("");
+
+	/* set the balances strings */
+	init_balance = gsb_real_get_string (gsb_data_reconcile_get_init_balance (reconcile_number));
+	final_balance = gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
+
 	/* now we can fill the file content */
-	new_string = g_markup_printf_escaped ( "\t<Reconcile Nb=\"%d\" Na=\"%s\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Reconcile Nb=\"%d\" Na=\"%s\" Acc=\"%d\" Idate/=\"%s\" Fdate=\"%s\" Ibal=\"%s\" Fbal=\"%s\" >\n",
 					       reconcile_number,
-					       gsb_data_reconcile_get_name (reconcile_number));
+					       gsb_data_reconcile_get_name (reconcile_number),
+					       gsb_data_reconcile_get_account (reconcile_number),
+					       init_date,
+					       final_date,
+					       init_balance, 
+					       final_balance );
+
+	g_free (init_date);
+	g_free (final_date);
+	g_free (init_balance);
+	g_free (final_balance);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
-
 	iterator = gsb_file_save_append_part ( iterator,
 					       length_calculated,
 					       file_content,
@@ -1420,6 +1485,8 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	gchar *payee_selected;
 	gchar *payment_method_list;
 	GSList *list_tmp_2;
+	gchar *date_start;
+	gchar *date_end;
 	
 	report_number = gsb_data_report_get_report_number (list_tmp -> data);
 
@@ -1434,7 +1501,6 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* set the general sort type */
-
 	pointer_list = gsb_data_report_get_sorting_type (report_number);
 	general_sort_type = NULL;
 
@@ -1452,7 +1518,6 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* set the financial_year_select */
-
 	pointer_list = gsb_data_report_get_financial_year_list (report_number);
 	financial_year_select = NULL;
 
@@ -1470,7 +1535,6 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* set the account_selected */
-
 	pointer_list = gsb_data_report_get_account_numbers (report_number);
 	account_selected = NULL;
 
@@ -1488,7 +1552,6 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* 	set the transfer_selected_accounts */
-	
 	pointer_list = gsb_data_report_get_transfer_account_numbers (report_number);
 	transfer_selected_accounts = NULL;
 
@@ -1506,7 +1569,6 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* 	set the categ_selected */
-	
 	pointer_list = gsb_data_report_get_category_numbers (report_number);
 	categ_selected = NULL;
 
@@ -1524,7 +1586,6 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* 	set the budget_selected */
-
 	pointer_list = gsb_data_report_get_budget_numbers (report_number);
 	budget_selected = NULL;
 
@@ -1542,7 +1603,6 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* 	set the payee_selected */
-
 	pointer_list = gsb_data_report_get_payee_numbers (report_number);
 	payee_selected = NULL;
 
@@ -1560,7 +1620,6 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* 	set the payment_method_list */
-
 	pointer_list = gsb_data_report_get_method_of_payment_list (report_number);
 	payment_method_list = NULL;
 
@@ -1577,9 +1636,11 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    pointer_list = pointer_list -> next;
 	}
 
+	/* set the dates */
+	date_start = gsb_format_gdate_safe (gsb_data_report_get_personal_date_start (report_number));
+	date_end = gsb_format_gdate_safe (gsb_data_report_get_personal_date_end (report_number));
 
 	/* now we can fill the file content */
-
 	new_string = g_markup_printf_escaped ( "\t<Report\n"
 					       "\t\tNb=\"%d\"\n"
 					       "\t\tName=\"%s\"\n"
@@ -1690,8 +1751,8 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    gsb_data_report_get_financial_year_type (report_number),
 	    financial_year_select,
 	    gsb_data_report_get_date_type (report_number),
-	    gsb_format_gdate_safe (gsb_data_report_get_personal_date_start (report_number)),
-	    gsb_format_gdate_safe (gsb_data_report_get_personal_date_end (report_number)),
+	    date_start,
+	    date_end,
 	    gsb_data_report_get_period_split (report_number),
 	    gsb_data_report_get_period_split_type (report_number),
 	    gsb_data_report_get_financial_year_split (report_number),
@@ -1744,10 +1805,11 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	g_free (budget_selected);
 	g_free (payee_selected);
 	g_free (payment_method_list);
+	g_free (date_start);
+	g_free (date_end);
 
 	/* append the new string to the file content
 	 * and take the new iterator */
-
 	iterator = gsb_file_save_append_part ( iterator,
 					       length_calculated,
 					       file_content,
@@ -1809,11 +1871,16 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	while ( list_tmp_2 )
 	{
 	    gint amount_comparison_number;
+	    gchar *first_amount;
+	    gchar *second_amount;
 
 	    amount_comparison_number = GPOINTER_TO_INT (list_tmp_2 -> data);
 
-	    /* now we can fill the file content */
+	    /* set the numbers */
+	    first_amount = gsb_real_get_string (gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number));
+	    second_amount = gsb_real_get_string (gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number));
 
+	    /* now we can fill the file content */
 	    new_string = g_markup_printf_escaped ( "\t<Amount_comparison\n"
 						   "\t\tComparison_number=\"%d\"\n"
 						   "\t\tReport_nb=\"%d\"\n"
@@ -1829,8 +1896,11 @@ gulong gsb_file_save_report_part ( gulong iterator,
 						   gsb_data_report_amount_comparison_get_first_comparison (amount_comparison_number),
 						   gsb_data_report_amount_comparison_get_link_first_to_second_part (amount_comparison_number),
 						   gsb_data_report_amount_comparison_get_second_comparison (amount_comparison_number),
-						   gsb_real_get_string (gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number)),
-						   gsb_real_get_string (gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number)));
+						   first_amount,
+						   second_amount);
+
+	    g_free (first_amount);
+	    g_free (second_amount);
 
 	    /* append the new string to the file content
 	     * and take the new iterator */

@@ -29,6 +29,7 @@
 #include "erreur.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
+#include "gsb_data_reconcile.h"
 #include "gsb_data_report.h"
 #include "utils_dates.h"
 #include "gsb_form.h"
@@ -987,6 +988,7 @@ gboolean navigation_change_account ( gint *no_account )
     gint new_account;
     gint current_account;
     GtkTreePath *path;
+    gint last_reconcile;
 
     new_account = GPOINTER_TO_INT ( no_account );
 
@@ -1026,10 +1028,11 @@ gboolean navigation_change_account ( gint *no_account )
     gsb_transactions_list_set_transactions_balances (new_account);
 
     /*     mise en place de la date du dernier relevé */
-    if ( gsb_data_account_get_current_reconcile_date (new_account) )
+    last_reconcile = gsb_data_reconcile_get_account_last_number (new_account);
+    if (last_reconcile)
 	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
 			     g_strdup_printf ( _("Last statement: %s"), 
-					       gsb_format_gdate ( gsb_data_account_get_current_reconcile_date (new_account) ) ) );
+					       gsb_format_gdate (gsb_data_reconcile_get_final_date (last_reconcile))));
 
     else
 	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),

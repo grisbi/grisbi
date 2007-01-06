@@ -14,8 +14,8 @@ gboolean gsb_date_free_last_date ( void );
 gboolean gsb_date_set_last_date ( const gchar *date );
 gchar *gsb_date_today ( void );
 gchar *gsb_format_date ( gint day, gint month, gint year );
-gchar *gsb_format_gdate ( GDate *date );
-gchar * gsb_format_gdate_safe ( GDate *date );
+gchar *gsb_format_gdate ( const GDate *date );
+gchar * gsb_format_gdate_safe ( const GDate *date );
 GDate *gsb_parse_date_string ( const gchar *date_string );
 GDate *gsb_parse_date_string_safe ( const gchar *date_string );
 /* END_DECLARATION */

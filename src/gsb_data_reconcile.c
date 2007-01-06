@@ -31,6 +31,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_reconcile.h"
 #include "gsb_data_transaction.h"
+#include "utils_dates.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
 
@@ -41,21 +42,29 @@ typedef struct
 {
     gint reconcile_number;
     gchar *reconcile_name;
+    gint account_number;
+
+    GDate *reconcile_init_date;
+    GDate *reconcile_final_date;
+
+    gsb_real reconcile_init_balance;
+    gsb_real reconcile_final_balance;
+
 } struct_reconcile;
 
 
 /*START_STATIC*/
 static gpointer gsb_data_reconcile_get_structure ( gint reconcile_number );
 static gint gsb_data_reconcile_max_number ( void );
-static gboolean gsb_data_reconcile_remove ( gint reconcile_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 
-/** contains a g_slist of struct_reconcile */
-static GSList *reconcile_list;
+/** contains a g_list of struct_reconcile */
+static GList *reconcile_list;
 
 /** a pointer to the last reconcile used (to increase the speed) */
 static struct_reconcile *reconcile_buffer;
@@ -86,7 +95,7 @@ gboolean gsb_data_reconcile_init_variables ( void )
  * */
 gpointer gsb_data_reconcile_get_structure ( gint reconcile_number )
 {
-    GSList *tmp;
+    GList *tmp;
 
     if (!reconcile_number)
 	return NULL;
@@ -136,13 +145,13 @@ gint gsb_data_reconcile_get_no_reconcile ( gpointer reconcile_ptr )
 
 
 /**
- * give the g_slist of reconcile structure
+ * give the g_list of reconcile structure
  *
  * \param none
  *
- * \return the g_slist of reconciles structure
+ * \return the g_list of reconciles structure
  * */
-GSList *gsb_data_reconcile_get_reconcile_list ( void )
+GList *gsb_data_reconcile_get_reconcile_list ( void )
 {
     return reconcile_list;
 }
@@ -158,7 +167,7 @@ GSList *gsb_data_reconcile_get_reconcile_list ( void )
  * */
 gint gsb_data_reconcile_max_number ( void )
 {
-    GSList *tmp;
+    GList *tmp;
     gint number_tmp = 0;
 
     tmp = reconcile_list;
@@ -196,7 +205,7 @@ gint gsb_data_reconcile_new ( const gchar *name )
     if (name)
 	reconcile -> reconcile_name = my_strdup (name);
 
-    reconcile_list = g_slist_append ( reconcile_list, reconcile );
+    reconcile_list = g_list_append ( reconcile_list, reconcile );
 
     return reconcile -> reconcile_number;
 }
@@ -219,7 +228,7 @@ gboolean gsb_data_reconcile_remove ( gint reconcile_number )
     if (!reconcile)
 	return FALSE;
 
-    reconcile_list = g_slist_remove ( reconcile_list,
+    reconcile_list = g_list_remove ( reconcile_list,
 				      reconcile );
 
     /* remove the reconcile from the buffers */
@@ -329,7 +338,7 @@ gboolean gsb_data_reconcile_set_name ( gint reconcile_number,
  * */
 gint gsb_data_reconcile_get_number_by_name ( const gchar *name )
 {
-    GSList *list_tmp;
+    GList *list_tmp;
 
     if (!name
 	||
@@ -354,3 +363,312 @@ gint gsb_data_reconcile_get_number_by_name ( const gchar *name )
 }
 
 
+/**
+ * return the account number of the reconcile
+ *
+ * \param account number the number of the reconcile
+ *
+ * \return the account number of the reconcile or -1 if problem
+ * */
+gint gsb_data_reconcile_get_account ( gint reconcile_number )
+{
+    struct_reconcile *reconcile;
+
+    reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
+
+    if (!reconcile)
+	return -1;
+
+    return reconcile -> account_number;
+}
+
+
+/**
+ * set the account number of the reconcile
+ *
+ * \param reconcile_number the number of the reconcile
+ * \param account_number the account number of the reconcile
+ *
+ * \return TRUE if ok or FALSE if problem
+ * */
+gboolean gsb_data_reconcile_set_account ( gint reconcile_number,
+					  gint account_number )
+{
+    struct_reconcile *reconcile;
+
+    reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
+
+    if (!reconcile)
+	return FALSE;
+
+    /* and copy the new one */
+    reconcile -> account_number = account_number;
+
+    return TRUE;
+}
+
+
+/**
+ * return the init_date of the reconcile
+ *
+ * \param reconcile_number the number of the reconcile
+ *
+ * \return the init_date of the reconcile or NULL if problem
+ * */
+const GDate *gsb_data_reconcile_get_init_date ( gint reconcile_number )
+{
+    struct_reconcile *reconcile;
+
+    reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
+
+    if (!reconcile)
+	return NULL;
+
+    return reconcile -> reconcile_init_date;
+}
+
+
+/**
+ * set the init_date of the reconcile
+ * the value is dupplicate in memory (so parameter can be freed after)
+ *
+ * \param reconcile_number the number of the reconcile
+ * \param date the init_date of the reconcile
+ *
+ * \return TRUE if ok or FALSE if problem
+ * */
+gboolean gsb_data_reconcile_set_init_date ( gint reconcile_number,
+					    const GDate *date )
+{
+    struct_reconcile *reconcile;
+
+    reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
+
+    if (!reconcile)
+	return FALSE;
+
+    /* we free the last name */
+    if ( reconcile -> reconcile_init_date )
+	free (reconcile -> reconcile_init_date);
+
+    /* and copy the new one */
+    reconcile -> reconcile_init_date = gsb_date_copy (date);
+
+    return TRUE;
+}
+
+
+/**
+ * return the final_date of the reconcile
+ *
+ * \param reconcile_number the number of the reconcile
+ *
+ * \return the final_date of the reconcile or NULL if problem
+ * */
+const GDate *gsb_data_reconcile_get_final_date ( gint reconcile_number )
+{
+    struct_reconcile *reconcile;
+
+    reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
+
+    if (!reconcile)
+	return NULL;
+
+    return reconcile -> reconcile_final_date;
+}
+
+
+/**
+ * set the final_date of the reconcile
+ * the value is dupplicate in memory (so parameter can be freed after)
+ *
+ * \param reconcile_number the number of the reconcile
+ * \param date the final_date of the reconcile
+ *
+ * \return TRUE if ok or FALSE if problem
+ * */
+gboolean gsb_data_reconcile_set_final_date ( gint reconcile_number,
+					     const GDate *date )
+{
+    struct_reconcile *reconcile;
+
+    reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
+
+    if (!reconcile)
+	return FALSE;
+
+    /* we free the last name */
+    if ( reconcile -> reconcile_final_date )
+	free (reconcile -> reconcile_final_date);
+
+    /* and copy the new one */
+    reconcile -> reconcile_final_date = gsb_date_copy (date);
+
+    return TRUE;
+}
+
+
+/**
+ * return the init_amount of the reconcile
+ *
+ * \param reconcile_number the number of the reconcile
+ *
+ * \return the init_amount of the reconcile or null_real if problem
+ * */
+gsb_real gsb_data_reconcile_get_init_balance ( gint reconcile_number )
+{
+    struct_reconcile *reconcile;
+
+    reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
+
+    if (!reconcile)
+	return null_real;
+
+    return reconcile -> reconcile_init_balance;
+}
+
+
+/**
+ * set the init_amount of the reconcile
+ *
+ * \param reconcile_number the number of the reconcile
+ * \param amount the init_amount of the reconcile
+ *
+ * \return TRUE if ok or FALSE if problem
+ * */
+gboolean gsb_data_reconcile_set_init_balance ( gint reconcile_number,
+					       gsb_real amount )
+{
+    struct_reconcile *reconcile;
+
+    reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
+
+    if (!reconcile)
+	return FALSE;
+
+    reconcile -> reconcile_init_balance = amount;
+
+    return TRUE;
+}
+
+
+/**
+ * return the final_amount of the reconcile
+ *
+ * \param reconcile_number the number of the reconcile
+ *
+ * \return the final balance of the reconcile or null_real if problem
+ * */
+gsb_real gsb_data_reconcile_get_final_balance ( gint reconcile_number )
+{
+    struct_reconcile *reconcile;
+
+    reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
+
+    if (!reconcile)
+	return null_real;
+
+    return reconcile -> reconcile_final_balance;
+}
+
+
+/**
+ * set the final_amount of the reconcile
+ *
+ * \param reconcile_number the number of the reconcile
+ * \param amount the final_amount of the reconcile
+ *
+ * \return TRUE if ok or FALSE if problem
+ * */
+gboolean gsb_data_reconcile_set_final_balance ( gint reconcile_number,
+						gsb_real amount )
+{
+    struct_reconcile *reconcile;
+
+    reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
+
+    if (!reconcile)
+	return FALSE;
+
+    reconcile -> reconcile_final_balance = amount;
+
+    return TRUE;
+}
+
+
+/**
+ * find the last reconcile number for the given account
+ *
+ * \param account_number
+ *
+ * \return the last reconcile number for that account, 0 if none found
+ * */
+gint gsb_data_reconcile_get_account_last_number ( gint account_number )
+{
+    GList *tmp;
+    gint number_tmp = 0;
+
+    tmp = reconcile_list;
+
+    while ( tmp )
+    {
+	struct_reconcile *reconcile;
+
+	reconcile = tmp -> data;
+
+	if ( reconcile -> account_number == account_number
+	     &&
+	     reconcile -> reconcile_number > number_tmp )
+	    number_tmp = reconcile -> reconcile_number;
+
+	tmp = tmp -> next;
+    }
+    return number_tmp;
+}
+
+
+/**
+ * find the previous reconcile in the same account
+ *
+ * \param reconcile_number
+ *
+ * \return the previous reconcile or 0 if it was the first
+ * */
+gint gsb_data_reconcile_get_previous ( gint reconcile_number )
+{
+    GList *tmp_list;
+    struct_reconcile *reconcile;
+    gint account_number;
+
+    /* first we localize the GList struct of that reconcile */
+    tmp_list = reconcile_list;
+    while (tmp_list)
+    {
+	reconcile = tmp_list -> data;
+
+	if (reconcile -> reconcile_number == reconcile_number)
+	    break;
+	tmp_list = tmp_list -> next;
+    }
+
+    
+    /* ok, here tmp_list points normally on the GList of the reconcile */
+    if (!tmp_list)
+	return 0;
+
+    /* now, try to find the previous reconcile for the same account */
+    account_number = reconcile -> account_number;
+    tmp_list = tmp_list -> prev;
+
+    while (tmp_list)
+    {
+	reconcile = tmp_list -> data;
+
+	if (reconcile -> account_number == account_number)
+	    return reconcile -> reconcile_number;
+	tmp_list = tmp_list -> prev;
+    }
+
+    /* no previous, return 0 */
+    return 0;
+}

@@ -291,6 +291,9 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 {
     GDate *date;
     gint account_number;
+    gint reconcile_number;
+    gchar *last_name;
+    gchar *string;
 
     account_number = gsb_gui_navigation_get_current_account ();
 
@@ -298,91 +301,92 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
      * of bug, better to recalculate here because don't take too much time */
     gsb_data_account_calculate_marked_balance (account_number);
 
+    reconcile_number = gsb_data_reconcile_get_account_last_number (account_number);
+
     /* get the last reconcile number and try to increase the number in the name */
-    if ( gsb_data_account_get_reconcile_last_number (account_number) )
+
+    last_name = my_strdup (gsb_data_reconcile_get_name (reconcile_number));
+
+    if (last_name)
     {
-	gchar *last_name;
+	gchar *tmp_pointer;
+	gchar *end_pointer;
 
-	last_name = my_strdup (gsb_data_reconcile_get_name ( gsb_data_account_get_reconcile_last_number (account_number)));
+	/* we try to find some digits at the end of the name,
+	 * if found, get the biggest number untill we find a non digit character */
+	end_pointer = last_name + (strlen ( last_name ) - 1) * sizeof (gchar);
+	tmp_pointer = end_pointer;
 
-	if (last_name)
+	while ( tmp_pointer[0] > 47 && tmp_pointer[0] < 58 && tmp_pointer >= last_name )
+	    tmp_pointer--;
+
+	if ( tmp_pointer != end_pointer )
 	{
-	    gchar *tmp_pointer;
-	    gchar *end_pointer;
+	    /* ok we have some digits at the end of the name */
+	    gchar *zero_string;
+	    gint digit_size;
+	    gint new_digit_size;
+	    gchar *new_string;
+	    gchar *digit_string;
 
-	    /* we try to find some digits at the end of the name,
-	     * if found, get the biggest number untill we find a non digit character */
-	    end_pointer = last_name + (strlen ( last_name ) - 1) * sizeof (gchar);
-	    tmp_pointer = end_pointer;
+	    /* tmp_pointer is on the first non digit from the end of the last_name,
+	     * so go to the first digit */
+	    tmp_pointer++;
 
-	    while ( tmp_pointer[0] > 47 && tmp_pointer[0] < 58 && tmp_pointer >= last_name )
-		tmp_pointer--;
+	    digit_string = my_strdup ( tmp_pointer );
+	    tmp_pointer[0] = 0;
 
-	    if ( tmp_pointer != end_pointer )
+	    /* increase the number */
+	    digit_size = strlen ( digit_string );
+	    digit_string = utils_str_itoa ( utils_str_atoi ( digit_string ) + 1 );
+	    new_digit_size = strlen ( digit_string );
+
+	    /* if new_digit_size is < of digit_size, it's because some 0 diseappear
+	     * while the atoi and itoa, so we set again that 0
+	     * ie if we had 0007, we want 0008 and no 8 */
+	    if ( new_digit_size < digit_size )
 	    {
-		/* ok we have some digits at the end of the name */
-		gchar *zero_string;
-		gint digit_size;
-		gint new_digit_size;
-		gchar *new_string;
-		gchar *digit_string;
+		gint i;
 
-		/* tmp_pointer is on the first non digit from the end of the last_name,
-		 * so go to the first digit */
-		tmp_pointer++;
+		zero_string = g_malloc ((digit_size-new_digit_size+1)*sizeof (gchar));
 
-		digit_string = my_strdup ( tmp_pointer );
-		tmp_pointer[0] = 0;
+		for ( i=0 ; i<digit_size-new_digit_size ; i++ )
+		    zero_string[i]='0';
 
-		/* increase the number */
-		digit_size = strlen ( digit_string );
-		digit_string = utils_str_itoa ( utils_str_atoi ( digit_string ) + 1 );
-		new_digit_size = strlen ( digit_string );
-
-		/* if new_digit_size is < of digit_size, it's because some 0 diseappear
-		 * while the atoi and itoa, so we set again that 0
-		 * ie if we had 0007, we want 0008 and no 8 */
-		if ( new_digit_size < digit_size )
-		{
-		    gint i;
-
-		    zero_string = g_malloc ((digit_size-new_digit_size+1)*sizeof (gchar));
-
-		    for ( i=0 ; i<digit_size-new_digit_size ; i++ )
-			zero_string[i]='0';
-
-		    zero_string[digit_size-new_digit_size] = 0;
-		}
-		else
-		    zero_string = my_strdup ("");
-
-		/* create the new string */
-		new_string = g_strconcat ( last_name,
-					   zero_string,
-					   digit_string,
-					   NULL );
-		g_free (last_name);
-		g_free (zero_string);
-		g_free (digit_string);
-		last_name = new_string;
+		zero_string[digit_size-new_digit_size] = 0;
 	    }
-	    gtk_entry_set_text ( GTK_ENTRY ( reconcile_number_entry ),
-				 last_name );
+	    else
+		zero_string = my_strdup ("");
+
+	    /* create the new string */
+	    new_string = g_strconcat ( last_name,
+				       zero_string,
+				       digit_string,
+				       NULL );
 	    g_free (last_name);
+	    g_free (zero_string);
+	    g_free (digit_string);
+	    last_name = new_string;
 	}
+	gtk_entry_set_text ( GTK_ENTRY ( reconcile_number_entry ),
+			     last_name );
+	g_free (last_name);
     }
     else
 	gtk_entry_set_text ( GTK_ENTRY ( reconcile_number_entry ),
 			     "1" );
 
     /* increase the last date of 1 month */
-    date = gsb_date_copy (gsb_data_account_get_current_reconcile_date (account_number));
+    date = gsb_date_copy (gsb_data_reconcile_get_final_date (reconcile_number));
     if (date)
     {
 	GDate *today;
+	gchar *string ;
 
+	string = gsb_format_gdate (date);
 	gtk_label_set_text ( GTK_LABEL (reconcile_last_date_label),
-			     gsb_format_gdate (date));
+			     string);
+	g_free (string);
 	g_date_add_months ( date, 1 );
 
 	/* if the new date is after today, set today */
@@ -397,7 +401,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 
 	/* it's not the first reconciliation, set the old balance and unsensitive the old balance entry */
 	gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ),
-			     gsb_real_get_string (gsb_data_account_get_reconcile_balance (account_number)));
+			     gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number)));
 	gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ),
 				   FALSE );
     }
@@ -416,8 +420,10 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 				   TRUE );
     }
 
+    string = gsb_format_gdate (date);
     gtk_entry_set_text ( GTK_ENTRY ( reconcile_new_date_entry ),
-			 gsb_format_gdate ( date ) );
+			 string );
+    g_free (string);
     g_date_free (date);
     gtk_entry_set_text ( GTK_ENTRY ( reconcile_final_balance_entry ), "" );
 
@@ -480,6 +486,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     GDate *date;
     gint account_number;
     gint reconcile_number;
+    gsb_real real;
 
     account_number = gsb_gui_navigation_get_current_account ();
 
@@ -512,21 +519,39 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 	return FALSE;
     }
 
-    gsb_data_account_set_current_reconcile_date ( account_number,
-						  date );
+    if (!strlen (gtk_entry_get_text ( GTK_ENTRY ( reconcile_number_entry ))))
+    {
+	dialogue_warning_hint ( _("You need to set a name to the reconciliation ; at least, set a number,\nit will be automaticaly incremented later"),
+				_("Reconciliation can't be completed.") );
+	return FALSE;
+    }
+
     gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
 			 g_strdup_printf ( _("Last statement: %s"), 
-					   gsb_format_gdate ( date ) ) );
+					   gsb_format_gdate (date)));
+
+    /* create the new reconcile structure */
+    reconcile_number = gsb_data_reconcile_new (gtk_entry_get_text (GTK_ENTRY (reconcile_number_entry)));
+    gsb_data_reconcile_set_account ( reconcile_number,
+				     account_number );
+
+    /* set the variables of the reconcile */
+    gsb_data_reconcile_set_final_date ( reconcile_number,
+					date );
     g_date_free (date);
 
+    date = gsb_parse_date_string_safe (gtk_label_get_label (GTK_LABEL (reconcile_last_date_label)));
+    gsb_data_reconcile_set_init_date ( reconcile_number,
+				       date );
+    g_free (date);
 
-    /* if nothing in the text entry, don't create a new reconcile structure, just let like that (for now,reconcile_number = 0) */
-    if (strlen (gtk_entry_get_text ( GTK_ENTRY ( reconcile_number_entry ))))
-	/* create the new reconcile structure */
-	reconcile_number = gsb_data_reconcile_new (gtk_entry_get_text (GTK_ENTRY (reconcile_number_entry)));
+    real = gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (reconcile_initial_balance_entry)));
+    gsb_data_reconcile_set_init_balance ( reconcile_number,
+					  real );
 
-    gsb_data_account_set_reconcile_last_number ( account_number,
-						 reconcile_number );
+    real = gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (reconcile_final_balance_entry)));
+    gsb_data_reconcile_set_final_balance ( reconcile_number,
+					   real );
 
     /* modify the reconciled transactions */
     list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
@@ -536,24 +561,20 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 	gint transaction_number_tmp;
 	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number)
+	if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number
+	     &&
+	     ( gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_POINTEE
+	       ||
+	       gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_TELERAPPROCHEE ))
 	{
-	    if ( gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_POINTEE
-		 ||
-		 gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_TELERAPPROCHEE )
-	    {
-		gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
-							      OPERATION_RAPPROCHEE );
-		gsb_data_transaction_set_reconcile_number ( transaction_number_tmp,
-							    reconcile_number );
-	    }
+	    gsb_data_transaction_set_marked_transaction ( transaction_number_tmp,
+							  OPERATION_RAPPROCHEE );
+	    gsb_data_transaction_set_reconcile_number ( transaction_number_tmp,
+							reconcile_number );
 	}
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
 
-    /* set the new reconcile balance  and update it in the home page */
-    gsb_data_account_set_reconcile_balance ( account_number,
-					     gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( reconcile_final_balance_entry ))));
     mise_a_jour_liste_comptes_accueil = 1;
 
     /* go back to the normal transactions list */

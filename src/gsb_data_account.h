@@ -35,7 +35,6 @@ gint gsb_data_account_get_closed_account ( gint account_number );
 gchar *gsb_data_account_get_comment ( gint account_number );
 gint gsb_data_account_get_currency ( gint account_number );
 gsb_real gsb_data_account_get_current_balance ( gint account_number );
-GDate *gsb_data_account_get_current_reconcile_date ( gint account_number );
 gint gsb_data_account_get_current_transaction_number ( gint account_number );
 gint gsb_data_account_get_default_credit ( gint account_number );
 gint gsb_data_account_get_default_debit ( gint account_number );
@@ -59,8 +58,6 @@ gint gsb_data_account_get_nb_rows ( gint account_number );
 gint gsb_data_account_get_no_account ( gpointer account_ptr );
 gint gsb_data_account_get_no_account_by_name ( const gchar *account_name );
 gboolean gsb_data_account_get_r ( gint account_number );
-gsb_real gsb_data_account_get_reconcile_balance ( gint account_number );
-gint gsb_data_account_get_reconcile_last_number ( gint account_number );
 gint gsb_data_account_get_reconcile_sort_type ( gint account_number );
 gint gsb_data_account_get_sort_column ( gint account_number );
 GSList *gsb_data_account_get_sort_list ( gint account_number );
@@ -88,8 +85,6 @@ gboolean gsb_data_account_set_currency ( gint account_number,
 					 gint currency );
 gboolean gsb_data_account_set_current_balance ( gint account_number,
 						gsb_real balance );
-gboolean gsb_data_account_set_current_reconcile_date ( gint account_number,
-						       const GDate *date );
 gboolean gsb_data_account_set_current_transaction_number ( gint account_number,
 							   gint transaction_number );
 gboolean gsb_data_account_set_default_credit ( gint account_number,
@@ -127,10 +122,6 @@ gboolean gsb_data_account_set_nb_rows ( gint account_number,
 					gint nb_rows );
 gboolean gsb_data_account_set_r ( gint account_number,
 				  gboolean show_r );
-gboolean gsb_data_account_set_reconcile_balance ( gint account_number,
-						  gsb_real balance );
-gboolean gsb_data_account_set_reconcile_last_number ( gint account_number,
-						      gint number );
 gboolean gsb_data_account_set_reconcile_sort_type ( gint account_number,
 						    gint sort_type );
 gboolean gsb_data_account_set_sort_column ( gint account_number,

@@ -153,9 +153,9 @@ gchar *categories_de_base_debit [] = {
     N_("Transport : Tramway"),
     N_("Transport : Travels"),
     N_("Transport : Train"),
-    N_("Hollydays : Housing"),
-    N_("Hollydays : Visits"),
-    N_("Hollydays : Travels"),
+    N_("Holiday : Housing"),
+    N_("Holiday : Visits"),
+    N_("Holiday : Travels"),
     NULL };
 
 gchar *categories_de_base_credit [] = {

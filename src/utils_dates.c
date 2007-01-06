@@ -494,7 +494,7 @@ gchar *gsb_format_date ( gint day, gint month, gint year )
  *
  * \return		A string representing date.
  */
-gchar *gsb_format_gdate ( GDate *date )
+gchar *gsb_format_gdate ( const GDate *date )
 {
     gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
 
@@ -518,7 +518,7 @@ gchar *gsb_format_gdate ( GDate *date )
  *
  * \return		A string representing date.
  */
-gchar * gsb_format_gdate_safe ( GDate *date )
+gchar * gsb_format_gdate_safe ( const GDate *date )
 {
     gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
 

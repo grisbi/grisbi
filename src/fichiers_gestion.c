@@ -296,7 +296,6 @@ gboolean gsb_file_open_file ( gchar *filename )
 	/* the file has been opened succesfully */
 
 	/* we make a backup if necessary */
-
 	if ( etat.sauvegarde_demarrage )
 	{
 	    gchar *backup_filename;

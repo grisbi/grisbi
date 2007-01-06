@@ -34,7 +34,6 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
-#include "utils_dates.h"
 #include "gsb_real.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
@@ -86,11 +85,6 @@ typedef struct
     gchar *bank_branch_code;
     gchar *bank_account_number;
     gchar *bank_account_key;
-
-    /** @name reconcile stuff */
-    GDate *reconcile_date;
-    gsb_real reconcile_balance;
-    gint reconcile_last_number;
 
     /** @name reconcile sort */
     gint reconcile_sort_type;                           /**< 1 : sort by method of payment ; 0 : sort by date */
@@ -1257,136 +1251,6 @@ gboolean gsb_data_account_set_mini_balance_authorized_message ( gint account_num
 
     return TRUE;
 }
-
-
-
-/**
- * get the reconcile_date of the account
- * 
- * \param account_number no of the account
- * 
- * \return a GDate of the reconcile date or NULL if the account doesn't exist
- * */
-GDate *gsb_data_account_get_current_reconcile_date ( gint account_number )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	return NULL;
-
-    return account -> reconcile_date;
-}
-
-
-/**
- * set the reconcile_date of the account
- * 
- * \param account_number no of the account
- * \param date date to set
- * 
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_data_account_set_current_reconcile_date ( gint account_number,
-						       const GDate *date )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	return FALSE;
-
-    account -> reconcile_date = gsb_date_copy (date);
-
-    return TRUE;
-}
-
-
-
-/**
- * get the reconcile balance of the account
- * 
- * \param account_number no of the account
- * 
- * \return balance or 0 if the account doesn't exist
- * */
-gsb_real gsb_data_account_get_reconcile_balance ( gint account_number )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	return null_real;
-
-    return account -> reconcile_balance;
-}
-
-
-/**
- * set the reconcile balance of the account
- * 
- * \param account_number no of the account
- * \param balance balance to set
- * 
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_data_account_set_reconcile_balance ( gint account_number,
-						  gsb_real balance )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	return FALSE;
-
-    account -> reconcile_balance = balance;
-
-    return TRUE;
-}
-
-
-
-/** get the reconcile_last_number on the account given
- * \param account_number no of the account
- * \return last number of reconcile or 0 if the account doesn't exist
- * */
-gint gsb_data_account_get_reconcile_last_number ( gint account_number )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	return 0;
-
-    return account -> reconcile_last_number;
-}
-
-
-/** set the reconcile_last_number in the account given
- * \param account_number no of the account
- * \param number last number of reconcile
- * \return TRUE, ok ; FALSE, problem
- * */
-gboolean gsb_data_account_set_reconcile_last_number ( gint account_number,
-						      gint number )
-{
-    struct_account *account;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	return FALSE;
-
-    account -> reconcile_last_number = number;
-
-    return TRUE;
-}
-
 
 
 /**
