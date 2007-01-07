@@ -1426,7 +1426,7 @@ gulong gsb_file_save_reconcile_part ( gulong iterator,
 	final_balance = gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
 
 	/* now we can fill the file content */
-	new_string = g_markup_printf_escaped ( "\t<Reconcile Nb=\"%d\" Na=\"%s\" Acc=\"%d\" Idate/=\"%s\" Fdate=\"%s\" Ibal=\"%s\" Fbal=\"%s\" >\n",
+	new_string = g_markup_printf_escaped ( "\t<Reconcile Nb=\"%d\" Na=\"%s\" Acc=\"%d\" Idate=\"%s\" Fdate=\"%s\" Ibal=\"%s\" Fbal=\"%s\" />\n",
 					       reconcile_number,
 					       gsb_data_reconcile_get_name (reconcile_number),
 					       gsb_data_reconcile_get_account (reconcile_number),

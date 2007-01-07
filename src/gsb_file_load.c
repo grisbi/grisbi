@@ -6862,7 +6862,6 @@ gboolean gsb_file_load_update_previous_version ( void )
 				 "Note that is really not important for the operation of the programm. It is just to have"
 				 "the good values showed."));
 
-
 	    /* ********************************************************* */
 	    /* 	 to set just before the new version */
 	    /* ********************************************************* */
