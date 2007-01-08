@@ -65,9 +65,9 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     GtkTextBuffer * buffer;
     
     assistant = gtk_dialog_new_with_buttons ( title,
-					   GTK_WINDOW(NULL),
-					   GTK_DIALOG_NO_SEPARATOR,
-					   NULL );
+					      GTK_WINDOW(NULL),
+					      GTK_DIALOG_NO_SEPARATOR,
+					      NULL );
 
     button_cancel = gtk_dialog_add_button ( GTK_DIALOG(assistant), 
 					    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL );
@@ -343,6 +343,29 @@ void gsb_assistant_change_button_next ( GtkWidget * assistant, gchar * title,
     button_next = gtk_dialog_add_button ( GTK_DIALOG (assistant), title, response );
     g_object_set_data ( G_OBJECT (assistant), "button_next", button_next );
 }
+
+
+/**
+ * 
+ *
+ */
+void gsb_assistant_set_additional_button ( GtkWidget * assistant, gchar * title )
+{
+    GtkWidget * additional_button;
+
+    additional_button = gtk_button_new_with_label ( title );
+    g_return_if_fail ( additional_button );
+    gtk_widget_show_all ( additional_button );
+
+
+    gtk_box_pack_start ( GTK_DIALOG(assistant)->action_area, additional_button, TRUE, TRUE, 0 );
+
+    additional_button = gtk_button_new_with_label ( title );
+    gtk_widget_show_all ( additional_button );
+    gtk_box_pack_end ( GTK_DIALOG(assistant)->action_area, additional_button, TRUE, TRUE, 0 );
+}
+
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
