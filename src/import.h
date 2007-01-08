@@ -19,7 +19,6 @@ EXPORTABLE void register_import_formats ();
 gchar * unique_imported_name ( gchar * account_name );
 /* END_DECLARATION */
 
-
 struct imported_file {
     gchar * name;
     gchar * coding_system;
@@ -107,6 +106,13 @@ struct struct_ope_importation
     /* Used by gnucash import */
     gchar * guid;
 };
+
+
+/* FIXME: defined by hand since mk_include will not catch depends on
+ * subdirs for now.  --benj  */
+EXPORTABLE void gsb_import_register_account ( struct struct_compte_importation * account );
+EXPORTABLE void gsb_import_register_account_error ( struct struct_compte_importation * account );
+EXPORTABLE void register_import_format ( struct import_format * format );
 
 
 #endif

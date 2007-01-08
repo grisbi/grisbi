@@ -40,7 +40,7 @@ gsb_real null_real = { 0 , 0 };
 
 
 /*START_STATIC*/
-static gsb_real gsb_real_double_to_real ( gdouble number );
+EXPORTABLE gsb_real gsb_real_double_to_real ( gdouble number );
 static gboolean gsb_real_normalize ( gsb_real *number_1,
 			      gsb_real *number_2 );
 static gdouble gsb_real_real_to_double ( gsb_real number );
@@ -495,7 +495,7 @@ gdouble gsb_real_real_to_double ( gsb_real number )
  *
  * \return the number in gsb_real format
  * */
-gsb_real gsb_real_double_to_real ( gdouble number )
+EXPORTABLE gsb_real gsb_real_double_to_real ( gdouble number )
 {
     gdouble tmp_double;
     gdouble maxlong;

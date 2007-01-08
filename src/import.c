@@ -159,8 +159,7 @@ enum import_pages {
 
 
 /**
- *
- *
+ * Register built-in import formats as known.
  */
 EXPORTABLE void register_import_formats ()
 {
@@ -175,8 +174,10 @@ EXPORTABLE void register_import_formats ()
 
 
 /**
+ * Register a known import format as known.
  *
- *
+ * \param format		A pointer to a structure describing
+ *				this import format.
  *  
  */
 EXPORTABLE void register_import_format ( struct import_format * format )
@@ -945,7 +946,7 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
     /* Replace button. */
     gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
 
-    printf (">>> NTH pages %d\n", gtk_notebook_get_n_pages ( g_object_get_data ( G_OBJECT (assistant), "notebook" ) ) );
+/*     gsb_assistant_set_additional_button ( assistant, _("Add a currency") ); */
 
     /* si aucun compte n'est ouvert, on crée les devises de base */
 
@@ -1473,10 +1474,11 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
 						   my_strdup ( tab_str[2] + strlen ( tab_str[2] ) - 1 ) );
 
 		temp = my_strdup ( tab_str[2] );
-
-		temp[strlen (temp) - 1 ] = 0;
-		gsb_data_account_set_bank_account_number ( account_number,
-						      temp );
+		if ( temp && strlen(temp) )
+		{
+		    temp[strlen (temp) - 1 ] = 0;
+		    gsb_data_account_set_bank_account_number ( account_number, temp );
+		}
 	    }
 	}
 	g_strfreev ( tab_str );
@@ -2873,7 +2875,7 @@ gchar * autodetect_file_type ( gchar * filename, FILE * fichier,
  *
  * \param account	Account to register.
  */
-void gsb_import_register_account ( struct struct_compte_importation * account )
+EXPORTABLE void gsb_import_register_account ( struct struct_compte_importation * account )
 {
     liste_comptes_importes = g_slist_append ( liste_comptes_importes, account );
 }
@@ -2885,7 +2887,7 @@ void gsb_import_register_account ( struct struct_compte_importation * account )
  *
  * \param account	Account to register.
  */
-void gsb_import_register_account_error ( struct struct_compte_importation * account )
+EXPORTABLE void gsb_import_register_account_error ( struct struct_compte_importation * account )
 {
     liste_comptes_importes_error = g_slist_append ( liste_comptes_importes, account );
 }
