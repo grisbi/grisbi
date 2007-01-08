@@ -913,29 +913,42 @@ changement_format_date:
 		{
 		    /* le format est aaaa-mm-jj */
 
-		    tab_str = g_strsplit ( compte -> date_solde_qif,
-					   "-",
-					   3 );
-
-		    mois = my_strtod ( tab_str[1],
-				       NULL );
-		    jour = my_strtod ( tab_str[2],
-				       NULL );
-		    if ( strlen ( tab_str[0] ) == 4 )
-			annee = my_strtod ( tab_str[0],
-					    NULL );
-		    else
+		    if ( strchr ( compte -> date_solde_qif, '-' ) )
 		    {
-			annee = my_strtod ( tab_str[0],
-					    NULL );
-			if ( annee < 80 )
-			    annee = annee + 2000;
+			tab_str = g_strsplit ( compte -> date_solde_qif, "-", 3 );
+
+			mois = my_strtod ( tab_str[1], NULL );
+			jour = my_strtod ( tab_str[2], NULL );
+			if ( strlen ( tab_str[0] ) == 4 )
+			    annee = my_strtod ( tab_str[0], NULL );
 			else
-			    annee = annee + 1900;
+			{
+			    annee = my_strtod ( tab_str[0], NULL );
+			    if ( annee < 80 )
+				annee = annee + 2000;
+			    else
+				annee = annee + 1900;
+			}
+		    }
+		    else if ( strchr ( compte -> date_solde_qif, '.' ) )
+		    {
+			tab_str = g_strsplit ( compte -> date_solde_qif, ".", 3 );
+
+			mois = my_strtod ( tab_str[1], NULL );
+			jour = my_strtod ( tab_str[2], NULL );
+			if ( strlen ( tab_str[0] ) == 4 )
+			    annee = my_strtod ( tab_str[0], NULL );
+			else
+			{
+			    annee = my_strtod ( tab_str[0], NULL );
+			    if ( annee < 80 )
+				annee = annee + 2000;
+			    else
+				annee = annee + 1900;
+			}
 		    }
 		}
 	    }
-
 	    g_strfreev ( tab_str );
 
 	    if ( g_date_valid_dmy ( jour,
