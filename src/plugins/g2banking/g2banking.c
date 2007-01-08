@@ -33,7 +33,6 @@
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
-extern void gsb_import_register_account ( GSList * tmp );
 /*END_EXTERN*/
 
 /*START_STATIC*/

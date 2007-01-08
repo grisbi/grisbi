@@ -33,9 +33,6 @@
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
-extern void gsb_import_register_account_error ( void * );
-extern void gsb_import_register_account ( void * );
-extern void register_import_format ();
 /*END_EXTERN*/
 
 /*START_STATIC*/
@@ -134,7 +131,7 @@ GSList * recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file 
 #ifdef OFX_0_7
     libofx_proc_file ( ofx_context, ofx_filename, AUTODETECT );
 #else /* OFX_0_7 */
-    ofx_proc_file ( 2, argv );
+    ofx_proc_file ( 2, argv );	/* FIXME: handle < 0.7 */
 #endif /* OFX_0_7 */
 
     /*     le dernier compte n'a pas été ajouté à la liste */
