@@ -6,7 +6,7 @@
 /* END_INCLUDE_H */
 
 
-#define ETAT_WWW_BROWSER "www-browser"
+#define ETAT_WWW_BROWSER "firefox"
 
 #ifndef _WIN32
 #define C_DIRECTORY_SEPARATOR "/"
