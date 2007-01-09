@@ -644,7 +644,7 @@ gint question_fermer_sans_enregistrer ( void )
 /* ou si on fait un enregistrement sous */
 /* elle renvoie le nouveau nom */
 /* ************************************************************************************************************ */
-gchar *demande_nom_enregistrement ( void )
+gchar * demande_nom_enregistrement ( void )
 {
     gchar *nouveau_nom;
     GtkWidget *fenetre_nom;
@@ -654,10 +654,16 @@ gchar *demande_nom_enregistrement ( void )
 				       FILE_SELECTION_IS_SAVE_DIALOG);
     gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ),
 			   TRUE );
-    file_selection_set_filename ( GTK_FILE_CHOOSER ( fenetre_nom ),
-                                  dernier_chemin_de_travail );
-    file_selection_set_entry ( GTK_FILE_CHOOSER ( fenetre_nom ),
-			 ".gsb" );
+
+    if ( ! nom_fichier_comptes )
+    {
+	gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( fenetre_nom ),
+					    g_strconcat ( titre_fichier, ".gsb", NULL ) );
+    }
+    else
+    {
+	/* FIXME: select existing file */
+    }
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
 
@@ -677,7 +683,7 @@ gchar *demande_nom_enregistrement ( void )
 	    return NULL;
     }
 
-    if ( ! g_strrstr ( nouveau_nom, ".gsb" ) )
+    if ( ! g_strrstr ( nouveau_nom, "." ) )
     {
 	nouveau_nom = g_strconcat ( nouveau_nom, ".gsb", NULL );
     }
