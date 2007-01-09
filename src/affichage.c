@@ -632,6 +632,8 @@ gboolean modification_logo_accueil ( )
 
     file_selector = file_selection_new (_("Select a new logo"),
 					FILE_SELECTION_IS_OPEN_DIALOG|FILE_SELECTION_MUST_EXIST);
+    /* FIXME: be sure preview will be displayed. */
+    gtk_file_chooser_set_preview_widget_active ( GTK_FILE_CHOOSER(file_selector), TRUE );
 
     gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
 				   GTK_WINDOW ( fenetre_preferences ));
