@@ -52,7 +52,7 @@ update-po: Makefile
 update-gmo: Makefile $(GMOFILES)
 	@:
 
-install: all
+install: install-exec-am install-data-am
 	$(mkinstalldirs) $(DESTDIR)$(datadir)
 	@catalogs='$(GMOFILES)'; \
 	for cat in $$catalogs; do \
