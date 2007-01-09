@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-14 16:28+0200\n"
-"PO-Revision-Date: 2006-07-11 16:11+0200\n"
+"PO-Revision-Date: 2007-01-09 16:05+0100\n"
 "Last-Translator: Benjamin Drieu,,, <benj@atlin>\n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: (null)\n"
@@ -3499,9 +3499,8 @@ msgid "Outbox"
 msgstr "Auto"
 
 #: src/fichiers_gestion.c:154 src/navigation.c:1044
-#, fuzzy
 msgid "My accounts"
-msgstr "Afficher les comptes"
+msgstr "Mes comptes"
 
 #: src/fichiers_gestion.c:209
 msgid "Open an accounts file"
