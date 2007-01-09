@@ -1287,7 +1287,7 @@ void traitement_operations_importees ( void )
     if ( mise_a_jour_combofix_categ_necessaire )
 	mise_a_jour_combofix_categ();
 
-/*     gsb_status_clear(); */
+    gsb_status_clear();
 
     modification_fichier ( TRUE );
 }
@@ -2032,6 +2032,11 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 														   g_strstrip (tab_str[1]),
 														   TRUE ));
 	    }
+	}
+	else
+	{
+	    gsb_data_transaction_set_category_number ( transaction_number, -1 );
+	    gsb_data_transaction_set_sub_category_number ( transaction_number, -1 );
 	}
     }
 
