@@ -18,7 +18,7 @@ endif
 # If your module needs to be linked against any particular libraries,
 # add them here.
 
-LIBS = 
+ofx_la_LIBS = 
 
 endif
 

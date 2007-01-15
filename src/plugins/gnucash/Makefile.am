@@ -14,7 +14,7 @@ gnucash_la_LDFLAGS = -module -avoid-version $(XML2_LIBS)
 # Libs must be cleared, or else libtool won't create a shared module.
 # If your module needs to be linked against any particular libraries,
 # add them here.
-LIBS = 
+gnucash_la_LIBS = 
 
 endif
 
