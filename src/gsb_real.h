@@ -32,5 +32,6 @@ gsb_real gsb_real_mul ( gsb_real number_1,
 gsb_real gsb_real_opposite ( gsb_real number );
 gsb_real gsb_real_sub ( gsb_real number_1,
 			gsb_real number_2 );
+gchar * gsb_real_format_currency_from_locale ( gsb_real number );
 /* END_DECLARATION */
 #endif

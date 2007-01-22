@@ -132,6 +132,27 @@ gchar *gsb_real_get_string ( gsb_real number )
 
 
 /**
+ * Format a string representing a currency according to locale.
+ *
+ * \param gsb_real	Number to format.
+ *
+ * \return		A newly allocated string.
+ *
+ * \todo BIG FIXME: do not get currency symbol from locale but from
+ * gsb currency.
+ */
+gchar * gsb_real_format_currency_from_locale ( gsb_real number )
+{
+    gchar * string = g_malloc0 ( 32 );
+
+    strfmon(string, 32, "%n", gsb_real_real_to_double ( number ) );
+
+    return string;
+}
+
+
+
+/**
  * get a real number from a string
  * the string can be formatted :
  * - handle , or . as separator
