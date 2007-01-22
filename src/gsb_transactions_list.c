@@ -1107,9 +1107,7 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number 
 	gsb_transactions_list_set_transactions_balances (account_number);
 	gsb_transactions_list_move_to_current_transaction (account_number);
 
-	gsb_gui_headings_update_suffix ( g_strdup_printf ( "%s %s", 
-							   gsb_real_get_string (gsb_data_account_get_current_balance (account_number)),
-							   gsb_data_currency_get_code (gsb_data_account_get_currency (account_number))));
+	gsb_gui_headings_update_suffix ( gsb_real_format_currency_from_locale ( gsb_data_account_get_current_balance (account_number) ) );
     }
 
     /* on réaffichera l'accueil */
@@ -1261,6 +1259,9 @@ gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_number,
 gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 						 gint cell_content_number )
 {
+
+    /* FIXME: this function is a massive memory leaker !  -- benj */
+
     gint account_currency;
 
     /* for a child of breakdown, we show only the category (instead of party or category), the
@@ -1330,7 +1331,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 					   ")",
 					   NULL ));
 		else
-		    return (gsb_real_get_string ( gsb_data_transaction_get_amount (transaction_number)));
+		    return gsb_real_format_currency_from_locale ( gsb_data_transaction_get_amount ( transaction_number ) );
 	    }
 	    else
 		return NULL;
@@ -1714,7 +1715,7 @@ gboolean gsb_transactions_list_set_transactions_balances ( gint no_account )
 	/* calculate the new balance */
 	current_total = gsb_real_add ( current_total,
 				       gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point));
-	string = gsb_real_get_string (current_total);
+	string = gsb_real_format_currency_from_locale ( current_total );
 
 	/* set the color */
 	if ( current_total.mantissa >= 0 )
@@ -2713,10 +2714,8 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number )
 							     amount ));
 
     /* update the headings balance */
-    string = gsb_real_get_string (gsb_data_account_get_current_balance (account_number));
-    gsb_gui_headings_update_suffix ( g_strdup_printf ( "%s %s", 
-						       string,
-						       gsb_data_currency_get_code (gsb_data_account_get_currency (account_number))));
+    string = gsb_real_format_currency_from_locale ( gsb_data_account_get_current_balance (account_number) );
+    gsb_gui_headings_update_suffix ( string );
     g_free (string);
 
 
@@ -3072,7 +3071,7 @@ GtkWidget * gsb_gui_create_cell_contents_menu ( int x, int y )
 
     for ( i = 0 ; cell_views[i].name != NULL ; i++ )
     {
-	item = gtk_menu_item_new_with_label ( cell_views[i] . name );
+	item = gtk_menu_item_new_with_label ( _(cell_views[i] . name) );
 	g_object_set_data ( G_OBJECT (item), "x", GINT_TO_POINTER (x) );
 	g_object_set_data ( G_OBJECT (item), "y", GINT_TO_POINTER (y) );
 	g_signal_connect ( G_OBJECT(item), "activate", 
@@ -3318,9 +3317,7 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 
 	gsb_data_account_calculate_current_and_marked_balances (source_account);
 
-	gsb_gui_headings_update_suffix ( g_strdup_printf ( "%s %s", 
-							   gsb_real_get_string (gsb_data_account_get_current_balance (source_account)),
-							   gsb_data_currency_get_code (gsb_data_account_get_currency (source_account))));
+	gsb_gui_headings_update_suffix ( gsb_real_format_currency_from_locale (gsb_data_account_get_current_balance (source_account ) ) );
 	mise_a_jour_accueil (FALSE);
 
 	modification_fichier ( TRUE );
@@ -3360,9 +3357,7 @@ void move_selected_operation_to_account_nb ( gint *account )
 
 	gsb_data_account_calculate_current_and_marked_balances (source_account);
 
-	gsb_gui_headings_update_suffix ( g_strdup_printf ( "%s %s", 
-							   gsb_real_get_string (gsb_data_account_get_current_balance (source_account)),
-							   gsb_data_currency_get_code (gsb_data_account_get_currency (source_account))));
+	gsb_gui_headings_update_suffix ( gsb_real_format_currency_from_locale (gsb_data_account_get_current_balance (source_account ) ) );
 
 	modification_fichier ( TRUE );
     }
