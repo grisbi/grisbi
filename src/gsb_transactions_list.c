@@ -128,7 +128,10 @@ static gint schedule_transaction ( gint transaction_number );
 static gsb_real solde_debut_affichage ( gint no_account,
 				 gint floating_point);
 static void update_titres_tree_view ( void );
+static gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_number,
+							      gint cell_content_number );
 /*END_STATIC*/
+
 
 
 
@@ -168,6 +171,37 @@ static GtkWidget *transactions_tree_view = NULL;
 static GtkTreeStore *transactions_store = NULL;
 static GtkTreeModel *transactions_filter_model = NULL;
 static GtkTreeModel *transactions_sortable_model = NULL;
+
+
+/** Determine how we display cells according to their type.  Only used
+ * by gsb_transactions_list_grep_cell_content_trunc().  */
+struct cell_view {
+    gchar * name;		/* Name of the cell. */
+    gint max_size;		/* Max size to display (will truncate
+				 * the rest). */
+    gboolean hard_trunc;	/* Should truncation be hard. */
+} cell_views[] = {
+    { "", 0, NULL, },
+    { N_("Date"), 16, FALSE },
+    { N_("Value date"), 16, FALSE },
+    { N_("Payee"), 32, FALSE },
+    { N_("Budgetary line"), 32, FALSE },
+    { N_("Debit"), 32, FALSE },
+    { N_("Credit"), 32, FALSE },
+    { N_("Balance"), 32, FALSE },
+    { N_("Amount"), 32, FALSE },
+    { N_("Method of payment"), 24, FALSE },
+    { N_("Reconciliation reference"), 16, FALSE },
+    { N_("Financial year"), 16, FALSE },
+    { N_("Category"), 64, FALSE },
+    { N_("C/R"), 2, FALSE },
+    { N_("Voucher"), 10, TRUE },
+    { N_("Notes"), 32, FALSE },
+    { N_("Bank references"), 10, TRUE },
+    { N_("Transaction number"), 10, TRUE },
+    { N_("Cheque number"), 10, TRUE },
+    { NULL, 0, FALSE },
+};
 
 
 /*START_EXTERN*/
@@ -1166,8 +1200,8 @@ gboolean gsb_transactions_list_fill_row ( gint transaction_number,
     {
 	gchar *string;
 
-	string = gsb_transactions_list_grep_cell_content ( transaction_number,
-							   tab_affichage_ope[line_in_transaction][column] );
+	string = gsb_transactions_list_grep_cell_content_trunc ( transaction_number,
+								 tab_affichage_ope[line_in_transaction][column] );
 	gtk_tree_store_set ( store,
 			     iter,
 			     column, string,
@@ -1194,6 +1228,26 @@ gboolean gsb_transactions_list_fill_row ( gint transaction_number,
 
     return FALSE;
 }
+
+
+/**
+ * Take in a transaction the content to set in a cell of the
+ * transaction's list.  Truncate to a fixed size to avoid taking too
+ * much space.
+ * 
+ * \param transaction_number
+ * \param cell_content_number what we need in the transaction
+ * 
+ * \return the content of the transaction, in gchar, need to be freed after
+ * */
+gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_number,
+						       gint cell_content_number )
+{
+    return gsb_string_truncate_n ( gsb_transactions_list_grep_cell_content ( transaction_number, cell_content_number ),
+				   cell_views [ cell_content_number ] . max_size,
+				   cell_views [ cell_content_number ] . hard_trunc );
+}
+
 
 
 /**
@@ -1491,8 +1545,8 @@ gboolean gsb_transactions_list_update_transaction_value ( gint element_number )
 	    transaction_number = gsb_data_transaction_get_transaction_number (transaction_ptr);
 	    if (transaction_number > 0)
 	    {
-		string = gsb_transactions_list_grep_cell_content ( transaction_number,
-								   element_number );
+		string = gsb_transactions_list_grep_cell_content_trunc ( transaction_number,
+									 element_number );
 
 		/* go to the good line */
 		for (i=0 ; i<line_element ; i++)
@@ -3012,19 +3066,13 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 GtkWidget * gsb_gui_create_cell_contents_menu ( int x, int y )
 {
     GtkWidget * menu, * item;
-    gchar *labels_boutons [] = {
-	_("Date"), _("Value date"), _("Payee"), _("Budgetary line"), _("Debit"), 
-	_("Credit"), _("Balance"), _("Amount"), _("Method of payment"),
-	_("Reconciliation ref."), _("Financial year"), _("Category"), _("C/R"),
-	_("Voucher"), _("Notes"), _("Bank references"), _("Transaction number"),
-	NULL };
     gint i;
 
     menu = gtk_menu_new ();
 
-    for ( i = 0 ; labels_boutons[i] ; i++ )
+    for ( i = 0 ; cell_views[i].name != NULL ; i++ )
     {
-	item = gtk_menu_item_new_with_label ( labels_boutons[i] );
+	item = gtk_menu_item_new_with_label ( cell_views[i] . name );
 	g_object_set_data ( G_OBJECT (item), "x", GINT_TO_POINTER (x) );
 	g_object_set_data ( G_OBJECT (item), "y", GINT_TO_POINTER (y) );
 	g_signal_connect ( G_OBJECT(item), "activate", 
@@ -3065,8 +3113,8 @@ gboolean gsb_gui_update_row_foreach ( GtkTreeModel *model, GtkTreePath *path,
 	gtk_tree_store_set ( gsb_transactions_list_get_store (),
 			     iter,
 			     coords[0], 
-			     gsb_string_truncate ( gsb_transactions_list_grep_cell_content ( transaction_number,
-											     tab_affichage_ope[coords[1]][coords[0]] ) ),
+			     gsb_transactions_list_grep_cell_content_trunc ( transaction_number,
+									     tab_affichage_ope[coords[1]][coords[0]] ),
 			     -1 );
     }
 
