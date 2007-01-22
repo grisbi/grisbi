@@ -1696,8 +1696,6 @@ void navigation_change_report_order ( GtkTreeModel * model, gint orig, gint dest
     gpointer orig_report = gsb_data_report_get_report_by_no ( orig );
     gpointer dest_report = gsb_data_report_get_report_by_no ( dest );
 
-    printf ("> %d, %d\n", orig, dest);
-
     tmp = gsb_data_report_get_report_list ();
 
     dest_pointer = g_slist_find ( tmp, dest_report );
