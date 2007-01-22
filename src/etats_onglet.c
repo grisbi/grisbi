@@ -1163,16 +1163,20 @@ void exporter_etat ( void )
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("CSV file" ) );
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("Postscript file" ) );
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("Latex file" ) );
+
+    /* Set initial format. */
     gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), REPORT_HTML );
+    gsb_report_export_change_format ( combo, fenetre_nom );
+
     g_signal_connect ( G_OBJECT(combo), "changed", 
 		       G_CALLBACK ( gsb_report_export_change_format ), 
 		       fenetre_nom );
     gtk_widget_show_all ( hbox );
     gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER(fenetre_nom), hbox );
 
-    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER(fenetre_nom),
-					g_strconcat ( safe_file_name ( gsb_data_report_get_report_name ( gsb_gui_navigation_get_current_report () ) ),
-						      ".html", NULL ) );
+/*     gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER(fenetre_nom), */
+/* 					g_strconcat ( safe_file_name ( gsb_data_report_get_report_name ( gsb_gui_navigation_get_current_report () ) ), */
+/* 						      ".html", NULL ) ); */
     
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
     if ( resultat == GTK_RESPONSE_OK )
