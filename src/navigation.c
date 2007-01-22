@@ -496,7 +496,8 @@ gint gsb_gui_navigation_get_current_report ( void )
 
 	return report_number;
     }
-    return 0;
+
+    return -1;
 }
 
 
@@ -1246,7 +1247,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    /* set the title */
 	    report_number = gsb_gui_navigation_get_current_report ();
 
-	    if ( report_number )
+	    if ( report_number >= 0 )
 		title = g_strconcat ( _("Report"), " : ", gsb_data_report_get_report_name (report_number), NULL );
 	    else
 		title = _("Reports");
@@ -1255,9 +1256,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    gsb_form_set_expander_visible (FALSE,
 					   FALSE );
 
-	    report_number = gsb_gui_navigation_get_current_report ();
-
-	    if ( report_number )
+	    if ( report_number > 0 )
 		gsb_gui_update_gui_to_report ( report_number );
 	    else
 		gsb_gui_unsensitive_report_widgets ();
@@ -1622,6 +1621,10 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 				 -1 );
 	}
 	
+	/* FIXME: Handle case where it is dropped at the END of
+	 * account lists.  Not easy since GTK will consider we drop on
+	 * next item. */
+
 	/* We handle an account */
 	if ( src_account >= 0 && dst_account >= 0 )
 	{
@@ -1669,7 +1672,7 @@ void navigation_change_account_order ( GtkTreeModel * model, gint orig, gint des
 	sort_accounts = g_slist_insert ( sort_accounts,
 					 GINT_TO_POINTER (orig),
 					 g_slist_position ( sort_accounts, 
-							    dest_pointer ) + 1 );
+							    dest_pointer ) );
     }
 
     gsb_data_account_reorder ( sort_accounts );
@@ -1702,7 +1705,7 @@ void navigation_change_report_order ( GtkTreeModel * model, gint orig, gint dest
     {
 	tmp = g_slist_remove ( tmp, orig_report );
 	tmp = g_slist_insert ( tmp, orig_report,
-			       g_slist_position ( tmp, dest_pointer ) + 1 );
+			       g_slist_position ( tmp, dest_pointer ) );
 	gsb_data_report_set_report_list ( tmp );
     }
 
