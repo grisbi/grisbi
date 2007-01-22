@@ -735,15 +735,35 @@ gchar * gsb_string_escape_underscores ( gchar * orig )
  */
 gchar * gsb_string_truncate ( gchar * string )
 {
-    gchar * tmp = string;
+    gsb_string_truncate_n ( string, 20, FALSE );
+}
 
-    if ( strlen(string) < 20 )
+
+
+/**
+ * Return a newly created strings, truncating original.  It should be
+ * truncated at the end of the word containing the nth letter.
+ *
+ * \param string	String to truncate.
+ * \param n		Max lenght to truncate at.
+ * \param hard_trunc	Cut in the middle of a word if needed.
+ *
+ * \return A newly-created string.
+ */
+gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
+{
+    gchar * tmp = string, * trunc;
+
+    if ( ! string )
+	return NULL;
+
+    if ( strlen(string) < n )
     {
 	return my_strdup ( string );
     }
     
-    tmp = string + 20;
-    if ( ! ( tmp = strchr ( tmp, ' ' ) ) )
+    tmp = string + n;
+    if ( ! hard_trunc && ! ( tmp = strchr ( tmp, ' ' ) ) )
     {
 	/* We do not risk splitting the string in the middle of a
 	   UTF-8 accent ... the end is probably near btw. */
@@ -751,7 +771,10 @@ gchar * gsb_string_truncate ( gchar * string )
     }
     else 
     {
-	gchar * trunc = g_strndup ( string, ( tmp - string ) );
+	while ( ! isascii(*tmp) && *tmp )
+	    tmp++;
+
+	trunc = g_strndup ( string, ( tmp - string ) );
 	trunc = g_strconcat ( trunc, "...", NULL );
 	return trunc;
     }
