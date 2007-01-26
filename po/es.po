@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-15 12:43+0200\n"
-"PO-Revision-Date: 2006-10-08 18:29+0200\n"
+"PO-Revision-Date: 2007-01-27 00:15+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6587,7 +6587,7 @@ msgstr ""
 #. Delete transaction
 #: src/operations_liste.c:2682
 msgid "Delete transaction"
-msgstr "Transacción borrada"
+msgstr "Borrar transacción"
 
 #: src/operations_liste.c:3114
 msgid "Cannot move a transfer on his contra-account"
