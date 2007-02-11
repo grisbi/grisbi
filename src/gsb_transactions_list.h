@@ -82,6 +82,7 @@ GtkTreeStore *gsb_transactions_list_get_store (void);
 GtkWidget *gsb_transactions_list_get_tree_view (void);
 gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 					   GdkEventKey *ev );
+gboolean gsb_transactions_list_load_marked_r ( void );
 GtkWidget *gsb_transactions_list_make_gui_list ( void );
 gboolean gsb_transactions_list_move_to_current_transaction ( gint no_account );
 gboolean gsb_transactions_list_select ( gint transaction_number );

@@ -87,6 +87,8 @@ static void gsb_transactions_list_change_expanders ( gint only_current_account )
 static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
 						  gint *no_column );
 static gboolean gsb_transactions_list_check_mark ( gint transaction_number );
+static gint gsb_transactions_list_choose_reconcile ( gint account_number,
+					      gint selected_reconcile_number );
 static GtkTreeStore *gsb_transactions_list_create_store ( void );
 static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model );
 static void gsb_transactions_list_create_tree_view_columns ( void );
@@ -181,7 +183,7 @@ struct cell_view {
 				 * the rest). */
     gboolean hard_trunc;	/* Should truncation be hard. */
 } cell_views[] = {
-    { "", 0, NULL, },
+    { "", 0, FALSE, },
     { N_("Date"), 16, FALSE },
     { N_("Value date"), 16, FALSE },
     { N_("Payee"), 32, FALSE },
@@ -2491,7 +2493,11 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
 /**
  * switch the mark of the transaction in the list between R or empty
  * it will mark/unmark the transaction and update the marked amount
- * if we are reconciling, update too the amounts of the reconcile panel
+ * when we mark, we show a list of reconcile and try to find the last reconcile used by that
+ * 	transaction if it exists, from the 0.6.0, a transaction marked R shouldn't be without
+ * 	reconcile number (but if come from before, it could happen)
+ * when we unmark, we keep the reconcile number into the transaction to find it easily when the user
+ * 	will re-R again
  * 
  * \param transaction_number
  * 
@@ -2553,6 +2559,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 
     if ( gsb_data_transaction_get_marked_transaction ( transaction_number) == OPERATION_RAPPROCHEE)
     {
+	/* ok, this is a R transaction, we just un-R it but keep the reconcile_number into the transaction */
 	gsb_data_account_set_marked_balance ( account_number,
 					      gsb_real_sub ( gsb_data_account_get_marked_balance (account_number),
 							     amount ));
@@ -2565,11 +2572,24 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
     }
     else
     {
+	/* this is a non R transaction we want to mark R
+	 * we show a list of possible reconcile to the user ; he must
+	 * associate the transaction with a reconcile */
+
+	gint reconcile_number;
+
+	reconcile_number = gsb_transactions_list_choose_reconcile ( account_number,
+								    gsb_data_transaction_get_reconcile_number (transaction_number));
+	if (!reconcile_number)
+	    return FALSE;
+
 	gsb_data_account_set_marked_balance ( account_number,
 					      gsb_real_add ( gsb_data_account_get_marked_balance (account_number),
 							     amount ));
 	gsb_data_transaction_set_marked_transaction ( transaction_number,
 						      OPERATION_RAPPROCHEE );
+	gsb_data_transaction_set_reconcile_number ( transaction_number,
+						    reconcile_number );
 
 	/* now, either we show the R, either we hide that transaction if we don't want to see the R transactions */
 	if ( gsb_data_account_get_r (account_number) )
@@ -2606,6 +2626,10 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 							      next_transaction_number);
 	    gsb_transactions_list_set_background_color (account_number);
 	    gsb_transactions_list_set_transactions_balances (account_number);
+
+	    /* we warn the user the transaction disappear */
+	    dialogue_hint ( _("The transaction has disappear from the list...\nDon't worry, it's because you marked it as R, and you choosed not to show the R transactions into the list ; show them if you want to check what you did."), 
+			   _("Marking a transaction as R"));
 	}
     }
 
@@ -2640,6 +2664,174 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 
     return FALSE;
 }
+
+
+/**
+ * create a popup with the list of the reconciles for the given account
+ * to choose one
+ *
+ * \param account_number
+ * \param selected_reconcile_number if not null, we will select that reconcile in the list
+ *
+ * \return the number of the chosen reconcile or 0 if cancel
+ * */
+gint gsb_transactions_list_choose_reconcile ( gint account_number,
+					      gint selected_reconcile_number )
+{
+    GtkWidget *dialog;
+    GtkWidget *tree_view;
+    GtkListStore *store;
+    GtkWidget *label;
+    GtkWidget *scrolled_window;
+    gint return_value;
+    GList *tmp_list;
+    gint i;
+    enum reconcile_choose_column {
+	RECONCILE_CHOOSE_NAME = 0,
+	RECONCILE_CHOOSE_INIT_DATE,
+	RECONCILE_CHOOSE_FINAL_DATE,
+	RECONCILE_NUMBER,
+	RECONCILE_NB_COL };
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    gint reconcile_number;
+
+    dialog = gtk_dialog_new_with_buttons ( _("Choosing a reconcile"),
+					   GTK_WINDOW (window),
+					   GTK_DIALOG_MODAL,
+					   GTK_STOCK_OK, GTK_RESPONSE_OK,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   NULL );
+    /* need to set a size, else the list will be small */
+    gtk_widget_set_usize ( dialog,
+			   FALSE,
+			   300 );
+
+    label = gtk_label_new ( _("Select the reconcile wich the transaction should be associated with :"));
+    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+			 label,
+			 FALSE, FALSE, 0 );
+    gtk_widget_show (label);
+
+    scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW (scrolled_window),
+				     GTK_POLICY_AUTOMATIC,
+				     GTK_POLICY_AUTOMATIC );
+    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+			 scrolled_window,
+			 TRUE, TRUE, 0 );
+    gtk_widget_show (scrolled_window);
+
+    /* set up the tree view */
+    store = gtk_list_store_new ( RECONCILE_NB_COL,
+				 G_TYPE_STRING,
+				 G_TYPE_STRING,
+				 G_TYPE_STRING,
+				 G_TYPE_INT );
+    tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (tree_view), TRUE);
+    gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
+				  GTK_SELECTION_SINGLE );
+    gtk_container_add ( GTK_CONTAINER (scrolled_window),
+			tree_view );
+    gtk_widget_show (tree_view);
+
+    /* set the columns */
+    for (i=RECONCILE_CHOOSE_NAME ; i<RECONCILE_NUMBER ; i++)
+    {
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *cell;
+	gchar *titles[] = {
+	    _("Name"), _("Init date"), _("Final date")
+	};
+	gfloat alignment[] = {
+	    COLUMN_LEFT, COLUMN_CENTER, COLUMN_CENTER
+	};
+
+	cell = gtk_cell_renderer_text_new ();
+	g_object_set ( G_OBJECT (cell),
+		       "xalign", alignment[i],
+		       NULL );
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_sizing ( column,
+					  GTK_TREE_VIEW_COLUMN_AUTOSIZE );
+	gtk_tree_view_column_set_alignment ( column,
+					     alignment[i] );
+	gtk_tree_view_column_pack_start ( column, cell, TRUE );
+	gtk_tree_view_column_set_title ( column, titles[i] );
+	gtk_tree_view_column_set_attributes (column, cell,
+					     "text", i,
+					     NULL);
+	gtk_tree_view_column_set_expand ( column, TRUE );
+	gtk_tree_view_column_set_resizable ( column,
+					     TRUE );
+	gtk_tree_view_append_column ( GTK_TREE_VIEW(tree_view), column);
+    }
+
+    /* get the tree view selection here to select the good reconcile */
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+
+    /* fill the list */
+    tmp_list = gsb_data_reconcile_get_reconcile_list ();
+    while (tmp_list)
+    {
+	reconcile_number = gsb_data_reconcile_get_no_reconcile (tmp_list -> data);
+
+	if (gsb_data_reconcile_get_account (reconcile_number) == account_number)
+	{
+	    gchar *init_date, *final_date;
+
+	    init_date = gsb_format_gdate (gsb_data_reconcile_get_init_date (reconcile_number));
+	    final_date = gsb_format_gdate (gsb_data_reconcile_get_final_date (reconcile_number));
+
+	    gtk_list_store_append ( GTK_LIST_STORE (store),
+				    &iter );
+	    gtk_list_store_set ( GTK_LIST_STORE (store),
+				 &iter,
+				 RECONCILE_CHOOSE_NAME, gsb_data_reconcile_get_name (reconcile_number),
+				 RECONCILE_CHOOSE_INIT_DATE, init_date,
+				 RECONCILE_CHOOSE_FINAL_DATE, final_date,
+				 RECONCILE_NUMBER, reconcile_number,
+				 -1 );
+	    g_free (init_date);
+	    g_free (final_date);
+
+	    /* if we are on the reconcile to select, do it here */
+	    if (selected_reconcile_number == reconcile_number)
+		gtk_tree_selection_select_iter ( selection,
+						 &iter );
+	}
+	tmp_list = tmp_list -> next;
+    }
+
+    /* run the dialog */
+    return_value = gtk_dialog_run (GTK_DIALOG (dialog));
+
+    if (return_value != GTK_RESPONSE_OK)
+    {
+	gtk_widget_destroy (dialog);
+	return 0;
+    }
+
+    if (gtk_tree_selection_get_selected ( GTK_TREE_SELECTION (selection),
+					  NULL,
+					  &iter))
+    {
+	/* ok, we have a selection */
+
+	gtk_tree_model_get ( GTK_TREE_MODEL (store),
+			     &iter,
+			     RECONCILE_NUMBER, &reconcile_number,
+			     -1 );
+	gtk_widget_destroy (dialog);
+	return reconcile_number;
+    }
+    
+    dialogue_error ( _("Grisbi couldn't get the selection, operation canceled..."));
+    gtk_widget_destroy (dialog);
+    return 0;
+}
+
 
 
 /**
@@ -3947,36 +4139,10 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 
     /* if the R transactions are not loaded and we want to show them,
      * we do it here */
-
     if ( !etat.fill_r_done
 	 &&
 	 affichage_r == 1 )
-    {
-	GtkTreeStore *store;
-	GtkWidget *message_window;
-
-	/* we show a message because it can take some time */
-
-	message_window = GTK_WIDGET (gsb_dialog_create_information_window ( make_hint(_("Loading archived reconciled transactions."),
-										      _("This operation can take some time...") )));
-	gtk_widget_show (message_window);
-	update_ecran ();
-
-	store = gsb_transactions_list_get_store ();
-	gtk_tree_store_clear (store);
-
-	/* we have to load all the R transactions,
-	 * the simplest way is to refill the store because
-	 * most of the time will be spend for R transactions */
-	etat.fill_r_at_begining = 1;
-
-	gsb_transactions_list_fill_store (store);
-
-	etat.fill_r_at_begining = 0;
-	etat.fill_r_done = 1;
-
-	gtk_widget_destroy (message_window);
-    }
+	gsb_transactions_list_load_marked_r ();
 
     /*     we check all the accounts */
     /* 	if etat.retient_affichage_par_compte is set, only gsb_gui_navigation_get_current_account () will change */
@@ -4012,6 +4178,50 @@ void mise_a_jour_affichage_r ( gint affichage_r )
     return;
 }
 /******************************************************************************/
+
+
+/**
+ * load the marked R transactions into the transactions list
+ * called when the user doesn't load the at the begining (see config) and
+ * want to show them while he is using grisbi, so we come here to set them
+ * into the list
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_load_marked_r ( void )
+{
+    GtkTreeStore *store;
+    GtkWidget *message_window;
+
+    if ( etat.fill_r_done )
+	return FALSE;
+
+    /* we show a message because it can take some time */
+    message_window = GTK_WIDGET (gsb_dialog_create_information_window ( make_hint(_("Loading archived reconciled transactions."),
+										  _("This operation can take some time...") )));
+    gtk_widget_show (message_window);
+    update_ecran ();
+
+    store = gsb_transactions_list_get_store ();
+    gtk_tree_store_clear (store);
+
+    /* we have to load all the R transactions,
+     * the simplest way is to refill the store because
+     * most of the time will be spend for R transactions */
+    etat.fill_r_at_begining = 1;
+
+    gsb_transactions_list_fill_store (store);
+
+    etat.fill_r_at_begining = 0;
+    etat.fill_r_done = 1;
+
+    gtk_widget_destroy (message_window);
+    return FALSE;
+}
+
+
 
 
 /**

@@ -387,7 +387,6 @@ gboolean edit_payee ( GtkTreeView * view )
     gpointer payee = NULL;
     gint payee_number;
     gchar * title;
-    GSList * tmp_list;
 
     selection = gtk_tree_view_get_selection ( view );
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))

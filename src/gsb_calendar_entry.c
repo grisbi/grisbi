@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Alain Portal (aportal@univ-montp2.fr) 	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -117,7 +117,7 @@ GtkWidget *gsb_calendar_entry_new ( void )
  * \return FALSE if problem, TRUE if ok
  * */
 gboolean gsb_calendar_entry_set_date ( GtkWidget *entry,
-				       GDate *date )
+				       const GDate *date )
 {
     gchar *string;
 

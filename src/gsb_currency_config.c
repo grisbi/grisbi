@@ -464,6 +464,7 @@ GtkWidget *gsb_currency_config_create_list ()
     /* Currency name */
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
     gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
+    gtk_tree_view_column_set_expand ( column, TRUE );
 
     cell = gtk_cell_renderer_text_new ();
     col_offset = 
@@ -473,6 +474,7 @@ GtkWidget *gsb_currency_config_create_list ()
 						     CURRENCY_NAME_COLUMN,
 						     NULL);
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
+    gtk_tree_view_column_set_expand ( column, TRUE );
     gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
 
     cell = gtk_cell_renderer_text_new ();
@@ -483,6 +485,7 @@ GtkWidget *gsb_currency_config_create_list ()
 						     CURRENCY_ISO_CODE_COLUMN,
 						     NULL);
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
+    gtk_tree_view_column_set_expand ( column, TRUE );
     gtk_tree_view_column_set_alignment ( column, 0.5 );
     gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
 
@@ -494,6 +497,7 @@ GtkWidget *gsb_currency_config_create_list ()
 						     CURRENCY_NICKNAME_COLUMN,
 						     NULL);
     column = gtk_tree_view_get_column (GTK_TREE_VIEW (treeview), col_offset - 1);
+    gtk_tree_view_column_set_expand ( column, TRUE );
     gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
 
     /* Sort columns accordingly */

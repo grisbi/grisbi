@@ -358,11 +358,11 @@ void gsb_assistant_set_additional_button ( GtkWidget * assistant, gchar * title 
     gtk_widget_show_all ( additional_button );
 
 
-    gtk_box_pack_start ( GTK_DIALOG(assistant)->action_area, additional_button, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG(assistant)->action_area), additional_button, TRUE, TRUE, 0 );
 
     additional_button = gtk_button_new_with_label ( title );
     gtk_widget_show_all ( additional_button );
-    gtk_box_pack_end ( GTK_DIALOG(assistant)->action_area, additional_button, TRUE, TRUE, 0 );
+    gtk_box_pack_end ( GTK_BOX (GTK_DIALOG(assistant)->action_area), additional_button, TRUE, TRUE, 0 );
 }
 
 

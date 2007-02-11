@@ -38,7 +38,7 @@
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
 #include "gsb_payment_method.h"
-#include "gsb_reconcile_config.h"
+#include "gsb_reconcile_sort_config.h"
 #include "gsb_transactions_list.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -710,7 +710,7 @@ gboolean gsb_payment_method_config_name_changed ( GtkWidget *entry,
 	    gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
 				PAYMENT_METHODS_NAME_COLUMN, gsb_data_payment_get_name (payment_number), 
 				-1);
-	    gsb_reconcile_config_fill ();
+	    gsb_reconcile_sort_config_fill ();
 
 
 	    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_TYPE ))
@@ -1004,7 +1004,7 @@ gboolean gsb_payment_method_config_sign_changed ( GtkWidget *menu_item,
 				     GINT_TO_POINTER (payment_number));
 	    /* need to change the reconciliation tree becaus if it was a neutral changing to credit/debit
 	     * and neutral was split... */
-	    gsb_reconcile_config_fill ();
+	    gsb_reconcile_sort_config_fill ();
 	    /* xxx verif ici si on change un neutral splité en debit par ex, il faut surement refaire la liste du sort */
 	}
     }
@@ -1134,7 +1134,7 @@ gboolean gsb_payment_method_config_add ( GtkWidget *button,
     /* add to the sorted list */
     gsb_data_account_sort_list_add ( account_number,
 				     payment_number );
-    gsb_reconcile_config_fill ();
+    gsb_reconcile_sort_config_fill ();
 
     /* Mark file as modified */
     modification_fichier ( TRUE );

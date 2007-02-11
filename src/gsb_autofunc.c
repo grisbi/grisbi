@@ -1,8 +1,7 @@
 /* ************************************************************************** */
-/*                                  gsb_autofunc.c                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cedric Auger (cedric@grisbi.org)	      */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2007 Cedric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -35,11 +34,14 @@
 
 /*START_INCLUDE*/
 #include "gsb_autofunc.h"
+#include "gsb_calendar_entry.h"
 #include "gsb_data_account.h"
 #include "gsb_data_bank.h"
 #include "gsb_data_category.h"
 #include "gsb_data_fyear.h"
+#include "gsb_data_reconcile.h"
 #include "utils_editables.h"
+#include "gsb_real.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
@@ -47,10 +49,14 @@
 /*START_STATIC*/
 static  gboolean gsb_autofunc_checkbutton_changed ( GtkWidget *button,
 						   gboolean default_func (gint, gboolean));
+static  gboolean gsb_autofunc_date_changed ( GtkWidget *entry,
+					    gboolean default_func (gint, const GDate *));
 static  gboolean gsb_autofunc_entry_changed ( GtkWidget *entry,
 					     gboolean default_func (gint, const gchar *));
 static  gboolean gsb_autofunc_int_changed ( GtkWidget *entry,
 					   gboolean default_func (gint, gint));
+static  gboolean gsb_autofunc_real_changed ( GtkWidget *entry,
+					    gboolean default_func (gint, gsb_real));
 static  gboolean gsb_autofunc_spin_changed ( GtkWidget *spin_button,
 					    gboolean default_func (gint, gint));
 static  gboolean gsb_autofunc_textview_changed ( GtkTextBuffer *buffer,
@@ -59,6 +65,7 @@ static  gboolean gsb_autofunc_textview_changed ( GtkTextBuffer *buffer,
 
 
 /*START_EXTERN*/
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 
@@ -541,7 +548,7 @@ GtkWidget *gsb_autofunc_spin_new ( gint value,
     if (default_func)
 	g_object_set_data ( G_OBJECT (spin_button), "changed", 
 			    (gpointer) g_signal_connect_after (G_OBJECT(spin_button), "value-changed",
-							       G_CALLBACK (gsb_autofunc_int_changed), default_func ));
+							       G_CALLBACK (gsb_autofunc_spin_changed), default_func ));
     if ( hook )
 	g_object_set_data ( G_OBJECT (spin_button), "changed-hook", 
 			    (gpointer) g_signal_connect_after (GTK_OBJECT(spin_button), "value-changed",
@@ -806,6 +813,278 @@ GtkWidget *gsb_autofunc_radiobutton_new ( const gchar *choice1,
 			   G_CALLBACK (hook), data );
 
     return vbox;
+}
+
+
+
+/*
+ * creates a new GtkEntry to contain dates wich will modify the value according to the entry
+ * but made for values in grisbi structure :
+ * for each change, will call the corresponding given function : gsb_data_... ( number, date )
+ * ie the target function must be :
+ * 	(default_func) ( gint number_for_func,
+ * 			 GDate *date )
+ * ex : gsb_data_reconcile_set_init_date ( reconcile_number, name )
+ *
+ * it uses the gsb_calendar, so every options of the gsb_calendar work here
+ *
+ * \param date a date to fill the entry or NULL
+ * \param hook an optional function to execute as a handler if the
+ * 	entry's contents are modified.
+ * 	hook should be :
+ * 		gboolean hook ( GtkWidget *entry,
+ * 				gpointer data )
+ *
+ * \param data An optional pointer to pass to hooks.
+ * \param default_func a function to call when something change (function must be func ( number, date ) ) or NULL
+ * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * 				that number can be changed with gsb_autofunc_entry_set_value
+ *
+ * \return a new GtkEntry
+ * */
+GtkWidget *gsb_autofunc_date_new ( const GDate *date,
+				   GCallback hook,
+				   gpointer data,
+				   GCallback default_func,
+				   gint number_for_func )
+{
+    GtkWidget *entry;
+
+    /* first, create and fill the entry */
+    entry = gsb_calendar_entry_new ();
+
+    gsb_calendar_entry_set_date ( entry,
+				  date );
+
+    /* set the default func :
+     * the func will be send to gsb_editable_set_text by the data,
+     * the number_for_func will be set as data for object */
+    g_object_set_data ( G_OBJECT (entry),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+    if (default_func)
+	g_object_set_data ( G_OBJECT ( entry ), "changed", 
+			    (gpointer) g_signal_connect_after (G_OBJECT(entry), "changed",
+							       G_CALLBACK (gsb_autofunc_date_changed), default_func ));
+    if ( hook )
+	g_object_set_data ( G_OBJECT ( entry ), "changed-hook", 
+			    (gpointer) g_signal_connect_after (G_OBJECT(entry), "changed",
+							       G_CALLBACK (hook), data ));
+    return entry;
+}
+
+
+/** 
+ * set the date in a gsb_editable_date
+ * a value is in 2 parts :
+ * 	a date, wich be showed in the entry
+ * 	a number, wich is used when there is a change in that entry (see gsb_autofunc_date_new)
+ *
+ * \param entry
+ * \param date a date to set in the entry
+ * \param number_for_func the number to give to the called function when something is changed
+ *
+ * \return
+ */
+void gsb_autofunc_date_set ( GtkWidget *entry,
+			     const GDate *date,
+			     gint number_for_func )
+{
+    /* Block everything */
+    if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
+	g_signal_handler_block ( G_OBJECT(entry),
+				 (gulong) g_object_get_data (G_OBJECT (entry), 
+							     "changed"));
+    if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
+	g_signal_handler_block ( G_OBJECT(entry),
+				 (gulong) g_object_get_data (G_OBJECT (entry), 
+							     "changed-hook"));
+
+    /* Fill in value */
+    gsb_calendar_entry_set_date ( entry,
+				  date );
+
+    g_object_set_data ( G_OBJECT (entry),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+
+    /* Unblock everything */
+    if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(entry),
+				   (gulong) g_object_get_data (G_OBJECT (entry), 
+							       "changed"));
+    if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(entry),
+				   (gulong) g_object_get_data (G_OBJECT (entry), 
+							       "changed-hook"));
+}
+
+
+
+/**
+ * called when something change in an entry of a gsb_editable_date
+ * by gsb_autofunc_date_new
+ *
+ * \param entry The reference GtkEntry
+ * \param default_func the function to call to change the date in memory
+ *
+ * \return FALSE
+ */
+static gboolean gsb_autofunc_date_changed ( GtkWidget *entry,
+					    gboolean default_func (gint, const GDate *))
+{
+    gint number_for_func;
+    GDate *date;
+
+    /* just to be sure... */
+    if (!default_func || !entry)
+	return FALSE;
+
+    number_for_func = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (entry), "number_for_func"));
+    date = gsb_calendar_entry_get_date (entry);
+
+    default_func ( number_for_func,
+		   date);
+
+    if (date)
+	g_date_free (date);
+
+    /* Mark file as modified */
+    modification_fichier ( TRUE );
+
+    return FALSE;
+}
+
+
+/*
+ * creates a new GtkEntry to contain a gsb_real wich will modify the value according to the entry
+ * but made for values in grisbi structure :
+ * for each change, will call the corresponding given function : gsb_data_... ( number, gsb_real )
+ * ie the target function must be :
+ * 	(default_func) ( gint number_for_func,
+ * 			 gsb_real real )
+ * ex : gsb_data_account_set_init_balance ( account, real )
+ *
+ * \param real a gsb_real to fill the entry or NULL
+ * \param hook an optional function to execute as a handler if the
+ * 	entry's contents are modified.
+ * 	hook should be :
+ * 		gboolean hook ( GtkWidget *entry,
+ * 				gpointer data )
+ *
+ * \param data An optional pointer to pass to hooks.
+ * \param default_func a function to call when something change (function must be func ( number, real ) ) or null_real
+ * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * 				that number can be changed with gsb_autofunc_entry_set_value
+ *
+ * \return a new GtkEntry
+ * */
+GtkWidget *gsb_autofunc_real_new ( gsb_real real,
+				   GCallback hook,
+				   gpointer data,
+				   GCallback default_func,
+				   gint number_for_func )
+{
+    GtkWidget *entry;
+    gchar *string;
+
+    /* first, create and fill the entry */
+    entry = gtk_entry_new ();
+
+    string = gsb_real_get_string (real);
+    gtk_entry_set_text ( GTK_ENTRY (entry), string );
+    g_free (string);
+
+    /* set the default func :
+     * the func will be send to gsb_editable_set_text by the data,
+     * the number_for_func will be set as data for object */
+    g_object_set_data ( G_OBJECT (entry),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+    if (default_func)
+	g_object_set_data ( G_OBJECT ( entry ), "changed", 
+			    (gpointer) g_signal_connect_after (G_OBJECT(entry), "changed",
+							       G_CALLBACK (gsb_autofunc_real_changed), default_func ));
+    if ( hook )
+	g_object_set_data ( G_OBJECT ( entry ), "changed-hook", 
+			    (gpointer) g_signal_connect_after (G_OBJECT(entry), "changed",
+							       G_CALLBACK (hook), data ));
+    return entry;
+}
+
+
+/** 
+ * set the gsb_real in a gsb_editable_date
+ * a value is in 2 parts :
+ * 	a date, wich be showed in the entry
+ * 	a number, wich is used when there is a change in that entry (see gsb_autofunc_date_new)
+ *
+ * \param entry
+ * \param date a date to set in the entry
+ * \param number_for_func the number to give to the called function when something is changed
+ *
+ * \return
+ */
+void gsb_autofunc_real_set ( GtkWidget *entry,
+			     gsb_real real,
+			     gint number_for_func )
+{
+    gchar *string;
+
+    /* Block everything */
+    if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
+	g_signal_handler_block ( G_OBJECT(entry),
+				 (gulong) g_object_get_data (G_OBJECT (entry), 
+							     "changed"));
+    if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
+	g_signal_handler_block ( G_OBJECT(entry),
+				 (gulong) g_object_get_data (G_OBJECT (entry), 
+							     "changed-hook"));
+
+    /* Fill in value */
+    string = gsb_real_get_string (real);
+    gtk_entry_set_text ( GTK_ENTRY (entry), string );
+    g_free (string);
+
+    g_object_set_data ( G_OBJECT (entry),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+
+    /* Unblock everything */
+    if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(entry),
+				   (gulong) g_object_get_data (G_OBJECT (entry), 
+							       "changed"));
+    if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(entry),
+				   (gulong) g_object_get_data (G_OBJECT (entry), 
+							       "changed-hook"));
+}
+
+
+
+/**
+ * called when something change in an entry of a gsb_autofunc_real
+ * by gsb_autofunc_real_new
+ *
+ * \param entry The reference GtkEntry
+ * \param default_func the function to call to change the date in memory
+ *
+ * \return FALSE
+ */
+static gboolean gsb_autofunc_real_changed ( GtkWidget *entry,
+					    gboolean default_func (gint, gsb_real))
+{
+    gint number_for_func;
+
+    /* just to be sure... */
+    if (!default_func || !entry)
+	return FALSE;
+
+    number_for_func = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (entry), "number_for_func"));
+    default_func ( number_for_func,
+		   gsb_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (entry))));
+
+    /* Mark file as modified */
+    modification_fichier ( TRUE );
+
+    return FALSE;
 }
 
 

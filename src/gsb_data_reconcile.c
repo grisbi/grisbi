@@ -213,6 +213,8 @@ gint gsb_data_reconcile_new ( const gchar *name )
 
 /**
  * remove a reconcile
+ * all the transactions marked by that reconcile will be marked P
+ * and lose the link to that reconcile
  *
  * \param reconcile_number the reconcile we want to remove
  *
@@ -244,7 +246,11 @@ gboolean gsb_data_reconcile_remove ( gint reconcile_number )
 	gint transaction_number = gsb_data_transaction_get_transaction_number (list_tmp -> data);
 
 	if ( gsb_data_transaction_get_reconcile_number (transaction_number) == reconcile_number )
+	{
 	    gsb_data_transaction_set_reconcile_number ( transaction_number, 0 );
+	    gsb_data_transaction_set_marked_transaction ( transaction_number,
+							  OPERATION_POINTEE );
+	}
 	list_tmp = list_tmp -> next;
     }
 
@@ -447,9 +453,9 @@ gboolean gsb_data_reconcile_set_init_date ( gint reconcile_number,
     if (!reconcile)
 	return FALSE;
 
-    /* we free the last name */
+    /* we free the last date */
     if ( reconcile -> reconcile_init_date )
-	free (reconcile -> reconcile_init_date);
+	g_date_free (reconcile -> reconcile_init_date);
 
     /* and copy the new one */
     reconcile -> reconcile_init_date = gsb_date_copy (date);
@@ -497,9 +503,9 @@ gboolean gsb_data_reconcile_set_final_date ( gint reconcile_number,
     if (!reconcile)
 	return FALSE;
 
-    /* we free the last name */
+    /* we free the last date */
     if ( reconcile -> reconcile_final_date )
-	free (reconcile -> reconcile_final_date);
+	g_date_free (reconcile -> reconcile_final_date);
 
     /* and copy the new one */
     reconcile -> reconcile_final_date = gsb_date_copy (date);

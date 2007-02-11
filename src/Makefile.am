@@ -89,6 +89,7 @@ sources = \
 	gsb_reconcile.c		\
 	gsb_reconcile_config.c	\
 	gsb_reconcile_list.c	\
+	gsb_reconcile_sort_config.c	\
 	gsb_scheduler.c		\
 	gsb_scheduler_list.c	\
 	gsb_status.c		\
@@ -184,6 +185,7 @@ grisbi_INCLUDES =		\
 	gsb_reconcile.h		\
 	gsb_reconcile_config.h	\
 	gsb_reconcile_list.h	\
+	gsb_reconcile_sort_config.h	\
 	gsb_scheduler.h		\
 	gsb_scheduler_list.h	\
 	gsb_transaction_model.h	\

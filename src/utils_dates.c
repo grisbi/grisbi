@@ -492,7 +492,7 @@ gchar *gsb_format_date ( gint day, gint month, gint year )
  *
  * \param date		A GDate structure containing the date to represent.
  *
- * \return		A string representing date.
+ * \return		A newly allocated string representing date.
  */
 gchar *gsb_format_gdate ( const GDate *date )
 {
@@ -516,7 +516,7 @@ gchar *gsb_format_gdate ( const GDate *date )
  *
  * \param date		A GDate structure containing the date to represent.
  *
- * \return		A string representing date.
+ * \return		A newly allocated string representing date.
  */
 gchar * gsb_format_gdate_safe ( const GDate *date )
 {

@@ -735,7 +735,7 @@ gchar * gsb_string_escape_underscores ( gchar * orig )
  */
 gchar * gsb_string_truncate ( gchar * string )
 {
-    gsb_string_truncate_n ( string, 20, FALSE );
+    return gsb_string_truncate_n ( string, 20, FALSE );
 }
 
 

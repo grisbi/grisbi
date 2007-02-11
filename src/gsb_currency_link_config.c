@@ -281,6 +281,7 @@ GtkWidget *gsb_currency_link_config_create_list ()
 					      GTK_TREE_VIEW_COLUMN_AUTOSIZE );
 	    gtk_tree_view_column_set_expand ( column, TRUE );
 	}
+	gtk_tree_view_column_set_expand ( column, TRUE );
 	gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview),
 				      column );
     }

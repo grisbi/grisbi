@@ -989,7 +989,6 @@ gboolean navigation_change_account ( gint *no_account )
     gint new_account;
     gint current_account;
     GtkTreePath *path;
-    gint last_reconcile;
 
     new_account = GPOINTER_TO_INT ( no_account );
 
@@ -1029,16 +1028,7 @@ gboolean navigation_change_account ( gint *no_account )
     gsb_transactions_list_set_transactions_balances (new_account);
 
     /*     mise en place de la date du dernier relevé */
-    last_reconcile = gsb_data_reconcile_get_account_last_number (new_account);
-    if (last_reconcile)
-	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
-			     g_strdup_printf ( _("Last statement: %s"), 
-					       gsb_format_gdate (gsb_data_reconcile_get_final_date (last_reconcile))));
-
-    else
-	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
-			     _("Last statement: none") );
-
+    gsb_navigation_update_statement_label (new_account);
 
     gsb_gui_sensitive_menu_item ( "EditMenu", "MoveToAnotherAccount", 
 				  gsb_data_account_get_name (new_account),
@@ -1053,6 +1043,29 @@ gboolean navigation_change_account ( gint *no_account )
     gsb_date_free_last_date ();
 
     return FALSE;
+}
+
+
+/**
+ * update the statement label for the given account
+ *
+ * \param account_number
+ *
+ * \return
+ * */
+void gsb_navigation_update_statement_label ( gint account_number )
+{
+    gint reconcile_number;
+
+    reconcile_number = gsb_data_reconcile_get_account_last_number (account_number);
+    if (reconcile_number)
+	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
+			     g_strdup_printf ( _("Last statement: %s"), 
+					       gsb_format_gdate (gsb_data_reconcile_get_final_date (reconcile_number))));
+
+    else
+	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
+			     _("Last statement: none") );
 }
 
 

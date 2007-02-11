@@ -112,7 +112,6 @@ gboolean gsb_reconcile_list_button_clicked ( GtkWidget *button,
     return FALSE;
 }
 
-/* xxx une fois le payment method fini, revenir jouer avec le reconcile et reconcile config */
 /**
  * function used to sort the list according to the user conf, with the method of payment
  *

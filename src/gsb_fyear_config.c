@@ -64,8 +64,6 @@ static void gsb_fyear_config_append_line ( GtkTreeModel *model,
 				    GtkTreeIter *iter_to_fill );
 static gboolean gsb_fyear_config_associate_transactions ( void );
 static GtkWidget *gsb_fyear_config_create_list ();
-static gboolean gsb_fyear_config_entry_date_changed ( GtkWidget *entry,
-					       GtkWidget *tree_view );
 static void gsb_fyear_config_fill_list ( GtkTreeModel *model );
 static gint gsb_fyear_config_get_current_selected_fyear ( GtkWidget *tree_view );
 static gboolean gsb_fyear_config_modify_fyear ( GtkWidget *entry,
@@ -77,7 +75,6 @@ static void gsb_fyear_update_invalid ( GtkWidget *tree_view );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern struct conditional_message messages[] ;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
 /*END_EXTERN*/
@@ -216,11 +213,9 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 		       label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    entry = gsb_calendar_entry_new ();
-    g_signal_connect ( G_OBJECT (entry),
-		       "changed",
-		       G_CALLBACK (gsb_fyear_config_entry_date_changed),
-		       tree_view );
+    entry = gsb_autofunc_date_new ( NULL,
+				    G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
+				    G_CALLBACK (gsb_data_fyear_set_begining_date), 0 );
     g_object_set_data ( G_OBJECT (tree_model),
 			"fyear_begin_date_entry", entry );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -236,11 +231,9 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 		       label, 0, 1, 2, 3,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    entry = gsb_calendar_entry_new ();
-    g_signal_connect ( G_OBJECT (entry),
-		       "changed",
-		       G_CALLBACK (gsb_fyear_config_entry_date_changed),
-		       tree_view );
+    entry = gsb_autofunc_date_new ( NULL,
+				    G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
+				    G_CALLBACK (gsb_data_fyear_set_end_date), 0 );
     g_object_set_data ( G_OBJECT (tree_model),
 			"fyear_end_date_entry", entry );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -453,15 +446,17 @@ gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
     widget = g_object_get_data ( G_OBJECT (model),
 				 "fyear_begin_date_entry" );
     gsb_calendar_entry_set_color (widget, TRUE);
-    gsb_calendar_entry_set_date ( widget,
-				  gsb_data_fyear_get_begining_date (fyear_number));
+    gsb_autofunc_date_set ( widget,
+			    gsb_data_fyear_get_begining_date (fyear_number),
+			    fyear_number );
 
     /* set the end date */
     widget = g_object_get_data ( G_OBJECT (model),
 				 "fyear_end_date_entry" );
     gsb_calendar_entry_set_color (widget, TRUE);
-    gsb_calendar_entry_set_date ( widget,
-				  gsb_data_fyear_get_end_date (fyear_number));
+    gsb_autofunc_date_set ( widget,
+			    gsb_data_fyear_get_end_date (fyear_number),
+			    fyear_number );
 
     /* set the button */
     widget = g_object_get_data ( G_OBJECT (model),
@@ -528,34 +523,6 @@ gint gsb_fyear_config_get_current_selected_fyear ( GtkWidget *tree_view )
     return fyear_number;
 }
 
-/**
- * called for a changed signal in the begining or end date of the fyear
- *
- * \param entry the entry wich received the callback
- * \param tree_view
- *
- * \return FALSE
- * */
-gboolean gsb_fyear_config_entry_date_changed ( GtkWidget *entry,
-					       GtkWidget *tree_view )
-{
-    /* update the dates in memory, if
-     * the date is not valid, the date will be set to null */
-    if (entry == g_object_get_data ( G_OBJECT (gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view))),
-				     "fyear_begin_date_entry" ))
-	gsb_data_fyear_set_begining_date ( gsb_fyear_config_get_current_selected_fyear (tree_view),
-					   gsb_calendar_entry_get_date (entry));
-    else
-	gsb_data_fyear_set_end_date ( gsb_fyear_config_get_current_selected_fyear (tree_view),
-				      gsb_calendar_entry_get_date (entry));
-
-    /* update the tree view and error messages */
-    gsb_fyear_config_modify_fyear (entry, tree_view);
-    modification_fichier (TRUE);
-    return FALSE;
-}
-
-
 
 /**
  * called when something change for a fyear 
@@ -619,6 +586,7 @@ gboolean gsb_fyear_config_modify_fyear ( GtkWidget *entry,
 			  FYEAR_INVALID_COLUMN, invalid,
 			  FYEAR_NUMBER_COLUMN, fyear_number,
 			  -1 );
+     modification_fichier (TRUE);
      return FALSE;
 }
 
