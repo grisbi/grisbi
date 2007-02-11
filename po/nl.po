@@ -1,23 +1,22 @@
 # translation of nl.po to Dutch
-# translation of nl.po to Nederlands
 # Dutch translation of PACKAGE.
 # Copyright (C) 2005 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# E. Huijsing <lighthous@users.sourceforge.net>, 2005.
-# E.Huijsing <lighthous@users.sourceforge.net>, 2006.
 #
+# E. Huijsing <lighthous@users.sourceforge.net>, 2005.
+# E.Huijsing <lighthous@users.sourceforge.net>, 2006, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-05-15 12:43+0200\n"
-"PO-Revision-Date: 2006-07-29 20:49+0200\n"
+"PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
-"Language-Team: Dutch <nl@li.org>\n"
+"Language-Team: Dutch <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.10.2\n"
+"X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: src/accueil.c:120
@@ -112,8 +111,7 @@ msgstr "Debet(af) %4.2f %s van %s"
 #: src/accueil.c:1807 src/accueil.c:1842
 #, c-format
 msgid "Balance of account %s is under wanted and authorised minima!"
-msgstr ""
-"Het bedrag van de rekening %s is onder het gewenste en toegestane minimum!"
+msgstr "Het bedrag van de rekening %s is onder het gewenste en toegestane minimum!"
 
 #: src/accueil.c:1813
 #, c-format
@@ -527,8 +525,7 @@ msgstr "Budgetregels"
 #: src/operations_liste.c:2871 src/operations_liste.c:2938
 #: src/operations_liste.c:3211 src/operations_liste.c:3304
 msgid "Cannot allocate memory, bad things will happen soon"
-msgstr ""
-"Kan geen geheugen meer toewijzen, slechte dingen zullen spoedig gebeuren"
+msgstr "Kan geen geheugen meer toewijzen, slechte dingen zullen spoedig gebeuren"
 
 #: src/banque.c:126 src/comptes_gestion.c:330
 msgid "New bank"
@@ -1396,8 +1393,7 @@ msgstr "Importeer een categorielijst"
 
 #. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
 #: src/categories_onglet.c:3145
-msgid ""
-"File already contains transactions, the two categories lists will be merged."
+msgid "File already contains transactions, the two categories lists will be merged."
 msgstr ""
 "Het bestand bevat al transacties, de twee categorielijsten zullen worden "
 "samengevoegd."
@@ -1502,8 +1498,7 @@ msgstr "Verschillen in sub-categorieën corrigeren?"
 
 #: src/check.c:339
 #, c-format
-msgid ""
-"Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
+msgid "Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
 msgstr "Sub-budgetregel <i>'%s : %s'</i> bestaat al in <i>'%s : %s'</i>\n"
 
 #: src/check.c:356
@@ -1532,8 +1527,7 @@ msgstr "Verschillen in sub-budgetregels corrigeren?"
 #: src/check.c:469
 #, c-format
 msgid "Transaction #%d should have a contra #%d, but this one doesn't exist.\n"
-msgstr ""
-"Transactie #%d  moet een tegenrekening hebben  #%d  maar deze bestaat niet.\n"
+msgstr "Transactie #%d  moet een tegenrekening hebben  #%d  maar deze bestaat niet.\n"
 
 #: src/check.c:494
 #, c-format
@@ -1756,8 +1750,7 @@ msgstr "Euro"
 
 #: src/comptes_gestion.c:1245
 msgid "Impossible to find the Euro currency, it has probably been deleted."
-msgstr ""
-"Onmogelijk om de Euro valuta te vinden, hij is waarschijnlijk verwijderd."
+msgstr "Onmogelijk om de Euro valuta te vinden, hij is waarschijnlijk verwijderd."
 
 #. mise en place des boutons du bas
 #: src/comptes_onglet.c:158 src/menu.c:105
@@ -2821,7 +2814,7 @@ msgstr "Zwitserland"
 
 #: src/devises.c:167
 msgid "Hryvnia"
-msgstr ""
+msgstr "Hryvnia"
 
 #: src/devises.c:167
 msgid "Ukraine"
@@ -3061,12 +3054,10 @@ msgid "Southern America"
 msgstr "Zuid Amerika"
 
 #: src/devises.c:199
-#, fuzzy
 msgid "Brazilian Real"
-msgstr "Braziliaanse Rial"
+msgstr "Braziliaanse Real"
 
 #: src/devises.c:199 src/devises.c:205
-#, fuzzy
 msgid "Brazil"
 msgstr "Brazilië"
 
@@ -3290,7 +3281,6 @@ msgstr "Laat dit bericht niet meer zien"
 #: src/dialog.c:401 src/echeancier_formulaire.c:1623
 #: src/echeancier_liste.c:664 src/type_operations.c:1569
 #: src/type_operations.c:1639
-#, fuzzy
 msgid "Input"
 msgstr "Vul in"
 
@@ -3404,8 +3394,7 @@ msgstr "U kunt geen overschrijving maken naar dezelfde rekening"
 
 #: src/echeancier_formulaire.c:1560
 msgid "A breakdown of transaction is a transfer to this account.\n"
-msgstr ""
-"Een deel van de opsplits transactie is naar deze rekening overgeschreven.\n"
+msgstr "Een deel van de opsplits transactie is naar deze rekening overgeschreven.\n"
 
 #: src/echeancier_formulaire.c:1583 src/operations_formulaire.c:2386
 msgid "There is no associated account for this transfer."
@@ -3501,8 +3490,7 @@ msgstr "Verwijder geplande transactie"
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
 "transaction?"
-msgstr ""
-"Wilt u enkel deze voorkomende of gehele geplande transactie verwijderen?"
+msgstr "Wilt u enkel deze voorkomende of gehele geplande transactie verwijderen?"
 
 #: src/echeancier_liste.c:1390
 msgid "All the occurences"
@@ -3557,8 +3545,7 @@ msgstr "De bijbehorende rekening voor deze overschrijving bestaat niet"
 
 #: src/echeancier_ventilation.c:1607 src/ventilation.c:1604
 msgid "It's impossible to transfer an account to itself"
-msgstr ""
-"Het is niet mogelijk om een overschrijving te maken naar de zelfde rekening"
+msgstr "Het is niet mogelijk om een overschrijving te maken naar de zelfde rekening"
 
 #: src/echeancier_ventilation.c:1614 src/ventilation.c:1611
 msgid "No account associated with the transfer"
@@ -3706,8 +3693,7 @@ msgstr "Grisbi maakt zijn reservebestand in '%s'."
 
 #: src/erreur.c:233
 msgid "Please report this problem to http://www.grisbi.org/bugtracking/"
-msgstr ""
-"Maak a.u.b. melding van dit probleem via http://www.grisbi.org/bugtracking/"
+msgstr "Maak a.u.b. melding van dit probleem via http://www.grisbi.org/bugtracking/"
 
 #: src/erreur.c:237
 msgid "Grisbi terminated due to a segmentation fault."
@@ -4089,9 +4075,8 @@ msgid "Check"
 msgstr "Controleer"
 
 #: src/etats_affiche.c:2300
-#, fuzzy
 msgid "Statement"
-msgstr "Bankafschrift"
+msgstr "Overzicht"
 
 #: src/etats_config.c:43
 msgid "All"
@@ -4601,7 +4586,6 @@ msgid "The reconciled transactions"
 msgstr "De gecontroleerde transacties"
 
 #: src/etats_config.c:5575
-#, fuzzy
 msgid "The checked transactions"
 msgstr "De gecontroleerde transacties"
 
@@ -4682,8 +4666,7 @@ msgstr "Toon het aantal transacties met de totalen"
 
 #: src/etats_config.c:6284
 msgid "Consider the third parties of this report as a multiple third party."
-msgstr ""
-"Beschouw de begunstigden in dit rapport als een meervoudig persoon"
+msgstr "Beschouw de begunstigden in dit rapport als een meervoudig persoon"
 
 #: src/etats_config.c:6355
 msgid "Display the information about"
@@ -5312,8 +5295,7 @@ msgid "Select accounts to export"
 msgstr "Selecteer een of meer rekeningen om te exporteren"
 
 #: src/export.c:292 src/qif.c:1021
-msgid ""
-"This will irreversibly overwrite previous file.  There is no undo for this."
+msgid "This will irreversibly overwrite previous file.  There is no undo for this."
 msgstr ""
 "Dit zal het bestand overschrijven. Het is niet mogelijk om dit ongedaan te "
 "maken."
@@ -5333,8 +5315,7 @@ msgstr "Dit formaat exporteert geen valuta's."
 
 #: src/export.c:382 src/qif.c:918
 msgid "All transactions will be converted into currency of their account."
-msgstr ""
-"Alle transacties zullen worden omgeschreven naar de valuta van hun rekening."
+msgstr "Alle transacties zullen worden omgeschreven naar de valuta van hun rekening."
 
 #: src/export.c:443 src/menu.c:108 src/operations_comptes.c:380
 #: src/operations_comptes.c:385 src/operations_comptes.c:446
@@ -5457,8 +5438,7 @@ msgstr "Afsluiten zonder te bewaren"
 
 #: src/fichiers_gestion.c:478
 msgid "If you close without saving, all of your changes will be discarded."
-msgstr ""
-"Als u sluit zonder eerst te bewaren, zullen alle gegevens verloren gaan."
+msgstr "Als u sluit zonder eerst te bewaren, zullen alle gegevens verloren gaan."
 
 # titel van scherm bij het opslaan met een nieuwe naam (dus ook bij de eerste keer)
 #: src/fichiers_gestion.c:506
@@ -5497,6 +5477,8 @@ msgid ""
 "%s doen't seem to be a regular file,\n"
 "please check it and try again."
 msgstr ""
+"%s lijkt een verkeerd bestandstype te zijn,\n"
+"controleer het bestand en probeer het opnieuw."
 
 #: src/fichiers_io.c:174
 msgid "Invalid accounts file"
@@ -5571,8 +5553,7 @@ msgstr "opsplitstransacties, deze zijn allemaal verwijderd.\n"
 
 #: src/fichiers_io.c:1919
 msgid "transfers without contra-transaction, which categories were deleted.\n"
-msgstr ""
-"transacties zonder tegentransacties, waarvan de categorieën verwijderd zijn.\n"
+msgstr "transacties zonder tegentransacties, waarvan de categorieën verwijderd zijn.\n"
 
 #: src/fichiers_io.c:1924
 msgid ""
@@ -5732,10 +5713,8 @@ msgstr ""
 "programming"
 
 #: src/help.c:57
-msgid ""
-"Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
-msgstr ""
-"Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
+msgid "Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
+msgstr "Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
 
 #: src/help.c:58
 msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
@@ -5774,7 +5753,7 @@ msgid "Daniel Cartron (cartron[at]grisbi.org): English"
 msgstr "Daniel Cartron (cartron[at]grisbi.org): English"
 
 #: src/help.c:69
-msgid "Edwin Huijsing (e.huijsing[at]fiberworld.nl): Dutch"
+msgid "Edwin Huijsing (lighthous[at]users.sourceforge.net): Dutch"
 msgstr "Edwin Huijsing (lighthous[at]users.sourceforge.net): Nederlands"
 
 #: src/help.c:70
@@ -5791,7 +5770,7 @@ msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"
 
 #: src/help.c:73
 msgid "Marek Donar (mdonar[at]post.cz): Czech"
-msgstr ""
+msgstr "Marek Donar (mdonar[at]post.cz): Czech"
 
 #: src/help.c:74
 msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
@@ -5799,7 +5778,7 @@ msgstr "Martin Stromberger (Fabiolla[at]aon.at): German"
 
 #: src/help.c:75
 msgid "Mircea Aronovici (bucuresti[at]free.fr): Romanian"
-msgstr ""
+msgstr "Mircea Aronovici (bucuresti[at]free.fr): Romanian"
 
 #: src/help.c:76
 msgid "Ryszard Jeziorski (r.jeziorski[at]dart.kielce.pl): Polish"
@@ -6006,8 +5985,7 @@ msgstr "Verweesde transacties"
 
 #: src/import.c:2580
 msgid "Mark transactions you want to add to the list and click the add button"
-msgstr ""
-"Markeer de transacties die u wilt toevoegen en klik op de knop\"Toevoegen\" "
+msgstr "Markeer de transacties die u wilt toevoegen en klik op de knop\"Toevoegen\" "
 
 #: src/import.c:2650
 msgid "Mark"
@@ -6539,7 +6517,6 @@ msgstr "Huidig saldo"
 
 # geen idee waar het staat (Opsplitsing van rekening)
 #: src/operations_liste.c:203
-#, fuzzy
 msgid "Account breakdown"
 msgstr "Rekening opsplitsen"
 
@@ -6598,8 +6575,7 @@ msgid "Impossible to delete a reconciled transaction."
 msgstr "Het is niet mogelijk om een gecontroleerde transactie te verwijderen."
 
 #: src/operations_liste.c:2127
-msgid ""
-"The contra-transaction of this transfer is reconciled, deletion impossible."
+msgid "The contra-transaction of this transfer is reconciled, deletion impossible."
 msgstr ""
 "De contra-transactie van deze overschrijving is gecontroleerd, verwijdering "
 "is niet mogelijk!"
@@ -6718,8 +6694,7 @@ msgid "Scheduler warnings"
 msgstr "Waarschuwing voor geplande transacties"
 
 #: src/parametres.c:456
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr ""
 "Het aantal dagen dat een waarschuwingsbericht van te \n"
 "voren gegeven moet worden bij een geplande transactie"
@@ -7107,50 +7082,3 @@ msgstr ""
 "Deze overschijving heeft een gecontroleerde contra-transactie, verwijdering "
 "afgebroken."
 
-#~ msgid ""
-#~ "Your account file should not be readable by anybody else, but it is. You "
-#~ "should change its permissions.\n"
-#~ "Should this be fixed now?"
-#~ msgstr ""
-#~ "Uw rekenings bestand mag niet leesbaar zijn voor andere, maar dit is wel "
-#~ "het geval. Het wordt U aangeraden om dit wel te doen.\n"
-#~ "Wilt U dit nu veranderen?"
-
-#~ msgid "A3"
-#~ msgstr "A3"
-
-#~ msgid "A5"
-#~ msgstr "A5"
-
-#~ msgid "A6"
-#~ msgstr "A6"
-
-#~ msgid "USletter"
-#~ msgstr "USletter"
-
-#~ msgid "USlegal"
-#~ msgstr "USlegal"
-
-#~ msgid "USexecutive"
-#~ msgstr "USexecutive"
-
-#, fuzzy
-#~ msgid "Value"
-#~ msgstr "Valuta datum"
-
-#~ msgid ""
-#~ "Impossible to create or entry an automatic scheduled transaction\n"
-#~ " with a cheque or a method of payment with an automatic incremental "
-#~ "number."
-#~ msgstr ""
-#~ "Onmogelijk om een automatisch overschrijving te creëren van een Cheque of "
-#~ "ander betaalmethode die een automatisch stijgend nummer hebben."
-
-#~ msgid "Recover breakdown?"
-#~ msgstr "Opsplitsen herstellen?"
-
-#~ msgid "Do you want to recover all the lines of the last breakdown?"
-#~ msgstr "Wilt U alle regels van de laatste opsplitsing herstellen?"
-
-#~ msgid "Legal"
-#~ msgstr "Legaal"
