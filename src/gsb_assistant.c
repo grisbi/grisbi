@@ -211,6 +211,8 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 		{
 		    gsb_assistant_change_button_next ( assistant, GTK_STOCK_CLOSE, 
 						       GTK_RESPONSE_APPLY );
+		    gsb_assistant_sensitive_button_prev ( assistant,
+							  FALSE );
 		}
 
 		gtk_notebook_set_page ( GTK_NOTEBOOK(notebook), next );
@@ -329,6 +331,19 @@ gboolean gsb_assistant_sensitive_button_next ( GtkWidget * assistant, gboolean s
 
     return FALSE;
 }
+
+/**
+ *
+ *
+ */
+gboolean gsb_assistant_sensitive_button_prev ( GtkWidget * assistant, gboolean state )
+{
+    gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_prev" ), 
+			       state );
+
+    return FALSE;
+}
+
 
 
 
