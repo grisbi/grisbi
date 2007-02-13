@@ -142,7 +142,8 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
  *				clicked.
  * \param next			Page to display when the "Next" button is clicked.
  * \param enter_callback	A callback to connect to the "switch-page" callback
- *				of the Grisbi assistant notebook.
+ *				of the Grisbi assistant notebook. (the callback should
+ *				be : gboolean callback ( GtkWidget *assistant ) )
  */
 void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint position,
 			      gint prev, gint next, GCallback enter_callback )
@@ -291,7 +292,7 @@ void gsb_assistant_set_prev ( GtkWidget * assistant, gint page, gint prev )
     gchar * string;
 
     string = g_strdup_printf ( "prev%d", page );
-    g_object_set_data ( G_OBJECT(assistant), string, (gpointer) prev );
+    g_object_set_data ( G_OBJECT(assistant), string, GINT_TO_POINTER (prev));
     free ( string );
 }
 
@@ -310,7 +311,7 @@ void gsb_assistant_set_next ( GtkWidget * assistant, gint page, gint next )
     gchar * string;
 
     string = g_strdup_printf ( "next%d", page );
-    g_object_set_data ( G_OBJECT(assistant), string, (gpointer) next );
+    g_object_set_data ( G_OBJECT(assistant), string, GINT_TO_POINTER (next));
     free ( string );
 }
 
