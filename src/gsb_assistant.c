@@ -181,6 +181,8 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
     gtk_widget_show_all ( assistant );
 
     notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
+    gtk_notebook_set_page ( GTK_NOTEBOOK (notebook),
+			    0 );
 
     while ( TRUE )
     {
