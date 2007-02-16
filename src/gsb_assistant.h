@@ -12,10 +12,11 @@ void gsb_assistant_change_button_next ( GtkWidget * assistant, gchar * title,
 					GtkResponseType response );
 GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
 				gchar * image_filename );
+void gsb_assistant_next_page ( GtkWidget *assistant );
 GtkResponseType gsb_assistant_run ( GtkWidget * assistant );
+void gsb_assistant_set_additional_button ( GtkWidget * assistant, gchar * title );
 void gsb_assistant_set_next ( GtkWidget * assistant, gint page, gint next );
 void gsb_assistant_set_prev ( GtkWidget * assistant, gint page, gint prev );
-void gsb_assistant_set_additional_button ( GtkWidget * assistant, gchar * title );
 /* END_DECLARATION */
 
 #endif

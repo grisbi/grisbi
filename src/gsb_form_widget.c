@@ -186,7 +186,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
     {
 	case TRANSACTION_FORM_DATE:
 	case TRANSACTION_FORM_VALUE_DATE:
-	    widget = gsb_calendar_entry_new ();
+	    widget = gsb_calendar_entry_new (TRUE);
 	    break;
 
 	case TRANSACTION_FORM_DEBIT:

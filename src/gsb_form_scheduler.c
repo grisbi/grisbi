@@ -204,7 +204,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 		    break;
 
 		case SCHEDULED_FORM_LIMIT_DATE:
-		    widget = gsb_calendar_entry_new ();
+		    widget = gsb_calendar_entry_new (FALSE);
 		    g_signal_connect ( G_OBJECT (widget),
 				       "button-press-event",
 				       G_CALLBACK (gsb_form_scheduler_button_press_event),
@@ -909,7 +909,6 @@ gboolean gsb_form_scheduler_frequency_button_changed ( GtkWidget *combo_box,
 gint gsb_form_scheduler_get_account ( void )
 {
     gint account_number;
-    GtkTreeIter iter;
     GtkWidget *button;
 
     button = gsb_form_scheduler_get_element_widget(SCHEDULED_FORM_ACCOUNT);
@@ -917,14 +916,10 @@ gint gsb_form_scheduler_get_account ( void )
     if (!button)
 	return -2;
 
-    if ( !gtk_combo_box_get_active_iter ( GTK_COMBO_BOX (button),
-					  &iter ))
-	return -2;
+    account_number = gsb_account_get_number_tree_model (button);
 
-    gtk_tree_model_get ( GTK_TREE_MODEL (gtk_combo_box_get_model (GTK_COMBO_BOX (button))),
-			 &iter,
-			 1, &account_number,
-			 -1 );
+    if (account_number == -1)
+	return -2;
     return account_number;
 }
 

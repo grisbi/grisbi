@@ -52,7 +52,7 @@ static gboolean gsb_calendar_entry_changed ( GtkWidget *entry,
 				      gpointer null );
 static gboolean gsb_calendar_entry_focus_out ( GtkWidget *entry,
 					GdkEventFocus *event,
-					gpointer null );
+					gint *set_today );
 static gboolean gsb_calendar_entry_key_press ( GtkWidget *entry,
 					GdkEventKey  *ev,
 					gpointer null );
@@ -81,11 +81,11 @@ static GtkStyle *calendar_base_style[2];
  * if double-click on that entry, popup a calendar
  * when leave the entry, check the date and complete it
  *
- * \param
+ * \param set_today TRUE if we want to set the current day if the entry is left empty
  *
  * \return a GtkEntry widget
  * */
-GtkWidget *gsb_calendar_entry_new ( void )
+GtkWidget *gsb_calendar_entry_new ( gint set_today )
 {
     GtkWidget *entry;
 
@@ -95,7 +95,7 @@ GtkWidget *gsb_calendar_entry_new ( void )
 		       G_CALLBACK (gsb_calendar_entry_button_press), NULL );
     g_signal_connect_after ( G_OBJECT (entry),
 			     "focus-out-event",
-			     G_CALLBACK (gsb_calendar_entry_focus_out), NULL );
+			     G_CALLBACK (gsb_calendar_entry_focus_out), GINT_TO_POINTER (set_today));
     g_signal_connect ( G_OBJECT (entry),
 		       "key-press-event",
 		       G_CALLBACK (gsb_calendar_entry_key_press),
@@ -177,7 +177,9 @@ gboolean gsb_calendar_entry_date_valid ( GtkWidget *entry )
 {
     if (!entry
 	||
-	!GTK_IS_ENTRY (entry))
+	!GTK_IS_ENTRY (entry)
+	||
+	!strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
 	return FALSE;
 
     return (gtk_widget_get_style ( entry ) == calendar_base_style[ENTRY_NORMAL] );
@@ -419,17 +421,17 @@ void gsb_calendar_entry_step_date ( GtkWidget *entry,
  *
  * \param entry the entry wich receive the signal
  * \param event
- * \param null not used
+ * \param set_today TRUE (but pointer) if we want to set the current day if the entry is left empty
  *
  * \return FALSE
  * */
 gboolean gsb_calendar_entry_focus_out ( GtkWidget *entry,
 					GdkEventFocus *event,
-					gpointer null )
+					gint *set_today )
 {
     gint valid;
 
-    valid = gsb_date_check_and_complete_entry (entry, TRUE);
+    valid = gsb_date_check_and_complete_entry (entry, GPOINTER_TO_INT (set_today));
     if (valid)
     {
 	/* the date is valid, make it normal */

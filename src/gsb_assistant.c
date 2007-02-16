@@ -37,6 +37,7 @@
 static gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage, 
 				     gint page, gpointer assistant );
 static gboolean gsb_assistant_sensitive_button_next ( GtkWidget * assistant, gboolean state );
+static gboolean gsb_assistant_sensitive_button_prev ( GtkWidget * assistant, gboolean state );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -344,6 +345,20 @@ gboolean gsb_assistant_sensitive_button_prev ( GtkWidget * assistant, gboolean s
     return FALSE;
 }
 
+/**
+ * force the assistant to go to the next page
+ *
+ * \param assistant
+ *
+ * \return
+ * */
+void gsb_assistant_next_page ( GtkWidget *assistant )
+{
+    GtkWidget * button_next;
+
+    button_next = g_object_get_data ( G_OBJECT (assistant), "button_next" );
+    gtk_button_clicked ( GTK_BUTTON (button_next));
+}
 
 
 

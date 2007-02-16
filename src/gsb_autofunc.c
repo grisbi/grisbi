@@ -851,7 +851,7 @@ GtkWidget *gsb_autofunc_date_new ( const GDate *date,
     GtkWidget *entry;
 
     /* first, create and fill the entry */
-    entry = gsb_calendar_entry_new ();
+    entry = gsb_calendar_entry_new (TRUE);
 
     gsb_calendar_entry_set_date ( entry,
 				  date );

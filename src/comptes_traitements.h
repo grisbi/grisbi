@@ -14,6 +14,7 @@ gint demande_type_nouveau_compte ( void );
 gboolean gsb_account_create_name_tree_model ( GtkWidget *combo_box,
 					      GCallback func, 
 					      gboolean include_closed );
+gint gsb_account_get_number_tree_model ( GtkWidget *combo_box );
 gboolean gsb_account_update_name_tree_model ( GtkWidget *combo_box,
 					      gboolean include_closed );
 gboolean new_account ( void );

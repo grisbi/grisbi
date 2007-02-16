@@ -102,9 +102,6 @@ static void traitement_operations_importees ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern void register_import_format ( struct import_format * format );
-extern void gsb_import_register_account ( struct struct_compte_importation * account );
-extern void gsb_import_register_account_error ( struct struct_compte_importation * account );
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;

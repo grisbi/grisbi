@@ -62,7 +62,7 @@
 
 /*START_STATIC*/
 static void ajoute_new_file_liste_ouverture ( gchar *path_fichier );
-static gchar *demande_nom_enregistrement ( void );
+static gchar * demande_nom_enregistrement ( void );
 static gboolean enregistrement_backup ( void );
 /*END_STATIC*/
 

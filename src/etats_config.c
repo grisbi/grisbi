@@ -2344,7 +2344,7 @@ GtkWidget *onglet_etat_dates ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    entree_date_init_etat = gsb_calendar_entry_new ();
+    entree_date_init_etat = gsb_calendar_entry_new (FALSE);
     gtk_widget_set_usize ( entree_date_init_etat,
 			   100,
 			   FALSE );
@@ -2374,7 +2374,7 @@ GtkWidget *onglet_etat_dates ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    entree_date_finale_etat = gsb_calendar_entry_new ();
+    entree_date_finale_etat = gsb_calendar_entry_new (FALSE);
     gtk_widget_set_usize ( entree_date_finale_etat,
 			   100,
 			   FALSE );

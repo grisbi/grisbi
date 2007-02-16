@@ -175,7 +175,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
 				2, 3, 2, 3 );
 
     /* make the new date entry */
-    reconcile_new_date_entry = gsb_calendar_entry_new ();
+    reconcile_new_date_entry = gsb_calendar_entry_new (TRUE);
     gtk_widget_set_usize ( reconcile_new_date_entry, 50, FALSE );
     g_signal_connect ( G_OBJECT ( reconcile_new_date_entry ),
 		       "key-press-event",

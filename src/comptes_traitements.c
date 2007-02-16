@@ -395,7 +395,7 @@ gboolean gsb_account_create_name_tree_model ( GtkWidget *combo_box,
 
     return FALSE;
 }
-
+/* xxx modifier les noms des fonctions et du fichier ici */
 
 /**
  * update the list of accounts in a combo_box filled
@@ -441,6 +441,35 @@ gboolean gsb_account_update_name_tree_model ( GtkWidget *combo_box,
 	list_tmp = list_tmp -> next;
     }
     return FALSE;
+}
+
+/**
+ * get the selected account number in a combo_box filled by
+ * gsb_account_create_name_tree_model
+ *
+ * \param combo_box the accounts combo-box
+ *
+ * \return the account number selected or -1 if none active
+ * */
+gint gsb_account_get_number_tree_model ( GtkWidget *combo_box )
+{
+    gint account_number;
+    GtkTreeIter iter;
+
+    if (!combo_box
+	||
+	!GTK_IS_COMBO_BOX (combo_box))
+	return -1;
+
+    if ( !gtk_combo_box_get_active_iter ( GTK_COMBO_BOX (combo_box),
+					  &iter ))
+	return -1;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL (gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box))),
+			 &iter,
+			 1, &account_number,
+			 -1 );
+    return account_number;
 }
 
 

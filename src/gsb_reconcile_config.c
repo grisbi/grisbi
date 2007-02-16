@@ -31,6 +31,8 @@
 /*START_INCLUDE*/
 #include "gsb_reconcile_config.h"
 #include "dialog.h"
+#include "gsb_assistant.h"
+#include "gsb_assistant_reconcile_config.h"
 #include "gsb_autofunc.h"
 #include "gsb_data_account.h"
 #include "gsb_data_reconcile.h"
@@ -50,7 +52,6 @@
 /*START_STATIC*/
 static gboolean gsb_reconcile_config_delete ( GtkWidget *button,
 				       GtkWidget *tree_view );
-static void gsb_reconcile_config_fill ( GtkWidget *tree_view );
 static gboolean gsb_reconcile_config_find_alone_transactions ( void );
 static gboolean gsb_reconcile_config_select ( GtkTreeSelection *selection, 
 				       GtkWidget *table );
@@ -62,8 +63,10 @@ static gboolean gsb_reconcile_config_update_line ( GtkWidget *entry,
 extern gsb_real null_real ;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
-extern GtkWidget *window;
 /*END_EXTERN*/
+
+/* the tree view used to modify the reconciles */
+static GtkWidget *reconcile_treeview;
 
 static GtkWidget *reconcile_name_entry;
 static GtkWidget *reconcile_init_date_entry;
@@ -71,6 +74,10 @@ static GtkWidget *reconcile_final_date_entry;
 static GtkWidget *reconcile_init_balance_entry;
 static GtkWidget *reconcile_final_balance_entry;
 static GtkWidget *delete_reconcile_button;
+
+/* the number of transactions to link, filled when click the button to associate
+ * the R marked transactions without a reconcile */
+gint transactions_to_link;
 
 /**
  * create the config widget for the reconcile
@@ -88,7 +95,6 @@ GtkWidget *gsb_reconcile_config_create ( void )
     GtkCellRenderer *cell;
     GtkTreeStore *reconcile_model;
     GtkTreeSelection *reconcile_selection;
-    GtkWidget *reconcile_treeview;
     GtkWidget *label;
     gint i;
     gfloat alignment[] = {
@@ -163,7 +169,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
     }
 
     /* Various remaining settings */
-    gsb_reconcile_config_fill(reconcile_treeview);
+    gsb_reconcile_config_fill();
 
     /* set the modifying part under the list */
     hbox = new_paddingbox_with_title ( vbox_pref, FALSE,
@@ -295,19 +301,19 @@ GtkWidget *gsb_reconcile_config_create ( void )
  * fill the reconcile list,
  * sort each reconcile in its account
  *
- * \param tree_view
+ * \param 
  *
  * \return
  * */
-void gsb_reconcile_config_fill ( GtkWidget *tree_view )
+void gsb_reconcile_config_fill ( void )
 {
     GtkTreeModel *model;
     GSList *tmp_list;
 
-    if (!tree_view)
+    if (!reconcile_treeview)
 	return;
 
-    model = gtk_tree_view_get_model ( GTK_TREE_VIEW (tree_view));
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW (reconcile_treeview));
 
     gtk_tree_store_clear (GTK_TREE_STORE(model));
 
@@ -574,29 +580,7 @@ gboolean gsb_reconcile_config_find_alone_transactions ( void )
     GSList *transactions_list = NULL;
     GSList *tmp_list;
     gint transaction_number;
-    gint number_of_transactions;
-    GtkWidget *dialog;
-    GtkWidget *tree_view;
-    GtkListStore *store;
-    GtkWidget *label;
-    GtkWidget *label_number_transactions;
-    GtkWidget *scrolled_window;
-    gint i;
-    enum transactions_column {
-	TRANSACTION_DATE = 0,
-	TRANSACTION_PAYEE,
-	TRANSACTION_AMOUNT,
-	TRANSACTION_ACCOUNT,
-	TRANSACTION_NUMBER,
-	TRANSACTION_NB_COL
-    };
-    GtkTreeSelection *selection;
-    GtkTreeIter iter;
-    gint reconcile_number;
-    gint return_value;
-
-    /* for now, just return, wait and see the next commit ;-) */
-    return FALSE;
+    GtkWidget *assistant;
 
     /* first we check if there is some transactions */
     tmp_list = gsb_data_transaction_get_transactions_list ();
@@ -618,146 +602,69 @@ gboolean gsb_reconcile_config_find_alone_transactions ( void )
 	return FALSE;
     }
 
-    /* ok, we have some orphan transactions, we make a list with that transactions */
-
     /* get the number of transactions to associate, we will decrease it for each association */
-    number_of_transactions = g_slist_length (transactions_list);
+    transactions_to_link = g_slist_length (transactions_list);
 
-    dialog = gtk_dialog_new_with_buttons ( _("Non associated transactions"),
-					   GTK_WINDOW (window),
-					   GTK_DIALOG_MODAL,
-					   _("Associate the selection..."), GTK_RESPONSE_OK,
-					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-					   NULL );
-    /* need to set a size, else the list will be small */
-    gtk_widget_set_usize ( dialog,
-			   600,
-			   400 );
+    /* ok, we have some orphan transactions
+     * this can happen by 2 ways : 
+     * for old users of grisbi, before i don't remember what version, there were no reconcile number,
+     * 		the reconciled transactions were juste marked R
+     * before the 0.6.0, ctrl R didn't permit to choose a reconcile
+     *
+     * for the 2nd item, no problem, we show a list of reconciles and the user can choose what reconcile he wants
+     * for the first item the problem is there is no reconcile number to go with that transactions...
+     * so we will use the assistant to
+     * 	-permit to create a reconcile directly (not possible normaly in the configuration
+     * 	-permit to choose a reconcile number for each transactions without reconcile
+     * 	- do an automatic find for reconcile, usefull in the first item, when very much
+     * 		transactions without reconcile, but we need to make the old reconciles before,
+     * 		and set the good date for all the reconciles (because grisbi set them automaticaly
+     * 		at the first update to grisbi 0.6.0 )*/
 
-    label_number_transactions = gtk_label_new ( g_strdup_printf (_("%d transactions are marked R but not associated with a reconcile"),
-								 number_of_transactions ));
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			 label_number_transactions,
-			 FALSE, FALSE, 0 );
-    gtk_widget_show (label_number_transactions);
+    /* first, create the assistant */
+    assistant = gsb_assistant_new ( _("Associate orphan transactions to a reconcile"),
+				    g_strdup_printf (_("Grisbi has found %d marked transactions not associated with a reconcile number,\n"
+						       "this can happen for old users of grisbi or a misuse of the ctrl-r key.\n\n"
+						       "This assistant will help you to make the link between that transactions and a reconcile.\n\n"
+						       "Before continuing, you should check first if all the dates of the existing reconciles are good\n"
+						       "because grisbi try to guess them but it is not very precis...\n"
+						       "(you will be able to create new reconciles in the next step)\n"
+						       "You should find too your old reconciles to fill all the values.\n"),
+						       transactions_to_link ),
+				    "grisbi-logo.png" );
 
-    label = gtk_label_new ( _("Select the transaction(s) you want to associate with a reconcile :"));
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			 label,
-			 FALSE, FALSE, 0 );
-    gtk_widget_show (label);
-
-    scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW (scrolled_window),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			 scrolled_window,
-			 TRUE, TRUE, 0 );
-    gtk_widget_show (scrolled_window);
-
-    /* set up the tree view */
-    store = gtk_list_store_new ( TRANSACTION_NB_COL,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_INT );
-    tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
-    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (tree_view), TRUE);
-    gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
-				  GTK_SELECTION_MULTIPLE );
-    gtk_container_add ( GTK_CONTAINER (scrolled_window),
-			tree_view );
-    gtk_widget_show (tree_view);
-
-    /* set the columns */
-    for (i=TRANSACTION_DATE ; i<TRANSACTION_NUMBER ; i++)
-    {
-	GtkTreeViewColumn *column;
-	GtkCellRenderer *cell;
-	gchar *titles[] = {
-	    _("Date"), _("Payee"), _("Amount"), _("Account")
-	};
-	gfloat alignment[] = {
-	    COLUMN_CENTER, COLUMN_LEFT, COLUMN_CENTER, COLUMN_CENTER
-	};
-
-	cell = gtk_cell_renderer_text_new ();
-	g_object_set ( G_OBJECT (cell),
-		       "xalign", alignment[i],
-		       NULL );
-	column = gtk_tree_view_column_new ();
-	gtk_tree_view_column_set_sizing ( column,
-					  GTK_TREE_VIEW_COLUMN_AUTOSIZE );
-	gtk_tree_view_column_set_alignment ( column,
-					     alignment[i] );
-	gtk_tree_view_column_pack_start ( column, cell, TRUE );
-	gtk_tree_view_column_set_title ( column, titles[i] );
-	gtk_tree_view_column_set_attributes (column, cell,
-					     "text", i,
-					     NULL);
-	gtk_tree_view_column_set_expand ( column, TRUE );
-	gtk_tree_view_column_set_resizable ( column,
-					     TRUE );
-	gtk_tree_view_append_column ( GTK_TREE_VIEW(tree_view), column);
-    }
-
-    /* fill the list */
-    tmp_list = transactions_list;
-    while (tmp_list)
-    {
-	gchar *amount_str;
-	gchar *date_str;
-
-	transaction_number = GPOINTER_TO_INT (tmp_list -> data);
-	amount_str = gsb_real_get_string (gsb_data_transaction_get_amount (transaction_number));
-	date_str = gsb_format_gdate (gsb_data_transaction_get_date (transaction_number));
-
-	gtk_list_store_append ( GTK_LIST_STORE (store),
-				&iter );
-	gtk_list_store_set ( GTK_LIST_STORE (store),
-			     &iter,
-			     TRANSACTION_DATE, date_str,
-			     TRANSACTION_PAYEE, gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number), TRUE),
-			     TRANSACTION_AMOUNT, amount_str,
-			     TRANSACTION_ACCOUNT, gsb_data_account_get_name (gsb_data_transaction_get_account_number (transaction_number)),
-			     TRANSACTION_NUMBER, transaction_number,
-			     -1 );
-	g_free (amount_str);
-	g_free (date_str);
-	tmp_list = tmp_list -> next;
-    }
-
-    /* run the dialog */
-    return_value = gtk_dialog_run (GTK_DIALOG (dialog));
-
-    if (return_value != GTK_RESPONSE_OK)
-    {
-	gtk_widget_destroy (dialog);
-	return FALSE;
-    }
-
-    /* we have a GTK_RESPONSE_OK here, wich mean there is a selection,
-     * perhaps several transactions, and we want associate them to
-     * a reconcile */
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-
-    if (gtk_tree_selection_get_selected ( GTK_TREE_SELECTION (selection),
-					  NULL,
-					  &iter))
-    {
-	/* ok, we have a selection */
-	gtk_tree_model_get ( GTK_TREE_MODEL (store),
-			     &iter,
-			     TRANSACTION_NUMBER, &reconcile_number,
-			     -1 );
-	gtk_widget_destroy (dialog);
-	return FALSE;
-    }
-    
-    dialogue_error ( _("Grisbi couldn't get the selection, operation canceled..."));
-    gtk_widget_destroy (dialog);
+    gsb_assistant_add_page ( assistant,
+			     gsb_assistant_reconcile_config_page_menu (assistant),
+			     RECONCILE_ASSISTANT_MENU,
+			     RECONCILE_ASSISTANT_INTRO,
+			     RECONCILE_ASSISTANT_NEW_RECONCILE,
+			     NULL );
+    gsb_assistant_add_page ( assistant,
+			     gsb_assistant_reconcile_config_page_new_reconcile (),
+			     RECONCILE_ASSISTANT_NEW_RECONCILE,
+			     RECONCILE_ASSISTANT_MENU,
+			     RECONCILE_ASSISTANT_MENU,
+			     NULL );
+    gsb_assistant_add_page ( assistant,
+			     gsb_assistant_reconcile_config_page_automaticaly_associate (assistant),
+			     RECONCILE_ASSISTANT_AUTOMATICALY_ASSOCIATE,
+			     RECONCILE_ASSISTANT_MENU,
+			     RECONCILE_ASSISTANT_MENU,
+			     G_CALLBACK (gsb_assistant_reconcile_config_update_auto_asso));
+    gsb_assistant_add_page ( assistant,
+			     gsb_assistant_reconcile_config_page_manually_associate (assistant),
+			     RECONCILE_ASSISTANT_MANUALLY_ASSOCIATE,
+			     RECONCILE_ASSISTANT_MENU,
+			     RECONCILE_ASSISTANT_MENU,
+			     G_CALLBACK (gsb_assistant_reconcile_config_update_manu_asso));
+    gsb_assistant_add_page ( assistant,
+			     gsb_assistant_reconcile_config_page_success (),
+			     RECONCILE_ASSISTANT_SUCCESS,
+			     RECONCILE_ASSISTANT_MENU,
+			     RECONCILE_ASSISTANT_MENU,
+			     NULL );
+    gsb_assistant_run (assistant);
+    gtk_widget_destroy (assistant);
     return FALSE;
 }
 

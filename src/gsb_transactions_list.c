@@ -107,6 +107,8 @@ static gboolean gsb_transactions_list_fill_store ( GtkTreeStore *store );
 static gint gsb_transactions_list_get_transaction_next ( gint transaction_number );
 static gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 						 gint cell_content_number );
+static gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_number,
+						       gint cell_content_number );
 static void gsb_transactions_list_set_filter (GtkTreeModel *filter_model);
 static GtkTreeModel *gsb_transactions_list_set_filter_store ( GtkTreeStore *store );
 static void gsb_transactions_list_set_sortable (GtkTreeModel *sortable_model);
@@ -130,8 +132,6 @@ static gint schedule_transaction ( gint transaction_number );
 static gsb_real solde_debut_affichage ( gint no_account,
 				 gint floating_point);
 static void update_titres_tree_view ( void );
-static gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_number,
-							      gint cell_content_number );
 /*END_STATIC*/
 
 
@@ -211,7 +211,6 @@ extern GdkColor breakdown_background;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_selection;
 extern GtkWidget *formulaire;
-extern gchar *labels_boutons [] ;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;

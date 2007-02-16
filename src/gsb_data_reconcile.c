@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_reconcile.h"
+#include "dialog.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "utils_str.h"
@@ -193,13 +194,19 @@ gint gsb_data_reconcile_max_number ( void )
  *
  * \param name the name of the reconcile (can be freed after, it's a copy) or NULL
  *
- * \return the number of the new reconcile
+ * \return the number of the new reconcile or 0 if memory problem (a message will be showed)
  * */
 gint gsb_data_reconcile_new ( const gchar *name )
 {
     struct_reconcile *reconcile;
 
     reconcile = g_malloc0 ( sizeof ( struct_reconcile ));
+    if (!reconcile)
+    {
+	dialogue_error_memory ();
+	return 0;
+    }
+
     reconcile -> reconcile_number = gsb_data_reconcile_max_number () + 1;
 
     if (name)
@@ -676,5 +683,45 @@ gint gsb_data_reconcile_get_previous ( gint reconcile_number )
     }
 
     /* no previous, return 0 */
+    return 0;
+}
+
+/**
+ * try to find a reconcile wich contains the date given in param
+ * for the given account
+ *
+ * \param date
+ * \param account_number
+ *
+ * \return the number of the found reconcile or 0 if not found
+ * */
+gint gsb_data_reconcile_get_number_by_date ( GDate *date,
+					     gint account_number )
+{
+    GSList *tmp_list;
+
+    if (!date
+	||
+	!g_date_valid (date))
+	return 0;
+
+    /* check all the reconciles */
+    tmp_list = reconcile_list;
+    while (tmp_list)
+    {
+	struct_reconcile *reconcile;
+
+	reconcile = tmp_list -> data;
+
+	if (reconcile -> account_number == account_number
+	    &&
+	    g_date_compare ( reconcile -> reconcile_init_date,
+			     date ) <= 0
+	    &&
+	    g_date_compare ( date,
+			     reconcile -> reconcile_final_date ) <= 0 )
+	    return reconcile -> reconcile_number;
+	tmp_list = tmp_list -> next;
+    }
     return 0;
 }
