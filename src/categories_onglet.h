@@ -3,7 +3,6 @@
 
 
 /* START_INCLUDE_H */
-#include "categories_onglet.h"
 /* END_INCLUDE_H */
 
 

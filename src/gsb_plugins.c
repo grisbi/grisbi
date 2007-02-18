@@ -23,13 +23,16 @@
 
 /*START_INCLUDE*/
 #include "gsb_plugins.h"
-#include "dialog.h"
-#include "gsb_file_config.h"
-#include "include.h"
-#include "gsb_plugins.h"
+#include "./dialog.h"
+#include "./gsb_file_config.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
+extern G_MODULE_EXPORT const gchar plugin_name[] ;
+extern G_MODULE_EXPORT const gchar plugin_name[] ;
+extern G_MODULE_EXPORT const gchar plugin_name[] ;
+extern G_MODULE_EXPORT const gchar plugin_name[] ;
 /*END_EXTERN*/
 
 /*START_STATIC*/

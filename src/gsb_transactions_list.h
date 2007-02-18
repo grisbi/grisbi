@@ -58,7 +58,6 @@
 #define COLUMN_RIGHT 1.0
 
 /* START_INCLUDE_H */
-#include "gsb_transactions_list.h"
 /* END_INCLUDE_H */
 
 

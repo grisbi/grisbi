@@ -16,7 +16,6 @@ enum payment_methods_columns {
 
 
 /* START_INCLUDE_H */
-#include "gsb_payment_method_config.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

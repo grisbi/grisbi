@@ -26,10 +26,9 @@
 
 /*START_INCLUDE*/
 #include "utils_buttons.h"
-#include "utils.h"
-#include "utils_str.h"
-#include "gsb_file_config.h"
-#include "utils_buttons.h"
+#include "./utils.h"
+#include "./utils_str.h"
+#include "./gsb_file_config.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

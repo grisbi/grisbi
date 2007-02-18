@@ -55,8 +55,9 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_mix.h"
-#include "gsb_data_scheduled.h"
-#include "gsb_data_transaction.h"
+#include "./gsb_data_scheduled.h"
+#include "./gsb_data_transaction.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

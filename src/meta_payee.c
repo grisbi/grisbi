@@ -25,10 +25,11 @@
 
 /*START_INCLUDE*/
 #include "meta_payee.h"
-#include "gsb_data_payee.h"
-#include "gsb_data_transaction.h"
-#include "utils_str.h"
-#include "include.h"
+#include "./gsb_data_payee.h"
+#include "./gsb_data_transaction.h"
+#include "./utils_str.h"
+#include "./metatree.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 

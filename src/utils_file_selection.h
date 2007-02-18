@@ -46,7 +46,6 @@
 #define FILE_SELECTION_MULTISELECTION   0x0004  /**< \todo allow the multi selection behaviour */
 
 /* START_INCLUDE_H */
-#include "utils_file_selection.h"
 /* END_INCLUDE_H */
 
 

@@ -25,7 +25,7 @@
 
 /*START_INCLUDE*/
 #include "comptes_onglet.h"
-#include "comptes_gestion.h"
+#include "./comptes_gestion.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

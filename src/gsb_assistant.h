@@ -2,7 +2,6 @@
 #define GSB_ASSISTANT_H
 
 /* START_INCLUDE_H */
-#include "gsb_assistant.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

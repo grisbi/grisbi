@@ -1,7 +1,6 @@
 #ifndef _COMPTES_GESTION_H
 #define _COMPTES_GESTION_H (1)
 /* START_INCLUDE_H */
-#include "comptes_gestion.h"
 /* END_INCLUDE_H */
 
 

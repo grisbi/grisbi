@@ -1,7 +1,6 @@
 #ifndef _COMPTES_TRAITEMENTS_H
 #define _COMPTES_TRAITEMENTS_H (1)
 /* START_INCLUDE_H */
-#include "comptes_traitements.h"
 /* END_INCLUDE_H */
 
 

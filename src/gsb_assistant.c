@@ -30,7 +30,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_assistant.h"
-#include "gsb_file_config.h"
+#include "./gsb_file_config.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

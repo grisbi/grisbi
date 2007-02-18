@@ -13,7 +13,6 @@ enum navigation_cols {
 
 
 /* START_INCLUDE_H */
-#include "navigation.h"
 /* END_INCLUDE_H */
 
 

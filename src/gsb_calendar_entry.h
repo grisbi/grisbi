@@ -10,7 +10,6 @@
 #define SIZEOF_FORMATTED_STRING_DATE 128
 
 /* START_INCLUDE_H */
-#include "gsb_calendar_entry.h"
 /* END_INCLUDE_H */
 
 

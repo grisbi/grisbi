@@ -24,15 +24,15 @@
 
 /*START_INCLUDE*/
 #include "import_csv.h"
-#include "csv_parse.h"
-#include "utils_dates.h"
-#include "gsb_automem.h"
-#include "utils_str.h"
-#include "import.h"
-#include "utils.h"
-#include "structures.h"
-#include "include.h"
-#include "import_csv.h"
+#include "./csv_parse.h"
+#include "./utils_dates.h"
+#include "./gsb_automem.h"
+#include "./utils_str.h"
+#include "./import.h"
+#include "./utils.h"
+#include "./structures.h"
+#include "./include.h"
+#include "./import.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/

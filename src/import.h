@@ -2,39 +2,10 @@
 #define _IMPORT_H (1)
 
 /* START_INCLUDE_H */
-#include "include.h"
-#include "import.h"
-#include "gsb_data_transaction.h"
+#include "./include.h"
+#include "./import.h"
+#include "./gsb_data_transaction.h"
 /* END_INCLUDE_H */
-
-/* mk_include seems not to catch enums */
-#include "gsb_data_transaction.h"
-
-
-/* START_DECLARATION */
-GSList * import_selected_files ( GtkWidget * assistant );
-EXPORTABLE void importer_fichier ( void );
-GtkWidget *onglet_importation (void);
-EXPORTABLE void register_import_formats ();
-gchar * unique_imported_name ( gchar * account_name );
-/* END_DECLARATION */
-
-struct imported_file {
-    gchar * name;
-    gchar * coding_system;
-    gchar * type;
-};
-
-
-typedef gboolean ( * import_function ) ( GtkWidget * assistant, struct imported_file * );
-
-struct import_format {
-    gchar * name;
-    gchar * complete_name;
-    gchar * extension;
-    gboolean ( * import ) ( GtkWidget * assistant, struct imported_file * );
-};
-
 
 /* struture d'une importation : compte contient la liste des opés importées */
 struct struct_compte_importation
@@ -107,12 +78,35 @@ struct struct_ope_importation
     gchar * guid;
 };
 
+struct imported_file {
+    gchar * name;
+    gchar * coding_system;
+    gchar * type;
+};
 
-/* FIXME: defined by hand since mk_include will not catch depends on
- * subdirs for now.  --benj  */
-EXPORTABLE void gsb_import_register_account ( struct struct_compte_importation * account );
-EXPORTABLE void gsb_import_register_account_error ( struct struct_compte_importation * account );
-EXPORTABLE void register_import_format ( struct import_format * format );
+
+typedef gboolean ( * import_function ) ( GtkWidget * assistant, struct imported_file * );
+
+struct import_format {
+    gchar * name;
+    gchar * complete_name;
+    gchar * extension;
+    gboolean ( * import ) ( GtkWidget * assistant, struct imported_file * );
+};
+
+
+/* START_DECLARATION */
+void gsb_import_register_account ( struct struct_compte_importation * account );
+void gsb_import_register_account_error ( struct struct_compte_importation * account );
+GSList * import_selected_files ( GtkWidget * assistant );
+void importer_fichier ( void );
+GtkWidget *onglet_importation (void);
+void register_import_format ( struct import_format * format );
+void register_import_formats ();
+void traitement_operations_importees ( void );
+gchar * unique_imported_name ( gchar * account_name );
+/* END_DECLARATION */
+
 
 
 #endif

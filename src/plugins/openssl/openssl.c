@@ -27,25 +27,22 @@
 
 /*START_INCLUDE*/
 #include "openssl.h"
-#include "erreur.h"
-#include "structures.h"
+#include "./../../erreur.h"
+#include "./../../dialog.h"
+#include "./../../gsb_crypt.h"
+#include "./../../structures.h"
+#include "./../../include.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
+extern gchar *crypt_key;
 /*END_EXTERN*/
 
 #ifndef NOSSL
 /*START_STATIC*/
-static gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, 
-						gchar * additional_message,
-						gboolean encrypt );
 /*END_STATIC*/
 #endif
 
-
-
-/* filled when we ask to keep the password in memory */
-gchar *crypt_key;
 
 
 /**
@@ -296,15 +293,16 @@ G_MODULE_EXPORT const gchar plugin_name[] = "openssl";
 
 
 /** Initialization function. */
-G_MODULE_EXPORT void plugin_register () {
+extern void openssl_plugin_register ()
+{
     devel_debug ("Initializating openssl plugin\n");
 }
 
 
 
 /** Main function of module. */
-G_MODULE_EXPORT gint plugin_run ( gchar * file_name, gchar **file_content,
-				  gboolean crypt, gulong length )
+extern gint openssl_plugin_run ( gchar * file_name, gchar **file_content,
+					  gboolean crypt, gulong length )
 {
     return gsb_file_util_crypt_file ( file_name, file_content, crypt, length );    
 }
@@ -312,7 +310,7 @@ G_MODULE_EXPORT gint plugin_run ( gchar * file_name, gchar **file_content,
 
 
 /** Release plugin  */
-G_MODULE_EXPORT gboolean plugin_release ( )
+extern gboolean openssl_plugin_release ( )
 {
 }
 

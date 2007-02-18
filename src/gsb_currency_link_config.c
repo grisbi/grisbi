@@ -29,14 +29,14 @@
 
 /*START_INCLUDE*/
 #include "gsb_currency_link_config.h"
-#include "gsb_currency.h"
-#include "gsb_data_account.h"
-#include "gsb_data_currency.h"
-#include "gsb_data_currency_link.h"
-#include "gsb_real.h"
-#include "traitement_variables.h"
-#include "utils.h"
-#include "include.h"
+#include "./gsb_currency.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_currency.h"
+#include "./gsb_data_currency_link.h"
+#include "./gsb_real.h"
+#include "./traitement_variables.h"
+#include "./utils.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -3,7 +3,6 @@
 
 
 /* START_INCLUDE_H */
-#include "gsb_form_transaction.h"
 /* END_INCLUDE_H */
 
 

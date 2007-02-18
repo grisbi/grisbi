@@ -1,7 +1,6 @@
 #ifndef _UTILS_COMPTES_H
 #define _UTILS_COMPTES_H (1)
 /* START_INCLUDE_H */
-#include "utils_comptes.h"
 /* END_INCLUDE_H */
 
 

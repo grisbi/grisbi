@@ -25,17 +25,20 @@
 
 /*START_INCLUDE*/
 #include "qif.h"
-#include "dialog.h"
-#include "utils_files.h"
-#include "utils_str.h"
-#include "gsb_data_account.h"
-#include "gsb_data_category.h"
-#include "gsb_data_payee.h"
-#include "gsb_data_payment.h"
-#include "gsb_data_transaction.h"
-#include "gsb_real.h"
-#include "import.h"
-#include "include.h"
+#include "./dialog.h"
+#include "./utils_files.h"
+#include "./utils_str.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_category.h"
+#include "./gsb_data_payee.h"
+#include "./gsb_data_payment.h"
+#include "./gsb_data_transaction.h"
+#include "./gsb_real.h"
+#include "./import.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_transaction.h"
+#include "./include.h"
+#include "./import.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

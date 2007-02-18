@@ -31,12 +31,12 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_payee.h"
-#include "gsb_data_report.h"
-#include "gsb_data_transaction.h"
-#include "gsb_real.h"
-#include "utils_str.h"
-#include "meta_payee.h"
-#include "include.h"
+#include "./gsb_data_report.h"
+#include "./gsb_data_transaction.h"
+#include "./gsb_real.h"
+#include "./utils_str.h"
+#include "./meta_payee.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 

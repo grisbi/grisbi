@@ -1,14 +1,15 @@
 #ifndef GSB_OFX_H
 #define GSB_OFX_H
 
-/* FIXME : need to be set here because mk_include cannot go into subrep for now */
-gsb_real gsb_real_double_to_real ( gdouble number );
-
-
 /* START_INCLUDE_H */
+#include "./../../import.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
+extern void ofx_plugin_register ();
+extern gboolean ofx_plugin_release ( );
+extern GSList * ofx_plugin_run ( GtkWidget * assistant, 
+				    struct imported_file * imported );
 /* END_DECLARATION */
 
 

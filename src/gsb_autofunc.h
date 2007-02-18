@@ -3,7 +3,7 @@
 
 
 /* START_INCLUDE_H */
-#include "gsb_autofunc.h"
+#include "./include.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

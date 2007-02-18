@@ -10,7 +10,6 @@
 
 
 /* START_INCLUDE_H */
-#include "etats_config.h"
 /* END_INCLUDE_H */
 
 

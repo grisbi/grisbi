@@ -14,7 +14,7 @@ typedef enum GSB_GENERAL_NOTEBOOK_PAGES {
 } GsbGeneralNotebookPages;
 
 /* START_INCLUDE_H */
-#include "fenetre_principale.h"
+#include "./fenetre_principale.h"
 /* END_INCLUDE_H */
 
 

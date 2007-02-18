@@ -3,7 +3,6 @@
 
 
 /* START_INCLUDE_H */
-#include "gsb_combo_box.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

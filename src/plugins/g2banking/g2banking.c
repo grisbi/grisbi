@@ -22,38 +22,38 @@
 
 #include "include.h"
 
+#include <g2banking/gbanking.h>
+#include <aqbanking/imexporter.h>
+#include <gwenhywfar/debug.h>
 
 /*START_INCLUDE*/
 #include "g2banking.h"
-#include "import.h"
-#include "gsb_real.h"
-#include "utils_str.h"
-#include "dialog.h"
-#include "include.h"
+#include "./../../erreur.h"
+#include "./../../dialog.h"
+#include "./../../gsb_data_account.h"
+#include "./../../import.h"
+#include "./../../gsb_real.h"
+#include "./../../utils_str.h"
+#include "./../../include.h"
+#include "./../../import.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
 /*START_STATIC*/
-/*END_STATIC*/
-
-#include <g2banking/gbanking.h>
-#include <aqbanking/imexporter.h>
-#include <gwenhywfar/debug.h>
-/* FIXME : je sais pas pourquoi c'est pas pris par mk_include... donc le met ici [cedric] */
-int GrisbiBanking_ImportContext (AB_BANKING *ab, 
+static int GrisbiBanking_ImportContext (AB_BANKING *ab, 
 				 AB_IMEXPORTER_CONTEXT *ctx);
+/*END_STATIC*/
 
 AB_BANKING *gbanking=0;
 
 /** Module name. */
 G_MODULE_EXPORT const gchar plugin_name[] = "g2banking";
 
-
-
 /** Initialization function. */
-G_MODULE_EXPORT void plugin_register () {
+extern void g2banking_plugin_register ()
+{
     int rv;
 
     devel_debug ("Initializating g2banking plugin\n");
@@ -76,8 +76,8 @@ G_MODULE_EXPORT void plugin_register () {
 
 
 /** Main function of module. */
-G_MODULE_EXPORT GtkWidget * plugin_run ( gchar * file_name, gchar **file_content,
-					 gboolean crypt, gulong length )
+extern GtkWidget * g2banking_plugin_run ( gchar * file_name, gchar **file_content,
+						   gboolean crypt, gulong length )
 {
 /*     return GBanking_JobView_new(gbanking, 0); */
 }
@@ -85,14 +85,14 @@ G_MODULE_EXPORT GtkWidget * plugin_run ( gchar * file_name, gchar **file_content
 
 
 /** Release plugin  */
-G_MODULE_EXPORT gboolean plugin_release ( )
+extern gboolean g2banking_plugin_release ( )
 {
     if (gbanking) {
 	int rv;
 
 	rv=AB_Banking_Fini(gbanking);
 	if (rv) {
-	    devel_debug (_("Could not uninitialize AqBanking (%d)\n"), rv);
+	    devel_debug (g_strdup_printf (_("Could not uninitialize AqBanking (%d)\n"), rv));
 	    AB_Banking_free(gbanking);
 	    gbanking=0;
 	}
@@ -122,7 +122,7 @@ int GrisbiBanking_ImportContext (AB_BANKING *ab,
 	const char *s;
 	AB_TRANSACTION *t;
 
-	devel_debug (stderr, "Importing account.\n");
+	devel_debug ("Importing account.\n");
 	compte_nouveau=calloc(1, sizeof(struct struct_compte_importation));
 	s=AB_ImExporterAccountInfo_GetAccountNumber(ai);
 	if (s)
@@ -264,7 +264,6 @@ int GrisbiBanking_ImportContext (AB_BANKING *ab,
 
     return 0;
 }
-
 
 
 /* Local Variables: */

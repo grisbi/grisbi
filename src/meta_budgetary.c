@@ -25,12 +25,13 @@
 
 /*START_INCLUDE*/
 #include "meta_budgetary.h"
-#include "gsb_data_budget.h"
-#include "gsb_data_scheduled.h"
-#include "gsb_data_transaction.h"
-#include "imputation_budgetaire.h"
-#include "utils_str.h"
-#include "include.h"
+#include "./gsb_data_budget.h"
+#include "./gsb_data_scheduled.h"
+#include "./gsb_data_transaction.h"
+#include "./imputation_budgetaire.h"
+#include "./utils_str.h"
+#include "./metatree.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 

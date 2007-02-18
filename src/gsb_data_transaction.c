@@ -31,15 +31,14 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_transaction.h"
-#include "dialog.h"
-#include "gsb_data_account.h"
-#include "gsb_data_currency_link.h"
-#include "gsb_data_payment.h"
-#include "utils_dates.h"
-#include "gsb_real.h"
-#include "utils_str.h"
-#include "gsb_data_transaction.h"
-#include "include.h"
+#include "./dialog.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_currency_link.h"
+#include "./gsb_data_payment.h"
+#include "./utils_dates.h"
+#include "./gsb_real.h"
+#include "./utils_str.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 

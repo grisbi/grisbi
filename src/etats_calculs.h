@@ -1,8 +1,7 @@
 #ifndef _ETATS_CALCULS_H
 #define _ETATS_CALCULS_H (1)
 /* START_INCLUDE_H */
-#include "etats_calculs.h"
-#include "etats_affiche.h"
+#include "./etats_affiche.h"
 /* END_INCLUDE_H */
 
 #include "etats_affiche.h"

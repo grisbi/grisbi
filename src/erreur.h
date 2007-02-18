@@ -1,7 +1,6 @@
 #ifndef _ERREUR_H
 #define _ERREUR_H (1)
 /* START_INCLUDE_H */
-#include "erreur.h"
 /* END_INCLUDE_H */
 
 

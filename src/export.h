@@ -1,6 +1,10 @@
 #ifndef _EXPORT_H
 #define _EXPORT_H (1)
 
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
+
+
 /** Structure used to hold exported account informations.  */
 struct exported_account {
     gint account_nb;		/** Account number, to use with

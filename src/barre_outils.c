@@ -31,17 +31,17 @@
 
 /*START_INCLUDE*/
 #include "barre_outils.h"
-#include "gsb_scheduler_list.h"
-#include "gsb_transactions_list.h"
-#include "gsb_automem.h"
-#include "gsb_data_account.h"
-#include "navigation.h"
-#include "gsb_reconcile.h"
-#include "menu.h"
-#include "traitement_variables.h"
-#include "utils_buttons.h"
-#include "include.h"
-#include "structures.h"
+#include "./gsb_scheduler_list.h"
+#include "./gsb_transactions_list.h"
+#include "./gsb_automem.h"
+#include "./gsb_data_account.h"
+#include "./navigation.h"
+#include "./gsb_reconcile.h"
+#include "./menu.h"
+#include "./traitement_variables.h"
+#include "./utils_buttons.h"
+#include "./include.h"
+#include "./structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

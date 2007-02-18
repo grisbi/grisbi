@@ -14,7 +14,6 @@ enum view_menu_action {
 };
 
 /* START_INCLUDE_H */
-#include "menu.h"
 /* END_INCLUDE_H */
 
 

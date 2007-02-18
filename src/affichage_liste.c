@@ -23,18 +23,20 @@
 
 /*START_INCLUDE*/
 #include "affichage_liste.h"
-#include "gsb_transactions_list.h"
-#include "gsb_automem.h"
-#include "gsb_data_account.h"
-#include "gsb_form_widget.h"
-#include "gtk_combofix.h"
-#include "traitement_variables.h"
-#include "utils.h"
-#include "affichage.h"
-#include "utils_str.h"
-#include "structures.h"
-#include "include.h"
-#include "gsb_data_form.h"
+#include "./gsb_transactions_list.h"
+#include "./gsb_automem.h"
+#include "./gsb_data_account.h"
+#include "./gsb_form_widget.h"
+#include "./gtk_combofix.h"
+#include "./traitement_variables.h"
+#include "./utils.h"
+#include "./affichage.h"
+#include "./utils_str.h"
+#include "./structures.h"
+#include "./gtk_combofix.h"
+#include "./include.h"
+#include "./gsb_data_form.h"
+#include "./gsb_transactions_list.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

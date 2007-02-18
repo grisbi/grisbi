@@ -25,12 +25,12 @@
 
 #define START_INCLUDE
 #include "tip.h"
-#include "dialog.h"
-#include "gsb_automem.h"
-#include "utils_str.h"
-#include "gsb_file_config.h"
-#include "include.h"
-#include "structures.h"
+#include "./dialog.h"
+#include "./gsb_automem.h"
+#include "./utils_str.h"
+#include "./gsb_file_config.h"
+#include "./include.h"
+#include "./structures.h"
 #define END_INCLUDE
 
 #define START_STATIC

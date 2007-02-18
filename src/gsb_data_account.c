@@ -30,15 +30,15 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_account.h"
-#include "dialog.h"
-#include "gsb_data_currency.h"
-#include "gsb_data_form.h"
-#include "gsb_data_transaction.h"
-#include "gsb_real.h"
-#include "traitement_variables.h"
-#include "utils_str.h"
-#include "gsb_transactions_list.h"
-#include "include.h"
+#include "./dialog.h"
+#include "./gsb_data_currency.h"
+#include "./gsb_data_form.h"
+#include "./gsb_data_transaction.h"
+#include "./gsb_real.h"
+#include "./traitement_variables.h"
+#include "./utils_str.h"
+#include "./gsb_transactions_list.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /** \struct

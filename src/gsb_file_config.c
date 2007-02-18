@@ -32,17 +32,17 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_config.h"
-#include "erreur.h"
-#include "dialog.h"
-#include "utils_str.h"
-#include "configuration.h"
-#include "main.h"
-#include "utils_files.h"
-#include "print_config.h"
-#include "structures.h"
-#include "gsb_file_config.h"
-#include "utils_buttons.h"
-#include "include.h"
+#include "./erreur.h"
+#include "./dialog.h"
+#include "./utils_str.h"
+#include "./configuration.h"
+#include "./main.h"
+#include "./utils_files.h"
+#include "./print_config.h"
+#include "./structures.h"
+#include "./utils_buttons.h"
+#include "./print_config.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

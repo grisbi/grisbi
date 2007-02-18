@@ -30,23 +30,23 @@
 
 /*START_INCLUDE*/
 #include "gsb_assistant_reconcile_config.h"
-#include "dialog.h"
-#include "comptes_traitements.h"
-#include "gsb_assistant.h"
-#include "gsb_calendar_entry.h"
-#include "gsb_data_account.h"
-#include "gsb_data_payee.h"
-#include "gsb_data_reconcile.h"
-#include "gsb_data_transaction.h"
-#include "utils_dates.h"
-#include "gsb_real.h"
-#include "gsb_reconcile_config.h"
-#include "utils_str.h"
-#include "utils.h"
-#include "structures.h"
-#include "gsb_transactions_list.h"
-#include "gsb_assistant_reconcile_config.h"
-#include "include.h"
+#include "./dialog.h"
+#include "./comptes_traitements.h"
+#include "./gsb_assistant.h"
+#include "./gsb_calendar_entry.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_payee.h"
+#include "./gsb_data_reconcile.h"
+#include "./gsb_data_transaction.h"
+#include "./utils_dates.h"
+#include "./gsb_real.h"
+#include "./gsb_reconcile_config.h"
+#include "./utils_str.h"
+#include "./utils.h"
+#include "./structures.h"
+#include "./gsb_transactions_list.h"
+#include "./gsb_data_transaction.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -65,7 +65,6 @@ static  gboolean gsb_assistant_reconcile_config_page_menu_toggled ( GtkWidget *b
 /*START_EXTERN*/
 extern GtkTreeSelection * selection;
 extern gint transactions_to_link;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 /* widgets for the menu page */

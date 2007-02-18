@@ -27,7 +27,7 @@ struct iso_4217_currency
 
 
 /* START_INCLUDE_H */
-#include "gsb_currency_config.h"
+#include "./include.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

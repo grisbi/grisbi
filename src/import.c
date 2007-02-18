@@ -27,43 +27,46 @@
 
 /*START_INCLUDE*/
 #include "import.h"
-#include "utils.h"
-#include "comptes_gestion.h"
-#include "comptes_traitements.h"
-#include "import_csv.h"
-#include "gsb_transactions_list.h"
-#include "erreur.h"
-#include "dialog.h"
-#include "go-charmap-sel.h"
-#include "gsb_assistant.h"
-#include "gsb_currency_config.h"
-#include "gsb_currency.h"
-#include "gsb_data_account.h"
-#include "gsb_data_category.h"
-#include "gsb_data_currency.h"
-#include "gsb_data_form.h"
-#include "gsb_data_payee.h"
-#include "gsb_data_payment.h"
-#include "gsb_data_transaction.h"
-#include "utils_dates.h"
-#include "gsb_form_scheduler.h"
-#include "navigation.h"
-#include "menu.h"
-#include "gsb_real.h"
-#include "gsb_status.h"
-#include "fichiers_gestion.h"
-#include "traitement_variables.h"
-#include "accueil.h"
-#include "categories_onglet.h"
-#include "tiers_onglet.h"
-#include "utils_str.h"
-#include "qif.h"
-#include "utils_comptes.h"
-#include "imputation_budgetaire.h"
-#include "structures.h"
-#include "gsb_file_config.h"
-#include "include.h"
-#include "import.h"
+#include "./utils.h"
+#include "./comptes_gestion.h"
+#include "./comptes_traitements.h"
+#include "./import_csv.h"
+#include "./gsb_transactions_list.h"
+#include "./erreur.h"
+#include "./dialog.h"
+#include "./go-charmap-sel.h"
+#include "./gsb_assistant.h"
+#include "./gsb_currency_config.h"
+#include "./gsb_currency.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_category.h"
+#include "./gsb_data_currency.h"
+#include "./gsb_data_form.h"
+#include "./gsb_data_payee.h"
+#include "./gsb_data_payment.h"
+#include "./gsb_data_transaction.h"
+#include "./utils_dates.h"
+#include "./gsb_form_scheduler.h"
+#include "./navigation.h"
+#include "./menu.h"
+#include "./gsb_real.h"
+#include "./gsb_status.h"
+#include "./fichiers_gestion.h"
+#include "./traitement_variables.h"
+#include "./accueil.h"
+#include "./categories_onglet.h"
+#include "./tiers_onglet.h"
+#include "./utils_str.h"
+#include "./qif.h"
+#include "./utils_comptes.h"
+#include "./imputation_budgetaire.h"
+#include "./structures.h"
+#include "./gsb_file_config.h"
+#include "./go-charmap-sel.h"
+#include "./gsb_data_payment.h"
+#include "./gsb_data_account.h"
+#include "./gsb_form_scheduler.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -98,7 +101,6 @@ static gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 static gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 			      const gchar *value, GtkListStore * model );
 static void pointe_opes_importees ( struct struct_compte_importation *imported_account );
-static void traitement_operations_importees ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -158,10 +160,9 @@ enum import_pages {
 /**
  * Register built-in import formats as known.
  */
-EXPORTABLE void register_import_formats ()
+void register_import_formats ()
 {
     int i;
-
     for ( i = 0; builtin_formats [ i ] . name != NULL ; i ++ )
     {
 	register_import_format ( &builtin_formats [ i ] );
@@ -177,7 +178,7 @@ EXPORTABLE void register_import_formats ()
  *				this import format.
  *  
  */
-EXPORTABLE void register_import_format ( struct import_format * format )
+void register_import_format ( struct import_format * format )
 {
     devel_debug ( g_strdup_printf ( "Adding '%s' as an import format", format -> name ) );
     import_formats = g_slist_append ( import_formats, format );
@@ -190,7 +191,7 @@ EXPORTABLE void register_import_format ( struct import_format * format )
  *
  *
  */
-EXPORTABLE void importer_fichier ( void )
+void importer_fichier ( void )
 {
     GSList * tmp = import_formats;
     gchar * formats = "";
@@ -2877,7 +2878,7 @@ gchar * autodetect_file_type ( gchar * filename, FILE * fichier,
  *
  * \param account	Account to register.
  */
-EXPORTABLE void gsb_import_register_account ( struct struct_compte_importation * account )
+void gsb_import_register_account ( struct struct_compte_importation * account )
 {
     liste_comptes_importes = g_slist_append ( liste_comptes_importes, account );
 }
@@ -2889,7 +2890,7 @@ EXPORTABLE void gsb_import_register_account ( struct struct_compte_importation *
  *
  * \param account	Account to register.
  */
-EXPORTABLE void gsb_import_register_account_error ( struct struct_compte_importation * account )
+void gsb_import_register_account_error ( struct struct_compte_importation * account )
 {
     liste_comptes_importes_error = g_slist_append ( liste_comptes_importes, account );
 }

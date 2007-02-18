@@ -2,7 +2,6 @@
 #define _GSB_FILE_UTIL_H (1)
 
 /* START_INCLUDE_H */
-#include "gsb_file_util.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

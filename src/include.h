@@ -69,6 +69,4 @@ typedef struct
 #endif /* ENABLE_NLS */
 
 
-#define EXPORTABLE
-
 #endif /* _INCLUDE_H */

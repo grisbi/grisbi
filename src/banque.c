@@ -28,15 +28,15 @@
 
 /*START_INCLUDE*/
 #include "banque.h"
-#include "comptes_gestion.h"
-#include "dialog.h"
-#include "gsb_autofunc.h"
-#include "gsb_data_account.h"
-#include "gsb_data_bank.h"
-#include "traitement_variables.h"
-#include "utils.h"
-#include "structures.h"
-#include "include.h"
+#include "./comptes_gestion.h"
+#include "./dialog.h"
+#include "./gsb_autofunc.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_bank.h"
+#include "./traitement_variables.h"
+#include "./utils.h"
+#include "./structures.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

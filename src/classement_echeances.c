@@ -27,7 +27,7 @@
 
 /*START_INCLUDE*/
 #include "classement_echeances.h"
-#include "gsb_data_scheduled.h"
+#include "./gsb_data_scheduled.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

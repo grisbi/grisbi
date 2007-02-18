@@ -3,11 +3,8 @@
 
 
 /* START_INCLUDE_H */
-#include "gsb_automem.h"
+#include "./utils_buttons.h"
 /* END_INCLUDE_H */
-
-/* FIXME : doesn"t work with mk_include */
-#include "utils_buttons.h"
 
 /* START_DECLARATION */
 GtkWidget *gsb_automem_checkbutton_new ( const gchar *label,

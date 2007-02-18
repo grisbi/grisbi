@@ -1,7 +1,6 @@
 #ifndef _GSB_TRANSACTIONS_LIST_SORT_H
 #define _GSB_TRANSACTIONS_LIST_SORT_H (1)
 /* START_INCLUDE_H */
-#include "gsb_transactions_list_sort.h"
 /* END_INCLUDE_H */
 
 

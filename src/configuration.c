@@ -23,8 +23,7 @@
 
 /*START_INCLUDE*/
 #include "configuration.h"
-#include "configuration.h"
-#include "xmlnames.h"
+#include "./xmlnames.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

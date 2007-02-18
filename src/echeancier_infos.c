@@ -29,8 +29,8 @@
 
 /*START_INCLUDE*/
 #include "echeancier_infos.h"
-#include "gsb_data_scheduled.h"
-#include "utils_dates.h"
+#include "./gsb_data_scheduled.h"
+#include "./utils_dates.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

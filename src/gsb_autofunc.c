@@ -34,16 +34,17 @@
 
 /*START_INCLUDE*/
 #include "gsb_autofunc.h"
-#include "gsb_calendar_entry.h"
-#include "gsb_data_account.h"
-#include "gsb_data_bank.h"
-#include "gsb_data_category.h"
-#include "gsb_data_fyear.h"
-#include "gsb_data_reconcile.h"
-#include "utils_editables.h"
-#include "gsb_real.h"
-#include "traitement_variables.h"
-#include "utils_str.h"
+#include "./gsb_calendar_entry.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_bank.h"
+#include "./gsb_data_category.h"
+#include "./gsb_data_fyear.h"
+#include "./gsb_data_reconcile.h"
+#include "./utils_editables.h"
+#include "./gsb_real.h"
+#include "./traitement_variables.h"
+#include "./utils_str.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

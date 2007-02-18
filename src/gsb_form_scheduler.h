@@ -3,7 +3,6 @@
 
 
 /* START_INCLUDE_H */
-#include "gsb_form_scheduler.h"
 /* END_INCLUDE_H */
 
 /* the  the size of the scheduled part of the form,

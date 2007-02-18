@@ -31,9 +31,10 @@
 
 /*START_INCLUDE*/
 #include "gsb_transaction_model.h"
-#include "erreur.h"
-#include "gsb_data_transaction.h"
-#include "gsb_transactions_list.h"
+#include "./erreur.h"
+#include "./gsb_data_transaction.h"
+#include "./gsb_transactions_list.h"
+#include "./gsb_transactions_list.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

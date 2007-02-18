@@ -26,11 +26,12 @@
 
 /*START_INCLUDE*/
 #include "gsb_crypt.h"
-#include "erreur.h"
-#include "dialog.h"
-#include "utils_str.h"
-#include "structures.h"
-#include "include.h"
+#include "./erreur.h"
+#include "./dialog.h"
+#include "./plugins/openssl/openssl.h"
+#include "./utils_str.h"
+#include "./structures.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -39,9 +40,6 @@ extern GtkWidget *window;
 
 #ifndef NOSSL
 /*START_STATIC*/
-static gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt );
-static gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
-				  gboolean crypt, gulong length );
 /*END_STATIC*/
 #endif
 

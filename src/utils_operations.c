@@ -27,11 +27,11 @@
 
 /*START_INCLUDE*/
 #include "utils_operations.h"
-#include "erreur.h"
-#include "gsb_data_budget.h"
-#include "gsb_data_category.h"
-#include "gsb_data_payee.h"
-#include "metatree.h"
+#include "./erreur.h"
+#include "./gsb_data_budget.h"
+#include "./gsb_data_category.h"
+#include "./gsb_data_payee.h"
+#include "./metatree.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -27,9 +27,8 @@
 
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
-#include "gsb_form_widget.h"
-#include "utils_str.h"
-#include "gtk_combofix.h"
+#include "./gsb_form_widget.h"
+#include "./utils_str.h"
 /*END_INCLUDE*/
 
 

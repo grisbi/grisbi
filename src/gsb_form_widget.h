@@ -14,7 +14,6 @@ typedef struct
 
 
 /* START_INCLUDE_H */
-#include "gsb_form_widget.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

@@ -30,19 +30,19 @@
 
 /*START_INCLUDE*/
 #include "export_csv.h"
-#include "dialog.h"
-#include "gsb_data_account.h"
-#include "gsb_data_budget.h"
-#include "gsb_data_fyear.h"
-#include "gsb_data_payee.h"
-#include "gsb_data_payment.h"
-#include "gsb_data_reconcile.h"
-#include "gsb_data_transaction.h"
-#include "gsb_real.h"
-#include "main.h"
-#include "utils_str.h"
-#include "utils_files.h"
-#include "include.h"
+#include "./dialog.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_budget.h"
+#include "./gsb_data_fyear.h"
+#include "./gsb_data_payee.h"
+#include "./gsb_data_payment.h"
+#include "./gsb_data_reconcile.h"
+#include "./gsb_data_transaction.h"
+#include "./gsb_real.h"
+#include "./main.h"
+#include "./utils_str.h"
+#include "./utils_files.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

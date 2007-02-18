@@ -24,24 +24,29 @@
 
 /*START_INCLUDE*/
 #include "ofx.h"
-#include "dialog.h"
-#include "gsb_real.h"
-#include "utils_str.h"
-#include "import.h"
-#include "ofx.h"
-#include "include.h"
+#include "./../../erreur.h"
+#include "./../../dialog.h"
+#include "./../../import.h"
+#include "./../../gsb_real.h"
+#include "./../../utils_str.h"
+#include "./../../include.h"
+#include "./../../import.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
 /*START_STATIC*/
-static GSList * recuperation_donnees_ofx ( GtkWidget * assistant,
-					   struct imported_file * imported );
+static int ofx_proc_account_cb(struct OfxAccountData data, void * account_data);;
+static int ofx_proc_security_cb(struct OfxSecurityData data);
+static int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);;
+static int ofx_proc_status_cb(struct OfxStatusData data, void * status_data);;
+static int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data);;
+static GSList * recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file * imported );
 /*END_STATIC*/
 
 
-static struct import_format ofx_format = {
+static struct import_format ofx_format ={
     "OFX", 
     "Open Financial Exchange",	
     "ofx",
@@ -56,7 +61,8 @@ G_MODULE_EXPORT const gchar plugin_name[] = "ofx";
 
 
 /** Initialization function. */
-G_MODULE_EXPORT void plugin_register () {
+extern void ofx_plugin_register ()
+{
     devel_debug ("Initializating ofx plugin\n");
     register_import_format ( &ofx_format );
 }
@@ -64,8 +70,8 @@ G_MODULE_EXPORT void plugin_register () {
 
 
 /** Main function of module. */
-G_MODULE_EXPORT GSList * plugin_run ( GtkWidget * assistant, 
-				      struct imported_file * imported )
+extern GSList * ofx_plugin_run ( GtkWidget * assistant, 
+				    struct imported_file * imported )
 {
     return recuperation_donnees_ofx ( assistant, imported );
 }
@@ -73,7 +79,7 @@ G_MODULE_EXPORT GSList * plugin_run ( GtkWidget * assistant,
 
 
 /** Release plugin  */
-G_MODULE_EXPORT gboolean plugin_release ( )
+extern gboolean ofx_plugin_release ( )
 {
 }
 

@@ -7,8 +7,7 @@ struct struct_etat_affichage csv_affichage;
 
 
 /* START_INCLUDE_H */
-#include "etats_csv.h"
-#include "etats_affiche.h"
+#include "./etats_affiche.h"
 /* END_INCLUDE_H */
 
 

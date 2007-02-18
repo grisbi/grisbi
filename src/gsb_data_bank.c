@@ -30,8 +30,8 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_bank.h"
-#include "gsb_data_account.h"
-#include "utils_str.h"
+#include "./gsb_data_account.h"
+#include "./utils_str.h"
 /*END_INCLUDE*/
 
 

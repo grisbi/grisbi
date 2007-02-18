@@ -24,14 +24,13 @@
 
 /*START_INCLUDE*/
 #include "print_config.h"
-#include "utils_file_selection.h"
-#include "utils_files.h"
-#include "utils_str.h"
-#include "utils.h"
-#include "dialog.h"
-#include "include.h"
-#include "structures.h"
-#include "print_config.h"
+#include "./utils_file_selection.h"
+#include "./utils_files.h"
+#include "./utils_str.h"
+#include "./utils.h"
+#include "./dialog.h"
+#include "./include.h"
+#include "./structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

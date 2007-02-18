@@ -27,10 +27,11 @@
 
 /*START_INCLUDE*/
 #include "utils_files.h"
-#include "dialog.h"
-#include "utils_file_selection.h"
-#include "utils_str.h"
-#include "include.h"
+#include "./dialog.h"
+#include "./utils_file_selection.h"
+#include "./utils_str.h"
+#include "./utils_file_selection.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

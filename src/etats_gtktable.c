@@ -26,14 +26,15 @@
 
 /*START_INCLUDE*/
 #include "etats_gtktable.h"
-#include "gsb_data_account.h"
-#include "gsb_data_transaction.h"
-#include "navigation.h"
-#include "gsb_transactions_list.h"
-#include "utils.h"
-#include "structures.h"
-#include "etats_config.h"
-#include "etats_affiche.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_transaction.h"
+#include "./navigation.h"
+#include "./gsb_transactions_list.h"
+#include "./utils.h"
+#include "./structures.h"
+#include "./gsb_data_transaction.h"
+#include "./etats_config.h"
+#include "./etats_affiche.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

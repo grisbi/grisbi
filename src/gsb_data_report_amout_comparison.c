@@ -33,6 +33,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_report_amout_comparison.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /** \struct

@@ -27,10 +27,10 @@
 
 /*START_INCLUDE*/
 #include "go-charmap-sel.h"
-#include "go-optionmenu.h"
-#include "utils_str.h"
-#include "go-charmap-sel.h"
-#include "include.h"
+#include "./go-optionmenu.h"
+#include "./utils_str.h"
+#include "./go-optionmenu.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 struct cb_find_entry {

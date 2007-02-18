@@ -30,19 +30,19 @@
 
 /*START_INCLUDE*/
 #include "gsb_fyear_config.h"
-#include "gsb_transactions_list.h"
-#include "dialog.h"
-#include "utils_dates.h"
-#include "gsb_autofunc.h"
-#include "gsb_calendar_entry.h"
-#include "gsb_data_account.h"
-#include "gsb_data_fyear.h"
-#include "gsb_data_transaction.h"
-#include "gsb_fyear.h"
-#include "traitement_variables.h"
-#include "utils.h"
-#include "structures.h"
-#include "include.h"
+#include "./gsb_transactions_list.h"
+#include "./dialog.h"
+#include "./utils_dates.h"
+#include "./gsb_autofunc.h"
+#include "./gsb_calendar_entry.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_fyear.h"
+#include "./gsb_data_transaction.h"
+#include "./gsb_fyear.h"
+#include "./traitement_variables.h"
+#include "./utils.h"
+#include "./structures.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 

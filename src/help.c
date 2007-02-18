@@ -24,12 +24,12 @@
 
 /*START_INCLUDE*/
 #include "help.h"
-#include "utils_buttons.h"
-#include "dialog.h"
-#include "gsb_plugins.h"
-#include "utils_str.h"
-#include "structures.h"
-#include "include.h"
+#include "./utils_buttons.h"
+#include "./dialog.h"
+#include "./gsb_plugins.h"
+#include "./utils_str.h"
+#include "./structures.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

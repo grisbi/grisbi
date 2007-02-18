@@ -30,14 +30,14 @@
 
 /*START_INCLUDE*/
 #include "gsb_reconcile_sort_config.h"
-#include "gsb_data_account.h"
-#include "gsb_data_payment.h"
-#include "traitement_variables.h"
-#include "utils_str.h"
-#include "utils.h"
-#include "structures.h"
-#include "gsb_reconcile_sort_config.h"
-#include "include.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_payment.h"
+#include "./traitement_variables.h"
+#include "./utils_str.h"
+#include "./utils.h"
+#include "./structures.h"
+#include "./gsb_data_payment.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

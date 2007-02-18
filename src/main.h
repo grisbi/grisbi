@@ -1,7 +1,6 @@
 #ifndef _MAIN_H
 #define _MAIN_H (1)
 /* START_INCLUDE_H */
-#include "main.h"
 /* END_INCLUDE_H */
 
 

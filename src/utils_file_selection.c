@@ -41,11 +41,10 @@ extern "C" {
 
 /*START_INCLUDE*/
 #include "utils_file_selection.h"
-#include "dialog.h"
-#include "utils_str.h"
-#include "utils_files.h"
-#include "utils_file_selection.h"
-#include "include.h"
+#include "./dialog.h"
+#include "./utils_str.h"
+#include "./utils_files.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -23,10 +23,9 @@
 
 /*START_INCLUDE*/
 #include "parse_cmdline.h"
-#include "main.h"
-#include "utils_str.h"
-#include "parse_cmdline.h"
-#include "include.h"
+#include "./main.h"
+#include "./utils_str.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

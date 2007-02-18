@@ -3,7 +3,6 @@
 
 
 /* START_INCLUDE_H */
-#include "gsb_assistant_reconcile_config.h"
 /* END_INCLUDE_H */
 
 enum reconcile_assistant_page

@@ -3,7 +3,6 @@
 
 
 /* START_INCLUDE_H */
-#include "gsb_data_currency.h"
 /* END_INCLUDE_H */
 
 

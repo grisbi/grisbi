@@ -12,7 +12,6 @@
 
 
 /* START_INCLUDE_H */
-#include "accueil.h"
 /* END_INCLUDE_H */
 
 
