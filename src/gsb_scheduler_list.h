@@ -46,7 +46,6 @@ enum periodicity_units {
 
 
 /* START_INCLUDE_H */
-#include "./gsb_scheduler_list.h"
 /* END_INCLUDE_H */
 
 

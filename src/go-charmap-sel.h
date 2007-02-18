@@ -40,7 +40,6 @@ typedef enum {
 } GOCharmapSelTestDirection;
 
 /* START_INCLUDE_H */
-#include "./go-charmap-sel.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

@@ -2,7 +2,6 @@
 #define GSB_PLUGINS_H
 
 /* START_INCLUDE_H */
-#include "./gsb_plugins.h"
 /* END_INCLUDE_H */
 
 

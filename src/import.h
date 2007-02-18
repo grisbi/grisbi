@@ -3,7 +3,6 @@
 
 /* START_INCLUDE_H */
 #include "./include.h"
-#include "./import.h"
 #include "./gsb_data_transaction.h"
 /* END_INCLUDE_H */
 

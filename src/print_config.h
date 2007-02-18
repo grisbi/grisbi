@@ -55,7 +55,6 @@ struct print_config
   enum orientation orientation;
 };
 /* START_INCLUDE_H */
-#include "./print_config.h"
 /* END_INCLUDE_H */
 
 

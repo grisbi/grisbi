@@ -46,6 +46,10 @@ G_BEGIN_DECLS
 #define GO_IS_OPTION_MENU_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), GO_TYPE_OPTION_MENU))
 #define GO_OPTION_MENU_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), GO_TYPE_OPTION_MENU, GOOptionMenuClass))
 
+
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
+
 typedef struct _GOOptionMenu       GOOptionMenu;
 typedef struct _GOOptionMenuClass  GOOptionMenuClass;
 
@@ -104,6 +108,16 @@ static const GOOptionMenuProps default_props = {
   1,
   0
 };
+
+
+/* START_DECLARATION */
+GtkWidget * go_option_menu_get_history (GOOptionMenu *option_menu);
+GType go_option_menu_get_type (void);
+GtkWidget* go_option_menu_new (void);
+void go_option_menu_set_history (GOOptionMenu *option_menu, GSList *selection);
+void go_option_menu_set_menu (GOOptionMenu *option_menu,
+			       GtkWidget *menu);
+/* END_DECLARATION */
 
 
 G_END_DECLS

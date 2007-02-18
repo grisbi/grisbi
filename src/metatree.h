@@ -3,7 +3,6 @@
 
 
 /* START_INCLUDE_H */
-#include "./metatree.h"
 #include "./include.h"
 /* END_INCLUDE_H */
 
