@@ -45,6 +45,7 @@ sources = \
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
 	gsb_assistant.c		\
+	gsb_assistant_archive.c		\
 	gsb_assistant_reconcile_config.c		\
 	gsb_autofunc.c		\
 	gsb_automem.c		\
@@ -144,6 +145,7 @@ grisbi_INCLUDES =		\
 	constants.h		\
 	import_csv.h		\
 	gsb_assistant.h		\
+	gsb_assistant_archive.h		\
 	gsb_assistant_reconcile_config.h		\
 	gsb_autofunc.h		\
 	gsb_automem.h		\

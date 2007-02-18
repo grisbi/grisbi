@@ -58,19 +58,34 @@ static  gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *but
 								 GtkWidget *assistant );
 static  gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidget *button,
 									GtkWidget *label );
+static GtkWidget *gsb_assistant_reconcile_config_page_automaticaly_associate ( GtkWidget *assistant );
+static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWidget *assistant );
+static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistant );
 static  gboolean gsb_assistant_reconcile_config_page_menu_toggled ( GtkWidget *button,
 								   GtkWidget *assistant );
+static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void );
+static GtkWidget *gsb_assistant_reconcile_config_page_success ( void );
+static gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant );
+static gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern GtkTreeSelection * selection;
-extern gint transactions_to_link;
 /*END_EXTERN*/
+
+enum reconcile_assistant_page
+{
+    RECONCILE_ASSISTANT_INTRO= 0,
+    RECONCILE_ASSISTANT_MENU,
+    RECONCILE_ASSISTANT_NEW_RECONCILE,
+    RECONCILE_ASSISTANT_AUTOMATICALY_ASSOCIATE,
+    RECONCILE_ASSISTANT_MANUALLY_ASSOCIATE,
+    RECONCILE_ASSISTANT_SUCCESS
+};
 
 /* widgets for the menu page */
 /* the label page 2 (the menu) */
 static GtkWidget *label_transactions_to_link_1;
-
 
 
 /* widgets for the page to create a new reconcile */
@@ -80,6 +95,10 @@ static GtkWidget *reconcile_final_date_entry;
 static GtkWidget *reconcile_init_balance_entry;
 static GtkWidget *reconcile_final_balance_entry;
 static GtkWidget *reconcile_account_button;
+
+/* the number of transactions to link, filled when click the button to associate
+ * the R marked transactions without a reconcile */
+static gint transactions_to_link;
 
 
 
@@ -110,6 +129,109 @@ enum transactions_column {
     TRANSACTION_NB_COL
 };
 
+
+/**
+ * function called to launch the reconcile_config assistant
+ * calculate the number of transactions to link, and refuse to run the assistant if none
+ *
+ * \param
+ *
+ * \return GtkResponseType, the returned value from the assistant
+ * */
+GtkResponseType gsb_assistant_reconcile_config_run ( void )
+{
+    GtkResponseType return_value;
+    GSList *transactions_list = NULL;
+    GSList *tmp_list;
+    gint transaction_number;
+    GtkWidget *assistant;
+
+    tmp_list = gsb_data_transaction_get_transactions_list ();
+    while (tmp_list)
+    {
+	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+
+	if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
+	     &&
+	     !gsb_data_transaction_get_reconcile_number (transaction_number))
+	    transactions_list = g_slist_append ( transactions_list,
+						 GINT_TO_POINTER (transaction_number));
+	tmp_list = tmp_list -> next;
+    }
+
+    if (!transactions_list)
+    {
+	dialogue (_("No marked transactions without reconcile found !"));
+	return GTK_RESPONSE_CANCEL;
+    }
+
+    /* get the number of transactions to associate, we will decrease it for each association */
+    transactions_to_link = g_slist_length (transactions_list);
+
+    /* come here if we have some orphan transactions
+     * this can happen by 2 ways : 
+     * for old users of grisbi, before i don't remember what version, there were no reconcile number,
+     * 		the reconciled transactions were juste marked R
+     * before the 0.6.0, ctrl R didn't permit to choose a reconcile
+     *
+     * for the 2nd item, no problem, we show a list of reconciles and the user can choose what reconcile he wants
+     * for the first item the problem is there is no reconcile number to go with that transactions...
+     * so we will use the assistant to
+     * 	-permit to create a reconcile directly (not possible normaly in the configuration
+     * 	-permit to choose a reconcile number for each transactions without reconcile
+     * 	- do an automatic find for reconcile, usefull in the first item, when very much
+     * 		transactions without reconcile, but we need to make the old reconciles before,
+     * 		and set the good date for all the reconciles (because grisbi set them automaticaly
+     * 		at the first update to grisbi 0.6.0 )*/
+
+    /* first, create the assistant */
+    assistant = gsb_assistant_new ( _("Associate orphan transactions to a reconcile"),
+				    g_strdup_printf (_("Grisbi has found %d marked transactions not associated with a reconcile number,\n"
+						       "this can happen for old users of grisbi or a misuse of the ctrl-r key.\n\n"
+						       "This assistant will help you to make the link between that transactions and a reconcile.\n\n"
+						       "Before continuing, you should check first if all the dates of the existing reconciles are good\n"
+						       "because grisbi try to guess them but it is not very precis...\n"
+						       "(you will be able to create new reconciles in the next step)\n"
+						       "You should find too your old reconciles to fill all the values.\n"),
+						       transactions_to_link ),
+				    "grisbi-logo.png" );
+
+    gsb_assistant_add_page ( assistant,
+			     gsb_assistant_reconcile_config_page_menu (assistant),
+			     RECONCILE_ASSISTANT_MENU,
+			     RECONCILE_ASSISTANT_INTRO,
+			     RECONCILE_ASSISTANT_NEW_RECONCILE,
+			     NULL );
+    gsb_assistant_add_page ( assistant,
+			     gsb_assistant_reconcile_config_page_new_reconcile (),
+			     RECONCILE_ASSISTANT_NEW_RECONCILE,
+			     RECONCILE_ASSISTANT_MENU,
+			     RECONCILE_ASSISTANT_MENU,
+			     NULL );
+    gsb_assistant_add_page ( assistant,
+			     gsb_assistant_reconcile_config_page_automaticaly_associate (assistant),
+			     RECONCILE_ASSISTANT_AUTOMATICALY_ASSOCIATE,
+			     RECONCILE_ASSISTANT_MENU,
+			     RECONCILE_ASSISTANT_MENU,
+			     G_CALLBACK (gsb_assistant_reconcile_config_update_auto_asso));
+    gsb_assistant_add_page ( assistant,
+			     gsb_assistant_reconcile_config_page_manually_associate (assistant),
+			     RECONCILE_ASSISTANT_MANUALLY_ASSOCIATE,
+			     RECONCILE_ASSISTANT_MENU,
+			     RECONCILE_ASSISTANT_MENU,
+			     G_CALLBACK (gsb_assistant_reconcile_config_update_manu_asso));
+    gsb_assistant_add_page ( assistant,
+			     gsb_assistant_reconcile_config_page_success (),
+			     RECONCILE_ASSISTANT_SUCCESS,
+			     RECONCILE_ASSISTANT_MENU,
+			     RECONCILE_ASSISTANT_MENU,
+			     NULL );
+    return_value = gsb_assistant_run (assistant);
+    gtk_widget_destroy (assistant);
+    return return_value;
+}
+
+
 /**
  * create the page 2 of the assistant to make the link between marked transactions and reconciles
  * that page propose to :
@@ -122,7 +244,7 @@ enum transactions_column {
  *
  * \return a GtkWidget containing the page
  * */
-GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistant )
+static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistant )
 {
     GtkWidget *page;
     GtkWidget *separator;
@@ -228,7 +350,7 @@ GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistant )
  *
  * \return a GtkWidget, the page to the assistant
  * */
-GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
+static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 {
     GtkWidget *page;
     GtkWidget *label;
@@ -393,7 +515,7 @@ GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
  *
  * \return a GtkWidget, the page to the assistant
  * */
-GtkWidget *gsb_assistant_reconcile_config_page_automaticaly_associate ( GtkWidget *assistant )
+static GtkWidget *gsb_assistant_reconcile_config_page_automaticaly_associate ( GtkWidget *assistant )
 {
     GtkWidget *page;
     GtkWidget *separator;
@@ -462,7 +584,7 @@ GtkWidget *gsb_assistant_reconcile_config_page_automaticaly_associate ( GtkWidge
  *
  * \return a GtkWidget, the page to the assistant
  * */
-GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWidget *assistant )
+static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWidget *assistant )
 {
     GtkWidget *page;
     GtkWidget *label;
@@ -575,7 +697,7 @@ GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWidget *a
  *
  * \return a GtkWidget, the page to the assistant
  * */
-GtkWidget *gsb_assistant_reconcile_config_page_success ( void )
+static GtkWidget *gsb_assistant_reconcile_config_page_success ( void )
 {
     GtkWidget *page;
     GtkWidget *label;

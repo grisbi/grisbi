@@ -957,7 +957,6 @@ gboolean gsb_transactions_list_fill_store ( GtkTreeStore *store )
     transactions_list = gsb_data_transaction_get_transactions_list ();
 
     /* add all the transactions */
-
     while (transactions_list)
     {
 	gint transaction_number;
@@ -991,9 +990,12 @@ gboolean gsb_transactions_list_fill_store ( GtkTreeStore *store )
 
     /* the list of transactions is now complete,
      * we happen the white line */
-
     gsb_transactions_list_append_white_line ( 0,
 					      store );
+
+    /* set fill_r_done if we did it before */
+    if (!etat.no_fill_r_at_begining)
+	etat.fill_r_done = 1;
 
     return FALSE; 
 }

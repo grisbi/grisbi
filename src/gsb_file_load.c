@@ -24,6 +24,7 @@
 #include "gsb_file_load.h"
 #include "./erreur.h"
 #include "./dialog.h"
+#include "./gsb_assistant_archive.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_bank.h"
 #include "./gsb_data_budget.h"
@@ -6861,10 +6862,10 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    /* fourth step : show a message, because it's not all the time sure,
 	     * for example if someone used the same name for several reconcile, there will have a mix between all...
 	     * or the same without name, so better to check in the configuration */
-	    dialogue_warning ( _("In the previous versions, Grisbi didn't save initials and finals dates and balances"
-				 "for reconciliation. Now it does, and tried to recover that values for the best."
-				 "But a lot of errors can appears, you should check them in the Preferences."
-				 "Note that is really not important for the operation of the programm. It is just to have"
+	    dialogue_warning ( _("In the previous versions, Grisbi didn't save initials and finals dates and balances\n"
+				 "for reconciliation. Now it does, and tried to recover that values for the best.\n"
+				 "But a lot of errors can appears, you should check them in the Preferences.\n"
+				 "Note that is really not important for the operation of the programm. It is just to have\n"
 				 "the good values showed."));
 
 	    /* ********************************************************* */
@@ -6910,6 +6911,17 @@ gboolean gsb_file_load_update_previous_version ( void )
     /* mark the file as opened */
     gsb_file_util_modify_lock ( TRUE );
 
+    /* check now if a lot of transactions,
+     * if yes, we propose to file the transactions
+     * by default take the 2000 transactions as limit
+     * FIXME : should configure the value to ask to archive */
+    if ( g_slist_length (gsb_data_transaction_get_transactions_list ()) > 2000 )
+    {
+	if (question_yes_no_hint ( _("Archive some transactions ?"),
+				   g_strdup_printf ( _("There is %d transactions to load into the lists,\nThis is much and the display would be faster if you archive some transactions.\n\nDo you want to launch the assistant to archive some transactions ?"),
+						     g_slist_length (gsb_data_transaction_get_transactions_list ()))))
+	    gsb_assistant_archive_run ();
+    }
 
     return TRUE;
 }

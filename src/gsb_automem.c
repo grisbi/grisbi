@@ -35,6 +35,7 @@
 /*START_INCLUDE*/
 #include "gsb_automem.h"
 #include "./utils_editables.h"
+#include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./utils_buttons.h"
 #include "./utils.h"
