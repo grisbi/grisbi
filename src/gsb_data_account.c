@@ -39,6 +39,7 @@
 #include "./utils_str.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /** \struct

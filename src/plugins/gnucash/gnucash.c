@@ -33,6 +33,7 @@
 #include "./../../utils_files.h"
 #include "./../../gsb_data_transaction.h"
 #include "./../../include.h"
+#include "./../../gsb_real.h"
 #include "./../../import.h"
 /*END_INCLUDE*/
 

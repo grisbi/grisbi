@@ -52,6 +52,7 @@
 #include "./gsb_data_form.h"
 #include "./include.h"
 #include "./structures.h"
+#include "./gsb_real.h"
 #include "./gsb_form_widget.h"
 /*END_INCLUDE*/
 

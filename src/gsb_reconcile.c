@@ -46,6 +46,7 @@
 #include "./structures.h"
 #include "./gsb_data_transaction.h"
 #include "./include.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -31,6 +31,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_currency_link.h"
 #include "./include.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 

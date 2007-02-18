@@ -326,6 +326,7 @@ GtkWidget *gsb_automem_checkbutton_new ( const gchar *label,
 	g_object_set_data ( G_OBJECT ( checkbutton ), "changed-hook", 
 			    (gpointer) g_signal_connect (checkbutton, "toggled",
 							 G_CALLBACK (hook), data ));
+    modification_fichier (TRUE);
     return checkbutton;
 }
 

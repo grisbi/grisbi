@@ -52,6 +52,7 @@
 #include "./fenetre_principale.h"
 #include "./gsb_data_account.h"
 #include "./include.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

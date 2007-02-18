@@ -47,6 +47,7 @@
 #include "./structures.h"
 #include "./etats_config.h"
 #include "./include.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

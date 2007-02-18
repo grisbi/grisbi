@@ -2,7 +2,7 @@
 #define _IMPORT_H (1)
 
 /* START_INCLUDE_H */
-#include "./include.h"
+#include "./gsb_real.h"
 #include "./gsb_data_transaction.h"
 /* END_INCLUDE_H */
 

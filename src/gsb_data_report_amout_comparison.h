@@ -2,7 +2,7 @@
 #define _GSB_DATA_REPORT_AMOUT_COMPARISON_H (1)
 
 /* START_INCLUDE_H */
-#include "./include.h"
+#include "./gsb_real.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

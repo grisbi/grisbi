@@ -35,7 +35,7 @@
 #include "./utils_dates.h"
 #include "./utils_str.h"
 #include "./gsb_data_transaction.h"
-#include "./include.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /** \struct

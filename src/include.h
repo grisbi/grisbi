@@ -3,7 +3,6 @@
 #define _INCLUDE_H (1)
 
 
-
 #include "config.h"
 #include <libintl.h>
 #include <locale.h>
@@ -34,21 +33,6 @@
 #include <gtk/gtk.h>
 
 
-/** \struct
- *  Describe a real number.
- * */
-/** FIXME : that structure is defined here
- * because mk_include don't take it if i define it
- * in gsb_real.h or gsb_real.c
- * i will have to adapt mk_include to accept the typedef struct */
-
-typedef struct
-{
-    glong mantissa;
-    gint exponent;
-} gsb_real;
-
-
 /* Define gettext functions */
 #ifdef ENABLE_NLS
 #  include <libintl.h>
@@ -67,6 +51,7 @@ typedef struct
 #  define dcgettext(Domain,String,Type) (String)
 #  define bindtextdomain(Domain,Directory) (Domain) 
 #endif /* ENABLE_NLS */
+
 
 
 #endif /* _INCLUDE_H */

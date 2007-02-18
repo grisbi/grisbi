@@ -2,7 +2,7 @@
 #define _ETATS_AFFICHE_H (1)
 /* START_INCLUDE_H */
 #include "./structures.h"
-#include "./include.h"
+#include "./gsb_real.h"
 /* END_INCLUDE_H */
 
 #include "structures.h"

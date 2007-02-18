@@ -57,6 +57,7 @@
 #include "./accueil.h"
 #include "./gsb_form_scheduler.h"
 #include "./include.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

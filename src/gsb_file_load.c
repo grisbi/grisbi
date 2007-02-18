@@ -57,6 +57,7 @@
 #include "./echeancier_infos.h"
 #include "./structures.h"
 #include "./gsb_plugins.h"
+#include "./gsb_real.h"
 #include "./gsb_currency_config.h"
 /*END_INCLUDE*/
 
@@ -737,9 +738,9 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	}
 
 	else if ( !strcmp ( attribute_names[i],
-			    "Fill_r_at_begining" ))
+			    "No_fill_r_at_begining" ))
 	{
-	    etat.fill_r_at_begining = utils_str_atoi( attribute_values[i]);
+	    etat.no_fill_r_at_begining = utils_str_atoi( attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],

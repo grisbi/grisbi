@@ -1,6 +1,11 @@
 #ifndef _GSB_CURRENCY_CONFIG_H
 #define _GSB_CURRENCY_CONFIG_H (1)
 
+
+/* START_INCLUDE_H */
+#include "./gsb_real.h"
+/* END_INCLUDE_H */
+
 /** This structure holds informations needed for exchange rates
   cache. */
 struct cached_exchange_rate {
@@ -24,11 +29,6 @@ struct iso_4217_currency
     gchar *flag_filename;
     gint floating_point;  /** number of digit after the point => 2 : 0.00 / 1 : 0.0 */
 };
-
-
-/* START_INCLUDE_H */
-#include "./include.h"
-/* END_INCLUDE_H */
 
 /* START_DECLARATION */
 gboolean gsb_currency_config_add_currency ( GtkWidget *button,

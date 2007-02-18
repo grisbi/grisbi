@@ -50,6 +50,7 @@
 #include "./traitement_variables.h"
 #include "./structures.h"
 #include "./include.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

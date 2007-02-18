@@ -38,6 +38,7 @@
 #include "./utils_dates.h"
 #include "./utils_str.h"
 #include "./include.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 

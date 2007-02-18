@@ -32,6 +32,7 @@
 #include "./utils_str.h"
 #include "./metatree.h"
 #include "./include.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 

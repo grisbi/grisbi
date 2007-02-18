@@ -273,8 +273,8 @@ GtkWidget *onglet_affichage_operations ( void )
     /* add the 'loading r into the list at begining' */
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 gsb_automem_checkbutton_new (_("Load the R transactions into the list at the begining\n(use if look often the R transactions)"),
-						      &etat.fill_r_at_begining,
+			 gsb_automem_checkbutton_new (_("Don't load the marked R transactions into the list at the begining\n(use it for slow configurations)"),
+						      &etat.no_fill_r_at_begining,
 						      NULL, NULL ),
 			 FALSE, FALSE, 0 );
 

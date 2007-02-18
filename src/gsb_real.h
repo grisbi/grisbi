@@ -1,17 +1,18 @@
 #ifndef _GSB_REAL_H
 #define _GSB_REAL_H (1)
 
+
 /** \struct
- * describe an real 
+ *  Describe a real number.
  * */
-/** FIXME : that structure is defined in include.h
- * because mk_include don't take it if i define it
- * here
- * i will have to adapt mk_include to accept the typedef struct */
+typedef struct
+{
+    glong mantissa;
+    gint exponent;
+} gsb_real;
 
 
 /* START_INCLUDE_H */
-#include "./include.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

@@ -22,7 +22,6 @@
 
 #include "include.h"
 
-
 /*START_INCLUDE*/
 #include "gsb_transactions_list.h"
 #include "./accueil.h"
@@ -63,6 +62,7 @@
 #include "./gsb_data_transaction.h"
 #include "./mouse.h"
 #include "./structures.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -964,12 +964,12 @@ gboolean gsb_transactions_list_fill_store ( GtkTreeStore *store )
 
 	transaction_number = gsb_data_transaction_get_transaction_number (transactions_list -> data);
 
-	/* normally fill only the non-R transactions, which is much faster,
-	 * except if the user choose to load them at the begining */
+	/* normally load all the transactions, but if no_fill_r_at_begining is set,
+	 * just load the non marke R transactions */
 
-	if ( !etat.fill_r_at_begining
+	if ( etat.no_fill_r_at_begining
 	     &&
-	     gsb_data_transaction_get_marked_transaction (transaction_number) == 3 )
+	     gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE )
 	{
 	    transactions_list = transactions_list -> next;
 	    continue;
@@ -4209,11 +4209,12 @@ gboolean gsb_transactions_list_load_marked_r ( void )
     /* we have to load all the R transactions,
      * the simplest way is to refill the store because
      * most of the time will be spend for R transactions */
-    etat.fill_r_at_begining = 1;
+    etat.no_fill_r_at_begining = 0;
 
     gsb_transactions_list_fill_store (store);
 
-    etat.fill_r_at_begining = 0;
+    /* set again no_fill_r_at_begining because if we come here, it had to be set */
+    etat.no_fill_r_at_begining = 1;
     etat.fill_r_done = 1;
 
     gtk_widget_destroy (message_window);

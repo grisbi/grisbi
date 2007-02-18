@@ -44,7 +44,7 @@
 #include "./gsb_real.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
-#include "./include.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
