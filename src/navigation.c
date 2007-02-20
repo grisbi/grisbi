@@ -1100,11 +1100,11 @@ void gsb_gui_navigation_remove_account ( gint account_number )
 gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 					  GtkTreeModel *model )
 {
-    gchar * title = NULL, * suffix = "";
     gint account_number, page_number;
-    gint report_number;
     gint currency_number;
+    gint report_number;
     GtkTreeIter dummy_iter;
+    gchar * title = NULL, * suffix = "";
 
     devel_debug ("gsb_gui_navigation_select_line");
 
@@ -1140,9 +1140,9 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_ACCOUNT_PAGE:
 	    notice_debug ("Account page selected");
 
-	    /* set the title */
 	    account_number = gsb_gui_navigation_get_current_account ();
 
+	    /* set the title */
 	    title = g_strconcat ( _("Account transactions"), " : ",
 				  gsb_data_account_get_name ( account_number ),
 				  NULL );
@@ -1173,6 +1173,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    gsb_form_show ( FALSE );
 
 	    buffer_last_account = account_number;
+
 	    break;
 
 	case GSB_SCHEDULER_PAGE:

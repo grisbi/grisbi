@@ -39,7 +39,6 @@
 #include "./gsb_form.h"
 #include "./utils_dates.h"
 #include "./navigation.h"
-#include "./fenetre_principale.h"
 #include "./gsb_real.h"
 #include "./gsb_scheduler.h"
 #include "./gsb_scheduler_list.h"
@@ -47,7 +46,6 @@
 #include "./main.h"
 #include "./utils.h"
 #include "./utils_str.h"
-#include "./comptes_gestion.h"
 #include "./structures.h"
 #include "./fenetre_principale.h"
 #include "./gsb_data_account.h"
@@ -56,7 +54,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean click_sur_compte_accueil ( gint *account_number );
+static gboolean gsb_main_page_click_on_account ( gint *account_number );
 static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 				   GdkEventButton *event,
 				   gint scheduled_number );
@@ -417,7 +415,6 @@ void update_liste_comptes_accueil ( gboolean force )
     }
 
     /* Affichage des comptes bancaires et de caisse */
-
     for ( devise = gsb_data_currency_get_currency_list(); devise ; devise = devise->next )
     {
 	int devise_is_used = 0;
@@ -503,7 +500,7 @@ void update_liste_comptes_accueil ( gboolean force )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
+					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER (account_number) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   0, 1, i, i+1,
@@ -553,7 +550,7 @@ void update_liste_comptes_accueil ( gboolean force )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( navigation_change_account ),
+					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER (account_number) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   1, 2, i, i+1,
@@ -612,7 +609,7 @@ void update_liste_comptes_accueil ( gboolean force )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( navigation_change_account ),
+					    GTK_SIGNAL_FUNC (gsb_main_page_click_on_account),
 					    GINT_TO_POINTER (account_number) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   3, 4, i, i+1,
@@ -695,7 +692,6 @@ void update_liste_comptes_accueil ( gboolean force )
 
 
     /* Affichage des comptes de passif */
-
     for ( devise = gsb_data_currency_get_currency_list (); devise ; devise = devise->next )
     {
 	int devise_is_used = 0;
@@ -750,7 +746,6 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	/* Pour chaque compte non cloturé (pour chaque ligne), */
 	/* créer toutes les colonnes et les remplir            */
-
 	list_tmp = gsb_data_account_get_list_accounts ();
 
 	while ( list_tmp )
@@ -782,7 +777,7 @@ void update_liste_comptes_accueil ( gboolean force )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
+					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   0, 1, i, i+1,
@@ -832,7 +827,7 @@ void update_liste_comptes_accueil ( gboolean force )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
+					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   1, 2, i, i+1,
@@ -893,7 +888,7 @@ void update_liste_comptes_accueil ( gboolean force )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
+					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   3, 4, i, i+1,
@@ -1066,7 +1061,7 @@ void update_liste_comptes_accueil ( gboolean force )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
+					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   0, 1, i, i+1,
@@ -1116,7 +1111,7 @@ void update_liste_comptes_accueil ( gboolean force )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
+					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   1, 2, i, i+1,
@@ -1175,7 +1170,7 @@ void update_liste_comptes_accueil ( gboolean force )
 				     NULL );
 		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( click_sur_compte_accueil ),
+					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( account_number ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   3, 4, i, i+1,
@@ -1262,20 +1257,23 @@ void update_liste_comptes_accueil ( gboolean force )
 
 
 
-/* ************************************************************************* */
-/* cette fonction est appelée quand on click sur un compte dans l'accueil */
-/* elle fait un click sur le bouton du compte dans l'onglet des opérations */
-/* ************************************************************************* */
-gboolean click_sur_compte_accueil ( gint *account_number )
+/**
+ * called by a click on an account name or balance of accounts on the main page
+ * it's just a mediator between the signal and gsb_navigation_show_account
+ *
+ * \param account_number a pointer wich is the number of account we want to switch
+ *
+ * \return FALSE
+ * */
+gboolean gsb_main_page_click_on_account ( gint *account_number )
 {
-    navigation_change_account ( account_number );
-    remplissage_details_compte ();
-    gsb_gui_notebook_change_page ( GSB_ACCOUNT_PAGE );
-    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, GPOINTER_TO_INT (account_number), NULL );
-
+    devel_debug ( g_strdup_printf ( "gsb_main_page_click_on_account account %d",
+				    GPOINTER_TO_INT (account_number )));
+    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
+				       GPOINTER_TO_INT (account_number),
+				       NULL );
     return FALSE;
 }
-/* ************************************************************************* */
 
 
 

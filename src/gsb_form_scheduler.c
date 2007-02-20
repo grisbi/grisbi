@@ -453,7 +453,7 @@ GSList *gsb_form_scheduler_get_content_list ( void )
 			element_save -> element_number = element -> element_number;
 			element_save -> element_string = my_strdup (gtk_combofix_get_text (GTK_COMBOFIX (element -> element_widget)));
 			content_list = g_slist_append ( content_list,
-							element );
+							element_save );
 		    }
 		    break;
 	    }

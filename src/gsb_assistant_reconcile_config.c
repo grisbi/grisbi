@@ -58,15 +58,13 @@ static  gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *but
 								 GtkWidget *assistant );
 static  gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidget *button,
 									GtkWidget *label );
-static GtkWidget *gsb_assistant_reconcile_config_page_automaticaly_associate ( GtkWidget *assistant );
-static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWidget *assistant );
-static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistant );
+static  GtkWidget *gsb_assistant_reconcile_config_page_automaticaly_associate ( GtkWidget *assistant );
+static  GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWidget *assistant );
+static  GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistant );
 static  gboolean gsb_assistant_reconcile_config_page_menu_toggled ( GtkWidget *button,
 								   GtkWidget *assistant );
-static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void );
-static GtkWidget *gsb_assistant_reconcile_config_page_success ( void );
-static gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant );
-static gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *assistant );
+static  GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void );
+static  GtkWidget *gsb_assistant_reconcile_config_page_success ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
