@@ -6862,11 +6862,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    /* fourth step : show a message, because it's not all the time sure,
 	     * for example if someone used the same name for several reconcile, there will have a mix between all...
 	     * or the same without name, so better to check in the configuration */
-	    dialogue_warning ( _("In the previous versions, Grisbi didn't save initials and finals dates and balances\n"
-				 "for reconciliation. Now it does, and tried to recover that values for the best.\n"
-				 "But a lot of errors can appears, you should check them in the Preferences.\n"
-				 "Note that is really not important for the operation of the programm. It is just to have\n"
-				 "the good values showed."));
+	    dialog_message ( "reconcile-start-end-dates" );
 
 	    /* ********************************************************* */
 	    /* 	 to set just before the new version */

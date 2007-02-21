@@ -86,6 +86,10 @@ struct conditional_message messages[] =
       N_("Grisbi found no known inconsistency in accounts processed."),
       FALSE, FALSE, },
 
+    { "reconcile-start-end-dates", N_("Reconcile start and end dates."),
+      N_("In previous versions, Grisbi did not save start date, end date and balance for reconciliation.  This is now done, so Grisbi will try to guess values from your accounts.  Thought this can not harm data coherence, false values can be guessed.  Please check in the Preferences window for more information."), 
+      FALSE, FALSE, },
+
 /*
     { "", N_(),
       N_(), 
