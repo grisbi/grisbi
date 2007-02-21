@@ -67,8 +67,8 @@ gchar *gsb_real_get_string ( gsb_real number )
     glong num;
 
     /* FIXME : should return 0.00 according to the currency and no 0 */
-    if (number.mantissa == 0)
-	return my_strdup ("0");
+/*     if (number.mantissa == 0) */
+/* 	return my_strdup ("0"); */
 
     /* for a long int : max 11 char
      * so with the possible -, the spaces and the .
