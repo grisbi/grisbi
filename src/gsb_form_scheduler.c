@@ -500,7 +500,10 @@ void gsb_form_scheduler_set_content_list ( GSList *content_list )
 	    form_element = form_list -> data;
 
 	    if (!GTK_WIDGET_VISIBLE (form_element -> element_widget))
+	    {
+		form_list = form_list -> next;
 		continue;
+	    }
 
 	    switch (form_element -> element_number)
 	    {
