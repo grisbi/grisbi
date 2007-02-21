@@ -35,13 +35,14 @@
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
-extern gchar *crypt_key;
 /*END_EXTERN*/
 
 #ifndef NOSSL
 /*START_STATIC*/
 /*END_STATIC*/
 #endif
+
+gchar *crypt_key;
 
 
 
@@ -296,6 +297,7 @@ G_MODULE_EXPORT const gchar plugin_name[] = "openssl";
 extern void openssl_plugin_register ()
 {
     devel_debug ("Initializating openssl plugin\n");
+    crypt_key = NULL;
 }
 
 
