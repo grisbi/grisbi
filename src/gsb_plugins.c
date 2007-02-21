@@ -59,7 +59,7 @@ void gsb_plugins_scan_dir ( const char *dirname )
     
     while ( ( filename = g_dir_read_name ( plugin_dir ) ) != NULL )
     {
-	gchar * complete_filename;
+	gchar * complete_filename, * tmp;
 	gsb_plugin * plugin = g_malloc0 ( sizeof ( gsb_plugin ) );
 
 	if ( strncmp ( filename + ( strlen ( filename ) - 3 ), ".so", 3 ) )
@@ -87,7 +87,8 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	}
 	plugin -> name = plugin_name;
 
-	if ( ! g_module_symbol ( plugin -> handle, "plugin_register",
+	tmp = g_strconcat ( plugin_name, "_plugin_register", NULL );
+	if ( ! g_module_symbol ( plugin -> handle, tmp,
 				 (gpointer)  &( plugin -> plugin_register ) ) )
 	{
 	    dialogue_error ( g_strdup_printf ( "Plugin %s has no register symbol", 
@@ -95,10 +96,12 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	    g_free ( plugin );
 	    continue;
 	}
+	g_free ( tmp );
 
 	plugin -> plugin_register ();
 
-	if ( ! g_module_symbol ( plugin -> handle, "plugin_run",
+	tmp = g_strconcat ( plugin_name, "_plugin_run", NULL );
+	if ( ! g_module_symbol ( plugin -> handle, tmp,
 				 (gpointer) &( plugin -> plugin_run ) ) )
 	{
 	    dialogue_error ( g_strdup_printf ( "Plugin %s has no run symbol", 
@@ -106,8 +109,10 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	    g_free ( plugin );
 	    continue;
 	}
+	g_free ( tmp );
 
-	if ( ! g_module_symbol ( plugin -> handle, "plugin_release",
+	tmp = g_strconcat ( plugin_name, "_plugin_release", NULL );
+	if ( ! g_module_symbol ( plugin -> handle, tmp,
 				 (gpointer) &( plugin -> plugin_release ) ) )
 	{
 	    dialogue_error ( g_strdup_printf ( "Plugin %s has no release symbol", 
@@ -115,6 +120,7 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	    g_free ( plugin );
 	    continue;
 	}
+	g_free ( tmp );
 
 	plugins = g_slist_append ( plugins, plugin );
 
