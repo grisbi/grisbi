@@ -213,9 +213,6 @@ void init_variables ( void )
     gsb_form_widget_init_entry_colors ();
     gsb_calendar_init_entry_colors ();
 
-    /* /!\ FIXME */
-/*     crypt_key = NULL; */
-
     mise_a_jour_liste_comptes_accueil = 0;
     mise_a_jour_liste_echeances_manuelles_accueil = 0;
     mise_a_jour_liste_echeances_auto_accueil = 0;
