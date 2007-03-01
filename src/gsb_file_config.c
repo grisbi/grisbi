@@ -311,7 +311,7 @@ gboolean gsb_file_config_load_config ( void )
 
     for ( i = 0; messages[i].name; i ++ )
     {
-	gchar * name = g_strconcat ( messages[i].name , " (answer)", NULL );
+	gchar * name = g_strconcat ( messages[i].name , "-answer", NULL );
 	messages[i].hidden = g_key_file_get_integer ( config, "Messages",
 						      messages[i].name, NULL );
 	messages[i].default_answer = g_key_file_get_integer ( config, "Messages",
@@ -595,7 +595,7 @@ gboolean gsb_file_config_save_config ( void )
 
     for ( i = 0; messages[i].name; i ++ )
     {
-	gchar * name = g_strconcat ( messages[i].name , " (answer)", NULL );
+	gchar * name = g_strconcat ( messages[i].name , "-answer", NULL );
 
 	g_key_file_set_integer ( config, "Messages", messages[i].name, messages[i].hidden );
 	g_key_file_set_integer ( config, "Messages", name, messages[i].default_answer );
