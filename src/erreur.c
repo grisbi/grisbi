@@ -62,15 +62,17 @@ gboolean fermeture_grisbi ( void )
     }
 
 
-    sauve_configuration ();
-
     /*   si le fichier est modifié, propose l'enregistrement */
 
     if ( enregistrement_fichier(-1) )
+    {
+	sauve_configuration ();
 	gtk_main_quit();
+    }
     else
-      return TRUE;
-
+    {
+	return TRUE;
+    }
 
     /* si le fichier n'était pas déjà ouvert, met à 0 l'ouverture */
 

@@ -391,6 +391,11 @@ gchar* utf8_full_path(gchar* utf8_short_path)
     gchar* utf8_full_path       = NULL;
     gchar* syslocale_full_path  = NULL;
     gchar* syslocale_short_path = g_locale_from_utf8(utf8_short_path,-1,NULL,NULL,NULL);
+
+    if ( ! utf8_short_path || ! strlen ( utf8_short_path ) )
+    {
+	return NULL;
+    }
     
     if ((syslocale_short_path)&&(*syslocale_short_path))
     {
