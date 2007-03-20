@@ -155,6 +155,14 @@ void gsb_data_archive_store_create_list ( void )
 	gint archive_number;
 
 	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+
+	/* we are not interested on children transactions */
+	if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
+	{
+	    tmp_list = tmp_list -> next;
+	    continue;
+	}
+
 	archive_number = gsb_data_transaction_get_archive_number (transaction_number);
 
 	if (archive_number)
@@ -163,6 +171,7 @@ void gsb_data_archive_store_create_list ( void )
 
 	    archive = gsb_data_archive_find_struct ( archive_number,
 						     gsb_data_transaction_get_account_number (transaction_number));
+
 	    if (archive)
 	    {
 		/* there is already a struct_store_archive for the same archive and the same account,

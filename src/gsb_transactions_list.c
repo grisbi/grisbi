@@ -600,7 +600,6 @@ gboolean gsb_transactions_list_sort_column_changed ( GtkTreeViewColumn *tree_vie
 					       new_column,
 					       sort_type );
 	return FALSE;
-	/* xxx voir si faut virer ce return */
     }
 
     gsb_transactions_list_set_background_color (account_number);
@@ -4351,6 +4350,7 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 
     gsb_transactions_list_set_visibles_rows_on_account (current_account);
     gsb_transactions_list_set_background_color (current_account);
+    gsb_transactions_list_set_transactions_balances (current_account);
 
     return;
 }
