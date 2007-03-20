@@ -175,16 +175,14 @@ gint gsb_transactions_list_sort_column ( GtkTreeModel *model,
     sort_type = gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[GPOINTER_TO_INT (column_number)]));
 
     /* first of all, check the archive */
-/*     return_value = gsb_transactions_list_sort_check_archive ( model, */
-/* 							      iter_1, */
-/* 							      iter_2, */
-/* 							      sort_type ); */
-/*     if (return_value) */
-/*     { */
+    return_value = gsb_transactions_list_sort_check_archive ( model,
+							      iter_1,
+							      iter_2,
+							      sort_type );
+    if (return_value)
 	/* there is an archive in the tested line, return now */
-/* 	printf ( "sort archive\n"); */
-/* 	return return_value; */
-/*     } */
+	return return_value;
+
     /* get the element used to sort the list */
     element_number = gsb_data_account_get_element_sort ( account_number,
 							 GPOINTER_TO_INT (column_number));

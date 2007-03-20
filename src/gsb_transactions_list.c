@@ -972,11 +972,10 @@ gboolean gsb_transactions_list_fill_store ( GtkTreeStore *store )
 
     /* add the transations wich represent the archives to the store
      * 1 line per archive and per account */
-/*     gsb_transactions_list_fill_archive_store (store); */
+    gsb_transactions_list_fill_archive_store (store);
 
     /* add the transactions to the store */
-/*     transactions_list = gsb_data_transaction_get_transactions_list (); */
-    transactions_list = gsb_data_transaction_get_complete_transactions_list ();
+    transactions_list = gsb_data_transaction_get_transactions_list ();
     while (transactions_list)
     {
 	gint transaction_number;
@@ -1034,7 +1033,6 @@ gboolean gsb_transactions_list_fill_archive_store ( GtkTreeStore *store )
      * the list is already enough long,
      * so we read the transations list only one time */
     GSList *tmp_list;
-return FALSE;
     devel_debug ("gsb_transactions_list_fill_archive_store");
 
     tmp_list = gsb_data_archive_store_get_archives_list ();
@@ -4496,27 +4494,27 @@ gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint account_numbe
 				 &iter,
 				 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &transaction,
 				 TRANSACTION_COL_NB_TRANSACTION_LINE, &current_line,
-/* 				 TRANSACTION_COL_NB_WHAT_IS_LINE, &what_is_line, */
+				 TRANSACTION_COL_NB_WHAT_IS_LINE, &what_is_line,
 				 -1 );
 
 	    /* first check if it's an archive, if yes and good account, always show it */
-/* 	    if (what_is_line == IS_ARCHIVE) */
-/* 	    { */
-/* 		gint archive_store_number; */
-/*  */
-/* 		archive_store_number = gsb_data_archive_store_get_number (transaction); */
-/* 		if (gsb_data_archive_store_get_account_number (archive_store_number) == account_number) */
-/* 		    gtk_tree_store_set ( GTK_TREE_STORE ( original_model ), */
-/* 					 &iter, */
-/* 					 TRANSACTION_COL_NB_VISIBLE, TRUE, */
-/* 					 -1 ); */
-/* 		else */
-/* 		    gtk_tree_store_set ( GTK_TREE_STORE ( original_model ), */
-/* 					 &iter, */
-/* 					 TRANSACTION_COL_NB_VISIBLE, FALSE, */
-/* 					 -1 ); */
-/* 		continue; */
-/* 	    } */
+	    if (what_is_line == IS_ARCHIVE)
+	    {
+		gint archive_store_number;
+
+		archive_store_number = gsb_data_archive_store_get_number (transaction);
+		if (gsb_data_archive_store_get_account_number (archive_store_number) == account_number)
+		    gtk_tree_store_set ( GTK_TREE_STORE ( original_model ),
+					 &iter,
+					 TRANSACTION_COL_NB_VISIBLE, TRUE,
+					 -1 );
+		else
+		    gtk_tree_store_set ( GTK_TREE_STORE ( original_model ),
+					 &iter,
+					 TRANSACTION_COL_NB_VISIBLE, FALSE,
+					 -1 );
+		continue;
+	    }
 
 	    /* it's not an archive, can check now for transactions */
 	    transaction_number = gsb_data_transaction_get_transaction_number (transaction);

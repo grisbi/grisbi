@@ -1233,7 +1233,7 @@ gboolean gsb_data_transaction_set_archive_number ( gint transaction_number,
 
     if ( !transaction )
 	return FALSE;
-return FALSE;
+
     /* we choose to set or not the transaction to the transactions_list
      * if the archive_number of the transaction is 0 for now, it's already in that list,
      * so we mustn't add it,
@@ -1251,12 +1251,12 @@ return FALSE;
     {
 	/* the transaction was not an archive, so it's into the 2 lists,
 	 * if we transform it as an archive, we remove it from the transactions_list */
-
-/* 	    transactions_list = g_slist_remove ( transactions_list, */
-/* 						 transaction ); */
+	if (archive_number)
+	    transactions_list = g_slist_remove ( transactions_list,
+						 transaction );
     }
 
-/*     transaction -> archive_number = archive_number; */
+    transaction -> archive_number = archive_number;
 
     return TRUE;
 }
