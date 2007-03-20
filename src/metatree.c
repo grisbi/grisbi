@@ -756,7 +756,10 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
     selection = gtk_tree_view_get_selection ( tree_view );
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
     {
+	GtkTreeIter next = iter;
+	gtk_tree_model_iter_next (model, &next);
 	gtk_tree_store_remove ( GTK_TREE_STORE(model), &iter );
+	gtk_tree_selection_select_iter ( selection, &next );
     }    
 
     modification_fichier(TRUE);
@@ -790,7 +793,7 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 
 	if ( ! find_destination_blob ( iface, model, division, sub_division, 
 				       &nouveau_no_division, &nouveau_no_sub_division ) )
-	    return;
+	    return FALSE;
 
 	/* on fait le tour des opés pour mettre le nouveau numéro de
 	 * division et sub_division */
@@ -1402,7 +1405,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 			 FALSE, FALSE, 0 );
 
     bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							 COLON(_("Transfer transactions to division"))  );
+							 g_strdup_printf (_("Transfer transactions to %s"), iface -> meta_name)  );
     gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_transfert,
 			 FALSE, FALSE, 0 );
 
@@ -1478,6 +1481,8 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
     liste_combofix = g_slist_append ( liste_combofix, liste_division_credit );
 
     combofix = gtk_combofix_new_complex (liste_combofix);
+    gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix), TRUE );
+
     gtk_box_pack_start ( GTK_BOX ( hbox ), combofix, TRUE, TRUE, 0 );
 
     /*       mise en place du choix supprimer le division */
@@ -1486,7 +1491,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 			 FALSE, FALSE, 0 );
     
     bouton_division_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-								  PRESPACIFY(_("Just remove this sub-division.")) );
+								  g_strdup_printf(_("Just remove this sub-%s."), iface -> meta_name ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_division_generique, FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( dialog );
@@ -1508,8 +1513,8 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
     {
 	if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	{
-	    dialogue_warning_hint ( _("It is compulsory to specify a destination division to move transactions but no division was entered."),
-				    _("Please enter a division!"));
+	    dialogue_warning_hint ( g_strdup_printf ( _("It is compulsory to specify a destination %s to move transactions but no %s was entered."), iface -> meta_name, iface -> meta_name ),
+				    g_strdup_printf ( _("Please enter a %s!"), iface -> meta_name ) );
 
 	    goto retour_dialogue;
 	}
