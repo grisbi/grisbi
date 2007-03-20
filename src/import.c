@@ -219,7 +219,8 @@ void importer_fichier ( void )
 					  "So far, the following formats are supported:"
 					  "\n\n",
 					  formats, NULL ),
-			    "csv.png" );
+			    "csv.png",
+			    NULL );
 
 
     gsb_assistant_add_page ( a, import_create_file_selection_page ( a ), 
@@ -991,7 +992,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 	short_filename = _("file");
     }
 
-    label = gtk_label_new ( "" );
+    label = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_label_set_markup ( GTK_LABEL ( label ),
@@ -1393,9 +1394,9 @@ void cree_liens_virements_ope_import ( void )
 									   gsb_data_transaction_get_account_number (transaction_number_tmp));
 
 			gsb_data_transaction_set_bank_references ( transaction_number_tmp,
-								   "" );
+								   NULL );
 			gsb_data_transaction_set_bank_references ( contra_transaction_number_tmp,
-								   "" );
+								   NULL );
 		    }
 		    list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
 		}
@@ -1408,7 +1409,7 @@ void cree_liens_virements_ope_import ( void )
 								       0);
 		    gsb_data_transaction_set_transaction_number_transfer ( transaction_number_tmp,
 									   0);
-		    gsb_data_transaction_set_bank_references ( transaction_number_tmp, "" );
+		    gsb_data_transaction_set_bank_references ( transaction_number_tmp, NULL );
 		}
 	    }
 	}
@@ -1561,7 +1562,8 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
 
 		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
-					    _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
+					    _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?"),
+					    GTK_RESPONSE_NO ))
 		    gsb_data_account_set_id (account_number,
 					     my_strdup ( imported_account -> id_compte ));
 		else
@@ -2129,8 +2131,8 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 						  imported_transaction -> p_r );
 
     /* Various things we have to set. */
-    gsb_data_transaction_set_bank_references ( transaction_number, "" );
-    gsb_data_transaction_set_voucher ( transaction_number, "" );
+    gsb_data_transaction_set_bank_references ( transaction_number, NULL );
+    gsb_data_transaction_set_voucher ( transaction_number, NULL );
 
     /* si c'est une ope de ventilation, lui ajoute le no de l'opération précédente */
 
@@ -2170,7 +2172,8 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 		/* 		l'id du compte choisi et l'id du compte importé sont différents */
 		/* 		    on propose encore d'arrêter... */
 		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
-					    _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?")))
+					    _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?"),
+					    GTK_RESPONSE_NO ))
 		    gsb_data_account_set_id (account_number,
 					     my_strdup ( imported_account -> id_compte ));
 		else

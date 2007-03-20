@@ -168,7 +168,7 @@ GtkWidget *creation_onglet_accueil ( void )
     }
     else
     {
-	label_titre_fichier = gtk_label_new ( "" );
+	label_titre_fichier = gtk_label_new ( NULL );
 	gtk_box_pack_start ( GTK_BOX ( base ), label_titre_fichier, FALSE, FALSE, 0 );
     }
     
@@ -364,7 +364,7 @@ void update_liste_comptes_accueil ( gboolean force )
 
 
     /* Création d'un label juste pour en récupérer le style */
-    pLabel = gtk_label_new ("");
+    pLabel = gtk_label_new (NULL);
 
     /* Initialisation du style « Nom du compte » */
     pStyleLabelNomCompte = gtk_style_copy ( gtk_widget_get_style ( pLabel ));
@@ -1315,7 +1315,7 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	gtk_widget_show ( vbox );
 
 	/* on met une ligne vide pour faire joli */
-	label = gtk_label_new ("");
+	label = gtk_label_new (NULL);
 
 	/* création du style normal -> bleu */
 	/* pointeur dessus -> jaune-rouge */

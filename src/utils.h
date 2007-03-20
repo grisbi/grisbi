@@ -17,8 +17,8 @@ gboolean met_en_prelight ( GtkWidget *event_box,
 GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar * title);
 GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 					  gchar * image_filename);
-void sens_desensitive_pointeur ( GtkWidget *bouton,
-				 GtkWidget *widget );
+gboolean sens_desensitive_pointeur ( GtkWidget *bouton,
+				     GtkWidget *widget );
 void sensitive_widget ( GtkWidget *widget );
 void update_ecran ( void );
 /* END_DECLARATION */

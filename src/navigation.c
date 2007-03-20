@@ -1309,11 +1309,6 @@ gboolean gsb_gui_navigation_set_selection ( gint page, gint account_number, gpoi
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
     g_return_val_if_fail ( selection, FALSE );
 
-    /* This is no blocked because we want things like headings to be updated. [benj]  */
-/*     g_signal_handlers_block_by_func ( selection, */
-/* 				      gsb_gui_navigation_select_line, */
-/* 				      navigation_model ); */
-
     gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &iter );
 
     gsb_gui_navigation_set_selection_branch ( selection, &iter, page, account_number, 
@@ -1372,11 +1367,6 @@ void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection,
 	}
     }
     while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL(navigation_model), iter ) );
-
-/*     g_signal_handlers_unblock_by_func ( selection, */
-/* 					gsb_gui_navigation_select_line, */
-/* 					navigation_model ); */
-
     return;
 }
 

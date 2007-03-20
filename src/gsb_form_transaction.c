@@ -185,7 +185,7 @@ gint gsb_form_transactions_look_for_last_party ( gint no_party,
     gint last_transaction_with_party_in_account = 0;
     gint last_transaction_with_party_not_in_account = 0;
 
-    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
     while ( list_tmp_transactions )
     {
@@ -272,7 +272,7 @@ gboolean gsb_transactions_list_recover_breakdowns_of_transaction ( gint new_tran
 	return FALSE;
 
     /* go around the transactions list to get the daughters of the last breakdown */
-    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
     while ( list_tmp_transactions )
     {
@@ -309,7 +309,6 @@ GSList *gsb_form_get_parties_list_from_report ( void )
     parties_list = NULL;
 
     /*     check that the party's form exist, else, append -1 and go away */
-
     if ( gsb_data_form_check_for_value (TRANSACTION_FORM_PARTY))
     {
 	const gchar *string;

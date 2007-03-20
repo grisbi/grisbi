@@ -678,6 +678,8 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 
     if ( no_sub_division != -1 )
     {
+	/* xxx pb ici : une categ/tiers/ib peut ne pas avoir de subdivision et pourtant certaines opés archivées peuvent pointer
+	 * dessus ; il faut faire le tour des opés archivées en plus... */
 	supprimer_sub_division ( tree_view, model, iface, pointer, no_division );
 	return FALSE;
     }
@@ -1504,7 +1506,6 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_transfert )) )
     {
-
 	if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	{
 	    dialogue_warning_hint ( _("It is compulsory to specify a destination division to move transactions but no division was entered."),
@@ -1540,6 +1541,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 
     gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
 
+    /* xxx ça va pas marcher ce truc : c'est qd supprime une categ/ib/tiers, maintenant il faut des gsb_data */
     if ( no_div)
 	*no_div = nouveau_no_division;
     if ( no_sub_div )

@@ -58,7 +58,6 @@
 #include "./gsb_file_config.h"
 #include "./include.h"
 #include "./structures.h"
-#include "./gsb_plugins.h"
 /*END_INCLUDE*/
 
 
@@ -95,7 +94,6 @@ int main (int argc, char *argv[])
 {
     GtkWidget * statusbar;
     gboolean first_use = FALSE;
-    gsb_plugin * plugin;
 
     initialize_debugging();
 

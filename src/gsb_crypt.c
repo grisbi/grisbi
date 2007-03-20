@@ -35,6 +35,7 @@
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
+extern gchar *crypt_key;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -233,7 +234,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt )
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, TRUE, TRUE, 6 );
 
-    label = gtk_label_new ("");
+    label = gtk_label_new (NULL);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_LEFT );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
     gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );

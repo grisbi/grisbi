@@ -4169,7 +4169,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( "" );
+    label = gtk_label_new ( NULL );
     gtk_widget_set_usize ( label,
 			   150,
 			   FALSE );
@@ -4240,7 +4240,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( "" );
+    label = gtk_label_new ( NULL );
     gtk_widget_set_usize ( label,
 			   150,
 			   FALSE );

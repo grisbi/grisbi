@@ -236,7 +236,8 @@ void csv_export ( gchar * filename, gint account_nb )
   if (utf8_stat ( filename, &test_file ) != -1)
   {
       if ( ! question_yes_no_hint (_("File already exists"),
-				   g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename) ) )
+				   g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename),
+				   GTK_RESPONSE_NO ))
       {
 	  return;
       }

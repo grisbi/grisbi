@@ -245,7 +245,8 @@ int GrisbiBanking_ImportContext (AB_BANKING *ab,
     if (errors)
 	errors=!question_yes_no_hint(_("Warning" ),
 				     _("An error or warning has occured. "
-				       "Do you still want to import the data ?"));
+				       "Do you still want to import the data ?"),
+				     GTK_RESPONSE_NO );
     if (!errors)
     {
 	GSList *liste_tmp;

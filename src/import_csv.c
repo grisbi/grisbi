@@ -179,7 +179,7 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
     gtk_box_pack_start ( GTK_BOX(hbox), warn, FALSE, FALSE, 0 );
     g_object_set_data ( G_OBJECT(assistant), "validity_icon", warn );
 
-    validity_label = gtk_label_new ("");
+    validity_label = gtk_label_new (NULL);
     gtk_misc_set_alignment ( GTK_MISC ( validity_label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( validity_label ), GTK_JUSTIFY_LEFT );
     g_object_set_data ( G_OBJECT(assistant), "validity_label", validity_label );

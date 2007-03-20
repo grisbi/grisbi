@@ -35,6 +35,7 @@
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
+extern gchar *crypt_key;
 /*END_EXTERN*/
 
 #ifndef NOSSL

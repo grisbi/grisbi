@@ -230,11 +230,13 @@ void supprime_banque ( GtkWidget *bouton,
     if ( bank_is_used )
 	resultat = question_yes_no_hint ( _("Confirmation of bank removal"),
 					  g_strdup_printf ( _("Bank \"%s\" is used by one or several accounts.\nDo you really want to remove it?"),
-							    gsb_data_bank_get_name (bank_number)));
+							    gsb_data_bank_get_name (bank_number)),
+					  GTK_RESPONSE_NO );
     else
 	resultat = question_yes_no_hint ( _("Confirmation of bank removal"),
 					  g_strdup_printf ( _("Are you sure you want to remove bank \"%s\"?\n"),
-							    gsb_data_bank_get_name (bank_number)));
+							    gsb_data_bank_get_name (bank_number)),
+					  GTK_RESPONSE_NO );
 
     if ( resultat )
     {

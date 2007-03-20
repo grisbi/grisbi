@@ -27,7 +27,6 @@
 #include "./utils_dates.h"
 #include "./gsb_data_fyear.h"
 #include "./gsb_data_report.h"
-#include "./navigation.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
@@ -45,23 +44,21 @@ extern GtkTreeSelection * selection;
 
 
 
-gchar * etats_titre ()
+gchar *etats_titre ( gint report_number)
 {
     gchar *titre;
-    gint current_report_number;
     GDate *today_date;
 
-    current_report_number = gsb_gui_navigation_get_current_report ();
-    titre = gsb_data_report_get_report_name (current_report_number);
+    titre = gsb_data_report_get_report_name (report_number);
     today_date = gdate_today ();
 
-    if ( gsb_data_report_get_use_financial_year (current_report_number))
+    if ( gsb_data_report_get_use_financial_year (report_number))
     {
 	GSList *tmp_list;
 	gint fyear_number;
 	gint last_fyear_number;
 
-	switch (gsb_data_report_get_financial_year_type (current_report_number))
+	switch (gsb_data_report_get_financial_year_type (report_number))
 	{
 	    case 0:
 		/* all the financial years */
@@ -132,7 +129,7 @@ gchar * etats_titre ()
 	    case 3:
 		/* personal selection of financial years */
 
-		tmp_list = gsb_data_report_get_financial_year_list (current_report_number);
+		tmp_list = gsb_data_report_get_financial_year_list (report_number);
 
 		if ( g_slist_length ( tmp_list ) > 1 )
 		    titre = g_strconcat ( titre,
@@ -149,7 +146,7 @@ gchar * etats_titre ()
 
 		    fyear_number = GPOINTER_TO_INT (tmp_list -> data);
 
-		    if ( tmp_list == g_slist_last (gsb_data_report_get_financial_year_list (current_report_number)))
+		    if ( tmp_list == g_slist_last (gsb_data_report_get_financial_year_list (report_number)))
 			titre = g_strconcat ( titre,
 					      gsb_data_fyear_get_name (fyear_number),
 					      NULL );
@@ -171,7 +168,7 @@ gchar * etats_titre ()
 	gchar buffer_date_2[15];
 	GDate *date_tmp;
 
-	switch ( gsb_data_report_get_date_type (current_report_number))
+	switch ( gsb_data_report_get_date_type (report_number))
 	{
 	    case 0:
 		/* toutes */
@@ -185,14 +182,14 @@ gchar * etats_titre ()
 	    case 1:
 		/* plage perso */
 
-		if ( gsb_data_report_get_personal_date_start (current_report_number)
+		if ( gsb_data_report_get_personal_date_start (report_number)
 		     &&
-		     gsb_data_report_get_personal_date_end (current_report_number))
+		     gsb_data_report_get_personal_date_end (report_number))
 		    titre = g_strconcat ( titre,
 					  ", ",
 					  g_strdup_printf ( _("Result from %s to %s"),
-							    gsb_format_gdate ( gsb_data_report_get_personal_date_start (current_report_number)),
-							    gsb_format_gdate ( gsb_data_report_get_personal_date_end (current_report_number)) ),
+							    gsb_format_gdate ( gsb_data_report_get_personal_date_start (report_number)),
+							    gsb_format_gdate ( gsb_data_report_get_personal_date_end (report_number)) ),
 					  NULL );
 		else
 		    titre = g_strconcat ( titre,

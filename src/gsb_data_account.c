@@ -888,7 +888,7 @@ gsb_real gsb_data_account_calculate_current_balance ( gint account_number )
     current_balance = gsb_real_adjust_exponent ( account -> init_balance,
 						 floating_point );
 
-    tmp_list = gsb_data_transaction_get_transactions_list ();
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
 
     while (tmp_list)
     {
@@ -940,7 +940,7 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
     marked_balance = gsb_real_adjust_exponent ( account -> init_balance,
 						floating_point );
 
-    tmp_list = gsb_data_transaction_get_transactions_list ();
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
 
     while (tmp_list)
     {
@@ -1037,7 +1037,7 @@ gsb_real gsb_data_account_calculate_marked_balance ( gint account_number )
     marked_balance = gsb_real_adjust_exponent ( account -> init_balance,
 						floating_point );
 
-    tmp_list = gsb_data_transaction_get_transactions_list ();
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
 
     while (tmp_list)
     {

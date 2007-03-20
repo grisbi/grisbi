@@ -89,6 +89,9 @@ GtkWidget *gsb_calendar_entry_new ( gint set_today )
     GtkWidget *entry;
 
     entry = gtk_entry_new ();
+    gtk_widget_set_usize ( entry,
+			   100,
+			   FALSE );
     g_signal_connect ( G_OBJECT (entry),
 		       "button-press-event",
 		       G_CALLBACK (gsb_calendar_entry_button_press), NULL );

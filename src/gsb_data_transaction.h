@@ -17,6 +17,7 @@ enum operation_etat_rapprochement {
 
 
 /* START_DECLARATION */
+gboolean gsb_data_transaction_add_archived_to_list ( gint transaction_number );
 gint gsb_data_transaction_check_content_payment ( gint payment_number,
 						  gint number );
 gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
@@ -32,12 +33,14 @@ gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transactio
 								 gint return_currency_number,
 								 gint return_exponent );
 gsb_real gsb_data_transaction_get_amount ( gint transaction_number );
+gint gsb_data_transaction_get_archive_number ( gint transaction_number );
 gint gsb_data_transaction_get_automatic_transaction ( gint transaction_number );
 const gchar *gsb_data_transaction_get_bank_references ( gint transaction_number );
 gint gsb_data_transaction_get_breakdown_of_transaction ( gint transaction_number );
 gint gsb_data_transaction_get_budgetary_number ( gint transaction_number );
 gint gsb_data_transaction_get_category_number ( gint transaction_number );
 gint gsb_data_transaction_get_change_between ( gint transaction_number );
+GSList *gsb_data_transaction_get_complete_transactions_list ( void );
 gint gsb_data_transaction_get_currency_number ( gint transaction_number );
 GDate *gsb_data_transaction_get_date ( gint transaction_number );
 gsb_real gsb_data_transaction_get_exchange_fees ( gint transaction_number );
@@ -76,6 +79,8 @@ gboolean gsb_data_transaction_set_account_number_transfer ( gint transaction_num
 							    gint account_number_transfer );
 gboolean gsb_data_transaction_set_amount ( gint transaction_number,
 					   gsb_real amount );
+gboolean gsb_data_transaction_set_archive_number ( gint transaction_number,
+						   gint archive_number );
 gboolean gsb_data_transaction_set_automatic_transaction ( gint transaction_number,
 							  gint automatic_transaction );
 gboolean gsb_data_transaction_set_bank_references ( gint transaction_number,

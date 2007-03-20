@@ -122,7 +122,8 @@ gboolean print_config ( )
 		fclose ( test );
 		if ( question_yes_no_hint ( g_strdup_printf ( _("File %s already exists."), 
 							      filename ),
-					    _("Do you want to overwrite it?  There is no undo for this.") ) )
+					    _("Do you want to overwrite it?  There is no undo for this."),
+					    GTK_RESPONSE_NO  ) )
 		{
 		    break;
 		}

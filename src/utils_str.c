@@ -744,7 +744,7 @@ gchar * gsb_string_truncate ( gchar * string )
  * Return a newly created strings, truncating original.  It should be
  * truncated at the end of the word containing the nth letter.
  *
- * \param string	String to truncate.
+ * \param string	String to truncate
  * \param n		Max lenght to truncate at.
  * \param hard_trunc	Cut in the middle of a word if needed.
  *

@@ -228,7 +228,7 @@ GtkWidget * onglet_display_fonts ( void )
 			 TRUE, TRUE, 5 );
     gtk_box_pack_start ( GTK_BOX ( hbox_font ), gtk_vseparator_new (),
 			 FALSE, FALSE, 0 );
-    list_font_size_label = gtk_label_new ("");
+    list_font_size_label = gtk_label_new (NULL);
     gtk_box_pack_start ( GTK_BOX ( hbox_font ), list_font_size_label,
 			 FALSE, FALSE, 5 );
     gtk_container_add (GTK_CONTAINER(font_button), hbox_font);

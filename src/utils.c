@@ -69,15 +69,23 @@ gboolean met_en_normal ( GtkWidget *event_box,
 
 
 
-/******************************************************************************/
-void sens_desensitive_pointeur ( GtkWidget *bouton,
-				 GtkWidget *widget )
+/**
+ * called by a "clicked" callback on a check button,
+ * according to its state, sensitive or not the widget given in param
+ *
+ * \param button a GtkCheckButton
+ * \param widget a widget to sensitive or unsensitive
+ *
+ * \return FALSE
+ * */
+gboolean sens_desensitive_pointeur ( GtkWidget *bouton,
+				     GtkWidget *widget )
 {
     gtk_widget_set_sensitive ( widget,
 			       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton )));
 
+    return FALSE;
 }
-/******************************************************************************/
 
 
 /******************************************************************************/
@@ -195,7 +203,7 @@ GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar *
     }
 
     /* Creating labe */
-    label = gtk_label_new ( "" );
+    label = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1 );
     gtk_label_set_markup ( GTK_LABEL ( label ), 
 			   g_strconcat ("<span weight=\"bold\">",

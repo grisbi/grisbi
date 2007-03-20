@@ -265,7 +265,7 @@ GtkWidget *creation_details_compte ( void )
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-    label_code_banque = gtk_label_new ("");
+    label_code_banque = gtk_label_new (NULL);
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_box_pack_start ( GTK_BOX(hbox), label_code_banque, FALSE, FALSE, 0 );
@@ -629,14 +629,14 @@ void remplissage_details_compte ( void )
 				 string );
 	else
 	    gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
-				 "" );
+				 NULL );
     }
     else
     {
 	gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_option_menu_banque ),
 				      0 );
 	gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
-			     "" );
+			     NULL );
     }
 
     if ( gsb_data_account_get_bank_branch_code (compte_courant_onglet) )
@@ -644,21 +644,21 @@ void remplissage_details_compte ( void )
 			     gsb_data_account_get_bank_branch_code (compte_courant_onglet) );
     else
 	gtk_entry_set_text ( GTK_ENTRY ( detail_guichet ),
-			     "" );
+			     NULL );
 
     if ( gsb_data_account_get_bank_account_number (compte_courant_onglet) )
 	gtk_entry_set_text ( GTK_ENTRY ( detail_no_compte ),
 			     gsb_data_account_get_bank_account_number (compte_courant_onglet) );
     else
 	gtk_entry_set_text ( GTK_ENTRY ( detail_no_compte ),
-			     "" );
+			     NULL );
 
     if ( gsb_data_account_get_bank_account_key (compte_courant_onglet) )
 	gtk_entry_set_text ( GTK_ENTRY ( detail_cle_compte ),
 			     gsb_data_account_get_bank_account_key (compte_courant_onglet) );
     else
 	gtk_entry_set_text ( GTK_ENTRY ( detail_cle_compte ),
-			     "" );
+			     NULL );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON( detail_compte_cloture ),
 				   gsb_data_account_get_closed_account (compte_courant_onglet) );
@@ -770,13 +770,13 @@ void modification_details_compte ( void )
 	result = question_yes_no_hint ( _("Change the transactions currency"),
 					  g_strdup_printf ( _("You are changing the currency of the account, do you want to change the currency of the transactions too ?\(yes will change all the transactions currency from %s to %s, all the transactions with another currency will stay the same)"), 
 							    gsb_data_currency_get_name (account_currency_number),
-							    gsb_data_currency_get_name (new_currency_number)));
+							    gsb_data_currency_get_name (new_currency_number)),
+					  GTK_RESPONSE_NO );
 
 	if (result)
 	{
 	    /* we have to change the currency of the transactions */
-
-	    list_tmp = gsb_data_transaction_get_transactions_list ();
+	    list_tmp = gsb_data_transaction_get_complete_transactions_list ();
 
 	    while ( list_tmp )
 	    {
@@ -1021,7 +1021,8 @@ void sort_du_detail_compte ( void )
 
 	result = question_yes_no_hint ( _("Apply changes to account?"),
 					  g_strdup_printf ( _("Account \"%s\" has been modified.\nDo you want to save changes?"),
-							    gsb_data_account_get_name (compte_courant_onglet) ) );
+							    gsb_data_account_get_name (compte_courant_onglet) ),
+					  GTK_RESPONSE_NO  );
 	
 	if ( !result )
 	    gtk_widget_set_sensitive ( hbox_boutons_modif, FALSE );
@@ -1058,14 +1059,14 @@ void changement_de_banque ( GtkWidget * menu_shell )
 	}
 	else
 	    gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
-				 "" );
+				 NULL );
 	gtk_widget_set_sensitive ( bouton_detail,
 				   TRUE );
     }
     else
     {
 	gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
-			     "" );
+			     NULL );
 	gtk_widget_set_sensitive ( bouton_detail,
 				   FALSE );
     }

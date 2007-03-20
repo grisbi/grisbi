@@ -36,8 +36,6 @@
 /*START_STATIC*/
 static gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage, 
 				     gint page, gpointer assistant );
-static gboolean gsb_assistant_sensitive_button_next ( GtkWidget * assistant, gboolean state );
-static gboolean gsb_assistant_sensitive_button_prev ( GtkWidget * assistant, gboolean state );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -55,10 +53,14 @@ extern GtkWidget *window;
  * \param explanation		Short text to display in the first
  *				page of the assistant.
  * \param image_filename	Icon to display in the title.
+ * \param enter_callback	A callback to connect to the "switch-page" callback when go to the first page
+ *				of the Grisbi assistant notebook. (the callback should
+ *				be : gboolean callback ( GtkWidget *assistant, gint new_page ) )
  *
  */
 GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
-				gchar * image_filename )
+				gchar * image_filename,
+				GCallback enter_callback )
 {
     GtkWidget * assistant, *notebook, *hbox, *label, *image, *view, *eb;
     GtkWidget * button_cancel, * button_prev, * button_next;
@@ -91,7 +93,7 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     gtk_container_add ( GTK_CONTAINER(eb), hbox );
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
 
-    label = gtk_label_new ( "" );
+    label = gtk_label_new ( NULL );
     gtk_label_set_markup ( GTK_LABEL(label), g_strconcat ( "<b><span size=\"x-large\">",
 							   title, "</span></b>", NULL ) );
     gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 0 );
@@ -118,7 +120,7 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     gtk_text_view_set_left_margin ( GTK_TEXT_VIEW(view), 12 );
     gtk_text_view_set_right_margin ( GTK_TEXT_VIEW(view), 12 );
 
-    gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), view, gtk_label_new("") );
+    gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), view, gtk_label_new(NULL) );
 
     g_signal_connect_after ( notebook, "switch-page",
 			     G_CALLBACK ( gsb_assistant_change_page ), assistant );
@@ -126,6 +128,7 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     gsb_assistant_set_next ( assistant, 0, 1 );
     g_object_set_data ( G_OBJECT(assistant), "notebook", notebook );
     g_object_set_data ( G_OBJECT(assistant), "title", title );
+    g_object_set_data ( G_OBJECT(assistant), "enter0", enter_callback );
 
     return assistant;
 }
@@ -144,7 +147,7 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
  * \param next			Page to display when the "Next" button is clicked.
  * \param enter_callback	A callback to connect to the "switch-page" callback
  *				of the Grisbi assistant notebook. (the callback should
- *				be : gboolean callback ( GtkWidget *assistant ) )
+ *				be : gboolean callback ( GtkWidget *assistant, gint new_page ) )
  */
 void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint position,
 			      gint prev, gint next, GCallback enter_callback )
@@ -152,7 +155,7 @@ void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint po
     GtkWidget * notebook;
 
     notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
-    gtk_notebook_insert_page ( GTK_NOTEBOOK(notebook), widget, gtk_label_new(""), position );
+    gtk_notebook_insert_page ( GTK_NOTEBOOK(notebook), widget, gtk_label_new(NULL), position );
 
     gsb_assistant_set_prev ( assistant, position, prev );
     gsb_assistant_set_next ( assistant, position, next );
@@ -185,6 +188,8 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
     notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
     gtk_notebook_set_page ( GTK_NOTEBOOK (notebook),
 			    0 );
+    gtk_widget_grab_focus (GTK_WIDGET (g_object_get_data (G_OBJECT (assistant),
+							  "button_next")));
 
     while ( TRUE )
     {
@@ -265,7 +270,7 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage, 
 				     gint page, gpointer assistant )
 {
-    typedef gboolean ( * gsb_assistant_callback ) ( GtkWidget * );
+    typedef gboolean ( * gsb_assistant_callback ) ( GtkWidget *, gint );
     gsb_assistant_callback callback;
 /*     gpointer padding[32];	/\* Don't touch, looks like we have a */
 /* 				 * buffer overflow problem. *\/ */
@@ -274,7 +279,7 @@ gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * n
 
     if ( callback )
     {
-	return callback ( assistant );
+	return callback ( assistant, page );
     }
 
     return FALSE;

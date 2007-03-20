@@ -37,7 +37,6 @@ static GtkDialog * dialogue_conditional_new ( gchar *text, gchar * var, GtkMessa
 				       GtkButtonsType buttons );
 static void dialogue_conditional_special ( gchar *text, gchar * var, GtkMessageType type );
 static gboolean dialogue_update_var ( GtkWidget * checkbox, gint message );
-static gboolean question_yes_no ( gchar *texte );
 /*END_STATIC*/
 
 
@@ -373,7 +372,8 @@ void dialogue_conditional_special ( gchar *text, gchar * var, GtkMessageType typ
  */
 gboolean question ( gchar *texte )
 {
-    return question_yes_no ( texte );
+    return question_yes_no ( texte,
+					  GTK_RESPONSE_NO  );
 }
 
 
@@ -385,12 +385,15 @@ gboolean question ( gchar *texte )
  *
  * \param hint Hint to be displayed
  * \param texte Text to be displayed
+ * \param default_answer GTK_RESPONSE_OK or GTK_RESPONSE_CANCEL, will give the focus to the button
  *
  * \return TRUE if user pressed 'OK'.  FALSE otherwise.
  */
-gboolean question_yes_no_hint ( gchar * hint, gchar *texte )
+gboolean question_yes_no_hint ( gchar * hint,
+				gchar *texte,
+				gint default_answer )
 {
-    return question_yes_no ( make_hint ( hint, texte ) );
+    return question_yes_no ( make_hint ( hint, texte ), default_answer );
 }
 
 
@@ -400,10 +403,12 @@ gboolean question_yes_no_hint ( gchar * hint, gchar *texte )
  * press 'OK' or 'Cancel'.
  *
  * \param texte  Text to be displayed
+ * \param default_answer GTK_RESPONSE_OK or GTK_RESPONSE_CANCEL, will give the focus to the button
  *
  * \return TRUE if user pressed 'OK'.  FALSE otherwise.
  */
-gboolean question_yes_no ( gchar *texte )
+gboolean question_yes_no ( gchar *texte,
+			   gint default_answer )
 {
     GtkWidget *dialog;
     gint response;
@@ -411,14 +416,17 @@ gboolean question_yes_no ( gchar *texte )
     dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
 				      GTK_DIALOG_DESTROY_WITH_PARENT,
 				      GTK_MESSAGE_QUESTION,
-				      GTK_BUTTONS_OK_CANCEL,
+				      GTK_BUTTONS_YES_NO,
 				      texte );
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), texte );
+
+    gtk_dialog_set_default_response (GTK_DIALOG (dialog),
+				     default_answer );
 
     response = gtk_dialog_run (GTK_DIALOG (dialog));
     gtk_widget_destroy ( dialog );
 
-    if ( response == GTK_RESPONSE_OK )
+    if ( response == GTK_RESPONSE_YES )
 	return TRUE;
     else
 	return FALSE;

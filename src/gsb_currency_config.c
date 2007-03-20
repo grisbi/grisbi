@@ -596,7 +596,7 @@ void gsb_currency_config_remove_currency ( GtkWidget *button,
     /* we look for that currency in all the transactions,
      * if we find it, we cannot delete it */
 
-    list_tmp = gsb_data_transaction_get_transactions_list ();
+    list_tmp = gsb_data_transaction_get_complete_transactions_list ();
 
     while ( list_tmp )
     {

@@ -55,6 +55,8 @@ sources = \
 	gsb_currency_config.c	\
 	gsb_currency_link_config.c	\
 	gsb_data_account.c	\
+	gsb_data_archive.c	\
+	gsb_data_archive_store.c	\
 	gsb_data_bank.c		\
 	gsb_data_budget.c	\
 	gsb_data_category.c	\
@@ -92,6 +94,7 @@ sources = \
 	gsb_reconcile_config.c	\
 	gsb_reconcile_list.c	\
 	gsb_reconcile_sort_config.c	\
+	gsb_report.c		\
 	gsb_scheduler.c		\
 	gsb_scheduler_list.c	\
 	gsb_status.c		\
@@ -155,6 +158,8 @@ grisbi_INCLUDES =		\
 	gsb_currency_config.h	\
 	gsb_currency_link_config.h	\
 	gsb_data_account.h	\
+	gsb_data_archive.h	\
+	gsb_data_archive_store.h	\
 	gsb_data_bank.h		\
 	gsb_data_budget.h	\
 	gsb_data_category.h	\
@@ -190,6 +195,7 @@ grisbi_INCLUDES =		\
 	gsb_reconcile_config.h	\
 	gsb_reconcile_list.h	\
 	gsb_reconcile_sort_config.h	\
+	gsb_report.h		\
 	gsb_scheduler.h		\
 	gsb_scheduler_list.h	\
 	gsb_transaction_model.h	\

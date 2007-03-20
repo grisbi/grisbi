@@ -202,7 +202,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_EXERCICE:
-	    widget = gsb_fyear_make_combobox ();
+	    widget = gsb_fyear_make_combobox (TRUE);
 	    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 				   widget,
 				   _("Choose the financial year"),
@@ -304,7 +304,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 
 	case TRANSACTION_FORM_OP_NB:
 	case TRANSACTION_FORM_MODE:
-	    widget = gtk_label_new ( "" );
+	    widget = gtk_label_new ( NULL );
 	    break;
     }
 

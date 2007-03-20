@@ -121,7 +121,8 @@ gboolean gsb_file_debug ( void )
 				    _("This assistant will help you to search your account "
 				      "file for inconsistencies, which can be caused either "
 				      "by bugs or by erroneous manipulation."),
-				    "bug.png" );
+				    "bug.png",
+				    NULL );
 
     text_view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD );
@@ -228,7 +229,7 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
     GtkWidget * vbox, * label, * button;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
-    label = gtk_label_new ( "" );
+    label = gtk_label_new ( NULL );
     gtk_label_set_markup ( GTK_LABEL(label), make_hint ( _( test -> name ), summary ) );
     gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_LEFT );
@@ -242,7 +243,7 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
 	GtkWidget * expander, * label;
 	expander = gtk_expander_new ( g_strconcat ( "<b>",_("Details"), "</b>", NULL ) );
 	gtk_expander_set_use_markup ( GTK_EXPANDER(expander), TRUE );
-	label = gtk_label_new ( "" );
+	label = gtk_label_new ( NULL );
 	gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
 	gtk_label_set_markup ( GTK_LABEL(label), _( test -> instructions ) );
 	gtk_misc_set_padding ( GTK_MISC(label), 12, 6 );

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -48,7 +48,7 @@ static GtkTreeModel *fyear_model;
 static GtkTreeModel *fyear_model_filter;
 
 
-enum currency_list_columns {
+enum fyear_list_columns {
     FYEAR_COL_NAME = 0,
     FYEAR_COL_NUMBER,
     FYEAR_COL_VIEW,
@@ -86,11 +86,11 @@ void gsb_fyear_init_variables ( void )
 /**
  * create and return a combobox with the financial years
  *
- * \param
+ * \param set_automatic if TRUE, will show the choice "Automatic"
  *
  * \return a widget combobox or NULL
  * */
-GtkWidget *gsb_fyear_make_combobox ( void )
+GtkWidget *gsb_fyear_make_combobox ( gboolean set_automatic )
 {
     GtkCellRenderer *renderer;
     GtkWidget *combo_box;
@@ -108,6 +108,8 @@ GtkWidget *gsb_fyear_make_combobox ( void )
 
     gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_box),
 			       0 );
+    /* show or hide the automatic line */
+    gsb_fyear_set_automatic ( set_automatic );
     return (combo_box);
 }
 
@@ -133,7 +135,7 @@ gboolean gsb_fyear_set_combobox_history ( GtkWidget *combo_box,
 	return FALSE;
 
     if (!fyear_model)
-	gsb_fyear_create_combobox_store ();
+	return FALSE;
 
     /* we look for the fyear in the model and not in the filter
      * because of if the fyear is not showed */
@@ -189,29 +191,58 @@ gboolean gsb_fyear_set_combobox_history ( GtkWidget *combo_box,
 gint gsb_fyear_get_fyear_from_combobox ( GtkWidget *combo_box,
 					 const GDate *date )
 {
-    gint fyear_number;
+    gint fyear_number = 0;
     GtkTreeIter iter;
 
     if (!fyear_model_filter)
 	gsb_fyear_create_combobox_store ();
 
-    gtk_combo_box_get_active_iter ( GTK_COMBO_BOX (combo_box),
-				    &iter );
-    gtk_tree_model_get ( GTK_TREE_MODEL (fyear_model_filter),
-			 &iter,
-			 FYEAR_COL_NUMBER, &fyear_number,
-			 -1 );
-    if (!fyear_number
-	&&
-	date )
-	fyear_number = gsb_data_fyear_get_from_date (date);
-
+    if (gtk_combo_box_get_active_iter ( GTK_COMBO_BOX (combo_box),
+				    &iter ))
+    {
+	gtk_tree_model_get ( GTK_TREE_MODEL (fyear_model_filter),
+			     &iter,
+			     FYEAR_COL_NUMBER, &fyear_number,
+			     -1 );
+	if (!fyear_number
+	    &&
+	    date )
+	    fyear_number = gsb_data_fyear_get_from_date (date);
+    }
     return fyear_number;
 }
 
 
 /**
- * update the list of the currencies, wich change all
+ * show or hide the Automatic line in the fyear list
+ * this will apply to all fyears combobox
+ *
+ * \param set_automatic TRUE to show the "Automatic" line, FALSE to hide it
+ *
+ *
+ * \return TRUE done, FALSE problem
+ * */
+gboolean gsb_fyear_set_automatic ( gboolean set_automatic )
+{
+    GtkTreeIter iter;
+
+    if (!fyear_model)
+	gsb_fyear_create_combobox_store ();
+
+    if (!gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (fyear_model),
+					 &iter ))
+	return FALSE;
+
+    gtk_list_store_set ( GTK_LIST_STORE (fyear_model),
+			 &iter,
+			 FYEAR_COL_VIEW, set_automatic,
+			 -1 );
+    return TRUE;
+}
+
+
+/**
+ * update the list of the financial years, wich change all
  * the current combobox content
  * set the first row with Automatic with 0 as number
  *

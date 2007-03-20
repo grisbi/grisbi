@@ -77,7 +77,8 @@ void export_accounts ( void )
 				   "As QIF and CSV do not support currencies, all "
 				   "transactions will be converted into currency of their "
 				   "respective account."),
-				 "xxx" );
+				 "xxx",
+				 NULL );
 
     gsb_assistant_add_page ( dialog, export_create_selection_page(dialog), 1, 0, 2, 
 			     G_CALLBACK ( export_resume_maybe_sensitive_next ) );
@@ -344,7 +345,7 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
-    label = gtk_label_new ( "" );
+    label = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_label_set_markup ( GTK_LABEL ( label ),

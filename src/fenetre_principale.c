@@ -127,11 +127,11 @@ GtkWidget * create_main_widget ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), arrow_eb, FALSE, FALSE, 3 );
 
     /* Define labels. */
-    headings_title = gtk_label_new ( "" );
+    headings_title = gtk_label_new ( NULL );
     gtk_label_set_justify ( GTK_LABEL(headings_title), GTK_JUSTIFY_LEFT );
     gtk_misc_set_alignment (GTK_MISC (headings_title), 0.0, 0.5);
     gtk_box_pack_start ( GTK_BOX(hbox), headings_title, TRUE, TRUE, 3 );
-    headings_suffix = gtk_label_new ("");
+    headings_suffix = gtk_label_new (NULL);
     gtk_box_pack_start ( GTK_BOX(hbox), headings_suffix, FALSE, FALSE, 0 );
 
     /* Change color with an event box trick. */

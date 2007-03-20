@@ -1447,7 +1447,8 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 				     g_strdup_printf ( _("Do you really want to delete the child of breakdown whit the category '%s' ?"),
 						       gsb_data_category_get_name ( gsb_data_scheduled_get_category_number (scheduled_number),
 										    gsb_data_scheduled_get_sub_category_number (scheduled_number),
-										    NULL ))))
+										    NULL )),
+				     GTK_RESPONSE_NO ))
 	    return FALSE;
 
 	/* !! important to remove first from the list... */

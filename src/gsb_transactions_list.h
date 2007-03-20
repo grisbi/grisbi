@@ -18,21 +18,25 @@
  * as the data are filled above, the number here
  * begin at TRANSACTION_LIST_COL_NB */
 
-#define TRANSACTION_COL_NB_BACKGROUND 7		/*< color of the background */
-#define TRANSACTION_COL_NB_AMOUNT_COLOR 8	/*< color of the amount */
+#define TRANSACTION_COL_NB_BACKGROUND 7		/*< color of the background (a GdkColor) */
+#define TRANSACTION_COL_NB_AMOUNT_COLOR 8	/*< color of the amount (a string like "red" or NULL)*/
 #define TRANSACTION_COL_NB_TRANSACTION_ADDRESS 9
-#define TRANSACTION_COL_NB_SAVE_BACKGROUND 10	/*< when selection, save of the normal color of background */
-#define TRANSACTION_COL_NB_FONT 11		/*< PangoFontDescription if used */
-#define TRANSACTION_COL_NB_TRANSACTION_LINE 12	/*< the line in the transaction (1, 2, 3 or 4) */
-#define TRANSACTION_COL_NB_VISIBLE 13		/*< whether that transaction is visible or not */
+#define TRANSACTION_COL_NB_WHAT_IS_LINE 10	/*< on what the address point to ? IS_TRANSACTION, IS_ARCHIVE (see below) */
+#define TRANSACTION_COL_NB_SAVE_BACKGROUND 11	/*< when selection, save of the normal color of background (a GdkColor) */
+#define TRANSACTION_COL_NB_FONT 12		/*< PangoFontDescription if used */
+#define TRANSACTION_COL_NB_TRANSACTION_LINE 13	/*< the line in the transaction (1, 2, 3 or 4) */
+#define TRANSACTION_COL_NB_VISIBLE 14		/*< whether that transaction is visible or not */
 
-#define TRANSACTION_COL_NB_TOTAL 14
+#define TRANSACTION_COL_NB_TOTAL 15
 
-
+/* definition of the number of max rows for a line, for now limit to 4 */
 #define TRANSACTION_LIST_ROWS_NB 4
 
-/* constantes qui dÃ©finissent le no associÃ© au paramÃštre
- * dans la liste d'opÃ© */
+/* possible values to TRANSACTION_COL_NB_WHAT_IS_LINE */
+#define IS_TRANSACTION 0
+#define IS_ARCHIVE 1
+
+/* the element number for each showable in the list */
 # define TRANSACTION_LIST_DATE 1
 # define TRANSACTION_LIST_VALUE_DATE 2
 # define TRANSACTION_LIST_PARTY 3
@@ -52,7 +56,7 @@
 # define TRANSACTION_LIST_NO 17
 # define TRANSACTION_LIST_CHQ 18
 
-/* Constantes pour la fonction gtk_tree_view_column_set_alignment() (GTK2) */
+/* used for gtk_tree_view_column_set_alignment() (GTK2) */
 #define COLUMN_LEFT 0.0
 #define COLUMN_CENTER 0.5
 #define COLUMN_RIGHT 1.0

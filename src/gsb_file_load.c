@@ -26,6 +26,7 @@
 #include "./dialog.h"
 #include "./gsb_assistant_archive.h"
 #include "./gsb_data_account.h"
+#include "./gsb_data_archive.h"
 #include "./gsb_data_bank.h"
 #include "./gsb_data_budget.h"
 #include "./gsb_data_category.h"
@@ -68,6 +69,8 @@ static void gsb_file_load_account_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 					     const gchar *text );
+static void gsb_file_load_archive ( const gchar **attribute_names,
+			     const gchar **attribute_values );
 static void gsb_file_load_bank ( const gchar **attribute_names,
 			  const gchar **attribute_values );
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
@@ -560,6 +563,14 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
     {
 	gsb_file_load_financial_year ( attribute_names,
 				       attribute_values );
+	return;
+    }
+
+    if ( !strcmp ( element_name,
+		   "Archive" ))
+    {
+	gsb_file_load_archive ( attribute_names,
+				attribute_values );
 	return;
     }
 
@@ -1594,6 +1605,15 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	{
 	    gsb_data_transaction_set_marked_transaction ( transaction_number,
 							  utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Ar" ))
+	{
+	    gsb_data_transaction_set_archive_number ( transaction_number,
+						      utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2666,6 +2686,102 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
     while ( attribute_names[i] );
 
     gsb_data_fyear_check_for_invalid (fyear_number);
+}
+
+/**
+ * load the archives in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_archive ( const gchar **attribute_names,
+			     const gchar **attribute_values )
+{
+    gint i=0;
+    gint archive_number;
+    GDate *date;
+
+    if ( !attribute_names[i] )
+	return;
+
+    archive_number = gsb_data_archive_new (NULL);
+
+    do
+    {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+	if ( !strcmp (attribute_values[i],
+		      "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nb" ))
+	{
+	    archive_number = gsb_data_archive_set_new_number (archive_number,
+							      utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Na" ))
+	{
+	    gsb_data_archive_set_name ( archive_number,
+					attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Bdte" ))
+	{
+	    date = gsb_parse_date_string_safe (attribute_values[i]);
+	    gsb_data_archive_set_begining_date ( archive_number,
+						 date );
+	    if ( date )
+		g_date_free (date);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Edte" ))
+	{
+	    date = gsb_parse_date_string_safe (attribute_values[i]);
+	    gsb_data_archive_set_end_date ( archive_number,
+					    date );
+	    if ( date )
+		g_date_free (date);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Fye" ))
+	{
+	    gsb_data_archive_set_fyear ( archive_number,
+					 utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Rep" ))
+	{
+	    gsb_data_archive_set_report_title ( archive_number,
+						attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
 }
 
 
@@ -6319,7 +6435,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    /* sauf que la 0.4.0 n'attribuait pas le no de relevé aux opés filles */
 	    /* d'une ventilation */
 
-	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+	    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
 	    while ( list_tmp_transactions )
 	    {
@@ -6331,7 +6447,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 		if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_tmp))
 		{
 		    GSList *list_tmp_transactions_2;
-		    list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
+		    list_tmp_transactions_2 = gsb_data_transaction_get_complete_transactions_list ();
 
 		    while ( list_tmp_transactions_2 )
 		    {
@@ -6455,7 +6571,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 	     * 		with the same number
 	     * the change is done while downloading the file, all we need to do now is to change
 	     * the payment number of all the transactions and scheduled transactions to set the new number */
-	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+	    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 	    while ( list_tmp_transactions )
 	    {
 		gint transaction_number;
@@ -6564,7 +6680,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    /* another fix, some children of breakdown have not the same values of the mother
 	     * for some fields wich should be ; fix here */
 
-	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+	    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
 	    while ( list_tmp_transactions )
 	    {
@@ -6580,7 +6696,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 		    if (gsb_data_transaction_get_marked_transaction (transaction_number) == 3)
 		    {
 			GSList *list_tmp_transactions_2;
-			list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
+			list_tmp_transactions_2 = gsb_data_transaction_get_complete_transactions_list ();
 
 			while ( list_tmp_transactions_2 )
 			{
@@ -6744,7 +6860,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 	     * hopefully, we can do that because each reconciled transaction has its number of reconcile */
 
 	    /* first step, fill the account numbers and try to fill the init and final dates */
-	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+	    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
 	    while ( list_tmp_transactions )
 	    {
@@ -6910,12 +7026,13 @@ gboolean gsb_file_load_update_previous_version ( void )
     /* check now if a lot of transactions,
      * if yes, we propose to file the transactions
      * by default take the 2000 transactions as limit
-     * FIXME : should configure the value to ask to archive */
+     * FIXME : should be possible to configure the value to ask to archive */
     if ( g_slist_length (gsb_data_transaction_get_transactions_list ()) > 2000 )
     {
 	if (question_yes_no_hint ( _("Archive some transactions ?"),
 				   g_strdup_printf ( _("There is %d transactions to load into the lists,\nThis is much and the display would be faster if you archive some transactions.\n\nDo you want to launch the assistant to archive some transactions ?"),
-						     g_slist_length (gsb_data_transaction_get_transactions_list ()))))
+						     g_slist_length (gsb_data_transaction_get_transactions_list ())),
+				   GTK_RESPONSE_YES ))
 	    gsb_assistant_archive_run ();
     }
 

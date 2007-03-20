@@ -195,7 +195,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
 			 FALSE, FALSE, 0 );
 
     /* Create warning label */
-    label = gtk_label_new ("");
+    label = gtk_label_new (NULL);
     g_object_set_data ( G_OBJECT (tree_model),
 			"warning_label", label );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),

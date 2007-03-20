@@ -33,6 +33,7 @@
 #include "gsb_transactions_list_sort.h"
 #include "./erreur.h"
 #include "./gsb_data_account.h"
+#include "./gsb_data_archive.h"
 #include "./gsb_data_budget.h"
 #include "./gsb_data_fyear.h"
 #include "./gsb_data_payee.h"
@@ -123,6 +124,10 @@ static gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
 					     GtkTreeIter *iter_1,
 					     GtkTreeIter *iter_2,
 					     GtkSortType sort_type );
+static gint gsb_transactions_list_sort_check_archive (  GtkTreeModel *model,
+						 GtkTreeIter *iter_1,
+						 GtkTreeIter *iter_2,
+						 GtkSortType sort_type );
 static gint gsb_transactions_list_sort_general_test ( GtkTreeModel *model,
 					       GtkTreeIter *iter_1,
 					       GtkTreeIter *iter_2,
@@ -158,6 +163,8 @@ gint gsb_transactions_list_sort_column ( GtkTreeModel *model,
 {
     gint account_number;
     gint element_number;
+    gint return_value;
+    GtkSortType sort_type;
 
     account_number = gsb_gui_navigation_get_current_account ();
     if (account_number == -1)
@@ -165,6 +172,19 @@ gint gsb_transactions_list_sort_column ( GtkTreeModel *model,
 	 * of grisbi, and must return 0 if we don't want a crash */
 	return 0;
 
+    sort_type = gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[GPOINTER_TO_INT (column_number)]));
+
+    /* first of all, check the archive */
+/*     return_value = gsb_transactions_list_sort_check_archive ( model, */
+/* 							      iter_1, */
+/* 							      iter_2, */
+/* 							      sort_type ); */
+/*     if (return_value) */
+/*     { */
+	/* there is an archive in the tested line, return now */
+/* 	printf ( "sort archive\n"); */
+/* 	return return_value; */
+/*     } */
     /* get the element used to sort the list */
     element_number = gsb_data_account_get_element_sort ( account_number,
 							 GPOINTER_TO_INT (column_number));
@@ -172,10 +192,76 @@ gint gsb_transactions_list_sort_column ( GtkTreeModel *model,
     return gsb_transactions_list_sort_by_no_sort ( model,
 						   iter_1,
 						   iter_2,
-						   gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[GPOINTER_TO_INT (column_number)])),
+						   sort_type,
 						   element_number );
 }
 
+
+/**
+ * this is the first check of all : the archive
+ * we put them always at the top of the list
+ *
+ * \param model
+ * \param iter_1
+ * \param iter_2
+ * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
+ * 
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_check_archive (  GtkTreeModel *model,
+						 GtkTreeIter *iter_1,
+						 GtkTreeIter *iter_2,
+						 GtkSortType sort_type )
+
+{
+    gint return_value = 0;
+    gpointer archive_1;
+    gpointer archive_2;
+    gint what_is_line_1;
+    gint what_is_line_2;
+
+    gtk_tree_model_get ( model,
+			 iter_1,
+			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &archive_1,
+			 TRANSACTION_COL_NB_WHAT_IS_LINE, &what_is_line_1,
+			 -1 );
+    gtk_tree_model_get ( model,
+			 iter_2,
+			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &archive_2,
+			 TRANSACTION_COL_NB_WHAT_IS_LINE, &what_is_line_2,
+			 -1 );
+
+    if (what_is_line_1 == IS_ARCHIVE)
+    {
+	if (what_is_line_2 == IS_ARCHIVE)
+	{
+	    /* the first and second line are archives, we return a comparison by number of archive
+	     * we can do better, by date or by financial year, but more complex because no check for now
+	     * that the date must be different, and problem when created by report
+	     * so we assume the user created the archive in the good order, if some complains about that
+	     * can change here later */
+	    return_value = gsb_data_archive_get_no_archive (archive_1) - gsb_data_archive_get_no_archive (archive_2);
+	}
+	else
+	    /* the first line is an archive and not the second, so first line before */
+	    return_value = -1;
+    }
+    else
+    {
+	if (what_is_line_2 == IS_ARCHIVE)
+	    /* the first line is not an archive but the second one is, so second line before */
+	    return_value = 1;
+	else
+	    /* we have 2 transactions, just return 0 here to make tests later */
+	    return 0;
+    }
+    /* for a descending sort, gtk invert the values and -1 is to set iter_1 after iter_2
+     * so invert here */
+    if ( sort_type == GTK_SORT_ASCENDING )
+	return return_value;
+    else
+	return -return_value;
+}
 
 
 /**

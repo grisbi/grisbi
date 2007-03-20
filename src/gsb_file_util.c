@@ -191,7 +191,7 @@ void switch_t_r ( void )
     devel_debug ( "switch_t_r");
 
 
-    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
     while ( list_tmp_transactions )
     {

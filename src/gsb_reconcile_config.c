@@ -524,7 +524,8 @@ gboolean gsb_reconcile_config_delete ( GtkWidget *button,
 	     * we ask if the user want to continue and warn him */
 	    if (!question_yes_no_hint ( _("Deleting a reconcile"),
 					g_strdup_printf (_("Carreful, you are about to deleting a reconcile.\nIf you continue, the reconcile %s will be erased and all the transactions marked by this reconcile will be un-reconciled and marked P.\nAre you sure you want to continue ?"),
-							 gsb_data_reconcile_get_name (reconcile_number))))
+							 gsb_data_reconcile_get_name (reconcile_number)),
+					GTK_RESPONSE_NO ))
 		return FALSE;
 
 	    /* ok we delete the reconcile

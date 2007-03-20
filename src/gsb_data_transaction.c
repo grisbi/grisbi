@@ -57,6 +57,7 @@ typedef struct
     gint party_number;
     gchar *notes;
     gint marked_transaction;				/**<  OPERATION_NORMALE=nothing, OPERATION_POINTEE=P, OPERATION_TELERAPPROCHEE=T, OPERATION_RAPPROCHEE=R */
+    gint archive_number;				/**< if it's an archived transaction, contains the number of the archive */
     gshort automatic_transaction;			/**< 0=manual, 1=automatic (scheduled transaction) */
     gint reconcile_number;				/**< the number of reconcile, carreful : can be filled without marked_transaction=OPERATION_RAPPROCHEE sometimes,
     								it happen if the user did ctrl R to un-R the transaction, we keep reconcile_number because most of them
@@ -104,8 +105,11 @@ extern gsb_real null_real ;
 /*END_EXTERN*/
 
 
-/** the g_slist which contains all the transactions structures */
+/** the g_slist which contains the transactions structures not archived */
 static GSList *transactions_list = NULL;
+
+/** that list contains all the transactions, archived and not archived */
+static GSList *complete_transactions_list = NULL;
 
 /** the g_slist which contains all the white transactions structures
  * ie : 1 general white line
@@ -119,8 +123,11 @@ static struct_transaction *transaction_buffer[2];
 static gint current_transaction_buffer;
 
 
-/** set the transactions global variables to NULL, usually when we init all the global variables
- * \param none
+/**
+ * set the transactions global variables to NULL, usually when we init all the global variables
+ * 
+ * \param
+ * 
  * \return FALSE
  * */
 gboolean gsb_data_transaction_init_variables ( void )
@@ -129,6 +136,7 @@ gboolean gsb_data_transaction_init_variables ( void )
     transaction_buffer[1] = NULL;
     current_transaction_buffer = 0;
     transactions_list = NULL;
+    complete_transactions_list = NULL;
 
     return FALSE;
 }
@@ -138,8 +146,10 @@ gboolean gsb_data_transaction_init_variables ( void )
  * return a pointer to the g_slist of transactions structure
  * it's not a copy, so we must not free or change it
  * if we want to change something, use gsb_data_transaction_copy_transactions_list instead
+ * THIS IS THE LIST WITHOUT THE ARCHIVED TRANSACTIONS
  *
  * \param none
+ *
  * \return the slist of transactions structures
  * */
 GSList *gsb_data_transaction_get_transactions_list ( void )
@@ -147,11 +157,54 @@ GSList *gsb_data_transaction_get_transactions_list ( void )
     return transactions_list;
 }
 
+/** 
+ * return a pointer to the complete g_slist of transactions structure
+ * it's not a copy, so we must not free or change it
+ * if we want to change something, use gsb_data_transaction_copy_transactions_list instead
+ * THIS IS THE COMPLETE LIST (WITH THE ARCHIVED TRANSACTIONS)
+ *
+ * \param none
+ *
+ * \return the slist of transactions structures
+ * */
+GSList *gsb_data_transaction_get_complete_transactions_list ( void )
+{
+    return complete_transactions_list;
+}
+
+/**
+ * just append the archived transaction given in param
+ * into the non archived transactions list
+ * called when want to load archived transactions into grisbi
+ *
+ * \param transaction_number the transaction to append
+ *
+ * \return TRUE ok, FALSE pb
+ * */
+gboolean gsb_data_transaction_add_archived_to_list ( gint transaction_number )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
+
+    if ( !transaction )
+	return FALSE;
+
+    transactions_list = g_slist_append ( transactions_list,
+					 transaction );
+    return TRUE;
+}
 
 
-/** transitionnal fonction, give back the pointer to the transaction,
+/**
+ * transitionnal fonction, give back the pointer to the transaction,
  * normally deleted when the transfer from old transactions is finished 
- * set also in the transactions list, check if it's fast enough with only the transactions number ? */
+ * set also in the transactions list, check if it's fast enough with only the transactions number ?
+ * 
+ * \param transaction_number
+ *
+ * \return a pointer to the structure of the transation
+ * */
 gpointer gsb_data_transaction_get_pointer_to_transaction ( gint transaction_number )
 {
     struct_transaction *transaction;
@@ -170,7 +223,7 @@ gint gsb_data_transaction_get_last_number (void)
     gint last_number = 0;
     GSList *transactions_list_tmp;
 
-    transactions_list_tmp = transactions_list;
+    transactions_list_tmp = complete_transactions_list;
 
     while (transactions_list_tmp)
     {
@@ -297,7 +350,7 @@ struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transactio
     if ( transaction_number < 0 )
 	transactions_list_tmp = white_transactions_list;
     else
-	transactions_list_tmp = transactions_list;
+	transactions_list_tmp = complete_transactions_list;
 
     while ( transactions_list_tmp )
     {
@@ -1142,6 +1195,73 @@ gboolean gsb_data_transaction_set_marked_transaction ( gint transaction_number,
 }
 
 
+/**
+ * get the number of the archive
+ * 
+ * \param transaction_number the number of the transaction
+ * 
+ * \return the archive number or 0 if not archived
+ * */
+gint gsb_data_transaction_get_archive_number ( gint transaction_number )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
+
+    if ( !transaction )
+	return -1;
+
+    return transaction -> archive_number;
+}
+
+
+/**
+ * set the number of the archive if it's an archived transaction 
+ * add or remove the transaction from the list of transactions without archive according to the value
+ * 
+ * \param transaction_number
+ * \param archive_number or 0 if not an archive
+ * 
+ * \return TRUE if ok
+ * */
+gboolean gsb_data_transaction_set_archive_number ( gint transaction_number,
+						   gint archive_number )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
+
+    if ( !transaction )
+	return FALSE;
+return FALSE;
+    /* we choose to set or not the transaction to the transactions_list
+     * if the archive_number of the transaction is 0 for now, it's already in that list,
+     * so we mustn't add it,
+     * else, according to the new value, we remove it or append it */
+    if (transaction -> archive_number)
+    {
+	/* that transaction was an archive, so it's only in the complete_transactions_list */
+	if  (!archive_number)
+	    /* the transaction was an archive, and we transform it as non archived transaction,
+	     * so we add it into the transactions_list */
+	    transactions_list = g_slist_append ( transactions_list,
+						 transaction );
+    }
+    else
+    {
+	/* the transaction was not an archive, so it's into the 2 lists,
+	 * if we transform it as an archive, we remove it from the transactions_list */
+
+/* 	    transactions_list = g_slist_remove ( transactions_list, */
+/* 						 transaction ); */
+    }
+
+/*     transaction -> archive_number = archive_number; */
+
+    return TRUE;
+}
+
+
 
 /** get the automatic_transaction
  * \param transaction_number the number of the transaction
@@ -1579,8 +1699,11 @@ gint gsb_data_transaction_new_transaction_with_number ( gint no_account,
     transaction -> voucher = "";
     transaction -> bank_references = "";
 
+    /* we append the transaction to the complete transactions list and the non archive transaction list */
     transactions_list = g_slist_append ( transactions_list,
 					 transaction );
+    complete_transactions_list = g_slist_append ( complete_transactions_list,
+						  transaction );
 
     gsb_data_transaction_save_transaction_pointer (transaction);
 
@@ -1731,8 +1854,11 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 	contra_transaction = gsb_data_transaction_get_transaction_by_no (transaction -> transaction_number_transfer);
 	if (contra_transaction)
 	{
+	    /* we remove the transaction from the 2 lists */
 	    transactions_list = g_slist_remove ( transactions_list,
 						 contra_transaction );
+	    complete_transactions_list = g_slist_remove ( complete_transactions_list,
+							  contra_transaction );
 	    g_free (contra_transaction);
 	}
     }
@@ -1756,6 +1882,8 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 		/* it's a transfer, delete the transfer */
 		transactions_list = g_slist_remove ( transactions_list,
 						     contra_transaction );
+		complete_transactions_list = g_slist_remove ( complete_transactions_list,
+							      contra_transaction );
 		g_free (contra_transaction);
 		/* we free the buffer to avoid big possibly crashes */
 		transaction_buffer[0] = NULL;
@@ -1765,6 +1893,8 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 	    /* delete the child */
 	    transactions_list = g_slist_remove ( transactions_list,
 						 child_transaction );
+	    complete_transactions_list = g_slist_remove ( complete_transactions_list,
+							  child_transaction );
 	    g_free (child_transaction);
 	    tmp_list = tmp_list -> next;
 	}
@@ -1773,6 +1903,8 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
     /* now can remove safely the transaction */
     transactions_list = g_slist_remove ( transactions_list,
 					 transaction );
+    complete_transactions_list = g_slist_remove ( complete_transactions_list,
+						  transaction );
 
     /* we free the buffer to avoid big possibly crashes */
     transaction_buffer[0] = NULL;
@@ -1911,6 +2043,7 @@ gint gsb_data_transaction_find_by_id ( gchar *id )
 
 /**
  * return the number of transaction in the given account
+ * (the archived transactions are not counted, if need, should append a new param with include archived transactions)
  *
  * \param account_number 
  * \param include_breakdown TRUE if we want to include the breakdown children in the amount, FALSE if we want only the first level transactions

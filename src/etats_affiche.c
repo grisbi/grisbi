@@ -117,7 +117,7 @@ gint etat_affiche_affiche_titre ( gint ligne )
 {
     gchar *titre;
 
-    titre = etats_titre () ;
+    titre = etats_titre (gsb_gui_navigation_get_current_report ()) ;
 
     etat_affiche_attach_label ( titre, TEXT_BOLD | TEXT_HUGE, 0, nb_colonnes,
 				ligne, ligne + 1, LEFT, 0 );

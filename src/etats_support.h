@@ -5,6 +5,6 @@
 
 
 /* START_DECLARATION */
-gchar * etats_titre ();
+gchar *etats_titre ( gint report_number);
 /* END_DECLARATION */
 #endif

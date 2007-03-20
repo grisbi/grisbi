@@ -371,7 +371,7 @@ void gsb_payment_method_config_fill_list ( GtkTreeModel *model)
 	gtk_tree_store_append (GTK_TREE_STORE (model), &account_iter, NULL);
 	gtk_tree_store_set (GTK_TREE_STORE (model), &account_iter,
 			    PAYMENT_METHODS_NAME_COLUMN, gsb_data_account_get_name (account_number),
-			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
+			    PAYMENT_METHODS_NUMBERING_COLUMN, NULL,
 			    PAYMENT_METHODS_TYPE_COLUMN, 0,
 			    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			    PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
@@ -384,7 +384,7 @@ void gsb_payment_method_config_fill_list ( GtkTreeModel *model)
 	gtk_tree_store_append (GTK_TREE_STORE (model), &debit_iter, &account_iter);
 	gtk_tree_store_set (GTK_TREE_STORE (model), &debit_iter,
 			    PAYMENT_METHODS_NAME_COLUMN, _("Debit"),
-			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
+			    PAYMENT_METHODS_NUMBERING_COLUMN, NULL,
 			    PAYMENT_METHODS_TYPE_COLUMN, 0,
 			    PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			    PAYMENT_METHODS_ACTIVABLE_COLUMN, FALSE, 
@@ -397,7 +397,7 @@ void gsb_payment_method_config_fill_list ( GtkTreeModel *model)
 	gtk_tree_store_append (GTK_TREE_STORE (model), &credit_iter, &account_iter);
 	gtk_tree_store_set (GTK_TREE_STORE (model), &credit_iter,
 			    PAYMENT_METHODS_NAME_COLUMN, _("Credit"),
-			    PAYMENT_METHODS_NUMBERING_COLUMN, "",
+			    PAYMENT_METHODS_NUMBERING_COLUMN, NULL,
 			    /* This is a hack: account number is put in 
 			       Debit/Credit nodes */
 			    PAYMENT_METHODS_TYPE_COLUMN, 0,
@@ -831,7 +831,7 @@ gboolean gsb_payment_method_config_auto_button_changed ( GtkWidget *button,
 	    {
 		gtk_widget_set_sensitive ( payment_last_number_entry, FALSE );
 		gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
-				    PAYMENT_METHODS_NUMBERING_COLUMN, "", 
+				    PAYMENT_METHODS_NUMBERING_COLUMN, NULL, 
 				    -1);
 	    }
 	}
@@ -1118,7 +1118,7 @@ gboolean gsb_payment_method_config_add ( GtkWidget *button,
     gtk_tree_store_append (GTK_TREE_STORE (model), &iter, final);
     gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
 			PAYMENT_METHODS_NAME_COLUMN, gsb_data_payment_get_name (payment_number),
-			PAYMENT_METHODS_NUMBERING_COLUMN, "",
+			PAYMENT_METHODS_NUMBERING_COLUMN, NULL,
 			PAYMENT_METHODS_TYPE_COLUMN, type_final,
 			PAYMENT_METHODS_DEFAULT_COLUMN, FALSE,
 			PAYMENT_METHODS_ACTIVABLE_COLUMN, type_final != 0, 
@@ -1182,7 +1182,7 @@ gboolean gsb_payment_method_config_remove ( GtkWidget *button,
      * if yes, we propose to switch to another method of payment or cancel */
 
     /* first, check if there is some transactions */
-    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
     while (list_tmp_transactions)
     {
 	gint transaction_number;
@@ -1321,7 +1321,7 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
     new_payment_number = gsb_payment_method_get_selected_number (combo_box);
 
     /* Then, we change the method of payment for related operations. */
-    tmp_list = gsb_data_transaction_get_transactions_list ();
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
     {
 	gint transaction_number;

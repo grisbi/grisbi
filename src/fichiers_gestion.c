@@ -37,6 +37,7 @@
 #include "./utils_file_selection.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_data_account.h"
+#include "./gsb_data_archive_store.h"
 #include "./gsb_data_category.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_scheduled.h"
@@ -388,15 +389,12 @@ gboolean gsb_file_open_file ( gchar *filename )
     }
 
     /* ok, here the file or backup is loaded */
-
     gsb_status_message ( _("Checking schedulers"));
 
     /* the the name in the last opened files */
-
     ajoute_new_file_liste_ouverture ( filename );
 
     /* get the names of the columns */
-
     recuperation_noms_colonnes_et_tips ();
 
     /* we show and update the menus */
@@ -440,6 +438,10 @@ gboolean gsb_file_open_file ( gchar *filename )
     /* append that window to the main window */
     gtk_box_pack_start ( GTK_BOX (window_vbox_principale), main_widget, TRUE, TRUE, 0 );
     gtk_widget_show ( main_widget );
+
+    /* create the archives store data, ie the transaction wich will replace the archive in
+     * the list of transactions */
+    gsb_data_archive_store_create_list ();
 
     /* create and fill the gui transactions list */
     gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ),
@@ -745,6 +747,7 @@ gboolean fermer_fichier ( void )
 	    /* libère les opérations de tous les comptes */
 
 	    g_slist_free ( gsb_data_transaction_get_transactions_list ());
+	    g_slist_free ( gsb_data_transaction_get_complete_transactions_list ());
 	    g_slist_free ( gsb_data_account_get_list_accounts () );
 
 	    /* libère les échéances */

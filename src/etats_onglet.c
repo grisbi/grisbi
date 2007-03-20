@@ -264,7 +264,7 @@ gboolean ajout_etat ( void )
     gtk_box_pack_start ( GTK_BOX(frame), option_menu, FALSE, FALSE, 0 );
 
     /* On met une ligne blanche entre les paddingboxes */
-    /*   gtk_box_pack_start ( GTK_BOX(frame), gtk_label_new(""), FALSE, FALSE, 6 ); */
+    /*   gtk_box_pack_start ( GTK_BOX(frame), gtk_label_new(NULL), FALSE, FALSE, 6 ); */
 
     /* on ajoute maintenant la frame */
     frame = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, TRUE,
@@ -277,7 +277,7 @@ gboolean ajout_etat ( void )
     gtk_box_pack_start ( GTK_BOX(frame), scrolled_window, TRUE, TRUE, 6 );
 
     /* on ajoute maintenant le label */
-    label_description = gtk_label_new ( "" );
+    label_description = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( label_description ), 0, 0 );
     gtk_label_set_line_wrap ( GTK_LABEL ( label_description ), TRUE );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
@@ -990,7 +990,8 @@ void efface_etat ( void )
 
    if ( !question_yes_no_hint ( g_strdup_printf (_("Delete report \"%s\"?"),
 						  gsb_data_report_get_report_name (current_report_number) ),
-				 _("This will irreversibly remove this report.  There is no undo for this.") ))
+				_("This will irreversibly remove this report.  There is no undo for this."),
+				GTK_RESPONSE_NO ))
 	return;
 
    /* remove the report */

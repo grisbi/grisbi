@@ -32,6 +32,7 @@
 /*START_INCLUDE*/
 #include "gsb_transaction_model.h"
 #include "./erreur.h"
+#include "./gsb_data_archive_store.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_transactions_list.h"
 #include "./gsb_transactions_list.h"
@@ -41,6 +42,8 @@
 static GtkTreePath *gsb_transaction_model_get_model_path ( gint transaction_number,
 						    gint line_in_transaction );
 static gint gsb_transaction_model_get_transaction_from_model_path ( GtkTreePath *path_model );
+static const gchar *gsb_transation_model_get_cell_content ( GtkTreePath *path_sorted,
+						     gint column );
 /*END_STATIC*/
 
 
@@ -79,15 +82,19 @@ GtkTreePath *gsb_transactions_list_get_sorted_path ( gint transaction_number,
  * return the number of transaction on the sorted path
  * this is the path on the sorted model, ie what we see after been sorted and filtered
  * 
+ * this is the same function as gsb_transaction_model_get_archive_store_from_sorted_path but used for a transaction 
+ *
  * \param path_sorted the path in the sorted model
  * 
- * \return the transaction number or -1 (white line) if problem
+ * \return the transaction number, -1 (white line) if problem or 0 if archive
  * */
 gint gsb_transaction_model_get_transaction_from_sorted_path ( GtkTreePath *path_sorted )
 {
     gpointer transaction;
     GtkTreeIter iter;
     GtkTreePath *path_model;
+    gint what_is_line;
+    GtkTreeModel *model;
 
     /* if no path, return -1, wich is the white line */
     if ( !path_sorted )
@@ -98,18 +105,71 @@ gint gsb_transaction_model_get_transaction_from_sorted_path ( GtkTreePath *path_
     if (!path_model)
 	return -1;
 
-    gtk_tree_model_get_iter ( GTK_TREE_MODEL (gsb_transactions_list_get_store()),
+    model = GTK_TREE_MODEL (gsb_transactions_list_get_store());
+    gtk_tree_model_get_iter ( model,
 			      &iter,
 			      path_model );
-    gtk_tree_model_get ( GTK_TREE_MODEL (gsb_transactions_list_get_store()),
+    gtk_tree_model_get ( model,
 			 &iter,
 			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &transaction,
+			 TRANSACTION_COL_NB_WHAT_IS_LINE, &what_is_line,
 			 -1 );
 
     gtk_tree_path_free (path_model);
 
+    /* if it's an archive, we return 0 */
+    if (what_is_line == IS_ARCHIVE)
+	return 0;
+
     return gsb_data_transaction_get_transaction_number (transaction);
 }
+
+
+/**
+ * return the number of archive store on the sorted path
+ * this is the path on the sorted model, ie what we see after been sorted and filtered
+ *
+ * this is the same function as gsb_transaction_model_get_transaction_from_sorted_path but used for an archive
+ * 
+ * \param path_sorted the path in the sorted model
+ * 
+ * \return the archive_store number, -1 if problem or 0 if transaction or white line
+ * */
+gint gsb_transaction_model_get_archive_store_from_sorted_path ( GtkTreePath *path_sorted )
+{
+    gpointer archive_store;
+    GtkTreeIter iter;
+    GtkTreePath *path_model;
+    gint what_is_line;
+    GtkTreeModel *model;
+
+    /* if no path, return -1, wich is the white line */
+    if ( !path_sorted )
+	return -1;
+
+    path_model = gsb_transaction_model_get_model_path_from_sorted_path (path_sorted);
+
+    if (!path_model)
+	return -1;
+
+    model = GTK_TREE_MODEL (gsb_transactions_list_get_store());
+    gtk_tree_model_get_iter ( model,
+			      &iter,
+			      path_model );
+    gtk_tree_model_get ( model,
+			 &iter,
+			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &archive_store,
+			 TRANSACTION_COL_NB_WHAT_IS_LINE, &what_is_line,
+			 -1 );
+    gtk_tree_path_free (path_model);
+
+    /* if it's an archive, we return 0 */
+    if (what_is_line == IS_TRANSACTION)
+	return 0;
+
+    return gsb_data_archive_store_get_number (archive_store);
+}
+
 
 
 
@@ -236,12 +296,18 @@ GtkTreeIter *gsb_transaction_model_get_iter_from_transaction ( gint transaction_
 	    gpointer transaction_pointer;
 	    gint line;
 	    GtkTreeIter iter_child;
+	    gint what_is_line;
 
 	    gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
 				 &iter,
 				 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &transaction_pointer,
 				 TRANSACTION_COL_NB_TRANSACTION_LINE, &line,
+				 TRANSACTION_COL_NB_WHAT_IS_LINE, &what_is_line,
 				 -1 );
+
+	    /* if we are on an archive, we are not on a transaction... */
+	    if (what_is_line == IS_ARCHIVE)
+		continue;
 
 	    if ( line == line_in_transaction
 		 &&
@@ -268,7 +334,6 @@ GtkTreeIter *gsb_transaction_model_get_iter_from_transaction ( gint transaction_
 	    }
 	}
 	while (gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ),&iter ));
-
     }
     return NULL;
 }
@@ -299,4 +364,41 @@ void gsb_transaction_model_convert_sorted_iter_to_model_iter ( GtkTreeIter *tree
 						       &iter_in_filter );
 }
 
+
+/**
+ * get the content of the cell on the path given in param
+ * 
+ * \param path_sorted the path in the sorted tree view
+ * \param column a number between 0 and TRANSACTION_LIST_COL_NB
+ *
+ * \return a const string wich is the content of the cell or NULL
+ * */
+const gchar *gsb_transation_model_get_cell_content ( GtkTreePath *path_sorted,
+						     gint column )
+{
+    gchar *return_string;
+    GtkTreeIter iter;
+    GtkTreePath *path_model;
+
+    if (column < 0
+	||
+	column > TRANSACTION_LIST_COL_NB)
+	return NULL;
+
+    /* transform the path to be in the orinal model */
+    path_model = gsb_transaction_model_get_model_path_from_sorted_path (path_sorted);
+
+    if (!path_model)
+	return NULL;
+
+    gtk_tree_model_get_iter ( GTK_TREE_MODEL (gsb_transactions_list_get_store()),
+			      &iter,
+			      path_model );
+    gtk_tree_model_get ( GTK_TREE_MODEL (gsb_transactions_list_get_store()),
+			 &iter,
+			 column, &return_string,
+			 -1 );
+    gtk_tree_path_free (path_model);
+    return return_string;
+}
 

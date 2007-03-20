@@ -32,6 +32,7 @@
 #include "./erreur.h"
 #include "./dialog.h"
 #include "./gsb_data_account.h"
+#include "./gsb_data_archive.h"
 #include "./gsb_data_bank.h"
 #include "./gsb_data_budget.h"
 #include "./gsb_data_category.h"
@@ -64,6 +65,9 @@
 
 /*START_STATIC*/
 static gulong gsb_file_save_account_part ( gulong iterator,
+				    gulong *length_calculated,
+				    gchar **file_content );
+static gulong gsb_file_save_archive_part ( gulong iterator,
 				    gulong *length_calculated,
 				    gchar **file_content );
 static gulong gsb_file_save_bank_part ( gulong iterator,
@@ -152,6 +156,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     gint currency_link_part;
     gint bank_part;
     gint financial_year_part;
+    gint archive_part;
     gint reconcile_part;
     gint report_part;
 
@@ -180,12 +185,13 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     currency_link_part = 100;
     bank_part = 300;
     financial_year_part = 100;
+    archive_part = 120;
     reconcile_part = 50;
     report_part = 2500;
     
     length_calculated = general_part
 	+ account_part * gsb_data_account_get_accounts_amount ()
-	+ transaction_part * g_slist_length ( gsb_data_transaction_get_transactions_list ())
+	+ transaction_part * g_slist_length ( gsb_data_transaction_get_complete_transactions_list ())
 	+ party_part * g_slist_length ( gsb_data_payee_get_payees_list ())
 	+ category_part * g_slist_length ( gsb_data_category_get_categories_list ())
 	+ budgetary_part * g_slist_length ( gsb_data_budget_get_budgets_list ())
@@ -193,6 +199,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 	+ currency_link_part * g_slist_length ( gsb_data_currency_link_get_currency_link_list ())
 	+ bank_part * g_slist_length ( gsb_data_bank_get_bank_list ())
 	+ financial_year_part * g_slist_length (gsb_data_fyear_get_fyears_list ())
+	+ archive_part * g_slist_length (gsb_data_archive_get_archives_list ())
 	+ reconcile_part * g_list_length (gsb_data_reconcile_get_reconcile_list ())
 	+ report_part * g_slist_length ( gsb_data_report_get_report_list ());
 
@@ -254,6 +261,9 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 						   &length_calculated,
 						   &file_content );
 
+    iterator = gsb_file_save_archive_part ( iterator,
+					    &length_calculated,
+					    &file_content );
     iterator = gsb_file_save_reconcile_part ( iterator,
 					      &length_calculated,
 					      &file_content );
@@ -839,7 +849,7 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 {
     GSList *list_tmp;
 
-    list_tmp = gsb_data_transaction_get_transactions_list ();
+    list_tmp = gsb_data_transaction_get_complete_transactions_list ();
 
     while ( list_tmp )
     {
@@ -863,7 +873,7 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 	value_date = gsb_format_gdate_safe ( gsb_data_transaction_get_value_date ( transaction_number ));
 
 	/* now we can fill the file content */
-	new_string = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Cu=\"%d\" Am=\"%s\" Exb=\"%d\" Exr=\"%s\" Exf=\"%s\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Tra=\"%d\" Mo=\"%d\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Cu=\"%d\" Am=\"%s\" Exb=\"%d\" Exr=\"%s\" Exf=\"%s\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Ar=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Tra=\"%d\" Mo=\"%d\" />\n",
 					       gsb_data_transaction_get_account_number ( transaction_number ),
 					       transaction_number,
 					       gsb_data_transaction_get_transaction_id ( transaction_number),
@@ -882,6 +892,7 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 					       gsb_data_transaction_get_method_of_payment_number (transaction_number),
 					       gsb_data_transaction_get_method_of_payment_content (transaction_number),
 					       gsb_data_transaction_get_marked_transaction (transaction_number),
+					       gsb_data_transaction_get_archive_number (transaction_number),
 					       gsb_data_transaction_get_automatic_transaction (transaction_number),
 					       gsb_data_transaction_get_reconcile_number (transaction_number),
 					       gsb_data_transaction_get_financial_year_number (transaction_number),
@@ -1373,6 +1384,62 @@ gulong gsb_file_save_financial_year_part ( gulong iterator,
 
 	g_free (begining_date);
 	g_free (end_date);
+
+	/* append the new string to the file content
+	 * and take the new iterator */
+	iterator = gsb_file_save_append_part ( iterator,
+					       length_calculated,
+					       file_content,
+					       new_string );
+	list_tmp = list_tmp -> next;
+    }
+    return iterator;
+}
+
+
+/**
+ * save the archives structures
+ *
+ * \param iterator the current iterator
+ * \param length_calculated a pointer to the variable lengh_calculated
+ * \param file_content a pointer to the variable file_content
+ *
+ * \return the new iterator
+ * */
+gulong gsb_file_save_archive_part ( gulong iterator,
+				    gulong *length_calculated,
+				    gchar **file_content )
+{
+    GSList *list_tmp;
+	
+    list_tmp = gsb_data_archive_get_archives_list ();
+
+    while ( list_tmp )
+    {
+	gint archive_number;
+	gchar *new_string;
+	gchar *begining_date;
+	gchar *end_date;
+
+	archive_number = gsb_data_archive_get_no_archive (list_tmp -> data);
+
+	/* set the date */
+	begining_date = gsb_format_gdate_safe (gsb_data_archive_get_begining_date (archive_number));
+	end_date = gsb_format_gdate_safe (gsb_data_archive_get_end_date (archive_number));
+
+	/* now we can fill the file content */
+	new_string = g_markup_printf_escaped( "\t<Archive Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" Edte=\"%s\" Fye=\"%d\" Rep=\"%s\" />\n",
+					      archive_number,
+					      gsb_data_archive_get_name (archive_number),
+					      begining_date,
+					      end_date,
+					      gsb_data_archive_get_fyear (archive_number),
+					      gsb_data_archive_get_report_title (archive_number));
+
+	if (begining_date)
+	    g_free (begining_date);
+	if (end_date)
+	    g_free (end_date);
 
 	/* append the new string to the file content
 	 * and take the new iterator */

@@ -34,6 +34,8 @@
 #include "./gsb_calendar_entry.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
+#include "./gsb_data_archive.h"
+#include "./gsb_data_archive_store.h"
 #include "./gsb_data_bank.h"
 #include "./gsb_data_budget.h"
 #include "./gsb_data_category.h"
@@ -88,6 +90,7 @@ gchar *labels_titres_colonnes_liste_ope[] = {
 
 GdkColor couleur_fond[2];
 GdkColor couleur_grise;
+GdkColor archive_background_color;
 GdkColor couleur_selection;
 GdkColor breakdown_background;
 
@@ -119,7 +122,6 @@ gchar *adresse_secondaire;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
-extern gchar *crypt_key;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
@@ -205,6 +207,8 @@ void init_variables ( void )
     gsb_data_bank_init_variables ();
     gsb_data_reconcile_init_variables ();
     gsb_data_payment_init_variables ();
+    gsb_data_archive_init_variables ();
+    gsb_data_archive_store_init_variables ();
 
     gsb_currency_init_variables ();
     gsb_fyear_init_variables ();
@@ -308,11 +312,16 @@ void initialisation_couleurs_listes ( void )
     couleur_rouge.pixel = 0;
 
     /*     couleur grise de l'échéancier */
-
     couleur_grise.red = COULEUR_GRISE_RED;
     couleur_grise.green = COULEUR_GRISE_GREEN;
     couleur_grise.blue = COULEUR_GRISE_BLUE;
     couleur_grise.pixel = 0;
+
+    /* set the archive background color */
+    archive_background_color.red = COLOR_ARCHIVE_BG_RED;
+    archive_background_color.green = COLOR_ARCHIVE_BG_GREEN;
+    archive_background_color.blue = COLOR_ARCHIVE_BG_BLUE;
+    archive_background_color.pixel = 0;
 
     /* color for breakdown children */
 

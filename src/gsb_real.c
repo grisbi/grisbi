@@ -57,7 +57,7 @@ extern gint max;
  *
  * \param number
  *
- * \return a newly allocated string of the number
+ * \return a newly allocated string of the number (this function will never return NULL)
  * */
 gchar *gsb_real_get_string ( gsb_real number )
 {

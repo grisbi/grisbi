@@ -65,6 +65,10 @@ static  gboolean gsb_assistant_reconcile_config_page_menu_toggled ( GtkWidget *b
 								   GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void );
 static  GtkWidget *gsb_assistant_reconcile_config_page_success ( void );
+static gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
+							   gint new_page );
+static gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *assistant,
+							   gint new_page );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -192,7 +196,8 @@ GtkResponseType gsb_assistant_reconcile_config_run ( void )
 						       "(you will be able to create new reconciliations in the next step). "
 						       "Previous reconciliations will be available too."),
 						       transactions_to_link ),
-				    "grisbi-logo.png" );
+				    "grisbi-logo.png",
+				    NULL );
 
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_reconcile_config_page_menu (assistant),
@@ -473,7 +478,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 		       0 );
 
     /* create the label */
-    label = gtk_label_new ("");
+    label = gtk_label_new (NULL);
     gtk_box_pack_start ( GTK_BOX (page),
 			 label,
 			 TRUE, TRUE,
@@ -531,7 +536,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_automaticaly_associate ( G
     /* for now we juste create the widgets, but cannot fill here,
      * we will fill when the user come to that page */
     /* first show the total of transactions to link, same as in the menu assistant */
-    label_transactions_to_link_2 = gtk_label_new ("");
+    label_transactions_to_link_2 = gtk_label_new (NULL);
     gtk_box_pack_start ( GTK_BOX (page),
 			 label_transactions_to_link_2,
 			 FALSE, FALSE, 0 );
@@ -553,7 +558,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_automaticaly_associate ( G
 			 FALSE, FALSE, 0 );
 
     /* set the number of possible association, filled when come in that page */
-    label_possible_association = gtk_label_new ("");
+    label_possible_association = gtk_label_new (NULL);
     gtk_box_pack_start ( GTK_BOX (page),
 			 label_possible_association,
 			 FALSE, FALSE, 12 );
@@ -603,7 +608,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
 
     /* the number of transactions to link */
-    label_transactions_to_link_3 = gtk_label_new ("");
+    label_transactions_to_link_3 = gtk_label_new (NULL);
     gtk_box_pack_start ( GTK_BOX (page),
 			 label_transactions_to_link_3,
 			 FALSE, FALSE, 0 );
@@ -859,7 +864,7 @@ static gboolean gsb_assistant_reconcile_config_hide_label_error ( GtkWidget *edi
 								  GtkWidget *label )
 {
     gtk_label_set_text ( GTK_LABEL (label),
-			 "" );
+			 NULL );
     return FALSE;
 }
 
@@ -869,10 +874,12 @@ static gboolean gsb_assistant_reconcile_config_hide_label_error ( GtkWidget *edi
  * fill the label and show the button if possible
  *
  * \param assistant
+ * \param new_page
  *
  * \return FALSE
  * */
-gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant )
+gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
+							   gint new_page )
 {
     gchar *string;
     GSList *tmp_list;
@@ -1028,10 +1035,12 @@ static gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *butt
  * update the list of transactions to associate and fill the labels
  *
  * \param assistant
+ * \param new_page
  *
  * \return FALSE
  * */
-gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *assistant )
+gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *assistant,
+							   gint new_page )
 {
     gchar *string;
     GSList *tmp_list;

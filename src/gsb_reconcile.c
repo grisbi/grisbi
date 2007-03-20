@@ -102,7 +102,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     GtkWidget *frame, *label, *table, *vbox, *hbox, *button, *separator;
     GtkTooltips *tips;
 
-    frame = gtk_frame_new ( "" );
+    frame = gtk_frame_new ( NULL );
     vbox = gtk_vbox_new ( FALSE, 3 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 3 );
     gtk_container_add ( GTK_CONTAINER ( frame ), vbox );
@@ -112,7 +112,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
 		       G_CALLBACK ( gsb_transactions_list_key_press ), NULL );
 
     /* the title of the frame */ 
-    label = gtk_label_new ( "" );
+    label = gtk_label_new ( NULL );
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_misc_set_alignment ( GTK_MISC (label), 0.0, 0.0 );
     gtk_frame_set_label_widget ( GTK_FRAME(frame), label);
@@ -159,7 +159,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     label = gtk_label_new ( _("Balance") );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, 0, 1);
 
-    reconcile_last_date_label = gtk_label_new ( "" );
+    reconcile_last_date_label = gtk_label_new ( NULL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_last_date_label,
 				0, 1, 2, 3 );
 
@@ -210,7 +210,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 0, 1);
 
-    reconcile_initial_balance_label = gtk_label_new ( "" );
+    reconcile_initial_balance_label = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( reconcile_initial_balance_label ), 1, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_initial_balance_label, 1, 2, 0, 1);
 
@@ -218,7 +218,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 1, 2);
 
-    reconcile_final_balance_label = gtk_label_new ( "" );
+    reconcile_final_balance_label = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( reconcile_final_balance_label ), 1, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_final_balance_label, 1, 2, 1, 2);
 
@@ -226,7 +226,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 2, 3);
 
-    reconcile_marked_balance_label = gtk_label_new ( "" );
+    reconcile_marked_balance_label = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( reconcile_marked_balance_label ), 1, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_marked_balance_label, 1, 2, 2, 3);
 
@@ -237,7 +237,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 4, 5);
 
-    reconcile_variation_balance_label = gtk_label_new ( "" );
+    reconcile_variation_balance_label = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( reconcile_variation_balance_label ), 1, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_variation_balance_label, 1, 2, 4, 5);
 

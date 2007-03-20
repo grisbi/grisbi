@@ -208,7 +208,7 @@ void gsb_form_create_widgets ()
     gtk_expander_set_label_widget ( GTK_EXPANDER(form_expander), hbox );
 
     /* set the label transaction form */
-    label = gtk_label_new ( "" );
+    label = gtk_label_new ( NULL );
     gtk_label_set_markup_with_mnemonic ( GTK_LABEL ( label ), 
 					 g_strconcat ( "<span weight=\"bold\">", 
 						       _("Transaction/Scheduled _form"),
@@ -218,7 +218,7 @@ void gsb_form_create_widgets ()
 			 FALSE, FALSE, 0 );
 
     /* set the last statement label */
-    label_last_statement = gtk_label_new ( "" );
+    label_last_statement = gtk_label_new ( NULL );
     gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       label_last_statement,
 		       FALSE, FALSE, 0 );
@@ -1274,13 +1274,13 @@ gboolean gsb_form_clean ( gint account_number )
 		case TRANSACTION_FORM_OP_NB:
 
 		    gtk_label_set_text ( GTK_LABEL ( element -> element_widget ),
-					 "" );
+					 NULL );
 		    break;
 
 		case TRANSACTION_FORM_MODE:
 
 		    gtk_label_set_text ( GTK_LABEL ( element -> element_widget ),
-					 "" );
+					 NULL );
 		    break;
 	    }
 	}

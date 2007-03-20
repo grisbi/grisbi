@@ -160,7 +160,8 @@ gboolean delete_account ( void )
 
     if ( !question_yes_no_hint ( g_strdup_printf (_("Delete account \"%s\"?"),
 						  gsb_data_account_get_name (deleted_account)),
-				 _("This will irreversibly remove this account and all operations that were previously contained.  There is no undo for this. Usually it's a better way to close an account.") ))
+				 _("This will irreversibly remove this account and all operations that were previously contained.  There is no undo for this. Usually it's a better way to close an account."),
+				 GTK_RESPONSE_NO ))
 	return FALSE;
 
     /* if the las account, close the file */
@@ -204,7 +205,7 @@ gboolean delete_account ( void )
 
 	i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+	list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
 	while ( list_tmp_transactions )
 	{

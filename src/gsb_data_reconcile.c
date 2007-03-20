@@ -248,7 +248,7 @@ gboolean gsb_data_reconcile_remove ( gint reconcile_number )
     g_free (reconcile);
 
     /* remove that reconcile of the transactions */
-    list_tmp = gsb_data_transaction_get_transactions_list ();
+    list_tmp = gsb_data_transaction_get_complete_transactions_list ();
 
     while (list_tmp)
     {
@@ -700,7 +700,7 @@ gint gsb_data_reconcile_get_previous ( gint reconcile_number )
 gint gsb_data_reconcile_get_number_by_date ( GDate *date,
 					     gint account_number )
 {
-    GSList *tmp_list;
+    GList *tmp_list;
 
     if (!date
 	||

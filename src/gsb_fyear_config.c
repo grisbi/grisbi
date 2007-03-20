@@ -716,7 +716,7 @@ gboolean gsb_fyear_config_remove_fyear ( GtkWidget *tree_view )
 	return FALSE;
 
     /* first, we check if one transaction uses that financial year */
-    tmp_list = gsb_data_transaction_get_transactions_list ();
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
 
     while (tmp_list)
     {
@@ -740,7 +740,8 @@ gboolean gsb_fyear_config_remove_fyear ( GtkWidget *tree_view )
 		gint result;
 
 		result = question_yes_no_hint ( _("The selected financial year is used in the file"),
-						_("If you really remove it, all the associated transactions will be without financial year.\nAre you sure ?"));
+						_("If you really remove it, all the associated transactions will be without financial year.\nAre you sure ?"),
+						GTK_RESPONSE_NO );
 		if (result)
 		{
 		    gsb_data_transaction_set_financial_year_number (transaction_number, 0);
@@ -794,10 +795,11 @@ gboolean gsb_fyear_config_associate_transactions ( void )
     gint modification_number = 0;
 
     if (!question_yes_no_hint ( _("Automatic association of financial years?"),
-				_("This function assigns each transaction without a financial year to the one related to its transaction date.  If no financial year matches, the transaction will not be changed.")))
+				_("This function assigns each transaction without a financial year to the one related to its transaction date.  If no financial year matches, the transaction will not be changed."),
+				GTK_RESPONSE_NO ))
 	return FALSE;
 
-    list_tmp = gsb_data_transaction_get_transactions_list ();
+    list_tmp = gsb_data_transaction_get_complete_transactions_list ();
 
     while ( list_tmp )
     {
