@@ -665,12 +665,12 @@ GtkWidget *gsb_automem_stock_button_new ( GsbButtonStyle style,
     {
 	if ( data >= 0 )
 	{
-	    g_signal_connect_swapped ( G_OBJECT(button), "clicked", 
+	    g_signal_connect_swapped ( G_OBJECT(button), "pressed", 
 				       G_CALLBACK(callback), data );
 	}
 	else
 	{
-	    g_signal_connect ( G_OBJECT(button), "clicked", 
+	    g_signal_connect ( G_OBJECT(button), "pressed", 
 			       G_CALLBACK(callback), data );
 	}
     }
