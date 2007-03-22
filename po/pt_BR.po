@@ -4221,7 +4221,7 @@ msgstr "Organizado por data"
 
 #: src/etats_config.c:176
 msgid "Data display"
-msgstr "Exibir data"
+msgstr "Exibição de Dados"
 
 #: src/etats_config.c:948
 msgid "Invalid custom initial date"
