@@ -39,7 +39,6 @@
 #include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./comptes_gestion.h"
-#include "./structures.h"
 #include "./fenetre_principale.h"
 #include "./gtk_combofix.h"
 #include "./gsb_data_transaction.h"

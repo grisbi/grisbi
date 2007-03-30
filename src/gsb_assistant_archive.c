@@ -37,6 +37,7 @@
 #include "./gsb_data_transaction.h"
 #include "./gsb_fyear.h"
 #include "./gsb_report.h"
+#include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./etats_calculs.h"
 #include "./utils.h"
@@ -588,6 +589,7 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
     gsb_assistant_sensitive_button_next ( assistant,
 					  TRUE );
 
+    modification_fichier (TRUE);
     return FALSE;
 }
 

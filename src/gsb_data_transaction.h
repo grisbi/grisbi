@@ -73,6 +73,7 @@ gint gsb_data_transaction_new_transaction_with_number ( gint no_account,
 							gint transaction_number );
 gint gsb_data_transaction_new_white_line ( gint mother_transaction_number);
 gboolean gsb_data_transaction_remove_transaction ( gint transaction_number );
+gboolean gsb_data_transaction_remove_transaction_without_check ( gint transaction_number );
 gboolean gsb_data_transaction_set_account_number ( gint transaction_number,
 						   gint no_account );
 gboolean gsb_data_transaction_set_account_number_transfer ( gint transaction_number,

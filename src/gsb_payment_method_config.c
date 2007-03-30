@@ -115,9 +115,6 @@ GtkWidget *gsb_payment_method_config_create ( void )
     GtkWidget *bouton_ajouter_type;
     GtkTreeStore *payment_method_model;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Reconciliation"),
-					       "reconciliation.png" );
-
     /* Now we have a model, create view */
     vbox_pref = new_vbox_with_title_and_icon ( _("Payment methods"),
 					       "payment-methods.png" );

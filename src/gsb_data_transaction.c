@@ -31,8 +31,10 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_transaction.h"
+#include "./erreur.h"
 #include "./dialog.h"
 #include "./gsb_data_account.h"
+#include "./gsb_data_currency.h"
 #include "./gsb_data_currency_link.h"
 #include "./gsb_data_payment.h"
 #include "./utils_dates.h"
@@ -596,6 +598,9 @@ gboolean gsb_data_transaction_set_amount ( gint transaction_number,
 /**
  * get the amount of the transaction, modified to be ok with the currency
  * of the account
+ * !! we should never use -1 for the return_exponent because the numbers become to deep and
+ * 	the functions gsb_real_add and others can return an overflow
+ * 	try to pass a return_exponent by gsb_data_currency_get_floating_point before
  * 
  * \param transaction_number the number of the transaction
  * \param return_exponent the exponent we want to have for the returned number, or -1 if we want no limit
@@ -637,6 +642,9 @@ gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transactio
     struct_transaction *transaction;
     gsb_real amount = null_real;
     gint link_number;
+
+    if (return_exponent == -1)
+	devel_debug (_("Warning : gsb_data_transaction_get_adjusted_amount_for_currency called with a return_exponent at -1.\nThis could cause errors in the amounts."));
 
     transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
 
@@ -1914,6 +1922,38 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
     return TRUE;
 }
 
+/**
+ * remove the transaction from the transaction's list
+ * just do it and only for that transaction, check nothing
+ * usefull when we need to delete a lot of transactions in one time
+ * 	(example to delete an archive)
+ * 
+ * \param transaction_number
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_data_transaction_remove_transaction_without_check ( gint transaction_number )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_data_transaction_get_transaction_by_no (transaction_number);
+
+    if ( !transaction )
+	return FALSE;
+
+    /* delete the transaction from the lists */
+    transactions_list = g_slist_remove ( transactions_list,
+					 transaction );
+    complete_transactions_list = g_slist_remove ( complete_transactions_list,
+						  transaction );
+
+    /* we free the buffer to avoid big possibly crashes */
+    transaction_buffer[0] = NULL;
+    transaction_buffer[1] = NULL;
+
+    g_free (transaction);
+    return TRUE;
+}
 
 
 /**

@@ -26,6 +26,7 @@
 #include "./menu.h"
 #include "./utils.h"
 #include "./dialog.h"
+#include "./gsb_archive_config.h"
 #include "./gsb_automem.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_currency_link_config.h"
@@ -427,6 +428,14 @@ void preferences ( gint page )
 			1, METHODS_OF_PAYMENT_PAGE,
 			-1);
     gtk_notebook_append_page (preference_frame, gsb_payment_method_config_create (), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter2,
+			0, _("Archives"),
+			1, ARCHIVE_PAGE,
+			-1);
+    gtk_notebook_append_page (preference_frame, gsb_archive_config_create (), NULL);
 
     gtk_widget_show_all ( hpaned );
     gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );

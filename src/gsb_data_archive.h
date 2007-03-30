@@ -18,6 +18,7 @@ gint gsb_data_archive_get_number_by_name ( const gchar *name );
 const gchar *gsb_data_archive_get_report_title ( gint archive_number );
 gboolean gsb_data_archive_init_variables ( void );
 gint gsb_data_archive_new ( const gchar *name );
+gboolean gsb_data_archive_remove ( gint archive_number );
 gboolean gsb_data_archive_set_begining_date ( gint archive_number,
 					      const GDate *date );
 gboolean gsb_data_archive_set_end_date ( gint archive_number,

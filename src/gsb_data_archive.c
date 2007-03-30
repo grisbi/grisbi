@@ -32,6 +32,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_archive.h"
 #include "./dialog.h"
+#include "./gsb_data_transaction.h"
 #include "./utils_dates.h"
 #include "./utils_str.h"
 /*END_INCLUDE*/
@@ -67,7 +68,6 @@ static gint gsb_data_archive_get_pointer_from_name_in_glist ( struct_archive *ar
 						       const gchar *name );
 static gpointer gsb_data_archive_get_structure ( gint archive_number );
 static gint gsb_data_archive_max_number ( void );
-static gboolean gsb_data_archive_remove ( gint archive_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -232,8 +232,8 @@ gint gsb_data_archive_new ( const gchar *name )
 }
 
 /**
- * remove a archive
- * set all the archives of transaction which are this one to 0
+ * remove an archive
+ * remove too the archive from the transactions linked to it
  *
  * \param archive_number the archive we want to remove
  *
@@ -242,17 +242,31 @@ gint gsb_data_archive_new ( const gchar *name )
 gboolean gsb_data_archive_remove ( gint archive_number )
 {
     struct_archive *archive;
+    GSList *tmp_list;
 
     archive = gsb_data_archive_get_structure ( archive_number );
 
     if (!archive)
 	return FALSE;
 
+    /* remove the archive from the transactions */
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+    while (tmp_list)
+    {
+	gint transaction_number;
+
+	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+	if (gsb_data_transaction_get_archive_number (transaction_number) == archive -> archive_number)
+	    gsb_data_transaction_set_archive_number ( transaction_number,
+						      0 );
+	tmp_list = tmp_list -> next;
+    }
+
+    /* remove the archive from the list */
     archive_list = g_slist_remove ( archive_list,
 				    archive );
 
     /* remove the archive from the buffers */
-
     if ( archive_buffer == archive )
 	archive_buffer = NULL;
     g_free (archive);

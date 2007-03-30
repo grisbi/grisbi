@@ -44,6 +44,7 @@ sources = \
 	fichiers_gestion.c	\
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
+	gsb_archive_config.c	\
 	gsb_assistant.c		\
 	gsb_assistant_archive.c		\
 	gsb_assistant_reconcile_config.c		\
@@ -147,6 +148,7 @@ grisbi_INCLUDES =		\
 	comptes_traitements.h	\
 	constants.h		\
 	import_csv.h		\
+	gsb_archive_config.h	\
 	gsb_assistant.h		\
 	gsb_assistant_archive.h		\
 	gsb_assistant_reconcile_config.h		\

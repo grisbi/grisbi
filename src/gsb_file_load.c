@@ -756,6 +756,18 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	}
 
 	else if ( !strcmp ( attribute_names[i],
+			    "Check_archival_at_opening" ))
+	{
+	    etat.check_for_archival = utils_str_atoi( attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Max_transactions_before_warm_archival" ))
+	{
+	    etat.max_non_archived_transactions_for_check = utils_str_atoi( attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
 			    "Transactions_view" ))
 	{
 	    gchar **pointeur_char;
@@ -767,7 +779,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
 	    for ( j = 0 ; j<TRANSACTION_LIST_ROWS_NB ; j++ )
 		for ( k = 0 ; k<TRANSACTION_LIST_COL_NB ; k++ )
-		    tab_affichage_ope[i][k] = utils_str_atoi ( pointeur_char[k + j*TRANSACTION_LIST_COL_NB]);
+		    tab_affichage_ope[j][k] = utils_str_atoi ( pointeur_char[k + j*TRANSACTION_LIST_COL_NB]);
 
 	    g_strfreev ( pointeur_char );
 	}
@@ -6693,7 +6705,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 		if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
 		{
 		    /* change the problem of marked transactions */
-		    if (gsb_data_transaction_get_marked_transaction (transaction_number) == 3)
+		    if (gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE)
 		    {
 			GSList *list_tmp_transactions_2;
 			list_tmp_transactions_2 = gsb_data_transaction_get_complete_transactions_list ();
@@ -6705,7 +6717,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 
 			    if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_2) == transaction_number)
 				gsb_data_transaction_set_marked_transaction ( transaction_number_2,
-									      3 );
+									      OPERATION_RAPPROCHEE );
 			    list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
 			}
 		    }
@@ -6980,6 +6992,12 @@ gboolean gsb_file_load_update_previous_version ( void )
 	     * or the same without name, so better to check in the configuration */
 	    dialog_message ( "reconcile-start-end-dates" );
 
+	    /*
+	     * untill 0.6, no archive, so by default we let grisbi check at opening and set
+	     * the transactions limit to 1000 */
+	    etat.check_for_archival = TRUE;
+	    etat.max_non_archived_transactions_for_check = 1000;
+
 	    /* ********************************************************* */
 	    /* 	 to set just before the new version */
 	    /* ********************************************************* */
@@ -7025,17 +7043,17 @@ gboolean gsb_file_load_update_previous_version ( void )
 
     /* check now if a lot of transactions,
      * if yes, we propose to file the transactions
-     * by default take the 2000 transactions as limit
-     * FIXME : should be possible to configure the value to ask to archive */
-    if ( g_slist_length (gsb_data_transaction_get_transactions_list ()) > 2000 )
+     * by default take the 2000 transactions as limit */
+    if ( etat.check_for_archival
+	 &&
+	 g_slist_length (gsb_data_transaction_get_transactions_list ()) > etat.max_non_archived_transactions_for_check )
     {
 	if (question_yes_no_hint ( _("Archive some transactions ?"),
-				   g_strdup_printf ( _("There is %d transactions to load into the lists,\nThis is much and the display would be faster if you archive some transactions.\n\nDo you want to launch the assistant to archive some transactions ?"),
+				   g_strdup_printf ( _("There is %d transactions to load into the lists,\nThis is much and the display would be faster if you archive some transactions.\n\nDo you want to launch the assistant to archive some transactions ?\n(You can change the limit to show that warning in the configuration)"),
 						     g_slist_length (gsb_data_transaction_get_transactions_list ())),
 				   GTK_RESPONSE_YES ))
 	    gsb_assistant_archive_run ();
     }
-
     return TRUE;
 }
 

@@ -79,7 +79,6 @@ static gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint number );
 static GtkWidget * gsb_gui_create_cell_contents_menu ( int x, int y );
 static gboolean gsb_gui_update_row_foreach ( GtkTreeModel *model, GtkTreePath *path,
 				      GtkTreeIter *iter, gint coords[2] );
-static gboolean gsb_transactions_list_append_archive ( gint archive_number );
 static gboolean gsb_transactions_list_append_transaction ( gint transaction_number,
 						    GtkTreeStore *store );
 static gint gsb_transactions_list_append_white_line ( gint mother_transaction_number,
@@ -97,7 +96,6 @@ static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
 static void gsb_transactions_list_create_tree_view_columns ( void );
 static gboolean gsb_transactions_list_current_transaction_down ( gint account_number );
 static gboolean gsb_transactions_list_current_transaction_up ( gint account_number );
-static gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transaction_number );
 static gboolean gsb_transactions_list_expand_row ( GtkTreeView *tree_view,
 					    GtkTreeIter *iter_in_sort,
 					    GtkTreePath *path,
@@ -1482,15 +1480,15 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    /* mise en forme R/P */
 
 	case TRANSACTION_LIST_MARK:
-	    if ( gsb_data_transaction_get_marked_transaction ( transaction_number)== 1 )
+	    if ( gsb_data_transaction_get_marked_transaction ( transaction_number)== OPERATION_POINTEE )
 		return ( my_strdup (_("P")));
 	    else
 	    {
-		if ( gsb_data_transaction_get_marked_transaction ( transaction_number)== 2 )
+		if ( gsb_data_transaction_get_marked_transaction ( transaction_number)== OPERATION_TELERAPPROCHEE )
 		    return ( my_strdup (_("T")));
 		else
 		{
-		    if ( gsb_data_transaction_get_marked_transaction ( transaction_number)== 3 )
+		    if ( gsb_data_transaction_get_marked_transaction ( transaction_number)== OPERATION_RAPPROCHEE )
 			return ( my_strdup (_("R")));
 		    else
 			return ( NULL );
@@ -1846,7 +1844,7 @@ gboolean gsb_transactions_list_set_transactions_balances ( gint account_number )
 	}
 	else
 	{
-	    /* it's an archive */
+	    /* transaction_number is 0, so for now it's an archive */
 	    amount = gsb_data_archive_store_get_balance (gsb_transaction_model_get_archive_store_from_sorted_path (path_sorted));
 	    /* balance always on the first line */
 	    tmp_line_balance = 0;
@@ -1993,8 +1991,7 @@ gsb_real solde_debut_affichage ( gint account_number,
     if ( gsb_data_account_get_r (account_number) )
 	return solde;
 
-    /*     les R ne sont pas affichés, on les déduit du solde initial */
-
+    /* the marked R transactions are not showed, add their balance to the initial balance */
     list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
     while ( list_tmp_transactions )
@@ -2008,11 +2005,10 @@ gsb_real solde_debut_affichage ( gint account_number,
 	     &&
 	     !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp)
 	     &&
-	     gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == 3 )
+	     gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_RAPPROCHEE )
 	    solde = gsb_real_add ( solde,
 				   gsb_data_transaction_get_adjusted_amount (transaction_number_tmp,
 									     floating_point ));
-
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
     return ( solde );
@@ -2083,12 +2079,26 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 	if (ev -> type == GDK_2BUTTON_PRESS)
 	{
 	    gint archive_number;
+	    const gchar *name;
 
 	    archive_number = gsb_data_archive_store_get_archive_number (gsb_data_archive_store_get_number (transaction));
-	    if (question_yes_no ( g_strdup_printf ( _("Do you want to load the transaction of the archive %s into the list ?"),
-						    gsb_data_archive_get_name (archive_number)),
-				  GTK_RESPONSE_CANCEL ))
-		gsb_transactions_list_append_archive (archive_number);
+
+	    /* i don't know why but i had a crash with a NULL name of archive, so prevent here */
+	    name = gsb_data_archive_get_name (archive_number);
+	    if (name)
+	    {
+		if (question_yes_no ( g_strdup_printf ( _("Do you want to load the transaction of the archive %s into the list ?"),
+							name ),
+				      GTK_RESPONSE_CANCEL ))
+		    gsb_transactions_list_append_archive (archive_number);
+	    }
+	    else
+	    {
+		if (archive_number)
+		    warning_debug (_("An archive was clicked but Grisbi is unable to get the name. It seems like a bug.\nPlease try to reproduce and contact the Grisbi team."));
+		else
+		    warning_debug (_("An archive was clicked but it seems to have the number 0, wich should not happen.\nPlease try to reproduce and contact the Grisbi team."));
+	    }
 	}
 	return TRUE;
     }
@@ -3508,7 +3518,6 @@ gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint number )
     coords[1] = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT (item), "y" ));
 
     tab_affichage_ope[coords[1]][coords[0]] = number + 1;
-
     gtk_tree_model_foreach ( GTK_TREE_MODEL (gsb_transactions_list_get_store ()),
 			     (GtkTreeModelForeachFunc) gsb_gui_update_row_foreach, coords );
 
@@ -5114,6 +5123,7 @@ gboolean gsb_transactions_list_switch_expander ( gint transaction_number )
 /**
  * replace in the transactions list the archive lines by all the transactions in
  * the archive
+ * remove too the archive_store from the archive_store list
  *
  * \param archive_number
  *

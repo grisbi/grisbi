@@ -37,6 +37,8 @@
 /*START_INCLUDE*/
 #include "gsb_data_archive_store.h"
 #include "./dialog.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_currency.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_real.h"
 #include "./gsb_real.h"
@@ -66,10 +68,10 @@ typedef struct
 
 
 /*START_STATIC*/
-static  struct_store_archive *gsb_data_archive_find_struct ( gint archive_number,
-							    gint account_number );
 static gint gsb_data_archive_store_find ( gint archive_number,
 				   gint account_number );
+static  struct_store_archive *gsb_data_archive_store_find_struct ( gint archive_number,
+								  gint account_number );
 static  gint gsb_data_archive_store_max_number ( void );
 static  gint gsb_data_archive_store_new ( void );
 /*END_STATIC*/
@@ -168,16 +170,19 @@ void gsb_data_archive_store_create_list ( void )
 	if (archive_number)
 	{
 	    struct_store_archive *archive;
+	    gint floating_point;
+	    gint account_number;
 
-	    archive = gsb_data_archive_find_struct ( archive_number,
-						     gsb_data_transaction_get_account_number (transaction_number));
-
+	    account_number = gsb_data_transaction_get_account_number (transaction_number);
+	    floating_point = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (account_number));
+	    archive = gsb_data_archive_store_find_struct ( archive_number,
+							   account_number);
 	    if (archive)
 	    {
 		/* there is already a struct_store_archive for the same archive and the same account,
 		 * we increase the balance */
 		archive -> balance = gsb_real_add ( archive -> balance,
-						    gsb_data_transaction_get_adjusted_amount (transaction_number, -1));
+						    gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point));
 		archive -> nb_transactions++;
 	    }
 	    else
@@ -190,8 +195,8 @@ void gsb_data_archive_store_create_list ( void )
 		archive = gsb_data_archive_store_get_structure (archive_store_number);
 
 		archive -> archive_number = archive_number;
-		archive -> account_number = gsb_data_transaction_get_account_number (transaction_number);
-		archive -> balance = gsb_data_transaction_get_adjusted_amount (transaction_number, -1);
+		archive -> account_number = account_number;
+		archive -> balance = gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point);
 		archive -> nb_transactions = 1;
 	    }
 	}
@@ -215,8 +220,8 @@ gint gsb_data_archive_store_find ( gint archive_number,
 {
     struct_store_archive *archive;
 
-    archive = gsb_data_archive_find_struct ( archive_number,
-					     account_number );
+    archive = gsb_data_archive_store_find_struct ( archive_number,
+						   account_number );
     if (!archive)
 	return 0;
 
@@ -407,8 +412,8 @@ static gint gsb_data_archive_store_max_number ( void )
  *
  * \return a pointer to the found struct_store_archive or NULL
  * */
-static struct_store_archive *gsb_data_archive_find_struct ( gint archive_number,
-							    gint account_number )
+static struct_store_archive *gsb_data_archive_store_find_struct ( gint archive_number,
+								  gint account_number )
 {
     GSList *tmp_list;
 

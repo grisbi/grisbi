@@ -99,6 +99,10 @@ struct {
     gint compress_file;  /* TRUE if we want to compress the grisbi file */
     gint compress_backup;  /* TRUE if we want to compress the backup */
 
+    /* archive stuff */
+    gint check_for_archival; /* TRUE if we want to check the number of non archived transactions at the opening */
+    gint max_non_archived_transactions_for_check; /* the max number of transaction before grisbi warm at the opening */
+
     gint formulaire_distinct_par_compte;  /* à 1 si le formulaire est différent pour chaque compte */
     gint affiche_boutons_valider_annuler;
     gint affiche_nb_ecritures_listes;

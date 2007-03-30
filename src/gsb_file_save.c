@@ -515,6 +515,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tPath_logo=\"%s\"\n"
 					   "\t\tRemind_display_per_account=\"%d\"\n"
 					   "\t\tNo_fill_r_at_begining=\"%d\"\n"
+					   "\t\tCheck_archival_at_opening=\"%d\"\n"
+					   "\t\tMax_transactions_before_warm_archival=\"%d\"\n"
 					   "\t\tTransactions_view=\"%s\"\n"
 					   "\t\tTransaction_column_width_ratio=\"%s\"\n"
 					   "\t\tOne_line_showed=\"%d\"\n"
@@ -551,6 +553,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	chemin_logo,
 	etat.retient_affichage_par_compte,
 	etat.no_fill_r_at_begining,
+	etat.check_for_archival,
+	etat.max_non_archived_transactions_for_check,
 	transactions_view,
 	transaction_column_width_ratio,
 	ligne_affichage_une_ligne,

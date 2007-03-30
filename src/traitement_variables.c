@@ -457,7 +457,6 @@ void initialise_tab_affichage_ope ( void )
 	for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
 	    tab_affichage_ope[i][j] = tab[i][j];
 
-
     ligne_affichage_une_ligne = 0;
 
     if ( lignes_affichage_deux_lignes )
@@ -478,7 +477,6 @@ void initialise_tab_affichage_ope ( void )
 						     GINT_TO_POINTER (1));
     lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
 						     GINT_TO_POINTER (2));
-
 }
 /*****************************************************************************************************/
 

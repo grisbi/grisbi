@@ -603,6 +603,13 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
     GtkWidget *button;
     GtkWidget *hbox;
     GtkListStore *store;
+    gchar *titles[] = {
+	_("Date"), _("Payee"), _("Amount"), _("Account")
+    };
+    gfloat alignment[] = {
+	COLUMN_CENTER, COLUMN_LEFT, COLUMN_CENTER, COLUMN_CENTER
+    };
+
 
     page = gtk_vbox_new ( FALSE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
@@ -653,13 +660,6 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
     {
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *cell;
-	gchar *titles[] = {
-	    _("Date"), _("Payee"), _("Amount"), _("Account")
-	};
-	gfloat alignment[] = {
-	    COLUMN_CENTER, COLUMN_LEFT, COLUMN_CENTER, COLUMN_CENTER
-	};
-
 	cell = gtk_cell_renderer_text_new ();
 	g_object_set ( G_OBJECT (cell),
 		       "xalign", alignment[i],

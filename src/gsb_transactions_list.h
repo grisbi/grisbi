@@ -68,14 +68,16 @@
 /* START_DECLARATION */
 gboolean affichage_traits_liste_operation ( void );
 gint cherche_ligne_operation ( gint transaction_number,
-			       gint no_account );
+			       gint account_number );
 void clone_selected_transaction ();
 GtkWidget *creation_fenetre_operations ( void );
 void demande_mise_a_jour_tous_comptes ( void );
 gchar *gsb_transactions_get_category_real_name ( gint transaction_number );
+gboolean gsb_transactions_list_append_archive ( gint archive_number );
 gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number );
 gint gsb_transactions_list_clone_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_delete_transaction ( gint transaction_number );
+gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transaction_number );
 gboolean gsb_transactions_list_edit_current_transaction ( void );
 gboolean gsb_transactions_list_edit_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_edit_transaction_by_pointer ( gint *transaction_number );
@@ -87,14 +89,14 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 					   GdkEventKey *ev );
 gboolean gsb_transactions_list_load_marked_r ( void );
 GtkWidget *gsb_transactions_list_make_gui_list ( void );
-gboolean gsb_transactions_list_move_to_current_transaction ( gint no_account );
+gboolean gsb_transactions_list_move_to_current_transaction ( gint account_number );
 gboolean gsb_transactions_list_select ( gint transaction_number );
 gboolean gsb_transactions_list_set_adjustment_value ( gint account_number );
-gboolean gsb_transactions_list_set_background_color ( gint no_account );
+gboolean gsb_transactions_list_set_background_color ( gint account_number );
 void gsb_transactions_list_set_store (GtkTreeStore *store);
-gboolean gsb_transactions_list_set_transactions_balances ( gint no_account );
+gboolean gsb_transactions_list_set_transactions_balances ( gint account_number );
 void gsb_transactions_list_set_visible_rows_number ( gint rows_number );
-gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint no_account );
+gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint account_number );
 gboolean gsb_transactions_list_update_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_update_transaction_value ( gint element_number );
 void mise_a_jour_affichage_r ( gint affichage_r );

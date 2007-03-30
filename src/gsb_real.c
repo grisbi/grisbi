@@ -33,6 +33,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_real.h"
+#include "./gsb_data_transaction.h"
 #include "./utils_str.h"
 /*END_INCLUDE*/
 
@@ -393,6 +394,10 @@ gsb_real gsb_real_adjust_exponent ( gsb_real number,
 
 /**
  * add 2 gsb_real
+ * !! CARREFULL : that function can create an overflow and return something invalid
+ * 	to avoid that, don't cass the fuctions gsb_data_transaction_get_adjusted_amount and similar with -1
+ * 		as return_exponent, but the exponent of the currency
+ * 	if someone find how to detect the overflow on the line number.mantissa + number_2.mantissa, please teach me !!
  *
  * \param number_1
  * \param number_2

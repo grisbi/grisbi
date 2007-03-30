@@ -43,6 +43,7 @@
 #include "./utils_str.h"
 #include "./print_config.h"
 #include "./gsb_data_account.h"
+#include "./gsb_data_transaction.h"
 #include "./gsb_real.h"
 #include "./print_config.h"
 #include "./etats_affiche.h"
@@ -470,11 +471,11 @@ GSList *recupere_opes_etat ( gint report_number )
 		    {
 			if ( ( gsb_data_report_get_show_r (report_number) == 1
 			       &&
-			       gsb_data_transaction_get_marked_transaction ( transaction_number_tmp)== 3 )
+			       gsb_data_transaction_get_marked_transaction ( transaction_number_tmp)== OPERATION_RAPPROCHEE )
 			     ||
 			     ( gsb_data_report_get_show_r (report_number) == 2
 			       &&
-			       gsb_data_transaction_get_marked_transaction ( transaction_number_tmp)!= 3 ))
+			       gsb_data_transaction_get_marked_transaction ( transaction_number_tmp)!= OPERATION_RAPPROCHEE ))
 			    goto operation_refusee;
 		    }
 
