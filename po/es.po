@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-04 20:16+0200\n"
-"PO-Revision-Date: 2007-04-04 20:07+0200\n"
+"PO-Revision-Date: 2007-04-05 00:20+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:189
 msgid "Closed liabilities accounts"
@@ -46,9 +46,8 @@ msgid "Enter a scheduled transaction"
 msgstr "Introduzca una transacción programada"
 
 #: src/accueil.c:448
-#, fuzzy
 msgid "Account balances in "
-msgstr "Balance de cuentas en %s"
+msgstr "Balances de cuentas en %s"
 
 #. CrÃ©ation et remplissage de la premiÃ¨re ligne du tableau
 #: src/accueil.c:455 src/accueil.c:733 src/accueil.c:1016
@@ -6903,48 +6902,39 @@ msgid "Programming"
 msgstr "Programas"
 
 #: src/help.c:59
-#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org)"
-msgstr "Benjamin Drieu (bdrieu[at]april.org): Inglés"
+msgstr "Benjamin Drieu (bdrieu[at]april.org)"
 
 #: src/help.c:60
-#, fuzzy
 msgid "Cedric Auger (cedric[at]grisbi.org)"
-msgstr "Cedric Auger (cedric[at]grisbi.org) : Programación"
+msgstr "Cedric Auger (cedric[at]grisbi.org)"
 
 #: src/help.c:61 src/help.c:67
-#, fuzzy
 msgid "Francois Terrot (grisbi[at]terrot.net)"
 msgstr ""
-"Francois Terrot (grisbi[at]terrot.net): Empaquetamiento Windows y migración, "
-"programación"
+"Francois Terrot (grisbi[at]terrot.net)"
 
 #: src/help.c:64
 msgid "Packaging"
 msgstr ""
 
 #: src/help.c:65
-#, fuzzy
 msgid "Alain Pichon (aph[at]grisbi.org)"
-msgstr "Alain Pichon (aph[at]grisbi.org): Empaquetamiento para RHEL y Fedora"
+msgstr "Alain Pichon (aph[at]grisbi.org)"
 
 #: src/help.c:66
-#, fuzzy
 msgid "Baluchiterium  (baluchiterium[at]users.sf.net)"
 msgstr ""
-"Baluchiterium  (baluchiterium[at]users.sf.net): Empaquetado para Slackware"
+"Baluchiterium  (baluchiterium[at]users.sf.net)"
 
 #: src/help.c:68
-#, fuzzy
 msgid "Gerald Niel (gerald.niel[at]grisbi.org)"
 msgstr ""
-"Gerald Niel (gerald.niel[at]grisbi.org): Empaquetamiento para Darwin, "
-"administración"
+"Gerald Niel (gerald.niel[at]grisbi.org)"
 
 #: src/help.c:69
-#, fuzzy
 msgid "PMF (ugly.duck[at]gmx.de)"
-msgstr "PMF (ugly.duck[at]gmx.de): Empaquetamiento para Zaurus"
+msgstr "PMF (ugly.duck[at]gmx.de)"
 
 #: src/help.c:70
 #, fuzzy
@@ -6962,9 +6952,8 @@ msgid "Thierry Thomas (thierry[at]pompo.net)"
 msgstr "Thierry Thomas (thierry[at]pompo.net): Empaquetamiento para FreeBSD"
 
 #: src/help.c:73
-#, fuzzy
 msgid "Vincent Marqueton (vincent[at]marqueton.com)"
-msgstr "Vincent Marqueton (vincent[at]marqueton.com): Empaquetado para Fink"
+msgstr "Vincent Marqueton (vincent[at]marqueton.com)"
 
 #: src/help.c:76
 msgid "Translation"
@@ -7007,14 +6996,12 @@ msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
 msgstr "Martin Stromberger (Fabiolla[at]aon.at): Alemán"
 
 #: src/help.c:86
-#, fuzzy
 msgid "Ryszard Jeziorski (rjeziorski[at]eagle): Polish"
-msgstr "Ryszard Jeziorski (rjeziorski[at]dart.kielce.pl): Polaco"
+msgstr "Ryszard Jeziorski (rjeziorski[at]eagle): Polaco"
 
 #: src/help.c:90
-#, fuzzy
 msgid "Alain Portal (aportal[at]univ-monpt2.fr): manual"
-msgstr "Alain Portal <aportal AT univ-monpt2 DOT fr>: Programación, manual"
+msgstr "Alain Portal <aportal[at]univ-monpt2.fr>: manual"
 
 #: src/help.c:91
 msgid "Andre Pascual (andre[at]linuxgraphic.org): Logo"
@@ -7025,9 +7012,8 @@ msgid "Axel Rousseau (axel584[at]axel584.org): contributor"
 msgstr "Axel Rousseau (axel584[at]axel584.org): colaborador"
 
 #: src/help.c:93
-#, fuzzy
 msgid "Daniel Cartron (doc[at]grisbi.org): manual"
-msgstr "Daniel Cartron (cartron[at]grisbi.org): Inglés"
+msgstr "Daniel Cartron (cartron[at]grisbi.org): Manual"
 
 #: src/help.c:94
 msgid "Dominique Parisot (parisot[at]villey-le-sec.com): contributor"
@@ -7248,9 +7234,9 @@ msgstr ""
 "Por favor seleccione las transacciones a importar."
 
 #: src/import.c:1832
-#, fuzzy, c-format
+#, c-format
 msgid "Transactions to import : %s ; %s ; %s"
-msgstr "Transacciones a importar : %02d/%02d/%04d ; %s ; %4.2f"
+msgstr "Transacciones a importar : %s ; %s ; %s"
 
 #: src/import.c:1865
 #, fuzzy, c-format
@@ -7286,9 +7272,9 @@ msgid "Mark"
 msgstr "Marcar"
 
 #: src/import.c:2732
-#, fuzzy, c-format
+#, c-format
 msgid "%s #%d"
-msgstr "%s %d"
+msgstr "%s  #%d"
 
 #: src/import.c:2767
 #, fuzzy
@@ -7300,9 +7286,8 @@ msgid "days around the date in the imported transaction."
 msgstr "días alrededor de la fecha en la transacción importada."
 
 #: src/import_csv.c:77
-#, fuzzy
 msgid "Unknown field"
-msgstr "Desconocido"
+msgstr "Campo desconocido"
 
 #: src/import_csv.c:82
 #, fuzzy
@@ -7314,9 +7299,8 @@ msgid "Voucher number"
 msgstr "Número de certificado"
 
 #: src/import_csv.c:86
-#, fuzzy
 msgid "Sub-Category"
-msgstr "Categoría"
+msgstr "SubCategoría"
 
 #: src/import_csv.c:88
 #, fuzzy
@@ -7337,14 +7321,13 @@ msgid "Skip"
 msgstr ""
 
 #: src/import_csv.c:899 src/import_csv.c:903
-#, fuzzy
 msgid "transaction amount"
-msgstr "Agrupar las transacciones por cuenta"
+msgstr "importe de la transacción"
 
 #: src/import_csv.c:912
 #, c-format
 msgid "<b>Following fields are missing:</b> %s"
-msgstr ""
+msgstr "<b>No se encuentran los siguientes campos:</b> %s"
 
 #: src/import_csv.c:921
 #, fuzzy
@@ -7417,9 +7400,8 @@ msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "Este archivo no es un archivo de líneas presupuestarias de Grisbi"
 
 #: src/imputation_budgetaire.c:529
-#, fuzzy
 msgid "Delete selected budgetary line"
-msgstr "Borrar una línea presupuestaria"
+msgstr "Borrar la línea presupuestaria seleccionada"
 
 #: src/imputation_budgetaire.c:539
 #, fuzzy
@@ -7464,49 +7446,40 @@ msgid ""
 msgstr ""
 
 #: src/main.c:248
-#, fuzzy
 msgid "Welcome to Grisbi!"
-msgstr "Acerca de Grisbi"
+msgstr "¡Bienvenido a Grisbi!"
 
 #: src/menu.c:161
-#, fuzzy
 msgid "_File"
-msgstr "Archivo"
+msgstr "_Archivo"
 
 #: src/menu.c:164
-#, fuzzy
 msgid "_New account file..."
-msgstr "Nuevo archivo de cuentas"
+msgstr "_Nuevo archivo de cuentas"
 
 #: src/menu.c:167
-#, fuzzy
 msgid "_Open..."
-msgstr "_Abrir"
+msgstr "_Abrir..."
 
 #: src/menu.c:170
-#, fuzzy
 msgid "_Recently opened files"
-msgstr "Archivos abiertos recientemente"
+msgstr "_Archivos abiertos recientemente"
 
 #: src/menu.c:173
-#, fuzzy
 msgid "_Save"
-msgstr "Guardar"
+msgstr "_Guardar"
 
 #: src/menu.c:176
-#, fuzzy
 msgid "_Save as..."
-msgstr "Guardar como"
+msgstr "_Guardar como"
 
 #: src/menu.c:179
-#, fuzzy
 msgid "_Import file..."
-msgstr "Exportar archivos"
+msgstr "_Importar archivo"
 
 #: src/menu.c:182
-#, fuzzy
 msgid "_Export accounts as QIF/CSV file..."
-msgstr "Cuentas a archivo QIF ..."
+msgstr "_Exportar cuentas a archivo QIF/CSV ..."
 
 #: src/menu.c:185
 #, fuzzy
@@ -7514,147 +7487,122 @@ msgid "_Debug account file..."
 msgstr "Nuevo archivo de cuentas"
 
 #: src/menu.c:188
-#, fuzzy
 msgid "_Close"
-msgstr "Cerrar"
+msgstr "_Cerrar"
 
 #: src/menu.c:191
 msgid "_Quit"
-msgstr ""
+msgstr "_Salir"
 
 #: src/menu.c:194
-#, fuzzy
 msgid "_Edit"
-msgstr "Editar"
+msgstr "_Editar"
 
 #: src/menu.c:197
-#, fuzzy
 msgid "_New transaction"
-msgstr "Nueva transacción"
+msgstr "_Nueva transacción"
 
 #: src/menu.c:200
-#, fuzzy
 msgid "_Remove transaction"
-msgstr "Borrar la transacción"
+msgstr "_Borrar la transacción"
 
 #: src/menu.c:203
-#, fuzzy
 msgid "_Clone transaction"
-msgstr "Clonar la transacción"
+msgstr "_Clonar la transacción"
 
 #: src/menu.c:206
-#, fuzzy
 msgid "_Edit transaction"
-msgstr "Editar la transacción"
+msgstr "_Editar la transacción"
 
 #: src/menu.c:209
-#, fuzzy
 msgid "Convert to _scheduled transaction"
-msgstr "Introduzca una transacción programada"
+msgstr "Convertir a una _transacción programada"
 
 #: src/menu.c:212
-#, fuzzy
 msgid "_Move transaction to another account"
-msgstr "Mover la transacción a otra cuenta"
+msgstr "_Mover la transacción a otra cuenta"
 
 #: src/menu.c:215
-#, fuzzy
 msgid "_Preferences"
-msgstr "Preferencias"
+msgstr "_Preferencias"
 
 #. View menu
 #: src/menu.c:219
 msgid "_View"
-msgstr ""
+msgstr "_Vista"
 
 #: src/menu.c:222
-#, fuzzy
 msgid "_New account"
-msgstr "Nueva cuenta"
+msgstr "_Nueva cuenta"
 
 #: src/menu.c:225
-#, fuzzy
 msgid "_Remove current account"
-msgstr "Borrar una cuenta"
+msgstr "_Borrar una cuenta"
 
 #. Help Menu
 #: src/menu.c:229
-#, fuzzy
 msgid "_Help"
-msgstr "Ayuda"
+msgstr "_Ayuda"
 
 #: src/menu.c:232
-#, fuzzy
 msgid "_Manual"
-msgstr "Manual"
+msgstr "_Manual"
 
 #: src/menu.c:235
-#, fuzzy
 msgid "_Quick start"
-msgstr "Comienzo rápido"
+msgstr "_Comienzo rápido"
 
 #: src/menu.c:238
-#, fuzzy
 msgid "_Translation"
-msgstr "Traducción"
+msgstr "_Traducción"
 
 #: src/menu.c:241
-#, fuzzy
 msgid "_About Grisbi..."
-msgstr "Acerca de Grisbi"
+msgstr "_Acerca de Grisbi..."
 
 #: src/menu.c:244
-#, fuzzy
 msgid "_Grisbi website"
-msgstr "Sitio web de Grisbi"
+msgstr "_Sitio web de Grisbi"
 
 #: src/menu.c:247
-#, fuzzy
 msgid "_Report a bug"
-msgstr "Informar de un fallo"
+msgstr "_Informar de un fallo"
 
 #: src/menu.c:250
 msgid "_Tip of the day"
-msgstr ""
+msgstr "_Consejo del día"
 
 #: src/menu.c:256
-#, fuzzy
 msgid "Show _one line per transaction"
-msgstr "Una línea por transacción"
+msgstr "Mostrar una línea por transacción"
 
 #: src/menu.c:259
-#, fuzzy
 msgid "Show _two lines per transaction"
-msgstr "Dos líneas por transacción"
+msgstr "Mostrar _dos líneas por transacción"
 
 #: src/menu.c:262
-#, fuzzy
 msgid "Show _three lines per transaction"
-msgstr "Tres líneas por transacción"
+msgstr "Mostrar _tres líneas por transacción"
 
 #: src/menu.c:265
-#, fuzzy
 msgid "Show _four lines per transaction"
-msgstr "Cuatro líneas por transacción"
+msgstr "Mostrar _cuatro líneas por transacción"
 
 #: src/menu.c:269
-#, fuzzy
 msgid "Show transaction _form"
-msgstr "Formulario de transacción"
+msgstr "Mostrar el _Formulario de transacción"
 
 #: src/menu.c:272
 msgid "Show _grid"
-msgstr ""
+msgstr "Mostrar _la rejilla"
 
 #: src/menu.c:275
-#, fuzzy
 msgid "Show _reconciled"
-msgstr "Reconciliar"
+msgstr "Mostrar _reconciliaciones"
 
 #: src/menu.c:279
-#, fuzzy
 msgid "Show _closed accounts"
-msgstr "Cuentas cerradas"
+msgstr "Mostrar _cuentas cerradas"
 
 #: src/menu.c:382 src/menu.c:410 src/menu.c:428
 msgid "_C"
@@ -7806,9 +7754,8 @@ msgid "Account transactions"
 msgstr "Transacciones de la cuenta"
 
 #: src/navigation.c:1151
-#, fuzzy
 msgid "closed"
-msgstr "Cerrar"
+msgstr "Cerrado"
 
 #. Create dialog
 #: src/parametres.c:215
@@ -7837,9 +7784,8 @@ msgid "List behavior"
 msgstr ""
 
 #: src/parametres.c:362
-#, fuzzy
 msgid "Content"
-msgstr "Contacto"
+msgstr "Contenido"
 
 #: src/parametres.c:370
 msgid "Behavior"
@@ -7859,9 +7805,8 @@ msgid "Currencies links"
 msgstr "Monedas"
 
 #: src/parametres.c:435
-#, fuzzy
 msgid "Archives"
-msgstr "Activar"
+msgstr "Archivos"
 
 #. Number of days before a warning message advertising a scheduled
 #. transaction
@@ -8009,11 +7954,13 @@ msgid ""
 msgstr ""
 
 #: src/parse_cmdline.c:197
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Version %s\n"
 "\n"
-msgstr "Incompatibilidad de versiones"
+msgstr ""
+"Version %s\n"
+"\n"
 
 #: src/parse_cmdline.c:251
 #, c-format
@@ -8021,6 +7968,8 @@ msgid ""
 "Missing parameter for option %s\n"
 "\n"
 msgstr ""
+"No ha especificado el parámetro para la opción %s\n"
+"\n"
 
 #: src/parse_cmdline.c:254
 #, c-format
@@ -8028,6 +7977,8 @@ msgid ""
 "Syntax error (%s)\n"
 "\n"
 msgstr ""
+"Error de síntaxis(%s)\n"
+"\n"
 
 #: src/parse_cmdline.c:257
 #, c-format
@@ -8035,6 +7986,8 @@ msgid ""
 "Unknown option (%s)\n"
 "\n"
 msgstr ""
+"Opción desconocida (%s)\n"
+"\n"
 
 #: src/parse_cmdline.c:260
 #, c-format
@@ -8042,6 +7995,8 @@ msgid ""
 "Too many parameters (%s)\n"
 "\n"
 msgstr ""
+"Demasiados parámetros (%s)\n"
+"\n"
 
 #: src/parse_cmdline.c:263
 #, c-format
@@ -8056,13 +8011,16 @@ msgid ""
 "Something strange happend (%s)\n"
 "\n"
 msgstr ""
+"Algo extraño ha ocurrido (%s)\n"
+"\n"
 
 #: src/parse_cmdline.c:269
 #, c-format
 msgid ""
 "Syntax error!\n"
 "\n"
-msgstr ""
+msgstr "¡Error de síntaxis!\n"
+"\n"
 
 #: src/print_config.c:51
 msgid "A3"
@@ -8173,14 +8131,12 @@ msgid "invst)"
 msgstr "Invers"
 
 #: src/qif.c:172 src/qif.c:246
-#, fuzzy
 msgid "oth a)"
-msgstr "oth a"
+msgstr "oth a)"
 
 #: src/qif.c:175 src/qif.c:255
-#, fuzzy
 msgid "oth l)"
-msgstr "oth l"
+msgstr "oth l)"
 
 #: src/qif.c:228
 msgid ""
@@ -8188,26 +8144,25 @@ msgid ""
 "Nevertheless, Grisbi will try to import it as a bank account."
 msgstr ""
 "Grisbi encontró una cuenta de inversiones que no ha sido implementada "
-"todavía.  Grisbi no volverá a intentar importarla como una cuenta bancaria."
+"todavía.  Aun así Grisbi intentará importarla como una cuenta bancaria."
 
 #: src/qif.c:374
-#, fuzzy
 msgid "Imported QIF account"
-msgstr "Cuenta importada"
+msgstr "Cuenta QIF importada"
 
 #: src/qif.c:658 src/qif.c:661
 msgid " [Transaction imported without date]"
 msgstr " [Transacción importada sin fecha]"
 
 #: src/qif.c:1008
-#, fuzzy, c-format
+#, c-format
 msgid "Error opening file '%s'"
-msgstr "Error abriendo el archivo '%s'."
+msgstr "Error abriendo el archivo '%s'"
 
 #: src/tiers_onglet.c:236
 #, fuzzy
 msgid "Create a new payee"
-msgstr "Crear una cuenta nueva"
+msgstr "Crear una cuenta nuev"
 
 #: src/tiers_onglet.c:245
 #, fuzzy
@@ -8225,7 +8180,7 @@ msgstr ""
 
 #: src/tip.c:79 src/tip.c:110 src/tip.c:117
 msgid "Did you know that..."
-msgstr ""
+msgstr "Sabía que..."
 
 #: src/utils.c:131
 #, c-format
@@ -8237,18 +8192,18 @@ msgstr ""
 "Por favor ajuste sus preferencias a un ejecutable válido."
 
 #: src/utils.c:132 src/utils.c:166
-#, fuzzy
 msgid "Cannot execute web browser"
-msgstr "No puedo arrancar el navegador web"
+msgstr "No ha sido posible arrancar el navegador web"
 
 #: src/utils.c:165
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\n"
 "The command was: %s.\n"
 "Please adjust your settings to a valid executable."
 msgstr ""
-"Grisbi no pudo ejecutar un navegador web para mostrar la url <tt>%s</tt>.  "
+"Grisbi no pudo ejecutar un navegador web para mostrar la url <tt>%s</tt>.\n"
+"El comando usado fue: %s .\n"
 "Por favor ajuste sus preferencias a un ejecutable válido."
 
 #: src/utils_files.c:64
