@@ -1,0 +1,7068 @@
+# translation of en.po to Czech
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Marek Donar <mdonar@post.cz>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cs\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-04-04 20:03+0200\n"
+"PO-Revision-Date: 2006-02-20 18:30+0100\n"
+"Last-Translator: Marek Donar <mdonar@post.cz>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+
+#: src/accueil.c:120
+msgid "No user"
+msgstr "Žádný uživatel"
+
+#: src/accueil.c:123
+msgid "User"
+msgstr "Uživatel"
+
+#: src/accueil.c:197
+msgid "Closed liabilities accounts"
+msgstr "Uzavřené účty závazků"
+
+#: src/accueil.c:207
+msgid "Manual scheduled transactions at maturity date"
+msgstr "Splatné ruční plánované transakce"
+
+#: src/accueil.c:218
+msgid "Automatic scheduled transactions entered"
+msgstr "Vložené automatické plánované transakce"
+
+#: src/accueil.c:229
+msgid "Closed scheduled transactions"
+msgstr "Uzavřené plánované transakce"
+
+#: src/accueil.c:240
+msgid "Accounts under authorized balance"
+msgstr "Účty s nižším než povoleným zůstatkem"
+
+#: src/accueil.c:251
+msgid "Accounts under wanted balance"
+msgstr "Účty s nižším než požadovaným zůstatkem"
+
+#. crÃ©e la boite de dialogue
+#: src/accueil.c:328
+msgid "Enter a scheduled transaction"
+msgstr "Vložte plánovanou transakci"
+
+#: src/accueil.c:377 src/echeancier_onglet.c:168 src/operations_onglet.c:127
+msgid "Form"
+msgstr "Formulář"
+
+#: src/accueil.c:531
+#, c-format
+msgid "Account balances in %s"
+msgstr "Zůstatky účtů v měně: %s"
+
+#. CrÃ©ation et remplissage de la premiÃ¨re ligne du tableau
+#: src/accueil.c:537 src/accueil.c:859 src/accueil.c:1180
+#: src/operations_liste.c:151
+msgid "Reconciled balance"
+msgstr "Odsouhlasený zůstatek"
+
+#: src/accueil.c:541 src/accueil.c:863 src/accueil.c:1184
+msgid "Current balance"
+msgstr "Aktuální zůstatek"
+
+#. CrÃ©ation et remplissage de la (nb_comptes + 3)iÃ¨me ligne du tableau :
+#. elle contient la somme des soldes de chaque compte
+#. DeuxiÃ¨me colonne
+#: src/accueil.c:779 src/accueil.c:1100 src/accueil.c:1421
+msgid "Global balances"
+msgstr "Celkem"
+
+#: src/accueil.c:853
+#, c-format
+msgid "Liabilities accounts balances in %s"
+msgstr "Zůstatky účtů závazků jsou v měně %s"
+
+#: src/accueil.c:1174
+#, c-format
+msgid "Assets accounts balances in %s"
+msgstr "Zůstatky účtů pohledávek jsou v měně %s"
+
+#: src/accueil.c:1594 src/accueil.c:1706
+msgid "No third party defined"
+msgstr "Není zadána žádná třetí strana"
+
+#: src/accueil.c:1606 src/accueil.c:1720 src/echeancier_formulaire.c:2711
+#: src/echeancier_formulaire.c:2755
+#, c-format
+msgid "%4.2f %s credit on %s"
+msgstr "%4.2f %s kredit na účtu %s"
+
+#: src/accueil.c:1611 src/accueil.c:1725 src/echeancier_formulaire.c:2716
+#: src/echeancier_formulaire.c:2760
+#, c-format
+msgid "%4.2f %s debit on %s"
+msgstr "%4.2f %s debet na účtu %s"
+
+#: src/accueil.c:1807 src/accueil.c:1842
+#, c-format
+msgid "Balance of account %s is under wanted and authorised minima!"
+msgstr "Zůstatek účtu '%s' je pod povoleným a požadovaným minimem!"
+
+#: src/accueil.c:1813
+#, c-format
+msgid "Balance of account %s is under authorised minimum!"
+msgstr "Zůstatek účtu '%s' je pod povoleným a minimem!"
+
+#: src/accueil.c:1848
+#, c-format
+msgid "Balance of account %s is under wanted minimum!"
+msgstr "Zůstatek účtu '%s' je pod požadovaným minimem!"
+
+#: src/affichage.c:131 src/parametres.c:237
+msgid "Transaction form"
+msgstr "Formulář transakcí"
+
+#: src/affichage.c:136
+msgid "Pressing RETURN in transaction form"
+msgstr "Stisknutí ENTERu na formuláři transakce"
+
+#: src/affichage.c:137
+msgid "selects next field"
+msgstr "přesune na následující pole"
+
+#: src/affichage.c:138
+msgid "terminates transaction"
+msgstr "ukončí transakakci"
+
+#: src/affichage.c:143
+msgid "Displayed fields"
+msgstr "Zobrazená pole"
+
+#: src/affichage.c:152 src/affichage_liste.c:51 src/affichage_liste.c:912
+#: src/affichage_liste.c:1097
+msgid "Transaction number"
+msgstr "Číslo transakce"
+
+#: src/affichage.c:161 src/affichage_liste.c:36 src/affichage_liste.c:732
+#: src/affichage_liste.c:1037 src/csv.c:240 src/operations_formulaire.c:983
+#: src/operations_formulaire.c:3355
+msgid "Value date"
+msgstr "Datum pohybu"
+
+#: src/affichage.c:170 src/affichage_liste.c:45 src/affichage_liste.c:840
+#: src/affichage_liste.c:1073 src/csv.c:244 src/etats_affiche.c:2230
+msgid "Financial year"
+msgstr "Fiskální rok"
+
+#: src/affichage.c:179 src/affichage_liste.c:756
+msgid "Budgetary information"
+msgstr "Rozpočtová informace"
+
+#: src/affichage.c:188
+msgid "Voucher number"
+msgstr "Číslo dokladu"
+
+#: src/affichage.c:197
+msgid "Bank reference"
+msgstr "Bankovní reference"
+
+#: src/affichage.c:206
+msgid "'Accept' and 'Cancel' buttons"
+msgstr "Tlačítka 'OK' a 'Zrušit'"
+
+#: src/affichage.c:216
+msgid "By default, use financial year"
+msgstr "Jako výchozí používat fiskální rok"
+
+#: src/affichage.c:217
+msgid "last selected financial year"
+msgstr "poslední vybraný fiskální rok"
+
+#: src/affichage.c:218
+msgid "according to transaction date"
+msgstr "podle data transakce"
+
+#: src/affichage.c:248 src/parametres.c:213
+msgid "Fonts & logo"
+msgstr "Písma a loga"
+
+#: src/affichage.c:254
+msgid "Grisbi logo"
+msgstr "Logo Grisbi"
+
+#: src/affichage.c:260
+msgid "Use the logo"
+msgstr "Zobrazovat logo"
+
+#: src/affichage.c:321
+msgid "Click on preview to change homepage logo"
+msgstr "Kliknutím na náhled změníte logo"
+
+#: src/affichage.c:377
+msgid "Click on preview to change animation"
+msgstr "Kliknutím na náhled změníte animaci"
+
+#: src/affichage.c:384
+msgid "Fonts"
+msgstr "Písma"
+
+#: src/affichage.c:394
+msgid "Use a custom font for the transactions"
+msgstr "Použít vlastní písmo pro transakce"
+
+#: src/affichage.c:475
+msgid "Revert to default font"
+msgstr "Zpět na výchozí font"
+
+#: src/affichage.c:603 src/parametres.c:229
+msgid "Addresses & titles"
+msgstr "Adresy a názvy"
+
+#: src/affichage.c:608 src/etats_config.c:6188
+msgid "Titles"
+msgstr "Názvy"
+
+#: src/affichage.c:613
+msgid "Accounts file title"
+msgstr "Název souboru účtů"
+
+#: src/affichage.c:624
+msgid "Addresses"
+msgstr "Adresy"
+
+#. Common address
+#: src/affichage.c:627
+msgid "Common address"
+msgstr "Běžná adresa"
+
+#. Secondary address
+#. * \note This is not implemented yet
+#: src/affichage.c:646
+msgid "Secondary address"
+msgstr "Druhá adresa"
+
+#: src/affichage.c:760
+msgid "Sans 10"
+msgstr "Sans 10"
+
+#: src/affichage.c:811
+msgid "Transaction list font"
+msgstr "Písmo v přehledu transakcí"
+
+#: src/affichage.c:997
+msgid "Select a new animation"
+msgstr "Vyberte novou animaci"
+
+#: src/affichage.c:1005
+msgid "Select a new logo"
+msgstr "Vyberte nové logo"
+
+#. on met les titres des colonnes
+#: src/affichage_liste.c:35 src/affichage_liste.c:720
+#: src/affichage_liste.c:1033 src/csv.c:239 src/echeancier_formulaire.c:905
+#: src/echeancier_formulaire.c:2526 src/echeancier_liste.c:400
+#: src/equilibrage.c:194 src/etats_affiche.c:2223 src/import.c:352
+#: src/import.c:2658 src/operations_formulaire.c:790
+#: src/operations_formulaire.c:1410 src/operations_formulaire.c:1460
+#: src/operations_formulaire.c:1509 src/operations_formulaire.c:1548
+#: src/operations_formulaire.c:3345
+msgid "Date"
+msgstr "Datum"
+
+#. mise en place de la frame des tiers
+#: src/affichage_liste.c:37 src/affichage_liste.c:1041 src/csv.c:247
+#: src/echeancier_formulaire.c:914 src/echeancier_formulaire.c:2528
+#: src/echeancier_liste.c:402 src/etats_affiche.c:2237 src/etats_config.c:139
+#: src/etats_config.c:270 src/etats_config.c:7217 src/fenetre_principale.c:96
+#: src/import.c:2665 src/operations_formulaire.c:800
+#: src/operations_formulaire.c:3348
+msgid "Third party"
+msgstr "Třetí strany"
+
+#: src/affichage_liste.c:38 src/echeancier_formulaire.c:1067
+#: src/echeancier_formulaire.c:2538 src/echeancier_ventilation.c:967
+#: src/echeancier_ventilation.c:1495 src/etats_affiche.c:2251
+#: src/etats_config.c:262 src/operations_formulaire.c:1121
+#: src/operations_formulaire.c:3362 src/ventilation.c:968
+#: src/ventilation.c:1493
+msgid "Budgetary line"
+msgstr "Rozpočet"
+
+#. Debit type
+#: src/affichage_liste.c:39 src/affichage_liste.c:768
+#: src/affichage_liste.c:1049 src/categories_onglet.c:288 src/csv.c:249
+#: src/echeancier_formulaire.c:975 src/echeancier_formulaire.c:2530
+#: src/echeancier_ventilation.c:913 src/echeancier_ventilation.c:932
+#: src/echeancier_ventilation.c:1491 src/imputation_budgetaire.c:165
+#: src/operations_formulaire.c:891 src/operations_formulaire.c:3350
+#: src/type_operations.c:160 src/type_operations.c:437
+#: src/type_operations.c:869 src/ventilation.c:914 src/ventilation.c:933
+#: src/ventilation.c:1489
+msgid "Debit"
+msgstr "Debet"
+
+#. Credit type
+#: src/affichage_liste.c:40 src/affichage_liste.c:780
+#: src/affichage_liste.c:1053 src/categories_onglet.c:304 src/csv.c:248
+#: src/echeancier_formulaire.c:1037 src/echeancier_formulaire.c:1279
+#: src/echeancier_formulaire.c:2532 src/echeancier_ventilation.c:885
+#: src/echeancier_ventilation.c:960 src/echeancier_ventilation.c:1493
+#: src/imputation_budgetaire.c:181 src/operations_formulaire.c:976
+#: src/operations_formulaire.c:1330 src/operations_formulaire.c:3352
+#: src/type_operations.c:174 src/type_operations.c:444
+#: src/type_operations.c:865 src/ventilation.c:886 src/ventilation.c:961
+#: src/ventilation.c:1491
+msgid "Credit"
+msgstr "Kredit"
+
+#: src/affichage_liste.c:41 src/affichage_liste.c:792
+#: src/affichage_liste.c:1057 src/csv.c:251 src/equilibrage.c:202
+msgid "Balance"
+msgstr "Zůstatek"
+
+#: src/affichage_liste.c:42 src/affichage_liste.c:804
+#: src/affichage_liste.c:1061 src/csv.c:250 src/echeancier_liste.c:406
+#: src/echeancier_ventilation.c:83 src/echeancier_ventilation.c:293
+#: src/import.c:2673 src/ventilation.c:86 src/ventilation.c:296
+msgid "Amount"
+msgstr "Částka"
+
+#: src/affichage_liste.c:43 src/affichage_liste.c:1065
+msgid "Method of payment"
+msgstr "Metoda platby"
+
+#: src/affichage_liste.c:44 src/affichage_liste.c:828
+#: src/affichage_liste.c:1069
+msgid "Reconciliation ref."
+msgstr "Ref. odsouhlasení"
+
+#: src/affichage_liste.c:46 src/affichage_liste.c:1077 src/csv.c:252
+#: src/echeancier_ventilation.c:81 src/etats_affiche.c:2244
+#: src/etats_config.c:258 src/ventilation.c:84
+msgid "Category"
+msgstr "Kategorie"
+
+#: src/affichage_liste.c:47 src/affichage_liste.c:864
+#: src/affichage_liste.c:1081 src/csv.c:246
+msgid "C/R"
+msgstr "C/R"
+
+#: src/affichage_liste.c:48 src/affichage_liste.c:876
+#: src/affichage_liste.c:1085 src/csv.c:257 src/echeancier_formulaire.c:1075
+#: src/echeancier_formulaire.c:2540 src/echeancier_ventilation.c:974
+#: src/echeancier_ventilation.c:1497 src/etats_affiche.c:2279
+#: src/operations_formulaire.c:1127 src/operations_formulaire.c:3364
+#: src/ventilation.c:975 src/ventilation.c:1495
+msgid "Voucher"
+msgstr "Doklad"
+
+#. Notes
+#: src/affichage_liste.c:49 src/affichage_liste.c:888
+#: src/affichage_liste.c:1089 src/banque.c:711 src/csv.c:254
+#: src/echeancier_formulaire.c:1081 src/echeancier_formulaire.c:2542
+#: src/echeancier_liste.c:405 src/echeancier_ventilation.c:82
+#: src/echeancier_ventilation.c:864 src/echeancier_ventilation.c:1489
+#: src/etats_affiche.c:2258 src/operations_formulaire.c:1134
+#: src/operations_formulaire.c:3367 src/ventilation.c:85 src/ventilation.c:865
+#: src/ventilation.c:1487
+msgid "Notes"
+msgstr "Pozn."
+
+#: src/affichage_liste.c:50 src/affichage_liste.c:900
+#: src/affichage_liste.c:1093 src/csv.c:259 src/etats_affiche.c:2286
+#: src/operations_formulaire.c:1140 src/operations_formulaire.c:3369
+msgid "Bank references"
+msgstr "Bankovní reference"
+
+#: src/affichage_liste.c:66
+msgid "Col1"
+msgstr "Sl. 1"
+
+#: src/affichage_liste.c:66
+msgid "Col2"
+msgstr "Sl. 2"
+
+#: src/affichage_liste.c:66
+msgid "Col3"
+msgstr "Sl. 3"
+
+#: src/affichage_liste.c:66
+msgid "Col4"
+msgstr "Sl. 4"
+
+#: src/affichage_liste.c:67
+msgid "Col5"
+msgstr "Sl. 5"
+
+#: src/affichage_liste.c:67
+msgid "Col6"
+msgstr "Sl. 6"
+
+#: src/affichage_liste.c:67
+msgid "Col7"
+msgstr "Sl. 7"
+
+#. Ã  la base, on met une vbox
+#: src/affichage_liste.c:75 src/parametres.c:245
+msgid "Transactions list cells"
+msgstr "Buňky seznamu transakcí"
+
+#: src/affichage_liste.c:79
+msgid "Transactions list preview"
+msgstr "Přehled seznamu transakcí"
+
+#: src/affichage_liste.c:100
+msgid "Transactions list contents"
+msgstr "Obsah seznamu transakcí"
+
+#. on permet maintenant de choisir soi mÃªme la taille des colonnes
+#: src/affichage_liste.c:126
+msgid "Adjust column size according to this table"
+msgstr "Upravit šířku sloupců podle této tabulky."
+
+#: src/affichage_liste.c:139
+msgid "Remember display settings for each account separately"
+msgstr "Pamatovat si nastavení pro každý účet zvlášť."
+
+#: src/affichage_liste.c:145
+msgid "Revert to defaults"
+msgstr "Zpět k výchozím"
+
+#: src/affichage_liste.c:295
+msgid "Transactions list"
+msgstr "Přehled transakcí"
+
+#: src/affichage_liste.c:302
+msgid "Display modes"
+msgstr "Mód zobrazení"
+
+#: src/affichage_liste.c:309
+msgid "One line mode"
+msgstr "Jeden řádek"
+
+#. pour 2 lignes
+#: src/affichage_liste.c:322
+msgid "Two lines mode"
+msgstr "Dva řádky"
+
+#. pour 3 lignes
+#: src/affichage_liste.c:342
+msgid "Three lines mode"
+msgstr "Tři řádky"
+
+#: src/affichage_liste.c:420
+msgid "Sort transaction list"
+msgstr "Setřídit seznam transakcí"
+
+#: src/affichage_liste.c:421
+msgid "by value date"
+msgstr "podle data pohybu"
+
+#: src/affichage_liste.c:422
+msgid "by date"
+msgstr "podle data"
+
+#. on permet de regrouper les opÃ©rations pointÃ©es
+#: src/affichage_liste.c:427
+msgid "Bring together marked transactions"
+msgstr "Seskupit označené transakce"
+
+#: src/affichage_liste.c:459
+msgid "first line"
+msgstr "první řádek"
+
+#: src/affichage_liste.c:467
+msgid "second line"
+msgstr "druhý řádek"
+
+#: src/affichage_liste.c:475
+msgid "third line"
+msgstr "třetí řádek"
+
+#: src/affichage_liste.c:483
+msgid "fourth line"
+msgstr "čtvrtý řádek"
+
+#: src/affichage_liste.c:744
+msgid "Payer/payee"
+msgstr "Plátce / příjemce"
+
+#: src/affichage_liste.c:816 src/equilibrage.c:1680
+msgid "Payment method"
+msgstr "Metoda platby"
+
+#. mise en place de la frame des catÃ©gories
+#: src/affichage_liste.c:852 src/etats_config.c:143 src/etats_config.c:7277
+#: src/fenetre_principale.c:103
+msgid "Categories"
+msgstr "Kategorie"
+
+#: src/affichage_liste.c:924 src/affichage_liste.c:1101
+#: src/operations_formulaire.c:1115 src/operations_formulaire.c:3359
+msgid "Cheque/Transfer number"
+msgstr "Číslo převodu/šeku"
+
+#. mise en place de la frame des ib
+#: src/affichage_liste.c:1045 src/csv.c:255 src/etats_config.c:147
+#: src/etats_config.c:7371 src/fenetre_principale.c:110
+msgid "Budgetary lines"
+msgstr "Rozpočty"
+
+#: src/banque.c:122 src/comptes_traitements.c:135
+#: src/comptes_traitements.c:145 src/operations_formulaire.c:2213
+#: src/operations_liste.c:2883 src/operations_liste.c:2950
+#: src/operations_liste.c:3223 src/operations_liste.c:3316
+msgid "Cannot allocate memory, bad things will happen soon"
+msgstr "Nelze alokovat paměť. Brzy dojde k chybě."
+
+#: src/banque.c:126 src/comptes_gestion.c:330
+msgid "New bank"
+msgstr "Nová banka"
+
+#: src/banque.c:201 src/banque.c:205
+msgid "Confirmation of bank removal"
+msgstr "Potvdit odstranění banky"
+
+#: src/banque.c:202
+#, c-format
+msgid ""
+"Bank \"%s\" is used by one or several accounts.\n"
+"Do you really want to remove it?"
+msgstr ""
+"Banku \"%s\" používá několik účtů.\n"
+"Opravdu ji chcete odstranit?"
+
+#: src/banque.c:206
+#, c-format
+msgid "Are you sure you want to remove bank \"%s\"?\n"
+msgstr "Opravdu chcete odstranit banku \"%s\"?\n"
+
+#. le premier nom est Aucune
+#. le premier nom est Aucun
+#. on lui associe 0
+#: src/banque.c:280 src/echeancier_formulaire.c:1489 src/equilibrage.c:572
+#: src/exercice.c:569
+msgid "None"
+msgstr "Žádný"
+
+#. ligne de l'Ã©tablissement financier
+#: src/banque.c:347 src/comptes_gestion.c:279
+msgid "Bank"
+msgstr "Banka"
+
+#: src/banque.c:348
+msgid "Contact name"
+msgstr "Jméno kontaktu"
+
+#: src/banque.c:350 src/parametres.c:295
+msgid "Banks"
+msgstr "Banky"
+
+#: src/banque.c:354
+msgid "Known banks"
+msgstr "Známé banky"
+
+#: src/banque.c:534
+msgid "Bank details"
+msgstr "Detaily banky"
+
+#. Bank name item
+#. Name
+#. Create currency name entry
+#. Financial year name
+#: src/banque.c:545 src/banque.c:651 src/devises.c:1528 src/exercice.c:129
+#: src/exercice.c:240 src/import.c:362 src/type_operations.c:380
+msgid "Name"
+msgstr "Název"
+
+#. Bank Sort code item
+#: src/banque.c:560
+msgid "Sort code"
+msgstr "Třídicí znak"
+
+#. Bank address
+#: src/banque.c:575 src/comptes_gestion.c:233
+msgid "Address"
+msgstr "Adresa"
+
+#. Phone number
+#: src/banque.c:598 src/banque.c:666
+msgid "Phone"
+msgstr "Telefon"
+
+#. E-mail
+#. E-Mail
+#: src/banque.c:613 src/banque.c:696
+msgid "E-Mail"
+msgstr "E-mail"
+
+#. Website
+#: src/banque.c:628 src/help.c:79
+msgid "Website"
+msgstr "Webová stránka"
+
+#. Contact
+#: src/banque.c:643
+msgid "Contact"
+msgstr "Kontakt"
+
+#. Fax
+#: src/banque.c:681
+msgid "Fax"
+msgstr "Fax"
+
+#: src/banque.c:771
+msgid "Edit bank"
+msgstr "Upravit banku"
+
+#: src/barre_outils.c:86 src/barre_outils.c:87
+msgid "Display/Hide form"
+msgstr "Zobrazit/skrýt formulář"
+
+#: src/barre_outils.c:146 src/barre_outils.c:147
+msgid "Four lines per transaction"
+msgstr "Čtyři řádky na transakci"
+
+#: src/barre_outils.c:175 src/barre_outils.c:176
+msgid "Three lines per transaction"
+msgstr "Tři řádky na transakci"
+
+#: src/barre_outils.c:203 src/barre_outils.c:204
+msgid "Two lines per transaction"
+msgstr "Dva řádky na transakci"
+
+#: src/barre_outils.c:232 src/barre_outils.c:233
+msgid "One line per transaction"
+msgstr "Jeden řádek na transakci"
+
+#: src/barre_outils.c:268 src/barre_outils.c:269
+msgid "Display reconciled transactions"
+msgstr "Zobrazit odsouhlasené transakce"
+
+#: src/barre_outils.c:295 src/barre_outils.c:296
+msgid "Mask reconciled transactions"
+msgstr "Skrýt odsouhlasené transakce"
+
+#: src/barre_outils.c:325
+msgid "Account transactions"
+msgstr "Transakce účtu"
+
+#: src/barre_outils.c:749 src/barre_outils.c:750
+msgid "Display/hide form"
+msgstr "Zobrazit/skrýt formulář"
+
+#: src/barre_outils.c:812 src/barre_outils.c:813
+msgid "Display/hide comments"
+msgstr "Zobrazit/skrýt komentář"
+
+#: src/barre_outils.c:865 src/barre_outils.c:866 src/barre_outils.c:990
+#: src/barre_outils.c:991 src/barre_outils.c:1145 src/barre_outils.c:1146
+msgid "Close tree"
+msgstr "Zavřít strom"
+
+#: src/barre_outils.c:894 src/barre_outils.c:895 src/barre_outils.c:1048
+#: src/barre_outils.c:1049 src/barre_outils.c:1203 src/barre_outils.c:1204
+msgid "Display accounts"
+msgstr "Zobrazit účty"
+
+#. afficher ou non les opÃ©s
+#: src/barre_outils.c:923 src/barre_outils.c:924 src/barre_outils.c:1077
+#: src/barre_outils.c:1078 src/barre_outils.c:1232 src/barre_outils.c:1233
+#: src/etats_config.c:6335
+msgid "Display transactions"
+msgstr "Zobrazit transakce"
+
+#: src/barre_outils.c:1019 src/barre_outils.c:1020 src/barre_outils.c:1174
+#: src/barre_outils.c:1175
+msgid "Display sub-divisions"
+msgstr "Zobrazit podkategorie"
+
+#. ajoute le bouton annuler
+#. Add the "cancel" button
+#: src/calendar.c:111 src/utils.c:1555
+msgid "Cancel"
+msgstr "Storno"
+
+#: src/categories_onglet.c:48
+msgid "Food : Bar"
+msgstr "Potraviny : Bary"
+
+#: src/categories_onglet.c:49
+msgid "Food : Baker"
+msgstr "Potraviny : Pekařství"
+
+#: src/categories_onglet.c:50
+msgid "Food : Canteen"
+msgstr "Potraviny : Závodní stravování"
+
+#: src/categories_onglet.c:51
+msgid "Food : Sweets"
+msgstr "Potraviny : Sladkosti"
+
+#: src/categories_onglet.c:52
+msgid "Food : Misc"
+msgstr "Potraviny : Jiné"
+
+#: src/categories_onglet.c:53
+msgid "Food : Grocery"
+msgstr "Potraviny : Zelenina"
+
+#: src/categories_onglet.c:54
+msgid "Food : Restaurant"
+msgstr "Potraviny : Restaurace"
+
+#: src/categories_onglet.c:55
+msgid "Food : Self-service"
+msgstr "Potraviny : Samoobsluha"
+
+#: src/categories_onglet.c:56
+msgid "Food : Supermarket"
+msgstr "Potraviny : Supermarket"
+
+#: src/categories_onglet.c:57
+msgid "Pets : Food"
+msgstr "Zvířata : Krmení"
+
+#: src/categories_onglet.c:58
+msgid "Pets : Various supplies"
+msgstr "Zvířata : Ostatní doplňky"
+
+#: src/categories_onglet.c:59
+msgid "Pets : Grooming"
+msgstr "Zvířata : Ošetřování"
+
+#: src/categories_onglet.c:60
+msgid "Pets : Veterinary surgeon"
+msgstr "Zvířata : Veterinální péče"
+
+#: src/categories_onglet.c:61
+msgid "Insurance : Car"
+msgstr "Pojištění : Povinné ručení a havarijní"
+
+#: src/categories_onglet.c:62
+msgid "Insurance : Health"
+msgstr "Pojištění : Zdravotní"
+
+#: src/categories_onglet.c:63
+msgid "Insurance : House"
+msgstr "Pojištění : Domácnost"
+
+#: src/categories_onglet.c:64
+msgid "Insurance : Civil liability"
+msgstr "Pojištění : Odpovědnost za škodu"
+
+#: src/categories_onglet.c:65
+msgid "Insurance : Life"
+msgstr "Pojištění : Životní"
+
+#: src/categories_onglet.c:66
+msgid "Car : Fuel"
+msgstr "Auto : PHM"
+
+#: src/categories_onglet.c:67
+msgid "Car : Repairs"
+msgstr "Auto : Opravy"
+
+#: src/categories_onglet.c:68
+msgid "Car : Maintenance"
+msgstr "Auto : Údržba"
+
+#: src/categories_onglet.c:69
+msgid "Car : Parking"
+msgstr "Auto : Parkování"
+
+#: src/categories_onglet.c:70
+msgid "Car : Fines"
+msgstr "Auto : Pokuty"
+
+#: src/categories_onglet.c:71 src/etats_config.c:163
+msgid "Misc."
+msgstr "Různé"
+
+#: src/categories_onglet.c:72
+msgid "Gifts"
+msgstr "Dary"
+
+#: src/categories_onglet.c:73
+msgid "Children : Nurse"
+msgstr "Děti : Pečovatelská služba"
+
+#: src/categories_onglet.c:74
+msgid "Children : Misc."
+msgstr "Děti : Různé"
+
+#: src/categories_onglet.c:75
+msgid "Children : Studies"
+msgstr "Děti : Školné"
+
+#: src/categories_onglet.c:76
+msgid "Studies : Lessons"
+msgstr "Studium : Kurzovné"
+
+#: src/categories_onglet.c:77
+msgid "Studies : School fees"
+msgstr "Studium : Školné"
+
+#: src/categories_onglet.c:78
+msgid "Studies : Books"
+msgstr "Studium : Knihy"
+
+#: src/categories_onglet.c:79
+msgid "Miscellaneous : Gifts"
+msgstr "Různé : Dary"
+
+#: src/categories_onglet.c:80
+msgid "Financial expenses : Miscellaneous"
+msgstr "Finanční výdaje : Různé"
+
+#: src/categories_onglet.c:81
+msgid "Financial expenses : Bank charges"
+msgstr "Finanční výdaje : Bankovní poplatky"
+
+#: src/categories_onglet.c:82
+msgid "Financial expenses : Loan/Mortgage"
+msgstr "Finanční výdaje : Půjčky / hypotéky"
+
+#: src/categories_onglet.c:83
+msgid "Financial expenses : Charges"
+msgstr "Finanční výdaje : Poplatky"
+
+#: src/categories_onglet.c:84
+msgid "Financial expenses : Refunding"
+msgstr "Finanční výdaje : Refundace"
+
+#: src/categories_onglet.c:85
+msgid "Professional expenses : Non refundable"
+msgstr "Profesní výdaje : Neproplatitelné"
+
+#: src/categories_onglet.c:86
+msgid "Professional expenses : Refundable"
+msgstr "Profesní výdaje : Proplatitelné"
+
+#: src/categories_onglet.c:87
+msgid "Taxes : Miscellaneous"
+msgstr "Daně : Různé"
+
+#: src/categories_onglet.c:88
+msgid "Taxes : Income"
+msgstr "Daně : Z příjmu"
+
+#: src/categories_onglet.c:89
+msgid "Taxes : Land"
+msgstr "Daně : Z nemovitosti"
+
+# ???
+#: src/categories_onglet.c:90
+msgid "Housing : Hotel"
+msgstr "Domácnost : Hotel"
+
+#: src/categories_onglet.c:91
+msgid "Housing : Rent"
+msgstr "Domácnost : Nájem"
+
+#: src/categories_onglet.c:92
+msgid "Housing : TV"
+msgstr "Domácnost: Televize"
+
+#: src/categories_onglet.c:93
+msgid "Housing : Furnitures"
+msgstr "Domácnost : Nábytek"
+
+#: src/categories_onglet.c:94
+msgid "Housing : Charges"
+msgstr "Domácnost : Poplatky"
+
+#: src/categories_onglet.c:95
+msgid "Housing : Heating"
+msgstr "Domácnost : Vytápění"
+
+#: src/categories_onglet.c:96
+msgid "Housing : Decoration"
+msgstr "Domácnost : Dekorace"
+
+#: src/categories_onglet.c:97
+msgid "Housing : Water"
+msgstr "Domácnost : Vodné, stočné"
+
+#: src/categories_onglet.c:98
+msgid "Housing : Electricity"
+msgstr "Domácnost : Elektřina"
+
+#: src/categories_onglet.c:99
+msgid "Housing : White products"
+msgstr "Domácnost : Spotřebiče"
+
+#: src/categories_onglet.c:100
+msgid "Housing : Equipment"
+msgstr "Domácnost : Vybavení"
+
+#: src/categories_onglet.c:101
+msgid "Housing : Gaz"
+msgstr "Domácnost : Plyn"
+
+#: src/categories_onglet.c:102
+msgid "Housing : Garden"
+msgstr "Domácnost : Zahrada"
+
+#: src/categories_onglet.c:103
+msgid "Housing : House keeper"
+msgstr "Domácnost : Úklidová služba"
+
+#: src/categories_onglet.c:104
+msgid "Housing : Phone"
+msgstr "Domácnost : Telefon"
+
+#: src/categories_onglet.c:105
+msgid "Housing : Mobile Phone"
+msgstr "Domácnost : Mobil"
+
+#: src/categories_onglet.c:106
+msgid "Leisures : Snooker"
+msgstr "Volný čas : Kulečník"
+
+#: src/categories_onglet.c:107
+msgid "Leisures : Bowling"
+msgstr "Volný čas : Kuželky"
+
+#: src/categories_onglet.c:108
+msgid "Leisures : Movies"
+msgstr "Volný čas : Filmy"
+
+#: src/categories_onglet.c:109
+msgid "Leisures : Night club"
+msgstr "Volný čas : Noční kluby"
+
+#: src/categories_onglet.c:110
+msgid "Leisures : IT"
+msgstr "Volný čas : IT"
+
+#: src/categories_onglet.c:111
+msgid "Leisures : Games"
+msgstr "Volný čas : Hry"
+
+#: src/categories_onglet.c:112
+msgid "Leisures : Books"
+msgstr "Volný čas : Knihy"
+
+#: src/categories_onglet.c:113
+msgid "Leisures : Parks"
+msgstr "Volný čas : Parky"
+
+#: src/categories_onglet.c:114
+msgid "Leisures : Concerts"
+msgstr "Volný čas : Koncerty"
+
+#: src/categories_onglet.c:115
+msgid "Leisures : Sports"
+msgstr "Volný čas : Sport"
+
+#: src/categories_onglet.c:116
+msgid "Leisures : Video"
+msgstr "Volný čas : Video"
+
+#: src/categories_onglet.c:117
+msgid "Leisures : Travels"
+msgstr "Volný čas : Cestování"
+
+#: src/categories_onglet.c:118
+msgid "Leisures : Equipment"
+msgstr "Volný čas : Vybavení"
+
+#: src/categories_onglet.c:119
+msgid "Leisures : Museums/Exhibitions"
+msgstr "Volný čas : Muzea/výstavy"
+
+#: src/categories_onglet.c:120
+msgid "Loan/Mortgage : Capital"
+msgstr "Půjčky / hypotéky : Kapitálové"
+
+#: src/categories_onglet.c:121
+msgid "Health : Insurance"
+msgstr "Zdraví : Pojištění"
+
+#: src/categories_onglet.c:122
+msgid "Health : Dentist"
+msgstr "Zdraví : Zubař"
+
+#: src/categories_onglet.c:123
+msgid "Health : Hospital"
+msgstr "Zdraví : Nemocnice"
+
+#: src/categories_onglet.c:124
+msgid "Health : Kinesitherapist"
+msgstr "Zdraví : Terapeut"
+
+#: src/categories_onglet.c:125
+msgid "Health : Doctor"
+msgstr "Zdraví : Doktor"
+
+#: src/categories_onglet.c:126
+msgid "Health : Ophtalmologist"
+msgstr "Zdraví : Oftalmolog"
+
+#: src/categories_onglet.c:127
+msgid "Health : Osteopath"
+msgstr "Zdraví : Osteopat"
+
+#: src/categories_onglet.c:128
+msgid "Health : Chemist"
+msgstr "Zdraví : Lékarna"
+
+#: src/categories_onglet.c:129
+msgid "Health : Social security"
+msgstr "Zdraví : Sociální pojištění"
+
+#: src/categories_onglet.c:130
+msgid "Care : Hairdresser"
+msgstr "Styl : Kadeřník"
+
+#: src/categories_onglet.c:131
+msgid "Care : Clothing"
+msgstr "Styl : Oblečení"
+
+#: src/categories_onglet.c:132
+msgid "Transport : Bus"
+msgstr "Doprava : Autobus"
+
+#: src/categories_onglet.c:133
+msgid "Transport : Metro"
+msgstr "Doprava : Metro"
+
+#: src/categories_onglet.c:134
+msgid "Transport : Toll"
+msgstr "Doprava : Poplatky"
+
+#: src/categories_onglet.c:135 src/categories_onglet.c:138
+msgid "Transport : Train"
+msgstr "Doprava : Vlak"
+
+#: src/categories_onglet.c:136
+msgid "Transport : Tramway"
+msgstr "Doprava : Tramvaj"
+
+#: src/categories_onglet.c:137
+msgid "Transport : Travels"
+msgstr "Doprava : Cestování"
+
+#: src/categories_onglet.c:139
+#, fuzzy
+msgid "Holiday : Housing"
+msgstr "Dovolená : Ubytování"
+
+#: src/categories_onglet.c:140
+#, fuzzy
+msgid "Holiday : Visits"
+msgstr "Dovolená : Návštěvy"
+
+#: src/categories_onglet.c:141
+#, fuzzy
+msgid "Holiday : Travels"
+msgstr "Dovolená : Cestování"
+
+#: src/categories_onglet.c:145
+msgid "Other incomes : Unemployment benefit"
+msgstr "Ostatní příjmy : Podpora"
+
+#: src/categories_onglet.c:146
+msgid "Other incomes : Family allowance"
+msgstr "Ostatní příjmy : Rodinné příjmy"
+
+#: src/categories_onglet.c:147
+msgid "Other incomes : Tax credit"
+msgstr "Ostatní příjmy : Daňové přeplatky"
+
+#: src/categories_onglet.c:148
+msgid "Other incomes : Gamble"
+msgstr "Ostatní příjmy : Výhry"
+
+#: src/categories_onglet.c:149
+msgid "Other incomes : Mutual insurance"
+msgstr "Ostatní příjmy : Pojištění"
+
+#: src/categories_onglet.c:150
+msgid "Other incomes : Social security"
+msgstr "Ostatní příjmy : Zdravotní pojištění"
+
+#: src/categories_onglet.c:151
+msgid "Retirement : Retirement Fund"
+msgstr "Důchod : Penzijní fond"
+
+#: src/categories_onglet.c:152
+msgid "Retirement : Pension"
+msgstr "Důchod : Penze"
+
+#: src/categories_onglet.c:153
+msgid "Retirement : Supplementary pension"
+msgstr "Důchod : Penzijní připojištění"
+
+#: src/categories_onglet.c:154
+msgid "Investment incomes : Dividends"
+msgstr "Příjmy z investic : Dividendy"
+
+#: src/categories_onglet.c:155
+msgid "Investment incomes : Interests"
+msgstr "Příjmy z investic : Úroky"
+
+#: src/categories_onglet.c:156
+msgid "Investment incomes : Capital gain"
+msgstr "Příjmy z investic : Kapitálové výnosy"
+
+#: src/categories_onglet.c:157
+msgid "Salary : Overtime"
+msgstr "Plat : Přesčasy"
+
+#: src/categories_onglet.c:158
+msgid "Salary : Leave allowance"
+msgstr "Plat : Odchodné"
+
+#: src/categories_onglet.c:159
+msgid "Salary : Misc. premiums"
+msgstr "Plat : Ostatní prémie"
+
+#: src/categories_onglet.c:160
+msgid "Salary : Success fee"
+msgstr "Plat : Provize"
+
+#: src/categories_onglet.c:161
+msgid "Salary : Net salary"
+msgstr "Plat : Mzda"
+
+#: src/categories_onglet.c:162
+msgid "Misc. incomes : Gifts"
+msgstr "Různé příjmy : Dary"
+
+#: src/categories_onglet.c:163
+msgid "Misc. incomes : Refunds"
+msgstr "Různé příjmy : Odškodné"
+
+#: src/categories_onglet.c:164
+msgid "Misc. incomes : Second hand sales"
+msgstr "Různé příjmy : Prodej second hand"
+
+#: src/categories_onglet.c:189
+msgid "Categories list"
+msgstr "Seznam kategorií"
+
+#: src/categories_onglet.c:190
+msgid "Amount per category"
+msgstr "Částky dle kategorií"
+
+#: src/categories_onglet.c:191
+msgid "Amount per subcategory"
+msgstr "Částky dle podkategorií"
+
+#: src/categories_onglet.c:192 src/imputation_budgetaire.c:70
+#: src/tiers_onglet.c:67
+msgid "Amount per account"
+msgstr "Částky dle účtů"
+
+#: src/categories_onglet.c:237 src/imputation_budgetaire.c:114
+#: src/tiers_onglet.c:118
+msgid "Information"
+msgstr "Informace"
+
+#: src/categories_onglet.c:279 src/imputation_budgetaire.c:156
+msgid "Sorting"
+msgstr "Třídění"
+
+#. mise en place des boutons ajout d'1 categ / sous-categ
+#: src/categories_onglet.c:388
+msgid "Add a category"
+msgstr "Přidat kategorii"
+
+#: src/categories_onglet.c:402
+msgid "Add a subcategory"
+msgstr "Přidat podkategorii"
+
+#. on met le bouton exporter
+#. mise en place du bouton exporter
+#: src/categories_onglet.c:428 src/etats_onglet.c:368 src/export.c:463
+#: src/imputation_budgetaire.c:340 src/menu.c:76 src/traitement_variables.c:90
+#: src/traitement_variables.c:213
+msgid "Export"
+msgstr "Export"
+
+#. on met le bouton importer
+#. mise en place du bouton importer
+#: src/categories_onglet.c:444 src/etats_onglet.c:379 src/import.c:2847
+#: src/imputation_budgetaire.c:356 src/menu.c:74 src/menu.c:75
+#: src/parametres.c:189
+msgid "Import"
+msgstr "Import"
+
+#: src/categories_onglet.c:650 src/categories_onglet.c:707
+#: src/categories_onglet.c:773 src/categories_onglet.c:833
+#: src/categories_onglet.c:863 src/categories_onglet.c:2873
+#: src/etats_affiche.c:128 src/etats_affiche.c:152 src/etats_affiche.c:238
+#: src/etats_affiche.c:259 src/etats_affiche.c:337 src/etats_affiche.c:358
+#: src/etats_affiche.c:441 src/etats_affiche.c:462 src/etats_affiche.c:534
+#: src/etats_affiche.c:555 src/etats_affiche.c:626 src/etats_affiche.c:647
+#: src/etats_affiche.c:884 src/etats_affiche.c:1027 src/etats_affiche.c:1483
+#: src/etats_affiche.c:1485 src/etats_affiche.c:1547 src/etats_affiche.c:1593
+#: src/imputation_budgetaire.c:564 src/imputation_budgetaire.c:624
+#: src/imputation_budgetaire.c:690 src/imputation_budgetaire.c:749
+#: src/imputation_budgetaire.c:778 src/imputation_budgetaire.c:2620
+#: src/tiers_onglet.c:434 src/tiers_onglet.c:1630
+#, c-format
+msgid "%4.2f %s"
+msgstr "%4.2f %s"
+
+#: src/categories_onglet.c:765 src/categories_onglet.c:857
+#, c-format
+msgid "No sub-category (%d)"
+msgstr "Žádná kategorie (%d)"
+
+#: src/categories_onglet.c:768 src/categories_onglet.c:860
+msgid "No sub-category"
+msgstr "Žádná podkategorie"
+
+#: src/categories_onglet.c:828
+#, c-format
+msgid "No category (%d)"
+msgstr "Žádná kategorie (%d)"
+
+#: src/categories_onglet.c:831 src/etats_affiche.c:1695
+msgid "No category"
+msgstr "Žádná kategorie"
+
+#: src/categories_onglet.c:1144 src/imputation_budgetaire.c:1060
+#, c-format
+msgid "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
+msgstr "%d/%d/%d : %4.2f %s (rozděleno) [ %s ]"
+
+#: src/categories_onglet.c:1163 src/imputation_budgetaire.c:1079
+#, c-format
+msgid "%d/%d/%d : %4.2f %s (breakdown)"
+msgstr "%d/%d/%d : %4.2f %s (rozděleno)"
+
+#: src/categories_onglet.c:1710
+msgid "Remove a category"
+msgstr "Odstranit kategorii"
+
+#: src/categories_onglet.c:1717
+msgid ""
+"Selected category still contains transactions.\n"
+"\n"
+"You may"
+msgstr ""
+"Vybraná kategorie stále obsahuje transakce.\n"
+"\n"
+"Můžete"
+
+#: src/categories_onglet.c:1742 src/categories_onglet.c:2107
+msgid "Transfer transactions to category"
+msgstr "Přenést transakci do kategorie"
+
+#: src/categories_onglet.c:1830
+msgid "Just remove this category."
+msgstr "Odstranit tuto kategorii."
+
+#: src/categories_onglet.c:1856 src/categories_onglet.c:2224
+msgid "Please enter a category!"
+msgstr "Prosím vložte kategorii!"
+
+#: src/categories_onglet.c:2075
+msgid "Remove sub-category"
+msgstr "Odstranit podkategorii"
+
+#: src/categories_onglet.c:2082
+msgid ""
+"Selected sub-category still contains transactions.\n"
+"\n"
+"You may"
+msgstr ""
+"Vybraná podkategorie stále obsahuje transakce.\n"
+"\n"
+"Můžete"
+
+#: src/categories_onglet.c:2198
+msgid "Just remove this sub-category."
+msgstr "Pouze odstranit tuto podkategorii."
+
+#: src/categories_onglet.c:2565 src/csv.c:424 src/echeancier_formulaire.c:1047
+#: src/echeancier_formulaire.c:1505 src/echeancier_formulaire.c:1538
+#: src/echeancier_formulaire.c:1751 src/echeancier_liste.c:1201
+#: src/echeancier_ventilation.c:204 src/etats_affiche.c:1688
+#: src/operations_formulaire.c:994 src/operations_formulaire.c:1824
+#: src/operations_formulaire.c:2526 src/operations_formulaire.c:2875
+#: src/operations_liste.c:1086 src/operations_liste.c:1708
+#: src/ventilation.c:207
+msgid "Breakdown of transaction"
+msgstr "Rozdělení transakce"
+
+#. Si c'est un virement, on fait les vÃ©rifications
+#: src/categories_onglet.c:2568 src/comptes_traitements.c:556
+#: src/comptes_traitements.c:641 src/csv.c:449 src/csv.c:574
+#: src/echeancier_formulaire.c:1526 src/echeancier_formulaire.c:1573
+#: src/echeancier_formulaire.c:1721 src/echeancier_formulaire.c:2079
+#: src/echeancier_formulaire.c:2989 src/echeancier_liste.c:1226
+#: src/echeancier_ventilation.c:771 src/echeancier_ventilation.c:1580
+#: src/echeancier_ventilation.c:1671 src/echeancier_ventilation.c:2020
+#: src/echeancier_ventilation.c:2293 src/ofx.c:483
+#: src/operations_formulaire.c:1016 src/operations_formulaire.c:1928
+#: src/operations_formulaire.c:1933 src/operations_formulaire.c:2392
+#: src/operations_formulaire.c:2955 src/operations_liste.c:1649
+#: src/ventilation.c:772 src/ventilation.c:1578 src/ventilation.c:1659
+#: src/ventilation.c:2028 src/ventilation.c:2366
+msgid "Transfer"
+msgstr "Převod"
+
+#: src/categories_onglet.c:2890
+msgid "New category"
+msgstr "Nová kategorie"
+
+#: src/categories_onglet.c:2891
+msgid "Enter name for new category"
+msgstr "Zadejte jméno nové kategorie"
+
+#: src/categories_onglet.c:2898
+msgid ""
+"Category names must be both unique and not empty.  Please use another name "
+"for this category."
+msgstr ""
+"Jméno kategorie nesmí být prázdné a musí být unikátní. Prosím zvolte jiné "
+"jméno."
+
+#: src/categories_onglet.c:2899
+#, c-format
+msgid "Category '%s' already exists."
+msgstr "Kategorie '%s' již existuje."
+
+#: src/categories_onglet.c:2955
+msgid "New sub-category"
+msgstr "Nová podkategorie"
+
+#: src/categories_onglet.c:2956
+msgid "Enter name for new sub-category"
+msgstr "Zadejte jméno nové podkategorie"
+
+#: src/categories_onglet.c:2977
+msgid ""
+"Sub-category names must be both unique and not empty.  Please use another "
+"name for this sub-category."
+msgstr ""
+"Jméno podkategorie nesmí být prázdné a musí být unikátní. Prosím zvolte jiné "
+"jméno."
+
+#: src/categories_onglet.c:2978
+#, c-format
+msgid "Sub-category '%s' already exists."
+msgstr "Podkategorie '%s' již existuje."
+
+#: src/categories_onglet.c:3034
+msgid "Export categories"
+msgstr "Exportovat kategorie"
+
+#: src/categories_onglet.c:3058 src/erreur.c:220 src/erreur.c:222
+#: src/etats_onglet.c:1195 src/fichiers_gestion.c:575
+#: src/fichiers_gestion.c:577 src/imputation_budgetaire.c:2787
+msgid "Save file"
+msgstr "Uložit soubor"
+
+#: src/categories_onglet.c:3059 src/etats_onglet.c:1196
+#: src/imputation_budgetaire.c:2788
+msgid "File exists. Do you want to overwrite it?"
+msgstr "Soubor existuje. Chcete jej přepsat?"
+
+#: src/categories_onglet.c:3064 src/etats_onglet.c:1201
+#: src/imputation_budgetaire.c:2793
+#, c-format
+msgid "Invalid filename \"%s\"!"
+msgstr "Neplatný název souboru \"%s\"!"
+
+#: src/categories_onglet.c:3072
+msgid "Error saving file."
+msgstr "Chyba při ukládání dat"
+
+#. on permet de remplacer/fusionner la liste
+#: src/categories_onglet.c:3100 src/categories_onglet.c:3126
+msgid "Import a category list"
+msgstr "Importovat seznam kategorií"
+
+#. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
+#: src/categories_onglet.c:3145
+msgid ""
+"File already contains transactions, the two categories lists will be merged."
+msgstr "Soubor již obsahuje transakce, oba seznamy kategorií budou sloučeny."
+
+#: src/categories_onglet.c:3155 src/imputation_budgetaire.c:2882
+msgid "Do you want"
+msgstr "Chcete"
+
+#: src/categories_onglet.c:3173
+msgid "Merge the two categories lists"
+msgstr "Sloučit dva seznamy kategorií"
+
+#: src/categories_onglet.c:3181
+msgid "Replace the old categories list"
+msgstr "Nahradit starý seznam kategorií"
+
+#: src/categories_onglet.c:3215 src/etats_onglet.c:1259
+#: src/imputation_budgetaire.c:2942
+msgid "Cannot import file."
+msgstr "Nelze naimportovat soubor"
+
+#: src/check.c:71
+msgid "Grisbi found no known inconsistency in accounts processed."
+msgstr "Grisbi nenašel ve zpracovávaných účetch žádnou nekonzistenci."
+
+#: src/check.c:72
+msgid "No inconsistency found."
+msgstr "Nebyla nalezena žádná nekonzistence."
+
+#: src/check.c:149
+#, c-format
+msgid ""
+"<span weight=\"bold\">%s</span>\n"
+"  Last reconciliation amount : %4.2f%s\n"
+"  Computed reconciliation amount : %4.2f%s\n"
+msgstr ""
+"<span weight=\"bold\">%s</span>\n"
+"  Poslední odsouhlasená částka : %4.2f%s\n"
+"  Vypočtená částka odsouhlasení : %4.2f%s\n"
+
+#: src/check.c:164
+msgid ""
+"Grisbi found accounts where reconciliation totals are inconsistent with the "
+"sum of reconcilied transactions.  Generally, the cause is too many transfers "
+"to other accounts are reconciled.  You have to manually unreconcile some "
+"transferts in inconsistent accounts.\n"
+"The following accounts are inconsistent:\n"
+"\n"
+msgstr ""
+"Grisbi našel účty, na kterých se celkové odsouhlasené částky nerovnají "
+"součtu částek odsouhlasených transakcí. Zpravidla bývá příčinou odsouhlasení "
+"přiliš mnoha převodů na jiné účty.  Musíte ručně zrušit odsouhlasení "
+"některých převodů na nekonzistentních účtech.\n"
+"Následující účty jsou nekonzistentní:\n"
+"\n"
+
+#: src/check.c:173 src/check.c:528 src/check.c:666
+#, c-format
+msgid "%d accounts have inconsistencies."
+msgstr "%d účtů obsahuje nekonzistence."
+
+#: src/check.c:178 src/check.c:533 src/check.c:671
+msgid "An account has inconsistencies."
+msgstr "Účet není konzistentní."
+
+#: src/check.c:216
+msgid ""
+"Some sub-categories are duplicates:\n"
+"\n"
+msgstr ""
+"Existují duplicitní podkategorie:\n"
+"\n"
+
+#: src/check.c:234
+#, c-format
+msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
+msgstr "V <i>%s</i>, <i>%s</i> je duplikát <i>%s</i>.\n"
+
+#: src/check.c:250
+msgid ""
+"Due to a bug in previous versions of Grisbi, sub-categories may share the "
+"same numeric id in some cases, resulting in transactions having two sub-"
+"categories.  If you choose to continue, Grisbi will remove one of each "
+"duplicates and recreate it with a new id.\n"
+"\n"
+"No transactions will be lost, but in some cases, you will have to manually "
+"move transactions to this new sub-category."
+msgstr ""
+"Kvůli chybě v předchozích verzích Grisbi mohou mít některé podkategorie "
+"stejné číselné id, což má za následek traksakce, které mají více "
+"podkategorií. Pokud zvolíte pokračovat, Grisbi odstraní duplicity a vytvoří "
+"podkategorie s novým id.\n"
+"\n"
+"Žádné transakce nebudou ztraceny, ale v některých případech bude potřeba "
+"ručně přiřadit transakce do nové podkategorie."
+
+#: src/check.c:260
+msgid "Fix inconsistencies in sub-categories?"
+msgstr "Opravit nekonzistence v podkategoriích?"
+
+#: src/check.c:339
+#, c-format
+msgid ""
+"Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
+msgstr "Podrozpočet <i>'%s : %s'</i> je duplikátem <i>'%s : %s'</i>\n"
+
+#: src/check.c:356
+msgid ""
+"Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
+"the same numeric id in some cases, resulting in transactions having two sub-"
+"budgetary lines.  If you choose to continue, Grisbi will remove one of each "
+"duplicates and recreate it with a new id.\n"
+"\n"
+"No transactions will be lost, but in some cases, you will have to manually "
+"move transactions to this new sub-budgetary line."
+msgstr ""
+"Kvůli chybě v předchozích verzích Grisbi mohou mít některé podrozpočty "
+"stejné číselné id, což má za následek traksakce, které mají více "
+"podrozpočtů. Pokud zvolíte pokračovat, Grisbi odstraní duplicity a vytvoří "
+"podrozpočty s novým id.\n"
+"\n"
+"Žádné transakce nebudou ztraceny, ale v některých případech bude potřeba "
+"ručně přiřadit transakce do nového podrozpočtu."
+
+#: src/check.c:366
+msgid "Fix inconsistencies in sub-budgetary lines?"
+msgstr "Opravit nekonzistence v podrozpočtech?"
+
+#: src/check.c:469
+#, c-format
+msgid "Transaction #%d should have a contra #%d, but this one doesn't exist.\n"
+msgstr "Transakce #%d by měla mít protizápis #%d, ale ten neexistuje.\n"
+
+#: src/check.c:494
+#, c-format
+msgid ""
+"Transaction #%d have a contra #%d, but transaction #%d have a contra #%d "
+"instead of #%d.\n"
+msgstr ""
+"Transakce #%d má protitransakci #%d, ale transakce #%d má protitransakci #%d "
+"místo #%d.\n"
+
+#: src/check.c:520
+msgid ""
+"Grisbi found transfer transactions where links are inconsistent among "
+"themselves.  Unfortunately, we don't know at the moment how it has "
+"happened.\n"
+"The following accounts are inconsistent:\n"
+msgstr ""
+"Grisbi nalezl transakce převodů, které mají nekonzistence v propojení obou "
+"stran. Bohužel, teď nelze zjistit, v jakém okamžiku k tomu došlo.\n"
+"Následující účty jsou nekonzistentní:\n"
+
+#: src/check.c:615
+#, c-format
+msgid "Breakdown line #%d is orpheanous.\n"
+msgstr "Řádek rozdělení #%d je sirotek.\n"
+
+#: src/check.c:633
+#, c-format
+msgid ""
+"Transaction #%d has a financial year named %s and breakdown line #%d of this "
+"transaction has a financial year named %s\n"
+msgstr ""
+"Transakce #%d má fiskální rok %s, zatímco řádek rozdělení #%d této transakce "
+"má fiskální rok %s\n"
+
+#: src/check.c:658
+msgid ""
+"Grisbi found breakdown lines that have financial years different from the "
+"financial years of the related transaction.  Perhaps it isn't a problem, but "
+"perhaps it is.\n"
+"The following accounts seems inconsistent:\n"
+msgstr ""
+"Grisbi nalezl řádky rozdělení, které mají jiný fiskální rok než původní "
+"transakce. To nemusí, ale může být chyba.\n"
+"Následující účty mohou být nekonzistentní:\n"
+
+#: src/comptes_gestion.c:88
+msgid "Account details"
+msgstr "Detaily účtu"
+
+#: src/comptes_gestion.c:100
+msgid "Account name"
+msgstr "Jméno účtu"
+
+#: src/comptes_gestion.c:122 src/comptes_traitements.c:690
+msgid "Account type"
+msgstr "Typ účtu"
+
+#: src/comptes_gestion.c:147
+msgid "Account currency"
+msgstr "Měna účtu"
+
+#: src/comptes_gestion.c:168
+msgid "Convert this account to euros"
+msgstr "Přepočítávat tento účet na Eura"
+
+#: src/comptes_gestion.c:182
+msgid "Closed account"
+msgstr "Uzavřený účet"
+
+#. crÃ©ation de la ligne du titulaire du compte
+#: src/comptes_gestion.c:188
+msgid "Account holder"
+msgstr "Majitel účtu"
+
+#: src/comptes_gestion.c:199
+msgid "Holder name"
+msgstr "Jméno majitele"
+
+#: src/comptes_gestion.c:223
+msgid "Common address is holder's address"
+msgstr "Běžná adresa je adresa majitele účtu"
+
+#: src/comptes_gestion.c:253
+msgid "Holder has his own address"
+msgstr "Majitel účtu má vlastní adresu"
+
+#: src/comptes_gestion.c:290
+msgid "Financial institution"
+msgstr "Finanční instituce"
+
+#: src/comptes_gestion.c:319
+msgid "Details"
+msgstr "Detaily"
+
+#: src/comptes_gestion.c:347
+msgid "Bank sort code"
+msgstr "Třídicí kód banky"
+
+#: src/comptes_gestion.c:370
+msgid "Bank branch code"
+msgstr "Kód pobočky banky"
+
+#: src/comptes_gestion.c:394
+msgid "Account number / Key"
+msgstr "Číslo účtu / klíč"
+
+#. crÃ©ation de la ligne du solde initial
+#: src/comptes_gestion.c:415
+msgid "Balances"
+msgstr "Zůstatky"
+
+#. tiers
+#: src/comptes_gestion.c:425 src/csv.c:265 src/equilibrage.c:297
+msgid "Initial balance"
+msgstr "Počáteční zůstatek"
+
+#: src/comptes_gestion.c:448
+msgid "Minimum authorised balance"
+msgstr "Minimální povolený zůstatek"
+
+#: src/comptes_gestion.c:471
+msgid "Minimum wanted balance"
+msgstr "Minimální požadovaný zůstatek"
+
+#. crÃ©ation de la ligne du commentaire
+#: src/comptes_gestion.c:486
+msgid "Comments"
+msgstr "Komentář"
+
+#. crÃ©ation de l'item compte bancaire
+#: src/comptes_gestion.c:658
+msgid "Bank account"
+msgstr "Bankovní účet"
+
+#. crÃ©ation de l'item compte de caisse
+#: src/comptes_gestion.c:669
+msgid "Cash account"
+msgstr "Hotovostní účet"
+
+#. crÃ©ation de l'item compte passif
+#: src/comptes_gestion.c:680
+msgid "Liabilities account"
+msgstr "Účet pasiv"
+
+#. crÃ©ation de l'item compte actif
+#: src/comptes_gestion.c:690
+msgid "Assets account"
+msgstr "Účet aktiv"
+
+#: src/comptes_gestion.c:874
+msgid "Account has no name!"
+msgstr "Účet nemá název!"
+
+#: src/comptes_gestion.c:889
+#, c-format
+msgid "Account \"%s\" already exists!"
+msgstr "Účet \"%s\" již existuje!"
+
+#: src/comptes_gestion.c:945
+msgid "Confirm currency change"
+msgstr "Potvrzení změny měny"
+
+#: src/comptes_gestion.c:946
+#, c-format
+msgid ""
+"You are changing from a currency that is in the euro zone (%s) to one that "
+"isn't (%s).  Transactions in euros will be lost!  There is no undo for "
+"this.\n"
+"Do you confirm this change?"
+msgstr ""
+"Chcete změnit měnu která je v euro zóně (%s) na měnu která není  (%s).  "
+"Transakce v eurech budou ztraceny!  Tuto změnu nelze vzít zpět.\n"
+"Opravdu chcete pokračovat?"
+
+#: src/comptes_gestion.c:1181
+msgid "Apply changes to account?"
+msgstr "Promítnout změny na účet?"
+
+#: src/comptes_gestion.c:1182
+#, c-format
+msgid ""
+"Account \"%s\" has been modified.\n"
+"Do you want to save changes?"
+msgstr ""
+"Účet \"%s\" byl změněn.\n"
+"Chcete tyto změny uložit?"
+
+#: src/comptes_gestion.c:1211
+#, c-format
+msgid "Convert account \"%s\" to euro?"
+msgstr "Převést účet \"%s\" na eura?"
+
+#: src/comptes_gestion.c:1213
+msgid "Euro conversion is irreversible, are you sure you want to continue?"
+msgstr "Převod na eura je navratná akce. Opravdu chcete pokračovat?"
+
+#: src/comptes_gestion.c:1233
+msgid "Exchange rate between the 2 currencies is 0."
+msgstr "Směnný kurz mezi měnami je 0."
+
+#: src/comptes_gestion.c:1240 src/devises.c:407 src/devises.c:984
+#: src/devises.c:1833 src/devises.c:1915 src/devises.c:2256 src/devises.c:2261
+#: src/devises.c:2392 src/echeancier_formulaire.c:2038
+#: src/echeancier_formulaire.c:2040 src/echeancier_formulaire.c:2421
+#: src/echeancier_formulaire.c:2423 src/echeancier_liste.c:1951
+#: src/echeancier_liste.c:1953 src/etats_calculs.c:2723
+#: src/etats_calculs.c:2728 src/etats_calculs.c:2785 src/etats_calculs.c:2790
+#: src/etats_calculs.c:2846 src/etats_calculs.c:2851 src/etats_calculs.c:2922
+#: src/etats_calculs.c:2927 src/etats_calculs.c:2980 src/etats_calculs.c:2985
+#: src/etats_calculs.c:3040 src/etats_calculs.c:3045 src/etats_calculs.c:3100
+#: src/etats_calculs.c:3105 src/operations_formulaire.c:2708
+#: src/operations_formulaire.c:2709 src/operations_liste.c:1581
+#: src/operations_liste.c:1583 src/ventilation.c:2972 src/ventilation.c:2974
+#: src/ventilation.c:3191 src/ventilation.c:3193
+msgid "Euro"
+msgstr "Euro"
+
+#: src/comptes_gestion.c:1245
+msgid "Impossible to find the Euro currency, it has probably been deleted."
+msgstr "Nelze najít měnu Euro. Pravědpodobně byla smazána."
+
+#. mise en place des boutons du bas
+#: src/comptes_onglet.c:158 src/menu.c:105
+msgid "New account"
+msgstr "Nový účet"
+
+#. mise en place du bouton "supprimer un compte"
+#: src/comptes_onglet.c:168 src/menu.c:106 src/traitement_variables.c:99
+#: src/traitement_variables.c:222
+msgid "Remove an account"
+msgstr "Odstranit účet"
+
+#. insÃ¨re ses paramÃ¨tres ( comme c'est un appel Ã  calloc, tout ce qui est Ã  0 est dÃ©jÃ  initialisÃ© )
+#: src/comptes_traitements.c:155
+#, c-format
+msgid "No name %d"
+msgstr "Bez jména %d"
+
+#: src/comptes_traitements.c:197
+#, c-format
+msgid "Delete account \"%s\"?"
+msgstr "Odstranit účet \"%s\"?"
+
+#: src/comptes_traitements.c:199
+msgid ""
+"This will irreversibly remove this account and all operations that were "
+"previously contained.  There is no undo for this."
+msgstr ""
+"Tímto nevratně odstraníte účat a všechny transakce které předtím obsahoval. "
+"Tato akce se nedá vrátit zpět."
+
+#: src/comptes_traitements.c:568 src/ofx.c:471
+msgid "Deposit"
+msgstr "Vklad"
+
+#. c'est un compte ccard
+#: src/comptes_traitements.c:580 src/qif.c:332
+msgid "Credit card"
+msgstr "Kreditní karta"
+
+#: src/comptes_traitements.c:592
+msgid "Direct debit"
+msgstr "Přímý výběr"
+
+#: src/comptes_traitements.c:604 src/etats_affiche.c:2272
+msgid "Cheque"
+msgstr "Šek"
+
+#: src/comptes_traitements.c:681
+msgid "Choose account type"
+msgstr "Vyberte typ účtu"
+
+#: src/comptes_traitements.c:682
+msgid ""
+"If you choose to continue, an account will be created with default payment "
+"methods chosen according to your choice.\n"
+"You will be able to change account type later."
+msgstr ""
+"Pokud zvolíte pokračovat, bude vytvořen účet s příslušnými výchozími "
+"metodami platby podle vaší volby.\n"
+"Typ účtu můžete později změnit."
+
+#: src/csv.c:221 src/qif.c:1074 src/qif.c:1532
+#, c-format
+msgid ""
+"Error for the file \"%s\" :\n"
+"%s"
+msgstr ""
+"Chyba souboru \"%s\" :\n"
+"%s"
+
+#: src/csv.c:237 src/etats_config.c:6192 src/fenetre_principale.c:75
+msgid "Transactions"
+msgstr "Transakce"
+
+#. bouton ventilation, pour accÃ©der Ã  la fenetre de ventil de l'Ã©chÃ©ance
+#. mise en forme du bouton ventilation
+#: src/csv.c:238 src/echeancier_formulaire.c:470 src/echeancier_onglet.c:96
+#: src/echeancier_onglet.c:173 src/operations_formulaire.c:533
+#: src/operations_onglet.c:77 src/operations_onglet.c:133
+msgid "Breakdown"
+msgstr "Rozdělení"
+
+#: src/csv.c:241
+msgid "Cheques"
+msgstr "Šeky"
+
+#: src/csv.c:253
+msgid "Sub-categories"
+msgstr "Podkategorie"
+
+#: src/csv.c:256
+msgid "Sub-budgetary lines"
+msgstr "Podrozpočet"
+
+#: src/csv.c:258
+msgid "Reconciliation number"
+msgstr "Číslo odsouhlasení"
+
+#. met le pointage
+#: src/csv.c:306 src/etats_affiche.c:1410 src/etats_affiche.c:1420
+msgid "C"
+msgstr "C"
+
+#: src/csv.c:307 src/etats_affiche.c:1415 src/operations_liste.c:1101
+#: src/operations_liste.c:2024
+msgid "R"
+msgstr "R"
+
+#: src/csv.c:308 src/operations_liste.c:1105
+msgid "T"
+msgstr "T"
+
+#. on commence par mettre la catÃ©g et sous categ de l'opÃ© et de l'opÃ© de ventilation
+#: src/csv.c:440
+msgid "B"
+msgstr "B"
+
+#: src/csv.c:591 src/echeancier_ventilation.c:780
+#: src/operations_formulaire.c:1025 src/operations_formulaire.c:2405
+#: src/operations_formulaire.c:2967 src/ventilation.c:781
+msgid "Deleted account"
+msgstr "Odstranit účet"
+
+#: src/devises.c:51 src/devises.c:52 src/devises.c:53 src/devises.c:54
+#: src/devises.c:55 src/devises.c:56 src/devises.c:57 src/devises.c:58
+#: src/devises.c:59 src/devises.c:60 src/devises.c:61 src/devises.c:62
+#: src/devises.c:63 src/devises.c:64 src/devises.c:65 src/devises.c:66
+#: src/devises.c:67 src/devises.c:68 src/devises.c:69 src/devises.c:70
+#: src/devises.c:71 src/devises.c:72 src/devises.c:73 src/devises.c:74
+#: src/devises.c:75 src/devises.c:76 src/devises.c:77 src/devises.c:78
+#: src/devises.c:79 src/devises.c:80 src/devises.c:81 src/devises.c:82
+#: src/devises.c:83 src/devises.c:84 src/devises.c:85 src/devises.c:86
+#: src/devises.c:517
+msgid "Africa"
+msgstr "Afrika"
+
+#: src/devises.c:51
+msgid "Algerian Dinar"
+msgstr "Alžírský dinár"
+
+#: src/devises.c:51
+msgid "Algeria"
+msgstr "Alžír"
+
+#: src/devises.c:52
+msgid "Botswana Pula"
+msgstr "Botswanská pula"
+
+#: src/devises.c:52
+msgid "Botswana"
+msgstr "Botswana"
+
+#: src/devises.c:53
+msgid "Burundi Franc"
+msgstr "Burundský frank"
+
+#: src/devises.c:53
+msgid "Burundi"
+msgstr "Burundi"
+
+#: src/devises.c:54 src/devises.c:55
+msgid "CFA Franc BCEAO"
+msgstr "CFA Frank BCEAO"
+
+#: src/devises.c:54
+msgid "Niger"
+msgstr "Niger"
+
+#: src/devises.c:55
+msgid "Senegal"
+msgstr "Senegal"
+
+#: src/devises.c:56 src/devises.c:57 src/devises.c:58
+msgid "CFA Franc BEAC"
+msgstr "CFA Frank BEAC"
+
+#: src/devises.c:56
+msgid "Cameroon"
+msgstr "Kamerun"
+
+#: src/devises.c:57
+msgid "Chad"
+msgstr "Čad"
+
+#: src/devises.c:58
+msgid "Congo"
+msgstr "kongo"
+
+#: src/devises.c:59
+msgid "Comoro Franc"
+msgstr "Comorský frank"
+
+#: src/devises.c:59
+msgid "Comoros"
+msgstr "Comoros"
+
+#: src/devises.c:60
+msgid "Egyptian Pound"
+msgstr "Egyptská libra"
+
+#: src/devises.c:60
+msgid "Egypt"
+msgstr "Egypt"
+
+#: src/devises.c:61
+msgid "Ethiopian Birr"
+msgstr "Etiopský birr"
+
+#: src/devises.c:61
+msgid "Ethiopia"
+msgstr "Etiopie"
+
+#: src/devises.c:62
+msgid "Gambian Dalasi"
+msgstr "Gambijské dalasi"
+
+#: src/devises.c:62
+msgid "Gambia"
+msgstr "Gambie"
+
+#: src/devises.c:63
+msgid "Ghana Cedi"
+msgstr "Ghanské cedi"
+
+#: src/devises.c:63
+msgid "Ghana"
+msgstr "Ghana"
+
+#: src/devises.c:64
+msgid "Guinea-Bissau Peso"
+msgstr "Guinea-Bissauské peso"
+
+#: src/devises.c:64
+msgid "Guinea-Bissau"
+msgstr "Guinea-Bissau"
+
+#: src/devises.c:65
+msgid "Kenyan Shilling"
+msgstr "Keňský šilink"
+
+#: src/devises.c:65
+msgid "Kenya"
+msgstr "Keňa"
+
+#: src/devises.c:66
+msgid "Liberian Dollar"
+msgstr "Liberijský dolar"
+
+#: src/devises.c:66
+msgid "Liberia"
+msgstr "Libérie"
+
+#: src/devises.c:67
+msgid "Libyan Dinar"
+msgstr "Libyjský dinár"
+
+#: src/devises.c:67
+msgid "Libyan Arab Jamahiriya"
+msgstr "Libyan Arab Jamahiriya"
+
+#: src/devises.c:68
+msgid "Malagasy Franc"
+msgstr "Malagažský frank"
+
+#: src/devises.c:68
+msgid "Madagascar"
+msgstr "Madagaskar"
+
+#: src/devises.c:69
+msgid "Malawi Kwacha"
+msgstr "Malawská kwacha"
+
+#: src/devises.c:69
+msgid "Malawi"
+msgstr "Malawi"
+
+#: src/devises.c:70
+msgid "Mauritania Ouguiya"
+msgstr "Mauritásnká ouguiya"
+
+#: src/devises.c:70
+msgid "Mauritania"
+msgstr "Mauritánie"
+
+#: src/devises.c:71
+msgid "Moazambique Metical"
+msgstr "Mozambický metical"
+
+#: src/devises.c:71
+msgid "Mozambique"
+msgstr "Mozambik"
+
+#: src/devises.c:72
+msgid "Moroccan Dirham"
+msgstr "Marocký dirham"
+
+#: src/devises.c:72
+msgid "Morocco"
+msgstr "Maroko"
+
+#: src/devises.c:73
+msgid "Nigerian Naira"
+msgstr "Nigerijská naira"
+
+#: src/devises.c:73
+msgid "Nigeria"
+msgstr "Nigérie"
+
+#: src/devises.c:74
+msgid "Rwanda Franc"
+msgstr "Rwandský frank"
+
+#: src/devises.c:74
+msgid "Rwanda"
+msgstr "Rwanda"
+
+#: src/devises.c:75
+msgid "Sao Tome and Principe Dobra"
+msgstr "Dobra"
+
+#: src/devises.c:75
+msgid "Sao Tome and Principe"
+msgstr "Svatý Tomáš a Princův ostrov"
+
+#: src/devises.c:76
+msgid "Seychelles Rupee"
+msgstr "Seychelská rupie"
+
+#: src/devises.c:76
+msgid "Seychelles"
+msgstr "Seychely"
+
+#: src/devises.c:77
+msgid "Sierra Leonean Leone"
+msgstr "Sierra Leonský leon"
+
+#: src/devises.c:77
+msgid "Sierra Leone"
+msgstr "Sierra Leone"
+
+#: src/devises.c:78
+msgid "Somali Shilling"
+msgstr "Somálský šilink"
+
+#: src/devises.c:78
+msgid "Somalia"
+msgstr "Somálsko"
+
+#: src/devises.c:79 src/devises.c:80 src/devises.c:81
+msgid "South African Rand"
+msgstr "Jihoafrický rand"
+
+#: src/devises.c:79
+msgid "Lesotho"
+msgstr "Lesotho"
+
+#: src/devises.c:80
+msgid "Namibia"
+msgstr "Namibie"
+
+#: src/devises.c:81
+msgid "South Africa"
+msgstr "Jižní Afrika"
+
+#: src/devises.c:82
+msgid "Swaziland Lilangeni"
+msgstr "Svazijské lilangeni"
+
+#: src/devises.c:82
+msgid "Swaziland"
+msgstr "Svazijsko"
+
+#: src/devises.c:83
+msgid "Tanzanian Shilling"
+msgstr "Tanzanský šilink"
+
+#: src/devises.c:83
+msgid "United Republic of Tanzania"
+msgstr "Tanzánie"
+
+#: src/devises.c:84
+msgid "Tunisian Dinar"
+msgstr "Tuniský dinár"
+
+#: src/devises.c:84
+msgid "Tunisia"
+msgstr "Tunis"
+
+#: src/devises.c:85
+msgid "Zambian Kwacha"
+msgstr "Zambijská kwacha"
+
+#: src/devises.c:85
+msgid "Zambia"
+msgstr "Zambie"
+
+#: src/devises.c:86
+msgid "Zimbabwe Dollar"
+msgstr "Zimbabwský dolar"
+
+#: src/devises.c:86
+msgid "Zimbabwe"
+msgstr "Zimbabwe"
+
+#: src/devises.c:87 src/devises.c:88 src/devises.c:89 src/devises.c:90
+#: src/devises.c:91 src/devises.c:92 src/devises.c:93 src/devises.c:94
+#: src/devises.c:95 src/devises.c:96 src/devises.c:97 src/devises.c:98
+#: src/devises.c:99 src/devises.c:100 src/devises.c:101 src/devises.c:102
+#: src/devises.c:103 src/devises.c:104 src/devises.c:105 src/devises.c:106
+#: src/devises.c:107 src/devises.c:108 src/devises.c:109 src/devises.c:110
+#: src/devises.c:111 src/devises.c:112 src/devises.c:113 src/devises.c:114
+#: src/devises.c:115 src/devises.c:116 src/devises.c:117 src/devises.c:118
+#: src/devises.c:119 src/devises.c:120 src/devises.c:121 src/devises.c:122
+#: src/devises.c:123 src/devises.c:124 src/devises.c:125 src/devises.c:126
+#: src/devises.c:518
+msgid "Asia"
+msgstr "Asie"
+
+#: src/devises.c:87
+msgid "Afghani"
+msgstr "Afghání"
+
+#: src/devises.c:87
+msgid "Afghanistan"
+msgstr "Afghanistan"
+
+#: src/devises.c:88
+msgid "Bahraini Dinar"
+msgstr "Bahrainský dinár"
+
+#: src/devises.c:88
+msgid "Bahrain"
+msgstr "Bahrain"
+
+#: src/devises.c:89
+msgid "Bangladesh Taka"
+msgstr "Bangladéšská taka"
+
+#: src/devises.c:89
+msgid "Bangladesh"
+msgstr "Bangladéš"
+
+#: src/devises.c:90
+msgid "Brunei Dollar"
+msgstr "Brunejský dolar"
+
+#: src/devises.c:90
+msgid "Brunei Darussalam"
+msgstr "Brunejský darussalam"
+
+#: src/devises.c:91
+msgid "Cambodian Riel"
+msgstr "Kambodžský riel"
+
+#: src/devises.c:91
+msgid "Cambodia"
+msgstr "Kambodža"
+
+#: src/devises.c:92
+msgid "Cyprus Pound"
+msgstr "Kyperská libra"
+
+#: src/devises.c:92
+msgid "Cyprus"
+msgstr "Kypr"
+
+#: src/devises.c:93
+msgid "Hong Kong Dollar"
+msgstr "Hongkongský dolar"
+
+#: src/devises.c:93
+msgid "Hong Kong"
+msgstr "Hong Kong"
+
+#: src/devises.c:94 src/devises.c:95
+msgid "Indian Rupee"
+msgstr "Indická rupie"
+
+#: src/devises.c:94
+msgid "Bhutan"
+msgstr "Bhůtán"
+
+#: src/devises.c:95
+msgid "India"
+msgstr "Indie"
+
+#: src/devises.c:96
+msgid "Indonesian Rupiah"
+msgstr "Indonéská rupie"
+
+#: src/devises.c:96
+msgid "Indonesia"
+msgstr "Indonésie"
+
+#: src/devises.c:97
+msgid "Iranian Rial"
+msgstr "Iránský riál"
+
+#: src/devises.c:97
+msgid "Iran"
+msgstr "Irán"
+
+#: src/devises.c:98
+msgid "Iraqi Dinar"
+msgstr "Irácký dinár"
+
+#: src/devises.c:98
+msgid "Iraq"
+msgstr "Irák"
+
+#: src/devises.c:99
+msgid "Japanese Yen"
+msgstr "Japonský jen"
+
+#: src/devises.c:99
+msgid "Japan"
+msgstr "Japonsko"
+
+#: src/devises.c:100
+msgid "Jordanian Dinar"
+msgstr "Jordánský dinár"
+
+#: src/devises.c:100
+msgid "Jordan"
+msgstr "Jordánsko"
+
+#: src/devises.c:101
+msgid "Kuwaiti Dinar"
+msgstr "Kuvajtský dinár"
+
+#: src/devises.c:101
+msgid "Kuwait"
+msgstr "Kuvajt"
+
+#: src/devises.c:102
+msgid "Lao Kip"
+msgstr "Laoský kip"
+
+#: src/devises.c:102
+msgid "Lao People's Democratic Republic"
+msgstr "Laos"
+
+#: src/devises.c:103
+msgid "Lebanese Pound"
+msgstr "Libanonská libra"
+
+#: src/devises.c:103
+msgid "Lebanon"
+msgstr "Libanon"
+
+#: src/devises.c:104
+msgid "Macau Pataca"
+msgstr "Makajská pataka"
+
+#: src/devises.c:104
+msgid "Macao"
+msgstr "Makao"
+
+#: src/devises.c:105
+msgid "Malaysian Ringgit"
+msgstr "Malayský ringgit"
+
+#: src/devises.c:105
+msgid "Malaysia"
+msgstr "Malaysie"
+
+#: src/devises.c:106
+msgid "Mongolian Tugrik"
+msgstr "Mongolský tugrik"
+
+#: src/devises.c:106
+msgid "Mongolia"
+msgstr "Mongolsko"
+
+#: src/devises.c:107
+msgid "Nepalese Rupee"
+msgstr "Nepálská rupie"
+
+#: src/devises.c:107
+msgid "Nepal"
+msgstr "Nepál"
+
+#: src/devises.c:108
+msgid "New Israeli Shekel"
+msgstr "Israelský šekel"
+
+#: src/devises.c:108
+msgid "Israel"
+msgstr "Israel"
+
+#: src/devises.c:109
+msgid "New Taiwan Dollar"
+msgstr "Nový taiwanský dolar"
+
+#: src/devises.c:109
+msgid "Taiwan, Province of China"
+msgstr "Taiwan"
+
+#: src/devises.c:110
+msgid "North Korean Won"
+msgstr "Severokorejský won"
+
+#: src/devises.c:110
+msgid "Democratic People's Republic of Korea"
+msgstr "Severní Korea"
+
+#: src/devises.c:111
+msgid "Pakistan Rupee"
+msgstr "Pakistánská rupie"
+
+#: src/devises.c:111
+msgid "Pakistan"
+msgstr "Pakistán"
+
+#: src/devises.c:112
+msgid "Philippine peso"
+msgstr "Filipínské peso"
+
+#: src/devises.c:112
+msgid "Philippines"
+msgstr "Filipíny"
+
+#: src/devises.c:113
+msgid "Qatari Rial"
+msgstr "Katarský riál"
+
+#: src/devises.c:113
+msgid "Qatar"
+msgstr "Katar"
+
+#: src/devises.c:114
+msgid "Rial Omani"
+msgstr "Ománský riál"
+
+#: src/devises.c:114
+msgid "Oman"
+msgstr "Omán"
+
+#: src/devises.c:115
+msgid "Russian Ruble"
+msgstr "Ruský rubl"
+
+#: src/devises.c:115
+msgid "Russia"
+msgstr "Rusko"
+
+#: src/devises.c:116
+msgid "Saudi Riyal"
+msgstr "Saudský riál"
+
+#: src/devises.c:116
+msgid "Saudi Arabia"
+msgstr "Saudská Arábie"
+
+#: src/devises.c:117
+msgid "Singapore Dollar"
+msgstr "Singapurský dolar"
+
+#: src/devises.c:117
+msgid "Singapore"
+msgstr "Singapur"
+
+#: src/devises.c:118
+msgid "South Korean Won"
+msgstr "Korejský won"
+
+#: src/devises.c:118
+msgid "Republic of Korea"
+msgstr "Korea"
+
+#: src/devises.c:119
+msgid "Sri Lanka Rupee"
+msgstr "Srí Lanská rupie"
+
+#: src/devises.c:119
+msgid "Sri Lanka"
+msgstr "Srí Lanka"
+
+#: src/devises.c:120
+msgid "Syrian Pound"
+msgstr "Syrská libra"
+
+#: src/devises.c:120
+msgid "Syrian Arab Republic"
+msgstr "Sýrie"
+
+#: src/devises.c:121
+msgid "Thai Baht"
+msgstr "Thaský baht"
+
+#: src/devises.c:121
+msgid "Thailand"
+msgstr "Thajsko"
+
+#: src/devises.c:122
+msgid "Turkish Lira"
+msgstr "Turecká lira"
+
+#: src/devises.c:122
+msgid "Turkey"
+msgstr "Turecko"
+
+#: src/devises.c:123
+msgid "United Arab Emirates Dirham"
+msgstr "Dirham"
+
+#: src/devises.c:123
+msgid "United Arab Emirates"
+msgstr "Spojené Arabské Emiráty"
+
+#: src/devises.c:124
+msgid "Viet Nam Dong"
+msgstr "Vietnamský dong"
+
+#: src/devises.c:124
+msgid "Viet Nam"
+msgstr "Vietnam"
+
+#: src/devises.c:125
+msgid "Yemeni Rial"
+msgstr "Jemenský riál"
+
+#: src/devises.c:125
+msgid "Yemen"
+msgstr "Jemen"
+
+#: src/devises.c:126
+msgid "Yuan Renminbi"
+msgstr "Yuan Renminbi"
+
+#: src/devises.c:126
+msgid "China"
+msgstr "Čína"
+
+#: src/devises.c:127 src/devises.c:128 src/devises.c:129 src/devises.c:130
+#: src/devises.c:131 src/devises.c:132 src/devises.c:519
+msgid "Central America"
+msgstr "Centrální Amerika"
+
+#: src/devises.c:127
+msgid "Belize Dollar"
+msgstr "Belizský dolar"
+
+#: src/devises.c:127
+msgid "Belize"
+msgstr "Belize"
+
+#: src/devises.c:128
+msgid "Costa Rican Colon"
+msgstr "Kostarický colón"
+
+#: src/devises.c:128
+msgid "Costa Rica"
+msgstr "Kostarika"
+
+#: src/devises.c:129
+msgid "Guatemalan Quetzal"
+msgstr "Guatemalský quetzal"
+
+#: src/devises.c:129
+msgid "Guatemala"
+msgstr "Guatemala"
+
+#: src/devises.c:130
+msgid "Honduran Lempira"
+msgstr "Honduraská lempira"
+
+#: src/devises.c:130
+msgid "Honduras"
+msgstr "Honduras"
+
+#: src/devises.c:131
+msgid "Mexican Peso"
+msgstr "Mexické peso"
+
+#: src/devises.c:131
+msgid "Mexico"
+msgstr "Mexiko"
+
+#: src/devises.c:132
+msgid "Panama Balboa"
+msgstr "Panamská balboa"
+
+#: src/devises.c:132 src/devises.c:197
+msgid "Panama"
+msgstr "Panama"
+
+#: src/devises.c:133 src/devises.c:134 src/devises.c:135 src/devises.c:136
+#: src/devises.c:137 src/devises.c:138 src/devises.c:139 src/devises.c:140
+#: src/devises.c:141 src/devises.c:142 src/devises.c:143 src/devises.c:144
+#: src/devises.c:145 src/devises.c:146 src/devises.c:147 src/devises.c:148
+#: src/devises.c:149 src/devises.c:150 src/devises.c:151 src/devises.c:152
+#: src/devises.c:153 src/devises.c:154 src/devises.c:155 src/devises.c:156
+#: src/devises.c:157 src/devises.c:158 src/devises.c:159 src/devises.c:160
+#: src/devises.c:161 src/devises.c:162 src/devises.c:163 src/devises.c:164
+#: src/devises.c:165 src/devises.c:166 src/devises.c:167 src/devises.c:520
+msgid "Europe"
+msgstr "Evropa"
+
+#: src/devises.c:133
+msgid "Albanian Lek"
+msgstr "Albánský lek"
+
+#: src/devises.c:133
+msgid "Albania"
+msgstr "Albánie"
+
+#: src/devises.c:134
+msgid "Austrian Schilling"
+msgstr "Rakouský šilink"
+
+#: src/devises.c:134
+msgid "Austria"
+msgstr "Rakousko"
+
+#: src/devises.c:135
+msgid "Belgian Franc"
+msgstr "Belgiský frank"
+
+#: src/devises.c:135
+msgid "Belgium"
+msgstr "Belgie"
+
+#: src/devises.c:136
+msgid "Bulgarian Lev"
+msgstr "Bulharský lev"
+
+#: src/devises.c:136
+msgid "Bulgaria"
+msgstr "Bulharsko"
+
+#: src/devises.c:137
+msgid "Czech Koruna"
+msgstr "Česká koruna"
+
+#: src/devises.c:137
+msgid "Czech Republic"
+msgstr "Česká republika"
+
+#: src/devises.c:138
+msgid "Danish Krone"
+msgstr "Dánská koruna"
+
+#: src/devises.c:138
+msgid "Denmark"
+msgstr "Dánsko"
+
+#: src/devises.c:139
+msgid "Deutsche Mark"
+msgstr "Německá marka"
+
+#: src/devises.c:139
+msgid "Germany"
+msgstr "německo"
+
+#: src/devises.c:140
+msgid "Estonian Kroon"
+msgstr "Estonská koruna"
+
+#: src/devises.c:140
+msgid "Estonia"
+msgstr "Estonsko"
+
+#: src/devises.c:141
+msgid "Finnish Markka"
+msgstr "Finská marka"
+
+#: src/devises.c:141
+msgid "Finland"
+msgstr "Finsko"
+
+#: src/devises.c:142
+msgid "French Franc"
+msgstr "Francouzský frank"
+
+#: src/devises.c:142
+msgid "France"
+msgstr "Francie"
+
+#: src/devises.c:143
+msgid "Gibraltar Pound"
+msgstr "Gibraltarská libra"
+
+#: src/devises.c:143
+msgid "Gibraltar"
+msgstr "Gibraltar"
+
+#: src/devises.c:144
+msgid "Greek Drachma"
+msgstr "Řecká drachma"
+
+#: src/devises.c:144
+msgid "Greece"
+msgstr "Řecko"
+
+#: src/devises.c:145
+msgid "Hungarian Forint"
+msgstr "Maďarský forint"
+
+#: src/devises.c:145
+msgid "Hungary"
+msgstr "Maďarsko"
+
+#: src/devises.c:146
+msgid "Iceland Krona"
+msgstr "Islandská koruna"
+
+#: src/devises.c:146
+msgid "Iceland"
+msgstr "Island"
+
+#: src/devises.c:147
+msgid "Irish Pound"
+msgstr "Irská libra"
+
+#: src/devises.c:147
+msgid "Ireland"
+msgstr "Irsko"
+
+#: src/devises.c:148 src/devises.c:149 src/devises.c:150
+msgid "Italian Lira"
+msgstr "Italská lira"
+
+#: src/devises.c:148
+msgid "Holy See"
+msgstr "Vatikán"
+
+#: src/devises.c:149
+msgid "Italy"
+msgstr "Itálie"
+
+#: src/devises.c:150
+msgid "San Marino"
+msgstr "San Marino"
+
+#: src/devises.c:151
+msgid "Latvian Lat"
+msgstr "Lotyšský lat"
+
+#: src/devises.c:151
+msgid "Latvia"
+msgstr "Lotyšsko"
+
+#: src/devises.c:152
+msgid "Lithuanian Litas"
+msgstr "Litevský litas"
+
+#: src/devises.c:152
+msgid "Lietuva"
+msgstr "Litva"
+
+#: src/devises.c:153
+msgid "Luxembourg Franc"
+msgstr "Lucemburský frank"
+
+#: src/devises.c:153
+msgid "Luxembourg"
+msgstr "Lucembursko"
+
+#: src/devises.c:154
+msgid "Netherlands Guilder"
+msgstr "Nizozemský gulden"
+
+#: src/devises.c:154
+msgid "Netherlands"
+msgstr "Nizozemí"
+
+#: src/devises.c:155
+msgid "New Yugoslavian Dinar"
+msgstr "Nový jugoslávský dinár"
+
+#: src/devises.c:155
+msgid "Serbia and Montenegro"
+msgstr "Srbsko a Černá Hora"
+
+#: src/devises.c:156
+msgid "Norwegian Krone"
+msgstr "Norská koruna"
+
+#: src/devises.c:156
+msgid "Norway"
+msgstr "Norsko"
+
+#: src/devises.c:157
+msgid "Polish Zloty"
+msgstr "Polský zlotý"
+
+#: src/devises.c:157
+msgid "Poland"
+msgstr "Polsko"
+
+#: src/devises.c:158
+msgid "Portuguese Escudo"
+msgstr "Prtugalské escudo"
+
+#: src/devises.c:158
+msgid "Portugal"
+msgstr "Portugalsko"
+
+#: src/devises.c:159
+msgid "Pound Sterling"
+msgstr "Libra Štěrlinků"
+
+#: src/devises.c:159
+msgid "United Kingdom"
+msgstr "Spojené Království"
+
+#: src/devises.c:160
+msgid "Romanian Leu"
+msgstr "Rumunské nové leu"
+
+#: src/devises.c:160
+msgid "Romania"
+msgstr "Rumunsko"
+
+#: src/devises.c:161
+msgid "Slovak Koruna"
+msgstr "Slovenská koruna"
+
+#: src/devises.c:161
+msgid "Slovakia"
+msgstr "Slovensko"
+
+#: src/devises.c:162
+msgid "Slovene Tolar"
+msgstr "Slovinský tolar"
+
+#: src/devises.c:162
+msgid "Slovenia"
+msgstr "Slovinsko"
+
+#: src/devises.c:163
+msgid "Spanish Peseta"
+msgstr "Španělská peseta"
+
+#: src/devises.c:163
+msgid "Spain"
+msgstr "Španělsko"
+
+#: src/devises.c:164
+msgid "Swedish Krona"
+msgstr "Švédská koruna"
+
+#: src/devises.c:164
+msgid "Sweden"
+msgstr "Švédsko"
+
+#: src/devises.c:165 src/devises.c:166
+msgid "Swiss Franc"
+msgstr "Švýcarský frank"
+
+#: src/devises.c:165
+msgid "Liechtenstein"
+msgstr "Lichtenštejnsko"
+
+#: src/devises.c:166
+msgid "Switzerland"
+msgstr "Švýcarsko"
+
+#: src/devises.c:167
+msgid "Hryvnia"
+msgstr "Hřivna"
+
+#: src/devises.c:167
+msgid "Ukraine"
+msgstr "Ukrajina"
+
+#: src/devises.c:168 src/devises.c:169 src/devises.c:170 src/devises.c:171
+#: src/devises.c:172 src/devises.c:173 src/devises.c:174 src/devises.c:175
+#: src/devises.c:176 src/devises.c:177 src/devises.c:178 src/devises.c:179
+#: src/devises.c:180 src/devises.c:181 src/devises.c:521
+msgid "Northern America"
+msgstr "Severní Amerika"
+
+#: src/devises.c:168
+msgid "Bahamian Dollar"
+msgstr "Bahamský dolar"
+
+#: src/devises.c:168
+msgid "Bahamas"
+msgstr "Bahamy"
+
+#: src/devises.c:169
+msgid "Barbados Dollar"
+msgstr "Barbadoský dolar"
+
+#: src/devises.c:169
+msgid "Barbados"
+msgstr "Barbados"
+
+#: src/devises.c:170
+msgid "Bermuda Dollar"
+msgstr "Bermudský dolar"
+
+#: src/devises.c:170
+msgid "Bermuda"
+msgstr "Bermudy"
+
+#: src/devises.c:171
+msgid "Canadian Dollar"
+msgstr "Kanadský dolar"
+
+#: src/devises.c:171
+msgid "Canada"
+msgstr "Kanada"
+
+#: src/devises.c:172
+msgid "Cayman Islands Dollar"
+msgstr "Kajmanský dolar"
+
+#: src/devises.c:172
+msgid "Cayman Islands"
+msgstr "Kajmanské ostrovy"
+
+#: src/devises.c:173
+msgid "Cuban Peso"
+msgstr "Kubánské peso"
+
+#: src/devises.c:173
+msgid "Cuba"
+msgstr "Kuba"
+
+#: src/devises.c:174
+msgid "Dominican Peso"
+msgstr "Dominikánské peso"
+
+#: src/devises.c:174
+msgid "Dominican Republic"
+msgstr "Dominikánská republika"
+
+#: src/devises.c:175 src/devises.c:176
+msgid "East Caribbean Dollar"
+msgstr "Východokaribský dolar"
+
+#: src/devises.c:175
+msgid "Grenada"
+msgstr "Granada"
+
+#: src/devises.c:176
+msgid "Saint Lucia"
+msgstr "Svatá Lucie"
+
+#: src/devises.c:177
+msgid "Haitian Gourde"
+msgstr "Haitský gourde"
+
+#: src/devises.c:177
+msgid "Haiti"
+msgstr "Haiti"
+
+#: src/devises.c:178
+msgid "Jamaican Dollar"
+msgstr "Jamajský dolar"
+
+#: src/devises.c:178
+msgid "Jamaica"
+msgstr "Jamajka"
+
+#: src/devises.c:179
+msgid "Netherlands Antillian Guilder"
+msgstr "Guilder"
+
+#: src/devises.c:179
+msgid "Netherlands Antilles"
+msgstr "Nizozemské Antily"
+
+#: src/devises.c:180
+msgid "Trinidad and Tobago Dollar"
+msgstr "Trinidadsko-tobagský dolar"
+
+#: src/devises.c:180
+msgid "Trinidad and Tobago"
+msgstr "Trinidad a Tobago"
+
+#: src/devises.c:181 src/devises.c:197
+msgid "United States Dollar"
+msgstr "Dolar"
+
+#: src/devises.c:181
+msgid "United States"
+msgstr "Spojené Státy"
+
+#: src/devises.c:182 src/devises.c:183 src/devises.c:184 src/devises.c:185
+#: src/devises.c:186 src/devises.c:187 src/devises.c:188 src/devises.c:189
+#: src/devises.c:190 src/devises.c:191 src/devises.c:192 src/devises.c:193
+#: src/devises.c:194 src/devises.c:195 src/devises.c:196 src/devises.c:197
+#: src/devises.c:198 src/devises.c:522
+msgid "Pacific Ocean"
+msgstr "Austrálie a Oceánie"
+
+#: src/devises.c:182 src/devises.c:183 src/devises.c:184 src/devises.c:185
+msgid "Australian Dollar"
+msgstr "Australský dolar"
+
+#: src/devises.c:182
+msgid "Australia"
+msgstr "Austrálie"
+
+#: src/devises.c:183
+msgid "Kiribati"
+msgstr "Kiribati"
+
+#: src/devises.c:184
+msgid "Nauru"
+msgstr "Nauru"
+
+#: src/devises.c:185
+msgid "Tuvalu"
+msgstr "Tuvalu"
+
+#: src/devises.c:186 src/devises.c:187 src/devises.c:188
+msgid "CFP Franc"
+msgstr "CFP frank"
+
+#: src/devises.c:186
+msgid "French Polynesia"
+msgstr "Francouzská Polynésie"
+
+#: src/devises.c:187
+msgid "New Caledonia"
+msgstr "Nová Kaledonie"
+
+#: src/devises.c:188
+msgid "Wallis and Futuna"
+msgstr "Wallis a Futuna"
+
+#: src/devises.c:189
+msgid "Fiji Dollar"
+msgstr "Fidžijský dolar"
+
+#: src/devises.c:189
+msgid "Fiji"
+msgstr "Fidži"
+
+#: src/devises.c:190 src/devises.c:191
+msgid "New Zealand Dollar"
+msgstr "Novozélandský dolar"
+
+#: src/devises.c:190
+msgid "Cook Islands"
+msgstr "Cookovy ostrovy"
+
+#: src/devises.c:191
+msgid "New Zealand"
+msgstr "Nový Zéland"
+
+#: src/devises.c:192
+msgid "Papua New Guinea Kina"
+msgstr "Kina"
+
+#: src/devises.c:192
+msgid "Papua New Guinea"
+msgstr "Papua-Nová Guinea"
+
+#: src/devises.c:193
+msgid "Samoa Tala"
+msgstr "Samojská tala"
+
+#: src/devises.c:193
+msgid "Samoa"
+msgstr "Samoa"
+
+#: src/devises.c:194
+msgid "Solomon Islands Dollar"
+msgstr "Šalamounský dolar"
+
+#: src/devises.c:194
+msgid "Solomon Islands"
+msgstr "Šalamounovy ostrovy"
+
+#: src/devises.c:195
+msgid "Timor Escudo"
+msgstr "Timorské eskudo"
+
+#: src/devises.c:195
+msgid "Timor"
+msgstr "Timor"
+
+#: src/devises.c:196
+msgid "Tongan Pa'anga"
+msgstr "Pa'anga"
+
+#: src/devises.c:196
+msgid "Tonga"
+msgstr "Tonga"
+
+#: src/devises.c:198
+msgid "Vanuatu Vatu"
+msgstr "Vanuatské vatu"
+
+#: src/devises.c:198
+msgid "Vanuatu"
+msgstr "Vanuatu"
+
+#: src/devises.c:199 src/devises.c:200 src/devises.c:201 src/devises.c:202
+#: src/devises.c:203 src/devises.c:204 src/devises.c:205 src/devises.c:206
+#: src/devises.c:207 src/devises.c:523
+msgid "Southern America"
+msgstr "Jižní Amerika"
+
+#: src/devises.c:199
+msgid "Brazilian Real"
+msgstr "Brazilský real"
+
+#: src/devises.c:199 src/devises.c:205
+msgid "Brazil"
+msgstr "Brazílie"
+
+#: src/devises.c:200
+msgid "Chilean Peso"
+msgstr "Chilské peso"
+
+#: src/devises.c:200
+msgid "Chile"
+msgstr "Chile"
+
+#: src/devises.c:201
+msgid "Colombian Peso"
+msgstr "Kolumbijské peso"
+
+#: src/devises.c:201
+msgid "Colombia"
+msgstr "Kolumbie"
+
+#: src/devises.c:202
+msgid "Ecuador Sucre"
+msgstr "Sucre"
+
+#: src/devises.c:202
+msgid "Ecuador"
+msgstr "Ekvádor"
+
+#: src/devises.c:203
+msgid "Guyana Dollar"
+msgstr "Guyanský dolar"
+
+#: src/devises.c:203
+msgid "Guyana"
+msgstr "Guyana"
+
+#: src/devises.c:204
+msgid "Paraguay Guarani"
+msgstr "Guaraní"
+
+#: src/devises.c:204
+msgid "Paraguay"
+msgstr "Paraguay"
+
+#: src/devises.c:205
+msgid "Real"
+msgstr "Reál"
+
+#: src/devises.c:206
+msgid "Suriname Guilder"
+msgstr "Surinamský gulden"
+
+#: src/devises.c:206
+msgid "Suriname"
+msgstr "Surinam"
+
+#: src/devises.c:207
+msgid "Venezuelan Bolivar"
+msgstr "Venezuelský bolívar"
+
+#: src/devises.c:207
+msgid "Venezuela"
+msgstr "Venezuela"
+
+#. le 1er item c'est aucune devise
+#: src/devises.c:450
+msgid "No associated currency"
+msgstr "Nepřiřazená měna"
+
+#: src/devises.c:614
+msgid "Country name"
+msgstr "Název země"
+
+#. Currency name
+#: src/devises.c:625 src/devises.c:738
+msgid "Currency name"
+msgstr "Název měny"
+
+#: src/devises.c:635 src/devises.c:1405
+msgid "ISO Code"
+msgstr "ISO kód"
+
+#. Create code entry
+#: src/devises.c:646 src/devises.c:1406 src/devises.c:1543
+msgid "Sign"
+msgstr "Symbol"
+
+#: src/devises.c:673
+msgid "Include obsolete currencies"
+msgstr "Zobrazit neplatné měny"
+
+#: src/devises.c:702 src/import.c:456
+msgid "Add a currency"
+msgstr "Přidat měnu"
+
+#: src/devises.c:720
+msgid "ISO 4217 currencies"
+msgstr "měny ISO 4217"
+
+#: src/devises.c:727
+msgid "Currency details"
+msgstr "Detaily měny"
+
+#. Currency ISO code
+#: src/devises.c:755
+msgid "Currency ISO 4217 code"
+msgstr "ISO 4217 kód měny"
+
+#. Currency usual sign
+#: src/devises.c:770
+msgid "Currency sign"
+msgstr "Symbol měny"
+
+#: src/devises.c:846
+msgid "All fields are not filled in!"
+msgstr "Nejsou vyplněna všechna pole!"
+
+#: src/devises.c:902
+msgid "..."
+msgstr "..."
+
+#: src/devises.c:991
+#, c-format
+msgid ""
+"The %s currency is used in the current account.\n"
+"You can't delete it."
+msgstr ""
+"Měna %s je použita v aktuálním účtu.\n"
+"Nemůžete ji odstranit."
+
+#: src/devises.c:1051
+msgid "Enter exchange rate"
+msgstr "Vložte směnný kurz"
+
+#: src/devises.c:1061
+#, c-format
+msgid "Please enter exchange rate for %s"
+msgstr "Proším zadejte směnný kurz pro %s"
+
+#: src/devises.c:1073
+msgid "A"
+msgstr "A"
+
+#: src/devises.c:1081
+msgid "equals"
+msgstr "rovno"
+
+#: src/devises.c:1143
+msgid "Exchange fees"
+msgstr "Poplatky za výměnu"
+
+#: src/devises.c:1404 src/import.c:372
+msgid "Currency"
+msgstr "Měna"
+
+#: src/devises.c:1410 src/etats_config.c:6196 src/parametres.c:287
+msgid "Currencies"
+msgstr "Měny"
+
+#: src/devises.c:1414
+msgid "Known currencies"
+msgstr "Definované měny"
+
+#: src/devises.c:1507
+msgid "Currency properties"
+msgstr "Vlastnosti měny"
+
+#. Create code entry
+#: src/devises.c:1559
+msgid "ISO code"
+msgstr "ISO kód"
+
+#. Will switch to Euro?
+#: src/devises.c:1575
+msgid "Will switch to Euro"
+msgstr "Změní se na Euro"
+
+#: src/devises.c:1586
+msgid "Associated currency"
+msgstr "Vztažná měna"
+
+#: src/devises.c:1607
+msgid "One"
+msgstr "Jeden"
+
+#: src/devises.c:1615
+msgid "costs"
+msgstr "stojí"
+
+#: src/devises.c:1707 src/parametres.c:270
+msgid "Totals currencies"
+msgstr "Měny pro součty"
+
+#: src/devises.c:1714
+msgid "Currency for third parties tree"
+msgstr "Měna ve stromu třetích stran"
+
+#: src/devises.c:1724
+msgid "Currency for categories tree"
+msgstr "Měna ve stromu kategorií"
+
+#: src/devises.c:1734
+msgid "Currency for budgetary lines tree"
+msgstr "Měna ve stromu rozpočtů"
+
+#: src/devises.c:1976
+msgid "Last exchange rate"
+msgstr "Poslední směnný kurz"
+
+#: src/devises.c:1982
+msgid "No exchange rate defined"
+msgstr "Směnný kurz není zadán"
+
+#: src/devises.c:2310
+msgid "No name"
+msgstr "Bez jména"
+
+#: src/dialog.c:244 src/dialog.c:364 src/fichiers_io.c:6547
+msgid "Do not show this message again"
+msgstr "Příště tuto zprávu nezobrazovat"
+
+#: src/dialog.c:401 src/echeancier_formulaire.c:1623
+#: src/echeancier_liste.c:664 src/type_operations.c:1569
+#: src/type_operations.c:1639
+msgid "Input"
+msgstr "Vstup"
+
+#: src/echeancier_formulaire.c:255 src/echeancier_formulaire.c:256
+#: src/operations_formulaire.c:256 src/operations_formulaire.c:257
+msgid "Choose currency"
+msgstr "Zvolte měnu"
+
+#: src/echeancier_formulaire.c:279 src/echeancier_formulaire.c:280
+msgid "Choose the account"
+msgstr "Zvolte účet"
+
+#: src/echeancier_formulaire.c:371 src/echeancier_formulaire.c:372
+#: src/operations_formulaire.c:392 src/operations_formulaire.c:393
+msgid "Choose the method of payment"
+msgstr "Zvolte metodu platby"
+
+#: src/echeancier_formulaire.c:407 src/echeancier_formulaire.c:408
+#: src/echeancier_ventilation.c:598 src/echeancier_ventilation.c:599
+#: src/operations_formulaire.c:423 src/operations_formulaire.c:424
+#: src/ventilation.c:601 src/ventilation.c:602
+msgid "Choose the financial year"
+msgstr "Zvolte fiskální rok"
+
+#: src/echeancier_formulaire.c:529 src/echeancier_formulaire.c:530
+msgid "Automatic/manual scheduled transaction"
+msgstr "Automatická / ruční plánovaná transakce"
+
+#: src/echeancier_formulaire.c:538 src/echeancier_liste.c:809
+#: src/operations_liste.c:1814
+msgid "Manual"
+msgstr "Ručně"
+
+#: src/echeancier_formulaire.c:546 src/echeancier_liste.c:807
+#: src/exercice.c:554
+msgid "Automatic"
+msgstr "Automaticky"
+
+#: src/echeancier_formulaire.c:601 src/echeancier_formulaire.c:602
+#: src/echeancier_liste.c:403
+msgid "Frequency"
+msgstr "Frekvence"
+
+#: src/echeancier_formulaire.c:610 src/echeancier_liste.c:215
+#: src/echeancier_liste.c:767
+msgid "Once"
+msgstr "Jednou"
+
+#: src/echeancier_formulaire.c:626 src/echeancier_liste.c:769
+msgid "Weekly"
+msgstr "Týdně"
+
+#: src/echeancier_formulaire.c:642 src/echeancier_liste.c:771
+msgid "Monthly"
+msgstr "Měsíčně"
+
+#: src/echeancier_formulaire.c:658 src/echeancier_liste.c:773
+msgid "Yearly"
+msgstr "Ročně"
+
+#: src/echeancier_formulaire.c:674 src/echeancier_liste.c:225
+#: src/etats_config.c:44
+msgid "Custom"
+msgstr "Volitelně"
+
+#: src/echeancier_formulaire.c:738 src/echeancier_formulaire.c:739
+#: src/echeancier_formulaire.c:758 src/echeancier_formulaire.c:759
+msgid "Custom frequency"
+msgstr "Volitelná frekvence"
+
+#: src/echeancier_formulaire.c:767 src/echeancier_liste.c:263
+msgid "Days"
+msgstr "Dny"
+
+#: src/echeancier_formulaire.c:775 src/echeancier_liste.c:275
+#: src/etats_config.c:5989
+msgid "Months"
+msgstr "Měsíce"
+
+#: src/echeancier_formulaire.c:783 src/echeancier_liste.c:287
+msgid "Years"
+msgstr "Roky"
+
+#: src/echeancier_formulaire.c:1044 src/echeancier_formulaire.c:2534
+#: src/echeancier_ventilation.c:857 src/echeancier_ventilation.c:1487
+#: src/operations_formulaire.c:1108 src/operations_formulaire.c:3357
+#: src/ventilation.c:858 src/ventilation.c:1485
+msgid "Categories : Sub-categories"
+msgstr "Kategorie : Podkategorie"
+
+#: src/echeancier_formulaire.c:1062 src/echeancier_formulaire.c:2536
+msgid "Transfer reference"
+msgstr "Reference převodu"
+
+#: src/echeancier_formulaire.c:1090 src/echeancier_formulaire.c:2544
+msgid "Limit date"
+msgstr "Limitní datum"
+
+#: src/echeancier_formulaire.c:1478 src/equilibrage.c:944
+#: src/equilibrage.c:964 src/operations_formulaire.c:2339
+msgid "Invalid date"
+msgstr "Neplatné datum"
+
+#: src/echeancier_formulaire.c:1492
+msgid "Invalid limit date"
+msgstr "Neplatné limitní datum"
+
+#: src/echeancier_formulaire.c:1530 src/operations_formulaire.c:2434
+msgid "Can't issue a transfer its own account."
+msgstr "Nelze převést na ten samý účet"
+
+#: src/echeancier_formulaire.c:1560
+msgid "A breakdown of transaction is a transfer to this account.\n"
+msgstr "Rozdělení transakce je převod na tento účet.\n"
+
+#: src/echeancier_formulaire.c:1583 src/operations_formulaire.c:2398
+msgid "There is no associated account for this transfer."
+msgstr "Tento převod nemá žádný připojený účet."
+
+#: src/echeancier_formulaire.c:1606 src/operations_formulaire.c:2427
+msgid "Associated account of this transfer is invalid."
+msgstr "Účet připojený k tomuto převodu je neplatný."
+
+#: src/echeancier_formulaire.c:2584 src/echeancier_liste.c:557
+#: src/echeancier_liste.c:988
+msgid "Modification"
+msgstr "Úprava"
+
+#: src/echeancier_liste.c:166
+msgid "Display scheduled transactions"
+msgstr "Zobrazit plánované transakce"
+
+#: src/echeancier_liste.c:187
+msgid "Of month"
+msgstr "Tento měsíc"
+
+#: src/echeancier_liste.c:196
+msgid "Of next two months"
+msgstr "Tento a příští měsíc"
+
+#: src/echeancier_liste.c:205
+msgid "Of year"
+msgstr "Tento rok"
+
+#: src/echeancier_liste.c:358
+msgid ""
+"Fall due selected\n"
+"scheduled transaction"
+msgstr ""
+"Potvrdit vybranou\n"
+"splatnou transakci"
+
+#: src/echeancier_liste.c:372
+msgid ""
+"Remove selected\n"
+"scheduled transaction"
+msgstr ""
+"Odstranit vybrané\n"
+"plánované transakce"
+
+#: src/echeancier_liste.c:401 src/etats_config.c:266 src/import.c:394
+#: src/type_operations.c:300
+msgid "Account"
+msgstr "Účet"
+
+#: src/echeancier_liste.c:404
+msgid "Mode"
+msgstr "Mód"
+
+#. del
+#: src/echeancier_liste.c:609
+msgid "Confirmation of scheduled transaction removal"
+msgstr "Potvrzení odstranění plánované transakce"
+
+#: src/echeancier_liste.c:610
+msgid ""
+"You are currently trying to remove a scheduled transaction.  There is no "
+"undo for this.  Do you confirm the removal?"
+msgstr ""
+"Snažíte se odebrat plánovanou transakci. Tato akce je nevratná. Opravdu si "
+"přejete transakci odstranit?"
+
+#: src/echeancier_liste.c:778
+#, c-format
+msgid "%d months"
+msgstr "%d měsíců"
+
+#: src/echeancier_liste.c:781
+#, c-format
+msgid "%d years"
+msgstr "%d roků"
+
+#: src/echeancier_liste.c:784
+#, c-format
+msgid "%d days"
+msgstr "%d dní"
+
+#: src/echeancier_liste.c:1380 src/etats_affiche.c:2092
+msgid "No third party"
+msgstr "Žádná třetí strana"
+
+#: src/echeancier_liste.c:1385
+msgid "Delete a scheduled transaction"
+msgstr "Odstranit plánovanou transakci"
+
+#: src/echeancier_liste.c:1386
+msgid ""
+"Do you want to delete just this occurrence or the whole scheduled "
+"transaction?"
+msgstr "Chcete odstranit pouze tento výskyt, nebo celou plánovanou transakci?"
+
+#: src/echeancier_liste.c:1390
+msgid "All the occurences"
+msgstr "Všechny výskyty"
+
+#: src/echeancier_liste.c:1391
+msgid "Only this one"
+msgstr "Pouze tento"
+
+#: src/echeancier_liste.c:1899
+msgid ""
+"This breakdown of transaction contains a transfer on itself.  Either change "
+"the sub transaction to transfer on another account or change account of the "
+"transaction itself."
+msgstr ""
+"Rozdělení transakce obsahuje transakci samotnou. Buď změňte podtransakci na "
+"převod na jiný účet, nebo změňte účet transakce."
+
+#: src/echeancier_liste.c:1900
+msgid "Can't issue scheduled operation"
+msgstr "Nelze provést plánovanou operaci"
+
+#: src/echeancier_onglet.c:90
+msgid "Calendar"
+msgstr "kalendář"
+
+#: src/echeancier_onglet.c:130
+msgid "Scheduler list"
+msgstr "Seznam plánovače"
+
+#: src/echeancier_onglet.c:135
+msgid "Scheduler broken down transactions"
+msgstr "Plánovač rozdělil transakce"
+
+#: src/echeancier_ventilation.c:227 src/ventilation.c:230
+msgid "Break down amount"
+msgstr "Rozdělovaná částka"
+
+#: src/echeancier_ventilation.c:254 src/ventilation.c:257
+msgid "Not assigned"
+msgstr "Nepřiřazeno"
+
+#: src/echeancier_ventilation.c:580 src/echeancier_ventilation.c:581
+#: src/ventilation.c:583 src/ventilation.c:584
+msgid "Associated method of payment"
+msgstr "Připojená metoda platby"
+
+#: src/echeancier_ventilation.c:1599 src/ventilation.c:1597
+msgid "The associated account for this transfer is invalid"
+msgstr "Připojený účet pro tento převod je neplatný."
+
+#: src/echeancier_ventilation.c:1607 src/ventilation.c:1604
+msgid "It's impossible to transfer an account to itself"
+msgstr "Nelze převést účet na sebe sama."
+
+#: src/echeancier_ventilation.c:1614 src/ventilation.c:1611
+msgid "No account associated with the transfer"
+msgstr "K převodu není připojen žádný účet."
+
+#: src/echeancier_ventilation.c:2488 src/ventilation.c:2561
+msgid "Incomplete breakdown"
+msgstr "Neúplné rozdělení"
+
+#: src/echeancier_ventilation.c:2489 src/ventilation.c:2562
+msgid ""
+"Transaction amount isn't fully broken down.\n"
+"Proceed anyway?"
+msgstr ""
+"Částka transakce není rozdělena v plné výši.\n"
+"Přesto pokračovat?"
+
+#: src/echeancier_ventilation.c:2671 src/ventilation.c:2806
+msgid "A breakdown line is to be deleted though it is not yet registered."
+msgstr "Řádek rozdělení má být smazán, ačkoliv ještě není zapsán."
+
+#: src/equilibrage.c:122 src/equilibrage.c:136
+msgid "Reconciliation reference"
+msgstr "Reference odsouhlasení"
+
+#: src/equilibrage.c:135
+msgid ""
+"If reconciliation reference ends in a digit, it is automatically incremented "
+"at each reconciliation."
+msgstr ""
+"Pokud reference odsouhlasení končí číslem, je při každém odsouhlasení číslo "
+"automaticky zvýšeno."
+
+#: src/equilibrage.c:319
+msgid "Final balance"
+msgstr "Konečný zůstatek"
+
+#: src/equilibrage.c:341
+msgid "Checking"
+msgstr "Označeno"
+
+#: src/equilibrage.c:370
+msgid "Variance"
+msgstr "Rozdíl"
+
+#: src/equilibrage.c:843 src/operations_liste.c:1097
+#: src/operations_liste.c:1912
+msgid "P"
+msgstr "P"
+
+#: src/equilibrage.c:896 src/operations_comptes.c:312
+#: src/operations_liste.c:765 src/operations_liste.c:1967
+#, c-format
+msgid "Checked balance: %4.2f %s"
+msgstr "Součet označených: %4.2f %s"
+
+#: src/equilibrage.c:923
+msgid "There is a variance"
+msgstr "Existuje rozdíl"
+
+#: src/equilibrage.c:973 src/operations_comptes.c:299
+#, c-format
+msgid "Last statement: %02d/%02d/%d"
+msgstr "Poslední výpis: %02d/%02d/%d"
+
+#. le rapprochement existe dÃ©jÃ 
+#: src/equilibrage.c:997
+msgid "Reconciliation reference already exist"
+msgstr "Reference odsouhlasení již existuje"
+
+#: src/equilibrage.c:998
+msgid ""
+"The choosen reconciliation reference already exists.  Perhaps it's not a "
+"problem, but perhaps it is.  Be sure you want to do.\n"
+"Proceed anyway?"
+msgstr ""
+"Vybraná reference odsouhlasení již existuje. To nemusí, ale může být chyba. "
+"Zkontrolujte prosím referenci odsouhlasení.\n"
+"Přesto pokračovat?"
+
+#: src/equilibrage.c:1024
+msgid "No reconciliation reference"
+msgstr "Není reference odsoulasení"
+
+#: src/equilibrage.c:1025
+msgid ""
+"You are reconciling the account without giving a reconciliation reference.  "
+"By doing this, you will unable to find these transactions according a "
+"reconciliation reference.\n"
+"Proceed anyway?"
+msgstr ""
+"Odsouhlasujete zůstatek účtu bez zadání reference odsouhlasení. Takto nebude "
+"možné dohledat odsouhlasené transakce podle reference odsouhlasení.\n"
+"Přesto pokračovat?"
+
+#: src/equilibrage.c:1643 src/operations_onglet.c:83 src/parametres.c:262
+#: src/type_operations.c:256
+msgid "Reconciliation"
+msgstr "Odsouhlasení"
+
+#: src/equilibrage.c:1647
+msgid "Reconciliation: sort transactions"
+msgstr "Odsouhlasení: třídit transakce"
+
+#: src/equilibrage.c:1695
+msgid "Sort by date"
+msgstr "Třídit podle data"
+
+#: src/equilibrage.c:1712
+msgid "Split neutral payment methods"
+msgstr "Rozdělit neutrální metody platby"
+
+#: src/erreur.c:104
+msgid "Log message"
+msgstr "Logovat zprávy"
+
+#: src/erreur.c:110
+msgid "This operation returned a message"
+msgstr "Operace vrátila zprávu."
+
+#: src/erreur.c:165
+msgid ""
+"Grisbi triggered a segmentation fault and cannot continue its execution.\n"
+"\n"
+msgstr ""
+"Grisbi způsobil chybu stránkování a nemůže pokračovat v běhu.\n"
+"\n"
+
+#: src/erreur.c:179
+msgid "File is corrupted."
+msgstr "Soubor je poškozený."
+
+#: src/erreur.c:185
+msgid "Error occured saving file."
+msgstr "Chyba při ukládání do souboru."
+
+#: src/erreur.c:228
+#, c-format
+msgid "Grisbi made a backup file at '%s'."
+msgstr "Grisbi vytvořil zálohu v '%s'."
+
+#: src/erreur.c:235
+msgid "Please report this problem to http://www.grisbi.org/bugtracking/"
+msgstr "Prosím nahlaste tento problém na http://www.grisbi.org/bugtracking/"
+
+#: src/erreur.c:239
+msgid "Grisbi terminated due to a segmentation fault."
+msgstr "Grisbi bylo zastaveno z důvodu chyby stránkování"
+
+#: src/etat_io.c:58
+msgid "This file is not a Grisbi report"
+msgstr "Soubor není sestava Grisbi"
+
+#: src/etat_io.c:67
+#, c-format
+msgid ""
+"This report has been produced with grisbi version %s, Grisbi will "
+"nevertheless try to import it."
+msgstr ""
+"Sestava byla vytvořena pomocí Grisbi verze %s, Grisbi se přesto pokusí ji "
+"naimportovat."
+
+#: src/etat_io.c:68 src/fichiers_io.c:8913 src/fichiers_io.c:9266
+msgid "Version mismatch"
+msgstr "Nekompatibilní verze"
+
+#: src/etat_io.c:74
+msgid "Invalid report file"
+msgstr "Chybný soubor sestavy"
+
+#: src/etat_io.c:766
+#, c-format
+msgid "%sCurrency %s not found.\n"
+msgstr "%sMěna %s nebyla nalezena.\n"
+
+#: src/etat_io.c:769
+#, c-format
+msgid "Currency %s not found.\n"
+msgstr "Měna %s nebyla nalezena.\n"
+
+#: src/etat_io.c:810
+#, c-format
+msgid "%sFinancial year %s not found.\n"
+msgstr "%sFiskální rok %s nebyl nalezen.\n"
+
+#: src/etat_io.c:813
+#, c-format
+msgid "Financial year %s not found.\n"
+msgstr "Fiskální rok %s nebyl nalezen.\n"
+
+#: src/etat_io.c:856
+#, c-format
+msgid "%sAccount %s not found.\n"
+msgstr "%sÚčet %s nebyl nalezen.\n"
+
+#: src/etat_io.c:859
+#, c-format
+msgid "Account %s not found.\n"
+msgstr "Účet %s nebyl nalezen.\n"
+
+#: src/etat_io.c:899
+#, c-format
+msgid "%sCategory %s not found.\n"
+msgstr "%sKategorie %s nebyla nalezena.\n"
+
+#: src/etat_io.c:902
+#, c-format
+msgid "Category %s not found.\n"
+msgstr "Kategorie %s nebyla nalezena.\n"
+
+#: src/etat_io.c:942
+#, c-format
+msgid "%sBudget line %s not found.\n"
+msgstr "%sRozpočet %s nebyl nalezen.\n"
+
+#: src/etat_io.c:945
+#, c-format
+msgid "Budget line %s not found.\n"
+msgstr "Rozpočet %s nebyl nalezen.\n"
+
+#: src/etat_io.c:986
+#, c-format
+msgid "%sThird party %s not found.\n"
+msgstr "%sTřetí strana %s nebyla nalezena.\n"
+
+#: src/etat_io.c:989
+#, c-format
+msgid "Third party %s not found.\n"
+msgstr "Třetí strana %s nebyla nalezena.\n"
+
+#: src/etat_io.c:1739
+#, c-format
+msgid ""
+"Error saving the file %s\n"
+"\n"
+"Error:\n"
+"%s"
+msgstr ""
+"Chyba při ukldání souboru %s\n"
+"\n"
+"Chyba:\n"
+"%s"
+
+#: src/etats_affiche.c:106 src/etats_affiche.c:313 src/etats_affiche.c:512
+#: src/etats_affiche.c:604
+#, c-format
+msgid "Total %s (%d transaction)"
+msgstr "Celkem %s (%d transakce)"
+
+#: src/etats_affiche.c:108 src/etats_affiche.c:315 src/etats_affiche.c:514
+#: src/etats_affiche.c:606
+#, c-format
+msgid "Total %s (%d transactions)"
+msgstr "Celkem %s (transakcí: %d)"
+
+#: src/etats_affiche.c:111 src/etats_affiche.c:318 src/etats_affiche.c:517
+msgid "Total"
+msgstr "Celkem"
+
+#: src/etats_affiche.c:118
+#, c-format
+msgid "Category total (%d transaction)"
+msgstr "Kategorie celkem (%d transakce)"
+
+#: src/etats_affiche.c:120
+#, c-format
+msgid "Category total (%d transactions)"
+msgstr "Kategorie celkem (transakcí: %d)"
+
+#: src/etats_affiche.c:123
+msgid "Category total"
+msgstr "Kategorie celkem"
+
+#: src/etats_affiche.c:145 src/etats_affiche.c:252 src/etats_affiche.c:351
+#: src/etats_affiche.c:455 src/etats_affiche.c:548 src/etats_affiche.c:640
+#, c-format
+msgid "%4.2f %s (%d transaction)"
+msgstr "%4.2f %s (%d transakce)"
+
+#: src/etats_affiche.c:148 src/etats_affiche.c:255 src/etats_affiche.c:354
+#: src/etats_affiche.c:458 src/etats_affiche.c:551 src/etats_affiche.c:643
+#, c-format
+msgid "%4.2f %s (%d transactions)"
+msgstr "%4.2f %s (transakcí: %d)"
+
+#: src/etats_affiche.c:213 src/etats_affiche.c:415
+#, c-format
+msgid "Total %s: %s (%d transaction)"
+msgstr "Celkem %s: %s (%d transakce)"
+
+#: src/etats_affiche.c:216 src/etats_affiche.c:418
+#, c-format
+msgid "Total %s: %s (%d transactions)"
+msgstr "Celkem %s: %s (transakcí: %d)"
+
+#: src/etats_affiche.c:220 src/etats_affiche.c:422
+#, c-format
+msgid "Total %s: %s"
+msgstr "Celkem %s: %s"
+
+#: src/etats_affiche.c:227
+#, c-format
+msgid "Sub-categories total (%d transaction)"
+msgstr "Podkategorie celkem (%d transakce)"
+
+#: src/etats_affiche.c:230
+#, c-format
+msgid "Sub-categories total (%d transactions)"
+msgstr "Podkategorie celkem (transakcí: %d)"
+
+#: src/etats_affiche.c:234
+msgid "Sub-categories total"
+msgstr "Podkategorie celkem"
+
+#: src/etats_affiche.c:325
+#, c-format
+msgid "Budgetary lines total: (%d transaction)"
+msgstr "Rozpočty celkem: (%d transakce)"
+
+#: src/etats_affiche.c:328
+#, c-format
+msgid "Budgetary lines total: (%d transactions)"
+msgstr "Rozpočty celkem: (transakcí: %d)"
+
+#: src/etats_affiche.c:332
+msgid "Budgetary lines total"
+msgstr "Rozpočety celkem"
+
+#: src/etats_affiche.c:429
+#, c-format
+msgid "Sub-budgetary lines total: (%d transaction)"
+msgstr "Podrozpočety celkem: (%d transakce)"
+
+#: src/etats_affiche.c:432
+#, c-format
+msgid "Sub-budgetary lines total: (%d transactions)"
+msgstr "Podrozpočety celkem: (transakcí: %d)"
+
+#: src/etats_affiche.c:436
+msgid "Sub-budgetary lines total"
+msgstr "Podrozpočety celkem"
+
+#: src/etats_affiche.c:524
+#, c-format
+msgid "Account total: (%d transaction)"
+msgstr "Účet celkem: (%d transakce)"
+
+#: src/etats_affiche.c:526
+#, c-format
+msgid "Account total: (%d transactions)"
+msgstr "Účet celkem: (transakcí: %d)"
+
+#: src/etats_affiche.c:529
+msgid "Account total"
+msgstr "Účet celkem"
+
+#: src/etats_affiche.c:609
+#, c-format
+msgid "Total %s"
+msgstr "Celkem %s"
+
+#: src/etats_affiche.c:616
+#, c-format
+msgid "Third party total: (%d transaction)"
+msgstr "Celkem třetí strana: (%d transakce)"
+
+#: src/etats_affiche.c:618
+#, c-format
+msgid "Third party total: (%d transactions)"
+msgstr "Celkem třetí strana: (transakcí: %d)"
+
+#: src/etats_affiche.c:621
+msgid "Third party total"
+msgstr "Celkem třetí strana"
+
+#: src/etats_affiche.c:790
+#, c-format
+msgid "Result from %d/%d/%d to %d/%d/%d (%d transaction):"
+msgstr "Výsledek od %d/%d/%d do %d/%d/%d (%d transakce):"
+
+#: src/etats_affiche.c:799
+#, c-format
+msgid "Result from %d/%d/%d to %d/%d/%d (%d transactions):"
+msgstr "Výsledek od %d/%d/%d do %d/%d/%d (transakcí: %d):"
+
+#: src/etats_affiche.c:809
+#, c-format
+msgid "Result from %d/%d/%d to %d/%d/%d:"
+msgstr "Výsledek od %d/%d/%d do %d/%d/%d:"
+
+#: src/etats_affiche.c:835 src/etats_affiche.c:987
+#, c-format
+msgid "Result of %s (%d transaction)"
+msgstr "Výsledek za %s (%d transakce)"
+
+#: src/etats_affiche.c:838 src/etats_affiche.c:991
+#, c-format
+msgid "Result of %s (%d transactions)"
+msgstr "Výsledek za %s (transakcí: %d)"
+
+#: src/etats_affiche.c:842 src/etats_affiche.c:996
+#, c-format
+msgid "Result of %s"
+msgstr "Výsledek za %s"
+
+#: src/etats_affiche.c:863
+#, c-format
+msgid "Result for %s (%d transaction)"
+msgstr "Výsledek pro %s (%d transakce)"
+
+#: src/etats_affiche.c:866
+#, c-format
+msgid "Result for %s (%d transactions)"
+msgstr "Výsledek pro %s (transakcí: %d)"
+
+#: src/etats_affiche.c:870
+#, c-format
+msgid "Result for %s"
+msgstr "Výsledek pro %s"
+
+#: src/etats_affiche.c:1005
+#, c-format
+msgid "Result without financial year (%d transaction)"
+msgstr "Celkem bez fiskálního roku (%d transakce)"
+
+#: src/etats_affiche.c:1008
+#, c-format
+msgid "Result without financial year (%d transactions)"
+msgstr "Celkem bez fiskálního roku (transakcí: %d)"
+
+#: src/etats_affiche.c:1012
+msgid "Result without financial year"
+msgstr "Celkem bez fiskálního roku"
+
+#: src/etats_affiche.c:1192 src/operations_liste.c:1072
+#, c-format
+msgid "Transfer to %s"
+msgstr "Převod na %s"
+
+#: src/etats_affiche.c:1194 src/operations_liste.c:1075
+#, c-format
+msgid "Transfer from %s"
+msgstr "Převod z %s"
+
+#: src/etats_affiche.c:1525
+#, c-format
+msgid "Total expenses (%d transaction)"
+msgstr "Výdaje celkem (%d transakce)"
+
+#: src/etats_affiche.c:1527
+#, c-format
+msgid "Total expenses (%d transactions)"
+msgstr "Výdaje celkem (transakcí: %d)"
+
+#: src/etats_affiche.c:1530
+msgid "Total expenses"
+msgstr "Výdaje celkem"
+
+#: src/etats_affiche.c:1537
+#, c-format
+msgid "Total income (%d transaction)"
+msgstr "Příjmy celkem (%d transakce)"
+
+#: src/etats_affiche.c:1539
+#, c-format
+msgid "Total income (%d transactions)"
+msgstr "Příjmy celkem (transakcí: %d)"
+
+#: src/etats_affiche.c:1542
+msgid "Total income"
+msgstr "Příjmy celkem"
+
+#: src/etats_affiche.c:1584
+#, c-format
+msgid "General total (%d transaction)"
+msgstr "Celkový součet (%d transakce)"
+
+#: src/etats_affiche.c:1586
+#, c-format
+msgid "General total (%d transactions)"
+msgstr "Celkový součet (transakcí: %d)"
+
+#: src/etats_affiche.c:1589
+msgid "General total"
+msgstr "Celkový součet"
+
+#: src/etats_affiche.c:1679
+msgid "Transfert"
+msgstr "Převody"
+
+#: src/etats_affiche.c:1782
+msgid "No subcategory"
+msgstr "Žádná podkategorie"
+
+#: src/etats_affiche.c:1860
+msgid "No budgetary line"
+msgstr "Žádný rozpočet"
+
+#: src/etats_affiche.c:1948
+msgid "No sub-budgetary line"
+msgstr "Žádný podrozpočet"
+
+#: src/etats_affiche.c:2120
+msgid "Incomes"
+msgstr "Příjmy"
+
+#: src/etats_affiche.c:2140
+msgid "Outgoings"
+msgstr "Výdaje"
+
+#: src/etats_affiche.c:2216
+msgid "Number"
+msgstr "Číslo"
+
+#. Now we have a model, create view
+#: src/etats_affiche.c:2265 src/etats_config.c:159 src/parametres.c:311
+#: src/type_operations.c:260
+msgid "Payment methods"
+msgstr "Metoda platby"
+
+#: src/etats_affiche.c:2293 src/ofx.c:451
+msgid "Check"
+msgstr "Šek"
+
+#: src/etats_affiche.c:2300
+msgid "Statement"
+msgstr "Výpis"
+
+#: src/etats_config.c:43
+msgid "All"
+msgstr "Vše"
+
+#: src/etats_config.c:45
+msgid "Total to now"
+msgstr "Celkem do dneška"
+
+#: src/etats_config.c:46
+msgid "Current month"
+msgstr "Aktuální měsíc"
+
+#: src/etats_config.c:47
+msgid "Current year"
+msgstr "Aktuální rok"
+
+#: src/etats_config.c:48
+msgid "Current month to now"
+msgstr "Aktuální měsíc do dneška"
+
+#: src/etats_config.c:49
+msgid "Current year to now"
+msgstr "Aktuální rok do dneška"
+
+#: src/etats_config.c:50
+msgid "Previous month"
+msgstr "Předchozí měsíc"
+
+#: src/etats_config.c:51
+msgid "Previous year"
+msgstr "Předchozí rok"
+
+#: src/etats_config.c:52
+msgid "Last 30 days"
+msgstr "Posledních 30 dní"
+
+#: src/etats_config.c:53
+msgid "Last 3 months"
+msgstr "Poslední 3 měsíce"
+
+#: src/etats_config.c:54
+msgid "Last 6 months"
+msgstr "Posledních 6 měsíců"
+
+#: src/etats_config.c:55
+msgid "Last 12 months"
+msgstr "Posledních 12 měsíců"
+
+#: src/etats_config.c:59
+msgid "Monday"
+msgstr "Pondělí"
+
+#: src/etats_config.c:60
+msgid "Tuesday"
+msgstr "Úterý"
+
+#: src/etats_config.c:61
+msgid "Wednesday"
+msgstr "Středa"
+
+#: src/etats_config.c:62
+msgid "Thursday"
+msgstr "Čtvrtek"
+
+#: src/etats_config.c:63
+msgid "Friday"
+msgstr "Pátek"
+
+#: src/etats_config.c:64
+msgid "Saturday"
+msgstr "Sobota"
+
+#: src/etats_config.c:65
+msgid "Sunday"
+msgstr "Neděle"
+
+#: src/etats_config.c:94
+msgid "Reports setup"
+msgstr "Nastavení sestavy"
+
+#: src/etats_config.c:121
+msgid "Data selection"
+msgstr "Výběr dat"
+
+#: src/etats_config.c:127
+msgid "Dates"
+msgstr "Datumy"
+
+#: src/etats_config.c:131
+msgid "Transfers"
+msgstr "Převody"
+
+#. mise en place de la frame des comptes
+#. Accounts menu
+#: src/etats_config.c:135 src/etats_config.c:7171 src/export.c:443
+#: src/fenetre_principale.c:89 src/menu.c:103 src/menu.c:104 src/menu.c:105
+#: src/menu.c:106 src/menu.c:107 src/menu.c:108 src/operations_comptes.c:380
+#: src/operations_comptes.c:385 src/operations_comptes.c:446
+#: src/operations_comptes.c:459 src/operations_onglet.c:71
+#: src/traitement_variables.c:99 src/traitement_variables.c:222
+#: src/traitement_variables.c:225
+msgid "Accounts"
+msgstr "Účty"
+
+#: src/etats_config.c:151
+msgid "Texts"
+msgstr "Texty"
+
+#: src/etats_config.c:155
+msgid "Amounts"
+msgstr "Částky"
+
+#: src/etats_config.c:169
+msgid "Data organisation"
+msgstr "Uspořádání dat"
+
+#: src/etats_config.c:176
+msgid "Data display"
+msgstr "Zobrazení dat"
+
+#: src/etats_config.c:948
+msgid "Invalid custom initial date"
+msgstr "Neplatné vlastní počáteční datum"
+
+#: src/etats_config.c:955
+msgid "Invalid custom final date"
+msgstr "Neplatné vlastní koncové datum"
+
+#: src/etats_config.c:1107
+msgid ""
+"All the financial years have been selected. Grisbi will run faster\n"
+"without the \"Detail financial years\" option"
+msgstr ""
+"Jsou označeny všechny fiskální roky. Bez označení volby \n"
+"\"Detail fiskálních roků\" dostanete výsledek rychleji."
+
+#: src/etats_config.c:1184
+msgid ""
+"All the accounts have been selected. Grisbi will run faster\n"
+"without the \"Detail accounts used\" option"
+msgstr ""
+"Jsou označeny všechny fiskální roky. Bez označení volby \n"
+"\"Detail použitých účtů\" dostanete výsledek rychleji."
+
+#: src/etats_config.c:1258
+msgid ""
+"All the categories have been selected. Grisbi will run faster\n"
+"without the \"Detail categories used\" option"
+msgstr ""
+"Jsou označeny všechny fiskální roky. Bez označení volby \n"
+"\"Detail použitých kategorií\" dostanete výsledek rychleji."
+
+#: src/etats_config.c:1305
+msgid ""
+"All budgetary lines have been selected.  Grisbi will run faster\n"
+"without \"Detail the budgetary lines used\" option"
+msgstr ""
+"Jsou označeny všechny fiskální roky. Bez označení volby \n"
+"\"Detail použitých rozpočtů\" dostanete výsledek rychleji."
+
+#: src/etats_config.c:1350
+msgid ""
+"All the third parts have been selected. Grisbi will run faster\n"
+"without the \"Detail the third parties\" option"
+msgstr ""
+"Jsou označeny všechny fiskální roky. Bez označení volby \n"
+"\"Detail třetích stran\" dostanete výsledek rychleji."
+
+#: src/etats_config.c:1496
+msgid ""
+"All methods of payment have been selected. Grisbi will run faster without "
+"the \"Select the transactions based on payment method\" option"
+msgstr ""
+"Jsou označeny všechny metody platby. Bez označení volby \"Vybrat transakce "
+"podle metody platby\" dostanete výsledek rychleji"
+
+#: src/etats_config.c:1665
+msgid "Use dates ranges"
+msgstr "Použít rozsah datumů"
+
+#: src/etats_config.c:1762
+msgid "Use financial years"
+msgstr "Použít fiskální roky"
+
+#: src/etats_config.c:1800
+msgid "All financial years"
+msgstr "Všechny fiskální roky"
+
+#: src/etats_config.c:1809
+msgid "Current financial year"
+msgstr "Aktuální fiskální rok"
+
+#: src/etats_config.c:1818
+msgid "Former financial year"
+msgstr "Předchozí fiskální rok"
+
+#: src/etats_config.c:1829
+msgid "Detail financial years"
+msgstr "Detail fiskálních roků"
+
+#: src/etats_config.c:1889
+msgid "Initial date"
+msgstr "Počáteční datum"
+
+#: src/etats_config.c:1931
+msgid "Final date"
+msgstr "Koncové datum"
+
+#. on met dans la partie de gauche une liste contenant les comptes Ã 
+#. sÃ©lectionner
+#: src/etats_config.c:2286
+msgid "Select transactions only for given accounts"
+msgstr "Vybrat transakce pouze z určitých účtů"
+
+#: src/etats_config.c:2313
+msgid "Select the accounts included in the report"
+msgstr "Označte účty zobrazené v sestavě"
+
+#: src/etats_config.c:2374 src/etats_config.c:2645 src/etats_config.c:2943
+#: src/etats_config.c:3216 src/etats_config.c:3486 src/etats_config.c:7582
+msgid "Select all"
+msgstr "Označit vše"
+
+#: src/etats_config.c:2388 src/etats_config.c:2659 src/etats_config.c:2957
+#: src/etats_config.c:3230 src/etats_config.c:3500 src/etats_config.c:7596
+msgid "Unselect all"
+msgstr "Odznačit vše"
+
+#: src/etats_config.c:2402 src/etats_config.c:2673
+msgid "Select bank accounts"
+msgstr "Označit bankovní účty"
+
+#: src/etats_config.c:2416 src/etats_config.c:2687
+msgid "Select cash accounts"
+msgstr "Označit účty hotovosti"
+
+#: src/etats_config.c:2430 src/etats_config.c:2701
+msgid "Select liabilities accounts"
+msgstr "Označit účty závazků"
+
+#: src/etats_config.c:2444 src/etats_config.c:2715
+msgid "Select assets accounts"
+msgstr "Označit účty pohledávek"
+
+#: src/etats_config.c:2548
+msgid "Do not include transfers"
+msgstr "Nezahrnovat převody"
+
+#: src/etats_config.c:2557
+msgid "Include transfers from or to assets or liabilities accounts"
+msgstr "Zahrnout převody z nebo na závazkové a pohledávkové účty"
+
+#: src/etats_config.c:2570
+msgid "Include transfers from or to accounts not in this report"
+msgstr "Zahrnout převody z nebo na účty ketré nejsou v této sestavě"
+
+#: src/etats_config.c:2583
+msgid "Include transfers from or to these accounts"
+msgstr "Zahrnout převody z nebo na tyto účty"
+
+#. on rajoute le bouton exclure les opÃ© non virement
+#: src/etats_config.c:2737
+msgid "Exclude the transactions which are not transfers"
+msgstr "Zahrnout pouze transakce převodů"
+
+#: src/etats_config.c:2857
+msgid "Detail categories"
+msgstr "Detail kategorií"
+
+#: src/etats_config.c:2895
+msgid "Select categories to include"
+msgstr "Označte kategorie které budou zahrnuty"
+
+#: src/etats_config.c:2971
+msgid "Income categories"
+msgstr "Příjmové kategorie"
+
+#: src/etats_config.c:2985
+msgid "Outgoing categories"
+msgstr "Výdajové kategorie"
+
+#: src/etats_config.c:3010
+msgid "Exclude transactions with no category"
+msgstr "Zahrnout pouze transakce s kategorií"
+
+#: src/etats_config.c:3130
+msgid "Detail budgetary lines"
+msgstr "Detail rozpočtů"
+
+#: src/etats_config.c:3168
+msgid "Select the budgetary lines to include in the report"
+msgstr "Označte rozpočty které budou zahrnuty"
+
+#: src/etats_config.c:3244
+msgid "Income budget lines"
+msgstr "Příjmové rozpočty"
+
+#: src/etats_config.c:3258
+msgid "Outgoing budget lines"
+msgstr "Výdajové rozpočty"
+
+#: src/etats_config.c:3281
+msgid "Exclude transactions without budgetary line"
+msgstr "Zahrnout pouze transakce s rozpočtem"
+
+#: src/etats_config.c:3400
+msgid "Detail third parties"
+msgstr "Detail třetích stran"
+
+#: src/etats_config.c:3438
+msgid "Select third parties to include in this report"
+msgstr "Označte třetí strany které budou zahrnuty"
+
+#: src/etats_config.c:3592
+msgid "Select transactions according to the text"
+msgstr "Označte transakce podle textu"
+
+#: src/etats_config.c:3887
+msgid "Transactions whose"
+msgstr "Transakce které"
+
+#: src/etats_config.c:4028
+msgid "is"
+msgstr "je"
+
+#: src/etats_config.c:4043 src/etats_config.c:4096 src/etats_config.c:4911
+#: src/etats_config.c:4964
+msgid "to"
+msgstr "až"
+
+#. on met les bouton ajouter et supprimer
+#: src/etats_config.c:4117 src/etats_config.c:4985
+msgid "Add"
+msgstr "Přidat"
+
+#: src/etats_config.c:4131 src/etats_config.c:4999
+msgid "Remove"
+msgstr "Odstranit"
+
+#: src/etats_config.c:4204 src/etats_config.c:6436
+msgid "the third party"
+msgstr "třetí strana"
+
+#: src/etats_config.c:4232
+msgid "the third party information"
+msgstr "informace o třetí straně"
+
+#: src/etats_config.c:4260 src/etats_config.c:6453
+msgid "the category"
+msgstr "kategorie"
+
+#: src/etats_config.c:4288 src/etats_config.c:6469
+msgid "the sub-category"
+msgstr "podkategorie"
+
+#: src/etats_config.c:4316 src/etats_config.c:6485
+msgid "the budgetary line"
+msgstr "rozpočet"
+
+#: src/etats_config.c:4344 src/etats_config.c:6501
+msgid "the sub-budgetary line"
+msgstr "podrozpočet"
+
+#: src/etats_config.c:4372
+msgid "the note"
+msgstr "poznámka"
+
+#: src/etats_config.c:4400 src/etats_config.c:6581
+msgid "the bank reference"
+msgstr "bankovní reference"
+
+#: src/etats_config.c:4428 src/etats_config.c:6565
+msgid "the voucher"
+msgstr "doklad"
+
+#: src/etats_config.c:4449
+msgid "the cheque number"
+msgstr "číslo šeku"
+
+#: src/etats_config.c:4469 src/etats_config.c:6597
+msgid "the reconciliation reference"
+msgstr "reference odsouhlasení"
+
+#: src/etats_config.c:4524
+msgid "contains"
+msgstr "obsahuje"
+
+#: src/etats_config.c:4536
+msgid "doesn't contain"
+msgstr "neobsahuje"
+
+#: src/etats_config.c:4548
+msgid "begins with"
+msgstr "začíná"
+
+#: src/etats_config.c:4560
+msgid "ends with"
+msgstr "končí"
+
+#: src/etats_config.c:4572
+msgid "is empty"
+msgstr "je prázdný"
+
+#: src/etats_config.c:4584
+msgid "isn't empty"
+msgstr "není prázdný"
+
+#: src/etats_config.c:4642
+msgid "Select the transactions by amount"
+msgstr "Vybrat transakce podle částky"
+
+#. on rajoute le bouton exclure les opÃ© dont le montant est nul
+#: src/etats_config.c:4694
+msgid "Exclude the transactions with a null amount"
+msgstr "Zahrnout pouze transakce s nenulovou částkou"
+
+#: src/etats_config.c:4896
+msgid "Transactions with an amount of"
+msgstr "Transakce s částkou"
+
+#: src/etats_config.c:5031 src/etats_config.c:5386
+msgid "and"
+msgstr "a"
+
+#: src/etats_config.c:5039 src/etats_config.c:5398
+msgid "or"
+msgstr "nebo"
+
+#: src/etats_config.c:5047 src/etats_config.c:5410
+msgid "except"
+msgstr "kromě"
+
+#: src/etats_config.c:5077 src/etats_config.c:5253
+msgid "equal"
+msgstr "rovno"
+
+#: src/etats_config.c:5089 src/etats_config.c:5265
+msgid "less than"
+msgstr "menší než"
+
+#: src/etats_config.c:5101 src/etats_config.c:5277
+msgid "less than or equal"
+msgstr "menší nebo rovno"
+
+#: src/etats_config.c:5113 src/etats_config.c:5289
+msgid "greater than"
+msgstr "větší než"
+
+#: src/etats_config.c:5125 src/etats_config.c:5301
+msgid "greater than or equal"
+msgstr "větší nebo rovno"
+
+#: src/etats_config.c:5137 src/etats_config.c:5313
+msgid "different from"
+msgstr "různé od"
+
+#: src/etats_config.c:5149
+msgid "null"
+msgstr "null"
+
+#: src/etats_config.c:5161
+msgid "not null"
+msgstr "not null"
+
+#: src/etats_config.c:5173
+msgid "positive"
+msgstr "kladné"
+
+#: src/etats_config.c:5185
+msgid "negative"
+msgstr "záporné"
+
+#: src/etats_config.c:5325
+msgid "the biggest"
+msgstr "největší"
+
+#: src/etats_config.c:5422
+msgid "stop"
+msgstr "stop"
+
+#: src/etats_config.c:5515
+msgid "Reconciled transactions"
+msgstr "Odsouhlasené transakce"
+
+#: src/etats_config.c:5531
+msgid "Select"
+msgstr "Vybrat"
+
+#: src/etats_config.c:5540
+msgid "All transactions"
+msgstr "Všechny transakce"
+
+#: src/etats_config.c:5549
+msgid "Non reconciled transactions"
+msgstr "Neodsouhlasené transakce"
+
+#: src/etats_config.c:5562
+msgid "The reconciled transactions"
+msgstr "Odsouhlasené transakce"
+
+#: src/etats_config.c:5575
+msgid "The checked transactions"
+msgstr "Označené transakce"
+
+#: src/etats_config.c:5588
+msgid "The neither reconciled neither checked transactions"
+msgstr "Ani odsouhlasené ani označené tranaskce"
+
+#: src/etats_config.c:5609
+msgid "Do not detail reconciled transactions"
+msgstr "Nezobrazovat detail odsouhlasených transakcí"
+
+#. choix de ce qu'on utilise dans le classement
+#: src/etats_config.c:5672
+msgid "Informations used for the group"
+msgstr "Informace pro sdružování"
+
+#: src/etats_config.c:5700
+msgid "Group transactions by account"
+msgstr "Sdružit transakce podle účtu"
+
+#: src/etats_config.c:5720
+msgid "Group transactions by third party"
+msgstr "Sdružit transakce podle třetí strany"
+
+#: src/etats_config.c:5742
+msgid "Group transactions by category"
+msgstr "Sdružit transakce podle kategorie"
+
+#: src/etats_config.c:5762
+msgid "Group transactions by budgetary line"
+msgstr "Sdružit transakce podle rozpočtu"
+
+#. choix du type de classement
+#: src/etats_config.c:5773
+msgid "Group level organisation"
+msgstr "Organizace skupin"
+
+#: src/etats_config.c:5870
+msgid "Split incomes and outgoings"
+msgstr "Oddělit příjmy a výdaje"
+
+#: src/etats_config.c:5890
+msgid "Split by financial year"
+msgstr "Rozdělit po fiskálních rocích"
+
+#: src/etats_config.c:5916
+msgid "Split by period"
+msgstr "Rozdělit po obdobích"
+
+#: src/etats_config.c:5977
+msgid "Week"
+msgstr "Týden"
+
+#: src/etats_config.c:6001
+msgid "Year"
+msgstr "Rok"
+
+#: src/etats_config.c:6035
+msgid "The week begins on"
+msgstr "První den týdne"
+
+#: src/etats_config.c:6054
+msgid "day"
+msgstr "den"
+
+#: src/etats_config.c:6184
+msgid "Generalities"
+msgstr "Hlavní"
+
+#: src/etats_config.c:6237
+msgid "Report name"
+msgstr "Název sestavy"
+
+#: src/etats_config.c:6265
+msgid "Diplay the number of transactions with the totals"
+msgstr "U součtů zobrazit počty transakcí"
+
+#: src/etats_config.c:6284
+msgid "Consider the third parties of this report as a multiple third party."
+msgstr "Považovat třetí strany v této sestavě jako více třetích stran."
+
+#: src/etats_config.c:6355
+msgid "Display the information about"
+msgstr "Zobrazit informaci o"
+
+#: src/etats_config.c:6388
+msgid "the transaction number"
+msgstr "čísle transakce"
+
+#: src/etats_config.c:6404
+msgid "the date"
+msgstr "datumu"
+
+#: src/etats_config.c:6420
+msgid "the financial year"
+msgstr "fiskálním roku"
+
+#: src/etats_config.c:6517
+msgid "the notes"
+msgstr "poznámce"
+
+#: src/etats_config.c:6533
+msgid "the method of payment"
+msgstr "metodě platby"
+
+#: src/etats_config.c:6549
+msgid "the cheque/transfer number"
+msgstr "čísle šeku / převodu"
+
+#: src/etats_config.c:6613
+msgid "the check"
+msgstr "ověření"
+
+#: src/etats_config.c:6639
+msgid "Display the column titles"
+msgstr "Zobrazit záhlaví sloupců"
+
+#: src/etats_config.c:6656
+msgid "every section"
+msgstr "v každé sekci"
+
+#: src/etats_config.c:6673
+msgid "at the top of the report"
+msgstr "na začátku sestavy"
+
+#: src/etats_config.c:6698
+msgid "Sort the transactions by"
+msgstr "Třídit transakce podle"
+
+#: src/etats_config.c:6724
+msgid "date"
+msgstr "datum"
+
+#: src/etats_config.c:6732
+msgid "transaction number"
+msgstr "číslo transakce"
+
+#: src/etats_config.c:6740
+msgid "third party"
+msgstr "třetí strany"
+
+#: src/etats_config.c:6748
+msgid "category"
+msgstr "kategorie"
+
+#: src/etats_config.c:6756
+msgid "budgetary line"
+msgstr "rozpočtu"
+
+#: src/etats_config.c:6764
+msgid "note"
+msgstr "pozn."
+
+#: src/etats_config.c:6772
+msgid "method of payment"
+msgstr "metoda platby"
+
+#: src/etats_config.c:6780
+msgid "cheque/transfer number"
+msgstr "číslo šeku / převodu"
+
+#: src/etats_config.c:6788
+msgid "voucher"
+msgstr "doklad"
+
+#: src/etats_config.c:6796
+msgid "bank reference"
+msgstr "bankovní reference"
+
+#: src/etats_config.c:6804
+msgid "reconciliation reference"
+msgstr "reference odsouhlasení"
+
+#: src/etats_config.c:6827
+msgid "Make transactions clickable"
+msgstr "Transakce budou reagovat na kliknutí"
+
+#: src/etats_config.c:6895
+msgid "General totals currency"
+msgstr "Měna pro součty"
+
+#: src/etats_config.c:6944
+msgid "Third parties currency"
+msgstr "Měna pro třetí strany"
+
+#: src/etats_config.c:6992
+msgid "Categories currency"
+msgstr "Měna pro kategorie"
+
+#: src/etats_config.c:7041
+msgid "Budgetary lines currency"
+msgstr "Měna pro rozpočty"
+
+#: src/etats_config.c:7089
+msgid "Amount comparison currency"
+msgstr "Měna pro porovnání částky"
+
+#. on permet d'afficher le nom du compte
+#: src/etats_config.c:7190
+msgid "Display account name"
+msgstr "Zobrazit název účtu"
+
+#. on permet d'afficher un ss total lors de chgt de compte
+#. activÃ© uniquement si on a regroupÃ© les opÃ©s par compte
+#: src/etats_config.c:7202
+msgid "Display a sub-total for each account"
+msgstr "Zobrazit mezisoučet pro každý účet"
+
+#. permet d'afficher le nom du tiers, activÃ© uniquement si on utilise les tiers
+#: src/etats_config.c:7235
+msgid "Display third party's name"
+msgstr "Zobrazit jméno třetí strany"
+
+#. permet d'afficher un ss total lors de chgt de tiers
+#. activÃ© uniquement si on utilise les tiers
+#: src/etats_config.c:7251
+msgid "Dsplay a sub-total for each third party"
+msgstr "Zobrazit mezisoučet pro každou třetí stranu"
+
+#. affichage possible du nom de la categ
+#: src/etats_config.c:7296
+msgid "Display the (sub)category's name"
+msgstr "Zobrazit název (pod)kategorie"
+
+#. permet d'afficher un sous total lors de chgt de categ
+#. activÃ© uniquement si on utilise les categ
+#: src/etats_config.c:7312
+msgid "Display a sub-total for each category"
+msgstr "Zobrazit mezisoučet pro každou kategorii"
+
+#. mise en place du bouton pour afficher les sous categ
+#: src/etats_config.c:7327
+msgid "Display sub-categories"
+msgstr "Zobrazit podkategorie"
+
+#: src/etats_config.c:7341
+msgid "Display a sub-total for each sub-category"
+msgstr "Zobrazit mezisoučet pro každou podkategorii"
+
+#: src/etats_config.c:7355
+msgid "Display \" No sub-category\" if none"
+msgstr "Zobrazit \"Žádné podkategorie\" pokud žádné nebudou"
+
+#: src/etats_config.c:7388
+msgid "Display the (sub-)budget line name"
+msgstr "Zobrazit název (pod)rozpočtu"
+
+#. permet d'afficher un sous total lors de chgt d'ib
+#. activÃ© uniquement si on utilise les ib
+#: src/etats_config.c:7404
+msgid "Display a sub-total for each budgetary line"
+msgstr "Zobrazit mezisoučet pro každý rozpočet"
+
+#. mise en place du bouton pour afficher les sous categ
+#: src/etats_config.c:7419
+msgid "Display sub-budget lines"
+msgstr "Zobrazit podrozpočty"
+
+#: src/etats_config.c:7432
+msgid "Display a sub-total for each sub-budget line"
+msgstr "Zobrazit mezisoučet pro každý podrozpočet"
+
+#: src/etats_config.c:7446
+msgid "Display \"No sub-budgetary line\" if none"
+msgstr "Zobrazit \"Žádné podrozpočty\" pokud žádné nebudou"
+
+#. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
+#. sÃ©lectionner
+#: src/etats_config.c:7493
+msgid "Select the transactions by method of payment"
+msgstr "Vybrat transakce podle metody platby"
+
+#: src/etats_config.c:7520
+msgid "Select methods of payment to include"
+msgstr "Označte metody platby které budou zahrnuty"
+
+#: src/etats_html.c:287
+msgid "Export report to HTML file."
+msgstr "Exportovat sestavu do HTML"
+
+#: src/etats_html.c:308 src/print_config.c:103
+#, c-format
+msgid "File %s already exists."
+msgstr "Soubor %s již existuje"
+
+#: src/etats_html.c:310 src/print_config.c:105
+msgid "Do you want to overwrite it?  There is no undo for this."
+msgstr "Chcete ho přepsat? Tato akce je nevratná."
+
+#: src/etats_html.c:345
+msgid "Make sure file exists and is writable."
+msgstr "Ujistěte se, že soubor existuje a dá se do něj zapisovat."
+
+#: src/etats_html.c:346
+#, c-format
+msgid "Cannot open file '%s' for writing"
+msgstr "Nelze otevřít soubor '%s' pro zápis"
+
+#: src/etats_html.c:392 src/etats_latex.c:351
+msgid "Cannot send job to printer"
+msgstr "Nelze poslat úlohu na tiskárnu"
+
+#: src/etats_latex.c:241 src/export.c:289 src/qif.c:1041
+#, c-format
+msgid "File '%s' already exists"
+msgstr "Soubor '%s' již existuje"
+
+#: src/etats_latex.c:329
+msgid "LaTeX run was unable to complete, see console output for details."
+msgstr "Běh LaTeXu nebylo možné dokončit, detaily viz. výstup na konzolu."
+
+#: src/etats_latex.c:357
+msgid "dvips was unable to complete, see console output for details."
+msgstr "dvips nebylo možné dokončit, detaily viz. výstup na konzolu"
+
+#. Reports menu
+#: src/etats_onglet.c:95 src/etats_onglet.c:300 src/etats_onglet.c:303
+#: src/etats_onglet.c:306 src/etats_onglet.c:309 src/etats_onglet.c:312
+#: src/etats_onglet.c:315 src/etats_onglet.c:318 src/etats_onglet.c:1077
+#: src/etats_onglet.c:1080 src/etats_onglet.c:1083 src/etats_onglet.c:1086
+#: src/etats_onglet.c:1089 src/etats_onglet.c:1092 src/etats_onglet.c:1095
+#: src/etats_onglet.c:1125 src/etats_onglet.c:1128 src/etats_onglet.c:1131
+#: src/etats_onglet.c:1134 src/etats_onglet.c:1137 src/etats_onglet.c:1140
+#: src/etats_onglet.c:1143 src/fenetre_principale.c:120 src/menu.c:111
+#: src/menu.c:112 src/menu.c:113 src/menu.c:114 src/menu.c:115 src/menu.c:116
+#: src/menu.c:117 src/menu.c:118 src/menu.c:119 src/menu.c:120 src/menu.c:121
+#: src/menu.c:122 src/menu.c:123 src/menu.c:124 src/menu.c:125
+#: src/traitement_variables.c:123 src/traitement_variables.c:126
+#: src/traitement_variables.c:129 src/traitement_variables.c:132
+#: src/traitement_variables.c:135 src/traitement_variables.c:138
+#: src/traitement_variables.c:141 src/traitement_variables.c:144
+#: src/traitement_variables.c:249 src/traitement_variables.c:252
+#: src/traitement_variables.c:255 src/traitement_variables.c:258
+#: src/traitement_variables.c:261 src/traitement_variables.c:264
+#: src/traitement_variables.c:267 src/traitement_variables.c:270
+msgid "Reports"
+msgstr "Sestavy"
+
+#. mise en place du bouton ajouter
+#. on ajoute un Ã©tat vierge appelÃ© nouvel Ã©tat
+#: src/etats_onglet.c:236 src/etats_onglet.c:739 src/menu.c:113
+#: src/traitement_variables.c:123 src/traitement_variables.c:249
+msgid "New report"
+msgstr "Nová sestava"
+
+#. on met le bouton personnaliser
+#: src/etats_onglet.c:253
+msgid "Customize report"
+msgstr "Upravit sestavu"
+
+#. on met le bouton dupliquer
+#: src/etats_onglet.c:271 src/etats_onglet.c:300 src/etats_onglet.c:1077
+#: src/etats_onglet.c:1125 src/menu.c:115 src/traitement_variables.c:129
+#: src/traitement_variables.c:255
+msgid "Clone report"
+msgstr "Duplikovat sestavu"
+
+#. mise en place du bouton effacer Ã©tat
+#: src/etats_onglet.c:286
+msgid "Delete report"
+msgstr "Odstranit sestavu"
+
+#: src/etats_onglet.c:303 src/etats_onglet.c:1080 src/etats_onglet.c:1128
+#: src/menu.c:116 src/traitement_variables.c:132
+#: src/traitement_variables.c:258
+msgid "Print report"
+msgstr "Vytisknout sestavu"
+
+#: src/etats_onglet.c:306 src/etats_onglet.c:1089 src/etats_onglet.c:1137
+#: src/menu.c:121 src/traitement_variables.c:138
+#: src/traitement_variables.c:264
+msgid "Export report file"
+msgstr "Exportovat soubor sestavy"
+
+#: src/etats_onglet.c:309 src/etats_onglet.c:1083 src/etats_onglet.c:1131
+#: src/menu.c:117 src/traitement_variables.c:135
+#: src/traitement_variables.c:261
+msgid "Export report as HTML..."
+msgstr "Exportovat sestavu jako HTML..."
+
+#: src/etats_onglet.c:312 src/etats_onglet.c:1086 src/etats_onglet.c:1134
+#: src/menu.c:118
+msgid "Export report as CSV..."
+msgstr "Exportovat sestavu jako CSV..."
+
+#: src/etats_onglet.c:315 src/etats_onglet.c:1092 src/etats_onglet.c:1140
+#: src/menu.c:123 src/traitement_variables.c:141
+#: src/traitement_variables.c:267
+msgid "Remove report"
+msgstr "Odstranit sestavu"
+
+#: src/etats_onglet.c:318 src/etats_onglet.c:1095 src/etats_onglet.c:1143
+#: src/menu.c:125 src/traitement_variables.c:144
+#: src/traitement_variables.c:270
+msgid "Edit report"
+msgstr "Upravit sestavu"
+
+#. Print report
+#. Set up dialog
+#: src/etats_onglet.c:340 src/print_config.c:63
+msgid "Print"
+msgstr "Tisk"
+
+#. on met le bouton rafraichir
+#: src/etats_onglet.c:354
+msgid "Refresh"
+msgstr "Obnovit"
+
+#: src/etats_onglet.c:476
+msgid "Choose template for new report"
+msgstr "Vyberte šablonu nové sestavy"
+
+#: src/etats_onglet.c:477
+msgid ""
+"You are about to create a new report.  For convenience, you can choose "
+"between the following templates.  Reports may be customized later."
+msgstr ""
+"Vytváříte novou sestavu. Při vytváření lze zvolit některou z následujících "
+"šablon. Sestavu můžete později dále upravovat."
+
+#: src/etats_onglet.c:480
+msgid "Report type"
+msgstr "Typ sestavy"
+
+#: src/etats_onglet.c:491
+msgid "Description"
+msgstr "Popis"
+
+#: src/etats_onglet.c:512
+msgid "Last month incomes and outgoings"
+msgstr "Příjmy a výdaje za minulý měsíc"
+
+#. revenus et dÃ©penses du mois courant
+#: src/etats_onglet.c:523 src/etats_onglet.c:649
+msgid "Current month incomes and outgoings"
+msgstr "Příjmy a výdaje za tento měsíc"
+
+#. on ajoute le budget annuel
+#: src/etats_onglet.c:531 src/etats_onglet.c:693
+msgid "Annual budget"
+msgstr "Výroční zpráva"
+
+#. remise de chÃ¨ques
+#: src/etats_onglet.c:539 src/etats_onglet.c:788
+msgid "Cheques deposit"
+msgstr "Vklady šeků"
+
+#. dÃ©penses mensuelles par tiers
+#: src/etats_onglet.c:547 src/etats_onglet.c:842
+msgid "Monthly outgoings by third party"
+msgstr "Měsíční výdaje podle třetích stran"
+
+#. recherche
+#: src/etats_onglet.c:555 src/etats_onglet.c:900
+msgid "Search"
+msgstr "Vyhledávání"
+
+#: src/etats_onglet.c:563
+msgid "Blank report"
+msgstr "Prázdná sestava"
+
+#. revenus et dÃ©penses du mois prÃ©cÃ©dent
+#: src/etats_onglet.c:607
+msgid "Previous month incomes and outgoings"
+msgstr "Příjmy a výdaje v předchozím měsíci"
+
+#: src/etats_onglet.c:954
+msgid "Unknown report type, creation cancelled"
+msgstr "Neznámý typ sestavy, vytváření bylo zrušeno"
+
+#. revenus et dÃ©penses du mois dernier
+#: src/etats_onglet.c:996
+msgid ""
+"This report displays totals for last month's transactions sorted by "
+"categories and sub-categories. You just need to select the account(s). By "
+"default, all accounts are selected."
+msgstr ""
+"Tato sestava zobrazí součty transakcí za poslední měsíc podle kategorií a "
+"podkategorií. Musíte pouze zvolit účty. Jako výchozí nastavení jsou vybrány "
+"všechny účty."
+
+#. revenus et dÃ©penses du mois en cours
+#: src/etats_onglet.c:1002
+msgid ""
+"This report displays totals of current month's transactions sorted by "
+"categories and sub-categories. You just need to select the account(s). By "
+"default, all accounts are selected."
+msgstr ""
+"Tato sestava zobrazí součty transakcí za aktuální měsíc podle kategorií a "
+"podkategorií. Musíte pouze zvolit účty. Jako výchozí nastavení jsou vybrány "
+"všechny účty."
+
+#. budget annuel
+#: src/etats_onglet.c:1008
+msgid ""
+"This report displays annual budget. You just need to select the account(s). "
+"By default all accounts are selected."
+msgstr ""
+"Tato sestava zobrazí roční bilanci. Musíte pouze zvolit účty. Jako výchozí "
+"nastavení jsou vybrány všechny účty."
+
+#. etat vierge
+#: src/etats_onglet.c:1014
+msgid "This report is an empty one. You need to customise it entirely."
+msgstr "Tato sestava je prázdná. Musíte ji celou nadefinovat."
+
+#. remise de chÃ¨ques
+#: src/etats_onglet.c:1020
+msgid ""
+"This report displays the cheques deposit. You just need to select the account"
+"(s). By default all accounts are selected."
+msgstr ""
+"Tato sestava zobrazí vklady šeků. Musíte pouze zvolit účty. Jako výchozí "
+"nastavení jsou vybrány všechny účty."
+
+#. dÃ©penses mensuelles par tiers
+#: src/etats_onglet.c:1026
+msgid ""
+"This report displays current month's outgoings sorted by third parties. You "
+"just need to select the account(s). By default all accounts areselected."
+msgstr ""
+"Tato sestava zobrazí výdaje aktuálního měsíce podle třetích stran. Musíte "
+"pouze zvolit účty. Jako výchozí nastavení jsou vybrány všechny účty."
+
+#. recherche
+#: src/etats_onglet.c:1032
+msgid ""
+"This report displays all the information for all transactions of all "
+"accounts for the current year. You just have to add the amount, date, third "
+"parties etc. criteria thant you want. By default the transactions are "
+"clickables."
+msgstr ""
+"Tato sestava zobrazí všechny informace všech transakcí na všech účtech v "
+"aktuálním roce. Musíte pouze zvolit částky, datumy, třetí strany, případně "
+"jiná kritéria. Jako výchozí nastavení reagují všechny transakce na kliknutí."
+
+#: src/etats_onglet.c:1037
+msgid "???? should not be displayed..."
+msgstr "???? nemělo by se zobrazit..."
+
+#: src/etats_onglet.c:1058
+#, c-format
+msgid "Delete report \"%s\"?"
+msgstr "Odstranit sestavu  \"%s\"?"
+
+#: src/etats_onglet.c:1060
+msgid "This will irreversibly remove this report.  There is no undo for this."
+msgstr "Tato akce nevratně odstraní tuto sestavu. Akce nelze vzít zpět."
+
+#: src/etats_onglet.c:1169
+msgid "Export report"
+msgstr "Exportovat sestavu"
+
+#: src/etats_onglet.c:1209 src/imputation_budgetaire.c:2800
+msgid "Cannot save file."
+msgstr "Nelze uložit soubor."
+
+#: src/etats_onglet.c:1234
+msgid "Import a report"
+msgstr "Importovat sestavu"
+
+#: src/etats_support.c:64
+msgid "all financial years"
+msgstr "všechny fiskální roky"
+
+#: src/etats_support.c:91 src/etats_support.c:97
+msgid "current financial year"
+msgstr "aktuální fiskální rok"
+
+#: src/etats_support.c:146 src/etats_support.c:152
+msgid "former financial year"
+msgstr "předchozí fiskální rok"
+
+#: src/etats_support.c:164
+msgid "financial years"
+msgstr "fiskální roky"
+
+#: src/etats_support.c:168
+msgid "financial year"
+msgstr "fiskální rok"
+
+#: src/etats_support.c:209
+msgid "all dates"
+msgstr "všechna data"
+
+#: src/etats_support.c:221 src/etats_support.c:331
+#, c-format
+msgid "Result from %d/%d/%d to %d/%d/%d"
+msgstr "Výsledek od %d/%d/%d do %d/%d/%d"
+
+#: src/etats_support.c:231
+msgid "Custom dates ranges not filled"
+msgstr "Rozsah datumů není vyplněn"
+
+#: src/etats_support.c:239
+#, c-format
+msgid "total at %d/%d/%d"
+msgstr "součet k %d/%d/%d"
+
+#: src/etats_support.c:256 src/etats_support.c:305
+#, c-format
+msgid "%s %d"
+msgstr "%s %d"
+
+#: src/etats_support.c:266 src/etats_support.c:315
+#, c-format
+msgid "year %d"
+msgstr "rok %d"
+
+#: src/etats_support.c:275
+#, c-format
+msgid "month total at %d/%d/%d"
+msgstr "měsíční součet k %d/%d/%d"
+
+#: src/etats_support.c:286
+#, c-format
+msgid "year total at %d/%d/%d"
+msgstr "roční součet k %d/%d/%d"
+
+#: src/etats_support.c:360 src/etats_support.c:390 src/etats_support.c:419
+#, c-format
+msgid "from %s %d"
+msgstr "od %s %d"
+
+#: src/etats_support.c:364 src/etats_support.c:394 src/etats_support.c:423
+#, c-format
+msgid "to %s %d"
+msgstr "do %s %d"
+
+#: src/exercice.c:131 src/parametres.c:303
+msgid "Financial years"
+msgstr "Fiskální roky"
+
+#: src/exercice.c:134
+msgid "Known financial years"
+msgstr "Definované fiskální roky"
+
+#. Associate operations
+#: src/exercice.c:210
+msgid "Associate transactions without financial years"
+msgstr "Přiřadit transakce bez fiskálního roku"
+
+#: src/exercice.c:230
+msgid "Financial year details"
+msgstr "Detaily fiskálního roku"
+
+#. Start
+#: src/exercice.c:252
+msgid "Start"
+msgstr "Začátek"
+
+#. End
+#: src/exercice.c:266
+msgid "End"
+msgstr "Konec"
+
+#. Activate in transaction form?
+#: src/exercice.c:280
+msgid "Activate in transaction form"
+msgstr "Aktivovat ve formuláři transakce"
+
+#: src/exercice.c:317
+msgid "New financial year"
+msgstr "Nový fiskální rok"
+
+#: src/exercice.c:461
+msgid "The financial year must have a name."
+msgstr "Fiskální rok musí mít název."
+
+#. le second est non affichÃ©
+#. on lui associe -1
+#: src/exercice.c:584
+msgid "Not displayed"
+msgstr "Nezobrazovat"
+
+#: src/exercice.c:760
+msgid "Automatic association for the financial year"
+msgstr "Automatické přiřazení fiskálnímu roku"
+
+#: src/exercice.c:767
+msgid ""
+"This function assigns each transaction without a financial year to the\n"
+"one related to its transaction date.  If no financial year matches,\n"
+"the transaction will not be changed."
+msgstr ""
+"Tato funkce přiřadí všechny transakce bez fiskálního roku k odpovídajícímu\n"
+"fiskálnímu roku podle data transakce. Pokud žádný fiskální rok \n"
+"nevyhovuje, transakce nebude změněna."
+
+#: src/export.c:160
+msgid "Export files"
+msgstr "Export souborů"
+
+#: src/export.c:182 src/qif.c:954
+msgid "Select accounts to export"
+msgstr "Vyberte účty pro export"
+
+#: src/export.c:292 src/qif.c:1043
+msgid ""
+"This will irreversibly overwrite previous file.  There is no undo for this."
+msgstr "Tako akce nevratně přepíše předchozí soubor. Nelze vzít zpět."
+
+#: src/export.c:304
+#, c-format
+msgid "File name '%s' invalid!"
+msgstr "Jméno souboru '%s' je neplatné!"
+
+#: src/export.c:377 src/qif.c:934
+msgid "Your file must have a name (saved) to be exported."
+msgstr "Váš soubor musí mít (uložený) název aby šel vyexportovat."
+
+#: src/export.c:381
+msgid "Export format does not define currencies."
+msgstr "Exportní soubor nedefinuje měny."
+
+#: src/export.c:382 src/qif.c:940
+msgid "All transactions will be converted into currency of their account."
+msgstr "Všechny transakce budou přepočteny na měnu odpovídajícího účtu."
+
+#: src/export.c:443 src/menu.c:108 src/operations_comptes.c:380
+#: src/operations_comptes.c:385 src/operations_comptes.c:446
+#: src/operations_comptes.c:459 src/traitement_variables.c:225
+msgid "Closed accounts"
+msgstr "Uzavřené účty"
+
+#. To add a new supported format, just add a new line here ...
+#: src/export.c:460
+msgid "Accounts to QIF file ..."
+msgstr "Účty do souboru QIF..."
+
+#: src/export.c:461
+msgid "Accounts to CSV file ..."
+msgstr "Účty do souboru CSV..."
+
+#. File menu
+#. {menu_name(_("File"), _("Export"), _("QIF file ...")),   NULL,G_CALLBACK ( exporter_fichier_qif ), 0, NULL ,NULL  },
+#. Print to file
+#: src/export.c:463 src/menu.c:64 src/menu.c:65 src/menu.c:66 src/menu.c:67
+#: src/menu.c:68 src/menu.c:69 src/menu.c:70 src/menu.c:71 src/menu.c:72
+#: src/menu.c:73 src/menu.c:74 src/menu.c:75 src/menu.c:76 src/menu.c:78
+#: src/menu.c:79 src/menu.c:80 src/menu.c:81 src/menu.c:82 src/menu.c:204
+#: src/menu.c:208 src/menu.c:228 src/menu.c:254 src/menu.c:265
+#: src/print_config.c:206 src/traitement_variables.c:58
+#: src/traitement_variables.c:65 src/traitement_variables.c:87
+#: src/traitement_variables.c:90 src/traitement_variables.c:93
+#: src/traitement_variables.c:96 src/traitement_variables.c:207
+#: src/traitement_variables.c:210 src/traitement_variables.c:213
+#: src/traitement_variables.c:216 src/traitement_variables.c:219
+msgid "File"
+msgstr "Soubor"
+
+#: src/fenetre_principale.c:66
+msgid "Main page"
+msgstr "Přehled"
+
+#: src/fenetre_principale.c:82
+msgid "Scheduler"
+msgstr "Plánovač"
+
+#: src/fenetre_principale.c:131
+msgid "Third parties list (transactions)"
+msgstr "Seznam třetích stran (transakce)"
+
+#: src/fenetre_principale.c:134
+msgid "Categories list (transactions)"
+msgstr "Seznam kategorií (transakce)"
+
+#: src/fenetre_principale.c:137
+msgid "Budgetary lines list (transactions)"
+msgstr "Seznam rozpočtů (transakce)"
+
+#: src/fichier_configuration.c:448
+msgid "File : "
+msgstr "Soubor :"
+
+#: src/fichier_configuration.c:451
+msgid "Error opening config"
+msgstr "Chyba při otevírání konfigurace"
+
+#: src/fichier_configuration.c:692
+msgid "A4"
+msgstr "A4"
+
+#: src/fichier_configuration.c:889
+#, c-format
+msgid "Error saving file '%s': %s"
+msgstr "Chyba při ukládání souboru '%s': %s"
+
+#: src/fichiers_gestion.c:145
+msgid "Open an accounts file"
+msgstr "Otevřít soubor účtů"
+
+#: src/fichiers_gestion.c:230
+msgid "Load an accounts file"
+msgstr "Nahrát soubor účtů"
+
+#: src/fichiers_gestion.c:271
+msgid "Loading backup"
+msgstr "Nahrávání zálohy"
+
+#. on a rÃ©ussi a charger la sauvegarde
+#: src/fichiers_gestion.c:276
+msgid ""
+"Grisbi was unable to load file.  However, Grisbi loaded a backup file "
+"instead.\n"
+"However, all changes made since this backup were possibly lost."
+msgstr ""
+"Grisbi nemohl soubor nahrát, tak alespoň nahrál zazálohovaný soubor.\n"
+"Všechny změny které jste provedl(a) od poslední zálohy jsou zřejmě ztraceny."
+
+#: src/fichiers_gestion.c:285
+msgid ""
+"Grisbi was unable to load file.  Additionnaly, Grisbi was unable to load a "
+"backup file instead."
+msgstr ""
+"Grisbi nemohl nahrát soubor. Navíc nemohl Grisbi místo souboru nahrát ani "
+"záložní kopii."
+
+#: src/fichiers_gestion.c:374
+msgid "Formatting transactions"
+msgstr "Formátování transakcí"
+
+#: src/fichiers_gestion.c:463
+#, c-format
+msgid "Save changes to document '%s' before closing?"
+msgstr "Uložit změny do dokumentu '%s' před uzavřením?"
+
+#: src/fichiers_gestion.c:464
+msgid "unnamed"
+msgstr "nepojmenovaný"
+
+#: src/fichiers_gestion.c:472
+msgid "Close without saving"
+msgstr "Zavřít bez uložení"
+
+#: src/fichiers_gestion.c:478
+msgid "If you close without saving, all of your changes will be discarded."
+msgstr "Jestliže zvolíte zavřít bez uložení, všechny změny budou zrušeny."
+
+#: src/fichiers_gestion.c:506
+msgid "Name the accounts file"
+msgstr "Pojmenujte soubor účtů"
+
+#: src/fichiers_gestion.c:537
+msgid "File already exists"
+msgstr "Soubor již existuje"
+
+#: src/fichiers_gestion.c:538
+#, c-format
+msgid "Do you want to overwrite file \"%s\"?"
+msgstr "Chcete přepsat soubor \"%s\"?"
+
+#: src/fichiers_gestion.c:546
+#, c-format
+msgid "Invalid filename: \"%s\"!"
+msgstr "Neplatné jméno souboru: \"%s\"!"
+
+#: src/fichiers_gestion.c:729 src/fichiers_gestion.c:740
+msgid "Grisbi"
+msgstr "Grisbi"
+
+#: src/fichiers_gestion.c:738
+msgid "Grisbi - No name"
+msgstr "Grisbi - žádné jméno"
+
+#: src/fichiers_gestion.c:769
+msgid "Saving backup"
+msgstr "Ukládám záložní kopii"
+
+#: src/fichiers_io.c:141
+#, c-format
+msgid ""
+"%s doen't seem to be a regular file,\n"
+"please check it and try again."
+msgstr ""
+"%s vypadá, že není správný soubor,\n"
+"prosím zkontrolujte jej a spuťte akci znovu."
+
+#: src/fichiers_io.c:174
+msgid "Invalid accounts file"
+msgstr "Neplatný soubor účtů"
+
+#. Ã  ce niveau, c'est que que la version n'est pas connue de grisbi, on donne alors
+#. la version nÃ©cessaire pour l'ouvrir
+#: src/fichiers_io.c:205 src/fichiers_io.c:210
+#, c-format
+msgid "Grisbi version %s is needed to open this file"
+msgstr "Pro otevření tohoto souboru potřebujete Grisbi verze %s"
+
+#: src/fichiers_io.c:219 src/fichiers_io.c:230
+#, c-format
+msgid "Cannot open file '%s': %s"
+msgstr "Nelze otevřít soubor '%s': %s"
+
+#: src/fichiers_io.c:222
+#, c-format
+msgid "Cannot open file '%s' : this is not a grisbi file"
+msgstr "Nelze otevřít soubor '%s': toto není soubor Grisbi"
+
+#: src/fichiers_io.c:264
+#, c-format
+msgid ""
+"Warning: Grisbi data format has changed. Grisbi made a backup under '%s'.\n"
+"Keep it for a while just in case."
+msgstr ""
+"Upozornění: Formát dat Grisbi se změnil. Grisbi vytvořil záložní kopii '%"
+"s'.\n"
+"Pro jistotu si ji nějaký čas ponechte."
+
+#: src/fichiers_io.c:299 src/fichiers_io.c:2045 src/fichiers_io.c:4302
+#, c-format
+msgid "File \"%s\" is already opened"
+msgstr "Soubor \"%s\" je již otevřený"
+
+#: src/fichiers_io.c:300 src/fichiers_io.c:2046 src/fichiers_io.c:4303
+msgid ""
+"Either this file is already opened by another user or it wasn't closed "
+"correctly (maybe Grisbi crashed?).\n"
+"Grisbi can't save the file unless you activate the \"Force saving locked "
+"files\" option in setup."
+msgstr ""
+"Tento soubor je již otevřen jiným uživatelem, nebo nebyl korektně uzavřen "
+"(zřejmě havárie Grisbi?).\n"
+"Grisbi nemůže soubor uložit, dokud neaktivujete volbu \"Povolit uložení "
+"uzamčených souborů\" v možnostech."
+
+#. FIXME
+#: src/fichiers_io.c:1906
+msgid ""
+"There was a bug in versions before 0.4.0, which could lead to orphan "
+"transactions (either transfers without countra-transaction, or breakdown "
+"transactions details without associated breakdown transaction.\n"
+"\n"
+"Grisbi searched for such transaction and found:\n"
+"\n"
+msgstr ""
+"Ve verzích starších než 0.4.0 se vyskytovala chyba, která mohla vést k "
+"osiřelým transakcím (buď převody bez protitransakce, nebo transakce "
+"rozdělení bez původní rozdělené transakce).\n"
+"\n"
+"Grisbi hledal takové transakce a našel:\n"
+"\n"
+
+#: src/fichiers_io.c:1912
+msgid "breakdown transactions, all of them were deleted.\n"
+msgstr "rozdělené transakce, které byly smazány.\n"
+
+#: src/fichiers_io.c:1919
+msgid "transfers without contra-transaction, which categories were deleted.\n"
+msgstr "převody bez protitransakcí, jejichž kategorie byly smazány.\n"
+
+#: src/fichiers_io.c:1924
+msgid ""
+"These modifications should not impact on neither Grisbi's behavior nor your "
+"accounts balances."
+msgstr ""
+"Tyto úpravy by neměly ovlivnit ani chování Grisbi, ani zůstatky vašich účtů."
+
+#: src/fichiers_io.c:6543
+#, c-format
+msgid "Can not save file \"%s\""
+msgstr "Nelze uložit soubor \"%s\""
+
+#: src/fichiers_io.c:6545
+#, c-format
+msgid ""
+"Grisbi was unable to save this file because it is locked.  Please save it "
+"with another name or activate the \"%s\" option in setup.  Alternatively, "
+"choose the \"%s\" option below."
+msgstr ""
+"Grisbi nemohl uložit tento soubor, protože je uzamčený. Proším uložte jej "
+"pod jiným názvem, nebo povolte volbu \"%s\" v Možnostech.  Případně zbolte "
+"spodní možnost \"%s\"."
+
+#: src/fichiers_io.c:6546 src/parametres.c:536
+msgid "Force saving of locked files"
+msgstr "Povolit uložení uzamčených souborů"
+
+#: src/fichiers_io.c:8650 src/fichiers_io.c:8869 src/fichiers_io.c:9223
+#, c-format
+msgid "Cannot save file '%s': %s"
+msgstr "Nelze uložit soubor '%s': %s"
+
+#: src/fichiers_io.c:8698
+#, c-format
+msgid "Cannot lock file '%s': %s"
+msgstr "Nelze uzamknout soubor '%s': %s"
+
+#: src/fichiers_io.c:8903
+msgid "This file is not a Grisbi category list file"
+msgstr "Tento soubor není seznam kategorií pro Grisbi"
+
+#: src/fichiers_io.c:8912
+#, c-format
+msgid ""
+"This categories list has been produced with grisbi version %s, Grisbi will "
+"nevertheless try to import it."
+msgstr ""
+"Tento seznam kategorií byl vytvořen pomocí Grisbi verze %s. Grisbi se jej "
+"přesto pokusí naimportovat."
+
+#: src/fichiers_io.c:8920
+msgid "Invalid categories file"
+msgstr "Neplatný soubor kategorií"
+
+#: src/fichiers_io.c:9256
+msgid "This file is not a grisbi budgetary lines file"
+msgstr "Toto není soubor rozpočtů Grisbi"
+
+#: src/fichiers_io.c:9265
+#, c-format
+msgid ""
+"This budgetary lines list has been produced with grisbi version %s, Grisbi "
+"will nevertheless try to import it."
+msgstr ""
+"Tento seznam rozpočtů byl vytvořen pomocí Grisbi verze %s. Grisbi se jej "
+"přesto pokusí naimportovat."
+
+#: src/fichiers_io.c:9273
+msgid "Invalid budgetary lines file"
+msgstr "Neplatný soubor rozpočtů"
+
+#: src/gnucash.c:517
+#, c-format
+msgid "Either file \"%s\" does not exist or it is not a regular file."
+msgstr "Soubor \"%s\" buď neexistuje, nebo to není řádný soubor."
+
+#: src/gnucash.c:519
+#, c-format
+msgid "Error opening file '%s'."
+msgstr "Chyba při otevírání souboru '%s'."
+
+#: src/gnucash.c:527
+msgid ""
+"Grisbi needs to open a temporary file in order to import Gnucash data but "
+"file can't be created.  Check that you have permission to do that."
+msgstr ""
+"Pro import datového souboru Gnucash potřebuje Grisbi otevřít dočasný soubor, "
+"ale nemůže jej vytvořit. Prosím zkontrolujte oprávnění."
+
+#: src/gnucash.c:528
+#, c-format
+msgid "Error opening temporary file '%s'."
+msgstr "Chyba při otevírání dočasného souboru '%s'."
+
+#: src/help.c:44
+#, fuzzy
+msgid ""
+"Grisbi is a free personal finance manager for everyone.\n"
+"Such a program allows you to sort your financial transactions, whatever they "
+"are, in a convenient and intuitive way.  Thus, you will be able to manage "
+"them as to fit your needs the more you can.\n"
+"Grisbi aims both at simplicty and efficiency for common use, and at a "
+"powerful use for power users.  We will always try to respect this as "
+"features will come."
+msgstr ""
+"Grisbi je program pro vedení osobního účetnictví pro Linux\n"
+"Tento program vám umožní pohodlně a intuitivně evidovat a třídit vaše "
+"finanční transakce. Používáním této aplikace můžete efektivně spravovat své "
+"finance tak, jak vám to nejlépe vyhovuje.\n"
+"Grisbi se zaměřuje na jednoduché a efektivní základní ovládání, ale obsahuje "
+"i pokročilé možnosti pro zkušené uživatele. Toto budeme nadále dodržovat při "
+"vývoji nových verzí."
+
+#: src/help.c:47
+msgid "Alain Pichon (aph[at]grisbi.org): RHEL and Fedora packaging"
+msgstr "Alain Pichon (aph[at]grisbi.org): balíčky pro Fedoru a RHEL"
+
+#: src/help.c:48
+msgid "Alain Portal <aportal AT univ-monpt2 DOT fr>: Programming, manual"
+msgstr "Alain Portal <aportal AT univ-monpt2 DOT fr>: programování, příručka"
+
+#: src/help.c:49
+msgid "Andre Pascual (andre[at]linuxgraphic.org): Logo"
+msgstr "Andre Pascual (andre[at]linuxgraphic.org): logo"
+
+#: src/help.c:50
+msgid "Axel Rousseau (axel584[at]axel584.org): contributor"
+msgstr "Axel Rousseau (axel584[at]axel584.org): přispěvatel"
+
+#: src/help.c:51
+msgid "Baluchiterium  (baluchiterium[at]users.sf.net): Slackware packaging"
+msgstr "Baluchiterium  (baluchiterium[at]users.sf.net): balíčky pro Slackware"
+
+#: src/help.c:52
+msgid "Benjamin Drieu (bdrieu[at]april.org): Programming, Debian packaging"
+msgstr "Benjamin Drieu (bdrieu[at]april.org): programování, balíčky pro Debian"
+
+#: src/help.c:53
+msgid "Cedric Auger (cedric[at]grisbi.org): Programming"
+msgstr "Cedric Auger (cedric[at]grisbi.org): programování"
+
+#: src/help.c:54
+msgid "Daniel Cartron (doc[at]grisbi.org): Manual, website, consultancy"
+msgstr "Daniel Cartron (doc[at]grisbi.org): příručka, website, konzultace"
+
+#: src/help.c:55
+msgid "Dominique Parisot (parisot[at]villey-le-sec.com): contributor"
+msgstr "Dominique Parisot (parisot[at]villey-le-sec.com): přispěvatel"
+
+#: src/help.c:56
+msgid ""
+"Francois Terrot (grisbi[at]terrot.net): Windows packaging and port, "
+"programming"
+msgstr ""
+"Francois Terrot (grisbi[at]terrot.net): portování a kompilace na Windows, "
+"programování"
+
+#: src/help.c:57
+msgid ""
+"Gerald Niel (gerald.niel[at]grisbi.org): Darwin packaging, administration"
+msgstr ""
+"Gerald Niel (gerald.niel[at]grisbi.org): balíčky pro Darwin, administrace"
+
+#: src/help.c:58
+msgid "PMF (ugly.duck[at]gmx.de): Zaurus packaging"
+msgstr "PMF (ugly.duck[at]gmx.de): balíčky pro Zaurus"
+
+#: src/help.c:59
+msgid "Pascal Bleser (guru[at]linuxbe.org): SuSE packaging"
+msgstr "Pascal Bleser (guru[at]linuxbe.org): balíčky pro SuSE"
+
+#: src/help.c:60
+msgid "Sylvain Glaize (mokona[at]puupuu.org): Mandriva packaging"
+msgstr "Sylvain Glaize (mokona[at]puupuu.org): balíčky pro Mandrivu"
+
+#: src/help.c:61
+msgid "Thierry Thomas (thierry[at]pompo.net): FreeBSD packaging"
+msgstr "Thierry Thomas (thierry[at]pompo.net): balíčky pro FreeBSD"
+
+#: src/help.c:62
+msgid "Vincent Marqueton (vincent[at]marqueton.com): Fink packaging"
+msgstr "Vincent Marqueton (vincent[at]marqueton.org): balíčky pro Fink"
+
+#: src/help.c:65
+msgid "Alain Portal (dionysos[at]grisbi.org): English"
+msgstr "Alain Portal (dionysos[at]grisbi.org): Angličtina"
+
+#: src/help.c:66
+msgid "Benjamin Drieu (bdrieu[at]april.org): English"
+msgstr "Benjamin Drieu (bdrieu[at]april.org): Angličtina"
+
+#: src/help.c:67
+msgid "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Spanish"
+msgstr "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Španělština"
+
+#: src/help.c:68
+msgid "Daniel Cartron (cartron[at]grisbi.org): English"
+msgstr "Daniel Cartron (cartron[at]grisbi.org): Angličtina"
+
+#: src/help.c:69
+msgid "Edwin Huijsing (e.huijsing[at]fiberworld.nl): Dutch"
+msgstr "Edwin Huijsing (e.huijsing[at]fiberworld.nl): Holandština"
+
+#: src/help.c:70
+msgid "Fabio Erculiani (fabio.erculiani[at]tiscali.it): Italian"
+msgstr "Fabio Erculiani (fabio.erculiani[at]tiscali.it): Italština"
+
+#: src/help.c:71
+msgid "Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilian Portuguese"
+msgstr ""
+"Flavio Henrique Somensi (flavio[at]opens.com.br): Brazilská portugalština"
+
+#: src/help.c:72
+msgid "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italian"
+msgstr "Giorgio Mandolfo (giorgio[at]pollycoke.org): Italština"
+
+#: src/help.c:73
+#, fuzzy
+msgid "Marek Donar (mdonar[at]post.cz): Czech"
+msgstr "Marek Donar (mdonar[at]post.cz): Čeština"
+
+#: src/help.c:74
+msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
+msgstr "Martin Stromberger (Fabiolla[at]aon.at): Němčina"
+
+#: src/help.c:75
+msgid "Mircea Aronovici (bucuresti[at]free.fr): Romanian"
+msgstr ""
+
+#: src/help.c:76
+msgid "Ryszard Jeziorski (r.jeziorski[at]dart.kielce.pl): Polish"
+msgstr "Ryszard Jeziorski (r.jeziorski[at]dart.kielce.pl): Polština"
+
+#: src/help.c:82
+msgid "Development list (discuss, participate, criticize, ...): "
+msgstr "Seznam pro vývojáře (diskuze, přispěvky, kritika, ...)"
+
+#: src/help.c:84 src/help.c:90
+msgid "subscribe"
+msgstr "přihlásit se (subscribe)"
+
+#: src/help.c:85
+msgid "Bug report"
+msgstr "Nahlásit chybu"
+
+#: src/help.c:88
+msgid "Information list (new releases announces, ...): "
+msgstr "Informační seznam (nové verze, ...)"
+
+#: src/help.c:91
+msgid "Grisbi documentation"
+msgstr "Dokumentace ke Grisbi"
+
+#: src/help.c:98
+msgid "About..."
+msgstr "O..."
+
+#: src/help.c:142
+msgid "About Grisbi"
+msgstr "O Grisbi"
+
+#: src/help.c:177
+msgid "Authors"
+msgstr "Autoři"
+
+#: src/help.c:214
+msgid "Translators"
+msgstr "Překladatelé"
+
+#: src/help.c:261
+msgid "Links"
+msgstr "Odkazy"
+
+#: src/help.c:285
+msgid "License"
+msgstr "Licence"
+
+#: src/import.c:93
+msgid "Select files to import"
+msgstr "Vyberte soubory pro import"
+
+#: src/import.c:218 src/import.c:226
+msgid ""
+"Grisbi is unable to determine type of this file.  If it is a QIF, an OFX "
+"file or a gnucash file, please contact the grisbi team to resolve this "
+"problem."
+msgstr ""
+"Grisbi nemůže rozeznat formát tohoto souboru. Pokud se jedná o soubor QIF, "
+"OFX nebo gnucash,\n"
+"prosím kontaktujte vývojový tým pro vyřešení tohoto problému."
+
+#: src/import.c:219 src/import.c:227
+#, c-format
+msgid "File \"%s\" cannot be imported."
+msgstr "Soubor \"%s\" nelze naimportovat."
+
+#. la boite n'a pas encore Ã©tÃ© crÃ©e, on le fait
+#: src/import.c:297
+msgid "Actions on imported accounts:"
+msgstr "Akce pro importované účty"
+
+#: src/import.c:300
+msgid "Add more accounts"
+msgstr "Přidat více účtů"
+
+#: src/import.c:319
+msgid "List of the selection of accounts :"
+msgstr "Seznam vybraných účtů:"
+
+#: src/import.c:382
+msgid "Action"
+msgstr "Akce"
+
+#: src/import.c:405
+msgid "Type of account"
+msgstr "Typ účtu"
+
+#: src/import.c:415
+msgid "Origine"
+msgstr "Původ"
+
+#: src/import.c:563
+msgid "none"
+msgstr "žádný"
+
+#. la devise avait un nom mais n'a pas Ã©tÃ© retrouvÃ©e (n'existe que pour ofx); 2 possibilitÃ©s :
+#. soit elle n'est pas crÃ©e (l'utilisateur la crÃ©era une fois la fenetre affichÃ©e)
+#. soit elle est crÃ©e mais pas avec le bon code
+#: src/import.c:623
+#, c-format
+msgid ""
+"Currency of imported account '%s' is %s.  Either this currency doesn't exist "
+"so you have to create it in dialog window, or this currency already exists "
+"but the ISO code is wrong.\n"
+"To avoid this message, please set its ISO code in configuration."
+msgstr ""
+"Měna importovaného účtu '%s' je %s.  Měna buď neexistuje a musíte i vytvořit "
+"v dialogovém okně, nebo existuje ale s chybně zadaným ISO kódem.\n"
+"Pro odstranění této chyby, nastavte v konfiguraci měnu se správným ISO kódem."
+
+#: src/import.c:626
+#, c-format
+msgid "Can't associate ISO 4217 code for currency '%s'."
+msgstr "Měně '%s' nelze přiřadit kód ISO 4217."
+
+#: src/import.c:645
+msgid "Create a new account"
+msgstr "Vytvořit nový účet"
+
+#: src/import.c:664
+msgid "Add the transactions"
+msgstr "Přidat transakce"
+
+#: src/import.c:680
+msgid "Mark transactions"
+msgstr "Označit transakce"
+
+#: src/import.c:812
+msgid "QIF file"
+msgstr "Soubor QIF"
+
+#: src/import.c:816
+msgid "OFX file"
+msgstr "Soubor OFX"
+
+#: src/import.c:820 src/print_config.c:231
+msgid "HTML file"
+msgstr "Soubot HTML"
+
+#: src/import.c:824
+msgid "Unknown"
+msgstr "Neznámý"
+
+#. crÃ©ation des listes d'opÃ©s
+#: src/import.c:938
+msgid "Please wait"
+msgstr "Prosím čekejte"
+
+#: src/import.c:1203
+msgid "Imported account"
+msgstr "Importovaný účet"
+
+#. l'id du compte choisi et l'id du compte importÃ© sont diffÃ©rents
+#. on propose encore d'arrÃªter...
+#: src/import.c:1582 src/import.c:2291
+msgid "The id of the imported and chosen accounts are different"
+msgstr "Id importovaného a vybraného účtu jsou různá"
+
+#: src/import.c:1583 src/import.c:2292
+msgid ""
+"Perhaps you choose a wrong account ?  If you choose to continue, the id of "
+"the account will be changed.  Do you want to continue ?"
+msgstr ""
+"Zřejmě byl vybrán chybný účet. Pokud zvolíte pokračovat, id účtu bude "
+"změněno. Chcete pokračovat?"
+
+#: src/import.c:1796
+msgid "Confirmation of importation of transactions"
+msgstr "Potvrzení importovaných transakcí"
+
+#: src/import.c:1806
+msgid ""
+"Some imported transactions seem to be already saved. Please select the "
+"transactions to import."
+msgstr ""
+"Některé importované transakce jsou již pravděpodobně uložené. Prosím označte "
+"transakce pro import."
+
+#: src/import.c:1874
+#, c-format
+msgid "Transactions to import : %02d/%02d/%04d ; %s ; %4.2f"
+msgstr "Import transakcí : %02d/%02d/%04d ; %s ; %4.2f"
+
+#: src/import.c:1911
+msgid "no third party"
+msgstr "Žádná třetí strana"
+
+#: src/import.c:1914
+#, c-format
+msgid "Transaction found : %02d/%02d/%04d ; %s ; %4.2f ; %s"
+msgstr "Nalezena transakce : %02d/%02d/%04d ; %s ; %4.2f ; %s"
+
+#: src/import.c:1922
+#, c-format
+msgid "Transaction found : %02d/%02d/%04d ; %s ; %4.2f"
+msgstr "Nalezena transakce : %02d/%02d/%04d ; %s ; %4.2f"
+
+#: src/import.c:2572
+msgid "Orphaned transactions"
+msgstr "Osiřelé transakce"
+
+#: src/import.c:2580
+msgid "Mark transactions you want to add to the list and click the add button"
+msgstr ""
+"Označte transakce které chcete přidat do seznamu a stiskněte tlačítko Přidat"
+
+#: src/import.c:2650
+msgid "Mark"
+msgstr "Označit"
+
+#: src/import.c:2858
+msgid "Search the transaction"
+msgstr "Hledat transakci"
+
+#: src/import.c:2885
+msgid "days around the date in the imported transaction."
+msgstr "dní kolem datumu v importované transakci."
+
+#: src/imputation_budgetaire.c:67
+msgid "Budgetary lines list"
+msgstr "Seznam rozpočtů"
+
+#: src/imputation_budgetaire.c:68
+msgid "Amount per budget line"
+msgstr "Částky podle rozpočtů"
+
+#: src/imputation_budgetaire.c:69
+msgid "Amount per sub-budget line"
+msgstr "Částky podle podrozpočtů"
+
+#. mise en place des boutons ajout d'1 imput / sous-imput
+#: src/imputation_budgetaire.c:271
+msgid "Add a budget line"
+msgstr "Přidat rozpočet"
+
+#: src/imputation_budgetaire.c:285
+msgid "Add a sub-budget line"
+msgstr "Přidat podrozpočet"
+
+#. mise en place du bouton fusionner avec les catÃ©gories
+#: src/imputation_budgetaire.c:313
+msgid "Merge categories"
+msgstr "Sloučit kategorie"
+
+#: src/imputation_budgetaire.c:682 src/imputation_budgetaire.c:772
+#, c-format
+msgid "No sub-budget line (%d)"
+msgstr "Žádné podrozpočty (%d)"
+
+#: src/imputation_budgetaire.c:685 src/imputation_budgetaire.c:775
+msgid "No sub-budget line"
+msgstr "Žádné podrozpočty"
+
+#: src/imputation_budgetaire.c:744
+#, c-format
+msgid "No budget line (%d)"
+msgstr "Žádné rozpočty (%d)"
+
+#: src/imputation_budgetaire.c:747
+msgid "No budget line"
+msgstr "Žádné rozpočty"
+
+#: src/imputation_budgetaire.c:1068
+#, c-format
+msgid "%d/%d/%d : %4.2f %s [ %s ]"
+msgstr "%d/%d/%d : %4.2f %s [ %s ]"
+
+#: src/imputation_budgetaire.c:1586
+msgid "Delete a budgetary line"
+msgstr "Odstranit rozpočet"
+
+#: src/imputation_budgetaire.c:1593
+msgid ""
+"Some transactions are still assigned to this budgetary line.\n"
+"\n"
+"You can"
+msgstr ""
+"K tomuto rozpočtu jsou stále přiřazeny nějaké transakce.\n"
+"\n"
+"Můžete"
+
+#: src/imputation_budgetaire.c:1618 src/imputation_budgetaire.c:1949
+msgid "Move the transactions to"
+msgstr "Přesunout transakce na"
+
+#: src/imputation_budgetaire.c:1703
+msgid "Just delete the budgetary line."
+msgstr "Pouze odstranit rozpočet"
+
+#: src/imputation_budgetaire.c:1729 src/imputation_budgetaire.c:2059
+msgid "Please enter a budgetary line!"
+msgstr "Prosím zvolte rozpočet!"
+
+#: src/imputation_budgetaire.c:1917
+msgid "Deleting a budgetaty line"
+msgstr "Odstranit podrozpočet"
+
+#: src/imputation_budgetaire.c:1924
+msgid ""
+"Some transactions are still assigned to this sub-budgetary line.\n"
+"\n"
+"You can"
+msgstr ""
+"K tomuto podrozpočtu jsou stále přiřazeny nějaké transakce.\n"
+"\n"
+"Můžete"
+
+#: src/imputation_budgetaire.c:2033
+msgid "Just delete the sub-budgetary line."
+msgstr "Pouze odstranit podrozpočet"
+
+#: src/imputation_budgetaire.c:2314
+msgid ""
+"Budgetary lines names must be both unique and not empty.  Please use another "
+"name for this budgetary line."
+msgstr ""
+"Jméno rozpočtu nesmí být prázdné a musí být unikátní. Prosím zvolte jiné "
+"jméno."
+
+#: src/imputation_budgetaire.c:2315
+#, c-format
+msgid "Budgetary line '%s' already exists."
+msgstr "Rozpočet '%s' již existuje."
+
+#: src/imputation_budgetaire.c:2356
+msgid ""
+"Sub-budgetary lines names must be both unique and not empty.  Please use "
+"another name for this sub-budgetary line."
+msgstr ""
+"Jméno podrozpočtu nesmí být prázdné a musí být unikátní. Prosím zvolte jiné "
+"jméno."
+
+#: src/imputation_budgetaire.c:2357
+#, c-format
+msgid "Sub-budgetary line '%s' already exists."
+msgstr "Podrozpočet '%s' již existuje."
+
+#: src/imputation_budgetaire.c:2379
+msgid ""
+"Warning: this will add all the categories and subcategories to the budgetary "
+"lines!\n"
+"Besides you can't cancel this afterwards.\n"
+"We advise you not to use this unless you know exactly what you are doing.\n"
+"Do you want to continue anyway?"
+msgstr ""
+"Upozornění: tato volba přidá všechny kategorie a podkategorie do rozpočtů!\n"
+"Tato akce je nevratná.\n"
+"Pokud si nejste jisti, že je to přesně to co chcete, raději tuto akci "
+"nepoužívejte.\n"
+"Chcete přesto pokračovat?"
+
+#: src/imputation_budgetaire.c:2637
+msgid "New budgetary line"
+msgstr "Nový rozpočet"
+
+#: src/imputation_budgetaire.c:2638
+msgid "Enter the name of the new budgetary line"
+msgstr "Zvolte jméno podrozpočtu"
+
+#: src/imputation_budgetaire.c:2694
+msgid "New sub-budgetary line"
+msgstr "Nový podrozpočet"
+
+#: src/imputation_budgetaire.c:2695
+msgid "Enter the name of the new sub-budgetary line"
+msgstr "Zvolte jméno nového podrozpočtu"
+
+#: src/imputation_budgetaire.c:2764
+msgid "Export the budgetary lines"
+msgstr "Exportovat rozpočty"
+
+#. on permet de remplacer/fusionner la liste
+#: src/imputation_budgetaire.c:2828 src/imputation_budgetaire.c:2853
+msgid "Import the budgetary lines"
+msgstr "Importovat rozpočty"
+
+#. il y a dÃ©jÃ  des opÃ©rations dans le fichier, on ne peut que fusionner
+#: src/imputation_budgetaire.c:2872
+msgid ""
+"File already contains transactions, the two budgetary lines lists will be "
+"merged."
+msgstr "Soubor již obsahuje transakce, oba seznamy rozpočtů budou sloučeny."
+
+#: src/imputation_budgetaire.c:2900
+msgid "Merge the two lists of budgetary lines"
+msgstr "Sloučit oba seznamy rozpočtů"
+
+#: src/imputation_budgetaire.c:2908
+msgid "Replace the old list of budgetary lines"
+msgstr "Nahradit starý seznam rozpočtů"
+
+#: src/main.c:147
+#, c-format
+msgid "Error on sigaction: SIGSEGV won't be trapped\n"
+msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
+
+#: src/menu.c:66
+msgid "New account file"
+msgstr "Nový soubor"
+
+#: src/menu.c:67
+msgid "_Open"
+msgstr "_Otevřít"
+
+#: src/menu.c:69 src/traitement_variables.c:58 src/traitement_variables.c:65
+#: src/traitement_variables.c:207
+msgid "Save"
+msgstr "Uložit"
+
+#: src/menu.c:70 src/traitement_variables.c:87 src/traitement_variables.c:210
+msgid "Save as"
+msgstr "Uložit jako"
+
+#: src/menu.c:72 src/menu.c:204 src/menu.c:208 src/menu.c:228 src/menu.c:254
+#: src/menu.c:265
+msgid "Recently opened files"
+msgstr "Naposledy použité soubory"
+
+#: src/menu.c:75
+msgid "QIF\\/OFX\\/Gnucash file ..."
+msgstr "QIF\\/OFX\\/soubor Gnucash ..."
+
+#: src/menu.c:79 src/traitement_variables.c:96 src/traitement_variables.c:219
+msgid "Debug file"
+msgstr "Ověřit soubor"
+
+#: src/menu.c:81 src/traitement_variables.c:93 src/traitement_variables.c:216
+msgid "Close"
+msgstr "Zavřít"
+
+#: src/menu.c:82
+msgid "Exit"
+msgstr "Konec"
+
+#. Edit menu
+#: src/menu.c:85 src/menu.c:86 src/menu.c:87 src/menu.c:88 src/menu.c:89
+#: src/menu.c:91 src/menu.c:93 src/menu.c:95 src/menu.c:96 src/menu.c:97
+#: src/menu.c:98 src/menu.c:99 src/menu.c:100 src/operations_comptes.c:403
+#: src/operations_comptes.c:408 src/operations_comptes.c:487
+#: src/operations_comptes.c:503 src/operations_comptes.c:510
+#: src/traitement_variables.c:102 src/traitement_variables.c:105
+#: src/traitement_variables.c:108 src/traitement_variables.c:111
+#: src/traitement_variables.c:114 src/traitement_variables.c:117
+#: src/traitement_variables.c:120 src/traitement_variables.c:228
+#: src/traitement_variables.c:231 src/traitement_variables.c:234
+#: src/traitement_variables.c:237 src/traitement_variables.c:240
+#: src/traitement_variables.c:243 src/traitement_variables.c:246
+msgid "Edit"
+msgstr "Upravit"
+
+#. New transaction
+#: src/menu.c:87 src/operations_liste.c:2678 src/traitement_variables.c:102
+#: src/traitement_variables.c:228
+msgid "New transaction"
+msgstr "Nová transakce"
+
+#. New transaction from
+#: src/menu.c:88 src/operations_liste.c:2686 src/traitement_variables.c:105
+#: src/traitement_variables.c:231
+msgid "Use selected transaction as a template"
+msgstr "Použít vybranou transakci jako šablonu"
+
+#: src/menu.c:89 src/traitement_variables.c:108 src/traitement_variables.c:234
+msgid "Remove transaction"
+msgstr "Odstranit transakci"
+
+#. Clone transaction
+#: src/menu.c:91 src/menu.c:93 src/operations_liste.c:2706
+#: src/traitement_variables.c:111 src/traitement_variables.c:237
+msgid "Clone transaction"
+msgstr "Duplikovat transakci"
+
+#. Edit transaction
+#: src/menu.c:95 src/operations_liste.c:2665 src/traitement_variables.c:114
+#: src/traitement_variables.c:240
+msgid "Edit transaction"
+msgstr "Upravit transakci"
+
+#. Convert to scheduled transaction
+#: src/menu.c:97 src/operations_liste.c:2719 src/traitement_variables.c:117
+#: src/traitement_variables.c:243
+msgid "Convert transaction to scheduled transaction"
+msgstr "Změnit transakci na plánovanou transakci"
+
+#. Move to another account
+#: src/menu.c:98 src/operations_comptes.c:403 src/operations_comptes.c:408
+#: src/operations_comptes.c:488 src/operations_comptes.c:503
+#: src/operations_comptes.c:510 src/operations_liste.c:2729
+#: src/traitement_variables.c:120 src/traitement_variables.c:246
+msgid "Move transaction to another account"
+msgstr "Přesunout transakci na jiný účet"
+
+#: src/menu.c:100
+msgid "Preferences"
+msgstr "Možnosti"
+
+#: src/menu.c:120 src/traitement_variables.c:126
+#: src/traitement_variables.c:252
+msgid "Import report file"
+msgstr "Import souboru sestavy"
+
+#. Help menu
+#: src/menu.c:128 src/menu.c:129 src/menu.c:130 src/menu.c:131 src/menu.c:132
+#: src/menu.c:133 src/menu.c:134 src/menu.c:135 src/menu.c:136 src/menu.c:137
+msgid "Help"
+msgstr "Nápověda"
+
+#: src/menu.c:130
+msgid "Grisbi Manual"
+msgstr "Manuál"
+
+#: src/menu.c:131
+msgid "Quickstart"
+msgstr "Rychlý start"
+
+#: src/menu.c:132
+msgid "Translation"
+msgstr "Překlad"
+
+#: src/menu.c:133
+msgid "About"
+msgstr "O aplikaci"
+
+#: src/menu.c:135
+msgid "Grisbi website"
+msgstr "Webová stránka Grisbi"
+
+#: src/menu.c:136
+msgid "Report a bug"
+msgstr "Nahlásit chybu"
+
+#: src/menu.c:137
+msgid "On line User's guide"
+msgstr "On line uživatelská příručka"
+
+#: src/menu.c:299
+msgid "_C"
+msgstr "_C"
+
+#: src/ofx.c:35
+msgid ""
+"This build of Grisbi does not support OFX, please recompile Grisbi with OFX "
+"support enabled"
+msgstr ""
+"Tento build Grisbi nepodporuje OFX. Prosím přeložte znovu Grisbi s povolenou "
+"podporou OFX."
+
+#: src/ofx.c:36 src/ofx.c:82 src/ofx.c:107 src/ofx.c:129
+#, c-format
+msgid "Cannot process OFX file '%s'"
+msgstr "Nelze zpracovat OFX soubor '%s'"
+
+#. Case of Windows, libofx.dll is not present or Grisbi failed in dynamically loading ofx_proc_file
+#: src/ofx.c:81 src/ofx.c:106 src/ofx.c:128
+msgid "The OFX support can not be enabled!"
+msgstr "Podpora OFX nemůže být povolena!"
+
+#: src/ofx.c:145
+msgid "The new account has not been created."
+msgstr "Nový účet nebyl vytvořen."
+
+#: src/ofx.c:150
+msgid "Warning"
+msgstr "Varování"
+
+#: src/ofx.c:151
+msgid "An error or warning has occured. Do you still want to import the file ?"
+msgstr ""
+"Vyskytla se chyba nebo varování. Chcete stále tento soubor naimportovat?"
+
+#: src/ofx.c:208 src/ofx.c:220
+msgid "The file has returned the next message :\n"
+msgstr "Soubor vrátil následující zprávu :\n"
+
+#: src/ofx.c:214 src/ofx.c:226
+msgid "The file has returned a warning message which is no valid."
+msgstr "Soubor vrátil varovnou zprávu, která je neplatná."
+
+#. printf ( "ofx_proc_security_cb :\n" );
+#. printf ( "unique_id_valid %d\n", data.unique_id_valid );
+#. printf ( "unique_id %s\n", data.unique_id );
+#. printf ( "unique_id_type_valid %d\n", data.unique_id_type_valid );
+#. printf ( "unique_id_type %s\n", data.unique_id_type );
+#. printf ( "secname_valid %d\n", data.secname_valid );
+#. printf ( "secname %s\n", data.secname );
+#. printf ( "ticker_valid %d\n", data.ticker_valid );
+#. printf ( "ticker %s\n", data.ticker );
+#. printf ( "unitprice_valid %d\n", data.unitprice_valid );
+#. printf ( "unitprice %f\n", data.unitprice );
+#. printf ( "date_unitprice_valid %d\n", data.date_unitprice_valid );
+#. printf ( "date_unitprice %s\n", ctime ( &data.date_unitprice ));
+#. printf ( "currency_valid %d\n", data.currency_valid );
+#. printf ( "currency %s\n", data.currency );
+#. printf ( "memo_valid %d\n", data.memo_valid );
+#. printf ( "memo %s\n", data.memo );
+#: src/ofx.c:268
+msgid ""
+"That file contains something on proc_security_cb.\n"
+"I didn't have any file to test that function.\n"
+"Please contact the grisbi team to implement that function."
+msgstr ""
+"Soubor obsahuje něco na proc_security_cb.\n"
+"K otestování této funkce nebyly žádné podklady.\n"
+"Prosím kontaktujte tým Grisbi pro implementaci této funkce."
+
+#: src/ofx.c:387
+msgid "A transaction try to be saved but no account was created...\n"
+msgstr "Snažíte se uložit transakci, ale nebyl vytvořen žádný účet... \n"
+
+#: src/ofx.c:455
+msgid "Interest"
+msgstr "Úrok"
+
+#: src/ofx.c:459
+msgid "Dividend"
+msgstr "Dividenda"
+
+#: src/ofx.c:463
+msgid "Service charge"
+msgstr "Manipulační poplatek"
+
+#: src/ofx.c:467
+msgid "Fee"
+msgstr "Poplatek"
+
+#: src/ofx.c:475
+msgid "Cash dispenser"
+msgstr "Bankomat"
+
+#: src/ofx.c:479
+msgid "Point of sale"
+msgstr "Prodejní místo"
+
+#: src/ofx.c:487
+msgid "Electronic payment"
+msgstr "Elektronická platba"
+
+#: src/ofx.c:491
+msgid "Cash"
+msgstr "Hotovost"
+
+#: src/ofx.c:495
+msgid "Direct deposit"
+msgstr "Vklad"
+
+#: src/ofx.c:499
+msgid "Merchant initiated debit"
+msgstr "Inkaso od obchodníka"
+
+#: src/ofx.c:503
+msgid "Repeating payment/standing order"
+msgstr "Opakovaná platba / trvalý příkaz"
+
+#: src/operations_comptes.c:164 src/operations_comptes.c:168
+msgid "Last statement"
+msgstr "Poslední výpis"
+
+#. mise en place du bouton Ã©quilibrage
+#: src/operations_comptes.c:180
+msgid "Reconcile"
+msgstr "Odsouhlasit"
+
+#: src/operations_comptes.c:306
+msgid "Last statement: none"
+msgstr "Poslední výpis: není"
+
+#: src/operations_comptes.c:316 src/operations_liste.c:769
+#, c-format
+msgid "Current balance: %4.2f %s"
+msgstr "Aktuální zůstatek: %4.2f %s"
+
+#. mise en forme du bouton change
+#: src/operations_formulaire.c:276
+msgid "Change"
+msgstr "Změnit"
+
+#: src/operations_formulaire.c:488 src/operations_formulaire.c:489
+msgid "Contra-transaction method of payment"
+msgstr "Metoda platby protitransakce"
+
+#: src/operations_formulaire.c:2084 src/operations_formulaire.c:2546
+#: src/tiers_onglet.c:1429
+msgid "Report"
+msgstr "Sestava"
+
+#: src/operations_formulaire.c:2158
+msgid "No third party selected for this report."
+msgstr "Pro tuto sestavu nebyly vybrány žádné třetí strany."
+
+#: src/operations_formulaire.c:2331
+msgid "You must enter a date."
+msgstr "Musíte zadat datum."
+
+#: src/operations_formulaire.c:2359
+msgid "Invalid date."
+msgstr "Neplatný datum."
+
+#: src/operations_formulaire.c:2445
+msgid "Can't issue a transfer on a closed account."
+msgstr "Nelze převádět na uzavřený účet."
+
+#: src/operations_formulaire.c:2477
+msgid ""
+"Selected method of payment has an automatic incremental number\n"
+"but doesn't contain any number.\n"
+"Continue anyway?"
+msgstr ""
+"Zvolená metoda platby má nastaveno automatické zvyšování čísel,\n"
+"ale neobsahuje žádné číslo.\n"
+"Přesto pokračovat?"
+
+#: src/operations_formulaire.c:2507
+msgid ""
+"Warning: this cheque number is already used.\n"
+"Continue anyway?"
+msgstr ""
+"Pozor: toto číslo šeku již bylo použito.\n"
+"Přesto pokračovat?"
+
+#: src/operations_formulaire.c:2555
+msgid "A transaction with a multiple third party must be a new one."
+msgstr "Transakce s více třetími stranami musí být nová."
+
+#: src/operations_formulaire.c:2589
+msgid "Invalid multiple third party."
+msgstr "Neplatných více třetích stran"
+
+#: src/operations_liste.c:174
+msgid "Curent balance"
+msgstr "Aktuální zůstatek"
+
+#: src/operations_liste.c:204
+msgid "Account breakdown"
+msgstr "Rozdělení účtu"
+
+#: src/operations_liste.c:1060
+msgid "Transfer to a deleted account"
+msgstr "Převod na zrušený účet"
+
+#: src/operations_liste.c:1062
+msgid "Transfer from a deleted account"
+msgstr "Převod ze zrušeného účtu"
+
+#: src/operations_liste.c:1306
+msgid "Confirmation of transaction removal"
+msgstr "Potvrzení odstranění transakce"
+
+#: src/operations_liste.c:1307
+msgid ""
+"You are currently trying to remove a transaction.  There is no undo for "
+"this.  Do you confirm the removal?"
+msgstr ""
+"Snažíte se odstranit transakci. Tato akce je nevratná. Opravdu si přejete "
+"transakci odstranit?"
+
+#: src/operations_liste.c:1330
+msgid "Confirmation of manual (un)reconciliation"
+msgstr "Potvrzení ručního (zrušení) odsouhlasení"
+
+#: src/operations_liste.c:1331
+msgid ""
+"You are currently trying to reconcile or unreconcile manually a transaction "
+"which isn't a regular way to do.\n"
+"\n"
+"Are you really sure to know what you do?"
+msgstr ""
+"Snažíte se ručně odsouhlasit nebo stornovat odsouhlasení transakce, což není "
+"běžný postup.\n"
+"\n"
+"Jste si opravdu jist že to chcete udělat?"
+
+#: src/operations_liste.c:1638
+msgid "Transfer: deleted account"
+msgstr "Převod: odstraněný účet"
+
+#: src/operations_liste.c:1811
+msgid "Auto"
+msgstr "Automaticky"
+
+#: src/operations_liste.c:1827
+msgid "No reconciliation number"
+msgstr "Žádné číslo odsouhlasení"
+
+#: src/operations_liste.c:2104
+msgid "Impossible to delete a reconciled transaction."
+msgstr "Nelze odstranit odsouhlasenou transakci"
+
+#: src/operations_liste.c:2129
+msgid ""
+"The contra-transaction of this transfer is reconciled, deletion impossible."
+msgstr "Protitransakce tohoto převodu je odsouhlasená. Nelze odstranit."
+
+#: src/operations_liste.c:2179
+msgid ""
+"One of the breakdown lines is a transfer whose contra-transaction is "
+"reconciled.  Deletion canceled."
+msgstr ""
+"Jeden z řádků tohoto rozdělení je převod, který má odsouhlasenou "
+"protitransakci. Odstranění bylo zrušeno."
+
+#. Delete transaction
+#: src/operations_liste.c:2694
+msgid "Delete transaction"
+msgstr "Odstranit transakci"
+
+#: src/operations_liste.c:3126
+msgid "Cannot move a transfer on his contra-account"
+msgstr "Transakci nelze přesunout na protiúčet"
+
+#. Create dialog
+#: src/parametres.c:151
+msgid "Grisbi setup"
+msgstr "Nastavení Grisbi"
+
+#: src/parametres.c:181 src/parametres.c:515
+msgid "Files"
+msgstr "Soubory"
+
+#: src/parametres.c:197 src/parametres.c:717
+msgid "Programs"
+msgstr "Programy"
+
+#: src/parametres.c:206
+msgid "Display"
+msgstr "Zobrazení"
+
+#: src/parametres.c:221 src/parametres.c:381
+msgid "Messages & warnings"
+msgstr "Zprávy a varování"
+
+#: src/parametres.c:253
+msgid "Transactions list lines"
+msgstr "Řádky seznamu transakcí"
+
+#: src/parametres.c:280
+msgid "Resources"
+msgstr "Zdroje"
+
+#: src/parametres.c:386
+msgid "Warnings messages"
+msgstr "Varování"
+
+#. Display a warning message if minimum balances are under minimum level
+#: src/parametres.c:389
+msgid "Do not Warn if balances are under minimum levels"
+msgstr "Ignorovat pokud zůstatek klesne pod minimum"
+
+#: src/parametres.c:398
+msgid "Do not warn if account file is readable by someone else"
+msgstr "Nezobrazovat varování pokud je soubor čitelný někým jiným"
+
+#. Display a warning message if file is already opened
+#: src/parametres.c:403
+msgid "Do not warn about an already opened file"
+msgstr "Nezobrazovat varování pokud je soubor již otevřený"
+
+#. Display a warning message that QIF doesn't contain currencies
+#: src/parametres.c:408
+msgid "Do not warn about QIF not containing currencies"
+msgstr "Nezobrazovat varování pokud QIF neobsahuje údaje o měnách"
+
+#. Display a warning message that manually reconciliation isn't a good way
+#: src/parametres.c:413
+msgid ""
+"Do not warn about manually reconciliation\n"
+"(with shortcut <Ctrl><R>)"
+msgstr ""
+"Nezobrazovat varování při ručním odsouhlasení\n"
+"(pomocí zkratky <Ctrl><R>)"
+
+#. Display a warning message when trying to remove a transaction
+#: src/parametres.c:419
+msgid "Do not warn about removal transaction"
+msgstr "Nezobrazovat varování při mazání transakcí"
+
+#. Display a warning message when trying to remove a scheduled transaction
+#: src/parametres.c:424
+msgid "Do not warn about removal scheduled transaction"
+msgstr "Nezobrazovat varování při mazání plánovaných transakcí"
+
+#. Display a warning message when a breakdown is incomplete
+#: src/parametres.c:429
+msgid "Do not warn about incomplete breakdown"
+msgstr "Nezobrazovat varování při neúplném rozdělení"
+
+#. Display a warning message when no reconciliation reference given
+#: src/parametres.c:434
+msgid "Do not warn about no reconciliation reference"
+msgstr "Nezobrazovat varování při prázdné referenci odsouhlasení"
+
+#. Display a warning message when no reconciliation reference given
+#: src/parametres.c:439
+msgid "Do not warn about existing reconciliation reference"
+msgstr "Nezobrazovat varování pokud reference odsouhlasení již existuje"
+
+#. Display a warning message when last chance to abort reconciliation
+#: src/parametres.c:444
+msgid "Do not warn about last chance to abort reconciliation"
+msgstr "Nezobrazovat varování při poslední možnosti přerušit odsouhlasení"
+
+#: src/parametres.c:452
+msgid "Scheduler warnings"
+msgstr "Varování plánovače"
+
+#: src/parametres.c:456
+msgid ""
+"Number of days before a warning message advertising a scheduled transaction"
+msgstr "Počet dní před zobrazením zprávy o plánované transakci"
+
+#: src/parametres.c:520
+msgid "Account files handling"
+msgstr "Operace se soubory"
+
+#: src/parametres.c:524
+msgid "Automatically load last file on startup"
+msgstr "Při startu automaticky načíst poslední soubor"
+
+#: src/parametres.c:529
+msgid "Automatically save on exit"
+msgstr "Automaticky uložit při ukončení"
+
+#: src/parametres.c:545
+msgid "File compression level"
+msgstr "Úroveň komprese souboru"
+
+#: src/parametres.c:559
+msgid "Memorise last opened files"
+msgstr "Pamatovat si poslední otevřené soubory"
+
+#: src/parametres.c:571
+msgid "Backups"
+msgstr "Zálohování"
+
+#: src/parametres.c:575
+msgid "Make a backup copy after opening files"
+msgstr "Vytvořit záložní kopii po otevření souboru"
+
+#. Automatic backup ?
+#: src/parametres.c:581
+msgid "Make a backup copy before saving files"
+msgstr "Vytvořit záložní kopii před otevřením souboru"
+
+#: src/parametres.c:598
+msgid "Backup file"
+msgstr "Soubor zálohy"
+
+#: src/parametres.c:637
+msgid "Backup compression level"
+msgstr "Úroveň komprese zálohy"
+
+#: src/parametres.c:669
+msgid "backup.gsb"
+msgstr "backup.gsb"
+
+#: src/parametres.c:719
+msgid "Print support"
+msgstr "Podpora tisku"
+
+#: src/parametres.c:726
+msgid "LaTeX command"
+msgstr "příkaz pro LateX"
+
+#: src/parametres.c:734
+msgid "dvips command"
+msgstr "příkaz pro dvips"
+
+#. Misc
+#: src/parametres.c:743 src/print_config.c:325
+msgid "Misc"
+msgstr "Různé"
+
+#: src/parametres.c:750
+msgid "Web browser"
+msgstr "Webový prohlížeč"
+
+#: src/patienter.c:78
+msgid "Wait please..."
+msgstr "Prosím čekejte..."
+
+#: src/print_config.c:77
+msgid "General"
+msgstr "Obecný"
+
+#: src/print_config.c:80
+msgid "Paper"
+msgstr "Papír"
+
+#. Printer paddingbox
+#. Print to printer
+#: src/print_config.c:183 src/print_config.c:191
+msgid "Printer"
+msgstr "Tiskárna"
+
+#: src/print_config.c:227
+msgid "Postscript file"
+msgstr "Postscriptový soubor"
+
+#: src/print_config.c:229
+msgid "LaTeX file"
+msgstr "Soubor LaTeX"
+
+#. Paper size
+#: src/print_config.c:266
+msgid "Size"
+msgstr "Velikost"
+
+#. Paper orientation
+#: src/print_config.c:290
+msgid "Orientation"
+msgstr "Orientace"
+
+#: src/print_config.c:292
+msgid "Portrait"
+msgstr "Na výšku"
+
+#: src/print_config.c:295
+msgid "Landscape"
+msgstr "Na šířku"
+
+#. Headers
+#: src/print_config.c:319
+msgid "Headers"
+msgstr "Záhlaví"
+
+#. Footers
+#: src/print_config.c:322
+msgid "Footers"
+msgstr "Zápatí"
+
+#: src/qif.c:129 src/qif.c:186
+msgid "bank"
+msgstr "bank"
+
+#: src/qif.c:132 src/qif.c:207
+msgid "cash"
+msgstr "cash"
+
+#: src/qif.c:135 src/qif.c:245
+msgid "ccard"
+msgstr "ccard"
+
+#: src/qif.c:138 src/qif.c:194
+msgid "invst"
+msgstr "invst"
+
+#: src/qif.c:141 src/qif.c:215
+msgid "oth a"
+msgstr "oth a"
+
+#: src/qif.c:144 src/qif.c:223
+msgid "oth l"
+msgstr "oth l"
+
+#: src/qif.c:163 src/qif.c:347
+msgid "This file is empty!"
+msgstr "Soubor je prázdný!"
+
+#: src/qif.c:199
+msgid ""
+"Grisbi found an investment account, which is not implemented yet.  "
+"Nevertheless, Grisbi will try to import it as a bank account."
+msgstr ""
+"Grisbi nalezl účet investic, který ještě není podporován. Grisbi jej přesto "
+"zkusí naimportovat jako bankovní účet."
+
+#: src/qif.c:340
+msgid "Imported account with no name"
+msgstr "Importovaný účet nemá jméno"
+
+#: src/qif.c:601 src/qif.c:604
+msgid " [Transaction imported without date]"
+msgstr " [Transakce byla naimportována bez datumu]"
+
+#: src/qif.c:756
+msgid "Dates can't be parsed in QIF file."
+msgstr "Datumy v QIF souboru nemohou být analyzovány"
+
+#: src/qif.c:757
+msgid ""
+"Grisbi automatically tries to parse dates from QIF files using heuristics.  "
+"Please double check that they are valid and contact grisbi development team "
+"for assistance if needed"
+msgstr ""
+"Grisbi se v QIF souboru snaží automaticky analyzovat datumy použitím "
+"heuristiky. Prosím pečlivě zkontrolujte, že jsou datumy platné. V případě "
+"potřeby asistence kontaktujte vývojový tým Grisbi."
+
+#: src/qif.c:939
+msgid "QIF format does not define currencies."
+msgstr "Formát QIF nedefinuje měny."
+
+#: src/qif.c:943
+msgid "Export QIF files"
+msgstr "Exportovat soubory QIF"
+
+#: src/qif.c:1048
+#, c-format
+msgid "File name '%s' invalid !"
+msgstr "Neplatné jméno souboru '%s'!"
+
+#: src/tiers_onglet.c:65
+msgid "Third parties list"
+msgstr "Seznam třetích stran"
+
+#: src/tiers_onglet.c:66
+msgid "Amount per third party"
+msgstr "Částka za třetí stranu"
+
+#: src/tiers_onglet.c:68
+msgid "Last date"
+msgstr "Poslední datum"
+
+#. mise en place du bouton ajout d'1 tiers
+#: src/tiers_onglet.c:237
+msgid "Add a third party"
+msgstr "Přidat třetí stranu"
+
+#: src/tiers_onglet.c:1183
+msgid "Delete a third party"
+msgstr "Odstranit třetí stranu"
+
+#: src/tiers_onglet.c:1190
+msgid ""
+"Some transactions are still assigned to this third party.\n"
+"\n"
+"You can"
+msgstr ""
+"Některé transakce jsou stále přiřazeny této třetí straně.\n"
+"\n"
+"Můžete"
+
+#: src/tiers_onglet.c:1215
+msgid "Transfer the transactions to"
+msgstr "Převést transakce na"
+
+#: src/tiers_onglet.c:1258
+msgid "Just delete this third party."
+msgstr "Pouze odstranit třetí stranu."
+
+#: src/tiers_onglet.c:1284
+msgid "Please enter a third party."
+msgstr "Prosím zadejte třetí stranu."
+
+#: src/tiers_onglet.c:1295
+msgid ""
+"Grisbi is unable to find this third party.  Be sure entered name is valid "
+"and that this third party exists."
+msgstr ""
+"Grisbi nemůže najít tuto třetí stranu. Zkontrolujte že zadané jméno je "
+"správné a tato třetí strana existuje."
+
+#: src/tiers_onglet.c:1296
+#, c-format
+msgid "Third party %s not found."
+msgstr "Třetí strana %s nebyla nalezena."
+
+#: src/tiers_onglet.c:1647
+msgid "New third party"
+msgstr "Nová třetí strana"
+
+#: src/tiers_onglet.c:1648
+msgid "Enter the new third party's name"
+msgstr "Zadejte jméno třetí strany"
+
+#: src/tiers_onglet.c:1657
+msgid ""
+"Third party names must be both unique and not empty.  Please use another "
+"name for this third party."
+msgstr ""
+"Jména třetích stran musí být jednotnačná a neprázdná. Prosím zvolte jiné "
+"jméno pro tuto třetí stranu."
+
+#: src/tiers_onglet.c:1658
+#, c-format
+msgid "Third party '%s' already exists."
+msgstr "Třetí strana '%s' již existuje."
+
+#. Should not happen theorically
+#. Should not happen!
+#: src/type_operations.c:107 src/type_operations.c:885
+msgid "Serious brain damage expected."
+msgstr "POZOR! Vážná chyba!"
+
+#: src/type_operations.c:265
+msgid "Known payment methods"
+msgstr "Definované metody platby"
+
+#: src/type_operations.c:314
+msgid "Default"
+msgstr "Výchozí"
+
+#: src/type_operations.c:326
+msgid "Numbering"
+msgstr "Číslování"
+
+#: src/type_operations.c:370
+msgid "Payment method details"
+msgstr "Detaily metody platby"
+
+#. Automatic numbering
+#: src/type_operations.c:394
+msgid "Automatic numbering"
+msgstr "Automatické číslování"
+
+#: src/type_operations.c:410
+msgid "Activate"
+msgstr "Aktivovat"
+
+#. Payment method type
+#: src/type_operations.c:418
+msgid "Type"
+msgstr "Typ"
+
+#. Neutral type
+#: src/type_operations.c:430
+msgid "Neutral"
+msgstr "Neutrální"
+
+#: src/type_operations.c:922
+msgid "New payment method"
+msgstr "Nová metoda platby"
+
+#: src/type_operations.c:1012
+msgid "Delete a payment method"
+msgstr "Odstranit metodu platby"
+
+#: src/type_operations.c:1020
+msgid ""
+"Some transactions still use that payment method.  As deletion of this method "
+"is irreversible, these transactions are to be associated with another "
+"payment method."
+msgstr ""
+"Některé transakce stále používají tuto metodu platby. Protože odstranění "
+"této metody je nevratné, k transakcím musí být přiřazena jiná metoda platby."
+
+#: src/type_operations.c:1037
+msgid "Associate transactions with"
+msgstr "Přiřadit transakce k"
+
+#: src/utils.c:757
+#, c-format
+msgid ""
+"Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  "
+"Please adjust your settings to a valid executable."
+msgstr ""
+"Grisbi nemohl spustit webový prohlížeč a přejít na adresu <tt>%s</tt>. "
+"Prosím upravte si nastavení na platný spustitelný soubor."
+
+#: src/utils.c:758 src/utils.c:792
+msgid "Cannot run web browser"
+msgstr "Nelze spustit webový prohlížeč"
+
+#: src/utils.c:791
+#, c-format
+msgid ""
+"Grisbi was unable to execute '%s'\n"
+"Please adjust your settings to a valid executable."
+msgstr ""
+"Grisbi nemohl spustit '%s'\n"
+"Prosím upravte si nastavení na platný spustitelný soubor."
+
+#: src/utils_files.c:62
+msgid "Print to file"
+msgstr "Tisk do souboru"
+
+#. aie, pb de mÃ©moire, on vire
+#: src/utils_files.c:143 src/utils_files.c:160
+msgid "Memory allocation error"
+msgstr "Chyba alokace paměti"
+
+#: src/utils_files.c:201
+msgid "Browse"
+msgstr "Procházet"
+
+#: src/ventilation.c:2201
+msgid "This transaction has a reconciled breakdown line, deletion canceled."
+msgstr "Tato transakce má odsouhlasené rozdělení. Odstranění bylo zrušeno."
+
+#: src/ventilation.c:2228
+msgid "This transfer has a reconciled contra-transaction, deletion canceled."
+msgstr ""
+"Tato transakce má odsouhlasenou protitransakci. Odstranění bylo zrušeno."
+
+#~ msgid ""
+#~ "Your account file should not be readable by anybody else, but it is. You "
+#~ "should change its permissions.\n"
+#~ "Should this be fixed now?"
+#~ msgstr ""
+#~ "Váš soubor účtů by neměl být čitelný pro nikoho jiného, ale je. Měl(a) "
+#~ "byste změnit jeho oprávnění.\n"
+#~ "Měly by být teď opraveny?"
+
+#~ msgid "Recover breakdown?"
+#~ msgstr "Sloučit zpět rozdělení?"
+
+#~ msgid "Do you want to recover all the lines of the last breakdown?"
+#~ msgstr "Chcete sloučit zpět všechny řádky předchozího rozdělení?"
+
+#~ msgid "A3"
+#~ msgstr "A3"
+
+#~ msgid "A5"
+#~ msgstr "A5"
+
+#~ msgid "A6"
+#~ msgstr "A6"
+
+#~ msgid "USletter"
+#~ msgstr "US Letter"
+
+#~ msgid "USlegal"
+#~ msgstr "US Legal"
+
+#~ msgid "USexecutive"
+#~ msgstr "US Executive"
+
+#~ msgid ""
+#~ "Impossible to create or entry an automatic scheduled transaction\n"
+#~ " with a cheque or a method of payment with an automatic incremental "
+#~ "number."
+#~ msgstr ""
+#~ "Nelze vytvořit automatickou plánovanou transakci\n"
+#~ "s šekem nebo metodou platby s automaticky navýšeným číslem."
+
+#~ msgid "Legal"
+#~ msgstr "Legal"
