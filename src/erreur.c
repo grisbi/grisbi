@@ -177,7 +177,8 @@ void traitement_sigsegv ( gint signal_nb )
 	gsb_status_message ( _("Save file") );
 
 	gsb_file_save_save_file ( nom_fichier_comptes,
-				  etat.compress_file );
+				  etat.compress_file,
+				  FALSE );
 
 	gsb_status_clear();
 

@@ -47,6 +47,7 @@ sources = \
 	gsb_archive_config.c	\
 	gsb_assistant.c		\
 	gsb_assistant_archive.c		\
+	gsb_assistant_archive_export.c		\
 	gsb_assistant_reconcile_config.c		\
 	gsb_autofunc.c		\
 	gsb_automem.c		\
@@ -151,6 +152,7 @@ grisbi_INCLUDES =		\
 	gsb_archive_config.h	\
 	gsb_assistant.h		\
 	gsb_assistant_archive.h		\
+	gsb_assistant_archive_export.h		\
 	gsb_assistant_reconcile_config.h		\
 	gsb_autofunc.h		\
 	gsb_automem.h		\

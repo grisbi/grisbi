@@ -330,7 +330,8 @@ gboolean gsb_file_open_file ( gchar *filename )
 
 	    g_strfreev ( tab_char );
 	    gsb_file_save_save_file ( backup_filename,
-				      etat.compress_backup );
+				      etat.compress_backup,
+				      FALSE );
 	    g_free (backup_filename);
 	}
     }
@@ -534,7 +535,8 @@ gboolean enregistrement_fichier ( gint origine )
     gsb_status_message ( _("Saving file") );
 
     result = gsb_file_save_save_file ( nouveau_nom_enregistrement,
-				       etat.compress_file );
+				       etat.compress_file,
+				       FALSE );
 
     if ( result )
     {
@@ -825,7 +827,8 @@ gboolean enregistrement_backup ( void )
     gsb_status_message ( _("Saving backup") );
 
     retour = gsb_file_save_save_file( nom_fichier_backup,
-				      etat.compress_backup );
+				      etat.compress_backup,
+				      FALSE );
 
     gsb_status_message ( _("Done") );
 

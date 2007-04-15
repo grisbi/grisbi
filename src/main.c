@@ -53,7 +53,6 @@
 #include "./comptes_traitements.h"
 #include "./parse_cmdline.h"
 #include "./import.h"
-#include "./utils_files.h"
 #include "./parse_cmdline.h"
 #include "./gsb_file_config.h"
 #include "./include.h"
@@ -94,13 +93,13 @@ int main (int argc, char *argv[])
 {
     GtkWidget * statusbar;
     gboolean first_use = FALSE;
+    gchar *string;
 
     initialize_debugging();
 
 #ifndef _WIN32
     struct sigaction sig_sev;
 #endif
-    struct stat buffer_stat;
     cmdline_options  opt;
 
 
@@ -155,13 +154,12 @@ int main (int argc, char *argv[])
 #endif
 
     /* create the icon of grisbi (set in the panel of gnome or other) */
-
-    if ( utf8_stat ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR, "grisbi.png", NULL ),&buffer_stat ) != -1 )
-	gtk_window_set_default_icon_from_file ( g_strconcat(PIXMAPS_DIR,
-							    C_DIRECTORY_SEPARATOR,
-							    "grisbi.png",
-							    NULL),
+    string = g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR, "grisbi.png", NULL );
+    if (g_file_test ( string,
+		      G_FILE_TEST_EXISTS ))
+	gtk_window_set_default_icon_from_file ( string,
 						NULL );
+    g_free (string);
 
     /* initialisation of the variables */
     init_variables ();

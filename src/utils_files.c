@@ -217,7 +217,7 @@ GtkWidget * my_file_chooser ()
  *
  * \return file descriptor returned by fopen
  */
-FILE* utf8_fopen(gchar* utf8filename,gchar* mode)
+FILE* utf8_fopen(const gchar* utf8filename,gchar* mode)
 {
     return fopen(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),mode);
 }
@@ -237,20 +237,6 @@ gint utf8_open(gchar* utf8filename,gint mode)
     return open(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),mode);
 }
 
-/**
- * \brief utf8 version of stat (see stat for more detail about mode)
- * 
- * convert utf8 file path into the locale OS charset before calling stat
- *
- * \param utf8filename file to get information path coded using utf8 charset
- * \param stat pointer to a stat struct
- *
- * \return stat returned value
- */
-gint utf8_stat(gchar* utf8filename,struct stat* filestat)
-{
-    return stat(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),filestat);
-}
 /**
  * \brief utf8 version of stat (see stat for more detail about mode)
  * 

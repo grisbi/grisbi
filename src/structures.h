@@ -75,6 +75,7 @@
 /* la partie configurée pendant le fonctionnement de grisbi */
 struct {
     gint modification_fichier;
+    gint is_archive;		/** TRUE if the file is an archive, FALSE else */
     gint ctrl;
     gint equilibrage;
     gint r_modifiable;

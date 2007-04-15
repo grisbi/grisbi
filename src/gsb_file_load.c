@@ -49,7 +49,6 @@
 #include "./utils_str.h"
 #include "./traitement_variables.h"
 #include "./fichiers_gestion.h"
-#include "./utils_files.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_form.h"
 #include "./gsb_scheduler_list.h"
@@ -289,10 +288,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     }
 
      /* fill the buffer stat to check the permission */
-
-    return_value = utf8_stat ( filename,
-			       &buffer_stat);
-    
+    return_value = stat (g_filename_from_utf8(filename,-1,NULL,NULL,NULL),&buffer_stat);
     /* check the access to the file and propose to change it */
 #ifndef _WIN32
     if ( buffer_stat.st_mode != 33152 )
@@ -669,6 +665,12 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 			    "Crypt_file" ))
 	{
 	    etat.crypt_file = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Archive_file" ))
+	{
+	    etat.is_archive = utils_str_atoi (attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
@@ -6417,7 +6419,6 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 gboolean gsb_file_load_update_previous_version ( void )
 {
     gint currency_number;
-    struct stat buffer_stat;
     GSList *list_tmp;
     gint i;
     GSList *list_tmp_transactions;
@@ -7035,7 +7036,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 	   &&
 	   strlen ( chemin_logo )
 	   &&
-	   utf8_stat ( chemin_logo, &buffer_stat) == -1 ))
+	   g_file_test (chemin_logo, G_FILE_TEST_EXISTS)))
 	chemin_logo = my_strdup ( LOGO_PATH );
 
     /* mark the file as opened */
@@ -7054,6 +7055,11 @@ gboolean gsb_file_load_update_previous_version ( void )
 				   GTK_RESPONSE_YES ))
 	    gsb_assistant_archive_run ();
     }
+
+    /* if we opened an archive, we say it here */
+    if (etat.is_archive)
+	dialogue_hint (_("You have opened an archive.\nThere is no limit in Grisbi, you can do whatever you want and save it later (new reports...) but remember it's an archive before modifying some transactions or important informations."),
+		       _("Grisbi archive opened"));
     return TRUE;
 }
 

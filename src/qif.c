@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger	(cedric@grisbi.org)	      */
-/*			2005-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger	(cedric@grisbi.org)	      */
+/*			2005-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -29,10 +29,13 @@
 #include "./utils_files.h"
 #include "./utils_str.h"
 #include "./gsb_data_account.h"
+#include "./gsb_data_archive_store.h"
 #include "./gsb_data_category.h"
+#include "./gsb_data_currency.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_transaction.h"
+#include "./gsb_file_util.h"
 #include "./gsb_real.h"
 #include "./import.h"
 #include "./gsb_data_account.h"
@@ -981,288 +984,384 @@ changement_format_date:
 }
 
 
+/**
+ * export an archive given in param
+ * it will create 1 file per account exported, containing
+ * 	the transactions of the archive
+ * 	the name exported will be "filename-name of the account.qif"
+ *
+ * \param filename a name without the extension
+ * \param archive_number
+ *
+ * \return TRUE ok, FALSE pb
+ * */
+gboolean gsb_qif_export_archive ( const gchar *filename,
+				  gint archive_number )
+{
+    GSList *tmp_list;
+    GSList *name_list = NULL;
+    gint error_return = 0;
+
+    if (!gsb_file_util_test_overwrite (filename))
+	return FALSE;
+
+    /* the work (split between accounts) is already done with the archive_store,
+     * so just use it */
+    tmp_list = gsb_data_archive_store_get_archives_list ();
+    while (tmp_list)
+    {
+	gint archive_store_number;
+
+	archive_store_number = gsb_data_archive_store_get_number (tmp_list -> data);
+
+	if (gsb_data_archive_store_get_archive_number (archive_store_number) == archive_number)
+	{
+	    gchar *new_filename;
+
+	    new_filename = g_strconcat ( filename,
+					 "-",
+					 gsb_data_account_get_name (gsb_data_archive_store_get_account_number(archive_store_number)),
+					 ".qif",
+					 NULL );
+	    if (qif_export ( new_filename,
+			     gsb_data_archive_store_get_account_number(archive_store_number),
+			     archive_number ))
+		name_list = g_slist_append ( name_list,
+					     new_filename );
+	    else
+		error_return = 1;
+	}
+	tmp_list = tmp_list -> next;
+    }
+    
+    /* if there is more than 1 file created, we show what files we did */
+    if (g_slist_length (name_list) > 1)
+    {
+	gchar *string;
+
+	string = g_strdup_printf ( _("There were many accounts to export in the archive,\nbut the QIF format only support one file per account,\nso Grisbi created %d files, one per account :\n"),
+				     g_slist_length (name_list));
+
+	/* add the name to the string */
+	tmp_list = name_list;
+	while (tmp_list)
+	{
+	    gchar *new_string;
+
+	    new_string = g_strconcat ( string,
+				       "\n",
+				       tmp_list -> data,
+				       NULL );
+	    g_free (string);
+	    string = new_string;
+	    tmp_list = tmp_list -> next;
+	}
+	dialogue (string);
+	g_free (string);
+    }
+
+    /* free the names */
+    tmp_list = name_list;
+    while (tmp_list)
+    {
+	g_free (tmp_list -> data);
+	tmp_list = tmp_list -> next;
+    }
+    g_slist_free (name_list);
+
+    return !error_return;
+}
+
+
 
 /**
+ * create a qif export, according to the filename, the account
+ * and eventually, limit the export to the archive if exists
+ * this will export all the transactions of the account (except if we ask for an archive...)
+ * 	including the archived transactions
  *
+ * \param filename that file will be checked and ask to overwrite if needed
+ * \param account_nb
+ * \param archive_number if 0, just export in qif the account transactions ; if non 0, export just the transactions for that archive and account
  *
- *
+ * \return TRUE ok, FALSE pb
  */
-void qif_export ( gchar * filename, gint account_nb )
+gboolean qif_export ( const gchar *filename,
+		      gint account_nb,
+		      gint archive_number )
 {
     FILE * fichier_qif;
-    struct stat test_file;
+    GSList *list_tmp_transactions;
+    gint begining;
+    gint floating_point;
 
-    if (utf8_stat ( filename, &test_file ) != -1)
-    {
-	if ( ! question_yes_no_hint (_("File already exists"),
-				     g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename),
-				     GTK_RESPONSE_NO  ) )
-	{
-	    return;
-	}
-    }
+    if (!gsb_file_util_test_overwrite (filename))
+	return FALSE;
 
     if ( !( fichier_qif = utf8_fopen ( filename, "w" ) ))
     {
 	dialogue_error_hint ( latin2utf8 ( strerror(errno) ),
 			      g_strdup_printf ( _("Error opening file '%s'"),
 						filename ) );
+	return FALSE;
     }
+
+    /* get the floating point of the currency of the amount,
+     * ie the number of digits after the . */
+    floating_point = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (account_nb));
+
+    /* kind of account */
+    if ( gsb_data_account_get_kind (account_nb) == GSB_TYPE_CASH )
+	fprintf ( fichier_qif,
+		  "!Type:Cash\n" );
     else
-    {
-	GSList *list_tmp_transactions;
-	gint begining;
-
-	/* met le type de compte */
-
-	if ( gsb_data_account_get_kind (account_nb) == GSB_TYPE_CASH )
+	if ( gsb_data_account_get_kind (account_nb) == GSB_TYPE_LIABILITIES
+	     ||
+	     gsb_data_account_get_kind (account_nb) == GSB_TYPE_ASSET )
 	    fprintf ( fichier_qif,
-		      "!Type:Cash\n" );
+		      "!Type:Oth L\n" );
 	else
-	    if ( gsb_data_account_get_kind (account_nb) == GSB_TYPE_LIABILITIES
-		 ||
-		 gsb_data_account_get_kind (account_nb) == GSB_TYPE_ASSET )
-		fprintf ( fichier_qif,
-			  "!Type:Oth L\n" );
-	    else
-		fprintf ( fichier_qif,
-			  "!Type:Bank\n" );
+	    fprintf ( fichier_qif,
+		      "!Type:Bank\n" );
 
 
-	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
-	begining = 1;
+    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
+    begining = 1;
 
-	while ( list_tmp_transactions )
+    while ( list_tmp_transactions )
+    {
+	gint transaction_number_tmp;
+	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+
+	if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_nb
+	     &&
+	     (!archive_number
+	      ||
+	      gsb_data_transaction_get_archive_number (transaction_number_tmp) == archive_number))
 	{
-	    gint transaction_number_tmp;
-	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
-
-	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_nb )
+	    if ( begining )
 	    {
-		if ( begining )
+		/* this is the begining of the qif file, we set some beginings things */
+		fprintf ( fichier_qif,
+			  "D%d/%d/%d\n",
+			  g_date_day (gsb_data_transaction_get_date (transaction_number_tmp)),
+			  g_date_month (gsb_data_transaction_get_date (transaction_number_tmp)),
+			  g_date_year (gsb_data_transaction_get_date (transaction_number_tmp)));
+
+		/* met le solde initial */
+
+		fprintf ( fichier_qif,
+			  "T%s\n",
+			  gsb_real_get_string (gsb_data_account_get_init_balance (account_nb, -1)));
+
+		fprintf ( fichier_qif,
+			  "CX\nPOpening Balance\n" );
+
+		/* met le nom du compte */
+
+		fprintf ( fichier_qif,
+			  "L%s\n^\n",
+			  g_strconcat ( "[",
+					gsb_data_account_get_name (account_nb),
+					"]",
+					NULL ) );
+		begining = 0;
+	    }
+
+	    /* si c'est une opé de ventilation, on la saute pas elle sera recherchée quand */
+	    /* son opé ventilée sera exportée */
+
+	    if ( !gsb_data_transaction_get_mother_transaction_number ( transaction_number_tmp))
+	    {
+		/* met la date */
+
+		fprintf ( fichier_qif,
+			  "D%d/%d/%d\n",
+			  g_date_day (gsb_data_transaction_get_date (transaction_number_tmp)),
+			  g_date_month (gsb_data_transaction_get_date (transaction_number_tmp)),
+			  g_date_year (gsb_data_transaction_get_date (transaction_number_tmp)));
+
+		/* met le pointage */
+
+		if ( gsb_data_transaction_get_marked_transaction ( transaction_number_tmp)== OPERATION_POINTEE
+		     ||
+		     gsb_data_transaction_get_marked_transaction ( transaction_number_tmp)== OPERATION_TELERAPPROCHEE )
+		    fprintf ( fichier_qif,
+			      "C*\n" );
+		else
+		    if ( gsb_data_transaction_get_marked_transaction ( transaction_number_tmp)== OPERATION_RAPPROCHEE )
+			fprintf ( fichier_qif,
+				  "CX\n" );
+
+
+		/* met les notes */
+
+		if ( gsb_data_transaction_get_notes ( transaction_number_tmp))
+		    fprintf ( fichier_qif,
+			      "M%s\n",
+			      gsb_data_transaction_get_notes ( transaction_number_tmp));
+
+
+		/* met le montant, transforme la devise si necessaire */
+		fprintf ( fichier_qif,
+			  "T%s\n",
+			  gsb_real_get_string (gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, floating_point)));
+
+		/* met le chèque si c'est un type à numérotation automatique */
+		if ( gsb_data_payment_get_automatic_numbering (gsb_data_transaction_get_method_of_payment_number (transaction_number_tmp)))
+		    fprintf ( fichier_qif,
+			      "N%s\n",
+			      gsb_data_transaction_get_method_of_payment_content ( transaction_number_tmp));
+
+		/* met le tiers */
+
+		fprintf ( fichier_qif,
+			  "P%s\n",
+			  gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number_tmp),
+						    FALSE ));
+
+		/*  on met soit un virement, soit une ventilation, soit les catégories */
+
+		/* si c'est une ventilation, on recherche toutes les opés de cette ventilation */
+		/* et les met à la suite */
+		/* la catégorie de l'opé sera celle de la première opé de ventilation */
+
+		if ( gsb_data_transaction_get_breakdown_of_transaction ( transaction_number_tmp))
 		{
-		    /* this is the begining of the qif file, we set some beginings things */
-		    fprintf ( fichier_qif,
-			      "D%d/%d/%d\n",
-			      g_date_day (gsb_data_transaction_get_date (transaction_number_tmp)),
-			      g_date_month (gsb_data_transaction_get_date (transaction_number_tmp)),
-			      g_date_year (gsb_data_transaction_get_date (transaction_number_tmp)));
+		    /* it's a breakdown of transactions, look for the children and append them */
 
-		    /* met le solde initial */
+		    gint mother_transaction_category_written;
+		    GSList *list_tmp_transactions_2;
 
-		    fprintf ( fichier_qif,
-			      "T%s\n",
-			      gsb_real_get_string (gsb_data_account_get_init_balance (account_nb, -1)));
+		    mother_transaction_category_written = 0;
+		    list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
 
-		    fprintf ( fichier_qif,
-			      "CX\nPOpening Balance\n" );
-
-		    /* met le nom du compte */
-
-		    fprintf ( fichier_qif,
-			      "L%s\n^\n",
-			      g_strconcat ( "[",
-					    gsb_data_account_get_name (account_nb),
-					    "]",
-					    NULL ) );
-		    begining = 0;
-		}
-
-		/* si c'est une opé de ventilation, on la saute pas elle sera recherchée quand */
-		/* son opé ventilée sera exportée */
-
-		if ( !gsb_data_transaction_get_mother_transaction_number ( transaction_number_tmp))
-		{
-		    /* met la date */
-
-		    fprintf ( fichier_qif,
-			      "D%d/%d/%d\n",
-			      g_date_day (gsb_data_transaction_get_date (transaction_number_tmp)),
-			      g_date_month (gsb_data_transaction_get_date (transaction_number_tmp)),
-			      g_date_year (gsb_data_transaction_get_date (transaction_number_tmp)));
-
-		    /* met le pointage */
-
-		    if ( gsb_data_transaction_get_marked_transaction ( transaction_number_tmp)== OPERATION_POINTEE
-			 ||
-			 gsb_data_transaction_get_marked_transaction ( transaction_number_tmp)== OPERATION_TELERAPPROCHEE )
-			fprintf ( fichier_qif,
-				  "C*\n" );
-		    else
-			if ( gsb_data_transaction_get_marked_transaction ( transaction_number_tmp)== OPERATION_RAPPROCHEE )
-			    fprintf ( fichier_qif,
-				      "CX\n" );
-
-
-		    /* met les notes */
-
-		    if ( gsb_data_transaction_get_notes ( transaction_number_tmp))
-			fprintf ( fichier_qif,
-				  "M%s\n",
-				  gsb_data_transaction_get_notes ( transaction_number_tmp));
-
-
-		    /* met le montant, transforme la devise si necessaire */
-
-		    fprintf ( fichier_qif,
-			      "T%s\n",
-			      gsb_real_get_string (gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, -1)));
-
-		    /* met le chèque si c'est un type à numérotation automatique */
-		    if ( gsb_data_payment_get_automatic_numbering (gsb_data_transaction_get_method_of_payment_number (transaction_number_tmp)))
-			fprintf ( fichier_qif,
-				  "N%s\n",
-				  gsb_data_transaction_get_method_of_payment_content ( transaction_number_tmp));
-			
-		    /* met le tiers */
-			
-		    fprintf ( fichier_qif,
-			      "P%s\n",
-			      gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number_tmp),
-							FALSE ));
-
-		    /*  on met soit un virement, soit une ventilation, soit les catégories */
-
-		    /* si c'est une ventilation, on recherche toutes les opés de cette ventilation */
-		    /* et les met à la suite */
-		    /* la catégorie de l'opé sera celle de la première opé de ventilation */
-
-		    if ( gsb_data_transaction_get_breakdown_of_transaction ( transaction_number_tmp))
+		    while ( list_tmp_transactions_2 )
 		    {
-			/* it's a breakdown of transactions, look for the children and append them */
+			gint transaction_number_tmp_2;
+			transaction_number_tmp_2 = gsb_data_transaction_get_transaction_number (list_tmp_transactions_2 -> data);
 
-			gint mother_transaction_category_written;
-			GSList *list_tmp_transactions_2;
-
-			mother_transaction_category_written = 0;
-			list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
-
-			while ( list_tmp_transactions_2 )
+			if (gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp_2) == transaction_number_tmp)
 			{
-			    gint transaction_number_tmp_2;
-			    transaction_number_tmp_2 = gsb_data_transaction_get_transaction_number (list_tmp_transactions_2 -> data);
+			    /* we are on a child, for the first one, we set the mother category */
+			    /*  the child can only be a normal category or a transfer */
 
-			    if (gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp_2) == transaction_number_tmp)
+			    if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_tmp_2))
 			    {
-				/* we are on a child, for the first one, we set the mother category */
-				/*  the child can only be a normal category or a transfer */
+				/* the child is a transfer */
 
-				if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_tmp_2))
+				if ( !mother_transaction_category_written )
 				{
-				    /* the child is a transfer */
-
-				    if ( !mother_transaction_category_written )
-				    {
-					fprintf ( fichier_qif,
-						  "L%s\n",
-						  g_strconcat ( "[",
-								gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer (transaction_number_tmp_2)),
-								"]",
-								NULL ));
-					mother_transaction_category_written = 1;
-				    }
 				    fprintf ( fichier_qif,
-					      "S%s\n",
+					      "L%s\n",
 					      g_strconcat ( "[",
-							    gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer ( transaction_number_tmp_2)),
+							    gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer (transaction_number_tmp_2)),
 							    "]",
 							    NULL ));
+				    mother_transaction_category_written = 1;
 				}
-				else
-				{
-				    /* it's a category : sub-category */
+				fprintf ( fichier_qif,
+					  "S%s\n",
+					  g_strconcat ( "[",
+							gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer ( transaction_number_tmp_2)),
+							"]",
+							NULL ));
+			    }
+			    else
+			    {
+				/* it's a category : sub-category */
 
-				    if ( !mother_transaction_category_written )
-				    {
-					fprintf ( fichier_qif,
-						  "L%s\n",
-						  gsb_data_category_get_name (gsb_data_transaction_get_category_number (transaction_number_tmp_2),
-									      gsb_data_transaction_get_sub_category_number (transaction_number_tmp_2),
-									      _("No category defined")));
-					mother_transaction_category_written = 1;
-				    }
+				if ( !mother_transaction_category_written )
+				{
 				    fprintf ( fichier_qif,
-					      "S%s\n",
+					      "L%s\n",
 					      gsb_data_category_get_name (gsb_data_transaction_get_category_number (transaction_number_tmp_2),
 									  gsb_data_transaction_get_sub_category_number (transaction_number_tmp_2),
 									  _("No category defined")));
+				    mother_transaction_category_written = 1;
 				}
-
-				/* set the notes of the breakdown child */
-
-				if ( gsb_data_transaction_get_notes (transaction_number_tmp_2))
-				    fprintf ( fichier_qif,
-					      "E%s\n",
-					      gsb_data_transaction_get_notes (transaction_number_tmp_2));
-
-				/* set the amount of the breakdown child */
-
 				fprintf ( fichier_qif,
-					  "$%s\n",
-					  gsb_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2, -1)));
+					  "S%s\n",
+					  gsb_data_category_get_name (gsb_data_transaction_get_category_number (transaction_number_tmp_2),
+								      gsb_data_transaction_get_sub_category_number (transaction_number_tmp_2),
+								      _("No category defined")));
 			    }
-			    list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
+
+			    /* set the notes of the breakdown child */
+
+			    if ( gsb_data_transaction_get_notes (transaction_number_tmp_2))
+				fprintf ( fichier_qif,
+					  "E%s\n",
+					  gsb_data_transaction_get_notes (transaction_number_tmp_2));
+
+			    /* set the amount of the breakdown child */
+
+			    fprintf ( fichier_qif,
+				      "$%s\n",
+				      gsb_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2, floating_point)));
 			}
+			list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
+		    }
+		}
+		else
+		{
+		    /* if it's a transfer, the contra-account must exist, else we do
+		     * as for a normal category */
+
+		    if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_tmp)
+			 &&
+			 gsb_data_transaction_get_account_number_transfer (transaction_number_tmp)>= 0 )
+		    {
+			/* it's a transfer */
+
+			fprintf ( fichier_qif,
+				  "L%s\n",
+				  g_strconcat ( "[",
+						gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer ( transaction_number_tmp)),
+						"]",
+						NULL ));
 		    }
 		    else
 		    {
-			/* if it's a transfer, the contra-account must exist, else we do
-			 * as for a normal category */
-			    
-			if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_tmp)
-			     &&
-			     gsb_data_transaction_get_account_number_transfer (transaction_number_tmp)>= 0 )
-			{
-			    /* it's a transfer */
+			/* it's a normal category */
 
-			    fprintf ( fichier_qif,
-				      "L%s\n",
-				      g_strconcat ( "[",
-						    gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer ( transaction_number_tmp)),
-						    "]",
-						    NULL ));
-			}
-			else
-			{
-			    /* it's a normal category */
-
-			    fprintf ( fichier_qif,
-				      "L%s\n",
-				      gsb_data_category_get_name (gsb_data_transaction_get_category_number (transaction_number_tmp),
-								  gsb_data_transaction_get_sub_category_number (transaction_number_tmp),
-								  FALSE ));
-			}
+			fprintf ( fichier_qif,
+				  "L%s\n",
+				  gsb_data_category_get_name (gsb_data_transaction_get_category_number (transaction_number_tmp),
+							      gsb_data_transaction_get_sub_category_number (transaction_number_tmp),
+							      FALSE ));
 		    }
-		    fprintf ( fichier_qif,
-			      "^\n" );
 		}
+		fprintf ( fichier_qif,
+			  "^\n" );
 	    }
-	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
-
-	if ( begining )
-	{
-	    /* there is no transaction in the account, so do the opening of the account, bug no date */
-	    /* met le solde initial */
-
-	    fprintf ( fichier_qif,
-		      "T%s\n",
-		      gsb_real_get_string (gsb_data_account_get_init_balance (account_nb, -1)));
-
-	    fprintf ( fichier_qif,
-		      "CX\nPOpening Balance\n" );
-
-	    /* met le nom du compte */
-
-	    fprintf ( fichier_qif,
-		      "L%s\n^\n",
-		      g_strconcat ( "[",
-				    gsb_data_account_get_name (account_nb),
-				    "]",
-				    NULL ) );
-	}
-	fclose ( fichier_qif );
+	list_tmp_transactions = list_tmp_transactions -> next;
     }
+
+    if ( begining )
+    {
+	/* there is no transaction in the account, so do the opening of the account, bug no date */
+	/* met le solde initial */
+
+	fprintf ( fichier_qif,
+		  "T%s\n",
+		  gsb_real_get_string (gsb_data_account_get_init_balance (account_nb, -1)));
+
+	fprintf ( fichier_qif,
+		  "CX\nPOpening Balance\n" );
+
+	/* met le nom du compte */
+
+	fprintf ( fichier_qif,
+		  "L%s\n^\n",
+		  g_strconcat ( "[",
+				gsb_data_account_get_name (account_nb),
+				"]",
+				NULL ) );
+    }
+    fclose ( fichier_qif );
+    return TRUE;
 }
 
 

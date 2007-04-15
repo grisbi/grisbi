@@ -21,8 +21,9 @@ gulong gsb_file_save_report_part ( gulong iterator,
 				   gulong *length_calculated,
 				   gchar **file_content,
 				   gboolean current_report );
-gboolean gsb_file_save_save_file ( gchar *filename,
-				   gboolean compress );
+gboolean gsb_file_save_save_file ( const gchar *filename,
+				   gboolean compress,
+				   gint archive_number );
 /* END_DECLARATION */
 
 #endif

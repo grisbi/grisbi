@@ -365,7 +365,7 @@ static gboolean gsb_archive_config_select ( GtkTreeSelection *selection,
 	/* Blanking entries */
 	gsb_autofunc_entry_set_value ( archive_name_entry, NULL, 0);
     }
-   return ( FALSE );
+    return ( FALSE );
 }
 
 
@@ -581,7 +581,6 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
 	    else
 		tmp_list = tmp_list -> next;
 	}
-
 	/* now we remove the archive  */
 	gsb_data_archive_remove (archive_number);
 

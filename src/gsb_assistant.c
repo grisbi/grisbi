@@ -36,6 +36,7 @@
 /*START_STATIC*/
 static gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage, 
 				     gint page, gpointer assistant );
+static void gsb_assistant_prev_page ( GtkWidget *assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -364,6 +365,22 @@ void gsb_assistant_next_page ( GtkWidget *assistant )
     button_next = g_object_get_data ( G_OBJECT (assistant), "button_next" );
     gtk_button_clicked ( GTK_BUTTON (button_next));
 }
+
+/**
+ * force the assistant to go to the previous page
+ *
+ * \param assistant
+ *
+ * \return
+ * */
+void gsb_assistant_prev_page ( GtkWidget *assistant )
+{
+    GtkWidget * button_prev;
+
+    button_prev = g_object_get_data ( G_OBJECT (assistant), "button_prev" );
+    gtk_button_clicked ( GTK_BUTTON (button_prev));
+}
+
 
 
 

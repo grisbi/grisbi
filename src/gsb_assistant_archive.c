@@ -54,7 +54,7 @@ static  gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
 static  gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
 							 gint new_page );
 static  gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant );
-static void gsb_assistant_archive_update_labels_no_archive ( GtkWidget *assistant );
+static  void gsb_assistant_archive_update_labels_no_archive ( GtkWidget *assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -458,7 +458,7 @@ static gboolean gsb_assistant_archive_switch_to_intro ( GtkWidget *assistant,
 					  TRUE );
     return FALSE;
 }
-
+/* xxx voir ici devrait pouvoir faire 1 seule fonction de ces 3, avec new_page qui change pour chacune, à vérif */
 
 /**
  * called when switch page to the menu page
@@ -815,7 +815,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
  *
  * \return
  * */
-void gsb_assistant_archive_update_labels_no_archive ( GtkWidget *assistant )
+static void gsb_assistant_archive_update_labels_no_archive ( GtkWidget *assistant )
 {
     gchar *string;
 

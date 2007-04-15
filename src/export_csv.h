@@ -6,7 +6,9 @@
 
 
 /*START_DECLARATION*/
-void csv_export ( gchar * filename, gint account_nb );
+gboolean gsb_csv_export_account ( const gchar *filename, gint account_nb );
+gboolean gsb_csv_export_archive ( const gchar *filename,
+				  gint archive_number );
 /*END_DECLARATION*/
 
 #endif

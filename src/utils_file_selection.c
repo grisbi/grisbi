@@ -42,8 +42,8 @@ extern "C" {
 /*START_INCLUDE*/
 #include "utils_file_selection.h"
 #include "./dialog.h"
+#include "./gsb_file_util.h"
 #include "./utils_str.h"
-#include "./utils_files.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
@@ -82,31 +82,9 @@ extern GtkTreeSelection * selection;
  */      
 static gboolean _file_selection_overwrite_file_check( GtkWidget *selection_fichier)
 { /* {{{ */
-    gboolean result = TRUE;
     gchar* filename = my_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
-    struct stat test_file;
 
-    if ((!filename)||(!strlen(filename)))
-    {
-        result = FALSE;
-    }
-    else if (utf8_stat ( filename, &test_file ) != -1)
-    {
-        // The file already exists and is writeable, ask the user if she wants to overwrite it 
-        if ( S_ISREG ( test_file.st_mode ) )
-	{
-            result = question_yes_no_hint (_("File already exists"),
-                                            g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename),
-					    GTK_RESPONSE_NO );
-        }
-        else
-        {
-            dialogue_error ( g_strdup_printf ( _("Invalid filename: \"%s\"!"), filename ));
-            result = FALSE;
-        }
-        
-    }
-    return result;
+    return (gsb_file_util_test_overwrite (filename));
 
 } /* }}} file_selection_check_filename */
 
@@ -133,19 +111,21 @@ static gboolean _file_selection_check_filename ( GtkWidget *selection_fichier)
 { /* {{{ */
     gboolean result = TRUE;
     gchar* filename = my_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
-    struct stat test_file;
 
     if ((!filename)||(!strlen(filename)))
     {
         result = FALSE;
     }
-    else if ( utf8_stat ( filename, &test_file ) == -1 || 
-	      !S_ISREG ( test_file.st_mode ) )
+    else
     {
-	dialogue_error_hint ( g_strdup_printf ( _("Either file \"%s\" does not exist or it is not a regular file."),
-						filename),
-			      g_strdup_printf ( _("Error opening file '%s'." ), filename ) );
-	result = FALSE;
+	if ( !g_file_test (filename,
+			   G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR ))
+	{
+	    dialogue_error_hint ( g_strdup_printf ( _("Either file \"%s\" does not exist or it is not a regular file."),
+						    filename),
+				  g_strdup_printf ( _("Error opening file '%s'." ), filename ) );
+	    result = FALSE;
+	}
     }
 
     return result;

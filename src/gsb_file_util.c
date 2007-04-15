@@ -45,6 +45,46 @@ extern gchar *nom_fichier_comptes;
 
 
 /**
+ * check if the file exists, and if so, ask the user if he wants
+ * to overwrite it
+ * show an error message if necessary
+ * return TRUE if the saving action can continue, FALSE to stop it
+ *
+ * \param filename
+ *
+ * \return TRUE ok, can continue (no file exists or user wants to overwrite), FALSE stop the action
+ * */
+gboolean gsb_file_util_test_overwrite ( const gchar *filename )
+{
+    if (!filename
+	||
+	!strlen (filename))
+    {
+	dialogue_error (_("No name to the file !"));
+	return FALSE;
+    }
+
+    if (g_file_test ( filename,
+		      G_FILE_TEST_EXISTS ))
+    {
+	/* the file exists */
+	if (g_file_test (filename,
+			 G_FILE_TEST_IS_DIR))
+	{
+	    dialogue_error ( g_strdup_printf ( _("%s is a directory...\nPlease choose another name."),
+					       filename ));
+	    return FALSE;
+	}
+	
+	return ( question_yes_no_hint (_("File already exists"),
+				       g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename),
+				       GTK_RESPONSE_NO ));
+    }
+    return TRUE;
+}
+
+
+/**
  * compress or uncompress  the string given in the param
  * if the compress is done, the parameter string is freed
  *
@@ -225,14 +265,11 @@ void switch_t_r ( void )
  * */
 gboolean gsb_file_util_modify_lock ( gboolean create_swp )
 {
-    struct stat buffer_stat;
-    int result;
     gchar *lock_filename;
     gchar **tab_str;
     gint i;
 
     /* if the file was already opened and we don't force the saving, we do nothing */
-
     if ( (etat.fichier_deja_ouvert
 	  &&
 	  !etat.force_enregistrement)
@@ -243,10 +280,8 @@ gboolean gsb_file_util_modify_lock ( gboolean create_swp )
 	return TRUE;
 
     /* check if nom_fichier_comptes exists */
-
-    result = utf8_stat ( nom_fichier_comptes, &buffer_stat);
-
-    if ( result == -1 )
+    if (!g_file_test ( nom_fichier_comptes,
+		       G_FILE_TEST_EXISTS ))
     {
 	dialogue_error (g_strdup_printf (_("Cannot open file '%s' to mark it as used: %s"),
 					 nom_fichier_comptes,
@@ -284,10 +319,8 @@ gboolean gsb_file_util_modify_lock ( gboolean create_swp )
 	FILE *fichier;
 
 	/* check if the file lock exists */
-
-	result = utf8_stat ( lock_filename, &buffer_stat);
-
-	if ( result != -1)
+	if (g_file_test ( lock_filename,
+			  G_FILE_TEST_EXISTS ))
 	{
 	    if ( ! etat.force_enregistrement )
 		dialog_message ( "account-already-opened", nom_fichier_comptes );
@@ -315,14 +348,13 @@ gboolean gsb_file_util_modify_lock ( gboolean create_swp )
     else
     {
 	/* delete the lock file */
+	gint result;
 
 	etat.fichier_deja_ouvert = 0;
 
 	/* check if it exits, if not, just go away */
-
-	result = utf8_stat ( lock_filename, &buffer_stat);
-
-	if ( result == -1 )
+	if (!g_file_test ( lock_filename,
+			   G_FILE_TEST_EXISTS ))
 	    return TRUE;
 
 	result = utf8_remove ( lock_filename );

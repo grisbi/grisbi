@@ -40,13 +40,14 @@
 #include "./fichiers_gestion.h"
 #include "./export.h"
 #include "./tip.h"
+#include "./gsb_assistant_archive_export.h"
+#include "./gsb_assistant_archive.h"
 #include "./gsb_data_account.h"
 #include "./gsb_file_debug.h"
 #include "./import.h"
 #include "./utils.h"
 #include "./traitement_variables.h"
 #include "./parametres.h"
-#include "./utils_files.h"
 #include "./include.h"
 #include "./structures.h"
 /*END_INCLUDE*/
@@ -96,6 +97,9 @@ static gchar * buffer =
 "      <separator/>"
 "      <menuitem action='ImportFile'/>"
 "      <menuitem action='ExportFile'/>"
+"      <separator/>"
+"      <menuitem action='CreateArchive'/>"
+"      <menuitem action='ExportArchive'/>"
 "      <separator/>"
 "      <menuitem action='DebugFile'/>"
 "      <separator/>"
@@ -181,6 +185,12 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 
 	{ "ExportFile",		GTK_STOCK_CONVERT,	_("_Export accounts as QIF/CSV file..."),
 	  NULL,			NULL,			G_CALLBACK( export_accounts ) },
+
+	{ "CreateArchive",	GTK_STOCK_CLEAR,	_("Create an archive..."),
+	  NULL,			NULL,			G_CALLBACK(gsb_assistant_archive_run) },
+
+	{ "ExportArchive",	GTK_STOCK_HARDDISK,	_("_Export an archive as GSB/QIF/CSV file..."),
+	  NULL,			NULL,			G_CALLBACK(gsb_assistant_archive_export_run) },
 
 	{ "DebugFile",		GTK_STOCK_FIND,		_("_Debug account file..."),
 	  NULL,			NULL,			G_CALLBACK( gsb_file_debug ) },
@@ -380,18 +390,22 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
 gboolean help_manual ()
 {
     gchar *lang = _("_C");
-    struct stat test_file;
+    gchar *string;
 
-    if ( utf8_stat ( g_strconcat ( HELP_PATH, "/", lang+1, "/manual.html", NULL ), 
-		     &test_file ) != -1 )
+    string = g_strconcat ( HELP_PATH, "/", lang+1, "/manual.html", NULL );
+
+    if (g_file_test ( string,
+		      G_FILE_TEST_EXISTS ))
     {
-	lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", lang+1, "/manual.html", 
-					     NULL ) );
+	lance_navigateur_web (string);
+	g_free (string);
     }
     else
     {
-	lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", lang+1, "/grisbi-manuel.html", 
-					     NULL ) );
+	g_free (string);
+	string = g_strconcat ( HELP_PATH, "/", lang+1, "/grisbi-manuel.html", NULL );
+	lance_navigateur_web (string);
+	g_free (string);
     }
 
     return FALSE;

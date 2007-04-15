@@ -6,7 +6,11 @@
 
 
 /* START_DECLARATION */
-void qif_export ( gchar * filename, gint account_nb );
+gboolean gsb_qif_export_archive ( const gchar *filename,
+				  gint archive_number );
+gboolean qif_export ( const gchar *filename,
+		      gint account_nb,
+		      gint archive_number );
 gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file * imported );
 /* END_DECLARATION */
 #endif

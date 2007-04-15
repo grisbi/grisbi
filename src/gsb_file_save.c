@@ -84,7 +84,8 @@ static gulong gsb_file_save_financial_year_part ( gulong iterator,
 					   gchar **file_content );
 static gulong gsb_file_save_general_part ( gulong iterator,
 				    gulong *length_calculated,
-				    gchar **file_content );
+				    gchar **file_content,
+				    gint archive_number );
 static gulong gsb_file_save_party_part ( gulong iterator,
 				  gulong *length_calculated,
 				  gchar **file_content );
@@ -99,7 +100,8 @@ static gulong gsb_file_save_scheduled_part ( gulong iterator,
 				      gchar **file_content );
 static gulong gsb_file_save_transaction_part ( gulong iterator,
 					gulong *length_calculated,
-					gchar **file_content );
+					gchar **file_content,
+					gint archive_number );
 /*END_STATIC*/
 
 
@@ -127,17 +129,22 @@ extern gint valeur_echelle_recherche_date_import;
 
 
 /** 
- * save the grisbi file
+ * save the grisbi file or an archive
  * we don't check anything here, all must be done before, here we just write
  * the file and set the permissions
  *
+ * an archive file is a normal grisbi file, but only with the wanted archived transactions
+ * and without scheduled transactions
+ *
  * \param filename the name of the file
  * \param compress TRUE if we want to compress the file
+ * \param archive_number 0 for complete file, the number of archive if export an archive
  *
  * \return TRUE : ok, FALSE : problem
  * */
-gboolean gsb_file_save_save_file ( gchar *filename,
-				   gboolean compress )
+gboolean gsb_file_save_save_file ( const gchar *filename,
+				   gboolean compress,
+				   gint archive_number )
 {
     gint do_chmod;
     FILE *grisbi_file;
@@ -207,7 +214,6 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     file_content = g_malloc ( length_calculated );
 
     /* begin the file whit xml markup */
-    
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
 					   &file_content,
@@ -215,7 +221,8 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 
     iterator = gsb_file_save_general_part ( iterator,
 					    &length_calculated,
-					    &file_content );
+					    &file_content,
+					    archive_number );
 
     iterator = gsb_file_save_currency_part ( iterator,
 					     &length_calculated,
@@ -231,11 +238,14 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 
     iterator = gsb_file_save_transaction_part ( iterator,
 						&length_calculated,
-						&file_content );
+						&file_content,
+						archive_number );
 
-    iterator = gsb_file_save_scheduled_part ( iterator,
-					      &length_calculated,
-					      &file_content );
+    /* if we export an archive, no scheduled transactions */
+    if (!archive_number)
+	iterator = gsb_file_save_scheduled_part ( iterator,
+						  &length_calculated,
+						  &file_content );
 
     iterator = gsb_file_save_party_part ( iterator,
 					  &length_calculated,
@@ -261,9 +271,12 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 						   &length_calculated,
 						   &file_content );
 
-    iterator = gsb_file_save_archive_part ( iterator,
-					    &length_calculated,
-					    &file_content );
+    /* if we export an archive, no archive information */
+    if (!archive_number)
+	iterator = gsb_file_save_archive_part ( iterator,
+						&length_calculated,
+						&file_content );
+
     iterator = gsb_file_save_reconcile_part ( iterator,
 					      &length_calculated,
 					      &file_content );
@@ -290,7 +303,7 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     {
 	if ( ( plugin = gsb_plugin_find ( "openssl" ) ) )
 	{
-	    gint (*crypt_function) ( gchar *, gchar **, gboolean, gulong );
+	    gint (*crypt_function) ( const gchar *, gchar **, gboolean, gulong );
 	    
 	    crypt_function = (gpointer) plugin -> plugin_run;
 	    iterator = crypt_function ( filename, &file_content, TRUE, iterator );	
@@ -308,7 +321,6 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     }
     
     /* the file is in memory, we can save it */
-
     grisbi_file = fopen ( filename,
 			  "w" );
 
@@ -329,7 +341,6 @@ gboolean gsb_file_save_save_file ( gchar *filename,
     fclose (grisbi_file);
 
     /* if it's a new file, we set the permission */
-
     if ( do_chmod )
 	chmod ( filename,
 		S_IRUSR | S_IWUSR );
@@ -338,6 +349,8 @@ gboolean gsb_file_save_save_file ( gchar *filename,
 
     return ( TRUE );
 }
+
+
 
 /**
  * add the string given in arg and
@@ -386,12 +399,14 @@ gulong gsb_file_save_append_part ( gulong iterator,
  * \param iterator the current iterator
  * \param length_calculated a pointer to the variable lengh_calculated
  * \param file_content a pointer to the variable file_content
+ * \param archive_number the number of the archive or 0 if not an archive 
  *
  * \return the new iterator
  * */
 gulong gsb_file_save_general_part ( gulong iterator,
 				    gulong *length_calculated,
-				    gchar **file_content )
+				    gchar **file_content,
+				    gint archive_number )
 {
     gchar *first_string_to_free;
     gchar *second_string_to_free;
@@ -406,6 +421,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *sort_accounts_string = "";
     gchar *skipped_lines_string;
     GSList * tmp;
+    gboolean is_archive = FALSE;
 
     /* prepare stuff to save generals informations */
 
@@ -494,13 +510,19 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					     NULL );
     }
 
-    /* save the general informations */
+    /* if we save an archive, we save it here */
+    if (archive_number
+	||
+	etat.is_archive )
+	is_archive = TRUE;
 
+    /* save the general informations */
     new_string = g_markup_printf_escaped ( "\t<General\n"
 					   "\t\tFile_version=\"%s\"\n"
 					   "\t\tGrisbi_version=\"%s\"\n"
 					   "\t\tBackup_file=\"%s\"\n"
 					   "\t\tCrypt_file=\"%d\"\n"
+					   "\t\tArchive_file=\"%d\"\n"
 					   "\t\tFile_title=\"%s\"\n"
 					   "\t\tGeneral_address=\"%s\"\n"
 					   "\t\tSecond_general_address=\"%s\"\n"
@@ -539,6 +561,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	VERSION,
 	nom_fichier_backup,
 	etat.crypt_file,
+	is_archive,
 	titre_fichier,
 	adresse_commune,
 	adresse_secondaire,
@@ -844,12 +867,14 @@ gulong gsb_file_save_payment_part ( gulong iterator,
  * \param iterator the current iterator
  * \param length_calculated a pointer to the variable lengh_calculated
  * \param file_content a pointer to the variable file_content
+ * \param archive_number 0 to export all the transactions, the number of archive to export only that transactions
  *
  * \return the new iterator
  * */
 gulong gsb_file_save_transaction_part ( gulong iterator,
 					gulong *length_calculated,
-					gchar **file_content )
+					gchar **file_content,
+					gint archive_number )
 {
     GSList *list_tmp;
 
@@ -864,8 +889,26 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 	gchar *exchange_fees;
 	gchar *date;
 	gchar *value_date;
+	gint transaction_archive_number;
 
 	transaction_number = gsb_data_transaction_get_transaction_number ( list_tmp -> data );
+
+	/* get the archive number for below */
+	transaction_archive_number = gsb_data_transaction_get_archive_number (transaction_number);
+
+	if (archive_number)
+	{
+	    /* we export an archive, so continue only if the transaction belongs to that archive */
+	    if (transaction_archive_number != archive_number)
+	    {
+		/* the transaction will not be exported */
+		list_tmp = list_tmp -> next;
+		continue;
+	    }
+	    /* the transaction belongs to the archive,
+	     * we set its archive number to 0, to show it when we open an archive */
+	    transaction_archive_number = 0;
+	}
 
 	/* set the reals */
 	amount = gsb_real_get_string (gsb_data_transaction_get_amount ( transaction_number ));
@@ -896,7 +939,7 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 					       gsb_data_transaction_get_method_of_payment_number (transaction_number),
 					       gsb_data_transaction_get_method_of_payment_content (transaction_number),
 					       gsb_data_transaction_get_marked_transaction (transaction_number),
-					       gsb_data_transaction_get_archive_number (transaction_number),
+					       transaction_archive_number,
 					       gsb_data_transaction_get_automatic_transaction (transaction_number),
 					       gsb_data_transaction_get_reconcile_number (transaction_number),
 					       gsb_data_transaction_get_financial_year_number (transaction_number),

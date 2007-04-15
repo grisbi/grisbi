@@ -26,8 +26,8 @@
 
 /*START_INCLUDE*/
 #include "export.h"
-#include "./export_csv.h"
 #include "./gsb_assistant.h"
+#include "./export_csv.h"
 #include "./gsb_data_account.h"
 #include "./utils.h"
 #include "./qif.h"
@@ -98,11 +98,11 @@ void export_accounts ( void )
 
 	    if ( account -> format == EXPORT_QIF )
 	    {
-		qif_export ( account -> filename, account -> account_nb );
+		qif_export ( account -> filename, account -> account_nb, 0 );
 	    }
 	    else
 	    {
-		csv_export ( account -> filename, account -> account_nb );
+		gsb_csv_export_account ( account -> filename, account -> account_nb );
 	    }
 
 	    exported_accounts = exported_accounts -> next;

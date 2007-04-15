@@ -32,12 +32,15 @@
 #include "export_csv.h"
 #include "./dialog.h"
 #include "./gsb_data_account.h"
+#include "./gsb_data_archive_store.h"
 #include "./gsb_data_budget.h"
+#include "./gsb_data_currency.h"
 #include "./gsb_data_fyear.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_reconcile.h"
 #include "./gsb_data_transaction.h"
+#include "./gsb_file_util.h"
 #include "./gsb_real.h"
 #include "./main.h"
 #include "./utils_str.h"
@@ -47,8 +50,16 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  void csv_add_record(FILE* file,gboolean clear_all);
+static  void csv_add_record(FILE* file,
+			   gboolean clear_all,
+			   gboolean print_balance );
 static  void csv_clear_fields(gboolean clear_all);
+static  FILE *gsb_csv_export_open_file ( const gchar *filename );
+static  gboolean gsb_csv_export_title_line ( FILE *csv_file,
+					    gboolean print_balance );
+static  gboolean gsb_csv_export_transaction ( gint transaction_number,
+					     FILE *csv_file,
+					     gboolean print_balance );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -107,7 +118,10 @@ static  void csv_clear_fields(gboolean clear_all);
 static gboolean g_csv_with_title_line = TRUE; /*!< CSV configuration - does the file result contains a title line ?  */
 static gchar    g_csv_field_separator = ';';  /*!< CSV configuration - separator charater used between fields of a record */
 
+static gsb_real current_balance;
+
 gchar*  csv_field_operation  = NULL; /*!< operation number (numerical) */
+gchar*	csv_field_account    = NULL; /*!< account name */
 gchar*  csv_field_ventil     = NULL; /*!< is operation a breakdown (string) */
 gchar*  csv_field_date       = NULL; /*!< date of operation (of main operation for breakdown) (string) */
 gchar*  csv_field_date_val   = NULL; /*!< value date of operation (of main operation for breakdown) (string) */
@@ -152,6 +166,7 @@ static void csv_clear_fields(gboolean clear_all)
     CSV_CLEAR_FIELD(csv_field_date_val);
     CSV_CLEAR_FIELD(csv_field_pointage);
     CSV_CLEAR_FIELD(csv_field_operation);
+    CSV_CLEAR_FIELD(csv_field_account);
     CSV_CLEAR_FIELD(csv_field_tiers);
     CSV_CLEAR_FIELD(csv_field_solde);
   }
@@ -185,11 +200,15 @@ static void csv_clear_fields(gboolean clear_all)
  * 
  * \param file      valid file stream to write
  * \param clear_all partial or complete cleaning.
+ * \param print_balance print the balance or not
  * 
  */ 
-static void csv_add_record(FILE* file,gboolean clear_all)
+static void csv_add_record(FILE* file,
+			   gboolean clear_all,
+			   gboolean print_balance )
 { /* {{{ */
   CSV_NUM_FIELD(file,csv_field_operation);
+  CSV_STR_FIELD(file,csv_field_account);
   CSV_STR_FIELD(file,csv_field_ventil);
   CSV_STR_FIELD(file,csv_field_date);
   CSV_STR_FIELD(file,csv_field_date_val);
@@ -200,7 +219,10 @@ static void csv_add_record(FILE* file,gboolean clear_all)
   CSV_NUM_FIELD(file,csv_field_credit);
   CSV_NUM_FIELD(file,csv_field_debit);
   CSV_NUM_FIELD(file,csv_field_montant);
-  CSV_NUM_FIELD(file,csv_field_solde);
+  if (print_balance)
+  {
+      CSV_NUM_FIELD(file,csv_field_solde);
+  }
   CSV_STR_FIELD(file,csv_field_categ);
   CSV_STR_FIELD(file,csv_field_sous_categ);
   CSV_STR_FIELD(file,csv_field_imput);
@@ -226,347 +248,464 @@ static void csv_add_record(FILE* file,gboolean clear_all)
  * \param export_entries_list list of selected account.
  *
  */
-void csv_export ( gchar * filename, gint account_nb )
+/**
+ * export an account into a csv file
+ *
+ * \param filename
+ * \param account_nb the account to export
+ *
+ * \return TRUE if ok, FALSE if problem
+ * */
+gboolean gsb_csv_export_account ( const gchar *filename, gint account_nb )
 {
-  gchar *sMessage = NULL;
-  FILE *csv_file;
-  gsb_real balance;
-  struct stat test_file;
+    FILE *csv_file;
+    GSList *pTransactionList;
+    GSList *tmp_list;
 
-  if (utf8_stat ( filename, &test_file ) != -1)
-  {
-      if ( ! question_yes_no_hint (_("File already exists"),
-				   g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename),
-				   GTK_RESPONSE_NO ))
-      {
-	  return;
-      }
-  }
+    csv_file = gsb_csv_export_open_file (filename);
 
-  /* Ouverture du fichier, si pb, on marque l'erreur et passe au fichier suivant */
-  if ( !( csv_file = utf8_fopen ( filename, "w" ) ))
-  {
-      sMessage = g_strdup_printf ( _("Error opening file \"%s\" :\n%s"),
-				   filename, strerror ( errno ) );
-      dialogue ( sMessage );
-      g_free ( sMessage );
-      sMessage = NULL;
-  }
-  else
-  {
-      GSList *pTransactionList;
+    if (!csv_file)
+	return FALSE;
 
-      if (g_csv_with_title_line)
-      {
-	  csv_field_operation  = my_strdup (_("Transactions"));
-	  csv_field_ventil     = my_strdup (_("Breakdown"));
-	  csv_field_date       = my_strdup (_("Date"));
-	  csv_field_date_val   = my_strdup (_("Value date"));
-	  csv_field_cheque     = my_strdup (_("Cheques"));
-	  csv_field_exercice   = my_strdup (_("Financial year"));
-	  csv_field_pointage   = my_strdup (_("C/R"));
-	  csv_field_tiers      = my_strdup (_("Payee"));
-	  csv_field_credit     = my_strdup (_("Credit"));
-	  csv_field_debit      = my_strdup (_("Debit"));
-	  csv_field_montant    = my_strdup (_("Amount"));
-	  csv_field_solde      = my_strdup (_("Balance"));
-	  csv_field_categ      = my_strdup (_("Category"));
-	  csv_field_sous_categ = my_strdup (_("Sub-categories"));
-	  csv_field_notes      = my_strdup (_("Notes"));
-	  csv_field_imput      = my_strdup (_("Budgetary lines"));
-	  csv_field_sous_imput = my_strdup (_("Sub-budgetary lines"));
-	  csv_field_piece      = my_strdup (_("Voucher"));
-	  csv_field_rappro     = my_strdup (_("Reconciliation number"));
-	  csv_field_info_bank  = my_strdup (_("Bank references"));
-      }
+    if (g_csv_with_title_line)
+	gsb_csv_export_title_line (csv_file, TRUE);
 
-      csv_add_record(csv_file,TRUE);
+    /* set the initial balance */
+    csv_field_tiers = g_strdup_printf ( g_strconcat (_("Initial current_balance") , " [", 
+						     gsb_data_account_get_name(account_nb),
+						     "]", NULL ) );
 
-      /* tiers */
-      csv_field_tiers = g_strdup_printf ( g_strconcat (_("Initial balance") , " [", 
-						       gsb_data_account_get_name(account_nb),
-						       "]", NULL ) );
+    /* set the initial current_balance,
+     * as we will write all the non archived transactions,
+     * we need to get the initial balance of the account, without the archived transactions */
+    current_balance = gsb_data_account_get_init_balance ( account_nb, -1);
+    tmp_list = gsb_data_archive_store_get_archives_list ();
+    while (tmp_list)
+    {
+	gint archive_store_number;
 
-      /* met le solde initial */
-      balance = gsb_data_account_get_init_balance ( account_nb, -1);
-      csv_field_solde = gsb_real_get_string (balance);
-      if ( balance.mantissa >= 0 )
-      {
-	  csv_field_credit = gsb_real_get_string (balance);
-      }
-      else
-      {
-	  csv_field_debit = gsb_real_get_string (gsb_real_abs (balance));
-      }
+	archive_store_number = gsb_data_archive_store_get_number ( tmp_list -> data );
 
-      csv_add_record(csv_file,TRUE);
+	if (gsb_data_archive_store_get_account_number (archive_store_number) == account_nb)
+	    current_balance = gsb_real_add ( current_balance,
+					     gsb_data_archive_store_get_balance (archive_store_number));
+	tmp_list = tmp_list -> next;
+    }
 
-      /* on met toutes les opérations */
-      pTransactionList = gsb_data_transaction_get_transactions_list ();
-      while ( pTransactionList )
-      {
-	  gsb_real amount;
-	  gint pTransaction = gsb_data_transaction_get_transaction_number (pTransactionList -> data);
+    /* ok the balance is now good, can write it */
+    csv_field_solde = gsb_real_get_string (current_balance);
+    if ( current_balance.mantissa >= 0 )
+    {
+	csv_field_credit = gsb_real_get_string (current_balance);
+    }
+    else
+    {
+	csv_field_debit = gsb_real_get_string (gsb_real_abs (current_balance));
+    }
 
-	  if ( gsb_data_transaction_get_account_number ( pTransaction ) != account_nb )
-	  {
-	      pTransactionList = pTransactionList -> next;
-	      continue;
-	  }
+    csv_add_record(csv_file,TRUE, TRUE);
 
-	  /* Si c'est une ventilation d'opération (càd une opération fille),
-	     elle n'est pas traitée à la base du "if" mais plus loin, quand
-	     son opé ventilée sera exportée */
-	  if ( ! gsb_data_transaction_get_mother_transaction_number (pTransaction) )
-	  {
-	      GSList* pMiscList = NULL; /* Miscellaneous list */
-	      GDate * value_date, * date;
-	      gint payment_method;
-	      
-	      /* met la date */
-	      date = gsb_data_transaction_get_date ( pTransaction );
-	      if ( date )
-	      {
-		  csv_field_date = g_strdup_printf ("%d/%d/%d", 
-						    g_date_day ( date ), 
-						    g_date_month ( date ),
-						    g_date_year ( date ) );
-	      }
-                        
-	      value_date = gsb_data_transaction_get_value_date ( pTransaction );
-	      if ( value_date )
-	      {
-		  csv_field_date_val = g_strdup_printf ("%d/%d/%d", 
-							g_date_day ( value_date ), 
-							g_date_month ( value_date ),
-							g_date_year ( value_date ) );
-	      }
+    /* export the transactions */
+    pTransactionList = gsb_data_transaction_get_transactions_list ();
+    while ( pTransactionList )
+    {
+	gint pTransaction = gsb_data_transaction_get_transaction_number (pTransactionList -> data);
 
-	      /* met le pointage */
-	      switch ( gsb_data_transaction_get_marked_transaction ( pTransaction ) )
-	      {
-		  case 0: /* CHECKED_TRANSACTION */
-		      csv_field_pointage = my_strdup (_("C"));
-		      break;
-		  case 1: /* RECONCILED_TRANSACTION */
-		      csv_field_pointage = my_strdup (_("R"));
-		      break;
-		  case 2: /* TELECHECKED_TRANSACTION */
-		      csv_field_pointage = my_strdup (_("T"));
-		      break;
-	      }
+	if ( gsb_data_transaction_get_account_number ( pTransaction ) == account_nb )
+	    /* export the transaction */
+	    /* for now, print the balance. is this usefull ? */
+	    gsb_csv_export_transaction ( pTransaction, csv_file, TRUE);
 
-	      /* met les notes */
-	      CSV_CLEAR_FIELD(csv_field_notes);
-	      if ( gsb_data_transaction_get_notes ( pTransaction ) )
-		  csv_field_notes = my_strdup (gsb_data_transaction_get_notes ( pTransaction ));
+	pTransactionList = pTransactionList -> next;
+    }
+    fclose ( csv_file );
 
-	      /* met le tiers */
-	      CSV_CLEAR_FIELD(csv_field_tiers);
-	      csv_field_tiers = g_strdup ( gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( pTransaction ), FALSE ) );
+    return TRUE;
+}
 
-	      /* met le numéro du rapprochement */
-	      if ( gsb_data_transaction_get_reconcile_number ( pTransaction ) )
-	      {
-		  csv_field_rappro = my_strdup ( gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number ( pTransaction ) ) );
-	      }
- 
-	      /* Met les informations bancaires de l'opération. Elles n'existent
-		 qu'au niveau de l'opération mère */
-	      CSV_CLEAR_FIELD(csv_field_info_bank);
-	      if ( gsb_data_transaction_get_bank_references ( pTransaction ) )
-		  csv_field_info_bank = my_strdup ( gsb_data_transaction_get_bank_references ( pTransaction ) );
+/**
+ * export an archive into the csv format
+ *
+ * \param filename name of the csv file
+ * \param archive_number the archive to export
+ *
+ * \return TRUE ok, FALSE problem
+ * */
+gboolean gsb_csv_export_archive ( const gchar *filename,
+				  gint archive_number )
+{
+    FILE *csv_file;
+    GSList *pTransactionList;
 
-	      /* met le montant, transforme la devise si necessaire */
-	      amount = gsb_data_transaction_get_adjusted_amount ( pTransaction, -1 );
-	      if (amount.mantissa >= 0 )
-	      {
-		  csv_field_credit = gsb_real_get_string (amount);
-	      }
-	      else
-	      {
-		  csv_field_debit  = gsb_real_get_string (gsb_real_abs (amount));
-	      }
+    csv_file = gsb_csv_export_open_file (filename);
 
-	      /* met le cheque si c'est un type a�numerotation automatique */
-	      payment_method = gsb_data_transaction_get_method_of_payment_number ( pTransaction );
-	      if (gsb_data_payment_get_automatic_numbering (payment_method))
-		  csv_field_cheque = my_strdup ( gsb_data_transaction_get_method_of_payment_content ( pTransaction ) );
+    if (!csv_file)
+	return FALSE;
 
-	      if ( gsb_data_transaction_get_budgetary_number ( pTransaction ) != -1 )
-	      {
-		  csv_field_imput = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( pTransaction ), 0, "" ) );
+    if (g_csv_with_title_line)
+	gsb_csv_export_title_line (csv_file, FALSE);
 
-		  if ( gsb_data_transaction_get_sub_budgetary_number ( pTransaction ) != -1 )
-		  {
-		      csv_field_sous_imput = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_budgetary_number ( pTransaction ),
-											      gsb_data_transaction_get_sub_budgetary_number ( pTransaction ),
-											      NULL ) );
-		  }
-	      }
+    /* set all the transactions for that archive */
+    pTransactionList = gsb_data_transaction_get_complete_transactions_list ();
+    while ( pTransactionList )
+    {
+	gint pTransaction = gsb_data_transaction_get_transaction_number (pTransactionList -> data);
 
-	      /* Piece comptable */
-	      csv_field_piece = my_strdup ( gsb_data_transaction_get_voucher ( pTransaction ) );
+	if (gsb_data_transaction_get_archive_number (pTransaction) == archive_number )
+	/* export the transaction */
+	gsb_csv_export_transaction ( pTransaction, csv_file, FALSE);
 
-	      /* Balance */
-	      balance = gsb_real_add ( balance,
-				       amount );
-	      csv_field_solde = gsb_real_get_string (balance);
+	pTransactionList = pTransactionList -> next;
+    }
+    fclose ( csv_file );
 
-	      /* Number */
-	      csv_field_operation = g_strdup_printf("%d", pTransaction );
-
-	      /* Financial Year */
-	      if ( gsb_data_transaction_get_financial_year_number ( pTransaction ) != -1 )
-		  csv_field_exercice  = my_strdup (gsb_data_fyear_get_name(gsb_data_transaction_get_financial_year_number ( pTransaction )));
-
-	      /*  on met soit un virement, soit une ventilation, soit les catégories */
-
-	      /* Si c'est une opération ventilée, on recherche toutes les ventilations
-		 de cette opération et on les traite immédiatement. */
-	      /* et les met à la suite */
-	      /* la catégorie de l'opé sera celle de la première opé de ventilation */
-	      if ( gsb_data_transaction_get_breakdown_of_transaction ( pTransaction ) )
-	      {
-		  GSList *pBreakdownTransactionList;
-
-		  csv_field_categ = my_strdup (_("Breakdown of transaction"));
-		  csv_add_record(csv_file,FALSE);
-
-		  pBreakdownTransactionList = gsb_data_transaction_get_transactions_list ();
-
-		  while ( pBreakdownTransactionList )
-		  {
-		      gint pBreakdownTransaction;
-
-		      pBreakdownTransaction = (gint) pBreakdownTransactionList -> data;
-
-		      if ( gsb_data_transaction_get_account_number ( pBreakdownTransaction ) == account_nb &&
-			   gsb_data_transaction_get_mother_transaction_number ( pBreakdownTransaction ) == pTransaction )
-		      {
-			  /* on commence par mettre la catég et sous categ de l'opé et de l'opé de ventilation */
-			  csv_field_ventil = my_strdup (_("B")); // -> mark 
-
-			  csv_field_operation = g_strdup_printf("%d", pBreakdownTransaction );
-
-			  if ( gsb_data_transaction_get_transaction_number_transfer ( pBreakdownTransaction ) )
-			  {
-			      /* c'est un virement */
-			      csv_field_categ = my_strdup (_("Transfer"));
-
-			      csv_field_sous_categ = my_strdup (g_strconcat ( "[", 
-									    gsb_data_account_get_name ( gsb_data_transaction_get_account_number_transfer ( pBreakdownTransaction ) ),
-									    "]", NULL ));
-			  }
-			  else
-			  {
-			      if ( gsb_data_transaction_get_category_number ( pBreakdownTransaction ) != -1 )
-			      {
-				  csv_field_categ = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_category_number ( pBreakdownTransaction ), 0, "" ) );
-
-				  if ( gsb_data_transaction_get_sub_category_number ( pBreakdownTransaction ) != -1 )
-				  {
-				      csv_field_sous_categ = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_category_number ( pBreakdownTransaction ),
-													      gsb_data_transaction_get_sub_category_number ( pBreakdownTransaction ),
-													      NULL ) );
-				  }
-			      }
-
-			  }
-
-			  /* met les notes de la ventilation */
-			  if ( gsb_data_transaction_get_notes ( pBreakdownTransaction ) )
-			      csv_field_notes = my_strdup (gsb_data_transaction_get_notes ( pBreakdownTransaction ));
-
-			  /* met le montant de la ventilation */
-			  amount = gsb_data_transaction_get_adjusted_amount ( pBreakdownTransaction, -1 );
-			  csv_field_montant = gsb_real_get_string (amount);
-
-			  /* met le rapprochement */
-			  if ( gsb_data_transaction_get_reconcile_number ( pBreakdownTransaction ) )
-			  {
-			      csv_field_rappro = my_strdup ( gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number ( pBreakdownTransaction ) ) );
-			  }
-
-			  /* met le ch�que si c'est un type � num�rotation automatique */
-			  payment_method = gsb_data_transaction_get_method_of_payment_number ( pBreakdownTransaction );
-			  if (gsb_data_payment_get_automatic_numbering (payment_method))
-			      csv_field_cheque = my_strdup ( gsb_data_transaction_get_method_of_payment_content ( pBreakdownTransaction ) );
-
-			  /* Budgetary lines */
-			  if ( gsb_data_transaction_get_budgetary_number ( pBreakdownTransaction ) != -1 )
-			  {
-			      csv_field_imput = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( pBreakdownTransaction ), 0, "" ) );
-
-			      if ( gsb_data_transaction_get_sub_budgetary_number ( pBreakdownTransaction ) != -1 )
-			      {
-				  csv_field_sous_imput = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_budgetary_number ( pBreakdownTransaction ),
-													  gsb_data_transaction_get_sub_budgetary_number ( pBreakdownTransaction ),
-													  NULL ) );
-			      }
-			  }
-
-			  /* Piece comptable */
-			  csv_field_piece = my_strdup ( gsb_data_transaction_get_voucher ( pBreakdownTransaction ) );
-
-			  /* Financial Year */
-			  if ( gsb_data_transaction_get_financial_year_number ( pBreakdownTransaction ) != -1 )
-			      csv_field_exercice  = my_strdup (gsb_data_fyear_get_name(gsb_data_transaction_get_financial_year_number ( pBreakdownTransaction )));
-
-			  csv_add_record(csv_file,FALSE);
-		      }
-
-		      pBreakdownTransactionList = pBreakdownTransactionList -> next;
-		  }
-		  csv_clear_fields(TRUE);
-	      }
-	      else
-	      {
-		  /* Si c'est un virement ... */
-		  if ( gsb_data_transaction_get_transaction_number_transfer ( pTransaction ))
-		  {
-		      csv_field_categ = my_strdup (_("Transfer"));
-
-		      /* ... vers un compte existant */
-		      if ( gsb_data_transaction_get_account_number_transfer (  pTransaction ) >= 0 )
-		      {
-			  csv_field_sous_categ = my_strdup (g_strconcat ( "[", 
-									gsb_data_account_get_name ( gsb_data_transaction_get_account_number_transfer ( pTransaction ) ), 
-									"]", NULL ));
-		      }
-		      /* ... vers un compte supprimé */
-		      else
-		      {
-			  csv_field_sous_categ = my_strdup (g_strconcat ( "[", _("Deleted account"), "]", NULL ));
-		      }
-		  }
-		  else
-		  {
-		      /* c'est du type categ : sous-categ */
-		      if ( gsb_data_transaction_get_category_number ( pTransaction ) != -1 )
-		      {
-			  csv_field_categ = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_category_number ( pTransaction ), 0, "" ) );
-
-			  if ( gsb_data_transaction_get_sub_category_number ( pTransaction ) != -1 )
-			  {
-			      csv_field_sous_categ = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_category_number ( pTransaction ),
-												      gsb_data_transaction_get_sub_category_number ( pTransaction ),
-												      NULL ) );
-			  }
-		      }
-		  }
-
-		  csv_add_record(csv_file,TRUE);
-	      }
-	  }
-	  pTransactionList = pTransactionList -> next;
-      }
-      fclose ( csv_file );
-  }
-
+    return TRUE;
 }
 
 
+
+/**
+ * try to open the csv file in w mode
+ *
+ * \param filename
+ *
+ * \return a FILE pointer or NULL if problem
+ * */
+static FILE *gsb_csv_export_open_file ( const gchar *filename )
+{
+    FILE *csv_file;
+    gchar *sMessage = NULL;
+
+    if (!gsb_file_util_test_overwrite (filename))
+	return NULL;
+
+    /* Ouverture du fichier, si pb, on marque l'erreur et passe au fichier suivant */
+    if ( !( csv_file = utf8_fopen ( filename, "w" ) ))
+    {
+	sMessage = g_strdup_printf ( _("Error opening file \"%s\" :\n%s"),
+				     filename, strerror ( errno ) );
+	dialogue ( sMessage );
+	g_free ( sMessage );
+	return NULL;
+    }
+
+    return csv_file;
+}
+
+
+/**
+ * export a transaction given in param in the file given in param
+ *
+ * \param transaction_number
+ * \param csv_file
+ * \param print_balance will set a balance for each transaction in the csv file
+ * 		not set for archive export, set (but usefull ?) for account export
+ *
+ * \return TRUE ok, FALSE problem
+ * */
+static gboolean gsb_csv_export_transaction ( gint transaction_number,
+					     FILE *csv_file,
+					     gboolean print_balance )
+{
+    gsb_real amount;
+    gint return_exponent;
+    gint account_number;
+
+    account_number = gsb_data_transaction_get_account_number (transaction_number);
+    return_exponent = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (account_number));
+
+    /* Si c'est une ventilation d'opération (càd une opération fille),
+       elle n'est pas traitée à la base du "if" mais plus loin, quand
+       son opé ventilée sera exportée */
+    if ( ! gsb_data_transaction_get_mother_transaction_number (transaction_number) )
+    {
+	GDate * value_date, * date;
+	gint payment_method;
+
+	/* met la date */
+	date = gsb_data_transaction_get_date ( transaction_number );
+	if ( date )
+	{
+	    csv_field_date = g_strdup_printf ("%d/%d/%d", 
+					      g_date_day ( date ), 
+					      g_date_month ( date ),
+					      g_date_year ( date ) );
+	}
+
+	value_date = gsb_data_transaction_get_value_date ( transaction_number );
+	if ( value_date )
+	{
+	    csv_field_date_val = g_strdup_printf ("%d/%d/%d", 
+						  g_date_day ( value_date ), 
+						  g_date_month ( value_date ),
+						  g_date_year ( value_date ) );
+	}
+
+	/* met le pointage */
+	switch ( gsb_data_transaction_get_marked_transaction ( transaction_number ) )
+	{
+	    case 0: /* CHECKED_TRANSACTION */
+		csv_field_pointage = my_strdup (_("C"));
+		break;
+	    case 1: /* RECONCILED_TRANSACTION */
+		csv_field_pointage = my_strdup (_("R"));
+		break;
+	    case 2: /* TELECHECKED_TRANSACTION */
+		csv_field_pointage = my_strdup (_("T"));
+		break;
+	}
+
+	/* met les notes */
+	CSV_CLEAR_FIELD(csv_field_notes);
+	if ( gsb_data_transaction_get_notes ( transaction_number ) )
+	    csv_field_notes = my_strdup (gsb_data_transaction_get_notes ( transaction_number ));
+
+	/* met le tiers */
+	CSV_CLEAR_FIELD(csv_field_tiers);
+	csv_field_tiers = g_strdup ( gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number ), FALSE ) );
+
+	/* met le numéro du rapprochement */
+	if ( gsb_data_transaction_get_reconcile_number ( transaction_number ) )
+	{
+	    csv_field_rappro = my_strdup ( gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number ( transaction_number ) ) );
+	}
+
+	/* Met les informations bancaires de l'opération. Elles n'existent
+	   qu'au niveau de l'opération mère */
+	CSV_CLEAR_FIELD(csv_field_info_bank);
+	if ( gsb_data_transaction_get_bank_references ( transaction_number ) )
+	    csv_field_info_bank = my_strdup ( gsb_data_transaction_get_bank_references ( transaction_number ) );
+
+	/* met le montant, transforme la devise si necessaire */
+	amount = gsb_data_transaction_get_adjusted_amount ( transaction_number,
+							    return_exponent);
+	if (amount.mantissa >= 0 )
+	{
+	    csv_field_credit = gsb_real_get_string (amount);
+	}
+	else
+	{
+	    csv_field_debit  = gsb_real_get_string (gsb_real_abs (amount));
+	}
+
+	/* met le cheque si c'est un type a�numerotation automatique */
+	payment_method = gsb_data_transaction_get_method_of_payment_number ( transaction_number );
+	if (gsb_data_payment_get_automatic_numbering (payment_method))
+	    csv_field_cheque = my_strdup ( gsb_data_transaction_get_method_of_payment_content ( transaction_number ) );
+
+	if ( gsb_data_transaction_get_budgetary_number ( transaction_number ) != -1 )
+	{
+	    csv_field_imput = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( transaction_number ), 0, "" ) );
+
+	    if ( gsb_data_transaction_get_sub_budgetary_number ( transaction_number ) != -1 )
+	    {
+		csv_field_sous_imput = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_budgetary_number ( transaction_number ),
+											 gsb_data_transaction_get_sub_budgetary_number ( transaction_number ),
+											 NULL ) );
+	    }
+	}
+
+	/* Piece comptable */
+	csv_field_piece = my_strdup ( gsb_data_transaction_get_voucher ( transaction_number ) );
+
+	/* Balance */
+	if (print_balance)
+	{
+	    current_balance = gsb_real_add ( current_balance,
+					     amount );
+	    csv_field_solde = gsb_real_get_string (current_balance);
+	}
+
+	/* Number */
+	csv_field_operation = g_strdup_printf("%d", transaction_number );
+
+	/* Account name */
+	csv_field_account = my_strdup (gsb_data_account_get_name (account_number));
+
+	/* Financial Year */
+	if ( gsb_data_transaction_get_financial_year_number ( transaction_number ) != -1 )
+	    csv_field_exercice  = my_strdup (gsb_data_fyear_get_name(gsb_data_transaction_get_financial_year_number ( transaction_number )));
+
+	/*  on met soit un virement, soit une ventilation, soit les catégories */
+
+	/* Si c'est une opération ventilée, on recherche toutes les ventilations
+	   de cette opération et on les traite immédiatement. */
+	/* et les met à la suite */
+	/* la catégorie de l'opé sera celle de la première opé de ventilation */
+	if ( gsb_data_transaction_get_breakdown_of_transaction ( transaction_number ) )
+	{
+	    GSList *pBreakdownTransactionList;
+
+	    csv_field_categ = my_strdup (_("Breakdown of transaction"));
+	    csv_add_record(csv_file,FALSE, print_balance);
+
+	    pBreakdownTransactionList = gsb_data_transaction_get_transactions_list ();
+
+	    while ( pBreakdownTransactionList )
+	    {
+		gint pBreakdownTransaction;
+
+		pBreakdownTransaction = (gint) pBreakdownTransactionList -> data;
+
+		if ( gsb_data_transaction_get_account_number ( pBreakdownTransaction ) == gsb_data_transaction_get_account_number (transaction_number)
+		     &&
+		     gsb_data_transaction_get_mother_transaction_number ( pBreakdownTransaction ) == transaction_number )
+		{
+		    /* on commence par mettre la catég et sous categ de l'opé et de l'opé de ventilation */
+		    csv_field_ventil = my_strdup (_("B")); // -> mark 
+
+		    csv_field_operation = g_strdup_printf("%d", pBreakdownTransaction );
+
+		    if ( gsb_data_transaction_get_transaction_number_transfer ( pBreakdownTransaction ) )
+		    {
+			/* c'est un virement */
+			csv_field_categ = my_strdup (_("Transfer"));
+
+			csv_field_sous_categ = my_strdup (g_strconcat ( "[", 
+									gsb_data_account_get_name ( gsb_data_transaction_get_account_number_transfer ( pBreakdownTransaction ) ),
+									"]", NULL ));
+		    }
+		    else
+		    {
+			if ( gsb_data_transaction_get_category_number ( pBreakdownTransaction ) != -1 )
+			{
+			    csv_field_categ = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_category_number ( pBreakdownTransaction ), 0, "" ) );
+
+			    if ( gsb_data_transaction_get_sub_category_number ( pBreakdownTransaction ) != -1 )
+			    {
+				csv_field_sous_categ = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_category_number ( pBreakdownTransaction ),
+													 gsb_data_transaction_get_sub_category_number ( pBreakdownTransaction ),
+													 NULL ) );
+			    }
+			}
+
+		    }
+
+		    /* met les notes de la ventilation */
+		    if ( gsb_data_transaction_get_notes ( pBreakdownTransaction ) )
+			csv_field_notes = my_strdup (gsb_data_transaction_get_notes ( pBreakdownTransaction ));
+
+		    /* met le montant de la ventilation */
+		    amount = gsb_data_transaction_get_adjusted_amount ( pBreakdownTransaction, return_exponent );
+		    csv_field_montant = gsb_real_get_string (amount);
+
+		    /* met le rapprochement */
+		    if ( gsb_data_transaction_get_reconcile_number ( pBreakdownTransaction ) )
+		    {
+			csv_field_rappro = my_strdup ( gsb_data_reconcile_get_name ( gsb_data_transaction_get_reconcile_number ( pBreakdownTransaction ) ) );
+		    }
+
+		    /* met le ch�que si c'est un type � num�rotation automatique */
+		    payment_method = gsb_data_transaction_get_method_of_payment_number ( pBreakdownTransaction );
+		    if (gsb_data_payment_get_automatic_numbering (payment_method))
+			csv_field_cheque = my_strdup ( gsb_data_transaction_get_method_of_payment_content ( pBreakdownTransaction ) );
+
+		    /* Budgetary lines */
+		    if ( gsb_data_transaction_get_budgetary_number ( pBreakdownTransaction ) != -1 )
+		    {
+			csv_field_imput = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_budgetary_number ( pBreakdownTransaction ), 0, "" ) );
+
+			if ( gsb_data_transaction_get_sub_budgetary_number ( pBreakdownTransaction ) != -1 )
+			{
+			    csv_field_sous_imput = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_budgetary_number ( pBreakdownTransaction ),
+												     gsb_data_transaction_get_sub_budgetary_number ( pBreakdownTransaction ),
+												     NULL ) );
+			}
+		    }
+
+		    /* Piece comptable */
+		    csv_field_piece = my_strdup ( gsb_data_transaction_get_voucher ( pBreakdownTransaction ) );
+
+		    /* Financial Year */
+		    if ( gsb_data_transaction_get_financial_year_number ( pBreakdownTransaction ) != -1 )
+			csv_field_exercice  = my_strdup (gsb_data_fyear_get_name(gsb_data_transaction_get_financial_year_number ( pBreakdownTransaction )));
+
+		    csv_add_record(csv_file,FALSE, print_balance);
+		}
+
+		pBreakdownTransactionList = pBreakdownTransactionList -> next;
+	    }
+	    csv_clear_fields(TRUE);
+	}
+	else
+	{
+	    /* Si c'est un virement ... */
+	    if ( gsb_data_transaction_get_transaction_number_transfer ( transaction_number ))
+	    {
+		csv_field_categ = my_strdup (_("Transfer"));
+
+		/* ... vers un compte existant */
+		if ( gsb_data_transaction_get_account_number_transfer (  transaction_number ) >= 0 )
+		{
+		    csv_field_sous_categ = my_strdup (g_strconcat ( "[", 
+								    gsb_data_account_get_name ( gsb_data_transaction_get_account_number_transfer ( transaction_number ) ), 
+								    "]", NULL ));
+		}
+		/* ... vers un compte supprimé */
+		else
+		{
+		    csv_field_sous_categ = my_strdup (g_strconcat ( "[", _("Deleted account"), "]", NULL ));
+		}
+	    }
+	    else
+	    {
+		/* c'est du type categ : sous-categ */
+		if ( gsb_data_transaction_get_category_number ( transaction_number ) != -1 )
+		{
+		    csv_field_categ = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_category_number ( transaction_number ), 0, "" ) );
+
+		    if ( gsb_data_transaction_get_sub_category_number ( transaction_number ) != -1 )
+		    {
+			csv_field_sous_categ = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_category_number ( transaction_number ),
+												 gsb_data_transaction_get_sub_category_number ( transaction_number ),
+												 NULL ) );
+		    }
+		}
+	    }
+
+	    csv_add_record(csv_file,TRUE, print_balance);
+	}
+    }
+    return TRUE;
+}
+
+
+/**
+ * add the title line to the csv file
+ *
+ * \param csv_file a FILE struct
+ * \param print_balance if set the balance or not in the export file
+ *
+ * \return TRUE ok, FALSE problem
+ * */
+static gboolean gsb_csv_export_title_line ( FILE *csv_file,
+					    gboolean print_balance )
+{
+    csv_field_operation  = my_strdup (_("Transactions"));
+    csv_field_account    = my_strdup (_("Account name"));
+    csv_field_ventil     = my_strdup (_("Breakdown"));
+    csv_field_date       = my_strdup (_("Date"));
+    csv_field_date_val   = my_strdup (_("Value date"));
+    csv_field_cheque     = my_strdup (_("Cheques"));
+    csv_field_exercice   = my_strdup (_("Financial year"));
+    csv_field_pointage   = my_strdup (_("C/R"));
+    csv_field_tiers      = my_strdup (_("Payee"));
+    csv_field_credit     = my_strdup (_("Credit"));
+    csv_field_debit      = my_strdup (_("Debit"));
+    csv_field_montant    = my_strdup (_("Amount"));
+    csv_field_solde      = my_strdup (_("Balance"));
+    csv_field_categ      = my_strdup (_("Category"));
+    csv_field_sous_categ = my_strdup (_("Sub-categories"));
+    csv_field_notes      = my_strdup (_("Notes"));
+    csv_field_imput      = my_strdup (_("Budgetary lines"));
+    csv_field_sous_imput = my_strdup (_("Sub-budgetary lines"));
+    csv_field_piece      = my_strdup (_("Voucher"));
+    csv_field_rappro     = my_strdup (_("Reconciliation number"));
+    csv_field_info_bank  = my_strdup (_("Bank references"));
+
+    csv_add_record(csv_file,TRUE, print_balance);
+    return TRUE;
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
