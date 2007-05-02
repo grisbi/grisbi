@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-04 20:16+0200\n"
-"PO-Revision-Date: 2007-05-01 22:52+0200\n"
+"PO-Revision-Date: 2007-05-02 23:00+0200\n"
 "Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,7 @@ msgstr "Eine geplante Buchung erfassen"
 
 #: src/accueil.c:448
 msgid "Account balances in "
-msgstr "Konto Salden in"
+msgstr "Konto Salden in "
 
 #. CrÃ©ation et remplissage de la premiÃ¨re ligne du tableau
 #: src/accueil.c:455 src/accueil.c:733 src/accueil.c:1016
@@ -82,11 +82,11 @@ msgstr "Alle Salden"
 
 #: src/accueil.c:726
 msgid "Liabilities accounts balances in "
-msgstr "Salden der Kreditkonten in"
+msgstr "Salden der Kreditkonten in "
 
 #: src/accueil.c:1009
 msgid "Assets accounts balances in "
-msgstr "Salden der Anlagekonten in"
+msgstr "Salden der Anlagekonten in "
 
 #: src/accueil.c:1382 src/accueil.c:1492 src/accueil.c:1897
 #, c-format
@@ -161,7 +161,7 @@ msgstr "Schriften"
 
 #: src/affichage.c:201
 msgid "Use a custom font for the transactions"
-msgstr "Eine benutzerdefinierte Schrift für die Buchungen verwenden"
+msgstr "Eine benutzerdefinierte Schrift für Buchungen verwenden"
 
 #. mise en place du raz de la fonte
 #: src/affichage.c:243
@@ -197,19 +197,19 @@ msgstr "Zusatzadresse"
 
 #: src/affichage.c:533
 msgid "Transaction list font"
-msgstr "Schrift Buchungsliste"
+msgstr "Schrift Buchungsübersicht"
 
 #: src/affichage.c:635
 msgid "Select a new logo"
-msgstr "Ein neues Logo auswählen"
+msgstr "Logo auswählen - Grisbi"
 
 #: src/affichage.c:722 src/parametres.c:310
 msgid "Toolbars"
-msgstr "Werkzeuglisten"
+msgstr "Werkzeugleisten"
 
 #: src/affichage.c:725
 msgid "Display toolbar buttons as"
-msgstr "Werkzeuglisten Darstellung"
+msgstr "Werkzeugleisten Darstellung"
 
 #: src/affichage.c:727
 msgid "Text"
@@ -297,7 +297,7 @@ msgstr "Zahlungsweise"
 
 #: src/affichage_liste.c:63 src/traitement_variables.c:78
 msgid "Reconciliation ref."
-msgstr "Abstimmung"
+msgstr "Abstimmung Ref."
 
 #: src/affichage_liste.c:64 src/etats_affiche.c:2290 src/export_csv.c:266
 #: src/gsb_form_widget.c:440 src/gsb_transactions_list.c:199
@@ -345,7 +345,7 @@ msgstr "Buchungsnummer"
 
 #: src/affichage_liste.c:150
 msgid "Transaction list behavior"
-msgstr "Buchungsliste Einstellungen"
+msgstr "Buchungsübersicht Einstellungen"
 
 #: src/affichage_liste.c:157
 msgid "Display modes"
@@ -375,7 +375,7 @@ msgstr ""
 
 #: src/affichage_liste.c:283
 msgid "Sort transaction list"
-msgstr "Die Buchungsliste sortieren"
+msgstr "Buchungsübersicht sortieren"
 
 #: src/affichage_liste.c:284
 msgid "by value date"
@@ -415,7 +415,7 @@ msgstr "Buchungsformular"
 
 #: src/affichage_liste.c:431
 msgid "Pressing RETURN in transaction form"
-msgstr "'Enter' Taste im Buchungsformular"
+msgstr "Enter-Taste im Buchungsformular"
 
 #: src/affichage_liste.c:432
 msgid "selects next field"
@@ -451,7 +451,7 @@ msgstr "Beträge automatisch gruppieren"
 
 #: src/affichage_liste.c:459
 msgid "Automagically add separator in amounts fields if unspecified"
-msgstr "Die automatische Gruppierung von Beträgen ist nicht definiert"
+msgstr "Beträge nicht automatisch Gruppieren"
 
 #: src/affichage_liste.c:481
 msgid "Form completion"
@@ -530,7 +530,7 @@ msgstr "Bank"
 
 #: src/banque.c:327
 msgid "Contact name"
-msgstr "Anpsrechperson"
+msgstr "Ansprechperson"
 
 #: src/banque.c:329 src/parametres.c:411
 msgid "Banks"
@@ -538,7 +538,7 @@ msgstr "Banken"
 
 #: src/banque.c:333
 msgid "Known banks"
-msgstr "Bekannte Banken"
+msgstr "Erfasste Banken"
 
 #: src/banque.c:513
 msgid "Bank details"
@@ -588,7 +588,7 @@ msgstr "Webseite"
 #. Contact
 #: src/banque.c:622
 msgid "Contact"
-msgstr "Anpsrechperson"
+msgstr "Ansprechperson"
 
 #. Fax
 #: src/banque.c:660
@@ -727,7 +727,7 @@ msgstr "Den Anzeigemodus für die Liste der geplanten Buchungen ändern"
 
 #: src/categories_onglet.c:70
 msgid "Food : Bar"
-msgstr "Lebensmittel : Bargeld"
+msgstr "Lebensmittel : Bar"
 
 #: src/categories_onglet.c:71
 msgid "Food : Baker"
@@ -1513,7 +1513,7 @@ msgstr ""
 
 #: src/dialog.c:64
 msgid "Account file is world readable."
-msgstr "Die Grisbi Datei ist für alle Benutzer lesbar."
+msgstr "Die Datei ist für alle Benutzer lesbar."
 
 #: src/dialog.c:65
 msgid ""
@@ -1811,17 +1811,17 @@ msgstr "Empfänger gesamt"
 #: src/etats_affiche.c:909
 #, c-format
 msgid "Result from %s to %s (%d transaction):"
-msgstr "Ergebnis von %s nach %s (%d Buchung):"
+msgstr "Ergebnis von %s bis %s (%d Buchung):"
 
 #: src/etats_affiche.c:914
 #, c-format
 msgid "Result from %s to %s (%d transactions):"
-msgstr "Ergebnis von %s nach %s (%d Buchungen):"
+msgstr "Ergebnis von %s bis %s (%d Buchungen):"
 
 #: src/etats_affiche.c:920
 #, c-format
 msgid "Result from %s to %s:"
-msgstr "Ergebnis von %s nach %s:"
+msgstr "Ergebnis von %s bis %s:"
 
 #: src/etats_affiche.c:942 src/etats_affiche.c:1101
 #, c-format
@@ -3012,7 +3012,7 @@ msgstr "Fertig"
 
 #: src/etats_onglet.c:1253
 msgid "Import a report"
-msgstr "Einen Bericht importieren"
+msgstr "Bericht importieren"
 
 #: src/etats_onglet.c:1260
 msgid "Grisbi report files (*.egsb)"
@@ -3110,7 +3110,9 @@ msgstr "Einstellungen für Export festgelegt"
 msgid ""
 "You have successfully set up data export into Grisbi.  Press the 'Close' "
 "button to actually export data."
-msgstr "Sie haben die Einstellungen für den Export festgelegt. Bitte 'Beenden' auswählen um die Daten zu exportieren."
+msgstr ""
+"Sie haben die Einstellungen für den Export festgelegt.\n"
+"Bitte 'Schließen' auswählen um die Daten zu exportieren."
 
 #: src/export.c:282
 msgid "Accounts to export"
@@ -3208,7 +3210,7 @@ msgstr "Umbuchung"
 
 #: src/export_csv.c:540 src/gsb_form.c:1686
 msgid "Deleted account"
-msgstr "Konto löschen"
+msgstr "Gelöschtes Konto"
 
 #: src/fenetre_principale.c:236
 msgid "Main page"
@@ -3343,7 +3345,7 @@ msgstr "Beenden ohne speichern"
 #: src/fichiers_gestion.c:620
 #, c-format
 msgid "Save changes to document '%s' before closing?"
-msgstr "Die Änderungen vor dem Schließen in Datei '%s' speichern?"
+msgstr "Die Änderungen in Datei '%s' vor dem Schließen speichern?"
 
 #: src/fichiers_gestion.c:631
 msgid "If you close without saving, all of your changes will be discarded."
@@ -4119,11 +4121,11 @@ msgstr "Südafrika"
 
 #: src/gsb_currency_config.c:122
 msgid "Swaziland Lilangeni"
-msgstr "Swaziländischer Lilangeni"
+msgstr "Swasiländischer Lilangeni"
 
 #: src/gsb_currency_config.c:122
 msgid "Swaziland"
-msgstr "Swaziland"
+msgstr "Swasiland"
 
 #: src/gsb_currency_config.c:123
 msgid "Tanzanian Shilling"
@@ -4143,7 +4145,7 @@ msgstr "Tunesien"
 
 #: src/gsb_currency_config.c:125
 msgid "Zambian Kwacha"
-msgstr "Sambia Kwacha"
+msgstr "Sambianische Kwacha"
 
 #: src/gsb_currency_config.c:125
 msgid "Zambia"
@@ -4182,7 +4184,7 @@ msgstr "Asien"
 
 #: src/gsb_currency_config.c:127
 msgid "Afghani"
-msgstr "Afghanistan"
+msgstr "Afghanischer Afghani"
 
 #: src/gsb_currency_config.c:127
 msgid "Afghanistan"
@@ -4198,7 +4200,7 @@ msgstr "Bahrain"
 
 #: src/gsb_currency_config.c:129
 msgid "Bangladesh Taka"
-msgstr "Taka"
+msgstr "Bangladesischer Taka"
 
 #: src/gsb_currency_config.c:129
 msgid "Bangladesh"
@@ -4214,7 +4216,7 @@ msgstr "Brunei"
 
 #: src/gsb_currency_config.c:131
 msgid "Cambodian Riel"
-msgstr "Kambodscha Riel"
+msgstr "Kambodschanischer Riel"
 
 #: src/gsb_currency_config.c:131
 msgid "Cambodia"
@@ -4222,7 +4224,7 @@ msgstr "Kambodscha"
 
 #: src/gsb_currency_config.c:132
 msgid "Cyprus Pound"
-msgstr "Pfund"
+msgstr "Zypern Pfund"
 
 #: src/gsb_currency_config.c:132
 msgid "Cyprus"
@@ -4242,7 +4244,7 @@ msgstr "Indische Rupie"
 
 #: src/gsb_currency_config.c:134
 msgid "Bhutan"
-msgstr "Indien"
+msgstr "Bhutan"
 
 #: src/gsb_currency_config.c:135
 msgid "India"
@@ -4290,7 +4292,7 @@ msgstr "Jordanien"
 
 #: src/gsb_currency_config.c:141
 msgid "Kuwaiti Dinar"
-msgstr "Kuwait Dinar"
+msgstr "Kuwaitischer Dinar"
 
 #: src/gsb_currency_config.c:141
 msgid "Kuwait"
@@ -4298,7 +4300,7 @@ msgstr "Kuwait"
 
 #: src/gsb_currency_config.c:142
 msgid "Lao Kip"
-msgstr "Lao Kip"
+msgstr "Laotischer Kip"
 
 #: src/gsb_currency_config.c:142
 msgid "Lao People's Democratic Republic"
@@ -4306,7 +4308,7 @@ msgstr "Laos"
 
 #: src/gsb_currency_config.c:143
 msgid "Lebanese Pound"
-msgstr "Libanesischer Pfund"
+msgstr "Libanesisches Pfund"
 
 #: src/gsb_currency_config.c:143
 msgid "Lebanon"
@@ -4314,7 +4316,7 @@ msgstr "Libanon"
 
 #: src/gsb_currency_config.c:144
 msgid "Macau Pataca"
-msgstr "Pataca"
+msgstr "Macauische Pataca"
 
 #: src/gsb_currency_config.c:144
 msgid "Macao"
@@ -4330,7 +4332,7 @@ msgstr "Malaysien"
 
 #: src/gsb_currency_config.c:146
 msgid "Mongolian Tugrik"
-msgstr "Tugrik"
+msgstr "Mongolischer Tugrik"
 
 #: src/gsb_currency_config.c:146
 msgid "Mongolia"
@@ -4338,7 +4340,7 @@ msgstr "Mongolei"
 
 #: src/gsb_currency_config.c:147
 msgid "Nepalese Rupee"
-msgstr "Nepal Rupie"
+msgstr "Nepalesische Rupie"
 
 #: src/gsb_currency_config.c:147
 msgid "Nepal"
@@ -4346,7 +4348,7 @@ msgstr "Nepal"
 
 #: src/gsb_currency_config.c:148
 msgid "New Israeli Shekel"
-msgstr "Schekel"
+msgstr "Neuer Israelischer Schekel"
 
 #: src/gsb_currency_config.c:148
 msgid "Israel"
@@ -4362,7 +4364,7 @@ msgstr "Taiwan"
 
 #: src/gsb_currency_config.c:150
 msgid "North Korean Won"
-msgstr "Won"
+msgstr "Nordkoreanischer Won"
 
 #: src/gsb_currency_config.c:150
 msgid "Democratic People's Republic of Korea"
@@ -4370,7 +4372,7 @@ msgstr "Nordkorea"
 
 #: src/gsb_currency_config.c:151
 msgid "Pakistan Rupee"
-msgstr "Pakistan Rupie"
+msgstr "Pakistanische Rupie"
 
 #: src/gsb_currency_config.c:151
 msgid "Pakistan"
@@ -4378,7 +4380,7 @@ msgstr "Pakistan"
 
 #: src/gsb_currency_config.c:152
 msgid "Philippine peso"
-msgstr "Peso"
+msgstr "Philippinischer Peso"
 
 #: src/gsb_currency_config.c:152
 msgid "Philippines"
@@ -4386,7 +4388,7 @@ msgstr "Philippinen"
 
 #: src/gsb_currency_config.c:153
 msgid "Qatari Rial"
-msgstr "Riyal"
+msgstr "Katar Rial"
 
 #: src/gsb_currency_config.c:153
 msgid "Qatar"
@@ -4394,7 +4396,7 @@ msgstr "Katar"
 
 #: src/gsb_currency_config.c:154
 msgid "Rial Omani"
-msgstr "Rial"
+msgstr "Oman Rial"
 
 #: src/gsb_currency_config.c:154
 msgid "Oman"
@@ -4410,11 +4412,11 @@ msgstr "Russland"
 
 #: src/gsb_currency_config.c:156
 msgid "Saudi Riyal"
-msgstr "Riyal"
+msgstr "Saudi Riyal"
 
 #: src/gsb_currency_config.c:156
 msgid "Saudi Arabia"
-msgstr "Saudi-Arabien"
+msgstr "Saudi Arabien"
 
 #: src/gsb_currency_config.c:157
 msgid "Singapore Dollar"
@@ -4426,7 +4428,7 @@ msgstr "Singapur"
 
 #: src/gsb_currency_config.c:158
 msgid "South Korean Won"
-msgstr "Won"
+msgstr "Südkoreanischer Won"
 
 #: src/gsb_currency_config.c:158
 msgid "Republic of Korea"
@@ -4434,7 +4436,7 @@ msgstr "Südkorea"
 
 #: src/gsb_currency_config.c:159
 msgid "Sri Lanka Rupee"
-msgstr "Rupie"
+msgstr "Sri Lanka Rupie"
 
 #: src/gsb_currency_config.c:159
 msgid "Sri Lanka"
@@ -4450,7 +4452,7 @@ msgstr "Syrien"
 
 #: src/gsb_currency_config.c:161
 msgid "Thai Baht"
-msgstr "Thai Baht"
+msgstr "Thailändischer Baht"
 
 #: src/gsb_currency_config.c:161
 msgid "Thailand"
@@ -4466,7 +4468,7 @@ msgstr "Türkei"
 
 #: src/gsb_currency_config.c:163
 msgid "United Arab Emirates Dirham"
-msgstr "Dirham"
+msgstr "Ver.Arab.Emir. Dirham"
 
 #: src/gsb_currency_config.c:163
 msgid "United Arab Emirates"
@@ -4474,7 +4476,7 @@ msgstr "Vereinigte Arabische Emirate"
 
 #: src/gsb_currency_config.c:164
 msgid "Viet Nam Dong"
-msgstr "Dong"
+msgstr "Vietnamesischer Dong"
 
 #: src/gsb_currency_config.c:164
 msgid "Viet Nam"
@@ -4482,7 +4484,7 @@ msgstr "Vietnam"
 
 #: src/gsb_currency_config.c:165
 msgid "Yemeni Rial"
-msgstr "Rial"
+msgstr "Jemen Rial"
 
 #: src/gsb_currency_config.c:165
 msgid "Yemen"
@@ -4512,7 +4514,7 @@ msgstr "Belize"
 
 #: src/gsb_currency_config.c:168
 msgid "Costa Rican Colon"
-msgstr "Colon"
+msgstr "Costa Rica Colon"
 
 #: src/gsb_currency_config.c:168
 msgid "Costa Rica"
@@ -4520,7 +4522,7 @@ msgstr "Costa Rica"
 
 #: src/gsb_currency_config.c:169
 msgid "Guatemalan Quetzal"
-msgstr "Quetzal"
+msgstr "Guatemaltekischer Quetzal"
 
 #: src/gsb_currency_config.c:169
 msgid "Guatemala"
@@ -4528,7 +4530,7 @@ msgstr "Guatemala"
 
 #: src/gsb_currency_config.c:170
 msgid "Honduran Lempira"
-msgstr "Lempira"
+msgstr "Honduranische Lempira"
 
 #: src/gsb_currency_config.c:170
 msgid "Honduras"
@@ -4544,7 +4546,7 @@ msgstr "Mexiko"
 
 #: src/gsb_currency_config.c:172
 msgid "Panama Balboa"
-msgstr "Balboa"
+msgstr "Panamaischer Balboa"
 
 #: src/gsb_currency_config.c:172 src/gsb_currency_config.c:238
 msgid "Panama"
@@ -4573,7 +4575,7 @@ msgstr "Europa"
 
 #: src/gsb_currency_config.c:173
 msgid "Albanian Lek"
-msgstr "Lek"
+msgstr "Albanischer Lek"
 
 #: src/gsb_currency_config.c:173
 msgid "Albania"
@@ -4645,7 +4647,7 @@ msgstr "Europäische Währungsunion"
 
 #: src/gsb_currency_config.c:182
 msgid "Finnish Markka"
-msgstr "Finnische Markka"
+msgstr "Finnische Mark"
 
 #: src/gsb_currency_config.c:182
 msgid "Finland"
@@ -4693,7 +4695,7 @@ msgstr "Island"
 
 #: src/gsb_currency_config.c:188
 msgid "Irish Pound"
-msgstr "Irischer Pfund"
+msgstr "Irisches Pfund"
 
 #: src/gsb_currency_config.c:188
 msgid "Ireland"
@@ -4706,7 +4708,7 @@ msgstr "Italienische Lire"
 
 #: src/gsb_currency_config.c:189
 msgid "Holy See"
-msgstr "Sizilien"
+msgstr "Vatikan"
 
 #: src/gsb_currency_config.c:190
 msgid "Italy"
@@ -4790,7 +4792,7 @@ msgstr "Vereinigtes Königreich"
 
 #: src/gsb_currency_config.c:201
 msgid "Romanian Leu"
-msgstr "Rumänischer Leu"
+msgstr "Rumänischer Lei"
 
 #: src/gsb_currency_config.c:201
 msgid "Romania"
@@ -4814,7 +4816,7 @@ msgstr "Slowenien"
 
 #: src/gsb_currency_config.c:204
 msgid "Spanish Peseta"
-msgstr "Spanische Peseta"
+msgstr "Spanische Pesete"
 
 #: src/gsb_currency_config.c:204
 msgid "Spain"
@@ -4892,11 +4894,11 @@ msgstr "Kanada"
 
 #: src/gsb_currency_config.c:213
 msgid "Cayman Islands Dollar"
-msgstr "Kaimaninseln Dollar"
+msgstr "Kaiman Dollar"
 
 #: src/gsb_currency_config.c:213
 msgid "Cayman Islands"
-msgstr "Kaimaninseln"
+msgstr "Kaiman Inseln"
 
 #: src/gsb_currency_config.c:214
 msgid "Cuban Peso"
@@ -4916,7 +4918,7 @@ msgstr "Dominikanische Republik"
 
 #: src/gsb_currency_config.c:216 src/gsb_currency_config.c:217
 msgid "East Caribbean Dollar"
-msgstr "Dollar"
+msgstr "Ostkaribischer Dollar"
 
 #: src/gsb_currency_config.c:216
 msgid "Grenada"
@@ -4936,7 +4938,7 @@ msgstr "Haiti"
 
 #: src/gsb_currency_config.c:219
 msgid "Jamaican Dollar"
-msgstr "Jamaika Dollar"
+msgstr "Jamaikanischer Dollar"
 
 #: src/gsb_currency_config.c:219
 msgid "Jamaica"
@@ -4952,7 +4954,7 @@ msgstr "Niederländische Antillen"
 
 #: src/gsb_currency_config.c:221
 msgid "Trinidad and Tobago Dollar"
-msgstr "Trinidad and Tobago Dollar"
+msgstr "Trinidad und Tobago Dollar"
 
 #: src/gsb_currency_config.c:221
 msgid "Trinidad and Tobago"
@@ -5180,7 +5182,7 @@ msgstr "Venezuela"
 
 #: src/gsb_currency_config.c:294
 msgid "Known currencies"
-msgstr "Bekannte Währungen"
+msgstr "Erfasste Währungen"
 
 #. Input form for currencies
 #: src/gsb_currency_config.c:343
@@ -5200,7 +5202,7 @@ msgstr "ISO Code"
 #. Create floating point entry
 #: src/gsb_currency_config.c:391 src/gsb_currency_config.c:967
 msgid "Floating point"
-msgstr "Gleitkomma"
+msgstr "Kommastellen"
 
 #: src/gsb_currency_config.c:448
 msgid "Country name"
@@ -5229,19 +5231,19 @@ msgstr "Die Währung '%s' kann nicht entfernt werden"
 
 #: src/gsb_currency_config.c:785 src/parametres.c:302
 msgid "Totals currencies"
-msgstr "Alle Währungen"
+msgstr "Währungen"
 
 #: src/gsb_currency_config.c:792
 msgid "Currency for payees tree"
-msgstr "Währungen für Empfänger"
+msgstr "Währung für Empfänger"
 
 #: src/gsb_currency_config.c:802
 msgid "Currency for categories tree"
-msgstr "Währungen für Kategorien"
+msgstr "Währung für Kategorien"
 
 #: src/gsb_currency_config.c:812
 msgid "Currency for budgetary lines tree"
-msgstr "Währungen für Budgeteinträge"
+msgstr "Währung für Budgeteinträge"
 
 #: src/gsb_currency_config.c:903
 msgid "Add a currency"
@@ -5258,7 +5260,7 @@ msgstr "Währungsdetails"
 #. Currency ISO code
 #: src/gsb_currency_config.c:945
 msgid "Currency ISO 4217 code"
-msgstr "Währung ISO 4217 Code"
+msgstr "Währungscode"
 
 #. Currency usual sign
 #: src/gsb_currency_config.c:956
@@ -5292,11 +5294,11 @@ msgstr "Inklusive veralteter Währungen"
 
 #: src/gsb_currency_link_config.c:90
 msgid "Links between currencies"
-msgstr "Quellen für Währungsaktualisierung"
+msgstr "Währungen Gegenüberstellung"
 
 #: src/gsb_currency_link_config.c:91
 msgid "Known links"
-msgstr "Bekannte Quellen"
+msgstr "Vorhandene Gegenüberstellungen"
 
 #. Input form for currencies
 #: src/gsb_currency_link_config.c:138
@@ -5370,11 +5372,11 @@ msgstr "In <i>%s</i>, <i>%s</i> ist ein Duplikat von <i>%s</i>.\n"
 msgid ""
 "<span foreground=\"red\">Warning : the two currencies of the link are "
 "identicals</span>"
-msgstr "<span foreground=\"red\">Warnung : Die zwei Währungen im Link sind identisch</span>"
+msgstr "<span foreground=\"red\">Warnung : Die zwei Währungen sind identisch</span>"
 
 #: src/gsb_data_currency_link.c:457
 msgid "<span foreground=\"red\">Warning : that link is already defined</span>"
-msgstr "<span foreground=\"red\">Warnung : dieser Link wurde bereits definiert</span>"
+msgstr "<span foreground=\"red\">Warnung : diese Gegenüberstellung wurde bereits definiert</span>"
 
 #: src/gsb_data_fyear.c:569
 msgid "<span foreground=\"red\">Warning : the dates are not in good order</span>"
@@ -6086,11 +6088,11 @@ msgstr "Geschäftsjahre"
 
 #: src/gsb_fyear_config.c:104
 msgid "Known financial years"
-msgstr "Bekannte Geschäftsjahre"
+msgstr "Erfasste Geschäftsjahre"
 
 #: src/gsb_fyear_config.c:164
 msgid "Associate operations without financial years"
-msgstr "Zugeordnete Tätigkeiten ohne Geschäftsjahre"
+msgstr "Buchungen ohne Geschäftsjahr einem Geschäftsjahr zuordnen"
 
 #: src/gsb_fyear_config.c:175
 msgid "Financial year details"
@@ -6146,10 +6148,8 @@ msgid ""
 "related to its transaction date.  If no financial year matches, the "
 "transaction will not be changed."
 msgstr ""
-"Diese Funktion ordnet alle Buchungen ohne Geschäftsjahr zu dem \n"
-"zugeordneten Geschäftsjahr mit Buchungsdatum zu. Wenn keine Geschäftsjahre "
-"in den Datumsbereich fallen \n"
-"werden die Buchungen nicht geändert."
+"Diese Funktion ordnet alle Buchungen ohne Geschäftsjahr einem Geschäftsjahr zu. "
+"Die Zuordnung erfolgt mit dem Buchungsdatum. Wenn keine Buchung in den Datenbereich für das gewählte Geschäftsjahr fällt erfolgt keine Zuordnung."
 
 #: src/gsb_fyear_config.c:827
 #, c-format
@@ -6162,7 +6162,7 @@ msgstr "Es sind keine Buchungen für eine Zuordnung vorhanden"
 
 #: src/gsb_payment_method_config.c:124
 msgid "Known payment methods"
-msgstr "Bekannte Zahlungweisen"
+msgstr "Erfasste Zahlungweisen"
 
 #: src/gsb_payment_method_config.c:174
 msgid "Default"
@@ -6257,7 +6257,7 @@ msgstr ""
 #: src/gsb_reconcile.c:217 src/gsb_reconcile_config.c:100
 #: src/gsb_reconcile_config.c:253
 msgid "Final balance"
-msgstr "Endgültiger Saldo"
+msgstr "End-Saldo"
 
 #: src/gsb_reconcile.c:225
 msgid "Checking"
@@ -6317,7 +6317,7 @@ msgstr "Initial Datum"
 
 #: src/gsb_reconcile_config.c:100
 msgid "Init balance"
-msgstr "Initial Saldo"
+msgstr "Initial-Saldo"
 
 #: src/gsb_reconcile_config.c:105 src/parametres.c:336
 msgid "Reconciliation"
@@ -6339,7 +6339,7 @@ msgstr "Abstimmung löschen"
 #. set the button to find non-associated transactions
 #: src/gsb_reconcile_config.c:272
 msgid "Find the marked transactions not associated to a reconcile number"
-msgstr "Zu der gewählten Buchung wurde keine Abstimmungsnummer gefunden"
+msgstr "Buchungen auflisten welche keine Abstimmungsnummer enthalten"
 
 #. we are on a reconcile,
 #. * we ask if the user want to continue and warn him
@@ -6356,7 +6356,7 @@ msgid ""
 "Are you sure you want to continue ?"
 msgstr ""
 "Achtung, Sie sind dabei eine Abstimmung zu löschen.\n"
-"Wenn Sie den Vorgang fortsetzen, die Abstimmung %s wird gelöscht, alle Buchungen zu dieser Abstimmung werden als nicht abgestimmt markiert.\n"
+"Wenn Sie den Vorgang fortsetzen wird die Abstimmung %s gelöscht, alle Buchungen zu dieser Abstimmung werden als nicht abgestimmt markiert.\n"
 "Soll der Vorgang fortgesetzt werden?"
 
 #: src/gsb_reconcile_list.c:156 src/gsb_transactions_list_sort.c:445
@@ -6372,11 +6372,11 @@ msgstr "Die Funktionen \"gsb_reconcile_list_sort_func, transaction_1 or transact
 
 #: src/gsb_reconcile_sort_config.c:88 src/parametres.c:344
 msgid "Sort for reconciliation"
-msgstr "Sortieren nach Abstimmung"
+msgstr "Abstimmung sortieren"
 
 #: src/gsb_reconcile_sort_config.c:91
 msgid "Reconciliation: sort transactions"
-msgstr "Abstimmung : sortiert nach Buchungen"
+msgstr "Abstimmung : Buchungen sortieren"
 
 #: src/gsb_reconcile_sort_config.c:126
 msgid "Payment method"
@@ -6511,7 +6511,7 @@ msgstr "P"
 #: src/gsb_transactions_list.c:2090
 #, c-format
 msgid "Do you want to load the transaction of the archive %s into the list ?"
-msgstr "Sollen die Buchungen aus dem Archiv %s in die Buchungsliste geladen werden?"
+msgstr "Sollen die Buchungen aus dem Archiv %s in die Buchungsübersicht geladen werden?"
 
 #: src/gsb_transactions_list.c:2098
 msgid ""
@@ -6648,7 +6648,7 @@ msgstr "Buchung regelmäßig ausführen"
 #. Move to another account
 #: src/gsb_transactions_list.c:3386
 msgid "Move transaction to another account"
-msgstr "Buchung verschieben"
+msgstr "Buchung verschieben nach"
 
 #. Change cell content.
 #: src/gsb_transactions_list.c:3406
@@ -6832,7 +6832,7 @@ msgstr "Gerald Niel (gerald.niel[at]grisbi.org): Administration"
 
 #: src/help.c:103
 msgid "Development list (discuss, participate, criticize, ...) : "
-msgstr "Entwickler Liste (diskutieren, beteiligen, kritisieren, ...) : "
+msgstr "Mailingliste Entwickler (diskutieren, beteiligen, kritisieren, ...) : "
 
 #: src/help.c:105 src/help.c:111
 msgid "subscribe"
@@ -6840,11 +6840,11 @@ msgstr "eintragen"
 
 #: src/help.c:106
 msgid "Bug report"
-msgstr "Fehler Report"
+msgstr "Fehler-Berichte"
 
 #: src/help.c:109
 msgid "Information list (new releases announces, ...) : "
-msgstr "Infoliste (Neue Versionen, Ankündigungen, ...) : "
+msgstr "Mailingliste Info (Neue Versionen, Ankündigungen, ...) : "
 
 #: src/help.c:112
 msgid "Grisbi documentation"
@@ -6857,7 +6857,7 @@ msgstr "Über..."
 #. Resume
 #: src/help.c:159
 msgid "Personal finance manager for everyone"
-msgstr "Persönlicher Finanzmanager für jeden"
+msgstr "Persönlicher Finanzmanager"
 
 #: src/help.c:172
 msgid "About Grisbi"
@@ -6929,7 +6929,7 @@ msgstr "Import beendet"
 msgid ""
 "You have successfully set up transactions import into Grisbi.  Press the "
 "'Close' button to terminate import."
-msgstr "Die Auswahl der Buchungen für den Import wurde erfolgreich abgeschlossen.  Durch die Auswahl von \"Beenden\" wird der Import abgeschlossen."
+msgstr "Die Auswahl der Buchungen für den Import wurde erfolgreich abgeschlossen.  Durch die Auswahl von \"Schließen\" wird der Import abgeschlossen."
 
 #: src/import.c:992
 msgid "file"
@@ -7078,7 +7078,7 @@ msgstr "Buchungen suchen "
 
 #: src/import.c:2791
 msgid "days around the date in the imported transaction."
-msgstr " Tage im Bereich des Datums der importierten Buchung."
+msgstr " Tage im Bereich des Datums der importierten Buchung"
 
 #: src/import_csv.c:77
 msgid "Unknown field"
@@ -7237,7 +7237,7 @@ msgstr "_Datei"
 
 #: src/menu.c:164
 msgid "_New account file..."
-msgstr "_Neue Kontodatei..."
+msgstr "_Neue Datei..."
 
 #: src/menu.c:167
 msgid "_Open..."
@@ -7261,7 +7261,7 @@ msgstr "Datei _importieren..."
 
 #: src/menu.c:182
 msgid "_Export accounts as QIF/CSV file..."
-msgstr "Konten als qif/csv Datei _exportieren..."
+msgstr "Datei _exportieren..."
 
 #: src/menu.c:185
 msgid "_Debug account file..."
@@ -7379,7 +7379,7 @@ msgstr "_Gitter anzeigen"
 
 #: src/menu.c:275
 msgid "Show _reconciled"
-msgstr "ab_gestimmte Buchungen anzeigen"
+msgstr "_Abgestimmte Buchungen anzeigen"
 
 #: src/menu.c:279
 msgid "Show _closed accounts"
@@ -7554,7 +7554,7 @@ msgstr "Liste Einstellungen"
 
 #: src/parametres.c:362
 msgid "Content"
-msgstr "Inhalt"
+msgstr "Darstellung"
 
 #: src/parametres.c:370
 msgid "Behavior"
@@ -7570,7 +7570,7 @@ msgstr "Finanzdaten"
 
 #: src/parametres.c:403
 msgid "Currencies links"
-msgstr "Online Währungen"
+msgstr "Währung Gegenüberstellung"
 
 #: src/parametres.c:435
 msgid "Archives"
@@ -7615,11 +7615,11 @@ msgstr "Beim Beenden automatisch speichern"
 
 #: src/parametres.c:660
 msgid "Encrypt Grisbi file"
-msgstr "Grisbi Datei verschlüsseln"
+msgstr "Datei verschlüsseln"
 
 #: src/parametres.c:667
 msgid "Compress Grisbi file"
-msgstr "Grisbi Datei komprimieren"
+msgstr "Datei komprimieren"
 
 #: src/parametres.c:676
 msgid "Memorise last opened files"
@@ -7644,7 +7644,7 @@ msgstr "Sicherungsdatei"
 
 #: src/parametres.c:749
 msgid "Compress Grisbi backup"
-msgstr "Grisbi Backup komprimieren"
+msgstr "Backup komprimieren"
 
 #: src/parametres.c:802
 msgid "backup.gsb"
@@ -7656,11 +7656,11 @@ msgstr "Drucker"
 
 #: src/parametres.c:836
 msgid "LaTeX command"
-msgstr "LaTeX Befehle"
+msgstr "LaTeX Befehl"
 
 #: src/parametres.c:844
 msgid "dvips command"
-msgstr "Dvips Befehle"
+msgstr "Dvips Befehl"
 
 #. Misc
 #: src/parametres.c:853 src/print_config.c:338
@@ -7832,7 +7832,7 @@ msgstr "US Brief"
 
 #: src/print_config.c:56
 msgid "USlegal"
-msgstr "US Anpsrechperson"
+msgstr "US Ansprechperson"
 
 #: src/print_config.c:57
 msgid "USexecutive"
