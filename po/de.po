@@ -1,29 +1,15 @@
 # translation of de.po to deutsch
 # translation of de.po to
-# translation of de.po to
-# translation of de.po to
-# translation of de.po to
-# translation of de.po to
-# translation of de.po to
-# translation of de.po to
-# translation of de.po to
-# translation of de.po to
-# translation of de.po to
-# translation of de.po to
-# translation of de.po to
-# translation of de.po to
-# translation of de.po to
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 #
-# Martin Stromberger <mstromberger@aon.at>, 2004.
 # Martin Stromberger <fabiolla@aon.at>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-04 20:16+0200\n"
-"PO-Revision-Date: 2007-05-02 23:00+0200\n"
+"PO-Revision-Date: 2007-05-05 23:56+0200\n"
 "Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +44,7 @@ msgstr "Konten unter dem festgelegten Saldo"
 #. crÃ©e la boite de dialogue
 #: src/accueil.c:297
 msgid "Enter a scheduled transaction"
-msgstr "Eine geplante Buchung erfassen"
+msgstr "Eine geplante Buchung erstellen"
 
 #: src/accueil.c:448
 msgid "Account balances in "
@@ -197,7 +183,7 @@ msgstr "Zusatzadresse"
 
 #: src/affichage.c:533
 msgid "Transaction list font"
-msgstr "Schrift Buchungsübersicht"
+msgstr "Schrift auswählen - Grisbi"
 
 #: src/affichage.c:635
 msgid "Select a new logo"
@@ -349,7 +335,7 @@ msgstr "Buchungsübersicht Einstellungen"
 
 #: src/affichage_liste.c:157
 msgid "Display modes"
-msgstr "Anzeigemodi"
+msgstr "Anzeigeoptionen"
 
 #: src/affichage_liste.c:164
 msgid "One line mode"
@@ -415,7 +401,7 @@ msgstr "Buchungsformular"
 
 #: src/affichage_liste.c:431
 msgid "Pressing RETURN in transaction form"
-msgstr "Enter-Taste im Buchungsformular"
+msgstr "'Enter' im Buchungsformular"
 
 #: src/affichage_liste.c:432
 msgid "selects next field"
@@ -439,7 +425,7 @@ msgstr "Als Standard ein Geschäftsjahr verwenden"
 
 #: src/affichage_liste.c:449
 msgid "last selected financial year"
-msgstr "letztes gewähltes Geschäftsjahr"
+msgstr "letztes selektiertes Geschäftsjahr"
 
 #: src/affichage_liste.c:450
 msgid "according to transaction date"
@@ -467,7 +453,7 @@ msgstr "Eingaben/Ausgabenkategorien mischen"
 
 #: src/affichage_liste.c:496
 msgid "Case sensitive completion"
-msgstr "Bei Vervollständigung Groß/Kleinschreibung berücksichtigen"
+msgstr "Beim Vervollständigen Groß/Kleinschreibung berücksichtigen"
 
 #: src/affichage_liste.c:501
 msgid "Enter keeps current completion"
@@ -641,11 +627,11 @@ msgstr "Ansicht"
 
 #: src/barre_outils.c:143
 msgid "Change display mode of the list"
-msgstr "Den Anzeigemodus der Liste ändern"
+msgstr "Darstellung der Liste ändern"
 
 #: src/barre_outils.c:185
 msgid "Simple view"
-msgstr "Einfache Ansicht"
+msgstr "Einzeilig"
 
 #: src/barre_outils.c:190
 msgid "Two lines view"
@@ -658,11 +644,11 @@ msgstr "Dreizeilig"
 #: src/barre_outils.c:200 src/categories_onglet.c:697
 #: src/imputation_budgetaire.c:584 src/tiers_onglet.c:292
 msgid "Complete view"
-msgstr "Komplette Ansicht"
+msgstr "Vollständig"
 
 #: src/barre_outils.c:368 src/gsb_scheduler_list.c:1607
 msgid "Unique view"
-msgstr "Einheitliche Ansicht"
+msgstr "Einfache Ansicht"
 
 #: src/barre_outils.c:368 src/gsb_scheduler_list.c:1607
 msgid "Week view"
@@ -694,11 +680,11 @@ msgstr "_Neue geplante Buchung"
 
 #: src/barre_outils.c:418
 msgid "Prepare form to create a new scheduled transaction"
-msgstr "Das Buchungsformular vorbereiten um eine neue geplante Buchung zu erfassen"
+msgstr "Das Buchungsformular für die Erfassung einer neuen Buchung leeren"
 
 #: src/barre_outils.c:429
 msgid "Delete selected scheduled transaction"
-msgstr "Die selektierte geplante Buchung löschen"
+msgstr "Die selektiere Buchung löschen"
 
 #: src/barre_outils.c:440
 msgid "Edit selected transaction"
@@ -707,11 +693,11 @@ msgstr "Die selektierte Buchung bearbeiten"
 #. crÃ©ation de la ligne du commentaire
 #: src/barre_outils.c:445 src/comptes_gestion.c:346
 msgid "Comments"
-msgstr "Kommentare"
+msgstr "Notiz"
 
 #: src/barre_outils.c:451
 msgid "Display scheduled transactions comments"
-msgstr "Bei geplanten Buchungen Kommentare anzeigen"
+msgstr "Notiz in der Buchungsübersicht anzeigen"
 
 #: src/barre_outils.c:458
 msgid "Execute"
@@ -719,11 +705,11 @@ msgstr "Ausführen"
 
 #: src/barre_outils.c:465
 msgid "Execute current scheduled transaction if it is at maturity date"
-msgstr "Die geplante Buchung am Fälligkeitstermin ausführen"
+msgstr "Die geplante Buchung ausführen"
 
 #: src/barre_outils.c:473
 msgid "Change display mode of scheduled transaction list"
-msgstr "Den Anzeigemodus für die Liste der geplanten Buchungen ändern"
+msgstr "Darstellung der Liste ändern"
 
 #: src/categories_onglet.c:70
 msgid "Food : Bar"
@@ -1185,15 +1171,15 @@ msgstr "Konto"
 
 #: src/categories_onglet.c:471
 msgid "Export categories"
-msgstr "Kategorien exportieren"
+msgstr "Kategorien exportieren - Grisbi"
 
 #: src/categories_onglet.c:506
 msgid "Import categories"
-msgstr "Kategorien importieren"
+msgstr "Kategorien importieren - Grisbi"
 
 #: src/categories_onglet.c:512
 msgid "Grisbi category files (*.cgsb)"
-msgstr "Datei mit Grisbi Kategorien (*.cgsb)"
+msgstr "Grisbi Kategorien (*.cgsb)"
 
 #: src/categories_onglet.c:518 src/etats_onglet.c:1266
 #: src/fichiers_gestion.c:231 src/import.c:547 src/imputation_budgetaire.c:405
@@ -1241,8 +1227,8 @@ msgid ""
 "New sub\n"
 "category"
 msgstr ""
-"Neue Unter\n"
-"kategorie"
+"Neue\n"
+"Unterkategorie"
 
 #: src/categories_onglet.c:614
 msgid "Create a new sub-category"
@@ -1255,7 +1241,7 @@ msgstr "Import"
 
 #: src/categories_onglet.c:624
 msgid "Import a Grisbi category file (.cgsb)"
-msgstr "Eine Kategorienliste (*.cgsb) importieren"
+msgstr "Kategorien (*.cgsb) importieren"
 
 #: src/categories_onglet.c:630 src/etats_onglet.c:140 src/export.c:158
 #: src/imputation_budgetaire.c:515
@@ -1264,7 +1250,7 @@ msgstr "Export"
 
 #: src/categories_onglet.c:634
 msgid "Export a Grisbi category file (.cgsb)"
-msgstr "Eine Kategorienliste (*.cgsb) exportieren"
+msgstr "Kategorien (*.cgsb) exportieren"
 
 #: src/categories_onglet.c:643
 msgid "Delete selected category"
@@ -1282,16 +1268,16 @@ msgstr "Die selektierte Kategorie bearbeiten"
 
 #: src/categories_onglet.c:662 src/tiers_onglet.c:263
 msgid "Change view mode"
-msgstr "Den Anzeigemodus ändern"
+msgstr "Darstellung der Liste ändern"
 
 #. Edit transaction
 #: src/categories_onglet.c:685
 msgid "Category view"
-msgstr "Ansicht nach Kategorien"
+msgstr "Einfach"
 
 #: src/categories_onglet.c:691
 msgid "Subcategory view"
-msgstr "Ansicht nach Unterkategorien"
+msgstr "Unterkategorien"
 
 #: src/categories_onglet.c:741 src/categories_onglet.c:745
 #: src/imputation_budgetaire.c:626 src/imputation_budgetaire.c:631
@@ -1380,15 +1366,15 @@ msgstr "Saldoinformationen"
 #: src/comptes_gestion.c:310 src/export_csv.c:286 src/gsb_reconcile.c:209
 #: src/gsb_reconcile_config.c:238
 msgid "Initial balance"
-msgstr "Anfangssaldo"
+msgstr "Saldo Anfang"
 
 #: src/comptes_gestion.c:323
 msgid "Minimum authorised balance"
-msgstr "zulässiger Mindestsaldo"
+msgstr "Mindestsaldo zulässig"
 
 #: src/comptes_gestion.c:336
 msgid "Minimum wanted balance"
-msgstr "festgelegter Mindestsaldo"
+msgstr "Mindestsaldo festgelegt"
 
 #. crÃ©ation de l'item compte bancaire
 #: src/comptes_gestion.c:513
@@ -1414,7 +1400,7 @@ msgstr "Anlagekonto"
 msgid ""
 "Accounts names are used to distinguish accounts.  It is mandatory that names "
 "are both unique and not empty."
-msgstr "Der Name des Kontos wird für die Zuordnung verwendet.  Der Name darf nicht leer und muss eindeutig sein."
+msgstr "Der eingegebene Kontoname existiert bereits.  Der Kontoname darf nicht leer und muss eindeutig sein."
 
 #: src/comptes_gestion.c:702
 msgid "Account name is empty"
@@ -1482,7 +1468,7 @@ msgstr "Kein Tipp des Tages verfügbar"
 
 #: src/dialog.c:53
 msgid "Make sure that grisbi was correctly installed and that tips file is readable."
-msgstr "Bitte prüfen Sie ob Grisbi korrekt installiert wurde."
+msgstr "Bitte die Installation von Grisbi überprüfen."
 
 #: src/dialog.c:56
 msgid "Security feature not implemented"
@@ -1973,11 +1959,11 @@ msgstr "Scheck"
 
 #: src/etats_affiche.c:2353
 msgid "Statement"
-msgstr "Kontoauszug"
+msgstr "Abstimmung"
 
 #: src/etats_config.c:135
 msgid "All"
-msgstr "Alle"
+msgstr "alle"
 
 #: src/etats_config.c:136 src/gsb_form_scheduler.c:166
 #: src/gsb_form_scheduler.c:891
@@ -1986,11 +1972,11 @@ msgstr "benutzerdefiniert"
 
 #: src/etats_config.c:137
 msgid "Total to now"
-msgstr "Alle bis jetzt"
+msgstr "alle bis jetzt"
 
 #: src/etats_config.c:138
 msgid "Current month"
-msgstr "aktuelles Monat"
+msgstr "aktueller Monat"
 
 #: src/etats_config.c:139
 msgid "Current year"
@@ -1998,7 +1984,7 @@ msgstr "aktuelles Jahr"
 
 #: src/etats_config.c:140
 msgid "Current month to now"
-msgstr "aktuelles Monat bis jetzt"
+msgstr "aktueller Monat bis jetzt"
 
 #: src/etats_config.c:141
 msgid "Current year to now"
@@ -2170,7 +2156,7 @@ msgid ""
 "\"Detail categories used\" option activated."
 msgstr ""
 "Es wurden alle Kategorien ausgewählt. Grisbi wird schneller sein\n"
-"ohne der \"Details Kategorien \" Einstellung."
+"ohne der \"Buchungen nach Kategorien auswählen\" Einstellung."
 
 #: src/etats_config.c:1716
 msgid ""
@@ -2186,7 +2172,7 @@ msgid ""
 "payees used\" option activated."
 msgstr ""
 "Es wurden alle Empfänger ausgewählt. Grisbi wird schneller sein\n"
-"ohne der \"Details Empfänger \" Einstellung."
+"ohne der \"Buchungen nach Empfänger auswählen\" Einstellung."
 
 #: src/etats_config.c:1956
 msgid ""
@@ -2218,12 +2204,12 @@ msgstr "Abgelaufenes Geschäftsjahr"
 
 #: src/etats_config.c:2280
 msgid "Detail financial years"
-msgstr "Detailliertes Geschäftsjahr"
+msgstr "Geschäftsjahr Details"
 
 #. set the initial date
 #: src/etats_config.c:2340 src/gsb_reconcile_config.c:194
 msgid "Initial date"
-msgstr "Startdatum"
+msgstr "Beginndatum"
 
 #. set the final date
 #: src/etats_config.c:2370 src/gsb_reconcile_config.c:99
@@ -2235,21 +2221,21 @@ msgstr "Enddatum"
 #. sÃ©lectionner
 #: src/etats_config.c:2564
 msgid "Select transactions only for given accounts"
-msgstr "Nur Buchungen von bestehenden Konten auswählen"
+msgstr "Buchungen nach Konten auswählen"
 
 #: src/etats_config.c:2591
 msgid "Select the accounts included in the report"
-msgstr "Die Konten auswählen, die im Bericht enthalten sein sollen"
+msgstr "Konten für den Bericht auswählen"
 
 #: src/etats_config.c:2649 src/etats_config.c:2906 src/etats_config.c:3192
 #: src/etats_config.c:3456 src/etats_config.c:3718 src/etats_config.c:7590
 msgid "Select all"
-msgstr "Alles auswählen"
+msgstr "Alle auswählen"
 
 #: src/etats_config.c:2663 src/etats_config.c:2920 src/etats_config.c:3206
 #: src/etats_config.c:3470 src/etats_config.c:3732 src/etats_config.c:7604
 msgid "Unselect all"
-msgstr "Alles abwählen"
+msgstr "Alle abwählen"
 
 #: src/etats_config.c:2677 src/etats_config.c:2934
 msgid "Select bank accounts"
@@ -2277,24 +2263,24 @@ msgstr "Inklusive Umbuchungen von oder nach Anlage oder Kreditkonten"
 
 #: src/etats_config.c:2834
 msgid "Include transfers from or to accounts not in this report"
-msgstr "Buchungen von oder nach diesem Konto nicht berücksichtigen"
+msgstr "Buchungen von oder nach diesen Konten nicht berücksichtigen"
 
 #: src/etats_config.c:2847
 msgid "Include transfers from or to these accounts"
-msgstr "Buchungen von oder nach diesem Konto berücksichtigen"
+msgstr "Buchungen von oder nach diesen Konten berücksichtigen"
 
 #. on rajoute le bouton exclure les opÃ© non virement
 #: src/etats_config.c:2998
 msgid "Exclude the transactions which are not transfers"
-msgstr "Buchungen ausschließen, die keine Umbuchungen sind"
+msgstr "Nur Umbuchungen berücksichtigen"
 
 #: src/etats_config.c:3106
 msgid "Detail categories"
-msgstr "Details Kategorien"
+msgstr "Buchungen nach Kategorien auswählen"
 
 #: src/etats_config.c:3144
 msgid "Select categories to include"
-msgstr "Kategorien auswählen die berücksichtigt werden sollen"
+msgstr "Kategorien für den Bericht auswählen"
 
 #: src/etats_config.c:3220
 msgid "Income categories"
@@ -2310,11 +2296,11 @@ msgstr "Buchungen ohne Kategorien nicht berücksichtigen"
 
 #: src/etats_config.c:3370
 msgid "Detail budgetary lines"
-msgstr "Budgeteinträge Details"
+msgstr "Buchungen nach Budgeteinträge auswählen"
 
 #: src/etats_config.c:3408
 msgid "Select the budgetary lines to include in the report"
-msgstr "Die Budgeteinträge auswählen welche im Bericht enthalten sein sollen"
+msgstr "Budgeteinträge für den Bericht auswählen"
 
 #: src/etats_config.c:3484
 msgid "Income budget lines"
@@ -2330,15 +2316,15 @@ msgstr "Buchungen ohne Budgeteintrag nicht berücksichtigen"
 
 #: src/etats_config.c:3632
 msgid "Detail payees"
-msgstr "Details Empfänger"
+msgstr "Buchungen nach Empfänger auswählen"
 
 #: src/etats_config.c:3670
 msgid "Select payees to include in this report"
-msgstr "Die Empfänger auswählen welche in diesem Bericht enthalten sein sollen"
+msgstr "Empfänger für den Bericht auswählen"
 
 #: src/etats_config.c:3816
 msgid "Select transactions according to the text"
-msgstr "Buchungen nach Text auswählen"
+msgstr "Buchungen nach Texten auswählen"
 
 #: src/etats_config.c:4131
 msgid "Transactions whose"
@@ -2432,7 +2418,7 @@ msgstr "ist nicht leer"
 
 #: src/etats_config.c:4893
 msgid "Select the transactions by amount"
-msgstr "Die Buchungen nach Beträgen auswählen"
+msgstr "Buchungen nach Beträge auswählen"
 
 #. on rajoute le bouton exclure les opÃ© dont le montant est nul
 #: src/etats_config.c:4945
@@ -2509,7 +2495,7 @@ msgstr "Abgestimmte Buchungen"
 
 #: src/etats_config.c:5812
 msgid "Select"
-msgstr "Auswählen"
+msgstr "Auswahl"
 
 #: src/etats_config.c:5821
 msgid "All transactions"
@@ -2530,7 +2516,7 @@ msgstr "Keine Detailinformationen bei abgestimmten Buchungen"
 #. choix de ce qu'on utilise dans le classement
 #: src/etats_config.c:5905
 msgid "Informations used for the group"
-msgstr "Informationen welche in für eine Sammelbuchung benötigt werden"
+msgstr "Sammelbuchungen Informationen"
 
 #: src/etats_config.c:5933
 msgid "Group transactions by account"
@@ -2579,7 +2565,7 @@ msgstr "Jahr"
 
 #: src/etats_config.c:6265
 msgid "The week begins on"
-msgstr "Die Woche beginnt mit"
+msgstr "Die Woche beginnt am"
 
 #: src/etats_config.c:6284
 msgid "day"
@@ -2587,15 +2573,15 @@ msgstr "Tag"
 
 #: src/etats_config.c:6425
 msgid "Report name"
-msgstr "Name des Berichts"
+msgstr "Bericht Name"
 
 #: src/etats_config.c:6453
 msgid "Diplay the number of transactions with the totals"
-msgstr "Die Anzahl der Buchungen anzeigen im Verhältnis zu allen Buchungen"
+msgstr "Die Anzahl der Buchungen im Verhältnis zu allen Buchungen anzeigen"
 
 #: src/etats_config.c:6472
 msgid "Consider the payees of this report as a multiple payee."
-msgstr "Die Empfänger in diesen Bericht als Gruppe von Empfänger behandeln."
+msgstr "Die Empfänger als Gruppe von Empfängern anzeigen"
 
 #. afficher ou non les opÃ©s
 #: src/etats_config.c:6512
@@ -2628,7 +2614,7 @@ msgstr "Zahlungsweise"
 
 #: src/etats_config.c:6726 src/etats_config.c:6941
 msgid "cheque/transfer number"
-msgstr "Nr"
+msgstr "Nummer"
 
 #: src/etats_config.c:6800
 msgid "Display the column titles"
@@ -2652,28 +2638,28 @@ msgstr "Die Buchung auswählbar machen"
 
 #: src/etats_config.c:7045
 msgid "General totals currency"
-msgstr "Währung der Gesamtsumme"
+msgstr "Währung Gesamtsumme"
 
 #: src/etats_config.c:7074
 msgid "Payees currency"
-msgstr "Empfänger Währung"
+msgstr "Währung Empfänger"
 
 #: src/etats_config.c:7103
 msgid "Categories currency"
-msgstr "Währung der Kategorien"
+msgstr "Währung Kategorien"
 
 #: src/etats_config.c:7133
 msgid "Budgetary lines currency"
-msgstr "Währung des Budgeteintrag"
+msgstr "Währung Budgeteintrag"
 
 #: src/etats_config.c:7162
 msgid "Amount comparison currency"
-msgstr "Betrag in Vergleichswährung"
+msgstr "Währungsvergleich"
 
 #. on permet d'afficher le name du compte
 #: src/etats_config.c:7221
 msgid "Display account name"
-msgstr "Kontonamen anzeigen"
+msgstr "Konten anzeigen"
 
 #. on permet d'afficher un ss total lors de chgt de compte
 #. activÃ© uniquement si on a regroupÃ© les opÃ©s par compte
@@ -2684,33 +2670,33 @@ msgstr "Eine Zwischensumme für jedes Konto anzeigen"
 #. permet d'afficher le name du tiers, activÃ© uniquement si on utilise les tiers
 #: src/etats_config.c:7266
 msgid "Display payee's name"
-msgstr "Die Namen der Empfänger anzeigen"
+msgstr "Empfänger anzeigen"
 
 #. permet d'afficher un ss total lors de chgt de tiers
 #. activÃ© uniquement si on utilise les tiers
 #: src/etats_config.c:7282
 msgid "Dsplay a sub-total for each payee"
-msgstr "Die Zwischensumme für jeden Empfänger anzeigen"
+msgstr "Eine Zwischensumme für jeden Empfänger anzeigen"
 
 #. affichage possible du name de la categ
 #: src/etats_config.c:7317
 msgid "Display the (sub)category's name"
-msgstr "Den Namen der (Unter)kategorie anzeigen"
+msgstr "Kategorien anzeigen"
 
 #. permet d'afficher un sous total lors de chgt de categ
 #. activÃ© uniquement si on utilise les categ
 #: src/etats_config.c:7333
 msgid "Display a sub-total for each category"
-msgstr "Die Zwischensumme für jede Kategorie anzeigen"
+msgstr "Eine Zwischensumme für jede Kategorie anzeigen"
 
 #. mise en place du bouton pour afficher les sous categ
 #: src/etats_config.c:7348
 msgid "Display sub-categories"
-msgstr "Die Unterkategorien anzeigen"
+msgstr "Unterkategorien anzeigen"
 
 #: src/etats_config.c:7362
 msgid "Display a sub-total for each sub-category"
-msgstr "Die Zwischensumme für jede Unterkategorie anzeigen"
+msgstr "Eine Zwischensumme für jede Unterkategorie anzeigen"
 
 #: src/etats_config.c:7376
 msgid "Display \" No sub-category\" if none"
@@ -2718,7 +2704,7 @@ msgstr "\" Keine Unterkategorie\" anzeigen wenn keine vorhanden ist"
 
 #: src/etats_config.c:7409
 msgid "Display the (sub-)budget line name"
-msgstr "Den Namen des (Unter)butgeteintrag anzeigen"
+msgstr "Budgeteinträge anzeigen"
 
 #. permet d'afficher un sous total lors de chgt d'ib
 #. activÃ© uniquement si on utilise les ib
@@ -2737,17 +2723,17 @@ msgstr "Eine Zwischensumme für jeden Teil-Budgeteintrag anzeigen"
 
 #: src/etats_config.c:7467
 msgid "Display \"No sub-budgetary line\" if none"
-msgstr " \"Keinen Teil-Budgeteintrag\" anzeigen wenn keine vorhanden ist"
+msgstr " \"Keinen Teil-Budgeteintrag\" anzeigen wenn keiner vorhanden ist"
 
 #. on met dans la partie de gauche une liste contenant les modes de paiement Ã
 #. sÃ©lectionner
 #: src/etats_config.c:7504
 msgid "Select the transactions by method of payment"
-msgstr "Die Buchungen nach Zahlungsweise anzeigen"
+msgstr "Buchungen nach Zahlungsweisen auswählen"
 
 #: src/etats_config.c:7531
 msgid "Select methods of payment to include"
-msgstr "Die Zahlungsweisen auswählen welche berücksichtigt werden sollen"
+msgstr "Zahlungsweisen für den Bericht auswählen"
 
 #: src/etats_csv.c:181
 #, c-format
@@ -2794,11 +2780,11 @@ msgstr "Einen neuen Bericht erstellen"
 
 #: src/etats_onglet.c:135
 msgid "Import a Grisbi report file (.egsb)"
-msgstr "Einen Grisbi Bericht (*.egsb) importieren"
+msgstr "Bericht (*.egsb) importieren"
 
 #: src/etats_onglet.c:145
 msgid "Export selected report to egsb, HTML, Tex, CSV, PostScript"
-msgstr "Den gewählten Bericht als egsb, html, tex, csv, ps exportieren"
+msgstr "Bericht (*.egsb) exportieren"
 
 #. Set up dialog
 #: src/etats_onglet.c:150 src/print_config.c:79
@@ -2807,15 +2793,15 @@ msgstr "Drucken"
 
 #: src/etats_onglet.c:155
 msgid "Print selected report"
-msgstr "Den gewählten Bericht drucken"
+msgstr "Den selektierten Bericht drucken"
 
 #: src/etats_onglet.c:165
 msgid "Delete selected report"
-msgstr "Den gewählten Bericht löschen"
+msgstr "Den selektierten Bericht löschen"
 
 #: src/etats_onglet.c:175
 msgid "Edit selected report"
-msgstr "Den gewählten Bericht bearbeiten"
+msgstr "Den selektierten Bericht bearbeiten"
 
 #: src/etats_onglet.c:180
 msgid "Clone"
@@ -2823,7 +2809,7 @@ msgstr "Klonen"
 
 #: src/etats_onglet.c:185
 msgid "Clone selected report"
-msgstr "Den gewählten Bericht klonen"
+msgstr "Den selektierten Bericht klonen"
 
 #: src/etats_onglet.c:217 src/fenetre_principale.c:282 src/navigation.c:329
 #: src/navigation.c:1268
@@ -2858,7 +2844,7 @@ msgstr "Einnahmen und Ausgaben letztes Monat"
 #. Current month incomes and outgoings
 #: src/etats_onglet.c:303 src/etats_onglet.c:439
 msgid "Current month incomes and outgoings"
-msgstr "Einnahmen und Ausgaben aktuelles Monat"
+msgstr "Einnahmen und Ausgaben aktueller Monat"
 
 #. Annual budget
 #: src/etats_onglet.c:311 src/etats_onglet.c:504
@@ -2887,7 +2873,7 @@ msgstr "Leerer Bericht"
 #. Previous month incomes and outgoings
 #: src/etats_onglet.c:378
 msgid "Previous month incomes and outgoings"
-msgstr "Einnahmen und Ausgaben Vormonat"
+msgstr "Einnahmen und Ausgaben letztes Monat"
 
 #: src/etats_onglet.c:890
 msgid "Unknown report type, creation cancelled"
@@ -2961,7 +2947,7 @@ msgstr ""
 
 #: src/etats_onglet.c:965
 msgid "???? should not be displayed..."
-msgstr "???? Sollte nicht angezeigt werden..."
+msgstr "Sollte nicht angezeigt werden..."
 
 #: src/etats_onglet.c:991
 #, c-format
@@ -2974,7 +2960,7 @@ msgstr "Der Bericht wird endgültig gelöscht, es gibt keine Wiederherstellung."
 
 #: src/etats_onglet.c:1154
 msgid "Export report"
-msgstr "Bericht exportieren"
+msgstr "Bericht exportieren - Grisbi"
 
 #: src/etats_onglet.c:1159
 msgid "File format"
@@ -3012,11 +2998,11 @@ msgstr "Fertig"
 
 #: src/etats_onglet.c:1253
 msgid "Import a report"
-msgstr "Bericht importieren"
+msgstr "Bericht importieren - Grisbi"
 
 #: src/etats_onglet.c:1260
 msgid "Grisbi report files (*.egsb)"
-msgstr "Grisbi Berichte (esgb Dateien)"
+msgstr "Grisbi Berichte (*.egsb)"
 
 #: src/etats_support.c:67
 msgid "all financial years"
@@ -3041,7 +3027,7 @@ msgstr "alle Daten"
 #: src/etats_support.c:190 src/etats_support.c:294
 #, c-format
 msgid "Result from %s to %s"
-msgstr "Ergebnis von %s nach %s"
+msgstr "Ergebnis von %s bis %s"
 
 #: src/etats_support.c:196
 msgid "Custom dates ranges not filled"
@@ -3177,7 +3163,7 @@ msgstr "Teil-Budgeteinträge"
 
 #: src/export_csv.c:279
 msgid "Reconciliation number"
-msgstr "Abstimmung Nummer"
+msgstr "Abstimmung Nr."
 
 #. CHECKED_TRANSACTION
 #: src/export_csv.c:349
@@ -3336,11 +3322,11 @@ msgstr "Die Datei '%s' ist gesperrt, wurde aber verändert. Wenn Sie die Änderu
 #: src/fichiers_gestion.c:610 src/fichiers_gestion.c:621
 #: src/fichiers_gestion.c:804
 msgid "unnamed"
-msgstr "Umbenannt"
+msgstr "Unbenannt"
 
 #: src/fichiers_gestion.c:613 src/fichiers_gestion.c:623
 msgid "Close without saving"
-msgstr "Beenden ohne speichern"
+msgstr "Beenden ohne Speichern"
 
 #: src/fichiers_gestion.c:620
 #, c-format
@@ -3757,7 +3743,7 @@ msgstr "Spracheinstellung: "
 
 #: src/go-charmap-sel.c:524
 msgid "Conversion Direction"
-msgstr "Konvertierung nach"
+msgstr "Konvertieren nach"
 
 #: src/go-charmap-sel.c:525
 msgid "This value determines which iconv test to perform."
@@ -5286,7 +5272,7 @@ msgstr "Es muss entweder der Währungsname oder der 'ISO-Code' eingegeben werden
 
 #: src/gsb_currency_config.c:1024
 msgid "All fields are not filled in"
-msgstr "Es wurden nicht alle Eingabefelder befüllt"
+msgstr "Es wurden nicht alle Eingabefelder befüllt."
 
 #: src/gsb_currency_config.c:1125
 msgid "Include obsolete currencies"
@@ -5294,11 +5280,11 @@ msgstr "Inklusive veralteter Währungen"
 
 #: src/gsb_currency_link_config.c:90
 msgid "Links between currencies"
-msgstr "Währungen Gegenüberstellung"
+msgstr "Währungen Vergleich"
 
 #: src/gsb_currency_link_config.c:91
 msgid "Known links"
-msgstr "Vorhandene Gegenüberstellungen"
+msgstr "Vorhandene Vergleiche"
 
 #. Input form for currencies
 #: src/gsb_currency_link_config.c:138
@@ -5376,21 +5362,21 @@ msgstr "<span foreground=\"red\">Warnung : Die zwei Währungen sind identisch</s
 
 #: src/gsb_data_currency_link.c:457
 msgid "<span foreground=\"red\">Warning : that link is already defined</span>"
-msgstr "<span foreground=\"red\">Warnung : diese Gegenüberstellung wurde bereits definiert</span>"
+msgstr "<span foreground=\"red\">Warnung : Dieser Vergleich wurde bereits definiert</span>"
 
 #: src/gsb_data_fyear.c:569
 msgid "<span foreground=\"red\">Warning : the dates are not in good order</span>"
-msgstr "<span foreground=\"red\">Warnung : die Daten sind inkonsistent</span>"
+msgstr "<span foreground=\"red\">Warnung : Die Daten sind inkonsistent</span>"
 
 #: src/gsb_data_fyear.c:572
 msgid ""
 "<span foreground=\"red\">Warning : that financial year cross with another "
 "one</span>"
-msgstr "<span foreground=\"red\">Warnung : dieses Geschäftsjahr überschneidet sich mit einem anderen Geschäftsjahr</span>"
+msgstr "<span foreground=\"red\">Warnung : Dieses Geschäftsjahr überschneidet sich mit einem anderen Geschäftsjahr</span>"
 
 #: src/gsb_data_fyear.c:575
 msgid "<span foreground=\"red\">Warning : Invalid date</span>"
-msgstr "<span foreground=\"red\">Warnung : ungültiges Datum</span>"
+msgstr "<span foreground=\"red\">Warnung : Ungültiges Datum</span>"
 
 #: src/gsb_data_payee.c:359
 msgid "No payee defined"
@@ -5642,7 +5628,7 @@ msgid ""
 "Please make sure if is installed (i.e. check that 'grisbi-ssl' package is "
 "installed) and try again."
 msgstr ""
-"Grisbi konnte das erforderliche Modul nicht laden, um diese Datei zu bearbeiten.\n"
+"Grisbi konnte das erforderliche Modul nicht laden, um diese Datei zu verschlüsseln.\n"
 "\n"
 "Bitte prüfen, ob das Modul installiert ist und erneut versuchen."
 
@@ -5784,7 +5770,7 @@ msgstr "Buchungsformular"
 #. create the check button to recover the children of breakdowns
 #: src/gsb_form.c:283
 msgid "Recover the children"
-msgstr "Unterelemente wiederherstellen"
+msgstr "Unterelemente anzeigen"
 
 #: src/gsb_form.c:663
 msgid "Transfer : Deleted account"
@@ -5801,7 +5787,7 @@ msgstr "Auto"
 #: src/gsb_form.c:824 src/gsb_form_scheduler.c:165
 #: src/gsb_scheduler_list.c:855
 msgid "Manual"
-msgstr "Handbuch"
+msgstr "Manuell"
 
 #: src/gsb_form.c:1200
 msgid "Categories : Sub-categories"
@@ -5886,7 +5872,7 @@ msgstr "Das Wort \"Report\" ist reserviert, bitte ein anderes Wort verwenden."
 
 #: src/gsb_form.c:2450
 msgid "Invalid multiple payee."
-msgstr "Ungültige Gruppe von Empfänger."
+msgstr "Ungültige Gruppe von Empfängern."
 
 #: src/gsb_form_config.c:115 src/parametres.c:353
 msgid "Transaction form"
@@ -5989,7 +5975,7 @@ msgstr "zwei Monate"
 
 #: src/gsb_form_scheduler.c:166
 msgid "trimester"
-msgstr "Quartal"
+msgstr "vierteljährlich"
 
 #: src/gsb_form_scheduler.c:166 src/gsb_scheduler_list.c:845
 msgid "Yearly"
@@ -6101,7 +6087,7 @@ msgstr "Geschäftsjahr Details"
 #. Start
 #: src/gsb_fyear_config.c:209
 msgid "Start"
-msgstr "Start"
+msgstr "Beginn"
 
 #. End
 #: src/gsb_fyear_config.c:227
@@ -6219,7 +6205,7 @@ msgid ""
 "is irreversible, these transactions are to be associated with another "
 "payment method."
 msgstr ""
-"Eine Buchungen benützen noch immer diese Zahlungsweise. Die Löschung dieser "
+"Einige Buchungen benützen noch immer diese Zahlungsweise. Die Löschung dieser "
 "Zahlungsweise kann nicht rückgängig gemacht werden. Die Buchungen werden "
 "einer anderen Zahlungsweise zugeordnet."
 
@@ -6241,7 +6227,7 @@ msgstr "mit Modulen"
 #: src/gsb_reconcile.c:127 src/gsb_reconcile.c:133
 #: src/gsb_transactions_list.c:198
 msgid "Reconciliation reference"
-msgstr "Abstimmung Nr"
+msgstr "Abstimmung Nr."
 
 #: src/gsb_reconcile.c:132
 msgid ""
@@ -6257,7 +6243,7 @@ msgstr ""
 #: src/gsb_reconcile.c:217 src/gsb_reconcile_config.c:100
 #: src/gsb_reconcile_config.c:253
 msgid "Final balance"
-msgstr "End-Saldo"
+msgstr "Saldo Ende"
 
 #: src/gsb_reconcile.c:225
 msgid "Checking"
@@ -6269,7 +6255,7 @@ msgstr "Abweichung"
 
 #: src/gsb_reconcile.c:251
 msgid "Sort the list by method of payment"
-msgstr "Die Buchungen nach Zahlungsweise sortieren"
+msgstr "Nach Zahlungsweise sortieren"
 
 #: src/gsb_reconcile.c:499
 msgid ""
@@ -6309,15 +6295,15 @@ msgstr ""
 #: src/gsb_reconcile.c:532 src/navigation.c:1064
 #, c-format
 msgid "Last statement: %s"
-msgstr "Letzter Kontoauszug: %s"
+msgstr "Letzte Abstimmung: %s"
 
 #: src/gsb_reconcile_config.c:99 src/gsb_transactions_list.c:2916
 msgid "Init date"
-msgstr "Initial Datum"
+msgstr "Datum Anfang"
 
 #: src/gsb_reconcile_config.c:100
 msgid "Init balance"
-msgstr "Initial-Saldo"
+msgstr "Saldo Anfang"
 
 #: src/gsb_reconcile_config.c:105 src/parametres.c:336
 msgid "Reconciliation"
@@ -6339,7 +6325,7 @@ msgstr "Abstimmung löschen"
 #. set the button to find non-associated transactions
 #: src/gsb_reconcile_config.c:272
 msgid "Find the marked transactions not associated to a reconcile number"
-msgstr "Buchungen auflisten welche keine Abstimmungsnummer enthalten"
+msgstr "Buchungen ohne Abstimmungsnummer auflisten"
 
 #. we are on a reconcile,
 #. * we ask if the user want to continue and warn him
@@ -6590,7 +6576,7 @@ msgstr "Eine Abstimmung wählen"
 
 #: src/gsb_transactions_list.c:2881
 msgid "Select the reconcile wich the transaction should be associated with :"
-msgstr "Die Abstimmung auswählen mit welcher die Buchungen verknüpft werden sollen :"
+msgstr "Die Abstimmung auswählen mit welcher die Buchung verknüpft werden soll :"
 
 #: src/gsb_transactions_list.c:3001
 msgid "Grisbi couldn't get the selection, operation canceled..."
@@ -6604,7 +6590,7 @@ msgid ""
 "really necessary."
 msgstr ""
 "Eine abgestimmte Buchung kann nicht gelöscht werden.\n"
-"Die Buchung und wenn vorhanden, alle Teil/Gegenbuchungen müssen \"unabgestimmt\" werden. Sie können die die Abstimmung mit STRG R aufheben falls es notwendig ist."
+"Für eine Löschung müssen die Buchung und alle Teil/Gegenbuchungen \"unabgestimmt\" sein. Sie können die die Abstimmung für die selektierte Buchung mit STRG+R aufheben."
 
 #: src/gsb_transactions_list.c:3044 src/gsb_transactions_list.c:3053
 msgid "Delete a transaction"
@@ -6816,7 +6802,7 @@ msgstr "Andre Pascual (andre[at]linuxgraphic.org): Logo"
 
 #: src/help.c:92
 msgid "Axel Rousseau (axel584[at]axel584.org): contributor"
-msgstr "Axel Rousseau (axel584[at]axel584.org): Unterstützter"
+msgstr "Axel Rousseau (axel584[at]axel584.org): Mitarbeiter"
 
 #: src/help.c:93
 msgid "Daniel Cartron (doc[at]grisbi.org): manual"
@@ -6824,7 +6810,7 @@ msgstr "Daniel Cartron (doc[at]grisbi.org): Handbuch"
 
 #: src/help.c:94
 msgid "Dominique Parisot (parisot[at]villey-le-sec.com): contributor"
-msgstr "Dominique Parisot (parisot[at]villey-le-sec.com): Unterstützter"
+msgstr "Dominique Parisot (parisot[at]villey-le-sec.com): Mitarbeiter"
 
 #: src/help.c:95
 msgid "Gerald Niel (gerald.niel[at]grisbi.org): administration"
@@ -6899,7 +6885,7 @@ msgstr "Kodierung"
 
 #: src/import.c:703
 msgid "Congratulations !"
-msgstr "Gratulation !"
+msgstr "Gratulation!"
 
 #: src/import.c:708
 msgid ""
@@ -6913,13 +6899,13 @@ msgstr "Importiertes Konto ohne Namen"
 
 #: src/import.c:746
 msgid "Error !"
-msgstr "Fehler !"
+msgstr "Fehler!"
 
 #: src/import.c:751
 msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
-msgstr "Es wurden keine Daten importiert. Bitte prüfen Sie, ob die Import-Dateien korrekt sind."
+msgstr "Es wurden keine Daten importiert. Bitte die Import-Datei(en) prüfen."
 
 #: src/import.c:815
 msgid "Import terminated"
@@ -7006,7 +6992,7 @@ msgstr "Importiertes Konto"
 #. on propose encore d'arrÃªter...
 #: src/import.c:1564 src/import.c:2174
 msgid "The id of the imported and chosen accounts are different"
-msgstr "Die ID's des importieren und des gewählten Kontos sind unterschiedlich"
+msgstr "Die ID's des importieren und des selektierten Kontos sind unterschiedlich"
 
 #: src/import.c:1565 src/import.c:2175
 msgid ""
@@ -7078,7 +7064,7 @@ msgstr "Buchungen suchen "
 
 #: src/import.c:2791
 msgid "days around the date in the imported transaction."
-msgstr " Tage im Bereich des Datums der importierten Buchung"
+msgstr " Tage im Bereich des Datums der importierten Buchung."
 
 #: src/import_csv.c:77
 msgid "Unknown field"
@@ -7131,7 +7117,7 @@ msgstr "Importiertes Csv-Konto"
 
 #: src/imputation_budgetaire.c:352
 msgid "Export the budgetary lines"
-msgstr "Die Budgeteinträge exportieren"
+msgstr "Budgeteinträge exportieren - Grisbi"
 
 #: src/imputation_budgetaire.c:369
 msgid "Cannot save file."
@@ -7139,11 +7125,11 @@ msgstr "Datei kann nicht gespeichert werden."
 
 #: src/imputation_budgetaire.c:393
 msgid "Import budgetary lines"
-msgstr "Importierte Budgeteinträge"
+msgstr "Budgeteinträge importieren - Grisbi"
 
 #: src/imputation_budgetaire.c:399
 msgid "Grisbi budgetary lines files (*.igsb)"
-msgstr "Datei mit Grisbi Budgeteinträgen  (*.igsb)"
+msgstr "Grisbi Budgeteinträge (*.igsb)"
 
 #: src/imputation_budgetaire.c:425
 msgid "Merge imported budgetary lines with existing?"
@@ -7176,28 +7162,28 @@ msgid ""
 "New sub\n"
 "budgetary line"
 msgstr ""
-"Neuen Teil\n"
-"Budgeteintrag"
+"Neuer\n"
+"Teil-Budgeteintrag"
 
 #: src/imputation_budgetaire.c:509
 msgid "Import a Grisbi budgetary line file (.igsb)"
-msgstr "Datei mit Grisbi Budgeteinträgen (.igsb) importieren"
+msgstr "Budgeteinträge (*.igsb) importieren"
 
 #: src/imputation_budgetaire.c:519
 msgid "Export a Grisbi budgetary line file (.igsb)"
-msgstr "Datei mit Grisbi Budgeteinträgen (.igsb) exportieren"
+msgstr "Budgeteinträge (*.igsb) exportieren"
 
 #: src/imputation_budgetaire.c:529
 msgid "Delete selected budgetary line"
-msgstr "Den gewählten Budgeteintrag löschen"
+msgstr "Den selektierten Budgeteintrag löschen"
 
 #: src/imputation_budgetaire.c:539
 msgid "Edit selected budgetary line"
-msgstr "Den gewählten Budgeteintrag bearbeiten"
+msgstr "Den selektierten Budgeteintrag bearbeiten"
 
 #: src/imputation_budgetaire.c:549
 msgid "Change display mode"
-msgstr "Anzeigemodus ändern"
+msgstr "Darstellung der Liste ändern"
 
 #. Edit transaction
 #: src/imputation_budgetaire.c:572
@@ -7301,7 +7287,7 @@ msgstr "Buchung in geplante Buchung _konvertieren"
 
 #: src/menu.c:212
 msgid "_Move transaction to another account"
-msgstr "Buchung _verschieben"
+msgstr "Buchung _verschieben nach"
 
 #: src/menu.c:215
 msgid "_Preferences"
@@ -7318,7 +7304,7 @@ msgstr "_Neues Konto"
 
 #: src/menu.c:225
 msgid "_Remove current account"
-msgstr "Aktuelles Konto _löschen"
+msgstr "Konto _löschen"
 
 #. Help Menu
 #: src/menu.c:229
@@ -7473,7 +7459,7 @@ msgstr "Der gewählte Bereich kann nicht entfernt werden."
 #: src/metatree.c:1393
 #, c-format
 msgid "'%s' still contains transactions."
-msgstr "'%s' beinhält weiterhin Buchungen."
+msgstr "'%s' sind Buchungen zugeordnet."
 
 #: src/metatree.c:1397
 #, c-format
@@ -7481,17 +7467,17 @@ msgid ""
 "If you want to remove it but want to keep transactions, you can transfer "
 "them to another (sub-)%s.  Otherwise, transactions can be simply deleted "
 "along with their division."
-msgstr "Um die Buchungen nach dem Entfernen des Eintrags zu erhalten, können Sie die Buchungen einer anderen (Unter)%s zuordnen. Es besteht auch die Möglichkeit, die Buchungen rekursiv zu löschen."
+msgstr "In diesem Dialog kann eine Auswahl getroffen werden, ob Buchungen neu zugeordnet werden sollen. Es besteht auch die Möglichkeit, %s zu löschen ohne einer Neuzuordnung von Buchungen."
 
 #: src/metatree.c:1407
 #, c-format
 msgid "Transfer transactions to %s"
-msgstr "Buchungen nach %s verschieben"
+msgstr "Buchungen von %s neu zuordnen"
 
 #: src/metatree.c:1493
 #, c-format
 msgid "Just remove this sub-%s."
-msgstr "Nur diesen Teil-%s entfernen."
+msgstr "%s ohne Neuzuordnung löschen."
 
 #: src/metatree.c:1515
 #, c-format
@@ -7516,12 +7502,12 @@ msgstr "AqBanking"
 
 #: src/navigation.c:1069
 msgid "Last statement: none"
-msgstr "Letzter Kontoauszug: -"
+msgstr "Letzte Abstimmung: -"
 
 #. set the title
 #: src/navigation.c:1146
 msgid "Account transactions"
-msgstr "Konto Buchungen"
+msgstr "Buchungen"
 
 #: src/navigation.c:1151
 msgid "closed"
@@ -7550,7 +7536,7 @@ msgstr "Meldungen & Warnungen"
 
 #: src/parametres.c:327
 msgid "List behavior"
-msgstr "Liste Einstellungen"
+msgstr "Einstellungen"
 
 #: src/parametres.c:362
 msgid "Content"
@@ -7570,7 +7556,7 @@ msgstr "Finanzdaten"
 
 #: src/parametres.c:403
 msgid "Currencies links"
-msgstr "Währung Gegenüberstellung"
+msgstr "Währungsvergleich"
 
 #: src/parametres.c:435
 msgid "Archives"
@@ -7716,7 +7702,7 @@ msgstr ""
 "gribi [optionen] [Datei]\n"
 "  -?, --help                    Die Hilfe anzeigen und beenden\n"
 "  -v, --version                 Versionsnummer anzeigen und beenden\n"
-"  -t, --tab=w[,x[,y[,z]]]    Datei öffnen und gewählten Bereich anzeigen\n"
+"  -t, --tab=w[,x[,y[,z]]]    Datei öffnen und selektierten Bereich anzeigen\n"
 "              w=-1              Dialog für Konfiguration anzeigen\n"
 "              w=[0-6]           Keine Tabs anzeigen <w>\n"
 "              w=7,x[,y[,z]]]    Bereich Berichte anzeigen\n"
@@ -7908,23 +7894,23 @@ msgstr "Bank"
 
 #: src/qif.c:163 src/qif.c:237
 msgid "cash)"
-msgstr "Bargeld)"
+msgstr "Bareinkommen"
 
 #: src/qif.c:166
 msgid "ccard)"
-msgstr "ccard)"
+msgstr "Kreditkarte"
 
 #: src/qif.c:169 src/qif.c:223
 msgid "invst)"
-msgstr "invst)"
+msgstr "Investment"
 
 #: src/qif.c:172 src/qif.c:246
 msgid "oth a)"
-msgstr "oth a)"
+msgstr "andere Einnahmen"
 
 #: src/qif.c:175 src/qif.c:255
 msgid "oth l)"
-msgstr "andere l)"
+msgstr "andere Ausgaben"
 
 #: src/qif.c:228
 msgid ""
@@ -7954,16 +7940,16 @@ msgstr "Einen neuen Empfänger erstellen"
 
 #: src/tiers_onglet.c:245
 msgid "Delete selected payee"
-msgstr "Den gewählten Empfänger löschen"
+msgstr "Den selektierten Empfänger löschen"
 
 #: src/tiers_onglet.c:254
 msgid "Edit selected payee"
-msgstr "Den gewählten Empfänger bearbeiten"
+msgstr "Den selektierten Empfänger bearbeiten"
 
 #. Edit transaction
 #: src/tiers_onglet.c:286
 msgid "Payee view"
-msgstr "Empfänger Ansicht"
+msgstr "Einfach"
 
 #: src/tip.c:79 src/tip.c:110 src/tip.c:117
 msgid "Did you know that..."
@@ -8000,11 +7986,11 @@ msgstr "In Datei drucken"
 #. aie, pb de mÃÂ©moire, on vire
 #: src/utils_files.c:139 src/utils_files.c:156
 msgid "Memory allocation error"
-msgstr "Speicherzugriffsverletzung"
+msgstr "Speicherzugriffsverletzung."
 
 #: src/utils_files.c:201
 msgid "Browse"
-msgstr "umsehen"
+msgstr "durchsuchen"
 
 #: src/utils_file_selection.c:104
 #, c-format
