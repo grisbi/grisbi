@@ -201,6 +201,10 @@ int main (int argc, char *argv[])
     /* unsensitive the necessaries menus */
     menus_sensitifs ( FALSE );
 
+    /* charge les raccourcis claviers */
+    path = g_strconcat (g_get_home_dir (), "/.gnome2/accels/grisbi", NULL);
+    gtk_accel_map_load (path);
+
     /* set the last opened files */
     affiche_derniers_fichiers_ouverts ();
 
@@ -253,6 +257,10 @@ In any case you do work with this version on your original accounting files.\n \
     gtk_main ();
 
     gsb_plugins_release ( );
+
+    /* sauvegarde les raccourcis claviers */
+    gtk_accel_map_save (path);
+    g_free (path);
     exit(0);
 }
 
