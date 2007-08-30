@@ -70,9 +70,8 @@
 
 GtkWidget *window;
 GtkWidget *window_vbox_principale;
-GtkItemFactory *item_factory_menu_general;
 gint id_fonction_idle;
-
+GtkItemFactory *item_factory_menu_general;
 
 /*START_EXTERN*/
 extern gint hauteur_window;
@@ -94,6 +93,7 @@ int main (int argc, char *argv[])
     GtkWidget * statusbar;
     gboolean first_use = FALSE;
     gchar *string;
+    gchar *path;
 
     initialize_debugging();
 
