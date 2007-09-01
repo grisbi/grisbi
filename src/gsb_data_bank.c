@@ -217,7 +217,7 @@ gint gsb_data_bank_new ( const gchar *name )
 
 
 /**
- * remove a bank
+ * remove a bank, remove also the number in the accounts linked to that bank
  *
  * \param bank_number the bank we want to remove
  *
@@ -289,7 +289,7 @@ gint gsb_data_bank_set_new_number ( gint bank_number,
  *
  * \return the name of the bank or NULL if problem
  * */
-gchar *gsb_data_bank_get_name ( gint bank_number )
+const gchar *gsb_data_bank_get_name ( gint bank_number )
 {
     struct_bank *bank;
 
@@ -368,7 +368,7 @@ GSList *gsb_data_bank_get_name_list ( void )
  *
  * \return the bank_code of the bank or NULL if problem
  * */
-gchar *gsb_data_bank_get_code ( gint bank_number )
+const gchar *gsb_data_bank_get_code ( gint bank_number )
 {
     struct_bank *bank;
 
@@ -419,7 +419,7 @@ gboolean gsb_data_bank_set_code ( gint bank_number,
  *
  * \return the bank_address of the bank or NULL if problem
  * */
-gchar *gsb_data_bank_get_bank_address ( gint bank_number )
+const gchar *gsb_data_bank_get_bank_address ( gint bank_number )
 {
     struct_bank *bank;
 
@@ -468,7 +468,7 @@ gboolean gsb_data_bank_set_bank_address ( gint bank_number,
  *
  * \return the bank_tel of the bank or NULL if problem
  * */
-gchar *gsb_data_bank_get_bank_tel ( gint bank_number )
+const gchar *gsb_data_bank_get_bank_tel ( gint bank_number )
 {
     struct_bank *bank;
 
@@ -518,7 +518,7 @@ gboolean gsb_data_bank_set_bank_tel ( gint bank_number,
  *
  * \return the bank_mail of the bank or NULL if problem
  * */
-gchar *gsb_data_bank_get_bank_mail ( gint bank_number )
+const gchar *gsb_data_bank_get_bank_mail ( gint bank_number )
 {
     struct_bank *bank;
 
@@ -568,7 +568,7 @@ gboolean gsb_data_bank_set_bank_mail ( gint bank_number,
  *
  * \return the bank_web of the bank or NULL if problem
  * */
-gchar *gsb_data_bank_get_bank_web ( gint bank_number )
+const gchar *gsb_data_bank_get_bank_web ( gint bank_number )
 {
     struct_bank *bank;
 
@@ -618,7 +618,7 @@ gboolean gsb_data_bank_set_bank_web ( gint bank_number,
  *
  * \return the bank_note of the bank or NULL if problem
  * */
-gchar *gsb_data_bank_get_bank_note ( gint bank_number )
+const gchar *gsb_data_bank_get_bank_note ( gint bank_number )
 {
     struct_bank *bank;
 
@@ -668,7 +668,7 @@ gboolean gsb_data_bank_set_bank_note ( gint bank_number,
  *
  * \return the correspondent_name of the bank or NULL if problem
  * */
-gchar *gsb_data_bank_get_correspondent_name ( gint bank_number )
+const gchar *gsb_data_bank_get_correspondent_name ( gint bank_number )
 {
     struct_bank *bank;
 
@@ -718,7 +718,7 @@ gboolean gsb_data_bank_set_correspondent_name ( gint bank_number,
  *
  * \return the correspondent_tel of the bank or NULL if problem
  * */
-gchar *gsb_data_bank_get_correspondent_tel ( gint bank_number )
+const gchar *gsb_data_bank_get_correspondent_tel ( gint bank_number )
 {
     struct_bank *bank;
 
@@ -768,7 +768,7 @@ gboolean gsb_data_bank_set_correspondent_tel ( gint bank_number,
  *
  * \return the correspondent_mail of the bank or NULL if problem
  * */
-gchar *gsb_data_bank_get_correspondent_mail ( gint bank_number )
+const gchar *gsb_data_bank_get_correspondent_mail ( gint bank_number )
 {
     struct_bank *bank;
 
@@ -818,7 +818,7 @@ gboolean gsb_data_bank_set_correspondent_mail ( gint bank_number,
  *
  * \return the correspondent_fax of the bank or NULL if problem
  * */
-gchar *gsb_data_bank_get_correspondent_fax ( gint bank_number )
+const gchar *gsb_data_bank_get_correspondent_fax ( gint bank_number )
 {
     struct_bank *bank;
 

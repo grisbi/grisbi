@@ -17,6 +17,8 @@ gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc );
 gchar * latin2utf8 ( const gchar * inchar);
 gchar *limit_string ( gchar *string,
 		      gint length );
+void my_gtk_entry_set_text ( GtkEntry *entry,
+			     const gchar *string );
 gint my_strcasecmp ( const gchar *string_1,
 		     const gchar *string_2 );
 gchar *my_strdelimit ( const gchar *string,

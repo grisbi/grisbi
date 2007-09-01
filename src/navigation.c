@@ -1140,6 +1140,10 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_ACCOUNT_PAGE:
 	    notice_debug ("Account page selected");
 
+	    /* we change the account, check before if the properties are not changed,
+	     * and save them if necessary */
+	    sort_du_detail_compte ();
+
 	    account_number = gsb_gui_navigation_get_current_account ();
 
 	    /* set the title */
@@ -1158,8 +1162,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    gsb_menu_update_view_menu ( account_number );
 
 	    /* what to be done if switch to that page */
-	    account_number = gsb_gui_navigation_get_current_account ();
-
 	    if (account_number >= 0 )
 	    {
 		navigation_change_account ( GINT_TO_POINTER(account_number) );

@@ -792,7 +792,7 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 
 	if ( ! find_destination_blob ( iface, model, division, sub_division, 
 				       &nouveau_no_division, &nouveau_no_sub_division ) )
-	    return FALSE;
+	    return;
 
 	/* on fait le tour des opés pour mettre le nouveau numéro de
 	 * division et sub_division */

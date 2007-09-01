@@ -30,10 +30,10 @@
 
 /*START_INCLUDE*/
 #include "comptes_gestion.h"
-#include "./banque.h"
 #include "./erreur.h"
 #include "./dialog.h"
 #include "./comptes_traitements.h"
+#include "./gsb_bank.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_bank.h"
@@ -62,8 +62,10 @@
 
 /*START_STATIC*/
 static void changement_bouton_adresse_commune_perso ( void );
+static gboolean gsb_account_property_update_bank_label ( GtkWidget *combobox,
+						  gpointer null );
+static gboolean modif_detail_compte ( GtkWidget *hbox );
 static void modification_details_compte ( void );
-static void sort_du_detail_compte ( void );
 /*END_STATIC*/
 
 
@@ -74,7 +76,7 @@ GtkWidget *detail_type_compte;
 GtkWidget *detail_titulaire_compte;
 GtkWidget *detail_bouton_adresse_commune;
 GtkWidget *detail_adresse_titulaire;
-GtkWidget *detail_option_menu_banque;
+static GtkWidget *bank_list_combobox;
 GtkWidget *detail_no_compte;
 GtkWidget *label_code_banque;
 GtkWidget *detail_guichet;
@@ -244,15 +246,23 @@ GtkWidget *creation_details_compte ( void )
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-    detail_option_menu_banque = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( detail_option_menu_banque ),
-			       creation_menu_banques () );
-    gtk_box_pack_start ( GTK_BOX(hbox), detail_option_menu_banque, TRUE, TRUE, 0);
+    bank_list_combobox = gsb_bank_create_combobox ();
+    g_signal_connect ( G_OBJECT (bank_list_combobox),
+		       "changed",
+		       G_CALLBACK (modif_detail_compte),
+		       NULL );
+    g_signal_connect ( G_OBJECT (bank_list_combobox),
+		       "changed",
+		       G_CALLBACK (gsb_account_property_update_bank_label),
+		       NULL );
+    gtk_box_pack_start ( GTK_BOX(hbox), bank_list_combobox, TRUE, TRUE, 0);
 
     bouton_detail = gtk_button_new_from_stock ( GTK_STOCK_EDIT );
     gtk_button_set_relief ( GTK_BUTTON ( bouton_detail ), GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_detail ), "clicked",
-			 GTK_SIGNAL_FUNC ( view_bank ), NULL );
+    g_signal_connect ( G_OBJECT ( bouton_detail ),
+		       "clicked",
+		       G_CALLBACK (gsb_bank_edit_from_button),
+		       bank_list_combobox );
     gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_detail, FALSE, FALSE, 0 );
 
 
@@ -429,10 +439,6 @@ GtkWidget *creation_details_compte ( void )
     g_signal_connect_swapped ( G_OBJECT(gtk_text_view_get_buffer(GTK_TEXT_VIEW(detail_adresse_titulaire))),
 			       "changed", ((GCallback) modif_detail_compte), 
 			       hbox_boutons_modif );
-    gtk_signal_connect_object ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_option_menu_banque  ) -> menu ),
-				"selection-done",
-				GTK_SIGNAL_FUNC ( modif_detail_compte ),
-				GTK_OBJECT ( hbox_boutons_modif ) );
     gtk_signal_connect_object ( GTK_OBJECT ( detail_no_compte ),
 				"changed",
 				GTK_SIGNAL_FUNC ( modif_detail_compte ),
@@ -474,6 +480,34 @@ GtkWidget *creation_details_compte ( void )
 }
 /* ************************************************************************************************************ */
 
+
+/**
+ * callback called when change the bank for the account
+ * change the bank code label under the combobox
+ *
+ * \param combobox the combobox containing the banks
+ * \param null
+ *
+ * \return FALSE
+ * */
+gboolean gsb_account_property_update_bank_label ( GtkWidget *combobox,
+						  gpointer null )
+{
+    gint bank_number;
+
+    if (!combobox)
+	return FALSE;
+
+    bank_number = gsb_bank_list_get_bank_number (combobox);
+
+    if (bank_number <= 0)
+	gtk_label_set_text ( GTK_LABEL (label_code_banque),
+			     NULL );
+    else
+	gtk_label_set_text ( GTK_LABEL (label_code_banque),
+			     gsb_data_bank_get_code (bank_number));
+    return FALSE;
+}
 
 
 /* ************************************************************************************************************ */
@@ -563,11 +597,12 @@ GtkWidget *creation_menu_type_compte ( void )
 /* affiche les boutons appliquer / annuler  */
 /* ************************************************************************************************************ */
 
-void modif_detail_compte ( GtkWidget *hbox )
+gboolean modif_detail_compte ( GtkWidget *hbox )
 {
 
     gtk_widget_set_sensitive ( hbox_boutons_modif,
 			       TRUE );
+    return FALSE;
 
 }
 /* ************************************************************************************************************ */
@@ -585,8 +620,8 @@ void remplissage_details_compte ( void )
 
     g_return_if_fail ( compte_courant_onglet >= 0 );
 
-    gtk_entry_set_text ( GTK_ENTRY ( detail_nom_compte ),
-			 gsb_data_account_get_name (compte_courant_onglet) );
+    my_gtk_entry_set_text ( GTK_ENTRY ( detail_nom_compte ),
+			    gsb_data_account_get_name (compte_courant_onglet) );
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_type_compte ),
 				  gsb_data_account_get_kind (compte_courant_onglet) );
@@ -595,11 +630,11 @@ void remplissage_details_compte ( void )
 					gsb_data_account_get_currency (compte_courant_onglet));
 
     if ( gsb_data_account_get_holder_name (compte_courant_onglet) )
-	gtk_entry_set_text ( GTK_ENTRY ( detail_titulaire_compte ),
-			     gsb_data_account_get_holder_name (compte_courant_onglet) );
+	my_gtk_entry_set_text ( GTK_ENTRY ( detail_titulaire_compte ),
+				gsb_data_account_get_holder_name (compte_courant_onglet) );
     else
-	gtk_entry_set_text ( GTK_ENTRY ( detail_titulaire_compte ),
-			     "" );
+	my_gtk_entry_set_text ( GTK_ENTRY ( detail_titulaire_compte ),
+				"" );
 
     gtk_text_buffer_set_text ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (detail_adresse_titulaire)),
  			       ( gsb_data_account_get_holder_address (compte_courant_onglet) ? gsb_data_account_get_holder_address (compte_courant_onglet) : "") , -1 );
@@ -615,63 +650,42 @@ void remplissage_details_compte ( void )
 
     /*     remplissage des infos sur la banque */
     bank_number = gsb_data_account_get_bank (compte_courant_onglet);
-    
-    if (bank_number)
-    {
-	gchar *string;
-
-/* xxx à modifier avec option menu des banques */
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_option_menu_banque ),
-				      bank_number + 1 );
-	string = gsb_data_bank_get_code (bank_number);
-	if (string)
-	    gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
-				 string );
-	else
-	    gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
-				 NULL );
-    }
-    else
-    {
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( detail_option_menu_banque ),
-				      0 );
-	gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
-			     NULL );
-    }
+    gsb_bank_list_set_bank (bank_list_combobox,
+			    bank_number );
 
     if ( gsb_data_account_get_bank_branch_code (compte_courant_onglet) )
-	gtk_entry_set_text ( GTK_ENTRY ( detail_guichet ),
-			     gsb_data_account_get_bank_branch_code (compte_courant_onglet) );
+	my_gtk_entry_set_text ( GTK_ENTRY ( detail_guichet ),
+				gsb_data_account_get_bank_branch_code (compte_courant_onglet) );
     else
-	gtk_entry_set_text ( GTK_ENTRY ( detail_guichet ),
-			     NULL );
+	my_gtk_entry_set_text ( GTK_ENTRY ( detail_guichet ),
+				NULL );
 
     if ( gsb_data_account_get_bank_account_number (compte_courant_onglet) )
-	gtk_entry_set_text ( GTK_ENTRY ( detail_no_compte ),
-			     gsb_data_account_get_bank_account_number (compte_courant_onglet) );
+	my_gtk_entry_set_text ( GTK_ENTRY ( detail_no_compte ),
+				gsb_data_account_get_bank_account_number (compte_courant_onglet) );
     else
-	gtk_entry_set_text ( GTK_ENTRY ( detail_no_compte ),
-			     NULL );
+	my_gtk_entry_set_text ( GTK_ENTRY ( detail_no_compte ),
+				NULL );
 
     if ( gsb_data_account_get_bank_account_key (compte_courant_onglet) )
-	gtk_entry_set_text ( GTK_ENTRY ( detail_cle_compte ),
-			     gsb_data_account_get_bank_account_key (compte_courant_onglet) );
+	my_gtk_entry_set_text ( GTK_ENTRY ( detail_cle_compte ),
+				gsb_data_account_get_bank_account_key (compte_courant_onglet) );
     else
-	gtk_entry_set_text ( GTK_ENTRY ( detail_cle_compte ),
-			     NULL );
+	my_gtk_entry_set_text ( GTK_ENTRY ( detail_cle_compte ),
+				NULL );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON( detail_compte_cloture ),
 				   gsb_data_account_get_closed_account (compte_courant_onglet) );
 
 
-    gtk_entry_set_text ( GTK_ENTRY ( detail_solde_init ),
-			 gsb_real_get_string (gsb_data_account_get_init_balance (compte_courant_onglet, -1)));
+    my_gtk_entry_set_text ( GTK_ENTRY ( detail_solde_init ),
+			    gsb_real_get_string (gsb_data_account_get_init_balance (compte_courant_onglet, -1)));
 
-    gtk_entry_set_text ( GTK_ENTRY ( detail_solde_mini_autorise ),
-			 gsb_real_get_string (gsb_data_account_get_mini_balance_authorized (compte_courant_onglet)));
+    my_gtk_entry_set_text ( GTK_ENTRY ( detail_solde_mini_autorise ),
+			    gsb_real_get_string (gsb_data_account_get_mini_balance_authorized (compte_courant_onglet)));
 
-    gtk_entry_set_text ( GTK_ENTRY ( detail_solde_mini_voulu ),
-			 gsb_real_get_string (gsb_data_account_get_mini_balance_wanted (compte_courant_onglet)));
+    my_gtk_entry_set_text ( GTK_ENTRY ( detail_solde_mini_voulu ),
+			    gsb_real_get_string (gsb_data_account_get_mini_balance_wanted (compte_courant_onglet)));
 
     gtk_text_buffer_set_text ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (detail_commentaire)),
 			       ( gsb_data_account_get_comment (compte_courant_onglet) ? gsb_data_account_get_comment (compte_courant_onglet) : "") , -1 );
@@ -693,6 +707,7 @@ void modification_details_compte ( void )
     GtkTextIter start, end;
     GtkTextBuffer *buffer;
     gsb_real tmp_number;
+    gchar *string;
 
     /* vérification que le compte a un nom */
 
@@ -730,13 +745,8 @@ void modification_details_compte ( void )
     }
 
     /* récupération du titulaire */
-
     gsb_data_account_set_holder_name ( compte_courant_onglet,
-				  my_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_titulaire_compte )))) );
-
-    if ( !strlen ( gsb_data_account_get_holder_name (compte_courant_onglet) ))
-	gsb_data_account_set_holder_name ( compte_courant_onglet,
-				      NULL );
+				       gtk_entry_get_text ( GTK_ENTRY ( detail_titulaire_compte )));
 
 
     /* vérification du type de compte */
@@ -747,8 +757,8 @@ void modification_details_compte ( void )
 	 gsb_data_account_get_kind (compte_courant_onglet) )
     {
 	gsb_data_account_set_kind (compte_courant_onglet,
-			      GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_type_compte ) -> menu_item ),
-								      "no_type_compte" )));
+				   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_type_compte ) -> menu_item ),
+									   "no_type_compte" )));
 	mise_a_jour_fin_comptes_passifs = 1;
 	mise_a_jour_soldes_minimaux = 1;
 	gsb_gui_navigation_update_account ( compte_courant_onglet );
@@ -794,7 +804,7 @@ void modification_details_compte ( void )
 	gsb_data_account_set_currency ( compte_courant_onglet,
 					new_currency_number );
 	
-/* FIXME : voir pourquoi remplissage opé et remettre l'ajustement */
+/* xxx FIXME : voir pourquoi remplissage opé et remettre l'ajustement */
 
 /* 	value = gtk_clist_get_vadjustment ( GTK_CLIST ( CLIST_OPERATIONS )) -> value; */
 	remplissage_liste_operations ( compte_courant_onglet );
@@ -812,67 +822,48 @@ void modification_details_compte ( void )
         buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW (detail_adresse_titulaire) );
 	gtk_text_buffer_get_iter_at_offset ( buffer, &start, 0 );
 	gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );
-	gsb_data_account_set_holder_address ( compte_courant_onglet,
-					 gtk_text_buffer_get_text ( buffer , &start, &end, TRUE ) );
 
-	if ( strlen ( gsb_data_account_get_holder_address (compte_courant_onglet) ))
+	string = gtk_text_buffer_get_text ( buffer , &start, &end, TRUE );
+
+	if (string)
 	{
-	    gsb_data_account_set_holder_address ( compte_courant_onglet,
-					     g_strdelimit ( gsb_data_account_get_holder_address (compte_courant_onglet),
-					       "{",
-					       '(' ) );
-	    gsb_data_account_set_holder_address ( compte_courant_onglet,
-					     g_strdelimit ( gsb_data_account_get_holder_address (compte_courant_onglet),
-					       "}",
-					       ')' ) );
+	    g_strdelimit ( string,
+			   "{",
+			   '(' );
+	    g_strdelimit ( string,
+			   "}",
+			   ')' );
 	}
-	else
-	    gsb_data_account_set_holder_address ( compte_courant_onglet,
-					     NULL );
+	gsb_data_account_set_holder_address ( compte_courant_onglet,
+					      string);
     }
     else
 	gsb_data_account_set_holder_address ( compte_courant_onglet,
-					 NULL );
+					      NULL );
 
 
     /* enregistrement de l'établissement financier */
     gsb_data_account_set_bank ( compte_courant_onglet,
-			   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( detail_option_menu_banque ) -> menu_item ),
-								   "no_banque" )));
+				gsb_bank_list_get_bank_number (bank_list_combobox));
 
     /* enregistrement du no de guichet */
-
     gsb_data_account_set_bank_branch_code ( compte_courant_onglet,
-				       my_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_guichet )))));
-
-    if ( !strlen ( gsb_data_account_get_bank_branch_code (compte_courant_onglet) ))
-	gsb_data_account_set_bank ( compte_courant_onglet,
-			       0 );
+					    gtk_entry_get_text ( GTK_ENTRY ( detail_guichet )));
 
     /* enregistrement du no de compte */
-
     gsb_data_account_set_bank_account_number ( compte_courant_onglet,
-					  my_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_no_compte )))) );
-
-    if ( !strlen ( gsb_data_account_get_bank_account_number (compte_courant_onglet) ))
-	gsb_data_account_set_bank_account_number ( compte_courant_onglet,
-					      NULL );
+					       gtk_entry_get_text ( GTK_ENTRY ( detail_no_compte )));
 
     /* enregistrement de la clé du compte */
-
     gsb_data_account_set_bank_account_key ( compte_courant_onglet,
-				       my_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_cle_compte )))) );
-
-    if ( !strlen ( gsb_data_account_get_bank_account_key (compte_courant_onglet) ))
-	gsb_data_account_set_bank_account_key ( compte_courant_onglet,
-					   NULL );
+					    gtk_entry_get_text ( GTK_ENTRY ( detail_cle_compte )));
 
     /* enregistrement du compte cloturé */
 
     if ( gsb_data_account_get_closed_account (compte_courant_onglet) != gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture )))
     {
 	gsb_data_account_set_closed_account ( compte_courant_onglet,
-					 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture )));
+					      gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( detail_compte_cloture )));
 
 	gsb_gui_navigation_update_account ( compte_courant_onglet );
 
@@ -941,24 +932,19 @@ void modification_details_compte ( void )
     buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW (detail_commentaire) );
     gtk_text_buffer_get_iter_at_offset ( buffer, &start, 0 );
     gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );
-    gsb_data_account_set_comment ( compte_courant_onglet,
-			      gtk_text_buffer_get_text ( buffer , &start, &end, TRUE ) );
 
-    if ( strlen ( gsb_data_account_get_comment (compte_courant_onglet) ))
+    string = gtk_text_buffer_get_text ( buffer , &start, &end, TRUE );
+    if (string)
     {
-	gsb_data_account_set_comment ( compte_courant_onglet,
-				  g_strdelimit ( gsb_data_account_get_comment (compte_courant_onglet),
-						 "{",
-						 '(' ) );
-	gsb_data_account_set_comment ( compte_courant_onglet,
-				  g_strdelimit ( gsb_data_account_get_comment (compte_courant_onglet),
-						 "}",
-						 ')' ) );
+	g_strdelimit ( string,
+		       "{",
+		       '(' );
+	g_strdelimit ( string,
+		       "}",
+		       ')' );   
     }
-    else
-	gsb_data_account_set_comment ( compte_courant_onglet,
-				  NULL );
-
+    gsb_data_account_set_comment ( compte_courant_onglet,
+				   string );
 
     /* vérification du nom du compte */
     /* on doit le vérifier en dernier car s'il a changé, on va réafficher */
@@ -971,7 +957,7 @@ void modification_details_compte ( void )
 		  gsb_data_account_get_name (compte_courant_onglet) ) )
     {
 	gsb_data_account_set_name ( compte_courant_onglet,
-			       my_strdup ( g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte )))) );
+				    gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte )));
 
 	gsb_gui_navigation_update_account ( compte_courant_onglet );
 	gsb_menu_update_accounts_in_menus ();
@@ -1020,7 +1006,7 @@ void sort_du_detail_compte ( void )
 	gint result;
 
 	result = question_yes_no_hint ( _("Apply changes to account?"),
-					  g_strdup_printf ( _("Account \"%s\" has been modified.\nDo you want to save changes?"),
+					  g_strdup_printf ( _("Property of account \"%s\" has been modified.\nDo you want to save changes?"),
 							    gsb_data_account_get_name (compte_courant_onglet) ),
 					  GTK_RESPONSE_NO  );
 	
@@ -1036,42 +1022,6 @@ void sort_du_detail_compte ( void )
 /* ************************************************************************************************************ */
 
 
-
-
-/* ************************************************************************************************************ */
-/* Appelée lorsqu'on change de banque le compte, met à jour le code de la banque écrit en dessous */
-/* ************************************************************************************************************ */
-void changement_de_banque ( GtkWidget * menu_shell )
-{
-    gint bank_number;
-
-    bank_number = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( menu_shell ), "no_banque" ));
-
-    if (bank_number)
-    {
-	gchar *string;
-
-	string = gsb_data_bank_get_code (bank_number);
-	if (string)
-	{
-	    gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
-				 string );
-	}
-	else
-	    gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
-				 NULL );
-	gtk_widget_set_sensitive ( bouton_detail,
-				   TRUE );
-    }
-    else
-    {
-	gtk_label_set_text ( GTK_LABEL ( label_code_banque ),
-			     NULL );
-	gtk_widget_set_sensitive ( bouton_detail,
-				   FALSE );
-    }
-}
-/* ************************************************************************************************************ */
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

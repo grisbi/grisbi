@@ -18,7 +18,6 @@ sources = \
 	accueil.c		\
 	affichage.c		\
 	affichage_liste.c	\
-	banque.c		\
 	barre_outils.c		\
 	categories_onglet.c	\
 	classement_echeances.c	\
@@ -51,6 +50,7 @@ sources = \
 	gsb_assistant_reconcile_config.c		\
 	gsb_autofunc.c		\
 	gsb_automem.c		\
+	gsb_bank.c		\
 	gsb_combo_box.c		\
 	gsb_calendar_entry.c	\
 	gsb_currency.c		\
@@ -140,7 +140,6 @@ grisbi_INCLUDES =		\
 	accueil.h		\
 	affichage.h		\
 	affichage_liste.h	\
-	banque.h		\
 	barre_outils.h		\
 	categories_onglet.h	\
 	classement_echeances.h	\
@@ -156,6 +155,7 @@ grisbi_INCLUDES =		\
 	gsb_assistant_reconcile_config.h		\
 	gsb_autofunc.h		\
 	gsb_automem.h		\
+	gsb_bank.h		\
 	gsb_combo_box.h		\
 	gsb_calendar_entry.h	\
 	gsb_currency.h		\

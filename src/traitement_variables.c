@@ -121,6 +121,7 @@ gchar *adresse_secondaire;
 /*START_EXTERN*/
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
+extern GtkTreeModel *bank_list_model ;
 extern gchar *chemin_logo;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
@@ -216,6 +217,9 @@ void init_variables ( void )
     /* init the colors for the entries */
     gsb_form_widget_init_entry_colors ();
     gsb_calendar_init_entry_colors ();
+
+    /* no bank in memory for now */
+    bank_list_model = NULL;
 
     mise_a_jour_liste_comptes_accueil = 0;
     mise_a_jour_liste_echeances_manuelles_accueil = 0;
