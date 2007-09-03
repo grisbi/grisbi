@@ -39,55 +39,43 @@
 #include "./traitement_variables.h"
 #include "./utils.h"
 #include "./structures.h"
+#include "./gsb_transactions_list.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  gint gsb_bank_add ( GtkWidget *button, GtkWidget *clist );
+static  gboolean gsb_bank_add ( GtkWidget *button,
+			       gpointer null );
 static  gboolean gsb_bank_create_combobox_model ( void );
 static  GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 					 GtkWidget *combobox );
 static  gboolean gsb_bank_delete ( GtkWidget *button,
-				  GtkWidget *bank_list );
+				  gpointer null );
 static  gboolean gsb_bank_edit_bank ( gint bank_number,
 				     GtkWidget *combobox );
+static  gboolean gsb_bank_list_change_selection ( GtkTreeSelection *selection,
+						 GtkWidget *container );
 static  gboolean gsb_bank_list_changed ( GtkWidget *combobox,
 					gpointer null );
 static  gboolean gsb_bank_list_check_separator ( GtkTreeModel *model,
 						GtkTreeIter *iter,
 						gpointer null );
-static  void gsb_bank_list_select ( GtkWidget *liste,
-				   gint ligne,
-				   gint colonne,
-				   GdkEventButton *ev,
-				   GtkWidget *frame );
-static  void gsb_bank_list_unselect ( GtkWidget *liste,
-				     gint ligne,
-				     gint colonne,
-				     GdkEventButton *ev,
-				     GtkWidget *frame );
 static  gboolean gsb_bank_update_form ( gint bank_number,
 				       GtkWidget *frame );
-static  gboolean gsb_bank_update_list ( GtkEntry *entry, 
-				       GtkWidget *combobox );
-static  gboolean gsb_bank_update_list_model ( GtkWidget *combobox);
+static  gboolean gsb_bank_update_selected_line ( GtkEntry *entry, 
+						GtkWidget *combobox );
+static  gboolean gsb_bank_update_selected_line_model ( GtkWidget *combobox );
 /*END_STATIC*/
 
+static GtkWidget *bank_list_tree_view;
+enum bank_list_col 
+{
+   BANK_VIEW_NAME_COL = 0,
+   BANK_TALKER_COL,
+   BANK_NUMBER,
+   BANK_LIST_COL_NB
+};
 
-static GtkWidget *clist_banques_parametres;
-static GtkWidget *bouton_supprimer_banque;
-static GtkWidget *nom_banque;
-static GtkWidget *code_banque;
-static GtkWidget *tel_banque;
-static GtkWidget *adr_banque;
-static GtkWidget *email_banque;
-static GtkWidget *web_banque;
-static GtkWidget *nom_correspondant;
-static GtkWidget *tel_correspondant;
-static GtkWidget *email_correspondant;
-static GtkWidget *fax_correspondant;
-static GtkWidget *remarque_banque;
-static gint ligne_selection_banque;
 
 /* the model containing the list of the banks for the combobox */
 GtkTreeModel *bank_list_model = NULL;
@@ -99,9 +87,22 @@ enum bank_list_model_col
 };
 
 
+/* entries of the form */
+static GtkWidget *delete_bank_button;
+static GtkWidget *bank_name;
+static GtkWidget *bank_code;
+static GtkWidget *bank_tel;
+static GtkWidget *bank_adr;
+static GtkWidget *bank_mail;
+static GtkWidget *bank_web;
+static GtkWidget *bank_contact_name;
+static GtkWidget *bank_contact_tel;
+static GtkWidget *bank_contact_mail;
+static GtkWidget *bank_contact_fax;
+static GtkWidget *bank_notes;
+
 
 /*START_EXTERN*/
-extern GtkWidget *fenetre_preferences;
 extern GtkTreeSelection * selection;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -126,7 +127,7 @@ GtkWidget *gsb_bank_create_combobox ( void )
 
     /* create the model if not done */
     if (!bank_list_model)
-	gsb_bank_update_list_model (NULL);
+	gsb_bank_update_selected_line_model (NULL);
 
     combo_box = gtk_combo_box_new_with_model (bank_list_model);
 
@@ -272,7 +273,7 @@ static gboolean gsb_bank_create_combobox_model ( void )
  *
  * \return TRUE if ok, FALSE if problem 
  * */
-static gboolean gsb_bank_update_list_model ( GtkWidget *combobox)
+static gboolean gsb_bank_update_selected_line_model ( GtkWidget *combobox )
 {
     GtkTreeIter iter;
     GSList *list_tmp;
@@ -391,10 +392,6 @@ static gboolean gsb_bank_list_changed ( GtkWidget *combobox,
 
     /* asked to add a new bank */
     bank_number = gsb_bank_add (combobox, NULL);
-
-    if (bank_number)
-	gsb_bank_edit_bank (bank_number, combobox);
-
     return FALSE;
 }
 
@@ -414,69 +411,115 @@ GtkWidget *gsb_bank_create_page ( void )
     GtkWidget *vbox_pref;
     GtkWidget *scrolled_window, *vbox, *vbox2;
     GtkWidget *button, *hbox, *paddingbox;
-
-    GSList *liste_tmp;
-    gchar *bank_cols_titles [2] = {_("Bank"),
-	_("Contact name") };
+    GtkListStore *store;
+    GtkTreeSelection *selection;
+    gint i;
+    gchar *titles[] = {
+	_("Bank"), _("Contact name")
+    };
+    gfloat alignment[] = {
+	COLUMN_LEFT, COLUMN_LEFT
+    };
+    GtkWidget *vpaned;
+    GtkWidget *paned1, *paned2;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Banks"), "banks.png" );
 
+    vpaned = gtk_vpaned_new ();
+    gtk_box_pack_start ( GTK_BOX (vbox_pref),
+			 vpaned,
+			 TRUE, TRUE, 0 );
+
     /* Create bank list */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
+    paned1 = gtk_vbox_new (FALSE, 0);
+    gtk_paned_pack1 ( GTK_PANED (vpaned), paned1,
+		      TRUE, TRUE );
+
+    paddingbox = new_paddingbox_with_title ( paned1, TRUE,
 					     _("Known banks") );
+
+    hbox = gtk_hbox_new ( FALSE, 10 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+			 TRUE, TRUE, 0);
+
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_NEVER,
 				     GTK_POLICY_AUTOMATIC);
-    clist_banques_parametres = gtk_clist_new_with_titles ( 2,
-							   bank_cols_titles);
-    gtk_widget_set_usize ( clist_banques_parametres,
-			   FALSE, 100 );
-    gtk_clist_set_column_auto_resize ( GTK_CLIST ( clist_banques_parametres ) ,
-				       0, TRUE );
-    gtk_clist_set_column_auto_resize ( GTK_CLIST ( clist_banques_parametres ) ,
-				       1, TRUE );
-    gtk_signal_connect_object  ( GTK_OBJECT ( fenetre_preferences ),
-				 "close",
-				 GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ),
-				 GTK_OBJECT ( clist_banques_parametres ));
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			clist_banques_parametres );
-
-    hbox = gtk_hbox_new ( FALSE, 10 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0);
     gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window,
 			 TRUE, TRUE, 0);
+
+    /* set the store */
+    store = gtk_list_store_new ( BANK_LIST_COL_NB,
+				 G_TYPE_STRING,
+				 G_TYPE_STRING,
+				 G_TYPE_INT );
+    bank_list_tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW (bank_list_tree_view),
+				   TRUE );
+    gtk_container_add ( GTK_CONTAINER (scrolled_window),
+			bank_list_tree_view );
+
+    /* connect the selection */
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (bank_list_tree_view));
+    gtk_tree_selection_set_mode ( GTK_TREE_SELECTION (selection),
+				  GTK_SELECTION_SINGLE );
+
+    /* set the columns */
+    for (i=0 ; i< BANK_NUMBER; i++)
+    {
+	/* this is a text column */
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *cell;
+
+	cell = gtk_cell_renderer_text_new ();
+	g_object_set ( G_OBJECT (cell),
+		       "xalign", alignment[i],
+		       NULL );
+
+	column = gtk_tree_view_column_new ( );
+	gtk_tree_view_column_set_sizing ( column,
+					  GTK_TREE_VIEW_COLUMN_AUTOSIZE );
+	gtk_tree_view_column_set_alignment ( column,
+					     alignment[i] );
+
+	gtk_tree_view_column_pack_start ( column, cell, TRUE );
+	gtk_tree_view_column_set_title ( column, titles[i] );
+	gtk_tree_view_column_set_attributes (column, cell,
+					     "text", i,
+					     NULL);
+	gtk_tree_view_column_set_expand ( column, TRUE );
+	gtk_tree_view_column_set_resizable ( column,
+					     TRUE );
+	gtk_tree_view_append_column ( GTK_TREE_VIEW(bank_list_tree_view), column);
+    }
 
     /* Do not activate unless an account is opened */
     if ( !gsb_data_account_get_accounts_amount () )
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     else
     {
-	liste_tmp = gsb_data_bank_get_bank_list ();
+	/* fill the list */
+	GSList *tmp_list;
 
-	while ( liste_tmp )
+	tmp_list = gsb_data_bank_get_bank_list ();
+
+	while ( tmp_list )
 	{
 	    gint bank_number;
-	    const gchar *ligne[2];
-	    gint ligne_insert;
+	    GtkTreeIter iter;
 
-	    bank_number = gsb_data_bank_get_no_bank (liste_tmp -> data);
+	    bank_number = gsb_data_bank_get_no_bank (tmp_list -> data);
 
-	    ligne[0] = gsb_data_bank_get_name (bank_number);
-	    ligne[1] = gsb_data_bank_get_correspondent_name (bank_number);
-/* xxx ici il faut refaire la liste car attend un pas const gchar */
-	    ligne_insert = gtk_clist_append ( GTK_CLIST ( clist_banques_parametres ),
-					      ligne );
-
-	    /* on associe à la ligne la struct de la banque */
-
-	    gtk_clist_set_row_data ( GTK_CLIST ( clist_banques_parametres ),
-				     ligne_insert,
-				     GINT_TO_POINTER (bank_number));
-
-	    liste_tmp = liste_tmp -> next;
+	    gtk_list_store_append ( GTK_LIST_STORE (store),
+				    &iter );
+	    gtk_list_store_set ( GTK_LIST_STORE (store),
+				 &iter,
+				 BANK_VIEW_NAME_COL, gsb_data_bank_get_name (bank_number),
+				 BANK_TALKER_COL, gsb_data_bank_get_correspondent_name (bank_number),
+				 BANK_NUMBER, bank_number,
+				 -1 );
+	    tmp_list = tmp_list -> next;
 	}
     }
 
@@ -486,27 +529,31 @@ GtkWidget *gsb_bank_create_page ( void )
 			 FALSE, FALSE, 0 );
     /* Add button */
     button = gtk_button_new_from_stock (GTK_STOCK_ADD);
-    gtk_signal_connect ( GTK_OBJECT ( button ), "clicked",
-			 GTK_SIGNAL_FUNC  ( gsb_bank_add ),
-			 clist_banques_parametres );
+    g_signal_connect ( G_OBJECT ( button ), "clicked",
+		       G_CALLBACK  ( gsb_bank_add ),
+		       NULL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), button,
 			 FALSE, FALSE, 5 );
     /* Remove button */
-    bouton_supprimer_banque = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-    gtk_widget_set_sensitive ( bouton_supprimer_banque, FALSE );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_supprimer_banque ), "clicked",
-			 GTK_SIGNAL_FUNC  ( gsb_bank_delete ),
-			 clist_banques_parametres );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), bouton_supprimer_banque,
+    delete_bank_button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+    gtk_widget_set_sensitive ( delete_bank_button, FALSE );
+    g_signal_connect ( G_OBJECT ( delete_bank_button ), "clicked",
+		       G_CALLBACK ( gsb_bank_delete ),
+		       NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), delete_bank_button,
 			 FALSE, FALSE, 5 );
 
 
     /* Add a scroll because bank details are huge */
+    paned2 = gtk_vbox_new (FALSE, 0);
+    gtk_paned_pack2 ( GTK_PANED (vpaned), paned2,
+		      TRUE, TRUE );
+
     scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_NEVER,
 				     GTK_POLICY_AUTOMATIC );
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), scrolled_window,
+    gtk_box_pack_start ( GTK_BOX ( paned2 ), scrolled_window,
 			 TRUE, TRUE, 5 );
     vbox2 = gtk_vbox_new ( FALSE, 0 );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
@@ -519,65 +566,43 @@ GtkWidget *gsb_bank_create_page ( void )
 
     gsb_bank_create_form ( vbox2, NULL );
 
-    /* Active only if a bank is selected */
-    gtk_signal_connect ( GTK_OBJECT ( clist_banques_parametres ),
-			 "select-row",
-			 GTK_SIGNAL_FUNC ( gsb_bank_list_select ),
-			 vbox2 );
-    gtk_signal_connect ( GTK_OBJECT ( clist_banques_parametres ),
-			 "unselect-row",
-			 GTK_SIGNAL_FUNC ( gsb_bank_list_unselect ),
-			 vbox2 );
-
-    /* Select first entry if applicable */
-    gtk_clist_select_row ( GTK_CLIST(clist_banques_parametres), 0, 0 );
+    /* connect the selection with vbox2, the container of the form */
+    g_signal_connect ( G_OBJECT (selection),
+		       "changed",
+		       G_CALLBACK (gsb_bank_list_change_selection),
+		       vbox2 );
 
     return ( vbox_pref );
 }
-
 
 /**
  * Fills in bank details widgets with corresponding stuff.  Make them
  * active as well.
  *
- * \param liste		gtkclist containing banks
- * \param ligne		selected bank
- * \param colonne	not used, for handler's sake only
- * \param ev button	event, not used, for handler's sake only
- * \param frame		widget or widget group to activate
- */
-static void gsb_bank_list_select ( GtkWidget *liste,
-				   gint ligne,
-				   gint colonne,
-				   GdkEventButton *ev,
-				   GtkWidget *frame )
-{
-    gint bank_number;
-
-    ligne_selection_banque = ligne;
-    bank_number = GPOINTER_TO_INT (gtk_clist_get_row_data ( GTK_CLIST ( liste ), ligne ));
-
-    gsb_bank_update_form ( bank_number, frame );
-}
-
-
-
-/**
- * Clear bank details widgets.  Make them unactive as well.
+ * \param selection
+ * \param container a vbox containing the form
  *
- * \param liste		gtkclist containing banks
- * \param ligne		previously selected bank
- * \param colonne	not used, for handler's sake only
- * \param ev button	event, not used, for handler's sake only
- * \param frame		widget or widget group to deactivate
+ * \return FALSE
  */
-static void gsb_bank_list_unselect ( GtkWidget *liste,
-				     gint ligne,
-				     gint colonne,
-				     GdkEventButton *ev,
-				     GtkWidget *frame )
+static gboolean gsb_bank_list_change_selection ( GtkTreeSelection *selection,
+						 GtkWidget *container )
 {
-    gsb_bank_update_form ( -1, frame );
+    GtkTreeIter iter;
+    GtkTreeModel *model;
+
+    if (gtk_tree_selection_get_selected ( selection, &model, &iter))
+    {
+	gint bank_number;
+
+	gtk_tree_model_get ( GTK_TREE_MODEL (model),
+			     &iter,
+			     BANK_NUMBER, &bank_number,
+			     -1 );
+	gsb_bank_update_form ( bank_number, container );
+    }
+    else
+	gsb_bank_update_form ( -1, container );
+    return FALSE;
 }
 
 
@@ -597,7 +622,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
     GtkSizeGroup * size_group;
 
     /* Bank details */
-    paddingbox = new_paddingbox_with_title ( parent, FALSE,
+    paddingbox = new_paddingbox_with_title ( parent, TRUE,
 					     _("Bank details") );
 
     /* Create a table to align things nicely */
@@ -616,10 +641,10 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    nom_banque = gsb_autofunc_entry_new ( NULL, G_CALLBACK(gsb_bank_update_list), combobox, G_CALLBACK (gsb_data_bank_set_name), 0);
-    gtk_size_group_add_widget ( size_group, nom_banque );
+    bank_name = gsb_autofunc_entry_new ( NULL, G_CALLBACK(gsb_bank_update_selected_line), combobox, G_CALLBACK (gsb_data_bank_set_name), 0);
+    gtk_size_group_add_widget ( size_group, bank_name );
     gtk_table_attach ( GTK_TABLE ( table ),
-		       nom_banque, 1, 2, 0, 1,
+		       bank_name, 1, 2, 0, 1,
 		       GTK_EXPAND | GTK_FILL, 0,
 		       0, 0 );
 
@@ -631,10 +656,10 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    code_banque = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_code), 0);
-    gtk_size_group_add_widget ( size_group, code_banque );
+    bank_code = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_code), 0);
+    gtk_size_group_add_widget ( size_group, bank_code );
     gtk_table_attach ( GTK_TABLE ( table ),
-		       code_banque, 1, 2, 1, 2,
+		       bank_code, 1, 2, 1, 2,
 		       GTK_EXPAND | GTK_FILL, 0,
 		       0, 0 );
 
@@ -653,9 +678,9 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
 					  GTK_SHADOW_IN );
     /* Create the text view */
-    adr_banque = gsb_autofunc_textview_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_address), 0);
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), adr_banque );
-    gtk_size_group_add_widget ( size_group, adr_banque );
+    bank_adr = gsb_autofunc_textview_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_address), 0);
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), bank_adr );
+    gtk_size_group_add_widget ( size_group, bank_adr );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       scrolled_window, 1, 2, 2, 3,
 		       GTK_EXPAND | GTK_FILL, 0,
@@ -669,10 +694,10 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       label, 0, 1, 4, 5,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    tel_banque = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_tel), 0);
-    gtk_size_group_add_widget ( size_group, tel_banque );
+    bank_tel = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_tel), 0);
+    gtk_size_group_add_widget ( size_group, bank_tel );
     gtk_table_attach ( GTK_TABLE ( table ),
-		       tel_banque, 1, 2, 4, 5,
+		       bank_tel, 1, 2, 4, 5,
 		       GTK_EXPAND | GTK_FILL, 0,
 		       0, 0 );
 
@@ -684,10 +709,10 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       label, 0, 1, 3, 4,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    email_banque = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_mail), 0);
-    gtk_size_group_add_widget ( size_group, email_banque );
+    bank_mail = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_mail), 0);
+    gtk_size_group_add_widget ( size_group, bank_mail );
     gtk_table_attach ( GTK_TABLE ( table ),
-		       email_banque, 1, 2, 3, 4,
+		       bank_mail, 1, 2, 3, 4,
 		       GTK_EXPAND | GTK_FILL, 0,
 		       0, 0 );
 
@@ -699,10 +724,10 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       label, 0, 1, 5, 6,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    web_banque = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_web), 0);
-    gtk_size_group_add_widget ( size_group, web_banque );
+    bank_web = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_web), 0);
+    gtk_size_group_add_widget ( size_group, bank_web );
     gtk_table_attach ( GTK_TABLE ( table ),
-		       web_banque, 1, 2, 5, 6,
+		       bank_web, 1, 2, 5, 6,
 		       GTK_EXPAND | GTK_FILL, 0,
 		       0, 0 );
 
@@ -722,10 +747,10 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    nom_correspondant = gsb_autofunc_entry_new ( NULL, G_CALLBACK(gsb_bank_update_list), NULL, G_CALLBACK (gsb_data_bank_set_correspondent_name), 0);
-    gtk_size_group_add_widget ( size_group, nom_correspondant );
+    bank_contact_name = gsb_autofunc_entry_new ( NULL, G_CALLBACK(gsb_bank_update_selected_line), NULL, G_CALLBACK (gsb_data_bank_set_correspondent_name), 0);
+    gtk_size_group_add_widget ( size_group, bank_contact_name );
     gtk_table_attach ( GTK_TABLE ( table ),
-		       nom_correspondant, 1, 2, 0, 1,
+		       bank_contact_name, 1, 2, 0, 1,
 		       GTK_EXPAND | GTK_FILL, 0,
 		       0, 0 );
 
@@ -737,10 +762,10 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       label, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    tel_correspondant = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_correspondent_tel), 0);
-    gtk_size_group_add_widget ( size_group, tel_correspondant );
+    bank_contact_tel = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_correspondent_tel), 0);
+    gtk_size_group_add_widget ( size_group, bank_contact_tel );
     gtk_table_attach ( GTK_TABLE ( table ),
-		       tel_correspondant, 1, 2, 1, 2,
+		       bank_contact_tel, 1, 2, 1, 2,
 		       GTK_EXPAND | GTK_FILL, 0,
 		       0, 0 );
 
@@ -752,10 +777,10 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       label, 0, 1, 3, 4,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    fax_correspondant = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_correspondent_fax), 0);
-    gtk_size_group_add_widget ( size_group, fax_correspondant );
+    bank_contact_fax = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_correspondent_fax), 0);
+    gtk_size_group_add_widget ( size_group, bank_contact_fax );
     gtk_table_attach ( GTK_TABLE ( table ),
-		       fax_correspondant, 1, 2, 3, 4,
+		       bank_contact_fax, 1, 2, 3, 4,
 		       GTK_EXPAND | GTK_FILL, 0,
 		       0, 0 );
 
@@ -767,10 +792,10 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       label, 0, 1, 2, 3,
 		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
-    email_correspondant = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_correspondent_mail), 0);
-    gtk_size_group_add_widget ( size_group, email_correspondant );
+    bank_contact_mail = gsb_autofunc_entry_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_correspondent_mail), 0);
+    gtk_size_group_add_widget ( size_group, bank_contact_mail );
     gtk_table_attach ( GTK_TABLE ( table ),
-		       email_correspondant, 1, 2, 2, 3,
+		       bank_contact_mail, 1, 2, 2, 3,
 		       GTK_EXPAND | GTK_FILL, 0,
 		       0, 0 );
 
@@ -784,9 +809,9 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 					  GTK_SHADOW_IN );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
 			 TRUE, TRUE, 5 );
-    remarque_banque = gsb_autofunc_textview_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_note), 0);
-    gtk_widget_set_usize ( remarque_banque, FALSE, 100 );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), remarque_banque );
+    bank_notes = gsb_autofunc_textview_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_note), 0);
+    gtk_widget_set_usize ( bank_notes, FALSE, 100 );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), bank_notes );
 
     return parent;
 }
@@ -807,29 +832,29 @@ static gboolean gsb_bank_update_form ( gint bank_number,
 
     /* we can let the defaults func even for -1 because with a bank_number of -1, all the gsb_data_bank_get_...
      * will return NULL, and that's we want... */
-    gsb_autofunc_entry_set_value ( nom_banque, gsb_data_bank_get_name (bank_number), bank_number);
-    gsb_autofunc_entry_set_value ( code_banque, gsb_data_bank_get_code (bank_number), bank_number);
-    gsb_autofunc_entry_set_value ( tel_banque, gsb_data_bank_get_bank_tel (bank_number), bank_number);
-    gsb_autofunc_entry_set_value ( email_banque, gsb_data_bank_get_bank_mail (bank_number), bank_number);
-    gsb_autofunc_entry_set_value ( web_banque, gsb_data_bank_get_bank_web (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( bank_name, gsb_data_bank_get_name (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( bank_code, gsb_data_bank_get_code (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( bank_tel, gsb_data_bank_get_bank_tel (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( bank_mail, gsb_data_bank_get_bank_mail (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( bank_web, gsb_data_bank_get_bank_web (bank_number), bank_number);
 
-    gsb_autofunc_entry_set_value ( nom_correspondant, gsb_data_bank_get_correspondent_name (bank_number), bank_number);
-    gsb_autofunc_entry_set_value ( tel_correspondant, gsb_data_bank_get_correspondent_tel (bank_number), bank_number);
-    gsb_autofunc_entry_set_value ( email_correspondant, gsb_data_bank_get_correspondent_mail (bank_number), bank_number);
-    gsb_autofunc_entry_set_value ( fax_correspondant, gsb_data_bank_get_correspondent_fax (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( bank_contact_name, gsb_data_bank_get_correspondent_name (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( bank_contact_tel, gsb_data_bank_get_correspondent_tel (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( bank_contact_mail, gsb_data_bank_get_correspondent_mail (bank_number), bank_number);
+    gsb_autofunc_entry_set_value ( bank_contact_fax, gsb_data_bank_get_correspondent_fax (bank_number), bank_number);
 
-    gsb_autofunc_textview_set_value ( adr_banque, gsb_data_bank_get_bank_address (bank_number), bank_number );
-    gsb_autofunc_textview_set_value ( remarque_banque, gsb_data_bank_get_bank_note (bank_number), bank_number );
+    gsb_autofunc_textview_set_value ( bank_adr, gsb_data_bank_get_bank_address (bank_number), bank_number );
+    gsb_autofunc_textview_set_value ( bank_notes, gsb_data_bank_get_bank_note (bank_number), bank_number );
 
     /* show/hide the frame and the button delete bank */
     if (bank_number == -1)
 	value = FALSE;
     else
 	value = TRUE;
-
     gtk_widget_set_sensitive ( frame, value );
-    if ( GTK_IS_WIDGET(bouton_supprimer_banque))
-	gtk_widget_set_sensitive ( bouton_supprimer_banque, value );
+
+    if ( GTK_IS_WIDGET(delete_bank_button))
+	gtk_widget_set_sensitive ( delete_bank_button, value );
 
     return FALSE;
 }
@@ -896,80 +921,95 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
  *
  * \return FALSE
  */
-static gboolean gsb_bank_update_list ( GtkEntry *entry, 
-				       GtkWidget *combobox )
+static gboolean gsb_bank_update_selected_line ( GtkEntry *entry, 
+						GtkWidget *combobox )
 {
-    if ( GTK_IS_CLIST ( clist_banques_parametres ) )
+    if ( bank_list_tree_view
+	 &&
+	 GTK_IS_TREE_VIEW (bank_list_tree_view))
     {
-	gtk_clist_set_text ( GTK_CLIST(clist_banques_parametres),
-			     ligne_selection_banque, 0,
-			     gtk_entry_get_text ( GTK_ENTRY(nom_banque)) );
-	gtk_clist_set_text ( GTK_CLIST(clist_banques_parametres),
-			     ligne_selection_banque, 1, 
-			     gtk_entry_get_text (GTK_ENTRY(nom_correspondant)));
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (bank_list_tree_view));
+
+	if ( gtk_tree_selection_get_selected ( GTK_TREE_SELECTION (selection),
+					       &model, &iter ))
+	    gtk_list_store_set ( GTK_LIST_STORE (model),
+				 &iter,
+				 BANK_VIEW_NAME_COL, gtk_entry_get_text ( GTK_ENTRY(bank_name)),
+				 BANK_TALKER_COL, gtk_entry_get_text (GTK_ENTRY(bank_contact_name)),
+				 -1 );
+	gsb_bank_update_selected_line_model (combobox);
+	return FALSE;
     }
-    gsb_bank_update_list_model (combobox);
     return FALSE;
 }
 
-
 /**
- * create a new default bank
+ * callback used to create a new bank
  *
- * \param button
- * \param clist the list of the banks
+ * \param button the button "add" or the combobox of the list of banks
+ * \param none
  *
- * \return the number of the new bank or FALSE if trouble
+ * \return FALSE
  * */
-static gint gsb_bank_add ( GtkWidget *button, GtkWidget *clist )
+static gboolean gsb_bank_add ( GtkWidget *button,
+			       gpointer null )
 {
     gint bank_number;
-    const gchar *ligne[2];
-    gint ligne_insert;
-
-    if ( clist && GTK_IS_CLIST(clist) )
-    {
-	/* enlève la sélection de la liste ( ce qui nettoie les entrées ) */
-	gtk_clist_unselect_all ( GTK_CLIST ( clist ));
-    }
-
-    /* crée une nouvelle banque au nom de "nouvelle banque" en mettant
-       tous les paramètres à 0 */
+    /* create the new bank */
     bank_number = gsb_data_bank_new (_("New bank"));
 
     if (!bank_number)
     {
-	dialogue_error ( _("Cannot allocate memory, bad things will happen soon") );
-	return 0;
-    }
-
-    ligne[0] = gsb_data_bank_get_name (bank_number);
-    ligne[1] = "";
-
-    if ( clist && GTK_IS_CLIST(clist) )
-    {
-	ligne_insert = gtk_clist_append ( GTK_CLIST ( clist ), ligne );
-
-	/* on associe à la ligne la struct de la banque */
-	gtk_clist_set_row_data ( GTK_CLIST ( clist ), ligne_insert, GINT_TO_POINTER (bank_number));
-
-	/* on sélectionne le nouveau venu */
-	gtk_clist_select_row ( GTK_CLIST ( clist ), ligne_insert, 0 );
-
-	/* on sélectionne le "nouvelle banque" et lui donne le focus */
-	gtk_entry_select_region ( GTK_ENTRY ( nom_banque ), 0, -1 );
-	gtk_widget_grab_focus ( nom_banque );
+	dialogue_error_memory ();
+	return FALSE;
     }
 
     /* add the new bank to the combobox list */
-    gsb_bank_update_list_model (NULL);
+    gsb_bank_update_selected_line_model (NULL);
 
-    /* if clist is null, it's because we add a bank from the combobox,
-     * so button is the combobox, and we set it on the new bank created */
-    if (!clist)
+
+    /* play with the list if we are on the configuration */
+    if (GTK_IS_BUTTON (button))
+    {
+	GtkTreeSelection *selection;
+	GtkListStore *store;
+	GtkTreeIter iter;
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (bank_list_tree_view));
+	store = GTK_LIST_STORE (gtk_tree_view_get_model ( GTK_TREE_VIEW (bank_list_tree_view)));
+
+	/* remove first the selection */
+	gtk_tree_selection_unselect_all (selection);
+
+	/* add the selection to the list */
+	gtk_list_store_append ( GTK_LIST_STORE (store),
+				&iter );
+	gtk_list_store_set ( GTK_LIST_STORE (store),
+			     &iter,
+			     BANK_VIEW_NAME_COL, gsb_data_bank_get_name (bank_number),
+			     BANK_TALKER_COL, "",
+			     BANK_NUMBER, bank_number,
+			     -1 );
+	gtk_tree_selection_select_iter ( GTK_TREE_SELECTION (selection),
+					 &iter );
+
+	/* select the new bank in the entry and give the focus */
+	gtk_entry_select_region ( GTK_ENTRY ( bank_name ), 0, -1 );
+	gtk_widget_grab_focus ( bank_name );
+    }
+    else
+    {
+	/* it's a combobox, come here via add new bank */
 	gsb_bank_list_set_bank (button, bank_number);
+	gsb_bank_edit_bank (bank_number, button);
+    }
 
-    return bank_number;
+    modification_fichier (TRUE);
+    return FALSE;
 }
 
 
@@ -977,21 +1017,33 @@ static gint gsb_bank_add ( GtkWidget *button, GtkWidget *clist )
  * delete a bank
  *
  * \param button
- * \param bank_list the clist wich contains the banks
+ * \param null
  *
  * \return FALSE
  * */
 static gboolean gsb_bank_delete ( GtkWidget *button,
-				  GtkWidget *bank_list )
+				  gpointer null )
 {
     gint bank_number;
     gboolean result;
     gboolean bank_is_used=FALSE;
     GSList *list_tmp;
+    GtkTreeSelection *selection;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
 
-    bank_number = GPOINTER_TO_INT (gtk_clist_get_row_data ( GTK_CLIST (bank_list),
-							    ligne_selection_banque ));
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (bank_list_tree_view));
+    if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION (selection),
+					    &model, &iter ))
+	return FALSE;
 
+    /* get the bank number */
+    gtk_tree_model_get ( GTK_TREE_MODEL (model),
+			 &iter,
+			 BANK_NUMBER, &bank_number,
+			 -1 );
+
+    /* check if the bank is used in grisbi */
     list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
@@ -1020,14 +1072,16 @@ static gboolean gsb_bank_delete ( GtkWidget *button,
     if ( result )
     {
 	/* remove the bank */
-	gtk_clist_remove ( GTK_CLIST (bank_list),
-			   ligne_selection_banque );
+	gtk_list_store_remove ( GTK_LIST_STORE (model),
+				&iter );
 	gsb_data_bank_remove (bank_number);
 	modification_fichier ( TRUE );
     }
 
     /* remove the bank from the combobox list */
-    gsb_bank_update_list_model (NULL);
+    gsb_bank_update_selected_line_model (NULL);
+
+    modification_fichier (TRUE);
     return FALSE;
 }
 
