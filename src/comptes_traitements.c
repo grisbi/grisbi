@@ -62,7 +62,6 @@
 /*START_EXTERN*/
 extern GtkWidget *account_page;
 extern GtkWidget *bouton_supprimer_compte;
-extern gint compte_courant_onglet;
 extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_combofix_imputation_necessaire;
 extern gint mise_a_jour_combofix_tiers_necessaire;
@@ -128,7 +127,6 @@ gboolean new_account ( void )
 
     /* update the accounts lists */ 
     gsb_menu_update_accounts_in_menus (); 
-    compte_courant_onglet = no_compte;
 
     /* Add an entry in navigation pane. */
     gsb_gui_navigation_add_account ( no_compte );
@@ -156,7 +154,7 @@ gboolean delete_account ( void )
     gint page_number;
     GSList *list_tmp;
 
-    deleted_account = compte_courant_onglet;
+    deleted_account = gsb_gui_navigation_get_current_account ();
 
     if ( !question_yes_no_hint ( g_strdup_printf (_("Delete account \"%s\"?"),
 						  gsb_data_account_get_name (deleted_account)),
@@ -235,9 +233,6 @@ gboolean delete_account ( void )
 
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
     }
-
-    if ( compte_courant_onglet == deleted_account )
-	compte_courant_onglet = gsb_data_account_first_number ();
 
     /* update the buttons lists */
 

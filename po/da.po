@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-04 20:16+0200\n"
+"POT-Creation-Date: 2007-09-06 12:56+0200\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
@@ -213,14 +213,14 @@ msgstr "Måneder"
 msgid "Display headings bar"
 msgstr "Vis gitter"
 
-#: src/affichage_liste.c:54 src/etats_affiche.c:2283 src/export_csv.c:263
+#: src/affichage_liste.c:54 src/etats_affiche.c:2283 src/export_csv.c:687
 #: src/gsb_form.c:1146 src/gsb_form_widget.c:424 src/gsb_reconcile.c:156
 #: src/gsb_scheduler_list.c:336 src/gsb_transactions_list.c:189
 #: src/import.c:2535 src/import_csv.c:79 src/traitement_variables.c:69
 msgid "Date"
 msgstr "Dato"
 
-#: src/affichage_liste.c:55 src/export_csv.c:264 src/gsb_form.c:1154
+#: src/affichage_liste.c:55 src/export_csv.c:688 src/gsb_form.c:1154
 #: src/gsb_form_widget.c:436 src/gsb_transactions_list.c:190
 #: src/import_csv.c:80 src/traitement_variables.c:70
 msgid "Value date"
@@ -229,7 +229,7 @@ msgstr "Valørdato"
 #. mise en place de la frame des tiers
 #: src/affichage_liste.c:56 src/etats_affiche.c:2297 src/etats_config.c:467
 #: src/etats_config.c:470 src/etats_config.c:618 src/etats_config.c:7248
-#: src/export_csv.c:268 src/fenetre_principale.c:267 src/gsb_form.c:1176
+#: src/export_csv.c:692 src/fenetre_principale.c:267 src/gsb_form.c:1176
 #: src/gsb_form_widget.c:444 src/gsb_scheduler_list.c:336
 #: src/gsb_transactions_list.c:191 src/import.c:2542 src/import_csv.c:81
 #: src/meta_payee.c:85 src/traitement_variables.c:71
@@ -245,7 +245,7 @@ msgid "Budgetary line"
 msgstr "Budgetlinje"
 
 #. Debit method_ptr
-#: src/affichage_liste.c:58 src/categories_onglet.c:798 src/export_csv.c:270
+#: src/affichage_liste.c:58 src/categories_onglet.c:798 src/export_csv.c:694
 #: src/gsb_form.c:1184 src/gsb_form_widget.c:428
 #: src/gsb_payment_method_config.c:312 src/gsb_payment_method_config.c:383
 #: src/gsb_payment_method_config.c:1068 src/gsb_transactions_list.c:193
@@ -255,7 +255,7 @@ msgid "Debit"
 msgstr "Debit"
 
 #. Credit method_ptr
-#: src/affichage_liste.c:59 src/categories_onglet.c:798 src/export_csv.c:269
+#: src/affichage_liste.c:59 src/categories_onglet.c:798 src/export_csv.c:693
 #: src/gsb_form.c:1192 src/gsb_form_widget.c:432
 #: src/gsb_payment_method_config.c:319 src/gsb_payment_method_config.c:396
 #: src/gsb_payment_method_config.c:1064 src/gsb_transactions_list.c:194
@@ -263,7 +263,7 @@ msgstr "Debit"
 msgid "Credit"
 msgstr "Kredit"
 
-#: src/affichage_liste.c:60 src/categories_onglet.c:299 src/export_csv.c:272
+#: src/affichage_liste.c:60 src/categories_onglet.c:299 src/export_csv.c:696
 #: src/gsb_reconcile.c:159 src/gsb_scheduler_list.c:337
 #: src/gsb_transactions_list.c:195 src/gsb_transactions_list.c:4201
 #: src/import_csv.c:87 src/imputation_budgetaire.c:187
@@ -271,7 +271,7 @@ msgstr "Kredit"
 msgid "Balance"
 msgstr "Balance"
 
-#: src/affichage_liste.c:61 src/export_csv.c:271 src/gsb_scheduler_list.c:337
+#: src/affichage_liste.c:61 src/export_csv.c:695 src/gsb_scheduler_list.c:337
 #: src/gsb_transactions_list.c:196 src/import.c:2550
 #: src/traitement_variables.c:76
 msgid "Amount"
@@ -286,40 +286,40 @@ msgstr "Betalingstype"
 msgid "Reconciliation ref."
 msgstr ""
 
-#: src/affichage_liste.c:64 src/etats_affiche.c:2290 src/export_csv.c:266
+#: src/affichage_liste.c:64 src/etats_affiche.c:2290 src/export_csv.c:690
 #: src/gsb_form_widget.c:440 src/gsb_transactions_list.c:199
 #: src/traitement_variables.c:79
 msgid "Financial year"
 msgstr "Regnskabsår"
 
 #: src/affichage_liste.c:65 src/categories_onglet.c:278
-#: src/etats_affiche.c:2304 src/etats_config.c:606 src/export_csv.c:273
+#: src/etats_affiche.c:2304 src/etats_config.c:606 src/export_csv.c:697
 #: src/gsb_transactions_list.c:200 src/import_csv.c:85
 #: src/meta_categories.c:84 src/traitement_variables.c:80
 msgid "Category"
 msgstr "Kategori"
 
-#: src/affichage_liste.c:66 src/export_csv.c:267
+#: src/affichage_liste.c:66 src/export_csv.c:691
 #: src/gsb_transactions_list.c:201 src/import_csv.c:92
 #: src/traitement_variables.c:81
 msgid "C/R"
 msgstr ""
 
-#: src/affichage_liste.c:67 src/etats_affiche.c:2339 src/export_csv.c:278
+#: src/affichage_liste.c:67 src/etats_affiche.c:2339 src/export_csv.c:702
 #: src/gsb_form.c:1271 src/gsb_form_widget.c:480
 #: src/gsb_transactions_list.c:202 src/traitement_variables.c:82
 msgid "Voucher"
 msgstr ""
 
 #. Notes
-#: src/affichage_liste.c:68 src/banque.c:690 src/etats_affiche.c:2318
-#: src/export_csv.c:275 src/gsb_form.c:1219 src/gsb_form_widget.c:460
+#: src/affichage_liste.c:68 src/gsb_bank.c:803 src/etats_affiche.c:2318
+#: src/export_csv.c:699 src/gsb_form.c:1219 src/gsb_form_widget.c:460
 #: src/gsb_scheduler_list.c:337 src/gsb_transactions_list.c:203
 #: src/import_csv.c:83 src/traitement_variables.c:83
 msgid "Notes"
 msgstr "Noter"
 
-#: src/affichage_liste.c:69 src/etats_affiche.c:2346 src/export_csv.c:280
+#: src/affichage_liste.c:69 src/etats_affiche.c:2346 src/export_csv.c:704
 #: src/gsb_form.c:1263 src/gsb_form_widget.c:484
 #: src/gsb_transactions_list.c:204 src/traitement_variables.c:84
 msgid "Bank references"
@@ -472,61 +472,33 @@ msgstr ""
 msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr ""
 
-#. crÃ©e une nouvelle banque au nom de "nouvelle banque" en mettant
-#. tous les paramÃ¨tres Ã  0
-#: src/banque.c:166
-msgid "New bank"
-msgstr "Ny bank"
-
-#: src/banque.c:170 src/gsb_data_scheduled.c:1413
-#: src/gsb_data_transaction.c:1697 src/gsb_data_transaction.c:1760
-msgid "Cannot allocate memory, bad things will happen soon"
-msgstr ""
-
-#: src/banque.c:231 src/banque.c:236
-msgid "Confirmation of bank removal"
-msgstr ""
-
-#: src/banque.c:232
-#, c-format
-msgid ""
-"Bank \"%s\" is used by one or several accounts.\n"
-"Do you really want to remove it?"
-msgstr ""
-
-#: src/banque.c:237
-#, c-format
-msgid "Are you sure you want to remove bank \"%s\"?\n"
-msgstr ""
-
-#. le premier nom est Aucune
-#: src/banque.c:271 src/gsb_reconcile.c:413
+#: src/gsb_bank.c:296 src/gsb_reconcile.c:413
 msgid "None"
 msgstr "Ingen"
 
-#: src/banque.c:300
+#: src/gsb_bank.c:332
 #, fuzzy
 msgid "Add new bank"
 msgstr "Ny bank"
 
 #. ligne de l'Ã©tablissement financier
-#: src/banque.c:326 src/comptes_gestion.c:238
+#: src/gsb_bank.c:418 src/comptes_gestion.c:240
 msgid "Bank"
 msgstr "Bank"
 
-#: src/banque.c:327
+#: src/gsb_bank.c:418
 msgid "Contact name"
 msgstr "Kontaktpersonens navn"
 
-#: src/banque.c:329 src/parametres.c:411
+#: src/gsb_bank.c:426 src/parametres.c:411
 msgid "Banks"
 msgstr "Banker"
 
-#: src/banque.c:333
+#: src/gsb_bank.c:439
 msgid "Known banks"
 msgstr "Kendte banker"
 
-#: src/banque.c:513
+#: src/gsb_bank.c:626
 msgid "Bank details"
 msgstr "Bankoplysninger"
 
@@ -537,7 +509,7 @@ msgstr "Bankoplysninger"
 #. Financial year name
 #. set the name
 #. Name entry
-#: src/banque.c:524 src/banque.c:630 src/categories_onglet.c:765
+#: src/gsb_bank.c:637 src/gsb_bank.c:743 src/categories_onglet.c:765
 #: src/gsb_currency_config.c:352 src/gsb_fyear_config.c:193
 #: src/gsb_fyear_config.c:280 src/gsb_payment_method_config.c:240
 #: src/gsb_reconcile_config.c:179 src/gsb_transactions_list.c:2916
@@ -546,44 +518,65 @@ msgid "Name"
 msgstr "Navn"
 
 #. Bank Sort code item
-#: src/banque.c:539
+#: src/gsb_bank.c:652
 msgid "Sort code"
 msgstr "Sorteringskode"
 
 #. Bank address
-#: src/banque.c:554
+#: src/gsb_bank.c:667
 msgid "Address"
 msgstr "Adresse"
 
 #. Phone number
-#: src/banque.c:577 src/banque.c:645
+#: src/gsb_bank.c:690 src/gsb_bank.c:758
 msgid "Phone"
 msgstr "Tlf."
 
 #. E-mail
 #. E-Mail
-#: src/banque.c:592 src/banque.c:675
+#: src/gsb_bank.c:705 src/gsb_bank.c:788
 msgid "E-Mail"
 msgstr "E-mail"
 
 #. Website
-#: src/banque.c:607 src/help.c:100
+#: src/gsb_bank.c:720 src/help.c:100
 msgid "Website"
 msgstr "Website"
 
 #. Contact
-#: src/banque.c:622
+#: src/gsb_bank.c:735
 msgid "Contact"
 msgstr "Kontaktperson"
 
 #. Fax
-#: src/banque.c:660
+#: src/gsb_bank.c:773
 msgid "Fax"
 msgstr "Fax"
 
-#: src/banque.c:751
+#: src/gsb_bank.c:881
 msgid "Edit bank"
 msgstr "Redigér bank"
+
+#. create the new bank
+#: src/gsb_bank.c:963
+msgid "New bank"
+msgstr "Ny bank"
+
+#: src/gsb_bank.c:1062 src/gsb_bank.c:1067
+msgid "Confirmation of bank removal"
+msgstr ""
+
+#: src/gsb_bank.c:1063
+#, c-format
+msgid ""
+"Bank \"%s\" is used by one or several accounts.\n"
+"Do you really want to remove it?"
+msgstr ""
+
+#: src/gsb_bank.c:1068
+#, c-format
+msgid "Are you sure you want to remove bank \"%s\"?\n"
+msgstr ""
 
 #: src/barre_outils.c:103
 #, fuzzy
@@ -703,7 +696,7 @@ msgid "Edit selected transaction"
 msgstr "Opret en planlagt transaktion"
 
 #. crÃ©ation de la ligne du commentaire
-#: src/barre_outils.c:445 src/comptes_gestion.c:346
+#: src/barre_outils.c:445 src/comptes_gestion.c:356
 msgid "Comments"
 msgstr "Kommentarer"
 
@@ -1312,7 +1305,7 @@ msgstr ""
 msgid "No sub-category defined"
 msgstr "Ingen underkategori (%d)"
 
-#: src/categories_onglet.c:747 src/qif.c:1181 src/qif.c:1188
+#: src/categories_onglet.c:747 src/qif.c:1280 src/qif.c:1287
 #, fuzzy
 msgid "No category defined"
 msgstr "Ingen kategori  (%d)"
@@ -1325,123 +1318,122 @@ msgstr "Ingen kategori  (%d)"
 msgid "Type"
 msgstr ""
 
-#: src/comptes_gestion.c:134
+#: src/comptes_gestion.c:136
 msgid "Account details"
 msgstr "Kontooplysninger"
 
-#: src/comptes_gestion.c:141 src/export.c:167
+#: src/comptes_gestion.c:143 src/export.c:167 src/export_csv.c:685
 msgid "Account name"
 msgstr "Kontonavn"
 
-#: src/comptes_gestion.c:154 src/comptes_traitements.c:504
+#: src/comptes_gestion.c:156 src/comptes_traitements.c:504
 msgid "Account type"
 msgstr "Kontotype"
 
-#: src/comptes_gestion.c:168
+#: src/comptes_gestion.c:170
 msgid "Account currency"
 msgstr "Valuta"
 
 #. crÃ©ation de la ligne compte cloturÃ©
-#: src/comptes_gestion.c:178
+#: src/comptes_gestion.c:180
 msgid "Closed account"
 msgstr "Lukket konto"
 
 #. crÃ©ation de la ligne du titulaire du compte
-#: src/comptes_gestion.c:183
+#: src/comptes_gestion.c:185
 msgid "Account holder"
 msgstr "Kontoejer"
 
-#: src/comptes_gestion.c:187
+#: src/comptes_gestion.c:189
 msgid "Holder name"
 msgstr "Indehaver"
 
-#: src/comptes_gestion.c:198
+#: src/comptes_gestion.c:200
 msgid "Common address is holder's address"
 msgstr ""
 
-#: src/comptes_gestion.c:215
+#: src/comptes_gestion.c:217
 #, fuzzy
 msgid "Holder's address"
 msgstr "Inderhaverens adresse"
 
-#: src/comptes_gestion.c:242
+#: src/comptes_gestion.c:244
 msgid "Financial institution"
 msgstr ""
 
-#: src/comptes_gestion.c:263
+#: src/comptes_gestion.c:273
 msgid "Bank sort code"
 msgstr ""
 
-#: src/comptes_gestion.c:278
+#: src/comptes_gestion.c:288
 msgid "Bank branch code"
 msgstr ""
 
-#: src/comptes_gestion.c:291
+#: src/comptes_gestion.c:301
 msgid "Account number / Key"
 msgstr "Kontonummer/Nøgle"
 
 #. crÃ©ation de la ligne du solde initial
-#: src/comptes_gestion.c:305
+#: src/comptes_gestion.c:315
 msgid "Balances"
 msgstr ""
 
-#. tiers
 #. set the initial balance
-#: src/comptes_gestion.c:310 src/export_csv.c:286 src/gsb_reconcile.c:209
+#: src/comptes_gestion.c:320 src/gsb_reconcile.c:209
 #: src/gsb_reconcile_config.c:238
 msgid "Initial balance"
 msgstr ""
 
-#: src/comptes_gestion.c:323
+#: src/comptes_gestion.c:333
 msgid "Minimum authorised balance"
 msgstr ""
 
-#: src/comptes_gestion.c:336
+#: src/comptes_gestion.c:346
 msgid "Minimum wanted balance"
 msgstr ""
 
 #. crÃ©ation de l'item compte bancaire
-#: src/comptes_gestion.c:513
+#: src/comptes_gestion.c:547
 msgid "Bank account"
 msgstr "Bankkonto"
 
 #. crÃ©ation de l'item compte de caisse
-#: src/comptes_gestion.c:524
+#: src/comptes_gestion.c:558
 msgid "Cash account"
 msgstr "Kontanter"
 
 #. crÃ©ation de l'item compte passif
-#: src/comptes_gestion.c:535
+#: src/comptes_gestion.c:569
 msgid "Liabilities account"
 msgstr "Passiver"
 
 #. crÃ©ation de l'item compte actif
-#: src/comptes_gestion.c:545
+#: src/comptes_gestion.c:579
 msgid "Assets account"
 msgstr "Aktiver"
 
-#: src/comptes_gestion.c:701 src/comptes_gestion.c:724
+#: src/comptes_gestion.c:716 src/comptes_gestion.c:739
 msgid ""
 "Accounts names are used to distinguish accounts.  It is mandatory that names "
 "are both unique and not empty."
 msgstr ""
 
-#: src/comptes_gestion.c:702
+#: src/comptes_gestion.c:717
 #, fuzzy
 msgid "Account name is empty"
 msgstr "Kontonummer/Nøgle"
 
-#: src/comptes_gestion.c:725
+#: src/comptes_gestion.c:740
 #, c-format
 msgid "Account \"%s\" already exists!"
 msgstr ""
 
-#: src/comptes_gestion.c:770
+#: src/comptes_gestion.c:780
 #, fuzzy
 msgid "Change the transactions currency"
 msgstr "Fly transaktioner til kategori"
 
-#: src/comptes_gestion.c:771
+#: src/comptes_gestion.c:781
 #, c-format
 msgid ""
 "You are changing the currency of the account, do you want to change the "
@@ -1450,14 +1442,14 @@ msgid ""
 "the same)"
 msgstr ""
 
-#: src/comptes_gestion.c:1022
+#: src/comptes_gestion.c:1007
 msgid "Apply changes to account?"
 msgstr "Skal ændringerne gemmes?"
 
-#: src/comptes_gestion.c:1023
+#: src/comptes_gestion.c:1008
 #, c-format
 msgid ""
-"Account \"%s\" has been modified.\n"
+"Property of account \"%s\" has been modified.\n"
 "Do you want to save changes?"
 msgstr ""
 
@@ -1629,46 +1621,46 @@ msgstr ""
 msgid "Save file"
 msgstr "Gem fil"
 
-#: src/erreur.c:185
+#: src/erreur.c:186
 #, c-format
 msgid "Grisbi made a backup file at '%s'."
 msgstr ""
 
-#: src/erreur.c:192
+#: src/erreur.c:193
 msgid ""
 "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
 msgstr ""
 
-#: src/erreur.c:196
+#: src/erreur.c:197
 msgid "Copy and paste the following backtrace with your bug report."
 msgstr ""
 
-#: src/erreur.c:201
+#: src/erreur.c:202
 msgid "Grisbi terminated due to a segmentation fault."
 msgstr ""
 
-#: src/erreur.c:204
+#: src/erreur.c:205
 #, fuzzy
 msgid "Backtrace"
 msgstr "Balance"
 
 #. on affiche un message de debug pour indiquer que le debug est actif
-#: src/erreur.c:251 src/erreur.c:258
+#: src/erreur.c:252 src/erreur.c:259
 #, c-format
 msgid "GRISBI %s Debug"
 msgstr ""
 
-#: src/erreur.c:252
+#: src/erreur.c:253
 #, c-format
 msgid "Debug enable, level is '%s'"
 msgstr ""
 
-#: src/erreur.c:259
+#: src/erreur.c:260
 msgid "Wrong debug level, please check DEBUG_GRISBI environnement variable"
 msgstr ""
 
 #. on affiche dans la console le message
-#: src/erreur.c:343
+#: src/erreur.c:344
 #, c-format
 msgid "%s : %s - %s\n"
 msgstr ""
@@ -1929,8 +1921,8 @@ msgstr ""
 msgid "Transfert"
 msgstr "Overførsel"
 
-#: src/etats_affiche.c:1741 src/export_csv.c:433 src/gsb_data_category.c:985
-#: src/gsb_form.c:648 src/gsb_form.c:2309 src/gsb_form.c:2646
+#: src/etats_affiche.c:1741 src/export_csv.c:539 src/gsb_data_category.c:985
+#: src/gsb_form.c:648 src/gsb_form.c:2312 src/gsb_form.c:2650
 #: src/gsb_form_scheduler.c:340 src/gsb_transactions_list.c:5005
 msgid "Breakdown of transaction"
 msgstr ""
@@ -2093,15 +2085,15 @@ msgstr ""
 #. mise en place de la frame des catÃ©gories
 #. set the title
 #: src/etats_config.c:476 src/etats_config.c:479 src/etats_config.c:7298
-#: src/fenetre_principale.c:272 src/navigation.c:299 src/navigation.c:1220
+#: src/fenetre_principale.c:272 src/navigation.c:299 src/navigation.c:1222
 msgid "Categories"
 msgstr "Kategorier"
 
 #. mise en place de la frame des ib
 #. set the title
 #: src/etats_config.c:485 src/etats_config.c:488 src/etats_config.c:7392
-#: src/export_csv.c:276 src/fenetre_principale.c:277 src/navigation.c:314
-#: src/navigation.c:1234 src/traitement_variables.c:72
+#: src/export_csv.c:700 src/fenetre_principale.c:277 src/navigation.c:314
+#: src/navigation.c:1236 src/traitement_variables.c:72
 msgid "Budgetary lines"
 msgstr ""
 
@@ -2129,7 +2121,7 @@ msgstr ""
 msgid "Generalities"
 msgstr ""
 
-#: src/etats_config.c:566 src/etats_config.c:569 src/export_csv.c:261
+#: src/etats_config.c:566 src/etats_config.c:569 src/export_csv.c:684
 #: src/fenetre_principale.c:250 src/parametres.c:319
 msgid "Transactions"
 msgstr ""
@@ -2834,7 +2826,7 @@ msgid "Clone selected report"
 msgstr ""
 
 #: src/etats_onglet.c:217 src/fenetre_principale.c:282 src/navigation.c:329
-#: src/navigation.c:1268
+#: src/navigation.c:1270
 msgid "Reports"
 msgstr ""
 
@@ -2997,8 +2989,8 @@ msgstr "LaTeX-fil"
 msgid "Exporting report ..."
 msgstr "Eksportér QIF-fil"
 
-#: src/etats_onglet.c:1233 src/fichiers_gestion.c:458
-#: src/fichiers_gestion.c:564 src/fichiers_gestion.c:830
+#: src/etats_onglet.c:1233 src/fichiers_gestion.c:459
+#: src/fichiers_gestion.c:566 src/fichiers_gestion.c:833
 #: src/gsb_file_debug.c:205
 #, fuzzy
 msgid "Done"
@@ -3134,78 +3126,75 @@ msgstr "Information"
 msgid "CSV format"
 msgstr ""
 
-#: src/export_csv.c:238 src/qif.c:997 src/utils_file_selection.c:98
-msgid "File already exists"
-msgstr ""
+#. set the initial balance
+#: src/export_csv.c:274
+#, fuzzy
+msgid "Initial current_balance"
+msgstr "Betalingsbalance"
 
-#: src/export_csv.c:239 src/qif.c:998 src/utils_file_selection.c:99
-#, c-format
-msgid "Do you want to overwrite file \"%s\"?"
-msgstr ""
-
-#: src/export_csv.c:249
+#: src/export_csv.c:385
 #, c-format
 msgid ""
 "Error opening file \"%s\" :\n"
 "%s"
 msgstr ""
 
-#: src/export_csv.c:262 src/import_csv.c:93
-msgid "Breakdown"
-msgstr ""
-
-#: src/export_csv.c:265
-#, fuzzy
-msgid "Cheques"
-msgstr "Check"
-
-#: src/export_csv.c:274
-#, fuzzy
-msgid "Sub-categories"
-msgstr "Kategorier"
-
-#: src/export_csv.c:277
-#, fuzzy
-msgid "Sub-budgetary lines"
-msgstr "Budgetlinje"
-
-#: src/export_csv.c:279
-#, fuzzy
-msgid "Reconciliation number"
-msgstr "Transaktionsnummer"
-
 #. CHECKED_TRANSACTION
-#: src/export_csv.c:349
+#: src/export_csv.c:448
 msgid "C"
 msgstr ""
 
 #. RECONCILED_TRANSACTION
-#: src/export_csv.c:352 src/gsb_transactions_list.c:1492
+#: src/export_csv.c:451 src/gsb_transactions_list.c:1492
 #: src/gsb_transactions_list.c:2769
 msgid "R"
 msgstr ""
 
 #. TELECHECKED_TRANSACTION
-#: src/export_csv.c:355 src/gsb_transactions_list.c:1488
+#: src/export_csv.c:454 src/gsb_transactions_list.c:1488
 msgid "T"
 msgstr ""
 
 #. on commence par mettre la catÃ©g et sous categ de l'opÃ© et de l'opÃ© de ventilation
-#: src/export_csv.c:448
+#: src/export_csv.c:555
 msgid "B"
 msgstr ""
 
 #. c'est un virement
 #. create the method of payment for a bank account
 #. create the method of payment for a liabilities account
-#: src/export_csv.c:455 src/export_csv.c:528 src/gsb_data_category.c:987
+#: src/export_csv.c:562 src/export_csv.c:635 src/gsb_data_category.c:987
 #: src/gsb_data_payment.c:617 src/gsb_data_payment.c:656
 msgid "Transfer"
 msgstr "Overførsel"
 
-#: src/export_csv.c:540 src/gsb_form.c:1686
+#: src/export_csv.c:647 src/gsb_form.c:1689
 msgid "Deleted account"
 msgstr "Slet konto"
+
+#: src/export_csv.c:686 src/import_csv.c:93
+msgid "Breakdown"
+msgstr ""
+
+#: src/export_csv.c:689
+#, fuzzy
+msgid "Cheques"
+msgstr "Check"
+
+#: src/export_csv.c:698
+#, fuzzy
+msgid "Sub-categories"
+msgstr "Kategorier"
+
+#: src/export_csv.c:701
+#, fuzzy
+msgid "Sub-budgetary lines"
+msgstr "Budgetlinje"
+
+#: src/export_csv.c:703
+#, fuzzy
+msgid "Reconciliation number"
+msgstr "Transaktionsnummer"
 
 #: src/fenetre_principale.c:236
 msgid "Main page"
@@ -3220,7 +3209,7 @@ msgid "Outbox"
 msgstr ""
 
 #: src/fichiers_gestion.c:165 src/navigation.c:1131
-#: src/traitement_variables.c:243
+#: src/traitement_variables.c:247
 #, fuzzy
 msgid "My accounts"
 msgstr "Vis konti"
@@ -3245,115 +3234,115 @@ msgstr "Autogem"
 
 #. Loading failed.  If the saving function at opening is set,
 #. * we ask to load the last file
-#: src/fichiers_gestion.c:342
+#: src/fichiers_gestion.c:343
 #, fuzzy
 msgid "Failed to load accounts"
 msgstr "Slet konto"
 
-#: src/fichiers_gestion.c:349
+#: src/fichiers_gestion.c:350
 msgid "Loading backup"
 msgstr ""
 
 #. the backup loaded succesfully
-#: src/fichiers_gestion.c:369
+#: src/fichiers_gestion.c:370
 msgid ""
 "Grisbi was unable to load file.  However, Grisbi loaded a backup file "
 "instead but all changes made since this backup were possibly lost."
 msgstr ""
 
-#: src/fichiers_gestion.c:370 src/fichiers_gestion.c:378
-#: src/gsb_file_load.c:274 src/gsb_file_load.c:286 src/gsb_file_load.c:408
+#: src/fichiers_gestion.c:371 src/fichiers_gestion.c:379
+#: src/gsb_file_load.c:273 src/gsb_file_load.c:285 src/gsb_file_load.c:404
 #, c-format
 msgid "Error loading file '%s'"
 msgstr ""
 
 #. the loading backup failed
-#: src/fichiers_gestion.c:377
+#: src/fichiers_gestion.c:378
 msgid ""
 "Grisbi was unable to load file.  Additionally, Grisbi was unable to load a "
 "backup file instead."
 msgstr ""
 
 #. ok, here the file or backup is loaded
-#: src/fichiers_gestion.c:392
+#: src/fichiers_gestion.c:393
 msgid "Checking schedulers"
 msgstr ""
 
 #. we make the main window
-#: src/fichiers_gestion.c:404
+#: src/fichiers_gestion.c:405
 msgid "Creating main window"
 msgstr ""
 
 #. check the amounts of all the accounts
-#: src/fichiers_gestion.c:408
+#: src/fichiers_gestion.c:409
 msgid "Checking amounts"
 msgstr ""
 
-#: src/fichiers_gestion.c:434
+#: src/fichiers_gestion.c:435
 msgid "Creating interface"
 msgstr ""
 
-#: src/fichiers_gestion.c:524
+#: src/fichiers_gestion.c:525
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
 "with another name or activate the \"%s\" option in preferences."
 msgstr ""
 
-#: src/fichiers_gestion.c:525 src/fichiers_gestion.c:611 src/parametres.c:653
+#: src/fichiers_gestion.c:526 src/fichiers_gestion.c:613 src/parametres.c:653
 msgid "Force saving of locked files"
 msgstr ""
 
-#: src/fichiers_gestion.c:526
+#: src/fichiers_gestion.c:527
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr ""
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: src/fichiers_gestion.c:534
+#: src/fichiers_gestion.c:535
 #, fuzzy
 msgid "Saving file"
 msgstr "Gem fil"
 
-#: src/fichiers_gestion.c:608
+#: src/fichiers_gestion.c:610
 msgid "Save locked files?"
 msgstr "Gem låste filer?"
 
-#: src/fichiers_gestion.c:609
+#: src/fichiers_gestion.c:611
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: src/fichiers_gestion.c:610 src/fichiers_gestion.c:621
-#: src/fichiers_gestion.c:804
+#: src/fichiers_gestion.c:612 src/fichiers_gestion.c:623
+#: src/fichiers_gestion.c:806
 msgid "unnamed"
 msgstr "unavngivet"
 
-#: src/fichiers_gestion.c:613 src/fichiers_gestion.c:623
+#: src/fichiers_gestion.c:615 src/fichiers_gestion.c:625
 msgid "Close without saving"
 msgstr ""
 
-#: src/fichiers_gestion.c:620
+#: src/fichiers_gestion.c:622
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr ""
 
-#: src/fichiers_gestion.c:631
+#: src/fichiers_gestion.c:633
 msgid "If you close without saving, all of your changes will be discarded."
 msgstr ""
 
-#: src/fichiers_gestion.c:659
+#: src/fichiers_gestion.c:661
 msgid "Name the accounts file"
 msgstr ""
 
-#: src/fichiers_gestion.c:807
+#: src/fichiers_gestion.c:809
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: src/fichiers_gestion.c:825
+#: src/fichiers_gestion.c:827
 msgid "Saving backup"
 msgstr ""
 
@@ -5370,14 +5359,14 @@ msgid ""
 "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
 msgstr ""
 
-#: src/gsb_data_account.c:1081
+#: src/gsb_data_account.c:1086
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
 "no_column = %d\n"
 msgstr ""
 
-#: src/gsb_data_account.c:1116
+#: src/gsb_data_account.c:1121
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
@@ -5422,8 +5411,8 @@ msgstr ""
 msgid "No payee defined"
 msgstr ""
 
-#: src/gsb_data_payee.c:474 src/gsb_form.c:2418 src/gsb_form.c:2419
-#: src/navigation.c:1266
+#: src/gsb_data_payee.c:474 src/gsb_form.c:2421 src/gsb_form.c:2422
+#: src/navigation.c:1268
 msgid "Report"
 msgstr "Rapport"
 
@@ -5432,12 +5421,17 @@ msgid "Deposit"
 msgstr ""
 
 #. c'est un compte ccard
-#: src/gsb_data_payment.c:631 src/qif.c:365
+#: src/gsb_data_payment.c:631 src/qif.c:368
 msgid "Credit card"
 msgstr "Kreditkort"
 
 #: src/gsb_data_payment.c:640
 msgid "Direct debit"
+msgstr ""
+
+#: src/gsb_data_scheduled.c:1413 src/gsb_data_transaction.c:1697
+#: src/gsb_data_transaction.c:1760
+msgid "Cannot allocate memory, bad things will happen soon"
 msgstr ""
 
 #: src/gsb_data_transaction.c:647
@@ -5621,24 +5615,24 @@ msgid ""
 "#%d.\n"
 msgstr ""
 
-#: src/gsb_file_load.c:271 src/gsb_file_load.c:405 src/gsb_file_others.c:414
+#: src/gsb_file_load.c:270 src/gsb_file_load.c:401 src/gsb_file_others.c:414
 #: src/gsb_file_others.c:554
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr ""
 
-#: src/gsb_file_load.c:273
+#: src/gsb_file_load.c:272
 msgid "File does not exist"
 msgstr ""
 
-#: src/gsb_file_load.c:284 src/gsb_file_others.c:426
+#: src/gsb_file_load.c:283 src/gsb_file_others.c:426
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular file,\n"
 "please check it and try again."
 msgstr ""
 
-#: src/gsb_file_load.c:337 src/gsb_file_save.c:300
+#: src/gsb_file_load.c:333 src/gsb_file_save.c:313
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -5646,17 +5640,17 @@ msgid ""
 "installed) and try again."
 msgstr ""
 
-#: src/gsb_file_load.c:342 src/gsb_file_save.c:305
+#: src/gsb_file_load.c:338 src/gsb_file_save.c:318
 #, fuzzy
 msgid "Encryption plugin not found."
 msgstr "Konto %s blev ikke fundet.\n"
 
-#: src/gsb_file_load.c:448 src/gsb_file_load.c:3907
+#: src/gsb_file_load.c:444 src/gsb_file_load.c:3909
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Denne fil er ikke en Grisbi-rapport"
 
-#: src/gsb_file_load.c:617
+#: src/gsb_file_load.c:613
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -5665,19 +5659,19 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:7020
+#: src/gsb_file_load.c:7021
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr ""
 
-#: src/gsb_file_load.c:7051
+#: src/gsb_file_load.c:7052
 #, fuzzy
 msgid "Archive some transactions ?"
 msgstr "Lukkede planlagte transaktioner"
 
-#: src/gsb_file_load.c:7052
+#: src/gsb_file_load.c:7053
 #, c-format
 msgid ""
 "There is %d transactions to load into the lists,\n"
@@ -5688,8 +5682,20 @@ msgid ""
 "(You can change the limit to show that warning in the configuration)"
 msgstr ""
 
+#: src/gsb_file_load.c:7061
+msgid ""
+"You have opened an archive.\n"
+"There is no limit in Grisbi, you can do whatever you want and save it later "
+"(new reports...) but remember it's an archive before modifying some "
+"transactions or important informations."
+msgstr ""
+
+#: src/gsb_file_load.c:7062
+msgid "Grisbi archive opened"
+msgstr ""
+
 #: src/gsb_file_others.c:137 src/gsb_file_others.c:218
-#: src/gsb_file_others.c:300 src/gsb_file_save.c:322
+#: src/gsb_file_others.c:300 src/gsb_file_save.c:334
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr ""
@@ -5743,25 +5749,45 @@ msgstr ""
 msgid "This is not a report file, loading canceled..."
 msgstr ""
 
-#: src/gsb_file_util.c:89
+#: src/gsb_file_util.c:63
+msgid "No name to the file !"
+msgstr ""
+
+#: src/gsb_file_util.c:74
+#, c-format
+msgid ""
+"%s is a directory...\n"
+"Please choose another name."
+msgstr ""
+
+#: src/gsb_file_util.c:79
+msgid "File already exists"
+msgstr ""
+
+#: src/gsb_file_util.c:80
+#, c-format
+msgid "Do you want to overwrite file \"%s\"?"
+msgstr ""
+
+#: src/gsb_file_util.c:129
 msgid "File compression"
 msgstr ""
 
-#: src/gsb_file_util.c:130 src/gsb_file_util.c:140 src/gsb_file_util.c:155
+#: src/gsb_file_util.c:170 src/gsb_file_util.c:180 src/gsb_file_util.c:195
 msgid "File uncompression"
 msgstr ""
 
-#: src/gsb_file_util.c:251
+#: src/gsb_file_util.c:286
 #, c-format
 msgid "Cannot open file '%s' to mark it as used: %s"
 msgstr ""
 
-#: src/gsb_file_util.c:306
+#: src/gsb_file_util.c:339
 #, c-format
 msgid "Cannot write lock file :'%s': %s"
 msgstr ""
 
-#: src/gsb_file_util.c:332
+#: src/gsb_file_util.c:364
 #, c-format
 msgid "Cannot erase lock file :'%s': %s"
 msgstr ""
@@ -5781,7 +5807,8 @@ msgstr ""
 msgid "Transfer : Deleted account"
 msgstr "Slet konto"
 
-#: src/gsb_form.c:667 src/gsb_form.c:1675 src/gsb_form.c:1676
+#: src/gsb_form.c:667 src/gsb_form.c:1673 src/gsb_form.c:1678
+#: src/gsb_form.c:1679
 #, fuzzy
 msgid "Transfer : "
 msgstr "Overførsel"
@@ -5803,75 +5830,75 @@ msgstr "Kategorier: Underkategorier"
 msgid "Cheque/Transfer number"
 msgstr "Check/Øverførselsnr."
 
-#: src/gsb_form.c:2029
+#: src/gsb_form.c:2032
 msgid "No payee selected for this report."
 msgstr ""
 
-#: src/gsb_form.c:2263
+#: src/gsb_form.c:2266
 msgid "You must enter a date."
 msgstr ""
 
-#: src/gsb_form.c:2270
+#: src/gsb_form.c:2273
 #, fuzzy, c-format
 msgid "Invalid date %s"
 msgstr "Forkert dato"
 
-#: src/gsb_form.c:2287
+#: src/gsb_form.c:2290
 #, fuzzy, c-format
 msgid "Invalid value date %s"
 msgstr "Forkert dato"
 
-#: src/gsb_form.c:2311
+#: src/gsb_form.c:2314
 msgid ""
 "You cannot set breakdown of transaction in category for a daughter of a "
 "breakdown of transaction."
 msgstr ""
 
-#: src/gsb_form.c:2346
+#: src/gsb_form.c:2349
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
 
-#: src/gsb_form.c:2353
+#: src/gsb_form.c:2356
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr ""
 
-#: src/gsb_form.c:2361
+#: src/gsb_form.c:2364
 msgid "Can't issue a transfer its own account."
 msgstr ""
 
-#: src/gsb_form.c:2366
+#: src/gsb_form.c:2369
 msgid "Can't issue a transfer on a closed account."
 msgstr ""
 
-#: src/gsb_form.c:2392
+#: src/gsb_form.c:2395
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
 "Continue anyway?"
 msgstr ""
 
-#: src/gsb_form.c:2406
+#: src/gsb_form.c:2409
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
 msgstr ""
 
-#: src/gsb_form.c:2426
+#: src/gsb_form.c:2429
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 
-#: src/gsb_form.c:2431
+#: src/gsb_form.c:2434
 msgid "A transaction with a multiple payee cannot be a breakdown child."
 msgstr ""
 
-#: src/gsb_form.c:2442
+#: src/gsb_form.c:2445
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 
-#: src/gsb_form.c:2450
+#: src/gsb_form.c:2453
 msgid "Invalid multiple payee."
 msgstr ""
 
@@ -6446,7 +6473,7 @@ msgid "Only this one"
 msgstr ""
 
 #. set the title
-#: src/gsb_scheduler_list.c:1617 src/navigation.c:1183
+#: src/gsb_scheduler_list.c:1617 src/navigation.c:1185
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "Lukkede planlagte transaktioner"
@@ -7084,22 +7111,22 @@ msgstr ""
 msgid "Skip"
 msgstr ""
 
-#: src/import_csv.c:899 src/import_csv.c:903
+#: src/import_csv.c:896 src/import_csv.c:900
 #, fuzzy
 msgid "transaction amount"
 msgstr "Skrifttype i liste over transaktioner"
 
-#: src/import_csv.c:912
+#: src/import_csv.c:909
 #, c-format
 msgid "<b>Following fields are missing:</b> %s"
 msgstr ""
 
-#: src/import_csv.c:921
+#: src/import_csv.c:918
 #, fuzzy
 msgid "All mandatory fields are filed in."
 msgstr "Alle felter skal være udfyldt!"
 
-#: src/import_csv.c:1094
+#: src/import_csv.c:1091
 #, fuzzy
 msgid "Imported CSV account"
 msgstr "Fjern en konto"
@@ -7193,218 +7220,227 @@ msgstr ""
 msgid "No budget defined"
 msgstr ""
 
-#: src/main.c:141
+#: src/main.c:140
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
 
-#: src/main.c:247
+#: src/main.c:249
 msgid ""
 "You can now create your account file ... blah blah.  This will be replaced "
 "by a nice assistant."
 msgstr ""
 
-#: src/main.c:248
+#: src/main.c:250
 msgid "Welcome to Grisbi!"
 msgstr ""
 
-#: src/menu.c:161
+#: src/menu.c:165
 #, fuzzy
 msgid "_File"
 msgstr "Fil"
 
-#: src/menu.c:164
+#: src/menu.c:168
 #, fuzzy
 msgid "_New account file..."
 msgstr "Ny kontofil"
 
-#: src/menu.c:167
+#: src/menu.c:171
 #, fuzzy
 msgid "_Open..."
 msgstr "Åbn"
 
-#: src/menu.c:170
+#: src/menu.c:174
 msgid "_Recently opened files"
 msgstr ""
 
-#: src/menu.c:173
+#: src/menu.c:177
 #, fuzzy
 msgid "_Save"
 msgstr "Gem"
 
-#: src/menu.c:176
+#: src/menu.c:180
 #, fuzzy
 msgid "_Save as..."
 msgstr "Gem som"
 
-#: src/menu.c:179
+#: src/menu.c:183
 #, fuzzy
 msgid "_Import file..."
 msgstr "Eksportér QIF-fil"
 
-#: src/menu.c:182
+#: src/menu.c:186
 #, fuzzy
 msgid "_Export accounts as QIF/CSV file..."
 msgstr "Eksportér QIF-fil"
 
-#: src/menu.c:185
+#: src/menu.c:189
+msgid "Create an archive..."
+msgstr ""
+
+#: src/menu.c:192
+#, fuzzy
+msgid "_Export an archive as GSB/QIF/CSV file..."
+msgstr "Eksportér QIF-fil"
+
+#: src/menu.c:195
 #, fuzzy
 msgid "_Debug account file..."
 msgstr "Ny kontofil"
 
-#: src/menu.c:188
+#: src/menu.c:198
 #, fuzzy
 msgid "_Close"
 msgstr "Luk"
 
-#: src/menu.c:191
+#: src/menu.c:201
 msgid "_Quit"
 msgstr ""
 
-#: src/menu.c:194
+#: src/menu.c:204
 #, fuzzy
 msgid "_Edit"
 msgstr "Redigér"
 
-#: src/menu.c:197
+#: src/menu.c:207
 #, fuzzy
 msgid "_New transaction"
 msgstr "Kontotransaktioner"
 
-#: src/menu.c:200
+#: src/menu.c:210
 #, fuzzy
 msgid "_Remove transaction"
 msgstr "Fjern en konto"
 
-#: src/menu.c:203
+#: src/menu.c:213
 #, fuzzy
 msgid "_Clone transaction"
 msgstr "Kontotransaktioner"
 
-#: src/menu.c:206
+#: src/menu.c:216
 #, fuzzy
 msgid "_Edit transaction"
 msgstr "Kontotransaktioner"
 
-#: src/menu.c:209
+#: src/menu.c:219
 #, fuzzy
 msgid "Convert to _scheduled transaction"
 msgstr "Opret en planlagt transaktion"
 
-#: src/menu.c:212
+#: src/menu.c:222
 #, fuzzy
 msgid "_Move transaction to another account"
 msgstr "Fly transaktioner til kategori"
 
-#: src/menu.c:215
+#: src/menu.c:225
 #, fuzzy
 msgid "_Preferences"
 msgstr "Indstillinger"
 
 #. View menu
-#: src/menu.c:219
+#: src/menu.c:229
 #, fuzzy
 msgid "_View"
 msgstr "Gennemse"
 
-#: src/menu.c:222
+#: src/menu.c:232
 #, fuzzy
 msgid "_New account"
 msgstr "Ny konto"
 
-#: src/menu.c:225
+#: src/menu.c:235
 #, fuzzy
 msgid "_Remove current account"
 msgstr "Fjern en konto"
 
 #. Help Menu
-#: src/menu.c:229
+#: src/menu.c:239
 #, fuzzy
 msgid "_Help"
 msgstr "Hjælp"
 
-#: src/menu.c:232
+#: src/menu.c:242
 #, fuzzy
 msgid "_Manual"
 msgstr "Manuel"
 
-#: src/menu.c:235
+#: src/menu.c:245
 msgid "_Quick start"
 msgstr ""
 
-#: src/menu.c:238
+#: src/menu.c:248
 #, fuzzy
 msgid "_Translation"
 msgstr "Overførselsformular"
 
-#: src/menu.c:241
+#: src/menu.c:251
 msgid "_About Grisbi..."
 msgstr ""
 
-#: src/menu.c:244
+#: src/menu.c:254
 msgid "_Grisbi website"
 msgstr ""
 
-#: src/menu.c:247
+#: src/menu.c:257
 #, fuzzy
 msgid "_Report a bug"
 msgstr "Rapport"
 
-#: src/menu.c:250
+#: src/menu.c:260
 msgid "_Tip of the day"
 msgstr ""
 
-#: src/menu.c:256
+#: src/menu.c:266
 #, fuzzy
 msgid "Show _one line per transaction"
 msgstr "Vis 1 linje per transaktion"
 
-#: src/menu.c:259
+#: src/menu.c:269
 #, fuzzy
 msgid "Show _two lines per transaction"
 msgstr "Vis 2 linjer per transaktion"
 
-#: src/menu.c:262
+#: src/menu.c:272
 #, fuzzy
 msgid "Show _three lines per transaction"
 msgstr "Vis 3 linjer per transaktion"
 
-#: src/menu.c:265
+#: src/menu.c:275
 #, fuzzy
 msgid "Show _four lines per transaction"
 msgstr "Vis 4 linjer per transaktion"
 
-#: src/menu.c:269
+#: src/menu.c:279
 #, fuzzy
 msgid "Show transaction _form"
 msgstr "Overførselsformular"
 
-#: src/menu.c:272
+#: src/menu.c:282
 #, fuzzy
 msgid "Show _grid"
 msgstr "Vis gitter"
 
-#: src/menu.c:275
+#: src/menu.c:285
 #, fuzzy
 msgid "Show _reconciled"
 msgstr "Vis afstemte transaktioner"
 
-#: src/menu.c:279
+#: src/menu.c:289
 #, fuzzy
 msgid "Show _closed accounts"
 msgstr "Lukket konto"
 
-#: src/menu.c:382 src/menu.c:410 src/menu.c:428
+#: src/menu.c:392 src/menu.c:424 src/menu.c:442
 msgid "_C"
 msgstr ""
 
-#: src/menu.c:666
+#: src/menu.c:680
 msgid ""
 "Cannot switch to the closed accounts while reconciling. Please cancel the "
 "reconciliation before doing that."
 msgstr ""
 
-#: src/menu.c:768
+#: src/menu.c:782
 #, fuzzy
 msgid "Unnamed account"
 msgstr "Ny konto"
@@ -7518,12 +7554,12 @@ msgid "Please enter a %s!"
 msgstr "Indtast venligst en kategori."
 
 #. set the title
-#: src/navigation.c:284 src/navigation.c:1206 src/tiers_onglet.c:155
+#: src/navigation.c:284 src/navigation.c:1208 src/tiers_onglet.c:155
 #, fuzzy
 msgid "Payees"
 msgstr "Dage"
 
-#: src/navigation.c:348 src/navigation.c:1251
+#: src/navigation.c:348 src/navigation.c:1253
 #, fuzzy
 msgid "AqBanking"
 msgstr "Bank"
@@ -7533,11 +7569,11 @@ msgid "Last statement: none"
 msgstr ""
 
 #. set the title
-#: src/navigation.c:1146
+#: src/navigation.c:1150
 msgid "Account transactions"
 msgstr "Kontotransaktioner"
 
-#: src/navigation.c:1151
+#: src/navigation.c:1155
 #, fuzzy
 msgid "closed"
 msgstr "Luk"
@@ -7876,53 +7912,61 @@ msgstr ""
 msgid "Footers"
 msgstr ""
 
-#: src/qif.c:88
+#: src/qif.c:91
 #, fuzzy
 msgid "Invalid QIF file"
 msgstr "QIF-fil"
 
-#: src/qif.c:160 src/qif.c:214
+#: src/qif.c:163 src/qif.c:217
 #, fuzzy
 msgid "bank"
 msgstr "Bank"
 
-#: src/qif.c:163 src/qif.c:237
+#: src/qif.c:166 src/qif.c:240
 msgid "cash)"
 msgstr ""
 
-#: src/qif.c:166
+#: src/qif.c:169
 msgid "ccard)"
 msgstr ""
 
-#: src/qif.c:169 src/qif.c:223
+#: src/qif.c:172 src/qif.c:226
 msgid "invst)"
 msgstr ""
 
-#: src/qif.c:172 src/qif.c:246
+#: src/qif.c:175 src/qif.c:249
 msgid "oth a)"
 msgstr ""
 
-#: src/qif.c:175 src/qif.c:255
+#: src/qif.c:178 src/qif.c:258
 #, fuzzy
 msgid "oth l)"
 msgstr "Hver måned"
 
-#: src/qif.c:228
+#: src/qif.c:231
 msgid ""
 "Grisbi found an investment account, which is not implemented yet.  "
 "Nevertheless, Grisbi will try to import it as a bank account."
 msgstr ""
 
-#: src/qif.c:374
+#: src/qif.c:377
 #, fuzzy
 msgid "Imported QIF account"
 msgstr "Fjern en konto"
 
-#: src/qif.c:658 src/qif.c:661
+#: src/qif.c:661 src/qif.c:664
 msgid " [Transaction imported without date]"
 msgstr ""
 
-#: src/qif.c:1008
+#: src/qif.c:1042
+#, c-format
+msgid ""
+"There were many accounts to export in the archive,\n"
+"but the QIF format only support one file per account,\n"
+"so Grisbi created %d files, one per account :\n"
+msgstr ""
+
+#: src/qif.c:1104
 #, c-format
 msgid "Error opening file '%s'"
 msgstr ""
@@ -7980,17 +8024,12 @@ msgstr ""
 msgid "Browse"
 msgstr "Gennemse"
 
-#: src/utils_file_selection.c:104
-#, c-format
-msgid "Invalid filename: \"%s\"!"
-msgstr ""
-
-#: src/utils_file_selection.c:145
+#: src/utils_file_selection.c:124
 #, c-format
 msgid "Either file \"%s\" does not exist or it is not a regular file."
 msgstr ""
 
-#: src/utils_file_selection.c:147
+#: src/utils_file_selection.c:126
 #, c-format
 msgid "Error opening file '%s'."
 msgstr ""

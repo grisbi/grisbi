@@ -36,9 +36,7 @@
 GtkWidget *paned_onglet_comptes;
 GtkWidget *bouton_supprimer_compte;
 GtkWidget *label_compte_courant_onglet;
-gint compte_courant_onglet;
 GtkWidget *vbox_liste_comptes_onglet;
-
 
 /*START_EXTERN*/
 /*END_EXTERN*/
@@ -54,7 +52,6 @@ GtkWidget *creation_onglet_comptes ( void )
 {
     GtkWidget * box;
 
-    compte_courant_onglet = 0;
     box = creation_details_compte ();
 
     gtk_widget_show_all (box);

@@ -1,7 +1,7 @@
 src/accueil.c
 src/affichage.c
 src/affichage_liste.c
-src/banque.c
+src/gsb_bank.c
 src/barre_outils.c
 src/categories_onglet.c
 src/classement_echeances.c

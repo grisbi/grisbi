@@ -107,7 +107,7 @@ GtkWidget *gsb_automem_entry_new ( gchar **value,
     if (hook)
 	g_object_set_data ( G_OBJECT (entry), "changed-hook",
 			    (gpointer) g_signal_connect_after ( G_OBJECT(entry), "changed",
-								G_CALLBACK (gsb_automem_entry_changed), data));
+								G_CALLBACK (hook), data));
     return entry;
 }
 

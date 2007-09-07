@@ -46,8 +46,8 @@ extern GtkWidget *preview;
 static gboolean csv_find_field_config ( gint searched );
 static GSList * csv_get_next_line ( gchar ** contents, gchar * separator );
 static gboolean csv_import_change_field ( GtkWidget * item, gint no_menu );
-static gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value, 
-				       gint length, gint * position );
+static gboolean csv_import_change_separator ( GtkEntry * entry,
+				       GtkWidget *assistant );
 static gboolean csv_import_combo_changed ( GtkComboBox * combo, GtkEntry * entry );
 static gint csv_import_count_columns ( gchar * contents, gchar * separator );
 static GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * contents, 
@@ -734,16 +734,16 @@ gboolean csv_import_combo_changed ( GtkComboBox * combo, GtkEntry * entry )
  *
  * \return		FALSE
  */
-gboolean csv_import_change_separator ( GtkEntry * entry, gchar * value, 
-				       gint length, gint * position )
+gboolean csv_import_change_separator ( GtkEntry * entry,
+				       GtkWidget *assistant )
 {
     gchar * separator = (gchar *) gtk_entry_get_text ( GTK_ENTRY (entry) );
-    GtkWidget * assistant = g_object_get_data ( G_OBJECT(entry), "assistant" );
+/*     GtkWidget * assistant = g_object_get_data ( G_OBJECT(entry), "assistant" ); */
     GtkWidget * combobox = g_object_get_data ( G_OBJECT(entry), "combobox" );
     int i = 0;
 
     g_object_set_data ( G_OBJECT(assistant), "separator", separator );
-    
+
     if ( strlen ( separator ) )
     {
 	csv_import_update_preview ( assistant );
@@ -791,12 +791,9 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
 	return FALSE;
 
     assistant = g_object_get_data ( G_OBJECT(tree_preview), "assistant" );
-
     model = csv_import_create_model ( tree_preview, contents, separator );
     if ( model )
-    {
 	gtk_tree_view_set_model ( GTK_TREE_VIEW(tree_preview), model );
-    }
 
     while ( line < CSV_MAX_TOP_LINES )
     {
@@ -1050,7 +1047,7 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
     contents = g_convert ( contents, -1, "UTF-8", imported -> coding_system, NULL, NULL,
 			   NULL );
 
-    g_object_set_data ( G_OBJECT(assistant), "contents", my_strdup ( contents ) );
+    g_object_set_data ( G_OBJECT(assistant), "contents", contents );
 
     entry = g_object_get_data ( G_OBJECT(assistant), "entry" );
     if ( entry )

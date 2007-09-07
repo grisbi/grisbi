@@ -104,7 +104,6 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source,
 /*START_EXTERN*/
 extern GtkTreeStore *budgetary_line_tree_model;
 extern GtkTreeStore * categ_tree_model;
-extern gint compte_courant_onglet;
 extern GtkWidget *label_last_statement ;
 extern GtkWidget *notebook_general;
 extern GtkTreeStore *payee_tree_model;
@@ -1036,9 +1035,6 @@ gboolean navigation_change_account ( gint *no_account )
 				  FALSE );
 
     gsb_transactions_list_set_adjustment_value (new_account);
-
-    /* Set current account, then. */
-    compte_courant_onglet = new_account;
 
     /* unset the last date written */
     gsb_date_free_last_date ();

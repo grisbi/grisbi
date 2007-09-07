@@ -2626,6 +2626,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 {
     GtkWidget *category_combofix;
 
+
     devel_debug ( g_strdup_printf ( "gsb_form_get_categories %d, new : %d", 
 				    transaction_number,
 				    new_transaction ));

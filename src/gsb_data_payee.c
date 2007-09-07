@@ -659,11 +659,7 @@ void gsb_data_payee_add_transaction_to_payee ( gint transaction_number )
     /* if no payee in that transaction, and it's neither a breakdown, neither a transfer,
      * we work with empty_payee */
 
-    if (!payee
-	&&
-	!gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
-	&& 
-	!gsb_data_transaction_get_transaction_number_transfer (transaction_number))
+    if (!payee)
 	payee = empty_payee;
 
 	payee -> payee_nb_transactions ++;
