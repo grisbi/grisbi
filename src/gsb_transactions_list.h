@@ -104,7 +104,6 @@ void move_selected_operation_to_account_nb ( gint *account );
 gboolean new_transaction () ;
 gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view );
 void remove_transaction ();
-void remplissage_liste_operations ( gint compte );
 void schedule_selected_transaction ();
 /* END_DECLARATION */
 #endif

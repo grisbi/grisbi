@@ -33,6 +33,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_real.h"
+#include "./gsb_data_currency.h"
 #include "./gsb_data_transaction.h"
 #include "./utils_str.h"
 /*END_INCLUDE*/
@@ -130,25 +131,30 @@ gchar *gsb_real_get_string ( gsb_real number )
 }
 
 
-
 /**
- * Format a string representing a currency according to locale.
+ * format a gsb_real into a string from gsb_real_get_string and append
+ * the currency symbol from the currency in param
  *
- * \param gsb_real	Number to format.
+ * \param number a gsb_real
+ * \param currency_number
  *
- * \return		A newly allocated string.
- *
- * \todo BIG FIXME: do not get currency symbol from locale but from
- * gsb currency.
- */
-gchar * gsb_real_format_currency_from_locale ( gsb_real number )
+ * \return a newly allocated string of the number
+ * */
+gchar *gsb_real_get_string_with_currency ( gsb_real number,
+					   gint currency_number )
 {
-    gchar * string = g_malloc0 ( 32 );
+    gchar *string;
+    gchar *returned_string;
 
-    strfmon(string, 32, "%n", gsb_real_real_to_double ( number ) );
-
-    return string;
+    string = gsb_real_get_string (number);
+    returned_string = g_strconcat ( string,
+				    " ",
+				    gsb_data_currency_get_code (currency_number),
+				    NULL );
+    g_free (string);
+    return returned_string;
 }
+
 
 
 

@@ -26,10 +26,11 @@ gint gsb_real_cmp ( gsb_real number_1,
 gsb_real gsb_real_div ( gsb_real number_1,
 			gsb_real number_2 );
 gsb_real gsb_real_double_to_real ( gdouble number );
-gchar * gsb_real_format_currency_from_locale ( gsb_real number );
 gsb_real gsb_real_get_from_string ( const gchar *string );
 gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default_mantissa );
 gchar *gsb_real_get_string ( gsb_real number );
+gchar *gsb_real_get_string_with_currency ( gsb_real number,
+					   gint currency_number );
 gsb_real gsb_real_mul ( gsb_real number_1,
 			gsb_real number_2 );
 gsb_real gsb_real_opposite ( gsb_real number );

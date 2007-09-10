@@ -56,8 +56,10 @@
 #include "./structures.h"
 #include "./accueil.h"
 #include "./gsb_form_scheduler.h"
+#include "./gsb_transactions_list.h"
 #include "./include.h"
 #include "./gsb_real.h"
+#include "./fenetre_principale.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -807,20 +809,20 @@ void modification_details_compte ( void )
 							       new_currency_number );
 		list_tmp = list_tmp -> next;
 	    }
-	    /* as we changed the currency of the account and of the transactions, we just need to update
-	     * the balances wich will update the non same currency transactions (done below) */
 	}
-	else
-	{
-	    /* we change the currency of the account, but not for the transactions,
-	     * so we have to update the amounts of transactions (wich become foreign currency)
-	     * and the balance of the account */
-/* 	    gsb_transactions_list_update_transactions_amounts (); */
-/* xxx en suis ici, doit faire la fonction ci dessus à l'autre xxx */
-	}
+
+	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CREDIT);
+	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_DEBIT);
+	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_AMOUNT);
 
 	/* in each cases, we had to update the account balance */
 	gsb_transactions_list_set_transactions_balances (current_account);
+
+	/* update the headings balance */
+	string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (current_account),
+						     gsb_data_account_get_currency (current_account) );
+	gsb_gui_headings_update_suffix ( string );
+	g_free (string);
 
 	mise_a_jour_liste_comptes_accueil = 1;
 	mise_a_jour_liste_echeances_manuelles_accueil = 1;
