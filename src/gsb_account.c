@@ -27,7 +27,7 @@
 #include "include.h"
 
 /*START_INCLUDE*/
-#include "comptes_traitements.h"
+#include "gsb_account.h"
 #include "./comptes_gestion.h"
 #include "./dialog.h"
 #include "./fichiers_gestion.h"
@@ -82,7 +82,7 @@ extern GtkWidget *notebook_general;
  * \return FALSE FALSE
  */
 
-gboolean new_account ( void )
+gboolean gsb_account_new ( void )
 {
     kind_account type_de_compte;
     gint no_compte;
@@ -95,7 +95,7 @@ gboolean new_account ( void )
     }
 
     /*     ask for the kind_account */ 
-    type_de_compte = demande_type_nouveau_compte ();
+    type_de_compte = gsb_account_ask_account_type ();
     if ( type_de_compte == -1 )
 	return FALSE;
 
@@ -114,8 +114,8 @@ gboolean new_account ( void )
     mise_a_jour_combofix_categ();
 
     /* update the name of accounts in form */
-    gsb_account_update_name_tree_model ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
-					 FALSE );
+    gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
+				    FALSE );
 
     /* update the main page */ 
     mise_a_jour_liste_comptes_accueil = 1;
@@ -146,9 +146,7 @@ gboolean new_account ( void )
  * \param none
  * \return FALSE FALSE
  * */
-
-
-gboolean delete_account ( void )
+gboolean gsb_account_delete ( void )
 {
     gint deleted_account;
     gint page_number;
@@ -254,8 +252,8 @@ gboolean delete_account ( void )
     remplit_arbre_tiers ();
 
     /* update the name of accounts in form */
-    gsb_account_update_name_tree_model ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
-					 FALSE );
+    gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
+				    FALSE );
 
     gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
@@ -276,19 +274,161 @@ gboolean delete_account ( void )
 
 
 /**
+ * create a combobox containing the list of the accounts
+ *
+ * \param func Function to call when a line is selected (type : gboolean func ( GtkWidget *button, gpointer data )
+ * \param data data to send to the function
+ * \param include_closed If set to TRUE, include the closed accounts
+ *
+ * \return a new GtkCombobox containing the list of the accounts
+ */
+GtkWidget *gsb_account_create_combo_list ( GCallback func, 
+					   gpointer data,
+					   gboolean include_closed )
+{
+    GSList *list_tmp;
+    GtkListStore *store;
+    GtkCellRenderer *renderer;
+    GtkWidget *combobox;
+
+    combobox = gtk_combo_box_new ();
+
+    store = gtk_list_store_new ( 2,
+				 G_TYPE_STRING,
+				 G_TYPE_INT );
+
+    list_tmp = gsb_data_account_get_list_accounts ();
+
+    while ( list_tmp )
+    {
+	gint account_number;
+	GtkTreeIter iter;
+
+	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+
+	if ( account_number >= 0 && ( !gsb_data_account_get_closed_account (account_number)
+				      || include_closed ) )
+	{
+	    gtk_list_store_append ( GTK_LIST_STORE (store),
+				    &iter );
+	    gtk_list_store_set ( store,
+				 &iter,
+				 0, gsb_data_account_get_name (account_number),
+				 1, account_number,
+				 -1 );
+	}
+	list_tmp = list_tmp -> next;
+    }
+
+    gtk_combo_box_set_model ( GTK_COMBO_BOX (combobox),
+			      GTK_TREE_MODEL (store));
+    if ( func )
+	g_signal_connect ( G_OBJECT (combobox),
+			   "changed",
+			   G_CALLBACK(func),
+			   data );
+
+    renderer = gtk_cell_renderer_text_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combobox), renderer,
+				    "text", 0,
+				    NULL);
+
+    return FALSE;
+}
+/* xxx modifier les noms des fonctions et du fichier ici */
+
+/**
+ * update the list of accounts in a combo_box filled
+ * by gsb_account_create_combo_list
+ *
+ * \param combo_box
+ * \param include_closed
+ *
+ * \return FALSE
+ * */
+gboolean gsb_account_update_combo_list ( GtkWidget *combo_box,
+					 gboolean include_closed )
+{
+    GSList *list_tmp;
+    GtkListStore *store;
+
+    if (!combo_box)
+	return FALSE;
+
+    store = GTK_LIST_STORE (gtk_combo_box_get_model ( GTK_COMBO_BOX (combo_box)));;
+    gtk_list_store_clear (store);
+
+    list_tmp = gsb_data_account_get_list_accounts ();
+
+    while ( list_tmp )
+    {
+	gint account_number;
+	GtkTreeIter iter;
+
+	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+
+	if ( account_number >= 0 && ( !gsb_data_account_get_closed_account (account_number)
+				      || include_closed ) )
+	{
+	    gtk_list_store_append ( GTK_LIST_STORE (store),
+				    &iter );
+	    gtk_list_store_set ( store,
+				 &iter,
+				 0, gsb_data_account_get_name (account_number),
+				 1, account_number,
+				 -1 );
+	}
+	list_tmp = list_tmp -> next;
+    }
+    return FALSE;
+}
+
+/**
+ * get the selected account number in a combo_box filled by
+ * gsb_account_create_combo_list
+ *
+ * \param combo_box the accounts combo-box
+ *
+ * \return the account number selected or -1 if none active
+ * */
+gint gsb_account_get_combo_account_number ( GtkWidget *combo_box )
+{
+    gint account_number;
+    GtkTreeIter iter;
+
+    if (!combo_box
+	||
+	!GTK_IS_COMBO_BOX (combo_box))
+	return -1;
+
+    if ( !gtk_combo_box_get_active_iter ( GTK_COMBO_BOX (combo_box),
+					  &iter ))
+	return -1;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL (gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box))),
+			 &iter,
+			 1, &account_number,
+			 -1 );
+    return account_number;
+}
+
+
+/**
  *  Create a menu with the list of accounts.  This list is
  *  clickable and activates func if specified.
+ *  used for now to add a submenu item in a main menu
  *
  * \param func Function to call when a line is selected
  * \param activate_currrent If set to TRUE, does not mark as
  *        unsensitive current account
  * \param include_closed If set to TRUE, include the closed accounts
  *
- * \return A newly created option menu
+ * \return A newly created menu
  */
-GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func, 
-					   gboolean activate_currrent,
-					   gboolean include_closed )
+GtkWidget *gsb_account_create_menu_list ( GtkSignalFunc func, 
+					  gboolean activate_currrent,
+					  gboolean include_closed )
 {
     GtkWidget *menu;
     GtkWidget *item;
@@ -327,156 +467,20 @@ GtkWidget * creation_option_menu_comptes ( GtkSignalFunc func,
 
     return ( menu );
 }
-/* ************************************************************************** */
 
 
 
 /**
- *  Create a tree_model with the list of accounts.  This list is
- *  clickable and activates func if specified.
- *  it's appended here in the combo_box
+ * show a dialog to choose the type of an account
+ * and return that type
  *
- * \param combo_box the combo-box parent to include that list
- * \param func Function to call when a line is selected
- * \param include_closed If set to TRUE, include the closed accounts
+ * \param
  *
- * \return FALSE
- */
-gboolean gsb_account_create_name_tree_model ( GtkWidget *combo_box,
-					      GCallback func, 
-					      gboolean include_closed )
-{
-    GSList *list_tmp;
-    GtkListStore *store;
-    GtkCellRenderer *renderer;
-
-    store = gtk_list_store_new ( 2,
-				 G_TYPE_STRING,
-				 G_TYPE_INT );
-
-    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint account_number;
-	GtkTreeIter iter;
-
-	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	if ( account_number >= 0 && ( !gsb_data_account_get_closed_account (account_number)
-				      || include_closed ) )
-	{
-	    gtk_list_store_append ( GTK_LIST_STORE (store),
-				    &iter );
-	    gtk_list_store_set ( store,
-				 &iter,
-				 0, gsb_data_account_get_name (account_number),
-				 1, account_number,
-				 -1 );
-	}
-	list_tmp = list_tmp -> next;
-    }
-
-    gtk_combo_box_set_model ( GTK_COMBO_BOX (combo_box),
-			      GTK_TREE_MODEL (store));
-    if ( func )
-	g_signal_connect ( G_OBJECT (combo_box),
-			   "changed",
-			   G_CALLBACK(func),
-			   NULL );
-
-    renderer = gtk_cell_renderer_text_new ();
-    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
-    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), renderer,
-				    "text", 0,
-				    NULL);
-
-    return FALSE;
-}
-/* xxx modifier les noms des fonctions et du fichier ici */
-
-/**
- * update the list of accounts in a combo_box filled
- * by gsb_account_create_name_tree_model
+ * \return the type of account
  *
- * \param combo_box
- * \param include_closed
- *
- * \return FALSE
+ * FIXME : should disappear with the wizard
  * */
-gboolean gsb_account_update_name_tree_model ( GtkWidget *combo_box,
-					      gboolean include_closed )
-{
-    GSList *list_tmp;
-    GtkListStore *store;
-
-    if (!combo_box)
-	return FALSE;
-
-    store = GTK_LIST_STORE (gtk_combo_box_get_model ( GTK_COMBO_BOX (combo_box)));;
-    gtk_list_store_clear (store);
-
-    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint account_number;
-	GtkTreeIter iter;
-
-	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	if ( account_number >= 0 && ( !gsb_data_account_get_closed_account (account_number)
-				      || include_closed ) )
-	{
-	    gtk_list_store_append ( GTK_LIST_STORE (store),
-				    &iter );
-	    gtk_list_store_set ( store,
-				 &iter,
-				 0, gsb_data_account_get_name (account_number),
-				 1, account_number,
-				 -1 );
-	}
-	list_tmp = list_tmp -> next;
-    }
-    return FALSE;
-}
-
-/**
- * get the selected account number in a combo_box filled by
- * gsb_account_create_name_tree_model
- *
- * \param combo_box the accounts combo-box
- *
- * \return the account number selected or -1 if none active
- * */
-gint gsb_account_get_number_tree_model ( GtkWidget *combo_box )
-{
-    gint account_number;
-    GtkTreeIter iter;
-
-    if (!combo_box
-	||
-	!GTK_IS_COMBO_BOX (combo_box))
-	return -1;
-
-    if ( !gtk_combo_box_get_active_iter ( GTK_COMBO_BOX (combo_box),
-					  &iter ))
-	return -1;
-
-    gtk_tree_model_get ( GTK_TREE_MODEL (gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box))),
-			 &iter,
-			 1, &account_number,
-			 -1 );
-    return account_number;
-}
-
-
-/* ************************************************************************** */
-/* Cette fonction est appelï¿œ lors de la crï¿œtion d'un nouveau compte.        */
-/* elle renvoie le type demandï¿œpour pouvoir mettre ensuite les types par     */
-/* dï¿œaut.                                                                    */
-/* ************************************************************************** */
-gint demande_type_nouveau_compte ( void )
+gint gsb_account_ask_account_type ( void )
 {
     GtkWidget *dialog;
     gint resultat;
@@ -490,7 +494,7 @@ gint demande_type_nouveau_compte ( void )
 				       make_hint ( _("Choose account type"),
 						   _("If you choose to continue, an account will be created with default payment methods chosen according to your choice.\nYou will be able to change account type later." ) ) );
 
-    /* crï¿œtion de la ligne du type de compte */
+    /* creation de la ligne du type de compte */
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -> vbox ), hbox,
 			 FALSE, FALSE, 6 );
@@ -521,7 +525,6 @@ gint demande_type_nouveau_compte ( void )
 
     return ( type_compte );
 }
-/* ************************************************************************** */
 
 
 

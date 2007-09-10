@@ -29,12 +29,12 @@
 #include "import.h"
 #include "./utils.h"
 #include "./comptes_gestion.h"
-#include "./comptes_traitements.h"
 #include "./import_csv.h"
 #include "./gsb_transactions_list.h"
 #include "./erreur.h"
 #include "./dialog.h"
 #include "./go-charmap-sel.h"
+#include "./gsb_account.h"
 #include "./gsb_assistant.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_currency.h"
@@ -58,7 +58,6 @@
 #include "./tiers_onglet.h"
 #include "./utils_str.h"
 #include "./qif.h"
-#include "./utils_comptes.h"
 #include "./imputation_budgetaire.h"
 #include "./structures.h"
 #include "./gsb_file_config.h"
@@ -1041,9 +1040,8 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     gtk_alignment_set_padding ( GTK_ALIGNMENT ( alignement ), 0, 0, 2 * spacing + size, 0 );
     gtk_container_add ( GTK_CONTAINER ( alignement ), label );
     gtk_box_pack_start ( GTK_BOX ( compte -> hbox2 ), alignement, FALSE, FALSE, 0 );
-    compte -> bouton_compte_add = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_compte_add ), 
-			       creation_option_menu_comptes ( NULL, TRUE, FALSE ) );
+
+    compte -> bouton_compte_add = gsb_account_create_combo_list (NULL, NULL, FALSE);
     gtk_box_pack_start ( GTK_BOX ( compte -> hbox2 ), compte -> bouton_compte_add, TRUE, TRUE, 0 );
     gtk_widget_set_sensitive ( compte -> hbox2, FALSE );
 
@@ -1065,9 +1063,8 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     gtk_alignment_set_padding ( GTK_ALIGNMENT ( alignement ), 0, 0, 2 * spacing + size, 0 );
     gtk_container_add ( GTK_CONTAINER ( alignement ), label );
     gtk_box_pack_start ( GTK_BOX ( compte -> hbox3 ), alignement, FALSE, FALSE, 0 );
-    compte -> bouton_compte_mark = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_compte_mark ), 
-			       creation_option_menu_comptes ( NULL, TRUE, FALSE ) );
+
+    compte -> bouton_compte_mark = gsb_account_create_combo_list (NULL, NULL, FALSE);
     gtk_box_pack_start ( GTK_BOX ( compte -> hbox3 ), compte -> bouton_compte_mark, TRUE, TRUE, 0 );
     gtk_widget_set_sensitive ( compte -> hbox3, FALSE );
 
@@ -1189,7 +1186,7 @@ void traitement_operations_importees ( void )
 		/* add */
 
 		gsb_import_add_imported_transactions ( compte,
-						       recupere_no_compte ( compte -> bouton_compte_add ));
+						       gsb_account_get_combo_account_number ( compte -> bouton_compte_add ));
 
 		break;
 
@@ -1252,8 +1249,8 @@ void traitement_operations_importees ( void )
 /* 				     TRUE, */
 /* 				     0 ); */
 		/* update the name of accounts in form */
-		gsb_account_update_name_tree_model ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
-						     FALSE );
+		gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
+						FALSE );
 
 		/* 	on réaffiche la liste des comptes */
 
@@ -2157,7 +2154,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
 
     /* on se place sur le compte dans lequel on va pointer les opés */
-    account_number = recupere_no_compte ( imported_account -> bouton_compte_mark );
+    account_number = gsb_account_get_combo_account_number ( imported_account -> bouton_compte_mark );
 
     /* si le compte importé a une id, on la vérifie ici */
     /*     si elle est absente, on met celle importée */

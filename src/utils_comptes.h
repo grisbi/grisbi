@@ -5,6 +5,5 @@
 
 
 /* START_DECLARATION */
-gint recupere_no_compte ( GtkWidget *option_menu );
 /* END_DECLARATION */
 #endif

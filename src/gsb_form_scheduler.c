@@ -33,7 +33,7 @@
 /*START_INCLUDE*/
 #include "gsb_form_scheduler.h"
 #include "./erreur.h"
-#include "./comptes_traitements.h"
+#include "./gsb_account.h"
 #include "./gsb_calendar_entry.h"
 #include "./gsb_combo_box.h"
 #include "./gsb_data_scheduled.h"
@@ -171,16 +171,9 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 	    switch ( element_number )
 	    {
 		case SCHEDULED_FORM_ACCOUNT:
-		    widget = gtk_combo_box_new ();
-		    gsb_account_create_name_tree_model ( widget,
-							 NULL,
-							 FALSE );
+		    widget = gsb_account_create_combo_list ((GtkSignalFunc) gsb_form_scheduler_change_account, NULL, FALSE);
 		    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget),
 					       0 );
-		    g_signal_connect ( G_OBJECT (widget),
-				       "changed",
-				       G_CALLBACK (gsb_form_scheduler_change_account),
-				       NULL );
 		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 					   widget,
 					   _("Choose the account"),
@@ -921,7 +914,7 @@ gint gsb_form_scheduler_get_account ( void )
     if (!button)
 	return -2;
 
-    account_number = gsb_account_get_number_tree_model (button);
+    account_number = gsb_account_get_combo_account_number (button);
 
     if (account_number == -1)
 	return -2;

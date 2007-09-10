@@ -30,8 +30,8 @@
 /*START_INCLUDE*/
 #include "gsb_form_config.h"
 #include "./utils.h"
-#include "./comptes_traitements.h"
 #include "./dialog.h"
+#include "./gsb_account.h"
 #include "./gsb_automem.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_form.h"
@@ -40,7 +40,6 @@
 #include "./navigation.h"
 #include "./utils_str.h"
 #include "./traitement_variables.h"
-#include "./utils_comptes.h"
 #include "./gsb_data_form.h"
 #include "./include.h"
 #include "./structures.h"
@@ -49,7 +48,8 @@
 /*START_STATIC*/
 static gboolean gsb_form_config_add_column ( void );
 static gboolean gsb_form_config_add_line ( void );
-static gboolean gsb_form_config_change_account_choice ( GtkWidget *menu_item );
+static gboolean gsb_form_config_change_account_choice ( GtkWidget *combobox,
+						 gpointer null );
 static gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
 					      GtkAllocation *allocation );
 static gboolean gsb_form_config_check_for_removing ( gint account_number,
@@ -93,7 +93,7 @@ static gint start_drag_row;
 static GtkWidget *form_config_buttons[TRANSACTION_FORM_WIDGET_NB-3];
 
 /** the option menu which contains all the accounts, to configure the form */
-static GtkWidget *accounts_option_menu;
+static GtkWidget *accounts_combobox;
 
 /** the tree view */
 static GtkWidget *form_config_tree_view;
@@ -173,20 +173,15 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     gtk_widget_show ( button );
 
     /* the accounts option_menu */
-
-    accounts_option_menu = gtk_option_menu_new ();
-    gtk_widget_set_sensitive ( accounts_option_menu,
+    accounts_combobox = gsb_account_create_combo_list ((GtkSignalFunc) gsb_form_config_change_account_choice, NULL, FALSE );
+    gtk_widget_set_sensitive ( accounts_combobox,
 			       etat.formulaire_distinct_par_compte );
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( accounts_option_menu ),
-			       creation_option_menu_comptes ( (GtkSignalFunc) gsb_form_config_change_account_choice ,
-							      TRUE,
-							      FALSE ));
     gtk_box_pack_start ( GTK_BOX (hbox ),
-			 accounts_option_menu,
+			 accounts_combobox,
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( accounts_option_menu );
+    gtk_widget_show ( accounts_combobox );
 
     /* create the tree_view */
 
@@ -575,14 +570,16 @@ gboolean gsb_form_config_update_form_config ( gint account_number )
 gboolean gsb_form_config_switch_general_to_several_form ( void )
 {
     if ( etat.formulaire_distinct_par_compte )
-	gtk_widget_set_sensitive ( accounts_option_menu,
+	gtk_widget_set_sensitive ( accounts_combobox,
 				   TRUE );
     else
     {
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( accounts_option_menu ),
-				      0 );
-	gsb_form_config_change_account_choice ( GTK_OPTION_MENU ( accounts_option_menu ) -> menu_item );
-	gtk_widget_set_sensitive ( accounts_option_menu,
+	gtk_combo_box_set_active ( GTK_COMBO_BOX (accounts_combobox),
+				   0 );
+	/* just in case we were already on the first choice */
+	gsb_form_config_change_account_choice (accounts_combobox, NULL);
+
+	gtk_widget_set_sensitive ( accounts_combobox,
 				   FALSE );
     }
     return FALSE;
@@ -592,16 +589,16 @@ gboolean gsb_form_config_switch_general_to_several_form ( void )
 /**
  * called if we change the account in the option menu of the accounts
  *
- * \param menu_item
+ * \param combobox the combobox of the list of accounts
  *
  * \return FALSE
  * */
-gboolean gsb_form_config_change_account_choice ( GtkWidget *menu_item )
+gboolean gsb_form_config_change_account_choice ( GtkWidget *combobox,
+						 gpointer null )
 {
     gint account_number;
 
-    account_number = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( menu_item ),
-							     "account_number" ));
+    account_number = gsb_account_get_combo_account_number (combobox);
     gsb_form_config_update_form_config ( account_number );
 
     return FALSE;
@@ -655,7 +652,7 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 	    no_second_element = -1;
     }
 
-    account_number = recupere_no_compte ( accounts_option_menu );
+    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
 
     /* update the table */
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( toggle_button )))
@@ -867,7 +864,7 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view )
     if ( !assert_account_loaded())
       return FALSE;
 
-    account_number = recupere_no_compte ( accounts_option_menu );
+    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
     width = tree_view -> allocation.width;
 
     /* fill and update the form list and buttons */
@@ -907,7 +904,7 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
     if ( !GTK_WIDGET_REALIZED (tree_view))
 	return FALSE;
 
-    account_number = recupere_no_compte ( accounts_option_menu );
+    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
 
     for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
     {
@@ -926,7 +923,7 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
 
 /*     if ( !etat.formulaire_distinct_par_compte */
 /* 	 || */
-/* 	 recupere_no_compte ( accounts_option_menu ) == gsb_gui_navigation_get_current_account ()) */
+/* 	 gsb_account_get_combo_account_number ( accounts_combobox ) == gsb_gui_navigation_get_current_account ()) */
 /* 	mise_a_jour_taille_formulaire ( formulaire -> allocation.width ); */
 
     return FALSE;
@@ -944,7 +941,7 @@ gboolean gsb_form_config_add_line ( void )
 {
     gint account_number;
 
-    account_number = recupere_no_compte ( accounts_option_menu );
+    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
 
     if ( gsb_data_form_get_nb_rows (account_number) == MAX_HEIGHT )
 	return FALSE;
@@ -973,7 +970,7 @@ gboolean gsb_form_config_remove_line ( void )
     gint column;
     gint account_number;
 
-    account_number = recupere_no_compte ( accounts_option_menu );
+    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
 
     if ( gsb_data_form_get_nb_rows (account_number) == 1 )
 	return FALSE;
@@ -1044,7 +1041,7 @@ gboolean gsb_form_config_add_column ( void )
     gint nb_columns;
     gint new_size;
 
-    account_number = recupere_no_compte ( accounts_option_menu );
+    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
     nb_columns = gsb_data_form_get_nb_columns (account_number);
 
     if ( nb_columns == MAX_WIDTH )
@@ -1084,7 +1081,7 @@ gboolean gsb_form_config_remove_column ( void )
     gint account_number;
     gint nb_columns;
     
-    account_number = recupere_no_compte ( accounts_option_menu );
+    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
     nb_columns = gsb_data_form_get_nb_columns (account_number);
 
     if ( nb_columns == 1 )
@@ -1316,7 +1313,7 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
 
     /* swap the cells in the tab */
 
-    account_number = recupere_no_compte ( accounts_option_menu );
+    account_number = gsb_account_get_combo_account_number ( accounts_combobox );
 
     buffer = gsb_data_form_get_value ( account_number,
 				       start_drag_column,

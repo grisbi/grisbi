@@ -23,7 +23,6 @@ sources = \
 	classement_echeances.c	\
 	comptes_gestion.c	\
 	comptes_onglet.c	\
-	comptes_traitements.c	\
 	csv_parse.c		\
 	dialog.c		\
 	echeancier_infos.c	\
@@ -43,6 +42,7 @@ sources = \
 	fichiers_gestion.c	\
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
+	gsb_account.c		\
 	gsb_archive_config.c	\
 	gsb_assistant.c		\
 	gsb_assistant_archive.c		\
@@ -145,9 +145,9 @@ grisbi_INCLUDES =		\
 	classement_echeances.h	\
 	comptes_gestion.h	\
 	comptes_onglet.h	\
-	comptes_traitements.h	\
 	constants.h		\
 	import_csv.h		\
+	gsb_account.h		\
 	gsb_archive_config.h	\
 	gsb_assistant.h		\
 	gsb_assistant_archive.h		\

@@ -31,7 +31,7 @@
 /*START_INCLUDE*/
 #include "gsb_assistant_reconcile_config.h"
 #include "./dialog.h"
-#include "./comptes_traitements.h"
+#include "./gsb_account.h"
 #include "./gsb_assistant.h"
 #include "./gsb_calendar_entry.h"
 #include "./gsb_data_account.h"
@@ -400,10 +400,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 				2, 3,
 				0, 1 );
 
-    reconcile_account_button = gtk_combo_box_new ();
-    gsb_account_create_name_tree_model ( reconcile_account_button, 
-					 NULL,
-					 TRUE );
+    reconcile_account_button = gsb_account_create_combo_list ( NULL, NULL, TRUE );
     gtk_combo_box_set_active ( GTK_COMBO_BOX (reconcile_account_button),
 			       0 );
     gtk_table_attach_defaults ( GTK_TABLE (table),
@@ -826,7 +823,7 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
     gsb_data_reconcile_set_final_balance ( reconcile_number,
 					   gsb_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (reconcile_final_balance_entry))));
     gsb_data_reconcile_set_account ( reconcile_number,
-				     gsb_account_get_number_tree_model (reconcile_account_button));
+				     gsb_account_get_combo_account_number (reconcile_account_button));
 
     /* erase the entries but not the account wich can be used again */
     gtk_entry_set_text ( GTK_ENTRY (reconcile_name_entry),

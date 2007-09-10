@@ -31,10 +31,10 @@
 #include "fichiers_gestion.h"
 #include "./menu.h"
 #include "./fenetre_principale.h"
-#include "./comptes_traitements.h"
 #include "./erreur.h"
 #include "./dialog.h"
 #include "./utils_file_selection.h"
+#include "./gsb_account.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive_store.h"
@@ -120,7 +120,7 @@ gboolean new_file ( void )
 
     init_variables ();
 
-    type_de_compte = demande_type_nouveau_compte ();
+    type_de_compte = gsb_account_ask_account_type ();
 
     if ( type_de_compte == -1 )
 	return FALSE;

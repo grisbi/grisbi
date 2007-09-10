@@ -34,12 +34,12 @@
 #include "./gsb_form_transaction.h"
 #include "./barre_outils.h"
 #include "./navigation.h"
-#include "./comptes_traitements.h"
 #include "./erreur.h"
 #include "./dialog.h"
 #include "./fichiers_gestion.h"
 #include "./export.h"
 #include "./tip.h"
+#include "./gsb_account.h"
 #include "./gsb_assistant_archive_export.h"
 #include "./gsb_assistant_archive.h"
 #include "./gsb_data_account.h"
@@ -230,10 +230,10 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "NewAccount",		GTK_STOCK_NEW,		_("_New account"),
-	  "",			NULL,			G_CALLBACK( new_account ) },
+	  "",			NULL,			G_CALLBACK( gsb_account_new ) },
 
 	{ "RemoveAccount",	GTK_STOCK_DELETE,	_("_Remove current account"),
-	  "",			NULL,			G_CALLBACK( delete_account ) },
+	  "",			NULL,			G_CALLBACK( gsb_account_delete ) },
 
 	/* Help Menu */
 	{ "HelpMenu",		NULL,			_("_Help"),

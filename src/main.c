@@ -45,12 +45,12 @@
 #include "./dialog.h"
 #include "./tip.h"
 #include "./erreur.h"
+#include "./gsb_account.h"
 #include "./gsb_file_config.h"
 #include "./fichiers_gestion.h"
 #include "./gsb_status.h"
 #include "./gsb_plugins.h"
 #include "./traitement_variables.h"
-#include "./comptes_traitements.h"
 #include "./parse_cmdline.h"
 #include "./import.h"
 #include "./parse_cmdline.h"
@@ -248,7 +248,7 @@ In any case you do work with this version on your original accounting files.\n \
     {
 	dialogue_hint ( _("You can now create your account file ... blah blah.  This will be replaced by a nice assistant."),
 			_("Welcome to Grisbi!"));
-	new_account ();
+	gsb_account_new ();
     }
     else
     {

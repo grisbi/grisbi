@@ -44,7 +44,6 @@
 #include "./gsb_transactions_list.h"
 #include "./main.h"
 #include "./accueil.h"
-#include "./comptes_traitements.h"
 #include "./comptes_gestion.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"

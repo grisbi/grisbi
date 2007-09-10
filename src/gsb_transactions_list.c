@@ -25,9 +25,9 @@
 /*START_INCLUDE*/
 #include "gsb_transactions_list.h"
 #include "./accueil.h"
-#include "./comptes_traitements.h"
 #include "./erreur.h"
 #include "./dialog.h"
+#include "./gsb_account.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"
 #include "./gsb_data_archive_store.h"
@@ -126,10 +126,10 @@ static gboolean gsb_transactions_list_switch_mark ( gint transaction_number );
 static gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
 							   GdkEventButton *ev,
 							   gint *no_column );
-static gboolean gsb_transactions_list_update_transactions_amount ( gint account_number );
 static gboolean move_operation_to_account ( gint transaction_number,
 				     gint target_account );
-static void move_selected_operation_to_account ( GtkMenuItem * menu_item );
+static gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
+					      gpointer null );
 static void popup_transaction_context_menu ( gboolean full, int x, int y );
 static void remplissage_liste_operations ( gint compte );
 static gint schedule_transaction ( gint transaction_number );
@@ -3408,7 +3408,8 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 
     /* Add accounts submenu */
     gtk_menu_item_set_submenu ( GTK_MENU_ITEM(menu_item), 
-				GTK_WIDGET(creation_option_menu_comptes(GTK_SIGNAL_FUNC(move_selected_operation_to_account), FALSE, FALSE)) );
+				GTK_WIDGET(gsb_account_create_menu_list (GTK_SIGNAL_FUNC(move_selected_operation_to_account), FALSE, FALSE)) );
+
 
     /* Separator */
     gtk_menu_append ( menu, gtk_separator_menu_item_new() );
@@ -3675,12 +3676,15 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number )
  * handler.
  *
  * \param menu_item The GtkMenuItem that triggered this handler.
+ *
+ * \return FALSE
  */
-void move_selected_operation_to_account ( GtkMenuItem * menu_item )
+gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
+					      gpointer null )
 {
     gint target_account, source_account;
 
-    if (! assert_selected_transaction()) return;
+    if (! assert_selected_transaction()) return FALSE;
 
     source_account = gsb_gui_navigation_get_current_account ();
     target_account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
@@ -3708,6 +3712,7 @@ void move_selected_operation_to_account ( GtkMenuItem * menu_item )
 
 	modification_fichier ( TRUE );
     }
+    return FALSE;
 }
 
 

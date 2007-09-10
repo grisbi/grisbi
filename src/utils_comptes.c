@@ -31,6 +31,7 @@
 /*START_STATIC*/
 static gint recherche_compte_dans_option_menu ( GtkWidget *option_menu,
 					 gint no_compte );
+static gint recupere_no_compte ( GtkWidget *option_menu );
 /*END_STATIC*/
 
 
