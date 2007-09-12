@@ -334,7 +334,7 @@ GtkWidget *gsb_account_create_combo_list ( GCallback func,
 				    "text", 0,
 				    NULL);
 
-    return FALSE;
+    return combobox;
 }
 /* xxx modifier les noms des fonctions et du fichier ici */
 
