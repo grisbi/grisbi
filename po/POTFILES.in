@@ -1,13 +1,11 @@
 src/accueil.c
 src/affichage.c
 src/affichage_liste.c
-src/gsb_bank.c
 src/barre_outils.c
 src/categories_onglet.c
 src/classement_echeances.c
 src/comptes_gestion.c
 src/comptes_onglet.c
-src/comptes_traitements.c
 src/configuration.c
 src/csv_parse.c
 src/dialog.c
@@ -28,9 +26,15 @@ src/fenetre_principale.c
 src/fichiers_gestion.c
 src/go-charmap-sel.c
 src/go-optionmenu.c
+src/gsb_account.c
+src/gsb_archive_config.c
+src/gsb_assistant_archive.c
+src/gsb_assistant_archive_export.c
 src/gsb_assistant.c
+src/gsb_assistant_reconcile_config.c
 src/gsb_autofunc.c
 src/gsb_automem.c
+src/gsb_bank.c
 src/gsb_calendar_entry.c
 src/gsb_combo_box.c
 src/gsb_crypt.c
@@ -38,6 +42,8 @@ src/gsb_currency.c
 src/gsb_currency_config.c
 src/gsb_currency_link_config.c
 src/gsb_data_account.c
+src/gsb_data_archive.c
+src/gsb_data_archive_store.c
 src/gsb_data_bank.c
 src/gsb_data_budget.c
 src/gsb_data_category.c
@@ -75,6 +81,7 @@ src/gsb_reconcile.c
 src/gsb_reconcile_config.c
 src/gsb_reconcile_list.c
 src/gsb_reconcile_sort_config.c
+src/gsb_report.c
 src/gsb_scheduler.c
 src/gsb_scheduler_list.c
 src/gsb_status.c
@@ -96,6 +103,10 @@ src/metatree.c
 src/navigation.c
 src/parametres.c
 src/parse_cmdline.c
+src/plugins/g2banking/g2banking.c
+src/plugins/gnucash/gnucash.c
+src/plugins/ofx/ofx.c
+src/plugins/openssl/openssl.c
 src/print_config.c
 src/qif.c
 src/tiers_onglet.c
