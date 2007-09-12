@@ -7050,7 +7050,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 	 g_slist_length (gsb_data_transaction_get_transactions_list ()) > etat.max_non_archived_transactions_for_check )
     {
 	if (question_yes_no_hint ( _("Archive some transactions ?"),
-				   g_strdup_printf ( _("There is %d transactions to load into the lists,\nThis is much and the display would be faster if you archive some transactions.\n\nDo you want to launch the assistant to archive some transactions ?\n(You can change the limit to show that warning in the configuration)"),
+				   g_strdup_printf ( _("There are %d transactions in your file,\nTo increase speed it would be faster to archive some transactions.\n\nDo you want to launch the assistant to archive some transactions ?"),
 						     g_slist_length (gsb_data_transaction_get_transactions_list ())),
 				   GTK_RESPONSE_YES ))
 	    gsb_assistant_archive_run ();
