@@ -175,7 +175,7 @@ gchar * gsb_plugin_get_list ()
 
 	if ( ! list )
 	{
-	    list = g_strconcat ( _("with plugins "), plugin -> name, NULL );
+	    list = g_strconcat ( _("with plugins"), " ", plugin -> name, NULL );
 	}
 	else
 	{
