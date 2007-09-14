@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-06 12:56+0200\n"
-"PO-Revision-Date: 2007-05-08 23:10+0200\n"
+"PO-Revision-Date: 2007-09-14 12:39+0200\n"
 "Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -87,8 +87,7 @@ msgstr "%s %s Soll in %s"
 #: src/accueil.c:1716
 #, c-format
 msgid "balance of account %s is under wanted and authorised minima!"
-msgstr ""
-"Der Saldo des Kontos %s ist unter dem festgelegten und zulässigen Minimum!"
+msgstr "Der Saldo des Kontos %s ist unter dem festgelegten und zulässigen Minimum!"
 
 #: src/accueil.c:1720
 msgid ""
@@ -446,8 +445,7 @@ msgstr "Eingabe Vervollständigung"
 
 #: src/affichage_liste.c:485
 msgid "Limit payee completion to current account"
-msgstr ""
-"Die Vervollständigung von Empfängern auf das aktuelle Konto beschränken"
+msgstr "Die Vervollständigung von Empfängern auf das aktuelle Konto beschränken"
 
 #: src/affichage_liste.c:491
 msgid "Mix credit/debit categories"
@@ -1434,12 +1432,12 @@ msgid "Apply changes to account?"
 msgstr "Änderungen speichern?"
 
 #: src/comptes_gestion.c:1008
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Property of account \"%s\" has been modified.\n"
 "Do you want to save changes?"
 msgstr ""
-"Das Konto \"%s\" wurde verändert.\n"
+"Die Einstellungen für das Konto \"%s\" wurden verändert.\n"
 "Änderungen speichern?"
 
 #: src/comptes_traitements.c:161
@@ -1474,8 +1472,7 @@ msgid "No tip of the day available"
 msgstr "Kein Tipp des Tages verfügbar"
 
 #: src/dialog.c:53
-msgid ""
-"Make sure that grisbi was correctly installed and that tips file is readable."
+msgid "Make sure that grisbi was correctly installed and that tips file is readable."
 msgstr "Bitte die Installation von Grisbi überprüfen."
 
 #: src/dialog.c:56
@@ -1643,10 +1640,8 @@ msgid "Grisbi made a backup file at '%s'."
 msgstr "Grisbi hat eine Sicherung in folgendem Verzeichnis %s erstellt."
 
 #: src/erreur.c:193
-msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
-msgstr ""
-"Bitte den Fehler unter <tt>http://www.grisbi.org/bugtracking/</tt>. melden"
+msgid "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+msgstr "Bitte den Fehler unter <tt>http://www.grisbi.org/bugtracking/</tt>. melden"
 
 #: src/erreur.c:197
 msgid "Copy and paste the following backtrace with your bug report."
@@ -2249,7 +2244,7 @@ msgstr "Datum Anfang"
 msgid "Final date"
 msgstr "Datum Ende"
 
-#. on met dans la partie de gauche une liste contenant les comptes Ã 
+#. on met dans la partie de gauche une liste contenant les comptes Ã
 #. sÃ©lectionner
 #: src/etats_config.c:2564
 msgid "Select transactions only for given accounts"
@@ -2613,7 +2608,7 @@ msgstr "Die Anzahl der Buchungen im Verhältnis zu allen Buchungen anzeigen"
 
 #: src/etats_config.c:6472
 msgid "Consider the payees of this report as a multiple payee."
-msgstr "Die Empfänger als Gruppe von Empfängern anzeigen"
+msgstr "Die Empfänger als Gruppe von Empfängern anzeigen."
 
 #. afficher ou non les opÃ©s
 #: src/etats_config.c:6512
@@ -2757,7 +2752,7 @@ msgstr "Eine Zwischensumme für jeden Teil-Budgeteintrag anzeigen"
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr " \"Keinen Teil-Budgeteintrag\" anzeigen wenn keiner vorhanden ist"
 
-#. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
+#. on met dans la partie de gauche une liste contenant les modes de paiement Ã
 #. sÃ©lectionner
 #: src/etats_config.c:7504
 msgid "Select the transactions by method of payment"
@@ -3170,7 +3165,6 @@ msgstr "Csv Format"
 
 #. set the initial balance
 #: src/export_csv.c:274
-#, fuzzy
 msgid "Initial current_balance"
 msgstr "Saldo Anfang"
 
@@ -5311,12 +5305,11 @@ msgstr "Die Währung '%s' ist bereits vorhanden."
 msgid ""
 "Currency name and either currency ISO4217 code or currency nickname should "
 "be set."
-msgstr ""
-"Es muss entweder der Währungsname oder der 'ISO-Code' eingegeben werden."
+msgstr "Es muss entweder der Währungsname oder der 'ISO-Code' eingegeben werden."
 
 #: src/gsb_currency_config.c:1024
 msgid "All fields are not filled in"
-msgstr "Es wurden nicht alle Eingabefelder befüllt."
+msgstr "Es wurden nicht alle Eingabefelder befüllt"
 
 #: src/gsb_currency_config.c:1125
 msgid "Include obsolete currencies"
@@ -5368,10 +5361,8 @@ msgstr "Kein Name %d"
 
 #: src/gsb_data_account.c:475
 #, c-format
-msgid ""
-"Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
-msgstr ""
-"Bad nb rows nach gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
+msgid "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
+msgstr "Bad nb rows nach gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
 
 #: src/gsb_data_account.c:1086
 #, c-format
@@ -5404,8 +5395,7 @@ msgstr "In <i>%s</i>, <i>%s</i> ist ein Duplikat von <i>%s</i>.\n"
 msgid ""
 "<span foreground=\"red\">Warning : the two currencies of the link are "
 "identicals</span>"
-msgstr ""
-"<span foreground=\"red\">Warnung : Die zwei Währungen sind identisch</span>"
+msgstr "<span foreground=\"red\">Warnung : Die zwei Währungen sind identisch</span>"
 
 #: src/gsb_data_currency_link.c:457
 msgid "<span foreground=\"red\">Warning : that link is already defined</span>"
@@ -5414,8 +5404,7 @@ msgstr ""
 "span>"
 
 #: src/gsb_data_fyear.c:569
-msgid ""
-"<span foreground=\"red\">Warning : the dates are not in good order</span>"
+msgid "<span foreground=\"red\">Warning : the dates are not in good order</span>"
 msgstr "<span foreground=\"red\">Warnung : Die Daten sind inkonsistent</span>"
 
 #: src/gsb_data_fyear.c:572
@@ -5771,11 +5760,12 @@ msgid ""
 "(new reports...) but remember it's an archive before modifying some "
 "transactions or important informations."
 msgstr ""
+"Es wurde ein Archiv geöffnet.\n"
+"Bevor Buchungen oder wichtige Informationen geändert werden sollten Sie beachten, dass es sich um ein Archiv handelt."
 
 #: src/gsb_file_load.c:7062
-#, fuzzy
 msgid "Grisbi archive opened"
-msgstr "Einstellungen"
+msgstr "Grisbi Archiv geöffnet"
 
 #: src/gsb_file_others.c:137 src/gsb_file_others.c:218
 #: src/gsb_file_others.c:300 src/gsb_file_save.c:334
@@ -5824,7 +5814,7 @@ msgstr "Einen Bericht importieren"
 
 #: src/gsb_file_others.c:579
 msgid "This is not a grisbi file, loading canceled..."
-msgstr "Diese Datei ist keine Grisbi Datei"
+msgstr "Diese Datei ist keine Grisbi Datei, öffnen abgebrochen..."
 
 #: src/gsb_file_others.c:590
 msgid "This is not a category file, loading canceled..."
@@ -5832,18 +5822,15 @@ msgstr "Diese Datei ist keine Grisbi Kategorien Datei..."
 
 #: src/gsb_file_others.c:598
 msgid "This is not a budget file, loading canceled..."
-msgstr ""
-"Diese Datei ist keine \"Budget-Datei\", der Ladevorgang wird abgebrochen..."
+msgstr "Diese Datei ist keine \"Budget-Datei\", der Ladevorgang wird abgebrochen..."
 
 #: src/gsb_file_others.c:607
 msgid "This is not a report file, loading canceled..."
-msgstr ""
-"Diese Datei ist keine \"Bericht-Datei\", der Ladevorgang wird abgebrochen..."
+msgstr "Diese Datei ist keine \"Bericht-Datei\", der Ladevorgang wird abgebrochen..."
 
 #: src/gsb_file_util.c:63
-#, fuzzy
 msgid "No name to the file !"
-msgstr "Die Datei kann nicht geöffnet werden '%s'"
+msgstr "Kein Dateiname !"
 
 #: src/gsb_file_util.c:74
 #, c-format
@@ -5851,6 +5838,8 @@ msgid ""
 "%s is a directory...\n"
 "Please choose another name."
 msgstr ""
+"%s ist ein Ordner...\n"
+"Bitte einen andern Namen wählen."
 
 #: src/gsb_file_util.c:79
 msgid "File already exists"
@@ -5946,8 +5935,7 @@ msgstr ""
 "erstellt werden."
 
 #: src/gsb_form.c:2349
-msgid ""
-"Cannot associate a transfer to a deleted account in a scheduled transaction."
+msgid "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "Das Konto für die zeitlich geplante Umbuchung ist gelöscht."
 
 #: src/gsb_form.c:2356
@@ -5985,13 +5973,11 @@ msgstr ""
 
 #: src/gsb_form.c:2429
 msgid "A transaction with a multiple payee must be a new one."
-msgstr ""
-"Für Buchungen an mehrere Empfänger muss eine neue Buchung erfasst werden."
+msgstr "Für Buchungen an mehrere Empfänger muss eine neue Buchung erfasst werden."
 
 #: src/gsb_form.c:2434
 msgid "A transaction with a multiple payee cannot be a breakdown child."
-msgstr ""
-"Eine Buchung an mehrere Empfänger darf kein Teil einer Splitt-Buchung sein."
+msgstr "Eine Buchung an mehrere Empfänger darf kein Teil einer Splitt-Buchung sein."
 
 #: src/gsb_form.c:2445
 msgid "The word \"Report\" is reserved. Please use another one."
@@ -6573,8 +6559,7 @@ msgstr "Eine geplante Buchung löschen"
 
 #: src/gsb_scheduler_list.c:1447
 #, c-format
-msgid ""
-"Do you really want to delete the child of breakdown whit the category '%s' ?"
+msgid "Do you really want to delete the child of breakdown whit the category '%s' ?"
 msgstr "Soll die Splitt-Buchung mit der Kategorie '%s' gelöscht werden?"
 
 #: src/gsb_scheduler_list.c:1468
@@ -6739,13 +6724,11 @@ msgstr "Eine Abstimmung wählen"
 
 #: src/gsb_transactions_list.c:2881
 msgid "Select the reconcile wich the transaction should be associated with :"
-msgstr ""
-"Die Abstimmung auswählen mit welcher die Buchung verknüpft werden soll :"
+msgstr "Die Abstimmung auswählen mit welcher die Buchung verknüpft werden soll :"
 
 #: src/gsb_transactions_list.c:3001
 msgid "Grisbi couldn't get the selection, operation canceled..."
-msgstr ""
-"Grisbi konnte die Auswahl nicht übernehmen, der Vorgang wurde abgebrochen..."
+msgstr "Grisbi konnte die Auswahl nicht übernehmen, der Vorgang wurde abgebrochen..."
 
 #: src/gsb_transactions_list.c:3037
 msgid ""
@@ -6765,8 +6748,7 @@ msgstr "Eine Buchung löschen"
 
 #: src/gsb_transactions_list.c:3045
 #, c-format
-msgid ""
-"Do you really want to delete the child of the transaction with party '%s' ?"
+msgid "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr "Soll die Teil-Buchung mit dem Empfänger '%s' gelöscht werden?"
 
 #: src/gsb_transactions_list.c:3054
@@ -6847,8 +6829,7 @@ msgid "Loading archived transactions."
 msgstr "Archivierte Buchungen laden."
 
 #: src/gsb_transactions_list.c:5157
-msgid ""
-"Problem getting the transactions in the list, appending archive aborted."
+msgid "Problem getting the transactions in the list, appending archive aborted."
 msgstr ""
 "Es konnten nicht alle Buchungen aus der Liste ermittelt werden, das "
 "Hinzufügen zum Archiv wurde abgebrochen."
@@ -7172,8 +7153,7 @@ msgstr "Importiertes Konto"
 #. on propose encore d'arrÃªter...
 #: src/import.c:1564 src/import.c:2174
 msgid "The id of the imported and chosen accounts are different"
-msgstr ""
-"Die ID's des importieren und des selektierten Kontos sind unterschiedlich"
+msgstr "Die ID's des importieren und des selektierten Kontos sind unterschiedlich"
 
 #: src/import.c:1565 src/import.c:2175
 msgid ""
@@ -7436,14 +7416,12 @@ msgid "_Export accounts as QIF/CSV file..."
 msgstr "Datei _exportieren ..."
 
 #: src/menu.c:189
-#, fuzzy
 msgid "Create an archive..."
-msgstr "Einen neuen Empfänger erstellen"
+msgstr "Archiv erstellen..."
 
 #: src/menu.c:192
-#, fuzzy
 msgid "_Export an archive as GSB/QIF/CSV file..."
-msgstr "Datei _exportieren ..."
+msgstr "Archiv als GSB/QIF/CSV Datei _exportieren..."
 
 #: src/menu.c:195
 msgid "_Debug account file..."
@@ -7773,8 +7751,7 @@ msgid "Scheduler warnings"
 msgstr "Planer Meldungen"
 
 #: src/parametres.c:506
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr "Hinweis für eine geplante Buchung (Tage davor) anzeigen"
 
 #. Tip of the day
@@ -8144,6 +8121,9 @@ msgid ""
 "but the QIF format only support one file per account,\n"
 "so Grisbi created %d files, one per account :\n"
 msgstr ""
+"Es waren mehrere Konten im Archiv.\n"
+"Das QIF-Format unterstützt nur eine Datei pro Konto,\n"
+"deshalb hat Grisbi %d Dateien erstellt - jeweils eine pro Konto:\n"
 
 #: src/qif.c:1104
 #, c-format
@@ -8202,7 +8182,7 @@ msgstr "In Datei drucken"
 #. aie, pb de mÃÂ©moire, on vire
 #: src/utils_files.c:139 src/utils_files.c:156
 msgid "Memory allocation error"
-msgstr "Speicherzugriffsverletzung."
+msgstr "Speicherzugriffsverletzung"
 
 #: src/utils_files.c:201
 msgid "Browse"
@@ -8220,5 +8200,3 @@ msgstr ""
 msgid "Error opening file '%s'."
 msgstr "Fehler beim Öffnen der Datei '%s'."
 
-#~ msgid "Invalid filename: \"%s\"!"
-#~ msgstr "Ungültiger Dateiname: \"%s\"!"
