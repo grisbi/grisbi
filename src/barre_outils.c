@@ -100,7 +100,7 @@ GtkWidget *creation_barre_outils ( void )
 
     /* Add various icons */
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
-					       _("Transaction"),
+					       _("New transaction"),
 					       "new-transaction.png",
 					       G_CALLBACK ( new_transaction ),
 					       GINT_TO_POINTER(-1) );
