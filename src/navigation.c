@@ -1095,6 +1095,7 @@ void gsb_gui_navigation_remove_account ( gint account_number )
 gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 					  GtkTreeModel *model )
 {
+    GtkWidget * account_notebook;
     gint account_number, page_number;
     gint currency_number;
     gint report_number;
@@ -1165,8 +1166,15 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    gsb_menu_update_accounts_in_menus ();
 
 	    /* set the form */
-	    gsb_form_set_expander_visible (TRUE,
-					   TRUE );
+	    account_notebook = g_object_get_data ( notebook_general, "account_notebook" );
+	    if ( gtk_notebook_get_current_page ( account_notebook ) == 1 )
+	    {
+		gsb_form_set_expander_visible ( FALSE, FALSE );
+	    }
+	    else
+	    {
+		gsb_form_set_expander_visible ( TRUE, TRUE );
+	    }
 	    gsb_form_show ( FALSE );
 
 	    buffer_last_account = account_number;

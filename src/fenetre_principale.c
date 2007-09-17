@@ -255,6 +255,7 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 		       "switch_page",
 		       G_CALLBACK (gsb_gui_on_account_switch_page),
 		       NULL );
+    g_object_set_data ( notebook, "account_notebook", account_page );
 
     /* append the scheduled transactions page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
