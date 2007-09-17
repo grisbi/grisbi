@@ -3598,6 +3598,15 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	}
 
 	if ( !strcmp ( attribute_names[i],
+		       "Payment_method_use" ))
+	{
+	    gsb_data_report_set_method_of_payment_used ( report_number,
+							 utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
 		       "Payment_method_list" ))
 	{
 	    gsb_data_report_set_method_of_payment_list ( report_number,
@@ -7045,14 +7054,18 @@ gboolean gsb_file_load_update_previous_version ( void )
     /* check now if a lot of transactions,
      * if yes, we propose to file the transactions
      * by default take the 2000 transactions as limit */
-    if ( etat.check_for_archival
-	 &&
-	 g_slist_length (gsb_data_transaction_get_transactions_list ()) > etat.max_non_archived_transactions_for_check )
+    if ( g_slist_length (gsb_data_transaction_get_transactions_list ()) > 
+	 etat.max_non_archived_transactions_for_check )
     {
-	if (question_yes_no_hint ( _("Archive some transactions ?"),
-				   g_strdup_printf ( _("There are %d transactions in your file,\nTo increase speed it would be faster to archive some transactions.\n\nDo you want to launch the assistant to archive some transactions ?"),
-						     g_slist_length (gsb_data_transaction_get_transactions_list ())),
-				   GTK_RESPONSE_YES ))
+	/* FIXME: make this conditional ? */
+	if ( question_conditional_yes_no_special ( _("Archive some transactions ?"),
+						   g_strdup_printf ( _("There are %d transactions in your file,\n" 
+								       "To increase speed it would be faster to "
+								       "archive some transactions.\n\nDo you want "
+								       "to launch the assistant to archive some "
+								       "transactions?"),
+								     g_slist_length (gsb_data_transaction_get_transactions_list ())),
+						   &etat.check_for_archival ) )
 	    gsb_assistant_archive_run ();
     }
 
