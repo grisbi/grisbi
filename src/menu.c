@@ -186,7 +186,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{ "ExportFile",		GTK_STOCK_CONVERT,	_("_Export accounts as QIF/CSV file..."),
 	  NULL,			NULL,			G_CALLBACK( export_accounts ) },
 
-	{ "CreateArchive",	GTK_STOCK_CLEAR,	_("Create an archive..."),
+	{ "CreateArchive",	GTK_STOCK_CLEAR,	_("Archive transactions..."),
 	  NULL,			NULL,			G_CALLBACK(gsb_assistant_archive_run) },
 
 	{ "ExportArchive",	GTK_STOCK_HARDDISK,	_("_Export an archive as GSB/QIF/CSV file..."),
@@ -806,6 +806,26 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
     return FALSE;
 }
 
+
+
+/**
+ * Set sensitiveness of all menu items that work on the selected transaction.
+
+ * \param sensitive	Sensitiveness (FALSE for unsensitive, TRUE for
+ *			sensitive).
+ * 
+ * \return		FALSE
+ */
+gboolean gsb_menu_transaction_operations_set_sensitive ( gboolean sensitive )
+{
+    gsb_gui_sensitive_menu_item ( "EditMenu", "RemoveTransaction", NULL, sensitive );
+    gsb_gui_sensitive_menu_item ( "EditMenu", "CloneTransaction", NULL, sensitive );
+    gsb_gui_sensitive_menu_item ( "EditMenu", "EditTransaction", NULL, sensitive );
+    gsb_gui_sensitive_menu_item ( "EditMenu", "ConvertToScheduled", NULL, sensitive );
+    gsb_gui_sensitive_menu_item ( "EditMenu", "MoveToAnotherAccount", NULL, sensitive );
+
+    return FALSE;
+}
 
 
 /* Local Variables: */
