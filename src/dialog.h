@@ -26,6 +26,8 @@ gboolean question_yes_no ( gchar *texte,
 gboolean question_yes_no_hint ( gchar * hint,
 				gchar *texte,
 				gint default_answer );
+GtkDialog * dialogue_conditional_new ( gchar *text, gchar * var, GtkMessageType type,
+				       GtkButtonsType buttons );
 /* END_DECLARATION */
 
 struct conditional_message
