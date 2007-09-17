@@ -98,11 +98,11 @@ GtkResponseType gsb_assistant_archive_run ( void )
     GtkWidget *assistant;
 
     /* create the assistant */
-    assistant = gsb_assistant_new ( _("Archive the transactions"),
+    assistant = gsb_assistant_new ( _("Archive transactions"),
 				    _("This assistant will guide you through the process of archiving transactions to increase the speed of grisbi.\n"
 				      "By default, Grisbi does not export any archive into separate files, it just mark transactions as archted and do not use them.\n"
 				      "You can still possibly use them be able to export them intp a separate archive file if necessary.\n"),
-				    "grisbi-logo.png",
+				    "archive.png",
 				    G_CALLBACK (gsb_assistant_archive_switch_to_intro));
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_archive_page_menu (assistant),
@@ -119,7 +119,7 @@ GtkResponseType gsb_assistant_archive_run ( void )
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_archive_page_success (),
 			     ARCHIVE_ASSISTANT_SUCCESS,
-			     ARCHIVE_ASSISTANT_ARCHIVE_NAME,
+			     ARCHIVE_ASSISTANT_MENU,
 			     0,
 			     G_CALLBACK (gsb_assistant_archive_switch_to_succes));
     return_value = gsb_assistant_run (assistant);
@@ -312,6 +312,8 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 			 label_archived,
 			 FALSE, FALSE, 0 );
 
+    gsb_assistant_sensitive_button_next ( assistant, FALSE );
+
     gtk_widget_show_all (page);
     return page;
 }
@@ -341,13 +343,12 @@ static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant
 			 FALSE, FALSE, 0 );
 
     /* set up the menu */
-    label = gtk_label_new (_("Archive name :"));
+    label = gtk_label_new ( COLON(_("Please choose a name for archive") ) );
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 label,
 			 FALSE, FALSE, 0 );
-
 
     name_entry = gtk_entry_new ();
     g_signal_connect_object ( G_OBJECT (name_entry),
@@ -355,9 +356,11 @@ static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant
 			      G_CALLBACK (gsb_assistant_archive_update_labels),
 			      G_OBJECT (assistant),
 			      G_CONNECT_AFTER | G_CONNECT_SWAPPED);
-    gtk_box_pack_end ( GTK_BOX (vbox),
+    gtk_box_pack_start ( GTK_BOX (vbox),
 			 name_entry,
 			 FALSE, FALSE, 0 );
+
+    gsb_assistant_sensitive_button_next ( assistant, FALSE );
 
     return page;
 }
@@ -404,7 +407,7 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
     gtk_text_buffer_get_iter_at_offset (buffer, &iter, 1);
     gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
 					      _("Congratulations !"), -1,
-					      "x-large", NULL);
+					      "x-large", "bold", NULL);
     gtk_text_buffer_insert ( buffer, &iter, "\n\n", -1 );
     
     gtk_box_pack_start ( GTK_BOX (vbox_congratulation),
@@ -430,7 +433,7 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
 
     label = gtk_label_new (_("An error occurred while creating the archive...\n"
 			     "Please try to find the problem and contact the grisbi team to correct it.\n\n"
-			     "	Please press the Previous or Close button."));
+			     "Please press the Previous or Close button."));
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox_failed),
@@ -462,7 +465,8 @@ static gboolean gsb_assistant_archive_switch_to_intro ( GtkWidget *assistant,
 					  TRUE );
     return FALSE;
 }
-/* xxx voir ici devrait pouvoir faire 1 seule fonction de ces 3, avec new_page qui change pour chacune, à vérif */
+
+
 
 /**
  * called when switch page to the menu page
@@ -479,7 +483,8 @@ static gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
     gtk_label_set_text ( GTK_LABEL (label_archived), NULL );
     gsb_assistant_change_button_next ( assistant,
 				       GTK_STOCK_APPLY, GTK_RESPONSE_YES );
-    gsb_assistant_archive_update_labels (assistant);
+    gsb_assistant_archive_update_labels ( assistant );
+    gsb_assistant_sensitive_button_next ( assistant, FALSE );
 
     return FALSE;
 }
@@ -497,10 +502,28 @@ static gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
 static gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assistant,
 							       gint new_page )
 {
+    gchar * string = NULL;
+
     gsb_assistant_change_button_next ( assistant,
 				       GTK_STOCK_APPLY, GTK_RESPONSE_YES );
 
-    
+    if ( GTK_WIDGET_IS_SENSITIVE (initial_date) )
+    {
+	gchar * sdate, * fdate;
+	sdate = gsb_format_gdate ( gsb_calendar_entry_get_date (initial_date) );
+	fdate = gsb_format_gdate ( gsb_calendar_entry_get_date (final_date) );
+	string = g_strdup_printf ( _("Archive from %s to %s"), sdate, fdate );
+	g_free ( sdate );
+	g_free ( fdate );
+    }
+
+    if ( string )
+    {
+	gtk_entry_set_text ( GTK_ENTRY ( name_entry ), string );
+	g_free ( string );
+    }
+
+    gsb_assistant_sensitive_button_next ( assistant, FALSE );
 
     return FALSE;
 }
@@ -627,6 +650,7 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
 }
 
 
+
 /**
  * called for each event to update the labels of number of transactions to archive
  * and check if all is ok, to sensitive the "Create" button
@@ -639,14 +663,18 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 {
     gchar *string;
     GSList *tmp_list;
+    GtkWidget * notebook;
 
+    notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
+    
     if (list_transaction_to_archive)
     {
 	g_slist_free (list_transaction_to_archive);
 	list_transaction_to_archive = NULL;
     }
 
-    if (GTK_WIDGET_IS_SENSITIVE (initial_date))
+    if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU &&
+	 GTK_WIDGET_IS_SENSITIVE (initial_date))
     {
 	/* ok for now the choice is on initial/final date */
 	GDate *init_gdate;
@@ -691,6 +719,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 	    gtk_label_set_markup ( GTK_LABEL (label_archived),
 				   string );
 	    g_free (string);
+	    gsb_assistant_sensitive_button_next ( assistant, FALSE );
 	    return FALSE;
 	}
 
@@ -714,7 +743,8 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 	}
     }
 
-    if (GTK_WIDGET_IS_SENSITIVE (financial_year_button))
+    if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU &&
+	 GTK_WIDGET_IS_SENSITIVE (financial_year_button))
     {
 	/* ok for now the choice is on fyear */
 	gint fyear_number;
@@ -735,6 +765,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 	    gtk_label_set_markup ( GTK_LABEL (label_archived),
 				   string );
 	    g_free (string);
+	    gsb_assistant_sensitive_button_next ( assistant, FALSE );
 	    return FALSE;
 	}
 
@@ -754,7 +785,8 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 	}
     }
 
-    if (GTK_WIDGET_IS_SENSITIVE (report_button))
+    if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU &&
+	 GTK_WIDGET_IS_SENSITIVE (report_button))
     {
 	/* ok for now the choice is on fyear */
 	gint report_number;
@@ -770,6 +802,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 	    gtk_label_set_markup ( GTK_LABEL (label_archived),
 				   string );
 	    g_free (string);
+	    gsb_assistant_sensitive_button_next ( assistant, FALSE );
 	    return FALSE;
 	}
 
@@ -790,36 +823,33 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 				  g_slist_length (gsb_data_transaction_get_transactions_list () ) );
 	gtk_label_set_text ( GTK_LABEL (label_archived),
 			     string);
+
+	if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) != 
+	     ARCHIVE_ASSISTANT_ARCHIVE_NAME )
+	{
+	    gsb_assistant_sensitive_button_next ( assistant, TRUE );
+	}
+
 	g_free (string);
     }
 
-    /* we show the next button only if the name is ok */
-/*     if (strlen ( gtk_entry_get_text (GTK_ENTRY (name_entry)))) */
-/*     { */
-/* 	if (gsb_data_archive_get_number_by_name (gtk_entry_get_text (GTK_ENTRY (name_entry)))) */
-/* 	{ */
-/* 	    string = my_strdup (_("<span foreground=\"red\">The name is already use, please change it.</span>")); */
-/* 	    gtk_label_set_markup ( GTK_LABEL (label_warning), */
-/* 				   string ); */
-/* 	    g_free (string); */
-/* 	    gsb_assistant_sensitive_button_next ( assistant, FALSE ); */
-/* 	} */
-/* 	else */
-/* 	{ */
-/* 	    gtk_label_set_text ( GTK_LABEL (label_warning), */
-/* 				 NULL ); */
+    if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == 
+	 ARCHIVE_ASSISTANT_ARCHIVE_NAME )
+    {
+	if ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( name_entry ) ) ) )
+	{
 	    gsb_assistant_sensitive_button_next ( assistant, TRUE );
-/* 	} */
-/*     } */
-/*     else */
-/*     { */
-/* 	string = my_strdup (_("<span foreground=\"red\">Please fill the name of the archive</span>")); */
-/* 	gtk_label_set_markup ( GTK_LABEL (label_warning), */
-/* 			       string ); */
-/* 	g_free (string); */
-
-/* 	gsb_assistant_sensitive_button_next ( assistant, FALSE ); */
-/*     } */
-
+	}
+	else
+	{
+	    gsb_assistant_sensitive_button_next ( assistant, FALSE );
+	}
+    }
+    
     return FALSE;
 }
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
