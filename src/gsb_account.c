@@ -30,11 +30,11 @@
 #include "gsb_account.h"
 #include "./comptes_gestion.h"
 #include "./dialog.h"
-#include "./fichiers_gestion.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
+#include "./gsb_file.h"
 #include "./gsb_form_scheduler.h"
 #include "./navigation.h"
 #include "./menu.h"
@@ -53,6 +53,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gint gsb_account_ask_account_type ( void );
 /*END_STATIC*/
 
 
@@ -76,23 +77,18 @@ extern GtkWidget *notebook_general;
 
 /**
  * called to create a new account
+ * called by menu edit -> new account
+ * !! here is just to add an account, for new complete file see gsb_file_new
  * 
  * \param none
  * 
- * \return FALSE FALSE
+ * \return FALSE if problem, TRUE if ok
  */
 
 gboolean gsb_account_new ( void )
 {
     kind_account type_de_compte;
-    gint no_compte;
-
-    /*     if no accounts, it's a new file */ 
-    if ( !gsb_data_account_get_accounts_amount () )
-    {
-	new_file ();
-	return FALSE;
-    }
+    gint account_number;
 
     /*     ask for the kind_account */ 
     type_de_compte = gsb_account_ask_account_type ();
@@ -100,15 +96,15 @@ gboolean gsb_account_new ( void )
 	return FALSE;
 
     /*     create the new account */ 
-    no_compte = gsb_data_account_new ( type_de_compte );
-    if ( no_compte == -1 )
+    account_number = gsb_data_account_new ( type_de_compte );
+    if ( account_number == -1 )
     {
 	dialogue_error_memory ();
 	return FALSE;
     }
 
     /* set the default method of payment */
-    gsb_data_payment_create_default (no_compte);
+    gsb_data_payment_create_default (account_number);
 
     /* update the combofix for categ */ 
     mise_a_jour_combofix_categ();
@@ -129,7 +125,7 @@ gboolean gsb_account_new ( void )
     gsb_menu_update_accounts_in_menus (); 
 
     /* Add an entry in navigation pane. */
-    gsb_gui_navigation_add_account ( no_compte );
+    gsb_gui_navigation_add_account ( account_number );
 
     /* Go to accounts properties */
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
@@ -137,7 +133,7 @@ gboolean gsb_account_new ( void )
     gtk_notebook_set_page ( GTK_NOTEBOOK ( account_page ), 1 );
     remplissage_details_compte ();
     modification_fichier ( TRUE );
-    return FALSE;
+    return TRUE;
 }
 
 
@@ -165,7 +161,7 @@ gboolean gsb_account_delete ( void )
     if ( gsb_data_account_get_accounts_amount () == 1 )
     {
 	etat.modification_fichier = 0;
-	fermer_fichier ();
+	gsb_file_close ();
 	return FALSE;
     }
 
@@ -336,7 +332,6 @@ GtkWidget *gsb_account_create_combo_list ( GCallback func,
 
     return combobox;
 }
-/* xxx modifier les noms des fonctions et du fichier ici */
 
 /**
  * update the list of accounts in a combo_box filled

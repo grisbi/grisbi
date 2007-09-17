@@ -48,6 +48,7 @@
 #include "./gsb_data_report_text_comparison.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
+#include "./gsb_file.h"
 #include "./gsb_file_util.h"
 #include "./utils_dates.h"
 #include "./navigation.h"

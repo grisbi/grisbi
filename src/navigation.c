@@ -1166,8 +1166,8 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    gsb_menu_update_accounts_in_menus ();
 
 	    /* set the form */
-	    account_notebook = g_object_get_data ( notebook_general, "account_notebook" );
-	    if ( gtk_notebook_get_current_page ( account_notebook ) == 1 )
+	    account_notebook = g_object_get_data ( G_OBJECT (notebook_general), "account_notebook" );
+	    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK (account_notebook )) == 1 )
 	    {
 		gsb_form_set_expander_visible ( FALSE, FALSE );
 	    }

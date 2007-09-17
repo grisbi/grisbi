@@ -28,8 +28,9 @@
 
 
 /*START_INCLUDE*/
-#include "fichiers_gestion.h"
+#include "gsb_file.h"
 #include "./menu.h"
+#include "./utils.h"
 #include "./fenetre_principale.h"
 #include "./erreur.h"
 #include "./dialog.h"
@@ -39,7 +40,6 @@
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive_store.h"
 #include "./gsb_data_category.h"
-#include "./gsb_data_payment.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_file_config.h"
@@ -62,13 +62,14 @@
 #include "./fenetre_principale.h"
 #include "./include.h"
 #include "./structures.h"
-#include "./gsb_data_account.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void ajoute_new_file_liste_ouverture ( gchar *path_fichier );
-static gchar * demande_nom_enregistrement ( void );
-static gboolean enregistrement_backup ( void );
+static void gsb_file_append_name_to_opened_list ( gchar *path_fichier );
+static  gchar *gsb_file_dialog_ask_name ( void );
+static  gint gsb_file_dialog_save ( void );
+static gboolean gsb_file_save_backup ( void );
+static gboolean gsb_file_save_file ( gint origine );
 /*END_STATIC*/
 
 
@@ -102,49 +103,35 @@ extern GtkWidget *window_vbox_principale;
 
 
 /**
- * Called by menu, close the last file and open a new one
+ * Called by menu file -> new,
+ * close the last file and open a new one
  * 
  * \param none
  * 
  * \return FALSE
  * */
-gboolean new_file ( void )
+gboolean gsb_file_new ( void )
 {
-    kind_account type_de_compte;
-    gint account_number;
-
-    /*   si la fermeture du fichier en cours se passe mal, on se barre */
-
-    if ( !fermer_fichier () )
+    /* continue only if closing the file is ok */
+    if ( !gsb_file_close () )
 	return FALSE;
 
     init_variables ();
 
-    type_de_compte = gsb_account_ask_account_type ();
-
-    if ( type_de_compte == -1 )
-	return FALSE;
-
-    /*     création de la 1ère devise */
-
+    /* create the first currency */
     if ( ! gsb_currency_config_add_currency ( NULL, NULL ) )
 	return FALSE;
-    /* xxx voir ici, devrait utiliser la fonction new_compte */
-    account_number = gsb_data_account_new (type_de_compte);
-    if ( account_number == -1 )
+
+    /* create the first account */
+    if (!gsb_account_new ())
 	return FALSE;
 
-    /* set the default method of payment */
-    gsb_data_payment_create_default (account_number);
+    /* Create initial lists. */
+    gsb_data_category_create_default_category_list ();
 
-    /* FIXME: hardcoded!  Yes, first account is always numbered 1 and
-     * first currencty too, but be cleaner. */
-    gsb_data_account_set_currency ( 1, 1 );
+    /* init the gui */
+    gsb_file_new_gui ();
 
-    init_gui_new_file ();
-    init_variables_new_file ();
-
-    /* on se met sur l'onglet de propriétés du compte */
     mise_a_jour_accueil ( TRUE );
     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
 
@@ -155,25 +142,9 @@ gboolean new_file ( void )
 
 
 /**
- * Init various variables upon new file creation.
- */
-void init_variables_new_file ( void )
-{
-    /* FIXME: remove this. */
-    etat.largeur_auto_colonnes = 1;
-
-    titre_fichier = _("My accounts");
-
-    /* Create initial lists. */
-    gsb_data_category_create_default_category_list ();
-}
-
-
-
-/**
  * Initialize user interface part when a new accounts file is created.
  */
-void init_gui_new_file ( void )
+void gsb_file_new_gui ( void )
 {
     GtkWidget * tree_view_widget;
 
@@ -203,7 +174,7 @@ void init_gui_new_file ( void )
     gsb_menu_update_accounts_in_menus ();
 
     /* Affiche le nom du fichier de comptes dans le titre de la fenetre */
-    affiche_titre_fenetre();
+    gsb_file_update_window_title();
 
     gtk_notebook_set_page ( GTK_NOTEBOOK( notebook_general ), GSB_HOME_PAGE );
 
@@ -211,8 +182,15 @@ void init_gui_new_file ( void )
 }
 
 
-
-void ouvrir_fichier ( void )
+/**
+ * called by file -> open
+ * open a new file
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_file_open_menu ( void )
 {
     GtkWidget *selection_fichier;
     GtkFileFilter * filter;
@@ -235,7 +213,7 @@ void ouvrir_fichier ( void )
     switch ( gtk_dialog_run ( GTK_DIALOG (selection_fichier)))
     {
 	case GTK_RESPONSE_OK:
-	    if ( fermer_fichier() )
+	    if ( gsb_file_close() )
 	    {
 		gtk_widget_hide ( selection_fichier );
 		nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_CHOOSER ( selection_fichier ) ) ;
@@ -248,24 +226,30 @@ void ouvrir_fichier ( void )
 	  break;
     }
     gtk_widget_destroy ( selection_fichier );
-
+    return FALSE;
 }
-/* ************************************************************************************************************ */
 
-/* ************************************************************************************************************ */
-void ouverture_fichier_par_menu ( gpointer null,
-				  gint no_fichier )
+
+/**
+ * called by file -> last files -> click on the name
+ *
+ * \param item
+ * \param file_number_ptr the number of file in a pointer format
+ *
+ * \return FALSE
+ * */
+gboolean gsb_file_open_direct_menu ( GtkMenuItem *item,
+				      gint *file_number_ptr )
 {
-    /*   si la fermeture du fichier courant se passe mal, on se barre */
+    /* continue only if can close the current file */
+    if ( !gsb_file_close() )
+	return FALSE;
 
-    if ( !fermer_fichier() )
-	return;
-
-    nom_fichier_comptes = tab_noms_derniers_fichiers_ouverts[no_fichier];
-
+    nom_fichier_comptes = tab_noms_derniers_fichiers_ouverts[GPOINTER_TO_INT (file_number_ptr)];
     gsb_file_open_file (nom_fichier_comptes);
+
+    return FALSE;
 }
-/* ************************************************************************************************************ */
 
 
 
@@ -393,7 +377,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     gsb_status_message ( _("Checking schedulers"));
 
     /* the the name in the last opened files */
-    ajoute_new_file_liste_ouverture ( filename );
+    gsb_file_append_name_to_opened_list ( filename );
 
     /* get the names of the columns */
     recuperation_noms_colonnes_et_tips ();
@@ -430,7 +414,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     /* set the name of the file in the window title
      * and in the menu of the main window, so main_widget must
      * have been created */
-    affiche_titre_fenetre();
+    gsb_file_update_window_title();
 
     gsb_status_message ( _("Creating interface"));
     gsb_menu_update_view_menu (gsb_gui_navigation_get_current_account ());
@@ -470,36 +454,47 @@ gboolean gsb_file_open_file ( gchar *filename )
 
 
 /**
- * Perform the "Save as" feature.
+ * Perform the "Save" feature in menu
  *
  * \return TRUE on success.  FALSE otherwise.
  */
-gboolean gsb_save_file_as ( void )
+gboolean gsb_file_save ( void )
 {
-    return enregistrement_fichier ( -2 );
+    return gsb_file_save_file ( -2 );
 }
 
 
-/* ************************************************************************************************************ */
-/* Fonction appelé lorsqu'on veut enregistrer le fichier ( fin de prog, fermeture fichier ... ) */
-/* enregistre automatiquement ou demande */
-/* si origine = -1 : provient de la fonction fermeture_grisbi */
-/* si origine = -2 : provient de enregistrer sous */
-/* retour : TRUE si tout va bien, cad on ne veut pas enregistrer ou c'est enregistré */
-/* ************************************************************************************************************ */
-gboolean enregistrement_fichier ( gint origine )
+/**
+ * Perform the "Save as" feature in menu
+ *
+ * \return TRUE on success.  FALSE otherwise.
+ */
+gboolean gsb_file_save_as ( void )
+{
+    return gsb_file_save_file ( -2 );
+}
+
+
+/**
+ * save the file
+ *
+ * \param origine 0 from gsb_file_save (menu), -1 from gsb_file_close, -2 from gsb_file_save_as
+ *
+ * \return TRUE if ok, FALSE if problem
+ * */
+gboolean gsb_file_save_file ( gint origine )
 {
     gint etat_force, result;
     gchar *nouveau_nom_enregistrement;
 
-    devel_debug (g_strdup_printf ( "enregistrement_fichier from %d", origine ));
+    devel_debug (g_strdup_printf ( "gsb_file_save_file from %d", origine ));
 
     etat_force = 0;
 
     if ( ( ! etat.modification_fichier && origine != -2 ) ||
 	 ! gsb_data_account_get_accounts_amount () )
     {
-	notice_debug ( "nothing done in enregistrement_fichier" );
+	notice_debug ( "nothing done in gsb_file_save_file" );
 	return ( TRUE );
     }
 
@@ -507,7 +502,7 @@ gboolean enregistrement_fichier ( gint origine )
     /*     c'est ici */
 
     if ( !nom_fichier_comptes || origine == -2 )
-	nouveau_nom_enregistrement = demande_nom_enregistrement ();
+	nouveau_nom_enregistrement = gsb_file_dialog_ask_name ();
     else
 	nouveau_nom_enregistrement = nom_fichier_comptes;
 
@@ -555,31 +550,56 @@ gboolean enregistrement_fichier ( gint origine )
 
 	etat.fichier_deja_ouvert = 0;
 	modification_fichier ( FALSE );
-	affiche_titre_fenetre ();
-	ajoute_new_file_liste_ouverture ( nom_fichier_comptes );
+	gsb_file_update_window_title ();
+	gsb_file_append_name_to_opened_list ( nom_fichier_comptes );
     }
 
     /*     on enregistre la backup si nécessaire */
 
-    enregistrement_backup();
+    gsb_file_save_backup();
 
     gsb_status_message ( _("Done") );
 
     return ( result );
 }
-/* ************************************************************************************************************ */
+
+
+/**
+ * save a backup of the file, using nom_fichier_backup
+ *
+ * \param
+ *
+ * \return TRUE ok, FALSE problem
+ * */
+gboolean gsb_file_save_backup ( void )
+{
+    gboolean retour;
+
+    if ( !nom_fichier_backup || !strlen(nom_fichier_backup) )
+	return FALSE;
+
+    gsb_status_message ( _("Saving backup") );
+
+    retour = gsb_file_save_save_file( nom_fichier_backup,
+				      etat.compress_backup,
+				      FALSE );
+
+    gsb_status_message ( _("Done") );
+
+    return ( retour );
+}
 
 
 
-/* ************************************************************************************************************ */
-/* cette fonction est appelée pour proposer d'enregistrer si le fichier est modifié */
-/* elle n'enregistre pas, elle retourne juste le choix de l'utilisateur */
-/* retourne : */
-/* GTK_RESPONSE_OK : veut enregistrer */
-/* GTK_RESPONSE_NO : veut pas enregistrer */
-/* autre gint : annuler */
-/* ************************************************************************************************************ */
-gint question_fermer_sans_enregistrer ( void )
+/**
+ * propose to save the file if changed
+ * if the current file is not changed, return GTK_RESPONSE_NO directly, without dialog
+ *
+ * \param
+ *
+ * \return GTK_RESPONSE_OK to save, GTK_RESPONSE_NO not to save, other to cancel
+ * */
+static gint gsb_file_dialog_save ( void )
 {
     gchar * hint, * message = "";
     gint result;
@@ -643,102 +663,93 @@ gint question_fermer_sans_enregistrer ( void )
 
     return result;
 }
-/* ************************************************************************************************************ */
 
 
 
-/* ************************************************************************************************************ */
-/* cette fonction est appelée lors de l'enregistrement, s'il n'y a pas de nom */
-/* ou si on fait un enregistrement sous */
-/* elle renvoie le nouveau nom */
-/* ************************************************************************************************************ */
-gchar * demande_nom_enregistrement ( void )
+/**
+ * ask the name of the file to save it
+ *
+ * \param
+ *
+ * \return a newly allocated string containing the new name
+ * */
+static gchar *gsb_file_dialog_ask_name ( void )
 {
-    gchar *nouveau_nom;
-    GtkWidget *fenetre_nom;
-    gint resultat;
+    gchar *new_name;
+    GtkWidget *dialog;
+    gint result;
 
-    fenetre_nom = file_selection_new ( _("Name the accounts file"),
+    dialog = file_selection_new ( _("Name the accounts file"),
 				       FILE_SELECTION_IS_SAVE_DIALOG);
-    gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ),
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ),
 			   TRUE );
 
     if ( ! nom_fichier_comptes )
-    {
-	gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( fenetre_nom ),
+	gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ),
 					    g_strconcat ( titre_fichier, ".gsb", NULL ) );
-    }
     else
-    {
-	/* FIXME: select existing file */
-    }
+	gtk_file_chooser_select_filename ( GTK_FILE_CHOOSER (dialog),
+					   nom_fichier_comptes );
 
-    resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
+    result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
-    switch ( resultat )
+    switch ( result )
     {
 	case GTK_RESPONSE_OK :
-	    nouveau_nom = file_selection_get_filename ( GTK_FILE_CHOOSER ( fenetre_nom ));
+	    new_name = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
 
-	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
-
-	    /* Les vérifications d'usage ont  été faite par la boite de dialogue*/
-
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 	    break;
 
 	default :
-	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 	    return NULL;
     }
 
-    if ( ! g_strrstr ( nouveau_nom, "." ) )
+    if ( ! g_strrstr ( new_name, "." ) )
     {
-	nouveau_nom = g_strconcat ( nouveau_nom, ".gsb", NULL );
+	new_name = g_strconcat ( new_name, ".gsb", NULL );
     }
 
-    return nouveau_nom;
+    return new_name;
 }
-/* ************************************************************************************************************ */
 
 
 
-
-
-/* ************************************************************************************************************ */
-gboolean fermer_fichier ( void )
+/**
+ * close the file
+ * if no file loaded or no change, directly return TRUE
+ *
+ * \param
+ *
+ * \return FALSE if problem, TRUE if ok
+ * */
+gboolean gsb_file_close ( void )
 {
     gint result;
 
-    devel_debug ( "fermer_fichier" );
+    devel_debug ( "gsb_file_close" );
 
 
-    if ( !gsb_data_account_get_accounts_amount () )
+    if ( !assert_account_loaded () )
 	return ( TRUE );
 
-
-    /*     on propose d'enregistrer */
-
-    result = question_fermer_sans_enregistrer();
+    /* ask for saving */
+    result = gsb_file_dialog_save();
 
     switch ( result )
     {
 	case GTK_RESPONSE_OK:
 
-	    /* 	    on a choisi d'enregistrer, si va pas, on s'en va */
-
-	    if ( !enregistrement_fichier (-1) )
+	    /* try to save */
+	    if ( !gsb_file_save_file (-1) )
 		return ( FALSE );
 
 	case GTK_RESPONSE_NO :
-
-	    /* 	    l'enregistrement s'est bien passé ou on a choisi de ne pas enregistrer */
-
-	    /*     on enregistre la config */
-
+	    /* save ok, or didn't want to save, really close the file now */
 	     gsb_file_config_save_config();
 
-	    /* si le fichier n'était pas déjà ouvert, met à 0 l'ouverture */
-
+	     /* remove the lock */
 	    if ( !etat.fichier_deja_ouvert
 		 &&
 		 gsb_data_account_get_accounts_amount ()
@@ -747,13 +758,11 @@ gboolean fermer_fichier ( void )
 		gsb_file_util_modify_lock ( FALSE );
 
 	    /* libère les opérations de tous les comptes */
-
 	    g_slist_free ( gsb_data_transaction_get_transactions_list ());
 	    g_slist_free ( gsb_data_transaction_get_complete_transactions_list ());
 	    g_slist_free ( gsb_data_account_get_list_accounts () );
 
 	    /* libère les échéances */
-
 	    g_slist_free ( gsb_data_scheduled_get_scheduled_list () );
 	    g_slist_free ( scheduled_transactions_to_take );
 	    g_slist_free ( scheduled_transactions_taken );
@@ -761,7 +770,7 @@ gboolean fermer_fichier ( void )
 
 	    init_variables ();
 
-	    affiche_titre_fenetre();
+	    gsb_file_update_window_title();
 
 	    menus_sensitifs ( FALSE );
 
@@ -774,22 +783,22 @@ gboolean fermer_fichier ( void )
 	    return FALSE;
     }
 }
-/* ************************************************************************************************************ */
 
 
-
-
-/* ************************************************************************************************************ */
-/* Fonction appelée une fois qu'on a nommé le fichier de compte */
-/* met juste le titre dans la fenetre principale */
-/* ************************************************************************************************************ */
-void affiche_titre_fenetre ( void )
+/**
+ * set/update the name of the file on the title of the window
+ *
+ * \param
+ *
+ * \return
+ * */
+void gsb_file_update_window_title ( void )
 {
     gchar **parametres = NULL;
     gchar *titre = NULL;
     gint i=0;
 
-    devel_debug ( "affiche_titre_fenetre" );
+    devel_debug ( "gsb_file_update_window_title" );
 
     if ( titre_fichier && strlen(titre_fichier) )
       titre = titre_fichier;
@@ -812,39 +821,20 @@ void affiche_titre_fenetre ( void )
 
 
 
-/* ************************************************************************************************************ */
-/* Fonction enregistrement_backup */
-/* appelée si necessaire au début de l'enregistrement */
-/* ************************************************************************************************************ */
-
-gboolean enregistrement_backup ( void )
-{
-    gboolean retour;
-
-    if ( !nom_fichier_backup || !strlen(nom_fichier_backup) )
-	return FALSE;
-
-    gsb_status_message ( _("Saving backup") );
-
-    retour = gsb_file_save_save_file( nom_fichier_backup,
-				      etat.compress_backup,
-				      FALSE );
-
-    gsb_status_message ( _("Done") );
-
-    return ( retour );
-}
-/* ************************************************************************************************************ */
-
-
-/* ************************************************************************************************************ */
-void ajoute_new_file_liste_ouverture ( gchar *path_fichier )
+/**
+ * append a new name to the list of recently opened file
+ *
+ * \param path_fichier
+ *
+ * \return
+ * */
+void gsb_file_append_name_to_opened_list ( gchar *path_fichier )
 {
     gint i;
     gint position;
     gchar *dernier;
 
-    devel_debug ( g_strdup_printf ("ajoute_new_file_liste_ouverture : %s", path_fichier ));
+    devel_debug ( g_strdup_printf ("gsb_file_append_name_to_opened_list : %s", path_fichier ));
 
     if ( !nb_max_derniers_fichiers_ouverts ||
 	 ! path_fichier)
@@ -857,7 +847,6 @@ void ajoute_new_file_liste_ouverture ( gchar *path_fichier )
     /* si on n'a pas un chemin absolu, on n'enregistre pas ce fichier
        dans la liste. Du moins jusqu'à ce que quelqu'un trouve un moyen
        pour récupérer le chemein absolu */
-
     if ( !g_path_is_absolute ( nom_fichier_comptes ) )
     {
 	/*     gchar *tmp_name, *tmp_name2;
@@ -872,7 +861,6 @@ void ajoute_new_file_liste_ouverture ( gchar *path_fichier )
     }
 
     /* on commence par vérifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts noms */
-
     position = 0;
 
     for ( i=0 ; i<nb_derniers_fichiers_ouverts ; i++ )
@@ -930,11 +918,16 @@ void ajoute_new_file_liste_ouverture ( gchar *path_fichier )
 
     affiche_derniers_fichiers_ouverts();
 }
-/* ************************************************************************************************************ */
 
 
-/****************************************************************************/
-void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
+/**
+ * remove the filename from the list of recently opened file
+ *
+ * \param filename
+ *
+ * \return
+ * */
+void gsb_file_remove_name_from_opened_list ( gchar *filename )
 {
     gint i, j;
 
@@ -942,7 +935,7 @@ void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
 
     for ( i = 0 ; i < nb_derniers_fichiers_ouverts ; i++ )
     {
-	if ( ! strcmp (nom_fichier, tab_noms_derniers_fichiers_ouverts[i]) )
+	if ( ! strcmp (filename, tab_noms_derniers_fichiers_ouverts[i]) )
 	{
 	    nb_derniers_fichiers_ouverts--;
 
@@ -955,7 +948,6 @@ void remove_file_from_last_opened_files_list ( gchar * nom_fichier )
     }
     affiche_derniers_fichiers_ouverts();
 }
-/****************************************************************************/
 
 
 

@@ -39,7 +39,6 @@ sources = \
 	export.c		\
 	export_csv.c		\
 	fenetre_principale.c	\
-	fichiers_gestion.c	\
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
 	gsb_account.c		\
@@ -75,6 +74,7 @@ sources = \
 	gsb_data_report_text_comparison.c	\
 	gsb_data_scheduled.c	\
 	gsb_data_transaction.c	\
+	gsb_file.c		\
 	gsb_file_config.c	\
 	gsb_file_debug.c	\
 	gsb_file_load.c		\
@@ -180,6 +180,7 @@ grisbi_INCLUDES =		\
 	gsb_data_report_text_comparison.h	\
 	gsb_data_scheduled.h	\
 	gsb_data_transaction.h	\
+	gsb_file.h		\
 	gsb_file_config.h	\
 	gsb_file_load.h		\
 	gsb_file_others.h	\
@@ -216,7 +217,6 @@ grisbi_INCLUDES =		\
 	etats_onglet.h		\
 	etats_support.h		\
 	fenetre_principale.h	\
-	fichiers_gestion.h	\
 	format.h		\
 	gtk_combofix.h		\
 	help.h			\

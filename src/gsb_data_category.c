@@ -1420,7 +1420,7 @@ void gsb_data_category_create_default_category_list ( void )
 {
     gint i;
     
-    /* FIXME : should ask here for different kind of categories,
+    /* xxx FIXME : should ask here for different kind of categories,
      * or leave them blank...
      * */
 

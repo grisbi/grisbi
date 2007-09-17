@@ -29,10 +29,7 @@
 
 /*START_INCLUDE*/
 #include "erreur.h"
-#include "./utils.h"
 #include "./dialog.h"
-#include "./fichiers_gestion.h"
-#include "./gsb_file_config.h"
 #include "./gsb_file_save.h"
 #include "./gsb_file_util.h"
 #include "./gsb_plugins.h"
@@ -63,58 +60,6 @@ extern gchar *nom_fichier_comptes;
 
 gint debugging_grisbi;
 
-
-
-/*****************************************************************************************************************/
-/* fonction appelée lors de la demande de fermeture de grisbi */
-/*****************************************************************************************************************/
-
-
-gboolean fermeture_grisbi ( void )
-{
-    /*     si le fichier n'est pas enregistré, on le propose */
-
-    if ( etat.modification_fichier &&
-	 assert_account_loaded ())
-    {
-	gint retour;
-
-	retour = question_fermer_sans_enregistrer ();
-
-	switch ( retour )
-	{
-	    /* 	    on veut enregistrer */
-	    /* 	    si ça se passe pas bien, on arrête la fermeture */
-	    case GTK_RESPONSE_OK:
-		if ( !enregistrement_fichier(-1))
-		    return TRUE;
-		break;
-
-		/* on ne veut pas enregistrer */
-	    case GTK_RESPONSE_NO:
-
-		break;
-
-		/* 		on a annulé */
-	    default:
-		return TRUE;
-	}
-    }
-
-    /*     à ce niveau, soit le fichier a été enregistré, soit on ne veut pas l'enregistrer */
-    /* 	on ferme grisbi */
-
-    gsb_file_config_save_config ();
-
-    gsb_file_util_modify_lock ( FALSE );
-
-    gtk_main_quit();
-
-    gsb_plugins_release ( );
-
-    return TRUE;
-}
-/*************************************************************************************************************/
 
 
 

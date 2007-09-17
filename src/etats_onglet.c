@@ -40,10 +40,10 @@
 #include "./utils_files.h"
 #include "./structures.h"
 #include "./utils_file_selection.h"
+#include "./fenetre_principale.h"
 #include "./print_config.h"
 #include "./include.h"
 #include "./etats_csv.h"
-#include "./fenetre_principale.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

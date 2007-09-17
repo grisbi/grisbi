@@ -49,9 +49,9 @@
 #include "./utils_str.h"
 #include "./traitement_variables.h"
 #include "./structures.h"
+#include "./fenetre_principale.h"
 #include "./include.h"
 #include "./gsb_real.h"
-#include "./fenetre_principale.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

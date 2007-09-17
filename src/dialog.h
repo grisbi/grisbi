@@ -21,13 +21,12 @@ GtkWindow *gsb_dialog_create_information_window ( gchar *text );
 gchar * make_hint ( gchar * hint, gchar * text );
 gboolean question ( gchar *texte );
 gboolean question_conditional_yes_no ( gchar * var );
+gboolean question_conditional_yes_no_special ( gchar * hint, gchar * message, gchar * var );
 gboolean question_yes_no ( gchar *texte,
 			   gint default_answer );
 gboolean question_yes_no_hint ( gchar * hint,
 				gchar *texte,
 				gint default_answer );
-GtkDialog * dialogue_conditional_new ( gchar *text, gchar * var, GtkMessageType type,
-				       GtkButtonsType buttons );
 /* END_DECLARATION */
 
 struct conditional_message

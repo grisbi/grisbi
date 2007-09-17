@@ -46,6 +46,7 @@
 #include "./fenetre_principale.h"
 #include "./navigation.h"
 #include "./barre_outils.h"
+#include "./menu.h"
 #include "./gsb_real.h"
 #include "./gsb_reconcile.h"
 #include "./gsb_scheduler_list.h"

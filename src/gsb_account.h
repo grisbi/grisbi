@@ -5,7 +5,6 @@
 
 
 /* START_DECLARATION */
-gint gsb_account_ask_account_type ( void );
 GtkWidget *gsb_account_create_combo_list ( GCallback func, 
 					   gpointer data,
 					   gboolean include_closed );

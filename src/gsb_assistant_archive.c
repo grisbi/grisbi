@@ -41,19 +41,20 @@
 #include "./utils_str.h"
 #include "./etats_calculs.h"
 #include "./utils.h"
+#include "./structures.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static  GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant );
-static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_archive_page_success ( void );
+static  gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assistant,
+							       gint new_page );
 static  gboolean gsb_assistant_archive_switch_to_intro ( GtkWidget *assistant,
 							gint new_page );
 static  gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
 						       gint new_page );
-static  gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assistant,
-								gint new_page );
 static  gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
 							 gint new_page );
 static  gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant );

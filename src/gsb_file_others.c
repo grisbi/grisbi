@@ -34,10 +34,10 @@
 #include "./gsb_data_category.h"
 #include "./gsb_data_report.h"
 #include "./gsb_file_load.h"
+#include "./gsb_file.h"
 #include "./gsb_file_save.h"
 #include "./navigation.h"
 #include "./utils_str.h"
-#include "./fichiers_gestion.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
 #include "./structures.h"
@@ -414,7 +414,7 @@ gboolean gsb_file_others_load ( gchar *filename,
 	dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"),
 					 filename,
 					 latin2utf8 (strerror(errno))));
-	remove_file_from_last_opened_files_list (filename);
+	gsb_file_remove_name_from_opened_list (filename);
 	return FALSE;
     }
 
@@ -425,7 +425,7 @@ gboolean gsb_file_others_load ( gchar *filename,
     {
 	dialogue_error ( g_strdup_printf ( _("%s doesn't seem to be a regular file,\nplease check it and try again."),
 					   filename ));
-	remove_file_from_last_opened_files_list (filename);
+	gsb_file_remove_name_from_opened_list (filename);
 	return ( FALSE );
     }
 
@@ -554,7 +554,7 @@ gboolean gsb_file_others_load ( gchar *filename,
 	dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"),
 					 filename,
 					 latin2utf8 (strerror(errno))));
-	remove_file_from_last_opened_files_list (filename);
+	gsb_file_remove_name_from_opened_list (filename);
 	return FALSE;
     }
 

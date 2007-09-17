@@ -44,13 +44,13 @@
 #include "./menu.h"
 #include "./dialog.h"
 #include "./tip.h"
-#include "./erreur.h"
 #include "./gsb_account.h"
+#include "./gsb_file.h"
 #include "./gsb_file_config.h"
-#include "./fichiers_gestion.h"
 #include "./gsb_status.h"
 #include "./gsb_plugins.h"
 #include "./traitement_variables.h"
+#include "./erreur.h"
 #include "./parse_cmdline.h"
 #include "./import.h"
 #include "./parse_cmdline.h"
@@ -176,7 +176,7 @@ int main (int argc, char *argv[])
     window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
     gtk_signal_connect ( GTK_OBJECT (window),
 			 "delete_event",
-			 GTK_SIGNAL_FUNC ( fermeture_grisbi ),
+			 GTK_SIGNAL_FUNC ( gsb_grisbi_close ),
 			 NULL );
     gtk_window_set_policy ( GTK_WINDOW ( window ),
 			    TRUE,
@@ -248,6 +248,8 @@ In any case you do work with this version on your original accounting files.\n \
     {
 	dialogue_hint ( _("You can now create your account file ... blah blah.  This will be replaced by a nice assistant."),
 			_("Welcome to Grisbi!"));
+	/* xxx ici on part pas vers gsb_account_new mais plutôt new_file
+	 * mais faire l'assistant qui va tout faire */
 	gsb_account_new ();
     }
     else
@@ -262,6 +264,27 @@ In any case you do work with this version on your original accounting files.\n \
     gtk_accel_map_save (path);
     g_free (path);
     exit(0);
+}
+
+
+/**
+ * close grisbi
+ * propose to save the file if necessary
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_grisbi_close ( void )
+{
+    if (!gsb_file_close ())
+	return FALSE;
+
+    gtk_main_quit();
+
+    gsb_plugins_release ( );
+
+    return FALSE;
 }
 
 

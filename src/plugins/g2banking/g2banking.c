@@ -74,7 +74,6 @@ extern void g2banking_plugin_register ()
 }
 
 
-
 /** Main function of module. */
 extern GtkWidget * g2banking_plugin_run ( gchar * file_name, gchar **file_content,
 						   gboolean crypt, gulong length )

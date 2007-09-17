@@ -7,7 +7,6 @@
 /* START_DECLARATION */
 void debug_message ( gchar *prefixe, gchar *message, gint level, gboolean force_debug_display);
 void devel_debug ( gchar *message );
-gboolean fermeture_grisbi ( void );
 void initialize_debugging ( void );
 void notice_debug ( gchar *message );
 void traitement_sigsegv ( gint signal_nb );

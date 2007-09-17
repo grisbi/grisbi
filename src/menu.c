@@ -36,14 +36,15 @@
 #include "./navigation.h"
 #include "./erreur.h"
 #include "./dialog.h"
-#include "./fichiers_gestion.h"
 #include "./export.h"
 #include "./tip.h"
 #include "./gsb_account.h"
 #include "./gsb_assistant_archive_export.h"
 #include "./gsb_assistant_archive.h"
 #include "./gsb_data_account.h"
+#include "./gsb_file.h"
 #include "./gsb_file_debug.h"
+#include "./main.h"
 #include "./import.h"
 #include "./utils.h"
 #include "./traitement_variables.h"
@@ -161,24 +162,26 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 {
     GtkWidget * barre_menu;
     GtkActionGroup * action_group;
+
+    /* remind of GtkActionEntry : name, stock_id, label, accelerator, tooltip, callback */
     GtkActionEntry entries[] = {
 	{ "FileMenu",		NULL,			_("_File"),
 	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "New",		GTK_STOCK_NEW,		_("_New account file..."),
-	  NULL,			NULL,			G_CALLBACK( new_file ) },
+	  NULL,			NULL,			G_CALLBACK( gsb_file_new ) },
 
 	{ "Open",		GTK_STOCK_OPEN,		_("_Open..."),
-	  NULL,			NULL,			G_CALLBACK( ouvrir_fichier ) },
+	  NULL,			NULL,			G_CALLBACK( gsb_file_open_menu ) },
 
 	{ "RecentFiles",	NULL,			_("_Recently opened files"),
 	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "Save",		GTK_STOCK_SAVE,		_("_Save"),
-	  NULL,			NULL,			G_CALLBACK( enregistrement_fichier ) },
+	  NULL,			NULL,			G_CALLBACK( gsb_file_save ) },
 
 	{ "SaveAs",		GTK_STOCK_SAVE_AS,	_("_Save as..."),
-	  NULL,			NULL,			G_CALLBACK( gsb_save_file_as ) },	
+	  NULL,			NULL,			G_CALLBACK( gsb_file_save_as ) },	
 
 	{ "ImportFile",		GTK_STOCK_CONVERT,	_("_Import file..."),
 	  NULL,			NULL,			G_CALLBACK( importer_fichier ) },
@@ -196,10 +199,10 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	  NULL,			NULL,			G_CALLBACK( gsb_file_debug ) },
 
 	{ "Close",		GTK_STOCK_CLOSE,	_("_Close"),
-	  NULL,			NULL,			G_CALLBACK( fermer_fichier ) },
+	  NULL,			NULL,			G_CALLBACK( gsb_file_close ) },
 
 	{ "Quit",		GTK_STOCK_QUIT,		_("_Quit"),
-	  NULL,			NULL,			G_CALLBACK( fermeture_grisbi ) },
+	  NULL,			NULL,			G_CALLBACK( gsb_grisbi_close ) },
 
 	{ "EditMenu",		NULL,			_("_Edit"),
 	  NULL,			NULL,			G_CALLBACK( NULL ) },
@@ -259,7 +262,6 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 
 	{ "Tip",		GTK_STOCK_DIALOG_INFO,	_("_Tip of the day"),
 	  NULL,			NULL,			G_CALLBACK( force_display_tip ) },
-
     };
 
     GtkRadioActionEntry radio_entries[] = {
@@ -356,7 +358,7 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
 	GtkAction * action = gtk_action_new ( tmp_name, 
 					      tab_noms_derniers_fichiers_ouverts[i], 
 					      "", "" );
-	g_signal_connect ( action, "activate", G_CALLBACK(ouverture_fichier_par_menu), 
+	g_signal_connect ( action, "activate", G_CALLBACK(gsb_file_open_direct_menu), 
 			   GINT_TO_POINTER(i) );
 	gtk_action_group_add_action ( action_group, action );
     }

@@ -46,12 +46,12 @@
 #include "./gsb_data_payment.h"
 #include "./gsb_data_transaction.h"
 #include "./utils_dates.h"
+#include "./gsb_file.h"
 #include "./gsb_form_scheduler.h"
 #include "./navigation.h"
 #include "./menu.h"
 #include "./gsb_real.h"
 #include "./gsb_status.h"
-#include "./fichiers_gestion.h"
 #include "./traitement_variables.h"
 #include "./accueil.h"
 #include "./categories_onglet.h"
@@ -1152,8 +1152,11 @@ void traitement_operations_importees ( void )
 	new_file = 0;
     else
     {
-	init_variables_new_file ();
+	/* Create initial lists. */
+	gsb_data_category_create_default_category_list ();
+
 	new_file = 1;
+/* 	xxx tester ici un import sans compte ouvert que la devise et autres sont bien créés  */
     }
 
 
@@ -1273,7 +1276,7 @@ void traitement_operations_importees ( void )
     }
     else
     {
-	init_gui_new_file ();
+	gsb_file_new_gui ();
     }
 
     /* on recrée les combofix des tiers et des catégories */

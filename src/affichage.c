@@ -25,10 +25,10 @@
 
 /*START_INCLUDE*/
 #include "affichage.h"
-#include "./fichiers_gestion.h"
 #include "./utils_file_selection.h"
 #include "./gsb_automem.h"
 #include "./gsb_data_account.h"
+#include "./gsb_file.h"
 #include "./gsb_form.h"
 #include "./navigation.h"
 #include "./barre_outils.h"
@@ -677,7 +677,7 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
 					"</span>", NULL ) );
 
     /* Update window title */
-    affiche_titre_fenetre();
+    gsb_file_update_window_title();
 
     /* Mark file as modified */
     modification_fichier ( TRUE );

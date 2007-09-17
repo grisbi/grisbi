@@ -248,6 +248,8 @@ void init_variables ( void )
     adresse_commune = NULL;
     adresse_secondaire = NULL;
 
+    etat.largeur_auto_colonnes = 1;
+
     liste_categ_etat = NULL;
 
     initialise_tab_affichage_ope();
@@ -410,6 +412,8 @@ void menus_sensitifs ( gboolean sensitif )
 	menu_name ( "FileMenu",		"SaveAs",		NULL ),
 	menu_name ( "FileMenu",		"DebugFile",		NULL ),
 	menu_name ( "FileMenu",		"ExportFile",		NULL ),
+	menu_name ( "FileMenu",		"CreateArchive",	NULL ),
+	menu_name ( "FileMenu",		"ExportArchive",	NULL ),
 	menu_name ( "FileMenu",		"Close",		NULL ),
 	menu_name ( "EditMenu",		"NewTransaction",	NULL ),
 	menu_name ( "EditMenu",		"RemoveTransaction",	NULL ),
@@ -419,6 +423,7 @@ void menus_sensitifs ( gboolean sensitif )
 	menu_name ( "EditMenu",		"MoveToAnotherAccount",	NULL ),
 	menu_name ( "EditMenu",		"Preferences",		NULL ),
 	menu_name ( "EditMenu",		"RemoveAccount",	NULL ),
+	menu_name ( "EditMenu",		"NewAccount",		NULL ),
 	menu_name ( "ViewMenu",		"ShowTransactionForm",	NULL ),
 	menu_name ( "ViewMenu",		"ShowGrid",		NULL ),
 	menu_name ( "ViewMenu",		"ShowReconciled",	NULL ),

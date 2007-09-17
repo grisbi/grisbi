@@ -23,6 +23,7 @@ void efface_derniers_fichiers_ouverts ( void );
 gboolean gsb_gui_sensitive_menu_item ( gchar * root_menu_name, gchar * submenu_name,
 				       gchar * subsubmenu_name, gboolean state );
 gboolean gsb_gui_sensitive_menu_item_from_string ( gchar * item_name, gboolean state );
+gboolean gsb_menu_transaction_operations_set_sensitive ( gboolean sensitive );
 gboolean gsb_menu_update_accounts_in_menus ( void );
 gboolean gsb_menu_update_view_menu ( gint account_number );
 GtkWidget *init_menus ( GtkWidget *vbox );

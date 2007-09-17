@@ -43,12 +43,12 @@
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
 #include "./utils_dates.h"
+#include "./gsb_file.h"
 #include "./gsb_file_util.h"
 #include "./gsb_plugins.h"
 #include "./gsb_real.h"
 #include "./utils_str.h"
 #include "./traitement_variables.h"
-#include "./fichiers_gestion.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_form.h"
 #include "./gsb_scheduler_list.h"
@@ -271,7 +271,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 					      filename,
 					      _("File does not exist") ),
 			     g_strdup_printf ( _("Error loading file '%s'"), filename));
-	remove_file_from_last_opened_files_list (filename);
+	gsb_file_remove_name_from_opened_list (filename);
 	return FALSE;
     }
 
@@ -283,7 +283,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	dialogue_error_hint ( g_strdup_printf ( _("%s doesn't seem to be a regular file,\nplease check it and try again."),
 						filename ),
 			      g_strdup_printf ( _("Error loading file '%s'"), filename));
-	remove_file_from_last_opened_files_list (filename);
+	gsb_file_remove_name_from_opened_list (filename);
 	return ( FALSE );
     }
 
@@ -402,7 +402,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 					      filename,
 					      latin2utf8 (strerror(errno))),
 			     g_strdup_printf ( _("Error loading file '%s'"), filename));
-	remove_file_from_last_opened_files_list (filename);
+	gsb_file_remove_name_from_opened_list (filename);
 	return FALSE;
     }
 
