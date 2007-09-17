@@ -33,8 +33,6 @@
 static void dialogue_conditional ( gchar *text, gchar * var );
 static void dialogue_conditional_hint ( gchar *hint, gchar * text, gchar * var );
 static void dialogue_conditional_info_hint ( gchar *hint, gchar * text, gchar * var );
-static GtkDialog * dialogue_conditional_new ( gchar *text, gchar * var, GtkMessageType type,
-				       GtkButtonsType buttons );
 static void dialogue_conditional_special ( gchar *text, gchar * var, GtkMessageType type );
 static gboolean dialogue_update_var ( GtkWidget * checkbox, gint message );
 /*END_STATIC*/
@@ -447,7 +445,6 @@ gboolean question_yes_no ( gchar *texte,
  */
 gboolean question_conditional_yes_no ( gchar * var )
 {
-    GtkDialog * dialog;
     gint response, i;
 
     for  ( i = 0; messages[i].name; i++ )
@@ -462,15 +459,9 @@ gboolean question_conditional_yes_no ( gchar * var )
 	}
     }
 
-    dialog = dialogue_conditional_new ( make_hint ( _(messages[i].hint),
-						    _(messages[i].message) ), 
-					var, GTK_MESSAGE_QUESTION,
-					GTK_BUTTONS_YES_NO );
-    if ( ! dialog )
-	return messages[i].default_answer;
-
-    response = gtk_dialog_run (GTK_DIALOG (dialog));
-    gtk_widget_destroy ( GTK_WIDGET (dialog));
+    response = question_yes_no ( make_hint ( _(messages[i].hint),
+					     _(messages[i].message) ), 
+				 GTK_RESPONSE_OK );
 
     if ( response == GTK_RESPONSE_YES )
 	messages[i].default_answer = TRUE;
@@ -480,6 +471,45 @@ gboolean question_conditional_yes_no ( gchar * var )
     return messages[i].default_answer;	
 }
 
+
+
+/**
+ * Pop up a warning dialog window with a question and a checkbox that
+ * allow this message not to be displayed again thanks to preferences
+ * and wait for user to press 'OK' or 'Cancel'.
+ *
+ * \param hint	Hint to be displayed.
+ * \param texte Text to be displayed.
+ * \param var	Variable that both controls whether the dialog will
+ *		appear or not and that indicates which variable could
+ *		be modified so that this message won't appear again.
+ *
+ * \return	TRUE if user pressed 'OK'.  FALSE otherwise.
+ */
+gboolean question_conditional_yes_no_special ( gchar * hint, gchar * message, gchar * var )
+{
+    GtkDialog *dialog;
+    gint response;
+
+    dialog = dialogue_conditional_new ( make_hint ( hint, message ), var, GTK_MESSAGE_INFO,
+					GTK_BUTTONS_YES_NO );
+    if ( ! dialog )
+	return;
+
+    response = gtk_dialog_run ( GTK_DIALOG (dialog) );
+    gtk_widget_destroy ( GTK_WIDGET (dialog));
+    
+    if ( response == GTK_RESPONSE_YES ) 
+    {
+	*var = 1;
+	return TRUE;
+    }
+    else
+    {
+	*var = 0;
+	return FALSE;
+    }
+}
 
 
 
