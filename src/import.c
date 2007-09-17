@@ -33,6 +33,7 @@
 #include "./gsb_transactions_list.h"
 #include "./erreur.h"
 #include "./dialog.h"
+#include "./utils_file_selection.h"
 #include "./go-charmap-sel.h"
 #include "./gsb_account.h"
 #include "./gsb_assistant.h"
@@ -614,10 +615,8 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 	    g_slist_free ( filenames );
 	}
     }
-
+    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
     gtk_widget_destroy ( dialog );
-
-
     return FALSE;
 }
 

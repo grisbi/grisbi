@@ -77,10 +77,13 @@ static gboolean gsb_file_save_file ( gint origine );
 
 gchar *nom_fichier_backup;
 
+/**
+ * keep the last path used in grisbi, save in the configuration at the end */
+static gchar *last_path_used;
+
 
 
 /*START_EXTERN*/
-extern gchar *dernier_chemin_de_travail;
 extern GtkWidget *main_hpaned ;
 extern GtkWidget *main_vbox;
 extern gint max;
@@ -198,6 +201,8 @@ gboolean gsb_file_open_menu ( void )
     selection_fichier = file_selection_new ( _("Open an accounts file"),
 					     FILE_SELECTION_MUST_EXIST);
     gtk_window_set_position ( GTK_WINDOW ( selection_fichier ), GTK_WIN_POS_MOUSE);
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection_fichier),
+					 gsb_file_get_last_path ());
 
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("Grisbi files (*.gsb)") );
@@ -217,16 +222,50 @@ gboolean gsb_file_open_menu ( void )
 	    {
 		gtk_widget_hide ( selection_fichier );
 		nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_CHOOSER ( selection_fichier ) ) ;
-		dernier_chemin_de_travail = file_selection_get_last_directory ( GTK_FILE_CHOOSER ( selection_fichier),
-										TRUE );
+		gsb_file_update_last_path (file_selection_get_last_directory ( GTK_FILE_CHOOSER ( selection_fichier),
+									       TRUE ));
 		gsb_file_open_file (nom_fichier_comptes);
 	    }
 	    break;
       default:
 	  break;
     }
+    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (selection_fichier), TRUE));
     gtk_widget_destroy ( selection_fichier );
     return FALSE;
+}
+
+
+/**
+ * update the variable last_path_used with the path given in param
+ *
+ * \param last_path
+ *
+ * \return
+ * */
+void gsb_file_update_last_path ( const gchar *last_path )
+{
+    if (last_path
+	&&
+	strlen (last_path))
+    {
+	if (last_path_used)
+	    g_free (last_path_used);
+	last_path_used = my_strdup (last_path);
+    }
+}
+
+/**
+ * the last_path_used is local variable,
+ * that return the content of that variable
+ *
+ * \param
+ *
+ * \return a const gchar, the last path used in grisbi
+ * */
+const gchar *gsb_file_get_last_path ( void )
+{
+    return last_path_used;
 }
 
 
@@ -239,7 +278,7 @@ gboolean gsb_file_open_menu ( void )
  * \return FALSE
  * */
 gboolean gsb_file_open_direct_menu ( GtkMenuItem *item,
-				      gint *file_number_ptr )
+				     gint *file_number_ptr )
 {
     /* continue only if can close the current file */
     if ( !gsb_file_close() )
@@ -680,9 +719,11 @@ static gchar *gsb_file_dialog_ask_name ( void )
     gint result;
 
     dialog = file_selection_new ( _("Name the accounts file"),
-				       FILE_SELECTION_IS_SAVE_DIALOG);
+				  FILE_SELECTION_IS_SAVE_DIALOG);
     gtk_window_set_modal ( GTK_WINDOW ( dialog ),
 			   TRUE );
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog),
+					 gsb_file_get_last_path ());
 
     if ( ! nom_fichier_comptes )
 	gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ),
@@ -697,7 +738,7 @@ static gchar *gsb_file_dialog_ask_name ( void )
     {
 	case GTK_RESPONSE_OK :
 	    new_name = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
-
+	    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 	    break;
 

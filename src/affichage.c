@@ -634,6 +634,8 @@ gboolean modification_logo_accueil ( )
 
     file_selector = file_selection_new (_("Select a new logo"),
 					FILE_SELECTION_IS_OPEN_DIALOG|FILE_SELECTION_MUST_EXIST);
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selector),
+					 gsb_file_get_last_path ());
     /* FIXME: be sure preview will be displayed. */
     gtk_file_chooser_set_preview_widget_active ( GTK_FILE_CHOOSER(file_selector), TRUE );
 
@@ -645,6 +647,7 @@ gboolean modification_logo_accueil ( )
     {
 	case GTK_RESPONSE_OK:
 	    change_logo_accueil ( file_selector );
+	    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (file_selector), TRUE));
 
 	default:
 	    gtk_widget_destroy ( file_selector );

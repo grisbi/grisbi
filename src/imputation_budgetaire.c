@@ -40,6 +40,7 @@
 #include "./gsb_data_budget.h"
 #include "./gsb_data_form.h"
 #include "./gsb_data_transaction.h"
+#include "./gsb_file.h"
 #include "./gsb_file_others.h"
 #include "./gsb_form_widget.h"
 #include "./gsb_transactions_list.h"
@@ -88,7 +89,6 @@ gint no_devise_totaux_ib;
 
 /*START_EXTERN*/
 extern MetatreeInterface * budgetary_interface ;
-extern gchar *dernier_chemin_de_travail;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window;
@@ -350,8 +350,8 @@ void exporter_ib ( void )
     gchar *nom_ib;
 
     fenetre_nom = file_selection_new (  _("Export the budgetary lines"),FILE_SELECTION_IS_SAVE_DIALOG);
-    file_selection_set_filename ( GTK_FILE_CHOOSER ( fenetre_nom ),
-				  dernier_chemin_de_travail );
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( fenetre_nom ),
+					  gsb_file_get_last_path () );
     file_selection_set_entry ( GTK_FILE_CHOOSER ( fenetre_nom ), ".igsb" );
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
 
@@ -359,7 +359,7 @@ void exporter_ib ( void )
     {
 	case GTK_RESPONSE_OK :
 	    nom_ib =file_selection_get_filename ( GTK_FILE_CHOOSER ( fenetre_nom ));
-
+	    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE));
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
 	    /* vérification que c'est possible est faite par la boite de dialogue */
@@ -392,7 +392,7 @@ void importer_ib ( void )
 
     dialog = file_selection_new ( _("Import budgetary lines"),
 				  FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
-    file_selection_set_filename ( GTK_FILE_CHOOSER ( dialog ), dernier_chemin_de_travail );
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
     file_selection_set_entry ( GTK_FILE_CHOOSER ( dialog ), ".igsb" );
 
     filter = gtk_file_filter_new ();
@@ -415,6 +415,7 @@ void importer_ib ( void )
     }
 
     budget_name = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
+    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
     last_transaction_number = gsb_data_transaction_get_last_number();

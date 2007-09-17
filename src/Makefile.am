@@ -50,6 +50,7 @@ sources = \
 	gsb_autofunc.c		\
 	gsb_automem.c		\
 	gsb_bank.c		\
+	gsb_category.c		\
 	gsb_combo_box.c		\
 	gsb_calendar_entry.c	\
 	gsb_currency.c		\
@@ -156,6 +157,7 @@ grisbi_INCLUDES =		\
 	gsb_autofunc.h		\
 	gsb_automem.h		\
 	gsb_bank.h		\
+	gsb_category.h		\
 	gsb_combo_box.h		\
 	gsb_calendar_entry.h	\
 	gsb_currency.h		\

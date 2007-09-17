@@ -29,6 +29,7 @@
 #include "utils_files.h"
 #include "./dialog.h"
 #include "./utils_file_selection.h"
+#include "./gsb_file.h"
 #include "./utils_str.h"
 #include "./utils_file_selection.h"
 #include "./include.h"
@@ -62,6 +63,8 @@ void browse_file ( GtkButton *button, gpointer data )
     GtkWidget * file_selector;
 
     file_selector = file_selection_new (_("Print to file"),FILE_SELECTION_IS_SAVE_DIALOG);
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selector),
+					 gsb_file_get_last_path ());
     gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
 				   GTK_WINDOW ( window ));
     gtk_window_set_modal ( GTK_WINDOW ( file_selector ), TRUE );
@@ -71,6 +74,7 @@ void browse_file ( GtkButton *button, gpointer data )
 	case GTK_RESPONSE_OK:
 	    gtk_entry_set_text ( GTK_ENTRY(data),
 				 file_selection_get_filename (GTK_FILE_CHOOSER (file_selector)));
+	    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (file_selector), TRUE));
 
 	default:
 	    gtk_widget_destroy ( file_selector );

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2004-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -33,6 +33,7 @@
 #include "./gsb_data_category.h"
 #include "./gsb_data_form.h"
 #include "./gsb_data_transaction.h"
+#include "./gsb_file.h"
 #include "./gsb_file_others.h"
 #include "./gsb_form_widget.h"
 #include "./navigation.h"
@@ -45,9 +46,9 @@
 #include "./utils_file_selection.h"
 #include "./gtk_combofix.h"
 #include "./metatree.h"
-#include "./include.h"
 #include "./gsb_data_form.h"
 #include "./gsb_transactions_list.h"
+#include "./include.h"
 #include "./structures.h"
 /*END_INCLUDE*/
 
@@ -64,128 +65,6 @@ static gboolean popup_category_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
 
 
-/* VARIABLES */
-
-gchar *categories_de_base_debit [] = {
-    N_("Food : Bar"),
-    N_("Food : Baker"),
-    N_("Food : Canteen"),
-    N_("Food : Sweets"),
-    N_("Food : Misc"),
-    N_("Food : Grocery"),
-    N_("Food : Restaurant"),
-    N_("Food : Self-service"),
-    N_("Food : Supermarket"),
-    N_("Pets : Food"),
-    N_("Pets : Various supplies"),
-    N_("Pets : Grooming"),
-    N_("Pets : Veterinary surgeon"),
-    N_("Insurance : Car"),
-    N_("Insurance : Health"),
-    N_("Insurance : House"),
-    N_("Insurance : Civil liability"),
-    N_("Insurance : Life"),
-    N_("Car : Fuel"),
-    N_("Car : Repairs"),
-    N_("Car : Maintenance"),
-    N_("Car : Parking"),
-    N_("Car : Fines"),
-    N_("Misc."),
-    N_("Gifts"),
-    N_("Children : Nurse"),
-    N_("Children : Misc."),
-    N_("Children : Studies"),
-    N_("Studies : Lessons"),
-    N_("Studies : Scool fees"),
-    N_("Studies : Books"),
-    N_("Miscelanious : Gifts"),
-    N_("Financial expenses : Miscelanious"),
-    N_("Financial expenses : Bank charges"),
-    N_("Financial expenses : Loan/Mortgage"),
-    N_("Financial expenses : Charges"),
-    N_("Financial expenses : Refunding"),
-    N_("Professionnal expenses : Non refundable"),
-    N_("Professionnal expenses : Refundable"),
-    N_("Taxes : Miscelanious"),
-    N_("Taxes : Income"),
-    N_("Taxes : Land"),
-    N_("Housing : Hotel"),
-    N_("Housing : Rent"),
-    N_("Housing : TV"),
-    N_("Housing : Furnitures"),
-    N_("Housing : Charges"),
-    N_("Housing : Heating"),
-    N_("Housing : Decoration"),
-    N_("Housing : Water"),
-    N_("Housing : Electricity"),
-    N_("Housing : White products"),
-    N_("Housing : Equipment"),
-    N_("Housing : Gaz"),
-    N_("Housing : Garden"),
-    N_("Housing : House keeper"),
-    N_("Housing : Phone"),
-    N_("Housing : Mobile Phone"),
-    N_("Leisures : Snooker"),
-    N_("Leisures : Bowling"),
-    N_("Leisures : Movies"),
-    N_("Leisures : Night club"),
-    N_("Leisures : IT"),
-    N_("Leisures : Games"),
-    N_("Leisures : Books"),
-    N_("Leisures : Parks"),
-    N_("Leisures : Concerts"),
-    N_("Leisures : Sports"),
-    N_("Leisures : Video"),
-    N_("Leisures : Travels"),
-    N_("Leisures : Equipment"),
-    N_("Leisures : Museums/Exhibitions"),
-    N_("Loan/Mortgage : Capital"),
-    N_("Health : Insurance"),
-    N_("Health : Dentist"),
-    N_("Health : Hospital"),
-    N_("Health : Kinesitherapist"),
-    N_("Health : Doctor"),
-    N_("Health : Ophtalmologist"),
-    N_("Health : Osteopath"),
-    N_("Health : Chemist"),
-    N_("Health : Social security"),
-    N_("Care : Hairdresser"),
-    N_("Care : Clothing"),
-    N_("Transport : Bus"),
-    N_("Transport : Metro"),
-    N_("Transport : Toll"),
-    N_("Transport : Train"),
-    N_("Transport : Tramway"),
-    N_("Transport : Travels"),
-    N_("Transport : Train"),
-    N_("Holiday : Housing"),
-    N_("Holiday : Visits"),
-    N_("Holiday : Travels"),
-    NULL };
-
-gchar *categories_de_base_credit [] = {
-    N_("Other incomes : Unemployment benefit"),
-    N_("Other incomes : Family allowance"),
-    N_("Other incomes : Tax credit"),
-    N_("Other incomes : Gamble"),
-    N_("Other incomes : Mutual insurance"),
-    N_("Other incomes : Social security"),
-    N_("Retirement : Retirement Fund"),
-    N_("Retirement : Pension"),
-    N_("Retirement : Supplementary pension"),
-    N_("Investment incomes : Dividends"),
-    N_("Investment incomes : Interests"),
-    N_("Investment incomes : Capital gain"),
-    N_("Salary : Overtime"),
-    N_("Salary : Leave allowance"),
-    N_("Salary : Misc. premiums"),
-    N_("Salary : Success fee"),
-    N_("Salary : Net salary"),
-    N_("Misc. incomes : Gifts"),
-    N_("Misc. incomes : Refunds"),
-    N_("Misc. incomes : Second hand sales"),
-    NULL
-};
 
 /* widgets */
 GtkWidget *entree_nom_categ, *bouton_categ_debit, *bouton_categ_credit;
@@ -203,7 +82,6 @@ int no_devise_totaux_categ;
 
 /*START_EXTERN*/
 extern MetatreeInterface * category_interface ;
-extern gchar *dernier_chemin_de_travail;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window;
@@ -469,8 +347,8 @@ gboolean exporter_categ ( GtkButton * widget, gpointer data )
     gchar *nom_categ;
 
     fenetre_nom = file_selection_new ( _("Export categories"), FILE_SELECTION_IS_SAVE_DIALOG );
-    file_selection_set_filename ( GTK_FILE_CHOOSER ( fenetre_nom ), 
-				  dernier_chemin_de_travail );
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( fenetre_nom ), 
+					  gsb_file_get_last_path () );
     file_selection_set_entry ( GTK_FILE_CHOOSER ( fenetre_nom ), ".cgsb" );
     
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
@@ -482,6 +360,7 @@ gboolean exporter_categ ( GtkButton * widget, gpointer data )
     }
 
     nom_categ = file_selection_get_filename ( GTK_FILE_CHOOSER ( fenetre_nom ));
+    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE));
     gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
     gsb_file_others_save_category ( nom_categ );
@@ -505,7 +384,7 @@ void importer_categ ( void )
 
     dialog = file_selection_new ( _("Import categories"),
 				  FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
-    file_selection_set_filename ( GTK_FILE_CHOOSER ( dialog ), dernier_chemin_de_travail );
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
     file_selection_set_entry ( GTK_FILE_CHOOSER ( dialog ), ".cgsb" );
 
     filter = gtk_file_filter_new ();
@@ -528,6 +407,7 @@ void importer_categ ( void )
     }
 
     category_name = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
+    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
     last_transaction_number = gsb_data_transaction_get_last_number();

@@ -30,6 +30,7 @@
 #include "./gsb_automem.h"
 #include "./gsb_data_report_amout_comparison.h"
 #include "./gsb_data_report.h"
+#include "./gsb_file.h"
 #include "./gsb_file_others.h"
 #include "./navigation.h"
 #include "./gsb_status.h"
@@ -82,7 +83,6 @@ GtkWidget *reports_toolbar;
 
 /*START_EXTERN*/
 extern struct struct_etat_affichage csv_affichage ;
-extern gchar *dernier_chemin_de_travail;
 extern struct struct_etat_affichage html_affichage ;
 extern struct struct_etat_affichage latex_affichage ;
 extern GtkWidget *notebook_general;
@@ -1152,6 +1152,8 @@ void exporter_etat ( void )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
     
     fenetre_nom = file_selection_new ( _("Export report"), FILE_SELECTION_IS_SAVE_DIALOG );
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (fenetre_nom),
+					 gsb_file_get_last_path ());
     g_object_set_data ( G_OBJECT(fenetre_nom), "basename", 
 			gsb_data_report_get_report_name ( gsb_gui_navigation_get_current_report () ) );
     
@@ -1232,6 +1234,7 @@ void exporter_etat ( void )
 
 	gsb_status_message ( _("Done") );
     }
+    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE));
     gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 }
 
@@ -1251,10 +1254,10 @@ void importer_etat ( void )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     fenetre_nom = file_selection_new ( _("Import a report") , FILE_SELECTION_MUST_EXIST);
-    file_selection_set_filename ( GTK_FILE_CHOOSER ( fenetre_nom ),
-				  dernier_chemin_de_travail );
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( fenetre_nom ),
+					  gsb_file_get_last_path () );
     file_selection_set_entry (  GTK_FILE_CHOOSER ( fenetre_nom ),
-				g_strconcat ( dernier_chemin_de_travail, ".egsb", NULL ));
+				g_strconcat ( gsb_file_get_last_path (), ".egsb", NULL ));
 
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("Grisbi report files (*.egsb)") );
@@ -1273,7 +1276,7 @@ void importer_etat ( void )
     {
 	case GTK_RESPONSE_OK :
 	    nom_etat =file_selection_get_filename ( GTK_FILE_CHOOSER ( fenetre_nom ));
-
+	    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE));
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
 	    /* la vÃ©rification que c'est possible a été faite par la boite de selection*/

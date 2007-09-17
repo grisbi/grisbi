@@ -34,6 +34,7 @@
 #include "gsb_file_config.h"
 #include "./erreur.h"
 #include "./dialog.h"
+#include "./gsb_file.h"
 #include "./utils_str.h"
 #include "./configuration.h"
 #include "./main.h"
@@ -69,7 +70,6 @@ extern GtkWidget *window;
 gint largeur_window;
 gint hauteur_window;
 gchar *buffer_dernier_fichier;
-gchar *dernier_chemin_de_travail;
 
 /* contient le nb de derniers fichiers ouverts */
 
@@ -141,10 +141,10 @@ gboolean gsb_file_config_load_config ( void )
 						 "Can modify R",
 						 NULL );
 
-    dernier_chemin_de_travail = g_key_file_get_string ( config,
+    gsb_file_update_last_path ( g_key_file_get_string ( config,
 							"General",
 							"Path",
-							NULL );
+							NULL ));
 
     etat.alerte_permission = g_key_file_get_integer ( config,
 						      "General",
@@ -432,7 +432,7 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_string ( config,
 			    "General",
 			    "Path",
-			    dernier_chemin_de_travail );
+			    gsb_file_get_last_path () );
     g_key_file_set_integer ( config,
 			     "General",
 			     "Show permission alert",
@@ -802,10 +802,12 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Dernier_chemin_de_travail" ))
     {
-	dernier_chemin_de_travail = my_strdup (text);
+	gsb_file_update_last_path (text);
 
-	if ( !strlen (dernier_chemin_de_travail))
-	    dernier_chemin_de_travail = g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL );
+	if ( !gsb_file_get_last_path ()
+	     ||
+	     !strlen (gsb_file_get_last_path ()))
+	    gsb_file_update_last_path (g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL ));
 	return;
     }
 
@@ -1119,9 +1121,7 @@ void gsb_file_config_clean_config ( void )
     etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
     etat.affiche_boutons_valider_annuler = 1;
     etat.classement_par_date = 1;
-    dernier_chemin_de_travail = g_strconcat ( my_get_gsb_file_default_dir(),
-                          C_DIRECTORY_SEPARATOR,
-                          NULL );
+    gsb_file_update_last_path (g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL ));
     nb_derniers_fichiers_ouverts = 0;
     nb_max_derniers_fichiers_ouverts = 3;
     tab_noms_derniers_fichiers_ouverts = NULL;

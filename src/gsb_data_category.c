@@ -1,7 +1,4 @@
 /* ************************************************************************** */
-/* work with the struct of categories                                         */
-/*                                                                            */
-/*                                  data_account                              */
 /*                                                                            */
 /*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
@@ -101,8 +98,8 @@ static gint gsb_data_sub_category_compare ( struct_sub_category * a, struct_sub_
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *categories_de_base_credit [] ;
-extern gchar *categories_de_base_debit [] ;
+extern const gchar *credit_general_category_list [] ;
+extern const gchar *debit_general_category_list [] ;
 extern gsb_real null_real ;
 /*END_EXTERN*/
 
@@ -1426,9 +1423,9 @@ void gsb_data_category_create_default_category_list ( void )
 
     i = 0;
 
-    while ( categories_de_base_debit[i] )
+    while (debit_general_category_list[i] )
     {
-	gchar **tab_char = g_strsplit ( _(categories_de_base_debit[i]), " : ", 2 );
+	gchar **tab_char = g_strsplit ( _(debit_general_category_list[i]), " : ", 2 );
 	gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
 
 	if ( tab_char[1] )
@@ -1442,9 +1439,9 @@ void gsb_data_category_create_default_category_list ( void )
 
     i = 0;
 
-    while ( categories_de_base_credit[i] )
+    while (credit_general_category_list[i] )
     {
-	gchar **tab_char = g_strsplit ( categories_de_base_credit[i], " : ", 2 );
+	gchar **tab_char = g_strsplit (_(credit_general_category_list[i]), " : ", 2 );
 	gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
 	if ( tab_char[1] )
 	{
