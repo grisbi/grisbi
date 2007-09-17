@@ -121,6 +121,11 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     gtk_text_view_set_left_margin ( GTK_TEXT_VIEW(view), 12 );
     gtk_text_view_set_right_margin ( GTK_TEXT_VIEW(view), 12 );
 
+    /* Create some handy fonts. */
+    gtk_text_buffer_create_tag ( buffer, "bold", "weight", PANGO_WEIGHT_BOLD, NULL );
+    gtk_text_buffer_create_tag ( buffer, "x-large", "scale", PANGO_SCALE_X_LARGE, NULL );
+    gtk_text_buffer_create_tag ( buffer, "indented", "left-margin", 24, NULL );
+
     gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), view, gtk_label_new(NULL) );
 
     g_signal_connect_after ( notebook, "switch-page",
