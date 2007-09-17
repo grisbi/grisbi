@@ -2365,7 +2365,14 @@ gboolean gsb_transactions_list_select ( gint transaction_number )
 				       iter );
 	}
 	gtk_tree_iter_free (iter);
+
     }
+
+    if ( transaction_number != -1 )
+	gsb_menu_transaction_operations_set_sensitive ( TRUE );	
+    else
+	gsb_menu_transaction_operations_set_sensitive ( FALSE );	
+
     return FALSE;
 }
 
@@ -3559,12 +3566,8 @@ gboolean assert_selected_transaction ()
  */
 gboolean new_transaction () 
 {
-    /* We do not test it since we don't care about no selected
-       transaction */
-    assert_selected_transaction();
     gsb_form_escape_form();
-    gsb_data_account_set_current_transaction_number ( gsb_gui_navigation_get_current_account (),
-						      -1 );
+    gsb_transactions_list_select ( -1 );
     gsb_transactions_list_edit_transaction (-1);
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
