@@ -1,7 +1,7 @@
 /* permet la configuration du logiciel */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org) */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -520,7 +520,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), tip_checkbox, FALSE, FALSE, 0 );
 
     /* Warnings */
-    paddingbox = new_paddingbox_with_title (vbox_pref, TRUE, _("Warnings messages"));
+    paddingbox = new_paddingbox_with_title (vbox_pref, TRUE, _("Display following warnings messages"));
     model = GTK_TREE_MODEL(gtk_tree_store_new (3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT ));
 
     sw = gtk_scrolled_window_new ( NULL, NULL );

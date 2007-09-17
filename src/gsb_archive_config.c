@@ -227,7 +227,7 @@ GtkWidget *gsb_archive_config_create ( void )
     check_paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 						    _("Automatic check"));
     
-    button = gsb_automem_checkbutton_new ( _("Grisbi check at opening if an archive is needed."),
+    button = gsb_automem_checkbutton_new ( _("Check at opening if creating archive is needed."),
 					   &etat.check_for_archival,
 					   NULL, NULL );
     gtk_box_pack_start ( GTK_BOX (check_paddingbox),
