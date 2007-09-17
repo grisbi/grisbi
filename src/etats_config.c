@@ -51,6 +51,7 @@
 #include "./structures.h"
 #include "./include.h"
 #include "./gsb_real.h"
+#include "./fenetre_principale.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -350,9 +351,9 @@ void personnalisation_etat (void)
     if ( !(current_report_number = gsb_gui_navigation_get_current_report()))
 	return;
 
-    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
-				7 );
+				GSB_REPORTS_PAGE );
 
     dialog = gtk_dialog_new_with_buttons ( _("Report properties"), 
 					   GTK_WINDOW (window), GTK_DIALOG_MODAL, 
@@ -1306,9 +1307,10 @@ void recuperation_info_perso_etat ( void )
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
-    /* vérification que les dates init et finales sont correctes */
-
-    if (!gsb_calendar_entry_date_valid (entree_date_init_etat))
+    /* Check that custom dates are OK, but only if custom date range
+     * has been selected. */
+    if ( GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data ) == 1 &&
+	 !gsb_calendar_entry_date_valid ( entree_date_init_etat ) )
     {
 	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
 			      g_strdup_printf ( _("Invalid initial date '%s'"), 
@@ -1316,7 +1318,8 @@ void recuperation_info_perso_etat ( void )
 	return;
     }
 
-    if (!gsb_calendar_entry_date_valid (entree_date_finale_etat))
+    if ( GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data ) == 1 &&
+	 !gsb_calendar_entry_date_valid (entree_date_finale_etat ) )
     {
 	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
 			      g_strdup_printf ( _("Invalid final date '%s'"), 
