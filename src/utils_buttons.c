@@ -1,7 +1,7 @@
 /* ************************************************************************** */
-/*                                  utils_buttons.c                    */
+/*                                  utils_buttons.c			      */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2003 C�dric Auger (cedric@grisbi.org)	      */
 /*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /* 			http://www.grisbi.org				      */
