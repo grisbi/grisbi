@@ -1832,6 +1832,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tPayee_show_name=\"%d\"\n"
 					       "\t\tAmount_currency=\"%d\"\n"
 					       "\t\tAmount_exclude_null=\"%d\"\n"
+					       "\t\tPayment_method_use=\"%d\"\n"
 					       "\t\tPayment_method_list=\"%s\"\n"
 					       "\t\tUse_text=\"%d\"\n"
 					       "\t\tUse_amount=\"%d\" />\n",
@@ -1909,6 +1910,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    gsb_data_report_get_payee_show_name (report_number),
 	    gsb_data_report_get_amount_comparison_currency (report_number),
 	    gsb_data_report_get_amount_comparison_only_report_non_null (report_number),
+	    gsb_data_report_get_method_of_payment_used (report_number),
 	    payment_method_list,
 	    gsb_data_report_get_text_comparison_used (report_number),
 	    gsb_data_report_get_amount_comparison_used (report_number));
