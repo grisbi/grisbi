@@ -511,10 +511,11 @@ gint my_strncasecmp ( gchar *string_1,
 /* ******************************************************************************* */
 
 /**
- * protect the my_strdup function if the string is NULL
- * UPDATE : if the lentgth of string in 0 (ie ""), return NULL
- * 	very useful while loading file and other stuff, if makes problem,
- * 	create a second my_strdup without that ??
+ * Protect the my_strdup function if the string is NULL
+ * 
+ * If the lentgth of string in 0 (ie ""), return NULL.  That is just
+ * nonsense, but it has been done that way and disabling it would
+ * certainly cause side effects. [benj]
  *
  * \param string the string to be dupped
  *
@@ -522,9 +523,7 @@ gint my_strncasecmp ( gchar *string_1,
  * */
 gchar *my_strdup ( const gchar *string )
 {
-    if ( string
-	 &&
-	 strlen (string))
+    if ( string && strlen (string) )
 	return g_strdup (string);
     else
 	return NULL;
