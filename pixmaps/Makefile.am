@@ -5,6 +5,7 @@ grisbi_pixmapsdir = $(datadir)/pixmaps/grisbi
 grisbi_pixmaps_DATA = \
 	addresses.png \
 	aqbanking.png \
+	archive.png \
 	asset.png \
 	csv.png \
 	bank-account.png \
