@@ -248,7 +248,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     hbox = gtk_hbox_new ( TRUE, 3 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
-    reconcile_sort_list_button = gtk_check_button_new_with_label (_("Sort the list by method of payment"));
+    reconcile_sort_list_button = gtk_check_button_new_with_label (_("Sort by method of payment"));
     gtk_button_set_relief ( GTK_BUTTON (reconcile_sort_list_button), GTK_RELIEF_NONE);
     g_signal_connect ( G_OBJECT (reconcile_sort_list_button), "clicked",
 		       G_CALLBACK (gsb_reconcile_list_button_clicked), NULL );
@@ -319,7 +319,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 	end_pointer = last_name + (strlen ( last_name ) - 1) * sizeof (gchar);
 	tmp_pointer = end_pointer;
 
-	while ( tmp_pointer[0] > 47 && tmp_pointer[0] < 58 && tmp_pointer >= last_name )
+	while ( isdigit ( tmp_pointer[0] ) && tmp_pointer >= last_name )
 	    tmp_pointer--;
 
 	if ( tmp_pointer != end_pointer )
@@ -358,7 +358,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 		zero_string[digit_size-new_digit_size] = 0;
 	    }
 	    else
-		zero_string = my_strdup ("");
+		zero_string = g_strdup ("");
 
 	    /* create the new string */
 	    new_string = g_strconcat ( last_name,
