@@ -37,6 +37,7 @@
 #include "./go-charmap-sel.h"
 #include "./gsb_account.h"
 #include "./gsb_assistant.h"
+#include "./gsb_category.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
@@ -1152,7 +1153,7 @@ void traitement_operations_importees ( void )
     else
     {
 	/* Create initial lists. */
-	gsb_data_category_create_default_category_list ();
+	gsb_category_choose_default_category ();
 
 	new_file = 1;
 /* 	xxx tester ici un import sans compte ouvert que la devise et autres sont bien créés  */

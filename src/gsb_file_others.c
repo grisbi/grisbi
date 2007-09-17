@@ -414,12 +414,10 @@ gboolean gsb_file_others_load ( gchar *filename,
 	dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"),
 					 filename,
 					 latin2utf8 (strerror(errno))));
-	gsb_file_remove_name_from_opened_list (filename);
 	return FALSE;
     }
 
     /* check here if it's not a regular file */
-
     if ( !g_file_test ( filename,
 			G_FILE_TEST_IS_REGULAR ))
     {
@@ -440,7 +438,6 @@ gboolean gsb_file_others_load ( gchar *filename,
 	GMarkupParseContext *context;
 
 	/* check if it's a good file */
-
 	if ( !gsb_file_others_check_file ( file_content,
 					   origin ))
 	{
@@ -448,7 +445,9 @@ gboolean gsb_file_others_load ( gchar *filename,
 	    return FALSE;
 	}
 
-	/* for now, we load only after 0.6 files */
+	/* we load only after 0.6 files,
+	 * there is very few people who will want to upgrade previous categories, budgets...
+	 * and i'm too lazy to create an import for old files */
 	/* fill the GMarkupParser for a new xml structure */
 
 	markup_parser -> start_element = (void *) gsb_file_others_start_element;
@@ -465,7 +464,6 @@ gboolean gsb_file_others_load ( gchar *filename,
 				       NULL );
 
 	/* now, import_list contains the list of categories/budget or report */
-
 	switch ( origin )
 	{
 	    gint report_number;
@@ -496,7 +494,7 @@ gboolean gsb_file_others_load ( gchar *filename,
 
 /* 		if (report) */
 /* 		{ */
-
+/* xxx vérifier l'import/export des report */
 		report_number = gsb_data_report_new ( _("Imported report"));
 
 		    /* set the currencies */
@@ -586,25 +584,51 @@ gboolean gsb_file_others_check_file ( gchar *file_content,
 	    if ( !strncmp ( file_content,
 			    "<?xml version=\"1.0\"?>\n<Grisbi_categ>",
 			    36 ))
-		return TRUE;
-	    dialogue_error ( _("This is not a category file, loading canceled..."));
+	    {
+		/* check if not before 0.6 */
+		if ( !strncmp ( file_content,
+				"<?xml version=\"1.0\"?>\n<Grisbi_categ>\n	<General\n",
+				47 ))
+		    return TRUE;
+		else
+		    dialogue_error (_("The file version is below 0.6.0, Grisbi cannot import it."));
+	    }
+	    else
+		dialogue_error ( _("This is not a category file, loading canceled..."));
 	    break;
 
 	case 1:
+	    /* check first if it's not below 0.6 */
 	    if ( !strncmp ( file_content,
-			    "<?xml version=\"1.0\"?>\n<Grisbi_budget>",
-			    37 ))
-		return TRUE;
-	    dialogue_error ( _("This is not a budget file, loading canceled..."));
-
+			    "<?xml version=\"1.0\"?>\n<Grisbi_ib>",
+			    33 ))
+		    dialogue_error (_("The file version is below 0.6.0, Grisbi cannot import it."));
+	    else
+	    {
+		if ( !strncmp ( file_content,
+				"<?xml version=\"1.0\"?>\n<Grisbi_budget>",
+				37 ))
+		    return TRUE;
+		else
+		    dialogue_error ( _("This is not a budget file, loading canceled..."));
+	    }
 	    break;
 
 	case 2:
+	    /* check first if it's not below 0.6 */
 	    if ( !strncmp ( file_content,
-			    "<?xml version=\"1.0\"?>\n<Grisbi_report>",
-			    37 ))
-		return TRUE;
-	    dialogue_error ( _("This is not a report file, loading canceled..."));
+			    "<?xml version=\"1.0\"?>\n<Grisbi_etat>",
+			    35 ))
+		dialogue_error (_("The file version is below 0.6.0, Grisbi cannot import it."));
+	    else
+	    {
+		if ( !strncmp ( file_content,
+				"<?xml version=\"1.0\"?>\n<Grisbi_report>",
+				37 ))
+		    return TRUE;
+		else
+		    dialogue_error ( _("This is not a report file, loading canceled..."));
+	    }
 	    break;
     }
 
@@ -618,7 +642,6 @@ void gsb_file_others_start_element ( GMarkupParseContext *context,
 				     GSList **import_list,
 				     GError **error)
 {
-    /* FIXME : the functions to import payee/categ/budget and report must be made again */
     if ( !strcmp ( element_name,
 		   "Category" ))
     {

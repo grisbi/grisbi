@@ -6,5 +6,6 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
+gboolean gsb_category_choose_default_category ( void );
 /* END_DECLARATION */
 #endif

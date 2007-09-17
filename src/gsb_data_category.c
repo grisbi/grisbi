@@ -98,8 +98,10 @@ static gint gsb_data_sub_category_compare ( struct_sub_category * a, struct_sub_
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern const gchar *association_category_list [] ;
 extern const gchar *credit_general_category_list [] ;
 extern const gchar *debit_general_category_list [] ;
+extern const gchar *liberal_category_list [] ;
 extern gsb_real null_real ;
 /*END_EXTERN*/
 
@@ -1409,47 +1411,84 @@ void gsb_data_category_remove_transaction_from_category ( gint transaction_numbe
  * create the default list of categories
  * fill category_list with the default categories
  *
- * \param
+ * \param category_type the type of category we want (0 = normal list, 1 = association list, 2 = liberal list)
  *
  * \return
  * */
-void gsb_data_category_create_default_category_list ( void )
+void gsb_data_category_create_default_category_list ( gint category_type )
 {
-    gint i;
+    gint i = 0;
     
-    /* xxx FIXME : should ask here for different kind of categories,
-     * or leave them blank...
-     * */
-
-    i = 0;
-
-    while (debit_general_category_list[i] )
+    switch (category_type)
     {
-	gchar **tab_char = g_strsplit ( _(debit_general_category_list[i]), " : ", 2 );
-	gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
+	case 0:
+	    /* normal categories */
 
-	if ( tab_char[1] )
-	{
-	    gsb_data_category_get_sub_category_number_by_name ( categ,
-								_(tab_char[1]),
-								TRUE );
-	}
-	i++;
-    }
+	    while (debit_general_category_list[i] )
+	    {
+		gchar **tab_char = g_strsplit ( _(debit_general_category_list[i]), " : ", 2 );
+		gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
 
-    i = 0;
+		if ( tab_char[1] )
+		{
+		    gsb_data_category_get_sub_category_number_by_name ( categ,
+									_(tab_char[1]),
+									TRUE );
+		}
+		i++;
+	    }
 
-    while (credit_general_category_list[i] )
-    {
-	gchar **tab_char = g_strsplit (_(credit_general_category_list[i]), " : ", 2 );
-	gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
-	if ( tab_char[1] )
-	{
-	    gsb_data_category_get_sub_category_number_by_name ( categ,
-								tab_char[1],
-								TRUE );
-	}
-	i++;
+	    i = 0;
+
+	    while (credit_general_category_list[i] )
+	    {
+		gchar **tab_char = g_strsplit (_(credit_general_category_list[i]), " : ", 2 );
+		gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
+		if ( tab_char[1] )
+		{
+		    gsb_data_category_get_sub_category_number_by_name ( categ,
+									tab_char[1],
+									TRUE );
+		}
+		i++;
+	    }
+	    break;
+
+	case 1:
+	    /* association categories */
+
+	    while (association_category_list[i])
+	    {
+		gchar **tab_char = g_strsplit ( _(association_category_list[i]), " : ", 2 );
+		gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
+
+		if ( tab_char[1] )
+		{
+		    gsb_data_category_get_sub_category_number_by_name ( categ,
+									_(tab_char[1]),
+									TRUE );
+		}
+		i++;
+	    }
+	    break;
+
+	case 2:
+	    /* liberal categories */
+
+	    while (liberal_category_list[i])
+	    {
+		gchar **tab_char = g_strsplit ( _(liberal_category_list[i]), " : ", 2 );
+		gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
+
+		if ( tab_char[1] )
+		{
+		    gsb_data_category_get_sub_category_number_by_name ( categ,
+									_(tab_char[1]),
+									TRUE );
+		}
+		i++;
+	    }
+	    break;
     }
 }
 

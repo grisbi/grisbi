@@ -54,6 +54,7 @@ static void file_selection_check_filename_signal(GtkWidget *selection_fichier);
 static gchar* file_selection_get_entry(GtkFileChooser* filesel);
 static GSList * file_selection_get_selections(GtkFileChooser* filesel);
 static void file_selection_overwrite_file_check_signal(GtkWidget *selection_fichier);
+static void file_selection_set_filename(GtkFileChooser* filesel,const gchar* utf8filename);
 /*END_STATIC*/
 
 /*START_EXTERN*/

@@ -36,10 +36,10 @@
 #include "./dialog.h"
 #include "./utils_file_selection.h"
 #include "./gsb_account.h"
+#include "./gsb_category.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive_store.h"
-#include "./gsb_data_category.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_file_config.h"
@@ -125,12 +125,12 @@ gboolean gsb_file_new ( void )
     if ( ! gsb_currency_config_add_currency ( NULL, NULL ) )
 	return FALSE;
 
+    /* Create initial lists. */
+    gsb_category_choose_default_category ();
+
     /* create the first account */
     if (!gsb_account_new ())
 	return FALSE;
-
-    /* Create initial lists. */
-    gsb_data_category_create_default_category_list ();
 
     /* init the gui */
     gsb_file_new_gui ();
