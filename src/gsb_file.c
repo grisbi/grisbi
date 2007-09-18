@@ -2,8 +2,8 @@
 /* Ce fichier comprend toutes les opérations concernant le traitement	      */
 /* des fichiers								      */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -499,7 +499,7 @@ gboolean gsb_file_open_file ( gchar *filename )
  */
 gboolean gsb_file_save ( void )
 {
-    return gsb_file_save_file ( -2 );
+    return gsb_file_save_file ( 0 );
 }
 
 

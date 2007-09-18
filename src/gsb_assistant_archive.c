@@ -43,6 +43,7 @@
 #include "./utils.h"
 #include "./structures.h"
 #include "./include.h"
+#include "./utils_dates.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -80,7 +81,7 @@ static GtkWidget *label_archived;
 
 static GtkWidget *vbox_congratulation;
 static GtkWidget *vbox_failed;
-static GtkTextView *congratulations_view;
+static GtkWidget *congratulations_view;
 
 static GSList *list_transaction_to_archive = NULL;
 
@@ -523,7 +524,7 @@ static gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assist
 	g_free ( string );
     }
 
-    gsb_assistant_sensitive_button_next ( assistant, FALSE );
+    gsb_assistant_sensitive_button_next ( assistant, TRUE );
 
     return FALSE;
 }
@@ -551,7 +552,7 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
     gchar *string;
     GtkTextBuffer * buffer;
     GtkTextIter     iter;
-
+printf ( "ça passe\n");
     if (!list_transaction_to_archive)
     {
 	/* should not happen */
@@ -562,6 +563,7 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
 
     /* first, create the archive */
     archive_number = gsb_data_archive_new (gtk_entry_get_text (GTK_ENTRY (name_entry)));
+    printf ( "%d\n", archive_number);
     if (!archive_number)
     {
 	gtk_widget_hide (vbox_congratulation);
@@ -667,7 +669,9 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 
     notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
     
-    if (list_transaction_to_archive)
+    if (gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU
+	&&
+	list_transaction_to_archive)
     {
 	g_slist_free (list_transaction_to_archive);
 	list_transaction_to_archive = NULL;
@@ -788,7 +792,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
     if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU &&
 	 GTK_WIDGET_IS_SENSITIVE (report_button))
     {
-	/* ok for now the choice is on fyear */
+	/* ok for now the choice is on report */
 	gint report_number;
 	string = NULL;
 
@@ -811,15 +815,13 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
     }
 
     /* update the labels */
-    if (list_transaction_to_archive)
+    if (gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU
+	&&
+	list_transaction_to_archive)
     {
 	/* there is some transactions to archive */
-	gint length;
-
-	length = g_slist_length (list_transaction_to_archive);
-
 	string = g_strdup_printf (_("%d transactions out of %d will be archived."),
-				  length,
+				  g_slist_length (list_transaction_to_archive),
 				  g_slist_length (gsb_data_transaction_get_transactions_list () ) );
 	gtk_label_set_text ( GTK_LABEL (label_archived),
 			     string);
