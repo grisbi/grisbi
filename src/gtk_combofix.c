@@ -603,7 +603,9 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
      * COMBOFIX_COL_VISIBLE_STRING (a string) : what we see in the combofix
      * COMBOFIX_COL_REAL_STRING (a string) : what we set in the entry when selecting something
      * COMBOFIX_COL_VISIBLE (a boolean) : if that line has to be showed
-     * COMBOFIX_COL_LIST_NUMBER (a int) : the number of the list for a complex combofix (0 else), -1 for separator */
+     * COMBOFIX_COL_LIST_NUMBER (a int) : the number of the list for a complex combofix (0 else)
+     * COMBOFIX_COL_SEPARATOR (a boolean) : TRUE for a separator
+     * */
     combofix -> store = gtk_tree_store_new ( 5,
 					     G_TYPE_STRING,
 					     G_TYPE_STRING,
@@ -816,6 +818,8 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
 	new_string = my_strdup (entry_string);
 
 	while (!completed_string
+	       &&
+	       new_string
 	       &&
 	       strlen (new_string))
 	{
@@ -1489,7 +1493,7 @@ static gboolean gtk_combofix_choose_selection ( GtkComboFix *combofix )
 /**
  * called to move the selection in the tree_view
  * didn't succeed to give the focus to the tree_view so must do
- * this manuall
+ * this manual
  *
  * \param combofix
  * \param direction a combofix_key_direction
@@ -1513,7 +1517,6 @@ static gboolean gtk_combofix_move_selection ( GtkComboFix *combofix,
 					  &sorted_iter ))
     {
 	/* there is already a selection */
-
 	gint i;
 
 	switch (direction)
@@ -1547,10 +1550,26 @@ static gboolean gtk_combofix_move_selection ( GtkComboFix *combofix,
     }
     else
     {
-	/* there is no current selection */
-
-	result = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (combofix -> model_sort),
-						 &sorted_iter );
+	/* there is no current selection,
+	 * get the first selectable line */
+	gint separator = 0;
+	do
+	{
+	    if (separator)
+		result = gtk_tree_model_iter_next ( GTK_TREE_MODEL (combofix -> model_sort),
+						    &sorted_iter);
+	    else
+		result = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (combofix -> model_sort),
+							 &sorted_iter );
+	    if (result)
+		gtk_tree_model_get ( GTK_TREE_MODEL (combofix -> model_sort),
+				     &sorted_iter,
+				     COMBOFIX_COL_SEPARATOR, &separator,
+				     -1 );
+	    else
+		separator = 0;
+	}
+	while (separator);
     }
 
     if (result)
@@ -1652,6 +1671,7 @@ static gboolean gtk_combofix_move_selection_one_step ( GtkComboFix *combofix,
     GtkTreePath *path;
     GtkTreePath *saved_path;
     GtkTreeModel *model;
+    gint separator;
 
     model = combofix -> model_sort;
     path = gtk_tree_model_get_path ( model,
@@ -1661,80 +1681,105 @@ static gboolean gtk_combofix_move_selection_one_step ( GtkComboFix *combofix,
     switch (direction)
     {
 	case COMBOFIX_DOWN:
-	    if ( gtk_tree_model_iter_has_child ( model,
-						 iter)
-		 &&
-		 gtk_tree_view_row_expanded ( GTK_TREE_VIEW (combofix -> tree_view),
-					      path ))
-		gtk_tree_path_down (path);
-	    else
-		gtk_tree_path_next (path);
-
-	    result = gtk_tree_model_get_iter ( model,
-					       iter,
-					       path );
-
-	    /* if result is FALSE, perhaps we are on the end of the children list... */
-	    if (!result
-		&&
-		gtk_tree_path_get_depth (path) > 1)
+	    do
 	    {
-		gtk_tree_path_up (path);
-		gtk_tree_path_next (path);
-		result = gtk_tree_model_get_iter ( model,
-						   iter,
-						   path );
-	    }
-	    break;
-
-	case COMBOFIX_UP:
-	    result = gtk_tree_path_prev (path);
-
-	    if (result)
-	    {
-		/* there is a prev path, but now, if we are on a parent, go to the last child,
-		 * else, stay there */
-		result = gtk_tree_model_get_iter ( model,
-						   iter,
-						   path );
-
-		if ( result
-		     &&
-		     gtk_tree_model_iter_has_child ( model,
+		if ( gtk_tree_model_iter_has_child ( model,
 						     iter)
 		     &&
 		     gtk_tree_view_row_expanded ( GTK_TREE_VIEW (combofix -> tree_view),
 						  path ))
-		{
-		    /* there is some children, go to the last one */
-		    gint i;
-
 		    gtk_tree_path_down (path);
+		else
+		    gtk_tree_path_next (path);
 
-		    for ( i=0 ; i<gtk_tree_model_iter_n_children ( model, iter ) - 1 ; i++ )
-			gtk_tree_path_next (path);
+		result = gtk_tree_model_get_iter ( model,
+						   iter,
+						   path );
 
-		    result = gtk_tree_model_get_iter ( model,
-						       iter,
-						       path );
-		}
-	    }
-	    else
-	    {
-		/* there is no prev path, if we are not on the toplevel, go to the
-		 * parent */
-
-		if ( gtk_tree_path_get_depth (path) > 1)
+		/* if result is FALSE, perhaps we are on the end of the children list... */
+		if (!result
+		    &&
+		    gtk_tree_path_get_depth (path) > 1)
 		{
 		    gtk_tree_path_up (path);
+		    gtk_tree_path_next (path);
 		    result = gtk_tree_model_get_iter ( model,
 						       iter,
 						       path );
 		}
+
+		/* check if we are not on a separator */
+		if (result)
+		    gtk_tree_model_get ( model,
+					 iter,
+					 COMBOFIX_COL_SEPARATOR, &separator,
+					 -1 );
+		else
+		    separator = 0;
 	    }
+	    while (separator);
+	    break;
+
+	case COMBOFIX_UP:
+	    do
+	    {
+		result = gtk_tree_path_prev (path);
+
+		if (result)
+		{
+		    /* there is a prev path, but now, if we are on a parent, go to the last child,
+		     * else, stay there */
+		    result = gtk_tree_model_get_iter ( model,
+						       iter,
+						       path );
+
+		    if ( result
+			 &&
+			 gtk_tree_model_iter_has_child ( model,
+							 iter)
+			 &&
+			 gtk_tree_view_row_expanded ( GTK_TREE_VIEW (combofix -> tree_view),
+						      path ))
+		    {
+			/* there is some children, go to the last one */
+			gint i;
+
+			gtk_tree_path_down (path);
+
+			for ( i=0 ; i<gtk_tree_model_iter_n_children ( model, iter ) - 1 ; i++ )
+			    gtk_tree_path_next (path);
+
+			result = gtk_tree_model_get_iter ( model,
+							   iter,
+							   path );
+		    }
+		}
+		else
+		{
+		    /* there is no prev path, if we are not on the toplevel, go to the
+		     * parent */
+
+		    if ( gtk_tree_path_get_depth (path) > 1)
+		    {
+			gtk_tree_path_up (path);
+			result = gtk_tree_model_get_iter ( model,
+							   iter,
+							   path );
+		    }
+		}
+		/* check if we are not on a separator */
+		if (result)
+		    gtk_tree_model_get ( model,
+					 iter,
+					 COMBOFIX_COL_SEPARATOR, &separator,
+					 -1 );
+		else
+		    separator = 0;
+	    }
+	    while (separator);
 	    break;
     }
-    
+
     gtk_tree_path_free (path);
 
     /* if result is FALSE, iter was changed so set it to its initial value */

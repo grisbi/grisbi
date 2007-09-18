@@ -43,9 +43,6 @@
 extern GtkWidget *window;
 /*END_EXTERN*/
 
-/* xxx quand on supprime un tiers/catég/ib */
-/* <benj> avec des opérations */
-/* <benj> le menu déroulant pour les déplacer ne marche pas */
 
 /* declarations of the initial general categories */
 const gchar *debit_general_category_list [] = {

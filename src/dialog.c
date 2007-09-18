@@ -214,7 +214,7 @@ GtkWidget * dialogue_special_no_run ( GtkMessageType param, GtkButtonsType butto
 				      param, buttons, text );
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
 
-    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
 
     return dialog;
 }
@@ -496,7 +496,7 @@ gboolean question_conditional_yes_no_special ( gchar * hint, gchar * message, gc
     dialog = dialogue_conditional_new ( make_hint ( hint, message ), var, GTK_MESSAGE_INFO,
 					GTK_BUTTONS_YES_NO );
     if ( ! dialog )
-	return;
+	return FALSE;
 
     response = gtk_dialog_run ( GTK_DIALOG (dialog) );
     gtk_widget_destroy ( GTK_WIDGET (dialog));
