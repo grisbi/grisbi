@@ -23,7 +23,6 @@ src/etats_support.c
 src/export.c
 src/export_csv.c
 src/fenetre_principale.c
-src/fichiers_gestion.c
 src/go-charmap-sel.c
 src/go-optionmenu.c
 src/gsb_account.c
@@ -36,6 +35,7 @@ src/gsb_autofunc.c
 src/gsb_automem.c
 src/gsb_bank.c
 src/gsb_calendar_entry.c
+src/gsb_category.c
 src/gsb_combo_box.c
 src/gsb_crypt.c
 src/gsb_currency.c
@@ -60,6 +60,7 @@ src/gsb_data_report.c
 src/gsb_data_report_text_comparison.c
 src/gsb_data_scheduled.c
 src/gsb_data_transaction.c
+src/gsb_file.c
 src/gsb_file_config.c
 src/gsb_file_debug.c
 src/gsb_file_load.c
