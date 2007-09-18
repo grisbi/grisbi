@@ -1512,7 +1512,7 @@ gboolean gsb_data_category_merge_category_list ( GSList *list_to_merge )
 	gint category_number;
 
 	category_number = GPOINTER_TO_INT (list_tmp -> data);
-
+exit (0);
 	/* we check category_number but normally it will always != 0 */
 	if ( category_number )
 	{

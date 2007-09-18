@@ -90,6 +90,7 @@ gint gsb_data_report_get_transfer_choice ( gint report_number );
 gint gsb_data_report_get_transfer_reports_only ( gint report_number );
 gint gsb_data_report_get_use_financial_year ( gint report_number );
 gboolean gsb_data_report_init_variables ( void );
+gint gsb_data_report_max_number ( void );
 gint gsb_data_report_new ( gchar *name );
 gint gsb_data_report_new_with_number ( gint number );
 gboolean gsb_data_report_remove ( gint no_report );

@@ -470,15 +470,11 @@ gboolean gsb_file_others_load ( gchar *filename,
 
 	    case 0:
 		/* comes for category */
-
-		gsb_data_category_merge_category_list ( import_list );
 		remplit_arbre_categ ();
 		break;
 
 	    case 1:
 		/* comes for budget */
-
-		gsb_data_budget_merge_budget_list ( import_list );
 		remplit_arbre_imputation ();
 		break;
 
@@ -490,13 +486,11 @@ gboolean gsb_file_others_load ( gchar *filename,
 		 * so we erase them here because perhaps they doesn't exist and show
 		 * a warning : the user has to do it by himself (untill a druid to help him ?) */
 
-/* 		report = import_list -> data; */
+		/* we import only 1 report, so it's the last one */
+		report_number = gsb_data_report_max_number ();
 
-/* 		if (report) */
-/* 		{ */
-/* xxx vérifier l'import/export des report */
-		report_number = gsb_data_report_new ( _("Imported report"));
-
+		if (report_number)
+		{
 		    /* set the currencies */
 		    gsb_data_report_set_currency_general ( report_number,
 							   1 );
@@ -531,21 +525,20 @@ gboolean gsb_file_others_load ( gchar *filename,
 		    gsb_data_report_set_method_of_payment_list ( report_number,
 								 NULL );
 
-		    /* append it to the list */
-/* 		    liste_struct_etats = g_slist_append ( liste_struct_etats,  */
-/* 							  report ); */
-/* 		    gsb_gui_navigation_add_report ( report ); */
+		    gsb_gui_navigation_add_report ( report_number );
 
 		    /* inform the user of that */
 		    dialogue_hint ( _("Some things in a report cannot be imported :\nThe selected lists of financial years, accounts, transfer accounts, categories, budgetaries, parties and kind of payments.\nSo that lists have been erased while the import.\nThe currencies have been set too on the first currency of this grisbi file.\nYou should check and modify that in the property box of that account."),
 				    _("Importing a report"));
-/* 		} */
+		}
 		break;
 	}
 
 	g_markup_parse_context_free (context);
 	g_free (markup_parser);
 	g_free (file_content);
+
+	modification_fichier (TRUE);
     }
     else
     {

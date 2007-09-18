@@ -1592,6 +1592,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
     {
 	gchar *new_string;
 	gint report_number;
+	gint report_number_to_write;
 	GSList *pointer_list;
 	gchar *general_sort_type;
 	gchar *financial_year_select;
@@ -1604,6 +1605,9 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	GSList *list_tmp_2;
 	gchar *date_start;
 	gchar *date_end;
+	gchar *report_name;
+	gint amount_comparison_number_to_write;
+	gint text_comparison_number_to_write;
 	
 	report_number = gsb_data_report_get_report_number (list_tmp -> data);
 
@@ -1616,6 +1620,23 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    list_tmp = list_tmp -> next;
 	    continue;
 	}
+
+	/* if current_report is set, this mean we export the report,
+	 * we cannot save the number should be automaticly given while
+	 * importing, so set the report number to -1 */
+	if (current_report)
+	    report_number_to_write = -1;
+	else
+	    report_number_to_write = report_number;
+
+	/* set the name, it will be the normal name except if we are exporting
+	 * the report, we add 'export' at the end */
+	if (current_report)
+	    report_name = g_strconcat ( gsb_data_report_get_report_name (report_number),
+					" (export)",
+					NULL );
+	else
+	    report_name = my_strdup (gsb_data_report_get_report_name (report_number));
 
 	/* set the general sort type */
 	pointer_list = gsb_data_report_get_sorting_type (report_number);
@@ -1837,8 +1858,8 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tPayment_method_list=\"%s\"\n"
 					       "\t\tUse_text=\"%d\"\n"
 					       "\t\tUse_amount=\"%d\" />\n",
-	    report_number,
-	    gsb_data_report_get_report_name (report_number),
+	    report_number_to_write,
+	    report_name,
 	    general_sort_type,
 	    gsb_data_report_get_show_r (report_number),
 	    gsb_data_report_get_show_report_transactions (report_number),
@@ -1916,6 +1937,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    gsb_data_report_get_text_comparison_used (report_number),
 	    gsb_data_report_get_amount_comparison_used (report_number));
 
+	g_free (report_name);
 	g_free (general_sort_type);
 	g_free (financial_year_select);
 	g_free (account_selected);
@@ -1944,8 +1966,15 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	    text_comparison_number = GPOINTER_TO_INT (list_tmp_2 -> data);
 
-	    /* now we can fill the file content */
+	    /* if current_report is set, this mean we export the report,
+	     * we cannot save the number should be automaticly given while
+	     * importing, so set the report number to -1 */
+	    if (current_report)
+		text_comparison_number_to_write = -1;
+	    else
+		text_comparison_number_to_write = text_comparison_number;
 
+	    /* now we can fill the file content */
 	    new_string = g_markup_printf_escaped ( "\t<Text_comparison\n"
 						   "\t\tComparison_number=\"%d\"\n"
 						   "\t\tReport_nb=\"%d\"\n"
@@ -1959,8 +1988,8 @@ gulong gsb_file_save_report_part ( gulong iterator,
 						   "\t\tComparison_2=\"%d\"\n"
 						   "\t\tAmount_1=\"%d\"\n"
 						   "\t\tAmount_2=\"%d\" />\n",
-						   text_comparison_number,
-						   report_number,
+						   text_comparison_number_to_write,
+						   report_number_to_write,
 						   gsb_data_report_text_comparison_get_link_to_last_text_comparison (text_comparison_number),
 						   gsb_data_report_text_comparison_get_field (text_comparison_number),
 						   gsb_data_report_text_comparison_get_operator (text_comparison_number),
@@ -1974,7 +2003,6 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	    /* append the new string to the file content
 	     * and take the new iterator */
-
 	    iterator = gsb_file_save_append_part ( iterator,
 						   length_calculated,
 						   file_content,
@@ -1995,6 +2023,14 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	    amount_comparison_number = GPOINTER_TO_INT (list_tmp_2 -> data);
 
+	    /* if current_report is set, this mean we export the report,
+	     * we cannot save the number should be automaticly given while
+	     * importing, so set the report number to -1 */
+	    if (current_report)
+		amount_comparison_number_to_write = -1;
+	    else
+		amount_comparison_number_to_write = amount_comparison_number;
+
 	    /* set the numbers */
 	    first_amount = gsb_real_get_string (gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number));
 	    second_amount = gsb_real_get_string (gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number));
@@ -2009,8 +2045,8 @@ gulong gsb_file_save_report_part ( gulong iterator,
 						   "\t\tComparison_2=\"%d\"\n"
 						   "\t\tAmount_1=\"%s\"\n"
 						   "\t\tAmount_2=\"%s\" />\n",
-						   amount_comparison_number,
-						   report_number,
+						   amount_comparison_number_to_write,
+						   report_number_to_write,
 						   gsb_data_report_amount_comparison_get_link_to_last_amount_comparison (amount_comparison_number),
 						   gsb_data_report_amount_comparison_get_first_comparison (amount_comparison_number),
 						   gsb_data_report_amount_comparison_get_link_first_to_second_part (amount_comparison_number),

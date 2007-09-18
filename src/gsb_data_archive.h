@@ -14,7 +14,6 @@ gint gsb_data_archive_get_from_fyear ( gint fyear_number );
 gint gsb_data_archive_get_fyear ( gint archive_number );
 const gchar *gsb_data_archive_get_name ( gint archive_number );
 gint gsb_data_archive_get_no_archive ( gpointer archive_ptr );
-gint gsb_data_archive_get_number_by_name ( const gchar *name );
 const gchar *gsb_data_archive_get_report_title ( gint archive_number );
 gboolean gsb_data_archive_init_variables ( void );
 gint gsb_data_archive_new ( const gchar *name );

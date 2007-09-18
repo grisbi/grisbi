@@ -64,6 +64,7 @@ typedef struct
 /*START_STATIC*/
 static gint gsb_data_archive_compare ( gint archive_number_1,
 				gint archive_number_2 );
+static gint gsb_data_archive_get_number_by_name ( const gchar *name );
 static gint gsb_data_archive_get_pointer_from_name_in_glist ( struct_archive *archive,
 						       const gchar *name );
 static gpointer gsb_data_archive_get_structure ( gint archive_number );

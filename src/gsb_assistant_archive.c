@@ -35,6 +35,7 @@
 #include "./gsb_calendar_entry.h"
 #include "./gsb_data_archive.h"
 #include "./gsb_data_transaction.h"
+#include "./utils_dates.h"
 #include "./gsb_fyear.h"
 #include "./gsb_report.h"
 #include "./traitement_variables.h"
@@ -43,7 +44,6 @@
 #include "./utils.h"
 #include "./structures.h"
 #include "./include.h"
-#include "./utils_dates.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

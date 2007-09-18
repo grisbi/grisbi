@@ -2928,7 +2928,12 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    report_number = gsb_data_report_new_with_number (utils_str_atoi (attribute_values[i]));
+	    /* if the number is -1, it means we are importing a report, so let grisbi choose the
+	     * report number */
+	    if (utils_str_atoi (attribute_values[i]) == -1)
+		report_number = gsb_data_report_new (NULL);
+	    else
+		report_number = gsb_data_report_new_with_number (utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3672,7 +3677,12 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Comparison_number" ))
 	{
-	    text_comparison_number = gsb_data_report_text_comparison_new (utils_str_atoi (attribute_values[i]));
+	    /* if comparison number is -1, it's an import of report,
+	     * so let grisbi choose the good number */
+	    if (utils_str_atoi (attribute_values[i]) == -1)
+		text_comparison_number = gsb_data_report_text_comparison_new (0);
+	    else
+		text_comparison_number = gsb_data_report_text_comparison_new (utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3681,8 +3691,18 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
 		       "Report_nb" ))
 	{
 	    report_number = utils_str_atoi (attribute_values[i]);
-	    gsb_data_report_text_comparison_set_report_number ( text_comparison_number,
-								report_number );
+
+	    /* if report_number = -1, it's an import of report,
+	     * so that comparison structure must be associated to the last report_number saved */
+	    if (report_number == -1)
+	    {
+		report_number = gsb_data_report_max_number ();
+		gsb_data_report_text_comparison_set_report_number ( text_comparison_number,
+								    report_number);
+	    }
+	    else
+		gsb_data_report_text_comparison_set_report_number ( text_comparison_number,
+								    report_number );
 	    i++;
 	    continue;
 	}
@@ -3820,7 +3840,12 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Comparison_number" ))
 	{
-	    amount_comparison_number = gsb_data_report_amount_comparison_new (utils_str_atoi (attribute_values[i]));
+	    /* if comparison number is -1, it's an import of report,
+	     * so let grisbi choose the good number */
+	    if (utils_str_atoi (attribute_values[i]) == -1)
+		amount_comparison_number = gsb_data_report_amount_comparison_new (0);
+	    else
+		amount_comparison_number = gsb_data_report_amount_comparison_new (utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -3829,8 +3854,18 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
 		       "Report_nb" ))
 	{
 	    report_number = utils_str_atoi (attribute_values[i]);
-	    gsb_data_report_amount_comparison_set_report_number ( amount_comparison_number,
-								  report_number);
+
+	    /* if report_number = -1, it's an import of report,
+	     * so that comparison structure must be associated to the last report_number saved */
+	    if (report_number == -1)
+	    {
+		report_number = gsb_data_report_max_number ();
+		gsb_data_report_amount_comparison_set_report_number ( amount_comparison_number,
+								      report_number);
+	    }
+	    else
+		gsb_data_report_amount_comparison_set_report_number ( amount_comparison_number,
+								      report_number);
 	    i++;
 	    continue;
 	}
