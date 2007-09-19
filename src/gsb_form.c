@@ -47,8 +47,8 @@
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
 #include "./utils_dates.h"
-#include "./gsb_form_transaction.h"
 #include "./gsb_form_scheduler.h"
+#include "./gsb_form_transaction.h"
 #include "./gsb_form_widget.h"
 #include "./gsb_fyear.h"
 #include "./navigation.h"
@@ -858,6 +858,24 @@ gboolean gsb_form_set_expander_visible ( gboolean visible,
 
 
 /**
+ * show/hide the form according to the expander,
+ * this will emit a signal as if the user changed it by himself
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_switch_expander ( void )
+{
+    gboolean expanded;
+
+    expanded = gtk_expander_get_expanded (GTK_EXPANDER (form_expander));
+    gtk_expander_set_expanded ( GTK_EXPANDER (form_expander),
+				!expanded );
+    return FALSE;
+}
+
+/**
  * called when change the state of the expander
  *
  * \param expander
@@ -867,6 +885,7 @@ gboolean gsb_form_set_expander_visible ( gboolean visible,
 gboolean gsb_form_activate_expander ( GtkWidget *expander,
 				      gpointer null )
 {
+    printf ( "ça passe\n" );
     if ( gtk_expander_get_expanded (GTK_EXPANDER (expander)))
     {
 	gsb_form_widget_free_list ();
@@ -2010,7 +2029,7 @@ gboolean gsb_form_finish_edition ( void )
     /* if the party is a report, we make as transactions as the number of parties in the
      * report. So we create a list with the party's numbers or -1 if it's a normal
      * party */
-    payee_list = gsb_form_get_parties_list_from_report ();
+    payee_list = gsb_form_transaction_get_parties_list_from_report ();
 
     /* now we go throw the list */
     list_tmp = payee_list;
@@ -2121,9 +2140,9 @@ gboolean gsb_form_finish_edition ( void )
 		     (breakdown_transaction_number = gsb_form_transactions_look_for_last_party ( gsb_data_transaction_get_party_number (transaction_number),
 												 transaction_number,
 												 gsb_data_transaction_get_account_number(transaction_number))))
-		    gsb_transactions_list_recover_breakdowns_of_transaction ( transaction_number,
-									      breakdown_transaction_number,
-									      gsb_data_transaction_get_account_number (breakdown_transaction_number));
+		    gsb_form_transaction_recover_breakdowns_of_transaction ( transaction_number,
+									     breakdown_transaction_number,
+									     gsb_data_transaction_get_account_number (breakdown_transaction_number));
 	    }
 	    else
 		gsb_transactions_list_update_transaction (transaction_number);
@@ -2727,9 +2746,9 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		    /* need to check a lot of things and create the contra-transaction for a transaction,
 		     * but nothing to do for a scheduled transaction because no contra-transaction */
 		    if (is_transaction)
-			gsb_form_validate_transfer ( transaction_number,
-						     new_transaction,
-						     account_transfer );
+			gsb_form_transaction_validate_transfer ( transaction_number,
+								 new_transaction,
+								 account_transfer );
 		    else
 			gsb_data_scheduled_set_account_number_transfer (transaction_number, account_transfer);
 	    }

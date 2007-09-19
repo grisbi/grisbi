@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_form_widget.h"
-#include "./gsb_form_transaction.h"
 #include "./erreur.h"
 #include "./gsb_calendar_entry.h"
 #include "./gsb_currency.h"
@@ -40,6 +39,7 @@
 #include "./gsb_data_form.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_form.h"
+#include "./gsb_form_transaction.h"
 #include "./gsb_fyear.h"
 #include "./gsb_payment_method.h"
 #include "./gtk_combofix.h"
@@ -289,7 +289,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 				    GTK_RELIEF_NONE );
 	    g_signal_connect ( GTK_OBJECT (  widget ),
 			       "clicked",
-			       G_CALLBACK ( click_sur_bouton_voir_change ),
+			       G_CALLBACK (gsb_form_transaction_change_clicked),
 			       NULL );
 	    break;
 

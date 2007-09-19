@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_form_transaction.h"
-#include "./gsb_transactions_list.h"
 #include "./erreur.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
@@ -43,11 +42,10 @@
 #include "./gsb_form_widget.h"
 #include "./gsb_payment_method.h"
 #include "./gsb_real.h"
+#include "./gsb_transactions_list.h"
 #include "./gtk_combofix.h"
-#include "./menu.h"
 #include "./dialog.h"
 #include "./etats_calculs.h"
-#include "./utils.h"
 #include "./gtk_combofix.h"
 #include "./gsb_data_form.h"
 #include "./include.h"
@@ -60,14 +58,9 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gboolean block_menu_cb ;
-extern gint hauteur_ligne_liste_opes;
-extern GtkItemFactory *item_factory_menu_general;
 extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
-
-/* xxx unifier les noms de fonctions ici */
 
 /**
  * if only the date and payee are filled in the form, fill all the fields with
@@ -256,9 +249,9 @@ void gsb_form_transaction_check_change_button ( gint currency_number,
  *
  * \return FALSE
  * */
-gboolean gsb_transactions_list_recover_breakdowns_of_transaction ( gint new_transaction_number,
-								   gint no_last_breakdown,
-								   gint no_account )
+gboolean gsb_form_transaction_recover_breakdowns_of_transaction ( gint new_transaction_number,
+								  gint no_last_breakdown,
+								  gint no_account )
 {
     gint result;
     GSList *list_tmp_transactions;
@@ -291,8 +284,6 @@ gboolean gsb_transactions_list_recover_breakdowns_of_transaction ( gint new_tran
 }
 
 
-
-
 /**
  * return a list of numbers of parties if the party in the form is a 
  * report
@@ -301,7 +292,7 @@ gboolean gsb_transactions_list_recover_breakdowns_of_transaction ( gint new_tran
  * 
  * \return a g_slist, with -1 if it's a normal party or a list of parties if it's a report
  * */
-GSList *gsb_form_get_parties_list_from_report ( void )
+GSList *gsb_form_transaction_get_parties_list_from_report ( void )
 {
     GSList *parties_list;
 
@@ -370,6 +361,8 @@ GSList *gsb_form_get_parties_list_from_report ( void )
     return parties_list;
 }
 
+
+
 /**
  * validate a transfert from a form :
  * - create the contra-transaction
@@ -382,9 +375,9 @@ GSList *gsb_form_get_parties_list_from_report ( void )
  * 
  * \return the number of the contra-transaction
  * */
-gint gsb_form_validate_transfer ( gint transaction_number,
-				  gint new_transaction,
-				  gint account_transfer )
+gint gsb_form_transaction_validate_transfer ( gint transaction_number,
+					      gint new_transaction,
+					      gint account_transfer )
 {
     gint contra_transaction_number;
     gint contra_mother_number = 0;
@@ -494,59 +487,17 @@ gint gsb_form_validate_transfer ( gint transaction_number,
 
 
 
-
-/******************************************************************************/
-/* Fonction affiche_cache_le_formulaire                                       */
-/* si le transaction_form était affichÃ©, le cache et vice-versa                     */
-/******************************************************************************/
-
-
-void affiche_cache_le_formulaire ( void )
-{
-    GtkWidget * widget;
-
-    if ( etat.formulaire_toujours_affiche )
-    {
-	etat.formulaire_toujours_affiche = 0;
-    }
-    else
-    {
-	etat.formulaire_toujours_affiche = 1;
-
-	update_ecran ();
-
-/* 	ajustement = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_transactions_list_get_tree_view() ) )); */
-	
-/* 	position_ligne_selectionnee = ( cherche_ligne_operation ( gsb_data_account_get_current_transaction (gsb_data_account_get_current_account ()), */
-/* 								  gsb_data_account_get_current_account () ) */
-/* 					+ gsb_data_account_get_nb_rows ( gsb_data_account_get_current_account () ) ) * hauteur_ligne_liste_opes; */
-
-/* 	if ( position_ligne_selectionnee  > (ajustement->value + ajustement->page_size)) */
-/* 	    gtk_adjustment_set_value ( ajustement, */
-/* 				       position_ligne_selectionnee - ajustement->page_size ); */
-    }
-
-    /* FIXME : ça va changer pour le form */
-    if ( etat.formulaire_toujours_affiche )
-	gsb_form_show (TRUE);
-    else
-	gsb_form_widget_free_list ();
-
-    block_menu_cb = TRUE;
-    widget = gtk_item_factory_get_item ( item_factory_menu_general,
-					 menu_name(_("View"), _("Show transaction form"), NULL) );
-    gtk_check_menu_item_set_active( GTK_CHECK_MENU_ITEM (widget), etat.formulaire_toujours_affiche );
-    block_menu_cb = FALSE;
-
-}
-
-
-
-/******************************************************************************/
-/* Fonction click_sur_bouton_voir_change  */
-/* permet de modifier un change établi pour une opération */
-/******************************************************************************/
-void click_sur_bouton_voir_change ( void )
+/**
+ * callback called when the user click on the 'change' button in the form
+ * show a popup to modify the values
+ *
+ * \param button
+ * \param null
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_transaction_change_clicked ( GtkWidget *button,
+					       gpointer null )
 {
     gint transaction_number;
     gint account_number;
@@ -586,8 +537,8 @@ void click_sur_bouton_voir_change ( void )
 	    gsb_data_transaction_set_change_between (transaction_number,
 						      0 );
     }
+    return FALSE;
 }
-/******************************************************************************/
 
 
 /* Local Variables: */

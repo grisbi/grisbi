@@ -31,7 +31,6 @@
 #include "./help.h"
 #include "./gsb_scheduler_list.h"
 #include "./gsb_transactions_list.h"
-#include "./gsb_form_transaction.h"
 #include "./barre_outils.h"
 #include "./navigation.h"
 #include "./erreur.h"
@@ -44,6 +43,7 @@
 #include "./gsb_data_account.h"
 #include "./gsb_file.h"
 #include "./gsb_file_debug.h"
+#include "./gsb_form.h"
 #include "./main.h"
 #include "./import.h"
 #include "./utils.h"
@@ -279,7 +279,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
     }; 
     GtkToggleActionEntry toggle_entries[] = {
 	{ "ShowTransactionForm",NULL,			_("Show transaction _form"),
-	  NULL,			NULL,			G_CALLBACK ( affiche_cache_le_formulaire ), 
+	  NULL,			NULL,			G_CALLBACK ( gsb_form_switch_expander ), 
 	  etat.formulaire_toujours_affiche },
 	{ "ShowGrid",		NULL,			_("Show _grid"),
 	  NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_grid_mode ), 

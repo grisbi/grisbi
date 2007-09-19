@@ -67,6 +67,8 @@
 
 /*START_STATIC*/
 static gboolean assert_selected_transaction ();
+static gint cherche_ligne_operation ( gint transaction_number,
+			       gint account_number );
 static gpointer cherche_operation_from_ligne ( gint ligne );
 static void creation_titres_tree_view ( void );
 static gint find_element_col ( gint element_number );
@@ -3625,9 +3627,9 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number )
     /* create the contra-transaction if necessary */
 
     if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number))
-	gsb_form_validate_transfer ( new_transaction_number,
-				     1,
-				     gsb_data_transaction_get_account_number_transfer (transaction_number));
+	gsb_form_transaction_validate_transfer ( new_transaction_number,
+						 1,
+						 gsb_data_transaction_get_account_number_transfer (transaction_number));
 
     gsb_transactions_list_append_new_transaction (new_transaction_number);
 

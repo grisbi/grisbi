@@ -385,9 +385,9 @@ gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint tran
 	{
 	    gint contra_transaction_number;
 
-	    contra_transaction_number = gsb_form_validate_transfer ( transaction_number,
-								     TRUE,
-								     gsb_data_scheduled_get_account_number_transfer (scheduled_number));
+	    contra_transaction_number = gsb_form_transaction_validate_transfer ( transaction_number,
+										 TRUE,
+										 gsb_data_scheduled_get_account_number_transfer (scheduled_number));
 	    gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
 								gsb_data_scheduled_get_contra_method_of_payment_number (scheduled_number));
 	}

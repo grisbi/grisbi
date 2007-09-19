@@ -67,8 +67,6 @@
 
 /* START_DECLARATION */
 gboolean affichage_traits_liste_operation ( void );
-gint cherche_ligne_operation ( gint transaction_number,
-			       gint account_number );
 void clone_selected_transaction ();
 GtkWidget *creation_fenetre_operations ( void );
 void demande_mise_a_jour_tous_comptes ( void );
