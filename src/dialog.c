@@ -214,7 +214,7 @@ GtkWidget * dialogue_special_no_run ( GtkMessageType param, GtkButtonsType butto
 				      param, buttons, text );
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
 
-    gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
 
     return dialog;
 }

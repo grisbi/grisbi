@@ -79,7 +79,9 @@ static gint gtk_combofix_default_sort_func ( GtkTreeModel *model_sort,
 static gboolean gtk_combofix_separator_func ( GtkTreeModel *model,
 					      GtkTreeIter *iter,
 					      GtkComboFix *combofix );
-
+static gboolean gtk_combofix_popup_key_press_event ( GtkWidget *popup,
+						     GdkEventKey *ev,
+						     GtkComboFix *combofix );
 
 
 
@@ -576,6 +578,10 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
 
     /* set the popup but don't show it */
     combofix->popup = gtk_window_new ( GTK_WINDOW_POPUP );
+    g_signal_connect ( G_OBJECT (combofix -> popup),
+		       "key-press-event",
+		       G_CALLBACK (gtk_combofix_popup_key_press_event),
+		       combofix );
     gtk_window_set_policy ( GTK_WINDOW ( combofix->popup ),
 			    FALSE,
 			    FALSE,
@@ -877,13 +883,7 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
     {
 	gtk_combofix_set_popup_position ( combofix );
 	gtk_widget_show ( combofix -> popup );
-
-	gdk_pointer_grab (combofix->popup->window, 
-			  TRUE,
-			  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK,
-			  NULL, 
-			  NULL, 
-			  GDK_CURRENT_TIME);
+	gtk_window_set_modal (GTK_WINDOW (combofix -> popup), TRUE);
     }
     else
 	gtk_combofix_hide_popup (combofix);
@@ -1334,9 +1334,34 @@ static gboolean gtk_combofix_show_popup ( GtkComboFix *combofix )
     gtk_combofix_set_popup_position (combofix);
     gtk_widget_show ( combofix -> popup );
     gtk_widget_grab_focus ( GTK_WIDGET ( combofix -> entry ));
-
+    gtk_window_set_modal (GTK_WINDOW (combofix -> popup), TRUE);
     return FALSE;
 } 
+
+
+
+/**
+ * the popup need to be modal to work fine, but the entry won't receive
+ * some signal anymore... that function continue the signal to the entry
+ *
+ * \param popup
+ * \param ev
+ * \param combofix
+ *
+ * \return FALSE or TRUE according to the entry key press event return
+ * */
+static gboolean gtk_combofix_popup_key_press_event ( GtkWidget *popup,
+						     GdkEventKey *ev,
+						     GtkComboFix *combofix )
+{
+    gboolean return_val;
+
+    g_signal_emit_by_name (combofix -> entry,
+			   "key-press-event",
+			   ev,
+			   &return_val);
+    return return_val;
+}
 
 
 /**
