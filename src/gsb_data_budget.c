@@ -1,8 +1,7 @@
 /* ************************************************************************** */
-/* work with the struct of budget                                             */
 /*                                                                            */
-/*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -32,6 +31,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_budget.h"
 #include "./meta_budgetary.h"
+#include "./imputation_budgetaire.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_real.h"
@@ -651,6 +651,11 @@ gint gsb_data_budget_get_number_by_name ( const gchar *name,
 	    budget_number = gsb_data_budget_new (new_name);
 	    gsb_data_budget_set_type ( budget_number,
 				       budget_type );
+	    /* update the form combofix, FIXME later, we should set that in another
+	     * place but need to change the form of the function to prevent if there
+	     * is a creation. this must be done when all the gsb_data_x will be separate
+	     * of grisbi, for now, no problem */
+	    gsb_budget_update_combofix ();
 	}
     }
     g_free (new_name);
@@ -823,6 +828,13 @@ gboolean gsb_data_budget_set_name ( gint no_budget,
 	budget -> budget_name = my_strdup (name);
     else
 	budget -> budget_name = NULL;
+
+    /* update the form combofix, FIXME later, we should set that in another
+     * place but need to change the form of the function to prevent if there
+     * is a creation. this must be done when all the gsb_data_x will be separate
+     * of grisbi, for now, no problem */
+    gsb_budget_update_combofix ();
+
     return TRUE;
 }
 

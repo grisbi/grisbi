@@ -54,9 +54,6 @@
 #include "./gsb_transaction_model.h"
 #include "./gsb_transactions_list_sort.h"
 #include "./main.h"
-#include "./categories_onglet.h"
-#include "./imputation_budgetaire.h"
-#include "./tiers_onglet.h"
 #include "./traitement_variables.h"
 #include "./parametres.h"
 #include "./utils.h"
@@ -221,9 +218,6 @@ extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
-extern gint mise_a_jour_combofix_categ_necessaire;
-extern gint mise_a_jour_combofix_imputation_necessaire;
-extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
@@ -3605,13 +3599,6 @@ void clone_selected_transaction ()
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
-    if ( mise_a_jour_combofix_tiers_necessaire )
-	mise_a_jour_combofix_tiers ();
-    if ( mise_a_jour_combofix_categ_necessaire )
-	mise_a_jour_combofix_categ ();
-    if ( mise_a_jour_combofix_imputation_necessaire )
-	mise_a_jour_combofix_imputation ();
-
     modification_fichier ( TRUE );
 }
 
@@ -3700,13 +3687,6 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
 
 	update_transaction_in_trees (gsb_data_account_get_current_transaction_number (source_account));
 
-	if ( mise_a_jour_combofix_tiers_necessaire )
-	    mise_a_jour_combofix_tiers ();
-	if ( mise_a_jour_combofix_categ_necessaire )
-	    mise_a_jour_combofix_categ ();
-	if ( mise_a_jour_combofix_imputation_necessaire )
-	    mise_a_jour_combofix_imputation ();
-
 	gsb_data_account_calculate_current_and_marked_balances (source_account);
 
 	gsb_gui_headings_update_suffix ( gsb_real_get_string_with_currency (gsb_data_account_get_current_balance (source_account ),
@@ -3739,13 +3719,6 @@ void move_selected_operation_to_account_nb ( gint *account )
 				     target_account ))
     {
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
-
-	if ( mise_a_jour_combofix_tiers_necessaire )
-	    mise_a_jour_combofix_tiers ();
-	if ( mise_a_jour_combofix_categ_necessaire )
-	    mise_a_jour_combofix_categ ();
-	if ( mise_a_jour_combofix_imputation_necessaire )
-	    mise_a_jour_combofix_imputation ();
 
 	update_transaction_in_trees (gsb_data_account_get_current_transaction_number (source_account));
 

@@ -60,9 +60,6 @@
 #include "./gsb_transactions_list.h"
 #include "./utils_editables.h"
 #include "./gtk_combofix.h"
-#include "./categories_onglet.h"
-#include "./imputation_budgetaire.h"
-#include "./tiers_onglet.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./utils_operations.h"
@@ -97,9 +94,6 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint mise_a_jour_combofix_categ_necessaire;
-extern gint mise_a_jour_combofix_imputation_necessaire;
-extern gint mise_a_jour_combofix_tiers_necessaire;
 extern GtkWidget * navigation_tree_view;
 extern GtkTreeSelection * selection;
 extern GtkWidget *window;
@@ -2220,15 +2214,6 @@ gboolean gsb_form_finish_edition ( void )
     }
     else
 	gsb_form_hide ();
-
-    /* update the combofix's lists */
-    /* FIXME xxx ces variables doivent disparaitres et faire modif direct dans les listes qui va modifier tous les combofix ?*/
-    if ( mise_a_jour_combofix_tiers_necessaire )
-	mise_a_jour_combofix_tiers ();
-    if ( mise_a_jour_combofix_categ_necessaire )
-	mise_a_jour_combofix_categ ();
-    if ( mise_a_jour_combofix_imputation_necessaire )
-	mise_a_jour_combofix_imputation ();
 
     /* show the warnings */
     if (is_transaction)

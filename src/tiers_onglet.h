@@ -8,7 +8,7 @@
 gint classement_alphabetique_tree ( GtkWidget *tree,
 				    GtkCListRow *ligne_1,
 				    GtkCListRow *ligne_2 );
-void mise_a_jour_combofix_tiers ( void );
+gboolean gsb_payee_update_combofix ( void );
 GtkWidget *onglet_tiers ( void );
 void remplit_arbre_tiers ( void );
 /* END_DECLARATION */

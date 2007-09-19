@@ -95,6 +95,7 @@ static GtkWidget *onglet_etat_tiers ( void );
 static GtkWidget *onglet_etat_virements ( void );
 static GtkWidget *page_organisation_donnees ( void );
 static void recuperation_info_perso_etat ( void );
+static void remplissage_liste_categ_etats ( void );
 static void remplissage_liste_comptes_virements ( void );
 static void remplissage_liste_exo_etats ( void );
 static void remplissage_liste_ib_etats ( void );
@@ -114,6 +115,7 @@ static void retire_ligne_liste_comparaisons_textes_etat ( gint last_text_compari
 static void selectionne_devise_categ_etat_courant ( void );
 static void selectionne_devise_ib_etat_courant ( void );
 static void selectionne_devise_tiers_etat_courant ( void );
+static void selectionne_liste_categ_etat_courant ( void );
 static void selectionne_liste_exo_etat_courant ( void );
 static void selectionne_liste_ib_etat_courant ( void );
 static void selectionne_liste_modes_paiement_etat_courant ( void );
@@ -320,7 +322,6 @@ GtkWidget * report_tree_view;
 
 
 /*START_EXTERN*/
-extern gint mise_a_jour_combofix_tiers_necessaire;
 extern GtkWidget * navigation_tree_view;
 extern GtkWidget *notebook_config_etat;
 extern GtkWidget *notebook_etats;
@@ -1961,13 +1962,10 @@ void recuperation_info_perso_etat ( void )
 						     0 );
     }
 
+    /* update the payee combofix in the form, to add that report if asked */
+    gsb_payee_update_combofix ();
 
     modification_fichier ( TRUE );
-
-    /* on fait une mise à jour des tiers pour afficher l'état dans la liste des tiers si nécessaire */
-
-    if ( mise_a_jour_combofix_tiers_necessaire )
-	mise_a_jour_combofix_tiers ();
 
     /* on réaffiche l'état */
 

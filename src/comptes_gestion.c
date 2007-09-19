@@ -47,11 +47,11 @@
 #include "./gsb_real.h"
 #include "./gsb_scheduler_list.h"
 #include "./gsb_transactions_list.h"
-#include "./categories_onglet.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./utils.h"
 #include "./etats_config.h"
+#include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
 #include "./tiers_onglet.h"
 #include "./structures.h"
@@ -93,7 +93,6 @@ GtkWidget *hbox_boutons_modif;
 
 
 /*START_EXTERN*/
-extern gint mise_a_jour_combofix_categ_necessaire;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
@@ -881,8 +880,6 @@ void modification_details_compte ( void )
 
 	gsb_gui_navigation_update_account ( current_account );
 
-	if ( mise_a_jour_combofix_categ_necessaire )
-	    mise_a_jour_combofix_categ();
 	gsb_menu_update_accounts_in_menus ();
 	mise_a_jour_liste_comptes_accueil = 1;
 
@@ -980,8 +977,6 @@ void modification_details_compte ( void )
 	mise_a_jour_liste_echeances_manuelles_accueil = 1;
 	mise_a_jour_soldes_minimaux = 1;
 	mise_a_jour_fin_comptes_passifs = 1;
-	if ( mise_a_jour_combofix_categ_necessaire )
-	    mise_a_jour_combofix_categ();
 
 	/* Replace trees contents. */
 	remplit_arbre_categ ();

@@ -28,7 +28,6 @@
 
 /*START_INCLUDE*/
 #include "tiers_onglet.h"
-#include "./erreur.h"
 #include "./metatree.h"
 #include "./gsb_automem.h"
 #include "./gsb_data_form.h"
@@ -57,8 +56,6 @@ static gboolean popup_payee_view_mode_menu ( GtkWidget * button );
 
 
 
-gint mise_a_jour_combofix_tiers_necessaire;
-
 GtkWidget *arbre_tiers;
 GtkWidget *entree_nom_tiers;
 GtkWidget *text_box;
@@ -82,6 +79,23 @@ extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
+
+
+/**
+ * update the payee combofix in the form with the current list of payee
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_payee_update_combofix ( void )
+{
+    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_PARTY ))
+	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY)),
+				gsb_data_payee_get_name_and_report_list ());
+
+    return FALSE;
+}
 
 
 
@@ -469,8 +483,6 @@ gboolean edit_payee ( GtkTreeView * view )
 
     gtk_widget_destroy ( dialog );
 
-    mise_a_jour_combofix_tiers ();
-
     fill_division_row ( model, payee_interface,
 			get_iter_from_div ( model, payee_number, -1 ), payee );
 
@@ -481,22 +493,6 @@ gboolean edit_payee ( GtkTreeView * view )
 }
 
 
-
-
-/* ***************************************************************************************************** */
-/* Fonction mise_a_jour_combofix_tiers */
-/* recrée la liste des combofix et l'applique à tous les combofix du tiers */
-/* ***************************************************************************************************** */
-void mise_a_jour_combofix_tiers ( void )
-{
-    devel_debug ( "mise_a_jour_combofix_tiers" );
-
-    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_PARTY ))
-	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget (TRANSACTION_FORM_PARTY)),
-				gsb_data_payee_get_name_and_report_list ());
-
-    mise_a_jour_combofix_tiers_necessaire = 0;
-}
 
 
 /* Local Variables: */

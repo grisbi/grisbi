@@ -56,11 +56,11 @@
 #include "./gsb_status.h"
 #include "./traitement_variables.h"
 #include "./accueil.h"
-#include "./categories_onglet.h"
-#include "./tiers_onglet.h"
 #include "./utils_str.h"
 #include "./qif.h"
+#include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
+#include "./tiers_onglet.h"
 #include "./structures.h"
 #include "./gsb_file_config.h"
 #include "./go-charmap-sel.h"
@@ -105,8 +105,6 @@ static void pointe_opes_importees ( struct struct_compte_importation *imported_a
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint mise_a_jour_combofix_categ_necessaire;
-extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GSList * plugins ;
@@ -1278,13 +1276,6 @@ void traitement_operations_importees ( void )
     {
 	gsb_file_new_gui ();
     }
-
-    /* on recrée les combofix des tiers et des catégories */
-
-    if ( mise_a_jour_combofix_tiers_necessaire )
-	mise_a_jour_combofix_tiers ();
-    if ( mise_a_jour_combofix_categ_necessaire )
-	mise_a_jour_combofix_categ();
 
     gsb_status_clear();
 
@@ -2648,13 +2639,6 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 	       relations ici */
 	    if ( virements_a_chercher )
 		cree_liens_virements_ope_import ();
-
-	    /* on recrée les combofix des tiers et des catégories */
-
-	    if ( mise_a_jour_combofix_tiers_necessaire )
-		mise_a_jour_combofix_tiers ();
-	    if ( mise_a_jour_combofix_categ_necessaire )
-		mise_a_jour_combofix_categ();
 
 	    /* mise à jour de l'accueil */
 

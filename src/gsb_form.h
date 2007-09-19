@@ -42,7 +42,7 @@ gboolean gsb_form_fill_from_account ( gint account_number );
 gboolean gsb_form_finish_edition ( void );
 gint gsb_form_get_account_number ( void );
 GtkWidget *gsb_form_get_button_part ( void );
-GtkWidget *gsb_form_get_form_widget ();
+GtkWidget *gsb_form_get_form_widget ( void );
 gint gsb_form_get_origin ( void );
 GtkWidget *gsb_form_get_scheduler_part ( void );
 gboolean gsb_form_key_press_event ( GtkWidget *widget,

@@ -7,5 +7,6 @@
 
 /* START_DECLARATION */
 gboolean gsb_category_choose_default_category ( void );
+gboolean gsb_category_update_combofix ( void );
 /* END_DECLARATION */
 #endif

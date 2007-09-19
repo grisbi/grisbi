@@ -31,22 +31,15 @@
 #include "./gsb_autofunc.h"
 #include "./gsb_automem.h"
 #include "./gsb_data_category.h"
-#include "./gsb_data_form.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_file.h"
 #include "./gsb_file_others.h"
-#include "./gsb_form_widget.h"
-#include "./navigation.h"
 #include "./gsb_transactions_list.h"
-#include "./gtk_combofix.h"
 #include "./main.h"
 #include "./utils.h"
-#include "./etats_config.h"
 #include "./utils_buttons.h"
 #include "./utils_file_selection.h"
-#include "./gtk_combofix.h"
 #include "./metatree.h"
-#include "./gsb_data_form.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
 #include "./structures.h"
@@ -71,8 +64,6 @@ GtkWidget *entree_nom_categ, *bouton_categ_debit, *bouton_categ_credit;
 GtkWidget *bouton_modif_categ_modifier, *bouton_modif_categ_annuler;
 GtkWidget *bouton_supprimer_categ, *bouton_ajouter_categorie;
 GtkWidget *bouton_ajouter_sous_categorie;
-
-gint mise_a_jour_combofix_categ_necessaire;
 
 /* Category tree model & view */
 GtkTreeStore * categ_tree_model;
@@ -302,36 +293,6 @@ gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * pa
     }
 
     return FALSE;
-}
-
-
-
-
-/**
- * update category combofixes.
- */
-void mise_a_jour_combofix_categ ( void )
-{
-    GSList *list_tmp;
-
-    devel_debug ( "mise_a_jour_combofix_categ" );
-
-    list_tmp = gsb_data_category_get_name_list ( TRUE,
-						 TRUE,
-						 TRUE,
-						 TRUE );
-
-    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY ))
-	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY)),
-				list_tmp );
-
-    /* FIXME : this should not be in this function */
-    if ( gsb_gui_navigation_get_current_report () )
-    {
-	remplissage_liste_categ_etats ();
-	selectionne_liste_categ_etat_courant ();
-    }
-    mise_a_jour_combofix_categ_necessaire = 0;
 }
 
 
@@ -689,8 +650,6 @@ gboolean edit_category ( GtkTreeView * view )
     gtk_dialog_run ( GTK_DIALOG(dialog) );
     /* changes are done automatickly, so just close the dialog */
     gtk_widget_destroy ( dialog );
-
-    mise_a_jour_combofix_categ ();
 
     if ( sub_category_number > 0 )
     {

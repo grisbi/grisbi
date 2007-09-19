@@ -5,7 +5,7 @@
 
 
 /* START_DECLARATION */
-void mise_a_jour_combofix_imputation ( void );
+gboolean gsb_budget_update_combofix ( void );
 GtkWidget *onglet_imputations ( void );
 void remplit_arbre_imputation ( void );
 /* END_DECLARATION */

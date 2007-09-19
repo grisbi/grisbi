@@ -25,10 +25,10 @@
 
 /*START_INCLUDE*/
 #include "meta_budgetary.h"
+#include "./imputation_budgetaire.h"
 #include "./gsb_data_budget.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
-#include "./imputation_budgetaire.h"
 #include "./utils_str.h"
 #include "./metatree.h"
 #include "./include.h"
@@ -477,7 +477,7 @@ gint budgetary_line_add_div ()
     }
 
     new_budget_number = gsb_data_budget_get_number_by_name ( name, TRUE, 0 );
-    mise_a_jour_combofix_imputation();
+    gsb_budget_update_combofix ();
 
     return new_budget_number;
 }
@@ -509,7 +509,7 @@ gint budgetary_line_add_sub_div ( int div_id )
 
     new_sub_budget_number = gsb_data_budget_get_sub_budget_number_by_name ( div_id, name, TRUE );
 
-    mise_a_jour_combofix_imputation();
+    gsb_budget_update_combofix ();
 
     return new_sub_budget_number;
 }

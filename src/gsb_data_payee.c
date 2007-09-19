@@ -1,8 +1,8 @@
 /* ************************************************************************** */
-/* work with the struct of payee                                              */
 /*                                                                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2005 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -33,6 +33,7 @@
 #include "gsb_data_payee.h"
 #include "./gsb_data_report.h"
 #include "./gsb_data_transaction.h"
+#include "./tiers_onglet.h"
 #include "./gsb_real.h"
 #include "./utils_str.h"
 #include "./meta_payee.h"
@@ -313,9 +314,15 @@ gint gsb_data_payee_get_number_by_name ( const gchar *name,
     else
     {
 	if (create)
+	{
 	    payee_number = gsb_data_payee_new (name);
+	    /* update the form combofix, FIXME later, we should set that in another
+	     * place but need to change the form of the function to prevent if there
+	     * is a creation. this must be done when all the gsb_data_x will be separate
+	     * of grisbi, for now, no problem */
+	    gsb_payee_update_combofix ();
+	}
     }
-
     return payee_number;
 }
 
@@ -392,6 +399,12 @@ gboolean gsb_data_payee_set_name ( gint no_payee,
     payee -> payee_name = my_strdup (name);
    else
     payee -> payee_name = NULL;
+
+   /* update the form combofix, FIXME later, we should set that in another
+    * place but need to change the form of the function to prevent if there
+    * is a creation. this must be done when all the gsb_data_x will be separate
+    * of grisbi, for now, no problem */
+   gsb_payee_update_combofix ();
 
     return TRUE;
 }

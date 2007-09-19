@@ -32,7 +32,12 @@
 #include "gsb_category.h"
 #include "./dialog.h"
 #include "./gsb_data_category.h"
+#include "./gsb_data_form.h"
+#include "./gsb_form_widget.h"
+#include "./gtk_combofix.h"
+#include "./gtk_combofix.h"
 #include "./include.h"
+#include "./gsb_data_form.h"
 /*END_INCLUDE*/
 
 
@@ -800,6 +805,24 @@ ask_again :
     return TRUE;
 }
 
+
+/**
+ * update the form's combofix category
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_category_update_combofix ( void )
+{
+    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY ))
+	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY)),
+				gsb_data_category_get_name_list ( TRUE,
+								  TRUE,
+								  TRUE,
+								  TRUE ));
+    return FALSE;
+}
 
 
 

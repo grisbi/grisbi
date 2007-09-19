@@ -25,10 +25,10 @@
 
 /*START_INCLUDE*/
 #include "meta_categories.h"
+#include "./gsb_category.h"
 #include "./gsb_data_category.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
-#include "./categories_onglet.h"
 #include "./utils_str.h"
 #include "./metatree.h"
 #include "./include.h"
@@ -483,7 +483,7 @@ gint category_add_div ()
     }
 
     new_category_number = gsb_data_category_get_number_by_name ( name, TRUE, 0 );
-    mise_a_jour_combofix_categ();
+    gsb_category_update_combofix ();
 
     return new_category_number;
 }
@@ -515,7 +515,7 @@ gint category_add_sub_div ( int div_id )
 
     new_sub_category_number = gsb_data_category_get_sub_category_number_by_name ( div_id, name, TRUE );
 
-    mise_a_jour_combofix_categ();
+    gsb_category_update_combofix ();
 
     return new_sub_category_number;
 }

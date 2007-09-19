@@ -30,6 +30,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_category.h"
 #include "./meta_categories.h"
+#include "./gsb_category.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_mix.h"
 #include "./gsb_data_transaction.h"
@@ -846,6 +847,13 @@ gboolean gsb_data_category_set_name ( gint no_category,
 	category -> category_name = my_strdup (name);
     else
 	category -> category_name = NULL;
+
+    /* update the form combofix, FIXME later, we should set that in another
+     * place but need to change the form of the function to prevent if there
+     * is a creation. this must be done when all the gsb_data_x will be separate
+     * of grisbi, for now, no problem */
+    gsb_category_update_combofix ();
+
     return TRUE;
 }
 
@@ -906,6 +914,12 @@ gboolean gsb_data_category_set_sub_category_name ( gint no_category,
 	sub_category -> sub_category_name = my_strdup (name);
     else
 	sub_category -> sub_category_name = NULL;
+
+    /* update the form combofix, FIXME later, we should set that in another
+     * place but need to change the form of the function to prevent if there
+     * is a creation. this must be done when all the gsb_data_x will be separate
+     * of grisbi, for now, no problem */
+    gsb_category_update_combofix ();
 
     return TRUE;
 }

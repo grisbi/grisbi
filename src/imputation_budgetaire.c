@@ -83,7 +83,6 @@ GtkWidget *bouton_supprimer_imputation;
 GtkWidget *bouton_ajouter_imputation;
 GtkWidget *bouton_ajouter_sous_imputation;
 
-gint mise_a_jour_combofix_imputation_necessaire;
 gint no_devise_totaux_ib;
 
 
@@ -321,21 +320,20 @@ gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, GtkTree
 }
 
 
-
-/***********************************************************************************************************/
-/* Fonction mise_a_jour_combofix_imputation */
-/* recrée les listes de catégories des combofix */
-/* et remet les combofix à jour */
-/***********************************************************************************************************/
-void mise_a_jour_combofix_imputation ( void )
+/**
+ * update the form's combofix for the budget
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_budget_update_combofix ( void )
 {
-    devel_debug ( "mise_a_jour_combofix_imputation" );
-
     if ( gsb_data_form_check_for_value (TRANSACTION_FORM_BUDGET))
 	gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget (TRANSACTION_FORM_BUDGET)),
 				gsb_data_budget_get_name_list (TRUE, TRUE));
 
-    mise_a_jour_combofix_imputation_necessaire = 0;
+    return FALSE;
 }
 
 
@@ -696,8 +694,6 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 
     gtk_dialog_run ( GTK_DIALOG(dialog) );
     gtk_widget_destroy ( dialog );
-
-    mise_a_jour_combofix_imputation ();
 
     if ( sub_budget_number > 0 )
     {

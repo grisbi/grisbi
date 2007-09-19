@@ -30,6 +30,7 @@
 #include "gsb_account.h"
 #include "./comptes_gestion.h"
 #include "./dialog.h"
+#include "./gsb_category.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_scheduled.h"
@@ -40,11 +41,11 @@
 #include "./menu.h"
 #include "./gsb_scheduler_list.h"
 #include "./main.h"
+#include "./traitement_variables.h"
+#include "./etats_config.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
 #include "./tiers_onglet.h"
-#include "./traitement_variables.h"
-#include "./etats_config.h"
 #include "./structures.h"
 #include "./fenetre_principale.h"
 #include "./gsb_form_scheduler.h"
@@ -63,9 +64,6 @@ static gint gsb_account_ask_account_type ( void );
 /*START_EXTERN*/
 extern GtkWidget *account_page;
 extern GtkWidget *bouton_supprimer_compte;
-extern gint mise_a_jour_combofix_categ_necessaire;
-extern gint mise_a_jour_combofix_imputation_necessaire;
-extern gint mise_a_jour_combofix_tiers_necessaire;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
@@ -107,7 +105,7 @@ gboolean gsb_account_new ( void )
     gsb_data_payment_create_default (account_number);
 
     /* update the combofix for categ */ 
-    mise_a_jour_combofix_categ();
+    gsb_category_update_combofix ();
 
     /* update the name of accounts in form */
     gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
@@ -231,15 +229,6 @@ gboolean gsb_account_delete ( void )
     /* update the buttons lists */
 
     gsb_menu_update_accounts_in_menus();
-
-    /* update the combofixes if needed */
-
-    if ( mise_a_jour_combofix_tiers_necessaire )
-	mise_a_jour_combofix_tiers();
-    if ( mise_a_jour_combofix_categ_necessaire )
-	mise_a_jour_combofix_categ();
-    if ( mise_a_jour_combofix_imputation_necessaire )
-	mise_a_jour_combofix_imputation();
 
     /* Replace trees contents. */
 
