@@ -58,7 +58,6 @@ static gboolean gsb_file_config_load_last_xml_config ( gchar *filename );
 
 
 /*START_EXTERN*/
-extern GtkWidget *formulaire;
 extern GtkWidget *main_hpaned ;
 extern gint max;
 extern struct conditional_message messages[] ;

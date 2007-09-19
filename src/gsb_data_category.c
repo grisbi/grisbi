@@ -90,6 +90,7 @@ static gpointer gsb_data_category_get_structure_in_list ( gint no_category,
 						   GSList *list );
 static gint gsb_data_category_max_number ( void );
 static gint gsb_data_category_max_sub_category_number ( gint category_number );
+static gboolean gsb_data_category_merge_category_list ( GSList *list_to_merge );
 static gint gsb_data_category_new ( const gchar *name );
 static gint gsb_data_category_new_sub_category ( gint category_number,
 					  const gchar *name );

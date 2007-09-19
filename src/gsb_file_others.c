@@ -38,6 +38,7 @@
 #include "./gsb_file_save.h"
 #include "./navigation.h"
 #include "./utils_str.h"
+#include "./traitement_variables.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
 #include "./structures.h"

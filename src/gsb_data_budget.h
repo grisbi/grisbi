@@ -41,7 +41,6 @@ gpointer gsb_data_budget_get_sub_budget_structure ( gint no_budget,
 						    gint no_sub_budget );
 gint gsb_data_budget_get_type ( gint no_budget );
 gboolean gsb_data_budget_init_variables ( void );
-gboolean gsb_data_budget_merge_budget_list ( GSList *list_to_merge );
 gint gsb_data_budget_new_sub_budget_with_number ( gint number,
 						  gint budget_number);
 gint gsb_data_budget_new_with_number ( gint number );

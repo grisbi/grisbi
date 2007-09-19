@@ -76,7 +76,6 @@ extern GdkColor couleur_solde_alarme_rouge_normal;
 extern GdkColor couleur_solde_alarme_rouge_prelight;
 extern GdkColor couleur_solde_alarme_verte_normal;
 extern GdkColor couleur_solde_alarme_verte_prelight;
-extern GtkWidget *formulaire;
 extern gsb_real null_real ;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
@@ -291,7 +290,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     GtkWidget *parent_save, *dialog;
     gint result;
 
-    parent_save = formulaire -> parent;
+    parent_save = gsb_form_get_form_widget () -> parent;
 
     /* crée la boite de dialogue */
     dialog = gtk_dialog_new_with_buttons ( _("Enter a scheduled transaction"),
@@ -305,7 +304,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 				      GTK_RESPONSE_OK );
 
     /* first we reparent the form in the dialog */
-    gtk_widget_reparent ( formulaire, GTK_DIALOG ( dialog ) -> vbox );
+    gtk_widget_reparent ( gsb_form_get_form_widget (), GTK_DIALOG ( dialog ) -> vbox );
 
     /* next we fill the form,
      * don't use gsb_form_show because we are neither on transactions list, neither scheduled list */
@@ -322,7 +321,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     if ( result == GTK_RESPONSE_OK )
 	 gsb_form_finish_edition ();
 
-    gtk_widget_reparent ( formulaire, parent_save );
+    gtk_widget_reparent ( gsb_form_get_form_widget (), parent_save );
     gtk_widget_destroy ( dialog );
 
     /* update the home page */

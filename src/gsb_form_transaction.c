@@ -61,7 +61,6 @@
 
 /*START_EXTERN*/
 extern gboolean block_menu_cb ;
-extern GtkWidget *formulaire;
 extern gint hauteur_ligne_liste_opes;
 extern GtkItemFactory *item_factory_menu_general;
 extern GtkWidget *tree_view;
@@ -498,7 +497,7 @@ gint gsb_form_validate_transfer ( gint transaction_number,
 
 /******************************************************************************/
 /* Fonction affiche_cache_le_formulaire                                       */
-/* si le formulaire était affichÃ©, le cache et vice-versa                     */
+/* si le transaction_form était affichÃ©, le cache et vice-versa                     */
 /******************************************************************************/
 
 
@@ -558,7 +557,7 @@ void click_sur_bouton_voir_change ( void )
     account_number = gsb_form_get_account_number ();
     gtk_widget_grab_focus ( gsb_form_widget_get_widget (TRANSACTION_FORM_DATE));
 
-    transaction_number = GPOINTER_TO_INT (gtk_object_get_data ( GTK_OBJECT ( formulaire ),
+    transaction_number = GPOINTER_TO_INT (gtk_object_get_data ( GTK_OBJECT ( gsb_form_get_form_widget () ),
 								"transaction_number_in_form" ));
 
     account_currency_number = gsb_data_account_get_currency (account_number);

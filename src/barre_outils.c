@@ -71,7 +71,7 @@ GtkWidget *scheduler_button_execute;
 GtkWidget *scheduler_button_delete;
 GtkWidget *scheduler_button_edit;
 
-/* widgets du bouton pour afficher/cacher le formulaire */
+/* widgets du bouton pour afficher/cacher le transaction_form */
 
 GtkWidget *bouton_affiche_cache_formulaire;
 GtkWidget *fleche_haut;
@@ -83,7 +83,6 @@ GtkWidget *fleche_bas;
 /*START_EXTERN*/
 extern GtkWidget *barre_outils;
 extern gboolean block_menu_cb ;
-extern GtkWidget *formulaire;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkUIManager * ui_manager;
 /*END_EXTERN*/

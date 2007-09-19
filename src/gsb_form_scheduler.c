@@ -77,7 +77,6 @@ static gboolean gsb_form_scheduler_set_limit_date ( GDate *date );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *formulaire;
 extern GtkTreeSelection * selection;
 extern GtkTooltips *tooltips_general_grisbi;
 /*END_EXTERN*/
@@ -344,9 +343,9 @@ gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
      * may still a problem : if for example we set a note, go to an account without notes, and
      * go back to an account with a note, the first content of the note will be lost but it should
      * be very rare to do that and i think very difficult to code something to keep that... */
-    save_transaction = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( formulaire ),
+    save_transaction = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( gsb_form_get_form_widget () ),
 							    "transaction_number_in_form" ));
-    save_execute = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT (formulaire),
+    save_execute = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT (gsb_form_get_form_widget ()),
 							"execute_scheduled"));
     content_list = gsb_form_scheduler_get_content_list ();
 
@@ -365,10 +364,10 @@ gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
     gsb_form_scheduler_set_content_list (content_list);
     gsb_form_scheduler_free_content_list (content_list);
 
-    g_object_set_data ( G_OBJECT ( formulaire ),
+    g_object_set_data ( G_OBJECT ( gsb_form_get_form_widget () ),
 			"transaction_number_in_form",
 			GINT_TO_POINTER (save_transaction));
-    g_object_set_data ( G_OBJECT ( formulaire ),
+    g_object_set_data ( G_OBJECT ( gsb_form_get_form_widget () ),
 			"execute_scheduled",
 			GINT_TO_POINTER (save_execute));
 
@@ -589,7 +588,7 @@ gboolean gsb_form_scheduler_clean ( void )
     devel_debug ("gsb_form_scheduler_clean");
 
     /* set to NULL the execute flag */
-    g_object_set_data ( G_OBJECT (formulaire),
+    g_object_set_data ( G_OBJECT (gsb_form_get_form_widget ()),
 			"execute_scheduled", NULL );
 
     /* first we show it, becaus hidden when execute a scheduled transaction */

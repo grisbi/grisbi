@@ -217,7 +217,6 @@ extern GdkColor archive_background_color;
 extern GdkColor breakdown_background;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_selection;
-extern GtkWidget *formulaire;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
@@ -322,7 +321,7 @@ GtkWidget *creation_fenetre_operations ( void )
     GtkWidget *win_operations;
 
     /*   la fenetre des opé est une vbox : la liste en haut, le solde et  */
-    /*     des boutons de conf au milieu, le formulaire en bas */
+    /*     des boutons de conf au milieu, le transaction_form en bas */
     allocation_precedente = 0;
 
     win_operations = gtk_vbox_new ( FALSE, 6 );

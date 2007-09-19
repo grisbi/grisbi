@@ -75,7 +75,6 @@ static gboolean gsb_form_config_update_form_config ( gint account_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *formulaire;
 extern gint max;
 extern GtkWidget *preview;
 extern GtkTooltips *tooltips_general_grisbi;
@@ -924,7 +923,7 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
 /*     if ( !etat.formulaire_distinct_par_compte */
 /* 	 || */
 /* 	 gsb_account_get_combo_account_number ( accounts_combobox ) == gsb_gui_navigation_get_current_account ()) */
-/* 	mise_a_jour_taille_formulaire ( formulaire -> allocation.width ); */
+/* 	mise_a_jour_taille_formulaire ( transaction_form -> allocation.width ); */
 
     return FALSE;
 }

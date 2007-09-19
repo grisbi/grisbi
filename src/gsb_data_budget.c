@@ -92,6 +92,7 @@ static gpointer gsb_data_budget_get_structure_in_list ( gint no_budget,
 						 GSList *list );
 static gint gsb_data_budget_max_number ( void );
 static gint gsb_data_budget_max_sub_budget_number ( gint budget_number );
+static gboolean gsb_data_budget_merge_budget_list ( GSList *list_to_merge );
 static gint gsb_data_budget_new ( const gchar *name );
 static gint gsb_data_budget_new_sub_budget ( gint budget_number,
 				      const gchar *name );

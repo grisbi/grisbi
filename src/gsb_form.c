@@ -22,7 +22,7 @@
 
 /**
  * \file gsb_form.c
- * all that you need for the form is here !!!
+ * functions working on the transactions and scheduled form
  */
 
 
@@ -131,13 +131,22 @@ static GtkWidget *form_button_recover_breakdown;
 static GtkWidget *form_button_valid;
 static GtkWidget *form_button_cancel;
 
-/* xxx next values need to be static and changed */
-
-/* contient les adresses des widgets dans le formulaire en fonction */
-/* de leur place */
-GtkWidget *formulaire;
+/** THE form */
+static GtkWidget *transaction_form;
 
 
+/**
+ * the value transaction_form is static,
+ * that function return it
+ *
+ * \param
+ *
+ * \return a pointer to the transaction form
+ * */
+GtkWidget *gsb_form_get_form_widget ( void )
+{
+    return transaction_form;
+}
 
 /**
  * Create an empty form in an GtkExpander.
@@ -229,10 +238,10 @@ void gsb_form_create_widgets ()
      * middle : the values for transactions and scheduled transactions
      * bottom : the buttons valid/cancel */
 
-    formulaire = gtk_vbox_new ( FALSE,
+    transaction_form = gtk_vbox_new ( FALSE,
 				5 );
     gtk_container_add ( GTK_CONTAINER ( form_expander ),
-			formulaire );
+			transaction_form );
 
     /* the scheduled part is a table of SCHEDULED_WIDTH col x SCHEDULED_HEIGHT rows */
     form_scheduled_part = gtk_table_new ( SCHEDULED_HEIGHT, 
@@ -240,7 +249,7 @@ void gsb_form_create_widgets ()
 					  FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE (form_scheduled_part),
 				 6 );
-    gtk_box_pack_start ( GTK_BOX (formulaire),
+    gtk_box_pack_start ( GTK_BOX (transaction_form),
 			 form_scheduled_part,
 			 FALSE, FALSE,
 			 0 );
@@ -248,7 +257,7 @@ void gsb_form_create_widgets ()
 
     /* add a separator between the scheduled and transaction part */
     separator = gtk_hseparator_new ();
-    gtk_box_pack_start ( GTK_BOX (formulaire),
+    gtk_box_pack_start ( GTK_BOX (transaction_form),
 			 separator,
 			 FALSE, FALSE,
 			 0 );
@@ -261,7 +270,7 @@ void gsb_form_create_widgets ()
 		       "size-allocate",
 		       G_CALLBACK (gsb_form_allocate_size),
 		       NULL );
-    gtk_box_pack_start ( GTK_BOX (formulaire),
+    gtk_box_pack_start ( GTK_BOX (transaction_form),
 			 form_transaction_part,
 			 FALSE, FALSE,
 			 0 );
@@ -269,7 +278,7 @@ void gsb_form_create_widgets ()
     /* the buttons part is a hbox, with the recuperate child breakdown
      * on the left and valid/cancel on the right */
     form_button_part = gtk_vbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX (formulaire), form_button_part, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (transaction_form), form_button_part, FALSE, FALSE, 0 );
 
     /* add a separator between the transaction and button part */
     separator = gtk_hseparator_new ();
@@ -304,7 +313,7 @@ void gsb_form_create_widgets ()
     gtk_widget_set_size_request ( hbox, 2048, -1 );
 
     gtk_widget_show_all ( hbox );
-    gtk_widget_show_all ( formulaire );
+    gtk_widget_show_all ( transaction_form );
     gtk_widget_hide ( form_scheduled_part );
 
     if ( ! etat.affiche_boutons_valider_annuler )
@@ -387,7 +396,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
      * because without that number, others functions cannot get the account
      * number for an execution of scheduled in the home page
      * but after gsb_form_show because it will set that value to 0...*/
-    g_object_set_data ( G_OBJECT ( formulaire ),
+    g_object_set_data ( G_OBJECT ( transaction_form ),
 			"transaction_number_in_form",
 			GINT_TO_POINTER (transaction_number));
 
@@ -970,11 +979,11 @@ gint gsb_form_get_account_number ( void )
 	case ORIGIN_VALUE_HOME:
 	    /* we are on the home page, we need to check if the form is showed,
 	     * if yes, we get the account number of the scheduled showed in that form */
-	    if ( formulaire && GTK_WIDGET_VISIBLE (formulaire))
+	    if ( transaction_form && GTK_WIDGET_VISIBLE (transaction_form))
 	    {
 		gint scheduled_number;
 
-		scheduled_number = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (formulaire),
+		scheduled_number = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (transaction_form),
 									 "transaction_number_in_form" ));
 		if (!scheduled_number)
 		    return -2;
@@ -1286,7 +1295,7 @@ gboolean gsb_form_clean ( gint account_number )
 	}
 	tmp_list = tmp_list -> next;
     }
-    g_object_set_data ( G_OBJECT ( formulaire ),
+    g_object_set_data ( G_OBJECT ( transaction_form ),
 			"transaction_number_in_form",
 			NULL );
     return FALSE;
@@ -1694,7 +1703,7 @@ gint gsb_form_check_for_transfer ( const gchar *entry_string )
 /**
  * called when we press the button in an entry field in
  * the form
- * if "transaction_number_in_form" as data of formulaire is NULL,
+ * if "transaction_number_in_form" as data of transaction_form is NULL,
  * do the necessary to begin a new empty transaction
  *
  * \param entry wich receive the signal
@@ -1715,12 +1724,12 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
     /* we do the first part only if we click on the form directly, without double click or
      * entry in the transaction list,
      * in that case, transaction_number_in_form is 0 and set to -1, as a white line */
-    if (!g_object_get_data (G_OBJECT (formulaire), "transaction_number_in_form"))
+    if (!g_object_get_data (G_OBJECT (transaction_form), "transaction_number_in_form"))
     {
 	GtkWidget *date_entry;
 
 	/* set the new transaction number */
-	g_object_set_data ( G_OBJECT (formulaire),
+	g_object_set_data ( G_OBJECT (transaction_form),
 			    "transaction_number_in_form",
 			    GINT_TO_POINTER (-1));
 
@@ -1956,7 +1965,7 @@ gboolean gsb_form_finish_edition ( void )
     devel_debug ("gsb_form_finish_edition");
 
     /* get the number of the transaction, stored in the form (<0 if new) */
-    transaction_number = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( formulaire ),
+    transaction_number = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( transaction_form ),
 							      "transaction_number_in_form" ));
 
     /* set a debug here, if transaction_number is 0, should look for where it comes */
@@ -1972,7 +1981,7 @@ gboolean gsb_form_finish_edition ( void )
 	||
 	gsb_form_get_origin () == ORIGIN_VALUE_HOME )
     {
-	if (g_object_get_data ( G_OBJECT (formulaire), "execute_scheduled"))
+	if (g_object_get_data ( G_OBJECT (transaction_form), "execute_scheduled"))
 	   {
 	       /* we want to execute the scheduled transaction */
 	       is_transaction = TRUE;

@@ -128,7 +128,6 @@ extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern gchar *chemin_logo;
-extern GtkWidget *formulaire;
 extern struct iso_4217_currency iso_4217_currencies[] ;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
@@ -5627,7 +5626,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 	return;
     }
 
-    /* récupération de l'agencement du formulaire */
+    /* récupération de l'agencement du transaction_form */
 
     if ( !strcmp ( element_name,
 		   "Nb_colonnes_formulaire" ))

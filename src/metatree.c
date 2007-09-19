@@ -89,7 +89,6 @@ static void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * mod
 
 
 /*START_EXTERN*/
-extern GtkWidget *formulaire;
 extern GtkTreeModel * navigation_model;
 extern GtkTreeSelection * selection;
 extern GtkWidget *tree_view;
@@ -1475,7 +1474,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
     }
 
     /*   on ajoute les listes des crÃ©dits / débits à la liste
-     *   du combofix du formulaire */
+     *   du combofix du transaction_form */
     liste_combofix = g_slist_append ( liste_combofix, liste_division_debit );
     liste_combofix = g_slist_append ( liste_combofix, liste_division_credit );
 
@@ -1495,8 +1494,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 
     gtk_widget_show_all ( dialog );
 
-
-  retour_dialogue:
+retour_dialogue:
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
     if ( resultat != GTK_RESPONSE_OK )

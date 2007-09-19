@@ -90,7 +90,6 @@ extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor breakdown_background;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
-extern GtkWidget *formulaire;
 extern GdkGC *gc_separateur_operation;
 extern gint hauteur_ligne_liste_opes;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
@@ -521,7 +520,7 @@ gboolean gsb_scheduler_list_execute_transaction ( gint scheduled_number )
     /* the only difference for now between an execution and a edition of scheduled is here :
      * set the flag to say that we execute the scheduled transaction 
      * and hide the scheduler part of the form */
-    g_object_set_data ( G_OBJECT (formulaire),
+    g_object_set_data ( G_OBJECT (gsb_form_get_form_widget ()),
 			"execute_scheduled", GINT_TO_POINTER (TRUE));
     gtk_widget_hide ( gsb_form_get_scheduler_part ());
 

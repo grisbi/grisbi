@@ -26,6 +26,7 @@
 #include "./gsb_transactions_list.h"
 #include "./gsb_automem.h"
 #include "./gsb_data_account.h"
+#include "./gsb_form.h"
 #include "./gsb_form_widget.h"
 #include "./gtk_combofix.h"
 #include "./traitement_variables.h"
@@ -99,7 +100,6 @@ GSList *lignes_affichage_trois_lignes;
 
 
 /*START_EXTERN*/
-extern GtkWidget *formulaire;
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
 extern gint max;
 extern gchar *tips_col_liste_operations[TRANSACTION_LIST_COL_NB];
@@ -417,7 +417,7 @@ void recuperation_noms_colonnes_et_tips ( void )
 
 
 /* ************************************************************************************************************** */
-/* renvoie le widget contenu dans l'onglet divers du formulaire/liste des paramètres */
+/* renvoie le widget contenu dans l'onglet divers du gsb_form_get_form_widget ()/liste des paramètres */
 /* ************************************************************************************************************** */
 GtkWidget *onglet_diverse_form_and_lists ( void )
 {
@@ -472,7 +472,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 
 
 /* ************************************************************************************************************** */
-/* renvoie le widget contenu dans l'onglet divers du formulaire/liste des paramètres */
+/* renvoie le widget contenu dans l'onglet divers du gsb_form_get_form_widget ()/liste des paramètres */
 /* ************************************************************************************************************** */
 GtkWidget *onglet_form_completion ( void )
 {
