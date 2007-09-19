@@ -1844,7 +1844,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    break;
 
 	case GDK_Up:
-	    /* xxx marche pas pour les combofix */
 	    element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
 							     GSB_UP );
@@ -1853,7 +1852,6 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    break;
 
 	case GDK_Down:
-	    /* xxx marche pas pour les combofix */
 	    element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
 							     GSB_DOWN );

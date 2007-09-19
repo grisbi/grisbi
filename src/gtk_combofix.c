@@ -1423,7 +1423,8 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
 	case GDK_Down :
 	case GDK_KP_Down :
 	    /* show the popup if necessary */
-	    gtk_combofix_show_popup ( combofix );
+	    if (!GTK_WIDGET_VISIBLE (combofix -> popup))
+		gtk_combofix_show_popup ( combofix );
 
 	    gtk_combofix_move_selection ( combofix,
 					  COMBOFIX_DOWN );
@@ -1432,9 +1433,14 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
 
 	case GDK_Up :
 	case GDK_KP_Up :
-	    gtk_combofix_move_selection ( combofix,
-					  COMBOFIX_UP );
-	    return TRUE;
+	    /* move the selection up in the combofix only if the popup is showed,
+	     * else let the program works with the upper key */
+	    if (GTK_WIDGET_VISIBLE (combofix -> popup))
+	    {
+		gtk_combofix_move_selection ( combofix,
+					      COMBOFIX_UP );
+		return TRUE;
+	    }
 	    break;
 
 	case GDK_Page_Up :
