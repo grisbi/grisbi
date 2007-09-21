@@ -1001,10 +1001,9 @@ gboolean gsb_payment_method_config_sign_changed ( GtkWidget *menu_item,
 	    gtk_tree_model_foreach ( GTK_TREE_MODEL (model), 
 				     (GtkTreeModelForeachFunc) gsb_payment_method_config_foreach_select,
 				     GINT_TO_POINTER (payment_number));
-	    /* need to change the reconciliation tree becaus if it was a neutral changing to credit/debit
+	    /* need to clear and fill the reconciliation tree becaus if it was a neutral changing to credit/debit
 	     * and neutral was split... */
 	    gsb_reconcile_sort_config_fill ();
-	    /* xxx verif ici si on change un neutral splité en debit par ex, il faut surement refaire la liste du sort */
 	}
     }
     return FALSE;

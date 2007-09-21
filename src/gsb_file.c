@@ -135,6 +135,9 @@ gboolean gsb_file_new ( void )
     /* init the gui */
     gsb_file_new_gui ();
 
+    /* 	set the grid */
+    gsb_transactions_list_draw_grid (etat.affichage_grille);
+
     mise_a_jour_accueil ( TRUE );
     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
 
@@ -476,6 +479,9 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     /* update the main page */
     mise_a_jour_accueil (TRUE);
+
+    /* 	set the grid */
+    gsb_transactions_list_draw_grid (etat.affichage_grille);
 
     modification_fichier ( FALSE );
 

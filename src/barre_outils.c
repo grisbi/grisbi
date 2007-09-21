@@ -31,12 +31,12 @@
 
 /*START_INCLUDE*/
 #include "barre_outils.h"
-#include "./gsb_scheduler_list.h"
-#include "./gsb_transactions_list.h"
 #include "./gsb_automem.h"
 #include "./gsb_data_account.h"
 #include "./navigation.h"
 #include "./gsb_reconcile.h"
+#include "./gsb_scheduler_list.h"
+#include "./gsb_transactions_list.h"
 #include "./menu.h"
 #include "./traitement_variables.h"
 #include "./utils_buttons.h"
@@ -217,74 +217,10 @@ gboolean popup_transaction_view_mode_menu ( GtkWidget * button )
 /****************************************************************************************************/
 gboolean change_aspect_liste ( gint demande )
 {
-    GSList *list_tmp;
-
-    block_menu_cb = TRUE;
-
     switch ( demande )
     {
 	case 0:
-	    /* 	    changement de l'affichage de la grille */
-
-	  etat.affichage_grille = ! etat.affichage_grille;
-
-	    if ( etat.affichage_grille )
-	    {
-		/* 		on affiche les grilles */
-
-		g_signal_connect_after ( G_OBJECT ( gsb_scheduler_list_get_tree_view () ),
-					 "expose-event",
-					 G_CALLBACK ( affichage_traits_liste_echeances ),
-					 NULL );
-
-		list_tmp = gsb_data_account_get_list_accounts ();
-
-		while ( list_tmp )
-		{
-		    gint i;
-
-		    i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-		    g_signal_connect_after ( G_OBJECT ( gsb_transactions_list_get_tree_view()),
-					     "expose-event",
-					     G_CALLBACK ( affichage_traits_liste_operation ),
-					     NULL );
-
-		    list_tmp = list_tmp -> next;
-		}
-	    }
-	    else
-	    {
-		GSList *list_tmp;
-
-		g_signal_handlers_disconnect_by_func ( G_OBJECT ( gsb_scheduler_list_get_tree_view () ),
-						       G_CALLBACK ( affichage_traits_liste_echeances ),
-						       NULL );
-
-		list_tmp = gsb_data_account_get_list_accounts ();
-
-		while ( list_tmp )
-		{
-		    gint i;
-
-		    i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-		    g_signal_handlers_disconnect_by_func ( G_OBJECT ( gsb_transactions_list_get_tree_view()  ),
-							   G_CALLBACK ( affichage_traits_liste_operation ),
-							   NULL );
-
-		    list_tmp = list_tmp -> next;
-		}
-	    }
-	    gtk_widget_queue_draw ( gsb_transactions_list_get_tree_view());
-	    gtk_widget_queue_draw ( gsb_scheduler_list_get_tree_view () );
-
-	    block_menu_cb = TRUE;
-	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
-											  menu_name ( "ViewMenu", "ShowGrid", NULL ) ) ), 
-					   TRUE );
-	    block_menu_cb = FALSE;
-
+	    /* not used */
 	    break;
 
 	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
@@ -348,8 +284,6 @@ gboolean change_aspect_liste ( gint demande )
 
 	    break;
     }
-
-    block_menu_cb = FALSE;
 
     return ( TRUE );
 }

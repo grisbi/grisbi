@@ -29,9 +29,8 @@
 /*START_INCLUDE*/
 #include "menu.h"
 #include "./help.h"
-#include "./gsb_scheduler_list.h"
-#include "./gsb_transactions_list.h"
 #include "./barre_outils.h"
+#include "./gsb_transactions_list.h"
 #include "./navigation.h"
 #include "./erreur.h"
 #include "./dialog.h"
@@ -580,67 +579,19 @@ void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *cu
 
 
 /**
+ * set or unset the grid
  *
  *
+ * \return FALSE
  *
  */
 gboolean gsb_gui_toggle_grid_mode ()
 {
-    GSList *list_tmp;
+    devel_debug ( "gsb_gui_toggle_grid_mode" );
 
     etat.affichage_grille = ! etat.affichage_grille;
+    gsb_transactions_list_draw_grid (etat.affichage_grille);
 
-    if ( etat.affichage_grille )
-    {
-	/* 		on affiche les grilles */
-
-	g_signal_connect_after ( G_OBJECT ( gsb_scheduler_list_get_tree_view () ),
-				 "expose-event",
-				 G_CALLBACK ( affichage_traits_liste_echeances ),
-				 NULL );
-
-	list_tmp = gsb_data_account_get_list_accounts ();
-
-	while ( list_tmp )
-	{
-	    gint i;
-
-	    i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	    g_signal_connect_after ( G_OBJECT ( gsb_transactions_list_get_tree_view()),
-				     "expose-event",
-				     G_CALLBACK ( affichage_traits_liste_operation ),
-				     NULL );
-
-	    list_tmp = list_tmp -> next;
-	}
-    }
-    else
-    {
-	GSList *list_tmp;
-
-	g_signal_handlers_disconnect_by_func ( G_OBJECT ( gsb_scheduler_list_get_tree_view () ),
-					       G_CALLBACK ( affichage_traits_liste_echeances ),
-					       NULL );
-
-	list_tmp = gsb_data_account_get_list_accounts ();
-
-	while ( list_tmp )
-	{
-	    gint i;
-
-	    i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	    g_signal_handlers_disconnect_by_func ( G_OBJECT ( gsb_transactions_list_get_tree_view()  ),
-						   G_CALLBACK ( affichage_traits_liste_operation ),
-						   NULL );
-
-	    list_tmp = list_tmp -> next;
-	}
-    }
-
-    gtk_widget_queue_draw ( gsb_transactions_list_get_tree_view());
-    gtk_widget_queue_draw ( gsb_scheduler_list_get_tree_view () );
     return FALSE;
 }
 

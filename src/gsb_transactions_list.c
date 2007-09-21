@@ -131,11 +131,15 @@ static gboolean move_operation_to_account ( gint transaction_number,
 static gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
 					      gpointer null );
 static void popup_transaction_context_menu ( gboolean full, int x, int y );
+static gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view );
 static void remplissage_liste_operations ( gint compte );
 static gint schedule_transaction ( gint transaction_number );
 static gsb_real solde_debut_affichage ( gint account_number,
 				 gint floating_point);
 static void update_titres_tree_view ( void );
+static gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
+						       GtkTreeIter *iter,
+						       gpointer null );
 /*END_STATIC*/
 
 
@@ -361,9 +365,15 @@ gboolean gsb_transactions_list_current_transaction_up ( gint account_number )
 
     /* first, get the sorted path and up it */
     path_sorted = gsb_transactions_list_get_sorted_path (transaction_number, 0);
-    gtk_tree_path_prev ( path_sorted );
 
-    transaction_number = gsb_transaction_model_get_transaction_from_sorted_path (path_sorted);
+    do
+    {
+	gtk_tree_path_prev ( path_sorted );
+
+	transaction_number = gsb_transaction_model_get_transaction_from_sorted_path (path_sorted);
+    }
+    /* if we are on separator, continue to go up */
+    while (transaction_number == -2);
 
     if (!transaction_number)
 	/* we are on an archive, cannot go up */
@@ -437,6 +447,7 @@ gint gsb_transactions_list_get_transaction_next ( gint transaction_number )
     GtkTreePath *path_sorted;
     gint account_number;
     gint i;
+    gint next_transaction;
 
     /* if we are on the white line, do nothing */
     if ( transaction_number == -1)
@@ -477,7 +488,15 @@ gint gsb_transactions_list_get_transaction_next ( gint transaction_number )
 	    gtk_tree_path_next ( path_sorted );
     }
 
-    return gsb_transaction_model_get_transaction_from_sorted_path (path_sorted);
+    next_transaction = gsb_transaction_model_get_transaction_from_sorted_path (path_sorted);
+    /* if we are on a separator, go to the next line */
+    while (next_transaction == -2)
+    {
+	gtk_tree_path_next ( path_sorted );
+	next_transaction = gsb_transaction_model_get_transaction_from_sorted_path (path_sorted);
+    }
+
+    return next_transaction;
 }
 
 
@@ -880,13 +899,6 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW( tree_view ))),
 				  GTK_SELECTION_NONE );
 
-    /* 	met en place la grille */
-/*     if ( etat.affichage_grille ) */
-/* 	g_signal_connect_after ( G_OBJECT ( tree_view ), */
-/* 				 "expose-event", */
-/* 				 G_CALLBACK ( affichage_traits_liste_operation ), */
-/* 				 NULL ); */
-
     /* vérifie le simple ou double click */
     g_signal_connect ( G_OBJECT ( tree_view ),
 		       "button_press_event",
@@ -1212,6 +1224,7 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number 
 /**
  * append the transaction to the store of the account
  * just make the 4 lines or the 1 line if it's a child of breakdown
+ * add a separator to each transaction
  * 
  * \param transaction_number
  * \param store
@@ -1225,6 +1238,7 @@ gboolean gsb_transactions_list_append_transaction ( gint transaction_number,
     GtkTreeIter *mother_iter;
     gint mother_transaction_number;
     gint nb_lines;
+    GtkTreeIter iter;
 
     /* if it's the child of a breakdown, we append it at the last line of the mother,
      * wich depends of the account ...
@@ -1245,8 +1259,6 @@ gboolean gsb_transactions_list_append_transaction ( gint transaction_number,
 
     for ( line = 0 ; line < nb_lines ; line++ )
     {
-	GtkTreeIter iter;
-
 	gtk_tree_store_append ( store,
 				&iter,
 				mother_iter );
@@ -1256,6 +1268,19 @@ gboolean gsb_transactions_list_append_transaction ( gint transaction_number,
 					 line );
     }
 
+    /* for the main transactions, append a separator */
+    if (!mother_iter)
+    {
+	gtk_tree_store_append ( store,
+				&iter,
+				mother_iter );
+	gtk_tree_store_set ( store,
+			     &iter,
+			     TRANSACTION_COL_NB_TRANSACTION_LINE, 4,
+			     TRANSACTION_COL_NB_TRANSACTION_ADDRESS, gsb_data_transaction_get_pointer_to_transaction (transaction_number),
+			     TRANSACTION_COL_NB_WHAT_IS_LINE, IS_SEPARATOR,
+			     -1 );
+    }
     if ( mother_iter )
 	gtk_tree_iter_free (mother_iter);
 
@@ -1714,42 +1739,48 @@ gboolean gsb_transactions_list_set_background_color ( gint account_number )
 			     TRANSACTION_COL_NB_TRANSACTION_LINE, &line_in_transaction,
 			     -1 );
 
-	if (what_is_line == IS_ARCHIVE)
+	switch (what_is_line)
 	{
-	    /* it's an archive, so only 1 line and special color */
-	    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-				 &iter,
-				 TRANSACTION_COL_NB_BACKGROUND, &archive_background_color,
-				 -1 );
-	}
-	else
-	{
-	    transaction_number = gsb_data_transaction_get_transaction_number (transaction);
+	    case IS_ARCHIVE:
 
-	    /* if we are on the selection, set the selection's color and save the normal
-	     * color */
-
-	    if ( transaction_number == gsb_data_account_get_current_transaction_number (account_number))
-	    {
-		color_column = TRANSACTION_COL_NB_SAVE_BACKGROUND;
+		/* it's an archive, so only 1 line and special color */
 		gtk_tree_store_set ( GTK_TREE_STORE ( model ),
 				     &iter,
-				     TRANSACTION_COL_NB_BACKGROUND, &couleur_selection,
+				     TRANSACTION_COL_NB_BACKGROUND, &archive_background_color,
 				     -1 );
-	    }
-	    else
-		color_column = TRANSACTION_COL_NB_BACKGROUND;
+		break;
 
-	    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-				 &iter,
-				 color_column, &couleur_fond[current_color],
-				 -1 );
+	    case IS_TRANSACTION :
+		transaction_number = gsb_data_transaction_get_transaction_number (transaction);
 
-	    if ( ++i == nb_rows_by_transaction)
-	    {
-		i = 0;
-		current_color = !current_color;
-	    }
+		/* if we are on the selection, set the selection's color and save the normal
+		 * color */
+
+		if ( transaction_number == gsb_data_account_get_current_transaction_number (account_number))
+		{
+		    color_column = TRANSACTION_COL_NB_SAVE_BACKGROUND;
+		    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+					 &iter,
+					 TRANSACTION_COL_NB_BACKGROUND, &couleur_selection,
+					 -1 );
+		}
+		else
+		    color_column = TRANSACTION_COL_NB_BACKGROUND;
+
+		gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+				     &iter,
+				     color_column, &couleur_fond[current_color],
+				     -1 );
+
+		if ( ++i == nb_rows_by_transaction)
+		{
+		    i = 0;
+		    current_color = !current_color;
+		}
+		break;
+
+	    case IS_SEPARATOR:
+		break;
 	}
 
 	/* needn't to go in a child because the color is always the same, so
@@ -2079,7 +2110,11 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 			 TRANSACTION_COL_NB_WHAT_IS_LINE, &what_is_line,
 			 -1 );
 
-    /* for now for an archive, do nothing */
+    /* for a separator, do nothing */
+    if (what_is_line == IS_SEPARATOR)
+	return TRUE;
+
+    /* for now for an archive, check the double-click */
     if (what_is_line == IS_ARCHIVE)
     {
 	if (ev -> type == GDK_2BUTTON_PRESS)
@@ -3489,9 +3524,11 @@ gboolean gsb_gui_update_row_foreach ( GtkTreeModel *model, GtkTreePath *path,
 			 TRANSACTION_COL_NB_WHAT_IS_LINE, &what_is_line,
 			 -1 );
     /* just to be sure */
-    if (what_is_line == IS_ARCHIVE)
+    if (what_is_line == IS_ARCHIVE
+	||
+	what_is_line == IS_SEPARATOR)
     {
-	dialogue_error (_("Try to update a cell in an archive, should not happen..."));
+	dialogue_error (_("Try to update a cell in an archive or separator, should not happen..."));
 	return FALSE;
     }
 
@@ -4034,87 +4071,6 @@ gint schedule_transaction ( gint transaction_number )
 }
 
 
-/******************************************************************************/
-/* cette fonction affiche les traits verticaux et horizontaux sur la liste des opés */
-/******************************************************************************/
-gboolean affichage_traits_liste_operation ( void )
-{
-    GdkWindow *fenetre;
-    gint i;
-    gint largeur, hauteur;
-    gint x, y;
-    GtkAdjustment *adjustment;
-
-    g_return_val_if_fail ( gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () ),
-			   FALSE );
-
-    /*  FIXME   sachant qu'on appelle ça à chaque expose-event, cad très souvent ( dès que la souris passe dessus ), */
-    /*     ça peut ralentir bcp... à vérifier  */
-    /* xxx FIXME ça marche pas encore avec les ventilations (la grille) */
-
-    fenetre = gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( gsb_transactions_list_get_tree_view()));
-
-    gdk_drawable_get_size ( GDK_DRAWABLE ( fenetre ),
-			    &largeur,
-			    &hauteur );
-
-    if ( !gc_separateur_operation )
-	gc_separateur_operation = gdk_gc_new ( GDK_DRAWABLE ( fenetre ));
-
-    /*     si la hauteur des lignes n'est pas encore calculée, on le fait ici */
-
-    hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( gsb_transactions_list_get_tree_view());
-
-    /*     on commence par calculer la dernière ligne en pixel correspondant à la dernière opé de la liste */
-    /* 	pour éviter de dessiner les traits en dessous */
-
-    /*     derniere_ligne = hauteur_ligne_liste_opes * GTK_TREE_STORE ( gsb_transactions_list_get_store()) -> length; */
-    /* /\*     derniere_ligne = 10; /\\* FIXME àvirer *\\/ *\/ */
-    /*     hauteur = MIN ( derniere_ligne, */
-    /* 		    hauteur ); */
-
-    /*     le plus facile en premier... les lignes verticales */
-    /*     dépend de si on est en train de ventiler ou non */
-    /*     on en profite pour ajuster nb_ligne_ope_tree_view */
-
-    x=0;
-
-    for ( i=0 ; i<TRANSACTION_LIST_COL_NB - 1 ; i++ )
-    {
-	x = x + gtk_tree_view_column_get_width ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[i]));
-	gdk_draw_line ( GDK_DRAWABLE ( fenetre ),
-			gc_separateur_operation,
-			x - 1 , 0,
-			x - 1, hauteur );
-    }
-
-    /*     les lignes horizontales : il faut calculer la position y de chaque changement d'opé à l'écran */
-    /*     on calcule la position y de la 1ère ligne à afficher */
-
-    if ( hauteur_ligne_liste_opes )
-    {
-	adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_transactions_list_get_tree_view()));
-
-	y = ( hauteur_ligne_liste_opes * gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () ) ) * ( ceil ( adjustment->value / (hauteur_ligne_liste_opes* gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () )) )) - adjustment -> value;
-
-	do
-	{
-	    if ( y )
-		gdk_draw_line ( GDK_DRAWABLE ( fenetre ),
-				gc_separateur_operation,
-				0, y, 
-				largeur, y );
-	    y = y + hauteur_ligne_liste_opes*gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () );
-	}
-	while ( y < ( adjustment -> page_size ) /* && */
-		/* 		y < derniere_ligne */ );
-    }
-
-    return FALSE;
-}
-/******************************************************************************/
-
-
 
 /**
  * called when press a button on the title column
@@ -4521,7 +4477,10 @@ gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint account_numbe
 		continue;
 	    }
 
-	    /* it's not an archive, can check now for transactions */
+	    /* we don't check now for the separator, because it won't be shown if the transaction
+	     * is not shown, so check the basics for the transaction, and show or not after the separator */
+
+	    /*  check now for transactions */
 	    transaction_number = gsb_data_transaction_get_transaction_number (transaction);
 
 	    /* check the general white line (one for all the list, so no account number) */
@@ -4560,6 +4519,17 @@ gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint account_numbe
 				     -1 );
 		continue;
 	    }
+	    /* now we can check for a separator because the transaction will be shown (or some rows of the transaction,
+	     * if the grid is showed, show it */
+	    if (what_is_line == IS_SEPARATOR)
+	    {
+		gtk_tree_store_set ( GTK_TREE_STORE ( original_model ),
+				     &iter,
+				     TRANSACTION_COL_NB_VISIBLE, etat.affichage_grille,
+				     -1 );
+		continue;
+	    }
+
 
 	    /* 	    now we check if we show 1, 2, 3 or 4 lines */
 
@@ -4771,7 +4741,9 @@ void gsb_transactions_list_change_expanders ( gint only_current_account )
 				 -1 );
 
 	    /* if it's an archive, go to the next line */
-	    if (what_is_line == IS_ARCHIVE)
+	    if (what_is_line == IS_ARCHIVE
+		||
+		what_is_line == IS_SEPARATOR )
 	    {
 		iter_next_result = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( tree_store ),
 							      &iter );
@@ -5224,6 +5196,71 @@ gboolean gsb_transactions_list_append_archive ( gint archive_number )
     gtk_widget_destroy (message_window);
     return FALSE;
 }
+
+
+/**
+ * draw a grid or undraw it on the scheduled list
+ *
+ * \param show_grid TRUE or FALSE
+ *
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_draw_grid ( gboolean show_grid )
+{
+    gint current_account;
+
+    if ( show_grid )
+    {
+	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
+				       GTK_TREE_VIEW_GRID_LINES_VERTICAL );
+	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_scheduler_list_get_tree_view ()),
+				       GTK_TREE_VIEW_GRID_LINES_BOTH );
+	gtk_tree_view_set_row_separator_func ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
+					       (GtkTreeViewRowSeparatorFunc) gsb_transactions_list_separator_func,
+					       NULL,
+					       NULL );
+    }
+    else
+    {
+	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view()),
+				       GTK_TREE_VIEW_GRID_LINES_NONE );
+	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_scheduler_list_get_tree_view ()),
+				       GTK_TREE_VIEW_GRID_LINES_NONE );
+	gtk_tree_view_set_row_separator_func ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
+					       NULL,
+					       NULL,
+					       NULL );
+    }
+
+    current_account = gsb_gui_navigation_get_current_account ();
+    if (current_account != -1)
+	gsb_transactions_list_set_visibles_rows_on_account (current_account);
+    return FALSE;
+}
+
+
+/**
+ * GtkTreeViewRowSeparatorFunc to check if the line is a separator or no
+ *
+ * \param model
+ * \param iter
+ * \param null
+ *
+ * \return TRUE if separator, FALSE else
+ * */
+static gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
+						       GtkTreeIter *iter,
+						       gpointer null )
+{
+    gint what_is_line;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL (model),
+			 iter,
+			 TRANSACTION_COL_NB_WHAT_IS_LINE, &what_is_line,
+			 -1 );
+    return (what_is_line == IS_SEPARATOR);
+}
+
 
 
 /* Local Variables: */

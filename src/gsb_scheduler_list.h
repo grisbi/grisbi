@@ -50,7 +50,6 @@ enum periodicity_units {
 
 
 /* START_DECLARATION */
-gboolean affichage_traits_liste_echeances ( void );
 void gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 					       GDate *end_date );
 gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity periodicity );

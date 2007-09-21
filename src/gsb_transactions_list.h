@@ -21,7 +21,7 @@
 #define TRANSACTION_COL_NB_BACKGROUND 7		/*< color of the background (a GdkColor) */
 #define TRANSACTION_COL_NB_AMOUNT_COLOR 8	/*< color of the amount (a string like "red" or NULL)*/
 #define TRANSACTION_COL_NB_TRANSACTION_ADDRESS 9
-#define TRANSACTION_COL_NB_WHAT_IS_LINE 10	/*< on what the address point to ? IS_TRANSACTION, IS_ARCHIVE (see below) */
+#define TRANSACTION_COL_NB_WHAT_IS_LINE 10	/*< on what the address point to ? IS_TRANSACTION, IS_ARCHIVE, IS_SEPARATOR (see below) */
 #define TRANSACTION_COL_NB_SAVE_BACKGROUND 11	/*< when selection, save of the normal color of background (a GdkColor) */
 #define TRANSACTION_COL_NB_FONT 12		/*< PangoFontDescription if used */
 #define TRANSACTION_COL_NB_TRANSACTION_LINE 13	/*< the line in the transaction (1, 2, 3 or 4) */
@@ -35,6 +35,7 @@
 /* possible values to TRANSACTION_COL_NB_WHAT_IS_LINE */
 #define IS_TRANSACTION 0
 #define IS_ARCHIVE 1
+#define IS_SEPARATOR 2
 
 /* the element number for each showable in the list */
 # define TRANSACTION_LIST_DATE 1
@@ -66,7 +67,6 @@
 
 
 /* START_DECLARATION */
-gboolean affichage_traits_liste_operation ( void );
 void clone_selected_transaction ();
 GtkWidget *creation_fenetre_operations ( void );
 void demande_mise_a_jour_tous_comptes ( void );
@@ -76,6 +76,7 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number 
 gint gsb_transactions_list_clone_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_delete_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transaction_number );
+gboolean gsb_transactions_list_draw_grid ( gboolean show_grid );
 gboolean gsb_transactions_list_edit_current_transaction ( void );
 gboolean gsb_transactions_list_edit_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_edit_transaction_by_pointer ( gint *transaction_number );
@@ -100,7 +101,6 @@ gboolean gsb_transactions_list_update_transaction_value ( gint element_number );
 void mise_a_jour_affichage_r ( gint affichage_r );
 void move_selected_operation_to_account_nb ( gint *account );
 gboolean new_transaction () ;
-gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view );
 void remove_transaction ();
 void schedule_selected_transaction ();
 /* END_DECLARATION */

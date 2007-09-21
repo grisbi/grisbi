@@ -86,7 +86,7 @@ GtkTreePath *gsb_transactions_list_get_sorted_path ( gint transaction_number,
  *
  * \param path_sorted the path in the sorted model
  * 
- * \return the transaction number, -1 (white line) if problem or 0 if archive
+ * \return the transaction number, -1 (white line) if problem or 0 if archive, -2 for separator
  * */
 gint gsb_transaction_model_get_transaction_from_sorted_path ( GtkTreePath *path_sorted )
 {
@@ -117,9 +117,12 @@ gint gsb_transaction_model_get_transaction_from_sorted_path ( GtkTreePath *path_
 
     gtk_tree_path_free (path_model);
 
-    /* if it's an archive, we return 0 */
+    /* if it's an archive or separator, we return 0 */
     if (what_is_line == IS_ARCHIVE)
 	return 0;
+
+    if (what_is_line == IS_SEPARATOR)
+	return -2;
 
     return gsb_data_transaction_get_transaction_number (transaction);
 }
@@ -163,8 +166,10 @@ gint gsb_transaction_model_get_archive_store_from_sorted_path ( GtkTreePath *pat
 			 -1 );
     gtk_tree_path_free (path_model);
 
-    /* if it's an archive, we return 0 */
-    if (what_is_line == IS_TRANSACTION)
+    /* if it's a transaction or separator we return 0 */
+    if (what_is_line == IS_TRANSACTION
+	||
+	what_is_line == IS_SEPARATOR)
 	return 0;
 
     return gsb_data_archive_store_get_number (archive_store);
@@ -306,7 +311,9 @@ GtkTreeIter *gsb_transaction_model_get_iter_from_transaction ( gint transaction_
 				 -1 );
 
 	    /* if we are on an archive, we are not on a transaction... */
-	    if (what_is_line == IS_ARCHIVE)
+	    if (what_is_line == IS_ARCHIVE
+		||
+		what_is_line == IS_SEPARATOR)
 		continue;
 
 	    if ( line == line_in_transaction

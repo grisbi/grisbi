@@ -45,7 +45,6 @@
 #include "./echeancier_infos.h"
 #include "./traitement_variables.h"
 #include "./utils.h"
-#include "./gsb_transactions_list.h"
 #include "./utils_str.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
@@ -90,8 +89,6 @@ extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor breakdown_background;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
-extern GdkGC *gc_separateur_operation;
-extern gint hauteur_ligne_liste_opes;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern GtkWidget * navigation_tree_view;
 extern GtkWidget *scheduler_button_delete;
@@ -288,17 +285,9 @@ GtkWidget *gsb_scheduler_list_create_tree_view (void)
     tree_view = gtk_tree_view_new ();
 
     /* can select only one line */
-
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW( tree_view ))),
 				  GTK_SELECTION_SINGLE );
 
-    /* 	set the grid */
-
-    if ( etat.affichage_grille )
-	g_signal_connect_after ( G_OBJECT ( tree_view ),
-				 "expose-event",
-				 G_CALLBACK ( affichage_traits_liste_echeances ),
-				 NULL );
     g_signal_connect ( G_OBJECT ( tree_view ),
 		       "button-press-event",
 		       G_CALLBACK ( gsb_scheduler_list_button_press ),
@@ -308,12 +297,6 @@ GtkWidget *gsb_scheduler_list_create_tree_view (void)
 		       "key-press-event",
 		       G_CALLBACK ( gsb_scheduler_list_key_press ),
 		       NULL );
-
-    /*  FIXME : to move the size of the form with the window */ 
-    /*     g_signal_connect ( G_OBJECT ( tree_view ), "size-allocate", */
-    /* 		       G_CALLBACK ( changement_taille_liste_echeances ), */
-    /* 		       NULL ); */
-
     gtk_widget_show ( tree_view );
 
     last_scheduled_number = -1;
@@ -1509,85 +1492,6 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
 
     modification_fichier (TRUE);
-
-    return FALSE;
-}
-
-
-
-
-/* FIXME ???xxx to remove ?? affichage_traits_liste_echeances */
-/******************************************************************************/
-/* cette fonction affiche les traits verticaux et horizontaux sur la liste des échéances */
-/******************************************************************************/
-gboolean affichage_traits_liste_echeances ( void )
-{
-
-    GdkWindow *fenetre;
-    gint i;
-    gint largeur, hauteur;
-    gint x, y;
-    GtkAdjustment *adjustment;
-    gint derniere_ligne;
-
-    fenetre = gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( gsb_scheduler_list_get_tree_view () ));
-
-    gdk_drawable_get_size ( GDK_DRAWABLE ( fenetre ),
-			    &largeur,
-			    &hauteur );
-
-    if ( !gc_separateur_operation )
-	gc_separateur_operation = gdk_gc_new ( GDK_DRAWABLE ( fenetre ));
-
-    /*     si la hauteur des lignes n'est pas encore calculée, on le fait ici */
-
-    hauteur_ligne_liste_opes = recupere_hauteur_ligne_tree_view ( gsb_scheduler_list_get_tree_view () );
-
-    /*     on commence par calculer la dernière ligne en pixel correspondant à la dernière opé de la liste */
-    /* 	pour éviter de dessiner les traits en dessous */
-
-/*     derniere_ligne = hauteur_ligne_liste_opes * GTK_TREE_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view_scheduler_list ))) -> length; */
-    /* FIXME grill echeances */
-    derniere_ligne = 5;
-    hauteur = MIN ( derniere_ligne,
-		    hauteur );
-
-    /*     le plus facile en premier... les lignes verticales */
-    /*     dépend de si on est en train de ventiler ou non */
-    /*     on en profite pour ajuster nb_ligne_ope_tree_view */
-
-    x=0;
-
-    for ( i=0 ; i<6 ; i++ )
-    {
-	x = x + gtk_tree_view_column_get_width ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ));
-	gdk_draw_line ( GDK_DRAWABLE ( fenetre ),
-			gc_separateur_operation,
-			x, 0,
-			x, hauteur );
-    }
-
-    /*     les lignes horizontales : il faut calculer la position y de chaque changement d'opé à l'écran */
-    /*     on calcule la position y de la 1ère ligne à afficher */
-
-    if ( hauteur_ligne_liste_opes )
-    {
-	adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( gsb_scheduler_list_get_tree_view () ));
-
-	y = ( hauteur_ligne_liste_opes ) * ( ceil ( adjustment->value / hauteur_ligne_liste_opes )) - adjustment -> value;
-
-	do
-	{
-	    gdk_draw_line ( GDK_DRAWABLE ( fenetre ),
-			    gc_separateur_operation,
-			    0, y, 
-			    largeur, y );
-	    y = y + hauteur_ligne_liste_opes;
-	}
-	while ( y < ( adjustment -> page_size )
-		&&
-		y <= derniere_ligne );
-    }
 
     return FALSE;
 }
