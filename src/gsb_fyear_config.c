@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_fyear_config.h"
-#include "./gsb_transactions_list.h"
 #include "./dialog.h"
 #include "./utils_dates.h"
 #include "./gsb_autofunc.h"
@@ -39,9 +38,11 @@
 #include "./gsb_data_fyear.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_fyear.h"
+#include "./gsb_transactions_list.h"
 #include "./traitement_variables.h"
 #include "./utils.h"
 #include "./structures.h"
+#include "./gsb_transactions_list.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
@@ -826,7 +827,7 @@ gboolean gsb_fyear_config_associate_transactions ( void )
     {
 	dialogue ( g_strdup_printf (_("%d transactions associated"),
 				    modification_number));
-	demande_mise_a_jour_tous_comptes ();
+	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_EXERCICE);
 	modification_fichier ( TRUE );
     }
     else

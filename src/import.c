@@ -30,7 +30,6 @@
 #include "./utils.h"
 #include "./comptes_gestion.h"
 #include "./import_csv.h"
-#include "./gsb_transactions_list.h"
 #include "./erreur.h"
 #include "./dialog.h"
 #include "./utils_file_selection.h"
@@ -54,6 +53,7 @@
 #include "./menu.h"
 #include "./gsb_real.h"
 #include "./gsb_status.h"
+#include "./gsb_transactions_list.h"
 #include "./traitement_variables.h"
 #include "./accueil.h"
 #include "./utils_str.h"
@@ -1229,7 +1229,7 @@ void traitement_operations_importees ( void )
 	GSList *list_tmp;
 
 	list_tmp = gsb_data_account_get_list_accounts ();
-	demande_mise_a_jour_tous_comptes ();
+/* xxx voir ici aussi il y avait une demande de mise à jour de tous les comptes... est ce bien nécessaire ? */
 
 	while ( list_tmp )
 	{

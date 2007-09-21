@@ -69,7 +69,6 @@
 /* START_DECLARATION */
 void clone_selected_transaction ();
 GtkWidget *creation_fenetre_operations ( void );
-void demande_mise_a_jour_tous_comptes ( void );
 gchar *gsb_transactions_get_category_real_name ( gint transaction_number );
 gboolean gsb_transactions_list_append_archive ( gint archive_number );
 gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number );

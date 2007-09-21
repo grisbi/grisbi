@@ -23,11 +23,12 @@
 
 /*START_INCLUDE*/
 #include "affichage_liste.h"
-#include "./gsb_transactions_list.h"
 #include "./gsb_automem.h"
 #include "./gsb_data_account.h"
 #include "./gsb_form.h"
 #include "./gsb_form_widget.h"
+#include "./navigation.h"
+#include "./gsb_transactions_list.h"
 #include "./gtk_combofix.h"
 #include "./traitement_variables.h"
 #include "./utils.h"
@@ -46,7 +47,7 @@ static gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entr
 							  gpointer null );
 static gboolean gsb_transactions_list_display_update_combofix ( void );
 static gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
-							 gint origine );
+							 gpointer null );
 /*END_STATIC*/
 
 
@@ -108,10 +109,20 @@ extern gchar *titres_colonnes_liste_operations[TRANSACTION_LIST_COL_NB];
 
 
 
-/** TODO: document this */
+/**
+ * Callback called whent we change the order of the display
+ * for the lines
+ *
+ * \param menu_shell
+ * \param null
+ *
+ * \return FALSE
+ * */
 gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
-							 gint origine )
+							 gpointer null )
 {
+    gint current_account;
+
     ligne_affichage_une_ligne = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_une_ligne ) -> menu_item ),
 								      "no_ligne" ));
 
@@ -134,8 +145,14 @@ gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
 						     g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_3 ) -> menu_item ),
 									 "no_ligne" ));
 
+    /* update the visible account */
+    current_account = gsb_gui_navigation_get_current_account ();
+    if (current_account != -1)
+    {
+	gsb_transactions_list_set_visibles_rows_on_account (current_account);
+	gsb_transactions_list_set_background_color (current_account);
+    }
 
-    demande_mise_a_jour_tous_comptes ();
     modification_fichier ( TRUE );
 
     return ( FALSE );

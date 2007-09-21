@@ -111,6 +111,9 @@ static gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 						 gint cell_content_number );
 static gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_number,
 						       gint cell_content_number );
+static  gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
+						       GtkTreeIter *iter,
+						       gpointer null );
 static void gsb_transactions_list_set_filter (GtkTreeModel *filter_model);
 static GtkTreeModel *gsb_transactions_list_set_filter_store ( GtkTreeStore *store );
 static void gsb_transactions_list_set_sortable (GtkTreeModel *sortable_model);
@@ -137,9 +140,6 @@ static gint schedule_transaction ( gint transaction_number );
 static gsb_real solde_debut_affichage ( gint account_number,
 				 gint floating_point);
 static void update_titres_tree_view ( void );
-static gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
-						       GtkTreeIter *iter,
-						       gpointer null );
 /*END_STATIC*/
 
 
@@ -1780,7 +1780,7 @@ gboolean gsb_transactions_list_set_background_color ( gint account_number )
 		break;
 
 	    case IS_SEPARATOR:
-		break;
+	break;
 	}
 
 	/* needn't to go in a child because the color is always the same, so
@@ -3336,23 +3336,6 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transact
     return FALSE;
 }
 
-
-
-
-
-/******************************************************************************/
-/* Fonction  demande_mise_a_jour_tous_comptes */
-/* met la variable update_list de tous les comptes à 1 */
-/* ce qui fait que lorsqu'ils seront affichés, ils seront mis à jour avant */
-/* appelle aussi verification_mise_a_jour_liste pour mettre à jour la liste courante */
-/******************************************************************************/
-void demande_mise_a_jour_tous_comptes ( void )
-{
-    /* xxx FIXME: ça doit disparaitre */
-    gtk_tree_store_clear ( GTK_TREE_STORE ( gsb_transactions_list_get_store()  ));
-    gsb_transactions_list_fill_store ( gsb_transactions_list_get_store() );
-}
-/******************************************************************************/
 
 
 /**

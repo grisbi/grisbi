@@ -24,7 +24,6 @@
 
 /*START_INCLUDE*/
 #include "metatree.h"
-#include "./gsb_transactions_list.h"
 #include "./erreur.h"
 #include "./dialog.h"
 #include "./gsb_data_account.h"
@@ -35,6 +34,7 @@
 #include "./utils_dates.h"
 #include "./fenetre_principale.h"
 #include "./navigation.h"
+#include "./gsb_transactions_list.h"
 #include "./gtk_combofix.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
@@ -42,6 +42,7 @@
 #include "./fenetre_principale.h"
 #include "./gtk_combofix.h"
 #include "./gsb_data_transaction.h"
+#include "./gsb_transactions_list.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
@@ -745,7 +746,12 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 	    fill_division_row ( model, iface, it,
 				iface -> get_div_pointer (nouveau_no_division) );
 
-	demande_mise_a_jour_tous_comptes ();
+	/* metatree too complex for me, so instead of re-writing all the transactions, update
+	 * just the value we changed, or if we come here, it's for payee, categ or budget i
+	 * FIXME benj if you can know here and do only what is necessary ... */
+	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_PARTY);
+	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_BUDGET);
+	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CATEGORY);
     }
 
     /* supprime dans la liste des division  */
@@ -852,9 +858,12 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	    fill_division_row ( model, iface, it,
 				iface -> get_div_pointer (nouveau_no_division) );
 	
-	modification_fichier(TRUE);
-
-	demande_mise_a_jour_tous_comptes ();
+	/* metatree too complex for me, so instead of re-writing all the transactions, update
+	 * just the value we changed, or if we come here, it's for payee, categ or budget i
+	 * FIXME benj if you can know here and do only what is necessary ... */
+	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_PARTY);
+	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_BUDGET);
+	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CATEGORY);
 
     }
 
