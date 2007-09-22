@@ -441,7 +441,7 @@ gint gsb_data_transaction_get_account_number ( gint transaction_number )
 
 /**
  * set the account_number of the transaction
- * if the transaction has some children, their account number change too
+ * if the transaction has some children, they change too
  *
  * \param transaction_number
  * \param no_account
@@ -461,7 +461,6 @@ gboolean gsb_data_transaction_set_account_number ( gint transaction_number,
     transaction -> account_number = no_account;
 
     /* if the transaction is a breakdown, change all the children */
-    /* xxx faire la même chose pour les autres fonctions ici qd les changements doivent s'appliquer aux enfants */
     if (transaction -> breakdown_of_transaction)
     {
 	GSList *tmp_list;
@@ -478,7 +477,7 @@ gboolean gsb_data_transaction_set_account_number ( gint transaction_number,
 	}
 	g_slist_free (save_tmp_list);
     }
-    
+
     return TRUE;
 }
 
@@ -503,6 +502,7 @@ GDate *gsb_data_transaction_get_date ( gint transaction_number )
 
 /**
  * set the GDate of the transaction
+ * if the transaction has some children, they change too
  * 
  * \param transaction_number
  * \param no_account
@@ -519,8 +519,34 @@ gboolean gsb_data_transaction_set_date ( gint transaction_number,
     if ( !transaction )
 	return FALSE;
 
+    if (transaction -> date)
+	g_date_free (transaction -> date);
+
     transaction -> date = date;
-    
+
+    /* if the transaction is a breakdown, change all the children */
+    if (transaction -> breakdown_of_transaction)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    transaction = tmp_list -> data;
+
+	    if (transaction -> date)
+		g_date_free (transaction -> date);
+
+	    transaction -> date = date;
+
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
+
     return TRUE;
 }
 
@@ -546,6 +572,7 @@ GDate *gsb_data_transaction_get_value_date ( gint transaction_number )
 
 /** 
  * set the value GDate of the transaction
+ * if the transaction has some children, they change too
  * 
  * \param transaction_number
  * \param date the value date
@@ -562,7 +589,33 @@ gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
     if ( !transaction )
 	return FALSE;
 
-    transaction -> value_date = date;
+    if (transaction ->  value_date)
+	g_date_free (transaction ->  value_date);
+
+    transaction ->  value_date = date;
+
+    /* if the transaction is a breakdown, change all the children */
+    if (transaction -> breakdown_of_transaction)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    transaction = tmp_list -> data;
+
+	    if (transaction ->  value_date)
+		g_date_free (transaction -> value_date);
+
+	    transaction -> value_date = date;
+
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
     
     return TRUE;
 }
@@ -738,9 +791,13 @@ gint gsb_data_transaction_get_currency_number ( gint transaction_number )
 }
 
 
-/** set the currency_number
+/**
+ * set the currency_number
+ * if the transaction has some children, they change too
+ * 
  * \param transaction_number
  * \param no_currency
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_currency_number ( gint transaction_number,
@@ -755,6 +812,24 @@ gboolean gsb_data_transaction_set_currency_number ( gint transaction_number,
 
     transaction -> currency_number = no_currency;
     
+    /* if the transaction is a breakdown, change all the children */
+    if (transaction -> breakdown_of_transaction)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    transaction = tmp_list -> data;
+	    transaction -> currency_number = no_currency;
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
+
     return TRUE;
 }
 
@@ -787,6 +862,7 @@ gint gsb_data_transaction_get_change_between ( gint transaction_number )
  * set the change_between_account_and_transaction
  * if the value is 1, we have : 1 account_currency = (exchange_rate * amount) transaction_currency
  * else we have : 1 transaction_currency = (exchange_rate * amount) account_currency
+ * if the transaction has some children, they change too
  * 
  * \param transaction_number
  * \param value
@@ -805,6 +881,24 @@ gboolean gsb_data_transaction_set_change_between ( gint transaction_number,
 
     transaction -> change_between_account_and_transaction = value;
     
+    /* if the transaction is a breakdown, change all the children */
+    if (transaction -> breakdown_of_transaction)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    transaction = tmp_list -> data;
+	    transaction -> change_between_account_and_transaction = value;
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
+
     return TRUE;
 }
 
@@ -833,6 +927,7 @@ gsb_real gsb_data_transaction_get_exchange_rate ( gint transaction_number )
 
 /**
  * set the exchange_rate of the transaction
+ * if the transaction has some children, they change too
  * 
  * \param transaction_number
  * \param rate
@@ -851,6 +946,23 @@ gboolean gsb_data_transaction_set_exchange_rate ( gint transaction_number,
 
     transaction -> exchange_rate = rate;
     
+    /* if the transaction is a breakdown, change all the children */
+    if (transaction -> breakdown_of_transaction)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    transaction = tmp_list -> data;
+	    transaction -> exchange_rate = rate;
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
     return TRUE;
 }
 
@@ -873,9 +985,13 @@ gsb_real gsb_data_transaction_get_exchange_fees ( gint transaction_number )
 }
 
 
-/** set the exchange_fees of the transaction
+/**
+ * set the exchange_fees of the transaction
+ * if the transaction has some children, they change too
+ * 
  * \param transaction_number
  * \param rate
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_exchange_fees ( gint transaction_number,
@@ -890,6 +1006,23 @@ gboolean gsb_data_transaction_set_exchange_fees ( gint transaction_number,
 
     transaction -> exchange_fees = rate;
     
+    /* if the transaction is a breakdown, change all the children */
+    if (transaction -> breakdown_of_transaction)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    transaction = tmp_list -> data;
+	    transaction -> exchange_fees = rate;
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
     return TRUE;
 }
 
@@ -913,9 +1046,13 @@ gint gsb_data_transaction_get_party_number ( gint transaction_number )
 }
 
 
-/** set the party_number
+/**
+ * set the party_number
+ * if the transaction has some children, they change too
+ * 
  * \param transaction_number
  * \param value
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_party_number ( gint transaction_number,
@@ -929,6 +1066,24 @@ gboolean gsb_data_transaction_set_party_number ( gint transaction_number,
 	return FALSE;
 
     transaction -> party_number = no_party;
+
+    /* if the transaction is a breakdown, change all the children */
+    if (transaction -> breakdown_of_transaction)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    transaction = tmp_list -> data;
+	    transaction -> party_number = no_party;
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
 
     return TRUE;
 }
@@ -1115,9 +1270,13 @@ gint gsb_data_transaction_get_method_of_payment_number ( gint transaction_number
 }
 
 
-/** set the method_of_payment_number
+/**
+ * set the method_of_payment_number
+ * if the transaction has some children, they change too
+ * 
  * \param transaction_number
  * \param 
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_method_of_payment_number ( gint transaction_number,
@@ -1131,6 +1290,24 @@ gboolean gsb_data_transaction_set_method_of_payment_number ( gint transaction_nu
 	return FALSE;
 
     transaction -> method_of_payment_number = number;
+
+    /* if the transaction is a breakdown, change all the children */
+    if (transaction -> breakdown_of_transaction)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    transaction = tmp_list -> data;
+	    transaction -> method_of_payment_number = number;
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
 
     return TRUE;
 }
@@ -1204,6 +1381,7 @@ gint gsb_data_transaction_get_marked_transaction ( gint transaction_number )
 
 /**
  * set the marked_transaction
+ * if the transaction has some children, they change too
  * 
  * \param transaction_number
  * \param marked_transaction : OPERATION_NORMALE, OPERATION_POINTEE, OPERATION_TELERAPPROCHEE, OPERATION_RAPPROCHEE
@@ -1221,6 +1399,24 @@ gboolean gsb_data_transaction_set_marked_transaction ( gint transaction_number,
 	return FALSE;
 
     transaction -> marked_transaction = marked_transaction;
+
+    /* if the transaction is a breakdown, change all the children */
+    if (transaction -> breakdown_of_transaction)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    transaction = tmp_list -> data;
+	    transaction -> marked_transaction = marked_transaction;
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
 
     return TRUE;
 }
@@ -1349,9 +1545,13 @@ gint gsb_data_transaction_get_reconcile_number ( gint transaction_number )
 }
 
 
-/** set the reconcile_number
+/**
+ * set the reconcile_number
+ * if the transaction has some children, they change too
+ * 
  * \param transaction_number
  * \param  reconcile_number
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_reconcile_number ( gint transaction_number,
@@ -1365,6 +1565,24 @@ gboolean gsb_data_transaction_set_reconcile_number ( gint transaction_number,
 	return FALSE;
 
     transaction -> reconcile_number = reconcile_number;
+
+    /* if the transaction is a breakdown, change all the children */
+    if (transaction -> breakdown_of_transaction)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    transaction = tmp_list -> data;
+	    transaction -> reconcile_number = reconcile_number;
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
 
     return TRUE;
 }
@@ -1387,9 +1605,12 @@ gint gsb_data_transaction_get_financial_year_number ( gint transaction_number )
 }
 
 
-/** set the financial_year_number
+/**
+ * set the financial_year_number
+ * 
  * \param transaction_number
  * \param  financial_year_number
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_financial_year_number ( gint transaction_number,
