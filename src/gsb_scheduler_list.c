@@ -1425,14 +1425,6 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 
     if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
     {
-	if ( !question_yes_no_hint ( _("Delete a scheduled transaction"),
-				     g_strdup_printf ( _("Do you really want to delete the child of breakdown whit the category '%s' ?"),
-						       gsb_data_category_get_name ( gsb_data_scheduled_get_category_number (scheduled_number),
-										    gsb_data_scheduled_get_sub_category_number (scheduled_number),
-										    NULL )),
-				     GTK_RESPONSE_NO ))
-	    return FALSE;
-
 	/* !! important to remove first from the list... */
 	gsb_scheduler_list_remove_transaction_from_list ( scheduled_number );
 	gsb_data_scheduled_remove_scheduled (scheduled_number);
@@ -1483,7 +1475,6 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 		gsb_data_scheduled_remove_scheduled (scheduled_number);
 		break;
 	}
-
     }
 
     gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
@@ -1495,7 +1486,10 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 
     return FALSE;
 }
-
+/* xxx vérifier que qd delete une scheduler ventilation ça vire aussi les petits en mémoire et dans la liste */
+/* et pareil si modifie un scheduled ventil en opé normale
+ * de même que la modif va pas virer je pense la ligne blanche, trouver la protection pour que qd automatique, ça la vire,
+ * mais par la touche suppr, ça interdise (comme pour les opés normales)*/
 
 
 /**

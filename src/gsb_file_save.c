@@ -556,8 +556,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tAutomatic_amount_separator=\"%d\"\n"
 					   "\t\tAccounts_order=\"%s\"\n"
 					   "\t\tCSV_separator=\"%s\"\n"
-					   "\t\tCSV_skipped_lines=\"%s\"\n"
-					   "/>",
+					   "\t\tCSV_skipped_lines=\"%s\" />\n",
 	VERSION_FICHIER,
 	VERSION,
 	nom_fichier_backup,

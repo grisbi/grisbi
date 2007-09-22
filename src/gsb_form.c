@@ -2124,7 +2124,6 @@ gboolean gsb_form_finish_edition ( void )
 	if (is_transaction)
 	{
 	    /* it's a transaction or an execution of scheduled transaction */
-
 	    if ( new_transaction )
 	    {
 		gint breakdown_transaction_number;
@@ -2659,7 +2658,6 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 	{
 	    /* it's not a breakdown of transaction, if it was one, we delete the
 	     * transaction's daughters */
-
 	    gint account_transfer;
 
 	    /* carreful : must set == 1 and not != 0 because if problem to get the result,
@@ -2668,25 +2666,37 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		 &&
 		 gsb_data_mix_get_breakdown_of_transaction (transaction_number, is_transaction) == 1)
 	    {
-		GSList *list_tmp_transactions;
-		list_tmp_transactions = gsb_data_mix_get_transactions_list (is_transaction);
+		/* we try to modify a breakdown to a non breakdown transaction */
+		GSList *children_list;
 
-		while ( list_tmp_transactions )
+		children_list = gsb_data_mix_get_children (transaction_number, is_transaction);
+
+		/* if there is some children, we ask to be sure and delete them */
+		if (children_list)
 		{
-		    gint transaction_number_tmp;
-		    transaction_number_tmp = gsb_data_mix_get_transaction_number (list_tmp_transactions -> data, is_transaction);
+		    GSList *save_children_list;
 
-		    if ( gsb_data_mix_get_mother_transaction_number (transaction_number_tmp, is_transaction) == transaction_number )
+		    if (!question_yes_no_hint ( _("Modifying a transaction"),
+						_("You are trying to change a breakdown of transaction to another kind of transaction.\nThere is some children to that transaction, if you continue, the children will be deleted.\nAre you sure ?"),
+						GTK_RESPONSE_OK ))
+			return FALSE;
+
+		    save_children_list = children_list;
+
+		    do
 		    {
-			list_tmp_transactions = list_tmp_transactions -> next;
+			gint transaction_number_tmp;
+			transaction_number_tmp = gsb_data_mix_get_transaction_number (children_list -> data, is_transaction);
 
 			if (is_transaction)
-			    gsb_transactions_list_delete_transaction (transaction_number_tmp);
+			    gsb_transactions_list_delete_transaction (transaction_number_tmp, FALSE);
 			else
 			    gsb_scheduler_list_delete_scheduled_transaction (transaction_number_tmp);
+
+			children_list = children_list -> next;
 		    }
-		    else
-			list_tmp_transactions = list_tmp_transactions -> next;
+		    while ( children_list );
+		    g_slist_free (save_children_list);
 		}
 		gsb_data_mix_set_breakdown_of_transaction ( transaction_number,
 							    0, is_transaction );
@@ -2711,7 +2721,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 			/* it was a transfer, we delete the contra-transaction */
 			gsb_data_transaction_set_transaction_number_transfer ( contra_transaction_number,
 									       0);
-			gsb_transactions_list_delete_transaction (contra_transaction_number );
+			gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE );
 			gsb_data_transaction_set_transaction_number_transfer ( transaction_number,
 									       0);
 			gsb_data_transaction_set_account_number_transfer ( transaction_number,
@@ -2766,12 +2776,26 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 	    {
 		gsb_data_transaction_set_transaction_number_transfer ( contra_transaction_number,
 								       0);
-		gsb_transactions_list_delete_transaction (contra_transaction_number );
+		gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE );
 
 		gsb_data_transaction_set_transaction_number_transfer ( transaction_number,
 								       0);
 		gsb_data_transaction_set_account_number_transfer ( transaction_number,
 								   0);
+	    }
+
+	    /* if it's a modification of a transaction and it was not a breakdown,
+	     * we add a white line as first child */
+	    if (!new_transaction
+		&&
+		!gsb_data_mix_get_breakdown_of_transaction (transaction_number, is_transaction))
+	    {
+		if (is_transaction)
+		    gsb_transactions_list_append_white_line ( transaction_number,
+							      gsb_transactions_list_get_store ());
+		else
+		    gsb_scheduler_list_append_new_scheduled ( gsb_data_scheduled_new_white_line (transaction_number),
+							      gsb_data_scheduled_get_limit_date (transaction_number ));
 	    }
 
 	    gsb_data_mix_set_breakdown_of_transaction ( transaction_number,

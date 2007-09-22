@@ -85,7 +85,8 @@ typedef struct
     gint budgetary_number;
     gint sub_budgetary_number;
     gint transaction_number_transfer;
-    gint account_number_transfer;			/**< -1 for a deleted account */
+    gint account_number_transfer;			/**< -1 for a deleted account FIXME later, the account_number_transfer should disappear, not needed
+    								perhaps set transaction_number_transfer to -1 for deleted account ?*/
     gint breakdown_of_transaction;			/**< 1 if it's a breakdown of transaction */
     gint mother_transaction_number;			/**< for a breakdown, the mother's transaction number */
 
@@ -96,7 +97,6 @@ typedef struct
 
 
 /*START_STATIC*/
-static GSList *gsb_data_transaction_get_children ( gint transaction_number );
 static gint gsb_data_transaction_get_last_white_number (void);
 static struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transaction_number );
 static gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction );
@@ -439,9 +439,13 @@ gint gsb_data_transaction_get_account_number ( gint transaction_number )
 }
 
 
-/** set the account_number
+/**
+ * set the account_number of the transaction
+ * if the transaction has some children, their account number change too
+ *
  * \param transaction_number
  * \param no_account
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_account_number ( gint transaction_number,
@@ -455,6 +459,25 @@ gboolean gsb_data_transaction_set_account_number ( gint transaction_number,
 	return FALSE;
 
     transaction -> account_number = no_account;
+
+    /* if the transaction is a breakdown, change all the children */
+    /* xxx faire la même chose pour les autres fonctions ici qd les changements doivent s'appliquer aux enfants */
+    if (transaction -> breakdown_of_transaction)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    transaction = tmp_list -> data;
+	    transaction -> account_number = no_account;
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
     
     return TRUE;
 }

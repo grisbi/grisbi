@@ -72,8 +72,11 @@ GtkWidget *creation_fenetre_operations ( void );
 gchar *gsb_transactions_get_category_real_name ( gint transaction_number );
 gboolean gsb_transactions_list_append_archive ( gint archive_number );
 gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number );
+gint gsb_transactions_list_append_white_line ( gint mother_transaction_number,
+					       GtkTreeStore *store );
 gint gsb_transactions_list_clone_transaction ( gint transaction_number );
-gboolean gsb_transactions_list_delete_transaction ( gint transaction_number );
+gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
+						    gint show_warning );
 gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transaction_number );
 gboolean gsb_transactions_list_draw_grid ( gboolean show_grid );
 gboolean gsb_transactions_list_edit_current_transaction ( void );

@@ -23,6 +23,8 @@ gint gsb_data_mix_get_budgetary_number ( gint transaction_number,
 					 gboolean is_transaction );
 gint gsb_data_mix_get_category_number ( gint transaction_number,
 					gboolean is_transaction );
+GSList *gsb_data_mix_get_children ( gint transaction_number,
+				    gboolean is_transaction );
 gint gsb_data_mix_get_currency_number ( gint transaction_number,
 					gboolean is_transaction );
 GDate *gsb_data_mix_get_date ( gint transaction_number,
@@ -45,7 +47,6 @@ gint gsb_data_mix_get_transaction_number ( gpointer transaction_pointer,
 					   gboolean is_transaction );
 gint gsb_data_mix_get_transaction_number_transfer ( gint transaction_number,
 						    gboolean is_transaction );
-GSList *gsb_data_mix_get_transactions_list ( gboolean is_transaction );
 const gchar *gsb_data_mix_get_voucher ( gint transaction_number,
 					gboolean is_transaction );
 gint gsb_data_mix_get_white_line ( gint transaction_number,

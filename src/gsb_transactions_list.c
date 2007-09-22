@@ -81,8 +81,6 @@ static gboolean gsb_gui_update_row_foreach ( GtkTreeModel *model, GtkTreePath *p
 				      GtkTreeIter *iter, gint coords[2] );
 static gboolean gsb_transactions_list_append_transaction ( gint transaction_number,
 						    GtkTreeStore *store );
-static gint gsb_transactions_list_append_white_line ( gint mother_transaction_number,
-					       GtkTreeStore *store );
 static gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 					      GdkEventButton *ev );
 static void gsb_transactions_list_change_expanders ( gint only_current_account );
@@ -111,6 +109,8 @@ static gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 						 gint cell_content_number );
 static gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_number,
 						       gint cell_content_number );
+static gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_number,
+							     gint target_account );
 static  gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
 						       GtkTreeIter *iter,
 						       gpointer null );
@@ -129,8 +129,6 @@ static gboolean gsb_transactions_list_switch_mark ( gint transaction_number );
 static gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
 							   GdkEventButton *ev,
 							   gint *no_column );
-static gboolean move_operation_to_account ( gint transaction_number,
-				     gint target_account );
 static gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
 					      gpointer null );
 static void popup_transaction_context_menu ( gboolean full, int x, int y );
@@ -2226,7 +2224,7 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 	    break;
 
 	case GDK_Delete:		/*  del  */
-	    gsb_transactions_list_delete_transaction (gsb_data_account_get_current_transaction_number (account_number));
+	    gsb_transactions_list_delete_transaction (gsb_data_account_get_current_transaction_number (account_number), TRUE);
 	    break;
 
 	case GDK_P:			/* touche P */
@@ -3059,18 +3057,26 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
  * if it's a breakdown, delete the childs
  * 
  * \param transaction The transaction to delete
+ * \param show_warning TRUE to ask if the user is sure, FALSE directly delete the transaction
  *
  * \return FALSE
  * */
-gboolean gsb_transactions_list_delete_transaction ( gint transaction_number )
+gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
+						    gint show_warning )
 {
     gsb_real amount;
     gint account_number;
     gchar *string;
 
-    /* vérifications de bases */
+    /* we cannot delete the big white line (-1), but all the others white lines are possibles
+     * if show_warning it FALSE (ie this is automatic, and not done by user action */
     if ( !transaction_number
 	 ||
+	 transaction_number == -1 )
+	return FALSE;
+
+    if ( show_warning
+	 &&
 	 transaction_number < 0 )
 	return FALSE;
 
@@ -3087,23 +3093,26 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number )
     }
 
     /* show a warning */
-    if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
+    if (show_warning)
     {
-	if ( !question_yes_no_hint ( _("Delete a transaction"),
-				     g_strdup_printf ( _("Do you really want to delete the child of the transaction with party '%s' ?"),
-						       gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number),
-										 FALSE )),
-				     GTK_RESPONSE_NO ))
-	    return FALSE;
-    }
-    else
-    {
-	if ( !question_yes_no_hint ( _("Delete a transaction"),
-				     g_strdup_printf ( _("Do you really want to delete transaction with party '%s' ?"),
-						       gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number),
-										 FALSE )),
-				     GTK_RESPONSE_NO ))
-	    return FALSE;
+	if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
+	{
+	    if ( !question_yes_no_hint ( _("Delete a transaction"),
+					 g_strdup_printf ( _("Do you really want to delete the child of the transaction with party '%s' ?"),
+							   gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number),
+										     FALSE )),
+					 GTK_RESPONSE_NO ))
+		return FALSE;
+	}
+	else
+	{
+	    if ( !question_yes_no_hint ( _("Delete a transaction"),
+					 g_strdup_printf ( _("Do you really want to delete transaction with party '%s' ?"),
+							   gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number),
+										     FALSE )),
+					 GTK_RESPONSE_NO ))
+		return FALSE;
+	}
     }
 
     /* find the next transaction to be selected */
@@ -3254,7 +3263,7 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transact
     gint i;
     gint transaction_number_tmp;
 
-    if ( transaction_number <= 0 )
+    if ( transaction_number == -1 )
 	return FALSE;
 
     devel_debug ( g_strdup_printf ("gsb_transactions_list_delete_transaction_from_tree_view no %d",
@@ -3348,11 +3357,17 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 {
     GtkWidget *menu, *menu_item;
     gint transaction_number;
+    gboolean mi_full = TRUE;
 
     transaction_number = gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ());
 
-    if ( transaction_number == -1 )
+    /* full is used for the whites line, to unsensitive some fields in the menu */
+    if ( transaction_number < 0 )
 	full = FALSE;
+
+    /* mi_full is used for children of transactions, to unselect some fields in the menu */
+    if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
+	mi_full = FALSE;
 
     menu = gtk_menu_new ();
 
@@ -3411,7 +3426,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 				    gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item), "activate", schedule_selected_transaction, NULL );
-    gtk_widget_set_sensitive ( menu_item, full );
+    gtk_widget_set_sensitive ( menu_item, full && mi_full );
     gtk_menu_append ( menu, menu_item );
 
     /* Move to another account */
@@ -3420,6 +3435,8 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 				    gtk_image_new_from_stock ( GTK_STOCK_JUMP_TO,
 							       GTK_ICON_SIZE_MENU ));
     if ( !full
+	 ||
+	 !mi_full
 	 || 
 	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
 	 ||
@@ -3600,7 +3617,8 @@ void remove_transaction ()
 {
     if (! assert_selected_transaction()) return;
 
-    gsb_transactions_list_delete_transaction (gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()));
+    gsb_transactions_list_delete_transaction (gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()),
+					      TRUE );
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 }
 
@@ -3702,8 +3720,8 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
     target_account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
 							     "account_number" ) );  
 
-    if ( move_operation_to_account ( gsb_data_account_get_current_transaction_number (source_account),
-				     target_account ))
+    if ( gsb_transactions_list_move_transaction_to_account ( gsb_data_account_get_current_transaction_number (source_account),
+							     target_account ))
     {
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
@@ -3737,8 +3755,8 @@ void move_selected_operation_to_account_nb ( gint *account )
     source_account = gsb_gui_navigation_get_current_account ();
     target_account = GPOINTER_TO_INT ( account );  
 
-    if ( move_operation_to_account ( gsb_data_account_get_current_transaction_number (source_account),
-				     target_account ))
+    if ( gsb_transactions_list_move_transaction_to_account ( gsb_data_account_get_current_transaction_number (source_account),
+							     target_account ))
     {
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
@@ -3762,21 +3780,19 @@ void move_selected_operation_to_account_nb ( gint *account )
  * \param target_account Account to move the transaction to
  * return TRUE if ok
  */
-gboolean move_operation_to_account ( gint transaction_number,
-				     gint target_account )
+gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_number,
+							     gint target_account )
 {
-    GtkTreeIter *iter;
     gint source_account;
     gint contra_transaction_number;
+    gint current_account;
 
     source_account = gsb_data_transaction_get_account_number (transaction_number);
 
-    /* if it's a transfer, update the contra-transaction */
-    /* xxx FIXME : check also for children if breakdown */
-
+    /* if it's a transfer, update the contra-transaction category line */
     if ( ( contra_transaction_number = gsb_data_transaction_get_transaction_number_transfer (transaction_number)))
     {
-	/* if the transaction is a transfer, we check if the contra-transaction is not on the target account */
+	/* the transaction is a transfer, we check if the contra-transaction is not on the target account */
 
 	if ( gsb_data_transaction_get_account_number_transfer (transaction_number) == target_account )
 	{
@@ -3789,67 +3805,27 @@ gboolean move_operation_to_account ( gint transaction_number,
 	gsb_transactions_list_update_transaction (contra_transaction_number);
     }
 
-    /* if it's a breakdown, move the children too */
-
-    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
-    {
-	GSList *list_tmp_transactions;
-	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
-
-	while ( list_tmp_transactions )
-	{
-	    gint transaction_number_tmp;
-	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
-
-	    if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp)
-		 == 
-		 transaction_number )
-	    {
-		list_tmp_transactions = list_tmp_transactions -> next;
-		move_operation_to_account ( transaction_number_tmp,
-					    target_account );
-	    }
-	    else
-		list_tmp_transactions = list_tmp_transactions -> next;
-	}
-    }
-
-    /* we remove the transaction from the tree_store */
-
-    iter = gsb_transaction_model_get_iter_from_transaction (transaction_number,
-							    0 );
-
-    if ( iter )
-    {
-	gint i;
-
-	/* change the selection if necessary */
-
-	if ( gsb_data_account_get_current_transaction_number (source_account) == transaction_number)
-	    gsb_data_account_set_current_transaction_number ( source_account,
-							      gsb_data_transaction_get_transaction_number (cherche_operation_from_ligne ( cherche_ligne_operation ( gsb_data_account_get_current_transaction_number (source_account),
-																				    source_account)
-																	  +
-																	  gsb_data_account_get_nb_rows (source_account))));
-
-	for ( i=0 ; i<gsb_data_account_get_nb_rows (source_account) ; i++ )
-	    gtk_tree_store_remove ( GTK_TREE_STORE ( gsb_transactions_list_get_store() ),
-				    iter );
-
-	/* update the colors and the store */
-
-	gsb_transactions_list_set_background_color (source_account);
-	gsb_transactions_list_set_transactions_balances (source_account);
-    }
-
     /* we change now the account of the transaction */
-
     gsb_data_transaction_set_account_number ( transaction_number,
 					      target_account );
 
-    /* make the transaction in the tree_view */
+    /* normally we can change the account only by right click button
+     * so the current transaction is selected,
+     * so move the selection down */
+    gsb_transactions_list_current_transaction_down (source_account);
 
-    gsb_transactions_list_append_new_transaction (transaction_number);
+    /* normally we are on the source account, if ever we are not, check here
+     * what we have to update */
+    current_account = gsb_gui_navigation_get_current_account ();
+    if (current_account == source_account
+	||
+	current_account == target_account)
+    {
+	gsb_transactions_list_set_visibles_rows_on_account (current_account);
+	gsb_transactions_list_set_background_color (current_account);
+	gsb_transactions_list_set_transactions_balances (current_account);
+    }
+
     return TRUE;
 }
 
@@ -4561,6 +4537,7 @@ gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint account_numbe
     }
     return FALSE;
 }
+
 
 /** 
  * check if the transaction should be shown and do it, it's called when we add a new transaction

@@ -413,7 +413,7 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
 
 		gsb_data_transaction_set_transaction_number_transfer ( contra_transaction_number,
 								       0);
-		gsb_transactions_list_delete_transaction (contra_transaction_number);
+		gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE);
 		new_transaction = 1;
 	    }
 	}

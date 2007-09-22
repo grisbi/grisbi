@@ -40,6 +40,7 @@ gint gsb_data_transaction_get_breakdown_of_transaction ( gint transaction_number
 gint gsb_data_transaction_get_budgetary_number ( gint transaction_number );
 gint gsb_data_transaction_get_category_number ( gint transaction_number );
 gint gsb_data_transaction_get_change_between ( gint transaction_number );
+GSList *gsb_data_transaction_get_children ( gint transaction_number );
 GSList *gsb_data_transaction_get_complete_transactions_list ( void );
 gint gsb_data_transaction_get_currency_number ( gint transaction_number );
 GDate *gsb_data_transaction_get_date ( gint transaction_number );
