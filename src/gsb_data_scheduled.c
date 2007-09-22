@@ -324,6 +324,7 @@ gint gsb_data_scheduled_get_account_number ( gint scheduled_number )
 
 /**
  * set the account_number
+ * if the scheduled has some children, they change too
  * 
  * \param scheduled_number
  * \param no_account
@@ -341,6 +342,24 @@ gboolean gsb_data_scheduled_set_account_number ( gint scheduled_number,
 	return FALSE;
 
     scheduled -> account_number = no_account;
+
+    /* if the scheduled is a breakdown, change all the children */
+    if (scheduled -> breakdown_of_scheduled)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_scheduled_get_children (scheduled -> scheduled_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    scheduled = tmp_list -> data;
+	    scheduled -> account_number = no_account;
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
 
     return TRUE;
 }
@@ -367,9 +386,13 @@ GDate *gsb_data_scheduled_get_date ( gint scheduled_number )
 }
 
 
-/** set the GDate of the scheduled
+/**
+ * set the GDate of the scheduled
+ * if the scheduled has some children, they change too
+ * 
  * \param scheduled_number
  * \param no_account
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_date ( gint scheduled_number,
@@ -382,7 +405,31 @@ gboolean gsb_data_scheduled_set_date ( gint scheduled_number,
     if ( !scheduled )
 	return FALSE;
 
+    if (scheduled -> date)
+	g_date_free (scheduled -> date);
     scheduled -> date = gsb_date_copy (date);
+
+    /* if the scheduled is a breakdown, change all the children */
+    if (scheduled -> breakdown_of_scheduled)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_scheduled_get_children (scheduled -> scheduled_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    scheduled = tmp_list -> data;
+
+	    if (scheduled -> date)
+		g_date_free (scheduled -> date);
+	    scheduled -> date = date;
+
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
 
     return TRUE;
 }
@@ -458,6 +505,7 @@ gint gsb_data_scheduled_get_currency_number ( gint scheduled_number )
 
 /**
  * set the currency_number
+ * if the scheduled has some children, they change too
  * 
  * \param scheduled_number
  * \param no_currency
@@ -475,6 +523,24 @@ gboolean gsb_data_scheduled_set_currency_number ( gint scheduled_number,
 	return FALSE;
 
     scheduled -> currency_number = no_currency;
+
+    /* if the scheduled is a breakdown, change all the children */
+    if (scheduled -> breakdown_of_scheduled)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_scheduled_get_children (scheduled -> scheduled_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    scheduled = tmp_list -> data;
+	    scheduled -> currency_number = no_currency;
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
 
     return TRUE;
 }
@@ -504,6 +570,8 @@ gint gsb_data_scheduled_get_party_number ( gint scheduled_number )
 
 /**
  * set the party_number
+ * if the scheduled has some children, they change too
+ * 
  * \param scheduled_number
  * \param value
  * 
@@ -520,6 +588,24 @@ gboolean gsb_data_scheduled_set_party_number ( gint scheduled_number,
 	return FALSE;
 
     scheduled -> party_number = no_party;
+
+    /* if the scheduled is a breakdown, change all the children */
+    if (scheduled -> breakdown_of_scheduled)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_scheduled_get_children (scheduled -> scheduled_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    scheduled = tmp_list -> data;
+	    scheduled -> party_number = no_party;
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
 
     return TRUE;
 }
@@ -730,6 +816,7 @@ gint gsb_data_scheduled_get_method_of_payment_number ( gint scheduled_number )
 
 /**
  * set the method_of_payment_number
+ * if the scheduled has some children, they change too
  * 
  * \param scheduled_number
  * \param 
@@ -747,6 +834,24 @@ gboolean gsb_data_scheduled_set_method_of_payment_number ( gint scheduled_number
 	return FALSE;
 
     scheduled -> method_of_payment_number = number;
+
+    /* if the scheduled is a breakdown, change all the children */
+    if (scheduled -> breakdown_of_scheduled)
+    {
+	GSList *tmp_list;
+	GSList *save_tmp_list;
+
+	tmp_list = gsb_data_scheduled_get_children (scheduled -> scheduled_number);
+	save_tmp_list = tmp_list;
+
+	while (tmp_list)
+	{
+	    scheduled = tmp_list -> data;
+	    scheduled -> method_of_payment_number = number;
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (save_tmp_list);
+    }
 
     return TRUE;
 }
