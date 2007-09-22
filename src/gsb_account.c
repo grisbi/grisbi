@@ -307,6 +307,11 @@ GtkWidget *gsb_account_create_combo_list ( GCallback func,
 
     gtk_combo_box_set_model ( GTK_COMBO_BOX (combobox),
 			      GTK_TREE_MODEL (store));
+
+    /* by default, this is blank, so set the first */
+    gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox),
+			       0 );
+
     if ( func )
 	g_signal_connect ( G_OBJECT (combobox),
 			   "changed",

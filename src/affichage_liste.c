@@ -1,6 +1,6 @@
 /* ce fichier contient les paramètres de l'affichage de la liste d'opé */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org) */
 /*			2006 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
@@ -50,27 +50,6 @@ static gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu
 							 gpointer null );
 /*END_STATIC*/
 
-
-
-gchar *labels_boutons [] = {
-    N_("Date"),
-    N_("Value date"),
-    N_("Payee"),
-    N_("Budgetary line"),
-    N_("Debit"),
-    N_("Credit"),
-    N_("Balance"),
-    N_("Amount"),
-    N_("Method of payment"),
-    N_("Reconciliation ref."),
-    N_("Financial year"),
-    N_("Category"),
-    N_("C/R"),
-    N_("Voucher"),
-    N_("Notes"),
-    N_("Bank references"),
-    N_("Transaction number"),
-    NULL };
 
 
 /* utilisée pour éviter l'emballement de la connection allocation */

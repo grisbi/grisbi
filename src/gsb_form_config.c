@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     copyright (c)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2006 Benjamin Drieu (bdrieu@april.org) 	      */
+/*     copyright (c)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2007 Benjamin Drieu (bdrieu@april.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -149,7 +149,6 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     /* we can organize the form
      * either the same for all the accounts
      * either each account has its own configuration */
-
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
     gtk_box_pack_start ( GTK_BOX (paddingbox),
@@ -160,7 +159,6 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     gtk_widget_show ( hbox );
 
     /* the button to choose the configuration for all/one account */
-
     button = gsb_automem_checkbutton_new ( _("Each account has his own form"),
 					&etat.formulaire_distinct_par_compte,
 					G_CALLBACK ( gsb_form_config_switch_general_to_several_form ), NULL);
@@ -183,7 +181,6 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     gtk_widget_show ( accounts_combobox );
 
     /* create the tree_view */
-
     form_config_tree_view = gsb_form_config_create_tree_view (gsb_form_config_create_store ());
     gtk_box_pack_start ( GTK_BOX ( paddingbox),
 			 form_config_tree_view,
@@ -194,7 +191,6 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 
 
     /* set the buttons line to increase/decrease the form */
-
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 gsb_form_config_create_sizing_buttons_line (),
 			 FALSE,
@@ -202,7 +198,6 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 			 0 );
 
     /* set the box with the buttons */
-
     paddingbox = new_paddingbox_with_title ( vbox_parent,
 					     FALSE,
 					     _("Form structure content"));
@@ -293,7 +288,6 @@ GtkWidget *gsb_form_config_create_tree_view ( GtkListStore *store )
     }
 
     /* we will fille the form and size the columns when the window will be realized */
-
     g_signal_connect ( G_OBJECT ( tree_view ),
 		       "realize",
 		       G_CALLBACK ( gsb_form_config_realized ),
