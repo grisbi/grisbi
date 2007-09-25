@@ -1067,6 +1067,7 @@ gboolean gsb_form_fill_from_account ( gint account_number )
 {
     gint row, column;
     gint rows_number, columns_number;
+    gint form_account_number;
 
     devel_debug ( g_strdup_printf ("gsb_form_fill_from_account %d", account_number ));
 
@@ -1089,8 +1090,15 @@ gboolean gsb_form_fill_from_account ( gint account_number )
 	    break;
     }
 
-    rows_number = gsb_data_form_get_nb_rows (account_number);
-    columns_number = gsb_data_form_get_nb_columns (account_number);
+    /* if each account has a separate form, get it here,
+     * else, get the form of the first account */
+    if (etat.formulaire_distinct_par_compte)
+	form_account_number = account_number;
+    else
+	form_account_number = gsb_data_account_first_number ();
+
+    rows_number = gsb_data_form_get_nb_rows (form_account_number);
+    columns_number = gsb_data_form_get_nb_columns (form_account_number);
 
     gtk_table_resize ( GTK_TABLE (form_transaction_part),
 		       rows_number,
@@ -1100,8 +1108,8 @@ gboolean gsb_form_fill_from_account ( gint account_number )
 	for ( column=0 ; column < columns_number ; column++ )
 	{
 	    GtkWidget *widget;
-	    gint element = gsb_data_form_get_value ( account_number, column, row );
-	    widget = gsb_form_widget_create ( element, account_number );
+	    gint element = gsb_data_form_get_value ( form_account_number, column, row );
+	    widget = gsb_form_widget_create ( element, form_account_number );
 
 	    if ( !widget )
 		continue;
@@ -2669,7 +2677,8 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		/* we try to modify a breakdown to a non breakdown transaction */
 		GSList *children_list;
 
-		children_list = gsb_data_mix_get_children (transaction_number, is_transaction);
+		/* get the number list of children */
+		children_list = gsb_data_mix_get_children (transaction_number, TRUE, is_transaction);
 
 		/* if there is some children, we ask to be sure and delete them */
 		if (children_list)
@@ -2686,12 +2695,12 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		    do
 		    {
 			gint transaction_number_tmp;
-			transaction_number_tmp = gsb_data_mix_get_transaction_number (children_list -> data, is_transaction);
+			transaction_number_tmp = GPOINTER_TO_INT (children_list -> data);
 
 			if (is_transaction)
 			    gsb_transactions_list_delete_transaction (transaction_number_tmp, FALSE);
 			else
-			    gsb_scheduler_list_delete_scheduled_transaction (transaction_number_tmp);
+			    gsb_scheduler_list_delete_scheduled_transaction (transaction_number_tmp, FALSE);
 
 			children_list = children_list -> next;
 		    }

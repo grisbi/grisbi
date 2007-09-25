@@ -552,7 +552,7 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
     gchar *string;
     GtkTextBuffer * buffer;
     GtkTextIter     iter;
-printf ( "ça passe\n");
+
     if (!list_transaction_to_archive)
     {
 	/* should not happen */

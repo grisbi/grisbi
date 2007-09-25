@@ -1,11 +1,7 @@
 /* ************************************************************************** */
-/* Fichier qui s'occupe des manipulations de comptes                          */
 /*                                                                            */
-/*                         comptes_traitements.c                              */
-/*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2006 Benjamin Drieu (bdrieu@april.org)		      */
-/*			2004 Alain Portal (aportal@univ-montp2.fr)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2006-2007 Benjamin Drieu (bdrieu@april.org)		      */
 /*			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */

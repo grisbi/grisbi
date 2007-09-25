@@ -96,7 +96,7 @@ gboolean gsb_scheduler_increase_scheduled ( gint scheduled_number )
 	    GSList *children_numbers_list;
 
 	    /* if there is some children, set the new date too */
-	    children_numbers_list = gsb_data_scheduled_get_children ( scheduled_number );
+	    children_numbers_list = gsb_data_scheduled_get_children ( scheduled_number, TRUE );
 
 	    while ( children_numbers_list )
 	    {
@@ -412,7 +412,7 @@ gboolean gsb_scheduler_execute_children_of_scheduled_transaction ( gint schedule
 {
     GSList *children_numbers_list;
 
-    children_numbers_list = gsb_data_scheduled_get_children ( scheduled_number );
+    children_numbers_list = gsb_data_scheduled_get_children ( scheduled_number, TRUE );
 
     while ( children_numbers_list )
     {

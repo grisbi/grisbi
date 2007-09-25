@@ -40,7 +40,8 @@ gint gsb_data_transaction_get_breakdown_of_transaction ( gint transaction_number
 gint gsb_data_transaction_get_budgetary_number ( gint transaction_number );
 gint gsb_data_transaction_get_category_number ( gint transaction_number );
 gint gsb_data_transaction_get_change_between ( gint transaction_number );
-GSList *gsb_data_transaction_get_children ( gint transaction_number );
+GSList *gsb_data_transaction_get_children ( gint transaction_number,
+					    gboolean return_number);
 GSList *gsb_data_transaction_get_complete_transactions_list ( void );
 gint gsb_data_transaction_get_currency_number ( gint transaction_number );
 GDate *gsb_data_transaction_get_date ( gint transaction_number );
@@ -98,7 +99,7 @@ gboolean gsb_data_transaction_set_change_between ( gint transaction_number,
 gboolean gsb_data_transaction_set_currency_number ( gint transaction_number,
 						    gint no_currency );
 gboolean gsb_data_transaction_set_date ( gint transaction_number,
-					 GDate *date );
+					 const GDate *date );
 gboolean gsb_data_transaction_set_exchange_fees ( gint transaction_number,
 						  gsb_real rate );
 gboolean gsb_data_transaction_set_exchange_rate ( gint transaction_number,
@@ -128,7 +129,7 @@ gboolean gsb_data_transaction_set_transaction_id ( gint transaction_number,
 gboolean gsb_data_transaction_set_transaction_number_transfer ( gint transaction_number,
 								gint transaction_number_transfer );
 gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
-					       GDate *date );
+					       const GDate *date );
 gboolean gsb_data_transaction_set_voucher ( gint transaction_number,
 					    const gchar *voucher );
 /* END_DECLARATION */

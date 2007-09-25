@@ -968,6 +968,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     GtkWidget * alignement;
     gchar * short_filename;
     gint size = 0, spacing = 0;
+    gint index;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
@@ -1048,6 +1049,18 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     g_signal_connect ( G_OBJECT ( radio ), "toggled", 
 		       G_CALLBACK ( import_account_action_activated ), GINT_TO_POINTER (1));
 
+    /* set on the right account, (Yoann) */
+    index = gsb_data_account_get_account_by_id (compte->id_compte);
+    if(index >= 0)
+    {
+	g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox2 );
+	g_object_set_data ( G_OBJECT ( radio ), "account", compte );	
+	import_account_action_activated(radio,1);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio), TRUE);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(compte -> bouton_compte_add),index);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(compte -> bouton_compte_mark),index);
+    }
+
     /* Mark account */
     radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), 
 							  _("Mark transactions of an account") );
@@ -1105,10 +1118,10 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 
 	}
     }
+
     gtk_box_pack_start ( GTK_BOX ( hbox ), compte -> bouton_devise, FALSE, FALSE, 0 );
 
     return vbox;
-
 }
 
 

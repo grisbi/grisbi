@@ -368,12 +368,15 @@ gint gsb_data_account_get_no_account ( gpointer account_ptr )
 }
 
 
-/** change the number of the account given in param
+/**
+ * change the number of the account given in param
  * it returns the new number (given in param also)
  * it is called ONLY when loading a file to change the default
  * number, given when we create the account
+ * 
  * \param account_number no of the account to change
  * \param new_no new number to the account
+ * 
  * \return the new number, or -1 if failed
  * */
 gint gsb_data_account_set_account_number ( gint account_number,
@@ -563,6 +566,38 @@ gboolean gsb_data_account_set_id ( gint account_number,
     account -> account_id = my_strdup (id);
 
     return TRUE;
+}
+
+
+/**
+ * Test if account exist by id (// Modif Yoann )
+ * 
+ * \param Account Id
+ *
+ * \return the account number or -1
+ */
+gint gsb_data_account_get_account_by_id ( const gchar *account_id )
+{
+    GSList *list_tmp;
+
+    list_tmp = gsb_data_account_get_list_accounts ();
+    while ( list_tmp )
+    {
+	struct_account *account;
+
+	account = list_tmp -> data;
+
+	if ( account -> account_number >= 0 && !account -> closed_account)
+	{
+	    gchar *account_id_save;
+	    account_id_save = account -> account_id;
+	    if(g_strcasecmp(account_id,
+			    account -> account_id) == 0)
+		return account -> account_number;
+	}
+	list_tmp = list_tmp -> next;
+    }
+    return -1;
 }
 
 
@@ -2211,10 +2246,10 @@ gboolean gsb_data_account_set_default_sort_values ( gint account_number )
 		account -> column_element_sort[j] = tab_affichage_ope[i][j];
 	}
 
-     /* the default sort is by date and ascending */
+    /* the default sort is by date and ascending */
     account -> sort_type = GTK_SORT_ASCENDING;
     account -> sort_column = TRANSACTION_COL_NB_DATE;
-   return FALSE;
+    return FALSE;
 }
 
 

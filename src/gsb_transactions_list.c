@@ -356,6 +356,7 @@ gboolean gsb_transactions_list_current_transaction_up ( gint account_number )
 {
     gint transaction_number;
     GtkTreePath *path_sorted;
+    gint what_is_line;
 
     devel_debug ( "gsb_transactions_list_current_transaction_up" );
 
@@ -367,15 +368,17 @@ gboolean gsb_transactions_list_current_transaction_up ( gint account_number )
     do
     {
 	gtk_tree_path_prev ( path_sorted );
-
-	transaction_number = gsb_transaction_model_get_transaction_from_sorted_path (path_sorted);
+	what_is_line = gsb_transaction_model_get_transaction_type_from_sorted_path (path_sorted);
     }
     /* if we are on separator, continue to go up */
-    while (transaction_number == -2);
+    while (what_is_line == IS_SEPARATOR);
 
-    if (!transaction_number)
+    if (what_is_line == IS_ARCHIVE)
 	/* we are on an archive, cannot go up */
 	return FALSE;
+
+    /* ok, now we know we are on a transaction or a white line */
+    transaction_number = gsb_transaction_model_get_transaction_from_sorted_path (path_sorted);
 
     /* if the transaction is a breakdown, we go on the white line of it */
     if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
@@ -487,13 +490,15 @@ gint gsb_transactions_list_get_transaction_next ( gint transaction_number )
     }
 
     next_transaction = gsb_transaction_model_get_transaction_from_sorted_path (path_sorted);
-    /* if we are on a separator, go to the next line */
-    while (next_transaction == -2)
+    /* if we are on a separator, go to the next line,
+     * gsb_transaction_model_get_transaction_from_sorted_path return 0 for archive and separator,
+     * normally it cannot be an archive, but we while check anyway */
+    if (!next_transaction)
     {
-	gtk_tree_path_next ( path_sorted );
+	while (gsb_transaction_model_get_transaction_type_from_sorted_path (path_sorted) == IS_SEPARATOR)
+	    gtk_tree_path_next ( path_sorted );
 	next_transaction = gsb_transaction_model_get_transaction_from_sorted_path (path_sorted);
     }
-
     return next_transaction;
 }
 

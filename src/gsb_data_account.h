@@ -26,6 +26,7 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
 gsb_real gsb_data_account_calculate_marked_balance ( gint account_number );
 gboolean gsb_data_account_delete ( gint account_number );
 gint gsb_data_account_first_number ( void );
+gint gsb_data_account_get_account_by_id ( const gchar *account_id );
 gint gsb_data_account_get_accounts_amount ( void );
 gint gsb_data_account_get_bank ( gint account_number );
 gchar *gsb_data_account_get_bank_account_key ( gint account_number );

@@ -466,7 +466,7 @@ gboolean gsb_data_transaction_set_account_number ( gint transaction_number,
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -510,7 +510,7 @@ GDate *gsb_data_transaction_get_date ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_date ( gint transaction_number,
-					 GDate *date )
+					 const GDate *date )
 {
     struct_transaction *transaction;
 
@@ -522,7 +522,7 @@ gboolean gsb_data_transaction_set_date ( gint transaction_number,
     if (transaction -> date)
 	g_date_free (transaction -> date);
 
-    transaction -> date = date;
+    transaction -> date = gsb_date_copy (date);
 
     /* if the transaction is a breakdown, change all the children */
     if (transaction -> breakdown_of_transaction)
@@ -530,7 +530,7 @@ gboolean gsb_data_transaction_set_date ( gint transaction_number,
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -540,7 +540,7 @@ gboolean gsb_data_transaction_set_date ( gint transaction_number,
 	    if (transaction -> date)
 		g_date_free (transaction -> date);
 
-	    transaction -> date = date;
+	    transaction -> date = gsb_date_copy (date);
 
 	    tmp_list = tmp_list -> next;
 	}
@@ -580,7 +580,7 @@ GDate *gsb_data_transaction_get_value_date ( gint transaction_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
-					       GDate *date )
+					       const GDate *date )
 {
     struct_transaction *transaction;
 
@@ -592,7 +592,7 @@ gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
     if (transaction ->  value_date)
 	g_date_free (transaction ->  value_date);
 
-    transaction ->  value_date = date;
+    transaction ->  value_date = gsb_date_copy (date);
 
     /* if the transaction is a breakdown, change all the children */
     if (transaction -> breakdown_of_transaction)
@@ -600,7 +600,7 @@ gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -610,7 +610,7 @@ gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
 	    if (transaction ->  value_date)
 		g_date_free (transaction -> value_date);
 
-	    transaction -> value_date = date;
+	    transaction -> value_date = gsb_date_copy (date);
 
 	    tmp_list = tmp_list -> next;
 	}
@@ -818,7 +818,7 @@ gboolean gsb_data_transaction_set_currency_number ( gint transaction_number,
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -887,7 +887,7 @@ gboolean gsb_data_transaction_set_change_between ( gint transaction_number,
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -952,7 +952,7 @@ gboolean gsb_data_transaction_set_exchange_rate ( gint transaction_number,
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -1012,7 +1012,7 @@ gboolean gsb_data_transaction_set_exchange_fees ( gint transaction_number,
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -1073,7 +1073,7 @@ gboolean gsb_data_transaction_set_party_number ( gint transaction_number,
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -1297,7 +1297,7 @@ gboolean gsb_data_transaction_set_method_of_payment_number ( gint transaction_nu
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -1406,7 +1406,7 @@ gboolean gsb_data_transaction_set_marked_transaction ( gint transaction_number,
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -1572,7 +1572,7 @@ gboolean gsb_data_transaction_set_reconcile_number ( gint transaction_number,
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number);
+	tmp_list = gsb_data_transaction_get_children (transaction -> transaction_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -2120,7 +2120,7 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
     {
 	GSList *tmp_list;
 
-	tmp_list = gsb_data_transaction_get_children (transaction_number);
+	tmp_list = gsb_data_transaction_get_children (transaction_number, FALSE);
 	while (tmp_list)
 	{
 	    struct_transaction *child_transaction;
@@ -2202,14 +2202,16 @@ gboolean gsb_data_transaction_remove_transaction_without_check ( gint transactio
 
 /**
  * find the children of the breakdown given in param and
- * return their adress in a GSList
+ * return their adress or their number in a GSList
  * the list sould be freed
  *
  * \param transaction_number a breakdown of transaction
+ * \param return_number TRUE if we want a list of numbers, FALSE if we want a list of adress
  *
- * \return a GSList of the address of the children, NULL if no child
+ * \return a GSList of the address/numbers of the children, NULL if no child
  * */
-GSList *gsb_data_transaction_get_children ( gint transaction_number )
+GSList *gsb_data_transaction_get_children ( gint transaction_number,
+					    gboolean return_number)
 {
     struct_transaction *transaction;
     GSList *children_list = NULL;
@@ -2231,8 +2233,14 @@ GSList *gsb_data_transaction_get_children ( gint transaction_number )
 	tmp_transaction = tmp_list -> data;
 
 	if ( tmp_transaction -> mother_transaction_number == transaction_number )
-	    children_list = g_slist_append ( children_list,
-					     tmp_transaction);
+	{
+	    if (return_number)
+		children_list = g_slist_append ( children_list,
+						 GINT_TO_POINTER (tmp_transaction -> transaction_number));
+	    else
+		children_list = g_slist_append ( children_list,
+						 tmp_transaction);
+	}
 	tmp_list = tmp_list -> next;
     }
 
@@ -2245,8 +2253,14 @@ GSList *gsb_data_transaction_get_children ( gint transaction_number )
 	tmp_transaction = tmp_list -> data;
 
 	if ( tmp_transaction -> mother_transaction_number == transaction_number )
-	    children_list = g_slist_append ( children_list,
-					     tmp_transaction);
+	{
+	    if (return_number)
+		children_list = g_slist_append ( children_list,
+						 GINT_TO_POINTER (tmp_transaction -> transaction_number));
+	    else
+		children_list = g_slist_append ( children_list,
+						 tmp_transaction);
+	}
 	tmp_list = tmp_list -> next;
     }
 

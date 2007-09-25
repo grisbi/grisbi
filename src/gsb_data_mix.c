@@ -59,6 +59,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gint gsb_data_mix_get_transaction_number ( gpointer transaction_pointer,
+					   gboolean is_transaction );
 static GSList *gsb_data_mix_get_transactions_list ( gboolean is_transaction );
 /*END_STATIC*/
 
@@ -501,11 +503,12 @@ gint gsb_data_mix_get_white_line ( gint transaction_number,
 }
 
 GSList *gsb_data_mix_get_children ( gint transaction_number,
+				    gboolean return_number,
 				    gboolean is_transaction )
 {
     if (is_transaction)
-	return (gsb_data_transaction_get_children (transaction_number));
+	return (gsb_data_transaction_get_children (transaction_number, return_number));
     else
-	return (gsb_data_scheduled_get_children (transaction_number));
+	return (gsb_data_scheduled_get_children (transaction_number, return_number));
 }
 

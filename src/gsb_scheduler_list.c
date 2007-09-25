@@ -1294,7 +1294,7 @@ gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 	case GDK_Delete :               /*  del  */
 
 	    if ( scheduled_number > 0 )
-		gsb_scheduler_list_delete_scheduled_transaction (scheduled_number);
+		gsb_scheduler_list_delete_scheduled_transaction (scheduled_number, TRUE);
 	    break;
 
 	case GDK_Left:
@@ -1398,15 +1398,36 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 
 
 
+/**
+ * delete the current selected transaction, but called by menu
+ * just call gsb_scheduler_list_delete_scheduled_transaction with show_warning = TRUE
+ * because cannot do that by the signal
+ *
+ * \param button
+ *
+ * \return FALSE
+ * */
+gboolean gsb_scheduler_list_delete_scheduled_transaction_by_menu ( GtkWidget *button,
+								   gpointer null )
+{
+    gsb_scheduler_list_delete_scheduled_transaction (0, TRUE);
+    return FALSE;
+}
+
+
 
 /**
  * delete the scheduled transaction
  * 
  * \param scheduled_number the transaction to delete
+ * \param show_warning TRUE to warn, FALSE to delete directly
+ * 		!! this don't affect the question to delete only the occurence or the whole scheduled transaction
+ * 		it affects only for children of breakdown, and especially deleting the white line child
  * 
  * \return FALSE
  * */
-gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number )
+gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number,
+							   gboolean show_warning )
 {
     gint result;
 
@@ -1416,8 +1437,39 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
     if ( !scheduled_number )
 	scheduled_number = gsb_scheduler_list_get_current_scheduled_number ();
 
-    if ( scheduled_number <= 0 )
+    /* return for white line only if show_warning is set
+     * (means the action is not automatic) */
+    if ( scheduled_number <= 0
+	 &&
+	 show_warning )
 	return FALSE;
+
+    /* show a warning */
+    if (show_warning)
+    {
+	if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
+	{
+	    /* ask all the time for a child */
+	    if ( !question_yes_no_hint ( _("Delete a scheduled transaction"),
+					 g_strdup_printf ( _("Do you really want to delete the child of the scheduled transaction with party '%s' ?"),
+							   gsb_data_payee_get_name ( gsb_data_scheduled_get_party_number (scheduled_number),
+										     FALSE )),
+					 GTK_RESPONSE_NO ))
+		return FALSE;
+	}
+	else
+	{
+	    /* for a normal scheduled, ask only if no frequency, else, it will have another dialog to delete the occurence or the transaction */
+	    if ( !gsb_data_scheduled_get_frequency (scheduled_number)
+		 &&
+		 !question_yes_no_hint ( _("Delete a transaction"),
+					 g_strdup_printf ( _("Do you really want to delete the scheduled transaction with party '%s' ?"),
+							   gsb_data_payee_get_name ( gsb_data_scheduled_get_party_number (scheduled_number),
+										     FALSE )),
+					 GTK_RESPONSE_NO ))
+		return FALSE;
+	}
+    }
 
     /* split with child of breakdown or normal scheduled,
      * for a child, we directly delete it, for mother, ask
@@ -1486,10 +1538,6 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 
     return FALSE;
 }
-/* xxx vérifier que qd delete une scheduler ventilation ça vire aussi les petits en mémoire et dans la liste */
-/* et pareil si modifie un scheduled ventil en opé normale
- * de même que la modif va pas virer je pense la ligne blanche, trouver la protection pour que qd automatique, ça la vire,
- * mais par la touche suppr, ça interdise (comme pour les opés normales)*/
 
 
 /**

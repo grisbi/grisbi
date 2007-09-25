@@ -371,7 +371,6 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
 		case 5:
 		    /* ddmmyy */
 		case 6:
-		    printf ("ça passe\n" );
 		    year = utils_str_atoi ( tab_date[0] + 4 );
 		    if (year < 70)
 			year = year + 2000;

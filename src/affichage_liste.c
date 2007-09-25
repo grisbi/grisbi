@@ -36,9 +36,9 @@
 #include "./utils_str.h"
 #include "./structures.h"
 #include "./gtk_combofix.h"
-#include "./include.h"
 #include "./gsb_data_form.h"
 #include "./gsb_transactions_list.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

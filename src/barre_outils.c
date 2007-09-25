@@ -354,7 +354,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     scheduler_button_delete = gsb_automem_stock_button_new ( etat.display_toolbar,
 							    GTK_STOCK_DELETE, 
 							    _("Delete"),
-							    G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction ),
+							    G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction_by_menu ),
 							    NULL );
     gtk_widget_set_sensitive ( scheduler_button_delete,
 			       FALSE );

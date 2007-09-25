@@ -349,7 +349,7 @@ gboolean gsb_data_scheduled_set_account_number ( gint scheduled_number,
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_scheduled_get_children (scheduled -> scheduled_number);
+	tmp_list = gsb_data_scheduled_get_children (scheduled -> scheduled_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -415,7 +415,7 @@ gboolean gsb_data_scheduled_set_date ( gint scheduled_number,
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_scheduled_get_children (scheduled -> scheduled_number);
+	tmp_list = gsb_data_scheduled_get_children (scheduled -> scheduled_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -424,7 +424,7 @@ gboolean gsb_data_scheduled_set_date ( gint scheduled_number,
 
 	    if (scheduled -> date)
 		g_date_free (scheduled -> date);
-	    scheduled -> date = date;
+	    scheduled -> date = gsb_date_copy (date);
 
 	    tmp_list = tmp_list -> next;
 	}
@@ -530,7 +530,7 @@ gboolean gsb_data_scheduled_set_currency_number ( gint scheduled_number,
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_scheduled_get_children (scheduled -> scheduled_number);
+	tmp_list = gsb_data_scheduled_get_children (scheduled -> scheduled_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -595,7 +595,7 @@ gboolean gsb_data_scheduled_set_party_number ( gint scheduled_number,
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_scheduled_get_children (scheduled -> scheduled_number);
+	tmp_list = gsb_data_scheduled_get_children (scheduled -> scheduled_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -841,7 +841,7 @@ gboolean gsb_data_scheduled_set_method_of_payment_number ( gint scheduled_number
 	GSList *tmp_list;
 	GSList *save_tmp_list;
 
-	tmp_list = gsb_data_scheduled_get_children (scheduled -> scheduled_number);
+	tmp_list = gsb_data_scheduled_get_children (scheduled -> scheduled_number, FALSE);
 	save_tmp_list = tmp_list;
 
 	while (tmp_list)
@@ -1523,9 +1523,13 @@ gint gsb_data_scheduled_new_white_line ( gint mother_scheduled_number)
     {
 	scheduled -> scheduled_number = gsb_data_scheduled_get_last_white_number () - 1;
 	scheduled -> mother_scheduled_number = mother_scheduled_number;
+	scheduled -> account_number = gsb_data_scheduled_get_account_number (mother_scheduled_number);
     }
     else
+    {
 	scheduled -> scheduled_number = -1;
+	scheduled -> account_number = -1;
+    }
 
     white_scheduled_list = g_slist_append ( white_scheduled_list,
 					    scheduled );
@@ -1559,13 +1563,13 @@ gboolean gsb_data_scheduled_remove_scheduled ( gint scheduled_number )
     {
 	GSList *list_tmp;
 
-	list_tmp = gsb_data_scheduled_get_children (scheduled_number);
+	list_tmp = gsb_data_scheduled_get_children (scheduled_number, FALSE);
 
 	while ( list_tmp )
 	{
 	    struct_scheduled *scheduled_child;
 
-	    scheduled_child = gsb_data_scheduled_get_scheduled_by_no (GPOINTER_TO_INT (list_tmp -> data));
+	    scheduled_child = list_tmp -> data;
 
 	    if ( scheduled_child )
 	    {
@@ -1598,14 +1602,16 @@ gboolean gsb_data_scheduled_remove_scheduled ( gint scheduled_number )
 
 /**
  * find the children of the breakdown given in param and
- * return their numbers in a GSList
+ * return their numbers or their adress in a GSList
  * the list sould be freed
  *
  * \param scheduled_number a breakdown of scheduled transaction
+ * \param return_number TRUE if we want a list of number, FALSE if we want a list of struct adr
  *
- * \return a GSList of the numbers of the children, NULL if no child
+ * \return a GSList of the numbers/adress of the children, NULL if no child
  * */
-GSList *gsb_data_scheduled_get_children ( gint scheduled_number )
+GSList *gsb_data_scheduled_get_children ( gint scheduled_number,
+					  gboolean return_number )
 {
     struct_scheduled *scheduled;
     GSList *children_list = NULL;
@@ -1627,9 +1633,14 @@ GSList *gsb_data_scheduled_get_children ( gint scheduled_number )
 	tmp_scheduled = tmp_list -> data;
 
 	if ( tmp_scheduled -> mother_scheduled_number == scheduled_number )
-	    children_list = g_slist_append ( children_list,
-					     GINT_TO_POINTER ( tmp_scheduled -> scheduled_number ));
-
+	{
+	    if (return_number)
+		children_list = g_slist_append ( children_list,
+						 GINT_TO_POINTER ( tmp_scheduled -> scheduled_number ));
+	    else
+		children_list = g_slist_append ( children_list,
+						 tmp_scheduled);
+	}
 	tmp_list = tmp_list -> next;
     }
 
@@ -1642,9 +1653,14 @@ GSList *gsb_data_scheduled_get_children ( gint scheduled_number )
 	tmp_scheduled = tmp_list -> data;
 
 	if ( tmp_scheduled -> mother_scheduled_number == scheduled_number )
-	    children_list = g_slist_append ( children_list,
-					     GINT_TO_POINTER ( tmp_scheduled -> scheduled_number ));
-
+	{
+	    if (return_number)
+		children_list = g_slist_append ( children_list,
+						 GINT_TO_POINTER ( tmp_scheduled -> scheduled_number ));
+	    else
+		children_list = g_slist_append ( children_list,
+						 tmp_scheduled);
+	}
 	tmp_list = tmp_list -> next;
     }
 

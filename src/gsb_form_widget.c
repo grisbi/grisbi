@@ -520,7 +520,7 @@ gint gsb_form_widget_next_element ( gint account_number,
     gint return_value_number = 0;
     gint form_column_number;
     gint form_row_number;
-
+    
     if ( !gsb_data_form_look_for_value ( account_number,
 					 element_number,
 					 &row,
@@ -592,7 +592,6 @@ gint gsb_form_widget_next_element ( gint account_number,
 		break;
 
 	    case GSB_DOWN:
-
 		if ( row == (form_row_number - 1))
 		{
 		    return_value_number = -1;
