@@ -100,9 +100,11 @@ GtkResponseType gsb_assistant_archive_run ( void )
 
     /* create the assistant */
     assistant = gsb_assistant_new ( _("Archive transactions"),
-				    _("This assistant will guide you through the process of archiving transactions to increase the speed of grisbi.\n"
-				      "By default, Grisbi does not export any archive into separate files, it just mark transactions as archted and do not use them.\n"
-				      "You can still possibly use them be able to export them intp a separate archive file if necessary.\n"),
+				    _("This assistant will guide you through the process of archiving transactions "
+				      "to increase the speed of grisbi.\n\n"
+				      "By default, Grisbi does not export any archive into separate files, "
+				      "it just mark transactions as archted and do not use them.\n\n"
+				      "You can still export them into a separate archive file if necessary.\n"),
 				    "archive.png",
 				    G_CALLBACK (gsb_assistant_archive_switch_to_intro));
     gsb_assistant_add_page ( assistant,
@@ -181,6 +183,8 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     label = gtk_label_new (_("Grisbi will archive all the transactions between the initial and final date."));
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
+    gtk_misc_set_padding ( GTK_MISC (label), 
+			   24, 0 );
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 label,
 			 FALSE, FALSE, 0 );
@@ -195,6 +199,8 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     label = gtk_label_new ( COLON ( _("Initial date" ) ) );
+    gtk_misc_set_padding ( GTK_MISC (label), 
+			   24, 0 );
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 label,
  			 FALSE, FALSE, 0 );
@@ -209,6 +215,8 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     label = gtk_label_new ( COLON ( _("Final date")) );
+    gtk_misc_set_padding ( GTK_MISC (label), 
+			   24, 0 );
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 label,
 			 FALSE, FALSE, 0 );
@@ -235,6 +243,8 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     label = gtk_label_new (_("Grisbi will archive all the transactions belonging to the financial year." ));
+    gtk_misc_set_padding ( GTK_MISC (label), 
+			   24, 0 );
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox),
@@ -251,6 +261,8 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     label = gtk_label_new (_("Financial year :"));
+    gtk_misc_set_padding ( GTK_MISC (label), 
+			   24, 0 );
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 label,
 			 FALSE, FALSE, 0 );
@@ -278,6 +290,8 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     label = gtk_label_new (_("Grisbi will archive the transactions selected by a report." ));
+    gtk_misc_set_padding ( GTK_MISC (label), 
+			   24, 0 );
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox),
@@ -294,6 +308,8 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     label = gtk_label_new ( COLON ( _("Report") ) );
+    gtk_misc_set_padding ( GTK_MISC (label), 
+			   24, 0 );
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 label,
 			 FALSE, FALSE, 0 );
@@ -384,14 +400,14 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
 
     page = gtk_vbox_new ( FALSE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+				     0 );
 
     /* we create 2 vbox, one for congratulation, one for failed,
      * only one will be showed */
     vbox_congratulation = gtk_vbox_new (FALSE, 0);
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox_congratulation,
-			 FALSE, FALSE, 0 );
+			 TRUE, TRUE, 0 );
 
     congratulations_view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (congratulations_view), GTK_WRAP_WORD);
@@ -406,6 +422,7 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
     gtk_text_buffer_create_tag ( buffer, "indented", "left-margin", 24, NULL);
 
     gtk_text_buffer_get_iter_at_offset (buffer, &iter, 1);
+    gtk_text_buffer_insert ( buffer, &iter, "\n", -1 );
     gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
 					      _("Congratulations !"), -1,
 					      "x-large", "bold", NULL);
@@ -413,7 +430,7 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
     
     gtk_box_pack_start ( GTK_BOX (vbox_congratulation),
 			 congratulations_view,
-			 FALSE, FALSE,
+			 TRUE, TRUE,
 			 0 );
     gtk_text_buffer_get_end_iter ( buffer, &iter );
     gtk_text_buffer_create_mark ( buffer, "status", &iter, TRUE );
@@ -483,7 +500,7 @@ static gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
     /* enter into the menu page */
     gtk_label_set_text ( GTK_LABEL (label_archived), NULL );
     gsb_assistant_change_button_next ( assistant,
-				       GTK_STOCK_APPLY, GTK_RESPONSE_YES );
+				       GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
     gsb_assistant_archive_update_labels ( assistant );
     gsb_assistant_sensitive_button_next ( assistant, FALSE );
 
@@ -516,6 +533,20 @@ static gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assist
 	string = g_strdup_printf ( _("Archive from %s to %s"), sdate, fdate );
 	g_free ( sdate );
 	g_free ( fdate );
+    }
+    else if ( GTK_WIDGET_IS_SENSITIVE (financial_year_button) )
+    {
+	gint fyear;
+	fyear = gsb_fyear_get_fyear_from_combobox ( financial_year_button, NULL );
+	string = g_strdup_printf ( _("Archive of financial year %s"), 
+				   gsb_data_fyear_get_name ( fyear ) );
+    }
+    else if ( GTK_WIDGET_IS_SENSITIVE (report_button) )
+    {
+	gint report_number;
+	report_number = gsb_report_get_report_from_combobox (report_button);
+	string = g_strdup_printf ( _("Archive of report %s"), 
+				   gsb_data_report_get_report_name ( report_number ) );
     }
 
     if ( string )
@@ -563,13 +594,15 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
 
     /* first, create the archive */
     archive_number = gsb_data_archive_new (gtk_entry_get_text (GTK_ENTRY (name_entry)));
-    printf ( "%d\n", archive_number);
     if (!archive_number)
     {
 	gtk_widget_hide (vbox_congratulation);
 	gtk_widget_show (vbox_failed);
 	return FALSE;
     }
+
+    gsb_assistant_change_button_next ( assistant,
+				       GTK_STOCK_CLOSE, GTK_RESPONSE_APPLY );
 
     /* fill the archive */
     if (GTK_WIDGET_IS_SENSITIVE (initial_date))
@@ -613,7 +646,7 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
     }
 
     /* set the message */
-    string = g_strdup_printf ( _("Archive '%s' was successfully created and %d transactions out of %d were archived.\n"),
+    string = g_strdup_printf ( _("Archive '%s' was successfully created and %d transactions out of %d were archived.\n\n"),
 			       gsb_data_archive_get_name (archive_number),
 			       g_slist_length (list_transaction_to_archive),
 			       g_slist_length (list_transaction_to_archive) +
@@ -815,9 +848,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
     }
 
     /* update the labels */
-    if (gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU
-	&&
-	list_transaction_to_archive)
+    if (gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU )
     {
 	/* there is some transactions to archive */
 	string = g_strdup_printf (_("%d transactions out of %d will be archived."),
