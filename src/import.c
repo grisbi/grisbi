@@ -269,7 +269,10 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
 
     paddingbox = new_paddingbox_with_title ( vbox, TRUE, "Choose file to import" );
     
-    chooser = gtk_button_new_with_label ( "Add file to import" );
+    chooser = gtk_button_new_with_label ( "Add file to import..." );
+    gtk_button_set_image ( GTK_BUTTON(chooser), 
+			   gtk_image_new_from_file ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+								   "import.png", NULL ) ) );
     gtk_box_pack_start ( GTK_BOX(paddingbox), chooser, FALSE, FALSE, 6 );
     g_signal_connect ( G_OBJECT ( chooser ), "clicked", G_CALLBACK ( import_select_file ),
 		       assistant );
