@@ -5157,7 +5157,6 @@ gboolean gsb_transactions_list_append_archive ( gint archive_number )
 	gsb_transactions_list_move_to_current_transaction (account_number);
     }
 
-    /* xxx si met les archives dans les menus pour les afficher, il faut retirer ici l'archive du menu */
     gtk_widget_destroy (message_window);
     return FALSE;
 }

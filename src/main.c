@@ -42,6 +42,7 @@
 /*START_INCLUDE*/
 #include "main.h"
 #include "./menu.h"
+#include "./erreur.h"
 #include "./dialog.h"
 #include "./tip.h"
 #include "./gsb_account.h"
@@ -50,7 +51,6 @@
 #include "./gsb_status.h"
 #include "./gsb_plugins.h"
 #include "./traitement_variables.h"
-#include "./erreur.h"
 #include "./parse_cmdline.h"
 #include "./import.h"
 #include "./parse_cmdline.h"
@@ -277,14 +277,18 @@ In any case you do work with this version on your original accounting files.\n \
  * */
 gboolean gsb_grisbi_close ( void )
 {
-    if (!gsb_file_close ())
+    devel_debug ( "gsb_grisbi_close" );
+
+   if (!gsb_file_close ())
 	return FALSE;
 
-    gtk_main_quit();
+   gsb_file_config_save_config();
 
-    gsb_plugins_release ( );
+   gtk_main_quit();
 
-    return FALSE;
+   gsb_plugins_release ( );
+
+   return FALSE;
 }
 
 

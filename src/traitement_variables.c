@@ -132,6 +132,7 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
+extern GtkWidget * navigation_tree_view;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -278,6 +279,9 @@ void init_variables ( void )
     /*     on met à jour les valeurs par défaut des largeurs de colonnes de la liste d'échéances */
     for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
 	scheduler_col_width[i] = scheduler_col_width_init[i];
+    
+
+    navigation_tree_view = NULL;
 
     /* free the form */
     gsb_form_widget_free_list ();

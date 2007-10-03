@@ -37,6 +37,7 @@
 static gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage, 
 				     gint page, gpointer assistant );
 static void gsb_assistant_prev_page ( GtkWidget *assistant );
+static void gsb_assistant_set_additional_button ( GtkWidget * assistant, gchar * title );
 /*END_STATIC*/
 
 /*START_EXTERN*/

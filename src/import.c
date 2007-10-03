@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2004 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -46,21 +46,19 @@
 #include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_transaction.h"
-#include "./utils_dates.h"
 #include "./gsb_file.h"
 #include "./gsb_form_scheduler.h"
+#include "./utils_dates.h"
 #include "./navigation.h"
 #include "./menu.h"
 #include "./gsb_real.h"
 #include "./gsb_status.h"
 #include "./gsb_transactions_list.h"
 #include "./traitement_variables.h"
+#include "./main.h"
 #include "./accueil.h"
 #include "./utils_str.h"
 #include "./qif.h"
-#include "./categories_onglet.h"
-#include "./imputation_budgetaire.h"
-#include "./tiers_onglet.h"
 #include "./structures.h"
 #include "./gsb_file_config.h"
 #include "./go-charmap-sel.h"
@@ -86,7 +84,6 @@ static void cree_liens_virements_ope_import ( void );
 static GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte );
 static void gsb_import_add_imported_transactions ( struct struct_compte_importation *imported_account,
 					    gint account_number );
-static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
 				     gint account_number );
 static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
@@ -110,7 +107,6 @@ extern gint mise_a_jour_soldes_minimaux;
 extern GSList * plugins ;
 extern GtkWidget *preview;
 extern GtkWidget *tree_view;
-extern GtkWidget *tree_view_vbox;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -238,9 +234,6 @@ void importer_fichier ( void )
 	gsb_status_wait ( TRUE );
 	traitement_operations_importees ();
 	gtk_widget_destroy ( a );
-	remplit_arbre_categ ();
-	remplit_arbre_imputation ();
-	remplit_arbre_tiers ();
 	gsb_status_stop_wait ( TRUE );
     }
     else 
@@ -503,6 +496,8 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 					   GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 					   NULL );
     gtk_file_chooser_set_select_multiple ( GTK_FILE_CHOOSER ( dialog ), TRUE );
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog),
+					 gsb_file_get_last_path ());
 
     tmp = import_formats;
     format = (struct import_format *) tmp -> data;
@@ -867,8 +862,13 @@ GSList * import_selected_files ( GtkWidget * assistant )
 
 
 /**
+ * this is the summary page of the import assistant
+ * show what accounts will be imported in grisbi
+ * and create the next pages of the assistant, one per account
  *
+ * \param assistant
  *
+ * \return  FALSE
  */
 gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 {
@@ -913,6 +913,7 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 	}
 	else
 	{
+	    /* try to find the default currency of the system */
 	    struct lconv * conv = localeconv();
 
 	    /* We try to set default currency of account according to
@@ -920,8 +921,13 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 	     * too long already. */
 	    if ( conv && conv -> int_curr_symbol && strlen ( conv -> int_curr_symbol ) )
 	    {
-		gchar * name = g_strstrip ( my_strdup ( conv -> int_curr_symbol ) );
-		currency_number =  gsb_currency_config_create_currency_from_iso4217list ( name );
+		gchar *name = g_strstrip ( my_strdup ( conv -> int_curr_symbol ) );
+
+		currency_number = gsb_data_currency_get_number_by_code_iso4217 (name);
+
+		/* create the currency if not exist */
+		if (!currency_number)
+		    currency_number =  gsb_currency_config_create_currency_from_iso4217list ( name );
 		g_free ( name );
 	    }
 	    if ( ! currency_number &&
@@ -931,6 +937,7 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 	    }
 	}
 
+	/* add one page per account */
 	gsb_assistant_add_page ( assistant, cree_ligne_recapitulatif ( list_tmp -> data ), 
 				 page, page - 1, page + 1, G_CALLBACK ( NULL ) );
 	page ++;
@@ -944,16 +951,6 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 
     /* Replace button. */
     gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
-
-/*     gsb_assistant_set_additional_button ( assistant, _("Add a currency") ); */
-
-    /* si aucun compte n'est ouvert, on crée les devises de base */
-
-/*     if ( !gsb_data_account_get_accounts_amount () ) */
-/*     { */
-/* 	menus_sensitifs ( FALSE ); */
-/* 	gsb_currency_config_add_currency (NULL); */
-/*     } */
 
     return ( FALSE );
 }
@@ -1026,7 +1023,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox1 );
     g_object_set_data ( G_OBJECT ( radio ), "account", compte );
     g_signal_connect ( G_OBJECT ( radio ), "toggled", 
-		       G_CALLBACK ( import_account_action_activated ), 0 );
+		       G_CALLBACK ( import_account_action_activated ), IMPORT_CREATE_ACCOUNT );
 
 
     /* Add to account */
@@ -1050,7 +1047,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox2 );
     g_object_set_data ( G_OBJECT ( radio ), "account", compte );
     g_signal_connect ( G_OBJECT ( radio ), "toggled", 
-		       G_CALLBACK ( import_account_action_activated ), GINT_TO_POINTER (1));
+		       G_CALLBACK ( import_account_action_activated ), GINT_TO_POINTER (IMPORT_ADD_TRANSACTIONS));
 
     /* set on the right account, (Yoann) */
     index = gsb_data_account_get_account_by_id (compte->id_compte);
@@ -1058,7 +1055,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     {
 	g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox2 );
 	g_object_set_data ( G_OBJECT ( radio ), "account", compte );	
-	import_account_action_activated(radio,1);
+	import_account_action_activated(radio,IMPORT_ADD_TRANSACTIONS);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio), TRUE);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(compte -> bouton_compte_add),index);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(compte -> bouton_compte_mark),index);
@@ -1085,7 +1082,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox3 );
     g_object_set_data ( G_OBJECT ( radio ), "account", compte );
     g_signal_connect ( G_OBJECT ( radio ), "toggled", 
-		       G_CALLBACK ( import_account_action_activated ), GINT_TO_POINTER (2));
+		       G_CALLBACK ( import_account_action_activated ), GINT_TO_POINTER (IMPORT_MARK_TRANSACTIONS));
 
     /* Currency */
     hbox = gtk_hbox_new ( FALSE, 6 );
@@ -1151,168 +1148,141 @@ gboolean import_account_action_activated ( GtkWidget * radio, gint action )
 
 
 
-/* *******************************************************************************/
+/**
+ * finish the import
+ * go throw all the imported accounts and does what the user asked with
+ * each of them
+ *
+ * \param
+ *
+ * \return
+ * */
 void traitement_operations_importees ( void )
 {
-    /* cette fonction va faire le tour de liste_comptes_importes */
-    /* et faire l'action demandée pour chaque compte importé */
-
     GSList *list_tmp;
     gint new_file;
 
-    /* fait le nécessaire si aucun compte n'est ouvert */
-
+    /* when come here, all the currencies are already created
+     * and init_variables is already called
+     * ( see affichage_recapitulatif_importation) */
+    
+    /* if new file, init grisbi */
     if ( gsb_data_account_get_accounts_amount () )
 	new_file = 0;
     else
     {
 	/* Create initial lists. */
+	/* xxx les catégories vont être crées à partir des comptes importés, donc
+	 * demander si on veut créer les defauts et mixer avec les importées, ou
+	 * juste garder les importées */
 	gsb_category_choose_default_category ();
 
 	new_file = 1;
-/* 	xxx tester ici un import sans compte ouvert que la devise et autres sont bien créés  */
     }
 
-
+    /* go throw the accounts and do what is asked */
     list_tmp = liste_comptes_importes;
 
     while ( list_tmp )
     {
 	struct struct_compte_importation *compte;
-	gint account_number;
+	gint account_number = 0;
 
 	compte = list_tmp -> data;
 
 	switch ( compte -> action )
 	{
-	    case 0:
-		/* create */
-
+	    case IMPORT_CREATE_ACCOUNT:
 		account_number = gsb_import_create_imported_account ( compte );
-		if ( !new_file )
-		    gsb_gui_navigation_add_account ( account_number );
 
-		if ( account_number != -1 )
-		    gsb_import_add_imported_transactions ( compte,
-							   account_number );
+		if ( account_number == -1 )
+		{
+		    dialogue_error ( g_strdup_printf ("An error occured while creating the new account %s,\nWe try to continue to import but bad things can happen...",
+						      compte -> nom_de_compte));
+		    continue;
+		}
+
+		/* the next functions will add the transaction to the tree view list
+		 * so if we create a new file, we need to finish the gui here to append
+		 * the transactions */
+		if (new_file)
+		{
+		    /* this should be the same as the end of gsb_file_new */
+		    /* init the gui */
+		    gsb_file_new_gui ();
+
+		    /* 	set the grid */
+		    gsb_transactions_list_draw_grid (etat.affichage_grille);
+
+		    new_file = 0;
+		}
 		else
-		    dialogue_error ( "An error occured while creating the new account,\nthe import is stopped." );
-		break;
-
-	    case 1:
-		/* add */
+		    gsb_gui_navigation_add_account ( account_number, FALSE );
 
 		gsb_import_add_imported_transactions ( compte,
-						       gsb_account_get_combo_account_number ( compte -> bouton_compte_add ));
+						       account_number );
+		break;
+
+	    case IMPORT_ADD_TRANSACTIONS:
+		account_number = gsb_account_get_combo_account_number ( compte -> bouton_compte_add );
+		gsb_import_add_imported_transactions ( compte,
+						       account_number);
 
 		break;
 
-	    case 2:
-		/* pointer */
-
+	    case IMPORT_MARK_TRANSACTIONS:
+		account_number = gsb_account_get_combo_account_number ( compte -> bouton_compte_mark );
 		pointe_opes_importees ( compte );
-
 		break;
 	}
+
+	/* update the current and marked balance */
+	gsb_data_account_calculate_current_and_marked_balances (account_number);
+
 	list_tmp = list_tmp -> next;
     }
 
-    /*     à ce niveau, il y a forcemment des comptes de créés donc si rien */
-    /* 	c'est que pb, on se barre */
-
+    /* if no account created, there is a problem
+     * show an error and go away */
     if (!gsb_data_account_get_accounts_amount ())
+    {
+	dialogue_error (_("No account in memory now, this is bad...\nBetter to leave the import before a crash.\n\nPlease contact the grisbi team to find the problem."));
 	return;
+    }
 
-    /* les différentes liste d'opérations ont été créés, on va faire le tour des opés */
-    /* pour retrouver celles qui ont relation_no_compte à -2 */
-    /* c'est que c'est un virement, il reste à retrouver le compte et l'opération correspondants */
-
-    /* virements_a_chercher est à 1 si on doit chercher des relations entre opés importées */
-
+    /* create the links between transactions (transfer) */
     if ( virements_a_chercher )
 	cree_liens_virements_ope_import ();
 
-
-    /* création des listes d'opé */
-
     gsb_status_message ( _("Please wait") );
 
-    if ( ! new_file )
-    {
-	/* on fait le tour des comptes ajoutés pour leur créer une liste d'opé */
-	/* 	et mettre à jour ceux qui le doivent */
+    /* update the name of accounts in scheduler form */
+    gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
+				    FALSE );
 
-	GSList *list_tmp;
+    /* show the account list */
+    gsb_menu_update_accounts_in_menus();
 
-	list_tmp = gsb_data_account_get_list_accounts ();
-/* xxx voir ici aussi il y avait une demande de mise à jour de tous les comptes... est ce bien nécessaire ? */
-
-	while ( list_tmp )
-	{
-	    gint i;
-
-	    i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	    if ( !gsb_transactions_list_get_tree_view()  )
-	    {
-		/*     on crée le tree_view du compte */
-
-/* 		creation_colonnes_tree_view_par_compte (i); */
-
-		/* xxx ici voir pour le tree_view */
-/* 		gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ), */
-/* 				     creation_tree_view_operations_par_compte (i), */
-/* 				     TRUE, */
-/* 				     TRUE, */
-/* 				     0 ); */
-		/* update the name of accounts in form */
-		gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
-						FALSE );
-
-		/* 	on réaffiche la liste des comptes */
-
-		gsb_menu_update_accounts_in_menus();
-	    }
-
-	    navigation_change_account ( GINT_TO_POINTER(i) );
-	    remplissage_details_compte ();
-
-	    list_tmp = list_tmp -> next;
-	}
-
-	/* 	mise à jour de l'accueil */
-
-	mise_a_jour_liste_comptes_accueil = 1;
-	mise_a_jour_soldes_minimaux = 1;
-	mise_a_jour_accueil (FALSE);
-
-
-    }
-    else
-    {
-	gsb_file_new_gui ();
-    }
+    /* update main page */
+    mise_a_jour_liste_comptes_accueil = 1;
+    mise_a_jour_soldes_minimaux = 1;
+    mise_a_jour_accueil (FALSE);
 
     gsb_status_clear();
 
     modification_fichier ( TRUE );
 }
-/* *******************************************************************************/
 
-/* *******************************************************************************/
-/* cette fontion recherche des opés qui sont des virements non encore reliés après un import
-   dans ce cas ces opé sont marquées à -2 en relation_no_compte et info_banque_guichet contient
-   le nom du compte de virement. la fonction crée donc les liens entre virements */
-/* *******************************************************************************/
 
+
+
+/**
+ * called at the end of an import, check all the transactions with an account_number_transfer at -2
+ * and try to find the contra-transaction to make a real transfer in grisbi
+ *
+ * */
 void cree_liens_virements_ope_import ( void )
 {
-    /* on fait le tour de toutes les opés des comptes */
-    /* si une opé à un relation_no_compte à -2 , */
-    /* on recherche le compte associé dont le nom est dans info_banque_guichet */
-    /*   et une opé ayant une relation_no_compte à -2, le nom du compte dans info_banque_guichet */
-    /* le même montant, le même jour avec le même tiers */
-
     GSList *list_tmp_transactions;
     list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
@@ -1321,30 +1291,24 @@ void cree_liens_virements_ope_import ( void )
 	gint transaction_number_tmp;
 	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	/* if the account number of transfer is -2, it's a transfer */
-
+	/* if the account number of transfer is -2, it's a transfer,
+	 * in that case, the name of the contra account is in the bank_references */
 	if ( gsb_data_transaction_get_account_number_transfer (transaction_number_tmp)== -2
 	     &&
 	     gsb_data_transaction_get_bank_references (transaction_number_tmp))
 	{
 	    /* the name of the contra account is in the bank references with [ and ] */
-
 	    gchar *contra_account_name;
 	    gint contra_account_number;
 
-	    contra_account_name = my_strdup (gsb_data_transaction_get_bank_references (transaction_number_tmp));
-	    if ( contra_account_name && strlen ( contra_account_name ) )
-	    {
-		contra_account_name++;
-		contra_account_name[strlen(contra_account_name)-1] = 0;
-	    }
+	    contra_account_name = my_strdelimit (gsb_data_transaction_get_bank_references (transaction_number_tmp),
+						 "[]", "");
 	    contra_account_number = gsb_data_account_get_no_account_by_name ( contra_account_name );
 	    g_free (contra_account_name);
 
 	    if ( contra_account_number == -1 )
 	    {
 		/* we have not found the contra-account */
-
 		gsb_data_transaction_set_account_number_transfer ( transaction_number_tmp,
 								   0);
 		gsb_data_transaction_set_transaction_number_transfer ( transaction_number_tmp,
@@ -1420,49 +1384,61 @@ void cree_liens_virements_ope_import ( void )
 		}
 	    }
 	}
-
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
 }
-/* *******************************************************************************/
 
 
-
-/** create a new account with the datas in the imported account given in args
+/**
+ * create a new account with the datas in the imported account given in args
+ * don't work with the gui here, all the gui will be done later
+ *
  * \param imported_account the account we want to create
- * \return the number of the new account
+ * 
+ * \return the number of the new account or -1 if problem
  * */
 gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account )
 {
-    /* crée un nouveau compte contenant les données de la structure importée */
-    /* ajoute ce compte aux anciens */
-
     gint account_number;
-/* xxx voir ici, devrait peut être utiliser la fonction new_account */
-    /*     on crée et initialise le nouveau compte  */
-    /*     le type par défaut est 0 (compte bancaire) */
-    account_number = gsb_data_account_new( GSB_TYPE_BANK );
-    /* set the default method of payment */
-    gsb_data_payment_create_default (account_number);
+    gint kind_account;
 
+    if (!imported_account)
+	return -1;
 
-    /*     si ça c'est mal passé, on se barre */
+    /* create the new account,
+     * for now 3 kind of account, GSB_TYPE_BANK, GSB_TYPE_LIABILITIES or GSB_TYPE_CASH */
+    switch (imported_account -> type_de_compte)
+    {
+	case 3:
+	    kind_account = GSB_TYPE_LIABILITIES;
+	    break;
+
+	case 7:
+	    kind_account = GSB_TYPE_CASH;
+	    break;
+
+	default:
+	    kind_account = GSB_TYPE_BANK;
+    }
+
+    account_number = gsb_data_account_new (kind_account);
 
     if ( account_number == -1 )
 	return -1;
 
-    /*     met l'id du compte s'il existe (import ofx) */
+    /* set the default method of payment */
+    gsb_data_payment_create_default (account_number);
 
+    /* set the id and try to find the bank */
     if ( imported_account -> id_compte )
     {
 	gchar **tab_str;
 
 	gsb_data_account_set_id (account_number,
-			    my_strdup ( imported_account -> id_compte ));
+				 imported_account -> id_compte );
 
-	/* 	en théorie cet id est "no_banque no_guichet no_comptecle" */
-	/* on va essayer d'importer ces données ici */
-	/* si on rencontre un null, on s'arrête */
+	/* usually, the id is "bank_number guichet_number account_number key"
+	 * try to get the datas */
 
 	tab_str = g_strsplit ( gsb_data_account_get_id (account_number),
 			       " ",
@@ -1470,57 +1446,39 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
 	if ( tab_str[1] )
 	{
 	    gsb_data_account_set_bank_branch_code ( account_number,
-					       my_strdup ( tab_str[1] ) );
-
+						    tab_str[1] );
 	    if ( tab_str[2] )
 	    {
 		gchar *temp;
 
 		gsb_data_account_set_bank_account_key ( account_number,
-						   my_strdup ( tab_str[2] + strlen ( tab_str[2] ) - 1 ) );
+							tab_str[2] + strlen ( tab_str[2] ) - 1 );
 
 		temp = my_strdup ( tab_str[2] );
 		if ( temp && strlen(temp) )
 		{
 		    temp[strlen (temp) - 1 ] = 0;
 		    gsb_data_account_set_bank_account_number ( account_number, temp );
+		    g_free (temp);
 		}
 	    }
 	}
 	g_strfreev ( tab_str );
     }
 
-    /* met le nom du compte */
-
+    /* set the name */
     if ( imported_account -> nom_de_compte )
 	gsb_data_account_set_name ( account_number,
-			       g_strstrip ( imported_account -> nom_de_compte ) );
+				    g_strstrip ( imported_account -> nom_de_compte ) );
     else
 	gsb_data_account_set_name ( account_number,
-			       my_strdup ( _("Imported account")) );
+				    _("Imported account"));
 
-    /* choix de la devise du compte */
-
+    /* set the currency */
     gsb_data_account_set_currency ( account_number,
 				    gsb_currency_get_currency_from_combobox (imported_account -> bouton_devise));
 
-    /* met le type de compte si différent de 0 */
-
-    switch ( imported_account -> type_de_compte )
-    {
-	case 3:
-	    gsb_data_account_set_kind (account_number,
-				  GSB_TYPE_LIABILITIES);
-	    break;
-
-	case 7:
-	    gsb_data_account_set_kind (account_number,
-				  GSB_TYPE_CASH);
-	    break;
-    }
-
-    /* met le solde init */
-
+    /* set the initial balance */
     gsb_data_account_set_init_balance ( account_number,
 					imported_account -> solde);
     gsb_data_account_set_current_balance ( account_number, 
@@ -1539,10 +1497,14 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
 }
 
 
-/** import the transactions in an existent account
+/**
+ * import the transactions in an existent account
  * check the id of the account and if the transaction already exists
+ * add too the transactions to the gui
+ * 
  * \param imported_account an imported structure account which contains the transactions
  * \param account_number the number of account where we want to put the new transations
+ * 
  * \return
  * */
 void gsb_import_add_imported_transactions ( struct struct_compte_importation *imported_account,
@@ -1553,10 +1515,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
     gint demande_confirmation;
     GSList *list_tmp_transactions;
 
-    /* si le compte importé a une id, on la vérifie ici */
-    /*     si elle est absente, on met celle importée */
-    /*     si elle est différente, on demande si on la remplace */
-
+    /* check the imported account id, and set it in the grisbi account if it doesn't exist or if it's wrong */
     if ( imported_account -> id_compte )
     {
 	if ( gsb_data_account_get_id (account_number) )
@@ -1564,23 +1523,22 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	    if ( g_strcasecmp ( gsb_data_account_get_id (account_number),
 				imported_account -> id_compte ))
 	    {
-		/* 		l'id du compte choisi et l'id du compte importé sont différents */
-		/* 		    on propose encore d'arrêter... */
-
-
+		/* there is a difference between the imported account id and grisbi account id,
+		 * ask to be sure */
 		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
-					    _("Perhaps you choose a wrong account ?  If you choose to continue, the id of the account will be changed.  Do you want to continue ?"),
+					    g_strdup_printf ( _("The Grisbi's id account is %s, but the imported id account is %s.\n\nPerhaps you choose a wrong account ?\nIf you choose to continue, the id of the Grisbi's account will be changed.  Do you want to continue ?"),
+							      gsb_data_account_get_id (account_number),
+							      imported_account -> id_compte ),
 					    GTK_RESPONSE_NO ))
-		    gsb_data_account_set_id (account_number,
-					     my_strdup ( imported_account -> id_compte ));
+		    gsb_data_account_set_id ( account_number,
+					      imported_account -> id_compte );
 		else
 		    return;
 	    }
 	}
 	else
 	    gsb_data_account_set_id (account_number,
-				     my_strdup ( imported_account -> id_compte ));
-
+				     imported_account -> id_compte );
     }
 
 
@@ -1588,15 +1546,13 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
     /*   si on n'importe que du ofx, c'est facile, chaque opé est repérée par une id */
     /*     donc si l'opé importée a une id, il suffit de rechercher l'id dans le compte, si elle */
     /*     n'y est pas l'opé est à enregistrer */
-    /*     si on importe du qif ou du html, il n'y a pas d'id. donc soit on retrouve une opé semblable */
+    /*     si on importe du qif, il n'y a pas d'id. donc soit on retrouve une opé semblable */
     /*     (cad même montant et même date, on ne fait pas joujou avec le tiers car l'utilisateur */
     /* a pu le changer), et on demande à l'utilisateur quoi faire, sinon on enregistre l'opé */
 
 
     /*   pour gagner en rapidité, on va récupérer la dernière date du compte, toutes les opés importées */
     /* qui ont une date supérieure sont automatiquement acceptées */
-
-
     list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
     last_date_import = NULL;
 
@@ -1616,6 +1572,8 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
 
+    /* ok, now last_date_import contains the last transaction date used in that account,
+     * can check the imported transactions */
     list_tmp = imported_account -> operations_importees;
     demande_confirmation = 0;
 
@@ -1630,31 +1588,28 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	if ( last_date_import && g_date_compare ( last_date_import,
 						  imported_transaction -> date ) >= 0 )
 	{
-	    /* 	    si l'opé d'import a une id, on recherche ça en priorité */
+	    /* that transaction is before the last transaction in the account,
+	     * so check if the transaction already exists */
 
+	    /* first check the id */
 	    if ( imported_transaction -> id_operation
 		 &&
 		 gsb_data_transaction_find_by_id (imported_transaction -> id_operation))
-		/* comme on est sûr que cette opé a déjà été enregistree, on met l'action à 2, cad on demande l'avis de personne pour */
-		/*     pas l'enregistrer */
-		imported_transaction -> action = 2;
+		/* the id exists so the transaction is already in grisbi, we will forget that transaction */
+		imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
 
-	    /* 	    si l'opé d'import a un no de chq, on le recherche */
-
-	    if ( imported_transaction -> action != 2
+	    /* if no id, check the cheque */
+	    if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION
 		 &&
 		 imported_transaction -> cheque
 		 &&
 		 gsb_data_transaction_find_by_payment_content ( utils_str_itoa (imported_transaction -> cheque),
 								account_number ))
-		/* 	comme on est sûr que cette opé a déjà été enregistree, on met l'action à 2, cad on demande l'avis de personne pour */
-		/*  pas l'enregistrer */
-		imported_transaction -> action = 2;
+		/* found the cheque, forget that transaction */
+		imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
 
-	    /* on fait donc le tour de la liste des opés pour retrouver une opé comparable */
-	    /* si elle n'a pas déjà été retrouvée par id... */
-
-	    if ( imported_transaction -> action != 2 )
+	    /* no id, no cheque, try to find the transaction */
+	    if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION )
 	    {
 		GDate *date_debut_comparaison;
 		GDate *date_fin_comparaison;
@@ -1692,9 +1647,9 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 			     &&
 			     !imported_transaction -> ope_de_ventilation )
 			{
-			    /* l'opé a la même date et le même montant, on la marque pour demander quoi faire à l'utilisateur */
-			    imported_transaction -> action = 1; 
-			    imported_transaction -> ope_correspondante = gsb_data_transaction_get_pointer_to_transaction (transaction_number_tmp);
+			    /* the imported transaction has the same date and same amount, will ask the user */
+			    imported_transaction -> action = IMPORT_TRANSACTION_ASK_FOR_TRANSACTION; 
+			    imported_transaction -> ope_correspondante = transaction_number_tmp;
 			    demande_confirmation = 1;
 			}
 		    }
@@ -1705,18 +1660,11 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	list_tmp = list_tmp -> next;
     }
 
-    /*   à ce niveau, toutes les opés douteuses ont été marquées, on appelle la fonction qui */
-    /* se charge de demander à l'utilisateur que faire */
-
+    /* if we are not sure about some transactions, ask now */
     if ( demande_confirmation )
 	confirmation_enregistrement_ope_import ( imported_account );
 
-
-    /* on fait le tour des opés de ce compte et enregistre les opés */
-
-    /* la variable derniere_operation est utilisée pour garder le numéro de l'opé */
-    /* précédente pour les ventilations */
-
+    /* ok, now we know what to do for each transactions, can import to the account */
     mother_transaction_number = 0;
 
     list_tmp = imported_account -> operations_importees;
@@ -1727,28 +1675,34 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
 	imported_transaction = list_tmp -> data;
 
-	/* vérifie qu'on doit bien l'enregistrer */
-	if ( imported_transaction -> action == 0 )
+	if ( imported_transaction -> action == IMPORT_TRANSACTION_GET_TRANSACTION )
 	{
-	    /* on récupère à ce niveau la devise choisie dans la liste */
+	    gint transaction_number;
 
+	    /* set the account currency to the transaction and create the transaction */
 	    imported_transaction -> devise = gsb_currency_get_currency_from_combobox (imported_account -> bouton_devise);
-	    gsb_import_create_transaction ( imported_transaction,
-					    account_number );
+	    transaction_number = gsb_import_create_transaction ( imported_transaction,
+								 account_number );
+
+	    /* we need to add the transaction now to the tree model here
+	     * to avoid to write again all the account */
+	    gsb_transactions_list_append_new_transaction (transaction_number);
 	} 
 	list_tmp = list_tmp -> next;
     }
-/*     gsb_data_account_calculate_current_and_marked_balances (account_number); */
 }
-/* *******************************************************************************/
 
 
-/* *******************************************************************************/
+/**
+ * called if we are not sure about some transactions to import
+ * ask here to the user
+ *
+ * \param imported_account
+ *
+ * \return
+ * */
 void confirmation_enregistrement_ope_import ( struct struct_compte_importation *imported_account )
 {
-    /*   cette fonction fait le tour des opérations importées, et demande que faire pour celles */
-    /* qui sont douteuses lors d'un ajout des opés à un compte existant */
-
     GSList *list_tmp;
     GtkWidget *dialog;
     GtkWidget *vbox;
@@ -1813,10 +1767,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	     &&
 	     !ope_import -> ope_de_ventilation )
 	{
-	    gint transaction_number;
 	    const gchar *tiers;
-
-	    transaction_number = gsb_data_transaction_get_transaction_number (ope_import -> ope_correspondante);
 
 	    hbox = gtk_hbox_new ( FALSE,
 				  5 );
@@ -1866,19 +1817,19 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 				 0 );
 	    gtk_widget_show ( label );
 
-	    tiers = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number (transaction_number), FALSE );
+	    tiers = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number (ope_import -> ope_correspondante), FALSE );
 
-	    if ( gsb_data_transaction_get_notes (transaction_number))
+	    if ( gsb_data_transaction_get_notes (ope_import -> ope_correspondante))
 		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %s ; %s ; %s ; %s"),
-							  gsb_format_gdate ( gsb_data_transaction_get_date (transaction_number)),
+							  gsb_format_gdate ( gsb_data_transaction_get_date (ope_import -> ope_correspondante)),
 							  tiers,
-							  gsb_real_get_string (gsb_data_transaction_get_amount (transaction_number)),
-							  gsb_data_transaction_get_notes (transaction_number)));
+							  gsb_real_get_string (gsb_data_transaction_get_amount (ope_import -> ope_correspondante)),
+							  gsb_data_transaction_get_notes (ope_import -> ope_correspondante)));
 	    else
 		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %s ; %s ; %s"),
-							  gsb_format_gdate ( gsb_data_transaction_get_date (transaction_number)),
+							  gsb_format_gdate ( gsb_data_transaction_get_date (ope_import -> ope_correspondante)),
 							  tiers,
-							  gsb_real_get_string (gsb_data_transaction_get_amount (transaction_number))));
+							  gsb_real_get_string (gsb_data_transaction_get_amount (ope_import -> ope_correspondante))));
 
 	    gtk_box_pack_start ( GTK_BOX ( hbox ),
 				 label,
@@ -1933,12 +1884,14 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
     gtk_widget_destroy ( dialog );
 }
-/* *******************************************************************************/
 
 
-/** get an imported transaction structure in arg and create the corresponding transaction
+/**
+ * get an imported transaction structure in arg and create the corresponding transaction
+ * 
  * \param imported_transaction the transaction to import
  * \param account_number the account where to put the new transaction
+ * 
  * \return the number of the new transaction
  * */
 gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
@@ -1948,24 +1901,23 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gint transaction_number;
 
     /* we create the new transaction */
-
     transaction_number = gsb_data_transaction_new_transaction ( account_number );
 
     /* récupération de l'id de l'opé s'il existe */
 
     if ( imported_transaction -> id_operation )
 	gsb_data_transaction_set_transaction_id ( transaction_number,
-						  my_strdup ( imported_transaction -> id_operation ));
+						  imported_transaction -> id_operation );
 
     /* récupération de la date */
 
     gsb_data_transaction_set_date ( transaction_number,
-				    gsb_date_copy ( imported_transaction -> date ));
+				    imported_transaction -> date );
 
     /* récupération de la date de valeur */
 
     gsb_data_transaction_set_value_date ( transaction_number,
-					  gsb_date_copy ( imported_transaction -> date_de_valeur ));
+					  imported_transaction -> date_de_valeur );
 
     /* récupération du montant */
 
@@ -1984,7 +1936,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	 strlen ( g_strstrip ( imported_transaction -> tiers )))
 	gsb_data_transaction_set_party_number ( transaction_number,
 						gsb_data_payee_get_number_by_name ( imported_transaction -> tiers,
-									       TRUE ));
+										    TRUE ));
 
     /* vérification si c'est ventilé, sinon récupération des catégories */
 
@@ -2094,8 +2046,8 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 		    payment_number = payment_number_tmp;
 		    break;
 		}
+		list_tmp = list_tmp -> next;
 	    }
-	    list_tmp = list_tmp -> next;
 	}
 	/* now, either payment_number is an automatic numbering method of payment,
 	 * either it's the default method of payment,
@@ -2128,21 +2080,13 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	else
 	    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 								gsb_data_account_get_default_credit (account_number));
-	
-	gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-							     utils_str_itoa ( imported_transaction -> cheque ) );
     }
 
     /* récupération du pointé */
     gsb_data_transaction_set_marked_transaction ( transaction_number,
 						  imported_transaction -> p_r );
 
-    /* Various things we have to set. */
-    gsb_data_transaction_set_bank_references ( transaction_number, NULL );
-    gsb_data_transaction_set_voucher ( transaction_number, NULL );
-
     /* si c'est une ope de ventilation, lui ajoute le no de l'opération précédente */
-
     if ( imported_transaction -> ope_de_ventilation )
 	gsb_data_transaction_set_mother_transaction_number ( transaction_number,
 							     mother_transaction_number );
@@ -2151,7 +2095,6 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 
     return (transaction_number);
 }
-/* *******************************************************************************/
 
 
 
@@ -2190,7 +2133,6 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 	else
 	    gsb_data_account_set_id (account_number,
 				     my_strdup ( imported_account -> id_compte ));
-
     }
 
     /* on fait le tour des opés importées et recherche dans la liste d'opé s'il y a la correspondance */
@@ -2207,6 +2149,9 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
 	ope_import = list_tmp -> data;
 	ope_trouvees = NULL;
+
+	/* set now the account number of the transaction */
+	ope_import -> no_compte = account_number;
 
 	/* si l'opé d'import a une id, on recherche dans la liste d'opé pour trouver
 	   une id comparable */
@@ -2278,7 +2223,6 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 		{
 		    /* on met le no de compte et la devise de l'opération si plus tard on l'enregistre */
 
-		    ope_import -> no_compte = account_number;
 		    ope_import -> devise = gsb_currency_get_currency_from_combobox (imported_account -> bouton_devise);
 		    liste_opes_import_celibataires = g_slist_append ( liste_opes_import_celibataires,
 								      ope_import );
@@ -2433,7 +2377,6 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 		    /* on a trouvé un nombre différent d'opés d'import et d'opés semblables dans la liste d'opés
 		       on marque donc cette opé d'import comme seule */
 
-		    ope_import -> no_compte = account_number;
 		    ope_import -> devise = gsb_currency_get_currency_from_combobox (imported_account -> bouton_devise);
 		    liste_opes_import_celibataires = g_slist_append ( liste_opes_import_celibataires,
 								      ope_import );
@@ -2620,7 +2563,7 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
 		    ope_import = list_tmp -> data;
 
-		    transaction_number = gsb_import_create_transaction ( ope_import,
+		    transaction_number = gsb_import_create_transaction ( ope_import, 
 									 ope_import -> no_compte );
 		    gsb_data_transaction_set_marked_transaction ( transaction_number,
 								  2 );

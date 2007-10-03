@@ -567,7 +567,6 @@ void change_logo_accueil ( GtkWidget * file_selector )
     const gchar *selected_filename;
 
     selected_filename = file_selection_get_filename (GTK_FILE_CHOOSER (file_selector));
-    printf ("%s", selected_filename );
 
     if ( gsb_data_account_get_accounts_amount () )
     {

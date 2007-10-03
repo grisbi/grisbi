@@ -318,18 +318,21 @@ gchar * latin2utf8 ( const gchar * inchar)
 
 
 
-/* **************************************************************************************************** */
-/* remplace les parties delimiters */
-/* par new_delimiters */
-/* new_delemiters peut contenir plusieurs caratÃšres */
-/* **************************************************************************************************** */
+/* 
+ * do the same as g_strdelimit but new_delimiters can containes several characters or none
+ * ex	my_strdelimit ("a-b", "-", "123") returns a123b
+ * 	my_strdelimit ("a-b", "-", "") returns ab
+ *
+ * \param string the string we want to modify
+ * \param delimiters the characters we need to change to new_delimiters
+ * \param new_delimiters the replacements characters for delimiters
+ *
+ * \return a newly allocated string or NULL
+ * */
 gchar *my_strdelimit ( const gchar *string,
-		       gchar *delimiters,
-		       gchar *new_delimiters )
+		       const gchar *delimiters,
+		       const gchar *new_delimiters )
 {
-    /* fonction identique Ã  g_strdelimit, sauf que new_delimiters n'est pas limitÃ© Ã  1 caractÃšre */
-    /*     et la chaine renvoyÃ©e est une copie, pas l'original */
-
     gchar **tab_str;
     gchar *retour;
 
@@ -338,18 +341,17 @@ gchar *my_strdelimit ( const gchar *string,
 	    delimiters
 	    &&
 	    new_delimiters ))
-	return (gchar *) string;
+	return my_strdup (string);
 
-    tab_str = g_strsplit ( string,
-			   delimiters,
-			   0 );
+    tab_str = g_strsplit_set ( string,
+			       delimiters,
+			       0 );
     retour = g_strjoinv ( new_delimiters,
 			  tab_str );
     g_strfreev ( tab_str );
 
     return ( retour );
 }
-/* **************************************************************************************************** */
 
 
 /* ******************************************************************************* */

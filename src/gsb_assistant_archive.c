@@ -34,6 +34,8 @@
 #include "./gsb_assistant.h"
 #include "./gsb_calendar_entry.h"
 #include "./gsb_data_archive.h"
+#include "./gsb_data_fyear.h"
+#include "./gsb_data_report.h"
 #include "./gsb_data_transaction.h"
 #include "./utils_dates.h"
 #include "./gsb_fyear.h"

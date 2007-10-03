@@ -380,7 +380,7 @@ GtkWidget * create_navigation_pane ( void )
  *
  * \param
  *
- * \return a gint wich is the numero of the page
+ * \return a gint wich is the numero of the page, -1 if problem
  *
  * */
 gint gsb_gui_navigation_get_current_page ( void )
@@ -388,6 +388,9 @@ gint gsb_gui_navigation_get_current_page ( void )
     GtkTreeSelection *selection;
     GtkTreeIter iter;
     gint page;
+
+    if (!navigation_tree_view)
+	return -1;
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view));
 
@@ -531,7 +534,7 @@ void create_account_list ( GtkTreeModel * model )
 	if ( etat.show_closed_accounts || 
 	     ! gsb_data_account_get_closed_account ( i ) )
 	{
-	    gsb_gui_navigation_add_account ( i );
+	    gsb_gui_navigation_add_account ( i, FALSE );
 	}
 
 	list_tmp = list_tmp -> next;
@@ -959,19 +962,25 @@ static gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree
  * Add an account to the navigation pane.
  *
  * \param account_number	Account ID to add.
+ * \param switch_to_account TRUE to show the account, FALSE to just create it
  */
-void gsb_gui_navigation_add_account ( gint account_number )
+void gsb_gui_navigation_add_account ( gint account_number,
+				      gboolean switch_to_account )
 {
     GtkTreeIter parent, iter;
-    GtkTreeSelection * selection;
 
     gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &parent );
     gtk_tree_store_append ( GTK_TREE_STORE(navigation_model), &iter, &parent );
 
     gsb_gui_navigation_update_account_iter ( GTK_TREE_MODEL(navigation_model), &iter, account_number );    
 
-    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
-    gtk_tree_selection_select_iter ( selection, &iter );
+    if (switch_to_account)
+    {
+	GtkTreeSelection * selection;
+
+	selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
+	gtk_tree_selection_select_iter ( selection, &iter );
+    }
 }
 
 

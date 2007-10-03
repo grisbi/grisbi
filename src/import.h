@@ -27,7 +27,8 @@ struct struct_compte_importation
     gchar *date_solde_qif;            /* utilisé temporairement pour un fichier qif */
 
     GtkWidget *bouton_devise;             /* adr du bouton de la devise dans le récapitulatif */
-    gint action;             	/* action a faire */
+    gint action;				/* IMPORT_CREATE_ACCOUNT, IMPORT_ADD_TRANSACTIONS, IMPORT_MARK_TRANSACTIONS */
+
     GtkWidget *bouton_type_compte;             /* adr du bouton du type de compte dans le récapitulatif */
     GtkWidget *bouton_compte_add;             /* adr du bouton du compte
 					   * dans le récapitulatif */
@@ -41,6 +42,11 @@ struct struct_compte_importation
     gchar * guid;
 };
 
+/* possible actions to the import */
+#define IMPORT_CREATE_ACCOUNT 0
+#define IMPORT_ADD_TRANSACTIONS 1
+#define IMPORT_MARK_TRANSACTIONS 2
+
 
 /** Imported transaction.  */
 struct struct_ope_importation
@@ -53,9 +59,8 @@ struct struct_ope_importation
     GDate *date_de_valeur;
     gchar *date_tmp;      /* pour un fichier qif, utilisé en tmp avant de le transformer en gdate */
 
-    gint action;       /* ce champ est à 0 si on enregisre l'opé, à 1 si on ne l'enregistre pas (demandé lors d'ajout des opés à un compte existant) */
-    /*   et 2 si on ne veut pas l'enregistrer ni demander (une id qui a été retrouvée */
-    gpointer ope_correspondante; /* contient l'adrde l'opé qui correspond peut être à l'opé importée pour la présentation à l'utilisateur */
+    gint action;		/* IMPORT_TRANSACTION_GET_TRANSACTION, IMPORT_TRANSACTION_ASK_FOR_TRANSACTION, IMPORT_TRANSACTION_LEAVE_TRANSACTION*/
+    gint ope_correspondante; /* contient l'adrde l'opé qui correspond peut être à l'opé importée pour la présentation à l'utilisateur */
     GtkWidget *bouton;  /*  adr du bouton si cette opé est douteuse et vérifiée par l'utilisateur */
 
     gchar *tiers;
@@ -77,6 +82,11 @@ struct struct_ope_importation
     gchar * guid;
 };
 
+/* possible actions to the transaction */
+#define IMPORT_TRANSACTION_GET_TRANSACTION 0
+#define IMPORT_TRANSACTION_ASK_FOR_TRANSACTION 1
+#define IMPORT_TRANSACTION_LEAVE_TRANSACTION 2
+
 struct imported_file {
     gchar * name;
     gchar * coding_system;
@@ -95,6 +105,7 @@ struct import_format {
 
 
 /* START_DECLARATION */
+gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 void gsb_import_register_account ( struct struct_compte_importation * account );
 void gsb_import_register_account_error ( struct struct_compte_importation * account );
 GSList * import_selected_files ( GtkWidget * assistant );

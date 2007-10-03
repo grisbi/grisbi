@@ -885,7 +885,6 @@ gboolean gsb_form_switch_expander ( void )
 gboolean gsb_form_activate_expander ( GtkWidget *expander,
 				      gpointer null )
 {
-    printf ( "ça passe\n" );
     if ( gtk_expander_get_expanded (GTK_EXPANDER (expander)))
     {
 	gsb_form_widget_free_list ();

@@ -295,7 +295,6 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 #endif /* _WIN32 */
 
     /* load the file */
-
     if ( g_file_get_contents ( filename,
 			       &file_content,
 			       &length,
@@ -389,6 +388,8 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	}
 
 	/* We need to reorder accounts just now. */
+/* 	xxx voir ici je crois plus besoin de reorder mais voir si change dans la liste qd change l'ordre d'un compte dans grisbi */
+/* 	    et faire en passant la même chose pour les états */
 	gsb_data_account_reorder ( sort_accounts );
 
 	g_markup_parse_context_free (context);
@@ -404,7 +405,6 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	gsb_file_remove_name_from_opened_list (filename);
 	return FALSE;
     }
-
     return gsb_file_load_update_previous_version();
 }
 
@@ -434,7 +434,6 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 				   GError **error)
 {
     /* the first time we come here, we check if it's a grisbi file */
-
     if ( !download_tmp_values.download_ok )
     {
 	if ( strcmp ( element_name,
@@ -2015,7 +2014,7 @@ void gsb_file_load_party ( const gchar **attribute_names,
 		       "Nb" ))
 	{
 	    payee_number = gsb_data_payee_set_new_number ( payee_number,
-						      utils_str_atoi (attribute_values[i]));
+							   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2024,7 +2023,7 @@ void gsb_file_load_party ( const gchar **attribute_names,
 		       "Na" ))
 	{
 	    gsb_data_payee_set_name ( payee_number,
-				 attribute_values[i]);
+				      attribute_values[i]);
 	    i++;
 	    continue;
 	}

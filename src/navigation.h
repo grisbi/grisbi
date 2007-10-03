@@ -19,7 +19,8 @@ enum navigation_cols {
 /* START_DECLARATION */
 void create_account_list ( GtkTreeModel * model );
 GtkWidget * create_navigation_pane ( void );
-void gsb_gui_navigation_add_account ( gint account_number );
+void gsb_gui_navigation_add_account ( gint account_number,
+				      gboolean switch_to_account );
 void gsb_gui_navigation_add_report ( gint report_number );
 gint gsb_gui_navigation_get_current_account ( void );
 gint gsb_gui_navigation_get_current_page ( void );

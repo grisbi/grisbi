@@ -206,7 +206,6 @@ gint gsb_data_payee_max_number ( void )
 /**
  * create a new payee, give him a number, append it to the list
  * and return the number
- * update combofix and mark file as modified
  *
  * \param name the name of the payee (can be freed after, it's a copy) or NULL
  *

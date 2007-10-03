@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2006-2007 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2006-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -34,6 +34,7 @@
 #include "./gsb_file.h"
 #include "./gsb_form_scheduler.h"
 #include "./navigation.h"
+#include "./import.h"
 #include "./menu.h"
 #include "./gsb_scheduler_list.h"
 #include "./main.h"
@@ -65,6 +66,7 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget *notebook_general;
+extern GtkTreeSelection * selection;
 /*END_EXTERN*/
 
 
@@ -83,6 +85,10 @@ gboolean gsb_account_new ( void )
 {
     kind_account type_de_compte;
     gint account_number;
+
+    /* WARNING : there is another way to create a new account : by import
+     * if there is some changes here, should change too in
+     * gsb_import_create_imported_account */
 
     /*     ask for the kind_account */ 
     type_de_compte = gsb_account_ask_account_type ();
@@ -107,6 +113,7 @@ gboolean gsb_account_new ( void )
     gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
 				    FALSE );
 
+/* xxx la modif de Yoann pour la selection auto du compte ne marche pas... à corriger */
     /* update the main page */ 
     mise_a_jour_liste_comptes_accueil = 1;
 
@@ -119,7 +126,8 @@ gboolean gsb_account_new ( void )
     gsb_menu_update_accounts_in_menus (); 
 
     /* Add an entry in navigation pane. */
-    gsb_gui_navigation_add_account ( account_number );
+    gsb_gui_navigation_add_account ( account_number,
+				     TRUE );
 
     /* Go to accounts properties */
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),

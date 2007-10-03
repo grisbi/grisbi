@@ -571,6 +571,7 @@ gboolean gsb_data_account_set_id ( gint account_number,
 
 /**
  * Test if account exist by id (// Modif Yoann )
+ * and return its number
  * 
  * \param Account Id
  *

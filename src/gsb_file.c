@@ -42,7 +42,6 @@
 #include "./gsb_data_archive_store.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
-#include "./gsb_file_config.h"
 #include "./gsb_file_load.h"
 #include "./gsb_file_save.h"
 #include "./gsb_file_util.h"
@@ -57,6 +56,7 @@
 #include "./utils_str.h"
 #include "./parametres.h"
 #include "./affichage_liste.h"
+#include "./import.h"
 #include "./gsb_file_config.h"
 #include "./utils_file_selection.h"
 #include "./fenetre_principale.h"
@@ -119,10 +119,14 @@ gboolean gsb_file_new ( void )
     if ( !gsb_file_close () )
 	return FALSE;
 
+    /* WARNING : there is another way to create a new file : importing a qif/ofx/csv account */
+    /* 	      so a change here need to be changed in the import file */
+    /* 	      (see traitement_operations_importees) */
+
     init_variables ();
 
     /* create the first currency */
-    if ( ! gsb_currency_config_add_currency ( NULL, NULL ) )
+    if ( !gsb_currency_config_add_currency ( NULL, NULL ) )
 	return FALSE;
 
     /* Create initial lists. */
@@ -321,7 +325,6 @@ gboolean gsb_file_open_file ( gchar *filename )
     gsb_status_message ( _("Loading accounts") );
 
     /* try to load the file */
-
     if ( gsb_file_load_open_file (filename))
     {
 	/* the file has been opened succesfully */
@@ -437,19 +440,21 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     while ( list_tmp )
     {
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
+	gint account_number;
 
-	gsb_data_account_calculate_current_and_marked_balances (i);
+	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+
+	gsb_data_account_calculate_current_and_marked_balances (account_number);
 
 	/* set the minimum balances to be shown or not
 	 * if we are already under the minimum, we will show nothing */
 
-	gsb_data_account_set_mini_balance_authorized_message ( i,
-							       gsb_real_cmp ( gsb_data_account_get_current_balance (i),
-									      gsb_data_account_get_mini_balance_authorized (i)) == -1 );
-	gsb_data_account_set_mini_balance_wanted_message ( i,
-							   gsb_real_cmp ( gsb_data_account_get_current_balance (i),
-									  gsb_data_account_get_mini_balance_wanted (i)) == -1 );
+	gsb_data_account_set_mini_balance_authorized_message ( account_number,
+							       gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
+									      gsb_data_account_get_mini_balance_authorized (account_number)) == -1 );
+	gsb_data_account_set_mini_balance_wanted_message ( account_number,
+							   gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
+									  gsb_data_account_get_mini_balance_wanted (account_number)) == -1 );
 	list_tmp = list_tmp -> next;
     }
 
@@ -793,9 +798,6 @@ gboolean gsb_file_close ( void )
 		return ( FALSE );
 
 	case GTK_RESPONSE_NO :
-	    /* save ok, or didn't want to save, really close the file now */
-	     gsb_file_config_save_config();
-
 	     /* remove the lock */
 	    if ( !etat.fichier_deja_ouvert
 		 &&

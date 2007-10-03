@@ -96,8 +96,8 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
     {
 	do
 	{
-/* 	    si ce n'est pas le premier compte du fichier, pointeur_char est déjà sur la ligne du nouveau compte */
-/* 	    tans que pas_le_premier_compte = 1 ; du coup on le met à 2 s'il était à 1 */
+	    /* 	    si ce n'est pas le premier compte du fichier, pointeur_char est déjà sur la ligne du nouveau compte */
+	    /* 	    tans que pas_le_premier_compte = 1 ; du coup on le met à 2 s'il était à 1 */
 
 	    if ( pas_le_premier_compte != 1 )
 	    {
@@ -206,8 +206,8 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 
 	/* récupération du type de compte */
 
-/*     on n'accepte que les types bank, cash, ccard, invst(avec warning), oth a, oth l */
-/* 	le reste, on passe */
+	/*     on n'accepte que les types bank, cash, ccard, invst(avec warning), oth a, oth l */
+	/* 	le reste, on passe */
 
 	if ( !my_strncasecmp ( pointeur_char+6,
 			       "bank",
@@ -225,8 +225,8 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 		 !my_strcasecmp ( pointeur_char+6,
 				  _("invst)")))
 	    {
-/* 		on considère le compte d'investissement comme un compte bancaire mais met un */
-/* 		    warning car pas implémenté ; aucune idée si ça passe ou pas... */
+		/* 		on considère le compte d'investissement comme un compte bancaire mais met un */
+		/* 		    warning car pas implémenté ; aucune idée si ça passe ou pas... */
 		compte -> type_de_compte = 0;
 		dialogue_warning ( _("Grisbi found an investment account, which is not implemented yet.  Nevertheless, Grisbi will try to import it as a bank account." ));
 	    }
@@ -418,8 +418,11 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 		     pointeur_char[0] != '!' )
 		{
 		    /* on vire le 0d à la fin de la chaîne s'il y est  */
-
 		    if ( pointeur_char [ strlen (pointeur_char)-1 ] == 13 )
+			pointeur_char [ strlen (pointeur_char)-1 ] = 0;
+
+		    /* remove the 0A at the end if present */
+		    if ( pointeur_char [ strlen (pointeur_char)-1 ] == 10 )
 			pointeur_char [ strlen (pointeur_char)-1 ] = 0;
 
 		    /* récupération de la date */
@@ -435,9 +438,9 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 		    if ( pointeur_char[0] == 'C' )
 		    {
 			if ( pointeur_char[1] == '*' )
-			    operation -> p_r = 1;
+			    operation -> p_r = OPERATION_POINTEE;
 			else
-			    operation -> p_r = 2;
+			    operation -> p_r = OPERATION_RAPPROCHEE;
 		    }
 
 
@@ -456,10 +459,8 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 			    operation -> notes = NULL;
 		    }
 
-
-		    /* récupération du montant ( on doit virer la , que money met pour séparer les milliers ) */
-		    /* on ne vire la , que s'il y a un . */
-
+		    /* if there is a '.' to separate the decimals, we need to check if there is no ','
+		     * to separate the thousands (thanks money...) */
 		    if ( pointeur_char[0] == 'T' )
 		    {
 			tab = g_strsplit ( pointeur_char,
@@ -468,29 +469,24 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 
 			if( tab[1] )
 			{
+			    /* we remove the ',' wich split the thousands for money */
 			    tab_char = g_strsplit ( pointeur_char,
 						    ",",
 						    FALSE );
-
 			    pointeur_char = g_strjoinv ( NULL,
 							 tab_char );
-			    operation -> montant = gsb_real_get_from_string (pointeur_char + 1);
-
 			    g_strfreev ( tab_char );
 			}
-			else
-			    operation -> montant = gsb_real_get_from_string (pointeur_char + 1);
-
 			g_strfreev ( tab );
+
+			/* now we are sure there is only 1 ',' or '.' to separate the decimals */
+			operation -> montant = gsb_real_get_from_string (pointeur_char + 1);
 		    }
 
 		    /* récupération du chèque */
-
 		    if ( pointeur_char[0] == 'N' )
 			operation -> cheque = my_strtod ( pointeur_char + 1,
 							  NULL ); 
-
-
 
 		    /* récupération du tiers */
 
@@ -848,7 +844,6 @@ changement_format_date:
 	    if ( tab_str [2] && tab_str [1] )
 	    {
 		/* 		  le format est xx/xx/xx, pas d'apostrophe */
-
 		if ( format_date )
 		{
 		    mois = my_strtod ( tab_str[0],
@@ -882,7 +877,6 @@ changement_format_date:
 		if ( tab_str[1] )
 		{
 		    /* le format est xx/xx'xx */
-
 		    gchar **tab_str2;
 
 		    tab_str2 = g_strsplit ( tab_str[1],
@@ -913,14 +907,12 @@ changement_format_date:
 			annee = my_strtod ( tab_str2[1],
 					    NULL );
 		    g_strfreev ( tab_str2 );
-
 		}
 		else
 		{
-		    /* le format est aaaa-mm-jj */
-
 		    if ( strchr ( compte -> date_solde_qif, '-' ) )
 		    {
+			/* le format est aaaa-mm-jj */
 			tab_str = g_strsplit ( compte -> date_solde_qif, "-", 3 );
 
 			mois = my_strtod ( tab_str[1], NULL );
@@ -936,21 +928,32 @@ changement_format_date:
 				annee = annee + 1900;
 			}
 		    }
-		    else if ( strchr ( compte -> date_solde_qif, '.' ) )
+		    else
 		    {
-			tab_str = g_strsplit ( compte -> date_solde_qif, ".", 3 );
+			if ( strchr ( compte -> date_solde_qif, '.' ) )
+			{
+			    /* le format est aaaa.mm.jj */
+			    tab_str = g_strsplit ( compte -> date_solde_qif, ".", 3 );
 
-			mois = my_strtod ( tab_str[1], NULL );
-			jour = my_strtod ( tab_str[2], NULL );
-			if ( strlen ( tab_str[0] ) == 4 )
-			    annee = my_strtod ( tab_str[0], NULL );
+			    mois = my_strtod ( tab_str[1], NULL );
+			    jour = my_strtod ( tab_str[2], NULL );
+			    if ( strlen ( tab_str[0] ) == 4 )
+				annee = my_strtod ( tab_str[0], NULL );
+			    else
+			    {
+				annee = my_strtod ( tab_str[0], NULL );
+				if ( annee < 80 )
+				    annee = annee + 2000;
+				else
+				    annee = annee + 1900;
+			    }
+			}
 			else
 			{
-			    annee = my_strtod ( tab_str[0], NULL );
-			    if ( annee < 80 )
-				annee = annee + 2000;
-			    else
-				annee = annee + 1900;
+			    /* i don't know any other format, if there is new, it's here... */
+			    jour = 0;
+			    mois = 0;
+			    annee = 0;
 			}
 		    }
 		}
@@ -964,7 +967,6 @@ changement_format_date:
 						      mois,
 						      annee );
 	}
-
 
 	/* ajoute ce compte aux autres comptes importés */
 

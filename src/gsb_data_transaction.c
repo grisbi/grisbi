@@ -31,7 +31,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_transaction.h"
-#include "./erreur.h"
 #include "./dialog.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_currency.h"
@@ -679,7 +678,7 @@ gboolean gsb_data_transaction_set_amount ( gint transaction_number,
  * 	try to pass a return_exponent by gsb_data_currency_get_floating_point before
  * 
  * \param transaction_number the number of the transaction
- * \param return_exponent the exponent we want to have for the returned number, or -1 if we want no limit
+ * \param return_exponent the exponent we want to have for the returned number, or -1 for the exponent of the returned currency
  * 
  * \return the amount of the transaction
  * */
@@ -707,7 +706,7 @@ gsb_real gsb_data_transaction_get_adjusted_amount ( gint transaction_number,
  * 
  * \param transaction_number the number of the transaction
  * \param return_currency_number the currency we want to adjust the transaction's amount
- * \param return_exponent the exponent we want to have for the returned number, or -1 if no limit
+ * \param return_exponent the exponent we want to have for the returned number, or -1 for the exponent of the returned currency
  * 
  * \return the amount of the transaction
  * */
@@ -720,7 +719,7 @@ gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transactio
     gint link_number;
 
     if (return_exponent == -1)
-	devel_debug (_("Warning : gsb_data_transaction_get_adjusted_amount_for_currency called with a return_exponent at -1.\nThis could cause errors in the amounts."));
+	return_exponent = gsb_data_currency_get_floating_point (return_currency_number);
 
     transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
 
