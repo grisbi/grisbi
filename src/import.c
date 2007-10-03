@@ -968,7 +968,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     GtkWidget * alignement;
     gchar * short_filename;
     gint size = 0, spacing = 0;
-    gint index;
+    gint account_number;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
@@ -1050,15 +1050,15 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 		       G_CALLBACK ( import_account_action_activated ), GINT_TO_POINTER (IMPORT_ADD_TRANSACTIONS));
 
     /* set on the right account, (Yoann) */
-    index = gsb_data_account_get_account_by_id (compte->id_compte);
-    if(index >= 0)
+    account_number = gsb_data_account_get_account_by_id (compte->id_compte);
+    if(account_number >= 0)
     {
 	g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox2 );
 	g_object_set_data ( G_OBJECT ( radio ), "account", compte );	
 	import_account_action_activated(radio,IMPORT_ADD_TRANSACTIONS);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio), TRUE);
-	gtk_combo_box_set_active(GTK_COMBO_BOX(compte -> bouton_compte_add),index);
-	gtk_combo_box_set_active(GTK_COMBO_BOX(compte -> bouton_compte_mark),index);
+	gsb_account_set_combo_account_number (compte -> bouton_compte_add, account_number);
+	gsb_account_set_combo_account_number (compte -> bouton_compte_mark, account_number);
     }
 
     /* Mark account */

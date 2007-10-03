@@ -408,6 +408,53 @@ gint gsb_account_get_combo_account_number ( GtkWidget *combo_box )
 
 
 /**
+ * the the account on the combo box
+ *
+ * \param combo_box the accounts combo-box
+ * \param account_number the account we want to set
+ *
+ * \return TRUE ok, FALSE pb
+ * */
+gboolean gsb_account_set_combo_account_number ( GtkWidget *combo_box,
+						gint account_number )
+
+{
+    GtkTreeIter iter;
+    GtkTreeModel *model;
+
+    if (!combo_box
+	||
+	!GTK_IS_COMBO_BOX (combo_box))
+	return FALSE;
+
+    model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));
+
+    if (!gtk_tree_model_get_iter_first (model, &iter))
+	return FALSE;
+
+    do
+    {
+	gint account_test;
+
+	gtk_tree_model_get ( model,
+			     &iter,
+			     1, &account_test,
+			     -1 );
+	if (account_number == account_test)
+	{
+	    gtk_combo_box_set_active_iter ( GTK_COMBO_BOX (combo_box),
+					    &iter );
+	    return TRUE;
+	}
+    }
+    while (gtk_tree_model_iter_next (model, &iter));
+    
+    return FALSE;
+}
+
+
+
+/**
  *  Create a menu with the list of accounts.  This list is
  *  clickable and activates func if specified.
  *  used for now to add a submenu item in a main menu
