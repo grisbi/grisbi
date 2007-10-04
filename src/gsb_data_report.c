@@ -1,10 +1,9 @@
 /* ************************************************************************** */
-/* work with the struct of reports                                            */
 /*                                                                            */
 /*                                  gsb_data_report                           */
 /*                                                                            */
-/*     Copyright (C)	2000-2005 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -25,7 +24,7 @@
 
 /**
  * \file gsb_data_report.c
- * work with the account structure, no GUI here
+ * work with the report structure, no GUI here
  */
 
 
@@ -33,6 +32,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_report.h"
+#include "./erreur.h"
 #include "./gsb_data_report_amout_comparison.h"
 #include "./gsb_data_report_text_comparison.h"
 #include "./utils_dates.h"
@@ -159,6 +159,7 @@ typedef struct
 
 /*START_STATIC*/
 static gpointer gsb_data_report_get_pointer_to_report ( gint report_number );
+static struct_report *gsb_data_report_get_structure ( gint report_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -228,7 +229,7 @@ void gsb_data_report_set_report_list ( GSList * list )
  * 
  * \return a pointer to the report, NULL if not found
  * */
-gpointer gsb_data_report_get_report_by_no ( gint report_number )
+struct_report *gsb_data_report_get_structure ( gint report_number )
 {
     GSList *tmp_list;
 
@@ -422,7 +423,7 @@ gboolean gsb_data_report_remove ( gint no_report )
     struct_report *report;
     GSList *list_tmp;
 
-    report = gsb_data_report_get_report_by_no ( no_report );
+    report = gsb_data_report_get_structure ( no_report );
 
     if (!report)
 	return FALSE;
@@ -523,7 +524,7 @@ gchar *gsb_data_report_get_report_name ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return NULL;
@@ -544,7 +545,7 @@ gboolean gsb_data_report_set_report_name ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -569,7 +570,7 @@ gint gsb_data_report_get_show_r ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -590,7 +591,7 @@ gboolean gsb_data_report_set_show_r ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -613,7 +614,7 @@ gint gsb_data_report_get_show_report_transactions ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -634,7 +635,7 @@ gboolean gsb_data_report_set_show_report_transactions ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -656,7 +657,7 @@ gint gsb_data_report_get_show_report_transaction_amount ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -677,7 +678,7 @@ gboolean gsb_data_report_set_show_report_transaction_amount ( gint report_number
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -699,7 +700,7 @@ gint gsb_data_report_get_show_report_date ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -720,7 +721,7 @@ gboolean gsb_data_report_set_show_report_date ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -742,7 +743,7 @@ gint gsb_data_report_get_show_report_payee ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -763,7 +764,7 @@ gboolean gsb_data_report_set_show_report_payee ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -785,7 +786,7 @@ gint gsb_data_report_get_show_report_category ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -806,7 +807,7 @@ gboolean gsb_data_report_set_show_report_category ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -828,7 +829,7 @@ gint gsb_data_report_get_show_report_sub_category ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -849,7 +850,7 @@ gboolean gsb_data_report_set_show_report_sub_category ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -871,7 +872,7 @@ gint gsb_data_report_get_show_report_budget ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -892,7 +893,7 @@ gboolean gsb_data_report_set_show_report_budget ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -914,7 +915,7 @@ gint gsb_data_report_get_show_report_sub_budget ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -935,7 +936,7 @@ gboolean gsb_data_report_set_show_report_sub_budget ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -957,7 +958,7 @@ gint gsb_data_report_get_show_report_note ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -978,7 +979,7 @@ gboolean gsb_data_report_set_show_report_note ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1000,7 +1001,7 @@ gint gsb_data_report_get_show_report_voucher ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1021,7 +1022,7 @@ gboolean gsb_data_report_set_show_report_voucher ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1043,7 +1044,7 @@ gint gsb_data_report_get_show_report_bank_references ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1064,7 +1065,7 @@ gboolean gsb_data_report_set_show_report_bank_references ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1086,7 +1087,7 @@ gint gsb_data_report_get_show_report_transaction_number ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1107,7 +1108,7 @@ gboolean gsb_data_report_set_show_report_transaction_number ( gint report_number
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1129,7 +1130,7 @@ gint gsb_data_report_get_show_report_method_of_payment ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1150,7 +1151,7 @@ gboolean gsb_data_report_set_show_report_method_of_payment ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1172,7 +1173,7 @@ gint gsb_data_report_get_show_report_method_of_payment_content ( gint report_num
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1193,7 +1194,7 @@ gboolean gsb_data_report_set_show_report_method_of_payment_content ( gint report
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1215,7 +1216,7 @@ gint gsb_data_report_get_show_report_marked ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1236,7 +1237,7 @@ gboolean gsb_data_report_set_show_report_marked ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1258,7 +1259,7 @@ gint gsb_data_report_get_show_report_financial_year ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1279,7 +1280,7 @@ gboolean gsb_data_report_set_show_report_financial_year ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1301,7 +1302,7 @@ gint gsb_data_report_get_sorting_report ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1322,7 +1323,7 @@ gboolean gsb_data_report_set_sorting_report ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1344,7 +1345,7 @@ gint gsb_data_report_get_not_detail_breakdown ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1365,7 +1366,7 @@ gboolean gsb_data_report_set_not_detail_breakdown ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1387,7 +1388,7 @@ gint gsb_data_report_get_split_credit_debit ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1408,7 +1409,7 @@ gboolean gsb_data_report_set_split_credit_debit ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1430,7 +1431,7 @@ gint gsb_data_report_get_currency_general ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1451,7 +1452,7 @@ gboolean gsb_data_report_set_currency_general ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1473,7 +1474,7 @@ gint gsb_data_report_get_column_title_show ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1494,7 +1495,7 @@ gboolean gsb_data_report_set_column_title_show ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1516,7 +1517,7 @@ gint gsb_data_report_get_column_title_type ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1537,7 +1538,7 @@ gboolean gsb_data_report_set_column_title_type ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1559,7 +1560,7 @@ gint gsb_data_report_get_append_in_payee ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1580,7 +1581,7 @@ gboolean gsb_data_report_set_append_in_payee ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1602,7 +1603,7 @@ gint gsb_data_report_get_report_can_click ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1623,7 +1624,7 @@ gboolean gsb_data_report_set_report_can_click ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1645,7 +1646,7 @@ gint gsb_data_report_get_use_financial_year ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1666,7 +1667,7 @@ gboolean gsb_data_report_set_use_financial_year ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1688,7 +1689,7 @@ gint gsb_data_report_get_financial_year_type ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1709,7 +1710,7 @@ gboolean gsb_data_report_set_financial_year_type ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1731,7 +1732,7 @@ gint gsb_data_report_get_financial_year_split ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1752,7 +1753,7 @@ gboolean gsb_data_report_set_financial_year_split ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1774,7 +1775,7 @@ gint gsb_data_report_get_date_type ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1795,7 +1796,7 @@ gboolean gsb_data_report_set_date_type ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1817,7 +1818,7 @@ GDate *gsb_data_report_get_personal_date_start ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return NULL;
@@ -1838,7 +1839,7 @@ gboolean gsb_data_report_set_personal_date_start ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1859,7 +1860,7 @@ GDate *gsb_data_report_get_personal_date_end ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return NULL;
@@ -1880,7 +1881,7 @@ gboolean gsb_data_report_set_personal_date_end ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1902,7 +1903,7 @@ gint gsb_data_report_get_period_split ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1923,7 +1924,7 @@ gboolean gsb_data_report_set_period_split ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1945,7 +1946,7 @@ gint gsb_data_report_get_period_split_type ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -1966,7 +1967,7 @@ gboolean gsb_data_report_set_period_split_type ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -1988,7 +1989,7 @@ gint gsb_data_report_get_period_split_day ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2009,7 +2010,7 @@ gboolean gsb_data_report_set_period_split_day ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2031,7 +2032,7 @@ gint gsb_data_report_get_account_use_chosen ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2052,7 +2053,7 @@ gboolean gsb_data_report_set_account_use_chosen ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2074,7 +2075,7 @@ gint gsb_data_report_get_account_group_reports ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2095,7 +2096,7 @@ gboolean gsb_data_report_set_account_group_reports ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2117,7 +2118,7 @@ gint gsb_data_report_get_account_show_amount ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2138,7 +2139,7 @@ gboolean gsb_data_report_set_account_show_amount ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2160,7 +2161,7 @@ gint gsb_data_report_get_account_show_name ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2181,7 +2182,7 @@ gboolean gsb_data_report_set_account_show_name ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2203,7 +2204,7 @@ gint gsb_data_report_get_transfer_choice ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2224,7 +2225,7 @@ gboolean gsb_data_report_set_transfer_choice ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2246,7 +2247,7 @@ gint gsb_data_report_get_transfer_reports_only ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2267,7 +2268,7 @@ gboolean gsb_data_report_set_transfer_reports_only ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2289,7 +2290,7 @@ gint gsb_data_report_get_category_used ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2310,7 +2311,7 @@ gboolean gsb_data_report_set_category_used ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2332,7 +2333,7 @@ gint gsb_data_report_get_category_detail_used ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2353,7 +2354,7 @@ gboolean gsb_data_report_set_category_detail_used ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2375,7 +2376,7 @@ gint gsb_data_report_get_category_show_sub_category ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2396,7 +2397,7 @@ gboolean gsb_data_report_set_category_show_sub_category ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2418,7 +2419,7 @@ gint gsb_data_report_get_category_show_category_amount ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2439,7 +2440,7 @@ gboolean gsb_data_report_set_category_show_category_amount ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2461,7 +2462,7 @@ gint gsb_data_report_get_category_show_sub_category_amount ( gint report_number 
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2482,7 +2483,7 @@ gboolean gsb_data_report_set_category_show_sub_category_amount ( gint report_num
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2504,7 +2505,7 @@ gint gsb_data_report_get_category_only_report_with_category ( gint report_number
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2525,7 +2526,7 @@ gboolean gsb_data_report_set_category_only_report_with_category ( gint report_nu
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2547,7 +2548,7 @@ gint gsb_data_report_get_category_currency ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2568,7 +2569,7 @@ gboolean gsb_data_report_set_category_currency ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2590,7 +2591,7 @@ gint gsb_data_report_get_category_show_without_category ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2611,7 +2612,7 @@ gboolean gsb_data_report_set_category_show_without_category ( gint report_number
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2633,7 +2634,7 @@ gint gsb_data_report_get_category_show_name ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2654,7 +2655,7 @@ gboolean gsb_data_report_set_category_show_name ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2676,7 +2677,7 @@ gint gsb_data_report_get_budget_used ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2697,7 +2698,7 @@ gboolean gsb_data_report_set_budget_used ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2719,7 +2720,7 @@ gint gsb_data_report_get_budget_detail_used ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2740,7 +2741,7 @@ gboolean gsb_data_report_set_budget_detail_used ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2762,7 +2763,7 @@ gint gsb_data_report_get_budget_show_sub_budget ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2783,7 +2784,7 @@ gboolean gsb_data_report_set_budget_show_sub_budget ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2805,7 +2806,7 @@ gint gsb_data_report_get_budget_show_budget_amount ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2826,7 +2827,7 @@ gboolean gsb_data_report_set_budget_show_budget_amount ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2847,7 +2848,7 @@ gint gsb_data_report_get_budget_show_sub_budget_amount ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2868,7 +2869,7 @@ gboolean gsb_data_report_set_budget_show_sub_budget_amount ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2891,7 +2892,7 @@ gint gsb_data_report_get_budget_only_report_with_budget ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2912,7 +2913,7 @@ gboolean gsb_data_report_set_budget_only_report_with_budget ( gint report_number
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2934,7 +2935,7 @@ gint gsb_data_report_get_budget_currency ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2955,7 +2956,7 @@ gboolean gsb_data_report_set_budget_currency ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -2977,7 +2978,7 @@ gint gsb_data_report_get_budget_show_without_budget ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -2998,7 +2999,7 @@ gboolean gsb_data_report_set_budget_show_without_budget ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3020,7 +3021,7 @@ gint gsb_data_report_get_budget_show_name ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -3041,7 +3042,7 @@ gboolean gsb_data_report_set_budget_show_name ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3063,7 +3064,7 @@ gint gsb_data_report_get_payee_used ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -3084,7 +3085,7 @@ gboolean gsb_data_report_set_payee_used ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3106,7 +3107,7 @@ gint gsb_data_report_get_payee_detail_used ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -3127,7 +3128,7 @@ gboolean gsb_data_report_set_payee_detail_used ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3149,7 +3150,7 @@ gint gsb_data_report_get_payee_show_payee_amount ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -3170,7 +3171,7 @@ gboolean gsb_data_report_set_payee_show_payee_amount ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3192,7 +3193,7 @@ gint gsb_data_report_get_payee_currency ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -3213,7 +3214,7 @@ gboolean gsb_data_report_set_payee_currency ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3235,7 +3236,7 @@ gint gsb_data_report_get_payee_show_name ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -3256,7 +3257,7 @@ gboolean gsb_data_report_set_payee_show_name ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3278,7 +3279,7 @@ gint gsb_data_report_get_text_comparison_used ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -3299,7 +3300,7 @@ gboolean gsb_data_report_set_text_comparison_used ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3321,7 +3322,7 @@ gint gsb_data_report_get_amount_comparison_used ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -3342,7 +3343,7 @@ gboolean gsb_data_report_set_amount_comparison_used ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3364,7 +3365,7 @@ gint gsb_data_report_get_amount_comparison_currency ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -3385,7 +3386,7 @@ gboolean gsb_data_report_set_amount_comparison_currency ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3407,7 +3408,7 @@ gint gsb_data_report_get_amount_comparison_only_report_non_null ( gint report_nu
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -3428,7 +3429,7 @@ gboolean gsb_data_report_set_amount_comparison_only_report_non_null ( gint repor
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3449,7 +3450,7 @@ gint gsb_data_report_get_method_of_payment_used ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return -1;
@@ -3470,7 +3471,7 @@ gboolean gsb_data_report_set_method_of_payment_used ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3492,7 +3493,7 @@ GSList *gsb_data_report_get_financial_year_list ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return NULL;
@@ -3513,7 +3514,7 @@ gboolean gsb_data_report_set_financial_year_list ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3534,7 +3535,7 @@ GSList *gsb_data_report_get_sorting_type ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return NULL;
@@ -3555,7 +3556,7 @@ gboolean gsb_data_report_set_sorting_type ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3576,7 +3577,7 @@ GSList *gsb_data_report_get_account_numbers ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return NULL;
@@ -3597,7 +3598,7 @@ gboolean gsb_data_report_set_account_numbers ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3618,7 +3619,7 @@ GSList *gsb_data_report_get_transfer_account_numbers ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return NULL;
@@ -3639,7 +3640,7 @@ gboolean gsb_data_report_set_transfer_account_numbers ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3660,7 +3661,7 @@ GSList *gsb_data_report_get_category_numbers ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return NULL;
@@ -3681,7 +3682,7 @@ gboolean gsb_data_report_set_category_numbers ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3702,7 +3703,7 @@ GSList *gsb_data_report_get_budget_numbers ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return NULL;
@@ -3723,7 +3724,7 @@ gboolean gsb_data_report_set_budget_numbers ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3744,7 +3745,7 @@ GSList *gsb_data_report_get_payee_numbers ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return NULL;
@@ -3765,7 +3766,7 @@ gboolean gsb_data_report_set_payee_numbers ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3786,7 +3787,7 @@ GSList *gsb_data_report_get_text_comparison_list ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return NULL;
@@ -3807,7 +3808,7 @@ gboolean gsb_data_report_set_text_comparison_list ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3828,7 +3829,7 @@ GSList *gsb_data_report_get_amount_comparison_list ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return NULL;
@@ -3849,7 +3850,7 @@ gboolean gsb_data_report_set_amount_comparison_list ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3871,7 +3872,7 @@ GSList *gsb_data_report_get_method_of_payment_list ( gint report_number )
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return NULL;
@@ -3892,7 +3893,7 @@ gboolean gsb_data_report_set_method_of_payment_list ( gint report_number,
 {
     struct_report *report;
 
-    report = gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return FALSE;
@@ -3920,12 +3921,12 @@ gint gsb_data_report_dup ( gint report_number )
 
     new_report_number = gsb_data_report_new ( NULL );
 
-    report = (struct_report *) gsb_data_report_get_report_by_no (report_number);
+    report = gsb_data_report_get_structure (report_number);
 
     if ( !report )
 	return 0;
 
-    new_report = (struct_report *) gsb_data_report_get_report_by_no (new_report_number);
+    new_report = gsb_data_report_get_structure (new_report_number);
 
     if ( !new_report )
 	return 0;
@@ -3986,3 +3987,95 @@ gint gsb_data_report_dup ( gint report_number )
 
     return new_report_number;
 }
+
+
+
+/**
+ * check the position of the 2 reports in the list and
+ * return -1 if first report before second (and +1 else)
+ *
+ * \param report_number_1
+ * \param report_number_2
+ *
+ * \return -1 if report_number_1 before, report_number_2, and +1 else, 0 if one of report doesn't exist
+ * */
+gint gsb_data_report_compare_position ( gint report_number_1,
+					gint report_number_2 )
+{
+    gint pos_1, pos_2;
+    struct_report *report_1;
+    struct_report *report_2;
+
+    report_1 = gsb_data_report_get_structure ( report_number_1 );
+    report_2 = gsb_data_report_get_structure ( report_number_2 );
+
+    if (!report_1
+	||
+	!report_2 )
+	return 0;
+
+    pos_1 = g_slist_index (report_list, report_1);
+    pos_2 = g_slist_index (report_list, report_2);
+    if (pos_1 < pos_2)
+	return -1;
+    else
+	return 1;
+}
+
+
+/**
+ * change the position of an report in the list of reports
+ *
+ * \param report_number the report we want to move
+ * \param dest_report_number the report before we want to move
+ *
+ * \return FALSE
+ * */
+gboolean gsb_data_report_move_report ( gint report_number,
+				       gint dest_report_number )
+{
+    struct_report *report;
+    GSList *tmp_list;
+    gboolean found = FALSE;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if (!report )
+	return FALSE;
+
+    /* first, remove the report from the list */
+    report_list = g_slist_remove ( report_list,
+				   report );
+
+    tmp_list = report_list;
+    while ( tmp_list
+	    ||
+	    !found )
+    {
+	struct_report *report_tmp;
+
+	report_tmp = tmp_list -> data;
+
+	if (report_tmp -> report_number == dest_report_number)
+	{
+	    report_list = g_slist_insert_before ( report_list,
+						   tmp_list,
+						   report );
+	    found = TRUE;
+	}
+	tmp_list = tmp_list -> next;
+    }
+
+    /* if didn't found the report to set previous,
+     * we append again the report to the list */
+    if (!found)
+    {
+	devel_debug ("Target report not found in gsb_data_report_move_report,\n append the moved report to the end");
+	report_list = g_slist_append ( report_list,
+					report );
+    }
+    return FALSE;
+}
+
+
+

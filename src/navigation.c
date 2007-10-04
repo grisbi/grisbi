@@ -44,6 +44,7 @@
 #include "./gsb_transactions_list.h"
 #include "./main.h"
 #include "./accueil.h"
+#include "./traitement_variables.h"
 #include "./comptes_gestion.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
@@ -90,8 +91,6 @@ static  gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel * tree
 							    GtkTreePath *path, 
 							    GtkTreeIter *iter, 
 							    gpointer data );
-static void navigation_change_account_order ( GtkTreeModel * model, gint orig, gint dest );
-static void navigation_change_report_order ( GtkTreeModel * model, gint orig, gint dest );
 static gboolean navigation_sort_column ( GtkTreeModel * model, 
 				  GtkTreeIter * a, GtkTreeIter * b, 
 				  gpointer user_data );
@@ -107,7 +106,6 @@ extern GtkWidget *label_last_statement ;
 extern GtkWidget *notebook_general;
 extern GtkTreeStore *payee_tree_model;
 extern GtkTreeSelection * selection;
-extern GSList *sort_accounts;
 extern gchar *titre_fichier;
 extern GtkWidget *tree_view;
 /*END_EXTERN*/
@@ -622,8 +620,6 @@ gboolean navigation_sort_column ( GtkTreeModel * model,
 				  gpointer user_data )
 {
     gint page_a, page_b, account_a, account_b, report_a, report_b;
-    GSList * sort_reports = gsb_data_report_get_report_list ();
-    gpointer preport_a, preport_b;
 
     if ( ! model )
 	return FALSE;
@@ -640,28 +636,13 @@ gboolean navigation_sort_column ( GtkTreeModel * model,
 			 NAVIGATION_REPORT, &report_b,
 			 -1 );
 
-    preport_a = gsb_data_report_get_report_by_no ( report_a );
-    preport_b = gsb_data_report_get_report_by_no ( report_b );
-
     if ( page_a == GSB_ACCOUNT_PAGE && page_b == GSB_ACCOUNT_PAGE )
     {
-	if ( g_slist_index ( sort_accounts, GINT_TO_POINTER (account_a)) >
-	     g_slist_index ( sort_accounts, GINT_TO_POINTER (account_b)))
-	{
-	    return 1;
-	}	
-
-	return -1;
+	return gsb_data_account_compare_position (account_a, account_b);
     }
     else if ( page_a == GSB_REPORTS_PAGE && page_b == GSB_REPORTS_PAGE )
     {
-	if ( g_slist_index ( sort_reports, preport_a ) > 
-	     g_slist_index ( sort_reports, preport_b ) )
-	{
-	    return 1;
-	}
-
-	return -1;
+	return gsb_data_report_compare_position (report_a, report_b);
     }
     else
     {
@@ -1596,11 +1577,18 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 				     -1 );
 	    }
 	
-	    navigation_change_account_order ( model, src_account, dst_account );
-	    navigation_change_report_order ( model, src_report, dst_report );
+	    gsb_data_account_move_account (src_account, dst_account);
+	    gsb_data_report_move_report (src_report, dst_report);
+
+	    /* update the tree view */
+	    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(model),
+						   NAVIGATION_PAGE, GTK_SORT_ASCENDING );
+	    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(model), 
+					      NAVIGATION_PAGE, navigation_sort_column,
+					      NULL, NULL );
+	    modification_fichier (TRUE);
 	}
     }
-
     return FALSE;
 }
 
@@ -1647,92 +1635,19 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 	/* We handle an account */
 	if ( src_account >= 0 && dst_account >= 0 )
 	{
-	    printf ("> Possible (account)\n");
+	    devel_debug ( g_strdup_printf ("> Possible (account, %d, %d)\n", src_account, dst_account));
 	    return TRUE;
 	}
 	/* We handle a report */
 	else if ( src_report > 0 && dst_report > 0 )
 	{
-	    printf ("> Possible (report, %d, %d)\n", src_report, dst_report);
+	    devel_debug ( g_strdup_printf  ("> Possible (report, %d, %d)\n", src_report, dst_report));
 	    return TRUE;
 	}
     }
 
     return FALSE;
 }
-
-
-
-/**
- *
- *
- *
- */
-void navigation_change_account_order ( GtkTreeModel * model, gint orig, gint dest )
-{
-    GSList * tmp, * dest_pointer;
-
-    /* No customization. */
-    if ( ! g_slist_length ( sort_accounts ) )
-    {
-	tmp = gsb_data_account_get_list_accounts ();
-	while ( tmp )
-	{
-	    sort_accounts = g_slist_append ( sort_accounts, 
-					     GINT_TO_POINTER (gsb_data_account_get_no_account ( tmp -> data )));
-	    tmp = tmp -> next;
-	}
-    }
-
-    sort_accounts = g_slist_remove ( sort_accounts, GINT_TO_POINTER (orig));
-    dest_pointer = g_slist_find ( sort_accounts, (gpointer) dest );
-    if ( dest_pointer )
-    {
-	sort_accounts = g_slist_insert ( sort_accounts,
-					 GINT_TO_POINTER (orig),
-					 g_slist_position ( sort_accounts, 
-							    dest_pointer ) );
-    }
-
-    gsb_data_account_reorder ( sort_accounts );
-    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(model),
-					   NAVIGATION_PAGE, GTK_SORT_ASCENDING );
-    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(model), 
-				      NAVIGATION_PAGE, navigation_sort_column,
-				      NULL, NULL );
-}
-
-
-
-/**
- *
- *
- *
- */
-void navigation_change_report_order ( GtkTreeModel * model, gint orig, gint dest )
-{
-    GSList * tmp, * dest_pointer;
-    gpointer orig_report = gsb_data_report_get_report_by_no ( orig );
-    gpointer dest_report = gsb_data_report_get_report_by_no ( dest );
-
-    tmp = gsb_data_report_get_report_list ();
-
-    dest_pointer = g_slist_find ( tmp, dest_report );
-    if ( dest_pointer )
-    {
-	tmp = g_slist_remove ( tmp, orig_report );
-	tmp = g_slist_insert ( tmp, orig_report,
-			       g_slist_position ( tmp, dest_pointer ) );
-	gsb_data_report_set_report_list ( tmp );
-    }
-
-    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(model),
-					   NAVIGATION_PAGE, GTK_SORT_ASCENDING );
-    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(model), 
-				      NAVIGATION_PAGE, navigation_sort_column,
-				      NULL, NULL );
-}
-
 
 
 /* Local Variables: */

@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_account.h"
+#include "./erreur.h"
 #include "./dialog.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_form.h"
@@ -118,14 +119,13 @@ static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 /*START_EXTERN*/
 extern gsb_real null_real ;
 extern GtkTreeSelection * selection;
-extern GSList *sort_accounts;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
 
 
-/** contains a g_slist of struct_account */
+/** contains a g_slist of struct_account in the good order */
 static GSList *list_accounts;
 
 /** a pointer to the last account used (to increase the speed) */
@@ -143,7 +143,6 @@ gboolean gsb_data_account_init_variables ( void )
     account_buffer = NULL;
 
     list_accounts = NULL;
-    sort_accounts = NULL;
 
     return FALSE;
 }
@@ -2173,6 +2172,7 @@ gboolean gsb_data_account_set_form_organization ( gint account_number,
 /**
  * set a new order in the list of accounts
  * all the accounts which are not in the new order are appened at the end of the new list
+ * should be used only when loading a file before the 0.6 version
  * 
  * \param new_order a g_slist which contains the number of accounts in the new order
  * 
@@ -2185,7 +2185,7 @@ gboolean gsb_data_account_reorder ( GSList *new_order )
     while ( new_order )
     {
 	new_list_accounts = g_slist_append ( new_list_accounts, 
-					     gsb_data_account_get_structure ( (gint) new_order -> data ) );
+					     gsb_data_account_get_structure ( GPOINTER_TO_INT (new_order -> data )));
 	new_order = new_order -> next;
     }
 
@@ -2215,6 +2215,93 @@ gboolean gsb_data_account_reorder ( GSList *new_order )
     return TRUE;
 }
 
+
+/**
+ * check the position of the 2 accounts in the list and
+ * return -1 if first account before second (and +1 else)
+ *
+ * \param account_number_1
+ * \param account_number_2
+ *
+ * \return -1 if account_number_1 before, account_number_2, and +1 else, 0 if one of account doesn't exist
+ * */
+gint gsb_data_account_compare_position ( gint account_number_1,
+					 gint account_number_2 )
+{
+    gint pos_1, pos_2;
+    struct_account *account_1;
+    struct_account *account_2;
+
+    account_1 = gsb_data_account_get_structure ( account_number_1 );
+    account_2 = gsb_data_account_get_structure ( account_number_2 );
+
+    if (!account_1
+	||
+	!account_2 )
+	return 0;
+
+    pos_1 = g_slist_index (list_accounts, account_1);
+    pos_2 = g_slist_index (list_accounts, account_2);
+    if (pos_1 < pos_2)
+	return -1;
+    else
+	return 1;
+}
+
+
+/**
+ * change the position of an account in the list of accounts
+ *
+ * \param account_number the account we want to move
+ * \param dest_account_number the account before we want to move
+ *
+ * \return FALSE
+ * */
+gboolean gsb_data_account_move_account ( gint account_number,
+					 gint dest_account_number )
+{
+    struct_account *account;
+    GSList *tmp_list;
+    gboolean found = FALSE;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	return FALSE;
+
+    /* first, remove the account from the list */
+    list_accounts = g_slist_remove ( list_accounts,
+				     account );
+
+    tmp_list = list_accounts;
+    while ( tmp_list
+	    ||
+	    !found )
+    {
+	struct_account *account_tmp;
+
+	account_tmp = tmp_list -> data;
+
+	if (account_tmp -> account_number == dest_account_number)
+	{
+	    list_accounts = g_slist_insert_before ( list_accounts,
+						    tmp_list,
+						    account );
+	    found = TRUE;
+	}
+	tmp_list = tmp_list -> next;
+    }
+
+    /* if didn't found the account to set previous,
+     * we append again the account to the list */
+    if (!found)
+    {
+	devel_debug ("Target account not found in gsb_data_account_move_account,\n append the moved account to the end");
+	list_accounts = g_slist_append ( list_accounts,
+					 account );
+    }
+    return FALSE;
+}
 
 /**
  * initalize the sort variables for an account to the default value

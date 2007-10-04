@@ -120,7 +120,6 @@ extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gchar *nom_fichier_backup;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
-extern GSList *sort_accounts;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern gchar *titre_fichier;
 extern gint valeur_echelle_recherche_date_import;
@@ -419,7 +418,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *tree_lines_showed;
     gchar *scheduler_column_width_ratio;
     gchar *new_string;
-    gchar *sort_accounts_string = "";
     gchar *skipped_lines_string;
     GSList * tmp;
     gboolean is_archive = FALSE;
@@ -486,21 +484,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	    scheduler_column_width_ratio  = utils_str_itoa ( scheduler_col_width[i] );
 
 
-    /* Sort order */
-    tmp = sort_accounts;
-    if ( tmp )
-    {
-	sort_accounts_string = utils_str_itoa ( (gint) tmp -> data );
-	tmp = tmp -> next;
-	while ( tmp )
-	{
-	    sort_accounts_string = g_strconcat ( sort_accounts_string, 
-						 "-", utils_str_itoa ( (gint) tmp -> data ),
-						 NULL );
-	    tmp = tmp -> next;
-	}
-    }
-
     /* CSV skipped lines */
     skipped_lines_string = utils_str_itoa ( etat.csv_skipped_lines[0] );
     for ( i = 1; i < CSV_MAX_TOP_LINES ; i ++ )
@@ -554,7 +537,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tCombofix_force_payee=\"%d\"\n"
 					   "\t\tCombofix_force_category=\"%d\"\n"
 					   "\t\tAutomatic_amount_separator=\"%d\"\n"
-					   "\t\tAccounts_order=\"%s\"\n"
 					   "\t\tCSV_separator=\"%s\"\n"
 					   "\t\tCSV_skipped_lines=\"%s\" />\n",
 	VERSION_FICHIER,
@@ -592,7 +574,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.combofix_force_payee,
 	etat.combofix_force_category,
 	etat.automatic_separator,
-	sort_accounts_string,
 	etat.csv_separator,
 	skipped_lines_string );
 

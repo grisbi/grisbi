@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_category.h"
-#include "./dialog.h"
 #include "./gsb_data_category.h"
 #include "./gsb_data_form.h"
 #include "./gsb_form_widget.h"

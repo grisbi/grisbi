@@ -5,6 +5,8 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
+gint gsb_data_report_compare_position ( gint report_number_1,
+					gint report_number_2 );
 gint gsb_data_report_dup ( gint report_number );
 gint gsb_data_report_get_account_group_reports ( gint report_number );
 GSList *gsb_data_report_get_account_numbers ( gint report_number );
@@ -58,7 +60,6 @@ gint gsb_data_report_get_period_split_type ( gint report_number );
 GDate *gsb_data_report_get_personal_date_end ( gint report_number );
 GDate *gsb_data_report_get_personal_date_start ( gint report_number );
 gint gsb_data_report_get_report_by_name ( const gchar *name );
-gpointer gsb_data_report_get_report_by_no ( gint report_number );
 gint gsb_data_report_get_report_can_click ( gint report_number );
 GSList *gsb_data_report_get_report_list ( void );
 gchar *gsb_data_report_get_report_name ( gint report_number );
@@ -91,6 +92,8 @@ gint gsb_data_report_get_transfer_reports_only ( gint report_number );
 gint gsb_data_report_get_use_financial_year ( gint report_number );
 gboolean gsb_data_report_init_variables ( void );
 gint gsb_data_report_max_number ( void );
+gboolean gsb_data_report_move_report ( gint report_number,
+				       gint dest_report_number );
 gint gsb_data_report_new ( gchar *name );
 gint gsb_data_report_new_with_number ( gint number );
 gboolean gsb_data_report_remove ( gint no_report );

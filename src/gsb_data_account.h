@@ -24,6 +24,8 @@ typedef enum _kind_account	kind_account;
 /* START_DECLARATION */
 gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_number );
 gsb_real gsb_data_account_calculate_marked_balance ( gint account_number );
+gint gsb_data_account_compare_position ( gint account_number_1,
+					 gint account_number_2 );
 gboolean gsb_data_account_delete ( gint account_number );
 gint gsb_data_account_first_number ( void );
 gint gsb_data_account_get_account_by_id ( const gchar *account_id );
@@ -66,6 +68,8 @@ gint gsb_data_account_get_sort_type ( gint account_number );
 gint gsb_data_account_get_split_neutral_payment ( gint account_number );
 GtkTreePath *gsb_data_account_get_vertical_adjustment_value ( gint account_number );
 gboolean gsb_data_account_init_variables ( void );
+gboolean gsb_data_account_move_account ( gint account_number,
+					 gint dest_account_number );
 gint gsb_data_account_new ( kind_account account_kind );
 gboolean gsb_data_account_reorder ( GSList *new_order );
 gint gsb_data_account_set_account_number ( gint account_number,

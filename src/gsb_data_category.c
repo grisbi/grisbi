@@ -30,6 +30,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_category.h"
 #include "./meta_categories.h"
+#include "./erreur.h"
 #include "./gsb_category.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_mix.h"

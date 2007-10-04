@@ -168,11 +168,13 @@ static gint last_sub_budget_number = 0;
 /* to import older file than 0.6, makes the link between report and comparison structures */
 gint last_report_number;
 
-/* used to get the sort of the accounts in the version < 0.6 */
-GSList *sort_accounts;
-
 /** FIXME : here for now, will be use to save and restore the width of the list */
 gint scheduler_col_width[NB_COLS_SCHEDULER];
+
+/** filled only when loading a version before 0.6, contains the order of the accounts
+ * in the 0.6, the accounts are saved directly in the good order
+ * this is a list of the accounts number, in the good order */
+static GSList *sort_accounts;
 
 /* temporary structure used to go from the 0.5.x versions to 0.6.x versions
  * because before, method of payment were saved in each account, and now
@@ -386,11 +388,6 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	    g_free (file_content);
 	    return FALSE;
 	}
-
-	/* We need to reorder accounts just now. */
-/* 	xxx voir ici je crois plus besoin de reorder mais voir si change dans la liste qd change l'ordre d'un compte dans grisbi */
-/* 	    et faire en passant la même chose pour les états */
-	gsb_data_account_reorder ( sort_accounts );
 
 	g_markup_parse_context_free (context);
 	g_free (markup_parser);
@@ -892,26 +889,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 			    "Automatic_amount_separator" ))
 	{
 	    etat.automatic_separator = utils_str_atoi( attribute_values[i]);
-	}
-
-	else if ( !strcmp ( attribute_names[i],
-			    "Accounts_order" ))
-	{
-	    gchar **pointeur_char;
-	    gint j;
-
-	    pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
-
-	    j = 0;
-	    sort_accounts = NULL;
-
-	    while ( pointeur_char[j] )
-	    {
-		sort_accounts = g_slist_append ( sort_accounts,
-						 GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[j] )));
-		j++;
-	    }
-	    g_strfreev ( pointeur_char );
 	}
 
 	else if ( !strcmp ( attribute_names[i],
@@ -5302,10 +5279,11 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 	gchar **pointeur_char;
 	gint i;
 
+	/* in the 0.6, the accounts are saved in the good order,
+	 * so for before, get the order and reorder the list later */
 	pointeur_char = g_strsplit ( text,
 				     "-",
 				     0 );
-
 	i = 0;
 	sort_accounts = NULL;
 
@@ -7050,6 +7028,10 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    /* ************************************* */
 	    /* 	    opening 0.6.0                    */
 	    /* ************************************* */
+
+	    /* now the order of account is saved directly in the file, but if come before,
+	     * need to reorder the list */
+	    gsb_data_account_reorder (sort_accounts);
 
 	case 60:
 
