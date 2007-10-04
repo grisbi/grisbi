@@ -133,6 +133,12 @@ gboolean gsb_file_config_load_config ( void )
 					      "Height",
 					      NULL );
 
+    etat.full_screen = g_key_file_get_integer ( config,
+						"Geometry",
+						"Full screen",
+						NULL );
+
+
     /* get general */
 
     etat.r_modifiable = g_key_file_get_integer ( config,
@@ -420,6 +426,11 @@ gboolean gsb_file_config_save_config ( void )
 			     "Geometry",
 			     "Height",
 			     hauteur_window );
+    g_key_file_set_integer ( config,
+			     "Geometry",
+			     "Full screen",
+			     etat.full_screen );
+
 
 
     /* save general */

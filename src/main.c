@@ -3,8 +3,8 @@
 /* Programme de gestion financière personnelle                                   */
 /*           	  license : GPL                                                  */
 /*                                                                               */
-/*     Copyright (C)    2000-2006 Cédric Auger (cedric@grisbi.org)               */
-/*                      2003-2006 Benjamin Drieu (bdrieu@april.org)              */
+/*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)               */
+/*                      2003-2007 Benjamin Drieu (bdrieu@april.org)              */
 /*                      http://www.grisbi.org                                    */
 /*      Version : 0.6.0                                                          */
 /*                                                                               */
@@ -61,6 +61,9 @@
 
 
 /*START_STATIC*/
+gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
+					  GdkEventWindowState *event,
+					  gpointer null );
 /*END_STATIC*/
 
 
@@ -174,10 +177,14 @@ int main (int argc, char *argv[])
     /* create the toplevel window */
 
     window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
-    gtk_signal_connect ( GTK_OBJECT (window),
-			 "delete_event",
-			 GTK_SIGNAL_FUNC ( gsb_grisbi_close ),
-			 NULL );
+    g_signal_connect ( G_OBJECT (window),
+		       "delete_event",
+		       G_CALLBACK ( gsb_grisbi_close ),
+		       NULL );
+    g_signal_connect ( G_OBJECT (window),
+		       "window-state-event",
+		       G_CALLBACK (gsb_grisbi_change_state_window),
+		       NULL );
     gtk_window_set_policy ( GTK_WINDOW ( window ),
 			    TRUE,
 			    TRUE,
@@ -256,6 +263,11 @@ In any case you do work with this version on your original accounting files.\n \
     {
 	display_tip ( FALSE );
     }
+
+    /* set the full screen if necessary */
+    if (etat.full_screen)
+	gtk_window_maximize (GTK_WINDOW (window));
+
     gtk_main ();
 
     gsb_plugins_release ( );
@@ -289,6 +301,31 @@ gboolean gsb_grisbi_close ( void )
    gsb_plugins_release ( );
 
    return FALSE;
+}
+
+/**
+ * check on any change on the main window
+ * for now, only to check if we set/unset the full-screen
+ *
+ * \param window
+ * \param event
+ * \param null
+ *
+ * \return FALSE
+ * */
+gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
+					  GdkEventWindowState *event,
+					  gpointer null )
+{
+
+    if (event -> changed_mask == GDK_WINDOW_STATE_FULLSCREEN)
+    {
+	if (event -> new_window_state)
+	    etat.full_screen = TRUE;
+	else
+	    etat.full_screen = FALSE;
+    }
+    return FALSE;
 }
 
 

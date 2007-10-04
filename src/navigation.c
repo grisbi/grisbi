@@ -1635,13 +1635,13 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 	/* We handle an account */
 	if ( src_account >= 0 && dst_account >= 0 )
 	{
-	    devel_debug ( g_strdup_printf ("> Possible (account, %d, %d)\n", src_account, dst_account));
+	    notice_debug ( g_strdup_printf ("> Possible (account, %d, %d)", src_account, dst_account));
 	    return TRUE;
 	}
 	/* We handle a report */
 	else if ( src_report > 0 && dst_report > 0 )
 	{
-	    devel_debug ( g_strdup_printf  ("> Possible (report, %d, %d)\n", src_report, dst_report));
+	    notice_debug ( g_strdup_printf  ("> Possible (report, %d, %d)", src_report, dst_report));
 	    return TRUE;
 	}
     }

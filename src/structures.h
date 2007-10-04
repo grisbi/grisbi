@@ -99,6 +99,7 @@ struct {
     gint crypt_file;   /* TRUE if we want to crypt the file */
     gint compress_file;  /* TRUE if we want to compress the grisbi file */
     gint compress_backup;  /* TRUE if we want to compress the backup */
+    gint full_screen;		/* 1 to full screen, 0 else */
 
     /* archive stuff */
     gint check_for_archival; /* TRUE if we want to check the number of non archived transactions at the opening */
