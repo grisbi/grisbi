@@ -190,7 +190,7 @@ void importer_fichier ( void )
 {
     GSList * tmp = import_formats;
     gchar * formats = "";
-    GtkWidget * a;
+    GtkWidget * assistant;
 
     liste_comptes_importes = NULL;
     liste_comptes_importes_error = NULL;
@@ -207,7 +207,7 @@ void importer_fichier ( void )
 	tmp = tmp -> next;
     }
 
-    a = gsb_assistant_new ( "Importing transactions into Grisbi",
+    assistant = gsb_assistant_new ( "Importing transactions into Grisbi",
 			    g_strconcat ( "This assistant will help you import one or several files into Grisbi."
 					  "\n\n"
 					  "Grisbi will try to do its best to guess which format are imported, but you may have to manually set them in the list of next page.  "
@@ -218,27 +218,28 @@ void importer_fichier ( void )
 			    NULL );
 
 
-    gsb_assistant_add_page ( a, import_create_file_selection_page ( a ), 
+    gsb_assistant_add_page ( assistant, import_create_file_selection_page ( assistant ), 
 			     IMPORT_FILESEL_PAGE, IMPORT_STARTUP_PAGE, IMPORT_RESUME_PAGE, 
 			     G_CALLBACK ( import_enter_file_selection_page ) );
-    gsb_assistant_add_page ( a, import_create_csv_preview_page ( a ), 
+    gsb_assistant_add_page ( assistant, import_create_csv_preview_page ( assistant ), 
 			     IMPORT_CSV_PAGE, IMPORT_FILESEL_PAGE, IMPORT_RESUME_PAGE,
 			     G_CALLBACK ( import_enter_csv_preview_page ) );
-    gsb_assistant_add_page ( a, import_create_resume_page ( a ), 
+    gsb_assistant_add_page ( assistant, import_create_resume_page ( assistant ), 
 			     IMPORT_RESUME_PAGE, IMPORT_FILESEL_PAGE, 
 			     IMPORT_FIRST_ACCOUNT_PAGE, 
 			     G_CALLBACK ( import_enter_resume_page ) );
 
-    if ( gsb_assistant_run ( a ) == GTK_RESPONSE_APPLY )
+    if ( gsb_assistant_run ( assistant ) == GTK_RESPONSE_APPLY )
     {
 	gsb_status_wait ( TRUE );
+	gsb_category_assistant_create_categories (assistant);
 	traitement_operations_importees ();
-	gtk_widget_destroy ( a );
+	gtk_widget_destroy ( assistant );
 	gsb_status_stop_wait ( TRUE );
     }
     else 
     {
-	gtk_widget_destroy ( a );
+	gtk_widget_destroy ( assistant );
     }
 }
 
@@ -260,9 +261,9 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
-    paddingbox = new_paddingbox_with_title ( vbox, TRUE, "Choose file to import" );
+    paddingbox = new_paddingbox_with_title ( vbox, TRUE, _("Choose file to import"));
     
-    chooser = gtk_button_new_with_label ( "Add file to import..." );
+    chooser = gtk_button_new_with_label ( _("Add file to import..." ));
     gtk_button_set_image ( GTK_BUTTON(chooser), 
 			   gtk_image_new_from_file ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
 								   "import.png", NULL ) ) );
@@ -879,14 +880,21 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
     if (!assistant)
 	return FALSE;
 
+    /* Initial page is fourth. */
+    page = IMPORT_FIRST_ACCOUNT_PAGE;
+
     /* We have to do that as soon as possible since this would reset currencies */
     if ( !gsb_data_account_get_accounts_amount () )
       {
 	init_variables ();
-      }
 
-    /* Initial page is fourth. */
-    page = IMPORT_FIRST_ACCOUNT_PAGE;
+	/* there is no category list because new account,
+	 * we add a page to ask what we do about that */
+	gsb_assistant_add_page ( assistant, gsb_category_assistant_create_choice_page (assistant), 
+				 page, page - 1, page + 1, NULL);
+	page ++;
+
+      }
 
     /* First, iter to see if we need to create currencies */
     list_tmp = liste_comptes_importes;
@@ -1092,6 +1100,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 
     compte -> bouton_devise = gsb_currency_make_combobox (FALSE);
 
+    /* create the currency if doesn't exist */
     if ( compte -> devise )
     {
 	gint currency_number;
@@ -1115,7 +1124,6 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 						      compte -> nom_de_compte,
 						      compte -> devise ),
 				    g_strdup_printf ( _("Can't associate ISO 4217 code for currency '%s'."),  compte -> devise ));
-
 	}
     }
 
@@ -1172,11 +1180,6 @@ void traitement_operations_importees ( void )
     else
     {
 	/* Create initial lists. */
-	/* xxx les catégories vont être crées à partir des comptes importés, donc
-	 * demander si on veut créer les defauts et mixer avec les importées, ou
-	 * juste garder les importées */
-	gsb_category_choose_default_category ();
-
 	new_file = 1;
     }
 

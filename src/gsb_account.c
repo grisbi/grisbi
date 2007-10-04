@@ -66,7 +66,6 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget *notebook_general;
-extern GtkTreeSelection * selection;
 /*END_EXTERN*/
 
 
@@ -113,7 +112,6 @@ gboolean gsb_account_new ( void )
     gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
 				    FALSE );
 
-/* xxx la modif de Yoann pour la selection auto du compte ne marche pas... à corriger */
     /* update the main page */ 
     mise_a_jour_liste_comptes_accueil = 1;
 

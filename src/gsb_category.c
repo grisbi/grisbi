@@ -35,6 +35,8 @@
 #include "./gsb_data_form.h"
 #include "./gsb_form_widget.h"
 #include "./gtk_combofix.h"
+#include "./utils.h"
+#include "./gsb_data_category.h"
 #include "./gtk_combofix.h"
 #include "./include.h"
 #include "./gsb_data_form.h"
@@ -42,6 +44,8 @@
 
 
 /*START_STATIC*/
+static gboolean gsb_category_assistant_change_choice ( GtkWidget *button, 
+						GtkWidget *assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -723,6 +727,14 @@ const gchar *liberal_category_list [] = {
     NULL
 };
 
+const gchar *category_choice_list [] = {
+    N_("Don't create any list, i will do it by myself or it will be imported"),
+    N_("General category list (most common choice)"),
+    N_("Association category list (in french for now, special categories to associations"),
+    N_("Liberal category list (in french for now, to use Grisbi for a small business"),
+    NULL
+};
+
 
 /**
  * create a window wich ask what kind of category we want
@@ -735,12 +747,9 @@ const gchar *liberal_category_list [] = {
 gboolean gsb_category_choose_default_category ( void )
 {
     GtkWidget *dialog;
-    gint answer;
-    GtkWidget *label;
-    GtkWidget *button_normal_list;
-    GtkWidget *button_association_list;
-    GtkWidget *button_liberal_list;
+    GtkWidget *page;
 
+    /* FIXME : for now, just a dialog, but will be include in a nice assistant */
     dialog = gtk_dialog_new_with_buttons (_("Choose the categories"),
 					    GTK_WINDOW (window),
 					    GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -748,61 +757,104 @@ gboolean gsb_category_choose_default_category ( void )
 					    GTK_RESPONSE_OK,
 					    NULL );
 
-    label = gtk_label_new (_("Please select a category type (bla bla nice wizard) :"));
+    page = gsb_category_assistant_create_choice_page (dialog);
     gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			 label,
+			 page,
 			 FALSE, FALSE,
 			 0 );
-    gtk_widget_show (label);
+    gtk_widget_show (page);
 
-    button_normal_list = gtk_radio_button_new_with_label ( NULL,
-							   _("Default user list of categories"));
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			 button_normal_list,
-			 FALSE, FALSE,
-			 0 );
-    gtk_widget_show (button_normal_list);
-
-    button_association_list = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON (button_normal_list),
-									    _("Association list of categories"));
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			 button_association_list,
-			 FALSE, FALSE,
-			 0 );
-    gtk_widget_show (button_association_list);
-
-    button_liberal_list = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON (button_normal_list),
-									    _("Liberal list of categories"));
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			 button_liberal_list,
-			 FALSE, FALSE,
-			 0 );
-    gtk_widget_show (button_liberal_list);
-
-ask_again :
-    answer = gtk_dialog_run (GTK_DIALOG (dialog));
-    if (answer != GTK_RESPONSE_OK)
-    {
-	dialogue_error (_("A type of category must be defined to create a new Grisbi file.\nPlease choose again.\n"));
-	goto ask_again;
-    }
-
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button_normal_list)))
-	/* normal category */
-	gsb_data_category_create_default_category_list (0);
-    else
-    {
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button_association_list)))
-	    /* association category */
-	    gsb_data_category_create_default_category_list (1);
-	else
-	    /* liberal category */
-	    gsb_data_category_create_default_category_list (2);
-    }
-    
+    gtk_dialog_run (GTK_DIALOG (dialog));
+    gsb_category_assistant_create_categories (dialog);
     gtk_widget_destroy (dialog);
 
     return TRUE;
+}
+
+
+/**
+ * create a widget to include in an assistant
+ * it gives the choice between the kind of categories list we can create
+ * later, to create the categories according to the choice,
+ * 	call gsb_category_assistant_create_categories
+ *
+ * \param assistant the assistant wich that page will be added to
+ *
+ * \return a box to include in an assistant
+ * */
+GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
+{
+    GtkWidget *page;
+    GtkWidget *paddingbox;
+    GtkWidget *button = NULL;
+    gint i;
+
+    page = gtk_vbox_new ( FALSE, 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
+
+    paddingbox = new_paddingbox_with_title ( page, TRUE,
+					     _("Please choose the default list of categories to create in your file :"));
+
+    /* add the buttons choice */
+    i=0;
+    while (category_choice_list [i])
+    {
+	button = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON (button),
+							       category_choice_list[i]);
+	/* see category_choice_values */
+	g_object_set_data ( G_OBJECT (button),
+			    "choice_value", GINT_TO_POINTER (i));
+	g_signal_connect ( G_OBJECT (button),
+			   "toggled",
+			   G_CALLBACK (gsb_category_assistant_change_choice),
+			   assistant );
+	gtk_box_pack_start ( GTK_BOX (paddingbox),
+			     button,
+			     FALSE, FALSE,
+			     0 );
+	/* set the default category */
+	if (i == CATEGORY_CHOICE_DEFAULT)
+	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (button),
+					   TRUE );
+	i++;
+    }
+    gtk_widget_show_all (page);
+    return page;
+}
+
+/**
+ * get the choice in the assistant page created by gsb_category_assistant_create_choice_page
+ * and create the category list
+ *
+ * \param assistant
+ *
+ * \return FALSE
+ * */
+gboolean gsb_category_assistant_create_categories ( GtkWidget *assistant )
+{
+    gint value;
+
+    value = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT (assistant),
+						 "choice_value"));
+    gsb_data_category_create_default_category_list (value);
+    return FALSE;
+}
+
+
+/**
+ * callback when toggle the choice of category list
+ *
+ * \param button the radio button
+ * \param assistant the assistant containing the choose page
+ *
+ * \return FALSE
+ * */
+gboolean gsb_category_assistant_change_choice ( GtkWidget *button, 
+						GtkWidget *assistant )
+{
+    g_object_set_data ( G_OBJECT (assistant),
+			"choice_value", g_object_get_data ( G_OBJECT (button), "choice_value"));
+    return FALSE;
 }
 
 

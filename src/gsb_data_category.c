@@ -1425,6 +1425,10 @@ void gsb_data_category_remove_transaction_from_category ( gint transaction_numbe
 /**
  * create the default list of categories
  * fill category_list with the default categories
+ * CATEGORY_CHOICE_NONE
+ * CATEGORY_CHOICE_DEFAULT
+ * CATEGORY_CHOICE_ASSOCIATION
+ * CATEGORY_CHOICE_LIBERAL
  *
  * \param category_type the type of category we want (0 = normal list, 1 = association list, 2 = liberal list)
  *
@@ -1436,8 +1440,13 @@ void gsb_data_category_create_default_category_list ( gint category_type )
     
     switch (category_type)
     {
-	case 0:
-	    /* normal categories */
+	case CATEGORY_CHOICE_NONE:
+	    /* do nothing */
+	    devel_debug ("Create CATEGORY_CHOICE_NONE categories");
+	    break;
+
+	case CATEGORY_CHOICE_DEFAULT:
+	    devel_debug ("Create CATEGORY_CHOICE_DEFAULT categories");
 
 	    while (debit_general_category_list[i] )
 	    {
@@ -1469,8 +1478,8 @@ void gsb_data_category_create_default_category_list ( gint category_type )
 	    }
 	    break;
 
-	case 1:
-	    /* association categories */
+	case CATEGORY_CHOICE_ASSOCIATION:
+	    devel_debug ("Create CATEGORY_CHOICE_ASSOCIATION categories");
 
 	    while (association_category_list[i])
 	    {
@@ -1487,8 +1496,8 @@ void gsb_data_category_create_default_category_list ( gint category_type )
 	    }
 	    break;
 
-	case 2:
-	    /* liberal categories */
+	case CATEGORY_CHOICE_LIBERAL:
+	    devel_debug ("Create CATEGORY_CHOICE_LIBERAL categories");
 
 	    while (liberal_category_list[i])
 	    {
@@ -1527,7 +1536,7 @@ gboolean gsb_data_category_merge_category_list ( GSList *list_to_merge )
 	gint category_number;
 
 	category_number = GPOINTER_TO_INT (list_tmp -> data);
-exit (0);
+
 	/* we check category_number but normally it will always != 0 */
 	if ( category_number )
 	{
