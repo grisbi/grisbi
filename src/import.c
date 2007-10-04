@@ -701,7 +701,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 	gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
 	gtk_text_buffer_insert (buffer, &iter, 
-				_("You successfully imported files into Grisbi.  The following pages will help you set up imported data for the following files:"), 
+				COLON ( _("You successfully imported files into Grisbi.  The following pages will help you set up imported data for the following files") ), 
 				-1 );
 	gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
@@ -1016,7 +1016,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 
     compte -> hbox1 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox1, FALSE, FALSE, 0 );
-    label = gtk_label_new ( _("Account type:") );
+    label = gtk_label_new ( COLON ( _("Account type") ) );
     alignement = gtk_alignment_new ( 0.5, 0.5, 1, 1 );
     gtk_container_set_border_width ( GTK_CONTAINER ( alignement ), 2 );
     gtk_alignment_set_padding ( GTK_ALIGNMENT ( alignement ), 0, 0, 2 * spacing + size, 0 );
@@ -1038,10 +1038,11 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), 
 							  _("Add transactions to an account") );
     gtk_box_pack_start ( GTK_BOX ( vbox ), radio, FALSE, FALSE, 0 );
+    gtk_widget_set_sensitive  ( radio, assert_account_loaded ( ) );
 
     compte -> hbox2 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox2, FALSE, FALSE, 0 );
-    label = gtk_label_new ( _("Account name:") );
+    label = gtk_label_new ( COLON ( _("Account name") ) );
     alignement = gtk_alignment_new ( 0.5, 0.5, 1, 1 );
     gtk_container_set_border_width ( GTK_CONTAINER ( alignement ), 2 );
     gtk_alignment_set_padding ( GTK_ALIGNMENT ( alignement ), 0, 0, 2 * spacing + size, 0 );
@@ -1073,10 +1074,11 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), 
 							  _("Mark transactions of an account") );
     gtk_box_pack_start ( GTK_BOX ( vbox ), radio, FALSE, FALSE, 0 );
+    gtk_widget_set_sensitive  ( radio, assert_account_loaded ( ) );
 
     compte -> hbox3 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox3, FALSE, FALSE, 0 );
-    label = gtk_label_new ( _("Account name:") );
+    label = gtk_label_new ( COLON ( _("Account name") ) );
     alignement = gtk_alignment_new ( 0.5, 0.5, 1, 1 );
     gtk_container_set_border_width ( GTK_CONTAINER ( alignement ), 2 );
     gtk_alignment_set_padding ( GTK_ALIGNMENT ( alignement ), 0, 0, 2 * spacing + size, 0 );
@@ -1094,11 +1096,11 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 
     /* Currency */
     hbox = gtk_hbox_new ( FALSE, 6 );
-    label = gtk_label_new ( _("Account currency:") );
+    label = gtk_label_new ( COLON ( _("Account currency") ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
-    compte -> bouton_devise = gsb_currency_make_combobox (FALSE);
+    compte -> bouton_devise = gsb_currency_make_combobox ( TRUE );
 
     /* create the currency if doesn't exist */
     if ( compte -> devise )
