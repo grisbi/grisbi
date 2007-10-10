@@ -185,12 +185,10 @@ gboolean gsb_file_config_load_config ( void )
 						 "Dvips command",
 						 NULL );
 
-    etat.browser_command = my_strdelimit (g_key_file_get_string ( config,
-								  "General",
-								  "Web",
-								  NULL ),
-					  "\\e",
-					  "&" );
+    etat.browser_command = g_key_file_get_string ( config,
+						   "General",
+						   "Web",
+						   NULL );
 
     etat.largeur_colonne_comptes_operation = g_key_file_get_integer ( config,
 								      "General",
@@ -203,11 +201,6 @@ gboolean gsb_file_config_load_config ( void )
 							 "IO",
 							 "Load last file",
 							 NULL );
-
-    nom_fichier_comptes = g_key_file_get_string ( config,
-						  "IO",
-						  "Name last file",
-						  NULL );
 
     etat.sauvegarde_auto = g_key_file_get_integer ( config,
 						    "IO",
@@ -244,6 +237,8 @@ gboolean gsb_file_config_load_config ( void )
 								      "Names last files",
 								      &nb_derniers_fichiers_ouverts,
 								      NULL );
+    nom_fichier_comptes = tab_noms_derniers_fichiers_ouverts [ 0 ];
+
 
     /* get scheduled section */
 
