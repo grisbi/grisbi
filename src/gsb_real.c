@@ -63,14 +63,17 @@ extern gint max;
  * */
 gchar *gsb_real_get_string ( gsb_real number )
 {
+    struct lconv * conv = localeconv();
     div_t result_div;
     gchar *string;
     gint i = 0, j=0;
     glong num;
 
     /* FIXME : should return 0.00 according to the currency and no 0 */
-/*     if (number.mantissa == 0) */
-/* 	return my_strdup ("0"); */
+    if (number.mantissa == 0)
+	return g_strdup_printf ( "%s0%c00", 
+				 ( ( conv -> p_cs_precedes != 0 ) ? conv -> positive_sign : "" ),
+				 * conv -> mon_decimal_point );
 
     /* for a long int : max 11 char
      * so with the possible -, the spaces and the .
@@ -86,7 +89,7 @@ gchar *gsb_real_get_string ( gsb_real number )
 	     &&
 	     i == number.exponent)
 	{
-	    string[i] = '.';
+	    string[i] = * conv -> mon_decimal_point;
 	    result_div.quot = num;
 	}
 	else
@@ -94,10 +97,17 @@ gchar *gsb_real_get_string ( gsb_real number )
 	    if (i > number.exponent)
 		j++;
 
-	    if ( j==4 )
+	    if ( j == 4 )
 	    {
 		j=0;
-		string[i] = ' ';
+		if ( * (conv -> mon_thousands_sep ) )
+		{
+		    string [i] = * ( conv -> mon_thousands_sep );
+		}
+		else
+		{
+		    i--;
+		}
 		result_div.quot = num;
 	    }
 	    else
@@ -120,7 +130,11 @@ gchar *gsb_real_get_string ( gsb_real number )
        to have to insert it at the begin just after... */
     if (number.mantissa < 0)
     {
-        string[i++] = '-';
+        string[i++] = * conv -> negative_sign;
+    }
+    else if ( conv -> p_cs_precedes)
+    {
+        string[i++] = * conv -> positive_sign;
     }
     
     string[i] = 0;
