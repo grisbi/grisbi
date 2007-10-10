@@ -7053,63 +7053,62 @@ msgstr ""
 msgid "This transfer has a reconciled contra-transaction, deletion canceled."
 msgstr ""
 
-#~ msgid ""
-#~ "Your account file should not be readable by anybody else, but it is. You "
-#~ "should change its permissions.\n"
-#~ "Should this be fixed now?"
-#~ msgstr ""
-#~ "I file del tuo conto non dovrebbero essere leggibili da nessun altro, ma "
-#~ "non è così.Dovresti cambiare i permessi al file.\n"
-#~ "Vuoi correggere l'errore adesso?"
+msgid ""
+"Your account file should not be readable by anybody else, but it is. You "
+"should change its permissions.\n"
+"Should this be fixed now?"
+msgstr ""
+"I file del tuo conto non dovrebbero essere leggibili da nessun altro, ma non "
+"è così.Dovresti cambiare i permessi al file.\n"
+"Vuoi correggere l'errore adesso?"
 
 #, fuzzy
-#~ msgid "USletter"
-#~ msgstr "Lettera"
+msgid "USletter"
+msgstr "Lettera"
 
 #, fuzzy
-#~ msgid "USlegal"
-#~ msgstr "Senegal"
+msgid "USlegal"
+msgstr "Senegal"
 
 #, fuzzy
-#~ msgid "Value"
-#~ msgstr "Data di valuta"
+msgid "Value"
+msgstr "Data di valuta"
 
-#~ msgid ""
-#~ "Impossible to create or entry an automatic scheduled transaction\n"
-#~ " with a cheque or a method of payment with an automatic incremental "
-#~ "number."
-#~ msgstr ""
-#~ "Impossibile creare o inserire una transazione schedulata con un assegno\n"
-#~ "o un metodo di pagamento con un numero incrementale automatico."
+msgid ""
+"Impossible to create or entry an automatic scheduled transaction\n"
+" with a cheque or a method of payment with an automatic incremental number."
+msgstr ""
+"Impossibile creare o inserire una transazione schedulata con un assegno\n"
+"o un metodo di pagamento con un numero incrementale automatico."
 
-#~ msgid "Recover breakdown?"
-#~ msgstr "Ripristina ripartizione?"
+msgid "Recover breakdown?"
+msgstr "Ripristina ripartizione?"
 
-#~ msgid "Do you want to recover all the lines of the last breakdown?"
-#~ msgstr "Vuoi recuperare tutte le linee dell'ultima ripartizione?"
+msgid "Do you want to recover all the lines of the last breakdown?"
+msgstr "Vuoi recuperare tutte le linee dell'ultima ripartizione?"
 
-#~ msgid "Legal"
-#~ msgstr "Legale"
+msgid "Legal"
+msgstr "Legale"
 
-#~ msgid "/C"
-#~ msgstr "/C"
+msgid "/C"
+msgstr "/C"
 
-#~ msgid "Show"
-#~ msgstr "Visualizza"
+msgid "Show"
+msgstr "Visualizza"
 
-#~ msgid "Validate"
-#~ msgstr "Convalida"
-
-#, fuzzy
-#~ msgid "New transaction from"
-#~ msgstr "Tabella di registrazione"
+msgid "Validate"
+msgstr "Convalida"
 
 #, fuzzy
-#~ msgid "New transaction from selected"
-#~ msgstr "Tabella di registrazione"
+msgid "New transaction from"
+msgstr "Tabella di registrazione"
 
-#~ msgid "The following liabilities accounts are closed"
-#~ msgstr "I seguenti conti sono chiusi"
+#, fuzzy
+msgid "New transaction from selected"
+msgstr "Tabella di registrazione"
 
-#~ msgid "The following liabilities account is closed"
-#~ msgstr "Il seguente conto è chiuso"
+msgid "The following liabilities accounts are closed"
+msgstr "I seguenti conti sono chiusi"
+
+msgid "The following liabilities account is closed"
+msgstr "Il seguente conto è chiuso"

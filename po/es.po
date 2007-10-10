@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-04 20:16+0200\n"
-"PO-Revision-Date: 2007-04-05 00:20+0200\n"
+"PO-Revision-Date: 2007-01-27 00:15+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: src/accueil.c:189
 msgid "Closed liabilities accounts"
@@ -46,8 +46,9 @@ msgid "Enter a scheduled transaction"
 msgstr "Introduzca una transacción programada"
 
 #: src/accueil.c:448
+#, fuzzy
 msgid "Account balances in "
-msgstr "Balances de cuentas en %s"
+msgstr "Balance de cuentas en %s"
 
 #. CrÃ©ation et remplissage de la premiÃ¨re ligne du tableau
 #: src/accueil.c:455 src/accueil.c:733 src/accueil.c:1016
@@ -1109,14 +1110,17 @@ msgid "Transport : Travels"
 msgstr "Transporte : Viajes"
 
 #: src/categories_onglet.c:161
+#, fuzzy
 msgid "Holiday : Housing"
-msgstr "Vacaciones : Alojamiento"
+msgstr "Vacaciones : Alojamientos"
 
 #: src/categories_onglet.c:162
+#, fuzzy
 msgid "Holiday : Visits"
 msgstr "Vacaciones : Visitas"
 
 #: src/categories_onglet.c:163
+#, fuzzy
 msgid "Holiday : Travels"
 msgstr "Vacaciones : Viajes"
 
@@ -6902,39 +6906,48 @@ msgid "Programming"
 msgstr "Programas"
 
 #: src/help.c:59
+#, fuzzy
 msgid "Benjamin Drieu (bdrieu[at]april.org)"
-msgstr "Benjamin Drieu (bdrieu[at]april.org)"
+msgstr "Benjamin Drieu (bdrieu[at]april.org): Inglés"
 
 #: src/help.c:60
+#, fuzzy
 msgid "Cedric Auger (cedric[at]grisbi.org)"
-msgstr "Cedric Auger (cedric[at]grisbi.org)"
+msgstr "Cedric Auger (cedric[at]grisbi.org) : Programación"
 
 #: src/help.c:61 src/help.c:67
+#, fuzzy
 msgid "Francois Terrot (grisbi[at]terrot.net)"
 msgstr ""
-"Francois Terrot (grisbi[at]terrot.net)"
+"Francois Terrot (grisbi[at]terrot.net): Empaquetamiento Windows y migración, "
+"programación"
 
 #: src/help.c:64
 msgid "Packaging"
 msgstr ""
 
 #: src/help.c:65
+#, fuzzy
 msgid "Alain Pichon (aph[at]grisbi.org)"
-msgstr "Alain Pichon (aph[at]grisbi.org)"
+msgstr "Alain Pichon (aph[at]grisbi.org): Empaquetamiento para RHEL y Fedora"
 
 #: src/help.c:66
+#, fuzzy
 msgid "Baluchiterium  (baluchiterium[at]users.sf.net)"
 msgstr ""
-"Baluchiterium  (baluchiterium[at]users.sf.net)"
+"Baluchiterium  (baluchiterium[at]users.sf.net): Empaquetado para Slackware"
 
 #: src/help.c:68
+#, fuzzy
 msgid "Gerald Niel (gerald.niel[at]grisbi.org)"
 msgstr ""
-"Gerald Niel (gerald.niel[at]grisbi.org)"
+"Gerald Niel (gerald.niel[at]grisbi.org): Empaquetamiento para Darwin, "
+"administración"
 
 #: src/help.c:69
+#, fuzzy
 msgid "PMF (ugly.duck[at]gmx.de)"
-msgstr "PMF (ugly.duck[at]gmx.de)"
+msgstr "PMF (ugly.duck[at]gmx.de): Empaquetamiento para Zaurus"
 
 #: src/help.c:70
 #, fuzzy
@@ -6952,8 +6965,9 @@ msgid "Thierry Thomas (thierry[at]pompo.net)"
 msgstr "Thierry Thomas (thierry[at]pompo.net): Empaquetamiento para FreeBSD"
 
 #: src/help.c:73
+#, fuzzy
 msgid "Vincent Marqueton (vincent[at]marqueton.com)"
-msgstr "Vincent Marqueton (vincent[at]marqueton.com)"
+msgstr "Vincent Marqueton (vincent[at]marqueton.com): Empaquetado para Fink"
 
 #: src/help.c:76
 msgid "Translation"
@@ -6996,12 +7010,14 @@ msgid "Martin Stromberger (Fabiolla[at]aon.at): German"
 msgstr "Martin Stromberger (Fabiolla[at]aon.at): Alemán"
 
 #: src/help.c:86
+#, fuzzy
 msgid "Ryszard Jeziorski (rjeziorski[at]eagle): Polish"
-msgstr "Ryszard Jeziorski (rjeziorski[at]eagle): Polaco"
+msgstr "Ryszard Jeziorski (rjeziorski[at]dart.kielce.pl): Polaco"
 
 #: src/help.c:90
+#, fuzzy
 msgid "Alain Portal (aportal[at]univ-monpt2.fr): manual"
-msgstr "Alain Portal <aportal[at]univ-monpt2.fr>: manual"
+msgstr "Alain Portal <aportal AT univ-monpt2 DOT fr>: Programación, manual"
 
 #: src/help.c:91
 msgid "Andre Pascual (andre[at]linuxgraphic.org): Logo"
@@ -7012,8 +7028,9 @@ msgid "Axel Rousseau (axel584[at]axel584.org): contributor"
 msgstr "Axel Rousseau (axel584[at]axel584.org): colaborador"
 
 #: src/help.c:93
+#, fuzzy
 msgid "Daniel Cartron (doc[at]grisbi.org): manual"
-msgstr "Daniel Cartron (cartron[at]grisbi.org): Manual"
+msgstr "Daniel Cartron (cartron[at]grisbi.org): Inglés"
 
 #: src/help.c:94
 msgid "Dominique Parisot (parisot[at]villey-le-sec.com): contributor"
@@ -7234,9 +7251,9 @@ msgstr ""
 "Por favor seleccione las transacciones a importar."
 
 #: src/import.c:1832
-#, c-format
+#, fuzzy, c-format
 msgid "Transactions to import : %s ; %s ; %s"
-msgstr "Transacciones a importar : %s ; %s ; %s"
+msgstr "Transacciones a importar : %02d/%02d/%04d ; %s ; %4.2f"
 
 #: src/import.c:1865
 #, fuzzy, c-format
@@ -7272,9 +7289,9 @@ msgid "Mark"
 msgstr "Marcar"
 
 #: src/import.c:2732
-#, c-format
+#, fuzzy, c-format
 msgid "%s #%d"
-msgstr "%s  #%d"
+msgstr "%s %d"
 
 #: src/import.c:2767
 #, fuzzy
@@ -7286,8 +7303,9 @@ msgid "days around the date in the imported transaction."
 msgstr "días alrededor de la fecha en la transacción importada."
 
 #: src/import_csv.c:77
+#, fuzzy
 msgid "Unknown field"
-msgstr "Campo desconocido"
+msgstr "Desconocido"
 
 #: src/import_csv.c:82
 #, fuzzy
@@ -7299,8 +7317,9 @@ msgid "Voucher number"
 msgstr "Número de certificado"
 
 #: src/import_csv.c:86
+#, fuzzy
 msgid "Sub-Category"
-msgstr "SubCategoría"
+msgstr "Categoría"
 
 #: src/import_csv.c:88
 #, fuzzy
@@ -7321,8 +7340,9 @@ msgid "Skip"
 msgstr ""
 
 #: src/import_csv.c:899 src/import_csv.c:903
+#, fuzzy
 msgid "transaction amount"
-msgstr "importe de la transacción"
+msgstr "Agrupar las transacciones por cuenta"
 
 #: src/import_csv.c:912
 #, c-format
@@ -7400,8 +7420,9 @@ msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "Este archivo no es un archivo de líneas presupuestarias de Grisbi"
 
 #: src/imputation_budgetaire.c:529
+#, fuzzy
 msgid "Delete selected budgetary line"
-msgstr "Borrar la línea presupuestaria seleccionada"
+msgstr "Borrar una línea presupuestaria"
 
 #: src/imputation_budgetaire.c:539
 #, fuzzy
@@ -7446,40 +7467,49 @@ msgid ""
 msgstr ""
 
 #: src/main.c:248
+#, fuzzy
 msgid "Welcome to Grisbi!"
-msgstr "¡Bienvenido a Grisbi!"
+msgstr "Acerca de Grisbi"
 
 #: src/menu.c:161
+#, fuzzy
 msgid "_File"
-msgstr "_Archivo"
+msgstr "Archivo"
 
 #: src/menu.c:164
+#, fuzzy
 msgid "_New account file..."
-msgstr "_Nuevo archivo de cuentas"
+msgstr "Nuevo archivo de cuentas"
 
 #: src/menu.c:167
+#, fuzzy
 msgid "_Open..."
-msgstr "_Abrir..."
+msgstr "_Abrir"
 
 #: src/menu.c:170
+#, fuzzy
 msgid "_Recently opened files"
-msgstr "_Archivos abiertos recientemente"
+msgstr "Archivos abiertos recientemente"
 
 #: src/menu.c:173
+#, fuzzy
 msgid "_Save"
-msgstr "_Guardar"
+msgstr "Guardar"
 
 #: src/menu.c:176
+#, fuzzy
 msgid "_Save as..."
-msgstr "_Guardar como"
+msgstr "Guardar como"
 
 #: src/menu.c:179
+#, fuzzy
 msgid "_Import file..."
-msgstr "_Importar archivo"
+msgstr "Exportar archivos"
 
 #: src/menu.c:182
+#, fuzzy
 msgid "_Export accounts as QIF/CSV file..."
-msgstr "_Exportar cuentas a archivo QIF/CSV ..."
+msgstr "Cuentas a archivo QIF ..."
 
 #: src/menu.c:185
 #, fuzzy
@@ -7487,44 +7517,53 @@ msgid "_Debug account file..."
 msgstr "Nuevo archivo de cuentas"
 
 #: src/menu.c:188
+#, fuzzy
 msgid "_Close"
-msgstr "_Cerrar"
+msgstr "Cerrar"
 
 #: src/menu.c:191
 msgid "_Quit"
 msgstr "_Salir"
 
 #: src/menu.c:194
+#, fuzzy
 msgid "_Edit"
-msgstr "_Editar"
+msgstr "Editar"
 
 #: src/menu.c:197
+#, fuzzy
 msgid "_New transaction"
-msgstr "_Nueva transacción"
+msgstr "Nueva transacción"
 
 #: src/menu.c:200
+#, fuzzy
 msgid "_Remove transaction"
-msgstr "_Borrar la transacción"
+msgstr "Borrar la transacción"
 
 #: src/menu.c:203
+#, fuzzy
 msgid "_Clone transaction"
-msgstr "_Clonar la transacción"
+msgstr "Clonar la transacción"
 
 #: src/menu.c:206
+#, fuzzy
 msgid "_Edit transaction"
-msgstr "_Editar la transacción"
+msgstr "Editar la transacción"
 
 #: src/menu.c:209
+#, fuzzy
 msgid "Convert to _scheduled transaction"
-msgstr "Convertir a una _transacción programada"
+msgstr "Introduzca una transacción programada"
 
 #: src/menu.c:212
+#, fuzzy
 msgid "_Move transaction to another account"
-msgstr "_Mover la transacción a otra cuenta"
+msgstr "Mover la transacción a otra cuenta"
 
 #: src/menu.c:215
+#, fuzzy
 msgid "_Preferences"
-msgstr "_Preferencias"
+msgstr "Preferencias"
 
 #. View menu
 #: src/menu.c:219
@@ -7532,77 +7571,93 @@ msgid "_View"
 msgstr "_Vista"
 
 #: src/menu.c:222
+#, fuzzy
 msgid "_New account"
-msgstr "_Nueva cuenta"
+msgstr "Nueva cuenta"
 
 #: src/menu.c:225
+#, fuzzy
 msgid "_Remove current account"
-msgstr "_Borrar una cuenta"
+msgstr "Borrar una cuenta"
 
 #. Help Menu
 #: src/menu.c:229
+#, fuzzy
 msgid "_Help"
-msgstr "_Ayuda"
+msgstr "Ayuda"
 
 #: src/menu.c:232
+#, fuzzy
 msgid "_Manual"
-msgstr "_Manual"
+msgstr "Manual"
 
 #: src/menu.c:235
+#, fuzzy
 msgid "_Quick start"
-msgstr "_Comienzo rápido"
+msgstr "Comienzo rápido"
 
 #: src/menu.c:238
+#, fuzzy
 msgid "_Translation"
-msgstr "_Traducción"
+msgstr "Traducción"
 
 #: src/menu.c:241
+#, fuzzy
 msgid "_About Grisbi..."
-msgstr "_Acerca de Grisbi..."
+msgstr "Acerca de Grisbi"
 
 #: src/menu.c:244
+#, fuzzy
 msgid "_Grisbi website"
-msgstr "_Sitio web de Grisbi"
+msgstr "Sitio web de Grisbi"
 
 #: src/menu.c:247
+#, fuzzy
 msgid "_Report a bug"
-msgstr "_Informar de un fallo"
+msgstr "Informar de un fallo"
 
 #: src/menu.c:250
 msgid "_Tip of the day"
 msgstr "_Consejo del día"
 
 #: src/menu.c:256
+#, fuzzy
 msgid "Show _one line per transaction"
-msgstr "Mostrar una línea por transacción"
+msgstr "Una línea por transacción"
 
 #: src/menu.c:259
+#, fuzzy
 msgid "Show _two lines per transaction"
-msgstr "Mostrar _dos líneas por transacción"
+msgstr "Dos líneas por transacción"
 
 #: src/menu.c:262
+#, fuzzy
 msgid "Show _three lines per transaction"
-msgstr "Mostrar _tres líneas por transacción"
+msgstr "Tres líneas por transacción"
 
 #: src/menu.c:265
+#, fuzzy
 msgid "Show _four lines per transaction"
-msgstr "Mostrar _cuatro líneas por transacción"
+msgstr "Cuatro líneas por transacción"
 
 #: src/menu.c:269
+#, fuzzy
 msgid "Show transaction _form"
-msgstr "Mostrar el _Formulario de transacción"
+msgstr "Formulario de transacción"
 
 #: src/menu.c:272
 msgid "Show _grid"
 msgstr "Mostrar _la rejilla"
 
 #: src/menu.c:275
+#, fuzzy
 msgid "Show _reconciled"
-msgstr "Mostrar _reconciliaciones"
+msgstr "Reconciliar"
 
 #: src/menu.c:279
+#, fuzzy
 msgid "Show _closed accounts"
-msgstr "Mostrar _cuentas cerradas"
+msgstr "Cuentas cerradas"
 
 #: src/menu.c:382 src/menu.c:410 src/menu.c:428
 msgid "_C"
@@ -7754,8 +7809,9 @@ msgid "Account transactions"
 msgstr "Transacciones de la cuenta"
 
 #: src/navigation.c:1151
+#, fuzzy
 msgid "closed"
-msgstr "Cerrado"
+msgstr "Cerrar"
 
 #. Create dialog
 #: src/parametres.c:215
@@ -7784,8 +7840,9 @@ msgid "List behavior"
 msgstr ""
 
 #: src/parametres.c:362
+#, fuzzy
 msgid "Content"
-msgstr "Contenido"
+msgstr "Contacto"
 
 #: src/parametres.c:370
 msgid "Behavior"
@@ -7805,8 +7862,9 @@ msgid "Currencies links"
 msgstr "Monedas"
 
 #: src/parametres.c:435
+#, fuzzy
 msgid "Archives"
-msgstr "Archivos"
+msgstr "Activar"
 
 #. Number of days before a warning message advertising a scheduled
 #. transaction
@@ -7954,13 +8012,11 @@ msgid ""
 msgstr ""
 
 #: src/parse_cmdline.c:197
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Version %s\n"
 "\n"
-msgstr ""
-"Version %s\n"
-"\n"
+msgstr "Incompatibilidad de versiones"
 
 #: src/parse_cmdline.c:251
 #, c-format
@@ -8019,7 +8075,8 @@ msgstr ""
 msgid ""
 "Syntax error!\n"
 "\n"
-msgstr "¡Error de síntaxis!\n"
+msgstr ""
+"¡Error de síntaxis!\n"
 "\n"
 
 #: src/print_config.c:51
@@ -8131,12 +8188,14 @@ msgid "invst)"
 msgstr "Invers"
 
 #: src/qif.c:172 src/qif.c:246
+#, fuzzy
 msgid "oth a)"
-msgstr "oth a)"
+msgstr "oth a"
 
 #: src/qif.c:175 src/qif.c:255
+#, fuzzy
 msgid "oth l)"
-msgstr "oth l)"
+msgstr "oth l"
 
 #: src/qif.c:228
 msgid ""
@@ -8144,25 +8203,26 @@ msgid ""
 "Nevertheless, Grisbi will try to import it as a bank account."
 msgstr ""
 "Grisbi encontró una cuenta de inversiones que no ha sido implementada "
-"todavía.  Aun así Grisbi intentará importarla como una cuenta bancaria."
+"todavía.  Grisbi no volverá a intentar importarla como una cuenta bancaria."
 
 #: src/qif.c:374
+#, fuzzy
 msgid "Imported QIF account"
-msgstr "Cuenta QIF importada"
+msgstr "Cuenta importada"
 
 #: src/qif.c:658 src/qif.c:661
 msgid " [Transaction imported without date]"
 msgstr " [Transacción importada sin fecha]"
 
 #: src/qif.c:1008
-#, c-format
+#, fuzzy, c-format
 msgid "Error opening file '%s'"
-msgstr "Error abriendo el archivo '%s'"
+msgstr "Error abriendo el archivo '%s'."
 
 #: src/tiers_onglet.c:236
 #, fuzzy
 msgid "Create a new payee"
-msgstr "Crear una cuenta nuev"
+msgstr "Crear una cuenta nueva"
 
 #: src/tiers_onglet.c:245
 #, fuzzy
@@ -8192,18 +8252,18 @@ msgstr ""
 "Por favor ajuste sus preferencias a un ejecutable válido."
 
 #: src/utils.c:132 src/utils.c:166
+#, fuzzy
 msgid "Cannot execute web browser"
-msgstr "No ha sido posible arrancar el navegador web"
+msgstr "No puedo arrancar el navegador web"
 
 #: src/utils.c:165
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\n"
 "The command was: %s.\n"
 "Please adjust your settings to a valid executable."
 msgstr ""
-"Grisbi no pudo ejecutar un navegador web para mostrar la url <tt>%s</tt>.\n"
-"El comando usado fue: %s .\n"
+"Grisbi no pudo ejecutar un navegador web para mostrar la url <tt>%s</tt>.  "
 "Por favor ajuste sus preferencias a un ejecutable válido."
 
 #: src/utils_files.c:64
@@ -8234,1231 +8294,1219 @@ msgstr "O el archivo \"%s\" no existe o no es un archivo regular."
 msgid "Error opening file '%s'."
 msgstr "Error abriendo el archivo '%s'."
 
-#~ msgid "No user"
-#~ msgstr "Sin usuario/a"
+msgid "No user"
+msgstr "Sin usuario/a"
 
-#~ msgid "User"
-#~ msgstr "Usuario/a"
+msgid "User"
+msgstr "Usuario/a"
 
-#~ msgid "Form"
-#~ msgstr "Formulario"
+msgid "Form"
+msgstr "Formulario"
 
-#~ msgid "Bank reference"
-#~ msgstr "Referencia bancaria"
+msgid "Bank reference"
+msgstr "Referencia bancaria"
 
-#~ msgid "Click on preview to change animation"
-#~ msgstr "Pinche en el botón previo para cambiar la animación"
+msgid "Click on preview to change animation"
+msgstr "Pinche en el botón previo para cambiar la animación"
 
-#~ msgid "Sans 10"
-#~ msgstr "Sans 10"
+msgid "Sans 10"
+msgstr "Sans 10"
 
-#~ msgid "Select a new animation"
-#~ msgstr "Seleccione una nueva animación"
+msgid "Select a new animation"
+msgstr "Seleccione una nueva animación"
 
-#~ msgid "Third party"
-#~ msgstr "Tercera parte"
+msgid "Third party"
+msgstr "Tercera parte"
 
-#~ msgid "Col7"
-#~ msgstr "Col7"
+msgid "Col7"
+msgstr "Col7"
 
-#~ msgid "Transactions list cells"
-#~ msgstr "Celdas de la lista de transacciones"
+msgid "Transactions list cells"
+msgstr "Celdas de la lista de transacciones"
 
-#~ msgid "Transactions list contents"
-#~ msgstr "Contenido de la lista de transacciones"
+msgid "Transactions list contents"
+msgstr "Contenido de la lista de transacciones"
 
-#~ msgid "Adjust column size according to this table"
-#~ msgstr "Ajustar el tamaño de las columnas de acuerdo con esta tabla"
+msgid "Adjust column size according to this table"
+msgstr "Ajustar el tamaño de las columnas de acuerdo con esta tabla"
 
-#~ msgid "Revert to defaults"
-#~ msgstr "Volver a los valores por defecto"
+msgid "Revert to defaults"
+msgstr "Volver a los valores por defecto"
 
-#~ msgid "Transactions list"
-#~ msgstr "Lista de transacciones"
+msgid "Transactions list"
+msgstr "Lista de transacciones"
 
-#~ msgid "Bring together marked transactions"
-#~ msgstr "Mantener juntas las transacciones marcadas"
+msgid "Bring together marked transactions"
+msgstr "Mantener juntas las transacciones marcadas"
 
-#~ msgid "Display/Hide form"
-#~ msgstr "Mostrar/Ocultar formulario"
+msgid "Display/Hide form"
+msgstr "Mostrar/Ocultar formulario"
 
-#~ msgid "Display reconciled transactions"
-#~ msgstr "Mostrar las transacciones reconciliadas"
+msgid "Display reconciled transactions"
+msgstr "Mostrar las transacciones reconciliadas"
 
-#~ msgid "Mask reconciled transactions"
-#~ msgstr "Enmascarar las transacciones reconciliadas"
+msgid "Mask reconciled transactions"
+msgstr "Enmascarar las transacciones reconciliadas"
 
-#~ msgid "Display/hide form"
-#~ msgstr "Mostrar/Ocultar formulario"
+msgid "Display/hide form"
+msgstr "Mostrar/Ocultar formulario"
 
-#~ msgid "Display/hide comments"
-#~ msgstr "Mostrar/ocultar comentarios"
+msgid "Display/hide comments"
+msgstr "Mostrar/ocultar comentarios"
 
-#~ msgid "Close tree"
-#~ msgstr "Cerrar árbol"
+msgid "Close tree"
+msgstr "Cerrar árbol"
 
-#~ msgid "Display sub-divisions"
-#~ msgstr "Mostrar subdivisiones"
+msgid "Display sub-divisions"
+msgstr "Mostrar subdivisiones"
 
-#~ msgid "Categories list"
-#~ msgstr "Lista de categorías"
+msgid "Categories list"
+msgstr "Lista de categorías"
 
-#~ msgid "Amount per category"
-#~ msgstr "Importe por categoría"
+msgid "Amount per category"
+msgstr "Importe por categoría"
 
-#~ msgid "Amount per subcategory"
-#~ msgstr "Importe por subcategoría"
+msgid "Amount per subcategory"
+msgstr "Importe por subcategoría"
 
-#~ msgid "Amount per account"
-#~ msgstr "Importe por cuenta"
+msgid "Amount per account"
+msgstr "Importe por cuenta"
 
-#~ msgid "Add a category"
-#~ msgstr "Añadir una categoría"
+msgid "Add a category"
+msgstr "Añadir una categoría"
 
-#~ msgid "Add a subcategory"
-#~ msgstr "Añadir una subcategoría"
+msgid "Add a subcategory"
+msgstr "Añadir una subcategoría"
 
-#~ msgid "%4.2f %s"
-#~ msgstr "%4.2f %s"
+msgid "%4.2f %s"
+msgstr "%4.2f %s"
 
-#~ msgid "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
-#~ msgstr "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
+msgid "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
+msgstr "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
 
-#~ msgid "%d/%d/%d : %4.2f %s (breakdown)"
-#~ msgstr "%d/%d/%d : %4.2f %s (breakdown)"
+msgid "%d/%d/%d : %4.2f %s (breakdown)"
+msgstr "%d/%d/%d : %4.2f %s (breakdown)"
 
-#~ msgid "Remove a category"
-#~ msgstr "Borrar una categoría"
+msgid "Remove a category"
+msgstr "Borrar una categoría"
 
-#~ msgid "Just remove this category."
-#~ msgstr "Sólo borrar esta categoría."
+msgid "Just remove this category."
+msgstr "Sólo borrar esta categoría."
 
-#~ msgid "Remove sub-category"
-#~ msgstr "Borrar subcategoría"
-
-#~ msgid ""
-#~ "Selected sub-category still contains transactions.\n"
-#~ "\n"
-#~ "You may"
-#~ msgstr ""
-#~ "La subcategoría elegida aun contiene transacciones.\n"
-#~ "\n"
-#~ "Usted puede"
-
-#~ msgid "Enter name for new category"
-#~ msgstr "Introduzca el nombre para una nueva categoría"
-
-#~ msgid ""
-#~ "Category names must be both unique and not empty.  Please use another "
-#~ "name for this category."
-#~ msgstr ""
-#~ "Los nombres de las categorías deben ser únicos y no pueden dejarse en "
-#~ "blanco.  Por favoruse otro nombre para esta categoría."
-
-#~ msgid ""
-#~ "Sub-category names must be both unique and not empty.  Please use another "
-#~ "name for this sub-category."
-#~ msgstr ""
-#~ "Los nombres de las subcategorías deben ser únicos y no pueden dejarse en "
-#~ "blanco.  Por favoruse otro nombre para esta subcategoría."
-
-#~ msgid "Sub-category '%s' already exists."
-#~ msgstr "La subcategoría '%s' ya existe."
-
-#~ msgid "File exists. Do you want to overwrite it?"
-#~ msgstr "El archivo existe ¿Quiere sobreescribirlo?"
-
-#~ msgid "Invalid filename \"%s\"!"
-#~ msgstr "¡Nombre de archivo no permitido \"%s\"!"
-
-#~ msgid "Error saving file."
-#~ msgstr "Error guardando el archivo."
-
-#~ msgid "Do you want"
-#~ msgstr "Quiere"
-
-#~ msgid "Replace the old categories list"
-#~ msgstr "Reemplace la lista de categorías antigua"
-
-#~ msgid "Cannot import file."
-#~ msgstr "No puedo importar el fichero"
-
-#~ msgid "%d accounts have inconsistencies."
-#~ msgstr "%d cuentas tienen inconsistencias."
-
-#~ msgid ""
-#~ "Some sub-categories are duplicates:\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Algunas subcategorías están duplicadas:\n"
-#~ "\n"
-
-#~ msgid "Fix inconsistencies in sub-categories?"
-#~ msgstr "¿Corregir inconsistencias en las subcategorías?"
-
-#~ msgid ""
-#~ "Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
-#~ msgstr ""
-#~ "La línea subpresupuestaria <i>'%s : %s'</i> es una duplicado de <i>'%s·:·%"
-#~ "s'</i>\n"
-
-#~ msgid "Fix inconsistencies in sub-budgetary lines?"
-#~ msgstr "¿Corregir las inconsistencias en las líneas subpresupuestarias?"
-
-#~ msgid ""
-#~ "Transaction #%d should have a contra #%d, but this one doesn't exist.\n"
-#~ msgstr ""
-#~ "La transacción #%d debería tener una contratransacción #%d, pero ésta no "
-#~ "existe.\n"
-
-#~ msgid ""
-#~ "Grisbi found transfer transactions where links are inconsistent among "
-#~ "themselves.  Unfortunately, we don't know at the moment how it has "
-#~ "happened.\n"
-#~ "The following accounts are inconsistent:\n"
-#~ msgstr ""
-#~ "Grisbi ha encontrado transferencias dondo los enlaces son inconsistentes "
-#~ "entre ellos.  Desafortunadamente no sabemos cómo ha sucedido esto.\n"
-#~ "Las siguientes cuentas son inconsistentes:\n"
-
-#~ msgid "Breakdown line #%d is orpheanous.\n"
-#~ msgstr "La línea de anotaciones #%d está huérfana.\n"
-
-#~ msgid ""
-#~ "Transaction #%d has a financial year named %s and breakdown line #%d of "
-#~ "this transaction has a financial year named %s\n"
-#~ msgstr ""
-#~ "La transacción #%d tiene un año financiero llamado %s y una línea de "
-#~ "anotación #%d de esta transacción tiene un año financiero llamado %s\n"
-
-#~ msgid ""
-#~ "Grisbi found breakdown lines that have financial years different from the "
-#~ "financial years of the related transaction.  Perhaps it isn't a problem, "
-#~ "but perhaps it is.\n"
-#~ "The following accounts seems inconsistent:\n"
-#~ msgstr ""
-#~ "Grisbi ha encontrado líneas de anotaciones qu e tienen años financieros "
-#~ "diferentes de los años financieros de las transacciones relacionadas.   "
-#~ "Quizá esto no sea un problema, pero quizá sí.\n"
-#~ "Las siguientes cuentas parecen inconsistentes:\n"
-
-#~ msgid "Convert this account to euros"
-#~ msgstr "Convertir esta cuenta a euros"
-
-#~ msgid "Account has no name!"
-#~ msgstr "¡La cuenta no tiene nombre!"
-
-#~ msgid "Confirm currency change"
-#~ msgstr "Confirme el cambio de moneda"
-
-#~ msgid ""
-#~ "You are changing from a currency that is in the euro zone (%s) to one "
-#~ "that isn't (%s).  Transactions in euros will be lost!  There is no undo "
-#~ "for this.\n"
-#~ "Do you confirm this change?"
-#~ msgstr ""
-#~ "Está cambiando de moneda desde una que se encuentra en la zona euro (%s) "
-#~ "a una que no lo está (%s).  ¡Las transacciones en euros se perderán!  No "
-#~ "hay deshacer para esto.\n"
-#~ "¿Quiere confirmar este cambio?"
-
-#~ msgid "Convert account \"%s\" to euro?"
-#~ msgstr "¿Convertir la cuenta \"%s\" al Euro?"
-
-#~ msgid "Euro conversion is irreversible, are you sure you want to continue?"
-#~ msgstr ""
-#~ "La conversión al Euro es irreversible ¿Está seguro/a que quiere continuar?"
-
-#~ msgid "Exchange rate between the 2 currencies is 0."
-#~ msgstr "La tasa de cambio entre las dos monedas es 0."
-
-#~ msgid "Impossible to find the Euro currency, it has probably been deleted."
-#~ msgstr "Imposible encontrar la moneda Euro, probablemente ha sido borrada."
-
-#~ msgid "Brazilian Real"
-#~ msgstr "Real brasileño"
-
-#~ msgid "Chilean Peso"
-#~ msgstr "Peso Chileno"
-
-#~ msgid "Colombian Peso"
-#~ msgstr "Peso Colombiano"
-
-#~ msgid "No associated currency"
-#~ msgstr "No hay moneda asociada"
-
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgid "Will switch to Euro"
-#~ msgstr "¿Quiere cambiar al Euro?"
-
-#~ msgid "Associated currency"
-#~ msgstr "Moneda asociada"
-
-#~ msgid "One"
-#~ msgstr "uno"
-
-#~ msgid "costs"
-#~ msgstr "costes"
-
-#~ msgid "Currency for third parties tree"
-#~ msgstr "Tipo de moneda para el arbol de las terceras partes"
-
-#~ msgid "Last exchange rate"
-#~ msgstr "Última tasa de cambio"
-
-#~ msgid "No exchange rate defined"
-#~ msgstr "No hay una tasa de cambio definida"
-
-#~ msgid "Input"
-#~ msgstr "Entrada"
-
-#~ msgid "Transfer reference"
-#~ msgstr "Referencia de la transferencia"
-
-#~ msgid "Invalid limit date"
-#~ msgstr "Fecha límite no válida"
-
-#~ msgid "A breakdown of transaction is a transfer to this account.\n"
-#~ msgstr ""
-#~ "Una anotación de la transacción es una transferencia a esta cuenta.\n"
-
-#~ msgid "There is no associated account for this transfer."
-#~ msgstr "No hay una cuenta asociada para esta transferencia"
-
-#~ msgid "Associated account of this transfer is invalid."
-#~ msgstr "La cuenta asociada para esta transferencia no es válida"
-
-#~ msgid "Modification"
-#~ msgstr "Modificación"
-
-#~ msgid "Of month"
-#~ msgstr "Del mes"
-
-#~ msgid "Of next two months"
-#~ msgstr "De los siguientes dos meses"
-
-#~ msgid "Of year"
-#~ msgstr "Del año"
-
-#~ msgid ""
-#~ "Fall due selected\n"
-#~ "scheduled transaction"
-#~ msgstr ""
-#~ "Fecha de vencimiento seleccionada\n"
-#~ "transacción programada"
-
-#~ msgid ""
-#~ "Remove selected\n"
-#~ "scheduled transaction"
-#~ msgstr ""
-#~ "Borrar la transacción \n"
-#~ "programada seleccionada"
-
-#~ msgid "Confirmation of scheduled transaction removal"
-#~ msgstr "Confirmación de borrado de una transacción programada"
-
-#~ msgid ""
-#~ "You are currently trying to remove a scheduled transaction.  There is no "
-#~ "undo for this.  Do you confirm the removal?"
-#~ msgstr ""
-#~ "Actualmente está intentando borrar una transacción programada.  No hay "
-#~ "deshacer para esto  ¿Confirma el borrado?"
-
-#~ msgid "No third party"
-#~ msgstr "Sin terceras partes"
-
-#~ msgid ""
-#~ "This breakdown of transaction contains a transfer on itself.  Either "
-#~ "change the sub transaction to transfer on another account or change "
-#~ "account of the transaction itself."
-#~ msgstr ""
-#~ "Esta anotación en la transacción contiene una transferencia a sí misma  O "
-#~ "cambia la subtransacción para transferirla a otra cuenta o cambia la "
-#~ "cuenta de la transacción."
-
-#~ msgid "Can't issue scheduled operation"
-#~ msgstr "No se puede realizar la operación programada"
-
-#~ msgid "Calendar"
-#~ msgstr "Calendario"
-
-#~ msgid "Scheduler list"
-#~ msgstr "Lista de tareas"
-
-#~ msgid "Scheduler broken down transactions"
-#~ msgstr "El planificador abortó las transacciones"
-
-#~ msgid "Break down amount"
-#~ msgstr "Cantidad de la anotación"
-
-#~ msgid "Not assigned"
-#~ msgstr "No asignado"
-
-#~ msgid "Associated method of payment"
-#~ msgstr "Método asociado de pago"
-
-#~ msgid "It's impossible to transfer an account to itself"
-#~ msgstr "Es imposible transferir una cuenta a sí misma"
-
-#~ msgid "No account associated with the transfer"
-#~ msgstr "No hay una cuenta asociada para la transferencia"
-
-#~ msgid ""
-#~ "Transaction amount isn't fully broken down.\n"
-#~ "Proceed anyway?"
-#~ msgstr ""
-#~ "El montante de la transacción no ha sido completamente anotado.\n"
-#~ "¿Continuar de todas formas?"
-
-#~ msgid "A breakdown line is to be deleted though it is not yet registered."
-#~ msgstr ""
-#~ "Una línea de la anotación será borrada aunque no ha sido registrada aun."
-
-#~ msgid "Checked balance: %4.2f %s"
-#~ msgstr "Balance comprobado: %4.2f %s"
-
-#~ msgid "There is a variance"
-#~ msgstr "Hay una variación"
-
-#~ msgid "Last statement: %02d/%02d/%d"
-#~ msgstr "Última anotación: %02d/%02d/%d"
-
-#~ msgid "Reconciliation reference already exist"
-#~ msgstr "Ya existe esa referencia de reconciliación"
-
-#~ msgid ""
-#~ "The choosen reconciliation reference already exists.  Perhaps it's not a "
-#~ "problem, but perhaps it is.  Be sure you want to do.\n"
-#~ "Proceed anyway?"
-#~ msgstr ""
-#~ "La referencia de reconciliación elegida ya existe.  Quizá esto no sea un "
-#~ "problema, pero puede que sí. Debe estar seguro de lo que quiere hacer.\n"
-#~ "¿Continuar de todos modos?"
-
-#~ msgid "No reconciliation reference"
-#~ msgstr "Sin referencia de reconciliación"
-
-#~ msgid ""
-#~ "You are reconciling the account without giving a reconciliation "
-#~ "reference.  By doing this, you will unable to find these transactions "
-#~ "according a reconciliation reference.\n"
-#~ "Proceed anyway?"
-#~ msgstr ""
-#~ "Está reconciliando la cuenta sin dar una referencia de reconciliación.  "
-#~ "Haciendo esto no podrá encontrar estas transacciones a través de una "
-#~ "referencia de reconciliación.\n"
-#~ "¿Continuar de todos modos?"
-
-#~ msgid "Log message"
-#~ msgstr "Mensaje de información"
-
-#~ msgid ""
-#~ "Grisbi triggered a segmentation fault and cannot continue its execution.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Grisbi hizo saltar un fallo de segmento y no puede continuar la "
-#~ "ejecución.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "This report has been produced with grisbi version %s, Grisbi will "
-#~ "nevertheless try to import it."
-#~ msgstr ""
-#~ "Este informe ha sido generado con la versión %s de Grisbi, Grisbi nunca "
-#~ "más intentará importarla."
-
-#~ msgid "%sCurrency %s not found.\n"
-#~ msgstr "%sLa moneda %s no se ha encontrado.\n"
-
-#~ msgid "Currency %s not found.\n"
-#~ msgstr "La moneda %s no se ha encontrado.\n"
+msgid "Remove sub-category"
+msgstr "Borrar subcategoría"
+
+msgid ""
+"Selected sub-category still contains transactions.\n"
+"\n"
+"You may"
+msgstr ""
+"La subcategoría elegida aun contiene transacciones.\n"
+"\n"
+"Usted puede"
+
+msgid "Enter name for new category"
+msgstr "Introduzca el nombre para una nueva categoría"
+
+msgid ""
+"Category names must be both unique and not empty.  Please use another name "
+"for this category."
+msgstr ""
+"Los nombres de las categorías deben ser únicos y no pueden dejarse en "
+"blanco.  Por favoruse otro nombre para esta categoría."
+
+msgid ""
+"Sub-category names must be both unique and not empty.  Please use another "
+"name for this sub-category."
+msgstr ""
+"Los nombres de las subcategorías deben ser únicos y no pueden dejarse en "
+"blanco.  Por favoruse otro nombre para esta subcategoría."
+
+msgid "Sub-category '%s' already exists."
+msgstr "La subcategoría '%s' ya existe."
+
+msgid "File exists. Do you want to overwrite it?"
+msgstr "El archivo existe ¿Quiere sobreescribirlo?"
+
+msgid "Invalid filename \"%s\"!"
+msgstr "¡Nombre de archivo no permitido \"%s\"!"
+
+msgid "Error saving file."
+msgstr "Error guardando el archivo."
+
+msgid "Do you want"
+msgstr "Quiere"
+
+msgid "Replace the old categories list"
+msgstr "Reemplace la lista de categorías antigua"
+
+msgid "Cannot import file."
+msgstr "No puedo importar el fichero"
+
+msgid "%d accounts have inconsistencies."
+msgstr "%d cuentas tienen inconsistencias."
+
+msgid ""
+"Some sub-categories are duplicates:\n"
+"\n"
+msgstr ""
+"Algunas subcategorías están duplicadas:\n"
+"\n"
+
+msgid "Fix inconsistencies in sub-categories?"
+msgstr "¿Corregir inconsistencias en las subcategorías?"
+
+msgid ""
+"Sub-budgetary line <i>'%s : %s'</i> is a duplicate of <i>'%s : %s'</i>\n"
+msgstr ""
+"La línea subpresupuestaria <i>'%s : %s'</i> es una duplicado de <i>'%s·:·%"
+"s'</i>\n"
+
+msgid "Fix inconsistencies in sub-budgetary lines?"
+msgstr "¿Corregir las inconsistencias en las líneas subpresupuestarias?"
+
+msgid "Transaction #%d should have a contra #%d, but this one doesn't exist.\n"
+msgstr ""
+"La transacción #%d debería tener una contratransacción #%d, pero ésta no "
+"existe.\n"
+
+msgid ""
+"Grisbi found transfer transactions where links are inconsistent among "
+"themselves.  Unfortunately, we don't know at the moment how it has "
+"happened.\n"
+"The following accounts are inconsistent:\n"
+msgstr ""
+"Grisbi ha encontrado transferencias dondo los enlaces son inconsistentes "
+"entre ellos.  Desafortunadamente no sabemos cómo ha sucedido esto.\n"
+"Las siguientes cuentas son inconsistentes:\n"
+
+msgid "Breakdown line #%d is orpheanous.\n"
+msgstr "La línea de anotaciones #%d está huérfana.\n"
+
+msgid ""
+"Transaction #%d has a financial year named %s and breakdown line #%d of this "
+"transaction has a financial year named %s\n"
+msgstr ""
+"La transacción #%d tiene un año financiero llamado %s y una línea de "
+"anotación #%d de esta transacción tiene un año financiero llamado %s\n"
+
+msgid ""
+"Grisbi found breakdown lines that have financial years different from the "
+"financial years of the related transaction.  Perhaps it isn't a problem, but "
+"perhaps it is.\n"
+"The following accounts seems inconsistent:\n"
+msgstr ""
+"Grisbi ha encontrado líneas de anotaciones qu e tienen años financieros "
+"diferentes de los años financieros de las transacciones relacionadas.   "
+"Quizá esto no sea un problema, pero quizá sí.\n"
+"Las siguientes cuentas parecen inconsistentes:\n"
 
-#~ msgid "%sFinancial year %s not found.\n"
-#~ msgstr "%s El año financiero %s no se ha encontrado.\n"
+msgid "Convert this account to euros"
+msgstr "Convertir esta cuenta a euros"
+
+msgid "Account has no name!"
+msgstr "¡La cuenta no tiene nombre!"
+
+msgid "Confirm currency change"
+msgstr "Confirme el cambio de moneda"
+
+msgid ""
+"You are changing from a currency that is in the euro zone (%s) to one that "
+"isn't (%s).  Transactions in euros will be lost!  There is no undo for "
+"this.\n"
+"Do you confirm this change?"
+msgstr ""
+"Está cambiando de moneda desde una que se encuentra en la zona euro (%s) a "
+"una que no lo está (%s).  ¡Las transacciones en euros se perderán!  No hay "
+"deshacer para esto.\n"
+"¿Quiere confirmar este cambio?"
+
+msgid "Convert account \"%s\" to euro?"
+msgstr "¿Convertir la cuenta \"%s\" al Euro?"
+
+msgid "Euro conversion is irreversible, are you sure you want to continue?"
+msgstr ""
+"La conversión al Euro es irreversible ¿Está seguro/a que quiere continuar?"
+
+msgid "Exchange rate between the 2 currencies is 0."
+msgstr "La tasa de cambio entre las dos monedas es 0."
+
+msgid "Impossible to find the Euro currency, it has probably been deleted."
+msgstr "Imposible encontrar la moneda Euro, probablemente ha sido borrada."
+
+msgid "Brazilian Real"
+msgstr "Real brasileño"
+
+msgid "Chilean Peso"
+msgstr "Peso Chileno"
+
+msgid "Colombian Peso"
+msgstr "Peso Colombiano"
+
+msgid "No associated currency"
+msgstr "No hay moneda asociada"
+
+msgid "..."
+msgstr "..."
+
+msgid "Will switch to Euro"
+msgstr "¿Quiere cambiar al Euro?"
+
+msgid "Associated currency"
+msgstr "Moneda asociada"
+
+msgid "One"
+msgstr "uno"
+
+msgid "costs"
+msgstr "costes"
+
+msgid "Currency for third parties tree"
+msgstr "Tipo de moneda para el arbol de las terceras partes"
+
+msgid "Last exchange rate"
+msgstr "Última tasa de cambio"
+
+msgid "No exchange rate defined"
+msgstr "No hay una tasa de cambio definida"
+
+msgid "Input"
+msgstr "Entrada"
+
+msgid "Transfer reference"
+msgstr "Referencia de la transferencia"
+
+msgid "Invalid limit date"
+msgstr "Fecha límite no válida"
+
+msgid "A breakdown of transaction is a transfer to this account.\n"
+msgstr "Una anotación de la transacción es una transferencia a esta cuenta.\n"
+
+msgid "There is no associated account for this transfer."
+msgstr "No hay una cuenta asociada para esta transferencia"
+
+msgid "Associated account of this transfer is invalid."
+msgstr "La cuenta asociada para esta transferencia no es válida"
+
+msgid "Modification"
+msgstr "Modificación"
+
+msgid "Of month"
+msgstr "Del mes"
+
+msgid "Of next two months"
+msgstr "De los siguientes dos meses"
+
+msgid "Of year"
+msgstr "Del año"
+
+msgid ""
+"Fall due selected\n"
+"scheduled transaction"
+msgstr ""
+"Fecha de vencimiento seleccionada\n"
+"transacción programada"
+
+msgid ""
+"Remove selected\n"
+"scheduled transaction"
+msgstr ""
+"Borrar la transacción \n"
+"programada seleccionada"
+
+msgid "Confirmation of scheduled transaction removal"
+msgstr "Confirmación de borrado de una transacción programada"
+
+msgid ""
+"You are currently trying to remove a scheduled transaction.  There is no "
+"undo for this.  Do you confirm the removal?"
+msgstr ""
+"Actualmente está intentando borrar una transacción programada.  No hay "
+"deshacer para esto  ¿Confirma el borrado?"
+
+msgid "No third party"
+msgstr "Sin terceras partes"
+
+msgid ""
+"This breakdown of transaction contains a transfer on itself.  Either change "
+"the sub transaction to transfer on another account or change account of the "
+"transaction itself."
+msgstr ""
+"Esta anotación en la transacción contiene una transferencia a sí misma  O "
+"cambia la subtransacción para transferirla a otra cuenta o cambia la cuenta "
+"de la transacción."
+
+msgid "Can't issue scheduled operation"
+msgstr "No se puede realizar la operación programada"
+
+msgid "Calendar"
+msgstr "Calendario"
+
+msgid "Scheduler list"
+msgstr "Lista de tareas"
+
+msgid "Scheduler broken down transactions"
+msgstr "El planificador abortó las transacciones"
+
+msgid "Break down amount"
+msgstr "Cantidad de la anotación"
+
+msgid "Not assigned"
+msgstr "No asignado"
+
+msgid "Associated method of payment"
+msgstr "Método asociado de pago"
+
+msgid "It's impossible to transfer an account to itself"
+msgstr "Es imposible transferir una cuenta a sí misma"
+
+msgid "No account associated with the transfer"
+msgstr "No hay una cuenta asociada para la transferencia"
+
+msgid ""
+"Transaction amount isn't fully broken down.\n"
+"Proceed anyway?"
+msgstr ""
+"El montante de la transacción no ha sido completamente anotado.\n"
+"¿Continuar de todas formas?"
+
+msgid "A breakdown line is to be deleted though it is not yet registered."
+msgstr ""
+"Una línea de la anotación será borrada aunque no ha sido registrada aun."
+
+msgid "Checked balance: %4.2f %s"
+msgstr "Balance comprobado: %4.2f %s"
+
+msgid "There is a variance"
+msgstr "Hay una variación"
+
+msgid "Last statement: %02d/%02d/%d"
+msgstr "Última anotación: %02d/%02d/%d"
+
+msgid "Reconciliation reference already exist"
+msgstr "Ya existe esa referencia de reconciliación"
+
+msgid ""
+"The choosen reconciliation reference already exists.  Perhaps it's not a "
+"problem, but perhaps it is.  Be sure you want to do.\n"
+"Proceed anyway?"
+msgstr ""
+"La referencia de reconciliación elegida ya existe.  Quizá esto no sea un "
+"problema, pero puede que sí. Debe estar seguro de lo que quiere hacer.\n"
+"¿Continuar de todos modos?"
+
+msgid "No reconciliation reference"
+msgstr "Sin referencia de reconciliación"
+
+msgid ""
+"You are reconciling the account without giving a reconciliation reference.  "
+"By doing this, you will unable to find these transactions according a "
+"reconciliation reference.\n"
+"Proceed anyway?"
+msgstr ""
+"Está reconciliando la cuenta sin dar una referencia de reconciliación.  "
+"Haciendo esto no podrá encontrar estas transacciones a través de una "
+"referencia de reconciliación.\n"
+"¿Continuar de todos modos?"
+
+msgid "Log message"
+msgstr "Mensaje de información"
+
+msgid ""
+"Grisbi triggered a segmentation fault and cannot continue its execution.\n"
+"\n"
+msgstr ""
+"Grisbi hizo saltar un fallo de segmento y no puede continuar la ejecución.\n"
+"\n"
+
+msgid ""
+"This report has been produced with grisbi version %s, Grisbi will "
+"nevertheless try to import it."
+msgstr ""
+"Este informe ha sido generado con la versión %s de Grisbi, Grisbi nunca más "
+"intentará importarla."
 
-#~ msgid "Financial year %s not found.\n"
-#~ msgstr "El año financiero %s no se ha encontrado\n"
+msgid "%sCurrency %s not found.\n"
+msgstr "%sLa moneda %s no se ha encontrado.\n"
 
-#~ msgid "%sAccount %s not found.\n"
-#~ msgstr "%sLa cuenta %s no se ha encontrado.\n"
+msgid "Currency %s not found.\n"
+msgstr "La moneda %s no se ha encontrado.\n"
 
-#~ msgid "%sCategory %s not found.\n"
-#~ msgstr "%sLa categoría %s no se ha encontrado.\n"
+msgid "%sFinancial year %s not found.\n"
+msgstr "%s El año financiero %s no se ha encontrado.\n"
 
-#~ msgid "Category %s not found.\n"
-#~ msgstr "La categoría %s no se ha encontrado.\n"
+msgid "Financial year %s not found.\n"
+msgstr "El año financiero %s no se ha encontrado\n"
 
-#~ msgid "%sBudget line %s not found.\n"
-#~ msgstr "%sLa línea tributaria %s no se ha encontrado.\n"
+msgid "%sAccount %s not found.\n"
+msgstr "%sLa cuenta %s no se ha encontrado.\n"
 
-#~ msgid "Budget line %s not found.\n"
-#~ msgstr "La Línea tributaria %s no se ha encontrado.\n"
+msgid "%sCategory %s not found.\n"
+msgstr "%sLa categoría %s no se ha encontrado.\n"
 
-#~ msgid "%sThird party %s not found.\n"
-#~ msgstr "%sEl Intermediario %s no se ha encontrado.\n"
+msgid "Category %s not found.\n"
+msgstr "La categoría %s no se ha encontrado.\n"
 
-#~ msgid "Third party %s not found.\n"
-#~ msgstr "El Intermediario %s no se ha encontrado.\n"
+msgid "%sBudget line %s not found.\n"
+msgstr "%sLa línea tributaria %s no se ha encontrado.\n"
 
-#~ msgid ""
-#~ "Error saving the file %s\n"
-#~ "\n"
-#~ "Error:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Error guardando el fichero %s\n"
-#~ "\n"
-#~ "Error:\n"
-#~ "%s"
+msgid "Budget line %s not found.\n"
+msgstr "La Línea tributaria %s no se ha encontrado.\n"
 
-#~ msgid "Third party total: (%d transaction)"
-#~ msgstr "Total de las terceras partes: (%d transacción)"
+msgid "%sThird party %s not found.\n"
+msgstr "%sEl Intermediario %s no se ha encontrado.\n"
 
-#~ msgid "Third party total: (%d transactions)"
-#~ msgstr "Total de las terceras partes: (%d transacciones)"
+msgid "Third party %s not found.\n"
+msgstr "El Intermediario %s no se ha encontrado.\n"
 
-#~ msgid "Third party total"
-#~ msgstr "Total de las terceras partes"
+msgid ""
+"Error saving the file %s\n"
+"\n"
+"Error:\n"
+"%s"
+msgstr ""
+"Error guardando el fichero %s\n"
+"\n"
+"Error:\n"
+"%s"
 
-#~ msgid "Result from %d/%d/%d to %d/%d/%d (%d transaction):"
-#~ msgstr "Resultado de %d/%d/%d to %d/%d/%d (%d transacción):"
+msgid "Third party total: (%d transaction)"
+msgstr "Total de las terceras partes: (%d transacción)"
 
-#~ msgid "Result from %d/%d/%d to %d/%d/%d (%d transactions):"
-#~ msgstr "Resultado de %d/%d/%d to %d/%d/%d (%d transacciones):"
+msgid "Third party total: (%d transactions)"
+msgstr "Total de las terceras partes: (%d transacciones)"
 
-#~ msgid "Result from %d/%d/%d to %d/%d/%d:"
-#~ msgstr "Resultado de %d/%d/%d a %d/%d/%d:"
+msgid "Third party total"
+msgstr "Total de las terceras partes"
 
-#~ msgid "Check"
-#~ msgstr "Comprobar"
+msgid "Result from %d/%d/%d to %d/%d/%d (%d transaction):"
+msgstr "Resultado de %d/%d/%d to %d/%d/%d (%d transacción):"
 
-#~ msgid "Reports setup"
-#~ msgstr "Configuración de los informes"
+msgid "Result from %d/%d/%d to %d/%d/%d (%d transactions):"
+msgstr "Resultado de %d/%d/%d to %d/%d/%d (%d transacciones):"
 
-#~ msgid ""
-#~ "All the third parts have been selected. Grisbi will run faster\n"
-#~ "without the \"Detail the third parties\" option"
-#~ msgstr ""
-#~ "Todas las terceras partes han sido seleccionadas. Grisbi irá más rápido\n"
-#~ "sin la opción \"Detallar las terceras partes\""
+msgid "Result from %d/%d/%d to %d/%d/%d:"
+msgstr "Resultado de %d/%d/%d a %d/%d/%d:"
 
-#~ msgid "Detail third parties"
-#~ msgstr "Detallar las terceras partes"
+msgid "Check"
+msgstr "Comprobar"
 
-#~ msgid "the third party"
-#~ msgstr "la tercera parte"
+msgid "Reports setup"
+msgstr "Configuración de los informes"
 
-#~ msgid "the third party information"
-#~ msgstr "La información de la tercera parte"
+msgid ""
+"All the third parts have been selected. Grisbi will run faster\n"
+"without the \"Detail the third parties\" option"
+msgstr ""
+"Todas las terceras partes han sido seleccionadas. Grisbi irá más rápido\n"
+"sin la opción \"Detallar las terceras partes\""
 
-#~ msgid "the sub-category"
-#~ msgstr "la subcategoría"
+msgid "Detail third parties"
+msgstr "Detallar las terceras partes"
 
-#~ msgid "the budgetary line"
-#~ msgstr "la línea presupuestaria"
+msgid "the third party"
+msgstr "la tercera parte"
 
-#~ msgid "the note"
-#~ msgstr "la nota"
+msgid "the third party information"
+msgstr "La información de la tercera parte"
 
-#~ msgid "the bank reference"
-#~ msgstr "la referencia bancaria"
+msgid "the sub-category"
+msgstr "la subcategoría"
 
-#~ msgid "the voucher"
-#~ msgstr "el vale"
+msgid "the budgetary line"
+msgstr "la línea presupuestaria"
 
-#~ msgid "the reconciliation reference"
-#~ msgstr "la referencia de reconciliación"
+msgid "the note"
+msgstr "la nota"
 
-#~ msgid "The checked transactions"
-#~ msgstr "Las transacciones comprobadas"
+msgid "the bank reference"
+msgstr "la referencia bancaria"
 
-#~ msgid "The neither reconciled neither checked transactions"
-#~ msgstr "Las transacciones no reconciliadas ni comprobadas"
+msgid "the voucher"
+msgstr "el vale"
 
-#~ msgid "Group transactions by third party"
-#~ msgstr "Agrupar las transacciones por terceras partes"
+msgid "the reconciliation reference"
+msgstr "la referencia de reconciliación"
 
-#~ msgid "the transaction number"
-#~ msgstr "el número de transacción"
+msgid "The checked transactions"
+msgstr "Las transacciones comprobadas"
 
-#~ msgid "the date"
-#~ msgstr "la fecha"
+msgid "The neither reconciled neither checked transactions"
+msgstr "Las transacciones no reconciliadas ni comprobadas"
 
-#~ msgid "the financial year"
-#~ msgstr "el año financiero"
+msgid "Group transactions by third party"
+msgstr "Agrupar las transacciones por terceras partes"
 
-#~ msgid "the notes"
-#~ msgstr "las notas"
+msgid "the transaction number"
+msgstr "el número de transacción"
 
-#~ msgid "the method of payment"
-#~ msgstr "la forma de pago"
+msgid "the date"
+msgstr "la fecha"
 
-#~ msgid "the cheque/transfer number"
-#~ msgstr "el número de cheque/transferencia"
+msgid "the financial year"
+msgstr "el año financiero"
 
-#~ msgid "the check"
-#~ msgstr "la comprobación"
+msgid "the notes"
+msgstr "las notas"
 
-#~ msgid "third party"
-#~ msgstr "terceras partes"
+msgid "the method of payment"
+msgstr "la forma de pago"
 
-#~ msgid "Third parties currency"
-#~ msgstr "Moneda de las terceras partes"
+msgid "the cheque/transfer number"
+msgstr "el número de cheque/transferencia"
 
-#~ msgid "Export report to HTML file."
-#~ msgstr "Exportar el informe a un fichero HTML."
+msgid "the check"
+msgstr "la comprobación"
 
-#~ msgid "File '%s' already exists"
-#~ msgstr "El fichero '%s' ya existe"
+msgid "third party"
+msgstr "terceras partes"
 
-#~ msgid "Customize report"
-#~ msgstr "Personalizar el informe"
+msgid "Third parties currency"
+msgstr "Moneda de las terceras partes"
 
-#~ msgid "Export report file"
-#~ msgstr "Exportar el fichero del informe"
+msgid "Export report to HTML file."
+msgstr "Exportar el informe a un fichero HTML."
 
-#~ msgid "Export report as HTML..."
-#~ msgstr "Exportar el informe como HTML..."
+msgid "File '%s' already exists"
+msgstr "El fichero '%s' ya existe"
 
-#~ msgid "Remove report"
-#~ msgstr "Borrar el informe"
+msgid "Customize report"
+msgstr "Personalizar el informe"
 
-#~ msgid "Edit report"
-#~ msgstr "Editar el informe"
+msgid "Export report file"
+msgstr "Exportar el fichero del informe"
 
-#~ msgid "Refresh"
-#~ msgstr "Actualizar"
+msgid "Export report as HTML..."
+msgstr "Exportar el informe como HTML..."
 
-#~ msgid "Result from %d/%d/%d to %d/%d/%d"
-#~ msgstr "Resultado desde %d/%d/%d hasta %d/%d/%d"
+msgid "Remove report"
+msgstr "Borrar el informe"
 
-#~ msgid "total at %d/%d/%d"
-#~ msgstr "total en  %d/%d/%d"
+msgid "Edit report"
+msgstr "Editar el informe"
 
-#~ msgid "The financial year must have a name."
-#~ msgstr "El año financiero debe tener un nombe"
+msgid "Refresh"
+msgstr "Actualizar"
 
-#~ msgid "Not displayed"
-#~ msgstr "No mostrado"
+msgid "Result from %d/%d/%d to %d/%d/%d"
+msgstr "Resultado desde %d/%d/%d hasta %d/%d/%d"
 
-#~ msgid ""
-#~ "This will irreversibly overwrite previous file.  There is no undo for "
-#~ "this."
-#~ msgstr ""
-#~ "Esto sobreescribirá de manera irreversible el archivo previo. No hay "
-#~ "deshacer para esto."
+msgid "total at %d/%d/%d"
+msgstr "total en  %d/%d/%d"
 
-#~ msgid "File name '%s' invalid!"
-#~ msgstr "¡El nombre de archivo '%s' no es válido!"
+msgid "The financial year must have a name."
+msgstr "El año financiero debe tener un nombe"
 
-#~ msgid "Your file must have a name (saved) to be exported."
-#~ msgstr "Su archivo debe tener un nombre (guardado) para ser exportado."
+msgid "Not displayed"
+msgstr "No mostrado"
 
-#~ msgid "Export format does not define currencies."
-#~ msgstr "El formato de la exportación no define los tipos de moneda."
+msgid ""
+"This will irreversibly overwrite previous file.  There is no undo for this."
+msgstr ""
+"Esto sobreescribirá de manera irreversible el archivo previo. No hay "
+"deshacer para esto."
 
-#~ msgid "All transactions will be converted into currency of their account."
-#~ msgstr ""
-#~ "Todas las transacciones serán convertidas a la moneda de sus respectivas "
-#~ "cuentas."
+msgid "File name '%s' invalid!"
+msgstr "¡El nombre de archivo '%s' no es válido!"
 
-#~ msgid "Accounts to CSV file ..."
-#~ msgstr "Cuentas a fichero CSV ..."
+msgid "Your file must have a name (saved) to be exported."
+msgstr "Su archivo debe tener un nombre (guardado) para ser exportado."
 
-#~ msgid "Third parties list (transactions)"
-#~ msgstr "Lista de terceras partes (transacciones)"
+msgid "Export format does not define currencies."
+msgstr "El formato de la exportación no define los tipos de moneda."
 
-#~ msgid "Categories list (transactions)"
-#~ msgstr "Lista de categorías (transacciones)"
-
-#~ msgid "Budgetary lines list (transactions)"
-#~ msgstr "Lista de líneas presupuestarias (transacciones)"
-
-#~ msgid "File : "
-#~ msgstr "Fichero : "
-
-#~ msgid "Error opening config"
-#~ msgstr "Error abriendo la configuración"
-
-#~ msgid "Error saving file '%s': %s"
-#~ msgstr "Error guardando el archivo '%s': %s"
-
-#~ msgid "Formatting transactions"
-#~ msgstr "Dando formato a las transacciones"
-
-#~ msgid "Grisbi - No name"
-#~ msgstr "Grisbi - Sin nombre"
-
-#~ msgid "Invalid accounts file"
-#~ msgstr "Fichero de cuentas no válido"
-
-#~ msgid "Cannot open file '%s' : this is not a grisbi file"
-#~ msgstr "No puedo abrir el archivo '%s' : Este no es un archivo de Grisbi"
-
-#~ msgid ""
-#~ "Warning: Grisbi data format has changed. Grisbi made a backup under '%"
-#~ "s'.\n"
-#~ "Keep it for a while just in case."
-#~ msgstr ""
-#~ "Aviso: El formato de datos de Grisbi ha cambiado. Grisbi hizo una copia "
-#~ "de seguridad bajo '%s'.\n"
-#~ "Manténgala por si fuera necesaria."
-
-#~ msgid ""
-#~ "There was a bug in versions before 0.4.0, which could lead to orphan "
-#~ "transactions (either transfers without countra-transaction, or breakdown "
-#~ "transactions details without associated breakdown transaction.\n"
-#~ "\n"
-#~ "Grisbi searched for such transaction and found:\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Había un error en las versiones anteriores a la 0.4.0, que pueden "
-#~ "conducir a transacciones huérfanas (o transferencias sin "
-#~ "contratransacciones, o detalles de anotaciones de transacciones sin "
-#~ "anotaciones de transacciones asociadas.\n"
-#~ "\n"
-#~ "Grisbi ha buscado estas transacciones y ha encontrado:\n"
-#~ "\n"
-
-#~ msgid "breakdown transactions, all of them were deleted.\n"
-#~ msgstr "Todas las anotaciones de las transacciones han sido borradas.\n"
-
-#~ msgid ""
-#~ "transfers without contra-transaction, which categories were deleted.\n"
-#~ msgstr ""
-#~ "Transferencias sin contratransacción cuyas categorías fueron borradas \n"
-
-#~ msgid ""
-#~ "These modifications should not impact on neither Grisbi's behavior nor "
-#~ "your accounts balances."
-#~ msgstr ""
-#~ "Estas modificaciones no afectarán el comportamiento de Grisbi ni a los "
-#~ "balances de sus cuentas."
-
-#~ msgid ""
-#~ "This categories list has been produced with grisbi version %s, Grisbi "
-#~ "will nevertheless try to import it."
-#~ msgstr ""
-#~ "Esta lista de categorías ha sido creada con la versión de Grisbi %s, "
-#~ "Grisbi no intentará nunca más importarla."
-
-#~ msgid "Invalid categories file"
-#~ msgstr "Fichero de categorías no válido"
+msgid "All transactions will be converted into currency of their account."
+msgstr ""
+"Todas las transacciones serán convertidas a la moneda de sus respectivas "
+"cuentas."
 
-#~ msgid ""
-#~ "This budgetary lines list has been produced with grisbi version %s, "
-#~ "Grisbi will nevertheless try to import it."
-#~ msgstr ""
-#~ "Esta lista de líneas presupuestarias han sido producidas con la versión "
-#~ "de Grisbi %s, Grisbi nunca más intentará importarla."
+msgid "Accounts to CSV file ..."
+msgstr "Cuentas a fichero CSV ..."
 
-#~ msgid ""
-#~ "Grisbi needs to open a temporary file in order to import Gnucash data but "
-#~ "file can't be created.  Check that you have permission to do that."
-#~ msgstr ""
-#~ "Grisbi necesita abrir un fichero temporal para importar la información de "
-#~ "Gnucash pero el fichero no puede ser creado.  Compruebe que tiene "
-#~ "permisos para hacer esto."
+msgid "Third parties list (transactions)"
+msgstr "Lista de terceras partes (transacciones)"
 
-#~ msgid "Error opening temporary file '%s'."
-#~ msgstr "Error abriendo el fichero temporal '%s'."
+msgid "Categories list (transactions)"
+msgstr "Lista de categorías (transacciones)"
 
-#~ msgid ""
-#~ "Grisbi is a free personal finance manager for everyone.\n"
-#~ "Such a program allows you to sort your financial transactions, whatever "
-#~ "they are, in a convenient and intuitive way.  Thus, you will be able to "
-#~ "manage them as to fit your needs the more you can.\n"
-#~ "Grisbi aims both at simplicty and efficiency for common use, and at a "
-#~ "powerful use for power users.  We will always try to respect this as "
-#~ "features will come."
-#~ msgstr ""
-#~ "Grisbi es una aplicación de contabilidad personal para todos\n"
-#~ "Este programa le permite organizar sus transacciones financieras, sean "
-#~ "cuales sean,de una forma conveniente e intuitiva.  Así pues usted podrá "
-#~ "manejar sus transacciones para adaptarlas a sus necesidades.\n"
-#~ "Grisbi combina simplicidad y eficiencia a nivel de usuario, y un potente "
-#~ "uso para usuarios más avanzados.  Intentaremos siempre respetar ésto en "
-#~ "el desarrollo de las nuevas características."
+msgid "Budgetary lines list (transactions)"
+msgstr "Lista de líneas presupuestarias (transacciones)"
 
-#~ msgid "Benjamin Drieu (bdrieu[at]april.org): Programming, Debian packaging"
-#~ msgstr ""
-#~ "Benjamin Drieu (bdrieu[at]april.org) : Programación, empaquetamiento para "
-#~ "Debian"
+msgid "File : "
+msgstr "Fichero : "
 
-#~ msgid "Daniel Cartron (doc[at]grisbi.org): Manual, website, consultancy"
-#~ msgstr "Daniel Cartron (doc[at]grisbi.org): Manual, sitio web, consultoría"
+msgid "Error opening config"
+msgstr "Error abriendo la configuración"
 
-#~ msgid "Marek Donar (mdonar[at]post.cz): Czech"
-#~ msgstr "Marek·Donar·(mdonar[at]post.cz):·checo"
-
-#~ msgid "Mircea Aronovici (bucuresti[at]free.fr): Romanian"
-#~ msgstr "Mircea Aronovici (bucuresti[at]free.fr): Rumano."
-
-#~ msgid "Authors"
-#~ msgstr "Autores"
+msgid "Error saving file '%s': %s"
+msgstr "Error guardando el archivo '%s': %s"
 
-#~ msgid "Translators"
-#~ msgstr "Traductores"
-
-#~ msgid ""
-#~ "Grisbi is unable to determine type of this file.  If it is a QIF, an OFX "
-#~ "file or a gnucash file, please contact the grisbi team to resolve this "
-#~ "problem."
-#~ msgstr ""
-#~ "Grisbi no pudo determinar el tipo de este archivo.  Si este es un archivo "
-#~ "QIF, un archivo OFX o un archivo gnucash, por favor contacte con el "
-#~ "equipo de Grisbi para resolver este problema."
-
-#~ msgid "File \"%s\" cannot be imported."
-#~ msgstr "El archivo \"%s\" no puede ser importado."
-
-#~ msgid "Actions on imported accounts:"
-#~ msgstr "Acciones en las cuentas importadas:"
-
-#~ msgid "Add more accounts"
-#~ msgstr "Añadir más cuentas"
-
-#~ msgid "List of the selection of accounts :"
-#~ msgstr "Lista de selección de cuentas:"
-
-#~ msgid "Action"
-#~ msgstr "Acción"
-
-#~ msgid "Origine"
-#~ msgstr "Origen"
-
-#~ msgid "none"
-#~ msgstr "ninguno"
-
-#~ msgid "Add the transactions"
-#~ msgstr "Añadir las transacciones"
-
-#~ msgid "QIF file"
-#~ msgstr "Fichero QIF"
-
-#~ msgid "OFX file"
-#~ msgstr "Fichero OFX"
-
-#~ msgid "no third party"
-#~ msgstr "No hay terceras partes"
-
-#~ msgid "Budgetary lines list"
-#~ msgstr "Lista de las líneas prespuestarias"
-
-#~ msgid "Amount per budget line"
-#~ msgstr "Cantidad por línea presupuestaria"
-
-#~ msgid "Amount per sub-budget line"
-#~ msgstr "Cantidad por línea subprespuestaria"
-
-#~ msgid "Add a budget line"
-#~ msgstr "Añadir una línea presupuestaria"
-
-#~ msgid "Add a sub-budget line"
-#~ msgstr "Añadir una línea subpresupuestaria"
-
-#~ msgid "No sub-budget line (%d)"
-#~ msgstr "Sin línea subpresupuestaria (%d)"
-
-#~ msgid "No budget line (%d)"
-#~ msgstr "Sin línea presupuestaria (%d)"
-
-#~ msgid "%d/%d/%d : %4.2f %s [ %s ]"
-#~ msgstr "%d/%d/%d : %4.2f %s [ %s ]"
-
-#~ msgid ""
-#~ "Some transactions are still assigned to this budgetary line.\n"
-#~ "\n"
-#~ "You can"
-#~ msgstr ""
-#~ "Algunas transacciones todavía están asociadas a esta línea "
-#~ "prespuestaria.\n"
-#~ "\n"
-#~ "Usted puede"
-
-#~ msgid "Just delete the budgetary line."
-#~ msgstr "Tan sólo borra la línea presupuestaria."
-
-#~ msgid "Please enter a budgetary line!"
-#~ msgstr "¡Por favor introduzca una línea presupuestaria!"
-
-#~ msgid ""
-#~ "Some transactions are still assigned to this sub-budgetary line.\n"
-#~ "\n"
-#~ "You can"
-#~ msgstr ""
-#~ "Algunas transacciones están todavía asociadas a esta línea "
-#~ "subpresupuestaria.\n"
-#~ "\n"
-#~ "Usted puede"
-
-#~ msgid "Just delete the sub-budgetary line."
-#~ msgstr "Tan sólo borre la línea subpresupuestaria."
-
-#~ msgid ""
-#~ "Budgetary lines names must be both unique and not empty.  Please use "
-#~ "another name for this budgetary line."
-#~ msgstr ""
-#~ "Los nombre de las líneas presupuestarias deben ser únicos y no pueden "
-#~ "dejarse en blancao.  Por favor, use otro nombre para esta línea "
-#~ "presupuestaria."
-
-#~ msgid "Budgetary line '%s' already exists."
-#~ msgstr "La línea presupuestaria '%s' ya existe."
-
-#~ msgid ""
-#~ "Sub-budgetary lines names must be both unique and not empty.  Please use "
-#~ "another name for this sub-budgetary line."
-#~ msgstr ""
-#~ "Los nombres de las líneas subpresupuestarias deben ser únicos y no pueden "
-#~ "estar vacíos.  Por favor utilice otro nombre para esta línea "
-#~ "subpresupuestaria."
-
-#~ msgid "Sub-budgetary line '%s' already exists."
-#~ msgstr "La línea subpresupuestaria '%s' ya existe."
-
-#~ msgid ""
-#~ "Warning: this will add all the categories and subcategories to the "
-#~ "budgetary lines!\n"
-#~ "Besides you can't cancel this afterwards.\n"
-#~ "We advise you not to use this unless you know exactly what you are "
-#~ "doing.\n"
-#~ "Do you want to continue anyway?"
-#~ msgstr ""
-#~ "Aviso: ¡Esto añadirá todas las categorías y subcategorías a las líneas "
-#~ "presupuestarias!\n"
-#~ "Además no podrá cancelar esto más adelante.\n"
-#~ "¿Quiere continuar de cualquier modo?"
+msgid "Formatting transactions"
+msgstr "Dando formato a las transacciones"
 
-#~ msgid "Enter the name of the new budgetary line"
-#~ msgstr "Introduzca el nombre de la nueva línea presupuestaria"
+msgid "Grisbi - No name"
+msgstr "Grisbi - Sin nombre"
 
-#~ msgid "Enter the name of the new sub-budgetary line"
-#~ msgstr "Introduzca el nombre de la nueva línea subresupuestaria"
+msgid "Invalid accounts file"
+msgstr "Fichero de cuentas no válido"
 
-#~ msgid ""
-#~ "File already contains transactions, the two budgetary lines lists will be "
-#~ "merged."
-#~ msgstr ""
-#~ "El archivo ya contiene transacciones, las dos listas de líneas "
-#~ "presupuestarias serán unidas."
+msgid "Cannot open file '%s' : this is not a grisbi file"
+msgstr "No puedo abrir el archivo '%s' : Este no es un archivo de Grisbi"
 
-#~ msgid "Merge the two lists of budgetary lines"
-#~ msgstr "Unir las dos listas de líneas presupuestarias"
+msgid ""
+"Warning: Grisbi data format has changed. Grisbi made a backup under '%s'.\n"
+"Keep it for a while just in case."
+msgstr ""
+"Aviso: El formato de datos de Grisbi ha cambiado. Grisbi hizo una copia de "
+"seguridad bajo '%s'.\n"
+"Manténgala por si fuera necesaria."
 
-#~ msgid "Replace the old list of budgetary lines"
-#~ msgstr "Reemplazar la antigua lista de líneas presupuestarias"
+msgid ""
+"There was a bug in versions before 0.4.0, which could lead to orphan "
+"transactions (either transfers without countra-transaction, or breakdown "
+"transactions details without associated breakdown transaction.\n"
+"\n"
+"Grisbi searched for such transaction and found:\n"
+"\n"
+msgstr ""
+"Había un error en las versiones anteriores a la 0.4.0, que pueden conducir a "
+"transacciones huérfanas (o transferencias sin contratransacciones, o "
+"detalles de anotaciones de transacciones sin anotaciones de transacciones "
+"asociadas.\n"
+"\n"
+"Grisbi ha buscado estas transacciones y ha encontrado:\n"
+"\n"
 
-#~ msgid "QIF\\/OFX\\/Gnucash file ..."
-#~ msgstr "QIF\\/OFX\\/Gnucash archivo ..."
+msgid "breakdown transactions, all of them were deleted.\n"
+msgstr "Todas las anotaciones de las transacciones han sido borradas.\n"
 
-#~ msgid "Debug file"
-#~ msgstr "Depurar el archivo"
+msgid "transfers without contra-transaction, which categories were deleted.\n"
+msgstr ""
+"Transferencias sin contratransacción cuyas categorías fueron borradas \n"
 
-#~ msgid "Exit"
-#~ msgstr "Salir"
+msgid ""
+"These modifications should not impact on neither Grisbi's behavior nor your "
+"accounts balances."
+msgstr ""
+"Estas modificaciones no afectarán el comportamiento de Grisbi ni a los "
+"balances de sus cuentas."
 
-#~ msgid "Use selected transaction as a template"
-#~ msgstr "Usar las transacciones seleccionadas como una plantilla"
+msgid ""
+"This categories list has been produced with grisbi version %s, Grisbi will "
+"nevertheless try to import it."
+msgstr ""
+"Esta lista de categorías ha sido creada con la versión de Grisbi %s, Grisbi "
+"no intentará nunca más importarla."
 
-#~ msgid "Grisbi Manual"
-#~ msgstr "Manual de Grisbi"
+msgid "Invalid categories file"
+msgstr "Fichero de categorías no válido"
 
-#~ msgid "About"
-#~ msgstr "Acerca de"
+msgid ""
+"This budgetary lines list has been produced with grisbi version %s, Grisbi "
+"will nevertheless try to import it."
+msgstr ""
+"Esta lista de líneas presupuestarias han sido producidas con la versión de "
+"Grisbi %s, Grisbi nunca más intentará importarla."
 
-#~ msgid "On line User's guide"
-#~ msgstr "Guía del usuario en línea"
+msgid ""
+"Grisbi needs to open a temporary file in order to import Gnucash data but "
+"file can't be created.  Check that you have permission to do that."
+msgstr ""
+"Grisbi necesita abrir un fichero temporal para importar la información de "
+"Gnucash pero el fichero no puede ser creado.  Compruebe que tiene permisos "
+"para hacer esto."
 
-#~ msgid "Cannot process OFX file '%s'"
-#~ msgstr "No se puede procesar el fichero OFX '%s'"
-
-#~ msgid "The OFX support can not be enabled!"
-#~ msgstr "¡El soporte para OFX no puede ser activado!"
-
-#~ msgid "The new account has not been created."
-#~ msgstr "La nueva cuenta no ha sido creada."
-
-#~ msgid ""
-#~ "An error or warning has occured. Do you still want to import the file ?"
-#~ msgstr "Un error o aviso ha ocurrido. ¿ Aun quiere importar el archivo ?"
-
-#~ msgid "The file has returned the next message :\n"
-#~ msgstr "El archivo ha devuelto el siguiente mensaje :\n"
-
-#~ msgid "The file has returned a warning message which is no valid."
-#~ msgstr "El archivo ha devuelto un mensaje de aviso que no es válido."
-
-#~ msgid ""
-#~ "That file contains something on proc_security_cb.\n"
-#~ "I didn't have any file to test that function.\n"
-#~ "Please contact the grisbi team to implement that function."
-#~ msgstr ""
-#~ "Ese archivo contiene algo en proc_security_cb.\n"
-#~ "No tenía ningún archivo para probar esa función.\n"
-#~ "Por favor contacte con el equipo de Grisbi para implementar esa función."
-
-#~ msgid "A transaction try to be saved but no account was created...\n"
-#~ msgstr ""
-#~ "Intentó guardar una transacción pero no ha creado ninguna cuenta...\n"
-
-#~ msgid "Interest"
-#~ msgstr "Interés"
-
-#~ msgid "Dividend"
-#~ msgstr "Dividendo"
-
-#~ msgid "Service charge"
-#~ msgstr "Cargo por el servicio"
-
-#~ msgid "Cash dispenser"
-#~ msgstr "Dispensador de caja."
-
-#~ msgid "Point of sale"
-#~ msgstr "Punto de venta"
-
-#~ msgid "Electronic payment"
-#~ msgstr "Pago electrónico"
-
-#~ msgid "Cash"
-#~ msgstr "Caja"
-
-#~ msgid "Direct deposit"
-#~ msgstr "Depósito directo"
-
-#~ msgid "Merchant initiated debit"
-#~ msgstr "Débito mercantil iniciado"
-
-#~ msgid "Repeating payment/standing order"
-#~ msgstr "Repitiendo el orden del pago/asentamiento"
-
-#~ msgid "Current balance: %4.2f %s"
-#~ msgstr "Balance actual: %4.2f %s"
-
-#~ msgid "Invalid date."
-#~ msgstr "Fecha no válida."
-
-#~ msgid "Curent balance"
-#~ msgstr "Balance actual"
-
-#~ msgid "Account breakdown"
-#~ msgstr "Anotación en la cuenta"
-
-#~ msgid "Confirmation of transaction removal"
-#~ msgstr "Confirmación de borrado de una transacción"
-
-#~ msgid ""
-#~ "You are currently trying to remove a transaction.  There is no undo for "
-#~ "this.  Do you confirm the removal?"
-#~ msgstr ""
-#~ "Está intentando borrar una transacción.  No hay deshacer para esto.  "
-#~ "¿Confirma el borrado?"
-
-#~ msgid "No reconciliation number"
-#~ msgstr "Sin número reconciliación"
-
-#~ msgid "Impossible to delete a reconciled transaction."
-#~ msgstr "Es imposible borrar una transacción reconciliada."
-
-#~ msgid ""
-#~ "The contra-transaction of this transfer is reconciled, deletion "
-#~ "impossible."
-#~ msgstr ""
-#~ "La contratransacción de esta transferencia está reconciliada, el borrado "
-#~ "es imposible."
-
-#~ msgid ""
-#~ "One of the breakdown lines is a transfer whose contra-transaction is "
-#~ "reconciled.  Deletion canceled."
-#~ msgstr ""
-#~ "Una de las líneas de anotación es una transferencia cuya "
-#~ "contratransacción está reconciliada.  Borrado cancelado."
-
-#~ msgid "Transactions list lines"
-#~ msgstr "Líneas de la lista de transacciones"
-
-#~ msgid "Do not Warn if balances are under minimum levels"
-#~ msgstr "No avisar si los balances están bajo sus niveles mínimos"
-
-#~ msgid "Do not warn if account file is readable by someone else"
-#~ msgstr "No avisar si el fichero de cuentas es legible por alguién más"
-
-#~ msgid "Do not warn about an already opened file"
-#~ msgstr "No avisar sobre un fichero ya abierto"
-
-#~ msgid "Do not warn about QIF not containing currencies"
-#~ msgstr "No avisar sobre ficheros QIF que no contengan monedas"
-
-#~ msgid ""
-#~ "Do not warn about manually reconciliation\n"
-#~ "(with shortcut <Ctrl><R>)"
-#~ msgstr ""
-#~ "No avisar sobre reconciliaciones manuales\n"
-#~ "(con el atajo <Ctrl><R>)"
-
-#~ msgid "Do not warn about removal transaction"
-#~ msgstr "No advertir sobre el borrado de transacciones"
-
-#~ msgid "Do not warn about removal scheduled transaction"
-#~ msgstr "No avisar sobre el borrado de una transacción programada"
-
-#~ msgid "Do not warn about incomplete breakdown"
-#~ msgstr "No avisar sobre anotaciones incompletas"
-
-#~ msgid "Do not warn about no reconciliation reference"
-#~ msgstr "No avisar si no hay referencia de reconciliación"
-
-#~ msgid "Do not warn about existing reconciliation reference"
-#~ msgstr "No avisar sobre la existencia de una referencia de reconciliación"
-
-#~ msgid "Do not warn about last chance to abort reconciliation"
-#~ msgstr ""
-#~ "No avisar sobre la última oportunidad para abortar una reconciliación"
-
-#~ msgid "Backup compression level"
-#~ msgstr "Nivel de compresión de la copia de seguridad"
-
-#~ msgid "Wait please..."
-#~ msgstr "Espere por favor..."
-
-#~ msgid "This file is empty!"
-#~ msgstr "¡Este archivo está vacío!"
-
-#~ msgid "Imported account with no name"
-#~ msgstr "Cuenta importada sin nombre"
-
-#~ msgid "Dates can't be parsed in QIF file."
-#~ msgstr "Las fechas no pueden ser separadas en el archivo QIF."
-
-#~ msgid ""
-#~ "Grisbi automatically tries to parse dates from QIF files using "
-#~ "heuristics.  Please double check that they are valid and contact grisbi "
-#~ "development team for assistance if needed"
-#~ msgstr ""
-#~ "Grisbi automáticamente intentará dividir las fechas de los archivos QIF "
-#~ "usando heuristica.  Por favor compruebe por duplicado que son válidas y "
-#~ "contacte con el equipo de desarrollo de Grisbi si necesita asistencia"
-
-#~ msgid "QIF format does not define currencies."
-#~ msgstr "El formato QIF no define tipos de moneda."
-
-#~ msgid "Export QIF files"
-#~ msgstr "Exportar archivos QIF"
-
-#~ msgid "File name '%s' invalid !"
-#~ msgstr "¡El nombre de fichero '%s' no es válido!"
-
-#~ msgid "Third parties list"
-#~ msgstr "Lista de terceras partes"
-
-#~ msgid "Amount per third party"
-#~ msgstr "Cantidad por terceras partes"
-
-#~ msgid "Last date"
-#~ msgstr "Última fecha"
-
-#~ msgid "Add a third party"
-#~ msgstr "Añadir una tercer parte"
-
-#~ msgid ""
-#~ "Some transactions are still assigned to this third party.\n"
-#~ "\n"
-#~ "You can"
-#~ msgstr ""
-#~ "Algunas transacciones están todavía asignadas a esta tercera parte.\n"
-#~ "\n"
-#~ "Usted puede"
-
-#~ msgid "Just delete this third party."
-#~ msgstr "Tan sólo borrar esta tercera parte."
-
-#~ msgid "Please enter a third party."
-#~ msgstr "Por favor introduzca una tercera parte."
-
-#~ msgid ""
-#~ "Grisbi is unable to find this third party.  Be sure entered name is valid "
-#~ "and that this third party exists."
-#~ msgstr ""
-#~ "Grisbi no puede encontrar esta tercera parte.  Asegúrese de que el nombre "
-#~ "introducido es correcto y que esta tercera parte existe."
-
-#~ msgid "Third party %s not found."
-#~ msgstr "Tercera parte %s no encontrada."
-
-#~ msgid "New third party"
-#~ msgstr "Nueva tercera parte"
-
-#~ msgid "Enter the new third party's name"
-#~ msgstr "Introduzca el nombre de la nueva tercera parte"
-
-#~ msgid ""
-#~ "Third party names must be both unique and not empty.  Please use another "
-#~ "name for this third party."
-#~ msgstr ""
-#~ "Los nombre de las terceras partes deben ser únicos y no vacíos.  Por "
-#~ "favor utilice otro nombre para esta tercera parte"
-
-#~ msgid "Third party '%s' already exists."
-#~ msgstr "La tercera parte '%s' ya existe."
-
-#~ msgid ""
-#~ "Grisbi was unable to execute '%s'\n"
-#~ "Please adjust your settings to a valid executable."
-#~ msgstr ""
-#~ "Grisbi no pudo ejecutar '%s'\n"
-#~ "Por favor ajuste sus preferencias a un ejecutable válido."
-
-#~ msgid "This transaction has a reconciled breakdown line, deletion canceled."
-#~ msgstr ""
-#~ "Esta transacción tiene una línea de anotación reconciliada, borrado "
-#~ "cancelado."
-
-#~ msgid ""
-#~ "This transfer has a reconciled contra-transaction, deletion canceled."
-#~ msgstr ""
-#~ "Esta transferencia tiene una contratransacción reconciliada, borrado "
-#~ "cancelado."
+msgid "Error opening temporary file '%s'."
+msgstr "Error abriendo el fichero temporal '%s'."
 
 #, fuzzy
-#~ msgid "Value"
-#~ msgstr "Fecha efectiva"
+msgid ""
+"Grisbi is a free personal finance manager for everyone.\n"
+"Such a program allows you to sort your financial transactions, whatever they "
+"are, in a convenient and intuitive way.  Thus, you will be able to manage "
+"them as to fit your needs the more you can.\n"
+"Grisbi aims both at simplicty and efficiency for common use, and at a "
+"powerful use for power users.  We will always try to respect this as "
+"features will come."
+msgstr ""
+"Grisbi es una aplicación de contabilidad personal para Linux\n"
+"Este programa le permite organizar sus transacciones financieras, sean "
+"cuales sean,de una forma conveniente e intuitiva.  Así pues usted podrá "
+"manejar sus transacciones para adaptarlas a sus necesidades tanto como "
+"pueda.\n"
+"Grisbi combina simplicidad y eficiencia para el uso común, y un potente uso "
+"para usuarios más avezados.  Intentaremos siempre respetar ésto en el "
+"desarrollo de nuevas características."
 
-#~ msgid ""
-#~ "Impossible to create or entry an automatic scheduled transaction\n"
-#~ " with a cheque or a method of payment with an automatic incremental "
-#~ "number."
-#~ msgstr ""
-#~ "No es posible crear o introducir una transaccion programada automática\n"
-#~ " con un cheque o un método de pago que utilice un número de incremento "
-#~ "automático"
+msgid "Benjamin Drieu (bdrieu[at]april.org): Programming, Debian packaging"
+msgstr ""
+"Benjamin Drieu (bdrieu[at]april.org) : Programación, empaquetamiento para "
+"Debian"
 
-#~ msgid "Legal"
-#~ msgstr "Legal"
+msgid "Daniel Cartron (doc[at]grisbi.org): Manual, website, consultancy"
+msgstr "Daniel Cartron (doc[at]grisbi.org): Manual, sitio web, consultoría"
+
+msgid "Marek Donar (mdonar[at]post.cz): Czech"
+msgstr "Marek·Donar·(mdonar[at]post.cz):·checo"
+
+msgid "Mircea Aronovici (bucuresti[at]free.fr): Romanian"
+msgstr "Mircea Aronovici (bucuresti[at]free.fr): Rumano."
+
+msgid "Authors"
+msgstr "Autores"
+
+msgid "Translators"
+msgstr "Traductores"
+
+msgid ""
+"Grisbi is unable to determine type of this file.  If it is a QIF, an OFX "
+"file or a gnucash file, please contact the grisbi team to resolve this "
+"problem."
+msgstr ""
+"Grisbi no pudo determinar el tipo de este archivo.  Si este es un archivo "
+"QIF, un archivo OFX o un archivo gnucash, por favor contacte con el equipo "
+"de Grisbi para resolver este problema."
+
+msgid "File \"%s\" cannot be imported."
+msgstr "El archivo \"%s\" no puede ser importado."
+
+msgid "Actions on imported accounts:"
+msgstr "Acciones en las cuentas importadas:"
+
+msgid "Add more accounts"
+msgstr "Añadir más cuentas"
+
+msgid "List of the selection of accounts :"
+msgstr "Lista de selección de cuentas:"
+
+msgid "Action"
+msgstr "Acción"
+
+msgid "Origine"
+msgstr "Origen"
+
+msgid "none"
+msgstr "ninguno"
+
+msgid "Add the transactions"
+msgstr "Añadir las transacciones"
+
+msgid "QIF file"
+msgstr "Fichero QIF"
+
+msgid "OFX file"
+msgstr "Fichero OFX"
+
+msgid "no third party"
+msgstr "No hay terceras partes"
+
+msgid "Budgetary lines list"
+msgstr "Lista de las líneas prespuestarias"
+
+msgid "Amount per budget line"
+msgstr "Cantidad por línea presupuestaria"
+
+msgid "Amount per sub-budget line"
+msgstr "Cantidad por línea subprespuestaria"
+
+msgid "Add a budget line"
+msgstr "Añadir una línea presupuestaria"
+
+msgid "Add a sub-budget line"
+msgstr "Añadir una línea subpresupuestaria"
+
+msgid "No sub-budget line (%d)"
+msgstr "Sin línea subpresupuestaria (%d)"
+
+msgid "No budget line (%d)"
+msgstr "Sin línea presupuestaria (%d)"
+
+msgid "%d/%d/%d : %4.2f %s [ %s ]"
+msgstr "%d/%d/%d : %4.2f %s [ %s ]"
+
+msgid ""
+"Some transactions are still assigned to this budgetary line.\n"
+"\n"
+"You can"
+msgstr ""
+"Algunas transacciones todavía están asociadas a esta línea prespuestaria.\n"
+"\n"
+"Usted puede"
+
+msgid "Just delete the budgetary line."
+msgstr "Tan sólo borra la línea presupuestaria."
+
+msgid "Please enter a budgetary line!"
+msgstr "¡Por favor introduzca una línea presupuestaria!"
+
+msgid ""
+"Some transactions are still assigned to this sub-budgetary line.\n"
+"\n"
+"You can"
+msgstr ""
+"Algunas transacciones están todavía asociadas a esta línea "
+"subpresupuestaria.\n"
+"\n"
+"Usted puede"
+
+msgid "Just delete the sub-budgetary line."
+msgstr "Tan sólo borre la línea subpresupuestaria."
+
+msgid ""
+"Budgetary lines names must be both unique and not empty.  Please use another "
+"name for this budgetary line."
+msgstr ""
+"Los nombre de las líneas presupuestarias deben ser únicos y no pueden "
+"dejarse en blancao.  Por favor, use otro nombre para esta línea "
+"presupuestaria."
+
+msgid "Budgetary line '%s' already exists."
+msgstr "La línea presupuestaria '%s' ya existe."
+
+msgid ""
+"Sub-budgetary lines names must be both unique and not empty.  Please use "
+"another name for this sub-budgetary line."
+msgstr ""
+"Los nombres de las líneas subpresupuestarias deben ser únicos y no pueden "
+"estar vacíos.  Por favor utilice otro nombre para esta línea "
+"subpresupuestaria."
+
+msgid "Sub-budgetary line '%s' already exists."
+msgstr "La línea subpresupuestaria '%s' ya existe."
+
+msgid ""
+"Warning: this will add all the categories and subcategories to the budgetary "
+"lines!\n"
+"Besides you can't cancel this afterwards.\n"
+"We advise you not to use this unless you know exactly what you are doing.\n"
+"Do you want to continue anyway?"
+msgstr ""
+"Aviso: ¡Esto añadirá todas las categorías y subcategorías a las líneas "
+"presupuestarias!\n"
+"Además no podrá cancelar esto más adelante.\n"
+"¿Quiere continuar de cualquier modo?"
+
+msgid "Enter the name of the new budgetary line"
+msgstr "Introduzca el nombre de la nueva línea presupuestaria"
+
+msgid "Enter the name of the new sub-budgetary line"
+msgstr "Introduzca el nombre de la nueva línea subresupuestaria"
+
+msgid ""
+"File already contains transactions, the two budgetary lines lists will be "
+"merged."
+msgstr ""
+"El archivo ya contiene transacciones, las dos listas de líneas "
+"presupuestarias serán unidas."
+
+msgid "Merge the two lists of budgetary lines"
+msgstr "Unir las dos listas de líneas presupuestarias"
+
+msgid "Replace the old list of budgetary lines"
+msgstr "Reemplazar la antigua lista de líneas presupuestarias"
+
+msgid "QIF\\/OFX\\/Gnucash file ..."
+msgstr "QIF\\/OFX\\/Gnucash archivo ..."
+
+msgid "Debug file"
+msgstr "Depurar el archivo"
+
+msgid "Exit"
+msgstr "Salir"
+
+msgid "Use selected transaction as a template"
+msgstr "Usar las transacciones seleccionadas como una plantilla"
+
+msgid "Grisbi Manual"
+msgstr "Manual de Grisbi"
+
+msgid "About"
+msgstr "Acerca de"
+
+msgid "On line User's guide"
+msgstr "Guía del usuario en línea"
+
+msgid "Cannot process OFX file '%s'"
+msgstr "No se puede procesar el fichero OFX '%s'"
+
+msgid "The OFX support can not be enabled!"
+msgstr "¡El soporte para OFX no puede ser activado!"
+
+msgid "The new account has not been created."
+msgstr "La nueva cuenta no ha sido creada."
+
+msgid "An error or warning has occured. Do you still want to import the file ?"
+msgstr "Un error o aviso ha ocurrido. ¿ Aun quiere importar el archivo ?"
+
+msgid "The file has returned the next message :\n"
+msgstr "El archivo ha devuelto el siguiente mensaje :\n"
+
+msgid "The file has returned a warning message which is no valid."
+msgstr "El archivo ha devuelto un mensaje de aviso que no es válido."
+
+msgid ""
+"That file contains something on proc_security_cb.\n"
+"I didn't have any file to test that function.\n"
+"Please contact the grisbi team to implement that function."
+msgstr ""
+"Ese archivo contiene algo en proc_security_cb.\n"
+"No tenía ningún archivo para probar esa función.\n"
+"Por favor contacte con el equipo de Grisbi para implementar esa función."
+
+msgid "A transaction try to be saved but no account was created...\n"
+msgstr "Intentó guardar una transacción pero no ha creado ninguna cuenta...\n"
+
+msgid "Interest"
+msgstr "Interés"
+
+msgid "Dividend"
+msgstr "Dividendo"
+
+msgid "Service charge"
+msgstr "Cargo por el servicio"
+
+msgid "Cash dispenser"
+msgstr "Dispensador de caja."
+
+msgid "Point of sale"
+msgstr "Punto de venta"
+
+msgid "Electronic payment"
+msgstr "Pago electrónico"
+
+msgid "Cash"
+msgstr "Caja"
+
+msgid "Direct deposit"
+msgstr "Depósito directo"
+
+msgid "Merchant initiated debit"
+msgstr "Débito mercantil iniciado"
+
+msgid "Repeating payment/standing order"
+msgstr "Repitiendo el orden del pago/asentamiento"
+
+msgid "Current balance: %4.2f %s"
+msgstr "Balance actual: %4.2f %s"
+
+msgid "Invalid date."
+msgstr "Fecha no válida."
+
+msgid "Curent balance"
+msgstr "Balance actual"
+
+msgid "Account breakdown"
+msgstr "Anotación en la cuenta"
+
+msgid "Confirmation of transaction removal"
+msgstr "Confirmación de borrado de una transacción"
+
+msgid ""
+"You are currently trying to remove a transaction.  There is no undo for "
+"this.  Do you confirm the removal?"
+msgstr ""
+"Está intentando borrar una transacción.  No hay deshacer para esto.  "
+"¿Confirma el borrado?"
+
+msgid "No reconciliation number"
+msgstr "Sin número reconciliación"
+
+msgid "Impossible to delete a reconciled transaction."
+msgstr "Es imposible borrar una transacción reconciliada."
+
+msgid ""
+"The contra-transaction of this transfer is reconciled, deletion impossible."
+msgstr ""
+"La contratransacción de esta transferencia está reconciliada, el borrado es "
+"imposible."
+
+msgid ""
+"One of the breakdown lines is a transfer whose contra-transaction is "
+"reconciled.  Deletion canceled."
+msgstr ""
+"Una de las líneas de anotación es una transferencia cuya contratransacción "
+"está reconciliada.  Borrado cancelado."
+
+msgid "Transactions list lines"
+msgstr "Líneas de la lista de transacciones"
+
+msgid "Do not Warn if balances are under minimum levels"
+msgstr "No avisar si los balances están bajo sus niveles mínimos"
+
+msgid "Do not warn if account file is readable by someone else"
+msgstr "No avisar si el fichero de cuentas es legible por alguién más"
+
+msgid "Do not warn about an already opened file"
+msgstr "No avisar sobre un fichero ya abierto"
+
+msgid "Do not warn about QIF not containing currencies"
+msgstr "No avisar sobre ficheros QIF que no contengan monedas"
+
+msgid ""
+"Do not warn about manually reconciliation\n"
+"(with shortcut <Ctrl><R>)"
+msgstr ""
+"No avisar sobre reconciliaciones manuales\n"
+"(con el atajo <Ctrl><R>)"
+
+msgid "Do not warn about removal transaction"
+msgstr "No advertir sobre el borrado de transacciones"
+
+msgid "Do not warn about removal scheduled transaction"
+msgstr "No avisar sobre el borrado de una transacción programada"
+
+msgid "Do not warn about incomplete breakdown"
+msgstr "No avisar sobre anotaciones incompletas"
+
+msgid "Do not warn about no reconciliation reference"
+msgstr "No avisar si no hay referencia de reconciliación"
+
+msgid "Do not warn about existing reconciliation reference"
+msgstr "No avisar sobre la existencia de una referencia de reconciliación"
+
+msgid "Do not warn about last chance to abort reconciliation"
+msgstr "No avisar sobre la última oportunidad para abortar una reconciliación"
+
+msgid "Backup compression level"
+msgstr "Nivel de compresión de la copia de seguridad"
+
+msgid "Wait please..."
+msgstr "Espere por favor..."
+
+msgid "This file is empty!"
+msgstr "¡Este archivo está vacío!"
+
+msgid "Imported account with no name"
+msgstr "Cuenta importada sin nombre"
+
+msgid "Dates can't be parsed in QIF file."
+msgstr "Las fechas no pueden ser separadas en el archivo QIF."
+
+msgid ""
+"Grisbi automatically tries to parse dates from QIF files using heuristics.  "
+"Please double check that they are valid and contact grisbi development team "
+"for assistance if needed"
+msgstr ""
+"Grisbi automáticamente intentará dividir las fechas de los archivos QIF "
+"usando heuristica.  Por favor compruebe por duplicado que son válidas y "
+"contacte con el equipo de desarrollo de Grisbi si necesita asistencia"
+
+msgid "QIF format does not define currencies."
+msgstr "El formato QIF no define tipos de moneda."
+
+msgid "Export QIF files"
+msgstr "Exportar archivos QIF"
+
+msgid "File name '%s' invalid !"
+msgstr "¡El nombre de fichero '%s' no es válido!"
+
+msgid "Third parties list"
+msgstr "Lista de terceras partes"
+
+msgid "Amount per third party"
+msgstr "Cantidad por terceras partes"
+
+msgid "Last date"
+msgstr "Última fecha"
+
+msgid "Add a third party"
+msgstr "Añadir una tercer parte"
+
+msgid ""
+"Some transactions are still assigned to this third party.\n"
+"\n"
+"You can"
+msgstr ""
+"Algunas transacciones están todavía asignadas a esta tercera parte.\n"
+"\n"
+"Usted puede"
+
+msgid "Just delete this third party."
+msgstr "Tan sólo borrar esta tercera parte."
+
+msgid "Please enter a third party."
+msgstr "Por favor introduzca una tercera parte."
+
+msgid ""
+"Grisbi is unable to find this third party.  Be sure entered name is valid "
+"and that this third party exists."
+msgstr ""
+"Grisbi no puede encontrar esta tercera parte.  Asegúrese de que el nombre "
+"introducido es correcto y que esta tercera parte existe."
+
+msgid "Third party %s not found."
+msgstr "Tercera parte %s no encontrada."
+
+msgid "New third party"
+msgstr "Nueva tercera parte"
+
+msgid "Enter the new third party's name"
+msgstr "Introduzca el nombre de la nueva tercera parte"
+
+msgid ""
+"Third party names must be both unique and not empty.  Please use another "
+"name for this third party."
+msgstr ""
+"Los nombre de las terceras partes deben ser únicos y no vacíos.  Por favor "
+"utilice otro nombre para esta tercera parte"
+
+msgid "Third party '%s' already exists."
+msgstr "La tercera parte '%s' ya existe."
+
+msgid ""
+"Grisbi was unable to execute '%s'\n"
+"Please adjust your settings to a valid executable."
+msgstr ""
+"Grisbi no pudo ejecutar '%s'\n"
+"Por favor ajuste sus preferencias a un ejecutable válido."
+
+msgid "This transaction has a reconciled breakdown line, deletion canceled."
+msgstr ""
+"Esta transacción tiene una línea de anotación reconciliada, borrado "
+"cancelado."
+
+msgid "This transfer has a reconciled contra-transaction, deletion canceled."
+msgstr ""
+"Esta transferencia tiene una contratransacción reconciliada, borrado "
+"cancelado."
 
 #, fuzzy
-#~ msgid "/C"
-#~ msgstr "/C"
+msgid "Value"
+msgstr "Fecha efectiva"
 
-#~ msgid ""
-#~ "You are reconciling the account.  Pass this step, you won't able to undo "
-#~ "unless not save the file and reload it.  Be sure you want to do.\n"
-#~ "Proceed anyway?"
-#~ msgstr ""
-#~ "Va a reconciliar la cuenta.  Pasado esto, no podrá deshacer a menos que "
-#~ "salve el archivo y lo vuelva a cargar.  Debe estar seguro de lo que "
-#~ "quiere hacer.\n"
-#~ "¿Continuar de todos modos?"
+msgid ""
+"Impossible to create or entry an automatic scheduled transaction\n"
+" with a cheque or a method of payment with an automatic incremental number."
+msgstr ""
+"No es posible crear o introducir una transaccion programada automática\n"
+" con un cheque o un método de pago que utilice un número de incremento "
+"automático"
 
-#~ msgid "Show"
-#~ msgstr "Mostrar"
+msgid "Legal"
+msgstr "Legal"
 
-#~ msgid "Validate"
-#~ msgstr "Validar"
+#, fuzzy
+msgid "/C"
+msgstr "/C"
 
-#~ msgid "Valid"
-#~ msgstr "Válidar"
+msgid ""
+"You are reconciling the account.  Pass this step, you won't able to undo "
+"unless not save the file and reload it.  Be sure you want to do.\n"
+"Proceed anyway?"
+msgstr ""
+"Va a reconciliar la cuenta.  Pasado esto, no podrá deshacer a menos que "
+"salve el archivo y lo vuelva a cargar.  Debe estar seguro de lo que quiere "
+"hacer.\n"
+"¿Continuar de todos modos?"
 
-#~ msgid "This account does not contain any transaction"
-#~ msgstr "Esta cuenta no contiene ninguna transacción"
+msgid "Show"
+msgstr "Mostrar"
+
+msgid "Validate"
+msgstr "Validar"
+
+msgid "Valid"
+msgstr "Válidar"
+
+msgid "This account does not contain any transaction"
+msgstr "Esta cuenta no contiene ninguna transacción"
