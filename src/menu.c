@@ -314,6 +314,8 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 
     barre_menu = gtk_ui_manager_get_widget ( ui_manager, "/menubar" );
  
+    gsb_menu_transaction_operations_set_sensitive ( FALSE );
+
     return barre_menu;
 }
 
