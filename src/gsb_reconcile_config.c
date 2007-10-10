@@ -127,7 +127,8 @@ GtkWidget *gsb_reconcile_config_create ( void )
 					   G_TYPE_STRING,    /* init balance  */
 					   G_TYPE_STRING,    /* final balance  */
 					   G_TYPE_INT,       /* Account number */
-					   G_TYPE_INT );       /* reconcile number */
+					   G_TYPE_INT,       /* Bold or regular text */
+					   G_TYPE_INT );     /* reconcile number */
     reconcile_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (reconcile_model) );
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (reconcile_treeview), TRUE);
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (reconcile_treeview)),
@@ -155,6 +156,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 	gtk_tree_view_column_set_title ( column, titles[i] );
 	gtk_tree_view_column_set_attributes (column, cell,
 					     "text", i,
+					     "weight", RECONCILIATION_WEIGHT_COLUMN,
 					     NULL);
 	gtk_tree_view_column_set_expand ( column, TRUE );
 	gtk_tree_view_column_set_resizable ( column,
@@ -328,6 +330,7 @@ void gsb_reconcile_config_fill ( void )
 	gtk_tree_store_set ( GTK_TREE_STORE (model),
 			     &account_iter,
 			     RECONCILIATION_NAME_COLUMN, gsb_data_account_get_name (account_number),
+			     RECONCILIATION_WEIGHT_COLUMN, 800,
 			     RECONCILIATION_ACCOUNT_COLUMN, account_number,
 			     -1 );
 
@@ -356,6 +359,7 @@ void gsb_reconcile_config_fill ( void )
 		gtk_tree_store_set ( GTK_TREE_STORE (model),
 				     &reconcile_iter,
 				     RECONCILIATION_NAME_COLUMN, gsb_data_reconcile_get_name (reconcile_number),
+				     RECONCILIATION_WEIGHT_COLUMN, 400,
 				     RECONCILIATION_INIT_DATE_COLUMN, init_date,
 				     RECONCILIATION_FINAL_DATE_COLUMN, final_date,
 				     RECONCILIATION_INIT_BALANCE_COLUMN, init_balance,
