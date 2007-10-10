@@ -1880,7 +1880,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
     if ( !page )
     {
 	page = gtk_vbox_new ( FALSE,
-			      5 );
+			      0 );
 	gtk_notebook_append_page  (GTK_NOTEBOOK (main_page_finished_scheduled_transactions_part),
 				   page, NULL );
 	gtk_widget_show ( page );
