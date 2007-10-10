@@ -129,7 +129,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
 
     reconcile_number_entry = gtk_entry_new ();
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ), reconcile_number_entry,
-			   _("If reconciliation reference ends in a digit, it is automatically incremented at each reconciliation.\nYou can let it free if you don't want to keep a trace of the reconciliation."),
+			   _("If reconciliation reference ends in a digit, it is automatically incremented at each reconciliation.\nYou can let it empty if you don't want to keep a trace of the reconciliation."),
 			   _("Reconciliation reference") );
     g_signal_connect ( G_OBJECT ( reconcile_number_entry ),
 		       "key-press-event",
