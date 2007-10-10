@@ -212,10 +212,6 @@ void init_variables ( void )
     gsb_currency_init_variables ();
     gsb_fyear_init_variables ();
 
-    /* init the colors for the entries */
-    gsb_form_widget_init_entry_colors ();
-    gsb_calendar_init_entry_colors ();
-
     /* no bank in memory for now */
     bank_list_model = NULL;
 

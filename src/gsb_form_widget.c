@@ -63,11 +63,6 @@ extern GtkTooltips *tooltips_general_grisbi;
 /** contains a list of struct_element according to the current form */
 static GSList *form_list_widgets = NULL;
 
-/** the 2 styles, grey and normal for the entries of the form */
-static GtkStyle *style_entree_formulaire[2];
-#define ENCLAIR 0
-#define ENGRIS 1
-
 
 
 
@@ -131,40 +126,6 @@ gboolean gsb_form_widget_free_list ( void )
     return FALSE;
 }
 
-
-/**
- * init the colors for the differents states of the entries
- *
- * \param
- *
- * \return FALSE
- * */
-gboolean gsb_form_widget_init_entry_colors ( void )
-{
-    GdkColor normal_color;
-    GdkColor grey_color;
-
-    normal_color.red = COULEUR_NOIRE_RED;
-    normal_color.green = COULEUR_NOIRE_GREEN;
-    normal_color.blue = COULEUR_NOIRE_BLUE;
-    normal_color.pixel = 0;
-
-    grey_color.red = COULEUR_GRISE_RED;
-    grey_color.green = COULEUR_GRISE_GREEN;
-    grey_color.blue = COULEUR_GRISE_BLUE;
-    grey_color.pixel = 0;
-
-    style_entree_formulaire[ENCLAIR] = gtk_style_new();
-    style_entree_formulaire[ENCLAIR] -> text[GTK_STATE_NORMAL] = normal_color;
-
-    style_entree_formulaire[ENGRIS] = gtk_style_new();
-    style_entree_formulaire[ENGRIS] -> text[GTK_STATE_NORMAL] = grey_color;
-
-    g_object_ref ( style_entree_formulaire[ENCLAIR] );
-    g_object_ref ( style_entree_formulaire[ENGRIS] );
-
-    return FALSE;
-}
 
 
 /**
@@ -700,7 +661,7 @@ gboolean gsb_form_widget_check_empty ( GtkWidget *entry )
     if (GTK_IS_COMBOFIX (entry))
 	entry = GTK_COMBOFIX (entry) -> entry;
 
-    return (gtk_widget_get_style ( entry ) == style_entree_formulaire[ENGRIS] );
+    return (gboolean) g_object_get_data ( G_OBJECT(entry), "empty" );
 }
 
 
@@ -715,17 +676,37 @@ gboolean gsb_form_widget_check_empty ( GtkWidget *entry )
 void gsb_form_widget_set_empty ( GtkWidget *entry,
 				 gboolean empty )
 {
+    GdkColor gray, black;
+
+    gray.pixel = 0;
+    gray.red = COULEUR_GRISE_RED; 
+    gray.green = COULEUR_GRISE_GREEN;
+    gray.blue = COULEUR_GRISE_BLUE; 
+
+    black.pixel = 0;
+    black.red = 0;
+    black.green = 0;
+    black.blue = 0;
+
     if (!entry
 	||
 	!GTK_IS_ENTRY (entry))
 	return;
 
-    if (empty)
-	gtk_widget_set_style ( entry,
-			       style_entree_formulaire[ENGRIS] );
+    if ( ! empty )
+    {
+	gtk_widget_modify_text ( entry, 
+				 GTK_STATE_NORMAL,
+				 &black );
+    }
     else
-	gtk_widget_set_style (  entry,
-				style_entree_formulaire[ENCLAIR] );
+    {
+	gtk_widget_modify_text ( entry, 
+				 GTK_STATE_NORMAL,
+				 &gray );
+    }
+
+    g_object_set_data ( G_OBJECT(entry), "empty", (gpointer) empty );
 }
 
 

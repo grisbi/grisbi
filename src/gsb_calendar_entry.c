@@ -200,49 +200,33 @@ gboolean gsb_calendar_entry_date_valid ( GtkWidget *entry )
 gboolean gsb_calendar_entry_set_color ( GtkWidget *entry,
 					gboolean normal_color )
 {
+    GdkColor red, black;
+
+    red.pixel = 0;
+    red.red = COULEUR_BLANCHE_RED * 256; 
+    red.green = 0;
+    red.blue = 0;
+
+    black.pixel = 0;
+    black.red = 0;
+    black.green = 0;
+    black.blue = 0;
+
     if (!entry)
 	return FALSE;
 
     if (normal_color)
-	gtk_widget_set_style ( entry,
-			       calendar_base_style[ENTRY_NORMAL] );
+    {
+	gtk_widget_modify_text ( entry, 
+				 GTK_STATE_NORMAL,
+				 &black );
+    }
     else
-	gtk_widget_set_style ( entry,
-			       calendar_base_style[ENTRY_RED] );
-    return FALSE;
-}
-
-
-/**
- * init the colors for the differents states of the calendar entry
- *
- * \param
- *
- * \return FALSE
- * */
-gboolean gsb_calendar_init_entry_colors ( void )
-{
-    GdkColor normal_color;
-    GdkColor red_color;
-
-    normal_color.red = COULEUR_BLANCHE_RED;
-    normal_color.green = COULEUR_BLANCHE_GREEN;
-    normal_color.blue = COULEUR_BLANCHE_BLUE;
-    normal_color.pixel = 0;
-
-    red_color.red = COULEUR_GRISE_RED;
-    red_color.green = 0;
-    red_color.blue = 0;
-    red_color.pixel = 0;
-
-    calendar_base_style[ENTRY_NORMAL] = gtk_style_new();
-    calendar_base_style[ENTRY_NORMAL] -> base[GTK_STATE_NORMAL] = normal_color;
-
-    calendar_base_style[ENTRY_RED] = gtk_style_new();
-    calendar_base_style[ENTRY_RED] -> base[GTK_STATE_NORMAL] = red_color;
-
-    g_object_ref ( calendar_base_style[ENTRY_NORMAL] );
-    g_object_ref ( calendar_base_style[ENTRY_RED] );
+    {
+	gtk_widget_modify_text ( entry, 
+				 GTK_STATE_NORMAL,
+				 &red );
+    }
 
     return FALSE;
 }
@@ -434,18 +418,7 @@ gboolean gsb_calendar_entry_focus_out ( GtkWidget *entry,
     gint valid;
 
     valid = gsb_date_check_and_complete_entry (entry, GPOINTER_TO_INT (set_today));
-    if (valid)
-    {
-	/* the date is valid, make it normal */
-	gtk_widget_set_style ( entry,
-			       calendar_base_style[ENTRY_NORMAL] );
-    }
-    else
-    {
-	/* the date is not valid, make it red */
-	gtk_widget_set_style ( entry,
-			       calendar_base_style[ENTRY_RED] );
-    }
+    gsb_calendar_entry_set_color ( entry, valid ) ;    
 
     return FALSE;
 }
@@ -472,8 +445,7 @@ gboolean gsb_calendar_entry_changed ( GtkWidget *entry,
     /* if nothing in the entry, keep the normal style */
     if (!strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
     {
-	gtk_widget_set_style ( entry,
-			       calendar_base_style[ENTRY_NORMAL] );
+	gsb_calendar_entry_set_color ( entry, TRUE );
 	return FALSE;
     }
 
@@ -482,15 +454,13 @@ gboolean gsb_calendar_entry_changed ( GtkWidget *entry,
     if (date)
     {
 	/* the date is valid, make it normal */
-	gtk_widget_set_style ( entry,
-			       calendar_base_style[ENTRY_NORMAL] );
+	gsb_calendar_entry_set_color ( entry, TRUE );
 	g_date_free (date);
     }
     else
     {
 	/* the date is not valid, make it red */
-	gtk_widget_set_style ( entry,
-			       calendar_base_style[ENTRY_RED] );
+	gsb_calendar_entry_set_color ( entry, FALSE );
     }
 
     return FALSE;
