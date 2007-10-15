@@ -1,5 +1,4 @@
 New in version CVS HEAD :
- - New english file structure
  - Encryption of the file
  - Improved user interface
    + Tabs deprecated in favor of a navigation tree
@@ -7,19 +6,26 @@ New in version CVS HEAD :
    + Totally redesigned transaction list with native GTK2 widgets
    + Optional grid in transaction list
    + New "view" menu
+   + Use of assistants to ease some operations
    + Custom sort for transaction list columns
- - Extensive use of idle to speed up process
+   + Astonishing icons ... can't ask for more!
+ - Archival of old transactions, possibly into separate files
  - Form structure defined by user
  - End of the obligation to use Euro
  - Gnucash and CSV files import
- - Use of + and - in amount entry
+ - HBCI support through aqbanking plugin
+ - Use of + and - in amount entry to increment/decrement values
  - Tip of the day
  - Import and Export dialogs use assistants
  - Reconciled transactions are "archived" by default
  - Tip of the day support
  - Grisbi suggests a default currency according to your locale settings
- - Dates are now printed and parsed according to the locale,
-   no more ugly european dates
+ - Dates are now displayed and parsed according to the locale,
+   no more ugly european dates!
+ - Amounts are displayed according to locale
+ - It is now possible to omit decimal separator in numerical fields
+ - Plugin system
+ - New english file format
  - And more!
 
 New in version 0.5.0 :
