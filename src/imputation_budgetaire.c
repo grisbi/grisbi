@@ -463,8 +463,13 @@ void importer_ib ( void )
 }
 
 
-/** 
- * TODO: document this
+/**
+ * Create a button bar allowing to act on the budgetary lines list.
+ * Some of these buttons are "linked" to the selection status of the
+ * budgetary lines metatree.  That is, if nothing is selected, they will
+ * become unsensitive.
+ *
+ * \return	A newly-allocated widget.
  */
 GtkWidget *creation_barre_outils_ib ( void )
 {
@@ -558,8 +563,13 @@ GtkWidget *creation_barre_outils_ib ( void )
 
 
 
-/** 
- * TODO: document this
+/**
+ * Popup a menu that allow changing the view mode of the category
+ * metatree.
+ *
+ * \param button	Button that triggered the signal.
+ *
+ * \return		FALSE
  */
 gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button )
 {

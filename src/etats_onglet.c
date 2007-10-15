@@ -62,8 +62,6 @@ static void importer_etat ( void );
 
 
 GtkWidget *frame_liste_etats;
-/** TODO put that in the state frame above  */
-/* GtkWidget *label_etat_courant;        /\* label en haut de la liste des états *\/ */
 GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
 GtkWidget *bouton_effacer_etat;
 GtkWidget *bouton_personnaliser_etat;

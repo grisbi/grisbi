@@ -53,14 +53,14 @@ extern gint max;
 
 
 /**
- * return the real in a formatted string :
- * - the separator is a . or , according to the currency/locale (TODO)
- * - a space between the thousand
+ * Return the real in a formatted string, according to the locale
+ * regarding decimal separator, thousands separator and positive or
+ * negative sign.
+ * 
+ * \param number	Number to format.
  *
- * \param number
- *
- * \return a newly allocated string of the number (this function will never return NULL)
- * */
+ * \return		A newly allocated string of the number (this
+ *			function will never return NULL) */
 gchar *gsb_real_get_string ( gsb_real number )
 {
     struct lconv * conv = localeconv();

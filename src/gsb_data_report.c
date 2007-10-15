@@ -4048,15 +4048,13 @@ gboolean gsb_data_report_move_report ( gint report_number,
 				   report );
 
     tmp_list = report_list;
-    while ( tmp_list
-	    ||
-	    !found )
+    while ( tmp_list && !found )
     {
 	struct_report *report_tmp;
 
 	report_tmp = tmp_list -> data;
 
-	if (report_tmp -> report_number == dest_report_number)
+	if ( report_tmp && report_tmp -> report_number == dest_report_number)
 	{
 	    report_list = g_slist_insert_before ( report_list,
 						   tmp_list,

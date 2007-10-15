@@ -241,7 +241,7 @@ GtkWidget *gsb_archive_config_create ( void )
 			 TRUE, FALSE,
 			 0 );
 
-    label = gtk_label_new (_("		Warm if more than "));
+    label = gtk_label_new (_("		Wars if more than "));
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 label,
 			 FALSE, FALSE,

@@ -419,8 +419,13 @@ void importer_categ ( void )
 
 
 
-/** 
- * TODO: document this
+/**
+ * Create a button bar allowing to act on the categories list.  Some
+ * of these buttons are "linked" to the selection status of the
+ * category metatree.  That is, if nothing is selected, they will
+ * become unsensitive.
+ *
+ * \return	A newly-allocated widget.
  */
 GtkWidget *creation_barre_outils_categ ( void )
 {
@@ -513,8 +518,13 @@ GtkWidget *creation_barre_outils_categ ( void )
 
 
 
-/** 
- * TODO: document this
+/**
+ * Popup a menu that allow changing the view mode of the category
+ * metatree.
+ *
+ * \param button	Button that triggered the signal.
+ *
+ * \return		FALSE
  */
 gboolean popup_category_view_mode_menu ( GtkWidget * button )
 {

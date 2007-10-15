@@ -271,7 +271,7 @@ gboolean gsb_csv_export_account ( const gchar *filename, gint account_nb )
 	gsb_csv_export_title_line (csv_file, TRUE);
 
     /* set the initial balance */
-    csv_field_tiers = g_strdup_printf ( g_strconcat (_("Initial current_balance") , " [", 
+    csv_field_tiers = g_strdup_printf ( g_strconcat (_("Initial balance") , " [", 
 						     gsb_data_account_get_name(account_nb),
 						     "]", NULL ) );
 

@@ -5175,10 +5175,10 @@ gboolean gsb_transactions_list_draw_grid ( gboolean show_grid )
 
     if ( show_grid )
     {
-	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
-				       GTK_TREE_VIEW_GRID_LINES_VERTICAL );
-	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_scheduler_list_get_tree_view ()),
-				       GTK_TREE_VIEW_GRID_LINES_BOTH );
+/* 	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()), */
+/* 				       GTK_TREE_VIEW_GRID_LINES_VERTICAL ); */
+/* 	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_scheduler_list_get_tree_view ()), */
+/* 				       GTK_TREE_VIEW_GRID_LINES_BOTH ); */
 	gtk_tree_view_set_row_separator_func ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
 					       (GtkTreeViewRowSeparatorFunc) gsb_transactions_list_separator_func,
 					       NULL,
@@ -5186,10 +5186,10 @@ gboolean gsb_transactions_list_draw_grid ( gboolean show_grid )
     }
     else
     {
-	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view()),
-				       GTK_TREE_VIEW_GRID_LINES_NONE );
-	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_scheduler_list_get_tree_view ()),
-				       GTK_TREE_VIEW_GRID_LINES_NONE );
+/* 	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view()), */
+/* 				       GTK_TREE_VIEW_GRID_LINES_NONE ); */
+/* 	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_scheduler_list_get_tree_view ()), */
+/* 				       GTK_TREE_VIEW_GRID_LINES_NONE ); */
 	gtk_tree_view_set_row_separator_func ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
 					       NULL,
 					       NULL,

@@ -2,7 +2,7 @@
 /*      etats_gtktable.c */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2004-2007 Benjamin Drieu (bdrieu@april.org)		      */
 /* 			http://www.grisbi.org				      */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -69,8 +69,18 @@ extern GtkWidget *scrolled_window_etat ;
 
 
 /**
- * Draw a label 
+ * Attach a label at given positions.
  *
+ * \param text			Text to display in label
+ * \param properties		Bit mask of text properties
+ * \param x			Left horizontal position
+ * \param x2			Right horizontal position
+ * \param y			Top vertical position
+ * \param y2			Bottom vertical position
+ * \param align			Horizonal align of the label
+ * \param transaction_number	Number of the related transaction if
+ *				label is part of a transaction.  Make
+ *				an hyperlink if applicable
  */
 void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
 			     enum alignement align, gint transaction_number )
@@ -166,8 +176,12 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 
 
 /**
- * FIXME: TODO
+ * Attach a vertical separator at given positions.
  *
+ * \param x		Left horizontal position
+ * \param x2		Right horizontal position
+ * \param y		Top vertical position
+ * \param y2		Bottom vertical position
  */
 void gtktable_attach_vsep ( int x, int x2, int y, int y2)
 {
@@ -185,8 +199,12 @@ void gtktable_attach_vsep ( int x, int x2, int y, int y2)
 
 
 /**
- * FIXME: TODO
+ * Attach an horizontal separator at given positions.
  *
+ * \param x		Left horizontal position
+ * \param x2		Right horizontal position
+ * \param y		Top vertical position
+ * \param y2		Bottom vertical position
  */
 void gtktable_attach_hsep ( int x, int x2, int y, int y2)
 {

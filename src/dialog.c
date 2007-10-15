@@ -222,8 +222,14 @@ GtkWidget * dialogue_special_no_run ( GtkMessageType param, GtkButtonsType butto
 
 
 /**
- * TODO : comment
+ * Update the value of a message in memory according to the state of a
+ * checkbox button.  These messages are conditional dialogs (see
+ * dialogue_conditional_new()).  Normally called as an event.
  *
+ * \param checbox	GtkCheckbox that triggered this event.
+ * \param message	Message ID.
+ *
+ * \return		FALSE.
  */
 gboolean dialogue_update_var ( GtkWidget * checkbox, gint message )
 {

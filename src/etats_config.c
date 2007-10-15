@@ -57,7 +57,6 @@
 /*START_STATIC*/
 static void ajoute_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison_number );
 static void ajoute_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_number );
-static void annule_modif_config ( void );
 static void change_comparaison_montant ( GtkWidget *menu_item,
 				  gint amount_comparison_number );
 static void change_comparaison_texte ( GtkWidget *menu_item,
@@ -1054,7 +1053,6 @@ void personnalisation_etat (void)
 	    break;
 
 	default:
-	    annule_modif_config ();
 	    break;
     }
 
@@ -1101,13 +1099,6 @@ gboolean report_tree_selectable_func (GtkTreeSelection *selection,
 }
 
 
-
-/******************************************************************************/
-void annule_modif_config ( void )
-{
-/* TODO */
-}
-/******************************************************************************/
 
 /******************************************************************************/
 void selectionne_liste_exo_etat_courant ( void )
@@ -1341,14 +1332,6 @@ void recuperation_info_perso_etat ( void )
     {
 	gsb_data_report_set_report_name ( current_report_number,
 					  pointeur_char );
-
-/* 	gtk_label_set_text ( GTK_LABEL ( label_etat_courant ), */
-/* 			     gsb_data_report_get_report_name (current_report_number) ); */
-
-	/* on réaffiche la liste des états */
-
-    /* TODO, update with navigation list */
-/* 	remplissage_liste_etats (); */
     }
 
     /* récupération du type de classement */

@@ -284,7 +284,7 @@ GtkWidget *onglet_affichage_operations ( void )
 
     /* Account distinction */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
-					    COLON(_("Account distinction")));
+					    COLON(_("Account differentiation")));
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 gsb_automem_checkbutton_new (_("Remember display settings for each account separately"),

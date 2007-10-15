@@ -230,6 +230,14 @@ GtkWidget *onglet_tiers ( void )
 
 
 
+/**
+ * Create a button bar allowing to act on the payee list.  Some of
+ * these buttons are "linked" to the selection status of the payee
+ * metatree.  That is, if nothing is selected, they will become
+ * unsensitive.
+ *
+ * \return	A newly-allocated widget.
+ */
 GtkWidget *creation_barre_outils_tiers ( void )
 {
     GtkWidget *hbox, *handlebox, *button;
@@ -287,8 +295,13 @@ GtkWidget *creation_barre_outils_tiers ( void )
 
 
 
-/** 
- * TODO: document this
+/**
+ * Popup a menu that allow changing the view mode of the category
+ * metatree.
+ *
+ * \param button	Button that triggered the signal.
+ *
+ * \return		FALSE
  */
 gboolean popup_payee_view_mode_menu ( GtkWidget * button )
 {
