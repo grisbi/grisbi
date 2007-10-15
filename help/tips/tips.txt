@@ -1,49 +1,49 @@
-1 - "You can press <tt>Ctrl-R</tt> to reconcile a transaction in transactions list."
+1 _ 'You can press <tt>Ctrl-R</tt> to reconcile a transaction in transactions list.'
 
-2 - "Grisbi automatically saves a copy of your work if it segfaults.
+2 _ 'Grisbi automatically saves a copy of your work if it segfaults.
 
-Thus it is unlikely that you loose any data in case Grisbi encounters a segmentation error."
+Thus it is unlikely that you loose any data in case Grisbi encounters a segmentation error.'
 
-3 - "Grisbi can import Gnucash files natively, then you don't loose your work when you switch from Gnucash to Grisbi."
+3 _ 'Grisbi can import Gnucash files natively, then you don't loose your work when you switch from Gnucash to Grisbi.'
 
-4 - "You can organize transactions into budgetary lines, which are budgetary items (why money is spent) that can help you classify your spendings.
+4 _ 'You can organize transactions into budgetary lines, which are budgetary items (why money is spent) that can help you classify your spendings.
 
-Combined with categories (how money is spend), budgetary lines are a powerful way to analyse budget and to make reports."
+Combined with categories (how money is spend), budgetary lines are a powerful way to analyse budget and to make reports.'
 
-5 - "You can create categories or budgetary lines directly by typing them in transaction form.
+5 _ 'You can create categories or budgetary lines directly by typing them in transaction form.
 
-If you write a category or a budgetary line which name contains a ":", a sub-category or sub-budgetary line will be created as well."
+If you write a category or a budgetary line which name contains a ':', a sub-category or sub-budgetary line will be created as well.'
 
-6 - "You can encrypt your Grisbi files to improve your privacy.  Just select the \"Encrypt Grisbi file\" in preferences window and enter a password next time you save your file.
+6 _ 'You can encrypt your Grisbi files to improve your privacy.  Just select the \'Encrypt Grisbi file\' in preferences window and enter a password next time you save your file.
 
-Encryption is irreversible, if you loose your password, there is NO WAY to restore your Grisbi accounts.  Use with caution !"
+Encryption is irreversible, if you loose your password, there is NO WAY to restore your Grisbi accounts.  Use with caution !'
 
-7 - "You can efficiently manage your professional expenses with Grisbi.
+7 _ 'You can efficiently manage your professional expenses with Grisbi.
 
 Create a <i>Professional expenses</i> budgetary line and put all professional expenses there.  When you are paid, split your salary as a breakdown of transaction, with both a <i>Salary</i> part and a <i>Profesionnal expenses</i> part.  
 
-Then, you can create a new report that sums up transactions from the <i>Profesionnal expenses</i> budgetary line and see the balance."
+Then, you can create a new report that sums up transactions from the <i>Profesionnal expenses</i> budgetary line and see the balance.'
 
-8 - "You can double-click on any date entry to pop up a calendar in order to enter a date more easily."
+8 _ 'You can double-click on any date entry to pop up a calendar in order to enter a date more easily.'
 
-9 - "You can use the import facility to automatically reconcile transactions against a QIF or OFX file from your online bank."
+9 _ 'You can use the import facility to automatically reconcile transactions against a QIF or OFX file from your online bank.'
 
-10 - "You can configure the contents of the transaction list.
+10 _ 'You can configure the contents of the transaction list.
 
-Right-click on a cell of the transaction list and select the <i>Change cell content</i> option.  Then select any content you want and configure transaction list to your needs."
+Right-click on a cell of the transaction list and select the <i>Change cell content</i> option.  Then select any content you want and configure transaction list to your needs.'
 
-11 - "You can configure fields displayed in the transaction form.
+11 _ 'You can configure fields displayed in the transaction form.
 
-Go to the <i>Preferences</i> dialog and select the <i>Form content</i> option.  Then you can click on fields to be displayed and drag them through the form to adjust their position."
+Go to the <i>Preferences</i> dialog and select the <i>Form content</i> option.  Then you can click on fields to be displayed and drag them through the form to adjust their position.'
 
-12 - "You can hide annoying dialogs like this one, by clicking the <i>\"Do not show this message again\"</i> checkbox in this dialog.  
+12 _ 'You can hide annoying dialogs like this one, by clicking the <i>\'Do not show this message again\'</i> checkbox in this dialog.  
 
-You can then activate them again by going to the <i>Preferences</i> window and then to the <i>Dialog and messages</i> option."
+You can then activate them again by going to the <i>Preferences</i> window and then to the <i>Dialog and messages</i> option.'
 
-13 - "By double cliking on a date field, you can pop up a calendar to select a date."
+13 _ 'By double cliking on a date field, you can pop up a calendar to select a date.'
 
-14 - "There are shortcuts in date fields, to avoid typing date or selecting it with mouse.
+14 _ 'There are shortcuts in date fields, to avoid typing date or selecting it with mouse.
 
-<i>Up</i> and <i>Down</i> increment and decrement date of one day, <i>Page Up</i> and <i>Page Down</i> increment and decrement date of one month ... and there are more, check out the manual."
+<i>Up</i> and <i>Down</i> increment and decrement date of one day, <i>Page Up</i> and <i>Page Down</i> increment and decrement date of one month ... and there are more, check out the manual.'
 
-15 - "No more tip available !  Please send any tips you know to grisbi-devel@lists.sourceforge.net so that we can include them in next version for all users."
+15 _ 'No more tip available !  Please send any tips you know to grisbi-devel@lists.sourceforge.net so that we can include them in next version for all users.'

@@ -18,7 +18,7 @@ localedir = ${datadir}/locale
 all:	$(GMOFILES)
 
 tips.pot:	tips.txt
-	xgettext --language=shell --keyword=- -o tips.pot -s tips.txt
+	$(XGETTEXT) --language=perl --keyword=_ -o tips.pot -s tips.txt
 
 %.pox:	%.po
 	$(MAKE) grisbi-tips.pot

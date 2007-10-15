@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-29 20:59+0100\n"
+"POT-Creation-Date: 2007-10-15 18:05+0200\n"
 "PO-Revision-Date: 2004-12-29 20:58+0100\n"
 "Last-Translator: Benjamin Drieu <bdrieu@april.org>\n"
 "Language-Team: Francais <traduction@grisbi.org>\n"
@@ -16,9 +16,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.0.2\n"
 
-#: tips.txt:3
+#: tips.txt:43
 msgid ""
-"Grisbi automatically save a copy of your work if it segfaults.\n"
+"By double cliking on a date field, you can pop up a calendar to select a "
+"date."
+msgstr ""
+
+#: tips.txt:3
+#, fuzzy
+msgid ""
+"Grisbi automatically saves a copy of your work if it segfaults.\n"
 "\n"
 "Thus it is unlikely that you loose any data in case Grisbi encounters a "
 "segmentation error."
@@ -30,50 +37,78 @@ msgstr ""
 "sur une erreur de segmentation."
 
 #: tips.txt:7
-msgid ""
-"Grisbi can import Gnucash files natively, then you don't loose your work "
-"when you switch from Gnucash to Grisbi."
+#, fuzzy
+msgid "Grisbi can import Gnucash files natively, then you don"
 msgstr ""
 "Grisbi peut importer des fichiers Gnucash nativement.  Ainsi, vous ne perdez "
 "pas de travail quand vous passez de Gnucash à Grisbi."
 
-#: tips.txt:15
+#: tips.txt:49
+#, fuzzy
 msgid ""
-"No more tips available !  Please send any tips you know to grisbi-"
-"devel@lists.sourceforge.net so that we can include them in next version for "
-"all users."
+"No more tip available !  Please send any tips you know to grisbi-devel@lists."
+"sourceforge.net so that we can include them in next version for all users."
 msgstr ""
 "Plus d'astuce disponible !  Si vous en avez, envoyez les astuces que vous "
 "connaissez à grisbi-devel@lists.sourceforge.net pour que nous puissons les "
 "inclure dans la prochaine version et en faire profiter tous les utilisateurs "
 "de Grisbi."
 
-#: tips.txt:11
+#: tips.txt:45
 msgid ""
-"You can create categories or budgetary lines directly by typing them in "
-"transaction form.\n"
+"There are shortcuts in date fields, to avoid typing date or selecting it "
+"with mouse.\n"
 "\n"
-"If you write a category or a budgetary line which name contains a ':', a sub-"
-"category or sub-budgetary line will be created as well."
+"<i>Up</i> and <i>Down</i> increment and decrement date of one day, <i>Page "
+"Up</i> and <i>Page Down</i> increment and decrement date of one month ... "
+"and there are more, check out the manual."
 msgstr ""
-"Vous pouvez créer des catégories ou des imputations budgétaires en les "
-"tapant directement dans le formulaire de saisie d'opérations. Si vous "
-"écrivez une catégorie ou une imputation budgétaire dont le nom contient un "
-"« : », une sous catégorie ou une sous imputation budgétaire sera créée "
-"également. "
 
-#: tips.txt:9
+#: tips.txt:35
 msgid ""
-"You can organize transactions into budgetary lines, which are budgetary "
-"items (why money is spent) that can help you classify your spendings.  "
-"Combined with categories (how money is spend), budgetary lines are a "
-"powerful way to analyse budget and to make reports."
+"You can configure fields displayed in the transaction form.\n"
+"\n"
+"Go to the <i>Preferences</i> dialog and select the <i>Form content</i> "
+"option.  Then you can click on fields to be displayed and drag them through "
+"the form to adjust their position."
 msgstr ""
-"Vous pouvez organiser les opérations en imputations budgétaires, qui sont "
-"des postes budgétaires (<i>pourquoi</i> l'argent est dépensé) vous "
-"permettant de classifier vos dépenses.  En combinaison avec les catégories "
-"(<i>comment</i> l'argent est dépensé), les imputations budgétaires sont une "
-"manière d'analyser un budget et de faire des états."
+
+#: tips.txt:31
+msgid ""
+"You can configure the contents of the transaction list.\n"
+"\n"
+"Right-click on a cell of the transaction list and select the <i>Change cell "
+"content</i> option.  Then select any content you want and configure "
+"transaction list to your needs."
+msgstr ""
+
+#: tips.txt:27
+msgid ""
+"You can double-click on any date entry to pop up a calendar in order to "
+"enter a date more easily."
+msgstr ""
+
+#: tips.txt:21
+msgid ""
+"You can efficiently manage your professional expenses with Grisbi.\n"
+"\n"
+"Create a <i>Professional expenses</i> budgetary line and put all "
+"professional expenses there.  When you are paid, split your salary as a "
+"breakdown of transaction, with both a <i>Salary</i> part and a "
+"<i>Profesionnal expenses</i> part.  \n"
+"\n"
+"Then, you can create a new report that sums up transactions from the "
+"<i>Profesionnal expenses</i> budgetary line and see the balance."
+msgstr ""
+
+#: tips.txt:39
+msgid ""
+"You can hide annoying dialogs like this one, by clicking the <i>'Do not show "
+"this message again'</i> checkbox in this dialog.  \n"
+"\n"
+"You can then activate them again by going to the <i>Preferences</i> window "
+"and then to the <i>Dialog and messages</i> option."
+msgstr ""
 
 #: tips.txt:1
 msgid ""
@@ -82,3 +117,34 @@ msgid ""
 msgstr ""
 "Vous pouvez taper <tt>Ctrl-R</tt> pour rapprocher une opération dans la "
 "liste des opérations."
+
+#: tips.txt:29
+msgid ""
+"You can use the import facility to automatically reconcile transactions "
+"against a QIF or OFX file from your online bank."
+msgstr ""
+
+#~ msgid ""
+#~ "You can create categories or budgetary lines directly by typing them in "
+#~ "transaction form.\n"
+#~ "\n"
+#~ "If you write a category or a budgetary line which name contains a ':', a "
+#~ "sub-category or sub-budgetary line will be created as well."
+#~ msgstr ""
+#~ "Vous pouvez créer des catégories ou des imputations budgétaires en les "
+#~ "tapant directement dans le formulaire de saisie d'opérations. Si vous "
+#~ "écrivez une catégorie ou une imputation budgétaire dont le nom contient "
+#~ "un « : », une sous catégorie ou une sous imputation budgétaire sera créée "
+#~ "également. "
+
+#~ msgid ""
+#~ "You can organize transactions into budgetary lines, which are budgetary "
+#~ "items (why money is spent) that can help you classify your spendings.  "
+#~ "Combined with categories (how money is spend), budgetary lines are a "
+#~ "powerful way to analyse budget and to make reports."
+#~ msgstr ""
+#~ "Vous pouvez organiser les opérations en imputations budgétaires, qui sont "
+#~ "des postes budgétaires (<i>pourquoi</i> l'argent est dépensé) vous "
+#~ "permettant de classifier vos dépenses.  En combinaison avec les "
+#~ "catégories (<i>comment</i> l'argent est dépensé), les imputations "
+#~ "budgétaires sont une manière d'analyser un budget et de faire des états."
