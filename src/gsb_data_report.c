@@ -160,6 +160,7 @@ typedef struct
 /*START_STATIC*/
 static gpointer gsb_data_report_get_pointer_to_report ( gint report_number );
 static struct_report *gsb_data_report_get_structure ( gint report_number );
+static void gsb_data_report_set_report_list ( GSList * list );
 /*END_STATIC*/
 
 /*START_EXTERN*/

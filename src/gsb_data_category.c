@@ -84,12 +84,16 @@ typedef struct
 /*START_STATIC*/
 static GSList *gsb_data_category_append_sub_category_to_list ( GSList *category_list,
 							GSList *sub_category_list );
+static gint gsb_data_category_get_no_category_from_sub_category ( gpointer sub_category_ptr );
 static gint gsb_data_category_get_pointer_from_name_in_glist ( struct_category *category,
 							const gchar *name );
 static gint gsb_data_category_get_pointer_from_sub_name_in_glist ( struct_sub_category *sub_category,
 							    const gchar *name );
+static gpointer gsb_data_category_get_structure ( gint no_category );
 static gpointer gsb_data_category_get_structure_in_list ( gint no_category,
 						   GSList *list );
+static gpointer gsb_data_category_get_sub_category_structure ( gint no_category,
+							gint no_sub_category );
 static gint gsb_data_category_max_number ( void );
 static gint gsb_data_category_max_sub_category_number ( gint category_number );
 static gboolean gsb_data_category_merge_category_list ( GSList *list_to_merge );

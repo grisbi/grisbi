@@ -201,7 +201,6 @@ gboolean gsb_data_report_set_personal_date_start ( gint report_number,
 						   GDate *personal_date_start );
 gboolean gsb_data_report_set_report_can_click ( gint report_number,
 						gint report_can_click );
-void gsb_data_report_set_report_list ( GSList * list );
 gboolean gsb_data_report_set_report_name ( gint report_number,
 					   const gchar *report_name );
 gboolean gsb_data_report_set_show_r ( gint report_number,

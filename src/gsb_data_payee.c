@@ -61,6 +61,7 @@ typedef struct
 static GSList *gsb_data_payee_get_name_list ( void );
 static gint gsb_data_payee_get_pointer_from_name_in_glist ( struct_payee *payee,
 						     const gchar *name );
+static gpointer gsb_data_payee_get_structure ( gint no_payee );
 static gint gsb_data_payee_max_number ( void );
 static void gsb_data_payee_reset_counters ( void );
 /*END_STATIC*/
@@ -714,16 +715,4 @@ void gsb_data_payee_remove_transaction_from_payee ( gint transaction_number )
 	    payee -> payee_balance = null_real;
 }
 
-
-/**
- * return a pointer to the blank struct payee
- *
- * \param
- *
- * \return a pointer to the empty_payee struct
- * */
-gpointer gsb_data_payee_get_empty_payee ( void )
-{
-    return (gpointer) empty_payee;
-}
 

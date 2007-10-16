@@ -15,42 +15,40 @@ typedef struct metatree_interface {
     const gchar * meta_name;
     const gchar * no_div_label;
     const gchar * no_sub_div_label;
-    gpointer (* get_without_div_pointer) ();
-    gpointer (* get_div_pointer) (int);
-    gpointer (* get_sub_div_pointer) (int,int);
-    gpointer (* get_div_pointer_from_name) (const gchar *,gboolean);
-    gpointer (* get_sub_div_pointer_from_name) (int,const gchar *,gboolean);
-    gint (* div_nb_transactions) (gpointer);
-    gint (* sub_div_nb_transactions) (gpointer,gpointer);
-    const gchar * (* div_name) (gpointer);
-    const gchar * (* sub_div_name) (gpointer);
-    gsb_real (* div_balance) (gpointer);
-    gsb_real (* sub_div_balance) (gpointer,gpointer);
+    gint (* get_without_div_pointer) ();
+    gint (* get_div_pointer_from_name) (const gchar *,gboolean);
+    gint (* get_sub_div_pointer_from_name) (int,const gchar *,gboolean);
+    gint (* div_nb_transactions) (gint);
+    gint (* sub_div_nb_transactions) (gint ,gint);
+    const gchar * (* div_name) (gint);
+    const gchar * (* sub_div_name) (gint, gint);
+    gsb_real (* div_balance) (gint);
+    gsb_real (* sub_div_balance) (gint,gint);
     gint (* div_id) (gpointer);
     gint (* sub_div_id) (gpointer);
     GSList * (* div_list) ();
-    GSList * (* div_sub_div_list) (gpointer);
-    gint (* div_type) (gpointer);
+    GSList * (* div_sub_div_list) (gint);
+    gint (* div_type) (gint);
 
     /* Transaction operations */
-    gint (* transaction_div_id) (gpointer);
-    gint (* transaction_sub_div_id) (gpointer);
-    void (* transaction_set_div_id) (gpointer, int);
-    void (* transaction_set_sub_div_id) (gpointer, int);
+    gint (* transaction_div_id) (gint);
+    gint (* transaction_sub_div_id) (gint);
+    gboolean (* transaction_set_div_id) (gint, int);
+    gboolean (* transaction_set_sub_div_id) (gint, int);
     gint (* scheduled_div_id) (int);
     gint (* scheduled_sub_div_id) (int);
-    void (* scheduled_set_div_id) (int, int);
-    void (* scheduled_set_sub_div_id) (int, int);
+    gboolean (* scheduled_set_div_id) (int, int);
+    gboolean (* scheduled_set_sub_div_id) (int, int);
 
     /* Write operations on div */
     gint (* add_div) ();
     gint (* add_sub_div) (int);
     gboolean (* remove_div) (int);
     gboolean (* remove_sub_div) (int,int);
-    gboolean (* add_transaction_to_div) (gpointer, int);
-    gboolean (* add_transaction_to_sub_div) (gpointer, int, int);
-    gboolean (* remove_transaction_from_div) (gpointer, int);
-    gboolean (* remove_transaction_from_sub_div) (gpointer, int, int);
+    gboolean (* add_transaction_to_div) (gint, int);
+    void (* add_transaction_to_sub_div) (gint, int, int);
+    void (* remove_transaction_from_div) (int);
+    void (* remove_transaction_from_sub_div) (int);
 
 } MetatreeInterface;
 
@@ -58,8 +56,13 @@ enum meta_tree_columns {
     META_TREE_TEXT_COLUMN,
     META_TREE_ACCOUNT_COLUMN,
     META_TREE_BALANCE_COLUMN,
+    /* this is the number of the current row : either number of categ/budget/payee,
+     * either number of sub-categ/sub-budget,
+     * either number of transaction */
     META_TREE_POINTER_COLUMN,
+    /* number of categ/budget, -1 if none */
     META_TREE_NO_DIV_COLUMN,
+    /* number of the sub-categ/sub-budget, -1 if none */
     META_TREE_NO_SUB_DIV_COLUMN,
     META_TREE_FONT_COLUMN,
     META_TREE_XALIGN_COLUMN,
@@ -75,7 +78,7 @@ enum meta_tree_row_type {
 };
 
 #define META_TREE_COLUMN_TYPES G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, \
-				 G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT, \
+				 G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, \
 				 G_TYPE_INT, G_TYPE_FLOAT, G_TYPE_POINTER
 
 
@@ -91,11 +94,12 @@ gboolean division_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath *
 				      GtkSelectionData * selection_data );
 void expand_arbre_division ( GtkWidget *bouton, gint depth );
 void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface, 
-			 GtkTreeIter * iter, gpointer division );
+			 GtkTreeIter * iter, gint division );
 void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface, 
-			     GtkTreeIter * iter, gpointer division,
-			     gpointer sub_division );
-GtkTreeIter * get_iter_from_div ( GtkTreeModel * model, int div, int sub_div );
+			     GtkTreeIter * iter,
+			     gint division,
+			     gint sub_division );
+GtkTreeIter *get_iter_from_div ( GtkTreeModel * model, int div, int sub_div );
 void metatree_new_division ( GtkTreeModel * model );
 void metatree_register_widget_as_linked ( GtkTreeModel * model, GtkWidget * widget,
 					  gchar * link_type );

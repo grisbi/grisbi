@@ -1813,12 +1813,18 @@ gboolean gsb_transactions_list_set_transactions_balances ( gint account_number )
     gint transaction_number;
     gchar *string;
 
+    /* we update the balance only if we are on the good account,
+     * else this will updated when change the account */
+    if (gsb_gui_navigation_get_current_account () != account_number)
+	return FALSE;
+
     devel_debug ( g_strdup_printf ("gsb_transactions_list_set_transactions_balances, account_number : %d", account_number ));
 
     /* column and line of balance are user defined */
     column_balance = find_element_col (TRANSACTION_LIST_BALANCE);
     line_balance = find_element_line (TRANSACTION_LIST_BALANCE);
 
+    /* check the balance has to be shown */
     if ( line_balance == -1 
 	 ||
 	 line_balance >= gsb_data_account_get_nb_rows ( account_number ))

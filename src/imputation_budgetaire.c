@@ -258,7 +258,7 @@ void remplit_arbre_imputation ( void )
 
 	gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model), &iter_budgetary_line, NULL);
 	fill_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
-			    &iter_budgetary_line, gsb_data_budget_get_structure (budget_number));
+			    &iter_budgetary_line, budget_number);
 
 	/** Each budget has sub budgetary lines. */
 	if ( budget_number )
@@ -277,9 +277,8 @@ void remplit_arbre_imputation ( void )
 				       &iter_sub_budgetary_line, &iter_budgetary_line);
 		fill_sub_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
 					&iter_sub_budgetary_line,
-					gsb_data_budget_get_structure (budget_number),
-					gsb_data_budget_get_sub_budget_structure( budget_number,
-										  sub_budget_number));
+					budget_number,
+					sub_budget_number);
 
 		sub_budget_list = sub_budget_list -> next;
 	    }
@@ -288,7 +287,7 @@ void remplit_arbre_imputation ( void )
 	gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model), 
 			       &iter_sub_budgetary_line, &iter_budgetary_line);
 	fill_sub_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
-				&iter_sub_budgetary_line, gsb_data_budget_get_structure (budget_number), NULL );
+				&iter_sub_budgetary_line, budget_number, 0 );
 	
 	budget_list = budget_list -> next;
     }
@@ -709,15 +708,14 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     {
 	fill_sub_division_row ( model, budgetary_interface,
 				get_iter_from_div ( model, budget_number, sub_budget_number ), 
-				gsb_data_budget_get_structure ( budget_number ),
-				gsb_data_budget_get_sub_budget_structure ( budget_number,
-									   sub_budget_number));
+				budget_number,
+				sub_budget_number);
     }
     else
     {
 	fill_division_row ( model, budgetary_interface,
 			    get_iter_from_div ( model, budget_number, -1 ),
-			    gsb_data_budget_get_structure ( budget_number ));
+			    budget_number );
     }
 
     /* update the transactions list */

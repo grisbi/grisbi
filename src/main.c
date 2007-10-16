@@ -61,7 +61,7 @@
 
 
 /*START_STATIC*/
-gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
+static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
 					  GdkEventWindowState *event,
 					  gpointer null );
 /*END_STATIC*/

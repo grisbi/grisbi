@@ -35,12 +35,10 @@ GSList *gsb_data_category_get_name_list ( gboolean set_debit,
 gint gsb_data_category_get_nb_direct_transactions ( gint no_category );
 gint gsb_data_category_get_nb_transactions ( gint no_category );
 gint gsb_data_category_get_no_category ( gpointer category_ptr );
-gint gsb_data_category_get_no_category_from_sub_category ( gpointer sub_category_ptr );
 gint gsb_data_category_get_no_sub_category ( gpointer sub_category_ptr );
 gint gsb_data_category_get_number_by_name ( const gchar *name,
 					    gboolean create,
 					    gint category_type );
-gpointer gsb_data_category_get_structure ( gint no_category );
 gsb_real gsb_data_category_get_sub_category_balance ( gint no_category,
 						      gint no_sub_category );
 GSList *gsb_data_category_get_sub_category_list ( gint no_category );
@@ -52,8 +50,6 @@ gint gsb_data_category_get_sub_category_nb_transactions ( gint no_category,
 gint gsb_data_category_get_sub_category_number_by_name ( gint category_number,
 							 const gchar *name,
 							 gboolean create );
-gpointer gsb_data_category_get_sub_category_structure ( gint no_category,
-							gint no_sub_category );
 gint gsb_data_category_get_type ( gint no_category );
 gboolean gsb_data_category_init_variables ( void );
 gint gsb_data_category_new_sub_category_with_number ( gint number,

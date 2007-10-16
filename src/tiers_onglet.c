@@ -356,13 +356,13 @@ void remplit_arbre_tiers ( void )
 
     while ( payee_list_tmp )
     {
-	gpointer payee;
+	gint payee_number;
 
-	payee = payee_list_tmp -> data;
+	payee_number = gsb_data_payee_get_no_payee (payee_list_tmp -> data);
 
 	gtk_tree_store_append (GTK_TREE_STORE (payee_tree_model), &iter_payee, NULL);
 	fill_division_row ( GTK_TREE_MODEL(payee_tree_model), payee_interface, 
-			    &iter_payee, payee );
+			    &iter_payee, payee_number );
 
 	payee_list_tmp = payee_list_tmp -> next;
     }
@@ -415,25 +415,20 @@ gboolean edit_payee ( GtkTreeView * view )
     GtkTreeModel * model;
     GtkTreeIter iter;
     gint no_division = -1;
-    gpointer payee = NULL;
-    gint payee_number;
+    gint payee_number = 0;
     gchar * title;
 
     selection = gtk_tree_view_get_selection ( view );
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
     {
 	gtk_tree_model_get ( model, &iter, 
-			     META_TREE_POINTER_COLUMN, &payee,
+			     META_TREE_POINTER_COLUMN, &payee_number,
 			     META_TREE_NO_DIV_COLUMN, &no_division,
 			     -1 );
     }
 
     if ( !selection || no_division <= 0 )
 	return FALSE;
-
-    /* FIXME : should set the number of payee in the list, not the address */
-
-    payee_number = gsb_data_payee_get_no_payee (payee);
 
     title = g_strdup_printf ( _("Properties for %s"), gsb_data_payee_get_name(payee_number,
 									      TRUE));
@@ -497,7 +492,7 @@ gboolean edit_payee ( GtkTreeView * view )
     gtk_widget_destroy ( dialog );
 
     fill_division_row ( model, payee_interface,
-			get_iter_from_div ( model, payee_number, -1 ), payee );
+			get_iter_from_div ( model, payee_number, -1 ), payee_number );
 
     /* update the transactions list */
     gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_PARTY);

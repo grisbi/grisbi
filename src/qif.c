@@ -898,7 +898,7 @@ changement_format_date:
 					   NULL );
 		    }
 
-		    /* si on avait 'xx, en fait ça peut être 'xx ou 'xxxx ... */
+		    /* si on avait 'aa, en fait ça peut être 'aa ou 'aaaa ... */
 
 		    if ( strlen ( tab_str2[1] ) == 2 )
 			annee = my_strtod ( tab_str2[1],

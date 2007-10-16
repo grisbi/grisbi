@@ -419,7 +419,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *scheduler_column_width_ratio;
     gchar *new_string;
     gchar *skipped_lines_string;
-    GSList * tmp;
     gboolean is_archive = FALSE;
 
     /* prepare stuff to save generals informations */

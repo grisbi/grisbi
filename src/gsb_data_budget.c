@@ -84,12 +84,16 @@ typedef struct
 static GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *budget_list,
 						    GSList *sub_budget_list );
 static void gsb_data_budget_create_default_budget_list ( void );
+static gint gsb_data_budget_get_no_budget_from_sub_budget ( gpointer sub_budget_ptr );
 static gint gsb_data_budget_get_pointer_from_name_in_glist ( struct_budget *budget,
 						      const gchar *name );
 static gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( struct_sub_budget *sub_budget,
 							  const gchar *name );
+static gpointer gsb_data_budget_get_structure ( gint no_budget );
 static gpointer gsb_data_budget_get_structure_in_list ( gint no_budget,
 						 GSList *list );
+static gpointer gsb_data_budget_get_sub_budget_structure ( gint no_budget,
+						    gint no_sub_budget );
 static gint gsb_data_budget_max_number ( void );
 static gint gsb_data_budget_max_sub_budget_number ( gint budget_number );
 static gboolean gsb_data_budget_merge_budget_list ( GSList *list_to_merge );

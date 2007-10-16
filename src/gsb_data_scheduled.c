@@ -626,7 +626,7 @@ gint gsb_data_scheduled_get_category_number ( gint scheduled_number )
     scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
-	return -1;
+	return 0;
 
     return scheduled -> category_number;
 }

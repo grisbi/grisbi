@@ -236,7 +236,7 @@ void remplit_arbre_categ ( void )
 
 	gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), &iter_categ, NULL);
 	fill_division_row ( GTK_TREE_MODEL(categ_tree_model), category_interface, 
-			    &iter_categ, gsb_data_category_get_structure (category_number));
+			    &iter_categ, category_number);
 
 	/** Each category has subcategories. */
 	if ( category_number )
@@ -255,9 +255,8 @@ void remplit_arbre_categ ( void )
 				       &iter_sous_categ, &iter_categ);
 		fill_sub_division_row ( GTK_TREE_MODEL(categ_tree_model), category_interface, 
 					&iter_sous_categ,
-					gsb_data_category_get_structure (category_number),
-					gsb_data_category_get_sub_category_structure( category_number,
-										      sub_category_number));
+					category_number,
+					sub_category_number);
 
 		sub_category_list = sub_category_list -> next;
 	    }
@@ -266,7 +265,7 @@ void remplit_arbre_categ ( void )
 	gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), 
 			       &iter_sous_categ, &iter_categ);
 	fill_sub_division_row ( GTK_TREE_MODEL(categ_tree_model), category_interface, 
-				&iter_sous_categ, gsb_data_category_get_structure (category_number), NULL );
+				&iter_sous_categ, category_number, 0 );
 	
 	category_list = category_list -> next;
     }
@@ -665,15 +664,14 @@ gboolean edit_category ( GtkTreeView * view )
     {
 	fill_sub_division_row ( model, category_interface,
 				get_iter_from_div ( model, category_number, sub_category_number ), 
-				gsb_data_category_get_structure ( category_number ),
-				gsb_data_category_get_sub_category_structure ( category_number,
-									       sub_category_number));
+				category_number,
+				sub_category_number);
     }
     else
     {
 	fill_division_row ( model, category_interface,
 			    get_iter_from_div ( model, category_number, -1 ),
-			    gsb_data_category_get_structure ( category_number ));
+			    category_number );
     }
 
     /* update the transactions list */
