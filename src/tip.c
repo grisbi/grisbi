@@ -147,7 +147,7 @@ gchar * get_next_tip ()
       return NULL;
   }
 
-  tips = g_strsplit ( buffer, "\"\n\n", length );
+  tips = g_strsplit ( buffer, "'\n\n", length );
 
   for ( ; tips && *tips ; tips++ )
     {
@@ -185,13 +185,13 @@ gchar * format_tip ( gchar * tip )
     /** Tokens removed include  */
 
     /* leading '- ' if any */
-    if ( g_str_has_prefix ( tip, "- " ) )
+    if ( g_str_has_prefix ( tip, "_ " ) )
     {
 	tip += 2;
     }
 
     /* leading '"' if any */
-    if ( g_str_has_prefix ( tip, "\"" ) )
+    if ( g_str_has_prefix ( tip, "'" ) )
     {
 	tip ++;
     }
@@ -203,7 +203,7 @@ gchar * format_tip ( gchar * tip )
     }
 
     /* trailing '"' if any */
-    if ( g_str_has_suffix ( tip, "\"" ) )
+    if ( g_str_has_suffix ( tip, "'" ) )
     {
 	tip[strlen(tip)-1] = '\0';
     }
