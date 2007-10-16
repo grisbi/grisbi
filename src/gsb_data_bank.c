@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -60,8 +60,6 @@ typedef struct
 } struct_bank;
 
 /*START_STATIC*/
-static GSList *gsb_data_bank_get_name_list ( void );
-static gint gsb_data_bank_get_number_by_name ( const gchar *name );
 static gpointer gsb_data_bank_get_structure ( gint bank_number );
 /*END_STATIC*/
 
@@ -329,35 +327,6 @@ gboolean gsb_data_bank_set_name ( gint bank_number,
     bank -> bank_name = my_strdup (name);
 
     return TRUE;
-}
-
-/**
- * return a g_slist of names of all the banks
- * it's not a copy of the gchar..., so don't free them
- *
- * \param none
- *
- * \return a g_slist of gchar *
- * */
-GSList *gsb_data_bank_get_name_list ( void )
-{
-    GSList *return_list;
-    GSList *list_tmp;
-
-    return_list = NULL;
-    list_tmp= bank_list;
-
-    while ( list_tmp )
-    {
-	struct_bank *bank;
-
-	bank = list_tmp -> data;
-
-	return_list = g_slist_append ( return_list,
-				       bank -> bank_name );
-	list_tmp = list_tmp -> next;
-    }
-    return return_list;
 }
 
 
@@ -860,38 +829,5 @@ gboolean gsb_data_bank_set_correspondent_fax ( gint bank_number,
     return TRUE;
 }
 
-
-
-/**
- * return the number of the bank wich has the name in param
- * create it if necessary
- *
- * \param name the name of the bank
- *
- * \return the number of the bank or 0 if doesn't exist
- * */
-gint gsb_data_bank_get_number_by_name ( const gchar *name )
-{
-    GSList *list_tmp;
-
-    if (!name)
-	return FALSE;
-
-    list_tmp = bank_list;
-
-    while (list_tmp)
-    {
-	struct_bank *bank;
-
-	bank = list_tmp -> data;
-
-	if (!strcmp (bank -> bank_name,
-		     name ))
-	    return (bank -> bank_number);
-	list_tmp = list_tmp -> next;
-    }
-
-    return FALSE;
-}
 
 

@@ -41,7 +41,6 @@
 /*START_STATIC*/
 static GtkTreePath *gsb_transaction_model_get_model_path ( gint transaction_number,
 						    gint line_in_transaction );
-static gint gsb_transaction_model_get_transaction_from_model_path ( GtkTreePath *path_model );
 static const gchar *gsb_transation_model_get_cell_content ( GtkTreePath *path_sorted,
 						     gint column );
 /*END_STATIC*/
@@ -139,7 +138,6 @@ gint gsb_transaction_model_get_transaction_from_sorted_path ( GtkTreePath *path_
  * */
 gint gsb_transaction_model_get_transaction_type_from_sorted_path ( GtkTreePath *path_sorted )
 {
-    gpointer transaction;
     GtkTreeIter iter;
     GtkTreePath *path_model;
     gint what_is_line;
@@ -245,38 +243,6 @@ GtkTreePath *gsb_transaction_model_get_model_path ( gint transaction_number,
     return path;
 }
 
-
-
-/**
- * return the number of transaction on the model path
- * this is the path on the original model, ie not sorted and not filtered
- * 
- * \param path_model the path in the original model
- * 
- * \return the transaction number
- * */
-gint gsb_transaction_model_get_transaction_from_model_path ( GtkTreePath *path_model )
-{
-    gpointer transaction;
-    GtkTreeIter iter;
-    GtkTreeModel *model;
-
-    /* if no path, return -1, wich is the white line */
-    if ( !path_model )
-	return -1;
-
-    model = GTK_TREE_MODEL (gsb_transactions_list_get_store());
-
-    gtk_tree_model_get_iter ( model,
-			      &iter,
-			      path_model );
-    gtk_tree_model_get ( model,
-			 &iter,
-			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &transaction,
-			 -1 );
-
-    return gsb_data_transaction_get_transaction_number (transaction);
-}
 
 
 

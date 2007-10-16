@@ -83,8 +83,6 @@ typedef struct
 /*START_STATIC*/
 static GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *budget_list,
 						    GSList *sub_budget_list );
-static void gsb_data_budget_create_default_budget_list ( void );
-static gint gsb_data_budget_get_no_budget_from_sub_budget ( gpointer sub_budget_ptr );
 static gint gsb_data_budget_get_pointer_from_name_in_glist ( struct_budget *budget,
 						      const gchar *name );
 static gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( struct_sub_budget *sub_budget,
@@ -96,7 +94,6 @@ static gpointer gsb_data_budget_get_sub_budget_structure ( gint no_budget,
 						    gint no_sub_budget );
 static gint gsb_data_budget_max_number ( void );
 static gint gsb_data_budget_max_sub_budget_number ( gint budget_number );
-static gboolean gsb_data_budget_merge_budget_list ( GSList *list_to_merge );
 static gint gsb_data_budget_new ( const gchar *name );
 static gint gsb_data_budget_new_sub_budget ( gint budget_number,
 				      const gchar *name );
@@ -341,25 +338,6 @@ gint gsb_data_budget_get_no_sub_budget ( gpointer sub_budget_ptr )
     return sub_budget -> sub_budget_number;
 }
 
-
-/**
- * return the number of the budget of the sub-budget given in param
- *
- * \param sub_budget_ptr a pointer to the struct of the sub-budget
- *
- * \return the number of the budget, 0 if problem
- * */
-gint gsb_data_budget_get_no_budget_from_sub_budget ( gpointer sub_budget_ptr )
-{
-    struct_sub_budget *sub_budget;
-
-    if ( !sub_budget_ptr )
-	return 0;
-
-    sub_budget = sub_budget_ptr;
-    sub_budget_buffer = sub_budget;
-    return sub_budget -> mother_budget_number;
-}
 
 
 
@@ -1360,80 +1338,6 @@ void gsb_data_budget_remove_transaction_from_budget ( gint transaction_number )
     }
 }
 
-
-
-/**
- * create the default list of budgets
- * fill budget_list with the default budgets
- *
- * \param
- *
- * \return
- * */
-void gsb_data_budget_create_default_budget_list ( void )
-{
-    /* FIXME : should ask here for different kind of budgets,
-     * or leave them blank...
-     * */
-
-    /* for now, no default budget list */
-}
-
-
-
-
-
-/**
- * merge the given budget list with the current budget list
- *
- * \param list_to_merge
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_budget_merge_budget_list ( GSList *list_to_merge )
-{
-    GSList *list_tmp;
-
-    list_tmp = list_to_merge;
-
-    while ( list_tmp )
-    {
-	gint budget_number;
-	struct_budget *new_budget;
-
-	new_budget = list_tmp -> data;
-
-	/* we try to find the new budget in the currents budgets
-	 * if don't, it creates it */
-
-	budget_number = gsb_data_budget_get_number_by_name ( new_budget -> budget_name,
-							     TRUE,
-							     new_budget -> budget_type );
-
-	/* we check budget_number but normally it will always != 0 */
-
-	if ( budget_number )
-	{
-	    GSList *sub_list_tmp;
-
-	    sub_list_tmp = new_budget -> sub_budget_list;
-
-	    while ( sub_list_tmp )
-	    {
-		struct_sub_budget *new_sub_budget;
-
-		new_sub_budget = sub_list_tmp -> data;
-
-		gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
-								    new_sub_budget -> sub_budget_name,
-								    TRUE );
-		sub_list_tmp = sub_list_tmp -> next;
-	    }
-	    list_tmp = list_tmp -> next;
-	}
-    }
-    return TRUE;
-}
 
 
 

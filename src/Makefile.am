@@ -101,7 +101,6 @@ sources = \
 	gsb_transactions_list_sort.c	\
 	gtk_combofix.c		\
 	help.c			\
-	html.c			\
 	import.c		\
 	import_csv.c		\
 	imputation_budgetaire.c	\
@@ -121,7 +120,6 @@ sources = \
 	traitement_variables.c	\
 	utils.c			\
 	utils_buttons.c		\
-	utils_comptes.c		\
 	utils_dates.c		\
 	utils_editables.c	\
 	utils_file_selection.c	\
@@ -229,14 +227,12 @@ grisbi_INCLUDES =		\
 	print_config.h		\
 	qif.h			\
 	import.h		\
-	html.h			\
 	tip.h			\
 	structures.h		\
 	tiers_onglet.h		\
 	traitement_variables.h	\
 	utils.h			\
 	utils_buttons.h		\
-	utils_comptes.h		\
 	utils_dates.h		\
 	utils_editables.h	\
 	utils_file_selection.h	\

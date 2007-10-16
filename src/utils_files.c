@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                  utils_files.c			      */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)      */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -37,7 +37,6 @@
 
 /*START_STATIC*/
 static void browse_file ( GtkButton *button, gpointer data );
-static gint utf8_open(gchar* utf8filename,gint mode);
 /*END_STATIC*/
 
 
@@ -226,20 +225,6 @@ FILE* utf8_fopen(const gchar* utf8filename,gchar* mode)
     return fopen(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),mode);
 }
 
-/**
- * \brief utf8 version of open (see open for more detail about mode)
- * 
- * convert utf8 file path into the locale OS charset before calling open
- *
- * \param utf8filename file to open path coded using utf8 charset
- * \param mode open mode argument
- *
- * \return file descriptor returned by open
- */
-gint utf8_open(gchar* utf8filename,gint mode)
-{
-    return open(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL),mode);
-}
 
 /**
  * \brief utf8 version of stat (see stat for more detail about mode)

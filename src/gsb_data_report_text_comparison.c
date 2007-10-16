@@ -3,8 +3,8 @@
 /*                                                                            */
 /*                                  gsb_data_report_text_comparison           */
 /*                                                                            */
-/*     Copyright (C)	2000-2005 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -87,8 +87,6 @@ typedef struct
 
 
 /*START_STATIC*/
-static gint gsb_data_report_text_comparison_get_report_number ( gint text_comparison_number );
-static GSList *gsb_data_report_text_comparison_get_report_text_comparison_list ( void );
 static  struct_text_comparison *gsb_data_report_text_comparison_get_struct_by_no ( gint text_comparison_number );
 static gint gsb_data_report_text_comparison_max_number ( void );
 /*END_STATIC*/
@@ -121,18 +119,6 @@ gboolean gsb_data_report_text_comparison_init_variables ( void )
 }
 
 
-/**
- * return a pointer on the g_slist of the text comparison structures 
- * carrefull : it's not a copy, so we must not free or change it
- * 
- * \param none
- * 
- * \return a g_slist on the text comparison structures
- * */
-GSList *gsb_data_report_text_comparison_get_report_text_comparison_list ( void )
-{
-    return text_comparison_list;
-}
 
 
 /**
@@ -306,24 +292,6 @@ gint gsb_data_report_text_comparison_dup ( gint last_text_comparison_number )
 }
 
 
-/**
- * get the report_number
- * 
- * \param text_comparison_number the number of the text_comparison
- *
- * \return the  of the text_comparison, -1 if problem
- * */
-gint gsb_data_report_text_comparison_get_report_number ( gint text_comparison_number )
-{
-    struct_text_comparison *text_comparison;
-
-    text_comparison = gsb_data_report_text_comparison_get_struct_by_no (text_comparison_number);
-
-    if ( !text_comparison )
-	return 0;
-
-    return text_comparison -> report_number;
-}
 
 /** 
  * set the report_number

@@ -62,8 +62,6 @@ static gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 					      GdkEventKey *ev,
 					      GtkTreeModel *model );
 static gint gsb_gui_navigation_get_last_account ( void );
-static gboolean gsb_gui_navigation_line_visible_p ( GtkTreeModel * model, GtkTreeIter * iter,
-					     gpointer data );
 static  gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree_model, 
 							     GtkTreePath *path, 
 							     GtkTreeIter *iter, 
@@ -582,31 +580,6 @@ void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_iter )
     }
 }
 
-
-/**
- *
- *
- */
-gboolean gsb_gui_navigation_line_visible_p ( GtkTreeModel * model, GtkTreeIter * iter,
-					     gpointer data )
-{
-    guint account_number, page;
-
-    gtk_tree_model_get ( GTK_TREE_MODEL ( model ), iter,
-			 NAVIGATION_PAGE, &page,
-			 NAVIGATION_ACCOUNT, &account_number, 
-			 -1 );
-
-    if ( page != GSB_ACCOUNT_PAGE || account_number < 0 )
-	return TRUE;
-
-    if ( (! gsb_data_account_get_closed_account(account_number)) || etat.show_closed_accounts )
-    {
-        return TRUE;
-    }
-
-    return FALSE;
-}
 
 
 

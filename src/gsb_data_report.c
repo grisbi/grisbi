@@ -158,9 +158,7 @@ typedef struct
 
 
 /*START_STATIC*/
-static gpointer gsb_data_report_get_pointer_to_report ( gint report_number );
 static struct_report *gsb_data_report_get_structure ( gint report_number );
-static void gsb_data_report_set_report_list ( GSList * list );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -208,19 +206,6 @@ GSList *gsb_data_report_get_report_list ( void )
 
 
 
-/**
- * Set the reports list.
- * 
- * \param list		New list to set.
- * 
- * \return a g_slist on the reports
- * */
-void gsb_data_report_set_report_list ( GSList * list )
-{
-    report_list = list;
-}
-
-
 
 /**
  * return a pointer on the report which the number is in the parameter. 
@@ -263,47 +248,6 @@ struct_report *gsb_data_report_get_structure ( gint report_number )
     return NULL;
 }
 
-
-/**
- * return the report which the number is in the parameter. 
- * this is a transitionnal function which should be disappear
- * 
- * \param report_number
- * 
- * \return a pointer to the report, NULL if not found
- * */
-gpointer gsb_data_report_get_pointer_to_report ( gint report_number )
-{
-    GSList *tmp_list;
-
-    /* check first if the report is in the buffer */
-
-    if ( report_buffer
-	 &&
-	 report_buffer -> report_number == report_number )
-	return report_buffer;
-
-    tmp_list = report_list;
-
-    while ( tmp_list )
-    {
-	struct_report *report;
-
-	report = tmp_list -> data;
-
-	if ( report -> report_number == report_number )
-	{
-	    report_buffer = report;
-	    return report;
-	}
-
-	tmp_list = tmp_list -> next;
-    }
-
-    /* here, we didn't find any report with that number */
-
-    return NULL;
-}
 
 
 /**

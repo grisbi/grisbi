@@ -48,7 +48,6 @@ typedef struct
 } struct_currency;
 
 /*START_STATIC*/
-static GSList *gsb_data_currency_get_name_list ( void );
 static gpointer gsb_data_currency_get_structure ( gint currency_number );
 static gint gsb_data_currency_max_number ( void );
 static gboolean gsb_data_currency_set_default_currency ( gint currency_number );
@@ -356,35 +355,6 @@ gboolean gsb_data_currency_set_name ( gint currency_number,
 	currency -> currency_name = NULL;
 
     return TRUE;
-}
-
-/**
- * return a g_slist of names of all the currencies
- * it's not a copy of the gchar...
- *
- * \param none
- *
- * \return a g_slist of gchar *
- * */
-GSList *gsb_data_currency_get_name_list ( void )
-{
-    GSList *return_list;
-    GSList *tmp_list;
-
-    return_list = NULL;
-    tmp_list= currency_list;
-
-    while ( tmp_list )
-    {
-	struct_currency *currency;
-
-	currency = tmp_list -> data;
-
-	return_list = g_slist_append ( return_list,
-				       currency -> currency_name );
-	tmp_list = tmp_list -> next;
-    }
-    return return_list;
 }
 
 

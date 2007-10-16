@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -66,7 +66,6 @@ static void gsb_fyear_config_append_line ( GtkTreeModel *model,
 static gboolean gsb_fyear_config_associate_transactions ( void );
 static GtkWidget *gsb_fyear_config_create_list ();
 static void gsb_fyear_config_fill_list ( GtkTreeModel *model );
-static gint gsb_fyear_config_get_current_selected_fyear ( GtkWidget *tree_view );
 static gboolean gsb_fyear_config_modify_fyear ( GtkWidget *entry,
 					 GtkWidget *tree_view);
 static gboolean gsb_fyear_config_remove_fyear ( GtkWidget *tree_view );
@@ -489,40 +488,6 @@ gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
     return FALSE;
 }
 
-
-/**
- * return the number of the current selected fyear
- *
- * \param tree_view
- *
- * \return the number of the selected fyear or 0 if problem
- * */
-gint gsb_fyear_config_get_current_selected_fyear ( GtkWidget *tree_view )
-{
-    GtkTreeModel *model;
-    GtkTreeIter iter;
-    gint fyear_number;
-    GtkTreeSelection *tree_selection;
-
-    if (!tree_view
-	||
-	!GTK_IS_TREE_VIEW (tree_view))
-	return 0;
-
-    model = gtk_tree_view_get_model ( GTK_TREE_VIEW (tree_view));
-    tree_selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (tree_view));
-
-    if (!gtk_tree_selection_get_selected ( GTK_TREE_SELECTION (tree_selection),
-					   &model,
-					   &iter ))
-	return 0;
-
-    gtk_tree_model_get ( GTK_TREE_MODEL (model),
-			 &iter,
-			 FYEAR_NUMBER_COLUMN, &fyear_number,
-			 -1 );
-    return fyear_number;
-}
 
 
 /**

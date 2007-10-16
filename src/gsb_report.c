@@ -56,9 +56,6 @@ enum report_list_columns {
 
 /*START_STATIC*/
 static gboolean gsb_report_create_combobox_store ( void );
-static void gsb_report_init_variables ( void );
-static gboolean gsb_report_set_combobox_history ( GtkWidget *combo_box,
-					   gint report_number );
 static gboolean gsb_report_update_report_list ( void );
 /*END_STATIC*/
 
@@ -115,70 +112,6 @@ GtkWidget *gsb_report_make_combobox ( void )
 }
 
 
-
-/**
- * set the combobox on the report given in param
- * if the report exists but is not showed normally, we show it because it's for
- * a modification of a transaction (when the form will be freed, that report won't be showed again)
- *
- * \combo_box the combo-box to set
- * \report_number the report we want to set on the combo-box, 0 will change nothing
- *
- * \return TRUE report found, FALSE report not found, nothing change
- * */
-gboolean gsb_report_set_combobox_history ( GtkWidget *combo_box,
-					   gint report_number )
-{
-    GtkTreeIter iter;
-    gint result;
-
-    if (!combo_box
-	||
-	!report_number )
-	return FALSE;
-
-    if (!report_model)
-	gsb_report_create_combobox_store ();
-
-    /* we look for the report in the model and not in the filter
-     * because of if the report is not showed */
-    result = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (report_model),
-					     &iter );
-    while (result)
-    {
-	gint value;
-	gboolean show;
-
-	gtk_tree_model_get ( GTK_TREE_MODEL (report_model),
-			     &iter,
-			     REPORT_COL_NUMBER, &value,
-			     REPORT_COL_VIEW, &show,
-			     -1 );
-
-	if (value == report_number)
-	{
-	    GtkTreeIter child_iter;
-
-	    /* if normally not showed, we show it now and later
-	     * it will be back to show */
-	    if (!show)
-		gtk_list_store_set ( GTK_LIST_STORE (report_model),
-				     &iter,
-				     REPORT_COL_VIEW, TRUE,
-				     -1 );
-	    /* as we were in the model and not the filter, we need to change the iter */
-	    gtk_tree_model_filter_convert_child_iter_to_iter ( GTK_TREE_MODEL_FILTER (report_model_filter),
-							       &child_iter,
-							       &iter );
-	    gtk_combo_box_set_active_iter ( GTK_COMBO_BOX (combo_box),
-					    &child_iter );
-	    return TRUE;
-	}
-	result = gtk_tree_model_iter_next ( GTK_TREE_MODEL (report_model),
-					    &iter );
-    }
-    return FALSE;
-}
 
 
 /** 

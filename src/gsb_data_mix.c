@@ -59,9 +59,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint gsb_data_mix_get_transaction_number ( gpointer transaction_pointer,
-					   gboolean is_transaction );
-static GSList *gsb_data_mix_get_transactions_list ( gboolean is_transaction );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -85,22 +82,6 @@ gint gsb_data_mix_new_transaction ( gint account_number,
     }
 }
 
-GSList *gsb_data_mix_get_transactions_list ( gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_get_transactions_list ());
-    else
-	return (gsb_data_scheduled_get_scheduled_list ());
-}
-
-gint gsb_data_mix_get_transaction_number ( gpointer transaction_pointer,
-					   gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_get_transaction_number ( transaction_pointer));
-    else
-	return (gsb_data_scheduled_get_scheduled_number ( transaction_pointer));
-}
 
 gint gsb_data_mix_get_account_number ( gint transaction_number,
 				       gboolean is_transaction )

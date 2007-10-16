@@ -2,7 +2,7 @@
 /* work with the struct of fyear                                              */
 /*                                                                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2005 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -64,8 +64,6 @@ enum fyear_invalid {
 };
 
 /*START_STATIC*/
-static GSList *gsb_data_fyear_get_name_list ( void );
-static gint gsb_data_fyear_get_number_by_name ( const gchar *name );
 static gint gsb_data_fyear_get_pointer_from_name_in_glist ( struct_fyear *fyear,
 						     const gchar *name );
 static gpointer gsb_data_fyear_get_structure ( gint fyear_number );
@@ -282,33 +280,6 @@ gint gsb_data_fyear_set_new_number ( gint fyear_number,
     return new_no_fyear;
 }
 
-
-/**
- * return the number of the fyear wich has the name in param
- *
- * \param name the name of the fyear
- * \param create TRUE if we want to create it if it doen't exist
- *
- * \return the number of the fyear or 0 if problem
- * */
-gint gsb_data_fyear_get_number_by_name ( const gchar *name )
-{
-    GSList *list_tmp;
-    gint fyear_number = 0;
-
-    list_tmp = g_slist_find_custom ( fyear_list,
-				     name,
-				     (GCompareFunc) gsb_data_fyear_get_pointer_from_name_in_glist );
-    
-    if ( list_tmp )
-    {
-	struct_fyear *fyear;
-	
-	fyear = list_tmp -> data;
-	fyear_number = fyear -> fyear_number;
-    }
-    return fyear_number;
-}
 
 
 /**
@@ -654,35 +625,6 @@ gboolean gsb_data_fyear_check_for_invalid ( gint fyear_number )
     return FALSE;
 }
 
-
-/**
- * return a g_slist of names of all the fyears
- * it's not a copy of the gchar...
- *
- * \param none
- *
- * \return a g_slist of gchar *
- * */
-GSList *gsb_data_fyear_get_name_list ( void )
-{
-    GSList *return_list;
-    GSList *tmp_list;
-
-    return_list = NULL;
-    tmp_list= fyear_list;
-
-    while ( tmp_list )
-    {
-	struct_fyear *fyear;
-
-	fyear = tmp_list -> data;
-
-	return_list = g_slist_append ( return_list,
-				       fyear -> fyear_name );
-	tmp_list = tmp_list -> next;
-    }
-    return return_list;
-}
 
 
 /**

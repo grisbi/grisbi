@@ -70,7 +70,6 @@ static gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number
 static GtkTreeIter *gsb_scheduler_list_get_iter_from_scheduled_number ( gint scheduled_number );
 static GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_number );
 static GtkTreeModel *gsb_scheduler_list_get_model ( void );
-static GtkTreeModelSort *gsb_scheduler_list_get_sorted_model ( void );
 static gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 					GdkEventKey *ev );
 static gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void);
@@ -234,17 +233,6 @@ void gsb_scheduler_list_set_model ( GtkTreeModel *model )
 
 
 
-/**
- * return the scheduler tree model sort
- *
- * \param
- *
- * \return the scheduler tree_model_sort
- * */
-GtkTreeModelSort *gsb_scheduler_list_get_sorted_model ( void )
-{
-    return tree_model_sort_scheduler_list;
-}
 
 /**
  * set the scheduler tree  model sort

@@ -3,8 +3,8 @@
 /*                                                                            */
 /*                                  gsb_data_report_amount_comparison         */
 /*                                                                            */
-/*     Copyright (C)	2000-2005 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -67,8 +67,6 @@ typedef struct
 
 
 /*START_STATIC*/
-static GSList *gsb_data_report_amount_comparison_get_report_amount_comparison_list ( void );
-static gint gsb_data_report_amount_comparison_get_report_number ( gint amount_comparison_number );
 static  struct_amount_comparison *gsb_data_report_amount_comparison_get_struct_by_no ( gint amount_comparison_number );
 static gint gsb_data_report_amount_comparison_max_number ( void );
 /*END_STATIC*/
@@ -103,18 +101,6 @@ gboolean gsb_data_report_amount_comparison_init_variables ( void )
 }
 
 
-/**
- * return a pointer on the g_slist of the amount comparison structures 
- * carrefull : it's not a copy, so we must not free or change it
- * 
- * \param none
- * 
- * \return a g_slist on the amount comparison structures
- * */
-GSList *gsb_data_report_amount_comparison_get_report_amount_comparison_list ( void )
-{
-    return amount_comparison_list;
-}
 
 
 /**
@@ -283,24 +269,6 @@ gint gsb_data_report_amount_comparison_dup ( gint last_amount_comparison_number 
 }
 
 
-/**
- * get the report_number
- * 
- * \param amount_comparison_number the number of the amount_comparison
- *
- * \return the  of the amount_comparison, -1 if problem
- * */
-gint gsb_data_report_amount_comparison_get_report_number ( gint amount_comparison_number )
-{
-    struct_amount_comparison *amount_comparison;
-
-    amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (amount_comparison_number);
-
-    if ( !amount_comparison )
-	return 0;
-
-    return amount_comparison -> report_number;
-}
 
 /** 
  * set the report_number

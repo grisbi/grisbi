@@ -68,8 +68,6 @@ typedef struct
 
 
 /*START_STATIC*/
-static gint gsb_data_archive_store_find ( gint archive_number,
-				   gint account_number );
 static  struct_store_archive *gsb_data_archive_store_find_struct ( gint archive_number,
 								  gint account_number );
 static  gint gsb_data_archive_store_max_number ( void );
@@ -205,28 +203,6 @@ void gsb_data_archive_store_create_list ( void )
 }
 
 
-
-/**
- * find the archive store corresponding to the archive number and account number
- * given in param
- *
- * \param archive_number
- * \param account_number
- *
- * \return the number of the archive store or 0 if not found
- * */
-gint gsb_data_archive_store_find ( gint archive_number,
-				   gint account_number )
-{
-    struct_store_archive *archive;
-
-    archive = gsb_data_archive_store_find_struct ( archive_number,
-						   account_number );
-    if (!archive)
-	return 0;
-
-    return archive -> archive_store_number;
-}
 
 /**
  * remove an archive store

@@ -84,7 +84,6 @@ typedef struct
 /*START_STATIC*/
 static GSList *gsb_data_category_append_sub_category_to_list ( GSList *category_list,
 							GSList *sub_category_list );
-static gint gsb_data_category_get_no_category_from_sub_category ( gpointer sub_category_ptr );
 static gint gsb_data_category_get_pointer_from_name_in_glist ( struct_category *category,
 							const gchar *name );
 static gint gsb_data_category_get_pointer_from_sub_name_in_glist ( struct_sub_category *sub_category,
@@ -96,7 +95,6 @@ static gpointer gsb_data_category_get_sub_category_structure ( gint no_category,
 							gint no_sub_category );
 static gint gsb_data_category_max_number ( void );
 static gint gsb_data_category_max_sub_category_number ( gint category_number );
-static gboolean gsb_data_category_merge_category_list ( GSList *list_to_merge );
 static gint gsb_data_category_new ( const gchar *name );
 static gint gsb_data_category_new_sub_category ( gint category_number,
 					  const gchar *name );
@@ -342,26 +340,6 @@ gint gsb_data_category_get_no_sub_category ( gpointer sub_category_ptr )
     sub_category = sub_category_ptr;
     sub_category_buffer = sub_category;
     return sub_category -> sub_category_number;
-}
-
-
-/**
- * return the number of the category of the sub-category given in param
- *
- * \param sub_category_ptr a pointer to the struct of the sub-category
- *
- * \return the number of the category, 0 if problem
- * */
-gint gsb_data_category_get_no_category_from_sub_category ( gpointer sub_category_ptr )
-{
-    struct_sub_category *sub_category;
-
-    if ( !sub_category_ptr )
-	return 0;
-
-    sub_category = sub_category_ptr;
-    sub_category_buffer = sub_category;
-    return sub_category -> mother_category_number;
 }
 
 
@@ -1521,50 +1499,6 @@ void gsb_data_category_create_default_category_list ( gint category_type )
     }
 }
 
-
-
-/**
- * merge the given category list with the current category list
- *
- * \param list_to_merge
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_category_merge_category_list ( GSList *list_to_merge )
-{
-    GSList *list_tmp;
-
-    list_tmp = list_to_merge;
-
-    while ( list_tmp )
-    {
-	gint category_number;
-
-	category_number = GPOINTER_TO_INT (list_tmp -> data);
-
-	/* we check category_number but normally it will always != 0 */
-	if ( category_number )
-	{
-	    GSList *sub_list_tmp;
-
-	    sub_list_tmp = gsb_data_category_get_sub_category_list ( category_number );
-
-	    while ( sub_list_tmp )
-	    {
-		struct_sub_category *new_sub_category;
-
-		new_sub_category = sub_list_tmp -> data;
-
-		gsb_data_category_get_sub_category_number_by_name ( category_number,
-								    new_sub_category -> sub_category_name,
-								    TRUE );
-		sub_list_tmp = sub_list_tmp -> next;
-	    }
-	    list_tmp = list_tmp -> next;
-	}
-    }
-    return TRUE;
-}
 
 
 

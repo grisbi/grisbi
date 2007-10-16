@@ -62,9 +62,6 @@ typedef struct
 } struct_archive;
 
 /*START_STATIC*/
-static gint gsb_data_archive_compare ( gint archive_number_1,
-				gint archive_number_2 );
-static gint gsb_data_archive_get_number_by_name ( const gchar *name );
 static gint gsb_data_archive_get_pointer_from_name_in_glist ( struct_archive *archive,
 						       const gchar *name );
 static gpointer gsb_data_archive_get_structure ( gint archive_number );
@@ -298,34 +295,6 @@ gint gsb_data_archive_set_new_number ( gint archive_number,
 
     archive -> archive_number = new_no_archive;
     return new_no_archive;
-}
-
-
-/**
- * return the number of the archive wich has the name in param
- *
- * \param name the name of the archive
- * \param create TRUE if we want to create it if it doen't exist
- *
- * \return the number of the archive or 0 if problem
- * */
-gint gsb_data_archive_get_number_by_name ( const gchar *name )
-{
-    GSList *list_tmp;
-    gint archive_number = 0;
-
-    list_tmp = g_slist_find_custom ( archive_list,
-				     name,
-				     (GCompareFunc) gsb_data_archive_get_pointer_from_name_in_glist );
-
-    if ( list_tmp )
-    {
-	struct_archive *archive;
-
-	archive = list_tmp -> data;
-	archive_number = archive -> archive_number;
-    }
-    return archive_number;
 }
 
 
@@ -629,34 +598,6 @@ gint gsb_data_archive_get_from_date ( const GDate *date )
 }
 
 
-/**
- * compare 2 archives
- *
- * \param archive_number_1
- * \param archive_number_2
- *
- * \return -1 if archive 1 is before 2 ; +1 if archive 1 is after 2 ; 0 if problem
- * */
-gint gsb_data_archive_compare ( gint archive_number_1,
-				gint archive_number_2 )
-{
-    struct_archive *archive_1;
-    struct_archive *archive_2;
-
-    archive_1 = gsb_data_archive_get_structure (archive_number_1);
-    archive_2 = gsb_data_archive_get_structure (archive_number_2);
-
-    if (!archive_1
-	||
-	!archive_2)
-	return 0;
-
-    if (g_date_compare (archive_1 -> begining_date, archive_2 -> end_date) >= 0)
-	return 1;
-    if (g_date_compare (archive_2 -> begining_date, archive_1 -> end_date) >= 0)
-	return -1;
-    return 0;
-}
 
 
 /**

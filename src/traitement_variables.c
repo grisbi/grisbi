@@ -53,6 +53,7 @@
 #include "./gsb_form_widget.h"
 #include "./gsb_fyear.h"
 #include "./menu.h"
+#include "./gsb_report.h"
 #include "./structures.h"
 #include "./gsb_scheduler_list.h"
 #include "./include.h"
@@ -210,6 +211,7 @@ void init_variables ( void )
 
     gsb_currency_init_variables ();
     gsb_fyear_init_variables ();
+    gsb_report_init_variables ();
 
     /* no bank in memory for now */
     bank_list_model = NULL;

@@ -67,9 +67,6 @@
 
 /*START_STATIC*/
 static gboolean assert_selected_transaction ();
-static gint cherche_ligne_operation ( gint transaction_number,
-			       gint account_number );
-static gpointer cherche_operation_from_ligne ( gint ligne );
 static void creation_titres_tree_view ( void );
 static gint find_element_col ( gint element_number );
 static gint find_element_line ( gint element_number );
@@ -132,7 +129,6 @@ static gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *but
 static gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
 					      gpointer null );
 static void popup_transaction_context_menu ( gboolean full, int x, int y );
-static gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view );
 static void remplissage_liste_operations ( gint compte );
 static gint schedule_transaction ( gint transaction_number );
 static gsb_real solde_debut_affichage ( gint account_number,
@@ -2450,67 +2446,7 @@ gboolean gsb_transactions_list_move_to_current_transaction ( gint account_number
 }
 
 
-/******************************************************************************/
-gint recupere_hauteur_ligne_tree_view ( GtkWidget *tree_view )
-{
-    GdkRectangle rectangle;
 
-    gtk_tree_view_get_background_area ( GTK_TREE_VIEW ( tree_view ),
-					gtk_tree_path_new_from_string ( "0" ),
-					NULL,
-					&rectangle );
-    return ( rectangle.height );
-}
-/******************************************************************************/
-
-
-
-
-/******************************************************************************/
-/* renvoie l'adr de l'opération correspondant  à la ligne envoyées */
-/* en argument */
-/******************************************************************************/
-gpointer cherche_operation_from_ligne ( gint ligne )
-{
-    GtkTreeIter iter;
-    gpointer transaction;
-    GtkTreeModel *model;
-
-    model = GTK_TREE_MODEL (gsb_transactions_list_get_store());
-
-
-    if ( !gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL ( model ),
-					       &iter,
-					       utils_str_itoa (ligne)))
-	return NULL;
-
-    gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
-			 &iter,
-			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &transaction,
-			 -1 );
-
-    return ( transaction );
-
-}
-/******************************************************************************/
-
-
-
-/******************************************************************************/
-/* cette fonction renvoie le no de ligne de l'opération en argument */
-/******************************************************************************/
-gint cherche_ligne_operation ( gint transaction_number,
-			       gint account_number )
-{
-    GtkTreeIter *iter;
-
-    iter = gsb_transaction_model_get_iter_from_transaction (transaction_number,
-							    0 );
-
-    return ( utils_str_atoi ( gtk_tree_model_get_string_from_iter (  GTK_TREE_MODEL ( gsb_transactions_list_get_store() ),
-								     iter )));
-}
-/******************************************************************************/
 
 
 

@@ -58,14 +58,10 @@ static gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel 
 				 gint division, gint sub_division, 
 				 gint * no_div, gint * no_sub_div );
 static GtkTreeIter * get_iter_from_transaction ( GtkTreeModel * model, gint transaction_number );
-static void metatree_fill_division ( GtkTreeModel * model, MetatreeInterface * iface, 
-			      int div_id );
 static void metatree_fill_new_division ( MetatreeInterface * iface, GtkTreeModel * model, 
 				  gint div_id );
 static void metatree_fill_new_sub_division ( MetatreeInterface * iface, GtkTreeModel * model, 
 				      gint div_id, gint sub_div_id );
-static void metatree_fill_sub_division ( GtkTreeModel * model, MetatreeInterface * iface, 
-				  int div_id, int sub_div_id );
 static gboolean metatree_get ( GtkTreeModel * model, GtkTreePath * path,
 			gint column, gint *data );
 static gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTreePath * path, 
@@ -500,24 +496,6 @@ void metatree_fill_new_division ( MetatreeInterface * iface, GtkTreeModel * mode
 
 
 
-/**
- * \todo Document this
- *
- *
- *
- */
-void metatree_fill_division ( GtkTreeModel * model, MetatreeInterface * iface, 
-			      int div_id )
-{
-    GtkTreeIter * iter;
-
-    g_return_if_fail ( iface );
-    if ( ! metatree_model_is_displayed ( model ) )
-	return;
-
-    iter = get_iter_from_div ( model, div_id, -1 );
-    fill_division_row ( GTK_TREE_MODEL(model), iface, iter, div_id);
-}
 
 
 
@@ -583,28 +561,6 @@ void metatree_fill_new_sub_division ( MetatreeInterface * iface, GtkTreeModel * 
 				   TRUE, 0.5, 0.0 );
 }
 
-
-
-/**
- * \todo Document this
- *
- *
- *
- */
-void metatree_fill_sub_division ( GtkTreeModel * model, MetatreeInterface * iface, 
-				  int div_id, int sub_div_id )
-{
-    GtkTreeIter * iter;
-
-    g_return_if_fail ( iface );
-    if ( ! metatree_model_is_displayed ( model ) )
-	return;
-
-    iter = get_iter_from_div ( model, div_id, sub_div_id );
-    fill_sub_division_row ( GTK_TREE_MODEL(model), iface, iter, 
-			    div_id, 
-			    sub_div_id);
-}
 
 
 
@@ -1439,11 +1395,11 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 	{
 	    case 1:
 		liste_division_debit = g_slist_append ( liste_division_debit,
-							iface -> div_name (tmp_division));
+							my_strdup (iface -> div_name (tmp_division)));
 		break;
 	    default:
 		liste_division_credit = g_slist_append ( liste_division_credit,
-							 iface -> div_name (tmp_division));
+							 my_strdup (iface -> div_name (tmp_division)));
 		break;
 	}
 
