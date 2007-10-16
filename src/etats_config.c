@@ -314,7 +314,6 @@ GtkWidget *vbox_mode_paiement_etat;
 GtkWidget *liste_mode_paiement_etat;
 
 
-GtkTreeSelection * report_selection;
 GtkTreeStore * report_tree_model;
 GtkWidget * report_tree_view;
 

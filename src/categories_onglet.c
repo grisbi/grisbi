@@ -58,13 +58,6 @@ static gboolean popup_category_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
 
 
-
-/* widgets */
-GtkWidget *entree_nom_categ, *bouton_categ_debit, *bouton_categ_credit;
-GtkWidget *bouton_modif_categ_modifier, *bouton_modif_categ_annuler;
-GtkWidget *bouton_supprimer_categ, *bouton_ajouter_categorie;
-GtkWidget *bouton_ajouter_sous_categorie;
-
 /* Category tree model & view */
 GtkTreeStore * categ_tree_model;
 GtkWidget *arbre_categ;

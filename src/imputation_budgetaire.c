@@ -2,9 +2,8 @@
 /* fichier qui s'occupe de l'onglet de gestion des imputations                */
 /* 			imputation_budgetaire.c                               */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
-/*			2006 Alain Portal (aportal@univ-montp2.fr) 	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -72,17 +71,6 @@ static gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
 
 GtkWidget *budgetary_line_tree;
 GtkTreeStore *budgetary_line_tree_model;
-
-GtkWidget *arbre_imputation;
-GtkWidget *entree_nom_imputation;
-GtkWidget *bouton_imputation_debit;
-GtkWidget *bouton_imputation_credit;
-GtkWidget *bouton_modif_imputation_modifier;
-GtkWidget *bouton_modif_imputation_annuler;
-GtkWidget *bouton_supprimer_imputation;
-GtkWidget *bouton_ajouter_imputation;
-GtkWidget *bouton_ajouter_sous_imputation;
-
 gint no_devise_totaux_ib;
 
 

@@ -52,19 +52,7 @@ static gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu
 
 
 
-/* utilisée pour éviter l'emballement de la connection allocation */
-
-gint ancienne_allocation_liste;
-gint affichage_realise;
-
-
-gint col_depart_drag;
-gint ligne_depart_drag;
 gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
-GtkWidget *boutons_affichage_liste[17];
-GtkWidget *clist_affichage_liste;
-GtkWidget *bouton_choix_perso_colonnes;
-GtkWidget *bouton_caracteristiques_lignes_par_compte;
 GtkWidget *bouton_affichage_lignes_une_ligne;
 GtkWidget *bouton_affichage_lignes_deux_lignes_1;
 GtkWidget *bouton_affichage_lignes_deux_lignes_2;

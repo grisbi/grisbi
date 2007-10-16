@@ -2,12 +2,10 @@
 /* Fichier qui s'occupe de la page d'accueil ( de démarrage lors de           */
 /* l'ouverture d'un fichier de comptes                                        */
 /*                                                                            */
-/*                                  barre_outis.c                             */
+/*                                  barre_outils.c                             */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
-/*			1995-1997 Peter Mattis, Spencer Kimball and	      */
-/*			          Jsh MacDonald				      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -55,27 +53,12 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button );
 /** Used to display/hide comments in scheduler list */
 GtkWidget *scheduler_display_hide_comments;
 
-GtkWidget *bouton_affiche_cache_formulaire_echeancier;
-GtkWidget *bouton_affiche_commentaire_echeancier;
-GtkWidget *fleche_bas_echeancier;
-GtkWidget *fleche_haut_echeancier;
-GtkWidget *bouton_ope_lignes[4];
-GtkWidget *bouton_affiche_r;
-GtkWidget *bouton_enleve_r;
-GtkWidget *bouton_grille;
-GtkWidget *bouton_grille_echeancier;
 
 /** here are the 3 buttons on the scheduler toolbar
  * which can been unsensitive or sensitive */
 GtkWidget *scheduler_button_execute;
 GtkWidget *scheduler_button_delete;
 GtkWidget *scheduler_button_edit;
-
-/* widgets du bouton pour afficher/cacher le transaction_form */
-
-GtkWidget *bouton_affiche_cache_formulaire;
-GtkWidget *fleche_haut;
-GtkWidget *fleche_bas;
 
 
 

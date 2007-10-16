@@ -1,11 +1,11 @@
 /* ************************************************************************** */
-/* fichier qui s'occupe de la partie gauche de l'Ã©chÃ©ancier                   */
+/* fichier qui s'occupe de la partie gauche de l'échéancier                   */
 /* concerne le calendrier, choix des comptes, de l'affichage...               */
 /* 			echeancier_infos.c                                     */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
 /*			2004 Alain Portal (aportal@univ-montp2.fr) 	      */
-/*			2004 Benjamin Drieu (bdrieu@april.org)  	      */
+/*			2004-2007 Benjamin Drieu (bdrieu@april.org)  	      */
 /* 			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -40,9 +40,6 @@ static void click_sur_jour_calendrier_echeance ( GtkWidget *calendrier,
 
 
 GtkWidget *calendrier_echeances;
-GtkWidget *entree_personnalisation_affichage_echeances;
-GtkWidget *bouton_personnalisation_affichage_echeances;
-GtkWidget *bouton_valider_echeance_perso;
 gint affichage_echeances;
 gint affichage_echeances_perso_nb_libre;     /* contient le contenu de l'entrÃ©e */
 

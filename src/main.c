@@ -73,8 +73,6 @@ static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
 
 GtkWidget *window;
 GtkWidget *window_vbox_principale;
-gint id_fonction_idle;
-GtkItemFactory *item_factory_menu_general;
 
 /*START_EXTERN*/
 extern gint hauteur_window;

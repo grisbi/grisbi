@@ -163,9 +163,6 @@ gint hauteur_ligne_liste_opes;
 /* donc associer tous les autres tooltips à ce tooltip (FIXME) */
 GtkTooltips *tooltips_general_grisbi;
 
-/* le GdkGc correspondant aux lignes, créés au début une fois pour toute */
-GdkGC *gc_separateur_operation;
-
 /* utilisé pour éviter que ça s'emballe lors du réglage de la largeur des colonnes */
 gint allocation_precedente;
 

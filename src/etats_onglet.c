@@ -61,8 +61,6 @@ static void importer_etat ( void );
 /*END_STATIC*/
 
 
-GtkWidget *frame_liste_etats;
-GtkWidget *vbox_liste_etats;          /* vbox contenant la liste des états */
 GtkWidget *bouton_effacer_etat;
 GtkWidget *bouton_personnaliser_etat;
 GtkWidget *bouton_imprimer_etat;
@@ -74,7 +72,6 @@ gint ligne_debut_partie;
 GtkWidget *notebook_etats;
 GtkWidget *notebook_config_etat;
 GtkWidget *notebook_selection;
-GtkWidget *notebook_aff_donnees;
 GtkWidget *onglet_config_etat;
 GtkWidget *reports_toolbar;
 

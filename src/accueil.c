@@ -82,7 +82,6 @@ extern GtkWidget *window;
 gchar *chemin_logo;
 GtkWidget *logo_accueil;
 GtkWidget *hbox_title;
-GtkWidget *label_temps;
 GtkWidget *label_titre_fichier;
 GtkWidget *frame_etat_comptes_accueil;
 GtkWidget *frame_etat_fin_compte_passif;
@@ -92,7 +91,6 @@ GtkWidget *main_page_finished_scheduled_transactions_part;
 GtkWidget *frame_etat_soldes_minimaux_autorises;
 GtkWidget *frame_etat_soldes_minimaux_voulus;
 GtkStyle *style_label;
-GtkWidget * label_jour;
 
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 #define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))

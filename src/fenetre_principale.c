@@ -67,8 +67,6 @@ GtkWidget *notebook_general;
 GtkWidget *main_hpaned = NULL;
 GtkWidget *main_vbox;
 
-GtkWidget *notebook_comptes_equilibrage;
-
 /** Notebook of the account pane. */
 GtkWidget *account_page;
 

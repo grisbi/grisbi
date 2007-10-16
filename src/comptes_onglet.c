@@ -33,10 +33,7 @@
 
 
 
-GtkWidget *paned_onglet_comptes;
 GtkWidget *bouton_supprimer_compte;
-GtkWidget *label_compte_courant_onglet;
-GtkWidget *vbox_liste_comptes_onglet;
 
 /*START_EXTERN*/
 /*END_EXTERN*/

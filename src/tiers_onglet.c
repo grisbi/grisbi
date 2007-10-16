@@ -57,12 +57,6 @@ static gboolean popup_payee_view_mode_menu ( GtkWidget * button );
 
 
 GtkWidget *arbre_tiers;
-GtkWidget *entree_nom_tiers;
-GtkWidget *text_box;
-GtkWidget *bouton_modif_tiers_modifier;
-GtkWidget *bouton_modif_tiers_annuler;
-GtkWidget *bouton_supprimer_tiers;
-GtkWidget *bouton_ajouter_tiers;
 
 gint no_devise_totaux_tiers;
 

@@ -74,11 +74,8 @@ GtkNotebook * preference_frame;
 gint preference_selected = -1;
 GtkTreeSelection * selection;
 GtkWidget *tree_view;
-GtkWidget * bouton_display_lock_active;
 
 GtkWidget *fenetre_preferences;
-GtkWidget *bouton_solde_mini;
-GtkWidget *bouton_affiche_permission;
 
 GtkWidget *entree_titre_fichier;
 GtkWidget *entree_adresse_commune;

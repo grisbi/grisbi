@@ -127,8 +127,6 @@ static gint mother_transaction_number;
 gint valeur_echelle_recherche_date_import;
 GSList *liste_comptes_importes;
 GSList *liste_comptes_importes_error;
-GtkWidget *dialog_recapitulatif;
-GtkWidget *table_recapitulatif;
 gint virements_a_chercher;
 
 enum import_filesel_columns { 
