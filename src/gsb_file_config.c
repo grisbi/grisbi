@@ -36,7 +36,6 @@
 #include "./dialog.h"
 #include "./gsb_file.h"
 #include "./utils_str.h"
-#include "./configuration.h"
 #include "./main.h"
 #include "./utils_files.h"
 #include "./print_config.h"
@@ -306,12 +305,7 @@ gboolean gsb_file_config_load_config ( void )
 							 "Show closed accounts",
 							 NULL );
 
-    /* FIXME : why use load_config_format ? external from here
-     * perhaps Joao wants to add something ? i let it for now */
-    load_config_format(config);
-
     /* get messages */
-
     for ( i = 0; messages[i].name; i ++ )
     {
 	gchar * name = g_strconcat ( messages[i].name , "-answer", NULL );
@@ -596,8 +590,6 @@ gboolean gsb_file_config_save_config ( void )
 			     "Display",
 			     "Show closed accounts",
 			     etat.show_closed_accounts );
-    /* FIXME : keep that external for now... to see */
-    save_config_format(config);
 
     /* save messages */
 
@@ -1164,8 +1156,6 @@ void gsb_file_config_clean_config ( void )
     etat.print_config.orientation = LANDSCAPE;
 
     memset ( etat.csv_skipped_lines, '\0', sizeof(gboolean) * CSV_MAX_TOP_LINES );
-
-    set_default_config_format();
 }
 
 

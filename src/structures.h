@@ -1,5 +1,5 @@
-#ifndef STRUCTURES_H
-#define STRUCTURES_H (1)
+#ifndef _STRUCTURES_H
+#define _STRUCTURES_H (1)
 
 /* fichier d'en tête structures.h */
 /* contient toutes les structures du prog */
@@ -18,20 +18,13 @@
 #define VERSION_FICHIER_CATEG "0.6.0"
 #define VERSION_FICHIER_IB "0.6.0"
 
-/* constante de debug originale, obsolete il faudrait utiliser maintenant */
-/* la variable globale debugging_grisbi, voir erreur.c */
-#define DEBUG utils_str_atoi (getenv ("DEBUG_GRISBI"))
-
-/* constantes definissant le niveau de debug */
+/* level of debugging */
 #define	DEBUG_LEVEL_ALERT			1		/* grave probleme */
 #define DEBUG_LEVEL_IMPORTANT			2		/* probleme moins grave */
 #define DEBUG_LEVEL_NOTICE			3		/* probleme encore moins grave :) */
 #define DEBUG_LEVEL_INFO			4		/* autre information */
 #define DEBUG_LEVEL_DEBUG			5		/* information de debug */
 #define MAX_DEBUG_LEVEL				5		/* ignore higher debug levels */
-/* constante indiquant dans quelle fichier on se trouve */
-/* c'est un alias pratique pour la fonction debug */
-#define DEBUG_WHERE_AM_I g_strdup_printf("%s line %05d",__FILE__,__LINE__)
 
 /* initialisation des couleurs */
 
@@ -50,9 +43,6 @@
 #define COULEUR_NOIRE_RED 0
 #define COULEUR_NOIRE_GREEN 0
 #define COULEUR_NOIRE_BLUE 0
-#define COULEUR_BLANCHE_RED 65535
-#define COULEUR_BLANCHE_GREEN 65535
-#define COULEUR_BLANCHE_BLUE 65535
 #define COULEUR_GRISE_RED 50000
 #define COULEUR_GRISE_GREEN 50000
 #define COULEUR_GRISE_BLUE 50000
@@ -180,10 +170,5 @@ struct {
 enum alignement {
     LEFT, CENTER, RIGHT,
 };
-
-
-
-#define STANDARD_WIDTH 6
-#define STANDARD_DIALOG_WIDTH 12
 
 #endif

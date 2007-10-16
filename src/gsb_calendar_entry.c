@@ -36,6 +36,7 @@
 #include "./utils_dates.h"
 #include "./gsb_form_widget.h"
 #include "./structures.h"
+#include "./traitement_variables.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
@@ -202,14 +203,14 @@ gboolean gsb_calendar_entry_set_color ( GtkWidget *entry,
     GdkColor red, black;
 
     red.pixel = 0;
-    red.red = COULEUR_BLANCHE_RED * 256; 
-    red.green = 0;
-    red.blue = 0;
+    red.red = COULEUR_ROUGE_RED; 
+    red.green = COULEUR_ROUGE_GREEN;
+    red.blue = COULEUR_ROUGE_BLUE;
 
     black.pixel = 0;
-    black.red = 0;
-    black.green = 0;
-    black.blue = 0;
+    black.red = COULEUR_NOIRE_RED;
+    black.green = COULEUR_NOIRE_GREEN;
+    black.blue = COULEUR_NOIRE_BLUE;
 
     if (!entry)
 	return FALSE;

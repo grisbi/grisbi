@@ -3,9 +3,11 @@
 
 /* Fichier de définition de constantes relatives à la souris mouse.h */
 
-# define LEFT_BUTTON 1
-# define MIDDLE_BUTTON 2
-# define RIGHT_BUTTON 3
+/* possible values for a GdkEventButton -> button 
+ * cf GdkEventButton structure in gnome library */
+#define LEFT_BUTTON 1
+#define MIDDLE_BUTTON 2
+#define RIGHT_BUTTON 3
 
 
 /* START_INCLUDE_H */

@@ -7,13 +7,6 @@ grisbi_LDFLAGS = -Wl,-E
 
 config_dir = config
 
-sources_config = 			\
-	configuration.c
-
-include_config= \
-    configuration.h  \
-    xmlnames.h      
-
 sources = \
 	accueil.c		\
 	affichage.c		\
@@ -242,7 +235,6 @@ grisbi_INCLUDES =		\
 	tiers_onglet.h		\
 	traitement_variables.h	\
 	utils.h			\
-	utils_c.h		\
 	utils_buttons.h		\
 	utils_comptes.h		\
 	utils_dates.h		\
