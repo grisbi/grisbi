@@ -45,7 +45,7 @@
 #include "./erreur.h"
 #include "./dialog.h"
 #include "./tip.h"
-#include "./gsb_account.h"
+#include "./gsb_assistant_first.h"
 #include "./gsb_file.h"
 #include "./gsb_file_config.h"
 #include "./gsb_status.h"
@@ -55,8 +55,8 @@
 #include "./import.h"
 #include "./parse_cmdline.h"
 #include "./gsb_file_config.h"
-#include "./include.h"
 #include "./structures.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 
@@ -175,7 +175,6 @@ int main (int argc, char *argv[])
     initialisation_couleurs_listes ();
 
     /* create the toplevel window */
-
     window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
     g_signal_connect ( G_OBJECT (window),
 		       "delete_event",
@@ -247,17 +246,13 @@ int main (int argc, char *argv[])
 #ifdef IS_DEVELOPMENT_VERSION
     
 dialogue_hint("Warning, please be aware that the version you run is a DEVELOPMENT version.\n \
-In any case you do work with this version on your original accounting files.\n \
+In any case you do not work with this version on your original accounting files.\n \
 (File format may change and set the files incompatible with previous version)\n ",VERSION);
 #endif
 
     if ( first_use )
     {
-	dialogue_hint ( _("You can now create your account file ... blah blah.  This will be replaced by a nice assistant."),
-			_("Welcome to Grisbi!"));
-	/* xxx ici on part pas vers gsb_account_new mais plutôt new_file
-	 * mais faire l'assistant qui va tout faire */
-	gsb_account_new ();
+	gsb_assistant_first_run ();
     }
     else
     {

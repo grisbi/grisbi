@@ -21,7 +21,6 @@ gboolean gsb_calendar_entry_set_color ( GtkWidget *entry,
 					gboolean normal_color );
 gboolean gsb_calendar_entry_set_date ( GtkWidget *entry,
 				       const GDate *date );
-gboolean gsb_calendar_init_entry_colors ( void );
 /*END_DECLARATION*/
 
 

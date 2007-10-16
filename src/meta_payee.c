@@ -40,7 +40,7 @@ static gint payee_add_sub_div ( int div_id );
 static gboolean payee_add_transaction_to_div ( gint transaction_number, 
 					int div_id );
 static void payee_add_transaction_to_sub_div ( gint transaction_number, 
-					    int div_id, int sub_div_id );
+					int div_id, int sub_div_id );
 static const gchar *payee_div_name ( gint div );
 static GSList * payee_div_sub_div_list ( gint div );
 static gint payee_div_type ( gint div );
@@ -50,16 +50,16 @@ static gint payee_get_without_div_pointer ( );
 static gboolean payee_remove_sub_div ( int div_id, int sub_div_id );
 static gint payee_scheduled_div_id ( gint scheduled_number );
 static gboolean payee_scheduled_set_div_id ( gint scheduled_number, 
-				  int no_div );
+				      int no_div );
 static gboolean payee_scheduled_set_sub_div_id ( gint scheduled_number,
-				      int no_sub_div );
+					  int no_sub_div );
 static gint payee_scheduled_sub_div_id ( gint scheduled_number );
 static gsb_real payee_sub_div_balance ( gint div, gint sub_div );
 static gint payee_sub_div_id ( gpointer sub_payee );
 static const gchar * payee_sub_div_name ( gint div, gint sub_div );
 static gint payee_sub_div_nb_transactions ( gint div, gint sub_div );
 static gboolean payee_transaction_set_sub_div_id ( gint transaction_number, 
-					int no_sub_div );
+					    int no_sub_div );
 static gint payee_transaction_sub_div_id ( gint transaction_number );
 /*END_STATIC*/
 

@@ -31,7 +31,6 @@
 /*START_INCLUDE*/
 #include "traitement_variables.h"
 #include "./erreur.h"
-#include "./gsb_calendar_entry.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"

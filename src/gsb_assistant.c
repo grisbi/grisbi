@@ -54,7 +54,7 @@ extern GtkWidget *window;
  * \param title			Title of the assistant.
  * \param explanation		Short text to display in the first
  *				page of the assistant.
- * \param image_filename	Icon to display in the title.
+ * \param image_filename	Icon to display in the title. (if NULL, use grisbi.png, default logo)
  * \param enter_callback	A callback to connect to the "switch-page" callback when go to the first page
  *				of the Grisbi assistant notebook. (the callback should
  *				be : gboolean callback ( GtkWidget *assistant, gint new_page ) )
@@ -99,6 +99,9 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     gtk_label_set_markup ( GTK_LABEL(label), g_strconcat ( "<b><span size=\"x-large\">",
 							   title, "</span></b>", NULL ) );
     gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 0 );
+
+    if (!image_filename)
+	image_filename = "grisbi.png";
 
     image = gtk_image_new_from_file ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
 						    image_filename, NULL) );
