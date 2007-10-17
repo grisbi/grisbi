@@ -1339,7 +1339,6 @@ gint gsb_form_get_element_expandable ( gint element_number )
 	case TRANSACTION_FORM_TYPE:
 	case TRANSACTION_FORM_OP_NB:
 	case TRANSACTION_FORM_MODE:
-	    printf ("%s is shrinkable\n", gsb_form_widget_get_name(element_number)); 
 	    return GTK_SHRINK;
 
 	default:

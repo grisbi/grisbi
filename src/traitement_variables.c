@@ -143,6 +143,7 @@ extern GtkWidget *solde_label ;
 extern GtkWidget *solde_label_pointe ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern GtkTooltips *tooltips_general_grisbi;
+extern gint transaction_col_width[TRANSACTION_LIST_COL_NB];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
@@ -186,7 +187,8 @@ void modification_fichier ( gboolean modif )
 
 void init_variables ( void )
 {
-    gint scheduler_col_width_init[NB_COLS_SCHEDULER] = { 10, 26, 20, 14, 14, 28, 8};
+    gint scheduler_col_width_init[NB_COLS_SCHEDULER] = {119, 121, 352, 129, 147, 0, 116};
+    gint transaction_col_width_init[TRANSACTION_LIST_COL_NB] = {82, 106, 541, 82, 144, 123, 82};
     gint i;
 
     devel_debug ( "init_variables" );
@@ -273,8 +275,10 @@ void init_variables ( void )
     etat.combofix_force_payee = FALSE;
     etat.combofix_force_category = FALSE;
     
-    /*     on met à jour les valeurs par défaut des largeurs de colonnes de la liste d'échéances */
-    for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
+    /* defaut value for width of columns */
+    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
+	transaction_col_width[i] = transaction_col_width_init[i];
+     for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
 	scheduler_col_width[i] = scheduler_col_width_init[i];
     
 

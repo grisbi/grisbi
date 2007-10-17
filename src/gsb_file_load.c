@@ -137,8 +137,10 @@ extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gchar *nom_fichier_backup;
 extern gsb_real null_real ;
+extern gint scheduler_col_width[NB_COLS_SCHEDULER];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern gchar *titre_fichier;
+extern gint transaction_col_width[TRANSACTION_LIST_COL_NB];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
@@ -167,9 +169,6 @@ static gint last_sub_budget_number = 0;
 
 /* to import older file than 0.6, makes the link between report and comparison structures */
 gint last_report_number;
-
-/** FIXME : here for now, will be use to save and restore the width of the list */
-gint scheduler_col_width[NB_COLS_SCHEDULER];
 
 /** filled only when loading a version before 0.6, contains the order of the accounts
  * in the 0.6, the accounts are saved directly in the good order
@@ -834,11 +833,29 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	}
 
 	else if ( !strcmp ( attribute_names[i],
-			    "Scheduler_column_width_ratio" ))
+			    "Transaction_column_width" ))
 	{
 	    gchar **pointeur_char;
 	    gint j;
 
+	    /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
+	    pointeur_char = g_strsplit ( attribute_values[i],
+					 "-",
+					 0 );
+
+	    for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
+		transaction_col_width[j] = utils_str_atoi ( pointeur_char[j]);
+
+	    g_strfreev ( pointeur_char );
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Scheduler_column_width" ))
+	{
+	    gchar **pointeur_char;
+	    gint j;
+
+	    /* the scheduler columns are xx-xx-xx-xx and we want to set in scheduler_col_width[1-2-3...] */
 	    pointeur_char = g_strsplit ( attribute_values[i],
 					 "-",
 					 0 );
@@ -5231,17 +5248,8 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Rapport_largeur_col_echeancier" ))
     {
-	gchar **pointeur_char;
-	gint i;
-
-	pointeur_char = g_strsplit ( text,
-				     "-",
-				     0 );
-
-	for ( i=0 ; i<NB_COLS_SCHEDULER ; i++ )
-	    scheduler_col_width[i] = utils_str_atoi ( pointeur_char[i]);
-
-	g_strfreev ( pointeur_char );
+	/* here do nothing because it was a ration before, and now it's fixed width,
+	 * so come back to default */
 	return;
     }
 }

@@ -129,7 +129,6 @@ static gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *but
 static gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
 					      gpointer null );
 static void popup_transaction_context_menu ( gboolean full, int x, int y );
-static void remplissage_liste_operations ( gint compte );
 static gint schedule_transaction ( gint transaction_number );
 static gsb_real solde_debut_affichage ( gint account_number,
 				 gint floating_point);
@@ -144,6 +143,9 @@ GtkWidget *tree_view_vbox;
 
 /* the columns of the tree_view */
 GtkTreeViewColumn *transactions_tree_view_columns[TRANSACTION_LIST_COL_NB];
+
+/* the initial width of each column */
+gint transaction_col_width[TRANSACTION_LIST_COL_NB];
 
 /* adr de la barre d'outils */
 GtkWidget *barre_outils;
@@ -684,13 +686,23 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 
 	gtk_tree_view_column_set_alignment ( transactions_tree_view_columns[i],
 					     alignment[i] );
-	gtk_tree_view_column_set_sizing ( transactions_tree_view_columns[i],
-					  GTK_TREE_VIEW_COLUMN_AUTOSIZE );
 	gtk_tree_view_column_set_sort_column_id ( transactions_tree_view_columns[i], i );
-	gtk_tree_view_column_set_expand ( transactions_tree_view_columns[i], TRUE );
-	gtk_tree_view_column_set_resizable ( transactions_tree_view_columns[i], TRUE );
 
-	gtk_tree_view_column_set_min_width ( transactions_tree_view_columns[i], 1 );
+	/* automatic and resizeable sizing */
+	gtk_tree_view_column_set_expand ( transactions_tree_view_columns[i],
+					  TRUE );
+	gtk_tree_view_column_set_sizing ( transactions_tree_view_columns[i],
+					  GTK_TREE_VIEW_COLUMN_FIXED );
+	gtk_tree_view_column_set_resizable ( transactions_tree_view_columns[i],
+					     TRUE );
+
+	/* initial size */
+	if (transaction_col_width[i])
+	    gtk_tree_view_column_set_fixed_width ( transactions_tree_view_columns[i],
+						   transaction_col_width[i] );
+
+	gtk_tree_view_column_set_min_width ( transactions_tree_view_columns[i],
+					     1 );
     }
 
     /* get the position of the amount column to set it in red */
@@ -749,39 +761,6 @@ void update_titres_tree_view ( void )
 
 
 
-/******************************************************************************/
-/* remplissage du list_store du compte donné en argument */
-/* cette fonction efface l'ancienne liste et la remplit avec les données actuelles */
-/* elle remplit la liste d'un seul coup */
-/* elle met à jour les soldes courant et pointés */
-/******************************************************************************/
-void remplissage_liste_operations ( gint compte )
-{
-    devel_debug ( g_strdup_printf ("remplissage_liste_operations compte %d", compte ));
-
-    /* FIXME  cette fonction est à virer */
-
-    /*     on efface la liste */
-
-    gtk_tree_store_clear ( gsb_transactions_list_get_store()  );
-
-    /*     plus rien n'est affiché */
-
-
-    /*     on remplit le list_store */
-
-    /*     gsb_transactions_list_fill_store ( compte, */
-    /* 				       0 ); */
-
-    /*     on met les couleurs du fond */
-
-    gsb_transactions_list_set_background_color ( compte );
-
-    /*     on met les soldes */
-
-    gsb_transactions_list_set_transactions_balances ( compte );
-}
-/******************************************************************************/
 
 /**
  * create the store which contains the transactions
@@ -5164,6 +5143,28 @@ static gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
     return (what_is_line == IS_SEPARATOR);
 }
 
+
+/**
+ * update the value of transaction_col_width with the current width of column
+ * this is called usually juste before saving the file,
+ * to save the initial width of columns in the next opening
+ *
+ * \param
+ *
+ * \return
+ * */
+void gsb_transactions_list_update_col_width (void)
+{
+    gint i;
+
+    if (!transactions_tree_view)
+	return;
+
+    for (i=0 ; i<TRANSACTION_LIST_COL_NB ; i++)
+	if (transactions_tree_view_columns[i])
+	    transaction_col_width[i] = gtk_tree_view_column_get_width (transactions_tree_view_columns[i]);
+    return;
+}
 
 
 /* Local Variables: */

@@ -2,9 +2,8 @@
 /* fichier qui s'occupe de tout ce qui concerne l'échéancier                */
 /* 			echeances_liste.c                                     */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Alain Portal (aportal@univ-montp2.fr) 	      */
-/*			2004-2005 Benjamin Drieu (bdrieu@april.org)  	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2007 Benjamin Drieu (bdrieu@april.org)  	      */
 /* 			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -117,6 +116,9 @@ gint nb_days_before_scheduled;
 /** lists of number of scheduled transactions taken or to be taken */
 GSList *scheduled_transactions_to_take;
 GSList *scheduled_transactions_taken;
+
+/** used to save and restore the width of the scheduled list */
+gint scheduler_col_width[NB_COLS_SCHEDULER];
 
 
 /**
@@ -339,13 +341,18 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
 	gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
 					     FALSE );
 
-	/* automatic sizing */
+	/* automatic and resizeable sizing */
 	gtk_tree_view_column_set_expand ( scheduler_list_column[i],
 					  TRUE );
 	gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
-					  GTK_TREE_VIEW_COLUMN_AUTOSIZE );
+					  GTK_TREE_VIEW_COLUMN_FIXED );
 	gtk_tree_view_column_set_resizable ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
 					     TRUE );
+
+	/* initial size */
+	if (scheduler_col_width[i])
+	    gtk_tree_view_column_set_fixed_width ( scheduler_list_column[i],
+						   scheduler_col_width[i] );
     }
 }
 
@@ -1659,6 +1666,28 @@ gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number )
     return FALSE;
 }
 
+
+/**
+ * update the value of scheduler_col_width with the current width of column
+ * this is called usually juste before saving the file,
+ * to save the initial width of columns in the next opening
+ *
+ * \param
+ *
+ * \return
+ * */
+void gsb_scheduler_list_update_col_width (void)
+{
+    gint i;
+
+    if (!tree_view_scheduler_list)
+	return;
+
+    for (i=0 ; i<NB_COLS_SCHEDULER ; i++)
+	if (scheduler_list_column[i])
+	    scheduler_col_width[i] = gtk_tree_view_column_get_width (scheduler_list_column[i]);
+    return;
+}
 
 
 /* Local Variables: */

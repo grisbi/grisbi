@@ -108,7 +108,6 @@ typedef struct
 
 
 /*START_STATIC*/
-static gsb_real gsb_data_account_calculate_current_balance ( gint account_number );
 static struct_account *gsb_data_account_get_structure ( gint no );
 static gint gsb_data_account_max_number ( void );
 static gboolean gsb_data_account_set_default_sort_values ( gint account_number );
@@ -903,51 +902,6 @@ gboolean gsb_data_account_set_current_balance ( gint account_number,
 }
 
 
-
-/**
- * calculate and fill in the account the current balance of that account
- * the value calculated will have the same exponent of the currency account
- *
- * \param account_number
- *
- * \return the current balance
- * */
-gsb_real gsb_data_account_calculate_current_balance ( gint account_number )
-{
-    struct_account *account;
-    GSList *tmp_list;
-    gsb_real current_balance;
-    gint floating_point;
-
-    account = gsb_data_account_get_structure ( account_number );
-
-    if (!account )
-	return null_real;
-
-    floating_point = gsb_data_currency_get_floating_point (account -> currency);
-    current_balance = gsb_real_adjust_exponent ( account -> init_balance,
-						 floating_point );
-
-    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
-
-    while (tmp_list)
-    {
-	gint transaction_number;
-
-	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
-
-	if ( gsb_data_transaction_get_account_number (transaction_number) == account_number
-	     &&
-	     !gsb_data_transaction_get_mother_transaction_number (transaction_number))
-	    current_balance = gsb_real_add ( current_balance,
-					     gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point));
-	tmp_list = tmp_list -> next;
-    }
-
-    account -> current_balance = current_balance;
-
-    return current_balance;
-}
 
 /**
  * calculate and fill in the account the current and marked balance of that account

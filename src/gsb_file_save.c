@@ -54,6 +54,8 @@
 #include "./navigation.h"
 #include "./gsb_plugins.h"
 #include "./gsb_real.h"
+#include "./gsb_scheduler_list.h"
+#include "./gsb_transactions_list.h"
 #include "./utils_str.h"
 #include "./structures.h"
 #include "./gsb_data_form.h"
@@ -122,6 +124,7 @@ extern gchar *nom_fichier_backup;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern gchar *titre_fichier;
+extern gint transaction_col_width[TRANSACTION_LIST_COL_NB];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
@@ -413,10 +416,10 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *third_string_to_free;
     gint i,j;
     gchar *transactions_view;
-    gchar *transaction_column_width_ratio;
     gchar *two_lines_showed;
     gchar *tree_lines_showed;
-    gchar *scheduler_column_width_ratio;
+    gchar *scheduler_column_width_write;
+    gchar *transaction_column_width_write;
     gchar *new_string;
     gchar *skipped_lines_string;
     gboolean is_archive = FALSE;
@@ -441,9 +444,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	    else
 		transactions_view = utils_str_itoa ( tab_affichage_ope[i][j] );
 
-    /* prepare transaction_column_width_ratio */
-    transaction_column_width_ratio = NULL;
-
     /* prepare two_lines_showed */
 
     two_lines_showed = g_strconcat ( first_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data )),
@@ -465,14 +465,34 @@ gulong gsb_file_save_general_part ( gulong iterator,
     g_free (second_string_to_free);
     g_free (third_string_to_free);
 
-    /* prepare scheduler_column_width_ratio */
+    /* prepare transaction_column_width_write */
+    gsb_transactions_list_update_col_width ();
 
-    scheduler_column_width_ratio = NULL;
+    transaction_column_width_write = NULL;
+
+    for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
+	if ( transaction_column_width_write )
+	{
+	    transaction_column_width_write = g_strconcat ( first_string_to_free = transaction_column_width_write,
+							 "-",
+							 second_string_to_free = utils_str_itoa ( transaction_col_width[i] ),
+							 NULL );
+	    g_free (first_string_to_free);
+	    g_free (second_string_to_free);
+	}
+	else
+	    transaction_column_width_write  = utils_str_itoa ( transaction_col_width[i] );
+
+
+    /* prepare scheduler_column_width_write */
+    gsb_scheduler_list_update_col_width ();
+
+    scheduler_column_width_write = NULL;
 
     for ( i=0 ; i<NB_COLS_SCHEDULER ; i++ )
-	if ( scheduler_column_width_ratio )
+	if ( scheduler_column_width_write )
 	{
-	    scheduler_column_width_ratio = g_strconcat ( first_string_to_free = scheduler_column_width_ratio,
+	    scheduler_column_width_write = g_strconcat ( first_string_to_free = scheduler_column_width_write,
 							 "-",
 							 second_string_to_free = utils_str_itoa ( scheduler_col_width[i] ),
 							 NULL );
@@ -480,7 +500,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	    g_free (second_string_to_free);
 	}
 	else
-	    scheduler_column_width_ratio  = utils_str_itoa ( scheduler_col_width[i] );
+	    scheduler_column_width_write  = utils_str_itoa ( scheduler_col_width[i] );
 
 
     /* CSV skipped lines */
@@ -523,12 +543,12 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tCheck_archival_at_opening=\"%d\"\n"
 					   "\t\tMax_transactions_before_warm_archival=\"%d\"\n"
 					   "\t\tTransactions_view=\"%s\"\n"
-					   "\t\tTransaction_column_width_ratio=\"%s\"\n"
 					   "\t\tOne_line_showed=\"%d\"\n"
 					   "\t\tTwo_lines_showed=\"%s\"\n"
 					   "\t\tThree_lines_showed=\"%s\"\n"
 					   "\t\tRemind_form_per_account=\"%d\"\n"
-					   "\t\tScheduler_column_width_ratio=\"%s\"\n"
+					   "\t\tTransaction_column_width=\"%s\"\n"
+					   "\t\tScheduler_column_width=\"%s\"\n"
 					   "\t\tCombofix_mixed_sort=\"%d\"\n"
 					   "\t\tCombofix_max_item=\"%d\"\n"
 					   "\t\tCombofix_case_sensitive=\"%d\"\n"
@@ -560,12 +580,12 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.check_for_archival,
 	etat.max_non_archived_transactions_for_check,
 	transactions_view,
-	transaction_column_width_ratio,
 	ligne_affichage_une_ligne,
 	two_lines_showed,
 	tree_lines_showed,
 	etat.formulaire_distinct_par_compte,
-	scheduler_column_width_ratio,
+	transaction_column_width_write,
+	scheduler_column_width_write,
 	etat.combofix_mixed_sort,
 	etat.combofix_max_item,
 	etat.combofix_case_sensitive,
@@ -577,10 +597,10 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	skipped_lines_string );
 
     g_free (transactions_view);
-    g_free (transaction_column_width_ratio);
     g_free (two_lines_showed);
     g_free (tree_lines_showed);
-    g_free (scheduler_column_width_ratio);
+    g_free (scheduler_column_width_write);
+    g_free (transaction_column_width_write);
 
     /* append the new string to the file content
      * and return the new iterator */

@@ -98,6 +98,7 @@ void gsb_transactions_list_set_store (GtkTreeStore *store);
 gboolean gsb_transactions_list_set_transactions_balances ( gint account_number );
 void gsb_transactions_list_set_visible_rows_number ( gint rows_number );
 gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint account_number );
+void gsb_transactions_list_update_col_width (void);
 gboolean gsb_transactions_list_update_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_update_transaction_value ( gint element_number );
 void mise_a_jour_affichage_r ( gint affichage_r );
