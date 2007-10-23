@@ -4,7 +4,7 @@
 /*                                                                            */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
 /*			     2004 Alain Portal (aportal@univ-montp2.fr)	      */
-/*			2006-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2006-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org/   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -123,7 +123,11 @@ static void selectionne_liste_virements_etat_courant ( void );
 static void selectionne_partie_liste_compte_etat ( gint *type_compte );
 static void selectionne_partie_liste_compte_vir_etat ( gint *type_compte );
 static void sensitive_hbox_fonction_bouton_txt ( gint text_comparison_number );
-static void stylise_tab_label_etat ( gint *no_page );
+static gboolean report_tree_update_style ( gint * page_number );
+static gboolean report_tree_update_style_iterator ( GtkTreeModel * tree_model, 
+						    GtkTreePath *path, 
+						    GtkTreeIter *iter, 
+						    gpointer data );
 /*END_STATIC*/
 
 
@@ -361,10 +365,11 @@ void personnalisation_etat (void)
 					   NULL );
 
     /* Create model */
-    report_tree_model = gtk_tree_store_new (3, 
-					    G_TYPE_STRING, 
-					    G_TYPE_INT,
-					    G_TYPE_INT );
+    report_tree_model = gtk_tree_store_new ( REPORT_TREE_NUM_COLUMNS, 
+					     G_TYPE_STRING, 
+					     G_TYPE_INT,
+					     G_TYPE_INT,
+					     G_TYPE_INT );
     /* Create container + TreeView */
     sw = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
@@ -381,11 +386,10 @@ void personnalisation_etat (void)
     column = 
 	gtk_tree_view_column_new_with_attributes ("Categories",
 						  cell,
-						  "text", 0,
+						  "text", REPORT_TREE_TEXT_COLUMN,
+						  "weight", REPORT_TREE_BOLD_COLUMN,
+						  "style", REPORT_TREE_ITALIC_COLUMN,
 						  NULL);
-    gtk_tree_view_column_add_attribute ( GTK_TREE_VIEW_COLUMN(column), cell, 
-					 "weight", 2 );
-
     gtk_tree_view_append_column (GTK_TREE_VIEW (report_tree_view),
 				 GTK_TREE_VIEW_COLUMN (column));
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW (report_tree_view), FALSE );
@@ -410,6 +414,8 @@ void personnalisation_etat (void)
     paned = gtk_hpaned_new();
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), paned,
 			 TRUE, TRUE, 0 );
+    gtk_box_set_spacing ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( paned ), 0 );
 
     gtk_paned_add1(GTK_PANED(paned), sw);
 
@@ -421,7 +427,7 @@ void personnalisation_etat (void)
 				 FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook_config_etat ), 
 				   FALSE );
-
+    gtk_container_set_border_width ( GTK_CONTAINER ( notebook_config_etat ), 0 );
 
     /* on ajoute les onglets dans l'onglet de base correspondant */
 
@@ -431,99 +437,100 @@ void personnalisation_etat (void)
     /* Display subtree */
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter, NULL);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter,
-			0, _("Data selection"),
-			1, -1,
-			2, 800, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Data selection"),
+			REPORT_TREE_PAGE_COLUMN, -1,
+			REPORT_TREE_BOLD_COLUMN, 800, 
+			-1);
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_dates (),
 			       gtk_label_new (SPACIFY(_("Dates"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			0, _("Dates"),
-			1, page++,
-			2, 400, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Dates"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_virements (),
 			       gtk_label_new (SPACIFY(_("Transfers"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			0, _("Transfers"),
-			1, page++,
-			2, 400, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Transfers"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_comptes (),
 			       gtk_label_new (SPACIFY(_("Accounts"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			0, _("Accounts"),
-			1, page++,
-			2, 400, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Accounts"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_tiers (),
 			       gtk_label_new (SPACIFY(_("Payee"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			0, _("Payee"),
-			1, page++,
-			2, 400, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Payee"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_categories (),
 			       gtk_label_new (SPACIFY(_("Categories"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			0, _("Categories"),
-			1, page++,
-			2, 400, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Categories"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_ib (),
 			       gtk_label_new (SPACIFY(_("Budgetary lines"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			0, _("Budgetary lines"),
-			1, page++,
-			2, 400, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Budgetary lines"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_texte (),
 			       gtk_label_new (SPACIFY(_("Texts"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			0, _("Texts"),
-			1, page++,
-			2, 400, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Texts"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_montant (),
 			       gtk_label_new (SPACIFY(_("Amounts"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			0, _("Amounts"),
-			1, page++,
-			2, 400, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Amounts"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_mode_paiement (),
 			       gtk_label_new (SPACIFY(_("Payment methods"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			0, _("Payment methods"),
-			1, page++,
-			2, 400, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Payment methods"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_divers (),
 			       gtk_label_new (SPACIFY(_("Misc."))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			0, _("Miscellaneous"),
-			1, page++,
-			2, 400, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Miscellaneous"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
 
 
     /* remplissage de l'onglet d'organisation */
@@ -532,52 +539,52 @@ void personnalisation_etat (void)
 			       gtk_label_new (SPACIFY(_("Data organization"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter, NULL);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter,
-			0, _("Data organization"),
-			1, page++,
-			2, 800, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Data organization"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 800, -1);
 
     /* remplissage de l'onglet d'affichage */
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter, NULL);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter,
-			0, _("Data display"),
-			1, -1,
-			2, 800, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Data display"),
+			REPORT_TREE_PAGE_COLUMN, -1,
+			REPORT_TREE_BOLD_COLUMN, 800, -1);
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_affichage_etat_generalites (),
 			       gtk_label_new (SPACIFY(_("Generalities"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			0, _("Generalities"),
-			1, page++,
-			2, 400, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Generalities"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_affichage_etat_divers (),
 			       gtk_label_new (SPACIFY(_("Titles"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			0, _("Titles"),
-			1, page++,
-			2, 400, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Titles"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_affichage_etat_operations (),
 			       gtk_label_new (SPACIFY(_("Transactions"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			0, _("Transactions"),
-			1, page++,
-			2, 400, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Transactions"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_affichage_etat_devises (),
 			       gtk_label_new (SPACIFY(_("Currencies"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			0, _("Currencies"),
-			1, page++,
-			2, 400, -1);
+			REPORT_TREE_TEXT_COLUMN, _("Currencies"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
 
 
     /* on va maintenant remplir toutes les infos de l'état */
@@ -1964,48 +1971,77 @@ void recuperation_info_perso_etat ( void )
 
 
 
-/******************************************************************************/
-/* vérifie pour la page donnée en argument si le label du notebook doit */
-/* être mis d'une couleur différente ou non */
-/******************************************************************************/
-void stylise_tab_label_etat ( gint *no_page )
+/**
+ * If applicable, update report navigation tree style to reflect which
+ * pages have been changed.
+ *
+ * \param page_number	Page that contained an interface element just
+ *			changed that triggered this event.
+ *
+ * \return		FALSE
+ */
+gboolean report_tree_update_style ( gint * page_number )
 {
-    GtkStyle *style;
 
-    /* par défaut le style est normal */
-    /* FIXME : see why it's to NULL, was to style_label_nom_compte before,
-     * but style_label_nom_compte was NULL, so I set style to NULL, would
-     * be good to check... [cedric] */
+    gtk_tree_model_foreach ( GTK_TREE_MODEL(report_tree_model),
+			     (GtkTreeModelForeachFunc) report_tree_update_style_iterator,
+			     GINT_TO_POINTER ( page_number ) );
 
-    style = NULL;
+    return FALSE;
+}
 
-    switch ( GPOINTER_TO_INT ( no_page ))
+
+
+/**
+ * Iterator that iterates over the report tree model and updates
+ * iter of report that is equal to `data'.
+ *
+ * \param tree_model	Pointer to the model of the navigation tree.
+ * \param path		Not used.
+ * \param iter		Current iter to test.
+ * \param data		Page to be updated.
+ *
+ * \return TRUE if this iter matches.
+ */
+gboolean report_tree_update_style_iterator ( GtkTreeModel * tree_model, 
+					     GtkTreePath *path, 
+					     GtkTreeIter *iter, 
+					     gpointer data )
+{
+    gint page_number = (gint) data;
+    gint iter_page_number;
+    gint italic = FALSE;
+
+    gtk_tree_model_get ( tree_model, iter, REPORT_TREE_PAGE_COLUMN, &iter_page_number, -1 );
+
+    if ( iter_page_number != page_number )
     {
-	case 0:
-	    /* page des dates */
-	    /* rien pour l'instant */
+	return FALSE;
+    }
 
-	    break;
+    switch ( iter_page_number )
+    {
+	/* rien pour l'instant */
+	break;
 
 	case 1:
 	    /* page des virements */
-
 	    if ( !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_non_inclusion_virements )))
-		style = style_label;
+		italic = TRUE;
 	    break;
 
 	case 2:
 	    /* page des comptes */
 
 	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_comptes_etat )))
-		style = style_label;
+		italic = TRUE;
 	    break;
 
 	case 3:
 	    /* page des tiers */
 
 	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_tiers_etat )))
-		style = style_label;
+		italic = TRUE;
 	    break;
 
 	case 4:
@@ -2014,7 +2050,7 @@ void stylise_tab_label_etat ( gint *no_page )
 	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_categ_etat ))
 		 ||
 		 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_categ )))
-		style = style_label;
+		italic = TRUE;
 	    break;
 
 	case 5:
@@ -2023,14 +2059,14 @@ void stylise_tab_label_etat ( gint *no_page )
 	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat ))
 		 ||
 		 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_ib )))
-		style = style_label;
+		italic = TRUE;
 	    break;
 
 	case 6:
 	    /* page des textes */
 
 	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_texte )))
-		style = style_label;
+		italic = TRUE;
 	    break;
 
 	case 7:
@@ -2039,14 +2075,14 @@ void stylise_tab_label_etat ( gint *no_page )
 	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant ))
 		 ||
 		 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_nulles_etat )))
-		style = style_label;
+		italic = TRUE;
 	    break;
 
 	case 8:
 	    /* page des modes de paiement */
 
 	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_mode_paiement_etat )))
-		style = style_label;
+		italic = TRUE;
 	    break;
 
 	case 9:
@@ -2055,33 +2091,38 @@ void stylise_tab_label_etat ( gint *no_page )
 	    if ( !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_et_non_r_etat ))
 		 ||
 		 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation )))
-		style = style_label;
+		italic = TRUE;
 	    break;
     }
 
-    /** FIXME: use that in the navigation list  */
-/*     gtk_widget_set_style ( gtk_notebook_get_tab_label ( GTK_NOTEBOOK ( notebook_selection ), */
-/* 							gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( notebook_selection ), */
-/* 										    GPOINTER_TO_INT ( no_page ))), */
-/* 			   style ); */
+    gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ),
+			 iter, REPORT_TREE_ITALIC_COLUMN, italic,
+			 -1 );
 
+    return TRUE;
 }
-/******************************************************************************/
 
-/******************************************************************************/
+
+
 GtkWidget *onglet_etat_dates ( void )
 {
     GtkWidget *scrolled_window, *separateur, *vbox;
     GtkWidget *hbox, *label, *frame, *hbox_onglet;
+    GtkWidget *vbox_onglet;
     gchar **plages_dates;
     gint i;
 
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Date selection"), "scheduler.png" );
+    gtk_widget_show ( vbox_onglet );
 
     hbox_onglet = gtk_hbox_new ( FALSE,
 				 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( hbox_onglet ),
-				     10 );
     gtk_widget_show ( hbox_onglet );
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+			 hbox_onglet,
+			 TRUE,
+			 TRUE,
+			 0 );
 
 
     /* mise en place de la plage de dates */
@@ -2369,7 +2410,7 @@ GtkWidget *onglet_etat_dates ( void )
 		       0 );
     gtk_widget_show ( entree_date_finale_etat );
 
-    return ( hbox_onglet );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 
@@ -2534,12 +2575,8 @@ GtkWidget *onglet_etat_comptes ( void )
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
 
-    vbox_onglet = gtk_vbox_new ( FALSE,
-				 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
-				     10 );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Account selection"), "bank-account.png" );
     gtk_widget_show ( vbox_onglet );
-
 
     /* on met dans la partie de gauche une liste contenant les comptes à */
     /* sélectionner */
@@ -2547,7 +2584,7 @@ GtkWidget *onglet_etat_comptes ( void )
     bouton_detaille_comptes_etat = gtk_check_button_new_with_label ( _("Select transactions only for given accounts"));
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_comptes_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 2 ));
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 bouton_detaille_comptes_etat,
@@ -2782,12 +2819,8 @@ GtkWidget *onglet_etat_virements ( void )
     GtkWidget *vbox;
     GtkWidget *bouton;
 
-    vbox_onglet = gtk_vbox_new ( FALSE,
-				 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
-				     10 );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Transfers"), ".png" );
     gtk_widget_show ( vbox_onglet );
-
 
     /*   on met les boutons d'inclusion ou non des virements */
 
@@ -2804,7 +2837,7 @@ GtkWidget *onglet_etat_virements ( void )
 									       _("Include transfers from or to assets or liabilities accounts") );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_inclusion_virements_actifs_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 1 ));
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 bouton_inclusion_virements_actifs_etat,
@@ -2817,7 +2850,7 @@ GtkWidget *onglet_etat_virements ( void )
 									     _("Include transfers from or to accounts not in this report") );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_inclusion_virements_hors_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 1 ));
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 bouton_inclusion_virements_hors_etat,
@@ -2830,7 +2863,7 @@ GtkWidget *onglet_etat_virements ( void )
 									 COLON(POSTSPACIFY(_("Include transfers from or to these accounts"))) );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_inclusion_virements_perso ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 1 ));
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 bouton_inclusion_virements_perso,
@@ -3069,12 +3102,8 @@ GtkWidget *onglet_etat_categories ( void )
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
 
-    vbox_onglet = gtk_vbox_new ( FALSE,
-				 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
-				     10 );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Categories"), "categories.png" );
     gtk_widget_show ( vbox_onglet );
-
     /* on propose de détailler les categ utilisées */
 
     hbox = gtk_hbox_new ( FALSE,
@@ -3089,7 +3118,7 @@ GtkWidget *onglet_etat_categories ( void )
     bouton_detaille_categ_etat = gtk_check_button_new_with_label ( _("Detail categories") );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_categ_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 4 ));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_detaille_categ_etat,
@@ -3242,7 +3271,7 @@ GtkWidget *onglet_etat_categories ( void )
     bouton_exclure_ope_sans_categ = gtk_check_button_new_with_label ( _("Exclude transactions with no category") );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_exclure_ope_sans_categ ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 4 ));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_exclure_ope_sans_categ,
@@ -3333,12 +3362,8 @@ GtkWidget *onglet_etat_ib ( void )
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
 
-    vbox_onglet = gtk_vbox_new ( FALSE,
-				 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
-				     10 );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Budgetary lines"), "budgetary_lines.png" );
     gtk_widget_show ( vbox_onglet );
-
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -3353,7 +3378,7 @@ GtkWidget *onglet_etat_ib ( void )
     bouton_detaille_ib_etat = gtk_check_button_new_with_label ( _("Detail budgetary lines") );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_ib_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 5 ));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_detaille_ib_etat,
@@ -3504,7 +3529,7 @@ GtkWidget *onglet_etat_ib ( void )
     bouton_exclure_ope_sans_ib = gtk_check_button_new_with_label ( _("Exclude transactions without budgetary line") );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_exclure_ope_sans_ib ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 5 ));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_exclure_ope_sans_ib,
@@ -3596,12 +3621,8 @@ GtkWidget *onglet_etat_tiers ( void )
     GtkWidget *bouton;
     GtkWidget *vbox_onglet;
 
-    vbox_onglet = gtk_vbox_new ( FALSE,
-				 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
-				     10 );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Payees"), "payees.png" );
     gtk_widget_show ( vbox_onglet );
-
 
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
@@ -3615,7 +3636,7 @@ GtkWidget *onglet_etat_tiers ( void )
     bouton_detaille_tiers_etat = gtk_check_button_new_with_label ( _("Detail payees") );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_tiers_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 3 ));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_detaille_tiers_etat,
@@ -3777,12 +3798,8 @@ GtkWidget *onglet_etat_texte ( void )
     GtkWidget *vbox_onglet;
     GtkWidget *scrolled_window;
 
-    vbox_onglet = gtk_vbox_new ( FALSE,
-				 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
-				     10 );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Transaction content"), ".png" );
     gtk_widget_show ( vbox_onglet );
-
 
 
     /* on commence par créer le choix d'utiliser le montant */
@@ -3796,10 +3813,10 @@ GtkWidget *onglet_etat_texte ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    bouton_utilise_texte = gtk_check_button_new_with_label ( _("Select transactions according to the text") );
+    bouton_utilise_texte = gtk_check_button_new_with_label ( _("Select transactions according to content") );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_utilise_texte ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 6 ));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_utilise_texte,
@@ -4154,7 +4171,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 
     label = gtk_label_new ( NULL );
     gtk_widget_set_usize ( label,
-			   150,
+			   12,
 			   FALSE );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
@@ -4225,7 +4242,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 
     label = gtk_label_new ( NULL );
     gtk_widget_set_usize ( label,
-			   150,
+			   12,
 			   FALSE );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
@@ -4854,12 +4871,8 @@ GtkWidget *onglet_etat_montant ( void )
     GtkWidget *vbox_onglet;
     GtkWidget *scrolled_window;
 
-    vbox_onglet = gtk_vbox_new ( FALSE,
-				 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
-				     10 );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Amount"), "money.png" );
     gtk_widget_show ( vbox_onglet );
-
 
 
     /* on commence par créer le choix d'utiliser le montant */
@@ -4876,7 +4889,7 @@ GtkWidget *onglet_etat_montant ( void )
     bouton_utilise_montant = gtk_check_button_new_with_label ( _("Select the transactions by amount") );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_utilise_montant ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 7 ));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_utilise_montant,
@@ -4928,7 +4941,7 @@ GtkWidget *onglet_etat_montant ( void )
     bouton_exclure_ope_nulles_etat = gtk_check_button_new_with_label ( _("Exclude the transactions with a null amount") );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_exclure_ope_nulles_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 7 ));
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 bouton_exclure_ope_nulles_etat,
@@ -5758,51 +5771,17 @@ GtkWidget *onglet_etat_divers ( void )
     GtkWidget *frame;
     GtkWidget *label;
 
-    vbox_onglet = gtk_vbox_new ( FALSE,
-				 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
-				     10 );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Miscellaneous"), ".png" );
     gtk_widget_show ( vbox_onglet );
 
 
+
     /* on peut sélectionner les opé R ou non R */
-
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
-
-    frame = gtk_frame_new ( _("Reconciled transactions"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 frame,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( frame );
-
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				     5 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			vbox );
-    gtk_widget_show ( vbox );
-
-    label = gtk_label_new ( _("Select") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
+    frame = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Reconciled transactions") );
 
     bouton_opes_r_et_non_r_etat = gtk_radio_button_new_with_label ( NULL,
-								    _("All transactions") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+								    _("Select all transactions") );
+    gtk_box_pack_start ( GTK_BOX ( frame ),
 			 bouton_opes_r_et_non_r_etat,
 			 FALSE,
 			 FALSE,
@@ -5810,12 +5789,12 @@ GtkWidget *onglet_etat_divers ( void )
     gtk_widget_show ( bouton_opes_r_et_non_r_etat );
 
     bouton_opes_non_r_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_opes_r_et_non_r_etat )),
-							       _("Non reconciled transactions") );
+							       _("Select unreconciled transactions") );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_opes_non_r_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 9 ));
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( frame ),
 			 bouton_opes_non_r_etat,
 			 FALSE,
 			 FALSE,
@@ -5823,40 +5802,31 @@ GtkWidget *onglet_etat_divers ( void )
     gtk_widget_show ( bouton_opes_non_r_etat );
 
     bouton_opes_r_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_opes_r_et_non_r_etat )),
-							   _("The reconciled transactions") );
+							   _("Select reconciled transactions") );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_opes_r_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 9 ));
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( frame ),
 			 bouton_opes_r_etat,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( bouton_opes_r_etat );
 
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
+    frame = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Breakdown of transactions detail") );
 
-    bouton_pas_detailler_ventilation = gtk_check_button_new_with_label ( _("Do not detail reconciled transactions") );
+    bouton_pas_detailler_ventilation = gtk_check_button_new_with_label ( _("Do not detail breakdown of transactions") );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_pas_detailler_ventilation ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 9 ));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
+    gtk_box_pack_start ( GTK_BOX ( frame ),
 			 bouton_pas_detailler_ventilation,
 			 FALSE,
 			 FALSE,
 			 0 );
     gtk_widget_show ( bouton_pas_detailler_ventilation );
-
-
 
     return ( vbox_onglet );
 }
@@ -5876,12 +5846,8 @@ GtkWidget *page_organisation_donnees ( void )
     GtkWidget *menu_item;
     gint i;
 
-    vbox_onglet = gtk_vbox_new ( FALSE,
-				 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
-				     10 );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Data organization"), ".png" );
     gtk_widget_show ( vbox_onglet );
-
 
     /* choix de ce qu'on utilise dans le classement */
 
@@ -6043,9 +6009,7 @@ GtkWidget *page_organisation_donnees ( void )
 			 FALSE,
 			 0);
 
-    /* FIXME */
     fleche = gtk_button_new_from_stock (GTK_STOCK_GO_UP);
-    /*   fleche = GTK_STOCK ( GTK_STOCK_UP ); */
     gtk_button_set_relief ( GTK_BUTTON ( fleche ),
 			    GTK_RELIEF_NONE );
     gtk_signal_connect ( GTK_OBJECT ( fleche ),
@@ -6055,9 +6019,7 @@ GtkWidget *page_organisation_donnees ( void )
     gtk_container_add ( GTK_CONTAINER ( vbox ),
 			fleche  );
 
-    /* FIXME */
     fleche = gtk_button_new_from_stock (GTK_STOCK_GO_DOWN);
-    /*   fleche = GTK_STOCK ( GTK_STOCK_DOWN ); */
     gtk_button_set_relief ( GTK_BUTTON ( fleche ),
 			    GTK_RELIEF_NONE );
     gtk_signal_connect ( GTK_OBJECT ( fleche ),
@@ -6387,12 +6349,8 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
 
-    vbox_onglet = gtk_vbox_new ( FALSE,
-				 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
-				     10 );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Generalities"), ".png" );
     gtk_widget_show ( vbox_onglet );
-
 
     /* choix du name du rapport */
 
@@ -6475,12 +6433,8 @@ GtkWidget *onglet_affichage_etat_operations ( void )
     GtkWidget *menu;
     GtkWidget *menu_item;
 
-    vbox_onglet = gtk_vbox_new ( FALSE,
-				 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
-				     10 );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Transactions display"), ".png" );
     gtk_widget_show ( vbox_onglet );
-
     hbox = gtk_hbox_new ( FALSE,
 			  0 );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
@@ -7008,12 +6962,8 @@ GtkWidget *onglet_affichage_etat_devises ( void )
     GtkWidget *vbox_onglet;
 
 
-    vbox_onglet = gtk_vbox_new ( FALSE,
-				 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
-				     10 );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Totals currencies"), "euro.png" );
     gtk_widget_show ( vbox_onglet );
-
 
 
     hbox = gtk_hbox_new ( FALSE,
@@ -7170,39 +7120,17 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 GtkWidget *onglet_affichage_etat_divers ( void )
 {
     GtkWidget *vbox_onglet;
-    GtkWidget *frame;
-    GtkWidget *vbox;
+    GtkWidget *paddingbox;
 
-    vbox_onglet = gtk_vbox_new ( FALSE,
-				 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
-				     10 );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Titles"), ".png" );
     gtk_widget_show ( vbox_onglet );
 
-
-    /* mise en place de la frame des comptes */
-
-    frame = gtk_frame_new ( COLON(_("Accounts")));
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 frame,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( frame );
-
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				     5 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			vbox );
-    gtk_widget_show ( vbox );
-
+    /* mise en place de la paddingbox des comptes */
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, COLON(_("Accounts") ) );
 
     /* on permet d'afficher le name du compte */
-
     bouton_afficher_noms_comptes = gtk_check_button_new_with_label ( _("Display account name") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_noms_comptes,
 			 FALSE,
 			 FALSE,
@@ -7214,7 +7142,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* activé uniquement si on a regroupé les opés par compte */
 
     bouton_affiche_sous_total_compte = gtk_check_button_new_with_label ( _("Display a sub-total for each account") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_affiche_sous_total_compte,
 			 FALSE,
 			 FALSE,
@@ -7226,28 +7154,13 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 			 bouton_affiche_sous_total_compte );
 
-    /* mise en place de la frame des tiers */
+    /* mise en place de la paddingbox des tiers */
 
-    frame = gtk_frame_new ( COLON(_("Payee")));
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 frame,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( frame );
-
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				     5 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			vbox );
-    gtk_widget_show ( vbox );
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, COLON(_("Payee") ) );
 
     /* permet d'afficher le name du tiers, activé uniquement si on utilise les tiers */
-
     bouton_afficher_noms_tiers = gtk_check_button_new_with_label ( _("Display payee's name") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_noms_tiers,
 			 FALSE,
 			 FALSE,
@@ -7263,7 +7176,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* activé uniquement si on utilise les tiers */
 
     bouton_affiche_sous_total_tiers = gtk_check_button_new_with_label ( _("Dsplay a sub-total for each payee") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_affiche_sous_total_tiers,
 			 FALSE,
 			 FALSE,
@@ -7276,29 +7189,12 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 bouton_affiche_sous_total_tiers );
 
 
-    /* mise en place de la frame des catégories */
-
-    frame = gtk_frame_new ( COLON(_("Categories")));
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 frame,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( frame );
-
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				     5 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			vbox );
-    gtk_widget_show ( vbox );
-
+    /* mise en place de la paddingbox des catégories */
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, COLON(_("Categories") ) );
 
     /* affichage possible du name de la categ */
-
     bouton_afficher_noms_categ = gtk_check_button_new_with_label ( _("Display the (sub)category's name") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_noms_categ,
 			 FALSE,
 			 FALSE,
@@ -7314,7 +7210,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* activé uniquement si on utilise les categ */
 
     bouton_affiche_sous_total_categ = gtk_check_button_new_with_label ( _("Display a sub-total for each category") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_affiche_sous_total_categ,
 			 FALSE,
 			 FALSE,
@@ -7329,7 +7225,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* mise en place du bouton pour afficher les sous categ */
 
     bouton_afficher_sous_categ = gtk_check_button_new_with_label ( _("Display sub-categories") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_sous_categ,
 			 FALSE,
 			 FALSE,
@@ -7343,7 +7239,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
 
     bouton_affiche_sous_total_sous_categ = gtk_check_button_new_with_label ( _("Display a sub-total for each sub-category") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_affiche_sous_total_sous_categ,
 			 FALSE,
 			 FALSE,
@@ -7357,7 +7253,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
 
     bouton_afficher_pas_de_sous_categ = gtk_check_button_new_with_label ( _("Display \" No sub-category\" if none") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_pas_de_sous_categ,
 			 FALSE,
 			 FALSE,
@@ -7370,27 +7266,11 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 bouton_afficher_pas_de_sous_categ );
 
 
-    /* mise en place de la frame des ib */
-
-    frame = gtk_frame_new ( COLON(_("Budgetary lines")));
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 frame,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( frame );
-
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				     5 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			vbox );
-    gtk_widget_show ( vbox );
-
+    /* mise en place de la paddingbox des ib */
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, COLON(_("Budgetary lines") ) );
 
     bouton_afficher_noms_ib = gtk_check_button_new_with_label ( _("Display the (sub-)budget line name") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_noms_ib,
 			 FALSE,
 			 FALSE,
@@ -7406,7 +7286,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* activé uniquement si on utilise les ib */
 
     bouton_affiche_sous_total_ib = gtk_check_button_new_with_label ( _("Display a sub-total for each budgetary line") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_affiche_sous_total_ib,
 			 FALSE,
 			 FALSE,
@@ -7421,7 +7301,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* mise en place du bouton pour afficher les sous categ */
 
     bouton_afficher_sous_ib = gtk_check_button_new_with_label ( _("Display sub-budget lines") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_sous_ib,
 			 FALSE,
 			 FALSE,
@@ -7434,7 +7314,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 bouton_afficher_sous_ib );
 
     bouton_affiche_sous_total_sous_ib = gtk_check_button_new_with_label ( _("Display a sub-total for each sub-budget line") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_affiche_sous_total_sous_ib,
 			 FALSE,
 			 FALSE,
@@ -7448,7 +7328,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
 
     bouton_afficher_pas_de_sous_ib = gtk_check_button_new_with_label ( _("Display \"No sub-budgetary line\" if none") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_pas_de_sous_ib,
 			 FALSE,
 			 FALSE,
@@ -7474,12 +7354,8 @@ GtkWidget *onglet_etat_mode_paiement ( void )
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
 
-    vbox_onglet = gtk_vbox_new ( FALSE,
-				 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_onglet ),
-				     10 );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Payment methods"), ".png" );
     gtk_widget_show ( vbox_onglet );
-
 
     /* on met dans la partie de gauche une liste contenant les modes de paiement à */
     /* sélectionner */
@@ -7487,7 +7363,7 @@ GtkWidget *onglet_etat_mode_paiement ( void )
     bouton_detaille_mode_paiement_etat = gtk_check_button_new_with_label ( _("Select the transactions by method of payment"));
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_mode_paiement_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( stylise_tab_label_etat ),
+				GTK_SIGNAL_FUNC ( report_tree_update_style ),
 				GINT_TO_POINTER ( 8 ));
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 bouton_detaille_mode_paiement_etat,
@@ -7645,7 +7521,7 @@ void remplissage_liste_modes_paiement_etats ( void )
 	gint row;
 
 	row = gtk_clist_append ( GTK_CLIST ( liste_mode_paiement_etat ),
-				   (gchar **) &list_tmp -> data );
+				 (gchar **) ( &list_tmp -> data ) );
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_mode_paiement_etat ),
 				 row,
