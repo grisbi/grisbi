@@ -1,0 +1,128 @@
+# translation of de.po to deutsch
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Martin Stromberger <fabiolla@aon.at>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: de\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-10-15 18:05+0200\n"
+"PO-Revision-Date: 2007-10-23 22:28+0200\n"
+"Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
+"Language-Team: deutsch <de@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: tips.txt:43
+msgid ""
+"By double cliking on a date field, you can pop up a calendar to select a "
+"date."
+msgstr "Bei einem Doppelklick in einem Datumsfeld wird ein Kalender geöffnet - es kann in weiterer Folge ein Datum im Kalender ausgewählt und in das Datumsfeld übernommen werden."
+
+#: tips.txt:3
+msgid ""
+"Grisbi automatically saves a copy of your work if it segfaults.\n"
+"\n"
+"Thus it is unlikely that you loose any data in case Grisbi encounters a "
+"segmentation error."
+msgstr ""
+"Grisbi erstellt automatisch eine Sicherungsdatei bei einem Programmabsturz.\n"
+"\n"
+"Durch diese Maßnahme wird ein Datenverlust verhindert."
+
+#: tips.txt:7
+msgid "Grisbi can import Gnucash files natively, then you don"
+msgstr "Grisbi kann Gnucash Dateien ohne Konvertierung importieren."
+
+#: tips.txt:49
+msgid ""
+"No more tip available !  Please send any tips you know to grisbi-devel@lists."
+"sourceforge.net so that we can include them in next version for all users."
+msgstr "Es sind keine weiteren Tipps verfügbar ! Falls Sie einen Tipp kennen, senden Sie diesen bitte an die Grisbi Entwicklerliste (grisbi-devel@lists.sourceforge.net)."
+
+#: tips.txt:45
+msgid ""
+"There are shortcuts in date fields, to avoid typing date or selecting it "
+"with mouse.\n"
+"\n"
+"<i>Up</i> and <i>Down</i> increment and decrement date of one day, <i>Page "
+"Up</i> and <i>Page Down</i> increment and decrement date of one month ... "
+"and there are more, check out the manual."
+msgstr ""
+"In Datumsfeldern gibt es Tastenkombinationen für eine schnellere Dateneingabe.\n"
+"\n"
+"<i>Pfeil auf</i> und <i>Pfeil ab</i> erhöhen bzw. reduzieren das Datum um einen Tag, <i>Bild "
+"auf</i> und <i>Bild ab</i> erhöhen bzw. reduzieren das Datum um ein Monat... "
+"Alle Tastenkombinationen sind im Handbuch beschrieben."
+
+#: tips.txt:35
+msgid ""
+"You can configure fields displayed in the transaction form.\n"
+"\n"
+"Go to the <i>Preferences</i> dialog and select the <i>Form content</i> "
+"option.  Then you can click on fields to be displayed and drag them through "
+"the form to adjust their position."
+msgstr ""
+"Sie können im Buchungsformular die Anzeige der Eingabefelder anpassen.\n"
+"\n"
+"Rufen Sie dazu bitte den Menüpunkt <i> Bearbeiten - Einstellungen</i> auf. In der Sektion <i> Buchungsformular</i> können Sie Felder auswählen und die Position der Felder festlegen."
+
+#: tips.txt:31
+msgid ""
+"You can configure the contents of the transaction list.\n"
+"\n"
+"Right-click on a cell of the transaction list and select the <i>Change cell "
+"content</i> option.  Then select any content you want and configure "
+"transaction list to your needs."
+msgstr ""
+"Sie können die Darstellung der Buchungsübersicht anpassen.\n"
+"\n"
+"Durch einen \"Rechts-Klick\" kann in der Buchungsübersicht ein Kontextmenü aufgerufen werden, mit <i>Den Zelleninhalt ändern</i> kann die Darstellung der Buchungsübersicht Ihren persönlichen Bedürfnissen angepasst werden."
+
+#: tips.txt:27
+msgid ""
+"You can double-click on any date entry to pop up a calendar in order to "
+"enter a date more easily."
+msgstr "Bei einem Doppelklick in einem Datumsfeld wird ein Kalender geöffnet - es kann in weiterer Folge ein Datum im Kalender ausgewählt und in das Datumsfeld übernommen werden."
+
+#: tips.txt:21
+msgid ""
+"You can efficiently manage your professional expenses with Grisbi.\n"
+"\n"
+"Create a <i>Professional expenses</i> budgetary line and put all "
+"professional expenses there.  When you are paid, split your salary as a "
+"breakdown of transaction, with both a <i>Salary</i> part and a "
+"<i>Profesionnal expenses</i> part.  \n"
+"\n"
+"Then, you can create a new report that sums up transactions from the "
+"<i>Profesionnal expenses</i> budgetary line and see the balance."
+msgstr ""
+"Sie können mit Grisbi Geschäftsausgaben effizient verwalten.\n"
+"\n"
+"Erstellen Sie dazu einen Budgeteintrag mit der Bezeichnung <i>Geschäftsausgaben</i> und buchen allen Geschäftsausgaben auf diesen Budgeteintrag. Nach der Bezahlung erstellen Sie eine Splittbuchung, bestehend aus <i>Geschäftsausgaben</i> und <i>Geschäftseinnahmen</i>. \n"
+"Wenn Sie in weiterer Folge einen Report mit den Budgeteinträgen <i>Geschäftsausgaben</i> und <i>Geschäftseinnahmen</i> erstellen wird Ihnen die Bilanz angezeigt."
+
+#: tips.txt:39
+msgid ""
+"You can hide annoying dialogs like this one, by clicking the <i>'Do not show "
+"this message again'</i> checkbox in this dialog.  \n"
+"\n"
+"You can then activate them again by going to the <i>Preferences</i> window "
+"and then to the <i>Dialog and messages</i> option."
+msgstr "Sie können die Anzeige von Hinweisfenstern im Dialog Einstellungen unter \"Meldungen & Warnungen\" festlegen."
+
+#: tips.txt:1
+msgid ""
+"You can press <tt>Ctrl-R</tt> to reconcile a transaction in transactions "
+"list."
+msgstr "Sie können mit <tt>Ctrl-R</tt> in der Buchungsübersicht eine ausgewählte Buchung abstimmen."
+
+#: tips.txt:29
+msgid ""
+"You can use the import facility to automatically reconcile transactions "
+"against a QIF or OFX file from your online bank."
+msgstr "Sie können mit dem Import von QIF oder OFX Dateien von Ihrem Bankkonto die erfassten Buchungen abstimmen. Die meisten Banken bieten die Möglichkeit, Kontodaten \"online\" zu exportieren."
+
