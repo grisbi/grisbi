@@ -156,11 +156,11 @@ gboolean gsb_account_delete ( void )
 				 GTK_RESPONSE_NO ))
 	return FALSE;
 
-    /* if the las account, close the file */
+    /* if the last account, close the file */
 
     if ( gsb_data_account_get_accounts_amount () == 1 )
     {
-	etat.modification_fichier = 0;
+	modification_fichier ( FALSE );
 	gsb_file_close ();
 	return FALSE;
     }

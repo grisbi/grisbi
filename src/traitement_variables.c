@@ -168,12 +168,12 @@ void modification_fichier ( gboolean modif )
 
     if ( modif )
     {
-	etat.modification_fichier = 1;
+	etat.modification_fichier = gdate_today ( );
 	gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, TRUE );
     }
     else
     {
-	etat.modification_fichier = 0;
+	etat.modification_fichier = NULL;
 	gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, FALSE );
     }
 }

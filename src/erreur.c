@@ -78,7 +78,7 @@ void traitement_sigsegv ( gint signal_nb )
 
     if ( etat.en_train_de_charger || 
 	 etat.en_train_de_sauvegarder || 
-	 !etat.modification_fichier )
+	 etat.modification_fichier == NULL )
     {
 
 	if ( etat.en_train_de_charger )
