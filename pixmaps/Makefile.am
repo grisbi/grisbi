@@ -6,6 +6,7 @@ grisbi_pixmaps_DATA = \
 	addresses.png \
 	aqbanking.png \
 	archive.png \
+	archives.png \
 	asset.png \
 	csv.png \
 	bank-account.png \
@@ -42,6 +43,7 @@ grisbi_pixmaps_DATA = \
 	reports.png \
 	resume.png \
 	scheduler.png \
+	text.png \
 	toolbar.png \
 	transaction-list.png \
 	warnings.png

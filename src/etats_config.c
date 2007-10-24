@@ -3798,7 +3798,7 @@ GtkWidget *onglet_etat_texte ( void )
     GtkWidget *vbox_onglet;
     GtkWidget *scrolled_window;
 
-    vbox_onglet = new_vbox_with_title_and_icon ( _("Transaction content"), ".png" );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Transaction content"), "text.png" );
     gtk_widget_show ( vbox_onglet );
 
 

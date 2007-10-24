@@ -48,6 +48,7 @@
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
+#include "./gsb_file_config.h"
 /*END_INCLUDE*/
 
 /** Columns for payment methods tree */
@@ -211,13 +212,19 @@ GtkWidget *gsb_archive_config_create ( void )
 		       0, 0 );
 
     /* button to delete an archive and delete the transactions */
-    button = gtk_button_new_with_label (_("Delete the archive and transactions"));
+    button = gtk_button_new_with_label ( _("Delete the archive and transactions") );
     gtk_button_set_relief ( GTK_BUTTON (button),
 			    GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT (button),
 		       "clicked",
 		       G_CALLBACK (gsb_archive_config_destroy_archive),
 		       archive_treeview );
+    gtk_button_set_image ( GTK_BUTTON(button), 
+			   gtk_image_new_from_file ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+								   "import.png", NULL ) ) );
+
+    gtk_button_set_relief ( GTK_BUTTON (button),
+			    GTK_RELIEF_NONE );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       button, 1, 2, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
@@ -241,7 +248,7 @@ GtkWidget *gsb_archive_config_create ( void )
 			 TRUE, FALSE,
 			 0 );
 
-    label = gtk_label_new (_("		Wars if more than "));
+    label = gtk_label_new (_("Warn if more than "));
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 label,
 			 FALSE, FALSE,
