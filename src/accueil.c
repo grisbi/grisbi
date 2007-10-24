@@ -441,7 +441,7 @@ void update_liste_comptes_accueil ( gboolean force )
 						 g_strconcat (_("Account balances in "),
 							      gsb_data_currency_get_name (currency_number),
 							      NULL ));
-	pTable = gtk_table_new ( nb_comptes_bancaires + 3, 5, FALSE );
+	pTable = gtk_table_new ( nb_comptes_bancaires + 3, 4, FALSE );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
 	/* Création et remplissage de la première ligne du tableau */
@@ -451,7 +451,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 	pLabel = gtk_label_new (_("Current balance"));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 2, 4, 0, 1 );
+	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 2, 3, 0, 1 );
 	gtk_widget_show ( pLabel );
 
 	/* Affichage des comptes et de leur solde */
@@ -504,7 +504,8 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Troisième colonne : elle contient le solde pointé du compte */
-		pLabel = gtk_label_new (gsb_real_get_string (gsb_data_account_get_marked_balance (account_number)));
+		pLabel = gtk_label_new (gsb_real_get_string_with_currency (gsb_data_account_get_marked_balance (account_number),
+									   gsb_data_account_get_currency (account_number)));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
 		/* Mise en place du style du label en fonction du solde pointé */
@@ -553,17 +554,9 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* Quatrième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( gsb_data_currency_get_code (  gsb_data_account_get_currency (account_number) ));
-		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
-		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-				   2, 3, i, i+1,
-				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-				   5, 0 );
-		gtk_widget_show ( pLabel );
-
 		/* Sixième colonne : elle contient le solde courant du compte */
-		pLabel = gtk_label_new ( gsb_real_get_string (gsb_data_account_get_current_balance (account_number)));
+		pLabel = gtk_label_new ( gsb_real_get_string_with_currency (gsb_data_account_get_current_balance (account_number),
+									    gsb_data_account_get_currency (account_number)));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
 		/* Mise en place du style du label en fonction du solde courant */
@@ -605,20 +598,11 @@ void update_liste_comptes_accueil ( gboolean force )
 					    GTK_SIGNAL_FUNC (gsb_main_page_click_on_account),
 					    GINT_TO_POINTER (account_number) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
-				   3, 4, i, i+1,
+				   2, 3, i, i+1,
 				   GTK_FILL| GTK_SHRINK, GTK_FILL| GTK_SHRINK,
 				   0, 0 );
 		gtk_widget_show ( pEventBox );
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
-		gtk_widget_show ( pLabel );
-
-		/* Septième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( gsb_data_currency_get_code ( gsb_data_account_get_currency (account_number) ));
-		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
-		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-				   4, 5, i, i+1,
-				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-				   5, 0 );
 		gtk_widget_show ( pLabel );
 
 		/* ATTENTION : les sommes effectuées ici présupposent que
@@ -644,7 +628,8 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Troisième colonne : elle contient le solde total pointé des comptes */
-	pLabel = gtk_label_new ( gsb_real_get_string (solde_global_pointe));
+	pLabel = gtk_label_new ( gsb_real_get_string_with_currency (solde_global_pointe,
+								    currency_number));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   1, 2, i+1, i+2,
@@ -652,31 +637,14 @@ void update_liste_comptes_accueil ( gboolean force )
 			   0, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* Quatrième colonne : elle contient le symbole de la devise du compte */
-	pLabel = gtk_label_new ( gsb_data_currency_get_code (currency_number));
-	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
+	/* Sixième colonne : elle contient le solde total courant des comptes */
+	pLabel = gtk_label_new ( gsb_real_get_string_with_currency (solde_global_courant, 
+								    currency_number));
+	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   2, 3, i+1, i+2,
 			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-			   5, 0 );
-	gtk_widget_show ( pLabel );
-
-	/* Sixième colonne : elle contient le solde total courant des comptes */
-	pLabel = gtk_label_new ( gsb_real_get_string (solde_global_courant));
-	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-			   3, 4, i+1, i+2,
-			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
 			   0, 0 );
-	gtk_widget_show ( pLabel );
-
-	/* Septième colonne : elle contient le symbole de la devise du compte */
-	pLabel = gtk_label_new (gsb_data_currency_get_code (currency_number) );
-	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
-	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-			   4, 5, i+1, i+2,
-			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-			   5, 0 );
 	gtk_widget_show ( pLabel );
 
 	gtk_widget_show_all ( paddingbox );
@@ -780,7 +748,8 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Troisième colonne : elle contient le solde pointé du compte */
-		pLabel = gtk_label_new (gsb_real_get_string (gsb_data_account_get_marked_balance (account_number)));
+		pLabel = gtk_label_new (gsb_real_get_string_with_currency (gsb_data_account_get_marked_balance (account_number),
+									   gsb_data_account_get_currency (account_number)));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
 		/* Mise en place du style du label en fonction du solde pointé */
@@ -829,19 +798,11 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* Quatrième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( gsb_data_currency_get_code (  gsb_data_account_get_currency (account_number) ));
-		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
-		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-				   2, 3, i, i+1,
-				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-				   5, 0 );
-		gtk_widget_show ( pLabel );
-
 		/* Cinquième colonne : vide */
 
 		/* Sixième colonne : elle contient le solde courant du compte */
-		pLabel = gtk_label_new ( gsb_real_get_string (gsb_data_account_get_current_balance (account_number)));
+		pLabel = gtk_label_new ( gsb_real_get_string_with_currency (gsb_data_account_get_current_balance (account_number),
+									    gsb_data_account_get_currency (account_number)));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
 		/* Mise en place du style du label en fonction du solde courant */
@@ -883,20 +844,11 @@ void update_liste_comptes_accueil ( gboolean force )
 					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
-				   3, 4, i, i+1,
+				   2, 3, i, i+1,
 				   GTK_FILL| GTK_SHRINK, GTK_FILL| GTK_SHRINK,
 				   0, 0 );
 		gtk_widget_show ( pEventBox );
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
-		gtk_widget_show ( pLabel );
-
-		/* Septième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( gsb_data_currency_get_code ( gsb_data_account_get_currency (account_number) ));
-		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
-		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-				   4, 5, i, i+1,
-				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-				   5, 0 );
 		gtk_widget_show ( pLabel );
 
 
@@ -923,7 +875,8 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Troisième colonne : elle contient le solde total pointé des comptes */
-	pLabel = gtk_label_new ( gsb_real_get_string (solde_global_pointe));
+	pLabel = gtk_label_new ( gsb_real_get_string_with_currency (solde_global_pointe,
+								    currency_number));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   1, 2, i+1, i+2,
@@ -931,31 +884,14 @@ void update_liste_comptes_accueil ( gboolean force )
 			   0, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* Quatrième colonne : elle contient le symbole de la devise du compte */
-	pLabel = gtk_label_new ( gsb_data_currency_get_code (currency_number));
-	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
+	/* Sixième colonne : elle contient le solde total courant des comptes */
+	pLabel = gtk_label_new ( gsb_real_get_string_with_currency (solde_global_courant, 
+								    currency_number));
+	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   2, 3, i+1, i+2,
 			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-			   5, 0 );
-	gtk_widget_show ( pLabel );
-
-	/* Sixième colonne : elle contient le solde total courant des comptes */
-	pLabel = gtk_label_new ( gsb_real_get_string (solde_global_courant));
-	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-			   3, 4, i+1, i+2,
-			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
 			   0, 0 );
-	gtk_widget_show ( pLabel );
-
-	/* Septième colonne : elle contient le symbole de la devise du compte */
-	pLabel = gtk_label_new ( gsb_data_currency_get_code (currency_number));
-	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
-	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-			   4, 5, i+1, i+2,
-			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-			   5, 0 );
 	gtk_widget_show ( pLabel );
 
 	gtk_widget_show_all ( paddingbox );
@@ -1063,7 +999,8 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_widget_show ( pLabel );
 
 		/* Troisième colonne : elle contient le solde pointé du compte */
-		pLabel = gtk_label_new (gsb_real_get_string (gsb_data_account_get_marked_balance (account_number)));
+		pLabel = gtk_label_new (gsb_real_get_string_with_currency (gsb_data_account_get_marked_balance (account_number),
+									   gsb_data_account_get_currency (account_number)));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
 		/* Mise en place du style du label en fonction du solde pointé */
@@ -1112,17 +1049,9 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* Quatrième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( gsb_data_currency_get_code (  gsb_data_account_get_currency (account_number) ));
-		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
-		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-				   2, 3, i, i+1,
-				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-				   5, 0 );
-		gtk_widget_show ( pLabel );
-
 		/* Sixième colonne : elle contient le solde courant du compte */
-		pLabel = gtk_label_new ( gsb_real_get_string (gsb_data_account_get_current_balance (account_number)));
+		pLabel = gtk_label_new ( gsb_real_get_string_with_currency (gsb_data_account_get_current_balance (account_number),
+									    gsb_data_account_get_currency (account_number)));
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 
 		/* Mise en place du style du label en fonction du solde courant */
@@ -1164,20 +1093,11 @@ void update_liste_comptes_accueil ( gboolean force )
 					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( account_number ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
-				   3, 4, i, i+1,
+				   2, 3, i, i+1,
 				   GTK_FILL| GTK_SHRINK, GTK_FILL| GTK_SHRINK,
 				   0, 0 );
 		gtk_widget_show ( pEventBox );
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
-		gtk_widget_show ( pLabel );
-
-		/* Septième colonne : elle contient le symbole de la devise du compte */
-		pLabel = gtk_label_new ( gsb_data_currency_get_code ( gsb_data_account_get_currency (account_number) ));
-		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
-		gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-				   4, 5, i, i+1,
-				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-				   5, 0 );
 		gtk_widget_show ( pLabel );
 
 		/* ATTENTION : les sommes effectuées ici présupposent que
@@ -1203,7 +1123,8 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Troisième colonne : elle contient le solde total pointé des comptes */
-	pLabel = gtk_label_new ( gsb_real_get_string (solde_global_pointe));
+	pLabel = gtk_label_new ( gsb_real_get_string_with_currency (solde_global_pointe, 
+								    currency_number));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   1, 2, i+1, i+2,
@@ -1211,31 +1132,13 @@ void update_liste_comptes_accueil ( gboolean force )
 			   0, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* Quatrième colonne : elle contient le symbole de la devise du compte */
-	pLabel = gtk_label_new (gsb_data_currency_get_code(currency_number) );
-	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
+	/* Sixième colonne : elle contient le solde total courant des comptes */
+	pLabel = gtk_label_new ( gsb_real_get_string_with_currency (solde_global_courant, currency_number));
+	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
 			   2, 3, i+1, i+2,
 			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-			   5, 0 );
-	gtk_widget_show ( pLabel );
-
-	/* Sixième colonne : elle contient le solde total courant des comptes */
-	pLabel = gtk_label_new ( gsb_real_get_string (solde_global_courant));
-	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-			   3, 4, i+1, i+2,
-			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
 			   0, 0 );
-	gtk_widget_show ( pLabel );
-
-	/* Septième colonne : elle contient le symbole de la devise du compte */
-	pLabel = gtk_label_new ( gsb_data_currency_get_code(currency_number));
-	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
-	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-			   4, 5, i+1, i+2,
-			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-			   5, 0 );
 	gtk_widget_show ( pLabel );
 
 	gtk_widget_show_all ( paddingbox );
@@ -1370,17 +1273,17 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    /* label à droite */
 
 	    if ( gsb_data_scheduled_get_amount (scheduled_number).mantissa >= 0 )
-		label = gtk_label_new ( g_strdup_printf ( _("%s %s credit on %s"),
-							  gsb_real_get_string (gsb_data_scheduled_get_amount (scheduled_number)),
-							  gsb_data_currency_get_code(currency_number),
+		label = gtk_label_new ( g_strdup_printf ( _("%s credited on %s"),
+							  gsb_real_get_string_with_currency (gsb_data_scheduled_get_amount (scheduled_number),
+											     currency_number),
 							  gsb_data_account_get_name (account_number)));
 	    else
-		label = gtk_label_new ( g_strdup_printf ( _("%s %s debit on %s"),
-							  gsb_real_get_string (gsb_real_abs (gsb_data_scheduled_get_amount (scheduled_number))),
-							  gsb_data_currency_get_code(currency_number),
+		label = gtk_label_new ( g_strdup_printf ( _("%s debited on %s"),
+							  gsb_real_get_string_with_currency (gsb_real_abs (gsb_data_scheduled_get_amount (scheduled_number)),
+											     currency_number),
 							  gsb_data_account_get_name (account_number)));
 
-	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, TRUE, 0 );
 	    gtk_widget_show (  label );
 
@@ -1480,17 +1383,17 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	    /* label à droite */
 
 	    if ( gsb_data_transaction_get_amount (transaction_number).mantissa >= 0 )
-		label = gtk_label_new ( g_strdup_printf ( _("%s %s credit on %s"),
-							  gsb_real_get_string (gsb_data_transaction_get_amount (transaction_number)),
-							  gsb_data_currency_get_code(currency_number),
+		label = gtk_label_new ( g_strdup_printf ( _("%s credited on %s"),
+							  gsb_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
+											     currency_number),
 							  gsb_data_account_get_name (account_number)));
 	    else
-		label = gtk_label_new ( g_strdup_printf ( _("%s %s debit on %s"),
-							  gsb_real_get_string (gsb_real_abs (gsb_data_transaction_get_amount (transaction_number))),
-							  gsb_data_currency_get_code(currency_number),
+		label = gtk_label_new ( g_strdup_printf ( _("%s debited on %s"),
+							  gsb_real_get_string_with_currency (gsb_real_abs (gsb_data_transaction_get_amount (transaction_number)),
+											     currency_number),
 							  gsb_data_account_get_name (account_number)));
 
-	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 5 );
 	    gtk_widget_show ( label );
 
@@ -1862,10 +1765,9 @@ void update_fin_comptes_passifs ( gboolean force )
  * */
 gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_number )
 {
-    GtkWidget *label;
+    GtkWidget * label, * hbox, * page;
     gint account_number;
     gint currency_number;
-    GtkWidget *page;
 
     account_number = gsb_data_scheduled_get_account_number (scheduled_number);
     currency_number = gsb_data_scheduled_get_currency_number (scheduled_number);
@@ -1876,33 +1778,49 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
     if ( !page )
     {
 	page = gtk_vbox_new ( FALSE,
-			      0 );
+			      5 );
 	gtk_notebook_append_page  (GTK_NOTEBOOK (main_page_finished_scheduled_transactions_part),
 				   page, NULL );
 	gtk_widget_show ( page );
     }
-
     /* append in the page the finished scheduled transaction */
 
+    hbox = gtk_hbox_new ( TRUE, 0 );
+    gtk_widget_show (  hbox );
+
+    /* label à gauche */
+
+    label = gtk_label_new ( g_strconcat ( gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
+					  " : ",
+					  gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number), FALSE),
+					  NULL ) );
+
+    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
+    gtk_widget_show ( label  );
+
+    /* label à droite */
+
+
     if ( gsb_data_scheduled_get_amount (scheduled_number).mantissa >= 0 )
-	label = gtk_label_new ( g_strdup_printf ( _("%s %s credit on %s"),
-						  gsb_real_get_string (gsb_data_scheduled_get_amount (scheduled_number)),
-						  gsb_data_currency_get_code(currency_number),
+	label = gtk_label_new ( g_strdup_printf ( _("%s credited on %s"),
+						  gsb_real_get_string_with_currency ( gsb_data_scheduled_get_amount (scheduled_number),
+										      currency_number ),
 						  gsb_data_account_get_name (account_number)));
     else
-	label = gtk_label_new ( g_strdup_printf ( _("%s %s debit on %s"),
-						  gsb_real_get_string (gsb_real_abs (gsb_data_scheduled_get_amount (scheduled_number))),
-						  gsb_data_currency_get_code(currency_number),
+	label = gtk_label_new ( g_strdup_printf ( _("%s debited on %s"),
+						  gsb_real_get_string_with_currency ( gsb_real_abs (gsb_data_scheduled_get_amount (scheduled_number)),
+										      currency_number ),
 						  gsb_data_account_get_name (account_number)));
+    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    gtk_box_pack_end ( GTK_BOX (hbox), label, FALSE, TRUE, 0 );
+    gtk_widget_show (  label );
 
-    gtk_misc_set_alignment ( GTK_MISC ( label ),
-			     0,
-			     0.5);
     gtk_box_pack_start ( GTK_BOX (page),
-			 label,
+			 hbox,
 			 FALSE,
 			 TRUE,
-			 5 );
+			 0 );
     gtk_widget_show (  label );
 
     show_paddingbox (main_page_finished_scheduled_transactions_part);
