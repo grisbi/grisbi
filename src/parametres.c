@@ -241,6 +241,7 @@ void preferences ( gint page )
 			&iter,
 			0, _("Files"),
 			1, FILES_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_fichier(), NULL);
 
@@ -249,6 +250,7 @@ void preferences ( gint page )
 			&iter,
 			0, _("Import"),
 			1, IMPORT_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_importation(), NULL);
 
@@ -257,6 +259,7 @@ void preferences ( gint page )
 			&iter,
 			0, _("Programs"),
 			1, SOFTWARE_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_programmes(), NULL);
 
@@ -274,6 +277,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Fonts & logo"),
 			1, FONTS_AND_LOGO_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_display_fonts(), NULL);
 
@@ -282,6 +286,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Messages & warnings"),
 			1, MESSAGES_AND_WARNINGS_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_messages_and_warnings(), NULL);
 
@@ -290,6 +295,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Addresses & titles"),
 			1, ADDRESSES_AND_TITLES_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_display_addresses(), NULL);
 
@@ -298,6 +304,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Totals currencies"),
 			1, TOTALS_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, gsb_currency_config_create_totals_page(), NULL);
 
@@ -306,6 +313,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Toolbars"),
 			1, TOOLBARS_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, tab_display_toolbar(), NULL);
 
@@ -323,6 +331,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("List behavior"),
 			1, TRANSACTIONS_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, 
 			      GTK_WIDGET(onglet_affichage_operations()), NULL);
@@ -332,6 +341,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Reconciliation"),
 			1, RECONCILIATION_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, gsb_reconcile_config_create(), NULL);
 
@@ -340,6 +350,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Sort for reconciliation"),
 			1, RECONCILIATION_SORT_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, gsb_reconcile_sort_config_create(), NULL);
 
@@ -358,6 +369,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Content"),
 			1, TRANSACTION_FORM_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, gsb_form_config_create_page(), NULL);
 
@@ -366,6 +378,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Behavior"),
 			1, TRANSACTION_FORM_BEHAVIOR_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_diverse_form_and_lists(), NULL);
 
@@ -374,6 +387,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Completion"),
 			1, TRANSACTION_FORM_COMPLETION_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_form_completion(), NULL);
 
@@ -391,6 +405,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Currencies"),
 			1, CURRENCIES_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, gsb_currency_config_create_page(), NULL);
 
@@ -399,6 +414,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Currencies links"),
 			1, CURRENCY_LINKS_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, gsb_currency_link_config_create_page (), NULL);
 
@@ -407,6 +423,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Banks"),
 			1, BANKS_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, gsb_bank_create_page (), NULL);
 
@@ -415,6 +432,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Financial years"),
 			1, FINANCIAL_YEARS_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, gsb_fyear_config_create_page(), NULL);
 
@@ -423,6 +441,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Payment methods"),
 			1, METHODS_OF_PAYMENT_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, gsb_payment_method_config_create (), NULL);
 
@@ -431,6 +450,7 @@ void preferences ( gint page )
 			&iter2,
 			0, _("Archives"),
 			1, ARCHIVE_PAGE,
+			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, gsb_archive_config_create (), NULL);
 
