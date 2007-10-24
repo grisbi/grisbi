@@ -242,11 +242,7 @@ int main (int argc, char *argv[])
     }
 
 #ifdef IS_DEVELOPMENT_VERSION
-    
-dialogue_hint ( "Warning, please be aware that the version you run is a DEVELOPMENT version. "
-		"In any case do not work with this version on your original accounting files. "
-		"(File format may change and render files incompatible with previous versions).",
-		g_strdup_printf ( "You are running Grisbi version %s", VERSION) );
+    dialog_message ( "development-version", VERSION );
 #endif
 
     if ( first_use )

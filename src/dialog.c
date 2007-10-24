@@ -89,6 +89,12 @@ struct conditional_message messages[] =
       N_("In previous versions, Grisbi did not save start date, end date and balance for reconciliation.  This is now done, so Grisbi will try to guess values from your accounts.  Thought this can not harm data coherence, false values can be guessed.  Please check in the Preferences window for more information."), 
       FALSE, FALSE, },
 
+    { "development-version", N_("You are running Grisbi version %s"), 
+      N_("Warning, please be aware that the version you run is a DEVELOPMENT version. "
+	 "In any case do not work with this version on your original accounting files. "
+	 "(File format may change and render files incompatible with previous versions)."),
+      FALSE, FALSE },
+
 /*
     { "", N_(),
       N_(), 
