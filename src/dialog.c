@@ -471,7 +471,7 @@ gboolean question_conditional_yes_no ( gchar * var )
 					     _(messages[i].message) ), 
 				 GTK_RESPONSE_OK );
 
-    if ( response == GTK_RESPONSE_YES )
+    if ( response )
 	messages[i].default_answer = TRUE;
     else
 	messages[i].default_answer = FALSE;
