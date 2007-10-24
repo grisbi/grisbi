@@ -28,7 +28,7 @@ gsb_real gsb_real_div ( gsb_real number_1,
 gsb_real gsb_real_double_to_real ( gdouble number );
 gsb_real gsb_real_get_from_string ( const gchar *string );
 gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default_mantissa );
-gchar *gsb_real_get_string ( gsb_real number );
+gchar * gsb_real_get_string ( gsb_real number );
 gchar *gsb_real_get_string_with_currency ( gsb_real number,
 					   gint currency_number );
 gsb_real gsb_real_mul ( gsb_real number_1,

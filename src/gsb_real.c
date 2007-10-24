@@ -42,6 +42,7 @@ gsb_real null_real = { 0 , 0 };
 
 
 /*START_STATIC*/
+static gchar * gsb_real_format_string ( gsb_real number, gchar * currency_symbol );
 static gboolean gsb_real_normalize ( gsb_real *number_1,
 			      gsb_real *number_2 );
 static gdouble gsb_real_real_to_double ( gsb_real number );
@@ -52,6 +53,7 @@ extern gint max;
 /*END_EXTERN*/
 
 
+
 /**
  * Return the real in a formatted string, according to the locale
  * regarding decimal separator, thousands separator and positive or
@@ -60,10 +62,29 @@ extern gint max;
  * \param number	Number to format.
  *
  * \return		A newly allocated string of the number (this
- *			function will never return NULL) */
-gchar *gsb_real_get_string ( gsb_real number )
+ *			function will never return NULL) 
+*/
+gchar * gsb_real_get_string ( gsb_real number )
 {
-    struct lconv * conv = localeconv();
+    gsb_real_format_string ( number, NULL );
+}
+
+
+
+/**
+ * Return the real in a formatted string with an optional currency
+ * symbol, according to the locale regarding decimal separator,
+ * thousands separator and positive or negative sign.
+ * 
+ * \param number		Number to format.
+ * \param currency_symbol	Optional currency symbol to insert.
+ *
+ * \return		A newly allocated string of the number (this
+ *			function will never return NULL) 
+*/
+gchar * gsb_real_format_string ( gsb_real number, gchar * currency_symbol )
+{
+    struct lconv * conv = localeconv ( );
     div_t result_div;
     gchar *string;
     gint i = 0, j=0;
@@ -72,7 +93,8 @@ gchar *gsb_real_get_string ( gsb_real number )
     /* FIXME : should return 0.00 according to the currency and no 0 */
     if (number.mantissa == 0)
 	return g_strdup_printf ( "%s0%c00", 
-				 ( ( conv -> p_cs_precedes != 0 ) ? conv -> positive_sign : "" ),
+				 ( ( conv -> p_cs_precedes != 0 ) ? 
+				   conv -> positive_sign : "" ),
 				 * conv -> mon_decimal_point );
 
     /* for a long int : max 11 char
@@ -128,13 +150,18 @@ gchar *gsb_real_get_string ( gsb_real number )
 
     /* Add the sign at the end of the string just before to reverse it to avoid
        to have to insert it at the begin just after... */
+
     if (number.mantissa < 0)
     {
         string[i++] = * conv -> negative_sign;
+	if ( conv -> p_sep_by_space )
+	    string[i++] = ' ';
     }
     else if ( conv -> p_cs_precedes)
     {
         string[i++] = * conv -> positive_sign;
+	if ( conv -> p_sep_by_space )
+	    string[i++] = ' ';
     }
     
     string[i] = 0;
@@ -145,12 +172,13 @@ gchar *gsb_real_get_string ( gsb_real number )
 }
 
 
+
 /**
  * format a gsb_real into a string from gsb_real_get_string and append
  * the currency symbol from the currency in param
  *
- * \param number a gsb_real
- * \param currency_number
+ * \param number		A number to format.
+ * \param currency_number	Currency to use.
  *
  * \return a newly allocated string of the number
  * */
@@ -158,17 +186,11 @@ gchar *gsb_real_get_string_with_currency ( gsb_real number,
 					   gint currency_number )
 {
     gchar *string;
-    gchar *returned_string;
 
-    string = gsb_real_get_string (number);
-    returned_string = g_strconcat ( string,
-				    " ",
-				    gsb_data_currency_get_code (currency_number),
-				    NULL );
-    g_free (string);
-    return returned_string;
+    string = gsb_real_format_string (number,
+				     gsb_data_currency_get_code (currency_number) );
+    return string;
 }
-
 
 
 
