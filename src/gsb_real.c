@@ -86,21 +86,27 @@ gchar * gsb_real_format_string ( gsb_real number, gchar * currency_symbol )
 {
     struct lconv * conv = localeconv ( );
     div_t result_div;
-    gchar *string;
+    gchar *string, *exponent, *mantissa, *tmp;
     gint i = 0, j=0;
     glong num;
 
     /* FIXME : should return 0.00 according to the currency and no 0 */
     if (number.mantissa == 0)
-	return g_strdup_printf ( "%s0%c00", 
-				 ( ( conv -> p_cs_precedes != 0 ) ? 
-				   conv -> positive_sign : "" ),
-				 * conv -> mon_decimal_point );
+	return g_strdup_printf ( "%s%s%s0%c00%s%s", 
+				 ( currency_symbol && conv -> p_cs_precedes ? currency_symbol : "" ),
+				 ( currency_symbol && conv -> p_sep_by_space ? " " : "" ),
+				 conv -> positive_sign,
+				 ( * conv -> mon_decimal_point ? * conv -> mon_decimal_point : '.' ),
+				 ( currency_symbol && ! conv -> p_cs_precedes && conv -> p_sep_by_space ? 
+				   " " : "" ),
+				 ( currency_symbol && ! conv -> p_cs_precedes ? currency_symbol : "" ) );
 
     /* for a long int : max 11 char
      * so with the possible -, the spaces and the .
      * we arrive to maximum 14 char : -21 474 836.48 + 1 for the 0 terminal */
-    string = g_malloc0 ( 15*sizeof (gchar) );
+    mantissa = g_malloc0 ( 15*sizeof (gchar) );
+    exponent = g_malloc0 ( 15*sizeof (gchar) );
+    string = mantissa;
     
     num = labs(number.mantissa);
 
@@ -111,7 +117,8 @@ gchar * gsb_real_format_string ( gsb_real number, gchar * currency_symbol )
 	     &&
 	     i == number.exponent)
 	{
-	    string[i] = * conv -> mon_decimal_point;
+	    *string = 0;
+	    string = exponent;
 	    result_div.quot = num;
 	}
 	else
@@ -124,7 +131,7 @@ gchar * gsb_real_format_string ( gsb_real number, gchar * currency_symbol )
 		j=0;
 		if ( * (conv -> mon_thousands_sep ) )
 		{
-		    string [i] = * ( conv -> mon_thousands_sep );
+		    *string++ = * ( conv -> mon_thousands_sep );
 		}
 		else
 		{
@@ -135,7 +142,7 @@ gchar * gsb_real_format_string ( gsb_real number, gchar * currency_symbol )
 	    else
 	    {
 		result_div = div ( num, 10 );
-		string[i] = result_div.rem + '0';
+		*string++ = result_div.rem + '0';
 	    }
 	}
 	i++;
@@ -151,22 +158,19 @@ gchar * gsb_real_format_string ( gsb_real number, gchar * currency_symbol )
     /* Add the sign at the end of the string just before to reverse it to avoid
        to have to insert it at the begin just after... */
 
-    if (number.mantissa < 0)
-    {
-        string[i++] = * conv -> negative_sign;
-	if ( conv -> p_sep_by_space )
-	    string[i++] = ' ';
-    }
-    else if ( conv -> p_cs_precedes)
-    {
-        string[i++] = * conv -> positive_sign;
-	if ( conv -> p_sep_by_space )
-	    string[i++] = ' ';
-    }
-    
-    string[i] = 0;
+    string = g_strdup_printf ( "%s%s%s%s%c%s%s%s", 
+			       ( currency_symbol && conv -> p_cs_precedes ? currency_symbol : "" ),
+			       ( currency_symbol && conv -> p_sep_by_space ? " " : "" ),
+			       conv -> positive_sign,
+			       g_strreverse ( exponent ),
+			       ( * conv -> mon_decimal_point ? * conv -> mon_decimal_point : '.' ),
+			       g_strreverse ( mantissa ),
+			       ( currency_symbol && ! conv -> p_cs_precedes && conv -> p_sep_by_space ? 
+				 " " : "" ),
+			       ( currency_symbol && ! conv -> p_cs_precedes ? currency_symbol : "" ) );
 
-    g_strreverse ( string );
+    g_free ( exponent );
+    g_free ( mantissa );
 
     return ( string );
 }
