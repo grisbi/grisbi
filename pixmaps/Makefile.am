@@ -19,6 +19,7 @@ grisbi_pixmaps_DATA = \
 	dollar.gif \
 	euro.gif \
 	exec.png \
+	flags.png \
 	files.png \
 	financial-years.png \
 	fonts.png \
