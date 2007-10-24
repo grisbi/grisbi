@@ -199,9 +199,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1,
 					ligne, ligne + 1, LEFT, 0 );
 
-	    text = g_strconcat ( gsb_real_get_string (montant_categ_etat),
-				 gsb_data_currency_get_code_or_isocode (devise_categ_etat),
-				 NULL );
+	    text = gsb_real_get_string_with_currency (montant_categ_etat, devise_categ_etat );
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes,
 					ligne, ligne + 1, RIGHT, 0 );
 
@@ -218,16 +216,20 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_categ_etat <= 1 )
-		    text = g_strdup_printf ( _("%s %s (%d transaction)"), gsb_real_get_string (montant_categ_etat),
-					     gsb_data_currency_get_name ( devise_categ_etat ), nb_ope_categ_etat );
+		    text = g_strdup_printf ( _("%s (%d transaction)"), 
+					     gsb_real_get_string_with_currency ( montant_categ_etat,
+										 devise_categ_etat ), 
+					     nb_ope_categ_etat );
 		else
-		    text = g_strdup_printf ( _("%s %s (%d transactions)"), gsb_real_get_string (montant_categ_etat),
-					     gsb_data_currency_get_name ( devise_categ_etat ), nb_ope_categ_etat );
+		    text = g_strdup_printf ( _("%s (%d transactions)"), 
+					     gsb_real_get_string_with_currency ( montant_categ_etat,
+										 devise_categ_etat ),
+					     nb_ope_categ_etat );
 	    }
 	    else
 		text = g_strdup_printf ( _("%s %s"),
-					 gsb_real_get_string (montant_categ_etat),
-					 gsb_data_currency_get_code_or_isocode ( devise_categ_etat ));
+					 gsb_real_get_string_with_currency ( montant_categ_etat,
+									     devise_categ_etat ) );
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes,
 					ligne, ligne + 1, RIGHT, 0 );
@@ -316,9 +318,7 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 	    }
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
 
-	    text = g_strconcat (gsb_real_get_string (montant_sous_categ_etat),
-				gsb_data_currency_get_code_or_isocode (devise_categ_etat),
-				NULL );
+	    text = gsb_real_get_string_with_currency (montant_sous_categ_etat, devise_categ_etat);
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
 	    ligne++;
 
@@ -332,15 +332,19 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_sous_categ_etat <= 1 )
-		    text = g_strdup_printf ( _("%s %s (%d transaction)"), gsb_real_get_string (montant_sous_categ_etat),
-					     gsb_data_currency_get_name ( devise_categ_etat ), nb_ope_sous_categ_etat );
+		    text = g_strdup_printf ( _("%s (%d transaction)"), 
+					     gsb_real_get_string_with_currency ( montant_sous_categ_etat,
+										devise_categ_etat ),
+					     nb_ope_sous_categ_etat );
 		else
-		    text = g_strdup_printf ( _("%s %s (%d transactions)"), gsb_real_get_string (montant_sous_categ_etat),
-					     gsb_data_currency_get_name ( devise_categ_etat ), nb_ope_sous_categ_etat );
+		    text = g_strdup_printf ( _("%s (%d transactions)"), 
+					     gsb_real_get_string_with_currency ( montant_sous_categ_etat,
+										 devise_categ_etat ), 
+					     nb_ope_sous_categ_etat );
 	    }
 	    else
-		text = g_strdup_printf ( _("%s %s"), gsb_real_get_string (montant_sous_categ_etat),
-					 gsb_data_currency_get_code_or_isocode (devise_categ_etat));
+		text = gsb_real_get_string_with_currency ( montant_sous_categ_etat,
+							   devise_categ_etat );
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
 	    ligne++;
@@ -422,9 +426,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
 
-	    text = g_strconcat ( gsb_real_get_string (montant_ib_etat),
-				 gsb_data_currency_get_code_or_isocode (devise_ib_etat),
-				 NULL );
+	    text = gsb_real_get_string_with_currency ( montant_ib_etat, devise_ib_etat );
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
 	    ligne++;
 
@@ -438,15 +440,18 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_ib_etat <= 1 )
-		    text = g_strdup_printf ( _("%s %s (%d transaction)"), gsb_real_get_string (montant_ib_etat),
-					     gsb_data_currency_get_name ( devise_ib_etat ), nb_ope_ib_etat );
+		    text = g_strdup_printf ( _("%s (%d transaction)"), 
+					     gsb_real_get_string_with_currency ( montant_ib_etat,
+										 devise_ib_etat ), 
+					     nb_ope_ib_etat );
 		else
-		    text = g_strdup_printf ( _("%s %s (%d transactions)"), gsb_real_get_string (montant_ib_etat),
-					     gsb_data_currency_get_name ( devise_ib_etat ), nb_ope_ib_etat );
+		    text = g_strdup_printf ( _("%s (%d transactions)"), 
+					     gsb_real_get_string_with_currency (montant_ib_etat,
+										devise_ib_etat ),
+					     nb_ope_ib_etat );
 	    }
 	    else
-		text = g_strdup_printf ( _("%s %s"), gsb_real_get_string (montant_ib_etat),
-					 gsb_data_currency_get_code_or_isocode ( devise_ib_etat ) );
+		text = gsb_real_get_string_with_currency ( montant_ib_etat, devise_ib_etat );
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
 	    ligne++;
@@ -533,9 +538,7 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
 
-	    text = g_strconcat ( gsb_real_get_string (montant_sous_ib_etat),
-				 gsb_data_currency_get_code_or_isocode ( devise_ib_etat ),
-				 NULL );
+	    text = gsb_real_get_string_with_currency (montant_sous_ib_etat, devise_ib_etat );
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
 	    ligne++;
 
@@ -549,15 +552,18 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_sous_ib_etat <= 1 )
-		    text = g_strdup_printf ( _("%s %s (%d transaction)"), gsb_real_get_string (montant_sous_ib_etat),
-					     gsb_data_currency_get_name ( devise_ib_etat ), nb_ope_sous_ib_etat );
+		    text = g_strdup_printf ( _("%s (%d transaction)"), 
+					     gsb_real_get_string_with_currency (montant_sous_ib_etat, 
+										devise_ib_etat ), 
+					     nb_ope_sous_ib_etat );
 		else
-		    text = g_strdup_printf ( _("%s %s (%d transactions)"), gsb_real_get_string (montant_sous_ib_etat),
-					     gsb_data_currency_get_name ( devise_ib_etat ), nb_ope_sous_ib_etat );
+		    text = g_strdup_printf ( _("%s (%d transactions)"), 
+					     gsb_real_get_string_with_currency (montant_sous_ib_etat, 
+										devise_ib_etat ), 
+					     nb_ope_sous_ib_etat );
 	    }
 	    else
-		text = g_strdup_printf ( _("%s %s"), gsb_real_get_string (montant_sous_ib_etat),
-					 gsb_data_currency_get_code_or_isocode ( devise_ib_etat )) ;
+		text = gsb_real_get_string_with_currency ( montant_sous_ib_etat, devise_ib_etat );
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
 	    ligne++;
@@ -633,9 +639,7 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
 
-	    text = g_strconcat ( gsb_real_get_string (montant_compte_etat),
-				 gsb_data_currency_get_code_or_isocode ( devise_compte_en_cours_etat ),
-				 NULL );
+	    text = gsb_real_get_string_with_currency (montant_compte_etat, devise_compte_en_cours_etat );
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
 	    ligne++;
 
@@ -649,15 +653,18 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_compte_etat <= 1 )
-		    text = g_strdup_printf ( _("%s %s (%d transaction)"), gsb_real_get_string (montant_compte_etat),
-					     gsb_data_currency_get_name ( devise_compte_en_cours_etat ), nb_ope_compte_etat );
+		    text = g_strdup_printf ( _("%s (%d transaction)"), 
+					     gsb_real_get_string_with_currency ( montant_compte_etat,
+										 devise_compte_en_cours_etat ), 
+					     nb_ope_compte_etat );
 		else
-		    text = g_strdup_printf ( _("%s %s (%d transactions)"), gsb_real_get_string (montant_compte_etat),
-					     gsb_data_currency_get_name ( devise_compte_en_cours_etat ), nb_ope_compte_etat );
+		    text = g_strdup_printf ( _("%s (%d transactions)"), 
+					     gsb_real_get_string_with_currency ( montant_compte_etat,
+										 devise_compte_en_cours_etat ), 
+					     nb_ope_compte_etat );
 	    }
 	    else
-		text = g_strdup_printf ( _("%s %s"), gsb_real_get_string (montant_compte_etat),
-					 gsb_data_currency_get_code_or_isocode (devise_compte_en_cours_etat) );
+		text = gsb_real_get_string_with_currency ( montant_compte_etat, devise_compte_en_cours_etat );
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );  
 	    ligne++;
@@ -732,9 +739,7 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
 
-	    text = g_strconcat ( gsb_real_get_string (montant_tiers_etat),
-				 gsb_data_currency_get_code_or_isocode ( devise_tiers_etat ),
-				 NULL );
+	    text = gsb_real_get_string_with_currency (montant_tiers_etat, devise_tiers_etat );
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
 	    ligne++;
 
@@ -748,15 +753,18 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
 		if ( nb_ope_tiers_etat <= 1 )
-		    text = g_strdup_printf ( _("%s %s (%d transaction)"), gsb_real_get_string (montant_tiers_etat),
-					     gsb_data_currency_get_name ( devise_tiers_etat ), nb_ope_tiers_etat );
+		    text = g_strdup_printf ( _("%s (%d transaction)"), 
+					     gsb_real_get_string_with_currency (montant_tiers_etat,
+										devise_tiers_etat ), 
+					     nb_ope_tiers_etat );
 		else
-		    text = g_strdup_printf ( _("%s %s (%d transactions)"), gsb_real_get_string (montant_tiers_etat),
-					     gsb_data_currency_get_name ( devise_tiers_etat ), nb_ope_tiers_etat );
+		    text = g_strdup_printf ( _("%s (%d transactions)"), 
+					     gsb_real_get_string_with_currency (montant_tiers_etat,
+										devise_tiers_etat ), 
+					     nb_ope_tiers_etat );
 	    }
 	    else
-		text = g_strdup_printf ( _("%s %s"), gsb_real_get_string (montant_tiers_etat),
-					 gsb_data_currency_get_code_or_isocode ( devise_tiers_etat ) );
+		text = gsb_real_get_string_with_currency (montant_tiers_etat, devise_tiers_etat );
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
 	    ligne++;
@@ -988,9 +996,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
 	etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
 
-	text = g_strconcat ( gsb_real_get_string (montant_periode_etat),
-			     gsb_data_currency_get_code_or_isocode ( devise_generale_etat ),
-			     NULL );
+	text = gsb_real_get_string_with_currency (montant_periode_etat, devise_generale_etat );
 	etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
 	ligne++;
 
@@ -1138,9 +1144,7 @@ gint etat_affiche_affiche_total_exercice ( gint transaction_number,
 
 	etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
 
-	text = g_strconcat ( gsb_real_get_string (montant_exo_etat),
-			     gsb_data_currency_get_code_or_isocode ( devise_generale_etat ),
-			     NULL );
+	text = gsb_real_get_string_with_currency (montant_exo_etat, devise_generale_etat );
 	etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
 	ligne++;
 
@@ -1517,10 +1521,8 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	/* on affiche le montant au bout de la ligne */
 
-	text = g_strconcat ( gsb_real_get_string (gsb_data_transaction_get_amount (transaction_number)),
-			     " ",
-			     gsb_data_currency_get_code_or_isocode (gsb_data_transaction_get_currency_number (transaction_number)),
-			     NULL );
+	text = gsb_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
+						  gsb_data_transaction_get_currency_number (transaction_number) );
 
 	if ( gsb_data_report_get_report_can_click (current_report_number))
 	{
@@ -1588,8 +1590,7 @@ gint etat_affiche_affiche_total_partiel ( gsb_real total_partie,
 
     etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
 
-    text = g_strdup_printf ( _("%s %s"), gsb_real_get_string (total_partie),
-			     gsb_data_currency_get_code_or_isocode ( devise_generale_etat ) );
+    text = gsb_real_get_string_with_currency (total_partie, devise_generale_etat );
     etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
     ligne++;
 
@@ -1639,8 +1640,7 @@ gint etat_affiche_affiche_total_general ( gsb_real total_general,
 
     etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 2, ligne, ligne + 1, LEFT, 0 );
 
-    text = g_strdup_printf ( "%s %s", gsb_real_get_string (total_general),
-			     gsb_data_currency_get_code_or_isocode ( devise_generale_etat ) );
+    text = gsb_real_get_string_with_currency (total_general, devise_generale_etat );
     etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
     ligne++;
 
