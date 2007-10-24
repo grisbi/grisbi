@@ -206,6 +206,9 @@ GtkWidget *gsb_archive_config_create ( void )
 		       "clicked",
 		       G_CALLBACK (gsb_archive_config_delete_archive),
 		       archive_treeview );
+    gtk_button_set_image ( GTK_BUTTON(button), 
+			   gtk_image_new_from_file ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+								   "import.png", NULL ) ) );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       button, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
