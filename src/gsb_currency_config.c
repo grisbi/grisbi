@@ -892,36 +892,37 @@ gboolean gsb_currency_config_set_int_from_combobox ( GtkWidget *combobox, gint *
 gboolean gsb_currency_config_add_currency ( GtkWidget *button,
 					    GtkTreeModel *currency_tree_model )
 {
-    GtkWidget *dialog, *label, *table, *list, *paddingbox;
-    GtkTreeModel *model;
-    const gchar *currency_name, *currency_code, *currency_isocode;
-    gint floating_point;
-    gint currency_number;
-    gint result;
+    GtkWidget *dialog, *label, *table, *list, *paddingbox, * main_vbox, * vbox;
     GtkWidget *entry_name, *entry_code, *entry_isocode, *entry_floating_point;
+    const gchar *currency_name, *currency_code, *currency_isocode;
+    gint floating_point, currency_number, result;
+    GtkTreeModel *model;
 
     dialog = gtk_dialog_new_with_buttons ( _("Add a currency"),
 					   GTK_WINDOW (window),
 					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_CANCEL,0,
-					   GTK_STOCK_OK,1,
+					   GTK_STOCK_CLOSE, 1,
 					   NULL );
 
-    gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), 12 );
+    main_vbox = new_vbox_with_title_and_icon ( _("Select base currency for your account"),
+					       "flags.png" );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), main_vbox, TRUE, TRUE, 0 );
 
-    paddingbox = 
-	new_paddingbox_with_title (GTK_WIDGET ( GTK_DIALOG ( dialog ) -> vbox ),
-				   TRUE, _("ISO 4217 currencies"));
+    vbox = gtk_vbox_new ( FALSE, 12 );
+    gtk_box_pack_start ( main_vbox, vbox, TRUE, TRUE, 0 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+    
+    paddingbox = new_paddingbox_with_title ( vbox,
+					     TRUE, _("World currencies"));
 
     /* Create list */
     list = gsb_currency_config_create_box_popup ();
     model = g_object_get_data ( G_OBJECT(list), "model" );
 
-    gtk_box_pack_start ( GTK_BOX(paddingbox) , list, TRUE, TRUE, 5 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), list, TRUE, TRUE, 5 );
 
-    paddingbox = 
-	new_paddingbox_with_title (GTK_WIDGET ( GTK_DIALOG ( dialog ) -> vbox ),
-				   FALSE, _("Currency details"));
+    paddingbox = new_paddingbox_with_title ( vbox,
+					     FALSE, _("Currency details"));
 
     /* Create table */
     table = gtk_table_new ( 4, 2, FALSE );
