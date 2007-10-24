@@ -2700,7 +2700,7 @@ GtkWidget *onglet_importation (void)
     GtkWidget *bouton;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Import"),
-					       "files.png" ); 
+					       "import.png" ); 
     hbox = gtk_hbox_new ( FALSE,
 			  0 );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
