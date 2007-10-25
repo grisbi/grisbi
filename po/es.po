@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-04 20:16+0200\n"
-"PO-Revision-Date: 2007-01-27 00:15+0100\n"
+"PO-Revision-Date: 2007-10-25 10:42+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:189
 msgid "Closed liabilities accounts"
@@ -192,32 +192,27 @@ msgstr "Seleccione un nuevo logotipo"
 
 #: src/affichage.c:722 src/parametres.c:310
 msgid "Toolbars"
-msgstr ""
+msgstr "Barras de herramientas"
 
 #: src/affichage.c:725
-#, fuzzy
 msgid "Display toolbar buttons as"
-msgstr "Mostrar transacciones"
+msgstr "Mostrar los botones de la barra de herramientas como"
 
 #: src/affichage.c:727
-#, fuzzy
 msgid "Text"
-msgstr "Textos"
+msgstr "Texto"
 
 #: src/affichage.c:736
-#, fuzzy
 msgid "Icons"
-msgstr "Ingresos"
+msgstr "Iconos"
 
 #: src/affichage.c:745
-#, fuzzy
 msgid "Both"
-msgstr "oth a"
+msgstr "Ambos"
 
 #: src/affichage.c:767
-#, fuzzy
 msgid "Display headings bar"
-msgstr "Mostrar la información sobre"
+msgstr "Mostrar las barras de cabecera"
 
 #: src/affichage_liste.c:54 src/etats_affiche.c:2283 src/export_csv.c:263
 #: src/gsb_form.c:1146 src/gsb_form_widget.c:424 src/gsb_reconcile.c:156
@@ -230,7 +225,7 @@ msgstr "Fecha"
 #: src/gsb_form_widget.c:436 src/gsb_transactions_list.c:190
 #: src/import_csv.c:80 src/traitement_variables.c:70
 msgid "Value date"
-msgstr "Fecha efectiva"
+msgstr "Fecha Valor"
 
 #. mise en place de la frame des tiers
 #: src/affichage_liste.c:56 src/etats_affiche.c:2297 src/etats_config.c:467
@@ -258,7 +253,7 @@ msgstr "Línea presupuestaria"
 #: src/import_csv.c:90 src/imputation_budgetaire.c:685
 #: src/traitement_variables.c:74
 msgid "Debit"
-msgstr "Debe"
+msgstr "Débito"
 
 #. Credit method_ptr
 #: src/affichage_liste.c:59 src/categories_onglet.c:798 src/export_csv.c:269
@@ -267,7 +262,7 @@ msgstr "Debe"
 #: src/gsb_payment_method_config.c:1064 src/gsb_transactions_list.c:194
 #: src/imputation_budgetaire.c:685 src/traitement_variables.c:73
 msgid "Credit"
-msgstr "Haber"
+msgstr "Crédito"
 
 #: src/affichage_liste.c:60 src/categories_onglet.c:299 src/export_csv.c:272
 #: src/gsb_reconcile.c:159 src/gsb_scheduler_list.c:337
@@ -309,11 +304,12 @@ msgstr "Categoría"
 #: src/gsb_transactions_list.c:201 src/import_csv.c:92
 #: src/traitement_variables.c:81
 msgid "C/R"
-msgstr "L/R"
+msgstr "C/R"
 
 #: src/affichage_liste.c:67 src/etats_affiche.c:2339 src/export_csv.c:278
 #: src/gsb_form.c:1271 src/gsb_form_widget.c:480
 #: src/gsb_transactions_list.c:202 src/traitement_variables.c:82
+#, fuzzy
 msgid "Voucher"
 msgstr "Comprobante"
 
@@ -405,7 +401,7 @@ msgstr "cuarta línea"
 
 #: src/affichage_liste.c:426
 msgid "Form behavior"
-msgstr ""
+msgstr "Comportamiento del formulario"
 
 #: src/affichage_liste.c:431
 msgid "Pressing RETURN in transaction form"
@@ -446,11 +442,11 @@ msgstr "Guardar automáticamente al salir"
 
 #: src/affichage_liste.c:459
 msgid "Automagically add separator in amounts fields if unspecified"
-msgstr ""
+msgstr "Automáticamente añade un separador en los campos de cantidad no especificados"
 
 #: src/affichage_liste.c:481
 msgid "Form completion"
-msgstr ""
+msgstr "Autocompletado de formulario"
 
 #: src/affichage_liste.c:485
 msgid "Limit payee completion to current account"
@@ -463,7 +459,7 @@ msgstr "Unir categorías"
 
 #: src/affichage_liste.c:496
 msgid "Case sensitive completion"
-msgstr ""
+msgstr "Autocompletado sensible a las mayúsculas"
 
 #: src/affichage_liste.c:501
 msgid "Enter keeps current completion"
@@ -471,15 +467,15 @@ msgstr ""
 
 #: src/affichage_liste.c:507
 msgid "Don't allow new payee creation"
-msgstr ""
+msgstr "No permitir la creación de nuevos pagadores"
 
 #: src/affichage_liste.c:513
 msgid "Don't allow new category/budget creation"
-msgstr ""
+msgstr "No permitir la creación de nuevas categorías/presupuestos"
 
 #: src/affichage_liste.c:524
 msgid "Maximum items showed in drop down lists (0 for no limit)"
-msgstr ""
+msgstr "Máximo número de elementos mostrados en las listas desplegables (0 para ilimitado)"
 
 #. crÃ©e une nouvelle banque au nom de "nouvelle banque" en mettant
 #. tous les paramÃ¨tres Ã  0
@@ -609,9 +605,8 @@ msgstr "Total de Categorías (%d transacción)"
 #: src/barre_outils.c:113 src/barre_outils.c:423 src/categories_onglet.c:639
 #: src/etats_onglet.c:160 src/imputation_budgetaire.c:524
 #: src/tiers_onglet.c:240
-#, fuzzy
 msgid "Delete"
-msgstr "Seleccionar"
+msgstr "Borrar"
 
 #: src/barre_outils.c:117
 #, fuzzy
@@ -623,85 +618,75 @@ msgid "Edit"
 msgstr "Editar"
 
 #: src/barre_outils.c:126
-#, fuzzy
 msgid "Edit current transaction"
-msgstr "Editar la transacción"
+msgstr "Editar la transacción actual"
 
 #: src/barre_outils.c:130
 msgid "Reconcile"
 msgstr "Reconciliar"
 
 #: src/barre_outils.c:135
-#, fuzzy
 msgid "Start account reconciliation"
-msgstr "¡Última oportunidad para cancelar la reconciliación!"
+msgstr "Comenzar la reconciliación de la cuenta"
 
 #: src/barre_outils.c:139 src/barre_outils.c:469 src/categories_onglet.c:658
 #: src/gsb_form_transaction.c:538 src/imputation_budgetaire.c:545
 #: src/tiers_onglet.c:259
 msgid "View"
-msgstr ""
+msgstr "Vista"
 
 #: src/barre_outils.c:143
 msgid "Change display mode of the list"
-msgstr ""
+msgstr "Cambia el modo de presentación de la lista"
 
 #: src/barre_outils.c:185
 msgid "Simple view"
-msgstr ""
+msgstr "Vista Simple"
 
 #: src/barre_outils.c:190
-#, fuzzy
 msgid "Two lines view"
-msgstr "Modo de dos líneas"
+msgstr "Vista de dos líneas"
 
 #: src/barre_outils.c:195
-#, fuzzy
 msgid "Three lines view"
-msgstr "Modo de tres líneas"
+msgstr "Vista de tres líneas"
 
 #: src/barre_outils.c:200 src/categories_onglet.c:697
 #: src/imputation_budgetaire.c:584 src/tiers_onglet.c:292
-#, fuzzy
 msgid "Complete view"
-msgstr "Anotación incompleta"
+msgstr "Vista completa"
 
 #: src/barre_outils.c:368 src/gsb_scheduler_list.c:1607
 msgid "Unique view"
-msgstr ""
+msgstr "Vista única"
 
 #: src/barre_outils.c:368 src/gsb_scheduler_list.c:1607
-#, fuzzy
 msgid "Week view"
-msgstr "Semana"
+msgstr "Vista semanal"
 
 #: src/barre_outils.c:368 src/gsb_scheduler_list.c:1607
-#, fuzzy
 msgid "Month view"
-msgstr "Meses"
+msgstr "Vista mensual"
 
 #: src/barre_outils.c:369 src/gsb_scheduler_list.c:1608
 msgid "Two months view"
-msgstr ""
+msgstr "Vista bimensual"
 
 #: src/barre_outils.c:369 src/gsb_scheduler_list.c:1608
 msgid "Quarter view"
-msgstr ""
+msgstr "Vista cuatrimestral"
 
 #: src/barre_outils.c:370 src/gsb_scheduler_list.c:1609
-#, fuzzy
 msgid "Year view"
-msgstr "Año"
+msgstr "Vista anual"
 
 #: src/barre_outils.c:370 src/gsb_scheduler_list.c:1609
-#, fuzzy
 msgid "Custom view"
-msgstr "Aleatorio"
+msgstr "Vista Aleatoria"
 
 #: src/barre_outils.c:413
-#, fuzzy
 msgid "_New scheduled"
-msgstr "Planificador"
+msgstr "_Nuevo Planificador"
 
 #: src/barre_outils.c:418
 #, fuzzy
@@ -729,9 +714,8 @@ msgid "Display scheduled transactions comments"
 msgstr "Mostrar las transacciones programadas"
 
 #: src/barre_outils.c:458
-#, fuzzy
 msgid "Execute"
-msgstr "Ejecutivo US"
+msgstr "Ejecutar"
 
 #: src/barre_outils.c:465
 #, fuzzy
@@ -1221,13 +1205,12 @@ msgstr "Exportar categorías"
 
 #: src/categories_onglet.c:512
 msgid "Grisbi category files (*.cgsb)"
-msgstr ""
+msgstr "Archivo de categorías de Grisbi (*.cgsb)"
 
 #: src/categories_onglet.c:518 src/etats_onglet.c:1266
 #: src/fichiers_gestion.c:231 src/import.c:547 src/imputation_budgetaire.c:405
-#, fuzzy
 msgid "All files"
-msgstr "Todos los años financieros"
+msgstr "Todos los archivos"
 
 #: src/categories_onglet.c:538
 #, fuzzy
@@ -1252,14 +1235,15 @@ msgstr ""
 
 #: src/categories_onglet.c:548 src/imputation_budgetaire.c:435
 msgid "Replace existing"
-msgstr ""
+msgstr "Reemplazar existente"
 
 #: src/categories_onglet.c:597
-#, fuzzy
 msgid ""
 "New\n"
 "category"
-msgstr "Nueva categoría"
+msgstr ""
+"Nueva\n"
+"categoría"
 
 #: src/categories_onglet.c:602
 #, fuzzy
@@ -1267,11 +1251,11 @@ msgid "Create a new category"
 msgstr "Crear una cuenta nueva"
 
 #: src/categories_onglet.c:607
-#, fuzzy
 msgid ""
 "New sub\n"
 "category"
-msgstr "Nueva subcategoría"
+msgstr "Nueva\n"
+"subcategoría"
 
 #: src/categories_onglet.c:614
 #, fuzzy
@@ -1306,14 +1290,12 @@ msgstr "¡Por favor introduzca una categoría!"
 #: src/categories_onglet.c:648 src/etats_onglet.c:170
 #: src/fenetre_principale.c:253 src/imputation_budgetaire.c:534
 #: src/tiers_onglet.c:249
-#, fuzzy
 msgid "Properties"
-msgstr "Propiedades de la moneda"
+msgstr "Propiedades"
 
 #: src/categories_onglet.c:652
-#, fuzzy
 msgid "Edit selected category"
-msgstr "la categoría"
+msgstr "Editar la categoría seleccionada"
 
 #: src/categories_onglet.c:662 src/tiers_onglet.c:263
 #, fuzzy
@@ -1322,9 +1304,8 @@ msgstr "Modo de una línea"
 
 #. Edit transaction
 #: src/categories_onglet.c:685
-#, fuzzy
 msgid "Category view"
-msgstr "Categorías"
+msgstr "Vista de categorías"
 
 #: src/categories_onglet.c:691
 #, fuzzy
@@ -1525,16 +1506,17 @@ msgstr ""
 
 #: src/dialog.c:52
 msgid "No tip of the day available"
-msgstr ""
+msgstr "No hay un consejo del día disponible"
 
 #: src/dialog.c:53
 msgid ""
 "Make sure that grisbi was correctly installed and that tips file is readable."
 msgstr ""
+"Asegúrese de que grisbi fue instalado correctamente y que el fichero de consejos se puede leer."
 
 #: src/dialog.c:56
 msgid "Security feature not implemented"
-msgstr ""
+msgstr "Característica de seguridad no implementada"
 
 #: src/dialog.c:57
 msgid ""
@@ -1544,7 +1526,7 @@ msgstr ""
 
 #: src/dialog.c:60
 msgid "Encryption is irreversible."
-msgstr ""
+msgstr "La encriptación es irreversible"
 
 #: src/dialog.c:61
 msgid ""
@@ -1691,7 +1673,7 @@ msgstr "Por favor comunique este problema a http://www.grisbi.org/bugtracking/"
 
 #: src/erreur.c:196
 msgid "Copy and paste the following backtrace with your bug report."
-msgstr ""
+msgstr "Copie y pegue el siguiente código en su archivo de informe."
 
 #: src/erreur.c:201
 msgid "Grisbi terminated due to a segmentation fault."
@@ -1706,7 +1688,7 @@ msgstr "Balance"
 #: src/erreur.c:251 src/erreur.c:258
 #, c-format
 msgid "GRISBI %s Debug"
-msgstr ""
+msgstr "GRISBI %s Debug"
 
 #: src/erreur.c:252
 #, c-format
@@ -1721,7 +1703,7 @@ msgstr ""
 #: src/erreur.c:343
 #, c-format
 msgid "%s : %s - %s\n"
-msgstr ""
+msgstr "%s : %s - %s\n"
 
 #: src/etats_affiche.c:180 src/etats_affiche.c:401 src/etats_affiche.c:614
 #: src/etats_affiche.c:713
@@ -1768,9 +1750,9 @@ msgstr "%4.2f %s (%d transacciones)"
 #: src/etats_affiche.c:228 src/etats_affiche.c:342 src/etats_affiche.c:448
 #: src/etats_affiche.c:559 src/etats_affiche.c:659 src/etats_affiche.c:758
 #: src/etats_affiche.c:1591
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s"
-msgstr "%s %d"
+msgstr "%s %s"
 
 #: src/etats_affiche.c:294 src/etats_affiche.c:510
 #, c-format
@@ -2001,9 +1983,8 @@ msgid "No sub-budgetary line"
 msgstr "Sin línea subpresupuestaria"
 
 #: src/etats_affiche.c:2145 src/gsb_data_payee.c:97 src/meta_payee.c:86
-#, fuzzy
 msgid "No payee"
-msgstr "Sin nombre"
+msgstr "Sin pagador"
 
 #: src/etats_affiche.c:2173
 msgid "Incomes"
@@ -2205,7 +2186,7 @@ msgstr "La fecha final aleatoria no es válida"
 #: src/etats_config.c:1504 src/etats_config.c:1563 src/etats_config.c:1654
 #: src/etats_config.c:1715 src/etats_config.c:1772 src/etats_config.c:1955
 msgid "Performance issue."
-msgstr ""
+msgstr "Característica de rendimiento"
 
 #: src/etats_config.c:1505
 #, fuzzy
@@ -2698,7 +2679,6 @@ msgid "financial year"
 msgstr "años financiero"
 
 #: src/etats_config.c:6694
-#, fuzzy
 msgid "notes"
 msgstr "notas"
 
@@ -2855,10 +2835,8 @@ msgid ""
 msgstr ""
 
 #: src/etats_latex.c:355
-#, fuzzy
 msgid "LaTeX run was unable to complete."
-msgstr ""
-"No se pudo completar la ejecución de LaTeX, vea la consola para más detalles."
+msgstr "LaTeX no pudo completar la operación."
 
 #: src/etats_latex.c:375
 msgid "Cannot send job to printer"
@@ -2908,9 +2886,8 @@ msgid "Edit selected report"
 msgstr "Borrar el informe"
 
 #: src/etats_onglet.c:180
-#, fuzzy
 msgid "Clone"
-msgstr "Cerrar"
+msgstr "Clonar"
 
 #: src/etats_onglet.c:185
 #, fuzzy
@@ -3076,7 +3053,7 @@ msgstr "Exportar informe"
 
 #: src/etats_onglet.c:1159
 msgid "File format"
-msgstr ""
+msgstr "Formato de archivo"
 
 #: src/etats_onglet.c:1164
 msgid "Grisbi report file (egsb file)"
@@ -3186,7 +3163,7 @@ msgstr "hasta %s %d"
 
 #: src/export.c:74
 msgid "Exporting Grisbi accounts"
-msgstr ""
+msgstr "Exportando las cuentas de Grisbi"
 
 #: src/export.c:75
 msgid ""
@@ -3252,12 +3229,12 @@ msgid "Do you want to overwrite file \"%s\"?"
 msgstr "Quiere sobreescribir el fichero \"%s\"?"
 
 #: src/export_csv.c:249
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error opening file \"%s\" :\n"
 "%s"
 msgstr ""
-"Error en el archivo \"%s\" :\n"
+"Error abriendo el archivo \"%s\" :\n"
 "%s"
 
 #: src/export_csv.c:262 src/import_csv.c:93
@@ -3346,9 +3323,8 @@ msgid "Loading accounts"
 msgstr "Cargar un fichero de cuentas"
 
 #: src/fichiers_gestion.c:309
-#, fuzzy
 msgid "Autosaving"
-msgstr "Automático"
+msgstr "Guardado automático"
 
 #. Loading failed.  If the saving function at opening is set,
 #. * we ask to load the last file
@@ -3478,9 +3454,8 @@ msgid "Saving backup"
 msgstr "Guardando la copia de seguridad"
 
 #: src/go-charmap-sel.c:182
-#, fuzzy
 msgid "Arabic"
-msgstr "África"
+msgstr "Árabe"
 
 #: src/go-charmap-sel.c:183
 #, fuzzy
@@ -3493,415 +3468,404 @@ msgid "Central European"
 msgstr "Centro américa"
 
 #: src/go-charmap-sel.c:185
-#, fuzzy
 msgid "Chinese"
-msgstr "China"
+msgstr "Chino"
 
 #: src/go-charmap-sel.c:186
 msgid "Cyrillic"
-msgstr ""
+msgstr "Cirílico"
 
 #: src/go-charmap-sel.c:187
-#, fuzzy
 msgid "Greek"
-msgstr "Grecia"
+msgstr "Griego"
 
 #: src/go-charmap-sel.c:188
 msgid "Hebrew"
-msgstr ""
+msgstr "Hebreo"
 
 #: src/go-charmap-sel.c:189
-#, fuzzy
 msgid "Indian"
-msgstr "India"
+msgstr "Indio"
 
 #: src/go-charmap-sel.c:190
-#, fuzzy
 msgid "Japanese"
-msgstr "Yen Japonés"
+msgstr "Japonés"
 
 #: src/go-charmap-sel.c:191
-#, fuzzy
 msgid "Korean"
-msgstr "Jordania"
+msgstr "Coreano"
 
 #: src/go-charmap-sel.c:192
-#, fuzzy
 msgid "Turkish"
-msgstr "Lira Turca"
+msgstr "Turco"
 
 #: src/go-charmap-sel.c:193
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 #: src/go-charmap-sel.c:194
-#, fuzzy
 msgid "Vietnamese"
-msgstr "Vietnam"
+msgstr "Vietnamita"
 
 #: src/go-charmap-sel.c:195
-#, fuzzy
 msgid "Western"
-msgstr "Página web"
+msgstr "Occidental"
 
 #: src/go-charmap-sel.c:196 src/help.c:89
 msgid "Other"
-msgstr ""
+msgstr "Otro"
 
 #: src/go-charmap-sel.c:226
 msgid "Arabic (IBM-864)"
-msgstr ""
+msgstr "Arabic (IBM-864)"
 
 #: src/go-charmap-sel.c:227
 msgid "Arabic (IBM-864-I)"
-msgstr ""
+msgstr "Arabic (IBM-864-I)"
 
 #: src/go-charmap-sel.c:228
 msgid "Arabic (ISO-8859-6)"
-msgstr ""
+msgstr "Arabic (ISO-8859-6)"
 
 #: src/go-charmap-sel.c:229
 msgid "Arabic (ISO-8859-6-E)"
-msgstr ""
+msgstr "Arabic (ISO-8859-6-E)"
 
 #: src/go-charmap-sel.c:231
 msgid "Arabic (ISO-8859-6-I)"
-msgstr ""
+msgstr "Arabic (ISO-8859-6-I)"
 
 #: src/go-charmap-sel.c:232
 msgid "Arabic (MacArabic)"
-msgstr ""
+msgstr "Arabic (MacArabic)"
 
 #: src/go-charmap-sel.c:233
 msgid "Arabic (Windows-1256)"
-msgstr ""
+msgstr "Arabic (Windows-1256)"
 
 #: src/go-charmap-sel.c:234
 msgid "Armenian (ARMSCII-8)"
-msgstr ""
+msgstr "Armenian (ARMSCII-8)"
 
 #: src/go-charmap-sel.c:235
 msgid "Baltic (ISO-8859-13)"
-msgstr ""
+msgstr "Baltic (ISO-8859-13)"
 
 #: src/go-charmap-sel.c:236
 msgid "Baltic (ISO-8859-4)"
-msgstr ""
+msgstr "Baltic (ISO-8859-4)"
 
 #: src/go-charmap-sel.c:237
 msgid "Baltic (Windows-1257)"
-msgstr ""
+msgstr "Baltic (Windows-1257)"
 
 #: src/go-charmap-sel.c:238
 msgid "Celtic (ISO-8859-14)"
-msgstr ""
+msgstr "Celtic (ISO-8859-14)"
 
 #: src/go-charmap-sel.c:239
 msgid "Central European (IBM-852)"
-msgstr ""
+msgstr "Central European (IBM-852)"
 
 #: src/go-charmap-sel.c:240
 msgid "Central European (ISO-8859-2)"
-msgstr ""
+msgstr "Central European (ISO-8859-2)"
 
 #: src/go-charmap-sel.c:241
 msgid "Central European (MacCE)"
-msgstr ""
+msgstr "Central European (MacCE)"
 
 #: src/go-charmap-sel.c:242
 msgid "Central European (Windows-1250)"
-msgstr ""
+msgstr "Central European (Windows-1250)"
 
 #: src/go-charmap-sel.c:243
 msgid "Chinese Simplified (GB18030)"
-msgstr ""
+msgstr "Chinese Simplified (GB18030)"
 
 #: src/go-charmap-sel.c:244
 msgid "Chinese Simplified (GB2312)"
-msgstr ""
+msgstr "Chinese Simplified (GB2312)"
 
 #: src/go-charmap-sel.c:245
 msgid "Chinese Simplified (GBK)"
-msgstr ""
+msgstr "Chinese Simplified (GBK)"
 
 #: src/go-charmap-sel.c:246
 msgid "Chinese Simplified (HZ)"
-msgstr ""
+msgstr "Chinese Simplified (HZ)"
 
 #: src/go-charmap-sel.c:247
 msgid "Chinese Simplified (Windows-936)"
-msgstr ""
+msgstr "Chinese Simplified (Windows-936)"
 
 #: src/go-charmap-sel.c:248
 msgid "Chinese Traditional (Big5)"
-msgstr ""
+msgstr "Chinese Traditional (Big5)"
 
 #: src/go-charmap-sel.c:249
 msgid "Chinese Traditional (Big5-HKSCS)"
-msgstr ""
+msgstr "Chinese Traditional (Big5-HKSCS)"
 
 #: src/go-charmap-sel.c:250
 msgid "Chinese Traditional (EUC-TW)"
-msgstr ""
+msgstr "Chinese Traditional (EUC-TW)"
 
 #: src/go-charmap-sel.c:251
 msgid "Croatian (MacCroatian)"
-msgstr ""
+msgstr "Croatian (MacCroatian)"
 
 #: src/go-charmap-sel.c:252
 msgid "Cyrillic (IBM-855)"
-msgstr ""
+msgstr "Cyrillic (IBM-855)"
 
 #: src/go-charmap-sel.c:253
 msgid "Cyrillic (ISO-8859-5)"
-msgstr ""
+msgstr "Cyrillic (ISO-8859-5)"
 
 #: src/go-charmap-sel.c:254
 msgid "Cyrillic (ISO-IR-111)"
-msgstr ""
+msgstr "Cyrillic (ISO-IR-111)"
 
 #: src/go-charmap-sel.c:255
 msgid "Cyrillic (KOI8-R)"
-msgstr ""
+msgstr "Cyrillic (KOI8-R)"
 
 #: src/go-charmap-sel.c:256
 msgid "Cyrillic (MacCyrillic)"
-msgstr ""
+msgstr "Cyrillic (MacCyrillic)"
 
 #: src/go-charmap-sel.c:257
 msgid "Cyrillic (Windows-1251)"
-msgstr ""
+msgstr "Cyrillic (Windows-1251)"
 
 #: src/go-charmap-sel.c:258
 msgid "Russian (CP-866)"
-msgstr ""
+msgstr "Russian (CP-866)"
 
 #: src/go-charmap-sel.c:259
 msgid "Ukrainian (KOI8-U)"
-msgstr ""
+msgstr "Ukrainian (KOI8-U)"
 
 #: src/go-charmap-sel.c:260
 msgid "Ukrainian (MacUkrainian)"
-msgstr ""
+msgstr "Ukrainian (MacUkrainian)"
 
 #: src/go-charmap-sel.c:261
 msgid "English (ASCII)"
-msgstr ""
+msgstr "English (ASCII)"
 
 #: src/go-charmap-sel.c:262
 msgid "Farsi (MacFarsi)"
-msgstr ""
+msgstr "Farsi (MacFarsi)"
 
 #: src/go-charmap-sel.c:263
 msgid "Georgian (GEOSTD8)"
-msgstr ""
+msgstr "Georgian (GEOSTD8)"
 
 #: src/go-charmap-sel.c:264
 msgid "Greek (ISO-8859-7)"
-msgstr ""
+msgstr "Greek (ISO-8859-7)"
 
 #: src/go-charmap-sel.c:265
 msgid "Greek (MacGreek)"
-msgstr ""
+msgstr "Greek (MacGreek)"
 
 #: src/go-charmap-sel.c:266
 msgid "Greek (Windows-1253)"
-msgstr ""
+msgstr "Greek (Windows-1253)"
 
 #: src/go-charmap-sel.c:267
 msgid "Gujarati (MacGujarati)"
-msgstr ""
+msgstr "Gujarati (MacGujarati)"
 
 #: src/go-charmap-sel.c:268
 msgid "Gurmukhi (MacGurmukhi)"
-msgstr ""
+msgstr "Gurmukhi (MacGurmukhi)"
 
 #: src/go-charmap-sel.c:269
 msgid "Hebrew (IBM-862)"
-msgstr ""
+msgstr "Hebrew (IBM-862)"
 
 #: src/go-charmap-sel.c:270
 msgid "Hebrew (ISO-8859-8-E)"
-msgstr ""
+msgstr "Hebrew (ISO-8859-8-E)"
 
 #: src/go-charmap-sel.c:271
 msgid "Hebrew (ISO-8859-8-I)"
-msgstr ""
+msgstr "Hebrew (ISO-8859-8-I)"
 
 #: src/go-charmap-sel.c:272
 msgid "Hebrew (MacHebrew)"
-msgstr ""
+msgstr "Hebrew (MacHebrew)"
 
 #: src/go-charmap-sel.c:273
 msgid "Hebrew (Windows-1255)"
-msgstr ""
+msgstr "Hebrew (Windows-1255)"
 
 #: src/go-charmap-sel.c:274
 msgid "Hindi (MacDevanagari)"
-msgstr ""
+msgstr "Hindi (MacDevanagari)"
 
 #: src/go-charmap-sel.c:275
 msgid "Icelandic (MacIcelandic)"
-msgstr ""
+msgstr "Icelandic (MacIcelandic)"
 
 #: src/go-charmap-sel.c:276
-#, fuzzy
 msgid "Japanese (EUC-JP)"
-msgstr "Yen Japonés"
+msgstr "Japanese (EUC-JP)"
 
 #: src/go-charmap-sel.c:277
 msgid "Japanese (ISO-2022-JP)"
-msgstr ""
+msgstr "Japanese (ISO-2022-JP)"
 
 #: src/go-charmap-sel.c:278
 msgid "Japanese (Shift_JIS)"
-msgstr ""
+msgstr "Japanese (Shift_JIS)"
 
 #: src/go-charmap-sel.c:279
 msgid "Korean (EUC-KR)"
-msgstr ""
+msgstr "Korean (EUC-KR)"
 
 #: src/go-charmap-sel.c:280
 msgid "Korean (ISO-2022-KR)"
-msgstr ""
+msgstr "Korean (ISO-2022-KR)"
 
 #: src/go-charmap-sel.c:281
 msgid "Korean (JOHAB)"
-msgstr ""
+msgstr "Korean (JOHAB)"
 
 #: src/go-charmap-sel.c:282
 msgid "Korean (UHC)"
-msgstr ""
+msgstr "Korean (UHC)"
 
 #: src/go-charmap-sel.c:283
 msgid "Nordic (ISO-8859-10)"
-msgstr ""
+msgstr "Nordic (ISO-8859-10)"
 
 #: src/go-charmap-sel.c:284
 msgid "Romanian (MacRomanian)"
-msgstr ""
+msgstr "Romanian (MacRomanian)"
 
 #: src/go-charmap-sel.c:285
 msgid "Romanian (ISO-8859-16)"
-msgstr ""
+msgstr "Romanian (ISO-8859-16)"
 
 #: src/go-charmap-sel.c:286
 msgid "South European (ISO-8859-3)"
-msgstr ""
+msgstr "South European (ISO-8859-3)"
 
 #: src/go-charmap-sel.c:287
 msgid "Thai (TIS-620)"
-msgstr ""
+msgstr "Thai (TIS-620)"
 
 #: src/go-charmap-sel.c:288
 msgid "Turkish (IBM-857)"
-msgstr ""
+msgstr "Turkish (IBM-857)"
 
 #: src/go-charmap-sel.c:289
 msgid "Turkish (ISO-8859-9)"
-msgstr ""
+msgstr "Turkish (ISO-8859-9)"
 
 #: src/go-charmap-sel.c:290
 msgid "Turkish (MacTurkish)"
-msgstr ""
+msgstr "Turkish (MacTurkish)"
 
 #: src/go-charmap-sel.c:291
 msgid "Turkish (Windows-1254)"
-msgstr ""
+msgstr "Turkish (Windows-1254)"
 
 #: src/go-charmap-sel.c:292
 msgid "Unicode (UTF-7)"
-msgstr ""
+msgstr "Unicode (UTF-7)"
 
 #: src/go-charmap-sel.c:293
 msgid "Unicode (UTF-8)"
-msgstr ""
+msgstr "Unicode (UTF-8)"
 
 #: src/go-charmap-sel.c:294
 msgid "Unicode (UTF-16BE)"
-msgstr ""
+msgstr "Unicode (UTF-16BE)"
 
 #: src/go-charmap-sel.c:295
 msgid "Unicode (UTF-16LE)"
-msgstr ""
+msgstr "Unicode (UTF-16LE)"
 
 #: src/go-charmap-sel.c:296
 msgid "Unicode (UTF-32BE)"
-msgstr ""
+msgstr "Unicode (UTF-32BE)"
 
 #: src/go-charmap-sel.c:297
 msgid "Unicode (UTF-32LE)"
-msgstr ""
+msgstr "Unicode (UTF-32LE)"
 
 #: src/go-charmap-sel.c:298
 msgid "User Defined"
-msgstr ""
+msgstr "Definido por el usuario"
 
 #: src/go-charmap-sel.c:299
 msgid "Vietnamese (TCVN)"
-msgstr ""
+msgstr "Vietnamese (TCVN)"
 
 #: src/go-charmap-sel.c:300
 msgid "Vietnamese (VISCII)"
-msgstr ""
+msgstr "Vietnamese (VISCII)"
 
 #: src/go-charmap-sel.c:301
 msgid "Vietnamese (VPS)"
-msgstr ""
+msgstr "Vietnamese (VPS)"
 
 #: src/go-charmap-sel.c:302
 msgid "Vietnamese (Windows-1258)"
-msgstr ""
+msgstr "Vietnamese (Windows-1258)"
 
 #: src/go-charmap-sel.c:303
 msgid "Visual Hebrew (ISO-8859-8)"
-msgstr ""
+msgstr "Visual Hebrew (ISO-8859-8)"
 
 #: src/go-charmap-sel.c:304
 msgid "Western (IBM-850)"
-msgstr ""
+msgstr "Western (IBM-850)"
 
 #: src/go-charmap-sel.c:305
 msgid "Western (ISO-8859-1)"
-msgstr ""
+msgstr "Western (ISO-8859-1)"
 
 #: src/go-charmap-sel.c:306
 msgid "Western (ISO-8859-15)"
-msgstr ""
+msgstr "Western (ISO-8859-15)"
 
 #: src/go-charmap-sel.c:307
 msgid "Western (MacRoman)"
-msgstr ""
+msgstr "Western (MacRoman)"
 
 #: src/go-charmap-sel.c:308
 msgid "Western (Windows-1252)"
-msgstr ""
+msgstr "Western (Windows-1252)"
 
 #: src/go-charmap-sel.c:485
 msgid "Locale: "
-msgstr ""
+msgstr "Locale: "
 
 #: src/go-charmap-sel.c:524
-#, fuzzy
 msgid "Conversion Direction"
-msgstr "cada sección"
+msgstr "Dirección de conversión"
 
 #: src/go-charmap-sel.c:525
 msgid "This value determines which iconv test to perform."
 msgstr ""
 
 #: src/go-optionmenu.c:242
-#, fuzzy
 msgid "Menu"
-msgstr "es"
+msgstr "Menú"
 
 #: src/go-optionmenu.c:243
 msgid "The menu of options"
-msgstr ""
+msgstr "El menú de opciones"
 
 #: src/go-optionmenu.c:249
 msgid "Indicator Size"
-msgstr ""
+msgstr "Tamaño del indicador"
 
 #: src/go-optionmenu.c:250
 msgid "Size of dropdown indicator"
@@ -3922,36 +3886,32 @@ msgstr "Cancelar"
 
 #: src/gsb_crypt.c:179
 msgid "The password was incorrect ! Please try again..."
-msgstr ""
+msgstr "¡La contraseña no es correcta! Por favor inténtelo de nuevo..."
 
 #: src/gsb_crypt.c:190
-#, fuzzy
 msgid ""
 "This build of Grisbi does not support encryption.\n"
 "Please recompile Grisbi with OpenSSL encryption enabled."
 msgstr ""
-"Esta construcción de Grisbi no soporta OFX, por favor recompile Grisbi con "
-"la opción soporta para OFX activada"
+"Esta construcción de Grisbi no soporta encriptación \n"
+"Por favor recompile Grisbi con la encriptación OpenSSL activada."
 
 #: src/gsb_crypt.c:192
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open encrypted file '%s'"
-msgstr "No se puede abrir el archivo '%s': %s"
+msgstr "No se puede abrir el archivo encriptado '%s'"
 
 #: src/gsb_crypt.c:215
-#, fuzzy
 msgid "Grisbi password"
-msgstr "Logotipo de Grisbi"
+msgstr "Contraseña de Grisbi"
 
 #: src/gsb_crypt.c:219
-#, fuzzy
 msgid "Crypt file"
-msgstr "Fichero Postscript"
+msgstr "Fichero encriptado"
 
 #: src/gsb_crypt.c:219
-#, fuzzy
 msgid "Decrypt file"
-msgstr "Fichero Postscript"
+msgstr "Desencriptar archivo"
 
 #: src/gsb_crypt.c:244
 #, c-format
@@ -3959,6 +3919,8 @@ msgid ""
 "Please enter password to encrypt file\n"
 "'<tt>%s</tt>'"
 msgstr ""
+"Por favor introduzca una contraseña para encriptar el archivo\n"
+"'<tt>%s</tt>'"
 
 #: src/gsb_crypt.c:248
 #, c-format
@@ -3969,11 +3931,11 @@ msgstr ""
 
 #: src/gsb_crypt.c:255
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 #: src/gsb_crypt.c:263
 msgid "Don't ask password again for this session."
-msgstr ""
+msgstr "No volver a pedir la contraseña para esta sesión."
 
 #: src/gsb_currency.c:390
 msgid "Enter exchange rate"
@@ -4771,7 +4733,7 @@ msgstr "Euro"
 
 #: src/gsb_currency_config.c:181
 msgid "CEE"
-msgstr ""
+msgstr "CEE"
 
 #: src/gsb_currency_config.c:182
 msgid "Finnish Markka"
@@ -5226,20 +5188,19 @@ msgstr "Sudamérica"
 #: src/gsb_currency_config.c:240 src/gsb_currency_config.c:242
 #: src/gsb_currency_config.c:243 src/gsb_currency_config.c:250
 msgid "Peso"
-msgstr ""
+msgstr "Peso"
 
 #: src/gsb_currency_config.c:240
-#, fuzzy
 msgid "Argentina"
-msgstr "Argelia"
+msgstr "Argentina"
 
 #: src/gsb_currency_config.c:241
 msgid "Boliviano"
-msgstr ""
+msgstr "Boliviano"
 
 #: src/gsb_currency_config.c:241
 msgid "Bolivia"
-msgstr ""
+msgstr "Bolivia"
 
 #: src/gsb_currency_config.c:242
 msgid "Chile"
@@ -5278,9 +5239,8 @@ msgid "Nuevos Soles"
 msgstr ""
 
 #: src/gsb_currency_config.c:247
-#, fuzzy
 msgid "Peru"
-msgstr "Papel"
+msgstr "Perú"
 
 #: src/gsb_currency_config.c:248
 msgid "Real"
@@ -5299,9 +5259,8 @@ msgid "Suriname"
 msgstr "Surinam"
 
 #: src/gsb_currency_config.c:250
-#, fuzzy
 msgid "Uruguay"
-msgstr "Paraguay"
+msgstr "Uruguay"
 
 #: src/gsb_currency_config.c:251
 msgid "Venezuelan Bolivar"
@@ -5431,9 +5390,8 @@ msgid "Links between currencies"
 msgstr "Monedas conocidas"
 
 #: src/gsb_currency_link_config.c:91
-#, fuzzy
 msgid "Known links"
-msgstr "Bancos conocidos"
+msgstr "Enlaces conocidos"
 
 #. Input form for currencies
 #: src/gsb_currency_link_config.c:138
@@ -5444,17 +5402,16 @@ msgstr "Propiedades de la moneda"
 #. Create first currency link entry
 #: src/gsb_currency_link_config.c:154
 msgid "1 "
-msgstr ""
+msgstr "1 "
 
 #. create the exchange rate between the 2 currencies
 #: src/gsb_currency_link_config.c:170
 msgid " = "
-msgstr ""
+msgstr " = "
 
 #: src/gsb_currency_link_config.c:225
-#, fuzzy
 msgid "First currency"
-msgstr "Elegir la moneda"
+msgstr "Primera moneda"
 
 #: src/gsb_currency_link_config.c:227
 #, fuzzy
@@ -5467,9 +5424,8 @@ msgid "Second currency"
 msgstr "Moneda de la cuenta"
 
 #: src/gsb_currency_link_config.c:229 src/gsb_fyear_config.c:283
-#, fuzzy
 msgid "Invalid"
-msgstr "Fecha no válida"
+msgstr "No válido"
 
 #: src/gsb_data_account.c:193
 #, c-format
@@ -5510,6 +5466,7 @@ msgid ""
 "<span foreground=\"red\">Warning : the two currencies of the link are "
 "identicals</span>"
 msgstr ""
+"<span foreground=\"red\">Advertencia : las dos tasas monetarias del enlace son idénticas</span>"
 
 #: src/gsb_data_currency_link.c:457
 msgid "<span foreground=\"red\">Warning : that link is already defined</span>"
@@ -5616,9 +5573,8 @@ msgid "Duplicate sub-categories check"
 msgstr "Mostrar las subcategorías"
 
 #: src/gsb_file_debug.c:70 src/gsb_file_debug.c:83 src/gsb_file_debug.c:96
-#, fuzzy
 msgid "free"
-msgstr "Grecia"
+msgstr "Libre"
 
 #: src/gsb_file_debug.c:71
 #, fuzzy
@@ -5697,11 +5653,12 @@ msgid ""
 msgstr ""
 
 #: src/gsb_file_debug.c:185
-#, fuzzy
 msgid ""
 "Inconsistencies found\n"
 "\n"
-msgstr "No se han encontrado inconsistencias"
+msgstr ""
+"Se han encontrado inconsistencias\n"
+"\n"
 
 #: src/gsb_file_debug.c:188
 msgid ""
@@ -5746,9 +5703,8 @@ msgid ""
 msgstr ""
 
 #: src/gsb_file_debug.c:291
-#, fuzzy
 msgid "Unable to fix account"
-msgstr "Tipo de cuentas"
+msgstr "No ha sido posible corregir la cuenta"
 
 #: src/gsb_file_debug.c:370
 #, fuzzy, c-format
@@ -5782,9 +5738,8 @@ msgid "Cannot open file '%s': %s"
 msgstr "No se puede abrir el archivo '%s': %s"
 
 #: src/gsb_file_load.c:273
-#, fuzzy
 msgid "File does not exist"
-msgstr "El fichero ya existe"
+msgstr "El fichero no existe"
 
 #: src/gsb_file_load.c:284 src/gsb_file_others.c:426
 #, fuzzy, c-format
@@ -6066,44 +6021,36 @@ msgid "Form structure content"
 msgstr ""
 
 #: src/gsb_form_config.c:262
-#, fuzzy
 msgid "Col 1"
-msgstr "Col1"
+msgstr "Col 1"
 
 #: src/gsb_form_config.c:263
-#, fuzzy
 msgid "Col 2"
-msgstr "Col2"
+msgstr "Col 2"
 
 #: src/gsb_form_config.c:264
-#, fuzzy
 msgid "Col 3"
-msgstr "Col3"
+msgstr "Col 3"
 
 #: src/gsb_form_config.c:265
-#, fuzzy
 msgid "Col 4"
-msgstr "Col4"
+msgstr "Col 4"
 
 #: src/gsb_form_config.c:266
-#, fuzzy
 msgid "Col 5"
-msgstr "Col5"
+msgstr "Col 5"
 
 #: src/gsb_form_config.c:267
-#, fuzzy
 msgid "Col 6"
-msgstr "Col6"
+msgstr "Col 6"
 
 #: src/gsb_form_config.c:376
-#, fuzzy
 msgid "rows"
-msgstr "Navegar"
+msgstr "Filas"
 
 #: src/gsb_form_config.c:423
-#, fuzzy
 msgid "columns"
-msgstr "Cuentas"
+msgstr "columnas"
 
 #: src/gsb_form_config.c:749
 msgid ""
@@ -6149,14 +6096,12 @@ msgid "Monthly"
 msgstr "Mensualmente"
 
 #: src/gsb_form_scheduler.c:166
-#, fuzzy
 msgid "two months"
-msgstr "%d meses"
+msgstr "dos meses"
 
 #: src/gsb_form_scheduler.c:166
-#, fuzzy
 msgid "trimester"
-msgstr "Impresora"
+msgstr "trimestre"
 
 #: src/gsb_form_scheduler.c:166 src/gsb_scheduler_list.c:845
 msgid "Yearly"
@@ -6167,9 +6112,8 @@ msgid "Days"
 msgstr "Días"
 
 #: src/gsb_form_scheduler.c:167
-#, fuzzy
 msgid "Weeks"
-msgstr "Semana"
+msgstr "Semanas"
 
 #: src/gsb_form_scheduler.c:167
 msgid "Years"
@@ -6203,14 +6147,12 @@ msgid "User frequency"
 msgstr "Frecuencia aleatoria"
 
 #: src/gsb_form_scheduler.c:845
-#, fuzzy
 msgid "Own frequency"
-msgstr "Frecuencia"
+msgstr "Frecuencia propia"
 
 #: src/gsb_form_transaction.c:319
-#, fuzzy
 msgid "Report : "
-msgstr "Informe"
+msgstr "Informe : "
 
 #: src/gsb_form_transaction.c:538
 #, fuzzy
@@ -6239,14 +6181,12 @@ msgid "Contra-transaction method of payment"
 msgstr "Método de pago de la contratransacción"
 
 #: src/gsb_form_widget.c:448
-#, fuzzy
 msgid "Category line"
-msgstr "Categorías"
+msgstr "Línea de categorías"
 
 #: src/gsb_form_widget.c:452
-#, fuzzy
 msgid "Free"
-msgstr "tasa"
+msgstr "Libre"
 
 #: src/gsb_form_widget.c:472 src/import_csv.c:78
 msgid "Currency"
@@ -6656,24 +6596,20 @@ msgid "Scheduled transactions"
 msgstr "Transacciones programadas cerradas"
 
 #: src/gsb_scheduler_list.c:1640
-#, fuzzy
 msgid "days"
-msgstr "día"
+msgstr "días"
 
 #: src/gsb_scheduler_list.c:1640
-#, fuzzy
 msgid "weeks"
-msgstr "Semana"
+msgstr "semanas"
 
 #: src/gsb_scheduler_list.c:1640
-#, fuzzy
 msgid "months"
-msgstr "Meses"
+msgstr "meses"
 
 #: src/gsb_scheduler_list.c:1640
-#, fuzzy
 msgid "years"
-msgstr "Años"
+msgstr "años"
 
 #: src/gsb_scheduler_list.c:1643 src/gsb_scheduler_list.c:1652
 #, fuzzy
@@ -7151,9 +7087,8 @@ msgid ""
 msgstr ""
 
 #: src/import.c:992
-#, fuzzy
 msgid "file"
-msgstr "Archivo"
+msgstr "archivo"
 
 #: src/import.c:999
 #, c-format
@@ -7289,9 +7224,9 @@ msgid "Mark"
 msgstr "Marcar"
 
 #: src/import.c:2732
-#, fuzzy, c-format
+#, c-format
 msgid "%s #%d"
-msgstr "%s %d"
+msgstr "%s #%d"
 
 #: src/import.c:2767
 #, fuzzy
@@ -7303,9 +7238,8 @@ msgid "days around the date in the imported transaction."
 msgstr "días alrededor de la fecha en la transacción importada."
 
 #: src/import_csv.c:77
-#, fuzzy
 msgid "Unknown field"
-msgstr "Desconocido"
+msgstr "Campo desconocido"
 
 #: src/import_csv.c:82
 #, fuzzy
@@ -7317,14 +7251,12 @@ msgid "Voucher number"
 msgstr "Número de certificado"
 
 #: src/import_csv.c:86
-#, fuzzy
 msgid "Sub-Category"
-msgstr "Categoría"
+msgstr "Sub-Categoría"
 
 #: src/import_csv.c:88
-#, fuzzy
 msgid "Credit (amount)"
-msgstr "Mes actual"
+msgstr "Crédito (cantidad)"
 
 #: src/import_csv.c:89
 msgid "Debit (absolute)"
@@ -7398,16 +7330,15 @@ msgid ""
 msgstr "Nueva línea presupuestaria"
 
 #: src/imputation_budgetaire.c:487 src/imputation_budgetaire.c:499
-#, fuzzy
 msgid "Create a new budgetary line"
-msgstr "Borrar una línea presupuestaria"
+msgstr "Crear una nueva línea presupuestaria"
 
 #: src/imputation_budgetaire.c:492
-#, fuzzy
 msgid ""
 "New sub\n"
 "budgetary line"
-msgstr "Nueva línea subpresupuestaria"
+msgstr "Nueva línea\n"
+"subpresupuestaria"
 
 #: src/imputation_budgetaire.c:509
 #, fuzzy
@@ -7472,9 +7403,8 @@ msgid "Welcome to Grisbi!"
 msgstr "Acerca de Grisbi"
 
 #: src/menu.c:161
-#, fuzzy
 msgid "_File"
-msgstr "Archivo"
+msgstr "_Archivo"
 
 #: src/menu.c:164
 #, fuzzy
@@ -7482,9 +7412,8 @@ msgid "_New account file..."
 msgstr "Nuevo archivo de cuentas"
 
 #: src/menu.c:167
-#, fuzzy
 msgid "_Open..."
-msgstr "_Abrir"
+msgstr "_Abrir..."
 
 #: src/menu.c:170
 #, fuzzy
@@ -7492,14 +7421,12 @@ msgid "_Recently opened files"
 msgstr "Archivos abiertos recientemente"
 
 #: src/menu.c:173
-#, fuzzy
 msgid "_Save"
-msgstr "Guardar"
+msgstr "_Guardar"
 
 #: src/menu.c:176
-#, fuzzy
 msgid "_Save as..."
-msgstr "Guardar como"
+msgstr "_Guardar como..."
 
 #: src/menu.c:179
 #, fuzzy
@@ -7517,18 +7444,16 @@ msgid "_Debug account file..."
 msgstr "Nuevo archivo de cuentas"
 
 #: src/menu.c:188
-#, fuzzy
 msgid "_Close"
-msgstr "Cerrar"
+msgstr "_Cerrar"
 
 #: src/menu.c:191
 msgid "_Quit"
 msgstr "_Salir"
 
 #: src/menu.c:194
-#, fuzzy
 msgid "_Edit"
-msgstr "Editar"
+msgstr "_Editar"
 
 #: src/menu.c:197
 #, fuzzy
@@ -7561,9 +7486,8 @@ msgid "_Move transaction to another account"
 msgstr "Mover la transacción a otra cuenta"
 
 #: src/menu.c:215
-#, fuzzy
 msgid "_Preferences"
-msgstr "Preferencias"
+msgstr "_Preferencias"
 
 #. View menu
 #: src/menu.c:219
@@ -7571,9 +7495,8 @@ msgid "_View"
 msgstr "_Vista"
 
 #: src/menu.c:222
-#, fuzzy
 msgid "_New account"
-msgstr "Nueva cuenta"
+msgstr "_Cuenta nueva"
 
 #: src/menu.c:225
 #, fuzzy
@@ -7582,39 +7505,32 @@ msgstr "Borrar una cuenta"
 
 #. Help Menu
 #: src/menu.c:229
-#, fuzzy
 msgid "_Help"
-msgstr "Ayuda"
+msgstr "_Ayuda"
 
 #: src/menu.c:232
-#, fuzzy
 msgid "_Manual"
-msgstr "Manual"
+msgstr "_Manual"
 
 #: src/menu.c:235
-#, fuzzy
 msgid "_Quick start"
-msgstr "Comienzo rápido"
+msgstr "_Comienzo rápido"
 
 #: src/menu.c:238
-#, fuzzy
 msgid "_Translation"
-msgstr "Traducción"
+msgstr "_Traducción"
 
 #: src/menu.c:241
-#, fuzzy
 msgid "_About Grisbi..."
-msgstr "Acerca de Grisbi"
+msgstr "_Acerca de Grisbi..."
 
 #: src/menu.c:244
-#, fuzzy
 msgid "_Grisbi website"
-msgstr "Sitio web de Grisbi"
+msgstr "_Sitio web de Grisbi"
 
 #: src/menu.c:247
-#, fuzzy
 msgid "_Report a bug"
-msgstr "Informar de un fallo"
+msgstr "_Informar de un fallo"
 
 #: src/menu.c:250
 msgid "_Tip of the day"
@@ -7790,9 +7706,8 @@ msgstr "¡Por favor introduzca una categoría!"
 
 #. set the title
 #: src/navigation.c:284 src/navigation.c:1206 src/tiers_onglet.c:155
-#, fuzzy
 msgid "Payees"
-msgstr "Días"
+msgstr "Pagadores"
 
 #: src/navigation.c:348 src/navigation.c:1251
 #, fuzzy
@@ -7809,15 +7724,13 @@ msgid "Account transactions"
 msgstr "Transacciones de la cuenta"
 
 #: src/navigation.c:1151
-#, fuzzy
 msgid "closed"
-msgstr "Cerrar"
+msgstr "Cerrado"
 
 #. Create dialog
 #: src/parametres.c:215
-#, fuzzy
 msgid "Grisbi preferences"
-msgstr "Preferencias"
+msgstr "Preferencias de grisbi"
 
 #: src/parametres.c:245 src/parametres.c:632
 msgid "Files"
@@ -7837,34 +7750,31 @@ msgstr "Mensajes y Avisos"
 
 #: src/parametres.c:327
 msgid "List behavior"
-msgstr ""
+msgstr "Comportamiento de la lista"
 
 #: src/parametres.c:362
-#, fuzzy
 msgid "Content"
-msgstr "Contacto"
+msgstr "Contenido"
 
 #: src/parametres.c:370
 msgid "Behavior"
-msgstr ""
+msgstr "Comportamiento"
 
 #: src/parametres.c:378
 msgid "Completion"
-msgstr ""
+msgstr "Autocompletado"
 
 #: src/parametres.c:387
 msgid "Resources"
 msgstr "Recursos"
 
 #: src/parametres.c:403
-#, fuzzy
 msgid "Currencies links"
-msgstr "Monedas"
+msgstr "Enlaces de tasas de cambio"
 
 #: src/parametres.c:435
-#, fuzzy
 msgid "Archives"
-msgstr "Activar"
+msgstr "Archivos"
 
 #. Number of days before a warning message advertising a scheduled
 #. transaction
@@ -7882,12 +7792,12 @@ msgstr ""
 #. Tip of the day
 #: src/parametres.c:514
 msgid "Tip of the day"
-msgstr ""
+msgstr "Consejo del día"
 
 #. Display or not tips
 #: src/parametres.c:517
 msgid "Display tip of the day"
-msgstr ""
+msgstr "Mostrar el consejo del día"
 
 #. Warnings
 #: src/parametres.c:523
@@ -7908,11 +7818,11 @@ msgstr "Guardar automáticamente al salir"
 
 #: src/parametres.c:660
 msgid "Encrypt Grisbi file"
-msgstr ""
+msgstr "Encriptar el archivo de Grisbi"
 
 #: src/parametres.c:667
 msgid "Compress Grisbi file"
-msgstr ""
+msgstr "Comprimir el fichero de Grisbi"
 
 #: src/parametres.c:676
 msgid "Memorise last opened files"
@@ -7937,7 +7847,7 @@ msgstr "Archivo de la copia de seguridad"
 
 #: src/parametres.c:749
 msgid "Compress Grisbi backup"
-msgstr ""
+msgstr "Comprimir la copia de seguridad de Grisbi"
 
 #: src/parametres.c:802
 msgid "backup.gsb"
@@ -8012,11 +7922,13 @@ msgid ""
 msgstr ""
 
 #: src/parse_cmdline.c:197
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Version %s\n"
 "\n"
-msgstr "Incompatibilidad de versiones"
+msgstr ""
+"Versión %s\n"
+"\n"
 
 #: src/parse_cmdline.c:251
 #, c-format
@@ -8164,38 +8076,32 @@ msgid "Footers"
 msgstr "Pie de página"
 
 #: src/qif.c:88
-#, fuzzy
 msgid "Invalid QIF file"
-msgstr "Fichero de informe no válido"
+msgstr "Archivo WIF no válido"
 
 #: src/qif.c:160 src/qif.c:214
 msgid "bank"
 msgstr "Banco"
 
 #: src/qif.c:163 src/qif.c:237
-#, fuzzy
 msgid "cash)"
-msgstr "Efectivo"
+msgstr "efectivo)"
 
 #: src/qif.c:166
-#, fuzzy
 msgid "ccard)"
-msgstr "ccard"
+msgstr "ccard)"
 
 #: src/qif.c:169 src/qif.c:223
-#, fuzzy
 msgid "invst)"
-msgstr "Invers"
+msgstr "Invers)"
 
 #: src/qif.c:172 src/qif.c:246
-#, fuzzy
 msgid "oth a)"
-msgstr "oth a"
+msgstr "oth a)"
 
 #: src/qif.c:175 src/qif.c:255
-#, fuzzy
 msgid "oth l)"
-msgstr "oth l"
+msgstr "oth l)"
 
 #: src/qif.c:228
 msgid ""
@@ -8236,7 +8142,7 @@ msgstr ""
 #. Edit transaction
 #: src/tiers_onglet.c:286
 msgid "Payee view"
-msgstr ""
+msgstr "Vista de pagadores"
 
 #: src/tip.c:79 src/tip.c:110 src/tip.c:117
 msgid "Did you know that..."
@@ -9470,9 +9376,8 @@ msgstr ""
 "Esta transferencia tiene una contratransacción reconciliada, borrado "
 "cancelado."
 
-#, fuzzy
 msgid "Value"
-msgstr "Fecha efectiva"
+msgstr "Valor"
 
 msgid ""
 "Impossible to create or entry an automatic scheduled transaction\n"
@@ -9485,7 +9390,6 @@ msgstr ""
 msgid "Legal"
 msgstr "Legal"
 
-#, fuzzy
 msgid "/C"
 msgstr "/C"
 
@@ -9510,3 +9414,4 @@ msgstr "Válidar"
 
 msgid "This account does not contain any transaction"
 msgstr "Esta cuenta no contiene ninguna transacción"
+
