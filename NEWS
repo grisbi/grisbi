@@ -1,4 +1,4 @@
-New in version CVS HEAD :
+New in version 0.6 :
  - Encryption of the file
  - Improved user interface
    + Tabs deprecated in favor of a navigation tree
@@ -16,17 +16,69 @@ New in version CVS HEAD :
  - HBCI support through aqbanking plugin
  - Use of + and - in amount entry to increment/decrement values
  - Tip of the day
- - Import and Export dialogs use assistants
  - Reconciled transactions are "archived" by default
- - Tip of the day support
- - Grisbi suggests a default currency according to your locale settings
- - Dates are now displayed and parsed according to the locale,
-   no more ugly european dates!
- - Amounts are displayed according to locale
+ - Tip of the day
+ - Huge work on localization :
+   + Grisbi suggests a default currency according to the locale
+   + Dates are now displayed and parsed according to the locale, no
+     more ugly european dates!
+   + Amounts are displayed according to locale
  - It is now possible to omit decimal separator in numerical fields
  - Plugin system
  - New english file format
  - And more!
+
+New in version 0.5.9 :
+ - Bug fixes
+ - More bug fixes
+ - Even more bug fixes
+ - Grisbi does not care anymore about file permissions
+ - Hebrew translation thanks to Dotan Mazor
+
+New in version 0.5.8 :
+ - Bug fixes
+ - Some minor UI tweaking
+ - CSV export of reports
+ - Chinese translation thanks to Jianyu Tang
+ - Czech translation thanks to Marek Donar
+ - Romanian translation thanks to Mircea Aronovici
+ - Russian translation thanks to Alexandre Prokoudine
+
+New in version 0.5.7 :
+ - Bug fixes
+
+New in version 0.5.6 :
+ - Bug fixes
+ - Spanish translation thanks to Carlos M. Camara
+ - Dutch translation thanks to Edwin Huijsing
+ - Italian translation thanks to Fabio Erculiani
+ - Polish translation thanks to Ryszard Jeziorski
+
+New in version 0.5.5 :
+ - Bug fixes
+ - Brazilian Portuguese translation thanks to Flavio Henrique Somensi
+
+New in version 0.5.4 (never released) :
+ - Bug fixes
+ - Use selected transaction as template
+ - Function to test reconciliation
+ - Grisbi now works with libofx 0.7.0
+
+New in version 0.5.3 :
+ - Bug fixes
+ - Budgetary lines are now enabled by default
+ - Default browser is now mozilla
+ - Ship with new libintl version
+
+New in version 0.5.2 :
+ - Bug fixes
+ - Gnucash file import is now supported
+ - German translation thanks to Martin Stromberger
+ - CSV export
+
+New in version 0.5.1 :
+ - Bug fixes
+ - Reports export to HTML
 
 New in version 0.5.0 :
  - GTK2 & libxml2 support
