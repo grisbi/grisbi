@@ -27,7 +27,13 @@ struct iso_4217_currency
     gchar * currency_nickname;
     gboolean active;
     gchar *flag_filename;
-    gint floating_point;  /** number of digit after the point => 2 : 0.00 / 1 : 0.0 */
+    gint floating_point;  /** Number of digits after the point => 2 : 0.00 / 1 : 0.0 */
+    gboolean main_currency;	/** Skip this when autodetecting base
+				 * currency, in case there are
+				 * several countries using the same
+				 * currency but a "main" one, like
+				 * USA and Panama sharing USD as
+				 * official currency..  */
 };
 
 /* START_DECLARATION */
