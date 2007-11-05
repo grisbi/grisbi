@@ -23,7 +23,7 @@
 /* ************************************************************************** */
 
 #include "include.h"
-
+#include <langinfo.h>
 
 /*START_INCLUDE*/
 #include "utils_dates.h"
@@ -197,6 +197,46 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
 
 
 /**
+ *
+ *
+ *
+ */
+gchar ** split_unique_datefield ( gchar * string, gchar date_tokens [] )
+{
+    gchar ** return_tab = g_new ( gchar *, g_strv_length ( date_tokens ) + 1 );
+    int size = strlen ( string );
+    gchar * max = string + size;
+    int i = 0;
+
+    if ( size != 2 && size != 4 && size != 6 && size != 8 )
+    {
+	return NULL;
+    }
+
+    for ( i = 0 ; date_tokens [ i ] && string < max; i ++ )
+    {
+	if ( size != 8 ||
+	     date_tokens [ i ] != 'y' ||
+	     date_tokens [ i ] != 'Y' )
+	{
+	    return_tab [ i ] = g_strndup ( string, 2 );
+	    string += 2;
+	}
+	else
+	{
+	    return_tab [ i ] = g_strndup ( string, 4 );
+	    string += 4;
+	}
+    }
+
+    return_tab [ i ] = NULL;
+
+    return return_tab;
+}
+
+
+
+/**
  * Create and try to return a GDate from a string reprensentation of a date.
  * separator can be / . - :
  * and numbers can be stick (ex 01012001)
@@ -205,237 +245,125 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
  *
  * \return a newly allocated gdate or NULL if cannot set
  */
-GDate *gsb_parse_date_string ( const gchar *date_string )
+GDate * gsb_parse_date_string ( const gchar *date_string )
 {
-    gchar *separators = "/-:";
-    gint day = -1, month = -1, year = -1;
     GDate *date;
-    gchar *string;
-    gchar **tab_date;
+    gchar * string, * format, * tmp, * len;
+    gchar ** tab_date;
+    gchar date_tokens [ 4 ] = { 0, 0, 0, 0 };
+    int num_tokens = 0, num_fields = 0, i, j;
 
     if ( !date_string
 	 ||
 	 !strlen (date_string))
 	return NULL;
 
-    /* to keep the const gchar in that function */
+    /* Keep the const gchar in that function */
     string = my_strdup (date_string);
+    g_strstrip ( string );
 
-    /* to use the glib parser at its best, we change here all the separators
-     * to . */
-    g_strdelimit ( string,
-		   separators, '.' );
-
-    /* first check : try the parser of glib */
-    /* i have a proble with the glib parser :
-     * if if type 311206 and i want 31/12/2006, glib returns 06/12/2031...
-     * so if there is no separator, i prefer use my own function and don't work with
-     * glib */
-    if (g_strrstr (string, "."))
+    /* Obtain date format tokens to compute order. */
+    format = nl_langinfo ( D_FMT );
+    while ( * format )
     {
-	date = g_date_new ();
-	g_date_set_parse ( date, string );
-	if ( g_date_valid ( date ) )
+	if ( * format == '%' )
 	{
-	    /* the parser of glib worked fine
-	     * but can now improve it for years :
-	     * it's easier to write 1/1/1 instead of 1/1/2001
-	     * so if year is > 70 and <= 99, we add 1900
-	     * if year is < 70, we add 2000 to it */
-
-	    year = g_date_get_year (date);
-
-	    if (year < 100)
+	    switch ( * ++format )
 	    {
-		if (year >= 70)
-		    g_date_add_years (date, 1900);
-		else
-		    g_date_add_years (date, 2000);
+		case 'd': case 'm': case 'y': case 'Y':
+		    date_tokens [ num_tokens++ ] = *format ;
+		    if ( num_tokens > 3 )
+		    {
+			dialogue_error_brain_damage ();
+		    }
+		default:
+		    break;
 	    }
-	    g_free (string);
-	    return date;
 	}
-	g_date_free (date);
+	format++;
     }
 
-    /* parser didn't work, try to parse ourselves */
-    tab_date = g_strsplit ( string, ".", 3 );
-
-    /* needn't anymore string now */
-    g_free (string);
-
-    if ( tab_date[2] && tab_date[1] )
+    /* TODO: Check that m,d,Yy are present. */
+    
+    g_strcanon ( string, "0123456789", '.' );
+    while ( * string == '.' && * string ) string ++;
+    while ( string [ strlen ( string ) - 1 ] == '.' && strlen ( string ) ) 
+	string [ strlen ( string )  - 1 ] = '\0';
+    len = string + strlen ( string );
+    while ( tmp = strstr ( string, ".." ) )
     {
-	/* we have the 3 numbers of the date,
-	 * here we assume that we have dd/mm/yy
-	 * FIXME : for other locales ? (for now just
-	 * try international, but not enough, should use locales)
-	 * or set in preferences ? */
-	day = utils_str_atoi (tab_date[0]);
-	month = utils_str_atoi (tab_date[1]);
-	year = utils_str_atoi (tab_date[2]);
+	strncpy ( tmp, tmp+1, len - tmp );
+	len --;
+    }
+    *len = 0;
 
-	/* needn't tab_date anymore */
-	g_strfreev ( tab_date );
+    tab_date = g_strsplit_set ( string, ".", 0 );
+    g_free ( string );
 
-	/* check for quick entry */
-	if ( year < 100 )
-	{
-	    if ( year >= 70 )
-		year = year + 1900;
-	    else
-		year = year + 2000;
-	}
+    num_fields = g_strv_length ( tab_date );
 
-	if ( g_date_valid_dmy (day, month, year))
-	    return g_date_new_dmy ( day, month, year );
+    if ( num_fields == 1 )
+    {
+	gchar ** new_tab_date = split_unique_datefield ( tab_date [ 0 ], date_tokens );
+	if ( ! new_tab_date )
+	    return NULL;
 	else
 	{
-	    /* ok, dd/mm/yy doesn't work, will try international
-	     * style : yy/mm/dd */
-	    if (g_date_valid_dmy (year, month, day))
-		return g_date_new_dmy (year, month, day);
-	    else
-		return NULL;
+	    g_strfreev ( tab_date ); 
+	    tab_date = new_tab_date;
+	    num_fields = g_strv_length ( tab_date );
 	}
     }
-    else
+
+    /* Initialize date */
+    date = gdate_today ();
+
+    for ( i = 0, j = 0 ; i < num_tokens && j < num_fields ; i ++ )
     {
-	/* we will need current year and month,
-	 * set them already */
-	date = gdate_today();
-	month = g_date_month (date);
-	year = g_date_year (date);
-	g_date_free (date);
-
-	if (tab_date[1])
+	int nvalue = atoi ( tab_date [ j ] );
+	switch ( date_tokens [ i ] )
 	{
-	    /* we have xx/xx, as the day is the most important,
-	     * we assume it is dd/mm, so we add the year */
-	    day = utils_str_atoi (tab_date[0]);
-	    month = utils_str_atoi (tab_date[1]);
-	    if ( g_date_valid_dmy (day, month, year ) )
-		return g_date_new_dmy ( day, month, year );
-	    else
-	    {
-		/* dd/mm doesn't work, i don't know if mm/dd can appen,
-		 * do it here because nothing to lose */
-		if (g_date_valid_dmy (year, month, day))
-		    return g_date_new_dmy (year, month, day);
-		else
-		    return NULL;
-	    }
-	}
-	else
-	{
-	    /* there is only 1 number, so can be :
-	     * - 1 or 2 digits : it's dd
-	     * - 4 digits : it should be ddmm (or mmdd ?)
-	     * - 6 digits : it should be ddmmyy (or yymmdd ?)
-	     * - 8 digits : it should be ddmmyyyy (or yyyymmdd)
-	     *   */
-	    gchar *tmp_string;
-
-	    switch (strlen (tab_date[0]))
-	    {
-		/* d or dd */
-		case 1:
-		case 2:
-		    day = utils_str_atoi (tab_date[0]);
-		    if ( g_date_valid_dmy (day, month, year))
-			return g_date_new_dmy (day, month, year);
-		    else
-			return NULL;
-		    break;
-
-		    /* ddmm */
-		case 4 :
-		    month = utils_str_atoi ( tab_date[0] + 2 );
-		    tab_date[0][2] = 0;
-		    day = utils_str_atoi (tab_date[0]);
-		    g_strfreev (tab_date);
-
-		    if ( g_date_valid_dmy (day, month, year))
-			return g_date_new_dmy ( day, month, year );
+	    case 'm':
+		if ( g_date_valid_month ( nvalue ) && num_fields >= 2 )
+		{
+		    g_date_set_month ( date, nvalue );
+		    j++;
+		}
+		break;
+	    case 'd':
+		if ( g_date_valid_day ( nvalue ) )
+		{
+		    g_date_set_day ( date, nvalue );
+		    j++;
+		}
+		break;
+	    case 'y':
+	    case 'Y':
+		if ( strlen ( tab_date [ j ] ) == 2 )
+		{
+		    if ( nvalue < 60 )
+		    {
+			nvalue += 2000;
+		    }
 		    else
 		    {
-			/* we try mmdd */
-			if (g_date_valid_dmy (month, day, year))
-			    return g_date_new_dmy (month, day, year);
-			else
-			    return NULL;
+			nvalue += 1900;
 		    }
-		    break;
-
-		    /* ddmmy */
-		case 5:
-		    /* ddmmyy */
-		case 6:
-		    year = utils_str_atoi ( tab_date[0] + 4 );
-		    if (year < 70)
-			year = year + 2000;
-		    else
-			year = year + 1900;
-
-		    tab_date[0][4] = 0;
-		    month = utils_str_atoi ( tab_date[0] + 2 );
-		    tab_date[0][2] = 0;
-		    day = utils_str_atoi (tab_date[0]);
-		    g_strfreev (tab_date);
-
-		    if ( g_date_valid_dmy (day, month, year ) )
-			return g_date_new_dmy ( day, month, year );
-		    else
-		    {
-			/* try yymmdd */
-			if (g_date_valid_dmy (year, month, day))
-			    return g_date_new_dmy (year, month, day);
-			else
-			    return NULL;
-		    }
-		    break;
-
-		    /* ddmmyyyy */
-		case 8:
-		    /* ddmmyyyy should pass before if we set that case 8: just
-		     * after case 6: ; but in that case we cannot have yyyymmdd
-		     * so we do something here */
-
-		    /* first we save the string in case ddmmyyyy doesn't work */
-		    tmp_string = my_strdup (tab_date[0]);
-		    
-		    /* the first part is the same as for case 6: */
-		    year = utils_str_atoi ( tab_date[0] + 4 );
-		    tab_date[0][4] = 0;
-		    month = utils_str_atoi ( tab_date[0] + 2 );
-		    tab_date[0][2] = 0;
-		    day = utils_str_atoi (tab_date[0]);
-		    g_strfreev (tab_date);
-
-		    if ( g_date_valid_dmy (day, month, year))
-		    {
-			g_free (tmp_string);
-			return g_date_new_dmy ( day, month, year );
-		    }
-		     
-		    /* it is not ddmmyyyy, so we try yyyymmdd */
-		    day = utils_str_atoi ( tmp_string + 6 );
-		    tmp_string[6] = 0;
-		    month = utils_str_atoi ( tmp_string + 4 );
-		    tmp_string[4] = 0;
-		    year = utils_str_atoi (tmp_string);
-		    g_free (tmp_string);
-
-		    if (g_date_valid_dmy (year, month, day))
-			return g_date_new_dmy (year, month, day);
-		    else
-			return NULL;
-		    break;
-	    }
+		}
+		if ( g_date_valid_year ( nvalue ) && num_fields >= 3 )
+		{
+		    g_date_set_year ( date, nvalue );
+		    j++;
+		}
+		break;
+	    default:
+		printf ( ">> Unknown format '%c'\n", date_tokens [ i ] );
+		break;
 	}
     }
+
     g_strfreev ( tab_date );
-    return NULL;
+    return date;
 }
 
 
