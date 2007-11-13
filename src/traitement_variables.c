@@ -168,8 +168,11 @@ void modification_fichier ( gboolean modif )
 
     if ( modif )
     {
-	etat.modification_fichier = gdate_today ( );
-	gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, TRUE );
+	if ( ! etat.modification_fichier )
+	{
+	    etat.modification_fichier = time ( NULL );
+	    gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, TRUE );
+	}
     }
     else
     {
@@ -442,6 +445,12 @@ void menus_sensitifs ( gboolean sensitif )
 	gsb_gui_sensitive_menu_item_from_string ( *tmp, sensitif );
 	tmp++;
     }
+
+    /* As this function may only be called when a new account is
+     * created and the like, it is unlikely that we want to sensitive
+     * transaction-related menus. */
+    gsb_gui_sensitive_menu_item ( "EditMenu", "NewTransaction", NULL, FALSE );
+    gsb_menu_transaction_operations_set_sensitive ( FALSE );
 }
 /*****************************************************************************************************/
 

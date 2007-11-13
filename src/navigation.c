@@ -964,6 +964,7 @@ gboolean navigation_change_account ( gint *no_account )
     gsb_gui_sensitive_menu_item ( "EditMenu", "MoveToAnotherAccount", 
 				  gsb_data_account_get_name (current_account),
 				  TRUE );
+    gsb_gui_sensitive_menu_item ( "EditMenu", "NewTransaction", NULL, TRUE );
 
     /* save the adjustment of the last account */
     path = gsb_data_account_get_vertical_adjustment_value (current_account);
@@ -995,6 +996,16 @@ gboolean navigation_change_account ( gint *no_account )
     gsb_gui_sensitive_menu_item ( "EditMenu", "MoveToAnotherAccount", 
 				  gsb_data_account_get_name (new_account),
 				  FALSE );
+
+    /* Sensitive menu items if something is selected. */
+    if ( gsb_data_account_get_current_transaction_number ( new_account ) == -1 )
+    {
+	gsb_menu_transaction_operations_set_sensitive ( FALSE );
+    }
+    else
+    {
+	gsb_menu_transaction_operations_set_sensitive ( TRUE );
+    }
 
     gsb_transactions_list_set_adjustment_value (new_account);
 
@@ -1070,6 +1081,11 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     page_number = gsb_gui_navigation_get_current_page ();
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
 
+    if ( page_number != GSB_ACCOUNT_PAGE )
+    {
+	gsb_gui_sensitive_menu_item ( "EditMenu", "RemoveAccount", NULL, FALSE );
+    }
+
     if ( page_number != GSB_SCHEDULER_PAGE ) 
     {
 	gtk_widget_hide_all ( scheduler_calendar );
@@ -1098,6 +1114,8 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 	case GSB_ACCOUNT_PAGE:
 	    notice_debug ("Account page selected");
+
+	    gsb_gui_sensitive_menu_item ( "EditMenu", "RemoveAccount", NULL, TRUE );
 
 	    /* we change the account, check before if the properties are not changed,
 	     * and save them if necessary */

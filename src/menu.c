@@ -4,7 +4,7 @@
 /*                                  menu.c                                    */
 /*                                                                            */
 /*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2004-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -65,6 +65,7 @@ static gboolean help_translation ();
 static gboolean help_website ();
 static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
 			     GtkContainer * p_box) ;
+static gboolean gsb_gui_toggle_show_form ();
 /*END_STATIC*/
 
 
@@ -123,7 +124,10 @@ static gchar * buffer =
 "    </menu>"
 "    <menu action='ViewMenu'>"
 "      <menuitem action='ShowTransactionForm'/>"
+#warning Be sure this is version 2.12 and upper
+#if GTK_CHECK_VERSION(2,12,0)
 "      <menuitem action='ShowGrid'/>"
+#endif
 "      <menuitem action='ShowReconciled'/>"
 "      <menuitem action='ShowClosed'/>"
 "      <separator/>"
@@ -278,7 +282,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
     }; 
     GtkToggleActionEntry toggle_entries[] = {
 	{ "ShowTransactionForm",NULL,			_("Show transaction _form"),
-	  NULL,			NULL,			G_CALLBACK ( gsb_form_switch_expander ), 
+	  NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_show_form ), 
 	  etat.formulaire_toujours_affiche },
 	{ "ShowGrid",		NULL,			_("Show _grid"),
 	  NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_grid_mode ), 
@@ -314,6 +318,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 
     barre_menu = gtk_ui_manager_get_widget ( ui_manager, "/menubar" );
  
+    gsb_gui_sensitive_menu_item ( "EditMenu", "NewTransaction", NULL, FALSE );
     gsb_menu_transaction_operations_set_sensitive ( FALSE );
 
     return barre_menu;
@@ -555,7 +560,6 @@ gboolean gsb_gui_sensitive_menu_item ( gchar * root_menu_name, gchar * submenu_n
  */
 void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *current, 
 				     gpointer user_data )
-/* void view_menu_cb ( gpointer callback_data, guint callback_action, GtkWidget *widget ) */
 {
     /* FIXME benj: ugly but I cannot find a way to block this ... I
        understand why gtkitemfactory is deprecated. */
@@ -581,11 +585,29 @@ void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *cu
 
 
 /**
- * set or unset the grid
- *
+ * Show or hide the transactions form.
  *
  * \return FALSE
+ */
+gboolean gsb_gui_toggle_show_form ()
+{
+    devel_debug ( "" );
+
+    /* FIXME benj: ugly but I cannot find a way to block this ... I
+       understand why gtkitemfactory is deprecated. */
+    if ( block_menu_cb ) return;
+
+    gsb_form_switch_expander ( );
+
+    return FALSE;
+}
+
+
+
+/**
+ * Set or unset the grid
  *
+ * \return FALSE
  */
 gboolean gsb_gui_toggle_grid_mode ()
 {
@@ -626,16 +648,6 @@ gboolean gsb_gui_toggle_show_reconciled ()
  */
 gboolean gsb_gui_toggle_show_closed_accounts ()
 {
-    /* problem, if we toggle while reconciling, the selection goes to the home page, but we want to stay
-     * on the account page. so block here */
-    /* FIXME a bug here, when do while reconciliation, there is no change with the if below, but the button of the
-     * menu is toggled, as i didn't understand how it works, i let that for benj [cedric] */
-    if (etat.equilibrage)
-    {
-	dialogue_warning (_("Cannot switch to the closed accounts while reconciling. Please cancel the reconciliation before doing that."));
-	return FALSE;
-    }
-
     etat.show_closed_accounts = ! etat.show_closed_accounts;
 
     create_account_list ( navigation_model );
@@ -666,8 +678,17 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
     /* update the showing of reconciled transactions */
 
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
-										  menu_name ( "ViewMenu", "ShowReconciled", NULL ))), 
+										  menu_name ( "ViewMenu", 
+											      "ShowReconciled", 
+											      NULL ))), 
 				   gsb_data_account_get_r (account_number) );
+
+    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
+										  menu_name ( "ViewMenu", 
+											      "ShowTransactionForm", 
+											      NULL ))), 
+				   gsb_form_is_visible () );
+
 
     /* update the number of line showed */
 
@@ -773,6 +794,8 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
  */
 gboolean gsb_menu_transaction_operations_set_sensitive ( gboolean sensitive )
 {
+    devel_debug ( sensitive ? "item sensitive" : "item unsensitive" );
+
     gsb_gui_sensitive_menu_item ( "EditMenu", "RemoveTransaction", NULL, sensitive );
     gsb_gui_sensitive_menu_item ( "EditMenu", "CloneTransaction", NULL, sensitive );
     gsb_gui_sensitive_menu_item ( "EditMenu", "EditTransaction", NULL, sensitive );
