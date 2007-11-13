@@ -442,10 +442,7 @@ gint gsb_transactions_list_sort_general_test ( GtkTreeModel *model,
 	 ||
 	 !transaction_2 )
     {
-	debug_message ( _( "Local variable value NULL" ),
-			_( "in the function gsb_transactions_list_sort_general_test, transaction_1 or transaction_2 is NULL ; it souldn't happen, it's seems that the function is called by a bad way" ),
-			DEBUG_LEVEL_ALERT,
-			FALSE );
+	alert_debug ( "Local variable value NULL in the function gsb_transactions_list_sort_general_test, transaction_1 or transaction_2 is NULL ; it souldn't happen, it's seems that the function is called by a bad way" ) ;
 	return 0;
     }
 
