@@ -61,7 +61,6 @@ static void change_comparaison_montant ( GtkWidget *menu_item,
 				  gint amount_comparison_number );
 static void change_comparaison_texte ( GtkWidget *menu_item,
 				gint text_comparison_number );
-static void change_separation_result_periode ( void );
 static void click_bas_classement_etat ( void );
 static void click_haut_classement_etat ( void );
 static void click_liste_etat ( GtkCList *liste,
@@ -77,7 +76,6 @@ static GtkWidget *cree_bouton_lien_lignes_comparaison ( void );
 static GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number );
 static GtkWidget *cree_ligne_comparaison_montant ( gint amount_comparison_number );
 static GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number );
-static void modif_type_separation_dates ( gint *origine );
 static GtkWidget *onglet_affichage_etat_devises ( void );
 static GtkWidget *onglet_affichage_etat_divers ( void );
 static GtkWidget *onglet_affichage_etat_generalites ( void );
@@ -92,7 +90,8 @@ static GtkWidget *onglet_etat_montant ( void );
 static GtkWidget *onglet_etat_texte ( void );
 static GtkWidget *onglet_etat_tiers ( void );
 static GtkWidget *onglet_etat_virements ( void );
-static GtkWidget *page_organisation_donnees ( void );
+static GtkWidget * page_data_grouping();
+static GtkWidget * page_data_separation();
 static void recuperation_info_perso_etat ( void );
 static void remplissage_liste_categ_etats ( void );
 static void remplissage_liste_comptes_virements ( void );
@@ -534,14 +533,31 @@ void personnalisation_etat (void)
 
 
     /* remplissage de l'onglet d'organisation */
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       page_organisation_donnees(),
-			       gtk_label_new (SPACIFY(_("Data organization"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter, NULL);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter,
 			REPORT_TREE_TEXT_COLUMN, _("Data organization"),
-			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_PAGE_COLUMN, -1,
 			REPORT_TREE_BOLD_COLUMN, 800, -1);
+
+    /* Data grouping */
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter );
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			REPORT_TREE_TEXT_COLUMN, _("Data grouping"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       page_data_grouping(),
+			       gtk_label_new (SPACIFY(_("Data grouping"))) );
+
+    /* Data separation */
+    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+			REPORT_TREE_TEXT_COLUMN, _("Data separation"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+			       page_data_separation(),
+			       gtk_label_new (SPACIFY(_("Data separation"))) );
 
     /* remplissage de l'onglet d'affichage */
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter, NULL);
@@ -814,14 +830,12 @@ void personnalisation_etat (void)
 				      gsb_data_report_get_personal_date_end (current_report_number));
 
     /* on remplit les détails de la séparation des dates */
-
     if ( gsb_data_report_get_period_split (current_report_number))
     {
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat ),
 				       TRUE );
 	gtk_widget_set_sensitive ( bouton_type_separe_plages_etat,
 				   TRUE );
-	modif_type_separation_dates ( GINT_TO_POINTER ( gsb_data_report_get_period_split_type (current_report_number)));
     }
     else
     {
@@ -2473,64 +2487,6 @@ void click_liste_etat ( GtkCList *liste,
 }
 /******************************************************************************/
 
-/******************************************************************************/
-void change_separation_result_periode ( void )
-{
-    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat )))
-    {
-	gtk_widget_set_sensitive ( bouton_type_separe_plages_etat,
-				   TRUE );
-	modif_type_separation_dates ( gtk_object_get_data ( GTK_OBJECT ( bouton_type_separe_plages_etat ),
-							    "type" ));
-    }
-    else
-    {
-	gtk_widget_set_sensitive ( bouton_type_separe_plages_etat,
-				   FALSE );
-	gtk_widget_set_sensitive ( bouton_debut_semaine,
-				   FALSE );
-	/*       gtk_widget_set_sensitive ( bouton_type_separe_perso_etat, */
-	/* 				 FALSE ); */
-	/*       gtk_widget_set_sensitive ( entree_separe_perso_etat, */
-	/* 				 FALSE ); */
-    }
-}
-/******************************************************************************/
-
-/******************************************************************************/
-void modif_type_separation_dates ( gint *origine )
-{
-    switch ( GPOINTER_TO_INT ( origine ))
-    {
-	case 0:
-	    gtk_widget_set_sensitive ( bouton_debut_semaine,
-				       TRUE );
-	    /*       gtk_widget_set_sensitive ( bouton_type_separe_perso_etat, */
-	    /* 				 FALSE ); */
-	    /*       gtk_widget_set_sensitive ( entree_separe_perso_etat, */
-	    /* 				 FALSE ); */
-	    break;
-
-	case 1:
-	case 2:
-	    gtk_widget_set_sensitive ( bouton_debut_semaine,
-				       FALSE );
-	    /*       gtk_widget_set_sensitive ( bouton_type_separe_perso_etat, */
-	    /* 				 FALSE ); */
-	    /*       gtk_widget_set_sensitive ( entree_separe_perso_etat, */
-	    /* 				 FALSE ); */
-	    break;
-
-	case 3:
-	    gtk_widget_set_sensitive ( bouton_debut_semaine,
-				       FALSE );
-	    /*       gtk_widget_set_sensitive ( bouton_type_separe_perso_etat, */
-	    /* 				 TRUE ); */
-	    /*       gtk_widget_set_sensitive ( entree_separe_perso_etat, */
-	    /* 				 TRUE ); */
-    }
-}
-/******************************************************************************/
 
 /******************************************************************************/
 void remplissage_liste_exo_etats ( void )
@@ -5766,10 +5722,7 @@ void retire_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison
 GtkWidget *onglet_etat_divers ( void )
 {
     GtkWidget *vbox_onglet;
-    GtkWidget *hbox;
-    GtkWidget *vbox;
     GtkWidget *frame;
-    GtkWidget *label;
 
     vbox_onglet = new_vbox_with_title_and_icon ( _("Miscellaneous"), ".png" );
     gtk_widget_show ( vbox_onglet );
@@ -5833,139 +5786,46 @@ GtkWidget *onglet_etat_divers ( void )
 /******************************************************************************/
 
 /******************************************************************************/
-GtkWidget *page_organisation_donnees ( void )
+GtkWidget *page_data_grouping ( void )
 {
-    GtkWidget *label;
     GtkWidget *hbox;
     GtkWidget *scrolled_window;
-    GtkWidget *frame;
     GtkWidget *vbox;
     GtkWidget *fleche;
     GtkWidget *vbox_onglet;
-    GtkWidget *menu;
-    GtkWidget *menu_item;
-    gint i;
+    GtkWidget * paddingbox;
 
     vbox_onglet = new_vbox_with_title_and_icon ( _("Data organization"), ".png" );
     gtk_widget_show ( vbox_onglet );
 
     /* choix de ce qu'on utilise dans le classement */
 
-    frame = gtk_frame_new ( COLON(_("Informations used for the group")) );
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 frame,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( frame );
-
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				     5 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			vbox );
-    gtk_widget_show ( vbox );
-
-
-    /* on permet de regrouper les opérations par compte */
-
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Group transactions") );
 
     bouton_regroupe_ope_compte_etat = gtk_check_button_new_with_label ( _("Group transactions by account") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_regroupe_ope_compte_etat,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_regroupe_ope_compte_etat );
-
-
-    /* on permet de regrouper les opérations par tiers */
-
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_regroupe_ope_compte_etat, FALSE, FALSE, 0 );
 
     bouton_utilise_tiers_etat = gtk_check_button_new_with_label ( _("Group transactions by payee") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_utilise_tiers_etat,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_utilise_tiers_etat );
-
-
-
-    /* on permet de regrouper les opérations par categ */
-
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
-
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_utilise_tiers_etat, FALSE, FALSE, 0 );
 
     bouton_utilise_categ_etat = gtk_check_button_new_with_label ( _("Group transactions by category") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_utilise_categ_etat,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_utilise_categ_etat );
-
-    /* on permet de regrouper les opérations par ib */
-
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
-
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_utilise_categ_etat, FALSE, FALSE, 0 );
 
     bouton_utilise_ib_etat = gtk_check_button_new_with_label ( _("Group transactions by budgetary line") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_utilise_ib_etat,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_utilise_ib_etat );
-
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_utilise_ib_etat, FALSE, FALSE, 0 );
 
     /* choix du type de classement */
 
-    frame = gtk_frame_new ( COLON(_("Group level organisation")) );
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 frame,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( frame );
-
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Group level organisation") );
     hbox = gtk_hbox_new ( FALSE,
 			  5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( hbox ),
-				     5 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			hbox );
+    gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 5 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+			 hbox,
+			 TRUE,
+			 TRUE,
+			 0 );
+
     gtk_widget_show ( hbox );
 
     scrolled_window = gtk_scrolled_window_new ( FALSE,
@@ -6030,193 +5890,88 @@ GtkWidget *page_organisation_donnees ( void )
 			fleche  );
     gtk_widget_show_all ( vbox );
 
+    return vbox_onglet;
+}
+
+
+GtkWidget *page_data_separation ( void )
+{
+    GtkWidget *label;
+    GtkWidget *hbox;
+    GtkWidget *frame;
+    GtkWidget *vbox;
+    GtkWidget *vbox_onglet;
+    GtkWidget *menu;
+    GtkWidget *menu_item;
+    GtkWidget * paddingbox;
+    gint i;
+
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Data organization"), ".png" );
+    gtk_widget_show ( vbox_onglet );
+
+    /* choix de ce qu'on utilise dans le classement */
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Transaction separation") );
 
     /* on permet la séparation des revenus et des dépenses */
-
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
-
     bouton_separer_revenus_depenses = gtk_check_button_new_with_label ( _("Split incomes and outgoings") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_separer_revenus_depenses,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_separer_revenus_depenses );
-
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_separer_revenus_depenses, FALSE, FALSE, 0 );
 
     /* on permet la séparation par exercice */
-
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
-
     bouton_separe_exo_etat = gtk_check_button_new_with_label ( _("Split by financial year") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_separe_exo_etat,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_separe_exo_etat );
-
-    /* ce bouton est grisé ou non en fonction de l'utilisation ou non de l'exercice */
-
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_separe_exo_etat, FALSE, FALSE, 0 );
     gtk_signal_connect ( GTK_OBJECT ( radio_button_utilise_exo ),
 			 "toggled",
 			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 			 bouton_separe_exo_etat );
 
-    /* on permet ensuite la séparation des résultats par période */
-
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
-
     bouton_separe_plages_etat = gtk_check_button_new_with_label ( _("Split by period") );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_separe_plages_etat, FALSE, FALSE, 0 );
+
+    /* on permet ensuite la séparation des résultats par période */
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Separation by period") );
     gtk_signal_connect ( GTK_OBJECT ( bouton_separe_plages_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( change_separation_result_periode ),
-			 NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_separe_plages_etat,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_separe_plages_etat );
+			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 paddingbox );
 
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( "        " );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
+    label = gtk_label_new ( POSTSPACIFY(_("Separation by time period")) );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
-
-    frame = gtk_frame_new ( NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 frame,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( frame );
-
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ),
-				     10 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			vbox );
-    gtk_widget_show ( vbox );
-
-    /* mise en place de la row type - choix perso */
-
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
+    /* FIXME BENJ XXX : be sure this is selectionned correctly when
+     * editing report for the first time (see line 834). */
 
     bouton_type_separe_plages_etat = gtk_option_menu_new ();
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_type_separe_plages_etat, FALSE, FALSE, 0 );
 
     menu = gtk_menu_new ();
 
     menu_item = gtk_menu_item_new_with_label ( _("Week") );
-    gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			  "type",
-			  NULL );
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( modif_type_separation_dates ),
-				NULL );
-    gtk_menu_append ( GTK_MENU ( menu ),
-		      menu_item );
-    gtk_widget_show ( menu_item );
+    gtk_object_set_data ( GTK_OBJECT ( menu_item ), "type", NULL );
+    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 
-    menu_item = gtk_menu_item_new_with_label ( _("Months") );
-    gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			  "type",
-			  GINT_TO_POINTER (1) );
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( modif_type_separation_dates ),
-				GINT_TO_POINTER (1) );
-    gtk_menu_append ( GTK_MENU ( menu ),
-		      menu_item );
-    gtk_widget_show ( menu_item );
+    menu_item = gtk_menu_item_new_with_label ( _("Month") );
+    gtk_object_set_data ( GTK_OBJECT ( menu_item ), "type", GINT_TO_POINTER (1) );
+    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("Year") );
-    gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			  "type",
-			  GINT_TO_POINTER (2));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( modif_type_separation_dates ),
-				GINT_TO_POINTER (2));
-    gtk_menu_append ( GTK_MENU ( menu ),
-		      menu_item );
-    gtk_widget_show ( menu_item );
+    gtk_object_set_data ( GTK_OBJECT ( menu_item ), "type", GINT_TO_POINTER (2));
+    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ),
-			       menu );
-    gtk_widget_show ( menu );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_type_separe_plages_etat,
-			 FALSE, 
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_type_separe_plages_etat );
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ), menu );
 
 
     /* mise en place de la row de début de semaine */
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
-
-    label = gtk_label_new ( POSTSPACIFY(_("The week begins on")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 label,
-			 FALSE, 
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
-
+    label = gtk_label_new ( POSTSPACIFY(_("Begining of week")) );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     bouton_debut_semaine = gtk_option_menu_new ();
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_debut_semaine, FALSE, FALSE, 0 );
 
     menu = gtk_menu_new ();
 
@@ -6225,24 +5980,12 @@ GtkWidget *page_organisation_donnees ( void )
     while ( jours_semaine[i] )
     {
 	menu_item = gtk_menu_item_new_with_label ( _(jours_semaine[i]) );
-	gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			      _("day"),
-			      GINT_TO_POINTER (i));
-	gtk_menu_append ( GTK_MENU ( menu ),
-			  menu_item );
-	gtk_widget_show ( menu_item );
+	gtk_object_set_data ( GTK_OBJECT ( menu_item ), _("day"), GINT_TO_POINTER (i));
+	gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 	i++;
     }
 
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_debut_semaine ),
-			       menu );
-    gtk_widget_show ( menu );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_debut_semaine,
-			 FALSE, 
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_debut_semaine );
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_debut_semaine ), menu );
 
     return ( vbox_onglet );
 }
@@ -6420,402 +6163,109 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 
     return ( vbox_onglet );
 }
-/******************************************************************************/
 
-/******************************************************************************/
-GtkWidget *onglet_affichage_etat_operations ( void )
+
+
+/**
+ *
+ *
+ *
+ *
+ */
+GtkWidget * onglet_affichage_etat_operations ( void )
 {
-    GtkWidget *label;
-    GtkWidget *hbox;
-    GtkWidget *separateur;
-    GtkWidget *table;
-    GtkWidget *vbox_onglet;
-    GtkWidget *menu;
-    GtkWidget *menu_item;
+    GtkWidget * table, * vbox_onglet, * menu, * menu_item, * paddingbox;
 
     vbox_onglet = new_vbox_with_title_and_icon ( _("Transactions display"), ".png" );
     gtk_widget_show ( vbox_onglet );
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
 
     /* afficher ou non les opés */
 
     bouton_afficher_opes = gtk_check_button_new_with_label ( _("Display transactions") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_opes,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_opes );
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), bouton_afficher_opes, FALSE, FALSE, 0 );
 
 
     /* demande les détails affichés dans les opérations */
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
-
-    frame_onglet_generalites = gtk_frame_new ( _("Display the information about") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 frame_onglet_generalites,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( frame_onglet_generalites );
-
-
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Include following informations") );
     /* connection pour rendre sensitif la frame */
-
     gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_opes ),
 			 "toggled",
 			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
-			 frame_onglet_generalites );
+			 paddingbox );
 
-
-    table = gtk_table_new ( 12,
-			    3,
-			    FALSE );
-    gtk_container_add ( GTK_CONTAINER ( frame_onglet_generalites ),
-			table );
-    gtk_widget_show ( table );
-
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				0, 1,
-				0, 1 );
-    gtk_widget_show ( hbox );
+    table = gtk_table_new ( 12, 3, FALSE );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
 
     bouton_afficher_no_ope = gtk_check_button_new_with_label ( _("transaction number") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_no_ope,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_no_ope );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				1, 2,
-				0, 1 );
-    gtk_widget_show ( hbox );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_no_ope, 0, 1, 0, 1 );
 
     bouton_afficher_date_opes = gtk_check_button_new_with_label ( _("date") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_date_opes,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_date_opes );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				2, 3,
-				0, 1 );
-    gtk_widget_show ( hbox );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_date_opes, 1, 2, 0, 1 );
 
     bouton_afficher_exo_opes = gtk_check_button_new_with_label ( _("financial year") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_exo_opes,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_exo_opes );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				0, 1,
-				1, 2 );
-    gtk_widget_show ( hbox );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_exo_opes, 2, 3, 0, 1 );
 
     bouton_afficher_tiers_opes = gtk_check_button_new_with_label ( _("payee") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_tiers_opes,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_tiers_opes );
-
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				1, 2,
-				1, 2 );
-    gtk_widget_show ( hbox );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_tiers_opes, 0, 1, 1, 2 );
 
     bouton_afficher_categ_opes = gtk_check_button_new_with_label ( _("category") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_categ_opes,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_categ_opes );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				2, 3,
-				1, 2 );
-    gtk_widget_show ( hbox );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_categ_opes, 1, 2, 1, 2 );
 
     bouton_afficher_sous_categ_opes = gtk_check_button_new_with_label ( _("sub-category") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_sous_categ_opes,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_sous_categ_opes );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				0, 1,
-				2, 3 );
-    gtk_widget_show ( hbox );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_sous_categ_opes, 2, 3, 1, 2 );
 
     bouton_afficher_ib_opes = gtk_check_button_new_with_label ( _("budgetary line") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_ib_opes,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_ib_opes );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				1, 2,
-				2, 3 );
-    gtk_widget_show ( hbox );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_ib_opes, 0, 1, 2, 3 );
 
     bouton_afficher_sous_ib_opes = gtk_check_button_new_with_label ( _("sub-budgetary line") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_sous_ib_opes,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_sous_ib_opes );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				2, 3,
-				2, 3 );
-    gtk_widget_show ( hbox );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_sous_ib_opes, 1, 2, 2, 3 );
 
     bouton_afficher_notes_opes = gtk_check_button_new_with_label ( _("notes") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_notes_opes,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_notes_opes );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				0, 1,
-				3, 4 );
-    gtk_widget_show ( hbox );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_notes_opes, 2, 3, 2, 3 );
 
     bouton_afficher_type_ope = gtk_check_button_new_with_label ( _("method of payment") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_type_ope,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_type_ope );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				1, 2,
-				3, 4 );
-    gtk_widget_show ( hbox );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_type_ope, 0, 1, 3, 4 );
 
     bouton_afficher_no_cheque = gtk_check_button_new_with_label ( _("cheque/transfer number") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_no_cheque,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_no_cheque );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				2, 3,
-				3, 4 );
-    gtk_widget_show ( hbox );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_no_cheque, 1, 2, 3, 4 );
 
     bouton_afficher_pc_opes = gtk_check_button_new_with_label ( _("voucher") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_pc_opes,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_pc_opes );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				0, 1,
-				4, 5 );
-    gtk_widget_show ( hbox );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_pc_opes, 2, 3, 3, 4 );
 
     bouton_afficher_infobd_opes = gtk_check_button_new_with_label ( _("bank reference") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_infobd_opes,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_infobd_opes );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				1, 2,
-				4, 5  );
-    gtk_widget_show ( hbox );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_infobd_opes, 0, 1, 4, 5 );
 
     bouton_afficher_no_rappr = gtk_check_button_new_with_label ( _("reconciliation reference") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_no_rappr,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_no_rappr );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_no_rappr, 1, 2, 4, 5  );
 
 
     /* on propose d'afficher le titre des colonnes */
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Columns") );
+    gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_opes ),
+			 "toggled",
+			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 paddingbox );
 
-    separateur = gtk_hseparator_new ();
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				separateur,
-				0, 3,
-				5, 6 );
-    gtk_widget_show ( separateur );
+    bouton_afficher_titres_colonnes = gtk_check_button_new_with_label ( _("Display column titles") );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_afficher_titres_colonnes, FALSE, FALSE, 0 );
 
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				0, 3,
-				6, 7 );
-    gtk_widget_show ( hbox );
-
-    bouton_afficher_titres_colonnes = gtk_check_button_new_with_label ( _("Display the column titles") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_afficher_titres_colonnes,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_afficher_titres_colonnes );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				0, 3,
-				7, 8 );
-    gtk_widget_show ( hbox );
-
-    bouton_titre_changement = gtk_radio_button_new_with_label ( NULL,
-								_("every section") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_titre_changement,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_titre_changement );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				0, 3,
-				8, 9 );
-    gtk_widget_show ( hbox );
+    bouton_titre_changement = gtk_radio_button_new_with_label ( NULL, _("every section") );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_titre_changement, FALSE, FALSE, 0 );
 
     bouton_titre_en_haut = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_titre_changement )),
 							     _("at the top of the report") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_titre_en_haut,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_titre_en_haut );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_titre_en_haut, FALSE, FALSE, 0 );
+
 
     /* mise en place du type de classement des opés */
-
-    separateur = gtk_hseparator_new ();
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				separateur,
-				0, 3,
-				9,10 );
-    gtk_widget_show ( separateur );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				0, 1,
-				10, 11 );
-    gtk_widget_show ( hbox );
-
-    label = gtk_label_new ( POSTSPACIFY(_("Sort the transactions by")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				1, 3,
-				10, 11 );
-    gtk_widget_show ( hbox );
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Sort transactions by") );
+    gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_opes ),
+			 "toggled",
+			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 paddingbox );
 
     bouton_choix_classement_ope_etat = gtk_option_menu_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_choix_classement_ope_etat,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_choix_classement_ope_etat );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_choix_classement_ope_etat, FALSE, FALSE, 0 );
 
     menu = gtk_menu_new ();
 
@@ -6825,7 +6275,6 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			  GINT_TO_POINTER ( 0 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
-    gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("transaction number"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -6833,7 +6282,6 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			  GINT_TO_POINTER ( 1 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
-    gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("payee"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -6841,7 +6289,6 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			  GINT_TO_POINTER ( 2 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
-    gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("category"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -6849,7 +6296,6 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			  GINT_TO_POINTER ( 3 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
-    gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("budgetary line"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -6857,7 +6303,6 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			  GINT_TO_POINTER ( 4 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
-    gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("note"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -6865,7 +6310,6 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			  GINT_TO_POINTER ( 5 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
-    gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("method of payment"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -6873,7 +6317,6 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			  GINT_TO_POINTER ( 6 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
-    gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("cheque/transfer number"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -6881,7 +6324,6 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			  GINT_TO_POINTER ( 7 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
-    gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("voucher"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -6889,7 +6331,6 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			  GINT_TO_POINTER ( 8 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
-    gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("bank reference"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -6897,7 +6338,6 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			  GINT_TO_POINTER ( 9 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
-    gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("reconciliation reference"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
@@ -6905,34 +6345,23 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			  GINT_TO_POINTER ( 10 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
-    gtk_widget_show ( menu_item );
 
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_choix_classement_ope_etat ),
 			       menu );
-    gtk_widget_show ( menu );
 
 
     /* on propose de rendre clickable le détails des opérations */
-
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ),
-				hbox,
-				0, 3,
-				11, 12 );
-    gtk_widget_show ( hbox );
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Clickable transactions") );
+    gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_opes ),
+			 "toggled",
+			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 paddingbox );
 
     bouton_rendre_ope_clickables = gtk_check_button_new_with_label ( _("Make transactions clickable"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_rendre_ope_clickables,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_rendre_ope_clickables );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_rendre_ope_clickables, FALSE, FALSE, 0 );
 
 
     /* on met les connexions */
-
     gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_categ_opes ),
 			 "toggled",
 			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
@@ -6949,6 +6378,8 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 			 "toggled",
 			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 			 bouton_titre_en_haut );
+
+    gtk_widget_show_all ( vbox_onglet );
 
     return ( vbox_onglet );
 }
@@ -7519,9 +6950,10 @@ void remplissage_liste_modes_paiement_etats ( void )
     while ( list_tmp )
     {
 	gint row;
+	gchar * string = list_tmp -> data;
 
 	row = gtk_clist_append ( GTK_CLIST ( liste_mode_paiement_etat ),
-				 (gchar **) ( &list_tmp -> data ) );
+				 &string );
 
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_mode_paiement_etat ),
 				 row,

@@ -84,6 +84,7 @@ static GtkWidget *label_archived;
 static GtkWidget *vbox_congratulation;
 static GtkWidget *vbox_failed;
 static GtkWidget *congratulations_view;
+static GtkWidget *failed_view;
 
 static GSList *list_transaction_to_archive = NULL;
 
@@ -370,6 +371,7 @@ static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant
 			 FALSE, FALSE, 0 );
 
     name_entry = gtk_entry_new ();
+    gtk_widget_set_usize ( name_entry, 400, FALSE );
     g_signal_connect_object ( G_OBJECT (name_entry),
 			      "changed",
 			      G_CALLBACK (gsb_assistant_archive_update_labels),
@@ -449,20 +451,44 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
     vbox_failed = gtk_vbox_new (FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox_failed,
-			 FALSE, FALSE, 0 );
+			 TRUE, TRUE, 0 );
 
-    label = gtk_label_new (_("An error occurred while creating the archive...\n"
-			     "Please try to find the problem and contact the grisbi team to correct it.\n\n"
-			     "Please press the Previous or Close button."));
-    gtk_misc_set_alignment ( GTK_MISC (label),
-			     0, 0.5 );
+    failed_view = gtk_text_view_new ();
+    gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (failed_view), GTK_WRAP_WORD);
+    gtk_text_view_set_editable ( GTK_TEXT_VIEW(failed_view), FALSE );
+    gtk_text_view_set_cursor_visible ( GTK_TEXT_VIEW(failed_view), FALSE );
+    gtk_text_view_set_left_margin ( GTK_TEXT_VIEW(failed_view), 12 );
+    gtk_text_view_set_right_margin ( GTK_TEXT_VIEW(failed_view), 12 );
+
+    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (failed_view));
+    gtk_text_buffer_create_tag ( buffer, "bold", "weight", PANGO_WEIGHT_BOLD, NULL);  
+    gtk_text_buffer_create_tag ( buffer, "x-large", "scale", PANGO_SCALE_X_LARGE, NULL);
+    gtk_text_buffer_create_tag ( buffer, "indented", "left-margin", 24, NULL);
+
+    gtk_text_buffer_get_iter_at_offset (buffer, &iter, 1);
+    gtk_text_buffer_insert ( buffer, &iter, "\n", -1 );
+    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
+					      _("Failed !"), -1,
+					      "x-large", "bold", NULL);
+    gtk_text_buffer_insert ( buffer, &iter, "\n\n", -1 );
+    
     gtk_box_pack_start ( GTK_BOX (vbox_failed),
-			 label,
-			 FALSE, FALSE,
+			 failed_view,
+			 TRUE, TRUE,
 			 0 );
+    gtk_text_buffer_get_end_iter ( buffer, &iter );
+    gtk_text_buffer_create_mark ( buffer, "status", &iter, TRUE );
+
+    gtk_text_buffer_insert ( buffer, &iter, 
+			     _("An error occurred while creating the archive...\n"
+			       "Most probably, you are trying to create an empty archive "
+			       "that grisbi cowardly refused to create.\n\n"
+			       "Press the Previous button to try again or cancel this process."),
+			     -1 );
 
     gtk_widget_show_all (page);
     gtk_widget_hide (vbox_failed);
+
     return page;
 }
 
@@ -504,8 +530,6 @@ static gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
     gsb_assistant_change_button_next ( assistant,
 				       GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
     gsb_assistant_archive_update_labels ( assistant );
-    gsb_assistant_sensitive_button_next ( assistant, FALSE );
-
     return FALSE;
 }
 
@@ -586,11 +610,14 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
     GtkTextBuffer * buffer;
     GtkTextIter     iter;
 
+    /* This would typically happen if user selected a time period
+     * with no transactions related. */
     if (!list_transaction_to_archive)
     {
-	/* should not happen */
 	gtk_widget_hide (vbox_congratulation);
 	gtk_widget_show (vbox_failed);
+	gsb_assistant_sensitive_button_prev ( assistant, TRUE );
+	gsb_assistant_sensitive_button_next ( assistant, FALSE );
 	return FALSE;
     }
 
