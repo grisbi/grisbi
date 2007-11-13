@@ -5,11 +5,12 @@
 
 
 /* START_DECLARATION */
-void debug_message ( gchar *prefixe, gchar *message, gint level, gboolean force_debug_display);
-void devel_debug ( gchar *message );
+void debug_message ( gchar *prefixe, gchar * file, gint line, const char * function, 
+		     gchar *message, gint level, gboolean force_debug_display);
+void r_devel_debug ( gchar * file, gint line, gchar * function, gchar *message );
 void initialize_debugging ( void );
-void notice_debug ( gchar *message );
+void r_notice_debug ( gchar * file, gint line, gchar * function, gchar *message );
 void traitement_sigsegv ( gint signal_nb );
-void warning_debug ( gchar *message );
+void r_warning_debug ( gchar * file, gint line, gchar * function, gchar *message );
 /* END_DECLARATION */
 #endif
