@@ -241,7 +241,16 @@ gboolean gsb_file_config_load_config ( void )
     else
 	nom_fichier_comptes = NULL;
 
+    etat.check_for_archival = g_key_file_get_integer ( config, 
+						       "IO",
+						       "Check_archival_at_opening",
+						       NULL );
 
+    etat.max_non_archived_transactions_for_check = g_key_file_get_integer ( config, 
+									    "IO",
+									    "Max_transactions_before_warn_archival",
+									    NULL );
+    
     /* get scheduled section */
 
     nb_days_before_scheduled = g_key_file_get_integer ( config,
@@ -531,6 +540,16 @@ gboolean gsb_file_config_save_config ( void )
 				 "Names last files",
 				 (const gchar **) tab_noms_derniers_fichiers_ouverts,
 				 nb_derniers_fichiers_ouverts );
+
+    g_key_file_set_integer ( config, 
+			     "IO",
+			     "Check_archival_at_opening",
+			     etat.check_for_archival );
+
+    g_key_file_set_integer ( config, 
+			     "IO",
+			     "Max_transactions_before_warn_archival",
+			     etat.max_non_archived_transactions_for_check );
 
     /* save scheduled section */
 

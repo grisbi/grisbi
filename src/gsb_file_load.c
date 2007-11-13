@@ -752,18 +752,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	}
 
 	else if ( !strcmp ( attribute_names[i],
-			    "Check_archival_at_opening" ))
-	{
-	    etat.check_for_archival = utils_str_atoi( attribute_values[i]);
-	}
-
-	else if ( !strcmp ( attribute_names[i],
-			    "Max_transactions_before_warm_archival" ))
-	{
-	    etat.max_non_archived_transactions_for_check = utils_str_atoi( attribute_values[i]);
-	}
-
-	else if ( !strcmp ( attribute_names[i],
 			    "Transactions_view" ))
 	{
 	    gchar **pointeur_char;
