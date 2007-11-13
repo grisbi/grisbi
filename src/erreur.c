@@ -78,7 +78,7 @@ void traitement_sigsegv ( gint signal_nb )
 
     if ( etat.en_train_de_charger || 
 	 etat.en_train_de_sauvegarder || 
-	 etat.modification_fichier == NULL )
+	 etat.modification_fichier == 0 )
     {
 
 	if ( etat.en_train_de_charger )
@@ -195,13 +195,15 @@ void initialize_debugging ( void )
 
 	    /* on affiche un message de debug pour indiquer que le debug est actif */
 	    debug_message(g_strdup_printf(_("GRISBI %s Debug"),VERSION) , 
-			  g_strdup_printf(_("Debug enable, level is '%s'"),debug_level),
+			  __FILE__, __LINE__, __PRETTY_FUNCTION__,
+			  g_strdup_printf(_("Debug enabled, level is '%s'"),debug_level),
 			  DEBUG_LEVEL_INFO, TRUE);
 	}
 	else
 	{
 	    /* on affiche un message de debug pour indiquer que le debug est actif */
 	    debug_message(g_strdup_printf(_("GRISBI %s Debug"),VERSION) , 
+			  __FILE__, __LINE__, __PRETTY_FUNCTION__,
 			  _("Wrong debug level, please check DEBUG_GRISBI environnement variable"),
 			  DEBUG_LEVEL_INFO, TRUE);
 	}
@@ -228,69 +230,21 @@ gchar *get_debug_time ( void )
     return str_debug_time;
 }	
 
-/**
- * send a devel default debug message
- * used usually to show in what function we are
- *
- * \param message
- *
- * \return
- * */
-void devel_debug ( gchar *message )
-{
-    debug_message ( "enter into",
-		    message,
-		    DEBUG_LEVEL_DEBUG,
-		    FALSE );
-}
 
 
 /**
- * send a notice default debug message
- *
- * \param message
- *
- * \return
- * */
-void notice_debug ( gchar *message )
-{
-    debug_message ( "notice",
-		    message,
-		    DEBUG_LEVEL_NOTICE,
-		    FALSE );
-}
-
-
-/**
- * send a warning default debug message
- *
- * \param message
- *
- * \return
- * */
-void warning_debug ( gchar *message )
-{
-    debug_message ( "Warning : ",
-		    message,
-		    DEBUG_LEVEL_IMPORTANT,
-		    FALSE );
-}
-
-
-/*************************************************************************************************************/
-/* affiche de message de debug dans la console (uniquement si show_grisbi_debug est a TRUE)									 */
-/*************************************************************************************************************/
-void debug_message ( gchar *prefixe, gchar *message, gint level, gboolean force_debug_display)
+ * affiche de message de debug dans la console (uniquement si
+ * show_grisbi_debug est a TRUE)  */
+void debug_message ( gchar *prefixe, gchar * file, gint line, const char * function, 
+		     gchar *message, gint level, gboolean force_debug_display)
 {
     /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level<=debugging_grisbi) || force_debug_display) 
+    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display) 
     {
 	/* on affiche dans la console le message */
-	printf(g_strdup_printf(_("%s : %s - %s\n"),get_debug_time(),prefixe,message));
-
-	/* Same for status bar */
-	/* blocked by cedric : too slow... find another way ? */
-	/* 	gsb_status_message ( message ); */
+	printf(g_strdup_printf(_("%s : %s - %s:%d:%s - %s\n"),
+			       get_debug_time(), prefixe,
+			       file, line, function, message));
     }
 }
 
