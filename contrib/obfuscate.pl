@@ -26,12 +26,11 @@ my $file_in  = $ARGV[0];
 my $file_out = $ARGV[1];
 my $FD_OUT   = STDOUT;   # Default output is stdout ...
 
-die "Usage: obfuscate.pl gsb_file_to_obfuscte [obfuscated_gsb_file]\n" if ($#ARGV <0);
+die "Usage: obfuscate.pl input_file [output_file]\n" if ($#ARGV <0);
 die "It's not a good idea to overwrite the input file !\n" if ("$file_in" eq "$file_out");
 
-open $FD_OUT, ">$file_out" or die $! if ($file_out);
-
 open XML, $file_in or die $!;
+open $FD_OUT, ">$file_out" or die $! if ($file_out);
 
 my @obfuscate = (
   'Grisbi/Generalites/Backup',
@@ -126,20 +125,23 @@ obfuscate.pl - Remove all personal information of a GRISBI account to file.
 
 =head1 SYNOPSIS
 
-obfuscate.pl <gsb_file_to_obfuscte> [<obfuscated_gsb_file>]
+obfuscate.pl <input_file> [output_file]
 
      Options:
-       gsb_file_to_obfuscte The GRISBI account file you want to remove the personal information from.
-       obfuscated_gsb_file  The result file (optional). If this option is not present, the script
-                            print of the standard output.
+       input_file   The GRISBI account file you want to remove the 
+                    personal information from.
+       output_file  The result file (optional). If this option is not
+                    present, the script print of the standard output.
 
 =head1 DESCRIPTION
 
-    B<This program> will read the given input file and remove all personal information. 
-    This script can be use when your account make GRISBI crash and the development team request to have a
-    copy of the account file to fix the problem.
+    obfuscate.pl will read the given input file and remove all
+    personal information.  This script can be use when your account
+    make GRISBI crash and the development team request to have a copy
+    of the account file to fix the problem.
 
-    Note: Sometime, GRISBI does no more crash with obfuscated file version. 
+    Note: Sometimes, GRISBI does no more crash with obfuscated file
+    version if what failed is caused by anonymized data.
 
 =cut
 
