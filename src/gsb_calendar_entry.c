@@ -183,9 +183,11 @@ gboolean gsb_calendar_entry_date_valid ( GtkWidget *entry )
 	||
 	!strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
 	return FALSE;
-
-    return (gtk_widget_get_style ( entry ) == calendar_base_style[ENTRY_NORMAL] );
+    
+    return TRUE;
 }
+
+
 
 /**
  * manual set of the color of the entry
