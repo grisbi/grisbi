@@ -188,6 +188,7 @@ AC_OUTPUT([
 Makefile
 help/Makefile
 help/C/Makefile
+help/de/Makefile
 help/fr/Makefile
 help/tips/Makefile
 intl/Makefile
