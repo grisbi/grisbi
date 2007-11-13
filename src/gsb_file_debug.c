@@ -362,19 +362,19 @@ gchar * gsb_debug_reconcile_test ( void )
 	  }
 
 	  if ( gsb_real_abs ( gsb_real_sub ( reconcilied_amount,
-					     gsb_data_reconcile_get_final_balance (reconcile_number))).mantissa >= 0 )
+					     gsb_data_reconcile_get_final_balance (reconcile_number))).mantissa > 0 )
 	  {
 	      affected_accounts ++;
 
 	      pText = g_strconcat ( pText,
 				    g_strdup_printf ( _("<span weight=\"bold\">%s</span>\n"
-							"  Last reconciliation amount : %s%s\n"
-							"  Computed reconciliation amount : %s%s\n"),
+							"  Last reconciliation amount : %s\n"
+							"  Computed reconciliation amount : %s\n"),
 						      gsb_data_account_get_name ( account_nb ), 
-						      gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number)),
-						      gsb_data_currency_get_name ( gsb_data_account_get_currency ( account_nb ) ),
-						      gsb_real_get_string (reconcilied_amount),
-						      gsb_data_currency_get_name ( gsb_data_account_get_currency ( account_nb ) ) ),
+						      gsb_real_get_string_with_currency (gsb_data_reconcile_get_final_balance (reconcile_number),
+											 gsb_data_account_get_currency ( account_nb ) ),
+						      gsb_real_get_string_with_currency (reconcilied_amount,
+											 gsb_data_account_get_currency ( account_nb ) ) ),
 				    NULL );
 	  }
 	  tested_account++;
