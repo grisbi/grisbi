@@ -27,7 +27,11 @@
 #define TRANSACTION_COL_NB_TRANSACTION_LINE 13	/*< the line in the transaction (1, 2, 3 or 4) */
 #define TRANSACTION_COL_NB_VISIBLE 14		/*< whether that transaction is visible or not */
 
-#define TRANSACTION_COL_NB_TOTAL 15
+#define TRANSACTION_COL_NB_CHECKBOX_VISIBLE 15  /*< whether the checkbox is visible or not */
+#define TRANSACTION_COL_NB_CHECKBOX_VISIBLE_RECONCILE 16  /*< whether the checkbox is visible or not during reconciliation */
+#define TRANSACTION_COL_NB_CHECKBOX_ACTIVE 17  /*< whether the checkbox is active or not */
+
+#define TRANSACTION_COL_NB_TOTAL 18
 
 /* definition of the number of max rows for a line, for now limit to 4 */
 #define TRANSACTION_LIST_ROWS_NB 4
@@ -106,5 +110,6 @@ void move_selected_operation_to_account_nb ( gint *account );
 gboolean new_transaction () ;
 void remove_transaction ();
 void schedule_selected_transaction ();
+gboolean assert_selected_transaction ();
 /* END_DECLARATION */
 #endif

@@ -464,6 +464,8 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 				       TRUE );
 
     gtk_widget_show_all ( reconcile_panel );
+    
+    gsb_transactions_list_set_show_toggle_buttons ( TRUE );
 
     /* unsensitive all that could change the account number */
     gsb_reconcile_sensitive (FALSE);
@@ -471,6 +473,8 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     gtk_widget_grab_focus ( GTK_WIDGET ( reconcile_number_entry ) );
     return FALSE;
 }
+
+
 
 /**
  * finish the reconciliation,
@@ -644,6 +648,8 @@ gboolean gsb_reconcile_cancel ( GtkWidget *button,
 	mise_a_jour_affichage_r (TRUE);
     }
 
+    gsb_transactions_list_set_show_toggle_buttons ( FALSE );
+
     /* Don't display uneeded widget for now. */
     gtk_widget_hide ( reconcile_panel );
     gsb_reconcile_sensitive (TRUE);
@@ -732,7 +738,8 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
     /* calculate the variation balance and show it */
     amount = gsb_real_sub ( gsb_real_sub ( gsb_real_get_from_string (final_balance),
 					   gsb_real_get_from_string (initial_balance)),
-			    gsb_data_account_get_marked_balance (account_number));
+			    gsb_real_sub ( gsb_data_account_get_marked_balance (account_number),
+					   gsb_real_get_from_string (initial_balance)));
     gtk_label_set_text ( GTK_LABEL ( reconcile_variation_balance_label ),
 			 gsb_real_get_string (amount));
     if ( amount.mantissa )

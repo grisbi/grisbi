@@ -66,7 +66,9 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean assert_selected_transaction ();
+static gint cherche_ligne_operation ( gint transaction_number,
+			       gint account_number );
+static gpointer cherche_operation_from_ligne ( gint ligne );
 static void creation_titres_tree_view ( void );
 static gint find_element_col ( gint element_number );
 static gint find_element_line ( gint element_number );
@@ -133,6 +135,8 @@ static gint schedule_transaction ( gint transaction_number );
 static gsb_real solde_debut_affichage ( gint account_number,
 				 gint floating_point);
 static void update_titres_tree_view ( void );
+gboolean gsb_transactions_list_button_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
+						GtkTreeModel * model );
 /*END_STATIC*/
 
 
@@ -678,6 +682,23 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 										       "cell-background-gdk", TRANSACTION_COL_NB_BACKGROUND,
 										       NULL );
 
+	if ( i == TRANSACTION_COL_NB_PR )
+	{
+	    GtkCellRenderer * radio_renderer = gtk_cell_renderer_toggle_new ( );
+	    gtk_tree_view_column_pack_start ( transactions_tree_view_columns[i],
+					    radio_renderer,
+					    FALSE );
+	    gtk_tree_view_column_set_attributes (transactions_tree_view_columns[i], radio_renderer,
+						 "active", TRANSACTION_COL_NB_CHECKBOX_ACTIVE,
+						 "activatable", TRANSACTION_COL_NB_CHECKBOX_VISIBLE,
+						 "visible", TRANSACTION_COL_NB_CHECKBOX_VISIBLE,
+						 "cell-background-gdk", TRANSACTION_COL_NB_BACKGROUND,
+						 NULL);
+	    g_signal_connect ( radio_renderer, "toggled", G_CALLBACK ( gsb_transactions_list_button_toggled ),
+			       gsb_transactions_list_get_store ( ) );
+	    g_object_set_data ( G_OBJECT(transactions_tree_view_columns[i]), "radio_renderer", radio_renderer );
+	}
+
 	/* only if use special font, add the font-desc to the column (should increase the speed) */
 	if (etat.utilise_fonte_listes)
 	    gtk_tree_view_column_add_attribute ( transactions_tree_view_columns[i],
@@ -795,6 +816,9 @@ GtkTreeStore *gsb_transactions_list_create_store ( void )
 				 GDK_TYPE_COLOR,
 				 PANGO_TYPE_FONT_DESCRIPTION,
 				 G_TYPE_INT,
+				 G_TYPE_BOOLEAN,
+				 G_TYPE_BOOLEAN,
+				 G_TYPE_BOOLEAN,
 				 G_TYPE_BOOLEAN );
 
     gsb_transactions_list_set_store (store);
@@ -1056,6 +1080,8 @@ gboolean gsb_transactions_list_fill_archive_store ( GtkTreeStore *store )
 			     date_col, date_str,
 			     name_col, name_str,
 			     balance_col, balance_str,
+			     TRANSACTION_COL_NB_CHECKBOX_VISIBLE, 0,
+			     TRANSACTION_COL_NB_CHECKBOX_VISIBLE_RECONCILE, 0,
 			     TRANSACTION_COL_NB_TRANSACTION_LINE, 0,
 			     TRANSACTION_COL_NB_TRANSACTION_ADDRESS, gsb_data_archive_store_get_structure (archive_store_number),
 			     TRANSACTION_COL_NB_WHAT_IS_LINE, IS_ARCHIVE,
@@ -1117,6 +1143,8 @@ gint gsb_transactions_list_append_white_line ( gint mother_transaction_number,
 	 * note : we have to set TRUE here to TRANSACTION_COL_NB_VISIBLE else the children will not appear */
 	gtk_tree_store_set ( store,
 			     &iter,
+			     TRANSACTION_COL_NB_CHECKBOX_VISIBLE, 0,
+			     TRANSACTION_COL_NB_CHECKBOX_VISIBLE_RECONCILE, 0,
 			     TRANSACTION_COL_NB_TRANSACTION_LINE, line,
 			     TRANSACTION_COL_NB_TRANSACTION_ADDRESS, gsb_data_transaction_get_pointer_to_transaction (white_line_number),
 			     TRANSACTION_COL_NB_WHAT_IS_LINE, IS_TRANSACTION,
@@ -1243,6 +1271,8 @@ gboolean gsb_transactions_list_append_transaction ( gint transaction_number,
 					 line );
     }
 
+#warning Be sure this is version 2.12 and upper
+#if GTK_CHECK_VERSION(2,12,0)
     /* for the main transactions, append a separator */
     if (!mother_iter)
     {
@@ -1251,11 +1281,15 @@ gboolean gsb_transactions_list_append_transaction ( gint transaction_number,
 				mother_iter );
 	gtk_tree_store_set ( store,
 			     &iter,
+			     TRANSACTION_COL_NB_CHECKBOX_VISIBLE, 0,
+			     TRANSACTION_COL_NB_CHECKBOX_VISIBLE_RECONCILE, 0,
 			     TRANSACTION_COL_NB_TRANSACTION_LINE, 4,
 			     TRANSACTION_COL_NB_TRANSACTION_ADDRESS, gsb_data_transaction_get_pointer_to_transaction (transaction_number),
 			     TRANSACTION_COL_NB_WHAT_IS_LINE, IS_SEPARATOR,
 			     -1 );
     }
+#endif
+
     if ( mother_iter )
 	gtk_tree_iter_free (mother_iter);
 
@@ -1280,6 +1314,12 @@ gboolean gsb_transactions_list_fill_row ( gint transaction_number,
 					  gint line_in_transaction )
 {
     gint column;
+    gboolean marked_transaction = FALSE;
+
+    if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) )
+    {
+	marked_transaction = TRUE;
+    }
 
     for ( column = 0 ; column < TRANSACTION_LIST_COL_NB ; column++ )
     {
@@ -1307,6 +1347,9 @@ gboolean gsb_transactions_list_fill_row ( gint transaction_number,
     /* set the address of the transaction */
     gtk_tree_store_set ( store,
 			 iter,
+			 TRANSACTION_COL_NB_CHECKBOX_ACTIVE, marked_transaction,
+			 TRANSACTION_COL_NB_CHECKBOX_VISIBLE, 0,
+			 TRANSACTION_COL_NB_CHECKBOX_VISIBLE_RECONCILE, ( line_in_transaction == 0 ? 1 : 0 ),
 			 TRANSACTION_COL_NB_TRANSACTION_LINE, line_in_transaction,
 			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, gsb_data_transaction_get_pointer_to_transaction (transaction_number),
 			 TRANSACTION_COL_NB_WHAT_IS_LINE, IS_TRANSACTION,
@@ -1755,7 +1798,7 @@ gboolean gsb_transactions_list_set_background_color ( gint account_number )
 		break;
 
 	    case IS_SEPARATOR:
-	break;
+		break;
 	}
 
 	/* needn't to go in a child because the color is always the same, so
@@ -2057,7 +2100,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 
     /*     if we are not in the list, go away */
     if ( ev -> window != gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )) )
-	return(FALSE);
+	return(TRUE);
 
     /* first, give the focus to the list */
     gtk_widget_grab_focus (tree_view);
@@ -2122,7 +2165,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 		    warning_debug (_("An archive was clicked but it seems to have the number 0, wich should not happen.\nPlease try to reproduce and contact the Grisbi team."));
 	    }
 	}
-	return TRUE;
+	return FALSE;
     }
 
     column = g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( tree_view )),
@@ -2155,7 +2198,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 	  (( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )))
     {
 	gsb_transactions_list_switch_mark (transaction_number);
-	return TRUE;
+	return FALSE;
     }
 
     /*  if double - click */
@@ -4401,6 +4444,9 @@ gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint account_numbe
 				     -1 );
 		continue;
 	    }
+
+#warning Be sure this is version 2.12 and upper
+#if GTK_CHECK_VERSION(2,12,0)
 	    /* now we can check for a separator because the transaction will be shown (or some rows of the transaction,
 	     * if the grid is showed, show it */
 	    if (what_is_line == IS_SEPARATOR)
@@ -4411,7 +4457,7 @@ gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint account_numbe
 				     -1 );
 		continue;
 	    }
-
+#endif
 
 	    /* 	    now we check if we show 1, 2, 3 or 4 lines */
 
@@ -5091,28 +5137,32 @@ gboolean gsb_transactions_list_draw_grid ( gboolean show_grid )
 {
     gint current_account;
 
+#warning Be sure this is version 2.12 and upper
+#if GTK_CHECK_VERSION(2,12,0)
+    /* This is stuff only existing from GTK+ 2.12 and upper. */
+
     if ( show_grid )
     {
-/* 	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()), */
-/* 				       GTK_TREE_VIEW_GRID_LINES_VERTICAL ); */
-/* 	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_scheduler_list_get_tree_view ()), */
-/* 				       GTK_TREE_VIEW_GRID_LINES_BOTH ); */
+	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
+				       GTK_TREE_VIEW_GRID_LINES_VERTICAL );
+	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_scheduler_list_get_tree_view ()),
+				       GTK_TREE_VIEW_GRID_LINES_BOTH );
 	gtk_tree_view_set_row_separator_func ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
-					       (GtkTreeViewRowSeparatorFunc) gsb_transactions_list_separator_func,
+					       (GtkTreeViewRowSeparatorFunc) gsb_transactions_list_separator_func, 
 					       NULL,
-					       NULL );
     }
     else
     {
-/* 	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view()), */
-/* 				       GTK_TREE_VIEW_GRID_LINES_NONE ); */
-/* 	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_scheduler_list_get_tree_view ()), */
-/* 				       GTK_TREE_VIEW_GRID_LINES_NONE ); */
+	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view()),
+				       GTK_TREE_VIEW_GRID_LINES_NONE );
+	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_scheduler_list_get_tree_view ()),
+				       GTK_TREE_VIEW_GRID_LINES_NONE );
 	gtk_tree_view_set_row_separator_func ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
 					       NULL,
 					       NULL,
 					       NULL );
     }
+#endif
 
     current_account = gsb_gui_navigation_get_current_account ();
     if (current_account != -1)
@@ -5165,6 +5215,87 @@ void gsb_transactions_list_update_col_width (void)
 	    transaction_col_width[i] = gtk_tree_view_column_get_width (transactions_tree_view_columns[i]);
     return;
 }
+
+
+/**
+ * Show or hide toggle buttons that allow changing the marked status
+ * of transactions.
+ *
+ * \param show	Display buttons if non-null.  Hide them otherwise.
+ */
+void gsb_transactions_list_set_show_toggle_buttons ( gboolean show )
+{
+    GtkCellRenderer * radio_renderer;
+    GtkTreeViewColumn * column;
+
+    if ( show )
+	devel_debug ( "showing reconcile buttons" );
+    else
+	devel_debug ( "hidding reconcile buttons" );
+
+
+    /* Show all radio buttons */
+    column = gtk_tree_view_get_column ( GTK_TREE_VIEW ( gsb_transactions_list_get_tree_view ( ) ),
+					TRANSACTION_COL_NB_PR );
+    radio_renderer = g_object_get_data ( G_OBJECT ( column ), "radio_renderer" );
+
+    if ( show )
+    {
+	gtk_tree_view_column_set_attributes ( column,
+					      radio_renderer,
+					      "active", TRANSACTION_COL_NB_CHECKBOX_ACTIVE,
+					      "activatable", TRANSACTION_COL_NB_CHECKBOX_VISIBLE_RECONCILE,
+					      "visible", TRANSACTION_COL_NB_CHECKBOX_VISIBLE_RECONCILE,
+					      "cell-background-gdk", TRANSACTION_COL_NB_BACKGROUND,
+					      NULL );
+    }
+    else
+    {
+	gtk_tree_view_column_set_attributes ( column,
+					      radio_renderer,
+					      "active", TRANSACTION_COL_NB_CHECKBOX_ACTIVE,
+					      "activatable", TRANSACTION_COL_NB_CHECKBOX_VISIBLE,
+					      "visible", TRANSACTION_COL_NB_CHECKBOX_VISIBLE,
+					      "cell-background-gdk", TRANSACTION_COL_NB_BACKGROUND,
+					      NULL );
+    }
+
+}
+
+
+
+/**
+ * Toggle a checkbox in the transaction list.
+ *
+ * \param cell		Unused.
+ * \param path_str	Path of checkbox that triggered this event.  To be
+ *			used, we have to convert this path to the
+ *			sorted version.
+ * \param model		GtkTreeModel containing said checkbox.
+ *
+ * \return		FALSE
+ */
+gboolean gsb_transactions_list_button_toggled ( GtkCellRendererToggle * cell, gchar * path_str,
+						GtkTreeModel * model )
+{
+    GtkTreePath * path;
+    GtkTreeIter iter;
+    gint active;
+
+    path = gsb_transaction_model_get_model_path_from_sorted_path ( gtk_tree_path_new_from_string ( path_str ) );
+
+    /* Get toggled iter */
+    if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL ( model ), &iter, path ))
+    {
+	gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, TRANSACTION_COL_NB_CHECKBOX_ACTIVE, &active, -1 );
+	
+	/* Set new value */
+	gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, TRANSACTION_COL_NB_CHECKBOX_ACTIVE, ! active, -1 );
+    }
+
+    return FALSE;
+}
+
 
 
 /* Local Variables: */
