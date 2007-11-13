@@ -153,10 +153,10 @@ GtkWidget *gsb_form_new ( void )
     form_expander = gtk_expander_new ( "" );
     gtk_expander_set_expanded ( GTK_EXPANDER ( form_expander ),
 				etat.formulaire_toujours_affiche );
-    g_signal_connect ( G_OBJECT(form_expander),
-		       "activate",
-		       G_CALLBACK (gsb_form_activate_expander),
-		       NULL );
+    g_signal_connect_after( G_OBJECT(form_expander),
+			    "activate",
+			    G_CALLBACK (gsb_form_activate_expander),
+			    NULL );
 
     gsb_form_create_widgets ();
 
@@ -857,6 +857,7 @@ gboolean gsb_form_set_expander_visible ( gboolean visible,
 }
 
 
+
 /**
  * show/hide the form according to the expander,
  * this will emit a signal as if the user changed it by himself
@@ -869,16 +870,19 @@ gboolean gsb_form_switch_expander ( void )
 {
     gboolean expanded;
 
-    expanded = gtk_expander_get_expanded (GTK_EXPANDER (form_expander));
+    expanded = gsb_form_is_visible ( );
     gtk_expander_set_expanded ( GTK_EXPANDER (form_expander),
 				!expanded );
     return FALSE;
 }
 
+
+
 /**
- * called when change the state of the expander
+ * Called when the state of the expander changes
  *
- * \param expander
+ * \param expander	Expanded that triggered signal.
+ * \param null		Not used.
  *
  * \return FALSE
  * */
@@ -888,15 +892,20 @@ gboolean gsb_form_activate_expander ( GtkWidget *expander,
     if ( gtk_expander_get_expanded (GTK_EXPANDER (expander)))
     {
 	gsb_form_widget_free_list ();
+	gsb_form_show ( TRUE );
 	etat.formulaire_toujours_affiche = FALSE;
     }
     else
     {
-	gsb_form_show (FALSE);
+	gsb_form_show ( FALSE );
 	etat.formulaire_toujours_affiche = TRUE;
     }
+
+    gsb_menu_update_view_menu ( gsb_gui_navigation_get_current_account () );
+
     return FALSE;
 }
+
 
 
 /**
@@ -935,9 +944,7 @@ gboolean gsb_form_show ( gboolean show )
     gsb_form_fill_from_account (origin);
     gtk_widget_show (form_transaction_part);
 
-    if ( !gtk_expander_get_expanded (GTK_EXPANDER (form_expander))
-	 &&
-	 show )
+    if ( ! gsb_form_is_visible ( ) && show )
 	gtk_expander_set_expanded (GTK_EXPANDER (form_expander),
 				   TRUE );
 
@@ -947,6 +954,19 @@ gboolean gsb_form_show ( gboolean show )
 
     return FALSE;
 }
+
+
+
+/**
+ * Check if transactions form is visible.
+ *
+ * \return TRUE if transactions forms is expanded, FALSE otherwise.
+ */
+gboolean gsb_form_is_visible ()
+{
+    return gtk_expander_get_expanded ( GTK_EXPANDER ( form_expander ) );
+}
+
 
 
 /**
@@ -2891,7 +2911,7 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
     gint account_number;
     GtkWidget *widget;
 
-    if (!gtk_expander_get_expanded (GTK_EXPANDER (form_expander)))
+    if (! gsb_form_is_visible ( ) )
 	return FALSE;
 
     account_number = gsb_form_get_account_number ();
