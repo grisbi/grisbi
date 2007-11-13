@@ -18,16 +18,8 @@
 #define VERSION_FICHIER_CATEG "0.6.0"
 #define VERSION_FICHIER_IB "0.6.0"
 
-/* level of debugging */
-#define	DEBUG_LEVEL_ALERT			1		/* grave probleme */
-#define DEBUG_LEVEL_IMPORTANT			2		/* probleme moins grave */
-#define DEBUG_LEVEL_NOTICE			3		/* probleme encore moins grave :) */
-#define DEBUG_LEVEL_INFO			4		/* autre information */
-#define DEBUG_LEVEL_DEBUG			5		/* information de debug */
-#define MAX_DEBUG_LEVEL				5		/* ignore higher debug levels */
 
 /* initialisation des couleurs */
-
 #define COULEUR1_RED  55000
 #define COULEUR1_GREEN  55000
 #define COULEUR1_BLUE  65535
@@ -66,7 +58,7 @@
 /* la partie configurée par la conf */
 /* la partie configurée pendant le fonctionnement de grisbi */
 struct {
-    GDate * modification_fichier;
+    time_t modification_fichier;
     gint is_archive;		/** TRUE if the file is an archive, FALSE else */
     gint ctrl;
     gint equilibrage;
