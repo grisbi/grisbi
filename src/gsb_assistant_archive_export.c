@@ -104,8 +104,8 @@ GtkResponseType gsb_assistant_archive_export_run ( void )
     assistant = gsb_assistant_new ( _("Export an archive"),
 				    _("This assistant will help you to export an archive into gsb, QIF or CSV format."
 				      "Note that nothing will be deleted in Grisbi, it's just an export."
-				      "If you want to delete the archive from Grisbi, you need to go in the Configuration -> Archive"),
-				    "grisbi-logo.png",
+				      "If you want to delete the archive from Grisbi, you need to do it from the preference window."),
+				    "archive.png",
 				    G_CALLBACK (gsb_assistant_archive_switch));
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_archive_export_page_choose (assistant),

@@ -196,7 +196,7 @@ GtkResponseType gsb_assistant_reconcile_config_run ( void )
 						       "(you will be able to create new reconciliations in the next step). "
 						       "Previous reconciliations will be available too."),
 						       transactions_to_link ),
-				    "grisbi-logo.png",
+				    "reconciliation.png",
 				    NULL );
 
     gsb_assistant_add_page ( assistant,
