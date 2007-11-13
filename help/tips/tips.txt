@@ -1,8 +1,8 @@
-1 _ 'You can press <tt>Ctrl-R</tt> to reconcile a transaction in transactions list.'
+1 _ 'You can reconcile transactions to match your real financial state as seen on your bank receipts.  If you just spend 15mn each month reconciling Grisbi transactions with your bank receipts, you are guaranteed that your accounts are in perfect shape.'
 
-2 _ 'Grisbi automatically saves a copy of your work if it segfaults.
+2 _ 'Grisbi automatically saves a copy of your work if it crashes.
 
-Thus it is unlikely that you loose any data in case Grisbi encounters a segmentation error.'
+Thus it is unlikely that you loose any data in case Grisbi encounters a programming error.'
 
 3 _ 'Grisbi can import Gnucash files natively, then you don't loose your work when you switch from Gnucash to Grisbi.'
 
@@ -44,6 +44,10 @@ You can then activate them again by going to the <i>Preferences</i> window and t
 
 14 _ 'There are shortcuts in date fields, to avoid typing date or selecting it with mouse.
 
-<i>Up</i> and <i>Down</i> increment and decrement date of one day, <i>Page Up</i> and <i>Page Down</i> increment and decrement date of one month ... and there are more, check out the manual.'
+<i>+</i> and <i>-</i> increment and decrement date of one day, <i>Page Up</i> and <i>Page Down</i> increment and decrement date of one month ... and there are more, check out the manual.'
 
-15 _ 'No more tip available !  Please send any tips you know to grisbi-devel@lists.sourceforge.net so that we can include them in next version for all users.'
+15 _ 'You can archive previous financial years to speed up Grisbi and possibily put old transactions into separate files for archival.'
+
+16 _ 'You can customize the transaction form layout via the "Preferences" window and define whatever layout suits your needs.'
+
+17 _ 'No more tip available !  Please send any tips you know to grisbi-devel@lists.sourceforge.net so that we can include them in next version for all users.'
