@@ -25,6 +25,8 @@
 
 #include "include.h"
 
+#include <time.h>
+
 
 
 /*START_INCLUDE*/
@@ -651,9 +653,11 @@ gboolean gsb_file_save_backup ( void )
  * */
 static gint gsb_file_dialog_save ( void )
 {
-    gchar * hint, * message = "";
+    gchar * hint, * message = "", * time_elapsed;
+    time_t now = time ( NULL );
     gint result;
     GtkWidget *dialog;
+    gint difference = (gint) difftime ( now, etat.modification_fichier );
 
     /*     si le fichier n'est pas modifié on renvoie qu'on ne veut pas enregistrer */
 
@@ -699,9 +703,26 @@ static gint gsb_file_dialog_save ( void )
 	gtk_dialog_set_default_response ( GTK_DIALOG(dialog), GTK_RESPONSE_OK ); 
     }
 
+    if ( difference >= 120 )
+    {
+	time_elapsed = g_strdup_printf ( _( "%d minutes and %d seconds" ),
+					 difference / 60, difference % 60 );
+    }
+    else if ( difference >= 60 )
+    {
+	time_elapsed = g_strdup_printf ( _( "1 minute and %d seconds" ),
+					 difference % 60 );
+    }
+    else
+    {
+	time_elapsed = g_strdup_printf ( _( "%d seconds" ), difference );
+    }
     message = g_strconcat ( message, 
-			    _("If you close without saving, all of your changes will be discarded."),
+			    g_strdup_printf ( _("If you close without saving, all of your changes "
+						"since %s will be discarded."),
+					      time_elapsed ),
 			    NULL );
+    g_free ( time_elapsed );
     
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), 
 			   make_hint ( hint, message ) );
@@ -877,11 +898,10 @@ void gsb_file_update_window_title ( void )
  *
  * \return
  * */
-void gsb_file_append_name_to_opened_list ( gchar *path_fichier )
+void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
 {
-    gint i;
-    gint position;
-    gchar *dernier;
+    gint i, position;
+    gchar * dernier, * real_name;
 
     devel_debug ( g_strdup_printf ("gsb_file_append_name_to_opened_list : %s", path_fichier ));
 
@@ -892,28 +912,26 @@ void gsb_file_append_name_to_opened_list ( gchar *path_fichier )
     if ( nb_derniers_fichiers_ouverts < 0 )
 	nb_derniers_fichiers_ouverts = 0;
 
-    /* ALAIN-FIXME */
-    /* si on n'a pas un chemin absolu, on n'enregistre pas ce fichier
-       dans la liste. Du moins jusqu'à ce que quelqu'un trouve un moyen
-       pour récupérer le chemein absolu */
     if ( !g_path_is_absolute ( nom_fichier_comptes ) )
+    {	
+	real_name = realpath ( nom_fichier_comptes, NULL );
+	if ( ! real_name )
+	{
+	    notice_debug ( "could not resolve relative file name" );
+	    return;
+	}
+	devel_debug ( real_name );
+    }
+    else
     {
-	/*     gchar *tmp_name, *tmp_name2;
-	       tmp_name = realpath(nom_fichier_comptes, tmp_name2);
-
-	       dialogue(tmp_name);
-	       free(tmp_name);
-	       dialogue(tmp_name2);
-	       free(tmp_name2);*/
-
-	return;
+	real_name = g_strdup ( path_fichier );
     }
 
     /* on commence par vérifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts noms */
     position = 0;
 
     for ( i=0 ; i<nb_derniers_fichiers_ouverts ; i++ )
-	if ( !strcmp ( path_fichier,
+	if ( !strcmp ( real_name,
 		       tab_noms_derniers_fichiers_ouverts[i] ))
 	{
 	    /* 	si ce fichier est déjà le dernier ouvert, on laisse tomber */
@@ -932,8 +950,8 @@ void gsb_file_append_name_to_opened_list ( gchar *path_fichier )
 
 	for ( i=position ; i>0 ; i-- )
 	    tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
-	if ( path_fichier )
-	    tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( path_fichier );
+	if ( real_name )
+	    tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( real_name );
 	else
 	    tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( "<no file>" );
 
@@ -962,10 +980,11 @@ void gsb_file_append_name_to_opened_list ( gchar *path_fichier )
 	tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1] = dernier;
     }
 
-    tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( path_fichier );
-
+    tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( real_name );
 
     affiche_derniers_fichiers_ouverts();
+
+    g_free ( real_name );
 }
 
 
