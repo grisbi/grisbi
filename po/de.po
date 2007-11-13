@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-06 12:56+0200\n"
-"PO-Revision-Date: 2007-10-16 23:41+0200\n"
+"PO-Revision-Date: 2007-11-13 23:50+0100\n"
 "Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -125,12 +125,12 @@ msgstr ""
 
 #: src/affichage.c:134 src/parametres.c:278
 msgid "Fonts & logo"
-msgstr "Schriften & Logo"
+msgstr "Logo & Schriften"
 
 #. Change Grisbi Logo
 #: src/affichage.c:137
 msgid "Grisbi logo"
-msgstr "Grisbi Logo"
+msgstr "Logo"
 
 #: src/affichage.c:142
 msgid "Use the logo"
@@ -138,7 +138,7 @@ msgstr "Das Logo anzeigen"
 
 #: src/affichage.c:192
 msgid "Click on preview to change logo"
-msgstr "Zum Ändern das Logo auswählen"
+msgstr "Auswahl mit Klick auf Logo"
 
 #. Change fonts
 #: src/affichage.c:196
@@ -355,9 +355,7 @@ msgstr "Dreizeilig"
 msgid ""
 "Don't load the marked R transactions into the list at the begining\n"
 "(use it for slow configurations)"
-msgstr ""
-"Abgestimmte Buchungen nicht automatisch anzeigen\n"
-"(empfohlen für \"langsame\" Rechner)"
+msgstr "Abgestimmte Buchungen nicht automatisch anzeigen"
 
 #: src/affichage_liste.c:283
 msgid "Sort transaction list"
@@ -401,7 +399,7 @@ msgstr "Buchungsformular"
 
 #: src/affichage_liste.c:431
 msgid "Pressing RETURN in transaction form"
-msgstr "'Enter' im Buchungsformular"
+msgstr "Eingabetaste im Buchungsformular"
 
 #: src/affichage_liste.c:432
 msgid "selects next field"
@@ -449,15 +447,15 @@ msgstr "Die Vervollständigung von Empfängern auf das aktuelle Konto beschränk
 
 #: src/affichage_liste.c:491
 msgid "Mix credit/debit categories"
-msgstr "Eingaben/Ausgabenkategorien mischen"
+msgstr "Eingabe und Ausgabenkategorien berücksichtigen"
 
 #: src/affichage_liste.c:496
 msgid "Case sensitive completion"
-msgstr "Beim Vervollständigen Groß/Kleinschreibung berücksichtigen"
+msgstr "Beim Vervollständigen Groß und Kleinschreibung berücksichtigen"
 
 #: src/affichage_liste.c:501
 msgid "Enter keeps current completion"
-msgstr "'Enter' behält die aktuelle Vervollständigung"
+msgstr "Eingabetaste behält die aktuelle Vervollständigung"
 
 #: src/affichage_liste.c:507
 msgid "Don't allow new payee creation"
@@ -469,7 +467,7 @@ msgstr "Neue Kategorien dürfen nicht erstellt werden"
 
 #: src/affichage_liste.c:524
 msgid "Maximum items showed in drop down lists (0 for no limit)"
-msgstr "Maximale Einträge in der 'Dropdown-Liste' (0 für kein Limit)"
+msgstr "Maximale Einträge in der Auswahlliste [0 für kein Limit]"
 
 #: src/gsb_bank.c:296 src/gsb_reconcile.c:413
 msgid "None"
@@ -2077,7 +2075,7 @@ msgstr "Datenauswahl"
 
 #: src/etats_config.c:440 src/etats_config.c:443
 msgid "Dates"
-msgstr "Daten"
+msgstr "Datum"
 
 #: src/etats_config.c:449 src/etats_config.c:452
 msgid "Transfers"
@@ -2114,7 +2112,7 @@ msgstr "Beträge"
 
 #: src/etats_config.c:524
 msgid "Miscellaneous"
-msgstr "Verschiedenes"
+msgstr "Abstimmungen"
 
 #: src/etats_config.c:532 src/etats_config.c:535
 msgid "Data organization"
@@ -2126,7 +2124,7 @@ msgstr "Daten Anzeige"
 
 #: src/etats_config.c:548 src/etats_config.c:551
 msgid "Generalities"
-msgstr "Allgemein gültige Regeln"
+msgstr "Allgemein"
 
 #: src/etats_config.c:566 src/etats_config.c:569 src/export_csv.c:684
 #: src/fenetre_principale.c:250 src/parametres.c:319
@@ -2286,7 +2284,7 @@ msgstr "Umbuchungen nicht berücksichtigen"
 
 #: src/etats_config.c:2821
 msgid "Include transfers from or to assets or liabilities accounts"
-msgstr "Inklusive Umbuchungen von oder nach Anlage oder Kreditkonten"
+msgstr "Buchungen von oder nach Anlage oder Kreditkonten berücksichtigen"
 
 #: src/etats_config.c:2834
 msgid "Include transfers from or to accounts not in this report"
@@ -2543,7 +2541,7 @@ msgstr "Keine Detailinformationen bei abgestimmten Buchungen"
 #. choix de ce qu'on utilise dans le classement
 #: src/etats_config.c:5905
 msgid "Informations used for the group"
-msgstr "Sammelbuchungen Informationen"
+msgstr "Sammelbuchungen Gruppierung"
 
 #: src/etats_config.c:5933
 msgid "Group transactions by account"
@@ -2568,15 +2566,15 @@ msgstr "Sammelbuchungen Organisation"
 
 #: src/etats_config.c:6100
 msgid "Split incomes and outgoings"
-msgstr "Einnahmen und Ausgaben aufsplitten"
+msgstr "Einnahmen und Ausgaben trennen"
 
 #: src/etats_config.c:6120
 msgid "Split by financial year"
-msgstr "nach Geschäftsjahr aufsplitten"
+msgstr "nach Geschäftsjahr trennen"
 
 #: src/etats_config.c:6146
 msgid "Split by period"
-msgstr "nach Periode aufsplitten"
+msgstr "nach Periode trennen"
 
 #: src/etats_config.c:6207
 msgid "Week"
@@ -7225,7 +7223,7 @@ msgstr "Buchungen suchen "
 
 #: src/import.c:2791
 msgid "days around the date in the imported transaction."
-msgstr " Tage im Bereich des Datums der importierten Buchung."
+msgstr " Tage im Datumsbereich der importierten Buchung."
 
 #: src/import_csv.c:77
 msgid "Unknown field"
@@ -7833,7 +7831,7 @@ msgstr "Dvips Befehl"
 #. Misc
 #: src/parametres.c:853 src/print_config.c:338
 msgid "Misc"
-msgstr "Verschiedenes"
+msgstr "Browser"
 
 #: src/parametres.c:860
 msgid "Web browser"
