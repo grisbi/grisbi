@@ -3,7 +3,7 @@
 /*                                  gsb_real	                              */
 /*                                                                            */
 /*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -113,9 +113,7 @@ gchar * gsb_real_format_string ( gsb_real number, gchar * currency_symbol )
     /*     Construct the result in the reverse order from right to left, then reverse it. */
     do
     {
-	if ( i
-	     &&
-	     i == number.exponent)
+	if ( i == number.exponent)
 	{
 	    *string = 0;
 	    string = exponent;
@@ -158,12 +156,12 @@ gchar * gsb_real_format_string ( gsb_real number, gchar * currency_symbol )
     /* Add the sign at the end of the string just before to reverse it to avoid
        to have to insert it at the begin just after... */
 
-    string = g_strdup_printf ( "%s%s%s%s%c%s%s%s", 
+    string = g_strdup_printf ( "%s%s%s%s%s%s%s%s", 
 			       ( currency_symbol && conv -> p_cs_precedes ? currency_symbol : "" ),
 			       ( currency_symbol && conv -> p_sep_by_space ? " " : "" ),
 			       conv -> positive_sign,
 			       g_strreverse ( exponent ),
-			       ( * conv -> mon_decimal_point ? * conv -> mon_decimal_point : '.' ),
+			       ( * conv -> mon_decimal_point ? conv -> mon_decimal_point : "." ),
 			       g_strreverse ( mantissa ),
 			       ( currency_symbol && ! conv -> p_cs_precedes && conv -> p_sep_by_space ? 
 				 " " : "" ),
@@ -301,8 +299,16 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
 	}
 	i++;
     }
+
+    if ( ! number.exponent )
+    {
+	number.exponent = strlen ( string );
+	number.mantissa *= 100;
+    }
+
     number.mantissa = sign * number.mantissa;
     g_free (string_tmp);
+
     return number;
 }
 
