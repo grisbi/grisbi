@@ -188,7 +188,7 @@ enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model,
 	{
 	    if ( lvl2 == -1 )
 		return META_TREE_DIV;
-	    else
+	    else if ( lvl1 != 0 && lvl2 != 0 )
 		return META_TREE_SUB_DIV;
 	}
     }
@@ -239,9 +239,20 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     gchar * label = NULL, * balance = NULL;
     const gchar *string_tmp;
     GtkTreeIter dumb_iter;
+    GtkTreePath * path;
+    enum meta_tree_row_type type;
 
     if ( ! metatree_model_is_displayed ( model ) )
 	return;
+
+    path = gtk_tree_model_get_path ( model, iter );
+    type = metatree_get_row_type ( model, path );
+    if ( type != META_TREE_DIV && type != META_TREE_INVALID )
+    {
+	g_free ( path );
+	return;
+    }
+    g_free ( path );
 
     devel_debug ( g_strdup_printf ("fill_division_row %d", division) );
 
@@ -304,12 +315,21 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     gchar * balance = NULL, *label = NULL;
     const gchar *string_tmp;
     GtkTreeIter dumb_iter;
+    GtkTreePath * path;
+    enum meta_tree_row_type type;
     gint nb_ecritures = 0;
 
     if ( ! metatree_model_is_displayed ( model ) )
 	return;
 
-    devel_debug ( g_strdup_printf ("fill_sub_division_row %d %d", division, sub_division) );
+    path = gtk_tree_model_get_path ( model, iter );
+    type = metatree_get_row_type ( model, path );
+    if ( type != META_TREE_SUB_DIV && type != META_TREE_INVALID )
+    {
+	g_free ( path );
+	return;
+    }
+    g_free ( path );
 
     string_tmp = ( sub_division ? iface -> sub_div_name (division, sub_division) : _(iface -> no_sub_div_label) );
 
@@ -359,9 +379,20 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 {
     gchar * account, * montant, * label, * notes = NULL; /* free */
     const gchar *string;
+    GtkTreePath * path;
+    enum meta_tree_row_type type;
 
     if ( ! metatree_model_is_displayed ( model ) )
 	return;
+
+    path = gtk_tree_model_get_path ( model, iter );
+    type = metatree_get_row_type ( model, path );
+    if ( type != META_TREE_TRANSACTION && type != META_TREE_INVALID)
+    {
+	g_free ( path );
+	return;
+    }
+    g_free ( path );
 
     string = gsb_data_transaction_get_notes ( transaction_number);
 
@@ -610,6 +641,7 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
     GtkTreeSelection * selection;
     GtkTreeModel * model;
     GtkTreeIter iter, * it;
+    GtkTreePath * path;
     GSList * liste_tmp;
     gint no_division = 0, no_sub_division = 0;
     gint current_number = 0;
@@ -635,13 +667,25 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
 
-    if ( no_sub_division != -1 )
+    path = gtk_tree_model_get_path ( model, &iter );
+    switch ( metatree_get_row_type ( model, path ) )
     {
-	/* we asked to remove a sub-categ or sub-budget */
-	supprimer_sub_division ( tree_view, model, iface, no_sub_division, no_division );
-	return FALSE;
+	case META_TREE_TRANSACTION:
+	    supprimer_transaction ( tree_view, model, iface, current_number );
+	    return FALSE;
+	case META_TREE_DIV:
+	    /* Nothing, do the grunt job after. */
+	    break;
+	case META_TREE_SUB_DIV:
+	    /* We asked to remove a sub-categ or sub-budget and have a
+	     * function for that. */
+	    supprimer_sub_division ( tree_view, model, iface, no_sub_division, no_division );
+	    return FALSE;
+	default:
+	    warning_debug ( "tried to remove an invalid entry" );
+	    return FALSE;
     }
-
+	    
     if ( find_associated_transactions ( iface, no_division, -1 ) )
     {
 	gint nouveau_no_division, nouveau_no_sub_division;
@@ -716,15 +760,7 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
     /* supprime dans la liste des division  */
     iface -> remove_div ( no_division ); 
 
-    selection = gtk_tree_view_get_selection ( tree_view );
-    if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
-    {
-	GtkTreeIter next = iter;
-	gtk_tree_model_iter_next (model, &next);
-	gtk_tree_store_remove ( GTK_TREE_STORE(model), &iter );
-	gtk_tree_selection_select_iter ( selection, &next );
-    }    
-
+    metatree_remove_iter_and_select_next ( tree_view, model, &iter );
     modification_fichier(TRUE);
     
     return FALSE;
@@ -814,25 +850,59 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	it = get_iter_from_div ( model, nouveau_no_division, -1 );
 	if ( it )
 	    fill_division_row ( model, iface, it, nouveau_no_division );
-	
+
 	/* metatree too complex for me, so instead of re-writing all the transactions, update
 	 * just the value we changed, or if we come here, it's for payee, categ or budget i
 	 * FIXME benj if you can know here and do only what is necessary ... */
 	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_PARTY);
 	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_BUDGET);
 	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CATEGORY);
-
     }
 
     /* supprime dans la liste des division  */
     iface -> remove_sub_div (division, sub_division);
 
-    selection = gtk_tree_view_get_selection ( tree_view );
-    if ( selection && gtk_tree_selection_get_selected ( selection, &model, &iter ) )
-    {
-	gtk_tree_store_remove ( GTK_TREE_STORE(model), &iter );
-    }    
+    metatree_remove_iter_and_select_next ( tree_view, model, &iter );
+    modification_fichier(TRUE);
+}
 
+
+
+/**
+ * Remove a transaction from a metatree
+ *
+ * \param tree_view
+ * \param model
+ * \param iface the metatree interface
+ * \param transaction the transaction number we want to remove
+ * \param sub_division the parent sub-division number
+ * \param division the division number (parent)
+ *
+ * \return
+ */
+void supprimer_transaction ( GtkTreeView * tree_view, GtkTreeModel * model,
+			     MetatreeInterface * iface, 
+			     gint transaction)
+{
+    GtkTreeIter iter, * it;
+    gint division, sub_division;
+
+    division = iface -> transaction_div_id ( transaction );
+    sub_division = iface -> transaction_sub_div_id ( transaction );
+    iface -> remove_transaction_from_div ( transaction );
+    gsb_data_transaction_remove_transaction ( transaction );
+
+    /* Fill parent sub division */
+    it = get_iter_from_div ( model, division, sub_division );
+    if ( it )
+	fill_sub_division_row ( model, iface, it, division, sub_division );
+
+    /* Fill division as well */
+    it = get_iter_from_div ( model, division, -1 );
+    if ( it )
+	fill_division_row ( model, iface, it, division );
+    
+    metatree_remove_iter_and_select_next ( tree_view, model, &iter );
     modification_fichier(TRUE);
 }
 
@@ -1753,7 +1823,6 @@ void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * mode
 	       ! gtk_tree_path_is_ancestor ( sub_div_path, transaction_path ) ) ||
 	     ! gtk_tree_path_is_ancestor ( div_path, transaction_path ) )
 	{
-	    printf (">Removing old\n");
 	    gtk_tree_store_remove ( GTK_TREE_STORE(model), transaction_iter );
 	    transaction_iter = NULL;
 	}
@@ -1792,6 +1861,41 @@ void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * mode
 
 
 /**
+ * Remove selected iter from metatree and select next iter.
+ *
+ * \param tree_view	Tree view that contains selection.
+ * \param model		Model pertaining to tree view.
+ * \param iter		Iter to remove.
+ */
+void metatree_remove_iter_and_select_next ( GtkTreeView * tree_view, GtkTreeModel * model,
+					    GtkTreeIter * iter )
+{
+    GtkTreeSelection * selection;
+
+    selection = gtk_tree_view_get_selection ( tree_view );
+    if ( selection && gtk_tree_selection_get_selected ( selection, &model, iter ) )
+    {
+	GtkTreeIter * next = gtk_tree_iter_copy ( iter );
+	GtkTreePath * path = gtk_tree_model_get_path ( model, iter );
+
+	g_return_if_fail ( path );
+	if ( ! gtk_tree_model_iter_next ( model, next ) )
+	{
+	    gtk_tree_path_up ( path );
+	    gtk_tree_path_next ( path );
+	}
+
+	gtk_tree_store_remove ( GTK_TREE_STORE(model), iter );
+	gtk_tree_selection_select_path ( selection, path );
+
+	gtk_tree_iter_free ( next );
+	g_free ( path );
+    }    
+}
+
+
+
+/**
  * Performs actions needed when selection of a metatree has changed.
  * First, update the headings bar accordingly.  Then update
  * sensitiveness of linked widgets.
@@ -1804,7 +1908,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
     GtkTreeView * tree_view;
     GtkTreeIter iter;
     gboolean selection_is_set = FALSE;
-    gint div_id, sub_div_id;
+    gint div_id, sub_div_id, current_number;
 
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
     tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
@@ -1814,7 +1918,6 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
     if ( selection && gtk_tree_selection_get_selected ( selection, &model, &iter ) )
     {
 	gchar * text, * balance = "";
-	gint current_number;
 
 	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter,
 			     META_TREE_NO_DIV_COLUMN, &div_id,
@@ -1856,7 +1959,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 
     /* Update sensitiveness of linked widgets. */
     metatree_set_linked_widgets_sensitive ( model, selection_is_set, "selection" );
-    if ( ! div_id )
+    if ( ! div_id || ( sub_div_id <= 0 && current_number <= 0 ) )
     {
 	metatree_set_linked_widgets_sensitive ( model, FALSE, "selection" );
     }
