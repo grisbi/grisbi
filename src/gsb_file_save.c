@@ -310,6 +310,8 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 	    
 	    crypt_function = (gpointer) plugin -> plugin_run;
 	    iterator = crypt_function ( filename, &file_content, TRUE, iterator );	
+	    if ( ! iterator )
+		return FALSE;
 	}
 	else
 	{

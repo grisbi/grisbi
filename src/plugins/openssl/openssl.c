@@ -83,7 +83,7 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 	/* if we have no key, we will no crypt that file */
 
 	if ( !key )
-	    return length;
+	    return 0;
 
 	des_string_to_key ( key, &openssl_key );
 	des_set_key_unchecked( &openssl_key, sched );
