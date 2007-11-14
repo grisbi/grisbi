@@ -248,42 +248,39 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     if ( ! division )
 	division = iface -> get_without_div_pointer ();
 
-    if ( division )
+    string_tmp = iface -> div_name (division);
+    if (!string_tmp)
+	string_tmp = _(iface->no_div_label);
+
+    if ( iface -> div_nb_transactions ( division ))
     {
-	string_tmp = iface -> div_name (division);
-	if (!string_tmp)
-	    string_tmp = _(iface->no_div_label);
-
-	if ( iface -> div_nb_transactions ( division ))
-	{
-	    label = g_strconcat ( string_tmp, " (",
-				  utils_str_itoa ( iface -> div_nb_transactions (division) ), ")",
-				  NULL );
-	    balance = gsb_format_amount ( iface -> div_balance ( division ),
-					  iface -> tree_currency () );
-	}
-	else
-	    label = my_strdup (string_tmp);
-
-	if ( iface -> depth == 1 && 
-	     ! gtk_tree_model_iter_has_child ( model, iter ) && 
-	     iface -> div_nb_transactions ( division ) )
-	{
-	    gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
-	}
-	gtk_tree_store_set (GTK_TREE_STORE(model), iter,
-			    META_TREE_TEXT_COLUMN, label,
-			    META_TREE_POINTER_COLUMN, division,
-			    META_TREE_BALANCE_COLUMN, balance,
-			    META_TREE_XALIGN_COLUMN, 1.0,
-			    META_TREE_NO_DIV_COLUMN, division,
-			    META_TREE_NO_SUB_DIV_COLUMN, -1,
-			    META_TREE_FONT_COLUMN, 800,
-			    META_TREE_DATE_COLUMN, NULL,
-			    -1);
-	if (label)
-	    g_free (label);
+	label = g_strconcat ( string_tmp, " (",
+			      utils_str_itoa ( iface -> div_nb_transactions (division) ), ")",
+			      NULL );
+	balance = gsb_format_amount ( iface -> div_balance ( division ),
+				      iface -> tree_currency () );
     }
+    else
+	label = my_strdup (string_tmp);
+
+    if ( iface -> depth == 1 && 
+	 ! gtk_tree_model_iter_has_child ( model, iter ) && 
+	 iface -> div_nb_transactions ( division ) )
+    {
+	gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
+    }
+    gtk_tree_store_set (GTK_TREE_STORE(model), iter,
+			META_TREE_TEXT_COLUMN, label,
+			META_TREE_POINTER_COLUMN, division,
+			META_TREE_BALANCE_COLUMN, balance,
+			META_TREE_XALIGN_COLUMN, 1.0,
+			META_TREE_NO_DIV_COLUMN, division,
+			META_TREE_NO_SUB_DIV_COLUMN, -1,
+			META_TREE_FONT_COLUMN, 800,
+			META_TREE_DATE_COLUMN, NULL,
+			-1);
+    if (label)
+	g_free (label);
 }
 
 

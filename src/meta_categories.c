@@ -166,7 +166,7 @@ const gchar * category_div_name ( gint div )
 {
     return gsb_data_category_get_name ( div,
 					0,
-					"" );
+					category_interface -> no_div_label );
 }
 
 
@@ -179,7 +179,7 @@ const gchar * category_sub_div_name ( gint div, gint sub_div )
 {
     return gsb_data_category_get_sub_category_name ( div,
 						     sub_div,
-						     "" );
+						     category_interface -> no_sub_div_label  );
 }
 
 
