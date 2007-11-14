@@ -427,7 +427,9 @@ gboolean edit_payee ( GtkTreeView * view )
     title = g_strdup_printf ( _("Properties for %s"), gsb_data_payee_get_name(payee_number,
 									      TRUE));
     dialog = gtk_dialog_new_with_buttons ( title, GTK_WINDOW (window), GTK_DIALOG_MODAL,
-					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO, 
+					   GTK_STOCK_APPLY, GTK_RESPONSE_OK, 
+					   NULL);
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
     hbox = gtk_hbox_new ( FALSE, 0 );
@@ -473,11 +475,35 @@ gboolean edit_payee ( GtkTreeView * view )
     gtk_widget_show_all ( dialog );
     free ( title );
 
-    gtk_dialog_run ( GTK_DIALOG(dialog) );
-
-    /* get the name */
-    gsb_data_payee_set_name ( payee_number,
-			      gtk_entry_get_text ( GTK_ENTRY (entry_name)));
+    while ( 1 )
+    {
+	if ( gtk_dialog_run ( GTK_DIALOG(dialog) ) != GTK_RESPONSE_OK )
+	{
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+	    return FALSE;
+	}
+	
+	if ( ! gsb_data_payee_get_number_by_name ( gtk_entry_get_text ( GTK_ENTRY ( entry_name ) ),
+						   FALSE ) ||
+	     gsb_data_payee_get_number_by_name ( gtk_entry_get_text ( GTK_ENTRY ( entry_name ) ),
+						 FALSE ) == payee_number )
+	{
+	    gsb_data_payee_set_name ( payee_number,
+				  gtk_entry_get_text ( GTK_ENTRY (entry_name)));
+	    break;
+	}
+	else
+	{
+	    gchar * message = g_strdup_printf ( _("You tried to rename current %s to '%s' "
+						  "but this %s already exists.  Please "
+						  "choose another name."),
+						_("payee"), 
+						gtk_entry_get_text ( GTK_ENTRY ( entry_name ) ),
+						_("payee") );
+	    dialogue_warning_hint ( message, _("Payee already exists") );
+	    g_free ( message );
+	}
+    }
 
     /* get the description */
     gsb_data_payee_set_description ( payee_number,
@@ -491,7 +517,7 @@ gboolean edit_payee ( GtkTreeView * view )
     /* update the transactions list */
     gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_PARTY);
 
-    return TRUE;
+    return FALSE;
 }
 
 

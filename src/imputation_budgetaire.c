@@ -62,8 +62,6 @@ static gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, 
 static GtkWidget *creation_barre_outils_ib ( void );
 static gboolean edit_budgetary_line ( GtkTreeView * view );
 static void exporter_ib ( void );
-static gboolean gsb_budget_page_sub_entry_changed ( GtkWidget *entry,
-					     gint *sub_budget_tmp );
 static void importer_ib ( void );
 static gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
@@ -630,7 +628,9 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 							     _("No budget defined") ));
 
     dialog = gtk_dialog_new_with_buttons ( title, GTK_WINDOW (window), GTK_DIALOG_MODAL,
-					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO, 
+					   GTK_STOCK_APPLY, GTK_RESPONSE_OK, 
+					   NULL);
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
     hbox = gtk_hbox_new ( FALSE, 0 );
@@ -650,22 +650,19 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
+    entry = gtk_entry_new ( );
     if ( sub_budget_number > 0 )
     {
-	/* we have a problem because gsb_autofunc_entry_new need a function gsb_data_..._set_... with 2 args,
-	 * but gsb_data_budget_set_sub_budget_name has 3 args, need to use hook
-	 * the hook function will receive the sub_budget number, and the budget_number will be associated
-	 * automatickly with the entry by autofunc_entry_new */
-	entry = gsb_autofunc_entry_new ( gsb_data_budget_get_sub_budget_name ( budget_number,
-									       sub_budget_number,
-									       NULL ),
-					 G_CALLBACK (gsb_budget_page_sub_entry_changed), GINT_TO_POINTER (sub_budget_number),
-					 NULL, budget_number);
+	gtk_entry_set_text ( GTK_ENTRY ( entry ),
+			     gsb_data_budget_get_sub_budget_name ( budget_number,
+								   sub_budget_number,
+								   NULL ) );
     }
     else
-	entry = gsb_autofunc_entry_new ( gsb_data_budget_get_name ( budget_number, 0, NULL ),
-					 NULL, NULL,
-					 G_CALLBACK (gsb_data_budget_set_name), budget_number );
+    {
+	gtk_entry_set_text ( GTK_ENTRY ( entry ),
+			     gsb_data_budget_get_name ( budget_number, 0, NULL ) );
+    }
 
     gtk_widget_set_usize ( entry, 400, 0 );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
@@ -689,8 +686,58 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     gtk_widget_show_all ( dialog );
     free ( title );
 
-    gtk_dialog_run ( GTK_DIALOG(dialog) );
-    gtk_widget_destroy ( dialog );
+    while ( 1 )
+    {
+	if ( gtk_dialog_run ( GTK_DIALOG(dialog) ) != GTK_RESPONSE_OK )
+	{
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+	    return FALSE;
+	}
+
+	if ( ( sub_budget_number > 0 && 
+	       gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
+							       gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
+							       FALSE ) &&
+	       gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
+							       gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
+							       FALSE ) != sub_budget_number) ||
+	     ( sub_budget_number <= 0 && 
+	       gsb_data_budget_get_number_by_name ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
+						    FALSE, 0 ) &&
+	       gsb_data_budget_get_number_by_name ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
+						    FALSE, 0 ) != budget_number ) )
+	{
+	    gchar * message = g_strdup_printf ( _("You tried to rename current %s to '%s' "
+						  "but this %s already exists.  Please "
+						  "choose another name."),
+						( sub_budget_number > 0 ? 
+						  _("sub-budgetary line") : 
+						  _("budgetary line") ),
+						gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
+						( sub_budget_number > 0 ? 
+						  _("sub-budgetary line") : 
+						  _("budgetary line") ) );
+	    dialogue_warning_hint ( message, _("Budgetary line already exists") );
+	    g_free ( message );
+	}
+	else
+	{
+	    if ( sub_budget_number > 0 )
+	    {
+		gsb_data_budget_set_sub_budget_name ( budget_number,
+						      sub_budget_number,
+						      gtk_entry_get_text ( GTK_ENTRY (entry)));
+	    }
+	    else
+	    {
+		gsb_data_budget_set_name ( budget_number,
+					   gtk_entry_get_text ( GTK_ENTRY (entry)));
+	    }
+	    break;
+	}
+    }
+
+    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
 
     if ( sub_budget_number > 0 )
     {
@@ -710,35 +757,6 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     gsb_transactions_list_update_transaction (TRANSACTION_LIST_BUDGET);
 
     return TRUE;
-}
-
-
-/**
- * called when there is a change in the sub-budget entry to modify it
- * cannot use the autofunc function because 2 arguments : categ_number and
- * sub_categ_number, so come here
- *
- * \param entry the GtkEntry wich contains the sub-budget
- * \param sub_categ_tmp a pointer wich is the sub_budget_number
- *
- * \return FALSE 
- * */
-gboolean gsb_budget_page_sub_entry_changed ( GtkWidget *entry,
-					     gint *sub_budget_tmp )
-{
-    gint budget_number;
-    gint sub_budget_number;
-
-    if (!entry)
-	return FALSE;
-
-    budget_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (entry),
-							"number_for_func" ));
-    sub_budget_number = GPOINTER_TO_INT (sub_budget_tmp);
-    gsb_data_budget_set_sub_budget_name ( budget_number,
-					  sub_budget_number,
-					  gtk_entry_get_text (GTK_ENTRY (entry)));
-    return FALSE;
 }
 
 

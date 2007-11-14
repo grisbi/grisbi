@@ -51,8 +51,6 @@ static gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePa
 static GtkWidget *creation_barre_outils_categ ( void );
 static gboolean edit_category ( GtkTreeView * view );
 static gboolean exporter_categ ( GtkButton * widget, gpointer data );
-static gboolean gsb_category_page_sub_entry_changed ( GtkWidget *entry,
-					       gint *sub_categ_tmp );
 static void importer_categ ( void );
 static gboolean popup_category_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
@@ -590,7 +588,9 @@ gboolean edit_category ( GtkTreeView * view )
 										       _("No category defined") ));
 
     dialog = gtk_dialog_new_with_buttons ( title, GTK_WINDOW (window), GTK_DIALOG_MODAL,
-					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO, 
+					   GTK_STOCK_APPLY, GTK_RESPONSE_OK, 
+					   NULL);
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
     hbox = gtk_hbox_new ( FALSE, 0 );
@@ -610,22 +610,19 @@ gboolean edit_category ( GtkTreeView * view )
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
+    entry = gtk_entry_new ( );
     if ( sub_category_number > 0 )
     {
-	/* we have a problem because gsb_autofunc_entry_new need a function gsb_data_..._set_... with 2 args,
-	 * but gsb_data_category_set_sub_category_name has 3 args, need to use hook
-	 * the hook function will receive the sub_category number, and the category_number will be associated
-	 * automatickly with the entry by autofunc_entry_new */
-	entry = gsb_autofunc_entry_new ( gsb_data_category_get_sub_category_name ( category_number,
-										   sub_category_number,
-										   NULL ),
-					 G_CALLBACK (gsb_category_page_sub_entry_changed), GINT_TO_POINTER (sub_category_number),
-					 NULL, category_number);
+	gtk_entry_set_text ( GTK_ENTRY ( entry ), 
+			     gsb_data_category_get_sub_category_name ( category_number,
+								       sub_category_number,
+								       NULL ) );
     }
     else
-	entry = gsb_autofunc_entry_new ( gsb_data_category_get_name ( category_number, 0, NULL ),
-					 NULL, NULL,
-					 G_CALLBACK (gsb_data_category_set_name), category_number );
+    {
+	gtk_entry_set_text ( GTK_ENTRY ( entry ), 
+			     gsb_data_category_get_name ( category_number, 0, NULL ) );
+    }
 
     gtk_widget_set_usize ( entry, 400, 0 );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
@@ -649,8 +646,53 @@ gboolean edit_category ( GtkTreeView * view )
     gtk_widget_show_all ( dialog );
     free ( title );
 
-    gtk_dialog_run ( GTK_DIALOG(dialog) );
-    /* changes are done automatickly, so just close the dialog */
+    while ( 1 )
+    {
+	if ( gtk_dialog_run ( GTK_DIALOG(dialog) ) != GTK_RESPONSE_OK )
+	{
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+	    return FALSE;
+	}
+
+	if ( ( sub_category_number > 0 && 
+	       gsb_data_category_get_sub_category_number_by_name ( category_number,
+								   gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
+								   FALSE ) &&
+	       gsb_data_category_get_sub_category_number_by_name ( category_number,
+								   gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
+								   FALSE ) != sub_category_number ) ||
+	     ( sub_category_number <= 0 && 
+	       gsb_data_category_get_number_by_name ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
+						      FALSE, 0 ) &&
+	       gsb_data_category_get_number_by_name ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
+						      FALSE, 0 ) != category_number ) )
+	{
+	    gchar * message = g_strdup_printf ( _("You tried to rename current %s to '%s' "
+						  "but this %s already exists.  Please "
+						  "choose another name."),
+						( sub_category_number > 0 ? _("sub-category") : _("category") ),
+						gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
+						( sub_category_number > 0 ? _("sub-category") : _("category") ) );
+	    dialogue_warning_hint ( message, _("Category already exists") );
+	    g_free ( message );
+	}
+	else
+	{
+	    if ( sub_category_number > 0 )
+	    {
+		gsb_data_category_set_sub_category_name ( category_number,
+							  sub_category_number,
+							  gtk_entry_get_text ( GTK_ENTRY (entry)));
+	    }
+	    else
+	    {
+		gsb_data_category_set_name ( category_number,
+					     gtk_entry_get_text ( GTK_ENTRY (entry)));
+	    }
+	    break;
+	}
+    }
+
     gtk_widget_destroy ( dialog );
 
     if ( sub_category_number > 0 )
@@ -671,35 +713,6 @@ gboolean edit_category ( GtkTreeView * view )
     gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CATEGORY);
 
     return TRUE;
-}
-
-
-/**
- * called when there is a change in the sub-category entry to modify it
- * cannot use the autofunc function because 2 arguments : categ_number and
- * sub_categ_number, so come here
- *
- * \param entry the GtkEntry wich contains the sub-category
- * \param sub_categ_tmp a pointer wich is the sub_category_number
- *
- * \return FALSE 
- * */
-gboolean gsb_category_page_sub_entry_changed ( GtkWidget *entry,
-					       gint *sub_categ_tmp )
-{
-    gint category_number;
-    gint sub_category_number;
-
-    if (!entry)
-	return FALSE;
-
-    category_number = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (entry),
-							  "number_for_func" ));
-    sub_category_number = GPOINTER_TO_INT (sub_categ_tmp);
-    gsb_data_category_set_sub_category_name ( category_number,
-					      sub_category_number,
-					      gtk_entry_get_text (GTK_ENTRY (entry)));
-    return FALSE;
 }
 
 
