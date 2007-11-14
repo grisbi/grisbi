@@ -424,6 +424,7 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 			 META_TREE_NO_DIV_COLUMN, -1,
 			 META_TREE_NO_SUB_DIV_COLUMN, -1,
 			 META_TREE_XALIGN_COLUMN, 1.0,
+			 META_TREE_FONT_COLUMN, 400,
 			 META_TREE_DATE_COLUMN, gsb_data_transaction_get_date ( transaction_number ),
 			 -1);
 }
