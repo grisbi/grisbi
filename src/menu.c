@@ -124,8 +124,7 @@ static gchar * buffer =
 "    </menu>"
 "    <menu action='ViewMenu'>"
 "      <menuitem action='ShowTransactionForm'/>"
-#warning Be sure this is version 2.12 and upper
-#if GTK_CHECK_VERSION(2,12,0)
+#if GTK_CHECK_VERSION(2,10,0)
 "      <menuitem action='ShowGrid'/>"
 #endif
 "      <menuitem action='ShowReconciled'/>"

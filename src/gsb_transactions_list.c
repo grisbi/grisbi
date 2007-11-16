@@ -1271,8 +1271,7 @@ gboolean gsb_transactions_list_append_transaction ( gint transaction_number,
 					 line );
     }
 
-#warning Be sure this is version 2.12 and upper
-#if GTK_CHECK_VERSION(2,12,0)
+#if GTK_CHECK_VERSION(2,10,0)
     /* for the main transactions, append a separator */
     if (!mother_iter)
     {
@@ -4445,8 +4444,7 @@ gboolean gsb_transactions_list_set_visibles_rows_on_account ( gint account_numbe
 		continue;
 	    }
 
-#warning Be sure this is version 2.12 and upper
-#if GTK_CHECK_VERSION(2,12,0)
+#if GTK_CHECK_VERSION(2,10,0)
 	    /* now we can check for a separator because the transaction will be shown (or some rows of the transaction,
 	     * if the grid is showed, show it */
 	    if (what_is_line == IS_SEPARATOR)
@@ -5137,9 +5135,8 @@ gboolean gsb_transactions_list_draw_grid ( gboolean show_grid )
 {
     gint current_account;
 
-#warning Be sure this is version 2.12 and upper
-#if GTK_CHECK_VERSION(2,12,0)
-    /* This is stuff only existing from GTK+ 2.12 and upper. */
+#if GTK_CHECK_VERSION(2,10,0)
+    /* This is stuff only existing from GTK+ 2.6 and upper. */
 
     if ( show_grid )
     {
@@ -5150,6 +5147,7 @@ gboolean gsb_transactions_list_draw_grid ( gboolean show_grid )
 	gtk_tree_view_set_row_separator_func ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
 					       (GtkTreeViewRowSeparatorFunc) gsb_transactions_list_separator_func, 
 					       NULL,
+					       NULL );
     }
     else
     {
