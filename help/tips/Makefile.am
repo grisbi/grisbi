@@ -8,10 +8,6 @@ grisbi_help_DATA = tips.txt
 #grisbi_pot_DATA = fr.gmo
 
 CC = gcc
-GMSGFMT = /usr/bin/msgfmt
-MSGFMT = /usr/bin/msgfmt
-XGETTEXT = /usr/bin/xgettext
-MSGMERGE = msgmerge
 GMOFILES=fr.gmo
 localedir = ${datadir}/locale
 
