@@ -2,7 +2,7 @@
 /*                                  utils_dates.c                             */
 /*                                                                            */
 /*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)      */
-/*			2003-2005 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -248,7 +248,7 @@ gchar ** split_unique_datefield ( gchar * string, gchar date_tokens [] )
 GDate * gsb_parse_date_string ( const gchar *date_string )
 {
     GDate *date;
-    gchar * string, * format, * tmp, * len;
+    gchar * string, * format, * tmp, * len, * orig;
     gchar ** tab_date;
     gchar date_tokens [ 4 ] = { 0, 0, 0, 0 };
     int num_tokens = 0, num_fields = 0, i, j;
@@ -260,7 +260,10 @@ GDate * gsb_parse_date_string ( const gchar *date_string )
 
     /* Keep the const gchar in that function */
     string = my_strdup (date_string);
+    if ( ! string || ! strlen ( string ) )
+	return NULL;
     g_strstrip ( string );
+    orig = string;
 
     /* Obtain date format tokens to compute order. */
     format = nl_langinfo ( D_FMT );
@@ -298,7 +301,7 @@ GDate * gsb_parse_date_string ( const gchar *date_string )
     *len = 0;
 
     tab_date = g_strsplit_set ( string, ".", 0 );
-    g_free ( string );
+    g_free ( orig );
 
     num_fields = g_strv_length ( tab_date );
 
