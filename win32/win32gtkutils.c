@@ -95,11 +95,11 @@ gboolean win32_make_sure_the_gtk2_dlls_path_is_in_PATH()
    HKEY    hKey             = HKEY_LOCAL_MACHINE;
 
    // Retrieve the installation location of GTK2 from registry
-   dwStatus = RegOpenKeyEx(HKEY_LOCAL_MACHINE, (LPCSTR)(HKLM_GTK_20), 0, KEY_READ, &hKey);
+   dwStatus = RegOpenKeyEx(HKEY_LOCAL_MACHINE, (LPCSTR)(HKLM_UNINSTALL_GTK), 0, KEY_READ, &hKey);
    if (dwStatus == NO_ERROR)
    {
        // Get the size of the key to allocate the correct size for the temporary pBuffer
-       dwStatus = RegQueryValueEx(hKey,(LPCSTR)(GTK_DLL_PATH_KEY),0,&dwType,(LPBYTE)pKeyValBuffer,&dwKeyValSize);
+       dwStatus = RegQueryValueEx(hKey,(LPCSTR)(GTK_INSTALL_PATH_KEY),0,&dwType,(LPBYTE)pKeyValBuffer,&dwKeyValSize);
        if (dwStatus == NO_ERROR)
        {
            // allocate the buffer and don't forget the '\0'
@@ -107,7 +107,7 @@ gboolean win32_make_sure_the_gtk2_dlls_path_is_in_PATH()
            memset(pKeyValBuffer,0,(sizeof(char*)*(dwKeyValSize+1)));
 
            // At last, ... read the value ...
-           dwStatus = RegQueryValueEx(hKey,(LPCSTR)(GTK_DLL_PATH_KEY),0,&dwType,(LPBYTE)pKeyValBuffer,&dwKeyValSize);
+           dwStatus = RegQueryValueEx(hKey,(LPCSTR)(GTK_INSTALL_PATH_KEY),0,&dwType,(LPBYTE)pKeyValBuffer,&dwKeyValSize);
            if ((dwStatus == NO_ERROR)&&(dwKeyValSize == 0))
            {
                dwStatus = ERROR_EMPTY;
