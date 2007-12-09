@@ -27,11 +27,12 @@
 #include <winerror.h>
 #include <shlobj.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "win32utils.h"
 
 // -------------------------------------------------------------------------
-// Windows(c) Usefull Functions                                  PART_1 {{{1
+// Windows(c) Usefull Functions      
 // -------------------------------------------------------------------------
 /**
  * give access to the SetLastError windows function
@@ -90,7 +91,7 @@ void win32_free(void* ptr) /* {{{ */
 
 // }}}1
 // -------------------------------------------------------------------------
-// Windows(c) Special Paths ...                                  {{{1 PART_2
+// Windows(c) Special Paths ...     
 // --------------------------------------------------------------------------
 static gchar my_documents_path [MAX_PATH+1];
 static gchar windows_path      [MAX_PATH+1]; 
@@ -236,7 +237,7 @@ gchar* win32_get_grisbirc_folder_path()  /* {{{ */
 /**
  * store full path with filename retrieved from argv[0] converted to utf-8 for any internal use
  */
-void  win32_set_app_path(gchar* syslocale_app_dir)
+void  win32_set_app_path(gchar* syslocale_app_dir) /* {{{ */
 {
     gchar* uft8_app_dir = NULL;
     if (!syslocale_app_dir)
@@ -257,20 +258,19 @@ void  win32_set_app_path(gchar* syslocale_app_dir)
         g_free(uft8_app_dir);
         uft8_app_dir = NULL;
     }
-}
+} /* }}} */
  
 /**
  * Construct app subdir like help directory from application running dir
  */
-gchar* win32_app_subdir_folder_path(gchar * app_subdir)
+gchar* win32_app_subdir_folder_path(gchar * app_subdir) /* {{{ */
 {
     return g_strdelimit(g_strconcat(g_path_get_dirname ( grisbi_exe_path  ),"\\",app_subdir,NULL),
                         "\\",
                         '/');
-}
-// }}}1
+} /* }}} */
 // -------------------------------------------------------------------------
-// Windows(c) Version ID and Technology                          PART_3 {{{1
+// Windows(c) Version ID and Technology       
 //      Version ID is 95/98/NT/2K/...
 //      Technology is 3.1/9x/NT/...
 // -------------------------------------------------------------------------
@@ -354,21 +354,28 @@ win_technology win32_get_windows_technology(win_version version) /* {{{ */
 } /* }}} win32_get_windows_technology */
 /* }}} */
 
-BOOL win32_shell_execute_open(const gchar* file)
+BOOL win32_shell_execute_open(const gchar* file) /* {{{ */
 {
    return ((int)ShellExecute(NULL, "open", file, NULL, NULL, SW_SHOWNORMAL)>32);
-}
+} /* }}} */
 
 /*
  * Start a new process based on CreateProcess
  */
-BOOL win32_create_process(gchar* application_path,gchar* arg_line,gboolean detach,gboolean with_sdterr)
+BOOL win32_create_process(gchar* application_path,gchar* arg_line,gchar* utf8_working_directory, gboolean detach,gboolean with_sdterr) /* {{{ */
 {
 
     DWORD dw;
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
-    TCHAR arg[MAX_PATH];
+    TCHAR arg[2*MAX_PATH];
+
+    gchar* syslocale_working_directory = NULL; 
+      
+    if ((utf8_working_directory)&&(*utf8_working_directory))
+    {
+        syslocale_working_directory = g_strdelimit(g_locale_from_utf8(utf8_working_directory,-1,NULL,NULL,NULL),"/",'\\');
+    }
 
     memset( &si, 0, sizeof(si) );
     si.cb = sizeof(si);
@@ -406,7 +413,7 @@ BOOL win32_create_process(gchar* application_path,gchar* arg_line,gboolean detac
         FALSE,
         CREATE_DEFAULT_ERROR_MODE|DETACHED_PROCESS|NORMAL_PRIORITY_CLASS,
         NULL,
-        NULL,
+        syslocale_working_directory,
         &si,
         &pi))
     {
@@ -449,8 +456,13 @@ BOOL win32_create_process(gchar* application_path,gchar* arg_line,gboolean detac
         CloseHandle(si.hStdError);
         si.hStdError = NULL;
     }
+   if (!syslocale_working_directory) 
+   { 
+       g_free(syslocale_working_directory);
+       syslocale_working_directory = NULL;
+   }
    return (gboolean)(dw==0);
-}
+} /* }}} */
 
 /* 
  * The GetLongPathName API call is only available on Windows 98/ME and Windows 2000/XP. 
@@ -534,20 +546,102 @@ BOOL win32_create_process(gchar* application_path,gchar* arg_line,gboolean detac
  *   duplicate directory separator are not supported by this implementation
  * 
  */
-#define _WIN32_CHAR_IS_DIR_SEPARATOR(c) ((c=='\\')||(c== '/'))
+gchar* win32_long_name(gchar* short_name) /* {{{ */
+{
+    gchar* syslocale_short_name = g_strdelimit(g_strdup(short_name),"/",'\\');
+    gchar* syslocale_long_name  = NULL;
 
-DWORD win32_get_long_path_name(LPCTSTR lpszShortPath, LPTSTR lpszLongPath, DWORD ccBuffer)
+    
+    // optimisation : only short names containing '~' have a chance to be different in 'long name'
+    if (strchr(syslocale_short_name,'~'))
+    {
+        gint    index               = 0;
+        gchar** syslocale_subitems  = g_strsplit(syslocale_short_name,"\\",0);
+        gchar*  item                = syslocale_subitems[0];
+
+        if ((strlen(item) == 2)&&(item[1] == ':'))
+        {
+            syslocale_long_name = g_strdup(item);
+            index++;
+        }
+
+        for(;syslocale_subitems[index] != NULL; index++)
+        {
+            item = syslocale_subitems[index];
+            //
+            // search and append the long component name to the path
+            // 
+            if (*item) 
+            {
+                gchar* fullpath = g_strjoin("\\", syslocale_long_name, item, NULL);
+                WIN32_FIND_DATA findData;
+
+                if (INVALID_HANDLE_VALUE != FindFirstFile(fullpath,&findData))
+                {
+                    gchar* previous_long_name = syslocale_long_name;
+                    syslocale_long_name = g_strjoin("\\",previous_long_name,findData.cFileName,NULL);
+                    g_free(previous_long_name);
+                }
+                else // if FindFirstFile fails, stop here and return shortname
+                {
+                    if (syslocale_long_name)
+                    {
+                        g_free(syslocale_long_name);
+                        syslocale_long_name = NULL;
+                    }
+                }
+            }
+        }
+
+        if (syslocale_subitems)
+        {
+            g_strfreev(syslocale_subitems);
+            syslocale_subitems = NULL;
+        }
+    }
+    
+    // if long name is not not convert it to utf8
+    // else use short name ...
+    if (!syslocale_long_name)
+    {
+        syslocale_long_name = g_strdup(short_name);
+    }
+    
+    if (syslocale_short_name)
+    {
+        g_free(syslocale_short_name);
+        syslocale_short_name = NULL;
+    }
+
+    
+    return syslocale_long_name;
+} /* }}} */
+/*
+ * Return the absolute path of the provided path
+ */
+gchar* win32_full_path(gchar* syslocale_path) /* {{{ */
+{
+    TCHAR lpsz_fullpath[(MAX_PATH*2)+1];
+    _fullpath(lpsz_fullpath,(char*)syslocale_path,(size_t)(MAX_PATH*2));
+    return g_strdup((gchar*)lpsz_fullpath);
+    
+} /* }}} */
+
+#define _WIN32_CHAR_IS_DIR_SEPARATOR(c) ((c=='\\')||(c== '/'))
+/** \deprecated */
+#ifdef _USE_DEPRECTED_
+DWORD win32_get_long_path_name(LPCTSTR lpszShortPath, LPTSTR lpszLongPath, DWORD ccBuffer) /* {{{ */
 {
     int iFound = -1;
         
     iFound = strlen(lpszShortPath);
 
-
     // UNC path form is not supported, return immediatly
     if ( (iFound >= 2) && (_WIN32_CHAR_IS_DIR_SEPARATOR(lpszShortPath[0])) && (_WIN32_CHAR_IS_DIR_SEPARATOR(lpszShortPath[1]) ))
-{
+    {
         return -1;
     }
+    
     
     //// remove duplicate (or more) '\' from path by going back to the first of the serie
     //while ((iFound > 0) && (lpszShortPath[iFound-1] == '\')) { iFound--; }
@@ -604,59 +698,99 @@ DWORD win32_get_long_path_name(LPCTSTR lpszShortPath, LPTSTR lpszLongPath, DWORD
         strcpy((TCHAR*)lpszLongPath,(TCHAR*)lpszShortPath);
     }
     return strlen((TCHAR*)lpszLongPath);
-}
-
-#if 0
-/**
- * \deprecated DO NOT USE!
- * Convert a short filename to a long one 
- *
- * The used GetLongPathName is not available on all Windows version.
- * So the function will first detect if a native version is available.
- * 
- * \param   utf8_short_file_name short file name to convert in UTF-8 charset
- * \caveats the returned string must be unallocated when no more needed
- * \return  long file name in windows locale charset or NULL 
- */
-gchar* win32_get_long_file_name(gchar* utf8_short_file_name)
-{
-    HMODULE             hKernel32Lib         = NULL;
-    PFNGETLONGPATHNAME  pfnGetLongPathName = NULL; 
-    TCHAR               szLongFilename[MAX_PATH+1];
-    
-    
-    // First check a GetLangPathName native version is provided 
-    hKernel32Lib = LoadLibrary("kernel32.dll");
-    if (hKernel32Lib)
-    {
-        pfnGetLongPathName = (PFNGETLONGPATHNAME)GetProcAddress(hKernel32Lib,SZ_GETLONGPATHNAME);
-    }
-    
-    // Use the native implementation provided by Kernel32.dll (W98; and W2K and next)
-    if(pfnGetLongPathName) 
-    {
-        DWORD dwResult = 0;
-
-        dwResult = (pfnGetLongPathName)((LPCTSTR)g_filename_from_utf8(utf8_short_file_name,-1,NULL,NULL,NULL),szLongFilename,MAX_PATH);
-    }
-    else // Try to emulate GetLongPathName for system which do no have a native version 
-    {
-        szLongFilename = (TCHAR*)utf8_short_file_name
-    }
-    
-    // In case of error, return the original name ...
-    if (dwResult != NO_ERROR)
-    {
-        str
-    }
-    if (hKernel32Lib)
-    {
-        FreeLibrary(hKernel32Lib);
-        hKernel32Lib = NULL;
-    }
-    return g_strdup(szLongFilename);  
-}
+} /* }}} */
 #endif
+/**
+ * Get Environment variable value using Windows method.
+ *
+ * \param env_var Environment varaible name
+ * \return newly allocated buffer containing the variable value 
+ *      the buffer as to be freed using g_free when no more needed.
+ * 
+ * \retval NULL an error occured. PLease win32_get_last_error to have more information
+ */
+gchar* win32_get_environment_variable(gchar* env_var) /* {{{ */
+{
+    int    nVarBufferSize = GetEnvironmentVariable((LPCTSTR)(char*)(env_var),NULL,0);
+    
+    TCHAR* lpVarBuffer    = (TCHAR*)malloc( sizeof(TCHAR) * (nVarBufferSize + 1));
+    
+    gchar* ret_buffer     = NULL; 
+    
+    if (lpVarBuffer)
+    {
+        GetEnvironmentVariable((LPCTSTR)(char*)(env_var),lpVarBuffer,nVarBufferSize);
+    }
+    else
+    {
+        SetLastError(ERROR_OUTOFMEMORY);
+    }
+    
+    // Copy buffer to a buffer managed by GTK
+    ret_buffer = g_locale_to_utf8(g_strdelimit(g_strdup((gchar*)lpVarBuffer),"\\",'/'),-1,NULL,NULL,NULL);
+    
+    free(lpVarBuffer);
+    lpVarBuffer = NULL;
+    
+    return ret_buffer;
+} /* }}} */
+/**
+ * Set Environment variable value.
+ *
+ * \param env_var   variable name
+ * \param value_buffer new value buffer
+ *
+ * \return same as SetEnvironmentVariable.
+ */
+gboolean win32_set_environment_variable(gchar* env_var, gchar* value_buffer) /* {{{ */
+{
+    gchar*   syslocale_buffer = g_locale_from_utf8(value_buffer,-1,NULL,NULL,NULL);
+    gboolean bret             = SetEnvironmentVariable((LPCTSTR)(char*)env_var,syslocale_buffer);
+    
+    g_free(syslocale_buffer);
+    return bret;
+} /* }}} */
+
+/**
+ * Force the application path to be in PATH.
+ *
+ * This is used for dll load. This way we are sure that
+ * local application is the coorecto one especially when running
+ * from file association.
+ *
+ * \param syslocale_app_dir path to add
+ * \param at 0 head, -1 end
+ *
+ */
+void win32_add_to_path(gchar* utf8_app_dir,gint at) /* {{{ */
+{
+    gchar* new_path = NULL;
+    gchar* utf8path = win32_get_environment_variable("PATH");
+    
+    switch (at)
+    {
+        default:
+        case 0:
+            new_path = g_strjoin(";",utf8_app_dir,utf8path);
+            break;
+        case -1:
+            new_path = g_strjoin(";",utf8path,utf8_app_dir);
+            break;
+    }
+    MessageBox(NULL,new_path,"",MB_OK);
+    
+    win32_set_environment_variable("PATH",g_strdelimit(new_path,"/",'\\'));
+
+    g_free(utf8path); utf8path = NULL;
+    g_free(new_path); new_path = NULL;
+
+} /* }}} */
+void win32_set_current_directory(gchar* utf8_dir) /* {{{ */
+{
+    gchar* syslocale_dir = g_strdelimit(g_locale_from_utf8(utf8_dir,-1,NULL,NULL,NULL),"/",'\\');
+    SetCurrentDirectory(syslocale_dir);
+    g_free(syslocale_dir);
+} /* }}}  */
 
 // -------------------------------------------------------------------------
 // End of WinUtils
