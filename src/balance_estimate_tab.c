@@ -16,6 +16,12 @@
  *     along with this program; if not, write to the Free Software 
  *     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  */
+
+/*
+ * TODO : change the color of each line in the graph :
+ * red if balance is less than 0.
+ * orange if balance is less than the minimum wanted balance. 
+ */
 #include "include.h" 
 #include <config.h>
 #include "dialog.h"
@@ -79,7 +85,12 @@ spp_duration_button_clicked (GtkToggleButton *togglebutton, gpointer data)
 		"spp_months", GINT_TO_POINTER(months));
 }
 
-
+/*
+ * create_balance_estimate_tab
+ *
+ * This function create the widget (notebook) which contains all the
+ * balance estimate interface. This widget is added in the main window
+ */
 GtkWidget *
 create_balance_estimate_tab(void)
 {
@@ -210,7 +221,6 @@ create_balance_estimate_tab(void)
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(tree_model),
 		SPP_ESTIMATE_TREE_SORT_DATE_COLUMN, GTK_SORT_DESCENDING);
 
-
 	scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
 	gtk_widget_show(scrolled_window);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled_window),
@@ -290,6 +300,11 @@ create_balance_estimate_tab(void)
 	return notebook;
 }
 
+/*
+ * update_balance_estimate_tab
+ *
+ * This function is called each time that "Balance estimate" is selected in the selection tree.
+ */
 void 
 update_balance_estimate_tab(void)
 {
@@ -320,9 +335,22 @@ update_balance_estimate_tab(void)
 			gtk_tree_selection_select_iter(GTK_TREE_SELECTION(tree_selection), &iter);
 	}
 	g_free(previous_account_name);
+	/* if no row is selected, select the first line (if it exists) */
+	if (!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(tree_selection), &tree_model, &iter))
+	{
+		gtk_tree_model_get_iter_first(GTK_TREE_MODEL(tree_model), &iter);
+		gtk_tree_selection_select_iter(GTK_TREE_SELECTION(tree_selection), &iter);
+	}
 
-	/* TODO dOm : vider le tableau et le graphe */
-	/* TODO dOm : reselectionner le premier onglet */
+	/* clear the estimate tree view (because data may be out of date) */ 
+    	tree_view = g_object_get_data (G_OBJECT(spp_container), "spp_estimate_treeview");
+	tree_model = gtk_tree_view_get_model(GTK_TREE_VIEW(tree_view));
+	gtk_tree_store_clear(GTK_TREE_STORE (tree_model));
+
+	/* TODO clear the graph */
+
+	/* select the first page of the notebook */ 
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(spp_container), 0);
 }
 
 /*
@@ -632,12 +660,6 @@ spp_refresh_button_clicked(GtkButton *button, gpointer user_data)
 	tmp_range.current_balance = current_balance;
 	gtk_tree_model_foreach(GTK_TREE_MODEL(tree_model),
 		spp_update_amount, &tmp_range);
-	gchar* str = gsb_real_get_string(tmp_range.min_balance); 
-	g_print("minimum balance : %s\n", str);
-	g_free(str);
-	str = gsb_real_get_string(tmp_range.max_balance); 
-	g_print("maximum balance : %s\n", str);
-	g_free(str);
 
 	/* TODO dOm : update graph */
 	/*
@@ -646,6 +668,9 @@ spp_refresh_button_clicked(GtkButton *button, gpointer user_data)
 	gtk_tree_model_foreach(GTK_TREE_MODEL(tree_model),
 		spp_update_graph, widget);
 		*/
+
+	/* select the second page of the notebook */ 
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(spp_container), 1);
 }
 
 #endif /* ENABLE_BALANCE_ESTIMATE */
