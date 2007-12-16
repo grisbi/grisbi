@@ -22,6 +22,8 @@
 
 
 #include "include.h"
+/* TODO dOm : add this include to avoid warning */
+#include "dialog.h"
 
 
 

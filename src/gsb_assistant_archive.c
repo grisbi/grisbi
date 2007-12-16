@@ -398,7 +398,7 @@ static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant
  * */
 static GtkWidget *gsb_assistant_archive_page_success ( void )
 {
-    GtkWidget * page, * label;
+    GtkWidget * page;
     GtkTextBuffer * buffer;
     GtkTextIter iter;
 

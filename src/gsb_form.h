@@ -55,5 +55,7 @@ gboolean gsb_form_set_sensitive ( gboolean breakdown,
 				  gboolean breakdown_child);
 gboolean gsb_form_show ( gboolean show );
 gboolean gsb_form_switch_expander ( void );
+/* TODO dOm : I add this prototype to avoid warning */
+gboolean gsb_form_is_visible ();
 /* END_DECLARATION */
 #endif

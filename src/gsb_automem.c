@@ -48,8 +48,10 @@ static  gboolean gsb_automem_checkbutton_changed ( GtkWidget *checkbutton,
 						  gpointer null );
 static  gboolean gsb_automem_entry_changed (GtkWidget *entry,
 					   gpointer null );
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static void gsb_automem_entry_set_value ( GtkWidget *entry,
 				   gchar **value );
+*/
 static GtkWidget *gsb_automem_radiobutton_new ( const gchar *choice1,
 					 const gchar *choice2,
 					 gboolean *value,
@@ -63,12 +65,16 @@ static GtkWidget *gsb_automem_spin_button_new_full ( gint *value,
 					      gdouble page_size, 
 					      gdouble climb_rate,
 					      GCallback hook, gpointer data );
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static void gsb_automem_spin_button_set_value ( GtkWidget *spin,
 					 gint *value );
+ */
 static  gboolean gsb_automem_textview_changed ( GtkTextBuffer *buffer,
 					       gpointer null );
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static void gsb_automem_textview_set_value ( GtkWidget *text_view,
 				      gchar **value );
+*/
 /*END_STATIC*/
 
 
@@ -121,10 +127,11 @@ GtkWidget *gsb_automem_entry_new ( gchar **value,
  *
  * \return
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it ?
 void gsb_automem_entry_set_value ( GtkWidget *entry,
 				   gchar **value )
 {
-    /* Block everything */
+    !* Block everything *!
     if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
 	g_signal_handler_block ( G_OBJECT(entry),
 				 (gulong) g_object_get_data (G_OBJECT (entry), 
@@ -134,7 +141,7 @@ void gsb_automem_entry_set_value ( GtkWidget *entry,
 				 (gulong) g_object_get_data (G_OBJECT (entry), 
 							     "changed-hook"));
 
-    /* Fill in value */
+    !* Fill in value *!
     if (value && *value)
 	gtk_entry_set_text ( GTK_ENTRY (entry), *value );
     else
@@ -143,7 +150,7 @@ void gsb_automem_entry_set_value ( GtkWidget *entry,
     g_object_set_data ( G_OBJECT(entry),
 			"pointer", value );
 
-    /* Unblock everything */
+    !* Unblock everything *!
     if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
 	g_signal_handler_unblock ( G_OBJECT(entry),
 				   (gulong) g_object_get_data (G_OBJECT (entry), 
@@ -153,6 +160,7 @@ void gsb_automem_entry_set_value ( GtkWidget *entry,
 				   (gulong) g_object_get_data (G_OBJECT (entry), 
 							       "changed-hook"));
 }
+*/
 
 
 
@@ -227,6 +235,7 @@ GtkWidget *gsb_automem_textview_new ( gchar **value,
  *
  * \return
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 void gsb_automem_textview_set_value ( GtkWidget *text_view,
 				      gchar **value )
 {
@@ -237,7 +246,7 @@ void gsb_automem_textview_set_value ( GtkWidget *text_view,
 
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
 
-    /* Block everything */
+    !* Block everything *!
     if ( g_object_get_data (G_OBJECT(buffer), "changed") > 0 )
 	g_signal_handler_block ( G_OBJECT(buffer),
 				 (gulong) g_object_get_data ( G_OBJECT(buffer), "changed" ));
@@ -245,7 +254,7 @@ void gsb_automem_textview_set_value ( GtkWidget *text_view,
 	g_signal_handler_block ( G_OBJECT(buffer),
 				 (gulong) g_object_get_data ( G_OBJECT(buffer), 
 							      "changed-hook" ));
-    /* Fill in value */
+    !* Fill in value *!
     if (value && *value)
 	gtk_text_buffer_set_text (buffer, *value, -1 );
     else
@@ -253,7 +262,7 @@ void gsb_automem_textview_set_value ( GtkWidget *text_view,
 
     g_object_set_data ( G_OBJECT(buffer), "pointer", value );
 
-    /* Unblock everything */
+    !* Unblock everything *!
     if ( g_object_get_data (G_OBJECT(buffer), "changed") > 0 )
 	g_signal_handler_unblock ( G_OBJECT(buffer),
 				   (gulong) g_object_get_data ( G_OBJECT(buffer), "changed" ));
@@ -262,6 +271,7 @@ void gsb_automem_textview_set_value ( GtkWidget *text_view,
 				   (gulong) g_object_get_data ( G_OBJECT(buffer), 
 								"changed-hook" ));
 }
+*/
 
 
 /**
@@ -580,6 +590,7 @@ GtkWidget *gsb_automem_spin_button_new_full ( gint *value,
  * \return
  *
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 void gsb_automem_spin_button_set_value ( GtkWidget *spin,
 					 gint *value )
 {
@@ -592,7 +603,7 @@ void gsb_automem_spin_button_set_value ( GtkWidget *spin,
     if (!adjustment)
 	return;
 
-    /* Block everything */
+    !* Block everything *!
     if ( g_object_get_data (G_OBJECT (spin), "changed") > 0 )
 	g_signal_handler_block ( G_OBJECT(adjustment),
 				 (gulong) g_object_get_data ( G_OBJECT (spin), 
@@ -610,7 +621,7 @@ void gsb_automem_spin_button_set_value ( GtkWidget *spin,
     g_object_set_data ( G_OBJECT(spin),
 			"pointer", value);
 
-    /* Unblock everything */
+    !* Unblock everything *!
     if ( g_object_get_data (G_OBJECT (spin), "changed") > 0 )
 	g_signal_handler_unblock ( G_OBJECT(adjustment),
 				   (gulong) g_object_get_data ( G_OBJECT (spin), 
@@ -620,6 +631,7 @@ void gsb_automem_spin_button_set_value ( GtkWidget *spin,
 				   (gulong) g_object_get_data ( G_OBJECT (spin),
 								"changed-hook"));
 }
+*/
 
 
 /**

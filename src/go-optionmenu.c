@@ -51,7 +51,9 @@ static  void go_option_menu_detacher (GtkWidget     *widget,
 				     GtkMenu	*menu) ;
 static  gint go_option_menu_expose (GtkWidget      *widget,
 			GdkEventExpose *event);
+/* dOm TODO : this function seems not to be used. Is it possible to remove it ?
 static GtkWidget* go_option_menu_get_menu (GOOptionMenu *option_menu);
+*/
 static  void go_option_menu_get_property (GObject            *object,
 				   guint               prop_id,
 				   GValue             *value,
@@ -284,12 +286,14 @@ GtkWidget* go_option_menu_new (void)
   return g_object_new (GO_TYPE_OPTION_MENU, NULL);
 }
 
+/* TODO dOm : this function seems not to be used. Is it possible to remove it ?
 GtkWidget* go_option_menu_get_menu (GOOptionMenu *option_menu)
 {
   g_return_val_if_fail (GO_IS_OPTION_MENU (option_menu), NULL);
 
   return option_menu->menu;
 }
+*/
 
 static void go_option_menu_detacher (GtkWidget     *widget,
 				     GtkMenu	*menu) 

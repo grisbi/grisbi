@@ -72,6 +72,8 @@
 #include "./include.h"
 #include "./structures.h"
 #include "./gsb_form_widget.h"
+/* TODO dOm : I add this include to avoid warning */
+#include "menu.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

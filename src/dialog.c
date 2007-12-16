@@ -32,7 +32,9 @@
 /*START_STATIC*/
 static void dialogue_conditional ( gchar *text, gchar * var );
 static void dialogue_conditional_hint ( gchar *hint, gchar * text, gchar * var );
+/* TODO dOm : this function seems not to be used
 static void dialogue_conditional_info_hint ( gchar *hint, gchar * text, gchar * var );
+*/
 static GtkDialog * dialogue_conditional_new ( gchar *text, gchar * var, GtkMessageType type,
 				       GtkButtonsType buttons );
 static void dialogue_conditional_special ( gchar *text, gchar * var, GtkMessageType type );
@@ -328,11 +330,12 @@ void dialogue_conditional_hint ( gchar *hint, gchar * text, gchar * var )
  * appear or not and that indicates which variable could be modified
  * so that this message won't appear again.
  */
+/*TODO dOm : function seems not to be used 
 void dialogue_conditional_info_hint ( gchar *hint, gchar * text, gchar * var )
 {
     dialogue_conditional_special ( make_hint(hint, text), var, GTK_MESSAGE_INFO );
 }
-
+*/
 
 
 /**

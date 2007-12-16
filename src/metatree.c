@@ -82,6 +82,12 @@ static gboolean search_for_transaction ( GtkTreeModel *model, GtkTreePath *path,
 static void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 			      MetatreeInterface * iface, 
 			      gint sub_division, gint division );
+/* TODO dOm : add this prototype to avoid warning */
+static void supprimer_transaction ( GtkTreeView * tree_view, GtkTreeModel * model,
+			     MetatreeInterface * iface, 
+			     gint transaction);
+static void metatree_remove_iter_and_select_next ( GtkTreeView * tree_view, GtkTreeModel * model,
+					    GtkTreeIter * iter );
 /*END_STATIC*/
 
 
@@ -783,7 +789,9 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 			      MetatreeInterface * iface, 
 			      gint sub_division, gint division )
 {
+	/*TODO dOm : unused variable selection.
     GtkTreeSelection * selection;
+    */
     GtkTreeIter iter, * it;
 
     if ( find_associated_transactions ( iface, division, 

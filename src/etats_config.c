@@ -5898,8 +5898,10 @@ GtkWidget *page_data_separation ( void )
 {
     GtkWidget *label;
     GtkWidget *hbox;
+    /* TODO dOm : vbox and frame seems not to be used 
     GtkWidget *frame;
     GtkWidget *vbox;
+    */
     GtkWidget *vbox_onglet;
     GtkWidget *menu;
     GtkWidget *menu_item;

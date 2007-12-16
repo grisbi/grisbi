@@ -32,9 +32,13 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static gchar * gsb_string_escape_underscores ( gchar * orig );
+*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static gint my_strcmp ( gchar *string_1,
 		 gchar *string_2 );
+		 */
 /*END_STATIC*/
 
 
@@ -283,6 +287,7 @@ gchar *my_strdelimit ( const gchar *string,
 /* ******************************************************************************* */
 /* my_strcasecmp : compare 2 chaines sensitive que ce soit utf8 ou ascii */
 /* ******************************************************************************* */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 gint my_strcmp ( gchar *string_1,
 		 gchar *string_2 )
 {
@@ -314,6 +319,7 @@ gint my_strcmp ( gchar *string_1,
 
     return 0;
 }
+*/
 /* ******************************************************************************* */
 
 
@@ -611,6 +617,7 @@ GSList *gsb_string_get_string_list_from_string ( const gchar *string,
  *
  * \return		A newly-allocated and escaped string.
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 gchar * gsb_string_escape_underscores ( gchar * orig )
 {
     gchar new[1024], *iter;
@@ -627,6 +634,7 @@ gchar * gsb_string_escape_underscores ( gchar * orig )
 
     return my_strdup (new);
 }
+*/
 
 
 

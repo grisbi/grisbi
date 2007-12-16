@@ -36,8 +36,13 @@
 /*START_STATIC*/
 static gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage, 
 				     gint page, gpointer assistant );
+
+/* dOm TODO : this function seems not to be used. Is it possible to remove it ?
 static void gsb_assistant_prev_page ( GtkWidget *assistant );
+*/
+/* dOm TODO : this function seems not to be used. Is it possible to remove it ?
 static void gsb_assistant_set_additional_button ( GtkWidget * assistant, gchar * title );
+*/
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -382,6 +387,7 @@ void gsb_assistant_next_page ( GtkWidget *assistant )
  *
  * \return
  * */
+/* dOm TODO : this function seems not to be used. Is it possible to remove it ?
 void gsb_assistant_prev_page ( GtkWidget *assistant )
 {
     GtkWidget * button_prev;
@@ -389,7 +395,7 @@ void gsb_assistant_prev_page ( GtkWidget *assistant )
     button_prev = g_object_get_data ( G_OBJECT (assistant), "button_prev" );
     gtk_button_clicked ( GTK_BUTTON (button_prev));
 }
-
+*/
 
 
 
@@ -413,6 +419,7 @@ void gsb_assistant_change_button_next ( GtkWidget * assistant, gchar * title,
  * 
  *
  */
+/* dOm TODO : this function seems not to be used. Is it possible to remove it ?
 void gsb_assistant_set_additional_button ( GtkWidget * assistant, gchar * title )
 {
     GtkWidget * additional_button;
@@ -428,6 +435,7 @@ void gsb_assistant_set_additional_button ( GtkWidget * assistant, gchar * title 
     gtk_widget_show_all ( additional_button );
     gtk_box_pack_end ( GTK_BOX (GTK_DIALOG(assistant)->action_area), additional_button, TRUE, TRUE, 0 );
 }
+*/
 
 
 

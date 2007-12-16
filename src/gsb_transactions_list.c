@@ -66,9 +66,13 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+/* TODO dOm : this function seems not to be defined. Is it possible to remove it 
 static gint cherche_ligne_operation ( gint transaction_number,
 			       gint account_number );
+			       */
+/* TODO dOm : this function seems not to be defined. Is it possible to remove it 
 static gpointer cherche_operation_from_ligne ( gint ligne );
+*/
 static void creation_titres_tree_view ( void );
 static gint find_element_col ( gint element_number );
 static gint find_element_line ( gint element_number );
@@ -110,9 +114,11 @@ static gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_n
 						       gint cell_content_number );
 static gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_number,
 							     gint target_account );
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static  gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
 						       GtkTreeIter *iter,
 						       gpointer null );
+						       */
 static void gsb_transactions_list_set_filter (GtkTreeModel *filter_model);
 static GtkTreeModel *gsb_transactions_list_set_filter_store ( GtkTreeStore *store );
 static void gsb_transactions_list_set_sortable (GtkTreeModel *sortable_model);
@@ -5178,6 +5184,7 @@ gboolean gsb_transactions_list_draw_grid ( gboolean show_grid )
  *
  * \return TRUE if separator, FALSE else
  * */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
 						       GtkTreeIter *iter,
 						       gpointer null )
@@ -5190,6 +5197,7 @@ static gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
 			 -1 );
     return (what_is_line == IS_SEPARATOR);
 }
+*/
 
 
 /**

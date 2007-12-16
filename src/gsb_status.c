@@ -34,12 +34,24 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static gboolean gsb_status_pulse (  );
+*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static void gsb_status_remove_progress (  );
+*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static void gsb_status_set_progress ( gdouble ratio, gdouble max );
+*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static void gsb_status_show_progress ();
+*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static void gsb_status_start_activity (  );
+*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static void gsb_status_stop_activity (  );
+*/
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -132,6 +144,7 @@ void gsb_status_clear (  )
 /**
  * Display a progress bar in the status bar.  Does not set any value.
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 void gsb_status_show_progress ()
 {
     if ( progress_bar )
@@ -143,6 +156,7 @@ void gsb_status_show_progress ()
     gtk_box_pack_start ( GTK_BOX ( main_statusbar ), progress_bar, FALSE, FALSE, 6 );
     gtk_widget_show ( progress_bar );
 }
+*/
 
 
 
@@ -157,6 +171,7 @@ void gsb_status_show_progress ()
  * To set the progress bar to half of its size, simply use something
  * like gsb_status_set_progress ( 0.5, 1.0 ).
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 void gsb_status_set_progress ( gdouble ratio, gdouble max )
 {
     if ( ! progress_bar )
@@ -166,12 +181,14 @@ void gsb_status_set_progress ( gdouble ratio, gdouble max )
 
     gtk_progress_bar_set_fraction ( GTK_PROGRESS_BAR (progress_bar), ratio / max );
 }
+*/
 
 
 
 /**
  * Remove progress bar from status bar.
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 void gsb_status_remove_progress (  )
 {
     if ( ! progress_bar )
@@ -182,6 +199,7 @@ void gsb_status_remove_progress (  )
     gtk_widget_destroy ( progress_bar );
     progress_bar = NULL;
 }
+*/
 
 
 
@@ -191,6 +209,7 @@ void gsb_status_remove_progress (  )
  *
  * \return TRUE
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 gboolean gsb_status_pulse (  )
 {
     if ( ! progress_bar )
@@ -201,10 +220,11 @@ gboolean gsb_status_pulse (  )
     gtk_progress_bar_pulse ( GTK_PROGRESS_BAR (progress_bar));
     while ( gtk_events_pending () ) gtk_main_iteration ( );
 
-    /* As this is a timeout function, return TRUE so that it
-     * continues to get called */
+    !* As this is a timeout function, return TRUE so that it
+     * continues to get called *!
     return TRUE;
 }
+*/
 
 
 
@@ -212,23 +232,26 @@ gboolean gsb_status_pulse (  )
  * Display the progress bar and add a timeout function to update it
  * continuously.
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 void gsb_status_start_activity (  )
 {
     gsb_status_show_progress ();
     timer_id = g_timeout_add ( 100, gsb_status_pulse, NULL );
 }
+*/
 
 
 
 /**
  * Remove the progress bar and associated timeout.
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 void gsb_status_stop_activity (  )
 {
     g_source_remove ( timer_id );
     gsb_status_remove_progress ();
 }
-
+*/
 
 
 /**

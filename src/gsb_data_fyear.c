@@ -64,8 +64,10 @@ enum fyear_invalid {
 };
 
 /*START_STATIC*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static gint gsb_data_fyear_get_pointer_from_name_in_glist ( struct_fyear *fyear,
 						     const gchar *name );
+						     */
 static gpointer gsb_data_fyear_get_structure ( gint fyear_number );
 static gint gsb_data_fyear_max_number ( void );
 /*END_STATIC*/
@@ -291,12 +293,14 @@ gint gsb_data_fyear_set_new_number ( gint fyear_number,
  *
  * \return 0 if it's the same name
  * */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 gint gsb_data_fyear_get_pointer_from_name_in_glist ( struct_fyear *fyear,
 						     const gchar *name )
 {
     return ( g_strcasecmp ( fyear -> fyear_name,
 			    name ));
 }
+*/
 
 /**
  * return the name of the fyear

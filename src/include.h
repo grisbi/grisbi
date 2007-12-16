@@ -72,4 +72,8 @@
 #define alert_debug(x) debug_message("Alert",__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_ALERT,FALSE)
 #define DEBUG_WHERE_AM_I g_strdup_printf("%s line %05d",__FILE__,__LINE__)
 
+/* TODO dOm : add this prototype to avoid warning "implicit declaration of function ‘debug_message’" */
+void debug_message ( gchar *prefixe, gchar * file, gint line, const char * function, 
+		     gchar *message, gint level, gboolean force_debug_display);
+
 #endif /* _INCLUDE_H */

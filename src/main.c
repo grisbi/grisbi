@@ -144,7 +144,8 @@ int main (int argc, char *argv[])
     /* parse command line parameter, exit with correct error code when needed */
     {
         CMDLINE_ERRNO status = CMDLINE_SYNTAX_OK;/* be optimistic ;-) */
-        if (!parse_options(argc, argv, &opt,&status))
+	/* TODO dOm : I add the (gint*) cast */
+        if (!parse_options(argc, argv, &opt,(gint*)&status))
         {
             exit(status);
         }

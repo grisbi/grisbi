@@ -34,8 +34,12 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static gboolean change_print_to_file ( GtkButton *button, gpointer data );
+*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static GtkWidget * print_config_appearance ( GtkWidget * dialog );
+*/
 static GtkWidget * print_config_general ( GtkWidget * dialog );
 static GtkWidget * print_config_paper ( GtkWidget * dialog );
 static gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer user_data ) ;
@@ -170,6 +174,7 @@ gboolean print_config ( )
  *
  * \return FALSE to allow other handlers to be processed
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 gboolean change_print_to_file ( GtkButton *button, gpointer data )
 {
     GtkFileSelection * file_selector;
@@ -180,6 +185,7 @@ gboolean change_print_to_file ( GtkButton *button, gpointer data )
 
     return FALSE;
 }
+*/
 
 
 
@@ -321,6 +327,7 @@ GtkWidget * print_config_paper ( GtkWidget * dialog )
  *
  * \return a pointer to a newly created GtkVbox
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 GtkWidget * print_config_appearance ( GtkWidget * dialog )
 {
     GtkWidget *vbox, *paddingbox;
@@ -328,18 +335,19 @@ GtkWidget * print_config_appearance ( GtkWidget * dialog )
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
-    /* Headers */
+    !* Headers *!
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Headers") );
 
-    /* Footers */
+    !* Footers *!
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Footers") );
 
-    /* Misc */
+    !* Misc *!
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Misc") );
 
     return vbox;
 }
 
+*/
 
 
 /**

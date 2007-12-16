@@ -35,9 +35,16 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it ?
 static  GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant );
+*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it ?
 static  GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant );
+*/
+
+/* TODO dOm : this function seems not to be used. Is it possible to remove it ?
 static GtkResponseType gsb_assistant_account_run ( void );
+*/
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -58,12 +65,12 @@ enum first_assistant_page
  *
  * \return a GtkResponseType containing the return value at the end of the assistant
  * */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it ?
 GtkResponseType gsb_assistant_account_run ( void )
 {
     GtkResponseType return_value;
     GtkWidget *assistant;
 
-    /* create the assistant */
     assistant = gsb_assistant_new ( _("Create a new account"),
 				    _("Hello ! i'm the barbie girl who help you through that so hard way than creating a new account !"),
 				    NULL,
@@ -85,6 +92,7 @@ GtkResponseType gsb_assistant_account_run ( void )
     gtk_widget_destroy (assistant);
     return return_value;
 }
+*/
 
 
 
@@ -95,6 +103,7 @@ GtkResponseType gsb_assistant_account_run ( void )
  *
  * \return a GtkWidget containing the page
  * */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it ?
 static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
 {
     GtkWidget *page;
@@ -110,7 +119,7 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
 			 vbox,
 			 FALSE, FALSE, 0 );
 
-    /* set up the menu */
+    !* set up the menu *!
     label = gtk_label_new (_("This is the page 2... blah blah blah encore"));
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
@@ -121,6 +130,7 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
     gtk_widget_show_all (page);
     return page;
 }
+*/
 
 /**
  * create the last page of the account assistant
@@ -129,6 +139,7 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
  *
  * \return a GtkWidget containing the page
  * */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it ?
 static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
 {
     GtkWidget *page;
@@ -144,7 +155,7 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
 			 vbox,
 			 FALSE, FALSE, 0 );
 
-    /* set up the menu */
+    !* set up the menu *!
     label = gtk_label_new (_("Oh ! you succeed to create the account !!! another one to keep health ???\n"
 			     "[button] oh yes\n"
 			     "[button] no\n"));
@@ -157,5 +168,6 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
     gtk_widget_show_all (page);
     return page;
 }
+*/
 
 

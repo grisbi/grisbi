@@ -62,8 +62,10 @@ typedef struct
 } struct_archive;
 
 /*START_STATIC*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static gint gsb_data_archive_get_pointer_from_name_in_glist ( struct_archive *archive,
 						       const gchar *name );
+						       */
 static gpointer gsb_data_archive_get_structure ( gint archive_number );
 static gint gsb_data_archive_max_number ( void );
 /*END_STATIC*/
@@ -307,12 +309,14 @@ gint gsb_data_archive_set_new_number ( gint archive_number,
  *
  * \return 0 if it's the same name
  * */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 gint gsb_data_archive_get_pointer_from_name_in_glist ( struct_archive *archive,
 						       const gchar *name )
 {
     return ( g_strcasecmp ( archive -> archive_name,
 			    name ));
 }
+*/
 
 /**
  * return the name of the archive

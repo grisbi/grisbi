@@ -249,6 +249,9 @@ gboolean category_scheduled_set_div_id ( gint scheduled_number,
 	    gsb_data_scheduled_set_account_number_transfer ( scheduled_number,
 							     0 );
     }
+    /* TODO dOm : add the return instruction.
+     * Is not better for this function to return void ? */ 
+    return TRUE;
 }
 
 

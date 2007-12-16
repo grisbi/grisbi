@@ -31,6 +31,7 @@
 #include "./utils_str.h"
 #include "./parametres.h"
 #include "./gsb_calendar_entry.h"
+#include "dialog.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -203,7 +204,8 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
  */
 gchar ** split_unique_datefield ( gchar * string, gchar date_tokens [] )
 {
-    gchar ** return_tab = g_new ( gchar *, g_strv_length ( date_tokens ) + 1 );
+/*TODO dOm : I add a & before date_tokens to avoid warning. Is is correct ? */
+    gchar ** return_tab = g_new ( gchar *, g_strv_length ( &date_tokens ) + 1 );
     int size = strlen ( string );
     gchar * max = string + size;
     int i = 0;
@@ -293,7 +295,8 @@ GDate * gsb_parse_date_string ( const gchar *date_string )
     while ( string [ strlen ( string ) - 1 ] == '.' && strlen ( string ) ) 
 	string [ strlen ( string )  - 1 ] = '\0';
     len = string + strlen ( string );
-    while ( tmp = strstr ( string, ".." ) )
+ /* TODO dOm : I add parenthesis to avoid warning */
+    while ( (tmp = strstr ( string, ".." )) )
     {
 	strncpy ( tmp, tmp+1, len - tmp );
 	len --;

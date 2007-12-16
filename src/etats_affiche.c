@@ -227,7 +227,11 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 					     nb_ope_categ_etat );
 	    }
 	    else
-		text = g_strdup_printf ( _("%s %s"),
+	    	/* dOm TODO :  too few arguments for format
+		 * previous format was "%s %s" and there is only one argument in printf
+		 * so I replace "%s %s" by "%s"
+		 * */ 
+		text = g_strdup_printf ( _("%s"),
 					 gsb_real_get_string_with_currency ( montant_categ_etat,
 									     devise_categ_etat ) );
 

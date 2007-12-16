@@ -63,7 +63,10 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static gboolean file_io_fix_xml_corrupted_file_lock_tag(gchar* accounts_filename);
+*/
 static void gsb_file_load_account_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
@@ -211,6 +214,7 @@ static struct reconcile_conversion_struct *buffer_reconcile_conversion;
  * @retval FALSE in all other cases.
  *
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 gboolean file_io_fix_xml_corrupted_file_lock_tag(gchar* accounts_filename)
 {
     gboolean fix_applied      = FALSE;
@@ -243,6 +247,7 @@ gboolean file_io_fix_xml_corrupted_file_lock_tag(gchar* accounts_filename)
     return fix_applied;
     
 }
+*/
 
 
 /**
@@ -7069,6 +7074,8 @@ gboolean gsb_file_load_update_previous_version ( void )
 	 etat.max_non_archived_transactions_for_check )
     {
 	/* FIXME: make this conditional ? */
+	/* TODO dOm : warning: passing argument 3 of ‘question_conditional_yes_no_special’ from incompatible pointer type.
+	 * I add a cast (gchar*) before &etat.check_for_archival */ 
 	if ( question_conditional_yes_no_special ( _("Archive some transactions ?"),
 						   g_strdup_printf ( _("There are %d transactions in your file,\n" 
 								       "To increase speed it would be faster to "
@@ -7076,7 +7083,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 								       "to launch the assistant to archive some "
 								       "transactions?"),
 								     g_slist_length (gsb_data_transaction_get_transactions_list ())),
-						   &etat.check_for_archival ) )
+						   (gchar*)&etat.check_for_archival ) )
 	    gsb_assistant_archive_run ();
     }
 

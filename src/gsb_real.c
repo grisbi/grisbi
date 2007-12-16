@@ -66,7 +66,9 @@ extern gint max;
 */
 gchar * gsb_real_get_string ( gsb_real number )
 {
-    gsb_real_format_string ( number, NULL );
+	/* TODO dOm : I add the return instruction which was not present.
+	 * How can it work without the return instruction ?*/
+    return gsb_real_format_string ( number, NULL );
 }
 
 
@@ -86,7 +88,7 @@ gchar * gsb_real_format_string ( gsb_real number, gchar * currency_symbol )
 {
     struct lconv * conv = localeconv ( );
     div_t result_div;
-    gchar *string, *exponent, *mantissa, *tmp;
+    gchar *string, *exponent, *mantissa;
     gint i = 0, j=0;
     glong num;
 
@@ -189,8 +191,11 @@ gchar *gsb_real_get_string_with_currency ( gsb_real number,
 {
     gchar *string;
 
+	/* TODO dOm : I add the cast (gchar*) to avoid warning.
+	 * It might be a good idea to change the prototype of "gsb_real_format_string" 
+	 * to add "const" in the second argument ?*/
     string = gsb_real_format_string (number,
-				     gsb_data_currency_get_code (currency_number) );
+				     (gchar*)gsb_data_currency_get_code (currency_number) );
     return string;
 }
 

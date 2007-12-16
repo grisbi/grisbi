@@ -176,7 +176,8 @@ void modification_fichier ( gboolean modif )
     }
     else
     {
-	etat.modification_fichier = NULL;
+    	/* TODO dOm : replace NULL by 0 to avoid warning */
+	etat.modification_fichier = 0;
 	gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, FALSE );
     }
 }

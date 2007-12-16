@@ -111,5 +111,8 @@ gboolean new_transaction () ;
 void remove_transaction ();
 void schedule_selected_transaction ();
 gboolean assert_selected_transaction ();
+/* TODO dOm : I add these prototypes to avoid warning */
+void gsb_transactions_list_set_show_toggle_buttons ( gboolean show );
+
 /* END_DECLARATION */
 #endif

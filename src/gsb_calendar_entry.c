@@ -69,7 +69,9 @@ extern GtkWidget *window;
 /*END_EXTERN*/
 
 /** the 2 styles, red or normal, used in the date entry */
+/* TODO dOm : this array seems not to be used. Is it possible to remove it 
 static GtkStyle *calendar_base_style[2];
+*/
 
 #define ENTRY_NORMAL 0
 #define ENTRY_RED 1

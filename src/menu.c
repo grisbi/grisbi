@@ -594,7 +594,8 @@ gboolean gsb_gui_toggle_show_form ()
 
     /* FIXME benj: ugly but I cannot find a way to block this ... I
        understand why gtkitemfactory is deprecated. */
-    if ( block_menu_cb ) return;
+    /* TODO dOm : add FALSE after return to avoid warning */
+    if ( block_menu_cb ) return FALSE;
 
     gsb_form_switch_expander ( );
 

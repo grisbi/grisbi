@@ -48,13 +48,27 @@ extern "C" {
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static  gboolean _file_selection_check_filename ( GtkWidget *selection_fichier);
+*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static  gboolean _file_selection_overwrite_file_check( GtkWidget *selection_fichier);
+*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static void file_selection_check_filename_signal(GtkWidget *selection_fichier);
+*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static gchar* file_selection_get_entry(GtkFileChooser* filesel);
+*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static GSList * file_selection_get_selections(GtkFileChooser* filesel);
+*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static void file_selection_overwrite_file_check_signal(GtkWidget *selection_fichier);
+*/
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static void file_selection_set_filename(GtkFileChooser* filesel,const gchar* utf8filename);
+*/
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -81,13 +95,15 @@ extern GtkTreeSelection * selection;
  *      - FALSE in all other cases (filename empty, ...)
  *      
  */      
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static gboolean _file_selection_overwrite_file_check( GtkWidget *selection_fichier)
-{ /* {{{ */
+{ !* {{{ *!
     gchar* filename = my_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
 
     return (gsb_file_util_test_overwrite (filename));
 
-} /* }}} file_selection_check_filename */
+} !* }}} file_selection_check_filename *!
+*/
 
 /** Handler called by the "Save" GTKFileSelection dialog on button_ok "clicked" signal.
  * 
@@ -95,11 +111,13 @@ static gboolean _file_selection_overwrite_file_check( GtkWidget *selection_fichi
  * - GTK_RESPONSE_OK   if the selected filename does not exists or if the user confirm the overwrite
  * - GTK_RESPONSE_NONE in all others cases.
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 void file_selection_overwrite_file_check_signal(GtkWidget *selection_fichier)
-{ /* {{{ */
+{ !* {{{ *!
     gtk_dialog_response(GTK_DIALOG(GTK_FILE_SELECTION(selection_fichier)),
 			(_file_selection_overwrite_file_check(selection_fichier) == TRUE) ? GTK_RESPONSE_OK : GTK_RESPONSE_NONE);
-} /* }}} file_selection_overwrite_file_check_signal */
+} !* }}} file_selection_overwrite_file_check_signal *!
+*/
 
 /** Validate the selected filename from a GtkFileChooser.  Check if file exists.
  *
@@ -108,8 +126,9 @@ void file_selection_overwrite_file_check_signal(GtkWidget *selection_fichier)
  *      - TRUE if the filename is ok (file exists and is valid)
  *      - FALSE in all other cases (filename empty, ...)
  */      
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 static gboolean _file_selection_check_filename ( GtkWidget *selection_fichier)
-{ /* {{{ */
+{ !* {{{ *!
     gboolean result = TRUE;
     gchar* filename = my_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
 
@@ -130,7 +149,8 @@ static gboolean _file_selection_check_filename ( GtkWidget *selection_fichier)
     }
 
     return result;
-} /* }}} file_selection_check_filename */
+} !* }}} file_selection_check_filename *!
+*/
 
 /** Handler called by the "Open" GTKFileSelection dialog on button_ok "clicked" signal.
  * 
@@ -138,11 +158,13 @@ static gboolean _file_selection_check_filename ( GtkWidget *selection_fichier)
  * - GTK_RESPONSE_OK   if the selected filename exists
  * - GTK_RESPONSE_NONE in all others cases.
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 void file_selection_check_filename_signal(GtkWidget *selection_fichier)
-{ /* {{{ */
+{ !* {{{ *!
     gtk_dialog_response(GTK_DIALOG(GTK_FILE_SELECTION(selection_fichier)),
 			(_file_selection_check_filename(selection_fichier) == TRUE) ? GTK_RESPONSE_OK : GTK_RESPONSE_NONE);
-} /* }}} file_selection_check_filename_signal */
+} !* }}} file_selection_check_filename_signal *!
+*/
 
 
 
@@ -204,10 +226,12 @@ void file_selection_set_entry(GtkFileChooser* filesel,const gchar* utf8string)
  *  where no more used (no need to add any my_strdup string to use it)
  *  
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 gchar* file_selection_get_entry(GtkFileChooser* filesel)
-{ /* {{{ */
+{ !* {{{ *!
     return g_filename_to_utf8 ( gtk_file_chooser_get_filename ( filesel ),-1,NULL,NULL,NULL);
-} /* }}} file_selection_get_entry */
+} !* }}} file_selection_get_entry *!
+*/
 
 
 
@@ -218,11 +242,13 @@ gchar* file_selection_get_entry(GtkFileChooser* filesel)
  * \param filesel GtkFileChooser widget handle
  * \param utf8filename the string to set coded with the UTF8 charset
  */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 void file_selection_set_filename(GtkFileChooser* filesel,const gchar* utf8filename)
-{ /* {{{ */
+{ !* {{{ *!
     gtk_file_chooser_set_filename ( filesel, 
 				    g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL) );
-} /* }}} file_selection_set_filename */
+} !* }}} file_selection_set_filename *!
+*/
 
 /** file_selection_get_filename
  *
@@ -252,10 +278,13 @@ gchar* file_selection_get_filename(GtkFileChooser* filesel)
  *   It should be unallocated by the caller. Use g_strfreev() to free it.
  *   
  * */
+/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 GSList * file_selection_get_selections(GtkFileChooser* filesel)
-{ /* {{{ */
+{ !* {{{ *!
     return gtk_file_chooser_get_filenames  ( filesel );
-} /* }}} file_selection_get_selections */
+} !* }}} file_selection_get_selections *!
+
+*/
 
 
 
