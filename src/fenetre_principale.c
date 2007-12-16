@@ -41,6 +41,11 @@
 #include "./structures.h"
 #include "./include.h"
 #include "./gsb_plugins.h"
+
+#ifdef ENABLE_BALANCE_ESTIMATE 
+#include "balance_estimate_tab.h"
+#endif /*_BALANCE_ESTIMATE_TAB_H*/
+
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -264,6 +269,14 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 			       onglet_tiers(),
 			       gtk_label_new (SPACIFY(_("Payee"))) );
+
+
+    /* append the balance estimate page */
+#ifdef ENABLE_BALANCE_ESTIMATE 
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+			       create_balance_estimate_tab(),
+			       gtk_label_new (SPACIFY(_("Balance estimate"))) );
+#endif /* ENABLE_BALANCE_ESTIMATE */
 
     /* append the categories page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),

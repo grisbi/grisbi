@@ -114,11 +114,11 @@ static gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_n
 						       gint cell_content_number );
 static gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_number,
 							     gint target_account );
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
+#if GTK_CHECK_VERSION(2,10,0)
 static  gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
 						       GtkTreeIter *iter,
 						       gpointer null );
-						       */
+#endif /*GTK_CHECK_VERSION(2,10,0)*/
 static void gsb_transactions_list_set_filter (GtkTreeModel *filter_model);
 static GtkTreeModel *gsb_transactions_list_set_filter_store ( GtkTreeStore *store );
 static void gsb_transactions_list_set_sortable (GtkTreeModel *sortable_model);
@@ -5184,7 +5184,7 @@ gboolean gsb_transactions_list_draw_grid ( gboolean show_grid )
  *
  * \return TRUE if separator, FALSE else
  * */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
+#if GTK_CHECK_VERSION(2,10,0)
 static gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
 						       GtkTreeIter *iter,
 						       gpointer null )
@@ -5197,7 +5197,7 @@ static gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
 			 -1 );
     return (what_is_line == IS_SEPARATOR);
 }
-*/
+#endif /*GTK_CHECK_VERSION(2,10,0)*/
 
 
 /**

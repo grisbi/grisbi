@@ -69,6 +69,14 @@ else
   have_plugins=no
 fi
 
+dnl
+dnl balance estimate
+dnl
+AC_ARG_WITH(balance_estimate,
+[  --with-balance-estimate    add the support of balance estimate.],
+[
+  AC_DEFINE(ENABLE_BALANCE_ESTIMATE, 1, [Define if balance estimate is enabled])
+])
 
 dnl
 dnl check whether plugins should be enabled and, if they should be,

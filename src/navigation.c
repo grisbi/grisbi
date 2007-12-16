@@ -54,6 +54,10 @@
 #include "./gsb_data_account.h"
 #include "./include.h"
 #include "./structures.h"
+
+#ifdef ENABLE_BALANCE_ESTIMATE 
+#include "balance_estimate_tab.h"
+#endif /*_BALANCE_ESTIMATE_TAB_H*/
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -283,6 +287,25 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_REPORT, -1,
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
+
+#ifdef ENABLE_BALANCE_ESTIMATE 
+    /* Balance estimate */
+    /* TODO dOm : create the icon file */
+    pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+						     "balance_estimate.png", NULL ), NULL );
+		gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
+    gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
+		       NAVIGATION_PIX, pixbuf,
+		       NAVIGATION_TEXT, _("Sold estimate"), 
+		       NAVIGATION_PIX_VISIBLE, TRUE, 
+		       NAVIGATION_FONT, 800,
+		       NAVIGATION_PAGE, GSB_BALANCE_ESTIMATE_PAGE,
+		       NAVIGATION_ACCOUNT, -1,
+		       NAVIGATION_REPORT, -1,
+		       NAVIGATION_SENSITIVE, 1,
+		       -1 );
+#endif /*_BALANCE_ESTIMATE_TAB_H*/
+
 
     /* Categories */
     pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
@@ -1198,6 +1221,20 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 						   &dummy_iter ) )
 		remplit_arbre_tiers ();
 	    break;
+
+#ifdef ENABLE_BALANCE_ESTIMATE 
+	case GSB_BALANCE_ESTIMATE_PAGE:
+	    notice_debug ("Sold balance estimate page selected");
+	    /* set the title */
+	    title = _("Balance estimate");
+	    /* what to be done if switch to that page */
+	    gsb_form_set_expander_visible (FALSE,
+					   FALSE );
+	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (categ_tree_model), 
+						   &dummy_iter ) )
+            update_balance_estimate_tab();
+	    break;
+#endif /*_BALANCE_ESTIMATE_TAB_H*/
 
 	case GSB_CATEGORIES_PAGE:
 	    notice_debug ("Category page selected");

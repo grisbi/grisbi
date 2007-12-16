@@ -125,7 +125,8 @@ sources = \
 	utils_file_selection.c	\
 	utils_files.c		\
 	utils_operations.c	\
-	utils_str.c
+	utils_str.c		\
+	balance_estimate_tab.c
 
 grisbi_SOURCES = $(sources) $(sources_config)
 
