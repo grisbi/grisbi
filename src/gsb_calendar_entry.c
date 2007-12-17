@@ -162,31 +162,11 @@ GDate *gsb_calendar_entry_get_date ( GtkWidget *entry )
 	||
 	!GTK_IS_ENTRY (entry)
 	||
-	!gsb_calendar_entry_date_valid (entry))
+	!gsb_date_check_entry (entry))
 	return NULL;
 
     date = gsb_parse_date_string (gtk_entry_get_text (GTK_ENTRY (entry)));
     return date;
-}
-
-
-/**
- * check if the date into the entry is ok
- *
- * \param entry the entry date
- *
- * \return TRUE ok, FALSE invalid date
- * */
-gboolean gsb_calendar_entry_date_valid ( GtkWidget *entry )
-{
-    if (!entry
-	||
-	!GTK_IS_ENTRY (entry)
-	||
-	!strlen (gtk_entry_get_text (GTK_ENTRY (entry))))
-	return FALSE;
-    
-    return TRUE;
 }
 
 
@@ -204,30 +184,25 @@ gboolean gsb_calendar_entry_date_valid ( GtkWidget *entry )
 gboolean gsb_calendar_entry_set_color ( GtkWidget *entry,
 					gboolean normal_color )
 {
-    GdkColor red, black;
+    GdkColor red;
+
+    if (!entry)
+	return FALSE;
 
     red.pixel = 0;
     red.red = COULEUR_ROUGE_RED; 
     red.green = COULEUR_ROUGE_GREEN;
     red.blue = COULEUR_ROUGE_BLUE;
 
-    black.pixel = 0;
-    black.red = COULEUR_NOIRE_RED;
-    black.green = COULEUR_NOIRE_GREEN;
-    black.blue = COULEUR_NOIRE_BLUE;
-
-    if (!entry)
-	return FALSE;
-
     if (normal_color)
     {
-	gtk_widget_modify_text ( entry, 
+	gtk_widget_modify_base ( entry, 
 				 GTK_STATE_NORMAL,
-				 &black );
+				 NULL );
     }
     else
     {
-	gtk_widget_modify_text ( entry, 
+	gtk_widget_modify_base ( entry, 
 				 GTK_STATE_NORMAL,
 				 &red );
     }

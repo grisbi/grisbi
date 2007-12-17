@@ -2,7 +2,7 @@
 #define GSB_CRYPT_H
 
 /* START_INCLUDE_H */
-#include "./plugins/openssl/openssl.h"
+#include "././plugins/openssl/openssl.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

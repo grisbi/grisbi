@@ -32,9 +32,6 @@
 /*START_STATIC*/
 static void dialogue_conditional ( gchar *text, gchar * var );
 static void dialogue_conditional_hint ( gchar *hint, gchar * text, gchar * var );
-/* TODO dOm : this function seems not to be used
-static void dialogue_conditional_info_hint ( gchar *hint, gchar * text, gchar * var );
-*/
 static GtkDialog * dialogue_conditional_new ( gchar *text, gchar * var, GtkMessageType type,
 				       GtkButtonsType buttons );
 static void dialogue_conditional_special ( gchar *text, gchar * var, GtkMessageType type );

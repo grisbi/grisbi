@@ -36,13 +36,6 @@
 /*START_STATIC*/
 static gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage, 
 				     gint page, gpointer assistant );
-
-/* dOm TODO : this function seems not to be used. Is it possible to remove it ?
-static void gsb_assistant_prev_page ( GtkWidget *assistant );
-*/
-/* dOm TODO : this function seems not to be used. Is it possible to remove it ?
-static void gsb_assistant_set_additional_button ( GtkWidget * assistant, gchar * title );
-*/
 /*END_STATIC*/
 
 /*START_EXTERN*/

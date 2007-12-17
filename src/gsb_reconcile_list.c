@@ -30,15 +30,14 @@
 
 /*START_INCLUDE*/
 #include "gsb_reconcile_list.h"
-#include "./erreur.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_transaction.h"
 #include "./navigation.h"
 #include "./gsb_transactions_list.h"
-#include "./structures.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_transactions_list.h"
+#include "./erreur.h"
 #include "./include.h"
 /*END_INCLUDE*/
 

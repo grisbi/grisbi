@@ -28,7 +28,6 @@
 /*START_INCLUDE*/
 #include "gsb_scheduler_list.h"
 #include "./barre_outils.h"
-#include "./erreur.h"
 #include "./dialog.h"
 #include "./utils_dates.h"
 #include "./gsb_automem.h"
@@ -48,6 +47,7 @@
 #include "./gsb_transactions_list.h"
 #include "./include.h"
 #include "./echeancier_infos.h"
+#include "./erreur.h"
 #include "./structures.h"
 /*END_INCLUDE*/
 

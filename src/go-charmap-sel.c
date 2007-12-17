@@ -60,9 +60,6 @@ static  void encodings_changed_cb (GOOptionMenu *optionmenu, GOCharmapSel *cs);
 static  char const * get_locale_encoding_name (GOCharmapSel *cs);
 static const char * go_charmap_sel_get_encoding_name (G_GNUC_UNUSED GOCharmapSel *cs,
 				    const char *encoding);
-/* dOm TODO : this function seems not to be used. Is it possible to remove it ? 
-static gboolean go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc);
-*/
 static  gboolean iconv_supported (const char *to, const char *from);
 static  int lgroups_order (const void *_a, const void *_b);
 static  void set_menu_to_default (GOCharmapSel *cs, gint item);

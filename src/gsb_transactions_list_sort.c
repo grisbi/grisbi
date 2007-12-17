@@ -31,7 +31,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_transactions_list_sort.h"
-#include "./erreur.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"
 #include "./gsb_data_budget.h"
@@ -44,9 +43,9 @@
 #include "./gsb_real.h"
 #include "./utils_str.h"
 #include "./gsb_transactions_list.h"
-#include "./structures.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

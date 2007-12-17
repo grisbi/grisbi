@@ -27,11 +27,11 @@
 
 /*START_INCLUDE*/
 #include "openssl.h"
-#include "./../../erreur.h"
 #include "./../../dialog.h"
 #include "./../../gsb_crypt.h"
 #include "./../../structures.h"
 #include "./../../include.h"
+#include "./../../erreur.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/

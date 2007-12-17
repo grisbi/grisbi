@@ -31,7 +31,6 @@
 /*START_INCLUDE*/
 #include "gsb_form.h"
 #include "./accueil.h"
-#include "./erreur.h"
 #include "./dialog.h"
 #include "./gsb_calendar_entry.h"
 #include "./gsb_currency.h"
@@ -52,6 +51,7 @@
 #include "./gsb_form_widget.h"
 #include "./gsb_fyear.h"
 #include "./navigation.h"
+#include "./menu.h"
 #include "./gsb_payment_method.h"
 #include "./gsb_real.h"
 #include "./gsb_reconcile.h"
@@ -70,10 +70,9 @@
 #include "./gsb_form_scheduler.h"
 #include "./gsb_data_form.h"
 #include "./include.h"
+#include "./erreur.h"
 #include "./structures.h"
 #include "./gsb_form_widget.h"
-/* TODO dOm : I add this include to avoid warning */
-#include "menu.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -2303,7 +2302,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
     }
 
     /* check the date ok */
-    if ( !gsb_calendar_entry_date_valid (widget))
+    if ( !gsb_date_check_entry (widget))
     {
 	dialogue_error ( g_strdup_printf ( _("Invalid date %s"),
 					   gtk_entry_get_text (GTK_ENTRY (widget))));
@@ -2320,7 +2319,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 	 &&
 	 !gsb_form_widget_check_empty (widget)
 	 &&
-	 !gsb_calendar_entry_date_valid (widget))
+	 !gsb_date_check_entry (widget))
     {
 	dialogue_error ( g_strdup_printf ( _("Invalid value date %s"),
 					   gtk_entry_get_text (GTK_ENTRY (widget))));

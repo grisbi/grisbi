@@ -148,6 +148,7 @@ GtkWidget *gsb_bank_create_combobox ( void )
 		       "changed",
 		       G_CALLBACK (gsb_bank_list_changed),
 		       NULL );
+
     return combo_box;
 }
 
@@ -180,7 +181,7 @@ gint gsb_bank_list_get_bank_number ( GtkWidget *combobox )
 
 
 /**
- * show the corrent bank in the combobox acording to the bank number
+ * show the current bank in the combobox acording to the bank number
  *
  * \param combobox
  * \param bank_number 0 for none, -1 for new bank
@@ -277,7 +278,7 @@ static gboolean gsb_bank_update_selected_line_model ( GtkWidget *combobox )
 {
     GtkTreeIter iter;
     GSList *list_tmp;
-    gint save_bank_number = 0;
+    gint save_bank_number = -1;
 
     /* save the selection */
     if (combobox)
@@ -324,13 +325,13 @@ static gboolean gsb_bank_update_selected_line_model ( GtkWidget *combobox )
 			 BANK_NAME_COL, NULL,
 			 -1 );
 
-    /* item to add a bank : the number is -1 */
+    /* item to add a bank : the number is -2 */
     gtk_list_store_append ( GTK_LIST_STORE (bank_list_model),
 			    &iter );
     gtk_list_store_set ( GTK_LIST_STORE (bank_list_model),
 			 &iter,
 			 BANK_NAME_COL, _("Add new bank"),
-			 BANK_NUMBER_COL, -1,
+			 BANK_NUMBER_COL, -2,
 			 -1 );
 
     /* restore the selection */
@@ -386,8 +387,8 @@ static gboolean gsb_bank_list_changed ( GtkWidget *combobox,
 
     bank_number = gsb_bank_list_get_bank_number (combobox);
 
-    /* check if not new bank */
-    if (bank_number != -1)
+    /* check if not new bank, ie -2 */
+    if (bank_number != -2)
 	return FALSE;
 
     /* asked to add a new bank */
@@ -924,13 +925,15 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
 static gboolean gsb_bank_update_selected_line ( GtkEntry *entry, 
 						GtkWidget *combobox )
 {
+    GtkTreeIter iter;
+
+    /* first we update the list if we are in configuration */
     if ( bank_list_tree_view
 	 &&
 	 GTK_IS_TREE_VIEW (bank_list_tree_view))
     {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
-	GtkTreeIter iter;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (bank_list_tree_view));
 
@@ -941,8 +944,18 @@ static gboolean gsb_bank_update_selected_line ( GtkEntry *entry,
 				 BANK_VIEW_NAME_COL, gtk_entry_get_text ( GTK_ENTRY(bank_name)),
 				 BANK_TALKER_COL, gtk_entry_get_text (GTK_ENTRY(bank_contact_name)),
 				 -1 );
+    }
+
+    /* we update the combobox if exists */
+    if (GTK_IS_COMBO_BOX (combobox))
+    {
+	if (gtk_combo_box_get_active_iter ( GTK_COMBO_BOX (combobox),
+					    &iter ))
+	    gtk_list_store_set ( GTK_LIST_STORE (bank_list_model),
+				 &iter,
+				 BANK_NAME_COL, gtk_entry_get_text ( GTK_ENTRY(bank_name)),
+				 -1 );
 	gsb_bank_update_selected_line_model (combobox);
-	return FALSE;
     }
     return FALSE;
 }

@@ -33,7 +33,6 @@
 #include "./gsb_data_account.h"
 #include "./gsb_data_budget.h"
 #include "./gsb_data_category.h"
-#include "./gsb_data_currency.h"
 #include "./gsb_data_fyear.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
@@ -227,13 +226,8 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 					     nb_ope_categ_etat );
 	    }
 	    else
-	    	/* dOm TODO :  too few arguments for format
-		 * previous format was "%s %s" and there is only one argument in printf
-		 * so I replace "%s %s" by "%s"
-		 * */ 
-		text = g_strdup_printf ( _("%s"),
-					 gsb_real_get_string_with_currency ( montant_categ_etat,
-									     devise_categ_etat ) );
+		text = gsb_real_get_string_with_currency ( montant_categ_etat,
+							   devise_categ_etat );
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes,
 					ligne, ligne + 1, RIGHT, 0 );

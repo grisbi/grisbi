@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -143,6 +143,27 @@ gsb_real gsb_currency_get_current_exchange_fees (void)
 }
 
 
+/**
+ * Format an amount together with an associated currency and return a
+ * string according to locale.
+ *
+ * \param amount	Amount to format.
+ * \param currency	Associated currency.
+ *
+ * \return		Newly-allocated char, to free when unused.
+ */
+gchar * gsb_format_amount ( gsb_real amount, gint currency )
+{
+    /** FIXME: use locale instead of hardcoded european-style format */
+
+    return g_strconcat ( gsb_real_get_string ( gsb_real_adjust_exponent ( amount,
+									  gsb_data_currency_get_floating_point ( currency ) ) ),
+			 " ",
+			 gsb_data_currency_get_code_or_isocode ( currency ),
+			 NULL );
+}
+
+
 
 /**
  * create and return a combobox with the currencies
@@ -266,6 +287,11 @@ gint gsb_currency_get_currency_from_combobox ( GtkWidget *combo_box )
 gboolean gsb_currency_update_combobox_currency_list ( void )
 {
     GSList *list_tmp;
+
+    if (!combobox_currency_store
+	||
+	!gsb_data_currency_get_currency_list ())
+	return FALSE;
 
     gtk_list_store_clear (GTK_LIST_STORE (combobox_currency_store));
     list_tmp = gsb_data_currency_get_currency_list ();
@@ -632,27 +658,6 @@ gboolean gsb_currency_create_combobox_store ( void )
     return TRUE;
 }
 
-
-
-/**
- * Format an amount together with an associated currency and return a
- * string according to locale.
- *
- * \param amount	Amount to format.
- * \param currency	Associated currency.
- *
- * \return		Newly-allocated char, to free when unused.
- */
-gchar * gsb_format_amount ( gsb_real amount, gint currency )
-{
-    /** FIXME: use locale instead of hardcoded european-style format */
-
-    return g_strconcat ( gsb_real_get_string ( gsb_real_adjust_exponent ( amount,
-									  gsb_data_currency_get_floating_point ( currency ) ) ),
-			 " ",
-			 gsb_data_currency_get_code_or_isocode ( currency ),
-			 NULL );
-}
 
 
 

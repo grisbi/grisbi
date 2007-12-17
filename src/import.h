@@ -2,8 +2,8 @@
 #define _IMPORT_H (1)
 
 /* START_INCLUDE_H */
-#include "./gsb_real.h"
-#include "./gsb_data_transaction.h"
+#include "././gsb_real.h"
+#include "././gsb_data_transaction.h"
 /* END_INCLUDE_H */
 
 /* struture d'une importation : compte contient la liste des opés importées */
@@ -105,7 +105,6 @@ struct import_format {
 
 
 /* START_DECLARATION */
-gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 void gsb_import_register_account ( struct struct_compte_importation * account );
 void gsb_import_register_account_error ( struct struct_compte_importation * account );
 GSList * import_selected_files ( GtkWidget * assistant );

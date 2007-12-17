@@ -25,12 +25,12 @@
 
 /*START_INCLUDE*/
 #include "fenetre_principale.h"
+#include "./balance_estimate_tab.h"
 #include "./navigation.h"
 #include "./gsb_transactions_list.h"
 #include "./accueil.h"
 #include "./comptes_onglet.h"
 #include "./etats_onglet.h"
-#include "./erreur.h"
 #include "./gsb_form.h"
 #include "./gsb_plugins.h"
 #include "./gsb_scheduler_list.h"
@@ -40,12 +40,8 @@
 #include "./tiers_onglet.h"
 #include "./structures.h"
 #include "./include.h"
+#include "./erreur.h"
 #include "./gsb_plugins.h"
-
-#ifdef ENABLE_BALANCE_ESTIMATE 
-#include "balance_estimate_tab.h"
-#endif /*_BALANCE_ESTIMATE_TAB_H*/
-
 /*END_INCLUDE*/
 
 /*START_STATIC*/

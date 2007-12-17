@@ -2,7 +2,7 @@
 /*                                                                            */
 /*                                  gsb_real	                              */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
 /*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -42,7 +42,7 @@ gsb_real null_real = { 0 , 0 };
 
 
 /*START_STATIC*/
-static gchar * gsb_real_format_string ( gsb_real number, gchar * currency_symbol );
+static gchar *gsb_real_format_string ( gsb_real number, const gchar *currency_symbol );
 static gboolean gsb_real_normalize ( gsb_real *number_1,
 			      gsb_real *number_2 );
 static gdouble gsb_real_real_to_double ( gsb_real number );
@@ -55,7 +55,7 @@ extern gint max;
 
 
 /**
- * Return the real in a formatted string, according to the locale
+ * Return the real in a formatted string, according to the currency 
  * regarding decimal separator, thousands separator and positive or
  * negative sign.
  * 
@@ -64,12 +64,30 @@ extern gint max;
  * \return		A newly allocated string of the number (this
  *			function will never return NULL) 
 */
-gchar * gsb_real_get_string ( gsb_real number )
+gchar *gsb_real_get_string ( gsb_real number )
 {
-	/* TODO dOm : I add the return instruction which was not present.
-	 * How can it work without the return instruction ?*/
     return gsb_real_format_string ( number, NULL );
 }
+
+/**
+ * format a gsb_real into a string from gsb_real_get_string and append
+ * the currency symbol from the currency in param
+ *
+ * \param number		A number to format.
+ * \param currency_number	Currency to use.
+ *
+ * \return a newly allocated string of the number
+ * */
+gchar *gsb_real_get_string_with_currency ( gsb_real number,
+					   gint currency_number )
+{
+    gchar *string;
+
+    string = gsb_real_format_string (number,
+				     gsb_data_currency_get_code (currency_number) );
+    return string;
+}
+
 
 
 
@@ -84,7 +102,7 @@ gchar * gsb_real_get_string ( gsb_real number )
  * \return		A newly allocated string of the number (this
  *			function will never return NULL) 
 */
-gchar * gsb_real_format_string ( gsb_real number, gchar * currency_symbol )
+gchar *gsb_real_format_string ( gsb_real number, const gchar *currency_symbol )
 {
     struct lconv * conv = localeconv ( );
     div_t result_div;
@@ -102,7 +120,7 @@ gchar * gsb_real_format_string ( gsb_real number, gchar * currency_symbol )
 				 ( currency_symbol && ! conv -> p_cs_precedes && conv -> p_sep_by_space ? 
 				   " " : "" ),
 				 ( currency_symbol && ! conv -> p_cs_precedes ? currency_symbol : "" ) );
-
+/* xxx faut refaire ici */
     /* for a long int : max 11 char
      * so with the possible -, the spaces and the .
      * we arrive to maximum 14 char : -21 474 836.48 + 1 for the 0 terminal */
@@ -178,30 +196,6 @@ gchar * gsb_real_format_string ( gsb_real number, gchar * currency_symbol )
 
 
 /**
- * format a gsb_real into a string from gsb_real_get_string and append
- * the currency symbol from the currency in param
- *
- * \param number		A number to format.
- * \param currency_number	Currency to use.
- *
- * \return a newly allocated string of the number
- * */
-gchar *gsb_real_get_string_with_currency ( gsb_real number,
-					   gint currency_number )
-{
-    gchar *string;
-
-	/* TODO dOm : I add the cast (gchar*) to avoid warning.
-	 * It might be a good idea to change the prototype of "gsb_real_format_string" 
-	 * to add "const" in the second argument ?*/
-    string = gsb_real_format_string (number,
-				     (gchar*)gsb_data_currency_get_code (currency_number) );
-    return string;
-}
-
-
-
-/**
  * get a real number from a string
  * the string can be formatted :
  * - handle , or . as separator
@@ -227,6 +221,7 @@ gsb_real gsb_real_get_from_string ( const gchar *string )
  * - another character makes a 0 return
  *
  * \param string
+ * \param default_mantissa -1 for no limit
  *
  * \return the number in the string transformed to gsb_real
  */
@@ -305,11 +300,17 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
 	i++;
     }
 
-    if ( ! number.exponent )
-    {
-	number.exponent = strlen ( string );
-	number.mantissa *= 100;
-    }
+    /* if there were no . or , we should add some 0 after the ,
+     * but it depends of the exponent of the currency */
+/* xxx le pb est ici, qd met pas de , il faut ajouter les 0 derrière en fonction */
+/*     de la devise, or pas de notion de devise ici... ça devrait pas se faire */
+/*     ici mais à l'affichage [update avant de partir] */
+/*     de même que ds échéances (peut être opés ?) si rentre un débit il apparait comme crédit dans la liste d'échéances */
+/*     if ( ! number.exponent ) */
+/*     { */
+/* 	number.exponent = strlen ( string ); */
+/* 	number.mantissa *= 100; */
+/*     } */
 
     number.mantissa = sign * number.mantissa;
     g_free (string_tmp);

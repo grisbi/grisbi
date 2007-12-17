@@ -24,7 +24,6 @@
 
 /*START_INCLUDE*/
 #include "metatree.h"
-#include "./erreur.h"
 #include "./dialog.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_payee.h"
@@ -44,6 +43,7 @@
 #include "./gsb_data_transaction.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 
@@ -71,6 +71,8 @@ static enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model
 						GtkTreePath * path );
 static gboolean metatree_model_is_displayed ( GtkTreeModel * model );
 static void metatree_new_sub_division ( GtkTreeModel * model, gint div_id );
+static void metatree_remove_iter_and_select_next ( GtkTreeView * tree_view, GtkTreeModel * model,
+					    GtkTreeIter * iter );
 static void move_transaction_to_sub_division ( gint transaction_number,
 					GtkTreeModel * model,
 					GtkTreePath * orig_path, GtkTreePath * dest_path,
@@ -82,12 +84,9 @@ static gboolean search_for_transaction ( GtkTreeModel *model, GtkTreePath *path,
 static void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 			      MetatreeInterface * iface, 
 			      gint sub_division, gint division );
-/* TODO dOm : add this prototype to avoid warning */
 static void supprimer_transaction ( GtkTreeView * tree_view, GtkTreeModel * model,
 			     MetatreeInterface * iface, 
 			     gint transaction);
-static void metatree_remove_iter_and_select_next ( GtkTreeView * tree_view, GtkTreeModel * model,
-					    GtkTreeIter * iter );
 /*END_STATIC*/
 
 

@@ -27,18 +27,19 @@
 
 /*START_INCLUDE*/
 #include "utils_dates.h"
+#include "./dialog.h"
 #include "./gsb_form_widget.h"
 #include "./utils_str.h"
-#include "./parametres.h"
 #include "./gsb_calendar_entry.h"
-#include "dialog.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gchar ** split_unique_datefield ( gchar * string, gchar date_tokens [] );
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
+extern gint max;
 /*END_EXTERN*/
 
 
@@ -196,6 +197,35 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
 }
 
 
+/**
+ * check the date in entry and return TRUE or FALSE
+ *
+ * \param entry an entry containing a date
+ *
+ * \return TRUE date is valid, FALSE date is invalid
+ * */
+gboolean gsb_date_check_entry ( GtkWidget *entry )
+{
+    const gchar *string;
+
+    if (!entry)
+	return FALSE;
+    
+    string = gtk_entry_get_text ( GTK_ENTRY (entry));
+    if (!string)
+	return FALSE;
+
+    if ( strlen (string))
+    {
+	GDate *date;
+
+	date = gsb_parse_date_string (string);
+	if (!date)
+	    return FALSE;
+	g_date_free (date);
+    }
+    return ( TRUE );
+}
 
 /**
  *
@@ -295,7 +325,6 @@ GDate * gsb_parse_date_string ( const gchar *date_string )
     while ( string [ strlen ( string ) - 1 ] == '.' && strlen ( string ) ) 
 	string [ strlen ( string )  - 1 ] = '\0';
     len = string + strlen ( string );
- /* TODO dOm : I add parenthesis to avoid warning */
     while ( (tmp = strstr ( string, ".." )) )
     {
 	strncpy ( tmp, tmp+1, len - tmp );

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2006 Benjamin Drieu (bdrieu@april.org)		      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*			2006-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -36,6 +36,7 @@
 #include "./gsb_data_currency.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
+#include "./main.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./utils.h"
@@ -45,6 +46,7 @@
 #include "./structures.h"
 #include "./gsb_file_config.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -77,6 +79,7 @@ static gboolean gsb_currency_config_update_list ( GtkWidget * checkbox,
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GtkWidget *main_vbox;
 extern int no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -1012,11 +1015,13 @@ dialog_return:
 
 		currency_number = gsb_currency_config_create_currency ( currency_name, currency_code, currency_isocode, floating_point);
 
+		/* update the currency list for combobox */
+		gsb_currency_update_combobox_currency_list ();
+
 		if ( currency_tree_model )
 		{
 		    gsb_currency_append_currency_to_list ( GTK_LIST_STORE ( currency_tree_model ),
 							   currency_number );
-		    gsb_currency_update_combobox_currency_list ();
 		    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 		    modification_fichier ( TRUE );
 		    return TRUE;

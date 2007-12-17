@@ -31,7 +31,6 @@
 #include "./etats_calculs.h"
 #include "./tiers_onglet.h"
 #include "./utils.h"
-#include "./erreur.h"
 #include "./dialog.h"
 #include "./gsb_calendar_entry.h"
 #include "./gsb_currency.h"
@@ -44,6 +43,7 @@
 #include "./gsb_data_report_amout_comparison.h"
 #include "./gsb_data_report.h"
 #include "./gsb_data_report_text_comparison.h"
+#include "./utils_dates.h"
 #include "./navigation.h"
 #include "./gsb_real.h"
 #include "./utils_str.h"
@@ -51,6 +51,7 @@
 #include "./structures.h"
 #include "./fenetre_principale.h"
 #include "./include.h"
+#include "./erreur.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/
 
@@ -79,7 +80,7 @@ static GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number );
 static GtkWidget *onglet_affichage_etat_devises ( void );
 static GtkWidget *onglet_affichage_etat_divers ( void );
 static GtkWidget *onglet_affichage_etat_generalites ( void );
-static GtkWidget *onglet_affichage_etat_operations ( void );
+static GtkWidget * onglet_affichage_etat_operations ( void );
 static GtkWidget *onglet_etat_categories ( void );
 static GtkWidget *onglet_etat_comptes ( void );
 static GtkWidget *onglet_etat_dates ( void );
@@ -90,8 +91,8 @@ static GtkWidget *onglet_etat_montant ( void );
 static GtkWidget *onglet_etat_texte ( void );
 static GtkWidget *onglet_etat_tiers ( void );
 static GtkWidget *onglet_etat_virements ( void );
-static GtkWidget * page_data_grouping();
-static GtkWidget * page_data_separation();
+static GtkWidget *page_data_grouping ( void );
+static GtkWidget *page_data_separation ( void );
 static void recuperation_info_perso_etat ( void );
 static void remplissage_liste_categ_etats ( void );
 static void remplissage_liste_comptes_virements ( void );
@@ -106,6 +107,11 @@ static gboolean report_tree_selectable_func (GtkTreeSelection *selection,
 				      GtkTreePath *path,
 				      gboolean path_currently_selected,
 				      gpointer data);
+static gboolean report_tree_update_style ( gint * page_number );
+static gboolean report_tree_update_style_iterator ( GtkTreeModel * tree_model, 
+					     GtkTreePath *path, 
+					     GtkTreeIter *iter, 
+					     gpointer data );
 static gboolean report_tree_view_selection_changed ( GtkTreeSelection *selection,
 					      GtkTreeModel *model );
 static void retire_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison_number );
@@ -122,11 +128,6 @@ static void selectionne_liste_virements_etat_courant ( void );
 static void selectionne_partie_liste_compte_etat ( gint *type_compte );
 static void selectionne_partie_liste_compte_vir_etat ( gint *type_compte );
 static void sensitive_hbox_fonction_bouton_txt ( gint text_comparison_number );
-static gboolean report_tree_update_style ( gint * page_number );
-static gboolean report_tree_update_style_iterator ( GtkTreeModel * tree_model, 
-						    GtkTreePath *path, 
-						    GtkTreeIter *iter, 
-						    gpointer data );
 /*END_STATIC*/
 
 
@@ -327,10 +328,8 @@ extern GtkWidget * navigation_tree_view;
 extern GtkWidget *notebook_config_etat;
 extern GtkWidget *notebook_etats;
 extern GtkWidget *notebook_general;
-extern GtkWidget *notebook_selection;
 extern GtkWidget *onglet_config_etat;
 extern GtkTreeSelection * selection;
-extern GtkStyle *style_label;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -1322,7 +1321,7 @@ void recuperation_info_perso_etat ( void )
     /* Check that custom dates are OK, but only if custom date range
      * has been selected. */
     if ( GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data ) == 1 &&
-	 !gsb_calendar_entry_date_valid ( entree_date_init_etat ) )
+	 !gsb_date_check_entry ( entree_date_init_etat ) )
     {
 	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
 			      g_strdup_printf ( _("Invalid initial date '%s'"), 
@@ -1331,7 +1330,7 @@ void recuperation_info_perso_etat ( void )
     }
 
     if ( GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data ) == 1 &&
-	 !gsb_calendar_entry_date_valid (entree_date_finale_etat ) )
+	 !gsb_date_check_entry (entree_date_finale_etat ) )
     {
 	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
 			      g_strdup_printf ( _("Invalid final date '%s'"), 
@@ -5898,10 +5897,6 @@ GtkWidget *page_data_separation ( void )
 {
     GtkWidget *label;
     GtkWidget *hbox;
-    /* TODO dOm : vbox and frame seems not to be used 
-    GtkWidget *frame;
-    GtkWidget *vbox;
-    */
     GtkWidget *vbox_onglet;
     GtkWidget *menu;
     GtkWidget *menu_item;

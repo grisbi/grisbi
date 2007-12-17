@@ -28,9 +28,5 @@ gboolean gsb_menu_update_accounts_in_menus ( void );
 gboolean gsb_menu_update_view_menu ( gint account_number );
 GtkWidget *init_menus ( GtkWidget *vbox );
 gchar * menu_name ( gchar * menu, gchar * submenu, gchar * subsubmenu );
-/* TODO dOm : I add this prototype to avoid warning */
-gboolean gsb_menu_update_view_menu ( gint account_number );
-/* TODO dOm : I add this prototype to avoid warning */
-gboolean gsb_menu_update_view_menu ( gint account_number );
 /* END_DECLARATION */
 #endif

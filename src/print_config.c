@@ -34,12 +34,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static gboolean change_print_to_file ( GtkButton *button, gpointer data );
-*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static GtkWidget * print_config_appearance ( GtkWidget * dialog );
-*/
 static GtkWidget * print_config_general ( GtkWidget * dialog );
 static GtkWidget * print_config_paper ( GtkWidget * dialog );
 static gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer user_data ) ;

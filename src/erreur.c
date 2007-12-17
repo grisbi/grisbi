@@ -38,8 +38,8 @@
 #include "./utils_files.h"
 #include "./utils_str.h"
 #include "./gsb_file_config.h"
-#include "./structures.h"
 #include "./include.h"
+#include "./structures.h"
 /*END_INCLUDE*/
 
 #ifdef HAVE_BACKTRACE
@@ -150,8 +150,8 @@ void traitement_sigsegv ( gint signal_nb )
     expander = gtk_expander_new ( g_strconcat ( "<b>", _("Backtrace"), "</b>", NULL ) );
     gtk_expander_set_use_markup ( GTK_EXPANDER ( expander ), TRUE );
     gtk_container_add ( GTK_CONTAINER ( expander ), print_backtrace() );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog)->vbox ), expander, FALSE, FALSE, 6
- );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog)->vbox ), expander, FALSE, FALSE, 6 );
+
     gtk_widget_show_all ( dialog );
 #endif
     gtk_dialog_run ( GTK_DIALOG ( dialog ) );
@@ -232,11 +232,13 @@ gchar *get_debug_time ( void )
 
 
 
+
 /**
  * affiche de message de debug dans la console (uniquement si
- * show_grisbi_debug est a TRUE)  */
-void debug_message ( gchar *prefixe, gchar * file, gint line, const char * function, 
-		     gchar *message, gint level, gboolean force_debug_display)
+ * show_grisbi_debug est a TRUE)
+ * not called directly so need to force the extern */
+extern void debug_message ( gchar *prefixe, gchar * file, gint line, const char * function, 
+			    gchar *message, gint level, gboolean force_debug_display)
 {
     /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
     if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display) 

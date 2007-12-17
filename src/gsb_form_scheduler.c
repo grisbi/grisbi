@@ -32,7 +32,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_form_scheduler.h"
-#include "./erreur.h"
 #include "./gsb_account.h"
 #include "./gsb_calendar_entry.h"
 #include "./gsb_combo_box.h"
@@ -46,6 +45,7 @@
 #include "./gsb_form.h"
 #include "./gsb_data_form.h"
 #include "./include.h"
+#include "./erreur.h"
 #include "./gsb_form_widget.h"
 /*END_INCLUDE*/
 

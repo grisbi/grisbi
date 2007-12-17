@@ -769,7 +769,7 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
     gchar *string;
 
     /* first, we check the date are valid */
-    if (!gsb_calendar_entry_date_valid (reconcile_init_date_entry))
+    if (!gsb_date_check_entry (reconcile_init_date_entry))
     {
 	gtk_label_set_markup (GTK_LABEL (label),
 			    _("<span foreground=\"red\">The initial date is not valid, please check it</span>"));
@@ -777,7 +777,7 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
 	return FALSE;
     }
 
-    if (!gsb_calendar_entry_date_valid (reconcile_final_date_entry))
+    if (!gsb_date_check_entry (reconcile_final_date_entry))
     {
 	gtk_label_set_markup (GTK_LABEL (label),
 			    _("<span foreground=\"red\">The final date is not valid, please check it</span>"));

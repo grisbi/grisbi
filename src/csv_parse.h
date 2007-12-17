@@ -2,7 +2,7 @@
 #define CSV_PARSE_H
 
 /* START_INCLUDE_H */
-#include "./import.h"
+#include "././import.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

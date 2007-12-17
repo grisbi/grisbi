@@ -32,11 +32,12 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_report.h"
-#include "./erreur.h"
 #include "./gsb_data_report_amout_comparison.h"
 #include "./gsb_data_report_text_comparison.h"
 #include "./utils_dates.h"
 #include "./utils_str.h"
+#include "./erreur.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /** \struct

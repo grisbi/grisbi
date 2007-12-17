@@ -48,27 +48,6 @@ extern "C" {
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static  gboolean _file_selection_check_filename ( GtkWidget *selection_fichier);
-*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static  gboolean _file_selection_overwrite_file_check( GtkWidget *selection_fichier);
-*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static void file_selection_check_filename_signal(GtkWidget *selection_fichier);
-*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static gchar* file_selection_get_entry(GtkFileChooser* filesel);
-*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static GSList * file_selection_get_selections(GtkFileChooser* filesel);
-*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static void file_selection_overwrite_file_check_signal(GtkWidget *selection_fichier);
-*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static void file_selection_set_filename(GtkFileChooser* filesel,const gchar* utf8filename);
-*/
 /*END_STATIC*/
 
 /*START_EXTERN*/

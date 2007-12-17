@@ -28,7 +28,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_others.h"
-#include "./erreur.h"
 #include "./dialog.h"
 #include "./gsb_data_budget.h"
 #include "./gsb_data_category.h"
@@ -43,6 +42,7 @@
 #include "./imputation_budgetaire.h"
 #include "./structures.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

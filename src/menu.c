@@ -32,11 +32,10 @@
 #include "./barre_outils.h"
 #include "./gsb_transactions_list.h"
 #include "./navigation.h"
-#include "./erreur.h"
-#include "./dialog.h"
 #include "./export.h"
 #include "./tip.h"
 #include "./gsb_account.h"
+#include "./gsb_assistant_account.h"
 #include "./gsb_assistant_archive_export.h"
 #include "./gsb_assistant_archive.h"
 #include "./gsb_data_account.h"
@@ -49,6 +48,7 @@
 #include "./traitement_variables.h"
 #include "./parametres.h"
 #include "./include.h"
+#include "./erreur.h"
 #include "./structures.h"
 /*END_INCLUDE*/
 
@@ -57,6 +57,7 @@ static gboolean gsb_gui_toggle_grid_mode ();
 static void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *current, 
 				     gpointer user_data );
 static gboolean gsb_gui_toggle_show_closed_accounts ();
+static gboolean gsb_gui_toggle_show_form ();
 static gboolean gsb_gui_toggle_show_reconciled ();
 static gboolean help_bugreport ();
 static gboolean help_manual ();
@@ -65,7 +66,6 @@ static gboolean help_translation ();
 static gboolean help_website ();
 static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
 			     GtkContainer * p_box) ;
-static gboolean gsb_gui_toggle_show_form ();
 /*END_STATIC*/
 
 
@@ -74,7 +74,6 @@ static gboolean gsb_gui_toggle_show_form ();
 extern GtkTreeModel * navigation_model;
 extern gsize nb_derniers_fichiers_ouverts ;
 extern gint nb_max_derniers_fichiers_ouverts ;
-extern GtkTreeSelection * selection;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -235,7 +234,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	  NULL,			NULL,			G_CALLBACK( NULL ) },
 
 	{ "NewAccount",		GTK_STOCK_NEW,		_("_New account"),
-	  "",			NULL,			G_CALLBACK( gsb_account_new ) },
+	  "",			NULL,			G_CALLBACK( gsb_assistant_account_run ) },
 
 	{ "RemoveAccount",	GTK_STOCK_DELETE,	_("_Remove current account"),
 	  "",			NULL,			G_CALLBACK( gsb_account_delete ) },
@@ -594,7 +593,6 @@ gboolean gsb_gui_toggle_show_form ()
 
     /* FIXME benj: ugly but I cannot find a way to block this ... I
        understand why gtkitemfactory is deprecated. */
-    /* TODO dOm : add FALSE after return to avoid warning */
     if ( block_menu_cb ) return FALSE;
 
     gsb_form_switch_expander ( );

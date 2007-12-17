@@ -28,13 +28,13 @@
 
 /*START_INCLUDE*/
 #include "g2banking.h"
-#include "./../../erreur.h"
 #include "./../../dialog.h"
 #include "./../../gsb_data_account.h"
 #include "./../../import.h"
 #include "./../../gsb_real.h"
 #include "./../../utils_str.h"
 #include "./../../include.h"
+#include "./../../erreur.h"
 #include "./../../import.h"
 /*END_INCLUDE*/
 
@@ -78,7 +78,7 @@ extern void g2banking_plugin_register ()
 extern GtkWidget * g2banking_plugin_run ( gchar * file_name, gchar **file_content,
 						   gboolean crypt, gulong length )
 {
-    return GBanking_JobView_new(gbanking, 0);
+/*     return GBanking_JobView_new(gbanking, 0); */
 }
 
 

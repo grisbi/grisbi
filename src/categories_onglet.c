@@ -25,7 +25,6 @@
 /*START_INCLUDE*/
 #include "categories_onglet.h"
 #include "./metatree.h"
-#include "./erreur.h"
 #include "./dialog.h"
 #include "./utils_file_selection.h"
 #include "./gsb_autofunc.h"
@@ -42,6 +41,7 @@
 #include "./metatree.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
+#include "./erreur.h"
 #include "./structures.h"
 /*END_INCLUDE*/
 

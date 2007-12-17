@@ -26,7 +26,6 @@
 /*START_INCLUDE*/
 #include "navigation.h"
 #include "./echeancier_infos.h"
-#include "./erreur.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_reconcile.h"
@@ -49,15 +48,14 @@
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
 #include "./tiers_onglet.h"
+#include "./balance_estimate_tab.h"
 #include "./gsb_file_config.h"
 #include "./fenetre_principale.h"
 #include "./gsb_data_account.h"
 #include "./include.h"
+#include "./balance_estimate_tab.h"
+#include "./erreur.h"
 #include "./structures.h"
-
-#ifdef ENABLE_BALANCE_ESTIMATE 
-#include "balance_estimate_tab.h"
-#endif /*_BALANCE_ESTIMATE_TAB_H*/
 /*END_INCLUDE*/
 
 /*START_STATIC*/

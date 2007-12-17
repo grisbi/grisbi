@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_form_widget.h"
-#include "./erreur.h"
 #include "./gsb_calendar_entry.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
@@ -50,6 +49,7 @@
 #include "./gtk_combofix.h"
 #include "./include.h"
 #include "./gsb_data_form.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

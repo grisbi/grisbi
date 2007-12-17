@@ -34,24 +34,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static gboolean gsb_status_pulse (  );
-*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static void gsb_status_remove_progress (  );
-*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static void gsb_status_set_progress ( gdouble ratio, gdouble max );
-*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static void gsb_status_show_progress ();
-*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static void gsb_status_start_activity (  );
-*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static void gsb_status_stop_activity (  );
-*/
 /*END_STATIC*/
 
 /*START_EXTERN*/

@@ -25,7 +25,6 @@
 /*START_INCLUDE*/
 #include "gsb_transactions_list.h"
 #include "./accueil.h"
-#include "./erreur.h"
 #include "./dialog.h"
 #include "./gsb_account.h"
 #include "./gsb_data_account.h"
@@ -61,18 +60,13 @@
 #include "./include.h"
 #include "./gsb_data_transaction.h"
 #include "./mouse.h"
+#include "./erreur.h"
 #include "./structures.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-/* TODO dOm : this function seems not to be defined. Is it possible to remove it 
-static gint cherche_ligne_operation ( gint transaction_number,
-			       gint account_number );
-			       */
-/* TODO dOm : this function seems not to be defined. Is it possible to remove it 
-static gpointer cherche_operation_from_ligne ( gint ligne );
-*/
+static gboolean assert_selected_transaction ();
 static void creation_titres_tree_view ( void );
 static gint find_element_col ( gint element_number );
 static gint find_element_line ( gint element_number );
@@ -86,6 +80,8 @@ static gboolean gsb_transactions_list_append_transaction ( gint transaction_numb
 						    GtkTreeStore *store );
 static gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 					      GdkEventButton *ev );
+static gboolean gsb_transactions_list_button_toggled ( GtkCellRendererToggle * cell, gchar * path_str,
+						GtkTreeModel * model );
 static void gsb_transactions_list_change_expanders ( gint only_current_account );
 static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
 						  gint *no_column );
@@ -114,11 +110,9 @@ static gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_n
 						       gint cell_content_number );
 static gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_number,
 							     gint target_account );
-#if GTK_CHECK_VERSION(2,10,0)
 static  gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
 						       GtkTreeIter *iter,
 						       gpointer null );
-#endif /*GTK_CHECK_VERSION(2,10,0)*/
 static void gsb_transactions_list_set_filter (GtkTreeModel *filter_model);
 static GtkTreeModel *gsb_transactions_list_set_filter_store ( GtkTreeStore *store );
 static void gsb_transactions_list_set_sortable (GtkTreeModel *sortable_model);
@@ -141,8 +135,6 @@ static gint schedule_transaction ( gint transaction_number );
 static gsb_real solde_debut_affichage ( gint account_number,
 				 gint floating_point);
 static void update_titres_tree_view ( void );
-gboolean gsb_transactions_list_button_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
-						GtkTreeModel * model );
 /*END_STATIC*/
 
 

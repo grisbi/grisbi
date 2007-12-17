@@ -5,7 +5,7 @@
 /* gsb_real gsb_real_double_to_real ( gdouble number ); */
 
 /* START_INCLUDE_H */
-#include "./../../gsb_real.h"
+#include "./../.././gsb_real.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

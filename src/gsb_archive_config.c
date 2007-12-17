@@ -47,8 +47,8 @@
 #include "./comptes_gestion.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
-#include "./include.h"
 #include "./gsb_file_config.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /** Columns for payment methods tree */

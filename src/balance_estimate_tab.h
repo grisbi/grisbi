@@ -23,8 +23,14 @@
 #ifdef ENABLE_BALANCE_ESTIMATE 
 #include <gtk/gtk.h>
 
+/* START_INCLUDE_H */
+/* END_INCLUDE_H */
+
+
+/* START_DECLARATION */
 GtkWidget *create_balance_estimate_tab(void);
 void update_balance_estimate_tab(void);
+/* END_DECLARATION */
 
 #endif /* ENABLE_BALANCE_ESTIMATE */
 

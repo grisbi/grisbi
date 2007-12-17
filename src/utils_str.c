@@ -32,13 +32,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static gchar * gsb_string_escape_underscores ( gchar * orig );
-*/
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static gint my_strcmp ( gchar *string_1,
-		 gchar *string_2 );
-		 */
 /*END_STATIC*/
 
 

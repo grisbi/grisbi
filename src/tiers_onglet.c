@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "tiers_onglet.h"
+#include "./dialog.h"
 #include "./metatree.h"
 #include "./gsb_automem.h"
 #include "./gsb_data_form.h"

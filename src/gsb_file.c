@@ -34,10 +34,9 @@
 #include "./menu.h"
 #include "./utils.h"
 #include "./fenetre_principale.h"
-#include "./erreur.h"
 #include "./dialog.h"
 #include "./utils_file_selection.h"
-#include "./gsb_account.h"
+#include "./gsb_assistant_account.h"
 #include "./gsb_category.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_data_account.h"
@@ -63,11 +62,12 @@
 #include "./utils_file_selection.h"
 #include "./fenetre_principale.h"
 #include "./include.h"
+#include "./erreur.h"
 #include "./structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void gsb_file_append_name_to_opened_list ( gchar *path_fichier );
+static void gsb_file_append_name_to_opened_list ( gchar * path_fichier );
 static  gchar *gsb_file_dialog_ask_name ( void );
 static  gint gsb_file_dialog_save ( void );
 static gboolean gsb_file_save_backup ( void );
@@ -135,8 +135,7 @@ gboolean gsb_file_new ( void )
     gsb_category_choose_default_category ();
 
     /* create the first account */
-    if (!gsb_account_new ())
-	return FALSE;
+    gsb_assistant_account_run ();
 
     /* init the gui */
     gsb_file_new_gui ();

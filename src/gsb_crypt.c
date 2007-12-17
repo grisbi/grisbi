@@ -26,12 +26,12 @@
 
 /*START_INCLUDE*/
 #include "gsb_crypt.h"
-#include "./erreur.h"
 #include "./dialog.h"
 #include "./plugins/openssl/openssl.h"
 #include "./utils_str.h"
 #include "./structures.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/

@@ -10,8 +10,8 @@
 
 
 /* START_INCLUDE_H */
-#include "./../../gsb_crypt.h"
-#include "./../../include.h"
+#include "./../.././gsb_crypt.h"
+#include "./../.././include.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

@@ -25,7 +25,6 @@
 /*START_INCLUDE*/
 #include "accueil.h"
 #include "./classement_echeances.h"
-#include "./erreur.h"
 #include "./dialog.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_currency.h"
@@ -46,6 +45,7 @@
 #include "./fenetre_principale.h"
 #include "./gsb_data_account.h"
 #include "./include.h"
+#include "./erreur.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/
 

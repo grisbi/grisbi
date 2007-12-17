@@ -25,7 +25,6 @@
 
 /*START_INCLUDE*/
 #include "gnucash.h"
-#include "./../../erreur.h"
 #include "./../../dialog.h"
 #include "./../../import.h"
 #include "./../../gsb_real.h"
@@ -33,6 +32,7 @@
 #include "./../../utils_files.h"
 #include "./../../gsb_data_transaction.h"
 #include "./../../include.h"
+#include "./../../erreur.h"
 #include "./../../gsb_real.h"
 #include "./../../import.h"
 /*END_INCLUDE*/

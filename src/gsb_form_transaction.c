@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_form_transaction.h"
-#include "./erreur.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_currency_link.h"
@@ -49,6 +48,7 @@
 #include "./gtk_combofix.h"
 #include "./gsb_data_form.h"
 #include "./include.h"
+#include "./erreur.h"
 #include "./structures.h"
 #include "./gsb_real.h"
 #include "./gsb_form_widget.h"

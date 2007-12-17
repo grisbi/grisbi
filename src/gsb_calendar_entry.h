@@ -14,7 +14,6 @@
 
 
 /*START_DECLARATION*/
-gboolean gsb_calendar_entry_date_valid ( GtkWidget *entry );
 GDate *gsb_calendar_entry_get_date ( GtkWidget *entry );
 GtkWidget *gsb_calendar_entry_new ( gint set_today );
 gboolean gsb_calendar_entry_set_color ( GtkWidget *entry,

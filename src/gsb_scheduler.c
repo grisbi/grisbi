@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_scheduler.h"
-#include "./erreur.h"
 #include "./utils_dates.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_fyear.h"
@@ -45,6 +44,8 @@
 #include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./gsb_scheduler_list.h"
+#include "./erreur.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

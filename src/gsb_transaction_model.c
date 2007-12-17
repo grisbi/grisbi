@@ -31,20 +31,17 @@
 
 /*START_INCLUDE*/
 #include "gsb_transaction_model.h"
-#include "./erreur.h"
 #include "./gsb_data_archive_store.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_transactions_list.h"
 #include "./gsb_transactions_list.h"
+#include "./erreur.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static GtkTreePath *gsb_transaction_model_get_model_path ( gint transaction_number,
 						    gint line_in_transaction );
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static const gchar *gsb_transation_model_get_cell_content ( GtkTreePath *path_sorted,
-						     gint column );
-						     */
 /*END_STATIC*/
 
 

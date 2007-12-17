@@ -48,10 +48,6 @@ static  gboolean gsb_automem_checkbutton_changed ( GtkWidget *checkbutton,
 						  gpointer null );
 static  gboolean gsb_automem_entry_changed (GtkWidget *entry,
 					   gpointer null );
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static void gsb_automem_entry_set_value ( GtkWidget *entry,
-				   gchar **value );
-*/
 static GtkWidget *gsb_automem_radiobutton_new ( const gchar *choice1,
 					 const gchar *choice2,
 					 gboolean *value,
@@ -65,16 +61,8 @@ static GtkWidget *gsb_automem_spin_button_new_full ( gint *value,
 					      gdouble page_size, 
 					      gdouble climb_rate,
 					      GCallback hook, gpointer data );
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static void gsb_automem_spin_button_set_value ( GtkWidget *spin,
-					 gint *value );
- */
 static  gboolean gsb_automem_textview_changed ( GtkTextBuffer *buffer,
 					       gpointer null );
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static void gsb_automem_textview_set_value ( GtkWidget *text_view,
-				      gchar **value );
-*/
 /*END_STATIC*/
 
 

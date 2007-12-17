@@ -22,7 +22,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
-#include "./erreur.h"
 #include "./dialog.h"
 #include "./gsb_assistant_archive.h"
 #include "./gsb_data_account.h"
@@ -56,6 +55,7 @@
 #include "./gsb_transactions_list.h"
 #include "./include.h"
 #include "./echeancier_infos.h"
+#include "./erreur.h"
 #include "./structures.h"
 #include "./gsb_plugins.h"
 #include "./gsb_real.h"
@@ -63,10 +63,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static gboolean file_io_fix_xml_corrupted_file_lock_tag(gchar* accounts_filename);
-*/
 static void gsb_file_load_account_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
 static void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,

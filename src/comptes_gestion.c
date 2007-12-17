@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "comptes_gestion.h"
-#include "./erreur.h"
 #include "./dialog.h"
 #include "./gsb_account.h"
 #include "./gsb_bank.h"
@@ -59,6 +58,7 @@
 #include "./gsb_form_scheduler.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
+#include "./erreur.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/
 

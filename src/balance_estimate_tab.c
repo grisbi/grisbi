@@ -24,7 +24,35 @@
  */
 #include "include.h" 
 #include <config.h>
-#include "dialog.h"
+
+/*START_INCLUDE*/
+#include "balance_estimate_tab.h"
+#include "./utils_dates.h"
+#include "./gsb_data_account.h"
+#include "./gsb_data_scheduled.h"
+#include "./gsb_data_transaction.h"
+#include "./gsb_real.h"
+#include "./gsb_scheduler.h"
+#include "./main.h"
+#include "./include.h"
+#include "./gsb_real.h"
+/*END_INCLUDE*/
+
+/*START_STATIC*/
+static gint spp_date_sort_function (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data);;
+static  void spp_duration_button_clicked (GtkToggleButton *togglebutton, gpointer data);
+static  void spp_refresh_button_clicked(GtkButton *button, gpointer user_data) ;
+static  gboolean spp_update_amount (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
+/*END_STATIC*/
+
+/*START_EXTERN*/
+extern gsb_real null_real ;
+extern GtkTreeSelection * selection;
+extern GtkWidget *tree_view;
+extern GtkWidget *window;
+/*END_EXTERN*/
+
+
 
 #ifdef ENABLE_BALANCE_ESTIMATE 
 #include "balance_estimate_tab.h"
@@ -73,12 +101,8 @@ static GtkWidget *spp_container;
 static void spp_refresh_button_clicked(GtkButton *button, gpointer user_data);
 gint spp_date_sort_function (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data);
 
-/*START_EXTERN*/
-extern GtkWidget *window;
-/*END_EXTERN*/
 
-static void
-spp_duration_button_clicked (GtkToggleButton *togglebutton, gpointer data)
+static void spp_duration_button_clicked (GtkToggleButton *togglebutton, gpointer data)
 {
 	gint months = GPOINTER_TO_INT(data);
     	g_object_set_data (G_OBJECT(spp_container), 
@@ -91,8 +115,7 @@ spp_duration_button_clicked (GtkToggleButton *togglebutton, gpointer data)
  * This function create the widget (notebook) which contains all the
  * balance estimate interface. This widget is added in the main window
  */
-GtkWidget *
-create_balance_estimate_tab(void)
+GtkWidget *create_balance_estimate_tab(void)
 {
 	/* create a notebook for array and graph */
 	GtkWidget* notebook = gtk_notebook_new();
@@ -305,8 +328,7 @@ create_balance_estimate_tab(void)
  *
  * This function is called each time that "Balance estimate" is selected in the selection tree.
  */
-void 
-update_balance_estimate_tab(void)
+void update_balance_estimate_tab(void)
 {
 	/* find the selected account */
 	GtkTreeIter iter;
@@ -358,8 +380,7 @@ update_balance_estimate_tab(void)
  * This function is called by the Tree Model to sort
  * two lines by date.
  */
-gint 
-spp_date_sort_function (GtkTreeModel *model, 
+gint spp_date_sort_function (GtkTreeModel *model, 
 	GtkTreeIter *itera, GtkTreeIter *iterb, 
 	gpointer user_data)
 {
@@ -399,8 +420,7 @@ spp_date_sort_function (GtkTreeModel *model,
  * to the balance of the previous line.
  * It calculates the minimum and the maximum values of the balance column.
  */
-static gboolean 
-spp_update_amount (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+static gboolean spp_update_amount (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
 	struct spp_range* tmp_range = (struct spp_range*)data;
 
@@ -443,8 +463,7 @@ spp_update_amount (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gp
  * It clears the estimate array and calculates new estimates.
  * It updates the estimate graph.
  */
-static void 
-spp_refresh_button_clicked(GtkButton *button, gpointer user_data) 
+static void spp_refresh_button_clicked(GtkButton *button, gpointer user_data) 
 {
 	/* find the selected account */
 	GtkTreeIter iter;

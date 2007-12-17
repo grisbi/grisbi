@@ -98,6 +98,7 @@ gboolean gsb_transactions_list_move_to_current_transaction ( gint account_number
 gboolean gsb_transactions_list_select ( gint transaction_number );
 gboolean gsb_transactions_list_set_adjustment_value ( gint account_number );
 gboolean gsb_transactions_list_set_background_color ( gint account_number );
+void gsb_transactions_list_set_show_toggle_buttons ( gboolean show );
 void gsb_transactions_list_set_store (GtkTreeStore *store);
 gboolean gsb_transactions_list_set_transactions_balances ( gint account_number );
 void gsb_transactions_list_set_visible_rows_number ( gint rows_number );
@@ -110,9 +111,5 @@ void move_selected_operation_to_account_nb ( gint *account );
 gboolean new_transaction () ;
 void remove_transaction ();
 void schedule_selected_transaction ();
-gboolean assert_selected_transaction ();
-/* TODO dOm : I add these prototypes to avoid warning */
-void gsb_transactions_list_set_show_toggle_buttons ( gboolean show );
-
 /* END_DECLARATION */
 #endif

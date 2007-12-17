@@ -17,6 +17,7 @@ typedef enum GSB_GENERAL_NOTEBOOK_PAGES {
 } GsbGeneralNotebookPages;
 
 /* START_INCLUDE_H */
+#include "././balance_estimate_tab.h"
 /* END_INCLUDE_H */
 
 

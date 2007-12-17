@@ -42,7 +42,6 @@
 /*START_INCLUDE*/
 #include "main.h"
 #include "./menu.h"
-#include "./erreur.h"
 #include "./dialog.h"
 #include "./tip.h"
 #include "./gsb_assistant_first.h"
@@ -51,12 +50,14 @@
 #include "./gsb_status.h"
 #include "./gsb_plugins.h"
 #include "./traitement_variables.h"
+#include "./erreur.h"
 #include "./parse_cmdline.h"
 #include "./import.h"
 #include "./parse_cmdline.h"
 #include "./gsb_file_config.h"
 #include "./structures.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 

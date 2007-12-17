@@ -24,7 +24,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_account.h"
-#include "./comptes_gestion.h"
 #include "./dialog.h"
 #include "./gsb_category.h"
 #include "./gsb_data_account.h"
@@ -34,24 +33,23 @@
 #include "./gsb_file.h"
 #include "./gsb_form_scheduler.h"
 #include "./navigation.h"
-#include "./import.h"
 #include "./menu.h"
 #include "./gsb_scheduler_list.h"
 #include "./main.h"
 #include "./traitement_variables.h"
+#include "./comptes_gestion.h"
 #include "./etats_config.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
 #include "./tiers_onglet.h"
-#include "./structures.h"
 #include "./fenetre_principale.h"
 #include "./gsb_form_scheduler.h"
 #include "./include.h"
+#include "./gsb_real.h"
 #include "./gsb_data_account.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint gsb_account_ask_account_type ( void );
 /*END_STATIC*/
 
 
@@ -72,7 +70,7 @@ extern GtkWidget *notebook_general;
 
 /**
  * called to create a new account
- * called by menu edit -> new account
+ * called by the account assistant, should not be used directly
  * !! here is just to add an account, for new complete file see gsb_file_new
  * 
  * \param none
@@ -80,22 +78,16 @@ extern GtkWidget *notebook_general;
  * \return FALSE if problem, TRUE if ok
  */
 
-gboolean gsb_account_new ( void )
+gboolean gsb_account_new ( kind_account account_type,
+			   gint currency_number,
+			   gint bank_number,
+			   gsb_real init_amount,
+			   const gchar *name )
 {
-    kind_account type_de_compte;
     gint account_number;
 
-    /* WARNING : there is another way to create a new account : by import
-     * if there is some changes here, should change too in
-     * gsb_import_create_imported_account */
-
-    /*     ask for the kind_account */ 
-    type_de_compte = gsb_account_ask_account_type ();
-    if ( type_de_compte == -1 )
-	return FALSE;
-
     /*     create the new account */ 
-    account_number = gsb_data_account_new ( type_de_compte );
+    account_number = gsb_data_account_new (account_type);
     if ( account_number == -1 )
     {
 	dialogue_error_memory ();
@@ -104,6 +96,11 @@ gboolean gsb_account_new ( void )
 
     /* set the default method of payment */
     gsb_data_payment_create_default (account_number);
+
+    gsb_data_account_set_currency ( account_number, currency_number);
+    gsb_data_account_set_bank (account_number, bank_number);
+    gsb_data_account_set_init_balance (account_number, init_amount);
+    gsb_data_account_set_name (account_number, name);
 
     /* update the combofix for categ */ 
     gsb_category_update_combofix ();
@@ -506,63 +503,6 @@ GtkWidget *gsb_account_create_menu_list ( GtkSignalFunc func,
     return ( menu );
 }
 
-
-
-/**
- * show a dialog to choose the type of an account
- * and return that type
- *
- * \param
- *
- * \return the type of account
- *
- * FIXME : should disappear with the wizard
- * */
-gint gsb_account_ask_account_type ( void )
-{
-    GtkWidget *dialog;
-    gint resultat;
-    GtkWidget *label;
-    GtkWidget *hbox;
-    GtkWidget *bouton;
-    kind_account type_compte;
-
-    dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION,
-				       GTK_BUTTONS_OK_CANCEL,
-				       make_hint ( _("Choose account type"),
-						   _("If you choose to continue, an account will be created with default payment methods chosen according to your choice.\nYou will be able to change account type later." ) ) );
-
-    /* creation de la ligne du type de compte */
-    hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -> vbox ), hbox,
-			 FALSE, FALSE, 6 );
-    gtk_widget_show ( hbox );
-
-    label = gtk_label_new ( COLON(_("Account type")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 12 );
-    gtk_widget_show ( label );
-
-    bouton = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),
-			       creation_menu_type_compte() );
-    gtk_box_pack_start ( GTK_BOX (hbox), bouton, TRUE, TRUE, 12 );
-    gtk_widget_show ( bouton );
-
-    resultat = gtk_dialog_run ( GTK_DIALOG(dialog) );
-
-    if ( resultat != GTK_RESPONSE_OK )
-    {
-	gtk_widget_destroy ( dialog );
-	return ( -1 );
-    }
-
-    type_compte = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton ) -> menu_item ),
-							  "no_type_compte" ));
-
-    gtk_widget_destroy ( dialog );
-
-    return ( type_compte );
-}
 
 
 

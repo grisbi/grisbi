@@ -30,7 +30,6 @@
 #include "./utils.h"
 #include "./comptes_gestion.h"
 #include "./import_csv.h"
-#include "./erreur.h"
 #include "./dialog.h"
 #include "./utils_file_selection.h"
 #include "./go-charmap-sel.h"
@@ -66,6 +65,7 @@
 #include "./gsb_data_account.h"
 #include "./gsb_form_scheduler.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -84,6 +84,7 @@ static void cree_liens_virements_ope_import ( void );
 static GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte );
 static void gsb_import_add_imported_transactions ( struct struct_compte_importation *imported_account,
 					    gint account_number );
+static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
 				     gint account_number );
 static gboolean import_account_action_activated ( GtkWidget * radio, gint action );

@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "traitement_variables.h"
-#include "./erreur.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"
@@ -59,6 +58,7 @@
 #include "./include.h"
 #include "./gsb_transactions_list.h"
 #include "./echeancier_infos.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
