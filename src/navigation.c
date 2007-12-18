@@ -294,7 +294,7 @@ GtkWidget * create_navigation_pane ( void )
 		gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
     gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
 		       NAVIGATION_PIX, pixbuf,
-		       NAVIGATION_TEXT, _("Sold estimate"), 
+		       NAVIGATION_TEXT, _("Balance estimate"), 
 		       NAVIGATION_PIX_VISIBLE, TRUE, 
 		       NAVIGATION_FONT, 800,
 		       NAVIGATION_PAGE, GSB_BALANCE_ESTIMATE_PAGE,
@@ -1230,7 +1230,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 					   FALSE );
 	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (categ_tree_model), 
 						   &dummy_iter ) )
-            update_balance_estimate_tab();
+            bet_update_balance_estimate_tab();
 	    break;
 #endif /*_BALANCE_ESTIMATE_TAB_H*/
 

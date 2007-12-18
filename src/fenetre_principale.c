@@ -270,7 +270,7 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     /* append the balance estimate page */
 #ifdef ENABLE_BALANCE_ESTIMATE 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-			       create_balance_estimate_tab(),
+			       bet_create_balance_estimate_tab(),
 			       gtk_label_new (SPACIFY(_("Balance estimate"))) );
 #endif /* ENABLE_BALANCE_ESTIMATE */
 

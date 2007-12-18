@@ -28,8 +28,8 @@
 
 
 /* START_DECLARATION */
-GtkWidget *create_balance_estimate_tab(void);
-void update_balance_estimate_tab(void);
+GtkWidget *bet_create_balance_estimate_tab(void);
+void bet_update_balance_estimate_tab(void);
 /* END_DECLARATION */
 
 #endif /* ENABLE_BALANCE_ESTIMATE */
