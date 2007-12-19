@@ -1223,13 +1223,12 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 #ifdef ENABLE_BALANCE_ESTIMATE 
 	case GSB_BALANCE_ESTIMATE_PAGE:
 	    notice_debug ("Sold balance estimate page selected");
+
 	    /* set the title */
 	    title = _("Balance estimate");
+
 	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
-	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (categ_tree_model), 
-						   &dummy_iter ) )
+	    gsb_form_set_expander_visible (FALSE, FALSE);
             bet_update_balance_estimate_tab();
 	    break;
 #endif /*_BALANCE_ESTIMATE_TAB_H*/

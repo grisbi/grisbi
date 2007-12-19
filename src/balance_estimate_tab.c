@@ -45,7 +45,6 @@
 /*START_STATIC*/
 static gint bet_date_sort_function (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data);
 static  void bet_duration_button_clicked (GtkToggleButton *togglebutton, gpointer data);
-static  void bet_refresh_button_clicked(GtkButton *button, gpointer user_data) ;
 static  gboolean bet_update_average_column (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
 static void bet_estimate_refresh();
 /*END_STATIC*/
@@ -102,7 +101,6 @@ struct bet_range
 	gsb_real current_balance;
 };
 static GtkWidget *bet_container;
-static void bet_refresh_button_clicked(GtkButton *button, gpointer user_data);
 gint bet_date_sort_function (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data);
 
 /*
@@ -116,6 +114,17 @@ static void bet_duration_button_clicked (GtkToggleButton *togglebutton, gpointer
 	gint months = GPOINTER_TO_INT(data);
     	g_object_set_data (G_OBJECT(bet_container), 
 		"bet_months", GINT_TO_POINTER(months));
+	bet_estimate_refresh();
+}
+
+/*
+ * bet_account_selection_changed 
+ * This function is called for each change in the selected line in the account list.
+ * It refreshs balance estimation.
+ */
+static void bet_account_selection_changed (GtkTreeSelection *treeselection, gpointer user_data)
+{
+	bet_estimate_refresh();
 }
 
 /*
@@ -150,7 +159,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	widget = gtk_label_new(NULL);
 	gtk_label_set_markup(GTK_LABEL(widget),
 		_("Please select an account and a duration\n"\
-		"and press the <i>Refresh</i> button"));
+		"and select the estimate array tab."));
 	gtk_widget_show(GTK_WIDGET(widget));
 	gtk_box_pack_start(GTK_BOX(hbox), widget, FALSE, FALSE, 5);
 
@@ -166,6 +175,8 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	gtk_tree_view_set_model(GTK_TREE_VIEW(tree_view), GTK_TREE_MODEL(tree_model));
 	GtkTreeSelection* tree_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 	gtk_tree_selection_set_mode(tree_selection, GTK_SELECTION_SINGLE);
+	g_signal_connect(G_OBJECT(tree_selection), "changed",
+		G_CALLBACK(bet_account_selection_changed), NULL);
 
 	GtkWidget *scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
 	gtk_widget_show(scrolled_window);
@@ -211,15 +222,8 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 			GINT_TO_POINTER(bet_months_array[iduration]));
 	}
 
-	/* create the refresh button */
-	GtkWidget *button = gtk_button_new_from_stock(GTK_STOCK_REFRESH);
-	gtk_widget_show(GTK_WIDGET(button));
-	gtk_box_pack_end(GTK_BOX(vbox), GTK_WIDGET(button), FALSE, FALSE, 5);
-	g_signal_connect(G_OBJECT(button), "clicked",
-		G_CALLBACK(bet_refresh_button_clicked), NULL);
-
 	/****** Estimation array page ******/
-	widget = gtk_label_new("Previson array");
+	widget = gtk_label_new("Estimate array");
 	gtk_widget_show(widget);
 	vbox = gtk_vbox_new(FALSE, 5);
 	gtk_widget_show(GTK_WIDGET(vbox));
@@ -270,7 +274,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 		NULL);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), 
 		GTK_TREE_VIEW_COLUMN(column));
-	gtk_tree_view_column_set_min_width(GTK_TREE_VIEW_COLUMN(column), 200);
+	gtk_tree_view_column_set_min_width(GTK_TREE_VIEW_COLUMN(column), 160);
 
 	/* Description column */
 	cell = gtk_cell_renderer_text_new ();
@@ -281,6 +285,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), 
 		GTK_TREE_VIEW_COLUMN(column));
 	gtk_tree_view_column_set_min_width(column, 300);
+	gtk_tree_view_column_set_expand(GTK_TREE_VIEW_COLUMN(column), TRUE);
 
 	/* Debit column */
 	cell = gtk_cell_renderer_text_new ();
@@ -291,11 +296,13 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), 
 		GTK_TREE_VIEW_COLUMN(column));
 	gtk_tree_view_column_set_min_width(column, 150);
-	/* TODO set column alignment */
+	g_object_set(G_OBJECT(GTK_CELL_RENDERER(cell)), "xalign", 1.0, NULL );
 	gtk_tree_view_column_set_alignment(column, 1);
+	gtk_tree_view_column_set_expand(GTK_TREE_VIEW_COLUMN(column), FALSE);
 
 	/* Credit column */
 	cell = gtk_cell_renderer_text_new ();
+	g_object_set(G_OBJECT(GTK_CELL_RENDERER(cell)), "xalign", 1, NULL );
 	column = gtk_tree_view_column_new_with_attributes (
 		_("Credit"), cell, 
 		"text", SPP_ESTIMATE_TREE_CREDIT_COLUMN, 
@@ -303,8 +310,9 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), 
 		GTK_TREE_VIEW_COLUMN(column));
 	gtk_tree_view_column_set_min_width(column, 150);
-	/* TODO set column alignment */
+	g_object_set(G_OBJECT(GTK_CELL_RENDERER(cell)), "xalign", 1.0, NULL );
 	gtk_tree_view_column_set_alignment(column, 1);
+	gtk_tree_view_column_set_expand(GTK_TREE_VIEW_COLUMN(column), FALSE);
 
 	/* Average column */
 	cell = gtk_cell_renderer_text_new ();
@@ -314,9 +322,10 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 		NULL);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), 
 		GTK_TREE_VIEW_COLUMN(column));
-	gtk_tree_view_column_set_min_width(column, 200);
-	/* TODO set column alignment */
+	gtk_tree_view_column_set_min_width(column, 170);
+	g_object_set(G_OBJECT(GTK_CELL_RENDERER(cell)), "xalign", 1.0, NULL );
 	gtk_tree_view_column_set_alignment(column, 1);
+	gtk_tree_view_column_set_expand(GTK_TREE_VIEW_COLUMN(column), FALSE);
 	
 	/****** Estimation graph page ******/
 	widget = gtk_label_new("Previson graph");
@@ -496,17 +505,6 @@ static gboolean bet_update_graph (GtkTreeModel *model, GtkTreePath *path, GtkTre
 	return FALSE;
 }
 
-/*
- * bet_refresh_button_clicked
- *
- * This function is called when the refresh button is clicked.
- */
-static void bet_refresh_button_clicked(GtkButton *button, gpointer user_data) 
-{
-	bet_estimate_refresh();
-	/* select the second page of the notebook */ 
-	gtk_notebook_set_current_page(GTK_NOTEBOOK(bet_container), 1);
-}
 
 /*
  * bet_estimate_refresh
