@@ -175,6 +175,42 @@ fi
 AC_G2BANKING()
 AM_CONDITIONAL(HAVE_G2BANKING, test "$have_g2banking" = "yes")
 
+
+dnl
+dnl ElectricFence support
+dnl
+dnl --enable-electricfence flag
+AC_ARG_ENABLE(electricfence,
+	[AC_HELP_STRING([--enable-electricfence],
+	[Enable compilation with ElectricFence (default=no)])],,
+	enable_electricfence=no)
+AC_CHECK_LIB(efence,malloc,electricfence=yes,electricfence=no)
+if test "x$enable_electricfence" = xyes ; then
+	if test "x$electricfence" = xyes ; then
+		AC_MSG_WARN([ElectricFence is enabled])
+		LDFLAGS="${LDFLAGS} -lefence"
+	else
+		AC_MSG_ERROR([Can't find the ElectriceFence library !])
+	fi
+fi
+
+dnl
+dnl WError support
+dnl
+AC_ARG_ENABLE(werror,
+ 	[AC_HELP_STRING([--enable-werror],
+ 	[Treates warning as errors (default=no)])],,
+ 	enable_werror=no)
+if test "x$enable_werror" = xyes ; then
+	if test "x$GCC" = "xyes" ; then
+		CFLAGS="$CFLAGS -Wall -Werror"
+		AC_MSG_WARN([Werror and Wall flags are enabled])
+	else
+		AC_MSG_WARN([WError and WAll can be enabled only with gcc])
+	fi
+fi
+
+
 AC_SUBST(g2banking_libs)
 AC_SUBST(g2banking_includes)
 
