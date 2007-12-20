@@ -167,6 +167,7 @@ gsb_plugin * gsb_plugin_find ( gchar * plugin_name )
 gchar * gsb_plugin_get_list ()
 {
     gchar * list = NULL;
+    gchar * old_list = NULL;
     GSList * tmp = plugins;
 
     while ( tmp )
@@ -175,15 +176,21 @@ gchar * gsb_plugin_get_list ()
 
 	if ( ! list )
 	{
+	    old_list = list;
 	    list = g_strconcat ( _("with plugins"), " ", plugin -> name, NULL );
+	    g_free(old_list);
 	}
 	else
 	{
+	    old_list = list;
 	    list = g_strconcat ( list, ", ", plugin -> name, NULL );
+	    g_free(old_list);
 	}
 
 	tmp = tmp -> next;
     }
+    if (! list)
+    	list = g_strdup("no plugin");
 
     return list;
 }

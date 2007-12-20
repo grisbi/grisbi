@@ -144,13 +144,15 @@ NULL );
 
     /* Title */
     label = gtk_label_new ( g_strconcat ( "Grisbi ", VERSION, "\n\n", NULL ));
-    gtk_label_set_markup ( GTK_LABEL (label), 
-			   g_strconcat ( "<span size=\"x-large\" weight=\"bold\">",
-
+    gchar* plugin_list = gsb_plugin_get_list();
+    gchar* buffer = g_strconcat ( "<span size=\"x-large\" weight=\"bold\">",
 					 "Grisbi ", VERSION, "</span>\n", 
 					 "<span size=\"small\">",
-					 gsb_plugin_get_list (), 
-					 "</span>", NULL ) );
+					 plugin_list, 
+					 "</span>", NULL );
+    gtk_label_set_markup ( GTK_LABEL (label), buffer);
+    g_free(buffer);
+    g_free(plugin_list);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_CENTER );
     gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
