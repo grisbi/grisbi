@@ -158,7 +158,9 @@ extern gint valeur_echelle_recherche_date_import;
 
 void modification_fichier ( gboolean modif )
 {
-    devel_debug ( g_strdup_printf ("modification_fichier : %d", modif ));
+    gchar* tmpstr = g_strdup_printf ("modification_fichier : %d", modif );
+    devel_debug ( tmpstr );
+    g_free (tmpstr);
 
     /* If no file is loaded, do not change menu items. */
     if ( ! gsb_data_account_get_accounts_amount () )
@@ -438,8 +440,10 @@ void menus_sensitifs ( gboolean sensitif )
 	NULL,
     };
     gchar ** tmp = items;
-    
-    devel_debug ( g_strdup_printf ("menus_sensitifs : %d", sensitif ));
+
+    gchar * tmpstr = g_strdup_printf ("menus_sensitifs : %d", sensitif );
+    devel_debug ( tmpstr );
+    g_free (tmpstr);
 
     while ( *tmp )
     {

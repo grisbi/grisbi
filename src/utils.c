@@ -111,7 +111,7 @@ gboolean lance_navigateur_web ( const gchar *url )
 {
 /*     si la commande du navigateur contient %s, on le remplace par url, */
 /*     sinon on ajoute l'url à la fin et & */
-/*     sous Windows si la commande est vide ou equale a la valeur par defaut on lance le butineur par defaut (open) */
+/*     sous Windows si la commande est vide ou egale a la valeur par defaut on lance le butineur par defaut (open) */
 
     gchar **split;
     gchar *chaine;
@@ -128,8 +128,10 @@ gboolean lance_navigateur_web ( const gchar *url )
 	   &&
 	   strlen ( etat.browser_command )))
     {
-	dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  Please adjust your settings to a valid executable."), url ),
-			      _("Cannot execute web browser") );
+    
+	gchar* tmpstr = g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  Please adjust your settings to a valid executable."), url );
+	dialogue_error_hint ( tmpstr, _("Cannot execute web browser") );
+	g_free (tmpstr);
     }
 #endif // _WIN32
 
@@ -139,6 +141,8 @@ gboolean lance_navigateur_web ( const gchar *url )
     {
 #endif // _WIN32
 
+    /* search if the sequence `%s' is in the string
+     * and split the string before and after this delimiter */
     split = g_strsplit ( etat.browser_command,
 			 "%s",
 			 0 );
@@ -147,23 +151,25 @@ gboolean lance_navigateur_web ( const gchar *url )
     {
 	/* 	il y a bien un %s dans la commande de lancement */
 
-	chaine = g_strjoinv ( g_strconcat ( " ",
-					    url,
-					    " ",
-					    NULL ),
-			      split );
-	chaine = g_strconcat ( chaine,
-			       "&",
-			       NULL );
+        /* concat the string before %s, the url and the string after %s */
+        gchar* tmpstr = g_strconcat ( " ", url, " ", NULL );
+	chaine = g_strjoinv ( tmpstr, split );
+	g_free(tmpstr);
+	/* add the & character at the end */
+	tmpstr = g_strconcat ( chaine, "&", NULL );
+	g_free(chaine);
+	chaine = tmpstr;
     }
     else
 	chaine = g_strconcat ( etat.browser_command, " ", url, "&", NULL ); 
 
+    g_strfreev(split);
 
     if ( system ( chaine ) == -1 )
     {
-	dialogue_error_hint ( g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\nThe command was: %s.\nPlease adjust your settings to a valid executable."), url, chaine ),
-			      _("Cannot execute web browser") );
+    	gchar* tmpstr = g_strdup_printf ( _("Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\nThe command was: %s.\nPlease adjust your settings to a valid executable."), url, chaine );
+	dialogue_error_hint ( tmpstr, _("Cannot execute web browser") );
+	g_free(tmpstr);
     }
 
 #ifdef _WIN32
@@ -173,6 +179,7 @@ gboolean lance_navigateur_web ( const gchar *url )
         win32_shell_execute_open(url);
     } 
 #endif // _WIN32
+    g_free(chaine);
 
     return FALSE;
 }
@@ -202,12 +209,13 @@ GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar *
 			     fill, fill, 0);
     }
 
-    /* Creating labe */
+    /* Creating label */
     label = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1 );
-    gtk_label_set_markup ( GTK_LABEL ( label ), 
-			   g_strconcat ("<span weight=\"bold\">",
-					title, "</span>", NULL ) );
+    gchar* tmp_str = g_strconcat ("<span weight=\"bold\">",
+					title, "</span>", NULL );
+    gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
+    g_free(tmp_str);
     gtk_box_pack_start ( GTK_BOX ( vbox ), label,
 			 FALSE, FALSE, 0);
     gtk_widget_show ( label );
@@ -277,20 +285,24 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
     /* Icon */
     if ( image_filename )
     {
-	image = gtk_image_new_from_file (g_strconcat(PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     image_filename, NULL));
+        gchar* tmpstr = g_strconcat(PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+						     image_filename, NULL);
+	image = gtk_image_new_from_file (tmpstr);
+	g_free(tmpstr);
 	gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 0);
 	gtk_widget_show ( image );
     }
 
     /* Nice huge title */
     label = gtk_label_new ( title );
-    gtk_label_set_markup ( GTK_LABEL(label), 
-			   g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
-					g_markup_escape_text (title,
-							      strlen(title)),
+    gchar* tmpstr1 = g_markup_escape_text (title, strlen(title));
+    gchar* tmpstr2 = g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
+					tmpstr1,
 					"</span>",
-					NULL ) );
+					NULL );
+    gtk_label_set_markup ( GTK_LABEL(label), tmpstr2);
+    g_free(tmpstr1);
+    g_free(tmpstr2);
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
     gtk_widget_show ( label );
 

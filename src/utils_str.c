@@ -345,7 +345,10 @@ gint gsb_strcasecmp ( gchar *string_1,
     string_2 = g_strdelimit ( string_2, "ôÔ", 'o' );
     string_2 = g_strdelimit ( string_2, "îÎ", 'i' );
 
-    return ( g_strcasecmp ( string_1, string_2 ));
+    gint result = g_strcasecmp ( string_1, string_2 );
+    g_free(string_1);
+    g_free(string_2);
+    return result; 
 }
 /* ************************************************************************** */
 
@@ -440,7 +443,7 @@ gint my_strncasecmp ( gchar *string_1,
 /**
  * Protect the my_strdup function if the string is NULL
  * 
- * If the lentgth of string in 0 (ie ""), return NULL.  That is just
+ * If the length of string is 0 (ie ""), return NULL.  That is just
  * nonsense, but it has been done that way and disabling it would
  * certainly cause side effects. [benj]
  *
@@ -664,9 +667,7 @@ gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
 	return NULL;
 
     if ( strlen(string) < n )
-    {
 	return my_strdup ( string );
-    }
     
     tmp = string + n;
     if ( ! hard_trunc && ! ( tmp = strchr ( tmp, ' ' ) ) )
@@ -681,8 +682,9 @@ gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
 	    tmp++;
 
 	trunc = g_strndup ( string, ( tmp - string ) );
-	trunc = g_strconcat ( trunc, "...", NULL );
-	return trunc;
+	gchar* result = g_strconcat ( trunc, "...", NULL );
+	g_free(trunc);
+	return result;
     }
 }
 

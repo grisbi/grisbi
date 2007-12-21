@@ -99,8 +99,10 @@ void update_transaction_in_payee_tree ( gint transaction_number )
  */
 void update_transaction_in_trees ( gint transaction_number )
 {
-    devel_debug ( g_strdup_printf ( "update_transaction_in_trees : %d", 
-				    transaction_number ));
+    gchar* tmpstr = g_strdup_printf ( "update_transaction_in_trees : %d", 
+				    transaction_number );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
     update_transaction_in_categ_tree ( transaction_number );
     update_transaction_in_payee_tree ( transaction_number );
     update_transaction_in_budgetary_line_tree ( transaction_number );

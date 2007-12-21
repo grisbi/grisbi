@@ -241,8 +241,10 @@ GtkWidget * create_navigation_pane ( void )
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( navigation_tree_view ), 
 				  GTK_TREE_VIEW_COLUMN ( column ) );
     /* Account list */
-    pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     "resume.png", NULL ), NULL );
+    gchar* tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+						     "resume.png", NULL );
+    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
+    g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &account_iter, NULL);
     gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &account_iter, 
 		       NAVIGATION_PIX, pixbuf,
@@ -257,8 +259,10 @@ GtkWidget * create_navigation_pane ( void )
     create_account_list ( GTK_TREE_MODEL(navigation_model) );
 
     /* Scheduler */
-    pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     "scheduler.png", NULL ), NULL );
+    tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+						     "scheduler.png", NULL );
+    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
+    g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
     gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
 		       NAVIGATION_PIX, pixbuf,
@@ -272,8 +276,10 @@ GtkWidget * create_navigation_pane ( void )
 		       -1 );
 
     /* Payees */
-    pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     "payees.png", NULL ), NULL );
+    tmpstr =  g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+						     "payees.png", NULL );
+    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
+    g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
     gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
 		       NAVIGATION_PIX, pixbuf,
@@ -288,10 +294,11 @@ GtkWidget * create_navigation_pane ( void )
 
 #ifdef ENABLE_BALANCE_ESTIMATE 
     /* Balance estimate */
-    /* TODO dOm : create the icon file */
-    pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     "balance_estimate.png", NULL ), NULL );
-		gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
+    tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+						     "balance_estimate.png", NULL );
+    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
+    g_free ( tmpstr );
+    gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
     gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
 		       NAVIGATION_PIX, pixbuf,
 		       NAVIGATION_TEXT, _("Balance estimate"), 
@@ -306,8 +313,10 @@ GtkWidget * create_navigation_pane ( void )
 
 
     /* Categories */
-    pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     "categories.png", NULL ), NULL );
+    tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+						     "categories.png", NULL );
+    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
+    g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
     gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
 		       NAVIGATION_PIX, pixbuf,
@@ -321,8 +330,10 @@ GtkWidget * create_navigation_pane ( void )
 		       -1 );
 
     /* Budgetary lines */
-    pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     "budgetary_lines.png", NULL ), NULL );
+    tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+						     "budgetary_lines.png", NULL );
+    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
+    g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
     gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
 		       NAVIGATION_PIX, pixbuf,
@@ -336,8 +347,10 @@ GtkWidget * create_navigation_pane ( void )
 		       -1 );
 
     /* Reports */
-    pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     "reports.png", NULL ), NULL );
+    tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+						     "reports.png", NULL );
+    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
+    g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &reports_iter, NULL);
     gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &reports_iter, 
 		       NAVIGATION_PIX, pixbuf,
@@ -355,8 +368,10 @@ GtkWidget * create_navigation_pane ( void )
     if ( gsb_plugin_find ( "g2banking" ) )
     {
 	/* Gbanking */
-	pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-							 "aqbanking.png", NULL ), NULL );
+	gchar* tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+							 "aqbanking.png", NULL );
+        pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
+        g_free ( tmpstr );
 	gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
 	gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
 			   NAVIGATION_PIX, pixbuf,
@@ -883,9 +898,11 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model,
 	    break;
     }
 
-    pixbuf = gdk_pixbuf_new_from_file ( g_strconcat( PIXMAPS_DIR, 
+    gchar* tmpstr = g_strconcat( PIXMAPS_DIR, 
 						     C_DIRECTORY_SEPARATOR,
-						     account_icon, ".png", NULL ), NULL );
+						     account_icon, ".png", NULL );
+    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
+    g_free ( tmpstr );
     gtk_tree_store_set(GTK_TREE_STORE(model), account_iter, 
 		       NAVIGATION_PIX, pixbuf,
 		       NAVIGATION_PIX_VISIBLE, TRUE, 
@@ -979,7 +996,9 @@ gboolean navigation_change_account ( gint *no_account )
      * have to use a buffer variable to get the last account */
     current_account = gsb_gui_navigation_get_last_account ();
 
-    devel_debug ( g_strdup_printf ("navigation_change_account : %d", new_account ));
+    gchar* tmpstr = g_strdup_printf ("navigation_change_account : %d", new_account );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     /* sensitive the last account in the menu */
     gsb_gui_sensitive_menu_item ( "EditMenu", "MoveToAnotherAccount", 
@@ -1050,10 +1069,13 @@ void gsb_navigation_update_statement_label ( gint account_number )
 
     reconcile_number = gsb_data_reconcile_get_account_last_number (account_number);
     if (reconcile_number)
-	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
-			     g_strdup_printf ( _("Last statement: %s"), 
-					       gsb_format_gdate (gsb_data_reconcile_get_final_date (reconcile_number))));
-
+    {
+        gchar* tmpstr2 = gsb_format_gdate (gsb_data_reconcile_get_final_date (reconcile_number));
+        gchar* tmpstr = g_strdup_printf ( _("Last statement: %s"), tmpstr2);
+	gtk_label_set_text ( GTK_LABEL ( label_last_statement ), tmpstr);
+	g_free ( tmpstr );
+	g_free ( tmpstr2 );
+    }
     else
 	gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
 			     _("Last statement: none") );
@@ -1111,7 +1133,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     {
 	gtk_widget_hide_all ( scheduler_calendar );
     }
-
     switch ( page_number )
     {
 	case GSB_HOME_PAGE:
@@ -1187,7 +1208,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    notice_debug ("Scheduler page selected");
 
 	    /* set the title */
-	    title = _("Scheduled transactions");
+	    title = g_strdup(_("Scheduled transactions"));
 
 	    /* what to be done if switch to that page */
 	    /* update the list (can do that because short list, so very fast) */
@@ -1210,7 +1231,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    notice_debug ("Payee page selected");
 
 	    /* set the title */
-	    title = _("Payees");
+	    title = g_strdup(_("Payees"));
 
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE,
@@ -1225,7 +1246,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    notice_debug ("Sold balance estimate page selected");
 
 	    /* set the title */
-	    title = _("Balance estimate");
+	    title = g_strdup(_("Balance estimate"));
 
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE, FALSE);
@@ -1237,7 +1258,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    notice_debug ("Category page selected");
 
 	    /* set the title */
-	    title = _("Categories");
+	    title = g_strdup(_("Categories"));
 
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE,
@@ -1251,7 +1272,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    notice_debug ("Budgetary page selected");
 
 	    /* set the title */
-	    title = _("Budgetary lines");
+	    title = g_strdup(_("Budgetary lines"));
 
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE,
@@ -1268,7 +1289,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    /** FIXME (later) : define an api so that plugin register here itself.  */
 	    if ( gsb_plugin_find ( "g2banking" ) )
 	    {
-		title = _("AqBanking");
+		title = g_strdup(_("AqBanking"));
 	    }
 
 	    /* what to be done if switch to that page */
@@ -1285,7 +1306,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    if ( report_number >= 0 )
 		title = g_strconcat ( _("Report"), " : ", gsb_data_report_get_report_name (report_number), NULL );
 	    else
-		title = _("Reports");
+		title = g_strdup(_("Reports"));
 
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE,
@@ -1299,11 +1320,12 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 	default:
 	    notice_debug ("B0rk page selected");
-	    title = "B0rk";
+	    title = g_strdup("B0rk");
 	    break;
     }
 
     gsb_gui_headings_update ( title, suffix );
+    g_free ( title );
     return FALSE;
 }
 
@@ -1660,13 +1682,17 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 	/* We handle an account */
 	if ( src_account >= 0 && dst_account >= 0 )
 	{
-	    notice_debug ( g_strdup_printf ("> Possible (account, %d, %d)", src_account, dst_account));
+	    gchar* tmpstr =  g_strdup_printf ("> Possible (account, %d, %d)", src_account, dst_account);
+	    notice_debug ( tmpstr );
+	    g_free ( tmpstr );
 	    return TRUE;
 	}
 	/* We handle a report */
 	else if ( src_report > 0 && dst_report > 0 )
 	{
-	    notice_debug ( g_strdup_printf  ("> Possible (report, %d, %d)", src_report, dst_report));
+	    gchar* tmpstr = g_strdup_printf  ("> Possible (report, %d, %d)", src_report, dst_report);
+	    notice_debug ( tmpstr );
+	    g_free ( tmpstr );
 	    return TRUE;
 	}
     }

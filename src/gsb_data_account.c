@@ -1072,8 +1072,12 @@ gint gsb_data_account_get_element_sort ( gint account_number,
 	 ||
 	 no_column > TRANSACTION_LIST_COL_NB )
     {
-	g_strdup_printf ( _("Bad no column to gsb_data_account_get_element_sort () in data_account.c\nno_column = %d\n" ),
+    	/* TODO dOm : the return value of g_strdup_printf was not used ! I add the devel_debug to print it. Is it OK to do that ?*/
+	g_print("ici\n");
+	gchar* tmpstr = g_strdup_printf ( _("Bad no column to gsb_data_account_get_element_sort () in data_account.c\nno_column = %d\n" ),
 			  no_column );
+	devel_debug (tmpstr);
+	g_free(tmpstr);
 	return FALSE;
     }
 
@@ -1107,8 +1111,10 @@ gboolean gsb_data_account_set_element_sort ( gint account_number,
 	 ||
 	 no_column > TRANSACTION_LIST_COL_NB )
     {
-	g_strdup_printf ( _("Bad no column to gsb_data_account_set_element_sort () in data_account.c\nno_column = %d\n" ),
-			  no_column );
+        /* TODO dOm : the value of g_strdup_printf was not used. I add the devel_debug function to print it. Is it OK ? */
+	gchar* tmpstr = g_strdup_printf ( _("Bad no column to gsb_data_account_set_element_sort () in data_account.c\nno_column = %d\n" ), no_column );
+	devel_debug ( tmpstr );
+	g_free (tmpstr);
 	return FALSE;
     }
 

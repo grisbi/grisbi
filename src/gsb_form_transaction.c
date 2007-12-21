@@ -77,8 +77,10 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
     gint account_number;
     GSList *tmp_list;
 
-    devel_debug ( g_strdup_printf ( "gsb_form_transaction_complete_form_by_payee %s",
-				    payee_name ));
+    gchar* tmpstr = g_strdup_printf ( "gsb_form_transaction_complete_form_by_payee %s",
+				    payee_name );
+    devel_debug ( tmpstr );
+    g_free(tmpstr);
 
     if ( !strlen (payee_name))
 	return FALSE;

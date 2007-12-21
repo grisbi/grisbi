@@ -259,7 +259,9 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     }
     g_free ( path );
 
-    devel_debug ( g_strdup_printf ("fill_division_row %d", division) );
+    gchar* strtmp = g_strdup_printf ("fill_division_row %d", division);
+    devel_debug ( strtmp  );
+    g_free ( strtmp );
 
     if ( ! division )
 	division = iface -> get_without_div_pointer ();
@@ -382,7 +384,10 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter, 
 			    gint transaction_number )
 {
-    gchar * account, * montant, * label, * notes = NULL; /* free */
+    gchar * account; /* no need to be freed */
+    gchar * montant = NULL;
+    gchar * label = NULL; 
+    gchar * notes = NULL; 
     const gchar *string;
     GtkTreePath * path;
     enum meta_tree_row_type type;
@@ -441,12 +446,14 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
     if ( notes )
     {
 	label = g_strconcat ( label, " : ", notes, NULL );
-	g_free (notes);
+	g_free (notes); 
     }
 
     if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number))
     {
-	label = g_strconcat ( label, " (", _("breakdown"), ")", NULL );
+        gchar* tmpstr = label;
+	label = g_strconcat ( tmpstr, " (", _("breakdown"), ")", NULL );
+	g_free ( tmpstr );
     }
 
     montant = gsb_format_amount ( gsb_data_transaction_get_amount (transaction_number),
@@ -463,6 +470,8 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 			 META_TREE_FONT_COLUMN, 400,
 			 META_TREE_DATE_COLUMN, gsb_data_transaction_get_date ( transaction_number ),
 			 -1);
+    g_free(montant);
+    g_free(label);
 }
 
 
@@ -502,7 +511,9 @@ void metatree_fill_new_division ( MetatreeInterface * iface, GtkTreeModel * mode
     GtkTreeIter iter, sub_iter;
     GtkTreeView * tree_view;
 
-    devel_debug ( g_strdup_printf ("metatree_fill_new_division %d", div_id) );
+    gchar* strtmp = g_strdup_printf ("metatree_fill_new_division %d", div_id);
+    devel_debug ( strtmp  );
+    g_free ( strtmp );
 
     g_return_if_fail ( iface );
     if ( ! metatree_model_is_displayed ( model ) )
@@ -574,8 +585,9 @@ void metatree_fill_new_sub_division ( MetatreeInterface * iface, GtkTreeModel * 
     if ( ! metatree_model_is_displayed ( model ) )
 	return;
 
-    devel_debug ( g_strdup_printf ("metatree_fill_new_sub_division %d %d", 
-				   div_id, sub_div_id) );
+    gchar* strtmp = g_strdup_printf ("metatree_fill_new_sub_division %d %d", div_id, sub_div_id);
+    devel_debug ( strtmp  );
+    g_free ( strtmp );
 
 
     parent_iter = get_iter_from_div ( model, div_id, -1 );
@@ -1105,8 +1117,10 @@ gboolean division_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath *
 gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,
 				       GtkSelectionData * selection_data )
 {
-    devel_debug ( g_strdup_printf ("division_drag_data_received %p, %p, %p", drag_dest, dest_path, 
-				   selection_data));
+    gchar* strtmp = g_strdup_printf ("division_drag_data_received %p, %p, %p", 
+                                         drag_dest, dest_path, selection_data);
+    devel_debug ( strtmp );
+    g_free ( strtmp );
 
     if ( dest_path && selection_data )
     {
@@ -1429,20 +1443,25 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
     gchar **split_division;
 
     /* create the box to move change the division and sub-div of the transactions */
+    gchar* tmpstr1 = g_strdup_printf ( _("'%s' still contains transactions or archived transactions."), 
+						     ( !sub_division ? 
+						       iface -> div_name ( division ) :
+						       iface -> sub_div_name ( division, sub_division ) ) );
+    gchar* tmpstr2 = g_strdup_printf ( _("If you want to remove it but want to keep transactions, you can transfer them to another (sub-)%s.  Otherwise, transactions can be simply deleted along with their division."), 
+							     g_ascii_strdown ( iface -> meta_name, -1 ) );
     dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
-				       make_hint ( g_strdup_printf ( _("'%s' still contains transactions or archived transactions."), 
-								     ( !sub_division ? 
-								       iface -> div_name ( division ) :
-								       iface -> sub_div_name ( division, sub_division ) ) ),
-						   g_strdup_printf ( _("If you want to remove it but want to keep transactions, you can transfer them to another (sub-)%s.  Otherwise, transactions can be simply deleted along with their division."), 
-								     g_ascii_strdown ( iface -> meta_name, -1 ) ) ) );
+				       make_hint ( tmpstr1 , tmpstr2 ) );
+
+    g_free ( tmpstr1 );
+    g_free ( tmpstr2 );
 
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
 			 FALSE, FALSE, 0 );
 
-    bouton_transfert = gtk_radio_button_new_with_label ( NULL,
-							 g_strdup_printf (_("Transfer transactions to %s"), iface -> meta_name)  );
+    tmpstr1 = g_strdup_printf (_("Transfer transactions to %s"), iface -> meta_name);
+    bouton_transfert = gtk_radio_button_new_with_label ( NULL, tmpstr1);
+    g_free ( tmpstr1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_transfert,
 			 FALSE, FALSE, 0 );
 
@@ -1530,8 +1549,9 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
 			 FALSE, FALSE, 0 );
     
-    bouton_division_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )),
-								  g_strdup_printf(_("Just remove this sub-%s."), iface -> meta_name ) );
+    gchar* tmpstr = g_strdup_printf(_("Just remove this sub-%s."), iface -> meta_name );
+    bouton_division_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )), tmpstr );
+    g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_division_generique, FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( dialog );
@@ -1552,8 +1572,11 @@ retour_dialogue:
     {
 	if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	{
-	    dialogue_warning_hint ( g_strdup_printf ( _("It is compulsory to specify a destination %s to move transactions but no %s was entered."), iface -> meta_name, iface -> meta_name ),
-				    g_strdup_printf ( _("Please enter a %s!"), iface -> meta_name ) );
+	    gchar* tmpstr1 = g_strdup_printf ( _("It is compulsory to specify a destination %s to move transactions but no %s was entered."), iface -> meta_name, iface -> meta_name );
+	    gchar* tmpstr2 = g_strdup_printf ( _("Please enter a %s!"), iface -> meta_name );
+	    dialogue_warning_hint ( tmpstr1 , tmpstr2 );
+	    g_free ( tmpstr1 );
+	    g_free ( tmpstr2 );
 
 	    goto retour_dialogue;
 	}
@@ -1953,14 +1976,17 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 
 	if ( sub_div_id >= 0 )
 	{
-	    text = g_strconcat ( text, " : ", 
+	    gchar* tmpstr = text;
+	    text = g_strconcat ( tmpstr, " : ", 
 				 ( sub_div_id ? iface -> sub_div_name ( div_id, sub_div_id ) :
 				   _(iface->no_sub_div_label) ), NULL );
+            g_free ( tmpstr );
 	    balance = gsb_format_amount ( iface -> sub_div_balance ( div_id, sub_div_id ),
 					  iface -> tree_currency () );
 	}
 
 	gsb_gui_headings_update ( text, balance );
+	g_free ( text );
 	selection_is_set = TRUE;
     }
 

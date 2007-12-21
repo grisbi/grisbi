@@ -279,6 +279,7 @@ gint gsb_transactions_list_sort_by_no_sort (  GtkTreeModel *model,
 					      gint no_sort )
 
 {
+    gchar* tmpstr;
     switch ( no_sort )
     {
 	case TRANSACTION_LIST_DATE:
@@ -391,7 +392,9 @@ gint gsb_transactions_list_sort_by_no_sort (  GtkTreeModel *model,
 							 sort_type ));
 	    break;
 	default :
-	    warning_debug ( g_strdup_printf ( _("problem in gsb_transactions_list_sort_by_no_sort : ask for the sort number %d which doesn't exist... return by date\n"), no_sort ));
+	    tmpstr = g_strdup_printf ( _("problem in gsb_transactions_list_sort_by_no_sort : ask for the sort number %d which doesn't exist... return by date\n"), no_sort );
+	    warning_debug (tmpstr);
+	    g_free(tmpstr);
 	    return ( gsb_transactions_list_sort_by_date ( model,
 							  iter_1,
 							  iter_2,
@@ -1055,6 +1058,9 @@ gint gsb_transactions_list_sort_by_category ( GtkTreeModel *model,
 						      -1 ),
 				    g_utf8_casefold ( temp_2 ? temp_2 : "",
 						      -1 ));
+
+    g_free (temp_1);
+    g_free (temp_2);
 
     if ( return_value )
 	return return_value;

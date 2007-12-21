@@ -213,10 +213,11 @@ void gsb_form_create_widgets ()
 
     /* set the label transaction form */
     label = gtk_label_new ( NULL );
-    gtk_label_set_markup_with_mnemonic ( GTK_LABEL ( label ), 
-					 g_strconcat ( "<span weight=\"bold\">", 
+    gchar* tmpstr = g_strconcat ( "<span weight=\"bold\">", 
 						       _("Transaction/Scheduled _form"),
-						       "</span>", NULL ) );
+						       "</span>", NULL );
+    gtk_label_set_markup_with_mnemonic ( GTK_LABEL ( label ), tmpstr );
+    g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE, FALSE, 0 );
@@ -338,8 +339,10 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
     gint is_breakdown;
     GSList *tmp_list;
 
-    devel_debug ( g_strdup_printf ( "gsb_form_fill_by_transaction %d",
-				    transaction_number ));
+    gchar* tmpstr = g_strdup_printf ( "gsb_form_fill_by_transaction %d",
+				    transaction_number );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     if ( !transaction_number )
 	return FALSE;
@@ -669,8 +672,7 @@ void gsb_form_fill_element ( gint element_number,
 		    {
 			gtk_combofix_set_text ( GTK_COMBOFIX (widget),
 						char_tmp = g_strconcat ( _("Transfer : "),
-									 gsb_data_account_get_name (gsb_data_mix_get_account_number_transfer (transaction_number, is_transaction)),
-									 NULL ));
+						 gsb_data_account_get_name (gsb_data_mix_get_account_number_transfer (transaction_number, is_transaction)), NULL ));
 			g_free (char_tmp);
 		    }
 		}
@@ -922,7 +924,9 @@ gboolean gsb_form_show ( gboolean show )
 {
     gint origin;
 
-    devel_debug ( g_strdup_printf ( "gsb_form_show %d", show ));
+    gchar* tmpstr = g_strdup_printf ( "gsb_form_show %d", show );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     origin = gsb_form_get_origin ();
 
@@ -1089,7 +1093,9 @@ gboolean gsb_form_fill_from_account ( gint account_number )
     gint rows_number, columns_number;
     gint form_account_number;
 
-    devel_debug ( g_strdup_printf ("gsb_form_fill_from_account %d", account_number ));
+    gchar* tmpstr = g_strdup_printf ("gsb_form_fill_from_account %d", account_number );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     /* free the form if necessary */
     if (gsb_form_widget_get_list ())
@@ -1167,8 +1173,10 @@ gboolean gsb_form_clean ( gint account_number )
 {
     GSList *tmp_list;
 
-    devel_debug ( g_strdup_printf ( "gsb_form_clean account %d",
-				    account_number ));
+    gchar* tmpstr = g_strdup_printf ( "gsb_form_clean account %d",
+				    account_number );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     /* clean the transactions widget */
     tmp_list = gsb_form_widget_get_list ();
@@ -2288,7 +2296,10 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
     GtkWidget *widget;
     gint mother_number;
 
-    devel_debug (g_strdup_printf ("gsb_form_validate_form_transaction %d", transaction_number ));
+    gchar* tmpstr = g_strdup_printf ("gsb_form_validate_form_transaction %d", transaction_number );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
+
     account_number = gsb_form_get_account_number ();
 
     /* begin to work with dates */
@@ -2304,8 +2315,10 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
     /* check the date ok */
     if ( !gsb_date_check_entry (widget))
     {
-	dialogue_error ( g_strdup_printf ( _("Invalid date %s"),
-					   gtk_entry_get_text (GTK_ENTRY (widget))));
+        gchar* tmpstr = g_strdup_printf ( _("Invalid date %s"),
+					   gtk_entry_get_text (GTK_ENTRY (widget)));
+	dialogue_error ( tmpstr );
+	g_free(tmpstr);
 	gtk_entry_select_region ( GTK_ENTRY (widget),
 				  0,
 				  -1);
@@ -2321,8 +2334,10 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 	 &&
 	 !gsb_date_check_entry (widget))
     {
-	dialogue_error ( g_strdup_printf ( _("Invalid value date %s"),
-					   gtk_entry_get_text (GTK_ENTRY (widget))));
+        gchar* tmpstr = g_strdup_printf ( _("Invalid value date %s"),
+					   gtk_entry_get_text (GTK_ENTRY (widget)));
+	dialogue_error ( tmpstr );
+	g_free ( tmpstr );
 	gtk_entry_select_region ( GTK_ENTRY (widget),
 				  0,
 				  -1);
@@ -2483,7 +2498,6 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
 	    if (!gsb_data_report_get_report_by_name (tab_char[1]))
 	    {
-		g_strfreev (tab_char);
 		dialogue_error ( _("Invalid multiple payee.") );
 		g_strfreev (tab_char);
 		return (FALSE);
@@ -2509,7 +2523,9 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
     GSList *tmp_list;
     GDate *date;
 
-    devel_debug ( g_strdup_printf ( "gsb_form_take_datas_from_form %d", transaction_number ));
+    gchar* tmpstr = g_strdup_printf ( "gsb_form_take_datas_from_form %d", transaction_number );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     /* we set a date variable to avoid to parse 2 times, one time for the date,
      * and perhaps a second time with the financial year
@@ -2664,9 +2680,11 @@ gboolean gsb_form_get_categories ( gint transaction_number,
     GtkWidget *category_combofix;
 
 
-    devel_debug ( g_strdup_printf ( "gsb_form_get_categories %d, new : %d", 
+    gchar* tmpstr = g_strdup_printf ( "gsb_form_get_categories %d, new : %d", 
 				    transaction_number,
-				    new_transaction ));
+				    new_transaction );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     if ( !gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY ))
 	return FALSE;

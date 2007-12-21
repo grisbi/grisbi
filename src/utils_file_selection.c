@@ -287,6 +287,7 @@ gchar* file_selection_get_last_directory(GtkFileChooser* filesel,gboolean ended)
     gchar*   sepstr      = my_strdup(G_DIR_SEPARATOR_S);
     gint     sepstr_len  = strlen(sepstr);
     gboolean is_endedstr = FALSE;
+    gchar* tmpstr;
 
     // Chek if the sirectory string is ended by a separator
     // (if directory string  is small than the separator string
@@ -299,7 +300,9 @@ gchar* file_selection_get_last_directory(GtkFileChooser* filesel,gboolean ended)
     // We want the dirstr ended by a sepstrarator but there no
     if (ended&&!is_endedstr)
     {
-        dirstr = g_strconcat(dirstr,G_DIR_SEPARATOR_S,NULL);
+        tmpstr = g_strconcat(dirstr,G_DIR_SEPARATOR_S,NULL);
+	g_free(dirstr);
+	dirstr = tmpstr;
     }
     // We do not want to have a separator at the end, but there is one 
     else if ((!ended)&&is_endedstr)

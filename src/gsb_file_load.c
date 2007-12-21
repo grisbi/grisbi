@@ -260,18 +260,23 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     gchar *file_content;
     guint length;
 
-    devel_debug ( g_strdup_printf ("gsb_file_load_open_file %s", 
-				   filename ));
+    gchar * tmpstr = g_strdup_printf ("gsb_file_load_open_file %s", 
+				   filename );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     /* general check */
     
     if ( !g_file_test ( filename,
 			G_FILE_TEST_EXISTS ))
     {
-	dialogue_error_hint (g_strdup_printf (_("Cannot open file '%s': %s"),
+        gchar* tmpstr1 = g_strdup_printf (_("Cannot open file '%s': %s"),
 					      filename,
-					      _("File does not exist") ),
-			     g_strdup_printf ( _("Error loading file '%s'"), filename));
+					      _("File does not exist") );
+	gchar* tmpstr2 = g_strdup_printf ( _("Error loading file '%s'"), filename);
+	dialogue_error_hint ( tmpstr1, tmpstr2 );
+	g_free ( tmpstr1 );
+	g_free ( tmpstr2 );
 	gsb_file_remove_name_from_opened_list (filename);
 	return FALSE;
     }
@@ -281,9 +286,12 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     if ( !g_file_test ( filename,
 			G_FILE_TEST_IS_REGULAR ))
     {
-	dialogue_error_hint ( g_strdup_printf ( _("%s doesn't seem to be a regular file,\nplease check it and try again."),
-						filename ),
-			      g_strdup_printf ( _("Error loading file '%s'"), filename));
+        gchar* tmpstr1 = g_strdup_printf ( _("%s doesn't seem to be a regular file,\nplease check it and try again."),
+						filename );
+        gchar* tmpstr2 = g_strdup_printf ( _("Error loading file '%s'"), filename);
+	dialogue_error_hint ( tmpstr1 , tmpstr2);
+	g_free ( tmpstr1 );
+	g_free ( tmpstr2 );
 	gsb_file_remove_name_from_opened_list (filename);
 	return ( FALSE );
     }
@@ -395,10 +403,13 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     }
     else
     {
-	dialogue_error_hint (g_strdup_printf (_("Cannot open file '%s': %s"),
+        gchar* tmpstr1 = g_strdup_printf (_("Cannot open file '%s': %s"),
 					      filename,
-					      latin2utf8 (strerror(errno))),
-			     g_strdup_printf ( _("Error loading file '%s'"), filename));
+					      latin2utf8 (strerror(errno)));
+        gchar* tmpstr2 = g_strdup_printf ( _("Error loading file '%s'"), filename);
+	dialogue_error_hint (tmpstr1, tmpstr2);
+	g_free ( tmpstr1 );
+	g_free ( tmpstr2 );
 	gsb_file_remove_name_from_opened_list (filename);
 	return FALSE;
     }
@@ -605,9 +616,11 @@ void gsb_file_load_error ( GMarkupParseContext *context,
 			   GError *error,
 			   gpointer user_data )
 {
-    dialogue_error (g_strdup_printf (_("An error occured while parsing the file :\nError number : %d\n%s"),
+    gchar* tmpstr = g_strdup_printf (_("An error occured while parsing the file :\nError number : %d\n%s"),
 				     error -> code,
-				     error -> message ));
+				     error -> message );
+    dialogue_error ( tmpstr );
+    g_free ( tmpstr );
 }
 
 
@@ -6435,6 +6448,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
  * */
 gboolean gsb_file_load_update_previous_version ( void )
 {
+    gchar* tmpstr;
     gint currency_number;
     GSList *list_tmp;
     gint i;
@@ -6444,6 +6458,7 @@ gboolean gsb_file_load_update_previous_version ( void )
     gint account_number;
     GList *dlist_tmp;
 
+/* TODO dOm : memory of g_strplit is not freed ? */
     version_number = utils_str_atoi ( g_strjoinv ( "",
 						   g_strsplit ( download_tmp_values.file_version,
 								".",
@@ -7038,10 +7053,11 @@ gboolean gsb_file_load_update_previous_version ( void )
 
 	default :
 	    /* we don't know here the release of that file, give the release needed */
-
-	    dialogue_error ( g_strdup_printf ( _("Grisbi version %s is needed to open this file.\nYou are using version %s."),
+            tmpstr = g_strdup_printf ( _("Grisbi version %s is needed to open this file.\nYou are using version %s."),
 					       download_tmp_values.grisbi_version,
-					       VERSION ));
+					       VERSION );
+	    dialogue_error ( tmpstr);
+	    g_free ( tmpstr );
 
 	    return ( FALSE );
     }
@@ -7072,15 +7088,17 @@ gboolean gsb_file_load_update_previous_version ( void )
 	/* FIXME: make this conditional ? */
 	/* TODO dOm : warning: passing argument 3 of ‘question_conditional_yes_no_special’ from incompatible pointer type.
 	 * I add a cast (gchar*) before &etat.check_for_archival */ 
+	gchar* tmpstr = g_strdup_printf ( _("There are %d transactions in your file,\n" 
+						       "To increase speed it would be faster to "
+						       "archive some transactions.\n\nDo you want "
+						       "to launch the assistant to archive some "
+						       "transactions?"),
+					     g_slist_length (gsb_data_transaction_get_transactions_list ()));
 	if ( question_conditional_yes_no_special ( _("Archive some transactions ?"),
-						   g_strdup_printf ( _("There are %d transactions in your file,\n" 
-								       "To increase speed it would be faster to "
-								       "archive some transactions.\n\nDo you want "
-								       "to launch the assistant to archive some "
-								       "transactions?"),
-								     g_slist_length (gsb_data_transaction_get_transactions_list ())),
+						   tmpstr,
 						   (gchar*)&etat.check_for_archival ) )
 	    gsb_assistant_archive_run ();
+	g_free ( tmpstr );
     }
 
     /* if we opened an archive, we say it here */
