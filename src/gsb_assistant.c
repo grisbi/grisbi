@@ -94,15 +94,17 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
 
     label = gtk_label_new ( NULL );
-    gtk_label_set_markup ( GTK_LABEL(label), g_strconcat ( "<b><span size=\"x-large\">",
-							   title, "</span></b>", NULL ) );
+    gchar* tmpstr = g_strconcat ( "<b><span size=\"x-large\">", title, "</span></b>", NULL );
+    gtk_label_set_markup ( GTK_LABEL(label), tmpstr );
+    g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 0 );
 
     if (!image_filename)
 	image_filename = "grisbi.png";
 
-    image = gtk_image_new_from_file ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						    image_filename, NULL) );
+    tmpstr = g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR, image_filename, NULL);
+    image = gtk_image_new_from_file ( tmpstr );
+    g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX(hbox), image, FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(assistant) -> vbox ), eb, 
@@ -117,7 +119,9 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
-    gtk_text_buffer_set_text (buffer, g_strconcat ( "\n", explanation, "\n", NULL ), -1);
+    tmpstr = g_strconcat ( "\n", explanation, "\n", NULL );
+    gtk_text_buffer_set_text (buffer, tmpstr, -1);
+    g_free ( tmpstr );
     gtk_text_view_set_editable ( GTK_TEXT_VIEW(view), FALSE );
     gtk_text_view_set_cursor_visible ( GTK_TEXT_VIEW(view), FALSE );
     gtk_text_view_set_left_margin ( GTK_TEXT_VIEW(view), 12 );
@@ -204,18 +208,23 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 	gint current = gtk_notebook_get_current_page ( GTK_NOTEBOOK(notebook) );
 	gint result, prev, next;
 
-	gtk_window_set_title ( GTK_WINDOW(assistant), 
-			       g_strdup_printf ( "%s (%d of %d)", 
+        gchar* tmpstr = g_strdup_printf ( "%s (%d of %d)", 
 						 (gchar *) g_object_get_data ( G_OBJECT(assistant),
 									       "title" ),
 						 current + 1,
-						 gtk_notebook_get_n_pages ( GTK_NOTEBOOK(notebook) ) ) );
+						 gtk_notebook_get_n_pages ( GTK_NOTEBOOK(notebook) ) );
+	gtk_window_set_title ( GTK_WINDOW(assistant), tmpstr);
+	g_free ( tmpstr );
 
 	result = gtk_dialog_run ( GTK_DIALOG(assistant) );
-	prev = (gint) g_object_get_data ( G_OBJECT(assistant),
-					   g_strdup_printf ( "prev%d", current ) );
-	next = (gint) g_object_get_data ( G_OBJECT(assistant),
-					   g_strdup_printf ( "next%d", current ) );
+
+	tmpstr = g_strdup_printf ( "prev%d", current );
+	prev = (gint) g_object_get_data ( G_OBJECT(assistant), tmpstr );
+	g_free ( tmpstr );
+
+        tmpstr = g_strdup_printf ( "next%d", current );
+	next = (gint) g_object_get_data ( G_OBJECT(assistant), tmpstr);
+	g_free ( tmpstr );
 
 	 switch ( result )
 	 {
@@ -283,7 +292,9 @@ gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * n
 /*     gpointer padding[32];	/\* Don't touch, looks like we have a */
 /* 				 * buffer overflow problem. *\/ */
 
-    callback = ( gsb_assistant_callback ) g_object_get_data ( G_OBJECT (assistant), g_strdup_printf ( "enter%d", page ) );
+    gchar* tmpstr = g_strdup_printf ( "enter%d", page );
+    callback = ( gsb_assistant_callback ) g_object_get_data ( G_OBJECT (assistant), tmpstr );
+    g_free ( tmpstr );
 
     if ( callback )
     {

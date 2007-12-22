@@ -72,7 +72,9 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
     des_cblock openssl_key;
     des_key_schedule sched;
 
-    devel_debug ( g_strdup_printf ("gsb_file_util_crypt_file : %d", crypt ));
+    gchar* tmpstr = g_strdup_printf ("gsb_file_util_crypt_file : %d", crypt );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     if ( crypt )
     {
@@ -187,10 +189,12 @@ return_bad_password:
     }
 
 #else
+    gchar* tmpstr = g_strdup_printf ( _("Cannot open encrypted file '%s'"),
+					    file_name );
     dialogue_error_hint ( _("This build of Grisbi does not support encryption.\n"
 			    "Please recompile Grisbi with OpenSSL encryption enabled."),
-			  g_strdup_printf ( _("Cannot open encrypted file '%s'"),
-					    file_name ) );
+			  tmpstr );
+    g_free ( tmpstr );
 #endif
 
     return 0;
@@ -240,13 +244,19 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt )
     gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
 
     if ( encrypt )
-	gtk_label_set_markup ( GTK_LABEL (label),
-			       g_strdup_printf ( _( "Please enter password to encrypt file\n'<tt>%s</tt>'" ),
-						 file_name ) );
+    {
+        gchar* tmpstr = g_strdup_printf ( _( "Please enter password to encrypt file\n'<tt>%s</tt>'" ),
+						 file_name );
+	gtk_label_set_markup ( GTK_LABEL (label), tmpstr );
+        g_free ( tmpstr );
+    }
     else
-	gtk_label_set_markup ( GTK_LABEL (label), 
-			       g_strdup_printf ( _( "Please enter password to decrypt file\n'<tt>%s</tt>'" ),
-						 file_name ) );
+    {
+        gchar* tmpstr = g_strdup_printf ( _( "Please enter password to decrypt file\n'<tt>%s</tt>'" ),
+						 file_name );
+	gtk_label_set_markup ( GTK_LABEL (label), tmpstr );
+        g_free ( tmpstr );
+    }
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 6 );
 
     hbox2 = gtk_hbox_new ( FALSE, 6 );

@@ -147,11 +147,16 @@ gboolean gsb_account_delete ( void )
 
     deleted_account = gsb_gui_navigation_get_current_account ();
 
-    if ( !question_yes_no_hint ( g_strdup_printf (_("Delete account \"%s\"?"),
-						  gsb_data_account_get_name (deleted_account)),
+    gchar* tmpstr = g_strdup_printf (_("Delete account \"%s\"?"),
+						  gsb_data_account_get_name (deleted_account)) ;
+    if ( !question_yes_no_hint ( tmpstr,
 				 _("This will irreversibly remove this account and all operations that were previously contained.  There is no undo for this. Usually it's a better way to close an account."),
 				 GTK_RESPONSE_NO ))
+    {
+        g_free ( tmpstr );
 	return FALSE;
+    }
+    g_free ( tmpstr );
 
     /* if the last account, close the file */
 

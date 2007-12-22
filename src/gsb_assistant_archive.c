@@ -554,8 +554,8 @@ static gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assist
     if ( GTK_WIDGET_IS_SENSITIVE (initial_date) )
     {
 	gchar * sdate, * fdate;
-	sdate = gsb_format_gdate ( gsb_calendar_entry_get_date (initial_date) );
-	fdate = gsb_format_gdate ( gsb_calendar_entry_get_date (final_date) );
+	sdate = gsb_format_gdate ( gsb_calendar_entry_get_date (initial_date));
+	fdate = gsb_format_gdate (gsb_calendar_entry_get_date (final_date));
 	string = g_strdup_printf ( _("Archive from %s to %s"), sdate, fdate );
 	g_free ( sdate );
 	g_free ( fdate );
@@ -885,14 +885,13 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 				  g_slist_length (gsb_data_transaction_get_transactions_list () ) );
 	gtk_label_set_text ( GTK_LABEL (label_archived),
 			     string);
+	g_free (string);
 
 	if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) != 
 	     ARCHIVE_ASSISTANT_ARCHIVE_NAME )
 	{
 	    gsb_assistant_sensitive_button_next ( assistant, TRUE );
 	}
-
-	g_free (string);
     }
 
     if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == 

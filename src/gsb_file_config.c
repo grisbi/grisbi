@@ -688,9 +688,11 @@ gboolean gsb_file_config_save_config ( void )
 		   length,
 		   conf_file ))
     {
-	dialogue_error ( g_strdup_printf ( _("Cannot save configuration file '%s': %s"),
+	gchar* tmpstr = g_strdup_printf ( _("Cannot save configuration file '%s': %s"),
 					   filename,
-					   latin2utf8(strerror(errno)) ));
+					   latin2utf8(strerror(errno)) );
+	dialogue_error ( tmpstr );
+	g_free ( tmpstr );
 	g_free ( file_content);
 	g_free (filename);
 	g_key_file_free (config);
@@ -715,8 +717,9 @@ gboolean gsb_file_config_load_last_xml_config ( gchar *filename )
     gchar *file_content;
     gsize length;
 
-    devel_debug ( g_strdup_printf ("gsb_file_config_load_last_xml_config %s", 
-				   filename ));
+    gchar* tmpstr = g_strdup_printf ("gsb_file_config_load_last_xml_config %s", filename );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     /* check if the file exists */
     
@@ -729,8 +732,10 @@ gboolean gsb_file_config_load_last_xml_config ( gchar *filename )
     if ( !g_file_test ( filename,
 			G_FILE_TEST_IS_REGULAR ))
     {
-	dialogue_error ( g_strdup_printf ( _("%s doesn't seem to be a regular config file,\nplease check it."),
-					   filename ));
+        gchar* tmpstr = g_strdup_printf ( _("%s doesn't seem to be a regular config file,\nplease check it."),
+					   filename );
+	dialogue_error ( tmpstr);
+        g_free ( tmpstr );
 	return ( FALSE );
     }
 
@@ -764,9 +769,11 @@ gboolean gsb_file_config_load_last_xml_config ( gchar *filename )
     }
     else
     {
-	dialogue_error (g_strdup_printf (_("Cannot open config file '%s': %s"),
+	gchar* tmpstr = g_strdup_printf (_("Cannot open config file '%s': %s"),
 					 filename,
-					 latin2utf8 (strerror(errno))));
+					 latin2utf8 (strerror(errno)));
+	dialogue_error ( tmpstr );
+	g_free ( tmpstr );
 	return FALSE;
     }
 
@@ -826,7 +833,11 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 	if ( !gsb_file_get_last_path ()
 	     ||
 	     !strlen (gsb_file_get_last_path ()))
-	    gsb_file_update_last_path (g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL ));
+        {
+	    gchar* tmpstr = g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL );
+	    gsb_file_update_last_path ( tmpstr );
+	    g_free ( tmpstr );
+	}
 	return;
     }
 
@@ -1140,7 +1151,9 @@ void gsb_file_config_clean_config ( void )
     etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
     etat.affiche_boutons_valider_annuler = 1;
     etat.classement_par_date = 1;
-    gsb_file_update_last_path (g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL ));
+    gchar* tmpstr = g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL );
+    gsb_file_update_last_path ( tmpstr );
+    g_free ( tmpstr );
     nb_derniers_fichiers_ouverts = 0;
     nb_max_derniers_fichiers_ouverts = 3;
     tab_noms_derniers_fichiers_ouverts = NULL;

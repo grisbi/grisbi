@@ -625,8 +625,9 @@ void gsb_form_widget_set_focus ( gint element_number )
 {
     GtkWidget *widget;
 
-    devel_debug ( g_strdup_printf ( "gsb_form_widget_set_focus %d",
-				    element_number ));
+    gchar* tmpstr = g_strdup_printf ( "gsb_form_widget_set_focus %d", element_number );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     widget = gsb_form_widget_get_widget (element_number);
 

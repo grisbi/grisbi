@@ -1552,12 +1552,17 @@ gchar * gsb_debug_duplicate_categ_check ()
 	    /* Second comparison is just there to find only one of them. */
 	    if ( duplicate && duplicate > tmp_sous_categ )
 	    {
-		output = g_strconcat ( output,
-				       g_strdup_printf ( _("In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"),
-							 categ -> category_name,
-							 ((struct_sub_category *) tmp_sous_categ -> data) -> sub_category_name,
-							 ((struct_sub_category *) duplicate -> data) -> sub_category_name ),
+	        gchar* tmpstr1 = output;
+		gchar* tmpstr2 = g_strdup_printf ( 
+				_("In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"),
+				categ -> category_name,
+				((struct_sub_category *) tmp_sous_categ -> data) -> sub_category_name,
+				((struct_sub_category *) duplicate -> data) -> sub_category_name );
+		output = g_strconcat ( tmpstr1,
+				       tmpstr2,
 				       NULL );
+		g_free ( tmpstr1 );
+		g_free ( tmpstr2 );
 		num_duplicate ++;
 	    }
 	    tmp_sous_categ = tmp_sous_categ -> next;

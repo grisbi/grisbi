@@ -85,8 +85,9 @@ gboolean gsb_file_others_save_category ( gchar *filename )
     gchar *file_content;
     gulong length_part;
 
-    devel_debug ( g_strdup_printf ("gsb_file_others_save_category : %s",
-				   filename ));
+    gchar* tmpstr = g_strdup_printf ("gsb_file_others_save_category : %s", filename );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     /* we begin to try to reserve enough memory to make the entire file
      * if not enough, we will make it growth later
@@ -135,15 +136,17 @@ gboolean gsb_file_others_save_category ( gchar *filename )
 		   iterator,
 		   file ))
     {
-	dialogue_error ( g_strdup_printf ( _("Cannot save file '%s': %s"),
+        gchar *tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
 					   filename,
-					   latin2utf8(strerror(errno)) ));
-	free ( file_content);
+					   latin2utf8(strerror(errno)) );
+	dialogue_error ( tmpstr );
+	g_free ( tmpstr );
+	g_free ( file_content);
 	return ( FALSE );
     }
     
     fclose (file);
-    free ( file_content);
+    g_free ( file_content);
 
     return ( TRUE );
 }
@@ -219,12 +222,12 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
 	dialogue_error ( g_strdup_printf ( _("Cannot save file '%s': %s"),
 					   filename,
 					   latin2utf8(strerror(errno)) ));
-	free ( file_content);
+	g_free ( file_content);
 	return ( FALSE );
     }
     
-    fclose (file);
-    free ( file_content);
+    fclose ( file );
+    g_free ( file_content);
 
     return ( TRUE );
 }
@@ -247,8 +250,9 @@ gboolean gsb_file_others_save_report ( gchar *filename )
     gchar *file_content;
     gulong length_part;
 
-    devel_debug ( g_strdup_printf ("gsb_file_others_save_report : %s",
-				   filename ));
+    gchar* tmpstr = g_strdup_printf ("gsb_file_others_save_report : %s", filename );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     /* we begin to try to reserve enough memory to make the entire file
      * if not enough, we will make it growth later
@@ -298,15 +302,17 @@ gboolean gsb_file_others_save_report ( gchar *filename )
 		   iterator,
 		   file ))
     {
-	dialogue_error ( g_strdup_printf ( _("Cannot save file '%s': %s"),
+	gchar* tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
 					   filename,
-					   latin2utf8(strerror(errno)) ));
-	free ( file_content);
+					   latin2utf8(strerror(errno)) );
+	dialogue_error ( tmpstr);
+	g_free ( tmpstr );
+	g_free ( file_content);
 	return ( FALSE );
     }
     
-    fclose (file);
-    free ( file_content);
+    fclose ( file );
+    g_free ( file_content);
 
     return ( TRUE );
 }
@@ -341,10 +347,13 @@ gulong gsb_file_others_save_general_part ( gulong iterator,
     /* append the new string to the file content
      * and return the new iterator */
 
-    return gsb_file_save_append_part ( iterator,
+    gulong result = gsb_file_save_append_part ( iterator,
 				       length_calculated,
 				       file_content,
 				       new_string );
+    g_free ( new_string );
+    g_free (file_content);
+    return result;
 }
 
 
@@ -404,17 +413,20 @@ gboolean gsb_file_others_load ( gchar *filename,
     gchar *file_content;
     GSList *import_list = NULL;
 
-    devel_debug ( g_strdup_printf ( "gsb_file_others_load %s", 
-				    filename ));
+    gchar* tmpstr = g_strdup_printf ( "gsb_file_others_load %s", filename );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     /* general check */
     
     if ( !g_file_test ( filename,
 			G_FILE_TEST_EXISTS ))
     {
-	dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"),
+        gchar* tmpstr = g_strdup_printf (_("Cannot open file '%s': %s"),
 					 filename,
-					 latin2utf8 (strerror(errno))));
+					 latin2utf8 (strerror(errno)));
+	dialogue_error ( tmpstr );
+	g_free ( tmpstr );
 	return FALSE;
     }
 
@@ -422,8 +434,10 @@ gboolean gsb_file_others_load ( gchar *filename,
     if ( !g_file_test ( filename,
 			G_FILE_TEST_IS_REGULAR ))
     {
-	dialogue_error ( g_strdup_printf ( _("%s doesn't seem to be a regular file,\nplease check it and try again."),
-					   filename ));
+        gchar* tmpstr = g_strdup_printf ( _("%s doesn't seem to be a regular file,\nplease check it and try again."),
+					   filename );
+	dialogue_error ( tmpstr );
+	g_free ( tmpstr );
 	gsb_file_remove_name_from_opened_list (filename);
 	return ( FALSE );
     }
@@ -442,7 +456,7 @@ gboolean gsb_file_others_load ( gchar *filename,
 	if ( !gsb_file_others_check_file ( file_content,
 					   origin ))
 	{
-	    free (file_content);
+	    g_free (file_content);
 	    return FALSE;
 	}
 
@@ -543,9 +557,11 @@ gboolean gsb_file_others_load ( gchar *filename,
     }
     else
     {
-	dialogue_error (g_strdup_printf (_("Cannot open file '%s': %s"),
+        gchar* tmpstr = g_strdup_printf (_("Cannot open file '%s': %s"),
 					 filename,
-					 latin2utf8 (strerror(errno))));
+					 latin2utf8 (strerror(errno)));
+	dialogue_error ( tmpstr );
+	g_free ( tmpstr );
 	gsb_file_remove_name_from_opened_list (filename);
 	return FALSE;
     }

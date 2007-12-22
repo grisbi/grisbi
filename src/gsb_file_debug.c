@@ -189,11 +189,11 @@ gboolean gsb_debug_enter_test_page ( GtkWidget * assistant )
 					 -1 );
 	    }
 
+	    gchar* tmpstr = g_strconcat ( "• ", _( debug_tests[i] . name ), "\n", NULL );
 	    gtk_text_buffer_insert_with_tags_by_name ( text_buffer, &text_iter,
-						       g_strconcat ( "• ",
-								     _( debug_tests[i] . name ),
-								     "\n", NULL ),
+						       tmpstr,
 						       -1, "indented", NULL );
+            g_free ( tmpstr );
 
 	    inconsistency = TRUE;
 	    gsb_debug_add_report_page ( assistant, page, &(debug_tests[i]), result );
@@ -240,7 +240,9 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
     if ( test -> instructions )
     {
 	GtkWidget * expander, * label;
-	expander = gtk_expander_new ( g_strconcat ( "<b>",_("Details"), "</b>", NULL ) );
+	gchar* tmpstr = g_strconcat ( "<b>",_("Details"), "</b>", NULL );
+	expander = gtk_expander_new ( tmpstr );
+	g_free ( tmpstr );
 	gtk_expander_set_use_markup ( GTK_EXPANDER(expander), TRUE );
 	label = gtk_label_new ( NULL );
 	gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
@@ -365,16 +367,23 @@ gchar * gsb_debug_reconcile_test ( void )
 	  {
 	      affected_accounts ++;
 
-	      pText = g_strconcat ( pText,
-				    g_strdup_printf ( _("<span weight=\"bold\">%s</span>\n"
-							"  Last reconciliation amount : %s\n"
-							"  Computed reconciliation amount : %s\n"),
-						      gsb_data_account_get_name ( account_nb ), 
-						      gsb_real_get_string_with_currency (gsb_data_reconcile_get_final_balance (reconcile_number),
-											 gsb_data_account_get_currency ( account_nb ) ),
-						      gsb_real_get_string_with_currency (reconcilied_amount,
-											 gsb_data_account_get_currency ( account_nb ) ) ),
-				    NULL );
+	      gchar* tmprealstr1 = gsb_real_get_string_with_currency (
+	                                gsb_data_reconcile_get_final_balance (reconcile_number),
+	                                gsb_data_account_get_currency ( account_nb ) );
+	      gchar* tmprealstr2 = gsb_real_get_string_with_currency (reconcilied_amount,
+					gsb_data_account_get_currency ( account_nb ) );
+	      gchar* tmpstr1 = g_strdup_printf ( _("<span weight=\"bold\">%s</span>\n"
+					"  Last reconciliation amount : %s\n"
+					"  Computed reconciliation amount : %s\n"),
+					gsb_data_account_get_name ( account_nb ), 
+					tmprealstr1,
+					tmprealstr2 );
+	      gchar* tmpstr2 = pText;
+	      pText = g_strconcat ( tmpstr2, tmpstr1, NULL );
+	      g_free ( tmpstr2 );
+	      g_free ( tmpstr1 );
+	      g_free ( tmprealstr1 );
+	      g_free ( tmprealstr2 );
 	  }
 	  tested_account++;
       }
@@ -436,15 +445,17 @@ gchar * gsb_debug_transfer_test ( void )
 		/* S'il n'y avait pas eu encore d'erreur dans ce compte,
 		   on affiche son nom */
 		if ( !corrupted_account ) {
-		    pText = g_strconcat ( pText,
-					  g_strdup_printf ( "\n<span weight=\"bold\">%s</span>\n",
-							    gsb_data_account_get_name ( account_nb ) ),
-					  NULL );
+		    gchar* tmpstr = g_strdup_printf ( "\n<span weight=\"bold\">%s</span>\n",
+							    gsb_data_account_get_name ( account_nb ) );
+		    pText = g_strconcat ( pText, tmpstr, NULL );
+		    g_free ( tmpstr );
 		}
-		pText = g_strconcat ( pText,
-				      g_strdup_printf ( _("Transaction #%d is linked to non existent transaction #%d.\n"),
-							transaction, transfer_transaction ),
-				      NULL );
+		gchar* tmpstr1 = g_strdup_printf ( _("Transaction #%d is linked to non existent transaction #%d.\n"),
+							transaction, transfer_transaction );
+		gchar* tmpstr2 = pText;
+		pText = g_strconcat ( tmpstr2, tmpstr1, NULL );
+		g_free ( tmpstr1 );
+		g_free ( tmpstr2 );
 		corrupted_file = corrupted_account = TRUE;
 	    }
 	    else
@@ -454,18 +465,22 @@ gchar * gsb_debug_transfer_test ( void )
 		    /* S'il n'y avait pas eu encore d'erreur dans ce compte,
 		       on affiche son nom */
 		    if ( !corrupted_account ) {
-			pText = g_strconcat ( pText,
-					      g_strdup_printf ( "\n<span weight=\"bold\">%s</span>\n",
-								gsb_data_account_get_name ( account_nb ) ),
-					      NULL );
+			gchar* tmpstr1 = pText;
+			gchar* tmpstr2 = g_strdup_printf ( "\n<span weight=\"bold\">%s</span>\n",
+								gsb_data_account_get_name ( account_nb ) );
+			pText = g_strconcat ( tmpstr1, tmpstr2 , NULL );
+		        g_free ( tmpstr1 );
+		        g_free ( tmpstr2 );
 		    }
-		    pText = g_strconcat ( pText,
-					  g_strdup_printf ( _("Transaction #%d is linked to transaction #%d, "
+		    gchar* tmpstr1 = pText;
+		    gchar* tmpstr2 = g_strdup_printf ( _("Transaction #%d is linked to transaction #%d, "
 							      "which is linked to transaction #%d.\n"),
 							    transaction,
 							    transfer_transaction,
-							    gsb_data_transaction_get_transaction_number_transfer ( transfer_transaction ) ),
-					  NULL );
+							    gsb_data_transaction_get_transaction_number_transfer ( transfer_transaction ) );
+		    pText = g_strconcat ( tmpstr1, tmpstr2 , NULL );
+		    g_free ( tmpstr1 );
+		    g_free ( tmpstr2 );
 		    corrupted_file = corrupted_account = TRUE;
 		}
 	    }

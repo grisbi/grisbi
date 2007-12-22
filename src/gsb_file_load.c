@@ -260,8 +260,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     gchar *file_content;
     guint length;
 
-    gchar * tmpstr = g_strdup_printf ("gsb_file_load_open_file %s", 
-				   filename );
+    gchar * tmpstr = g_strdup_printf ("gsb_file_load_open_file %s", filename );
     devel_debug ( tmpstr );
     g_free ( tmpstr );
 
@@ -6458,11 +6457,11 @@ gboolean gsb_file_load_update_previous_version ( void )
     gint account_number;
     GList *dlist_tmp;
 
-/* TODO dOm : memory of g_strplit is not freed ? */
-    version_number = utils_str_atoi ( g_strjoinv ( "",
-						   g_strsplit ( download_tmp_values.file_version,
-								".",
-								0 )));
+    gchar** strarray = g_strsplit ( download_tmp_values.file_version, ".", 0 );
+    tmpstr = g_strjoinv ( "", strarray );
+    version_number = utils_str_atoi ( tmpstr );
+    g_strfreev ( strarray );
+    g_free ( tmpstr );
 
     /*     par défaut le fichier n'est pas modifié sauf si on charge une version précédente */
 

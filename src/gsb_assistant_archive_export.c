@@ -351,6 +351,7 @@ static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
     GtkTreeModel *model;
     const gchar *export_name;
     gboolean success = FALSE;
+    gchar* tmpstr;
 
     model = gtk_tree_view_get_model (GTK_TREE_VIEW (archive_export_treeview));
     archive_number = gsb_assistant_archive_export_get_selected_archive (model);
@@ -370,9 +371,10 @@ static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
 	case ARCHIVE_EXPORT_ASSISTANT_NAME:
 	    /* if we come here, an archive must have been selected,
 	     * so needn't to check */
-	    gtk_label_set_markup ( GTK_LABEL ( archive_export_label ),
-				   g_strdup_printf ( _("<span size=\"x-large\">Exporting the archive <i>%s</i></span>"),
-						     gsb_data_archive_get_name (archive_number)));
+	    tmpstr = g_strdup_printf ( _("<span size=\"x-large\">Exporting the archive <i>%s</i></span>"),
+						     gsb_data_archive_get_name (archive_number));
+	    gtk_label_set_markup ( GTK_LABEL ( archive_export_label ), tmpstr);
+	    g_free ( tmpstr );
 	    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER (archive_export_filechooser),
 						gsb_data_archive_get_name (archive_number));
 	    /* need to set the next button to the next function,

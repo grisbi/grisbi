@@ -611,10 +611,13 @@ void gsb_currency_config_remove_currency ( GtkWidget *button,
 
 	if ( gsb_data_transaction_get_currency_number (transaction_number) == currency_number )
 	{
-	    dialogue_error_hint ( g_strdup_printf ( _("Currency '%s' is used in current file.  Grisbi can't delete it."),
-						    gsb_data_currency_get_name (currency_number)),
-				  g_strdup_printf ( _("Impossible to remove currency '%s'"), 
-						    gsb_data_currency_get_name (currency_number) ));
+	    gchar* tmpstr1 = g_strdup_printf ( _("Currency '%s' is used in current file.  Grisbi can't delete it."),
+						    gsb_data_currency_get_name (currency_number));
+	    gchar* tmpstr2 = g_strdup_printf ( _("Impossible to remove currency '%s'"), 
+						    gsb_data_currency_get_name (currency_number) );
+	    dialogue_error_hint ( tmpstr1, tmpstr2);
+	    g_free ( tmpstr1 );
+	    g_free ( tmpstr2 );
 	    return;
 	}
 	else
@@ -631,10 +634,13 @@ void gsb_currency_config_remove_currency ( GtkWidget *button,
 	scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp -> data);
 	if ( gsb_data_scheduled_get_currency_number (scheduled_number) == currency_number )
 	{
-	    dialogue_error_hint ( g_strdup_printf ( _("Currency '%s' is used in current file.  Grisbi can't delete it."),
-						    gsb_data_currency_get_name (currency_number)),
-				  g_strdup_printf ( _("Impossible to remove currency '%s'"), 
-						    gsb_data_currency_get_name (currency_number) ));
+	    gchar* tmpstr1 = g_strdup_printf ( _("Currency '%s' is used in current file.  Grisbi can't delete it."),
+						    gsb_data_currency_get_name (currency_number));
+	    gchar* tmpstr2 = g_strdup_printf ( _("Impossible to remove currency '%s'"), 
+						    gsb_data_currency_get_name (currency_number) );
+	    dialogue_error_hint ( tmpstr1, tmpstr2);
+	    g_free ( tmpstr1 );
+	    g_free ( tmpstr2 );
 	    return;
 	}
 	else
@@ -1008,8 +1014,10 @@ dialog_return:
 		     ||
 		     gsb_data_currency_get_number_by_code_iso4217 ( currency_isocode ))
 		{
+		    gchar* tmpstr = g_strdup_printf ( _("Currency '%s' already exists." ), currency_name );
 		    dialogue_error_hint ( _("Currency names or international codes should be unique.  Please choose a new name for the currency."),
-					  g_strdup_printf ( _("Currency '%s' already exists." ), currency_name ));
+					  tmpstr);
+		    g_free ( tmpstr );
 		    goto dialog_return;
 		}
 
@@ -1310,7 +1318,7 @@ gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTree
 	{
 	    good = TRUE;
 	}
-	free ( symbol );
+	g_free ( symbol );
     }
     else
     {
@@ -1319,20 +1327,24 @@ gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTree
 	{
 	    good = TRUE;
 	}
-	free ( symbol );
+	g_free ( symbol );
     }
 
     if ( good )
     {
-	devel_debug ( g_strdup_printf ( "gsb_currency_config_select_default: found '%s'", 
-					conv -> int_curr_symbol ) );
+        gchar* tmpstr = g_strdup_printf ( "gsb_currency_config_select_default: found '%s'", 
+					conv -> int_curr_symbol );
+	devel_debug ( tmpstr );
+	g_free ( tmpstr );
 	gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( tree_view ), path );
 	gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (tree_view), path, NULL, TRUE, 0.5, 0 );
 	return TRUE;
     }
 
-    devel_debug ( g_strdup_printf ( "gsb_currency_config_select_default: failed to find '%s' in '%s'", 
-				    conv -> int_curr_symbol, country ) );
+    gchar* tmpstr = g_strdup_printf ( "gsb_currency_config_select_default: failed to find '%s' in '%s'", 
+				    conv -> int_curr_symbol, country );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     return FALSE;
 }

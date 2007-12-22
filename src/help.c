@@ -143,7 +143,9 @@ NULL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), logo, FALSE, FALSE, 0 );
 
     /* Title */
-    label = gtk_label_new ( g_strconcat ( "Grisbi ", VERSION, "\n\n", NULL ));
+    gchar* tmpstr = g_strconcat ( "Grisbi ", VERSION, "\n\n", NULL );
+    label = gtk_label_new ( tmpstr );
+    g_free ( tmpstr );
     gchar* plugin_list = gsb_plugin_get_list();
     gchar* buffer = g_strconcat ( "<span size=\"x-large\" weight=\"bold\">",
 					 "Grisbi ", VERSION, "</span>\n", 
@@ -165,9 +167,12 @@ NULL );
 
     /* Authors */
     label = gtk_label_new (NULL);
-    gtk_label_set_markup ( GTK_LABEL(label), g_strjoinv ( "@", 
-							  g_strsplit ( auteurs, 
-								       "[at]", 0 ) ) );
+    gchar** tmparray = g_strsplit ( auteurs, "[at]", 0 );
+    tmpstr = g_strjoinv ( "@", tmparray );
+    g_free ( auteurs );
+    g_strfreev(tmparray);
+    gtk_label_set_markup ( GTK_LABEL(label), tmpstr );
+    g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), sw,

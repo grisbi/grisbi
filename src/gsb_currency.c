@@ -314,16 +314,18 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
 
 
 	gtk_list_store_append ( GTK_LIST_STORE (combobox_currency_store), &iter );
+	gchar* tmpstr = g_strconcat ( gsb_data_currency_get_name (currency_number),
+				" (",
+				gsb_data_currency_get_code_or_isocode (currency_number),
+				")",
+				NULL );
 	gtk_list_store_set ( combobox_currency_store, &iter,
 			     CURRENCY_COL_FLAG, pixbuf,
 			     CURRENCY_COL_CODE, gsb_data_currency_get_code_or_isocode (currency_number),
-			     CURRENCY_COL_NAME, g_strconcat ( gsb_data_currency_get_name (currency_number),
-							      " (",
-							      gsb_data_currency_get_code_or_isocode (currency_number),
-							      ")",
-							      NULL ),
+			     CURRENCY_COL_NAME, tmpstr,
 			     CURRENCY_COL_NUMBER, currency_number,
 			     -1 );
+	g_free ( tmpstr );
 	list_tmp = list_tmp -> next;
     }
 
@@ -419,9 +421,11 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 					   GTK_STOCK_OK, 0,
 					   NULL );
 
+    gchar* tmpstr = g_strdup_printf( _("Please enter exchange rate for %s"), 
+						      gsb_data_currency_get_name (transaction_currency_number));
     paddingbox = new_paddingbox_with_title ( GTK_WIDGET ( GTK_DIALOG ( dialog ) -> vbox ), FALSE, 
-					     g_strdup_printf( _("Please enter exchange rate for %s"), 
-							      gsb_data_currency_get_name (transaction_currency_number)) );
+					     tmpstr );
+    g_free ( tmpstr );
     gtk_container_set_border_width ( GTK_CONTAINER ( paddingbox ), 6 );
     gtk_box_set_spacing ( GTK_BOX ( GTK_DIALOG (dialog)->vbox ), 6 );
 

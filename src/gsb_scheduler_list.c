@@ -487,8 +487,10 @@ gboolean gsb_scheduler_list_show_notes ( void )
  * */
 gboolean gsb_scheduler_list_execute_transaction ( gint scheduled_number )
 {
-    devel_debug ( g_strdup_printf ( "gsb_scheduler_list_execute_transaction %d",
-				    scheduled_number ));
+    gchar* tmpstr = g_strdup_printf ( "gsb_scheduler_list_execute_transaction %d",
+				    scheduled_number );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     if ( !scheduled_number )
 	scheduled_number = gsb_scheduler_list_get_current_scheduled_number ();
@@ -574,8 +576,10 @@ void gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
     GtkTreeIter *mother_iter;
     const gchar *line[NB_COLS_SCHEDULER];
 
-    devel_debug ( g_strdup_printf ( "gsb_scheduler_list_append_new_scheduled %d",
-				    scheduled_number ));
+    gchar* tmpstr = g_strdup_printf ( "gsb_scheduler_list_append_new_scheduled %d",
+				    scheduled_number );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     if (!tree_model_scheduler_list)
 	return;
@@ -650,7 +654,9 @@ gboolean gsb_scheduler_list_remove_transaction_from_list ( gint scheduled_number
 {
     GSList *iter_list;
 
-    devel_debug ( g_strdup_printf ("gsb_scheduler_list_remove_transaction_from_list %d", scheduled_number));
+    gchar* tmpstr = g_strdup_printf ("gsb_scheduler_list_remove_transaction_from_list %d", scheduled_number);
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     if (!scheduled_number
 	||
@@ -684,9 +690,12 @@ gboolean gsb_scheduler_list_remove_transaction_from_list ( gint scheduled_number
 	}
     }
     else
-	warning_debug ( g_strdup_printf ( _("in gsb_scheduler_list_remove_transaction_from_list, ask to remove the transaction no %d,\nbut didn't find the iter in the list...\nIt's normal if appending a new scheduled transaction, but abnormal else..."),
-					  scheduled_number ));
-	
+    {
+	gchar* tmpstr = g_strdup_printf ( _("in gsb_scheduler_list_remove_transaction_from_list, ask to remove the transaction no %d,\nbut didn't find the iter in the list...\nIt's normal if appending a new scheduled transaction, but abnormal else..."),
+					  scheduled_number );
+	warning_debug ( tmpstr);
+	g_free ( tmpstr );
+    }
     return FALSE;
 }
 
@@ -702,9 +711,12 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
 {
     GtkTreeStore *store;
     GtkTreeIter iter;
+    /* TODO dOm : each line of the array `line' contains a newly allocated string. When are they freed ? */
     const gchar *line[NB_COLS_SCHEDULER];
 
-    devel_debug (g_strdup_printf ("gsb_scheduler_list_update_transaction_in_list %d", scheduled_number));
+    gchar* tmpstr = g_strdup_printf ("gsb_scheduler_list_update_transaction_in_list %d", scheduled_number);
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     if ( !scheduled_number
 	 ||
@@ -957,7 +969,9 @@ gboolean gsb_scheduler_list_select ( gint scheduled_number )
     GtkTreeIter iter_sort;
     gint mother_number;
 
-    devel_debug (g_strdup_printf ( "gsb_scheduler_list_select %d", scheduled_number));
+    gchar* tmpstr = g_strdup_printf ( "gsb_scheduler_list_select %d", scheduled_number);
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     /* if it's a breakdown child, we must open the mother to select it */
     mother_number = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
@@ -1385,8 +1399,10 @@ gint gsb_scheduler_list_get_current_scheduled_number ( void )
  * */
 gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 {
-    devel_debug ( g_strdup_printf ( "gsb_scheduler_list_edit_transaction %d",
-				    scheduled_number ));
+    gchar* tmpstr = g_strdup_printf ( "gsb_scheduler_list_edit_transaction %d",
+				    scheduled_number );
+    devel_debug (  tmpstr );
+    g_free ( tmpstr );
     gsb_form_fill_by_transaction ( scheduled_number, FALSE );
     return FALSE;
 }
@@ -1426,8 +1442,10 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 {
     gint result;
 
-    devel_debug ( g_strdup_printf ( "gsb_scheduler_list_delete_scheduled_transaction %d",
-				    scheduled_number ));
+    gchar* tmpstr = g_strdup_printf ( "gsb_scheduler_list_delete_scheduled_transaction %d",
+				    scheduled_number );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     if ( !scheduled_number )
 	scheduled_number = gsb_scheduler_list_get_current_scheduled_number ();
@@ -1445,24 +1463,34 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 	if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
 	{
 	    /* ask all the time for a child */
-	    if ( !question_yes_no_hint ( _("Delete a scheduled transaction"),
-					 g_strdup_printf ( _("Do you really want to delete the child of the scheduled transaction with party '%s' ?"),
+	    gchar* tmpstr = g_strdup_printf ( _("Do you really want to delete the child of the scheduled transaction with party '%s' ?"),
 							   gsb_data_payee_get_name ( gsb_data_scheduled_get_party_number (scheduled_number),
-										     FALSE )),
+										     FALSE ));
+	    if ( !question_yes_no_hint ( _("Delete a scheduled transaction"),
+					 tmpstr,
 					 GTK_RESPONSE_NO ))
+	    {
+	        g_free ( tmpstr );
 		return FALSE;
+	    }
+	    g_free ( tmpstr );
 	}
 	else
 	{
 	    /* for a normal scheduled, ask only if no frequency, else, it will have another dialog to delete the occurence or the transaction */
+	    gchar* str_to_free = NULL;
 	    if ( !gsb_data_scheduled_get_frequency (scheduled_number)
 		 &&
 		 !question_yes_no_hint ( _("Delete a transaction"),
-					 g_strdup_printf ( _("Do you really want to delete the scheduled transaction with party '%s' ?"),
+					 str_to_free = g_strdup_printf ( _("Do you really want to delete the scheduled transaction with party '%s' ?"),
 							   gsb_data_payee_get_name ( gsb_data_scheduled_get_party_number (scheduled_number),
 										     FALSE )),
 					 GTK_RESPONSE_NO ))
+	    {
+	        if (str_to_free) g_free (str_to_free);
 		return FALSE;
+	    }
+	    if (str_to_free) g_free (str_to_free);
 	}
     }
 
@@ -1554,8 +1582,10 @@ gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity p
 	    return FALSE;
     }
 
-    gsb_gui_headings_update ( g_strconcat ( _("Scheduled transactions"), " : ", 
-					    names[periodicity], NULL), "" );
+    gchar* tmpstr = g_strconcat ( _("Scheduled transactions"), " : ", 
+					    names[periodicity], NULL);
+    gsb_gui_headings_update ( tmpstr, "" );
+    g_free ( tmpstr );
 
     affichage_echeances = periodicity;
     gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());

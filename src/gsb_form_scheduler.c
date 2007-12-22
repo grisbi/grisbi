@@ -652,7 +652,9 @@ gboolean gsb_form_scheduler_sensitive_buttons ( gboolean sensitive )
 {
     gint column;
 
-    devel_debug (g_strdup_printf ( "gsb_form_scheduler_sensitive_buttons %d", sensitive));
+    gchar* tmpstr = g_strdup_printf ( "gsb_form_scheduler_sensitive_buttons %d", sensitive);
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     /* clean the scheduled widget */
     for ( column = 0 ; column < SCHEDULED_FORM_MAX_WIDGETS ; column++ )
@@ -689,7 +691,9 @@ gboolean gsb_form_scheduler_sensitive_buttons ( gboolean sensitive )
  * */
 gboolean gsb_form_scheduler_set ( gint scheduled_number )
 {
-    devel_debug ( g_strdup_printf ( "gsb_form_scheduler_set %d", scheduled_number));
+    gchar* tmpstr = g_strdup_printf ( "gsb_form_scheduler_set %d", scheduled_number);
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     gsb_form_scheduler_sensitive_buttons (TRUE);
 

@@ -351,10 +351,12 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
  */
 void gsb_gui_headings_update ( gchar * title, gchar * suffix )
 {
-    gtk_label_set_markup ( GTK_LABEL(headings_title), 
-			   g_strconcat ( "<b>", title, "</b>", NULL ) );
-    gtk_label_set_markup ( GTK_LABEL(headings_suffix), 
-			   g_strconcat ( "<b>", suffix, "</b>", NULL ) );
+    gchar* tmpstr = g_strconcat ( "<b>", title, "</b>", NULL );
+    gtk_label_set_markup ( GTK_LABEL(headings_title), tmpstr);
+    g_free ( tmpstr );
+    tmpstr = g_strconcat ( "<b>", suffix, "</b>", NULL );
+    gtk_label_set_markup ( GTK_LABEL(headings_suffix), tmpstr);
+    g_free ( tmpstr );
 }
 
 /**
@@ -365,8 +367,9 @@ void gsb_gui_headings_update ( gchar * title, gchar * suffix )
  */
 void gsb_gui_headings_update_suffix ( gchar * suffix )
 {
-    gtk_label_set_markup ( GTK_LABEL(headings_suffix), 
-			   g_strconcat ( "<b>", suffix, "</b>", NULL ) );
+    gchar* tmpstr = g_strconcat ( "<b>", suffix, "</b>", NULL );
+    gtk_label_set_markup ( GTK_LABEL(headings_suffix), tmpstr );
+    g_free ( tmpstr );
 }
 
 

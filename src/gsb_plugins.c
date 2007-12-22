@@ -71,8 +71,10 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	if ( ! ( plugin -> handle = 
 		 g_module_open (complete_filename, 0 ) ) )
 	{
-	    dialogue_error ( g_strdup_printf ( "Couldn't load module %s: %s", filename,
-					       g_module_error() ) );
+	    gchar* tmpstr = g_strdup_printf ( "Couldn't load module %s: %s", filename,
+					       g_module_error() );
+	    dialogue_error ( tmpstr );
+	    g_free ( tmpstr );
 	    g_free ( plugin );
 	    continue;
 	}
@@ -80,8 +82,10 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	if ( ! g_module_symbol ( plugin -> handle, "plugin_name",
 				 (gpointer) &plugin_name ) )
 	{
-	    dialogue_error ( g_strdup_printf ( "Plugin %s has no register symbol", 
-					       filename ) );
+	    gchar* tmpstr = g_strdup_printf ( "Plugin %s has no register symbol", 
+					       filename );
+	    dialogue_error ( tmpstr );
+	    g_free ( tmpstr );
 	    g_free ( plugin );
 	    continue;
 	}
@@ -91,8 +95,10 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	if ( ! g_module_symbol ( plugin -> handle, tmp,
 				 (gpointer)  &( plugin -> plugin_register ) ) )
 	{
-	    dialogue_error ( g_strdup_printf ( "Plugin %s has no register symbol", 
-					       filename ) );
+	    gchar* tmpstr = g_strdup_printf ( "Plugin %s has no register symbol", 
+					       filename );
+	    dialogue_error ( tmpstr );
+	    g_free ( tmpstr );
 	    g_free ( plugin );
 	    continue;
 	}
@@ -104,8 +110,10 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	if ( ! g_module_symbol ( plugin -> handle, tmp,
 				 (gpointer) &( plugin -> plugin_run ) ) )
 	{
-	    dialogue_error ( g_strdup_printf ( "Plugin %s has no run symbol", 
-					       filename ) );
+	    gchar* tmpstr = g_strdup_printf ( "Plugin %s has no run symbol", 
+					       filename );
+	    dialogue_error ( tmpstr );
+	    g_free ( tmpstr );
 	    g_free ( plugin );
 	    continue;
 	}
@@ -115,8 +123,10 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	if ( ! g_module_symbol ( plugin -> handle, tmp,
 				 (gpointer) &( plugin -> plugin_release ) ) )
 	{
-	    dialogue_error ( g_strdup_printf ( "Plugin %s has no release symbol", 
-					       filename ) );
+	    gchar* tmpstr = g_strdup_printf ( "Plugin %s has no release symbol", 
+					       filename );
+	    dialogue_error ( tmpstr );
+	    g_free ( tmpstr );
 	    g_free ( plugin );
 	    continue;
 	}

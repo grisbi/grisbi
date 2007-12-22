@@ -206,9 +206,10 @@ GtkWidget *gsb_archive_config_create ( void )
 		       "clicked",
 		       G_CALLBACK (gsb_archive_config_delete_archive),
 		       archive_treeview );
+    gchar* tmpstr = g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR, "import.png", NULL );
     gtk_button_set_image ( GTK_BUTTON(button), 
-			   gtk_image_new_from_file ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-								   "import.png", NULL ) ) );
+			   gtk_image_new_from_file ( tmpstr ) );
+    g_free ( tmpstr );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       button, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, 0,
@@ -222,9 +223,10 @@ GtkWidget *gsb_archive_config_create ( void )
 		       "clicked",
 		       G_CALLBACK (gsb_archive_config_destroy_archive),
 		       archive_treeview );
+    tmpstr = g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR, "import.png", NULL );
+    g_free ( tmpstr );
     gtk_button_set_image ( GTK_BUTTON(button), 
-			   gtk_image_new_from_file ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-								   "import.png", NULL ) ) );
+			   gtk_image_new_from_file ( tmpstr ) );
 
     gtk_button_set_relief ( GTK_BUTTON (button),
 			    GTK_RELIEF_NONE );
@@ -452,11 +454,14 @@ static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
 	if (!archive_number)
 	    return FALSE;
 
-	if (!question_yes_no_hint (_("Deleting an archive"),
-				   g_strdup_printf (_("Warning, you are about the delete the archive \"%s\".\n\nIf you continue, all the transactions linked to that archive will loose the link and will begin again not archived.\nAll the informations about that archive will be destroyed.\n\nDo you want to continue ?"),
-						    gsb_data_archive_get_name (archive_number)),
-				   GTK_RESPONSE_CANCEL ))
+	gchar* tmpstr = g_strdup_printf (_("Warning, you are about the delete the archive \"%s\".\n\nIf you continue, all the transactions linked to that archive will loose the link and will begin again not archived.\nAll the informations about that archive will be destroyed.\n\nDo you want to continue ?"),
+						    gsb_data_archive_get_name (archive_number));
+	if (!question_yes_no_hint (_("Deleting an archive"), tmpstr , GTK_RESPONSE_CANCEL ))
+	{
+            g_free ( tmpstr );
 	    return FALSE;
+	}
+        g_free ( tmpstr );
 
 	/* ok, now we delete the archive */
 	/* first step, we show it in the lists */
@@ -512,11 +517,14 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
 	if (!archive_number)
 	    return FALSE;
 
-	if (!question_yes_no_hint (_("Deleting an archive and its transactions"),
-				   g_strdup_printf (_("Warning, you are about the delete the archive \"%s\" and its associated transactions.\n\nIf you continue, all the transactions linked to that archive will be deleted and the initials amounts of the accounts will be adjusted.\nAll the informations about that archive will be destroyed.\nYou should have at least exported that archive into another file...\n\nAre you sure you want to continue ?"),
-						    gsb_data_archive_get_name (archive_number)),
-				   GTK_RESPONSE_CANCEL ))
+	gchar* tmpstr = g_strdup_printf (_("Warning, you are about the delete the archive \"%s\" and its associated transactions.\n\nIf you continue, all the transactions linked to that archive will be deleted and the initials amounts of the accounts will be adjusted.\nAll the informations about that archive will be destroyed.\nYou should have at least exported that archive into another file...\n\nAre you sure you want to continue ?"),
+						    gsb_data_archive_get_name (archive_number));
+	if (!question_yes_no_hint (_("Deleting an archive and its transactions"), tmpstr, GTK_RESPONSE_CANCEL ))
+	{
+	    g_free ( tmpstr );
 	    return FALSE;
+	}
+	g_free ( tmpstr );
 
 	/* remove the lines of that archive in the tree view of transactions */
 	model_transactions = GTK_TREE_MODEL (gsb_transactions_list_get_store());

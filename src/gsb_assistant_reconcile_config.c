@@ -187,17 +187,19 @@ GtkResponseType gsb_assistant_reconcile_config_run ( void )
      * 		at the first update to grisbi 0.6.0 )*/
 
     /* first, create the assistant */
-    assistant = gsb_assistant_new ( _("Associate orphan transactions to a reconciliation"),
-				    g_strdup_printf (_("Grisbi found %d marked transactions not associated with a reconciliation number, "
+    gchar* tmpstr = g_strdup_printf (_("Grisbi found %d marked transactions not associated with a reconciliation number, "
 						       "this can happen for old users of grisbi or from a misuse of the Ctrl-R shortcut.\n\n"
 						       "This assistant will help you make the link between such transactions and a reconciliation.\n\n"
 						       "Before continuing, you should first check if all the dates of the existing reconciliations are good "
 						       "because grisbi will try to guess them not very precisely "
 						       "(you will be able to create new reconciliations in the next step). "
 						       "Previous reconciliations will be available too."),
-						       transactions_to_link ),
+						       transactions_to_link );
+    assistant = gsb_assistant_new ( _("Associate orphan transactions to a reconciliation"),
+				    tmpstr,
 				    "reconciliation.png",
 				    NULL );
+    g_free ( tmpstr );
 
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_reconcile_config_page_menu (assistant),
@@ -257,8 +259,10 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
     page = gtk_vbox_new (FALSE, 5);
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
 
-    label_transactions_to_link_1 = gtk_label_new (g_strdup_printf (_("Still %d transactions to link with a reconciliation."),
-								   transactions_to_link));
+    gchar* tmpstr = g_strdup_printf (_("Still %d transactions to link with a reconciliation."),
+								   transactions_to_link);
+    label_transactions_to_link_1 = gtk_label_new (tmpstr );
+    g_free ( tmpstr );
     gtk_misc_set_alignment ( GTK_MISC (label_transactions_to_link_1),
 			     0, 0.5 );
 
@@ -888,9 +892,9 @@ gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
 
     gtk_label_set_text ( GTK_LABEL (label_transactions_to_link_2),
 			 string);
+    g_free (string);
     gtk_misc_set_alignment ( GTK_MISC (label_transactions_to_link_2),
 			     0, 0.5 );
-    g_free (string);
 
     /* calculate how many transactions can be associated automaticaly,
      * to avoid to do that 2 times, we set each transactions in a structure with
@@ -1006,9 +1010,9 @@ static gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *butt
 				  transactions_to_link);
 	gtk_label_set_text ( GTK_LABEL (label_transactions_to_link_2),
 			     string);
+	g_free (string);
 	gtk_misc_set_alignment ( GTK_MISC (label_transactions_to_link_2),
 				 0, 0.5 );
-	g_free (string);
 
 	gtk_label_set_text ( GTK_LABEL (label_possible_association),
 			     _("There is no transaction that grisbi can link.\n"
@@ -1049,9 +1053,9 @@ gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *assistant,
 			      transactions_to_link);
     gtk_label_set_text ( GTK_LABEL (label_transactions_to_link_3),
 			 string);
+    g_free (string);
     gtk_misc_set_alignment ( GTK_MISC (label_transactions_to_link_3),
 			     0, 0.5 );
-    g_free (string);
 
     /* fill the list with the transactions to link */
     store = GTK_LIST_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (treeview_transactions_to_link)));

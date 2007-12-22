@@ -362,6 +362,7 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
 	GtkAction * action = gtk_action_new ( tmp_name, 
 					      tab_noms_derniers_fichiers_ouverts[i], 
 					      "", "" );
+	g_free ( tmp_name );
 	g_signal_connect ( action, "activate", G_CALLBACK(gsb_file_open_direct_menu), 
 			   GINT_TO_POINTER(i) );
 	gtk_action_group_add_action ( action_group, action );
@@ -379,6 +380,8 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
 	gtk_ui_manager_add_ui ( ui_manager, recent_files_merge_id, 
 				"/MenuBar/FileMenu/RecentFiles/",
 				tmp_label, tmp_name, GTK_UI_MANAGER_MENUITEM, FALSE );
+	g_free ( tmp_name );
+	g_free ( tmp_label );
     }
     gtk_ui_manager_ensure_update ( ui_manager );
 
@@ -429,8 +432,10 @@ gboolean help_quick_start ()
 {
     gchar *lang = _("_C");
 
-    lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", lang+1, "/quickstart.html", 
-					 NULL ));
+    gchar* tmpstr = g_strconcat ( HELP_PATH, "/", lang+1, "/quickstart.html", 
+					 NULL );
+    lance_navigateur_web ( tmpstr );
+    g_free ( tmpstr );
 
     return FALSE;
 }
@@ -447,8 +452,10 @@ gboolean help_translation ()
 {
     gchar *lang = _("_C");
 
-    lance_navigateur_web ( g_strconcat ( HELP_PATH, "/", lang+1, "/translation.html", 
-					 NULL ));
+    gchar* tmpstr = g_strconcat ( HELP_PATH, "/", lang+1, "/translation.html", 
+					 NULL );
+    lance_navigateur_web ( tmpstr );
+    g_free ( tmpstr );
 
     return FALSE;
 }
@@ -545,10 +552,10 @@ gboolean gsb_gui_sensitive_menu_item_from_string ( gchar * item_name, gboolean s
 gboolean gsb_gui_sensitive_menu_item ( gchar * root_menu_name, gchar * submenu_name,
 				       gchar * subsubmenu_name, gboolean state )
 {
-    return gsb_gui_sensitive_menu_item_from_string ( menu_name ( root_menu_name,
-								 submenu_name,
-								 subsubmenu_name ), 
-						     state );
+    gchar* tmpstr = menu_name ( root_menu_name, submenu_name, subsubmenu_name );
+    gboolean result = gsb_gui_sensitive_menu_item_from_string ( tmpstr, state );
+    g_free ( tmpstr );
+    return result;
 }
 
 
@@ -668,24 +675,23 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 {
     gchar * item_name = NULL;
 
-    devel_debug ( g_strdup_printf ("gsb_menu_update_view_menu account : %d",
-				   account_number ));
+    gchar* tmpstr = g_strdup_printf ("gsb_menu_update_view_menu account : %d", account_number );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     block_menu_cb = TRUE;
 
     /* update the showing of reconciled transactions */
 
-    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
-										  menu_name ( "ViewMenu", 
-											      "ShowReconciled", 
-											      NULL ))), 
+    tmpstr = menu_name ( "ViewMenu", "ShowReconciled", NULL );
+    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, tmpstr)), 
 				   gsb_data_account_get_r (account_number) );
+    g_free ( tmpstr );
 
-    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, 
-										  menu_name ( "ViewMenu", 
-											      "ShowTransactionForm", 
-											      NULL ))), 
+    tmpstr = menu_name ( "ViewMenu", "ShowTransactionForm", NULL );
+    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, tmpstr)), 
 				   gsb_form_is_visible () );
+    g_free ( tmpstr );
 
 
     /* update the number of line showed */
@@ -709,6 +715,7 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, item_name )),
 				   TRUE );
+    g_free ( item_name );
 
     block_menu_cb = FALSE;
 
@@ -769,6 +776,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
 				    "/MenuBar/EditMenu/MoveToAnotherAccount/",
 				    tmp_name, tmp_name,
 				    GTK_UI_MANAGER_MENUITEM, FALSE );
+	    g_free ( tmp_name );
 	}
 
 	list_tmp = list_tmp -> next;

@@ -790,8 +790,10 @@ gboolean gsb_fyear_config_associate_transactions ( void )
 
     if (modification_number)
     {
-	dialogue ( g_strdup_printf (_("%d transactions associated"),
-				    modification_number));
+	gchar* tmpstr = g_strdup_printf (_("%d transactions associated"),
+				    modification_number);
+	dialogue (  tmpstr );
+	g_free ( tmpstr );
 	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_EXERCICE);
 	modification_fichier ( TRUE );
     }

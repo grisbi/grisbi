@@ -720,16 +720,15 @@ static gboolean gtk_combofix_fill_store ( GtkComboFix *combofix,
 		gtk_tree_store_append ( combofix -> store,
 					&iter_child,
 					&iter_parent );
+		gchar* tmpstr = g_strconcat ( last_parent, " : ", string + 1, NULL );
 		gtk_tree_store_set ( combofix -> store,
 				     &iter_child,
 				     COMBOFIX_COL_VISIBLE_STRING, string + 1,
-				     COMBOFIX_COL_REAL_STRING, g_strconcat ( last_parent,
-									     " : ",
-									     string + 1,
-									     NULL ),
+				     COMBOFIX_COL_REAL_STRING, tmpstr,
 				     COMBOFIX_COL_VISIBLE, TRUE,
 				     COMBOFIX_COL_LIST_NUMBER, list_number,
 				     -1 );
+		g_free ( tmpstr );
 	    }
 	    else
 	    {

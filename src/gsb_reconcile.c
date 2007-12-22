@@ -430,9 +430,11 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     gtk_entry_set_text ( GTK_ENTRY ( reconcile_final_balance_entry ), "" );
 
     /* set the title */
+    gchar* tmpstr = g_strdup_printf ( " <b>%s reconciliation</b> ",
+					     gsb_data_account_get_name (account_number));
     gtk_label_set_markup ( GTK_LABEL (gtk_frame_get_label_widget (GTK_FRAME (reconcile_panel))),
-			   g_strdup_printf ( " <b>%s reconciliation</b> ",
-					     gsb_data_account_get_name (account_number)));
+			   tmpstr );
+    g_free ( tmpstr );
 
     /* we go to the reconciliation mode */
     etat.equilibrage = 1;
@@ -519,9 +521,11 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     date = gsb_calendar_entry_get_date (reconcile_new_date_entry);
     if (!date)
     {
-	dialogue_warning_hint ( g_strdup_printf ( _("Invalid date: '%s'"),
-						  gtk_entry_get_text ( GTK_ENTRY ( reconcile_new_date_entry ))),
+	gchar* tmpstr = g_strdup_printf ( _("Invalid date: '%s'"),
+						  gtk_entry_get_text ( GTK_ENTRY ( reconcile_new_date_entry )));
+	dialogue_warning_hint ( tmpstr,
 				_("Reconciliation can't be completed.") );
+	g_free ( tmpstr );
 	return FALSE;
     }
 
@@ -532,9 +536,10 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 	return FALSE;
     }
 
+    gchar* tmpstr = g_strdup_printf ( _("Last statement: %s"), gsb_format_gdate (date));
     gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
-			 g_strdup_printf ( _("Last statement: %s"), 
-					   gsb_format_gdate (date)));
+			 tmpstr);
+    g_free ( tmpstr );
 
     /* create the new reconcile structure */
     reconcile_number = gsb_data_reconcile_new (gtk_entry_get_text (GTK_ENTRY (reconcile_number_entry)));

@@ -71,14 +71,19 @@ gboolean gsb_file_util_test_overwrite ( const gchar *filename )
 	if (g_file_test (filename,
 			 G_FILE_TEST_IS_DIR))
 	{
-	    dialogue_error ( g_strdup_printf ( _("%s is a directory...\nPlease choose another name."),
-					       filename ));
+	    gchar* tmpstr = g_strdup_printf ( _("%s is a directory...\nPlease choose another name."),
+					       filename );
+	    dialogue_error ( tmpstr );
+	    g_free ( tmpstr );
 	    return FALSE;
 	}
 	
-	return ( question_yes_no_hint (_("File already exists"),
-				       g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename),
-				       GTK_RESPONSE_NO ));
+	gchar* tmpstr = g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename);
+	gboolean response = question_yes_no_hint (_("File already exists"),
+				       tmpstr,
+				       GTK_RESPONSE_NO );
+	g_free ( tmpstr );
+        return response;
     }
     return TRUE;
 }
@@ -103,8 +108,9 @@ gint gsb_file_util_compress_file ( gchar **file_content,
      * seems to work... perhaps there is a better way ?
      * so here a gchar comes in, but it's hidden with (guchar *) to zlib... */
 
-    devel_debug ( g_strdup_printf ("gsb_file_util_compress_file : %d",
-				   compress ));
+    gchar* tmpstr = g_strdup_printf ("gsb_file_util_compress_file : %d", compress );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     if ( compress )
     {
@@ -283,9 +289,11 @@ gboolean gsb_file_util_modify_lock ( gboolean create_swp )
     if (!g_file_test ( nom_fichier_comptes,
 		       G_FILE_TEST_EXISTS ))
     {
-	dialogue_error (g_strdup_printf (_("Cannot open file '%s' to mark it as used: %s"),
+	gchar* tmpstr = g_strdup_printf (_("Cannot open file '%s' to mark it as used: %s"),
 					 nom_fichier_comptes,
-					 latin2utf8 (strerror(errno))));
+					 latin2utf8 (strerror(errno)));
+	dialogue_error (tmpstr );
+	g_free ( tmpstr );
 	return FALSE;
     }
 
@@ -336,9 +344,11 @@ gboolean gsb_file_util_modify_lock ( gboolean create_swp )
 
 	if ( !fichier )
 	{
-	    dialogue_error (g_strdup_printf (_("Cannot write lock file :'%s': %s"),
+	    gchar* tmpstr = g_strdup_printf (_("Cannot write lock file :'%s': %s"),
 					     nom_fichier_comptes,
-					     latin2utf8 (strerror(errno))));
+					     latin2utf8 (strerror(errno)));
+	    dialogue_error ( tmpstr );
+	    g_free ( tmpstr );
 	    return FALSE;
 	}
 
@@ -361,9 +371,11 @@ gboolean gsb_file_util_modify_lock ( gboolean create_swp )
 
 	if ( result == -1 )
 	{
-	    dialogue_error (g_strdup_printf (_("Cannot erase lock file :'%s': %s"),
+	    gchar* tmpstr = g_strdup_printf (_("Cannot erase lock file :'%s': %s"),
 					     nom_fichier_comptes,
-					     latin2utf8 (strerror(errno))));
+					     latin2utf8 (strerror(errno)));
+	    dialogue_error ( tmpstr );
+	    g_free ( tmpstr );
 	    return FALSE;
 	}
 	return TRUE;

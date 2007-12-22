@@ -314,8 +314,9 @@ gboolean gsb_file_open_file ( gchar *filename )
     GSList *list_tmp;
     GtkWidget *main_widget;
 
-    devel_debug ( g_strdup_printf ("gsb_file_open_file : %s",
-				   filename ));
+    gchar* tmpstr = g_strdup_printf ("gsb_file_open_file : %s", filename );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     if ( !filename
 	 ||
@@ -397,16 +398,18 @@ gboolean gsb_file_open_file ( gchar *filename )
 	    {
 		/* the backup loaded succesfully */
 
-		dialogue_error_hint ( _("Grisbi was unable to load file.  However, Grisbi loaded a backup file instead but all changes made since this backup were possibly lost."),
-				      g_strdup_printf ( _("Error loading file '%s'"), filename) );
+		gchar* tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
+		dialogue_error_hint ( _("Grisbi was unable to load file.  However, Grisbi loaded a backup file instead but all changes made since this backup were possibly lost."), tmpstr );
+		g_free ( tmpstr );
 		g_free (backup_filename);
 	    }
 	    else
 	    {
 		/* the loading backup failed */
 
-		dialogue_error_hint ( _("Grisbi was unable to load file.  Additionally, Grisbi was unable to load a backup file instead."),
-				      g_strdup_printf ( _("Error loading file '%s'"), filename) );
+		gchar* tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
+		dialogue_error_hint ( _("Grisbi was unable to load file.  Additionally, Grisbi was unable to load a backup file instead."), tmpstr );
+		g_free ( tmpstr );
 		g_free (backup_filename);
 		gsb_status_stop_wait ( TRUE );
 		return FALSE;
@@ -538,7 +541,9 @@ gboolean gsb_file_save_file ( gint origine )
     gint etat_force, result;
     gchar *nouveau_nom_enregistrement;
 
-    devel_debug (g_strdup_printf ( "gsb_file_save_file from %d", origine ));
+    gchar* tmpstr = g_strdup_printf ( "gsb_file_save_file from %d", origine );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     etat_force = 0;
 
@@ -568,10 +573,14 @@ gboolean gsb_file_save_file ( gint origine )
 	 &&
 	 origine != -2 )
     {
-	dialogue_error_hint ( g_strdup_printf( _("Grisbi was unable to save this file because it is locked.  Please save it with another name or activate the \"%s\" option in preferences."),
-					       _("Force saving of locked files" ) ),
-			      g_strdup_printf( _("Can not save file \"%s\""), 
-					       nom_fichier_comptes ) );
+        gchar* tmpstr1 = g_strdup_printf( _("Grisbi was unable to save this file because it is locked.  Please save it with another name or activate the \"%s\" option in preferences."),
+					       _("Force saving of locked files" ) );
+	gchar* tmpstr2 = g_strdup_printf( _("Can not save file \"%s\""), 
+					       nom_fichier_comptes );
+	dialogue_error_hint ( tmpstr1,
+			      tmpstr2 );
+	g_free ( tmpstr1 );
+	g_free ( tmpstr2 );
 	return ( FALSE );
     }
 
@@ -652,11 +661,13 @@ gboolean gsb_file_save_backup ( void )
  * */
 static gint gsb_file_dialog_save ( void )
 {
-    gchar * hint, * message = "", * time_elapsed;
+    gchar * hint; 
+    gchar* time_elapsed;
     time_t now = time ( NULL );
     gint result;
     GtkWidget *dialog;
     gint difference = (gint) difftime ( now, etat.modification_fichier );
+    gchar* message; 
 
     /*     si le fichier n'est pas modifié on renvoie qu'on ne veut pas enregistrer */
 
@@ -680,7 +691,7 @@ static gint gsb_file_dialog_save ( void )
 	 &&
 	 !etat.force_enregistrement )
     {
-	hint = _("Save locked files?");
+	hint = g_strdup(_("Save locked files?"));
 	message = g_strdup_printf ( _("The document '%s' is locked but modified. If you want to save it, you must cancel and save it with another name or activate the \"%s\" option in setup."),
 				    (nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")),
 				    _("Force saving of locked files"));
@@ -694,6 +705,7 @@ static gint gsb_file_dialog_save ( void )
     {
 	hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
 				(nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")));
+        message = g_strdup("");
 	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
 				 _("Close without saving"), GTK_RESPONSE_NO,
 				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -716,16 +728,20 @@ static gint gsb_file_dialog_save ( void )
     {
 	time_elapsed = g_strdup_printf ( _( "%d seconds" ), difference );
     }
-    message = g_strconcat ( message, 
-			    g_strdup_printf ( _("If you close without saving, all of your changes "
+    gchar* tmpstr1 = message;
+    gchar* tmpstr2 = g_strdup_printf ( _("If you close without saving, all of your changes "
 						"since %s will be discarded."),
-					      time_elapsed ),
-			    NULL );
+					      time_elapsed );
+    message = g_strconcat ( tmpstr1, tmpstr2 , NULL );
+    g_free ( tmpstr1 );
+    g_free ( tmpstr2 );
     g_free ( time_elapsed );
     
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), 
 			   make_hint ( hint, message ) );
 
+    g_free ( message );
+    g_free ( hint );
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
 
     result = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -757,8 +773,11 @@ static gchar *gsb_file_dialog_ask_name ( void )
 					 gsb_file_get_last_path ());
 
     if ( ! nom_fichier_comptes )
-	gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ),
-					    g_strconcat ( titre_fichier, ".gsb", NULL ) );
+    {
+        gchar* tmpstr = g_strconcat ( titre_fichier, ".gsb", NULL );
+	gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ), tmpstr);
+        g_free ( tmpstr );
+    }
     else
 	gtk_file_chooser_select_filename ( GTK_FILE_CHOOSER (dialog),
 					   nom_fichier_comptes );
@@ -780,7 +799,9 @@ static gchar *gsb_file_dialog_ask_name ( void )
 
     if ( ! g_strrstr ( new_name, "." ) )
     {
-	new_name = g_strconcat ( new_name, ".gsb", NULL );
+        gchar* tmpstr = new_name;
+	new_name = g_strconcat ( tmpstr, ".gsb", NULL );
+	g_free ( tmpstr );
     }
 
     return new_name;
@@ -870,7 +891,7 @@ void gsb_file_update_window_title ( void )
     devel_debug ( "gsb_file_update_window_title" );
 
     if ( titre_fichier && strlen(titre_fichier) )
-      titre = titre_fichier;
+      titre = g_strdup(titre_fichier);
     else if ( nom_fichier_comptes )
     {
 	parametres = g_strsplit ( nom_fichier_comptes, C_DIRECTORY_SEPARATOR, 0);
@@ -884,8 +905,12 @@ void gsb_file_update_window_title ( void )
       titre = g_strconcat ( "<", _("unnamed"), ">", NULL );
     }
 
-    titre = g_strconcat ( titre, " - ", _("Grisbi"), NULL );
+    gchar* tmpstr = titre;
+    titre = g_strconcat ( tmpstr, " - ", _("Grisbi"), NULL );
+    g_free ( tmpstr );
+    
     gtk_window_set_title ( GTK_WINDOW ( window ), titre );
+    g_free ( titre );
 }
 
 
@@ -902,7 +927,9 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
     gint i, position;
     gchar * dernier, * real_name;
 
-    devel_debug ( g_strdup_printf ("gsb_file_append_name_to_opened_list : %s", path_fichier ));
+    gchar* tmpstr = g_strdup_printf ("gsb_file_append_name_to_opened_list : %s", path_fichier );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     if ( !nb_max_derniers_fichiers_ouverts ||
 	 ! path_fichier)
@@ -913,7 +940,7 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
 
     if ( !g_path_is_absolute ( nom_fichier_comptes ) )
     {	
-	real_name = realpath ( nom_fichier_comptes, NULL );
+	real_name = g_strdup(realpath ( nom_fichier_comptes, NULL ));
 	if ( ! real_name )
 	{
 	    notice_debug ( "could not resolve relative file name" );
@@ -930,8 +957,7 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
     position = 0;
 
     for ( i=0 ; i<nb_derniers_fichiers_ouverts ; i++ )
-	if ( !strcmp ( real_name,
-		       tab_noms_derniers_fichiers_ouverts[i] ))
+	if ( !strcmp ( real_name, tab_noms_derniers_fichiers_ouverts[i] ))
 	{
 	    /* 	si ce fichier est déjà le dernier ouvert, on laisse tomber */
 

@@ -1391,12 +1391,17 @@ gchar * gsb_debug_duplicate_budget_check ()
 	    /* Second comparison is just there to find only one of them. */
 	    if ( duplicate && duplicate > tmp_sous_budget )
 	    {
-		output = g_strconcat ( output,
-				       g_strdup_printf ( _("In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"),
-							 budget -> budget_name,
-							 ((struct_sub_budget *) tmp_sous_budget -> data) -> sub_budget_name,
-							 ((struct_sub_budget *) duplicate -> data) -> sub_budget_name ),
+	        gchar* tmpstr1 = output;
+		gchar* tmpstr2 = g_strdup_printf ( 
+		                        _("In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"),
+					budget -> budget_name,
+					((struct_sub_budget *) tmp_sous_budget -> data) -> sub_budget_name,
+					((struct_sub_budget *) duplicate -> data) -> sub_budget_name );
+		output = g_strconcat ( tmpstr1,
+				       tmpstr2,
 				       NULL );
+		g_free ( tmpstr1 );
+		g_free ( tmpstr2 );
 		num_duplicate ++;
 	    }
 	    tmp_sous_budget = tmp_sous_budget -> next;

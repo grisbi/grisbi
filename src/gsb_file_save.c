@@ -172,8 +172,9 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 
     gsb_plugin * plugin;
 
-    devel_debug ( g_strdup_printf ("gsb_file_save_save_file : %s",
-				   filename ));
+    gchar* tmpstr = g_strdup_printf ("gsb_file_save_save_file : %s", filename );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
 
     do_chmod = !g_file_test ( filename,
 			      G_FILE_TEST_EXISTS );
@@ -336,10 +337,12 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 		   iterator,
 		   grisbi_file ))
     {
-	dialogue_error ( g_strdup_printf ( _("Cannot save file '%s': %s"),
+	gchar* tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
 					   filename,
-					   latin2utf8(strerror(errno)) ));
-	free ( file_content);
+					   latin2utf8(strerror(errno)) );
+	dialogue_error ( tmpstr );
+	g_free ( tmpstr );
+	g_free ( file_content);
 	return ( FALSE );
     }
     
@@ -509,10 +512,12 @@ gulong gsb_file_save_general_part ( gulong iterator,
     skipped_lines_string = utils_str_itoa ( etat.csv_skipped_lines[0] );
     for ( i = 1; i < CSV_MAX_TOP_LINES ; i ++ )
     {
-	skipped_lines_string = g_strconcat ( skipped_lines_string,
+	gchar* tmpstr = skipped_lines_string;
+	skipped_lines_string = g_strconcat ( tmpstr ,
 					     "-", 
 					     utils_str_itoa ( etat.csv_skipped_lines[i] ),
 					     NULL );
+        g_free ( tmpstr );
     }
 
     /* if we save an archive, we save it here */
@@ -1642,10 +1647,14 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	while ( pointer_list )
 	{
 	    if ( general_sort_type )
-		general_sort_type = g_strconcat ( general_sort_type,
+	    {
+	        gchar* tmpstr = general_sort_type;
+		general_sort_type = g_strconcat ( tmpstr,
 						  "/-/",
 						  utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
 						  NULL );
+	        g_free ( tmpstr );
+	    }
 	    else
 		general_sort_type = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
 
@@ -1659,10 +1668,14 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	while ( pointer_list )
 	{
 	    if ( financial_year_select )
-		financial_year_select = g_strconcat ( financial_year_select,
+	    {
+	        gchar* tmpstr = financial_year_select ;
+		financial_year_select = g_strconcat ( tmpstr,
 						      "/-/",
 						      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
 						      NULL );
+	        g_free (tmpstr);
+	    }
 	    else
 		financial_year_select = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
 
@@ -1676,10 +1689,14 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	while ( pointer_list )
 	{
 	    if ( account_selected )
-		account_selected = g_strconcat ( account_selected,
+	    {
+	        gchar* tmpstr = account_selected;
+		account_selected = g_strconcat ( tmpstr,
 						 "/-/",
 						 utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
 						 NULL );
+	        g_free (tmpstr);
+	    }
 	    else
 		account_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
 
@@ -1693,10 +1710,14 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	while ( pointer_list )
 	{
 	    if ( transfer_selected_accounts )
-		transfer_selected_accounts = g_strconcat ( transfer_selected_accounts,
+	    {
+	        gchar* tmpstr = transfer_selected_accounts;
+		transfer_selected_accounts = g_strconcat ( tmpstr,
 					      "/-/",
 					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
 					      NULL );
+	        g_free ( tmpstr );
+	    }
 	    else
 		transfer_selected_accounts = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
 
@@ -1710,10 +1731,14 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	while ( pointer_list )
 	{
 	    if ( categ_selected )
-		categ_selected = g_strconcat ( categ_selected,
+	    {
+	        gchar* tmpstr = categ_selected;
+		categ_selected = g_strconcat ( tmpstr ,
 					      "/-/",
 					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
 					      NULL );
+	        g_free ( tmpstr );
+	    }
 	    else
 		categ_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
 
@@ -1727,10 +1752,14 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	while ( pointer_list )
 	{
 	    if ( budget_selected )
-		budget_selected = g_strconcat ( budget_selected,
+	    {
+	        gchar* tmpstr = budget_selected;
+		budget_selected = g_strconcat ( tmpstr,
 					      "/-/",
 					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
 					      NULL );
+	        g_free ( tmpstr );
+	    }
 	    else
 		budget_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
 
@@ -1744,10 +1773,14 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	while ( pointer_list )
 	{
 	    if ( payee_selected )
-		payee_selected = g_strconcat ( payee_selected,
+	    {
+	        gchar* tmpstr = payee_selected;
+		payee_selected = g_strconcat ( tmpstr,
 					      "/-/",
 					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
 					      NULL );
+	        g_free ( tmpstr );
+	    }
 	    else
 		payee_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
 
@@ -1761,10 +1794,14 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	while ( pointer_list )
 	{
 	    if ( payment_method_list )
-		payment_method_list = g_strconcat ( payment_method_list,
+	    {
+	        gchar* tmpstr = payment_method_list;
+		payment_method_list = g_strconcat ( tmpstr,
 						    "/-/",
 						    pointer_list -> data,
 						    NULL );
+	        g_free ( tmpstr );
+	    }
 	    else
 		payment_method_list = my_strdup (pointer_list -> data );
 
