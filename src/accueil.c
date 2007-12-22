@@ -143,9 +143,10 @@ GtkWidget *creation_onglet_accueil ( void )
 	gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
 
 	label_titre_fichier = gtk_label_new ( titre_fichier );
-	gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), 
-			       g_strconcat ("<span size=\"x-large\">",
-					    titre_fichier, "</span>", NULL ) );
+	gchar* tmpstr = g_strconcat ("<span size=\"x-large\">",
+					    titre_fichier, "</span>", NULL );
+	gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr);
+	g_free ( tmpstr );
 
 	if ( etat.utilise_logo && chemin_logo )
 	{
@@ -437,10 +438,11 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	/* Création du tableau dans lequel seront stockés les comptes avec leur     */
 	/* solde.                                                                   */
-	paddingbox = new_paddingbox_with_title ( vbox, FALSE,
-						 g_strconcat (_("Account balances in "),
-							      gsb_data_currency_get_name (currency_number),
-							      NULL ));
+	gchar* tmpstr = g_strconcat (_("Account balances in "),
+				      gsb_data_currency_get_name (currency_number),
+				      NULL );
+	paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
+	g_free ( tmpstr );
 	pTable = gtk_table_new ( nb_comptes_bancaires + 3, 4, FALSE );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
@@ -477,7 +479,9 @@ void update_liste_comptes_accueil ( gboolean force )
 	    {
 
 		/* Deuxième colonne : elle contient le nom du compte */
-		pLabel = gtk_label_new ( g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL ));
+		gchar* tmpstr = g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL );
+		pLabel = gtk_label_new ( tmpstr );
+		g_free ( tmpstr );
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
@@ -683,9 +687,10 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	/* Création du tableau dans lequel seront stockés les comptes avec leur     */
 	/* solde.                                                                   */
-	paddingbox = new_paddingbox_with_title ( vbox, FALSE,
-						 g_strdup_printf (_("Liabilities accounts balances in %s"),
-								  gsb_data_currency_get_name (currency_number) ));
+	gchar* tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s"),
+				  gsb_data_currency_get_name (currency_number) );
+	paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
+	g_free ( tmpstr );
 	pTable = gtk_table_new ( nb_comptes_passif + 3, 5, FALSE );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
@@ -721,7 +726,9 @@ void update_liste_comptes_accueil ( gboolean force )
 	    {
 
 		/* Deuxième colonne : elle contient le nom du compte */
-		pLabel = gtk_label_new ( g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL ));
+		gchar* tmpstr = g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL );
+		pLabel = gtk_label_new ( tmpstr );
+		g_free ( tmpstr );
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
@@ -933,9 +940,10 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	/* Création du tableau dans lequel seront stockés les comptes avec leur     */
 	/* solde.                                                                   */
-	paddingbox = new_paddingbox_with_title ( vbox, FALSE,
-						 g_strdup_printf (_("Assets accounts balances in %s"),
-								  gsb_data_currency_get_name (currency_number)));
+	gchar* tmpstr = g_strdup_printf (_("Assets accounts balances in %s"),
+				  gsb_data_currency_get_name (currency_number));
+	paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
+	g_free ( tmpstr );
 	pTable = gtk_table_new ( nb_comptes_actif + 3, 5, FALSE );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
@@ -972,7 +980,9 @@ void update_liste_comptes_accueil ( gboolean force )
 	    {
 
 		/* Deuxième colonne : elle contient le nom du compte */
-		pLabel = gtk_label_new ( g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL ));
+		gchar* tmpstr = g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL );
+		pLabel = gtk_label_new ( tmpstr );
+		g_free ( tmpstr );
 		gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 		gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
 
@@ -1161,8 +1171,10 @@ void update_liste_comptes_accueil ( gboolean force )
  * */
 gboolean gsb_main_page_click_on_account ( gint *account_number )
 {
-    devel_debug ( g_strdup_printf ( "gsb_main_page_click_on_account account %d",
-				    GPOINTER_TO_INT (account_number )));
+    gchar* tmpstr = g_strdup_printf ( "gsb_main_page_click_on_account account %d",
+				    GPOINTER_TO_INT (account_number ));
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
     gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
 				       GPOINTER_TO_INT (account_number),
 				       NULL );
@@ -1259,11 +1271,13 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), event_box, TRUE, TRUE, 5 );
 	    gtk_widget_show ( event_box  );
 
-	    label = gtk_label_new ( g_strconcat ( gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number)),
-						  " : ",
-						  gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number),
-									       FALSE ),
-						  NULL ));
+            gchar* tmpstr = g_strconcat ( gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number)),
+				  " : ",
+				  gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number),
+								       FALSE ),
+						  NULL );
+	    label = gtk_label_new ( tmpstr );
+	    g_free ( tmpstr );
 
 	    gtk_widget_set_style ( label, style_label );
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
@@ -1271,17 +1285,26 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    gtk_widget_show ( label  );
 
 	    /* label à droite */
-
 	    if ( gsb_data_scheduled_get_amount (scheduled_number).mantissa >= 0 )
-		label = gtk_label_new ( g_strdup_printf ( _("%s credited on %s"),
-							  gsb_real_get_string_with_currency (gsb_data_scheduled_get_amount (scheduled_number),
-											     currency_number),
-							  gsb_data_account_get_name (account_number)));
+	    {
+                tmpstr = g_strdup_printf ( _("%s credited on %s"),
+				  gsb_real_get_string_with_currency (gsb_data_scheduled_get_amount (scheduled_number),
+							     currency_number),
+							  gsb_data_account_get_name (account_number));
+		label = gtk_label_new ( tmpstr );
+		g_free ( tmpstr );
+	    }
 	    else
-		label = gtk_label_new ( g_strdup_printf ( _("%s debited on %s"),
-							  gsb_real_get_string_with_currency (gsb_real_abs (gsb_data_scheduled_get_amount (scheduled_number)),
-											     currency_number),
-							  gsb_data_account_get_name (account_number)));
+	    {
+	        gchar* tmpstr = g_strdup_printf ( _("%s debited on %s"),
+				  gsb_real_get_string_with_currency (gsb_real_abs (
+				  gsb_data_scheduled_get_amount (scheduled_number)),
+										     currency_number),
+							  gsb_data_account_get_name (account_number));
+		label = gtk_label_new ( tmpstr );
+		g_free ( tmpstr );
+	    }
+
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, TRUE, 0 );
@@ -1368,11 +1391,12 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	    gtk_widget_show ( event_box );
 
 	    /* label à gauche */
-
-	    label = gtk_label_new ( g_strconcat ( gsb_format_gdate ( gsb_data_transaction_get_date (transaction_number)),
-						  " : ",
-						  gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number), FALSE),
-						  NULL ));
+            gchar* tmpstr = g_strconcat ( gsb_format_gdate ( gsb_data_transaction_get_date (transaction_number)),
+					  " : ",
+					  gsb_data_payee_get_name (gsb_data_transaction_get_party_number (transaction_number), FALSE),
+					  NULL );
+	    label = gtk_label_new ( tmpstr );
+	    g_free ( tmpstr );
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
 	    gtk_widget_set_style ( label, style_selectable );
@@ -1383,15 +1407,23 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	    /* label à droite */
 
 	    if ( gsb_data_transaction_get_amount (transaction_number).mantissa >= 0 )
-		label = gtk_label_new ( g_strdup_printf ( _("%s credited on %s"),
-							  gsb_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
+	    {
+	        gchar* tmpstr = g_strdup_printf ( _("%s credited on %s"),
+				  gsb_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
 											     currency_number),
-							  gsb_data_account_get_name (account_number)));
+							  gsb_data_account_get_name (account_number));
+		label = gtk_label_new ( tmpstr );
+		g_free ( tmpstr );
+	    }
 	    else
-		label = gtk_label_new ( g_strdup_printf ( _("%s debited on %s"),
-							  gsb_real_get_string_with_currency (gsb_real_abs (gsb_data_transaction_get_amount (transaction_number)),
-											     currency_number),
-							  gsb_data_account_get_name (account_number)));
+	    {
+	        gchar* tmpstr = g_strdup_printf ( _("%s debited on %s"),
+					  gsb_real_get_string_with_currency (gsb_real_abs (gsb_data_transaction_get_amount (transaction_number)),
+									     currency_number),
+						  gsb_data_account_get_name (account_number));
+		label = gtk_label_new ( tmpstr );
+	        g_free ( tmpstr );
+	    }
 
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 5 );
@@ -1615,10 +1647,12 @@ void affiche_dialogue_soldes_minimaux ( void )
 	    liste_tmp = liste_autorise_et_voulu;
 	    while ( liste_tmp )
 	    {
-		texte_affiche = g_strconcat ( texte_affiche,
+	        gchar* tmpstr = texte_affiche;
+		texte_affiche = g_strconcat ( tmpstr,
 					      liste_tmp -> data,
 					      "\n",
 					      NULL );
+		g_free ( tmpstr );
 		liste_tmp = liste_tmp -> next;
 	    }
 	}
@@ -1627,27 +1661,39 @@ void affiche_dialogue_soldes_minimaux ( void )
     if ( liste_autorise )
     {
 	if ( strlen (texte_affiche))
-	    texte_affiche = g_strconcat ( texte_affiche,
+	{
+	    gchar* tmpstr = texte_affiche;
+	    texte_affiche = g_strconcat ( tmpstr,
 					  "\n\n",
 					  NULL );
+	    g_free ( tmpstr );
+	}
 
 	if ( g_slist_length ( liste_autorise ) == 1 )
-	    texte_affiche = g_strconcat ( texte_affiche,
+	{
+	    gchar* tmpstr = texte_affiche;
+	    texte_affiche = g_strconcat ( tmpstr,
 					  g_strdup_printf ( _("balance of account %s is under authorised minimum!"),
 							    (gchar *) liste_autorise -> data ),
 					  NULL );
+	    g_free ( tmpstr );
+	}
 	else
 	{
-	    texte_affiche = g_strconcat ( texte_affiche,
+	    gchar* tmpstr = texte_affiche;
+	    texte_affiche = g_strconcat ( tmpstr,
 					  _("accounts with the balance under authorised minimal :\n\n"),
 					  NULL );
+	    g_free ( tmpstr );
 	    liste_tmp = liste_autorise;
 	    while ( liste_tmp )
 	    {
-		texte_affiche = g_strconcat ( texte_affiche,
+	        gchar* tmpstr = texte_affiche;
+		texte_affiche = g_strconcat ( tmpstr,
 					      liste_tmp -> data,
 					      "\n",
 					      NULL );
+	        g_free ( tmpstr );
 		liste_tmp = liste_tmp -> next;
 	    }
 	}
@@ -1656,27 +1702,40 @@ void affiche_dialogue_soldes_minimaux ( void )
     if ( liste_voulu )
     {
 	if ( strlen (texte_affiche))
-	    texte_affiche = g_strconcat ( texte_affiche,
+	{
+	    gchar* tmpstr = texte_affiche;
+	    texte_affiche = g_strconcat ( tmpstr,
 					  "\n\n",
 					  NULL );
 
+	    g_free ( tmpstr );
+	}
+
 	if ( g_slist_length ( liste_voulu ) == 1 )
-	    texte_affiche = g_strconcat ( texte_affiche,
-					  g_strdup_printf ( _("balance of account %s is under wanted minimum!"),
-							    (gchar *) liste_voulu -> data ),
-					  NULL );
+	{
+	    gchar* tmpstr = texte_affiche;
+	    gchar* tmpstr2 = g_strdup_printf ( _("balance of account %s is under wanted minimum!"),
+							    (gchar *) liste_voulu -> data );
+	    texte_affiche = g_strconcat ( tmpstr, tmpstr2 , NULL );
+	    g_free ( tmpstr );
+	    g_free ( tmpstr2 );
+	}
 	else
 	{
-	    texte_affiche = g_strconcat ( texte_affiche,
+	    gchar* tmpstr = texte_affiche;
+	    texte_affiche = g_strconcat ( tmpstr,
 					  _("accounts with the balance under wanted minimal :\n\n"),
 					  NULL );
+	    g_free ( tmpstr );
 	    liste_tmp = liste_voulu;
 	    while ( liste_tmp )
 	    {
-		texte_affiche = g_strconcat ( texte_affiche,
+	        gchar* tmpstr = texte_affiche;
+		texte_affiche = g_strconcat ( tmpstr,
 					      liste_tmp -> data,
 					      "\n",
 					      NULL );
+	        g_free ( tmpstr );
 		liste_tmp = liste_tmp -> next;
 	    }
 	}
@@ -1684,6 +1743,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 
     if ( strlen ( texte_affiche ))
 	dialog_message ( "minimum-balance-alert", texte_affiche );
+    g_free ( texte_affiche );
 }
 /* ************************************************************************* */
 
@@ -1790,10 +1850,12 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
 
     /* label à gauche */
 
-    label = gtk_label_new ( g_strconcat ( gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
+    gchar* tmpstr = g_strconcat ( gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
 					  " : ",
 					  gsb_data_payee_get_name (gsb_data_scheduled_get_party_number (scheduled_number), FALSE),
-					  NULL ) );
+					  NULL );
+    label = gtk_label_new ( tmpstr );
+    g_free ( tmpstr );
 
     gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
@@ -1801,17 +1863,19 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
 
     /* label à droite */
 
-
     if ( gsb_data_scheduled_get_amount (scheduled_number).mantissa >= 0 )
-	label = gtk_label_new ( g_strdup_printf ( _("%s credited on %s"),
-						  gsb_real_get_string_with_currency ( gsb_data_scheduled_get_amount (scheduled_number),
+        tmpstr = g_strdup_printf ( _("%s credited on %s"),
+				  gsb_real_get_string_with_currency ( gsb_data_scheduled_get_amount (scheduled_number),
 										      currency_number ),
-						  gsb_data_account_get_name (account_number)));
+				  gsb_data_account_get_name (account_number));
     else
-	label = gtk_label_new ( g_strdup_printf ( _("%s debited on %s"),
-						  gsb_real_get_string_with_currency ( gsb_real_abs (gsb_data_scheduled_get_amount (scheduled_number)),
-										      currency_number ),
-						  gsb_data_account_get_name (account_number)));
+	tmpstr = g_strdup_printf ( _("%s debited on %s"),
+				  gsb_real_get_string_with_currency ( gsb_real_abs (gsb_data_scheduled_get_amount (scheduled_number)),
+									      currency_number ),
+				  gsb_data_account_get_name (account_number));
+
+    label = gtk_label_new ( tmpstr );
+    g_free ( tmpstr );
     gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
     gtk_box_pack_end ( GTK_BOX (hbox), label, FALSE, TRUE, 0 );
     gtk_widget_show (  label );

@@ -534,7 +534,7 @@ gboolean question_conditional_yes_no_special ( gchar * hint, gchar * message, gc
  * \param hint Text to use as hint
  * \param text Text to use as secondary text
  *
- * \return a pango formated string with the two arguments concatenated
+ * \return a pango formated string with the two arguments concatenated. It returns a newly allocated string which must be freed when no more used.
  */
 gchar * make_hint ( gchar * hint, gchar * text )
 {

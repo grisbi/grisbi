@@ -673,10 +673,11 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
     gtk_label_set_text ( GTK_LABEL(label_titre_fichier), 
 			 (gchar *) gtk_entry_get_text (GTK_ENTRY (entry)) );
 
-    gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), 
-			   g_strconcat ("<span size=\"x-large\">",
+    gchar* tmpstr = g_strconcat ("<span size=\"x-large\">",
 					(gchar *) gtk_entry_get_text (GTK_ENTRY (entry)),
-					"</span>", NULL ) );
+					"</span>", NULL );
+    gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr );
+    g_free ( tmpstr );
 
     /* Update window title */
     gsb_file_update_window_title();

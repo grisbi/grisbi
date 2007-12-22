@@ -739,8 +739,9 @@ void modification_details_compte ( void )
 
 	if ( !strcmp ( g_strstrip ( (gchar*) gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))), gsb_data_account_get_name (i) ))
 	{
-	    dialogue_error_hint( _("Accounts names are used to distinguish accounts.  It is mandatory that names are both unique and not empty."),
-				 g_strdup_printf ( _("Account \"%s\" already exists!"), gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte ))));
+	    gchar* tmpstr = g_strdup_printf ( _("Account \"%s\" already exists!"), gtk_entry_get_text ( GTK_ENTRY ( detail_nom_compte )));
+	    dialogue_error_hint( _("Accounts names are used to distinguish accounts.  It is mandatory that names are both unique and not empty."), tmpstr );
+	    g_free ( tmpstr );
 	    return;
 	}
 
@@ -785,12 +786,14 @@ void modification_details_compte ( void )
 					new_currency_number );
 
 	/* ask for the currency of the transactions */
-	result = question_yes_no_hint ( _("Change the transactions currency"),
-					  g_strdup_printf ( _("You are changing the currency of the account, do you want to change the currency of the transactions too ?\(yes will change all the transactions currency from %s to %s, all the transactions with another currency will stay the same)"), 
+	gchar* tmpstr = g_strdup_printf ( _("You are changing the currency of the account, do you want to change the currency of the transactions too ?\(yes will change all the transactions currency from %s to %s, all the transactions with another currency will stay the same)"), 
 							    gsb_data_currency_get_name (account_currency_number),
-							    gsb_data_currency_get_name (new_currency_number)),
+							    gsb_data_currency_get_name (new_currency_number));
+	result = question_yes_no_hint ( _("Change the transactions currency"),
+					  tmpstr,
 					  GTK_RESPONSE_NO );
-
+	g_free ( tmpstr );
+	
 	if (result)
 	{
 	    /* we have to change the currency of the transactions */
@@ -1014,11 +1017,14 @@ void sort_du_detail_compte ( void )
     {
 	gint result;
 
+
+	gchar* tmpstr = g_strdup_printf ( _("Property of account \"%s\" has been modified.\nDo you want to save changes?"),
+							    gsb_data_account_get_name (gsb_gui_navigation_get_current_account ()) );
 	result = question_yes_no_hint ( _("Apply changes to account?"),
-					  g_strdup_printf ( _("Property of account \"%s\" has been modified.\nDo you want to save changes?"),
-							    gsb_data_account_get_name (gsb_gui_navigation_get_current_account ()) ),
+					  tmpstr,
 					  GTK_RESPONSE_NO  );
-	
+	g_free ( tmpstr );
+
 	if ( !result )
 	    gtk_widget_set_sensitive ( hbox_boutons_modif, FALSE );
 	else
