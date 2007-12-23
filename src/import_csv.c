@@ -210,7 +210,7 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
     GSList * list;
     
     size = csv_import_count_columns ( contents, separator );
-    printf (">> SIZE is %d\n", size );
+    g_print (">> SIZE is %d\n", size );
     if ( ! size || ! contents)
     {
 	return NULL;
@@ -261,6 +261,7 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
 	}
 	label = gtk_label_new ( name );
 	gtk_label_set_markup ( GTK_LABEL(label), name );
+	g_free ( name );
 	gtk_widget_show ( label );
 	gtk_tree_view_column_set_widget ( col, label );
 	gtk_tree_view_append_column ( tree_preview, col );
@@ -401,7 +402,7 @@ gint csv_import_try_separator ( gchar * contents, gchar * separator )
 
     list = csv_get_next_line ( &contents, separator );
     cols = g_slist_length ( list );
-    printf ("> I believe first line is %d cols\n", cols );
+    g_print ("> I believe first line is %d cols\n", cols );
 
     do
     {
@@ -409,7 +410,7 @@ gint csv_import_try_separator ( gchar * contents, gchar * separator )
 
 	if ( list && ( cols != g_slist_length ( list ) || cols == 1 ) )
 	{
-	    printf ("> %d != %d, not %s\n", cols, g_slist_length ( list ), separator );
+	    g_print ("> %d != %d, not %s\n", cols, g_slist_length ( list ), separator );
 	    return FALSE;
 	}
 	
@@ -417,7 +418,7 @@ gint csv_import_try_separator ( gchar * contents, gchar * separator )
     } 
     while ( list && i < CSV_MAX_TOP_LINES );
 
-    printf ("> I believe separator could be %s\n", separator );
+    g_print ("> I believe separator could be %s\n", separator );
     return cols;
 }
 
@@ -498,7 +499,7 @@ gint csv_skip_lines ( gchar ** contents, gint num_lines, gchar * separator )
     GSList * list;
     int i;
 
-    printf ("Skipping %d lines\n", num_lines );
+    g_print ("Skipping %d lines\n", num_lines );
 
     for ( i = 0; i < num_lines; i ++ )
     {
@@ -1039,7 +1040,7 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
     /* Open file */
     if ( ! g_file_get_contents ( filename, &contents, &size, &error ) )
     {
-	printf ("Unable to read file: %s\n", error -> message);
+	g_print ("Unable to read file: %s\n", error -> message);
 	return FALSE;
     }
 
@@ -1106,7 +1107,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
 			   NULL );
     if ( ! contents )
     {
-	printf ("> convert failed\n");
+	g_print ("> convert failed\n");
 	return FALSE;
     }
 
@@ -1121,7 +1122,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
 	 * earlier. */
 	if ( index < CSV_MAX_TOP_LINES && etat.csv_skipped_lines [ index ] )
 	{
-	    printf ("Skipping line %d\n", index );
+	    g_print ("Skipping line %d\n", index );
 	    list = csv_get_next_line ( &contents, separator );
 	    index++;
 	    continue;
@@ -1141,27 +1142,27 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
 	    struct csv_field * field = & csv_fields [ csv_fields_config[i] ];
 	    if ( field -> parse )
 	    {
-		printf ("> Parsing %s as %s ... ",  (gchar *) list -> data, field -> name );
+		g_print ("> Parsing %s as %s ... ",  (gchar *) list -> data, field -> name );
 		if ( field -> validate )
 		{
 		    if ( field -> validate ( list -> data ) )
 		    {
 			if ( ! field -> parse ( ope, list -> data ) )
 			{
-			    printf ("(failed)");
+			    g_print ("(failed)");
 			}
 		    }
 		    else
 		    {
-			printf ("(invalid)");
+			g_print ("(invalid)");
 		    }
 		}
-		printf ("\n");
+		g_print ("\n");
 	    }
 	    list = list -> next;
 	}
 
-	printf (">> Appending new transaction %p\n", ope );
+	g_print (">> Appending new transaction %p\n", ope );
 	compte -> operations_importees = g_slist_append ( compte -> operations_importees,
 							  ope );
 

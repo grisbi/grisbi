@@ -573,7 +573,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 	    /* Open file */
 	    if ( ! g_file_get_contents ( iterator -> data, &pointeur_char, NULL, &error ) )
 	    {
-		printf ("Unable to read file: %s\n", error -> message);
+		g_print ("Unable to read file: %s\n", error -> message);
 		return FALSE;
 	    }
 

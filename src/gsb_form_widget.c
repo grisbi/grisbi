@@ -103,21 +103,32 @@ gboolean gsb_form_widget_free_list ( void )
 
 	element = tmp_list -> data;
 
+
+	if (! element )
+		continue;
+	
 	/* just to make sure... */
-	if (element
-	    &&
-	    GTK_IS_WIDGET (element -> element_widget))
+	if ( element -> element_widget ) 
 	{
-	    /* if there is something in the combofix we destroy, the popup will
-	     * be showed because destroying the gtk_entry will erase it directly,
-	     * so the simpliest way to avoid that is to erase now the entry, but with
-	     * gtk_combofix_set_text [cedric] (didn't succeed with another thing...) */
-	    if (GTK_IS_COMBOFIX (element -> element_widget))
-		gtk_combofix_set_text ( GTK_COMBOFIX (element -> element_widget),
-					"" );
-	    gtk_widget_destroy (element -> element_widget);
-	    g_free (element);
+	    if (GTK_IS_WIDGET (element -> element_widget))
+	    {
+		    /* if there is something in the combofix we destroy, the popup will
+		     * be showed because destroying the gtk_entry will erase it directly,
+		     * so the simpliest way to avoid that is to erase now the entry, but with
+		     * gtk_combofix_set_text [cedric] (didn't succeed with another thing...) */
+		    if (GTK_IS_COMBOFIX (element -> element_widget))
+			gtk_combofix_set_text ( GTK_COMBOFIX (element -> element_widget),
+						"" );
+
+		    gtk_widget_destroy (element -> element_widget);
+	    } else {
+	        /* if element_widget is not an object, how to free memory used by it ? */
+	        alert_debug("element_widget is not a widget");
+	    }
+	} else {
+		alert_debug ("element_widget is NULL\n");
 	}
+	g_free (element);
 	tmp_list = tmp_list -> next;
     }
     g_slist_free (form_list_widgets);
@@ -134,7 +145,7 @@ gboolean gsb_form_widget_free_list ( void )
  * \param element_number the number corresponding to the widget wanted
  * \param account_number used for method of payment and currency
  *
- * \return the widget
+ * \return the widget or NULL (if the element number is zero)
  * */
 GtkWidget *gsb_form_widget_create ( gint element_number,
 				    gint account_number )
@@ -201,6 +212,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_FREE:
+	    alert_debug ( "TRANSACTION_FORM_FREE returns an empty widget" );
 	    break;
 
 	case TRANSACTION_FORM_BUDGET:
@@ -327,7 +339,10 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 				   G_CALLBACK ( gsb_form_key_press_event ),
 				   GINT_TO_POINTER ( element_number ));
 	}
+    } else {
+    	alert_debug ( "Widget should not be NULL" );
     }
+    
     return widget;
 }
 

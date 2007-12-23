@@ -1098,8 +1098,7 @@ gboolean gsb_form_fill_from_account ( gint account_number )
     g_free ( tmpstr );
 
     /* free the form if necessary */
-    if (gsb_form_widget_get_list ())
-	gsb_form_widget_free_list ();
+    gsb_form_widget_free_list ();
 
     /* account_number can be -1 if come here from the accounts choice button,
      * and -2 if there were a problem with the origin */
@@ -1148,7 +1147,7 @@ gboolean gsb_form_fill_from_account ( gint account_number )
 			       gsb_form_get_element_expandable ( element ),
 			       0, 0);
 	    /* we want to show all the widget created except the method of payment
-	     * and contra, the know themselves if they have to be shown or not,
+	     * and contra, they know themselves if they have to be shown or not,
 	     * so just let them */
 	    if (element != TRANSACTION_FORM_TYPE
 		&&

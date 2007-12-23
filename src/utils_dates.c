@@ -392,7 +392,7 @@ GDate * gsb_parse_date_string ( const gchar *date_string )
 		}
 		break;
 	    default:
-		printf ( ">> Unknown format '%c'\n", date_tokens [ i ] );
+		g_print ( ">> Unknown format '%c'\n", date_tokens [ i ] );
 		break;
 	}
     }

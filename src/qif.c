@@ -114,7 +114,7 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 					    NULL );
 		if ( ! pointeur_char )
 		{
-		    printf ("> convert failed\n");
+		    g_print ("> convert failed\n");
 		}
 	    }
 

@@ -83,12 +83,16 @@ void traitement_sigsegv ( gint signal_nb )
 
 	if ( etat.en_train_de_charger )
 	{
+	    gchar* old_errmsg = errmsg;
 	    errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
+	    g_free ( old_errmsg );
 	}
 
 	if ( etat.en_train_de_sauvegarder )
 	{
+	    gchar* old_errmsg = errmsg;
 	    errmsg = g_strconcat ( errmsg, _("Error occured saving file."), NULL );
+	    g_free ( old_errmsg );
 	}
     }
     else 
@@ -127,27 +131,37 @@ void traitement_sigsegv ( gint signal_nb )
 
 	gsb_status_clear();
 
+        gchar* old_errmsg = errmsg;
 	errmsg = g_strconcat ( errmsg, 
 			       g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
 						 nom_fichier_comptes ),
 			       NULL );
+	g_free ( old_errmsg );
     }
 
+    gchar* old_errmsg = errmsg;
     errmsg = g_strconcat ( errmsg, 
 			   "\n\n",
 			   _("Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "),
 			   NULL );
+     g_free ( old_errmsg );
 
 #ifdef HAVE_BACKTRACE
+    old_errmsg = errmsg;
     errmsg = g_strconcat ( errmsg, _("Copy and paste the following backtrace with your bug report."),
 			   NULL );
+     g_free ( old_errmsg );
 #endif
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 				       make_hint ( _("Grisbi terminated due to a segmentation fault."),
 						   errmsg ));
+    g_free ( errmsg );
+
 #ifdef HAVE_BACKTRACE
-    expander = gtk_expander_new ( g_strconcat ( "<b>", _("Backtrace"), "</b>", NULL ) );
+    gchar* tmpstr = g_strconcat ( "<b>", _("Backtrace"), "</b>", NULL );
+    expander = gtk_expander_new ( tmpstr );
+    g_free ( tmpstr );
     gtk_expander_set_use_markup ( GTK_EXPANDER ( expander ), TRUE );
     gtk_container_add ( GTK_CONTAINER ( expander ), print_backtrace() );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog)->vbox ), expander, FALSE, FALSE, 6 );
@@ -194,18 +208,24 @@ void initialize_debugging ( void )
 	    }
 
 	    /* on affiche un message de debug pour indiquer que le debug est actif */
-	    debug_message(g_strdup_printf(_("GRISBI %s Debug"),VERSION) , 
+	    gchar* tmpstr1 = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
+	    gchar* tmpstr2 = g_strdup_printf(_("Debug enabled, level is '%s'"),debug_level);
+	    debug_message( tmpstr1 , 
 			  __FILE__, __LINE__, __PRETTY_FUNCTION__,
-			  g_strdup_printf(_("Debug enabled, level is '%s'"),debug_level),
+			  tmpstr2,
 			  DEBUG_LEVEL_INFO, TRUE);
+	    g_free ( tmpstr1 );
+	    g_free ( tmpstr2 );
 	}
 	else
 	{
 	    /* on affiche un message de debug pour indiquer que le debug est actif */
-	    debug_message(g_strdup_printf(_("GRISBI %s Debug"),VERSION) , 
+	    gchar* tmpstr = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
+	    debug_message(tmpstr , 
 			  __FILE__, __LINE__, __PRETTY_FUNCTION__,
 			  _("Wrong debug level, please check DEBUG_GRISBI environnement variable"),
 			  DEBUG_LEVEL_INFO, TRUE);
+	    g_free ( tmpstr );
 	}
     }
 }
@@ -244,9 +264,11 @@ extern void debug_message ( gchar *prefixe, gchar * file, gint line, const char 
     if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display) 
     {
 	/* on affiche dans la console le message */
-	printf(g_strdup_printf(_("%s : %s - %s:%d:%s - %s\n"),
+	gchar* tmpstr = g_strdup_printf(_("%s : %s - %s:%d:%s - %s\n"),
 			       get_debug_time(), prefixe,
-			       file, line, function, message));
+			       file, line, function, message);
+	g_print( tmpstr );
+	g_free ( tmpstr );
     }
 }
 
@@ -260,22 +282,25 @@ GtkWidget * print_backtrace ( void )
 #ifdef HAVE_BACKTRACE
     void *backtrace_content[15];
     size_t backtrace_size, i;
-    gchar **backtrace_strings, *text = "";
+    gchar **backtrace_strings, *text = g_strdup("");
     GtkWidget * label;
 		
     backtrace_size = backtrace (backtrace_content, 15);
     backtrace_strings = backtrace_symbols (backtrace_content, backtrace_size);
 		
-    printf ("%s : %d elements in stack.\n", get_debug_time(), backtrace_size);
+    g_print ("%s : %d elements in stack.\n", get_debug_time(), backtrace_size);
 		
     for (i = 0; i < backtrace_size; i++) 
     {
-	printf ("\t%s\n", backtrace_strings[i]);
+	g_print ("\t%s\n", backtrace_strings[i]);
+	gchar* old_text = text;
 	text = g_strconcat ( text, g_strconcat ( "\t", backtrace_strings[i], "\n", NULL ), 
 			     NULL );
+	g_free ( old_text );
     }
 
     label = gtk_label_new ( text );
+    g_free ( text );
     gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
     return label;
 #endif

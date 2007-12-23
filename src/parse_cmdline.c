@@ -194,7 +194,7 @@ void show_synoptic(FILE* output)
 void show_version(FILE* output)
 {
     show_synoptic(output);
-    printf(N_("Version %s\n\n"), VERSION);	
+    g_print(N_("Version %s\n\n"), VERSION);	
 }
 
 

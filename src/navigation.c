@@ -309,7 +309,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_REPORT, -1,
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
-#endif /*_BALANCE_ESTIMATE_TAB_H*/
+#endif /* ENABLE_BALANCE_ESTIMATE */
 
 
     /* Categories */
@@ -1117,7 +1117,8 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     gint currency_number;
     gint report_number;
     GtkTreeIter dummy_iter;
-    gchar * title = NULL, * suffix = "";
+    gchar * title = NULL; 
+    gchar* suffix = NULL; 
 
     devel_debug ("gsb_gui_navigation_select_line");
 
@@ -1171,13 +1172,18 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 				  NULL );
 	    if ( gsb_data_account_get_closed_account ( account_number ) )
 	    {
+	        gchar* old_title = title;
 		title = g_strconcat ( title, " (", _("closed"), ")", NULL );
+		g_free ( old_title );
 	    }
 
 	    currency_number = gsb_data_account_get_currency (account_number);
+	    gchar* current_balance_str =
+	    	gsb_real_get_string (gsb_data_account_get_current_balance (account_number));
 	    suffix = g_strdup_printf ( "%s %s", 
-				       gsb_real_get_string (gsb_data_account_get_current_balance (account_number)),
+				       current_balance_str,
 				       gsb_data_currency_get_code (currency_number));
+	    g_free ( current_balance_str );
 	    gsb_menu_update_view_menu ( account_number );
 
 	    /* what to be done if switch to that page */
@@ -1324,7 +1330,10 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    break;
     }
 
+    if (! suffix)
+    	suffix = g_strdup("");
     gsb_gui_headings_update ( title, suffix );
+    g_free ( suffix );
     g_free ( title );
     return FALSE;
 }

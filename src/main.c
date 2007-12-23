@@ -139,7 +139,7 @@ int main (int argc, char *argv[])
     sigemptyset (&(sig_sev.sa_mask));
 
     if ( sigaction ( SIGSEGV, &sig_sev, NULL ))
-	printf (_("Error on sigaction: SIGSEGV won't be trapped\n"));
+	g_print (_("Error on sigaction: SIGSEGV won't be trapped\n"));
 #endif
 
     /* parse command line parameter, exit with correct error code when needed */
