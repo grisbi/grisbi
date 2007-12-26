@@ -2596,7 +2596,11 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		if (gsb_form_widget_check_empty (element -> element_widget)) 
 		    gsb_data_mix_set_notes ( transaction_number, NULL, is_transaction );
 		else
-		    gsb_data_mix_set_notes ( transaction_number, my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( element -> element_widget ))), is_transaction);
+		{
+		    gchar* tmpstr = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( element -> element_widget )));
+		    gsb_data_mix_set_notes ( transaction_number, tmpstr , is_transaction);
+		    g_free ( tmpstr );
+		}
 		break;
 
 	    case TRANSACTION_FORM_TYPE:
@@ -2646,14 +2650,22 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		if (gsb_form_widget_check_empty (element -> element_widget)) 
 		    gsb_data_mix_set_bank_references ( transaction_number, NULL, is_transaction);
 		else
-		    gsb_data_mix_set_bank_references ( transaction_number, my_strdup ( gtk_entry_get_text (GTK_ENTRY(element -> element_widget))), is_transaction);
+		{
+		    gchar* tmpstr = my_strdup ( gtk_entry_get_text (GTK_ENTRY(element -> element_widget)));
+		    gsb_data_mix_set_bank_references ( transaction_number, tmpstr, is_transaction);
+		    g_free ( tmpstr );
+		}
 		break;
 
 	    case TRANSACTION_FORM_VOUCHER:
 		if (gsb_form_widget_check_empty (element -> element_widget)) 
 		    gsb_data_mix_set_voucher ( transaction_number, NULL, is_transaction);
 		else
-		    gsb_data_mix_set_voucher ( transaction_number, my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( element -> element_widget ))), is_transaction);
+		{
+		    gchar* tmpstr = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( element -> element_widget )));
+		    gsb_data_mix_set_voucher ( transaction_number, tmpstr, is_transaction);
+		    g_free ( tmpstr );
+		}
 		break;
 	}
 	tmp_list = tmp_list -> next;

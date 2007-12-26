@@ -535,7 +535,8 @@ gboolean gsb_file_config_save_config ( void )
 			     "Force saving",
 			     etat.force_enregistrement );
 
-    g_key_file_set_string_list ( config,
+    if ( nb_derniers_fichiers_ouverts > 0 )
+        g_key_file_set_string_list ( config,
 				 "IO",
 				 "Names last files",
 				 (const gchar **) tab_noms_derniers_fichiers_ouverts,
@@ -894,6 +895,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Latex_command" ))
     {
+	/* TODO dOm : fix memory leaks in this function (memory used by lvalue before setting its value */
 	etat.latex_command = my_strdup (text);
 	return;
     }
@@ -992,7 +994,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 		   "fichier" ))
     {
 	if (!tab_noms_derniers_fichiers_ouverts)
-	    tab_noms_derniers_fichiers_ouverts = g_malloc ( nb_max_derniers_fichiers_ouverts * sizeof(gchar *) );
+	    tab_noms_derniers_fichiers_ouverts = g_malloc0 ( nb_max_derniers_fichiers_ouverts * sizeof(gchar *) );
 
 	tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts] = my_strdup (text);
 	nb_derniers_fichiers_ouverts++;
@@ -1169,6 +1171,7 @@ void gsb_file_config_clean_config ( void )
     etat.show_tip = FALSE;
 
     /* Commands */
+    /* TODO dOm : use a copy of string so that we can free it */
     etat.latex_command = "latex";
     etat.dvips_command = "dvips";
     etat.browser_command = ETAT_WWW_BROWSER;
@@ -1180,7 +1183,7 @@ void gsb_file_config_clean_config ( void )
 #else
     etat.print_config.printer_name = "gsprint";
 #endif
-    etat.print_config.printer_filename = "";
+    etat.print_config.printer_filename = g_strdup ("");
     etat.print_config.filetype = POSTSCRIPT_FILE;
     etat.print_config.paper_config.name = _("A4");
     etat.print_config.paper_config.width = 21;

@@ -210,7 +210,7 @@ gint gsb_data_fyear_new ( const gchar *name )
 {
     struct_fyear *fyear;
 
-    fyear = calloc ( 1, sizeof ( struct_fyear ));
+    fyear = g_malloc0 ( sizeof ( struct_fyear ));
     fyear -> fyear_number = gsb_data_fyear_max_number () + 1;
 
     if (name)
@@ -339,7 +339,7 @@ gboolean gsb_data_fyear_set_name ( gint fyear_number,
 
     /* we free the last name */
     if ( fyear -> fyear_name )
-	free (fyear -> fyear_name);
+	g_free (fyear -> fyear_name);
     
     /* and copy the new one */
     fyear -> fyear_name = my_strdup (name);

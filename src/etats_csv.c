@@ -121,7 +121,9 @@ void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, 
 	realcolumns = nb_colonnes;
 
     fprintf ( csv_out, "\"" );
-    csv_safe ( g_strstrip ( my_strdup ( text ) ) );
+    gchar* tmpstr = my_strdup ( text );
+    csv_safe ( g_strstrip ( tmpstr ) );
+    g_free ( tmpstr );
     fprintf ( csv_out, "\"" );
 
     for ( x++; x < x2 ; x ++ )

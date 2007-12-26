@@ -451,7 +451,7 @@ void gsb_payment_method_config_fill_list ( GtkTreeModel *model)
 	    if ( gsb_data_payment_get_automatic_numbering (payment_number))
 		number = utils_str_itoa (gsb_data_payment_get_last_number (payment_number));
 	    else
-		number = "";
+		number = g_strdup("");
 
 	    /* Insert a child node */
 	    gtk_tree_store_append (GTK_TREE_STORE (model), &method_iter, parent_iter);
@@ -465,6 +465,7 @@ void gsb_payment_method_config_fill_list ( GtkTreeModel *model)
 				PAYMENT_METHODS_NUMBER_COLUMN, payment_number,
 				PAYMENT_METHODS_ACCOUNT_COLUMN, account_number,
 				-1 );
+	    g_free ( number );
 
 	    payment_list = payment_list -> next;
 	}

@@ -79,7 +79,7 @@ extern gchar *titre_fichier;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
-gchar *chemin_logo;
+gchar *chemin_logo = NULL;
 GtkWidget *logo_accueil;
 GtkWidget *hbox_title;
 GtkWidget *label_titre_fichier;
@@ -128,7 +128,11 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_widget_show ( base );
 
     if ( !chemin_logo || !strlen ( chemin_logo ))
+    {
+	if ( chemin_logo )
+	    g_free ( chemin_logo );
 	chemin_logo = my_strdup ( LOGO_PATH );
+    }
 
     /* en dessous, on met le titre du fichier s'il existe */
     if ( titre_fichier )
@@ -1634,7 +1638,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 
     /*     on crée le texte récapilutatif */
 
-    texte_affiche = "";
+    texte_affiche = g_strdup("");
 
     if ( liste_autorise_et_voulu )
     {
@@ -1643,16 +1647,16 @@ void affiche_dialogue_soldes_minimaux ( void )
 					      (gchar *) liste_autorise_et_voulu -> data );
 	else
 	{
-	    texte_affiche = _("accounts with the balance under wanted and authorised minimal :\n\n");
+	    texte_affiche = g_strdup(_("accounts with the balance under wanted and authorised minimal :\n\n"));
 	    liste_tmp = liste_autorise_et_voulu;
 	    while ( liste_tmp )
 	    {
-	        gchar* tmpstr = texte_affiche;
-		texte_affiche = g_strconcat ( tmpstr,
+	        gchar* oldstr = texte_affiche;
+		texte_affiche = g_strconcat ( oldstr,
 					      liste_tmp -> data,
 					      "\n",
 					      NULL );
-		g_free ( tmpstr );
+		g_free ( oldstr );
 		liste_tmp = liste_tmp -> next;
 	    }
 	}
@@ -1662,38 +1666,38 @@ void affiche_dialogue_soldes_minimaux ( void )
     {
 	if ( strlen (texte_affiche))
 	{
-	    gchar* tmpstr = texte_affiche;
-	    texte_affiche = g_strconcat ( tmpstr,
+	    gchar* oldstr = texte_affiche;
+	    texte_affiche = g_strconcat ( oldstr,
 					  "\n\n",
 					  NULL );
-	    g_free ( tmpstr );
+	    g_free ( oldstr );
 	}
 
 	if ( g_slist_length ( liste_autorise ) == 1 )
 	{
-	    gchar* tmpstr = texte_affiche;
-	    texte_affiche = g_strconcat ( tmpstr,
-					  g_strdup_printf ( _("balance of account %s is under authorised minimum!"),
-							    (gchar *) liste_autorise -> data ),
-					  NULL );
+	    gchar* oldstr = texte_affiche;
+	    gchar* tmpstr = g_strdup_printf ( _("balance of account %s is under authorised minimum!"),
+							    (gchar *) liste_autorise -> data );
+	    texte_affiche = g_strconcat ( oldstr, tmpstr , NULL );
+	    g_free ( oldstr );
 	    g_free ( tmpstr );
 	}
 	else
 	{
-	    gchar* tmpstr = texte_affiche;
-	    texte_affiche = g_strconcat ( tmpstr,
+	    gchar* oldstr = texte_affiche;
+	    texte_affiche = g_strconcat ( oldstr,
 					  _("accounts with the balance under authorised minimal :\n\n"),
 					  NULL );
-	    g_free ( tmpstr );
+	    g_free ( oldstr );
 	    liste_tmp = liste_autorise;
 	    while ( liste_tmp )
 	    {
-	        gchar* tmpstr = texte_affiche;
-		texte_affiche = g_strconcat ( tmpstr,
+	        gchar* oldstr = texte_affiche;
+		texte_affiche = g_strconcat ( oldstr,
 					      liste_tmp -> data,
 					      "\n",
 					      NULL );
-	        g_free ( tmpstr );
+	        g_free ( oldstr );
 		liste_tmp = liste_tmp -> next;
 	    }
 	}
@@ -1703,39 +1707,39 @@ void affiche_dialogue_soldes_minimaux ( void )
     {
 	if ( strlen (texte_affiche))
 	{
-	    gchar* tmpstr = texte_affiche;
-	    texte_affiche = g_strconcat ( tmpstr,
+	    gchar* oldstr = texte_affiche;
+	    texte_affiche = g_strconcat ( oldstr,
 					  "\n\n",
 					  NULL );
 
-	    g_free ( tmpstr );
+	    g_free ( oldstr );
 	}
 
 	if ( g_slist_length ( liste_voulu ) == 1 )
 	{
-	    gchar* tmpstr = texte_affiche;
-	    gchar* tmpstr2 = g_strdup_printf ( _("balance of account %s is under wanted minimum!"),
+	    gchar* oldstr = texte_affiche;
+	    gchar* tmpstr = g_strdup_printf ( _("balance of account %s is under wanted minimum!"),
 							    (gchar *) liste_voulu -> data );
-	    texte_affiche = g_strconcat ( tmpstr, tmpstr2 , NULL );
+	    texte_affiche = g_strconcat ( texte_affiche, tmpstr , NULL );
 	    g_free ( tmpstr );
-	    g_free ( tmpstr2 );
+	    g_free ( oldstr );
 	}
 	else
 	{
-	    gchar* tmpstr = texte_affiche;
-	    texte_affiche = g_strconcat ( tmpstr,
+	    gchar* oldstr = texte_affiche;
+	    texte_affiche = g_strconcat ( oldstr,
 					  _("accounts with the balance under wanted minimal :\n\n"),
 					  NULL );
-	    g_free ( tmpstr );
+	    g_free ( oldstr );
 	    liste_tmp = liste_voulu;
 	    while ( liste_tmp )
 	    {
-	        gchar* tmpstr = texte_affiche;
-		texte_affiche = g_strconcat ( tmpstr,
+	        gchar* oldstr = texte_affiche;
+		texte_affiche = g_strconcat ( oldstr,
 					      liste_tmp -> data,
 					      "\n",
 					      NULL );
-	        g_free ( tmpstr );
+	        g_free ( oldstr );
 		liste_tmp = liste_tmp -> next;
 	    }
 	}

@@ -208,7 +208,7 @@ gint gsb_data_archive_new ( const gchar *name )
 {
     struct_archive *archive;
 
-    archive = calloc ( 1, sizeof ( struct_archive ));
+    archive = g_malloc0 ( sizeof ( struct_archive ));
     if (!archive)
     {
 	dialogue_error_memory ();
@@ -355,7 +355,7 @@ gboolean gsb_data_archive_set_name ( gint archive_number,
 
     /* we free the last name */
     if ( archive -> archive_name )
-	free (archive -> archive_name);
+	g_free (archive -> archive_name);
 
     /* and copy the new one */
     archive -> archive_name = my_strdup (name);

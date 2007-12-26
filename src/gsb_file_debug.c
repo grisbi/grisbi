@@ -302,17 +302,21 @@ gboolean gsb_debug_try_fix ( gboolean (* fix) () )
 /* Cette fonction est appelée après la création de toutes les listes.         */
 /* Elle permet de vérifier la cohérence des rapprochements suite à la         */
 /* découverte des bogues #466 et #488.                                        */
+/* return a newly allocated string or NULL.                                   */
 /******************************************************************************/
 gchar * gsb_debug_reconcile_test ( void )
 {
   gint affected_accounts = 0;
   gint tested_account = 0;
   GSList *pUserAccountsList = NULL;
-  gchar *pText = "";
+  gchar *pText = g_strdup("");
 
   /* S'il n'y a pas de compte, on quitte */
   if ( ! gsb_data_account_get_accounts_amount ( ) )
+  {
+    g_free ( pText );
     return NULL;
+  }
     
   /* On fera la vérification des comptes dans l'ordre préféré
      de l'utilisateur. On fait une copie de la liste. */
@@ -408,12 +412,13 @@ gchar * gsb_debug_reconcile_test ( void )
 /* Cette fonction est appelée après la création de toutes les listes.         */
 /* Elle permet de vérifier la cohérence des virements entre comptes           */
 /* suite à la découverte du bogue #542                                        */
+/* return a newly allocated string or NULL                                    */
 /******************************************************************************/
 gchar * gsb_debug_transfer_test ( void )
 {
   gboolean corrupted_file = FALSE;
   GSList * pUserAccountsList;
-  gchar * pText = "";
+  gchar * pText = g_strdup("");
 
   pUserAccountsList = gsb_data_account_get_list_accounts ();
   
@@ -447,15 +452,17 @@ gchar * gsb_debug_transfer_test ( void )
 		if ( !corrupted_account ) {
 		    gchar* tmpstr = g_strdup_printf ( "\n<span weight=\"bold\">%s</span>\n",
 							    gsb_data_account_get_name ( account_nb ) );
+		    gchar* oldstr = pText;
 		    pText = g_strconcat ( pText, tmpstr, NULL );
+		    g_free ( oldstr );
 		    g_free ( tmpstr );
 		}
-		gchar* tmpstr1 = g_strdup_printf ( _("Transaction #%d is linked to non existent transaction #%d.\n"),
+		gchar* tmpstr = g_strdup_printf ( _("Transaction #%d is linked to non existent transaction #%d.\n"),
 							transaction, transfer_transaction );
-		gchar* tmpstr2 = pText;
-		pText = g_strconcat ( tmpstr2, tmpstr1, NULL );
-		g_free ( tmpstr1 );
-		g_free ( tmpstr2 );
+		gchar* oldstr = pText;
+		pText = g_strconcat ( pText , tmpstr, NULL );
+		g_free ( oldstr );
+		g_free ( tmpstr );
 		corrupted_file = corrupted_account = TRUE;
 	    }
 	    else
@@ -465,22 +472,22 @@ gchar * gsb_debug_transfer_test ( void )
 		    /* S'il n'y avait pas eu encore d'erreur dans ce compte,
 		       on affiche son nom */
 		    if ( !corrupted_account ) {
-			gchar* tmpstr1 = pText;
-			gchar* tmpstr2 = g_strdup_printf ( "\n<span weight=\"bold\">%s</span>\n",
+			gchar* oldstr = pText;
+			gchar* tmpstr = g_strdup_printf ( "\n<span weight=\"bold\">%s</span>\n",
 								gsb_data_account_get_name ( account_nb ) );
-			pText = g_strconcat ( tmpstr1, tmpstr2 , NULL );
-		        g_free ( tmpstr1 );
-		        g_free ( tmpstr2 );
+			pText = g_strconcat ( pText, tmpstr , NULL );
+		        g_free ( oldstr );
+		        g_free ( tmpstr );
 		    }
-		    gchar* tmpstr1 = pText;
-		    gchar* tmpstr2 = g_strdup_printf ( _("Transaction #%d is linked to transaction #%d, "
+		    gchar* oldstr = pText;
+		    gchar* tmpstr = g_strdup_printf ( _("Transaction #%d is linked to transaction #%d, "
 							      "which is linked to transaction #%d.\n"),
 							    transaction,
 							    transfer_transaction,
 							    gsb_data_transaction_get_transaction_number_transfer ( transfer_transaction ) );
-		    pText = g_strconcat ( tmpstr1, tmpstr2 , NULL );
-		    g_free ( tmpstr1 );
-		    g_free ( tmpstr2 );
+		    pText = g_strconcat ( pText , tmpstr , NULL );
+		    g_free ( oldstr );
+		    g_free ( tmpstr );
 		    corrupted_file = corrupted_account = TRUE;
 		}
 	    }

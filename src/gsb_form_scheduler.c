@@ -236,7 +236,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 		continue;
 
 	    /* save the element */
-	    element = g_malloc (sizeof (scheduled_element));
+	    element = g_malloc0 (sizeof (scheduled_element));
 	    element -> element_number = element_number;
 	    element -> element_widget = widget;
 	    scheduled_element_list = g_slist_append ( scheduled_element_list,

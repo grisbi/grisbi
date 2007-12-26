@@ -133,11 +133,11 @@ gint gsb_file_util_compress_file ( gchar **file_content,
 	{
 	    dialogue_error_hint ( ("An error occured while compressing the file : zlib error\nOperation aborted"),
 				  _("File compression"));
-	    free (*file_content);
-	    free (temp);
+	    g_free (*file_content);
+	    g_free (temp);
 	    return 0;
 	}
-	free (*file_content);
+	g_free (*file_content);
 
 	str_length = utils_str_itoa (length);
 
@@ -152,7 +152,7 @@ gint gsb_file_util_compress_file ( gchar **file_content,
 	memcpy ( *file_content + iterator, temp, new_length);
 	iterator = iterator + new_length;
 
-	free (temp);
+	g_free (temp);
 
 	return iterator;
     }
@@ -174,7 +174,7 @@ gint gsb_file_util_compress_file ( gchar **file_content,
 	{
 	    dialogue_error_hint ( ("An error occured while uncompressing the file : cannot get the size\nOperation aborted"),
 				  _("File uncompression"));
-	    free (*file_content);
+	    g_free (*file_content);
 	    return 0;
 	}
 
@@ -184,7 +184,7 @@ gint gsb_file_util_compress_file ( gchar **file_content,
 	{
 	    dialogue_error_hint ( ("An error occured while uncompressing the file : cannot find the begining of the compressed file.\nOperation aborted"),
 				  _("File uncompression"));
-	    free (*file_content);
+	    g_free (*file_content);
 	    return 0;
 	}
 
@@ -199,11 +199,11 @@ gint gsb_file_util_compress_file ( gchar **file_content,
 	{
 	    dialogue_error_hint ( ("An error occured while uncompressing the file : zlib error\nOperation aborted"),
 				  _("File uncompression"));
-	    free (*file_content);
-	    free (temp);
+	    g_free (*file_content);
+	    g_free (temp);
 	    return 0;
 	}
-	free (*file_content);
+	g_free (*file_content);
 	*file_content = temp;
 	return new_length;
     }

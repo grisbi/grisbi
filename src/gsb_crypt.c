@@ -118,7 +118,7 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 			  (DES_cblock *) key, 
 			  TRUE );
 
-	free (*file_content);
+	g_free (*file_content);
 	*file_content = encrypted_file;
 
 	/* the actual length is the initial + 22 (size of Grisbi encrypted file */
@@ -176,14 +176,14 @@ return_bad_password:
 	{
 	    /* it seems that it was not the correct password */
 
-	    free ( decrypted_file );
+	    g_free ( decrypted_file );
 
 	    dialogue_error ( _( "The password was incorrect ! Please try again..."));
 	    crypt_key = NULL;
 	    goto return_bad_password;
 	}
 
-	free (*file_content);
+	g_free (*file_content);
 	*file_content = decrypted_file;
 	return length;
     }
@@ -207,7 +207,7 @@ return_bad_password:
  *
  * \param encrypt : TRUE if comes to encrypt, FALSE to decrypt
  *
- * \return a string which is the crypt key or NULL if it was
+ * \return a newly allocated string which is the crypt key or NULL if it was
  * cancelled. */
 #ifndef NOSSL
 gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt )

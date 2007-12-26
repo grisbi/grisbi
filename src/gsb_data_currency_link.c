@@ -204,7 +204,7 @@ gint gsb_data_currency_link_new ( gint currency_link_number )
 {
     struct_currency_link *currency_link;
 
-    currency_link = calloc ( 1, sizeof ( struct_currency_link ));
+    currency_link = g_malloc0 ( sizeof ( struct_currency_link ));
 
     if (currency_link_number)
 	currency_link -> currency_link_number = currency_link_number;

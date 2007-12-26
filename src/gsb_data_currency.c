@@ -197,7 +197,7 @@ gint gsb_data_currency_new ( const gchar *name )
 {
     struct_currency *currency;
 
-    currency = calloc ( 1, sizeof ( struct_currency ));
+    currency = g_malloc0 ( sizeof ( struct_currency ));
     currency -> currency_number = gsb_data_currency_max_number () + 1;
 
     if (name)
@@ -346,7 +346,7 @@ gboolean gsb_data_currency_set_name ( gint currency_number,
 
     /* we free the last name */
     if ( currency -> currency_name )
-	free (currency -> currency_name);
+	g_free (currency -> currency_name);
 
     /* and copy the new one */
     if (name)
@@ -398,8 +398,10 @@ gboolean gsb_data_currency_set_code ( gint currency_number,
 	return FALSE;
 
     /* we free the last  */
+    g_print("ici 1\n");
     if ( currency -> currency_code )
-	free (currency -> currency_code);
+	g_free (currency -> currency_code);
+    g_print("ici 2\n");
 
     /* and copy the new one */
     if (currency_code)
@@ -452,7 +454,7 @@ gboolean gsb_data_currency_set_code_iso4217 ( gint currency_number,
 
     /* we free the last  */
     if ( currency -> currency_code_iso4217 )
-	free (currency ->currency_code_iso4217 );
+	g_free (currency ->currency_code_iso4217 );
 
     /* and copy the new one */
     if (currency_code_iso4217)

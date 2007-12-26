@@ -68,7 +68,7 @@ gint debugging_grisbi;
 /*************************************************************************************************************/
 void traitement_sigsegv ( gint signal_nb )
 {
-    gchar * gsb_file_default_dir, * errmsg = "";
+    gchar * gsb_file_default_dir, * errmsg = g_strdup("");
     GtkWidget * dialog, *expander;
 
     /*   il y a 3 possibilités : */

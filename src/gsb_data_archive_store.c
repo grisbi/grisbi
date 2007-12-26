@@ -422,7 +422,7 @@ static gint gsb_data_archive_store_new ( void )
 {
     struct_store_archive *archive;
 
-    archive = calloc ( 1, sizeof ( struct_store_archive ));
+    archive = g_malloc0 ( sizeof ( struct_store_archive ));
     if (!archive)
     {
 	dialogue_error_memory ();

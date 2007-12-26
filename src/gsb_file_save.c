@@ -367,7 +367,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
  *
  * \param file_content the file content
  * \param iterator the current iterator
- * \param new_string the string we want to add, it will be freed
+ * \param new_string the string we want to add, it will be freed by this function. Do not free it again !
  *
  * \return the new iterator
  * */
@@ -386,7 +386,7 @@ gulong gsb_file_save_append_part ( gulong iterator,
 	/* we change the size by adding half of length_calculated */
 
 	*length_calculated = 1.5 * *length_calculated;
-	*file_content = realloc ( *file_content,
+	*file_content = g_realloc ( *file_content,
 				  *length_calculated );
 
 	notice_debug ( "The length calculated for saving file should be bigger?" );

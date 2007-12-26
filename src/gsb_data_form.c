@@ -103,7 +103,7 @@ gboolean gsb_data_form_new_organization ( gint account_number )
 {
     form_organization *new_form;
 
-    new_form = g_malloc (sizeof (form_organization));
+    new_form = g_malloc0 (sizeof (form_organization));
     
     if ( !new_form )
     {
@@ -176,7 +176,7 @@ gboolean gsb_data_form_dup_organization ( gint origin_account,
     if ( !origin_form )
 	return FALSE;
 
-    new_form = g_malloc ( sizeof (form_organization));
+    new_form = g_malloc0 ( sizeof (form_organization));
 
      if ( !new_form )
     {

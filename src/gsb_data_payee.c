@@ -71,14 +71,14 @@ extern gsb_real null_real ;
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_payee */
-static GSList *payee_list;
+static GSList *payee_list = NULL;
 
 /** a pointer to the last payee used (to increase the speed) */
-static struct_payee *payee_buffer;
+static struct_payee *payee_buffer = NULL;
 
 /** a pointer to a "blank" payee structure, used in the list of payee
  * to group the transactions without payee */
-static struct_payee *empty_payee;
+static struct_payee *empty_payee = NULL;
 
 
 /**
@@ -90,15 +90,25 @@ static struct_payee *empty_payee;
  * */
 gboolean gsb_data_payee_init_variables ( void )
 {
+    /* free the memory used by the actual list */
+    GSList *tmp;
+    tmp = payee_list;
+    while ( tmp )
+    {
+	struct_payee *payee;
+	payee = tmp -> data;
+	if ( payee )
+	    g_free ( payee );
+	tmp = tmp -> next;
+    }
+    g_slist_free ( payee_list );
     payee_list = NULL;
     payee_buffer = NULL;
 
     /* create the blank payee */
 
-    empty_payee = calloc ( 1, sizeof ( struct_payee ));
-    empty_payee -> payee_name = _("No payee");
-
-
+    empty_payee = g_malloc0 (sizeof ( struct_payee ));
+    empty_payee -> payee_name = g_strdup(_("No payee"));
 
     return FALSE;
 }
@@ -216,7 +226,7 @@ gint gsb_data_payee_new ( const gchar *name )
 {
     struct_payee *payee;
 
-    payee = calloc ( 1, sizeof ( struct_payee ));
+    payee = g_malloc0 ( sizeof ( struct_payee ));
     payee -> payee_number = gsb_data_payee_max_number () + 1;
 
     if (name)
@@ -390,15 +400,14 @@ gboolean gsb_data_payee_set_name ( gint no_payee,
 	return FALSE;
 
     /* we free the last name */
-
     if ( payee -> payee_name )
-	free (payee -> payee_name);
+	g_free (payee -> payee_name);
     
     /* and copy the new one */
    if (name)
-    payee -> payee_name = my_strdup (name);
+       payee -> payee_name = my_strdup (name);
    else
-    payee -> payee_name = NULL;
+       payee -> payee_name = NULL;
 
    /* update the form combofix, FIXME later, we should set that in another
     * place but need to change the form of the function to prevent if there
@@ -484,7 +493,7 @@ GSList *gsb_data_payee_get_name_and_report_list ( void )
 	    else
 	    {
 		tmp_list = g_slist_append ( tmp_list,
-					    _("Report"));
+					    g_strdup(_("Report")));
 		tmp_list = g_slist_append ( tmp_list,
 					    g_strconcat ( "\t",
 							  my_strdup (gsb_data_report_get_report_name(report_number)),
@@ -541,9 +550,8 @@ gboolean gsb_data_payee_set_description ( gint no_payee,
 	return FALSE;
 
     /* we free the last name */
-
     if ( payee -> payee_description )
-	free (payee -> payee_description);
+	g_free (payee -> payee_description);
     
     /* and copy the new one */
     if (description)

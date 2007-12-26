@@ -320,7 +320,7 @@ void gsb_assistant_set_prev ( GtkWidget * assistant, gint page, gint prev )
 
     string = g_strdup_printf ( "prev%d", page );
     g_object_set_data ( G_OBJECT(assistant), string, GINT_TO_POINTER (prev));
-    free ( string );
+    g_free ( string );
 }
 
 
@@ -339,7 +339,7 @@ void gsb_assistant_set_next ( GtkWidget * assistant, gint page, gint next )
 
     string = g_strdup_printf ( "next%d", page );
     g_object_set_data ( G_OBJECT(assistant), string, GINT_TO_POINTER (next));
-    free ( string );
+    g_free ( string );
 }
 
 

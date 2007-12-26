@@ -237,7 +237,7 @@ gint gsb_data_payment_new ( const gchar *name )
 {
     struct_payment *payment;
 
-    payment = calloc ( 1, sizeof ( struct_payment ));
+    payment = g_malloc0 ( sizeof ( struct_payment ));
     payment -> payment_number = gsb_data_payment_max_number () + 1;
 
     if (name)
@@ -390,7 +390,7 @@ gboolean gsb_data_payment_set_name ( gint payment_number,
 
     /* we free the last name */
     if ( payment -> payment_name )
-	free (payment -> payment_name);
+	g_free (payment -> payment_name);
 
     /* and copy the new one */
     payment -> payment_name = my_strdup (name);

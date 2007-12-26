@@ -527,7 +527,7 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
 			    &y );
 
     /* on récupère la taille de la popup */
-    popup_size = g_malloc ( sizeof ( GtkRequisition ));
+    popup_size = g_malloc0 ( sizeof ( GtkRequisition ));
     gtk_widget_size_request ( GTK_WIDGET ( popup ), popup_size );
 
     /* pour la soustraire à la position de l'entrée date */

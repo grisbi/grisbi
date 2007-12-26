@@ -112,9 +112,9 @@ GSList *liste_labels_titres_colonnes_liste_ope = NULL;
 
 gchar *nom_fichier_comptes;
 
-gchar *titre_fichier;
-gchar *adresse_commune;
-gchar *adresse_secondaire;
+gchar *titre_fichier = NULL;
+gchar *adresse_commune = NULL;
+gchar *adresse_secondaire = NULL;
 
 
 
@@ -247,7 +247,7 @@ void init_variables ( void )
     no_devise_totaux_categ = 1;
     no_devise_totaux_ib = 1;
 
-    titre_fichier = _("My accounts");
+    titre_fichier = g_strdup(_("My accounts"));
     adresse_commune = NULL;
     adresse_secondaire = NULL;
 

@@ -344,8 +344,7 @@ gint gsb_data_report_new_with_number ( gint number )
 {
     struct_report *report;
 
-    report = calloc ( 1,
-		      sizeof ( struct_report ));
+    report = g_malloc0 ( sizeof ( struct_report ));
     report -> report_number = number;
 
     report_list = g_slist_append ( report_list,

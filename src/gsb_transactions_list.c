@@ -3939,7 +3939,7 @@ gint schedule_transaction ( gint transaction_number )
 						    gsb_data_transaction_get_breakdown_of_transaction (transaction_number));
 
     /*     par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
-    /*     (c'est le cas, à 0 avec calloc) */
+    /*     (c'est le cas, à 0 avec g_malloc0) */
     /*     que l'opé soit enregistrée immédiatement ; de même on le met en mensuel par défaut */
     /* 	pour la même raison */
 
@@ -4024,7 +4024,7 @@ gint schedule_transaction ( gint transaction_number )
 								 scheduled_number );
 
 		/*     par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
-		/*     (c'est le cas, à 0 avec calloc) */
+		/*     (c'est le cas, à 0 avec g_malloc0) */
 		/*     que l'opé soit enregistrée immédiatement ; de même on le met en mensuel par défaut */
 		/* 	pour la même raison */
 

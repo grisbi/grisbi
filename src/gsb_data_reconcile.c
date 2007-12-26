@@ -333,7 +333,7 @@ gboolean gsb_data_reconcile_set_name ( gint reconcile_number,
 
     /* we free the last name */
     if ( reconcile -> reconcile_name )
-	free (reconcile -> reconcile_name);
+	g_free (reconcile -> reconcile_name);
 
     /* and copy the new one */
     reconcile -> reconcile_name = my_strdup (name);

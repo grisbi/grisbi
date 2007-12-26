@@ -136,15 +136,14 @@ gboolean gsb_data_category_init_variables ( void )
 	g_slist_free (category_list);
 
     if ( empty_category )
-	free (empty_category);
+	g_free (empty_category);
     
     category_list = NULL;
     category_buffer = NULL;
     sub_category_buffer = NULL;
 
     /* create the empty category */
-    empty_category = calloc ( 1,
-			      sizeof ( struct_category ));
+    empty_category = g_malloc0 ( sizeof ( struct_category ));
     /* set an empty name for that empty categ, else every transaction
      * without category will have that name */
     empty_category -> category_name = "";
@@ -442,8 +441,7 @@ gint gsb_data_category_new_with_number ( gint number )
 {
     struct_category *category;
 
-    category = calloc ( 1,
-			sizeof ( struct_category ));
+    category = g_malloc0 ( sizeof ( struct_category ));
     category -> category_number = number;
 
     category_list = g_slist_append ( category_list,
@@ -571,8 +569,7 @@ gint gsb_data_category_new_sub_category_with_number ( gint number,
     if (!category)
 	return 0;
 
-    sub_category = calloc ( 1,
-			    sizeof (struct_sub_category));
+    sub_category = g_malloc0 ( sizeof (struct_sub_category));
     sub_category -> sub_category_number = number;
     sub_category -> mother_category_number = category_number;
 
@@ -792,10 +789,14 @@ gchar *gsb_data_category_get_name ( gint no_category,
 								      no_sub_category );
 
 	if (sub_category)
+	{
+	    gchar* oldvalue = return_value;
 	    return_value = g_strconcat ( return_value,
 					 " : ",
 					 sub_category -> sub_category_name,
 					 NULL );
+	    g_free ( oldvalue );
+	}
     }
     return return_value;
 }
@@ -823,7 +824,7 @@ gboolean gsb_data_category_set_name ( gint no_category,
     /* we free the last name */
 
     if ( category -> category_name )
-	free (category -> category_name);
+	g_free (category -> category_name);
 
     /* and copy the new one */
     if ( name )
@@ -890,7 +891,7 @@ gboolean gsb_data_category_set_sub_category_name ( gint no_category,
     /* we free the last name */
 
     if ( sub_category -> sub_category_name )
-	free (sub_category -> sub_category_name);
+	g_free (sub_category -> sub_category_name);
 
     /* and copy the new one */
     if ( name )
@@ -1433,6 +1434,7 @@ void gsb_data_category_create_default_category_list ( gint category_type )
 
 	    while (debit_general_category_list[i] )
 	    {
+		/* TODO dOm : when is the memory of tab_char freed ? */
 		gchar **tab_char = g_strsplit ( _(debit_general_category_list[i]), " : ", 2 );
 		gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
 
@@ -1449,6 +1451,7 @@ void gsb_data_category_create_default_category_list ( gint category_type )
 
 	    while (credit_general_category_list[i] )
 	    {
+		/* TODO dOm : when is the memory of tab_char freed ? */
 		gchar **tab_char = g_strsplit (_(credit_general_category_list[i]), " : ", 2 );
 		gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
 		if ( tab_char[1] )
@@ -1466,6 +1469,7 @@ void gsb_data_category_create_default_category_list ( gint category_type )
 
 	    while (association_category_list[i])
 	    {
+		/* TODO dOm : when is the memory of tab_char freed ? */
 		gchar **tab_char = g_strsplit ( _(association_category_list[i]), " : ", 2 );
 		gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
 
@@ -1482,6 +1486,7 @@ void gsb_data_category_create_default_category_list ( gint category_type )
 	case CATEGORY_CHOICE_LIBERAL:
 	    devel_debug ("Create CATEGORY_CHOICE_LIBERAL categories");
 
+	    /* TODO dOm : when is the memory of tab_char freed ? */
 	    while (liberal_category_list[i])
 	    {
 		gchar **tab_char = g_strsplit ( _(liberal_category_list[i]), " : ", 2 );

@@ -598,6 +598,7 @@ gboolean edit_category ( GtkTreeView * view )
     paddingbox = new_paddingbox_with_title ( hbox, TRUE, title );
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
+    g_free ( title );
 
     table = gtk_table_new ( 0, 2, FALSE );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 6 );
@@ -644,7 +645,6 @@ gboolean edit_category ( GtkTreeView * view )
     }
 
     gtk_widget_show_all ( dialog );
-    free ( title );
 
     while ( 1 )
     {

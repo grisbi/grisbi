@@ -1833,8 +1833,11 @@ void recuperation_info_perso_etat ( void )
 
 	string = g_strstrip ( my_strdup (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)))));
 	if ( string && strlen (string))
+	{
 	    gsb_data_report_text_comparison_set_text ( text_comparison_number,
 						       string );
+	    g_free ( string );
+	}
 	else
 	    gsb_data_report_text_comparison_set_text ( text_comparison_number,
 						       NULL );
@@ -2509,6 +2512,7 @@ void remplissage_liste_exo_etats ( void )
 
 	name[0] = my_strdup (gsb_data_fyear_get_name (fyear_number));
 
+	/* TODO dOm : when is the memory used by name freed ?*/
 	row = gtk_clist_append ( GTK_CLIST ( liste_exo_etat ),
 				   name );
 	gtk_clist_set_row_data ( GTK_CLIST ( liste_exo_etat ),

@@ -410,6 +410,9 @@ gboolean gsb_data_transaction_set_transaction_id ( gint transaction_number,
     if ( !transaction )
 	return FALSE;
 
+    if ( transaction -> transaction_id )
+        g_free ( transaction -> transaction_id );
+
     if (transaction_id)
 	transaction -> transaction_id = my_strdup (transaction_id);
     else
@@ -1227,7 +1230,7 @@ const gchar *gsb_data_transaction_get_notes ( gint transaction_number )
  * the notes parameter will be copy before stored in memory
  * \param transaction_number
  * \param no_account
- * \param notes a gchar with the new notes
+ * \param notes a gchar with the new notes. This string is duplicated.
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_notes ( gint transaction_number,
@@ -1239,6 +1242,9 @@ gboolean gsb_data_transaction_set_notes ( gint transaction_number,
 
     if ( !transaction )
 	return FALSE;
+
+    if ( transaction -> notes )
+        g_free ( transaction -> notes );
 
     if ( notes
 	 &&
@@ -1345,6 +1351,9 @@ gboolean gsb_data_transaction_set_method_of_payment_content ( gint transaction_n
 
     if ( !transaction )
 	return FALSE;
+
+    if ( transaction -> method_of_payment_content )
+        g_free ( transaction -> method_of_payment_content );
 
     if ( method_of_payment_content
 	 &&
@@ -1725,7 +1734,7 @@ const gchar *gsb_data_transaction_get_voucher ( gint transaction_number )
 /** set the voucher
  * it's a copy of the parameter which will be stored in the transaction
  * \param transaction_number
- * \param voucher
+ * \param voucher. The string is duplicated.
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_voucher ( gint transaction_number,
@@ -1738,12 +1747,16 @@ gboolean gsb_data_transaction_set_voucher ( gint transaction_number,
     if ( !transaction )
 	return FALSE;
 
+    
+    if ( transaction -> voucher )
+        g_free ( transaction -> voucher );
+
     if ( voucher
 	 &&
 	 strlen (voucher))
 	transaction -> voucher = my_strdup (voucher);
     else
-	transaction -> voucher = "";
+	transaction -> voucher = g_strdup("");
     
     return TRUE;
 }
@@ -1772,7 +1785,7 @@ const gchar *gsb_data_transaction_get_bank_references ( gint transaction_number 
  * it's a copy of the parameter which will be stored in the transaction
  * 
  * \param transaction_number
- * \param bank_references
+ * \param bank_references. This string may be NULL. If not NULL, the string is duplicated.
  * 
  * \return TRUE if ok
  * */
@@ -1785,6 +1798,9 @@ gboolean gsb_data_transaction_set_bank_references ( gint transaction_number,
 
     if ( !transaction )
 	return FALSE;
+
+    if ( transaction -> bank_references )
+        g_free ( transaction -> bank_references );
 
     if ( bank_references
 	 &&
@@ -1932,8 +1948,7 @@ gint gsb_data_transaction_new_transaction_with_number ( gint no_account,
 {
     struct_transaction *transaction;
 
-    transaction = calloc ( 1,
-			   sizeof ( struct_transaction ));
+    transaction = g_malloc0 ( sizeof ( struct_transaction ));
 
     if ( !transaction )
     {
@@ -1947,8 +1962,8 @@ gint gsb_data_transaction_new_transaction_with_number ( gint no_account,
     transaction -> account_number = no_account;
     transaction -> transaction_number = transaction_number;
     transaction -> currency_number = gsb_data_account_get_currency (no_account);
-    transaction -> voucher = "";
-    transaction -> bank_references = "";
+    transaction -> voucher = g_strdup("");
+    transaction -> bank_references = g_strdup("");
 
     /* we append the transaction to the complete transactions list and the non archive transaction list */
     transactions_list = g_slist_append ( transactions_list,
@@ -1995,8 +2010,7 @@ gint gsb_data_transaction_new_white_line ( gint mother_transaction_number)
 {
     struct_transaction *transaction;
 
-    transaction = calloc ( 1,
-			   sizeof ( struct_transaction ));
+    transaction = g_malloc0 ( sizeof ( struct_transaction ));
 
     if ( !transaction )
     {
@@ -2065,13 +2079,29 @@ gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
     target_transaction -> marked_transaction = 0;
 
     if ( target_transaction -> notes)
+    {
+	if ( target_transaction -> notes )
+	    g_free ( target_transaction -> notes );
 	target_transaction -> notes = my_strdup ( target_transaction -> notes );
+    }
     if ( target_transaction -> voucher)
+    {
+	if ( target_transaction -> voucher )
+	    g_free ( target_transaction -> voucher );
 	target_transaction -> voucher = my_strdup ( target_transaction -> voucher );
+    }
     if ( target_transaction -> bank_references)
+    {
+	if (target_transaction -> bank_references )
+	    g_free ( target_transaction -> bank_references );
 	target_transaction -> bank_references = my_strdup ( target_transaction -> bank_references );
+    }
     if ( target_transaction -> method_of_payment_content)
+    {
+	if ( target_transaction -> method_of_payment_content )
+	    g_free ( target_transaction -> method_of_payment_content );
 	target_transaction -> method_of_payment_content = my_strdup ( target_transaction -> method_of_payment_content );
+    }
 
     target_transaction -> transaction_id = NULL;
 

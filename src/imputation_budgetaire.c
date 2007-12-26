@@ -684,7 +684,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     }
 
     gtk_widget_show_all ( dialog );
-    free ( title );
+    g_free ( title );
 
     while ( 1 )
     {

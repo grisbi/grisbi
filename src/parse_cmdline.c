@@ -18,7 +18,6 @@
 
 #include "include.h"
 
-#include <stdio.h>
 #include <getopt.h>
 
 /*START_INCLUDE*/
@@ -31,11 +30,11 @@
 /*START_STATIC*/
 static gboolean is_valid_window_number(gint w);
 static CMDLINE_ERRNO parse_tab_parameters(char *tab_parameters, cmdline_options* pOpt);
-static void show_errstr(FILE* output, gint errval, gchar* extra);
-static void show_help(FILE* output);
-static void show_synoptic(FILE* output);
-static void   show_usage(FILE* output, gint errval, gchar* extra);
-static void show_version(FILE* output);
+static void show_errstr(gint errval, gchar* extra);
+static void show_help(void);
+static void show_synoptic(void);
+static void   show_usage(gint errval, gchar* extra);
+static void show_version(void);
 /*END_STATIC*/
 
 
@@ -105,15 +104,15 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
             /* special getopt return values */
             case ':':/* missing parameter for one of the  options */
                 *pErrval = CMDLINE_ERROR(CMDLINE_MISSING_PARAMETER);
-                show_usage(stderr, (gint)(*pErrval), argv[option_index]);
+                show_usage( (gint)(*pErrval), argv[option_index]);
                 break;
             default: /* unmanaged options */
                 *pErrval = CMDLINE_ERROR(CMDLINE_SYNTAX_ERROR);
-                show_usage(stderr, (gint)(*pErrval), argv[option_index]);
+                show_usage( (gint)(*pErrval), argv[option_index]);
                 break;
             case '?':/* unknown option character */
                 *pErrval = CMDLINE_ERROR(CMDLINE_UNKNOWN_OPTION);
-                show_usage(stderr, (gint)(*pErrval), argv[option_index]);
+                show_usage( (gint)(*pErrval), argv[option_index]);
                 break;
             case EOF:/* all options parsed */
                 still_args_to_treat = FALSE;
@@ -124,12 +123,12 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
             case 'v' : /* -v */
             case 'V' : /* --version */
                 app_must_stop       = TRUE;// stopping here!
-                show_version(stdout);    
+                show_version();    
                 break;
             case 'h':  /* -h */
             case 'H':  /* --help */
                 app_must_stop       = TRUE;// stopping here!
-                show_help(stdout);
+                show_help();
                 break; 
             case 't': /* -t <str> */
             case 'T': /* --tab[=]<optarg> */
@@ -137,13 +136,13 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
                 {
                     /* Denote a getopt configuration error, arg is required should never happend, but ... */
                     *pErrval = CMDLINE_ERROR(CMDLINE_GETOPT_CONFIGURATION_ERROR);
-                    show_usage(stderr,(gint)(*pErrval),"");
+                    show_usage((gint)(*pErrval),"");
 			} 
                 else
 			{
                     /* optarg contains argument parameter */
                     if (CMDLINE_SYNTAX_OK != (*pErrval = parse_tab_parameters(optarg, pOpt)))
-                        show_usage(stderr,(gint)(*pErrval),"");
+                        show_usage((gint)(*pErrval),"");
 			} 
                 break; 
 				}
@@ -158,7 +157,7 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
         /* so if Opt->fichier is not NULL, we have more than one extra arg! */
         if (pOpt->fichier != NULL)
 			{
-            show_usage(stderr,CMDLINE_ERROR(CMDLINE_TOO_MANY_PARAMETERS),argv[optind]);
+            show_usage(CMDLINE_ERROR(CMDLINE_TOO_MANY_PARAMETERS),argv[optind]);
             break;
 			}
         pOpt->fichier = g_strdup(argv[optind]);
@@ -174,13 +173,11 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
  * 
  * Display grisbi synoptic
  *
- * \param output to choose between stdout and stderr or another file descriptor
- *
  * \private
  */
-void show_synoptic(FILE* output)
+void show_synoptic(void)
 { 
-    fprintf(output,_("\nGrisbi\n\n  Personal accounting program under GNU General Public Licence\n\n")); 
+    g_print(_("\nGrisbi\n\n  Personal accounting program under GNU General Public Licence\n\n")); 
 }
 
 
@@ -188,12 +185,11 @@ void show_synoptic(FILE* output)
  * 
  * Display grisbi version after synoptic
  *
- * \param output to choose between stdout and stderr or another file descriptor
  *
  **/
-void show_version(FILE* output)
+void show_version(void)
 {
-    show_synoptic(output);
+    show_synoptic();
     g_print(N_("Version %s\n\n"), VERSION);	
 }
 
@@ -202,15 +198,13 @@ void show_version(FILE* output)
  *
  * Display complete help message
  *
- * \param output to choose between stdout and stderr or another file descriptor
- *
  * \private
  */
-void show_help(FILE* output)
+void show_help(void)
 {
-    show_synoptic(output);
-    show_usage(output,0,NULL);
-    fprintf(output,HELP_STRING);
+    show_synoptic();
+    show_usage(0,NULL);
+    g_print(HELP_STRING);
 }
 
 
@@ -218,16 +212,15 @@ void show_help(FILE* output)
  *
  * Display usage line
  * 
- * \param output to choose between stdout and stderr or another file descriptor
  * \param errval  error code to pass to show_errstr
  * \param extra  extra information to pass to show_errstr
  *
  * \private
  */
-void   show_usage(FILE* output, gint errval, gchar* extra)
+void   show_usage(gint errval, gchar* extra)
 {
-    show_errstr(output,errval,extra);
-    fprintf(output,USAGE_STRING);
+    show_errstr(errval,extra);
+    g_printerr(USAGE_STRING);
 }
 
 
@@ -235,38 +228,37 @@ void   show_usage(FILE* output, gint errval, gchar* extra)
  *
  * Display a string corresponding to error code 
  *
- * \param output to choose between stdout and stderr or another file descriptor
  * \param errval  error code to inform the user why this message is displayed
  * \param extra  extra information to complete error code
  *
  * \private
  */
-void show_errstr(FILE* output, gint errval, gchar* extra)
+void show_errstr(gint errval, gchar* extra)
 {
     switch (CMDLINE_ERROR(errval))
     {
         case CMDLINE_SYNTAX_OK:/* do nothing!*/
             break;
         case CMDLINE_MISSING_PARAMETER:
-            fprintf(output,_("Missing parameter for option %s\n\n"),extra);
+            g_printerr(_("Missing parameter for option %s\n\n"),extra);
             break;
         case CMDLINE_SYNTAX_ERROR:
-            fprintf(output,_("Syntax error (%s)\n\n"),extra);
+            g_printerr(_("Syntax error (%s)\n\n"),extra);
             break;
         case CMDLINE_UNKNOWN_OPTION:
-             fprintf(output,_("Unknown option (%s)\n\n"),extra);
+             g_printerr(_("Unknown option (%s)\n\n"),extra);
             break;
         case CMDLINE_TOO_MANY_PARAMETERS:
-            fprintf(output,_("Too many parameters (%s)\n\n"),extra);
+            g_printerr(_("Too many parameters (%s)\n\n"),extra);
             break;
         case CMDLINE_TAB_ID_OUT_OF_RANGE:
-            fprintf(output,_("Tab is is out of range (%s)\n\n"),extra);
+            g_printerr(_("Tab is is out of range (%s)\n\n"),extra);
             break;
         case CMDLINE_GETOPT_CONFIGURATION_ERROR:
-            fprintf(output,_("Something strange happend (%s)\n\n"),extra);
+            g_printerr(_("Something strange happend (%s)\n\n"),extra);
             break;            
         default:
-            fprintf(output,_("Syntax error!\n\n"));
+            g_printerr(_("Syntax error!\n\n"));
             break;
     }
 }

@@ -154,7 +154,7 @@ static struct
     gboolean general_part;
     gboolean account_part;
     gboolean report_part;
-} download_tmp_values;
+} download_tmp_values = { FALSE, NULL, NULL, FALSE, FALSE, FALSE};
 
 static gint account_number;
 
@@ -606,6 +606,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 					  attribute_values);
 	return;
     }
+    /* the first time we come here, we check if it's a grisbi file */
 }
 
 
@@ -615,6 +616,7 @@ void gsb_file_load_error ( GMarkupParseContext *context,
 			   GError *error,
 			   gpointer user_data )
 {
+    /* the first time we come here, we check if it's a grisbi file */
     gchar* tmpstr = g_strdup_printf (_("An error occured while parsing the file :\nError number : %d\n%s"),
 				     error -> code,
 				     error -> message );
@@ -653,18 +655,24 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	else if ( !strcmp ( attribute_names[i],
 			    "File_version" ))
 	{
+	    if ( download_tmp_values.file_version )
+	        g_free ( download_tmp_values.file_version );
 	    download_tmp_values.file_version = my_strdup (attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
 			    "Grisbi_version" ))
 	{
+	    if ( download_tmp_values.grisbi_version )
+	        g_free ( download_tmp_values.grisbi_version );
 	    download_tmp_values.grisbi_version = my_strdup (attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
 			    "Backup_file" ))
 	{
+	    if ( nom_fichier_backup )
+	        g_free ( nom_fichier_backup );
 	    nom_fichier_backup = my_strdup (attribute_values[i]);
 	}
 
@@ -683,18 +691,24 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	else if ( !strcmp ( attribute_names[i],
 			    "File_title" ))
 	{
+	    if ( titre_fichier )
+	        g_free ( titre_fichier );
 	    titre_fichier = my_strdup (attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
 			    "General_address" ))
 	{
+	    if ( adresse_commune )
+	        g_free ( adresse_commune );
 	    adresse_commune = my_strdup (attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
 			    "Second_general_address" ))
 	{
+	    if ( adresse_secondaire )
+	        g_free ( adresse_secondaire );
 	    adresse_secondaire = my_strdup (attribute_values[i]);
 	}
 
@@ -749,6 +763,8 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	else if ( !strcmp ( attribute_names[i],
 			    "Path_logo" ))
 	{
+	    if ( chemin_logo )
+	        g_free ( chemin_logo );
 	    chemin_logo = my_strdup (attribute_values[i]);
 	}
 
@@ -912,6 +928,8 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	else if ( !strcmp ( attribute_names[i],
 			    "CSV_separator" ))
 	{
+	    if ( etat.csv_separator )
+	        g_free ( etat.csv_separator );
 	    etat.csv_separator = my_strdup ( attribute_values[i] );
 	}
 
@@ -4032,7 +4050,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 						  account_number );
 
 	    /* append a conversion structure */
-	    conversion = g_malloc (sizeof (struct payment_conversion_struct));
+	    conversion = g_malloc0 (sizeof (struct payment_conversion_struct));
 	    conversion -> account_number = account_number;
 	    conversion -> last_payment_number = last_number;
 	    conversion -> new_payment_number = payment_number;
@@ -5048,6 +5066,10 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Version_fichier" ))
     {
+	/* TODO dOM
+	if ( download_tmp_values.file_version )
+	    g_free ( download_tmp_values.file_version );
+	    */
 	download_tmp_values.file_version = my_strdup (text);
 	return;
     }
@@ -5055,6 +5077,8 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Version_grisbi" ))
     {
+	if ( download_tmp_values.grisbi_version )
+	    g_free ( download_tmp_values.grisbi_version );
 	download_tmp_values.grisbi_version = my_strdup (text);
 	return;
     }
@@ -5062,6 +5086,8 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Backup" ))
     {
+	if ( nom_fichier_backup )
+	    g_free ( nom_fichier_backup );
 	nom_fichier_backup = my_strdup (text);
 	return;
     }
@@ -5069,6 +5095,8 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Titre" ))
     {
+	if ( titre_fichier )
+	    g_free ( titre_fichier );
 	titre_fichier = my_strdup (text);
 	return;
     }
@@ -5076,6 +5104,8 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Adresse_commune" ))
     {
+	if ( adresse_commune )
+	    g_free ( adresse_commune );
 	adresse_commune = my_strdup (text);
 	return;
     }
@@ -5083,6 +5113,8 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Adresse_secondaire" ))
     {
+	if ( adresse_secondaire )
+	    g_free ( adresse_secondaire );
 	adresse_secondaire = my_strdup (text);
 	return;
     }
@@ -5143,6 +5175,8 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Chemin_logo" ))
     {
+	if ( chemin_logo )
+	    g_free ( chemin_logo );
 	chemin_logo = my_strdup (text);
 	return;
     }
@@ -5150,7 +5184,10 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Caracteristiques_par_compte" ))
     {
-	etat.retient_affichage_par_compte = utils_str_atoi( my_strdup (text));
+	/* TODO dOm : is it necessary to call my_strdup ? why not passing text directly to utils_str_atoi ? */
+	gchar* tmpstr = my_strdup (text);
+	etat.retient_affichage_par_compte = utils_str_atoi( tmpstr );
+	if ( tmpstr ) g_free ( tmpstr );
 	return;
     }
 
@@ -7073,7 +7110,11 @@ gboolean gsb_file_load_update_previous_version ( void )
 	   strlen ( chemin_logo )
 	   &&
 	   g_file_test (chemin_logo, G_FILE_TEST_EXISTS)))
-	chemin_logo = my_strdup ( LOGO_PATH );
+    {
+        if ( chemin_logo )
+	    g_free ( chemin_logo );
+        chemin_logo = my_strdup ( LOGO_PATH );
+    }
 
     /* mark the file as opened */
     gsb_file_util_modify_lock ( TRUE );

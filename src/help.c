@@ -54,7 +54,7 @@ void a_propos ( GtkWidget *bouton,
 #define CPREFIX "  "
 #define CSUFFIX "\n"
 
-    const gchar *auteurs = g_strconcat ( 
+    gchar *auteurs = g_strconcat ( 
 "\n", "<b><big>", _("Programming"), "</big></b>\n",
 CPREFIX, "Benjamin Drieu (bdrieu[at]april.org)", CSUFFIX,
 CPREFIX, "Cedric Auger (cedric[at]grisbi.org)", CSUFFIX,

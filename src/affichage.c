@@ -438,6 +438,8 @@ void update_font_button(GtkWidget * name_label,
 
     gtk_label_set_text (GTK_LABEL(name_label), font_name);
     gtk_label_set_text (GTK_LABEL(size_label), font_size);
+
+    if ( font_name ) g_free ( font_name );
 }
 
 
@@ -571,6 +573,8 @@ void change_logo_accueil ( GtkWidget * file_selector )
     if ( gsb_data_account_get_accounts_amount () )
     {
 	/* on change le logo */
+	if ( chemin_logo )
+	    g_free ( chemin_logo );
 	chemin_logo = my_strdup ( (gchar *) selected_filename );
 
 	if ( !chemin_logo ||

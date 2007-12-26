@@ -206,8 +206,7 @@ gint gsb_data_report_text_comparison_new ( gint number )
 {
     struct_text_comparison *text_comparison;
 
-    text_comparison = calloc ( 1,
-			       sizeof ( struct_text_comparison ));
+    text_comparison = g_malloc0 ( sizeof ( struct_text_comparison ));
 
     if ( number )
 	text_comparison -> text_comparison_number = number;

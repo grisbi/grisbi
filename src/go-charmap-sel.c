@@ -537,6 +537,8 @@ static void cs_class_init (GtkWidgetClass *widget_klass)
 		if (!lgroups[i].collate_key) {
 			g_warning ("Failed to generate collation key for [%s] [%s]",
 				   cgroup_name, group_name);
+			if ( lgroups[i].collate_key ) 
+			     g_free ( lgroups[i].collate_key );
 			lgroups[i].collate_key = my_strdup (group_name);
 		}
 	}
@@ -557,6 +559,8 @@ static void cs_class_init (GtkWidgetClass *widget_klass)
 		if (!charset_trans_array[i].collate_key) {
 			g_warning ("Failed to generate collation key for [%s] [%s]",
 				   ctitle, title);
+			if ( charset_trans_array[i].collate_key ) 
+			    g_free ( charset_trans_array[i].collate_key );
 			charset_trans_array[i].collate_key = my_strdup (title);
 		}
 	}
@@ -608,11 +612,15 @@ static void cs_class_init (GtkWidgetClass *widget_klass)
 
 			if (ci->to_utf8_iconv_name == NULL &&
 			    iconv_supported ("UTF-8", alias)) {
+			        if ( ci->to_utf8_iconv_name )
+				    g_free ( ci->to_utf8_iconv_name );
 				ci->to_utf8_iconv_name = my_strdup (alias);
 			}
 
 			if (ci->from_utf8_iconv_name == NULL &&
 			    iconv_supported (alias, "UTF-8")) {
+				if ( ci->from_utf8_iconv_name )
+				    g_free ( ci->from_utf8_iconv_name );
 				ci->from_utf8_iconv_name = my_strdup (alias);
 			}
 

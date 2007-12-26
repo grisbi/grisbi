@@ -449,7 +449,8 @@ gint my_strncasecmp ( gchar *string_1,
  *
  * \param string the string to be dupped
  *
- * \return a copy of that string
+ * \return a newly allocated string (which is a copy of that string) 
+ * or NULL if the parameter is NULL or an empty string. 
  * */
 gchar *my_strdup ( const gchar *string )
 {

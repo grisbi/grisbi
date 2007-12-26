@@ -77,7 +77,7 @@ static gboolean gsb_file_save_file ( gint origine );
 
 
 
-gchar *nom_fichier_backup;
+gchar *nom_fichier_backup = NULL;
 
 /**
  * keep the last path used in grisbi, save in the configuration at the end */
@@ -1000,7 +1000,7 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
 
     if ( nb_derniers_fichiers_ouverts < nb_max_derniers_fichiers_ouverts )
     {
-	tab_noms_derniers_fichiers_ouverts = realloc ( tab_noms_derniers_fichiers_ouverts,
+	tab_noms_derniers_fichiers_ouverts = g_realloc ( tab_noms_derniers_fichiers_ouverts,
 						       ( ++nb_derniers_fichiers_ouverts ) * sizeof ( gpointer ));
 	tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1] = dernier;
     }

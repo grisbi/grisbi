@@ -168,7 +168,11 @@ static gboolean gsb_automem_entry_changed (GtkWidget *entry,
 
     data = g_object_get_data ( G_OBJECT ( entry ), "pointer");
     if (data)
+    {
+        if ( *data )
+	    g_free ( *data );
 	*data = my_strdup (gtk_entry_get_text ( GTK_ENTRY (entry) ));
+    }
 
     return FALSE;
 }

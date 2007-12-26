@@ -598,7 +598,7 @@ void gsb_currency_config_set_cached_exchange ( gint currency1_number,
 {
     struct cached_exchange_rate * tmp;
 
-    tmp = (struct cached_exchange_rate *) g_malloc(sizeof(struct cached_exchange_rate));
+    tmp = (struct cached_exchange_rate *) g_malloc0(sizeof(struct cached_exchange_rate));
 
     tmp -> currency1_number = currency1_number;
     tmp -> currency2_number = currency2_number;

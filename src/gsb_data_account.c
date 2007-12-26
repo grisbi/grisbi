@@ -263,7 +263,7 @@ gboolean gsb_data_account_delete ( gint account_number )
 
     if ( account_buffer == account )
 	account_buffer = NULL;
-    free ( account );
+    g_free ( account );
 
     return TRUE;
 }
@@ -561,6 +561,9 @@ gboolean gsb_data_account_set_id ( gint account_number,
     if (!account )
 	return FALSE;
 
+    if ( account -> account_id )
+        g_free ( account -> account_id );
+
     account -> account_id = my_strdup (id);
 
     return TRUE;
@@ -676,9 +679,10 @@ gboolean gsb_data_account_set_name ( gint account_number,
     if (!account )
 	return FALSE;
 
-    if (!name
-	||
-	!strlen (name))
+    if ( account -> account_name )
+        g_free ( account -> account_name );
+
+    if (!name || !strlen (name))
 	account -> account_name = NULL;
     else
 	account -> account_name = my_strdup (name);
@@ -1368,9 +1372,10 @@ gboolean gsb_data_account_set_bank_branch_code ( gint account_number,
     if (!account )
 	return FALSE;
 
-    if (!bank_branch_code
-	||
-	!strlen (bank_branch_code))
+    if ( account -> bank_branch_code )
+        g_free ( account -> bank_branch_code );
+
+    if (!bank_branch_code || !strlen (bank_branch_code))
 	account -> bank_branch_code = NULL;
     else
 	account -> bank_branch_code = my_strdup (bank_branch_code);
@@ -1415,9 +1420,10 @@ gboolean gsb_data_account_set_bank_account_number ( gint account_number,
     if (!account )
 	return FALSE;
 
-    if (!bank_account_number
-	||
-	!strlen (bank_account_number))
+    if ( account -> bank_account_number )
+        g_free ( account -> bank_account_number );
+
+    if (!bank_account_number || !strlen (bank_account_number))
 	account -> bank_account_number = NULL;
     else
 	account -> bank_account_number = my_strdup (bank_account_number);
@@ -1463,9 +1469,10 @@ gboolean gsb_data_account_set_bank_account_key ( gint account_number,
     if (!account )
 	return FALSE;
 
-    if (!bank_account_key
-	||
-	!strlen (bank_account_key))
+    if ( account -> bank_account_key )
+        g_free ( account -> bank_account_key );
+
+    if (!bank_account_key || !strlen (bank_account_key))
 	account -> bank_account_key = NULL;
     else
 	account -> bank_account_key = my_strdup (bank_account_key);
@@ -1548,6 +1555,8 @@ gboolean gsb_data_account_set_comment ( gint account_number,
     if (!account )
 	return FALSE;
 
+    if ( account -> comment )
+        g_free ( account -> comment );
     account -> comment = my_strdup (comment);
 
     return TRUE;
@@ -1803,9 +1812,10 @@ gboolean gsb_data_account_set_holder_name ( gint account_number,
     if (!account )
 	return FALSE;
 
-    if (!holder_name
-	||
-	!strlen (holder_name))
+    if ( account -> holder_name )
+        g_free ( account -> holder_name );
+
+    if (!holder_name || !strlen (holder_name))
 	account -> holder_name = NULL;
     else
 	account -> holder_name = my_strdup (holder_name);
@@ -1850,9 +1860,10 @@ gboolean gsb_data_account_set_holder_address ( gint account_number,
     if (!account )
 	return FALSE;
 
-    if (!holder_address
-	||
-	!strlen (holder_address))
+    if ( account -> holder_address )
+        g_free ( account -> holder_address );
+
+    if (!holder_address || !strlen (holder_address))
 	account -> holder_address = NULL;
     else
 	account -> holder_address = my_strdup (holder_address);

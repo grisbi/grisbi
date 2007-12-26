@@ -782,6 +782,9 @@ gboolean gsb_data_scheduled_set_notes ( gint scheduled_number,
     if ( !scheduled )
 	return FALSE;
 
+    if ( scheduled -> notes )
+        g_free ( scheduled -> notes );
+
     if ( notes
 	 &&
 	 strlen (notes))
@@ -895,6 +898,9 @@ gboolean gsb_data_scheduled_set_method_of_payment_content ( gint scheduled_numbe
 
     if ( !scheduled )
 	return FALSE;
+
+    if ( scheduled -> method_of_payment_content )
+        g_free ( scheduled -> method_of_payment_content );
 
     if ( method_of_payment_content
 	 &&
@@ -1451,8 +1457,7 @@ gint gsb_data_scheduled_new_scheduled_with_number ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
-    scheduled = calloc ( 1,
-			 sizeof ( struct_scheduled ));
+    scheduled = g_malloc0 ( sizeof ( struct_scheduled ));
 
     if ( !scheduled )
     {
@@ -1507,8 +1512,7 @@ gint gsb_data_scheduled_new_white_line ( gint mother_scheduled_number)
 {
     struct_scheduled *scheduled;
 
-    scheduled = calloc ( 1,
-			 sizeof ( struct_scheduled ));
+    scheduled = g_malloc0 ( sizeof ( struct_scheduled ));
 
     if ( !scheduled )
     {

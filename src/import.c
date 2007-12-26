@@ -174,7 +174,9 @@ void register_import_formats ()
  */
 void register_import_format ( struct import_format * format )
 {
-    devel_debug ( g_strdup_printf ( "Adding '%s' as an import format", format -> name ) );
+    gchar* tmpstr = g_strdup_printf ( "Adding '%s' as an import format", format -> name );
+    devel_debug ( tmpstr );
+    g_free ( tmpstr );
     import_formats = g_slist_append ( import_formats, format );
 }
 
@@ -188,7 +190,7 @@ void register_import_format ( struct import_format * format )
 void importer_fichier ( void )
 {
     GSList * tmp = import_formats;
-    gchar * formats = "";
+    gchar * formats = g_strdup("");
     GtkWidget * assistant;
 
     liste_comptes_importes = NULL;
@@ -198,23 +200,28 @@ void importer_fichier ( void )
     while ( tmp )
     {
 	struct import_format * format = (struct import_format *) tmp -> data;
+	gchar* old_str = formats;
 	formats = g_strconcat ( formats, 
 				"	• ",
 				format -> complete_name,
 				" (", format -> name, ")\n",
 				NULL );
+	g_free ( old_str );
 	tmp = tmp -> next;
     }
 
-    assistant = gsb_assistant_new ( "Importing transactions into Grisbi",
-			    g_strconcat ( "This assistant will help you import one or several files into Grisbi."
+    gchar* tmpstr = g_strconcat ( "This assistant will help you import one or several files into Grisbi."
 					  "\n\n"
 					  "Grisbi will try to do its best to guess which format are imported, but you may have to manually set them in the list of next page.  "
 					  "So far, the following formats are supported:"
 					  "\n\n",
-					  formats, NULL ),
+					  formats, NULL );
+    assistant = gsb_assistant_new ( "Importing transactions into Grisbi",
+			    tmpstr,
 			    "csv.png",
 			    NULL );
+   g_free (formats);
+   g_free (tmpstr);
 
 
     gsb_assistant_add_page ( assistant, import_create_file_selection_page ( assistant ), 
@@ -263,9 +270,11 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     paddingbox = new_paddingbox_with_title ( vbox, TRUE, _("Choose file to import"));
     
     chooser = gtk_button_new_with_label ( _("Add file to import..." ));
+    gchar* tmpstr = g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+								   "import.png", NULL );
     gtk_button_set_image ( GTK_BUTTON(chooser), 
-			   gtk_image_new_from_file ( g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-								   "import.png", NULL ) ) );
+			   gtk_image_new_from_file ( tmpstr ) );
+    g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX(paddingbox), chooser, FALSE, FALSE, 6 );
     g_signal_connect ( G_OBJECT ( chooser ), "clicked", G_CALLBACK ( import_select_file ),
 		       assistant );
@@ -507,13 +516,16 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     while ( tmp )
     {
 	format = (struct import_format *) tmp -> data;
+	gchar* old_str = files;
 	files = g_strconcat ( files, ", *.", format -> extension, NULL );
+	g_free ( old_str );
 	tmp = tmp -> next;
     }
 
     filter = gtk_file_filter_new ();
-    gtk_file_filter_set_name ( filter, g_strdup_printf ( _("Known files (%s)"),
-							   files ) );
+    gchar* tmpstr = g_strdup_printf ( _("Known files (%s)"), files );
+    gtk_file_filter_set_name ( filter, tmpstr );
+    g_free ( tmpstr );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
     gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
@@ -525,17 +537,21 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 	format = (struct import_format *) tmp -> data;
 
 	format_filter = gtk_file_filter_new ();
-	gtk_file_filter_set_name ( format_filter,
-				   g_strdup_printf ( _("%s files (*.%s)"),
+	gchar* tmpstr = g_strdup_printf ( _("%s files (*.%s)"),
 						     format -> name, 
-						     format -> extension ) );
+						     format -> extension );
+	gtk_file_filter_set_name ( format_filter, tmpstr );
+	g_free ( tmpstr );
+	tmpstr = g_strconcat ( "*.", format -> extension, NULL );
 	gtk_file_filter_add_pattern ( format_filter, 
-				      g_strconcat ( "*.", format -> extension, NULL ) );
+				      tmpstr );
+	g_free ( tmpstr );
 	gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), format_filter );
 
 	/* Global filter */
-	gtk_file_filter_add_pattern ( filter, 
-				      g_strconcat ( "*.", format -> extension, NULL ) );
+	tmpstr = g_strconcat ( "*.", format -> extension, NULL );
+	gtk_file_filter_add_pattern ( filter, tmpstr );
+	g_free ( tmpstr );
 
 	tmp = tmp -> next;
     }
@@ -716,14 +732,15 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 		compte -> nom_de_compte = _("Unnamed Imported account");
 	    }
 
+	    gchar* tmpstr = g_strconcat ( "• ", compte -> nom_de_compte,
+						" (", 
+						compte -> origine,
+						")\n\n", 
+						NULL );
 	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, 
-						      g_strconcat ( "• ",
-								    compte -> nom_de_compte,
-								    " (", 
-								    compte -> origine,
-								    ")\n\n", 
-								    NULL ),
+						      tmpstr ,
 						      -1, "indented", NULL );
+	    g_free ( tmpstr );
 
 	    list = list -> next;
 	}
@@ -764,14 +781,15 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 	    struct struct_compte_importation * compte;
 	    compte = list -> data;
 
+	    gchar* tmpstr = g_strconcat ( "• ", compte -> nom_de_compte,
+						" (", 
+						compte -> origine,
+						")\n\n", 
+						NULL );
 	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, 
-						      g_strconcat ( "• ",
-								    compte -> nom_de_compte,
-								    " (", 
-								    compte -> origine,
-								    ")\n\n", 
-								    NULL ),
+						      tmpstr,
 						      -1, "indented", NULL );
+	    g_free ( tmpstr );
 
 	    list = list -> next;
 	}
@@ -1000,10 +1018,11 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     label = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
-    gtk_label_set_markup ( GTK_LABEL ( label ),
-			   g_strdup_printf ( _("<span size=\"x-large\">%s</span>\n\n"
+    gchar* tmpstr = g_strdup_printf ( _("<span size=\"x-large\">%s</span>\n\n"
 					       "What do you want to do with contents from <tt>%s</tt>?\n"),
-					     compte -> nom_de_compte, short_filename ) );
+					     compte -> nom_de_compte, short_filename );
+    gtk_label_set_markup ( GTK_LABEL ( label ), tmpstr );
+    g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
 
     /* New account */
@@ -1121,10 +1140,13 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 	    /* 		- soit elle n'est pas cree (l'utilisateur
 			  la créera une fois la fenetre affichée) */
 	    /* 		- soit elle est créé mais pas avec le bon code */
-	    dialogue_warning_hint ( g_strdup_printf ( _( "Currency of imported account '%s' is %s.  Either this currency doesn't exist so you have to create it in next window, or this currency already exists but the ISO code is wrong.\nTo avoid this message, please set its ISO code in configuration."),
+	    gchar* tmpstr1 = g_strdup_printf ( _( "Currency of imported account '%s' is %s.  Either this currency doesn't exist so you have to create it in next window, or this currency already exists but the ISO code is wrong.\nTo avoid this message, please set its ISO code in configuration."),
 						      compte -> nom_de_compte,
-						      compte -> devise ),
-				    g_strdup_printf ( _("Can't associate ISO 4217 code for currency '%s'."),  compte -> devise ));
+						      compte -> devise );
+	    gchar* tmpstr2 = g_strdup_printf ( _("Can't associate ISO 4217 code for currency '%s'."),  compte -> devise );
+	    dialogue_warning_hint ( tmpstr1, tmpstr2);
+	    g_free ( tmpstr1 );
+	    g_free ( tmpstr2 );
 	}
     }
 
@@ -1201,8 +1223,9 @@ void traitement_operations_importees ( void )
 
 		if ( account_number == -1 )
 		{
-		    dialogue_error ( g_strdup_printf ("An error occured while creating the new account %s,\nWe try to continue to import but bad things can happen...",
-						      compte -> nom_de_compte));
+		    gchar* tmpstr = g_strdup_printf ("An error occured while creating the new account %s,\nWe try to continue to import but bad things can happen...", compte -> nom_de_compte);
+		    dialogue_error ( tmpstr);
+		    g_free ( tmpstr );
 		    continue;
 		}
 
@@ -1336,11 +1359,11 @@ void cree_liens_virements_ope_import ( void )
 			 &&
 			 gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp )
 			 &&
-			 (!g_strcasecmp ( g_strconcat ("[",
+			 (!g_strcasecmp ( g_strconcat ("[", /* TODO dOm : fix memory leak */
 						       gsb_data_account_get_name (transaction_number_tmp),
 						       "]",
 						       NULL),
-					  g_strstrip ( my_strdup (gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp ))))
+					  g_strstrip ( my_strdup (gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp )))) /* TODO dOm : fix memory leak */
 			  ||
 			  g_strcasecmp ( gsb_data_account_get_name (transaction_number_tmp),
 					 g_strstrip ( my_strdup (gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp))))) 
@@ -1529,15 +1552,22 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	    {
 		/* there is a difference between the imported account id and grisbi account id,
 		 * ask to be sure */
-		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
-					    g_strdup_printf ( _("The Grisbi's id account is %s, but the imported id account is %s.\n\nPerhaps you choose a wrong account ?\nIf you choose to continue, the id of the Grisbi's account will be changed.  Do you want to continue ?"),
+		gchar* tmpstr = g_strdup_printf ( _("The Grisbi's id account is %s, but the imported id account is %s.\n\nPerhaps you choose a wrong account ?\nIf you choose to continue, the id of the Grisbi's account will be changed.  Do you want to continue ?"),
 							      gsb_data_account_get_id (account_number),
-							      imported_account -> id_compte ),
+							      imported_account -> id_compte );
+		if ( question_yes_no_hint ( _("The id of the imported and chosen accounts are different"),
+					    tmpstr,
 					    GTK_RESPONSE_NO ))
+		{
+		    g_free ( tmpstr );
 		    gsb_data_account_set_id ( account_number,
 					      imported_account -> id_compte );
+		}
 		else
+		{
+		    g_free ( tmpstr );
 		    return;
+		}
 	    }
 	}
 	else
@@ -1791,10 +1821,12 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 				 0 );
 	    gtk_widget_show ( ope_import -> bouton );
 
-	    label = gtk_label_new ( g_strdup_printf ( _("Transactions to import : %s ; %s ; %s"),
+	    gchar* tmpstr = g_strdup_printf ( _("Transactions to import : %s ; %s ; %s"),
 						      gsb_format_gdate ( ope_import -> date ),
 						      ope_import -> tiers,
-						      gsb_real_get_string (ope_import -> montant)));
+						      gsb_real_get_string (ope_import -> montant));
+	    label = gtk_label_new ( tmpstr );
+	    g_free ( tmpstr );
 	    gtk_box_pack_start ( GTK_BOX ( hbox ),
 				 label,
 				 FALSE,
@@ -1824,16 +1856,24 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    tiers = gsb_data_payee_get_name ( gsb_data_transaction_get_party_number (ope_import -> ope_correspondante), FALSE );
 
 	    if ( gsb_data_transaction_get_notes (ope_import -> ope_correspondante))
-		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %s ; %s ; %s ; %s"),
-							  gsb_format_gdate ( gsb_data_transaction_get_date (ope_import -> ope_correspondante)),
-							  tiers,
-							  gsb_real_get_string (gsb_data_transaction_get_amount (ope_import -> ope_correspondante)),
-							  gsb_data_transaction_get_notes (ope_import -> ope_correspondante)));
+	    {
+		gchar* tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s ; %s"),
+					gsb_format_gdate ( gsb_data_transaction_get_date (ope_import -> ope_correspondante)),
+					tiers,
+					gsb_real_get_string (gsb_data_transaction_get_amount (ope_import -> ope_correspondante)),
+					gsb_data_transaction_get_notes (ope_import -> ope_correspondante));
+		label = gtk_label_new ( tmpstr);
+		g_free ( tmpstr );
+	    }
 	    else
-		label = gtk_label_new ( g_strdup_printf ( _("Transaction found : %s ; %s ; %s"),
+	    {
+		gchar* tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s"),
 							  gsb_format_gdate ( gsb_data_transaction_get_date (ope_import -> ope_correspondante)),
 							  tiers,
-							  gsb_real_get_string (gsb_data_transaction_get_amount (ope_import -> ope_correspondante))));
+							  gsb_real_get_string (gsb_data_transaction_get_amount (ope_import -> ope_correspondante)));
+		label = gtk_label_new ( tmpstr );
+		g_free ( tmpstr );
+	    }
 
 	    gtk_box_pack_start ( GTK_BOX ( hbox ),
 				 label,
@@ -2068,8 +2108,12 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	    /* we are on a automatic numbering payment, we will save the cheque only
 	     * if it's not used before, else we show an warning message */
 	    if (gsb_data_transaction_check_content_payment (payment_number, imported_transaction -> cheque))
-		dialogue_warning ( g_strdup_printf ( _("Warning : the cheque number %ld is already used.\nWe skip it"),
-						     imported_transaction -> cheque ));
+	    {
+		gchar* tmpstr = g_strdup_printf ( _("Warning : the cheque number %ld is already used.\nWe skip it"),
+						     imported_transaction -> cheque );
+		dialogue_warning ( tmpstr );
+		g_free ( tmpstr );
+	    }
 	    else
 		gsb_data_transaction_set_method_of_payment_content ( transaction_number,
 								     utils_str_itoa ( imported_transaction -> cheque ) );
@@ -2654,7 +2698,7 @@ gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *renderer,
 
 /**
  *
- *
+ * return a newly allocated string or NULL
  */
 gchar * unique_imported_name ( gchar * account_name )
 {
@@ -2662,6 +2706,7 @@ gchar * unique_imported_name ( gchar * account_name )
     gchar * basename = account_name;
     gint iter = 1;
 
+/* TODO dOm : fix memory leaks in this function */
     if ( ! liste_comptes_importes )
     {
 	return account_name;

@@ -131,7 +131,7 @@ gboolean gsb_data_budget_init_variables ( void )
 	g_slist_free (budget_list);
 
     if ( empty_budget )
-	free (empty_budget);
+	g_free (empty_budget);
 
     budget_list = NULL;
     budget_buffer = NULL;
@@ -139,8 +139,7 @@ gboolean gsb_data_budget_init_variables ( void )
 
     /* create the empty budget */
 
-    empty_budget = calloc ( 1,
-			    sizeof ( struct_budget ));
+    empty_budget = g_malloc0 ( sizeof ( struct_budget ));
     empty_budget -> budget_name = _("No budget line");
 
     return FALSE;
@@ -441,8 +440,7 @@ gint gsb_data_budget_new_with_number ( gint number )
 {
     struct_budget *budget;
 
-    budget = calloc ( 1,
-		      sizeof ( struct_budget ));
+    budget = g_malloc0 ( sizeof ( struct_budget ));
     budget -> budget_number = number;
 
     budget_list = g_slist_append ( budget_list,
@@ -571,8 +569,7 @@ gint gsb_data_budget_new_sub_budget_with_number ( gint number,
     if (!budget)
 	return 0;
 
-    sub_budget = calloc ( 1,
-			  sizeof (struct_sub_budget));
+    sub_budget = g_malloc0 ( sizeof (struct_sub_budget));
     sub_budget -> sub_budget_number = number;
     sub_budget -> mother_budget_number = budget_number;
 
@@ -747,7 +744,7 @@ gint gsb_data_budget_get_pointer_from_sub_name_in_glist ( struct_sub_budget *sub
  * \param no_sub_budget if we want the full name of the budget
  * \param return_value_error if problem, the value we return
  *
- * \return the name of the budget, budget : sub-budget or NULL/No budget if problem
+ * \return the name of the budget (in a newly allocated string), budget : sub-budget or NULL/No budget if problem
  * 	the returned value need to be freed
  * */
 gchar *gsb_data_budget_get_name ( gint no_budget,
@@ -772,10 +769,14 @@ gchar *gsb_data_budget_get_name ( gint no_budget,
 								no_sub_budget );
 
 	if (sub_budget)
+	{
+	    gchar* oldstr = return_value;
 	    return_value = g_strconcat ( return_value,
 					 " : ",
 					 sub_budget -> sub_budget_name,
 					 NULL );
+	    g_free ( oldstr );
+	}
     }
     return return_value;
 }
@@ -803,7 +804,7 @@ gboolean gsb_data_budget_set_name ( gint no_budget,
     /* we free the last name */
 
     if ( budget -> budget_name )
-	free (budget -> budget_name);
+	g_free (budget -> budget_name);
 
     /* and copy the new one */
     if ( name )
@@ -870,7 +871,7 @@ gboolean gsb_data_budget_set_sub_budget_name ( gint no_budget,
     /* we free the last name */
 
     if ( sub_budget -> sub_budget_name )
-	free (sub_budget -> sub_budget_name);
+	g_free (sub_budget -> sub_budget_name);
 
     /* and copy the new one */
     if ( name )

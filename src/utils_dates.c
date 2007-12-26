@@ -44,7 +44,7 @@ extern gint max;
 
 
 /* save of the last date entried */
-static gchar *last_date;
+static gchar *last_date = NULL;
 
 
 
@@ -55,7 +55,7 @@ static gchar *last_date;
  *
  * \param
  *
- * \return a string contains the date
+ * \return a string contains the date (DO NOT free this string)
  * */
 gchar *gsb_date_today ( void )
 {
@@ -76,14 +76,14 @@ gchar *gsb_date_today ( void )
  * set the last_date value
  * that value is dumped in memory
  *
- * \param a string wich contains the last date to remain
+ * \param a string which contains the last date to remain
  * 
- * \return FALSE
  * */
-gboolean gsb_date_set_last_date ( const gchar *date )
+void gsb_date_set_last_date ( const gchar *date )
 {
+    if ( last_date ) 
+        g_free ( last_date );
     last_date = my_strdup (date);
-    return FALSE;
 }
 
 
@@ -94,10 +94,11 @@ gboolean gsb_date_set_last_date ( const gchar *date )
  *
  * \param
  *
- * \return FALSE
  * */
-gboolean gsb_date_free_last_date ( void )
+void gsb_date_free_last_date ( void )
 {
+    if ( last_date ) 
+        g_free ( last_date );
     last_date = NULL;
     return FALSE;
 }
@@ -108,7 +109,7 @@ gboolean gsb_date_free_last_date ( void )
  *
  * \param
  *
- * \return the date of the day
+ * \return the date of the day. Use g_date_free to free memory when no more used.
  * */
 GDate *gdate_today ( void )
 {
@@ -127,7 +128,7 @@ GDate *gdate_today ( void )
  * 
  * \param date a GDate to copy
  * 
- * \return a copy or NULL if no date
+ * \return a copy or NULL if no date. Use g_date_free to free memory when no more used.
  * */
 GDate *gsb_date_copy ( const GDate *date )
 {
@@ -183,8 +184,9 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
 	if (!date)
 	    return FALSE;
 
-	gtk_entry_set_text ( GTK_ENTRY ( entry ),
-			     gsb_format_gdate (date));
+	gchar* tmpstr = gsb_format_gdate (date);
+	gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr);
+	g_free ( tmpstr );
 	g_date_free (date);
     }
     else
@@ -269,7 +271,7 @@ gchar ** split_unique_datefield ( gchar * string, gchar date_tokens [] )
 
 
 /**
- * Create and try to return a GDate from a string reprensentation of a date.
+ * Create and try to return a GDate from a string representation of a date.
  * separator can be / . - :
  * and numbers can be stick (ex 01012001)
  *
@@ -392,7 +394,7 @@ GDate * gsb_parse_date_string ( const gchar *date_string )
 		}
 		break;
 	    default:
-		g_print ( ">> Unknown format '%c'\n", date_tokens [ i ] );
+		g_printerr ( ">> Unknown format '%c'\n", date_tokens [ i ] );
 		break;
 	}
     }
@@ -410,6 +412,7 @@ GDate * gsb_parse_date_string ( const gchar *date_string )
  *
  * \param	
  *
+ * \return return a newly allocated string or NULL if the format of the date_string parameter is invalid.
  */
 GDate *gsb_parse_date_string_safe ( const gchar *date_string )
 {
@@ -439,11 +442,14 @@ GDate *gsb_parse_date_string_safe ( const gchar *date_string )
  * \param month		Month of the date to represent.
  * \param year		Year of the date to represent.
  *
- * \return		A string representing date.
+ * \return		A newly allocated string representing date.
  */
 gchar *gsb_format_date ( gint day, gint month, gint year )
 {
-    return gsb_format_gdate ( g_date_new_dmy ( day, month, year ) );
+    gchar* tmpstr = g_date_new_dmy ( day, month, year );
+    char* resultstr = gsb_format_gdate ( tmpstr );
+    g_free ( tmpstr );
+    return resultstr;
 }
 
 
@@ -474,7 +480,7 @@ gchar *gsb_format_gdate ( const GDate *date )
 
 /**
  * Convenience function that return the string representation of a
- * date without locale.
+ * date without locale. It returns an empty string if date is not valid.
  *
  * \param date		A GDate structure containing the date to represent.
  *

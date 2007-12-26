@@ -281,7 +281,7 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 
 	    do
 	    {
-		free ( pointeur_char );
+		g_free ( pointeur_char );
 
 		retour = get_line_from_file ( fichier,
 					      &pointeur_char );
@@ -378,7 +378,7 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 
 	if ( retour == EOF )
 	{
-	    free (compte);
+	    g_free (compte);
 	    if ( !pas_le_premier_compte )
 	    {
 		liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
@@ -403,8 +403,7 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 
 	    ventilation = NULL;
 
-	    operation = calloc ( 1,
-				 sizeof ( struct struct_ope_importation ));
+	    operation = g_malloc0 (sizeof ( struct struct_ope_importation ));
 
 	    do
 	    {
@@ -531,10 +530,10 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 			{
 			    /*c'est la fin du fichier ou l'opé n'est pas valide, donc les ventils ne sont pas valides non plus */
 
-			    free ( operation );
+			    g_free ( operation );
 
 			    if ( ventilation )
-				free ( ventilation );
+				g_free ( ventilation );
 
 			    operation = NULL;
 			    ventilation = NULL;
@@ -546,8 +545,7 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 			    compte -> operations_importees = g_slist_append ( compte -> operations_importees,
 									      ventilation );
 
-			ventilation = calloc ( 1,
-					       sizeof ( struct struct_ope_importation ));
+			ventilation = g_malloc0 ( sizeof ( struct struct_ope_importation ));
 
 			if ( operation )
 			{

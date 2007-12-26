@@ -22,7 +22,6 @@
 
 
 #include "include.h"
-/* TODO dOm : add this include to avoid warning */
 #include "dialog.h"
 
 
@@ -476,7 +475,7 @@ gboolean edit_payee ( GtkTreeView * view )
 		       1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     gtk_widget_show_all ( dialog );
-    free ( title );
+    g_free ( title );
 
     while ( 1 )
     {

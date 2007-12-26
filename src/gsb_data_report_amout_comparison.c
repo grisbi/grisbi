@@ -188,8 +188,7 @@ gint gsb_data_report_amount_comparison_new ( gint number )
 {
     struct_amount_comparison *amount_comparison;
 
-    amount_comparison = calloc ( 1,
-				 sizeof ( struct_amount_comparison ));
+    amount_comparison = g_malloc0 ( sizeof ( struct_amount_comparison ));
 
     if ( number )
 	amount_comparison -> amount_comparison_number = number;

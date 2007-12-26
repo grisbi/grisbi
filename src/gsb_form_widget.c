@@ -286,7 +286,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	/* first, append the widget to the list */
 	struct_element *element;
 
-	element = g_malloc (sizeof (struct_element));
+	element = g_malloc0 (sizeof (struct_element));
 	element -> element_number = element_number;
 	element -> element_widget = widget;
 	form_list_widgets = g_slist_append ( form_list_widgets, element );

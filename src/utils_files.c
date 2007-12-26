@@ -134,7 +134,7 @@ gint get_line_from_file ( FILE *fichier,
 	    
     /*     on commence par allouer une taille de 30 caractÃšres, qu'on augment ensuite de 30 par 30 */
 
-    pointeur_char = (gchar*)realloc(pointeur_char,30*sizeof(gchar));
+    pointeur_char = (gchar*)g_realloc(pointeur_char,30*sizeof(gchar));
 
     if ( !pointeur_char )
     {
@@ -151,7 +151,7 @@ gint get_line_from_file ( FILE *fichier,
 
 	if ( ++i == 29 )
 	{
-	    pointeur_char = (gchar*)realloc(pointeur_char, j + 1 + 30*sizeof(gchar));
+	    pointeur_char = (gchar*)g_realloc(pointeur_char, j + 1 + 30*sizeof(gchar));
 
 	    if ( !pointeur_char )
 	    {

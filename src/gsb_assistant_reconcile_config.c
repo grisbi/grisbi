@@ -926,7 +926,7 @@ gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
 	    {
 		struct association_transaction_reconcile *association;
 
-		association = g_malloc (sizeof (struct association_transaction_reconcile));
+		association = g_malloc0 (sizeof (struct association_transaction_reconcile));
 		if (!association)
 		{
 		    dialogue_error_memory ();

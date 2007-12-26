@@ -202,7 +202,7 @@ gint gsb_data_bank_new ( const gchar *name )
 {
     struct_bank *bank;
 
-    bank = calloc ( 1, sizeof ( struct_bank ));
+    bank = g_malloc0 ( sizeof ( struct_bank ));
     bank -> bank_number = gsb_data_bank_max_number () + 1;
 
     if (name)
@@ -321,7 +321,7 @@ gboolean gsb_data_bank_set_name ( gint bank_number,
 
     /* we free the last name */
     if ( bank -> bank_name )
-	free (bank -> bank_name);
+	g_free (bank -> bank_name);
 
     /* and copy the new one */
     bank -> bank_name = my_strdup (name);
@@ -371,7 +371,7 @@ gboolean gsb_data_bank_set_code ( gint bank_number,
 
     /* we free the last  */
     if ( bank -> bank_code )
-	free (bank -> bank_code);
+	g_free (bank -> bank_code);
 
     /* and copy the new one */
     bank -> bank_code = my_strdup (bank_code);
@@ -422,7 +422,7 @@ gboolean gsb_data_bank_set_bank_address ( gint bank_number,
 
     /* we free the last name */
     if ( bank -> bank_address )
-	free (bank -> bank_address);
+	g_free (bank -> bank_address);
 
     /* and copy the new one */
     bank -> bank_address = my_strdup (bank_address);
@@ -471,7 +471,7 @@ gboolean gsb_data_bank_set_bank_tel ( gint bank_number,
 
     /* we free the last name */
     if ( bank -> bank_tel )
-	free (bank -> bank_tel);
+	g_free (bank -> bank_tel);
 
     /* and copy the new one */
     bank -> bank_tel = my_strdup (bank_tel);
@@ -521,7 +521,7 @@ gboolean gsb_data_bank_set_bank_mail ( gint bank_number,
 
     /* we free the last name */
     if ( bank -> bank_mail )
-	free (bank -> bank_mail);
+	g_free (bank -> bank_mail);
 
     /* and copy the new one */
     bank -> bank_mail = my_strdup (bank_mail);
@@ -571,7 +571,7 @@ gboolean gsb_data_bank_set_bank_web ( gint bank_number,
 
     /* we free the last name */
     if ( bank -> bank_web )
-	free (bank -> bank_web);
+	g_free (bank -> bank_web);
 
     /* and copy the new one */
     bank -> bank_web = my_strdup (bank_web);
@@ -621,7 +621,7 @@ gboolean gsb_data_bank_set_bank_note ( gint bank_number,
 
     /* we free the last name */
     if ( bank -> bank_note )
-	free (bank -> bank_note);
+	g_free (bank -> bank_note);
 
     /* and copy the new one */
     bank -> bank_note = my_strdup (bank_note);
@@ -671,7 +671,7 @@ gboolean gsb_data_bank_set_correspondent_name ( gint bank_number,
 
     /* we free the last name */
     if ( bank -> correspondent_name )
-	free (bank -> correspondent_name);
+	g_free (bank -> correspondent_name);
 
     /* and copy the new one */
     bank -> correspondent_name = my_strdup (correspondent_name);
@@ -721,7 +721,7 @@ gboolean gsb_data_bank_set_correspondent_tel ( gint bank_number,
 
     /* we free the last name */
     if ( bank -> correspondent_tel )
-	free (bank -> correspondent_tel);
+	g_free (bank -> correspondent_tel);
 
     /* and copy the new one */
     bank -> correspondent_tel = my_strdup (correspondent_tel);
@@ -771,7 +771,7 @@ gboolean gsb_data_bank_set_correspondent_mail ( gint bank_number,
 
     /* we free the last name */
     if ( bank -> correspondent_mail )
-	free (bank -> correspondent_mail);
+	g_free (bank -> correspondent_mail);
 
     /* and copy the new one */
     bank -> correspondent_mail = my_strdup (correspondent_mail);
@@ -821,7 +821,7 @@ gboolean gsb_data_bank_set_correspondent_fax ( gint bank_number,
 
     /* we free the last name */
     if ( bank -> correspondent_fax )
-	free (bank -> correspondent_fax);
+	g_free (bank -> correspondent_fax);
 
     /* and copy the new one */
     bank -> correspondent_fax = my_strdup (correspondent_fax);
