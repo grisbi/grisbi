@@ -626,8 +626,7 @@ static void bet_estimate_refresh()
 
 		g_value_unset(&date_value);
 		g_free(str_date);
-		if (str_debit) g_free(str_debit);
-		if (str_credit) g_free(str_credit);
+		g_free(str_value);
 	}
 	
 	/* for each schedulded operation */
@@ -704,8 +703,7 @@ static void bet_estimate_refresh()
 			g_free(str_date);
 			date = gsb_scheduler_get_next_date(scheduled_number, date);
 		}
-		if (str_debit) g_free(str_debit);
-		if (str_credit) g_free(str_credit);
+		g_free(str_value);
 	}
 	g_free(date_min);
 	g_free(date_max);

@@ -4988,10 +4988,14 @@ void remplit_liste_comparaisons_montants_etat ( void )
 	gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_second_comparison (amount_comparison_number)),
 				      gsb_data_report_amount_comparison_get_second_comparison (amount_comparison_number));
 
-	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number)),
-			     gsb_real_get_string (gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number)));
-	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number)),
-			     gsb_real_get_string (gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number)));
+	gchar* tmpstr;
+	tmpstr = gsb_real_get_string (gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number));
+	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number)), tmpstr);
+	g_free ( tmpstr );
+
+	tmpstr = gsb_real_get_string (gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number));
+	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number)), tmpstr);
+	g_free ( tmpstr );
 
 	/* on sensitive/désensitive les entrées si nécessaire */
 

@@ -156,8 +156,9 @@ gchar * gsb_format_amount ( gsb_real amount, gint currency )
 {
     /** FIXME: use locale instead of hardcoded european-style format */
 
-    return g_strconcat ( gsb_real_get_string ( gsb_real_adjust_exponent ( amount,
-									  gsb_data_currency_get_floating_point ( currency ) ) ),
+    gchar* tmpstr = gsb_real_get_string ( gsb_real_adjust_exponent ( amount,
+					gsb_data_currency_get_floating_point ( currency ) ) );
+    return g_strconcat ( tmpstr,
 			 " ",
 			 gsb_data_currency_get_code_or_isocode ( currency ),
 			 NULL );
@@ -515,10 +516,13 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 	    gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox_2),
 				       !link_currency );
 	}
-	gtk_entry_set_text ( GTK_ENTRY ( entry ),
-			     gsb_real_get_string (exchange_rate));
-	gtk_entry_set_text ( GTK_ENTRY ( fees_entry ),
-			     gsb_real_get_string (gsb_real_abs (exchange_rate)));
+	gchar* tmpstr = gsb_real_get_string (exchange_rate);
+	gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr);
+	g_free ( tmpstr );
+
+	tmpstr = gsb_real_get_string (gsb_real_abs (exchange_rate));
+	gtk_entry_set_text ( GTK_ENTRY ( fees_entry ), tmpstr);
+	g_free ( tmpstr );
     }
     else
     {

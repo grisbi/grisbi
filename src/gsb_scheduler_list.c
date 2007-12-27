@@ -1514,11 +1514,13 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 	    GtkWidget *dialog;
 	    gchar *occurences;
 
+	    gchar* tmpstr = gsb_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
 	    occurences = g_strdup_printf ( _("Do you want to delete just this occurrence or the whole scheduled transaction?\n\n%s : %s [%s %s]"),
 					   gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
 					   gsb_data_payee_get_name ( gsb_data_scheduled_get_party_number (scheduled_number), FALSE ),
-					   gsb_real_get_string (gsb_data_scheduled_get_amount (scheduled_number)),
+					   tmpstr,
 					   gsb_data_currency_get_name (gsb_data_scheduled_get_currency_number (scheduled_number)));
+	    g_free ( tmpstr );
 
 	    dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 					       make_hint ( _("Delete this scheduled transaction?"),

@@ -58,7 +58,6 @@
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern GtkWidget *bouton_supprimer_compte;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
@@ -115,19 +114,39 @@ gboolean gsb_account_new ( kind_account account_type,
     remplissage_liste_comptes_etats ();
     selectionne_liste_comptes_etat_courant ();
 
+/* TODO dOm : the global variable was not initialised. It seems not to be used. I remove the following
+ * instruction to avoid warning (GTK_IS_WIDGET (widget)' failed) - dOm
+ *
     gtk_widget_set_sensitive ( bouton_supprimer_compte, TRUE );
+    */
 
     /* update the accounts lists */ 
     gsb_menu_update_accounts_in_menus (); 
 
+/* TODO dOm : remove this warning 
+ * le tree_store de navigation_model seems not to be initialized when we come here. So we get 
+ * the following warnigs :
+ * (grisbi:18247): Gtk-CRITICAL **: gtk_tree_model_get_iter_first: assertion `GTK_IS_TREE_MODEL (tree_model)' failed
+ * (grisbi:18247): Gtk-CRITICAL **: gtk_tree_store_append: assertion `GTK_IS_TREE_STORE (tree_store)' failed
+ * (grisbi:18247): Gtk-CRITICAL **: gtk_tree_store_set: assertion `GTK_IS_TREE_STORE (tree_store)' failed
+ * (grisbi:18247): Gtk-CRITICAL **: gtk_tree_view_get_selection: assertion `GTK_IS_TREE_VIEW (tree_view)' failed
+ * (grisbi:18247): Gtk-CRITICAL **: gtk_tree_selection_select_iter: assertion `GTK_IS_TREE_SELECTION (selection)' failed
+ */
     /* Add an entry in navigation pane. */
     gsb_gui_navigation_add_account ( account_number,
 				     TRUE );
 
     /* Go to accounts properties */
+/* TODO dOm remove this warning :
+ * (grisbi:18787): Gtk-CRITICAL **: gtk_notebook_set_current_page: assertion `GTK_IS_NOTEBOOK (notebook)' failed */
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
 			    GSB_ACCOUNT_PAGE );
+/* TODO dOm remove this warning :
+ *(grisbi:18787): Gtk-CRITICAL **: gtk_notebook_set_current_page: assertion `GTK_IS_NOTEBOOK (notebook)' failed */ 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( account_page ), 1 );
+
+/* TODO remove this warning : 
+ *** (grisbi:18247): CRITICAL **: remplissage_details_compte: assertion `current_account >= 0' failed */ 
     remplissage_details_compte ();
     modification_fichier ( TRUE );
     return TRUE;

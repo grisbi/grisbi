@@ -135,7 +135,11 @@ gboolean gsb_file_new ( void )
     gsb_category_choose_default_category ();
 
     /* create the first account */
-    gsb_assistant_account_run ();
+    if (! gsb_assistant_account_run ())
+    {
+        init_variables ();
+        return FALSE;
+    }
 
     /* init the gui */
     gsb_file_new_gui ();

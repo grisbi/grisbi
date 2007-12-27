@@ -348,6 +348,7 @@ void gsb_currency_link_config_append_line ( GtkTreeModel *model,
     else
 	invalid = NULL;
 
+    gchar* tmpstr = gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number));
     gtk_list_store_append ( GTK_LIST_STORE (model),
 			    iter_ptr );
     gtk_list_store_set ( GTK_LIST_STORE (model),
@@ -355,11 +356,12 @@ void gsb_currency_link_config_append_line ( GtkTreeModel *model,
 			 LINK_1_COLUMN, "1",
 			 LINK_CURRENCY1_COLUMN, gsb_data_currency_get_name (gsb_data_currency_link_get_first_currency(link_number)),
 			 LINK_EQUAL_COLUMN, "=",
-			 LINK_EXCHANGE_COLUMN, gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number)),
+			 LINK_EXCHANGE_COLUMN, tmpstr,
 			 LINK_CURRENCY2_COLUMN, gsb_data_currency_get_name (gsb_data_currency_link_get_second_currency(link_number)),
 			 LINK_INVALID_COLUMN, invalid,
 			 LINK_NUMBER_COLUMN, link_number,
 			 -1 );
+    g_free ( tmpstr );
 }
 
 
@@ -431,8 +433,9 @@ gboolean gsb_currency_link_config_select_currency ( GtkTreeSelection *tree_selec
     g_signal_handlers_block_by_func ( G_OBJECT (exchange_entry),
 				      G_CALLBACK (gsb_currency_link_config_modify_link),
 				      tree_view );
-    gtk_entry_set_text ( GTK_ENTRY (exchange_entry),
-			 gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number)));
+    gchar* tmpstr = gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number));
+    gtk_entry_set_text ( GTK_ENTRY (exchange_entry), tmpstr);
+    g_free ( tmpstr );
     g_signal_handlers_unblock_by_func ( G_OBJECT (exchange_entry),
 					G_CALLBACK (gsb_currency_link_config_modify_link),
 					tree_view );
@@ -504,13 +507,15 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     else
 	invalid = NULL;
 
+    gchar* tmpstr = gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number));
     gtk_list_store_set ( GTK_LIST_STORE (model),
 			 &iter,
 			 LINK_CURRENCY1_COLUMN, gsb_data_currency_get_name (gsb_data_currency_link_get_first_currency(link_number)),
-			 LINK_EXCHANGE_COLUMN, gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number)),
+			 LINK_EXCHANGE_COLUMN, tmpstr,
 			 LINK_CURRENCY2_COLUMN, gsb_data_currency_get_name (gsb_data_currency_link_get_second_currency(link_number)),
 			 LINK_INVALID_COLUMN, invalid,
 			 -1 );
+    g_free ( tmpstr );
 
     /* set or hide the warning label */
     label = g_object_get_data (G_OBJECT (model),

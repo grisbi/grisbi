@@ -71,9 +71,9 @@ static GtkWidget *account_entry_name;
  *
  * \param
  *
- * \return FALSE
+ * \return FALSE if the assisant was cancelled, or TRUE. 
  * */
-GtkResponseType gsb_assistant_account_run ( void )
+gboolean gsb_assistant_account_run ( void )
 {
     GtkResponseType return_value;
     GtkWidget *assistant;
@@ -104,6 +104,7 @@ GtkResponseType gsb_assistant_account_run ( void )
 
     return_value = gsb_assistant_run (assistant);
 
+    gboolean result = FALSE;
     if (return_value == GTK_RESPONSE_APPLY)
     {
 	/* ok, we create the new account */
@@ -112,9 +113,10 @@ GtkResponseType gsb_assistant_account_run ( void )
 			  gsb_bank_list_get_bank_number (account_combobox_bank),
 			  gsb_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (account_entry_initial_amount))),
 			  gtk_entry_get_text (GTK_ENTRY (account_entry_name)));
+        result = TRUE; /* assistant was not cancelled */
     }
     gtk_widget_destroy (assistant);
-    return FALSE;
+    return result;
 }
 
 

@@ -224,10 +224,11 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 		    fmtstr = _("%s (%d transaction)");
 		else
 		    fmtstr = _("%s (%d transactions)");
-	        text = g_strdup_printf ( fmtstr , 
-					     gsb_real_get_string_with_currency ( montant_categ_etat,
-										 devise_categ_etat ),
-					     nb_ope_categ_etat );
+
+		gchar* tmpstr = gsb_real_get_string_with_currency ( montant_categ_etat,
+										 devise_categ_etat );
+	        text = g_strdup_printf ( fmtstr , tmpstr, nb_ope_categ_etat );
+		g_free ( tmpstr );
 	    }
 	    else
 		text = gsb_real_get_string_with_currency ( montant_categ_etat,
@@ -568,9 +569,11 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 		    fmtstr = _("%s (%d transaction)"); 
 		else
 		    fmtstr = _("%s (%d transactions)"); 
-		text = g_strdup_printf ( fmtstr, gsb_real_get_string_with_currency (montant_sous_ib_etat, 
-										devise_ib_etat ), 
+		gchar* tmpstr = gsb_real_get_string_with_currency (montant_sous_ib_etat, 
+										devise_ib_etat );
+		text = g_strdup_printf ( fmtstr, tmpstr, 
 					     nb_ope_sous_ib_etat );
+	        g_free ( tmpstr );
 	    }
 	    else
 		text = gsb_real_get_string_with_currency ( montant_sous_ib_etat, devise_ib_etat );
@@ -674,9 +677,11 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 		    fmtstr = _("%s (%d transaction)"); 
 		else
 		    fmtstr = _("%s (%d transactions)"); 
-		text = g_strdup_printf ( fmtstr, gsb_real_get_string_with_currency ( montant_compte_etat,
-										 devise_compte_en_cours_etat ), 
+		gchar* tmpstr = gsb_real_get_string_with_currency ( montant_compte_etat,
+				devise_compte_en_cours_etat );
+		text = g_strdup_printf ( fmtstr, tmpstr, 
 					     nb_ope_compte_etat );
+	        g_free ( tmpstr );
 	    }
 	    else
 		text = gsb_real_get_string_with_currency ( montant_compte_etat, devise_compte_en_cours_etat );
@@ -779,9 +784,10 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 		    fmtstr = _("%s (%d transaction)"); 
 		else
 		    fmtstr = _("%s (%d transactions)"); 
-		text = g_strdup_printf ( fmtstr, gsb_real_get_string_with_currency (montant_tiers_etat,
-										devise_tiers_etat ), 
-					     nb_ope_tiers_etat );
+		gchar* tmpstr = gsb_real_get_string_with_currency (montant_tiers_etat,
+										devise_tiers_etat );
+		text = g_strdup_printf ( fmtstr, tmpstr, nb_ope_tiers_etat );
+	        g_free ( tmpstr );
 	    }
 	    else
 		text = gsb_real_get_string_with_currency (montant_tiers_etat, devise_tiers_etat );

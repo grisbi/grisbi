@@ -1150,9 +1150,11 @@ gboolean qif_export ( const gchar *filename,
 
 		/* met le solde initial */
 
+		gchar* tmpstr = gsb_real_get_string (gsb_data_account_get_init_balance (account_nb, -1));
 		fprintf ( fichier_qif,
 			  "T%s\n",
-			  gsb_real_get_string (gsb_data_account_get_init_balance (account_nb, -1)));
+			  tmpstr);
+		g_free ( tmpstr );
 
 		fprintf ( fichier_qif,
 			  "CX\nPOpening Balance\n" );
@@ -1203,9 +1205,11 @@ gboolean qif_export ( const gchar *filename,
 
 
 		/* met le montant, transforme la devise si necessaire */
+		gchar* tmpstr = gsb_real_get_string (gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, floating_point));
 		fprintf ( fichier_qif,
 			  "T%s\n",
-			  gsb_real_get_string (gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, floating_point)));
+			  tmpstr);
+		g_free ( tmpstr );
 
 		/* met le chèque si c'est un type à numérotation automatique */
 		if ( gsb_data_payment_get_automatic_numbering (gsb_data_transaction_get_method_of_payment_number (transaction_number_tmp)))
@@ -1296,9 +1300,11 @@ gboolean qif_export ( const gchar *filename,
 
 			    /* set the amount of the breakdown child */
 
+			    gchar* tmpstr = gsb_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2, floating_point));
 			    fprintf ( fichier_qif,
 				      "$%s\n",
-				      gsb_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2, floating_point)));
+				      tmpstr);
+			    g_free ( tmpstr );
 			}
 			list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
 		    }
@@ -1344,9 +1350,11 @@ gboolean qif_export ( const gchar *filename,
 	/* there is no transaction in the account, so do the opening of the account, bug no date */
 	/* met le solde initial */
 
+	gchar* tmpstr = gsb_real_get_string (gsb_data_account_get_init_balance (account_nb, -1));
 	fprintf ( fichier_qif,
 		  "T%s\n",
-		  gsb_real_get_string (gsb_data_account_get_init_balance (account_nb, -1)));
+		  tmpstr);
+	g_free ( tmpstr );
 
 	fprintf ( fichier_qif,
 		  "CX\nPOpening Balance\n" );

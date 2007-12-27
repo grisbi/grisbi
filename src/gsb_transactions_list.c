@@ -1394,7 +1394,7 @@ gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_number,
  * \param transaction_number
  * \param cell_content_number what we need in the transaction
  * 
- * \return the content of the transaction, in gchar, need to be freed after or NULL
+ * \return a newly allocated string which reprsent the content of the transaction, or NULL
  * */
 gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 						 gint cell_content_number )
@@ -1474,12 +1474,17 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 
 	    account_currency = gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number));
 	    if ( account_currency != gsb_data_transaction_get_currency_number (transaction_number))
-		return ( g_strconcat ( "(",
-				       gsb_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number,
-												      gsb_data_currency_get_floating_point (account_currency))),
+	    {
+		gchar* tmpstr = gsb_real_get_string (gsb_data_transaction_get_adjusted_amount (
+			transaction_number, gsb_data_currency_get_floating_point (account_currency)));
+		gchar* result = g_strconcat ( "(",
+				       tmpstr,
 				       gsb_data_currency_get_code (account_currency),
 				       ")",
-				       NULL ));
+				       NULL );
+	        g_free ( tmpstr );
+		return result;
+	    }
 	    else 
 		return NULL;
 	    break;
@@ -1979,6 +1984,12 @@ gboolean gsb_transactions_list_set_adjustment_value ( gint account_number )
 				   account_number );
     devel_debug ( tmpstr );
     g_free ( tmpstr );
+
+    /* if no account is selected, do not try to set adjustment 
+     * (it's append when the creation of a new file is cancelled : no file is opened
+     * and we come here) */
+    if ( account_number == -1 )
+       return FALSE;
 
     path = gsb_data_account_get_vertical_adjustment_value (account_number);
 

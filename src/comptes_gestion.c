@@ -681,14 +681,17 @@ void remplissage_details_compte ( void )
 				   gsb_data_account_get_closed_account (current_account) );
 
 
-    my_gtk_entry_set_text ( GTK_ENTRY ( detail_solde_init ),
-			    gsb_real_get_string (gsb_data_account_get_init_balance (current_account, -1)));
+    gchar* tmpstr = gsb_real_get_string (gsb_data_account_get_init_balance (current_account, -1));
+    my_gtk_entry_set_text ( GTK_ENTRY ( detail_solde_init ), tmpstr);
+    g_free ( tmpstr );
 
-    my_gtk_entry_set_text ( GTK_ENTRY ( detail_solde_mini_autorise ),
-			    gsb_real_get_string (gsb_data_account_get_mini_balance_authorized (current_account)));
+    tmpstr = gsb_real_get_string (gsb_data_account_get_mini_balance_authorized (current_account));
+    my_gtk_entry_set_text ( GTK_ENTRY ( detail_solde_mini_autorise ), tmpstr);
+    g_free ( tmpstr );
 
-    my_gtk_entry_set_text ( GTK_ENTRY ( detail_solde_mini_voulu ),
-			    gsb_real_get_string (gsb_data_account_get_mini_balance_wanted (current_account)));
+    tmpstr = gsb_real_get_string (gsb_data_account_get_mini_balance_wanted (current_account));
+    my_gtk_entry_set_text ( GTK_ENTRY ( detail_solde_mini_voulu ), tmpstr);
+    g_free ( tmpstr );
 
     gtk_text_buffer_set_text ( gtk_text_view_get_buffer (GTK_TEXT_VIEW (detail_commentaire)),
 			       ( gsb_data_account_get_comment (current_account) ? gsb_data_account_get_comment (current_account) : "") , -1 );

@@ -690,12 +690,12 @@ gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
 }
 
 /**
- * all the gtk_entry_set_text in grisbi should be my_gtk_entry_set_text wich just
+ * all the gtk_entry_set_text in grisbi should be my_gtk_entry_set_text which just
  * check if the text is not NULL, and if NULL, erase the entry
  * the original gtk function returns a warning in that case and do nothing
  *
  * \param entry a GtkEntry
- * \param string the text to set in the entry
+ * \param string the text to set in the entry (it can be NULL)
  *
  * \return
  * */

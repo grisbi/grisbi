@@ -1821,10 +1821,12 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 				 0 );
 	    gtk_widget_show ( ope_import -> bouton );
 
+	    gchar* tmpstr2 = gsb_real_get_string (ope_import -> montant);
 	    gchar* tmpstr = g_strdup_printf ( _("Transactions to import : %s ; %s ; %s"),
 						      gsb_format_gdate ( ope_import -> date ),
 						      ope_import -> tiers,
-						      gsb_real_get_string (ope_import -> montant));
+						      tmpstr2);
+	    g_free ( tmpstr2 );
 	    label = gtk_label_new ( tmpstr );
 	    g_free ( tmpstr );
 	    gtk_box_pack_start ( GTK_BOX ( hbox ),
@@ -1857,20 +1859,26 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
 	    if ( gsb_data_transaction_get_notes (ope_import -> ope_correspondante))
 	    {
+		gchar* tmpstr2 = gsb_real_get_string (gsb_data_transaction_get_amount (
+							ope_import -> ope_correspondante));
 		gchar* tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s ; %s"),
 					gsb_format_gdate ( gsb_data_transaction_get_date (ope_import -> ope_correspondante)),
 					tiers,
-					gsb_real_get_string (gsb_data_transaction_get_amount (ope_import -> ope_correspondante)),
+					tmpstr2,
 					gsb_data_transaction_get_notes (ope_import -> ope_correspondante));
+		g_free ( tmpstr2 );
 		label = gtk_label_new ( tmpstr);
 		g_free ( tmpstr );
 	    }
 	    else
 	    {
+		gchar* tmpstr2 = gsb_real_get_string (gsb_data_transaction_get_amount (
+							ope_import -> ope_correspondante));
 		gchar* tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s"),
 							  gsb_format_gdate ( gsb_data_transaction_get_date (ope_import -> ope_correspondante)),
 							  tiers,
-							  gsb_real_get_string (gsb_data_transaction_get_amount (ope_import -> ope_correspondante)));
+							  tmpstr2);
+		g_free ( tmpstr2 );
 		label = gtk_label_new ( tmpstr );
 		g_free ( tmpstr );
 	    }

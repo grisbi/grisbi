@@ -398,10 +398,8 @@ gboolean gsb_data_currency_set_code ( gint currency_number,
 	return FALSE;
 
     /* we free the last  */
-    g_print("ici 1\n");
     if ( currency -> currency_code )
 	g_free (currency -> currency_code);
-    g_print("ici 2\n");
 
     /* and copy the new one */
     if (currency_code)

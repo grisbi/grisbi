@@ -402,8 +402,9 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 	    g_date_free (today);
 
 	/* it's not the first reconciliation, set the old balance and unsensitive the old balance entry */
-	gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ),
-			     gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number)));
+	gchar* tmpstr = gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
+	gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ), tmpstr);
+	g_free ( tmpstr );
 	gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ),
 				   FALSE );
     }
@@ -416,8 +417,9 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 
 	/* it's the first reconciliation, set the initial balance and make sensitive the old balance to change
 	 * it if necessary */
-	gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ),
-			     gsb_real_get_string ( gsb_data_account_get_init_balance (account_number, -1)));
+	gchar* tmpstr = gsb_real_get_string ( gsb_data_account_get_init_balance (account_number, -1));
+	gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ), tmpstr);
+	g_free ( tmpstr );
 	gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ),
 				   TRUE );
     }
@@ -745,8 +747,9 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
 					   gsb_real_get_from_string (initial_balance)),
 			    gsb_real_sub ( gsb_data_account_get_marked_balance (account_number),
 					   gsb_real_get_from_string (initial_balance)));
-    gtk_label_set_text ( GTK_LABEL ( reconcile_variation_balance_label ),
-			 gsb_real_get_string (amount));
+    gchar* tmpstr = gsb_real_get_string (amount);
+    gtk_label_set_text ( GTK_LABEL ( reconcile_variation_balance_label ), tmpstr);
+    g_free ( tmpstr );
     if ( amount.mantissa )
 	gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_ok_button ),
 				   FALSE );

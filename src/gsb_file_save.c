@@ -1327,6 +1327,7 @@ gulong gsb_file_save_currency_link_part ( gulong iterator,
 					       gsb_data_currency_link_get_first_currency (link_number),
 					       gsb_data_currency_link_get_second_currency (link_number),
 					       change_rate);
+        g_free ( change_rate );
 
 	/* append the new string to the file content
 	 * and take the new iterator */
