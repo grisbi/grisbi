@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-04 20:16+0200\n"
-"PO-Revision-Date: 2007-12-30 01:00+0100\n"
+"PO-Revision-Date: 2007-12-31 00:33+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5472,6 +5472,8 @@ msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
 "no_column = %d\n"
 msgstr ""
+"no column erróneo en gsb_data_account_get_element_sort () en data_account.c\n"
+"no_column = %d\n"
 
 #: src/gsb_data_account.c:1116
 #, c-format
@@ -5479,6 +5481,8 @@ msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
 "no_column = %d\n"
 msgstr ""
+"no column erróneo en gsb_data_account_set_element_sort () en data_account.c\n"
+"no_column = %d\n"
 
 #: src/gsb_data_budget.c:142
 msgid "No budget line"
@@ -5806,6 +5810,10 @@ msgid ""
 "Please make sure if is installed (i.e. check that 'grisbi-ssl' package is "
 "installed) and try again."
 msgstr ""
+"Grisbi no pudo cargar el plugin requerido para manejar ese archivo.\n"
+"\n"
+"Por favor, asegúrese de que está instalado (por ejemplo, compruebe "
+"que el paquete 'grisbi-ssl' está instalado) y pruebe de nuevo."
 
 #: src/gsb_file_load.c:342 src/gsb_file_save.c:305
 #, fuzzy
@@ -5830,16 +5838,17 @@ msgstr ""
 
 #. we don't know here the release of that file, give the release needed
 #: src/gsb_file_load.c:7020
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
-msgstr "Se necesita la versión de Grisbi %s para abrir este archivo"
+msgstr ""
+"Se necesita la versión de Grisbi %s para abrir este archivo.\n"
+"Usted está usando la versión %s."
 
 #: src/gsb_file_load.c:7051
-#, fuzzy
 msgid "Archive some transactions ?"
-msgstr "Mover las transacciones a"
+msgstr "Archivar algunas transacciones ?"
 
 #: src/gsb_file_load.c:7052
 #, c-format
@@ -5851,6 +5860,12 @@ msgid ""
 "Do you want to launch the assistant to archive some transactions ?\n"
 "(You can change the limit to show that warning in the configuration)"
 msgstr ""
+"Hay %d transacciones para cargar en las listas,\n"
+"Esto es mucho y la representación será más rápida si archiva algunas "
+"transacciones.\n"
+"\n"
+"¿ Quiere lanzar el asistente para archivar algunas transacciones ?\n"
+"(Puede cambiar el límite para que se muestre este aviso en la configuración)"
 
 #: src/gsb_file_others.c:137 src/gsb_file_others.c:218
 #: src/gsb_file_others.c:300 src/gsb_file_save.c:322
@@ -5868,9 +5883,8 @@ msgstr "No se puede guardar el archivo '%s': %s"
 #. if (report)
 #. {
 #: src/gsb_file_others.c:500
-#, fuzzy
 msgid "Imported report"
-msgstr "Importar un informe"
+msgstr "Informe importado"
 
 #. append it to the list
 #. liste_struct_etats = g_slist_append ( liste_struct_etats,
@@ -5886,6 +5900,12 @@ msgid ""
 "The currencies have been set too on the first currency of this grisbi file.\n"
 "You should check and modify that in the property box of that account."
 msgstr ""
+"Algunas cosas en el informe no pueden ser importadas :\n"
+"Las listas de años financieros, cuentas, cuentas de transferencia, "
+"categorías, presupuestos, terceras partes y tipo de pagos seleccionadas.\n"
+"Así que esas listas ha sido borradas durante la importación.\n"
+"Las monedas han sido configuradas a la primera moneda en el archivo de grisbi.\n"
+"Debería comprobar y modificar eso en el cuadro de propiedades de esa cuenta."
 
 #: src/gsb_file_others.c:543
 #, fuzzy
@@ -5893,14 +5913,12 @@ msgid "Importing a report"
 msgstr "Importar un informe"
 
 #: src/gsb_file_others.c:579
-#, fuzzy
 msgid "This is not a grisbi file, loading canceled..."
-msgstr "Este archivo no es un archivo de líneas presupuestarias de Grisbi"
+msgstr "Este no es un archivo de grisbi, la carga se ha cancelado..."
 
 #: src/gsb_file_others.c:590
-#, fuzzy
 msgid "This is not a category file, loading canceled..."
-msgstr "Este fichero no es un fichero de listas de categorías de Grisbi"
+msgstr "Esto no es un archivo de categorías, la carga se ha cancelado..."
 
 #: src/gsb_file_others.c:598
 msgid "This is not a budget file, loading canceled..."
@@ -5911,34 +5929,31 @@ msgid "This is not a report file, loading canceled..."
 msgstr "Esto no es un archivo de informes, la carga se ha cancelado..."
 
 #: src/gsb_file_util.c:89
-#, fuzzy
 msgid "File compression"
-msgstr "Nivel de compresión de los archivos"
+msgstr "Compresión de los archivos"
 
 #: src/gsb_file_util.c:130 src/gsb_file_util.c:140 src/gsb_file_util.c:155
-#, fuzzy
 msgid "File uncompression"
-msgstr "Nivel de compresión de los archivos"
+msgstr "Descompresión de los archivos"
 
 #: src/gsb_file_util.c:251
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open file '%s' to mark it as used: %s"
-msgstr "No se puede abrir el archivo '%s': %s"
+msgstr "No se puede abrir el archivo '%s' para marcarlo como usado: %s"
 
 #: src/gsb_file_util.c:306
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write lock file :'%s': %s"
-msgstr "No se puede bloquear el archivo '\"%s': %s"
+msgstr "No se puede bloquear el archivo '%s': %s"
 
 #: src/gsb_file_util.c:332
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot erase lock file :'%s': %s"
-msgstr "No se puede bloquear el archivo '\"%s': %s"
+msgstr "No se puede borrar el archivo bloqueado '%s': %s"
 
 #: src/gsb_form.c:214
-#, fuzzy
 msgid "Transaction/Scheduled _form"
-msgstr "Formulario de transacción"
+msgstr "Transaction/Scheduled _form"
 
 #. create the check button to recover the children of breakdowns
 #: src/gsb_form.c:283
@@ -6123,6 +6138,9 @@ msgid ""
 "element which contains two). You need to increase the number of rows or "
 "columns to add the elements."
 msgstr ""
+"No hay espacio suficiente para poner los dos elementos (ha seleccionado un "
+"elemento que contiene dos) Debe incrementar el número de filas o de columnas "
+"para añadir los elementos."
 
 #: src/gsb_form_scheduler.c:152
 msgid ""
@@ -6131,6 +6149,10 @@ msgid ""
 "The function will resize the table to the correct values but should check "
 "that warning."
 msgstr ""
+"gsb_form_scheduler_create ha sido llamado con una tabla errónea,\n"
+"el número de filas o columnasno es el correcto.\n"
+"La función cambiará el tamaño de la tabla a los valores correctos pero "
+"debería comprobar esta advertencia."
 
 #: src/gsb_form_scheduler.c:165 src/gsb_fyear.c:271
 #: src/gsb_scheduler_list.c:853
@@ -6387,6 +6409,8 @@ msgid ""
 "Problem while filling the target method of payment to delete it.\n"
 "This is not normal, please contact the grisbi team."
 msgstr ""
+"Ha habido un problema mientras se rellenaba el método de pago elegido para borrarlo.\n"
+"Esto no es normal, por favor contacte con el equipo de grisbi."
 
 #: src/gsb_payment_method_config.c:1277
 msgid ""
@@ -6404,6 +6428,9 @@ msgid ""
 "payment. If you continue, the transactions with this method of payment will "
 "have no new one."
 msgstr ""
+"No hay un método de pago elegido para cambiar las transacciones de otro "
+"método de pago. Si continúa, las transacciones con este método de pago no "
+"tendrán ninguna nueva."
 
 #: src/gsb_payment_method_config.c:1296
 msgid "Associate transactions with"
@@ -6452,12 +6479,13 @@ msgid ""
 "There is a variance in balances, check that both final balance and initial "
 "balance minus marked transactions are equal."
 msgstr ""
+"Hay discrepancias entre los balances, compruebe que tnato los balance final "
+"e inicial menos las transacciones marcadas son iguales."
 
 #: src/gsb_reconcile.c:500 src/gsb_reconcile.c:509 src/gsb_reconcile.c:520
 #: src/gsb_reconcile.c:527
-#, fuzzy
 msgid "Reconciliation can't be completed."
-msgstr "Número reconciliación"
+msgstr "La reconciliación no puede ser completada."
 
 #: src/gsb_reconcile.c:508
 msgid ""
@@ -6466,6 +6494,10 @@ msgid ""
 "If the reconcile name is ending by a number,\n"
 "it will be automatically incremented."
 msgstr ""
+"Ya hay una reconciliación con ese nombre, debe usar otro nombre o "
+"dejarlo sin nombre.\n"
+"Si el nombre de reconciliación está acabado en un número,\n"
+"será automáticamente incrementado."
 
 #: src/gsb_reconcile.c:518
 #, c-format
@@ -6477,11 +6509,13 @@ msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automaticaly incremented later"
 msgstr ""
+"Debe poner un nombre a la reconciliación ; al menos, eliga un número,\n"
+"será incrementado automáticamente más tarde."
 
 #: src/gsb_reconcile.c:532 src/navigation.c:1064
-#, fuzzy, c-format
+#, c-format
 msgid "Last statement: %s"
-msgstr "Última operación"
+msgstr "Última operación: %s"
 
 #: src/gsb_reconcile_config.c:99 src/gsb_transactions_list.c:2916
 msgid "Init date"
@@ -6500,15 +6534,13 @@ msgid "List of reconciliations"
 msgstr "Lista de reconciliaciones"
 
 #: src/gsb_reconcile_config.c:170
-#, fuzzy
 msgid "Selected reconcile"
-msgstr "Seleccionar las categorías a incluir"
+msgstr "Reconciliación seleccionada"
 
 #. set the delete button
 #: src/gsb_reconcile_config.c:225
-#, fuzzy
 msgid "Delete the reconcile"
-msgstr "Borrar transacción"
+msgstr "Borrar la reconciliación"
 
 #. set the button to find non-associated transactions
 #: src/gsb_reconcile_config.c:272
@@ -6530,6 +6562,10 @@ msgid ""
 "marked by this reconcile will be un-reconciled and marked P.\n"
 "Are you sure you want to continue ?"
 msgstr ""
+"Cuidado, está a punto de borrar una reconciliación.\n"
+"Si continúa, la reconciliación %s será borrada y todas las transacciones "
+"marcadas por ésta serán desreconciliadas y marcadas P.\n"
+"¿ Está seguro de que quiere continuar ?"
 
 #: src/gsb_reconcile_list.c:156 src/gsb_transactions_list_sort.c:445
 msgid "Local variable value NULL"
@@ -6541,6 +6577,9 @@ msgid ""
 "is NULL ; it souldn't happen, it's seems that the function is called by a "
 "bad way"
 msgstr ""
+"En la función gsb_reconcile_list_sort_func, transaction_1·ó·transaction_2 "
+"son nulas; Esto no debería suceder, parece que la función es llamada de "
+"forma incorrecta."
 
 #: src/gsb_reconcile_sort_config.c:88 src/parametres.c:344
 #, fuzzy
