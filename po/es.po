@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-04 20:16+0200\n"
-"PO-Revision-Date: 2007-12-29 00:20+0100\n"
+"PO-Revision-Date: 2007-12-30 01:00+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3210,6 +3210,8 @@ msgid ""
 "You have successfully set up data export into Grisbi.  Press the 'Close' "
 "button to actually export data."
 msgstr ""
+"Ha configurado con éxito la exportación de datos en Grisbi.  Pulse el botón "
+"'Cerrar' para exportar los datos."
 
 #: src/export.c:282
 #, fuzzy
@@ -3221,6 +3223,8 @@ msgid ""
 "The following accounts are to be exported. In the next screens, you will "
 "choose what to do with each of them."
 msgstr ""
+"Las siguientes cuentas van a ser exportadas. En las próximas pantallas, "
+"usted elegirá que hacer con cada una de ellas."
 
 #: src/export.c:352
 #, c-format
@@ -3439,6 +3443,8 @@ msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
+"El documento '%s' está bloqueado pero modificado. Si usted quiere guardarlo, debe "
+"cancelar y guardarlo con otro nombre o activar la  opción \"%s\" en la configuración."
 
 #: src/fichiers_gestion.c:610 src/fichiers_gestion.c:621
 #: src/fichiers_gestion.c:804
@@ -3943,6 +3949,8 @@ msgid ""
 "Please enter password to decrypt file\n"
 "'<tt>%s</tt>'"
 msgstr ""
+"Por favor introduzca la contraseña para desencriptar el archivo\n"
+"'<tt>%s</tt>'"
 
 #: src/gsb_crypt.c:255
 msgid "Password"
@@ -5378,6 +5386,8 @@ msgid ""
 "Currency names or iso 4217 codes should be unique.  Please choose a new name "
 "for the currency."
 msgstr ""
+"Los nombres de moneda o los códigos ISO 4217 deben ser únicos. Por favor eliga "
+"un nuevo nombre para la moneda."
 
 #: src/gsb_currency_config.c:1005
 #, fuzzy, c-format
@@ -5389,6 +5399,8 @@ msgid ""
 "Currency name and either currency ISO4217 code or currency nickname should "
 "be set."
 msgstr ""
+"Los nombres de moneda y los códigos de moneda ISO4217 o los apodos de las "
+"monedas deben ser configurados."
 
 #: src/gsb_currency_config.c:1024
 #, fuzzy
@@ -5452,6 +5464,7 @@ msgstr "Sin nombre %d"
 msgid ""
 "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
 msgstr ""
+"Filas nb equivocadas para gsb_data_account_set_nb_rows en gsb_data_account.c : %d\n"
 
 #: src/gsb_data_account.c:1081
 #, c-format
@@ -5498,6 +5511,7 @@ msgid ""
 "<span foreground=\"red\">Warning : that financial year cross with another "
 "one</span>"
 msgstr ""
+"<span foreground=\"red\">Cuidado : ese año financiero se cruza con otro</span>"
 
 #: src/gsb_data_fyear.c:575
 msgid "<span foreground=\"red\">Warning : Invalid date</span>"
@@ -5532,6 +5546,9 @@ msgid ""
 "a return_exponent at -1.\n"
 "This could cause errors in the amounts."
 msgstr ""
+"Cuidado : gsb_data_transaction_get_adjusted_amount_for_currency llamado con "
+"un return_exponent en -1.\n"
+"Esto puede causar errores en las cantidades."
 
 #: src/gsb_file_config.c:672
 #, fuzzy, c-format
@@ -5566,6 +5583,8 @@ msgid ""
 "This test will look for accounts where reconcile totals do not match "
 "reconciled transactions."
 msgstr ""
+"Este test buscará las cuentas dónde los totales reconciliados no "
+"coincidan con las transacciones reconciliadas."
 
 #: src/gsb_file_debug.c:63
 #, fuzzy
@@ -5651,6 +5670,11 @@ msgid ""
 "To fix this, you will have to manually edit your .gsb file (with a text "
 "editor) and fix transactions using their numeric ID."
 msgstr ""
+"En algunos casos excepcionales, las transferencias se enlazan "
+"incorrectamente a contratransacciones.  Esto puede ser por culpa "
+"de bugs de Grisbi o porque la importación ha tenido fallos.\n"
+"Para arreglar esto, debe editar manualmente su archivo gsb (con un "
+"editor de textos) y corregir las transacciones usando su identificador numérico."
 
 #: src/gsb_file_debug.c:118
 msgid "Checking file for possible corruption..."
@@ -5667,6 +5691,8 @@ msgid ""
 "inconsistencies, which can be caused either by bugs or by erroneous "
 "manipulation."
 msgstr ""
+"Este asistente le ayudará a buscar inconsistencias en su archivo de "
+"cuentas, que pueden ser causados por errore o por manipulación errónea."
 
 #: src/gsb_file_debug.c:185
 msgid ""
@@ -5681,6 +5707,9 @@ msgid ""
 "The following debug tests found inconsistencies in this accounts file:\n"
 "\n"
 msgstr ""
+"Los siguientes tests de errores encontraron inconsistencias en "
+"este archivo de cuentas:\n"
+"\n"
 
 #: src/gsb_file_debug.c:210
 #, fuzzy
@@ -5707,6 +5736,8 @@ msgid ""
 "Grisbi successfully repaired this account file.  You may now save your "
 "modifications."
 msgstr ""
+"Grisbi corrigió con éxito este archivo de cuentas.  Ahora debería "
+"guardar sus modificaciones."
 
 #: src/gsb_file_debug.c:285
 msgid "Fix completed"
@@ -5717,6 +5748,8 @@ msgid ""
 "Grisbi was unable to repair this account file.  No modification has been "
 "done."
 msgstr ""
+"Grisbi no pudo reparar este fichero de cuentas.  No se ha hecho "
+"ninguna modificación."
 
 #: src/gsb_file_debug.c:291
 msgid "Unable to fix account"
@@ -5791,6 +5824,9 @@ msgid ""
 "Error number : %d\n"
 "%s"
 msgstr ""
+"Ha ocurrido un error mientras se analizaba el archivo :\n"
+"Número de error : %d\n"
+"%s"
 
 #. we don't know here the release of that file, give the release needed
 #: src/gsb_file_load.c:7020
@@ -5959,6 +5995,8 @@ msgid ""
 "You cannot set breakdown of transaction in category for a daughter of a "
 "breakdown of transaction."
 msgstr ""
+"No puede poner una anotación de transacción en la categoría para "
+"un hijo de una anotación de transacción."
 
 #: src/gsb_form.c:2346
 #, fuzzy
@@ -6072,6 +6110,8 @@ msgid ""
 "There is no place enough to put the element. You need to increase the number "
 "of rows or columns to add an element."
 msgstr ""
+"No hay sitio suficiente para poner el elemento. Necesita aumentar el número "
+"de filas o columnas para añadir un elemento."
 
 #: src/gsb_form_config.c:750 src/gsb_form_config.c:753
 msgid "The table is full"
@@ -7070,6 +7110,9 @@ msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
 msgstr ""
+"No se ha importado ningún archivo, por favor, compruebe que eran archivos "
+"válidos  Por favor, asegúrese de que no están comprimidos y qeu su formato "
+"es válido."
 
 #: src/import.c:815
 #, fuzzy
@@ -7933,6 +7976,11 @@ msgid ""
 "  Personal accounting program under GNU General Public Licence\n"
 "\n"
 msgstr ""
+"\n"
+"Grisbi\n"
+"\n"
+"  Programa de contabilidad personal bajo licencia GNU General Public Licence\n"
+"\n"
 
 #: src/parse_cmdline.c:197
 #, c-format
