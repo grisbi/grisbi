@@ -1276,7 +1276,9 @@ gboolean gsb_currency_config_select_currency_popup ( GtkTreeSelection *selection
     gtk_entry_set_text ( GTK_ENTRY ( entry_name ), currency_name );
     gtk_entry_set_text ( GTK_ENTRY ( entry_iso_code ), currency_iso_code );
     gtk_entry_set_text ( GTK_ENTRY ( entry_code ), currency_nickname );
-    gtk_entry_set_text ( GTK_ENTRY ( entry_floating_point ), utils_str_itoa (currency_floating));
+    gchar* tmpstr = utils_str_itoa (currency_floating);
+    gtk_entry_set_text ( GTK_ENTRY ( entry_floating_point ), tmpstr);
+    g_free ( tmpstr );
     return ( FALSE );
 } 
 

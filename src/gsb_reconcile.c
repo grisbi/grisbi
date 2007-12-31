@@ -340,7 +340,9 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 
 	    /* increase the number */
 	    digit_size = strlen ( digit_string );
+	    gchar* oldstr =  digit_string;
 	    digit_string = utils_str_itoa ( utils_str_atoi ( digit_string ) + 1 );
+	    g_free ( oldstr );
 	    new_digit_size = strlen ( digit_string );
 
 	    /* if new_digit_size is < of digit_size, it's because some 0 diseappear

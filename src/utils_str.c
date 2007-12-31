@@ -100,7 +100,7 @@ gchar *utils_str_itoa ( gint integer )
  * \param amount_string
  * \param exponent the exponent we want at the end (normally always 2, but if ever...)
  *
- * \return a newly allocated string with only 'exponent' digits after the separator (need to be freed)
+ * \return a newly allocated string with only 'exponent' digits after the separator (need to be freed). This function returns NULL if the amount_string parameter is NULL.
  * */
 gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
 					       gint exponent )

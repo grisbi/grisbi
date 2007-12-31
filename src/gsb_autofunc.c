@@ -366,8 +366,9 @@ GtkWidget *gsb_autofunc_int_new ( gint value,
     /* first, create and fill the entry */
     entry = gtk_entry_new ();
 
-    gtk_entry_set_text ( GTK_ENTRY(entry),
-			 utils_str_itoa (value));
+    gchar* tmpstr = utils_str_itoa (value);
+    gtk_entry_set_text ( GTK_ENTRY(entry), tmpstr);
+    g_free ( tmpstr );
 
     /* set the default func :
      * the func will be send to gsb_editable_set_text by the data,
@@ -413,8 +414,9 @@ void gsb_autofunc_int_set_value ( GtkWidget *entry,
 							     "changed-hook"));
 
     /* Fill in value */
-    gtk_entry_set_text ( GTK_ENTRY(entry),
-			 utils_str_itoa (value));
+    gchar* tmpstr = utils_str_itoa (value);
+    gtk_entry_set_text ( GTK_ENTRY(entry), tmpstr);
+    g_free ( tmpstr );
 
     g_object_set_data ( G_OBJECT (entry),
 			"number_for_func", GINT_TO_POINTER (number_for_func));

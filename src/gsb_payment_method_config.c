@@ -869,10 +869,14 @@ gboolean gsb_payment_method_config_auto_entry_changed ( GtkWidget *spin_button,
 			     PAYMENT_METHODS_NUMBER_COLUMN, &payment_number,
 			     -1 );
 	if (payment_number)
+	{
+	    gchar* tmpstr = utils_str_itoa (gsb_data_payment_get_last_number (payment_number));
 	    gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
 				PAYMENT_METHODS_NUMBERING_COLUMN, 
-				utils_str_itoa (gsb_data_payment_get_last_number (payment_number)),
+				tmpstr,
 				-1);
+	    g_free ( tmpstr );
+	}
     }
     return FALSE;
 }

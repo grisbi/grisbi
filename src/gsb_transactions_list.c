@@ -3896,7 +3896,7 @@ gint schedule_transaction ( gint transaction_number )
     gsb_data_scheduled_set_account_number ( scheduled_number,
 					    gsb_data_transaction_get_account_number (transaction_number));
     gsb_data_scheduled_set_date ( scheduled_number,
-				  gsb_date_copy (gsb_data_transaction_get_date (transaction_number)));
+				  gsb_data_transaction_get_date (transaction_number));
     gsb_data_scheduled_set_amount ( scheduled_number,
 				    gsb_data_transaction_get_amount (transaction_number));
     gsb_data_scheduled_set_currency_number ( scheduled_number,
@@ -3983,7 +3983,7 @@ gint schedule_transaction ( gint transaction_number )
 		gsb_data_scheduled_set_account_number ( breakdown_scheduled_number,
 							gsb_data_transaction_get_account_number (transaction_number_tmp));
 		gsb_data_scheduled_set_date ( breakdown_scheduled_number,
-					      gsb_date_copy (gsb_data_transaction_get_date (transaction_number_tmp)));
+					      gsb_data_transaction_get_date (transaction_number_tmp));
 		gsb_data_scheduled_set_amount ( breakdown_scheduled_number,
 						gsb_data_transaction_get_amount (transaction_number_tmp));
 		gsb_data_scheduled_set_currency_number ( breakdown_scheduled_number,

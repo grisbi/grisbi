@@ -4128,7 +4128,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 									 2 );
 		    gsb_data_transaction_set_amount ( transaction_number,
 						      gsb_real_get_from_string (tmp_string));
-		    g_free (tmp_string);
+		    if (tmp_string) g_free (tmp_string);
 		}
 
 		if ( !strcmp ( attribute_names[i],
@@ -4265,8 +4265,11 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 		if ( !strcmp ( attribute_names[i],
 			       "Date" ))
-		    gsb_data_scheduled_set_date ( scheduled_number,
-						  gsb_parse_date_string (attribute_values[i]));
+		{
+		    GDate *date = gsb_parse_date_string (attribute_values[i]);
+		    gsb_data_scheduled_set_date ( scheduled_number, date);
+		    g_date_free ( date );
+		}
 
 		if ( !strcmp ( attribute_names[i],
 			       "Compte" ))
@@ -4284,7 +4287,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 									 2 );
 		    gsb_data_scheduled_set_amount ( scheduled_number,
 						    gsb_real_get_from_string (tmp_string));
-		    g_free (tmp_string);
+		    if (tmp_string) g_free (tmp_string);
 		}
 
 		if ( !strcmp ( attribute_names[i],
@@ -4369,8 +4372,11 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 		if ( !strcmp ( attribute_names[i],
 			       "Date_limite" ))
-		    gsb_data_scheduled_set_limit_date ( scheduled_number,
-							gsb_parse_date_string (attribute_values[i]));
+		{
+		    GDate* date = gsb_parse_date_string (attribute_values[i]);
+		    gsb_data_scheduled_set_limit_date ( scheduled_number, date);
+		    g_date_free ( date );
+		}
 
 		if ( !strcmp ( attribute_names[i],
 			       "Ech_ventilee" ))
@@ -4766,13 +4772,19 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 		if ( !strcmp ( attribute_names[i],
 			       "Date_debut" ))
-		    gsb_data_fyear_set_begining_date ( fyear_number,
-						       gsb_parse_date_string (attribute_values[i]));
+		{
+		    GDate* date = gsb_parse_date_string (attribute_values[i]);
+		    gsb_data_fyear_set_begining_date ( fyear_number, date);
+		    g_date_free ( date );
+		}
 
 		if ( !strcmp ( attribute_names[i],
 			       "Date_fin" ))
-		    gsb_data_fyear_set_end_date ( fyear_number,
-						  gsb_parse_date_string (attribute_values[i]));
+		{
+		    GDate* date = gsb_parse_date_string (attribute_values[i]);
+		    gsb_data_fyear_set_end_date ( fyear_number, date);
+		    g_date_free ( date );
+		}
 
 		if ( !strcmp ( attribute_names[i],
 			       "Affiche" ))
@@ -4955,7 +4967,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 									 2 );
 		    gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
 									 gsb_real_get_from_string (tmp_string));
-		    g_free (tmp_string);
+		    if (tmp_string) g_free (tmp_string);
 		}
 
 		if ( !strcmp ( attribute_names[i],
@@ -4969,7 +4981,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 									 2 );
 		    gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
 									  gsb_real_get_from_string (tmp_string));
-		    g_free (tmp_string);
+		    if (tmp_string) g_free (tmp_string);
 		}
 
 		i++;
@@ -5442,7 +5454,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 							     2 );
 	gsb_data_account_set_init_balance ( account_number,
 					    gsb_real_get_from_string (tmp_string));
-	g_free (tmp_string);
+	if (tmp_string) g_free (tmp_string);
 	return;
     }
 
@@ -5457,7 +5469,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 							     2 );
 	gsb_data_account_set_mini_balance_wanted ( account_number,
 						   gsb_real_get_from_string (tmp_string));
-	g_free (tmp_string);
+	if (tmp_string) g_free (tmp_string);
 	return;
     }
 
@@ -5472,7 +5484,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 							     2 );
 	gsb_data_account_set_mini_balance_authorized ( account_number,
 						       gsb_real_get_from_string (tmp_string));
-	g_free (tmp_string);
+	if (tmp_string) g_free (tmp_string);
 	return;
     }
 
@@ -5499,7 +5511,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 							     2 );
 	if (buffer_reconcile_conversion)
 	    buffer_reconcile_conversion -> final_balance = gsb_real_get_from_string (tmp_string);
-	g_free (tmp_string);
+	if (tmp_string) g_free (tmp_string);
 	return;
     }
 

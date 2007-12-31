@@ -513,8 +513,9 @@ GtkWidget *onglet_form_completion ( void )
     entry = gtk_entry_new ();
     gtk_widget_set_usize ( entry,
 			   30, FALSE );
-    gtk_entry_set_text ( GTK_ENTRY (entry),
-			   utils_str_itoa (etat.combofix_max_item));
+    gchar* tmpstr = utils_str_itoa (etat.combofix_max_item);
+    gtk_entry_set_text ( GTK_ENTRY (entry), tmpstr);
+    g_free ( tmpstr );
     g_signal_connect ( G_OBJECT (entry),
 		       "changed",
 		       G_CALLBACK (gsb_transactions_list_display_change_max_items),

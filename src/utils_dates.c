@@ -100,7 +100,6 @@ void gsb_date_free_last_date ( void )
     if ( last_date ) 
         g_free ( last_date );
     last_date = NULL;
-    return FALSE;
 }
 
 
@@ -109,7 +108,7 @@ void gsb_date_free_last_date ( void )
  *
  * \param
  *
- * \return the date of the day. Use g_date_free to free memory when no more used.
+ * \return a newly allocated GDate which represents the date of the day. Use g_date_free to free memory when no more used.
  * */
 GDate *gdate_today ( void )
 {
@@ -446,10 +445,10 @@ GDate *gsb_parse_date_string_safe ( const gchar *date_string )
  */
 gchar *gsb_format_date ( gint day, gint month, gint year )
 {
-    gchar* tmpstr = g_date_new_dmy ( day, month, year );
-    char* resultstr = gsb_format_gdate ( tmpstr );
-    g_free ( tmpstr );
-    return resultstr;
+    GDate* date = g_date_new_dmy ( day, month, year );
+    gchar* result = gsb_format_gdate ( date );
+    g_date_free ( date );
+    return result;
 }
 
 

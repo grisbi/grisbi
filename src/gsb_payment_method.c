@@ -310,8 +310,9 @@ gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
 	if (gsb_data_payment_get_automatic_numbering (payment_number))
 	{
 	    gsb_form_entry_get_focus (cheque_entry);
-	    gtk_entry_set_text ( GTK_ENTRY (cheque_entry),
-				 utils_str_itoa (gsb_data_payment_get_last_number (payment_number)));
+	    gchar* tmpstr = utils_str_itoa (gsb_data_payment_get_last_number (payment_number));
+	    gtk_entry_set_text ( GTK_ENTRY (cheque_entry), tmpstr);
+	    g_free ( tmpstr );
 	}
 	else
 	{

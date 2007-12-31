@@ -431,23 +431,32 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
 			 -1 );
     date_2 = gsb_parse_date_string ( date_str );
 
-    if ( date_1
-	 &&
-	 date_2 )
+    if ( date_1 && date_2 )
 	return_value = g_date_compare ( date_1,
 					date_2 );
 
     /* if we are here it's because we are in a child of breakdown */
 
     if ( number_1 < 0 )
+    {
+        if ( date_1) g_free ( date_1);
+        if ( date_2) g_free ( date_2);
 	return 1;
+    }
     if ( number_2 < 0 )
+    {
+        if ( date_1) g_free ( date_1);
+        if ( date_2) g_free ( date_2);
 	return -1;
+    }
 
-    if ( return_value )
-	return return_value;
-    else
-	return ( number_1 - number_2 );
+    if (! return_value )
+	return_value = number_1 - number_2;
+
+    if ( date_1) g_free ( date_1);
+    if ( date_2) g_free ( date_2);
+
+    return return_value;
 }
 
 

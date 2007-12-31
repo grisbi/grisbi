@@ -272,9 +272,11 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 
     if ( iface -> div_nb_transactions ( division ))
     {
+	gchar* tmpstr = utils_str_itoa ( iface -> div_nb_transactions (division) );
 	label = g_strconcat ( string_tmp, " (",
-			      utils_str_itoa ( iface -> div_nb_transactions (division) ), ")",
+			      tmpstr , ")",
 			      NULL );
+	g_free ( tmpstr );
 	balance = gsb_format_amount ( iface -> div_balance ( division ),
 				      iface -> tree_currency () );
     }
@@ -347,7 +349,9 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     
     if ( nb_ecritures )
     {
-	label = g_strconcat ( string_tmp, " (", utils_str_itoa ( nb_ecritures ), ")", NULL );
+	gchar* tmpstr = utils_str_itoa ( nb_ecritures );
+	label = g_strconcat ( string_tmp, " (", tmpstr, ")", NULL );
+	g_free ( tmpstr );
 	
 	if ( ! gtk_tree_model_iter_has_child ( model, iter ) )
 	{

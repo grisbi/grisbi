@@ -293,8 +293,10 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 		gint number;
 
 		number = gsb_data_payment_get_last_number (payment_number) + 1;
+		gchar* tmpstr = utils_str_itoa (number);
 		gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-								     utils_str_itoa (number));
+								     tmpstr);
+		g_free ( tmpstr );
 		gsb_data_payment_set_last_number ( payment_number, number );
 	    }
 	    else
@@ -534,6 +536,8 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 
     if ( scheduled_transactions_to_take )
 	mise_a_jour_liste_echeances_manuelles_accueil = 1;
+
+    g_date_free ( date );
 }
 
 

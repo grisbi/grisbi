@@ -1149,6 +1149,7 @@ gboolean gsb_form_scheduler_set_frequency_user ( gint user_freq )
 
     gsb_form_widget_set_empty (entry, FALSE);
     gtk_entry_set_text ( GTK_ENTRY (entry), string);
+    g_free ( string ) ;
 
     return TRUE;
 }

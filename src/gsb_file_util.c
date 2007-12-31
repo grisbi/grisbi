@@ -153,6 +153,7 @@ gint gsb_file_util_compress_file ( gchar **file_content,
 	iterator = iterator + new_length;
 
 	g_free (temp);
+	g_free ( str_length );
 
 	return iterator;
     }

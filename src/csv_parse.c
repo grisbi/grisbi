@@ -193,9 +193,12 @@ gboolean csv_import_validate_date ( gchar * string )
     if ( date && g_date_valid ( date ) && 
 	 ! csv_import_validate_number ( string ) )
     {
+	g_date_free ( date );
 	return TRUE;
     }
     
+    if ( date );
+	g_date_free ( date );
     return FALSE;
 }
 
@@ -274,7 +277,10 @@ gboolean csv_import_parse_date ( struct struct_ope_importation * ope, gchar * st
 {
     g_return_val_if_fail ( string, FALSE );
 
+    if ( ope -> date ) 
+        g_date_free ( ope-> date );
     ope -> date = gsb_parse_date_string ( string );
+
     if ( ! ope -> date )
     {
 	ope -> date = gdate_today ();
@@ -292,7 +298,11 @@ gboolean csv_import_parse_date ( struct struct_ope_importation * ope, gchar * st
 gboolean csv_import_parse_value_date ( struct struct_ope_importation * ope, gchar * string )
 {
     g_return_val_if_fail ( string, FALSE );
+
+    if (ope -> date_de_valeur )
+        g_free ( ope -> date_de_valeur);
     ope -> date_de_valeur = gsb_parse_date_string ( string );
+
     return g_date_valid ( ope -> date_de_valeur );
 }
 
