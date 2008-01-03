@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-04 20:16+0200\n"
-"PO-Revision-Date: 2008-01-03 15:55+0100\n"
+"PO-Revision-Date: 2008-01-03 16:07+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -704,14 +704,12 @@ msgid "Execute"
 msgstr "Ejecutar"
 
 #: src/barre_outils.c:465
-#, fuzzy
 msgid "Execute current scheduled transaction if it is at maturity date"
-msgstr "Transacciones programadas manualmente en la fecha de vencimiento"
+msgstr "Ejecutar la transacción programada actual si está en la fecha de vencimiento"
 
 #: src/barre_outils.c:473
-#, fuzzy
 msgid "Change display mode of scheduled transaction list"
-msgstr "Mostrar las transacciones programadas"
+msgstr "Cambiar el modo de presentación a la lista de transacciones programadas"
 
 #: src/categories_onglet.c:70
 msgid "Food : Bar"
@@ -830,7 +828,6 @@ msgid "Studies : Lessons"
 msgstr "Estudios : Clases"
 
 #: src/categories_onglet.c:99
-#, fuzzy
 msgid "Studies : Scool fees"
 msgstr "Estudios : Tasas escolares"
 
@@ -839,12 +836,10 @@ msgid "Studies : Books"
 msgstr "Estudios : Libros"
 
 #: src/categories_onglet.c:101
-#, fuzzy
 msgid "Miscelanious : Gifts"
 msgstr "Varios : Regalos"
 
 #: src/categories_onglet.c:102
-#, fuzzy
 msgid "Financial expenses : Miscelanious"
 msgstr "Gastos financieros : Varios"
 
@@ -865,17 +860,14 @@ msgid "Financial expenses : Refunding"
 msgstr "Gastos financieros : Reembolsos"
 
 #: src/categories_onglet.c:107
-#, fuzzy
 msgid "Professionnal expenses : Non refundable"
 msgstr "Gastos laborales : No recuperable"
 
 #: src/categories_onglet.c:108
-#, fuzzy
 msgid "Professionnal expenses : Refundable"
 msgstr "Gastos laborales : Recuperable"
 
 #: src/categories_onglet.c:109
-#, fuzzy
 msgid "Taxes : Miscelanious"
 msgstr "Impuestos : Varios"
 
@@ -1080,17 +1072,14 @@ msgid "Transport : Travels"
 msgstr "Transporte : Viajes"
 
 #: src/categories_onglet.c:161
-#, fuzzy
 msgid "Holiday : Housing"
 msgstr "Vacaciones : Alojamientos"
 
 #: src/categories_onglet.c:162
-#, fuzzy
 msgid "Holiday : Visits"
 msgstr "Vacaciones : Visitas"
 
 #: src/categories_onglet.c:163
-#, fuzzy
 msgid "Holiday : Travels"
 msgstr "Vacaciones : Viajes"
 
@@ -1185,13 +1174,12 @@ msgid "Export categories"
 msgstr "Exportar categorías"
 
 #: src/categories_onglet.c:506
-#, fuzzy
 msgid "Import categories"
-msgstr "Exportar categorías"
+msgstr "Importar categorías"
 
 #: src/categories_onglet.c:512
 msgid "Grisbi category files (*.cgsb)"
-msgstr "Archivo de categorías de Grisbi (*.cgsb)"
+msgstr "Archivos de categorías de Grisbi (*.cgsb)"
 
 #: src/categories_onglet.c:518 src/etats_onglet.c:1266
 #: src/fichiers_gestion.c:231 src/import.c:547 src/imputation_budgetaire.c:405
@@ -1199,17 +1187,16 @@ msgid "All files"
 msgstr "Todos los archivos"
 
 #: src/categories_onglet.c:538
-#, fuzzy
 msgid "Merge imported categories with existing?"
-msgstr "Unir las dos listas de categorías"
+msgstr "¿ Unir las categorías importadas con las existentes ?"
 
 #: src/categories_onglet.c:540 src/imputation_budgetaire.c:427
-#, fuzzy
 msgid ""
 "File already contains transactions.  If you decide to continue, existing "
 "categories will be merged with imported ones."
 msgstr ""
-"El fichero ya contiene transacciones, las dos listas de categorías se unirán."
+"El fichero ya contiene transacciones, si decide continuar, las categorías "
+"existentes se unirán con las importadas."
 
 #: src/categories_onglet.c:541
 msgid ""
@@ -1236,21 +1223,20 @@ msgstr ""
 "categoría"
 
 #: src/categories_onglet.c:602
-#, fuzzy
 msgid "Create a new category"
-msgstr "Crear una cuenta nueva"
+msgstr "Crear una nueva categoría"
 
 #: src/categories_onglet.c:607
 msgid ""
 "New sub\n"
 "category"
-msgstr "Nueva\n"
+msgstr ""
+"Nueva\n"
 "subcategoría"
 
 #: src/categories_onglet.c:614
-#, fuzzy
 msgid "Create a new sub-category"
-msgstr "Introduzca el nombre para una nueva subcategoría"
+msgstr "Crear una nueva subcategoría"
 
 #: src/categories_onglet.c:620 src/etats_onglet.c:131 src/import.c:296
 #: src/import.c:2756 src/imputation_budgetaire.c:505 src/parametres.c:253
@@ -1258,9 +1244,8 @@ msgid "Import"
 msgstr "Importar"
 
 #: src/categories_onglet.c:624
-#, fuzzy
 msgid "Import a Grisbi category file (.cgsb)"
-msgstr "Importar una lista de categorías"
+msgstr "Importar un archivo de lista de categorías de Grisbi (.cgsb)"
 
 #: src/categories_onglet.c:630 src/etats_onglet.c:140 src/export.c:158
 #: src/imputation_budgetaire.c:515
@@ -1268,14 +1253,12 @@ msgid "Export"
 msgstr "Exportar"
 
 #: src/categories_onglet.c:634
-#, fuzzy
 msgid "Export a Grisbi category file (.cgsb)"
-msgstr "Exportar categorías"
+msgstr "Exportar un archivo de categorías de Grisbi (.cgsb)"
 
 #: src/categories_onglet.c:643
-#, fuzzy
 msgid "Delete selected category"
-msgstr "¡Por favor introduzca una categoría!"
+msgstr "Borrar la categoría seleccionada"
 
 #: src/categories_onglet.c:648 src/etats_onglet.c:170
 #: src/fenetre_principale.c:253 src/imputation_budgetaire.c:534
@@ -1288,9 +1271,8 @@ msgid "Edit selected category"
 msgstr "Editar la categoría seleccionada"
 
 #: src/categories_onglet.c:662 src/tiers_onglet.c:263
-#, fuzzy
 msgid "Change view mode"
-msgstr "Modo de una línea"
+msgstr "Cambiar el modo de la vista"
 
 #. Edit transaction
 #: src/categories_onglet.c:685
@@ -1298,16 +1280,15 @@ msgid "Category view"
 msgstr "Vista de categorías"
 
 #: src/categories_onglet.c:691
-#, fuzzy
 msgid "Subcategory view"
-msgstr "Subcategorías"
+msgstr "Vista de subcategorías"
 
 #: src/categories_onglet.c:741 src/categories_onglet.c:745
 #: src/imputation_budgetaire.c:626 src/imputation_budgetaire.c:631
 #: src/tiers_onglet.c:411
-#, fuzzy, c-format
+#, c-format
 msgid "Properties for %s"
-msgstr "Resultado para %s"
+msgstr "Propiedades para %s"
 
 #: src/categories_onglet.c:743
 #, fuzzy
