@@ -67,7 +67,7 @@ extern GtkWidget *window;
 
 gint largeur_window;
 gint hauteur_window;
-gchar *buffer_dernier_fichier;
+static gchar *buffer_dernier_fichier;
 
 /* contient le nb de derniers fichiers ouverts */
 

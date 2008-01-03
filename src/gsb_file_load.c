@@ -167,12 +167,12 @@ static gint last_budget = 0;
 static gint last_sub_budget_number = 0;
 
 /* to import older file than 0.6, makes the link between report and comparison structures */
-gint last_report_number;
+static gint last_report_number;
 
 /** filled only when loading a version before 0.6, contains the order of the accounts
  * in the 0.6, the accounts are saved directly in the good order
  * this is a list of the accounts number, in the good order */
-static GSList *sort_accounts;
+static GSList *sort_accounts = NULL;
 
 /* temporary structure used to go from the 0.5.x versions to 0.6.x versions
  * because before, method of payment were saved in each account, and now
@@ -183,7 +183,7 @@ struct payment_conversion_struct
     gint last_payment_number;
     gint new_payment_number;
 };
-static GSList *payment_conversion_list;
+static GSList *payment_conversion_list = NULL;
 
 /** temporary structure to set the final date and the final balance of a reconcile
  * in the reconcile itself, and not in the account as before 0.6.0 */
@@ -193,7 +193,7 @@ struct reconcile_conversion_struct
     GDate *final_date;
     gsb_real final_balance;
 };
-static GSList *reconcile_conversion_list;
+static GSList *reconcile_conversion_list = NULL;
 static struct reconcile_conversion_struct *buffer_reconcile_conversion;
 
 /*!

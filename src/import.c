@@ -113,7 +113,7 @@ extern GtkWidget *window;
 
 
 /** Suppported import formats.  Plugins may register themselves. */
-GSList * import_formats = NULL;
+static GSList * import_formats = NULL;
 
 /** Known built-in import formats.  Others are plugins.  */
 struct import_format builtin_formats[] = {
@@ -128,7 +128,7 @@ static gint mother_transaction_number;
 gint valeur_echelle_recherche_date_import;
 GSList *liste_comptes_importes;
 GSList *liste_comptes_importes_error;
-gint virements_a_chercher;
+static gint virements_a_chercher;
 
 enum import_filesel_columns { 
     IMPORT_FILESEL_SELECTED = 0,
@@ -156,7 +156,7 @@ enum import_pages {
  */
 void register_import_formats ()
 {
-    int i;
+    gint i;
     for ( i = 0; builtin_formats [ i ] . name != NULL ; i ++ )
     {
 	register_import_format ( &builtin_formats [ i ] );

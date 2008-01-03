@@ -80,17 +80,17 @@ extern GtkWidget *window;
 /*END_EXTERN*/
 
 gchar *chemin_logo = NULL;
-GtkWidget *logo_accueil;
-GtkWidget *hbox_title;
-GtkWidget *label_titre_fichier;
-GtkWidget *frame_etat_comptes_accueil;
-GtkWidget *frame_etat_fin_compte_passif;
-GtkWidget *frame_etat_echeances_manuelles_accueil;
-GtkWidget *frame_etat_echeances_auto_accueil;
-GtkWidget *main_page_finished_scheduled_transactions_part;
-GtkWidget *frame_etat_soldes_minimaux_autorises;
-GtkWidget *frame_etat_soldes_minimaux_voulus;
-GtkStyle *style_label;
+GtkWidget *logo_accueil = NULL;
+GtkWidget *hbox_title = NULL;
+GtkWidget *label_titre_fichier = NULL;
+static GtkWidget *frame_etat_comptes_accueil = NULL;
+static GtkWidget *frame_etat_fin_compte_passif = NULL;
+static GtkWidget *frame_etat_echeances_manuelles_accueil = NULL;
+static GtkWidget *frame_etat_echeances_auto_accueil = NULL;
+static GtkWidget *main_page_finished_scheduled_transactions_part = NULL;
+static GtkWidget *frame_etat_soldes_minimaux_autorises = NULL;
+static GtkWidget *frame_etat_soldes_minimaux_voulus = NULL;
+static GtkStyle *style_label;
 
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 #define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
@@ -141,12 +141,16 @@ GtkWidget *creation_onglet_accueil ( void )
 	GtkStyle * style;
 
 	hbox_title = gtk_hbox_new ( FALSE, 0 );
+	g_signal_connect ( G_OBJECT ( hbox_title ), "destroy",
+	    			G_CALLBACK( gtk_widget_destroyed ), &hbox_title);
 
 	eb = gtk_event_box_new ();
 	style = gtk_widget_get_style ( eb );
 	gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
 
 	label_titre_fichier = gtk_label_new ( titre_fichier );
+	g_signal_connect ( G_OBJECT ( label_titre_fichier ), "destroy",
+	    			G_CALLBACK( gtk_widget_destroyed ), &label_titre_fichier );
 	gchar* tmpstr = g_strconcat ("<span size=\"x-large\">",
 					    titre_fichier, "</span>", NULL );
 	gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr);
@@ -155,6 +159,8 @@ GtkWidget *creation_onglet_accueil ( void )
 	if ( etat.utilise_logo && chemin_logo )
 	{
 	    logo_accueil =  gtk_image_new_from_file ( chemin_logo );
+	    g_signal_connect ( G_OBJECT ( logo_accueil ), "destroy",
+	    			G_CALLBACK( gtk_widget_destroyed ), &logo_accueil);
 	    gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 20 );
 	}
 	
@@ -172,6 +178,8 @@ GtkWidget *creation_onglet_accueil ( void )
     
     /* on crée la première frame dans laquelle on met les états des comptes */
     frame_etat_comptes_accueil = gtk_notebook_new ();
+    g_signal_connect ( G_OBJECT ( frame_etat_comptes_accueil ), "destroy",
+	    			G_CALLBACK( gtk_widget_destroyed ), &frame_etat_comptes_accueil);
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_comptes_accueil), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_comptes_accueil), FALSE );
     gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_comptes_accueil), 0 );
@@ -186,6 +194,8 @@ GtkWidget *creation_onglet_accueil ( void )
     paddingbox = new_paddingbox_with_title ( base, FALSE,
 					     _("Closed liabilities accounts") );
     frame_etat_fin_compte_passif = gtk_notebook_new ();
+    g_signal_connect ( G_OBJECT ( frame_etat_fin_compte_passif ), "destroy",
+	    			G_CALLBACK( gtk_widget_destroyed ), &frame_etat_fin_compte_passif );
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), FALSE );
     gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_fin_compte_passif, FALSE, FALSE, 0 );

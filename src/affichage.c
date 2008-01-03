@@ -87,13 +87,14 @@ extern GtkWidget *window;
 
 
 
-GtkWidget * list_font_name_label, * list_font_size_label;
+static GtkWidget* list_font_name_label = NULL;
+static GtkWidget* list_font_size_label = NULL;
 
 /** Button used to store a nice preview of the homepage logo */
-GtkWidget *logo_button;
+static GtkWidget *logo_button = NULL;
 
 /** GtkImage containing the preview  */
-GtkWidget *preview;
+static GtkWidget *preview = NULL;
 
 
 /**
@@ -154,6 +155,8 @@ GtkWidget * onglet_display_fonts ( void )
 		       G_CALLBACK ( change_choix_utilise_logo ), hbox );
 
     logo_button = gtk_button_new ();
+    g_signal_connect ( G_OBJECT (logo_button ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &logo_button );
     gtk_button_set_relief ( GTK_BUTTON ( logo_button ), GTK_RELIEF_NONE );
 
     if ( chemin_logo )
@@ -183,6 +186,8 @@ GtkWidget * onglet_display_fonts ( void )
 	}
 	preview = gtk_image_new_from_pixbuf (pixbuf);
     }
+    g_signal_connect ( G_OBJECT (preview ), "destroy",
+			G_CALLBACK ( gtk_widget_destroyed), &preview );
 
     gtk_container_add (GTK_CONTAINER(logo_button), preview);
     g_signal_connect_swapped ( G_OBJECT ( logo_button ), "clicked",
@@ -223,12 +228,16 @@ GtkWidget * onglet_display_fonts ( void )
 	pango_desc_fonte_liste = pango_font_description_from_string ("Sans 10" );
 
     list_font_name_label = gtk_label_new (pango_font_description_to_string ( pango_desc_fonte_liste ));
+    g_signal_connect ( G_OBJECT (list_font_name_label ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &list_font_name_label );
     gtk_widget_modify_font (list_font_name_label, pango_desc_fonte_liste);
     gtk_box_pack_start ( GTK_BOX ( hbox_font ), list_font_name_label,
 			 TRUE, TRUE, 5 );
     gtk_box_pack_start ( GTK_BOX ( hbox_font ), gtk_vseparator_new (),
 			 FALSE, FALSE, 0 );
     list_font_size_label = gtk_label_new (NULL);
+    g_signal_connect ( G_OBJECT (list_font_size_label ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &list_font_size_label );
     gtk_box_pack_start ( GTK_BOX ( hbox_font ), list_font_size_label,
 			 FALSE, FALSE, 5 );
     gtk_container_add (GTK_CONTAINER(font_button), hbox_font);

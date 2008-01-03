@@ -42,23 +42,27 @@ extern GtkWidget *window;
 /*END_EXTERN*/
 
 /** Status bar displayed in the bottom of Grisbi window.  */
-GtkWidget *main_statusbar = NULL;
+static GtkWidget *main_statusbar = NULL;
 
 /** Context ID from the GtkStatusBar. */
-guint context_id;
+static guint context_id;
 
 /** Message ID from the GtkStatusBar.  */
-guint message_id = -1;
+static guint message_id = -1;
 
 /** Optional progress bar in main status bar.  */
-GtkWidget * progress_bar = NULL;
+/*
+static GtkWidget * progress_bar = NULL;
+*/
 
 /** Timer ID of the timeout responsible for updating the
  * GtkProgressBar.  */
-int timer_id;
+/*
+static gint timer_id;
+*/
 
 /** Window under cursor at the time the cursor animation changed. */
-GdkWindow * tracked_window;
+static GdkWindow * tracked_window;
 
 
 /**
@@ -70,6 +74,8 @@ GdkWindow * tracked_window;
 GtkWidget * gsb_new_statusbar ()
 {
     main_statusbar = gtk_statusbar_new ();
+    g_signal_connect ( G_OBJECT (main_statusbar ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &main_statusbar );
     context_id = gtk_statusbar_get_context_id ( GTK_STATUSBAR (main_statusbar), "Grisbi" );
     message_id = -1;
 
@@ -135,6 +141,8 @@ void gsb_status_show_progress ()
     }
 
     progress_bar = gtk_progress_bar_new();
+    g_signal_connect ( G_OBJECT (progress_bar ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &progress_bar );
     gtk_box_pack_start ( GTK_BOX ( main_statusbar ), progress_bar, FALSE, FALSE, 6 );
     gtk_widget_show ( progress_bar );
 }

@@ -48,11 +48,11 @@ static void latex_safe ( gchar * text ) ;
 
 
 
-int lastline = 0;
-int lastcol = 0;
-int last_is_hsep = 0;
-FILE *file_out;
-gchar * tempname;
+static gint lastline = 0;
+static gint lastcol = 0;
+static gint last_is_hsep = 0;
+static FILE *file_out;
+static gchar * tempname;
 
 
 struct struct_etat_affichage latex_affichage = {

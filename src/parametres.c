@@ -68,33 +68,33 @@ static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 
 
 
-GtkTreeStore *preference_tree_model;
-GtkWidget * hpaned;
-GtkNotebook * preference_frame;
-gint preference_selected = -1;
-GtkTreeSelection * selection;
-GtkWidget *tree_view;
+static GtkTreeStore *preference_tree_model = NULL;
+static GtkWidget * hpaned = NULL;
+static GtkNotebook * preference_frame = NULL;
+static gint preference_selected = -1;
+GtkTreeSelection * selection = NULL;
+static GtkWidget *tree_view = NULL;
 
-GtkWidget *fenetre_preferences;
+GtkWidget *fenetre_preferences = NULL;
 
-GtkWidget *entree_titre_fichier;
-GtkWidget *entree_adresse_commune;
-GtkWidget *entree_adresse_secondaire;
+GtkWidget *entree_titre_fichier = NULL;
+GtkWidget *entree_adresse_commune = NULL;
+GtkWidget *entree_adresse_secondaire = NULL;
 
 /* FIXME : some of that buttons are used only in a function, check them and
  * remove them from the globals variables */
 
-GtkWidget *bouton_avec_demarrage;
-GtkWidget *bouton_save_auto;
-GtkWidget *bouton_force_enregistrement;
-GtkWidget *crypt_file_button;
-GtkWidget *bouton_demande_backup;
-GtkWidget *entree_chemin_backup;
-GtkWidget *spin_button_derniers_fichiers_ouverts;
-GtkWidget *check_button_compress_file;
-GtkWidget *check_button_compress_backup;
-GtkWidget *bouton_save_demarrage;
-GtkWidget *entree_jours;
+static GtkWidget *bouton_avec_demarrage = NULL;
+static GtkWidget *bouton_save_auto = NULL;
+static GtkWidget *bouton_force_enregistrement = NULL;
+static GtkWidget *crypt_file_button = NULL;
+static GtkWidget *bouton_demande_backup = NULL;
+static GtkWidget *entree_chemin_backup = NULL;
+static GtkWidget *spin_button_derniers_fichiers_ouverts = NULL;
+static GtkWidget *check_button_compress_file = NULL;
+static GtkWidget *check_button_compress_backup = NULL;
+static GtkWidget *bouton_save_demarrage = NULL;
+static GtkWidget *entree_jours = NULL;
 
 
 
@@ -134,8 +134,11 @@ GtkWidget * create_preferences_tree ( )
 				    GTK_POLICY_NEVER,
 				    GTK_POLICY_AUTOMATIC);
     tree_view = gtk_tree_view_new();
+    g_signal_connect ( G_OBJECT (tree_view ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &tree_view );
     gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), 
 			     GTK_TREE_MODEL (preference_tree_model));
+    g_object_unref (G_OBJECT(preference_tree_model));
 
     /* Make column */
     cell = gtk_cell_renderer_text_new ();
@@ -216,10 +219,14 @@ void preferences ( gint page )
 						       /* 			  GTK_STOCK_HELP,  GTK_RESPONSE_HELP, */
 						       GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 						       NULL);
+    g_signal_connect ( G_OBJECT (fenetre_preferences ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &fenetre_preferences );
 
     /* Create List & Tree for topics */
     tree = create_preferences_tree();  
     hpaned = gtk_hpaned_new();
+    g_signal_connect ( G_OBJECT (hpaned ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &hpaned );
     gtk_paned_add1(GTK_PANED(hpaned), tree);
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_paned_add2(GTK_PANED(hpaned), hbox);
@@ -229,6 +236,8 @@ void preferences ( gint page )
 
     /* Frame for preferences */
     preference_frame = GTK_NOTEBOOK ( gtk_notebook_new () );
+    g_signal_connect ( G_OBJECT (preference_frame ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &preference_frame );
     gtk_notebook_set_show_border ( preference_frame, FALSE );
     gtk_notebook_set_show_tabs  ( preference_frame, FALSE );
     gtk_notebook_set_scrollable ( preference_frame, TRUE );
@@ -525,6 +534,8 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
     entree_jours = gsb_automem_spin_button_new ( &nb_days_before_scheduled,
 						 NULL, NULL );
+    g_signal_connect ( G_OBJECT (entree_jours ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &entree_jours );
     gtk_box_pack_start ( GTK_BOX ( hbox ), entree_jours, FALSE, FALSE, 0 );
 
     /* Tip of the day */
@@ -547,6 +558,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
     tree_view = gtk_tree_view_new();
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL (model) );
+    g_object_unref (G_OBJECT(model));
     gtk_container_add (GTK_CONTAINER (sw), tree_view);
     gtk_box_pack_start ( GTK_BOX(paddingbox), sw, TRUE, TRUE, 0 );
 
@@ -657,11 +669,15 @@ GtkWidget *onglet_fichier ( void )
     bouton_avec_demarrage =
 	gsb_automem_checkbutton_new (_("Automatically load last file on startup"),
 				  &(etat.dernier_fichier_auto), NULL, NULL );
+    g_signal_connect ( G_OBJECT (bouton_avec_demarrage ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_avec_demarrage );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_avec_demarrage, 
 			 FALSE, FALSE, 0 );
 
     bouton_save_auto = gsb_automem_checkbutton_new (_("Automatically save on exit"),
 						 &(etat.sauvegarde_auto), NULL, NULL);
+    g_signal_connect ( G_OBJECT (bouton_save_auto ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_save_auto );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_save_auto, 
 			 FALSE, FALSE, 0 );
 
@@ -669,6 +685,8 @@ GtkWidget *onglet_fichier ( void )
     bouton_force_enregistrement = 
 	gsb_automem_checkbutton_new ( _("Force saving of locked files"),
 				   &(etat.force_enregistrement), NULL, NULL );
+    g_signal_connect ( G_OBJECT (bouton_force_enregistrement ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_force_enregistrement );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_force_enregistrement,
 			 FALSE, FALSE, 0 );
 
@@ -676,6 +694,8 @@ GtkWidget *onglet_fichier ( void )
     crypt_file_button = 
 	gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
 				   &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
+    g_signal_connect ( G_OBJECT (crypt_file_button ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &crypt_file_button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), crypt_file_button,
 			 FALSE, FALSE, 0 );
 
@@ -683,6 +703,8 @@ GtkWidget *onglet_fichier ( void )
     check_button_compress_file = 
 	gsb_automem_checkbutton_new ( _("Compress Grisbi file"),
 				   &(etat.compress_file), NULL, NULL );
+    g_signal_connect ( G_OBJECT (check_button_compress_file ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &check_button_compress_file );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_button_compress_file,
 			 FALSE, FALSE, 0 );
 
@@ -695,6 +717,8 @@ GtkWidget *onglet_fichier ( void )
 			 FALSE, FALSE, 0 );
     spin_button_derniers_fichiers_ouverts = gsb_automem_spin_button_new ( &(nb_max_derniers_fichiers_ouverts),
 									  G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
+    g_signal_connect ( G_OBJECT (spin_button_derniers_fichiers_ouverts ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &spin_button_derniers_fichiers_ouverts );
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_derniers_fichiers_ouverts,
 			 FALSE, FALSE, 0 );
 
@@ -706,12 +730,16 @@ GtkWidget *onglet_fichier ( void )
     bouton_save_demarrage = 
 	gsb_automem_checkbutton_new ( _("Make a backup copy after opening files"),
 				   &(etat.sauvegarde_demarrage), NULL, NULL );
+    g_signal_connect ( G_OBJECT (bouton_save_demarrage ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_save_demarrage );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_save_demarrage,
 			 FALSE, FALSE, 0 );
 
     /* Automatic backup ? */
     bouton_demande_backup = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
 							 NULL, G_CALLBACK (changement_choix_backup), NULL);
+    g_signal_connect ( G_OBJECT (bouton_demande_backup ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_demande_backup );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_demande_backup,
 			 FALSE, FALSE, 0 );
 
@@ -732,6 +760,8 @@ GtkWidget *onglet_fichier ( void )
 			     FALSE, FALSE, 0 );
 
 	entree_chemin_backup = gtk_entry_new ();
+	g_signal_connect ( G_OBJECT (entree_chemin_backup ), "destroy",
+			G_CALLBACK ( gtk_widget_destroyed), &entree_chemin_backup );
 
 	if ( nom_fichier_backup && strlen(nom_fichier_backup) )
 	{
@@ -765,6 +795,8 @@ GtkWidget *onglet_fichier ( void )
     check_button_compress_backup =
 	gsb_automem_checkbutton_new ( _("Compress Grisbi backup"),
 				   &(etat.compress_backup), NULL, NULL );
+    g_signal_connect ( G_OBJECT (check_button_compress_backup ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &check_button_compress_backup );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_button_compress_backup,
 			 FALSE, FALSE, 0 );
 

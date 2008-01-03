@@ -72,8 +72,8 @@ static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
 
 /* vbox ajoutée dans la fenetre de base, contient le menu et la fenetre d'utilisation */
 
-GtkWidget *window;
-GtkWidget *window_vbox_principale;
+GtkWidget *window = NULL;
+GtkWidget *window_vbox_principale = NULL;
 
 /*START_EXTERN*/
 extern gint hauteur_window;
@@ -96,6 +96,10 @@ int main (int argc, char *argv[])
     gboolean first_use = FALSE;
     gchar *string;
     gchar *path;
+
+#if GSB_GMEMPROFILE
+    g_mem_set_vtable(glib_mem_profiler_table);
+#endif
 
     initialize_debugging();
 
@@ -145,7 +149,6 @@ int main (int argc, char *argv[])
     /* parse command line parameter, exit with correct error code when needed */
     {
         CMDLINE_ERRNO status = CMDLINE_SYNTAX_OK;/* be optimistic ;-) */
-	/* TODO dOm : I add the (gint*) cast */
         if (!parse_options(argc, argv, &opt,(gint*)&status))
         {
             exit(status);
@@ -184,6 +187,9 @@ int main (int argc, char *argv[])
 		       "window-state-event",
 		       G_CALLBACK (gsb_grisbi_change_state_window),
 		       NULL );
+    g_signal_connect ( G_OBJECT ( window ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &window);
+    
     gtk_window_set_policy ( GTK_WINDOW ( window ),
 			    TRUE,
 			    TRUE,
@@ -194,6 +200,9 @@ int main (int argc, char *argv[])
     gtk_container_add ( GTK_CONTAINER ( window ),
 			window_vbox_principale );
     gtk_widget_show ( window_vbox_principale );
+    g_signal_connect ( G_OBJECT(window_vbox_principale), "destroy",
+    			G_CALLBACK(gtk_widget_destroyed), 
+			&window_vbox_principale);
 
     /* We create the statusbar first. */
     statusbar = gsb_new_statusbar ();
@@ -261,12 +270,18 @@ int main (int argc, char *argv[])
 	gtk_window_maximize (GTK_WINDOW (window));
 
     gtk_main ();
+   
 
     gsb_plugins_release ( );
 
     /* sauvegarde les raccourcis claviers */
     gtk_accel_map_save (path);
     g_free (path);
+
+#if GSB_GMEMPROFILE
+    g_mem_profile();
+#endif
+
     exit(0);
 }
 

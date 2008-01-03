@@ -51,14 +51,14 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button );
 
 
 /** Used to display/hide comments in scheduler list */
-GtkWidget *scheduler_display_hide_comments;
+static GtkWidget *scheduler_display_hide_comments = NULL;
 
 
 /** here are the 3 buttons on the scheduler toolbar
  * which can been unsensitive or sensitive */
-GtkWidget *scheduler_button_execute;
-GtkWidget *scheduler_button_delete;
-GtkWidget *scheduler_button_edit;
+GtkWidget *scheduler_button_execute = NULL;
+GtkWidget *scheduler_button_delete = NULL;
+GtkWidget *scheduler_button_edit = NULL;
 
 
 
@@ -339,6 +339,8 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 							    _("Delete"),
 							    G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction_by_menu ),
 							    NULL );
+    g_signal_connect ( G_OBJECT (scheduler_button_delete ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &scheduler_button_delete );
     gtk_widget_set_sensitive ( scheduler_button_delete,
 			       FALSE );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), scheduler_button_delete,
@@ -350,6 +352,8 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 							  _("Edit"),
 							  G_CALLBACK ( gsb_scheduler_list_edit_transaction ),
 							  0 );
+    g_signal_connect ( G_OBJECT (scheduler_button_edit ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &scheduler_button_edit );
     gtk_widget_set_sensitive ( scheduler_button_edit,
 			       FALSE );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), scheduler_button_edit,
@@ -362,6 +366,8 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 									"comments.png",
 									G_CALLBACK ( gsb_scheduler_list_show_notes ),
 									0 );
+    g_signal_connect ( G_OBJECT (scheduler_display_hide_comments ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &scheduler_display_hide_comments );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
 			   scheduler_display_hide_comments,
 			   _("Display scheduled transactions comments"), "" );
@@ -374,6 +380,8 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 							     _("Execute"),
 							     G_CALLBACK ( gsb_scheduler_list_execute_transaction ),
 							     NULL ); 
+    g_signal_connect ( G_OBJECT (scheduler_button_execute ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &scheduler_button_execute );
     gtk_widget_set_sensitive ( scheduler_button_execute,
 			       FALSE );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 

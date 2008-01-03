@@ -56,17 +56,12 @@ static gboolean payee_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePa
 static gboolean popup_payee_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
 
-
-
-GtkWidget *arbre_tiers;
+GtkWidget *arbre_tiers = NULL;
 
 gint no_devise_totaux_tiers;
 
-GtkWidget *payee_tree;
-GtkTreeStore *payee_tree_model;
-
-
-
+static GtkWidget *payee_tree = NULL;
+GtkTreeStore *payee_tree_model = NULL;
 
 /*START_EXTERN*/
 extern MetatreeInterface * payee_interface ;
@@ -118,6 +113,8 @@ GtkWidget *onglet_tiers ( void )
 
     /* We create the gtktreeview and model early so that they can be referenced. */
     payee_tree = gtk_tree_view_new();
+    g_signal_connect ( G_OBJECT (payee_tree ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &payee_tree );
     payee_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, META_TREE_COLUMN_TYPES );
 
     /* on y ajoute la barre d'outils */
@@ -157,6 +154,7 @@ GtkWidget *onglet_tiers ( void )
 				  GTK_SELECTION_SINGLE );
     gtk_tree_view_set_model (GTK_TREE_VIEW (payee_tree), 
 			     GTK_TREE_MODEL (payee_tree_model));
+    g_object_unref (G_OBJECT(payee_tree_model));
     g_object_set_data ( G_OBJECT(payee_tree_model), "tree-view", 
 			payee_tree );
 

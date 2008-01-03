@@ -115,7 +115,7 @@ static GSList *complete_transactions_list = NULL;
 /** the g_slist which contains all the white transactions structures
  * ie : 1 general white line
  * and 1 white line per breakdown of transaction */
-static GSList *white_transactions_list;
+static GSList *white_transactions_list = NULL;
 
 /** 2 pointers to the 2 last transaction used (to increase the speed) */
 static struct_transaction *transaction_buffer[2];
@@ -133,12 +133,7 @@ static gint current_transaction_buffer;
  * */
 gboolean gsb_data_transaction_init_variables ( void )
 {
-    transaction_buffer[0] = NULL;
-    transaction_buffer[1] = NULL;
-    current_transaction_buffer = 0;
-    transactions_list = NULL;
-    complete_transactions_list = NULL;
-
+    gsb_data_transaction_delete_all_transactions ();
     return FALSE;
 }
 
@@ -2228,6 +2223,47 @@ gboolean gsb_data_transaction_remove_transaction_without_check ( gint transactio
     return TRUE;
 }
 
+/**
+ * Delete all transactions and free memory used by them
+ */
+void gsb_data_transaction_delete_all_transactions ()
+{
+    if ( complete_transactions_list )
+    {
+        GSList* tmp_list = complete_transactions_list;
+        while ( tmp_list )
+        {
+	    struct_transaction *transaction;
+	    transaction = tmp_list -> data;
+	    tmp_list = tmp_list -> next;
+	    if (! transaction )
+	    	continue;
+	    if ( transaction -> transaction_id )
+	        g_free ( transaction -> transaction_id );
+	    if ( transaction -> notes )
+	        g_free ( transaction -> notes );
+	    if ( transaction -> voucher )
+	        g_free ( transaction -> voucher );
+	    if ( transaction -> date )
+	        g_date_free ( transaction -> date );
+	    if ( transaction -> value_date )
+	        g_date_free ( transaction -> value_date );
+	    if ( transaction -> method_of_payment_content )
+	        g_free ( transaction -> method_of_payment_content );
+        }
+        g_slist_free ( complete_transactions_list );
+        complete_transactions_list = NULL;
+    }
+    if ( transactions_list )
+    {
+
+        g_slist_free ( transactions_list );
+        transactions_list = NULL;
+    }
+    transaction_buffer[0] = NULL;
+    transaction_buffer[1] = NULL;
+    current_transaction_buffer = 0;
+}
 
 /**
  * find the children of the breakdown given in param and

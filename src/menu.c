@@ -81,7 +81,7 @@ extern GtkWidget *window;
 
 gboolean block_menu_cb = FALSE;
 GtkUIManager * ui_manager;
-gint recent_files_merge_id = -1, move_to_account_merge_id = -1;
+static gint recent_files_merge_id = -1, move_to_account_merge_id = -1;
 
 static gchar * buffer = 
 "<ui>"

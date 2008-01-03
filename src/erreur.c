@@ -58,12 +58,7 @@ extern gchar *nom_fichier_comptes;
 
 
 
-gint debugging_grisbi;
-
-
-
-
-
+static gint debugging_grisbi;
 
 /*************************************************************************************************************/
 void traitement_sigsegv ( gint signal_nb )

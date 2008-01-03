@@ -110,7 +110,7 @@ GdkColor couleur_jaune;
 
 GSList *liste_labels_titres_colonnes_liste_ope = NULL;
 
-gchar *nom_fichier_comptes;
+gchar *nom_fichier_comptes = NULL;
 
 gchar *titre_fichier = NULL;
 gchar *adresse_commune = NULL;
@@ -178,7 +178,6 @@ void modification_fichier ( gboolean modif )
     }
     else
     {
-    	/* TODO dOm : replace NULL by 0 to avoid warning */
 	etat.modification_fichier = 0;
 	gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, FALSE );
     }
@@ -230,18 +229,26 @@ void init_variables ( void )
     mise_a_jour_soldes_minimaux = 0;
     mise_a_jour_fin_comptes_passifs = 0;
 
+    if ( nom_fichier_comptes )
+        g_free ( nom_fichier_comptes );
     nom_fichier_comptes = NULL;
 
     solde_label = NULL;
     solde_label_pointe = NULL;
 
+    if ( nom_fichier_backup )
+        g_free ( nom_fichier_backup );
     nom_fichier_backup = NULL;
+
+    if ( chemin_logo )
+        g_free ( chemin_logo);
     chemin_logo = NULL;
 
     affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW;
     affichage_echeances_perso_nb_libre = 0;
     affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
-    scheduled_transactions_taken = NULL;
+
+    gsb_scheduler_list_init_variables ();
 
     no_devise_totaux_tiers = 1;
     no_devise_totaux_categ = 1;

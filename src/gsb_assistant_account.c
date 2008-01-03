@@ -59,10 +59,10 @@ enum first_assistant_page
 };
 
 
-static GtkWidget *account_combobox_currency;
-static GtkWidget *account_combobox_bank;
-static GtkWidget *account_entry_initial_amount;
-static GtkWidget *account_entry_name;
+static GtkWidget *account_combobox_currency = NULL;
+static GtkWidget *account_combobox_bank = NULL;
+static GtkWidget *account_entry_initial_amount = NULL;
+static GtkWidget *account_entry_name = NULL;
 
 
 /**
@@ -233,6 +233,8 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 
     /* create the currency combobox */
     account_combobox_currency = gsb_currency_make_combobox (TRUE);
+    g_signal_connect ( G_OBJECT (account_combobox_currency ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &account_combobox_currency );
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 account_combobox_currency,
 			 FALSE, FALSE, 0 );
@@ -265,6 +267,8 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     account_combobox_bank = gsb_bank_create_combobox ();
+    g_signal_connect ( G_OBJECT (account_combobox_bank ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &account_combobox_bank );
     gsb_bank_list_set_bank ( account_combobox_bank, 0 );
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 account_combobox_bank,
@@ -282,6 +286,8 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
     
     account_entry_initial_amount = gtk_entry_new ();
+    g_signal_connect ( G_OBJECT (account_entry_initial_amount ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &account_entry_initial_amount );
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 account_entry_initial_amount,
 			 FALSE, FALSE, 0 );
@@ -339,6 +345,8 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     account_entry_name = gtk_entry_new ();
+    g_signal_connect ( G_OBJECT (account_entry_name ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &account_entry_name );
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 account_entry_name,
 			 FALSE, FALSE, 0 );

@@ -70,7 +70,7 @@ static gint gsb_data_archive_max_number ( void );
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_archive */
-static GSList *archive_list;
+static GSList *archive_list = NULL;
 
 /** a pointer to the last archive used (to increase the speed) */
 static struct_archive *archive_buffer;
@@ -86,6 +86,29 @@ static struct_archive *archive_buffer;
  * */
 gboolean gsb_data_archive_init_variables ( void )
 {
+static gint i = 0;
+    if ( archive_list )
+    {
+        GSList* tmp_list = archive_list;
+        while ( tmp_list )
+        {
+	    struct_archive *archive;
+	    archive = tmp_list -> data;
+	    tmp_list = tmp_list -> next;
+	    if ( ! archive )
+	        continue;
+	    if ( archive -> archive_name )
+	        g_free ( archive -> archive_name );
+	    if ( archive -> begining_date )
+	        g_date_free ( archive -> begining_date );
+	    if ( archive -> end_date )
+	        g_date_free ( archive -> end_date );
+	    if ( archive -> report_title )
+	        g_free ( archive -> report_title );
+	    g_free ( archive );
+        }
+        g_slist_free ( archive_list );
+    }
     archive_list = NULL;
     archive_buffer = NULL;
 

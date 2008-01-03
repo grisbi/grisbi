@@ -40,7 +40,7 @@ extern G_MODULE_EXPORT const gchar plugin_name[] ;
 
 
 /** List of registered plugins.  It should contain gsb_plugin structures. */
-GSList * plugins = NULL;
+static GSList * plugins = NULL;
 
 
 /**

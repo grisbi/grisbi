@@ -48,6 +48,7 @@ typedef struct
 {
     /** @name general stuff */
     gint report_number;
+    /* TODO dOm : memory used by report_name is never freed */
     gchar *report_name;
     
     /** @name what we show of the transactions */
@@ -90,6 +91,7 @@ typedef struct
     gint financial_year_split;       /* TRUE : split by financial year */
 
     gint date_type;       /* 0=perso, 1=all ... */
+    /* TODO dOm : memory used by personnal_date_* is never freed */
     GDate *personal_date_start;
     GDate *personal_date_end;
     gint period_split;       /* TRUE : split by period */
@@ -168,7 +170,7 @@ static struct_report *gsb_data_report_get_structure ( gint report_number );
 
 
 /** contains a g_slist of struct_report */
-static GSList *report_list;
+static GSList *report_list = NULL;
 
 /** a pointers to the last report used (to increase the speed) */
 static struct_report *report_buffer;
@@ -185,8 +187,17 @@ static struct_report *report_buffer;
  * */
 gboolean gsb_data_report_init_variables ( void )
 {
-    report_buffer = NULL;
+    /* free memory used by report_list */
+    while (report_list)
+    {
+	struct_report *report = report_list -> data;
+	gint report_number = report-> report_number;
+	gsb_data_report_remove ( report_number );
+    }
+    g_slist_free ( report_list );
     report_list = NULL;
+
+    report_buffer = NULL;
 
     return FALSE;
 }

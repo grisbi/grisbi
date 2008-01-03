@@ -79,7 +79,7 @@ extern gsb_real null_real ;
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_store_archive */
-static GSList *archive_store_list;
+static GSList *archive_store_list = NULL;
 
 /** a pointer to the last archive_store used (to increase the speed) */
 static struct_store_archive *archive_store_buffer;
@@ -95,6 +95,20 @@ static struct_store_archive *archive_store_buffer;
  * */
 gboolean gsb_data_archive_store_init_variables ( void )
 {
+    if ( archive_store_list )
+    {
+        GSList* tmp_list = archive_store_list;
+        while ( tmp_list )
+        {
+	    struct_store_archive *archive;
+	    archive = tmp_list -> data;
+	    tmp_list = tmp_list -> next;
+	    if ( ! archive )
+	        continue;
+	    g_free ( archive );
+        }
+        g_slist_free ( archive_store_list );
+    }
     archive_store_list = NULL;
     archive_store_buffer = NULL;
 

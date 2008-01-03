@@ -66,7 +66,7 @@ extern gsb_real null_real ;
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_currency_link */
-static GSList *currency_link_list;
+static GSList *currency_link_list = NULL;
 
 /** a pointer to the last currency_link used (to increase the speed) */
 static struct_currency_link *currency_link_buffer;
@@ -81,9 +81,22 @@ static struct_currency_link *currency_link_buffer;
  * */
 gboolean gsb_data_currency_link_init_variables ( void )
 {
+    if ( currency_link_list )
+    {
+        GSList* tmp_list = currency_link_list;
+        while ( tmp_list )
+        {
+	    struct_currency_link *currency_link;
+	    currency_link = tmp_list -> data;
+	    tmp_list = tmp_list -> next;
+	    if ( ! currency_link )
+	    	continue;
+	    g_free ( currency_link );
+        }
+	g_slist_free ( currency_link_list );
+    }
     currency_link_list = NULL;
     currency_link_buffer = NULL;
-
     return FALSE;
 }
 

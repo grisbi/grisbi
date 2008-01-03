@@ -53,12 +53,12 @@ static gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu
 
 
 gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
-GtkWidget *bouton_affichage_lignes_une_ligne;
-GtkWidget *bouton_affichage_lignes_deux_lignes_1;
-GtkWidget *bouton_affichage_lignes_deux_lignes_2;
-GtkWidget *bouton_affichage_lignes_trois_lignes_1;
-GtkWidget *bouton_affichage_lignes_trois_lignes_2;
-GtkWidget *bouton_affichage_lignes_trois_lignes_3;
+static GtkWidget *bouton_affichage_lignes_une_ligne = NULL;
+static GtkWidget *bouton_affichage_lignes_deux_lignes_1 = NULL;
+static GtkWidget *bouton_affichage_lignes_deux_lignes_2 = NULL;
+static GtkWidget *bouton_affichage_lignes_trois_lignes_1 = NULL;
+static GtkWidget *bouton_affichage_lignes_trois_lignes_2 = NULL;
+static GtkWidget *bouton_affichage_lignes_trois_lignes_3 = NULL;
 /* contient le no de ligne à afficher lorsqu'on n'affiche qu'une ligne */
 gint ligne_affichage_une_ligne;
 /* contient les no de lignes à afficher lorsqu'on affiche deux lignes */
@@ -152,6 +152,8 @@ GtkWidget *onglet_affichage_operations ( void )
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
     bouton_affichage_lignes_une_ligne = gtk_option_menu_new ();
+    g_signal_connect ( G_OBJECT (bouton_affichage_lignes_une_ligne ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affichage_lignes_une_ligne );
     gtk_option_menu_set_menu ( GTK_OPTION_MENU(bouton_affichage_lignes_une_ligne),
 			       cree_menu_quatres_lignes ());
     gtk_table_attach_defaults ( GTK_TABLE(table), bouton_affichage_lignes_une_ligne,
@@ -165,12 +167,16 @@ GtkWidget *onglet_affichage_operations ( void )
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
     bouton_affichage_lignes_deux_lignes_1 = gtk_option_menu_new ();
+    g_signal_connect ( G_OBJECT (bouton_affichage_lignes_deux_lignes_1 ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affichage_lignes_deux_lignes_1 );
     gtk_option_menu_set_menu ( GTK_OPTION_MENU(bouton_affichage_lignes_deux_lignes_1),
 			       cree_menu_quatres_lignes ());
     gtk_table_attach_defaults ( GTK_TABLE(table), bouton_affichage_lignes_deux_lignes_1,
 				1, 2, 1, 2 );
 
     bouton_affichage_lignes_deux_lignes_2 = gtk_option_menu_new ();
+    g_signal_connect ( G_OBJECT (bouton_affichage_lignes_deux_lignes_2 ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affichage_lignes_deux_lignes_2 );
     gtk_option_menu_set_menu ( GTK_OPTION_MENU(bouton_affichage_lignes_deux_lignes_2),
 			       cree_menu_quatres_lignes ());
     gtk_table_attach_defaults ( GTK_TABLE(table), bouton_affichage_lignes_deux_lignes_2,
@@ -185,12 +191,16 @@ GtkWidget *onglet_affichage_operations ( void )
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
     bouton_affichage_lignes_trois_lignes_1 = gtk_option_menu_new ();
+    g_signal_connect ( G_OBJECT (bouton_affichage_lignes_trois_lignes_1 ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affichage_lignes_trois_lignes_1 );
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_1 ),
 			       cree_menu_quatres_lignes ());
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_affichage_lignes_trois_lignes_1,
 				1, 2, 2, 3 );
 
     bouton_affichage_lignes_trois_lignes_2 = gtk_option_menu_new ();
+    g_signal_connect ( G_OBJECT (bouton_affichage_lignes_trois_lignes_2 ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affichage_lignes_trois_lignes_2 );
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_2 ),
 			       cree_menu_quatres_lignes ());
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_affichage_lignes_trois_lignes_2,
@@ -198,6 +208,8 @@ GtkWidget *onglet_affichage_operations ( void )
 
 
     bouton_affichage_lignes_trois_lignes_3 = gtk_option_menu_new ();
+    g_signal_connect ( G_OBJECT (bouton_affichage_lignes_trois_lignes_3 ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affichage_lignes_trois_lignes_3 );
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_3 ),
 			       cree_menu_quatres_lignes ());
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_affichage_lignes_trois_lignes_3,

@@ -87,16 +87,16 @@ enum reconcile_assistant_page
 
 /* widgets for the menu page */
 /* the label page 2 (the menu) */
-static GtkWidget *label_transactions_to_link_1;
+static GtkWidget *label_transactions_to_link_1 = NULL;
 
 
 /* widgets for the page to create a new reconcile */
-static GtkWidget *reconcile_name_entry;
-static GtkWidget *reconcile_init_date_entry;
-static GtkWidget *reconcile_final_date_entry;
-static GtkWidget *reconcile_init_balance_entry;
-static GtkWidget *reconcile_final_balance_entry;
-static GtkWidget *reconcile_account_button;
+static GtkWidget *reconcile_name_entry = NULL;
+static GtkWidget *reconcile_init_date_entry = NULL;
+static GtkWidget *reconcile_final_date_entry = NULL;
+static GtkWidget *reconcile_init_balance_entry = NULL;
+static GtkWidget *reconcile_final_balance_entry = NULL;
+static GtkWidget *reconcile_account_button = NULL;
 
 /* the number of transactions to link, filled when click the button to associate
  * the R marked transactions without a reconcile */
@@ -105,9 +105,9 @@ static gint transactions_to_link;
 
 
 /* variables for the page to automaticaly associate */
-static GtkWidget *label_transactions_to_link_2;
-static GtkWidget *label_possible_association;
-static GtkWidget *button_run_association;
+static GtkWidget *label_transactions_to_link_2 = NULL;
+static GtkWidget *label_possible_association = NULL;
+static GtkWidget *button_run_association = NULL;
 
 /* structure making the link between a transaction and the corresponding reconcile,
  * used for automaticaly association */
@@ -120,8 +120,8 @@ struct association_transaction_reconcile
 static GSList *list_association = NULL;
 
 /* variables for the page to manually associate */
-static GtkWidget *label_transactions_to_link_3;
-static GtkWidget *treeview_transactions_to_link;
+static GtkWidget *label_transactions_to_link_3 = NULL;
+static GtkWidget *treeview_transactions_to_link = NULL;
 enum transactions_column {
     TRANSACTION_DATE = 0,
     TRANSACTION_PAYEE,
@@ -262,6 +262,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
     gchar* tmpstr = g_strdup_printf (_("Still %d transactions to link with a reconciliation."),
 								   transactions_to_link);
     label_transactions_to_link_1 = gtk_label_new (tmpstr );
+    g_signal_connect ( G_OBJECT (label_transactions_to_link_1 ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &label_transactions_to_link_1 );
     g_free ( tmpstr );
     gtk_misc_set_alignment ( GTK_MISC (label_transactions_to_link_1),
 			     0, 0.5 );
@@ -392,6 +394,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 				0, 1 );
 
     reconcile_name_entry = gtk_entry_new ();
+    g_signal_connect ( G_OBJECT (reconcile_name_entry ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &reconcile_name_entry );
     gtk_table_attach_defaults ( GTK_TABLE (table),
 				reconcile_name_entry,
 				1, 2,
@@ -405,6 +409,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 				0, 1 );
 
     reconcile_account_button = gsb_account_create_combo_list ( NULL, NULL, TRUE );
+    g_signal_connect ( G_OBJECT (reconcile_account_button ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &reconcile_account_button );
     gtk_combo_box_set_active ( GTK_COMBO_BOX (reconcile_account_button),
 			       0 );
     gtk_table_attach_defaults ( GTK_TABLE (table),
@@ -420,6 +426,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 				1, 2 );
 
     reconcile_init_date_entry = gsb_calendar_entry_new (FALSE);
+    g_signal_connect ( G_OBJECT (reconcile_init_date_entry ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &reconcile_init_date_entry );
     gtk_table_attach_defaults ( GTK_TABLE (table),
 				reconcile_init_date_entry,
 				1, 2,
@@ -433,6 +441,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 				2, 3 );
 
     reconcile_final_date_entry = gsb_calendar_entry_new (FALSE);
+    g_signal_connect ( G_OBJECT (reconcile_final_date_entry ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &reconcile_final_date_entry );
     gtk_table_attach_defaults ( GTK_TABLE (table),
 				reconcile_final_date_entry,
 				1, 2,
@@ -447,6 +457,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 				1, 2 );
 
     reconcile_init_balance_entry = gtk_entry_new ();
+    g_signal_connect ( G_OBJECT (reconcile_init_balance_entry ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &reconcile_init_balance_entry );
     gtk_table_attach_defaults ( GTK_TABLE (table),
 				reconcile_init_balance_entry,
 				3, 4,
@@ -460,6 +472,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 				2, 3 );
 
     reconcile_final_balance_entry = gtk_entry_new ();
+    g_signal_connect ( G_OBJECT (reconcile_final_balance_entry ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &reconcile_final_balance_entry );
     gtk_table_attach_defaults ( GTK_TABLE (table),
 				reconcile_final_balance_entry,
 				3, 4,
@@ -538,6 +552,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_automaticaly_associate ( G
      * we will fill when the user come to that page */
     /* first show the total of transactions to link, same as in the menu assistant */
     label_transactions_to_link_2 = gtk_label_new (NULL);
+    g_signal_connect ( G_OBJECT (label_transactions_to_link_2 ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &label_transactions_to_link_2 );
     gtk_box_pack_start ( GTK_BOX (page),
 			 label_transactions_to_link_2,
 			 FALSE, FALSE, 0 );
@@ -560,6 +576,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_automaticaly_associate ( G
 
     /* set the number of possible association, filled when come in that page */
     label_possible_association = gtk_label_new (NULL);
+    g_signal_connect ( G_OBJECT (label_possible_association ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &label_possible_association );
     gtk_box_pack_start ( GTK_BOX (page),
 			 label_possible_association,
 			 FALSE, FALSE, 12 );
@@ -571,6 +589,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_automaticaly_associate ( G
 			 FALSE, FALSE,
 			 0 );
     button_run_association = gtk_button_new_with_label ( _("Launch automatic association"));
+    g_signal_connect ( G_OBJECT (button_run_association ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &button_run_association );
     g_signal_connect ( G_OBJECT (button_run_association),
 		       "clicked",
 		       G_CALLBACK (gsb_assistant_reconcile_config_lauch_auto_asso),
@@ -617,6 +637,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
 
     /* the number of transactions to link */
     label_transactions_to_link_3 = gtk_label_new (NULL);
+    g_signal_connect ( G_OBJECT (label_transactions_to_link_3 ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &label_transactions_to_link_3 );
     gtk_box_pack_start ( GTK_BOX (page),
 			 label_transactions_to_link_3,
 			 FALSE, FALSE, 0 );
@@ -649,6 +671,9 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
 				 G_TYPE_STRING,
 				 G_TYPE_INT );
     treeview_transactions_to_link = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+    g_object_unref (G_OBJECT(store));
+    g_signal_connect ( G_OBJECT (treeview_transactions_to_link ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &treeview_transactions_to_link );
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview_transactions_to_link), TRUE);
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview_transactions_to_link)),
 				  GTK_SELECTION_MULTIPLE );
@@ -1215,6 +1240,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
 					G_TYPE_STRING,
 					G_TYPE_INT );
     dialog_tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (dialog_store));
+    g_object_unref (G_OBJECT(dialog_store));
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (dialog_tree_view), TRUE);
     gtk_container_add ( GTK_CONTAINER (scrolled_window),
 			dialog_tree_view );

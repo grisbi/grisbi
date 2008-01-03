@@ -235,6 +235,8 @@ gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
 	gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
 
     table_etat = gtk_table_new ( 0, nb_colonnes, FALSE );
+    g_signal_connect ( G_OBJECT (table_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &table_etat );
     gtk_table_set_col_spacings ( GTK_TABLE ( table_etat ), 5 );
 
     return 1;

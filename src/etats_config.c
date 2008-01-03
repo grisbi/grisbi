@@ -163,112 +163,112 @@ gchar *jours_semaine[] = {
     N_("Sunday"),
     NULL };
 
-GtkWidget *entree_nom_etat;
-GtkWidget *liste_type_classement_etat;
-GtkWidget *bouton_opes_r_et_non_r_etat;
-GtkWidget *bouton_opes_non_r_etat;
-GtkWidget *bouton_opes_r_etat;
-GtkWidget *bouton_afficher_opes;
-GtkWidget *bouton_afficher_nb_opes;
-GtkWidget *bouton_afficher_date_opes;
-GtkWidget *bouton_afficher_tiers_opes;
-GtkWidget *bouton_afficher_categ_opes;
-GtkWidget *bouton_afficher_sous_categ_opes;
-GtkWidget *bouton_afficher_ib_opes;
-GtkWidget *bouton_afficher_sous_ib_opes;
-GtkWidget *bouton_afficher_notes_opes;
-GtkWidget *bouton_afficher_pc_opes;
-GtkWidget *bouton_afficher_infobd_opes;
-GtkWidget *bouton_afficher_no_ope;
-GtkWidget *bouton_afficher_type_ope;
-GtkWidget *bouton_afficher_no_rappr;
-GtkWidget *bouton_afficher_no_cheque;
-GtkWidget *bouton_afficher_exo_opes;
-GtkWidget *bouton_pas_detailler_ventilation;
-GtkWidget *bouton_separer_revenus_depenses;
-GtkWidget *bouton_devise_general_etat;
-GtkWidget *bouton_inclure_dans_tiers;
-GtkWidget *bouton_afficher_titres_colonnes;
-GtkWidget *bouton_titre_changement;
-GtkWidget *bouton_titre_en_haut;
-GtkWidget *bouton_choix_classement_ope_etat;
-GtkWidget *bouton_rendre_ope_clickables;
-GtkWidget *frame_onglet_generalites;
+static GtkWidget *entree_nom_etat = NULL;
+static GtkWidget *liste_type_classement_etat = NULL;
+static GtkWidget *bouton_opes_r_et_non_r_etat = NULL;
+static GtkWidget *bouton_opes_non_r_etat = NULL;
+static GtkWidget *bouton_opes_r_etat = NULL;
+static GtkWidget *bouton_afficher_opes = NULL;
+static GtkWidget *bouton_afficher_nb_opes = NULL;
+static GtkWidget *bouton_afficher_date_opes = NULL;
+static GtkWidget *bouton_afficher_tiers_opes = NULL;
+static GtkWidget *bouton_afficher_categ_opes = NULL;
+static GtkWidget *bouton_afficher_sous_categ_opes = NULL;
+static GtkWidget *bouton_afficher_ib_opes = NULL;
+static GtkWidget *bouton_afficher_sous_ib_opes = NULL;
+static GtkWidget *bouton_afficher_notes_opes = NULL;
+static GtkWidget *bouton_afficher_pc_opes = NULL;
+static GtkWidget *bouton_afficher_infobd_opes = NULL;
+static GtkWidget *bouton_afficher_no_ope = NULL;
+static GtkWidget *bouton_afficher_type_ope = NULL;
+static GtkWidget *bouton_afficher_no_rappr = NULL;
+static GtkWidget *bouton_afficher_no_cheque = NULL;
+static GtkWidget *bouton_afficher_exo_opes = NULL;
+static GtkWidget *bouton_pas_detailler_ventilation = NULL;
+static GtkWidget *bouton_separer_revenus_depenses = NULL;
+static GtkWidget *bouton_devise_general_etat = NULL;
+static GtkWidget *bouton_inclure_dans_tiers = NULL;
+static GtkWidget *bouton_afficher_titres_colonnes = NULL;
+static GtkWidget *bouton_titre_changement = NULL;
+static GtkWidget *bouton_titre_en_haut = NULL;
+static GtkWidget *bouton_choix_classement_ope_etat = NULL;
+static GtkWidget *bouton_rendre_ope_clickables = NULL;
+static GtkWidget *frame_onglet_generalites = NULL;
 
-GtkWidget *radio_button_utilise_exo;
-GtkWidget *radio_button_utilise_dates;
-GtkWidget *liste_exo_etat;
-GtkWidget *vbox_generale_exo_etat;
-GtkWidget *bouton_exo_tous;
-GtkWidget *bouton_exo_courant;
-GtkWidget *bouton_exo_precedent;
-GtkWidget *bouton_detaille_exo_etat;
-GtkWidget *bouton_separe_exo_etat;
-GtkWidget *liste_plages_dates_etat;
-GtkWidget *entree_date_init_etat;
-GtkWidget *entree_date_finale_etat;
-GtkWidget *vbox_utilisation_exo;
-GtkWidget *vbox_utilisation_date;
-GtkWidget *bouton_separe_plages_etat;
-GtkWidget *bouton_type_separe_plages_etat;
-GtkWidget *bouton_debut_semaine;
+static GtkWidget *radio_button_utilise_exo = NULL;
+static GtkWidget *radio_button_utilise_dates = NULL;
+static GtkWidget *liste_exo_etat = NULL;
+static GtkWidget *vbox_generale_exo_etat = NULL;
+static GtkWidget *bouton_exo_tous = NULL;
+static GtkWidget *bouton_exo_courant = NULL;
+static GtkWidget *bouton_exo_precedent = NULL;
+static GtkWidget *bouton_detaille_exo_etat = NULL;
+static GtkWidget *bouton_separe_exo_etat = NULL;
+static GtkWidget *liste_plages_dates_etat = NULL;
+static GtkWidget *entree_date_init_etat = NULL;
+static GtkWidget *entree_date_finale_etat = NULL;
+static GtkWidget *vbox_utilisation_exo = NULL;
+static GtkWidget *vbox_utilisation_date = NULL;
+static GtkWidget *bouton_separe_plages_etat = NULL;
+static GtkWidget *bouton_type_separe_plages_etat = NULL;
+static GtkWidget *bouton_debut_semaine = NULL;
 
-GtkWidget *liste_comptes_etat;
-GtkWidget *bouton_detaille_comptes_etat;
-GtkWidget *vbox_generale_comptes_etat;
-GtkWidget *bouton_regroupe_ope_compte_etat;
-GtkWidget *bouton_affiche_sous_total_compte;
-GtkWidget *bouton_afficher_noms_comptes;
+static GtkWidget *liste_comptes_etat = NULL;
+static GtkWidget *bouton_detaille_comptes_etat = NULL;
+static GtkWidget *vbox_generale_comptes_etat = NULL;
+static GtkWidget *bouton_regroupe_ope_compte_etat = NULL;
+static GtkWidget *bouton_affiche_sous_total_compte = NULL;
+static GtkWidget *bouton_afficher_noms_comptes = NULL;
 
-GtkWidget *bouton_inclusion_virements_actifs_etat;
-GtkWidget *bouton_inclusion_virements_hors_etat;
-GtkWidget *bouton_non_inclusion_virements;
-GtkWidget *bouton_inclusion_virements_perso;
-GtkWidget *liste_comptes_virements;
-GtkWidget *bouton_exclure_non_virements_etat;
-GtkWidget *hbox_liste_comptes_virements;
+static GtkWidget *bouton_inclusion_virements_actifs_etat = NULL;
+static GtkWidget *bouton_inclusion_virements_hors_etat = NULL;
+static GtkWidget *bouton_non_inclusion_virements = NULL;
+static GtkWidget *bouton_inclusion_virements_perso = NULL;
+static GtkWidget *liste_comptes_virements = NULL;
+static GtkWidget *bouton_exclure_non_virements_etat = NULL;
+static GtkWidget *hbox_liste_comptes_virements = NULL;
 
-GtkWidget *bouton_utilise_categ_etat;
-GtkWidget *bouton_detaille_categ_etat;
-GtkWidget *hbox_detaille_categ_etat;
-GtkWidget *bouton_afficher_sous_categ;
-GtkWidget *liste_categ_etat;
-GtkWidget *bouton_affiche_sous_total_categ;
-GtkWidget *bouton_affiche_sous_total_sous_categ;
-GtkWidget *bouton_exclure_ope_sans_categ;
-GtkWidget *bouton_devise_categ_etat;
-GtkWidget *bouton_afficher_pas_de_sous_categ;
-GtkWidget *bouton_afficher_noms_categ;
+static GtkWidget *bouton_utilise_categ_etat = NULL;
+static GtkWidget *bouton_detaille_categ_etat = NULL;
+static GtkWidget *hbox_detaille_categ_etat = NULL;
+static GtkWidget *bouton_afficher_sous_categ = NULL;
+GtkWidget *liste_categ_etat = NULL;
+static GtkWidget *bouton_affiche_sous_total_categ = NULL;
+static GtkWidget *bouton_affiche_sous_total_sous_categ = NULL;
+static GtkWidget *bouton_exclure_ope_sans_categ = NULL;
+static GtkWidget *bouton_devise_categ_etat = NULL;
+static GtkWidget *bouton_afficher_pas_de_sous_categ = NULL;
+static GtkWidget *bouton_afficher_noms_categ = NULL;
 
-GtkWidget *bouton_utilise_ib_etat;
-GtkWidget *bouton_detaille_ib_etat;
-GtkWidget *hbox_detaille_ib_etat;
-GtkWidget *liste_ib_etat;
-GtkWidget *bouton_afficher_sous_ib;
-GtkWidget *bouton_affiche_sous_total_ib;
-GtkWidget *bouton_affiche_sous_total_sous_ib;
-GtkWidget *bouton_exclure_ope_sans_ib;
-GtkWidget *bouton_devise_ib_etat;
-GtkWidget *bouton_afficher_pas_de_sous_ib;
-GtkWidget *bouton_afficher_noms_ib;
+static GtkWidget *bouton_utilise_ib_etat = NULL;
+static GtkWidget *bouton_detaille_ib_etat = NULL;
+static GtkWidget *hbox_detaille_ib_etat = NULL;
+static GtkWidget *liste_ib_etat = NULL;
+static GtkWidget *bouton_afficher_sous_ib = NULL;
+static GtkWidget *bouton_affiche_sous_total_ib = NULL;
+static GtkWidget *bouton_affiche_sous_total_sous_ib = NULL;
+static GtkWidget *bouton_exclure_ope_sans_ib = NULL;
+static GtkWidget *bouton_devise_ib_etat = NULL;
+static GtkWidget *bouton_afficher_pas_de_sous_ib = NULL;
+static GtkWidget *bouton_afficher_noms_ib = NULL;
 
-GtkWidget *bouton_utilise_tiers_etat;
-GtkWidget *bouton_detaille_tiers_etat;
-GtkWidget *hbox_detaille_tiers_etat;
-GtkWidget *liste_tiers_etat;
-GtkWidget *bouton_affiche_sous_total_tiers;
-GtkWidget *bouton_devise_tiers_etat;
-GtkWidget *bouton_afficher_noms_tiers;
+static GtkWidget *bouton_utilise_tiers_etat = NULL;
+static GtkWidget *bouton_detaille_tiers_etat = NULL;
+static GtkWidget *hbox_detaille_tiers_etat = NULL;
+static GtkWidget *liste_tiers_etat = NULL;
+static GtkWidget *bouton_affiche_sous_total_tiers = NULL;
+static GtkWidget *bouton_devise_tiers_etat = NULL;
+static GtkWidget *bouton_afficher_noms_tiers = NULL;
 
-GtkWidget *bouton_utilise_texte;
-GtkWidget *vbox_generale_textes_etat;
-GtkWidget *liste_textes_etat;
+static GtkWidget *bouton_utilise_texte = NULL;
+static GtkWidget *vbox_generale_textes_etat = NULL;
+static GtkWidget *liste_textes_etat = NULL;
 
-GtkWidget *bouton_utilise_montant;
-GtkWidget *vbox_generale_montants_etat;
-GtkWidget *liste_montants_etat;
-GtkWidget *bouton_devise_montant_etat;
-GtkWidget *bouton_exclure_ope_nulles_etat;
+static GtkWidget *bouton_utilise_montant = NULL;
+static GtkWidget *vbox_generale_montants_etat = NULL;
+static GtkWidget *liste_montants_etat = NULL;
+static GtkWidget *bouton_devise_montant_etat = NULL;
+static GtkWidget *bouton_exclure_ope_nulles_etat = NULL;
 
 gint ancienne_ib_etat;
 gint ancienne_sous_ib_etat;
@@ -313,13 +313,13 @@ const gchar *nom_compte_en_cours;
 const gchar *nom_tiers_en_cours;
 gint titres_affiches;
 
-GtkWidget *bouton_detaille_mode_paiement_etat;
-GtkWidget *vbox_mode_paiement_etat;
-GtkWidget *liste_mode_paiement_etat;
+static GtkWidget *bouton_detaille_mode_paiement_etat = NULL;
+static GtkWidget *vbox_mode_paiement_etat = NULL;
+static GtkWidget *liste_mode_paiement_etat = NULL;
 
 
-GtkTreeStore * report_tree_model;
-GtkWidget * report_tree_view;
+static GtkTreeStore * report_tree_model = NULL;
+static GtkWidget * report_tree_view = NULL;
 
 
 
@@ -376,8 +376,11 @@ void personnalisation_etat (void)
 				    GTK_POLICY_NEVER,
 				    GTK_POLICY_AUTOMATIC);
     report_tree_view = gtk_tree_view_new();
+    g_signal_connect ( G_OBJECT (report_tree_view ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &report_tree_view );
     gtk_tree_view_set_model (GTK_TREE_VIEW (report_tree_view), 
 			     GTK_TREE_MODEL (report_tree_model));
+    g_object_unref (G_OBJECT(report_tree_model));
 
     /* Make column */
     cell = gtk_cell_renderer_text_new ();
@@ -2154,6 +2157,8 @@ GtkWidget *onglet_etat_dates ( void )
 
     radio_button_utilise_dates = gtk_radio_button_new_with_label ( NULL,
 								   _("Use dates ranges") );
+    g_signal_connect ( G_OBJECT (radio_button_utilise_dates ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &radio_button_utilise_dates );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 radio_button_utilise_dates,
 			 FALSE,
@@ -2171,8 +2176,9 @@ GtkWidget *onglet_etat_dates ( void )
 			 0 );
     gtk_widget_show ( frame );
 
-    vbox_utilisation_date = gtk_vbox_new ( FALSE,
-					   5 );
+    vbox_utilisation_date = gtk_vbox_new ( FALSE, 5 );
+    g_signal_connect ( G_OBJECT (vbox_utilisation_date ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &vbox_utilisation_date );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_utilisation_date ),
 				     10 );
     gtk_container_add ( GTK_CONTAINER ( frame ),
@@ -2200,6 +2206,8 @@ GtkWidget *onglet_etat_dates ( void )
 
 
     liste_plages_dates_etat = gtk_clist_new ( 1 );
+    g_signal_connect ( G_OBJECT (liste_plages_dates_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &liste_plages_dates_etat );
     gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_plages_dates_etat ),
 				       0,
 				       TRUE );
@@ -2251,6 +2259,8 @@ GtkWidget *onglet_etat_dates ( void )
 
     radio_button_utilise_exo = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( radio_button_utilise_dates )),
 								 _("Use financial years") );
+    g_signal_connect ( G_OBJECT (radio_button_utilise_exo ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &radio_button_utilise_exo );
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 radio_button_utilise_exo,
 			 FALSE,
@@ -2276,8 +2286,9 @@ GtkWidget *onglet_etat_dates ( void )
 			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
 			 frame );
 
-    vbox_utilisation_exo = gtk_vbox_new ( FALSE,
-					  5 );
+    vbox_utilisation_exo = gtk_vbox_new ( FALSE, 5 );
+    g_signal_connect ( G_OBJECT (vbox_utilisation_exo ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &vbox_utilisation_exo );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox_utilisation_exo ),
 				     10 );
     gtk_container_add ( GTK_CONTAINER ( frame ),
@@ -2289,6 +2300,8 @@ GtkWidget *onglet_etat_dates ( void )
 
     bouton_exo_tous = gtk_radio_button_new_with_label ( NULL,
 							_("All financial years"));
+    g_signal_connect ( G_OBJECT (bouton_exo_tous ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_exo_tous );
     gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_exo ),
 			 bouton_exo_tous,
 			 FALSE,
@@ -2298,6 +2311,8 @@ GtkWidget *onglet_etat_dates ( void )
 
     bouton_exo_courant = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_exo_tous )),
 							   _("Current financial year"));
+    g_signal_connect ( G_OBJECT (bouton_exo_courant ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_exo_courant );
     gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_exo ),
 			 bouton_exo_courant,
 			 FALSE,
@@ -2307,6 +2322,8 @@ GtkWidget *onglet_etat_dates ( void )
 
     bouton_exo_precedent = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_exo_tous )),
 							     _("Former financial year"));
+    g_signal_connect ( G_OBJECT (bouton_exo_precedent ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_exo_precedent );
     gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_exo ),
 			 bouton_exo_precedent,
 			 FALSE,
@@ -2318,6 +2335,8 @@ GtkWidget *onglet_etat_dates ( void )
 
     bouton_detaille_exo_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_exo_tous )),
 								 _("Detail financial years") );
+    g_signal_connect ( G_OBJECT (bouton_detaille_exo_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_detaille_exo_etat );
     gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_exo ),
 			 bouton_detaille_exo_etat,
 			 FALSE,
@@ -2325,8 +2344,9 @@ GtkWidget *onglet_etat_dates ( void )
 			 0 );
     gtk_widget_show ( bouton_detaille_exo_etat );
 
-    vbox_generale_exo_etat = gtk_vbox_new ( FALSE,
-					    5 );
+    vbox_generale_exo_etat = gtk_vbox_new ( FALSE, 5 );
+    g_signal_connect ( G_OBJECT (vbox_generale_exo_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &vbox_generale_exo_etat );
     gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_exo ),
 			 vbox_generale_exo_etat,
 			 TRUE,
@@ -2352,6 +2372,8 @@ GtkWidget *onglet_etat_dates ( void )
     gtk_widget_show ( scrolled_window );
 
     liste_exo_etat = gtk_clist_new ( 1 );
+    g_signal_connect ( G_OBJECT (liste_exo_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &liste_exo_etat );
     gtk_clist_set_selection_mode ( GTK_CLIST ( liste_exo_etat ),
 				   GTK_SELECTION_MULTIPLE );
     gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_exo_etat ),
@@ -2386,6 +2408,8 @@ GtkWidget *onglet_etat_dates ( void )
     gtk_widget_show ( label );
 
     entree_date_init_etat = gsb_calendar_entry_new (FALSE);
+    g_signal_connect ( G_OBJECT (entree_date_init_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &entree_date_init_etat );
     gtk_widget_set_usize ( entree_date_init_etat,
 			   100,
 			   FALSE );
@@ -2416,6 +2440,8 @@ GtkWidget *onglet_etat_dates ( void )
     gtk_widget_show ( label );
 
     entree_date_finale_etat = gsb_calendar_entry_new (FALSE);
+    g_signal_connect ( G_OBJECT (entree_date_finale_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &entree_date_finale_etat );
     gtk_widget_set_usize ( entree_date_finale_etat,
 			   100,
 			   FALSE );
@@ -2541,6 +2567,8 @@ GtkWidget *onglet_etat_comptes ( void )
     /* sélectionner */
 
     bouton_detaille_comptes_etat = gtk_check_button_new_with_label ( _("Select transactions only for given accounts"));
+    g_signal_connect ( G_OBJECT (bouton_detaille_comptes_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_detaille_comptes_etat );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_comptes_etat ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -2554,6 +2582,8 @@ GtkWidget *onglet_etat_comptes ( void )
 
     vbox_generale_comptes_etat = gtk_vbox_new ( FALSE,
 						5 );
+    g_signal_connect ( G_OBJECT (vbox_generale_comptes_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &vbox_generale_comptes_etat );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 vbox_generale_comptes_etat,
 			 TRUE,
@@ -2600,6 +2630,8 @@ GtkWidget *onglet_etat_comptes ( void )
     gtk_widget_show ( scrolled_window );
 
     liste_comptes_etat = gtk_clist_new ( 1 );
+    g_signal_connect ( G_OBJECT (liste_comptes_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &liste_comptes_etat );
     gtk_clist_set_selection_mode ( GTK_CLIST ( liste_comptes_etat ),
 				   GTK_SELECTION_MULTIPLE );
     gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_comptes_etat ),
@@ -2785,6 +2817,8 @@ GtkWidget *onglet_etat_virements ( void )
 
     bouton_non_inclusion_virements = gtk_radio_button_new_with_label ( NULL,
 								       _("Do not include transfers") );
+    g_signal_connect ( G_OBJECT (bouton_non_inclusion_virements ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_non_inclusion_virements );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 bouton_non_inclusion_virements,
 			 FALSE,
@@ -2794,6 +2828,8 @@ GtkWidget *onglet_etat_virements ( void )
 
     bouton_inclusion_virements_actifs_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
 									       _("Include transfers from or to assets or liabilities accounts") );
+    g_signal_connect ( G_OBJECT (bouton_inclusion_virements_actifs_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_inclusion_virements_actifs_etat );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_inclusion_virements_actifs_etat ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -2807,6 +2843,8 @@ GtkWidget *onglet_etat_virements ( void )
 
     bouton_inclusion_virements_hors_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
 									     _("Include transfers from or to accounts not in this report") );
+    g_signal_connect ( G_OBJECT (bouton_inclusion_virements_hors_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_inclusion_virements_hors_etat );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_inclusion_virements_hors_etat ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -2820,6 +2858,8 @@ GtkWidget *onglet_etat_virements ( void )
 
     bouton_inclusion_virements_perso = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
 									 COLON(POSTSPACIFY(_("Include transfers from or to these accounts"))) );
+    g_signal_connect ( G_OBJECT (bouton_inclusion_virements_perso ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_inclusion_virements_perso );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_inclusion_virements_perso ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -2831,8 +2871,9 @@ GtkWidget *onglet_etat_virements ( void )
 			 0 );
     gtk_widget_show ( bouton_inclusion_virements_perso );
 
-    hbox_liste_comptes_virements = gtk_hbox_new ( FALSE,
-						  5 );
+    hbox_liste_comptes_virements = gtk_hbox_new ( FALSE, 5 );
+    g_signal_connect ( G_OBJECT (hbox_liste_comptes_virements ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &hbox_liste_comptes_virements );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 hbox_liste_comptes_virements,
 			 TRUE,
@@ -2853,6 +2894,8 @@ GtkWidget *onglet_etat_virements ( void )
     gtk_widget_show ( scrolled_window );
 
     liste_comptes_virements = gtk_clist_new ( 1 );
+    g_signal_connect ( G_OBJECT (liste_comptes_virements ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &liste_comptes_virements );
     gtk_clist_set_selection_mode ( GTK_CLIST ( liste_comptes_virements ),
 				   GTK_SELECTION_MULTIPLE );
     gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_comptes_virements ),
@@ -2971,6 +3014,8 @@ GtkWidget *onglet_etat_virements ( void )
     /* on rajoute le bouton exclure les opé non virement */
 
     bouton_exclure_non_virements_etat = gtk_check_button_new_with_label ( _("Exclude the transactions which are not transfers") );
+    g_signal_connect ( G_OBJECT (bouton_exclure_non_virements_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_exclure_non_virements_etat );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 bouton_exclure_non_virements_etat,
 			 FALSE,
@@ -3075,6 +3120,8 @@ GtkWidget *onglet_etat_categories ( void )
     gtk_widget_show ( hbox );
 
     bouton_detaille_categ_etat = gtk_check_button_new_with_label ( _("Detail categories") );
+    g_signal_connect ( G_OBJECT (bouton_detaille_categ_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_detaille_categ_etat );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_categ_etat ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -3089,8 +3136,9 @@ GtkWidget *onglet_etat_categories ( void )
 
     /* mise en place de la liste et des boutons de détaillage */
 
-    hbox_detaille_categ_etat = gtk_hbox_new ( FALSE,
-					      5 );
+    hbox_detaille_categ_etat = gtk_hbox_new ( FALSE, 5 );
+    g_signal_connect ( G_OBJECT (hbox_detaille_categ_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &hbox_detaille_categ_etat );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 hbox_detaille_categ_etat,
 			 TRUE,
@@ -3134,6 +3182,8 @@ GtkWidget *onglet_etat_categories ( void )
     gtk_widget_show ( scrolled_window );
 
     liste_categ_etat = gtk_clist_new ( 1 );
+    g_signal_connect ( G_OBJECT (liste_categ_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &liste_categ_etat );
     gtk_clist_set_selection_mode ( GTK_CLIST ( liste_categ_etat ),
 				   GTK_SELECTION_MULTIPLE );
     gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_categ_etat ),
@@ -3228,6 +3278,8 @@ GtkWidget *onglet_etat_categories ( void )
     gtk_widget_show ( hbox );
 
     bouton_exclure_ope_sans_categ = gtk_check_button_new_with_label ( _("Exclude transactions with no category") );
+    g_signal_connect ( G_OBJECT (bouton_exclure_ope_sans_categ ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_exclure_ope_sans_categ );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_exclure_ope_sans_categ ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -3335,6 +3387,8 @@ GtkWidget *onglet_etat_ib ( void )
 
 
     bouton_detaille_ib_etat = gtk_check_button_new_with_label ( _("Detail budgetary lines") );
+    g_signal_connect ( G_OBJECT (bouton_detaille_ib_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_detaille_ib_etat );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_ib_etat ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -3349,8 +3403,9 @@ GtkWidget *onglet_etat_ib ( void )
 
     /* mise en place de la liste et des boutons de détaillage */
 
-    hbox_detaille_ib_etat = gtk_hbox_new ( FALSE,
-					   5 );
+    hbox_detaille_ib_etat = gtk_hbox_new ( FALSE, 5 );
+    g_signal_connect ( G_OBJECT (hbox_detaille_ib_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &hbox_detaille_ib_etat );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 hbox_detaille_ib_etat,
 			 TRUE,
@@ -3394,6 +3449,8 @@ GtkWidget *onglet_etat_ib ( void )
     gtk_widget_show ( scrolled_window );
 
     liste_ib_etat = gtk_clist_new ( 1 );
+    g_signal_connect ( G_OBJECT (liste_ib_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &liste_ib_etat );
     gtk_clist_set_selection_mode ( GTK_CLIST ( liste_ib_etat ),
 				   GTK_SELECTION_MULTIPLE );
     gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_ib_etat ),
@@ -3486,6 +3543,8 @@ GtkWidget *onglet_etat_ib ( void )
     gtk_widget_show ( hbox );
 
     bouton_exclure_ope_sans_ib = gtk_check_button_new_with_label ( _("Exclude transactions without budgetary line") );
+    g_signal_connect ( G_OBJECT (bouton_exclure_ope_sans_ib ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_exclure_ope_sans_ib );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_exclure_ope_sans_ib ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -3593,6 +3652,8 @@ GtkWidget *onglet_etat_tiers ( void )
     gtk_widget_show ( hbox );
 
     bouton_detaille_tiers_etat = gtk_check_button_new_with_label ( _("Detail payees") );
+    g_signal_connect ( G_OBJECT (bouton_detaille_tiers_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_detaille_tiers_etat );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_tiers_etat ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -3607,8 +3668,9 @@ GtkWidget *onglet_etat_tiers ( void )
 
     /* mise en place de la liste et des boutons de détaillage */
 
-    hbox_detaille_tiers_etat = gtk_hbox_new ( FALSE,
-					      5 );
+    hbox_detaille_tiers_etat = gtk_hbox_new ( FALSE, 5 );
+    g_signal_connect ( G_OBJECT (hbox_detaille_tiers_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &hbox_detaille_tiers_etat );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 hbox_detaille_tiers_etat,
 			 TRUE,
@@ -3652,6 +3714,8 @@ GtkWidget *onglet_etat_tiers ( void )
     gtk_widget_show ( scrolled_window );
 
     liste_tiers_etat = gtk_clist_new ( 1 );
+    g_signal_connect ( G_OBJECT (liste_tiers_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &liste_tiers_etat );
     gtk_clist_set_selection_mode ( GTK_CLIST ( liste_tiers_etat ),
 				   GTK_SELECTION_MULTIPLE );
     gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_tiers_etat ),
@@ -3773,6 +3837,8 @@ GtkWidget *onglet_etat_texte ( void )
     gtk_widget_show ( hbox );
 
     bouton_utilise_texte = gtk_check_button_new_with_label ( _("Select transactions according to content") );
+    g_signal_connect ( G_OBJECT (bouton_utilise_texte ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_utilise_texte );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_utilise_texte ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -3784,8 +3850,9 @@ GtkWidget *onglet_etat_texte ( void )
 			 0 );
     gtk_widget_show ( bouton_utilise_texte );
 
-    vbox_generale_textes_etat = gtk_vbox_new ( FALSE,
-					       5 );
+    vbox_generale_textes_etat = gtk_vbox_new ( FALSE, 5 );
+    g_signal_connect ( G_OBJECT (vbox_generale_textes_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &vbox_generale_textes_etat );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 vbox_generale_textes_etat,
 			 TRUE,
@@ -3814,8 +3881,9 @@ GtkWidget *onglet_etat_texte ( void )
 			 0 );
     gtk_widget_show ( scrolled_window );
 
-    liste_textes_etat = gtk_vbox_new ( FALSE,
-				       5 );
+    liste_textes_etat = gtk_vbox_new ( FALSE, 5 );
+    g_signal_connect ( G_OBJECT (liste_textes_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &liste_textes_etat );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 					    liste_textes_etat );
     gtk_widget_show ( liste_textes_etat );
@@ -4850,6 +4918,8 @@ GtkWidget *onglet_etat_montant ( void )
     gtk_widget_show ( hbox );
 
     bouton_utilise_montant = gtk_check_button_new_with_label ( _("Select the transactions by amount") );
+    g_signal_connect ( G_OBJECT (bouton_utilise_montant ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_utilise_montant );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_utilise_montant ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -4861,8 +4931,9 @@ GtkWidget *onglet_etat_montant ( void )
 			 0 );
     gtk_widget_show ( bouton_utilise_montant );
 
-    vbox_generale_montants_etat = gtk_vbox_new ( FALSE,
-						 5 );
+    vbox_generale_montants_etat = gtk_vbox_new ( FALSE, 5 );
+    g_signal_connect ( G_OBJECT (vbox_generale_montants_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &vbox_generale_montants_etat );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 vbox_generale_montants_etat,
 			 TRUE,
@@ -4892,8 +4963,9 @@ GtkWidget *onglet_etat_montant ( void )
 			 0 );
     gtk_widget_show ( scrolled_window );
 
-    liste_montants_etat = gtk_vbox_new ( FALSE,
-					 5 );
+    liste_montants_etat = gtk_vbox_new ( FALSE, 5 );
+    g_signal_connect ( G_OBJECT (liste_montants_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &liste_montants_etat );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 					    liste_montants_etat );
     gtk_widget_show ( liste_montants_etat );
@@ -4902,6 +4974,8 @@ GtkWidget *onglet_etat_montant ( void )
     /* on rajoute le bouton exclure les opé dont le montant est nul */
 
     bouton_exclure_ope_nulles_etat = gtk_check_button_new_with_label ( _("Exclude the transactions with a null amount") );
+    g_signal_connect ( G_OBJECT (bouton_exclure_ope_nulles_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_exclure_ope_nulles_etat );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_exclure_ope_nulles_etat ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -5745,6 +5819,8 @@ GtkWidget *onglet_etat_divers ( void )
 
     bouton_opes_r_et_non_r_etat = gtk_radio_button_new_with_label ( NULL,
 								    _("Select all transactions") );
+    g_signal_connect ( G_OBJECT (bouton_opes_r_et_non_r_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_opes_r_et_non_r_etat );
     gtk_box_pack_start ( GTK_BOX ( frame ),
 			 bouton_opes_r_et_non_r_etat,
 			 FALSE,
@@ -5754,6 +5830,8 @@ GtkWidget *onglet_etat_divers ( void )
 
     bouton_opes_non_r_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_opes_r_et_non_r_etat )),
 							       _("Select unreconciled transactions") );
+    g_signal_connect ( G_OBJECT (bouton_opes_non_r_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_opes_non_r_etat );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_opes_non_r_etat ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -5767,6 +5845,8 @@ GtkWidget *onglet_etat_divers ( void )
 
     bouton_opes_r_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_opes_r_et_non_r_etat )),
 							   _("Select reconciled transactions") );
+    g_signal_connect ( G_OBJECT (bouton_opes_r_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_opes_r_etat );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_opes_r_etat ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -5781,6 +5861,8 @@ GtkWidget *onglet_etat_divers ( void )
     frame = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Breakdown of transactions detail") );
 
     bouton_pas_detailler_ventilation = gtk_check_button_new_with_label ( _("Do not detail breakdown of transactions") );
+    g_signal_connect ( G_OBJECT (bouton_pas_detailler_ventilation ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_pas_detailler_ventilation );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_pas_detailler_ventilation ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -5814,15 +5896,23 @@ GtkWidget *page_data_grouping ( void )
     paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Group transactions") );
 
     bouton_regroupe_ope_compte_etat = gtk_check_button_new_with_label ( _("Group transactions by account") );
+    g_signal_connect ( G_OBJECT (bouton_regroupe_ope_compte_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_regroupe_ope_compte_etat );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_regroupe_ope_compte_etat, FALSE, FALSE, 0 );
 
     bouton_utilise_tiers_etat = gtk_check_button_new_with_label ( _("Group transactions by payee") );
+    g_signal_connect ( G_OBJECT (bouton_utilise_tiers_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_utilise_tiers_etat );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_utilise_tiers_etat, FALSE, FALSE, 0 );
 
     bouton_utilise_categ_etat = gtk_check_button_new_with_label ( _("Group transactions by category") );
+    g_signal_connect ( G_OBJECT (bouton_utilise_categ_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_utilise_categ_etat );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_utilise_categ_etat, FALSE, FALSE, 0 );
 
     bouton_utilise_ib_etat = gtk_check_button_new_with_label ( _("Group transactions by budgetary line") );
+    g_signal_connect ( G_OBJECT (bouton_utilise_ib_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_utilise_ib_etat );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_utilise_ib_etat, FALSE, FALSE, 0 );
 
     /* choix du type de classement */
@@ -5852,8 +5942,9 @@ GtkWidget *page_data_grouping ( void )
     gtk_widget_show ( scrolled_window );
 
 
-    liste_type_classement_etat = gtk_ctree_new ( 1,
-						 0 );
+    liste_type_classement_etat = gtk_ctree_new ( 1, 0 );
+    g_signal_connect ( G_OBJECT (liste_type_classement_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &liste_type_classement_etat );
     gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_type_classement_etat ),
 				       0,
 				       TRUE );
@@ -5923,10 +6014,14 @@ GtkWidget *page_data_separation ( void )
 
     /* on permet la séparation des revenus et des dépenses */
     bouton_separer_revenus_depenses = gtk_check_button_new_with_label ( _("Split incomes and outgoings") );
+    g_signal_connect ( G_OBJECT (bouton_separer_revenus_depenses ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_separer_revenus_depenses );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_separer_revenus_depenses, FALSE, FALSE, 0 );
 
     /* on permet la séparation par exercice */
     bouton_separe_exo_etat = gtk_check_button_new_with_label ( _("Split by financial year") );
+    g_signal_connect ( G_OBJECT (bouton_separe_exo_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_separe_exo_etat );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_separe_exo_etat, FALSE, FALSE, 0 );
     gtk_signal_connect ( GTK_OBJECT ( radio_button_utilise_exo ),
 			 "toggled",
@@ -5934,6 +6029,8 @@ GtkWidget *page_data_separation ( void )
 			 bouton_separe_exo_etat );
 
     bouton_separe_plages_etat = gtk_check_button_new_with_label ( _("Split by period") );
+    g_signal_connect ( G_OBJECT (bouton_separe_plages_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_separe_plages_etat );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_separe_plages_etat, FALSE, FALSE, 0 );
 
     /* on permet ensuite la séparation des résultats par période */
@@ -5953,6 +6050,8 @@ GtkWidget *page_data_separation ( void )
      * editing report for the first time (see line 834). */
 
     bouton_type_separe_plages_etat = gtk_option_menu_new ();
+    g_signal_connect ( G_OBJECT (bouton_type_separe_plages_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_type_separe_plages_etat );
     gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_type_separe_plages_etat, FALSE, FALSE, 0 );
 
     menu = gtk_menu_new ();
@@ -5980,6 +6079,8 @@ GtkWidget *page_data_separation ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     bouton_debut_semaine = gtk_option_menu_new ();
+    g_signal_connect ( G_OBJECT (bouton_debut_semaine ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_debut_semaine );
     gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_debut_semaine, FALSE, FALSE, 0 );
 
     menu = gtk_menu_new ();
@@ -6124,6 +6225,8 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
     gtk_widget_show ( label );
 
     entree_nom_etat = gtk_entry_new ();
+    g_signal_connect ( G_OBJECT (entree_nom_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &entree_nom_etat );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 entree_nom_etat,
 			 FALSE,
@@ -6144,6 +6247,8 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
     gtk_widget_show ( hbox );
 
     bouton_afficher_nb_opes = gtk_check_button_new_with_label ( _("Diplay the number of transactions with the totals") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_nb_opes ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_nb_opes );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_afficher_nb_opes,
 			 FALSE,
@@ -6163,6 +6268,8 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
     gtk_widget_show ( hbox );
 
     bouton_inclure_dans_tiers = gtk_check_button_new_with_label ( _("Consider the payees of this report as a multiple payee.") );
+    g_signal_connect ( G_OBJECT (bouton_inclure_dans_tiers ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_inclure_dans_tiers );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_inclure_dans_tiers,
 			 FALSE,
@@ -6191,6 +6298,8 @@ GtkWidget * onglet_affichage_etat_operations ( void )
     /* afficher ou non les opés */
 
     bouton_afficher_opes = gtk_check_button_new_with_label ( _("Display transactions") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_opes ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_opes );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), bouton_afficher_opes, FALSE, FALSE, 0 );
 
 
@@ -6206,45 +6315,73 @@ GtkWidget * onglet_affichage_etat_operations ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
 
     bouton_afficher_no_ope = gtk_check_button_new_with_label ( _("transaction number") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_no_ope ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_no_ope );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_no_ope, 0, 1, 0, 1 );
 
     bouton_afficher_date_opes = gtk_check_button_new_with_label ( _("date") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_date_opes ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_date_opes );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_date_opes, 1, 2, 0, 1 );
 
     bouton_afficher_exo_opes = gtk_check_button_new_with_label ( _("financial year") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_exo_opes ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_exo_opes );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_exo_opes, 2, 3, 0, 1 );
 
     bouton_afficher_tiers_opes = gtk_check_button_new_with_label ( _("payee") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_tiers_opes ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_tiers_opes );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_tiers_opes, 0, 1, 1, 2 );
 
     bouton_afficher_categ_opes = gtk_check_button_new_with_label ( _("category") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_categ_opes ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_categ_opes );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_categ_opes, 1, 2, 1, 2 );
 
     bouton_afficher_sous_categ_opes = gtk_check_button_new_with_label ( _("sub-category") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_sous_categ_opes ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_sous_categ_opes );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_sous_categ_opes, 2, 3, 1, 2 );
 
     bouton_afficher_ib_opes = gtk_check_button_new_with_label ( _("budgetary line") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_ib_opes ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_ib_opes );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_ib_opes, 0, 1, 2, 3 );
 
     bouton_afficher_sous_ib_opes = gtk_check_button_new_with_label ( _("sub-budgetary line") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_sous_ib_opes ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_sous_ib_opes );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_sous_ib_opes, 1, 2, 2, 3 );
 
     bouton_afficher_notes_opes = gtk_check_button_new_with_label ( _("notes") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_notes_opes ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_notes_opes );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_notes_opes, 2, 3, 2, 3 );
 
     bouton_afficher_type_ope = gtk_check_button_new_with_label ( _("method of payment") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_type_ope ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_type_ope );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_type_ope, 0, 1, 3, 4 );
 
     bouton_afficher_no_cheque = gtk_check_button_new_with_label ( _("cheque/transfer number") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_no_cheque ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_no_cheque );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_no_cheque, 1, 2, 3, 4 );
 
     bouton_afficher_pc_opes = gtk_check_button_new_with_label ( _("voucher") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_pc_opes ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_pc_opes );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_pc_opes, 2, 3, 3, 4 );
 
     bouton_afficher_infobd_opes = gtk_check_button_new_with_label ( _("bank reference") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_infobd_opes ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_infobd_opes );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_infobd_opes, 0, 1, 4, 5 );
 
     bouton_afficher_no_rappr = gtk_check_button_new_with_label ( _("reconciliation reference") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_no_rappr ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_no_rappr );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_no_rappr, 1, 2, 4, 5  );
 
 
@@ -6256,13 +6393,19 @@ GtkWidget * onglet_affichage_etat_operations ( void )
 			 paddingbox );
 
     bouton_afficher_titres_colonnes = gtk_check_button_new_with_label ( _("Display column titles") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_titres_colonnes ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_titres_colonnes );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_afficher_titres_colonnes, FALSE, FALSE, 0 );
 
     bouton_titre_changement = gtk_radio_button_new_with_label ( NULL, _("every section") );
+    g_signal_connect ( G_OBJECT (bouton_titre_changement ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_titre_changement );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_titre_changement, FALSE, FALSE, 0 );
 
     bouton_titre_en_haut = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_titre_changement )),
 							     _("at the top of the report") );
+    g_signal_connect ( G_OBJECT (bouton_titre_en_haut ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_titre_en_haut );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_titre_en_haut, FALSE, FALSE, 0 );
 
 
@@ -6274,6 +6417,8 @@ GtkWidget * onglet_affichage_etat_operations ( void )
 			 paddingbox );
 
     bouton_choix_classement_ope_etat = gtk_option_menu_new ();
+    g_signal_connect ( G_OBJECT (bouton_choix_classement_ope_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_choix_classement_ope_etat );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_choix_classement_ope_etat, FALSE, FALSE, 0 );
 
     menu = gtk_menu_new ();
@@ -6367,6 +6512,8 @@ GtkWidget * onglet_affichage_etat_operations ( void )
 			 paddingbox );
 
     bouton_rendre_ope_clickables = gtk_check_button_new_with_label ( _("Make transactions clickable"));
+    g_signal_connect ( G_OBJECT (bouton_rendre_ope_clickables ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_rendre_ope_clickables );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_rendre_ope_clickables, FALSE, FALSE, 0 );
 
 
@@ -6427,6 +6574,8 @@ GtkWidget *onglet_affichage_etat_devises ( void )
     gtk_widget_show ( label );
 
     bouton_devise_general_etat = gsb_currency_make_combobox (FALSE);
+    g_signal_connect ( G_OBJECT (bouton_devise_general_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_devise_general_etat );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_devise_general_etat,
 			 FALSE,
@@ -6456,6 +6605,8 @@ GtkWidget *onglet_affichage_etat_devises ( void )
     gtk_widget_show ( label );
 
     bouton_devise_tiers_etat = gsb_currency_make_combobox (FALSE);
+    g_signal_connect ( G_OBJECT (bouton_devise_tiers_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_devise_tiers_etat );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_devise_tiers_etat,
 			 FALSE,
@@ -6486,6 +6637,8 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 
 
     bouton_devise_categ_etat = gsb_currency_make_combobox (FALSE);
+    g_signal_connect ( G_OBJECT (bouton_devise_categ_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_devise_categ_etat );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_devise_categ_etat,
 			 FALSE,
@@ -6515,6 +6668,8 @@ GtkWidget *onglet_affichage_etat_devises ( void )
     gtk_widget_show ( label );
 
     bouton_devise_ib_etat = gsb_currency_make_combobox (FALSE);
+    g_signal_connect ( G_OBJECT (bouton_devise_ib_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_devise_ib_etat );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_devise_ib_etat,
 			 FALSE,
@@ -6544,6 +6699,8 @@ GtkWidget *onglet_affichage_etat_devises ( void )
     gtk_widget_show ( label );
 
     bouton_devise_montant_etat = gsb_currency_make_combobox (FALSE);
+    g_signal_connect ( G_OBJECT (bouton_devise_montant_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_devise_montant_etat );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_devise_montant_etat,
 			 FALSE,
@@ -6570,6 +6727,8 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
     /* on permet d'afficher le name du compte */
     bouton_afficher_noms_comptes = gtk_check_button_new_with_label ( _("Display account name") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_noms_comptes ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_noms_comptes );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_noms_comptes,
 			 FALSE,
@@ -6582,6 +6741,8 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* activé uniquement si on a regroupé les opés par compte */
 
     bouton_affiche_sous_total_compte = gtk_check_button_new_with_label ( _("Display a sub-total for each account") );
+    g_signal_connect ( G_OBJECT (bouton_affiche_sous_total_compte ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affiche_sous_total_compte );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_affiche_sous_total_compte,
 			 FALSE,
@@ -6600,6 +6761,8 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
     /* permet d'afficher le name du tiers, activé uniquement si on utilise les tiers */
     bouton_afficher_noms_tiers = gtk_check_button_new_with_label ( _("Display payee's name") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_noms_tiers ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_noms_tiers );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_noms_tiers,
 			 FALSE,
@@ -6616,6 +6779,8 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* activé uniquement si on utilise les tiers */
 
     bouton_affiche_sous_total_tiers = gtk_check_button_new_with_label ( _("Dsplay a sub-total for each payee") );
+    g_signal_connect ( G_OBJECT (bouton_affiche_sous_total_tiers ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affiche_sous_total_tiers );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_affiche_sous_total_tiers,
 			 FALSE,
@@ -6634,6 +6799,8 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
     /* affichage possible du name de la categ */
     bouton_afficher_noms_categ = gtk_check_button_new_with_label ( _("Display the (sub)category's name") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_noms_categ ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_noms_categ );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_noms_categ,
 			 FALSE,
@@ -6650,6 +6817,8 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* activé uniquement si on utilise les categ */
 
     bouton_affiche_sous_total_categ = gtk_check_button_new_with_label ( _("Display a sub-total for each category") );
+    g_signal_connect ( G_OBJECT (bouton_affiche_sous_total_categ ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affiche_sous_total_categ );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_affiche_sous_total_categ,
 			 FALSE,
@@ -6665,6 +6834,8 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* mise en place du bouton pour afficher les sous categ */
 
     bouton_afficher_sous_categ = gtk_check_button_new_with_label ( _("Display sub-categories") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_sous_categ ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_sous_categ );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_sous_categ,
 			 FALSE,
@@ -6679,6 +6850,8 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
 
     bouton_affiche_sous_total_sous_categ = gtk_check_button_new_with_label ( _("Display a sub-total for each sub-category") );
+    g_signal_connect ( G_OBJECT (bouton_affiche_sous_total_sous_categ ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affiche_sous_total_sous_categ );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_affiche_sous_total_sous_categ,
 			 FALSE,
@@ -6693,6 +6866,8 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
 
     bouton_afficher_pas_de_sous_categ = gtk_check_button_new_with_label ( _("Display \" No sub-category\" if none") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_pas_de_sous_categ ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_pas_de_sous_categ );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_pas_de_sous_categ,
 			 FALSE,
@@ -6710,6 +6885,8 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, COLON(_("Budgetary lines") ) );
 
     bouton_afficher_noms_ib = gtk_check_button_new_with_label ( _("Display the (sub-)budget line name") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_noms_ib ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_noms_ib );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_noms_ib,
 			 FALSE,
@@ -6726,6 +6903,8 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* activé uniquement si on utilise les ib */
 
     bouton_affiche_sous_total_ib = gtk_check_button_new_with_label ( _("Display a sub-total for each budgetary line") );
+    g_signal_connect ( G_OBJECT (bouton_affiche_sous_total_ib ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affiche_sous_total_ib );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_affiche_sous_total_ib,
 			 FALSE,
@@ -6741,6 +6920,8 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* mise en place du bouton pour afficher les sous categ */
 
     bouton_afficher_sous_ib = gtk_check_button_new_with_label ( _("Display sub-budget lines") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_sous_ib ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_sous_ib );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_sous_ib,
 			 FALSE,
@@ -6754,6 +6935,8 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 bouton_afficher_sous_ib );
 
     bouton_affiche_sous_total_sous_ib = gtk_check_button_new_with_label ( _("Display a sub-total for each sub-budget line") );
+    g_signal_connect ( G_OBJECT (bouton_affiche_sous_total_sous_ib ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affiche_sous_total_sous_ib );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_affiche_sous_total_sous_ib,
 			 FALSE,
@@ -6768,6 +6951,8 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 
 
     bouton_afficher_pas_de_sous_ib = gtk_check_button_new_with_label ( _("Display \"No sub-budgetary line\" if none") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_pas_de_sous_ib ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_pas_de_sous_ib );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_afficher_pas_de_sous_ib,
 			 FALSE,
@@ -6801,6 +6986,8 @@ GtkWidget *onglet_etat_mode_paiement ( void )
     /* sélectionner */
 
     bouton_detaille_mode_paiement_etat = gtk_check_button_new_with_label ( _("Select the transactions by method of payment"));
+    g_signal_connect ( G_OBJECT (bouton_detaille_mode_paiement_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_detaille_mode_paiement_etat );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_mode_paiement_etat ),
 				"toggled",
 				GTK_SIGNAL_FUNC ( report_tree_update_style ),
@@ -6812,8 +6999,9 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 			 0 );
     gtk_widget_show ( bouton_detaille_mode_paiement_etat );
 
-    vbox_mode_paiement_etat = gtk_vbox_new ( FALSE,
-					     5 );
+    vbox_mode_paiement_etat = gtk_vbox_new ( FALSE, 5 );
+    g_signal_connect ( G_OBJECT (vbox_mode_paiement_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &vbox_mode_paiement_etat );
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 vbox_mode_paiement_etat,
 			 TRUE,
@@ -6860,6 +7048,8 @@ GtkWidget *onglet_etat_mode_paiement ( void )
     gtk_widget_show ( scrolled_window );
 
     liste_mode_paiement_etat = gtk_clist_new ( 1 );
+    g_signal_connect ( G_OBJECT (liste_mode_paiement_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &liste_mode_paiement_etat );
     gtk_clist_set_selection_mode ( GTK_CLIST ( liste_mode_paiement_etat ),
 				   GTK_SELECTION_MULTIPLE );
     gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_mode_paiement_etat ),

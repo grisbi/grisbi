@@ -1,4 +1,3 @@
-/* ************************************************************************** */
 /*  Fichier qui s'occupe de la gestion des comptes			      */
 /*			gestion_comptes.c				      */
 /*                                                                            */
@@ -72,24 +71,24 @@ static void modification_details_compte ( void );
 
 
 
-GtkWidget *bouton_detail;
-GtkWidget *detail_nom_compte;
-GtkWidget *detail_type_compte;
-GtkWidget *detail_titulaire_compte;
-GtkWidget *detail_bouton_adresse_commune;
-GtkWidget *detail_adresse_titulaire;
-static GtkWidget *bank_list_combobox;
-GtkWidget *detail_no_compte;
-GtkWidget *label_code_banque;
-GtkWidget *detail_guichet;
-GtkWidget *detail_cle_compte;
-GtkWidget *detail_devise_compte;
-GtkWidget *detail_compte_cloture;
-GtkWidget *detail_solde_init;
-GtkWidget *detail_solde_mini_autorise;
-GtkWidget *detail_solde_mini_voulu;
-GtkWidget *detail_commentaire;
-GtkWidget *hbox_boutons_modif;
+static GtkWidget *bouton_detail = NULL;
+static GtkWidget *detail_nom_compte = NULL;
+static GtkWidget *detail_type_compte = NULL;
+static GtkWidget *detail_titulaire_compte = NULL;
+static GtkWidget *detail_bouton_adresse_commune = NULL;
+static GtkWidget *detail_adresse_titulaire = NULL;
+static GtkWidget *bank_list_combobox = NULL;
+static GtkWidget *detail_no_compte = NULL;
+static GtkWidget *label_code_banque = NULL;
+static GtkWidget *detail_guichet = NULL;
+static GtkWidget *detail_cle_compte = NULL;
+static GtkWidget *detail_devise_compte = NULL;
+static GtkWidget *detail_compte_cloture = NULL;
+static GtkWidget *detail_solde_init = NULL;
+static GtkWidget *detail_solde_mini_autorise = NULL;
+static GtkWidget *detail_solde_mini_voulu = NULL;
+static GtkWidget *detail_commentaire = NULL;
+static GtkWidget *hbox_boutons_modif = NULL;
 
 
 /*START_EXTERN*/
@@ -146,6 +145,8 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     detail_nom_compte = gtk_entry_new ();
+    g_signal_connect ( G_OBJECT (detail_nom_compte ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &detail_nom_compte );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_nom_compte, TRUE, TRUE, 0);
 
 
@@ -159,6 +160,8 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     detail_type_compte = gtk_option_menu_new ();
+    g_signal_connect ( G_OBJECT (detail_type_compte ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &detail_type_compte );
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( detail_type_compte ),
 			       creation_menu_type_compte() );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_type_compte, TRUE, TRUE, 0);
@@ -173,11 +176,15 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     detail_devise_compte = gsb_currency_make_combobox ( TRUE ); 
+    g_signal_connect ( G_OBJECT (detail_devise_compte ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &detail_devise_compte );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_devise_compte, TRUE, TRUE, 0);
 
 
     /* création de la ligne compte cloturé */
     detail_compte_cloture = gtk_check_button_new_with_label ( _("Closed account") );
+    g_signal_connect ( G_OBJECT (detail_compte_cloture ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &detail_compte_cloture );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), detail_compte_cloture, FALSE, FALSE, 0 );
 
 
@@ -192,12 +199,16 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     detail_titulaire_compte = gtk_entry_new ();
+    g_signal_connect ( G_OBJECT (detail_titulaire_compte ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &detail_titulaire_compte );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_titulaire_compte, TRUE, TRUE, 0);
 
 
     /* création de la ligne titulaire a l'adr commune */
     detail_bouton_adresse_commune = gtk_radio_button_new_with_label ( NULL,
 								      _("Common address is holder's address") );
+    g_signal_connect ( G_OBJECT (detail_bouton_adresse_commune ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &detail_bouton_adresse_commune );
     gtk_button_set_alignment ( GTK_BUTTON ( detail_bouton_adresse_commune ),
 			       MISC_LEFT, MISC_TOP );
     gtk_signal_connect ( GTK_OBJECT ( detail_bouton_adresse_commune ), "toggled",
@@ -228,6 +239,8 @@ GtkWidget *creation_details_compte ( void )
 
 
     detail_adresse_titulaire = gtk_text_view_new ();
+    g_signal_connect ( G_OBJECT (detail_adresse_titulaire ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &detail_adresse_titulaire );
     gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (detail_adresse_titulaire), 3);
     gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (detail_adresse_titulaire), 3);
     gtk_text_view_set_left_margin (GTK_TEXT_VIEW (detail_adresse_titulaire), 3);
@@ -247,6 +260,8 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     bank_list_combobox = gsb_bank_create_combobox ();
+    g_signal_connect ( G_OBJECT (bank_list_combobox ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bank_list_combobox );
     g_signal_connect ( G_OBJECT (bank_list_combobox),
 		       "changed",
 		       G_CALLBACK (modif_detail_compte),
@@ -258,6 +273,8 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), bank_list_combobox, TRUE, TRUE, 0);
 
     bouton_detail = gtk_button_new_from_stock ( GTK_STOCK_EDIT );
+    g_signal_connect ( G_OBJECT (bouton_detail ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_detail );
     gtk_button_set_relief ( GTK_BUTTON ( bouton_detail ), GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT ( bouton_detail ),
 		       "clicked",
@@ -276,6 +293,8 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     label_code_banque = gtk_label_new (NULL);
+    g_signal_connect ( G_OBJECT (label_code_banque ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &label_code_banque );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_box_pack_start ( GTK_BOX(hbox), label_code_banque, FALSE, FALSE, 0 );
@@ -291,6 +310,8 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     detail_guichet = gtk_entry_new ();
+    g_signal_connect ( G_OBJECT (detail_guichet ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &detail_guichet );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_guichet, TRUE, TRUE, 0);
 
 
@@ -304,9 +325,13 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     detail_no_compte = gtk_entry_new ();
+    g_signal_connect ( G_OBJECT (detail_no_compte ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &detail_no_compte );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_no_compte, TRUE, TRUE, 0 );
 
     detail_cle_compte = gtk_entry_new ();
+    g_signal_connect ( G_OBJECT (detail_cle_compte ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &detail_cle_compte );
     gtk_widget_set_usize ( detail_cle_compte, 30, FALSE );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_cle_compte, FALSE, FALSE, 0 );
 
@@ -323,6 +348,8 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     detail_solde_init = gtk_entry_new ();
+    g_signal_connect ( G_OBJECT (detail_solde_init ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &detail_solde_init );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_solde_init, TRUE, TRUE, 0 );
 
 
@@ -336,6 +363,8 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     detail_solde_mini_autorise = gtk_entry_new ();
+    g_signal_connect ( G_OBJECT (detail_solde_mini_autorise ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &detail_solde_mini_autorise );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_solde_mini_autorise, TRUE, TRUE, 0 );
 
 
@@ -349,6 +378,8 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     detail_solde_mini_voulu = gtk_entry_new ();
+    g_signal_connect ( G_OBJECT (detail_solde_mini_voulu ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &detail_solde_mini_voulu );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_solde_mini_voulu, TRUE, TRUE, 0 );
 
 
@@ -363,6 +394,8 @@ GtkWidget *creation_details_compte ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window_text, TRUE, TRUE, 5 );
 
     detail_commentaire = gtk_text_view_new ();
+    g_signal_connect ( G_OBJECT (detail_commentaire ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &detail_commentaire );
     gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (detail_commentaire), 3);
     gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (detail_commentaire), 3);
     gtk_text_view_set_left_margin (GTK_TEXT_VIEW (detail_commentaire), 3);
@@ -382,8 +415,9 @@ GtkWidget *creation_details_compte ( void )
 
     /* mise en forme des boutons appliquer et annuler */
 
-    hbox_boutons_modif = gtk_hbox_new ( FALSE,
-					5 );
+    hbox_boutons_modif = gtk_hbox_new ( FALSE, 5 );
+    g_signal_connect ( G_OBJECT ( hbox_boutons_modif ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &hbox_boutons_modif  );
     gtk_box_pack_start ( GTK_BOX ( onglet ),
 			 hbox_boutons_modif,
 			 FALSE,

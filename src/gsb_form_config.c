@@ -181,7 +181,9 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     gtk_widget_show ( accounts_combobox );
 
     /* create the tree_view */
-    form_config_tree_view = gsb_form_config_create_tree_view (gsb_form_config_create_store ());
+    GtkListStore* list_store = gsb_form_config_create_store ();
+    form_config_tree_view = gsb_form_config_create_tree_view (list_store);
+    g_object_unref (G_OBJECT(list_store));
     gtk_box_pack_start ( GTK_BOX ( paddingbox),
 			 form_config_tree_view,
 			 FALSE,
@@ -266,6 +268,7 @@ GtkWidget *gsb_form_config_create_tree_view ( GtkListStore *store )
      * the config box increase too */
 
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( store ));
+    
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view))),
 				  GTK_SELECTION_NONE );
 

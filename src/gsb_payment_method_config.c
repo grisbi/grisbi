@@ -147,6 +147,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
 					       G_TYPE_INT,
 					       G_TYPE_INT );
     payment_method_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (payment_method_model) );
+    g_object_unref (G_OBJECT(payment_method_model));
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (payment_method_treeview), TRUE);
     g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (payment_method_treeview)), 
 		      "changed", 

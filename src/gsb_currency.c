@@ -74,7 +74,7 @@ enum currency_list_columns {
  * gsb_currency_config_set_cached_exchange
  * and 
  * gsb_currency_config_get_cached_exchange */
-GSList * cached_exchange_rates = NULL;
+static GSList * cached_exchange_rates = NULL;
 
 
 /**

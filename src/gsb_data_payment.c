@@ -56,7 +56,7 @@ typedef struct
 
 
 /** contains the g_slist of struct_payment */
-static GSList *payment_list;
+static GSList *payment_list = NULL;
 
 /** a pointer to the last payment used (to increase the speed) */
 static struct_payment *payment_buffer;
@@ -81,6 +81,22 @@ static gint gsb_data_payment_max_number ( void );
  * */
 gboolean gsb_data_payment_init_variables ( void )
 {
+    if ( payment_list )
+    {
+        GSList* tmp_list = payment_list;
+        while ( tmp_list )
+        {
+            struct_payment *payment;
+            payment = tmp_list -> data;
+            tmp_list = tmp_list -> next;
+	    if ( ! payment )
+	        continue;
+	    if ( payment -> payment_name )
+	        g_free ( payment -> payment_name );
+	    g_free ( payment );
+        }
+        g_slist_free ( payment_list );
+    }
     payment_list = NULL;
     payment_buffer = NULL;
 

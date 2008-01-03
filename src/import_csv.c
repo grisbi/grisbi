@@ -70,7 +70,7 @@ static void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str,
 
 
 /** Array of pointers to fields.  */
-gint * csv_fields_config = NULL;
+static gint * csv_fields_config = NULL;
 
 /** Contain configuration of CSV fields.  */
 struct csv_field csv_fields[16] = {
@@ -794,7 +794,10 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
     assistant = g_object_get_data ( G_OBJECT(tree_preview), "assistant" );
     model = csv_import_create_model ( tree_preview, contents, separator );
     if ( model )
+    {
 	gtk_tree_view_set_model ( GTK_TREE_VIEW(tree_preview), model );
+	g_object_unref (G_OBJECT(model));
+    }
 
     while ( line < CSV_MAX_TOP_LINES )
     {

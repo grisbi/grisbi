@@ -125,10 +125,52 @@ extern GtkWidget *tree_view;
 
 
 /** contains a g_slist of struct_account in the good order */
-static GSList *list_accounts;
+static GSList *list_accounts = NULL;
 
 /** a pointer to the last account used (to increase the speed) */
 static struct_account *account_buffer;
+
+/**
+ * This function close all opened accounts and free the memory
+ * used by them.
+ */
+void gsb_data_account_delete_all_accounts (void)
+{
+    if ( list_accounts )
+    {
+        GSList* tmp_list = list_accounts;
+        while ( tmp_list )
+        {
+	    struct_account *account;
+	    account = tmp_list -> data;
+	    tmp_list = tmp_list -> next;
+	    if ( ! account )
+	    	continue;
+	    if ( account -> account_id );
+	        g_free ( account -> account_id );
+	    if ( account -> account_name );
+	        g_free ( account -> account_name );
+	    if ( account -> comment );
+	        g_free ( account -> comment );
+	    if ( account -> holder_name );
+	        g_free ( account -> holder_name );
+	    if ( account -> holder_address );
+	        g_free ( account -> holder_address );
+	    if ( account -> bank_branch_code );
+	        g_free ( account -> bank_branch_code );
+	    if ( account -> bank_account_number );
+	        g_free ( account -> bank_account_number );
+	    if ( account -> bank_account_key );
+	        g_free ( account -> bank_account_key );
+	    /* TODO dOm : free vertical_adjustment_value */
+	    /* TODO dOm : free sort_list */
+	    g_free ( account );
+        }
+        g_slist_free ( list_accounts );
+    }
+    list_accounts = NULL;
+    account_buffer = NULL;
+}
 
 /**
  * set the accounts global variables to NULL, usually when we init all the global variables
@@ -139,10 +181,7 @@ static struct_account *account_buffer;
  * */
 gboolean gsb_data_account_init_variables ( void )
 {
-    account_buffer = NULL;
-
-    list_accounts = NULL;
-
+    gsb_data_account_delete_all_accounts();
     return FALSE;
 }
 

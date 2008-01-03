@@ -29,6 +29,8 @@
 #include "include.h" 
 #include <config.h>
 
+#ifdef ENABLE_BALANCE_ESTIMATE 
+
 /*START_INCLUDE*/
 #include "balance_estimate_tab.h"
 #include "./utils_dates.h"
@@ -58,7 +60,6 @@ extern GtkWidget *window;
 
 
 
-#ifdef ENABLE_BALANCE_ESTIMATE 
 #include "balance_estimate_tab.h"
 #include "gsb_data_account.h"
 #include "gsb_scheduler.h"
@@ -100,7 +101,7 @@ struct bet_range
 	gsb_real max_balance;
 	gsb_real current_balance;
 };
-static GtkWidget *bet_container;
+static GtkWidget *bet_container = NULL;
 gint bet_date_sort_function (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data);
 
 /*
@@ -139,6 +140,8 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	GtkWidget* notebook = gtk_notebook_new();
 	gtk_widget_show(notebook);
 	bet_container = notebook;
+	g_signal_connect ( G_OBJECT (bet_container ), "destroy",
+			G_CALLBACK ( gtk_widget_destroyed), &bet_container );
 
 	/****** Parameter page ******/
 	GtkWidget *widget = gtk_label_new(_("Estimate parameters"));
@@ -173,6 +176,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	gtk_widget_show(tree_view);
 	GtkTreeStore *tree_model = gtk_tree_store_new(SPP_ACCOUNT_TREE_NUM_COLUMNS, G_TYPE_STRING);
 	gtk_tree_view_set_model(GTK_TREE_VIEW(tree_view), GTK_TREE_MODEL(tree_model));
+	g_object_unref (G_OBJECT(tree_model));
 	GtkTreeSelection* tree_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree_view));
 	gtk_tree_selection_set_mode(tree_selection, GTK_SELECTION_SINGLE);
 	g_signal_connect(G_OBJECT(tree_selection), "changed",
@@ -248,6 +252,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 		G_TYPE_STRING, /* SPP_ESTIMATE_TREE_BALANCE_COLUMN */
 		G_TYPE_DATE);  /* SPP_ESTIMATE_TREE_SORT_DATE_COLUMN */
 	gtk_tree_view_set_model(GTK_TREE_VIEW(tree_view), GTK_TREE_MODEL(tree_model));
+	g_object_unref (G_OBJECT(tree_model));
 
 	/* sort by date */ 
 	gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(tree_model),

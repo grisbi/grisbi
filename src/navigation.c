@@ -112,13 +112,13 @@ extern GtkWidget *tree_view;
 
 
 /** Navigation tree view. */
-GtkWidget * navigation_tree_view;
+GtkWidget * navigation_tree_view = NULL;
 
 /** Model of the navigation tree. */
-GtkTreeModel * navigation_model;
+GtkTreeModel * navigation_model = NULL;
 
 /** Widget that hold the scheduler calendar. */
-GtkWidget * scheduler_calendar;
+static GtkWidget * scheduler_calendar = NULL;
 
 /** Widget that hold all reconciliation widgets. */
 GtkWidget * reconcile_panel;
@@ -157,6 +157,8 @@ GtkWidget * create_navigation_pane ( void )
 
     /* Create the view */
     navigation_tree_view = gtk_tree_view_new ();
+    g_signal_connect ( G_OBJECT (navigation_tree_view ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &navigation_tree_view );
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(navigation_tree_view), FALSE );
     gtk_container_add ( GTK_CONTAINER(sw), navigation_tree_view );
 
@@ -184,6 +186,7 @@ GtkWidget * create_navigation_pane ( void )
 				  GTK_SELECTION_SINGLE );
     gtk_tree_view_set_model ( GTK_TREE_VIEW(navigation_tree_view), 
 			      GTK_TREE_MODEL(navigation_model) );
+    g_object_unref ( G_OBJECT(navigation_model));
 
     /* Handle drag & drop */
     navigation_dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (navigation_model);
@@ -391,10 +394,14 @@ GtkWidget * create_navigation_pane ( void )
 
     /* Create calendar (hidden for now). */
     scheduler_calendar = creation_partie_gauche_echeancier();
+    g_signal_connect ( G_OBJECT (scheduler_calendar ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &scheduler_calendar );
     gtk_box_pack_end ( GTK_BOX(vbox), scheduler_calendar, FALSE, FALSE, 0 );
 
     /* Create reconcile stuff (hidden for now). */
     reconcile_panel = gsb_reconcile_create_box ();
+    g_signal_connect ( G_OBJECT (reconcile_panel ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &reconcile_panel );
     gtk_box_pack_end ( GTK_BOX(vbox), reconcile_panel, FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( vbox );

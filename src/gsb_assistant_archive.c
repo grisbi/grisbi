@@ -74,17 +74,17 @@ enum archive_assistant_page
     ARCHIVE_ASSISTANT_SUCCESS
 };
 
-static GtkWidget *initial_date;
-static GtkWidget *final_date;
-static GtkWidget *financial_year_button;
-static GtkWidget *report_button;
-static GtkWidget *name_entry;
-static GtkWidget *label_archived;
+static GtkWidget *initial_date = NULL;
+static GtkWidget *final_date = NULL;
+static GtkWidget *financial_year_button = NULL;
+static GtkWidget *report_button = NULL;
+static GtkWidget *name_entry = NULL;
+static GtkWidget *label_archived = NULL;
 
-static GtkWidget *vbox_congratulation;
-static GtkWidget *vbox_failed;
-static GtkWidget *congratulations_view;
-static GtkWidget *failed_view;
+static GtkWidget *vbox_congratulation = NULL;
+static GtkWidget *vbox_failed = NULL;
+static GtkWidget *congratulations_view = NULL;
+static GtkWidget *failed_view = NULL;
 
 static GSList *list_transaction_to_archive = NULL;
 
@@ -208,6 +208,8 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 			 label,
  			 FALSE, FALSE, 0 );
     initial_date = gsb_calendar_entry_new (FALSE);
+    g_signal_connect ( G_OBJECT (initial_date ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &initial_date );
     g_signal_connect_object ( G_OBJECT (initial_date),
 			      "changed",
 			      G_CALLBACK (gsb_assistant_archive_update_labels),
@@ -224,6 +226,8 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 			 label,
 			 FALSE, FALSE, 0 );
     final_date = gsb_calendar_entry_new (FALSE);
+    g_signal_connect ( G_OBJECT (final_date ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &final_date );
     g_signal_connect_object ( G_OBJECT (final_date),
 			      "changed",
 			      G_CALLBACK (gsb_assistant_archive_update_labels),
@@ -270,6 +274,8 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 			 label,
 			 FALSE, FALSE, 0 );
     financial_year_button = gsb_fyear_make_combobox (FALSE);
+    g_signal_connect ( G_OBJECT (financial_year_button ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &financial_year_button );
     g_signal_connect_object ( G_OBJECT (financial_year_button),
 			      "changed",
 			      G_CALLBACK (gsb_assistant_archive_update_labels),
@@ -317,6 +323,8 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 			 label,
 			 FALSE, FALSE, 0 );
     report_button = gsb_report_make_combobox ();
+    g_signal_connect ( G_OBJECT (report_button ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &report_button );
     g_signal_connect_object ( G_OBJECT (report_button),
 			      "changed",
 			      G_CALLBACK (gsb_assistant_archive_update_labels),
@@ -328,6 +336,8 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     gtk_widget_set_sensitive ( hbox, FALSE );
 
     label_archived = gtk_label_new (NULL);
+    g_signal_connect ( G_OBJECT (label_archived ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &label_archived );
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 label_archived,
 			 FALSE, FALSE, 0 );
@@ -371,6 +381,8 @@ static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant
 			 FALSE, FALSE, 0 );
 
     name_entry = gtk_entry_new ();
+    g_signal_connect ( G_OBJECT (name_entry ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &name_entry );
     gtk_widget_set_usize ( name_entry, 400, FALSE );
     g_signal_connect_object ( G_OBJECT (name_entry),
 			      "changed",
@@ -409,11 +421,15 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
     /* we create 2 vbox, one for congratulation, one for failed,
      * only one will be showed */
     vbox_congratulation = gtk_vbox_new (FALSE, 0);
+    g_signal_connect ( G_OBJECT (vbox_congratulation ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &vbox_congratulation );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox_congratulation,
 			 TRUE, TRUE, 0 );
 
     congratulations_view = gtk_text_view_new ();
+    g_signal_connect ( G_OBJECT (congratulations_view ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &congratulations_view );
     gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (congratulations_view), GTK_WRAP_WORD);
     gtk_text_view_set_editable ( GTK_TEXT_VIEW(congratulations_view), FALSE );
     gtk_text_view_set_cursor_visible ( GTK_TEXT_VIEW(congratulations_view), FALSE );
@@ -449,11 +465,15 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
 
     /* make the failed box */
     vbox_failed = gtk_vbox_new (FALSE, 0 );
+    g_signal_connect ( G_OBJECT (vbox_failed ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &vbox_failed );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox_failed,
 			 TRUE, TRUE, 0 );
 
     failed_view = gtk_text_view_new ();
+    g_signal_connect ( G_OBJECT (failed_view ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &failed_view );
     gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (failed_view), GTK_WRAP_WORD);
     gtk_text_view_set_editable ( GTK_TEXT_VIEW(failed_view), FALSE );
     gtk_text_view_set_cursor_visible ( GTK_TEXT_VIEW(failed_view), FALSE );

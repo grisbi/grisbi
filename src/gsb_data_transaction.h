@@ -35,6 +35,7 @@ gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transactio
 gsb_real gsb_data_transaction_get_amount ( gint transaction_number );
 gint gsb_data_transaction_get_archive_number ( gint transaction_number );
 gint gsb_data_transaction_get_automatic_transaction ( gint transaction_number );
+void gsb_data_transaction_delete_all_transactions ();
 const gchar *gsb_data_transaction_get_bank_references ( gint transaction_number );
 gint gsb_data_transaction_get_breakdown_of_transaction ( gint transaction_number );
 gint gsb_data_transaction_get_budgetary_number ( gint transaction_number );

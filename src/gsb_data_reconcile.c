@@ -82,9 +82,28 @@ static struct_reconcile *reconcile_buffer;
  * */
 gboolean gsb_data_reconcile_init_variables ( void )
 {
+    if ( reconcile_list )
+    {
+        GList* tmp_list = reconcile_list;
+        while ( tmp_list )
+        {
+	    struct_reconcile *reconcile;
+	    reconcile = tmp_list -> data;
+	    tmp_list = tmp_list -> next;
+	    if ( ! reconcile )
+	       continue;
+	    if ( reconcile -> reconcile_name )
+	        g_free ( reconcile -> reconcile_name );
+	    if ( reconcile -> reconcile_init_date)
+	        g_date_free ( reconcile -> reconcile_init_date );
+	    if ( reconcile -> reconcile_final_date)
+	        g_date_free ( reconcile -> reconcile_final_date );
+	    g_free ( reconcile );
+        }
+	g_list_free ( reconcile_list );
+    }
     reconcile_list = NULL;
     reconcile_buffer = NULL;
-
     return FALSE;
 }
 

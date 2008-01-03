@@ -96,7 +96,7 @@ static gint gsb_data_report_text_comparison_max_number ( void );
 
 
 /** contains a g_slist of struct_text_comparison */
-static GSList *text_comparison_list;
+static GSList *text_comparison_list = NULL;
 
 /** a pointers to the last text comparison used (to increase the speed) */
 static struct_text_comparison *text_comparison_buffer;
@@ -112,9 +112,24 @@ static struct_text_comparison *text_comparison_buffer;
  * */
 gboolean gsb_data_report_text_comparison_init_variables ( void )
 {
+    if ( text_comparison_list )
+    {
+        GSList *tmp_list = text_comparison_list;
+        while ( tmp_list )
+        {
+	    struct_text_comparison *text_comparison;
+	    text_comparison = tmp_list-> data;
+	    tmp_list = tmp_list -> next;
+	    if ( ! text_comparison )
+	        continue;
+	    if ( text_comparison -> text )
+	        g_free ( text_comparison -> text );
+	    g_free ( text_comparison );
+        }
+        g_slist_free ( text_comparison_list );
+    }
     text_comparison_list = NULL;
     text_comparison_buffer = NULL;
-
     return FALSE;
 }
 

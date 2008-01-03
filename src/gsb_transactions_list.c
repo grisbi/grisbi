@@ -110,9 +110,6 @@ static gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_n
 						       gint cell_content_number );
 static gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_number,
 							     gint target_account );
-static  gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
-						       GtkTreeIter *iter,
-						       gpointer null );
 static void gsb_transactions_list_set_filter (GtkTreeModel *filter_model);
 static GtkTreeModel *gsb_transactions_list_set_filter_store ( GtkTreeStore *store );
 static void gsb_transactions_list_set_sortable (GtkTreeModel *sortable_model);
@@ -141,7 +138,7 @@ static void update_titres_tree_view ( void );
 
 
 /*  adr du notebook qui contient les opés de chaque compte */
-GtkWidget *tree_view_vbox;
+GtkWidget *tree_view_vbox = NULL;
 
 /* the columns of the tree_view */
 GtkTreeViewColumn *transactions_tree_view_columns[TRANSACTION_LIST_COL_NB];
@@ -164,13 +161,17 @@ gint hauteur_ligne_liste_opes;
 GtkTooltips *tooltips_general_grisbi;
 
 /* utilisé pour éviter que ça s'emballe lors du réglage de la largeur des colonnes */
-gint allocation_precedente;
+static gint allocation_precedente;
 
 /*  pointeur vers le label qui contient le solde sous la liste des opé */
 GtkWidget *solde_label = NULL;
 
-/*  pointeur vers le label qui contient le solde pointe sous la liste des opé */
 GtkWidget *solde_label_pointe = NULL;
+
+/*  pointeur vers le label qui contient le solde pointe sous la liste des opé */
+/*
+static GtkWidget *solde_label_pointe = NULL;
+*/
 
 static GtkWidget *transactions_tree_view = NULL;
 static GtkTreeStore *transactions_store = NULL;
@@ -323,14 +324,17 @@ GtkWidget *creation_fenetre_operations ( void )
 
     /* création de la barre d'outils */
     barre_outils = gtk_handle_box_new ();
+    g_signal_connect ( G_OBJECT (barre_outils ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &barre_outils );
     gsb_gui_update_transaction_toolbar ();
     gtk_box_pack_start ( GTK_BOX ( win_operations ), barre_outils, FALSE, FALSE, 0);
     gtk_widget_show ( barre_outils );
 
     /* tree_view_vbox will contain the tree_view, we will see later to set it directly */
+    tree_view_vbox = gtk_vbox_new ( FALSE, 0 );
+    g_signal_connect ( G_OBJECT (tree_view_vbox ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &tree_view_vbox );
 
-    tree_view_vbox = gtk_vbox_new ( FALSE,
-				    0 );
     /*     tree_view_vbox = creation_tree_view_operations (); */
     gtk_box_pack_start ( GTK_BOX ( win_operations ),
 			 tree_view_vbox,
@@ -948,6 +952,7 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
 
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view),
 			      GTK_TREE_MODEL (model));
+    g_object_unref ( G_OBJECT(model) );
 
     return tree_view;
 }
@@ -2948,6 +2953,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
 				 G_TYPE_STRING,
 				 G_TYPE_INT );
     tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+    g_object_unref ( G_OBJECT(store) );
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (tree_view), TRUE);
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
 				  GTK_SELECTION_SINGLE );

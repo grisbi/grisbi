@@ -67,8 +67,8 @@ static gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
 
 
-GtkWidget *budgetary_line_tree;
-GtkTreeStore *budgetary_line_tree_model;
+static GtkWidget *budgetary_line_tree = NULL;
+GtkTreeStore *budgetary_line_tree_model = NULL;
 gint no_devise_totaux_ib;
 
 
@@ -103,6 +103,8 @@ GtkWidget *onglet_imputations ( void )
 
     /* We create the gtktreeview and model early so that they can be referenced. */
     budgetary_line_tree = gtk_tree_view_new();
+    g_signal_connect ( G_OBJECT (budgetary_line_tree ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &budgetary_line_tree );
     budgetary_line_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, 
 						     META_TREE_COLUMN_TYPES );
 
@@ -143,6 +145,7 @@ GtkWidget *onglet_imputations ( void )
 				  GTK_SELECTION_SINGLE );
     gtk_tree_view_set_model (GTK_TREE_VIEW (budgetary_line_tree), 
 			     GTK_TREE_MODEL (budgetary_line_tree_model));
+    g_object_unref ( G_OBJECT(budgetary_line_tree_model));
     g_object_set_data ( G_OBJECT(budgetary_line_tree_model), "tree-view", 
 			budgetary_line_tree );
 

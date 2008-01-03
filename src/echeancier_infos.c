@@ -39,7 +39,7 @@ static void click_sur_jour_calendrier_echeance ( GtkWidget *calendrier,
 /*END_STATIC*/
 
 
-GtkWidget *calendrier_echeances;
+static GtkWidget *calendrier_echeances;
 gint affichage_echeances;
 gint affichage_echeances_perso_nb_libre;     /* contient le contenu de l'entrÃ©e */
 
@@ -60,6 +60,8 @@ GtkWidget *creation_partie_gauche_echeancier ( void )
     time ( &temps );
 
     calendrier_echeances = gtk_calendar_new ();
+    g_signal_connect ( G_OBJECT (calendrier_echeances ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &calendrier_echeances );
     gtk_calendar_display_options ( GTK_CALENDAR ( calendrier_echeances ),
 				   GTK_CALENDAR_SHOW_HEADING |
 				   GTK_CALENDAR_SHOW_DAY_NAMES |

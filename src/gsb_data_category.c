@@ -112,14 +112,14 @@ extern gsb_real null_real ;
 
 
 /** contains the g_slist of struct_category */
-static GSList *category_list;
+static GSList *category_list = NULL;
 
 /** a pointer to the last category used (to increase the speed) */
 static struct_category *category_buffer;
 static struct_sub_category *sub_category_buffer;
 
 /** a empty category for the list of categories */
-static struct_category *empty_category;
+static struct_category *empty_category = NULL;
 
 
 
@@ -132,21 +132,51 @@ static struct_category *empty_category;
  * */
 gboolean gsb_data_category_init_variables ( void )
 {
+    /* free the memory used by the category list */
     if ( category_list )
-	g_slist_free (category_list);
+    {
+	    GSList* cat_tmp_list = category_list;
+	    while ( cat_tmp_list )
+	    {
+		struct_category *category;
+		category = cat_tmp_list -> data;
+		cat_tmp_list = cat_tmp_list -> next;
 
-    if ( empty_category )
-	g_free (empty_category);
-    
+		/* free memory used by sub categories */
+    		GSList* sub_tmp_list = category -> sub_category_list;
+		while ( sub_tmp_list )
+		{
+			struct_sub_category *sub_category;
+			sub_category = sub_tmp_list -> data;
+			sub_tmp_list = sub_tmp_list -> next;
+
+			if ( sub_category -> sub_category_name )
+			    g_free ( sub_category -> sub_category_name );
+			g_free ( sub_category );
+		}
+		g_slist_free ( category -> sub_category_list );
+
+		if ( category -> category_name )
+		    g_free ( category -> category_name );
+		g_free ( category ); 
+	    }
+	    g_slist_free (category_list);
+    }
     category_list = NULL;
+
     category_buffer = NULL;
     sub_category_buffer = NULL;
 
-    /* create the empty category */
-    empty_category = g_malloc0 ( sizeof ( struct_category ));
+    /* recreate the empty category */
     /* set an empty name for that empty categ, else every transaction
      * without category will have that name */
-    empty_category -> category_name = "";
+    if ( empty_category )
+    {
+	g_free ( empty_category -> category_name );
+	g_free ( empty_category );
+    }
+    empty_category = g_malloc0 ( sizeof ( struct_category ));
+    empty_category -> category_name = g_strdup("");
 
     return FALSE;
 }

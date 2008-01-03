@@ -62,8 +62,8 @@ enum archives_columns {
     NUM_ARCHIVES_COLUMNS,
 };
 
-static GtkWidget *archive_treeview;
-static GtkWidget *archive_name_entry;
+static GtkWidget *archive_treeview = NULL;
+static GtkWidget *archive_name_entry = NULL;
 
 
 /*START_STATIC*/
@@ -137,6 +137,9 @@ GtkWidget *gsb_archive_config_create ( void )
 					G_TYPE_STRING,
 					G_TYPE_INT );
     archive_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (archive_model) );
+    g_object_unref (G_OBJECT(archive_model) );
+    g_signal_connect ( G_OBJECT (archive_treeview ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &archive_treeview );
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (archive_treeview), TRUE);
     gtk_container_add ( GTK_CONTAINER (scrolled_window),
 			archive_treeview );
@@ -193,6 +196,8 @@ GtkWidget *gsb_archive_config_create ( void )
     archive_name_entry = gsb_autofunc_entry_new ( NULL,
 						  G_CALLBACK (gsb_archive_config_name_changed), archive_treeview,
 						  G_CALLBACK (gsb_data_archive_set_name), 0 );
+    g_signal_connect ( G_OBJECT (archive_name_entry ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &archive_name_entry );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       archive_name_entry, 1, 2, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,

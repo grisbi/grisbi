@@ -72,14 +72,14 @@ static gint verifie_texte_test_etat ( gint text_comparison_number,
 
 
 
-gint dernier_chq;     /* quand on a choisi le plus grand, contient le dernier no de chq dans les comptes choisis */
-gint dernier_pc;     /* quand on a choisi le plus grand, contient le dernier no de pc dans les comptes choisis */
-gint dernier_no_rappr;     /* quand on a choisi le plus grand, contient le dernier no de rappr dans les comptes choisis */
+static gint dernier_chq;     /* quand on a choisi le plus grand, contient le dernier no de chq dans les comptes choisis */
+static gint dernier_pc;     /* quand on a choisi le plus grand, contient le dernier no de pc dans les comptes choisis */
+static gint dernier_no_rappr;     /* quand on a choisi le plus grand, contient le dernier no de rappr dans les comptes choisis */
 struct struct_etat_affichage * etat_affichage_output;
 
 
 
-gint ancien_tiers_etat;
+static gint ancien_tiers_etat;
 
 /*START_EXTERN*/
 extern gint ancien_compte_etat;

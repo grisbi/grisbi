@@ -50,11 +50,11 @@ extern gint nb_colonnes;
 
 
 
-FILE * html_out;
-int html_lastline;
-int html_lastcol;
-gboolean html_last_is_hsep;
-gboolean html_first_line;
+static FILE * html_out;
+static int html_lastline;
+static int html_lastcol;
+static gboolean html_last_is_hsep;
+static gboolean html_first_line;
 
 
 struct struct_etat_affichage html_affichage = {

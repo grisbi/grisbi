@@ -67,7 +67,7 @@ static gpointer gsb_data_bank_get_structure ( gint bank_number );
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_bank */
-static GSList *bank_list;
+static GSList *bank_list = NULL;
 
 /** a pointer to the last bank used (to increase the speed) */
 static struct_bank *bank_buffer;
@@ -82,6 +82,38 @@ static struct_bank *bank_buffer;
  * */
 gboolean gsb_data_bank_init_variables ( void )
 {
+    if ( bank_list )
+    {
+        GSList* tmp_list = bank_list;
+        while ( tmp_list )
+        {
+	    struct_bank *bank;
+	    bank = tmp_list -> data;
+	    tmp_list = tmp_list -> next;
+	    if ( ! bank )
+	        continue;
+	    if ( bank -> bank_name )
+	        g_free ( bank -> bank_name );
+	    if ( bank -> bank_code )
+	        g_free ( bank -> bank_code );
+	    if ( bank -> bank_address )
+	        g_free ( bank -> bank_address );
+	    if ( bank -> bank_web )
+	        g_free ( bank -> bank_web );
+	    if ( bank -> bank_note )
+	        g_free ( bank -> bank_note );
+	    if ( bank -> correspondent_name )
+	        g_free ( bank -> correspondent_name );
+	    if ( bank -> correspondent_tel )
+	        g_free ( bank -> correspondent_tel );
+	    if ( bank -> correspondent_mail )
+	        g_free ( bank -> correspondent_mail );
+	    if ( bank -> correspondent_fax )
+	        g_free ( bank -> correspondent_fax );
+            g_free ( bank );
+        }
+        g_slist_free ( bank_list );
+    }
     bank_list = NULL;
     bank_buffer = NULL;
 

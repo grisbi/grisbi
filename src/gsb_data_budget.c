@@ -106,14 +106,14 @@ extern gsb_real null_real ;
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_budget */
-static GSList *budget_list;
+static GSList *budget_list = NULL;
 
 /** a pointer to the last budget used (to increase the speed) */
 static struct_budget *budget_buffer;
 static struct_sub_budget *sub_budget_buffer;
 
 /** a empty budget for the list of budgets */
-static struct_budget *empty_budget;
+static struct_budget *empty_budget = NULL;
 
 
 
@@ -128,19 +128,48 @@ static struct_budget *empty_budget;
 gboolean gsb_data_budget_init_variables ( void )
 {
     if ( budget_list )
+    {
+        /* free memory used by the budget list */
+        GSList *tmp_list = budget_list;
+        while ( tmp_list )
+        {
+            struct_budget *budget;
+            budget = tmp_list -> data;
+            tmp_list = tmp_list -> next;
+
+	    /* free memory used by sub-bugdgets */
+            GSList* sub_tmp_list = budget -> sub_budget_list;
+	    while ( sub_tmp_list )
+	    {
+                struct_sub_budget *sub_budget;
+                sub_budget = sub_tmp_list -> data;
+                sub_tmp_list = sub_tmp_list -> next;
+
+		if ( sub_budget -> sub_budget_name )
+		    g_free ( sub_budget -> sub_budget_name );
+		g_free ( sub_budget );
+	    }
+
+	    if ( budget -> budget_name )
+	        g_free ( budget -> budget_name);
+	    g_free ( budget );
+        }
 	g_slist_free (budget_list);
-
-    if ( empty_budget )
-	g_free (empty_budget);
-
+    }
     budget_list = NULL;
+
+    /* recreate the empty budget */
+    if ( empty_budget )
+    {
+        if ( empty_budget -> budget_name )
+	    g_free ( empty_budget -> budget_name );
+	g_free (empty_budget);
+    }
+    empty_budget = g_malloc0 ( sizeof ( struct_budget ));
+    empty_budget -> budget_name = g_strdup(_("No budget line"));
+
     budget_buffer = NULL;
     sub_budget_buffer = NULL;
-
-    /* create the empty budget */
-
-    empty_budget = g_malloc0 ( sizeof ( struct_budget ));
-    empty_budget -> budget_name = _("No budget line");
 
     return FALSE;
 }

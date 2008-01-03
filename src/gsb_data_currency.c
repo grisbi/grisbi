@@ -57,7 +57,7 @@ static gboolean gsb_data_currency_set_default_currency ( gint currency_number );
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_currency */
-static GSList *currency_list;
+static GSList *currency_list = NULL;
 
 /** a pointer to the last currency used (to increase the speed) */
 static struct_currency *currency_buffer;
@@ -74,10 +74,29 @@ static gint default_currency_number;
  * */
 gboolean gsb_data_currency_init_variables ( void )
 {
+    if ( currency_list )
+    {
+        GSList* tmp_list = currency_list;
+        while ( tmp_list )
+        {
+	    struct_currency *currency;
+	    currency = tmp_list -> data;
+	    tmp_list = tmp_list -> next;
+	    if ( ! currency )
+	        continue;
+	    if ( currency -> currency_name )
+	        g_free ( currency -> currency_name );
+	    if ( currency -> currency_code )
+	        g_free ( currency -> currency_code );
+	    if ( currency -> currency_code_iso4217 )
+	        g_free ( currency -> currency_code_iso4217 );
+	    g_free ( currency );
+        }
+	g_slist_free ( currency_list );
+    }
     currency_list = NULL;
     currency_buffer = NULL;
     default_currency_number = 0;
-
     return FALSE;
 }
 

@@ -91,25 +91,35 @@ static struct_payee *empty_payee = NULL;
 gboolean gsb_data_payee_init_variables ( void )
 {
     /* free the memory used by the actual list */
-    GSList *tmp;
-    tmp = payee_list;
-    while ( tmp )
+    GSList *tmp_list;
+    tmp_list = payee_list;
+    while ( tmp_list )
     {
 	struct_payee *payee;
-	payee = tmp -> data;
+	payee = tmp_list -> data;
+	tmp_list = tmp_list -> next;
+
 	if ( payee )
+	{
+            if ( payee -> payee_name)
+                g_free ( payee -> payee_name);
+            if ( payee -> payee_description)
+                g_free ( payee -> payee_description);
 	    g_free ( payee );
-	tmp = tmp -> next;
+	}
     }
     g_slist_free ( payee_list );
     payee_list = NULL;
     payee_buffer = NULL;
 
     /* create the blank payee */
-
+    if (empty_payee)
+    {
+        g_free ( empty_payee -> payee_name );
+	g_free ( empty_payee );
+    }
     empty_payee = g_malloc0 (sizeof ( struct_payee ));
     empty_payee -> payee_name = g_strdup(_("No payee"));
-
     return FALSE;
 }
 

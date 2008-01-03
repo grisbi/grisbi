@@ -78,7 +78,7 @@ extern gsb_real null_real ;
 
 
 /** contains a g_slist of struct_amount_comparison */
-static GSList *amount_comparison_list;
+static GSList *amount_comparison_list = NULL;
 
 /** a pointers to the last amount comparison used (to increase the speed) */
 static struct_amount_comparison *amount_comparison_buffer;
@@ -94,6 +94,20 @@ static struct_amount_comparison *amount_comparison_buffer;
  * */
 gboolean gsb_data_report_amount_comparison_init_variables ( void )
 {
+    if ( amount_comparison_list)
+    {
+        GSList* tmp_list = amount_comparison_list;
+        while ( tmp_list )
+        {
+	    struct_amount_comparison *amount_comparison;
+	    amount_comparison = tmp_list -> data;
+	    tmp_list = tmp_list -> next;
+	    if ( ! amount_comparison )
+	        continue;
+	    g_free ( amount_comparison );
+        }
+	g_slist_free ( amount_comparison_list );
+    }
     amount_comparison_list = NULL;
     amount_comparison_buffer = NULL;
 

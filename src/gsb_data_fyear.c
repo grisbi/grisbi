@@ -72,7 +72,7 @@ static gint gsb_data_fyear_max_number ( void );
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_fyear */
-static GSList *fyear_list;
+static GSList *fyear_list = NULL;
 
 /** a pointer to the last fyear used (to increase the speed) */
 static struct_fyear *fyear_buffer;
@@ -88,9 +88,28 @@ static struct_fyear *fyear_buffer;
  * */
 gboolean gsb_data_fyear_init_variables ( void )
 {
+    if ( fyear_list )
+    {
+        GSList* tmp_list  = fyear_list;
+        while ( tmp_list  )
+        {
+	    struct_fyear *fyear;
+	    fyear = tmp_list  -> data;
+	    tmp_list = tmp_list -> next;
+	    if ( ! fyear )
+	        continue;
+	    if ( fyear -> fyear_name )
+	        g_free ( fyear -> fyear_name );
+	    if ( fyear -> begining_date )
+	        g_date_free ( fyear -> begining_date );
+	    if ( fyear -> end_date )
+	        g_date_free ( fyear -> end_date );
+	    g_free ( fyear );
+        }
+        g_slist_free ( fyear_list );
+    }
     fyear_list = NULL;
     fyear_buffer = NULL;
-
     return FALSE;
 }
 

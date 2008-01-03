@@ -33,10 +33,6 @@
 
 
 
-/* TODO dOm this widget seems never to be initialised (so not to be used).
-GtkWidget *bouton_supprimer_compte;
-*/
-
 /*START_EXTERN*/
 /*END_EXTERN*/
 

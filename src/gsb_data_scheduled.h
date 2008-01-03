@@ -83,5 +83,6 @@ gboolean gsb_data_scheduled_set_user_entry ( gint scheduled_number,
 					     gint number );
 gboolean gsb_data_scheduled_set_user_interval ( gint scheduled_number,
 						gint number );
+void gsb_data_scheduled_delete_all_scheduled ();
 /* END_DECLARATION */
 #endif

@@ -120,6 +120,23 @@ GSList *scheduled_transactions_taken;
 /** used to save and restore the width of the scheduled list */
 gint scheduler_col_width[NB_COLS_SCHEDULER];
 
+/**
+ *
+ */
+void gsb_scheduler_list_init_variables ( void )
+{
+    if ( scheduled_transactions_to_take )
+    {
+        g_slist_free ( scheduled_transactions_to_take );
+        scheduled_transactions_to_take = NULL;
+    }
+    if ( scheduled_transactions_taken )
+    {
+        g_slist_free ( scheduled_transactions_taken );
+        scheduled_transactions_taken = NULL;
+    }
+
+}
 
 /**
  * create the scheduler list
@@ -174,8 +191,9 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
 
     /* create the store and set it in the tree_view */
 
-    gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view),
-			      gsb_scheduler_list_create_model ());
+    GtkTreeModel *tree_model = gsb_scheduler_list_create_model ();
+    gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), tree_model);
+    g_object_unref (G_OBJECT(tree_model));
 
     g_signal_connect ( G_OBJECT ( gtk_tree_view_get_selection( GTK_TREE_VIEW (tree_view))),
 		       "changed",

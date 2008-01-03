@@ -59,7 +59,7 @@ static void etat_affiche_attach_vsep ( int x, int x2, int y, int y2);
 
 
 
-gint ancien_tiers_etat;
+static gint ancien_tiers_etat;
 
 /*START_EXTERN*/
 extern gint ancien_compte_etat;

@@ -61,19 +61,18 @@ static void importer_etat ( void );
 /*END_STATIC*/
 
 
-GtkWidget *bouton_effacer_etat;
-GtkWidget *bouton_personnaliser_etat;
-GtkWidget *bouton_imprimer_etat;
-GtkWidget *bouton_exporter_etat;
-GtkWidget *bouton_dupliquer_etat;
+static GtkWidget *bouton_effacer_etat = NULL;
+static GtkWidget *bouton_personnaliser_etat = NULL;
+static GtkWidget *bouton_imprimer_etat = NULL;
+static GtkWidget *bouton_exporter_etat = NULL;
+static GtkWidget *bouton_dupliquer_etat = NULL;
 GtkWidget *scrolled_window_etat = NULL;          /* contient l'état en cours */
 gint nb_colonnes;
 gint ligne_debut_partie;
-GtkWidget *notebook_etats;
-GtkWidget *notebook_config_etat;
-GtkWidget *notebook_selection;
-GtkWidget *onglet_config_etat;
-GtkWidget *reports_toolbar;
+GtkWidget *notebook_etats = NULL;
+GtkWidget *notebook_config_etat = NULL;
+GtkWidget *onglet_config_etat = NULL;
+static GtkWidget *reports_toolbar = NULL;
 
 
 /*START_EXTERN*/
@@ -136,6 +135,8 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							 _("Export"),
 							 G_CALLBACK (exporter_etat),
 							 NULL );
+    g_signal_connect ( G_OBJECT (bouton_exporter_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_exporter_etat );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
 			   bouton_exporter_etat,
 			   _("Export selected report to egsb, HTML, Tex, CSV, PostScript"), "" );
@@ -146,6 +147,8 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							 _("Print"),
 							 G_CALLBACK (impression_etat_courant),
 							 NULL );
+    g_signal_connect ( G_OBJECT (bouton_imprimer_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_imprimer_etat );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
 			   bouton_imprimer_etat,
 			   _("Print selected report"), "" );
@@ -156,6 +159,8 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							_("Delete"),
 							G_CALLBACK ( efface_etat ),
 							NULL );
+    g_signal_connect ( G_OBJECT (bouton_effacer_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_effacer_etat );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
 			   bouton_effacer_etat,
 			   _("Delete selected report"), "" );
@@ -166,6 +171,8 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							      _("Properties"),
 							      G_CALLBACK (personnalisation_etat),
 							      NULL ), 
+    g_signal_connect ( G_OBJECT (bouton_personnaliser_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_personnaliser_etat );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
 			   bouton_personnaliser_etat,
 			   _("Edit selected report"), "" );
@@ -176,6 +183,8 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							  _("Clone"),
 							  G_CALLBACK (dupliquer_etat),
 							  NULL ), 
+    g_signal_connect ( G_OBJECT (bouton_dupliquer_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_dupliquer_etat );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
 			   bouton_dupliquer_etat,
 			   _("Clone selected report"), "" );
@@ -199,10 +208,14 @@ GtkWidget *creation_onglet_etats ( void )
 
     tab = gtk_vbox_new ( FALSE, 6 );
     reports_toolbar = gsb_gui_create_report_toolbar();
+    g_signal_connect ( G_OBJECT (reports_toolbar ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &reports_toolbar );
     gtk_box_pack_start ( GTK_BOX ( tab ), reports_toolbar, FALSE, FALSE, 0 );
 
     /* création du notebook contenant l'état et la config */
     notebook_etats = gtk_notebook_new ();
+    g_signal_connect ( G_OBJECT (notebook_etats ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &notebook_etats );
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_etats ), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(notebook_etats), FALSE );
     gtk_box_pack_start ( GTK_BOX ( tab ), notebook_etats, TRUE, TRUE, 0 );
@@ -214,6 +227,8 @@ GtkWidget *creation_onglet_etats ( void )
 
     /* On met une scrolled window qui sera remplit par l'état */
     scrolled_window_etat = gtk_scrolled_window_new ( FALSE, FALSE );
+    g_signal_connect ( G_OBJECT (scrolled_window_etat ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &scrolled_window_etat );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_etat), 
 					  GTK_SHADOW_NONE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window_etat ),

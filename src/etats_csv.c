@@ -54,9 +54,9 @@ struct struct_etat_affichage csv_affichage = {
     csv_attach_label,
 };
 
-FILE * csv_out;
-gint csv_lastcol = 0;
-gint csv_lastline = 1;
+static FILE * csv_out;
+static gint csv_lastcol = 0;
+static gint csv_lastline = 1;
 
 
 /*START_EXTERN*/

@@ -445,6 +445,7 @@ GtkWidget *gsb_currency_config_create_list ()
 
     /* Create tree tree_view */
     treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL(model));
+    g_object_unref ( G_OBJECT(model) );
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
 
     /* Flag */

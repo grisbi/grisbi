@@ -68,8 +68,8 @@
 
 /*START_STATIC*/
 static void gsb_file_append_name_to_opened_list ( gchar * path_fichier );
-static  gchar *gsb_file_dialog_ask_name ( void );
-static  gint gsb_file_dialog_save ( void );
+static gchar *gsb_file_dialog_ask_name ( void );
+static gint gsb_file_dialog_save ( void );
 static gboolean gsb_file_save_backup ( void );
 static gboolean gsb_file_save_file ( gint origine );
 /*END_STATIC*/
@@ -851,15 +851,13 @@ gboolean gsb_file_close ( void )
 		 nom_fichier_comptes )
 		gsb_file_util_modify_lock ( FALSE );
 
-	    /* libère les opérations de tous les comptes */
-	    g_slist_free ( gsb_data_transaction_get_transactions_list ());
-	    g_slist_free ( gsb_data_transaction_get_complete_transactions_list ());
-	    g_slist_free ( gsb_data_account_get_list_accounts () );
-
-	    /* libère les échéances */
-	    g_slist_free ( gsb_data_scheduled_get_scheduled_list () );
+	    /* free the memory used by the closed file */ 
+	    gsb_data_transaction_delete_all_transactions ();
+	    gsb_data_account_delete_all_accounts ();
+	    gsb_data_scheduled_delete_all_scheduled ();
 	    g_slist_free ( scheduled_transactions_to_take );
 	    g_slist_free ( scheduled_transactions_taken );
+
 	    gtk_widget_destroy ( main_vbox );
 
 	    init_variables ();

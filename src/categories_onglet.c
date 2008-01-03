@@ -58,8 +58,8 @@ static gboolean popup_category_view_mode_menu ( GtkWidget * button );
 
 /* Category tree model & view */
 GtkTreeStore * categ_tree_model;
-GtkWidget *arbre_categ;
-int no_devise_totaux_categ;
+static GtkWidget *arbre_categ = NULL;
+gint no_devise_totaux_categ;
 
 
 /*START_EXTERN*/
@@ -90,6 +90,8 @@ GtkWidget *onglet_categories ( void )
 
     /* We create the gtktreeview and model early so that they can be referenced. */
     arbre_categ = gtk_tree_view_new();
+    g_signal_connect ( G_OBJECT (arbre_categ ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &arbre_categ );
     categ_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, META_TREE_COLUMN_TYPES );
 
     /* We create the main vbox */
@@ -131,6 +133,7 @@ GtkWidget *onglet_categories ( void )
 				  GTK_SELECTION_SINGLE );
     gtk_tree_view_set_model (GTK_TREE_VIEW (arbre_categ), 
 			     GTK_TREE_MODEL (categ_tree_model));
+    g_object_unref (G_OBJECT(categ_tree_model));
     g_object_set_data ( G_OBJECT(categ_tree_model), "tree-view", arbre_categ );
 
     /* Make category column */

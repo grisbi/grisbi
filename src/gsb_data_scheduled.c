@@ -100,7 +100,7 @@ static GSList *scheduled_list = NULL;
 /** the g_slist which contains all the white scheduleds structures
  * ie : 1 general white line
  * and 1 white line per breakdown of scheduled */
-static GSList *white_scheduled_list;
+static GSList *white_scheduled_list = NULL;
 
 /** 2 pointers to the 2 last scheduled used (to increase the speed) */
 static struct_scheduled *scheduled_buffer[2];
@@ -108,17 +108,47 @@ static struct_scheduled *scheduled_buffer[2];
 /** set the current buffer used */
 static gint current_scheduled_buffer;
 
+/**
+ * Delete all scheduled and clear memory used by them
+ */
+void gsb_data_scheduled_delete_all_scheduled ()
+{
+    if ( scheduled_list )
+    {
+        GSList *tmp_list;
+        tmp_list = scheduled_list;
+        while (tmp_list)
+        {
+	    struct_scheduled *scheduled;
+	    scheduled = tmp_list -> data;
+	    tmp_list = tmp_list -> next;
+	    if ( ! scheduled )
+	        continue;
+	    if ( scheduled -> notes )
+	        g_free ( scheduled -> notes );
+	    if ( scheduled -> date )
+	        g_date_free ( scheduled -> date );
+	    if ( scheduled -> limit_date )
+	        g_date_free ( scheduled -> limit_date );
+	    if ( scheduled -> method_of_payment_content )
+	        g_free ( scheduled -> method_of_payment_content );
+	    g_free ( scheduled );
+        } 
+        g_slist_free ( scheduled_list );
+        scheduled_list = NULL;
+    }
+    scheduled_buffer[0] = NULL;
+    scheduled_buffer[1] = NULL;
+    current_scheduled_buffer = 0;
+}
+
 /** set the scheduleds global variables to NULL, usually when we init all the global variables
  * \param none
  * \return FALSE
  * */
 gboolean gsb_data_scheduled_init_variables ( void )
 {
-    scheduled_buffer[0] = NULL;
-    scheduled_buffer[1] = NULL;
-    current_scheduled_buffer = 0;
-    scheduled_list = NULL;
-
+    gsb_data_scheduled_delete_all_scheduled ();
     return FALSE;
 }
 
