@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-04 20:16+0200\n"
-"PO-Revision-Date: 2007-12-31 00:33+0100\n"
+"PO-Revision-Date: 2008-01-03 15:55+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6615,6 +6615,10 @@ msgid ""
 "but didn't find the iter in the list...\n"
 "It's normal if appending a new scheduled transaction, but abnormal else..."
 msgstr ""
+"en gsb_scheduler_list_remove_transaction_from_list, se pregunta para "
+"borrar la transacción no %d,\n"
+"Pero no se encontró la iteracion en la lista...\n"
+"Esto es normal si se añade una nueva transacción programada, pero sino no lo es..."
 
 #: src/gsb_scheduler_list.c:825
 #, c-format
@@ -6737,6 +6741,9 @@ msgid ""
 "bug.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
+"Un archivo fue seleccionado pero Grisbi no puede obtener su nombre. Parece "
+"que es un fallo.\n"
+"Por favor, intente reproducir el fallo y contacte con el equipo de Grisbi."
 
 #: src/gsb_transactions_list.c:2100
 msgid ""
@@ -6744,20 +6751,24 @@ msgid ""
 "happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
+"Un archivo fue seleccionado pero parece que tiene el número 0, lo cual no "
+"debería suceder.\n"
+"Por favor, intente reproducir el fallo y contacte con el equipo de Grisbi."
 
 #: src/gsb_transactions_list.c:2694
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
 msgstr ""
+"No puede cambiar una transacción de R a no R mientras se está reconciliando el balance.\n"
+"Por favor, primero termine o cancele la reconciliación."
 
 #. it's a normal transaction, ask to be sure
 #: src/gsb_transactions_list.c:2701 src/gsb_transactions_list.c:2715
 msgid "Confirmation of manual (un)reconciliation"
-msgstr "Confirmación de (des)reconciliación manual"
+msgstr "Confirmación de (ir)reconciliación manual"
 
 #: src/gsb_transactions_list.c:2702
-#, fuzzy
 msgid ""
 "You are currently trying to reconcile or unreconcile manually a transaction "
 "which isn't a regular way to do.\n"
@@ -6768,9 +6779,12 @@ msgid ""
 "Are you really sure to know what you do?"
 msgstr ""
 "Está intentando reconciliar o irreconciliar manualmente una transacción y "
-"esto no es una forma regular de hacer esto,\n"
+"esto no es la forma normal de hacerlo.\n"
 "\n"
-"¿Está seguro de que sabe lo que está haciendo?"
+"Y además la transacción que esté intentando reconciliar es la hija de una "
+"anotación, por lo que la modificación será hecha en la madre y en la hija.\n"
+"\n"
+"¿ Está seguro de que sabe lo que está haciendo ?"
 
 #: src/gsb_transactions_list.c:2716
 msgid ""
@@ -6792,11 +6806,14 @@ msgid ""
 "the R transactions into the list ; show them if you want to check what you "
 "did."
 msgstr ""
+"La transacción ha desaparecido de la lista...\n"
+"No se preocupe, eso es porque la marcó como R y eligió no mostrar las"
+"transacciones R en la lista; Eliga mostrarlas si quiere comprobar lo que "
+"hizo."
 
 #: src/gsb_transactions_list.c:2803
-#, fuzzy
 msgid "Marking a transaction as R"
-msgstr "Marcar las transacciones"
+msgstr "Marcar las transacciones como R"
 
 #: src/gsb_transactions_list.c:2870
 msgid "Choosing a reconcile"
@@ -6933,6 +6950,9 @@ msgid ""
 "transaction_2 is NULL ; it souldn't happen, it's seems that the function is "
 "called by a bad way"
 msgstr ""
+"en la función gsb_transactions_list_sort_general_test, transaction_1 ó "
+"transaction_2 es NULL ; esto no debería suceder, parece que la función es "
+"llamada de forma incorrecta"
 
 #: src/help.c:58
 msgid "Programming"
@@ -6948,8 +6968,7 @@ msgstr "Cedric Auger (cedric[at]grisbi.org)"
 
 #: src/help.c:61 src/help.c:67
 msgid "Francois Terrot (grisbi[at]terrot.net)"
-msgstr ""
-"Francois Terrot (grisbi[at]terrot.net)"
+msgstr "Francois Terrot (grisbi[at]terrot.net)"
 
 #: src/help.c:64
 msgid "Packaging"
@@ -6961,13 +6980,11 @@ msgstr "Alain Pichon (aph[at]grisbi.org)"
 
 #: src/help.c:66
 msgid "Baluchiterium  (baluchiterium[at]users.sf.net)"
-msgstr ""
-"Baluchiterium  (baluchiterium[at]users.sf.net)"
+msgstr "Baluchiterium  (baluchiterium[at]users.sf.net)"
 
 #: src/help.c:68
 msgid "Gerald Niel (gerald.niel[at]grisbi.org)"
-msgstr ""
-"Gerald Niel (gerald.niel[at]grisbi.org)"
+msgstr "Gerald Niel (gerald.niel[at]grisbi.org)"
 
 #: src/help.c:69
 msgid "PMF (ugly.duck[at]gmx.de)"
@@ -7003,7 +7020,7 @@ msgstr "Benjamin Drieu (bdrieu[at]april.org): Inglés"
 
 #: src/help.c:79
 msgid "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Spanish"
-msgstr "Carlos M. CÃ¡mara Mora (carcam_moceu[at]yahoo.es): Español"
+msgstr "Carlos M. Cámara Mora (cmcamara@gmail.com): Español"
 
 #: src/help.c:80
 msgid "Daniel Cartron (cartron[at]grisbi.org): English"
@@ -7135,6 +7152,8 @@ msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files:"
 msgstr ""
+"Se han importado con éxito los archivos a Grisbi.  Las siguientes páginas le ayudarán "
+"a configurar la información importada para los siguientes archivos:"
 
 #: src/import.c:721
 msgid "Unnamed Imported account"
@@ -7177,6 +7196,9 @@ msgid ""
 "\n"
 "What do you want to do with contents from <tt>%s</tt>?\n"
 msgstr ""
+"<span size=\"x-large\">%s</span>\n"
+"\n"
+"¿ Qué es lo que quiere hacer con los contenidos de <tt>%s</tt>?\n"
 
 #. New account
 #: src/import.c:1005
@@ -7397,13 +7419,18 @@ msgid ""
 "no undo for this.\n"
 "You may also decide to replace existing budgetary lines with imported ones."
 msgstr ""
+"El archivo no contiene transacciones.  Si decide continuar, las líneas presupuestarias "
+"existentes se mezclarán con las importadas.  Una vez realizada, no hay forma de "
+"dehacer esta operación.\n"
+"También puede decidir reemplazar las líneas presupuestarias existentes con las importadas."
 
 #: src/imputation_budgetaire.c:483
-#, fuzzy
 msgid ""
 "New\n"
 "budgetary line"
-msgstr "Nueva línea presupuestaria"
+msgstr ""
+"Nueva\n"
+"línea presupuestaria"
 
 #: src/imputation_budgetaire.c:487 src/imputation_budgetaire.c:499
 msgid "Create a new budgetary line"
@@ -7472,11 +7499,12 @@ msgid ""
 "You can now create your account file ... blah blah.  This will be replaced "
 "by a nice assistant."
 msgstr ""
+"Ahora puede crear su archivo de cuentas ... bla bla.  Esto será reemplazado "
+"por un buen asistente."
 
 #: src/main.c:248
-#, fuzzy
 msgid "Welcome to Grisbi!"
-msgstr "Acerca de Grisbi"
+msgstr "¡ Bienvenido a Grisbi !"
 
 #: src/menu.c:161
 msgid "_File"
@@ -7492,9 +7520,8 @@ msgid "_Open..."
 msgstr "_Abrir..."
 
 #: src/menu.c:170
-#, fuzzy
 msgid "_Recently opened files"
-msgstr "Archivos abiertos recientemente"
+msgstr "_Archivos abiertos recientemente"
 
 #: src/menu.c:173
 msgid "_Save"
@@ -7505,19 +7532,16 @@ msgid "_Save as..."
 msgstr "_Guardar como..."
 
 #: src/menu.c:179
-#, fuzzy
 msgid "_Import file..."
-msgstr "Exportar archivos"
+msgstr "_Importar archivo"
 
 #: src/menu.c:182
-#, fuzzy
 msgid "_Export accounts as QIF/CSV file..."
-msgstr "Cuentas a archivo QIF ..."
+msgstr "_Exportar Cuentas como archivo QIF/CSV ..."
 
 #: src/menu.c:185
-#, fuzzy
 msgid "_Debug account file..."
-msgstr "Nuevo archivo de cuentas"
+msgstr "_Reparar archivo de cuentas"
 
 #: src/menu.c:188
 msgid "_Close"
@@ -7532,34 +7556,28 @@ msgid "_Edit"
 msgstr "_Editar"
 
 #: src/menu.c:197
-#, fuzzy
 msgid "_New transaction"
-msgstr "Nueva transacción"
+msgstr "_Nueva transacción"
 
 #: src/menu.c:200
-#, fuzzy
 msgid "_Remove transaction"
-msgstr "Borrar la transacción"
+msgstr "_Borrar la transacción"
 
 #: src/menu.c:203
-#, fuzzy
 msgid "_Clone transaction"
-msgstr "Clonar la transacción"
+msgstr "_Clonar la transacción"
 
 #: src/menu.c:206
-#, fuzzy
 msgid "_Edit transaction"
-msgstr "Editar la transacción"
+msgstr "_Editar la transacción"
 
 #: src/menu.c:209
-#, fuzzy
 msgid "Convert to _scheduled transaction"
-msgstr "Introduzca una transacción programada"
+msgstr "_Introduzca una transacción programada"
 
 #: src/menu.c:212
-#, fuzzy
 msgid "_Move transaction to another account"
-msgstr "Mover la transacción a otra cuenta"
+msgstr "_Mover la transacción a otra cuenta"
 
 #: src/menu.c:215
 msgid "_Preferences"
@@ -7572,12 +7590,11 @@ msgstr "_Vista"
 
 #: src/menu.c:222
 msgid "_New account"
-msgstr "_Cuenta nueva"
+msgstr "_Nueva cuenta"
 
 #: src/menu.c:225
-#, fuzzy
 msgid "_Remove current account"
-msgstr "Borrar una cuenta"
+msgstr "_Borrar la cuenta actual"
 
 #. Help Menu
 #: src/menu.c:229
@@ -7660,22 +7677,22 @@ msgid ""
 "Cannot switch to the closed accounts while reconciling. Please cancel the "
 "reconciliation before doing that."
 msgstr ""
+"No se puede cambiar a las cuentas cerradas mientras se está "
+"reconciliando. Por favor cancele la reconciliación antes de hacerlo."
 
 #: src/menu.c:768
-#, fuzzy
 msgid "Unnamed account"
-msgstr "Cuenta importada"
+msgstr "Cuenta sin nombre"
 
 #. * Find a unique name for budget
 #: src/meta_budgetary.c:470
-#, fuzzy
 msgid "New budget"
-msgstr "Nueva línea presupuestaria"
+msgstr "Nuevo presupuesto"
 
 #: src/meta_budgetary.c:476
-#, fuzzy, c-format
+#, c-format
 msgid "New budget #%d"
-msgstr "Nueva línea presupuestaria"
+msgstr "Nuevo presupuesto #%d"
 
 #. * Find a unique name for budget
 #: src/meta_budgetary.c:501
@@ -7755,11 +7772,14 @@ msgid ""
 "them to another (sub-)%s.  Otherwise, transactions can be simply deleted "
 "along with their division."
 msgstr ""
+"Si quiere borrarlo pero quiere mantener las transacciones, puede transferirlas "
+"a otra (sub-)%s.  De otro modo, las transacciones pueden ser simplemente "
+"borradas con su división."
 
 #: src/metatree.c:1407
-#, fuzzy, c-format
+#, c-format
 msgid "Transfer transactions to %s"
-msgstr "Transferir las transacciones a"
+msgstr "Transferir las transacciones a %s"
 
 #: src/metatree.c:1493
 #, fuzzy, c-format
