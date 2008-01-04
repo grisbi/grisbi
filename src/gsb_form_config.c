@@ -450,11 +450,6 @@ GtkWidget *gsb_form_config_create_buttons_table ( void )
     gint current_element_number;
     gint row, column;
 
-    /* create tooltip */
-
-    if ( !tooltips_general_grisbi )
-	tooltips_general_grisbi = gtk_tooltips_new ();
-
     /* the table is 3x6 buttons */
     table = gtk_table_new ( 3, 6, FALSE );
 

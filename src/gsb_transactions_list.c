@@ -156,9 +156,6 @@ gchar *titres_colonnes_liste_operations[TRANSACTION_LIST_COL_NB];
 /* hauteur d'une ligne de la liste des opés */
 gint hauteur_ligne_liste_opes;
 
-/* on va essayer de créer un object tooltip général pour grisbi */
-/* donc associer tous les autres tooltips à ce tooltip (FIXME) */
-GtkTooltips *tooltips_general_grisbi;
 
 /* utilisé pour éviter que ça s'emballe lors du réglage de la largeur des colonnes */
 static gint allocation_precedente;
@@ -212,6 +209,7 @@ struct cell_view {
 
 
 /*START_EXTERN*/
+extern GtkTooltips *tooltips_general_grisbi;
 extern GdkColor archive_background_color;
 extern GdkColor breakdown_background;
 extern GdkColor couleur_fond[2];
@@ -637,11 +635,6 @@ gboolean gsb_transactions_list_sort_column_changed ( GtkTreeViewColumn *tree_vie
 void creation_titres_tree_view ( void )
 {
     GSList *list_tmp;
-
-
-    if ( !tooltips_general_grisbi )
-	tooltips_general_grisbi = gtk_tooltips_new ();
-
 
     /*     on commence par s'occuper des listes d'opérations */
 

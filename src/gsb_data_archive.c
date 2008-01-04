@@ -86,7 +86,6 @@ static struct_archive *archive_buffer;
  * */
 gboolean gsb_data_archive_init_variables ( void )
 {
-static gint i = 0;
     if ( archive_list )
     {
         GSList* tmp_list = archive_list;

@@ -91,12 +91,6 @@ GtkWidget * create_main_widget ( void )
     GtkWidget * hbox, * arrow_eb, * arrow_left, * arrow_right;
     GtkStyle * style;
 
-    /* Grisbi tooltips are created as soon as possible. */
-    if ( !tooltips_general_grisbi )
-    {
-	tooltips_general_grisbi = gtk_tooltips_new ();
-    }
-
     /* All stuff will be put in a huge vbox, with an hbox containing
      * quick summary. */
     main_vbox = gtk_vbox_new ( FALSE, 0 );

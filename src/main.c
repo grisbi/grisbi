@@ -74,6 +74,7 @@ static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
 
 GtkWidget *window = NULL;
 GtkWidget *window_vbox_principale = NULL;
+GtkTooltips *tooltips_general_grisbi;
 
 /*START_EXTERN*/
 extern gint hauteur_window;
@@ -81,6 +82,8 @@ extern gint largeur_window;
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
+static void main_window_destroy_event( GObject* obj, gpointer data);
+static gboolean main_window_delete_event (GtkWidget *window, gpointer data);
 
 /**                                                                              
  * Main function
@@ -90,7 +93,7 @@ extern gchar *nom_fichier_comptes;
  *
  * @return Nothing
  */
-int main (int argc, char *argv[])
+int main (int argc, char **argv)
 {
     GtkWidget * statusbar;
     gboolean first_use = FALSE;
@@ -146,10 +149,12 @@ int main (int argc, char *argv[])
 	g_print (_("Error on sigaction: SIGSEGV won't be trapped\n"));
 #endif
 
+    tooltips_general_grisbi = gtk_tooltips_new ();
+
     /* parse command line parameter, exit with correct error code when needed */
     {
-        CMDLINE_ERRNO status = CMDLINE_SYNTAX_OK;/* be optimistic ;-) */
-        if (!parse_options(argc, argv, &opt,(gint*)&status))
+        gint status = CMDLINE_SYNTAX_OK;/* be optimistic ;-) */
+        if (!parse_options(argc, argv, &opt,&status))
         {
             exit(status);
         }
@@ -181,14 +186,16 @@ int main (int argc, char *argv[])
     window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
     g_signal_connect ( G_OBJECT (window),
 		       "delete_event",
-		       G_CALLBACK ( gsb_grisbi_close ),
-		       NULL );
+		       G_CALLBACK ( main_window_delete_event ),
+		       NULL);
+    g_signal_connect ( G_OBJECT ( window ), 
+		       "destroy",
+		       G_CALLBACK ( main_window_destroy_event ),
+		       NULL);
     g_signal_connect ( G_OBJECT (window),
 		       "window-state-event",
 		       G_CALLBACK (gsb_grisbi_change_state_window),
 		       NULL );
-    g_signal_connect ( G_OBJECT ( window ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &window);
     
     gtk_window_set_policy ( GTK_WINDOW ( window ),
 			    TRUE,
@@ -278,6 +285,8 @@ int main (int argc, char *argv[])
     gtk_accel_map_save (path);
     g_free (path);
 
+    gtk_object_destroy (GTK_OBJECT(tooltips_general_grisbi));
+
 #if GSB_GMEMPROFILE
     g_mem_profile();
 #endif
@@ -286,29 +295,7 @@ int main (int argc, char *argv[])
 }
 
 
-/**
- * close grisbi
- * propose to save the file if necessary
- *
- * \param
- *
- * \return FALSE
- * */
-gboolean gsb_grisbi_close ( void )
-{
-    devel_debug ( "gsb_grisbi_close" );
 
-   if (!gsb_file_close ())
-	return FALSE;
-
-   gsb_file_config_save_config();
-
-   gtk_main_quit();
-
-   gsb_plugins_release ( );
-
-   return FALSE;
-}
 
 /**
  * check on any change on the main window
@@ -335,6 +322,42 @@ gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
     return FALSE;
 }
 
+/**
+ * close grisbi by destroying the main window
+ * This function is called by the Quit menu option.
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_grisbi_close ( void )
+{
+    devel_debug ( "gsb_grisbi_close" );
+    if (! main_window_delete_event (window, NULL))
+    	gtk_widget_destroy ( window );
+    return FALSE;
+}
+
+/**
+ * This function is called when the main window is deleted.
+ * It proposes to save the file if necessary.
+ */
+static gboolean main_window_delete_event (GtkWidget *window, gpointer data)
+{
+    if (!gsb_file_close ())
+        return TRUE;
+    gsb_file_config_save_config();
+    return FALSE;
+}
+
+/**
+ * exit the gtk main loop when the main window is destroyed.
+ */
+static void main_window_destroy_event( GObject* obj, gpointer data)
+{
+   window = NULL;
+   gtk_main_quit();
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

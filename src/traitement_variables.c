@@ -142,7 +142,6 @@ extern gint scheduler_col_width[NB_COLS_SCHEDULER];
 extern GtkWidget *solde_label ;
 extern GtkWidget *solde_label_pointe ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
-extern GtkTooltips *tooltips_general_grisbi;
 extern gint transaction_col_width[TRANSACTION_LIST_COL_NB];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
@@ -266,7 +265,6 @@ void init_variables ( void )
 
     valeur_echelle_recherche_date_import = 2;
 
-    tooltips_general_grisbi = NULL;
 
     /* 	on initialise la liste des labels des titres de colonnes */
     if ( !liste_labels_titres_colonnes_liste_ope )

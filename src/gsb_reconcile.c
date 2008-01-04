@@ -61,6 +61,7 @@ static void gsb_reconcile_sensitive ( gboolean sensitive );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *label_last_statement ;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkWidget * navigation_tree_view;
@@ -100,7 +101,6 @@ static gint reconcile_save_account_display;
 GtkWidget *gsb_reconcile_create_box ( void )
 {
     GtkWidget *frame, *label, *table, *vbox, *hbox, *button, *separator;
-    GtkTooltips *tips;
 
     frame = gtk_frame_new ( NULL );
     vbox = gtk_vbox_new ( FALSE, 3 );
@@ -117,8 +117,6 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_misc_set_alignment ( GTK_MISC (label), 0.0, 0.0 );
     gtk_frame_set_label_widget ( GTK_FRAME(frame), label);
 
-    /* make the tooltips */ 
-    tips = gtk_tooltips_new ();
 
     /* number of reconcile */ 
     hbox = gtk_hbox_new ( FALSE, 5 );
@@ -128,7 +126,8 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
 
     reconcile_number_entry = gtk_entry_new ();
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tips ), reconcile_number_entry,
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
+    			reconcile_number_entry,
 			   _("If reconciliation reference ends in a digit, it is automatically incremented at each reconciliation.\nYou can let it empty if you don't want to keep a trace of the reconciliation."),
 			   _("Reconciliation reference") );
     g_signal_connect ( G_OBJECT ( reconcile_number_entry ),
