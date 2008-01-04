@@ -210,6 +210,24 @@ if test "x$enable_werror" = xyes ; then
 	fi
 fi
 
+dnl
+dnl GMemProfile support 
+dnl
+AC_ARG_ENABLE(gmemprofile,
+ 	[AC_HELP_STRING([--enable-gmemprofile],
+ 	[Outputs a summary of memory usage when grisbi terminates (default=no)])],,
+ 	enable_gmemprofile=no)
+if test "x$enable_gmemprofile" = xyes ; then
+	GSB_GMEMPROFILE=1
+	AC_MSG_WARN([g_mem_profile is enabled])
+else
+	GSB_GMEMPROFILE=0
+fi
+AC_DEFINE_UNQUOTED([GSB_GMEMPROFILE], [${GSB_GMEMPROFILE}], 
+	[define to 1 if g_mem_profile support is enabled])
+AC_SUBST(GSB_GMEMPROFILE)
+
+
 
 AC_SUBST(g2banking_libs)
 AC_SUBST(g2banking_includes)
