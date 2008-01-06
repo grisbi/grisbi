@@ -48,7 +48,6 @@ typedef struct
 {
     /** @name general stuff */
     gint report_number;
-    /* TODO dOm : memory used by report_name is never freed */
     gchar *report_name;
     
     /** @name what we show of the transactions */
@@ -91,7 +90,6 @@ typedef struct
     gint financial_year_split;       /* TRUE : split by financial year */
 
     gint date_type;       /* 0=perso, 1=all ... */
-    /* TODO dOm : memory used by personnal_date_* is never freed */
     GDate *personal_date_start;
     GDate *personal_date_end;
     gint period_split;       /* TRUE : split by period */
@@ -162,6 +160,7 @@ typedef struct
 
 /*START_STATIC*/
 static struct_report *gsb_data_report_get_structure ( gint report_number );
+static void _gsb_data_report_free ( struct_report *report );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -188,17 +187,18 @@ static struct_report *report_buffer;
 gboolean gsb_data_report_init_variables ( void )
 {
     /* free memory used by report_list */
-    while (report_list)
+    if ( report_list )
     {
-	struct_report *report = report_list -> data;
-	gint report_number = report-> report_number;
-	gsb_data_report_remove ( report_number );
+        GSList* tmp_list = report_list;
+        while ( tmp_list )
+        {
+	    struct_report *report = tmp_list -> data;
+	    tmp_list = tmp_list -> next;
+	    _gsb_data_report_free ( report );
+	}
     }
     g_slist_free ( report_list );
     report_list = NULL;
-
-    report_buffer = NULL;
-
     return FALSE;
 }
 
@@ -366,41 +366,26 @@ gint gsb_data_report_new_with_number ( gint number )
     return report -> report_number;
 }
 
-
 /**
- * remove a report
- *
- * \param no_report the report we want to remove
- *
- * \return TRUE ok
- * */
-gboolean gsb_data_report_remove ( gint no_report )
+ * This internal function is called to free the memory used by a struct_report structure
+ */
+static void _gsb_data_report_free ( struct_report *report )
 {
-    struct_report *report;
-    GSList *list_tmp;
-
-    report = gsb_data_report_get_structure ( no_report );
-
-    if (!report)
-	return FALSE;
-
+    if ( ! report )
+        return ;
+    
     /* remove first the comparison */
-
-    list_tmp = report -> text_comparison_list;
-
+    GSList* list_tmp = report -> text_comparison_list;
     while ( list_tmp )
     {
 	gsb_data_report_text_comparison_remove ( GPOINTER_TO_INT (list_tmp -> data));
-
 	list_tmp = list_tmp -> next;
     }
 
     list_tmp = report -> amount_comparison_list;
-
     while ( list_tmp )
     {
 	gsb_data_report_amount_comparison_remove ( GPOINTER_TO_INT (list_tmp -> data));
-
 	list_tmp = list_tmp -> next;
     }
 
@@ -413,15 +398,37 @@ gboolean gsb_data_report_remove ( gint no_report )
     g_slist_free (report -> payee_numbers);
     g_slist_free (report -> method_of_payment_list);
 
+    if ( report -> report_name )
+        g_free ( report -> report_name );
+    if ( report -> personal_date_start )
+        g_date_free ( report -> personal_date_start );
+    if ( report -> personal_date_end )
+        g_date_free ( report -> personal_date_end );
+
+    g_free (report);
+    if ( report_buffer == report )
+	report_buffer = NULL;
+}
+
+/**
+ * remove a report
+ *
+ * \param no_report the report we want to remove
+ *
+ * \return TRUE ok
+ * */
+gboolean gsb_data_report_remove ( gint no_report )
+{
+    struct_report *report;
+    report = gsb_data_report_get_structure ( no_report );
+
+    if (!report)
+	return FALSE;
+
     report_list = g_slist_remove ( report_list,
 				   report );
 
-    /* remove the report from the buffer */
-
-    if ( report_buffer == report )
-	report_buffer = NULL;
-     g_free (report);
-
+    _gsb_data_report_free ( report );
     return TRUE;
 }
 

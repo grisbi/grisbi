@@ -47,7 +47,7 @@
 
 /**
  * \struct 
- * Describe a archive store
+ * Describe an archive store
  */
 typedef struct
 {
@@ -72,6 +72,7 @@ static  struct_store_archive *gsb_data_archive_store_find_struct ( gint archive_
 								  gint account_number );
 static  gint gsb_data_archive_store_max_number ( void );
 static  gint gsb_data_archive_store_new ( void );
+static void _gsb_data_archive_store_free ( struct_store_archive *archive );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -103,9 +104,7 @@ gboolean gsb_data_archive_store_init_variables ( void )
 	    struct_store_archive *archive;
 	    archive = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
-	    if ( ! archive )
-	        continue;
-	    g_free ( archive );
+	    _gsb_data_archive_store_free ( archive );
         }
         g_slist_free ( archive_store_list );
     }
@@ -216,7 +215,17 @@ void gsb_data_archive_store_create_list ( void )
     }
 }
 
-
+/**
+ * This internal function is called to free the memory used by a struct_store_archive structure
+ */
+static void _gsb_data_archive_store_free ( struct_store_archive *archive )
+{
+    if ( ! archive )
+        return;
+    g_free ( archive );
+    if ( archive_store_buffer == archive )
+	archive_store_buffer = NULL;
+}
 
 /**
  * remove an archive store
@@ -237,11 +246,7 @@ gboolean gsb_data_archive_store_remove ( gint archive_store_number )
     archive_store_list = g_slist_remove ( archive_store_list,
 					  archive );
 
-    /* remove the archive from the buffers */
-    if ( archive_store_buffer == archive )
-	archive_store_buffer = NULL;
-    g_free (archive);
-
+    _gsb_data_archive_store_free ( archive );
     return TRUE;
 }
 

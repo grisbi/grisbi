@@ -113,6 +113,7 @@ static gint gsb_data_account_max_number ( void );
 static gboolean gsb_data_account_set_default_sort_values ( gint account_number );
 static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 					 gint target_account );
+static void _gsb_data_account_free ( struct_account* account );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -144,28 +145,8 @@ void gsb_data_account_delete_all_accounts (void)
 	    struct_account *account;
 	    account = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
-	    if ( ! account )
-	    	continue;
-	    if ( account -> account_id );
-	        g_free ( account -> account_id );
-	    if ( account -> account_name );
-	        g_free ( account -> account_name );
-	    if ( account -> comment );
-	        g_free ( account -> comment );
-	    if ( account -> holder_name );
-	        g_free ( account -> holder_name );
-	    if ( account -> holder_address );
-	        g_free ( account -> holder_address );
-	    if ( account -> bank_branch_code );
-	        g_free ( account -> bank_branch_code );
-	    if ( account -> bank_account_number );
-	        g_free ( account -> bank_account_number );
-	    if ( account -> bank_account_key );
-	        g_free ( account -> bank_account_key );
-	    /* TODO dOm : free vertical_adjustment_value */
-	    /* TODO dOm : free sort_list */
-	    g_free ( account );
-        }
+            _gsb_data_account_free ( account );
+	}
         g_slist_free ( list_accounts );
     }
     list_accounts = NULL;
@@ -276,6 +257,35 @@ gint gsb_data_account_new ( kind_account account_kind )
     return account -> account_number;
 }
 
+/**
+ * This internal function is called to free the memory used by a struct_account structure
+ */
+static void _gsb_data_account_free ( struct_account* account )
+{
+    if ( ! account )
+        return;
+    if ( account -> account_id );
+	g_free ( account -> account_id );
+    if ( account -> account_name );
+	g_free ( account -> account_name );
+    if ( account -> comment );
+	g_free ( account -> comment );
+    if ( account -> holder_name );
+	g_free ( account -> holder_name );
+    if ( account -> holder_address );
+	g_free ( account -> holder_address );
+    if ( account -> bank_branch_code );
+	g_free ( account -> bank_branch_code );
+    if ( account -> bank_account_number );
+	g_free ( account -> bank_account_number );
+    if ( account -> bank_account_key );
+	g_free ( account -> bank_account_key );
+    /* TODO dOm : free vertical_adjustment_value */
+    /* TODO dOm : free sort_list */
+    g_free ( account );
+    if ( account_buffer == account )
+	account_buffer = NULL;
+}
 
 
 /**
@@ -298,12 +308,7 @@ gboolean gsb_data_account_delete ( gint account_number )
     list_accounts = g_slist_remove ( list_accounts,
 				     account );
 
-    /* remove the budget from the buffers */
-
-    if ( account_buffer == account )
-	account_buffer = NULL;
-    g_free ( account );
-
+    _gsb_data_account_free ( account );
     return TRUE;
 }
 

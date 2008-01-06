@@ -61,6 +61,7 @@ typedef struct
 
 /*START_STATIC*/
 static gpointer gsb_data_bank_get_structure ( gint bank_number );
+static void _gsb_data_bank_free ( struct_bank* bank);
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -90,27 +91,7 @@ gboolean gsb_data_bank_init_variables ( void )
 	    struct_bank *bank;
 	    bank = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
-	    if ( ! bank )
-	        continue;
-	    if ( bank -> bank_name )
-	        g_free ( bank -> bank_name );
-	    if ( bank -> bank_code )
-	        g_free ( bank -> bank_code );
-	    if ( bank -> bank_address )
-	        g_free ( bank -> bank_address );
-	    if ( bank -> bank_web )
-	        g_free ( bank -> bank_web );
-	    if ( bank -> bank_note )
-	        g_free ( bank -> bank_note );
-	    if ( bank -> correspondent_name )
-	        g_free ( bank -> correspondent_name );
-	    if ( bank -> correspondent_tel )
-	        g_free ( bank -> correspondent_tel );
-	    if ( bank -> correspondent_mail )
-	        g_free ( bank -> correspondent_mail );
-	    if ( bank -> correspondent_fax )
-	        g_free ( bank -> correspondent_fax );
-            g_free ( bank );
+	    _gsb_data_bank_free ( bank );
         }
         g_slist_free ( bank_list );
     }
@@ -245,6 +226,35 @@ gint gsb_data_bank_new ( const gchar *name )
     return bank -> bank_number;
 }
 
+/**
+ * This internal function is called to free the memory used by a struct_bank structure
+ */
+static void _gsb_data_bank_free ( struct_bank* bank)
+{
+    if ( ! bank )
+	return;
+    if ( bank -> bank_name )
+	g_free ( bank -> bank_name );
+    if ( bank -> bank_code )
+	g_free ( bank -> bank_code );
+    if ( bank -> bank_address )
+	g_free ( bank -> bank_address );
+    if ( bank -> bank_web )
+	g_free ( bank -> bank_web );
+    if ( bank -> bank_note )
+	g_free ( bank -> bank_note );
+    if ( bank -> correspondent_name )
+	g_free ( bank -> correspondent_name );
+    if ( bank -> correspondent_tel )
+	g_free ( bank -> correspondent_tel );
+    if ( bank -> correspondent_mail )
+	g_free ( bank -> correspondent_mail );
+    if ( bank -> correspondent_fax )
+	g_free ( bank -> correspondent_fax );
+    g_free ( bank );
+    if ( bank_buffer == bank )
+	bank_buffer = NULL;
+}
 
 /**
  * remove a bank, remove also the number in the accounts linked to that bank
@@ -265,11 +275,7 @@ gboolean gsb_data_bank_remove ( gint bank_number )
 
     bank_list = g_slist_remove ( bank_list,
 				 bank );
-
-    /* remove the bank from the buffers */
-    if ( bank_buffer == bank )
-	bank_buffer = NULL;
-    g_free (bank);
+    _gsb_data_bank_free ( bank );
 
     /* remove that bank of the accounts */
     list_tmp = gsb_data_account_get_list_accounts ();

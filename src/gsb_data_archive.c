@@ -64,6 +64,7 @@ typedef struct
 /*START_STATIC*/
 static gpointer gsb_data_archive_get_structure ( gint archive_number );
 static gint gsb_data_archive_max_number ( void );
+static void _gsb_data_archive_free ( struct_archive* archive);
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -94,18 +95,8 @@ gboolean gsb_data_archive_init_variables ( void )
 	    struct_archive *archive;
 	    archive = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
-	    if ( ! archive )
-	        continue;
-	    if ( archive -> archive_name )
-	        g_free ( archive -> archive_name );
-	    if ( archive -> begining_date )
-	        g_date_free ( archive -> begining_date );
-	    if ( archive -> end_date )
-	        g_date_free ( archive -> end_date );
-	    if ( archive -> report_title )
-	        g_free ( archive -> report_title );
-	    g_free ( archive );
-        }
+            _gsb_data_archive_free ( archive ); 
+	}
         g_slist_free ( archive_list );
     }
     archive_list = NULL;
@@ -250,6 +241,26 @@ gint gsb_data_archive_new ( const gchar *name )
 }
 
 /**
+ * This internal function is called to free the memory used by an struct_archive structure
+ */
+static void _gsb_data_archive_free ( struct_archive* archive)
+{
+    if ( ! archive )
+        return;
+    if ( archive -> archive_name )
+	g_free ( archive -> archive_name );
+    if ( archive -> begining_date )
+	g_date_free ( archive -> begining_date );
+    if ( archive -> end_date )
+	g_date_free ( archive -> end_date );
+    if ( archive -> report_title )
+	g_free ( archive -> report_title );
+    g_free ( archive );
+    if ( archive_buffer == archive )
+	archive_buffer = NULL;
+}
+
+/**
  * remove an archive
  * remove too the archive from the transactions linked to it
  *
@@ -284,10 +295,7 @@ gboolean gsb_data_archive_remove ( gint archive_number )
     archive_list = g_slist_remove ( archive_list,
 				    archive );
 
-    /* remove the archive from the buffers */
-    if ( archive_buffer == archive )
-	archive_buffer = NULL;
-    g_free (archive);
+    _gsb_data_archive_free (archive);
 
     return TRUE;
 }

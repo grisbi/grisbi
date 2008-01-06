@@ -59,6 +59,7 @@ typedef struct
 /*START_STATIC*/
 static gpointer gsb_data_reconcile_get_structure ( gint reconcile_number );
 static gint gsb_data_reconcile_max_number ( void );
+static void _gsb_data_reconcile_free ( struct_reconcile *reconcile );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -90,15 +91,7 @@ gboolean gsb_data_reconcile_init_variables ( void )
 	    struct_reconcile *reconcile;
 	    reconcile = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
-	    if ( ! reconcile )
-	       continue;
-	    if ( reconcile -> reconcile_name )
-	        g_free ( reconcile -> reconcile_name );
-	    if ( reconcile -> reconcile_init_date)
-	        g_date_free ( reconcile -> reconcile_init_date );
-	    if ( reconcile -> reconcile_final_date)
-	        g_date_free ( reconcile -> reconcile_final_date );
-	    g_free ( reconcile );
+	    _gsb_data_reconcile_free ( reconcile );
         }
 	g_list_free ( reconcile_list );
     }
@@ -238,6 +231,23 @@ gint gsb_data_reconcile_new ( const gchar *name )
     return reconcile -> reconcile_number;
 }
 
+/**
+ * This function is called to free the memory used by a struct_reconcile structure
+ */
+static void _gsb_data_reconcile_free ( struct_reconcile *reconcile )
+{
+    if ( ! reconcile )
+        return;
+    if ( reconcile -> reconcile_name )
+        g_free ( reconcile -> reconcile_name );
+    if ( reconcile -> reconcile_init_date)
+        g_date_free ( reconcile -> reconcile_init_date );
+    if ( reconcile -> reconcile_final_date)
+        g_date_free ( reconcile -> reconcile_final_date );
+    g_free ( reconcile );
+    if ( reconcile_buffer == reconcile )
+	reconcile_buffer = NULL;
+}
 
 /**
  * remove a reconcile
@@ -260,11 +270,7 @@ gboolean gsb_data_reconcile_remove ( gint reconcile_number )
 
     reconcile_list = g_list_remove ( reconcile_list,
 				      reconcile );
-
-    /* remove the reconcile from the buffers */
-    if ( reconcile_buffer == reconcile )
-	reconcile_buffer = NULL;
-    g_free (reconcile);
+    _gsb_data_reconcile_free ( reconcile );
 
     /* remove that reconcile of the transactions */
     list_tmp = gsb_data_transaction_get_complete_transactions_list ();

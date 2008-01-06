@@ -87,6 +87,7 @@ static gint gsb_data_scheduled_get_last_number (void);
 static gint gsb_data_scheduled_get_last_white_number (void);
 static struct_scheduled *gsb_data_scheduled_get_scheduled_by_no ( gint scheduled_number );
 static gboolean gsb_data_scheduled_save_scheduled_pointer ( gpointer scheduled );
+static void _gsb_data_scheduled_free ( struct_scheduled *scheduled);
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -122,24 +123,11 @@ void gsb_data_scheduled_delete_all_scheduled ()
 	    struct_scheduled *scheduled;
 	    scheduled = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
-	    if ( ! scheduled )
-	        continue;
-	    if ( scheduled -> notes )
-	        g_free ( scheduled -> notes );
-	    if ( scheduled -> date )
-	        g_date_free ( scheduled -> date );
-	    if ( scheduled -> limit_date )
-	        g_date_free ( scheduled -> limit_date );
-	    if ( scheduled -> method_of_payment_content )
-	        g_free ( scheduled -> method_of_payment_content );
-	    g_free ( scheduled );
+            _gsb_data_scheduled_free ( scheduled );
         } 
         g_slist_free ( scheduled_list );
         scheduled_list = NULL;
     }
-    scheduled_buffer[0] = NULL;
-    scheduled_buffer[1] = NULL;
-    current_scheduled_buffer = 0;
 }
 
 /** set the scheduleds global variables to NULL, usually when we init all the global variables
@@ -1574,6 +1562,26 @@ gint gsb_data_scheduled_new_white_line ( gint mother_scheduled_number)
 }
 
 
+/**
+ * This internal function is called to free memory used by a struct_scheduled structure.
+ */
+static void _gsb_data_scheduled_free ( struct_scheduled *scheduled)
+{
+    if ( ! scheduled )
+        return;
+    if ( scheduled -> notes )
+	g_free ( scheduled -> notes );
+    if ( scheduled -> date )
+	g_date_free ( scheduled -> date );
+    if ( scheduled -> limit_date )
+	g_date_free ( scheduled -> limit_date );
+    if ( scheduled -> method_of_payment_content )
+	g_free ( scheduled -> method_of_payment_content );
+    g_free ( scheduled );
+    scheduled_buffer[0] = NULL;
+    scheduled_buffer[1] = NULL;
+    current_scheduled_buffer = 0;
+}
 
 /**
  * remove the scheduled from the scheduled's list
@@ -1609,14 +1617,7 @@ gboolean gsb_data_scheduled_remove_scheduled ( gint scheduled_number )
 	    {
 		scheduled_list = g_slist_remove ( scheduled_list,
 						  scheduled_child );
-		/* we free the buffer to avoid big possibly crashes */
-
-		if ( scheduled_buffer[0] == scheduled_child )
-		    scheduled_buffer[0] = NULL;
-		if ( scheduled_buffer[1] == scheduled_child )
-		    scheduled_buffer[1] = NULL;
-
-		g_free ( scheduled_child );
+		_gsb_data_scheduled_free ( scheduled_child );
 	    }
 	    list_tmp = list_tmp -> next;
 	}
@@ -1625,11 +1626,7 @@ gboolean gsb_data_scheduled_remove_scheduled ( gint scheduled_number )
     scheduled_list = g_slist_remove ( scheduled_list,
 				      scheduled );
 
-    /* we free the buffer to avoid big possibly crashes */
-	scheduled_buffer[0] = NULL;
-	scheduled_buffer[1] = NULL;
-
-    g_free (scheduled);
+    _gsb_data_scheduled_free (scheduled);
     return TRUE;
 }
 

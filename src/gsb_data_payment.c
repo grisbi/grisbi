@@ -64,6 +64,7 @@ static struct_payment *payment_buffer;
 /*START_STATIC*/
 static struct_payment *gsb_data_payment_get_structure ( gint payment_number );
 static gint gsb_data_payment_max_number ( void );
+static void _gsb_data_payment_free ( struct_payment *payment );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -89,12 +90,8 @@ gboolean gsb_data_payment_init_variables ( void )
             struct_payment *payment;
             payment = tmp_list -> data;
             tmp_list = tmp_list -> next;
-	    if ( ! payment )
-	        continue;
-	    if ( payment -> payment_name )
-	        g_free ( payment -> payment_name );
-	    g_free ( payment );
-        }
+	    _gsb_data_payment_free ( payment );
+	}
         g_slist_free ( payment_list );
     }
     payment_list = NULL;
@@ -268,6 +265,20 @@ gint gsb_data_payment_new ( const gchar *name )
 }
 
 /**
+ * This internal function is called to free the memory used by a struct_payment structure
+ */
+static void _gsb_data_payment_free ( struct_payment *payment )
+{
+    if ( ! payment )
+        return;
+    if ( payment -> payment_name )
+        g_free ( payment -> payment_name );
+    g_free ( payment );
+    if ( payment_buffer == payment )
+	payment_buffer = NULL;
+}
+
+/**
  * remove a payment
  * set all the payments of transaction which are this one to 0
  *
@@ -287,10 +298,7 @@ gboolean gsb_data_payment_remove ( gint payment_number )
     payment_list = g_slist_remove ( payment_list,
 				    payment );
 
-    /* remove the payment from the buffers */
-    if ( payment_buffer == payment )
-	payment_buffer = NULL;
-    g_free (payment);
+    _gsb_data_payment_free (payment);
 
     return TRUE;
 }

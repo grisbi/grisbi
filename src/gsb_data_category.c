@@ -100,6 +100,8 @@ static gint gsb_data_category_new_sub_category ( gint category_number,
 					  const gchar *name );
 static void gsb_data_category_reset_counters ( void );
 static gint gsb_data_sub_category_compare ( struct_sub_category * a, struct_sub_category * b );
+void _gsb_data_category_free ( struct_category *category );
+void _gsb_data_sub_category_free ( struct_sub_category *sub_category );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -141,24 +143,7 @@ gboolean gsb_data_category_init_variables ( void )
 		struct_category *category;
 		category = cat_tmp_list -> data;
 		cat_tmp_list = cat_tmp_list -> next;
-
-		/* free memory used by sub categories */
-    		GSList* sub_tmp_list = category -> sub_category_list;
-		while ( sub_tmp_list )
-		{
-			struct_sub_category *sub_category;
-			sub_category = sub_tmp_list -> data;
-			sub_tmp_list = sub_tmp_list -> next;
-
-			if ( sub_category -> sub_category_name )
-			    g_free ( sub_category -> sub_category_name );
-			g_free ( sub_category );
-		}
-		g_slist_free ( category -> sub_category_list );
-
-		if ( category -> category_name )
-		    g_free ( category -> category_name );
-		g_free ( category ); 
+		_gsb_data_category_free ( category );
 	    }
 	    g_slist_free (category_list);
     }
@@ -170,11 +155,7 @@ gboolean gsb_data_category_init_variables ( void )
     /* recreate the empty category */
     /* set an empty name for that empty categ, else every transaction
      * without category will have that name */
-    if ( empty_category )
-    {
-	g_free ( empty_category -> category_name );
-	g_free ( empty_category );
-    }
+    _gsb_data_category_free ( empty_category );
     empty_category = g_malloc0 ( sizeof ( struct_category ));
     empty_category -> category_name = g_strdup("");
 
@@ -505,13 +486,51 @@ gboolean gsb_data_category_remove ( gint no_category )
     category_list = g_slist_remove ( category_list,
 				     category );
 
-    /* remove the categ from the buffers */
-
-    if ( category_buffer == category )
-	category_buffer = NULL;
-    g_free (category);
+    _gsb_data_category_free (category);
 
     return TRUE;
+}
+
+/**
+ * This function is called to free the memory used by a category structure
+ */
+void _gsb_data_category_free ( struct_category *category )
+{
+    if ( ! category )
+        return;
+    /* free memory used by sub categories */
+    if ( category -> sub_category_list )
+    {
+        GSList* sub_tmp_list = category -> sub_category_list;
+        while ( sub_tmp_list )
+        {
+            struct_sub_category *sub_category;
+            sub_category = sub_tmp_list -> data;
+            sub_tmp_list = sub_tmp_list -> next;
+            _gsb_data_sub_category_free ( sub_category );
+        }
+        g_slist_free ( category -> sub_category_list );
+    }
+    if ( category -> category_name )
+        g_free ( category -> category_name );
+    g_free ( category ); 
+    if ( category_buffer == category )
+	category_buffer = NULL;
+}
+
+
+/**
+ * This function is called to free the memory used by a sub category structure
+ */
+void _gsb_data_sub_category_free ( struct_sub_category *sub_category )
+{
+    if ( ! sub_category )
+        return;
+    if ( sub_category -> sub_category_name )
+        g_free ( sub_category -> sub_category_name );
+    g_free ( sub_category );
+    if ( sub_category_buffer == sub_category )
+	sub_category_buffer = NULL;
 }
 
 
@@ -542,11 +561,7 @@ gboolean gsb_data_category_sub_category_remove ( gint no_category,
     category -> sub_category_list = g_slist_remove ( category -> sub_category_list,
 						     sub_category );
 
-    /* remove the sub_categ from the buffers */
-
-    if ( sub_category_buffer == sub_category )
-	sub_category_buffer = NULL;
-    g_free (sub_category);
+    _gsb_data_sub_category_free (sub_category);
 
     return TRUE;
 }

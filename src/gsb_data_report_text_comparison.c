@@ -89,6 +89,7 @@ typedef struct
 /*START_STATIC*/
 static  struct_text_comparison *gsb_data_report_text_comparison_get_struct_by_no ( gint text_comparison_number );
 static gint gsb_data_report_text_comparison_max_number ( void );
+static void _gsb_data_report_text_comparison_free ( struct_text_comparison* text_comparison );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -120,11 +121,8 @@ gboolean gsb_data_report_text_comparison_init_variables ( void )
 	    struct_text_comparison *text_comparison;
 	    text_comparison = tmp_list-> data;
 	    tmp_list = tmp_list -> next;
-	    if ( ! text_comparison )
-	        continue;
-	    if ( text_comparison -> text )
-	        g_free ( text_comparison -> text );
-	    g_free ( text_comparison );
+	    _gsb_data_report_text_comparison_free ( text_comparison );
+	    
         }
         g_slist_free ( text_comparison_list );
     }
@@ -237,6 +235,19 @@ gint gsb_data_report_text_comparison_new ( gint number )
     return text_comparison -> text_comparison_number;
 }
 
+/**
+ * This function is called to free the memory used by a struct_text_comparison structure
+ */
+static void _gsb_data_report_text_comparison_free ( struct_text_comparison* text_comparison )
+{
+    if ( ! text_comparison )
+        return;
+    if ( text_comparison -> text )
+        g_free ( text_comparison -> text );
+    g_free ( text_comparison );
+    if ( text_comparison_buffer == text_comparison )
+	text_comparison_buffer = NULL;
+}
 
 /**
  * remove a text_comparison
@@ -256,12 +267,7 @@ gboolean gsb_data_report_text_comparison_remove ( gint text_comparison_number )
 
     text_comparison_list = g_slist_remove ( text_comparison_list,
 					    text_comparison );
-
-    /* remove the text_comparison from the buffer */
-
-    if ( text_comparison_buffer == text_comparison )
-	text_comparison_buffer = NULL;
-    g_free (text_comparison);
+    _gsb_data_report_text_comparison_free ( text_comparison );
 
     return TRUE;
 }

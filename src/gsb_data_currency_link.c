@@ -59,6 +59,7 @@ typedef struct
 static gboolean gsb_data_currency_link_check_for_invalid ( gint currency_link_number );
 static gpointer gsb_data_currency_link_get_structure ( gint currency_link_number );
 static gint gsb_data_currency_link_max_number ( void );
+static void _g_data_currency_link_free ( struct_currency_link *currency_link );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -89,9 +90,7 @@ gboolean gsb_data_currency_link_init_variables ( void )
 	    struct_currency_link *currency_link;
 	    currency_link = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
-	    if ( ! currency_link )
-	    	continue;
-	    g_free ( currency_link );
+            _g_data_currency_link_free ( currency_link );
         }
 	g_slist_free ( currency_link_list );
     }
@@ -231,6 +230,18 @@ gint gsb_data_currency_link_new ( gint currency_link_number )
 
 
 /**
+ * This internal function is called to free the memory used by a struct_currency_link structure.
+ */
+static void _g_data_currency_link_free ( struct_currency_link *currency_link )
+{
+    if ( ! currency_link )
+        return ;
+    g_free (currency_link);
+    if ( currency_link_buffer == currency_link )
+	currency_link_buffer = NULL;
+}
+
+/**
  * remove a currency_link
  * set all the currency_links of transaction which are this one to 0
  * update combofix and mark file as modified
@@ -251,10 +262,7 @@ gboolean gsb_data_currency_link_remove ( gint currency_link_number )
     currency_link_list = g_slist_remove ( currency_link_list,
 					  currency_link );
 
-    /* remove the currency_link from the buffers */
-    if ( currency_link_buffer == currency_link )
-	currency_link_buffer = NULL;
-    g_free (currency_link);
+    _g_data_currency_link_free ( currency_link );
 
     return TRUE;
 }

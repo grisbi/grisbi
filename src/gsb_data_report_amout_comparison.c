@@ -69,6 +69,7 @@ typedef struct
 /*START_STATIC*/
 static  struct_amount_comparison *gsb_data_report_amount_comparison_get_struct_by_no ( gint amount_comparison_number );
 static gint gsb_data_report_amount_comparison_max_number ( void );
+static void _gsb_data_report_amount_comparison_free ( struct_amount_comparison *amount_comparison );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -102,9 +103,7 @@ gboolean gsb_data_report_amount_comparison_init_variables ( void )
 	    struct_amount_comparison *amount_comparison;
 	    amount_comparison = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
-	    if ( ! amount_comparison )
-	        continue;
-	    g_free ( amount_comparison );
+	    _gsb_data_report_amount_comparison_free ( amount_comparison );
         }
 	g_slist_free ( amount_comparison_list );
     }
@@ -217,6 +216,17 @@ gint gsb_data_report_amount_comparison_new ( gint number )
     return amount_comparison -> amount_comparison_number;
 }
 
+/**
+ * This function is called to free the memory used by a struct_amount_comparison structure
+ */
+static void _gsb_data_report_amount_comparison_free ( struct_amount_comparison *amount_comparison )
+{
+    if ( ! amount_comparison )
+        return;
+    g_free ( amount_comparison );
+    if ( amount_comparison_buffer == amount_comparison )
+	amount_comparison_buffer = NULL;
+}
 
 /**
  * remove a amount_comparison
@@ -234,15 +244,8 @@ gboolean gsb_data_report_amount_comparison_remove ( gint amount_comparison_numbe
     if (!amount_comparison)
 	return FALSE;
 
-    amount_comparison_list = g_slist_remove ( amount_comparison_list,
-					      amount_comparison );
-
-    /* remove the amount_comparison from the buffer */
-
-    if ( amount_comparison_buffer == amount_comparison )
-	amount_comparison_buffer = NULL;
-
-    g_free (amount_comparison);
+    amount_comparison_list = g_slist_remove ( amount_comparison_list, amount_comparison );
+    _gsb_data_report_amount_comparison_free ( amount_comparison );
 
     return TRUE;
 }

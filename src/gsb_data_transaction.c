@@ -99,6 +99,7 @@ typedef struct
 static gint gsb_data_transaction_get_last_white_number (void);
 static struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transaction_number );
 static gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction );
+static void _gsb_data_transaction_free ( struct_transaction *transaction);
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -2104,6 +2105,30 @@ gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
 }
 
 /**
+ * internal function which is called to free the memory used by a struct_transaction structure.
+ */
+static void _gsb_data_transaction_free ( struct_transaction *transaction)
+{
+    if ( ! transaction )
+        return;
+    if ( transaction -> transaction_id )
+        g_free ( transaction -> transaction_id );
+    if ( transaction -> notes )
+        g_free ( transaction -> notes );
+    if ( transaction -> voucher )
+        g_free ( transaction -> voucher );
+    if ( transaction -> date )
+        g_date_free ( transaction -> date );
+    if ( transaction -> value_date )
+        g_date_free ( transaction -> value_date );
+    if ( transaction -> method_of_payment_content )
+        g_free ( transaction -> method_of_payment_content );
+    g_free ( transaction );
+    transaction_buffer[0] = NULL;
+    transaction_buffer[1] = NULL;
+}
+
+/**
  * remove the transaction from the transaction's list
  * free the transaction
  * if there is a contra-transaction, remove it too
@@ -2135,7 +2160,7 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 						 contra_transaction );
 	    complete_transactions_list = g_slist_remove ( complete_transactions_list,
 							  contra_transaction );
-	    g_free (contra_transaction);
+	    _gsb_data_transaction_free (contra_transaction);
 	}
     }
 
@@ -2160,10 +2185,7 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 						     contra_transaction );
 		complete_transactions_list = g_slist_remove ( complete_transactions_list,
 							      contra_transaction );
-		g_free (contra_transaction);
-		/* we free the buffer to avoid big possibly crashes */
-		transaction_buffer[0] = NULL;
-		transaction_buffer[1] = NULL;
+		_gsb_data_transaction_free (contra_transaction);
 	    }
 
 	    /* delete the child */
@@ -2171,7 +2193,7 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 						 child_transaction );
 	    complete_transactions_list = g_slist_remove ( complete_transactions_list,
 							  child_transaction );
-	    g_free (child_transaction);
+	    _gsb_data_transaction_free (child_transaction);
 	    tmp_list = tmp_list -> next;
 	}
     }
@@ -2182,11 +2204,8 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
     complete_transactions_list = g_slist_remove ( complete_transactions_list,
 						  transaction );
 
-    /* we free the buffer to avoid big possibly crashes */
-    transaction_buffer[0] = NULL;
-    transaction_buffer[1] = NULL;
 
-    g_free (transaction);
+    _gsb_data_transaction_free (transaction);
     return TRUE;
 }
 
@@ -2236,27 +2255,13 @@ void gsb_data_transaction_delete_all_transactions ()
 	    struct_transaction *transaction;
 	    transaction = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
-	    if (! transaction )
-	    	continue;
-	    if ( transaction -> transaction_id )
-	        g_free ( transaction -> transaction_id );
-	    if ( transaction -> notes )
-	        g_free ( transaction -> notes );
-	    if ( transaction -> voucher )
-	        g_free ( transaction -> voucher );
-	    if ( transaction -> date )
-	        g_date_free ( transaction -> date );
-	    if ( transaction -> value_date )
-	        g_date_free ( transaction -> value_date );
-	    if ( transaction -> method_of_payment_content )
-	        g_free ( transaction -> method_of_payment_content );
-        }
+            _gsb_data_transaction_free ( transaction );
+	}
         g_slist_free ( complete_transactions_list );
         complete_transactions_list = NULL;
     }
     if ( transactions_list )
     {
-
         g_slist_free ( transactions_list );
         transactions_list = NULL;
     }

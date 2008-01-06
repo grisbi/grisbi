@@ -64,6 +64,7 @@ static gint gsb_data_payee_get_pointer_from_name_in_glist ( struct_payee *payee,
 static gpointer gsb_data_payee_get_structure ( gint no_payee );
 static gint gsb_data_payee_max_number ( void );
 static void gsb_data_payee_reset_counters ( void );
+static void _gsb_data_payee_free ( struct_payee* payee);
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -98,15 +99,7 @@ gboolean gsb_data_payee_init_variables ( void )
 	struct_payee *payee;
 	payee = tmp_list -> data;
 	tmp_list = tmp_list -> next;
-
-	if ( payee )
-	{
-            if ( payee -> payee_name)
-                g_free ( payee -> payee_name);
-            if ( payee -> payee_description)
-                g_free ( payee -> payee_description);
-	    g_free ( payee );
-	}
+	_gsb_data_payee_free ( payee );
     }
     g_slist_free ( payee_list );
     payee_list = NULL;
@@ -249,6 +242,23 @@ gint gsb_data_payee_new ( const gchar *name )
     return payee -> payee_number;
 }
 
+
+/**
+ * This internal function is called to free the memory used by a struct_payee structure 
+ */ 
+static void _gsb_data_payee_free ( struct_payee* payee)
+{
+    if ( ! payee )
+        return;
+    if ( payee -> payee_name)
+        g_free ( payee -> payee_name);
+    if ( payee -> payee_description)
+        g_free ( payee -> payee_description);
+    g_free ( payee );
+    if ( payee_buffer == payee )
+	payee_buffer = NULL;
+}
+
 /**
  * remove a payee
  * set all the payees of transaction which are this one to 0
@@ -269,12 +279,7 @@ gboolean gsb_data_payee_remove ( gint no_payee )
     
     payee_list = g_slist_remove ( payee_list,
 				  payee );
-    
-    /* remove the payee from the buffers */
-
-    if ( payee_buffer == payee )
-	payee_buffer = NULL;
-    g_free (payee);
+    _gsb_data_payee_free (payee);
 
     return TRUE;
 }

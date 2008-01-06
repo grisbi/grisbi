@@ -51,6 +51,7 @@ typedef struct
 static gpointer gsb_data_currency_get_structure ( gint currency_number );
 static gint gsb_data_currency_max_number ( void );
 static gboolean gsb_data_currency_set_default_currency ( gint currency_number );
+static void _gsb_data_currency_free ( struct_currency *currency );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -82,15 +83,7 @@ gboolean gsb_data_currency_init_variables ( void )
 	    struct_currency *currency;
 	    currency = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
-	    if ( ! currency )
-	        continue;
-	    if ( currency -> currency_name )
-	        g_free ( currency -> currency_name );
-	    if ( currency -> currency_code )
-	        g_free ( currency -> currency_code );
-	    if ( currency -> currency_code_iso4217 )
-	        g_free ( currency -> currency_code_iso4217 );
-	    g_free ( currency );
+            _gsb_data_currency_free ( currency );
         }
 	g_slist_free ( currency_list );
     }
@@ -232,6 +225,23 @@ gint gsb_data_currency_new ( const gchar *name )
     return currency -> currency_number;
 }
 
+/**
+ * This internal function is called to free the memory used by a struct_currency structure
+ */
+static void _gsb_data_currency_free ( struct_currency *currency )
+{
+    if ( ! currency )
+        return;
+    if ( currency -> currency_name )
+        g_free ( currency -> currency_name );
+    if ( currency -> currency_code )
+        g_free ( currency -> currency_code );
+    if ( currency -> currency_code_iso4217 )
+        g_free ( currency -> currency_code_iso4217 );
+    g_free ( currency );
+    if ( currency_buffer == currency )
+	currency_buffer = NULL;
+}
 
 /**
  * remove a currency
@@ -254,11 +264,7 @@ gboolean gsb_data_currency_remove ( gint currency_number )
     currency_list = g_slist_remove ( currency_list,
 				     currency );
 
-    /* remove the currency from the buffers */
-
-    if ( currency_buffer == currency )
-	currency_buffer = NULL;
-    g_free (currency);
+    _gsb_data_currency_free (currency);
 
     return TRUE;
 }

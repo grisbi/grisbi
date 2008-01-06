@@ -99,6 +99,8 @@ static gint gsb_data_budget_new_sub_budget ( gint budget_number,
 				      const gchar *name );
 static void gsb_data_budget_reset_counters ( void );
 static gint gsb_data_sub_budget_compare ( struct_sub_budget * a, struct_sub_budget * b );
+static void _gsb_data_sub_budget_free ( struct_sub_budget* sub_budget );
+static void _gsb_data_budget_free ( struct_budget* budget );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -115,8 +117,46 @@ static struct_sub_budget *sub_budget_buffer;
 /** a empty budget for the list of budgets */
 static struct_budget *empty_budget = NULL;
 
+/**
+ * This internal function is used to free the memory used by a struct_budget structure
+ */
+static void _gsb_data_budget_free ( struct_budget* budget )
+{
+    if ( ! budget )
+        return;
+    /* free memory used by sub-bugdgets */
+    if ( budget -> sub_budget_list)
+    {
+        GSList* sub_tmp_list = budget -> sub_budget_list;
+        while ( sub_tmp_list )
+        {
+	    struct_sub_budget *sub_budget;
+	    sub_budget = sub_tmp_list -> data;
+	    sub_tmp_list = sub_tmp_list -> next;
+	    _gsb_data_sub_budget_free ( sub_budget );
+        }
+	g_slist_free ( budget -> sub_budget_list );
+    }
+    if ( budget -> budget_name )
+	g_free ( budget -> budget_name);
+    g_free ( budget );
+    if ( budget_buffer == budget )
+	budget_buffer = NULL;
+}
 
-
+/**
+ * This internal function is used to free the memory used by a struct_sub_budget structure
+ */
+static void _gsb_data_sub_budget_free ( struct_sub_budget* sub_budget )
+{
+    if ( ! sub_budget )
+        return;
+    if ( sub_budget -> sub_budget_name )
+	g_free ( sub_budget -> sub_budget_name);
+    g_free ( sub_budget );
+    if ( sub_budget_buffer == sub_budget )
+	sub_budget_buffer = NULL;
+}
 
 /**
  * set the budgets global variables to NULL, usually when we init all the global variables
@@ -136,35 +176,14 @@ gboolean gsb_data_budget_init_variables ( void )
             struct_budget *budget;
             budget = tmp_list -> data;
             tmp_list = tmp_list -> next;
-
-	    /* free memory used by sub-bugdgets */
-            GSList* sub_tmp_list = budget -> sub_budget_list;
-	    while ( sub_tmp_list )
-	    {
-                struct_sub_budget *sub_budget;
-                sub_budget = sub_tmp_list -> data;
-                sub_tmp_list = sub_tmp_list -> next;
-
-		if ( sub_budget -> sub_budget_name )
-		    g_free ( sub_budget -> sub_budget_name );
-		g_free ( sub_budget );
-	    }
-
-	    if ( budget -> budget_name )
-	        g_free ( budget -> budget_name);
-	    g_free ( budget );
+	    _gsb_data_budget_free ( budget );
         }
 	g_slist_free (budget_list);
     }
     budget_list = NULL;
 
     /* recreate the empty budget */
-    if ( empty_budget )
-    {
-        if ( empty_budget -> budget_name )
-	    g_free ( empty_budget -> budget_name );
-	g_free (empty_budget);
-    }
+    _gsb_data_budget_free ( empty_budget );
     empty_budget = g_malloc0 ( sizeof ( struct_budget ));
     empty_budget -> budget_name = g_strdup(_("No budget line"));
 
@@ -503,11 +522,7 @@ gboolean gsb_data_budget_remove ( gint no_budget )
     budget_list = g_slist_remove ( budget_list,
 				   budget );
 
-    /* remove the budget from the buffers */
-
-    if ( budget_buffer == budget )
-	budget_buffer = NULL;
-    g_free (budget);
+    _gsb_data_budget_free (budget);
 
     return TRUE;
 }
@@ -540,11 +555,7 @@ gboolean gsb_data_budget_sub_budget_remove ( gint no_budget,
     budget -> sub_budget_list = g_slist_remove ( budget -> sub_budget_list,
 						 sub_budget );
 
-    /* remove the budget from the buffers */
-
-    if ( sub_budget_buffer == sub_budget )
-	sub_budget_buffer = NULL;
-    g_free (sub_budget);
+    _gsb_data_sub_budget_free (sub_budget);
 
     return TRUE;
 }

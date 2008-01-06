@@ -66,6 +66,7 @@ enum fyear_invalid {
 /*START_STATIC*/
 static gpointer gsb_data_fyear_get_structure ( gint fyear_number );
 static gint gsb_data_fyear_max_number ( void );
+static void _gsb_data_fyear_free ( struct_fyear *fyear );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -96,16 +97,8 @@ gboolean gsb_data_fyear_init_variables ( void )
 	    struct_fyear *fyear;
 	    fyear = tmp_list  -> data;
 	    tmp_list = tmp_list -> next;
-	    if ( ! fyear )
-	        continue;
-	    if ( fyear -> fyear_name )
-	        g_free ( fyear -> fyear_name );
-	    if ( fyear -> begining_date )
-	        g_date_free ( fyear -> begining_date );
-	    if ( fyear -> end_date )
-	        g_date_free ( fyear -> end_date );
-	    g_free ( fyear );
-        }
+	    _gsb_data_fyear_free ( fyear );
+	}
         g_slist_free ( fyear_list );
     }
     fyear_list = NULL;
@@ -243,6 +236,25 @@ gint gsb_data_fyear_new ( const gchar *name )
     return fyear -> fyear_number;
 }
 
+
+/**
+ * This internal function is called to free the memory used by a struct_fyear structure
+ */
+static void _gsb_data_fyear_free ( struct_fyear *fyear )
+{
+    if ( ! fyear )
+	return;
+    if ( fyear -> fyear_name )
+	g_free ( fyear -> fyear_name );
+    if ( fyear -> begining_date )
+	g_date_free ( fyear -> begining_date );
+    if ( fyear -> end_date )
+	g_date_free ( fyear -> end_date );
+    g_free ( fyear );
+    if ( fyear_buffer == fyear )
+	fyear_buffer = NULL;
+}
+
 /**
  * remove a fyear
  * set all the fyears of transaction which are this one to 0
@@ -263,11 +275,7 @@ gboolean gsb_data_fyear_remove ( gint fyear_number )
     fyear_list = g_slist_remove ( fyear_list,
 				  fyear );
     
-    /* remove the fyear from the buffers */
-
-    if ( fyear_buffer == fyear )
-	fyear_buffer = NULL;
-    g_free (fyear);
+    _gsb_data_fyear_free ( fyear );
 
     return TRUE;
 }
