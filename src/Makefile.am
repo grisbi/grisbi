@@ -136,12 +136,20 @@ grisbi_INCLUDES =		\
 	affichage.h		\
 	affichage_liste.h	\
 	barre_outils.h		\
+        balance_estimate_tab.h  \
 	categories_onglet.h	\
 	classement_echeances.h	\
 	comptes_gestion.h	\
 	comptes_onglet.h	\
-	constants.h		\
+        csv_parse.h             \
+        etats_affiche.h         \
+        etats_csv.h             \
+        etats_html.h            \
+        export.h                \
+        export_csv.h            \ 
 	import_csv.h		\
+        go-charmap-sel.h        \
+        go-optionmenu.h         \
 	gsb_account.h		\
 	gsb_archive_config.h	\
 	gsb_assistant.h		\
@@ -156,6 +164,7 @@ grisbi_INCLUDES =		\
 	gsb_category.h		\
 	gsb_combo_box.h		\
 	gsb_calendar_entry.h	\
+        gsb_crypt.h             \
 	gsb_currency.h		\
 	gsb_currency_config.h	\
 	gsb_currency_link_config.h	\
@@ -168,11 +177,11 @@ grisbi_INCLUDES =		\
 	gsb_data_currency.h	\
 	gsb_data_currency_link.h	\
 	gsb_data_form.h		\
-	gsb_data_fyear.c	\
+	gsb_data_fyear.h	\
 	gsb_data_mix.h		\
 	gsb_data_payee.h	\
 	gsb_data_payment.h		\
-	gsb_data_reconcile.s	\
+	gsb_data_reconcile.h	\
 	gsb_data_report.h	\
 	gsb_data_report_amout_comparison.h	\
 	gsb_data_report_text_comparison.h	\
@@ -180,6 +189,7 @@ grisbi_INCLUDES =		\
 	gsb_data_transaction.h	\
 	gsb_file.h		\
 	gsb_file_config.h	\
+        gsb_file_debug.h        \
 	gsb_file_load.h		\
 	gsb_file_others.h	\
 	gsb_file_save.h		\
@@ -193,12 +203,14 @@ grisbi_INCLUDES =		\
 	gsb_fyear_config.h	\
 	gsb_payment_method.h	\
 	gsb_payment_method_config.h	\
+        gsb_plugins.h           \ 
 	gsb_real.h		\
 	gsb_reconcile.h		\
 	gsb_reconcile_config.h	\
 	gsb_reconcile_list.h	\
 	gsb_reconcile_sort_config.h	\
 	gsb_report.h		\
+        gsb_status.h            \ 
 	gsb_scheduler.h		\
 	gsb_scheduler_list.h	\
 	gsb_transaction_model.h	\
@@ -215,13 +227,17 @@ grisbi_INCLUDES =		\
 	etats_onglet.h		\
 	etats_support.h		\
 	fenetre_principale.h	\
-	format.h		\
 	gtk_combofix.h		\
 	help.h			\
 	imputation_budgetaire.h	\
 	include.h		\
 	main.h			\
 	menu.h			\
+        meta_budgetary.h        \
+        meta_categories.h       \
+        meta_payee.h            \
+        metatree.h              \
+        mouse.h                 \ 
 	navigation.h		\
 	parametres.h		\
 	parse_cmdline.h		\

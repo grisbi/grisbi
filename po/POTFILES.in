@@ -6,7 +6,6 @@ src/categories_onglet.c
 src/classement_echeances.c
 src/comptes_gestion.c
 src/comptes_onglet.c
-src/configuration.c
 src/csv_parse.c
 src/dialog.c
 src/echeancier_infos.c
@@ -91,7 +90,6 @@ src/gsb_transactions_list.c
 src/gsb_transactions_list_sort.c
 src/gtk_combofix.c
 src/help.c
-src/html.c
 src/import.c
 src/import_csv.c
 src/imputation_budgetaire.c
@@ -115,7 +113,6 @@ src/tip.c
 src/traitement_variables.c
 src/utils_buttons.c
 src/utils.c
-src/utils_comptes.c
 src/utils_dates.c
 src/utils_editables.c
 src/utils_files.c
