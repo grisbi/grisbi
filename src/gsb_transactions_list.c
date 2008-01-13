@@ -132,6 +132,12 @@ static gint schedule_transaction ( gint transaction_number );
 static gsb_real solde_debut_affichage ( gint account_number,
 				 gint floating_point);
 static void update_titres_tree_view ( void );
+#if GTK_CHECK_VERSION(2,10,0)
+static gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
+						       GtkTreeIter *iter,
+						       gpointer null );
+#endif /*GTK_CHECK_VERSION(2,10,0)*/
+
 /*END_STATIC*/
 
 
