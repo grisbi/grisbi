@@ -65,3 +65,14 @@ install: install-exec-am install-data-am
 		 "$(DESTDIR)$$dir/grisbi-tips.mo"; \
 	  fi; \
 	done
+
+uninstall:
+	@catalogs='$(GMOFILES)'; \
+	for cat in $$catalogs; do \
+	  cat=`basename $$cat`; \
+	  lang=`echo $$cat | sed 's/\.gmo$$//'`; \
+	  dir=$(localedir)/$$lang/LC_MESSAGES; \
+          rm -f $(DESTDIR)$$dir/grisbi-tips.mo; \
+	  echo "uninstalling  $(DESTDIR)$$dir/grisbi-tips.mo"; \
+	done
+
