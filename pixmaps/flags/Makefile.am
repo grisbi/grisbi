@@ -25,3 +25,5 @@ TND.png TOP.png TPE.png TRL.png TTD.png TUV.png TWD.png TZS.png		\
 UAH.png UGX.png USD.png UYU.png UZS.png VAT.png VEB.png VND.png		\
 VUV.png WST.png XPF.png YER.png YUM.png YUV.png ZAR.png ZMK.png		\
 ZWD.png
+
+EXTRA_DIST = $(grisbi_pixmaps_flags_DATA) 

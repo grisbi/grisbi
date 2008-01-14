@@ -14,8 +14,4 @@ grisbi_help_DATA = \
 	previous_motif.gif \
 	$(HTML_FILES)
 
-EXTRA_DIST = 		\
-	contents_motif.gif		\
-	previous_motif.gif	\
-	next_motif.gif	\
-	topic.dat
+EXTRA_DIST =  $(grisbi_help_DATA)

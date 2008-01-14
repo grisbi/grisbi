@@ -48,3 +48,5 @@ grisbi_pixmaps_DATA = \
 	toolbar.png \
 	transaction-list.png \
 	warnings.png
+
+EXTRA_DIST = $(grisbi_pixmaps_DATA) 
