@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-14 23:32+0100\n"
-"PO-Revision-Date: 2008-01-16 21:04+0100\n"
+"PO-Revision-Date: 2008-01-17 20:09+0100\n"
 "Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -907,7 +907,7 @@ msgid ""
 msgstr ""
 "Ihre Grisbi Datei sollte nicht von jedem gelesen werden können. Die "
 "Berechtigungen sollten geändert werden.\n"
-"Soll dies nun durchgeführt werden?"
+"Soll diese Änderung durchgeführt werden?"
 
 #: src/dialog.c:67
 #, c-format
@@ -1831,11 +1831,11 @@ msgstr "Empfänger für den Bericht auswählen"
 
 #: src/etats_config.c:3824
 msgid "Transaction content"
-msgstr "Buchung Inhalt"
+msgstr "Buchung Text"
 
 #: src/etats_config.c:3839
 msgid "Select transactions according to content"
-msgstr "Buchungen nach Inhalt auswählen"
+msgstr "Buchungen nach Text auswählen"
 
 #: src/etats_config.c:4162
 msgid "Transactions whose"
@@ -1896,7 +1896,7 @@ msgstr "Schecknummer"
 
 #: src/etats_config.c:4762 src/etats_config.c:6382 src/etats_config.c:6496
 msgid "reconciliation reference"
-msgstr "Abstimmungsreferenz"
+msgstr "Abstimmungsnummer"
 
 #: src/etats_config.c:4817
 msgid "contains"
@@ -2070,16 +2070,16 @@ msgstr "nach Geschäftsjahr trennen"
 
 #: src/etats_config.c:6031
 msgid "Split by period"
-msgstr "nach Periode trennen"
+msgstr "nach Zeitspanne"
 
 #. on permet ensuite la sÃ©paration des rÃ©sultats par pÃ©riode
 #: src/etats_config.c:6037
 msgid "Separation by period"
-msgstr "nach Periode trennen"
+msgstr "Nach Zeitspanne trennen"
 
 #: src/etats_config.c:6046
 msgid "Separation by time period"
-msgstr "nach Zeitperiode trennen"
+msgstr "Zeitspanne  "
 
 #: src/etats_config.c:6059
 msgid "Week"
@@ -2112,7 +2112,7 @@ msgstr "Die Anzahl der Buchungen im Verhältnis zu allen Buchungen anzeigen"
 
 #: src/etats_config.c:6270
 msgid "Consider the payees of this report as a multiple payee."
-msgstr "Die Empfänger als Gruppe von Empfängern anzeigen."
+msgstr "Die Empfänger als Gruppe von Empfängern anzeigen"
 
 #: src/etats_config.c:6295
 msgid "Transactions display"
@@ -2126,7 +2126,7 @@ msgstr "Buchungen anzeigen"
 #. demande les dÃ©tails affichÃ©s dans les opÃ©rations
 #: src/etats_config.c:6307
 msgid "Include following informations"
-msgstr "Mit folgenden Informationen"
+msgstr "Informationen anzeigen über"
 
 #: src/etats_config.c:6317 src/etats_config.c:6433
 msgid "transaction number"
@@ -2172,16 +2172,16 @@ msgstr "am Anfang des Berichts"
 #. mise en place du type de classement des opÃ©s
 #: src/etats_config.c:6413
 msgid "Sort transactions by"
-msgstr "Die Buchungen sortieren nach"
+msgstr "Buchungen sortieren nach"
 
 #. on propose de rendre clickable le dÃ©tails des opÃ©rations
 #: src/etats_config.c:6508
 msgid "Clickable transactions"
-msgstr "auswählbare Buchungen"
+msgstr "Auswählbarkeit"
 
 #: src/etats_config.c:6514
 msgid "Make transactions clickable"
-msgstr "Die Buchung auswählbar machen"
+msgstr "Die Buchungen auswählbar machen"
 
 #: src/etats_config.c:6552 src/gsb_currency_config.c:798 src/parametres.c:314
 msgid "Totals currencies"
@@ -2528,11 +2528,11 @@ msgstr "Grisbi Bericht (egsb Datei)"
 
 #: src/etats_onglet.c:1177
 msgid "HTML file"
-msgstr "HTML Datei"
+msgstr "Html Datei"
 
 #: src/etats_onglet.c:1178
 msgid "CSV file"
-msgstr "CSV Datei"
+msgstr "Csv Datei"
 
 #: src/etats_onglet.c:1179 src/print_config.c:245
 msgid "Postscript file"
@@ -2769,7 +2769,7 @@ msgstr "Planer"
 #. set the title
 #: src/fenetre_principale.c:282 src/navigation.c:307 src/navigation.c:1262
 msgid "Balance estimate"
-msgstr "Saldo Prognose"
+msgstr "Prognosen"
 
 #: src/fenetre_principale.c:307
 msgid "Outbox"
@@ -3220,7 +3220,7 @@ msgstr "Archive"
 
 #: src/gsb_archive_config.c:118
 msgid "Known archives"
-msgstr "Bekannte Archive"
+msgstr "Erstellte Archive"
 
 #: src/gsb_archive_config.c:177
 msgid "Archive modification"
@@ -3242,7 +3242,7 @@ msgstr "Automatisch prüfen"
 
 #: src/gsb_archive_config.c:247
 msgid "Check at opening if creating archive is needed."
-msgstr "Beim Öffnen prüfen ob ein Archiv erstellt werden soll."
+msgstr "Beim Öffnen prüfen ob ein Archiv erstellt werden soll"
 
 #: src/gsb_archive_config.c:261
 msgid "Warn if more than "
@@ -3250,7 +3250,7 @@ msgstr "Warnung wenn mehr als "
 
 #: src/gsb_archive_config.c:274
 msgid " transactions are not archived."
-msgstr " Buchungen nicht archiviert sind."
+msgstr " Buchungen nicht archiviert sind"
 
 #: src/gsb_archive_config.c:462
 #, c-format
@@ -3313,10 +3313,11 @@ msgid ""
 "\n"
 "You can still export them into a separate archive file if necessary.\n"
 msgstr ""
-"Dieser Assistent wird Sie dabei unterstützen, Buchungen zu archivieren, dadurch wird die Datenbearbeitung in Grisbi performanter.\n"
+"Dieser Assistent wird Sie dabei unterstützen Buchungen zu archivieren.\n"
+"Durch eine Archivierung wird die Datenbearbeitung in Grisbi performanter.\n"
 "\n"
-"In der Standardeinstellung werden beim Archivieren werden keine Buchungen in das Archiv exportiert, die Buchungen erhalten lediglich den Status archiviert.\n"
-"Es besteht jederzeit die Möglichkeit die Buchungen in eine eigene Archivdatei zu exportieren falls dies notwendig sein sollte.\n"
+"In der Standardeinstellung werden beim Archivieren keine Buchungen in das Archiv exportiert, die Buchungen erhalten lediglich den Status archiviert.\n"
+"Es besteht jederzeit die Möglichkeit, Buchungen in eine eigene Archivdatei zu exportieren falls dies notwendig sein sollte.\n"
 
 #. set up the menu
 #: src/gsb_assistant_archive.c:168
@@ -3330,7 +3331,7 @@ msgstr "Archivierung nach Datum"
 
 #: src/gsb_assistant_archive.c:186
 msgid "Grisbi will archive all the transactions between the initial and final date."
-msgstr "Es werden alle Buchungen vom Beginn bis zum Enddatum archiviert."
+msgstr "Es werden alle Buchungen vom Beginn bis zum Enddatum archiviert"
 
 #: src/gsb_assistant_archive.c:242
 msgid "Archive by financial year"
@@ -3338,7 +3339,7 @@ msgstr "Archivierung nach Geschäftsjahr"
 
 #: src/gsb_assistant_archive.c:252
 msgid "Grisbi will archive all the transactions belonging to the financial year."
-msgstr "Es werden alle Buchungen vom gewählten Geschäftsjahr archiviert."
+msgstr "Es werden alle Buchungen vom gewählten Geschäftsjahr archiviert"
 
 #: src/gsb_assistant_archive.c:270
 msgid "Financial year :"
@@ -3350,7 +3351,7 @@ msgstr "Archivierung nach Bericht"
 
 #: src/gsb_assistant_archive.c:301
 msgid "Grisbi will archive the transactions selected by a report."
-msgstr "Es werden alle Buchungen aus einem gewählten Bericht archiviert."
+msgstr "Es werden alle Buchungen aus einem gewählten Bericht archiviert"
 
 #: src/gsb_assistant_archive.c:319 src/gsb_data_payee.c:511
 #: src/gsb_form.c:2492 src/gsb_form.c:2493 src/navigation.c:1320
@@ -3375,9 +3376,9 @@ msgid ""
 "Press the 'Previous' button to create another archive of 'Close' to exit "
 "this assistant."
 msgstr ""
-"Wenn die Performance von Grisbi auch nach dem Archivieren schlecht ist besteht die Möglichkeit, archivierte Buchungen beim Start von Grisbi nicht zu laden.\n"
+"Wenn sich die Performance durch die Archivierung nicht verbessert hat besteht die Möglichkeit, archivierte Buchungen beim Start von Grisbi nicht zu laden.\n"
 "\n"
-"Mit 'Zurück' kann ein weiteres Archiv erstellt werden, mit 'Beenden' wird der Assistent beendet und das Archiv erstellt."
+"Mit 'Zurück' kann ein weiteres Archiv erstellt werden, mit 'Schließen' wird der Assistent beendet."
 
 #: src/gsb_assistant_archive.c:491
 msgid "Failed !"
@@ -3419,7 +3420,8 @@ msgid ""
 "archived.\n"
 "\n"
 msgstr ""
-"Das Archiv '%s' wurde erfolgreich erstellt. Es wurden %d von %d Buchungen archiviert.\n"
+"Das Archiv '%s' wurde erfolgreich erstellt.\n"
+"Es wurden %d von %d Buchungen archiviert.\n"
 "\n"
 
 #: src/gsb_assistant_archive.c:773
@@ -3562,20 +3564,21 @@ msgid ""
 "precisely (you will be able to create new reconciliations in the next step). "
 "Previous reconciliations will be available too."
 msgstr ""
-"Grisbi hat %d Buchungen ohne Abstimmungsreferenz gefunden. Dieser Zustand kann entstehen wenn Buchungen mit der Tastenkombination STRG+R abgestimmt werden.\n"
+"Grisbi hat %d Buchungen ohne Abstimmungsnummern gefunden. Dieser Zustand kann entstehen\n"
+"wenn Buchungen mit der Tastenkombination STRG+R abgestimmt werden.\n"
 "\n"
-"Dieser Assistent wird Sie dabei unterstützen, Buchungen ohne Abstimmungsreferenz einer Abstimmungsreferenz zuzuordnen.\n"
+"Dieser Assistent wird Sie dabei unterstützen, Buchungen ohne Abstimmungsnummern einer Abstimmung zuzuordnen.\n"
 "\n"
-"Die Zuordnung zu einer Abstimmungsreferenz wird mit dem Buchungsdatum durchgeführt - bevor Sie den Vorgang fortsetzen prüfen Sie bitte ob alle Buchungen ein gültiges Buchungsdatum aufweisen."
+"Die Zuordnung zu einer Abstimmung wird mit dem Buchungsdatum durchgeführt - bevor Sie den Vorgang fortsetzen prüfen Sie bitte ob alle Buchungen ein gültiges Buchungsdatum aufweisen."
 
 #: src/gsb_assistant_reconcile_config.c:198
 msgid "Associate orphan transactions to a reconciliation"
-msgstr "Buchungen ohne Abstimmungsreferenz einer Abstimmungsreferenz zuordnen"
+msgstr "Buchungen ohne Abstimmungsnummer zuordnen"
 
 #: src/gsb_assistant_reconcile_config.c:262
 #, c-format
 msgid "Still %d transactions to link with a reconciliation."
-msgstr "Es sind noch %d Buchungen einer Abstimmungsreferenz zuzuordnen."
+msgstr "Es sind noch %d Buchungen keiner Abstimmung zugeordnet."
 
 #. set up the menu
 #: src/gsb_assistant_reconcile_config.c:281
@@ -3599,7 +3602,7 @@ msgstr ""
 msgid ""
 "Automaticaly associate transactions without reconciliation number with the "
 "known reconciliations"
-msgstr "Automatisch Buchungen ohne Abstimmungsreferenz einer erfassten Abstimmungsreferenz zuordnen"
+msgstr "Automatisch Buchungen ohne Abstimmungsnummern einer erfassten Abstimmung zuordnen"
 
 #: src/gsb_assistant_reconcile_config.c:322
 msgid ""
@@ -3607,21 +3610,21 @@ msgid ""
 "needed reconciles\n"
 "\tand adjust the date of the known reconciles."
 msgstr ""
-"\t Durch diesen Vorgang werden Buchungen ohne Abstimmungsreferenzen den vorhandenen Abstimmungsreferenzen zugeordnet\n"
-"\t wenn entsprechende Abstimmungsreferenzen vorhanden sind."
+"\t Durch diesen Vorgang werden Buchungen ohne Abstimmungsnummern den vorhandenen Abstimmungen zugeordnet\n"
+"\t wenn entsprechende Abstimmungen vorhanden sind."
 
 #: src/gsb_assistant_reconcile_config.c:332
 msgid ""
 "Associate by hands the transactions without reconciliation number with the "
 "known reconciles"
-msgstr "Buchungen ohne Abstimmungsreferenz manuell einer bestehenden Abstimmungsreferenz zuordnen"
+msgstr "Buchungen ohne Abstimmungsnummern manuell einer bestehenden Abstimmung zuordnen"
 
 #: src/gsb_assistant_reconcile_config.c:343
 msgid ""
 "\tYou control all and have a lot of time to spend on your computer !\n"
 "\t(you will be able to choose a reconciliation for each orphan transaction)."
 msgstr ""
-"\t Sie können selbst entscheiden, welcher Abstimmungsreferenz eine Buchung ohne Abstimmungsreferenz zugeordnet wird!\n"
+"\t Sie können selbst entscheiden, welcher Abstimmung eine Buchung ohne Abstimmungsnummer zugeordnet wird!\n"
 "\t Diese Variante ist sehr zeitaufwändig."
 
 #. set the final date
@@ -3643,9 +3646,9 @@ msgid ""
 "assistant\n"
 "menu page) or check the transactions themselves."
 msgstr ""
-"Der Assistent wird versuchen Buchungen ohne Abstimmungsreferenz einer entsprechenden Abstimmungsreferenz zuzuordnen.\n"
-"Falls nicht alle Buchungen ohne Abstimmungsreferenz zugeordnet werden können prüfen Sie bitte ob entsprechende Abstimmungsreferenzen vorhanden sind.\n"
-"Wenn die Abstimmungsreferenzen vorhanden sind überprüfen Sie bitte die Buchungen selbst."
+"Der Assistent wird versuchen Buchungen ohne Abstimmungsnummern einer entsprechenden Abstimmung zuzuordnen.\n"
+"Falls nicht alle Buchungen ohne Abstimmungsnummer zugeordnet werden können prüfen Sie bitte ob entsprechende Abstimmung vorhanden sind.\n"
+"Wenn die Abstimmung vorhanden sind überprüfen Sie bitte die Buchungen selbst."
 
 #: src/gsb_assistant_reconcile_config.c:591
 msgid "Launch automatic association"
@@ -3654,11 +3657,11 @@ msgstr "Automatische Zuordnung ausführen"
 #. now we can show the list of orphans transactions
 #: src/gsb_assistant_reconcile_config.c:652
 msgid "Select the transaction(s) you want to associate with a reconciliation :"
-msgstr "Die Buchungen auswählen welche einer Abstimmungsreferenz zugeordnet werden sollen :"
+msgstr "Die Buchungen auswählen welche einer Abstimmung zugeordnet werden sollen :"
 
 #: src/gsb_assistant_reconcile_config.c:715
 msgid "Link the selection to a reconcile..."
-msgstr "Die Auswahl einer Abstimmungsreferenz zuordnen..."
+msgstr "Die Auswahl einer Abstimmung zuordnen..."
 
 #: src/gsb_assistant_reconcile_config.c:744
 msgid ""
@@ -3669,7 +3672,7 @@ msgid ""
 "any way now\n"
 "\tto have some transactions without reconciliation number."
 msgstr ""
-"Es wurden alle Buchungen ohne Abstimmungsreferenz den entsprechenden Abstimmungsreferenzen zugeordnet.\n"
+"Es wurden alle Buchungen ohne Abstimmungsnummern der entsprechenden Abstimmung zugeordnet.\n"
 "\n"
 "Der Assistent kann beendet werden - im Regelfall sollte es nicht mehr notwendig sein diesen Assistenten aufzurufen."
 
@@ -3687,7 +3690,7 @@ msgstr "<span foreground=\"red\">Das Enddatum ist nicht gültig, das Datum über
 
 #: src/gsb_assistant_reconcile_config.c:821
 msgid "<span foreground=\"red\">Please give a name to the new reconcile</span>"
-msgstr "<span foreground=\"red\">Bitte einen Namen für die Abstimmungsreferenz eingeben</span>"
+msgstr "<span foreground=\"red\">Bitte einen Namen für die Abstimmung eingeben</span>"
 
 #: src/gsb_assistant_reconcile_config.c:830
 msgid ""
@@ -3718,7 +3721,7 @@ msgstr "<span foreground=\"blue\">Abstimmung %s erfolgreich abgeschlossen !</spa
 #: src/gsb_assistant_reconcile_config.c:1376
 #, c-format
 msgid "Still %d transactions to link with a reconciliation"
-msgstr "Es sind weiterhin %d Buchungen ohne Abstimmungsreferenz vorhanden"
+msgstr "Es sind weiterhin %d Buchungen ohne Abstimmung vorhanden"
 
 #: src/gsb_assistant_reconcile_config.c:974
 #, c-format
@@ -3726,8 +3729,8 @@ msgid ""
 "Grisbi can associate %d transactions to a reconcile.\n"
 "Please click on the launch button to create the links"
 msgstr ""
-"Es können %d Buchungen einer Abstimmungsreferenz zugeordnet werden.\n"
-"Die Zuordnung kann mit einem Klick auf den Button 'Ausführen' vorgenommen werden"
+"Es können %d Buchungen einer Abstimmung zugeordnet werden.\n"
+"Die Zuordnung kann mit einem Klick auf den Button 'Automatische Zuordnung ausführen' vorgenommen werden"
 
 #: src/gsb_assistant_reconcile_config.c:982
 #: src/gsb_assistant_reconcile_config.c:1043
@@ -3735,8 +3738,8 @@ msgid ""
 "There is no transaction that grisbi can link.\n"
 "Check if you created all the necesssary reconciles."
 msgstr ""
-"Es gibt keine Abstimmungsreferenz welcher die Buchungen zugeordnet werden können.\n"
-"Bitte prüfen Sie ob alle notwendigen Abstimmungsreferenzen vorhanden sind."
+"Es gibt keine Abstimmung welcher die Buchungen zugeordnet werden können.\n"
+"Bitte prüfen Sie ob alle notwendigen Abstimmungen vorhanden sind."
 
 #: src/gsb_assistant_reconcile_config.c:1191
 msgid "All the selected transactions have to belong to the same account !"
@@ -3746,11 +3749,11 @@ msgstr "Alle gewählten Buchungen sind dem gleichen Konto zugeordnet !"
 #. * show a dialog to select the reconcile
 #: src/gsb_assistant_reconcile_config.c:1212
 msgid "Selection of a reconciliation"
-msgstr "Auswahl einer Abstimmungsreferenz"
+msgstr "Auswahl einer Abstimmung"
 
 #: src/gsb_assistant_reconcile_config.c:1221
 msgid "Select the reconciliation to associate to the selected transactions :"
-msgstr "Die Abstimmungsreferenz für die Zuordnung der Buchungen auswählen :"
+msgstr "Die Abstimmung für die Zuordnung der Buchungen auswählen :"
 
 #: src/gsb_assistant_reconcile_config.c:1327
 msgid "No selection found, the transactions are not modified."
@@ -6639,7 +6642,7 @@ msgid ""
 "Are you sure ?"
 msgstr ""
 "Wenn eine Splittbuchung mit Teilbuchungen in eine andere Art geändert wird werden die Teilbuchungen gelöscht.\n"
-"Soll dieser Vorgang ausgeführt werden?"
+"Soll der Vorgang fortgesetzt werden?"
 
 #: src/gsb_form_config.c:114 src/parametres.c:370
 msgid "Transaction form"
@@ -7024,7 +7027,7 @@ msgid ""
 "at each reconciliation.\n"
 "You can let it empty if you don't want to keep a trace of the reconciliation."
 msgstr ""
-"Wenn eine Abstimmungsreferenz mit einer Zahl endet wird diese Zahl "
+"Wenn eine Abstimmung mit einer Zahl endet wird diese Zahl "
 "automatisch bei jeder Abstimmung erhöht.\n"
 "Wenn Sie die Abstimmungen nicht nachverfolgen wollen können Sie diese "
 "Eingabe leer lassen."
@@ -7792,7 +7795,7 @@ msgid ""
 msgstr ""
 "Haben Sie versehentlich das falsche Konto ausgewählt ? Wenn Sie sich "
 "entscheiden fortzufahren wird die Id des Kontos geändert. Soll fortgefahren "
-"werden ?"
+"werden?"
 
 #: src/import.c:2463
 msgid "Orphaned transactions"
@@ -7819,7 +7822,7 @@ msgstr "Buchungen suchen "
 
 #: src/import.c:2796
 msgid "days around the date in the imported transaction."
-msgstr " Tage im Datumsbereich der importierten Buchung."
+msgstr " Tage im Datumsbereich der importierten Buchung"
 
 #: src/import_csv.c:77
 msgid "Unknown field"
@@ -7974,7 +7977,7 @@ msgstr "_Datei"
 
 #: src/menu.c:172
 msgid "_New account file..."
-msgstr "_Neue Datei..."
+msgstr "_Neue Datei"
 
 #: src/menu.c:175
 msgid "_Open..."
@@ -8002,11 +8005,11 @@ msgstr "Datei _exportieren ..."
 
 #: src/menu.c:193
 msgid "Archive transactions..."
-msgstr "Buchungen archivieren..."
+msgstr "Buchungen archivieren ..."
 
 #: src/menu.c:196
 msgid "_Export an archive as GSB/QIF/CSV file..."
-msgstr "Archiv als GSB/QIF/CSV Datei _exportieren..."
+msgstr "Archiv als GSB/QIF/CSV Datei _exportieren ..."
 
 #: src/menu.c:199
 msgid "_Debug account file..."
@@ -8558,12 +8561,12 @@ msgstr "Online-Banking wird nicht verfügbar sein"
 
 #: src/plugins/g2banking/g2banking.c:66
 msgid "Could not initialize AqBanking."
-msgstr "AqBanking kann nicht initialisiert werden."
+msgstr "AqBanking kann nicht gestartet werden."
 
 #: src/plugins/g2banking/g2banking.c:94
 #, c-format
 msgid "Could not uninitialize AqBanking (%d)\n"
-msgstr "AqBanking (%d) kann nicht entladen werden \n"
+msgstr "AqBanking kann nicht gestoppt werden werden (%d)\n"
 
 #: src/plugins/g2banking/g2banking.c:245
 msgid "Warning"
@@ -8571,7 +8574,7 @@ msgstr "Warnung"
 
 #: src/plugins/g2banking/g2banking.c:246
 msgid "An error or warning has occured. Do you still want to import the data ?"
-msgstr "Es ist entweder ein Fehler aufgetreten oder es wurde eine Warnung ausgegeben. Sollen die Daten trotzdem importiert werden ?"
+msgstr "Es ist entweder ein Fehler aufgetreten oder es wurde eine Warnung ausgegeben. Sollen die Daten trotzdem importiert werden?"
 
 #: src/plugins/gnucash/gnucash.c:171
 msgid "Gnucash"
@@ -8622,7 +8625,7 @@ msgstr "Beim Bearbeiten der OFX-Datei wurde folgender Fehler ausgegeben:\n"
 
 #: src/plugins/ofx/ofx.c:229
 msgid "OFX processing returned an error message which is not valid."
-msgstr "Beim Bearbeiten der OFX-Datei wurde eine ungültiger Fehler ausgegeben."
+msgstr "Beim Bearbeiten der OFX-Datei wurde ein ungültiger Fehler ausgegeben."
 
 #: src/plugins/ofx/ofx.c:367
 msgid "A transaction try to be saved but no account was created...\n"
