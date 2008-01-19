@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # autogen.sh glue for Grisbi
-# $Id: autogen.sh,v 1.12 2008/01/19 18:26:11 zionly Exp $
+# $Id: autogen.sh,v 1.13 2008/01/19 19:52:23 mpupat Exp $
 #
 # Requires: automake, autoconf, dpkg-dev
 
@@ -29,29 +29,22 @@ PATH_AUTOMAKE=/usr/share/automake
 if test -x /usr/share/automake-1.10
 then
 	PATH_AUTOMAKE=/usr/share/automake-1.10
-fi
-
-if test -x /usr/share/automake-1.9
+elif test -x /usr/share/automake-1.9
 then
 	PATH_AUTOMAKE=/usr/share/automake-1.9
-fi
-
-if test -x /usr/share/automake-1.8
+elif test -x /usr/share/automake-1.8
 then
 	PATH_AUTOMAKE=/usr/share/automake-1.8
-fi
-
-if test -x /usr/share/automake-1.7
+elif test -x /usr/share/automake-1.7
 then
 	PATH_AUTOMAKE=/usr/share/automake-1.7
-fi
-
-if test -x /usr/share/automake-1.6
+elif test -x /usr/share/automake-1.6
 then
 	PATH_AUTOMAKE=/usr/share/automake-1.6
-fi
-
-if test -x /usr/share/automake-1.4
+elif test -x /usr/share/automake-1.5
+then
+	PATH_AUTOMAKE=/usr/share/automake-1.4
+elif test -x /usr/share/automake-1.4
 then
 	PATH_AUTOMAKE=/usr/share/automake-1.4
 fi
