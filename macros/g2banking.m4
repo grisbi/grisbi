@@ -1,8 +1,8 @@
-# $Id: g2banking.m4,v 1.1 2004/12/29 19:40:26 benj2 Exp $
+# $Id: g2banking.m4,v 1.2 2008/01/19 19:31:12 mpupat Exp $
 # (c) 2004 Martin Preuss<martin@libchipcard.de>
 # This function checks for G2Banking
 
-AC_DEFUN(AC_G2BANKING, [
+AC_DEFUN([AC_G2BANKING], [
 dnl searches for g2banking
 dnl Arguments: 
 dnl   $1: major version minimum

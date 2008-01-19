@@ -146,7 +146,7 @@ grisbi_INCLUDES =		\
         etats_csv.h             \
         etats_html.h            \
         export.h                \
-        export_csv.h            \ 
+        export_csv.h            \
 	import_csv.h		\
         go-charmap-sel.h        \
         go-optionmenu.h         \
@@ -203,14 +203,14 @@ grisbi_INCLUDES =		\
 	gsb_fyear_config.h	\
 	gsb_payment_method.h	\
 	gsb_payment_method_config.h	\
-        gsb_plugins.h           \ 
+        gsb_plugins.h           \
 	gsb_real.h		\
 	gsb_reconcile.h		\
 	gsb_reconcile_config.h	\
 	gsb_reconcile_list.h	\
 	gsb_reconcile_sort_config.h	\
 	gsb_report.h		\
-        gsb_status.h            \ 
+        gsb_status.h            \
 	gsb_scheduler.h		\
 	gsb_scheduler_list.h	\
 	gsb_transaction_model.h	\
@@ -237,7 +237,7 @@ grisbi_INCLUDES =		\
         meta_categories.h       \
         meta_payee.h            \
         metatree.h              \
-        mouse.h                 \ 
+        mouse.h                 \
 	navigation.h		\
 	parametres.h		\
 	parse_cmdline.h		\
