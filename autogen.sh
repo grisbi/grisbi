@@ -1,9 +1,25 @@
 #!/bin/sh
 #
 # autogen.sh glue for Grisbi
-# $Id: autogen.sh,v 1.11 2008/01/14 00:21:06 mpupat Exp $
+# $Id: autogen.sh,v 1.12 2008/01/19 18:26:11 zionly Exp $
 #
 # Requires: automake, autoconf, dpkg-dev
+
+#
+# Check if autoconf and automake are installed
+#
+autoconf --version >/dev/null 2>&1
+if [ $? -ne 0 ] ; then
+	echo "Please install autoconf and rerun this script !"
+	exit 1
+fi
+automake --version >/dev/null 2>&1
+if [ $? -ne 0 ] ; then
+	echo "Please install automake and rerun this script !"
+	exit 1
+fi
+echo "automake and autoconf are installed"
+
 
 PATH_AUTOMAKE=/usr/share/automake
 
@@ -92,5 +108,20 @@ aclocal -I macros
 autoheader
 automake --verbose --foreign --add-missing
 autoconf
+
+#
+# Check if the configure script is created
+#
+echo
+if [ ! -f ./configure ] ; then
+	echo "The configure script was not created !"
+	echo "You can't compile Grisbi."
+	exit 1
+fi
+echo "The configure script was successfully created."
+echo "To compile Grisbi, please run :"
+echo "        ./configure"
+echo "        make"
+echo
 
 exit 0

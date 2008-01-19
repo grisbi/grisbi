@@ -1,0 +1,10 @@
+If you get Grisbi source code from CVS, please run the autogen script to
+create the configure script :
+
+	./autogen.sh
+
+If the configure script was successfully created, the next steps are :
+
+	./configure
+	make
+
