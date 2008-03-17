@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-04-04 20:16+0200\n"
-"PO-Revision-Date: 2008-01-03 16:07+0100\n"
+"PO-Revision-Date: 2008-03-17 14:23+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6617,9 +6617,8 @@ msgid "%d years"
 msgstr "%d años"
 
 #: src/gsb_scheduler_list.c:844
-#, fuzzy
 msgid "Montly"
-msgstr "Mensualmente"
+msgstr "Mensual"
 
 #: src/gsb_scheduler_list.c:845
 msgid "Bimonthly"
@@ -8266,14 +8265,15 @@ msgid "Cannot execute web browser"
 msgstr "No puedo arrancar el navegador web"
 
 #: src/utils.c:165
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\n"
 "The command was: %s.\n"
 "Please adjust your settings to a valid executable."
 msgstr ""
-"Grisbi no pudo ejecutar un navegador web para mostrar la url <tt>%s</tt>.  "
-"Por favor ajuste sus preferencias a un ejecutable válido."
+"Grisbi no pudo ejecutar un navegador web para mostrar la url <tt>%s</tt>.\n"
+"Se usó el comando: %s.\n"
+"Por favor ajuste sus preferencias a una orden válida."
 
 #: src/utils_files.c:64
 msgid "Print to file"
@@ -9028,7 +9028,6 @@ msgstr ""
 msgid "Error opening temporary file '%s'."
 msgstr "Error abriendo el fichero temporal '%s'."
 
-#, fuzzy
 msgid ""
 "Grisbi is a free personal finance manager for everyone.\n"
 "Such a program allows you to sort your financial transactions, whatever they "
@@ -9038,11 +9037,10 @@ msgid ""
 "powerful use for power users.  We will always try to respect this as "
 "features will come."
 msgstr ""
-"Grisbi es una aplicación de contabilidad personal para Linux\n"
+"Grisbi es una aplicación de contabilidad personal para todo el mundo.\n"
 "Este programa le permite organizar sus transacciones financieras, sean "
 "cuales sean,de una forma conveniente e intuitiva.  Así pues usted podrá "
-"manejar sus transacciones para adaptarlas a sus necesidades tanto como "
-"pueda.\n"
+"organizarse para adaptar estas transacciones a sus necesidades tanto como quiera.\n"
 "Grisbi combina simplicidad y eficiencia para el uso común, y un potente uso "
 "para usuarios más avezados.  Intentaremos siempre respetar ésto en el "
 "desarrollo de nuevas características."
