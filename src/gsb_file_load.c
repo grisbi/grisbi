@@ -60,6 +60,7 @@
 #include "./gsb_plugins.h"
 #include "./gsb_real.h"
 #include "./gsb_currency_config.h"
+#include "./utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -296,7 +297,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     }
 
      /* fill the buffer stat to check the permission */
-    return_value = stat (g_filename_from_utf8(filename,-1,NULL,NULL,NULL),&buffer_stat);
+    return_value = utf8_stat (filename,&buffer_stat);
     /* check the access to the file and propose to change it */
 #ifndef _WIN32
     if ( buffer_stat.st_mode != 33152 )

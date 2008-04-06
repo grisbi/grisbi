@@ -22,6 +22,7 @@ gchar* my_get_gsb_file_default_dir(void);
 gchar * safe_file_name ( gchar* filename );
 FILE* utf8_fopen(const gchar* utf8filename,gchar* mode);
 gint utf8_remove(const gchar* utf8filename);
+gint utf8_stat(const gchar* ,struct stat*);
 /*END_DECLARATION*/
 
 #endif

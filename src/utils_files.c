@@ -227,7 +227,7 @@ FILE* utf8_fopen(const gchar* utf8filename,gchar* mode)
 
 
 /**
- * \brief utf8 version of stat (see stat for more detail about mode)
+ * \brief utf8 version of remove (see remove for more detail about mode)
  * 
  * convert utf8 file path into the locale OS charset before calling remove
  *
@@ -240,7 +240,20 @@ gint utf8_remove(const gchar* utf8filename)
     return remove(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
 }
 
-
+/**
+ * \brief utf8 compliant version of stat (see stat for more detail about mode)
+ * 
+ * Convert utf8 encoded file path to system local compliant encoding before 
+ * calling 'stat()'
+ * \param utf8filename filename to stat filename parameter
+ * \param p_stat pointer to stat structure to use in stat() call.
+ * 
+ * \return returns stat() return value.
+ */
+gint utf8_stat(const gchar* utf8filename, struct stat* p_stat)
+{
+	return stat ( g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL), p_stat);
+}
 /** 
  * Sanitize a safe filename.  All chars that are not normally allowed
  * are replaced by underscores.
@@ -251,8 +264,6 @@ gchar * safe_file_name ( gchar* filename )
 {
     return g_strdelimit ( my_strdup(filename), G_DIR_SEPARATOR_S, '_' );
 }
-
-
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
