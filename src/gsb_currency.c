@@ -37,10 +37,10 @@
 #include "./gsb_real.h"
 #include "./utils.h"
 #include "./structures.h"
-#include "./gsb_file_config.h"
 #include "./include.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_real.h"
+#include "./utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

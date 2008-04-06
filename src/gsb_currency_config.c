@@ -44,9 +44,9 @@
 #include "./imputation_budgetaire.h"
 #include "./tiers_onglet.h"
 #include "./structures.h"
-#include "./gsb_file_config.h"
 #include "./include.h"
 #include "./erreur.h"
+#include "./utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

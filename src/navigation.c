@@ -49,13 +49,13 @@
 #include "./imputation_budgetaire.h"
 #include "./tiers_onglet.h"
 #include "./balance_estimate_tab.h"
-#include "./gsb_file_config.h"
 #include "./fenetre_principale.h"
 #include "./gsb_data_account.h"
 #include "./include.h"
 #include "./balance_estimate_tab.h"
 #include "./erreur.h"
 #include "./structures.h"
+#include "./utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

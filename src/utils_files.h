@@ -7,6 +7,11 @@
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
+#ifdef _WIN32
+#define C_DIRECTORY_SEPARATOR "/"
+#else
+#define C_DIRECTORY_SEPARATOR "\\"
+#endif
 
 /*START_DECLARATION*/
 gint get_line_from_file ( FILE *fichier,

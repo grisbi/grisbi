@@ -24,7 +24,7 @@
 /*START_INCLUDE*/
 #include "gsb_plugins.h"
 #include "./dialog.h"
-#include "./gsb_file_config.h"
+#include "./utils_files.h"
 #include "./include.h"
 /*END_INCLUDE*/
 

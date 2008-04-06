@@ -8,11 +8,9 @@
 #define ETAT_WWW_BROWSER "firefox"
 
 #ifndef _WIN32
-#define C_DIRECTORY_SEPARATOR "/"
 #define C_GRISBIRC  (g_strconcat ( "/.", PACKAGE, "rc", NULL))
 #else
 /* Some old Windows version have difficulties with dat starting file names */
-#define C_DIRECTORY_SEPARATOR "\\"
 #define C_GRISBIRC  (g_strconcat ( "\\", PACKAGE, "rc", NULL))
 #endif
 

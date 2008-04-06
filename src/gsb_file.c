@@ -314,10 +314,8 @@ gboolean gsb_file_open_direct_menu ( GtkMenuItem *item,
  * */
 gboolean gsb_file_open_file ( gchar *filename )
 {
-    gint i;
     GSList *list_tmp;
     GtkWidget *main_widget;
-
     gchar* tmpstr = g_strdup_printf ("gsb_file_open_file : %s", filename );
     devel_debug ( tmpstr );
     g_free ( tmpstr );
@@ -331,6 +329,8 @@ gboolean gsb_file_open_file ( gchar *filename )
     gsb_status_message ( _("Loading accounts") );
 
     /* try to load the file */
+    /* FIXME:BUG under Windows: for unknwon reason yet filename is cleared when returning from gsb_file_load_open_file!
+       making application crashes! */
     if ( gsb_file_load_open_file (filename))
     {
 	/* the file has been opened succesfully */
@@ -339,31 +339,11 @@ gboolean gsb_file_open_file ( gchar *filename )
 	if ( etat.sauvegarde_demarrage )
 	{
 	    gchar *backup_filename;
-	    gchar **tab_char;
 
 	    gsb_status_message ( _("Autosaving") );
 
-	    backup_filename = my_strdup ( filename );
-
 	    /* we get only the name of the file, not the path */
-
-	    tab_char = g_strsplit ( backup_filename,
-				    C_DIRECTORY_SEPARATOR,
-				    0);
-	    i=0;
-	    while ( tab_char[i] )
-		i++;
-
-	    backup_filename = g_strconcat ( my_get_gsb_file_default_dir(),
-				C_DIRECTORY_SEPARATOR,
-#ifndef _WIN32
-                                ".",
-#endif
-				tab_char [i-1],
-				".bak",
-				NULL );
-
-	    g_strfreev ( tab_char );
+        backup_filename = utils_files_get_filename(filename,UTILS_FILES_BACKUP_FILENAME);
 	    gsb_file_save_save_file ( backup_filename,
 				      etat.compress_backup,
 				      FALSE );
@@ -380,28 +360,16 @@ gboolean gsb_file_open_file ( gchar *filename )
 	if ( etat.sauvegarde_demarrage )
 	{
 	    gchar *backup_filename;
-	    gchar **tab_char;
 
 	    gsb_status_message ( _("Loading backup") );
 
 	    /* create the name of the backup */
-	    i=0;
-	    tab_char = g_strsplit ( filename, C_DIRECTORY_SEPARATOR, 0);
-	    while ( tab_char[i] )
-		i++;
-	    backup_filename = g_strconcat ( my_get_gsb_file_default_dir(),
-					    C_DIRECTORY_SEPARATOR,
-					    tab_char [i-1],
-					    ".bak",
-					    NULL );
-	    g_strfreev ( tab_char );
-
+        backup_filename = utils_files_get_filename(filename,UTILS_FILES_BACKUP_FILENAME);
 	    /* try to load the backup */
 
 	    if ( gsb_file_load_open_file ( backup_filename ) )
 	    {
 		/* the backup loaded succesfully */
-
 		gchar* tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
 		dialogue_error_hint ( _("Grisbi was unable to load file.  However, Grisbi loaded a backup file instead but all changes made since this backup were possibly lost."), tmpstr );
 		g_free ( tmpstr );
@@ -454,8 +422,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 
 	gsb_data_account_calculate_current_and_marked_balances (account_number);
 
-	/* set the minimum balances to be shown or not
-	 * if we are already under the minimum, we will show nothing */
+	/* set the minimum balances to be shown or not */
 
 	gsb_data_account_set_mini_balance_authorized_message ( account_number,
 							       gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),

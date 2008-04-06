@@ -47,7 +47,7 @@
 #include "./comptes_gestion.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
-#include "./gsb_file_config.h"
+#include "./utils_files.h"
 #include "./include.h"
 /*END_INCLUDE*/
 

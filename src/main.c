@@ -54,10 +54,10 @@
 #include "./parse_cmdline.h"
 #include "./import.h"
 #include "./parse_cmdline.h"
-#include "./gsb_file_config.h"
 #include "./structures.h"
 #include "./include.h"
 #include "./erreur.h"
+#include "./utils_files.h"
 /*END_INCLUDE*/
 
 
