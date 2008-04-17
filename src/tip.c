@@ -28,6 +28,7 @@
 #include "./dialog.h"
 #include "./gsb_automem.h"
 #include "./utils_str.h"
+#include "./utils_files.h"
 #include "./gsb_file_config.h"
 #include "./include.h"
 #include "./structures.h"

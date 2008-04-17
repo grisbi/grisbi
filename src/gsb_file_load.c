@@ -1511,16 +1511,9 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Am" ))
 	{
-	    gint floating_point = -1;
-	 
-	    if ( gsb_data_transaction_get_currency_number ( transaction_number ) )
-	    {
-		floating_point = gsb_data_currency_get_floating_point ( gsb_data_transaction_get_currency_number ( transaction_number ) );
-	    }
-
+	    /* get the entire real, even if the floating point of the currency is less deep */
 	    gsb_data_transaction_set_amount ( transaction_number,
-					      gsb_real_get_from_string_normalized (attribute_values[i],
-										   floating_point ) );
+					      gsb_real_get_from_string (attribute_values[i]));
 	    i++;
 	    continue;
 	}

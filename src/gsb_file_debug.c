@@ -373,9 +373,9 @@ gchar * gsb_debug_reconcile_test ( void )
 
 	      gchar* tmprealstr1 = gsb_real_get_string_with_currency (
 	                                gsb_data_reconcile_get_final_balance (reconcile_number),
-	                                gsb_data_account_get_currency ( account_nb ) );
+	                                gsb_data_account_get_currency ( account_nb ), TRUE  );
 	      gchar* tmprealstr2 = gsb_real_get_string_with_currency (reconcilied_amount,
-					gsb_data_account_get_currency ( account_nb ) );
+					gsb_data_account_get_currency ( account_nb ), TRUE  );
 	      gchar* tmpstr1 = g_strdup_printf ( _("<span weight=\"bold\">%s</span>\n"
 					"  Last reconciliation amount : %s\n"
 					"  Computed reconciliation amount : %s\n"),

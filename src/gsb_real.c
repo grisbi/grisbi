@@ -40,9 +40,8 @@
 
 gsb_real null_real = { 0 , 0 };
 
-
 /*START_STATIC*/
-static gchar *gsb_real_format_string ( gsb_real number, const gchar *currency_symbol );
+static gchar *gsb_real_format_string ( gsb_real number, gint currency_number, gboolean show_symbol );
 static gboolean gsb_real_normalize ( gsb_real *number_1,
 			      gsb_real *number_2 );
 static gdouble gsb_real_real_to_double ( gsb_real number );
@@ -58,6 +57,9 @@ extern gint max;
  * Return the real in a formatted string, according to the currency 
  * regarding decimal separator, thousands separator and positive or
  * negative sign.
+ * this is directly the number coded in the real wich is returned
+ * usually, gsb_real_get_string_with_currency is better to adapt the format
+ * 	of the number to the currency format
  * 
  * \param number	Number to format.
  *
@@ -66,12 +68,13 @@ extern gint max;
 */
 gchar *gsb_real_get_string ( gsb_real number )
 {
-    return gsb_real_format_string ( number, NULL );
+    return gsb_real_format_string ( number, 0, FALSE );
 }
 
 /**
- * format a gsb_real into a string from gsb_real_get_string and append
- * the currency symbol from the currency in param
+ * format a gsb_real into a string from gsb_real_get_string
+ *	adapt the format of the real to the currency (nb digits after , ...)
+ *	show if asked the currency symbol
  *
  * \param number		A number to format.
  * \param currency_number	Currency to use.
@@ -79,12 +82,14 @@ gchar *gsb_real_get_string ( gsb_real number )
  * \return a newly allocated string of the number
  * */
 gchar *gsb_real_get_string_with_currency ( gsb_real number,
-					   gint currency_number )
+					   gint currency_number,
+					   gboolean show_symbol )
 {
     gchar *string;
 
     string = gsb_real_format_string (number,
-				     gsb_data_currency_get_code (currency_number) );
+				     currency_number,
+				     show_symbol);
     return string;
 }
 
@@ -97,20 +102,28 @@ gchar *gsb_real_get_string_with_currency ( gsb_real number,
  * thousands separator and positive or negative sign.
  * 
  * \param number		Number to format.
- * \param currency_symbol	Optional currency symbol to insert.
+ * \param currency_number the currency we want to adapt the number, 0 for no adaptation
+ * \param show_symbol TRUE to add the currency symbol in the string
  *
  * \return		A newly allocated string of the number (this
  *			function will never return NULL) 
-*/
-gchar *gsb_real_format_string ( gsb_real number, const gchar *currency_symbol )
+ */
+gchar *gsb_real_format_string ( gsb_real number,
+				gint currency_number,
+				gboolean show_symbol )
 {
     struct lconv * conv = localeconv ( );
     div_t result_div;
     gchar *string, *exponent, *mantissa;
     gint i = 0, j=0;
     glong num;
+    const gchar *currency_symbol = NULL;
+/* xxx vient de compiler, semble marcher mais chiffres des l'accueil délirants, à vérif */
+    if (currency_number && show_symbol)
+	currency_symbol = gsb_data_currency_get_code (currency_number);
 
     /* FIXME : should return 0.00 according to the currency and no 0 */
+    /* xxx dépend de la devise... */
     if (number.mantissa == 0)
 	return g_strdup_printf ( "%s%s%s0%c00%s%s", 
 				 ( currency_symbol && conv -> p_cs_precedes ? currency_symbol : "" ),
@@ -120,7 +133,7 @@ gchar *gsb_real_format_string ( gsb_real number, const gchar *currency_symbol )
 				 ( currency_symbol && ! conv -> p_cs_precedes && conv -> p_sep_by_space ? 
 				   " " : "" ),
 				 ( currency_symbol && ! conv -> p_cs_precedes ? currency_symbol : "" ) );
-/* xxx faut refaire ici */
+
     /* for a long int : max 11 char
      * so with the possible -, the spaces and the .
      * we arrive to maximum 14 char : -21 474 836.48 + 1 for the 0 terminal */
@@ -170,8 +183,11 @@ gchar *gsb_real_format_string ( gsb_real number, const gchar *currency_symbol )
 	 * and 0.51 will be 0.51 and no 51 without that check */
     }
     while ( ( num = result_div.quot )
-	    ||
-	    i < (number.exponent+2) );
+  	    ||
+  	    (currency_number
+	     &&
+	     i < gsb_data_currency_get_floating_point (currency_number)));
+
 
     /* Add the sign at the end of the string just before to reverse it to avoid
        to have to insert it at the begin just after... */
@@ -202,6 +218,9 @@ gchar *gsb_real_format_string ( gsb_real number, const gchar *currency_symbol )
  * - spaces are ignored
  * - another character makes a 0 return
  *
+ *   there is no ask for any exponent, so the gsb_real will be exactly the
+ *   same as the string
+ *
  * \param string
  *
  * \return the number in the string transformed to gsb_real
@@ -220,16 +239,17 @@ gsb_real gsb_real_get_from_string ( const gchar *string )
  * - spaces are ignored
  * - another character makes a 0 return
  *
+ *   the gsb_real will have the exponent given in default_exponent, except if default_exponent = -1
+ *
  * \param string
- * \param default_mantissa -1 for no limit
+ * \param default_exponent -1 for no limit
  *
  * \return the number in the string transformed to gsb_real
  */
-gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default_mantissa )
+gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default_exponent )
 {
     gsb_real number = null_real;
     gint i = 0, sign;
-    gchar * separator, * tmp;
     gchar *string_tmp;
 
     if ( !string
@@ -239,8 +259,11 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
 
     string_tmp = my_strdup (string);
 
-    if ( default_mantissa > 0 )
+    /* if there is an exponent, finish the string at the good position of the exponent */
+    if ( default_exponent > 0 )
     {
+	gchar *separator, *tmp;
+
 	separator = strrchr ( string_tmp, '.' );
 	if ( ! separator )
 	    separator = strrchr ( string_tmp, ',' );
@@ -248,7 +271,7 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
 	if ( separator )
 	{
 	    tmp = string_tmp + strlen ( string_tmp ) - 1;
-	    while ( * tmp == '0' && ( tmp - separator > default_mantissa ) &&
+	    while ( * tmp == '0' && ( tmp - separator > default_exponent ) &&
 		    tmp >= string_tmp ) 
 	    {
 		* tmp = '\0';

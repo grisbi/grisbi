@@ -343,7 +343,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 	    gsb_status_message ( _("Autosaving") );
 
 	    /* we get only the name of the file, not the path */
-        backup_filename = utils_files_get_filename(filename,UTILS_FILES_BACKUP_FILENAME);
+	    backup_filename = utils_files_get_filename(filename,UTILS_FILES_BACKUP_FILENAME);
 	    gsb_file_save_save_file ( backup_filename,
 				      etat.compress_backup,
 				      FALSE );
@@ -364,7 +364,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 	    gsb_status_message ( _("Loading backup") );
 
 	    /* create the name of the backup */
-        backup_filename = utils_files_get_filename(filename,UTILS_FILES_BACKUP_FILENAME);
+	    backup_filename = utils_files_get_filename(filename,UTILS_FILES_BACKUP_FILENAME);
 	    /* try to load the backup */
 
 	    if ( gsb_file_load_open_file ( backup_filename ) )

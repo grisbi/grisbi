@@ -859,7 +859,7 @@ void modification_details_compte ( void )
 
 	/* update the headings balance */
 	string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (current_account),
-						     gsb_data_account_get_currency (current_account) );
+						     gsb_data_account_get_currency (current_account), TRUE );
 	gsb_gui_headings_update_suffix ( string );
 	g_free (string);
 

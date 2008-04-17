@@ -4,6 +4,11 @@
 #include "config.h"
 #include <sys/stat.h>
 
+enum get_filename_returned_value {
+    UTILS_FILES_FILENAME,
+    UTILS_FILES_BACKUP_FILENAME,
+};
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
@@ -14,6 +19,8 @@
 #endif
 
 /*START_DECLARATION*/
+gchar *utils_files_get_filename ( const gchar *filename,
+				  gint returned_string );
 gint get_line_from_file ( FILE *fichier,
 			  gchar **string );
 GtkWidget * my_file_chooser ();

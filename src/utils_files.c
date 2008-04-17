@@ -265,6 +265,54 @@ gchar * safe_file_name ( gchar* filename )
     return g_strdelimit ( my_strdup(filename), G_DIR_SEPARATOR_S, '_' );
 }
 
+/**
+ * extract the name frome the location and according to returned_string :
+ * UTILS_FILES_FILENAME : just return the name of the file
+ * UTILS_FILES_BACKUP_FILENAME : return /home/user_rep/.filename.bak
+ *
+ * \param filename
+ * \param returned_string
+ *
+ * \return a newly allocated string
+ * */
+gchar *utils_files_get_filename ( const gchar *filename,
+				  gint returned_string )
+{
+    gchar *string = NULL;
+    gchar **tab_char;
+    gint i;
+
+    /* remove the path */
+    tab_char = g_strsplit ( filename,
+			    C_DIRECTORY_SEPARATOR,
+			    0);
+    i=0;
+    while ( tab_char[i] )
+	i++;
+
+    /* now, tab_char[i-1] contains the name of the file */
+    switch (returned_string)
+    {
+	case UTILS_FILES_FILENAME:
+	    string = my_strdup (tab_char[i-1]);
+	    break;
+
+	case UTILS_FILES_BACKUP_FILENAME:
+	    string = g_strconcat ( my_get_gsb_file_default_dir(),
+				   C_DIRECTORY_SEPARATOR,
+#ifndef _WIN32
+				   ".",
+#endif
+				   tab_char [i-1],
+				   ".bak",
+				   NULL );
+	    break;
+    }
+    g_strfreev (tab_char);
+    return string;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

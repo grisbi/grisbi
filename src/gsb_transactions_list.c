@@ -1059,7 +1059,7 @@ gboolean gsb_transactions_list_fill_archive_store ( GtkTreeStore *store )
 				     gsb_data_archive_get_name (archive_number),
 				     gsb_data_archive_store_get_transactions_number (archive_store_number));
 	balance_str = gsb_real_get_string_with_currency (gsb_data_archive_store_get_balance (archive_store_number),
-							    gsb_data_archive_store_get_account_number (archive_store_number));
+							 gsb_data_archive_store_get_account_number (archive_store_number), TRUE);
 
 	date_col = find_element_col (TRANSACTION_LIST_DATE);
 	name_col = find_element_col (TRANSACTION_LIST_PARTY);
@@ -1218,7 +1218,7 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number 
 	gsb_transactions_list_move_to_current_transaction (account_number);
 
 	gsb_gui_headings_update_suffix ( gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-										gsb_data_account_get_currency (account_number)));
+										gsb_data_account_get_currency (account_number), TRUE));
     }
 
     /* on réaffichera l'accueil */
@@ -1465,7 +1465,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 		  &&
 		  gsb_data_transaction_get_amount ( transaction_number).mantissa >= 0 ))
 		return gsb_real_get_string_with_currency ( gsb_real_abs (gsb_data_transaction_get_amount ( transaction_number )),
-							   gsb_data_transaction_get_currency_number (transaction_number));
+							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 	    else
 		return NULL;
 	    break;
@@ -1927,7 +1927,7 @@ gboolean gsb_transactions_list_set_transactions_balances ( gint account_number )
 	current_total = gsb_real_add ( current_total,
 				       amount);
 	string = gsb_real_get_string_with_currency ( current_total,
-						     gsb_data_account_get_currency (account_number));
+						     gsb_data_account_get_currency (account_number), TRUE);
 
 	/* set the color */
 	if ( current_total.mantissa >= 0 )
@@ -1964,7 +1964,7 @@ gboolean gsb_transactions_list_set_transactions_balances ( gint account_number )
 
     /* update the headings balance */
     string = gsb_real_get_string_with_currency ( current_total,
-						 gsb_data_account_get_currency (account_number));
+						 gsb_data_account_get_currency (account_number), TRUE);
     gsb_gui_headings_update_suffix ( string );
     g_free (string);
 
@@ -3159,7 +3159,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
 
     /* update the headings balance */
     string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-						 gsb_data_account_get_currency (account_number) );
+						 gsb_data_account_get_currency (account_number), TRUE );
     gsb_gui_headings_update_suffix ( string );
     g_free (string);
 
@@ -3754,7 +3754,7 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
 	gsb_data_account_calculate_current_and_marked_balances (source_account);
 
 	gsb_gui_headings_update_suffix ( gsb_real_get_string_with_currency (gsb_data_account_get_current_balance (source_account ),
-									       gsb_data_account_get_currency (source_account)));
+									       gsb_data_account_get_currency (source_account), TRUE));
 	mise_a_jour_accueil (FALSE);
 
 	modification_fichier ( TRUE );
@@ -3789,7 +3789,7 @@ void move_selected_operation_to_account_nb ( gint *account )
 	gsb_data_account_calculate_current_and_marked_balances (source_account);
 
 	gsb_gui_headings_update_suffix ( gsb_real_get_string_with_currency (gsb_data_account_get_current_balance (source_account ),
-									       gsb_data_account_get_currency (source_account)));
+									       gsb_data_account_get_currency (source_account), TRUE));
 
 	modification_fichier ( TRUE );
     }
