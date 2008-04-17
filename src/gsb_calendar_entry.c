@@ -68,11 +68,6 @@ static void gsb_calendar_entry_step_date ( GtkWidget *entry,
 extern GtkWidget *window;
 /*END_EXTERN*/
 
-/** the 2 styles, red or normal, used in the date entry */
-/* TODO dOm : this array seems not to be used. Is it possible to remove it 
-static GtkStyle *calendar_base_style[2];
-*/
-
 #define ENTRY_NORMAL 0
 #define ENTRY_RED 1
 
@@ -430,6 +425,7 @@ gboolean gsb_calendar_entry_changed ( GtkWidget *entry,
 
     /* to check the date, we just try to see if can have a dote from the entry */
     date = gsb_parse_date_string (gtk_entry_get_text (GTK_ENTRY (entry)));
+
     if (date)
     {
 	/* the date is valid, make it normal */

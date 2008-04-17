@@ -229,9 +229,13 @@ gboolean gsb_date_check_entry ( GtkWidget *entry )
 }
 
 /**
+ * try to split a compact date into an understanding date
+ * ie 01042000 to 01/04/2000
  *
+ * \param string
+ * \param date_tokens
  *
- *
+ * \return NULL if not a date
  */
 gchar ** split_unique_datefield ( gchar * string, gchar date_tokens [] )
 {
@@ -241,7 +245,8 @@ gchar ** split_unique_datefield ( gchar * string, gchar date_tokens [] )
     gchar * max = string + size;
     int i = 0;
 
-    if ( size != 2 && size != 4 && size != 6 && size != 8 )
+    /* size 1 could be used for example if we write 1 to set 01/xx/xxxx */
+    if ( size != 1 && size != 2 && size != 4 && size != 6 && size != 8 )
     {
 	return NULL;
     }
@@ -321,11 +326,16 @@ GDate * gsb_parse_date_string ( const gchar *date_string )
 
     /* TODO: Check that m,d,Yy are present. */
     
+    /* replace all separators by . */
     g_strcanon ( string, "0123456789", '.' );
+
+    /* remove the . at the begining and ending of the string */
     while ( * string == '.' && * string ) string ++;
     while ( string [ strlen ( string ) - 1 ] == '.' && strlen ( string ) ) 
 	string [ strlen ( string )  - 1 ] = '\0';
     len = string + strlen ( string );
+
+    /* remove if there are some .. */
     while ( (tmp = strstr ( string, ".." )) )
     {
 	strncpy ( tmp, tmp+1, len - tmp );
@@ -333,6 +343,7 @@ GDate * gsb_parse_date_string ( const gchar *date_string )
     }
     *len = 0;
 
+    /* split the parts of the date */
     tab_date = g_strsplit_set ( string, ".", 0 );
     g_free ( orig );
 
@@ -340,6 +351,7 @@ GDate * gsb_parse_date_string ( const gchar *date_string )
 
     if ( num_fields == 1 )
     {
+	/* there is only 1 field in the date, try to split the number (ie 01042000 gives 01/04/2000) */
 	gchar ** new_tab_date = split_unique_datefield ( tab_date [ 0 ], date_tokens );
 	if ( ! new_tab_date )
 	    return NULL;
@@ -397,8 +409,12 @@ GDate * gsb_parse_date_string ( const gchar *date_string )
 		break;
 	}
     }
-
     g_strfreev ( tab_date );
+
+    /* need here to check if the date is valid, else an error occurs when
+     * write for example only 31, and the current month has only 30 days... */
+    if (!g_date_valid (date))
+	date = NULL;
     return date;
 }
 

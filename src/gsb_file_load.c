@@ -4262,7 +4262,8 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		{
 		    GDate *date = gsb_parse_date_string (attribute_values[i]);
 		    gsb_data_scheduled_set_date ( scheduled_number, date);
-		    g_date_free ( date );
+		    if (date)
+			g_date_free ( date );
 		}
 
 		if ( !strcmp ( attribute_names[i],
@@ -4369,7 +4370,8 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		{
 		    GDate* date = gsb_parse_date_string (attribute_values[i]);
 		    gsb_data_scheduled_set_limit_date ( scheduled_number, date);
-		    g_date_free ( date );
+		    if (date)
+			g_date_free ( date );
 		}
 
 		if ( !strcmp ( attribute_names[i],
@@ -4769,7 +4771,8 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		{
 		    GDate* date = gsb_parse_date_string (attribute_values[i]);
 		    gsb_data_fyear_set_begining_date ( fyear_number, date);
-		    g_date_free ( date );
+		    if (date)
+			g_date_free ( date );
 		}
 
 		if ( !strcmp ( attribute_names[i],
@@ -4777,7 +4780,8 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		{
 		    GDate* date = gsb_parse_date_string (attribute_values[i]);
 		    gsb_data_fyear_set_end_date ( fyear_number, date);
-		    g_date_free ( date );
+		    if (date)
+			g_date_free ( date );
 		}
 
 		if ( !strcmp ( attribute_names[i],

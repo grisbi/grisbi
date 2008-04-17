@@ -814,7 +814,6 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 	while (tmp_list)
 	{
 	    gint transaction_number;
-
 	    transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
 
 	    if ( g_date_compare ( init_gdate,
