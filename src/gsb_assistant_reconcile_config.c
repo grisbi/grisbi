@@ -72,7 +72,7 @@ static gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *ass
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeSelection * selection;
+extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 enum reconcile_assistant_page

@@ -77,7 +77,7 @@ static gboolean gsb_form_scheduler_set_limit_date ( GDate *date );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeSelection * selection;
+extern GtkTreeSelection * selection ;
 extern GtkTooltips *tooltips_general_grisbi;
 /*END_EXTERN*/
 

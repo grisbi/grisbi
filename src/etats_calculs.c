@@ -84,7 +84,6 @@ static gint ancien_tiers_etat;
 /*START_EXTERN*/
 extern gint ancien_compte_etat;
 extern gint ancien_tiers_etat;
-extern gint ancien_tiers_etat;
 extern gint ancienne_categ_etat;
 extern gint ancienne_categ_speciale_etat;
 extern gint ancienne_ib_etat;
@@ -128,9 +127,9 @@ extern const gchar *nom_ib_en_cours;
 extern const gchar *nom_ss_categ_en_cours;
 extern const gchar *nom_ss_ib_en_cours;
 extern const gchar *nom_tiers_en_cours;
-extern GtkWidget *notebook_general;
+extern GtkWidget *notebook_general ;
 extern gsb_real null_real ;
-extern GtkTreeSelection * selection;
+extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 

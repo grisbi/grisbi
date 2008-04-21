@@ -48,7 +48,7 @@ static gboolean gsb_category_assistant_change_choice ( GtkWidget *button,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

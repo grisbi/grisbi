@@ -25,6 +25,7 @@
 
 /*START_INCLUDE*/
 #include "navigation.h"
+#include "./balance_estimate_tab.h"
 #include "./echeancier_infos.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_currency.h"
@@ -48,14 +49,13 @@
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
 #include "./tiers_onglet.h"
-#include "./balance_estimate_tab.h"
+#include "./utils_files.h"
 #include "./fenetre_principale.h"
 #include "./gsb_data_account.h"
 #include "./include.h"
 #include "./balance_estimate_tab.h"
 #include "./erreur.h"
 #include "./structures.h"
-#include "./utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -100,14 +100,13 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source,
 
 
 /*START_EXTERN*/
-extern GtkTreeStore *budgetary_line_tree_model;
+extern GtkTreeStore *budgetary_line_tree_model ;
 extern GtkTreeStore * categ_tree_model;
 extern GtkWidget *label_last_statement ;
-extern GtkWidget *notebook_general;
-extern GtkTreeStore *payee_tree_model;
-extern GtkTreeSelection * selection;
-extern gchar *titre_fichier;
-extern GtkWidget *tree_view;
+extern GtkWidget *notebook_general ;
+extern GtkTreeStore *payee_tree_model ;
+extern GtkTreeSelection * selection ;
+extern gchar *titre_fichier ;
 /*END_EXTERN*/
 
 
@@ -244,8 +243,8 @@ GtkWidget * create_navigation_pane ( void )
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( navigation_tree_view ), 
 				  GTK_TREE_VIEW_COLUMN ( column ) );
     /* Account list */
-    gchar* tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     "resume.png", NULL );
+    gchar* tmpstr = g_build_filename ( PIXMAPS_DIR,
+				       "resume.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &account_iter, NULL);
@@ -262,8 +261,8 @@ GtkWidget * create_navigation_pane ( void )
     create_account_list ( GTK_TREE_MODEL(navigation_model) );
 
     /* Scheduler */
-    tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     "scheduler.png", NULL );
+    tmpstr = g_build_filename( PIXMAPS_DIR,
+			       "scheduler.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
@@ -279,8 +278,8 @@ GtkWidget * create_navigation_pane ( void )
 		       -1 );
 
     /* Payees */
-    tmpstr =  g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     "payees.png", NULL );
+    tmpstr =  g_build_filename( PIXMAPS_DIR,
+				"payees.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
@@ -297,8 +296,8 @@ GtkWidget * create_navigation_pane ( void )
 
 #ifdef ENABLE_BALANCE_ESTIMATE 
     /* Balance estimate */
-    tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     "balance_estimate.png", NULL );
+    tmpstr = g_build_filename( PIXMAPS_DIR,
+			       "balance_estimate.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
@@ -316,8 +315,8 @@ GtkWidget * create_navigation_pane ( void )
 
 
     /* Categories */
-    tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     "categories.png", NULL );
+    tmpstr = g_build_filename( PIXMAPS_DIR,
+			       "categories.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
@@ -333,8 +332,8 @@ GtkWidget * create_navigation_pane ( void )
 		       -1 );
 
     /* Budgetary lines */
-    tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     "budgetary_lines.png", NULL );
+    tmpstr = g_build_filename( PIXMAPS_DIR,
+			       "budgetary_lines.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
@@ -350,8 +349,8 @@ GtkWidget * create_navigation_pane ( void )
 		       -1 );
 
     /* Reports */
-    tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     "reports.png", NULL );
+    tmpstr = g_build_filename( PIXMAPS_DIR,
+			       "reports.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &reports_iter, NULL);
@@ -371,8 +370,8 @@ GtkWidget * create_navigation_pane ( void )
     if ( gsb_plugin_find ( "g2banking" ) )
     {
 	/* Gbanking */
-	gchar* tmpstr = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-							 "aqbanking.png", NULL );
+	gchar* tmpstr = g_build_filename( PIXMAPS_DIR,
+					  "aqbanking.png", NULL );
         pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
         g_free ( tmpstr );
 	gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
@@ -906,8 +905,8 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model,
     }
 
     gchar* tmpstr = g_strconcat( PIXMAPS_DIR, 
-						     C_DIRECTORY_SEPARATOR,
-						     account_icon, ".png", NULL );
+				 C_DIRECTORY_SEPARATOR,
+				 account_icon, ".png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_set(GTK_TREE_STORE(model), account_iter, 

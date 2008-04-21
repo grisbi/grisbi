@@ -76,10 +76,8 @@ static gboolean gsb_form_config_update_form_config ( gint account_number );
 
 /*START_EXTERN*/
 extern gint max;
-extern GtkWidget *preview;
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkWidget *tree_view;
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

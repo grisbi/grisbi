@@ -88,13 +88,12 @@ extern GdkColor breakdown_background;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern GtkWidget * navigation_tree_view;
-extern GtkWidget *scheduler_button_delete;
-extern GtkWidget *scheduler_button_edit;
-extern GtkWidget *scheduler_button_execute;
-extern GtkTreeSelection * selection;
-extern GtkWidget *tree_view;
-extern GtkWidget *window;
+extern GtkWidget * navigation_tree_view ;
+extern GtkWidget *scheduler_button_delete ;
+extern GtkWidget *scheduler_button_edit ;
+extern GtkWidget *scheduler_button_execute ;
+extern GtkTreeSelection * selection ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

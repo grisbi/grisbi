@@ -53,6 +53,7 @@
 #include "./gsb_fyear.h"
 #include "./menu.h"
 #include "./gsb_report.h"
+#include "./gsb_scheduler_list.h"
 #include "./structures.h"
 #include "./gsb_scheduler_list.h"
 #include "./include.h"
@@ -122,22 +123,21 @@ gchar *adresse_secondaire = NULL;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GtkTreeModel *bank_list_model ;
-extern gchar *chemin_logo;
+extern gchar *chemin_logo ;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
-extern GtkWidget *liste_categ_etat;
+extern GtkWidget *liste_categ_etat ;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern GtkWidget * navigation_tree_view;
-extern int no_devise_totaux_categ;
+extern GtkWidget * navigation_tree_view ;
+extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern gchar *nom_fichier_backup;
-extern GSList *scheduled_transactions_taken;
+extern gchar *nom_fichier_backup ;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
 extern GtkWidget *solde_label ;
 extern GtkWidget *solde_label_pointe ;

@@ -61,11 +61,11 @@ static void gsb_reconcile_sensitive ( gboolean sensitive );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *label_last_statement ;
 extern gint mise_a_jour_liste_comptes_accueil;
-extern GtkWidget * navigation_tree_view;
+extern GtkWidget * navigation_tree_view ;
 extern GtkWidget * reconcile_panel;
+extern GtkTooltips *tooltips_general_grisbi;
 extern GtkUIManager * ui_manager;
 /*END_EXTERN*/
 

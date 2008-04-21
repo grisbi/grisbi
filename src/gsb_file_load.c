@@ -48,6 +48,7 @@
 #include "./gsb_real.h"
 #include "./utils_str.h"
 #include "./traitement_variables.h"
+#include "./utils_files.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_form.h"
 #include "./gsb_scheduler_list.h"
@@ -60,7 +61,6 @@
 #include "./gsb_plugins.h"
 #include "./gsb_real.h"
 #include "./gsb_currency_config.h"
-#include "./utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -123,23 +123,23 @@ static gboolean gsb_file_load_update_previous_version ( void );
 
 
 /*START_EXTERN*/
-extern gchar *adresse_commune;
-extern gchar *adresse_secondaire;
+extern gchar *adresse_commune ;
+extern gchar *adresse_secondaire ;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
-extern gchar *chemin_logo;
+extern gchar *chemin_logo ;
 extern struct iso_4217_currency iso_4217_currencies[] ;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
-extern int no_devise_totaux_categ;
+extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern gchar *nom_fichier_backup;
+extern gchar *nom_fichier_backup ;
 extern gsb_real null_real ;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
-extern gchar *titre_fichier;
+extern gchar *titre_fichier ;
 extern gint transaction_col_width[TRANSACTION_LIST_COL_NB];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/

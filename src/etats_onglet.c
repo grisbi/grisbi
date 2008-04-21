@@ -79,10 +79,10 @@ static GtkWidget *reports_toolbar = NULL;
 extern struct struct_etat_affichage csv_affichage ;
 extern struct struct_etat_affichage html_affichage ;
 extern struct struct_etat_affichage latex_affichage ;
-extern GtkWidget *notebook_general;
-extern GtkTreeSelection * selection;
+extern GtkWidget *notebook_general ;
+extern GtkTreeSelection * selection ;
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 /** Different formats supported.  */

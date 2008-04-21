@@ -58,7 +58,6 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
 

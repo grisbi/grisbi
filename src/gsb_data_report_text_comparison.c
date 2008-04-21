@@ -87,9 +87,9 @@ typedef struct
 
 
 /*START_STATIC*/
+static  void _gsb_data_report_text_comparison_free ( struct_text_comparison* text_comparison );
 static  struct_text_comparison *gsb_data_report_text_comparison_get_struct_by_no ( gint text_comparison_number );
 static gint gsb_data_report_text_comparison_max_number ( void );
-static void _gsb_data_report_text_comparison_free ( struct_text_comparison* text_comparison );
 /*END_STATIC*/
 
 /*START_EXTERN*/

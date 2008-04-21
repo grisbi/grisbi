@@ -324,13 +324,13 @@ static GtkWidget * report_tree_view = NULL;
 
 
 /*START_EXTERN*/
-extern GtkWidget * navigation_tree_view;
-extern GtkWidget *notebook_config_etat;
-extern GtkWidget *notebook_etats;
-extern GtkWidget *notebook_general;
-extern GtkWidget *onglet_config_etat;
-extern GtkTreeSelection * selection;
-extern GtkWidget *window;
+extern GtkWidget * navigation_tree_view ;
+extern GtkWidget *notebook_config_etat ;
+extern GtkWidget *notebook_etats ;
+extern GtkWidget *notebook_general ;
+extern GtkWidget *onglet_config_etat ;
+extern GtkTreeSelection * selection ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

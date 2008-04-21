@@ -29,6 +29,7 @@
 #include "utils_files.h"
 #include "./dialog.h"
 #include "./utils_file_selection.h"
+#include "./utils_dates.h"
 #include "./gsb_file.h"
 #include "./utils_str.h"
 #include "./utils_file_selection.h"
@@ -41,7 +42,7 @@ static void browse_file ( GtkButton *button, gpointer data );
 
 
 /*START_EXTERN*/
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 
@@ -266,52 +267,70 @@ gchar * safe_file_name ( gchar* filename )
 }
 
 /**
- * extract the name frome the location and according to returned_string :
- * UTILS_FILES_FILENAME : just return the name of the file
- * UTILS_FILES_BACKUP_FILENAME : return /home/user_rep/.filename.bak
+ * create a full path backup name from the filename
+ * using the backup repertory and add the date and .bak
  *
  * \param filename
- * \param returned_string
  *
  * \return a newly allocated string
  * */
-gchar *utils_files_get_filename ( const gchar *filename,
-				  gint returned_string )
+gchar *utils_files_create_backup_name ( const gchar *filename )
 {
-    gchar *string = NULL;
-    gchar **tab_char;
-    gint i;
+    gchar *string;
+    gchar *tmp_name;
+    GDate *today;
+    gchar **split;
+    gchar *inserted_string;
 
-    /* remove the path */
-    tab_char = g_strsplit ( filename,
-			    C_DIRECTORY_SEPARATOR,
-			    0);
-    i=0;
-    while ( tab_char[i] )
-	i++;
+    /* get the filename */
+    tmp_name = g_path_get_basename (filename);
 
-    /* now, tab_char[i-1] contains the name of the file */
-    switch (returned_string)
+    /* create the string to insert into the backup name */
+    today = gdate_today ();
+    inserted_string = g_strdup_printf ( "-%d_%d_%d-backup",
+					g_date_year (today),
+					g_date_month (today),
+					g_date_day (today));
+    g_date_free (today);
+
+    /* insert the date and backup before .gsb if it exists */
+    split = g_strsplit ( tmp_name,
+			 ".",
+			 0 );
+    g_free (tmp_name);
+
+    if (split[1])
     {
-	case UTILS_FILES_FILENAME:
-	    string = my_strdup (tab_char[i-1]);
-	    break;
+	/* have extension */
+	gchar *tmpstr, *tmp_end;
 
-	case UTILS_FILES_BACKUP_FILENAME:
-	    string = g_strconcat ( my_get_gsb_file_default_dir(),
-				   C_DIRECTORY_SEPARATOR,
-#ifndef _WIN32
-				   ".",
-#endif
-				   tab_char [i-1],
-				   ".bak",
-				   NULL );
-	    break;
+	tmp_end = g_strconcat ( inserted_string,
+				".",
+				split[g_strv_length (split) - 1],
+				NULL );
+	split[g_strv_length (split) - 1] = NULL;
+
+	tmpstr = g_strjoinv ( ".",
+			      split );
+	tmp_name = g_strconcat ( tmpstr,
+				 tmp_end,
+				 NULL );
+	g_free (tmpstr);
+	g_free (tmp_end);
     }
-    g_strfreev (tab_char);
+    else
+	tmp_name = g_strconcat ( split[0],
+				 inserted_string,
+				 NULL );
+
+    g_strfreev (split);
+
+    string = g_build_filename ( gsb_file_get_backup_path (),
+				tmp_name,
+				NULL );
+    g_free (tmp_name);
     return string;
 }
-
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

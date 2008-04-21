@@ -50,7 +50,6 @@ enum periodicity_units {
 
 
 /* START_DECLARATION */
-void gsb_scheduler_list_init_variables ( void );
 void gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 					       GDate *end_date );
 gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity periodicity );
@@ -66,6 +65,7 @@ gint gsb_scheduler_list_get_current_scheduled_number ( void );
 GDate *gsb_scheduler_list_get_end_date_scheduled_showed ( void );
 gint gsb_scheduler_list_get_last_scheduled_number ( void );
 GtkWidget *gsb_scheduler_list_get_tree_view ( void );
+void gsb_scheduler_list_init_variables ( void );
 gboolean gsb_scheduler_list_remove_transaction_from_list ( gint scheduled_number );
 gboolean gsb_scheduler_list_select ( gint scheduled_number );
 gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view );

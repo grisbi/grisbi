@@ -39,6 +39,7 @@
 #include "./utils_files.h"
 #include "./print_config.h"
 #include "./structures.h"
+#include "./utils_files.h"
 #include "./utils_buttons.h"
 #include "./print_config.h"
 #include "./include.h"
@@ -61,20 +62,17 @@ extern GtkWidget *main_hpaned ;
 extern gint max;
 extern struct conditional_message messages[] ;
 extern gint nb_days_before_scheduled;
-extern gchar *nom_fichier_comptes;
-extern GtkWidget *window;
+extern gchar *nom_fichier_comptes ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 gint largeur_window;
 gint hauteur_window;
-static gchar *buffer_dernier_fichier;
 
 /* contient le nb de derniers fichiers ouverts */
-
 gsize nb_derniers_fichiers_ouverts = 0;
 
 /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( réglé dans les paramètres ) */
-
 gint nb_max_derniers_fichiers_ouverts = 0;
 gchar **tab_noms_derniers_fichiers_ouverts = NULL;
 
@@ -89,7 +87,7 @@ PangoFontDescription *pango_desc_fonte_liste;
  *
  * \param
  *
- * \return TRUE if ok
+ * \return TRUE if ok, FALSE if not found, usually for a new opening
  * */
 gboolean gsb_file_config_load_config ( void )
 {
@@ -107,16 +105,13 @@ gboolean gsb_file_config_load_config ( void )
 					 filename,
 					 G_KEY_FILE_KEEP_COMMENTS,
 					 NULL );
-    
     /* if key_file couldn't load the conf, it's because it's the last
      * conf (xml) or no conf... try the xml conf */
-    
     if (!result)
     {
 	result = gsb_file_config_load_last_xml_config (filename);
 	g_free (filename);
 	g_key_file_free (config);
-
 	return FALSE;
     }
 
@@ -835,9 +830,11 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 	     ||
 	     !strlen (gsb_file_get_last_path ()))
         {
-	    gchar* tmpstr = g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL );
-	    gsb_file_update_last_path ( tmpstr );
-	    g_free ( tmpstr );
+	    gsb_file_update_last_path (g_get_home_dir ());
+/* xxx à vérif par françois que le dessus marche pour win, si oui virer ce dessous et le my_get_gsb_file_default_dir */
+/* 	    gchar* tmpstr = g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL ); */
+/* 	    gsb_file_update_last_path ( tmpstr ); */
+/* 	    g_free ( tmpstr ); */
 	}
 	return;
     }
@@ -1123,6 +1120,8 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 
 /**
  * Set all the config variables to their default values.
+ * called before loading the config
+ * or for a new opening
  */
 void gsb_file_config_clean_config ( void )
 {
@@ -1134,7 +1133,6 @@ void gsb_file_config_clean_config ( void )
 
     etat.r_modifiable = 0;       /* on ne peux modifier les opé relevées */
     etat.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
-    buffer_dernier_fichier = my_strdup ( "" );
     etat.sauvegarde_auto = 0;    /* on ne sauvegarde pas automatiquement */
     etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
     nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
@@ -1153,9 +1151,11 @@ void gsb_file_config_clean_config ( void )
     etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
     etat.affiche_boutons_valider_annuler = 1;
     etat.classement_par_date = 1;
-    gchar* tmpstr = g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL );
-    gsb_file_update_last_path ( tmpstr );
-    g_free ( tmpstr );
+    gsb_file_update_last_path (g_get_home_dir ());
+/* xxx à vérif par françois que le dessus marche pour win, si oui virer ce dessous et le my_get_gsb_file_default_dir */
+/*     gchar* tmpstr = g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL ); */
+/*     gsb_file_update_last_path ( tmpstr ); */
+/*     g_free ( tmpstr ); */
     nb_derniers_fichiers_ouverts = 0;
     nb_max_derniers_fichiers_ouverts = 3;
     tab_noms_derniers_fichiers_ouverts = NULL;
@@ -1174,7 +1174,7 @@ void gsb_file_config_clean_config ( void )
     /* TODO dOm : use a copy of string so that we can free it */
     etat.latex_command = "latex";
     etat.dvips_command = "dvips";
-    etat.browser_command = ETAT_WWW_BROWSER;
+    etat.browser_command = g_strdup (ETAT_WWW_BROWSER);
 
     /* Print */
     etat.print_config.printer = 0;

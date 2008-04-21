@@ -41,7 +41,10 @@
 gsb_real null_real = { 0 , 0 };
 
 /*START_STATIC*/
-static gchar *gsb_real_format_string ( gsb_real number, gint currency_number, gboolean show_symbol );
+static gchar *gsb_real_format_string ( gsb_real number,
+				gint currency_number,
+				gboolean show_symbol );
+static gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default_exponent );
 static gboolean gsb_real_normalize ( gsb_real *number_1,
 			      gsb_real *number_2 );
 static gdouble gsb_real_real_to_double ( gsb_real number );
@@ -118,12 +121,11 @@ gchar *gsb_real_format_string ( gsb_real number,
     gint i = 0, j=0;
     glong num;
     const gchar *currency_symbol = NULL;
-/* xxx vient de compiler, semble marcher mais chiffres des l'accueil délirants, à vérif */
+
     if (currency_number && show_symbol)
 	currency_symbol = gsb_data_currency_get_code (currency_number);
 
     /* FIXME : should return 0.00 according to the currency and no 0 */
-    /* xxx dépend de la devise... */
     if (number.mantissa == 0)
 	return g_strdup_printf ( "%s%s%s0%c00%s%s", 
 				 ( currency_symbol && conv -> p_cs_precedes ? currency_symbol : "" ),
@@ -322,18 +324,6 @@ gsb_real gsb_real_get_from_string_normalized ( const gchar *string, gint default
 	}
 	i++;
     }
-
-    /* if there were no . or , we should add some 0 after the ,
-     * but it depends of the exponent of the currency */
-/* xxx le pb est ici, qd met pas de , il faut ajouter les 0 derrière en fonction */
-/*     de la devise, or pas de notion de devise ici... ça devrait pas se faire */
-/*     ici mais à l'affichage [update avant de partir] */
-/*     de même que ds échéances (peut être opés ?) si rentre un débit il apparait comme crédit dans la liste d'échéances */
-/*     if ( ! number.exponent ) */
-/*     { */
-/* 	number.exponent = strlen ( string ); */
-/* 	number.mantissa *= 100; */
-/*     } */
 
     number.mantissa = sign * number.mantissa;
     g_free (string_tmp);

@@ -71,11 +71,11 @@ static  void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget,
 
 
 /*START_EXTERN*/
-extern GtkTreeModel * navigation_model;
+extern GtkTreeModel * navigation_model ;
 extern gsize nb_derniers_fichiers_ouverts ;
 extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

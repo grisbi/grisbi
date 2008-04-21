@@ -91,9 +91,8 @@ static void supprimer_transaction ( GtkTreeView * tree_view, GtkTreeModel * mode
 
 
 /*START_EXTERN*/
-extern GtkTreeModel * navigation_model;
-extern GtkTreeSelection * selection;
-extern GtkWidget *tree_view;
+extern GtkTreeModel * navigation_model ;
+extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 

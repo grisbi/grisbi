@@ -58,8 +58,7 @@ static gboolean gsb_reconcile_sort_config_update_account_sort_list ( gint accoun
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeSelection * selection;
-extern GtkWidget *tree_view;
+extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 static GtkWidget *reconcile_treeview;

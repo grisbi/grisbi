@@ -75,8 +75,8 @@ extern GdkColor couleur_solde_alarme_verte_prelight;
 extern gsb_real null_real ;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
-extern gchar *titre_fichier;
-extern GtkWidget *window;
+extern gchar *titre_fichier ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 gchar *chemin_logo = NULL;

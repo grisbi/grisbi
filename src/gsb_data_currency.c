@@ -48,10 +48,10 @@ typedef struct
 } struct_currency;
 
 /*START_STATIC*/
+static  void _gsb_data_currency_free ( struct_currency *currency );
 static gpointer gsb_data_currency_get_structure ( gint currency_number );
 static gint gsb_data_currency_max_number ( void );
 static gboolean gsb_data_currency_set_default_currency ( gint currency_number );
-static void _gsb_data_currency_free ( struct_currency *currency );
 /*END_STATIC*/
 
 /*START_EXTERN*/

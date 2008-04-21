@@ -82,6 +82,8 @@ typedef struct
 
 
 /*START_STATIC*/
+static void _gsb_data_category_free ( struct_category *category );
+static void _gsb_data_sub_category_free ( struct_sub_category *sub_category );
 static GSList *gsb_data_category_append_sub_category_to_list ( GSList *category_list,
 							GSList *sub_category_list );
 static gint gsb_data_category_get_pointer_from_name_in_glist ( struct_category *category,
@@ -100,8 +102,6 @@ static gint gsb_data_category_new_sub_category ( gint category_number,
 					  const gchar *name );
 static void gsb_data_category_reset_counters ( void );
 static gint gsb_data_sub_category_compare ( struct_sub_category * a, struct_sub_category * b );
-void _gsb_data_category_free ( struct_category *category );
-void _gsb_data_sub_category_free ( struct_sub_category *sub_category );
 /*END_STATIC*/
 
 /*START_EXTERN*/

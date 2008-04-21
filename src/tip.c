@@ -28,8 +28,6 @@
 #include "./dialog.h"
 #include "./gsb_automem.h"
 #include "./utils_str.h"
-#include "./utils_files.h"
-#include "./gsb_file_config.h"
 #include "./include.h"
 #include "./structures.h"
 #define END_INCLUDE
@@ -141,8 +139,8 @@ gchar * get_next_tip ()
   gsize length;
 
   // If there any problem during tip file reading, return NULL 
-  if ( ! g_file_get_contents ( g_strconcat ( DATA_PATH, C_DIRECTORY_SEPARATOR, "tips.txt", 
-					     NULL ),
+  if ( ! g_file_get_contents ( g_build_filename ( DATA_PATH, "tips.txt", 
+						  NULL ),
 			       &buffer, &length, NULL ) )
   {
       return NULL;

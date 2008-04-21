@@ -31,6 +31,7 @@ enum preference_page  {
 
 
 /*START_DECLARATION*/
+gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data );
 void preferences ( gint page );
 /*END_DECLARATION*/
 

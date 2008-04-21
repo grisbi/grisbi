@@ -37,7 +37,6 @@
 #include "./traitement_variables.h"
 #include "./utils_files.h"
 #include "./utils_str.h"
-#include "./gsb_file_config.h"
 #include "./include.h"
 #include "./structures.h"
 /*END_INCLUDE*/
@@ -53,7 +52,7 @@ static GtkWidget * print_backtrace ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *nom_fichier_comptes;
+extern gchar *nom_fichier_comptes ;
 /*END_EXTERN*/
 
 
@@ -99,23 +98,12 @@ void traitement_sigsegv ( gint signal_nb )
         gsb_file_default_dir = (gchar *) my_get_gsb_file_default_dir();
 
 	if ( nom_fichier_comptes )
-	{
-	    /* on récupère le nome du fichier sans le chemin */
-
-	    gchar **parametres;
-	    gint i=0;
-	    parametres = g_strsplit ( nom_fichier_comptes, C_DIRECTORY_SEPARATOR, 0);
-
-	    while ( parametres[i] )
-		i++;
-
-	    nom_fichier_comptes = g_strconcat ( gsb_file_default_dir, "/#", parametres [i-1], 
-						"#", NULL );
-	    g_strfreev ( parametres );
-	}
+	    /* set # around the filename */
+	    nom_fichier_comptes = g_path_get_basename (nom_fichier_comptes);
 	else
+	    /* no name for the file, create it */
 	    nom_fichier_comptes = g_strconcat ( gsb_file_default_dir,
-						"/#grisbi_plantage_sans_nom#",
+						"/#grisbi_crash_no_name#",
 						NULL );
 
 	gsb_status_message ( _("Save file") );

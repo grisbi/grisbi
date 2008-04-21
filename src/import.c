@@ -65,7 +65,6 @@
 #include "./gsb_form_scheduler.h"
 #include "./include.h"
 #include "./erreur.h"
-#include "./utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -105,10 +104,7 @@ static void pointe_opes_importees ( struct struct_compte_importation *imported_a
 /*START_EXTERN*/
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern GSList * plugins ;
-extern GtkWidget *preview;
-extern GtkWidget *tree_view;
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 
@@ -270,8 +266,8 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     paddingbox = new_paddingbox_with_title ( vbox, TRUE, _("Choose file to import"));
     
     chooser = gtk_button_new_with_label ( _("Add file to import..." ));
-    gchar* tmpstr = g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-								   "import.png", NULL );
+    gchar* tmpstr = g_build_filename ( PIXMAPS_DIR,
+				       "import.png", NULL );
     gtk_button_set_image ( GTK_BUTTON(chooser), 
 			   gtk_image_new_from_file ( tmpstr ) );
     g_free ( tmpstr );
@@ -999,21 +995,9 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     if ( compte -> filename )
-    {
-	short_filename = g_strrstr ( compte -> filename, C_DIRECTORY_SEPARATOR );
-	if ( ! short_filename )
-	{
-	    short_filename = compte -> filename;
-	}
-	else 
-	{
-	    short_filename ++;
-	}
-    }
+	short_filename = g_path_get_basename (compte -> filename);
     else
-    {
-	short_filename = _("file");
-    }
+	short_filename = g_strdup (_("file"));
 
     label = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
@@ -1023,6 +1007,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 					     compte -> nom_de_compte, short_filename );
     gtk_label_set_markup ( GTK_LABEL ( label ), tmpstr );
     g_free ( tmpstr );
+    g_free (short_filename);
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
 
     /* New account */

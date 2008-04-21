@@ -30,7 +30,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_assistant.h"
-#include "./utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -39,7 +38,7 @@ static gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookP
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 
@@ -102,7 +101,7 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
     if (!image_filename)
 	image_filename = "grisbi.png";
 
-    tmpstr = g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR, image_filename, NULL);
+    tmpstr = g_build_filename ( PIXMAPS_DIR, image_filename, NULL);
     image = gtk_image_new_from_file ( tmpstr );
     g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX(hbox), image, FALSE, FALSE, 0 );

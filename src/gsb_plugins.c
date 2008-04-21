@@ -24,7 +24,6 @@
 /*START_INCLUDE*/
 #include "gsb_plugins.h"
 #include "./dialog.h"
-#include "./utils_files.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
@@ -65,8 +64,8 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	if ( strncmp ( filename + ( strlen ( filename ) - 3 ), ".so", 3 ) )
 	    continue;
 
-	complete_filename = g_strconcat ( PLUGINS_DIR, C_DIRECTORY_SEPARATOR,
-					  filename, NULL );
+	complete_filename = g_build_filename ( PLUGINS_DIR,
+					       filename, NULL );
 
 	if ( ! ( plugin -> handle = 
 		 g_module_open (complete_filename, 0 ) ) )

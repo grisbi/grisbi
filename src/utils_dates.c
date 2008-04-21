@@ -245,7 +245,7 @@ gchar ** split_unique_datefield ( gchar * string, gchar date_tokens [] )
     gchar * max = string + size;
     int i = 0;
 
-    /* size 1 could be used for example if we write 1 to set 01/xx/xxxx */
+    /* size 1 could be used for example if we write 1 to set 01/mm/yyyy */
     if ( size != 1 && size != 2 && size != 4 && size != 6 && size != 8 )
     {
 	return NULL;

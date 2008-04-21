@@ -45,17 +45,18 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint bet_date_sort_function (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data);
+static  void bet_account_selection_changed (GtkTreeSelection *treeselection, gpointer user_data);
+static  gint bet_date_sort_function (GtkTreeModel *model, GtkTreeIter *itera, GtkTreeIter *iterb, gpointer user_data);
 static  void bet_duration_button_clicked (GtkToggleButton *togglebutton, gpointer data);
+static  void bet_estimate_refresh();
 static  gboolean bet_update_average_column (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
-static void bet_estimate_refresh();
+static  gboolean bet_update_graph (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern gsb_real null_real ;
-extern GtkTreeSelection * selection;
-extern GtkWidget *tree_view;
-extern GtkWidget *window;
+extern GtkTreeSelection * selection ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

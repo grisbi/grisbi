@@ -61,27 +61,25 @@ static void update_font_button(GtkWidget * name_label,
 			GtkWidget * size_label,
 			gchar * fontname);
 static void update_fonte_listes ( void );
-static gboolean update_homepage_title (GtkEntry *entry, gchar *value, 
-				gint length, gint * position);
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
-extern gchar *adresse_commune;
-extern gchar *adresse_secondaire;
-extern GtkWidget *arbre_tiers;
-extern gchar *chemin_logo;
-extern GtkWidget *entree_adresse_commune;
-extern GtkWidget *entree_adresse_secondaire;
-extern GtkWidget *entree_titre_fichier;
-extern GtkWidget *fenetre_preferences;
+extern gchar *adresse_commune ;
+extern gchar *adresse_secondaire ;
+extern GtkWidget *arbre_tiers ;
+extern gchar *chemin_logo ;
+extern GtkWidget *entree_adresse_commune ;
+extern GtkWidget *entree_adresse_secondaire ;
+extern GtkWidget *entree_titre_fichier ;
+extern GtkWidget *fenetre_preferences ;
 extern gint hauteur_ligne_liste_opes;
-extern GtkWidget *hbox_title;
-extern GtkWidget *label_titre_fichier;
-extern GtkWidget *logo_accueil;
+extern GtkWidget *hbox_title ;
+extern GtkWidget *label_titre_fichier ;
+extern GtkWidget *logo_accueil ;
 extern PangoFontDescription *pango_desc_fonte_liste;
-extern gchar *titre_fichier;
-extern GtkWidget *window;
+extern gchar *titre_fichier ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 
@@ -683,15 +681,18 @@ gboolean modification_logo_accueil ( )
 gboolean update_homepage_title (GtkEntry *entry, gchar *value, 
 				gint length, gint * position)
 {
-    gtk_label_set_text ( GTK_LABEL(label_titre_fichier), 
-			 (gchar *) gtk_entry_get_text (GTK_ENTRY (entry)) );
+    /* at the first use of grisbi,label_titre_fichier doesn't still exist */
+    if (label_titre_fichier)
+    {
+	gtk_label_set_text ( GTK_LABEL(label_titre_fichier), 
+			     (gchar *) gtk_entry_get_text (GTK_ENTRY (entry)) );
 
-    gchar* tmpstr = g_strconcat ("<span size=\"x-large\">",
-					(gchar *) gtk_entry_get_text (GTK_ENTRY (entry)),
-					"</span>", NULL );
-    gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr );
-    g_free ( tmpstr );
-
+	gchar* tmpstr = g_strconcat ("<span size=\"x-large\">",
+				     (gchar *) gtk_entry_get_text (GTK_ENTRY (entry)),
+				     "</span>", NULL );
+	gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr );
+	g_free ( tmpstr );
+    }
     /* Update window title */
     gsb_file_update_window_title();
 

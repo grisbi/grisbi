@@ -62,9 +62,9 @@ typedef struct
 } struct_archive;
 
 /*START_STATIC*/
+static  void _gsb_data_archive_free ( struct_archive* archive);
 static gpointer gsb_data_archive_get_structure ( gint archive_number );
 static gint gsb_data_archive_max_number ( void );
-static void _gsb_data_archive_free ( struct_archive* archive);
 /*END_STATIC*/
 
 /*START_EXTERN*/

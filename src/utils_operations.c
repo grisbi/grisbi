@@ -44,11 +44,11 @@ static void update_transaction_in_payee_tree ( gint transaction_number );
 
 /*START_EXTERN*/
 extern MetatreeInterface * budgetary_interface ;
-extern GtkTreeStore *budgetary_line_tree_model;
+extern GtkTreeStore *budgetary_line_tree_model ;
 extern GtkTreeStore * categ_tree_model;
 extern MetatreeInterface * category_interface ;
 extern MetatreeInterface * payee_interface ;
-extern GtkTreeStore *payee_tree_model;
+extern GtkTreeStore *payee_tree_model ;
 /*END_EXTERN*/
 
 

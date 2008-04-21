@@ -96,10 +96,10 @@ typedef struct
 
 
 /*START_STATIC*/
+static  void _gsb_data_transaction_free ( struct_transaction *transaction);
 static gint gsb_data_transaction_get_last_white_number (void);
 static struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transaction_number );
 static gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction );
-static void _gsb_data_transaction_free ( struct_transaction *transaction);
 /*END_STATIC*/
 
 /*START_EXTERN*/

@@ -19,8 +19,6 @@ enum get_filename_returned_value {
 #endif
 
 /*START_DECLARATION*/
-gchar *utils_files_get_filename ( const gchar *filename,
-				  gint returned_string );
 gint get_line_from_file ( FILE *fichier,
 			  gchar **string );
 GtkWidget * my_file_chooser ();
@@ -29,7 +27,8 @@ gchar* my_get_gsb_file_default_dir(void);
 gchar * safe_file_name ( gchar* filename );
 FILE* utf8_fopen(const gchar* utf8filename,gchar* mode);
 gint utf8_remove(const gchar* utf8filename);
-gint utf8_stat(const gchar* ,struct stat*);
+gint utf8_stat(const gchar* utf8filename, struct stat* p_stat);
+gchar *utils_files_create_backup_name ( const gchar *filename );
 /*END_DECLARATION*/
 
 #endif

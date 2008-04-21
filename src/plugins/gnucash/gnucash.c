@@ -39,7 +39,6 @@
 
 /*START_EXTERN*/
 extern gsb_real null_real ;
-extern gchar * tempname;
 /*END_EXTERN*/
 
 /*START_STATIC*/

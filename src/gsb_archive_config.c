@@ -47,7 +47,6 @@
 #include "./comptes_gestion.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
-#include "./utils_files.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
@@ -79,9 +78,8 @@ static  gboolean gsb_archive_config_select ( GtkTreeSelection *selection,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeSelection * selection;
-extern GtkWidget *tree_view;
-extern GtkWidget *window;
+extern GtkTreeSelection * selection ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 /**
@@ -211,7 +209,7 @@ GtkWidget *gsb_archive_config_create ( void )
 		       "clicked",
 		       G_CALLBACK (gsb_archive_config_delete_archive),
 		       archive_treeview );
-    gchar* tmpstr = g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR, "import.png", NULL );
+    gchar* tmpstr = g_build_filename ( PIXMAPS_DIR, "import.png", NULL );
     gtk_button_set_image ( GTK_BUTTON(button), 
 			   gtk_image_new_from_file ( tmpstr ) );
     g_free ( tmpstr );
@@ -228,7 +226,7 @@ GtkWidget *gsb_archive_config_create ( void )
 		       "clicked",
 		       G_CALLBACK (gsb_archive_config_destroy_archive),
 		       archive_treeview );
-    tmpstr = g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR, "import.png", NULL );
+    tmpstr = g_build_filename ( PIXMAPS_DIR, "import.png", NULL );
     g_free ( tmpstr );
     gtk_button_set_image ( GTK_BUTTON(button), 
 			   gtk_image_new_from_file ( tmpstr ) );

@@ -56,10 +56,10 @@ typedef struct
 } struct_currency_link;
 
 /*START_STATIC*/
+static  void _g_data_currency_link_free ( struct_currency_link *currency_link );
 static gboolean gsb_data_currency_link_check_for_invalid ( gint currency_link_number );
 static gpointer gsb_data_currency_link_get_structure ( gint currency_link_number );
 static gint gsb_data_currency_link_max_number ( void );
-static void _g_data_currency_link_free ( struct_currency_link *currency_link );
 /*END_STATIC*/
 
 /*START_EXTERN*/

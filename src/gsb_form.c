@@ -95,9 +95,9 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget * navigation_tree_view;
-extern GtkTreeSelection * selection;
-extern GtkWidget *window;
+extern GtkWidget * navigation_tree_view ;
+extern GtkTreeSelection * selection ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

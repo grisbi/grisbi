@@ -67,9 +67,9 @@ typedef struct
 
 
 /*START_STATIC*/
+static  void _gsb_data_report_amount_comparison_free ( struct_amount_comparison *amount_comparison );
 static  struct_amount_comparison *gsb_data_report_amount_comparison_get_struct_by_no ( gint amount_comparison_number );
 static gint gsb_data_report_amount_comparison_max_number ( void );
-static void _gsb_data_report_amount_comparison_free ( struct_amount_comparison *amount_comparison );
 /*END_STATIC*/
 
 /*START_EXTERN*/

@@ -57,7 +57,6 @@
 #include "./structures.h"
 #include "./include.h"
 #include "./erreur.h"
-#include "./utils_files.h"
 /*END_INCLUDE*/
 
 
@@ -65,6 +64,8 @@
 static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
 					  GdkEventWindowState *event,
 					  gpointer null );
+static  gboolean main_window_delete_event (GtkWidget *window, gpointer data);;
+static  void main_window_destroy_event( GObject* obj, gpointer data);;
 /*END_STATIC*/
 
 
@@ -79,7 +80,7 @@ GtkTooltips *tooltips_general_grisbi;
 /*START_EXTERN*/
 extern gint hauteur_window;
 extern gint largeur_window;
-extern gchar *nom_fichier_comptes;
+extern gchar *nom_fichier_comptes ;
 /*END_EXTERN*/
 
 static void main_window_destroy_event( GObject* obj, gpointer data);
@@ -165,7 +166,7 @@ int main (int argc, char **argv)
 #endif
 
     /* create the icon of grisbi (set in the panel of gnome or other) */
-    string = g_strconcat ( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR, "grisbi.png", NULL );
+    string = g_build_filename ( PIXMAPS_DIR, "grisbi.png", NULL );
     if (g_file_test ( string,
 		      G_FILE_TEST_EXISTS ))
 	gtk_window_set_default_icon_from_file ( string,

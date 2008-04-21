@@ -83,11 +83,11 @@ typedef struct
 
 
 /*START_STATIC*/
+static  void _gsb_data_scheduled_free ( struct_scheduled *scheduled);
 static gint gsb_data_scheduled_get_last_number (void);
 static gint gsb_data_scheduled_get_last_white_number (void);
 static struct_scheduled *gsb_data_scheduled_get_scheduled_by_no ( gint scheduled_number );
 static gboolean gsb_data_scheduled_save_scheduled_pointer ( gpointer scheduled );
-static void _gsb_data_scheduled_free ( struct_scheduled *scheduled);
 /*END_STATIC*/
 
 /*START_EXTERN*/

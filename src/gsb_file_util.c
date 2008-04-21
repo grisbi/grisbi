@@ -40,7 +40,7 @@
 
 
 /*START_EXTERN*/
-extern gchar *nom_fichier_comptes;
+extern gchar *nom_fichier_comptes ;
 /*END_EXTERN*/
 
 

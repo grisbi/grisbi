@@ -64,9 +64,9 @@ gint no_devise_totaux_categ;
 
 /*START_EXTERN*/
 extern MetatreeInterface * category_interface ;
-extern GtkTreeSelection * selection;
+extern GtkTreeSelection * selection ;
 extern GtkTooltips *tooltips_general_grisbi;
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

@@ -66,7 +66,7 @@ static  void set_menu_to_default (GOCharmapSel *cs, gint item);
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeSelection * selection;
+extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 

@@ -28,7 +28,6 @@
 #include "utils_buttons.h"
 #include "./utils.h"
 #include "./utils_str.h"
-#include "./utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -36,7 +35,7 @@
 
 
 /*START_EXTERN*/
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 
@@ -102,8 +101,8 @@ GtkWidget * new_image_label ( GsbButtonStyle style, const gchar * image_name, co
     /* Define image */
     if ( style == GSB_BUTTON_ICON || style == GSB_BUTTON_BOTH )
     {
-	image = gtk_image_new_from_file (g_strconcat(PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     image_name, NULL));
+	image = gtk_image_new_from_file (g_build_filename (PIXMAPS_DIR,
+							   image_name, NULL));
 	gtk_box_pack_start ( GTK_BOX(vbox), image, TRUE, TRUE, 0 );
     }
 

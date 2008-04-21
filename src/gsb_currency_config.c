@@ -44,15 +44,14 @@
 #include "./imputation_budgetaire.h"
 #include "./tiers_onglet.h"
 #include "./structures.h"
+#include "./utils_files.h"
 #include "./include.h"
 #include "./erreur.h"
-#include "./utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static void gsb_currency_append_currency_to_list ( GtkListStore *model,
 					    gint currency_number );
-static GtkWidget *gsb_currency_config_create_box_popup (void);
 static gint gsb_currency_config_create_currency ( const gchar *currency_name,
 					   const gchar *currency_code, 
 					   const gchar *currency_isocode,
@@ -71,21 +70,18 @@ static void gsb_currency_config_remove_selected_from_view ( GtkTreeView * tree_v
 static gboolean gsb_currency_config_select_currency ( GtkTreeSelection *selection,
 					       gpointer null );
 static gboolean gsb_currency_config_select_currency_popup ( GtkTreeSelection *selection, GtkTreeModel *model );
-static gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTreePath * path, 
-					      GtkTreeIter * iter, GtkTreeView * tree_view );
 static gboolean gsb_currency_config_set_int_from_combobox ( GtkWidget *combobox, gint * dummy);
 static gboolean gsb_currency_config_update_list ( GtkWidget * checkbox,
 					   GtkTreeView * tree_view );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *main_vbox;
-extern int no_devise_totaux_categ;
+extern GtkWidget *main_vbox ;
+extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern GtkTreeSelection * selection;
-extern GtkWidget *tree_view;
-extern GtkWidget *window;
+extern GtkTreeSelection * selection ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 
@@ -929,7 +925,7 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
 					     TRUE, _("World currencies"));
 
     /* Create list */
-    list = gsb_currency_config_create_box_popup ();
+    list = gsb_currency_config_create_box_popup (G_CALLBACK ( gsb_currency_config_select_currency_popup ));
     model = g_object_get_data ( G_OBJECT(list), "model" );
 
     gtk_box_pack_start ( GTK_BOX(paddingbox), list, TRUE, TRUE, 5 );
@@ -1109,12 +1105,13 @@ gint gsb_currency_config_create_currency_from_iso4217list ( gchar *currency_name
  * create the box wich contains the world currencies list for the
  * add currency popup
  *
- * \param
+ * \param select_callback callback to call when a line is selected 
+ * 		callback (GtkTreeSelection *, GtkTreeModel *)
  *
  * \return a vbox
  *
  */
-GtkWidget *gsb_currency_config_create_box_popup (void)
+GtkWidget *gsb_currency_config_create_box_popup ( GCallback select_callback )
 { 
     GtkWidget * sw, * treeview, * vbox, * checkbox;
     GtkTreeModel * model;
@@ -1129,9 +1126,10 @@ GtkWidget *gsb_currency_config_create_box_popup (void)
     treeview = gsb_currency_config_create_list ();
     gtk_widget_set_usize ( treeview, FALSE, 200 );
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW(treeview) );
-    g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( treeview ) ), 
-		       "changed", G_CALLBACK ( gsb_currency_config_select_currency_popup ), 
-		       model );
+    if (select_callback)
+	g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( treeview ) ), 
+			   "changed", G_CALLBACK (select_callback), 
+			   model );
 
     gtk_container_add (GTK_CONTAINER (sw), treeview);
     gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
@@ -1180,12 +1178,10 @@ void gsb_currency_config_fill_popup_list ( GtkTreeView * tree_view,
 	    GdkPixbuf * pixbuf;
 	    gchar *string;
 
-	    string = g_strconcat( PIXMAPS_DIR, 
-				  C_DIRECTORY_SEPARATOR,
-				  "flags", 
-				  C_DIRECTORY_SEPARATOR,
-				  currency -> flag_filename, 
-				  NULL );
+	    string = g_build_filename ( PIXMAPS_DIR, 
+					"flags", 
+					currency -> flag_filename, 
+					NULL );
 	    pixbuf = gdk_pixbuf_new_from_file ( string,
 						NULL );	
 	    g_free (string);
@@ -1232,6 +1228,13 @@ gboolean gsb_currency_config_update_list ( GtkWidget * checkbox,
     model = gtk_tree_view_get_model ( tree_view );
     gtk_list_store_clear ( GTK_LIST_STORE (model) );
     gsb_currency_config_fill_popup_list ( tree_view, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbox)) );
+
+    /* re-select the default currency
+     * TODO : should use the GtkTreeModelFilter to show or not the obsoletes currencies,
+     * so the selection shouldn't be lost */
+    gtk_tree_model_foreach ( GTK_TREE_MODEL(model), 
+			     (GtkTreeModelForeachFunc) gsb_currency_config_select_default, 
+			     tree_view );
     return FALSE;
 }
 

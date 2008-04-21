@@ -39,8 +39,11 @@ struct iso_4217_currency
 /* START_DECLARATION */
 gboolean gsb_currency_config_add_currency ( GtkWidget *button,
 					    GtkTreeModel *currency_tree_model );
+GtkWidget *gsb_currency_config_create_box_popup ( GCallback select_callback );
 gint gsb_currency_config_create_currency_from_iso4217list ( gchar *currency_name );
 GtkWidget *gsb_currency_config_create_page ( void );
 GtkWidget *gsb_currency_config_create_totals_page ( void );
+gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTreePath * path, 
+					      GtkTreeIter * iter, GtkTreeView * tree_view );
 /* END_DECLARATION */
 #endif

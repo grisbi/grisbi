@@ -37,10 +37,10 @@
 #include "./gsb_real.h"
 #include "./utils.h"
 #include "./structures.h"
+#include "./utils_files.h"
 #include "./include.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_real.h"
-#include "./utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -94,7 +94,7 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gsb_real null_real ;
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

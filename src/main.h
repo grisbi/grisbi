@@ -6,6 +6,6 @@
 
 /* START_DECLARATION */
 gboolean gsb_grisbi_close ( void );
-int main (int argc, char *argv[]);
+int main (int argc, char **argv);
 /* END_DECLARATION */
 #endif

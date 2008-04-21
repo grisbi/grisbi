@@ -2,8 +2,8 @@
 /* Ce fichier comprend toutes les opérations concernant le traitement	      */
 /* des fichiers								      */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -53,12 +53,11 @@
 #include "./traitement_variables.h"
 #include "./main.h"
 #include "./accueil.h"
-#include "./utils_files.h"
 #include "./utils_str.h"
 #include "./parametres.h"
 #include "./affichage_liste.h"
 #include "./import.h"
-#include "./gsb_file_config.h"
+#include "./utils_files.h"
 #include "./utils_file_selection.h"
 #include "./fenetre_principale.h"
 #include "./include.h"
@@ -68,8 +67,8 @@
 
 /*START_STATIC*/
 static void gsb_file_append_name_to_opened_list ( gchar * path_fichier );
-static gchar *gsb_file_dialog_ask_name ( void );
-static gint gsb_file_dialog_save ( void );
+static  gchar *gsb_file_dialog_ask_name ( void );
+static  gint gsb_file_dialog_save ( void );
 static gboolean gsb_file_save_backup ( void );
 static gboolean gsb_file_save_file ( gint origine );
 /*END_STATIC*/
@@ -83,26 +82,28 @@ gchar *nom_fichier_backup = NULL;
  * keep the last path used in grisbi, save in the configuration at the end */
 static gchar *last_path_used;
 
+static gchar *backup_path;
+
 
 
 /*START_EXTERN*/
 extern GtkWidget *main_hpaned ;
-extern GtkWidget *main_vbox;
+extern GtkWidget *main_vbox ;
 extern gint max;
-extern GtkWidget * navigation_tree_view;
+extern GtkWidget * navigation_tree_view ;
 extern gsize nb_derniers_fichiers_ouverts ;
 extern gint nb_max_derniers_fichiers_ouverts ;
-extern gchar *nom_fichier_comptes;
-extern GtkWidget *notebook_general;
+extern gchar *nom_fichier_comptes ;
+extern GtkWidget *notebook_general ;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
-extern GtkTreeSelection * selection;
+extern GtkTreeSelection * selection ;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern GtkWidget *table_etat ;
-extern gchar *titre_fichier;
-extern GtkWidget *tree_view_vbox;
-extern GtkWidget *window;
-extern GtkWidget *window_vbox_principale;
+extern gchar *titre_fichier ;
+extern GtkWidget *tree_view_vbox ;
+extern GtkWidget *window ;
+extern GtkWidget *window_vbox_principale ;
 /*END_EXTERN*/
 
 
@@ -280,6 +281,30 @@ const gchar *gsb_file_get_last_path ( void )
     return last_path_used;
 }
 
+/**
+ * get the backup path
+ *
+ * \param
+ *
+ * \return a const gchar with the backup path
+ * */
+const gchar *gsb_file_get_backup_path ( void )
+{
+    return backup_path;
+}
+
+/**
+ * set the backup path
+ *
+ * \param bakcup path
+ *
+ * \return
+ * */
+void gsb_file_set_backup_path ( const gchar *backup_path )
+{
+    backup_path = my_strdup (backup_path);
+}
+
 
 /**
  * called by file -> last files -> click on the name
@@ -343,7 +368,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 	    gsb_status_message ( _("Autosaving") );
 
 	    /* we get only the name of the file, not the path */
-	    backup_filename = utils_files_get_filename(filename,UTILS_FILES_BACKUP_FILENAME);
+	    backup_filename = utils_files_create_backup_name (filename);
 	    gsb_file_save_save_file ( backup_filename,
 				      etat.compress_backup,
 				      FALSE );
@@ -364,7 +389,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 	    gsb_status_message ( _("Loading backup") );
 
 	    /* create the name of the backup */
-	    backup_filename = utils_files_get_filename(filename,UTILS_FILES_BACKUP_FILENAME);
+	    backup_filename = utils_files_create_backup_name (filename);
 	    /* try to load the backup */
 
 	    if ( gsb_file_load_open_file ( backup_filename ) )
@@ -853,25 +878,18 @@ gboolean gsb_file_close ( void )
  * */
 void gsb_file_update_window_title ( void )
 {
-    gchar **parametres = NULL;
     gchar *titre = NULL;
-    gint i=0;
 
     devel_debug ( "gsb_file_update_window_title" );
 
     if ( titre_fichier && strlen(titre_fichier) )
       titre = g_strdup(titre_fichier);
-    else if ( nom_fichier_comptes )
-    {
-	parametres = g_strsplit ( nom_fichier_comptes, C_DIRECTORY_SEPARATOR, 0);
-	while ( parametres[i] )
-	  i++;
-	titre = my_strdup(parametres [i-1]);
-	g_strfreev ( parametres );
-    }
     else
     {
-      titre = g_strconcat ( "<", _("unnamed"), ">", NULL );
+	if ( nom_fichier_comptes )
+	    titre = g_path_get_basename (nom_fichier_comptes);
+	else
+	    titre = g_strconcat ( "<", _("unnamed"), ">", NULL );
     }
 
     gchar* tmpstr = titre;

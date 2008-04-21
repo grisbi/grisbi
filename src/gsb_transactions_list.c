@@ -39,9 +39,9 @@
 #include "./gsb_data_reconcile.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
-#include "./utils_dates.h"
 #include "./gsb_form.h"
 #include "./gsb_form_transaction.h"
+#include "./utils_dates.h"
 #include "./fenetre_principale.h"
 #include "./navigation.h"
 #include "./barre_outils.h"
@@ -110,6 +110,9 @@ static gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_n
 						       gint cell_content_number );
 static gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_number,
 							     gint target_account );
+static  gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
+						       GtkTreeIter *iter,
+						       gpointer null );
 static void gsb_transactions_list_set_filter (GtkTreeModel *filter_model);
 static GtkTreeModel *gsb_transactions_list_set_filter_store ( GtkTreeStore *store );
 static void gsb_transactions_list_set_sortable (GtkTreeModel *sortable_model);
@@ -132,12 +135,6 @@ static gint schedule_transaction ( gint transaction_number );
 static gsb_real solde_debut_affichage ( gint account_number,
 				 gint floating_point);
 static void update_titres_tree_view ( void );
-#if GTK_CHECK_VERSION(2,10,0)
-static gboolean gsb_transactions_list_separator_func ( GtkTreeModel *model,
-						       GtkTreeIter *iter,
-						       gpointer null );
-#endif /*GTK_CHECK_VERSION(2,10,0)*/
-
 /*END_STATIC*/
 
 
@@ -215,7 +212,6 @@ struct cell_view {
 
 
 /*START_EXTERN*/
-extern GtkTooltips *tooltips_general_grisbi;
 extern GdkColor archive_background_color;
 extern GdkColor breakdown_background;
 extern GdkColor couleur_fond[2];
@@ -228,13 +224,13 @@ extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern GtkWidget * navigation_tree_view;
-extern GtkWidget *notebook_general;
+extern GtkWidget * navigation_tree_view ;
+extern GtkWidget *notebook_general ;
 extern PangoFontDescription *pango_desc_fonte_liste;
-extern GtkTreeSelection * selection;
+extern GtkTreeSelection * selection ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
-extern GtkWidget *tree_view;
-extern GtkWidget *window;
+extern GtkTooltips *tooltips_general_grisbi;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

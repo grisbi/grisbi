@@ -64,7 +64,6 @@ static gint ancien_tiers_etat;
 /*START_EXTERN*/
 extern gint ancien_compte_etat;
 extern gint ancien_tiers_etat;
-extern gint ancien_tiers_etat;
 extern gint ancienne_categ_etat;
 extern gint ancienne_categ_speciale_etat;
 extern gint ancienne_ib_etat;

@@ -53,7 +53,7 @@ static gint category_transaction_div_id ( gint transaction_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern int no_devise_totaux_categ;
+extern gint no_devise_totaux_categ;
 extern gsb_real null_real ;
 /*END_EXTERN*/
 

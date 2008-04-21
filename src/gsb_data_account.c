@@ -108,19 +108,18 @@ typedef struct
 
 
 /*START_STATIC*/
+static  void _gsb_data_account_free ( struct_account* account );
 static struct_account *gsb_data_account_get_structure ( gint no );
 static gint gsb_data_account_max_number ( void );
 static gboolean gsb_data_account_set_default_sort_values ( gint account_number );
 static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 					 gint target_account );
-static void _gsb_data_account_free ( struct_account* account );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern gsb_real null_real ;
-extern GtkTreeSelection * selection;
+extern GtkTreeSelection * selection ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
-extern GtkWidget *tree_view;
 /*END_EXTERN*/
 
 

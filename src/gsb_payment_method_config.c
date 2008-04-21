@@ -80,9 +80,8 @@ static gboolean gsb_payment_method_config_toggled ( GtkCellRendererToggle *cell,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *fenetre_preferences;
-extern GtkTreeSelection * selection;
-extern GtkWidget *tree_view;
+extern GtkWidget *fenetre_preferences ;
+extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 static GtkWidget *payment_method_treeview;

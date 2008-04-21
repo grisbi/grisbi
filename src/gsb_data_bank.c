@@ -60,8 +60,8 @@ typedef struct
 } struct_bank;
 
 /*START_STATIC*/
+static  void _gsb_data_bank_free ( struct_bank* bank);
 static gpointer gsb_data_bank_get_structure ( gint bank_number );
-static void _gsb_data_bank_free ( struct_bank* bank);
 /*END_STATIC*/
 
 /*START_EXTERN*/

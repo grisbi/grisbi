@@ -39,7 +39,6 @@
 extern GSList *liste_comptes_importes;
 extern GSList *liste_comptes_importes_error;
 extern gint max;
-extern GtkWidget *preview;
 /*END_EXTERN*/
 
 /*START_STATIC*/

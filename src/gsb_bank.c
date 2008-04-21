@@ -103,8 +103,8 @@ static GtkWidget *bank_notes;
 
 
 /*START_EXTERN*/
-extern GtkTreeSelection * selection;
-extern GtkWidget *window;
+extern GtkTreeSelection * selection ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

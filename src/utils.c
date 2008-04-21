@@ -28,10 +28,10 @@
 #include "utils.h"
 #include "./dialog.h"
 #include "./gsb_data_account.h"
+#include "./gsb_file_config.h"
 #include "./include.h"
 #include "./erreur.h"
 #include "./structures.h"
-#include "./utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -39,7 +39,7 @@
 
 
 /*START_EXTERN*/
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 
@@ -285,8 +285,8 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
     /* Icon */
     if ( image_filename )
     {
-        gchar* tmpstr = g_strconcat(PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-						     image_filename, NULL);
+	gchar* tmpstr = g_build_filename (PIXMAPS_DIR,
+					  image_filename, NULL);
 	image = gtk_image_new_from_file (tmpstr);
 	g_free(tmpstr);
 	gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 0);
