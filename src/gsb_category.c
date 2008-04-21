@@ -729,8 +729,8 @@ const gchar *liberal_category_list [] = {
 const gchar *category_choice_list [] = {
     N_("Don't create any list, i will do it by myself or it will be imported"),
     N_("General category list (most common choice)"),
-    N_("Association category list (in french for now, special categories to associations"),
-    N_("Liberal category list (in french for now, to use Grisbi for a small business"),
+    N_("Association category list (in french for now, special categories to associations)"),
+    N_("Liberal category list (in french for now, to use Grisbi for a small business)"),
     NULL
 };
 
@@ -778,21 +778,22 @@ gboolean gsb_category_choose_default_category ( void )
  * 	call gsb_category_assistant_create_categories
  *
  * \param assistant the assistant wich that page will be added to
+ * 	the choice will be set into the assistant widget with the key "choice_value"
+ *		CATEGORY_ASSISTANT_CHOICE_NONE
+ *		CATEGORY_ASSISTANT_CHOICE_GENERAL
+ *		CATEGORY_ASSISTANT_CHOICE_ASSOCIATION
+ *		CATEGORY_ASSISTANT_CHOICE_BUSINESS
  *
  * \return a box to include in an assistant
  * */
 GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
 {
     GtkWidget *page;
-    GtkWidget *paddingbox;
     GtkWidget *button = NULL;
     gint i;
 
     page = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
-
-    paddingbox = new_paddingbox_with_title ( page, TRUE,
-					     _("Please choose the default list of categories to create in your file :"));
 
     /* add the buttons choice */
     i=0;
@@ -807,7 +808,7 @@ GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
 			   "toggled",
 			   G_CALLBACK (gsb_category_assistant_change_choice),
 			   assistant );
-	gtk_box_pack_start ( GTK_BOX (paddingbox),
+	gtk_box_pack_start ( GTK_BOX (page),
 			     button,
 			     FALSE, FALSE,
 			     0 );
@@ -844,7 +845,7 @@ gboolean gsb_category_assistant_create_categories ( GtkWidget *assistant )
  * callback when toggle the choice of category list
  *
  * \param button the radio button
- * \param assistant the assistant containing the choose page
+ * \param assistant the assistant containing the chosen page
  *
  * \return FALSE
  * */

@@ -121,7 +121,7 @@ gboolean gsb_file_new ( void )
     /* continue only if closing the file is ok */
     if ( !gsb_file_close () )
 	return FALSE;
-
+/* xxx assistant à faire ici aussi */
     /* WARNING : there is another way to create a new file : importing a qif/ofx/csv account */
     /* 	      so a change here need to be changed in the import file */
     /* 	      (see traitement_operations_importees) */

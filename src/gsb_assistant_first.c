@@ -32,6 +32,7 @@
 #include "gsb_assistant_first.h"
 #include "./gsb_assistant.h"
 #include "./gsb_automem.h"
+#include "./gsb_category.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_file.h"
 #include "./parametres.h"
@@ -63,6 +64,7 @@ static  gboolean gsb_assistant_first_toggle_backup ( GtkWidget *toggle_button,
 /*START_EXTERN*/
 extern gchar *adresse_commune ;
 extern gchar *nom_fichier_comptes ;
+extern GtkTreeSelection * selection ;
 extern gchar *titre_fichier ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
@@ -176,7 +178,8 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 
     size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
-    vbox = gtk_vbox_new (FALSE, 5);
+    vbox = new_vbox_with_title_and_icon ( _("General configuration of Grisbi"),
+					  "money.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 FALSE, FALSE, 0 );
@@ -263,7 +266,8 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
-    vbox = gtk_vbox_new (FALSE, 5);
+    vbox = new_vbox_with_title_and_icon ( _("General configuration of the new account"),
+					  "new-payee.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );
@@ -403,6 +407,7 @@ static GtkWidget *gsb_assistant_first_page_4 ( GtkWidget *assistant )
 
 /**
  * create the page 5 of the first assistant
+ * selection of the list of categories
  *
  * \param assistant the GtkWidget assistant
  *
@@ -412,23 +417,23 @@ static GtkWidget *gsb_assistant_first_page_5 ( GtkWidget *assistant )
 {
     GtkWidget *page;
     GtkWidget *vbox;
-    GtkWidget *label;
+    GtkWidget *button_list;
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
-    vbox = gtk_vbox_new (FALSE, 5);
+    vbox = new_vbox_with_title_and_icon ( _("Select the list of categories you will use"),
+					  "categories.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 FALSE, FALSE, 0 );
 
-    /* set up the menu */
-    label = gtk_label_new (_("This is the page 2... blah blah blah encore"));
-    gtk_misc_set_alignment ( GTK_MISC (label),
-			     0, 0.5 );
+    /* create the buttons,
+     * the change will be saved in the assistant widget with the key "choice_value" (see gsb_category.h for the choices) */
+    button_list = gsb_category_assistant_create_choice_page (assistant);
     gtk_box_pack_start ( GTK_BOX (vbox),
-			 label,
+			 button_list,
 			 FALSE, FALSE, 0 );
 
     gtk_widget_show_all (page);
