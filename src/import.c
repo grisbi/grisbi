@@ -234,7 +234,6 @@ void importer_fichier ( void )
     if ( gsb_assistant_run ( assistant ) == GTK_RESPONSE_APPLY )
     {
 	gsb_status_wait ( TRUE );
-	gsb_category_assistant_create_categories (assistant);
 	traitement_operations_importees ();
 	gtk_widget_destroy ( assistant );
 	gsb_status_stop_wait ( TRUE );

@@ -62,9 +62,7 @@ extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern GtkTreeModel * navigation_model ;
 extern GtkWidget *notebook_general ;
-extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 

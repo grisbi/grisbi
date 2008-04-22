@@ -54,6 +54,7 @@
 #include "./menu.h"
 #include "./gsb_report.h"
 #include "./gsb_scheduler_list.h"
+#include "./main.h"
 #include "./structures.h"
 #include "./gsb_scheduler_list.h"
 #include "./include.h"
@@ -138,13 +139,13 @@ extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gchar *nom_fichier_backup ;
+extern GtkWidget *notebook_general ;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
 extern GtkWidget *solde_label ;
 extern GtkWidget *solde_label_pointe ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern gint transaction_col_width[TRANSACTION_LIST_COL_NB];
 extern gint valeur_echelle_recherche_date_import;
-extern GtkWidget *notebook_general;
 /*END_EXTERN*/
 
 
@@ -426,6 +427,7 @@ void menus_sensitifs ( gboolean sensitif )
     gchar * items[] = {
 	menu_name ( "FileMenu",		"Save",			NULL ),
 	menu_name ( "FileMenu",		"SaveAs",		NULL ),
+	menu_name ( "FileMenu",		"ImportFile",		NULL ),
 	menu_name ( "FileMenu",		"DebugFile",		NULL ),
 	menu_name ( "FileMenu",		"ExportFile",		NULL ),
 	menu_name ( "FileMenu",		"CreateArchive",	NULL ),

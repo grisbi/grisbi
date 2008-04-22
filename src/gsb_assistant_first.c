@@ -38,6 +38,7 @@
 #include "./gsb_currency.h"
 #include "./gsb_file.h"
 #include "./parametres.h"
+#include "./import.h"
 #include "./traitement_variables.h"
 #include "./utils_files.h"
 #include "./utils_str.h"
@@ -95,7 +96,8 @@ static GtkWidget *hbox_backup_dir;
  * treeview and model are saved into the keys "treeview" and "model" */
 static GtkWidget *currency_list_box;
 
-
+/* the button to know what assistant to launch at the end */
+static GtkWidget *button_create_account_next;
 
 /**
  * this function is called to launch the first opening assistant
@@ -111,6 +113,7 @@ GtkResponseType gsb_assistant_first_run ( void )
     gchar *currency_name, *currency_iso_code, *currency_nickname;
     gint currency_floating;
     GtkTreeIter iter;
+    gboolean launch_account_assistant;
 
     /* create the assistant */
     assistant = gsb_assistant_new ( _("Welcome to Grisbi !"),
@@ -199,10 +202,16 @@ GtkResponseType gsb_assistant_first_run ( void )
      * the choice is in the assistant widget under the key "choice_value" */
     gsb_category_assistant_create_categories (assistant);
 
+    /* get the next assistant to launch */
+    launch_account_assistant = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button_create_account_next));
     gtk_widget_destroy (assistant);
 
-    /* and now, launch the account assistant */
-    gsb_file_new_finish ();
+    /* and now, launch the next assistant */
+    if (launch_account_assistant)
+	gsb_file_new_finish ();
+    else
+	importer_fichier ();
+
     return return_value;
 }
 
@@ -534,6 +543,7 @@ static GtkWidget *gsb_assistant_first_page_finish ( GtkWidget *assistant )
     GtkWidget *page;
     GtkWidget *vbox;
     GtkWidget *label;
+    GtkWidget *button;
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page),
@@ -550,11 +560,26 @@ static GtkWidget *gsb_assistant_first_page_finish ( GtkWidget *assistant )
 			     "Now, the assistant will help you to create a new account.\n\n"
 			     "Remember that all the values can be changed in the configuration page,\n"
 			     "Menu Edit -> Preferences\n\n"
-			     "Please press the Close button to finish and creating the first account."));
+			     "There is 2 ways to continue, either you create a new empty account\n"
+			     "	(you will be able to import some datas into later),\n"
+			     "either you import some qif/ofx/csv datas to create the correspondant accounts.\n\n"
+			     "Make your choice and press the 'Close' button to launch the next assistant."));
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 label,
+			 FALSE, FALSE, 0 );
+
+    button_create_account_next = gtk_radio_button_new_with_label ( NULL,
+								   _("Launch the account creation assistant"));
+    gtk_box_pack_start ( GTK_BOX (vbox),
+			 button_create_account_next,
+			 FALSE, FALSE, 0 );
+
+    button = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (GTK_RADIO_BUTTON (button_create_account_next)),
+					       _("Launch the import assistant"));
+    gtk_box_pack_start ( GTK_BOX (vbox),
+			 button,
 			 FALSE, FALSE, 0 );
 
     gtk_widget_show_all (page);
