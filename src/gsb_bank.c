@@ -284,7 +284,7 @@ static gboolean gsb_bank_update_selected_line_model ( GtkWidget *combobox )
     if (combobox)
 	save_bank_number = gsb_bank_list_get_bank_number (combobox);
 
-    /* should not happen */
+    /* if no bank model, create it */
     if (!bank_list_model)
 	gsb_bank_create_combobox_model ();
     gtk_list_store_clear (GTK_LIST_STORE (bank_list_model));
@@ -405,9 +405,12 @@ static gboolean gsb_bank_list_changed ( GtkWidget *combobox,
  * Creates the "Banks" tab.  It creates a bank list and then a form
  * that allows to edit selected bank.
  *
+ * \param default_sensitive normally if there is no account, that page is unsensitive,
+ * 	but for assistant, we have to force to be sensitive so set default_sensitive to TRUE
+ * 	to let grisbi choose between sensitive or net, set default_sensitive to FALSE
  * \returns A newly allocated vbox
  */
-GtkWidget *gsb_bank_create_page ( void )
+GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
 {
     GtkWidget *vbox_pref;
     GtkWidget *scrolled_window, *vbox, *vbox2;
@@ -498,7 +501,7 @@ GtkWidget *gsb_bank_create_page ( void )
 
     /* Do not activate unless an account is opened */
     if ( !gsb_data_account_get_accounts_amount () )
-	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+	gtk_widget_set_sensitive ( vbox_pref, default_sensitive );
     else
     {
 	/* fill the list */
@@ -604,6 +607,7 @@ static gboolean gsb_bank_list_change_selection ( GtkTreeSelection *selection,
     }
     else
 	gsb_bank_update_form ( -1, container );
+
     return FALSE;
 }
 
@@ -947,7 +951,7 @@ static gboolean gsb_bank_update_selected_line ( GtkEntry *entry,
 				 -1 );
     }
 
-    /* we update the combobox if exists */
+    /* we update the combobox model if exists */
     if (GTK_IS_COMBO_BOX (combobox))
     {
 	if (gtk_combo_box_get_active_iter ( GTK_COMBO_BOX (combobox),
@@ -958,6 +962,8 @@ static gboolean gsb_bank_update_selected_line ( GtkEntry *entry,
 				 -1 );
 	gsb_bank_update_selected_line_model (combobox);
     }
+    else
+	gsb_bank_update_selected_line_model (NULL);
     return FALSE;
 }
 

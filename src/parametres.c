@@ -433,7 +433,7 @@ void preferences ( gint page )
 			1, BANKS_PAGE,
 			2, 400, 
 			-1);
-    gtk_notebook_append_page (preference_frame, gsb_bank_create_page (), NULL);
+    gtk_notebook_append_page (preference_frame, gsb_bank_create_page (FALSE), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),

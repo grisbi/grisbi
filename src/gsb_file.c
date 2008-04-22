@@ -121,7 +121,7 @@ gboolean gsb_file_new ( void )
     /* continue only if closing the file is ok */
     if ( !gsb_file_close () )
 	return FALSE;
-/* xxx assistant à faire ici aussi */
+/* xxx voir ici ou on en est, faire un assistant */
     /* WARNING : there is another way to create a new file : importing a qif/ofx/csv account */
     /* 	      so a change here need to be changed in the import file */
     /* 	      (see traitement_operations_importees) */
@@ -135,6 +135,25 @@ gboolean gsb_file_new ( void )
     /* Create initial lists. */
     gsb_category_choose_default_category ();
 
+    /* create new account and show the result */
+    gsb_file_new_finish ();
+    return FALSE;
+
+}
+
+
+/**
+ * come here to finish to create the new file
+ * at this time, categories and currencies must created
+ * this part will just launch the assistant to create a new account
+ * a finish the initialisation to lauch grisbi
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_file_new_finish ( void )
+{
     /* create the first account */
     if (! gsb_assistant_account_run ())
     {
@@ -154,7 +173,6 @@ gboolean gsb_file_new ( void )
     modification_fichier ( TRUE );
     return FALSE;
 }
-
 
 
 /**
@@ -191,7 +209,6 @@ void gsb_file_new_gui ( void )
 
     /* Affiche le nom du fichier de comptes dans le titre de la fenetre */
     gsb_file_update_window_title();
-
     gtk_notebook_set_page ( GTK_NOTEBOOK( notebook_general ), GSB_HOME_PAGE );
 
     gtk_widget_show ( notebook_general );

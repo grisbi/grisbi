@@ -52,10 +52,6 @@
 /*START_STATIC*/
 static void gsb_currency_append_currency_to_list ( GtkListStore *model,
 					    gint currency_number );
-static gint gsb_currency_config_create_currency ( const gchar *currency_name,
-					   const gchar *currency_code, 
-					   const gchar *currency_isocode,
-					   gint floating_point );
 static GtkWidget *gsb_currency_config_create_list ();
 static gboolean gsb_currency_config_entry_changed ( GtkWidget *entry,
 					     GtkWidget *tree_view );
@@ -249,20 +245,6 @@ struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Southern America"), N_("Peso"), N_("Uruguay"), "UYU", "₱", TRUE, "UYU.png", 2, 1 },
     { N_("Southern America"), N_("Venezuelan Bolivar"), N_("Venezuela"), "VEB", NULL, TRUE, "VEB.png", 2, 1 },
     { NULL },
-};
-
-/** Columns numbers for currencies list  */
-enum currency_list_column {
-    CURRENCY_FLAG_COLUMN,
-    CURRENCY_HAS_FLAG,
-    COUNTRY_NAME_COLUMN,
-    CURRENCY_NAME_COLUMN,
-    CURRENCY_ISO_CODE_COLUMN,
-    CURRENCY_NICKNAME_COLUMN,
-    CURRENCY_FLOATING_COLUMN,
-    CURRENCY_NUMBER_COLUMN,
-    CURRENCY_MAIN_CURRENCY_COLUMN,
-    NUM_CURRENCIES_COLUMNS,
 };
 
 
@@ -1104,6 +1086,8 @@ gint gsb_currency_config_create_currency_from_iso4217list ( gchar *currency_name
 /**
  * create the box wich contains the world currencies list for the
  * add currency popup
+ * the tree view and model are saved into the box with the keys :
+ * 	"model" and "treeview"
  *
  * \param select_callback callback to call when a line is selected 
  * 		callback (GtkTreeSelection *, GtkTreeModel *)

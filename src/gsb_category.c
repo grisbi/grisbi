@@ -34,7 +34,6 @@
 #include "./gsb_data_form.h"
 #include "./gsb_form_widget.h"
 #include "./gtk_combofix.h"
-#include "./utils.h"
 #include "./gsb_data_category.h"
 #include "./gtk_combofix.h"
 #include "./include.h"
@@ -779,10 +778,10 @@ gboolean gsb_category_choose_default_category ( void )
  *
  * \param assistant the assistant wich that page will be added to
  * 	the choice will be set into the assistant widget with the key "choice_value"
- *		CATEGORY_ASSISTANT_CHOICE_NONE
- *		CATEGORY_ASSISTANT_CHOICE_GENERAL
- *		CATEGORY_ASSISTANT_CHOICE_ASSOCIATION
- *		CATEGORY_ASSISTANT_CHOICE_BUSINESS
+ *		CATEGORY_CHOICE_NONE
+ *		CATEGORY_CHOICE_DEFAULT
+ *		CATEGORY_CHOICE_ASSOCIATION
+ *		CATEGORY_CHOICE_LIBERAL
  *
  * \return a box to include in an assistant
  * */

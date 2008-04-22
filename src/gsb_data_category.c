@@ -1479,7 +1479,6 @@ void gsb_data_category_create_default_category_list ( gint category_type )
 
 	    while (debit_general_category_list[i] )
 	    {
-		/* TODO dOm : when is the memory of tab_char freed ? */
 		gchar **tab_char = g_strsplit ( _(debit_general_category_list[i]), " : ", 2 );
 		gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
 
@@ -1489,6 +1488,7 @@ void gsb_data_category_create_default_category_list ( gint category_type )
 									_(tab_char[1]),
 									TRUE );
 		}
+		g_strfreev (tab_char);
 		i++;
 	    }
 
@@ -1496,7 +1496,6 @@ void gsb_data_category_create_default_category_list ( gint category_type )
 
 	    while (credit_general_category_list[i] )
 	    {
-		/* TODO dOm : when is the memory of tab_char freed ? */
 		gchar **tab_char = g_strsplit (_(credit_general_category_list[i]), " : ", 2 );
 		gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
 		if ( tab_char[1] )
@@ -1505,6 +1504,7 @@ void gsb_data_category_create_default_category_list ( gint category_type )
 									tab_char[1],
 									TRUE );
 		}
+		g_strfreev (tab_char);
 		i++;
 	    }
 	    break;
@@ -1514,7 +1514,6 @@ void gsb_data_category_create_default_category_list ( gint category_type )
 
 	    while (association_category_list[i])
 	    {
-		/* TODO dOm : when is the memory of tab_char freed ? */
 		gchar **tab_char = g_strsplit ( _(association_category_list[i]), " : ", 2 );
 		gint categ = gsb_data_category_get_number_by_name ( tab_char[0], TRUE, 1 );
 
@@ -1524,6 +1523,7 @@ void gsb_data_category_create_default_category_list ( gint category_type )
 									_(tab_char[1]),
 									TRUE );
 		}
+		g_strfreev (tab_char);
 		i++;
 	    }
 	    break;
@@ -1531,7 +1531,6 @@ void gsb_data_category_create_default_category_list ( gint category_type )
 	case CATEGORY_CHOICE_LIBERAL:
 	    devel_debug ("Create CATEGORY_CHOICE_LIBERAL categories");
 
-	    /* TODO dOm : when is the memory of tab_char freed ? */
 	    while (liberal_category_list[i])
 	    {
 		gchar **tab_char = g_strsplit ( _(liberal_category_list[i]), " : ", 2 );
@@ -1543,6 +1542,7 @@ void gsb_data_category_create_default_category_list ( gint category_type )
 									_(tab_char[1]),
 									TRUE );
 		}
+		g_strfreev (tab_char);
 		i++;
 	    }
 	    break;

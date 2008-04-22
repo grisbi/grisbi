@@ -144,6 +144,7 @@ extern GtkWidget *solde_label_pointe ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern gint transaction_col_width[TRANSACTION_LIST_COL_NB];
 extern gint valeur_echelle_recherche_date_import;
+extern GtkWidget *notebook_general;
 /*END_EXTERN*/
 
 
@@ -227,6 +228,11 @@ void init_variables ( void )
     mise_a_jour_liste_echeances_auto_accueil = 0;
     mise_a_jour_soldes_minimaux = 0;
     mise_a_jour_fin_comptes_passifs = 0;
+
+    /* the main notebook is set to NULL,
+     * important because it's the checked variable in a new file
+     * to know if the widgets are created or not */
+    notebook_general = NULL;
 
     if ( nom_fichier_comptes )
         g_free ( nom_fichier_comptes );

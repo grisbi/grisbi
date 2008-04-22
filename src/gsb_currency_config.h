@@ -36,10 +36,29 @@ struct iso_4217_currency
 				 * official currency..  */
 };
 
+/** Columns numbers for currencies list  */
+enum currency_list_column {
+    CURRENCY_FLAG_COLUMN,
+    CURRENCY_HAS_FLAG,
+    COUNTRY_NAME_COLUMN,
+    CURRENCY_NAME_COLUMN,
+    CURRENCY_ISO_CODE_COLUMN,
+    CURRENCY_NICKNAME_COLUMN,
+    CURRENCY_FLOATING_COLUMN,
+    CURRENCY_NUMBER_COLUMN,
+    CURRENCY_MAIN_CURRENCY_COLUMN,
+    NUM_CURRENCIES_COLUMNS,
+};
+
+
 /* START_DECLARATION */
 gboolean gsb_currency_config_add_currency ( GtkWidget *button,
 					    GtkTreeModel *currency_tree_model );
 GtkWidget *gsb_currency_config_create_box_popup ( GCallback select_callback );
+gint gsb_currency_config_create_currency ( const gchar *currency_name,
+					   const gchar *currency_code, 
+					   const gchar *currency_isocode,
+					   gint floating_point );
 gint gsb_currency_config_create_currency_from_iso4217list ( gchar *currency_name );
 GtkWidget *gsb_currency_config_create_page ( void );
 GtkWidget *gsb_currency_config_create_totals_page ( void );

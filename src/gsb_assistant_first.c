@@ -32,15 +32,19 @@
 #include "gsb_assistant_first.h"
 #include "./gsb_assistant.h"
 #include "./gsb_automem.h"
+#include "./gsb_bank.h"
 #include "./gsb_category.h"
 #include "./gsb_currency_config.h"
+#include "./gsb_currency.h"
 #include "./gsb_file.h"
 #include "./parametres.h"
+#include "./traitement_variables.h"
 #include "./utils_files.h"
 #include "./utils_str.h"
 #include "./utils.h"
 #include "./affichage.h"
 #include "./structures.h"
+#include "./gsb_currency_config.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
@@ -87,6 +91,11 @@ static gboolean create_backup = FALSE;
 /* the line to choose the backup directory, here because hidden if no backup asked */
 static GtkWidget *hbox_backup_dir;
 
+/* the box containing the currencies list
+ * treeview and model are saved into the keys "treeview" and "model" */
+static GtkWidget *currency_list_box;
+
+
 
 /**
  * this function is called to launch the first opening assistant
@@ -99,6 +108,9 @@ GtkResponseType gsb_assistant_first_run ( void )
 {
     GtkResponseType return_value;
     GtkWidget *assistant;
+    gchar *currency_name, *currency_iso_code, *currency_nickname;
+    gint currency_floating;
+    GtkTreeIter iter;
 
     /* create the assistant */
     assistant = gsb_assistant_new ( _("Welcome to Grisbi !"),
@@ -145,8 +157,52 @@ GtkResponseType gsb_assistant_first_run ( void )
 			     0,
 			     NULL );
 
+    /* set up all the default variables */
+    init_variables ();
+
+    /* now we launch the assistant */
     return_value = gsb_assistant_run (assistant);
+
+    if (return_value == GTK_RESPONSE_CANCEL)
+    {
+	/* the user stopped the assistant, we delete all the configured data */
+	init_variables ();
+	gtk_widget_destroy (assistant);
+	return return_value;
+    }
+
+    /* the assistant is finish, we save the values not saved before */
+
+    /* get the currency */
+    if (gtk_tree_selection_get_selected ( gtk_tree_view_get_selection (GTK_TREE_VIEW (g_object_get_data (G_OBJECT (currency_list_box),
+													 "treeview"))),
+					  NULL,
+					  &iter ))
+    {
+	/* there is a selection, normaly, always the case */
+	gtk_tree_model_get ( GTK_TREE_MODEL (g_object_get_data(G_OBJECT (currency_list_box),
+							       "model")),
+			     &iter, 
+			     CURRENCY_NAME_COLUMN, &currency_name,
+			     CURRENCY_ISO_CODE_COLUMN, &currency_iso_code,
+			     CURRENCY_NICKNAME_COLUMN, &currency_nickname, 
+			     CURRENCY_FLOATING_COLUMN, &currency_floating, 
+			     -1 );
+	gsb_currency_config_create_currency ( currency_name, currency_nickname,
+					      currency_iso_code, currency_floating);
+
+	/* update the currency list for combobox */
+	gsb_currency_update_combobox_currency_list ();
+    }
+
+    /* create the list of categories
+     * the choice is in the assistant widget under the key "choice_value" */
+    gsb_category_assistant_create_categories (assistant);
+
     gtk_widget_destroy (assistant);
+
+    /* and now, launch the account assistant */
+    gsb_file_new_finish ();
     return return_value;
 }
 
@@ -378,7 +434,6 @@ static GtkWidget *gsb_assistant_first_page_4 ( GtkWidget *assistant )
 {
     GtkWidget *page;
     GtkWidget *vbox;
-    GtkWidget *list;
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page),
@@ -391,15 +446,15 @@ static GtkWidget *gsb_assistant_first_page_4 ( GtkWidget *assistant )
 			 TRUE, TRUE, 0 );
 
     /* set up the menu */
-    list = gsb_currency_config_create_box_popup (NULL);
+    currency_list_box = gsb_currency_config_create_box_popup (NULL);
     gtk_box_pack_start ( GTK_BOX (vbox),
-			 list,
+			 currency_list_box,
 			 TRUE, TRUE, 0 );
 
     /* Select default currency. */
-    gtk_tree_model_foreach ( GTK_TREE_MODEL(g_object_get_data ( G_OBJECT(list), "model" )), 
+    gtk_tree_model_foreach ( GTK_TREE_MODEL(g_object_get_data ( G_OBJECT(currency_list_box), "model" )), 
 			     (GtkTreeModelForeachFunc) gsb_currency_config_select_default, 
-			     g_object_get_data ( G_OBJECT(list), "treeview" ) );
+			     g_object_get_data ( G_OBJECT(currency_list_box), "treeview" ) );
 
     gtk_widget_show_all (page);
     return page;
@@ -442,6 +497,7 @@ static GtkWidget *gsb_assistant_first_page_5 ( GtkWidget *assistant )
 
 /**
  * create the page 6 of the first assistant
+ * Creation of the banks
  *
  * \param assistant the GtkWidget assistant
  *
@@ -450,25 +506,17 @@ static GtkWidget *gsb_assistant_first_page_5 ( GtkWidget *assistant )
 static GtkWidget *gsb_assistant_first_page_6 ( GtkWidget *assistant )
 {
     GtkWidget *page;
-    GtkWidget *vbox;
-    GtkWidget *label;
+    GtkWidget *bank_page;
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
-    vbox = gtk_vbox_new (FALSE, 5);
+    /* the configuration page is very good, keep it */
+    bank_page = gsb_bank_create_page (TRUE);
     gtk_box_pack_start ( GTK_BOX (page),
-			 vbox,
-			 FALSE, FALSE, 0 );
-
-    /* set up the menu */
-    label = gtk_label_new (_("This is the page 2... blah blah blah encore"));
-    gtk_misc_set_alignment ( GTK_MISC (label),
-			     0, 0.5 );
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 label,
-			 FALSE, FALSE, 0 );
+			 bank_page,
+			 TRUE, TRUE, 0 );
 
     gtk_widget_show_all (page);
     return page;
@@ -491,16 +539,18 @@ static GtkWidget *gsb_assistant_first_page_finish ( GtkWidget *assistant )
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
-    vbox = gtk_vbox_new (FALSE, 5);
+    vbox = new_vbox_with_title_and_icon ( _("Configuration finished !"),
+					  "toolbar.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 FALSE, FALSE, 0 );
 
     /* set up the menu */
-    label = gtk_label_new (_("This is the last page... congratulation, grisbi is configured\n"
-			     "do you want to use the assistant to create a new account ?\n"
-			     "[button] oh yes ! i want to use the assistant\n"
-			     "[button] no, i'm a rough guy, i will find by myself !\n"));
+    label = gtk_label_new (_("You have finished to configure Grisbi and the default values\n"
+			     "Now, the assistant will help you to create a new account.\n\n"
+			     "Remember that all the values can be changed in the configuration page,\n"
+			     "Menu Edit -> Preferences\n\n"
+			     "Please press the Close button to finish and creating the first account."));
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox),
