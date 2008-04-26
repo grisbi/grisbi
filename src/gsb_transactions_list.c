@@ -69,6 +69,7 @@
 static gboolean assert_selected_transaction ();
 static void creation_titres_tree_view ( void );
 static gint find_element_col ( gint element_number );
+static gint find_element_col_breakdown ( gint element_number );
 static gint find_element_line ( gint element_number );
 static gint find_p_r_col ();
 static gint find_p_r_line ();
@@ -1648,6 +1649,7 @@ gboolean gsb_transactions_list_update_transaction_value ( gint element_number )
 {
     gint column_element;
     gint line_element;
+    gint column_element_breakdown;
     GtkTreeModel *model;
     GtkTreeIter iter;
 
@@ -1669,17 +1671,22 @@ gboolean gsb_transactions_list_update_transaction_value ( gint element_number )
 	 line_element == -1 )
 	return FALSE;
 
+    /* the element exists in the view, find the column of the breakdown if exists */
+    column_element_breakdown = find_element_col_breakdown (element_number);
+
     model = GTK_TREE_MODEL (gsb_transactions_list_get_store());
     if (gtk_tree_model_get_iter_first (model, &iter))
     {
 	gboolean next_ok = TRUE;
+	gint last_transaction_number = 0;
 
-	do
+	while (next_ok)
 	{
 	    gpointer transaction_ptr;
 	    gint transaction_number;
 	    gchar *string;
 	    gint i;
+	    gint column, line;
 	    gint test_archive;
 
 	    gtk_tree_model_get ( model,
@@ -1687,40 +1694,71 @@ gboolean gsb_transactions_list_update_transaction_value ( gint element_number )
 				 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &transaction_ptr,
 				 TRANSACTION_COL_NB_WHAT_IS_LINE, &test_archive,
 				 -1 );
-	    transaction_number = gsb_data_transaction_get_transaction_number (transaction_ptr);
 
 	    /* if this is an archive, go to the next line and try again */
 	    if (test_archive == IS_ARCHIVE)
 	    {
-		next_ok = gtk_tree_model_iter_next ( model, &iter );
+		next_ok = gtk_tree_model_iter_next_with_child ( model, &iter );
 		continue;
 	    }
 
-	    if (transaction_number > 0)
+	    /* get the transaction */
+	    transaction_number = gsb_data_transaction_get_transaction_number (transaction_ptr);
+
+	    /* if same transaction than before or white line, go to the next line */
+	    if (transaction_number == last_transaction_number
+		||
+		transaction_number <= 0)
 	    {
-		string = gsb_transactions_list_grep_cell_content_trunc ( transaction_number,
-									 element_number );
+		next_ok = gtk_tree_model_iter_next_with_child ( model, &iter );
+		continue;
+	    }
 
-		/* go to the good line */
-		for (i=0 ; i<line_element ; i++)
-		    next_ok = gtk_tree_model_iter_next ( model, &iter );
-
-		gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-				     &iter,
-				     column_element, string,
-				     -1 );
-		if (string)
-		    g_free (string);
-
-		/* go to the next transaction */
-		for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB - line_element ; i++ )
-		    next_ok = gtk_tree_model_iter_next ( model, &iter );
+	    /* if it's a breakdown child and no element_number shown for a child,
+	     * continue */
+	    if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
+	    {
+		if (column_element_breakdown != -1)
+		{
+		    column = column_element_breakdown;
+		    line = 0;
+		}
+		else
+		{
+		    next_ok = gtk_tree_model_iter_next_with_child ( model, &iter );
+		    continue;
+		}
 	    }
 	    else
-		/* we are on the white line, at the end */
-		next_ok = FALSE;
+	    {
+		/* we are on normal transaction, set the column and continue */
+		column = column_element;
+		line = line_element;
+	    }
+
+	    last_transaction_number = transaction_number;
+
+	    /* get the new element content */
+	    string = gsb_transactions_list_grep_cell_content_trunc ( transaction_number,
+								     element_number );
+
+	    /* split between breakdown child or normal transaction */
+
+	    /* go to the good line */
+	    for (i=0 ; i<line ; i++)
+		next_ok = gtk_tree_model_iter_next ( model, &iter );
+
+	    if (next_ok)
+		gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+				     &iter,
+				     column, string,
+				     -1 );
+	    if (string)
+		g_free (string);
+
+	    /* go to the next transaction */
+	    next_ok = gtk_tree_model_iter_next_with_child ( model, &iter );
 	}
-	while (next_ok);
     }
     return FALSE;
 }
@@ -2019,7 +2057,7 @@ gboolean gsb_transactions_list_set_adjustment_value ( gint account_number )
  *
  * \param element_number the element we look for
  *
- * \return column number
+ * \return column number or -1 if the element is not shown
  * */
 gint find_element_col ( gint element_number )
 {
@@ -2041,7 +2079,7 @@ gint find_element_col ( gint element_number )
  *
  * \param element_number the element we look for
  *
- * \return line number
+ * \return line number or -1 if the element is not shown
  * */
 gint find_element_line ( gint element_number )
 {
@@ -2058,6 +2096,33 @@ gint find_element_line ( gint element_number )
 
     return -1;
 }
+
+/**
+ * find column number for the element, but for breakdown transaction
+ * there is no line find because only 1 line
+ * for now, only payee, debit and credit are shown in a breakdown child
+ *
+ * \param element_number the element we look for in a breakdown child
+ *
+ * \return column number or -1 if the element is not shown
+ * */
+gint find_element_col_breakdown ( gint element_number )
+{
+    switch (element_number)
+    {
+	case TRANSACTION_LIST_CATEGORY:
+	    return TRANSACTION_COL_NB_PARTY;
+
+	case TRANSACTION_LIST_CREDIT:
+	    return TRANSACTION_COL_NB_CREDIT;
+
+	case TRANSACTION_LIST_DEBIT:
+	    return TRANSACTION_COL_NB_DEBIT;
+    }
+    return -1;
+}
+
+
 
 
 /******************************************************************************/

@@ -16,5 +16,7 @@ gint gsb_transaction_model_get_transaction_from_sorted_path ( GtkTreePath *path_
 gint gsb_transaction_model_get_transaction_type_from_sorted_path ( GtkTreePath *path_sorted );
 GtkTreePath *gsb_transactions_list_get_sorted_path ( gint transaction_number,
 						     gint line_in_transaction );
+gboolean gtk_tree_model_iter_next_with_child ( GtkTreeModel *model,
+					       GtkTreeIter *iter );
 /* END_DECLARATION */
 #endif

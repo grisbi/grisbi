@@ -42,6 +42,8 @@
 /*START_STATIC*/
 static GtkTreePath *gsb_transaction_model_get_model_path ( gint transaction_number,
 						    gint line_in_transaction );
+static const gchar *gsb_transation_model_get_cell_content ( GtkTreePath *path_sorted,
+						     gint column );
 /*END_STATIC*/
 
 
@@ -385,7 +387,6 @@ void gsb_transaction_model_convert_sorted_iter_to_model_iter ( GtkTreeIter *tree
  *
  * \return a const string wich is the content of the cell or NULL
  * */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
 const gchar *gsb_transation_model_get_cell_content ( GtkTreePath *path_sorted,
 						     gint column )
 {
@@ -398,7 +399,7 @@ const gchar *gsb_transation_model_get_cell_content ( GtkTreePath *path_sorted,
 	column > TRANSACTION_LIST_COL_NB)
 	return NULL;
 
-    !* transform the path to be in the orinal model *!
+    /*     !* transform the path to be in the orinal model *! */
     path_model = gsb_transaction_model_get_model_path_from_sorted_path (path_sorted);
 
     if (!path_model)
@@ -414,4 +415,43 @@ const gchar *gsb_transation_model_get_cell_content ( GtkTreePath *path_sorted,
     gtk_tree_path_free (path_model);
     return return_string;
 }
-*/
+
+
+/**
+ * do the same of gtk_tree_model_iter_next (so name in gtk_... and no gsb_...)
+ * but not limited to the same level
+ * when the current iter has a child, go into the child list
+ * when arrive to the end of a list, if we are into a child list, go to the next iter of the mother list
+ *
+ * \param model the GtkTreeModel
+ * \param iter the GtkTreeIter
+ *
+ * \return TRUE if iter has been changed to the next node
+ * */
+gboolean gtk_tree_model_iter_next_with_child ( GtkTreeModel *model,
+					       GtkTreeIter *iter )
+{
+    GtkTreeIter origin_iter = *iter;
+
+    g_return_val_if_fail (GTK_IS_TREE_MODEL (model), FALSE);
+    g_return_val_if_fail (iter != NULL, FALSE);
+
+    /* try to go to the child */
+    if (gtk_tree_model_iter_children (model,
+				      iter, &origin_iter))
+	return TRUE;
+
+    /* ok, no child, try to go on the next node */
+    *iter = origin_iter;
+    if (gtk_tree_model_iter_next (model, iter))
+	return TRUE;
+
+    /* ok, no next node, try to go to the parent */
+    if (gtk_tree_model_iter_parent (model,
+				    iter, &origin_iter))
+	/* ok iter is on the parent, so just return the next node */
+	return gtk_tree_model_iter_next (model, iter);
+
+    /* if we arrive here, iter was set not valid, just return FALSE */
+    return FALSE;
+}

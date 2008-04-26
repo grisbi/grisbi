@@ -35,7 +35,6 @@
 #include "./go-charmap-sel.h"
 #include "./gsb_account.h"
 #include "./gsb_assistant.h"
-#include "./gsb_category.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
@@ -63,6 +62,7 @@
 #include "./gsb_data_payment.h"
 #include "./gsb_data_account.h"
 #include "./gsb_form_scheduler.h"
+#include "./gsb_transactions_list.h"
 #include "./include.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
@@ -895,19 +895,6 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
     /* Initial page is fourth. */
     page = IMPORT_FIRST_ACCOUNT_PAGE;
 
-    /* We have to do that as soon as possible since this would reset currencies */
-    if ( !gsb_data_account_get_accounts_amount () )
-      {
-	init_variables ();
-
-	/* there is no category list because new account,
-	 * we add a page to ask what we do about that */
-	gsb_assistant_add_page ( assistant, gsb_category_assistant_create_choice_page (assistant), 
-				 page, page - 1, page + 1, NULL);
-	page ++;
-
-      }
-
     /* First, iter to see if we need to create currencies */
     list_tmp = liste_comptes_importes;
     while ( list_tmp )
@@ -1331,7 +1318,6 @@ void cree_liens_virements_ope_import ( void )
 
 		GSList *list_tmp_transactions_2;
 		list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
-
 		while ( list_tmp_transactions_2 )
 		{
 		    gint contra_transaction_number_tmp;
@@ -1364,7 +1350,6 @@ void cree_liens_virements_ope_import ( void )
 					   gsb_data_transaction_get_date (contra_transaction_number_tmp)))
 		    {
 			/* la 2ème opération correspond en tout point à la 1ère, on met les relations */
-
 			gsb_data_transaction_set_transaction_number_transfer ( transaction_number_tmp,
 									       contra_transaction_number_tmp );
 			gsb_data_transaction_set_account_number_transfer ( transaction_number_tmp,
@@ -1397,6 +1382,10 @@ void cree_liens_virements_ope_import ( void )
 	}
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
+    /* the transactions were already set in the list,
+     * and the transfer was not written, we need to update the categories values
+     * in the lists */
+    gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CATEGORY);
 }
 
 

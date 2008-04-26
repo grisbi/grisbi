@@ -1889,8 +1889,11 @@ gboolean gsb_data_transaction_set_account_number_transfer ( gint transaction_num
 
 
 
-/** get the  mother_transaction_number
+/** 
+ * get the  mother_transaction_number
+ * 
  * \param transaction_number the number of the transaction
+ * 
  * \return the mother_transaction_number of the transaction or 0 if the transaction doen't exist
  * */
 gint gsb_data_transaction_get_mother_transaction_number ( gint transaction_number )
