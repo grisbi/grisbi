@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -37,6 +37,7 @@
 #include "./gsb_currency.h"
 #include "./gsb_real.h"
 #include "./include.h"
+#include "./utils.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -147,12 +148,13 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
-    vbox = gtk_vbox_new (FALSE, 5);
+    vbox = new_vbox_with_title_and_icon ( _("Account type selection"),
+					  "bank-account.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
-			 FALSE, FALSE, 0 );
+			 TRUE, TRUE, 0 );
 
-    label = gtk_label_new (_("Please select the type of account.\nThe account will be created with default payment methods chosen according to your choice.\n"));
+    label = gtk_label_new (_("The account will be created with default payment methods chosen according to your choice.\n"));
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox),

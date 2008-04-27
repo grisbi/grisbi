@@ -196,7 +196,8 @@ void init_variables ( void )
     gint scheduler_col_width_init[NB_COLS_SCHEDULER] = {119, 121, 352, 129, 147, 0, 116};
     gint transaction_col_width_init[TRANSACTION_LIST_COL_NB] = {82, 106, 541, 82, 144, 123, 82};
     gint i;
-
+/* xxx on devrait séparer ça en 2 : les variables liées au fichier de compte, qui doivent être remises  à 0,
+ * et les variables liées à grisbi (ex sauvegarde auto...) qui doivent rester */
     devel_debug ( "init_variables" );
 
     gsb_data_account_init_variables ();

@@ -31,46 +31,26 @@
 /*START_INCLUDE*/
 #include "gsb_assistant_first.h"
 #include "./gsb_assistant.h"
+#include "./gsb_assistant_file.h"
 #include "./gsb_automem.h"
-#include "./gsb_bank.h"
-#include "./gsb_category.h"
-#include "./gsb_currency_config.h"
-#include "./gsb_currency.h"
 #include "./gsb_file.h"
-#include "./parametres.h"
-#include "./import.h"
 #include "./traitement_variables.h"
-#include "./utils_files.h"
-#include "./utils_str.h"
 #include "./utils.h"
-#include "./affichage.h"
 #include "./structures.h"
-#include "./gsb_currency_config.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static  gboolean gsb_assistant_first_backup_dir_chosen ( GtkWidget *button,
 							gpointer null );
-static  gboolean gsb_assistant_first_change_title ( GtkWidget *title_entry,
-						   GtkWidget *filename_entry );
-static  gboolean gsb_assistant_first_choose_filename ( GtkWidget *button,
-						      GtkWidget *entry );
 static  GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_first_page_4 ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_first_page_5 ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_first_page_6 ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_first_page_finish ( GtkWidget *assistant );
 static  gboolean gsb_assistant_first_toggle_backup ( GtkWidget *toggle_button,
-						    gpointer null );
+						    GtkWidget *hbox );
+static gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
+						   gint new_page );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *adresse_commune ;
-extern gchar *nom_fichier_comptes ;
-extern GtkTreeSelection * selection ;
-extern gchar *titre_fichier ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 
@@ -78,26 +58,9 @@ enum first_assistant_page
 {
     FIRST_ASSISTANT_INTRO= 0,
     FIRST_ASSISTANT_PAGE_2,
-    FIRST_ASSISTANT_PAGE_3,
-    FIRST_ASSISTANT_PAGE_4,
-    FIRST_ASSISTANT_PAGE_5,
-    FIRST_ASSISTANT_PAGE_6,
     FIRST_ASSISTANT_PAGE_FINISH,
 };
 
-/* used to create the name of the backup if asked
- * the name created will be finame_backup.gsb */
-static gboolean create_backup = FALSE;
-
-/* the line to choose the backup directory, here because hidden if no backup asked */
-static GtkWidget *hbox_backup_dir;
-
-/* the box containing the currencies list
- * treeview and model are saved into the keys "treeview" and "model" */
-static GtkWidget *currency_list_box;
-
-/* the button to know what assistant to launch at the end */
-static GtkWidget *button_create_account_next;
 
 /**
  * this function is called to launch the first opening assistant
@@ -110,10 +73,6 @@ GtkResponseType gsb_assistant_first_run ( void )
 {
     GtkResponseType return_value;
     GtkWidget *assistant;
-    gchar *currency_name, *currency_iso_code, *currency_nickname;
-    gint currency_floating;
-    GtkTreeIter iter;
-    gboolean launch_account_assistant;
 
     /* create the assistant */
     assistant = gsb_assistant_new ( _("Welcome to Grisbi !"),
@@ -127,94 +86,28 @@ GtkResponseType gsb_assistant_first_run ( void )
 			     gsb_assistant_first_page_2 (assistant),
 			     FIRST_ASSISTANT_PAGE_2,
 			     FIRST_ASSISTANT_INTRO,
-			     FIRST_ASSISTANT_PAGE_3,
-			     NULL );
-    gsb_assistant_add_page ( assistant,
-			     gsb_assistant_first_page_3 (assistant),
-			     FIRST_ASSISTANT_PAGE_3,
-			     FIRST_ASSISTANT_PAGE_2,
-			     FIRST_ASSISTANT_PAGE_4,
-			     NULL );
-    gsb_assistant_add_page ( assistant,
-			     gsb_assistant_first_page_4 (assistant),
-			     FIRST_ASSISTANT_PAGE_4,
-			     FIRST_ASSISTANT_PAGE_3,
-			     FIRST_ASSISTANT_PAGE_5,
-			     NULL );
-    gsb_assistant_add_page ( assistant,
-			     gsb_assistant_first_page_5 (assistant),
-			     FIRST_ASSISTANT_PAGE_5,
-			     FIRST_ASSISTANT_PAGE_4,
-			     FIRST_ASSISTANT_PAGE_6,
-			     NULL );
-    gsb_assistant_add_page ( assistant,
-			     gsb_assistant_first_page_6 (assistant),
-			     FIRST_ASSISTANT_PAGE_6,
-			     FIRST_ASSISTANT_PAGE_5,
-			     FIRST_ASSISTANT_PAGE_FINISH,
-			     NULL );
-    gsb_assistant_add_page ( assistant,
-			     gsb_assistant_first_page_finish (assistant),
-			     FIRST_ASSISTANT_PAGE_FINISH,
-			     FIRST_ASSISTANT_PAGE_6,
 			     0,
-			     NULL );
+			     G_CALLBACK (gsb_assistant_first_enter_page_2) );
 
     /* set up all the default variables */
     init_variables ();
 
     /* now we launch the assistant */
     return_value = gsb_assistant_run (assistant);
+    gtk_widget_destroy (assistant);
 
     if (return_value == GTK_RESPONSE_CANCEL)
     {
 	/* the user stopped the assistant, we delete all the configured data */
 	init_variables ();
-	gtk_widget_destroy (assistant);
 	return return_value;
     }
 
-    /* the assistant is finish, we save the values not saved before */
-
-    /* get the currency */
-    if (gtk_tree_selection_get_selected ( gtk_tree_view_get_selection (GTK_TREE_VIEW (g_object_get_data (G_OBJECT (currency_list_box),
-													 "treeview"))),
-					  NULL,
-					  &iter ))
-    {
-	/* there is a selection, normaly, always the case */
-	gtk_tree_model_get ( GTK_TREE_MODEL (g_object_get_data(G_OBJECT (currency_list_box),
-							       "model")),
-			     &iter, 
-			     CURRENCY_NAME_COLUMN, &currency_name,
-			     CURRENCY_ISO_CODE_COLUMN, &currency_iso_code,
-			     CURRENCY_NICKNAME_COLUMN, &currency_nickname, 
-			     CURRENCY_FLOATING_COLUMN, &currency_floating, 
-			     -1 );
-	gsb_currency_config_create_currency ( currency_name, currency_nickname,
-					      currency_iso_code, currency_floating);
-
-	/* update the currency list for combobox */
-	gsb_currency_update_combobox_currency_list ();
-    }
-
-    /* create the list of categories
-     * the choice is in the assistant widget under the key "choice_value" */
-    gsb_category_assistant_create_categories (assistant);
-
-    /* get the next assistant to launch */
-    launch_account_assistant = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button_create_account_next));
-    gtk_widget_destroy (assistant);
-
-    /* and now, launch the next assistant */
-    if (launch_account_assistant)
-	gsb_file_new_finish ();
-    else
-	importer_fichier ();
+    /* the assistant is finish, we launch the new file assistant */
+    return_value = gsb_assistant_file_run (TRUE);
 
     return return_value;
 }
-
 
 
 /**
@@ -236,6 +129,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     GtkWidget *table;
     GtkSizeGroup *size_group;
     gchar *text;
+    GtkWidget *hbox;
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page),
@@ -247,7 +141,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 					  "money.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
-			 FALSE, FALSE, 0 );
+			 TRUE, TRUE, 0 );
 
     /* configure the browser */
     paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Web browser"));
@@ -290,114 +184,25 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, 
 			 FALSE, FALSE, 0 );
 
-    /* crypt the grisbi file */
-    button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-					   &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-			 FALSE, FALSE, 0 );
-
     /* Automatic backup ? */
+
+    /* create first the box for choosing the dir of backup, to (un)sensitive it */
+    hbox = gtk_hbox_new ( FALSE, 6 );
+
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
-					  &create_backup, G_CALLBACK (gsb_assistant_first_toggle_backup), NULL);
+					  NULL, G_CALLBACK (gsb_assistant_first_toggle_backup), hbox);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
-    gtk_widget_show_all (page);
-    return page;
-}
-
-/**
- * create the page 3 of the first assistant
- * we create here the title of the file, name of the file and adress
- *
- * \param assistant the GtkWidget assistant
- *
- * \return a GtkWidget containing the page
- * */
-static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
-{
-    GtkWidget *page;
-    GtkWidget *vbox;
-    GtkWidget *label;
-    GtkWidget *entry;
-    GtkWidget *scrolled_window;
-    GtkWidget *paddingbox;
-    GtkWidget *hbox;
-    GtkWidget *textview;
-    GtkWidget *button;
-    GtkWidget *filename_entry;
-
-    page = gtk_hbox_new (FALSE, 15);
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
-
-    vbox = new_vbox_with_title_and_icon ( _("General configuration of the new account"),
-					  "new-payee.png" );
-    gtk_box_pack_start ( GTK_BOX (page),
-			 vbox,
-			 TRUE, TRUE, 0 );
-
-    /* Account file title */
-    paddingbox = new_paddingbox_with_title ( vbox, TRUE,
-					     _("Titles and filenames") );
-    hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0);
-
-    label = gtk_label_new ( COLON(_("Accounts file title")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0);
-
-    /* need to declare filename_entry first for the next callback,
-     * if no filename, set the title.gsb as default name */
-    if (!nom_fichier_comptes)
-	nom_fichier_comptes = g_strconcat ( my_get_gsb_file_default_dir (),
-					    G_DIR_SEPARATOR_S,
-					    titre_fichier,
-					    ".gsb",
-					    NULL );
-    filename_entry = gsb_automem_entry_new (&nom_fichier_comptes,
-					    NULL, NULL);
-
-    entry = gsb_automem_entry_new (&titre_fichier,
-				   ((GCallback)gsb_assistant_first_change_title), filename_entry);
-    g_object_set_data ( G_OBJECT (entry),
-			"last_title", my_strdup (titre_fichier));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), entry,
-			 TRUE, TRUE, 0);
-    
-    /* filename */
-    hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0);
-
-    label = gtk_label_new ( COLON(_("Filename")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0);
-
-    gtk_box_pack_start ( GTK_BOX ( hbox ), filename_entry,
-			 TRUE, TRUE, 0);
-    
-    button = gtk_button_new_with_label ("...");
-    gtk_button_set_relief ( GTK_BUTTON (button),
-			    GTK_RELIEF_NONE );
-    g_signal_connect ( G_OBJECT (button),
-		       "clicked",
-		       G_CALLBACK (gsb_assistant_first_choose_filename),
-		       filename_entry );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button,
-			 FALSE, FALSE, 0);
-
-    /* backup directory */
-    hbox_backup_dir = gtk_hbox_new ( FALSE, 6 );
+    /* if automatic backup, choose a dir */
     /* unsensitive by default */
-    gtk_widget_set_sensitive ( hbox_backup_dir,
+    gtk_widget_set_sensitive ( hbox,
 			       FALSE );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox_backup_dir,
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0);
 
     label = gtk_label_new ( COLON(_("Backup directory")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox_backup_dir ), label,
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0);
 
     button = gtk_file_chooser_button_new (_("Select/Create backup directory"),
@@ -406,309 +211,34 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
 		       "current-folder-changed",
 		       G_CALLBACK (gsb_assistant_first_backup_dir_chosen),
 		       NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox_backup_dir ), button,
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button,
 			 TRUE, TRUE, 0);
 
-    /* Address */
-    paddingbox = new_paddingbox_with_title ( vbox, TRUE,
-					     COLON(_("Common address")));
-
-    /* Common address */
-    scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
-			 FALSE, FALSE, 0);
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
-					  GTK_SHADOW_IN );
-    textview = gsb_automem_textview_new ( &adresse_commune, NULL, NULL );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			textview );
-
 
     gtk_widget_show_all (page);
     return page;
 }
 
-/**
- * create the page 4 of the first assistant
- * we create here the first currency for the software
- *
- * \param assistant the GtkWidget assistant
- *
- * \return a GtkWidget containing the page
- * */
-static GtkWidget *gsb_assistant_first_page_4 ( GtkWidget *assistant )
-{
-    GtkWidget *page;
-    GtkWidget *vbox;
 
-    page = gtk_hbox_new (FALSE, 15);
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
-
-    vbox = new_vbox_with_title_and_icon ( _("Select base currency for your file"),
-					  "flags.png" );
-    gtk_box_pack_start ( GTK_BOX (page),
-			 vbox,
-			 TRUE, TRUE, 0 );
-
-    /* set up the menu */
-    currency_list_box = gsb_currency_config_create_box_popup (NULL);
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 currency_list_box,
-			 TRUE, TRUE, 0 );
-
-    /* Select default currency. */
-    gtk_tree_model_foreach ( GTK_TREE_MODEL(g_object_get_data ( G_OBJECT(currency_list_box), "model" )), 
-			     (GtkTreeModelForeachFunc) gsb_currency_config_select_default, 
-			     g_object_get_data ( G_OBJECT(currency_list_box), "treeview" ) );
-
-    gtk_widget_show_all (page);
-    return page;
-}
-
-/**
- * create the page 5 of the first assistant
- * selection of the list of categories
- *
- * \param assistant the GtkWidget assistant
- *
- * \return a GtkWidget containing the page
- * */
-static GtkWidget *gsb_assistant_first_page_5 ( GtkWidget *assistant )
-{
-    GtkWidget *page;
-    GtkWidget *vbox;
-    GtkWidget *button_list;
-
-    page = gtk_hbox_new (FALSE, 15);
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
-
-    vbox = new_vbox_with_title_and_icon ( _("Select the list of categories you will use"),
-					  "categories.png" );
-    gtk_box_pack_start ( GTK_BOX (page),
-			 vbox,
-			 FALSE, FALSE, 0 );
-
-    /* create the buttons,
-     * the change will be saved in the assistant widget with the key "choice_value" (see gsb_category.h for the choices) */
-    button_list = gsb_category_assistant_create_choice_page (assistant);
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 button_list,
-			 FALSE, FALSE, 0 );
-
-    gtk_widget_show_all (page);
-    return page;
-}
-
-/**
- * create the page 6 of the first assistant
- * Creation of the banks
- *
- * \param assistant the GtkWidget assistant
- *
- * \return a GtkWidget containing the page
- * */
-static GtkWidget *gsb_assistant_first_page_6 ( GtkWidget *assistant )
-{
-    GtkWidget *page;
-    GtkWidget *bank_page;
-
-    page = gtk_hbox_new (FALSE, 15);
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
-
-    /* the configuration page is very good, keep it */
-    bank_page = gsb_bank_create_page (TRUE);
-    gtk_box_pack_start ( GTK_BOX (page),
-			 bank_page,
-			 TRUE, TRUE, 0 );
-
-    gtk_widget_show_all (page);
-    return page;
-}
-
-/**
- * create the last page of the first assistant
- *
- * \param assistant the GtkWidget assistant
- *
- * \return a GtkWidget containing the page
- * */
-static GtkWidget *gsb_assistant_first_page_finish ( GtkWidget *assistant )
-{
-    GtkWidget *page;
-    GtkWidget *vbox;
-    GtkWidget *label;
-    GtkWidget *button;
-
-    page = gtk_hbox_new (FALSE, 15);
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
-
-    vbox = new_vbox_with_title_and_icon ( _("Configuration finished !"),
-					  "toolbar.png" );
-    gtk_box_pack_start ( GTK_BOX (page),
-			 vbox,
-			 FALSE, FALSE, 0 );
-
-    /* set up the menu */
-    label = gtk_label_new (_("You have finished to configure Grisbi and the default values\n"
-			     "Now, the assistant will help you to create a new account.\n\n"
-			     "Remember that all the values can be changed in the configuration page,\n"
-			     "Menu Edit -> Preferences\n\n"
-			     "There is 2 ways to continue, either you create a new empty account\n"
-			     "	(you will be able to import some datas into later),\n"
-			     "either you import some qif/ofx/csv datas to create the correspondant accounts.\n\n"
-			     "Make your choice and press the 'Close' button to launch the next assistant."));
-    gtk_misc_set_alignment ( GTK_MISC (label),
-			     0, 0.5 );
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 label,
-			 FALSE, FALSE, 0 );
-
-    button_create_account_next = gtk_radio_button_new_with_label ( NULL,
-								   _("Launch the account creation assistant"));
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 button_create_account_next,
-			 FALSE, FALSE, 0 );
-
-    button = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (GTK_RADIO_BUTTON (button_create_account_next)),
-					       _("Launch the import assistant"));
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 button,
-			 FALSE, FALSE, 0 );
-
-    gtk_widget_show_all (page);
-    return page;
-}
 
 /**
  * called when toggle the button create backup copy
  * show/hide the file chooser button of the directory of backup
  *
  * \param toggle_button
- * \param null
+ * \param hbox the hbox to sensitive or not
  *
  * \return FALSE
  * */
 static gboolean gsb_assistant_first_toggle_backup ( GtkWidget *toggle_button,
-						    gpointer null )
+						    GtkWidget *hbox )
 {
 
-    gtk_widget_set_sensitive ( hbox_backup_dir,
+    gtk_widget_set_sensitive ( hbox,
 			       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_button)));
     return FALSE;
 }
 
-/**
- * called when change into the file title,
- * we change the filename too, adding .gsb and the path,
- * only if the user didn't change it before
- *
- * \param title_entry
- * \param filename_entry
- *
- * \return FALSE
- * */
-static gboolean gsb_assistant_first_change_title ( GtkWidget *title_entry,
-						   GtkWidget *filename_entry )
-{
-    gchar *new_filename;
-    gchar *last_filename;
-    gchar *last_title;
-
-    update_homepage_title (GTK_ENTRY (title_entry), NULL, 0, 0);
-
-    /* first get the last content of the title to see if the filename
-     * was automaticaly created, and in that case, we continue the automatic mode,
-     * else we don't touch the filename entry */
-    last_title = g_object_get_data ( G_OBJECT (title_entry),
-				     "last_title");
-    last_filename = g_strconcat ( my_get_gsb_file_default_dir (), 
-				  G_DIR_SEPARATOR_S,
-				  last_title,
-				  ".gsb",
-				  NULL );
-    /* set the new -last title- */
-    g_free (last_title);
-    g_object_set_data ( G_OBJECT (title_entry),
-			"last_title", g_strdup (gtk_entry_get_text (GTK_ENTRY (title_entry))));
-
-    if ( strcmp ( last_filename,
-		  gtk_entry_get_text (GTK_ENTRY (filename_entry))))
-    {
-	/* there is a difference between the last title and the filename,
-	 * so juste free the memory and do nothing */
-	g_free (last_filename);
-	return FALSE;
-    }
-
-    /* ok, the filename is an automatic creation,
-     * so we change it */
-    g_free (last_filename);
-
-    new_filename = g_strconcat ( my_get_gsb_file_default_dir (), 
-				 G_DIR_SEPARATOR_S,
-				 gtk_entry_get_text (GTK_ENTRY (title_entry)),
-				 ".gsb",
-				 NULL );
-    gtk_entry_set_text ( GTK_ENTRY (filename_entry),
-			 new_filename );
-    g_free (new_filename);
-    return FALSE;
-}
-
-/**
- * called when click on the button to create a new filename
- * show a filechooser to create the name
- *
- * \param button
- * \param entry the entry containing the filename
- *
- * \return FALSE
- * */
-static gboolean gsb_assistant_first_choose_filename ( GtkWidget *button,
-						      GtkWidget *entry )
-{
-    GtkWidget *dialog;
-    gchar *tmpstr;
-
-    dialog = gtk_file_chooser_dialog_new ("Create filename",
-					  GTK_WINDOW (window),
-					  GTK_FILE_CHOOSER_ACTION_SAVE,
-					  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					  GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-					  NULL);
-    gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
-
-    /* set the folder */
-    tmpstr = g_path_get_dirname (gtk_entry_get_text (GTK_ENTRY (entry)));
-    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog),
-					 tmpstr);
-    g_free (tmpstr);
-
-    /* set the new name */
-    tmpstr = g_path_get_basename (gtk_entry_get_text (GTK_ENTRY (entry)));
-    gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog),
-				       tmpstr );
-    g_free (tmpstr);
-
-    if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
-    {
-	gchar *filename;
-
-	filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
-	gtk_entry_set_text ( GTK_ENTRY (entry),
-			     filename );
-	g_free (filename);
-    }
-    gtk_widget_destroy (dialog);
-    return FALSE;
-}
 
 /**
  * called when choose a new directory for the backup
@@ -731,3 +261,21 @@ static gboolean gsb_assistant_first_backup_dir_chosen ( GtkWidget *button,
     return FALSE;
 }
 
+/**
+ * keep the forward button of the last page instead of
+ * a close button
+ *
+ * \param assistant
+ * \param new_page
+ *
+ * \return FALSE
+ * */
+static gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
+						   gint new_page )
+{
+
+    gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, 
+				       GTK_RESPONSE_APPLY );
+
+    return FALSE;
+}

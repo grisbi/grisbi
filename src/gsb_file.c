@@ -37,8 +37,7 @@
 #include "./dialog.h"
 #include "./utils_file_selection.h"
 #include "./gsb_assistant_account.h"
-#include "./gsb_category.h"
-#include "./gsb_currency_config.h"
+#include "./gsb_assistant_file.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive_store.h"
 #include "./gsb_data_scheduled.h"
@@ -56,7 +55,6 @@
 #include "./utils_str.h"
 #include "./parametres.h"
 #include "./affichage_liste.h"
-#include "./import.h"
 #include "./utils_files.h"
 #include "./utils_file_selection.h"
 #include "./fenetre_principale.h"
@@ -111,6 +109,7 @@ extern GtkWidget *window_vbox_principale ;
 /**
  * Called by menu file -> new,
  * close the last file and open a new one
+ * in fact just an assistant launcher, but need to check if the previous file is closed
  * 
  * \param none
  * 
@@ -121,24 +120,13 @@ gboolean gsb_file_new ( void )
     /* continue only if closing the file is ok */
     if ( !gsb_file_close () )
 	return FALSE;
-/* xxx voir ici ou on en est, faire un assistant */
-    /* WARNING : there is another way to create a new file : importing a qif/ofx/csv account */
-    /* 	      so a change here need to be changed in the import file */
-    /* 	      (see traitement_operations_importees) */
 
+    /* set up all the default variables */
     init_variables ();
 
-    /* create the first currency */
-    if ( !gsb_currency_config_add_currency ( NULL, NULL ) )
-	return FALSE;
+    gsb_assistant_file_run (FALSE);
 
-    /* Create initial lists. */
-    gsb_category_choose_default_category ();
-
-    /* create new account and show the result */
-    gsb_file_new_finish ();
     return FALSE;
-
 }
 
 
@@ -647,7 +635,9 @@ gboolean gsb_file_save_file ( gint origine )
 gboolean gsb_file_save_backup ( void )
 {
     gboolean retour;
-
+/* xxx jusqu'ici on vérifiait juste si nom de backup, voire si */
+/*     on garde le même principe en vérifiant si existe chemin, et l'effacer si retire backup */
+/*     ou crée une variable qui dit qu'on fait des backup */
     if ( !nom_fichier_backup || !strlen(nom_fichier_backup) )
 	return FALSE;
 
