@@ -134,7 +134,6 @@ gboolean gsb_file_config_load_config ( void )
 
 
     /* get general */
-
     etat.r_modifiable = g_key_file_get_integer ( config,
 						 "General",
 						 "Can modify R",
@@ -144,6 +143,16 @@ gboolean gsb_file_config_load_config ( void )
 							"General",
 							"Path",
 							NULL ));
+
+    etat.make_backup = g_key_file_get_integer ( config,
+						"General",
+						"Make backup",
+						NULL );
+
+    gsb_file_set_backup_path ( g_key_file_get_string ( config,
+						       "General",
+						       "Backup path",
+						       NULL ));
 
     etat.alerte_permission = g_key_file_get_integer ( config,
 						      "General",
@@ -439,6 +448,14 @@ gboolean gsb_file_config_save_config ( void )
 			    "General",
 			    "Path",
 			    gsb_file_get_last_path () );
+    g_key_file_set_integer ( config,
+			     "General",
+			     "Make backup",
+			     etat.make_backup );
+    g_key_file_set_string ( config,
+			    "General",
+			    "Backup path",
+			    gsb_file_get_backup_path ());
     g_key_file_set_integer ( config,
 			     "General",
 			     "Show permission alert",
@@ -1152,6 +1169,8 @@ void gsb_file_config_clean_config ( void )
     etat.affiche_boutons_valider_annuler = 1;
     etat.classement_par_date = 1;
     gsb_file_update_last_path (g_get_home_dir ());
+    gsb_file_set_backup_path (g_get_home_dir ());
+    etat.make_backup = FALSE;
 /* xxx à vérif par françois que le dessus marche pour win, si oui virer ce dessous et le my_get_gsb_file_default_dir */
 /*     gchar* tmpstr = g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL ); */
 /*     gsb_file_update_last_path ( tmpstr ); */

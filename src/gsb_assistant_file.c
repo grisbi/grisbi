@@ -54,10 +54,10 @@ static  gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
 						  GtkWidget *filename_entry );
 static  gboolean gsb_assistant_file_choose_filename ( GtkWidget *button,
 						     GtkWidget *entry );
+static  GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_file_page_3 ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_file_page_4 ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_file_page_5 ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant );
 /*END_STATIC*/
 

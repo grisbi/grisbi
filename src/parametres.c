@@ -1,22 +1,29 @@
-/* permet la configuration du logiciel */
+/* ************************************************************************** */
+/*                                                                            */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org) */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/**
+ * \file parametres.c
+ * we find here the configuration dialog
+ */
 
 #include "include.h"
 
@@ -29,16 +36,17 @@
 #include "./gsb_archive_config.h"
 #include "./gsb_automem.h"
 #include "./gsb_bank.h"
+#include "./utils_buttons.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_currency_link_config.h"
 #include "./gsb_data_account.h"
+#include "./gsb_file.h"
 #include "./gsb_form_config.h"
 #include "./gsb_fyear_config.h"
 #include "./gsb_payment_method_config.h"
 #include "./gsb_reconcile_config.h"
 #include "./gsb_reconcile_sort_config.h"
 #include "./traitement_variables.h"
-#include "./utils_str.h"
 #include "./affichage_liste.h"
 #include "./affichage.h"
 #include "./import.h"
@@ -47,8 +55,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean change_backup_path ( GtkEntry *entry, gchar *value, gint length, gint * position );
-static void changement_choix_backup ( GtkWidget *bouton, gpointer pointeur );
 static GtkWidget * create_preferences_tree ( );
 static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
 				    GtkTreeModel * model );
@@ -87,8 +93,6 @@ static GtkWidget *bouton_avec_demarrage = NULL;
 static GtkWidget *bouton_save_auto = NULL;
 static GtkWidget *bouton_force_enregistrement = NULL;
 static GtkWidget *crypt_file_button = NULL;
-static GtkWidget *bouton_demande_backup = NULL;
-static GtkWidget *entree_chemin_backup = NULL;
 static GtkWidget *spin_button_derniers_fichiers_ouverts = NULL;
 static GtkWidget *check_button_compress_file = NULL;
 static GtkWidget *check_button_compress_backup = NULL;
@@ -101,7 +105,6 @@ static GtkWidget *entree_jours = NULL;
 extern struct conditional_message messages[] ;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts ;
-extern gchar *nom_fichier_backup ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 
@@ -619,32 +622,6 @@ gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str
 
 
 
-/** 
- * Changes backup file name upon every keystroke on entry.
- *
- * \param entry Widget that triggered handler
- * \param value Not used
- * \param length Not used
- * \param position Not used
- *
- * \returns FALSE
- */
-gboolean change_backup_path ( GtkEntry *entry, gchar *value, gint length, gint * position )
-{
-    nom_fichier_backup = my_strdup ( gtk_entry_get_text ( GTK_ENTRY(entry) ));
-
-    if ( nom_fichier_backup && !strlen(nom_fichier_backup) )
-    {
-	nom_fichier_backup = NULL;
-    }
-
-    /* Mark file as modified */
-    modification_fichier ( TRUE );
-
-    return ( FALSE );
-}
-
-
 
 /**
  * Creates the "Files" tab.
@@ -656,6 +633,7 @@ GtkWidget *onglet_fichier ( void )
     GtkWidget *vbox_pref, *paddingbox;
     GtkWidget *hbox;
     GtkWidget *label;
+    GtkWidget *button;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Files"),
 					       "files.png" );
@@ -735,60 +713,32 @@ GtkWidget *onglet_fichier ( void )
 			 FALSE, FALSE, 0 );
 
     /* Automatic backup ? */
-    bouton_demande_backup = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
-							 NULL, G_CALLBACK (changement_choix_backup), NULL);
-    g_signal_connect ( G_OBJECT (bouton_demande_backup ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &bouton_demande_backup );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_demande_backup,
+
+    /* create first the box for choosing the dir of backup, to (un)sensitive it */
+    hbox = gtk_hbox_new ( FALSE, 6 );
+
+    button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
+					  &etat.make_backup, G_CALLBACK (gsb_button_sensitive_by_checkbutton), hbox);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
-    if ( gsb_data_account_get_accounts_amount () )
-    {
-	gboolean dummy = (nom_fichier_backup != NULL &&
-			  strlen(nom_fichier_backup) > 0);
-	/* Ugly dance ... */
-	gsb_automem_checkbutton_set_value ( bouton_demande_backup, &dummy );
+    /* if automatic backup, choose a dir */
+    gtk_widget_set_sensitive ( hbox, etat.make_backup);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+			 FALSE, FALSE, 0);
 
-	/* Mise en forme de l'entrée du chemin de la backup */
-	hbox = gtk_hbox_new ( FALSE, 5 );
-	gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			     FALSE, FALSE, 0 );
+    label = gtk_label_new ( COLON(_("Backup directory")) );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+			 FALSE, FALSE, 0);
 
-	label = gtk_label_new ( COLON(_("Backup file")) );
-	gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			     FALSE, FALSE, 0 );
-
-	entree_chemin_backup = gtk_entry_new ();
-	g_signal_connect ( G_OBJECT (entree_chemin_backup ), "destroy",
-			G_CALLBACK ( gtk_widget_destroyed), &entree_chemin_backup );
-
-	if ( nom_fichier_backup && strlen(nom_fichier_backup) )
-	{
-	    gtk_entry_set_text ( GTK_ENTRY ( entree_chemin_backup ),
-				 nom_fichier_backup );
-	    gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ),
-				       TRUE );
-	}
-	else
-	    gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ),
-				       FALSE );
-
-	g_signal_connect_after ( GTK_OBJECT ( entree_chemin_backup),
-				 "insert-text",
-				 (GCallback) change_backup_path,
-				 NULL);
-	g_signal_connect_after ( GTK_OBJECT ( entree_chemin_backup),
-				 "delete-text",
-				 (GCallback) change_backup_path,
-				 NULL);
-	gtk_box_pack_start ( GTK_BOX ( hbox ), entree_chemin_backup,
-			     TRUE, TRUE, 0 );
-    }
-    else
-    {
-	gtk_widget_set_sensitive ( bouton_demande_backup, FALSE );
-    }
-
+    button = gtk_file_chooser_button_new (_("Select/Create backup directory"),
+					  GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER );
+    g_signal_connect ( G_OBJECT (button),
+		       "current-folder-changed",
+		       G_CALLBACK (gsb_config_backup_dir_chosen),
+		       NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button,
+			 TRUE, TRUE, 0);
 
     /* Compression level of backups */
     check_button_compress_backup =
@@ -810,7 +760,6 @@ GtkWidget *onglet_fichier ( void )
 }
 
 
-
 /**
  * Warns that there is no coming back if password is forgotten when
  * encryption is activated.
@@ -829,35 +778,29 @@ gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data )
 
     return FALSE;
 }
-
-
-
+/* xxx toutes les opés passent en crédits donc solde énorme */
 /**
- * Callback triggered when user activates the "Backup" option.
+ * called when choose a new directory for the backup
  *
- * \param bouton	Checkbox that triggered event.
- * \param pointeur	Unused.
+ * \param button the GtkFileChooserButton
+ * \param null
  *
- * \return		FALSE
- */
-void changement_choix_backup ( GtkWidget *bouton, gpointer pointeur )
+ * \return FALSE
+ * */
+gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
+					gpointer null )
 {
-    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_demande_backup )))
-    {
-	gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ), TRUE );
-	if (! nom_fichier_backup || !strlen(nom_fichier_backup) )
-	{
-	    gtk_entry_set_text ( GTK_ENTRY(entree_chemin_backup), _("backup.gsb") );
-	    change_backup_path ( GTK_ENTRY(entree_chemin_backup), NULL, 0, 0 );
-	}
-    }
-    else
-    {
-	gtk_widget_set_sensitive ( GTK_WIDGET ( entree_chemin_backup ), FALSE );
-	nom_fichier_backup = NULL;
-    }
+    gchar *path;
+
+    path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (button));
+    gsb_file_set_backup_path (path);
+    if (path)
+	g_free (path);
+
+    modification_fichier (TRUE);
+
+    return FALSE;
 }
-/* **************************************************************************************************************************** */
 
 
 

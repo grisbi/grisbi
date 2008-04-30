@@ -36,8 +36,8 @@
 #include "./gsb_currency_config.h"
 #include "./gsb_currency.h"
 #include "./gsb_real.h"
-#include "./include.h"
 #include "./utils.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -49,6 +49,7 @@ static gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 enum first_assistant_page

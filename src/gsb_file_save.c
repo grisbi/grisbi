@@ -120,7 +120,6 @@ extern GSList *lignes_affichage_trois_lignes;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern gchar *nom_fichier_backup ;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
 extern gchar *titre_fichier ;
@@ -530,7 +529,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
     new_string = g_markup_printf_escaped ( "\t<General\n"
 					   "\t\tFile_version=\"%s\"\n"
 					   "\t\tGrisbi_version=\"%s\"\n"
-					   "\t\tBackup_file=\"%s\"\n"
 					   "\t\tCrypt_file=\"%d\"\n"
 					   "\t\tArchive_file=\"%d\"\n"
 					   "\t\tFile_title=\"%s\"\n"
@@ -565,7 +563,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tCSV_skipped_lines=\"%s\" />\n",
 	VERSION_FICHIER,
 	VERSION,
-	nom_fichier_backup,
 	etat.crypt_file,
 	is_archive,
 	titre_fichier,

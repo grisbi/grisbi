@@ -24,6 +24,7 @@
 #include "gsb_file_load.h"
 #include "./dialog.h"
 #include "./gsb_assistant_archive.h"
+#include "./gsb_assistant_first.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"
 #include "./gsb_data_bank.h"
@@ -135,7 +136,6 @@ extern GSList *lignes_affichage_trois_lignes;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern gchar *nom_fichier_backup ;
 extern gsb_real null_real ;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
@@ -667,14 +667,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	    if ( download_tmp_values.grisbi_version )
 	        g_free ( download_tmp_values.grisbi_version );
 	    download_tmp_values.grisbi_version = my_strdup (attribute_values[i]);
-	}
-
-	else if ( !strcmp ( attribute_names[i],
-			    "Backup_file" ))
-	{
-	    if ( nom_fichier_backup )
-	        g_free ( nom_fichier_backup );
-	    nom_fichier_backup = my_strdup (attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
@@ -5094,15 +5086,6 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     }
 
     if ( !strcmp ( element_name,
-		   "Backup" ))
-    {
-	if ( nom_fichier_backup )
-	    g_free ( nom_fichier_backup );
-	nom_fichier_backup = my_strdup (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
 		   "Titre" ))
     {
 	if ( titre_fichier )
@@ -7077,6 +7060,13 @@ gboolean gsb_file_load_update_previous_version ( void )
 	    etat.check_for_archival = TRUE;
 	    etat.max_non_archived_transactions_for_check = 1000;
 
+	    /**
+	     * new in 0.6, there is no name for saving file but a directory
+	     * with autoname for autosave.
+	     * the best here is to show the first page of the new assistant
+	     * to choose the save directory */
+	    gsb_assistant_first_come_to_0_6 ();
+
 	    /* ********************************************************* */
 	    /* 	 to set just before the new version */
 	    /* ********************************************************* */
@@ -7135,11 +7125,10 @@ gboolean gsb_file_load_update_previous_version ( void )
     if ( g_slist_length (gsb_data_transaction_get_transactions_list ()) > 
 	 etat.max_non_archived_transactions_for_check )
     {
-	/* FIXME: make this conditional ? */
 	/* TODO dOm : warning: passing argument 3 of ‘question_conditional_yes_no_special’ from incompatible pointer type.
 	 * I add a cast (gchar*) before &etat.check_for_archival */ 
 	gchar* tmpstr = g_strdup_printf ( _("There are %d transactions in your file,\n" 
-						       "To increase speed it would be faster to "
+						       "To increase speed, You shoud "
 						       "archive some transactions.\n\nDo you want "
 						       "to launch the assistant to archive some "
 						       "transactions?"),
@@ -7147,6 +7136,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 	if ( question_conditional_yes_no_special ( _("Archive some transactions ?"),
 						   tmpstr,
 						   (gchar*)&etat.check_for_archival ) )
+/* 	xxx le gchar * du dessus va tout faire planter */
 	    gsb_assistant_archive_run ();
 	g_free ( tmpstr );
     }

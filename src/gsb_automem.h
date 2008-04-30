@@ -11,8 +11,6 @@ GtkWidget *gsb_automem_checkbutton_new ( const gchar *label,
 					 gboolean *value,
 					 GCallback hook,
 					 gpointer data );
-void gsb_automem_checkbutton_set_value ( GtkWidget *checkbutton,
-					 gboolean *value );
 GtkWidget *gsb_automem_entry_new ( gchar **value,
 				   GCallback hook,
 				   gpointer data );

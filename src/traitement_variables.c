@@ -138,7 +138,6 @@ extern GtkWidget * navigation_tree_view ;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern gchar *nom_fichier_backup ;
 extern GtkWidget *notebook_general ;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
 extern GtkWidget *solde_label ;
@@ -242,10 +241,6 @@ void init_variables ( void )
 
     solde_label = NULL;
     solde_label_pointe = NULL;
-
-    if ( nom_fichier_backup )
-        g_free ( nom_fichier_backup );
-    nom_fichier_backup = NULL;
 
     if ( chemin_logo )
         g_free ( chemin_logo);

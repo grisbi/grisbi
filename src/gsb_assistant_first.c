@@ -33,7 +33,8 @@
 #include "./gsb_assistant.h"
 #include "./gsb_assistant_file.h"
 #include "./gsb_automem.h"
-#include "./gsb_file.h"
+#include "./utils_buttons.h"
+#include "./parametres.h"
 #include "./traitement_variables.h"
 #include "./utils.h"
 #include "./structures.h"
@@ -41,13 +42,9 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static  gboolean gsb_assistant_first_backup_dir_chosen ( GtkWidget *button,
-							gpointer null );
-static  GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant );
-static  gboolean gsb_assistant_first_toggle_backup ( GtkWidget *toggle_button,
-						    GtkWidget *hbox );
-static gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
+static  gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
 						   gint new_page );
+static  GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -106,6 +103,42 @@ GtkResponseType gsb_assistant_first_run ( void )
     /* the assistant is finish, we launch the new file assistant */
     return_value = gsb_assistant_file_run (TRUE);
 
+    return return_value;
+}
+
+/**
+ * this function is called to launch the first opening assistant to pass to the 0.6 release
+ * the purpose is to choose the directory of autosaving
+ * the difference between gsb_assistant_first_run is we show only that first page,
+ * don't create anything later
+ *
+ * \param
+ *
+ * \return a GtkResponseType containing the return value at the end of the assistant
+ * */
+GtkResponseType gsb_assistant_first_come_to_0_6 ( void )
+{
+    GtkResponseType return_value;
+    GtkWidget *assistant;
+
+    /* create the assistant */
+    assistant = gsb_assistant_new ( _("Welcome to Grisbi 0.6!"),
+				    _("The backup function is now different.\n"
+				      "You need to choose a directory and Grisbi will create automaticaly the backup name of your file,\n"
+				      "with adding the date and time to that name.\n"
+				      "Then you need now to choose the backup directory if you used that function in the next page of the assistant.\n"),
+				    "grisbi-logo.png",
+				    NULL );
+    gsb_assistant_add_page ( assistant,
+			     gsb_assistant_first_page_2 (assistant),
+			     FIRST_ASSISTANT_PAGE_2,
+			     FIRST_ASSISTANT_INTRO,
+			     0,
+			     G_CALLBACK (gsb_assistant_first_enter_page_2) );
+
+    /* now we launch the assistant */
+    return_value = gsb_assistant_run (assistant);
+    gtk_widget_destroy (assistant);
     return return_value;
 }
 
@@ -190,7 +223,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     hbox = gtk_hbox_new ( FALSE, 6 );
 
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
-					  NULL, G_CALLBACK (gsb_assistant_first_toggle_backup), hbox);
+					  &etat.make_backup, G_CALLBACK (gsb_button_sensitive_by_checkbutton), hbox);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
@@ -209,7 +242,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 					  GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER );
     g_signal_connect ( G_OBJECT (button),
 		       "current-folder-changed",
-		       G_CALLBACK (gsb_assistant_first_backup_dir_chosen),
+		       G_CALLBACK (gsb_config_backup_dir_chosen),
 		       NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button,
 			 TRUE, TRUE, 0);
@@ -220,46 +253,6 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 }
 
 
-
-/**
- * called when toggle the button create backup copy
- * show/hide the file chooser button of the directory of backup
- *
- * \param toggle_button
- * \param hbox the hbox to sensitive or not
- *
- * \return FALSE
- * */
-static gboolean gsb_assistant_first_toggle_backup ( GtkWidget *toggle_button,
-						    GtkWidget *hbox )
-{
-
-    gtk_widget_set_sensitive ( hbox,
-			       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle_button)));
-    return FALSE;
-}
-
-
-/**
- * called when choose a new directory for the backup
- *
- * \param button the GtkFileChooserButton
- * \param null
- *
- * \return FALSE
- * */
-static gboolean gsb_assistant_first_backup_dir_chosen ( GtkWidget *button,
-							gpointer null )
-{
-    gchar *path;
-
-    path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (button));
-    gsb_file_set_backup_path (path);
-    if (path)
-	g_free (path);
-
-    return FALSE;
-}
 
 /**
  * keep the forward button of the last page instead of

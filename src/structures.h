@@ -66,6 +66,7 @@ struct {
     gint dernier_fichier_auto;
     gint sauvegarde_auto;             /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
     gint sauvegarde_demarrage;        /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
+    gint make_backup;			/* TRUE for create a backup when save file */
     gint entree;   			 /* si etat.entree = 1, la touche entrée finit l'opération */ 
     gint alerte_mini;
     gint formulaire_toujours_affiche;

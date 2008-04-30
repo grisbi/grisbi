@@ -26,6 +26,7 @@
 
 /*START_INCLUDE*/
 #include "utils_buttons.h"
+#include "./gsb_automem.h"
 #include "./utils.h"
 #include "./utils_str.h"
 /*END_INCLUDE*/
@@ -130,35 +131,54 @@ GtkWidget * new_image_label ( GsbButtonStyle style, const gchar * image_name, co
  */
 void set_popup_position (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer user_data)
 {
-  GtkWidget *widget;
-  GtkRequisition requisition;
-  gint screen_width, menu_xpos, menu_ypos, menu_width;
+    GtkWidget *widget;
+    GtkRequisition requisition;
+    gint screen_width, menu_xpos, menu_ypos, menu_width;
 
-  widget = GTK_WIDGET (user_data);
+    widget = GTK_WIDGET (user_data);
 
-  gtk_widget_get_child_requisition (GTK_WIDGET (menu), &requisition);
-  menu_width = requisition.width;
+    gtk_widget_get_child_requisition (GTK_WIDGET (menu), &requisition);
+    menu_width = requisition.width;
 
-  gdk_window_get_origin (widget->window, &menu_xpos, &menu_ypos);
+    gdk_window_get_origin (widget->window, &menu_xpos, &menu_ypos);
 
-  menu_xpos += widget->allocation.x;
-  menu_ypos += widget->allocation.y + widget->allocation.height - 2;
+    menu_xpos += widget->allocation.x;
+    menu_ypos += widget->allocation.y + widget->allocation.height - 2;
 
-  if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
-    menu_xpos = menu_xpos + widget->allocation.width - menu_width;
+    if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
+	menu_xpos = menu_xpos + widget->allocation.width - menu_width;
 
-  /* Clamp the position on screen */
-  screen_width = gdk_screen_get_width (gtk_widget_get_screen (widget));
-  
-  if (menu_xpos < 0)
-    menu_xpos = 0;
-  else if ((menu_xpos + menu_width) > screen_width)
-    menu_xpos -= ((menu_xpos + menu_width) - screen_width);
+    /* Clamp the position on screen */
+    screen_width = gdk_screen_get_width (gtk_widget_get_screen (widget));
 
-  *x = menu_xpos;
-  *y = menu_ypos;
-  *push_in = TRUE;
+    if (menu_xpos < 0)
+	menu_xpos = 0;
+    else if ((menu_xpos + menu_width) > screen_width)
+	menu_xpos -= ((menu_xpos + menu_width) - screen_width);
+
+    *x = menu_xpos;
+    *y = menu_ypos;
+    *push_in = TRUE;
 }
+
+
+/**
+ * called by a gsb_automem_checkbutton_new or a g_signal_connect on a checkbutton
+ * sensitive or unsensitive tha param widget, according to the checkbutton
+ *
+ * \param check_button
+ * \param widget
+ *
+ * \return FALSE
+ * */
+gboolean gsb_button_sensitive_by_checkbutton ( GtkWidget *check_button,
+					       GtkWidget *widget )
+{
+    gtk_widget_set_sensitive ( widget,
+			       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_button)));
+    return FALSE;
+}
+
 
 
 /* Local Variables: */

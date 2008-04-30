@@ -72,10 +72,6 @@ static gboolean gsb_file_save_file ( gint origine );
 /*END_STATIC*/
 
 
-
-
-gchar *nom_fichier_backup = NULL;
-
 /**
  * keep the last path used in grisbi, save in the configuration at the end */
 static gchar *last_path_used;
@@ -305,9 +301,9 @@ const gchar *gsb_file_get_backup_path ( void )
  *
  * \return
  * */
-void gsb_file_set_backup_path ( const gchar *backup_path )
+void gsb_file_set_backup_path ( const gchar *path )
 {
-    backup_path = my_strdup (backup_path);
+    backup_path = my_strdup (path);
 }
 
 
@@ -626,7 +622,7 @@ gboolean gsb_file_save_file ( gint origine )
 
 
 /**
- * save a backup of the file, using nom_fichier_backup
+ * save a backup of the file
  *
  * \param
  *
@@ -635,17 +631,34 @@ gboolean gsb_file_save_file ( gint origine )
 gboolean gsb_file_save_backup ( void )
 {
     gboolean retour;
-/* xxx jusqu'ici on vérifiait juste si nom de backup, voire si */
-/*     on garde le même principe en vérifiant si existe chemin, et l'effacer si retire backup */
-/*     ou crée une variable qui dit qu'on fait des backup */
-    if ( !nom_fichier_backup || !strlen(nom_fichier_backup) )
+    gchar *filename;
+    struct tm *day_time;
+    time_t temps;
+    gchar *name;
+
+    if (!etat.make_backup
+	||
+	!gsb_file_get_backup_path ())
 	return FALSE;
 
     gsb_status_message ( _("Saving backup") );
 
-    retour = gsb_file_save_save_file( nom_fichier_backup,
+    name = g_path_get_basename (nom_fichier_comptes);
+
+    /* create a filename for the backup :
+     * filename-yyyy-mm-dd_mm:hh:ss */
+    time ( &temps );
+    day_time = localtime (&temps);
+    filename = g_strdup_printf ( "%s/%s_%d-%02d-%d_%d:%d:%d",
+				 gsb_file_get_backup_path (),
+				 name,
+				 day_time -> tm_year + 1900, day_time -> tm_mon + 1, day_time -> tm_mday,
+				 day_time -> tm_hour, day_time -> tm_min, day_time -> tm_sec );
+    retour = gsb_file_save_save_file( filename,
 				      etat.compress_backup,
 				      FALSE );
+    g_free (filename);
+    g_free (name);
 
     gsb_status_message ( _("Done") );
 

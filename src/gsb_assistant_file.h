@@ -6,6 +6,6 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkResponseType gsb_assistant_file_run ( gboolean show_welcome_page );
+GtkResponseType gsb_assistant_file_run ( gboolean first_opening );
 /* END_DECLARATION */
 #endif
