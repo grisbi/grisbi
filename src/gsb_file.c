@@ -322,7 +322,7 @@ gboolean gsb_file_open_direct_menu ( GtkMenuItem *item,
     if ( !gsb_file_close() )
 	return FALSE;
 
-    nom_fichier_comptes = tab_noms_derniers_fichiers_ouverts[GPOINTER_TO_INT (file_number_ptr)];
+    nom_fichier_comptes = my_strdup (tab_noms_derniers_fichiers_ouverts[GPOINTER_TO_INT (file_number_ptr)]);
     gsb_file_open_file (nom_fichier_comptes);
 
     return FALSE;
@@ -563,7 +563,6 @@ gboolean gsb_file_save_file ( gint origine )
 	return FALSE;
 
     /*     on vérifie que le fichier n'est pas locké */
-
     if ( etat.fichier_deja_ouvert
 	 &&
 	 !etat.force_enregistrement
@@ -583,7 +582,6 @@ gboolean gsb_file_save_file ( gint origine )
 
     /*   on a maintenant un nom de fichier */
     /*     et on sait qu'on peut sauvegarder */
-
     gsb_status_message ( _("Saving file") );
 
     result = gsb_file_save_save_file ( nouveau_nom_enregistrement,
@@ -604,7 +602,6 @@ gboolean gsb_file_save_file ( gint origine )
 	gsb_file_util_modify_lock ( TRUE );
 
 	/* 	dans tout les cas, le fichier n'était plus ouvert à l'ouverture */
-
 	etat.fichier_deja_ouvert = 0;
 	modification_fichier ( FALSE );
 	gsb_file_update_window_title ();
@@ -612,7 +609,6 @@ gboolean gsb_file_save_file ( gint origine )
     }
 
     /*     on enregistre la backup si nécessaire */
-
     gsb_file_save_backup();
 
     gsb_status_message ( _("Done") );
@@ -837,8 +833,7 @@ gboolean gsb_file_close ( void )
 {
     gint result;
 
-    devel_debug ( "gsb_file_close" );
-
+    devel_debug (NULL);
 
     if ( !assert_account_loaded () )
 	return ( TRUE );
@@ -934,12 +929,10 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
     gint i, position;
     gchar * dernier, * real_name;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_file_append_name_to_opened_list : %s", path_fichier );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug (path_fichier);
 
     if ( !nb_max_derniers_fichiers_ouverts ||
-	 ! path_fichier)
+	 !path_fichier)
 	return;
 
     if ( nb_derniers_fichiers_ouverts < 0 )
@@ -967,7 +960,6 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
 	if ( !strcmp ( real_name, tab_noms_derniers_fichiers_ouverts[i] ))
 	{
 	    /* 	si ce fichier est déjà le dernier ouvert, on laisse tomber */
-
 	    if ( !i )
 		return;
 
@@ -979,7 +971,6 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
     if ( position )
     {
 	/*       le fichier a été trouvé, on fait juste une rotation */
-
 	for ( i=position ; i>0 ; i-- )
 	    tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
 	if ( real_name )
@@ -1015,7 +1006,6 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
     tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( real_name );
 
     affiche_derniers_fichiers_ouverts();
-
     g_free ( real_name );
 }
 
@@ -1040,10 +1030,7 @@ void gsb_file_remove_name_from_opened_list ( gchar *filename )
 	    nb_derniers_fichiers_ouverts--;
 
 	    for ( j = i; ( j + 1 ) < nb_derniers_fichiers_ouverts; j++ )
-	    {
 		tab_noms_derniers_fichiers_ouverts[j] = tab_noms_derniers_fichiers_ouverts[j+1];
-		
-	    }
 	}
     }
     affiche_derniers_fichiers_ouverts();

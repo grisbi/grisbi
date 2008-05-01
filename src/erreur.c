@@ -53,6 +53,7 @@ static GtkWidget * print_backtrace ( void );
 
 /*START_EXTERN*/
 extern gchar *nom_fichier_comptes ;
+extern gchar **tab_noms_derniers_fichiers_ouverts;
 /*END_EXTERN*/
 
 

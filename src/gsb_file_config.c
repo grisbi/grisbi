@@ -241,7 +241,7 @@ gboolean gsb_file_config_load_config ( void )
 								      &nb_derniers_fichiers_ouverts,
 								      NULL );
     if (tab_noms_derniers_fichiers_ouverts)
-	nom_fichier_comptes = tab_noms_derniers_fichiers_ouverts [ 0 ];
+	nom_fichier_comptes = my_strdup (tab_noms_derniers_fichiers_ouverts [ 0 ]);
     else
 	nom_fichier_comptes = NULL;
 
@@ -509,14 +509,6 @@ gboolean gsb_file_config_save_config ( void )
 			     "Load last file",
 			     etat.dernier_fichier_auto );
 
-    if ( nom_fichier_comptes )
-    {
-	g_key_file_set_string ( config,
-				"IO",
-				"Name last file",
-				nom_fichier_comptes );
-    }
-
     g_key_file_set_integer ( config,
 			     "IO",
 			     "Save at closing",
@@ -547,7 +539,9 @@ gboolean gsb_file_config_save_config ( void )
 			     "Force saving",
 			     etat.force_enregistrement );
 
-    if ( nb_derniers_fichiers_ouverts > 0 )
+    if ( nb_derniers_fichiers_ouverts > 0
+	 &&
+	 tab_noms_derniers_fichiers_ouverts)
         g_key_file_set_string_list ( config,
 				 "IO",
 				 "Names last files",

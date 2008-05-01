@@ -440,7 +440,6 @@ gboolean gsb_file_others_load ( gchar *filename,
 					   filename );
 	dialogue_error ( tmpstr );
 	g_free ( tmpstr );
-	gsb_file_remove_name_from_opened_list (filename);
 	return ( FALSE );
     }
 
@@ -564,7 +563,6 @@ gboolean gsb_file_others_load ( gchar *filename,
 					 latin2utf8 (strerror(errno)));
 	dialogue_error ( tmpstr );
 	g_free ( tmpstr );
-	gsb_file_remove_name_from_opened_list (filename);
 	return FALSE;
     }
 

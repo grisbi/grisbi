@@ -261,9 +261,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     gchar *file_content;
     guint length;
 
-    gchar * tmpstr = g_strdup_printf ("gsb_file_load_open_file %s", filename );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug ( filename );
 
     /* general check */
     
@@ -282,7 +280,6 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     }
 
     /* check here if it's not a regular file */
-
     if ( !g_file_test ( filename,
 			G_FILE_TEST_IS_REGULAR ))
     {
