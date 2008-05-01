@@ -6,6 +6,7 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GtkResponseType gsb_assistant_archive_run ( void );
+GtkResponseType gsb_assistant_archive_run ( gboolean origin );
+GtkResponseType gsb_assistant_archive_run_by_menu (void);
 /* END_DECLARATION */
 #endif

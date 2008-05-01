@@ -191,7 +191,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	  NULL,			NULL,			G_CALLBACK( export_accounts ) },
 
 	{ "CreateArchive",	GTK_STOCK_CLEAR,	_("Archive transactions..."),
-	  NULL,			NULL,			G_CALLBACK(gsb_assistant_archive_run) },
+	  NULL,			NULL,			G_CALLBACK(gsb_assistant_archive_run_by_menu) },
 
 	{ "ExportArchive",	GTK_STOCK_HARDDISK,	_("_Export an archive as GSB/QIF/CSV file..."),
 	  NULL,			NULL,			G_CALLBACK(gsb_assistant_archive_export_run) },

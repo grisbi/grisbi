@@ -7121,22 +7121,7 @@ gboolean gsb_file_load_update_previous_version ( void )
      * by default take the 2000 transactions as limit */
     if ( g_slist_length (gsb_data_transaction_get_transactions_list ()) > 
 	 etat.max_non_archived_transactions_for_check )
-    {
-	/* TODO dOm : warning: passing argument 3 of ‘question_conditional_yes_no_special’ from incompatible pointer type.
-	 * I add a cast (gchar*) before &etat.check_for_archival */ 
-	gchar* tmpstr = g_strdup_printf ( _("There are %d transactions in your file,\n" 
-						       "To increase speed, You shoud "
-						       "archive some transactions.\n\nDo you want "
-						       "to launch the assistant to archive some "
-						       "transactions?"),
-					     g_slist_length (gsb_data_transaction_get_transactions_list ()));
-	if ( question_conditional_yes_no_special ( _("Archive some transactions ?"),
-						   tmpstr,
-						   (gchar*)&etat.check_for_archival ) )
-/* 	xxx le gchar * du dessus va tout faire planter */
-	    gsb_assistant_archive_run ();
-	g_free ( tmpstr );
-    }
+	    gsb_assistant_archive_run (TRUE);
 
     /* if we opened an archive, we say it here */
     if (etat.is_archive)

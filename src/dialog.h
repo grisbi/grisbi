@@ -21,7 +21,6 @@ GtkWindow *gsb_dialog_create_information_window ( gchar *text );
 gchar * make_hint ( gchar * hint, gchar * text );
 gboolean question ( gchar *texte );
 gboolean question_conditional_yes_no ( gchar * var );
-gboolean question_conditional_yes_no_special ( gchar * hint, gchar * message, gchar * var );
 gboolean question_yes_no ( gchar *texte,
 			   gint default_answer );
 gboolean question_yes_no_hint ( gchar * hint,

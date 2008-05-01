@@ -90,26 +90,57 @@ static GSList *list_transaction_to_archive = NULL;
 
 
 /**
- * this function is called to launch the assistant to make archives
+ * cannot send param by menu, so come here to launch the assistant
  *
  * \param
  *
+ * \return the GtkResponseType of the assistant
+ * */
+GtkResponseType gsb_assistant_archive_run_by_menu (void)
+{
+    return gsb_assistant_archive_run (FALSE);
+}
+
+
+/**
+ * this function is called to launch the assistant to make archives
+ *
+ * \param origin : FALSE by menu, TRUE automaticaly after a file opening
+ *
  * \return a GtkResponseType containing the return value at the end of the assistant
  * */
-GtkResponseType gsb_assistant_archive_run ( void )
+GtkResponseType gsb_assistant_archive_run ( gboolean origin )
 {
     GtkResponseType return_value;
     GtkWidget *assistant;
+    gchar *tmpstr;
+
+    if (origin)
+	/* come from check while opening file */
+	tmpstr = g_strdup_printf ( _("There are too much transactions in your file (%d) and the current limit is %d transactions.\n"
+				     "To increase speed, you shoud archive them. (Press Cancel if you don't want make an archive now)\n"
+				     "(the current limit and the opening check-up can be changed in the Preferences)\n\n"
+				     "This assistant will guide you through the process of archiving transactions "
+				     "By default, Grisbi does not export any archive into separate files, "
+				     "it just mark transactions as archted and do not use them.\n\n"
+				     "You can still export them into a separate archive file if necessary.\n"),
+				   g_slist_length (gsb_data_transaction_get_transactions_list ()),
+				   etat.max_non_archived_transactions_for_check );
+    else
+	/* come by menu action */
+	tmpstr = my_strdup (_("This assistant will guide you through the process of archiving transactions "
+			      "to increase the speed of grisbi.\n\n"
+			      "By default, Grisbi does not export any archive into separate files, "
+			      "it just mark transactions as archted and do not use them.\n\n"
+			      "You can still export them into a separate archive file if necessary.\n"));
 
     /* create the assistant */
     assistant = gsb_assistant_new ( _("Archive transactions"),
-				    _("This assistant will guide you through the process of archiving transactions "
-				      "to increase the speed of grisbi.\n\n"
-				      "By default, Grisbi does not export any archive into separate files, "
-				      "it just mark transactions as archted and do not use them.\n\n"
-				      "You can still export them into a separate archive file if necessary.\n"),
+				    tmpstr,
 				    "archive.png",
 				    G_CALLBACK (gsb_assistant_archive_switch_to_intro));
+    g_free (tmpstr);
+
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_archive_page_menu (assistant),
 			     ARCHIVE_ASSISTANT_MENU,
