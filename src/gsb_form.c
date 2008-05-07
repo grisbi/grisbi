@@ -642,7 +642,9 @@ void gsb_form_fill_element ( gint element_number,
 	case TRANSACTION_FORM_DEBIT:
 	    if (gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa < 0)
 	    {
-		char_tmp = gsb_real_get_string (gsb_real_abs (gsb_data_mix_get_amount (transaction_number, is_transaction)));
+		char_tmp = gsb_real_get_string_with_currency (gsb_real_abs (gsb_data_mix_get_amount (transaction_number, is_transaction)),
+							      gsb_data_mix_get_currency_number (transaction_number, is_transaction),
+							      FALSE );
 
 		gsb_form_entry_get_focus (widget);
 		gtk_entry_set_text ( GTK_ENTRY ( widget ),
@@ -654,7 +656,9 @@ void gsb_form_fill_element ( gint element_number,
 	case TRANSACTION_FORM_CREDIT:
 	    if (gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa >= 0)
 	    {
-		char_tmp = gsb_real_get_string (gsb_data_mix_get_amount (transaction_number, is_transaction));
+		char_tmp = gsb_real_get_string_with_currency (gsb_data_mix_get_amount (transaction_number, is_transaction),
+							      gsb_data_mix_get_currency_number (transaction_number, is_transaction),
+							      FALSE );
 
 		gsb_form_entry_get_focus (widget);
 		gtk_entry_set_text ( GTK_ENTRY ( widget ),
@@ -2545,7 +2549,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
     GSList *tmp_list;
     GDate *date;
 
-    gchar* tmpstr = g_strdup_printf ( "gsb_form_take_datas_from_form %d", transaction_number );
+    gchar* tmpstr = g_strdup_printf ( "%d", transaction_number );
     devel_debug ( tmpstr );
     g_free ( tmpstr );
 

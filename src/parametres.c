@@ -733,6 +733,8 @@ GtkWidget *onglet_fichier ( void )
 
     button = gtk_file_chooser_button_new (_("Select/Create backup directory"),
 					  GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER );
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (button),
+					  gsb_file_get_backup_path ());
     g_signal_connect ( G_OBJECT (button),
 		       "current-folder-changed",
 		       G_CALLBACK (gsb_config_backup_dir_chosen),
@@ -778,7 +780,7 @@ gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data )
 
     return FALSE;
 }
-/* xxx toutes les opés passent en crédits donc solde énorme */
+
 /**
  * called when choose a new directory for the backup
  *

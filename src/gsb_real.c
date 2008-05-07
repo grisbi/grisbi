@@ -122,19 +122,15 @@ gchar *gsb_real_format_string ( gsb_real number,
     glong num;
     const gchar *currency_symbol = NULL;
 
-    if (currency_number && show_symbol)
+   if (currency_number && show_symbol)
 	currency_symbol = gsb_data_currency_get_code (currency_number);
 
-    /* FIXME : should return 0.00 according to the currency and no 0 */
-    if (number.mantissa == 0)
-	return g_strdup_printf ( "%s%s%s0%c00%s%s", 
-				 ( currency_symbol && conv -> p_cs_precedes ? currency_symbol : "" ),
-				 ( currency_symbol && conv -> p_sep_by_space ? " " : "" ),
-				 conv -> positive_sign,
-				 ( * conv -> mon_decimal_point ? * conv -> mon_decimal_point : '.' ),
-				 ( currency_symbol && ! conv -> p_cs_precedes && conv -> p_sep_by_space ? 
-				   " " : "" ),
-				 ( currency_symbol && ! conv -> p_cs_precedes ? currency_symbol : "" ) );
+    /* first we need to adapt the exponent to the currency */
+    if (currency_number
+	&&
+	number.exponent != gsb_data_currency_get_floating_point (currency_number))
+	/* the exponent of the real is not the same of the currency, need to adapt it */
+	number = gsb_real_adjust_exponent (number, gsb_data_currency_get_floating_point (currency_number));
 
     /* for a long int : max 11 char
      * so with the possible -, the spaces and the .
@@ -193,12 +189,11 @@ gchar *gsb_real_format_string ( gsb_real number,
 
     /* Add the sign at the end of the string just before to reverse it to avoid
        to have to insert it at the begin just after... */
-
     string = g_strdup_printf ( "%s%s%s%s%s%s%s%s", 
 			       ( currency_symbol && conv -> p_cs_precedes ? currency_symbol : "" ),
 			       ( currency_symbol && conv -> p_sep_by_space ? " " : "" ),
-			       conv -> positive_sign,
-			       g_strreverse ( exponent ),
+			       number.mantissa < 0 ? conv -> negative_sign : conv -> positive_sign,
+			       strlen (exponent) ? g_strreverse ( exponent ) : "0",
 			       ( * conv -> mon_decimal_point ? conv -> mon_decimal_point : "." ),
 			       g_strreverse ( mantissa ),
 			       ( currency_symbol && ! conv -> p_cs_precedes && conv -> p_sep_by_space ? 

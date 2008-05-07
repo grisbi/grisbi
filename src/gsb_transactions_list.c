@@ -725,7 +725,6 @@ void gsb_transactions_list_create_tree_view_columns ( void )
     }
 
     /* get the position of the amount column to set it in red */
-
     column_balance = find_element_col (TRANSACTION_LIST_BALANCE);
 
     if ( column_balance != -1 )
@@ -733,7 +732,6 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 					     gtk_tree_view_column_get_cell_renderers ( transactions_tree_view_columns[column_balance]) -> data,
 					     "foreground", TRANSACTION_COL_NB_AMOUNT_COLOR );
 }
-/******************************************************************************/
 
 
 
@@ -966,7 +964,8 @@ gboolean gsb_transactions_list_fill_store ( GtkTreeStore *store )
 {
     GSList *transactions_list;
 
-    devel_debug ( "gsb_transactions_list_fill_store" );
+    devel_debug ("");
+/*     xxx créer un devel_entry_func sans paramètre comme devel_debug */
 
     /* add the transations wich represent the archives to the store
      * 1 line per archive and per account */
@@ -2191,7 +2190,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 
     /*     if we are not in the list, go away */
     if ( ev -> window != gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )) )
-	return(TRUE);
+	return(FALSE);
 
     /* first, give the focus to the list */
     gtk_widget_grab_focus (tree_view);
