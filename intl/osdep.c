@@ -1,5 +1,5 @@
-/* Description of GNU message catalog format: string hashing function.
-   Copyright (C) 1995, 1997-1998, 2000-2003, 2005 Free Software Foundation, Inc.
+/* OS dependent parts of libintl.
+   Copyright (C) 2001-2002, 2006 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify it
    under the terms of the GNU Library General Public License as published
@@ -16,21 +16,11 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
    USA.  */
 
-/* @@ end of prolog @@ */
-
-/* We assume to have `unsigned long int' value with at least 32 bits.  */
-#define HASHWORDBITS 32
-
-
-#ifndef _LIBC
-# ifdef IN_LIBINTL
-#  define __hash_string libintl_hash_string
-# else
-#  define __hash_string hash_string
-# endif
+#if defined __CYGWIN__
+# include "intl-exports.c"
+#elif defined __EMX__
+# include "os2compat.c"
+#else
+/* Avoid AIX compiler warning.  */
+typedef int dummy;
 #endif
-
-/* Defines the so called `hashpjw' function by P.J. Weinberger
-   [see Aho/Sethi/Ullman, COMPILERS: Principles, Techniques and Tools,
-   1986, 1987 Bell Telephone Laboratories, Inc.]  */
-extern unsigned long int __hash_string (const char *str_param);

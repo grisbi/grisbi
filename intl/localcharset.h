@@ -1,5 +1,6 @@
-/* Description of GNU message catalog format: string hashing function.
-   Copyright (C) 1995, 1997-1998, 2000-2003, 2005 Free Software Foundation, Inc.
+/* Determine a canonical name for the current locale's character encoding.
+   Copyright (C) 2000-2003 Free Software Foundation, Inc.
+   This file is part of the GNU CHARSET Library.
 
    This program is free software; you can redistribute it and/or modify it
    under the terms of the GNU Library General Public License as published
@@ -16,21 +17,26 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
    USA.  */
 
-/* @@ end of prolog @@ */
-
-/* We assume to have `unsigned long int' value with at least 32 bits.  */
-#define HASHWORDBITS 32
+#ifndef _LOCALCHARSET_H
+#define _LOCALCHARSET_H
 
 
-#ifndef _LIBC
-# ifdef IN_LIBINTL
-#  define __hash_string libintl_hash_string
-# else
-#  define __hash_string hash_string
-# endif
+#ifdef __cplusplus
+extern "C" {
 #endif
 
-/* Defines the so called `hashpjw' function by P.J. Weinberger
-   [see Aho/Sethi/Ullman, COMPILERS: Principles, Techniques and Tools,
-   1986, 1987 Bell Telephone Laboratories, Inc.]  */
-extern unsigned long int __hash_string (const char *str_param);
+
+/* Determine the current locale's character encoding, and canonicalize it
+   into one of the canonical names listed in config.charset.
+   The result must not be freed; it is statically allocated.
+   If the canonical name cannot be determined, the result is a non-canonical
+   name.  */
+extern const char * locale_charset (void);
+
+
+#ifdef __cplusplus
+}
+#endif
+
+
+#endif /* _LOCALCHARSET_H */
