@@ -229,8 +229,9 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 
     /* if automatic backup, choose a dir */
     /* unsensitive by default */
-    gtk_widget_set_sensitive ( hbox,
-			       FALSE );
+    if (!etat.make_backup)
+	gtk_widget_set_sensitive ( hbox,
+				   FALSE );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0);
 

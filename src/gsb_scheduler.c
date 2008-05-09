@@ -79,7 +79,7 @@ gboolean gsb_scheduler_increase_scheduled ( gint scheduled_number )
 {
     GDate *new_date;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_scheduler_increase_scheduled %d", scheduled_number);
+    gchar* tmpstr = g_strdup_printf ("%d", scheduled_number);
     devel_debug ( tmpstr );
     g_free ( tmpstr );
 
