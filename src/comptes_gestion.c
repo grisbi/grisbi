@@ -654,8 +654,8 @@ void remplissage_details_compte ( void )
     devel_debug ( "remplissage_details_compte" );
 
     current_account = gsb_gui_navigation_get_current_account ();
-
-    g_return_if_fail ( current_account >= 0 );
+    if ( current_account >= 0 )
+	return;
 
     my_gtk_entry_set_text ( GTK_ENTRY ( detail_nom_compte ),
 			    gsb_data_account_get_name (current_account) );
