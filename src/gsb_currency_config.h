@@ -54,6 +54,8 @@ enum currency_list_column {
 /* START_DECLARATION */
 gboolean gsb_currency_config_add_currency ( GtkWidget *button,
 					    GtkTreeModel *currency_tree_model );
+gboolean gsb_currency_config_add_currency_set_combobox ( GtkWidget * button,
+							 GtkWidget * combobox );
 GtkWidget *gsb_currency_config_create_box_popup ( GCallback select_callback );
 gint gsb_currency_config_create_currency ( const gchar *currency_name,
 					   const gchar *currency_code, 

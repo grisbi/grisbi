@@ -30,5 +30,6 @@ gboolean gsb_data_currency_set_name ( gint currency_number,
 				      const gchar *name );
 gint gsb_data_currency_set_new_number ( gint currency_number,
 					gint new_no_currency );
+gint gsb_data_currency_max_number ( void );
 /* END_DECLARATION */
 #endif

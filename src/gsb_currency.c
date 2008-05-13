@@ -558,6 +558,8 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 }
 
+
+
 /**
  * Find whether echange rate between two currencies is known.  If so,
  * returns a cached_exchange_rate structure with exchange rate

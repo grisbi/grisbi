@@ -1027,6 +1027,22 @@ dialog_return:
 }
 
 
+
+/**
+ *
+ *
+ *
+ */
+gboolean gsb_currency_config_add_currency_set_combobox ( GtkWidget * button,
+							 GtkWidget * combobox )
+{
+    gsb_currency_config_add_currency ( button, FALSE );
+    gsb_currency_set_combobox_history ( combobox, gsb_data_currency_max_number (  ) );
+
+    return FALSE;
+}
+
+
 /**
  * create a new currency according to the param
  *
@@ -1067,16 +1083,23 @@ gint gsb_currency_config_create_currency ( const gchar *currency_name,
 gint gsb_currency_config_create_currency_from_iso4217list ( gchar *currency_name )
 {
     struct iso_4217_currency * currency = iso_4217_currencies;
+    gchar * tmp = g_strdup ( currency_name );
+    g_strchomp ( tmp );
 
     while ( currency -> country_name )
     {
-	if ( !strcmp ( currency -> currency_code, currency_name ) )
+	if ( !strcmp ( currency -> currency_code, tmp ) && currency -> main_currency )
+	{
+	    g_free ( tmp );
 	    return gsb_currency_config_create_currency ( currency -> currency_name, 
 							 currency -> currency_nickname, 
 							 currency -> currency_code,
 							 currency -> floating_point );
+	}
 	currency++;
     }
+
+    g_free ( tmp );
 
     return FALSE;
 }
