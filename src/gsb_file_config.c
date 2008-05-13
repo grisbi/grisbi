@@ -444,18 +444,18 @@ gboolean gsb_file_config_save_config ( void )
 			     "General",
 			     "Can modify R",
 			     etat.r_modifiable );
-/*     g_key_file_set_string ( config, */
-/* 			    "General", */
-/* 			    "Path", */
-/* 			    gsb_file_get_last_path () ); */
+    g_key_file_set_string ( config,
+			    "General",
+			    "Path",
+			    gsb_file_get_last_path () );
     g_key_file_set_integer ( config,
 			     "General",
 			     "Make backup",
 			     etat.make_backup );
-/*     g_key_file_set_string ( config, */
-/* 			    "General", */
-/* 			    "Backup path", */
-/* 			    gsb_file_get_backup_path ()); */
+    g_key_file_set_string ( config,
+			    "General",
+			    "Backup path",
+			    gsb_file_get_backup_path ());
     g_key_file_set_integer ( config,
 			     "General",
 			     "Show permission alert",
@@ -472,11 +472,11 @@ gboolean gsb_file_config_save_config ( void )
 			     "General",
 			     "Use user font",
 			     etat.utilise_fonte_listes );
-/*     if ( pango_desc_fonte_liste ) */
-/* 	g_key_file_set_string ( config, */
-/* 				"General", */
-/* 				"Font name", */
-/* 				pango_font_description_to_string (pango_desc_fonte_liste)); */
+    if ( pango_desc_fonte_liste )
+	g_key_file_set_string ( config,
+				"General",
+				"Font name",
+				pango_font_description_to_string (pango_desc_fonte_liste));
     g_key_file_set_string ( config,
 			    "General",
 			    "Latex command",
@@ -485,12 +485,12 @@ gboolean gsb_file_config_save_config ( void )
 			    "General",
 			    "Dvips command",
 			    etat.dvips_command );
-/*     g_key_file_set_string ( config, */
-/* 			    "General", */
-/* 			    "Web", */
-/* 			    my_strdelimit ( etat.browser_command, */
-/* 					    "&", */
-/* 					    "\\e" )); */
+    g_key_file_set_string ( config,
+			    "General",
+			    "Web",
+			    my_strdelimit ( etat.browser_command,
+					    "&",
+					    "\\e" ));
 
     /* Remember size of main panel */
     if ( main_hpaned && GTK_IS_PANED ( main_hpaned ) )
@@ -539,14 +539,14 @@ gboolean gsb_file_config_save_config ( void )
 			     "Force saving",
 			     etat.force_enregistrement );
 
-/*     if ( nb_derniers_fichiers_ouverts > 0 */
-/* 	 && */
-/* 	 tab_noms_derniers_fichiers_ouverts) */
-/*         g_key_file_set_string_list ( config, */
-/* 				 "IO", */
-/* 				 "Names last files", */
-/* 				 (const gchar **) tab_noms_derniers_fichiers_ouverts, */
-/* 				 nb_derniers_fichiers_ouverts ); */
+    if ( nb_derniers_fichiers_ouverts > 0
+	 &&
+	 tab_noms_derniers_fichiers_ouverts)
+        g_key_file_set_string_list ( config,
+				 "IO",
+				 "Names last files",
+				 (const gchar **) tab_noms_derniers_fichiers_ouverts,
+				 nb_derniers_fichiers_ouverts );
 
     g_key_file_set_integer ( config, 
 			     "IO",
