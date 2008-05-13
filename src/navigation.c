@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -851,7 +851,6 @@ void gsb_gui_navigation_remove_report ( gint report_number )
     gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model), 
 			     (GtkTreeModelForeachFunc) gsb_gui_navigation_remove_report_iterator, 
 			     GINT_TO_POINTER ( report_number ) );
-   
 }
 
 
@@ -997,6 +996,8 @@ gboolean navigation_change_account ( gint *no_account )
     GtkTreePath *path;
 
     new_account = GPOINTER_TO_INT ( no_account );
+    if ( new_account < 0 )
+	return FALSE;
 
     /* the selection on the navigation bar has already changed, so
      * have to use a buffer variable to get the last account */
@@ -1124,7 +1125,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     gint report_number;
     GtkTreeIter dummy_iter;
     gchar * title = NULL; 
-    gchar* suffix = NULL; 
+    gchar * suffix = NULL; 
 
     devel_debug ("gsb_gui_navigation_select_line");
 
@@ -1184,12 +1185,9 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    }
 
 	    currency_number = gsb_data_account_get_currency (account_number);
-	    gchar* current_balance_str =
-	    	gsb_real_get_string (gsb_data_account_get_current_balance (account_number));
-	    suffix = g_strdup_printf ( "%s %s", 
-				       current_balance_str,
-				       gsb_data_currency_get_code (currency_number));
-	    g_free ( current_balance_str );
+	    suffix = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
+							 currency_number, TRUE );
+	    g_free ( suffix );
 	    gsb_menu_update_view_menu ( account_number );
 
 	    /* what to be done if switch to that page */
@@ -1394,15 +1392,6 @@ void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection,
 					       GtkTreeIter * iter, gint page, 
 					       gint account_number, gpointer report )
 {
-    if ( gtk_tree_model_iter_has_child ( GTK_TREE_MODEL(navigation_model), iter ) )
-    {
-	GtkTreeIter child;
-    
-	gtk_tree_model_iter_children ( GTK_TREE_MODEL(navigation_model), &child, iter );
-	gsb_gui_navigation_set_selection_branch ( selection, &child, 
-						  page, account_number, report );
-    }
-
     do 
     {
 	gint iter_page, iter_account_nb;
@@ -1422,8 +1411,18 @@ void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection,
 	{
 	    gtk_tree_selection_select_iter ( selection, iter );
 	}
+
+	if ( gtk_tree_model_iter_has_child ( GTK_TREE_MODEL(navigation_model), iter ) )
+	{
+	    GtkTreeIter child;
+    
+	    gtk_tree_model_iter_children ( GTK_TREE_MODEL(navigation_model), &child, iter );
+	    gsb_gui_navigation_set_selection_branch ( selection, &child, 
+						      page, account_number, report );
+	}
     }
     while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL(navigation_model), iter ) );
+
     return;
 }
 
