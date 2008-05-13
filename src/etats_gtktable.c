@@ -2,7 +2,7 @@
 /*      etats_gtktable.c */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2007 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2004-2008 Benjamin Drieu (bdrieu@april.org)		      */
 /* 			http://www.grisbi.org				      */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -35,6 +35,7 @@
 #include "./gsb_data_transaction.h"
 #include "./etats_config.h"
 #include "./etats_affiche.h"
+#include "./fenetre_principale.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -280,6 +281,9 @@ void gtktable_click_sur_ope_etat ( gint transaction_number )
 	/* passage sur le compte concerné */
 
 	navigation_change_account ( GINT_TO_POINTER ( gsb_data_transaction_get_account_number (transaction_number)));;
+	gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, 
+					   gsb_data_transaction_get_account_number (transaction_number),
+					   -1 );
 
 	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
 
@@ -289,6 +293,7 @@ void gtktable_click_sur_ope_etat ( gint transaction_number )
 	    mise_a_jour_affichage_r ( TRUE );
 
 	gsb_transactions_list_select ( transaction_number );
+	gsb_transactions_list_move_to_current_transaction ( gsb_data_transaction_get_account_number (transaction_number) );
     }
 }
 /*****************************************************************************************************/
