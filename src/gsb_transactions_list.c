@@ -1547,7 +1547,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    /* mise en place du no d'opé */
 
 	case TRANSACTION_LIST_NO:
-	    return ( utils_str_itoa ( transaction_number ));
+	    return ( itoa ( transaction_number ));
 
 	    /* mise en place du no de chèque/virement */
 

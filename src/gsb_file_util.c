@@ -139,7 +139,7 @@ gint gsb_file_util_compress_file ( gchar **file_content,
 	}
 	g_free (*file_content);
 
-	str_length = utils_str_itoa (length);
+	str_length = itoa (length);
 
 	*file_content = g_malloc (23 + strlen (str_length) + 1 + new_length);
 	

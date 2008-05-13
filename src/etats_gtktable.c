@@ -283,7 +283,7 @@ void gtktable_click_sur_ope_etat ( gint transaction_number )
 	navigation_change_account ( GINT_TO_POINTER ( gsb_data_transaction_get_account_number (transaction_number)));;
 	gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, 
 					   gsb_data_transaction_get_account_number (transaction_number),
-					   -1 );
+					   GINT_TO_POINTER (-1));
 
 	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
 

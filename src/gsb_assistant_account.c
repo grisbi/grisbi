@@ -38,6 +38,7 @@
 #include "./gsb_real.h"
 #include "./utils.h"
 #include "./include.h"
+#include "./gsb_data_bank.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -359,7 +360,7 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     account_entry_name = gtk_entry_new ();
-    g_object_set_data ( assistant, "account_entry_name", account_entry_name );
+    g_object_set_data ( G_OBJECT (assistant), "account_entry_name", account_entry_name );
     g_signal_connect ( G_OBJECT (account_entry_name ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &account_entry_name );
     gtk_box_pack_start ( GTK_BOX (hbox),
@@ -380,7 +381,7 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
  */
 static gboolean gsb_assistant_account_enter_page_finish ( GtkWidget * assistant, gint new_page )
 {
-    GtkWidget * account_entry_name = g_object_get_data ( assistant, "account_entry_name" );
+    GtkWidget * account_entry_name = g_object_get_data ( G_OBJECT (assistant), "account_entry_name" );
     gchar * default_name;
     gint account_type = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (assistant), "account_kind" ) );
 
@@ -389,7 +390,7 @@ static gboolean gsb_assistant_account_enter_page_finish ( GtkWidget * assistant,
 	case GSB_TYPE_BANK:
 	    if ( gsb_bank_list_get_bank_number ( account_combobox_bank ) >= 0 )
 	    {
-		gchar * bank_name;
+		const gchar * bank_name;
 
 		bank_name = gsb_data_bank_get_name ( gsb_bank_list_get_bank_number ( account_combobox_bank ) );
 		if ( bank_name )

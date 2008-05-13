@@ -3975,11 +3975,11 @@ void remplit_liste_comparaisons_textes_etat ( void )
 	gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_second_comparison (text_comparison_number)),
 				      gsb_data_report_text_comparison_get_second_comparison (text_comparison_number));
 
-	gchar* tmpstr = utils_str_itoa (gsb_data_report_text_comparison_get_first_amount (text_comparison_number));
+	gchar* tmpstr = itoa (gsb_data_report_text_comparison_get_first_amount (text_comparison_number));
 	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_first_amount (text_comparison_number)), tmpstr);
 	g_free ( tmpstr );
 
-	tmpstr = utils_str_itoa (gsb_data_report_text_comparison_get_second_amount (text_comparison_number));
+	tmpstr = itoa (gsb_data_report_text_comparison_get_second_amount (text_comparison_number));
 	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_second_amount (text_comparison_number)), tmpstr);
 	g_free ( tmpstr );
 

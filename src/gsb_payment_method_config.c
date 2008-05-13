@@ -449,7 +449,7 @@ void gsb_payment_method_config_fill_list ( GtkTreeModel *model)
 
 	    /* set the last number */
 	    if ( gsb_data_payment_get_automatic_numbering (payment_number))
-		number = utils_str_itoa (gsb_data_payment_get_last_number (payment_number));
+		number = itoa (gsb_data_payment_get_last_number (payment_number));
 	    else
 		number = g_strdup("");
 
@@ -870,7 +870,7 @@ gboolean gsb_payment_method_config_auto_entry_changed ( GtkWidget *spin_button,
 			     -1 );
 	if (payment_number)
 	{
-	    gchar* tmpstr = utils_str_itoa (gsb_data_payment_get_last_number (payment_number));
+	    gchar* tmpstr = itoa (gsb_data_payment_get_last_number (payment_number));
 	    gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 
 				PAYMENT_METHODS_NUMBERING_COLUMN, 
 				tmpstr,

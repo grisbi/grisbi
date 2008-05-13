@@ -158,7 +158,7 @@ extern gint valeur_echelle_recherche_date_import;
 
 void modification_fichier ( gboolean modif )
 {
-    gchar* tmpstr = g_strdup_printf ("modification_fichier : %d", modif );
+    gchar* tmpstr = itoa (modif);
     devel_debug ( tmpstr );
     g_free (tmpstr);
 

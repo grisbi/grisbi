@@ -1,9 +1,8 @@
 /* ************************************************************************** */
 /*                                  utils_str.c                               */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)	      */
-/*			2003-2004 Benjamin Drieu (bdrieu@april.org)	      */
-/*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
+/*     Copyright (C)	2000-2008 Cedric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -54,7 +53,7 @@ extern gint max;
  * @todo: check usage of this function which a cause of memory leak
  * 
  */
-gchar *utils_str_itoa ( gint integer )
+gchar *itoa ( gint integer )
 {
     div_t result_div;
     gchar *chaine;

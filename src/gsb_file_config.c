@@ -1134,6 +1134,8 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
  */
 void gsb_file_config_clean_config ( void )
 {
+    devel_debug (NULL);
+
     largeur_window = 0;
     hauteur_window = 0;
 

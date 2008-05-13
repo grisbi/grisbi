@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -96,7 +96,7 @@ typedef struct
 
 
 /*START_STATIC*/
-static  void _gsb_data_transaction_free ( struct_transaction *transaction);
+static  void gsb_data_transaction_free ( struct_transaction *transaction);
 static gint gsb_data_transaction_get_last_white_number (void);
 static struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transaction_number );
 static gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction );
@@ -2076,33 +2076,27 @@ gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
     target_transaction -> account_number = target_transaction_account_number;
     target_transaction -> reconcile_number = 0;
     target_transaction -> marked_transaction = 0;
-
-    if ( target_transaction -> notes)
-    {
-	if ( target_transaction -> notes )
-	    g_free ( target_transaction -> notes );
-	target_transaction -> notes = my_strdup ( target_transaction -> notes );
-    }
-    if ( target_transaction -> voucher)
-    {
-	if ( target_transaction -> voucher )
-	    g_free ( target_transaction -> voucher );
-	target_transaction -> voucher = my_strdup ( target_transaction -> voucher );
-    }
-    if ( target_transaction -> bank_references)
-    {
-	if (target_transaction -> bank_references )
-	    g_free ( target_transaction -> bank_references );
-	target_transaction -> bank_references = my_strdup ( target_transaction -> bank_references );
-    }
-    if ( target_transaction -> method_of_payment_content)
-    {
-	if ( target_transaction -> method_of_payment_content )
-	    g_free ( target_transaction -> method_of_payment_content );
-	target_transaction -> method_of_payment_content = my_strdup ( target_transaction -> method_of_payment_content );
-    }
-
     target_transaction -> transaction_id = NULL;
+
+    /* make a new copy of all the pointers */
+    if ( target_transaction -> notes)
+	target_transaction -> notes = my_strdup ( source_transaction -> notes );
+
+    if ( target_transaction -> voucher)
+	target_transaction -> voucher = my_strdup ( source_transaction -> voucher );
+
+    if ( target_transaction -> bank_references)
+	target_transaction -> bank_references = my_strdup ( source_transaction -> bank_references );
+
+    if ( target_transaction -> date)
+	target_transaction -> date = gsb_date_copy (source_transaction -> date);
+
+    if ( target_transaction -> value_date)
+	target_transaction -> value_date = gsb_date_copy (source_transaction -> value_date);
+
+    if ( target_transaction -> method_of_payment_content)
+	target_transaction -> method_of_payment_content = my_strdup ( source_transaction -> method_of_payment_content );
+
 
     return TRUE;
 }
@@ -2110,7 +2104,7 @@ gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
 /**
  * internal function which is called to free the memory used by a struct_transaction structure.
  */
-static void _gsb_data_transaction_free ( struct_transaction *transaction)
+static void gsb_data_transaction_free ( struct_transaction *transaction)
 {
     if ( ! transaction )
         return;
@@ -2163,7 +2157,7 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 						 contra_transaction );
 	    complete_transactions_list = g_slist_remove ( complete_transactions_list,
 							  contra_transaction );
-	    _gsb_data_transaction_free (contra_transaction);
+	    gsb_data_transaction_free (contra_transaction);
 	}
     }
 
@@ -2188,7 +2182,7 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 						     contra_transaction );
 		complete_transactions_list = g_slist_remove ( complete_transactions_list,
 							      contra_transaction );
-		_gsb_data_transaction_free (contra_transaction);
+		gsb_data_transaction_free (contra_transaction);
 	    }
 
 	    /* delete the child */
@@ -2196,7 +2190,7 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 						 child_transaction );
 	    complete_transactions_list = g_slist_remove ( complete_transactions_list,
 							  child_transaction );
-	    _gsb_data_transaction_free (child_transaction);
+	    gsb_data_transaction_free (child_transaction);
 	    tmp_list = tmp_list -> next;
 	}
     }
@@ -2208,7 +2202,7 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 						  transaction );
 
 
-    _gsb_data_transaction_free (transaction);
+    gsb_data_transaction_free (transaction);
     return TRUE;
 }
 
@@ -2258,7 +2252,7 @@ void gsb_data_transaction_delete_all_transactions ()
 	    struct_transaction *transaction;
 	    transaction = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
-            _gsb_data_transaction_free ( transaction );
+            gsb_data_transaction_free ( transaction );
 	}
         g_slist_free ( complete_transactions_list );
         complete_transactions_list = NULL;

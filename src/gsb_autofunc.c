@@ -366,7 +366,7 @@ GtkWidget *gsb_autofunc_int_new ( gint value,
     /* first, create and fill the entry */
     entry = gtk_entry_new ();
 
-    gchar* tmpstr = utils_str_itoa (value);
+    gchar* tmpstr = itoa (value);
     gtk_entry_set_text ( GTK_ENTRY(entry), tmpstr);
     g_free ( tmpstr );
 
@@ -414,7 +414,7 @@ void gsb_autofunc_int_set_value ( GtkWidget *entry,
 							     "changed-hook"));
 
     /* Fill in value */
-    gchar* tmpstr = utils_str_itoa (value);
+    gchar* tmpstr = itoa (value);
     gtk_entry_set_text ( GTK_ENTRY(entry), tmpstr);
     g_free ( tmpstr );
 

@@ -293,7 +293,7 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 		gint number;
 
 		number = gsb_data_payment_get_last_number (payment_number) + 1;
-		gchar* tmpstr = utils_str_itoa (number);
+		gchar* tmpstr = itoa (number);
 		gsb_data_transaction_set_method_of_payment_content ( transaction_number,
 								     tmpstr);
 		g_free ( tmpstr );
@@ -451,7 +451,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     GSList *tmp_list;
     gboolean automatic_transactions_taken = FALSE;
 
-    devel_debug ( "gsb_scheduler_check_scheduled_transactions_time_limit" );
+    devel_debug (NULL);
 
     /* the scheduled transactions to take will be check here,
      * but the scheduled transactions taken will be add to the already appended ones */
@@ -467,7 +467,6 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     /* check all the scheduled transactions,
      * if automatic, it's taken
      * if manual, appended into scheduled_transactions_to_take */
-
     tmp_list = gsb_data_scheduled_get_scheduled_list ();
 
     while ( tmp_list )
@@ -477,7 +476,6 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 	scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
 
 	/* we check that scheduled transaction only if it's not a child of a breakdown */
-
 	if ( !gsb_data_scheduled_get_mother_scheduled_number (scheduled_number)
 	     &&
 	     gsb_data_scheduled_get_date (scheduled_number)
@@ -487,11 +485,10 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 	{
 	    if ( gsb_data_scheduled_get_automatic_scheduled (scheduled_number))
 	    {
+		/* this is an automatic scheduled, we get it */
 		gint transaction_number;
 
-		/* take automaticly the scheduled transaction untill today */
-
-
+		/* take automaticaly the scheduled transaction untill today */
 		transaction_number = gsb_scheduler_create_transaction_from_scheduled_transaction (scheduled_number,
 												  0 );
 		if ( gsb_data_scheduled_get_breakdown_of_scheduled (scheduled_number))
@@ -521,6 +518,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 		/* it's a manual scheduled transaction, we put it in the slist */
 		scheduled_transactions_to_take = g_slist_append ( scheduled_transactions_to_take ,
 								  GINT_TO_POINTER (scheduled_number));
+		printf ( "ajoute scheduled\n");
 		tmp_list = tmp_list -> next;
 	    }
 	}

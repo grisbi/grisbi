@@ -440,30 +440,30 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	    {
 		transactions_view = g_strconcat ( first_string_to_free = transactions_view,
 						  "-",
-						  second_string_to_free = utils_str_itoa ( tab_affichage_ope[i][j] ),
+						  second_string_to_free = itoa ( tab_affichage_ope[i][j] ),
 						  NULL );
 		g_free (first_string_to_free);
 		g_free (second_string_to_free);
 	    }
 	    else
-		transactions_view = utils_str_itoa ( tab_affichage_ope[i][j] );
+		transactions_view = itoa ( tab_affichage_ope[i][j] );
 
     /* prepare two_lines_showed */
 
-    two_lines_showed = g_strconcat ( first_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data )),
+    two_lines_showed = g_strconcat ( first_string_to_free = itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data )),
 				     "-",
-				     second_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> next -> data )),
+				     second_string_to_free = itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> next -> data )),
 				     NULL );
     g_free (first_string_to_free);
     g_free (second_string_to_free);
 
     /* prepare tree_lines_showed */
 
-    tree_lines_showed = g_strconcat ( first_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> data )),
+    tree_lines_showed = g_strconcat ( first_string_to_free = itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> data )),
 				      "-",
-				      second_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> data )),
+				      second_string_to_free = itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> data )),
 				      "-",
-				      third_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> next -> data )),
+				      third_string_to_free = itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> next -> data )),
 				      NULL );
     g_free (first_string_to_free);
     g_free (second_string_to_free);
@@ -479,13 +479,13 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	{
 	    transaction_column_width_write = g_strconcat ( first_string_to_free = transaction_column_width_write,
 							 "-",
-							 second_string_to_free = utils_str_itoa ( transaction_col_width[i] ),
+							 second_string_to_free = itoa ( transaction_col_width[i] ),
 							 NULL );
 	    g_free (first_string_to_free);
 	    g_free (second_string_to_free);
 	}
 	else
-	    transaction_column_width_write  = utils_str_itoa ( transaction_col_width[i] );
+	    transaction_column_width_write  = itoa ( transaction_col_width[i] );
 
 
     /* prepare scheduler_column_width_write */
@@ -498,23 +498,23 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	{
 	    scheduler_column_width_write = g_strconcat ( first_string_to_free = scheduler_column_width_write,
 							 "-",
-							 second_string_to_free = utils_str_itoa ( scheduler_col_width[i] ),
+							 second_string_to_free = itoa ( scheduler_col_width[i] ),
 							 NULL );
 	    g_free (first_string_to_free);
 	    g_free (second_string_to_free);
 	}
 	else
-	    scheduler_column_width_write  = utils_str_itoa ( scheduler_col_width[i] );
+	    scheduler_column_width_write  = itoa ( scheduler_col_width[i] );
 
 
     /* CSV skipped lines */
-    skipped_lines_string = utils_str_itoa ( etat.csv_skipped_lines[0] );
+    skipped_lines_string = itoa ( etat.csv_skipped_lines[0] );
     for ( i = 1; i < CSV_MAX_TOP_LINES ; i ++ )
     {
 	gchar* tmpstr = skipped_lines_string;
 	skipped_lines_string = g_strconcat ( tmpstr ,
 					     "-", 
-					     utils_str_itoa ( etat.csv_skipped_lines[i] ),
+					     itoa ( etat.csv_skipped_lines[i] ),
 					     NULL );
         g_free ( tmpstr );
     }
@@ -657,13 +657,13 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    {
 		sort_list = g_strconcat ( first_string_to_free = sort_list,
 					  "/",
-					  second_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( list_tmp_2 -> data )),
+					  second_string_to_free = itoa ( GPOINTER_TO_INT ( list_tmp_2 -> data )),
 					  NULL );
 		g_free (first_string_to_free);
 		g_free (second_string_to_free);
 	    }
 	    else
-		sort_list = utils_str_itoa ( GPOINTER_TO_INT ( list_tmp_2 -> data ));
+		sort_list = itoa ( GPOINTER_TO_INT ( list_tmp_2 -> data ));
 
 	    list_tmp_2 = list_tmp_2 -> next;
 	}
@@ -677,14 +677,14 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    {
 		sort_kind_column = g_strconcat ( first_string_to_free = sort_kind_column,
 						 "-",
-						 second_string_to_free = utils_str_itoa ( gsb_data_account_get_element_sort ( account_number,
+						 second_string_to_free = itoa ( gsb_data_account_get_element_sort ( account_number,
 															      j )),
 						 NULL );
 		g_free (first_string_to_free);
 		g_free (second_string_to_free);
 	    }
 	    else
-		sort_kind_column = utils_str_itoa ( gsb_data_account_get_element_sort ( account_number,
+		sort_kind_column = itoa ( gsb_data_account_get_element_sort ( account_number,
 											j ));
 	}
 
@@ -697,7 +697,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 		{ 
 		    form_organization = g_strconcat ( first_string_to_free = form_organization,
 						      "-",
-						      second_string_to_free = utils_str_itoa ( gsb_data_form_get_value ( account_number,
+						      second_string_to_free = itoa ( gsb_data_form_get_value ( account_number,
 															 j,
 															 k )),
 						      NULL );
@@ -705,7 +705,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 		    g_free (second_string_to_free);
 		}
 		else
-		    form_organization = utils_str_itoa (gsb_data_form_get_value ( account_number,
+		    form_organization = itoa (gsb_data_form_get_value ( account_number,
 										  j,
 										  k ));
 
@@ -717,14 +717,14 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    {
 		form_columns_width = g_strconcat ( first_string_to_free = form_columns_width,
 						   "-",
-						   second_string_to_free = utils_str_itoa ( gsb_data_form_get_width_column ( account_number,
+						   second_string_to_free = itoa ( gsb_data_form_get_width_column ( account_number,
 															     k )),
 						   NULL );
 		g_free (first_string_to_free);
 		g_free (second_string_to_free);
 	    }
 	    else
-		form_columns_width = utils_str_itoa ( gsb_data_form_get_width_column ( account_number,
+		form_columns_width = itoa ( gsb_data_form_get_width_column ( account_number,
 										       k ));
 
 	/* set the reals */
@@ -1649,12 +1649,12 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	        gchar* tmpstr = general_sort_type;
 		general_sort_type = g_strconcat ( tmpstr,
 						  "/-/",
-						  utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+						  itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
 						  NULL );
 	        g_free ( tmpstr );
 	    }
 	    else
-		general_sort_type = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+		general_sort_type = itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
 
 	    pointer_list = pointer_list -> next;
 	}
@@ -1670,12 +1670,12 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	        gchar* tmpstr = financial_year_select ;
 		financial_year_select = g_strconcat ( tmpstr,
 						      "/-/",
-						      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+						      itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
 						      NULL );
 	        g_free (tmpstr);
 	    }
 	    else
-		financial_year_select = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+		financial_year_select = itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
 
 	    pointer_list = pointer_list -> next;
 	}
@@ -1691,12 +1691,12 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	        gchar* tmpstr = account_selected;
 		account_selected = g_strconcat ( tmpstr,
 						 "/-/",
-						 utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+						 itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
 						 NULL );
 	        g_free (tmpstr);
 	    }
 	    else
-		account_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+		account_selected = itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
 
 	    pointer_list = pointer_list -> next;
 	}
@@ -1712,12 +1712,12 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	        gchar* tmpstr = transfer_selected_accounts;
 		transfer_selected_accounts = g_strconcat ( tmpstr,
 					      "/-/",
-					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+					      itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
 					      NULL );
 	        g_free ( tmpstr );
 	    }
 	    else
-		transfer_selected_accounts = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+		transfer_selected_accounts = itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
 
 	    pointer_list = pointer_list -> next;
 	}
@@ -1733,12 +1733,12 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	        gchar* tmpstr = categ_selected;
 		categ_selected = g_strconcat ( tmpstr ,
 					      "/-/",
-					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+					      itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
 					      NULL );
 	        g_free ( tmpstr );
 	    }
 	    else
-		categ_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+		categ_selected = itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
 
 	    pointer_list = pointer_list -> next;
 	}
@@ -1754,12 +1754,12 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	        gchar* tmpstr = budget_selected;
 		budget_selected = g_strconcat ( tmpstr,
 					      "/-/",
-					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+					      itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
 					      NULL );
 	        g_free ( tmpstr );
 	    }
 	    else
-		budget_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+		budget_selected = itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
 
 	    pointer_list = pointer_list -> next;
 	}
@@ -1775,12 +1775,12 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	        gchar* tmpstr = payee_selected;
 		payee_selected = g_strconcat ( tmpstr,
 					      "/-/",
-					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+					      itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
 					      NULL );
 	        g_free ( tmpstr );
 	    }
 	    else
-		payee_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+		payee_selected = itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
 
 	    pointer_list = pointer_list -> next;
 	}
