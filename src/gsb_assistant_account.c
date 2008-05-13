@@ -46,6 +46,7 @@ static  GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant );
 static gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
 						      GtkWidget *assistant );
+static gboolean gsb_assistant_account_enter_page_finish ( GtkWidget *assistant, gint new_page );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -73,16 +74,16 @@ static GtkWidget *account_entry_name = NULL;
  *
  * \param
  *
- * \return FALSE if the assisant was cancelled, or TRUE. 
- * */
-gboolean gsb_assistant_account_run ( void )
+ * \return TRUE on success, FALSE otherwise (i.e. user cancelled).
+ */
+GtkResponseType gsb_assistant_account_run ( void )
 {
     GtkResponseType return_value;
     GtkWidget *assistant;
 
     assistant = gsb_assistant_new ( _("Create a new account"),
 				    _("This assistant will help you to create a new account.\n"
-				      "All that you do here can be changed later in the account configuration page" ),
+				      "All that you do here can be changed later in the account configuration page." ),
 				    NULL,
 				    NULL );
     gsb_assistant_add_page ( assistant,
@@ -102,14 +103,14 @@ gboolean gsb_assistant_account_run ( void )
 			     ACCOUNT_ASSISTANT_PAGE_FINISH,
 			     ACCOUNT_ASSISTANT_PAGE_3,
 			     0,
-			     NULL );
+			     G_CALLBACK ( gsb_assistant_account_enter_page_finish ) );
 
     return_value = gsb_assistant_run (assistant);
 
     gboolean result = FALSE;
     if (return_value == GTK_RESPONSE_APPLY)
     {
-	/* ok, we create the new account */
+	/* Ok, we create the new account */
 	gsb_account_new ( GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (assistant), "account_kind")),
 			  gsb_currency_get_currency_from_combobox (account_combobox_currency),
 			  gsb_bank_list_get_bank_number (account_combobox_bank),
@@ -117,6 +118,7 @@ gboolean gsb_assistant_account_run ( void )
 			  gtk_entry_get_text (GTK_ENTRY (account_entry_name)));
         result = TRUE; /* assistant was not cancelled */
     }
+
     gtk_widget_destroy (assistant);
     return result;
 }
@@ -139,10 +141,10 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
     GtkWidget *button;
     gint i;
     gchar *account_type[] = {
-	_("Bank account"),
-	_("Cash account"),
-	_("Liabilities account"),
-	_("Assets account"),
+	_("Bank account\nStandard account with credit card and cheques."),
+	_("Cash account\nStandard cash account, to use with a cashier."), /* xxx */
+	_("Liabilities account\nxxx"),
+	_("Assets account\nxxx"),
 	NULL };
 
     page = gtk_hbox_new (FALSE, 15);
@@ -155,7 +157,7 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
 			 vbox,
 			 TRUE, TRUE, 0 );
 
-    label = gtk_label_new (_("The account will be created with default payment methods chosen according to your choice.\n"));
+    label = gtk_label_new (_("Please select type for this account.\nThe account will be created with default payment methods chosen according to your choice.\n"));
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox),
@@ -201,6 +203,7 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
  * */
 static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 {
+    struct lconv * conv = localeconv();
     GtkWidget *page;
     GtkWidget *vbox;
     GtkWidget *hbox;
@@ -222,7 +225,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 			 hbox,
 			 FALSE, FALSE, 0 );
 
-    label = gtk_label_new (_("Please select the currency of the account.\n"));
+    label = gtk_label_new (_("Currency for the account."));
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 label,
 			 FALSE, FALSE, 0 );
@@ -234,6 +237,14 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 			 label,
 			 FALSE, FALSE, 0 );
 
+    /* Guesstimate default currency from locale.  Default is USD since
+     * this would confuse US folks while rest of the world is used to
+     * configure stuff to their locale.  */
+    if ( ! gsb_currency_config_create_currency_from_iso4217list ( conv -> int_curr_symbol ) )
+    {
+	gsb_currency_config_create_currency_from_iso4217list ( "USD" );
+    }
+
     /* create the currency combobox */
     account_combobox_currency = gsb_currency_make_combobox (TRUE);
     g_signal_connect ( G_OBJECT (account_combobox_currency ), "destroy",
@@ -243,11 +254,11 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     /* propose to add a currency */
-    button = gtk_button_new_with_label (_("Add a new currency..."));
+    button = gtk_button_new_with_label (_("Add/Change..."));
     g_signal_connect ( G_OBJECT (button),
 		       "clicked",
-		       G_CALLBACK (gsb_currency_config_add_currency),
-		       NULL );
+		       G_CALLBACK (gsb_currency_config_add_currency_set_combobox),
+		       account_combobox_currency );
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 button,
 			 FALSE, FALSE, 0 );
@@ -258,7 +269,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 			 hbox,
 			 FALSE, FALSE, 0 );
 
-    label = gtk_label_new (_("Please select the bank of the account.\n"));
+    label = gtk_label_new (_("Bank for the account."));
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 label,
 			 FALSE, FALSE, 0 );
@@ -283,7 +294,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 			 hbox,
 			 FALSE, FALSE, 0 );
 
-    label = gtk_label_new (_("Please enter the initial amount of the account : "));
+    label = gtk_label_new (_("Opening balance"));
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 label,
 			 FALSE, FALSE, 0 );
@@ -348,6 +359,7 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     account_entry_name = gtk_entry_new ();
+    g_object_set_data ( assistant, "account_entry_name", account_entry_name );
     g_signal_connect ( G_OBJECT (account_entry_name ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &account_entry_name );
     gtk_box_pack_start ( GTK_BOX (hbox),
@@ -357,6 +369,55 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
     gtk_widget_show_all (page);
     return page;
 }
+
+
+
+/**
+ *
+ *
+ *
+ *
+ */
+static gboolean gsb_assistant_account_enter_page_finish ( GtkWidget * assistant, gint new_page )
+{
+    GtkWidget * account_entry_name = g_object_get_data ( assistant, "account_entry_name" );
+    gchar * default_name;
+    gint account_type = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (assistant), "account_kind" ) );
+
+    switch ( account_type )
+    {
+	case GSB_TYPE_BANK:
+	    if ( gsb_bank_list_get_bank_number ( account_combobox_bank ) >= 0 )
+	    {
+		gchar * bank_name;
+
+		bank_name = gsb_data_bank_get_name ( gsb_bank_list_get_bank_number ( account_combobox_bank ) );
+		if ( bank_name )
+		    default_name = g_strdup_printf ( _("%s account"), bank_name );
+		else
+		    default_name = g_strdup ( _("Bank account" ) );
+	    }
+	    break;
+
+	case GSB_TYPE_CASH:
+	    default_name = g_strdup_printf ( _("Cashier") ); /* xxx */
+	    break;
+
+	case GSB_TYPE_ASSET:
+	    default_name = g_strdup_printf ( _("xxx asset") ); /* xxx */
+	    break;
+
+	case GSB_TYPE_LIABILITIES:
+	    default_name = g_strdup_printf ( _("xxx liabilities") ); /* xxx */
+	    break;
+    }
+
+    gtk_entry_set_text ( GTK_ENTRY ( account_entry_name ), default_name );
+    g_free ( default_name );
+
+    return FALSE;
+}
+
 
 
 /**
