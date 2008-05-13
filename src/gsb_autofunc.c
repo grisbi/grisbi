@@ -42,8 +42,8 @@
 #include "./gsb_data_reconcile.h"
 #include "./utils_editables.h"
 #include "./gsb_real.h"
-#include "./traitement_variables.h"
 #include "./utils_str.h"
+#include "./traitement_variables.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/
 

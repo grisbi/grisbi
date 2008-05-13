@@ -35,19 +35,20 @@
 #include "./gsb_bank.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_currency.h"
+#include "./gsb_data_bank.h"
 #include "./gsb_real.h"
 #include "./utils.h"
+#include "./gsb_data_account.h"
 #include "./include.h"
-#include "./gsb_data_bank.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static  gboolean gsb_assistant_account_enter_page_finish ( GtkWidget * assistant, gint new_page );
 static  GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant );
 static gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
 						      GtkWidget *assistant );
-static gboolean gsb_assistant_account_enter_page_finish ( GtkWidget *assistant, gint new_page );
 /*END_STATIC*/
 
 /*START_EXTERN*/

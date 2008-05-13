@@ -54,6 +54,7 @@
 #include "./menu.h"
 #include "./gsb_report.h"
 #include "./gsb_scheduler_list.h"
+#include "./utils_str.h"
 #include "./main.h"
 #include "./structures.h"
 #include "./gsb_scheduler_list.h"

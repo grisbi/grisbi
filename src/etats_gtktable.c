@@ -32,10 +32,10 @@
 #include "./gsb_transactions_list.h"
 #include "./utils.h"
 #include "./structures.h"
+#include "./fenetre_principale.h"
 #include "./gsb_data_transaction.h"
 #include "./etats_config.h"
 #include "./etats_affiche.h"
-#include "./fenetre_principale.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

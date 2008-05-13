@@ -452,10 +452,11 @@ gboolean gsb_file_config_save_config ( void )
 			     "General",
 			     "Make backup",
 			     etat.make_backup );
-    g_key_file_set_string ( config,
-			    "General",
-			    "Backup path",
-			    gsb_file_get_backup_path ());
+    if (gsb_file_get_backup_path ())
+	g_key_file_set_string ( config,
+				"General",
+				"Backup path",
+				gsb_file_get_backup_path ());
     g_key_file_set_integer ( config,
 			     "General",
 			     "Show permission alert",
@@ -485,12 +486,19 @@ gboolean gsb_file_config_save_config ( void )
 			    "General",
 			    "Dvips command",
 			    etat.dvips_command );
-    g_key_file_set_string ( config,
-			    "General",
-			    "Web",
-			    my_strdelimit ( etat.browser_command,
-					    "&",
-					    "\\e" ));
+    if (etat.browser_command)
+    {
+	gchar *string;
+
+	string = my_strdelimit ( etat.browser_command,
+				 "&",
+				 "\\e" );
+	g_key_file_set_string ( config,
+				"General",
+				"Web",
+				string );
+	g_free (string);
+    }
 
     /* Remember size of main panel */
     if ( main_hpaned && GTK_IS_PANED ( main_hpaned ) )

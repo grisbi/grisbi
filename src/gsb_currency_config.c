@@ -36,9 +36,9 @@
 #include "./gsb_data_currency.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
+#include "./utils_str.h"
 #include "./main.h"
 #include "./traitement_variables.h"
-#include "./utils_str.h"
 #include "./utils.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
@@ -52,6 +52,8 @@
 /*START_STATIC*/
 static void gsb_currency_append_currency_to_list ( GtkListStore *model,
 					    gint currency_number );
+static gboolean gsb_currency_config_add_currency ( GtkWidget *button,
+					    GtkTreeModel *currency_tree_model );
 static GtkWidget *gsb_currency_config_create_list ();
 static gboolean gsb_currency_config_entry_changed ( GtkWidget *entry,
 					     GtkWidget *tree_view );

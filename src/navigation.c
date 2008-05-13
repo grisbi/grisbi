@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
 /*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -28,7 +28,6 @@
 #include "./balance_estimate_tab.h"
 #include "./echeancier_infos.h"
 #include "./gsb_data_account.h"
-#include "./gsb_data_currency.h"
 #include "./gsb_data_reconcile.h"
 #include "./gsb_data_report.h"
 #include "./utils_dates.h"
@@ -1187,7 +1186,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    currency_number = gsb_data_account_get_currency (account_number);
 	    suffix = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
 							 currency_number, TRUE );
-	    g_free ( suffix );
 	    gsb_menu_update_view_menu ( account_number );
 
 	    /* what to be done if switch to that page */
@@ -1334,7 +1332,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    break;
     }
 
-    if (! suffix)
+    if (!suffix)
     	suffix = g_strdup("");
     gsb_gui_headings_update ( title, suffix );
     g_free ( suffix );

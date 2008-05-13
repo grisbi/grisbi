@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*  Fichier qui s'occupe de former les différentes fenêtres de travail      */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 CÃ©dric Auger (cedric@grisbi.org)      */
-/*			2005-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)      */
+/*			2005-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */

@@ -37,6 +37,7 @@
 #include "./gsb_real.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
+#include "./gsb_data_transaction.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
 #include "./erreur.h"
@@ -1012,7 +1013,8 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
 
 
 /**
- * get the marked balance  of the account
+ * get the marked balance of the account
+ * this is the total of all marked transactions (R, P and T)
  * 
  * \param account_number no of the account
  * 
@@ -1033,7 +1035,8 @@ gsb_real gsb_data_account_get_marked_balance ( gint account_number )
 
 /**
  * set the marked balance  of the account
- * 
+ * this is the total of all marked transactions (R, P and T)
+ *
  * \param account_number no of the account
  * \param balance balance to set
  * 
@@ -1098,6 +1101,52 @@ gsb_real gsb_data_account_calculate_marked_balance ( gint account_number )
 
     account -> marked_balance = marked_balance;
 
+    return marked_balance;
+}
+
+/**
+ * calculate the amount of the marked T and P transactions, don't take care of R transactions
+ * the value calculated will have the same exponent of the currency account
+ *
+ * \param account_number
+ *
+ * \return the amount
+ * */
+gsb_real gsb_data_account_calculate_waiting_marked_balance ( gint account_number )
+{
+    struct_account *account;
+    GSList *tmp_list;
+    gsb_real marked_balance;
+    gint floating_point;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	return null_real;
+
+    floating_point = gsb_data_currency_get_floating_point (account -> currency);
+    marked_balance = gsb_real_adjust_exponent ( account -> init_balance,
+						floating_point );
+
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+
+    while (tmp_list)
+    {
+	gint transaction_number;
+
+	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
+
+	if ( gsb_data_transaction_get_account_number (transaction_number) == account_number
+	     &&
+	     !gsb_data_transaction_get_mother_transaction_number (transaction_number)
+	     &&
+	     ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_POINTEE
+	       ||
+	       gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELERAPPROCHEE))
+	    marked_balance = gsb_real_add ( marked_balance,
+					    gsb_data_transaction_get_adjusted_amount (transaction_number, floating_point));
+	tmp_list = tmp_list -> next;
+    }
     return marked_balance;
 }
 

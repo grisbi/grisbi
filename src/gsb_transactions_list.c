@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     copyright (c)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2007 Benjamin Drieu (bdrieu@april.org) 	      */
+/*     copyright (c)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2008 Benjamin Drieu (bdrieu@april.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -1578,8 +1578,7 @@ gboolean gsb_transactions_list_update_transaction ( gint transaction_number )
     GtkTreeIter *iter;
     gint account_number;
 
-    gchar* tmpstr = g_strdup_printf ( "gsb_transactions_list_update_transaction no %d",
-				    transaction_number);
+    gchar* tmpstr = itoa (transaction_number);
     devel_debug ( tmpstr );
     g_free(tmpstr);
 
@@ -4315,7 +4314,7 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 {
     gint current_account;
 
-    gchar* tmpstr = g_strdup_printf ("mise_a_jour_affichage_r afficher : %d", affichage_r );
+    gchar* tmpstr = itoa( affichage_r );
     devel_debug ( tmpstr );
     g_free (tmpstr);
 
@@ -4359,7 +4358,6 @@ void mise_a_jour_affichage_r ( gint affichage_r )
     gsb_transactions_list_set_visibles_rows_on_account (current_account);
     gsb_transactions_list_set_background_color (current_account);
     gsb_transactions_list_set_transactions_balances (current_account);
-
     return;
 }
 /******************************************************************************/
