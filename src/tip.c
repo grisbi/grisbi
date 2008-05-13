@@ -137,14 +137,18 @@ gchar * get_next_tip ()
 {
   gchar * buffer, * tip = NULL, ** tips;
   gsize length;
+  gchar *filename;
 
   // If there any problem during tip file reading, return NULL 
-  if ( ! g_file_get_contents ( g_build_filename ( DATA_PATH, "tips.txt", 
-						  NULL ),
+  filename = g_build_filename ( DATA_PATH, "tips.txt", 
+				NULL );
+  if ( ! g_file_get_contents ( filename,
 			       &buffer, &length, NULL ) )
   {
+      g_free (filename);
       return NULL;
   }
+  g_free (filename);
 
   tips = g_strsplit ( buffer, "'\n\n", length );
 

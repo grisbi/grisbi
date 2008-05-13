@@ -4074,13 +4074,17 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		if ( !strcmp ( attribute_names[i],
 			       "D" ))
 		{
+		    GDate *date;
 		    pointeur_char = g_strsplit ( attribute_values[i], "/", 0 );
+		    date = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
+					    utils_str_atoi ( pointeur_char[1] ),
+					    utils_str_atoi ( pointeur_char[2] ));
 
 		    gsb_data_transaction_set_date ( transaction_number,
-						    g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
-								     utils_str_atoi ( pointeur_char[1] ),
-								     utils_str_atoi ( pointeur_char[2] )));
+						    date);
 		    g_strfreev ( pointeur_char );
+		    if (date)
+			g_date_free (date);
 		}
 
 		if ( !strcmp ( attribute_names[i],

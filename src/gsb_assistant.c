@@ -168,14 +168,17 @@ void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint po
 			      gint prev, gint next, GCallback enter_callback )
 {
     GtkWidget * notebook;
+    gchar *tmpstr;
 
     notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
     gtk_notebook_insert_page ( GTK_NOTEBOOK(notebook), widget, gtk_label_new(NULL), position );
 
     gsb_assistant_set_prev ( assistant, position, prev );
     gsb_assistant_set_next ( assistant, position, next );
-    g_object_set_data ( G_OBJECT(assistant), g_strdup_printf ( "enter%d", position ), 
+    tmpstr = g_strdup_printf ( "enter%d", position );
+    g_object_set_data ( G_OBJECT(assistant), tmpstr, 
 			enter_callback );
+    g_free (tmpstr);
 
     gtk_widget_show_all ( widget );
 }

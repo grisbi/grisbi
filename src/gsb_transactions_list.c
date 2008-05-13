@@ -5055,9 +5055,9 @@ gchar *gsb_transactions_get_category_real_name ( gint transaction_number )
 	}
 	else
 	    /* it's a normal category */
-	    tmp = my_strdup (gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
-							  gsb_data_transaction_get_sub_category_number (transaction_number),
-							  NULL ));
+	    tmp = gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
+					       gsb_data_transaction_get_sub_category_number (transaction_number),
+					       NULL );
     }
     return tmp;
 }

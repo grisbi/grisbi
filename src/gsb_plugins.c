@@ -75,9 +75,12 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	    dialogue_error ( tmpstr );
 	    g_free ( tmpstr );
 	    g_free ( plugin );
+	    g_free ( complete_filename);
 	    continue;
 	}
 	
+	g_free (complete_filename);
+
 	if ( ! g_module_symbol ( plugin -> handle, "plugin_name",
 				 (gpointer) &plugin_name ) )
 	{

@@ -2176,6 +2176,9 @@ gboolean gsb_data_account_set_form_organization ( gint account_number,
     if (!account )
 	return FALSE;
 
+    if (account -> form_organization)
+	g_free (account -> form_organization);
+
     account -> form_organization = form_organization;
 
     return TRUE;
