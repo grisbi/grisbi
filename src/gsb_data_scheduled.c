@@ -1444,7 +1444,7 @@ GDate *gsb_data_scheduled_get_limit_date ( gint scheduled_number )
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_limit_date ( gint scheduled_number,
-					     GDate *date )
+					     const GDate *date )
 {
     struct_scheduled *scheduled;
 
@@ -1453,7 +1453,7 @@ gboolean gsb_data_scheduled_set_limit_date ( gint scheduled_number,
     if ( !scheduled )
 	return FALSE;
 
-    scheduled -> limit_date = date;
+    scheduled -> limit_date = gsb_date_copy (date);
 
     return TRUE;
 }

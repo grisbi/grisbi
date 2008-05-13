@@ -310,8 +310,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
 	GMarkupParseContext *context;
 	gulong long_length = 0;
-
-	gsb_plugin * plugin;
+	gsb_plugin *plugin;
 
 	/* for zlib, need a gulong for size and g_file_get_contents a guint...
 	 * perhaps it exists another mean than that ? */
@@ -385,7 +384,6 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 				       file_content,
 				       strlen (file_content),
 				       NULL );
-
 	if ( !download_tmp_values.download_ok )
 	{
 	    g_markup_parse_context_free (context);
@@ -1945,8 +1943,12 @@ void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Dtl" ))
 	{
+	    GDate *date;
+	    date = gsb_parse_date_string_safe (attribute_values[i]);
 	    gsb_data_scheduled_set_limit_date ( scheduled_number,
-						gsb_parse_date_string_safe (attribute_values[i]));
+						date);
+	    if (date)
+		g_date_free (date);
 	    i++;
 	    continue;
 	}
@@ -4357,7 +4359,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		if ( !strcmp ( attribute_names[i],
 			       "Date_limite" ))
 		{
-		    GDate* date = gsb_parse_date_string (attribute_values[i]);
+		    GDate *date = gsb_parse_date_string (attribute_values[i]);
 		    gsb_data_scheduled_set_limit_date ( scheduled_number, date);
 		    if (date)
 			g_date_free ( date );
