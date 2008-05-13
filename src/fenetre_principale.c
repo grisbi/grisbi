@@ -300,9 +300,11 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     plugin = gsb_plugin_find ( "g2banking" );
     if ( plugin )
     {
-	gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-				   GTK_WIDGET ( plugin -> plugin_run ( ) ),
-				   gtk_label_new (SPACIFY(_("Outbox")) ) );
+	GtkWidget * outbox = plugin -> plugin_run ( );
+	if ( outbox )
+	    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+				       outbox,
+				       gtk_label_new (SPACIFY(_("Outbox")) ) );
     }
 
 #endif

@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2005-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2005-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2005      Martin Preuss <martin@aquamaniac.de>        */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -78,7 +78,7 @@ extern void g2banking_plugin_register ()
 extern GtkWidget * g2banking_plugin_run ( gchar * file_name, gchar **file_content,
 						   gboolean crypt, gulong length )
 {
-/*     return GBanking_JobView_new(gbanking, 0); */
+    return GBanking_JobView_new(gbanking, 0);
 }
 
 
