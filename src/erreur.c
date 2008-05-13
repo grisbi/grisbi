@@ -219,7 +219,7 @@ void initialize_debugging ( void )
  *
  * \param
  *
- * \return a newly allocated string, need to be freed with g_free
+ * \return a string with the date and time, don't free it
  * */
 gchar *get_debug_time ( void )
 {
@@ -252,12 +252,10 @@ extern void debug_message ( gchar *prefixe, gchar * file, gint line, const char 
     if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display) 
     {
 	/* on affiche dans la console le message */
-	gchar *debug_time = get_debug_time ();
 	gchar* tmpstr = g_strdup_printf(_("%s : %s - %s:%d:%s - %s\n"),
-					debug_time, prefixe,
+					get_debug_time (), prefixe,
 					file, line, function, message);
 	g_print( tmpstr );
-	g_free (debug_time);
 	g_free ( tmpstr );
     }
 }
