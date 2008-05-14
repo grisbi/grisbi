@@ -1,7 +1,7 @@
 # Process this file with automake to produce Makefile.in
 
 localedir = $(datadir)/locale
-INCLUDES = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DPLUGINS_DIR="\"$(prefix)/lib/grisbi\"" -DLOGO_PATH="\"$(datadir)/pixmaps/grisbi/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/grisbi\"" -DHELP_PATH="\"$(datadir)/doc/grisbi\""  -Wall @g2banking_includes@
+INCLUDES = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/grisbi\"" -DPLUGINS_DIR="\"$(prefix)/lib/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/grisbi/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/grisbi\"" -DHELP_PATH="\"$(datadir)/doc/grisbi\""  -Wall @g2banking_includes@
 bin_PROGRAMS = grisbi
 grisbi_LDFLAGS = -Wl,-E
 

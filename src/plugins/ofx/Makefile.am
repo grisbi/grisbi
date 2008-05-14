@@ -2,7 +2,7 @@
 
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/src
 
-plugindir = $(libdir)/grisbi
+plugindir = $(libdir)/@PACKAGE@
 
 if HAVE_OFX
 

@@ -2,7 +2,7 @@
 
 INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/src $(XML2_CFLAGS)
 
-plugindir = $(libdir)/grisbi
+plugindir = $(libdir)/@PACKAGE@
 
 if HAVE_XML2
 
