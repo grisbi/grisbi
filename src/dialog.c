@@ -527,7 +527,6 @@ gboolean question_conditional_yes_no_special ( gchar * hint, gchar * message, gc
 }
 
 
-
 /**
  * Concatenate two strings and use pango layout to produce a string
  * that will contain an hint and a text.

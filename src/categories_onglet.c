@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -209,7 +209,7 @@ void remplit_arbre_categ ( void )
     GSList *category_list;
     GtkTreeIter iter_categ, iter_sous_categ;
 
-    devel_debug ( "remplit_arbre_categ" );
+    devel_debug (NULL);
 
     /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (categ_tree_model) );
@@ -218,9 +218,10 @@ void remplit_arbre_categ ( void )
     gsb_data_category_update_counters ();
 
     /** Then, populate tree with categories. */
-
     category_list = gsb_data_category_get_categories_list ();
-    category_list = g_slist_prepend ( category_list, NULL );
+
+    /* add first the empty category */
+    category_list = g_slist_prepend ( category_list, gsb_data_category_get_empty_category ());
 
     while ( category_list )
     {
@@ -256,6 +257,7 @@ void remplit_arbre_categ ( void )
 	    }
 	}
 
+	/* add the no sub category */
 	gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), 
 			       &iter_sous_categ, &iter_categ);
 	fill_sub_division_row ( GTK_TREE_MODEL(categ_tree_model), category_interface, 

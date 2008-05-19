@@ -235,7 +235,7 @@ gboolean metatree_get ( GtkTreeModel * model, GtkTreePath * path,
  * \param model		The GtkTreeModel that contains iter.
  * \param iface		A pointer to the metatree interface to use
  * \param iter		Iter to fill with division data.
- * \param division		Division structure number.
+ * \param division		Division structure number. (category number, payee number or budget number)
  */
 void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface, 
 			 GtkTreeIter * iter, gint division )
@@ -258,7 +258,7 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     }
     g_free ( path );
 
-    gchar* strtmp = g_strdup_printf ("fill_division_row %d", division);
+    gchar* strtmp = itoa (division);
     devel_debug ( strtmp  );
     g_free ( strtmp );
 

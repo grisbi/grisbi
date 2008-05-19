@@ -3,8 +3,8 @@
 /*                                                                            */
 /*                                  erreur.c                                  */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -193,10 +193,10 @@ void initialize_debugging ( void )
 	    /* on affiche un message de debug pour indiquer que le debug est actif */
 	    gchar* tmpstr1 = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
 	    gchar* tmpstr2 = g_strdup_printf(_("Debug enabled, level is '%s'"),debug_level);
-	    debug_message( tmpstr1 , 
-			  __FILE__, __LINE__, __PRETTY_FUNCTION__,
-			  tmpstr2,
-			  DEBUG_LEVEL_INFO, TRUE);
+	    debug_message_string ( tmpstr1 , 
+				   __FILE__, __LINE__, __PRETTY_FUNCTION__,
+				   tmpstr2,
+				   DEBUG_LEVEL_INFO, TRUE);
 	    g_free ( tmpstr1 );
 	    g_free ( tmpstr2 );
 	}
@@ -204,10 +204,10 @@ void initialize_debugging ( void )
 	{
 	    /* on affiche un message de debug pour indiquer que le debug est actif */
 	    gchar* tmpstr = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
-	    debug_message(tmpstr , 
-			  __FILE__, __LINE__, __PRETTY_FUNCTION__,
-			  _("Wrong debug level, please check DEBUG_GRISBI environnement variable"),
-			  DEBUG_LEVEL_INFO, TRUE);
+	    debug_message_string (tmpstr , 
+				  __FILE__, __LINE__, __PRETTY_FUNCTION__,
+				  _("Wrong debug level, please check DEBUG_GRISBI environnement variable"),
+				  DEBUG_LEVEL_INFO, TRUE);
 	    g_free ( tmpstr );
 	}
     }
@@ -240,25 +240,76 @@ gchar *get_debug_time ( void )
 
 
 
+/**
+ * show a debug message in the terminal
+ * only if debug mode is on
+ * not called directly so need to force the extern 
+ * the param to chow is a string
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param message a string to display with the message, NULL if no message
+ * \param
+ * \param
+ *
+ * \return
+ * */
+extern void debug_message_string ( gchar *prefixe, gchar * file, gint line, const char * function, 
+				   gchar *message, gint level, gboolean force_debug_display)
+{
+    /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
+    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display) 
+    {
+	gchar* tmpstr;
+
+	/* on affiche dans la console le message */
+	if (message)
+	    tmpstr = g_strdup_printf(_("%s : %s - %s:%d:%s - %s\n"),
+				     get_debug_time (), prefixe,
+				     file, line, function, message);
+	else
+	    tmpstr = g_strdup_printf(_("%s : %s - %s:%d:%s\n"),
+				     get_debug_time (), prefixe,
+				     file, line, function);
+
+	g_print( tmpstr );
+	g_free ( tmpstr );
+    }
+}
 
 /**
- * affiche de message de debug dans la console (uniquement si
- * show_grisbi_debug est a TRUE)
- * not called directly so need to force the extern */
-extern void debug_message ( gchar *prefixe, gchar * file, gint line, const char * function, 
-			    gchar *message, gint level, gboolean force_debug_display)
+ * show a debug message in the terminal
+ * only if debug mode is on
+ * not called directly so need to force the extern 
+ * the param to chow is a number
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param message a number to display with the message
+ * \param
+ * \param
+ *
+ * \return
+ * */
+extern void debug_message_int ( gchar *prefixe, gchar * file, gint line, const char * function, 
+				gint message, gint level, gboolean force_debug_display)
 {
     /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
     if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display) 
     {
 	/* on affiche dans la console le message */
-	gchar* tmpstr = g_strdup_printf(_("%s : %s - %s:%d:%s - %s\n"),
+	gchar* tmpstr = g_strdup_printf(_("%s : %s - %s:%d:%s - %d\n"),
 					get_debug_time (), prefixe,
 					file, line, function, message);
 	g_print( tmpstr );
 	g_free ( tmpstr );
     }
 }
+
 
 
 

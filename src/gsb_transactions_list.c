@@ -964,8 +964,7 @@ gboolean gsb_transactions_list_fill_store ( GtkTreeStore *store )
 {
     GSList *transactions_list;
 
-    devel_debug ("");
-/*     xxx créer un devel_entry_func sans paramètre comme devel_debug */
+    devel_debug (NULL);
 
     /* add the transations wich represent the archives to the store
      * 1 line per archive and per account */

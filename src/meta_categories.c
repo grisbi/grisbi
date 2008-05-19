@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -45,7 +45,7 @@ static const gchar * category_div_name ( gint div );
 static gint category_get_div_pointer_from_name ( const gchar * name, gboolean create );
 static gint category_get_without_div_pointer ( );
 static gboolean category_scheduled_set_div_id ( gint scheduled_number,
-				     int no_div );
+					 int no_div );
 static gsb_real category_sub_div_balance ( gint div, gint sub_div );
 static const gchar * category_sub_div_name ( gint div, gint sub_div );
 static gint category_sub_div_nb_transactions ( gint div, gint sub_div );
@@ -239,7 +239,7 @@ gint category_transaction_div_id ( gint transaction_number )
  *
  */
 gboolean category_scheduled_set_div_id ( gint scheduled_number,
-				     int no_div )
+					 int no_div )
 {
     if ( scheduled_number )
     {

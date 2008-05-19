@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -169,7 +169,7 @@ gboolean gsb_data_category_init_variables ( void )
  *
  * \param no_category number of category
  *
- * \return the adr of the struct of the category (NULL if doesn't exit)
+ * \return the adr of the struct of the category or empty_category
  * */
 gpointer gsb_data_category_get_structure ( gint no_category )
 {
@@ -185,6 +185,18 @@ gpointer gsb_data_category_get_structure ( gint no_category )
 
     return gsb_data_category_get_structure_in_list ( no_category,
 						     category_list );
+}
+
+
+/**
+ * return the empty_category pointer
+ *
+ * \param
+ *
+ * \return a pointer to empty_category */
+gpointer gsb_data_category_get_empty_category ( void )
+{
+    return gsb_data_category_get_structure (0);
 }
 
 
@@ -1360,10 +1372,17 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
     struct_category *category;
     struct_sub_category *sub_category;
 
+    /* if the transaction is a transfer or a breakdown transaction, don't take it */
+    if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
+	||
+	gsb_data_transaction_get_transaction_number_transfer (transaction_number))
+	return;
+
     category = gsb_data_category_get_structure ( category_id );
     sub_category = gsb_data_category_get_sub_category_structure ( category_id,
 								  sub_category_id );
 
+    /* ok, now category is on the structure or on empty_category */
     if ( category )
     {
 	category -> category_nb_transactions ++;
@@ -1371,13 +1390,10 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
 						      gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
 													      category_tree_currency (), -1));
     }
-    else
-    {
-	empty_category -> category_nb_transactions ++;
-	empty_category -> category_balance = gsb_real_add ( empty_category -> category_balance,
-							    gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-														    category_tree_currency (), -1));
-    }
+
+    /* if we were on empty category, no sub-category */
+    if (category == empty_category)
+	return;
 
     if ( sub_category )
     {
@@ -1390,13 +1406,12 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
     }
     else
     {
-	if ( category )
-	{
-	    category -> category_nb_direct_transactions ++;
-	    category -> category_direct_balance = gsb_real_add ( category -> category_direct_balance,
-								 gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-															 category_tree_currency (), -1));
-	}
+	/* no sub-category, add to direct transactions of the categ (?)
+	 * FIXME xxx should add in the struct of category a empty_category struct to fill that */
+	category -> category_nb_direct_transactions ++;
+	category -> category_direct_balance = gsb_real_add ( category -> category_direct_balance,
+							     gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+														     category_tree_currency (), -1));
     }
 }
 
