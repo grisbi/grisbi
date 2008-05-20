@@ -20,8 +20,8 @@ typedef struct metatree_interface {
     gint (* get_sub_div_pointer_from_name) (int,const gchar *,gboolean);
     gint (* div_nb_transactions) (gint);
     gint (* sub_div_nb_transactions) (gint ,gint);
-    const gchar * (* div_name) (gint);
-    const gchar * (* sub_div_name) (gint, gint);
+    gchar * (* div_name) (gint);
+    gchar * (* sub_div_name) (gint, gint);
     gsb_real (* div_balance) (gint);
     gsb_real (* sub_div_balance) (gint,gint);
     gint (* div_id) (gpointer);

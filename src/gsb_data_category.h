@@ -43,9 +43,9 @@ gint gsb_data_category_get_number_by_name ( const gchar *name,
 gsb_real gsb_data_category_get_sub_category_balance ( gint no_category,
 						      gint no_sub_category );
 GSList *gsb_data_category_get_sub_category_list ( gint no_category );
-const gchar *gsb_data_category_get_sub_category_name ( gint no_category,
-						       gint no_sub_category,
-						       const gchar *return_value_error );
+gchar *gsb_data_category_get_sub_category_name ( gint no_category,
+						 gint no_sub_category,
+						 const gchar *return_value_error );
 gint gsb_data_category_get_sub_category_nb_transactions ( gint no_category,
 							  gint no_sub_category );
 gint gsb_data_category_get_sub_category_number_by_name ( gint category_number,

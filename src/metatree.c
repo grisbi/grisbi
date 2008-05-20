@@ -240,11 +240,12 @@ gboolean metatree_get ( GtkTreeModel * model, GtkTreePath * path,
 void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface, 
 			 GtkTreeIter * iter, gint division )
 {
-    gchar * label = NULL, * balance = NULL;
-    const gchar *string_tmp;
+    gchar *balance = NULL;
+    gchar *string_tmp;
     GtkTreeIter dumb_iter;
     GtkTreePath * path;
     enum meta_tree_row_type type;
+    gint number_transactions;
 
     if ( ! metatree_model_is_displayed ( model ) )
 	return;
@@ -258,38 +259,34 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     }
     g_free ( path );
 
-    gchar* strtmp = itoa (division);
-    devel_debug ( strtmp  );
-    g_free ( strtmp );
-
-    if ( ! division )
-	division = iface -> get_without_div_pointer ();
+    devel_debug_int (division);
 
     string_tmp = iface -> div_name (division);
-    if (!string_tmp)
-	string_tmp = _(iface->no_div_label);
-
-    if ( iface -> div_nb_transactions ( division ))
+    number_transactions = iface -> div_nb_transactions (division);
+ 
+    if (number_transactions)
     {
-	gchar* tmpstr = itoa ( iface -> div_nb_transactions (division) );
-	label = g_strconcat ( string_tmp, " (",
-			      tmpstr , ")",
-			      NULL );
-	g_free ( tmpstr );
+	gchar *label;
+
+	label = g_strdup_printf ( "%s (%d)",
+				  string_tmp,
+				  number_transactions);
+	g_free (string_tmp);
+	string_tmp = label;
 	balance = gsb_format_amount ( iface -> div_balance ( division ),
 				      iface -> tree_currency () );
-    }
-    else
-	label = my_strdup (string_tmp);
 
-    if ( iface -> depth == 1 && 
-	 ! gtk_tree_model_iter_has_child ( model, iter ) && 
-	 iface -> div_nb_transactions ( division ) )
-    {
-	gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
+	/* add a white child to show the arrow to open it */
+	if ( ! gtk_tree_model_iter_has_child ( model, iter )
+	     &&
+	     (iface -> depth == 1 || !division ))
+	    gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
+
     }
+
+    /* set -1 for the sub-div, so no categ/no budget have 0 for div and -1 for sub-div */
     gtk_tree_store_set (GTK_TREE_STORE(model), iter,
-			META_TREE_TEXT_COLUMN, label,
+			META_TREE_TEXT_COLUMN, string_tmp,
 			META_TREE_POINTER_COLUMN, division,
 			META_TREE_BALANCE_COLUMN, balance,
 			META_TREE_XALIGN_COLUMN, 1.0,
@@ -298,8 +295,9 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			META_TREE_FONT_COLUMN, 800,
 			META_TREE_DATE_COLUMN, NULL,
 			-1);
-    if (label)
-	g_free (label);
+    g_free (string_tmp);
+    if (balance)
+	g_free (balance);
 }
 
 
@@ -320,14 +318,18 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			     gint division,
 			     gint sub_division )
 {
-    gchar * balance = NULL, *label = NULL;
-    const gchar *string_tmp;
+    gchar *balance = NULL;
+    gchar *string_tmp;
     GtkTreeIter dumb_iter;
     GtkTreePath * path;
     enum meta_tree_row_type type;
-    gint nb_ecritures = 0;
+    gint number_transactions = 0;
 
     if ( ! metatree_model_is_displayed ( model ) )
+	return;
+
+    /* if no category, there is no sub category */
+    if (!division)
 	return;
 
     path = gtk_tree_model_get_path ( model, iter );
@@ -339,32 +341,29 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     }
     g_free ( path );
 
-    string_tmp = ( sub_division ? iface -> sub_div_name (division, sub_division) : _(iface -> no_sub_div_label) );
+    string_tmp = iface -> sub_div_name (division, sub_division);
 
-    if ( ! division )
-	division = iface -> get_without_div_pointer ();
-
-    nb_ecritures = iface -> sub_div_nb_transactions ( division, sub_division );
+    number_transactions = iface -> sub_div_nb_transactions ( division, sub_division );
     
-    if ( nb_ecritures )
+    if ( number_transactions )
     {
-	gchar* tmpstr = itoa ( nb_ecritures );
-	label = g_strconcat ( string_tmp, " (", tmpstr, ")", NULL );
-	g_free ( tmpstr );
-	
+	gchar *label;
+
+	label = g_strdup_printf ( "%s (%d)",
+				  string_tmp,
+				  number_transactions );
+	g_free (string_tmp);
+	string_tmp = label;
+
 	if ( ! gtk_tree_model_iter_has_child ( model, iter ) )
-	{
 	    gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
-	}
 
 	balance = gsb_format_amount ( iface -> sub_div_balance ( division, sub_division ),
 				      iface -> tree_currency () );
     }
-    else
-	label = my_strdup (string_tmp);
     
     gtk_tree_store_set ( GTK_TREE_STORE (model), iter,
-			 META_TREE_TEXT_COLUMN, label,
+			 META_TREE_TEXT_COLUMN, string_tmp,
 			 META_TREE_POINTER_COLUMN, sub_division,
 			 META_TREE_BALANCE_COLUMN, balance,
 			 META_TREE_XALIGN_COLUMN, 1.0,
@@ -373,22 +372,23 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			 META_TREE_FONT_COLUMN, 400,
 			 META_TREE_DATE_COLUMN, NULL,
 			 -1 );
-    if (label)
-	g_free (label);
+    g_free (string_tmp);
+    if (balance)
+	g_free (balance);
 }
 
 
 
 /**
- * \todo Document this
- *
+ *  fill the line transaction for each category/sub-category
+ *  
  * \param model		The GtkTreeModel that contains iter.
  */
 void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter, 
 			    gint transaction_number )
 {
     gchar * account; /* no need to be freed */
-    gchar * montant = NULL;
+    gchar * amount = NULL;
     gchar * label = NULL; 
     gchar * notes = NULL; 
     const gchar *string;
@@ -397,6 +397,8 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 
     if ( ! metatree_model_is_displayed ( model ) )
 	return;
+
+    devel_debug_int (transaction_number);
 
     path = gtk_tree_model_get_path ( model, iter );
     type = metatree_get_row_type ( model, path );
@@ -459,21 +461,21 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 	g_free ( tmpstr );
     }
 
-    montant = gsb_format_amount ( gsb_data_transaction_get_amount (transaction_number),
+    amount = gsb_format_amount ( gsb_data_transaction_get_amount (transaction_number),
 				  gsb_data_transaction_get_currency_number (transaction_number) );
     account = gsb_data_account_get_name ( gsb_data_transaction_get_account_number (transaction_number));
     gtk_tree_store_set ( GTK_TREE_STORE(model), iter, 
 			 META_TREE_POINTER_COLUMN, transaction_number,
 			 META_TREE_TEXT_COLUMN, label,
 			 META_TREE_ACCOUNT_COLUMN, account,
-			 META_TREE_BALANCE_COLUMN, montant,
+			 META_TREE_BALANCE_COLUMN, amount,
 			 META_TREE_NO_DIV_COLUMN, -1,
 			 META_TREE_NO_SUB_DIV_COLUMN, -1,
 			 META_TREE_XALIGN_COLUMN, 1.0,
 			 META_TREE_FONT_COLUMN, 400,
 			 META_TREE_DATE_COLUMN, gsb_data_transaction_get_date ( transaction_number ),
 			 -1);
-    g_free(montant);
+    g_free(amount);
     g_free(label);
 }
 
@@ -931,8 +933,14 @@ void supprimer_transaction ( GtkTreeView * tree_view, GtkTreeModel * model,
 
 
 /**
- * \todo Document this
- * 
+ * callback when expand a row
+ *
+ * \param treeview
+ * \param iter
+ * \param tree_path
+ * \param user_data not used
+ *
+ * \return FALSE
  *
  */
 gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter, 
@@ -943,6 +951,8 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
     gchar *name;
     gint no_division, no_sub_division;
     MetatreeInterface * iface;
+
+    devel_debug (NULL);
 
     /* Get model and metatree interface */
     model = gtk_tree_view_get_model(treeview);
@@ -962,7 +972,6 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 			     META_TREE_NO_DIV_COLUMN, &no_division,
 			     META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
 			     -1 );
-
 	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 	while ( list_tmp_transactions )
@@ -970,9 +979,17 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 	    gint transaction_number_tmp;
 	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
+	    /* set the transaction if the same div/sub-div
+	     * or if no categ (must check if no transfer or breakdown) */
 	    if ( transaction_number_tmp &&
-		 iface -> transaction_div_id ( transaction_number_tmp) == no_division &&
-		 iface -> transaction_sub_div_id ( transaction_number_tmp) == no_sub_division )
+		 ( (iface -> transaction_div_id ( transaction_number_tmp) == no_division &&
+		    iface -> transaction_sub_div_id ( transaction_number_tmp) == no_sub_division )
+		   ||
+		   ( !no_division &&
+		     !iface -> transaction_div_id ( transaction_number_tmp) &&
+		     !gsb_data_transaction_get_breakdown_of_transaction (transaction_number_tmp) &&
+		     !gsb_data_transaction_get_transaction_number_transfer (transaction_number_tmp))))
+
 	    {
 		if ( !first )
 		{

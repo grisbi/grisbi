@@ -41,13 +41,13 @@ static gint category_add_div ();
 static gint category_add_sub_div ( int div_id );
 static gboolean category_add_transaction_to_div ( gint transaction_number, 
 					   int div_id );
-static const gchar * category_div_name ( gint div );
+static gchar * category_div_name ( gint div );
 static gint category_get_div_pointer_from_name ( const gchar * name, gboolean create );
 static gint category_get_without_div_pointer ( );
 static gboolean category_scheduled_set_div_id ( gint scheduled_number,
 					 int no_div );
 static gsb_real category_sub_div_balance ( gint div, gint sub_div );
-static const gchar * category_sub_div_name ( gint div, gint sub_div );
+static gchar * category_sub_div_name ( gint div, gint sub_div );
 static gint category_sub_div_nb_transactions ( gint div, gint sub_div );
 static gint category_transaction_div_id ( gint transaction_number );
 /*END_STATIC*/
@@ -159,10 +159,13 @@ gint category_sub_div_nb_transactions ( gint div, gint sub_div )
 
 
 /**
+ * return the category name
  *
+ * \param div category number
  *
+ * \retun a string, need to be freed
  */
-const gchar * category_div_name ( gint div )
+gchar *category_div_name ( gint div )
 {
     return gsb_data_category_get_name ( div,
 					0,
@@ -175,7 +178,7 @@ const gchar * category_div_name ( gint div )
  *
  *
  */
-const gchar * category_sub_div_name ( gint div, gint sub_div )
+gchar *category_sub_div_name ( gint div, gint sub_div )
 {
     return gsb_data_category_get_sub_category_name ( div,
 						     sub_div,

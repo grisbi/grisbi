@@ -120,7 +120,8 @@ static GSList *category_list = NULL;
 static struct_category *category_buffer;
 static struct_sub_category *sub_category_buffer;
 
-/** a empty category for the list of categories */
+/** a empty category for the list of categories
+ * the number of the empty category is 0 */
 static struct_category *empty_category = NULL;
 
 
@@ -157,7 +158,7 @@ gboolean gsb_data_category_init_variables ( void )
      * without category will have that name */
     _gsb_data_category_free ( empty_category );
     empty_category = g_malloc0 ( sizeof ( struct_category ));
-    empty_category -> category_name = g_strdup("");
+    empty_category -> category_name = g_strdup(_("No category"));
 
     return FALSE;
 }
@@ -905,11 +906,12 @@ gboolean gsb_data_category_set_name ( gint no_category,
  * \param no_sub_category the number of the sub-category
  * \param return_value_error if problem, return that value
  *
- * \return the name of the category or NULL/No sub-category if problem
+ * \return a newly allocated string with the name of the category
+ * 		or return_value_error to be freed too
  * */
-const gchar *gsb_data_category_get_sub_category_name ( gint no_category,
-						       gint no_sub_category,
-						       const gchar *return_value_error )
+gchar *gsb_data_category_get_sub_category_name ( gint no_category,
+						 gint no_sub_category,
+						 const gchar *return_value_error )
 {
     struct_sub_category *sub_category;
 
@@ -917,9 +919,9 @@ const gchar *gsb_data_category_get_sub_category_name ( gint no_category,
 								  no_sub_category );
 
     if (!sub_category)
-	return (return_value_error);
+	return (my_strdup (return_value_error));
 
-    return sub_category -> sub_category_name;
+    return my_strdup (sub_category -> sub_category_name);
 }
 
 
@@ -1401,8 +1403,6 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
 	sub_category -> sub_category_balance = gsb_real_add ( sub_category -> sub_category_balance,
 							      gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
 														      category_tree_currency (), -1));
-
-	gsb_data_transaction_get_adjusted_amount (transaction_number, -1);
     }
     else
     {
