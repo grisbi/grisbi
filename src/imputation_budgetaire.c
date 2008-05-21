@@ -1,9 +1,7 @@
 /* ************************************************************************** */
-/* fichier qui s'occupe de l'onglet de gestion des imputations                */
-/* 			imputation_budgetaire.c                               */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -214,19 +212,19 @@ GtkWidget *onglet_imputations ( void )
 /* **************************************************************************************************** */
 
 
-
-
-/* **************************************************************************************************** */
-/* Fonction remplit_arbre_imputation */
-/* le vide et le remplit */
-/* **************************************************************************************************** */
-
+/**
+ * fill the tree of budget
+ *
+ * \param
+ *
+ * \return
+ * */
 void remplit_arbre_imputation ( void )
 {
     GSList *budget_list;
     GtkTreeIter iter_budgetary_line, iter_sub_budgetary_line;
 
-    devel_debug ( "remplit_arbre_imputation" );
+    devel_debug (NULL);
 
     /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (budgetary_line_tree_model));
@@ -235,9 +233,11 @@ void remplit_arbre_imputation ( void )
     gsb_data_budget_update_counters ();
 
     /** Then, populate tree with budgetary lines. */
-
     budget_list = gsb_data_budget_get_budgets_list ();
-    budget_list = g_slist_prepend ( budget_list, NULL );
+
+    /* add first the empty budget */
+    budget_list = g_slist_prepend ( budget_list,
+				    gsb_data_budget_get_empty_budget ());
 
     while ( budget_list )
     {
@@ -273,11 +273,14 @@ void remplit_arbre_imputation ( void )
 	    }
 	}
 
-	gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model), 
-			       &iter_sub_budgetary_line, &iter_budgetary_line);
-	fill_sub_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
-				&iter_sub_budgetary_line, budget_number, 0 );
-	
+	/* add the no-sub-budget only if budget exists */
+	if (budget_number)
+	{
+	    gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model), 
+				   &iter_sub_budgetary_line, &iter_budgetary_line);
+	    fill_sub_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface, 
+				    &iter_sub_budgetary_line, budget_number, 0 );
+	}
 	budget_list = budget_list -> next;
     }
 }

@@ -32,7 +32,6 @@
 #include "./gsb_data_payee.h"
 #include "./metatree.h"
 #include "./erreur.h"
-#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

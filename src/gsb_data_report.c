@@ -37,7 +37,6 @@
 #include "./utils_dates.h"
 #include "./utils_str.h"
 #include "./erreur.h"
-#include "./include.h"
 /*END_INCLUDE*/
 
 /** \struct

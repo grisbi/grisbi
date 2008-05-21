@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -114,8 +114,47 @@ static GSList *budget_list = NULL;
 static struct_budget *budget_buffer;
 static struct_sub_budget *sub_budget_buffer;
 
-/** a empty budget for the list of budgets */
+/** a empty budget for the list of budgets
+ * the number of the empty budget is 0 */
 static struct_budget *empty_budget = NULL;
+
+
+/**
+ * set the budgets global variables to NULL, usually when we init all the global variables
+ *
+ * \param none
+ *
+ * \return FALSE
+ * */
+gboolean gsb_data_budget_init_variables ( void )
+{
+    if ( budget_list )
+    {
+        /* free memory used by the budget list */
+        GSList *tmp_list = budget_list;
+        while ( tmp_list )
+        {
+            struct_budget *budget;
+            budget = tmp_list -> data;
+            tmp_list = tmp_list -> next;
+	    _gsb_data_budget_free ( budget );
+        }
+	g_slist_free (budget_list);
+    }
+    budget_list = NULL;
+
+    /* recreate the empty budget */
+    _gsb_data_budget_free ( empty_budget );
+    empty_budget = g_malloc0 ( sizeof ( struct_budget ));
+    empty_budget -> budget_name = g_strdup(_("No budget line"));
+
+    budget_buffer = NULL;
+    sub_budget_buffer = NULL;
+
+    return FALSE;
+}
+
+
 
 /**
  * This internal function is used to free the memory used by a struct_budget structure
@@ -158,49 +197,13 @@ static void _gsb_data_sub_budget_free ( struct_sub_budget* sub_budget )
 	sub_budget_buffer = NULL;
 }
 
-/**
- * set the budgets global variables to NULL, usually when we init all the global variables
- *
- * \param none
- *
- * \return FALSE
- * */
-gboolean gsb_data_budget_init_variables ( void )
-{
-    if ( budget_list )
-    {
-        /* free memory used by the budget list */
-        GSList *tmp_list = budget_list;
-        while ( tmp_list )
-        {
-            struct_budget *budget;
-            budget = tmp_list -> data;
-            tmp_list = tmp_list -> next;
-	    _gsb_data_budget_free ( budget );
-        }
-	g_slist_free (budget_list);
-    }
-    budget_list = NULL;
-
-    /* recreate the empty budget */
-    _gsb_data_budget_free ( empty_budget );
-    empty_budget = g_malloc0 ( sizeof ( struct_budget ));
-    empty_budget -> budget_name = g_strdup(_("No budget line"));
-
-    budget_buffer = NULL;
-    sub_budget_buffer = NULL;
-
-    return FALSE;
-}
-
-
 
 /**
  * find and return the structure of the budget asked
  *
  * \param no_budget number of budget
  *
- * \return the adr of the struct of the budget (NULL if doesn't exit)
+ * \return the adr of the struct of the budget (empty_budget if doesn't exit)
  * */
 gpointer gsb_data_budget_get_structure ( gint no_budget )
 {
@@ -218,6 +221,17 @@ gpointer gsb_data_budget_get_structure ( gint no_budget )
 						   budget_list );
 }
 
+
+/**
+ * return the empty_budget pointer
+ *
+ * \param
+ *
+ * \return a pointer to empty_budget */
+gpointer gsb_data_budget_get_empty_budget ( void )
+{
+    return gsb_data_budget_get_structure (0);
+}
 
 
 /**
@@ -868,11 +882,12 @@ gboolean gsb_data_budget_set_name ( gint no_budget,
  * \param no_sub_budget the number of the sub-budget
  * \param return_value_error if problem, return that value
  *
- * \return the name of the budget or NULL/No sub-budget if problem
+ * \return a newly allocated string with the name of the budget 
+ * 		or return_value_error to be freed too
  * */
-const gchar *gsb_data_budget_get_sub_budget_name ( gint no_budget,
-						   gint no_sub_budget,
-						   const gchar *return_value_error )
+gchar *gsb_data_budget_get_sub_budget_name ( gint no_budget,
+					     gint no_sub_budget,
+					     const gchar *return_value_error )
 {
     struct_sub_budget *sub_budget;
 
@@ -880,9 +895,9 @@ const gchar *gsb_data_budget_get_sub_budget_name ( gint no_budget,
 							    no_sub_budget );
 
     if (!sub_budget)
-	return (return_value_error);
+	return (my_strdup (return_value_error));
 
-    return sub_budget -> sub_budget_name;
+    return my_strdup (sub_budget -> sub_budget_name);
 }
 
 
@@ -1295,6 +1310,7 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
     sub_budget = gsb_data_budget_get_sub_budget_structure ( budget_id ,
 							    sub_budget_id );
 
+    /* now budget is on the budget structure or on empty_budget */
     if ( budget )
     {
 	budget -> budget_nb_transactions ++;
@@ -1302,13 +1318,10 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
 						  gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
 													  budgetary_line_tree_currency (), -1));
     }
-    else
-    {
-	empty_budget -> budget_nb_transactions ++;
-	empty_budget -> budget_balance = gsb_real_add ( empty_budget -> budget_balance,
-							gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-														budgetary_line_tree_currency (), -1));
-    }
+
+    /* if we are on empty_budget, no sub-budget */
+    if (budget == empty_budget)
+	return;
 
     if ( sub_budget )
     {
@@ -1319,17 +1332,12 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
     }
     else
     {
-	if ( budget )
-	{
-	    budget -> budget_nb_direct_transactions ++;
-	    budget -> budget_direct_balance = gsb_real_add ( budget -> budget_direct_balance,
-							     gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-														     budgetary_line_tree_currency (), -1));
-	}
+	budget -> budget_nb_direct_transactions ++;
+	budget -> budget_direct_balance = gsb_real_add ( budget -> budget_direct_balance,
+							 gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+														 budgetary_line_tree_currency (), -1));
     }
 }
-
-
 
 /**
  * remove the given transaction to its budget in the counters

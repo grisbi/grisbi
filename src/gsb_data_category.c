@@ -1406,8 +1406,6 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
     }
     else
     {
-	/* no sub-category, add to direct transactions of the categ (?)
-	 * FIXME xxx should add in the struct of category a empty_category struct to fill that */
 	category -> category_nb_direct_transactions ++;
 	category -> category_direct_balance = gsb_real_add ( category -> category_direct_balance,
 							     gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,

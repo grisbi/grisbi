@@ -258,8 +258,6 @@ void remplit_arbre_categ ( void )
 	}
 
 	/* add the no sub category only if category */
-	/* xxx FIXME qd aura fait des sans sous categ dans la struct des categ,
-	 * plus besoin de ça */
 	if (category_number)
 	{
 	    gtk_tree_store_append (GTK_TREE_STORE (categ_tree_model), 

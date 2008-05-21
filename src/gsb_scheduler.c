@@ -45,7 +45,6 @@
 #include "./traitement_variables.h"
 #include "./gsb_scheduler_list.h"
 #include "./erreur.h"
-#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -36,7 +36,6 @@
 #include "./gsb_transactions_list.h"
 #include "./gsb_transactions_list.h"
 #include "./erreur.h"
-#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
