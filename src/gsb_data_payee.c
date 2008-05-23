@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -388,7 +388,7 @@ const gchar *gsb_data_payee_get_name ( gint no_payee,
 	if (can_return_null)
 	    return NULL;
 	else
-	    return ( _("No payee defined"));
+	    return (_("No payee defined"));
     }
 
     return payee -> payee_name;
@@ -418,11 +418,8 @@ gboolean gsb_data_payee_set_name ( gint no_payee,
     if ( payee -> payee_name )
 	g_free (payee -> payee_name);
     
-    /* and copy the new one */
-   if (name)
-       payee -> payee_name = my_strdup (name);
-   else
-       payee -> payee_name = NULL;
+    /* and copy the new one or set NULL */
+    payee -> payee_name = my_strdup (name);
 
    /* update the form combofix, FIXME later, we should set that in another
     * place but need to change the form of the function to prevent if there

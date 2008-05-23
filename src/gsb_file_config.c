@@ -551,10 +551,10 @@ gboolean gsb_file_config_save_config ( void )
 	 &&
 	 tab_noms_derniers_fichiers_ouverts)
         g_key_file_set_string_list ( config,
-				 "IO",
-				 "Names last files",
-				 (const gchar **) tab_noms_derniers_fichiers_ouverts,
-				 nb_derniers_fichiers_ouverts );
+				     "IO",
+				     "Names last files",
+				     (const gchar **) tab_noms_derniers_fichiers_ouverts,
+				     nb_derniers_fichiers_ouverts);
 
     g_key_file_set_integer ( config, 
 			     "IO",
