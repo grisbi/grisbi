@@ -596,7 +596,7 @@ void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *cu
  */
 gboolean gsb_gui_toggle_show_form ()
 {
-    devel_debug ( "" );
+    devel_debug (NULL);
 
     /* FIXME benj: ugly but I cannot find a way to block this ... I
        understand why gtkitemfactory is deprecated. */

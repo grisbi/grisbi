@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2005-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2005-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -199,7 +199,6 @@ gboolean gsb_file_config_load_config ( void )
 								      NULL );
 
     /* get input/output */
-
     etat.dernier_fichier_auto = g_key_file_get_integer ( config,
 							 "IO",
 							 "Load last file",
@@ -256,18 +255,21 @@ gboolean gsb_file_config_load_config ( void )
 									    NULL );
     
     /* get scheduled section */
-
     nb_days_before_scheduled = g_key_file_get_integer ( config,
 							"Scheduled",
 							"Days before remind",
 							NULL );
 
     /* get shown section */
-
     etat.formulaire_toujours_affiche = g_key_file_get_integer ( config,
 								"Display",
 								"Show transaction form",
 								NULL );
+
+    etat.show_transaction_selected_in_form = g_key_file_get_integer ( config,
+							  "Display",
+							  "Show selected transaction in form",
+							  NULL );
 
     etat.classement_par_date = g_key_file_get_integer ( config,
 							"Display",
@@ -581,6 +583,11 @@ gboolean gsb_file_config_save_config ( void )
 			     etat.formulaire_toujours_affiche );
 
     g_key_file_set_integer ( config,
+			     "Display",
+			     "Show selected transaction in form",
+			     etat.show_transaction_selected_in_form );
+
+     g_key_file_set_integer ( config,
 			     "Display",
 			     "Order by date",
 			     etat.classement_par_date );

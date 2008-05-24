@@ -293,7 +293,6 @@ void gtktable_click_sur_ope_etat ( gint transaction_number )
 	    mise_a_jour_affichage_r ( TRUE );
 
 	gsb_transactions_list_select ( transaction_number );
-	gsb_transactions_list_move_to_current_transaction ( gsb_data_transaction_get_account_number (transaction_number) );
     }
 }
 /*****************************************************************************************************/

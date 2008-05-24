@@ -94,7 +94,7 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 					   GdkEventKey *ev );
 gboolean gsb_transactions_list_load_marked_r ( void );
 GtkWidget *gsb_transactions_list_make_gui_list ( void );
-gboolean gsb_transactions_list_move_to_current_transaction ( gint account_number );
+gboolean gsb_transactions_list_move_to_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_select ( gint transaction_number );
 gboolean gsb_transactions_list_set_adjustment_value ( gint account_number );
 gboolean gsb_transactions_list_set_background_color ( gint account_number );

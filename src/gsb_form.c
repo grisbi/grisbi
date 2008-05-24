@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     copyright (c)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2007 Benjamin Drieu (bdrieu@april.org) 	      */
+/*     copyright (c)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2008 Benjamin Drieu (bdrieu@april.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -344,11 +344,13 @@ void gsb_form_create_widgets ()
  * \param transaction_number the number of the transaction or scheduled transaction
  * \param is_transaction TRUE if transaction, FALSE if scheduled transaction
  * 	that param could be taken from the navigation bar but i prefer set in param for now
+ * \param grab_focus if TRUE, after filling the form, the date will grab the focus ; if FALSE, nothing change with focus
  *
  * \return FALSE
  * */
 gboolean gsb_form_fill_by_transaction ( gint transaction_number,
-					gint is_transaction )
+					gint is_transaction,
+					gboolean grab_focus )
 {
     gint mother_number;
     gint account_number;
@@ -356,10 +358,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
     gint is_breakdown;
     GSList *tmp_list;
 
-    gchar* tmpstr = g_strdup_printf ( "gsb_form_fill_by_transaction %d",
-				    transaction_number );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (transaction_number);
 
     if ( !transaction_number )
 	return FALSE;
@@ -390,6 +389,11 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
     if ( transaction_number == -1 )
     {
 	GtkWidget *date_entry;
+
+	/* if we can't touch the focus, it's because we just select a transaction, and
+	 * for now, select the white line, so keep the form blank */
+	if (!grab_focus)
+	    return FALSE;
 
 	date_entry = gsb_form_widget_get_widget (TRANSACTION_FORM_DATE);
 
@@ -490,19 +494,23 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
 	}	
     }
 
-    /* the form is full, if it's not a breakdown, we give the focus to the date
-     * else, we give the focus to the first free form element */
-    if (mother_number)
-	focus_to = gsb_form_widget_next_element ( account_number,
-						  TRANSACTION_FORM_DATE,
-						  GSB_RIGHT );
-    else
-	focus_to = TRANSACTION_FORM_DATE;
+    /* we take focus only if asked */
+    if (grab_focus)
+    {
+	/* the form is full, if it's not a breakdown, we give the focus to the date
+	 * else, we give the focus to the first free form element */
+	if (mother_number)
+	    focus_to = gsb_form_widget_next_element ( account_number,
+						      TRANSACTION_FORM_DATE,
+						      GSB_RIGHT );
+	else
+	    focus_to = TRANSACTION_FORM_DATE;
 
-    gtk_entry_select_region ( GTK_ENTRY ( gsb_form_widget_get_widget (focus_to)),
-			      0,
-			      -1);
-    gtk_widget_grab_focus ( gsb_form_widget_get_widget (focus_to));
+	gtk_entry_select_region ( GTK_ENTRY ( gsb_form_widget_get_widget (focus_to)),
+				  0,
+				  -1);
+	gtk_widget_grab_focus ( gsb_form_widget_get_widget (focus_to));
+    }
     return FALSE;
 }
 
@@ -892,11 +900,8 @@ gboolean gsb_form_set_expander_visible ( gboolean visible,
  * */
 gboolean gsb_form_switch_expander ( void )
 {
-    gboolean expanded;
-
-    expanded = gsb_form_is_visible ( );
     gtk_expander_set_expanded ( GTK_EXPANDER (form_expander),
-				!expanded );
+				!gsb_form_is_visible ());
     return FALSE;
 }
 
@@ -913,18 +918,19 @@ gboolean gsb_form_switch_expander ( void )
 gboolean gsb_form_activate_expander ( GtkWidget *expander,
 				      gpointer null )
 {
+    devel_debug (NULL);
+
     if ( gtk_expander_get_expanded (GTK_EXPANDER (expander)))
     {
 	gsb_form_widget_free_list ();
 	gsb_form_show ( TRUE );
-	etat.formulaire_toujours_affiche = FALSE;
+	etat.formulaire_toujours_affiche = TRUE;
     }
     else
     {
 	gsb_form_show ( FALSE );
-	etat.formulaire_toujours_affiche = TRUE;
+	etat.formulaire_toujours_affiche = FALSE;
     }
-
     gsb_menu_update_view_menu ( gsb_gui_navigation_get_current_account () );
 
     return FALSE;
@@ -945,9 +951,7 @@ gboolean gsb_form_show ( gboolean show )
 {
     gint origin;
 
-    gchar* tmpstr = g_strdup_printf ( "gsb_form_show %d", show );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (show);
 
     origin = gsb_form_get_origin ();
 

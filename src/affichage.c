@@ -525,7 +525,7 @@ void update_fonte_listes ( void )
 
     update_ecran ();
     hauteur_ligne_liste_opes = 0;
-    gsb_transactions_list_move_to_current_transaction ( gsb_gui_navigation_get_current_account () );
+    gsb_transactions_list_move_to_transaction ( gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()));
 
 }
 /* **************************************************************************************************************************** */

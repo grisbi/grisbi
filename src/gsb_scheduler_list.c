@@ -1425,11 +1425,8 @@ gint gsb_scheduler_list_get_current_scheduled_number ( void )
  * */
 gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 {
-    gchar* tmpstr = g_strdup_printf ( "gsb_scheduler_list_edit_transaction %d",
-				    scheduled_number );
-    devel_debug (  tmpstr );
-    g_free ( tmpstr );
-    gsb_form_fill_by_transaction ( scheduled_number, FALSE );
+    devel_debug_int (scheduled_number);
+    gsb_form_fill_by_transaction ( scheduled_number, FALSE, TRUE );
     return FALSE;
 }
 
@@ -1468,10 +1465,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 {
     gint result;
 
-    gchar* tmpstr = g_strdup_printf ( "gsb_scheduler_list_delete_scheduled_transaction %d",
-				    scheduled_number );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (scheduled_number);
 
     if ( !scheduled_number )
 	scheduled_number = gsb_scheduler_list_get_current_scheduled_number ();

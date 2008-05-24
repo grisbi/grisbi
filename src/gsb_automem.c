@@ -374,7 +374,6 @@ void gsb_automem_checkbutton_set_value ( GtkWidget *checkbutton,
 	g_signal_handler_unblock ( checkbutton,
 				   (gulong) g_object_get_data ( G_OBJECT(checkbutton),
 								"changed-hook" ));
-
 }
 
 

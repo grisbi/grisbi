@@ -1053,7 +1053,6 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 					       NULL );
 
 	    gsb_transactions_list_select ( transaction_number );
-	    gsb_transactions_list_move_to_current_transaction ( gsb_data_transaction_get_account_number (transaction_number) );
 	}
 	else
 	{

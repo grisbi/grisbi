@@ -126,7 +126,13 @@ gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
 }
 
 
-/** FIXME: document this */
+/**
+ * create the page of configuration for the transaction list behavior
+ *
+ * \param
+ *
+ * \return a vbox containing the configuration page
+ * */
 GtkWidget *onglet_affichage_operations ( void )
 {
     GtkWidget * vbox_pref, *table, *label, *paddingbox;
@@ -267,12 +273,20 @@ GtkWidget *onglet_affichage_operations ( void )
 		       NULL );
 
     /* add the 'loading r into the list at begining' */
-
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 gsb_automem_checkbutton_new (_("Don't load the marked R transactions into the list at the begining\n(use it for slow configurations)"),
 						      &etat.no_fill_r_at_begining,
 						      NULL, NULL ),
 			 FALSE, FALSE, 0 );
+
+    /* do we show the content of the selected transaction in the form for
+     * each selection ? */
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+			 gsb_automem_checkbutton_new (_("Show the content of the transaction in the form when it's selected."),
+						      &etat.show_transaction_selected_in_form,
+						      NULL, NULL ),
+			 FALSE, FALSE, 0 );
+
 
     /* Then add the "sort by" buttons */
     paddingbox = gsb_automem_radiobutton_new_with_title (vbox_pref,

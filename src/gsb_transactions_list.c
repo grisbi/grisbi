@@ -1210,7 +1210,7 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number 
 	gsb_transactions_list_set_visibles_rows_on_transaction (transaction_number);
 	gsb_transactions_list_set_background_color (account_number);
 	gsb_transactions_list_set_transactions_balances (account_number);
-	gsb_transactions_list_move_to_current_transaction (account_number);
+	gsb_transactions_list_move_to_transaction (transaction_number);
 
 	gsb_gui_headings_update_suffix ( gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
 										gsb_data_account_get_currency (account_number), TRUE));
@@ -2015,10 +2015,7 @@ gboolean gsb_transactions_list_set_adjustment_value ( gint account_number )
 {
     GtkTreePath *path;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_transactions_list_set_adjustment_value account %d",
-				   account_number );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (account_number);
 
     /* if no account is selected, do not try to set adjustment 
      * (it's append when the creation of a new file is cancelled : no file is opened
@@ -2323,6 +2320,7 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
     {
 	case GDK_Return :		/* entrée */
 	case GDK_KP_Enter :
+	case GDK_Tab :
 
 	    gsb_transactions_list_edit_transaction (gsb_data_account_get_current_transaction_number (account_number));
 	    break;
@@ -2402,10 +2400,7 @@ gboolean gsb_transactions_list_select ( gint transaction_number )
     gint account_number;
     gint nb_rows;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_transactions_list_select %d",
-				   transaction_number );
-    devel_debug ( tmpstr );
-    g_free (tmpstr);
+    devel_debug_int (transaction_number);
 
     if ( !gsb_transactions_list_get_tree_view()
 	 ||
@@ -2513,12 +2508,21 @@ gboolean gsb_transactions_list_select ( gint transaction_number )
 	}
 	gtk_tree_iter_free (iter);
 
+	/* scroll the list to show the transaction */
+	gsb_transactions_list_move_to_transaction (transaction_number);
     }
 
     if ( transaction_number != -1 )
 	gsb_menu_transaction_operations_set_sensitive ( TRUE );	
     else
 	gsb_menu_transaction_operations_set_sensitive ( FALSE );	
+
+    /* show the content of the transaction in the form,
+     * only if the form is shown */
+    if (etat.show_transaction_selected_in_form
+	&&
+	gsb_form_is_visible ())
+	gsb_form_fill_by_transaction (transaction_number, TRUE, FALSE);
 
     return FALSE;
 }
@@ -2527,37 +2531,105 @@ gboolean gsb_transactions_list_select ( gint transaction_number )
 /** 
  * set the tree view on the current transaction
  * 
- * \param account_number
+ * \param transaction_number the transaction we want the list focus on
  * 
  * \return FALSE
  * */
-gboolean gsb_transactions_list_move_to_current_transaction ( gint account_number )
+gboolean gsb_transactions_list_move_to_transaction ( gint transaction_number )
 {
-    GtkTreePath *path_sorted;
+    GtkTreePath *start_path_transaction;
+    GtkTreePath *end_path_transaction;
+    GtkTreePath *start_path_list = NULL;
+    GtkTreePath *end_path_list = NULL;
+    GtkWidget *tree_view;
+    gint i;
+    GtkAdjustment *adjustment;
+    gint result;
+    gint start_pos = 0;
+    gint end_pos = 0;
 
-    gchar* tmpstr =  g_strdup_printf ("gsb_transactions_list_move_to_current_transaction, compte %d", account_number );
-    devel_debug ( tmpstr );
-    g_free (tmpstr);
+    devel_debug_int (transaction_number);
 
-    if ( !gsb_transactions_list_get_tree_view() )
+    /* the gtk_tree_view_scroll_to_cell doesn't work fine...
+     * so must re-write here */
+
+    tree_view = gsb_transactions_list_get_tree_view ();
+    if ( !tree_view)
 	return FALSE;
 
-    path_sorted = gsb_transactions_list_get_sorted_path (gsb_data_account_get_current_transaction_number (account_number), 0);
-
-    /* Sometimes, the current transaction can be hidden, so we have to
-     * check for each path if it's valid if it's not, we make a
-     * selection on the white line */
-
-    if ( !path_sorted )
+    /* get the adjustment */
+    adjustment = gtk_tree_view_get_vadjustment (GTK_TREE_VIEW (tree_view));
+    if (!adjustment)
     {
-	gsb_transactions_list_select ( -1 );
+	warning_debug ("Adjustment is NULL, cannot move it");
 	return FALSE;
     }
 
-    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view()),
-				   path_sorted, NULL, FALSE, 0.5, 0.5 );
-    gtk_tree_path_free (path_sorted);
+    /* if this is the white transaction, go directly to the end of list */
+    if (transaction_number == -1)
+    {
+	gtk_adjustment_set_value ( adjustment,
+				   adjustment -> upper );
+	return FALSE;
+    }
 
+    /* get the start path of the transaction */
+    start_path_transaction = gsb_transactions_list_get_sorted_path (transaction_number, 0);
+
+    /* if the transaction is not found, do nothing */
+    if ( !start_path_transaction )
+    {
+	warning_debug ("Transaction's not found in the tree");
+	return FALSE;
+    }
+
+    /* get the end path of the transaction */
+    end_path_transaction = gtk_tree_path_copy (start_path_transaction);
+    for (i=1 ; i<gsb_data_account_get_nb_rows (gsb_gui_navigation_get_current_account ()) ; i++)
+	gtk_tree_path_next (end_path_transaction);
+
+    gtk_tree_path_prev (start_path_transaction);
+    gtk_tree_path_next (end_path_transaction);
+
+    /* now try to set start_path_transaction and end_path_transaction into the screen */
+    do
+    {
+	if (start_path_list && end_path_list)
+	{
+	    gtk_tree_path_free (start_path_list);
+	    gtk_tree_path_free (end_path_list);
+	}
+	result = gtk_tree_view_get_visible_range ( GTK_TREE_VIEW (tree_view),
+						   &start_path_list,
+						   &end_path_list );
+	if (result && start_path_list && end_path_list)
+	{
+	    gdouble new_value;
+
+	    /* this will result :
+	     * -1 and -1 if have to go up
+	     *  1 and 1 if have to go down
+	     *  1/-1 or 1/0 or -1/0 if into the screen */
+	    start_pos = gtk_tree_path_compare ( start_path_transaction,
+						start_path_list);
+	    end_pos = gtk_tree_path_compare ( end_path_transaction,
+					      end_path_list );
+
+	    /* if the transaction is into the screen, stop here */
+	    if (start_pos != end_pos)
+		break;
+
+	    new_value = adjustment -> value + start_pos;
+	    if (new_value > adjustment -> upper)
+		    new_value = adjustment -> upper;
+	    gtk_adjustment_set_value ( adjustment,
+				       new_value );
+	}
+    }
+    while ( start_pos == end_pos && result);
+
+    gtk_tree_path_free (start_path_transaction);
+    gtk_tree_path_free (end_path_transaction);
     return FALSE;
 }
 
@@ -2625,11 +2697,8 @@ gint find_p_r_line ()
  * */
 gboolean gsb_transactions_list_edit_transaction ( gint transaction_number )
 {
-    gchar* tmpstr = g_strdup_printf ( "gsb_transactions_list_edit_transaction : %d",
-				    transaction_number );
-    devel_debug ( tmpstr );
-    g_free (tmpstr);
-    gsb_form_fill_by_transaction ( transaction_number, TRUE );
+    devel_debug_int (transaction_number);
+    gsb_form_fill_by_transaction ( transaction_number, TRUE, TRUE );
     return FALSE;
 }
 
@@ -4759,9 +4828,7 @@ void gsb_transactions_list_change_expanders ( gint only_current_account )
     GtkTreeModel *tree_store;
     GtkTreeIter iter;
 
-    gchar* tmpstr =  g_strdup_printf ("gsb_transactions_list_change_expanders, only_current_account =  %d", only_current_account );
-    devel_debug ( tmpstr );
-    g_free (tmpstr);
+    devel_debug_int (only_current_account);
 
     tree_store = GTK_TREE_MODEL (gsb_transactions_list_get_store ());
 
@@ -5245,7 +5312,7 @@ gboolean gsb_transactions_list_append_archive ( gint archive_number )
 	gsb_transactions_list_set_visibles_rows_on_account (account_number);
 	gsb_transactions_list_set_background_color (account_number);
 	gsb_transactions_list_set_transactions_balances (account_number);
-	gsb_transactions_list_move_to_current_transaction (account_number);
+	gsb_transactions_list_move_to_transaction (gsb_data_account_get_current_transaction_number (account_number));
     }
 
     gtk_widget_destroy (message_window);
