@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -49,6 +49,9 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static  void gsb_assistant_archive_add_children_to_list ( gint transaction_number );
+static  void gsb_assistant_archive_add_contra_transaction_to_list ( gint transaction_number );
+static  void gsb_assistant_archive_add_transaction_to_list ( gpointer transaction_pointer );
 static  GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_archive_page_success ( void );
@@ -782,6 +785,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 
     notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
     
+    /* erase the last list of transactions to archive */
     if (gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU
 	&&
 	list_transaction_to_archive)
@@ -790,10 +794,10 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 	list_transaction_to_archive = NULL;
     }
 
+    /* ok for now the choice is on initial/final date */
     if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU &&
 	 GTK_WIDGET_IS_SENSITIVE (initial_date))
     {
-	/* ok for now the choice is on initial/final date */
 	GDate *init_gdate;
 	GDate *final_gdate;
 	init_gdate = gsb_calendar_entry_get_date (initial_date);
@@ -852,17 +856,20 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 		 &&
 		 g_date_compare ( final_gdate,
 				  gsb_data_transaction_get_date (transaction_number)) >= 0 )
-		/* the transaction is into the dates, we append its address to the list to reconcile */
+		/* the transaction is into the dates, we append its address to the list to archive
+		 * we could use gsb_assistant_archive_add_transaction_to_list but it's a lost of time
+		 * because all the linked transactions will be taken because we work with dates,
+		 * so don't use that function and add the transaction directly */
 		list_transaction_to_archive = g_slist_append ( list_transaction_to_archive,
-								 tmp_list -> data );
+							       tmp_list -> data );
 	    tmp_list = tmp_list -> next;
 	}
     }
 
+    /* ok for now the choice is on fyear */
     if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU &&
 	 GTK_WIDGET_IS_SENSITIVE (financial_year_button))
     {
-	/* ok for now the choice is on fyear */
 	gint fyear_number;
 	string = NULL;
 
@@ -894,19 +901,22 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 	    transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
 
 	    if (gsb_data_transaction_get_financial_year_number (transaction_number) == fyear_number)
-		/* the transaction belongs to the fyear, we append its address to the list to reconcile */
-		list_transaction_to_archive = g_slist_append ( list_transaction_to_archive,
-								 tmp_list -> data );
+	    {
+		/* the transaction belongs to the fyear, we append its address to the list to archive
+		 * all the linked transactions will be taken */
+		gsb_assistant_archive_add_transaction_to_list (tmp_list -> data);
+	    }
 	    tmp_list = tmp_list -> next;
 	}
     }
 
+    /* ok for now the choice is on report */
     if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU &&
 	 GTK_WIDGET_IS_SENSITIVE (report_button))
     {
-	/* ok for now the choice is on report */
 	gint report_number;
 	string = NULL;
+	GSList *report_transactions_list;
 
 	report_number = gsb_report_get_report_from_combobox (report_button);
 
@@ -923,7 +933,19 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 	}
 
 	/* the report is ok */
-	list_transaction_to_archive = recupere_opes_etat (report_number);
+	report_transactions_list = recupere_opes_etat (report_number);
+
+	/* the list from report doesn't contain contra-transaction and mother/children breakdown,
+	 * so for each transaction of that list, we need to check the contra-transaction, the mother and children
+	 * and add them to the list */
+	tmp_list = report_transactions_list;
+	while (tmp_list)
+	{
+	    /* just call add_transaction_to_list, all the linked transactions will be taken */
+	    gsb_assistant_archive_add_transaction_to_list (tmp_list -> data);
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (report_transactions_list);
     }
 
     /* update the labels */
@@ -960,6 +982,132 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
     return FALSE;
 }
 
+
+/**
+ * add a transaction (in fact is pointer) to the list of transactions wich will be archived
+ * add too all the linked transactions with it
+ * 	ie : 	the contra-transfer if exists
+ * 		if child, the mother and the other children
+ * 		if breakdown, the children
+ *
+ * prevent multiple entry of the transaction, so can just call that function,
+ * 	the same transaction won't be added several times
+ * a NULL transaction_pointer will just be returned FALSE
+ *
+ * \param transaction_pointer
+ *
+ * \return 
+ * */
+static void gsb_assistant_archive_add_transaction_to_list ( gpointer transaction_pointer )
+{
+    gint transaction_number;
+
+    if (!transaction_pointer
+	||
+	!(transaction_number = gsb_data_transaction_get_transaction_number (transaction_pointer)))
+	return;
+
+    /* add the transaction itself */
+    if (!g_slist_find ( list_transaction_to_archive,
+			transaction_pointer ))
+	list_transaction_to_archive = g_slist_append ( list_transaction_to_archive,
+						       transaction_pointer );
+
+    /* check for contra-transaction */
+    gsb_assistant_archive_add_contra_transaction_to_list (transaction_number);
+ 
+    /* check for breakdown */
+    gsb_assistant_archive_add_children_to_list (transaction_number);
+
+    /* check for child
+     * if the transaction is a child, the best way is to get the mother and check for breakdown */
+    gsb_assistant_archive_add_children_to_list (gsb_data_transaction_get_mother_transaction_number (transaction_number));
+
+    return;
+}
+
+
+/**
+ * check the transaction
+ * if it's a transfer, add the contra-transaction to the archive list
+ * if the contra-transaction is a child of breakdown, add too all the breakdown
+ *
+ * \param transaction_number the transaction we want to check and add its contra-transaction
+ *
+ * \return
+ * */
+static void gsb_assistant_archive_add_contra_transaction_to_list ( gint transaction_number )
+{
+    gint contra_transaction_number;
+
+    if (transaction_number <= 0)
+	return;
+
+    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
+    if (contra_transaction_number)
+    {
+	gpointer contra_transaction_pointer;
+
+	contra_transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (contra_transaction_number);
+
+	/* add the contra-transaction */
+	if (!g_slist_find ( list_transaction_to_archive,
+			    contra_transaction_pointer ))
+	    list_transaction_to_archive = g_slist_append ( list_transaction_to_archive,
+							   contra_transaction_pointer );
+
+	/* if the contra-transaction is a child of breakdown,
+	 * we need to add the breakdown and all children to the list */
+	gsb_assistant_archive_add_children_to_list (gsb_data_transaction_get_mother_transaction_number (contra_transaction_number));
+    }
+    return;
+}
+
+/**
+ * check the transaction
+ * if it's a breakdown, add all the children (and their contra-transactions) to the archive list
+ * this will add too the breakdown itself
+ *
+ * \param transaction_number the transaction we want to check and add the children
+ *
+ * \return
+ * */
+static void gsb_assistant_archive_add_children_to_list ( gint transaction_number )
+{
+    if (transaction_number <= 0)
+	return;
+
+    if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+    {
+	GSList *child_list;
+
+	/* add the breakdown */
+	if (!g_slist_find ( list_transaction_to_archive,
+			    gsb_data_transaction_get_pointer_of_transaction (transaction_number)))
+	    list_transaction_to_archive = g_slist_append ( list_transaction_to_archive,
+							   gsb_data_transaction_get_pointer_of_transaction (transaction_number));
+
+	/* now add the children */
+	child_list = gsb_data_transaction_get_children (transaction_number, FALSE);
+	while (child_list)
+	{
+	    /* first add the child */
+	    if (!g_slist_find ( list_transaction_to_archive,
+				child_list -> data )
+		&&
+		/* we don't want white lines */
+		gsb_data_transaction_get_transaction_number (child_list -> data) > 0 )
+		list_transaction_to_archive = g_slist_append ( list_transaction_to_archive,
+							       child_list -> data );
+
+	    /* check if the child is a transfer */
+	    gsb_assistant_archive_add_contra_transaction_to_list (gsb_data_transaction_get_transaction_number (child_list -> data));
+
+	    child_list = child_list -> next;
+	}
+    }
+    return;
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

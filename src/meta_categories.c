@@ -225,7 +225,7 @@ gint category_transaction_div_id ( gint transaction_number )
 {
     if (transaction_number)
     {
-	if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number)
+	if ( gsb_data_transaction_get_contra_transaction_number (transaction_number)
 	     || 
 	     gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
 	    return -1;

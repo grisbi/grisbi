@@ -1698,7 +1698,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Trt" ))
 	{
-	    gsb_data_transaction_set_transaction_number_transfer ( transaction_number,
+	    gsb_data_transaction_set_contra_transaction_number ( transaction_number,
 								   utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -1708,7 +1708,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Tra" ))
 	{
-	    gsb_data_transaction_set_account_number_transfer ( transaction_number,
+	    gsb_data_transaction_set_contra_transaction_account ( transaction_number,
 							       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -4216,12 +4216,12 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 		if ( !strcmp ( attribute_names[i],
 			       "Ro" ))
-		    gsb_data_transaction_set_transaction_number_transfer ( transaction_number,
+		    gsb_data_transaction_set_contra_transaction_number ( transaction_number,
 									   utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Rc" ))
-		    gsb_data_transaction_set_account_number_transfer ( transaction_number,
+		    gsb_data_transaction_set_contra_transaction_account ( transaction_number,
 								       utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],

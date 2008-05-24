@@ -1291,7 +1291,7 @@ void cree_liens_virements_ope_import ( void )
 
 	/* if the account number of transfer is -2, it's a transfer,
 	 * in that case, the name of the contra account is in the bank_references */
-	if ( gsb_data_transaction_get_account_number_transfer (transaction_number_tmp)== -2
+	if ( gsb_data_transaction_get_contra_transaction_account (transaction_number_tmp)== -2
 	     &&
 	     gsb_data_transaction_get_bank_references (transaction_number_tmp))
 	{
@@ -1307,9 +1307,9 @@ void cree_liens_virements_ope_import ( void )
 	    if ( contra_account_number == -1 )
 	    {
 		/* we have not found the contra-account */
-		gsb_data_transaction_set_account_number_transfer ( transaction_number_tmp,
+		gsb_data_transaction_set_contra_transaction_account ( transaction_number_tmp,
 								   0);
-		gsb_data_transaction_set_transaction_number_transfer ( transaction_number_tmp,
+		gsb_data_transaction_set_contra_transaction_number ( transaction_number_tmp,
 								       0);
 	    }
 	    else
@@ -1325,7 +1325,7 @@ void cree_liens_virements_ope_import ( void )
 
 		    if ( gsb_data_transaction_get_account_number (contra_transaction_number_tmp) == contra_account_number
 			 &&
-			 gsb_data_transaction_get_account_number_transfer ( contra_transaction_number_tmp ) == -2
+			 gsb_data_transaction_get_contra_transaction_account ( contra_transaction_number_tmp ) == -2
 			 &&
 			 gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp )
 			 &&
@@ -1350,14 +1350,14 @@ void cree_liens_virements_ope_import ( void )
 					   gsb_data_transaction_get_date (contra_transaction_number_tmp)))
 		    {
 			/* la 2ème opération correspond en tout point à la 1ère, on met les relations */
-			gsb_data_transaction_set_transaction_number_transfer ( transaction_number_tmp,
+			gsb_data_transaction_set_contra_transaction_number ( transaction_number_tmp,
 									       contra_transaction_number_tmp );
-			gsb_data_transaction_set_account_number_transfer ( transaction_number_tmp,
+			gsb_data_transaction_set_contra_transaction_account ( transaction_number_tmp,
 									   gsb_data_transaction_get_account_number (contra_transaction_number_tmp));
 
-			gsb_data_transaction_set_transaction_number_transfer ( contra_transaction_number_tmp,
+			gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number_tmp,
 									       transaction_number_tmp);
-			gsb_data_transaction_set_account_number_transfer ( contra_transaction_number_tmp,
+			gsb_data_transaction_set_contra_transaction_account ( contra_transaction_number_tmp,
 									   gsb_data_transaction_get_account_number (transaction_number_tmp));
 
 			gsb_data_transaction_set_bank_references ( transaction_number_tmp,
@@ -1370,11 +1370,11 @@ void cree_liens_virements_ope_import ( void )
 
 		/* if no contra-transaction, that transaction becomes normal */
 
-		if ( gsb_data_transaction_get_account_number_transfer (transaction_number_tmp) == -2 )
+		if ( gsb_data_transaction_get_contra_transaction_account (transaction_number_tmp) == -2 )
 		{
-		    gsb_data_transaction_set_account_number_transfer ( transaction_number_tmp,
+		    gsb_data_transaction_set_contra_transaction_account ( transaction_number_tmp,
 								       0);
-		    gsb_data_transaction_set_transaction_number_transfer ( transaction_number_tmp,
+		    gsb_data_transaction_set_contra_transaction_number ( transaction_number_tmp,
 									   0);
 		    gsb_data_transaction_set_bank_references ( transaction_number_tmp, NULL );
 		}
@@ -1991,9 +1991,9 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 
 		gsb_data_transaction_set_bank_references ( transaction_number,
 							   imported_transaction -> categ);
-		gsb_data_transaction_set_account_number_transfer ( transaction_number,
+		gsb_data_transaction_set_contra_transaction_account ( transaction_number,
 								   -2);
-		gsb_data_transaction_set_transaction_number_transfer ( transaction_number,
+		gsb_data_transaction_set_contra_transaction_number ( transaction_number,
 								       -1);
 		virements_a_chercher = 1;
 	    }

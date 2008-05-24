@@ -436,16 +436,16 @@ gchar * gsb_debug_transfer_test ( void )
 	gint transaction, transfer_transaction;
 
 	transaction = gsb_data_transaction_get_transaction_number ( pTransactionList -> data );
-	transfer_transaction = gsb_data_transaction_get_transaction_number_transfer ( transaction );
+	transfer_transaction = gsb_data_transaction_get_contra_transaction_number ( transaction );
 
 	/* Si l'opération est un virement vers un compte non supprimé */
 	if ( gsb_data_transaction_get_account_number ( transaction ) == account_nb &&
 	     transfer_transaction &&
-	     gsb_data_transaction_get_account_number_transfer ( transaction ) != -1 )
+	     gsb_data_transaction_get_contra_transaction_account ( transaction ) != -1 )
 	{
 	    
 	    if ( gsb_data_transaction_get_account_number ( transfer_transaction ) !=
-		 gsb_data_transaction_get_account_number_transfer ( transaction ) )
+		 gsb_data_transaction_get_contra_transaction_account ( transaction ) )
 	    {
 		/* S'il n'y avait pas eu encore d'erreur dans ce compte,
 		   on affiche son nom */
@@ -467,7 +467,7 @@ gchar * gsb_debug_transfer_test ( void )
 	    }
 	    else
 	    {
-		if ( gsb_data_transaction_get_transaction_number_transfer ( transfer_transaction ) != transaction )
+		if ( gsb_data_transaction_get_contra_transaction_number ( transfer_transaction ) != transaction )
 		{
 		    /* S'il n'y avait pas eu encore d'erreur dans ce compte,
 		       on affiche son nom */
@@ -484,7 +484,7 @@ gchar * gsb_debug_transfer_test ( void )
 							      "which is linked to transaction #%d.\n"),
 							    transaction,
 							    transfer_transaction,
-							    gsb_data_transaction_get_transaction_number_transfer ( transfer_transaction ) );
+							    gsb_data_transaction_get_contra_transaction_number ( transfer_transaction ) );
 		    pText = g_strconcat ( pText , tmpstr , NULL );
 		    g_free ( oldstr );
 		    g_free ( tmpstr );

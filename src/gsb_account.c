@@ -212,8 +212,8 @@ gboolean gsb_account_delete ( void )
 
 	    if ( gsb_data_transaction_get_account_number (transaction_number) == i
 		 &&
-		 gsb_data_transaction_get_account_number_transfer (transaction_number) == deleted_account )
-		gsb_data_transaction_set_account_number_transfer ( transaction_number,
+		 gsb_data_transaction_get_contra_transaction_account (transaction_number) == deleted_account )
+		gsb_data_transaction_set_contra_transaction_account ( transaction_number,
 								   -1);
 	    list_tmp_transactions = list_tmp_transactions -> next;
 	}

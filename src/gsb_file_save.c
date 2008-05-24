@@ -947,8 +947,8 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 					       gsb_data_transaction_get_sub_budgetary_number (transaction_number),
 					       gsb_data_transaction_get_voucher (transaction_number),
 					       gsb_data_transaction_get_bank_references (transaction_number),
-					       gsb_data_transaction_get_transaction_number_transfer (transaction_number),
-					       gsb_data_transaction_get_account_number_transfer (transaction_number),
+					       gsb_data_transaction_get_contra_transaction_number (transaction_number),
+					       gsb_data_transaction_get_contra_transaction_account (transaction_number),
 					       gsb_data_transaction_get_mother_transaction_number (transaction_number));
 
 	g_free (amount);

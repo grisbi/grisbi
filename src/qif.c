@@ -1250,7 +1250,7 @@ gboolean qif_export ( const gchar *filename,
 			    /* we are on a child, for the first one, we set the mother category */
 			    /*  the child can only be a normal category or a transfer */
 
-			    if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_tmp_2))
+			    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp_2))
 			    {
 				/* the child is a transfer */
 
@@ -1259,7 +1259,7 @@ gboolean qif_export ( const gchar *filename,
 				    fprintf ( fichier_qif,
 					      "L%s\n",
 					      g_strconcat ( "[",
-							    gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer (transaction_number_tmp_2)),
+							    gsb_data_account_get_name (gsb_data_transaction_get_contra_transaction_account (transaction_number_tmp_2)),
 							    "]",
 							    NULL ));
 				    mother_transaction_category_written = 1;
@@ -1267,7 +1267,7 @@ gboolean qif_export ( const gchar *filename,
 				fprintf ( fichier_qif,
 					  "S%s\n",
 					  g_strconcat ( "[",
-							gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer ( transaction_number_tmp_2)),
+							gsb_data_account_get_name (gsb_data_transaction_get_contra_transaction_account ( transaction_number_tmp_2)),
 							"]",
 							NULL ));
 			    }
@@ -1314,16 +1314,16 @@ gboolean qif_export ( const gchar *filename,
 		    /* if it's a transfer, the contra-account must exist, else we do
 		     * as for a normal category */
 
-		    if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_tmp)
+		    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp)
 			 &&
-			 gsb_data_transaction_get_account_number_transfer (transaction_number_tmp)>= 0 )
+			 gsb_data_transaction_get_contra_transaction_account (transaction_number_tmp)>= 0 )
 		    {
 			/* it's a transfer */
 
 			fprintf ( fichier_qif,
 				  "L%s\n",
 				  g_strconcat ( "[",
-						gsb_data_account_get_name (gsb_data_transaction_get_account_number_transfer ( transaction_number_tmp)),
+						gsb_data_account_get_name (gsb_data_transaction_get_contra_transaction_account ( transaction_number_tmp)),
 						"]",
 						NULL ));
 		    }

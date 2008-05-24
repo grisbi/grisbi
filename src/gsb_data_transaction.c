@@ -202,7 +202,7 @@ gboolean gsb_data_transaction_add_archived_to_list ( gint transaction_number )
  *
  * \return a pointer to the structure of the transation
  * */
-gpointer gsb_data_transaction_get_pointer_to_transaction ( gint transaction_number )
+gpointer gsb_data_transaction_get_pointer_of_transaction ( gint transaction_number )
 {
     struct_transaction *transaction;
 
@@ -1816,7 +1816,7 @@ gboolean gsb_data_transaction_set_bank_references ( gint transaction_number,
  * 
  * \return the transaction_number_transfer number of the transaction
  * */
-gint gsb_data_transaction_get_transaction_number_transfer ( gint transaction_number )
+gint gsb_data_transaction_get_contra_transaction_number ( gint transaction_number )
 {
     struct_transaction *transaction;
 
@@ -1828,14 +1828,13 @@ gint gsb_data_transaction_get_transaction_number_transfer ( gint transaction_num
     return transaction -> transaction_number_transfer;
 }
 
-
 /** set the transaction_number_transfer
  * \param transaction_number
  * \param transaction_number_transfer
  * \return TRUE if ok
  * */
-gboolean gsb_data_transaction_set_transaction_number_transfer ( gint transaction_number,
-								gint transaction_number_transfer )
+gboolean gsb_data_transaction_set_contra_transaction_number ( gint transaction_number,
+							      gint transaction_number_transfer )
 {
     struct_transaction *transaction;
 
@@ -1850,11 +1849,15 @@ gboolean gsb_data_transaction_set_transaction_number_transfer ( gint transaction
 }
 
 
-/** get the  account_number_transfer
+/**
+ * get the  account_number_transfer
+ * FIXME : that function is not usefull because can have that with the contra_transaction_number
+ * let it for now, see to remove it
  * \param transaction_number the number of the transaction
+ * 
  * \return the account_number_transfer number of the transaction
  * */
-gint gsb_data_transaction_get_account_number_transfer ( gint transaction_number )
+gint gsb_data_transaction_get_contra_transaction_account ( gint transaction_number )
 {
     struct_transaction *transaction;
 
@@ -1867,12 +1870,17 @@ gint gsb_data_transaction_get_account_number_transfer ( gint transaction_number 
 }
 
 
-/** set the account_number_transfer
+/**
+ * set the account_number_transfer
+ * FIXME : that function is not usefull because can have that with the contra_transaction_number
+ * let it for now, see to remove it
+ *
  * \param transaction_number
  * \param account_number_transfer
+ * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_transaction_set_account_number_transfer ( gint transaction_number,
+gboolean gsb_data_transaction_set_contra_transaction_account ( gint transaction_number,
 							    gint account_number_transfer )
 {
     struct_transaction *transaction;

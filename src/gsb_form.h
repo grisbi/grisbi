@@ -34,7 +34,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 gboolean gsb_form_escape_form ( void );
 gboolean gsb_form_fill_by_transaction ( gint transaction_number,
 					gint is_transaction,
-					gboolean grab_focus);
+					gboolean grab_focus );
 void gsb_form_fill_element ( gint element_number,
 			     gint account_number,
 			     gint transaction_number,

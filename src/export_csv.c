@@ -580,13 +580,13 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 		    CSV_CLEAR_FIELD (csv_field_operation);
 		    csv_field_operation = g_strdup_printf("%d", pBreakdownTransaction );
 
-		    if ( gsb_data_transaction_get_transaction_number_transfer ( pBreakdownTransaction ) )
+		    if ( gsb_data_transaction_get_contra_transaction_number ( pBreakdownTransaction ) )
 		    {
 			/* c'est un virement */
 			CSV_CLEAR_FIELD (csv_field_categ);
 			csv_field_categ = my_strdup (_("Transfer"));
 
-			gchar* tmpstr = g_strconcat ( "[", gsb_data_account_get_name ( gsb_data_transaction_get_account_number_transfer ( pBreakdownTransaction ) ), "]", NULL );
+			gchar* tmpstr = g_strconcat ( "[", gsb_data_account_get_name ( gsb_data_transaction_get_contra_transaction_account ( pBreakdownTransaction ) ), "]", NULL );
 			/* TODO dOm : is it necessary to duplicate memory with my_strdup since it was already newly allocated memory ? */
 			CSV_CLEAR_FIELD (csv_field_sous_categ);
 			csv_field_sous_categ = my_strdup (tmpstr);
@@ -673,15 +673,15 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	else
 	{
 	    /* Si c'est un virement ... */
-	    if ( gsb_data_transaction_get_transaction_number_transfer ( transaction_number ))
+	    if ( gsb_data_transaction_get_contra_transaction_number ( transaction_number ))
 	    {
 		CSV_CLEAR_FIELD (csv_field_categ);
 		csv_field_categ = my_strdup (_("Transfer"));
 
 		/* ... vers un compte existant */
-		if ( gsb_data_transaction_get_account_number_transfer (  transaction_number ) >= 0 )
+		if ( gsb_data_transaction_get_contra_transaction_account (  transaction_number ) >= 0 )
 		{
-		    gchar* tmpstr = g_strconcat ( "[", gsb_data_account_get_name ( gsb_data_transaction_get_account_number_transfer ( transaction_number ) ), "]", NULL );
+		    gchar* tmpstr = g_strconcat ( "[", gsb_data_account_get_name ( gsb_data_transaction_get_contra_transaction_account ( transaction_number ) ), "]", NULL );
 		    /* TODO dOm : is it necessary to duplicate memory with my_strdup since it was already newly allocated memory ? */
 		    CSV_CLEAR_FIELD (csv_field_sous_categ);
 		    csv_field_sous_categ = my_strdup (tmpstr);

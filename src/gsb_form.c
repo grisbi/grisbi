@@ -472,7 +472,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
 	gint contra_transaction_number;
 
 	/* get the contra transaction */
-	contra_transaction_number = gsb_data_transaction_get_transaction_number_transfer (transaction_number);
+	contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
 
 	/* if the transaction is marked R, cannot change the amounts */
 	/* if the contra transaction is marked R, cannot change category and amounts */
@@ -692,9 +692,9 @@ void gsb_form_fill_element ( gint element_number,
 
 		    /* check first the deleted account, don't worry with scheduled transactions because
 		     * gsb_data_mix_get_transaction_number_transfer cannot be -1 for them */
-		    if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number) == -1
+		    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number) == -1
 			 &&
-			 gsb_data_transaction_get_account_number_transfer (transaction_number) == -1 )
+			 gsb_data_transaction_get_contra_transaction_account (transaction_number) == -1 )
 			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
 						_("Transfer : Deleted account") );
 		    else
@@ -838,7 +838,7 @@ void gsb_form_fill_element ( gint element_number,
 			gint method;
 
 			if (is_transaction)
-			    method = gsb_data_transaction_get_method_of_payment_number (gsb_data_transaction_get_transaction_number_transfer (transaction_number));
+			    method = gsb_data_transaction_get_method_of_payment_number (gsb_data_transaction_get_contra_transaction_number (transaction_number));
 			else
 			    method = gsb_data_scheduled_get_contra_method_of_payment_number (transaction_number);
 
@@ -2418,9 +2418,9 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 							       0 );
 		    gsb_data_transaction_set_sub_category_number ( transaction_number,
 								   0 );
-		    gsb_data_transaction_set_account_number_transfer ( transaction_number,
+		    gsb_data_transaction_set_contra_transaction_account ( transaction_number,
 								       -1);
-		    gsb_data_transaction_set_transaction_number_transfer ( transaction_number,
+		    gsb_data_transaction_set_contra_transaction_number ( transaction_number,
 									   -1);
 		}
 		else
@@ -2804,15 +2804,15 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 			 &&
 			 !new_transaction
 			 &&
-			 (contra_transaction_number = gsb_data_transaction_get_transaction_number_transfer (transaction_number)))
+			 (contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number)))
 		    {
 			/* it was a transfer, we delete the contra-transaction */
-			gsb_data_transaction_set_transaction_number_transfer ( contra_transaction_number,
+			gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number,
 									       0);
 			gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE );
-			gsb_data_transaction_set_transaction_number_transfer ( transaction_number,
+			gsb_data_transaction_set_contra_transaction_number ( transaction_number,
 									       0);
-			gsb_data_transaction_set_account_number_transfer ( transaction_number,
+			gsb_data_transaction_set_contra_transaction_account ( transaction_number,
 									   0);
 		    }
 		    gsb_data_category_fill_transaction_by_string ( transaction_number,
@@ -2860,15 +2860,15 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		 &&
 		 !new_transaction
 		 &&
-		 ( contra_transaction_number = gsb_data_transaction_get_transaction_number_transfer (transaction_number)))
+		 ( contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number)))
 	    {
-		gsb_data_transaction_set_transaction_number_transfer ( contra_transaction_number,
+		gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number,
 								       0);
 		gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE );
 
-		gsb_data_transaction_set_transaction_number_transfer ( transaction_number,
+		gsb_data_transaction_set_contra_transaction_number ( transaction_number,
 								       0);
-		gsb_data_transaction_set_account_number_transfer ( transaction_number,
+		gsb_data_transaction_set_contra_transaction_account ( transaction_number,
 								   0);
 	    }
 

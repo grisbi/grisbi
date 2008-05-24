@@ -593,7 +593,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 		    /* 	      on vérifie les virements */
 
-		    if ( gsb_data_transaction_get_transaction_number_transfer ( transaction_number_tmp))
+		    if ( gsb_data_transaction_get_contra_transaction_number ( transaction_number_tmp))
 		    {
 			if ( !gsb_data_report_get_transfer_choice (report_number))
 			    goto operation_refusee;
@@ -603,9 +603,9 @@ GSList *recupere_opes_etat ( gint report_number )
 			    /* on inclue l'opé que si le compte de virement */
 			    /* est un compte de passif ou d'actif */
 
-			    if ( gsb_data_account_get_kind (gsb_data_transaction_get_account_number_transfer ( transaction_number_tmp)) != GSB_TYPE_LIABILITIES
+			    if ( gsb_data_account_get_kind (gsb_data_transaction_get_contra_transaction_account ( transaction_number_tmp)) != GSB_TYPE_LIABILITIES
 				 &&
-				 gsb_data_account_get_kind (gsb_data_transaction_get_account_number_transfer ( transaction_number_tmp)) != GSB_TYPE_ASSET )
+				 gsb_data_account_get_kind (gsb_data_transaction_get_contra_transaction_account ( transaction_number_tmp)) != GSB_TYPE_ASSET )
 				goto operation_refusee;
 
 			}
@@ -620,7 +620,7 @@ GSList *recupere_opes_etat ( gint report_number )
 				if ( gsb_data_report_get_account_use_chosen (report_number))
 				{
 				    if ( g_slist_index ( gsb_data_report_get_account_numbers (report_number),
-							 GINT_TO_POINTER ( gsb_data_transaction_get_account_number_transfer ( transaction_number_tmp))) != -1 )
+							 GINT_TO_POINTER ( gsb_data_transaction_get_contra_transaction_account ( transaction_number_tmp))) != -1 )
 					goto operation_refusee;
 				}
 				else
@@ -631,7 +631,7 @@ GSList *recupere_opes_etat ( gint report_number )
 				/* on inclut l'opé que si le compte de virement est dans la liste */
 
 				if ( g_slist_index ( gsb_data_report_get_transfer_account_numbers (report_number),
-						     GINT_TO_POINTER ( gsb_data_transaction_get_account_number_transfer ( transaction_number_tmp))) == -1 )
+						     GINT_TO_POINTER ( gsb_data_transaction_get_contra_transaction_account ( transaction_number_tmp))) == -1 )
 				    goto operation_refusee;
 
 			    }
@@ -662,7 +662,7 @@ GSList *recupere_opes_etat ( gint report_number )
 			&&
 			!gsb_data_transaction_get_breakdown_of_transaction ( transaction_number_tmp)
 			&&
-			!gsb_data_transaction_get_transaction_number_transfer ( transaction_number_tmp))
+			!gsb_data_transaction_get_contra_transaction_number ( transaction_number_tmp))
 			goto operation_refusee;
 
 
@@ -897,7 +897,7 @@ GSList *recupere_opes_etat ( gint report_number )
 			}
 		    }
 		    transactions_report_list = g_slist_append ( transactions_report_list,
-								gsb_data_transaction_get_pointer_to_transaction (transaction_number_tmp));
+								gsb_data_transaction_get_pointer_of_transaction (transaction_number_tmp));
 		}
 operation_refusee:
 		list_tmp_transactions = list_tmp_transactions -> next;
@@ -1544,7 +1544,7 @@ classement_suivant:
 		    if (category_number_2)
 			/* transaction_2 has a category => go before transaction_1 */
 			return 1;
-		    if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_2))
+		    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_2))
 			/* transaction_2 is a transfer, and transaction_1 a breakdown, so breakdown first please */
 			return -1;
 		    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_2))
@@ -1560,7 +1560,7 @@ classement_suivant:
 		}
 
 		/* come here if transaction_1 has no category and is not a breakdown */
-		if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_1))
+		if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_1))
 		{
 		    if (category_number_2)
 			/* transaction_2 has a category => go before transaction_1 */
@@ -1568,11 +1568,11 @@ classement_suivant:
 		    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_2))
 			/* transaction_2 is a breakdown, and transaction_1 a transfer, so breakdown first please */
 			return 1;
-		    if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_2))
+		    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_2))
 		    {
 			/* the 2 transactions are transfer, we return a strcmp on their name */
-			return_value = my_strcasecmp ( gsb_data_account_get_name (gsb_data_transaction_get_transaction_number_transfer (transaction_number_1)),
-						       gsb_data_account_get_name (gsb_data_transaction_get_transaction_number_transfer (transaction_number_2)));
+			return_value = my_strcasecmp ( gsb_data_account_get_name (gsb_data_transaction_get_contra_transaction_number (transaction_number_1)),
+						       gsb_data_account_get_name (gsb_data_transaction_get_contra_transaction_number (transaction_number_2)));
 
 			if (return_value)
 			    return return_value;
@@ -1595,7 +1595,7 @@ classement_suivant:
 		    return 1;
 		if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number_2)
 		    ||
-		    gsb_data_transaction_get_transaction_number_transfer (transaction_number_2))
+		    gsb_data_transaction_get_contra_transaction_number (transaction_number_2))
 		    return -1;
 
 		/* transaction_2 has too no categ, no transfer and no breakdown,
@@ -2018,19 +2018,19 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 		{
 		    if ( gsb_data_category_get_type (category_number))
 			liste_ope_depenses = g_slist_append ( liste_ope_depenses,
-							      gsb_data_transaction_get_pointer_to_transaction (transaction_number));
+							      gsb_data_transaction_get_pointer_of_transaction (transaction_number));
 		    else
 			liste_ope_revenus = g_slist_append ( liste_ope_revenus,
-							     gsb_data_transaction_get_pointer_to_transaction (transaction_number));
+							     gsb_data_transaction_get_pointer_of_transaction (transaction_number));
 		}
 		else
 		{
 		    if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
 			liste_ope_depenses = g_slist_append ( liste_ope_depenses,
-							      gsb_data_transaction_get_pointer_to_transaction (transaction_number));
+							      gsb_data_transaction_get_pointer_of_transaction (transaction_number));
 		    else
 			liste_ope_revenus = g_slist_append ( liste_ope_revenus,
-							     gsb_data_transaction_get_pointer_to_transaction (transaction_number));
+							     gsb_data_transaction_get_pointer_of_transaction (transaction_number));
 		}
 	    }
 	    else
@@ -2039,10 +2039,10 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 
 		if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
 		    liste_ope_depenses = g_slist_append ( liste_ope_depenses,
-							  gsb_data_transaction_get_pointer_to_transaction (transaction_number) );
+							  gsb_data_transaction_get_pointer_of_transaction (transaction_number) );
 		else
 		    liste_ope_revenus = g_slist_append ( liste_ope_revenus,
-							 gsb_data_transaction_get_pointer_to_transaction (transaction_number) );
+							 gsb_data_transaction_get_pointer_of_transaction (transaction_number) );
 	    }
 	    pointeur_tmp = pointeur_tmp -> next;
 	}

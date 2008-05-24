@@ -27,7 +27,6 @@ gint gsb_data_transaction_find_by_id ( gchar *id );
 gint gsb_data_transaction_find_by_payment_content ( const gchar *string,
 						    gint account_number );
 gint gsb_data_transaction_get_account_number ( gint transaction_number );
-gint gsb_data_transaction_get_account_number_transfer ( gint transaction_number );
 gsb_real gsb_data_transaction_get_adjusted_amount ( gint transaction_number,
 						    gint return_exponent );
 gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transaction_number,
@@ -44,6 +43,8 @@ gint gsb_data_transaction_get_change_between ( gint transaction_number );
 GSList *gsb_data_transaction_get_children ( gint transaction_number,
 					    gboolean return_number);
 GSList *gsb_data_transaction_get_complete_transactions_list ( void );
+gint gsb_data_transaction_get_contra_transaction_account ( gint transaction_number );
+gint gsb_data_transaction_get_contra_transaction_number ( gint transaction_number );
 gint gsb_data_transaction_get_currency_number ( gint transaction_number );
 GDate *gsb_data_transaction_get_date ( gint transaction_number );
 gsb_real gsb_data_transaction_get_exchange_fees ( gint transaction_number );
@@ -59,13 +60,12 @@ gint gsb_data_transaction_get_number_by_account ( gint account_number,
 						  gboolean include_breakdown,
 						  gboolean include_marked );
 gint gsb_data_transaction_get_party_number ( gint transaction_number );
-gpointer gsb_data_transaction_get_pointer_to_transaction ( gint transaction_number );
+gpointer gsb_data_transaction_get_pointer_of_transaction ( gint transaction_number );
 gint gsb_data_transaction_get_reconcile_number ( gint transaction_number );
 gint gsb_data_transaction_get_sub_budgetary_number ( gint transaction_number );
 gint gsb_data_transaction_get_sub_category_number ( gint transaction_number );
 const gchar *gsb_data_transaction_get_transaction_id ( gint transaction_number );
 gint gsb_data_transaction_get_transaction_number ( gpointer transaction_pointer );
-gint gsb_data_transaction_get_transaction_number_transfer ( gint transaction_number );
 GSList *gsb_data_transaction_get_transactions_list ( void );
 GDate *gsb_data_transaction_get_value_date ( gint transaction_number );
 const gchar *gsb_data_transaction_get_voucher ( gint transaction_number );
@@ -79,8 +79,6 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number );
 gboolean gsb_data_transaction_remove_transaction_without_check ( gint transaction_number );
 gboolean gsb_data_transaction_set_account_number ( gint transaction_number,
 						   gint no_account );
-gboolean gsb_data_transaction_set_account_number_transfer ( gint transaction_number,
-							    gint account_number_transfer );
 gboolean gsb_data_transaction_set_amount ( gint transaction_number,
 					   gsb_real amount );
 gboolean gsb_data_transaction_set_archive_number ( gint transaction_number,
@@ -97,6 +95,10 @@ gboolean gsb_data_transaction_set_category_number ( gint transaction_number,
 						    gint no_category );
 gboolean gsb_data_transaction_set_change_between ( gint transaction_number,
 						   gint value );
+gboolean gsb_data_transaction_set_contra_transaction_account ( gint transaction_number,
+							    gint account_number_transfer );
+gboolean gsb_data_transaction_set_contra_transaction_number ( gint transaction_number,
+							      gint transaction_number_transfer );
 gboolean gsb_data_transaction_set_currency_number ( gint transaction_number,
 						    gint no_currency );
 gboolean gsb_data_transaction_set_date ( gint transaction_number,
@@ -127,8 +129,6 @@ gboolean gsb_data_transaction_set_sub_category_number ( gint transaction_number,
 							gint no_sub_category );
 gboolean gsb_data_transaction_set_transaction_id ( gint transaction_number,
 						   const gchar *transaction_id );
-gboolean gsb_data_transaction_set_transaction_number_transfer ( gint transaction_number,
-								gint transaction_number_transfer );
 gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
 					       const GDate *date );
 gboolean gsb_data_transaction_set_voucher ( gint transaction_number,

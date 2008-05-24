@@ -1377,7 +1377,7 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
     /* if the transaction is a transfer or a breakdown transaction, don't take it */
     if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
 	||
-	gsb_data_transaction_get_transaction_number_transfer (transaction_number))
+	gsb_data_transaction_get_contra_transaction_number (transaction_number))
 	return;
 
     category = gsb_data_category_get_structure ( category_id );

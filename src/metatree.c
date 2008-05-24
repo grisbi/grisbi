@@ -988,7 +988,7 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 		   ( !no_division &&
 		     !iface -> transaction_div_id ( transaction_number_tmp) &&
 		     !gsb_data_transaction_get_breakdown_of_transaction (transaction_number_tmp) &&
-		     !gsb_data_transaction_get_transaction_number_transfer (transaction_number_tmp))))
+		     !gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp))))
 
 	    {
 		if ( !first )

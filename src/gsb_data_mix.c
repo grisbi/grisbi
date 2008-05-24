@@ -415,7 +415,7 @@ gint gsb_data_mix_get_transaction_number_transfer ( gint transaction_number,
 						    gboolean is_transaction )
 {
     if (is_transaction)
-	return (gsb_data_transaction_get_transaction_number_transfer ( transaction_number));
+	return (gsb_data_transaction_get_contra_transaction_number ( transaction_number));
     else
 	/* if we come here for a scheduled transaction, usually it's to know if it's a transfer or not
 	 * because it's like that we test for normal transactions */
@@ -427,7 +427,7 @@ gboolean gsb_data_mix_set_transaction_number_transfer ( gint transaction_number,
 							gboolean is_transaction )
 {
     if (is_transaction)
-	return (gsb_data_transaction_set_transaction_number_transfer ( transaction_number,
+	return (gsb_data_transaction_set_contra_transaction_number ( transaction_number,
 								       transaction_number_transfer));
     return FALSE;
 }
@@ -436,7 +436,7 @@ gint gsb_data_mix_get_account_number_transfer ( gint transaction_number,
 						gboolean is_transaction )
 {
     if (is_transaction)
-	return (gsb_data_transaction_get_account_number_transfer ( transaction_number));
+	return (gsb_data_transaction_get_contra_transaction_account ( transaction_number));
     else
 	return (gsb_data_scheduled_get_account_number_transfer ( transaction_number));
 }
@@ -446,7 +446,7 @@ gboolean gsb_data_mix_set_account_number_transfer ( gint transaction_number,
 						    gboolean is_transaction )
 {
     if (is_transaction)
-	return (gsb_data_transaction_set_account_number_transfer ( transaction_number,
+	return (gsb_data_transaction_set_contra_transaction_account ( transaction_number,
 								   account_number_transfer));
     else
 	return (gsb_data_scheduled_set_account_number_transfer ( transaction_number,

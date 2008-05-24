@@ -1145,7 +1145,7 @@ gint gsb_transactions_list_append_white_line ( gint mother_transaction_number,
 			     TRANSACTION_COL_NB_CHECKBOX_VISIBLE, 0,
 			     TRANSACTION_COL_NB_CHECKBOX_VISIBLE_RECONCILE, 0,
 			     TRANSACTION_COL_NB_TRANSACTION_LINE, line,
-			     TRANSACTION_COL_NB_TRANSACTION_ADDRESS, gsb_data_transaction_get_pointer_to_transaction (white_line_number),
+			     TRANSACTION_COL_NB_TRANSACTION_ADDRESS, gsb_data_transaction_get_pointer_of_transaction (white_line_number),
 			     TRANSACTION_COL_NB_WHAT_IS_LINE, IS_TRANSACTION,
 			     TRANSACTION_COL_NB_VISIBLE, TRUE,
 			     -1 );
@@ -1284,7 +1284,7 @@ gboolean gsb_transactions_list_append_transaction ( gint transaction_number,
 			     TRANSACTION_COL_NB_CHECKBOX_VISIBLE, 0,
 			     TRANSACTION_COL_NB_CHECKBOX_VISIBLE_RECONCILE, 0,
 			     TRANSACTION_COL_NB_TRANSACTION_LINE, 4,
-			     TRANSACTION_COL_NB_TRANSACTION_ADDRESS, gsb_data_transaction_get_pointer_to_transaction (transaction_number),
+			     TRANSACTION_COL_NB_TRANSACTION_ADDRESS, gsb_data_transaction_get_pointer_of_transaction (transaction_number),
 			     TRANSACTION_COL_NB_WHAT_IS_LINE, IS_SEPARATOR,
 			     -1 );
     }
@@ -1351,7 +1351,7 @@ gboolean gsb_transactions_list_fill_row ( gint transaction_number,
 			 TRANSACTION_COL_NB_CHECKBOX_VISIBLE, 0,
 			 TRANSACTION_COL_NB_CHECKBOX_VISIBLE_RECONCILE, ( line_in_transaction == 0 ? 1 : 0 ),
 			 TRANSACTION_COL_NB_TRANSACTION_LINE, line_in_transaction,
-			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, gsb_data_transaction_get_pointer_to_transaction (transaction_number),
+			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, gsb_data_transaction_get_pointer_of_transaction (transaction_number),
 			 TRANSACTION_COL_NB_WHAT_IS_LINE, IS_TRANSACTION,
 			 -1 );
 
@@ -3342,11 +3342,11 @@ gboolean gsb_transactions_list_check_mark ( gint transaction_number )
 	return TRUE;
 
     /* if it's a transfer, check the contra-transaction */
-    if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number)
+    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number)
 	 &&
-	 gsb_data_transaction_get_account_number_transfer (transaction_number)!= -1 )
+	 gsb_data_transaction_get_contra_transaction_account (transaction_number)!= -1 )
     {
-	transaction_number_tmp = gsb_data_transaction_get_transaction_number_transfer (transaction_number);
+	transaction_number_tmp = gsb_data_transaction_get_contra_transaction_number (transaction_number);
 
 	if ( transaction_number_tmp
 	     &&
@@ -3373,12 +3373,12 @@ gboolean gsb_transactions_list_check_mark ( gint transaction_number )
 		if ( gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_RAPPROCHEE )
 		    return TRUE;
 
-		if (  gsb_data_transaction_get_transaction_number_transfer (transaction_number_tmp))
+		if (  gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp))
 		{
 		    /* the breakdown is a transfer, we check the contra-transaction */
 		    gint contra_transaction_number;
 
-		    contra_transaction_number = gsb_data_transaction_get_transaction_number_transfer (transaction_number_tmp);
+		    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp);
 
 		    if ( contra_transaction_number
 			 &&
@@ -3428,7 +3428,7 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transact
     model = GTK_TREE_MODEL (gsb_transactions_list_get_store());
 
     /* check if it's a transfer, if yes, erase the contra transaction in the tree view */
-    transaction_number_tmp = gsb_data_transaction_get_transaction_number_transfer (transaction_number);
+    transaction_number_tmp = gsb_data_transaction_get_contra_transaction_number (transaction_number);
     if (transaction_number_tmp)
     {
 	GtkTreeIter *contra_iter;
@@ -3464,7 +3464,7 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transact
 
 	    if ( gsb_data_transaction_get_mother_transaction_number (test_transaction) == transaction_number
 		 &&
-		 (transaction_number_tmp = gsb_data_transaction_get_transaction_number_transfer (test_transaction)))
+		 (transaction_number_tmp = gsb_data_transaction_get_contra_transaction_number (test_transaction)))
 	    {
 		/* here, transaction_number_tmp contains the contra transaction number of the child */
 		GtkTreeIter *contra_iter;
@@ -3815,10 +3815,10 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number )
 
     /* create the contra-transaction if necessary */
 
-    if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number))
+    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number))
 	gsb_form_transaction_validate_transfer ( new_transaction_number,
 						 1,
-						 gsb_data_transaction_get_account_number_transfer (transaction_number));
+						 gsb_data_transaction_get_contra_transaction_account (transaction_number));
 
     gsb_transactions_list_append_new_transaction (new_transaction_number);
 
@@ -3941,17 +3941,17 @@ gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_nu
     source_account = gsb_data_transaction_get_account_number (transaction_number);
 
     /* if it's a transfer, update the contra-transaction category line */
-    if ( ( contra_transaction_number = gsb_data_transaction_get_transaction_number_transfer (transaction_number)))
+    if ( ( contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number)))
     {
 	/* the transaction is a transfer, we check if the contra-transaction is not on the target account */
 
-	if ( gsb_data_transaction_get_account_number_transfer (transaction_number) == target_account )
+	if ( gsb_data_transaction_get_contra_transaction_account (transaction_number) == target_account )
 	{
 	    dialogue_error ( _("Cannot move a transfer on his contra-account"));
 	    return FALSE;
 	}
 
-	gsb_data_transaction_set_account_number_transfer ( contra_transaction_number,
+	gsb_data_transaction_set_contra_transaction_account ( contra_transaction_number,
 							   target_account);
 	gsb_transactions_list_update_transaction (contra_transaction_number);
     }
@@ -4044,16 +4044,16 @@ gint schedule_transaction ( gint transaction_number )
     /* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement ni une ventil, compte_virement = -1 */
     /*     on va changer ça la prochaine version, dès que c'est pas un virement -> -1 */
 
-    if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number))
+    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number))
     {
 	/* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
 
 	gint contra_transaction_number;
 
 	gsb_data_scheduled_set_account_number_transfer ( scheduled_number,
-							 gsb_data_transaction_get_account_number_transfer (transaction_number));
+							 gsb_data_transaction_get_contra_transaction_account (transaction_number));
 
-	contra_transaction_number = gsb_data_transaction_get_transaction_number_transfer (transaction_number);
+	contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
 
 	gsb_data_scheduled_set_contra_method_of_payment_number ( scheduled_number,
 								 gsb_data_transaction_get_method_of_payment_number (contra_transaction_number));
@@ -4131,16 +4131,16 @@ gint schedule_transaction ( gint transaction_number )
 		/* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement, compte_virement = -1 */
 		/*     on va changer ça la prochaine version, dès que c'est pas un virement -> -1 */
 
-		if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number_tmp))
+		if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp))
 		{
 		    /* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
 
 		    gint contra_transaction_number;
 
 		    gsb_data_scheduled_set_account_number_transfer ( breakdown_scheduled_number,
-								     gsb_data_transaction_get_account_number_transfer (transaction_number_tmp));
+								     gsb_data_transaction_get_contra_transaction_account (transaction_number_tmp));
 
-		    contra_transaction_number = gsb_data_transaction_get_transaction_number_transfer (transaction_number_tmp);
+		    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp);
 
 		    gsb_data_scheduled_set_contra_method_of_payment_number ( breakdown_scheduled_number,
 									     gsb_data_transaction_get_method_of_payment_number (contra_transaction_number));
@@ -5096,11 +5096,11 @@ gchar *gsb_transactions_get_category_real_name ( gint transaction_number )
 	tmp = g_strdup(_("Breakdown of transaction"));
     else
     {
-	if ( gsb_data_transaction_get_transaction_number_transfer (transaction_number))
+	if ( gsb_data_transaction_get_contra_transaction_number (transaction_number))
 	{
 	    /** it's a transfer */
 
-	    if ( gsb_data_transaction_get_account_number_transfer (transaction_number)== -1 )
+	    if ( gsb_data_transaction_get_contra_transaction_account (transaction_number)== -1 )
 	    {
 		if ( gsb_data_transaction_get_amount ( transaction_number).mantissa < 0 )
 		    tmp = g_strdup(_("Transfer to a deleted account"));
@@ -5111,10 +5111,10 @@ gchar *gsb_transactions_get_category_real_name ( gint transaction_number )
 	    {
 		if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
 		    tmp = g_strdup_printf ( _("Transfer to %s"),
-					    gsb_data_account_get_name ( gsb_data_transaction_get_account_number_transfer (transaction_number)) );
+					    gsb_data_account_get_name ( gsb_data_transaction_get_contra_transaction_account (transaction_number)) );
 		else
 		    tmp = g_strdup_printf ( _("Transfer from %s"),
-					    gsb_data_account_get_name ( gsb_data_transaction_get_account_number_transfer (transaction_number)) );
+					    gsb_data_account_get_name ( gsb_data_transaction_get_contra_transaction_account (transaction_number)) );
 	    }
 	}
 	else

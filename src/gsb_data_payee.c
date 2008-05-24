@@ -723,7 +723,7 @@ void gsb_data_payee_remove_transaction_from_payee ( gint transaction_number )
 	&&
 	!gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
 	&& 
-	!gsb_data_transaction_get_transaction_number_transfer (transaction_number))
+	!gsb_data_transaction_get_contra_transaction_number (transaction_number))
 	payee = empty_payee;
 
 	payee -> payee_nb_transactions --;
