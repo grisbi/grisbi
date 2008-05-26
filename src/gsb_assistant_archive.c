@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
 /*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -120,13 +120,14 @@ GtkResponseType gsb_assistant_archive_run ( gboolean origin )
 
     if (origin)
 	/* come from check while opening file */
-	tmpstr = g_strdup_printf ( _("There are too much transactions in your file (%d) and the current limit is %d transactions.\n"
-				     "To increase speed, you shoud archive them. (Press Cancel if you don't want make an archive now)\n"
+	tmpstr = g_strdup_printf ( _("There are too many transactions in your file (%d) and the current limit is %d transactions.\n"
+				     "To increase speed, you should archive them "
 				     "(the current limit and the opening check-up can be changed in the Preferences)\n\n"
 				     "This assistant will guide you through the process of archiving transactions "
 				     "By default, Grisbi does not export any archive into separate files, "
 				     "it just mark transactions as archted and do not use them.\n\n"
-				     "You can still export them into a separate archive file if necessary.\n"),
+				     "You can still export them into a separate archive file if necessary.\n\n" 
+				     "Press Cancel if you don't want make an archive now\n"),
 				   g_slist_length (gsb_data_transaction_get_transactions_list ()),
 				   etat.max_non_archived_transactions_for_check );
     else
@@ -199,7 +200,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     /* set up the menu */
-    label = gtk_label_new (_("Please choose the way to make your archive :"));
+    label = gtk_label_new (_("Please select a way to select transactions for this archive"));
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox),
@@ -217,7 +218,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 			 button,
 			 FALSE, FALSE, 0 );
 
-    label = gtk_label_new (_("Grisbi will archive all the transactions between the initial and final date."));
+    label = gtk_label_new (_("Grisbi will archive all transactions between initial and final dates."));
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
     gtk_misc_set_padding ( GTK_MISC (label), 
@@ -283,7 +284,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 			 button,
 			 FALSE, FALSE, 0 );
 
-    label = gtk_label_new (_("Grisbi will archive all the transactions belonging to the financial year." ));
+    label = gtk_label_new (_("Grisbi will archive all transactions belonging to a financial year." ));
     gtk_misc_set_padding ( GTK_MISC (label), 
 			   24, 0 );
     gtk_misc_set_alignment ( GTK_MISC (label),
@@ -332,7 +333,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 			 button,
 			 FALSE, FALSE, 0 );
 
-    label = gtk_label_new (_("Grisbi will archive the transactions selected by a report." ));
+    label = gtk_label_new (_("Grisbi will archive transactions selected by a report." ));
     gtk_misc_set_padding ( GTK_MISC (label), 
 			   24, 0 );
     gtk_misc_set_alignment ( GTK_MISC (label),

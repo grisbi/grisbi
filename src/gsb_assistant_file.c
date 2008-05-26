@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -111,18 +111,19 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening )
 					_("The general configuration of Grisbi is done.\n\n"
 					  "The Assistant will now help you to create and configure a new file.\n"
 					  "Don't forget that you can change all later in the configurations page.\n\n"
-					  "Once the file created, you will be able to create a new account\n"
-					  "	or import some previous datas"),
-					"grisbi-logo.png",
+					  "Once the file created, you will be able to create a new account "
+					  "or import some previous datas"),
+					"grisbi.png",
 					NULL );
     else
 	assistant = gsb_assistant_new ( _("New file Assistant"),
-					_("This assistant will help you to configure a new file.\n"
-					  "Youd will be able to change later this entries, or find many other options\n"
-					  "	in the configuration page,\n"
-					  "Once the file created, you will be able to create a new account\n"
-					  "	or import some previous datas"),
-					"grisbi-logo.png",
+					_("This assistant will help you to create a new accounting file.\n\n"
+					  "Every configuration step from this assistant can be configured "
+					  "later in the 'Preferences' dialog.\n"
+					  "Once you have created your accounting file, you will be able to "
+					  "create a new account from scratch or to import previous data, i.e. "
+					  "from your previous accounting software or online bank website."),
+					"grisbi.png",
 					NULL );
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_file_page_2 (assistant),
@@ -234,14 +235,14 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
-    vbox = new_vbox_with_title_and_icon ( _("General configuration of the new account"),
+    vbox = new_vbox_with_title_and_icon ( _("General configuration"),
 					  "new-payee.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );
 
     /* Account file title */
-    paddingbox = new_paddingbox_with_title ( vbox, TRUE,
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE,
 					     _("Titles and filenames") );
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
@@ -298,8 +299,8 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     /* Address */
-    paddingbox = new_paddingbox_with_title ( vbox, TRUE,
-					     COLON(_("Common address")));
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE,
+					     COLON(_("Your address")));
 
     /* Common address */
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
@@ -336,7 +337,7 @@ static GtkWidget *gsb_assistant_file_page_3 ( GtkWidget *assistant )
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
-    vbox = new_vbox_with_title_and_icon ( _("Select base currency for your file"),
+    vbox = new_vbox_with_title_and_icon ( _("Select base currency"),
 					  "flags.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
@@ -444,14 +445,10 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant )
 			 TRUE, TRUE, 0 );
 
     /* set up the menu */
-    label = gtk_label_new (_("You have finished to configure Grisbi and the default values\n"
-			     "Now, the assistant will help you to create a new account.\n\n"
-			     "Remember that all the values can be changed in the configuration page,\n"
-			     "Menu Edit -> Preferences\n\n"
-			     "There is 2 ways to continue, either you create a new empty account\n"
-			     "	(you will be able to import some datas into later),\n"
-			     "either you import some qif/ofx/csv datas to create the correspondant accounts.\n\n"
-			     "Make your choice and press the 'Close' button to launch the next assistant."));
+    label = gtk_label_new (_("You have finished to configure default values for your account file. "
+			     "Next assistant will help you to create a new account.\n\n"
+			     "Remember that all of the values can be changed in the 'Preference' dialog.\n\n"
+			     "Select a way to populate your account file and press the 'Close' button."));
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox),
@@ -459,13 +456,13 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     button_create_account_next = gtk_radio_button_new_with_label ( NULL,
-								   _("Launch the account creation assistant"));
+								   _("Create a new account from scratch"));
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 button_create_account_next,
 			 FALSE, FALSE, 0 );
 
     button = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (GTK_RADIO_BUTTON (button_create_account_next)),
-					       _("Launch the import assistant"));
+					       _("Import data from online bank services or from accounting software"));
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 button,
 			 FALSE, FALSE, 0 );

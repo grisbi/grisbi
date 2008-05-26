@@ -205,44 +205,34 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
  * */
 static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 {
+    GtkWidget *page, *label, *button, *table;
     struct lconv * conv = localeconv();
-    GtkWidget *page;
-    GtkWidget *vbox;
-    GtkWidget *hbox;
-    GtkWidget *label;
-    GtkWidget *button;
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
-    vbox = gtk_vbox_new (FALSE, 5);
-    gtk_box_pack_start ( GTK_BOX (page),
-			 vbox,
+    table = gtk_table_new ( 0, 3, FALSE );
+    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 6 );
+    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
+
+    gtk_box_pack_start ( GTK_BOX (page), table, 
 			 FALSE, FALSE, 0 );
 
     /* choose the currency */
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 hbox,
-			 FALSE, FALSE, 0 );
-
     label = gtk_label_new (_("Currency for the account."));
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 label,
-			 FALSE, FALSE, 0 );
-    
-
-    /* make it pretty ? (benj your job ;-) )*/
-    label = gtk_label_new (NULL);
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 label,
-			 FALSE, FALSE, 0 );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_table_attach ( GTK_TABLE ( table ), label, 
+		       0, 1, 0, 1,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
 
     /* Guesstimate default currency from locale.  Default is USD since
      * this would confuse US folks while rest of the world is used to
      * configure stuff to their locale.  */
-    if ( ! gsb_currency_config_create_currency_from_iso4217list ( conv -> int_curr_symbol ) )
+    if ( ! gsb_data_currency_get_default_currency () &&
+	 ! gsb_currency_config_create_currency_from_iso4217list ( conv -> int_curr_symbol ) )
     {
 	gsb_currency_config_create_currency_from_iso4217list ( "USD" );
     }
@@ -250,10 +240,12 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
     /* create the currency combobox */
     account_combobox_currency = gsb_currency_make_combobox (TRUE);
     g_signal_connect ( G_OBJECT (account_combobox_currency ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &account_combobox_currency );
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 account_combobox_currency,
-			 FALSE, FALSE, 0 );
+		       G_CALLBACK ( gtk_widget_destroyed), &account_combobox_currency );
+    gtk_table_attach ( GTK_TABLE ( table ), account_combobox_currency, 
+		       1, 2, 0, 1,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
 
     /* propose to add a currency */
     button = gtk_button_new_with_label (_("Add/Change..."));
@@ -261,53 +253,48 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 		       "clicked",
 		       G_CALLBACK (gsb_currency_config_add_currency_set_combobox),
 		       account_combobox_currency );
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 button,
-			 FALSE, FALSE, 0 );
+    gtk_table_attach ( GTK_TABLE ( table ), button, 
+		       2, 3, 0, 1,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
 
     /* choose the bank */
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 hbox,
-			 FALSE, FALSE, 0 );
-
     label = gtk_label_new (_("Bank for the account."));
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 label,
-			 FALSE, FALSE, 0 );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_table_attach ( GTK_TABLE ( table ), label, 
+		       0, 1, 1, 2,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
     
-    /* make it pretty ? (benj your job ;-) )*/
-    label = gtk_label_new (NULL);
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 label,
-			 FALSE, FALSE, 0 );
-
     account_combobox_bank = gsb_bank_create_combobox ();
     g_signal_connect ( G_OBJECT (account_combobox_bank ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &account_combobox_bank );
     gsb_bank_list_set_bank ( account_combobox_bank, 0 );
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 account_combobox_bank,
-			 FALSE, FALSE, 0 );
+    gtk_table_attach ( GTK_TABLE ( table ), account_combobox_bank, 
+		       1, 2, 1, 2,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
 
     /* set the initial amount */
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 hbox,
-			 FALSE, FALSE, 0 );
-
     label = gtk_label_new (_("Opening balance"));
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 label,
-			 FALSE, FALSE, 0 );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_table_attach ( GTK_TABLE ( table ), label, 
+		       0, 1, 2, 3,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
     
     account_entry_initial_amount = gtk_entry_new ();
     g_signal_connect ( G_OBJECT (account_entry_initial_amount ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &account_entry_initial_amount );
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 account_entry_initial_amount,
-			 FALSE, FALSE, 0 );
-
+		       G_CALLBACK ( gtk_widget_destroyed), &account_entry_initial_amount );
+    gtk_table_attach ( GTK_TABLE ( table ), account_entry_initial_amount, 
+		       1, 2, 2, 3,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
 
     gtk_widget_show_all (page);
     return page;
@@ -383,7 +370,7 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
 static gboolean gsb_assistant_account_enter_page_finish ( GtkWidget * assistant, gint new_page )
 {
     GtkWidget * account_entry_name = g_object_get_data ( G_OBJECT (assistant), "account_entry_name" );
-    gchar * default_name;
+    gchar * default_name = NULL;
     gint account_type = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (assistant), "account_kind" ) );
 
     switch ( account_type )
@@ -415,7 +402,8 @@ static gboolean gsb_assistant_account_enter_page_finish ( GtkWidget * assistant,
     }
 
     gtk_entry_set_text ( GTK_ENTRY ( account_entry_name ), default_name );
-    g_free ( default_name );
+    if ( default_name )
+	g_free ( default_name );
 
     return FALSE;
 }

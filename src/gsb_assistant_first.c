@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -77,7 +77,7 @@ GtkResponseType gsb_assistant_first_run ( void )
 				      "All that you do here can be changed later in the configuration page.\n"
 				      "Many other options are available in the configuration window.\n"
 				      "Enjoy..." ),
-				    "grisbi-logo.png",
+				    "grisbi.png",
 				    NULL );
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_first_page_2 (assistant),
@@ -123,11 +123,18 @@ GtkResponseType gsb_assistant_first_come_to_0_6 ( void )
 
     /* create the assistant */
     assistant = gsb_assistant_new ( _("Welcome to Grisbi 0.6!"),
-				    _("The backup function is now different.\n"
-				      "You need to choose a directory and Grisbi will create automaticaly the backup name of your file,\n"
-				      "with adding the date and time to that name.\n"
-				      "Then you need now to choose the backup directory if you used that function in the next page of the assistant.\n"),
-				    "grisbi-logo.png",
+				    _("You are using Grisbi 0.6 for the first time.  While some of the " 
+				      "interface has not changed, you will notice a lot of improvements. "
+				      "Do not hesitate to read tips of the day to learn more on the new "
+				      "features.\n\n" 
+				      "Of the most notable enhancements to Grisbi, we redesigned the "
+				      "backup function.\n\n"
+				      "From now, grisbi automatically put backup files in a directory "
+				      "that you will be able to set manually in next screen.\n\n"
+				      "Also, we advise you to configure your web browser "
+				      "to your system configuration and to configure various settings "
+				      "in next screen.\n"),
+				    "grisbi.png",
 				    NULL );
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_first_page_2 (assistant),
@@ -192,7 +199,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     entry = gsb_automem_entry_new ( &etat.browser_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
-    text = g_strconcat ( "<i>", _("You may use %s to expand URL.\n"
+    text = g_strconcat ( "<i>", _("You may use %s to expand URL. "
 				  "I.e: \"firefox -remote %s\""), "</i>", NULL );
     label = gtk_label_new ( text );
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
