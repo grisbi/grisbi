@@ -286,24 +286,16 @@ gboolean gsb_file_util_modify_lock ( gboolean create_swp )
 	 !strlen(nom_fichier_comptes) )
 	return TRUE;
 
-    /* check if nom_fichier_comptes exists */
+    /* Check if nom_fichier_comptes exists.  If not, this is a new
+     * file so don't try to lock it. */
     if (!g_file_test ( nom_fichier_comptes,
 		       G_FILE_TEST_EXISTS ))
     {
-	gchar* tmpstr = g_strdup_printf (_("Cannot open file '%s' to mark it as used: %s"),
-					 nom_fichier_comptes,
-					 latin2utf8 (strerror(errno)));
-	dialogue_error (tmpstr );
-	g_free ( tmpstr );
 	return FALSE;
     }
 
-
-    /* create the name of the lock file */
-
-    tab_str = g_strsplit ( nom_fichier_comptes,
-			   G_DIR_SEPARATOR_S,
-			   0 );
+    /* Create the name of the lock file */
+    tab_str = g_strsplit ( nom_fichier_comptes, G_DIR_SEPARATOR_S, 0 );
 
     i=0;
 
