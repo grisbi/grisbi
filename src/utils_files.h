@@ -13,9 +13,9 @@ enum get_filename_returned_value {
 /* END_INCLUDE_H */
 
 #ifdef _WIN32
-#define C_DIRECTORY_SEPARATOR "/"
-#else
 #define C_DIRECTORY_SEPARATOR "\\"
+#else
+#define C_DIRECTORY_SEPARATOR "/"
 #endif
 
 /*START_DECLARATION*/
