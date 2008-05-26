@@ -424,7 +424,6 @@ void menus_sensitifs ( gboolean sensitif )
     gchar * items[] = {
 	menu_name ( "FileMenu",		"Save",			NULL ),
 	menu_name ( "FileMenu",		"SaveAs",		NULL ),
-	menu_name ( "FileMenu",		"ImportFile",		NULL ),
 	menu_name ( "FileMenu",		"DebugFile",		NULL ),
 	menu_name ( "FileMenu",		"ExportFile",		NULL ),
 	menu_name ( "FileMenu",		"CreateArchive",	NULL ),
