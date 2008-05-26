@@ -53,7 +53,7 @@
 static void gsb_currency_append_currency_to_list ( GtkListStore *model,
 					    gint currency_number );
 static gboolean gsb_currency_config_add_currency ( GtkWidget *button,
-					    GtkTreeModel *currency_tree_model );
+						   GtkTreeModel *currency_tree_model );
 static GtkWidget *gsb_currency_config_create_list ();
 static gboolean gsb_currency_config_entry_changed ( GtkWidget *entry,
 					     GtkWidget *tree_view );
@@ -909,7 +909,7 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
 					     TRUE, _("World currencies"));
 
     /* Create list */
-    list = gsb_currency_config_create_box_popup (G_CALLBACK ( gsb_currency_config_select_currency_popup ));
+    list = gsb_currency_config_create_box_popup ( G_CALLBACK ( gsb_currency_config_select_currency_popup ) );
     model = g_object_get_data ( G_OBJECT(list), "model" );
 
     gtk_box_pack_start ( GTK_BOX(paddingbox), list, TRUE, TRUE, 5 );
@@ -972,6 +972,7 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
     gtk_tree_model_foreach ( GTK_TREE_MODEL(model), 
 			     (GtkTreeModelForeachFunc) gsb_currency_config_select_default, 
 			     g_object_get_data ( G_OBJECT(list), "treeview" ) );
+
 dialog_return:
     gtk_widget_show_all ( GTK_WIDGET ( dialog ) );
     result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
@@ -991,18 +992,19 @@ dialog_return:
 	    {
 		/* check if the currency exists */
 
-		if ( gsb_data_currency_get_number_by_name ( currency_name )
-		     ||
-		     gsb_data_currency_get_number_by_code_iso4217 ( currency_isocode ))
+		if ( gsb_data_currency_get_number_by_name ( currency_name ) )
 		{
-		    gchar* tmpstr = g_strdup_printf ( _("Currency '%s' already exists." ), currency_name );
-		    dialogue_error_hint ( _("Currency names or international codes should be unique.  Please choose a new name for the currency."),
-					  tmpstr);
-		    g_free ( tmpstr );
-		    goto dialog_return;
+		    currency_number = gsb_data_currency_get_number_by_name ( currency_name );
 		}
-
-		currency_number = gsb_currency_config_create_currency ( currency_name, currency_code, currency_isocode, floating_point);
+		else if ( gsb_data_currency_get_number_by_code_iso4217 ( currency_isocode ) )
+		{
+		    currency_number = gsb_data_currency_get_number_by_code_iso4217 ( currency_isocode );
+		}
+		else
+		{
+		    currency_number = gsb_currency_config_create_currency ( currency_name, currency_code, 
+									    currency_isocode, floating_point );
+		}
 
 		/* update the currency list for combobox */
 		gsb_currency_update_combobox_currency_list ();
