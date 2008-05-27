@@ -217,6 +217,7 @@ extern GdkColor archive_background_color;
 extern GdkColor breakdown_background;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_selection;
+extern gchar *labels_titres_colonnes_liste_ope[] ;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
@@ -673,6 +674,9 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 	GtkCellRenderer *cell_renderer;
 
 	cell_renderer = gtk_cell_renderer_text_new ();
+	g_object_set ( G_OBJECT (cell_renderer),
+		       "xalign", alignment[i],
+		       NULL );
 
 	transactions_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes ( _(titres_colonnes_liste_operations[i]),
 										       cell_renderer,
@@ -1650,9 +1654,7 @@ gboolean gsb_transactions_list_update_transaction_value ( gint element_number )
     GtkTreeModel *model;
     GtkTreeIter iter;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_transactions_list_update_transaction_value");
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug (labels_titres_colonnes_liste_ope[element_number - 1]);
 
     /* for now, this is the same position for all accounts, so no problem
      * later we will be able to change the position for each account, so at this
@@ -3193,7 +3195,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
  * \param transaction The transaction to delete
  * \param show_warning TRUE to ask if the user is sure, FALSE directly delete the transaction
  *
- * \return FALSE
+ * \return FALSE if canceled or nothing done, TRUE if ok
  * */
 gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
 						    gint show_warning )
@@ -3214,10 +3216,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
 	 transaction_number < 0 )
 	return FALSE;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_transactions_list_delete_transaction no %d",
-				   transaction_number );
-    devel_debug ( tmpstr );
-    g_free (tmpstr);
+    devel_debug_int (transaction_number);
 
     account_number = gsb_data_transaction_get_account_number (transaction_number);
 
@@ -3318,7 +3317,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
 
     /* FIXME : on devrait réafficher les listes de tiers, categ, ib... */
     modification_fichier( TRUE );
-    return FALSE;
+    return TRUE;
 }
 
 

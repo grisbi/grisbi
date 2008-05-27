@@ -57,6 +57,7 @@ extern gsb_real null_real ;
 
 static MetatreeInterface _budgetary_interface = {
     2,
+    2,
     budgetary_line_tree_currency,
     N_("Budgetary line"),
     N_("No budgetary line"),

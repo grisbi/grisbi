@@ -654,9 +654,11 @@ void appui_sur_ajout_sub_division ( GtkTreeModel * model )
 
 
 /**
- * \todo Document this
- * 
+ * remove a division or a sub-division from a metatree
  *
+ * \param tree_view
+ *
+ * \return FALSE
  */
 gboolean supprimer_division ( GtkTreeView * tree_view )
 {
@@ -689,6 +691,7 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
 
+    /* get the type of the delete */
     path = gtk_tree_model_get_path ( model, &iter );
     switch ( metatree_get_row_type ( model, path ) )
     {
@@ -707,20 +710,38 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 	    warning_debug ( "tried to remove an invalid entry" );
 	    return FALSE;
     }
-	    
+/* xxx en suis ici, pb sur metatree */
+/*     qd supprime un tiers, categ ou ib */
+/*     pour le tiers ça marche pas, rien ne change sauf dans la liste des tiers */
+/*     pour les categ/ib, replace toutes les opés dans la 1ère sous categ/ib alors que devrait créer une sous categ/ib avec l'ancien nom de sous-categ/ib */
+/*     par ex si supprime alimentation avec comme destination assurance, va tout mettre dans assurance:automobile alors que devrait */
+/*     faire assurance:les anciennes sous categ */
+
+    /* ok, now we know that we really want to delete a division */
+    /* is the division contains some transactions ? */
     if ( find_associated_transactions ( iface, no_division, -1 ) )
     {
-	gint nouveau_no_division, nouveau_no_sub_division;
+	gint new_division, new_sub_division;
 	GSList *list_tmp_transactions;
+
+	/* some transactions have that division, we ask to move them
+	 * to another division or juste erase the division, and it
+	 * will become blanck for the transactions */
 	
-	/* fill nouveau_no_division and nouveau_no_sub_division */
-	if ( ! find_destination_blob ( iface, model, current_number, 0, 
-				       &nouveau_no_division, &nouveau_no_sub_division ) )
+	/* fill new_division and new_sub_division */
+	if ( ! find_destination_blob ( iface, model, no_division, 0, 
+				       &new_division, &new_sub_division ) )
 	    return FALSE;
 
-	/* on fait le tour des opés pour mettre le nouveau numéro de
-	 * division et sub_division */
+	/* now we have new_division and new_sub_division filled
+	 * new_sub_division can be set to 0, in that case it's a transfer only of division
+	 * if new_division and new_sub_division are set to 0, it's just a deleted of division, no move of transaction */
 
+	/* set the new division and sub-division to the transactions */
+/* xxx ci dessous le pb, s'il y a une sub-division, on move vers la sub-division */
+/*     s'il n'y en a pas, on recrée une sub-division la même que l'ancienne mais dans la nouvelle division */
+/*     puis on move vers cette nouvelle sub-division */
+/*     voir pourles tiers comment ça se passe */
 	/* move the transactions, need to to that for archived transactions too */
 	list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
@@ -732,8 +753,8 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 	    if ( iface -> transaction_div_id (transaction_number_tmp) == no_division )
 	    {
 		move_transaction_to_sub_division ( transaction_number_tmp, model,
-						   NULL, NULL, nouveau_no_division,
-						   nouveau_no_sub_division );
+						   NULL, NULL, new_division,
+						   new_sub_division );
 	    }
 	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
@@ -752,31 +773,38 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 
 	    if ( iface -> scheduled_div_id (scheduled_number) == no_division )
 	    {
-		iface -> scheduled_set_div_id ( scheduled_number, nouveau_no_division );
-		iface -> scheduled_set_sub_div_id ( scheduled_number, nouveau_no_sub_division );
+		iface -> scheduled_set_div_id ( scheduled_number, new_division );
+		iface -> scheduled_set_sub_div_id ( scheduled_number, new_sub_division );
 	    }
 
 	    liste_tmp = liste_tmp -> next;
 	}
 
 	/* Fill sub division */
-	it = get_iter_from_div ( model, nouveau_no_division, nouveau_no_sub_division );
+	it = get_iter_from_div ( model, new_division, new_sub_division );
 	if ( it )
 	    fill_sub_division_row ( model, iface, it,
-				    nouveau_no_division,
-				    nouveau_no_sub_division);
+				    new_division,
+				    new_sub_division);
 
 	/* Fill division as well */
-	it = get_iter_from_div ( model, nouveau_no_division, -1 );
+	it = get_iter_from_div ( model, new_division, -1 );
 	if ( it )
-	    fill_division_row ( model, iface, it, nouveau_no_division );
+	    fill_division_row ( model, iface, it, new_division );
 
-	/* metatree too complex for me, so instead of re-writing all the transactions, update
-	 * just the value we changed, or if we come here, it's for payee, categ or budget i
-	 * FIXME benj if you can know here and do only what is necessary ... */
-	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_PARTY);
-	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_BUDGET);
-	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CATEGORY);
+	/* update value in the tree view */
+	switch (iface -> content)
+	{
+	    case 0:
+		gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_PARTY);
+		break;
+	    case 1:
+		gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CATEGORY);
+		break;
+	    case 2:
+		gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_BUDGET);
+		break;
+	}
     }
 
     /* supprime dans la liste des division  */
@@ -805,9 +833,6 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 			      MetatreeInterface * iface, 
 			      gint sub_division, gint division )
 {
-	/*TODO dOm : unused variable selection.
-    GtkTreeSelection * selection;
-    */
     GtkTreeIter iter, * it;
 
     if ( find_associated_transactions ( iface, division, 
@@ -875,12 +900,19 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	if ( it )
 	    fill_division_row ( model, iface, it, nouveau_no_division );
 
-	/* metatree too complex for me, so instead of re-writing all the transactions, update
-	 * just the value we changed, or if we come here, it's for payee, categ or budget i
-	 * FIXME benj if you can know here and do only what is necessary ... */
-	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_PARTY);
-	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_BUDGET);
-	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CATEGORY);
+	/* update value in the tree view */
+	switch (iface -> content)
+	{
+	    case 0:
+		gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_PARTY);
+		break;
+	    case 1:
+		gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CATEGORY);
+		break;
+	    case 2:
+		gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_BUDGET);
+		break;
+	}
     }
 
     /* supprime dans la liste des division  */
@@ -913,8 +945,10 @@ void supprimer_transaction ( GtkTreeView * tree_view, GtkTreeModel * model,
 
     division = iface -> transaction_div_id ( transaction );
     sub_division = iface -> transaction_sub_div_id ( transaction );
-    iface -> remove_transaction_from_div ( transaction );
-    gsb_data_transaction_remove_transaction ( transaction );
+
+    /* remove the transaction from memory and list, and show the warnings */
+    if (!gsb_transactions_list_delete_transaction (transaction, TRUE))
+	return;
 
     /* Fill parent sub division */
     it = get_iter_from_div ( model, division, sub_division );
@@ -1312,6 +1346,8 @@ void move_transaction_to_sub_division ( gint transaction_number,
 	}
 	else
 	{
+/* 	    xxx */
+	    printf ( "plante...\n");
 	    return;
 	}
     }
@@ -1434,11 +1470,6 @@ void expand_arbre_division ( GtkWidget *bouton, gint depth )
 
 
 /**
- * \todo Document this
- * 
- *
- */
-/**
  * called when there is some transactions associated to the category, budget or payee
  * show a dialog and ask another categ/budget/payee to move the concerned transactions
  * and fill no_div and no_sub_div with the user choice
@@ -1451,23 +1482,27 @@ void expand_arbre_division ( GtkWidget *bouton, gint depth )
  * \param no_sub_div a pointer to gint for the choice of sub-division chosen by user
  *
  * \return FALSE to stop the process, TRUE to continue
+ * 	no_div will contain the new division, no_sub_div the new sub-division
+ * 	if no move of transactions, no_div and no_sub_div are set to 0
+ * 	if move to another division but no sub-division, no_sub_div is set to 0
  * */
 gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model, 
 				 gint division, gint sub_division, 
 				 gint * no_div, gint * no_sub_div )
 {
-    GtkWidget *dialog, *hbox, *bouton_division_generique, *combofix, *bouton_transfert;
+    GtkWidget *dialog, *hbox, *button_delete, *combofix, *button_move;
     GSList *liste_combofix, *division_list, *liste_division_credit, *liste_division_debit;
     gint resultat, nouveau_no_division, nouveau_no_sub_division;
     gchar **split_division;
+    gchar *tmpstr;
 
     /* create the box to move change the division and sub-div of the transactions */
     gchar* tmpstr1 = g_strdup_printf ( _("'%s' still contains transactions or archived transactions."), 
-						     ( !sub_division ? 
-						       iface -> div_name ( division ) :
-						       iface -> sub_div_name ( division, sub_division ) ) );
+				       ( !sub_division ? 
+					 iface -> div_name ( division ) :
+					 iface -> sub_div_name ( division, sub_division ) ) );
     gchar* tmpstr2 = g_strdup_printf ( _("If you want to remove it but want to keep transactions, you can transfer them to another (sub-)%s.  Otherwise, transactions can be simply deleted along with their division."), 
-							     g_ascii_strdown ( iface -> meta_name, -1 ) );
+				       g_ascii_strdown ( iface -> meta_name, -1 ) );
     dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
 				       make_hint ( tmpstr1 , tmpstr2 ) );
 
@@ -1479,11 +1514,13 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 			 FALSE, FALSE, 0 );
 
     tmpstr1 = g_strdup_printf (_("Transfer transactions to %s"), iface -> meta_name);
-    bouton_transfert = gtk_radio_button_new_with_label ( NULL, tmpstr1);
+    button_move = gtk_radio_button_new_with_label ( NULL, tmpstr1);
     g_free ( tmpstr1 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_transfert,
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button_move,
 			 FALSE, FALSE, 0 );
 
+    /* create the list containing division and sub-division
+     * without the current division to delete */
     division_list = iface -> div_list ( );
     liste_combofix = NULL;
     liste_division_credit = NULL;
@@ -1514,6 +1551,14 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 		liste_division_credit = g_slist_append ( liste_division_credit,
 							 my_strdup (iface -> div_name (tmp_division)));
 		break;
+	}
+
+	/* we add the sub-divisions only if we remove the sub-divisions,
+	 * else we let only the division */
+	if (!sub_division)
+	{
+	    division_list = division_list -> next;
+	    continue;
 	}
 
 	/* get the sub-divisions */
@@ -1553,29 +1598,29 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 	division_list = division_list -> next;
     }
 
-    /*   on ajoute les listes des crÃ©dits / débits à la liste
-     *   du combofix du transaction_form */
+    /* create the combofix complex with the divisions and sub-divisions */
     liste_combofix = g_slist_append ( liste_combofix, liste_division_debit );
     liste_combofix = g_slist_append ( liste_combofix, liste_division_credit );
 
     combofix = gtk_combofix_new_complex (liste_combofix);
     gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix), TRUE );
-
     gtk_box_pack_start ( GTK_BOX ( hbox ), combofix, TRUE, TRUE, 0 );
 
-    /*       mise en place du choix supprimer le division */
+    /* other choice, just remove the division */
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
 			 FALSE, FALSE, 0 );
-    
-    gchar* tmpstr = g_strdup_printf(_("Just remove this sub-%s."), iface -> meta_name );
-    bouton_division_generique = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_transfert )), tmpstr );
+
+    if (!sub_division)
+	tmpstr = g_strdup_printf(_("Just remove this %s."), iface -> meta_name );
+    else
+	tmpstr = g_strdup_printf(_("Just remove this sub-%s."), iface -> meta_name );
+    button_delete = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( button_move )), tmpstr );
     g_free ( tmpstr );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_division_generique, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button_delete, FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( dialog );
 
-retour_dialogue:
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
     if ( resultat != GTK_RESPONSE_OK )
@@ -1587,8 +1632,9 @@ retour_dialogue:
     nouveau_no_division = 0;
     nouveau_no_sub_division = 0;
 
-    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_transfert )) )
+    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_move )) )
     {
+	/* we want to move the transactions */
 	if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	{
 	    gchar* tmpstr1 = g_strdup_printf ( _("It is compulsory to specify a destination %s to move transactions but no %s was entered."), iface -> meta_name, iface -> meta_name );
@@ -1597,10 +1643,13 @@ retour_dialogue:
 	    g_free ( tmpstr1 );
 	    g_free ( tmpstr2 );
 
-	    goto retour_dialogue;
+	    gtk_widget_destroy (dialog);
+	    return (find_destination_blob ( iface, model, 
+					    division, sub_division, 
+					    no_div, no_sub_div ));
 	}
 
-	/* récupère les no de division et sous division */
+	/* get the new (sub-)divisions */
 	split_division = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( combofix )),
 				      " : ", 2 );
 
@@ -1611,19 +1660,15 @@ retour_dialogue:
 
 	g_strfreev ( split_division );
     }
-    else
-    {
-	nouveau_no_division = 0;
-	nouveau_no_sub_division = 0;
-    }
 
     gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
 
+    /* return the new number of division and sub-division
+     * if don't want to move the transactions, 0 and 0 will be returned */
     if ( no_div)
 	*no_div = nouveau_no_division;
     if ( no_sub_div )
 	*no_sub_div = nouveau_no_sub_division;
-
     return TRUE;
 }
 
@@ -1739,7 +1784,8 @@ gboolean search_for_div_or_subdiv ( GtkTreeModel *model, GtkTreePath *path,
     if ( !text )
 	return FALSE;
 
-    if ( ! pointers[0] && ( !pointers[1] || GPOINTER_TO_INT (pointers[1]) == -1) && 
+    if ( ! pointers[0] && ( !pointers[1] || GPOINTER_TO_INT (pointers[1]) == -1)
+	 && 
 	 !no_div && !no_sub_div )
     {
 	pointers[2] = gtk_tree_iter_copy (iter);

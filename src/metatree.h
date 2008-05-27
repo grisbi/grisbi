@@ -10,6 +10,7 @@
 /** Interface between various tree data and metatree */
 typedef struct metatree_interface {
     gint depth;
+    gint content;	/* content of the metatree : 0 : payee, 1 : category, 2 : budget */
     gint (* tree_currency) ();
     /* Read operations */
     const gchar * meta_name;

@@ -33,8 +33,11 @@
 #include "gsb_data_transaction.h"
 #include "./dialog.h"
 #include "./gsb_data_account.h"
+#include "./gsb_data_budget.h"
+#include "./gsb_data_category.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_currency_link.h"
+#include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
 #include "./utils_dates.h"
 #include "./gsb_real.h"
@@ -2160,6 +2163,11 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 	contra_transaction = gsb_data_transaction_get_transaction_by_no (transaction -> transaction_number_transfer);
 	if (contra_transaction)
 	{
+	    /* we remove the transaction from the counters */
+	    gsb_data_payee_remove_transaction_from_payee (contra_transaction -> transaction_number) ;
+	    gsb_data_category_remove_transaction_from_category (contra_transaction -> transaction_number);
+	    gsb_data_budget_remove_transaction_from_budget (contra_transaction -> transaction_number);
+
 	    /* we remove the transaction from the 2 lists */
 	    transactions_list = g_slist_remove ( transactions_list,
 						 contra_transaction );
@@ -2186,6 +2194,12 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 	    if (contra_transaction)
 	    {
 		/* it's a transfer, delete the transfer */
+
+		/* we remove the transaction from the counters */
+		gsb_data_payee_remove_transaction_from_payee (contra_transaction -> transaction_number) ;
+		gsb_data_category_remove_transaction_from_category (contra_transaction -> transaction_number);
+		gsb_data_budget_remove_transaction_from_budget (contra_transaction -> transaction_number);
+
 		transactions_list = g_slist_remove ( transactions_list,
 						     contra_transaction );
 		complete_transactions_list = g_slist_remove ( complete_transactions_list,
@@ -2194,6 +2208,11 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 	    }
 
 	    /* delete the child */
+	    /* we remove the child from the counters */
+	    gsb_data_payee_remove_transaction_from_payee (child_transaction -> transaction_number) ;
+	    gsb_data_category_remove_transaction_from_category (child_transaction -> transaction_number);
+	    gsb_data_budget_remove_transaction_from_budget (child_transaction -> transaction_number);
+
 	    transactions_list = g_slist_remove ( transactions_list,
 						 child_transaction );
 	    complete_transactions_list = g_slist_remove ( complete_transactions_list,
@@ -2202,6 +2221,11 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 	    tmp_list = tmp_list -> next;
 	}
     }
+
+    /* we have now to remove the transaction from the counters */
+    gsb_data_payee_remove_transaction_from_payee (transaction_number);
+    gsb_data_category_remove_transaction_from_category (transaction_number);
+    gsb_data_budget_remove_transaction_from_budget (transaction_number);
 
     /* now can remove safely the transaction */
     transactions_list = g_slist_remove ( transactions_list,

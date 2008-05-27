@@ -71,6 +71,7 @@ extern gsb_real null_real ;
 
 static MetatreeInterface _payee_interface = {
     1,
+    0,
     payee_tree_currency,
     N_("Payee"),
     N_("No payee"),

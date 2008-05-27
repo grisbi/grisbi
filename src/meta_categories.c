@@ -59,6 +59,7 @@ extern gsb_real null_real ;
 
 static MetatreeInterface _category_interface = {
     2,
+    1,
     category_tree_currency,
     N_("Category"),
     N_("No category"),
