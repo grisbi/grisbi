@@ -3940,6 +3940,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 					      GError **error)
 {
     /* the first time we come here, we check if it's a grisbi file */
+    gchar **pointeur_char;
 
     if ( !download_tmp_values.download_ok )
     {
@@ -4088,22 +4089,23 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		}
 
 		if ( !strcmp ( attribute_names[i],
-			       "Db" ))
+			       "Db" )
+		     && attribute_values[i]
+		     && strlen (attribute_values[i]) )
 		{
-		    if ( attribute_values[i] )
-		    {
-			pointeur_char = g_strsplit ( attribute_values[i],
-						     "/",
-						     0 );
+		    GDate *date;
+		    pointeur_char = g_strsplit ( attribute_values[i],
+						 "/",
+						 0 );
+		    date = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
+					    utils_str_atoi ( pointeur_char[1] ),
+					    utils_str_atoi ( pointeur_char[2] ));
 
-			if ( utils_str_atoi ( pointeur_char[0] ))
-			    gsb_data_transaction_set_value_date ( transaction_number,
-								  g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
-										   utils_str_atoi ( pointeur_char[1] ),
-										   utils_str_atoi ( pointeur_char[2] )));
-
-			g_strfreev ( pointeur_char );
-		    }
+		    gsb_data_transaction_set_value_date ( transaction_number,
+							  date );
+		    g_strfreev (pointeur_char);
+		    if (date)
+			g_date_free (date);
 		}
 
 		if ( !strcmp ( attribute_names[i],
@@ -4255,8 +4257,14 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		if ( !strcmp ( attribute_names[i],
 			       "Date" ))
 		{
-		    GDate *date = gsb_parse_date_string (attribute_values[i]);
+		    /* cannot use gsb_parse_date_string here because before, all date were dd/mm/yyyy */
+		    GDate *date;
+		    pointeur_char = g_strsplit ( attribute_values[i], "/", 0 );
+		    date = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
+					    utils_str_atoi ( pointeur_char[1] ),
+					    utils_str_atoi ( pointeur_char[2] ));
 		    gsb_data_scheduled_set_date ( scheduled_number, date);
+		    g_strfreev ( pointeur_char );
 		    if (date)
 			g_date_free ( date );
 		}
@@ -4361,10 +4369,17 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 							utils_str_atoi (attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
-			       "Date_limite" ))
+			       "Date_limite" )
+		     &&
+		     strlen (attribute_values[i]))
 		{
-		    GDate *date = gsb_parse_date_string (attribute_values[i]);
+		    GDate *date;
+		    pointeur_char = g_strsplit ( attribute_values[i], "/", 0 );
+		    date = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
+					    utils_str_atoi ( pointeur_char[1] ),
+					    utils_str_atoi ( pointeur_char[2] ));
 		    gsb_data_scheduled_set_limit_date ( scheduled_number, date);
+		    g_strfreev ( pointeur_char );
 		    if (date)
 			g_date_free ( date );
 		}
@@ -4762,21 +4777,37 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 					      attribute_values[i]);
 
 		if ( !strcmp ( attribute_names[i],
-			       "Date_debut" ))
+			       "Date_debut" )
+		     &&
+		     strlen (attribute_values[i]))
 		{
-		    GDate* date = gsb_parse_date_string (attribute_values[i]);
+		    GDate *date;
+		    pointeur_char = g_strsplit ( attribute_values[i], "/", 0 );
+		    date = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
+					    utils_str_atoi ( pointeur_char[1] ),
+					    utils_str_atoi ( pointeur_char[2] ));
+
 		    gsb_data_fyear_set_begining_date ( fyear_number, date);
+		    g_strfreev ( pointeur_char );
 		    if (date)
-			g_date_free ( date );
+			g_date_free (date);
 		}
 
 		if ( !strcmp ( attribute_names[i],
-			       "Date_fin" ))
+			       "Date_fin" )
+		     &&
+		     strlen (attribute_values[i]))
 		{
-		    GDate* date = gsb_parse_date_string (attribute_values[i]);
+		    GDate *date;
+		    pointeur_char = g_strsplit ( attribute_values[i], "/", 0 );
+		    date = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
+					    utils_str_atoi ( pointeur_char[1] ),
+					    utils_str_atoi ( pointeur_char[2] ));
+
 		    gsb_data_fyear_set_end_date ( fyear_number, date);
+		    g_strfreev ( pointeur_char );
 		    if (date)
-			g_date_free ( date );
+			g_date_free (date);
 		}
 
 		if ( !strcmp ( attribute_names[i],
