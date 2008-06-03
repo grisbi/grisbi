@@ -461,6 +461,7 @@ gboolean question_yes_no ( gchar *texte,
 gboolean question_conditional_yes_no ( gchar * var )
 {
     gint response, i;
+    GtkDialog *dialog;
 
     for  ( i = 0; messages[i].name; i++ )
     {
@@ -474,15 +475,20 @@ gboolean question_conditional_yes_no ( gchar * var )
 	}
     }
 
-    response = question_yes_no ( make_hint ( _(messages[i].hint),
-					     _(messages[i].message) ), 
-				 GTK_RESPONSE_OK );
+    dialog = dialogue_conditional_new ( make_hint ( _(messages[i].hint),
+						    _(messages[i].message)),
+					var,
+					GTK_MESSAGE_WARNING,
+					GTK_BUTTONS_YES_NO );
 
-    if ( response )
+    response = gtk_dialog_run (GTK_DIALOG (dialog));
+					
+    if ( response == GTK_RESPONSE_YES )
 	messages[i].default_answer = TRUE;
     else
 	messages[i].default_answer = FALSE;
 
+    gtk_widget_destroy (GTK_WIDGET (dialog));
     return messages[i].default_answer;	
 }
 

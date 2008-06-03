@@ -342,9 +342,8 @@ gboolean gsb_file_open_file ( gchar *filename )
 {
     GSList *list_tmp;
     GtkWidget *main_widget;
-    gchar* tmpstr = g_strdup_printf ("gsb_file_open_file : %s", filename );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+
+    devel_debug (filename);
 
     if ( !filename
 	 ||
