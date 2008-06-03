@@ -12,6 +12,7 @@
 void gsb_data_payee_add_transaction_to_payee ( gint transaction_number );
 gsb_real gsb_data_payee_get_balance ( gint no_payee );
 const gchar *gsb_data_payee_get_description ( gint no_payee );
+gpointer gsb_data_payee_get_empty_payee ( void );
 const gchar *gsb_data_payee_get_name ( gint no_payee,
 				       gboolean can_return_null);
 GSList *gsb_data_payee_get_name_and_report_list ( void );

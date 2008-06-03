@@ -53,7 +53,7 @@
 static void gsb_currency_append_currency_to_list ( GtkListStore *model,
 					    gint currency_number );
 static gboolean gsb_currency_config_add_currency ( GtkWidget *button,
-						   GtkTreeModel *currency_tree_model );
+					    GtkTreeModel *currency_tree_model );
 static GtkWidget *gsb_currency_config_create_list ();
 static gboolean gsb_currency_config_entry_changed ( GtkWidget *entry,
 					     GtkWidget *tree_view );

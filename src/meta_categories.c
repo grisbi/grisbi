@@ -298,7 +298,7 @@ gint category_add_sub_div ( int div_id )
     int i = 1;
 
     if ( !div_id )
-	return -1;
+	return 0;
 
     /** Find a unique name for category */
     name =  my_strdup (_("New sub-category"));

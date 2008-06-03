@@ -219,7 +219,7 @@ GSList * payee_div_sub_div_list ( gint div )
 
 /**
  *
- *
+ * must return -1 because 0 or 1 or 2 are for credit/debit
  */
 gint payee_div_type ( gint div )
 {
@@ -235,7 +235,7 @@ gint payee_div_type ( gint div )
  */
 gint payee_transaction_sub_div_id ( gint transaction_number )
 {
-    return -1;
+    return 0;
 }
 
 
@@ -339,7 +339,7 @@ gint payee_add_div ()
  */
 gint payee_add_sub_div ( int div_id )
 {
-    return -1;
+    return 0;
 }
 
 

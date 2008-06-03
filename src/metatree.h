@@ -61,10 +61,12 @@ enum meta_tree_columns {
      * either number of sub-categ/sub-budget,
      * either number of transaction */
     META_TREE_POINTER_COLUMN,
-    /* number of categ/budget, -1 if none */
+    /* number of categ/budget */
     META_TREE_NO_DIV_COLUMN,
-    /* number of the sub-categ/sub-budget, -1 if none */
+    /* number of the sub-categ/sub-budget */
     META_TREE_NO_SUB_DIV_COLUMN,
+    /* number of the transaction */
+    META_TREE_NO_TRANSACTION_COLUMN,
     META_TREE_FONT_COLUMN,
     META_TREE_XALIGN_COLUMN,
     META_TREE_DATE_COLUMN,
@@ -79,7 +81,7 @@ enum meta_tree_row_type {
 };
 
 #define META_TREE_COLUMN_TYPES G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, \
-				 G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, \
+				 G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, \
 				 G_TYPE_INT, G_TYPE_FLOAT, G_TYPE_POINTER
 
 

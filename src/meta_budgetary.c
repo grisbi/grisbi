@@ -238,7 +238,7 @@ gint budgetary_line_add_sub_div ( int div_id )
     int i = 1;
 
     if ( !div_id )
-	return -1;
+	return 0;
 
     /** Find a unique name for budget */
     name =  my_strdup (_("New sub-budget"));

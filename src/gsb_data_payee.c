@@ -129,7 +129,7 @@ gpointer gsb_data_payee_get_structure ( gint no_payee )
     GSList *tmp;
 
     if (!no_payee)
-	return NULL;
+	return empty_payee;
 
     /* before checking all the payees, we check the buffer */
 
@@ -155,6 +155,17 @@ gpointer gsb_data_payee_get_structure ( gint no_payee )
 	tmp = tmp -> next;
     }
     return NULL;
+}
+
+/**
+ * return the empty_payee pointer
+ *
+ * \param
+ *
+ * \return a pointer to empty_category */
+gpointer gsb_data_payee_get_empty_payee ( void )
+{
+    return gsb_data_payee_get_structure (0);
 }
 
 

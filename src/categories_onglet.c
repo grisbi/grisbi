@@ -91,7 +91,7 @@ GtkWidget *onglet_categories ( void )
     /* We create the gtktreeview and model early so that they can be referenced. */
     arbre_categ = gtk_tree_view_new();
     g_signal_connect ( G_OBJECT (arbre_categ ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &arbre_categ );
+		       G_CALLBACK ( gtk_widget_destroyed), &arbre_categ );
     categ_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, META_TREE_COLUMN_TYPES );
 
     /* We create the main vbox */

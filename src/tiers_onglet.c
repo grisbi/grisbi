@@ -352,7 +352,7 @@ void remplit_arbre_tiers ( void )
     /** Then, populate tree with payee. */
 
     payee_list_tmp = gsb_data_payee_get_payees_list ();
-    payee_list_tmp = g_slist_prepend ( payee_list_tmp, NULL );
+    payee_list_tmp = g_slist_prepend ( payee_list_tmp, gsb_data_payee_get_empty_payee ());
 
     while ( payee_list_tmp )
     {

@@ -36,6 +36,7 @@
 #include "./gsb_currency_config.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_bank.h"
+#include "./gsb_data_currency.h"
 #include "./gsb_real.h"
 #include "./utils.h"
 #include "./gsb_data_account.h"
