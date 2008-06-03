@@ -81,8 +81,6 @@ static gboolean gsb_transactions_list_append_transaction ( gint transaction_numb
 						    GtkTreeStore *store );
 static gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 					      GdkEventButton *ev );
-static gboolean gsb_transactions_list_button_toggled ( GtkCellRendererToggle * cell, gchar * path_str,
-						GtkTreeModel * model );
 static void gsb_transactions_list_change_expanders ( gint only_current_account );
 static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
 						  gint *no_column );
@@ -696,8 +694,6 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 						 "visible", TRANSACTION_COL_NB_CHECKBOX_VISIBLE,
 						 "cell-background-gdk", TRANSACTION_COL_NB_BACKGROUND,
 						 NULL);
-	    g_signal_connect ( radio_renderer, "toggled", G_CALLBACK ( gsb_transactions_list_button_toggled ),
-			       gsb_transactions_list_get_store ( ) );
 	    g_object_set_data ( G_OBJECT(transactions_tree_view_columns[i]), "radio_renderer", radio_renderer );
 	}
 
@@ -2628,7 +2624,7 @@ gboolean gsb_transactions_list_move_to_transaction ( gint transaction_number )
 				       new_value );
 	}
     }
-    while ( start_pos == end_pos && result);
+    while ( start_pos == end_pos && start_pos && result);
 
     gtk_tree_path_free (start_path_transaction);
     gtk_tree_path_free (end_path_transaction);
@@ -2790,6 +2786,7 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
 	gtk_tree_store_set ( GTK_TREE_STORE ( model ),
 			     iter,
 			     col, NULL,
+			     TRANSACTION_COL_NB_CHECKBOX_ACTIVE, FALSE,
 			     -1 );
     }
     else
@@ -2802,6 +2799,7 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
 	gtk_tree_store_set ( GTK_TREE_STORE ( model ),
 			     iter,
 			     col, _("P"),
+			     TRANSACTION_COL_NB_CHECKBOX_ACTIVE, TRUE,
 			     -1 );
     }
 
@@ -5456,41 +5454,6 @@ void gsb_transactions_list_set_show_toggle_buttons ( gboolean show )
     }
 
 }
-
-
-
-/**
- * Toggle a checkbox in the transaction list.
- *
- * \param cell		Unused.
- * \param path_str	Path of checkbox that triggered this event.  To be
- *			used, we have to convert this path to the
- *			sorted version.
- * \param model		GtkTreeModel containing said checkbox.
- *
- * \return		FALSE
- */
-gboolean gsb_transactions_list_button_toggled ( GtkCellRendererToggle * cell, gchar * path_str,
-						GtkTreeModel * model )
-{
-    GtkTreePath * path;
-    GtkTreeIter iter;
-    gint active;
-
-    path = gsb_transaction_model_get_model_path_from_sorted_path ( gtk_tree_path_new_from_string ( path_str ) );
-
-    /* Get toggled iter */
-    if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL ( model ), &iter, path ))
-    {
-	gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, TRANSACTION_COL_NB_CHECKBOX_ACTIVE, &active, -1 );
-	
-	/* Set new value */
-	gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, TRANSACTION_COL_NB_CHECKBOX_ACTIVE, ! active, -1 );
-    }
-
-    return FALSE;
-}
-
 
 
 /* Local Variables: */
