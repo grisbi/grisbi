@@ -375,7 +375,6 @@ gboolean gsb_file_util_modify_lock ( gboolean create_swp )
     }
 }
 
-
 /**
  *
  * called when loading a file, if the permissions are not set only for the user

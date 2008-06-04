@@ -1,21 +1,25 @@
-/* file gsb_file_load.c
- * used to load the gsb files */
-/*     Copyright (C)	2000-2005 Cédric Auger (cedric@grisbi.org) */
-/* 			http://www.grisbi.org */
+/* ************************************************************************** */
+/*                                                                            */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 
 #include "include.h"
@@ -242,7 +246,6 @@ gboolean file_io_fix_xml_corrupted_file_lock_tag(gchar* accounts_filename)
         fd_accounts_file = NULL;
     }
     return fix_applied;
-    
 }
 */
 
@@ -4077,10 +4080,10 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		{
 		    GDate *date;
 		    pointeur_char = g_strsplit ( attribute_values[i], "/", 0 );
+
 		    date = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
 					    utils_str_atoi ( pointeur_char[1] ),
 					    utils_str_atoi ( pointeur_char[2] ));
-
 		    gsb_data_transaction_set_date ( transaction_number,
 						    date);
 		    g_strfreev ( pointeur_char );
@@ -4093,19 +4096,23 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		     && attribute_values[i]
 		     && strlen (attribute_values[i]) )
 		{
-		    GDate *date;
 		    pointeur_char = g_strsplit ( attribute_values[i],
 						 "/",
 						 0 );
-		    date = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
-					    utils_str_atoi ( pointeur_char[1] ),
-					    utils_str_atoi ( pointeur_char[2] ));
+		    /* sometimes we had 0/0/0 */
+		    if(utils_str_atoi (pointeur_char[0]))
+		    {
+			GDate *date;
+			date = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
+						utils_str_atoi ( pointeur_char[1] ),
+						utils_str_atoi ( pointeur_char[2] ));
 
-		    gsb_data_transaction_set_value_date ( transaction_number,
-							  date );
+			gsb_data_transaction_set_value_date ( transaction_number,
+							      date );
+			if (date)
+			    g_date_free (date);
+		    }
 		    g_strfreev (pointeur_char);
-		    if (date)
-			g_date_free (date);
 		}
 
 		if ( !strcmp ( attribute_names[i],
