@@ -269,10 +269,10 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 		       GTK_SHRINK | GTK_FILL,
 		       0, 0 );
     
-    account_combobox_bank = gsb_bank_create_combobox ();
+    account_combobox_bank = gsb_bank_create_combobox (0, NULL, NULL, NULL, 0);
     g_signal_connect ( G_OBJECT (account_combobox_bank ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &account_combobox_bank );
-    gsb_bank_list_set_bank ( account_combobox_bank, 0 );
+    gsb_bank_list_set_bank ( account_combobox_bank, 0, 0 );
     gtk_table_attach ( GTK_TABLE ( table ), account_combobox_bank, 
 		       1, 2, 1, 2,
 		       GTK_SHRINK | GTK_FILL,

@@ -28,13 +28,14 @@
 /*START_INCLUDE*/
 #include "import.h"
 #include "./utils.h"
-#include "./comptes_gestion.h"
 #include "./import_csv.h"
 #include "./dialog.h"
 #include "./utils_file_selection.h"
 #include "./go-charmap-sel.h"
 #include "./gsb_account.h"
+#include "./gsb_account_property.h"
 #include "./gsb_assistant.h"
+#include "./gsb_combo_box.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
@@ -1011,11 +1012,32 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     gtk_alignment_set_padding ( GTK_ALIGNMENT ( alignement ), 0, 0, 2 * spacing + size, 0 );
     gtk_container_add ( GTK_CONTAINER ( alignement ), label );
     gtk_box_pack_start ( GTK_BOX ( compte -> hbox1 ), alignement, FALSE, FALSE, 0 );
-    compte -> bouton_type_compte = gtk_option_menu_new ();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( compte -> bouton_type_compte ), 
-			       creation_menu_type_compte () );
+
+    compte -> bouton_type_compte = gsb_combo_box_new_with_index_by_list ( gsb_account_property_create_combobox_list (),
+									  NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( compte -> hbox1 ), compte -> bouton_type_compte, 
 			 TRUE, TRUE, 0 );
+
+    /* at this level imported_account -> type_de_compte was filled while importing transactions,
+     * in qif.c or ofx.c ; but we have only 4 kind of account for now, so try to place the combobox correctly
+     * and it's the user who will choose the kind of account */
+    switch (compte -> type_de_compte)
+    {
+	case 3:
+	    gsb_combo_box_set_index ( compte -> bouton_type_compte,
+				      GSB_TYPE_LIABILITIES );
+	    break;
+
+	case 7:
+	    gsb_combo_box_set_index ( compte -> bouton_type_compte,
+				      GSB_TYPE_CASH );
+	    break;
+
+	default:
+	    gsb_combo_box_set_index ( compte -> bouton_type_compte,
+				      GSB_TYPE_BANK );
+    }
+
 
     g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox1 );
     g_object_set_data ( G_OBJECT ( radio ), "account", compte );
@@ -1407,13 +1429,13 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
 
     /* create the new account,
      * for now 3 kind of account, GSB_TYPE_BANK, GSB_TYPE_LIABILITIES or GSB_TYPE_CASH */
-    switch (imported_account -> type_de_compte)
+    switch (gsb_combo_box_get_index (imported_account -> bouton_type_compte))
     {
-	case 3:
+	case 2:
 	    kind_account = GSB_TYPE_LIABILITIES;
 	    break;
 
-	case 7:
+	case 1:
 	    kind_account = GSB_TYPE_CASH;
 	    break;
 

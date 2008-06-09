@@ -14,7 +14,6 @@ sources = \
 	barre_outils.c		\
 	categories_onglet.c	\
 	classement_echeances.c	\
-	comptes_gestion.c	\
 	comptes_onglet.c	\
 	csv_parse.c		\
 	dialog.c		\
@@ -35,6 +34,7 @@ sources = \
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
 	gsb_account.c		\
+	gsb_account_property.c	\
 	gsb_archive_config.c	\
 	gsb_assistant.c		\
 	gsb_assistant_account.c		\
@@ -140,7 +140,6 @@ grisbi_INCLUDES =		\
         balance_estimate_tab.h  \
 	categories_onglet.h	\
 	classement_echeances.h	\
-	comptes_gestion.h	\
 	comptes_onglet.h	\
         csv_parse.h             \
         etats_affiche.h         \
@@ -152,6 +151,7 @@ grisbi_INCLUDES =		\
         go-charmap-sel.h        \
         go-optionmenu.h         \
 	gsb_account.h		\
+	gsb_account_property.h	\
 	gsb_archive_config.h	\
 	gsb_assistant.h		\
 	gsb_assistant_account.h		\

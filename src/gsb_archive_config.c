@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_archive_config.h"
+#include "./gsb_account_property.h"
 #include "./gsb_autofunc.h"
 #include "./gsb_automem.h"
 #include "./gsb_data_account.h"
@@ -44,7 +45,6 @@
 #include "./traitement_variables.h"
 #include "./utils.h"
 #include "./dialog.h"
-#include "./comptes_gestion.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
@@ -614,7 +614,7 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
 	if (account_number >= 0 )
 	{
 	    /* we are on an account */
-	    remplissage_details_compte ();
+	    gsb_account_property_fill_page ();
 	    gsb_transactions_list_set_transactions_balances (account_number);
 	}
 	

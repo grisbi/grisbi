@@ -6,6 +6,8 @@
 
 
 /* START_DECLARATION */
+gboolean gsb_editable_erase_text_view ( GtkWidget *button,
+					GtkWidget *text_view );
 gchar *gsb_editable_text_view_get_content ( GtkWidget *text_view );
 GtkWidget *gsb_editable_text_view_new ( const gchar *value );
 gsb_real gsb_utils_edit_calculate_entry ( GtkWidget *entry );

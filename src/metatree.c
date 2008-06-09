@@ -25,6 +25,7 @@
 /*START_INCLUDE*/
 #include "metatree.h"
 #include "./dialog.h"
+#include "./gsb_account_property.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_scheduled.h"
@@ -37,7 +38,6 @@
 #include "./gtk_combofix.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
-#include "./comptes_gestion.h"
 #include "./fenetre_principale.h"
 #include "./gtk_combofix.h"
 #include "./gsb_data_transaction.h"
@@ -1091,7 +1091,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 	    }
 
 	    navigation_change_account ( GINT_TO_POINTER ( gsb_data_transaction_get_account_number (transaction_number)));
-	    remplissage_details_compte ();
+	    gsb_account_property_fill_page ();
 	    gsb_gui_notebook_change_page ( GSB_ACCOUNT_PAGE );
 	    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, 
 					       gsb_data_transaction_get_account_number (transaction_number), 

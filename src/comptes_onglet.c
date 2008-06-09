@@ -25,7 +25,7 @@
 
 /*START_INCLUDE*/
 #include "comptes_onglet.h"
-#include "./comptes_gestion.h"
+#include "./gsb_account_property.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -47,7 +47,7 @@ GtkWidget *creation_onglet_comptes ( void )
 {
     GtkWidget * box;
 
-    box = creation_details_compte ();
+    box = gsb_account_property_create_page ();
 
     gtk_widget_show_all (box);
 

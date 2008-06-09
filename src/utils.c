@@ -88,21 +88,39 @@ gboolean sens_desensitive_pointeur ( GtkWidget *bouton,
 }
 
 
-/******************************************************************************/
-void sensitive_widget ( GtkWidget *widget )
+/**
+ * sensitive a widget
+ * this is usually a callback, so 2 parameters, the first one is not used
+ *
+ * \param object the object wich receive the signal, not used so can be NULL
+ * \param widget the widget to sensitive
+ *
+ * \return FALSE
+ * */
+gboolean sensitive_widget ( gpointer object,
+			    GtkWidget *widget )
 {
     gtk_widget_set_sensitive ( widget,
 			       TRUE );
+    return FALSE;
 }
-/******************************************************************************/
 
-/******************************************************************************/
-void desensitive_widget ( GtkWidget *widget )
+/**
+ * unsensitive a widget
+ * this is usually a callback, so 2 parameters, the first one is not used
+ *
+ * \param object the object wich receive the signal, not used so can be NULL
+ * \param widget the widget to unsensitive
+ *
+ * \return FALSE
+ * */
+gboolean desensitive_widget ( gpointer object,
+			      GtkWidget *widget )
 {
     gtk_widget_set_sensitive ( widget,
 			       FALSE );
+    return FALSE;
 }
-/******************************************************************************/
 
 
 

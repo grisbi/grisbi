@@ -46,6 +46,8 @@
 /*START_STATIC*/
 static  gboolean gsb_bank_add ( GtkWidget *button,
 			       gpointer null );
+static  gboolean gsb_bank_combobox_changed ( GtkWidget *combobox,
+					    gboolean default_func (gint, gint));
 static  gboolean gsb_bank_create_combobox_model ( void );
 static  GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 					 GtkWidget *combobox );
@@ -115,12 +117,21 @@ extern GtkWidget *window ;
 
 /**
  * create a combo_box with the name of all the banks and an 'add' button at the end
+ * update too if filled the value of the associated account (see gsb_autofunc_... for more explains)
  *
- * \param none
+ * \param bank the index we want to place the combobox
+ * \param hook an optional function to execute if the combobox is modified
+ * \param data an optional pointer to pass to hook
+ * \param default_func a function to change the value in memory (should be gsb_data_account_set_bank or NULL)
+ * \param number_for_func the gint to send to the default_func (should be the account number)
  *
  * \return GtkWidget * the combo_box
  * */
-GtkWidget *gsb_bank_create_combobox ( void )
+GtkWidget *gsb_bank_create_combobox ( gint index,
+				      GCallback hook,
+				      gpointer data,
+				      GCallback default_func,
+				      gint number_for_func )
 {
     GtkWidget *combo_box;
     GtkCellRenderer *renderer;
@@ -149,6 +160,21 @@ GtkWidget *gsb_bank_create_combobox ( void )
 		       G_CALLBACK (gsb_bank_list_changed),
 		       NULL );
 
+    /* add the defaut func if exists */
+    g_object_set_data ( G_OBJECT (combo_box),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+    if (default_func)
+	g_object_set_data ( G_OBJECT (combo_box), "changed", 
+			    (gpointer) g_signal_connect_after (G_OBJECT(combo_box), "changed",
+							       G_CALLBACK (gsb_bank_combobox_changed), default_func ));
+    /* add the hook if exists */
+    if ( hook )
+	g_object_set_data ( G_OBJECT (combo_box), "changed-hook", 
+			    (gpointer) g_signal_connect_after (GTK_OBJECT(combo_box), "changed",
+							       ((GCallback) hook), data ));
+
+    /* set the index */
+    gsb_bank_list_set_bank (combo_box, index, number_for_func);
     return combo_box;
 }
 
@@ -185,11 +211,13 @@ gint gsb_bank_list_get_bank_number ( GtkWidget *combobox )
  *
  * \param combobox
  * \param bank_number 0 for none, -1 for new bank
+ * \param number_for_func the number to give to the default_func when something changed 
  *
- * \return TRUE ok, FALSE problem
+ * \return FALSE
  * */
 gboolean gsb_bank_list_set_bank ( GtkWidget *combobox,
-				  gint bank_number )
+				  gint bank_number,
+				  gint number_for_func )
 {
     GtkTreeIter iter;
 
@@ -199,6 +227,16 @@ gboolean gsb_bank_list_set_bank ( GtkWidget *combobox,
     if (!gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (bank_list_model),
 					 &iter ))
 	return FALSE;
+
+    /* Block hook and default_func */
+    if ( g_object_get_data (G_OBJECT (combobox), "changed") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(combobox),
+				 (gulong) g_object_get_data (G_OBJECT (combobox), 
+							     "changed"));
+    if ( g_object_get_data (G_OBJECT (combobox), "changed-hook") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(combobox),
+				 (gulong) g_object_get_data (G_OBJECT (combobox), 
+							     "changed-hook"));
 
     do
     {
@@ -214,14 +252,56 @@ gboolean gsb_bank_list_set_bank ( GtkWidget *combobox,
 	    /* bank found */
 	    gtk_combo_box_set_active_iter ( GTK_COMBO_BOX (combobox),
 					    &iter );
-	    return TRUE;
+	    break;
 	}
     }
     while (gtk_tree_model_iter_next (GTK_TREE_MODEL (bank_list_model), &iter));
 
-    /* bank not found */
+    g_object_set_data ( G_OBJECT (combobox),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+
+    /* Unblock everything */
+    if ( g_object_get_data (G_OBJECT (combobox), "changed") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(combobox),
+				   (gulong) g_object_get_data (G_OBJECT (combobox), 
+							       "changed"));
+    if ( g_object_get_data (G_OBJECT (combobox), "changed-hook") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(combobox),
+				   (gulong) g_object_get_data (G_OBJECT (combobox), 
+							       "changed-hook"));
     return FALSE;
 }
+
+
+
+/**
+ * called when the place change in the bank combobox
+ *
+ * \param combobox The reference Combobox
+ * \param default_func the function to call to change the value in memory
+ *
+ * \return FALSE
+ */
+static gboolean gsb_bank_combobox_changed ( GtkWidget *combobox,
+					    gboolean default_func (gint, gint))
+{
+    gint number_for_func;
+
+    /* just to be sure... */
+    if (!default_func || !combobox)
+	return FALSE;
+
+    number_for_func = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (combobox), "number_for_func"));
+    default_func ( number_for_func,
+		   gsb_bank_list_get_bank_number (combobox));
+
+    /* Mark file as modified */
+    modification_fichier ( TRUE );
+
+    return FALSE;
+}
+
+
 
 
 /**
@@ -279,10 +359,14 @@ static gboolean gsb_bank_update_selected_line_model ( GtkWidget *combobox )
     GtkTreeIter iter;
     GSList *list_tmp;
     gint save_bank_number = -1;
+    gint number_for_func = 0;
 
     /* save the selection */
     if (combobox)
+    {
 	save_bank_number = gsb_bank_list_get_bank_number (combobox);
+	number_for_func = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (combobox), "number_for_func"));
+    }
 
     /* if no bank model, create it */
     if (!bank_list_model)
@@ -336,7 +420,7 @@ static gboolean gsb_bank_update_selected_line_model ( GtkWidget *combobox )
 
     /* restore the selection */
     if (combobox)
-	gsb_bank_list_set_bank (combobox, save_bank_number);
+	gsb_bank_list_set_bank (combobox, save_bank_number, number_for_func);
 
     return TRUE;
 }
@@ -1024,7 +1108,7 @@ static gboolean gsb_bank_add ( GtkWidget *button,
     else
     {
 	/* it's a combobox, come here via add new bank */
-	gsb_bank_list_set_bank (button, bank_number);
+	gsb_bank_list_set_bank (button, bank_number, 0);
 	gsb_bank_edit_bank (bank_number, button);
     }
 

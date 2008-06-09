@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_currency.h"
+#include "./gsb_autofunc.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_currency_link.h"
@@ -168,6 +169,7 @@ gchar * gsb_format_amount ( gsb_real amount, gint currency )
 
 /**
  * create and return a combobox with the currencies
+ * for automatic value changed in memory, see gsb_autofunc_currency_new
  *
  * \param set_name if TRUE, the currencies in the combobox will be name(code), else it will be only the code
  *

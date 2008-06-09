@@ -1029,7 +1029,7 @@ gboolean gsb_transactions_list_fill_archive_store ( GtkTreeStore *store )
      * the list is already enough long,
      * so we read the transations list only one time */
     GSList *tmp_list;
-    devel_debug ("gsb_transactions_list_fill_archive_store");
+    devel_debug (NULL);
 
     tmp_list = gsb_data_archive_store_get_archives_list ();
     while (tmp_list)
@@ -1038,10 +1038,10 @@ gboolean gsb_transactions_list_fill_archive_store ( GtkTreeStore *store )
 	gint archive_store_number;
 	gchar *date_str;
 	gchar *name_str;
-	gchar *balance_str;
+	gchar *amount_str;
 	gint date_col;
 	gint name_col;
-	gint balance_col;
+	gint amount_col;
 	gint archive_number;
 
 	/* get the store archive struct */
@@ -1053,15 +1053,16 @@ gboolean gsb_transactions_list_fill_archive_store ( GtkTreeStore *store )
 	name_str = g_strdup_printf ( _("archive %s (%d transactions)"),
 				     gsb_data_archive_get_name (archive_number),
 				     gsb_data_archive_store_get_transactions_number (archive_store_number));
-	balance_str = gsb_real_get_string_with_currency (gsb_data_archive_store_get_balance (archive_store_number),
-							 gsb_data_archive_store_get_account_number (archive_store_number), TRUE);
+	amount_str = gsb_real_get_string_with_currency (gsb_data_archive_store_get_balance (archive_store_number),
+							gsb_data_account_get_currency (gsb_data_archive_store_get_account_number (archive_store_number)),
+							TRUE);
 
 	date_col = find_element_col (TRANSACTION_LIST_DATE);
 	name_col = find_element_col (TRANSACTION_LIST_PARTY);
 	if ((gsb_data_archive_store_get_balance (archive_store_number)).mantissa < 0)
-	    balance_col = find_element_col (TRANSACTION_LIST_DEBIT);
+	    amount_col = find_element_col (TRANSACTION_LIST_DEBIT);
 	else
-	    balance_col = find_element_col (TRANSACTION_LIST_CREDIT);
+	    amount_col = find_element_col (TRANSACTION_LIST_CREDIT);
 
 	/* append the line now */
 	gtk_tree_store_append ( store,
@@ -1076,7 +1077,7 @@ gboolean gsb_transactions_list_fill_archive_store ( GtkTreeStore *store )
 			     &iter,
 			     date_col, date_str,
 			     name_col, name_str,
-			     balance_col, balance_str,
+			     amount_col, amount_str,
 			     TRANSACTION_COL_NB_CHECKBOX_VISIBLE, 0,
 			     TRANSACTION_COL_NB_CHECKBOX_VISIBLE_RECONCILE, 0,
 			     TRANSACTION_COL_NB_TRANSACTION_LINE, 0,
@@ -1085,7 +1086,7 @@ gboolean gsb_transactions_list_fill_archive_store ( GtkTreeStore *store )
 			     -1 );
 	g_free (date_str);
 	g_free (name_str);
-	g_free (balance_str);
+	g_free (amount_str);
 	tmp_list = tmp_list -> next;
     }
     return FALSE;

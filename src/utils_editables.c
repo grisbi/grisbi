@@ -93,6 +93,31 @@ gchar *gsb_editable_text_view_get_content ( GtkWidget *text_view )
 }
 
 
+/**
+ * erase the text view given in param
+ *
+ * \param button not used
+ * \param text_view the text_view to erase
+ *
+ * \return FALSE
+ * */
+gboolean gsb_editable_erase_text_view ( GtkWidget *button,
+					GtkWidget *text_view )
+{
+    GtkTextBuffer *buffer;
+    GtkTextIter start_iter;
+    GtkTextIter end_iter;
+
+    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+    gtk_text_buffer_get_start_iter ( GTK_TEXT_BUFFER (buffer),
+				     &start_iter );
+    gtk_text_buffer_get_end_iter ( GTK_TEXT_BUFFER (buffer),
+				   &end_iter );
+    gtk_text_buffer_delete ( GTK_TEXT_BUFFER (buffer),
+			     &start_iter,
+			     &end_iter );
+    return FALSE;
+}
 
 /**
  *  Increment or decrement the value of a GtkEntry.

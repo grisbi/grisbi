@@ -27,6 +27,7 @@
 #include "navigation.h"
 #include "./balance_estimate_tab.h"
 #include "./echeancier_infos.h"
+#include "./gsb_account_property.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_reconcile.h"
 #include "./gsb_data_report.h"
@@ -44,7 +45,6 @@
 #include "./main.h"
 #include "./accueil.h"
 #include "./traitement_variables.h"
-#include "./comptes_gestion.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
 #include "./tiers_onglet.h"
@@ -156,7 +156,7 @@ GtkWidget * create_navigation_pane ( void )
     /* Create the view */
     navigation_tree_view = gtk_tree_view_new ();
     g_signal_connect ( G_OBJECT (navigation_tree_view ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &navigation_tree_view );
+		       G_CALLBACK ( gtk_widget_destroyed), &navigation_tree_view );
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(navigation_tree_view), FALSE );
     gtk_container_add ( GTK_CONTAINER(sw), navigation_tree_view );
 
@@ -184,7 +184,6 @@ GtkWidget * create_navigation_pane ( void )
 				  GTK_SELECTION_SINGLE );
     gtk_tree_view_set_model ( GTK_TREE_VIEW(navigation_tree_view), 
 			      GTK_TREE_MODEL(navigation_model) );
-    g_object_unref ( G_OBJECT(navigation_model));
 
     /* Handle drag & drop */
     navigation_dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (navigation_model);
@@ -1126,7 +1125,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     gchar * title = NULL; 
     gchar * suffix = NULL; 
 
-    devel_debug ("gsb_gui_navigation_select_line");
+    devel_debug (NULL);
 
     page_number = gsb_gui_navigation_get_current_page ();
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
@@ -1140,6 +1139,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     {
 	gtk_widget_hide_all ( scheduler_calendar );
     }
+
     switch ( page_number )
     {
 	case GSB_HOME_PAGE:
@@ -1166,10 +1166,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 	    gsb_gui_sensitive_menu_item ( "EditMenu", "RemoveAccount", NULL, TRUE );
 
-	    /* we change the account, check before if the properties are not changed,
-	     * and save them if necessary */
-	    sort_du_detail_compte ();
-
 	    account_number = gsb_gui_navigation_get_current_account ();
 
 	    /* set the title */
@@ -1192,7 +1188,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    if (account_number >= 0 )
 	    {
 		navigation_change_account ( GINT_TO_POINTER(account_number) );
-		remplissage_details_compte ();
+		gsb_account_property_fill_page ();
 	    }
 	    gsb_menu_update_accounts_in_menus ();
 

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cedric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cedric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -35,6 +35,8 @@
 /*START_INCLUDE*/
 #include "gsb_autofunc.h"
 #include "./gsb_calendar_entry.h"
+#include "./gsb_combo_box.h"
+#include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_bank.h"
 #include "./gsb_data_category.h"
@@ -50,12 +52,19 @@
 /*START_STATIC*/
 static  gboolean gsb_autofunc_checkbutton_changed ( GtkWidget *button,
 						   gboolean default_func (gint, gboolean));
+static  gboolean gsb_autofunc_combobox_changed ( GtkWidget *combobox,
+						gboolean default_func (gint, gint));
+static  gboolean gsb_autofunc_currency_changed ( GtkWidget *combobox,
+						gboolean default_func (gint, gint));
 static  gboolean gsb_autofunc_date_changed ( GtkWidget *entry,
 					    gboolean default_func (gint, const GDate *));
 static  gboolean gsb_autofunc_entry_changed ( GtkWidget *entry,
 					     gboolean default_func (gint, const gchar *));
 static  gboolean gsb_autofunc_int_changed ( GtkWidget *entry,
 					   gboolean default_func (gint, gint));
+static void gsb_autofunc_radiobutton_set_value ( GtkWidget *radiobutton_box,
+					  gboolean value,
+					  gint number_for_func );
 static  gboolean gsb_autofunc_real_changed ( GtkWidget *entry,
 					    gboolean default_func (gint, gsb_real));
 static  gboolean gsb_autofunc_spin_changed ( GtkWidget *spin_button,
@@ -235,6 +244,11 @@ GtkWidget *gsb_autofunc_textview_new ( const gchar *value,
     GtkTextBuffer *buffer;
 
     text_view = gsb_editable_text_view_new(value);
+    gtk_text_view_set_pixels_above_lines (GTK_TEXT_VIEW (text_view), 3);
+    gtk_text_view_set_pixels_below_lines (GTK_TEXT_VIEW (text_view), 3);
+    gtk_text_view_set_left_margin (GTK_TEXT_VIEW (text_view), 3);
+    gtk_text_view_set_right_margin (GTK_TEXT_VIEW (text_view), 3);
+    gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD );
 
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
 
@@ -771,9 +785,11 @@ static gboolean gsb_autofunc_checkbutton_changed ( GtkWidget *button,
  * 			 gboolean yes/no )
  * ex : gsb_data_category_set_type ( category_number, type )
  *
+ * the 2 button's pointer are saved in the box as "button1" and "button2"
+ *
  * \param choice1 First choice label
  * \param choice2 Second choice label
- * \param value A pointer to an integer that will be set to 0 or 1
+ * \param value A boolean that will be set to 0 or 1
  *        according to buttons toggles. (choice 2 selected means boolean = TRUE in the function)
  * \param hook An optional hook to run at each toggle
  * \param data optional data to send to hook
@@ -811,11 +827,69 @@ GtkWidget *gsb_autofunc_radiobutton_new ( const gchar *choice1,
     g_signal_connect ( G_OBJECT ( button2 ), "toggled",
 		       G_CALLBACK (gsb_autofunc_checkbutton_changed), default_func );
 
+    g_object_set_data (G_OBJECT (vbox),
+		       "button1", button1 );
+    g_object_set_data (G_OBJECT (vbox),
+		       "button2", button2 );
+
     if (hook)
 	g_signal_connect ( G_OBJECT ( button2 ), "toggled",
 			   G_CALLBACK (hook), data );
 
     return vbox;
+}
+
+
+
+/** 
+ * set the value in a gsb_editable_checkbutton
+ * a value is in 2 parts :
+ * 	a boolean, 0 to active the first button, 1 for the second
+ * 	a number, wich is used when there is a change in that button (see gsb_autofunc_checkbutton_new)
+ *
+ * \param radiobutton_box the vbox returned by gsb_autofunc_radiobutton_new containing the 2 radiobuttons
+ * \param value 0 to active the first button, 1 to active the second button
+ * \param number_for_func the number to give to the called function when something is changed
+ *
+ * \return
+ */
+void gsb_autofunc_radiobutton_set_value ( GtkWidget *radiobutton_box,
+					  gboolean value,
+					  gint number_for_func )
+{
+    GtkWidget *button1, *button2;
+
+    button1 = g_object_get_data (G_OBJECT (radiobutton_box), "button1");
+    button2 = g_object_get_data (G_OBJECT (radiobutton_box), "button2");
+
+    /* Block everything, the signals were on button2  */
+    if ( g_object_get_data (G_OBJECT (button2), "changed") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(button2),
+				 (gulong) g_object_get_data (G_OBJECT (button2), 
+							     "changed"));
+    if ( g_object_get_data (G_OBJECT (button2), "changed-hook") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(button2),
+				 (gulong) g_object_get_data (G_OBJECT (button2), 
+							     "changed-hook"));
+
+    /* Fill in value */
+    if (value)
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button2 ), TRUE );
+    else
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button1 ), TRUE );
+
+    g_object_set_data ( G_OBJECT (button2),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+
+    /* Unblock everything */
+    if ( g_object_get_data (G_OBJECT (button2), "changed") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(button2),
+				   (gulong) g_object_get_data (G_OBJECT (button2), 
+							       "changed"));
+    if ( g_object_get_data (G_OBJECT (button2), "changed-hook") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(button2),
+				   (gulong) g_object_get_data (G_OBJECT (button2), 
+							       "changed-hook"));
 }
 
 
@@ -1089,5 +1163,270 @@ static gboolean gsb_autofunc_real_changed ( GtkWidget *entry,
 
     return FALSE;
 }
+
+
+/*
+ * creates a new Combobox wich will modify the value according to the index
+ * but made for values in grisbi structure :
+ * for each change, will call the corresponding given function : gsb_data_... ( number, index )
+ * ie the target function must be :
+ * 	(default_func) ( gint number_for_func,
+ * 			 gint index )
+ * ex : gsb_data_account_set_kind ( account_number, account_kind )
+ *
+ * basically, that combobox is created with gsb_combo_box_new_with_index_by_list, so can use that functions to get the index
+ * 	if necessary
+ *
+ * \param list a g_slist to create the combobox (succession of text and number, see gsb_combo_box_new_with_index_by_list)
+ * \param index the index to place the combobox
+ * \param hook an optional function to execute as a handler if the
+ * 	combobox changed.
+ * 	hook should be :
+ * 		gboolean hook ( GtkWidget *combobox,
+ * 				gpointer data )
+ *
+ * \param data An optional pointer to pass to hooks.
+ * \param default_func The function to call to change the value in memory (function must be func ( number, number ) ) or NULL
+ * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * 				that number can be changed with gsb_autofunc_combobox_set_index
+ *
+ * \return a new GtkComboBox
+ * */
+GtkWidget *gsb_autofunc_combobox_new ( GSList *list,
+				       gint index,
+				       GCallback hook,
+				       gpointer data,
+				       GCallback default_func,
+				       gint number_for_func )
+{
+    GtkWidget *combobox;
+
+    /* create and fill the combobox */
+    combobox = gsb_combo_box_new_with_index_by_list ( list, NULL, NULL );
+
+    gsb_combo_box_set_index (combobox, index);
+
+    /* set the default func :
+     * the func will be sent to gsb_autofunc_combobox_changed by the data,
+     * the number_for_func will be set as data for object */
+    g_object_set_data ( G_OBJECT (combobox),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+    if (default_func)
+	g_object_set_data ( G_OBJECT (combobox), "changed", 
+			    (gpointer) g_signal_connect_after (G_OBJECT(combobox), "changed",
+							       G_CALLBACK (gsb_autofunc_combobox_changed), default_func ));
+    if ( hook )
+	g_object_set_data ( G_OBJECT (combobox), "changed-hook", 
+			    (gpointer) g_signal_connect_after (G_OBJECT(combobox), "changed",
+							       G_CALLBACK (hook), data ));
+    return combobox;
+}
+
+
+/** 
+ * set the value in a gsb_autofunc_combobox
+ * a value is in 2 parts :
+ * 	an index, wich place the combobox on the good place
+ * 	a number, wich is used when there is a change in that combobox (see gsb_autofunc_combobox_new)
+ *
+ * \param combobox
+ * \param index the index to place the combobox
+ * \param number_for_func the number to give to the called function when something is changed
+ *
+ * \return
+ */
+void gsb_autofunc_combobox_set_index ( GtkWidget *combobox,
+				       gint index,
+				       gint number_for_func )
+{
+    /* Block everything */
+    if ( g_object_get_data (G_OBJECT (combobox), "changed") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(combobox),
+				 (gulong) g_object_get_data (G_OBJECT (combobox), 
+							     "changed"));
+    if ( g_object_get_data (G_OBJECT (combobox), "changed-hook") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(combobox),
+				 (gulong) g_object_get_data (G_OBJECT (combobox), 
+							     "changed-hook"));
+
+    /* place the combobox */
+    gsb_combo_box_set_index (combobox, index );
+
+    g_object_set_data ( G_OBJECT (combobox),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+
+    /* Unblock everything */
+    if ( g_object_get_data (G_OBJECT (combobox), "changed") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(combobox),
+				   (gulong) g_object_get_data (G_OBJECT (combobox), 
+							       "changed"));
+    if ( g_object_get_data (G_OBJECT (combobox), "changed-hook") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(combobox),
+				   (gulong) g_object_get_data (G_OBJECT (combobox), 
+							       "changed-hook"));
+}
+
+
+
+/**
+ * called when the place change in the autofunc combobox
+ *
+ * \param combobox The reference Combobox
+ * \param default_func the function to call to change the value in memory
+ *
+ * \return FALSE
+ */
+static gboolean gsb_autofunc_combobox_changed ( GtkWidget *combobox,
+						gboolean default_func (gint, gint))
+{
+    gint number_for_func;
+
+    /* just to be sure... */
+    if (!default_func || !combobox)
+	return FALSE;
+
+    number_for_func = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (combobox), "number_for_func"));
+    default_func ( number_for_func,
+		   gsb_combo_box_get_index (combobox));
+
+    /* Mark file as modified */
+    modification_fichier ( TRUE );
+
+    return FALSE;
+}
+
+
+/*
+ * This create a combobox of currencies, this is basically the same as gsb_autofunc_combobox_new
+ * 	but work only with currencies
+ *
+ * for each change, will call the corresponding given function : gsb_data_... ( number, currency_number )
+ * ie the target function must be :
+ * 	(default_func) ( gint number_for_func,
+ * 			 gint currency_number )
+ * ex : gsb_data_account_set_currency ( account_number, currency_number )
+ *
+ * basically, that combobox is created with gsb_currency_make_combobox, so can use that functions to get the index
+ * 	if necessary
+ *
+ * \param set_name TRUE to show the name of the currencies in the combobox
+ * \param currency_number the currency we want to show
+ * \param hook an optional function to execute as a handler if the
+ * 	combobox changed.
+ * 	hook should be :
+ * 		gboolean hook ( GtkWidget *combobox,
+ * 				gpointer data )
+ *
+ * \param data An optional pointer to pass to hooks.
+ * \param default_func The function to call to change the value in memory (function must be func ( number, currency_number ) ) or NULL
+ * \param number_for_func a gint wich we be used to call default_func (will be saved as g_object_set_data with "number_for_func")
+ * 				that number can be changed with gsb_autofunc_currency_set_currency_number
+ *
+ * \return a new GtkComboBox 
+ * */
+GtkWidget *gsb_autofunc_currency_new ( gboolean set_name,
+				       gint currency_number,
+				       GCallback hook,
+				       gpointer data,
+				       GCallback default_func,
+				       gint number_for_func )
+{
+    GtkWidget *combobox;
+
+    /* create and fill the combobox */
+    combobox = gsb_currency_make_combobox (set_name);
+
+    gsb_currency_set_combobox_history (combobox, currency_number);
+
+    /* set the default func :
+     * the func will be sent to gsb_autofunc_currency_changed by the data,
+     * the number_for_func will be set as data for object */
+    g_object_set_data ( G_OBJECT (combobox),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+
+   if (default_func)
+	g_object_set_data ( G_OBJECT (combobox), "changed", 
+			    (gpointer) g_signal_connect_after (G_OBJECT(combobox), "changed",
+							       G_CALLBACK (gsb_autofunc_currency_changed), default_func ));
+    if ( hook )
+	g_object_set_data ( G_OBJECT (combobox), "changed-hook", 
+			    (gpointer) g_signal_connect_after (G_OBJECT(combobox), "changed",
+							       G_CALLBACK (hook), data ));
+     return combobox;
+}
+
+
+/** 
+ * show the currency in a gsb_autofunc_currency
+ * a value is in 2 parts :
+ * 	an currency number, wich place the combobox on the good place
+ * 	a number, wich is used when there is a change in that combobox (see gsb_autofunc_currency_new)
+ *
+ * \param combobox
+ * \param currency_number the currency to place the combobox
+ * \param number_for_func the number to give to the called function when something is changed
+ *
+ * \return
+ */
+void gsb_autofunc_currency_set_currency_number ( GtkWidget *combobox,
+						 gint currency_number,
+						 gint number_for_func )
+{
+    /* Block everything */
+    if ( g_object_get_data (G_OBJECT (combobox), "changed") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(combobox),
+				 (gulong) g_object_get_data (G_OBJECT (combobox), 
+							     "changed"));
+    if ( g_object_get_data (G_OBJECT (combobox), "changed-hook") > 0 )
+	g_signal_handler_block ( GTK_OBJECT(combobox),
+				 (gulong) g_object_get_data (G_OBJECT (combobox), 
+							     "changed-hook"));
+
+    /* place the combobox */
+    gsb_currency_set_combobox_history (combobox, currency_number);
+
+    g_object_set_data ( G_OBJECT (combobox),
+			"number_for_func", GINT_TO_POINTER (number_for_func));
+
+    /* Unblock everything */
+    if ( g_object_get_data (G_OBJECT (combobox), "changed") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(combobox),
+				   (gulong) g_object_get_data (G_OBJECT (combobox), 
+							       "changed"));
+    if ( g_object_get_data (G_OBJECT (combobox), "changed-hook") > 0 )
+	g_signal_handler_unblock ( GTK_OBJECT(combobox),
+				   (gulong) g_object_get_data (G_OBJECT (combobox), 
+							       "changed-hook"));
+}
+
+
+
+/**
+ * called when the place change in the autofunc currency
+ *
+ * \param combobox The reference Combobox
+ * \param default_func the function to call to change the value in memory
+ *
+ * \return FALSE
+ */
+static gboolean gsb_autofunc_currency_changed ( GtkWidget *combobox,
+						gboolean default_func (gint, gint))
+{
+    gint number_for_func;
+
+    /* just to be sure... */
+    if (!default_func || !combobox)
+	return FALSE;
+
+    number_for_func = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (combobox), "number_for_func"));
+    default_func ( number_for_func,
+		   gsb_currency_get_currency_from_combobox (combobox));
+
+    /* Mark file as modified */
+    modification_fichier ( TRUE );
+
+    return FALSE;
+}
+
 
 

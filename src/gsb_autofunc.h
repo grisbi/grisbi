@@ -16,6 +16,24 @@ GtkWidget *gsb_autofunc_checkbutton_new ( const gchar *label,
 void gsb_autofunc_checkbutton_set_value ( GtkWidget *button,
 					  gboolean value,
 					  gint number_for_func );
+GtkWidget *gsb_autofunc_combobox_new ( GSList *list,
+				       gint index,
+				       GCallback hook,
+				       gpointer data,
+				       GCallback default_func,
+				       gint number_for_func );
+void gsb_autofunc_combobox_set_index ( GtkWidget *combobox,
+				       gint index,
+				       gint number_for_func );
+GtkWidget *gsb_autofunc_currency_new ( gboolean set_name,
+				       gint currency_number,
+				       GCallback hook,
+				       gpointer data,
+				       GCallback default_func,
+				       gint number_for_func );
+void gsb_autofunc_currency_set_currency_number ( GtkWidget *combobox,
+						 gint currency_number,
+						 gint number_for_func );
 GtkWidget *gsb_autofunc_date_new ( const GDate *date,
 				   GCallback hook,
 				   gpointer data,

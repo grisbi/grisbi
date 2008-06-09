@@ -181,7 +181,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 
 		case SCHEDULED_FORM_AUTO:
 		    widget = gsb_combo_box_new_with_index ( text_auto,
-							    NULL );
+							    NULL, NULL );
 		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 					   widget,
 					   _("Automatic/manual scheduled transaction"),
@@ -190,7 +190,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 
 		case SCHEDULED_FORM_FREQUENCY_BUTTON:
 		    widget = gsb_combo_box_new_with_index ( text_frequency,
-							    G_CALLBACK (gsb_form_scheduler_frequency_button_changed));
+							    G_CALLBACK (gsb_form_scheduler_frequency_button_changed), NULL );
 		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 					   widget,
 					   _("Frequency"),
@@ -224,7 +224,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 
 		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
 		    widget = gsb_combo_box_new_with_index ( text_frequency_user,
-							    NULL );
+							    NULL, NULL );
 		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 					   widget,
 					   _("Custom frequency"),

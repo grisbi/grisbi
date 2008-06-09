@@ -4002,34 +4002,34 @@ void remplit_liste_comparaisons_textes_etat ( void )
 	    /* 	  on est sur un chq ou une pc */
 	    /* on rend sensitif les check button et la hbox correspondante */
 
-	    sensitive_widget (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number));
-	    sensitive_widget (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number));
+	    sensitive_widget (NULL, gsb_data_report_text_comparison_get_button_use_text (text_comparison_number));
+	    sensitive_widget (NULL, gsb_data_report_text_comparison_get_button_use_number (text_comparison_number));
 	    sensitive_hbox_fonction_bouton_txt (text_comparison_number);
 	}
 	else
 	{
-	    desensitive_widget (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number));
-	    desensitive_widget (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number));
-	    desensitive_widget (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number));
-	    sensitive_widget (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number));
+	    desensitive_widget (NULL, gsb_data_report_text_comparison_get_button_use_text (text_comparison_number));
+	    desensitive_widget (NULL, gsb_data_report_text_comparison_get_button_use_number (text_comparison_number));
+	    desensitive_widget (NULL, gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number));
+	    sensitive_widget (NULL, gsb_data_report_text_comparison_get_hbox_text (text_comparison_number));
 	}
 	/* on sensitive/désensitive l'entrée txt*/
 
 	if ( gsb_data_report_text_comparison_get_operator (text_comparison_number) >= 4 )
-	    desensitive_widget (gsb_data_report_text_comparison_get_entry_text (text_comparison_number));
+	    desensitive_widget (NULL, gsb_data_report_text_comparison_get_entry_text (text_comparison_number));
 
 	/* on sensitive/désensitive les entrées de montant si nécessaire */
 
 	if ( gsb_data_report_text_comparison_get_first_comparison (text_comparison_number) == 6 )
-	    desensitive_widget (gsb_data_report_text_comparison_get_entry_first_amount (text_comparison_number));
+	    desensitive_widget (NULL, gsb_data_report_text_comparison_get_entry_first_amount (text_comparison_number));
 
 	if ( gsb_data_report_text_comparison_get_second_comparison (text_comparison_number) == 6 )
-	    desensitive_widget (gsb_data_report_text_comparison_get_entry_second_amount (text_comparison_number));
+	    desensitive_widget (NULL, gsb_data_report_text_comparison_get_entry_second_amount (text_comparison_number));
 
 	/* on sensitive/désensitive la hbox_2 si nécessaire */
 
 	if ( gsb_data_report_text_comparison_get_link_first_to_second_part (text_comparison_number) == 3 )
-	    desensitive_widget (gsb_data_report_text_comparison_get_hbox_second_part (text_comparison_number));
+	    desensitive_widget (NULL, gsb_data_report_text_comparison_get_hbox_second_part (text_comparison_number));
 
 	list_tmp = list_tmp -> next;
     }
@@ -4504,22 +4504,22 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
 				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("payee information"));
@@ -4532,22 +4532,22 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
 				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("category"));
@@ -4560,22 +4560,22 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
 				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("sub-category"));
@@ -4588,22 +4588,22 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
 				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("budgetary line"));
@@ -4616,22 +4616,22 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
 				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("sub-budgetary line"));
@@ -4644,22 +4644,22 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
 				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("note"));
@@ -4672,22 +4672,22 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
 				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("bank reference"));
@@ -4700,22 +4700,22 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
 				"activate",
 				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
 				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("voucher"));
@@ -4724,14 +4724,14 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_champ",
 			  GINT_TO_POINTER ( 8 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 			       "activate",
 			       G_CALLBACK ( sensitive_hbox_fonction_bouton_txt ),
@@ -4745,14 +4745,14 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_champ",
 			  GINT_TO_POINTER ( 9 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 				"activate",
 				G_CALLBACK ( sensitive_hbox_fonction_bouton_txt ),
@@ -4765,14 +4765,14 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_champ",
 			  GINT_TO_POINTER ( 10 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 				"activate",
 				G_CALLBACK ( sensitive_hbox_fonction_bouton_txt ),
@@ -4820,10 +4820,10 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_operateur",
 			  GINT_TO_POINTER ( 0 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("doesn't contain"));
@@ -4832,10 +4832,10 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_operateur",
 			  GINT_TO_POINTER ( 1 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("begins with"));
@@ -4844,10 +4844,10 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_operateur",
 			  GINT_TO_POINTER ( 2 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("ends with"));
@@ -4856,10 +4856,10 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_operateur",
 			  GINT_TO_POINTER ( 3 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("is empty"));
@@ -4868,10 +4868,10 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_operateur",
 			  GINT_TO_POINTER ( 4 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("isn't empty"));
@@ -4880,10 +4880,10 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_operateur",
 			  GINT_TO_POINTER ( 5 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
 
@@ -5078,22 +5078,22 @@ void remplit_liste_comparaisons_montants_etat ( void )
 	/* on sensitive/désensitive les entrées si nécessaire */
 
 	if ( gsb_data_report_amount_comparison_get_first_comparison (amount_comparison_number) > 5 )
-	    desensitive_widget (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number));
+	    desensitive_widget (NULL, gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number));
 	else
-	    sensitive_widget (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number));
+	    sensitive_widget (NULL, gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number));
 
 	if ( gsb_data_report_amount_comparison_get_second_comparison (amount_comparison_number) > 5 )
-	    desensitive_widget (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number));
+	    desensitive_widget (NULL, gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number));
 	else
-	    sensitive_widget (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number));
+	    sensitive_widget (NULL, gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number));
 
 
 	/* on sensitive/désensitive la hbox_2 si nécessaire */
 
 	if ( gsb_data_report_amount_comparison_get_link_first_to_second_part (amount_comparison_number) == 3 )
-	    desensitive_widget (gsb_data_report_amount_comparison_get_hbox_second_part (amount_comparison_number));
+	    desensitive_widget (NULL, gsb_data_report_amount_comparison_get_hbox_second_part (amount_comparison_number));
 	else
-	    sensitive_widget (gsb_data_report_amount_comparison_get_hbox_second_part (amount_comparison_number));
+	    sensitive_widget (NULL, gsb_data_report_amount_comparison_get_hbox_second_part (amount_comparison_number));
 
 	list_tmp = list_tmp -> next;
     }
@@ -5712,10 +5712,10 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_lien",
 			  GINT_TO_POINTER ( 0 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( hbox ));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT ( hbox ));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("or"));
@@ -5724,10 +5724,10 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_lien",
 			  GINT_TO_POINTER ( 1 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( hbox ));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT ( hbox ));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("except"));
@@ -5736,10 +5736,10 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_lien",
 			  GINT_TO_POINTER ( 2 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( sensitive_widget ),
-				GTK_OBJECT ( hbox ));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( sensitive_widget ),
+			 GTK_OBJECT ( hbox ));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("stop"));
@@ -5748,10 +5748,10 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_lien",
 			  GINT_TO_POINTER ( 3 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
-				"activate",
-				GTK_SIGNAL_FUNC ( desensitive_widget ),
-				GTK_OBJECT ( hbox ));
+    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 "activate",
+			 GTK_SIGNAL_FUNC ( desensitive_widget ),
+			 GTK_OBJECT ( hbox ));
     gtk_widget_show ( menu_item );
 
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),

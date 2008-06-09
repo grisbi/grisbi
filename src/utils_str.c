@@ -31,6 +31,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void my_gtk_entry_set_text ( GtkEntry *entry,
+			     const gchar *string );
 /*END_STATIC*/
 
 

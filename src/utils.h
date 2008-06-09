@@ -6,7 +6,8 @@
 
 /* START_DECLARATION */
 gboolean assert_account_loaded ();
-void desensitive_widget ( GtkWidget *widget );
+gboolean desensitive_widget ( gpointer object,
+			      GtkWidget *widget );
 gboolean lance_navigateur_web ( const gchar *url );
 gboolean met_en_normal ( GtkWidget *event_box,
 			 GdkEventMotion *event,
@@ -19,7 +20,8 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 					  gchar * image_filename);
 gboolean sens_desensitive_pointeur ( GtkWidget *bouton,
 				     GtkWidget *widget );
-void sensitive_widget ( GtkWidget *widget );
+gboolean sensitive_widget ( gpointer object,
+			    GtkWidget *widget );
 void update_ecran ( void );
 /* END_DECLARATION */
 #endif

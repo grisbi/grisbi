@@ -25,6 +25,7 @@
 /*START_INCLUDE*/
 #include "gsb_account.h"
 #include "./dialog.h"
+#include "./gsb_account_property.h"
 #include "./gsb_category.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_payment.h"
@@ -37,7 +38,6 @@
 #include "./gsb_scheduler_list.h"
 #include "./main.h"
 #include "./traitement_variables.h"
-#include "./comptes_gestion.h"
 #include "./etats_config.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
@@ -130,7 +130,7 @@ gboolean gsb_account_new ( kind_account account_type,
 				GSB_ACCOUNT_PAGE );
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( account_page ), 1 );
 
-	remplissage_details_compte ();
+	gsb_account_property_fill_page ();
     }
 
     modification_fichier ( TRUE );
