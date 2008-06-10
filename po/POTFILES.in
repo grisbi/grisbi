@@ -4,7 +4,7 @@ src/affichage_liste.c
 src/barre_outils.c
 src/categories_onglet.c
 src/classement_echeances.c
-src/comptes_gestion.c
+src/gsb_account_property.c
 src/comptes_onglet.c
 src/csv_parse.c
 src/dialog.c
