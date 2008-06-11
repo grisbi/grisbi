@@ -43,8 +43,6 @@ extern gchar *crypt_key;
 /*END_STATIC*/
 #endif
 
-gchar *crypt_key;
-
 
 
 /**

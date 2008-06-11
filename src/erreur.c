@@ -257,7 +257,7 @@ gchar *get_debug_time ( void )
  * \return
  * */
 extern void debug_message_string ( gchar *prefixe, gchar * file, gint line, const char * function, 
-				   gchar *message, gint level, gboolean force_debug_display)
+				   const gchar *message, gint level, gboolean force_debug_display)
 {
     /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
     if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display) 

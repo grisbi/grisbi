@@ -36,7 +36,6 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-
 /**
  * Create all user interface elements that displays the details of an
  * account and fill them with current account.

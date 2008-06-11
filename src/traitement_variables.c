@@ -150,18 +150,17 @@ extern gint valeur_echelle_recherche_date_import;
 
 
 
-/*****************************************************************************************************/
-/* fonction appelée lors de modification ou non de fichier */
-/* TRUE indique que le fichier a été modifié */
-/* FALSE non */
-/* ajuste la sensitive des menus en fonction */
-/*****************************************************************************************************/
-
+/**
+ * set or unset the modified flag
+ * and sensitive or not the menu to save the file
+ *
+ * \param modif TRUE to set the modified flag, FALSE to unset
+ *
+ * \return
+ * */
 void modification_fichier ( gboolean modif )
 {
-    gchar* tmpstr = itoa (modif);
-    devel_debug ( tmpstr );
-    g_free (tmpstr);
+    devel_debug_int (modif);
 
     /* If no file is loaded, do not change menu items. */
     if ( ! gsb_data_account_get_accounts_amount () )

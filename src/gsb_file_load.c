@@ -262,7 +262,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     struct stat buffer_stat;
     gint return_value;
     gchar *file_content;
-    guint length;
+    gulong length;
 
     devel_debug ( filename );
 
@@ -305,23 +305,13 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 #endif /* _WIN32 */
 
     /* load the file */
-    if ( g_file_get_contents ( filename,
-			       &file_content,
-			       &length,
-			       NULL ))
+    if (gsb_file_util_get_contents (filename, &file_content, &length))
     {
 	GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
 	GMarkupParseContext *context;
-	gulong long_length = 0;
 	gsb_plugin *plugin;
 
-	/* for zlib, need a gulong for size and g_file_get_contents a guint...
-	 * perhaps it exists another mean than that ? */
-
-	long_length = length;
-
 	/* first, we check if the file is crypted, if it is, we decrypt it */
-
 	if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) )
 	{
 	    plugin = gsb_plugin_find ( "openssl" );
@@ -330,9 +320,9 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 		gint (*crypt_function) ( gchar *, gchar **, gboolean, gulong );
 		
 		crypt_function = (gpointer) plugin -> plugin_run;
-		long_length = crypt_function ( filename, &file_content, FALSE, long_length );
+		length = crypt_function ( filename, &file_content, FALSE, length );
 		
-		if ( ! long_length )
+		if ( ! length )
 		    return FALSE;
 	    }
 	    else
@@ -346,14 +336,6 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 		return FALSE;
 	    }
 	}
-
- 	/* after, we check if the file is compressed, if it is, we uncompress it */
-
-	if ( !strncmp ( file_content, "Grisbi compressed file ", 23 ))
-	    if ( !( length = gsb_file_util_compress_file ( &file_content, 
-							   long_length,
-							   FALSE )))
-		return FALSE;
 
 	/* we begin to check if we are in a version under 0.6 or 0.6 and above,
 	 * because the xml structure changes after 0.6 */
@@ -6534,8 +6516,7 @@ gboolean gsb_file_load_update_previous_version ( void )
     g_strfreev ( strarray );
     g_free ( tmpstr );
 
-    /*     par défaut le fichier n'est pas modifié sauf si on charge une version précédente */
-
+    /* for now the file is not modified */
     modification_fichier ( FALSE );
 
     switch ( version_number )

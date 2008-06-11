@@ -90,129 +90,118 @@ gboolean gsb_file_util_test_overwrite ( const gchar *filename )
 
 
 /**
- * compress or uncompress  the string given in the param
- * if the compress is done, the parameter string is freed
+ * this function do the same as g_file_get_contents
+ * but can also open a compressed file with zlib
  *
- * \param file_content a string which is the file
- * \param length length of the string
- * \param compress TRUE to compress, FALSE to uncompress
+ * \param filename the name of file to open
+ * \param file_content a gchar pointer to fill with the adress of the content of the file
+ * \param length a gulong pointer to file with the length of the loaded file
  *
- * \return the new length of the string
+ * \return TRUE all is ok, FALSE a problem occured
  * */
-gint gsb_file_util_compress_file ( gchar **file_content,
-				   gulong length,
-				   gboolean compress )
+gboolean gsb_file_util_get_contents ( gchar *filename,
+				      gchar **file_content,
+				      gulong *length )
 {
-    /* FIXME : for zlib, file_content need to be guchar, but g_file_get_contents need
-     * a gchar... i don't know if it's a problem to hide that to gcc, but it
-     * seems to work... perhaps there is a better way ?
-     * so here a gchar comes in, but it's hidden with (guchar *) to zlib... */
+    gzFile file;
+    struct stat stat_buf;
+    gulong alloc_size;
+    gulong orig_size;
+    gchar *content;
+    gulong iterator = 0;
+    gulong bytes_read;
+    gboolean eof = 0;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_file_util_compress_file : %d", compress );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    file = gzopen (filename, "rb");
+    if (!file)
+	return FALSE;
 
-    if ( compress )
+    /* FIXME windows and stat ??? */
+    if (stat (filename, &stat_buf))
     {
-	/* compress */
-	gchar *temp;
-	gulong new_length;
-	gint result;
-	gchar *str_length;
-	gint iterator;
-
-	new_length = compressBound (length);
-
-	temp = g_malloc (new_length);
-
-	result = compress2 ( (guchar *) temp, &new_length,
-			     (guchar *) *file_content, length,
-			     Z_BEST_COMPRESSION );
-	
-	if ( result != Z_OK )
-	{
-	    dialogue_error_hint ( ("An error occured while compressing the file : zlib error\nOperation aborted"),
-				  _("File compression"));
-	    g_free (*file_content);
-	    g_free (temp);
-	    return 0;
-	}
-	g_free (*file_content);
-
-	str_length = itoa (length);
-
-	*file_content = g_malloc (23 + strlen (str_length) + 1 + new_length);
-	
-	memcpy ( *file_content, "Grisbi compressed file ", 23 );
-	iterator = 23;
-	memcpy ( *file_content + iterator, str_length, strlen (str_length));
-	iterator = iterator + strlen (str_length);
-	memcpy ( *file_content + iterator, "_", 1);
-	iterator = iterator + 1;
-	memcpy ( *file_content + iterator, temp, new_length);
-	iterator = iterator + new_length;
-
-	g_free (temp);
-	g_free ( str_length );
-
-	return iterator;
+	gchar *tmpstr = g_strdup_printf ( _("Grisbi cannot stat file %s, please check the file."),
+					  filename);
+	dialogue_error (tmpstr);
+	g_free (tmpstr);
+	return FALSE;
     }
+
+    orig_size = stat_buf.st_size;
+
+    if (gzdirect (file))
+	/* the file is not compressed, keep the original size */
+	alloc_size = orig_size + 1;
     else
+	/* the file is compressed, the final size should be about 6x more */
+	alloc_size = 6 * orig_size;
+
+    content = g_malloc0 (alloc_size);
+    if (!content)
     {
-	/* decompress */
-
-	gchar *temp;
-	gint result;
-	gulong new_length;
-	gchar *zip_begining;
-	gulong zip_size;
-
-	/* get the length of the uncompressed file */
-
-	if ( !sscanf ( *file_content,
-		       "Grisbi compressed file %ld_",
-		       &new_length ))
-	{
-	    dialogue_error_hint ( ("An error occured while uncompressing the file : cannot get the size\nOperation aborted"),
-				  _("File uncompression"));
-	    g_free (*file_content);
-	    return 0;
-	}
-
-	zip_begining = memchr ( *file_content, '_', length );
-
-	if (!zip_begining)
-	{
-	    dialogue_error_hint ( ("An error occured while uncompressing the file : cannot find the begining of the compressed file.\nOperation aborted"),
-				  _("File uncompression"));
-	    g_free (*file_content);
-	    return 0;
-	}
-
-	zip_begining = zip_begining + 1;
-	zip_size = length - (zip_begining - *file_content );
-
-	temp = g_malloc ( new_length );
-	result = uncompress ( (guchar *) temp, &new_length,
-			      (guchar *) zip_begining, zip_size);
-
-	if ( result != Z_OK )
-	{
-	    dialogue_error_hint ( ("An error occured while uncompressing the file : zlib error\nOperation aborted"),
-				  _("File uncompression"));
-	    g_free (*file_content);
-	    g_free (temp);
-	    return 0;
-	}
-	g_free (*file_content);
-	*file_content = temp;
-	return new_length;
+	dialogue_error_memory ();
+	return FALSE;
     }
 
-    /* normally souldn't come here */
-    return length;
-}
+    bytes_read = 0;
 
+    /* we should be able to get directly the orig_size
+     * for most of files it's enough, if the file is compressed,
+     * we continue */
+    iterator = gzread (file, content, orig_size);
+
+    if (iterator < 0)
+    {
+	int save_errno = errno;
+	gchar *tmpstr;
+
+	g_free (content);
+	tmpstr = g_strdup_printf ( _("Failed to read from file '%s': %s"),
+				   filename, g_strerror (save_errno));
+	dialogue_error (tmpstr);
+	g_free (tmpstr);
+	return FALSE;
+    }
+
+    /* ok, now add caracter by caracter untill the end of the file */
+    do
+    {
+	gchar c;
+
+	c = gzgetc (file);
+
+	eof = gzeof (file);
+	if (!eof)
+	{
+	    content[iterator] = c;
+	    iterator++;
+
+	    if (iterator >= alloc_size)
+	    {
+		/* we need more space, should be rare,
+		 * show a warning to prevent and correct if necessary */
+		devel_debug ("Realloc is needed, if this message comes often, please contact the Grisbi team to improve the software ;-)");
+		alloc_size = alloc_size + orig_size;
+		content = g_realloc (content, alloc_size);
+
+		if (!content)
+		{
+		    dialogue_error_memory ();
+		    return FALSE;
+		}
+	    }
+	}
+    }
+    while (!eof);
+
+    content[iterator] = '\0';
+
+    /* fill the returned values */
+    *length = iterator;
+    *file_content = content;
+
+    gzclose (file);
+    return TRUE;
+}
 
 
 /**

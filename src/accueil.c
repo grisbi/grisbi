@@ -1796,8 +1796,6 @@ void affiche_dialogue_soldes_minimaux ( void )
 
 
 
-
-/* ************************************************************************* */
 void update_fin_comptes_passifs ( gboolean force )
 {
     GtkWidget *vbox;
@@ -1811,7 +1809,7 @@ void update_fin_comptes_passifs ( gboolean force )
 	 !mise_a_jour_fin_comptes_passifs  )
 	return;
 
-    devel_debug ( "update_fin_comptes_passifs" );
+    devel_debug (NULL);
 
     mise_a_jour_fin_comptes_passifs = 0;
 
@@ -1856,7 +1854,6 @@ void update_fin_comptes_passifs ( gboolean force )
 	show_paddingbox ( frame_etat_fin_compte_passif );
     }
 }
-/* ************************************************************************* */
 
 
 

@@ -168,11 +168,7 @@ return_bad_password:
 
 	if ( strncmp ( decrypted_file,
 		       "<?xml version=\"1.0\"?>",
-		       18 )
-	     &&
-	     strncmp ( decrypted_file,
-		       "Grisbi compressed file ",
-		       23 ))
+		       18 ))
 	{
 	    /* it seems that it was not the correct password */
 

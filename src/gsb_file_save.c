@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -26,6 +26,7 @@
  */
 
 #include "include.h"
+#include <zlib.h>
 
 /*START_INCLUDE*/
 #include "gsb_file_save.h"
@@ -149,7 +150,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 				   gint archive_number )
 {
     gint do_chmod;
-    FILE *grisbi_file;
     gulong iterator;
 
     gulong length_calculated;
@@ -171,9 +171,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 
     gsb_plugin * plugin;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_file_save_save_file : %s", filename );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug (filename);
 
     do_chmod = !g_file_test ( filename,
 			      G_FILE_TEST_EXISTS );
@@ -214,7 +212,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 	+ report_part * g_slist_length ( gsb_data_report_get_report_list ());
 
     iterator = 0;
-    file_content = g_malloc ( length_calculated );
+    file_content = g_malloc0 ( length_calculated );
 
     /* begin the file whit xml markup */
     iterator = gsb_file_save_append_part ( iterator,
@@ -289,19 +287,12 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 					   &file_content,
 					   FALSE );
     /* finish the file */
-
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
 					   &file_content,
 					   my_strdup ("</Grisbi>"));
 
-    /* before saving the file, we compress and crypt it if necessary */
-
-    if ( compress )
-	iterator = gsb_file_util_compress_file ( &file_content,
-						 iterator,
-						 TRUE );
-
+    /* crypt the file if asked */
     if ( etat.crypt_file )
     {
 	if ( ( plugin = gsb_plugin_find ( "openssl" ) ) )
@@ -326,26 +317,48 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     }
     
     /* the file is in memory, we can save it */
-    grisbi_file = fopen ( filename,
-			  "w" );
-
-    if ( !grisbi_file
-	 ||
-	 !fwrite ( file_content,
-		   sizeof (gchar),
-		   iterator,
-		   grisbi_file ))
+    /* i didn't succeed to save a "proper" file with zlib without compression,
+     * it always append some extra characters, so use glib without compression, and
+     * zlib if compression */
+    if (compress)
     {
-	gchar* tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
-					   filename,
-					   latin2utf8(strerror(errno)) );
-	dialogue_error ( tmpstr );
-	g_free ( tmpstr );
-	g_free ( file_content);
-	return ( FALSE );
+	gzFile grisbi_file;
+	grisbi_file = gzopen (filename, "wb9");
+
+	if ( !grisbi_file
+	     ||
+	     !gzwrite ( grisbi_file,
+			file_content,
+			iterator ))
+	{
+	    gchar* tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
+					      filename,
+					      latin2utf8(strerror(errno)) );
+	    dialogue_error ( tmpstr );
+	    g_free ( tmpstr );
+	    g_free ( file_content);
+	    return ( FALSE );
+	}
+	gzclose (grisbi_file);
     }
-    
-    fclose (grisbi_file);
+    else
+    {
+	GError *error = NULL;
+
+	if (!g_file_set_contents ( filename,
+				   file_content,
+				   iterator, &error ))
+	{
+	    gchar* tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
+					      filename,
+					      error -> message);
+	    dialogue_error ( tmpstr );
+	    g_free ( tmpstr );
+	    g_free ( file_content);
+	    g_error_free (error);
+	    return ( FALSE );
+	}
+    }
 
     /* if it's a new file, we set the permission */
     if ( do_chmod )

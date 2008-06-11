@@ -488,7 +488,9 @@ gboolean gsb_file_open_file ( gchar *filename )
     /* 	set the grid */
     gsb_transactions_list_draw_grid (etat.affichage_grille);
 
-    modification_fichier ( FALSE );
+    /* for now, the flag for modification of the file is ok, but the menu couldn't be set as sensitive/unsensitive
+     * so do it now */
+    modification_fichier (etat.modification_fichier);
 
     gsb_status_message ( _("Done") );
     gsb_status_stop_wait ( TRUE );
@@ -866,7 +868,7 @@ gboolean gsb_file_close ( void )
 
 	    gtk_widget_destroy ( main_vbox );
 
-	    init_variables ();
+ 	    init_variables ();
 
 	    gsb_file_update_window_title();
 
