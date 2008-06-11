@@ -517,7 +517,6 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 		/* it's a manual scheduled transaction, we put it in the slist */
 		scheduled_transactions_to_take = g_slist_append ( scheduled_transactions_to_take ,
 								  GINT_TO_POINTER (scheduled_number));
-		printf ( "ajoute scheduled\n");
 		tmp_list = tmp_list -> next;
 	    }
 	}
