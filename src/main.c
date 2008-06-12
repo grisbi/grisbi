@@ -225,7 +225,7 @@ int main (int argc, char **argv)
     menus_sensitifs ( FALSE );
 
     /* charge les raccourcis claviers */
-    path = g_strconcat (g_get_home_dir (), "/.gnome2/accels/grisbi", NULL);
+    path = g_strconcat (g_get_home_dir (), "/.gnome2/accels/", PACKAGE, NULL);
     gtk_accel_map_load (path);
 
     /* set the last opened files */
