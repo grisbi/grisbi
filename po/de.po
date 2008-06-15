@@ -4,13 +4,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 #
 # Martin Stromberger <fabiolla@aon.at>, 2007, 2008.
+# Martin Stromberger <mstromberger@aon.at>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-03 22:41+0200\n"
-"PO-Revision-Date: 2008-01-17 20:09+0100\n"
-"Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
+"POT-Creation-Date: 2008-06-15 18:18+0200\n"
+"PO-Revision-Date: 2008-06-15 19:01+0200\n"
+"Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,12 +83,12 @@ msgstr "Salden der Kreditkonten in %s"
 msgid "Assets accounts balances in %s"
 msgstr "Salden der Anlagekonten in %s"
 
-#: src/accueil.c:1336 src/accueil.c:1457 src/accueil.c:1916
+#: src/accueil.c:1336 src/accueil.c:1457 src/accueil.c:1913
 #, c-format
 msgid "%s credited on %s"
 msgstr "%s Haben in %s"
 
-#: src/accueil.c:1346 src/accueil.c:1467 src/accueil.c:1925
+#: src/accueil.c:1346 src/accueil.c:1467 src/accueil.c:1922
 #, c-format
 msgid "%s debited on %s"
 msgstr "%s Soll in %s"
@@ -95,8 +96,7 @@ msgstr "%s Soll in %s"
 #: src/accueil.c:1688
 #, c-format
 msgid "balance of account %s is under wanted and authorised minima!"
-msgstr ""
-"Der Saldo des Kontos %s ist unter dem festgelegten und zulässigen Minimum!"
+msgstr "Der Saldo des Kontos %s ist unter dem festgelegten und zulässigen Minimum!"
 
 #: src/accueil.c:1692
 msgid ""
@@ -253,7 +253,7 @@ msgstr "Abgestimmte Buchungen nicht automatisch anzeigen"
 
 #: src/affichage_liste.c:286
 msgid "Show the content of the transaction in the form when it's selected."
-msgstr ""
+msgstr "Die Details der Buchung bei einer Selektion im Buchungsformular anzeigen."
 
 #: src/affichage_liste.c:294
 msgid "Sort transaction list"
@@ -341,8 +341,7 @@ msgstr "Eingabe Vervollständigung"
 
 #: src/affichage_liste.c:496
 msgid "Limit payee completion to current account"
-msgstr ""
-"Die Vervollständigung von Empfängern auf das aktuelle Konto beschränken"
+msgstr "Die Vervollständigung von Empfängern auf das aktuelle Konto beschränken"
 
 #: src/affichage_liste.c:502
 msgid "Mix credit/debit categories"
@@ -369,7 +368,7 @@ msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr "Maximale Einträge in der Auswahlliste [0 für kein Limit]"
 
 #. New transaction
-#: src/barre_outils.c:85 src/gsb_transactions_list.c:3538
+#: src/barre_outils.c:85 src/gsb_transactions_list.c:3539
 msgid "New transaction"
 msgstr "Neue Buchung"
 
@@ -473,8 +472,8 @@ msgstr "Die selektiere Buchung löschen"
 msgid "Edit selected transaction"
 msgstr "Die selektierte Buchung bearbeiten"
 
-#. crÃ©ation de la ligne du commentaire
-#: src/barre_outils.c:365 src/comptes_gestion.c:387
+#. comments line
+#: src/barre_outils.c:365 src/gsb_account_property.c:419
 msgid "Comments"
 msgstr "Notizen"
 
@@ -511,7 +510,7 @@ msgstr "Konto"
 
 #: src/categories_onglet.c:162 src/export_csv.c:773 src/gsb_reconcile.c:159
 #: src/gsb_scheduler_list.c:326 src/gsb_transactions_list.c:196
-#: src/gsb_transactions_list.c:4260 src/import_csv.c:86
+#: src/gsb_transactions_list.c:4261 src/import_csv.c:86
 #: src/imputation_budgetaire.c:173 src/traitement_variables.c:78
 msgid "Balance"
 msgstr "Saldo"
@@ -529,7 +528,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr "Grisbi Kategorien (*.cgsb)"
 
 #: src/categories_onglet.c:356 src/etats_onglet.c:1279 src/gsb_file.c:228
-#: src/import.c:555 src/imputation_budgetaire.c:394
+#: src/import.c:556 src/imputation_budgetaire.c:394
 msgid "All files"
 msgstr "Alle Dateien"
 
@@ -586,8 +585,8 @@ msgstr ""
 msgid "Create a new sub-category"
 msgstr "Eine neue Unterkategorie erstellen"
 
-#: src/categories_onglet.c:464 src/etats_onglet.c:126 src/import.c:295
-#: src/import.c:2734 src/imputation_budgetaire.c:500 src/parametres.c:262
+#: src/categories_onglet.c:464 src/etats_onglet.c:126 src/import.c:296
+#: src/import.c:2756 src/imputation_budgetaire.c:500 src/parametres.c:262
 msgid "Import"
 msgstr "Import"
 
@@ -657,10 +656,10 @@ msgstr "Keine Kategorie definiert"
 #: src/categories_onglet.c:617 src/gsb_archive_config.c:98
 #: src/gsb_archive_config.c:188 src/gsb_assistant_archive_export.c:148
 #: src/gsb_assistant_reconcile_config.c:390
-#: src/gsb_assistant_reconcile_config.c:1254 src/gsb_bank.c:643
-#: src/gsb_bank.c:749 src/gsb_currency_config.c:336 src/gsb_fyear_config.c:192
+#: src/gsb_assistant_reconcile_config.c:1254 src/gsb_bank.c:727
+#: src/gsb_bank.c:833 src/gsb_currency_config.c:336 src/gsb_fyear_config.c:192
 #: src/gsb_fyear_config.c:279 src/gsb_payment_method_config.c:240
-#: src/gsb_reconcile_config.c:181 src/gsb_transactions_list.c:3096
+#: src/gsb_reconcile_config.c:181 src/gsb_transactions_list.c:3097
 #: src/imputation_budgetaire.c:654 src/tiers_onglet.c:453
 msgid "Name"
 msgstr "Name"
@@ -669,7 +668,7 @@ msgstr "Name"
 #. Payment method method_ptr
 #. Description entry
 #: src/categories_onglet.c:642 src/gsb_payment_method_config.c:293
-#: src/import.c:328 src/imputation_budgetaire.c:679
+#: src/import.c:329 src/imputation_budgetaire.c:679
 msgid "Type"
 msgstr "Art"
 
@@ -715,161 +714,126 @@ msgstr "Kategorie"
 msgid "Category already exists"
 msgstr "Die Kategorie ist bereits vorhanden"
 
-#: src/comptes_gestion.c:135
+#: src/gsb_account_property.c:152
 msgid "Account details"
 msgstr "Konto Details"
 
-#: src/comptes_gestion.c:142 src/export.c:168 src/export_csv.c:740
-#: src/import.c:1034 src/import.c:1070
+#: src/gsb_account_property.c:159 src/export.c:168 src/export_csv.c:740
+#: src/import.c:1056 src/import.c:1092
 msgid "Account name"
 msgstr "Kontoname"
 
-#: src/comptes_gestion.c:157 src/import.c:1008
+#: src/gsb_account_property.c:176 src/import.c:1009
 msgid "Account type"
 msgstr "Kontoart"
 
-#: src/comptes_gestion.c:173 src/import.c:1088
+#: src/gsb_account_property.c:194 src/import.c:1110
 msgid "Account currency"
 msgstr "Kontowährung"
 
-#. crÃ©ation de la ligne compte cloturÃ©
-#: src/comptes_gestion.c:185
+#. create closed account line
+#: src/gsb_account_property.c:208
 msgid "Closed account"
 msgstr "Geschlossenes Konto"
 
 #. crÃ©ation de la ligne du titulaire du compte
-#: src/comptes_gestion.c:192
+#: src/gsb_account_property.c:216
 msgid "Account holder"
 msgstr "Kontoinhaber"
 
-#: src/comptes_gestion.c:196
+#: src/gsb_account_property.c:220
 msgid "Holder name"
 msgstr "Kontoinhaber Name"
 
-#: src/comptes_gestion.c:209
-msgid "Common address is holder's address"
-msgstr "Die Hauptadresse ist die Kontoinhaberadresse"
-
-#: src/comptes_gestion.c:228
-msgid "Holder's address"
-msgstr "Kontoinhaber Adresse"
+#. now the checkbutton for different address
+#: src/gsb_account_property.c:245
+msgid "Different holder's address :"
+msgstr "Adresse von einem weiteren Kontoinhaber :"
 
 #. ligne de l'Ã©tablissement financier
-#: src/comptes_gestion.c:253 src/gsb_bank.c:422
+#: src/gsb_account_property.c:277 src/gsb_bank.c:506
 msgid "Bank"
 msgstr "Bank"
 
-#: src/comptes_gestion.c:257
+#: src/gsb_account_property.c:281
 msgid "Financial institution"
 msgstr "Finanzinstitut"
 
-#: src/comptes_gestion.c:290
+#: src/gsb_account_property.c:311
 msgid "Bank sort code"
 msgstr "Laufende Nr."
 
-#: src/comptes_gestion.c:307
+#: src/gsb_account_property.c:328
 msgid "Bank branch code"
 msgstr "Bankleitzahl"
 
-#: src/comptes_gestion.c:322
+#: src/gsb_account_property.c:345
 msgid "Account number / Key"
 msgstr "Kontonummer"
 
 #. crÃ©ation de la ligne du solde initial
-#: src/comptes_gestion.c:340
+#: src/gsb_account_property.c:367
 msgid "Balances"
 msgstr "Saldoinformationen"
 
 #. set the initial balance
-#: src/comptes_gestion.c:345 src/export_csv.c:274
+#: src/gsb_account_property.c:372 src/export_csv.c:274
 #: src/gsb_assistant_reconcile_config.c:453 src/gsb_reconcile.c:209
 #: src/gsb_reconcile_config.c:240
 msgid "Initial balance"
 msgstr "Saldo Anfang"
 
-#: src/comptes_gestion.c:360
+#: src/gsb_account_property.c:389
 msgid "Minimum authorised balance"
 msgstr "Mindestsaldo zulässig"
 
-#: src/comptes_gestion.c:375
+#: src/gsb_account_property.c:406
 msgid "Minimum wanted balance"
 msgstr "Mindestsaldo festgelegt"
 
-#. crÃ©ation de l'item compte bancaire
-#: src/comptes_gestion.c:581
+#: src/gsb_account_property.c:545
 msgid "Bank account"
 msgstr "Bankkonto"
 
-#. crÃ©ation de l'item compte de caisse
-#: src/comptes_gestion.c:592
+#: src/gsb_account_property.c:545
 msgid "Cash account"
 msgstr "Bargeldkonto"
 
-#. crÃ©ation de l'item compte passif
-#: src/comptes_gestion.c:603
+#: src/gsb_account_property.c:545
 msgid "Liabilities account"
 msgstr "Kreditkonto"
 
-#. crÃ©ation de l'item compte actif
-#: src/comptes_gestion.c:613
+#: src/gsb_account_property.c:545
 msgid "Assets account"
 msgstr "Anlagekonto"
 
-#: src/comptes_gestion.c:757 src/comptes_gestion.c:780
-msgid ""
-"Accounts names are used to distinguish accounts.  It is mandatory that names "
-"are both unique and not empty."
-msgstr ""
-"Der eingegebene Kontoname existiert bereits.  Der Kontoname darf nicht leer "
-"und muss eindeutig sein."
-
-#: src/comptes_gestion.c:758
-msgid "Account name is empty"
-msgstr "Der Kontoname ist leer"
-
-#: src/comptes_gestion.c:779
-#, c-format
-msgid "Account \"%s\" already exists!"
-msgstr "Das Konto \"%s\"ist bereits vorhanden!"
-
 #. ask for the currency of the transactions
-#: src/comptes_gestion.c:826
+#: src/gsb_account_property.c:662
 #, c-format
 msgid ""
 "You are changing the currency of the account, do you want to change the "
-"currency of the transactions too ?\\(yes will change all the transactions "
-"currency from %s to %s, all the transactions with another currency will stay "
-"the same)"
+"currency of the transactions too ?\n"
+"(yes will change all the transactions currency from %s to %s, all the "
+"transactions with another currency will stay the same).\n"
+"\n"
+"Archived and reconcilied transactions will be left unmodified."
 msgstr ""
 "Sie ändern die Währung eines Kontos, soll die Währung der Buchungen des "
 "Kontos ebenfalls geändert werden?\\(bei der Auswahl von \"Ja\" wird für alle "
 "Buchungen die Währung von %s nach %s geändert. Alle Buchungen mit anderen "
-"Währungen werden nicht geändert)"
+"Währungen werden nicht geändert).\n"
+"Archivierte und abgestimmte Buchungen werden dadurch nicht verändert."
 
-#: src/comptes_gestion.c:829
+#: src/gsb_account_property.c:665
 msgid "Change the transactions currency"
 msgstr "Die Währung der Buchung ändern"
-
-#: src/comptes_gestion.c:1058
-#, c-format
-msgid ""
-"Property of account \"%s\" has been modified.\n"
-"Do you want to save changes?"
-msgstr ""
-"Die Einstellungen für das Konto \"%s\" wurden verändert.\n"
-"Änderungen speichern?"
-
-#: src/comptes_gestion.c:1060
-msgid "Apply changes to account?"
-msgstr "Änderungen speichern?"
 
 #: src/dialog.c:52
 msgid "No tip of the day available"
 msgstr "Kein Tipp des Tages verfügbar"
 
 #: src/dialog.c:53
-msgid ""
-"Make sure that grisbi was correctly installed and that tips file is readable."
+msgid "Make sure that grisbi was correctly installed and that tips file is readable."
 msgstr "Bitte die Installation von Grisbi überprüfen."
 
 #: src/dialog.c:56
@@ -1014,17 +978,17 @@ msgstr ""
 msgid "Do not show this message again"
 msgstr "Diese Meldung nicht mehr anzeigen"
 
-#: src/dialog.c:555
+#: src/dialog.c:561
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code.  Grisbi is "
 "expected to crash very soon.  Have a nice day."
 msgstr "Im Programm ist ein interner Fehler aufgetreten."
 
-#: src/dialog.c:556
+#: src/dialog.c:562
 msgid "Serious brain damage expected."
 msgstr "Im Programm ist ein interner Fehler aufgetreten."
 
-#: src/dialog.c:567
+#: src/dialog.c:573
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
@@ -1032,7 +996,7 @@ msgstr ""
 "Es ist ein interner Fehler aufgetreten, Speichern Sie alle Änderungen in "
 "eine neuen Datei."
 
-#: src/dialog.c:568
+#: src/dialog.c:574
 msgid "Cannot allocate memory"
 msgstr "Der Speicher kann nicht zugeteilt werden"
 
@@ -1054,10 +1018,8 @@ msgid "Grisbi made a backup file at '%s'."
 msgstr "Grisbi hat eine Sicherung in folgendem Verzeichnis %s erstellt."
 
 #: src/erreur.c:128
-msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
-msgstr ""
-"Bitte den Fehler unter <tt>http://www.grisbi.org/bugtracking/</tt>. melden"
+msgid "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+msgstr "Bitte den Fehler unter <tt>http://www.grisbi.org/bugtracking/</tt>. melden"
 
 #: src/erreur.c:134
 msgid "Copy and paste the following backtrace with your bug report."
@@ -1096,15 +1058,15 @@ msgid "%s : %s - %s:%d:%s - %s\n"
 msgstr "%s : %s - %s:%d:%s - %s\n"
 
 #: src/erreur.c:273
-#, fuzzy, c-format
+#, c-format
 msgid "%s : %s - %s:%d:%s\n"
-msgstr "%s : %s - %s:%d:%s - %s\n"
+msgstr "%s : %s - %s:%d:%s\n"
 
 #. on affiche dans la console le message
 #: src/erreur.c:305
-#, fuzzy, c-format
+#, c-format
 msgid "%s : %s - %s:%d:%s - %d\n"
-msgstr "%s : %s - %s:%d:%s - %s\n"
+msgstr "%s : %s - %s:%d:%s - %d\n"
 
 #: src/etats_affiche.c:179 src/etats_affiche.c:412 src/etats_affiche.c:636
 #: src/etats_affiche.c:743
@@ -1297,12 +1259,12 @@ msgstr "Ergebnis ohne Geschäftsjahr (%d Buchungen)"
 msgid "Result without financial year"
 msgstr "Ergebnis ohne Geschäftsjahr"
 
-#: src/etats_affiche.c:1334 src/gsb_transactions_list.c:5110
+#: src/etats_affiche.c:1334 src/gsb_transactions_list.c:5111
 #, c-format
 msgid "Transfer to %s"
 msgstr "Umbuchen nach %s"
 
-#: src/etats_affiche.c:1336 src/gsb_transactions_list.c:5113
+#: src/etats_affiche.c:1336 src/gsb_transactions_list.c:5114
 #, c-format
 msgid "Transfer from %s"
 msgstr "Umbuchen von %s"
@@ -1355,7 +1317,7 @@ msgstr "Umbuchung"
 
 #: src/etats_affiche.c:1788 src/export_csv.c:561 src/gsb_data_category.c:1042
 #: src/gsb_form.c:684 src/gsb_form.c:2391 src/gsb_form.c:2744
-#: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:5093
+#: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:5094
 msgid "Breakdown of transaction"
 msgstr "Buchung aufsplitten"
 
@@ -1396,7 +1358,7 @@ msgstr "Nummer"
 #: src/gsb_assistant_reconcile_config.c:628 src/gsb_form.c:1228
 #: src/gsb_form_widget.c:400 src/gsb_reconcile.c:156
 #: src/gsb_scheduler_list.c:325 src/gsb_transactions_list.c:190
-#: src/import.c:2519 src/import_csv.c:78 src/traitement_variables.c:72
+#: src/import.c:2541 src/import_csv.c:78 src/traitement_variables.c:72
 msgid "Date"
 msgstr "Datum"
 
@@ -1411,7 +1373,7 @@ msgstr "Geschäftsjahr"
 #: src/etats_config.c:643 src/etats_config.c:6760 src/export_csv.c:761
 #: src/fenetre_principale.c:273 src/gsb_assistant_reconcile_config.c:628
 #: src/gsb_form.c:1258 src/gsb_form_widget.c:420 src/gsb_scheduler_list.c:325
-#: src/gsb_transactions_list.c:192 src/import.c:2526 src/import_csv.c:80
+#: src/gsb_transactions_list.c:192 src/import.c:2548 src/import_csv.c:80
 #: src/meta_payee.c:76 src/traitement_variables.c:74
 msgid "Payee"
 msgstr "Empfänger"
@@ -1423,7 +1385,7 @@ msgid "Budgetary line"
 msgstr "Budgeteintrag"
 
 #. Notes
-#: src/etats_affiche.c:2370 src/export_csv.c:782 src/gsb_bank.c:809
+#: src/etats_affiche.c:2370 src/export_csv.c:782 src/gsb_bank.c:893
 #: src/gsb_form.c:1301 src/gsb_form_widget.c:436 src/gsb_scheduler_list.c:326
 #: src/gsb_transactions_list.c:204 src/import_csv.c:82
 #: src/traitement_variables.c:86
@@ -1556,15 +1518,15 @@ msgstr "Buchungen"
 
 #. mise en place de la paddingbox des comptes
 #: src/etats_config.c:466 src/etats_config.c:469 src/etats_config.c:6726
-#: src/fenetre_principale.c:251 src/navigation.c:252
+#: src/fenetre_principale.c:251 src/navigation.c:251
 msgid "Accounts"
 msgstr "Konten"
 
 #. mise en place de la paddingbox des catÃ©gories
 #. set the title
 #: src/etats_config.c:484 src/etats_config.c:487 src/etats_config.c:3109
-#: src/etats_config.c:6798 src/fenetre_principale.c:286 src/navigation.c:324
-#: src/navigation.c:1269
+#: src/etats_config.c:6798 src/fenetre_principale.c:286 src/navigation.c:323
+#: src/navigation.c:1265
 msgid "Categories"
 msgstr "Kategorien"
 
@@ -1572,7 +1534,7 @@ msgstr "Kategorien"
 #. set the title
 #: src/etats_config.c:493 src/etats_config.c:496 src/etats_config.c:3376
 #: src/etats_config.c:6885 src/export_csv.c:785 src/fenetre_principale.c:291
-#: src/navigation.c:341 src/navigation.c:1283 src/traitement_variables.c:75
+#: src/navigation.c:340 src/navigation.c:1279 src/traitement_variables.c:75
 msgid "Budgetary lines"
 msgstr "Budgeteinträge"
 
@@ -1734,7 +1696,7 @@ msgstr "Datum Anfang"
 #: src/gsb_assistant_archive.c:257 src/gsb_assistant_archive_export.c:148
 #: src/gsb_assistant_reconcile_config.c:437
 #: src/gsb_assistant_reconcile_config.c:1254 src/gsb_reconcile_config.c:98
-#: src/gsb_reconcile_config.c:211 src/gsb_transactions_list.c:3096
+#: src/gsb_reconcile_config.c:211 src/gsb_transactions_list.c:3097
 msgid "Final date"
 msgstr "Datum Ende"
 
@@ -1742,7 +1704,7 @@ msgstr "Datum Ende"
 msgid "Account selection"
 msgstr "Konten Auswahl"
 
-#. on met dans la partie de gauche une liste contenant les comptes Ã 
+#. on met dans la partie de gauche une liste contenant les comptes Ã
 #. sÃ©lectionner
 #: src/etats_config.c:2569
 msgid "Select transactions only for given accounts"
@@ -1840,7 +1802,7 @@ msgid "Exclude transactions without budgetary line"
 msgstr "Buchungen ohne Budgeteintrag nicht berücksichtigen"
 
 #. set the title
-#: src/etats_config.c:3642 src/navigation.c:287 src/navigation.c:1242
+#: src/etats_config.c:3642 src/navigation.c:286 src/navigation.c:1238
 #: src/tiers_onglet.c:169
 msgid "Payees"
 msgstr "Empfänger"
@@ -1948,7 +1910,7 @@ msgstr "ist nicht leer"
 
 #: src/etats_config.c:4905 src/export_csv.c:770
 #: src/gsb_assistant_reconcile_config.c:628 src/gsb_scheduler_list.c:326
-#: src/gsb_transactions_list.c:197 src/import.c:2534
+#: src/gsb_transactions_list.c:197 src/import.c:2556
 #: src/traitement_variables.c:79
 msgid "Amount"
 msgstr "Betrag"
@@ -2300,7 +2262,7 @@ msgstr "Eine Zwischensumme für jeden Teil-Budgeteintrag anzeigen"
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr " \"Keinen Teil-Budgeteintrag\" anzeigen wenn keiner vorhanden ist"
 
-#. on met dans la partie de gauche une liste contenant les modes de paiement Ã 
+#. on met dans la partie de gauche une liste contenant les modes de paiement Ã
 #. sÃ©lectionner
 #: src/etats_config.c:6988
 msgid "Select the transactions by method of payment"
@@ -2388,8 +2350,8 @@ msgstr "Klonen"
 msgid "Clone selected report"
 msgstr "Den selektierten Bericht klonen"
 
-#: src/etats_onglet.c:226 src/fenetre_principale.c:296 src/navigation.c:358
-#: src/navigation.c:1317
+#: src/etats_onglet.c:226 src/fenetre_principale.c:296 src/navigation.c:357
+#: src/navigation.c:1313
 msgid "Reports"
 msgstr "Berichte"
 
@@ -2570,8 +2532,8 @@ msgstr "LaTeX Datei"
 msgid "Exporting report ..."
 msgstr "Bericht exportieren ..."
 
-#: src/etats_onglet.c:1245 src/gsb_file.c:494 src/gsb_file.c:614
-#: src/gsb_file.c:659 src/gsb_file_debug.c:204
+#: src/etats_onglet.c:1245 src/gsb_file.c:495 src/gsb_file.c:615
+#: src/gsb_file.c:660 src/gsb_file_debug.c:204
 msgid "Done"
 msgstr "Fertig"
 
@@ -2725,13 +2687,13 @@ msgid "C"
 msgstr "V"
 
 #. RECONCILED_TRANSACTION
-#: src/export_csv.c:462 src/gsb_transactions_list.c:1524
-#: src/gsb_transactions_list.c:2948
+#: src/export_csv.c:462 src/gsb_transactions_list.c:1525
+#: src/gsb_transactions_list.c:2949
 msgid "R"
 msgstr "A"
 
 #. TELECHECKED_TRANSACTION
-#: src/export_csv.c:465 src/gsb_transactions_list.c:1520
+#: src/export_csv.c:465 src/gsb_transactions_list.c:1521
 msgid "T"
 msgstr "T"
 
@@ -2786,12 +2748,12 @@ msgstr "Abstimmung Nr."
 msgid "Main page"
 msgstr "Startseite"
 
-#: src/fenetre_principale.c:268 src/navigation.c:270
+#: src/fenetre_principale.c:268 src/navigation.c:269
 msgid "Scheduler"
 msgstr "Planer"
 
 #. set the title
-#: src/fenetre_principale.c:280 src/navigation.c:305 src/navigation.c:1257
+#: src/fenetre_principale.c:280 src/navigation.c:304 src/navigation.c:1253
 msgid "Balance estimate"
 msgstr "Prognosen"
 
@@ -3328,7 +3290,7 @@ msgstr "Ein Archiv und die zugeordneten Buchungen löschen"
 
 #. come from check while opening file
 #: src/gsb_assistant_archive.c:123
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "There are too many transactions in your file (%d) and the current limit is %"
 "d transactions.\n"
@@ -3343,8 +3305,10 @@ msgid ""
 "\n"
 "Press Cancel if you don't want make an archive now\n"
 msgstr ""
+"In der Datei (%d) sind mehr Buchungen als mit dem eingestellten Limit von %d angezeigt werden können.\n"
+"Für eine bessere Performance sollten Buchungen archiviert werden (das Limit und die Prüfung beim Starten von Grisbi kann in den Einstellungen festgelegt werden)\n"
+"\n"
 "Dieser Assistent wird Sie dabei unterstützen Buchungen zu archivieren.\n"
-"Durch eine Archivierung wird die Datenbearbeitung in Grisbi performanter.\n"
 "\n"
 "In der Standardeinstellung werden beim Archivieren keine Buchungen in das "
 "Archiv exportiert, die Buchungen erhalten lediglich den Status archiviert.\n"
@@ -3378,7 +3342,7 @@ msgstr "Buchungen archivieren"
 #. set up the menu
 #: src/gsb_assistant_archive.c:203
 msgid "Please select a way to select transactions for this archive"
-msgstr ""
+msgstr "Die Kriterien für das Archivieren auswählen"
 
 #. archive by date
 #: src/gsb_assistant_archive.c:211
@@ -3386,7 +3350,6 @@ msgid "Archive by date"
 msgstr "Archivierung nach Datum"
 
 #: src/gsb_assistant_archive.c:221
-#, fuzzy
 msgid "Grisbi will archive all transactions between initial and final dates."
 msgstr "Es werden alle Buchungen vom Beginn bis zum Enddatum archiviert"
 
@@ -3395,9 +3358,8 @@ msgid "Archive by financial year"
 msgstr "Archivierung nach Geschäftsjahr"
 
 #: src/gsb_assistant_archive.c:287
-#, fuzzy
 msgid "Grisbi will archive all transactions belonging to a financial year."
-msgstr "Es werden alle Buchungen vom gewählten Geschäftsjahr archiviert"
+msgstr "Es werden alle Buchungen vom gewählten Geschäftsjahr archiviert."
 
 #: src/gsb_assistant_archive.c:305
 msgid "Financial year :"
@@ -3408,12 +3370,11 @@ msgid "Archive by report"
 msgstr "Archivierung nach Bericht"
 
 #: src/gsb_assistant_archive.c:336
-#, fuzzy
 msgid "Grisbi will archive transactions selected by a report."
-msgstr "Es werden alle Buchungen aus einem gewählten Bericht archiviert"
+msgstr "Es werden alle Buchungen aus einem gewählten Bericht archiviert."
 
 #: src/gsb_assistant_archive.c:354 src/gsb_data_payee.c:519
-#: src/gsb_form.c:2500 src/gsb_form.c:2501 src/navigation.c:1315
+#: src/gsb_form.c:2500 src/gsb_form.c:2501 src/navigation.c:1311
 msgid "Report"
 msgstr "Bericht"
 
@@ -3422,7 +3383,7 @@ msgstr "Bericht"
 msgid "Please choose a name for archive"
 msgstr "Bitte einen Namen für das Archiv eingeben"
 
-#: src/gsb_assistant_archive.c:482 src/import.c:709
+#: src/gsb_assistant_archive.c:482 src/import.c:710
 msgid "Congratulations !"
 msgstr "Gratulation!"
 
@@ -3497,10 +3458,8 @@ msgid "<span foreground=\"red\">Please fill the final date</span>"
 msgstr "<span foreground=\"red\">Bitte das Enddatum eingeben</span>"
 
 #: src/gsb_assistant_archive.c:821
-msgid ""
-"<span foreground=\"red\">The initial date is after the final date</span>"
-msgstr ""
-"<span foreground=\"red\">Das Beginndatum liegt nach dem Enddatum</span>"
+msgid "<span foreground=\"red\">The initial date is after the final date</span>"
+msgstr "<span foreground=\"red\">Das Beginndatum liegt nach dem Enddatum</span>"
 
 #: src/gsb_assistant_archive.c:825
 msgid "<span foreground=\"red\">The initial date is not valid.</span>"
@@ -3519,8 +3478,7 @@ msgstr ""
 "</span>"
 
 #: src/gsb_assistant_archive.c:837
-msgid ""
-"<span foreground=\"red\">The final date belongs already to an archive.</span>"
+msgid "<span foreground=\"red\">The final date belongs already to an archive.</span>"
 msgstr ""
 "<span foreground=\"red\">Das Enddatum ist bereits einem Archiv zugeordnet.</"
 "span>"
@@ -3745,8 +3703,7 @@ msgstr "Automatische Zuordnung ausführen"
 #. now we can show the list of orphans transactions
 #: src/gsb_assistant_reconcile_config.c:652
 msgid "Select the transaction(s) you want to associate with a reconciliation :"
-msgstr ""
-"Die Buchungen auswählen welche einer Abstimmung zugeordnet werden sollen :"
+msgstr "Die Buchungen auswählen welche einer Abstimmung zugeordnet werden sollen :"
 
 #: src/gsb_assistant_reconcile_config.c:715
 msgid "Link the selection to a reconcile..."
@@ -3776,16 +3733,14 @@ msgstr ""
 "span>"
 
 #: src/gsb_assistant_reconcile_config.c:812
-msgid ""
-"<span foreground=\"red\">The final date is not valid, please check it</span>"
+msgid "<span foreground=\"red\">The final date is not valid, please check it</span>"
 msgstr ""
 "<span foreground=\"red\">Das Enddatum ist nicht gültig, das Datum "
 "überprüfen</span>"
 
 #: src/gsb_assistant_reconcile_config.c:821
 msgid "<span foreground=\"red\">Please give a name to the new reconcile</span>"
-msgstr ""
-"<span foreground=\"red\">Bitte einen Namen für die Abstimmung eingeben</span>"
+msgstr "<span foreground=\"red\">Bitte einen Namen für die Abstimmung eingeben</span>"
 
 #: src/gsb_assistant_reconcile_config.c:830
 msgid ""
@@ -3799,15 +3754,12 @@ msgstr ""
 msgid ""
 "<span foreground=\"red\">Cannot allocate memory : Bad things will happen "
 "soon.</span>"
-msgstr ""
-"<span foreground=\"red\">Der Speicher kann nicht zugeordnet werden.</span>"
+msgstr "<span foreground=\"red\">Der Speicher kann nicht zugeordnet werden.</span>"
 
 #: src/gsb_assistant_reconcile_config.c:868
 #, c-format
-msgid ""
-"<span foreground=\"blue\">Reconciliation %s successfully appended !</span>"
-msgstr ""
-"<span foreground=\"blue\">Abstimmung %s erfolgreich abgeschlossen !</span>"
+msgid "<span foreground=\"blue\">Reconciliation %s successfully appended !</span>"
+msgstr "<span foreground=\"blue\">Abstimmung %s erfolgreich abgeschlossen !</span>"
 
 #. update the string containing the number of transactions to link
 #. update the labels
@@ -3856,79 +3808,78 @@ msgstr "Die Abstimmung für die Zuordnung der Buchungen auswählen :"
 
 #: src/gsb_assistant_reconcile_config.c:1327
 msgid "No selection found, the transactions are not modified."
-msgstr ""
-"Es wurde keine Auswahl getroffen, die Buchungen werden nicht zugeordnet."
+msgstr "Es wurde keine Auswahl getroffen, die Buchungen werden nicht zugeordnet."
 
-#: src/gsb_bank.c:297 src/gsb_reconcile.c:416
+#: src/gsb_bank.c:381 src/gsb_reconcile.c:416
 msgid "None"
 msgstr "Kein"
 
-#: src/gsb_bank.c:333
+#: src/gsb_bank.c:417
 msgid "Add new bank"
 msgstr "Eine neue Bank hinzufügen"
 
-#: src/gsb_bank.c:422
+#: src/gsb_bank.c:506
 msgid "Contact name"
 msgstr "Ansprechperson"
 
-#: src/gsb_bank.c:430 src/parametres.c:435
+#: src/gsb_bank.c:514 src/parametres.c:435
 msgid "Banks"
 msgstr "Banken"
 
-#: src/gsb_bank.c:443
+#: src/gsb_bank.c:527
 msgid "Known banks"
 msgstr "Erfasste Banken"
 
-#: src/gsb_bank.c:632
+#: src/gsb_bank.c:716
 msgid "Bank details"
 msgstr "Bank Details"
 
 #. Bank Sort code item
-#: src/gsb_bank.c:658
+#: src/gsb_bank.c:742
 msgid "Sort code"
 msgstr "Laufende Nr."
 
 #. Bank address
-#: src/gsb_bank.c:673
+#: src/gsb_bank.c:757
 msgid "Address"
 msgstr "Adresse"
 
 #. Phone number
-#: src/gsb_bank.c:696 src/gsb_bank.c:764
+#: src/gsb_bank.c:780 src/gsb_bank.c:848
 msgid "Phone"
 msgstr "Telefon"
 
 #. E-mail
 #. E-Mail
-#: src/gsb_bank.c:711 src/gsb_bank.c:794
+#: src/gsb_bank.c:795 src/gsb_bank.c:878
 msgid "E-Mail"
 msgstr "eMail"
 
 #. Website
-#: src/gsb_bank.c:726 src/help.c:100
+#: src/gsb_bank.c:810 src/help.c:100
 msgid "Website"
 msgstr "Webseite"
 
 #. Contact
-#: src/gsb_bank.c:741
+#: src/gsb_bank.c:825
 msgid "Contact"
 msgstr "Ansprechperson"
 
 #. Fax
-#: src/gsb_bank.c:779
+#: src/gsb_bank.c:863
 msgid "Fax"
 msgstr "Fax"
 
-#: src/gsb_bank.c:887
+#: src/gsb_bank.c:971
 msgid "Edit bank"
 msgstr "Bank bearbeiten"
 
 #. create the new bank
-#: src/gsb_bank.c:983
+#: src/gsb_bank.c:1067
 msgid "New bank"
 msgstr "Neue Bank"
 
-#: src/gsb_bank.c:1083
+#: src/gsb_bank.c:1167
 #, c-format
 msgid ""
 "Bank \"%s\" is used by one or several accounts.\n"
@@ -3937,11 +3888,11 @@ msgstr ""
 "Die Bank \"%s\" wird von einem oder mehreren Konten benötigt.\n"
 "Soll der Eintrag.gelöscht werden?"
 
-#: src/gsb_bank.c:1085 src/gsb_bank.c:1094
+#: src/gsb_bank.c:1169 src/gsb_bank.c:1178
 msgid "Confirmation of bank removal"
 msgstr "Die Löschung der Bank bestätigen"
 
-#: src/gsb_bank.c:1092
+#: src/gsb_bank.c:1176
 #, c-format
 msgid "Are you sure you want to remove bank \"%s\"?\n"
 msgstr "Soll die selektierte Bank \"%s\" gelöscht werden?\n"
@@ -4403,2812 +4354,2759 @@ msgstr "Sonstige Einnahmen : Second hand Verkäufe"
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1020. Fonds associatifs sans droit de "
 "reprise"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:179
-msgid ""
-"10. Fonds associatifs et rÃ©serves : 1021. Valeur du patrimoine intÃ©grÃ©"
-msgstr ""
+msgid "10. Fonds associatifs et rÃ©serves : 1021. Valeur du patrimoine intÃ©grÃ©"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:180
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1022. Fonds statutaires (Ã  dÃ©clarer "
 "en fonction des statuts)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:181
-msgid ""
-"10. Fonds associatifs et rÃ©serves : 1024. Apports sans droit de reprise"
-msgstr ""
+msgid "10. Fonds associatifs et rÃ©serves : 1024. Apports sans droit de reprise"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:182
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1025. Lges et donations avec "
 "contrepartie d'actifs immobilisÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:183
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1026. Subventions d'investissement "
 "affectÃ©es Ã  des biens renouvelables"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:184
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1030. Fonfs associatifs avec droit de "
 "reprise"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:185
-msgid ""
-"10. Fonds associatifs et rÃ©serves : 1034. Apports avec droit de reprise"
-msgstr ""
+msgid "10. Fonds associatifs et rÃ©serves : 1034. Apports avec droit de reprise"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:186
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1035. Legs et donations avec "
 "contrepartie d'actifs immobilisÃ©s assorties d'une obligation ou d'une "
 "condition"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:187
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1036. Subventions d'investissement "
 "affectÃ©es Ã  des biens renouvelables"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:188
 msgid "10. Fonds associatifs et rÃ©serves : 1050. Ecarts et rÃ©Ã©valuation"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:189
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1051. Ecarts et rÃ©Ã©valuations sur des "
 "biens sans droit de reprise"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:190
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1052. Ecarts et rÃ©Ã©valuations sur des "
 "biens avec droit de reprise"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:191
 msgid "10. Fonds associatifs et rÃ©serves : 1060. RÃ©serves"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:192
 msgid "10. Fonds associatifs et rÃ©serves : 1062. RÃ©serves indisponibles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:193
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1063. RÃ©serves statutaires ou "
 "contractuelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:194
 msgid "10. Fonds associatifs et rÃ©serves : 1064. RÃ©serves rÃ©glementÃ©es"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:195
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1068. Autres rÃ©serves (dont rÃ©serves "
 "pour projet associatif)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:196
 msgid "11. ElÃ©ments en instance d'affectation : 110. Report Ã  nouveau"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:197
 msgid ""
 "11. ElÃ©ments en instance d'affectation : 115. RÃ©sultats sous contrÃ´le de "
 "tiers financeurs"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:198
 msgid ""
 "12. RÃ©sultat net de l'exercice (exÃ©dent ou dÃ©ficit) : 120. RÃ©sultat des "
 "l'exercice (exÃ©dent)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:199
 msgid ""
 "12. RÃ©sultat net de l'exercice (exÃ©dent ou dÃ©ficit) : 129. RÃ©sultat de "
 "l'exercice (dÃ©ficit)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:200
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1310. Subventions d'investissements (renouvelable)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:201
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1311. Etat"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:202
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1312. RÃ©gions"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:203
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1313. DÃ©partements"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:204
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1314. Communes"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:205
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1315. CollectivitÃ©s publiques"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:206
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1316. Entreprise publiques"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:207
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1317. Entreprises et organismes privÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:208
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1318. Autres"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:209
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1380. Autres subventions d'investissement"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:210
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1390. Subventions d'investissement inscrites au compte de rÃ©sultat"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:211
 msgid ""
 "14. Provisions rÃ©glementÃ©es : 1420. Provisions rÃ©glementÃ©es relatives "
 "aux immobilisations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:212
 msgid ""
 "14. Provisions rÃ©glementÃ©es : 1430. Provisions rÃ©glementÃ©es relatives "
 "aux stocks"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:213
 msgid ""
 "14. Provisions rÃ©glementÃ©es : 1424. Provisions pour investissement "
 "(participation des salariÃ©s)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:214
 msgid "14. Provisions rÃ©glementÃ©es : 1431. Hausse des prix"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:215
 msgid "14. Provisions rÃ©glementÃ©es : 1432. Fluctuations des cours"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:216
 msgid ""
 "14. Provisions rÃ©glementÃ©es : 1440. Provisions rÃ©glementÃ©es relatives "
 "aux autres Ã©lÃ©ments de l'actif"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:217
 msgid "14. Provisions rÃ©glementÃ©es : 1450. Ammortissements dÃ©rogatoires"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:218
-msgid ""
-"14. Provisions rÃ©glementÃ©es : 1460. Provisions spÃ©ciale de rÃ©Ã©valuation"
-msgstr ""
+msgid "14. Provisions rÃ©glementÃ©es : 1460. Provisions spÃ©ciale de rÃ©Ã©valuation"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:219
 msgid "14. Provisions rÃ©glementÃ©es : 1480. Autres provisions rÃ©glementÃ©es"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:220
 msgid "15. Provisions pour risques et charges : 1510. Provisions pour risques"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:221
 msgid "15. Provisions pour risques et charges : 1511. Provisions pour litiges"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:222
 msgid ""
 "15. Provisions pour risques et charges : 1514. Provisions pour amendes et "
 "pÃ©nalitÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:223
 msgid ""
 "15. Provisions pour risques et charges : 1515. Provisions pour pertes de "
 "changes"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:224
 msgid ""
 "15. Provisions pour risques et charges : 1516. Provisions pour risque "
 "d'emploi"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:225
-msgid ""
-"15. Provisions pour risques et charges : 1518. Autres provisions pour risques"
-msgstr ""
+msgid "15. Provisions pour risques et charges : 1518. Autres provisions pour risques"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:226
 msgid ""
 "15. Provisions pour risques et charges : 1530. Provisions pour pensions et "
 "obligations similaires"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:227
 msgid "15. Provisions pour risques et charges : 1550. Provisions pour impÃ´ts"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:228
 msgid ""
 "15. Provisions pour risques et charges : 1570. Provisions pour charges Ã  "
 "rÃ©partir sur plusieurs exercice"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:229
 msgid ""
 "15. Provisions pour risques et charges : 1572. Provisions pour grosses "
 "rÃ©parations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:230
-msgid ""
-"15. Provisions pour risques et charges : 1580. Autres provisions pour charges"
-msgstr ""
+msgid "15. Provisions pour risques et charges : 1580. Autres provisions pour charges"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:231
 msgid ""
 "15. Provisions pour risques et charges : 1582. Provisions pour charges "
 "sociales et fiscales sur congÃ©s payer"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:232
 msgid ""
 "16. Emprunt et dettes assimilÃ©es : 1640. Emprunts auprÃ¨s des "
 "Ã©tablissements de crÃ©dit"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:233
 msgid "16. Emprunt et dettes assimilÃ©es : 1641. Emprunt (Ã  dÃ©tailler)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:234
-msgid ""
-"16. Emprunt et dettes assimilÃ©es : 1650. DÃ©pÃ´ts et cautionnements reÃ§us"
-msgstr ""
+msgid "16. Emprunt et dettes assimilÃ©es : 1650. DÃ©pÃ´ts et cautionnements reÃ§us"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:235
 msgid "16. Emprunt et dettes assimilÃ©es : 1651. DÃ©pÃ´ts"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:236
 msgid "16. Emprunt et dettes assimilÃ©es : 1655. Cautionnements"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:237
 msgid ""
 "16. Emprunt et dettes assimilÃ©es : 1660. Participation des salariÃ©s aux "
 "rÃ©sultats"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:238
 msgid "16. Emprunt et dettes assimilÃ©es : 1661. Comptes bloquÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:239
 msgid "16. Emprunt et dettes assimilÃ©es : 1662. Fonds de participation"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:240
 msgid ""
 "16. Emprunt et dettes assimilÃ©es : 1670. Emprunts et dettes assorties de "
 "conditions particuliÃ¨res"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:241
 msgid "16. Emprunt et dettes assimilÃ©es : 1672. Titre associatif"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:242
 msgid ""
 "16. Emprunt et dettes assimilÃ©es : 1680. Autres emprunts et dettes "
 "assimilÃ©es"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:243
-msgid ""
-"16. Emprunt et dettes assimilÃ©es : 1681. Autres emprunts (Ã  dÃ©tailler)"
-msgstr ""
+msgid "16. Emprunt et dettes assimilÃ©es : 1681. Autres emprunts (Ã  dÃ©tailler)"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:244
 msgid "16. Emprunt et dettes assimilÃ©es : 1685. Rents viagÃ¨res capitalisÃ©es"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:245
 msgid "16. Emprunt et dettes assimilÃ©es : 1687. Autres dettes (Ã  dÃ©tailler)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:246
-msgid ""
-"16. Emprunt et dettes assimilÃ©es : 1688. IntÃ©rÃªts courus ( Ã  dÃ©tailler)"
-msgstr ""
+msgid "16. Emprunt et dettes assimilÃ©es : 1688. IntÃ©rÃªts courus ( Ã  dÃ©tailler)"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:247
 msgid ""
 "18. Comptes de liaisons des Ã©tablissements (avec le siÃ¨ge social ou entre "
 "eux) : 1810. Apports permanents entre siÃ¨ge social et Ã©tablissement"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:248
 msgid ""
 "18. Comptes de liaisons des Ã©tablissements (avec le siÃ¨ge social ou entre "
 "eux) : 1850. Biens et prestations de services Ã©changÃ©s entre "
 "Ã©tablissements et le siÃ¨ge social"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:249
 msgid ""
 "18. Comptes de liaisons des Ã©tablissements (avec le siÃ¨ge social ou entre "
 "eux) : 1860. Biens et prestations de services Ã©changÃ©s entre "
 "Ã©tablissement (charges)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:250
 msgid ""
 "18. Comptes de liaisons des Ã©tablissements (avec le siÃ¨ge social ou entre "
 "eux) : 1670. Biens et prestations de services Ã©changÃ©s entre "
 "Ã©tablissements (produits)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:251
-msgid ""
-"19. Fonds dÃ©diÃ©s : 1940. Fonds dÃ©diÃ©s sur subventions de fonctionnement"
-msgstr ""
+msgid "19. Fonds dÃ©diÃ©s : 1940. Fonds dÃ©diÃ©s sur subventions de fonctionnement"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:252
 msgid "19. Fonds dÃ©diÃ©s : 1950. Fonds dÃ©diÃ©s sur dons manuels affectÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:253
 msgid "19. Fonds dÃ©diÃ©s : 1970. Fons dÃ©diÃ©s sur legs et dons affectÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:254
 msgid "20. Immobilisations incorporelles : 2010. Frais d'Ã©tablissement"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:255
-msgid ""
-"20. Immobilisations incorporelles : 2012. Frais de premier Ã©tablissement"
-msgstr ""
+msgid "20. Immobilisations incorporelles : 2012. Frais de premier Ã©tablissement"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:256
 msgid "20. Immobilisations incorporelles : 2060. Droit au bail"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:257
 msgid ""
 "20. Immobilisations incorporelles : 2080. Autres immobilisations "
 "incorporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:258
 msgid "21. Immoblilisations corporelles : 2110. Terrains"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:259
 msgid ""
 "21. Immoblilisations corporelles : 2120. Agencements et amÃ©nagements de "
 "terrains"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:260
 msgid "21. Immoblilisations corporelles : 2130. Constructions"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:261
 msgid "21. Immoblilisations corporelles : 2131. BÃ¢timents"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:262
 msgid ""
 "21. Immoblilisations corporelles : 2135. Installations gÃ©nÃ©rales, "
 "agencements, amÃ©nagements des constructions"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:263
 msgid "21. Immoblilisations corporelles : 2140. Constructions sur sol d'autrui"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:264
 msgid ""
 "21. Immoblilisations corporelles : 2150. Installations techniques, "
 "matÃ©riels et outillages industriels"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:265
 msgid ""
 "21. Immoblilisations corporelles : 2151. Installations complexes "
 "spÃ©cialisÃ©es"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:266
 msgid "21. Immoblilisations corporelles : 2154. MatÃ©riels industriel"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:267
 msgid "21. Immoblilisations corporelles : 2155. Outillages industriel"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:268
-msgid ""
-"21. Immoblilisations corporelles : 2180. Autres immobilisations incorporelles"
-msgstr ""
+msgid "21. Immoblilisations corporelles : 2180. Autres immobilisations incorporelles"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:269
 msgid ""
 "21. Immoblilisations corporelles : 2181. Installations gÃ©nÃ©rales, "
 "agencements, amÃ©nagements divers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:270
 msgid "21. Immoblilisations corporelles : 2182. MatÃ©riels de transport"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:271
 msgid ""
 "21. Immoblilisations corporelles : 2183. MatÃ©riels de bureau et matÃ©riels "
 "informatique"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:272
 msgid "21. Immoblilisations corporelles : 2184. Mobilier"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:273
 msgid "21. Immoblilisations corporelles : 2185. Cheptel"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:274
 msgid ""
 "22. Immobilisations mises en concession : 2280. Immobilisations grevÃ©es de "
 "droits"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:275
-msgid ""
-"22. Immobilisations mises en concession : 2290. Droits des propriÃ©taires"
-msgstr ""
+msgid "22. Immobilisations mises en concession : 2290. Droits des propriÃ©taires"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:276
-msgid ""
-"23. Immobilisations en cours : 2310.Immobilisations corporelles en cours"
-msgstr ""
+msgid "23. Immobilisations en cours : 2310.Immobilisations corporelles en cours"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:277
 msgid "23. Immobilisations en cours : 2312. Terrain"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:278
 msgid "23. Immobilisations en cours : 2313. Constructions"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:279
 msgid ""
 "23. Immobilisations en cours : 2315. Installations techniques, matÃ©riels et "
 "outillages industriels"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:280
 msgid "23. Immobilisations en cours : 2318. Autres immobilisations corporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:281
-msgid ""
-"23. Immobilisations en cours : 2320. Immobilisations incorporelles en cours"
-msgstr ""
+msgid "23. Immobilisations en cours : 2320. Immobilisations incorporelles en cours"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:282
 msgid ""
 "23. Immobilisations en cours : 2380. Avances et acomptes versÃ©s sur "
 "commandes d'immobilisations corporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:283
 msgid ""
 "26. Participations et crÃ©ances rattachÃ©es Ã  des participations : 2610. "
 "Titres de participations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:284
 msgid ""
 "26. Participations et crÃ©ances rattachÃ©es Ã  des participations : 2660. "
 "Autres formes de participation"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:285
 msgid ""
 "26. Participations et crÃ©ances rattachÃ©es Ã  des participations : 2670. "
 "CrÃ©ances rattachÃ©es Ã  des particiations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:286
 msgid ""
 "26. Participations et crÃ©ances rattachÃ©es Ã  des participations : 2690. "
 "Versements restant Ã  effectuer sur titres de participation non libÃ©rÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:287
 msgid ""
 "27. Autres immobilisations financiÃ¨res : 2710. Titres immobilisÃ©s (droit "
 "de propiÃ©tÃ©)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:288
 msgid "27. Autres immobilisations financiÃ¨res : 2711. Actions"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:289
 msgid ""
 "27. Autres immobilisations financiÃ¨res : 2720. Titres immobilisÃ©s (droit "
 "decrÃ©ance)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:290
 msgid "27. Autres immobilisations financiÃ¨res : 2721. Obligations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:291
 msgid "27. Autres immobilisations financiÃ¨res : 2722. Bons"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:292
 msgid "27. Autres immobilisations financiÃ¨res : 2728. Autres"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:293
 msgid ""
 "27. Autres immobilisations financiÃ¨res : 2730. Titres immobilisÃ©s de "
 "l'activitÃ© de portefeuille"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:294
 msgid "27. Autres immobilisations financiÃ¨res : 2740. PrÃªts"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:295
 msgid "27. Autres immobilisations financiÃ¨res : 2743. PrÃªts au personnel"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:296
 msgid "27. Autres immobilisations financiÃ¨res : 2748. Autres prÃªts"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:297
 msgid ""
 "27. Autres immobilisations financiÃ¨res : 2750. DÃ©pÃ´ts et cautionnements "
 "versÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:298
 msgid "27. Autres immobilisations financiÃ¨res : 2751. DÃ©pots"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:299
 msgid "27. Autres immobilisations financiÃ¨res : 2755. Cautionnements"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:300
 msgid ""
 "27. Autres immobilisations financiÃ¨res : 2760. AUtres crÃ©ances "
 "immobilisÃ©es"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:301
 msgid "27. Autres immobilisations financiÃ¨res : 2761. CrÃ©ances divers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:302
 msgid ""
 "27. Autres immobilisations financiÃ¨res : 2768. IntÃ©rÃªts courus (Ã  "
 "dÃ©tailler)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:303
 msgid ""
 "27. Autres immobilisations financiÃ¨res : 2790. Versements restant Ã  "
 "effectuer sur titres immobilisÃ©s non libÃ©rÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:304
 msgid ""
 "28. Ammortissements des immobiloisations : 2800. Ammortissements des "
 "immobilisations incorporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:305
 msgid ""
 "28. Ammortissements des immobiloisations : 2801. Frais d'Ã©tablissement "
 "(mÃªme ventilation que celle du compte 201)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:306
 msgid ""
 "28. Ammortissements des immobiloisations : 2808. Autres immobilisations "
 "incorporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:307
 msgid ""
 "28. Ammortissements des immobiloisations : 2810. Ammortissements des "
 "immobilisations corporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:308
 msgid ""
 "28. Ammortissements des immobiloisations : 2812. Agencememnts, amÃ©nagements "
 "des terrains (mÃªme ventilations que celle du compte 212)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:309
 msgid ""
 "28. Ammortissements des immobiloisations : 2813. Constructions (mÃªme "
 "ventilation que celle du compte 213)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:310
 msgid ""
 "28. Ammortissements des immobiloisations : 2814. Constructions sur sol "
 "d'autrui (mÃªme ventilations que celles du comptes 214)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:311
 msgid ""
 "28. Ammortissements des immobiloisations : 2815. Installtions techniques, "
 "matÃ©riels et outillages industriels (mÃªme ventilation que celle du compte "
 "215)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:312
 msgid ""
 "28. Ammortissements des immobiloisations : 2818. Autres immobilisations "
 "corporelles (mÃªme ventilation que celle du compte 218)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:313
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2900. Provisions pour "
 "dÃ©prÃ©ciations des immobilisations incorporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:314
-msgid ""
-"29. Provision pour dÃ©prÃ©ciation des immobilisation : 2906. Droit au bail"
-msgstr ""
+msgid "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2906. Droit au bail"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:315
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2908. Autres "
 "immobilisations incorporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:316
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2910. Provisions pour "
 "dÃ©prÃ©ciation des immobilisations corporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:317
 msgid "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2911. Terrain"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:318
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2960. Provisions pour "
 "dÃ©prÃ©ciations des participations et crÃ©ances rattachÃ©es Ã  des "
 "participations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:319
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2961. Tires de "
 "participations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:320
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2966. Autres formes "
 "de participations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:321
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2967. CrÃ©ances "
 "rattachÃ©es Ã  des participations (mÃªme ventilations que celles du compte "
 "267)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:322
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2970. Provisions pour "
 "dÃ©prÃ©ciations des autres immobilisations financiÃ¨res"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:323
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2971. Tires "
 "immobilisÃ©s (droit de propriÃ©tÃ©) (mÃªme ventilation que celle du compte "
 "271)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:324
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2972. Titres "
 "immobilisÃ©s (droit de crÃ©ances) ( mÃªme ventilations que celle compte 272)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:325
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2974. PrÃªts (mÃªme "
 "ventilation que celle du compte 274)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:326
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2975. DÃ©pÃ´ts et "
 "cautionnements versÃ©s (mÃªme ventilation que celle du compte 275)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:327
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2976. Autres "
 "crÃ©ances immobilisÃ©es ( mÃªme ventilation que celle du compte 276)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:328
 msgid "31. MatiÃ¨res premiÃ¨res et fournitures : 3110. MatiÃ¨res premiÃ¨res"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:329
 msgid "31. MatiÃ¨res premiÃ¨res et fournitures : 3170. Fournitures"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:330
 msgid "32. Autres approvisionnements : 3210. MatiÃ¨res consommables"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:331
 msgid "32. Autres approvisionnements : 3220. Fournitures consommables"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:332
 msgid "32. Autres approvisionnements : 3260. Emballages"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:333
 msgid "33. En-cours de production de biens : 3310. Produit en cours"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:334
 msgid "33. En-cours de production de biens : 3350. Travaux en cours"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:335
 msgid "34. En-cours de production de services : 3410. Produit en cours"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:336
 msgid ""
 "34. En-cours de production de services : 3450. Prestations de servevices en "
 "cours"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:337
 msgid "35. Stocks de produits : 3510. Produits intermÃ©diaires"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:338
 msgid "35. Stocks de produits : 3550. Produit finis"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:339
 msgid ""
 "39. Provisions pour dÃ©prÃ©ciations des stocks et en-cours : 3910. Provision "
 "pour dÃ©prÃ©ciations des matiÃ©res premiÃ¨res et fournitures"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:340
 msgid ""
 "39. Provisions pour dÃ©prÃ©ciations des stocks et en-cours : 3920. Provision "
 "pour dÃ©prÃ©ciation  des autres approvisionnement"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:341
 msgid ""
 "39. Provisions pour dÃ©prÃ©ciations des stocks et en-cours : 3930. Provision "
 "pour dÃ©prÃ©ciation des en-cours de production de biens"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:342
 msgid ""
 "39. Provisions pour dÃ©prÃ©ciations des stocks et en-cours : 3940. Provision "
 "pour dÃ©prÃ©ciation des en-cours de production de services"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:343
 msgid ""
 "39. Provisions pour dÃ©prÃ©ciations des stocks et en-cours : 3950. Provision "
 "pour dÃ©prÃ©ciation des stocks de produits"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:344
 msgid ""
 "39. Provisions pour dÃ©prÃ©ciations des stocks et en-cours : 3970. Provision "
 "pour dÃ©prÃ©ciation des stocks de marchandises"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:345
 msgid "40. Fournisseurs et comptes rattachÃ©s : 4010. Fournisseurs"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:346
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4011. Forunisseurs. Achats de biens "
 "ou de prestations de services"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:347
-msgid ""
-"40. Fournisseurs et comptes rattachÃ©s : 4040. Fournisseurs d'immobilisations"
-msgstr ""
+msgid "40. Fournisseurs et comptes rattachÃ©s : 4040. Fournisseurs d'immobilisations"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:348
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4041. Fournisseurs. Achats "
 "d'immobilisations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:349
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4047. Fournisseurs "
 "d'immobilisations. Retenues de garantie"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:350
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4080. Fournisseurs. Factures non "
 "parvenues"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:351
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4081. Fournisseurs. Achats de biens "
 "ou prestations de services"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:352
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4084. Fournisseurs. Achats "
 "d'immobilisations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:353
 msgid "40. Fournisseurs et comptes rattachÃ©s : 4090. Fournisseurs dÃ©biteurs"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:354
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4091. Fournisseurs. Avances et "
 "acomptes versÃ©s sur commandes"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:355
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4096. Fournisserus. CrÃ©ances pour "
 "embalage et matÃ©riel Ã  rendre"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:356
 msgid ""
 "41. Usagers et comptes rattachÃ©s : 4110. Usagers ( et organismes de prise "
 "en charges)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:357
-msgid ""
-"41. Usagers et comptes rattachÃ©s : 4116. CrÃ©ances douteuses ou litigieuses"
-msgstr ""
+msgid "41. Usagers et comptes rattachÃ©s : 4116. CrÃ©ances douteuses ou litigieuses"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:358
 msgid ""
 "41. Usagers et comptes rattachÃ©s : 4118. Usagers. Produitd non encore "
 "facturÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:359
 msgid "41. Usagers et comptes rattachÃ©s : 4119. Usagers crÃ©diteurs"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:360
-msgid ""
-"42. Personnel et comptes rattachÃ©s : 4210. Personnel. RÃ©munÃ©ration dues"
-msgstr ""
+msgid "42. Personnel et comptes rattachÃ©s : 4210. Personnel. RÃ©munÃ©ration dues"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:361
 msgid ""
 "42. Personnel et comptes rattachÃ©s : 4220. ComitÃ©s d'entreprise, "
 "d'Ã©tablissement"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:362
-msgid ""
-"42. Personnel et comptes rattachÃ©s : 4250. Personnel. Avances et acomptes"
-msgstr ""
+msgid "42. Personnel et comptes rattachÃ©s : 4250. Personnel. Avances et acomptes"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:363
 msgid "42. Personnel et comptes rattachÃ©s : 4270. Personnel. Opposition"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:364
 msgid ""
 "42. Personnel et comptes rattachÃ©s : 4280. Personnel. Charges Ã  payer et "
 "produits Ã  recevoir"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:365
 msgid ""
 "42. Personnel et comptes rattachÃ©s : 4282. Dettes provisionnÃ©es pour "
 "congÃ©s Ã  payer"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:366
 msgid "42. Personnel et comptes rattachÃ©s : 4286. Autres charges Ã  payer"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:367
 msgid "42. Personnel et comptes rattachÃ©s : 4287. Produit Ã  recevoir"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:368
-msgid ""
-"43 SÃ©curitÃ© social et autres organismes sociaux : 4310. SÃ©curitÃ© sociale"
-msgstr ""
+msgid "43 SÃ©curitÃ© social et autres organismes sociaux : 4310. SÃ©curitÃ© sociale"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:369
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4370. Autres organismes "
 "sociaux"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:370
 msgid "43 SÃ©curitÃ© social et autres organismes sociaux : 4372. Mutuelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:371
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4373. Caisses de "
 "retraite et de prÃ©voyance"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:372
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4374. Caisse "
 "d'allocation chÃ´mage. ASSEDIC"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:373
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4378. Autres organismes "
 "sociaux. Divers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:374
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4380. Organismes "
 "sociaux. Charges Ã  payer et produits Ã  recevoir"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:375
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4382. Charges sociales "
 "sur congÃ©s Ã  payer"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:376
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4386. Autres charges Ã  "
 "payer"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:377
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4387. Produits Ã  "
 "recevoir"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:378
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4410. Etat. Subvention Ã  "
 "recevoir"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:379
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4411. Subventions "
 "d'investissement"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:380
-msgid ""
-"44. Etat et autres collectivitÃ©s publiques : 4417. Subvention d'exploitation"
-msgstr ""
+msgid "44. Etat et autres collectivitÃ©s publiques : 4417. Subvention d'exploitation"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:381
-msgid ""
-"44. Etat et autres collectivitÃ©s publiques : 4419. Avances sur subventions"
-msgstr ""
+msgid "44. Etat et autres collectivitÃ©s publiques : 4419. Avances sur subventions"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:382
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4430. OpÃ©rations "
 "particuliÃ¨res avec l'Ã©tat, les collectivitÃ©s publiques, les organismes "
 "internationnaux"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:383
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4440. Etat. ImpÃ´ts sur les "
 "bÃ©nÃ©fices"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:384
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4445. Etat. ImpÃ´ts sur les "
 "sociÃ©tÃ©s (organismes sans but lucratif)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:385
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4450. Etat. taxes sur le "
 "chiffre d'affaires"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:386
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4452. TVA due "
 "intercommunautaire"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:387
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4455. Taxes sur le chiffre "
 "d'affaires Ã  dÃ©caisser"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:388
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4456. Taxes sur le chiffres "
 "d'affaires dÃ©ductible"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:389
-msgid ""
-"44. Etat et autres collectivitÃ©s publiques : 44562. TVA sur immobilisation"
-msgstr ""
+msgid "44. Etat et autres collectivitÃ©s publiques : 44562. TVA sur immobilisation"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:390
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44566. TVA sur autres biens et "
 "services"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:391
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44567. CrÃ©dit de TVA Ã  "
 "reporter"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:392
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4457. Taxes sur le chiffre "
 "d'affaires collectÃ©s par l'association"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:393
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4458. Taxes sur le chiffre "
 "d'affaires Ã  rÃ©gulariser ou en attente"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:394
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44586. Taxes sur le chiffre "
 "d'affaires sur factures non parvenues"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:395
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44587. Taxes sur le chiffre "
 "d'affaires sur factures Ã  Ã©tablir"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:396
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4470. Autres impÃ´ts et taxes "
 "et versements assimilÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:397
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4471. ImpÃ´ts, taxes et "
 "versements assimilÃ©s sur Ã©munÃ©rations ( administration des impÃ´ts)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:398
-msgid ""
-"44. Etat et autres collectivitÃ©s publiques : 44711. Taxes sur les salaires"
-msgstr ""
+msgid "44. Etat et autres collectivitÃ©s publiques : 44711. Taxes sur les salaires"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:399
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44713. Participation des "
 "employeurs Ã  la formation professionnelle continue"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:400
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44714. Cotisation pour dÃ©faut "
 "d'investissement dans la construction"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:401
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44718. Autres impÃ´ts, taxes "
 "et versements assimilÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:402
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4473. ImpÃ´ts, taxes et "
 "versements assimilÃ©s sur rÃ©munÃ©rations (autres organisme)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:403
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44733. Participation des "
 "employeurs Ã  la formation professionnelle continue"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:404
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44734. Participation des "
 "employeurs Ã  l'effort de construction (versement Ã  fond perdu)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:405
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4475. Autres impÃ´ts, taxes et "
 "versements assimilÃ©s (administration des impÃ´ts)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:406
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4477. AUtres impÃ´ts, taxes et "
 "versements assimilÃ©s (autres organismes)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:407
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4480. Etat. Charges Ã  payer "
 "et produits Ã  recevoir"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:408
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4482. Charges fiscales sur "
 "congÃ©s Ã  payer"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:409
-msgid ""
-"44. Etat et autres collectivitÃ©s publiques : 4486. Autres charges Ã  payer"
-msgstr ""
+msgid "44. Etat et autres collectivitÃ©s publiques : 4486. Autres charges Ã  payer"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:410
-msgid ""
-"44. Etat et autres collectivitÃ©s publiques : 4487. Produits Ã  recevoir"
-msgstr ""
+msgid "44. Etat et autres collectivitÃ©s publiques : 4487. Produits Ã  recevoir"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:411
 msgid ""
 "45. ConfÃ©dÃ©ration, fÃ©dÃ©ration, union, association affiliÃ©es : 4510. "
 "ConfÃ©dÃ©ration, fÃ©dÃ©ration, associations affiliÃ©es. Compte courant"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:412
 msgid ""
 "45. ConfÃ©dÃ©ration, fÃ©dÃ©ration, union, association affiliÃ©es : 4550. "
 "SociÃ©taires. Comptes courants"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:413
 msgid ""
 "46. DÃ©biteurs divers et crÃ©diteurs divers : 4670. Autres comptes "
 "dÃ©biteurs ou crÃ©diteurs"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:414
 msgid ""
 "46. DÃ©biteurs divers et crÃ©diteurs divers : 4680. Divers. Charges Ã  payer "
 "et produits Ã  recevoir"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:415
 msgid "46. DÃ©biteurs divers et crÃ©diteurs divers : 4686. Charges Ã  payer"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:416
-msgid ""
-"46. DÃ©biteurs divers et crÃ©diteurs divers : 4687. Produits Ã  recevoir"
-msgstr ""
+msgid "46. DÃ©biteurs divers et crÃ©diteurs divers : 4687. Produits Ã  recevoir"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:417
 msgid "47. Comptes d'attente : 4710. Recettes Ã  classer"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:418
 msgid "47. Comptes d'attente : 4720. DÃ©pences Ã  classer et rÃ©gulariser"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:419
-msgid ""
-"47. Comptes d'attente : 4750. Legs et donnations en cours de rÃ©alisation"
-msgstr ""
+msgid "47. Comptes d'attente : 4750. Legs et donnations en cours de rÃ©alisation"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:420
 msgid ""
 "48. Comptes de rÃ©gularisation : 4810. Charges Ã  rÃ©partir sur plusieurs "
 "exercices"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:421
-msgid ""
-"48. Comptes de rÃ©gularisation : 4812. Frais d'acquisition des immobilisation"
-msgstr ""
+msgid "48. Comptes de rÃ©gularisation : 4812. Frais d'acquisition des immobilisation"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:422
 msgid "48. Comptes de rÃ©gularisation : 4818. Charges Ã  Ã©taler"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:423
 msgid "48. Comptes de rÃ©gularisation : 4860. Charges constatÃ© d'avance"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:424
 msgid "48. Comptes de rÃ©gularisation : 4870. Produits constatÃ©s d'avance"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:425
 msgid ""
 "49. Provision pour dÃ©prÃ©ciation des comptes de tiers : 4910. Provision "
 "pour dÃ©prÃ©ciation des comptes d'usagers (et organisme de prise en charge)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:426
 msgid ""
 "49. Provision pour dÃ©prÃ©ciation des comptes de tiers : 4960. Provision "
 "pour dÃ©prÃ©ciation des comptes de dÃ©biteurs divers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:427
 msgid "50. Valeurs mobiliÃ¨res de placement : 5030. Actions"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:428
 msgid "50. Valeurs mobiliÃ¨res de placement : 5031. Titres cotÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:429
 msgid "50. Valeurs mobiliÃ¨res de placement : 5035. Titres non cotÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:430
 msgid "50. Valeurs mobiliÃ¨res de placement : 5060. Obligations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:431
 msgid "50. Valeurs mobiliÃ¨res de placement : 5061. Titres cotÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:432
 msgid "50. Valeurs mobiliÃ¨res de placement : 5065. Titres non cotÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:433
 msgid ""
 "50. Valeurs mobiliÃ¨res de placement : 5070. Bons du trÃ©sor et bons de "
 "caisse Ã  court terme"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:434
 msgid ""
 "50. Valeurs mobiliÃ¨res de placement : 5080. Autres valeurs mobiliÃ¨res et "
 "crÃ©ances assimilÃ©es"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:435
 msgid ""
 "50. Valeurs mobiliÃ¨res de placement : 5088. IntÃ©rÃªts courus sur "
 "obligations, bons et valeurs assimilÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:436
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5110. Valeurs Ã  "
 "l'encaissement"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:437
 msgid "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5120. Banques"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:438
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5130. Caisse des "
 "dÃ©pÃ´ts et consignation"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:439
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5140. ChÃ©ques "
 "postaux"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:440
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5150. Caisse du "
 "trÃ©sor et des Ã©tablissement publics"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:441
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5170. Autres "
 "organismes financiers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:442
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5171. Caisse "
 "d'Ã©pargne"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:443
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5180. IntÃ©rÃªts "
 "courus"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:444
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5186. IntÃ©rÃªts "
 "couris Ã  payer"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:445
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5187. IntÃ©rÃªts "
 "courus Ã  recevoir"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:446
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5190. Concours "
 "bancaires courants"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:447
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5198. IntÃ©rÃªts "
 "courus sur concours bancaires courants"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:448
 msgid "53. Caisse : 5310. Caisse du siÃ¨ge"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:449
 msgid "53. Caisse : 5320. Caisse des leiux d'activitÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:450
 msgid "54 RÃ©gies d'avances et accrÃ©ditifs : 5410. RÃ©gies d'avances"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:451
 msgid "54 RÃ©gies d'avances et accrÃ©ditifs : 5420. AccrÃ©ditifs"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:452
 msgid "58.Virements internes : 5810. Virements de fonds"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:453
 msgid ""
 "59. Provision pour dÃ©prÃ©ciation des comptes financiers : 5900. Provision "
 "pour dÃ©prÃ©ciation des valeurs mobiliÃ¨res de placement"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:454
 msgid ""
 "60. Achat (sauf 603) : 6010. Achats stockÃ©s. MatiÃ¨res premiÃ¨res et "
 "fournitures"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:455
 msgid "60. Achat (sauf 603) : 6020. Achats stockÃ©s. Autres approvisionnements"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:456
 msgid "60. Achat (sauf 603) : 6021. MatiÃ¨res consommables"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:457
 msgid "60. Achat (sauf 603) : 6022. Fournitures consommables"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:458
 msgid "60. Achat (sauf 603) : 60221. Combustibles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:459
 msgid "60. Achat (sauf 603) : 60222. Produits d'entretien"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:460
 msgid "60. Achat (sauf 603) : 60223. Fournitures d'atelier"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:461
 msgid "60. Achat (sauf 603) : 60224. Fournitures de magasin"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:462
 msgid "60. Achat (sauf 603) : 60225. Fournitures de bureau"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:463
 msgid ""
 "60. Achat (sauf 603) : 6030. Variations de stocks (approvisionnements et "
 "marchandises)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:464
 msgid ""
 "60. Achat (sauf 603) : 6031. Variations de stocks de matiÃ¨res premiÃ¨res et "
 "fournitures"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:465
 msgid ""
 "60. Achat (sauf 603) : 6032. Variations de stocks des autres "
 "approvisionnements"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:466
 msgid "60. Achat (sauf 603) : 6037. Variations des stocks de marchandises"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:467
-msgid ""
-"60. Achat (sauf 603) : 6040. Achats d'Ã©tudes et de prestation de services"
-msgstr ""
+msgid "60. Achat (sauf 603) : 6040. Achats d'Ã©tudes et de prestation de services"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:468
-msgid ""
-"60. Achat (sauf 603) : 6060. Achats non stockÃ©s de matiÃ¨res et fournitures"
-msgstr ""
+msgid "60. Achat (sauf 603) : 6060. Achats non stockÃ©s de matiÃ¨res et fournitures"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:469
 msgid ""
 "60. Achat (sauf 603) : 6061. Fournitures non stockables (eau, "
 "Ã©lectricitÃ©...)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:470
-msgid ""
-"60. Achat (sauf 603) : 6063. Fournitures d'entretiens et de petit Ã©quipement"
-msgstr ""
+msgid "60. Achat (sauf 603) : 6063. Fournitures d'entretiens et de petit Ã©quipement"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:471
 msgid "60. Achat (sauf 603) : 6064. Fournitures administrative"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:472
 msgid "60. Achat (sauf 603) : 6068. Autres matiÃ¨res et fournitures"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:473
 msgid "60. Achat (sauf 603) : 6070. Achats de marchandises"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:474
 msgid "60. Achat (sauf 603) : 6071. MArchandises  A"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:475
 msgid "60. Achat (sauf 603) : 6072. Marchandise B"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:476
-msgid ""
-"60. Achat (sauf 603) : 6090. Rabais, remises et ristournes obtenus sur achats"
-msgstr ""
+msgid "60. Achat (sauf 603) : 6090. Rabais, remises et ristournes obtenus sur achats"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:477
 msgid "61. Service exterieurs : 6110. Sous-traitance gÃ©nÃ©ral"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:478
 msgid "61. Service exterieurs : 6120. Redevances de crÃ©dit-bail"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:479
 msgid "61. Service exterieurs : 6122. CrÃ©dit-bail mobilier"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:480
 msgid "61. Service exterieurs : 6125. CrÃ©dit-bail immobilier"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:481
 msgid "61. Service exterieurs : 6130. Locations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:482
 msgid "61. Service exterieurs : 6132. Locations immobiliÃ¨res"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:483
 msgid "61. Service exterieurs : 6135. Locations mobiliÃ¨res"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:484
 msgid "61. Service exterieurs : 6140. Charges locatives et de copropriÃ©tÃ¨"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:485
 msgid "61. Service exterieurs : 6150. Entretiens et rÃ©parations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:486
 msgid "61. Service exterieurs : 6152. SUr biens immobiliers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:487
 msgid "61. Service exterieurs : 6155. Sur biens mobiliers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:488
 msgid "61. Service exterieurs : 6156. Maintenance"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:489
 msgid "61. Service exterieurs : 6160. Primes d'assurance"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:490
 msgid "61. Service exterieurs : 6161. Multirisque"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:491
-msgid ""
-"61. Service exterieurs : 6162. Assurance obligatoire dommage-construction"
-msgstr ""
+msgid "61. Service exterieurs : 6162. Assurance obligatoire dommage-construction"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:492
 msgid "61. Service exterieurs : 6168. Autres assurances"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:493
 msgid "61. Service exterieurs : 6170. Etudes et recherches"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:494
 msgid "61. Service exterieurs : 6180 Divers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:495
 msgid "61. Service exterieurs : 6181. Docummentations gÃ©nÃ©rale"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:496
 msgid "61. Service exterieurs : 6183. Documantations technique"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:497
-msgid ""
-"61. Service exterieurs : 6185. Frais de colloques, sÃ©minaires, confÃ©rences"
-msgstr ""
+msgid "61. Service exterieurs : 6185. Frais de colloques, sÃ©minaires, confÃ©rences"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:498
 msgid ""
 "61. Service exterieurs : 6190. Rabais, remises, ristournes obtenus sur "
 "services exterieurs"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:499
-msgid ""
-"62. Autres services exterieurs : 6210. Personnel exterieur Ã  l'association"
-msgstr ""
+msgid "62. Autres services exterieurs : 6210. Personnel exterieur Ã  l'association"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:500
 msgid "62. Autres services exterieurs : 6211. Personnel intÃ©rimaire"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:501
 msgid ""
 "62. Autres services exterieurs : 6214. Personnel dÃ©tachÃ© ou prÃªtÃ© Ã  "
 "l'association"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:502
 msgid ""
 "62. Autres services exterieurs : 6220. RÃ©munÃ©rations d'intÃ©rimaires et "
 "honoraires"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:503
 msgid "62. Autres services exterieurs : 6226. Honoraires"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:504
 msgid "62. Autres services exterieurs : 6227. Frais d'actes et de contencieux"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:505
 msgid ""
 "62. Autres services exterieurs : 6230. PublicitÃ©, publication, relations "
 "publiques"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:506
 msgid "62. Autres services exterieurs : 6231. Annonces et insertions"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:507
 msgid "62. Autres services exterieurs : 6233. Foires et expositions"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:508
 msgid "62. Autres services exterieurs : 6236. Catalogues et imprimÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:509
 msgid "62. Autres services exterieurs : 6237. Publications"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:510
-msgid ""
-"62. Autres services exterieurs : 6238. Divers (pourboires, dons courant...)"
-msgstr ""
+msgid "62. Autres services exterieurs : 6238. Divers (pourboires, dons courant...)"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:511
 msgid ""
 "62. Autres services exterieurs : 6240. Trasports de biens et transports "
 "colletifs de personnels"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:512
 msgid "62. Autres services exterieurs : 6241. Transports sur achats"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:513
 msgid "62. Autres services exterieurs : 6242. Transports sur ventes"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:514
 msgid "62. Autres services exterieurs : 6243. Transports entre Ã©tablissements"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:515
 msgid "62. Autres services exterieurs : 6248. Divers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:516
-msgid ""
-"62. Autres services exterieurs : 6250. DÃ©placements, missions et rÃ©ceptions"
-msgstr ""
+msgid "62. Autres services exterieurs : 6250. DÃ©placements, missions et rÃ©ceptions"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:517
 msgid "62. Autres services exterieurs : 6251. Voyages et dÃ©placements"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:518
 msgid "62. Autres services exterieurs : 6256. Missions"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:519
 msgid "62. Autres services exterieurs : 6257. RÃ©ceptions"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:520
 msgid ""
 "62. Autres services exterieurs : 6260. Frais postaux et frais de "
 "tÃ©lÃ©communications"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:521
 msgid ""
 "62. Autres services exterieurs : 6261. Liaisons informatiques ou "
 "spÃ©cialisÃ©es"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:522
 msgid "62. Autres services exterieurs : 6263. Affranchissements"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:523
 msgid "62. Autres services exterieurs : 6265. TÃ©lÃ©phone"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:524
-msgid ""
-"62. Autres services exterieurs : 6270. Services banquaires et assimilÃ©s"
-msgstr ""
+msgid "62. Autres services exterieurs : 6270. Services banquaires et assimilÃ©s"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:525
 msgid "62. Autres services exterieurs : 6280. Divers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:526
 msgid ""
 "62. Autres services exterieurs : 6281. Cotisations (liÃ©es Ã  l'activitÃ©s "
 "Ã©conomique)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:527
-msgid ""
-"62. Autres services exterieurs : 6284. Frais de recrutement du personnel"
-msgstr ""
+msgid "62. Autres services exterieurs : 6284. Frais de recrutement du personnel"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:528
 msgid ""
 "62. Autres services exterieurs : 6290. Rabais, remies, ristournes obtenus "
 "sur autres services exterieurs"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:529
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6310. ImpÃ´ts, taxes et "
 "versements assimilÃ©es sur rÃ©munÃ©rations (administration des impÃ´ts)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:530
 msgid "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6311. Taxes sur salaires"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:531
-msgid ""
-"63. ImpÃ´ts, taxes et versements assimilÃ©s : 6312. Taxe d'apprentissage"
-msgstr ""
+msgid "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6312. Taxe d'apprentissage"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:532
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6313. Participation des "
 "employeurs Ã  la formation professionelle continue"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:533
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6314. Cotisation pour dÃ©faut "
 "d'investissement obligatoire dans la construction"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:534
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6330. ImpÃ´ts, taxes et "
 "versements assimilÃ©s sur rÃ©munÃ©rations ( autres organismes)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:535
-msgid ""
-"63. ImpÃ´ts, taxes et versements assimilÃ©s : 6331. Versements de transports"
-msgstr ""
+msgid "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6331. Versements de transports"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:536
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6333. Participations des "
 "employeurs Ã  la formations professionnellescontinue"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:537
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6334. Participation des "
 "employeurs Ã  l'effort de construction (versement Ã  fonds perdu)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:538
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6335. Versements libÃ©ratoire "
 "donnant droit Ã  l'exonÃ©ration de la taxe d'apprentissage"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:539
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6350. Autres impÃ´ts, taxes et "
 "versements assimilÃ©s (administrations des impÃ´ts)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:540
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6351. ImpÃ´ts directs (sauf "
 "impÃ´t sur les bÃ©nÃ©fices)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:541
 msgid "63. ImpÃ´ts, taxes et versements assimilÃ©s : 63512. Taxes fonciÃ¨res"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:542
-msgid ""
-"63. ImpÃ´ts, taxes et versements assimilÃ©s : 62413. Autres impÃ´ts locaux"
-msgstr ""
+msgid "63. ImpÃ´ts, taxes et versements assimilÃ©s : 62413. Autres impÃ´ts locaux"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:543
-msgid ""
-"63. ImpÃ´ts, taxes et versements assimilÃ©s : 63518.Autres impÃ´ts directs"
-msgstr ""
+msgid "63. ImpÃ´ts, taxes et versements assimilÃ©s : 63518.Autres impÃ´ts directs"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:544
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6352. Taxes sur les chiffres "
 "d'affaires non rÃ©cupÃ©rables"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:545
 msgid "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6353. ImpÃ´ts indirects"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:546
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6354. Droits d'enregistrement "
 "et de timbre"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:547
 msgid "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6358. Autres droits"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:548
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6370. Autres impÃ´ts, taxes et "
 "versements assimilÃ©s (autres organismes)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:549
 msgid "64. Charges de personnel : 6410. RÃ©munÃ©rations du personnel"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:550
 msgid "64. Charges de personnel : 6411. Salaires et appointements"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:551
 msgid "64. Charges de personnel : 6412. CongÃ©s payÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:552
 msgid "64. Charges de personnel : 6413. Primes et gratifications"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:553
 msgid "64. Charges de personnel : 6414. IndemnitÃ©s et avantages divers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:554
 msgid "64. Charges de personnel : 6415. SupplÃ©ments familial"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:555
 msgid ""
 "64. Charges de personnel : 6450. Charges de sÃ©curitÃ© sociale et de "
 "prÃ©voyance"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:556
 msgid "64. Charges de personnel : 6451. Cotisations de l'URSSAF"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:557
 msgid "64. Charges de personnel : 6452. Cotisations aux mutuelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:558
 msgid ""
 "64. Charges de personnel : 6453. Cotisations aux caisses de retraite et de "
 "prÃ©voyance"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:559
 msgid "64. Charges de personnel : 6454. Cotisations aux ASSEDIC"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:560
-msgid ""
-"64. Charges de personnel : 6458. Cotisations aux autres organismes sociaux"
-msgstr ""
+msgid "64. Charges de personnel : 6458. Cotisations aux autres organismes sociaux"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:561
 msgid "64. Charges de personnel : 6470. Autres charges sociales"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:562
 msgid ""
 "64. Charges de personnel : 6472. Versements aux comitÃ©s d'entreprise et "
 "d'Ã©tablissement"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:563
 msgid "64. Charges de personnel : 6475. MÃ©decine du travail, pharmacie"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:564
 msgid "64. Charges de personnel : 6480. Autres charges de personnel"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:565
 msgid ""
 "65. Autres charges de gestions courante : 6510. Redevances pour concessions, "
 "brevet, licences, marques, procÃ©dÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:566
 msgid ""
 "65. Autres charges de gestions courante : 6516. Droits d'auteur et de "
 "reproduction (SACEM)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:567
 msgid ""
 "65. Autres charges de gestions courante : 6518. Autres droits et valeurs "
 "similaires"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:568
 msgid ""
 "65. Autres charges de gestions courante : 6540. Pertes sur crÃ©ances "
 "irrÃ©couvrables"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:569
 msgid "65. Autres charges de gestions courante : 6541. CrÃ©ances de l'exercice"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:570
 msgid ""
 "65. Autres charges de gestions courante : 6544. CrÃ©ances des exercices "
 "antÃ©rieurs"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:571
 msgid ""
 "65. Autres charges de gestions courante : 6550. Qoute-part de rÃ©sultat sur "
 "opÃ©ration faites en commun"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:572
 msgid ""
 "65. Autres charges de gestions courante : 6570. Subventions versÃ©es par "
 "l'association"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:573
 msgid ""
 "65. Autres charges de gestions courante : 6571. Bourses accordÃ©es aux "
 "usagers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:574
 msgid ""
 "65. Autres charges de gestions courante : 6580. Charges divers de gestion "
 "courante"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:575
 msgid ""
 "65. Autres charges de gestions courante : 6586. Cotisations (liÃ©es Ã  la "
 "vie statutaire)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:576
 msgid "66. Charges financiÃ¨res : 6610. Charges d'intÃ©rÃªts"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:577
 msgid "66. Charges financiÃ¨res : 6611. IntÃ©rÃªts des emprunts et dettes"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:578
 msgid "66. Charges financiÃ¨res : 6616. IntÃ©rÃªts banquaires"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:579
 msgid "66. Charges financiÃ¨res : 6618. IntÃ©rÃªts des autres dettes"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:580
 msgid "66. Charges financiÃ¨res : 6660. Pertes de change"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:581
 msgid ""
 "66. Charges financiÃ¨res : 6670. Charges nettes sur cessions de valeurs "
 "immobiliÃ¨res de placement"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:582
 msgid "66. Charges financiÃ¨res : 6680. Autres chages financiÃ¨res"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:583
 msgid ""
 "67. Charges exeptionnelles : 6710. Charges exeptionnelles sur opÃ©rations de "
 "gestion"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:584
 msgid ""
 "67. Charges exeptionnelles : 6712. PÃ©nalitÃ©s et amendes fiscales ou "
 "pÃ©nales"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:585
 msgid "67. Charges exeptionnelles : 6713. Dons, libÃ©ralitÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:586
 msgid ""
 "67. Charges exeptionnelles : 6714. CrÃ©ances devenues irrÃ©couvrables dans "
 "l'exercice"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:587
 msgid ""
 "67. Charges exeptionnelles : 6717. Rappel d'impÃ´ts (autres qu'impÃ´ts sur "
 "les bÃ©nÃ©fices)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:588
 msgid ""
 "67. Charges exeptionnelles : 6718. Autres charges exeptionnelles sur "
 "opÃ©rations de gestion"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:589
 msgid ""
 "67. Charges exeptionnelles : 6720. Charges sur exercices antÃ©rieurs ( Ã  "
 "reclasser)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:590
 msgid ""
 "67. Charges exeptionnelles : 6750. Valeurs comptables des Ã©lÃ©ments d'actif "
 "cÃ©dÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:591
 msgid "67. Charges exeptionnelles : 6751. Immobilisations incorporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:592
 msgid "67. Charges exeptionnelles : 6752. Immobilisations corporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:593
 msgid "67. Charges exeptionnelles : 6756. Immobilisations financiÃ¨res"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:594
 msgid "67. Charges exeptionnelles : 6780. Autres charges exeptionnelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:595
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6810. "
 "Dotations aux ammortissements et aux provisions. Charges d'exploitation"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:596
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6811. "
 "Dotations aux ammortissements des immobilisations incorporelles et "
 "corporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:597
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 68111. "
 "Immobilisations incorporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:598
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 68112. "
 "Immobilisations corporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:599
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6812. "
 "Dotations aux ammortissements des charges d'exploitation Ã  rÃ©partir"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:600
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6815. "
 "Dotations aux provisions, pour risque et charges d'exploitation"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:601
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6816. "
 "Dotationsaux provisions pour dÃ©prÃ©ciation des immobilisations "
 "incorporelles et corporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:602
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 68161. "
 "Immobilisations incorporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:603
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 68162. "
 "Immobilisations corporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:604
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6817. "
 "Dotations aux provisions pour dÃ©prÃ©ciation des actifs circulants"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:605
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6860. "
 "Dotations aux ammortissements et aux provisions. Charges financiÃ¨res"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:606
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6866. Dotation "
 "aux provisions pour dÃ©prÃ©ciations des Ã©lÃ©ments financiers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:607
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 68662. "
 "Immobilisations financiÃ¨res"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:608
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 68665. Valeurs "
 "mobiliÃ¨res de placement"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:609
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6870. "
 "Dotations aux ammortissements et aux provisions. Charges exeptionnelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:610
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6871. "
 "Dotations aux ammortissements exceptionnelles des immobilisations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:611
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6876. "
 "Dotations aux ammortissements pour dÃ©prÃ©ciation exceptionnelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:612
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6890. "
 "Engagements Ã  rÃ©aliser sur ressources affectÃ©es"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:613
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6894. "
 "Engagements Ã  rÃ©aliser sur subventions attribuÃ©es"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:614
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6895. "
 "Engagements Ã  rÃ©aliser sur dons manuels affectÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:615
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6897. "
 "Engagements Ã  rÃ©aliser sur legs et donations affectÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:616
 msgid "69. ImpÃ´ts sur les bÃ©nÃ©fices : 6950. ImpÃ´ts sur les bÃ©nÃ©fices"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:617
 msgid ""
 "69. ImpÃ´ts sur les bÃ©nÃ©fices : 6910. Participations des salariÃ¨s aux "
 "rÃ©sultats"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:618
 msgid ""
 "69. ImpÃ´ts sur les bÃ©nÃ©fices : 69511. ImpÃ´ts sur les sociÃ©tÃ©s des "
 "personnes morales non lucratives"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:619
 msgid ""
 "69. ImpÃ´ts sur les bÃ©nÃ©fices : 69512. ImpÃ´ts sur les sociÃ©tÃ©s de droit "
 "commun"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:620
 msgid ""
 "69. ImpÃ´ts sur les bÃ©nÃ©fices : 6952. Contributions additionnelles Ã  "
 "l'impÃ´ts sur les bÃ©nÃ©fices"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:621
 msgid ""
 "69. ImpÃ´ts sur les bÃ©nÃ©fices : 6970. Imposition forfaitaire et annuelle "
 "(IFA)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:622
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7010. "
 "Ventes de produits finis"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:623
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7050. "
 "Etudes"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:624
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7060. "
 "Prestations de services"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:625
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7070. "
 "Ventes de marchandises"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:626
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7080. "
 "Produits des activitÃ©s annexes"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:627
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7081. "
 "Produits des prestations fournies au personnel"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:628
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7083. "
 "Locations divers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:629
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7084. "
 "Mise Ã  disposition de personnel facturÃ©e"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:630
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7088. "
 "Autres produits d'activitÃ©s annexes"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:631
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7090. "
 "Rabais, remises et ristournes accordÃ©es par l'association"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:632
 msgid ""
 "71. Production stockÃ©e (ou destockage) : 7130. Variations de stock (en-"
 "cours de production, produits)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:633
 msgid ""
 "71. Production stockÃ©e (ou destockage) : 7133. Variations des en-cours de "
 "production de biens"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:634
 msgid ""
 "71. Production stockÃ©e (ou destockage) : 7134. Variations des en-cours de "
 "productions de services"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:635
 msgid ""
 "71. Production stockÃ©e (ou destockage) : 7135. Variations des stocks de "
 "produits"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:636
 msgid ""
 "75. Autres produits de gestions courante : 7510. Redevances pour "
 "concessions, brevets, licences, marques, procÃ©dÃ©s, droits et valeurs "
 "similaires"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:637
 msgid ""
 "75. Autres produits de gestions courante : 7520. Revenues des immeubles non "
 "affectÃ©s aux activitÃ©s de l'association"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:638
 msgid "75. Autres produits de gestions courante : 7540. Collectes"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:639
 msgid "75. Autres produits de gestions courante : 7560. cotisations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:640
 msgid ""
 "75. Autres produits de gestions courante : 7570. Quote-part d'Ã©lÃ©ments du "
 "fond associatif virÃ©e au compte de rÃ©sultat"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:641
 msgid ""
 "75. Autres produits de gestions courante : 7571. Quote part de subventions "
 "d'investissement (renouvelables) virÃ©e au compte de rÃ©sultat"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:642
 msgid ""
 "75. Autres produits de gestions courante : 7573. Quote-part des apports "
 "virÃ©s au compte de rÃ©sultat"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:643
 msgid ""
 "75. Autres produits de gestions courante : 7580. Produits divers de gestion "
 "courante"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:644
-msgid ""
-"75. Autres produits de gestions courante : 7581. Dons manuels non affectÃ©s"
-msgstr ""
+msgid "75. Autres produits de gestions courante : 7581. Dons manuels non affectÃ©s"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:645
 msgid "75. Autres produits de gestions courante : 7582. Dons manuels affectÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:646
 msgid ""
 "75. Autres produits de gestions courante : 7585. Legs et donations non "
 "affectÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:647
-msgid ""
-"75. Autres produits de gestions courante : 7586. Legs et donations affectÃ©s"
-msgstr ""
+msgid "75. Autres produits de gestions courante : 7586. Legs et donations affectÃ©s"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:648
-msgid ""
-"75. Autres produits de gestions courante : 7587. Ventes de dons en nature"
-msgstr ""
+msgid "75. Autres produits de gestions courante : 7587. Ventes de dons en nature"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:649
 msgid ""
 "75. Autres produits de gestions courante : 7588. Autres produits de la "
 "gÃ©nÃ©rositÃ© public"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:650
 msgid "76. Produits financiers : 7610. Produits des participations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:651
 msgid ""
 "76. Produits financiers : 7620. Produits des autres immobilisations "
 "financiÃ¨res"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:652
 msgid "76. Produits financiers : 7621. Revenus des titres immobilisÃ©s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:653
 msgid "76. Produits financiers : 7624. Revenus des prÃªts"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:654
 msgid ""
 "76. Produits financiers : 7640. Revenues des valeurs mobiliÃ¨res de "
 "placements"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:655
 msgid "76. Produits financiers : 7650. Escomptes obtenus"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:656
 msgid "76. Produits financiers : 7660. Gains de change"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:657
 msgid ""
 "76. Produits financiers : 7670. Produits nets sur cession de valeurs "
 "mobiliÃ¨res de placement"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:658
 msgid "76. Produits financiers : 7680. Autres produits financiers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:659
-msgid ""
-"76. Produits financiers : 7681. IntÃ©rÃªts des comptes financiers dÃ©biteurs"
-msgstr ""
+msgid "76. Produits financiers : 7681. IntÃ©rÃªts des comptes financiers dÃ©biteurs"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:660
 msgid ""
 "77. Produits exceptionnels : 7710. Produits exceptionnels sur opÃ©ration de "
 "gestion"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:661
 msgid "77. Produits exceptionnels : 7713. LibÃ©rabilitÃ©s perÃ§ues"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:662
 msgid "77. Produits exceptionnels : 7714. RentrÃ©es sur crÃ©ances amorties"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:663
 msgid "77. Produits exceptionnels : 7715. Subvention d'Ã©quilibre"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:664
 msgid ""
 "77. Produits exceptionnels : 7717. DÃ©grÃ¨vements d'impÃ´ts (autres qu'impÃ"
 "´ts sue les bÃ©nÃ©fices)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:665
 msgid ""
 "77. Produits exceptionnels : 7718. Autres produits excepetionnels sur "
 "opÃ©rations de gestion"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:666
 msgid ""
 "77. Produits exceptionnels : 7720. Produits sur exercices antÃ©rieurs (Ã  "
 "reclaser)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:667
-msgid ""
-"77. Produits exceptionnels : 7750. Produits de cessions d'Ã©lÃ©ments d'actif"
-msgstr ""
+msgid "77. Produits exceptionnels : 7750. Produits de cessions d'Ã©lÃ©ments d'actif"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:668
 msgid "77. Produits exceptionnels : 7751. Immobilisations incorporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:669
 msgid "77. Produits exceptionnels : 7752. Immobilisations corporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:670
 msgid "77. Produits exceptionnels : 7756. Immobilisations financiÃ¨res"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:671
 msgid ""
 "77. Produits exceptionnels : 7770. Quote-part des "
 "subventionsd'investissement virÃ©e au rÃ©sultat de l'exercice"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:672
 msgid "77. Produits exceptionnels : 7780. Autres produits exceptionnels"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:673
 msgid ""
 "78. Reprise sur amortissements et provisions : 7810. Reprise sur "
 "amoratissements et provisions (Ã  inscrire dans les produits d'exploitation)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:674
 msgid ""
 "78. Reprise sur amortissements et provisions : 7811. Reprise sur "
 "amortissement et provisions des immobilisations incorporelles et corporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:675
 msgid ""
 "78. Reprise sur amortissements et provisions : 7815. Reprise surprovision "
 "pour risques et charges d'exploitation"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:676
 msgid ""
 "78. Reprise sur amortissements et provisions : 7816. Reprise sur provisions "
 "pour dÃ©prÃ©ciation des immobilisations incorporelles et corporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:677
 msgid ""
 "78. Reprise sur amortissements et provisions : 78161. Immobilisations "
 "incorporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:678
 msgid ""
 "78. Reprise sur amortissements et provisions : 78162. Immobilisation "
 "corporelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:679
 msgid ""
 "78. Reprise sur amortissements et provisions : 7817. Reprise sur provisions "
 "pour dÃ©prÃ©ciation des actifs circulants"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:680
 msgid ""
 "78. Reprise sur amortissements et provisions : 7860. Reprise sur provisions "
 "( Ã  inscrire dans les produits exceptionnels)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:681
 msgid ""
 "78. Reprise sur amortissements et provisions : 7866. Reprise sur provision "
 "pour dÃ©prÃ©ciation des Ã©lÃ©ments financiers"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:682
 msgid ""
 "78. Reprise sur amortissements et provisions : 78662. Immobilisations "
 "financiÃ¨res"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:683
 msgid ""
 "78. Reprise sur amortissements et provisions : 78665. Valeurs mobiliÃ¨res de "
 "placement"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:684
 msgid ""
 "78. Reprise sur amortissements et provisions : 7870. Reprise sur provisions "
 "( Ã  inscrire dans les produits exceptionnels)"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:685
 msgid ""
 "78. Reprise sur amortissements et provisions : 7876. Reprise sur provision "
 "pour dÃ©prÃ©ciation exceptionnelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:686
 msgid ""
 "78. Reprise sur amortissements et provisions : 7890. Report des ressources "
 "non utilisÃ©es des exercices antÃ©rieurs"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:687
 msgid ""
 "78. Reprise sur amortissements et provisions : 7894. Reports des ressources "
 "non utilisÃ©es sur subventions attribÃ©es"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:688
 msgid ""
 "78. Reprise sur amortissements et provisions : 7895. Reports des ressources "
 "non utilisÃ©es sur dons manuels reÃ§us"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:689
 msgid ""
 "78. Reprise sur amortissements et provisions : 7897. Report des ressources "
 "non utilisÃ©es sur legs et donations affectÃ©es"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:690
 msgid "79. Transferts de charges : 7910. Transferts de charges d'exploitation"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:691
 msgid "79. Transferts de charges : 7960. Transferts des charges financiÃ¨res"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:692
 msgid "79. Transferts de charges : 7970. Transferts de charges exceptionnelles"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:693
 msgid "86. RÃ©partition par nature de charges : 8600. Secours en nature"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:694
 msgid "86. RÃ©partition par nature de charges : 8601. Alimentaires"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:695
 msgid "86. RÃ©partition par nature de charges : 8602. Vestimentaires"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:696
 msgid ""
 "86. RÃ©partition par nature de charges : 8610. Mise Ã  disposition gratuite "
 "de biens"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:697
 msgid "86. RÃ©partition par nature de charges : 8611. Locaux"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:698
 msgid "86. RÃ©partition par nature de charges : 8612. MatÃ©riels"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:699
 msgid "86. RÃ©partition par nature de charges : 8620. Prestations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:700
 msgid "86. RÃ©partition par nature de charges : 8640. Personnel bÃ©nÃ©vole"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:701
 msgid "87. RÃ©partition par nautre des ressources : 8700. BÃ©nÃ©volat"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:702
 msgid "87. RÃ©partition par nautre des ressources : 8710. Prestation en nature"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:703
 msgid "87. RÃ©partition par nautre des ressources : 8750. Dons en nature"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:708
 msgid "Petit outillage"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:709
 msgid "Impots et taxes : Taxe sur la valeur ajoutÃ©e"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:710
 msgid "Impots et taxes : Taxe professionnelle"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:711
 msgid "Impots et taxes : Autres impÃ´ts"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:712
 msgid "Achats"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:713
 msgid "P.T.T."
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:714
 msgid "Autres frais de dÃ©placements"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:715
 msgid "Frais de vÃ©hicules"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:716
 msgid "RÃ©ception, ReprÃ©sentation, CongrÃ¨s"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:717
 msgid "Entretien et rÃ©parations"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:718
 msgid "Cotisations professionnelles et syndicales"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:719
 msgid "Autres frais divers de gestion"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:720
 msgid "Location de matÃ©riel ou de mobilier"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:721
-#, fuzzy
 msgid "Fournitures de bureau et documentation"
-msgstr "Grisbi Dokumentation"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:722
-#, fuzzy
 msgid "Frais financiers"
-msgstr "Geschäftsjahre benutzen"
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:723
 msgid "RÃ©trocession d'honoraires"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:724
 msgid "Honoraires ne constituant pas des rÃ©trocessions"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:725
 msgid "Charges sociales du praticien"
-msgstr ""
+msgstr "Französische Kategorie - keine deutsche Übersetzung verfügbar"
 
 #: src/gsb_category.c:730
 msgid "Don't create any list, i will do it by myself or it will be imported"
@@ -7218,11 +7116,9 @@ msgstr ""
 
 #: src/gsb_category.c:731
 msgid "General category list (most common choice)"
-msgstr ""
-"Generelle Kategorien erstellen (im Zweifelsfall diese Option auswählen)"
+msgstr "Generelle Kategorien erstellen (im Zweifelsfall diese Option auswählen)"
 
 #: src/gsb_category.c:732
-#, fuzzy
 msgid ""
 "Association category list (in french for now, special categories to "
 "associations)"
@@ -7231,9 +7127,7 @@ msgstr ""
 "deutsch verfügbar)"
 
 #: src/gsb_category.c:733
-#, fuzzy
-msgid ""
-"Liberal category list (in french for now, to use Grisbi for a small business)"
+msgid "Liberal category list (in french for now, to use Grisbi for a small business)"
 msgstr ""
 "Spezielle Kategorien für kleine Firmen (diese Kategorien sind nicht in "
 "deutsch verfügbar)"
@@ -7243,17 +7137,17 @@ msgstr ""
 msgid "Choose the categories"
 msgstr "Kategorien auswählen"
 
-#: src/gsb_crypt.c:181
+#: src/gsb_crypt.c:177
 msgid "The password was incorrect ! Please try again..."
 msgstr "Das Passwort ist nicht korrekt! Bitte erneut eingeben ..."
 
-#: src/gsb_crypt.c:192 src/plugins/openssl/openssl.c:185
+#: src/gsb_crypt.c:188 src/plugins/openssl/openssl.c:183
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Die verschlüsselte Datei kann nicht geöffnet werden '%s'"
 
 #. FIXME: import symbols to be sure we can call this kind of stuff.
-#: src/gsb_crypt.c:194 src/plugins/openssl/openssl.c:183
+#: src/gsb_crypt.c:190 src/plugins/openssl/openssl.c:181
 msgid ""
 "This build of Grisbi does not support encryption.\n"
 "Please recompile Grisbi with OpenSSL encryption enabled."
@@ -7261,19 +7155,19 @@ msgstr ""
 "Diese Version von Grisbi unterstützt keine Verschlüsselung.\n"
 "Bitte rekompilieren Sie Grisbi mit OpenSSL Unterstützung."
 
-#: src/gsb_crypt.c:219 src/plugins/openssl/openssl.c:210
+#: src/gsb_crypt.c:215 src/plugins/openssl/openssl.c:208
 msgid "Grisbi password"
 msgstr "Grisbi Passwort"
 
-#: src/gsb_crypt.c:223 src/plugins/openssl/openssl.c:214
+#: src/gsb_crypt.c:219 src/plugins/openssl/openssl.c:212
 msgid "Crypt file"
 msgstr "Datei verschlüsseln"
 
-#: src/gsb_crypt.c:223 src/plugins/openssl/openssl.c:214
+#: src/gsb_crypt.c:219 src/plugins/openssl/openssl.c:212
 msgid "Decrypt file"
 msgstr "Datei entschlüsseln"
 
-#: src/gsb_crypt.c:248
+#: src/gsb_crypt.c:244
 #, c-format
 msgid ""
 "Please enter password to encrypt file\n"
@@ -7282,7 +7176,7 @@ msgstr ""
 "Bitte das Passwort zum Verschlüsseln der Datei eingeben\n"
 "'<tt>%s</tt>'"
 
-#: src/gsb_crypt.c:255
+#: src/gsb_crypt.c:251
 #, c-format
 msgid ""
 "Please enter password to decrypt file\n"
@@ -7291,32 +7185,32 @@ msgstr ""
 "Bitte das Passwort zum Entschlüsseln der Datei eingeben\n"
 "'<tt>%s</tt>'"
 
-#: src/gsb_crypt.c:265 src/plugins/openssl/openssl.c:250
+#: src/gsb_crypt.c:261 src/plugins/openssl/openssl.c:248
 msgid "Password"
 msgstr "Passwort"
 
-#: src/gsb_crypt.c:273 src/plugins/openssl/openssl.c:258
+#: src/gsb_crypt.c:269 src/plugins/openssl/openssl.c:256
 msgid "Don't ask password again for this session."
 msgstr "Solange das Programm geöffnet ist nicht mehr nach dem Passwort fragen."
 
-#: src/gsb_currency.c:419
+#: src/gsb_currency.c:421
 msgid "Enter exchange rate"
 msgstr "Wechselkurs eingeben"
 
-#: src/gsb_currency.c:425
+#: src/gsb_currency.c:427
 #, c-format
 msgid "Please enter exchange rate for %s"
 msgstr "Bitte den Wechselkurs für %s eingeben"
 
-#: src/gsb_currency.c:438
+#: src/gsb_currency.c:440
 msgid "A"
 msgstr "A"
 
-#: src/gsb_currency.c:451
+#: src/gsb_currency.c:453
 msgid "equals"
 msgstr "entspricht"
 
-#: src/gsb_currency.c:486
+#: src/gsb_currency.c:488
 msgid "Exchange fees"
 msgstr "Wechselgebühren"
 
@@ -8094,9 +7988,8 @@ msgid "Euro"
 msgstr "Euro"
 
 #: src/gsb_currency_config.c:178
-#, fuzzy
 msgid "UE (Europe)"
-msgstr "Europa"
+msgstr "UE (Europa)"
 
 #: src/gsb_currency_config.c:179
 msgid "Finnish Markka"
@@ -8724,8 +8617,7 @@ msgstr "Währungssymbol"
 msgid ""
 "Currency name and either international currency code or currency nickname "
 "should be set."
-msgstr ""
-"Es muss entweder der Währungsname oder der 'ISO-Code' eingegeben werden."
+msgstr "Es muss entweder der Währungsname oder der 'ISO-Code' eingegeben werden."
 
 #: src/gsb_currency_config.c:1024
 msgid "All fields are not filled in"
@@ -8781,10 +8673,8 @@ msgstr "Kein Name %d"
 
 #: src/gsb_data_account.c:520
 #, c-format
-msgid ""
-"Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
-msgstr ""
-"Bad nb rows nach gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
+msgid "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
+msgstr "Bad nb rows nach gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
 
 #. TODO dOm : the return value of g_strdup_printf was not used ! I add the devel_debug to print it. Is it OK to do that ?
 #: src/gsb_data_account.c:1172
@@ -8815,22 +8705,20 @@ msgstr "Kein Budgeteintrag"
 msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr "In <i>%s</i>, <i>%s</i> ist ein Duplikat von <i>%s</i>.\n"
 
-#: src/gsb_data_currency_link.c:476
+#: src/gsb_data_currency_link.c:475
 msgid ""
 "<span foreground=\"red\">Warning : the two currencies of the link are "
 "identicals</span>"
-msgstr ""
-"<span foreground=\"red\">Warnung : Die zwei Währungen sind identisch</span>"
+msgstr "<span foreground=\"red\">Warnung : Die zwei Währungen sind identisch</span>"
 
-#: src/gsb_data_currency_link.c:478
+#: src/gsb_data_currency_link.c:477
 msgid "<span foreground=\"red\">Warning : that link is already defined</span>"
 msgstr ""
 "<span foreground=\"red\">Warnung : Dieser Vergleich wurde bereits definiert</"
 "span>"
 
 #: src/gsb_data_fyear.c:567
-msgid ""
-"<span foreground=\"red\">Warning : the dates are not in good order</span>"
+msgid "<span foreground=\"red\">Warning : the dates are not in good order</span>"
 msgstr "<span foreground=\"red\">Warnung : Die Daten sind inkonsistent</span>"
 
 #: src/gsb_data_fyear.c:570
@@ -8875,33 +8763,33 @@ msgstr "Datei öffnen - Grisbi"
 msgid "Grisbi files (*.gsb)"
 msgstr "Grisbi Datei (*.gsb)"
 
-#: src/gsb_file.c:355
+#: src/gsb_file.c:354
 msgid "Loading accounts"
 msgstr "Konten laden"
 
-#: src/gsb_file.c:369
+#: src/gsb_file.c:368
 msgid "Autosaving"
 msgstr "Automatisch speichern"
 
 #. Loading failed.  If the saving function at opening is set,
 #. * we ask to load the last file
-#: src/gsb_file.c:384
+#: src/gsb_file.c:383
 msgid "Failed to load accounts"
 msgstr "Fehler beim Laden der Konten"
 
-#: src/gsb_file.c:390
+#: src/gsb_file.c:389
 msgid "Loading backup"
 msgstr "Sicherung einspielen"
 
 #. the backup loaded succesfully
 #. the loading backup failed
-#: src/gsb_file.c:399 src/gsb_file.c:408 src/gsb_file_load.c:274
-#: src/gsb_file_load.c:288 src/gsb_file_load.c:404
+#: src/gsb_file.c:398 src/gsb_file.c:407 src/gsb_file_load.c:277
+#: src/gsb_file_load.c:291 src/gsb_file_load.c:389
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Fehler beim Öffnen der Datei '%s'"
 
-#: src/gsb_file.c:400
+#: src/gsb_file.c:399
 msgid ""
 "Grisbi was unable to load file.  However, Grisbi loaded a backup file "
 "instead but all changes made since this backup were possibly lost."
@@ -8910,32 +8798,32 @@ msgstr ""
 "Sicherungsdatei geöffnet .\n"
 "Alle Änderungen seit der letzten Sicherung sind nicht mehr vorhanden."
 
-#: src/gsb_file.c:409
+#: src/gsb_file.c:408
 msgid ""
 "Grisbi was unable to load file.  Additionally, Grisbi was unable to load a "
 "backup file instead."
 msgstr "Grisbi konnte weder die Datei noch die Sicherungsdatei öffnen."
 
 #. ok, here the file or backup is loaded
-#: src/gsb_file.c:424
+#: src/gsb_file.c:423
 msgid "Checking schedulers"
 msgstr "Geplante Buchungen prüfen"
 
 #. we make the main window
-#: src/gsb_file.c:436
+#: src/gsb_file.c:435
 msgid "Creating main window"
 msgstr "Hauptfenster erstellen"
 
 #. check the amounts of all the accounts
-#: src/gsb_file.c:440
+#: src/gsb_file.c:439
 msgid "Checking amounts"
 msgstr "Beträge prüfen"
 
-#: src/gsb_file.c:467
+#: src/gsb_file.c:466
 msgid "Creating interface"
 msgstr "Dialog erstellen"
 
-#: src/gsb_file.c:572
+#: src/gsb_file.c:573
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -8945,30 +8833,30 @@ msgstr ""
 "speichern Sie die Datei unter einen anderen Namen, oder aktivieren Sie die "
 "\"%s\" Option in den Einstellungen."
 
-#: src/gsb_file.c:573 src/gsb_file.c:709 src/parametres.c:663
+#: src/gsb_file.c:574 src/gsb_file.c:710 src/parametres.c:663
 msgid "Force saving of locked files"
 msgstr "Das Speichern von gesperrten Dateien erzwingen"
 
-#: src/gsb_file.c:574
+#: src/gsb_file.c:575
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "Datei \"%s\" kann nicht gespeichert werden"
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: src/gsb_file.c:585
+#: src/gsb_file.c:586
 msgid "Saving file"
 msgstr "Datei speichern"
 
-#: src/gsb_file.c:640
+#: src/gsb_file.c:641
 msgid "Saving backup"
 msgstr "Sicherung speichern"
 
-#: src/gsb_file.c:706
+#: src/gsb_file.c:707
 msgid "Save locked files?"
 msgstr "Gesperrte Datei speichern?"
 
-#: src/gsb_file.c:707
+#: src/gsb_file.c:708
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
@@ -8978,46 +8866,44 @@ msgstr ""
 "speichern wollen, müssen Sie den Vorgang abbrechen und die Datei unter einem "
 "anderen Namen speichern oder die Option \"%s\" in den Einstellungen setzen."
 
-#: src/gsb_file.c:708 src/gsb_file.c:719 src/gsb_file.c:907
+#: src/gsb_file.c:709 src/gsb_file.c:720 src/gsb_file.c:908
 msgid "unnamed"
 msgstr "Unbenannt"
 
-#: src/gsb_file.c:711 src/gsb_file.c:722
+#: src/gsb_file.c:712 src/gsb_file.c:723
 msgid "Close without saving"
 msgstr "Beenden ohne Speichern"
 
-#: src/gsb_file.c:718
+#: src/gsb_file.c:719
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "Die Änderungen in Datei '%s' vor dem Schließen speichern?"
 
-#: src/gsb_file.c:731
+#: src/gsb_file.c:732
 #, c-format
 msgid "%dÂ minutes and %dÂ seconds"
 msgstr "%d Minuten und %d Sekunden"
 
-#: src/gsb_file.c:736
+#: src/gsb_file.c:737
 #, c-format
 msgid "1Â minute and %dÂ seconds"
 msgstr "1 Minute und %d Sekunden"
 
-#: src/gsb_file.c:741
+#: src/gsb_file.c:742
 #, c-format
 msgid "%dÂ seconds"
 msgstr "%d Sekunden"
 
-#: src/gsb_file.c:744
+#: src/gsb_file.c:745
 #, c-format
-msgid ""
-"If you close without saving, all of your changes since %s will be discarded."
-msgstr ""
-"Beim Schließen ohne Speichern werden alle Änderungen seit %s verworfen."
+msgid "If you close without saving, all of your changes since %s will be discarded."
+msgstr "Beim Schließen ohne Speichern werden alle Änderungen seit %s verworfen."
 
-#: src/gsb_file.c:780
+#: src/gsb_file.c:781
 msgid "Name the accounts file"
 msgstr "Datei speichern - Grisbi"
 
-#: src/gsb_file.c:911
+#: src/gsb_file.c:912
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -9237,17 +9123,17 @@ msgstr ""
 "Die Buchung #%d verweist auf Buchung #%d, welche auf folgende Buchung "
 "verweist #%d.\n"
 
-#: src/gsb_file_load.c:271 src/gsb_file_load.c:401 src/gsb_file_others.c:426
+#: src/gsb_file_load.c:274 src/gsb_file_load.c:386 src/gsb_file_others.c:426
 #: src/gsb_file_others.c:560
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "Die Datei kann nicht geöffnet werden '%s': %s"
 
-#: src/gsb_file_load.c:273
+#: src/gsb_file_load.c:276
 msgid "File does not exist"
 msgstr "Die Datei ist nicht vorhanden"
 
-#: src/gsb_file_load.c:286 src/gsb_file_others.c:438
+#: src/gsb_file_load.c:289 src/gsb_file_others.c:438
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular file,\n"
@@ -9256,7 +9142,7 @@ msgstr ""
 "%s scheint keine reguläre Datei zu sein,\n"
 "bitte prüfen und erneut versuchen."
 
-#: src/gsb_file_load.c:337 src/gsb_file_save.c:318
+#: src/gsb_file_load.c:330 src/gsb_file_save.c:309
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -9268,16 +9154,16 @@ msgstr ""
 "\n"
 "Bitte prüfen, ob das Modul installiert ist und erneut versuchen."
 
-#: src/gsb_file_load.c:342 src/gsb_file_save.c:323
+#: src/gsb_file_load.c:335 src/gsb_file_save.c:314
 msgid "Encryption plugin not found."
 msgstr "Das Modul für die Verschlüsselung kann nicht gefunden werden."
 
-#: src/gsb_file_load.c:445 src/gsb_file_load.c:3949
+#: src/gsb_file_load.c:430 src/gsb_file_load.c:3935
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Diese Datei ist kein Grisbi Datei...der Ladevorgang wird abgebrochen."
 
 #. the first time we come here, we check if it's a grisbi file
-#: src/gsb_file_load.c:616
+#: src/gsb_file_load.c:601
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -9289,7 +9175,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:7095
+#: src/gsb_file_load.c:7114
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -9298,7 +9184,7 @@ msgstr ""
 "Grisbi mit Version %s ist zum Öffnen der Datei notwendig.\n"
 "Sie verwenden Version %s."
 
-#: src/gsb_file_load.c:7134
+#: src/gsb_file_load.c:7153
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -9309,12 +9195,12 @@ msgstr ""
 "Bevor Buchungen oder wichtige Informationen geändert werden sollten Sie "
 "beachten, dass es sich um ein Archiv handelt."
 
-#: src/gsb_file_load.c:7135
+#: src/gsb_file_load.c:7154
 msgid "Grisbi archive opened"
 msgstr "Grisbi Archiv geöffnet"
 
 #: src/gsb_file_others.c:138 src/gsb_file_others.c:222
-#: src/gsb_file_others.c:307 src/gsb_file_save.c:339
+#: src/gsb_file_others.c:307 src/gsb_file_save.c:334 src/gsb_file_save.c:352
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Die Datei kann nicht gespeichert werden '%s': %s"
@@ -9358,13 +9244,11 @@ msgstr "Diese Datei ist keine Grisbi Kategorien Datei..."
 
 #: src/gsb_file_others.c:622
 msgid "This is not a budget file, loading canceled..."
-msgstr ""
-"Diese Datei ist keine \"Budget-Datei\", der Ladevorgang wird abgebrochen..."
+msgstr "Diese Datei ist keine \"Budget-Datei\", der Ladevorgang wird abgebrochen..."
 
 #: src/gsb_file_others.c:639
 msgid "This is not a report file, loading canceled..."
-msgstr ""
-"Diese Datei ist keine \"Bericht-Datei\", der Ladevorgang wird abgebrochen..."
+msgstr "Diese Datei ist keine \"Bericht-Datei\", der Ladevorgang wird abgebrochen..."
 
 #: src/gsb_file_util.c:63
 msgid "No name to the file !"
@@ -9388,20 +9272,22 @@ msgstr "Soll die vorhandene Datei \"%s\" überschrieben werden?"
 msgid "File already exists"
 msgstr "Die Datei ist bereits vorhanden"
 
-#: src/gsb_file_util.c:135
-msgid "File compression"
-msgstr "Datei komprimieren"
+#: src/gsb_file_util.c:122
+#, c-format
+msgid "Grisbi cannot stat file %s, please check the file."
+msgstr "Die Datei %s kann nicht geöffnet werden - bitte die Datei überprüfen."
 
-#: src/gsb_file_util.c:177 src/gsb_file_util.c:187 src/gsb_file_util.c:202
-msgid "File uncompression"
-msgstr "Datei entpacken"
+#: src/gsb_file_util.c:163
+#, c-format
+msgid "Failed to read from file '%s': %s"
+msgstr "Die Datei kann nicht gelesen werden '%s': %s"
 
-#: src/gsb_file_util.c:340
+#: src/gsb_file_util.c:334
 #, c-format
 msgid "Cannot write lock file :'%s': %s"
 msgstr "Die Datei kann nicht gesperrt werden '%s': %s"
 
-#: src/gsb_file_util.c:367
+#: src/gsb_file_util.c:361
 #, c-format
 msgid "Cannot erase lock file :'%s': %s"
 msgstr "Die Datei kann nicht entsperrt werden '%s': %s"
@@ -9467,8 +9353,7 @@ msgstr ""
 "erstellt werden."
 
 #: src/gsb_form.c:2428
-msgid ""
-"Cannot associate a transfer to a deleted account in a scheduled transaction."
+msgid "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "Das Konto für die zeitlich geplante Umbuchung ist gelöscht."
 
 #: src/gsb_form.c:2435
@@ -9506,13 +9391,11 @@ msgstr ""
 
 #: src/gsb_form.c:2508
 msgid "A transaction with a multiple payee must be a new one."
-msgstr ""
-"Für Buchungen an mehrere Empfänger muss eine neue Buchung erfasst werden."
+msgstr "Für Buchungen an mehrere Empfänger muss eine neue Buchung erfasst werden."
 
 #: src/gsb_form.c:2513
 msgid "A transaction with a multiple payee cannot be a breakdown child."
-msgstr ""
-"Eine Buchung an mehrere Empfänger darf kein Teil einer Splitt-Buchung sein."
+msgstr "Eine Buchung an mehrere Empfänger darf kein Teil einer Splitt-Buchung sein."
 
 #: src/gsb_form.c:2524
 msgid "The word \"Report\" is reserved. Please use another one."
@@ -9975,12 +9858,12 @@ msgstr ""
 "erfassen.\n"
 "Die Nummer wird bei der nächsten Abstimmung automatisch inkrementiert"
 
-#: src/gsb_reconcile.c:543 src/navigation.c:1080
+#: src/gsb_reconcile.c:543 src/navigation.c:1079
 #, c-format
 msgid "Last statement: %s"
 msgstr "Letzte Abstimmung: %s"
 
-#: src/gsb_reconcile_config.c:98 src/gsb_transactions_list.c:3096
+#: src/gsb_reconcile_config.c:98 src/gsb_transactions_list.c:3097
 msgid "Init date"
 msgstr "Datum Anfang"
 
@@ -10106,15 +9989,14 @@ msgstr "Soll die Teil-Buchung mit dem Empfänger '%s' gelöscht werden?"
 msgid "Delete a scheduled transaction"
 msgstr "Eine geplante Buchung löschen"
 
-#: src/gsb_scheduler_list.c:1504 src/gsb_transactions_list.c:3237
-#: src/gsb_transactions_list.c:3253
+#: src/gsb_scheduler_list.c:1504 src/gsb_transactions_list.c:3238
+#: src/gsb_transactions_list.c:3254
 msgid "Delete a transaction"
 msgstr "Eine Buchung löschen"
 
 #: src/gsb_scheduler_list.c:1505
 #, c-format
-msgid ""
-"Do you really want to delete the scheduled transaction with party '%s' ?"
+msgid "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "Soll die Teil-Buchung mit dem Empfänger '%s' gelöscht werden?"
 
 #: src/gsb_scheduler_list.c:1538
@@ -10142,7 +10024,7 @@ msgid "Only this one"
 msgstr "nur dieses Vorkommen"
 
 #. set the title
-#: src/gsb_scheduler_list.c:1607 src/navigation.c:1219
+#: src/gsb_scheduler_list.c:1607 src/navigation.c:1215
 msgid "Scheduled transactions"
 msgstr "Geplante Buchungen"
 
@@ -10179,18 +10061,18 @@ msgstr "Schecknummer"
 msgid "archive %s (%d transactions)"
 msgstr "Archiv %s (%d Buchungen)"
 
-#: src/gsb_transactions_list.c:1516 src/gsb_transactions_list.c:2801
+#: src/gsb_transactions_list.c:1517 src/gsb_transactions_list.c:2802
 msgid "P"
 msgstr "V"
 
-#: src/gsb_transactions_list.c:2239
+#: src/gsb_transactions_list.c:2240
 #, c-format
 msgid "Do you want to load the transaction of the archive %s into the list ?"
 msgstr ""
 "Sollen die Buchungen aus dem Archiv %s in die Buchungsübersicht geladen "
 "werden?"
 
-#: src/gsb_transactions_list.c:2248
+#: src/gsb_transactions_list.c:2249
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
@@ -10201,7 +10083,7 @@ msgstr ""
 "Bitte versuchen Sie das Verhalten zu reproduzieren und kontaktieren Sie das "
 "Grisbi Team."
 
-#: src/gsb_transactions_list.c:2250
+#: src/gsb_transactions_list.c:2251
 msgid ""
 "An archive was clicked but it seems to have the number 0, wich should not "
 "happen.\n"
@@ -10212,7 +10094,7 @@ msgstr ""
 "Bitte versuchen Sie das Verhalten zu reproduzieren und kontaktieren Sie das "
 "Grisbi Team."
 
-#: src/gsb_transactions_list.c:2873
+#: src/gsb_transactions_list.c:2874
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
@@ -10222,11 +10104,11 @@ msgstr ""
 "Die Abstimmung muss beendet/abgebrochen damit dies möglich ist."
 
 #. it's a normal transaction, ask to be sure
-#: src/gsb_transactions_list.c:2880 src/gsb_transactions_list.c:2894
+#: src/gsb_transactions_list.c:2881 src/gsb_transactions_list.c:2895
 msgid "Confirmation of manual (un)reconciliation"
 msgstr "Die manuelle (Un)Abstimmung bestätigen"
 
-#: src/gsb_transactions_list.c:2881
+#: src/gsb_transactions_list.c:2882
 msgid ""
 "You are currently trying to reconcile or unreconcile manually a transaction "
 "which isn't a regular way to do.\n"
@@ -10242,7 +10124,7 @@ msgstr ""
 "\n"
 "Soll der Vorgang fortgesetzt werden?"
 
-#: src/gsb_transactions_list.c:2895
+#: src/gsb_transactions_list.c:2896
 msgid ""
 "You are currently trying to reconcile or unreconcile manually a transaction "
 "which isn't a regular way to do.\n"
@@ -10256,7 +10138,7 @@ msgstr ""
 "Soll der Vorgang fortgesetzt werden?"
 
 #. we warn the user the transaction disappear
-#: src/gsb_transactions_list.c:2981
+#: src/gsb_transactions_list.c:2982
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -10269,25 +10151,23 @@ msgstr ""
 "Buchung angezeigt werden soll, ändern Sie bitte die entsprechende "
 "Einstellung."
 
-#: src/gsb_transactions_list.c:2982
+#: src/gsb_transactions_list.c:2983
 msgid "Marking a transaction as R"
 msgstr "Eine Buchung als verrechnet markieren"
 
-#: src/gsb_transactions_list.c:3049
+#: src/gsb_transactions_list.c:3050
 msgid "Choosing a reconcile"
 msgstr "Eine Abstimmung wählen"
 
-#: src/gsb_transactions_list.c:3060
+#: src/gsb_transactions_list.c:3061
 msgid "Select the reconcile wich the transaction should be associated with :"
-msgstr ""
-"Die Abstimmung auswählen mit welcher die Buchung verknüpft werden soll :"
+msgstr "Die Abstimmung auswählen mit welcher die Buchung verknüpft werden soll :"
 
-#: src/gsb_transactions_list.c:3181
+#: src/gsb_transactions_list.c:3182
 msgid "Grisbi couldn't get the selection, operation canceled..."
-msgstr ""
-"Grisbi konnte die Auswahl nicht übernehmen, der Vorgang wurde abgebrochen..."
+msgstr "Grisbi konnte die Auswahl nicht übernehmen, der Vorgang wurde abgebrochen..."
 
-#: src/gsb_transactions_list.c:3224
+#: src/gsb_transactions_list.c:3225
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a breakdown "
@@ -10299,87 +10179,85 @@ msgstr ""
 "\"unabgestimmt\" sein. Sie können die die Abstimmung für die selektierte "
 "Buchung mit STRG+R aufheben."
 
-#: src/gsb_transactions_list.c:3234
+#: src/gsb_transactions_list.c:3235
 #, c-format
-msgid ""
-"Do you really want to delete the child of the transaction with party '%s' ?"
+msgid "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr "Soll die Teil-Buchung mit dem Empfänger '%s' gelöscht werden?"
 
-#: src/gsb_transactions_list.c:3250
+#: src/gsb_transactions_list.c:3251
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr "Soll die Buchung mit dem Empfänger '%s' gelöscht werden?"
 
 #. Edit transaction
-#: src/gsb_transactions_list.c:3523
+#: src/gsb_transactions_list.c:3524
 msgid "Edit transaction"
 msgstr "Buchung bearbeiten"
 
 #. Delete transaction
-#: src/gsb_transactions_list.c:3546
+#: src/gsb_transactions_list.c:3547
 msgid "Delete transaction"
 msgstr "Buchung löschen"
 
 #. Clone transaction
-#: src/gsb_transactions_list.c:3560
+#: src/gsb_transactions_list.c:3561
 msgid "Clone transaction"
 msgstr "Buchung klonen"
 
 #. Convert to scheduled transaction
-#: src/gsb_transactions_list.c:3572
+#: src/gsb_transactions_list.c:3573
 msgid "Convert transaction to scheduled transaction"
 msgstr "Buchung regelmäßig ausführen"
 
 #. Move to another account
-#: src/gsb_transactions_list.c:3581
+#: src/gsb_transactions_list.c:3582
 msgid "Move transaction to another account"
 msgstr "Buchung verschieben nach"
 
 #. Change cell content.
-#: src/gsb_transactions_list.c:3604
+#: src/gsb_transactions_list.c:3605
 msgid "Change cell content"
 msgstr "Den Zelleninhalt ändern"
 
-#: src/gsb_transactions_list.c:3679
+#: src/gsb_transactions_list.c:3680
 msgid "Try to update a cell in an archive or separator, should not happen..."
 msgstr ""
 "Aktualisierung eines Wertes im Archiv fehlgeschlagen, sollte nicht "
 "vorkommen..."
 
-#: src/gsb_transactions_list.c:3947
+#: src/gsb_transactions_list.c:3948
 msgid "Cannot move a transfer on his contra-account"
 msgstr "Eine Gegenbuchung kann nicht auf sich selbst verschoben werden"
 
 #. ligne trier par
-#: src/gsb_transactions_list.c:4213
+#: src/gsb_transactions_list.c:4214
 msgid "Sort list by :"
 msgstr "Liste sortieren nach :"
 
 #. we show a message because it can take some time
-#: src/gsb_transactions_list.c:4450
+#: src/gsb_transactions_list.c:4451
 msgid "Loading reconciled transactions."
 msgstr "Abgestimmte Buchungen laden."
 
-#: src/gsb_transactions_list.c:4451 src/gsb_transactions_list.c:5234
+#: src/gsb_transactions_list.c:4452 src/gsb_transactions_list.c:5235
 msgid "This operation can take some time..."
 msgstr "Dieser Vorgang kann länger dauern..."
 
-#: src/gsb_transactions_list.c:5103
+#: src/gsb_transactions_list.c:5104
 msgid "Transfer to a deleted account"
 msgstr "Die Buchung zu einem gelöschten Konto ausführen"
 
-#: src/gsb_transactions_list.c:5105
+#: src/gsb_transactions_list.c:5106
 msgid "Transfer from a deleted account"
 msgstr "Die Buchung von einem gelöschten Konto ausführen"
 
 #. we show a message because it can take some time
-#: src/gsb_transactions_list.c:5233
+#: src/gsb_transactions_list.c:5234
 msgid "Loading archived transactions."
 msgstr "Archivierte Buchungen laden."
 
-#: src/gsb_transactions_list.c:5245
-msgid ""
-"Problem getting the transactions in the list, appending archive aborted."
+#: src/gsb_transactions_list.c:5246
+msgid "Problem getting the transactions in the list, appending archive aborted."
 msgstr ""
 "Es konnten nicht alle Buchungen aus der Liste ermittelt werden, das "
 "Hinzufügen zum Archiv wurde abgebrochen."
@@ -10490,41 +10368,41 @@ msgstr "Links"
 msgid "License"
 msgstr "Lizenz"
 
-#: src/import.c:265
+#: src/import.c:266
 msgid "Choose file to import"
 msgstr "Datei(en) für den Import auswählen"
 
-#: src/import.c:267
+#: src/import.c:268
 msgid "Add file to import..."
 msgstr "Datei(en) für den Import hinzufügen..."
 
-#: src/import.c:335
+#: src/import.c:336
 msgid "File name"
 msgstr "Dateiname"
 
-#: src/import.c:471 src/import.c:611 src/import.c:2825 src/import.c:2848
+#: src/import.c:472 src/import.c:612 src/import.c:2847 src/import.c:2870
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: src/import.c:497
+#: src/import.c:498
 msgid "Choose files to import."
 msgstr "Datei(en) für den Import auswählen."
 
-#: src/import.c:521
+#: src/import.c:522
 #, c-format
 msgid "Known files (%s)"
 msgstr "Bekannte Dateien (%s)"
 
-#: src/import.c:535
+#: src/import.c:536
 #, c-format
 msgid "%s files (*.%s)"
 msgstr "%s Dateien (*.%s)"
 
-#: src/import.c:562
+#: src/import.c:563
 msgid "Encoding"
 msgstr "Kodierung"
 
-#: src/import.c:714
+#: src/import.c:715
 msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files"
@@ -10532,25 +10410,25 @@ msgstr ""
 "Sie haben erfolgreich Daten importiert.  In den folgenden Dialogen wird die "
 "die Zuordnung der Daten für folgende Dateien vorgenommen"
 
-#: src/import.c:727
+#: src/import.c:728
 msgid "Unnamed Imported account"
 msgstr "Importiertes Konto ohne Namen"
 
-#: src/import.c:753
+#: src/import.c:754
 msgid "Error !"
 msgstr "Fehler!"
 
-#: src/import.c:758
+#: src/import.c:759
 msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
 msgstr "Es wurden keine Daten importiert. Bitte die Import-Datei(en) prüfen."
 
-#: src/import.c:823
+#: src/import.c:824
 msgid "Import terminated"
 msgstr "Import beendet"
 
-#: src/import.c:827
+#: src/import.c:828
 msgid ""
 "You have successfully set up transactions import into Grisbi.  Press the "
 "'Close' button to terminate import."
@@ -10558,11 +10436,11 @@ msgstr ""
 "Die Auswahl der Buchungen für den Import wurde erfolgreich abgeschlossen.  "
 "Durch die Auswahl von \"Schließen\" wird der Import abgeschlossen."
 
-#: src/import.c:986
+#: src/import.c:987
 msgid "file"
 msgstr "Datei"
 
-#: src/import.c:991
+#: src/import.c:992
 #, c-format
 msgid ""
 "<span size=\"x-large\">%s</span>\n"
@@ -10574,15 +10452,15 @@ msgstr ""
 "Was soll mit dem Inhalt geschehen <tt>%s</tt>?\n"
 
 #. New account
-#: src/import.c:1000
+#: src/import.c:1001
 msgid "Create a new account"
 msgstr "Ein neues Konto anlegen"
 
-#: src/import.c:1028
+#: src/import.c:1050
 msgid "Add transactions to an account"
 msgstr "Buchungen einem Konto zuordnen"
 
-#: src/import.c:1064
+#: src/import.c:1086
 msgid "Mark transactions of an account"
 msgstr "Buchungen eines Kontos markieren"
 
@@ -10590,7 +10468,7 @@ msgstr "Buchungen eines Kontos markieren"
 #. - soit elle n'est pas cree (l'utilisateur
 #. la crÃ©era une fois la fenetre affichÃ©e)
 #. - soit elle est crÃ©Ã© mais pas avec le bon code
-#: src/import.c:1114
+#: src/import.c:1136
 #, c-format
 msgid ""
 "Currency of imported account '%s' is %s.  Either this currency doesn't exist "
@@ -10603,12 +10481,12 @@ msgstr ""
 "Wenn die Währung bereits vorhanden ist, aber der ISO Code falsch ist müssen "
 "Sie den ISO Code in der Konfiguration setzen."
 
-#: src/import.c:1117
+#: src/import.c:1139
 #, c-format
 msgid "Can't associate ISO 4217 code for currency '%s'."
 msgstr "ISO 4217 kann der Währung %s nicht zugeordnet werden."
 
-#: src/import.c:1247
+#: src/import.c:1269
 msgid ""
 "No account in memory now, this is bad...\n"
 "Better to leave the import before a crash.\n"
@@ -10622,17 +10500,17 @@ msgstr ""
 "Kontaktieren Sie das Grisbi-Team damit der Fehler gefunden und korrigiert "
 "werden kann."
 
-#: src/import.c:1255
+#: src/import.c:1277
 msgid "Please wait"
 msgstr "Bitte warten"
 
-#: src/import.c:1475
+#: src/import.c:1497
 msgid "Imported account"
 msgstr "Importiertes Konto"
 
 #. there is a difference between the imported account id and grisbi account id,
 #. * ask to be sure
-#: src/import.c:1528
+#: src/import.c:1550
 #, c-format
 msgid ""
 "The Grisbi's id account is %s, but the imported id account is %s.\n"
@@ -10649,16 +10527,15 @@ msgstr ""
 
 #. l'id du compte choisi et l'id du compte importÃ© sont diffÃ©rents
 #. on propose encore d'arrÃªter...
-#: src/import.c:1531 src/import.c:2158
+#: src/import.c:1553 src/import.c:2180
 msgid "The id of the imported and chosen accounts are different"
-msgstr ""
-"Die ID's des importieren und des selektierten Kontos sind unterschiedlich"
+msgstr "Die ID's des importieren und des selektierten Kontos sind unterschiedlich"
 
-#: src/import.c:1725
+#: src/import.c:1747
 msgid "Confirmation of importation of transactions"
 msgstr "Den Import der Buchungen bestätigen"
 
-#: src/import.c:1735
+#: src/import.c:1757
 msgid ""
 "Some imported transactions seem to be already saved. Please select the "
 "transactions to import."
@@ -10666,22 +10543,22 @@ msgstr ""
 "Einige der importieren Buchungen sind bereits vorhanden. Bitte wählen Sie "
 "die Buchungen aus, die importiert werden sollen."
 
-#: src/import.c:1801
+#: src/import.c:1823
 #, c-format
 msgid "Transactions to import : %s ; %s ; %s"
 msgstr "Zu importierende Buchungen : %s ; %s ; %s"
 
-#: src/import.c:1840
+#: src/import.c:1862
 #, c-format
 msgid "Transaction found : %s ; %s ; %s ; %s"
 msgstr "Buchungen gefunden : %s ; %s ; %s ; %s"
 
-#: src/import.c:1853
+#: src/import.c:1875
 #, c-format
 msgid "Transaction found : %s ; %s ; %s"
 msgstr "Buchungen gefunden : %s ; %s ; %s"
 
-#: src/import.c:2097
+#: src/import.c:2119
 #, c-format
 msgid ""
 "Warning : the cheque number %ld is already used.\n"
@@ -10690,7 +10567,7 @@ msgstr ""
 "Achtung: Diese Schecknummer %ld wird bereit benützt.\n"
 "Die Auswahl wird verworfen"
 
-#: src/import.c:2159
+#: src/import.c:2181
 msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
@@ -10699,30 +10576,30 @@ msgstr ""
 "entscheiden fortzufahren wird die Id des Kontos geändert. Soll fortgefahren "
 "werden?"
 
-#: src/import.c:2436
+#: src/import.c:2458
 msgid "Orphaned transactions"
 msgstr "verwaiste Buchungen"
 
-#: src/import.c:2444
+#: src/import.c:2466
 msgid "Mark transactions you want to add to the list and click the add button"
 msgstr ""
 "Die Buchungen markieren, welche der Liste hinzugefügt werden sollen, danach "
 "den Hinzufügen Button drücken"
 
-#: src/import.c:2511
+#: src/import.c:2533
 msgid "Mark"
 msgstr "Markieren"
 
-#: src/import.c:2710
+#: src/import.c:2732
 #, c-format
 msgid "%s #%d"
 msgstr "%s #%d"
 
-#: src/import.c:2745
+#: src/import.c:2767
 msgid "Search the transaction "
 msgstr "Buchungen suchen "
 
-#: src/import.c:2769
+#: src/import.c:2791
 msgid "days around the date in the imported transaction."
 msgstr " Tage im Datumsbereich der importierten Buchung"
 
@@ -11137,7 +11014,7 @@ msgid "Transfer transactions to %s"
 msgstr "Buchungen von %s neu zuordnen"
 
 #: src/metatree.c:1720
-#, fuzzy, c-format
+#, c-format
 msgid "Just remove this %s."
 msgstr "%s ohne Neuzuordnung löschen."
 
@@ -11160,24 +11037,24 @@ msgstr ""
 msgid "Please enter a %s!"
 msgstr "Bitte Daten eingeben %s!"
 
-#: src/navigation.c:379 src/navigation.c:1300
+#: src/navigation.c:378 src/navigation.c:1296
 msgid "AqBanking"
 msgstr "AqBanking"
 
-#: src/navigation.c:1087
+#: src/navigation.c:1086
 msgid "Last statement: none"
 msgstr "Letzte Abstimmung: -"
 
-#: src/navigation.c:1155 src/traitement_variables.c:260
+#: src/navigation.c:1155 src/traitement_variables.c:259
 msgid "My accounts"
 msgstr "Meine Konten"
 
 #. set the title
-#: src/navigation.c:1176
+#: src/navigation.c:1172
 msgid "Account transactions"
 msgstr "Buchungen"
 
-#: src/navigation.c:1182
+#: src/navigation.c:1178
 msgid "closed"
 msgstr "Geschlossen"
 
@@ -11233,8 +11110,7 @@ msgid "Scheduler warnings"
 msgstr "Planer Meldungen"
 
 #: src/parametres.c:534
-msgid ""
-"Number of days before a warning message advertising a scheduled transaction"
+msgid "Number of days before a warning message advertising a scheduled transaction"
 msgstr "Hinweis für eine geplante Buchung (Tage davor) anzeigen"
 
 #. Tip of the day
@@ -11289,13 +11165,12 @@ msgid "Make a backup copy before saving files"
 msgstr "Vor dem Speichern der Datei eine Sicherung erstellen"
 
 #: src/parametres.c:730
-#, fuzzy
 msgid "Backup directory"
-msgstr "Sicherungsdatei"
+msgstr "Verzeichnis für Sicherungen"
 
 #: src/parametres.c:734
 msgid "Select/Create backup directory"
-msgstr ""
+msgstr "Verzeichnis für Sicherungen auswählen/erstelllen"
 
 #: src/parametres.c:748
 msgid "Compress Grisbi backup"
@@ -11596,7 +11471,7 @@ msgstr "Handelsbedinge Ausgabe"
 msgid "Repeating payment/standing order"
 msgstr "Die Zahlung/den Auftrag wiederholen"
 
-#: src/plugins/openssl/openssl.c:172
+#: src/plugins/openssl/openssl.c:170
 msgid ""
 "<b>Password incorrect ! Please try again...</b>\n"
 "\n"
@@ -11604,7 +11479,7 @@ msgstr ""
 "<b>Dass Passwort ist nicht korrekt ! Bitte erneut versuchen...</b>\n"
 "\n"
 
-#: src/plugins/openssl/openssl.c:239
+#: src/plugins/openssl/openssl.c:237
 #, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
@@ -11613,7 +11488,7 @@ msgstr ""
 "%s Bitte das Passwort zum Verschlüsseln der Datei eingeben\n"
 "'<tt>%s</tt>'"
 
-#: src/plugins/openssl/openssl.c:243
+#: src/plugins/openssl/openssl.c:241
 #, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
@@ -11788,7 +11663,7 @@ msgstr "Wussten Sie dass ..."
 msgid "Reconciliation ref."
 msgstr "Abstimmung Ref."
 
-#: src/utils.c:132
+#: src/utils.c:150
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.  "
@@ -11797,11 +11672,11 @@ msgstr ""
 "Grisbi konnte den Browser für diese URL<tt>%s</tt>.  nicht öffnen. Bitte "
 "korrigieren Sie die Einstellungen für den Browser."
 
-#: src/utils.c:133 src/utils.c:171
+#: src/utils.c:151 src/utils.c:189
 msgid "Cannot execute web browser"
 msgstr "Browser kann nicht gestartet werden"
 
-#: src/utils.c:170
+#: src/utils.c:188
 #, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\n"
@@ -11825,43 +11700,3 @@ msgstr "Speicherzugriffsverletzung"
 msgid "Browse"
 msgstr "durchsuchen"
 
-#~ msgid "Please choose the way to make your archive :"
-#~ msgstr "Bitte auswählen wie das Archiv erstellt werden soll :"
-
-#~ msgid ""
-#~ "Please choose the default list of categories to create in your file :"
-#~ msgstr "Die Standardkategorien für die Erstellung der Datei auswählen :"
-
-#~ msgid "CEE"
-#~ msgstr "Europäische Währungsunion"
-
-#~ msgid "Currency '%s' already exists."
-#~ msgstr "Die Währung '%s' ist bereits vorhanden."
-
-#~ msgid ""
-#~ "Currency names or international codes should be unique.  Please choose a "
-#~ "new name for the currency."
-#~ msgstr ""
-#~ "Der Name der Währung oder des 'ISO-Codes' muss eindeutig sein.  Bitte die "
-#~ "Eingabe korrigieren."
-
-#~ msgid ""
-#~ "There are %d transactions in your file,\n"
-#~ "To increase speed it would be faster to archive some transactions.\n"
-#~ "\n"
-#~ "Do you want to launch the assistant to archive some transactions?"
-#~ msgstr ""
-#~ "In der Liste werden %d Buchungen angezeigt.\n"
-#~ "Diese Anzahl ist sehr hoch, die Darstellung wird schneller sein wenn Sie "
-#~ "einige Buchungen archivieren.\n"
-#~ "\n"
-#~ "Soll der Assistent für die Archivierung gestartet werden?"
-
-#~ msgid "Archive some transactions ?"
-#~ msgstr "Buchungen archivieren?"
-
-#~ msgid "Cannot open file '%s' to mark it as used: %s"
-#~ msgstr "Die Datei '%s'kann nicht geöffnet werden: '%s'"
-
-#~ msgid "backup.gsb"
-#~ msgstr "Sicherung.gsb"
