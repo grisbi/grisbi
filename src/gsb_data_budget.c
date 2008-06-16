@@ -645,7 +645,7 @@ gint gsb_data_budget_new_sub_budget_with_number ( gint number,
  * \param create TRUE if we want to create it if it doen't exist
  * \param budget_type the type of the budget if we create it
  *
- * \return the number of the budget or 0 if problem
+ * \return the number of the budget or FALSE if problem
  * */
 gint gsb_data_budget_get_number_by_name ( const gchar *name,
 					  gboolean create,
@@ -653,21 +653,15 @@ gint gsb_data_budget_get_number_by_name ( const gchar *name,
 {
     GSList *list_tmp;
     gint budget_number = 0;
-    gchar *new_name;
 
     if (!name)
-	return 0;
+	return FALSE;
 
-    new_name = g_strstrip (my_strdup (name));
-
-    if (!strlen (new_name))
-    {
-	g_free (new_name);
-	return 0;
-    }
+    if (!strlen (name))
+	return FALSE;
 
     list_tmp = g_slist_find_custom ( budget_list,
-				     new_name,
+				     name,
 				     (GCompareFunc) gsb_data_budget_get_pointer_from_name_in_glist );
 
     if ( list_tmp )
@@ -681,7 +675,7 @@ gint gsb_data_budget_get_number_by_name ( const gchar *name,
     {
 	if (create)
 	{
-	    budget_number = gsb_data_budget_new (new_name);
+	    budget_number = gsb_data_budget_new (name);
 	    gsb_data_budget_set_type ( budget_number,
 				       budget_type );
 	    /* update the form combofix, FIXME later, we should set that in another
@@ -691,7 +685,6 @@ gint gsb_data_budget_get_number_by_name ( const gchar *name,
 	    gsb_budget_update_combofix ();
 	}
     }
-    g_free (new_name);
     return budget_number;
 }
 
@@ -705,7 +698,7 @@ gint gsb_data_budget_get_number_by_name ( const gchar *name,
  * \param name the name of the sub-budget
  * \param create TRUE if we want to create it if it doen't exist
  *
- * \return the number of the sub-budget or 0 if problem
+ * \return the number of the sub-budget or FALSE if problem
  * */
 gint gsb_data_budget_get_sub_budget_number_by_name ( gint budget_number,
 						     const gchar *name,
@@ -714,26 +707,17 @@ gint gsb_data_budget_get_sub_budget_number_by_name ( gint budget_number,
     GSList *list_tmp;
     struct_budget *budget;
     gint sub_budget_number = 0;
-    gchar *new_name;
 
-    if (!name)
-	return 0;
+    if (!name || !strlen (name))
+	return FALSE;
 
     budget = gsb_data_budget_get_structure ( budget_number );
 
     if (!budget)
-	return 0;
-
-    new_name = g_strstrip (my_strdup (name));
-
-    if (!strlen (new_name))
-    {
-	g_free (new_name);
-	return 0;
-    }
+	return FALSE;
 
     list_tmp = g_slist_find_custom ( budget -> sub_budget_list,
-				     new_name,
+				     name,
 				     (GCompareFunc) gsb_data_budget_get_pointer_from_sub_name_in_glist );
 
     if ( list_tmp )
@@ -747,9 +731,8 @@ gint gsb_data_budget_get_sub_budget_number_by_name ( gint budget_number,
     {
 	if (create)
 	    sub_budget_number = gsb_data_budget_new_sub_budget ( budget_number,
-								 new_name);
+								 name);
     }
-    g_free (new_name);
     return sub_budget_number;
 }
 

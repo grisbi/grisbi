@@ -1,9 +1,7 @@
 /* ************************************************************************** */
-/* fichier qui s'occupe de tout ce qui concerne l'échéancier                */
-/* 			echeances_liste.c                                     */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2007 Benjamin Drieu (bdrieu@april.org)  	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2008 Benjamin Drieu (bdrieu@april.org)  	      */
 /* 			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -21,6 +19,12 @@
 /*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * \file gsb_scheduler_list.c
+ * functions for the scheduled list
+ */
+
 
 
 #include "include.h"
@@ -134,7 +138,6 @@ void gsb_scheduler_list_init_variables ( void )
         g_slist_free ( scheduled_transactions_taken );
         scheduled_transactions_taken = NULL;
     }
-
 }
 
 /**

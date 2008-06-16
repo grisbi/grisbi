@@ -929,14 +929,13 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 	     * too long already. */
 	    if ( conv && conv -> int_curr_symbol && strlen ( conv -> int_curr_symbol ) )
 	    {
-		gchar *name = g_strstrip ( my_strdup ( conv -> int_curr_symbol ) );
+		gchar *name = conv -> int_curr_symbol;
 
 		currency_number = gsb_data_currency_get_number_by_code_iso4217 (name);
 
 		/* create the currency if not exist */
 		if (!currency_number)
 		    currency_number =  gsb_currency_config_create_currency_from_iso4217list ( name );
-		g_free ( name );
 	    }
 	    if ( ! currency_number &&
 		 ! gsb_currency_config_create_currency_from_iso4217list ( "USD" ) )
@@ -1355,10 +1354,10 @@ void cree_liens_virements_ope_import ( void )
 						       gsb_data_account_get_name (transaction_number_tmp),
 						       "]",
 						       NULL),
-					  g_strstrip ( my_strdup (gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp )))) /* TODO dOm : fix memory leak */
+					  gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp ))
 			  ||
 			  g_strcasecmp ( gsb_data_account_get_name (transaction_number_tmp),
-					 g_strstrip ( my_strdup (gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp))))) 
+					 gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp))) 
 			 &&
 			 !gsb_real_cmp ( gsb_real_abs (gsb_data_transaction_get_amount (transaction_number_tmp)),
 					 gsb_real_abs (gsb_data_transaction_get_adjusted_amount_for_currency ( contra_transaction_number_tmp,
@@ -1491,7 +1490,7 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
     /* set the name */
     if ( imported_account -> nom_de_compte )
 	gsb_data_account_set_name ( account_number,
-				    g_strstrip ( imported_account -> nom_de_compte ) );
+				    imported_account -> nom_de_compte);
     else
 	gsb_data_account_set_name ( account_number,
 				    _("Imported account"));
@@ -1983,7 +1982,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 
     if ( imported_transaction -> tiers 
 	 &&
-	 strlen ( g_strstrip ( imported_transaction -> tiers )))
+	 strlen (imported_transaction -> tiers))
 	gsb_data_transaction_set_party_number ( transaction_number,
 						gsb_data_payee_get_number_by_name ( imported_transaction -> tiers,
 										    TRUE ));
@@ -2003,7 +2002,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 
 	if ( imported_transaction -> categ
 	     &&
-	     strlen ( g_strstrip (imported_transaction -> categ)) )
+	     strlen (imported_transaction -> categ))
 	{
 	    if ( imported_transaction -> categ[0] == '[' )
 	    {

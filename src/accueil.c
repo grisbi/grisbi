@@ -1372,7 +1372,7 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	 !mise_a_jour_liste_echeances_auto_accueil )
 	return;
 
-    devel_debug ( "update_liste_echeances_auto_accueil" );
+    devel_debug_int (force);
 
     mise_a_jour_liste_echeances_auto_accueil = 0;
 

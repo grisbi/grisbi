@@ -1314,7 +1314,7 @@ void recuperation_info_perso_etat ( void )
 {
     GSList *comparison_list;
     GList *list_tmp;
-    gchar *pointeur_char;
+    const gchar *pointeur_char;
     gint i;
     gint amount_comparison_number;
     gint current_report_number;
@@ -1345,7 +1345,7 @@ void recuperation_info_perso_etat ( void )
     /* on récupère maintenant toutes les données */
     /* récupération du name du rapport */
 
-    pointeur_char = g_strstrip ( (gchar *) gtk_entry_get_text ( GTK_ENTRY ( entree_nom_etat )));
+    pointeur_char = gtk_entry_get_text ( GTK_ENTRY ( entree_nom_etat ));
 
     if ( strlen ( pointeur_char )
 	 &&
@@ -1812,7 +1812,7 @@ void recuperation_info_perso_etat ( void )
 
     while ( comparison_list )
     {
-	gchar *string;
+	const gchar *string;
 	gint text_comparison_number;
 
 	text_comparison_number = GPOINTER_TO_INT (comparison_list -> data);
@@ -1834,16 +1834,9 @@ void recuperation_info_perso_etat ( void )
 						       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_operator (text_comparison_number)) -> menu_item ),
 											       "no_operateur" )));
 
-	string = g_strstrip ( my_strdup (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)))));
-	if ( string && strlen (string))
-	{
-	    gsb_data_report_text_comparison_set_text ( text_comparison_number,
-						       string );
-	    g_free ( string );
-	}
-	else
-	    gsb_data_report_text_comparison_set_text ( text_comparison_number,
-						       NULL );
+	string = gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
+	gsb_data_report_text_comparison_set_text ( text_comparison_number,
+						   string );
 
 	gsb_data_report_text_comparison_set_first_comparison ( text_comparison_number,
 							       GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_first_comparison (text_comparison_number)) -> menu_item ),

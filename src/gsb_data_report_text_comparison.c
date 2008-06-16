@@ -489,6 +489,7 @@ gchar *gsb_data_report_text_comparison_get_text ( gint text_comparison_number )
  * 
  * \param text_comparison_number number of the text_comparison
  * \param text  the value will be dumped before added so can free after
+ * 		if the length is 0, set NULL
  *
  * \return TRUE if ok
  * */
@@ -502,7 +503,7 @@ gboolean gsb_data_report_text_comparison_set_text ( gint text_comparison_number,
     if ( !text_comparison )
 	return FALSE;
 
-    if ( text )
+    if ( text && strlen (text))
 	text_comparison -> text = my_strdup (text);
     else
 	text_comparison -> text = NULL;

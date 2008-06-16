@@ -54,7 +54,6 @@
 #include "./menu.h"
 #include "./gsb_report.h"
 #include "./gsb_scheduler_list.h"
-#include "./utils_str.h"
 #include "./main.h"
 #include "./structures.h"
 #include "./gsb_scheduler_list.h"
@@ -186,10 +185,14 @@ void modification_fichier ( gboolean modif )
 
 
 
-/*****************************************************************************************************/
-/* fonction  qui initialise les variables globales */
-/*****************************************************************************************************/
-
+/**
+ * initialisation of all the variables of grisbi
+ * if some are not empty, free them before set it to NULL
+ *
+ * \param
+ *
+ * \return
+ * */
 void init_variables ( void )
 {
     gint scheduler_col_width_init[NB_COLS_SCHEDULER] = {119, 121, 352, 129, 147, 0, 116};
@@ -197,7 +200,7 @@ void init_variables ( void )
     gint i;
 /* xxx on devrait séparer ça en 2 : les variables liées au fichier de compte, qui doivent être remises  à 0,
  * et les variables liées à grisbi (ex sauvegarde auto...) qui doivent rester */
-    devel_debug ( "init_variables" );
+    devel_debug (NULL);
 
     gsb_data_account_init_variables ();
     gsb_data_transaction_init_variables ();
@@ -208,6 +211,7 @@ void init_variables ( void )
     gsb_data_report_amount_comparison_init_variables ();
     gsb_data_report_text_comparison_init_variables ();
     gsb_data_scheduled_init_variables ();
+    gsb_scheduler_list_init_variables ();
     gsb_data_currency_init_variables ();
     gsb_data_currency_link_init_variables ();
     gsb_data_fyear_init_variables ();
@@ -250,7 +254,6 @@ void init_variables ( void )
     affichage_echeances_perso_nb_libre = 0;
     affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
 
-    gsb_scheduler_list_init_variables ();
 
     no_devise_totaux_tiers = 1;
     no_devise_totaux_categ = 1;

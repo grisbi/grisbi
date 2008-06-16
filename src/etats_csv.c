@@ -27,7 +27,6 @@
 #include "./dialog.h"
 #include "./gsb_data_report.h"
 #include "./navigation.h"
-#include "./utils_str.h"
 #include "./utils_files.h"
 #include "./etats_config.h"
 #include "./include.h"
@@ -38,11 +37,11 @@
 /*START_STATIC*/
 static void csv_attach_hsep ( int x, int x2, int y, int y2);
 static void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			  enum alignement align, gint transaction_number );
+			enum alignement align, gint transaction_number );
 static void csv_attach_vsep ( int x, int x2, int y, int y2);
 static gint csv_finish ();
 static gint csv_initialise (GSList * opes_selectionnees, gchar * filename );
-static void csv_safe ( gchar * text ) ;
+static void csv_safe ( const gchar * text ) ;
 /*END_STATIC*/
 
 
@@ -85,7 +84,7 @@ extern gint nb_colonnes;
  *            backend is not interactive)
  */
 void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			  enum alignement align, gint transaction_number )
+			enum alignement align, gint transaction_number )
 {
     int pad, realsize, realcolumns;
     gint current_report_number;
@@ -121,9 +120,7 @@ void csv_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, 
 	realcolumns = nb_colonnes;
 
     fprintf ( csv_out, "\"" );
-    gchar* tmpstr = my_strdup ( text );
-    csv_safe ( g_strstrip ( tmpstr ) );
-    g_free ( tmpstr );
+    csv_safe (text);
     fprintf ( csv_out, "\"" );
 
     for ( x++; x < x2 ; x ++ )
@@ -210,7 +207,7 @@ gint csv_finish ()
  *
  * \param text Text to print.
  */
-void csv_safe ( gchar * text ) 
+void csv_safe ( const gchar * text ) 
 {
     if ( ! text || ! strlen(text))
 	return;

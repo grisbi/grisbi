@@ -163,7 +163,6 @@ void affichage_etat ( gint report_number, struct struct_etat_affichage * afficha
 
     etat_affichage_output = affichage;
     etape_finale_affichage_etat ( liste_opes_selectionnees, affichage, filename );
-
     gsb_status_stop_wait ( FALSE );
 }
 /*****************************************************************************************************/

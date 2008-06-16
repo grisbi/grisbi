@@ -1326,7 +1326,7 @@ gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTree
 			 -1 );
     if ( conv && conv -> int_curr_symbol && strlen ( conv -> int_curr_symbol ) )
     {
-	symbol = g_strstrip ( my_strdup ( conv -> int_curr_symbol ));
+	symbol = conv -> int_curr_symbol;
 	/* When matching, weed out currencies that are not "main"
 	 * currency, that is for example, do not match USD on Panama
 	 * or our US folks will be prompted to use USD as in Panama by
@@ -1335,16 +1335,14 @@ gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTree
 	{
 	    good = TRUE;
 	}
-	g_free ( symbol );
     }
     else
     {
-	symbol = g_strstrip ( my_strdup ( country ) );
+	symbol = country;
 	if ( ! strcmp ( symbol, _("United States") ) )
 	{
 	    good = TRUE;
 	}
-	g_free ( symbol );
     }
 
     if ( good )
@@ -1360,7 +1358,7 @@ gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTree
 
     gchar* tmpstr = g_strdup_printf ( "gsb_currency_config_select_default: failed to find '%s' in '%s'", 
 				    conv -> int_curr_symbol, country );
-    devel_debug ( tmpstr );
+    warning_debug (tmpstr);
     g_free ( tmpstr );
 
     return FALSE;

@@ -183,8 +183,6 @@ gchar * format_tip ( gchar * tip )
 {
     gchar * new, * tmp;
 
-    g_strstrip ( tip );
-
     /** Tokens removed include  */
 
     /* leading '- ' if any */

@@ -333,7 +333,7 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 			compte -> nom_de_compte =  g_strdelimit ( compte -> nom_de_compte,
 								  "]",
 								  ' ' );
-			compte -> nom_de_compte =  g_strstrip ( compte -> nom_de_compte );
+			compte -> nom_de_compte =  compte -> nom_de_compte;
 
 		    }
 		    else
@@ -344,7 +344,7 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 			compte -> nom_de_compte =  latin2utf8 (g_strdelimit ( compte -> nom_de_compte,
 									      "]",
 									      ' ' ));
-			compte -> nom_de_compte =  latin2utf8 (g_strstrip ( compte -> nom_de_compte ));
+			compte -> nom_de_compte =  latin2utf8 (compte -> nom_de_compte);
 		    }
 
 		    compte -> nom_de_compte = unique_imported_name ( compte -> nom_de_compte );

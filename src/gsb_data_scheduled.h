@@ -6,7 +6,6 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-void gsb_data_scheduled_delete_all_scheduled ();
 gint gsb_data_scheduled_get_account_number ( gint scheduled_number );
 gint gsb_data_scheduled_get_account_number_transfer ( gint scheduled_number );
 gsb_real gsb_data_scheduled_get_amount ( gint scheduled_number );

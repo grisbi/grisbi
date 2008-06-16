@@ -84,9 +84,7 @@ gboolean gsb_file_others_save_category ( gchar *filename )
     gchar *file_content;
     gulong length_part;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_file_others_save_category : %s", filename );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug (filename);
 
     /* we begin to try to reserve enough memory to make the entire file
      * if not enough, we will make it growth later
@@ -168,9 +166,7 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
     gchar *file_content;
     gulong length_part;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_file_others_save_budget : %s", filename );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug (filename);
 
     /* we begin to try to reserve enough memory to make the entire file
      * if not enough, we will make it growth later
@@ -252,9 +248,7 @@ gboolean gsb_file_others_save_report ( gchar *filename )
     gchar *file_content;
     gulong length_part;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_file_others_save_report : %s", filename );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug (filename);
 
     /* we begin to try to reserve enough memory to make the entire file
      * if not enough, we will make it growth later
@@ -350,10 +344,9 @@ gulong gsb_file_others_save_general_part ( gulong iterator,
      * and return the new iterator */
 
     gulong result = gsb_file_save_append_part ( iterator,
-				       length_calculated,
-				       file_content,
-				       new_string );
-    g_free (file_content);
+						length_calculated,
+						file_content,
+						new_string );
     return result;
 }
 
@@ -414,9 +407,7 @@ gboolean gsb_file_others_load ( gchar *filename,
     gchar *file_content;
     GSList *import_list = NULL;
 
-    gchar* tmpstr = g_strdup_printf ( "gsb_file_others_load %s", filename );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug (filename);
 
     /* general check */
     

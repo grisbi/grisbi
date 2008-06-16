@@ -116,7 +116,8 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
     if (!file)
 	return FALSE;
 
-    /* FIXME windows and stat ??? */
+    /* FIXME xxx windows and stat ??? */
+    /* use stat to get the size of the file, windows ? */
     if (stat (filename, &stat_buf))
     {
 	gchar *tmpstr = g_strdup_printf ( _("Grisbi cannot stat file %s, please check the file."),

@@ -40,8 +40,6 @@
 #include "./gsb_assistant_file.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive_store.h"
-#include "./gsb_data_scheduled.h"
-#include "./gsb_data_transaction.h"
 #include "./gsb_file_load.h"
 #include "./gsb_file_save.h"
 #include "./gsb_file_util.h"
@@ -89,8 +87,6 @@ extern gsize nb_derniers_fichiers_ouverts ;
 extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar *nom_fichier_comptes ;
 extern GtkWidget *notebook_general ;
-extern GSList *scheduled_transactions_taken;
-extern GSList *scheduled_transactions_to_take;
 extern GtkTreeSelection * selection ;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern GtkWidget *table_etat ;
@@ -859,15 +855,9 @@ gboolean gsb_file_close ( void )
 		 nom_fichier_comptes )
 		gsb_file_util_modify_lock ( FALSE );
 
-	    /* free the memory used by the closed file */ 
-	    gsb_data_transaction_delete_all_transactions ();
-	    gsb_data_account_delete_all_accounts ();
-	    gsb_data_scheduled_delete_all_scheduled ();
-	    g_slist_free ( scheduled_transactions_to_take );
-	    g_slist_free ( scheduled_transactions_taken );
+	    gtk_widget_destroy (main_vbox);
 
-	    gtk_widget_destroy ( main_vbox );
-
+	    /* free all the variables */
  	    init_variables ();
 
 	    gsb_file_update_window_title();

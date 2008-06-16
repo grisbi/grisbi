@@ -99,6 +99,7 @@ typedef struct
 
 
 /*START_STATIC*/
+static void gsb_data_transaction_delete_all_transactions ();
 static  void gsb_data_transaction_free ( struct_transaction *transaction);
 static gint gsb_data_transaction_get_last_white_number (void);
 static struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transaction_number );
