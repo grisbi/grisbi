@@ -1,10 +1,10 @@
 src/accueil.c
 src/affichage.c
 src/affichage_liste.c
+src/balance_estimate_tab.c
 src/barre_outils.c
 src/categories_onglet.c
 src/classement_echeances.c
-src/gsb_account_property.c
 src/comptes_onglet.c
 src/csv_parse.c
 src/dialog.c
@@ -25,10 +25,14 @@ src/fenetre_principale.c
 src/go-charmap-sel.c
 src/go-optionmenu.c
 src/gsb_account.c
+src/gsb_account_property.c
 src/gsb_archive_config.c
+src/gsb_assistant_account.c
 src/gsb_assistant_archive.c
 src/gsb_assistant_archive_export.c
 src/gsb_assistant.c
+src/gsb_assistant_file.c
+src/gsb_assistant_first.c
 src/gsb_assistant_reconcile_config.c
 src/gsb_autofunc.c
 src/gsb_automem.c
