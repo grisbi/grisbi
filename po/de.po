@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-06-18 21:19+0200\n"
-"PO-Revision-Date: 2008-06-18 22:44+0200\n"
+"PO-Revision-Date: 2008-06-19 22:36+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -253,7 +253,7 @@ msgstr "Abgestimmte Buchungen nicht automatisch anzeigen"
 
 #: src/affichage_liste.c:286
 msgid "Show the content of the transaction in the form when it's selected."
-msgstr "Die Details der Buchung bei einer Selektion im Buchungsformular anzeigen."
+msgstr "Details einer Buchung bei Selektion im Buchungsformular anzeigen"
 
 #: src/affichage_liste.c:294
 msgid "Sort transaction list"
@@ -1270,7 +1270,7 @@ msgstr "Ausgaben"
 
 #: src/etats_affiche.c:2328 src/traitement_variables.c:88
 msgid "Number"
-msgstr "Nummer"
+msgstr "Nr."
 
 #: src/etats_affiche.c:2342 src/export_csv.c:755 src/gsb_archive_config.c:98
 #: src/gsb_assistant_archive_export.c:148 src/gsb_form_widget.c:416
@@ -3145,7 +3145,7 @@ msgstr "Kontoinhaber Name"
 #. now the checkbutton for different address
 #: src/gsb_account_property.c:245
 msgid "Different holder's address :"
-msgstr "Adresse von einem weiteren Kontoinhaber :"
+msgstr "Zusatzadresse verwenden :"
 
 #. ligne de l'Ã©tablissement financier
 #: src/gsb_account_property.c:277 src/gsb_bank.c:506
@@ -3317,8 +3317,8 @@ msgid ""
 "This assistant will help you to create a new account.\n"
 "All that you do here can be changed later in the account configuration page."
 msgstr ""
-"Dieser Assistent wird Sie bei der Erstellung von einem neuen Konto unterstützen.\n"
-"Die eingegeben Parameter können jederzeit nachträglich beim Konto geändert werden."
+"Dieser Assistent wird Sie bei der Erstellung und Konfiguration von einem Konto unterstützen.\n"
+"Die Einstellungen können jederzeit nachträglich beim Konto geändert werden."
 
 #: src/gsb_assistant_account.c:147
 msgid ""
@@ -3326,7 +3326,7 @@ msgid ""
 "Standard account with credit card and cheques."
 msgstr ""
 "Bankkonto\n"
-"Im Regelfall ein Girokonto bei einer Bank."
+"Standardkonto bei einer Bank"
 
 #: src/gsb_assistant_account.c:148
 msgid ""
@@ -3334,7 +3334,7 @@ msgid ""
 "Standard cash account, to use with a cashier."
 msgstr ""
 "Bargeldkonto\n"
-"Konto für die Verwaltung von Bargeld."
+"Konto für die Verwaltung von Bargeld"
 
 #. xxx
 #: src/gsb_assistant_account.c:149
@@ -3363,13 +3363,13 @@ msgid ""
 "The account will be created with default payment methods chosen according to "
 "your choice.\n"
 msgstr ""
-"Bitte die Kontoart für dieses Konto auswählen.\n"
-"Das Konto wird danach mit den Standard-Zahlungsweisen je nach gewählter Kontoart angelegt.\n"
+"Die Kontoart auswählen.\n"
+"Das Konto wird mit den entsprechenden Zahlungsweisen - abhängig von Ihrer Auswahl angelegt.\n"
 
 #. choose the currency
 #: src/gsb_assistant_account.c:224
 msgid "Currency for the account."
-msgstr "Währung für dieses Konto."
+msgstr "Währung"
 
 #. propose to add a currency
 #: src/gsb_assistant_account.c:252
@@ -3379,7 +3379,7 @@ msgstr "Hinzufügen/Ändern..."
 #. choose the bank
 #: src/gsb_assistant_account.c:264
 msgid "Bank for the account."
-msgstr "Bank für dieses Konto."
+msgstr "Bank"
 
 #. set the initial amount
 #: src/gsb_assistant_account.c:283
@@ -3399,7 +3399,7 @@ msgstr ""
 
 #: src/gsb_assistant_account.c:346
 msgid "Please enter the name of the new account : "
-msgstr "Einen Namen für das neue Konto festlegen : "
+msgstr "Einen Namen für das Konto festlegen : "
 
 #: src/gsb_assistant_account.c:386
 #, c-format
@@ -3435,16 +3435,13 @@ msgid ""
 "\n"
 "Press Cancel if you don't want make an archive now\n"
 msgstr ""
-"In der Datei (%d) sind mehr Buchungen als mit dem eingestellten Limit von %d "
+"In der Datei sind mehr Buchungen (%d) als mit dem eingestellten Limit von %d "
 "angezeigt werden können.\n"
-"Für eine bessere Performance sollten Buchungen archiviert werden (das Limit "
-"und die Prüfung beim Starten von Grisbi kann in den Einstellungen festgelegt "
-"werden)\n"
+"Für eine bessere Performance sollten Buchungen archiviert werden.\n"
 "\n"
-"Dieser Assistent wird Sie dabei unterstützen Buchungen zu archivieren.\n"
+"Dieser Assistent wird Sie bei der Archivierung von Buchungen unterstützen.\n"
 "\n"
-"In der Standardeinstellung werden beim Archivieren keine Buchungen in das "
-"Archiv exportiert, die Buchungen erhalten lediglich den Status archiviert.\n"
+"Bei der Archivierung werden keine Buchungen in das Archiv verschoben, die Buchungen erhalten lediglich den Status archiviert.\n"
 "Es besteht jederzeit die Möglichkeit, Buchungen in eine eigene Archivdatei "
 "zu exportieren falls dies notwendig sein sollte.\n"
 
@@ -3484,7 +3481,7 @@ msgstr "Archivierung nach Datum"
 
 #: src/gsb_assistant_archive.c:221
 msgid "Grisbi will archive all transactions between initial and final dates."
-msgstr "Es werden alle Buchungen vom Beginn bis zum Enddatum archiviert"
+msgstr "Es werden alle Buchungen vom Beginn bis zum Enddatum archiviert."
 
 #: src/gsb_assistant_archive.c:277
 msgid "Archive by financial year"
@@ -3709,12 +3706,12 @@ msgid ""
 "Once the file created, you will be able to create a new account or import "
 "some previous datas"
 msgstr ""
-"Die allgemeine Konfiguration für Grisbi ist abgeschlossen.\n"
+"Die Basiskonfiguration von Grisbi ist abgeschlossen.\n"
 "\n"
-"Der Assistent wird Sie nun bei der Erstellung und Konfiguration von einer neuen Datei unterstützen.\n"
-"Alle Einstellungen welche Sie jetzt festlegen können jederzeit nachträglich in den Konfigurationsdialogen geändert werden.\n"
+"Dieser Assistent wird Sie bei der Erstellung und Konfiguration von einer Kontendatei unterstützen.\n"
+"Die Einstellungen können jederzeit nachträglich in den Konfigurationsdialogen geändert werden.\n"
 "\n"
-"Wenn die Datei erstellt und konfiguriert ist können Sie Konten anlegen oder importieren"
+"Wenn die Kontendatei erstellt und konfiguriert ist können Sie Konten anlegen oder importieren."
 
 #: src/gsb_assistant_file.c:119
 msgid "New file Assistant"
@@ -3730,9 +3727,9 @@ msgid ""
 "account from scratch or to import previous data, i.e. from your previous "
 "accounting software or online bank website."
 msgstr ""
-"Der Assistent wird Sie nun bei der Erstellung von einer neuen Datei unterstützen.\n"
-"Alle Einstellungen welche Sie jetzt festlegen können jederzeit nachträglich in den Konfigurationsdialogen geändert werden.\n"
+"Dieser Assistent wird Sie bei der Erstellung und Konfiguration einer neuen Datei unterstützen.\n"
 "\n"
+"Die Einstellungen können jederzeit nachträglich in den Konfigurationsdialogen geändert werden.\n"
 "Wenn die Datei erstellt und konfiguriert ist können Sie Konten anlegen oder importieren."
 
 #: src/gsb_assistant_file.c:238
@@ -3758,11 +3755,11 @@ msgstr "Hauptadresse"
 
 #: src/gsb_assistant_file.c:340
 msgid "Select base currency"
-msgstr "Die Basiswährung für das Konto auswählen"
+msgstr "Basiswährung auswählen"
 
 #: src/gsb_assistant_file.c:379
 msgid "Select the list of categories you will use"
-msgstr "Die vordefinierten Kategorien auswählen"
+msgstr "Vordefinierte Kategorien auswählen"
 
 #: src/gsb_assistant_file.c:441
 msgid "Configuration finished !"
@@ -3778,22 +3775,24 @@ msgid ""
 "\n"
 "Select a way to populate your account file and press the 'Close' button."
 msgstr ""
-"Die Konfiguration von der Kontendatei ist abgeschlossen. Der nächste Assistent wird Sie bei der Erstellung von einem neuen Konto unterstützen.\n"
+"Die Konfiguration der Datei ist abgeschlossen.\n"
+"Der nächste Assistent wird Sie bei der Erstellung von einem Konto unterstützen.\n"
+"Die Einstellungen können jederzeit nachträglich in den Konfigurationsdialogen geändert werden.\n"
 "\n"
-"Alle Einstellungen welche Sie jetzt festlegen können jederzeit nachträglich in den Konfigurationsdialogen geändert werden."
+"Eine Auswahl treffen wie die Konten erstellt werden sollen und den Button 'Schließen' aufrufen."
 
 #: src/gsb_assistant_file.c:459
 msgid "Create a new account from scratch"
-msgstr "Ein neues Konto anlegen"
+msgstr "Ein neues Konto manuell erstellen"
 
 #: src/gsb_assistant_file.c:465
 msgid "Import data from online bank services or from accounting software"
-msgstr "Daten von anderen Finanzprogrammen oder von Ihrer Bank importieren"
+msgstr "Konten und Daten von anderen Finanzprogrammen oder Ihrer Bank importieren"
 
 #. create the assistant
 #: src/gsb_assistant_first.c:75
 msgid "Welcome to Grisbi !"
-msgstr "Willkommen zu Grisbi !"
+msgstr "Willkommen zu Grisbi!"
 
 #: src/gsb_assistant_first.c:76
 msgid ""
@@ -3804,13 +3803,13 @@ msgid ""
 "Enjoy..."
 msgstr ""
 "Dieser Assistent wird Sie bei der Basiskonfiguration von Grisbi unterstützen.\n"
-"Alle Einstellungen welche Sie jetzt festlegen können jederzeit nachträglich in den Konfigurationsdialogen geändert werden.\n"
+"Die Einstellungen können jederzeit nachträglich in den Konfigurationsdialogen geändert werden.\n"
 "Viel Spaß mit Grisbi..."
 
 #. create the assistant
 #: src/gsb_assistant_first.c:125
 msgid "Welcome to Grisbi 0.6!"
-msgstr "Willkommen zu Grisbi 0.6 !"
+msgstr "Willkommen zu Grisbi 0.6!"
 
 #: src/gsb_assistant_first.c:126
 msgid ""
@@ -3827,27 +3826,28 @@ msgid ""
 "Also, we advise you to configure your web browser to your system "
 "configuration and to configure various settings in next screen.\n"
 msgstr ""
-"Sie verwenden Grisbi 0.6 zum ersten Mal. Einigen Dialoge sind unverändert gegenüber den Vorgängerversionen - jedoch gibt es auch sehr viele Neuerungen.\n"
-"In Version 0.6 wurde die Sicherungsfunktionalität komplett überarbeitet.\n"
-"In dieser Version werden automatisch Sicherungen in einem Verzeichnis Ihrer Auswahl erstellt.\n"
-"Es wird empfohlen den Webbrowser und eineige Basisparameter in den den nächsten Dialogen festzulegen.\n"
+"Sie verwenden Grisbi 0.6 zum ersten Mal.\n"
+"Einige Dialoge sind im Vergleich zu den Vorversionen unverändert - jedoch gibt es auch etliche Neuerungen.\n"
+"\n"
+"Besonders hervorzuheben ist die neue Sicherungsfunktionalität - diese Komponente wurde komplett überarbeitet.\n"
+"Ab dieser Version werden automatisch Sicherungen in einem Verzeichnis Ihrer Auswahl erstellt.\n"
+"\n"
+"Es wird empfohlen, den Browser und einige Basisparameter in den den nächsten Dialogen festzulegen.\n"
 
 #: src/gsb_assistant_first.c:180
 msgid "General configuration of Grisbi"
-msgstr "Allgemeine Konfiguration von Grisbi"
+msgstr "Allgemeine Einstellungen"
 
 #. configure the browser
 #: src/gsb_assistant_first.c:187 src/gsb_assistant_first.c:194
 #: src/parametres.c:854
 msgid "Web browser"
-msgstr "Webbrowser"
+msgstr "Browser"
 
 #: src/gsb_assistant_first.c:202
 #, c-format
 msgid "You may use %s to expand URL. I.e: \"firefox -remote %s\""
-msgstr ""
-"Mit %s die URL übergeben\n"
-"z.B: \"firefox -remote %s\""
+msgstr "Mit %s die URL übergeben, z.B: \"firefox -remote %s\""
 
 #: src/gsb_assistant_first.c:213 src/parametres.c:643
 msgid "Account files handling"
@@ -3873,7 +3873,7 @@ msgstr "Verzeichnis für Sicherungen"
 
 #: src/gsb_assistant_first.c:249 src/parametres.c:734
 msgid "Select/Create backup directory"
-msgstr "Verzeichnis für Sicherungen auswählen/erstelllen"
+msgstr "Verzeichnis für Sicherungen - Grisbi"
 
 #: src/gsb_assistant_reconcile_config.c:166
 msgid "No marked transactions without reconciliation found !"
@@ -7429,7 +7429,7 @@ msgstr ""
 
 #: src/gsb_category.c:731
 msgid "General category list (most common choice)"
-msgstr "Generelle Kategorien erstellen (im Zweifelsfall diese Option auswählen)"
+msgstr "Allgemeine Kategorien erstellen (im Zweifelsfall diese Option auswählen)"
 
 #: src/gsb_category.c:732
 msgid ""
@@ -8906,7 +8906,7 @@ msgstr "Eine Währung hinzufügen"
 
 #: src/gsb_currency_config.c:900
 msgid "Select base currency for your account"
-msgstr "Die Basiswährung für das Konto auswählen"
+msgstr "Basiswährung für das Konto auswählen"
 
 #: src/gsb_currency_config.c:909
 msgid "World currencies"
@@ -10231,7 +10231,7 @@ msgstr "Abstimmung sortieren"
 
 #: src/gsb_reconcile_sort_config.c:90
 msgid "Reconciliation: sort transactions"
-msgstr "Abstimmung : Buchungen sortieren"
+msgstr "Buchungen sortieren"
 
 #: src/gsb_reconcile_sort_config.c:126
 msgid "Payment method"
@@ -10642,7 +10642,7 @@ msgstr "Administration"
 
 #: src/help.c:103
 msgid "Development list (discuss, participate, criticize, ...) : "
-msgstr "Mailingliste Entwickler (diskutieren, beteiligen, kritisieren, ...) : "
+msgstr "Mailingliste Entwickler : "
 
 #: src/help.c:105 src/help.c:111
 msgid "subscribe"
@@ -10650,11 +10650,11 @@ msgstr "eintragen"
 
 #: src/help.c:106
 msgid "Bug report"
-msgstr "Fehler-Berichte"
+msgstr "Fehlerberichte"
 
 #: src/help.c:109
 msgid "Information list (new releases announces, ...) : "
-msgstr "Mailingliste Info (Neue Versionen, Ankündigungen, ...) : "
+msgstr "Mailingliste Info : "
 
 #: src/help.c:112
 msgid "Grisbi documentation"
@@ -11477,9 +11477,7 @@ msgstr "Browser"
 msgid ""
 "You may use %s to expand URL.\n"
 "I.e: \"firefox -remote %s\""
-msgstr ""
-"Mit %s die URL übergeben\n"
-"z.B: \"firefox -remote %s\""
+msgstr "Mit %s die URL übergeben, z.B: \"firefox -remote %s\""
 
 #. Please make sure to keep consistency between short_options/long_options and USAGE_STRING/HELP_STRING definition
 #: src/parse_cmdline.c:51
@@ -11799,7 +11797,7 @@ msgstr "US Kontaktperson"
 
 #: src/print_config.c:91
 msgid "General"
-msgstr "Generell"
+msgstr "Allgemein"
 
 #: src/print_config.c:94
 msgid "Paper"
