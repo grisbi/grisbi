@@ -46,8 +46,8 @@
 /*START_STATIC*/
 static  gboolean gsb_automem_checkbutton_changed ( GtkWidget *checkbutton,
 						  gpointer null );
-static void gsb_automem_checkbutton_set_value ( GtkWidget *checkbutton,
-					 gboolean *value );
+/*static void gsb_automem_checkbutton_set_value ( GtkWidget *checkbutton,
+					 gboolean *value );*/
 static  gboolean gsb_automem_entry_changed (GtkWidget *entry,
 					   gpointer null );
 static GtkWidget *gsb_automem_radiobutton_new ( const gchar *choice1,
@@ -346,10 +346,10 @@ GtkWidget *gsb_automem_checkbutton_new ( const gchar *label,
  * 	fill in checkbutton's properties.  This boolean will be modified by
  * 	checkbutton's handlers as well.
  */
-void gsb_automem_checkbutton_set_value ( GtkWidget *checkbutton,
+/*void gsb_automem_checkbutton_set_value ( GtkWidget *checkbutton,
 					 gboolean *value )
 {
-    /* Block everything */
+    // Block everything
     if (g_object_get_data (G_OBJECT(checkbutton), "changed") > 0)
 	g_signal_handler_block ( checkbutton, 
 				 (gulong) g_object_get_data (G_OBJECT(checkbutton), 
@@ -365,7 +365,7 @@ void gsb_automem_checkbutton_set_value ( GtkWidget *checkbutton,
     g_object_set_data ( G_OBJECT (checkbutton),
 			"pointer", value);
 
-    /* Unblock everything */
+    // Unblock everything
     if (g_object_get_data (G_OBJECT(checkbutton), "changed") > 0)
 	g_signal_handler_unblock ( checkbutton, 
 				   (gulong) g_object_get_data (G_OBJECT(checkbutton),
@@ -374,7 +374,7 @@ void gsb_automem_checkbutton_set_value ( GtkWidget *checkbutton,
 	g_signal_handler_unblock ( checkbutton,
 				   (gulong) g_object_get_data ( G_OBJECT(checkbutton),
 								"changed-hook" ));
-}
+}*/
 
 
 

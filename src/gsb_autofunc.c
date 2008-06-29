@@ -62,9 +62,9 @@ static  gboolean gsb_autofunc_entry_changed ( GtkWidget *entry,
 					     gboolean default_func (gint, const gchar *));
 static  gboolean gsb_autofunc_int_changed ( GtkWidget *entry,
 					   gboolean default_func (gint, gint));
-static void gsb_autofunc_radiobutton_set_value ( GtkWidget *radiobutton_box,
+/*static void gsb_autofunc_radiobutton_set_value ( GtkWidget *radiobutton_box,
 					  gboolean value,
-					  gint number_for_func );
+					  gint number_for_func );*/
 static  gboolean gsb_autofunc_real_changed ( GtkWidget *entry,
 					    gboolean default_func (gint, gsb_real));
 static  gboolean gsb_autofunc_spin_changed ( GtkWidget *spin_button,
@@ -853,7 +853,7 @@ GtkWidget *gsb_autofunc_radiobutton_new ( const gchar *choice1,
  *
  * \return
  */
-void gsb_autofunc_radiobutton_set_value ( GtkWidget *radiobutton_box,
+/*void gsb_autofunc_radiobutton_set_value ( GtkWidget *radiobutton_box,
 					  gboolean value,
 					  gint number_for_func )
 {
@@ -862,7 +862,7 @@ void gsb_autofunc_radiobutton_set_value ( GtkWidget *radiobutton_box,
     button1 = g_object_get_data (G_OBJECT (radiobutton_box), "button1");
     button2 = g_object_get_data (G_OBJECT (radiobutton_box), "button2");
 
-    /* Block everything, the signals were on button2  */
+    // Block everything, the signals were on button2
     if ( g_object_get_data (G_OBJECT (button2), "changed") > 0 )
 	g_signal_handler_block ( GTK_OBJECT(button2),
 				 (gulong) g_object_get_data (G_OBJECT (button2), 
@@ -872,7 +872,7 @@ void gsb_autofunc_radiobutton_set_value ( GtkWidget *radiobutton_box,
 				 (gulong) g_object_get_data (G_OBJECT (button2), 
 							     "changed-hook"));
 
-    /* Fill in value */
+    // Fill in value
     if (value)
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button2 ), TRUE );
     else
@@ -881,7 +881,7 @@ void gsb_autofunc_radiobutton_set_value ( GtkWidget *radiobutton_box,
     g_object_set_data ( G_OBJECT (button2),
 			"number_for_func", GINT_TO_POINTER (number_for_func));
 
-    /* Unblock everything */
+    // Unblock everything
     if ( g_object_get_data (G_OBJECT (button2), "changed") > 0 )
 	g_signal_handler_unblock ( GTK_OBJECT(button2),
 				   (gulong) g_object_get_data (G_OBJECT (button2), 
@@ -890,7 +890,7 @@ void gsb_autofunc_radiobutton_set_value ( GtkWidget *radiobutton_box,
 	g_signal_handler_unblock ( GTK_OBJECT(button2),
 				   (gulong) g_object_get_data (G_OBJECT (button2), 
 							       "changed-hook"));
-}
+}*/
 
 
 

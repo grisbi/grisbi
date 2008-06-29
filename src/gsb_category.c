@@ -44,7 +44,7 @@
 /*START_STATIC*/
 static gboolean gsb_category_assistant_change_choice ( GtkWidget *button, 
 						GtkWidget *assistant );
-static gboolean gsb_category_choose_default_category ( void );
+/*static gboolean gsb_category_choose_default_category ( void );*/
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -743,12 +743,12 @@ const gchar *category_choice_list [] = {
  *
  * \return 0 : default category choosen, 1 : association category, -1 if problem
  * */
-gboolean gsb_category_choose_default_category ( void )
+/*gboolean gsb_category_choose_default_category ( void )
 {
     GtkWidget *dialog;
     GtkWidget *page;
 
-    /* FIXME : for now, just a dialog, but will be include in a nice assistant */
+    // FIXME : for now, just a dialog, but will be include in a nice assistant
     dialog = gtk_dialog_new_with_buttons (_("Choose the categories"),
 					    GTK_WINDOW (window),
 					    GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -768,7 +768,7 @@ gboolean gsb_category_choose_default_category ( void )
     gtk_widget_destroy (dialog);
 
     return TRUE;
-}
+}*/
 
 
 /**

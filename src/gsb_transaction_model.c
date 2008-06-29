@@ -41,8 +41,8 @@
 /*START_STATIC*/
 static GtkTreePath *gsb_transaction_model_get_model_path ( gint transaction_number,
 						    gint line_in_transaction );
-static const gchar *gsb_transation_model_get_cell_content ( GtkTreePath *path_sorted,
-						     gint column );
+/*static const gchar *gsb_transation_model_get_cell_content ( GtkTreePath *path_sorted,
+						     gint column );*/
 /*END_STATIC*/
 
 
@@ -386,7 +386,7 @@ void gsb_transaction_model_convert_sorted_iter_to_model_iter ( GtkTreeIter *tree
  *
  * \return a const string wich is the content of the cell or NULL
  * */
-const gchar *gsb_transation_model_get_cell_content ( GtkTreePath *path_sorted,
+/*const gchar *gsb_transation_model_get_cell_content ( GtkTreePath *path_sorted,
 						     gint column )
 {
     gchar *return_string;
@@ -398,7 +398,7 @@ const gchar *gsb_transation_model_get_cell_content ( GtkTreePath *path_sorted,
 	column > TRANSACTION_LIST_COL_NB)
 	return NULL;
 
-    /*     !* transform the path to be in the orinal model *! */
+    //     !* transform the path to be in the orinal model *!
     path_model = gsb_transaction_model_get_model_path_from_sorted_path (path_sorted);
 
     if (!path_model)
@@ -413,7 +413,7 @@ const gchar *gsb_transation_model_get_cell_content ( GtkTreePath *path_sorted,
 			 -1 );
     gtk_tree_path_free (path_model);
     return return_string;
-}
+}*/
 
 
 /**

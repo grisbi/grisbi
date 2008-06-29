@@ -31,8 +31,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void my_gtk_entry_set_text ( GtkEntry *entry,
-			     const gchar *string );
+/*static void my_gtk_entry_set_text ( GtkEntry *entry,
+			     const gchar *string );*/
 /*END_STATIC*/
 
 
@@ -700,7 +700,7 @@ gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
  *
  * \return
  * */
-void my_gtk_entry_set_text ( GtkEntry *entry,
+/*void my_gtk_entry_set_text ( GtkEntry *entry,
 			     const gchar *string )
 {
     if (string)
@@ -708,7 +708,7 @@ void my_gtk_entry_set_text ( GtkEntry *entry,
     else
 	gtk_entry_set_text (entry, "");
     return;
-}
+}*/
 
 
 /* Local Variables: */
