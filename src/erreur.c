@@ -320,7 +320,8 @@ GtkWidget * print_backtrace ( void )
 {
 #ifdef HAVE_BACKTRACE
     void *backtrace_content[15];
-    size_t backtrace_size, i;
+    int backtrace_size;
+    size_t i;
     gchar **backtrace_strings, *text = g_strdup("");
     GtkWidget * label;
 		
