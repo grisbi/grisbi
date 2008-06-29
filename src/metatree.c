@@ -1543,7 +1543,7 @@ gboolean division_node_maybe_expand ( GtkTreeModel *model, GtkTreePath *path,
 
     if ( tree_view )
     {
-	if ( (gint) data == gtk_tree_path_get_depth ( path ) )
+	if ( GPOINTER_TO_INT( data ) == gtk_tree_path_get_depth ( path ) )
 	    gtk_tree_view_expand_to_path ( tree_view, path );
     }
 
@@ -1568,7 +1568,7 @@ void expand_arbre_division ( GtkWidget *bouton, gint depth )
     {
 	gtk_tree_view_collapse_all ( tree_view );
 	model = gtk_tree_view_get_model ( tree_view );
-	gtk_tree_model_foreach ( model, division_node_maybe_expand, (gpointer) depth );
+	gtk_tree_model_foreach ( model, division_node_maybe_expand, GINT_TO_POINTER ( depth ) );
     }
 }
 

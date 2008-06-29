@@ -574,9 +574,9 @@ gboolean safe_contains ( gchar * original, gchar * substring )
     g_return_val_if_fail ( original, FALSE );
     g_return_val_if_fail ( substring, FALSE );
 
-    return (gboolean) g_strstr_len ( g_ascii_strdown ( original, -1 ),
+    return GPOINTER_TO_INT( g_strstr_len ( g_ascii_strdown ( original, -1 ),
 				     strlen ( original ),
-				     g_ascii_strdown ( substring, -1 ) );
+				     g_ascii_strdown ( substring, -1 ) ) );
 }
 
 
@@ -949,10 +949,10 @@ GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field,
     {
 	item = gtk_menu_item_new_with_label ( (gchar *) _( csv_fields[i] . name ) );
 	g_object_set_data ( G_OBJECT ( item ), "column", col );
-	g_object_set_data ( G_OBJECT ( item ), "field", (gpointer) field - 1 );
+	g_object_set_data ( G_OBJECT ( item ), "field", GINT_TO_POINTER( field - 1 ) );
 	g_object_set_data ( G_OBJECT ( item ), "assistant", assistant );
 	gtk_signal_connect ( GTK_OBJECT ( item ), "activate",
-			     GTK_SIGNAL_FUNC ( csv_import_change_field ), (gpointer) i );
+			     GTK_SIGNAL_FUNC ( csv_import_change_field ), GINT_TO_POINTER(  i ) );
 	gtk_menu_append ( GTK_MENU ( menu ), item );
     }
 

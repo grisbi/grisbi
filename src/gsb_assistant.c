@@ -225,11 +225,11 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 	result = gtk_dialog_run ( GTK_DIALOG(assistant) );
 
 	tmpstr = g_strdup_printf ( "prev%d", current );
-	prev = (gint) g_object_get_data ( G_OBJECT(assistant), tmpstr );
+	prev = GPOINTER_TO_INT( g_object_get_data ( G_OBJECT(assistant), tmpstr ));
 	g_free ( tmpstr );
 
         tmpstr = g_strdup_printf ( "next%d", current );
-	next = (gint) g_object_get_data ( G_OBJECT(assistant), tmpstr);
+	next = GPOINTER_TO_INT( g_object_get_data ( G_OBJECT(assistant), tmpstr));
 	g_free ( tmpstr );
 
 	 switch ( result )

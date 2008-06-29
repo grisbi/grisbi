@@ -2020,7 +2020,7 @@ gboolean report_tree_update_style_iterator ( GtkTreeModel * tree_model,
 					     GtkTreeIter *iter, 
 					     gpointer data )
 {
-    gint page_number = (gint) data;
+    gint page_number = GPOINTER_TO_INT(data);
     gint iter_page_number;
     gint italic = FALSE;
 

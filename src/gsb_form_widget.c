@@ -677,7 +677,7 @@ gboolean gsb_form_widget_check_empty ( GtkWidget *entry )
     if (GTK_IS_COMBOFIX (entry))
 	entry = GTK_COMBOFIX (entry) -> entry;
 
-    return (gboolean) g_object_get_data ( G_OBJECT(entry), "empty" );
+    return GPOINTER_TO_INT( g_object_get_data ( G_OBJECT(entry), "empty" ) );
 }
 
 
@@ -722,7 +722,7 @@ void gsb_form_widget_set_empty ( GtkWidget *entry,
 				 &gray );
     }
 
-    g_object_set_data ( G_OBJECT(entry), "empty", (gpointer) empty );
+    g_object_set_data ( G_OBJECT(entry), "empty", GINT_TO_POINTER( empty ) );
 }
 
 

@@ -301,7 +301,7 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
 	while ( list )
 	{
 	    struct exported_account * account;
-	    gint i = (gint) list -> data;
+	    gint i = GPOINTER_TO_INT(list -> data);
 
 	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, 
 						      g_strconcat ( "• ",
@@ -453,12 +453,12 @@ void export_account_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
     if ( !toggle_item )		/* We test on _previous_ value */
     {
 	selected_accounts = g_slist_append ( selected_accounts,
-						     (gpointer) account_toggled );
+						     GINT_TO_POINTER(account_toggled) );
     }
     else
     {
 	selected_accounts = g_slist_remove ( selected_accounts,
-						     (gpointer) account_toggled );
+						     GINT_TO_POINTER(account_toggled) );
     }
 
     gtk_list_store_set ( GTK_LIST_STORE(model), &iter, 0, !toggle_item, -1);

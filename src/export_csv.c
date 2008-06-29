@@ -567,7 +567,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	    {
 		gint pBreakdownTransaction;
 
-		pBreakdownTransaction = (gint) pBreakdownTransactionList -> data;
+		pBreakdownTransaction = GPOINTER_TO_INT(pBreakdownTransactionList -> data);
 
 		if ( gsb_data_transaction_get_account_number ( pBreakdownTransaction ) == gsb_data_transaction_get_account_number (transaction_number)
 		     &&

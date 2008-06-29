@@ -1198,7 +1198,7 @@ void exporter_etat ( void )
 
 	gsb_status_wait ( TRUE );
 
-	switch ( (gint) g_object_get_data ( G_OBJECT(fenetre_nom), "format" ) )
+	switch ( GPOINTER_TO_INT(g_object_get_data ( G_OBJECT(fenetre_nom), "format" ) ) )
 	{
 	    case REPORT_EGSB:		/* EGSB */
 		gsb_file_others_save_report ( nom_etat );
