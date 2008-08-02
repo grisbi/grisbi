@@ -1235,7 +1235,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	if ( gsb_data_report_get_show_report_transaction_number (current_report_number))
 	{
-	    text = itoa ( transaction_number);
+	    text = utils_str_itoa ( transaction_number);
 
 	    if ( gsb_data_report_get_report_can_click (current_report_number))
 	    {

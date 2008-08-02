@@ -14,7 +14,7 @@ GSList *gsb_string_get_string_list_from_string ( const gchar *string,
 						 gchar *delimiter );
 gchar * gsb_string_truncate ( gchar * string );
 gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc );
-gchar *itoa ( gint integer );
+gchar *utils_str_itoa ( gint integer );
 gchar * latin2utf8 ( const gchar * inchar);
 gchar *limit_string ( gchar *string,
 		      gint length );
@@ -31,5 +31,8 @@ double my_strtod ( const char *nptr, const char **endptr );
 gint utils_str_atoi ( const gchar *chaine );
 gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
 					       gint exponent );
+
 /* END_DECLARATION */
+
+
 #endif

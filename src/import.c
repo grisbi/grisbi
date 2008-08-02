@@ -1627,7 +1627,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 		imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
 
 	    /* if no id, check the cheque */
-	    gchar* tmpstr = itoa (imported_transaction -> cheque);
+	    gchar* tmpstr = utils_str_itoa (imported_transaction -> cheque);
 	    if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION
 		 &&
 		 imported_transaction -> cheque
@@ -2104,7 +2104,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 							    payment_number );
 
-	gchar* tmpstr = itoa ( imported_transaction -> cheque );
+	gchar* tmpstr = utils_str_itoa ( imported_transaction -> cheque );
 	if ( gsb_data_payment_get_automatic_numbering (payment_number))
 	    /* we are on the default payment_number, save just the cheque number */
 	    gsb_data_transaction_set_method_of_payment_content ( transaction_number,
@@ -2122,7 +2122,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	    }
 	    else
 		gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-								     itoa ( imported_transaction -> cheque ) );
+								     utils_str_itoa ( imported_transaction -> cheque ) );
 	}
 	g_free ( tmpstr );
     }

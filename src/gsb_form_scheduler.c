@@ -1143,7 +1143,7 @@ gboolean gsb_form_scheduler_set_frequency_user ( gint user_freq )
 	!GTK_WIDGET_VISIBLE (entry))
 	return FALSE;
 
-    string = itoa (user_freq);
+    string = utils_str_itoa (user_freq);
     if (!string)
 	return FALSE;
 

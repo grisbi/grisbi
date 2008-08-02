@@ -132,7 +132,7 @@ void increment_decrement_champ ( GtkWidget *entry, gint increment )
     number = utils_str_atoi (gtk_entry_get_text ( GTK_ENTRY ( entry )));
     number += increment;
 
-    gchar* tmpstr = itoa ( number );
+    gchar* tmpstr = utils_str_itoa ( number );
     gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr );
     g_free ( tmpstr );
 }

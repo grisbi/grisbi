@@ -613,7 +613,7 @@ void gsb_form_fill_element ( gint element_number,
     {
 	case TRANSACTION_FORM_OP_NB:
 	    gtk_label_set_text ( GTK_LABEL ( widget ),
-				 char_tmp = itoa (transaction_number));
+				 char_tmp = utils_str_itoa (transaction_number));
 	    g_free (char_tmp);
 	    break;
 
@@ -1843,7 +1843,7 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
 
 		if ( !strlen (gtk_entry_get_text ( GTK_ENTRY (widget))))
 		{
-		    gchar* tmpstr = itoa (gsb_data_payment_get_last_number (payment_number) + 1);
+		    gchar* tmpstr = utils_str_itoa (gsb_data_payment_get_last_number (payment_number) + 1);
 		    gtk_entry_set_text ( GTK_ENTRY (widget), tmpstr);
 		    g_free ( tmpstr );
 		}
@@ -2130,7 +2130,7 @@ gboolean gsb_form_finish_edition ( void )
 			 &&
 			 gsb_data_form_check_for_value ( TRANSACTION_FORM_CHEQUE ))
 		    {
-			gchar* tmpstr = itoa (gsb_data_payment_get_last_number (payment_number) + 1);
+			gchar* tmpstr = utils_str_itoa (gsb_data_payment_get_last_number (payment_number) + 1);
 			gtk_entry_set_text ( GTK_ENTRY ( gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE)), tmpstr);
 			g_free ( tmpstr ) ;
 		    }

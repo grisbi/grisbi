@@ -105,6 +105,7 @@ extern gint gnucash_plugin_run ( gchar * file_name, gchar **file_content,
 /** Release plugin  */
 extern gboolean gnucash_plugin_release ( )
 {
+    return TRUE;
 }
 
 

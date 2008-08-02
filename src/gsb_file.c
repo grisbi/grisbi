@@ -27,7 +27,9 @@
 
 #include <time.h>
 
-
+#if _WIN32
+#include <stdlibx.h> // For realpath()
+#endif
 
 /*START_INCLUDE*/
 #include "gsb_file.h"
@@ -931,7 +933,7 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
 
     if ( !g_path_is_absolute ( nom_fichier_comptes ) )
     {	
-	real_name = g_strdup(realpath ( nom_fichier_comptes, NULL ));
+	real_name = g_strdup( (gchar*)realpath ( nom_fichier_comptes, NULL ));
 	if ( ! real_name )
 	{
 	    notice_debug ( "could not resolve relative file name" );

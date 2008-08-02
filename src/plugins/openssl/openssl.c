@@ -43,7 +43,7 @@ extern gchar *crypt_key;
 /*END_STATIC*/
 #endif
 
-
+#if 0 // TODO WIN32
 
 /**
  * Crypt or decrypt string given in the param
@@ -285,7 +285,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
 }
 #endif
 
-
+#endif
 
 /** Module name. */
 G_MODULE_EXPORT const gchar plugin_name[] = "openssl";
@@ -313,6 +313,7 @@ extern gint openssl_plugin_run ( gchar * file_name, gchar **file_content,
 /** Release plugin  */
 extern gboolean openssl_plugin_release ( )
 {
+    return TRUE;
 }
 
 

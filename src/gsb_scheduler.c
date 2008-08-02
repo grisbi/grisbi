@@ -292,7 +292,7 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 		gint number;
 
 		number = gsb_data_payment_get_last_number (payment_number) + 1;
-		gchar* tmpstr = itoa (number);
+		gchar* tmpstr = utils_str_itoa (number);
 		gsb_data_transaction_set_method_of_payment_content ( transaction_number,
 								     tmpstr);
 		g_free ( tmpstr );

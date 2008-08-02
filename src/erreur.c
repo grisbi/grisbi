@@ -63,7 +63,10 @@ static gint debugging_grisbi;
 void traitement_sigsegv ( gint signal_nb )
 {
     gchar * gsb_file_default_dir, * errmsg = g_strdup("");
-    GtkWidget * dialog, *expander;
+    GtkWidget * dialog;
+#ifdef HAVE_BACKTRACE
+    GtkWidget * expander;
+#endif
 
     /*   il y a 3 possibilités : */
     /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
@@ -343,6 +346,8 @@ GtkWidget * print_backtrace ( void )
     g_free ( text );
     gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
     return label;
+#else
+    return NULL;
 #endif
 }
 

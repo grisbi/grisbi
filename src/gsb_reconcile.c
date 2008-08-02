@@ -341,12 +341,12 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 	    /* increase the number */
 	    digit_size = strlen ( digit_string );
 	    gchar* oldstr =  digit_string;
-	    digit_string = itoa ( utils_str_atoi ( digit_string ) + 1 );
+	    digit_string = utils_str_itoa ( utils_str_atoi ( digit_string ) + 1 );
 	    g_free ( oldstr );
 	    new_digit_size = strlen ( digit_string );
 
 	    /* if new_digit_size is < of digit_size, it's because some 0 diseappear
-	     * while the atoi and itoa, so we set again that 0
+	     * while the atoi and utils_str_itoa, so we set again that 0
 	     * ie if we had 0007, we want 0008 and no 8 */
 	    if ( new_digit_size < digit_size )
 	    {

@@ -1547,7 +1547,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    /* mise en place du no d'opé */
 
 	case TRANSACTION_LIST_NO:
-	    return ( itoa ( transaction_number ));
+	    return ( utils_str_itoa ( transaction_number ));
 
 	    /* mise en place du no de chèque/virement */
 
@@ -1578,7 +1578,7 @@ gboolean gsb_transactions_list_update_transaction ( gint transaction_number )
     GtkTreeIter *iter;
     gint account_number;
 
-    gchar* tmpstr = itoa (transaction_number);
+    gchar* tmpstr = utils_str_itoa (transaction_number);
     devel_debug ( tmpstr );
     g_free(tmpstr);
 
@@ -4380,7 +4380,7 @@ void mise_a_jour_affichage_r ( gint affichage_r )
 {
     gint current_account;
 
-    gchar* tmpstr = itoa( affichage_r );
+    gchar* tmpstr = utils_str_itoa( affichage_r );
     devel_debug ( tmpstr );
     g_free (tmpstr);
 

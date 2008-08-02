@@ -55,7 +55,7 @@ extern gint max;
  * @todo: check usage of this function which a cause of memory leak
  * 
  */
-gchar *itoa ( gint integer )
+gchar *utils_str_itoa ( gint integer )
 {
     div_t result_div;
     gchar *chaine;
