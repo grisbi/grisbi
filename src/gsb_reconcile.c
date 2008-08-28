@@ -41,11 +41,13 @@
 #include "./gsb_real.h"
 #include "./gsb_reconcile_list.h"
 #include "./gsb_transactions_list.h"
-#include "./utils_str.h"
 #include "./traitement_variables.h"
+#include "./utils_str.h"
+#include "./transaction_list.h"
+#include "./transaction_list_sort.h"
 #include "./structures.h"
-#include "./gsb_data_transaction.h"
 #include "./gsb_transactions_list.h"
+#include "./gsb_data_transaction.h"
 #include "./include.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/
@@ -84,7 +86,7 @@ static GtkWidget *reconcile_marked_balance_label;
 static GtkWidget *reconcile_variation_balance_label;
 static GtkWidget *reconcile_ok_button;
 
-static GtkWidget *reconcile_sort_list_button;
+GtkWidget *reconcile_sort_list_button;
 
 /* previous values from the user, to be restored after the reconciliation */
 static gint reconcile_save_rows_number;
@@ -470,8 +472,8 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 				       TRUE );
 
     gtk_widget_show_all ( reconcile_panel );
-    
-    gsb_transactions_list_set_show_toggle_buttons ( TRUE );
+
+    transaction_list_show_toggle_mark (TRUE);
 
     /* unsensitive all that could change the account number */
     gsb_reconcile_sensitive (FALSE);
@@ -540,6 +542,14 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 	return FALSE;
     }
 
+    /* restore the good sort of the list */
+    if (transaction_list_sort_get_reconcile_sort ())
+    {
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (reconcile_sort_list_button),
+				       FALSE );
+	gsb_reconcile_list_button_clicked (reconcile_sort_list_button, NULL);
+    }
+
     gchar* tmpstr = g_strdup_printf ( _("Last statement: %s"), gsb_format_gdate (date));
     gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
 			 tmpstr);
@@ -590,16 +600,12 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
 
-    /* update the P and T to R in the list */
-    gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_MARK);
-
-    /* if R are not shown, we have to update the view */
-    if (!gsb_data_account_get_r (account_number))
-    {
-	gsb_transactions_list_set_visibles_rows_on_account (account_number);
-	gsb_transactions_list_set_background_color (account_number);
-	gsb_transactions_list_set_transactions_balances (account_number);
-    }
+    /* update the P and T to R in the list if R are shown,
+     * else just re-filter */
+    if (gsb_data_account_get_r (account_number))
+	transaction_list_update_element (ELEMENT_MARK);
+    else
+	gsb_transactions_list_update_tree_view (account_number, TRUE);
 
     mise_a_jour_liste_comptes_accueil = 1;
 
@@ -656,6 +662,14 @@ gboolean gsb_reconcile_cancel ( GtkWidget *button,
     /* set the normal color to the date entry */
     gsb_calendar_entry_set_color ( reconcile_new_date_entry, TRUE);
 
+    /* restore the good sort of the list */
+    if (transaction_list_sort_get_reconcile_sort ())
+    {
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (reconcile_sort_list_button),
+				       FALSE );
+	gsb_reconcile_list_button_clicked (reconcile_sort_list_button, NULL);
+    }
+
     /* restore the saved data */
     etat.retient_affichage_par_compte = reconcile_save_account_display;
 
@@ -668,7 +682,7 @@ gboolean gsb_reconcile_cancel ( GtkWidget *button,
 	mise_a_jour_affichage_r (TRUE);
     }
 
-    gsb_transactions_list_set_show_toggle_buttons ( FALSE );
+    transaction_list_show_toggle_mark (FALSE);
 
     /* Don't display uneeded widget for now. */
     gtk_widget_hide ( reconcile_panel );

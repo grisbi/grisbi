@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -43,106 +43,59 @@
 #include "./gsb_real.h"
 #include "./utils_str.h"
 #include "./gsb_transactions_list.h"
+#include "./custom_list.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint gsb_transactions_list_sort_by_amount ( GtkTreeModel *model,
-					    GtkTreeIter *iter_1,
-					    GtkTreeIter *iter_2,
-					    GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_bank ( GtkTreeModel *model,
-					  GtkTreeIter *iter_1,
-					  GtkTreeIter *iter_2,
-					  GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_budget ( GtkTreeModel *model,
-					    GtkTreeIter *iter_1,
-					    GtkTreeIter *iter_2,
-					    GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_category ( GtkTreeModel *model,
-					      GtkTreeIter *iter_1,
-					      GtkTreeIter *iter_2,
-					      GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_chq ( GtkTreeModel *model,
-					 GtkTreeIter *iter_1,
-					 GtkTreeIter *iter_2,
-					 GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_credit ( GtkTreeModel *model,
-					    GtkTreeIter *iter_1,
-					    GtkTreeIter *iter_2,
-					    GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_date ( GtkTreeModel *model,
-					  GtkTreeIter *iter_1,
-					  GtkTreeIter *iter_2,
-					  GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_debit ( GtkTreeModel *model,
-					   GtkTreeIter *iter_1,
-					   GtkTreeIter *iter_2,
-					   GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_financial_year ( GtkTreeModel *model,
-						    GtkTreeIter *iter_1,
-						    GtkTreeIter *iter_2,
-						    GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_mark ( GtkTreeModel *model,
-					  GtkTreeIter *iter_1,
-					  GtkTreeIter *iter_2,
-					  GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_no ( GtkTreeModel *model,
-					GtkTreeIter *iter_1,
-					GtkTreeIter *iter_2,
-					GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_no_sort (  GtkTreeModel *model,
-					      GtkTreeIter *iter_1,
-					      GtkTreeIter *iter_2,
-					      GtkSortType sort_type,
-					      gint no_sort );
-static gint gsb_transactions_list_sort_by_notes ( GtkTreeModel *model,
-					   GtkTreeIter *iter_1,
-					   GtkTreeIter *iter_2,
-					   GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_party ( GtkTreeModel *model,
-					   GtkTreeIter *iter_1,
-					   GtkTreeIter *iter_2,
-					   GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_reconcile_nb ( GtkTreeModel *model,
-						  GtkTreeIter *iter_1,
-						  GtkTreeIter *iter_2,
-						  GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_transaction_date_and_no ( GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
-					  GtkTreeIter *iter_1,
-					  GtkTreeIter *iter_2,
-					  GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_value_date ( GtkTreeModel *model,
-						GtkTreeIter *iter_1,
-						GtkTreeIter *iter_2,
-						GtkSortType sort_type );
-static gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
-					     GtkTreeIter *iter_1,
-					     GtkTreeIter *iter_2,
-					     GtkSortType sort_type );
-static gint gsb_transactions_list_sort_check_archive (  GtkTreeModel *model,
-						 GtkTreeIter *iter_1,
-						 GtkTreeIter *iter_2,
-						 GtkSortType sort_type );
-static gint gsb_transactions_list_sort_general_test ( GtkTreeModel *model,
-					       GtkTreeIter *iter_1,
-					       GtkTreeIter *iter_2,
-					       GtkSortType sort_type );
+static gint gsb_transactions_list_sort_by_amount ( gint transaction_number_1,
+					    gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_bank ( gint transaction_number_1,
+					  gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_budget ( gint transaction_number_1,
+					    gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_category ( gint transaction_number_1,
+					      gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_chq ( gint transaction_number_1,
+					 gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_credit ( gint transaction_number_1,
+					    gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_date ( gint transaction_number_1,
+					  gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_debit ( gint transaction_number_1,
+					   gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_financial_year ( gint transaction_number_1,
+						    gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_mark ( gint transaction_number_1,
+					  gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_no ( gint transaction_number_1,
+					gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_no_sort (  gint transaction_number_1,
+					      gint transaction_number_2,
+					      gint element_number );
+static gint gsb_transactions_list_sort_by_notes ( gint transaction_number_1,
+					   gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_party ( gint transaction_number_1,
+					   gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_reconcile_nb ( gint transaction_number_1,
+						  gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_transaction_date_and_no ( gint transaction_number_1,
+							     gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_type ( gint transaction_number_1,
+					  gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1,
+						gint transaction_number_2 );
+static gint gsb_transactions_list_sort_by_voucher ( gint transaction_number_1,
+					     gint transaction_number_2 );
 /*END_STATIC*/
 
 
 
 /*START_EXTERN*/
-extern GtkTreeViewColumn *transactions_tree_view_columns[TRANSACTION_LIST_COL_NB];
 /*END_EXTERN*/
 
-static gint transaction_number_1;
-static gint transaction_number_2;
-static gint line_1;
-static gint line_2;
 
 
 /**
@@ -151,19 +104,18 @@ static gint line_2;
  * \param model
  * \param iter_1
  * \param iter_2
- * \param column_number the number of the column (0 to TRANSACTION_LIST_COL_NB) we want to sort by
+ * \param column_number the number of the column (0 to CUSTOM_MODEL_VISIBLE_COLUMNS) we want to sort by
  *
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_column ( GtkTreeModel *model,
-					 GtkTreeIter *iter_1,
-					 GtkTreeIter *iter_2,
-					 gint *column_number )
+gint gsb_transactions_list_sort (CustomRecord **a,
+				 CustomRecord **b,
+				 CustomList *custom_list)
 {
     gint account_number;
-    gint element_number;
     gint return_value;
-    GtkSortType sort_type;
+    CustomRecord *record_1 = NULL;
+    CustomRecord *record_2 = NULL;
 
     account_number = gsb_gui_navigation_get_current_account ();
     if (account_number == -1)
@@ -171,26 +123,45 @@ gint gsb_transactions_list_sort_column ( GtkTreeModel *model,
 	 * of grisbi, and must return 0 if we don't want a crash */
 	return 0;
 
-    sort_type = gtk_tree_view_column_get_sort_order ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[GPOINTER_TO_INT (column_number)]));
+    /* i don't know why but sometimes there is a comparison between the 2 same rows... */
+    if (*a == *b)
+	return 0;
 
     /* first of all, check the archive */
-    return_value = gsb_transactions_list_sort_check_archive ( model,
-							      iter_1,
-							      iter_2,
-							      sort_type );
+    return_value = gsb_transactions_list_sort_check_archive ( *a, *b );
+    if (!return_value)
+    {
+	/* check the general tests (white line...) */
+	/* get the records */
+	record_1 = *a;
+	record_2 = *b;
+	return_value = gsb_transactions_list_sort_general_test ( record_1, record_2 );
+    }
+
     if (return_value)
-	/* there is an archive in the tested line, return now */
+    {
+	/* we have already a returned value, but for archive or general test,
+	 * the pos of the row need not to change, so must keep the return_value */
 	return return_value;
+    }
+    else
+    {
+	/* get the transaction numbers */
+	gint element_number;
+	gint transaction_number_1 = gsb_data_transaction_get_transaction_number (record_1 -> transaction_pointer);
+	gint transaction_number_2 = gsb_data_transaction_get_transaction_number (record_2 -> transaction_pointer);
 
-    /* get the element used to sort the list */
-    element_number = gsb_data_account_get_element_sort ( account_number,
-							 GPOINTER_TO_INT (column_number));
+	/* get the element used to sort the list */
+	element_number = gsb_data_account_get_element_sort ( account_number,
+							     custom_list -> sort_col);
+	return_value = gsb_transactions_list_sort_by_no_sort ( transaction_number_1,
+							       transaction_number_2,
+							       element_number );
+    }
 
-    return gsb_transactions_list_sort_by_no_sort ( model,
-						   iter_1,
-						   iter_2,
-						   sort_type,
-						   element_number );
+    if (custom_list -> sort_order == GTK_SORT_DESCENDING)
+	return_value = -return_value;
+    return return_value;
 }
 
 
@@ -201,64 +172,95 @@ gint gsb_transactions_list_sort_column ( GtkTreeModel *model,
  * \param model
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * 
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_check_archive (  GtkTreeModel *model,
-						 GtkTreeIter *iter_1,
-						 GtkTreeIter *iter_2,
-						 GtkSortType sort_type )
+gint gsb_transactions_list_sort_check_archive (  CustomRecord *record_1,
+						 CustomRecord *record_2 )
 
 {
     gint return_value = 0;
-    gpointer archive_1;
-    gpointer archive_2;
-    gint what_is_line_1;
-    gint what_is_line_2;
 
-    gtk_tree_model_get ( model,
-			 iter_1,
-			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &archive_1,
-			 TRANSACTION_COL_NB_WHAT_IS_LINE, &what_is_line_1,
-			 -1 );
-    gtk_tree_model_get ( model,
-			 iter_2,
-			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &archive_2,
-			 TRANSACTION_COL_NB_WHAT_IS_LINE, &what_is_line_2,
-			 -1 );
+    /* most of the time we are not on an archive, so check now for transaction
+     * to increase the speed */
+    if (record_1 -> what_is_line != IS_ARCHIVE
+	&&
+	record_2 -> what_is_line != IS_ARCHIVE)
+	return 0;
 
-    if (what_is_line_1 == IS_ARCHIVE)
+    /* ok, there is at least 1 archive */
+    if (record_1 -> what_is_line == IS_ARCHIVE)
     {
-	if (what_is_line_2 == IS_ARCHIVE)
-	{
+	if (record_2 -> what_is_line == IS_ARCHIVE)
 	    /* the first and second line are archives, we return a comparison by number of archive
 	     * we can do better, by date or by financial year, but more complex because no check for now
 	     * that the date must be different, and problem when created by report
 	     * so we assume the user created the archive in the good order, if some complains about that
 	     * can change here later */
-	    return_value = gsb_data_archive_get_no_archive (archive_1) - gsb_data_archive_get_no_archive (archive_2);
-	}
+	    return_value = gsb_data_archive_get_no_archive (record_1->transaction_pointer) -
+		gsb_data_archive_get_no_archive (record_2->transaction_pointer);
 	else
 	    /* the first line is an archive and not the second, so first line before */
 	    return_value = -1;
     }
     else
     {
-	if (what_is_line_2 == IS_ARCHIVE)
+	if (record_2 -> what_is_line == IS_ARCHIVE)
 	    /* the first line is not an archive but the second one is, so second line before */
 	    return_value = 1;
 	else
-	    /* we have 2 transactions, just return 0 here to make tests later */
+	    /* we have 2 transactions, just return 0 here to make tests later
+	     * shouldn't come here */
 	    return 0;
     }
-    /* for a descending sort, gtk invert the values and -1 is to set iter_1 after iter_2
-     * so invert here */
-    if ( sort_type == GTK_SORT_ASCENDING )
-	return return_value;
-    else
-	return -return_value;
+    return return_value;
 }
+
+/**
+ * check for the part wich cannot change : the white line must always be at
+ * the end of the list
+ * and into a transaction, the lines are not sorted in ascending or descending method
+ * 
+ * \param model
+ * \param iter_1
+ * \param iter_2
+ * 
+ * \return 0 if that test cannot say the return_value between the 2 lines,
+ * or the return_value if it's possible here
+ * */
+gint gsb_transactions_list_sort_general_test ( CustomRecord *record_1,
+					       CustomRecord *record_2 )
+{
+    gint return_value = 0;
+
+    /* check first for the white lines, it's always set at the end */
+    if ( gsb_data_transaction_get_transaction_number (record_1 -> transaction_pointer) <= 0 )
+	return_value = 1;
+    else
+    {
+	if (gsb_data_transaction_get_transaction_number (record_2 -> transaction_pointer) <= 0)
+	    return_value = -1;
+    }
+
+    /* check if we are on the same transaction */
+    if ( record_1 -> transaction_pointer == record_2 -> transaction_pointer )
+    {
+	/* a grid line is always at the end */
+	if (record_1 -> what_is_line == IS_SEPARATOR)
+	    return_value = 1;
+	else
+	{
+	    if (record_2 -> what_is_line == IS_SEPARATOR)
+		return_value = -1;
+	    else
+		/* the 2 records belong at the same transaction and are not a separator,
+		 * we keep always the order of the lines in transaction */
+		return_value = record_1->line_in_transaction - record_2->line_in_transaction;
+	}
+    }
+    return return_value;
+}
+
 
 
 /**
@@ -267,208 +269,98 @@ gint gsb_transactions_list_sort_check_archive (  GtkTreeModel *model,
  * \param model
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \param no_sort permit to find the right function
  * 
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_no_sort (  GtkTreeModel *model,
-					      GtkTreeIter *iter_1,
-					      GtkTreeIter *iter_2,
-					      GtkSortType sort_type,
-					      gint no_sort )
+gint gsb_transactions_list_sort_by_no_sort (  gint transaction_number_1,
+					      gint transaction_number_2,
+					      gint element_number )
 
 {
     gchar* tmpstr;
-    switch ( no_sort )
+    switch (element_number)
     {
-	case TRANSACTION_LIST_DATE:
-	    return ( gsb_transactions_list_sort_by_date ( model,
-							  iter_1,
-							  iter_2,
-							  sort_type ));
+	case ELEMENT_DATE:
+	    return ( gsb_transactions_list_sort_by_date ( transaction_number_1,
+							  transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_VALUE_DATE:
-	    return ( gsb_transactions_list_sort_by_value_date ( model,
-								iter_1,
-								iter_2,
-								sort_type ));
+	case ELEMENT_VALUE_DATE:
+	    return ( gsb_transactions_list_sort_by_value_date ( transaction_number_1,
+								transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_PARTY:
-	    return ( gsb_transactions_list_sort_by_party ( model,
-							   iter_1,
-							   iter_2,
-							   sort_type ));
+	case ELEMENT_PARTY:
+	    return ( gsb_transactions_list_sort_by_party ( transaction_number_1,
+							   transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_BUDGET:
-	    return ( gsb_transactions_list_sort_by_budget ( model,
-							    iter_1,
-							    iter_2,
-							    sort_type ));
+	case ELEMENT_BUDGET:
+	    return ( gsb_transactions_list_sort_by_budget ( transaction_number_1,
+							    transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_CREDIT:
-	    return ( gsb_transactions_list_sort_by_credit ( model,
-							    iter_1,
-							    iter_2,
-							    sort_type ));
+	case ELEMENT_CREDIT:
+	    return ( gsb_transactions_list_sort_by_credit ( transaction_number_1,
+							    transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_DEBIT:
-	    return ( gsb_transactions_list_sort_by_debit ( model,
-							   iter_1,
-							   iter_2,
-							   sort_type ));
+	case ELEMENT_DEBIT:
+	    return ( gsb_transactions_list_sort_by_debit ( transaction_number_1,
+							   transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_BALANCE:
+	case ELEMENT_BALANCE:
 	    /* 	    balance, normally, shouldn't be here... in case, give back the date */
-	    return ( gsb_transactions_list_sort_by_date ( model,
-							  iter_1,
-							  iter_2,
-							  sort_type ));
+	    return ( gsb_transactions_list_sort_by_date ( transaction_number_1,
+							  transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_AMOUNT:
-	    return ( gsb_transactions_list_sort_by_amount ( model,
-							    iter_1,
-							    iter_2,
-							    sort_type ));
+	case ELEMENT_AMOUNT:
+	    return ( gsb_transactions_list_sort_by_amount ( transaction_number_1,
+							    transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_TYPE:
-	    return ( gsb_transactions_list_sort_by_type ( model,
-							  iter_1,
-							  iter_2,
-							  sort_type ));
+	case ELEMENT_TYPE:
+	    return ( gsb_transactions_list_sort_by_type ( transaction_number_1,
+							  transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_RECONCILE_NB:
-	    return ( gsb_transactions_list_sort_by_reconcile_nb ( model,
-								  iter_1,
-								  iter_2,
-								  sort_type ));
+	case ELEMENT_RECONCILE_NB:
+	    return ( gsb_transactions_list_sort_by_reconcile_nb ( transaction_number_1,
+								  transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_EXERCICE:
-	    return ( gsb_transactions_list_sort_by_financial_year ( model,
-								    iter_1,
-								    iter_2,
-								    sort_type ));
+	case ELEMENT_EXERCICE:
+	    return ( gsb_transactions_list_sort_by_financial_year ( transaction_number_1,
+								    transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_CATEGORY:
-	    return ( gsb_transactions_list_sort_by_category ( model,
-							      iter_1,
-							      iter_2,
-							      sort_type ));
+	case ELEMENT_CATEGORY:
+	    return ( gsb_transactions_list_sort_by_category ( transaction_number_1,
+							      transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_MARK:
-	    return ( gsb_transactions_list_sort_by_mark ( model,
-							  iter_1,
-							  iter_2,
-							  sort_type ));
+	case ELEMENT_MARK:
+	    return ( gsb_transactions_list_sort_by_mark ( transaction_number_1,
+							  transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_VOUCHER:
-	    return ( gsb_transactions_list_sort_by_voucher ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type ));
+	case ELEMENT_VOUCHER:
+	    return ( gsb_transactions_list_sort_by_voucher ( transaction_number_1,
+							     transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_NOTES:
-	    return ( gsb_transactions_list_sort_by_notes ( model,
-							   iter_1,
-							   iter_2,
-							   sort_type ));
+	case ELEMENT_NOTES:
+	    return ( gsb_transactions_list_sort_by_notes ( transaction_number_1,
+							   transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_BANK:
-	    return ( gsb_transactions_list_sort_by_bank ( model,
-							  iter_1,
-							  iter_2,
-							  sort_type ));
+	case ELEMENT_BANK:
+	    return ( gsb_transactions_list_sort_by_bank ( transaction_number_1,
+							  transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_NO:
-	    return ( gsb_transactions_list_sort_by_no ( model,
-							iter_1,
-							iter_2,
-							sort_type ));
+	case ELEMENT_NO:
+	    return ( gsb_transactions_list_sort_by_no ( transaction_number_1,
+							transaction_number_2));
 	    break;
-	case TRANSACTION_LIST_CHQ:
-	    return ( gsb_transactions_list_sort_by_chq ( model,
-							 iter_1,
-							 iter_2,
-							 sort_type ));
+	case ELEMENT_CHQ:
+	    return ( gsb_transactions_list_sort_by_chq ( transaction_number_1,
+							 transaction_number_2));
 	    break;
 	default :
-	    tmpstr = g_strdup_printf ( _("problem in gsb_transactions_list_sort_by_no_sort : ask for the sort number %d which doesn't exist... return by date\n"), no_sort );
+	    tmpstr = g_strdup_printf ( _("ask for the sort number %d which doesn't exist... return by date"), element_number );
 	    warning_debug (tmpstr);
 	    g_free(tmpstr);
-	    return ( gsb_transactions_list_sort_by_date ( model,
-							  iter_1,
-							  iter_2,
-							  sort_type ));
+	    return ( gsb_transactions_list_sort_by_date ( transaction_number_1,
+							  transaction_number_2));
     }
-}
-
-
-/**
- * used by all the sort functions at the begining for the transaction list,
- * check for the part wich cannot change : the white line must always be at
- * the end of the list
- * and into a transaction, the lines are not sorted in ascending or descending method
- * so it's here we do that
- * that function fill too the globals variables transaction_number_1,
- * transaction_number_2, line_1 and line_2 used later in the others functions
- * 
- * \param model
- * \param iter_1
- * \param iter_2
- * \param sort_type
- * 
- * \return 0 if that test cannot say the return_value between the 2 lines,
- * or the return_value if it's possible here
- * */
-gint gsb_transactions_list_sort_general_test ( GtkTreeModel *model,
-					       GtkTreeIter *iter_1,
-					       GtkTreeIter *iter_2,
-					       GtkSortType sort_type )
-{
-    gint return_value = 0;
-    gpointer transaction_1;
-    gpointer transaction_2;
-
-    gtk_tree_model_get ( model,
-			 iter_1,
-			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &transaction_1,
-			 TRANSACTION_COL_NB_TRANSACTION_LINE, &line_1,
-			 -1 );
-    gtk_tree_model_get ( model,
-			 iter_2,
-			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &transaction_2,
-			 TRANSACTION_COL_NB_TRANSACTION_LINE, &line_2,
-			 -1 );
-
-    if ( !transaction_1
-	 ||
-	 !transaction_2 )
-    {
-	alert_debug ( "Local variable value NULL in the function gsb_transactions_list_sort_general_test, transaction_1 or transaction_2 is NULL ; it souldn't happen, it's seems that the function is called by a bad way" ) ;
-	return 0;
-    }
-
-    transaction_number_1 = gsb_data_transaction_get_transaction_number (transaction_1);
-    transaction_number_2 = gsb_data_transaction_get_transaction_number (transaction_2);
-
-    /* check first for the white lines, it's always set at the end */
-    if ( transaction_number_1 <= 0 )
-	return_value = 1;
-    else
-    {
-	if (transaction_number_2 <= 0)
-	    return_value = -1;
-    }
-
-    if ( transaction_number_1 == transaction_number_2 )
-	return_value = line_1 - line_2;
-
-    /* for a descending sort, gtk invert the values and -1 is to set iter_1 after iter_2
-     * so invert here */
-    if ( sort_type == GTK_SORT_ASCENDING )
-	return return_value;
-    else
-	return -return_value;
 }
 
 
@@ -480,9 +372,10 @@ gint gsb_transactions_list_sort_general_test ( GtkTreeModel *model,
  * 
  * \param none but the local variables transaction_number_1 and transaction_number_2 MUST be set
  * 
- * \return -1 if transaction_1 is above transaction_2
+ * \return -1 if transaction_number_1 is above transaction_number_2
  * */
-gint gsb_transactions_list_sort_by_transaction_date_and_no ( GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_transaction_date_and_no ( gint transaction_number_1,
+							     gint transaction_number_2 )
 {
     gint return_value;
 
@@ -495,6 +388,10 @@ gint gsb_transactions_list_sort_by_transaction_date_and_no ( GtkSortType sort_ty
 	return -1;
     }
 
+    /* i tried to set in the transactions a value for date as a gint as yyyymmdd
+     * and here only do (gint transaction_1_date) - (gint transaction_2_date)
+     * to increase the speed, but change nothing (perhaps 0,05sec for 250000 rows...)
+     * so let like that */
     return_value = g_date_compare ( gsb_data_transaction_get_date (transaction_number_1),
 				    gsb_data_transaction_get_date (transaction_number_2));
 
@@ -513,26 +410,12 @@ gint gsb_transactions_list_sort_by_transaction_date_and_no ( GtkSortType sort_ty
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * 
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_no ( GtkTreeModel *model,
-					GtkTreeIter *iter_1,
-					GtkTreeIter *iter_2,
-					GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_no ( gint transaction_number_1,
+					gint transaction_number_2 )
 {
-    gint return_value;
-
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
-
     return transaction_number_1 - transaction_number_2;
 }
 
@@ -544,25 +427,12 @@ gint gsb_transactions_list_sort_by_no ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_date ( GtkTreeModel *model,
-					  GtkTreeIter *iter_1,
-					  GtkTreeIter *iter_2,
-					  GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_date ( gint transaction_number_1,
+					  gint transaction_number_2 )
 {
-    gint return_value;
-
-    /*     general test first (white line, other rows of the transaction */
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
-
-    return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+    return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
 }
 
 
@@ -573,24 +443,12 @@ gint gsb_transactions_list_sort_by_date ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_value_date ( GtkTreeModel *model,
-						GtkTreeIter *iter_1,
-						GtkTreeIter *iter_2,
-						GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1,
+						gint transaction_number_2 )
 {
     gint return_value;
-
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
 
     return_value = g_date_compare ( gsb_data_transaction_get_value_date (transaction_number_1),
 				    gsb_data_transaction_get_value_date (transaction_number_2));
@@ -598,7 +456,7 @@ gint gsb_transactions_list_sort_by_value_date ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
 
 }
 
@@ -610,27 +468,15 @@ gint gsb_transactions_list_sort_by_value_date ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_party ( GtkTreeModel *model,
-					   GtkTreeIter *iter_1,
-					   GtkTreeIter *iter_2,
-					   GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_party ( gint transaction_number_1,
+					   gint transaction_number_2 )
 {
     gint return_value;
 
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
-
     if ( gsb_data_transaction_get_party_number ( transaction_number_1)== gsb_data_transaction_get_party_number ( transaction_number_2))
-	return_value = gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return_value = gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
     else
     {
 	const gchar *temp_1;
@@ -652,7 +498,7 @@ gint gsb_transactions_list_sort_by_party ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no (sort_type);
+	return gsb_transactions_list_sort_by_transaction_date_and_no (transaction_number_1, transaction_number_2);
 }
 
 
@@ -664,29 +510,17 @@ gint gsb_transactions_list_sort_by_party ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_budget ( GtkTreeModel *model,
-					    GtkTreeIter *iter_1,
-					    GtkTreeIter *iter_2,
-					    GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_budget ( gint transaction_number_1,
+					    gint transaction_number_2 )
 {
     gint return_value;
-
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
 
     if ( gsb_data_transaction_get_budgetary_number ( transaction_number_1) == gsb_data_transaction_get_budgetary_number ( transaction_number_2)
 	 &&
 	 gsb_data_transaction_get_sub_budgetary_number ( transaction_number_1)== gsb_data_transaction_get_sub_budgetary_number ( transaction_number_2))
-	return_value = gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return_value = gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
     else
     {
 	const gchar *temp_1;
@@ -710,7 +544,7 @@ gint gsb_transactions_list_sort_by_budget ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
 }
 
 
@@ -724,25 +558,13 @@ gint gsb_transactions_list_sort_by_budget ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * 
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_credit ( GtkTreeModel *model,
-					    GtkTreeIter *iter_1,
-					    GtkTreeIter *iter_2,
-					    GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_credit ( gint transaction_number_1,
+					    gint transaction_number_2 )
 {
     gint return_value;
-
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
 
     /* for the amounts, we have to check also the currency */
     return_value = gsb_real_cmp ( gsb_data_transaction_get_adjusted_amount ( transaction_number_1, -1),
@@ -751,7 +573,7 @@ gint gsb_transactions_list_sort_by_credit ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
 }
 
 
@@ -762,34 +584,21 @@ gint gsb_transactions_list_sort_by_credit ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_debit ( GtkTreeModel *model,
-					   GtkTreeIter *iter_1,
-					   GtkTreeIter *iter_2,
-					   GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_debit ( gint transaction_number_1,
+					   gint transaction_number_2 )
 {
     gint return_value;
 
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
-
     /* for the amounts, we have to check also the currency */
-
     return_value = gsb_real_cmp ( gsb_data_transaction_get_adjusted_amount ( transaction_number_2, -1),
 				  gsb_data_transaction_get_adjusted_amount ( transaction_number_1, -1));
 
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
 }
 
 
@@ -800,24 +609,12 @@ gint gsb_transactions_list_sort_by_debit ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_amount ( GtkTreeModel *model,
-					    GtkTreeIter *iter_1,
-					    GtkTreeIter *iter_2,
-					    GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_amount ( gint transaction_number_1,
+					    gint transaction_number_2 )
 {
     gint return_value;
-
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
 
     /* for the amounts, we have to check also the currency */
     return_value = gsb_real_cmp ( gsb_data_transaction_get_adjusted_amount ( transaction_number_1, -1),
@@ -826,7 +623,7 @@ gint gsb_transactions_list_sort_by_amount ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
 }
 
 
@@ -837,24 +634,12 @@ gint gsb_transactions_list_sort_by_amount ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
-					  GtkTreeIter *iter_1,
-					  GtkTreeIter *iter_2,
-					  GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_type ( gint transaction_number_1,
+					  gint transaction_number_2 )
 {
     gint return_value;
-
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
 
     /* if it's the same type, we sort by the content of the types */
 
@@ -866,7 +651,7 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
 							  -1 ));
 
 	if ( !return_value )
-	    return_value = gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	    return_value = gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
     }
     else
     {
@@ -896,7 +681,7 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
 							  -1 ));
 
 	if ( !return_value )
-	    return_value = gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	    return_value = gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
     }
     return return_value;
 }
@@ -909,27 +694,15 @@ gint gsb_transactions_list_sort_by_type ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_reconcile_nb ( GtkTreeModel *model,
-						  GtkTreeIter *iter_1,
-						  GtkTreeIter *iter_2,
-						  GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_reconcile_nb ( gint transaction_number_1,
+						  gint transaction_number_2 )
 {
     gint return_value;
 
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
-
     if ( gsb_data_transaction_get_reconcile_number ( transaction_number_1)== gsb_data_transaction_get_reconcile_number ( transaction_number_2))
-	return_value = gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return_value = gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
     else
     {
 	const gchar *temp_1;
@@ -949,7 +722,7 @@ gint gsb_transactions_list_sort_by_reconcile_nb ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
 }
 
 
@@ -960,27 +733,15 @@ gint gsb_transactions_list_sort_by_reconcile_nb ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_financial_year ( GtkTreeModel *model,
-						    GtkTreeIter *iter_1,
-						    GtkTreeIter *iter_2,
-						    GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_financial_year ( gint transaction_number_1,
+						    gint transaction_number_2 )
 {
     gint return_value;
 
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
-
     if ( gsb_data_transaction_get_financial_year_number ( transaction_number_1)== gsb_data_transaction_get_financial_year_number ( transaction_number_2))
-	return_value = gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return_value = gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
     else
     {
 	GDate *date_1;
@@ -1009,7 +770,7 @@ gint gsb_transactions_list_sort_by_financial_year ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
 
 }
 
@@ -1021,26 +782,14 @@ gint gsb_transactions_list_sort_by_financial_year ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_category ( GtkTreeModel *model,
-					      GtkTreeIter *iter_1,
-					      GtkTreeIter *iter_2,
-					      GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_category ( gint transaction_number_1,
+					      gint transaction_number_2 )
 {
     gint return_value;
     gchar *temp_1;
     gchar *temp_2;
-
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
 
     /** we want to take the name of the categ, so, either
      * breakdown of transaction
@@ -1065,7 +814,7 @@ gint gsb_transactions_list_sort_by_category ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
 }
 
 
@@ -1075,24 +824,12 @@ gint gsb_transactions_list_sort_by_category ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_mark ( GtkTreeModel *model,
-					  GtkTreeIter *iter_1,
-					  GtkTreeIter *iter_2,
-					  GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_mark ( gint transaction_number_1,
+					  gint transaction_number_2 )
 {
     gint return_value;
-
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
 
     return_value = gsb_data_transaction_get_marked_transaction ( transaction_number_1)- gsb_data_transaction_get_marked_transaction ( transaction_number_2);
 
@@ -1100,7 +837,7 @@ gint gsb_transactions_list_sort_by_mark ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
 }
 
 
@@ -1111,27 +848,14 @@ gint gsb_transactions_list_sort_by_mark ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
-					     GtkTreeIter *iter_1,
-					     GtkTreeIter *iter_2,
-					     GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_voucher ( gint transaction_number_1,
+					     gint transaction_number_2 )
 {
     gint return_value;
     const gchar *temp_1;
     const gchar *temp_2;
-
-
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
 
     temp_1 = gsb_data_transaction_get_voucher ( transaction_number_1);
     temp_2 = gsb_data_transaction_get_voucher ( transaction_number_2);
@@ -1146,7 +870,7 @@ gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
 }
 
 
@@ -1156,27 +880,14 @@ gint gsb_transactions_list_sort_by_voucher ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_notes ( GtkTreeModel *model,
-					   GtkTreeIter *iter_1,
-					   GtkTreeIter *iter_2,
-					   GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_notes ( gint transaction_number_1,
+					   gint transaction_number_2 )
 {
     gint return_value;
     const gchar *temp_1;
     const gchar *temp_2;
-
-
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
 
     temp_1 = gsb_data_transaction_get_notes ( transaction_number_1);
     temp_2 = gsb_data_transaction_get_notes ( transaction_number_2);
@@ -1191,7 +902,7 @@ gint gsb_transactions_list_sort_by_notes ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
 }
 
 
@@ -1202,27 +913,14 @@ gint gsb_transactions_list_sort_by_notes ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_bank ( GtkTreeModel *model,
-					  GtkTreeIter *iter_1,
-					  GtkTreeIter *iter_2,
-					  GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_bank ( gint transaction_number_1,
+					  gint transaction_number_2 )
 {
     gint return_value;
     const gchar *temp_1;
     const gchar *temp_2;
-
-
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
 
     temp_1 = gsb_data_transaction_get_bank_references ( transaction_number_1);
     temp_2 = gsb_data_transaction_get_bank_references ( transaction_number_2);
@@ -1237,7 +935,7 @@ gint gsb_transactions_list_sort_by_bank ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
 }
 
 
@@ -1248,27 +946,14 @@ gint gsb_transactions_list_sort_by_bank ( GtkTreeModel *model,
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * \param sort_type GTK_SORT_ASCENDING or GTK_SORT_DESCENDING
  * \return -1 if iter_1 is above iter_2
  * */
-gint gsb_transactions_list_sort_by_chq ( GtkTreeModel *model,
-					 GtkTreeIter *iter_1,
-					 GtkTreeIter *iter_2,
-					 GtkSortType sort_type )
+gint gsb_transactions_list_sort_by_chq ( gint transaction_number_1,
+					 gint transaction_number_2 )
 {
     gint return_value;
     const gchar *temp_1;
     const gchar *temp_2;
-
-
-    /*     general test first (white line, other rows of the transaction */
-
-    return_value = gsb_transactions_list_sort_general_test ( model,
-							     iter_1,
-							     iter_2,
-							     sort_type );
-    if ( return_value )
-	return return_value;
 
     temp_1 = gsb_data_transaction_get_method_of_payment_content ( transaction_number_1);
     temp_2 = gsb_data_transaction_get_method_of_payment_content ( transaction_number_2);
@@ -1283,7 +968,7 @@ gint gsb_transactions_list_sort_by_chq ( GtkTreeModel *model,
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(sort_type);
+	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
 }
 
 

@@ -102,6 +102,9 @@ typedef struct
 static void gsb_data_transaction_delete_all_transactions ();
 static  void gsb_data_transaction_free ( struct_transaction *transaction);
 static gint gsb_data_transaction_get_last_white_number (void);
+static gint gsb_data_transaction_get_number_by_account ( gint account_number,
+						  gboolean include_breakdown,
+						  gboolean include_marked );
 static struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transaction_number );
 static gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction );
 /*END_STATIC*/
@@ -295,7 +298,6 @@ gint gsb_data_transaction_get_transaction_number ( gpointer transaction_pointer 
      * so we will save the adr of the transaction to increase the speed after */
 
     gsb_data_transaction_save_transaction_pointer ( transaction );
-
     return transaction -> transaction_number;
 }
 
@@ -485,8 +487,11 @@ gboolean gsb_data_transaction_set_account_number ( gint transaction_number,
 
 
 
-/** get the GDate of the transaction 
+/**
+ * get the GDate of the transaction 
+ * 
  * \param transaction_number the number of the transaction
+ * 
  * \return the GDate of the transaction
  * */
 GDate *gsb_data_transaction_get_date ( gint transaction_number )
@@ -548,7 +553,6 @@ gboolean gsb_data_transaction_set_date ( gint transaction_number,
 	}
 	g_slist_free (save_tmp_list);
     }
-
     return TRUE;
 }
 
@@ -1168,8 +1172,11 @@ gboolean gsb_data_transaction_set_sub_category_number ( gint transaction_number,
 }
 
 
-/** get if the transaction is a breakdown_of_transaction
+/**
+ * check if the transaction is a breakdown (mother)
+ * 
  * \param transaction_number the number of the transaction
+ * 
  * \return TRUE if the transaction is a breakdown of transaction
  * */
 gint gsb_data_transaction_get_breakdown_of_transaction ( gint transaction_number )
@@ -1185,9 +1192,12 @@ gint gsb_data_transaction_get_breakdown_of_transaction ( gint transaction_number
 }
 
 
-/** set if the transaction is a breakdown_of_transaction
+/** 
+ * set the transaction as breakdown or not
+ *
  * \param transaction_number
  * \param is_breakdown
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_breakdown_of_transaction ( gint transaction_number,
@@ -1435,7 +1445,7 @@ gboolean gsb_data_transaction_set_marked_transaction ( gint transaction_number,
  * 
  * \param transaction_number the number of the transaction
  * 
- * \return the archive number or 0 if not archived
+ * \return the archive number, 0 if not archived and -1 if transaction not found
  * */
 gint gsb_data_transaction_get_archive_number ( gint transaction_number )
 {
@@ -1832,9 +1842,12 @@ gint gsb_data_transaction_get_contra_transaction_number ( gint transaction_numbe
     return transaction -> transaction_number_transfer;
 }
 
-/** set the transaction_number_transfer
+/**
+ * set the transaction_number_transfer
+ * 
  * \param transaction_number
  * \param transaction_number_transfer
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_contra_transaction_number ( gint transaction_number,

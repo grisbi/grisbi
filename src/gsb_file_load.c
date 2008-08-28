@@ -23,6 +23,7 @@
 
 
 #include "include.h"
+#include <glib/gstdio.h>
 
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
@@ -53,12 +54,11 @@
 #include "./gsb_real.h"
 #include "./utils_str.h"
 #include "./traitement_variables.h"
-#include "./utils_files.h"
+#include "./custom_list.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_form.h"
 #include "./gsb_scheduler_list.h"
 #include "./gsb_data_transaction.h"
-#include "./gsb_transactions_list.h"
 #include "./include.h"
 #include "./echeancier_infos.h"
 #include "./erreur.h"
@@ -142,9 +142,9 @@ extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gsb_real null_real ;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
-extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
+extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gchar *titre_fichier ;
-extern gint transaction_col_width[TRANSACTION_LIST_COL_NB];
+extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
@@ -297,7 +297,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     }
 
      /* fill the buffer stat to check the permission */
-    return_value = utf8_stat (filename,&buffer_stat);
+    return_value = g_stat (filename, &buffer_stat);
     /* check the access to the file and propose to change it */
 #ifndef _WIN32
     if ( buffer_stat.st_mode != 33152 )
@@ -748,12 +748,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	}
 
 	else if ( !strcmp ( attribute_names[i],
-			    "No_fill_r_at_begining" ))
-	{
-	    etat.no_fill_r_at_begining = utils_str_atoi( attribute_values[i]);
-	}
-
-	else if ( !strcmp ( attribute_names[i],
 			    "Transactions_view" ))
 	{
 	    gchar **pointeur_char;
@@ -764,8 +758,8 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 					 0 );
 
 	    for ( j = 0 ; j<TRANSACTION_LIST_ROWS_NB ; j++ )
-		for ( k = 0 ; k<TRANSACTION_LIST_COL_NB ; k++ )
-		    tab_affichage_ope[j][k] = utils_str_atoi ( pointeur_char[k + j*TRANSACTION_LIST_COL_NB]);
+		for ( k = 0 ; k<CUSTOM_MODEL_VISIBLE_COLUMNS ; k++ )
+		    tab_affichage_ope[j][k] = utils_str_atoi ( pointeur_char[k + j*CUSTOM_MODEL_VISIBLE_COLUMNS]);
 
 	    g_strfreev ( pointeur_char );
 	}
@@ -833,7 +827,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 					 "-",
 					 0 );
 
-	    for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
+	    for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 		transaction_col_width[j] = utils_str_atoi ( pointeur_char[j]);
 
 	    g_strfreev ( pointeur_char );
@@ -1213,7 +1207,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 					 "-",
 					 0 );
 
-	    for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
+	    for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	    {
 		gsb_data_account_set_element_sort ( account_number,
 						    j,
@@ -5200,10 +5194,7 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Caracteristiques_par_compte" ))
     {
-	/* TODO dOm : is it necessary to call my_strdup ? why not passing text directly to utils_str_atoi ? */
-	gchar* tmpstr = my_strdup (text);
-	etat.retient_affichage_par_compte = utils_str_atoi( tmpstr );
-	if ( tmpstr ) g_free ( tmpstr );
+	etat.retient_affichage_par_compte = utils_str_atoi(text);
 	return;
     }
 
@@ -5234,11 +5225,11 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
 	    for ( j=0 ; j<= number_columns ; j++ )
 	    {
 		/* we have to check here because if one time we change TRANSACTION_LIST_ROWS_NB or
-		 * TRANSACTION_LIST_COL_NB, it will crash without that (ex : (5.5 -> 6.0 )) */
-		if (  pointeur_char[j + i*TRANSACTION_LIST_COL_NB] )
+		 * CUSTOM_MODEL_VISIBLE_COLUMNS, it will crash without that (ex : (5.5 -> 6.0 )) */
+		if (  pointeur_char[j + i*CUSTOM_MODEL_VISIBLE_COLUMNS] )
 		    tab_affichage_ope[i][j] = utils_str_atoi ( pointeur_char[j + i*number_columns]);
 		else
-		    j = TRANSACTION_LIST_COL_NB;
+		    j = CUSTOM_MODEL_VISIBLE_COLUMNS;
 	    }
 
 	g_strfreev ( pointeur_char );
@@ -5655,7 +5646,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 				     "-",
 				     0 );
 
-	for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
+	for ( i=0 ; i<CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
 	{
 	    gsb_data_account_set_element_sort ( account_number,
 						i,
@@ -7131,7 +7122,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 	   &&
 	   strlen ( chemin_logo )
 	   &&
-	   g_file_test (chemin_logo, G_FILE_TEST_EXISTS)))
+	   !g_file_test (chemin_logo, G_FILE_TEST_EXISTS)))
     {
         if ( chemin_logo )
 	    g_free ( chemin_logo );

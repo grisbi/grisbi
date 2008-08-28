@@ -55,8 +55,6 @@ static GtkWidget * print_backtrace ( void );
 extern gchar *nom_fichier_comptes ;
 /*END_EXTERN*/
 
-
-
 static gint debugging_grisbi;
 
 /*************************************************************************************************************/

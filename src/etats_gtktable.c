@@ -29,8 +29,9 @@
 #include "./gsb_data_account.h"
 #include "./gsb_data_transaction.h"
 #include "./navigation.h"
-#include "./gsb_transactions_list.h"
 #include "./utils.h"
+#include "./gsb_transactions_list.h"
+#include "./transaction_list_select.h"
 #include "./structures.h"
 #include "./fenetre_principale.h"
 #include "./gsb_data_transaction.h"
@@ -292,7 +293,7 @@ void gtktable_click_sur_ope_etat ( gint transaction_number )
 	     !gsb_data_account_get_r (gsb_gui_navigation_get_current_account ()))
 	    mise_a_jour_affichage_r ( TRUE );
 
-	gsb_transactions_list_select ( transaction_number );
+	transaction_list_select ( transaction_number );
     }
 }
 /*****************************************************************************************************/

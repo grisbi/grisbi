@@ -46,8 +46,6 @@
 /*START_STATIC*/
 static  gboolean gsb_automem_checkbutton_changed ( GtkWidget *checkbutton,
 						  gpointer null );
-/*static void gsb_automem_checkbutton_set_value ( GtkWidget *checkbutton,
-					 gboolean *value );*/
 static  gboolean gsb_automem_entry_changed (GtkWidget *entry,
 					   gpointer null );
 static GtkWidget *gsb_automem_radiobutton_new ( const gchar *choice1,

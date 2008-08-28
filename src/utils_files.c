@@ -38,6 +38,7 @@
 
 /*START_STATIC*/
 static void browse_file ( GtkButton *button, gpointer data );
+static gint utf8_stat(const gchar* utf8filename, struct stat* p_stat);
 /*END_STATIC*/
 
 

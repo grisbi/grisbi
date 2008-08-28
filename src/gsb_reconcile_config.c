@@ -43,7 +43,6 @@
 #include "./dialog.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
-#include "./fenetre_principale.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
@@ -495,8 +494,8 @@ gboolean gsb_reconcile_config_update_line ( GtkWidget *entry,
 
 /**
  * callback called when the user click on 'Delete the reconcile'
- * this will delete the selected reconcile and mark all the concerned
- * transactions as marked P
+ * this will delete the selected reconcile and will mark all the concerned
+ * transactions as P
  *
  * \param button
  * \param tree_view
@@ -517,6 +516,7 @@ gboolean gsb_reconcile_config_delete ( GtkWidget *button,
     if (good)
     {
 	gint reconcile_number;
+	gint account_number;
 
 	gtk_tree_model_get (model, &iter, 
 			    RECONCILIATION_RECONCILE_COLUMN, &reconcile_number,
@@ -542,26 +542,14 @@ gboolean gsb_reconcile_config_delete ( GtkWidget *button,
 				    &iter );
 	    gsb_data_reconcile_remove (reconcile_number);
 
-	    /* first, if the R transactions are not added in the transactions list,
-	     * we load them now (should be rare, disabled by default */
-	    if (!etat.fill_r_done)
-		gsb_transactions_list_load_marked_r ();
-
 	    /* if we are on an account, we update the list */
-	    if (gsb_gui_navigation_get_current_page () == GSB_ACCOUNT_PAGE)
+	    account_number = gsb_gui_navigation_get_current_account ();
+	    if (account_number != -1)
 	    {
-		gint account_number;
-		
-		account_number = gsb_gui_navigation_get_current_account ();
-		if (account_number != -1)
-		{
-		    gsb_transactions_list_set_visibles_rows_on_account (account_number);
-		    gsb_transactions_list_set_background_color (account_number);
-		    gsb_transactions_list_set_transactions_balances (account_number);
+		gsb_transactions_list_update_tree_view (account_number, TRUE);
 
-		    /* update the last statement for that account */
-		    gsb_navigation_update_statement_label (account_number);
-		}
+		/* update the last statement for that account */
+		gsb_navigation_update_statement_label (account_number);
 	    }
 	    modification_fichier (TRUE);
 	}

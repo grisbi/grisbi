@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -34,30 +34,24 @@
 #include "./gsb_data_payment.h"
 #include "./gsb_data_transaction.h"
 #include "./navigation.h"
-#include "./gsb_transactions_list.h"
+#include "./gsb_transactions_list_sort.h"
+#include "./transaction_list.h"
+#include "./transaction_list_select.h"
+#include "./transaction_list_sort.h"
+#include "./custom_list.h"
 #include "./gsb_data_payment.h"
-#include "./gsb_transactions_list.h"
-#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint gsb_reconcile_list_sort_func ( GtkTreeModel *model,
-				    GtkTreeIter *iter_1,
-				    GtkTreeIter *iter_2,
-				    gpointer null );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-/** when switch to the method of payment sort while reconciling,
- * that 2 variables save the previous sort column */
-static gint saved_sort_column_id;
-static GtkSortType saved_order;
-
 
 /**
  * called by a switch on the button to sort the list with the method of payment
+ * while reconciling
  * this function switches between the 2 modes
  *
  * \param button the check_button
@@ -68,46 +62,16 @@ static GtkSortType saved_order;
 gboolean gsb_reconcile_list_button_clicked ( GtkWidget *button,
 					     gpointer null )
 {
-    GtkTreeSortable *sortable;
-    gint account_number;
+    gint selected_transaction;
 
-    sortable = GTK_TREE_SORTABLE (gsb_transactions_list_get_sortable ());
+    transaction_list_sort_set_reconcile_sort (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)));
 
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
-    {
-	/* the button is pressed, so sort by the method of payment */
-	/* save the current column */
-	gtk_tree_sortable_get_sort_column_id ( sortable,
-					       &saved_sort_column_id,
-					       &saved_order );
-
-	/* set the new sort function */
-	gtk_tree_sortable_set_default_sort_func ( sortable,
-						  (GtkTreeIterCompareFunc) gsb_reconcile_list_sort_func,
-						  NULL,
-						  NULL );
-	gtk_tree_sortable_set_sort_column_id ( sortable,
-					       GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
-					       GTK_SORT_ASCENDING );
-	gtk_tree_view_set_headers_clickable ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
-					      FALSE );
-    }
-    else
-    {
-	/* the button is not active, sort by previous column */
-	gtk_tree_sortable_set_sort_column_id ( sortable,
-					       saved_sort_column_id,
-					       saved_order );
-	/* unset the default func */
-	gtk_tree_sortable_set_default_sort_func ( sortable,
-						  NULL, NULL, NULL );
-	gtk_tree_view_set_headers_clickable ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
-					      TRUE );
-    }
-
-    account_number = gsb_gui_navigation_get_current_account ();
-    gsb_transactions_list_set_background_color (account_number);
-    gsb_transactions_list_set_transactions_balances (account_number);
+    /* re-sort the list */
+    selected_transaction = transaction_list_select_get ();
+    transaction_list_sort ();
+    transaction_list_colorize ();
+    transaction_list_set_balances ();
+    transaction_list_select (selected_transaction);
 
     return FALSE;
 }
@@ -122,54 +86,48 @@ gboolean gsb_reconcile_list_button_clicked ( GtkWidget *button,
  *
  * \return -1 if iter_1 before iter_2 ...
  * */
-gint gsb_reconcile_list_sort_func ( GtkTreeModel *model,
-				    GtkTreeIter *iter_1,
-				    GtkTreeIter *iter_2,
-				    gpointer null )
+gint gsb_reconcile_list_sort_func (CustomRecord **a,
+				   CustomRecord **b,
+				   CustomList *custom_list)
 {
-    gint return_value = 0;
-    gpointer transaction_1, transaction_2;
+    gint account_number;
+    gint return_value;
+    CustomRecord *record_1 = NULL;
+    CustomRecord *record_2 = NULL;
+
     gint transaction_number_1, transaction_number_2;
-    gint line_1, line_2;
     gint position_1, position_2;
     gint payment_number_1, payment_number_2;
-    gint account_number;
 
-    /* ***** the first part is a fast copy of the generals tests in the transaction list sort ***** */
-    /* get the transaction and line first */
-    gtk_tree_model_get ( model,
-			 iter_1,
-			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &transaction_1,
-			 TRANSACTION_COL_NB_TRANSACTION_LINE, &line_1,
-			 -1 );
-    gtk_tree_model_get ( model,
-			 iter_2,
-			 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &transaction_2,
-			 TRANSACTION_COL_NB_TRANSACTION_LINE, &line_2,
-			 -1 );
-    if ( !transaction_1
-	 ||
-	 !transaction_2 )
-    {
-	alert_debug ( "Local variable value NULL in the function gsb_reconcile_list_sort_func, transaction_1 or transaction_2 is NULL ; it souldn't happen, it's seems that the function is called by a bad way" );
+    /* ***** the first part is a copy of the generals tests in the transaction list sort ***** */
+
+    /* i don't know why but sometimes there is a comparison between the 2 same rows... */
+    if (*a == *b)
 	return 0;
-    }
 
-    transaction_number_1 = gsb_data_transaction_get_transaction_number (transaction_1);
-    transaction_number_2 = gsb_data_transaction_get_transaction_number (transaction_2);
-
-     /* check first for the white lines, it's always set at the end */
-    if ( transaction_number_1 <= 0 )
-	return 1;
-    else
+    /* first of all, check the archive */
+    return_value = gsb_transactions_list_sort_check_archive ( *a, *b );
+    if (!return_value)
     {
-	if (transaction_number_2 <= 0)
-	    return -1;
+	/* check the general tests (white line...) */
+	/* get the records */
+	record_1 = *a;
+	record_2 = *b;
+	return_value = gsb_transactions_list_sort_general_test ( record_1, record_2 );
     }
 
-    /* check the line in a transaction */
-    if ( transaction_number_1 == transaction_number_2 )
-	return (line_1 - line_2);
+    if (return_value)
+    {
+	/* we have already a returned value, but for archive or general test,
+	 * the pos of the row need not to change, so must keep the return_value */
+	return return_value;
+    }
+
+    account_number = gsb_gui_navigation_get_current_account ();
+
+    /* get the transaction numbers */
+    transaction_number_1 = gsb_data_transaction_get_transaction_number (record_1 -> transaction_pointer);
+    transaction_number_2 = gsb_data_transaction_get_transaction_number (record_2 -> transaction_pointer);
 
     payment_number_1 = gsb_data_transaction_get_method_of_payment_number (transaction_number_1);
     payment_number_2 = gsb_data_transaction_get_method_of_payment_number (transaction_number_2);

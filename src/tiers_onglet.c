@@ -42,14 +42,14 @@
 #include "./gsb_data_payee.h"
 #include "./utils_editables.h"
 #include "./gsb_form_widget.h"
-#include "./gsb_transactions_list.h"
 #include "./gtk_combofix.h"
 #include "./utils.h"
 #include "./utils_buttons.h"
+#include "./transaction_list.h"
+#include "./gsb_transactions_list.h"
 #include "./gtk_combofix.h"
 #include "./metatree.h"
 #include "./gsb_data_form.h"
-#include "./gsb_transactions_list.h"
 #include "./include.h"
 #include "./structures.h"
 /*END_INCLUDE*/
@@ -521,7 +521,7 @@ gboolean edit_payee ( GtkTreeView * view )
 			get_iter_from_div ( model, payee_number, -1 ), payee_number );
 
     /* update the transactions list */
-    gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_PARTY);
+    transaction_list_update_element (ELEMENT_PARTY);
 
     return FALSE;
 }

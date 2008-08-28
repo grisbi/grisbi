@@ -38,10 +38,12 @@
 #include "./gtk_combofix.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
+#include "./transaction_list_select.h"
+#include "./transaction_list.h"
+#include "./gsb_transactions_list.h"
 #include "./fenetre_principale.h"
 #include "./gtk_combofix.h"
 #include "./gsb_data_transaction.h"
-#include "./gsb_transactions_list.h"
 #include "./include.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
@@ -807,13 +809,13 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 	switch (iface -> content)
 	{
 	    case 0:
-		gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_PARTY);
+		transaction_list_update_element (ELEMENT_PARTY);
 		break;
 	    case 1:
-		gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CATEGORY);
+		transaction_list_update_element (ELEMENT_CATEGORY);
 		break;
 	    case 2:
-		gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_BUDGET);
+		transaction_list_update_element (ELEMENT_BUDGET);
 		break;
 	}
     }
@@ -915,13 +917,13 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	switch (iface -> content)
 	{
 	    case 0:
-		gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_PARTY);
+		transaction_list_update_element (ELEMENT_PARTY);
 		break;
 	    case 1:
-		gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CATEGORY);
+		transaction_list_update_element (ELEMENT_CATEGORY);
 		break;
 	    case 2:
-		gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_BUDGET);
+		transaction_list_update_element (ELEMENT_BUDGET);
 		break;
 	}
     }
@@ -1097,7 +1099,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 					       gsb_data_transaction_get_account_number (transaction_number), 
 					       NULL );
 
-	    gsb_transactions_list_select ( transaction_number );
+	    transaction_list_select ( transaction_number );
 	}
 	else
 	{
@@ -1185,10 +1187,11 @@ gboolean division_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath *
 gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,
 				       GtkSelectionData * selection_data )
 {
-    gchar* strtmp = g_strdup_printf ("%p, %p, %p", 
-				     drag_dest, dest_path, selection_data);
-    devel_debug ( strtmp );
-    g_free ( strtmp );
+    gchar *tmpstr = gtk_tree_path_to_string (dest_path);
+    gchar *tmpstr2 = g_strdup_printf ( "Dest path : %s", tmpstr);
+    devel_debug (tmpstr2);
+    g_free (tmpstr);
+    g_free (tmpstr2);
 
     if ( dest_path && selection_data )
     {

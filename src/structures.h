@@ -99,7 +99,10 @@ struct {
     gint en_train_de_sauvegarder;
     gint en_train_de_charger;
     gint utilise_logo;
-    gint utilise_fonte_listes;
+
+    gint utilise_fonte_listes;		/* TRUE to use a custom font for the lists */
+    gchar *font_string;			/* contain the description of the font, or NULL */
+    
     gint affichage_grille;         /* à 1 si la grille est affichée */
     gint display_toolbar;	/** Display mode of toolbar. */
     gboolean show_toolbar;		/** Show toolbar or not.  */
@@ -143,11 +146,6 @@ struct {
     /* Tips */
     gint last_tip; 
     gint show_tip; 
-
-    /* fill the list with the R transactions at begining */
-    gint no_fill_r_at_begining;
-    /* TRUE if the R transactions are filled in the list */
-    gint fill_r_done;
 
     gchar * csv_separator;	/** CSV separator to use while parsing
 				 * a CSV file. */

@@ -263,18 +263,18 @@ gboolean gsb_currency_set_combobox_history ( GtkWidget *combo_box,
  * */
 gint gsb_currency_get_currency_from_combobox ( GtkWidget *combo_box )
 {
-    gint currency_number;
+    gint currency_number = 0;
     GtkTreeIter iter;
 
     if (!combobox_currency_store)
 	gsb_currency_create_combobox_store ();
 
-    gtk_combo_box_get_active_iter ( GTK_COMBO_BOX (combo_box),
-				    &iter );
-    gtk_tree_model_get ( GTK_TREE_MODEL (combobox_currency_store),
-			 &iter,
-			 CURRENCY_COL_NUMBER, &currency_number,
-			 -1 );
+    if (gtk_combo_box_get_active_iter ( GTK_COMBO_BOX (combo_box),
+					&iter ))
+	gtk_tree_model_get ( GTK_TREE_MODEL (combobox_currency_store),
+			     &iter,
+			     CURRENCY_COL_NUMBER, &currency_number,
+			     -1 );
     return currency_number;
 }
 

@@ -351,7 +351,7 @@ gboolean assert_account_loaded ()
 /******************************************************************************/
 void update_ecran ( void )
 {
-    devel_debug ( "update_ecran" );
+    devel_debug (NULL);
 
     while ( g_main_iteration (FALSE));
 }

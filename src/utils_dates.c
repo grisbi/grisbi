@@ -387,7 +387,9 @@ GDate * gsb_parse_date_string ( const gchar *date_string )
 		break;
 	    case 'y':
 	    case 'Y':
-		if ( strlen ( tab_date [ j ] ) == 2 )
+		if ( strlen ( tab_date [ j ] ) == 2
+		     ||
+		     strlen (tab_date[j] ) == 1)
 		{
 		    if ( nvalue < 60 )
 		    {

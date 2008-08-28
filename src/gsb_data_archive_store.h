@@ -17,5 +17,6 @@ gpointer gsb_data_archive_store_get_structure ( gint archive_store_number );
 gint gsb_data_archive_store_get_transactions_number ( gint archive_store_number );
 gboolean gsb_data_archive_store_init_variables ( void );
 gboolean gsb_data_archive_store_remove ( gint archive_store_number );
+gboolean gsb_data_archive_store_remove_by_archive ( gint archive_number );
 /* END_DECLARATION */
 #endif

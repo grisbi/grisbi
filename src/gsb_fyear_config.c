@@ -38,9 +38,9 @@
 #include "./gsb_data_fyear.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_fyear.h"
-#include "./gsb_transactions_list.h"
 #include "./traitement_variables.h"
 #include "./utils.h"
+#include "./transaction_list.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
@@ -794,7 +794,7 @@ gboolean gsb_fyear_config_associate_transactions ( void )
 				    modification_number);
 	dialogue (  tmpstr );
 	g_free ( tmpstr );
-	gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_EXERCICE);
+	transaction_list_update_element (ELEMENT_EXERCICE);
 	modification_fichier ( TRUE );
     }
     else

@@ -36,7 +36,6 @@
 #include "./gsb_data_report_text_comparison.h"
 #include "./utils_dates.h"
 #include "./utils_str.h"
-#include "./erreur.h"
 /*END_INCLUDE*/
 
 /** \struct
@@ -3988,8 +3987,8 @@ gint gsb_data_report_compare_position ( gint report_number_1,
 /**
  * change the position of an report in the list of reports
  *
- * \param report_number the report we want to move
- * \param dest_report_number the report before we want to move
+ * \param report_number		the report we want to move
+ * \param dest_report_number	the report before we want to move, or -1 to set at the end of list
  *
  * \return FALSE
  * */
@@ -3997,8 +3996,6 @@ gboolean gsb_data_report_move_report ( gint report_number,
 				       gint dest_report_number )
 {
     struct_report *report;
-    GSList *tmp_list;
-    gboolean found = FALSE;
 
     report = gsb_data_report_get_structure ( report_number );
 
@@ -4009,31 +4006,31 @@ gboolean gsb_data_report_move_report ( gint report_number,
     report_list = g_slist_remove ( report_list,
 				   report );
 
-    tmp_list = report_list;
-    while ( tmp_list && !found )
+    if (dest_report_number != -1)
     {
-	struct_report *report_tmp;
+	GSList *tmp_list;
 
-	report_tmp = tmp_list -> data;
-
-	if ( report_tmp && report_tmp -> report_number == dest_report_number)
+	tmp_list = report_list;
+	while (tmp_list)
 	{
-	    report_list = g_slist_insert_before ( report_list,
-						   tmp_list,
-						   report );
-	    found = TRUE;
+	    struct_report *report_tmp;
+
+	    report_tmp = tmp_list -> data;
+
+	    if ( report_tmp && report_tmp -> report_number == dest_report_number)
+	    {
+		report_list = g_slist_insert_before ( report_list,
+						      tmp_list,
+						      report );
+		return FALSE;
+	    }
+	    tmp_list = tmp_list -> next;
 	}
-	tmp_list = tmp_list -> next;
     }
 
-    /* if didn't found the report to set previous,
-     * we append again the report to the list */
-    if (!found)
-    {
-	devel_debug ("Target report not found in gsb_data_report_move_report,\n append the moved report to the end");
-	report_list = g_slist_append ( report_list,
-					report );
-    }
+    /* set the report at the end of list */
+    report_list = g_slist_append ( report_list,
+				   report );
     return FALSE;
 }
 

@@ -39,6 +39,7 @@
 #include "./gsb_data_transaction.h"
 #include "./gsb_real.h"
 #include "./gsb_scheduler.h"
+#include "./gsb_transactions_list_sort.h"
 #include "./main.h"
 #include "./include.h"
 #include "./gsb_real.h"
@@ -261,7 +262,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 					  (GtkTreeIterCompareFunc) bet_date_sort_function,
 					  NULL, NULL );
 	gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(tree_model),
-		SPP_ESTIMATE_TREE_SORT_DATE_COLUMN, GTK_SORT_DESCENDING);
+					     SPP_ESTIMATE_TREE_SORT_DATE_COLUMN, GTK_SORT_DESCENDING);
 
 	scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
 	gtk_widget_show(scrolled_window);

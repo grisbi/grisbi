@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -144,6 +144,7 @@ gint gsb_data_archive_store_get_number ( gpointer archive_ptr )
 
     archive = archive_ptr;
     archive_store_buffer = archive;
+
     return archive -> archive_store_number;
 }
 
@@ -249,6 +250,35 @@ gboolean gsb_data_archive_store_remove ( gint archive_store_number )
     _gsb_data_archive_store_free ( archive );
     return TRUE;
 }
+
+/**
+ * remove all the archives stores corresponding to the archive
+ *
+ * \param archive_number the archive we want remove the corresponding archives stores
+ *
+ * \return TRUE ok
+ * */
+gboolean gsb_data_archive_store_remove_by_archive ( gint archive_number )
+{
+    GSList *tmp_list;
+
+    tmp_list = archive_store_list;
+    while (tmp_list)
+    {
+	struct_store_archive *archive;
+
+	archive = tmp_list -> data;
+	tmp_list = tmp_list -> next;
+	if (archive -> archive_number == archive_number)
+	{
+	    archive_store_list = g_slist_remove ( archive_store_list,
+						  archive );
+	    _gsb_data_archive_store_free ( archive );
+	}
+    }
+    return TRUE;
+}
+
 
 
 

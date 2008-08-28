@@ -354,10 +354,10 @@ gboolean gsb_file_open_file ( gchar *filename )
     /* try to load the file */
     /* FIXME:BUG under Windows: for unknwon reason yet filename is cleared when returning from gsb_file_load_open_file!
        making application crashes! */
+
     if ( gsb_file_load_open_file (filename))
     {
 	/* the file has been opened succesfully */
-
 	/* we make a backup if necessary */
 	if ( etat.sauvegarde_demarrage )
 	{
@@ -488,7 +488,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     /* for now, the flag for modification of the file is ok, but the menu couldn't be set as sensitive/unsensitive
      * so do it now */
-    modification_fichier (etat.modification_fichier);
+    modification_fichier (etat.modification_fichier != 0);
 
     gsb_status_message ( _("Done") );
     gsb_status_stop_wait ( TRUE );
@@ -537,9 +537,7 @@ gboolean gsb_file_save_file ( gint origine )
     gint etat_force, result;
     gchar *nouveau_nom_enregistrement;
 
-    gchar* tmpstr = g_strdup_printf ( "gsb_file_save_file from %d", origine );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (origine);
 
     etat_force = 0;
 

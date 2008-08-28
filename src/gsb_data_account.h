@@ -63,11 +63,11 @@ gint gsb_data_account_get_no_account ( gpointer account_ptr );
 gint gsb_data_account_get_no_account_by_name ( const gchar *account_name );
 gboolean gsb_data_account_get_r ( gint account_number );
 gint gsb_data_account_get_reconcile_sort_type ( gint account_number );
+gfloat gsb_data_account_get_row_align ( gint account_number );
 gint gsb_data_account_get_sort_column ( gint account_number );
 GSList *gsb_data_account_get_sort_list ( gint account_number );
 gint gsb_data_account_get_sort_type ( gint account_number );
 gint gsb_data_account_get_split_neutral_payment ( gint account_number );
-GtkTreePath *gsb_data_account_get_vertical_adjustment_value ( gint account_number );
 gboolean gsb_data_account_init_variables ( void );
 gboolean gsb_data_account_move_account ( gint account_number,
 					 gint dest_account_number );
@@ -130,6 +130,8 @@ gboolean gsb_data_account_set_r ( gint account_number,
 				  gboolean show_r );
 gboolean gsb_data_account_set_reconcile_sort_type ( gint account_number,
 						    gint sort_type );
+gboolean gsb_data_account_set_row_align ( gint account_number,
+					  gfloat row_align );
 gboolean gsb_data_account_set_sort_column ( gint account_number,
 					    gint sort_column );
 gboolean gsb_data_account_set_sort_list ( gint account_number,
@@ -138,8 +140,6 @@ gboolean gsb_data_account_set_sort_type ( gint account_number,
 					  gint sort_type );
 gboolean gsb_data_account_set_split_neutral_payment ( gint account_number,
 						      gint split_neutral_payment );
-gboolean gsb_data_account_set_vertical_adjustment_value ( gint account_number,
-							  GtkTreePath *vertical_adjustment_value );
 gboolean gsb_data_account_sort_list_add ( gint account_number,
 					  gint payment_number );
 gboolean gsb_data_account_sort_list_free ( gint account_number );

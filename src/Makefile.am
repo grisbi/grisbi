@@ -16,6 +16,7 @@ sources = \
 	classement_echeances.c	\
 	comptes_onglet.c	\
 	csv_parse.c		\
+	custom_list.c		\
 	dialog.c		\
 	echeancier_infos.c	\
 	erreur.c		\
@@ -97,7 +98,6 @@ sources = \
 	gsb_scheduler.c		\
 	gsb_scheduler_list.c	\
 	gsb_status.c		\
-	gsb_transaction_model.c	\
 	gsb_transactions_list.c	\
 	gsb_transactions_list_sort.c	\
 	gtk_combofix.c		\
@@ -119,6 +119,10 @@ sources = \
 	tiers_onglet.c		\
 	tip.c			\
 	traitement_variables.c	\
+	transaction_list.c	\
+	transaction_list_select.c\
+	transaction_list_sort.c	\
+	transaction_model.c	\
 	utils.c			\
 	utils_buttons.c		\
 	utils_dates.c		\
@@ -142,6 +146,7 @@ grisbi_INCLUDES =		\
 	classement_echeances.h	\
 	comptes_onglet.h	\
         csv_parse.h             \
+	custom_list.h		\
         etats_affiche.h         \
         etats_csv.h             \
         etats_html.h            \
@@ -215,7 +220,6 @@ grisbi_INCLUDES =		\
         gsb_status.h            \
 	gsb_scheduler.h		\
 	gsb_scheduler_list.h	\
-	gsb_transaction_model.h	\
 	gsb_transactions_list.h	\
 	gsb_transactions_list_sort.h	\
 	dialog.h		\
@@ -250,6 +254,10 @@ grisbi_INCLUDES =		\
 	structures.h		\
 	tiers_onglet.h		\
 	traitement_variables.h	\
+	transaction_list.h	\
+	transaction_list_select.h\
+	transaction_list_sort.h	\
+	transaction_model.h	\
 	utils.h			\
 	utils_buttons.h		\
 	utils_dates.h		\

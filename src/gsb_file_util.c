@@ -116,7 +116,6 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
     if (!file)
 	return FALSE;
 
-    /* FIXME xxx windows and stat ??? */
     /* use stat to get the size of the file, windows ? */
     if (stat (filename, &stat_buf))
     {
@@ -387,6 +386,7 @@ void gsb_file_util_change_permissions ( void )
      * Windows version : for that the corresponding parameter
      * check box is not displayed and the paramater is forced to
      * not display msg. */
+    devel_debug (NULL);
 #ifndef _WIN32
     if ( question_conditional_yes_no ( "account-file-readable" ) == TRUE )
     {

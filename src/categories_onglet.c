@@ -33,13 +33,13 @@
 #include "./gsb_data_transaction.h"
 #include "./gsb_file.h"
 #include "./gsb_file_others.h"
-#include "./gsb_transactions_list.h"
 #include "./main.h"
 #include "./utils.h"
 #include "./utils_buttons.h"
+#include "./transaction_list.h"
+#include "./gsb_transactions_list.h"
 #include "./utils_file_selection.h"
 #include "./metatree.h"
-#include "./gsb_transactions_list.h"
 #include "./include.h"
 #include "./erreur.h"
 #include "./structures.h"
@@ -718,7 +718,7 @@ gboolean edit_category ( GtkTreeView * view )
     }
 
     /* update the transactions list */
-    gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CATEGORY);
+    transaction_list_update_element (ELEMENT_CATEGORY);
 
     return TRUE;
 }

@@ -45,6 +45,7 @@
 #include "./traitement_variables.h"
 #include "./utils.h"
 #include "./dialog.h"
+#include "./transaction_list.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
@@ -468,7 +469,7 @@ static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
 
 	/* ok, now we delete the archive */
 	/* first step, we show it in the lists */
-	gsb_transactions_list_append_archive (archive_number);
+	gsb_transactions_list_restore_archive (archive_number);
 
 	/* now we remove the link of all the transactions and the archive itself */
 	gsb_data_archive_remove (archive_number);
@@ -497,19 +498,15 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
     GtkTreeSelection *selection;
     GtkTreeIter iter;
     gboolean good;
+    GtkTreeModel *model;
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
     good = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
     if (good)
     {
-	GtkTreeModel *model;
 	gint archive_number;
 	GSList *tmp_list;
-	GtkTreeIter iter_transactions;
-	gint what_is_line;
-	GtkTreeModel *model_transactions;
-	gboolean value = TRUE;
 	gint account_number;
 
 	model = gtk_tree_view_get_model ( GTK_TREE_VIEW (tree_view));
@@ -530,35 +527,7 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
 	g_free ( tmpstr );
 
 	/* remove the lines of that archive in the tree view of transactions */
-	model_transactions = GTK_TREE_MODEL (gsb_transactions_list_get_store());
-	gtk_tree_model_get_iter_first ( model_transactions,
-					&iter_transactions );
-	do
-	{
-	    gpointer archive_store_pointer;
-
-	    gtk_tree_model_get ( model_transactions,
-				 &iter_transactions,
-				 TRANSACTION_COL_NB_TRANSACTION_ADDRESS, &archive_store_pointer,
-				 TRANSACTION_COL_NB_WHAT_IS_LINE, &what_is_line,
-				 -1 );
-	    if (what_is_line == IS_ARCHIVE)
-	    {
-		gint archive_store_number;
-
-		archive_store_number = gsb_data_archive_store_get_number (archive_store_pointer);
-		if (gsb_data_archive_store_get_archive_number (archive_store_number) == archive_number)
-		    /* this line is an archive store wich have to be removed */
-		    value = gtk_tree_store_remove ( GTK_TREE_STORE (model_transactions),
-						    &iter_transactions );
-		else
-		    value = gtk_tree_model_iter_next ( model_transactions,
-						       &iter_transactions );
-	    }
-	}
-	while ( value
-		&&
-		what_is_line == IS_ARCHIVE);
+	transaction_list_remove_archive (archive_number);
 
 	/* remove that archive from the archive store and modify the initial amount of accounts */
 	tmp_list = gsb_data_archive_store_get_archives_list ();
@@ -615,7 +584,7 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
 	{
 	    /* we are on an account */
 	    gsb_account_property_fill_page ();
-	    gsb_transactions_list_set_transactions_balances (account_number);
+	    transaction_list_set_balances ();
 	}
 	
 	modification_fichier (TRUE);

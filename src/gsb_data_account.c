@@ -37,8 +37,9 @@
 #include "./gsb_real.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
-#include "./gsb_data_transaction.h"
+#include "./custom_list.h"
 #include "./gsb_transactions_list.h"
+#include "./gsb_data_transaction.h"
 #include "./include.h"
 #include "./erreur.h"
 #include "./gsb_real.h"
@@ -51,60 +52,60 @@
 typedef struct
 {
     /** @name general stuff */
-    gint account_number;
-    gchar *account_id;                       /**< for ofx import, invisible for the user */
+    gint 	account_number;
+    gchar 	*account_id;                       /**< for ofx import, invisible for the user */
     kind_account account_kind;
-    gchar *account_name;
-    gint currency;
-    gint closed_account;                     /**< if 1 => closed */
-    gchar *comment;
-    gchar *holder_name;
-    gchar *holder_address;
+    gchar 	*account_name;
+    gint 	currency;
+    gint 	closed_account;                     /**< if 1 => closed */
+    gchar 	*comment;
+    gchar 	*holder_name;
+    gchar 	*holder_address;
 
     /** @name method of payment */
-    gint default_debit;
-    gint default_credit;
+    gint 	default_debit;
+    gint 	default_credit;
 
     /** @name showed list stuff */
-    gint show_r;                      /**< 1 : reconciled transactions are showed */
-    gint nb_rows_by_transaction;      /**< 1, 2, 3, 4  */
+    gint 	show_r;                      /**< 1 : reconciled transactions are showed */
+    gint 	nb_rows_by_transaction;      /**< 1, 2, 3, 4  */
 
     /** @name remaining of the balances */
-    gsb_real init_balance;
-    gsb_real mini_balance_wanted;
-    gsb_real mini_balance_authorized;
-    gsb_real current_balance;
-    gsb_real marked_balance;
+    gsb_real 	init_balance;
+    gsb_real 	mini_balance_wanted;
+    gsb_real 	mini_balance_authorized;
+    gsb_real 	current_balance;
+    gsb_real 	marked_balance;
 
     /** @name remaining of the minimun balance message */
-    gint mini_balance_wanted_message;
-    gint mini_balance_authorized_message;
+    gint 	mini_balance_wanted_message;
+    gint 	mini_balance_authorized_message;
 
     /** @name number of the transaction selectionned, or -1 for the white line */
-    gint current_transaction_number;
+    gint 	current_transaction_number;
 
     /** @name bank stuff */
-    gint bank_number;
-    gchar *bank_branch_code;
-    gchar *bank_account_number;
-    gchar *bank_account_key;
+    gint 	bank_number;
+    gchar 	*bank_branch_code;
+    gchar 	*bank_account_number;
+    gchar 	*bank_account_key;
 
     /** @name reconcile sort */
-    gint reconcile_sort_type;                           /**< 1 : sort by method of payment ; 0 : sort by date */
-    GSList *sort_list;                        /**< the method of payment numbers sorted in a list (if split neutral, the negative method has a negative method of payment number)*/
-    gint split_neutral_payment;               /**< if 1 : neutral payments are splitted into debits/credits */
+    gint 	reconcile_sort_type;			/**< 1 : sort by method of payment ; 0 : let the user sort by himself */
+    GSList 	*sort_list;				/**< the method of payment numbers sorted in a list
+							  (if split neutral, the negative method has a negative method of payment number)*/
+    gint 	split_neutral_payment;			/**< if 1 : neutral payments are splitted into debits/credits */
 
     /** @name tree_view sort stuff */
-    gint sort_type;          /**< GTK_SORT_DESCENDING / GTK_SORT_ASCENDING */
-    gint sort_column;             /**< used to hide the arrow when change the column */
-    gint column_element_sort[TRANSACTION_LIST_COL_NB];  /**< contains for each column the element number used to sort the list */
+    gint 	sort_type;				/**< GTK_SORT_DESCENDING / GTK_SORT_ASCENDING */
+    gint 	sort_column;				/**< used to hide the arrow when change the column */
+    gint 	column_element_sort[CUSTOM_MODEL_VISIBLE_COLUMNS];  /**< contains for each column the element number used to sort the list */
 
-    /** @name current graphic position in the list */
-
-    GtkTreePath *vertical_adjustment_value;
+    /** @name current graphic position in the list (the row_align used with gtk_tree_view_scroll_to_cell) */
+    gfloat 	row_align;
 
     /** @name struct of the form's organization */
-    gpointer form_organization;
+    gpointer 	form_organization;
 } struct_account;
 
 
@@ -121,7 +122,7 @@ static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 /*START_EXTERN*/
 extern gsb_real null_real ;
 extern GtkTreeSelection * selection ;
-extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
+extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 
@@ -218,7 +219,6 @@ gint gsb_data_account_new ( kind_account account_kind )
 
     /* select the white line */
     account -> current_transaction_number = -1;
-    account -> vertical_adjustment_value = NULL;
 
     /*     if it's the first account, we set default conf (R not displayed and 3 lines per transaction) */
     /*     else we keep the conf of the last account */
@@ -281,7 +281,7 @@ static void _gsb_data_account_free ( struct_account* account )
 	g_free ( account -> bank_account_number );
     if ( account -> bank_account_key );
 	g_free ( account -> bank_account_key );
-    /* TODO dOm : free vertical_adjustment_value */
+    /* TODO dOm : free row_align */
     /* TODO dOm : free sort_list */
     g_free ( account );
     if ( account_buffer == account )
@@ -489,7 +489,7 @@ struct_account *gsb_data_account_get_structure ( gint no )
  * 
  * \param account_number no of the account
  * 
- * \return nb of rows displayed or 0 if the account doesn't exist
+ * \return nb of rows displayed (1, 2, 3 or 4), or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_nb_rows ( gint account_number )
 {
@@ -534,8 +534,11 @@ gboolean gsb_data_account_set_nb_rows ( gint account_number,
 }
 
 
-/** return if R are displayed in the account asked
+/**
+ * return if R are displayed in the account asked
+ * 
  * \param account_number no of the account
+ * 
  * \return boolean show/not show R
  * */
 gboolean gsb_data_account_get_r ( gint account_number )
@@ -550,9 +553,12 @@ gboolean gsb_data_account_get_r ( gint account_number )
     return account -> show_r;
 }
 
-/** set if R are displayed in the account asked
+/**
+ * set if R are displayed in the account asked
+ * 
  * \param account_number no of the account
  * \param show_r boolean
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_r ( gint account_number,
@@ -1167,7 +1173,7 @@ gint gsb_data_account_get_element_sort ( gint account_number,
 
     if ( no_column < 0
 	 ||
-	 no_column > TRANSACTION_LIST_COL_NB )
+	 no_column > CUSTOM_MODEL_VISIBLE_COLUMNS )
     {
     	/* TODO dOm : the return value of g_strdup_printf was not used ! I add the devel_debug to print it. Is it OK to do that ?*/
 	gchar* tmpstr = g_strdup_printf ( _("Bad no column to gsb_data_account_get_element_sort () in data_account.c\nno_column = %d\n" ),
@@ -1205,7 +1211,7 @@ gboolean gsb_data_account_set_element_sort ( gint account_number,
 
     if ( no_column < 0
 	 ||
-	 no_column > TRANSACTION_LIST_COL_NB )
+	 no_column > CUSTOM_MODEL_VISIBLE_COLUMNS )
     {
         /* TODO dOm : the value of g_strdup_printf was not used. I add the devel_debug function to print it. Is it OK ? */
 	gchar* tmpstr = g_strdup_printf ( _("Bad no column to gsb_data_account_set_element_sort () in data_account.c\nno_column = %d\n" ), no_column );
@@ -1233,8 +1239,6 @@ gboolean gsb_data_account_set_element_sort ( gint account_number,
  *
  * \return the number of the transaction or 0 if problem
  * */
-/* FIXME : devrait virer pour une fonction dans gsb_transactions_list qui
- * prend le no de la selection en cours */
 gint gsb_data_account_get_current_transaction_number ( gint account_number )
 {
     struct_account *account;
@@ -1249,9 +1253,12 @@ gint gsb_data_account_get_current_transaction_number ( gint account_number )
 
 
 
-/** set the current transaction of the account
+/**
+ * set the current transaction of the account
+ * 
  * \param account_number no of the account
  * \param transaction_number number of the transaction selection
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_current_transaction_number ( gint account_number,
@@ -1271,8 +1278,11 @@ gboolean gsb_data_account_set_current_transaction_number ( gint account_number,
 
 
 
-/** get the value of mini_balance_wanted_message  on the account given
+/**
+ * get the value of mini_balance_wanted_message  on the account given
+ * 
  * \param account_number no of the account
+ * 
  * \return mini_balance_wanted_message or 0 if the account doesn't exist
  * */
 gboolean gsb_data_account_get_mini_balance_wanted_message ( gint account_number )
@@ -1288,9 +1298,12 @@ gboolean gsb_data_account_get_mini_balance_wanted_message ( gint account_number 
 }
 
 
-/** set the value of mini_balance_wanted_message in the account given
+/** 
+ * set the value of mini_balance_wanted_message in the account given
+ * 
  * \param account_number no of the account
  * \param value 
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_mini_balance_wanted_message ( gint account_number,
@@ -2045,39 +2058,36 @@ gboolean gsb_data_account_set_default_credit ( gint account_number,
 
 
 /**
- * get vertical_adjustment_value on the account given
+ * get row_align on the account given
  * 
  * \param account_number no of the account
  * 
- * \return a copy of the vertical path (need to be freed) or NULL if no defined
+ * \return the row_align or 0
  * */
-GtkTreePath *gsb_data_account_get_vertical_adjustment_value ( gint account_number )
+gfloat gsb_data_account_get_row_align ( gint account_number )
 {
     struct_account *account;
 
     account = gsb_data_account_get_structure ( account_number );
 
     if (!account )
-	return NULL;
+	return 0.0;
 
-    if (account -> vertical_adjustment_value)
-	return gtk_tree_path_copy (account -> vertical_adjustment_value);
-    else
-	return NULL;
+    return account -> row_align;
 }
 
 
 /**
- * set vertical_adjustment_value in the account given
+ * set the row_align parameter for the account
+ * use to place the list at the good place when changing account
  * 
  * \param account_number no of the account
- * \param vertical_adjustment_value vertical_adjustment_value to set
- * 	value are copied in memory so can free after that function
+ * \param row_align	the row_align to use with gtk_tree_view_scroll_to_cell
  * 
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_data_account_set_vertical_adjustment_value ( gint account_number,
-							  GtkTreePath *vertical_adjustment_value )
+gboolean gsb_data_account_set_row_align ( gint account_number,
+					  gfloat row_align )
 {
     struct_account *account;
 
@@ -2086,10 +2096,7 @@ gboolean gsb_data_account_set_vertical_adjustment_value ( gint account_number,
     if (!account )
 	return FALSE;
 
-    if (account -> vertical_adjustment_value)
-	gtk_tree_path_free (account -> vertical_adjustment_value);
-    account -> vertical_adjustment_value = gtk_tree_path_copy (vertical_adjustment_value);
-
+    account -> row_align = row_align;
     return TRUE;
 }
 
@@ -2318,8 +2325,8 @@ gint gsb_data_account_compare_position ( gint account_number_1,
 /**
  * change the position of an account in the list of accounts
  *
- * \param account_number the account we want to move
- * \param dest_account_number the account before we want to move
+ * \param account_number	the account we want to move
+ * \param dest_account_number	the account before we want to move, or -1 to set at the end of list
  *
  * \return FALSE
  * */
@@ -2327,8 +2334,6 @@ gboolean gsb_data_account_move_account ( gint account_number,
 					 gint dest_account_number )
 {
     struct_account *account;
-    GSList *tmp_list;
-    gboolean found = FALSE;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -2339,33 +2344,32 @@ gboolean gsb_data_account_move_account ( gint account_number,
     list_accounts = g_slist_remove ( list_accounts,
 				     account );
 
-    tmp_list = list_accounts;
-    while ( tmp_list
-	    ||
-	    !found )
+    if (dest_account_number != -1)
     {
-	struct_account *account_tmp;
+	GSList *tmp_list;
 
-	account_tmp = tmp_list -> data;
-
-	if (account_tmp -> account_number == dest_account_number)
+	tmp_list = list_accounts;
+	while ( tmp_list )
 	{
-	    list_accounts = g_slist_insert_before ( list_accounts,
-						    tmp_list,
-						    account );
-	    found = TRUE;
+	    struct_account *account_tmp;
+
+	    account_tmp = tmp_list -> data;
+
+	    if (account_tmp -> account_number == dest_account_number)
+	    {
+		list_accounts = g_slist_insert_before ( list_accounts,
+							tmp_list,
+							account );
+		return FALSE;
+	    }
+	    tmp_list = tmp_list -> next;
 	}
-	tmp_list = tmp_list -> next;
     }
 
-    /* if didn't found the account to set previous,
-     * we append again the account to the list */
-    if (!found)
-    {
-	devel_debug ("Target account not found in gsb_data_account_move_account,\n append the moved account to the end");
-	list_accounts = g_slist_append ( list_accounts,
-					 account );
-    }
+    /* we move the account to the end */
+    list_accounts = g_slist_append ( list_accounts,
+				     account );
+
     return FALSE;
 }
 
@@ -2389,20 +2393,20 @@ gboolean gsb_data_account_set_default_sort_values ( gint account_number )
 	return FALSE;
 
     for ( i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
-	for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
+	for ( j = 0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	{
 	    /* by default the sorting element will be the first found for each column */
 	    if ( !account -> column_element_sort[j]
 		 &&
 		 tab_affichage_ope[i][j]
 		 &&
-		 tab_affichage_ope[i][j] != TRANSACTION_LIST_BALANCE )
+		 tab_affichage_ope[i][j] != ELEMENT_BALANCE )
 		account -> column_element_sort[j] = tab_affichage_ope[i][j];
 	}
 
     /* the default sort is by date and ascending */
     account -> sort_type = GTK_SORT_ASCENDING;
-    account -> sort_column = TRANSACTION_COL_NB_DATE;
+    account -> sort_column = CUSTOM_MODEL_COL_1;
     return FALSE;
 }
 
@@ -2430,7 +2434,7 @@ gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 	!target_account_ptr)
 	return FALSE;
 
-    for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
+    for ( j = 0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	target_account_ptr -> column_element_sort[j] = origin_account_ptr -> column_element_sort[j];
 
     target_account_ptr -> sort_type = origin_account_ptr -> sort_type;

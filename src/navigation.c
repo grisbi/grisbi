@@ -48,6 +48,8 @@
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
 #include "./tiers_onglet.h"
+#include "./transaction_list_select.h"
+#include "./transaction_list_sort.h"
 #include "./utils_files.h"
 #include "./fenetre_principale.h"
 #include "./gsb_data_account.h"
@@ -914,6 +916,7 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model,
 		       NAVIGATION_PAGE, GSB_ACCOUNT_PAGE,
 		       NAVIGATION_ACCOUNT, account_number,
 		       NAVIGATION_SENSITIVE, !gsb_data_account_get_closed_account ( account_number ),
+		       NAVIGATION_REPORT, -1,
 		       -1 );
 }
 
@@ -991,9 +994,10 @@ gboolean navigation_change_account ( gint *no_account )
 {
     gint new_account;
     gint current_account;
-    GtkTreePath *path;
 
     new_account = GPOINTER_TO_INT ( no_account );
+    devel_debug_int (new_account);
+
     if ( new_account < 0 )
 	return FALSE;
 
@@ -1001,39 +1005,22 @@ gboolean navigation_change_account ( gint *no_account )
      * have to use a buffer variable to get the last account */
     current_account = gsb_gui_navigation_get_last_account ();
 
-    gchar* tmpstr = g_strdup_printf ("navigation_change_account : %d", new_account );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
-
     /* sensitive the last account in the menu */
     gsb_gui_sensitive_menu_item ( "EditMenu", "MoveToAnotherAccount", 
 				  gsb_data_account_get_name (current_account),
 				  TRUE );
     gsb_gui_sensitive_menu_item ( "EditMenu", "NewTransaction", NULL, TRUE );
 
-    /* save the adjustment of the last account */
-    path = gsb_data_account_get_vertical_adjustment_value (current_account);
-    if (path)
-    {
-	GtkTreePath *new_path;
+    /* save the row_align of the last account */
+    gsb_data_account_set_row_align ( current_account,
+				     gsb_transactions_list_get_row_align ());
 
-	if (gtk_tree_view_get_visible_range (GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
-					     &new_path, NULL ))
-	{
-	    gsb_data_account_set_vertical_adjustment_value ( current_account,
-							     new_path);
-	    gtk_tree_path_free (new_path);
-	}
-	gtk_tree_path_free (path);
-    }
-    
     /* set the appearance of the list according to the new account */
-    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE (gsb_transactions_list_get_sortable ()),
-					   gsb_data_account_get_sort_column (new_account),
-					   gsb_data_account_get_sort_type (new_account));
-    gsb_transactions_list_set_visibles_rows_on_account (new_account);
-    gsb_transactions_list_set_background_color (new_account);
-    gsb_transactions_list_set_transactions_balances (new_account);
+    transaction_list_sort_set_column (gsb_data_account_get_sort_column (new_account),
+				      gsb_data_account_get_sort_type (new_account));
+    gsb_transactions_list_update_tree_view ( new_account, FALSE );
+    transaction_list_select ( gsb_data_account_get_current_transaction_number (new_account));
+    gsb_transactions_list_set_row_align (gsb_data_account_get_row_align (new_account));
 
     /*     mise en place de la date du dernier relevé */
     gsb_navigation_update_statement_label (new_account);
@@ -1051,8 +1038,6 @@ gboolean navigation_change_account ( gint *no_account )
     {
 	gsb_menu_transaction_operations_set_sensitive ( TRUE );
     }
-
-    gsb_transactions_list_set_adjustment_value (new_account);
 
     /* unset the last date written */
     gsb_date_free_last_date ();
@@ -1525,12 +1510,12 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
     gint page;
     GtkTreeIter iter;
 
-   if (! gtk_tree_selection_get_selected ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
-									NULL,
-									&iter))
+    if (! gtk_tree_selection_get_selected ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
+					    NULL,
+					    &iter))
 	return FALSE;
 
-   gtk_tree_model_get (model, &iter, NAVIGATION_PAGE, &page, -1 );
+    gtk_tree_model_get (model, &iter, NAVIGATION_PAGE, &page, -1 );
 
     switch ( page )
     {
@@ -1585,6 +1570,12 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 					 GtkSelectionData * selection_data )
 {
+    gchar *tmpstr = gtk_tree_path_to_string (path);
+    gchar *tmpstr2 = g_strdup_printf ( "Orig path : %s", tmpstr);
+    devel_debug (tmpstr2);
+    g_free (tmpstr);
+    g_free (tmpstr2);
+
     if ( path )
     {
 	gtk_tree_set_row_drag_data ( selection_data, GTK_TREE_MODEL(navigation_model), 
@@ -1604,45 +1595,51 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 					 GtkTreePath * dest_path,
 					 GtkSelectionData * selection_data )
 {
+    gchar *tmpstr = gtk_tree_path_to_string (dest_path);
+    gchar *tmpstr2 = g_strdup_printf ( "Dest path : %s", tmpstr);
+    devel_debug (tmpstr2);
+    g_free (tmpstr);
+    g_free (tmpstr2);
+
     if ( dest_path && selection_data )
     {
 	GtkTreeModel * model;
 	GtkTreeIter iter;
 	GtkTreePath * orig_path;
-	gchar * name;
+	gint src_report, dst_report = -1;
+	gint src_account, dst_account = -1;
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 
 	if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(model), &iter, dest_path ) ) 
-	{
-	    gint src_report, dst_report = -1;
-	    gint src_account, dst_account = -1;
-
-	    gtk_tree_model_get (GTK_TREE_MODEL(model) , &iter, 
-				NAVIGATION_TEXT, &name, 
+	    gtk_tree_model_get (model , &iter, 
 				NAVIGATION_REPORT, &dst_report, 
 				NAVIGATION_ACCOUNT, &dst_account,
 				-1 );
-	
-	    if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(model), &iter, orig_path ) )
-	    {
-		gtk_tree_model_get ( model, &iter, 
-				     NAVIGATION_REPORT, &src_report, 
-				     NAVIGATION_ACCOUNT, &src_account,
-				     -1 );
-	    }
-	
+
+	if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(model), &iter, orig_path ) )
+	    gtk_tree_model_get ( model, &iter, 
+				 NAVIGATION_REPORT, &src_report, 
+				 NAVIGATION_ACCOUNT, &src_account,
+				 -1 );
+
+	/* at this stage, src_account or src_report contains the account/report we move
+	 * and dst_account/dst_report the account/report destination we want to move before,
+	 * or dst_account/dst_report can be -1 to set at the end of the list */
+	if (src_account != -1)
+	    /* we moved an account */
 	    gsb_data_account_move_account (src_account, dst_account);
+	if (src_report != -1 )
+	    /* we moved a report */
 	    gsb_data_report_move_report (src_report, dst_report);
 
-	    /* update the tree view */
-	    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(model),
-						   NAVIGATION_PAGE, GTK_SORT_ASCENDING );
-	    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(model), 
-					      NAVIGATION_PAGE, navigation_sort_column,
-					      NULL, NULL );
-	    modification_fichier (TRUE);
-	}
+	/* update the tree view */
+	gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(model),
+					       NAVIGATION_PAGE, GTK_SORT_ASCENDING );
+	gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(model), 
+					  NAVIGATION_PAGE, navigation_sort_column,
+					  NULL, NULL );
+	modification_fichier (TRUE);
     }
     return FALSE;
 }
@@ -1668,20 +1665,17 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 	gtk_tree_get_row_drag_data ( selection_data, &model, &orig_path );
 
 	if ( gtk_tree_model_get_iter ( model, &iter, orig_path ) )
-	{
 	    gtk_tree_model_get ( model, &iter, 
 				 NAVIGATION_REPORT, &src_report, 
 				 NAVIGATION_ACCOUNT, &src_account,
 				 -1 );
-	}
+
 	if ( gtk_tree_model_get_iter ( model, &iter, dest_path ) )
-	{
 	    gtk_tree_model_get ( model, &iter, 
 				 NAVIGATION_REPORT, &dst_report, 
 				 NAVIGATION_ACCOUNT, &dst_account,
 				 NAVIGATION_PAGE, &dst_page,
 				 -1 );
-	}
 	
 	/* FIXME: Handle case where it is dropped at the END of
 	 * account lists.  Not easy since GTK will consider we drop on
@@ -1690,7 +1684,7 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 	/* We handle an account */
 	if ( src_account >= 0 && dst_account >= 0 )
 	{
-	    gchar* tmpstr =  g_strdup_printf ("> Possible (account, %d, %d)", src_account, dst_account);
+	    gchar* tmpstr =  g_strdup_printf ("> Possible (account, src : %d, dst : %d)", src_account, dst_account);
 	    notice_debug ( tmpstr );
 	    g_free ( tmpstr );
 	    return TRUE;
@@ -1698,7 +1692,7 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 	/* We handle a report */
 	else if ( src_report > 0 && dst_report > 0 )
 	{
-	    gchar* tmpstr = g_strdup_printf  ("> Possible (report, %d, %d)", src_report, dst_report);
+	    gchar* tmpstr = g_strdup_printf  ("> Possible (report, src : %d, dst : %d)", src_report, dst_report);
 	    notice_debug ( tmpstr );
 	    g_free ( tmpstr );
 	    return TRUE;

@@ -54,12 +54,11 @@
 #include "./gsb_plugins.h"
 #include "./gsb_real.h"
 #include "./gsb_scheduler_list.h"
-#include "./gsb_transactions_list.h"
 #include "./utils_str.h"
 #include "./structures.h"
+#include "./custom_list.h"
 #include "./gsb_data_form.h"
 #include "./gsb_scheduler_list.h"
-#include "./gsb_transactions_list.h"
 #include "./include.h"
 #include "./echeancier_infos.h"
 #include "./erreur.h"
@@ -121,9 +120,9 @@ extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
-extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
+extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gchar *titre_fichier ;
-extern gint transaction_col_width[TRANSACTION_LIST_COL_NB];
+extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
@@ -443,11 +442,10 @@ gulong gsb_file_save_general_part ( gulong iterator,
     /* prepare stuff to save generals informations */
 
     /* prepare transactions_view */
-
     transactions_view = NULL;
 
     for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
-	for ( j=0 ; j< TRANSACTION_LIST_COL_NB ; j++ )
+	for ( j=0 ; j< CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	    if ( transactions_view )
 	    {
 		transactions_view = g_strconcat ( first_string_to_free = transactions_view,
@@ -461,7 +459,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 		transactions_view = utils_str_itoa ( tab_affichage_ope[i][j] );
 
     /* prepare two_lines_showed */
-
     two_lines_showed = g_strconcat ( first_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data )),
 				     "-",
 				     second_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> next -> data )),
@@ -470,7 +467,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
     g_free (second_string_to_free);
 
     /* prepare tree_lines_showed */
-
     tree_lines_showed = g_strconcat ( first_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> data )),
 				      "-",
 				      second_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> data )),
@@ -482,11 +478,9 @@ gulong gsb_file_save_general_part ( gulong iterator,
     g_free (third_string_to_free);
 
     /* prepare transaction_column_width_write */
-    gsb_transactions_list_update_col_width ();
-
     transaction_column_width_write = NULL;
 
-    for ( i=0 ; i<TRANSACTION_LIST_COL_NB ; i++ )
+    for ( i=0 ; i<CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
 	if ( transaction_column_width_write )
 	{
 	    transaction_column_width_write = g_strconcat ( first_string_to_free = transaction_column_width_write,
@@ -556,7 +550,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tUse_logo=\"%d\"\n"
 					   "\t\tPath_logo=\"%s\"\n"
 					   "\t\tRemind_display_per_account=\"%d\"\n"
-					   "\t\tNo_fill_r_at_begining=\"%d\"\n"
 					   "\t\tTransactions_view=\"%s\"\n"
 					   "\t\tOne_line_showed=\"%d\"\n"
 					   "\t\tTwo_lines_showed=\"%s\"\n"
@@ -590,7 +583,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.utilise_logo,
 	chemin_logo,
 	etat.retient_affichage_par_compte,
-	etat.no_fill_r_at_begining,
 	transactions_view,
 	ligne_affichage_une_ligne,
 	two_lines_showed,
@@ -683,7 +675,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	/* set the default sort kind for the columns */
 	sort_kind_column = NULL;
 
-	for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
+	for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	{
 	    if ( sort_kind_column )
 	    {

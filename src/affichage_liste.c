@@ -30,14 +30,14 @@
 #include "./navigation.h"
 #include "./gsb_transactions_list.h"
 #include "./gtk_combofix.h"
-#include "./utils_str.h"
 #include "./traitement_variables.h"
 #include "./utils.h"
 #include "./affichage.h"
+#include "./utils_str.h"
 #include "./structures.h"
+#include "./custom_list.h"
 #include "./gtk_combofix.h"
 #include "./gsb_data_form.h"
-#include "./gsb_transactions_list.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
@@ -52,7 +52,7 @@ static gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu
 
 
 
-gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
+gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 static GtkWidget *bouton_affichage_lignes_une_ligne = NULL;
 static GtkWidget *bouton_affichage_lignes_deux_lignes_1 = NULL;
 static GtkWidget *bouton_affichage_lignes_deux_lignes_2 = NULL;
@@ -71,8 +71,8 @@ GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
 extern gint max;
 extern GtkTreeSelection * selection ;
-extern gchar *tips_col_liste_operations[TRANSACTION_LIST_COL_NB];
-extern gchar *titres_colonnes_liste_operations[TRANSACTION_LIST_COL_NB];
+extern gchar *tips_col_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
+extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 /*END_EXTERN*/
 
 
@@ -89,8 +89,6 @@ extern gchar *titres_colonnes_liste_operations[TRANSACTION_LIST_COL_NB];
 gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
 							 gpointer null )
 {
-    gint current_account;
-
     ligne_affichage_une_ligne = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_une_ligne ) -> menu_item ),
 								      "no_ligne" ));
 
@@ -114,12 +112,7 @@ gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
 									 "no_ligne" ));
 
     /* update the visible account */
-    current_account = gsb_gui_navigation_get_current_account ();
-    if (current_account != -1)
-    {
-	gsb_transactions_list_set_visibles_rows_on_account (current_account);
-	gsb_transactions_list_set_background_color (current_account);
-    }
+    gsb_transactions_list_update_tree_view (gsb_gui_navigation_get_current_account (), TRUE);
 
     modification_fichier ( TRUE );
 
@@ -273,13 +266,6 @@ GtkWidget *onglet_affichage_operations ( void )
 		       G_CALLBACK ( transactions_list_display_modes_menu_changed),
 		       NULL );
 
-    /* add the 'loading r into the list at begining' */
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 gsb_automem_checkbutton_new (_("Don't load the marked R transactions into the list at the begining\n(use it for slow configurations)"),
-						      &etat.no_fill_r_at_begining,
-						      NULL, NULL ),
-			 FALSE, FALSE, 0 );
-
     /* do we show the content of the selected transaction in the form for
      * each selection ? */
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
@@ -376,11 +362,11 @@ GtkWidget *cree_menu_quatres_lignes ( void )
 void recuperation_noms_colonnes_et_tips ( void )
 {
     gint i, j;
-    gchar *ligne[TRANSACTION_LIST_COL_NB];
+    gchar *ligne[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
     /* on met les titres et tips à NULL */
 
-    for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
+    for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
     {
 	titres_colonnes_liste_operations[j] = NULL;
 	tips_col_liste_operations[j] = NULL;
@@ -388,7 +374,7 @@ void recuperation_noms_colonnes_et_tips ( void )
 
 
     for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
-	for ( j=0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
+	for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	{
 	    ligne[j] = g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
 					  tab_affichage_ope[i][j] - 1 );

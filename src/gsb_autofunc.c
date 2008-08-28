@@ -44,8 +44,8 @@
 #include "./gsb_data_reconcile.h"
 #include "./utils_editables.h"
 #include "./gsb_real.h"
-#include "./utils_str.h"
 #include "./traitement_variables.h"
+#include "./utils_str.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/
 
@@ -62,9 +62,6 @@ static  gboolean gsb_autofunc_entry_changed ( GtkWidget *entry,
 					     gboolean default_func (gint, const gchar *));
 static  gboolean gsb_autofunc_int_changed ( GtkWidget *entry,
 					   gboolean default_func (gint, gint));
-/*static void gsb_autofunc_radiobutton_set_value ( GtkWidget *radiobutton_box,
-					  gboolean value,
-					  gint number_for_func );*/
 static  gboolean gsb_autofunc_real_changed ( GtkWidget *entry,
 					    gboolean default_func (gint, gsb_real));
 static  gboolean gsb_autofunc_spin_changed ( GtkWidget *spin_button,

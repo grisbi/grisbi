@@ -40,9 +40,9 @@
 #include "./accueil.h"
 #include "./gsb_scheduler_list.h"
 #include "./gsb_transactions_list.h"
-#include "./utils_str.h"
 #include "./main.h"
 #include "./traitement_variables.h"
+#include "./utils_str.h"
 #include "./gsb_scheduler_list.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
@@ -330,12 +330,10 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 								  scheduled_number );
 
      /* set the mother breakdown if exists */
-
     gsb_data_transaction_set_mother_transaction_number ( transaction_number,
 							 transaction_mother );
 
     /* we show the new transaction in the tree view */
-
     gsb_transactions_list_append_new_transaction (transaction_number);
 
     return transaction_number;
@@ -438,7 +436,7 @@ gboolean gsb_scheduler_execute_children_of_scheduled_transaction ( gint schedule
 
 /**
  * check the scheduled transactions if the are in time limit
- * and make the transactions if automatic
+ * and record the automatic transactions
  * 
  * \param
  * 

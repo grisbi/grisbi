@@ -1232,6 +1232,8 @@ gboolean gsb_main_page_click_on_account ( gint *account_number )
 /* ************************************************************************* */
 void update_liste_echeances_manuelles_accueil ( gboolean force )
 {
+    devel_debug_int (force);
+
     /* need to set that in first because can change mise_a_jour_liste_echeances_manuelles_accueil */
     gsb_scheduler_check_scheduled_transactions_time_limit ();
 
@@ -1240,7 +1242,6 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	 !mise_a_jour_liste_echeances_manuelles_accueil )
 	return;
 
-    devel_debug ( "update_liste_echeances_manuelles_accueil" );
 
     mise_a_jour_liste_echeances_manuelles_accueil = 0;
 

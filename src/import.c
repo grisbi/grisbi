@@ -54,16 +54,17 @@
 #include "./gsb_status.h"
 #include "./gsb_transactions_list.h"
 #include "./traitement_variables.h"
-#include "./utils_str.h"
 #include "./main.h"
 #include "./accueil.h"
+#include "./utils_str.h"
 #include "./qif.h"
+#include "./transaction_list.h"
 #include "./structures.h"
+#include "./gsb_transactions_list.h"
 #include "./go-charmap-sel.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_account.h"
 #include "./gsb_form_scheduler.h"
-#include "./gsb_transactions_list.h"
 #include "./include.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
@@ -1406,7 +1407,7 @@ void cree_liens_virements_ope_import ( void )
     /* the transactions were already set in the list,
      * and the transfer was not written, we need to update the categories values
      * in the lists */
-    gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CATEGORY);
+    transaction_list_update_element (ELEMENT_CATEGORY);
 }
 
 

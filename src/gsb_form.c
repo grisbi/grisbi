@@ -60,8 +60,9 @@
 #include "./gsb_transactions_list.h"
 #include "./utils_editables.h"
 #include "./gtk_combofix.h"
-#include "./utils_str.h"
 #include "./traitement_variables.h"
+#include "./utils_str.h"
+#include "./transaction_list_select.h"
 #include "./utils_operations.h"
 #include "./fenetre_principale.h"
 #include "./gsb_data_payment.h"
@@ -202,6 +203,8 @@ void gsb_form_create_widgets ()
 {
     GtkWidget * hbox, * label, * separator, * hbox_buttons;
     GtkWidget * child = gtk_bin_get_child ( GTK_BIN(form_expander) );
+
+    devel_debug (NULL);
 
     gsb_form_widget_free_list ();
     if ( child && GTK_IS_WIDGET(child) )
@@ -1118,9 +1121,7 @@ gboolean gsb_form_fill_from_account ( gint account_number )
     gint rows_number, columns_number;
     gint form_account_number;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_form_fill_from_account %d", account_number );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (account_number);
 
     /* free the form if necessary */
     gsb_form_widget_free_list ();
@@ -2281,7 +2282,7 @@ gboolean gsb_form_finish_edition ( void )
 
 	    white_line_number = gsb_data_mix_get_white_line (transaction_number, is_transaction);
 	    if (is_transaction)
-		gsb_transactions_list_select (white_line_number);
+		transaction_list_select (white_line_number);
 	    else
 		gsb_scheduler_list_select (white_line_number);
 	}
@@ -2878,10 +2879,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		&&
 		!gsb_data_mix_get_breakdown_of_transaction (transaction_number, is_transaction))
 	    {
-		if (is_transaction)
-		    gsb_transactions_list_append_white_line ( transaction_number,
-							      gsb_transactions_list_get_store ());
-		else
+		if (!is_transaction)
 		    gsb_scheduler_list_append_new_scheduled ( gsb_data_scheduled_new_white_line (transaction_number),
 							      gsb_data_scheduled_get_limit_date (transaction_number ));
 	    }
@@ -2985,7 +2983,6 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
 	    widget = gsb_form_widget_get_widget ( gsb_data_form_get_value ( account_number,
 									    column,
 									    row ));
-
 	    if ( widget )
 		gtk_widget_set_usize ( widget,
 				       gsb_data_form_get_width_column (account_number,
@@ -3027,9 +3024,10 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
 		    width_percent = 12;
 		    break;
 	    }
-	    gtk_widget_set_usize ( widget,
-				   width_percent * allocation -> width / 100,
-				   FALSE );
+	    if (widget)
+		gtk_widget_set_usize ( widget,
+				       width_percent * allocation -> width / 100,
+				       FALSE );
 	}
     }
     return FALSE;

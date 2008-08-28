@@ -55,10 +55,12 @@
 #include "./gsb_report.h"
 #include "./gsb_scheduler_list.h"
 #include "./main.h"
+#include "./transaction_model.h"
 #include "./structures.h"
+#include "./custom_list.h"
+#include "./gsb_transactions_list.h"
 #include "./gsb_scheduler_list.h"
 #include "./include.h"
-#include "./gsb_transactions_list.h"
 #include "./echeancier_infos.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
@@ -139,11 +141,12 @@ extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern GtkWidget *notebook_general ;
+extern GSList *orphan_child_transactions ;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
 extern GtkWidget *solde_label ;
 extern GtkWidget *solde_label_pointe ;
-extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB];
-extern gint transaction_col_width[TRANSACTION_LIST_COL_NB];
+extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
@@ -181,7 +184,6 @@ void modification_fichier ( gboolean modif )
 	gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, FALSE );
     }
 }
-/*****************************************************************************************************/
 
 
 
@@ -196,11 +198,15 @@ void modification_fichier ( gboolean modif )
 void init_variables ( void )
 {
     gint scheduler_col_width_init[NB_COLS_SCHEDULER] = {119, 121, 352, 129, 147, 0, 116};
-    gint transaction_col_width_init[TRANSACTION_LIST_COL_NB] = {82, 106, 541, 82, 144, 123, 82};
+    gint transaction_col_width_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = {10, 12, 36, 6, 12, 12, 12 };
     gint i;
 /* xxx on devrait séparer ça en 2 : les variables liées au fichier de compte, qui doivent être remises  à 0,
  * et les variables liées à grisbi (ex sauvegarde auto...) qui doivent rester */
     devel_debug (NULL);
+
+    /* if ever there is still something from the previous list,
+     * erase now */
+    transaction_model_initialize();
 
     gsb_data_account_init_variables ();
     gsb_data_transaction_init_variables ();
@@ -234,6 +240,8 @@ void init_variables ( void )
     mise_a_jour_soldes_minimaux = 0;
     mise_a_jour_fin_comptes_passifs = 0;
 
+    orphan_child_transactions = NULL;
+    
     /* the main notebook is set to NULL,
      * important because it's the checked variable in a new file
      * to know if the widgets are created or not */
@@ -293,7 +301,7 @@ void init_variables ( void )
     etat.combofix_force_category = FALSE;
     
     /* defaut value for width of columns */
-    for ( i = 0 ; i < TRANSACTION_LIST_COL_NB ; i++ )
+    for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
 	transaction_col_width[i] = transaction_col_width_init[i];
      for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
 	scheduler_col_width[i] = scheduler_col_width_init[i];
@@ -476,18 +484,18 @@ void menus_sensitifs ( gboolean sensitif )
 /*****************************************************************************************************/
 void initialise_tab_affichage_ope ( void )
 {
-    gint tab[TRANSACTION_LIST_ROWS_NB][TRANSACTION_LIST_COL_NB] = {
-	{ TRANSACTION_LIST_CHQ, TRANSACTION_LIST_DATE, TRANSACTION_LIST_PARTY, TRANSACTION_LIST_MARK, TRANSACTION_LIST_DEBIT, TRANSACTION_LIST_CREDIT, TRANSACTION_LIST_BALANCE },
-	{0, 0, TRANSACTION_LIST_CATEGORY, 0, TRANSACTION_LIST_TYPE, TRANSACTION_LIST_AMOUNT, 0 },
-	{0, 0, TRANSACTION_LIST_NOTES, 0, 0, 0, 0 },
+    gint tab[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS] = {
+	{ ELEMENT_CHQ, ELEMENT_DATE, ELEMENT_PARTY, ELEMENT_MARK, ELEMENT_DEBIT, ELEMENT_CREDIT, ELEMENT_BALANCE },
+	{0, 0, ELEMENT_CATEGORY, 0, ELEMENT_TYPE, ELEMENT_AMOUNT, 0 },
+	{0, 0, ELEMENT_NOTES, 0, 0, 0, 0 },
 	{0, 0, 0, 0, 0, 0, 0 }
     };
     gint i, j;
 
-    devel_debug ("initialise_tab_affichage_ope");
+    devel_debug (NULL);
 
     for ( i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
-	for ( j = 0 ; j<TRANSACTION_LIST_COL_NB ; j++ )
+	for ( j = 0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	    tab_affichage_ope[i][j] = tab[i][j];
 
     ligne_affichage_une_ligne = 0;

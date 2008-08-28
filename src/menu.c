@@ -616,7 +616,7 @@ gboolean gsb_gui_toggle_show_form ()
  */
 gboolean gsb_gui_toggle_grid_mode ()
 {
-    devel_debug ( "gsb_gui_toggle_grid_mode" );
+    devel_debug (NULL);
 
     etat.affichage_grille = ! etat.affichage_grille;
     gsb_transactions_list_draw_grid (etat.affichage_grille);

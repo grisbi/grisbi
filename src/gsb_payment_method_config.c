@@ -39,14 +39,14 @@
 #include "./gsb_form_widget.h"
 #include "./gsb_payment_method.h"
 #include "./gsb_reconcile_sort_config.h"
-#include "./gsb_transactions_list.h"
-#include "./utils_str.h"
 #include "./traitement_variables.h"
 #include "./utils.h"
+#include "./transaction_list.h"
+#include "./utils_str.h"
 #include "./structures.h"
+#include "./gsb_transactions_list.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_form.h"
-#include "./gsb_transactions_list.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
@@ -740,7 +740,7 @@ gboolean gsb_payment_method_config_name_changed ( GtkWidget *entry,
 		}
 	    }
 	    /* update the transactions list */
-	    gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_TYPE);
+	    transaction_list_update_element (ELEMENT_TYPE);
 	}
     }
     return FALSE;
@@ -1348,7 +1348,7 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
     }
 
     /* change for the transactions tree_view */
-    gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_TYPE);
+    transaction_list_update_element (ELEMENT_TYPE);
 
     gtk_widget_destroy ( GTK_WIDGET(dialog) );
     return TRUE;

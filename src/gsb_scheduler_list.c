@@ -152,8 +152,7 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     GtkWidget *vbox, *scrolled_window;
     GtkWidget *tree_view;
 
-    devel_debug ("gsb_scheduler_list_create_list");
-
+    devel_debug (NULL);
    
     /* first, a vbox */
     vbox = gtk_vbox_new ( FALSE, 5 );
@@ -333,7 +332,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
 	COLUMN_CENTER, COLUMN_LEFT, COLUMN_RIGHT, COLUMN_RIGHT
     };
 
-    devel_debug ( "gsb_scheduler_list_create_list_columns" );
+    devel_debug (NULL);
 
     for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
     {
@@ -389,7 +388,7 @@ GtkTreeModel *gsb_scheduler_list_create_model ( void )
     GtkTreeStore *store;
     GtkTreeModel *sortable;
 
-    devel_debug ( "gsb_scheduler_list_create_model" );
+    devel_debug (NULL);
 
     store = gtk_tree_store_new ( SCHEDULER_COL_NB_TOTAL,
 				 G_TYPE_STRING,
@@ -516,10 +515,7 @@ gboolean gsb_scheduler_list_show_notes ( void )
  * */
 gboolean gsb_scheduler_list_execute_transaction ( gint scheduled_number )
 {
-    gchar* tmpstr = g_strdup_printf ( "gsb_scheduler_list_execute_transaction %d",
-				    scheduled_number );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (scheduled_number);
 
     if ( !scheduled_number )
 	scheduled_number = gsb_scheduler_list_get_current_scheduled_number ();
@@ -551,7 +547,7 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
     GDate *end_date;
     GtkTreeIter iter;
 
-    devel_debug ( "gsb_scheduler_list_fill_list" );
+    devel_debug (NULL);
 
     /* get the last date we want to see the transactions */
     end_date = gsb_scheduler_list_get_end_date_scheduled_showed ();
@@ -605,10 +601,7 @@ void gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
     GtkTreeIter *mother_iter;
     const gchar *line[NB_COLS_SCHEDULER];
 
-    gchar* tmpstr = g_strdup_printf ( "gsb_scheduler_list_append_new_scheduled %d",
-				    scheduled_number );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (scheduled_number);
 
     if (!tree_model_scheduler_list)
 	return;
@@ -683,9 +676,7 @@ gboolean gsb_scheduler_list_remove_transaction_from_list ( gint scheduled_number
 {
     GSList *iter_list;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_scheduler_list_remove_transaction_from_list %d", scheduled_number);
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (scheduled_number);
 
     if (!scheduled_number
 	||
@@ -743,9 +734,7 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
     /* TODO dOm : each line of the array `line' contains a newly allocated string. When are they freed ? */
     const gchar *line[NB_COLS_SCHEDULER];
 
-    gchar* tmpstr = g_strdup_printf ("gsb_scheduler_list_update_transaction_in_list %d", scheduled_number);
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (scheduled_number);
 
     if ( !scheduled_number
 	 ||
@@ -931,7 +920,7 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
     GtkTreePath *sorted_path;
     GtkTreePath *path;
 
-    devel_debug ( "gsb_scheduler_list_set_background_color" );
+    devel_debug (NULL);
 
     if (!tree_view)
 	return FALSE;
@@ -998,9 +987,7 @@ gboolean gsb_scheduler_list_select ( gint scheduled_number )
     GtkTreeIter iter_sort;
     gint mother_number;
 
-    gchar* tmpstr = g_strdup_printf ( "gsb_scheduler_list_select %d", scheduled_number);
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (scheduled_number);
 
     /* if it's a breakdown child, we must open the mother to select it */
     mother_number = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
@@ -1359,7 +1346,7 @@ gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 gboolean gsb_scheduler_list_button_press ( GtkWidget *tree_view,
 					   GdkEventButton *ev )
 {
-    devel_debug ("gsb_scheduler_list_button_press");
+    devel_debug (NULL);
 
     /* if double-click => edit the scheduled transaction */
 

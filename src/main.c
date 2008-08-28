@@ -161,6 +161,7 @@ int main (int argc, char **argv)
         }
     }
 
+
 #ifdef HAVE_PLUGINS
     gsb_plugins_scan_dir ( PLUGINS_DIR );
 #endif
@@ -264,7 +265,7 @@ int main (int argc, char **argv)
     dialog_message ( "development-version", VERSION );
 #endif
 
-    if ( first_use )
+    if ( first_use && !nom_fichier_comptes )
     {
 	gsb_assistant_first_run ();
     }

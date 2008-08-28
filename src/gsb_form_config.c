@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     copyright (c)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2007 Benjamin Drieu (bdrieu@april.org) 	      */
+/*     copyright (c)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2008 Benjamin Drieu (bdrieu@april.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -51,7 +51,8 @@ static gboolean gsb_form_config_add_line ( void );
 static gboolean gsb_form_config_change_account_choice ( GtkWidget *combobox,
 						 gpointer null );
 static gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
-					      GtkAllocation *allocation );
+					      GtkAllocation *allocation,
+					      gpointer null );
 static gboolean gsb_form_config_check_for_removing ( gint account_number,
 					      gint removing_row );
 static GtkWidget *gsb_form_config_create_buttons_table ( void );
@@ -66,7 +67,8 @@ static gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
 				      gpointer null );
 static gboolean gsb_form_config_fill_store ( gint account_number );
 static void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent );
-static gboolean gsb_form_config_realized ( GtkWidget *tree_view );
+static gboolean gsb_form_config_realized ( GtkWidget *tree_view,
+				    gpointer null );
 static gboolean gsb_form_config_remove_column ( void );
 static gboolean gsb_form_config_remove_line ( void );
 static gboolean gsb_form_config_switch_general_to_several_form ( void );
@@ -288,7 +290,7 @@ GtkWidget *gsb_form_config_create_tree_view ( GtkListStore *store )
 					     TRUE );
     }
 
-    /* we will fille the form and size the columns when the window will be realized */
+    /* we will fill the form and size the columns when the window will be realized */
     g_signal_connect ( G_OBJECT ( tree_view ),
 		       "realize",
 		       G_CALLBACK ( gsb_form_config_realized ),
@@ -610,11 +612,9 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
     gint account_number;
 
     /* get the element number */
-
     element_number = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( toggle_button ),
 							   "element_number" ));
-    /* set the second element number if necessary (FIXME : to remove ??) */
-
+    /* set the second element number if necessary */
     switch ( element_number )
     {
 	case TRANSACTION_FORM_TYPE:
@@ -784,7 +784,15 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 
     /* fill the list */
     gsb_form_config_fill_store (account_number);
-    gsb_form_create_widgets ();
+
+/*     xxx en suis ici */
+/* 	il y avait un pb, va sur un compte, double click sur 1 opé, va dans config->contenu-> ajoute value date */
+/* 	ça faisait plein de warnings avec gtk_widget_set_usize. avec le ci dessous, c'est ok, sauf qu'il faudrait le */
+/* 	faire que si on est sur ce compte là ou bien chgment pour tous les comptes et si le form est affiché */
+/* 	par contre en plus, si modifie de place ce value date, ça refait un pb usize mais en boucle */
+    /* fill the form only if shown */
+/*     if (xxx */
+    gsb_form_fill_from_account (account_number);
 
     modification_fichier (TRUE);
     return FALSE;
@@ -844,7 +852,8 @@ gboolean gsb_form_config_fill_store ( gint account_number )
  *
  * \return FALSE
  * */
-gboolean gsb_form_config_realized ( GtkWidget *tree_view )
+gboolean gsb_form_config_realized ( GtkWidget *tree_view,
+				    gpointer null )
 {
     gint column;
     gint account_number;
@@ -885,7 +894,8 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view )
  * \return FALSE
  * */
 gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
-					      GtkAllocation *allocation )
+					      GtkAllocation *allocation,
+					      gpointer null )
 {
     gint column;
     gint account_number;
@@ -1051,7 +1061,7 @@ gboolean gsb_form_config_add_column ( void )
 
     /* show the result */
 
-    gsb_form_config_realized ( form_config_tree_view );
+    gsb_form_config_realized ( form_config_tree_view, NULL );
     modification_fichier (TRUE);
     return FALSE;
 }
@@ -1133,7 +1143,7 @@ gboolean gsb_form_config_remove_column ( void )
 				     0 );
 
     /* fill the list */
-    gsb_form_config_realized ( form_config_tree_view );
+    gsb_form_config_realized ( form_config_tree_view, NULL );
     modification_fichier (TRUE);
     return FALSE;
 }
@@ -1259,8 +1269,8 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
  * \return FALSE
  * */
 gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
-				      GdkDragContext *drag_context,
-				      gpointer null )
+				    GdkDragContext *drag_context,
+				    gpointer null )
 {
     gint x, y;
     GtkTreePath *path;

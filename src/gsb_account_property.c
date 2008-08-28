@@ -50,7 +50,6 @@
 #include "./menu.h"
 #include "./gsb_real.h"
 #include "./gsb_scheduler_list.h"
-#include "./gsb_transactions_list.h"
 #include "./main.h"
 #include "./utils.h"
 #include "./dialog.h"
@@ -58,11 +57,12 @@
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
 #include "./tiers_onglet.h"
+#include "./transaction_list.h"
 #include "./structures.h"
+#include "./gsb_transactions_list.h"
 #include "./accueil.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_form_scheduler.h"
-#include "./gsb_transactions_list.h"
 #include "./include.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
@@ -611,7 +611,7 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
 	case PROPERTY_INIT_BALANCE:
 	    /* as we changed the initial balance, we need to recalculate the amount
 	     * of each line in the list */
-	    gsb_transactions_list_set_transactions_balances (account_number);
+	    transaction_list_set_balances ();
 
 	    break;
 
@@ -690,12 +690,12 @@ gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
 	}
     }
 
-    gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_CREDIT);
-    gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_DEBIT);
-    gsb_transactions_list_update_transaction_value (TRANSACTION_LIST_AMOUNT);
+    transaction_list_update_element (ELEMENT_CREDIT);
+    transaction_list_update_element (ELEMENT_DEBIT);
+    transaction_list_update_element (ELEMENT_AMOUNT);
 
     /* in each cases, we had to update the account balance */
-    gsb_transactions_list_set_transactions_balances (account_number);
+    transaction_list_set_balances ();
 
     /* update the headings balance */
     string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),

@@ -91,7 +91,7 @@ gboolean gsb_form_widget_free_list ( void )
 {
     GSList *tmp_list;
 
-    devel_debug ("gsb_form_widget_free_list");
+    devel_debug (NULL);
 
     if (!form_list_widgets)
 	return FALSE;
@@ -121,6 +121,7 @@ gboolean gsb_form_widget_free_list ( void )
 						"" );
 
 		    gtk_widget_destroy (element -> element_widget);
+		    element -> element_widget = NULL;
 	    } else {
 	        /* if element_widget is not an object, how to free memory used by it ? */
 	        alert_debug("element_widget is not a widget");

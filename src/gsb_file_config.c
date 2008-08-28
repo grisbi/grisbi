@@ -76,9 +76,6 @@ gsize nb_derniers_fichiers_ouverts = 0;
 gint nb_max_derniers_fichiers_ouverts = 0;
 gchar **tab_noms_derniers_fichiers_ouverts = NULL;
 
-PangoFontDescription *pango_desc_fonte_liste;
-
-
 
 /**
  * load the config file
@@ -93,7 +90,7 @@ gboolean gsb_file_config_load_config ( void )
 {
     GKeyFile *config;
     gboolean result;
-    gchar *filename, * font_string;
+    gchar *filename;
     gint i;
     
     gsb_file_config_clean_config ();
@@ -112,7 +109,7 @@ gboolean gsb_file_config_load_config ( void )
 	result = gsb_file_config_load_last_xml_config (filename);
 	g_free (filename);
 	g_key_file_free (config);
-	return FALSE;
+	return result;
     }
 
     /* get the geometry */
@@ -174,9 +171,7 @@ gboolean gsb_file_config_load_config ( void )
 							 "Use user font",
 							 NULL );
     
-    font_string = g_key_file_get_string ( config, "General", "Font name", NULL );
-    if ( font_string )
-	pango_desc_fonte_liste = pango_font_description_from_string ( font_string );
+    etat.font_string = g_key_file_get_string ( config, "General", "Font name", NULL );
     
     etat.latex_command = g_key_file_get_string ( config,
 						 "General",
@@ -475,11 +470,11 @@ gboolean gsb_file_config_save_config ( void )
 			     "General",
 			     "Use user font",
 			     etat.utilise_fonte_listes );
-    if ( pango_desc_fonte_liste )
+    if (etat.font_string)
 	g_key_file_set_string ( config,
 				"General",
 				"Font name",
-				pango_font_description_to_string (pango_desc_fonte_liste));
+				etat.font_string );
     g_key_file_set_string ( config,
 			    "General",
 			    "Latex command",
@@ -737,18 +732,14 @@ gboolean gsb_file_config_load_last_xml_config ( gchar *filename )
     gchar *file_content;
     gsize length;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_file_config_load_last_xml_config %s", filename );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug (filename);
 
     /* check if the file exists */
-    
     if ( !g_file_test ( filename,
 			G_FILE_TEST_EXISTS ))
 	return FALSE;
 
     /* check here if it's not a regular file */
-
     if ( !g_file_test ( filename,
 			G_FILE_TEST_IS_REGULAR ))
     {
@@ -901,7 +892,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Fonte_des_listes" ))
     {
-	pango_desc_fonte_liste = pango_font_description_from_string (text);
+	etat.font_string = my_strdup (text);
 	return;
     }
      if ( !strcmp ( element_name,
@@ -1172,7 +1163,12 @@ void gsb_file_config_clean_config ( void )
 
     etat.show_closed_accounts = FALSE;
 
-    pango_desc_fonte_liste = NULL;
+    if (etat.font_string)
+    {
+	g_free (etat.font_string);
+	etat.font_string = NULL;
+    }
+    
     etat.force_enregistrement = 1;     /* par défaut, on force l'enregistrement */
     etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
     etat.affiche_boutons_valider_annuler = 1;
