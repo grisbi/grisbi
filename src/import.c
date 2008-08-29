@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -42,6 +42,7 @@
 #include "./gsb_data_category.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_data_form.h"
+#include "./gsb_data_fyear.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_transaction.h"
@@ -209,18 +210,17 @@ void importer_fichier ( void )
     }
 
     gchar* tmpstr = g_strconcat ( "This assistant will help you import one or several files into Grisbi."
-					  "\n\n"
-					  "Grisbi will try to do its best to guess which format are imported, but you may have to manually set them in the list of next page.  "
-					  "So far, the following formats are supported:"
-					  "\n\n",
-					  formats, NULL );
+				  "\n\n"
+				  "Grisbi will try to do its best to guess which format are imported, but you may have to manually set them in the list of next page.  "
+				  "So far, the following formats are supported:"
+				  "\n\n",
+				  formats, NULL );
     assistant = gsb_assistant_new ( "Importing transactions into Grisbi",
 			    tmpstr,
 			    "csv.png",
 			    NULL );
-   g_free (formats);
-   g_free (tmpstr);
-
+    g_free (formats);
+    g_free (tmpstr);
 
     gsb_assistant_add_page ( assistant, import_create_file_selection_page ( assistant ), 
 			     IMPORT_FILESEL_PAGE, IMPORT_STARTUP_PAGE, IMPORT_RESUME_PAGE, 
@@ -1949,38 +1949,40 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 {
     gchar **tab_str;
     gint transaction_number;
+    gint fyear;
 
     /* we create the new transaction */
     transaction_number = gsb_data_transaction_new_transaction ( account_number );
 
-    /* récupération de l'id de l'opé s'il existe */
-
+    /* get the id if exists */
     if ( imported_transaction -> id_operation )
 	gsb_data_transaction_set_transaction_id ( transaction_number,
 						  imported_transaction -> id_operation );
 
-    /* récupération de la date */
-
+    /* get the date */
     gsb_data_transaction_set_date ( transaction_number,
 				    imported_transaction -> date );
 
-    /* récupération de la date de valeur */
+    /* set the financial year according to the date */
+    fyear = gsb_data_fyear_get_from_date (imported_transaction -> date );
+    if (fyear > 0)
+	gsb_data_transaction_set_financial_year_number ( transaction_number,
+							 fyear );
 
+    /* récupération de la date de valeur */
     gsb_data_transaction_set_value_date ( transaction_number,
 					  imported_transaction -> date_de_valeur );
 
-    /* récupération du montant */
 
+    /* récupération du montant */
     gsb_data_transaction_set_amount ( transaction_number,
 				      imported_transaction -> montant );
 
     /* 	  récupération de la devise */
-
     gsb_data_transaction_set_currency_number ( transaction_number,
 					       imported_transaction -> devise );
 
     /* rÃ©cupération du tiers */
-
     if ( imported_transaction -> tiers 
 	 &&
 	 strlen (imported_transaction -> tiers))
@@ -1989,7 +1991,6 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 										    TRUE ));
 
     /* vérification si c'est ventilé, sinon récupération des catégories */
-
     if ( imported_transaction -> operation_ventilee )
     {
 	/* l'opération est ventilée */
@@ -2050,7 +2051,6 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     }
 
     /* récupération des notes */
-
     gsb_data_transaction_set_notes ( transaction_number,
 				     imported_transaction -> notes );
 

@@ -1,6 +1,4 @@
 /* ************************************************************************** */
-/* Ce fichier comprend toutes les opérations concernant le traitement	      */
-/* des fichiers								      */
 /*                                                                            */
 /*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
 /*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */

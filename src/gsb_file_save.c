@@ -167,12 +167,27 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint reconcile_part;
     gint report_part;
 
+    struct stat buf;
+
     gsb_plugin * plugin;
 
     devel_debug (filename);
 
-    do_chmod = !g_file_test ( filename,
-			      G_FILE_TEST_EXISTS );
+    if (g_file_test ( filename,
+		      G_FILE_TEST_EXISTS ))
+    {
+	/* the file exists, we need to get the chmod values
+	 * because gtk will overwrite it */
+	if (stat (filename, &buf) == -1)
+	    /* stat couldn't get the informations, so do as a new file
+	     * and we will set the good chmod */
+	    do_chmod = TRUE;
+	else
+	    do_chmod = FALSE;
+    }
+    else
+	/* the file doesn't exist, so we will set the only user chmod */
+	do_chmod = TRUE;
 
     etat.en_train_de_sauvegarder = 1;
 
@@ -360,8 +375,19 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 
     /* if it's a new file, we set the permission */
     if ( do_chmod )
+	/* it's a new file or stat couldn't find the permissions,
+	 * so set only user can see the file by default */
 	chmod ( filename,
 		S_IRUSR | S_IWUSR );
+    else
+    {
+	/* it's not a new file but gtk overwrite the permissions
+	 * so need to re-set the good permissions saved before */
+	if (chmod (filename, buf.st_mode) == -1)
+	    /* we couldn't set the chmod, set the default permission */
+	    chmod ( filename,
+		    S_IRUSR | S_IWUSR );
+    }
 
     etat.en_train_de_sauvegarder = 0;
 

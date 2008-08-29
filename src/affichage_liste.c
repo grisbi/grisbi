@@ -275,14 +275,6 @@ GtkWidget *onglet_affichage_operations ( void )
 			 FALSE, FALSE, 0 );
 
 
-    /* Then add the "sort by" buttons */
-    paddingbox = gsb_automem_radiobutton_new_with_title (vbox_pref,
-							 _("Sort transaction list"),
-							 _("by value date"),
-							 _("by date"),
-							 &etat.classement_par_date, NULL, NULL);
-
-
     /* Account distinction */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
 					    COLON(_("Account differentiation")));

@@ -69,7 +69,7 @@
 /*START_STATIC*/
 static gboolean assert_selected_transaction ();
 static void creation_titres_tree_view ( void );
-static gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint number );
+static gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr );
 static GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y );
 static gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 					      GdkEventButton *ev );
@@ -1145,7 +1145,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 					  NULL,
 					  NULL ))
     {
-	/* show the partia popup */
+	/* show the partial popup */
 	if ( ev -> button == RIGHT_BUTTON )
 	    popup_transaction_context_menu ( FALSE, -1, -1 );
 	return (TRUE);
@@ -2204,7 +2204,7 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
 	g_object_set_data ( G_OBJECT (item), "x", GINT_TO_POINTER (x) );
 	g_object_set_data ( G_OBJECT (item), "y", GINT_TO_POINTER (y) );
 	g_signal_connect ( G_OBJECT(item), "activate", 
-			   G_CALLBACK(gsb_gui_change_cell_content), GINT_TO_POINTER (i));
+			   G_CALLBACK(gsb_gui_change_cell_content), GINT_TO_POINTER (i+1));
 	gtk_menu_append ( menu, item );
     }
 
@@ -2219,20 +2219,25 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
  * item to determine which cell is changed and with what.
  *
  * After this, iterate to update all GtkTreeIters of the transaction
- * list.
+ * list
  *
  * \param item		The GtkMenuItem that triggered event.
- * \param number	Content to put in the cell.
+ * \param element	new element to put in the cell.
  *
  * \return FALSE
  */
-gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint number )
+gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr )
 {
     gint col, line;
     gint last_col, last_line;
+    gint element;
 
-    last_col = find_element_col (number);
-    last_line = find_element_line (number);
+    element = GPOINTER_TO_INT (element_ptr);
+
+    devel_debug_int (element);
+
+    last_col = find_element_col (element);
+    last_line = find_element_line (element);
 
     col = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT (item), "x" ));
     line = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT (item), "y" ));
@@ -2244,9 +2249,9 @@ gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint number )
 	return FALSE;
 
     /* save the new position */
-    tab_affichage_ope[line][col] = number;
+    tab_affichage_ope[line][col] = element;
 
-    if (last_col != -1 || last_line != -1)
+    if (last_col != -1 && last_line != -1)
     {
 	/* the element was already showed, we need to erase the last cell first */
 	tab_affichage_ope[last_line][last_col] = 0;
@@ -2254,8 +2259,9 @@ gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint number )
     }
 
     /* now we can update the element */
-    transaction_list_update_element (number);
+    transaction_list_update_element (element);
     update_titres_tree_view ();
+    modification_fichier (TRUE);
     return FALSE;
 }
 

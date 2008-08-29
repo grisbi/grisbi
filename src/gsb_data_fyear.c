@@ -1,8 +1,7 @@
 /* ************************************************************************** */
-/* work with the struct of fyear                                              */
 /*                                                                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -666,6 +665,9 @@ gint gsb_data_fyear_get_from_date ( const GDate *date )
 {
     GSList *tmp_list;
     gint return_value = 0;
+
+    if (!date)
+	return 0;
 
     tmp_list = fyear_list;
     while (tmp_list)

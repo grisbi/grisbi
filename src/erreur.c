@@ -1,5 +1,4 @@
 /* ************************************************************************** */
-/* Contient toutes les procédures relatives aux erreurs et à la fin du prog   */
 /*                                                                            */
 /*                                  erreur.c                                  */
 /*                                                                            */

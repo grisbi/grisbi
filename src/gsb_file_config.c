@@ -266,11 +266,6 @@ gboolean gsb_file_config_load_config ( void )
 							  "Show selected transaction in form",
 							  NULL );
 
-    etat.classement_par_date = g_key_file_get_integer ( config,
-							"Display",
-							"Order by date",
-							NULL );
-
     etat.affiche_boutons_valider_annuler = g_key_file_get_integer ( config,
 								    "Display",
 								    "Show valid_cancel buttons",
@@ -581,11 +576,6 @@ gboolean gsb_file_config_save_config ( void )
 			     "Display",
 			     "Show selected transaction in form",
 			     etat.show_transaction_selected_in_form );
-
-     g_key_file_set_integer ( config,
-			     "Display",
-			     "Order by date",
-			     etat.classement_par_date );
 
     g_key_file_set_integer ( config,
 			     "Display",
@@ -1028,13 +1018,6 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     }
 
     if ( !strcmp ( element_name,
-		   "Tri_par_date" ))
-    {
-	etat.classement_par_date = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
 		   "Affiche_boutons_valider_annuler" ))
     {
 	etat.affiche_boutons_valider_annuler = utils_str_atoi (text);
@@ -1170,9 +1153,7 @@ void gsb_file_config_clean_config ( void )
     }
     
     etat.force_enregistrement = 1;     /* par défaut, on force l'enregistrement */
-    etat.classement_par_date = 1;  /* par défaut, on tri la liste des opés par les dates */
     etat.affiche_boutons_valider_annuler = 1;
-    etat.classement_par_date = 1;
     gsb_file_update_last_path (g_get_home_dir ());
     gsb_file_set_backup_path (g_get_home_dir ());
     etat.make_backup = FALSE;
