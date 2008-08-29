@@ -170,6 +170,10 @@ gint csv_initialise (GSList * opes_selectionnees, gchar * filename )
 {
     g_return_val_if_fail ( filename, FALSE );
 
+    /* initialise values */
+    csv_lastcol = 0;
+    csv_lastline = 1;
+
     unlink ( filename );	/* We don't care if this fails, this
 				 * is just to guarantee next will
 				 * not fail if file is existing.  This

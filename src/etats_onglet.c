@@ -1083,7 +1083,7 @@ void export_etat_courant_vers_csv ( gchar * filename )
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
-    affichage_etat ( 0, &csv_affichage, filename );
+    affichage_etat ( gsb_gui_navigation_get_current_report (), &csv_affichage, filename );
 }
 
 
