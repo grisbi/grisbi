@@ -4627,8 +4627,10 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 	    }
 	    while ( attribute_names[i] );
 
-	    /* create now the link between currencies if necessary */
-	    if (tmp_currency_link.contra_currency)
+	    /* create now the link between currencies if necessary
+	     * don't create if the exchange is null event if the link was created before,
+	     * else we will become very rich in grisbi !!! */
+	    if (tmp_currency_link.contra_currency && tmp_currency_link.exchange.mantissa != 0)
 	    {
 		gint  link_number;
 
