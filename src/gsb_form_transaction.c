@@ -479,7 +479,7 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
 
     /* show the contra_transaction */
     if ( new_transaction )
-	gsb_transactions_list_append_new_transaction (contra_transaction_number);
+	gsb_transactions_list_append_new_transaction (contra_transaction_number, TRUE);
     else
 	gsb_transactions_list_update_transaction (contra_transaction_number);
 

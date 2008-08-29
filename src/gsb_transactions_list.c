@@ -636,13 +636,17 @@ gboolean gsb_transactions_list_fill_archive_store ( void )
  * the breakdown to see the daughters
  *
  * \param transaction_number
+ * \param update_tree_view	should be TRUE, except if we append a lot of transactions (import...)
+ * 				this must be FALSE to avoid time consuming, and need to update tree view
+ * 				later
  *
  * \return FALSE
  * */
-gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number )
+gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
+							gboolean update_tree_view )
 {
     gint account_number;
-    
+
     devel_debug_int (transaction_number);
 
     account_number = gsb_data_transaction_get_account_number (transaction_number);
@@ -658,11 +662,11 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number 
     /* update the transaction list only if the account is showed,
      * else it's because we execute a scheduled transaction and all
      * of that stuff will be done when we will show the account */
-    if (gsb_gui_navigation_get_current_account () == account_number)
+    if (update_tree_view && gsb_gui_navigation_get_current_account () == account_number)
     {
 	gsb_transactions_list_update_tree_view (account_number, TRUE);
 	gsb_gui_headings_update_suffix ( gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-										gsb_data_account_get_currency (account_number), TRUE));
+									     gsb_data_account_get_currency (account_number), TRUE));
     }
 
     /* on réaffichera l'accueil */
@@ -2356,7 +2360,7 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number )
 						 1,
 						 gsb_data_transaction_get_contra_transaction_account (transaction_number));
 
-    gsb_transactions_list_append_new_transaction (new_transaction_number);
+    gsb_transactions_list_append_new_transaction (new_transaction_number, TRUE);
 
     if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
     {
@@ -3278,6 +3282,7 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number )
 
 	    /* the transaction belongs to the archive we want to show, so append it to the list store */
 	    transaction_list_append_transaction ( transaction_number);
+/* 	    xxx ICI */
 	}
 	tmp_list = tmp_list -> next;
     }

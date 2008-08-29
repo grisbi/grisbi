@@ -317,7 +317,7 @@ gint payee_add_div ()
     name =  my_strdup ( _("New payee") );
 
     while ( gsb_data_payee_get_number_by_name ( name,
-					   FALSE ))
+						FALSE ))
     {
 	i++;
 	g_free (name);

@@ -88,7 +88,7 @@ static CustomRecord *last_mother_appended = NULL;
  *
  * \return
  * */
-void transaction_list_append_transaction (gint transaction_number)
+void transaction_list_append_transaction ( gint transaction_number )
 {
     gulong newsize;
     guint pos;

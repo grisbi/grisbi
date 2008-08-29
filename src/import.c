@@ -49,8 +49,10 @@
 #include "./gsb_file.h"
 #include "./gsb_form_scheduler.h"
 #include "./utils_dates.h"
+#include "./fenetre_principale.h"
 #include "./navigation.h"
 #include "./menu.h"
+#include "./tiers_onglet.h"
 #include "./gsb_real.h"
 #include "./gsb_status.h"
 #include "./gsb_transactions_list.h"
@@ -1718,9 +1720,20 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
 	    /* we need to add the transaction now to the tree model here
 	     * to avoid to write again all the account */
-	    gsb_transactions_list_append_new_transaction (transaction_number);
+	    gsb_transactions_list_append_new_transaction (transaction_number, FALSE);
 	} 
 	list_tmp = list_tmp -> next;
+    }
+
+    /** some payee should have been added, so update the combofix */
+    gsb_payee_update_combofix ();
+
+    /* if we are on the current account, we need to update the tree_view */
+    if (gsb_gui_navigation_get_current_account () == account_number)
+    {
+	gsb_transactions_list_update_tree_view (account_number, TRUE);
+	gsb_gui_headings_update_suffix ( gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
+									     gsb_data_account_get_currency (account_number), TRUE));
     }
 }
 

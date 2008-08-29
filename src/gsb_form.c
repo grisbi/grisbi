@@ -52,6 +52,7 @@
 #include "./gsb_fyear.h"
 #include "./navigation.h"
 #include "./menu.h"
+#include "./tiers_onglet.h"
 #include "./gsb_payment_method.h"
 #include "./gsb_real.h"
 #include "./gsb_reconcile.h"
@@ -2194,7 +2195,7 @@ gboolean gsb_form_finish_edition ( void )
 	    {
 		gint breakdown_transaction_number;
 
-		gsb_transactions_list_append_new_transaction (transaction_number);
+		gsb_transactions_list_append_new_transaction (transaction_number, TRUE);
 
 		/* if it's a real new transaction and if it's a breakdown, we ask if the user wants
 		 * to recover previous children */
@@ -2599,7 +2600,10 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		if (gsb_form_widget_check_empty (element -> element_widget)) 
 		    gsb_data_mix_set_party_number ( transaction_number, 0, is_transaction );
 		else
+		{
 		    gsb_data_mix_set_party_number ( transaction_number, gsb_data_payee_get_number_by_name ( gtk_combofix_get_text ( GTK_COMBOFIX ( element -> element_widget )), TRUE ), is_transaction);
+		    gsb_payee_update_combofix ();
+		}
 		break;
 
 	    case TRANSACTION_FORM_DEBIT:

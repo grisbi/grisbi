@@ -334,7 +334,7 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 							 transaction_mother );
 
     /* we show the new transaction in the tree view */
-    gsb_transactions_list_append_new_transaction (transaction_number);
+    gsb_transactions_list_append_new_transaction (transaction_number, TRUE);
 
     return transaction_number;
 }
