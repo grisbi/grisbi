@@ -1,10 +1,7 @@
 /* ************************************************************************** */
-/* work with the struct of form                                               */
 /*                                                                            */
-/*                                     data_form                              */
-/*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -47,17 +44,16 @@
 
 /** \struct
  * describe the form organization
+ * each account has its own form_organization
  * */
 
 /* struct organisation_formulaire */
 typedef struct
 {
     /* 1 to 6 columns */
-
     gint columns;
 
     /* 1 to 4 rows */
-
     gint rows;
 
     /* form's filled by : */
@@ -85,7 +81,6 @@ typedef struct
     gint form_table[MAX_HEIGHT][MAX_WIDTH];
 
     /* percentage of each columns */
-
     gint width_columns_percent[MAX_WIDTH];
 } form_organization;
 
@@ -217,6 +212,8 @@ gint gsb_data_form_get_nb_columns ( gint account_number )
 
 /**
  * set the number of columns of the form
+ * if we decrease the number of culumns, the content
+ * of the last column will be deleted
  *
  * \param account_number
  * \param columns
@@ -474,3 +471,48 @@ gint gsb_data_form_get_values_total ( gint account_number )
 
 
 
+/**
+ * update all the accounts form organization according
+ * to the given account
+ *
+ * \param account_number	the account number model to fill the others
+ *
+ * \return TRUE : ok, FALSE : problem, nothing done
+ * */
+gboolean gsb_form_config_update_from_account (gint account_number)
+{
+    form_organization *form;
+    gint no_account;
+
+    if (account_number == -1)
+	return FALSE;
+
+    form = gsb_data_account_get_form_organization ( account_number );
+    
+    if ( !form)
+	return FALSE;
+
+    for (no_account = 0 ; no_account < gsb_data_account_get_accounts_amount (); no_account++)
+    {
+	form_organization *tmp_form;
+	gint col;
+
+	if (no_account == account_number)
+	    continue;
+
+	tmp_form = gsb_data_account_get_form_organization (no_account);
+
+	for (col = 0 ; col<MAX_WIDTH ; col++)
+	{
+	    gint line;
+
+	    for (line=0 ; line <MAX_HEIGHT ; line++)
+		tmp_form -> form_table[line][col] = form -> form_table[line][col];
+	    tmp_form -> width_columns_percent[col] = form -> width_columns_percent[col];
+	}
+
+	tmp_form -> columns = form -> columns;
+	tmp_form -> rows = form -> rows;
+    }
+    return TRUE;
+}

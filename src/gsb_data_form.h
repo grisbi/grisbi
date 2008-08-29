@@ -62,5 +62,6 @@ gboolean gsb_data_form_set_value ( gint account_number,
 gboolean gsb_data_form_set_width_column ( gint account_number,
 					  gint column,
 					  gint width );
+gboolean gsb_form_config_update_from_account (gint account_number);
 /* END_DECLARATION */
 #endif

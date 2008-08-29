@@ -22,7 +22,7 @@
 
 /**
  * \file gsb_form_config.c
- * all that you need for the config of the form is here !!!
+ * configuration page for the form
  */
 
 #include "include.h"
@@ -63,8 +63,8 @@ static gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
 				      GdkDragContext *drag_context,
 				      gpointer null );
 static gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
-				      GdkDragContext *drag_context,
-				      gpointer null );
+				    GdkDragContext *drag_context,
+				    gpointer null );
 static gboolean gsb_form_config_fill_store ( gint account_number );
 static void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent );
 static gboolean gsb_form_config_realized ( GtkWidget *tree_view,
@@ -73,6 +73,8 @@ static gboolean gsb_form_config_remove_column ( void );
 static gboolean gsb_form_config_remove_line ( void );
 static gboolean gsb_form_config_switch_general_to_several_form ( void );
 static gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button );
+static  gboolean gsb_form_config_update_accounts ( GtkWidget *button,
+						  GtkWidget *combobox );
 static gboolean gsb_form_config_update_form_config ( gint account_number );
 /*END_STATIC*/
 
@@ -93,6 +95,9 @@ static GtkWidget *form_config_buttons[TRANSACTION_FORM_WIDGET_NB-3];
 
 /** the option menu which contains all the accounts, to configure the form */
 static GtkWidget *accounts_combobox;
+
+/** the button to update all the accounts forms */
+static GtkWidget *update_button;
 
 /** the tree view */
 static GtkWidget *form_config_tree_view;
@@ -139,9 +144,9 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     GtkWidget *hbox;
     GtkWidget *button;
     GtkWidget *paddingbox;
+    GtkWidget *label;
 
     /* create the paddingbox into the parent */
-
     paddingbox = new_paddingbox_with_title ( vbox_parent,
 					     TRUE,
 					     _("Form structure preview"));
@@ -156,18 +161,16 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( hbox );
 
     /* the button to choose the configuration for all/one account */
     button = gsb_automem_checkbutton_new ( _("Each account has his own form"),
-					&etat.formulaire_distinct_par_compte,
-					G_CALLBACK ( gsb_form_config_switch_general_to_several_form ), NULL);
+					   &etat.formulaire_distinct_par_compte,
+					   G_CALLBACK ( gsb_form_config_switch_general_to_several_form ), NULL);
     gtk_box_pack_start ( GTK_BOX (hbox ),
 			 button,
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( button );
 
     /* the accounts option_menu */
     accounts_combobox = gsb_account_create_combo_list ((GtkSignalFunc) gsb_form_config_change_account_choice, NULL, FALSE );
@@ -178,7 +181,35 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( accounts_combobox );
+
+    /* add the update-form button */
+    hbox = gtk_hbox_new ( FALSE,
+			  5 );
+    gtk_box_pack_start ( GTK_BOX (paddingbox),
+			 hbox,
+			 FALSE,
+			 FALSE,
+			 0 );
+
+    update_button = gtk_button_new_with_label (_("Update"));
+    gtk_widget_set_sensitive ( update_button,
+			       etat.formulaire_distinct_par_compte );
+    g_signal_connect ( G_OBJECT (update_button),
+		       "clicked",
+		       G_CALLBACK (gsb_form_config_update_accounts),
+		       accounts_combobox );
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 update_button,
+			 FALSE,
+			 FALSE,
+			 0 );
+
+    label = gtk_label_new (_(" : Update all the accounts forms according to the selected account"));
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 label,
+			 FALSE,
+			 FALSE,
+			 0 );
 
     /* create the tree_view */
     GtkListStore* list_store = gsb_form_config_create_store ();
@@ -189,7 +220,6 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 			 FALSE,
 			 FALSE,
 			 0 );
-    gtk_widget_show ( form_config_tree_view );
 
 
     /* set the buttons line to increase/decrease the form */
@@ -208,6 +238,8 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
 			 FALSE, 
 			 FALSE, 
 			 0 );
+
+    gtk_widget_show_all (paddingbox);
 }
 
 
@@ -302,6 +334,9 @@ GtkWidget *gsb_form_config_create_tree_view ( GtkListStore *store )
 		       G_CALLBACK ( gsb_form_config_change_column_size ),
 		       NULL );
 
+    /* enable the drag'n drop, we need to use low-level api because
+     * gtk_tree_view api can only move the entire row, not only a cell
+     * (at least, didn't find how...) */
     gtk_drag_source_set ( tree_view,
 			  GDK_BUTTON1_MASK,
 			  target_entry, 1,
@@ -561,8 +596,12 @@ gboolean gsb_form_config_update_form_config ( gint account_number )
 gboolean gsb_form_config_switch_general_to_several_form ( void )
 {
     if ( etat.formulaire_distinct_par_compte )
+    {
 	gtk_widget_set_sensitive ( accounts_combobox,
 				   TRUE );
+	gtk_widget_set_sensitive ( update_button,
+				   TRUE );
+    }
     else
     {
 	gtk_combo_box_set_active ( GTK_COMBO_BOX (accounts_combobox),
@@ -571,6 +610,8 @@ gboolean gsb_form_config_switch_general_to_several_form ( void )
 	gsb_form_config_change_account_choice (accounts_combobox, NULL);
 
 	gtk_widget_set_sensitive ( accounts_combobox,
+				   FALSE );
+	gtk_widget_set_sensitive ( update_button,
 				   FALSE );
     }
     return FALSE;
@@ -595,6 +636,27 @@ gboolean gsb_form_config_change_account_choice ( GtkWidget *combobox,
     return FALSE;
 }
 
+
+/**
+ * callback for update all the accounts forms organization
+ * 	according to the selected account
+ *
+ * \param button	the update_button
+ * \param null		the combobox of accounts
+ *
+ * \return FALSE
+ * */
+static gboolean gsb_form_config_update_accounts ( GtkWidget *button,
+						  GtkWidget *combobox )
+{
+    if (!question_yes_no (_("Warning : all the form of the accounts will be updated according to the selected account. All the changes in the other accounts will be overwritten.\n\nAre you sure to do that ?"), GTK_RESPONSE_CANCEL))
+	return FALSE;
+
+    /* update all the accounts */
+    gsb_form_config_update_from_account (gsb_account_get_combo_account_number (combobox));
+
+    return FALSE;
+}
 
 /**
  * called when toggle a button of the form configuration, append or remove
@@ -647,7 +709,6 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( toggle_button )))
     {
 	/* button is on, append the element */
-
 	gint place_trouvee = 0;
 	gint ligne_premier_elt = -1;
 	gint colonne_premier_elt = -1;
@@ -659,7 +720,6 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 					       i ))
 		{
 		    /* if only 1 element, end here, else continue to look after the second one */
-
 		    if ( no_second_element == -1 )
 		    {
 			/* 			il n'y a qu'un elt */
@@ -674,18 +734,16 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 		    }
 		    else
 		    {
-			/* 			il y a 2 elts */
-
+			/* there are 2 elements */
 			if ( ligne_premier_elt == -1 )
 			{
-			    /* 			    on vient de trouver la place pour le 1er */
+			    /* found the place for the first element */
 			    ligne_premier_elt = i;
 			    colonne_premier_elt = j;
 			}
 			else
 			{
-			    /* 			    on vient de trouver la place pour le 2Ã¨me */
-
+			    /* found the place for the second element */
 			    gsb_data_form_set_value ( account_number,
 						      colonne_premier_elt,
 						      ligne_premier_elt,
@@ -703,9 +761,7 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 
 	if ( place_trouvee )
 	{
-	    /* 	    on a trouvÃ© une place pour le/les Ã©lements */
-	    /* 		s'il y a plusieurs Ã©lÃ©ments en jeu, il faut le rendre actif aussi */
-
+	    /* there is a place for the element, active if necessary an associated element */
 	    if ( no_second_element != -1 )
 	    {
 		g_signal_handlers_block_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
@@ -720,8 +776,7 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 	}
 	else
 	{
-	    /* 	    le tableau est trop petit pour rajouter un Ã©lÃ©ment */
-	
+	    /* there is no place to add an element */
 	    g_signal_handlers_block_by_func ( G_OBJECT ( toggle_button ),
 					      G_CALLBACK ( gsb_form_config_toggle_element_button ),
 					      NULL );
@@ -743,8 +798,7 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
     }
     else
     {
-	/* 	on a dÃ©senclenchÃ© le button */
-
+	/* un-toggle the button */
 	if ( no_second_element != -1 )
 	{
 	    g_signal_handlers_block_by_func ( G_OBJECT ( form_config_buttons[no_second_element-4] ),
@@ -784,14 +838,6 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 
     /* fill the list */
     gsb_form_config_fill_store (account_number);
-
-/*     xxx en suis ici */
-/* 	il y avait un pb, va sur un compte, double click sur 1 opé, va dans config->contenu-> ajoute value date */
-/* 	ça faisait plein de warnings avec gtk_widget_set_usize. avec le ci dessous, c'est ok, sauf qu'il faudrait le */
-/* 	faire que si on est sur ce compte là ou bien chgment pour tous les comptes et si le form est affiché */
-/* 	par contre en plus, si modifie de place ce value date, ça refait un pb usize mais en boucle */
-    /* fill the form only if shown */
-/*     if (xxx */
     gsb_form_fill_from_account (account_number);
 
     modification_fichier (TRUE);
@@ -801,7 +847,6 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 
 /**
  * fill the configuration store according to the organization for the account given
- * and update the form if necessary
  *
  * \param account_number
  *
@@ -832,14 +877,6 @@ gboolean gsb_form_config_fill_store ( gint account_number )
 											     row )),
 				 -1 );
     }
-
-    /* update the form if necessary */
-
-/*     if ( !etat.formulaire_distinct_par_compte */
-/* 	 || */
-/* 	 account_number == gsb_gui_navigation_get_current_account () ) */
-/* 	remplissage_formulaire (account_number); */
-
     return FALSE;
 }
 
@@ -968,36 +1005,41 @@ gboolean gsb_form_config_remove_line ( void )
 {
     gint column;
     gint account_number;
+    gint nb_rows;
+    gint nb_columns;
 
     account_number = gsb_account_get_combo_account_number ( accounts_combobox );
+    nb_rows = gsb_data_form_get_nb_rows (account_number);
 
-    if ( gsb_data_form_get_nb_rows (account_number) == 1 )
+    if ( nb_rows == 1 )
 	return FALSE;
 
     /* check if it's possible */
-
     if ( !gsb_form_config_check_for_removing ( account_number,
 					       1 ))
 	return FALSE;
 
+    nb_columns = gsb_data_form_get_nb_columns (account_number);
+
+    /* remove the row */
+    nb_rows--;
     gsb_data_form_set_nb_rows ( account_number,
-				gsb_data_form_get_nb_rows (account_number) - 1 );
+				nb_rows );
 
     /* move automatickly the values inside the new tinier form */
-    
-    for ( column=0 ; column< gsb_data_form_get_nb_columns (account_number) ; column++ )
+    for ( column=0 ; column< nb_columns ; column++ )
     {
 	if ( gsb_data_form_get_value ( account_number,
 				       column,
-				       gsb_data_form_get_nb_rows (account_number)))
+				       nb_rows))
 	{
 	    /* there is something inside the part wich will be removed, so look for the first
 	     * place possible to move it */
 
 	    gint tmp_row, tmp_column;
 
-	    for ( tmp_row=0 ; tmp_row < gsb_data_form_get_nb_rows (account_number) ; tmp_row++ )
-		for ( tmp_column=0 ; tmp_column < gsb_data_form_get_nb_columns (account_number) ; tmp_column++ )
+	    for ( tmp_row=0 ; tmp_row < nb_rows ; tmp_row++ )
+		for ( tmp_column=0 ; tmp_column < nb_columns ; tmp_column++ )
 		    if ( !gsb_data_form_get_value ( account_number,
 						    tmp_column,
 						    tmp_row ))
@@ -1007,13 +1049,13 @@ gboolean gsb_form_config_remove_line ( void )
 						  tmp_row,
 						  gsb_data_form_get_value ( account_number,
 									    column,
-									    gsb_data_form_get_nb_rows (account_number)));
+									    nb_rows));
 			gsb_data_form_set_value ( account_number,
 						  column,
-						  gsb_data_form_get_nb_rows (account_number),
+						  nb_rows,
 						  0 );
-			tmp_row = gsb_data_form_get_nb_rows (account_number);
-			tmp_column = gsb_data_form_get_nb_columns (account_number);
+			tmp_row = nb_rows;
+			tmp_column = nb_columns;
 		    }
 	}
     }
@@ -1046,8 +1088,7 @@ gboolean gsb_form_config_add_column ( void )
     if ( nb_columns == MAX_WIDTH )
 	return FALSE;
 
-    /* set the new size of the 2 last columns to half of the last column */
-
+    /* split by 2 the size of the current last column to add the new column */
     new_size = gsb_data_form_get_width_column ( account_number,
 						nb_columns - 1) / 2;
     gsb_data_form_set_width_column ( account_number,
@@ -1060,7 +1101,6 @@ gboolean gsb_form_config_add_column ( void )
 				   nb_columns + 1 );
 
     /* show the result */
-
     gsb_form_config_realized ( form_config_tree_view, NULL );
     modification_fichier (TRUE);
     return FALSE;
@@ -1087,17 +1127,16 @@ gboolean gsb_form_config_remove_column ( void )
 	return FALSE;
 
     /* check if it's possible */
-
     if ( !gsb_form_config_check_for_removing ( account_number,
 					       0 ))
 	return FALSE;
 
+    /* erase the last column */
     nb_columns--;
     gsb_data_form_set_nb_columns ( account_number,
 				   nb_columns );
 
     /* move the values in the last column to another place */
-    
     for ( row=0 ; row< gsb_data_form_get_nb_rows (account_number) ; row++ )
     {
 	if ( gsb_data_form_get_value (account_number,
@@ -1153,6 +1192,8 @@ gboolean gsb_form_config_remove_column ( void )
 /**
  * check if we can remove a row or a column according the number
  * of values inside
+ * it is possible to remove a row or column only if grisbi can replace
+ * the hidden element in the form without that row/column
  *
  * \param account_number
  * \param removing_row if TRUE it's a row we want to remove, else it's a column
@@ -1214,8 +1255,7 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
     GdkRectangle rectangle;
     GdkPixbuf *pixbuf_cursor;
 
-    /* get the cell */
-
+    /* get the cell coord */
     gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )),
 			     &x,
 			     &y,
@@ -1225,8 +1265,7 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
 				    y,
 				    &path,
 				    &tree_column,
-				    NULL,
-				    NULL );
+				    NULL, NULL );
 
     if ( !path
 	 ||
@@ -1234,11 +1273,10 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
 	return FALSE;
 
     start_drag_column = g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( tree_view )),
-				     tree_column );
+				       tree_column );
     start_drag_row = utils_str_atoi ( gtk_tree_path_to_string ( path ));
 
     /* draw the new cursor */
-
     drawable = gtk_tree_view_get_bin_window (GTK_TREE_VIEW ( tree_view ));
     gtk_tree_view_get_cell_area ( GTK_TREE_VIEW ( tree_view ),
 				  path,
@@ -1281,7 +1319,6 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
     gint account_number;
 
     /* get the cell position */
-
     gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )),
 			     &x,
 			     &y,
@@ -1304,14 +1341,12 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
     end_drag_row = utils_str_atoi ( gtk_tree_path_to_string ( path ));
 
     /* if we are on the same cell, go away */
-
     if ( start_drag_row == end_drag_row
 	 &&
 	 start_drag_column == end_drag_column )
 	return ( FALSE );
 
     /* swap the cells in the tab */
-
     account_number = gsb_account_get_combo_account_number ( accounts_combobox );
 
     buffer = gsb_data_form_get_value ( account_number,
@@ -1329,9 +1364,8 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
 			      buffer );
 
     /* fill the list */
-	    
     gsb_form_config_fill_store (account_number);
-    gsb_form_create_widgets ();
+    gsb_form_fill_from_account (account_number);
 
     modification_fichier (TRUE);
     return (FALSE);

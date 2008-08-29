@@ -386,7 +386,7 @@ void dialogue_conditional_special ( gchar *text, gchar * var, GtkMessageType typ
 gboolean question ( gchar *texte )
 {
     return question_yes_no ( texte,
-					  GTK_RESPONSE_NO  );
+			     GTK_RESPONSE_NO  );
 }
 
 

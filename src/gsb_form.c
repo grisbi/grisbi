@@ -2977,7 +2977,9 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
     if ( account_number == -2 )
 	return FALSE;
 
-    for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) ; row++ )
+    /* set the size for all columns - 1 to avoid recursive call to that function,
+     * so the last column size is set to be beautiful, but in fact, it's just the extra-space */
+    for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) - 1 ; row++ )
 	for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
 	{
 	    widget = gsb_form_widget_get_widget ( gsb_data_form_get_value ( account_number,
