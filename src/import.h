@@ -29,6 +29,8 @@ struct struct_compte_importation
     GtkWidget *bouton_devise;             /* adr du bouton de la devise dans le récapitulatif */
     gint action;				/* IMPORT_CREATE_ACCOUNT, IMPORT_ADD_TRANSACTIONS, IMPORT_MARK_TRANSACTIONS */
 
+    gboolean	invert_transaction_amount;	/* if TRUE, all the transactions imported will have their amount inverted */
+
     GtkWidget *bouton_type_compte;             /* adr du bouton du type de compte dans le récapitulatif */
     GtkWidget *bouton_compte_add;             /* adr du bouton du compte
 					   * dans le récapitulatif */

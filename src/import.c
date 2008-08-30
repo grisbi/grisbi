@@ -35,6 +35,7 @@
 #include "./gsb_account.h"
 #include "./gsb_account_property.h"
 #include "./gsb_assistant.h"
+#include "./gsb_automem.h"
 #include "./gsb_combo_box.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_currency.h"
@@ -979,6 +980,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     gchar * short_filename;
     gint size = 0, spacing = 0;
     gint account_number;
+    GtkWidget *button;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
@@ -1146,6 +1148,13 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     }
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), compte -> bouton_devise, FALSE, FALSE, 0 );
+
+    /* invert amount of transactions */
+     button = gsb_automem_checkbutton_new (_("Invert the amount of the imported transactions"),
+					   &compte -> invert_transaction_amount, NULL, NULL);
+    gtk_box_pack_start ( GTK_BOX ( vbox ), 
+			 button,
+			 FALSE, FALSE, 0 );
 
     return vbox;
 }
@@ -1717,6 +1726,11 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	    imported_transaction -> devise = gsb_currency_get_currency_from_combobox (imported_account -> bouton_devise);
 	    transaction_number = gsb_import_create_transaction ( imported_transaction,
 								 account_number );
+
+	    /* invert the amount of the transaction if asked */
+	    if (imported_account -> invert_transaction_amount)
+		gsb_data_transaction_set_amount ( transaction_number,
+						  gsb_real_opposite (gsb_data_transaction_get_amount (transaction_number)));
 
 	    /* we need to add the transaction now to the tree model here
 	     * to avoid to write again all the account */
