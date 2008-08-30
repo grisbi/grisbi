@@ -1976,16 +1976,20 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gsb_data_transaction_set_date ( transaction_number,
 				    imported_transaction -> date );
 
-    /* set the financial year according to the date */
-    fyear = gsb_data_fyear_get_from_date (imported_transaction -> date );
-    if (fyear > 0)
-	gsb_data_transaction_set_financial_year_number ( transaction_number,
-							 fyear );
-
     /* récupération de la date de valeur */
     gsb_data_transaction_set_value_date ( transaction_number,
 					  imported_transaction -> date_de_valeur );
 
+    /* set the financial year according to the date,
+     * accord to value date by default, and if not, by date
+     * FIXME : propose in configuration to take by date by default ? */
+    if (imported_transaction -> date_de_valeur)
+	fyear = gsb_data_fyear_get_from_date (imported_transaction -> date_de_valeur );
+    else
+	fyear = gsb_data_fyear_get_from_date (imported_transaction -> date );
+    if (fyear > 0)
+	gsb_data_transaction_set_financial_year_number ( transaction_number,
+							 fyear );
 
     /* récupération du montant */
     gsb_data_transaction_set_amount ( transaction_number,
