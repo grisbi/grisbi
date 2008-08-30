@@ -387,7 +387,7 @@ const gchar *gsb_data_payee_get_name ( gint no_payee,
 
     payee = gsb_data_payee_get_structure ( no_payee );
 
-    if (!payee)
+    if (!payee || !no_payee)
     {
 	if (can_return_null)
 	    return NULL;

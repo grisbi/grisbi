@@ -1035,8 +1035,11 @@ gboolean gsb_data_transaction_set_exchange_fees ( gint transaction_number,
 
 
 
-/** get the party_number 
+/** 
+ * get the party_number 
+ * 
  * \param transaction_number the number of the transaction
+ * 
  * \return the currency number of the transaction
  * */
 gint gsb_data_transaction_get_party_number ( gint transaction_number )

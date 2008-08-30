@@ -834,7 +834,7 @@ gchar *gsb_data_category_get_name ( gint no_category,
 
     category = gsb_data_category_get_structure ( no_category );
 
-    if (!category)
+    if (!category || !no_category)
 	return my_strdup (return_value_error);
 
     return_value = my_strdup (category -> category_name);

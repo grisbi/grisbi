@@ -695,10 +695,11 @@ gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_number,
     gchar *string;
     gchar *return_string;
 
+    /* xxx FIXME : dans la béta : le tuncate prend un nb de caractère max, utiliser plutôt la largeur courante de la colonne ? */
     string = gsb_transactions_list_grep_cell_content ( transaction_number, cell_content_number );
     return_string =  gsb_string_truncate_n ( string,
-					     cell_views [ cell_content_number ] . max_size,
-					     cell_views [ cell_content_number ] . hard_trunc );
+					     cell_views [ cell_content_number - 1 ] . max_size,
+					     cell_views [ cell_content_number - 1 ] . hard_trunc );
     if (string)
 	g_free (string);
     return return_string;
@@ -3282,7 +3283,6 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number )
 
 	    /* the transaction belongs to the archive we want to show, so append it to the list store */
 	    transaction_list_append_transaction ( transaction_number);
-/* 	    xxx ICI */
 	}
 	tmp_list = tmp_list -> next;
     }

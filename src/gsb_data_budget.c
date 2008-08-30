@@ -793,7 +793,7 @@ gchar *gsb_data_budget_get_name ( gint no_budget,
 
     budget = gsb_data_budget_get_structure ( no_budget );
 
-    if (!budget)
+    if (!budget || !no_budget)
 	return my_strdup (return_value_error);
 
     return_value = my_strdup ( budget -> budget_name );
