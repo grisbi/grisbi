@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-06-29 12:04-0400\n"
-"PO-Revision-Date: 2008-08-31 17:41+0200\n"
+"PO-Revision-Date: 2008-08-31 23:27+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3606,52 +3606,46 @@ msgid "<span foreground=\"red\">The final date is not valid</span>"
 msgstr "<span foreground=\"red\">La fecha final no es correcta</span>"
 
 #: src/gsb_assistant_archive.c:833
-#, fuzzy
 msgid ""
 "<span foreground=\"red\">The initial date belongs already to an archive.</"
 "span>"
 msgstr ""
-"<span foreground=\"red\">Atención : Ese enlace ya ha sido definido</span>"
+"<span foreground=\"red\">La fecha de comienzo ya pertenece a un archivo.</span>"
 
 #: src/gsb_assistant_archive.c:837
-#, fuzzy
 msgid ""
 "<span foreground=\"red\">The final date belongs already to an archive.</span>"
 msgstr ""
-"<span foreground=\"red\">Atención : Ese enlace ya ha sido definido</span>"
+"<span foreground=\"red\">La fecha de finalización ya pertenece a un archivo.</span>"
 
 #: src/gsb_assistant_archive.c:880
-#, fuzzy
 msgid "<span foreground=\"red\">Please choose a financial year</span>"
 msgstr ""
-"<span foreground=\"red\">Cuidado : ese año financiero se cruza con otro</"
+"<span foreground=\"red\">Por favor, elija un año finaciero</"
 "span>"
 
 #: src/gsb_assistant_archive.c:885
-#, fuzzy
 msgid ""
 "<span foreground=\"red\">There is already an archive for that financial year."
 "</span>"
 msgstr ""
-"<span foreground=\"red\">Cuidado : ese año financiero se cruza con otro</"
+"<span foreground=\"red\">Ya hay un archivo para ese año financiero.</"
 "span>"
 
 #: src/gsb_assistant_archive.c:925
-#, fuzzy
 msgid "<span foreground=\"red\">Please choose a report</span>"
-msgstr "<span foreground=\"red\">Atención : Fecha no válida</span>"
+msgstr "<span foreground=\"red\">Por favor, elija un informe</span>"
 
 #. there is some transactions to archive
 #: src/gsb_assistant_archive.c:956
-#, fuzzy, c-format
+#, c-format
 msgid "%d transactions out of %d will be archived."
-msgstr "Hacer las transacciones cliqueables"
+msgstr "%d transacciones fuera de %d serán archivadas."
 
 #. create the assistant
 #: src/gsb_assistant_archive_export.c:104
-#, fuzzy
 msgid "Export an archive"
-msgstr "Exportar categorías"
+msgstr "Exportar un archivo"
 
 #: src/gsb_assistant_archive_export.c:105
 msgid ""
@@ -3660,11 +3654,14 @@ msgid ""
 "you want to delete the archive from Grisbi, you need to do it from the "
 "preference window."
 msgstr ""
+"Este asistente le ayudará a exportar un fichero al formato gsb, QIF o CSV. "
+"Tenga en cuenta que nada se borrará en Grisbi, tan sólo es una exportación. "
+"Si quiere borrar el archivo de Grisbi, tendrá que hacerlo desde la ventana de "
+"preferencias."
 
 #: src/gsb_assistant_archive_export.c:159
-#, fuzzy
 msgid "Select the archive to export : "
-msgstr "Seleccionar las cuentas para exportar"
+msgstr "Seleccione el archivo a exportar"
 
 #: src/gsb_assistant_archive_export.c:305
 msgid "Grisbi (GSB) format"
@@ -3673,9 +3670,9 @@ msgstr "Formtao Grisbi (GSB)"
 #. if we come here, an archive must have been selected,
 #. * so needn't to check
 #: src/gsb_assistant_archive_export.c:384
-#, fuzzy, c-format
+#, c-format
 msgid "<span size=\"x-large\">Exporting the archive <i>%s</i></span>"
-msgstr "<span size=\"x-large\">Exportando <i>%s</i></span>"
+msgstr "<span size=\"x-large\">Exportando el archivo<i>%s</i></span>"
 
 #: src/gsb_assistant_archive_export.c:424
 msgid ""
@@ -3684,6 +3681,10 @@ msgid ""
 "\n"
 "You can now close the assistant."
 msgstr ""
+"¡ Completado !\n"
+"La exportación del archivo finalizó con éxito.\n"
+"\n"
+"Ahora puede cerrar el asistente."
 
 #: src/gsb_assistant_archive_export.c:428
 msgid ""
@@ -3693,6 +3694,11 @@ msgid ""
 "Please press the Previous button to correct the problem,\n"
 "or the close button to cancel the action."
 msgstr ""
+"¡ Error !\n"
+"Ha ocurrido un error mientras se guardaba el archivo.\n"
+"\n"
+"Por favor pulse el botón de \"Anterior\" para corregir el problema,\n"
+"o el botón de cierre para cancelar la acción."
 
 #: src/gsb_assistant_file.c:110
 msgid "Welcome to Grisbi!"
@@ -3708,6 +3714,13 @@ msgid ""
 "Once the file created, you will be able to create a new account or import "
 "some previous datas"
 msgstr ""
+"La configuración general de Grisbi está lista.\n"
+"\n"
+"El asistente le ayudará ahora a crear y configurar un nuevo fichero.\n"
+"No se olvide que puede cambiarlo después en la página de configuración.\n"
+"\n"
+"Una vez que el fichero haya sido creado, podrá crear una nueva cuenta para importar "
+"algunos datos anteriores"
 
 #: src/gsb_assistant_file.c:119
 msgid "New file Assistant"
@@ -3746,14 +3759,12 @@ msgid "Your address"
 msgstr "Su dirección"
 
 #: src/gsb_assistant_file.c:340
-#, fuzzy
 msgid "Select base currency"
-msgstr "Seleccionar las cuentas bancarias"
+msgstr "Seleccionar la moneda base"
 
 #: src/gsb_assistant_file.c:379
-#, fuzzy
 msgid "Select the list of categories you will use"
-msgstr "Seleccionar las categorías a incluir"
+msgstr "Seleccionar la lista de categorías que usará"
 
 #: src/gsb_assistant_file.c:441
 msgid "Configuration finished !"
@@ -3771,9 +3782,8 @@ msgid ""
 msgstr ""
 
 #: src/gsb_assistant_file.c:459
-#, fuzzy
 msgid "Create a new account from scratch"
-msgstr "Crear una cuenta nueva"
+msgstr "Crear una cuenta nueva desde cero"
 
 #: src/gsb_assistant_file.c:465
 msgid "Import data from online bank services or from accounting software"
@@ -3825,11 +3835,9 @@ msgid "Web browser"
 msgstr "Navegador web"
 
 #: src/gsb_assistant_first.c:202
-#, fuzzy, c-format
+#, c-format
 msgid "You may use %s to expand URL. I.e: \"firefox -remote %s\""
-msgstr ""
-"Debería usar %s para cargar la URL.\n"
-"Por ejemplo: \"firefox -remote %s\""
+msgstr "Debería usar %s para cargar la URL. EJ: \"firefox -remote %s\""
 
 #: src/gsb_assistant_first.c:213 src/parametres.c:643
 msgid "Account files handling"
@@ -3898,20 +3906,18 @@ msgid "Associate orphan transactions to a reconciliation"
 msgstr "Asociar transacciones huérfanas con una reconciliación"
 
 #: src/gsb_assistant_reconcile_config.c:262
-#, fuzzy, c-format
+#, c-format
 msgid "Still %d transactions to link with a reconciliation."
-msgstr "Mover la transacción a otra cuenta"
+msgstr "Faltan %d transacciones por relacionar con una reconciliación."
 
 #. set up the menu
 #: src/gsb_assistant_reconcile_config.c:281
-#, fuzzy
 msgid "Choose the next operation to do :"
-msgstr "Elegir el método de pago"
+msgstr "Elija la siguiente operación a realizar :"
 
 #: src/gsb_assistant_reconcile_config.c:290
-#, fuzzy
 msgid "Manually create a new reconciliation"
-msgstr "Comenzar la reconciliación de la cuenta"
+msgstr "Crear una nueva reconciliación de forma manual"
 
 #: src/gsb_assistant_reconcile_config.c:301
 msgid ""
@@ -3919,6 +3925,9 @@ msgid ""
 "reconciliation.\n"
 "\tYou can create all the previous needed reconciliations here."
 msgstr ""
+"\tTras un largo uso, algunas transacciones pueden estar antes que la primera "
+"reconciliación conocida.\n"
+"\tPuede crear todas las reconciliaciones previas necesarias aquí."
 
 #: src/gsb_assistant_reconcile_config.c:311
 msgid ""
@@ -3976,15 +3985,12 @@ msgstr "Lanzar asociación automática"
 
 #. now we can show the list of orphans transactions
 #: src/gsb_assistant_reconcile_config.c:652
-#, fuzzy
 msgid "Select the transaction(s) you want to associate with a reconciliation :"
-msgstr ""
-"Encuentra las transacciones marcadas que no estén asociadas a un número de "
-"reconciliación"
+msgstr "Seleccione la(s) transacción(es) que quiere asociar con una reconciliación :"
 
 #: src/gsb_assistant_reconcile_config.c:715
 msgid "Link the selection to a reconcile..."
-msgstr "Relacionar la selección con una reconciliación"
+msgstr "Relacionar la selección con una reconciliación..."
 
 #: src/gsb_assistant_reconcile_config.c:744
 msgid ""
@@ -3995,6 +4001,12 @@ msgid ""
 "any way now\n"
 "\tto have some transactions without reconciliation number."
 msgstr ""
+"¡ Enhorabuena !\n"
+"\n"
+"Ha relacionado todas las transacciones sin reconciliar.\n"
+"Normalmente noserá necesario que vuelva a este asistente ; Ahora no debería "
+"haber ninguna forma\n"
+"\tde tener transacciones sin número de reconciliación."
 
 #: src/gsb_assistant_reconcile_config.c:804
 msgid ""
@@ -4003,17 +4015,14 @@ msgid ""
 msgstr "<span foreground=\"red\">La fecha inicial no es correcta, por favor compruébela</span>"
 
 #: src/gsb_assistant_reconcile_config.c:812
-#, fuzzy
 msgid ""
 "<span foreground=\"red\">The final date is not valid, please check it</span>"
-msgstr "<span foreground=\"red\">Atención : Fecha no válida</span>"
+msgstr ""
+"<span foreground=\"red\">La fecha de finalización no es válida, por favor, compruébela</span>"
 
 #: src/gsb_assistant_reconcile_config.c:821
-#, fuzzy
 msgid "<span foreground=\"red\">Please give a name to the new reconcile</span>"
-msgstr ""
-"<span foreground=\"red\">Advertencia : las dos tasas monetarias del enlace "
-"son idénticas</span>"
+msgstr "<span foreground=\"red\">Por favor dele un nombre a la nueva reconciliación</span>"
 
 #: src/gsb_assistant_reconcile_config.c:830
 msgid ""
@@ -4035,7 +4044,7 @@ msgstr ""
 msgid ""
 "<span foreground=\"blue\">Reconciliation %s successfully appended !</span>"
 msgstr ""
-"<span foreground=\"red\">Atención : Ese enlace ya ha sido definido</span>"
+"<span foreground=\"blue\">¡ La reconciliación %s ha sido añadida con éxito !</span>"
 
 #. update the string containing the number of transactions to link
 #. update the labels
