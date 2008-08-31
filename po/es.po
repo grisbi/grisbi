@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-06-29 12:04-0400\n"
-"PO-Revision-Date: 2008-08-31 13:53+0200\n"
+"PO-Revision-Date: 2008-08-31 14:40+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -10968,7 +10968,7 @@ msgstr "Buscar la transacción "
 
 #: src/import.c:2790
 msgid "days around the date in the imported transaction."
-msgstr "días alrededor de la fecha en la transacción importada."
+msgstr " días alrededor de la fecha en la transacción importada."
 
 #: src/import_csv.c:76
 msgid "Unknown field"
