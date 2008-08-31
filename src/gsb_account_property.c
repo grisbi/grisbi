@@ -52,11 +52,11 @@
 #include "./gsb_scheduler_list.h"
 #include "./main.h"
 #include "./utils.h"
+#include "./tiers_onglet.h"
 #include "./dialog.h"
 #include "./etats_config.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
-#include "./tiers_onglet.h"
 #include "./transaction_list.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
@@ -596,7 +596,7 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
 	    /* Replace trees contents. */
 	    remplit_arbre_categ ();
 	    remplit_arbre_imputation ();
-	    remplit_arbre_tiers ();
+	    payee_fill_tree ();
 	    break;
 
 	case PROPERTY_KIND:

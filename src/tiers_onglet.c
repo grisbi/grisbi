@@ -51,6 +51,7 @@
 #include "./metatree.h"
 #include "./gsb_data_form.h"
 #include "./include.h"
+#include "./erreur.h"
 #include "./structures.h"
 /*END_INCLUDE*/
 
@@ -332,16 +333,19 @@ gboolean popup_payee_view_mode_menu ( GtkWidget * button )
 
 
 
-/* **************************************************************************************************** */
-/* Fonction remplit_arbre_tiers */
-/* prend en argument le clist arbre_tiers, */
-/* le vide et le remplit */
-/* **************************************************************************************************** */
-
-void remplit_arbre_tiers ( void )
+/**
+ * fill the payee tree
+ *
+ * \param
+ *
+ * \return
+ * */
+void payee_fill_tree ( void )
 {
     GSList *payee_list_tmp;
     GtkTreeIter iter_payee;
+
+    devel_debug (NULL);
 
     /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (payee_tree_model) );
@@ -350,7 +354,6 @@ void remplit_arbre_tiers ( void )
     gsb_data_payee_update_counters ();
 
     /** Then, populate tree with payee. */
-
     payee_list_tmp = gsb_data_payee_get_payees_list ();
     payee_list_tmp = g_slist_prepend ( payee_list_tmp, gsb_data_payee_get_empty_payee ());
 
@@ -417,6 +420,9 @@ gboolean edit_payee ( GtkTreeView * view )
     gint no_division = -1;
     gint payee_number = 0;
     gchar * title;
+    GtkTreeIter *div_iter;
+
+    devel_debug (NULL);
 
     selection = gtk_tree_view_get_selection ( view );
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -495,7 +501,7 @@ gboolean edit_payee ( GtkTreeView * view )
 						 FALSE ) == payee_number )
 	{
 	    gsb_data_payee_set_name ( payee_number,
-				  gtk_entry_get_text ( GTK_ENTRY (entry_name)));
+				      gtk_entry_get_text ( GTK_ENTRY (entry_name)));
 	    break;
 	}
 	else
@@ -517,8 +523,10 @@ gboolean edit_payee ( GtkTreeView * view )
 
     gtk_widget_destroy ( dialog );
 
+    div_iter = get_iter_from_div ( model, payee_number, 0 );
     fill_division_row ( model, payee_interface,
-			get_iter_from_div ( model, payee_number, -1 ), payee_number );
+			div_iter, payee_number );
+    gtk_tree_iter_free (div_iter);
 
     /* update the transactions list */
     transaction_list_update_element (ELEMENT_PARTY);

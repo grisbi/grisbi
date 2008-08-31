@@ -45,9 +45,9 @@
 #include "./main.h"
 #include "./accueil.h"
 #include "./traitement_variables.h"
+#include "./tiers_onglet.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
-#include "./tiers_onglet.h"
 #include "./transaction_list_select.h"
 #include "./transaction_list_sort.h"
 #include "./utils_files.h"
@@ -1227,7 +1227,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 					   FALSE );
 	    if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (payee_tree_model), 
 						   &dummy_iter ) )
-		remplit_arbre_tiers ();
+		payee_fill_tree ();
 	    break;
 
 #ifdef ENABLE_BALANCE_ESTIMATE 

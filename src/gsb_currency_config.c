@@ -39,9 +39,9 @@
 #include "./main.h"
 #include "./traitement_variables.h"
 #include "./utils.h"
+#include "./tiers_onglet.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
-#include "./tiers_onglet.h"
 #include "./utils_str.h"
 #include "./structures.h"
 #include "./utils_files.h"
@@ -788,7 +788,7 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
     gtk_table_attach ( GTK_TABLE ( table ), label, 
 		       0, 1, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     combo_box = gsb_currency_config_new_combobox ( &no_devise_totaux_tiers, 
-					       remplit_arbre_tiers );
+						   payee_fill_tree );
     gtk_table_attach ( GTK_TABLE ( table ), combo_box,
 		       1, 2, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 

@@ -3,8 +3,8 @@
 /* Programme de gestion financière personnelle                                   */
 /*           	  license : GPL                                                  */
 /*                                                                               */
-/*     Copyright (C)    2000-2007 Cédric Auger (cedric@grisbi.org)               */
-/*                      2003-2007 Benjamin Drieu (bdrieu@april.org)              */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
+/*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
 /*                      http://www.grisbi.org                                    */
 /*      Version : 0.6.0                                                          */
 /*                                                                               */
@@ -34,9 +34,6 @@
 #endif
 
 
-/* Fichier de base contenant la procédure main */
-
-
 #include "include.h"
 
 /*START_INCLUDE*/
@@ -64,8 +61,8 @@
 static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
 					  GdkEventWindowState *event,
 					  gpointer null );
-static  gboolean main_window_delete_event (GtkWidget *window, gpointer data);;
-static  void main_window_destroy_event( GObject* obj, gpointer data);;
+static  gboolean main_window_delete_event (GtkWidget *window, gpointer data);
+static  void main_window_destroy_event( GObject* obj, gpointer data);
 /*END_STATIC*/
 
 
@@ -77,14 +74,13 @@ GtkWidget *window = NULL;
 GtkWidget *window_vbox_principale = NULL;
 GtkTooltips *tooltips_general_grisbi;
 
+
 /*START_EXTERN*/
 extern gint hauteur_window;
 extern gint largeur_window;
 extern gchar *nom_fichier_comptes ;
 /*END_EXTERN*/
 
-static void main_window_destroy_event( GObject* obj, gpointer data);
-static gboolean main_window_delete_event (GtkWidget *window, gpointer data);
 
 /**                                                                              
  * Main function

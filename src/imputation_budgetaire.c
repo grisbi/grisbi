@@ -609,6 +609,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     GtkTreeIter iter;
     gint budget_number = -1, sub_budget_number = -1;
     gchar * title;
+    GtkTreeIter *div_iter;
 
     selection = gtk_tree_view_get_selection ( view );
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
@@ -747,17 +748,20 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 
     if ( sub_budget_number > 0 )
     {
+	div_iter = get_iter_from_div ( model, budget_number, sub_budget_number );
 	fill_sub_division_row ( model, budgetary_interface,
-				get_iter_from_div ( model, budget_number, sub_budget_number ), 
+				div_iter, 
 				budget_number,
 				sub_budget_number);
     }
     else
     {
+	div_iter = get_iter_from_div ( model, budget_number, 0 );
 	fill_division_row ( model, budgetary_interface,
-			    get_iter_from_div ( model, budget_number, -1 ),
+			    div_iter,
 			    budget_number );
     }
+    gtk_tree_iter_free (div_iter);
 
     /* update the transactions list */
     gsb_transactions_list_update_transaction (ELEMENT_BUDGET);

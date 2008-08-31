@@ -10,6 +10,6 @@ gint classement_alphabetique_tree ( GtkWidget *tree,
 				    GtkCListRow *ligne_2 );
 gboolean gsb_payee_update_combofix ( void );
 GtkWidget *onglet_tiers ( void );
-void remplit_arbre_tiers ( void );
+void payee_fill_tree ( void );
 /* END_DECLARATION */
 #endif

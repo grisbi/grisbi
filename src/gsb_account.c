@@ -38,10 +38,10 @@
 #include "./gsb_scheduler_list.h"
 #include "./main.h"
 #include "./traitement_variables.h"
+#include "./tiers_onglet.h"
 #include "./etats_config.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
-#include "./tiers_onglet.h"
 #include "./fenetre_principale.h"
 #include "./gsb_form_scheduler.h"
 #include "./include.h"
@@ -242,7 +242,7 @@ gboolean gsb_account_delete ( void )
 
     remplit_arbre_categ ();
     remplit_arbre_imputation ();
-    remplit_arbre_tiers ();
+    payee_fill_tree ();
 
     /* update the name of accounts in form */
     gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),

@@ -571,6 +571,7 @@ gboolean edit_category ( GtkTreeView * view )
     GtkTreeModel * model;
     GtkTreeIter iter;
     gchar * title;
+    GtkTreeIter *div_iter;
 
     /* fill category_number and sub_category_number */
 
@@ -705,17 +706,20 @@ gboolean edit_category ( GtkTreeView * view )
 
     if ( sub_category_number > 0 )
     {
+	div_iter = get_iter_from_div ( model, category_number, sub_category_number );
 	fill_sub_division_row ( model, category_interface,
-				get_iter_from_div ( model, category_number, sub_category_number ), 
+				div_iter, 
 				category_number,
 				sub_category_number);
     }
     else
     {
+	div_iter = get_iter_from_div ( model, category_number, 0 );
 	fill_division_row ( model, category_interface,
-			    get_iter_from_div ( model, category_number, -1 ),
+			    div_iter,
 			    category_number );
     }
+    gtk_tree_iter_free (div_iter);
 
     /* update the transactions list */
     transaction_list_update_element (ELEMENT_CATEGORY);

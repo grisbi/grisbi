@@ -35,6 +35,7 @@
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
+extern gchar *crypt_key;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 
@@ -44,9 +45,6 @@ extern GtkWidget *window ;
 #endif
 
 
-
-/* filled when we ask to keep the password in memory */
-gchar *crypt_key;
 
 
 

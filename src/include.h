@@ -32,6 +32,9 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
+#ifndef NOSSL
+#  include <openssl/des.h>
+#endif
 
 /* Define gettext functions */
 #ifdef ENABLE_NLS
