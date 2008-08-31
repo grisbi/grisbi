@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-06-29 12:04-0400\n"
-"PO-Revision-Date: 2008-03-21 21:00+0100\n"
+"PO-Revision-Date: 2008-08-31 13:14+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:195
 msgid "Closed liabilities accounts"
@@ -254,7 +254,7 @@ msgstr ""
 
 #: src/affichage_liste.c:286
 msgid "Show the content of the transaction in the form when it's selected."
-msgstr ""
+msgstr "Mostrar el contenido de la transacción en el formulario cuando es seleccionado."
 
 #: src/affichage_liste.c:294
 msgid "Sort transaction list"
@@ -376,13 +376,15 @@ msgstr ""
 #. ***** Parameter page *****
 #: src/balance_estimate_tab.c:148
 msgid "Estimate parameters"
-msgstr ""
+msgstr "Estimar parámetros"
 
 #: src/balance_estimate_tab.c:165
 msgid ""
 "Please select an account and a duration\n"
 "and select the estimate array tab."
 msgstr ""
+"Por favor seleccione una cuenta y una duración\n"
+"y seleccione la pestaña de tabla de estimaciones."
 
 #. set the choice of account
 #: src/balance_estimate_tab.c:196 src/categories_onglet.c:153
@@ -428,7 +430,7 @@ msgstr "Crédito"
 
 #: src/balance_estimate_tab.c:326
 msgid "Average"
-msgstr ""
+msgstr "Promedio"
 
 #. New transaction
 #: src/barre_outils.c:85 src/gsb_transactions_list.c:3539
@@ -890,7 +892,7 @@ msgstr ""
 #: src/dialog.c:92
 #, c-format
 msgid "You are running Grisbi version %s"
-msgstr ""
+msgstr "Está usando la versión de Grisbi %s"
 
 #: src/dialog.c:93
 msgid ""
@@ -1482,7 +1484,7 @@ msgstr "Organización de los datos"
 
 #: src/etats_config.c:547 src/etats_config.c:552
 msgid "Data grouping"
-msgstr ""
+msgstr "Agroupación de datos"
 
 #: src/etats_config.c:557 src/etats_config.c:562
 #, fuzzy
@@ -2021,7 +2023,7 @@ msgstr "Año"
 
 #: src/etats_config.c:6071
 msgid "Begining of week"
-msgstr ""
+msgstr "Comienzo de la semana"
 
 #: src/etats_config.c:6086
 msgid "day"
@@ -2053,7 +2055,7 @@ msgstr "Mostrar transacciones"
 #. demande les dÃ©tails affichÃ©s dans les opÃ©rations
 #: src/etats_config.c:6300
 msgid "Include following informations"
-msgstr ""
+msgstr "Incluir las siguientes informaciones"
 
 #: src/etats_config.c:6310 src/etats_config.c:6426
 msgid "transaction number"
@@ -3289,11 +3291,11 @@ msgstr "Automático"
 
 #: src/gsb_archive_config.c:245
 msgid "Check at opening if creating archive is needed."
-msgstr ""
+msgstr "Comprobar al inicio si es necesario crear un fichero."
 
 #: src/gsb_archive_config.c:259
 msgid "Warn if more than "
-msgstr ""
+msgstr "Avisar si es más de "
 
 #: src/gsb_archive_config.c:272
 #, fuzzy
@@ -3352,6 +3354,8 @@ msgid ""
 "Bank account\n"
 "Standard account with credit card and cheques."
 msgstr ""
+"Cuenta bancaria\n"
+"Cuenta estándar con tarjetas de crédito y cheques."
 
 #: src/gsb_assistant_account.c:148
 msgid ""
@@ -3485,7 +3489,7 @@ msgstr "Archivar algunas transacciones ?"
 #. set up the menu
 #: src/gsb_assistant_archive.c:203
 msgid "Please select a way to select transactions for this archive"
-msgstr ""
+msgstr "Por favor elija una forma para seleccionar las transacciones para este fichero"
 
 #. archive by date
 #: src/gsb_assistant_archive.c:211
@@ -3495,7 +3499,7 @@ msgstr "por fecha"
 
 #: src/gsb_assistant_archive.c:221
 msgid "Grisbi will archive all transactions between initial and final dates."
-msgstr ""
+msgstr "Grisbi archivará todas las transacciones entre las fechas inicial y final."
 
 #: src/gsb_assistant_archive.c:277
 #, fuzzy
@@ -3504,7 +3508,7 @@ msgstr "Dividir por año financiero"
 
 #: src/gsb_assistant_archive.c:287
 msgid "Grisbi will archive all transactions belonging to a financial year."
-msgstr ""
+msgstr "Grisbi archivará todas las transacciones que pertenezcan a un año financiero."
 
 #: src/gsb_assistant_archive.c:305
 #, fuzzy
@@ -3518,7 +3522,7 @@ msgstr "Borrar el informe"
 
 #: src/gsb_assistant_archive.c:336
 msgid "Grisbi will archive transactions selected by a report."
-msgstr ""
+msgstr "Grisbi archivará todas las transacciones seleccionadas por un informe."
 
 #: src/gsb_assistant_archive.c:354 src/gsb_data_payee.c:519
 #: src/gsb_form.c:2500 src/gsb_form.c:2501 src/navigation.c:1311
@@ -3528,7 +3532,7 @@ msgstr "Informe"
 #. set up the menu
 #: src/gsb_assistant_archive.c:411
 msgid "Please choose a name for archive"
-msgstr ""
+msgstr "Por favor, elija un nombre para el fichero"
 
 #: src/gsb_assistant_archive.c:482 src/import.c:710
 msgid "Congratulations !"
@@ -3571,7 +3575,7 @@ msgstr "el año financiero"
 #: src/gsb_assistant_archive.c:629
 #, c-format
 msgid "Archive of report %s"
-msgstr ""
+msgstr "Fichero de informe %s"
 
 #. set the message
 #: src/gsb_assistant_archive.c:733
@@ -3673,7 +3677,7 @@ msgstr "Seleccionar las cuentas para exportar"
 
 #: src/gsb_assistant_archive_export.c:305
 msgid "Grisbi (GSB) format"
-msgstr ""
+msgstr "Formtao Grisbi (GSB)"
 
 #. if we come here, an archive must have been selected,
 #. * so needn't to check
@@ -3716,7 +3720,7 @@ msgstr ""
 
 #: src/gsb_assistant_file.c:119
 msgid "New file Assistant"
-msgstr ""
+msgstr "Asistente de nuevo fichero"
 
 #: src/gsb_assistant_file.c:120
 msgid ""
@@ -3736,7 +3740,7 @@ msgstr "Generalidades"
 
 #: src/gsb_assistant_file.c:246
 msgid "Titles and filenames"
-msgstr ""
+msgstr "Títulos y nombres de fichero"
 
 #: src/gsb_assistant_file.c:278
 #, fuzzy
@@ -3786,7 +3790,7 @@ msgstr "Crear una cuenta nueva"
 
 #: src/gsb_assistant_file.c:465
 msgid "Import data from online bank services or from accounting software"
-msgstr ""
+msgstr "Importar datos de un servicio de banca online o de un programa de contabilidad"
 
 #. create the assistant
 #: src/gsb_assistant_first.c:75
@@ -3827,7 +3831,7 @@ msgstr ""
 
 #: src/gsb_assistant_first.c:180
 msgid "General configuration of Grisbi"
-msgstr ""
+msgstr "Configuración general de Grisbi"
 
 #. configure the browser
 #: src/gsb_assistant_first.c:187 src/gsb_assistant_first.c:194
@@ -3867,11 +3871,11 @@ msgstr "Archivo de la copia de seguridad"
 
 #: src/gsb_assistant_first.c:249 src/parametres.c:734
 msgid "Select/Create backup directory"
-msgstr ""
+msgstr "Seleccionar/Crear un directorio de copias de seguridad"
 
 #: src/gsb_assistant_reconcile_config.c:166
 msgid "No marked transactions without reconciliation found !"
-msgstr ""
+msgstr "¡ No se han encontrado transacciones sin reconciliaciones !"
 
 #. come here if we have some orphan transactions
 #. * this can happen by 2 ways :
@@ -3981,7 +3985,7 @@ msgstr ""
 
 #: src/gsb_assistant_reconcile_config.c:591
 msgid "Launch automatic association"
-msgstr ""
+msgstr "Lanzar asociación automática"
 
 #. now we can show the list of orphans transactions
 #: src/gsb_assistant_reconcile_config.c:652
@@ -11809,7 +11813,7 @@ msgstr "El archivo ha devuelto un mensaje de aviso que no es válido."
 
 #: src/plugins/ofx/ofx.c:223
 msgid "OFX processing returned following error message:\n"
-msgstr ""
+msgstr "El procesado OFX devolvió el siguiente mensaje de error:\n"
 
 #: src/plugins/ofx/ofx.c:229
 #, fuzzy
