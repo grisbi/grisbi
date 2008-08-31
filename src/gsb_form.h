@@ -21,6 +21,9 @@ enum origin_values {
 
 
 /* START_DECLARATION */
+gboolean gsb_form_allocate_size ( GtkWidget *table,
+				  GtkAllocation *allocation,
+				  gpointer null );
 gboolean gsb_form_button_press_event ( GtkWidget *entry,
 				       GdkEventButton *ev,
 				       gint *ptr_origin );

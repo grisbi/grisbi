@@ -80,9 +80,6 @@
 /*START_STATIC*/
 static gboolean gsb_form_activate_expander ( GtkWidget *expander,
 				      gpointer null );
-static gboolean gsb_form_allocate_size ( GtkWidget *table,
-				  GtkAllocation *allocation,
-				  gpointer null );
 static void gsb_form_check_auto_separator ( GtkWidget *entry );
 static gint gsb_form_check_for_transfer ( const gchar *entry_string );
 static gboolean gsb_form_get_categories ( gint transaction_number,
@@ -115,7 +112,7 @@ static GtkWidget *form_expander = NULL;
  * for transactions
  * the buttons valid/cancel */
 static GtkWidget *form_scheduled_part;
-static GtkWidget *form_transaction_part;
+GtkWidget *form_transaction_part;
 static GtkWidget *form_button_part;
 
 /** when the automatic complete transaction is done
@@ -130,6 +127,9 @@ static GtkWidget *form_button_cancel;
 
 /** THE form */
 static GtkWidget *transaction_form;
+
+/** to avoid recursive allocate size */
+gint saved_allocation_size;
 
 
 /**
@@ -253,7 +253,7 @@ void gsb_form_create_widgets ()
 					  SCHEDULED_WIDTH,
 					  FALSE );
     g_signal_connect ( G_OBJECT (form_scheduled_part ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &form_scheduled_part );
+		       G_CALLBACK ( gtk_widget_destroyed), &form_scheduled_part );
     gtk_table_set_col_spacings ( GTK_TABLE (form_scheduled_part),
 				 6 );
     gtk_box_pack_start ( GTK_BOX (transaction_form),
@@ -273,7 +273,7 @@ void gsb_form_create_widgets ()
      * so set to 1x1 for now, it will change when we show it */
     form_transaction_part = gtk_table_new ( 1, 1, FALSE );
     g_signal_connect ( G_OBJECT (form_transaction_part ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &form_transaction_part );
+		       G_CALLBACK ( gtk_widget_destroyed), &form_transaction_part );
     gtk_table_set_col_spacings ( GTK_TABLE (form_transaction_part), 6 );
     g_signal_connect ( G_OBJECT (form_transaction_part),
 		       "size-allocate",
@@ -1469,7 +1469,6 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
     account_number = gsb_form_get_account_number ();
 
     /* sometimes the combofix popus stays showed, so remove here */
-
     if ( element_number == TRANSACTION_FORM_PARTY
 	 ||
 	 element_number == TRANSACTION_FORM_CATEGORY
@@ -1636,7 +1635,6 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
     }
 
     /* if string is not NULL, the entry is empty so set the empty field to TRUE */
-
     if ( string )
     {
 	switch ( element_number)
@@ -2981,6 +2979,13 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
     if ( account_number == -2 )
 	return FALSE;
 
+    if (saved_allocation_size == allocation -> width)
+    {
+	saved_allocation_size = 0;
+	return FALSE;
+    }
+    saved_allocation_size = allocation -> width;
+
     /* set the size for all columns - 1 to avoid recursive call to that function,
      * so the last column size is set to be beautiful, but in fact, it's just the extra-space */
     for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) - 1 ; row++ )
@@ -3030,7 +3035,7 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
 		    width_percent = 12;
 		    break;
 	    }
-	    if (widget)
+	    if (widget && GTK_IS_WIDGET (widget))
 		gtk_widget_set_usize ( widget,
 				       width_percent * allocation -> width / 100,
 				       FALSE );

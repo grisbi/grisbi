@@ -39,11 +39,11 @@
 #include "./gsb_file.h"
 #include "./gsb_file_others.h"
 #include "./gsb_form_widget.h"
-#include "./gsb_transactions_list.h"
 #include "./gtk_combofix.h"
 #include "./main.h"
 #include "./utils.h"
 #include "./utils_buttons.h"
+#include "./transaction_list.h"
 #include "./gsb_transactions_list.h"
 #include "./utils_file_selection.h"
 #include "./gtk_combofix.h"
@@ -764,7 +764,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     gtk_tree_iter_free (div_iter);
 
     /* update the transactions list */
-    gsb_transactions_list_update_transaction (ELEMENT_BUDGET);
+    transaction_list_update_element (ELEMENT_BUDGET);
 
     return TRUE;
 }

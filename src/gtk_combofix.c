@@ -1,7 +1,7 @@
 /* ComboFix Widget
  *
- *     Copyright (C)	2001-2006 Cédric Auger (cedric@grisbi.org) 
- *			2003-2006 Benjamin Drieu (bdrieu@april.org) 
+ *     Copyright (C)	2001-2008 Cédric Auger (cedric@grisbi.org) 
+ *			2003-2008 Benjamin Drieu (bdrieu@april.org) 
  * 			http://www.grisbi.org
  *
  * This library is free software; you can redistribute it and/or
@@ -49,6 +49,9 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
 						 const gchar *string );
 static gboolean gtk_combofix_set_all_visible_rows ( GtkComboFix *combofix );
 static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix );
+static gboolean gtk_combofix_button_release_event ( GtkWidget *popup,
+						    GdkEventKey *ev,
+						    GtkComboFix *combofix );
 static gboolean gtk_combofix_button_press ( GtkWidget *popup,
 					    GdkEventButton *ev,
 					    GtkComboFix *combofix );
@@ -589,6 +592,10 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
 		       "button-press-event",
 		       G_CALLBACK ( gtk_combofix_button_press ),
 		       combofix );
+    g_signal_connect ( G_OBJECT ( combofix->popup ),
+		       "button-release-event",
+		       G_CALLBACK ( gtk_combofix_button_release_event ),
+		       combofix );
 
     frame = gtk_frame_new ( NULL );
     gtk_container_add ( GTK_CONTAINER ( combofix -> popup ),
@@ -885,7 +892,6 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
     }
     else
 	gtk_combofix_hide_popup (combofix);
-
     return TRUE;
 }
 
@@ -1483,6 +1489,33 @@ static gboolean gtk_combofix_button_press_event ( GtkWidget *tree_view,
     }
 
     return FALSE;
+}
+
+
+/**
+ * this function is very important, called when the popup
+ * gets the release event. without that, when click outside,
+ * move the mouse on the combofix will select some string with clicking anything
+ *
+ * to avoid that we need to propagate the signal release-event to the entry of the combofix
+ *
+ * \param popup
+ * \param ev
+ * \param combofix
+ *
+ * \return the returned value of the release event signal propagated
+ * */
+static gboolean gtk_combofix_button_release_event ( GtkWidget *popup,
+						    GdkEventKey *ev,
+						    GtkComboFix *combofix )
+{
+    gboolean return_val;
+
+    g_signal_emit_by_name (combofix -> entry,
+			   "button-release-event",
+			   ev,
+			   &return_val);
+    return return_val;
 }
 
 

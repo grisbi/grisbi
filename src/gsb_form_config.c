@@ -79,7 +79,9 @@ static gboolean gsb_form_config_update_form_config ( gint account_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GtkWidget *form_transaction_part;
 extern gint max;
+extern gint saved_allocation_size;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window ;
 /*END_EXTERN*/
@@ -936,31 +938,40 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
 {
     gint column;
     gint account_number;
+    gint i;
 
     if ( !GTK_WIDGET_REALIZED (tree_view))
 	return FALSE;
 
     account_number = gsb_account_get_combo_account_number ( accounts_combobox );
 
-    for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
+    for (i=0 ; i<gsb_data_account_get_accounts_amount () ; i++)
     {
-	gint size_column;
+	if (!etat.formulaire_distinct_par_compte
+	    ||
+	    i == account_number)
+	    for ( column=0 ; column < gsb_data_form_get_nb_columns (i) ; column++ )
+	    {
+		gint size_column;
 
-	size_column = gtk_tree_view_column_get_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
-										  column ));
-	gsb_data_form_set_width_column ( account_number,
-					 column,
-					 size_column * 100 / allocation -> width );
+		size_column = gtk_tree_view_column_get_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
+											  column ));
+		gsb_data_form_set_width_column ( i,
+						 column,
+						 size_column * 100 / allocation -> width );
+	    }
     }
 
     modification_fichier ( TRUE );
 
     /* update the form if needed */
-
-/*     if ( !etat.formulaire_distinct_par_compte */
-/* 	 || */
-/* 	 gsb_account_get_combo_account_number ( accounts_combobox ) == gsb_gui_navigation_get_current_account ()) */
-/* 	mise_a_jour_taille_formulaire ( transaction_form -> allocation.width ); */
+    if ( !etat.formulaire_distinct_par_compte
+	 ||
+	 gsb_account_get_combo_account_number ( accounts_combobox ) == gsb_gui_navigation_get_current_account ())
+    {
+	saved_allocation_size = 0;
+	gsb_form_allocate_size ( NULL, &(form_transaction_part -> allocation), NULL );
+    }
 
     return FALSE;
 }

@@ -587,7 +587,7 @@ gboolean gsb_form_scheduler_clean ( void )
     gint column;
     GtkWidget *widget;
 
-    devel_debug ("gsb_form_scheduler_clean");
+    devel_debug (NULL);
 
     /* set to NULL the execute flag */
     g_object_set_data ( G_OBJECT (gsb_form_get_form_widget ()),

@@ -1159,10 +1159,6 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     return vbox;
 }
 /* xxx les états doivent bosser sur toutes les opés, même non archivées, par contre si clique sur opé archivée, il faut désarchiver avant */
-/* xxx ICI qd modifie un tiers sur la liste des tiers, ça marche pas + warnings, vérifier pour categ et ib,
- * réglé pour tiers et categ, aussi réglé pour ib mais à vérifier car autre bug : pour mettre les ib,
- * ajouter ligne au form, ça fait des erreurs usize, et ajouter budget, puis déplacer et là boucle sans fin sur les usize
- * (le form était montré) */
 
 /**
  *
