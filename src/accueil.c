@@ -725,7 +725,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 	pLabel = gtk_label_new (_("Current balance"));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 2, 4, 0, 1 );
+	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 2, 3, 0, 1 );
 	gtk_widget_show ( pLabel );
 
 	/* Affichage des comptes et de leur solde */
