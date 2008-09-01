@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-06-29 12:04-0400\n"
-"PO-Revision-Date: 2008-08-31 23:27+0200\n"
+"PO-Revision-Date: 2008-09-01 23:54+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3480,6 +3480,13 @@ msgid ""
 "\n"
 "You can still export them into a separate archive file if necessary.\n"
 msgstr ""
+"Este asistente le guiará durante el proceso de archivado de transacciones "
+"para incrementar la velocidad de Grisbi.\n"
+"\n"
+"Por defecto, Grisbi no exporta ningún archivo en ficheros separados, tan sólo"
+"marca las transacciones como archivadas y no las tiene en cuenta.\n"
+"\n"
+"Una vez archivadas podrá aun exportarlas en un fichero de archivo separado si fuera necesario.\n"
 
 #. create the assistant
 #: src/gsb_assistant_archive.c:142
@@ -3543,6 +3550,12 @@ msgid ""
 "Press the 'Previous' button to create another archive of 'Close' to exit "
 "this assistant."
 msgstr ""
+"En caso de que Grisbi siga funcionando de forma lenta tras crear los archivos, recuerde que "
+"puede configurarlo para no cargar las transacciones marcadas (R) al comienzo, para "
+"aumentar la velocidad.\n"
+"\n"
+"Pulse el botón 'Anterior' para crear otro archivo o 'Cerrar' para salir "
+"del asistente."
 
 #: src/gsb_assistant_archive.c:526
 msgid "Failed !"
@@ -3556,6 +3569,11 @@ msgid ""
 "\n"
 "Press the Previous button to try again or cancel this process."
 msgstr ""
+"Ha ocurrido un error mientras se creaba el archivo...\n"
+"Lo más probable es que usted esté intentando crear un archivo vacío que "
+"Grisbi Cobardemente se niega a crear.\n"
+"\n"
+"Pulse el botón 'Anterior' para intentarlo de nuevo o para cancelar este proceso."
 
 #: src/gsb_assistant_archive.c:614
 #, c-format
@@ -4040,11 +4058,11 @@ msgstr ""
 "<span foreground=\"red\">No puedo reservar memoria, algo terrible va a ocurrir.</span>"
 
 #: src/gsb_assistant_reconcile_config.c:868
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<span foreground=\"blue\">Reconciliation %s successfully appended !</span>"
 msgstr ""
-"<span foreground=\"blue\">¡ La reconciliación %s ha sido añadida con éxito !</span>"
+"<span foreground=\"blue\">¡ La reconciliación %s ha sido añadida !</span>"
 
 #. update the string containing the number of transactions to link
 #. update the labels
@@ -4077,21 +4095,18 @@ msgstr ""
 "Compruebe si creó todas las reconciliaciones necesarias."
 
 #: src/gsb_assistant_reconcile_config.c:1191
-#, fuzzy
 msgid "All the selected transactions have to belong to the same account !"
-msgstr "Seleccionar las transacciones de acuerdo con el texto"
+msgstr "¡ Todas las transacciones seleccionadas tienen que pertenecer a la misma cuenta !"
 
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
 #: src/gsb_assistant_reconcile_config.c:1212
-#, fuzzy
 msgid "Selection of a reconciliation"
-msgstr "Lista de reconciliaciones"
+msgstr "Selección de una reconciliación"
 
 #: src/gsb_assistant_reconcile_config.c:1221
-#, fuzzy
 msgid "Select the reconciliation to associate to the selected transactions :"
-msgstr "Las transacciones no reconciliadas ni comprobadas"
+msgstr "Elija la reconciliación para asociar con las transacciones seleccionadas :"
 
 #: src/gsb_assistant_reconcile_config.c:1327
 msgid "No selection found, the transactions are not modified."
@@ -8928,9 +8943,8 @@ msgid "Add a currency"
 msgstr "Añadir una moneda"
 
 #: src/gsb_currency_config.c:900
-#, fuzzy
 msgid "Select base currency for your account"
-msgstr "Seleccionar las cuentas bancarias"
+msgstr "Seleccione la moneda para su cuenta"
 
 #: src/gsb_currency_config.c:909
 msgid "World currencies"
@@ -8951,12 +8965,11 @@ msgid "Currency sign"
 msgstr "Símbolo de la moneda"
 
 #: src/gsb_currency_config.c:1023
-#, fuzzy
 msgid ""
 "Currency name and either international currency code or currency nickname "
 "should be set."
 msgstr ""
-"Los nombres de moneda y los códigos de moneda ISO4217 o los apodos de las "
+"Los nombres de moneda y o bien  los códigos de moneda o bien los apodos de las "
 "monedas deben ser configurados."
 
 #: src/gsb_currency_config.c:1024
@@ -9137,23 +9150,20 @@ msgid "Error loading file '%s'"
 msgstr "Error abriendo el archivo '%s'"
 
 #: src/gsb_file.c:395
-#, fuzzy
 msgid ""
 "Grisbi was unable to load file.  However, Grisbi loaded a backup file "
 "instead but all changes made since this backup were possibly lost."
 msgstr ""
-"Grisbi no pudo cargar el fichero.  Sin embargo, Grisgi cargará una copia de "
-"seguridad.\n"
-"No obstante, todos los cambios hechos desde que se hizo esta copia de "
-"seguridad han sido posiblemente perdidos."
+"Grisbi no pudo cargar el fichero.  Sin embargo, Grisgi cargó una copia de "
+"seguridad, no obstante, es posible que todos los cambios hechos desde que se hizo esta copia de "
+"seguridad hayan sido perdidos."
 
 #: src/gsb_file.c:404
-#, fuzzy
 msgid ""
 "Grisbi was unable to load file.  Additionally, Grisbi was unable to load a "
 "backup file instead."
 msgstr ""
-"Grisbi no pudo cargar el archivo.  Además, Grisbi tampoco pudo cargar una "
+"Grisbi no pudo cargar el archivo.  Por si fuera poco, Grisbi tampoco pudo cargar una "
 "copia de seguridad."
 
 #. ok, here the file or backup is loaded
@@ -9176,14 +9186,13 @@ msgid "Creating interface"
 msgstr "Creando la interfaz"
 
 #: src/gsb_file.c:569
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
 "with another name or activate the \"%s\" option in preferences."
 msgstr ""
-"Grisbi no pudo guardar este archivo porque está bloqueado.  Por favor "
-"guárdelo con otro nombre o active la opción \"%s\" en la configuración.  "
-"Además, eligala opción \"%s\" debajo."
+"Grisbi no pudo guardar este fichero porque está bloqueado.  Por favor "
+"guárdelo con otro nombre o active la opción \"%s\" en la configuración."
 
 #: src/gsb_file.c:570 src/gsb_file.c:706 src/parametres.c:663
 msgid "Force saving of locked files"
@@ -9247,10 +9256,11 @@ msgid "%dÂ seconds"
 msgstr ""
 
 #: src/gsb_file.c:741
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
-msgstr "Si cierra sin guardar todos los cambios se perderán"
+msgstr ""
+"Si cierra sin guardar, todos los cambios desde %s se perderán."
 
 #: src/gsb_file.c:777
 msgid "Name the accounts file"
@@ -9261,23 +9271,23 @@ msgid "Grisbi"
 msgstr "Grisbi"
 
 #: src/gsb_file_config.c:711
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot save configuration file '%s': %s"
-msgstr "No se puede guardar el archivo '%s': %s"
+msgstr "No se puede guardar el fichero de configuración '%s': %s"
 
 #: src/gsb_file_config.c:755
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
 "please check it."
 msgstr ""
-"%s No parece que sea un fichero regular,\n"
-"por favor compruébelo y pruebe de nuevo."
+"%s No parece que sea un fichero convencional de configuración,\n"
+"por favor compruébelo."
 
 #: src/gsb_file_config.c:792
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open config file '%s': %s"
-msgstr "No se puede abrir el archivo '%s': %s"
+msgstr "No se puede abrir el fichero de configuración '%s': %s"
 
 #: src/gsb_file_config.c:1216 src/print_config.c:50
 msgid "A4"
@@ -9297,7 +9307,6 @@ msgstr ""
 "con las transacciones reconciliadas."
 
 #: src/gsb_file_debug.c:62
-#, fuzzy
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
 "sum of reconcilied transactions.  Generally, the cause is too many transfers "
@@ -9308,14 +9317,11 @@ msgstr ""
 "inconsistentes con la suma de las transacciones reconciliadas.  "
 "Generalmente, la causa de esto es que hay demasiadas transferencias a otras "
 "cuentas que están reconciliadas.  Debe quitar la reconciliación de algunas "
-"transferencias manualmente en las cuentas inconsistentes.\n"
-"Las siguientes cuentas son inconsistentes:\n"
-"\n"
+"transferencias manualmente en las cuentas inconsistentes."
 
 #: src/gsb_file_debug.c:68
-#, fuzzy
 msgid "Duplicate sub-categories check"
-msgstr "Mostrar las subcategorías"
+msgstr "Comprobar duplicidades en las subcategorías"
 
 #: src/gsb_file_debug.c:69 src/gsb_file_debug.c:82 src/gsb_file_debug.c:95
 msgid "free"
@@ -9341,12 +9347,10 @@ msgstr ""
 "mover las transacciones manualmente a su nueva subcategoría."
 
 #: src/gsb_file_debug.c:81
-#, fuzzy
 msgid "Duplicate sub-budgetary lines check"
-msgstr "la línea subpresupuestaria"
+msgstr "Comprobación de duplicidades en las líneas subpresupuestarias"
 
 #: src/gsb_file_debug.c:83
-#, fuzzy
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
 "the same numeric id in some cases, resulting in transactions having two sub-"
@@ -9357,7 +9361,7 @@ msgid ""
 "move transactions to this new sub-budgetary line."
 msgstr ""
 "Debido a un fallo en versiones anteriores de Grisbi, las "
-"líneassubpresupuestarias pueden compartir en algunos casos el mismo "
+"líneas subpresupuestarias pueden compartir en algunos casos el mismo "
 "identificador numérico, lo que da lugar a transacciones que tienen dos "
 "líneas subpresupuestarias.  Si elige continuar, Grisbi borrará una de cada "
 "línea subpresupuestaria duplicada y la creará de nuevo con otro "
@@ -9367,9 +9371,8 @@ msgstr ""
 "mover las transacciones manualmente a la nueva línea subpresupuestaria."
 
 #: src/gsb_file_debug.c:94
-#, fuzzy
 msgid "Orphan countra-transactions check"
-msgstr "Transacciones huérfanas"
+msgstr "Comprobación de contratransacciones huérfanas"
 
 #: src/gsb_file_debug.c:96
 msgid ""
@@ -9390,9 +9393,8 @@ msgid "Checking file for possible corruption..."
 msgstr "Buscando una posible corrupción en el archivo..."
 
 #: src/gsb_file_debug.c:119
-#, fuzzy
 msgid "Grisbi accounts debug"
-msgstr "Configuración de Grisbi"
+msgstr "Comprobación de errores en las cuentas de Grisbi"
 
 #: src/gsb_file_debug.c:120
 msgid ""
@@ -9421,11 +9423,12 @@ msgstr ""
 "\n"
 
 #: src/gsb_file_debug.c:209
-#, fuzzy
 msgid ""
 "No inconsistency found\n"
 "\n"
-msgstr "No se han encontrado inconsistencias"
+msgstr ""
+"No se han encontrado inconsistencias\n"
+"\n"
 
 #: src/gsb_file_debug.c:212
 msgid "Congratulations, your account file is in good shape!\n"
@@ -9464,15 +9467,15 @@ msgid "Unable to fix account"
 msgstr "No ha sido posible corregir la cuenta"
 
 #: src/gsb_file_debug.c:379
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<span weight=\"bold\">%s</span>\n"
 "  Last reconciliation amount : %s\n"
 "  Computed reconciliation amount : %s\n"
 msgstr ""
 "<span weight=\"bold\">%s</span>\n"
-"  Cantidad de la última reconciliación : %4.2f%s\n"
-"  Cantidad calculada de la reconciliación : %4.2f%s\n"
+"  Cantidad de la última reconciliación : %s\n"
+"  Cantidad calculada de la reconciliación : %s\n"
 
 #: src/gsb_file_debug.c:460
 #, c-format
@@ -9480,13 +9483,12 @@ msgid "Transaction #%d is linked to non existent transaction #%d.\n"
 msgstr "La transacción #%d está unida a una transacción que no existe #%d.\n"
 
 #: src/gsb_file_debug.c:483
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Transaction #%d is linked to transaction #%d, which is linked to transaction "
 "#%d.\n"
 msgstr ""
-"La transacción #%d tiene una contratransacción #%d, pero la transacción #%d "
-"tiene una contratransacción #%d en lugar de #%d.\n"
+"La transacción #%d está relacionada con la transacción #%d, que está relacionada con la transacción #%d \n"
 
 #: src/gsb_file_load.c:274 src/gsb_file_load.c:386 src/gsb_file_others.c:417
 #: src/gsb_file_others.c:551
@@ -9499,12 +9501,12 @@ msgid "File does not exist"
 msgstr "El fichero no existe"
 
 #: src/gsb_file_load.c:289 src/gsb_file_others.c:429
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s doesn't seem to be a regular file,\n"
 "please check it and try again."
 msgstr ""
-"%s No parece que sea un fichero regular,\n"
+"%s No parece que sea un fichero convencional,\n"
 "por favor compruébelo y pruebe de nuevo."
 
 #: src/gsb_file_load.c:330 src/gsb_file_save.c:308
@@ -9520,14 +9522,12 @@ msgstr ""
 "paquete 'grisbi-ssl' está instalado) y pruebe de nuevo."
 
 #: src/gsb_file_load.c:335 src/gsb_file_save.c:313
-#, fuzzy
 msgid "Encryption plugin not found."
-msgstr "La cuenta %s no se ha encontrado.\n"
+msgstr "No se ha"
 
 #: src/gsb_file_load.c:430 src/gsb_file_load.c:3935
-#, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
-msgstr "Este fichero no es de un informe de Grisbi"
+msgstr "Este fichero no es de de Grisbi... Carga interrumpida."
 
 #. the first time we come here, we check if it's a grisbi file
 #: src/gsb_file_load.c:601
@@ -9564,9 +9564,8 @@ msgstr ""
 "algunas transacciones o informaciones importantes."
 
 #: src/gsb_file_load.c:7154
-#, fuzzy
 msgid "Grisbi archive opened"
-msgstr "Preferencias de grisbi"
+msgstr "Archivo de Grisbi abierto"
 
 #: src/gsb_file_others.c:136 src/gsb_file_others.c:218
 #: src/gsb_file_others.c:301 src/gsb_file_save.c:333 src/gsb_file_save.c:351
@@ -9593,9 +9592,8 @@ msgstr ""
 "Debería comprobar y modificar eso en el cuadro de propiedades de esa cuenta."
 
 #: src/gsb_file_others.c:538
-#, fuzzy
 msgid "Importing a report"
-msgstr "Importar un informe"
+msgstr "Importando un informe"
 
 #: src/gsb_file_others.c:577
 msgid "This is not a grisbi file, loading canceled..."
@@ -9706,14 +9704,14 @@ msgid "You must enter a date."
 msgstr "Debe introducir una fecha."
 
 #: src/gsb_form.c:2348
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid date %s"
-msgstr "Fecha no válida"
+msgstr "Fecha no válida %s"
 
 #: src/gsb_form.c:2367
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid value date %s"
-msgstr "Fecha no válida"
+msgstr "Fecha no válida %s"
 
 #: src/gsb_form.c:2393
 msgid ""
