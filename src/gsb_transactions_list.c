@@ -663,11 +663,19 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
     /* update the transaction list only if the account is showed,
      * else it's because we execute a scheduled transaction and all
      * of that stuff will be done when we will show the account */
-    if (update_tree_view && gsb_gui_navigation_get_current_account () == account_number)
+    if (update_tree_view
+	&&
+	gsb_gui_navigation_get_current_account () == account_number
+	&&
+	!gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
 	gsb_transactions_list_update_tree_view (account_number, TRUE);
 	gsb_gui_headings_update_suffix ( gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
 									     gsb_data_account_get_currency (account_number), TRUE));
+
+	/* if it's a mother, open the expander */
+	if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+	    gsb_transactions_list_switch_expander (transaction_number);
     }
 
     /* on réaffichera l'accueil */
@@ -975,16 +983,49 @@ gfloat gsb_transactions_list_get_row_align ( void )
  * set the list at the good position saved before with row_align
  *
  * \param row_align	a gfloat to aligne in the function gtk_tree_view_scroll_to_cell
+ * 			if < 0, don't use row_align but let the tree view to move by himself
+ * 			to the selected transaction
  *
  * \return FALSE
  * */
 gboolean gsb_transactions_list_set_row_align ( gfloat row_align )
 {
     GtkTreePath *path;
+    gint transaction_number;
+    gint mother_transaction;
 
     devel_debug (NULL);
 
-    path = transaction_list_select_get_path (0);
+    /* if we just want to let the tree view by himself, it's here
+     * we get the path of the last line in transaction because untill now,
+     * we do that when open the form, so only the last line interest us */
+    if (row_align < 0)
+    {
+	path = transaction_list_select_get_path (gsb_data_account_get_nb_rows (gsb_gui_navigation_get_current_account())- 1);
+	gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
+				       path, NULL,
+				       FALSE, 0.0, 0.0 );
+	gtk_tree_path_free (path);
+	return FALSE;
+    }
+
+    /* ok, we want to use row_align */
+    transaction_number = transaction_list_select_get ();
+
+    /* if we are on a child, open the mother */
+    mother_transaction = gsb_data_transaction_get_mother_transaction_number (transaction_number);
+    if (mother_transaction)
+	gsb_transactions_list_switch_expander (mother_transaction);
+
+    /* if we are on white line, go to the end directly,
+     * else at the opening, the white line is hidden */
+    if (transaction_number == -1)
+    {
+	path = transaction_list_select_get_path (gsb_data_account_get_nb_rows (gsb_gui_navigation_get_current_account())- 1);
+	row_align = 1.0;
+    }
+    else
+	path = transaction_list_select_get_path (0);
 
     /* we need to use scroll_to_cell function because at this stade,
      * the tree view is not refreshed so all value with alignment don't work

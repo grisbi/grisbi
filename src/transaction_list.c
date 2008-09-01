@@ -99,6 +99,9 @@ void transaction_list_append_transaction ( gint transaction_number )
     gint line_p;
     gboolean marked_transaction;
     CustomList *custom_list;
+    CustomRecord **children_rows = NULL;
+    CustomRecord *white_record = NULL;
+
 
     custom_list = transaction_model_get_model ();
 
@@ -120,6 +123,22 @@ void transaction_list_append_transaction ( gint transaction_number )
 
     /* the transaction is a mother */
     account_number = gsb_gui_navigation_get_current_account ();
+
+    /* if the transaction is a breakdown, create a white line, we will append it later */
+    if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+    {
+	/* append a white line */
+	gint white_line_number;
+	white_line_number = gsb_data_transaction_new_white_line (transaction_number);
+	children_rows = g_malloc0 (sizeof (CustomRecord*));
+
+	/* create and fill the white line record */
+	white_record = g_malloc0 (sizeof (CustomRecord));
+	white_record -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (white_line_number);
+	white_record -> what_is_line = IS_TRANSACTION;
+	white_record -> row_bg = &breakdown_background;
+	children_rows[0] = white_record;
+    }
 
     /* get the P position if the transaction is marked */
     marked_transaction = gsb_data_transaction_get_marked_transaction (transaction_number) != OPERATION_NORMALE;
@@ -145,6 +164,13 @@ void transaction_list_append_transaction ( gint transaction_number )
     {
 	/* create the row */
 	newrecord[i] = transaction_list_create_record (transaction_number, i);
+
+	/* set the white line if necessary */
+	if (children_rows)
+	{
+	    newrecord[i] -> number_of_children = 1;
+	    newrecord[i] -> children_rows = children_rows;
+	}
 
 	/* save the newrecord pointer */
 	custom_list->rows[pos] = newrecord[i];
@@ -174,6 +200,15 @@ void transaction_list_append_transaction ( gint transaction_number )
 	    newrecord[i] -> filtered_pos = custom_list -> num_visibles_rows;
 	    custom_list -> visibles_rows[newrecord[i] -> filtered_pos] = newrecord[i];
 	    custom_list -> num_visibles_rows++;
+
+	    /* if we are the last line visible and are mother, we set the expander */
+	    if (children_rows
+		&&
+		i == (custom_list -> nb_rows_by_transaction - 1))
+	    {
+		newrecord[i] -> has_expander = TRUE;
+		white_record -> mother_row = newrecord[i];
+	    }
 
 	    /* inform the tree view */
 	    path = gtk_tree_path_new();
@@ -207,6 +242,7 @@ void transaction_list_append_transaction ( gint transaction_number )
     /* save the grid line pointer */
     custom_list->rows[pos] = grid_line;
     grid_line->pos = pos;
+
 }
 
 
@@ -1367,11 +1403,11 @@ static void transaction_list_append_child ( gint transaction_number )
     gint i;
     CustomRecord *newrecord;
     CustomRecord *mother_record;
-    CustomRecord *white_record;
     GtkTreeIter mother_iter;
     CustomRecord **new_children_rows;
     gint new_number_of_children;
     CustomList *custom_list;
+    CustomRecord *white_record;
 
     custom_list = transaction_model_get_model ();
 
@@ -1426,28 +1462,17 @@ static void transaction_list_append_child ( gint transaction_number )
     /* get the new number of the row into the mother */
     pos = mother_record -> number_of_children;
 
-    /* if there is no child, we append a white line first */
+    /* it must have a child, because while creating the mother, it makes it
+     * so if no child, better to stop here */
     if (!pos)
     {
-	/* append a white line */
-	gint white_line_number;
-
-	white_line_number = gsb_data_transaction_new_white_line (gsb_data_transaction_get_transaction_number (mother_record -> transaction_pointer));
-
-	/* increase the children_rows */
-	mother_record -> number_of_children = 1;
-	mother_record -> children_rows = g_realloc (mother_record -> children_rows,
-						    sizeof (CustomRecord*));
-
-	/* create and fill the white line record */
-	white_record = g_malloc0 (sizeof (CustomRecord));
-	white_record -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (white_line_number);
-	white_record -> what_is_line = IS_TRANSACTION;
-	white_record -> row_bg = &breakdown_background;
-
-	/* save the white line record */
-	mother_record -> children_rows[0] = white_record;
-	pos++;
+	gchar *tmpstr;
+	tmpstr = g_strdup_printf (_("Trying to append the child number %d to the mother %d in the model, but no white line was created before... Better to stop here, please contact the Grisbi team to fix that issue."),
+				  transaction_number, gsb_data_transaction_get_mother_transaction_number (transaction_number));
+	dialogue_error (tmpstr);
+	g_free (tmpstr);
+	g_free (newrecord);
+	return;
     }
 
     /* increase the children rows */
@@ -1490,12 +1515,32 @@ static void transaction_list_append_child ( gint transaction_number )
 	GtkTreePath *path;
 	GtkTreeIter iter;
 
+	/* we go on the last mother record, wich contains the expander */
+	mother_record = mother_record -> transaction_records[custom_list -> nb_rows_by_transaction - 1];
+	if (!mother_record -> has_expander)
+	{
+	    printf ( "la mère n'a pas d'expander\n");
+	    exit(0);
+	}
+
+	newrecord -> mother_row = mother_record;
+
 	path = gtk_tree_path_new();
 	gtk_tree_path_append_index(path, mother_record->filtered_pos);
 	gtk_tree_path_append_index(path, newrecord->filtered_pos);
 
 	iter.stamp = custom_list -> stamp;
 	iter.user_data = newrecord;
+
+	gtk_tree_model_row_changed (GTK_TREE_MODEL(custom_list), path, &iter);
+	gtk_tree_path_free(path);
+
+	path = gtk_tree_path_new();
+	gtk_tree_path_append_index(path, mother_record->filtered_pos);
+	gtk_tree_path_append_index(path, white_record->filtered_pos);
+
+	iter.stamp = custom_list -> stamp;
+	iter.user_data = white_record;
 
 	gtk_tree_model_row_inserted (GTK_TREE_MODEL(custom_list), path, &iter);
 	gtk_tree_path_free(path);

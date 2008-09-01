@@ -124,7 +124,7 @@ gboolean transaction_list_select ( gint transaction_number )
  *
  * \param
  *
- * \return the transaction_number or -1 if problem
+ * \return the transaction_number or -1 (white line) if problem
  * */
 gint transaction_list_select_get ( void )
 {
@@ -362,7 +362,10 @@ GtkTreePath *transaction_list_select_get_path ( gint line_in_transaction )
     if (!record)
 	return NULL;
 
-    record = record -> transaction_records[line_in_transaction];
+    /* if not child, go to the first row */
+    if (!record -> mother_row)
+	record = record -> transaction_records[line_in_transaction];
+
     /* if something is wrong in line_in_transaction, it's possible we are not
      * on the same transaction */
     if (record -> transaction_pointer != custom_list -> selected_row -> transaction_pointer)
@@ -472,6 +475,7 @@ static gboolean transaction_list_select_record ( CustomRecord *record )
 	gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
     gtk_tree_path_append_index (path, record -> filtered_pos);
 
+    /* colorize the record */
     for (i=0 ; i < custom_list -> nb_rows_by_transaction ; i++)
     {
 	record -> row_bg_save = record -> row_bg;
@@ -489,6 +493,8 @@ static gboolean transaction_list_select_record ( CustomRecord *record )
 	record = custom_list -> visibles_rows [record -> filtered_pos + 1];
 	gtk_tree_path_next (path);
     }
+
+    /** update account and other stuff */
     gsb_transactions_list_selection_changed (selected_transaction);
     return TRUE;
 }

@@ -91,6 +91,9 @@ static void gsb_form_take_datas_from_form ( gint transaction_number,
 				     gboolean is_transaction );
 static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 					      gboolean is_transaction );
+static gboolean gsb_form_size_allocate ( GtkWidget *widget,
+					 GtkAllocation *allocation,
+					 gpointer null );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -114,6 +117,11 @@ static GtkWidget *form_expander = NULL;
 static GtkWidget *form_scheduled_part;
 GtkWidget *form_transaction_part;
 static GtkWidget *form_button_part;
+
+/* block the size allocate signal to avoid to move several times
+ * the tree view when open the form */
+static gboolean block_size_allocate = FALSE;
+
 
 /** when the automatic complete transaction is done
  * for a breakdown of transaction, we propose to recover too
@@ -193,7 +201,6 @@ GtkWidget *gsb_form_get_button_part ( void )
 }
 
 
-
 /**
  *  Do the grunt job of creating widgets in for the Grisbi form.
  *  Fills them in form_expander, a GtkExpander normally created by
@@ -244,9 +251,15 @@ void gsb_form_create_widgets ()
 
     transaction_form = gtk_vbox_new ( FALSE, 5 );
     g_signal_connect ( G_OBJECT (transaction_form ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &transaction_form );
+		       G_CALLBACK ( gtk_widget_destroyed), &transaction_form );
     gtk_container_add ( GTK_CONTAINER ( form_expander ),
 			transaction_form );
+
+    /* play with that widget to tell to the tree view to scroll to keep the selection visible */
+    g_signal_connect_after ( G_OBJECT (transaction_form),
+		       "size-allocate",
+		       G_CALLBACK (gsb_form_size_allocate),
+		       NULL );
 
     /* the scheduled part is a table of SCHEDULED_WIDTH col x SCHEDULED_HEIGHT rows */
     form_scheduled_part = gtk_table_new ( SCHEDULED_HEIGHT, 
@@ -339,6 +352,31 @@ void gsb_form_create_widgets ()
     }
 
     gsb_form_show ( FALSE );
+}
+
+/**
+ * this function is used to move the tree view when open the form,
+ * without that, the selection will be hidden by the form,
+ * this moves it to show if necessary the selection
+ *
+ * \param widget
+ * \param allocation
+ * \param null
+ *
+ * \return FALSE
+ * */
+static gboolean gsb_form_size_allocate ( GtkWidget *widget,
+					 GtkAllocation *allocation,
+					 gpointer null )
+{
+    if (gsb_form_is_visible () && !block_size_allocate)
+    {
+	block_size_allocate = TRUE;
+	gsb_transactions_list_set_row_align (-1.0);
+    }
+    else
+	block_size_allocate = FALSE;
+    return FALSE;
 }
 
 
@@ -906,6 +944,7 @@ gboolean gsb_form_switch_expander ( void )
 {
     gtk_expander_set_expanded ( GTK_EXPANDER (form_expander),
 				!gsb_form_is_visible ());
+
     return FALSE;
 }
 
@@ -2326,9 +2365,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
     GtkWidget *widget;
     gint mother_number;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_form_validate_form_transaction %d", transaction_number );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (transaction_number);
 
     account_number = gsb_form_get_account_number ();
 

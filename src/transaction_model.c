@@ -159,10 +159,6 @@ GtkTreePath *transaction_model_get_path ( gint transaction_number,
 	return NULL;
 
     record = record -> transaction_records[line_in_transaction];
-    /* if something is wrong in line_in_transaction, it's possible we are not
-     * on the same transaction */
-    if (record -> transaction_pointer != custom_list -> selected_row -> transaction_pointer)
-	return NULL;
 
     path = gtk_tree_path_new ();
     if (record -> mother_row)
