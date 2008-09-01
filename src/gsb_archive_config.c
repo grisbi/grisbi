@@ -469,7 +469,7 @@ static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
 
 	/* ok, now we delete the archive */
 	/* first step, we show it in the lists */
-	gsb_transactions_list_restore_archive (archive_number);
+	gsb_transactions_list_restore_archive (archive_number, FALSE);
 
 	/* now we remove the link of all the transactions and the archive itself */
 	gsb_data_archive_remove (archive_number);

@@ -93,7 +93,6 @@ static gboolean gsb_transactions_list_size_allocate ( GtkWidget *tree_view,
 					       GtkAllocation *allocation,
 					       gpointer null );
 static gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number );
-static gboolean gsb_transactions_list_switch_expander ( gint transaction_number );
 static gboolean gsb_transactions_list_switch_mark ( gint transaction_number );
 static gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
 							   GdkEventButton *ev,
@@ -1230,7 +1229,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 		         _("Do you want to load the transaction of the archive %s into the list ?"),
                          name );
 		if (question_yes_no ( tmpstr , GTK_RESPONSE_CANCEL ))
-		    gsb_transactions_list_restore_archive (archive_number);
+		    gsb_transactions_list_restore_archive (archive_number, TRUE);
 		g_free(tmpstr);
 	    }
 	    else
@@ -3295,11 +3294,13 @@ gboolean gsb_transactions_list_switch_expander ( gint transaction_number )
  * the archive
  * remove too the archive_store from the archive_store list
  *
- * \param archive_number
+ * \param archive_number	the archive to restore
+ * \param show_warning		TRUE to show a warning if the R transactions are not shown on the account
  *
  * \return FALSE
  * */
-gboolean gsb_transactions_list_restore_archive ( gint archive_number )
+gboolean gsb_transactions_list_restore_archive ( gint archive_number,
+						 gboolean show_warning )
 {
     GSList *tmp_list;
     gint account_number;
@@ -3335,7 +3336,7 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number )
     if (account_number != -1)
 	gsb_transactions_list_update_tree_view (account_number, TRUE);
 
-    if (!gsb_data_account_get_r (account_number))
+    if (!gsb_data_account_get_r (account_number) && show_warning)
 	dialogue (_("You have just recovered an archive, if you don't see any new transaction, remember that the R transactions are not showed so the archived transactions are certainly hidden...\n\nSow the R transactions to make them visible."));
 
     return FALSE;

@@ -1443,7 +1443,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		/* On récupère donc la liste des opérations du compte et on en fait
 		   le tour jusqu'à ce qu'on trouve l'opération mère */
 
-		list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+		list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
 		while ( list_tmp_transactions )
 		{

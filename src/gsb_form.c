@@ -87,13 +87,13 @@ static gboolean gsb_form_get_categories ( gint transaction_number,
 				   gboolean is_transaction );
 static gint gsb_form_get_element_expandable ( gint element_number );
 static gboolean gsb_form_hide ( void );
+static  gboolean gsb_form_size_allocate ( GtkWidget *widget,
+					 GtkAllocation *allocation,
+					 gpointer null );
 static void gsb_form_take_datas_from_form ( gint transaction_number,
 				     gboolean is_transaction );
 static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 					      gboolean is_transaction );
-static gboolean gsb_form_size_allocate ( GtkWidget *widget,
-					 GtkAllocation *allocation,
-					 gpointer null );
 /*END_STATIC*/
 
 /*START_EXTERN*/

@@ -1,23 +1,25 @@
-/*  Fichier qui s'occupe du calcul des états */
-/*      etats.c */
-
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2006 Benjamin Drieu (bdrieu@april.org)		      */
+/* ************************************************************************** */
+/*                                                                            */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 #include "include.h"
 
@@ -285,7 +287,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 		    /* on fait le tour de la liste des opés en recherchant le plus grand ds les 3 variables */
 
-		    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+		    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
 		    while ( list_tmp_transactions )
 		    {
@@ -358,7 +360,7 @@ GSList *recupere_opes_etat ( gint report_number )
 	    /* on va faire le tour de toutes les opés du compte */
 
 	    GSList *list_tmp_transactions;
-	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+	    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
 	    while ( list_tmp_transactions )
 	    {

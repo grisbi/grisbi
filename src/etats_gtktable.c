@@ -1,24 +1,29 @@
-/*  Fichier qui s'occupe d'afficher les états via une gtktable */
-/*      etats_gtktable.c */
-
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2008 Benjamin Drieu (bdrieu@april.org)		      */
+/* ************************************************************************** */
+/*                                                                            */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-
+/**
+ * \file etats_gtktable.c
+ * show the report in gtktable
+ */
 
 
 #include "include.h"
@@ -29,8 +34,9 @@
 #include "./gsb_data_account.h"
 #include "./gsb_data_transaction.h"
 #include "./navigation.h"
-#include "./utils.h"
 #include "./gsb_transactions_list.h"
+#include "./utils.h"
+#include "./transaction_list.h"
 #include "./transaction_list_select.h"
 #include "./structures.h"
 #include "./fenetre_principale.h"
@@ -271,32 +277,44 @@ gint gtktable_finish ()
 
 void gtktable_click_sur_ope_etat ( gint transaction_number )
 {
-    /* if it's a child of breakdown, we go on the mother */
-    /* FIXME : now, we can go directly on the child... */
+    gint archive_number;
+    gint account_number;
 
-    if ( gsb_data_transaction_get_mother_transaction_number (transaction_number))
-	transaction_number = gsb_data_transaction_get_mother_transaction_number (transaction_number);
+    account_number = gsb_data_transaction_get_account_number (transaction_number);
+
+    /* if it's an archived transaction, open the archive */
+    archive_number = gsb_data_transaction_get_archive_number (transaction_number);
+    if (archive_number)
+    {
+	/* re-filter the tree view because if we go directly into the report
+	 * and the model was never filtered, we have a nice crash */
+	transaction_list_filter (account_number);
+	gsb_transactions_list_restore_archive (archive_number, FALSE);
+    }
 
     if ( transaction_number )
     {
-	/* passage sur le compte concerné */
+	gint mother_transaction;
 
-	navigation_change_account ( GINT_TO_POINTER ( gsb_data_transaction_get_account_number (transaction_number)));;
+	/* go on the good account */
 	gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, 
-					   gsb_data_transaction_get_account_number (transaction_number),
+					   account_number,
 					   GINT_TO_POINTER (-1));
 
 	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
-
 	if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE 
 	     &&
-	     !gsb_data_account_get_r (gsb_gui_navigation_get_current_account ()))
-	    mise_a_jour_affichage_r ( TRUE );
+	     !gsb_data_account_get_r (account_number))
+	    mise_a_jour_affichage_r (TRUE);
+	
+	/* if it's a child, open the mother */
+	mother_transaction = gsb_data_transaction_get_mother_transaction_number (transaction_number);
+	if (mother_transaction)
+	    gsb_transactions_list_switch_expander (mother_transaction);
 
 	transaction_list_select ( transaction_number );
     }
 }
-/*****************************************************************************************************/
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

@@ -1158,7 +1158,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 
     return vbox;
 }
-/* xxx les états doivent bosser sur toutes les opés, même non archivées, par contre si clique sur opé archivée, il faut désarchiver avant */
+
 
 /**
  *

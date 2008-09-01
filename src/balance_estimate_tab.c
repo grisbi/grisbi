@@ -577,10 +577,7 @@ static void bet_estimate_refresh()
 	gsb_real current_balance = gsb_data_account_get_current_balance(selected_account);
 
 	/* search transactions of the account which are in the future */
-	/* TODO : what to use : complete_transactions_list or transactions_list ? 
 	GSList* tmp_list = gsb_data_transaction_get_complete_transactions_list ();
-	*/
-	GSList* tmp_list = gsb_data_transaction_get_transactions_list ();
 	while (tmp_list)
 	{
 		gint transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);

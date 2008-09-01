@@ -61,10 +61,12 @@ gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_number,
 gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 					   GdkEventKey *ev );
 GtkWidget *gsb_transactions_list_make_gui_list ( void );
-gboolean gsb_transactions_list_restore_archive ( gint archive_number );
+gboolean gsb_transactions_list_restore_archive ( gint archive_number,
+						 gboolean show_warning );
 void gsb_transactions_list_selection_changed ( gint new_selected_transaction );
 gboolean gsb_transactions_list_set_row_align ( gfloat row_align );
 void gsb_transactions_list_set_visible_rows_number ( gint rows_number );
+gboolean gsb_transactions_list_switch_expander ( gint transaction_number );
 gboolean gsb_transactions_list_transaction_visible ( gpointer transaction_ptr,
 						     gint account_number,
 						     gint line_in_transaction,
