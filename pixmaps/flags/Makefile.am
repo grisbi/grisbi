@@ -1,4 +1,4 @@
-grisbi_pixmaps_flagsdir = $(datadir)/pixmaps/grisbi/flags
+grisbi_pixmaps_flagsdir = $(datadir)/pixmaps/$(PACKAGE)/flags
 
 grisbi_pixmaps_flags_DATA = ADP.png AED.png AFN.png ALL.png AMD.png	\
 ANG.png ARS.png ATS.png AUD.png AWG.png AZM.png BAM.png BBD.png		\

@@ -1,6 +1,6 @@
 SUBDIRS = flags
 
-grisbi_pixmapsdir = $(datadir)/pixmaps/grisbi
+grisbi_pixmapsdir = $(datadir)/pixmaps/$(PACKAGE)
 
 grisbi_pixmaps_DATA = \
 	addresses.png \
