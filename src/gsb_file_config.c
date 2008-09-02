@@ -1179,7 +1179,33 @@ void gsb_file_config_clean_config ( void )
     /* TODO dOm : use a copy of string so that we can free it */
     etat.latex_command = "latex";
     etat.dvips_command = "dvips";
+
+
+#ifndef _WIN32
+    if ( g_file_test ( "/usr/bin/firefox", G_FILE_TEST_EXISTS ) )
+    {
+	etat.browser_command = g_strdup ( "/usr/bin/firefox" );
+    }
+    else if ( g_file_test ( "/usr/bin/iceweasel", G_FILE_TEST_EXISTS ) )
+    {
+	etat.browser_command = g_strdup ( "/usr/bin/iceweasel" );
+    }
+    else if ( g_file_test ( "/usr/bin/opera", G_FILE_TEST_EXISTS ) )
+    {
+	etat.browser_command = g_strdup ( "/usr/bin/opera" );
+    }
+    else if ( g_file_test ( "/usr/bin/mozilla", G_FILE_TEST_EXISTS ) )
+    {
+	etat.browser_command = g_strdup ( "/usr/bin/mozilla" );
+    }
+    else
+    {
+#endif /* _WIN32 */
     etat.browser_command = g_strdup (ETAT_WWW_BROWSER);
+#ifndef _WIN32
+    }
+#endif /* _WIN32 */
+    printf ( etat.browser_command );
 
     /* Print */
     etat.print_config.printer = 0;
