@@ -494,7 +494,7 @@ void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel *
 gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 {
     GtkWidget * dialog, * hbox, * go_charmap_sel;
-    GtkFileFilter * filter;
+    GtkFileFilter * filter, * default_filter;
     gchar * files;
     GSList * tmp;
     struct import_format * format;
@@ -508,6 +508,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog),
 					 gsb_file_get_last_path ());
 
+    /* Import filters */
     tmp = import_formats;
     format = (struct import_format *) tmp -> data;
     files = g_strconcat ( "*.", format -> extension, NULL );
@@ -522,12 +523,12 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 	tmp = tmp -> next;
     }
 
-    filter = gtk_file_filter_new ();
+    default_filter = gtk_file_filter_new ();
     gchar* tmpstr = g_strdup_printf ( _("Known files (%s)"), files );
-    gtk_file_filter_set_name ( filter, tmpstr );
+    gtk_file_filter_set_name ( default_filter, tmpstr );
     g_free ( tmpstr );
-    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
-    gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), default_filter );
+    gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER ( dialog ), default_filter );
 
     tmp = import_formats;
     while ( tmp )
@@ -550,7 +551,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 
 	/* Global filter */
 	tmpstr = g_strconcat ( "*.", format -> extension, NULL );
-	gtk_file_filter_add_pattern ( filter, tmpstr );
+	gtk_file_filter_add_pattern ( default_filter, tmpstr );
 	g_free ( tmpstr );
 
 	tmp = tmp -> next;
@@ -559,7 +560,6 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("All files") );
     gtk_file_filter_add_pattern ( filter, "*" );
-    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
     /* Add encoding preview */
     hbox = gtk_hbox_new ( FALSE, 6 );
@@ -569,6 +569,8 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     go_charmap_sel = go_charmap_sel_new (GO_CHARMAP_SEL_TO_UTF8);
     gtk_box_pack_start ( GTK_BOX ( hbox ), go_charmap_sel, TRUE, TRUE, 0 );
     gtk_widget_show_all ( hbox );
+
+    gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER ( dialog ), default_filter );
 
     if ( gtk_dialog_run ( GTK_DIALOG (dialog ) ) == GTK_RESPONSE_ACCEPT )
     {
