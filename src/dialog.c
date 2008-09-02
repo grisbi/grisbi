@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -58,7 +58,7 @@ struct conditional_message messages[] =
       FALSE, FALSE, },
 
     { "encryption-is-irreversible", N_("Encryption is irreversible."),
-      N_("Grisbi encrypts files in a secure way that does not allow recovery without original password.  This means that if you forget your password, you will loose all your data.  Use with caution.\n\nI repeat: if you forget your password, there is no coming back, don't complain to us."), 
+      N_("Grisbi encrypts files in a very secure way that does not allow recovery without original password.  It means that if you forget your password, you will loose all your data.  Use with caution.\n\nI repeat: if you ever forget your password, there is no coming back, we cannot help you."), 
       FALSE, FALSE, },
 
     { "account-file-readable",  N_("Account file is world readable."),
