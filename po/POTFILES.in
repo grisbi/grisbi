@@ -7,6 +7,7 @@ src/categories_onglet.c
 src/classement_echeances.c
 src/comptes_onglet.c
 src/csv_parse.c
+src/custom_list.c
 src/dialog.c
 src/echeancier_infos.c
 src/erreur.c
@@ -89,7 +90,6 @@ src/gsb_report.c
 src/gsb_scheduler.c
 src/gsb_scheduler_list.c
 src/gsb_status.c
-src/gsb_transaction_model.c
 src/gsb_transactions_list.c
 src/gsb_transactions_list_sort.c
 src/gtk_combofix.c
