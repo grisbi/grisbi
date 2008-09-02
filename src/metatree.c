@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -2039,8 +2039,12 @@ void update_transaction_in_tree ( MetatreeInterface * iface, GtkTreeModel * mode
     {
 	GtkTreeIter child_iter;
 	gchar *text;
-	gtk_tree_model_iter_children ( model, &child_iter, 
-				       ( iface -> depth == 1 ? div_iter : sub_div_iter ) );
+
+	if ( ! gtk_tree_model_iter_children ( model, &child_iter, 
+					      ( iface -> depth == 1 ? div_iter : sub_div_iter ) ) )
+	    /* Panic, something went wrong. */
+	    return;
+	
 	gtk_tree_model_get ( model, &child_iter, META_TREE_TEXT_COLUMN, &text, -1 );
 
 	/* Text is set only if division has been expanded previously,
