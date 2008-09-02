@@ -368,7 +368,8 @@ GtkTreePath *transaction_list_select_get_path ( gint line_in_transaction )
 
     /* if something is wrong in line_in_transaction, it's possible we are not
      * on the same transaction */
-    if (record -> transaction_pointer != custom_list -> selected_row -> transaction_pointer)
+    if (! record ||
+	record -> transaction_pointer != custom_list -> selected_row -> transaction_pointer)
 	return NULL;
 
     path = gtk_tree_path_new ();
