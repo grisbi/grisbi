@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-29 12:04-0400\n"
+"POT-Creation-Date: 2008-09-01 22:34-0400\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -83,350 +83,332 @@ msgstr ""
 msgid "Assets accounts balances in %s"
 msgstr ""
 
-#: src/accueil.c:1336 src/accueil.c:1457 src/accueil.c:1913
+#: src/accueil.c:1337 src/accueil.c:1458 src/accueil.c:1914
 #, c-format
 msgid "%s credited on %s"
 msgstr ""
 
-#: src/accueil.c:1346 src/accueil.c:1467 src/accueil.c:1922
+#: src/accueil.c:1347 src/accueil.c:1468 src/accueil.c:1923
 #, c-format
 msgid "%s debited on %s"
 msgstr ""
 
-#: src/accueil.c:1688
+#: src/accueil.c:1689
 #, c-format
 msgid "balance of account %s is under wanted and authorised minima!"
 msgstr ""
 
-#: src/accueil.c:1692
+#: src/accueil.c:1693
 msgid ""
 "accounts with the balance under wanted and authorised minimal :\n"
 "\n"
 msgstr ""
 
-#: src/accueil.c:1721
+#: src/accueil.c:1722
 #, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr ""
 
-#: src/accueil.c:1731
+#: src/accueil.c:1732
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
 msgstr ""
 
-#: src/accueil.c:1763
+#: src/accueil.c:1764
 #, c-format
 msgid "balance of account %s is under wanted minimum!"
 msgstr ""
 
-#: src/accueil.c:1773
+#: src/accueil.c:1774
 msgid ""
 "accounts with the balance under wanted minimal :\n"
 "\n"
 msgstr ""
 
-#: src/affichage.c:133 src/parametres.c:289
+#: src/affichage.c:126 src/parametres.c:289
 msgid "Fonts & logo"
 msgstr "Шрифты и логотип"
 
 #. Change Grisbi Logo
-#: src/affichage.c:136
+#: src/affichage.c:129
 msgid "Grisbi logo"
 msgstr "Логотип Grisbi"
 
-#: src/affichage.c:141
+#: src/affichage.c:134
 msgid "Use the logo"
 msgstr "Использовать логотип"
 
-#: src/affichage.c:195
+#: src/affichage.c:188
 #, fuzzy
 msgid "Click on preview to change logo"
 msgstr "Щёлкните по рисунку для смены логотипа"
 
 #. Change fonts
-#: src/affichage.c:199
+#: src/affichage.c:192
 msgid "Fonts"
 msgstr "Шрифты"
 
-#: src/affichage.c:204
+#: src/affichage.c:197
 msgid "Use a custom font for the transactions"
 msgstr "Использовать свой шрифт в транзакциях"
 
-#. mise en place du raz de la fonte
-#: src/affichage.c:250
-msgid "Revert to default font"
-msgstr "Сбросить до исходного"
-
-#: src/affichage.c:336 src/parametres.c:307
+#: src/affichage.c:320 src/parametres.c:307
 msgid "Addresses & titles"
 msgstr "Адреса и названия"
 
-#: src/affichage.c:341 src/etats_config.c:582 src/etats_config.c:585
+#: src/affichage.c:325 src/etats_config.c:582 src/etats_config.c:585
 #: src/etats_config.c:6715
 msgid "Titles"
 msgstr "Названия"
 
-#: src/affichage.c:346 src/gsb_assistant_file.c:251
+#: src/affichage.c:330 src/gsb_assistant_file.c:251
 msgid "Accounts file title"
 msgstr "Название файла аккаунта"
 
-#: src/affichage.c:357
+#: src/affichage.c:341
 msgid "Addresses"
 msgstr "Адреса"
 
 #. Common address
-#: src/affichage.c:360
+#: src/affichage.c:344
 msgid "Common address"
 msgstr "Обычный адрес"
 
 #. Secondary address
 #. * \note This is not implemented yet
-#: src/affichage.c:379
+#: src/affichage.c:363
 msgid "Secondary address"
 msgstr "Второй адрес"
 
-#: src/affichage.c:542
+#: src/affichage.c:430
+#, fuzzy
+msgid "No font defined"
+msgstr "Новая категория"
+
+#: src/affichage.c:483
 msgid "Transaction list font"
 msgstr "Шрифт для списка транзакций"
 
-#: src/affichage.c:645
+#: src/affichage.c:587
 msgid "Select a new logo"
 msgstr "Выберите новый логотип"
 
-#: src/affichage.c:739 src/parametres.c:325
+#: src/affichage.c:681 src/parametres.c:325
 msgid "Toolbars"
 msgstr ""
 
-#: src/affichage.c:742
+#: src/affichage.c:684
 msgid "Display toolbar buttons as"
 msgstr ""
 
-#: src/affichage.c:744
+#: src/affichage.c:686
 msgid "Text"
 msgstr ""
 
-#: src/affichage.c:753
+#: src/affichage.c:695
 #, fuzzy
 msgid "Icons"
 msgstr "Счета"
 
-#: src/affichage.c:762
+#: src/affichage.c:704
 #, fuzzy
 msgid "Both"
 msgstr "четвёртая строка"
 
-#: src/affichage.c:784
+#: src/affichage.c:726
 #, fuzzy
 msgid "Display headings bar"
 msgstr "Отображаемые поля"
 
-#: src/affichage_liste.c:141
+#: src/affichage_liste.c:134
 #, fuzzy
 msgid "Transaction list behavior"
 msgstr "Просмотр вида списка транзакций"
 
-#: src/affichage_liste.c:148
+#: src/affichage_liste.c:141
 msgid "Display modes"
 msgstr "Режимы отображения"
 
-#: src/affichage_liste.c:155
+#: src/affichage_liste.c:148
 msgid "One line mode"
 msgstr "Однострочный"
 
 #. pour 2 lignes
-#: src/affichage_liste.c:170
+#: src/affichage_liste.c:163
 msgid "Two lines mode"
 msgstr "Двустрочный"
 
 #. pour 3 lignes
-#: src/affichage_liste.c:194
+#: src/affichage_liste.c:187
 msgid "Three lines mode"
 msgstr "Трёхстрочный"
 
-#: src/affichage_liste.c:278
-msgid ""
-"Don't load the marked R transactions into the list at the begining\n"
-"(use it for slow configurations)"
-msgstr ""
-
-#: src/affichage_liste.c:286
+#: src/affichage_liste.c:272
 msgid "Show the content of the transaction in the form when it's selected."
 msgstr ""
 
-#: src/affichage_liste.c:294
-msgid "Sort transaction list"
-msgstr "Сортировать список транзакций"
-
-#: src/affichage_liste.c:295
-msgid "by value date"
-msgstr ""
-
-#: src/affichage_liste.c:296
-msgid "by date"
-msgstr "по дате"
-
-#: src/affichage_liste.c:302
+#: src/affichage_liste.c:280
 #, fuzzy
 msgid "Account differentiation"
 msgstr "Транзакции счёта"
 
-#: src/affichage_liste.c:305
+#: src/affichage_liste.c:283
 msgid "Remember display settings for each account separately"
 msgstr "Помнить настройки каждой учётной записи отдельно"
 
-#: src/affichage_liste.c:331
+#: src/affichage_liste.c:309
 msgid "first line"
 msgstr "первая строка"
 
-#: src/affichage_liste.c:339
+#: src/affichage_liste.c:317
 msgid "second line"
 msgstr "вторая строка"
 
-#: src/affichage_liste.c:347
+#: src/affichage_liste.c:325
 msgid "third line"
 msgstr "третья строка"
 
-#: src/affichage_liste.c:355
+#: src/affichage_liste.c:333
 msgid "fourth line"
 msgstr "четвёртая строка"
 
-#: src/affichage_liste.c:437
+#: src/affichage_liste.c:415
 msgid "Form behavior"
 msgstr ""
 
-#: src/affichage_liste.c:442
+#: src/affichage_liste.c:420
 msgid "Pressing RETURN in transaction form"
 msgstr "По нажатию ВВОД в формуляре транзакции"
 
-#: src/affichage_liste.c:443
+#: src/affichage_liste.c:421
 msgid "selects next field"
 msgstr "выбрать следующее поле"
 
-#: src/affichage_liste.c:444
+#: src/affichage_liste.c:422
 msgid "terminates transaction"
 msgstr "завершить транзакцию"
 
-#: src/affichage_liste.c:449
+#: src/affichage_liste.c:427
 msgid "Displayed fields"
 msgstr "Отображаемые поля"
 
-#: src/affichage_liste.c:452
+#: src/affichage_liste.c:430
 msgid "'Accept' and 'Cancel' buttons"
 msgstr "Кнопки «Принять» и «Отменить»"
 
-#: src/affichage_liste.c:459
+#: src/affichage_liste.c:437
 msgid "By default, use financial year"
 msgstr "По умолчанию использовать финансовый год"
 
-#: src/affichage_liste.c:460
+#: src/affichage_liste.c:438
 msgid "last selected financial year"
 msgstr "Последний выбранный финансовый год"
 
-#: src/affichage_liste.c:461
+#: src/affichage_liste.c:439
 msgid "according to transaction date"
 msgstr "согласно дате транзакции"
 
-#: src/affichage_liste.c:467
+#: src/affichage_liste.c:445
 msgid "Automatic amount separator"
 msgstr ""
 
-#: src/affichage_liste.c:470
+#: src/affichage_liste.c:448
 msgid "Automagically add separator in amounts fields if unspecified"
 msgstr ""
 
-#: src/affichage_liste.c:492
+#: src/affichage_liste.c:470
 msgid "Form completion"
 msgstr ""
 
-#: src/affichage_liste.c:496
+#: src/affichage_liste.c:474
 msgid "Limit payee completion to current account"
 msgstr ""
 
-#: src/affichage_liste.c:502
+#: src/affichage_liste.c:480
 #, fuzzy
 msgid "Mix credit/debit categories"
 msgstr "Объединить категории"
 
-#: src/affichage_liste.c:507
+#: src/affichage_liste.c:485
 msgid "Case sensitive completion"
 msgstr ""
 
-#: src/affichage_liste.c:512
+#: src/affichage_liste.c:490
 msgid "Enter keeps current completion"
 msgstr ""
 
-#: src/affichage_liste.c:518
+#: src/affichage_liste.c:496
 msgid "Don't allow new payee creation"
 msgstr ""
 
-#: src/affichage_liste.c:524
+#: src/affichage_liste.c:502
 msgid "Don't allow new category/budget creation"
 msgstr ""
 
-#: src/affichage_liste.c:535
+#: src/affichage_liste.c:513
 msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr ""
 
 #. ***** Parameter page *****
-#: src/balance_estimate_tab.c:148
+#: src/balance_estimate_tab.c:149
 msgid "Estimate parameters"
 msgstr ""
 
-#: src/balance_estimate_tab.c:165
+#: src/balance_estimate_tab.c:166
 msgid ""
 "Please select an account and a duration\n"
 "and select the estimate array tab."
 msgstr ""
 
 #. set the choice of account
-#: src/balance_estimate_tab.c:196 src/categories_onglet.c:153
+#: src/balance_estimate_tab.c:197 src/categories_onglet.c:153
 #: src/etats_config.c:639 src/gsb_assistant_reconcile_config.c:405
 #: src/gsb_assistant_reconcile_config.c:628
-#: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:98
-#: src/gsb_scheduler_list.c:328 src/imputation_budgetaire.c:164
+#: src/gsb_payment_method_config.c:160 src/gsb_reconcile_config.c:97
+#: src/gsb_scheduler_list.c:327 src/imputation_budgetaire.c:164
 msgid "Account"
 msgstr ""
 
-#: src/balance_estimate_tab.c:278 src/etats_affiche.c:2335
+#: src/balance_estimate_tab.c:279 src/etats_affiche.c:2335
 #: src/export_csv.c:746 src/gsb_assistant_reconcile_config.c:628
-#: src/gsb_form.c:1228 src/gsb_form_widget.c:400 src/gsb_reconcile.c:156
-#: src/gsb_scheduler_list.c:328 src/gsb_transactions_list.c:190
-#: src/import.c:2540 src/import_csv.c:78 src/traitement_variables.c:71
+#: src/gsb_form.c:1269 src/gsb_form_widget.c:401 src/gsb_reconcile.c:158
+#: src/gsb_scheduler_list.c:327 src/gsb_transactions_list.c:145
+#: src/import.c:2571 src/import_csv.c:78 src/traitement_variables.c:73
 msgid "Date"
 msgstr "Дата"
 
 #. Description entry
-#: src/balance_estimate_tab.c:288 src/etats_onglet.c:282
-#: src/tiers_onglet.c:466
+#: src/balance_estimate_tab.c:289 src/etats_onglet.c:282
+#: src/tiers_onglet.c:472
 msgid "Description"
 msgstr "Описание"
 
 #. Debit method_ptr
-#: src/balance_estimate_tab.c:299 src/categories_onglet.c:647
-#: src/export_csv.c:767 src/gsb_form.c:1266 src/gsb_form_widget.c:404
+#: src/balance_estimate_tab.c:300 src/categories_onglet.c:648
+#: src/export_csv.c:767 src/gsb_form.c:1307 src/gsb_form_widget.c:405
 #: src/gsb_payment_method_config.c:312 src/gsb_payment_method_config.c:383
-#: src/gsb_payment_method_config.c:1072 src/gsb_transactions_list.c:194
-#: src/import_csv.c:89 src/imputation_budgetaire.c:684
-#: src/traitement_variables.c:76
+#: src/gsb_payment_method_config.c:1072 src/gsb_transactions_list.c:149
+#: src/import_csv.c:89 src/imputation_budgetaire.c:685
+#: src/traitement_variables.c:78
 msgid "Debit"
 msgstr "Расход"
 
 #. Credit method_ptr
-#: src/balance_estimate_tab.c:313 src/categories_onglet.c:647
-#: src/export_csv.c:764 src/gsb_form.c:1274 src/gsb_form_widget.c:408
+#: src/balance_estimate_tab.c:314 src/categories_onglet.c:648
+#: src/export_csv.c:764 src/gsb_form.c:1315 src/gsb_form_widget.c:409
 #: src/gsb_payment_method_config.c:319 src/gsb_payment_method_config.c:396
-#: src/gsb_payment_method_config.c:1068 src/gsb_transactions_list.c:195
-#: src/imputation_budgetaire.c:684 src/traitement_variables.c:75
+#: src/gsb_payment_method_config.c:1068 src/gsb_transactions_list.c:150
+#: src/imputation_budgetaire.c:685 src/traitement_variables.c:77
 msgid "Credit"
 msgstr "Приход"
 
-#: src/balance_estimate_tab.c:326
+#: src/balance_estimate_tab.c:327
 msgid "Average"
 msgstr ""
 
 #. New transaction
-#: src/barre_outils.c:85 src/gsb_transactions_list.c:3539
+#: src/barre_outils.c:85 src/gsb_transactions_list.c:2150
 msgid "New transaction"
 msgstr "_Новая транзакция"
 
@@ -436,7 +418,7 @@ msgstr ""
 
 #: src/barre_outils.c:95 src/barre_outils.c:339 src/categories_onglet.c:483
 #: src/etats_onglet.c:159 src/imputation_budgetaire.c:519
-#: src/tiers_onglet.c:262
+#: src/tiers_onglet.c:263
 #, fuzzy
 msgid "Delete"
 msgstr "Удалить отчёт"
@@ -465,7 +447,7 @@ msgid "Start account reconciliation"
 msgstr "Выверка счётов"
 
 #: src/barre_outils.c:121 src/barre_outils.c:393 src/categories_onglet.c:502
-#: src/imputation_budgetaire.c:540 src/tiers_onglet.c:281
+#: src/imputation_budgetaire.c:540 src/tiers_onglet.c:282
 msgid "View"
 msgstr ""
 
@@ -488,35 +470,35 @@ msgid "Three lines view"
 msgstr "Трёхстрочный"
 
 #: src/barre_outils.c:182 src/categories_onglet.c:546
-#: src/imputation_budgetaire.c:584 src/tiers_onglet.c:319
+#: src/imputation_budgetaire.c:584 src/tiers_onglet.c:320
 msgid "Complete view"
 msgstr ""
 
-#: src/barre_outils.c:284 src/gsb_scheduler_list.c:1600
+#: src/barre_outils.c:284 src/gsb_scheduler_list.c:1587
 msgid "Unique view"
 msgstr ""
 
-#: src/barre_outils.c:284 src/gsb_scheduler_list.c:1600
+#: src/barre_outils.c:284 src/gsb_scheduler_list.c:1587
 msgid "Week view"
 msgstr ""
 
-#: src/barre_outils.c:284 src/gsb_scheduler_list.c:1600
+#: src/barre_outils.c:284 src/gsb_scheduler_list.c:1587
 msgid "Month view"
 msgstr ""
 
-#: src/barre_outils.c:285 src/gsb_scheduler_list.c:1601
+#: src/barre_outils.c:285 src/gsb_scheduler_list.c:1588
 msgid "Two months view"
 msgstr ""
 
-#: src/barre_outils.c:285 src/gsb_scheduler_list.c:1601
+#: src/barre_outils.c:285 src/gsb_scheduler_list.c:1588
 msgid "Quarter view"
 msgstr ""
 
-#: src/barre_outils.c:286 src/gsb_scheduler_list.c:1602
+#: src/barre_outils.c:286 src/gsb_scheduler_list.c:1589
 msgid "Year view"
 msgstr ""
 
-#: src/barre_outils.c:286 src/gsb_scheduler_list.c:1602
+#: src/barre_outils.c:286 src/gsb_scheduler_list.c:1589
 msgid "Custom view"
 msgstr ""
 
@@ -563,15 +545,15 @@ msgid "Change display mode of scheduled transaction list"
 msgstr "Преобразовать транзакцию в _запланированную"
 
 #: src/categories_onglet.c:141 src/etats_affiche.c:2356 src/etats_config.c:631
-#: src/export_csv.c:776 src/gsb_transactions_list.c:201 src/import_csv.c:84
-#: src/meta_categories.c:64 src/traitement_variables.c:82
+#: src/export_csv.c:776 src/gsb_transactions_list.c:156 src/import_csv.c:84
+#: src/meta_categories.c:64 src/traitement_variables.c:84
 msgid "Category"
 msgstr "Категория"
 
-#: src/categories_onglet.c:162 src/export_csv.c:773 src/gsb_reconcile.c:159
-#: src/gsb_scheduler_list.c:329 src/gsb_transactions_list.c:196
-#: src/gsb_transactions_list.c:4261 src/import_csv.c:86
-#: src/imputation_budgetaire.c:173 src/traitement_variables.c:77
+#: src/categories_onglet.c:162 src/export_csv.c:773 src/gsb_reconcile.c:161
+#: src/gsb_scheduler_list.c:328 src/gsb_transactions_list.c:151
+#: src/gsb_transactions_list.c:2844 src/import_csv.c:86
+#: src/imputation_budgetaire.c:173 src/traitement_variables.c:79
 msgid "Balance"
 msgstr "Баланс"
 
@@ -589,7 +571,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
 #: src/categories_onglet.c:356 src/etats_onglet.c:1275 src/gsb_file.c:224
-#: src/import.c:556 src/imputation_budgetaire.c:394
+#: src/import.c:560 src/imputation_budgetaire.c:394
 msgid "All files"
 msgstr ""
 
@@ -639,8 +621,8 @@ msgstr "Новая категория"
 msgid "Create a new sub-category"
 msgstr "Добавить подкатегорию"
 
-#: src/categories_onglet.c:464 src/etats_onglet.c:126 src/import.c:296
-#: src/import.c:2755 src/imputation_budgetaire.c:500 src/parametres.c:262
+#: src/categories_onglet.c:464 src/etats_onglet.c:126 src/import.c:300
+#: src/import.c:2786 src/imputation_budgetaire.c:500 src/parametres.c:262
 msgid "Import"
 msgstr "Импортировать"
 
@@ -663,8 +645,8 @@ msgid "Delete selected category"
 msgstr "Последний выбранный финансовый год"
 
 #: src/categories_onglet.c:492 src/etats_onglet.c:171
-#: src/fenetre_principale.c:258 src/imputation_budgetaire.c:529
-#: src/tiers_onglet.c:271
+#: src/fenetre_principale.c:255 src/imputation_budgetaire.c:529
+#: src/tiers_onglet.c:272
 #, fuzzy
 msgid "Properties"
 msgstr "Свойства валюты"
@@ -674,7 +656,7 @@ msgstr "Свойства валюты"
 msgid "Edit selected category"
 msgstr "Добавить категорию"
 
-#: src/categories_onglet.c:506 src/tiers_onglet.c:285
+#: src/categories_onglet.c:506 src/tiers_onglet.c:286
 #, fuzzy
 msgid "Change view mode"
 msgstr "Однострочный"
@@ -690,19 +672,19 @@ msgstr "Категории"
 msgid "Subcategory view"
 msgstr "Подкатегории"
 
-#: src/categories_onglet.c:590 src/categories_onglet.c:594
-#: src/imputation_budgetaire.c:626 src/imputation_budgetaire.c:631
-#: src/tiers_onglet.c:433
+#: src/categories_onglet.c:591 src/categories_onglet.c:595
+#: src/imputation_budgetaire.c:627 src/imputation_budgetaire.c:632
+#: src/tiers_onglet.c:439
 #, c-format
 msgid "Properties for %s"
 msgstr ""
 
-#: src/categories_onglet.c:592
+#: src/categories_onglet.c:593
 #, fuzzy
 msgid "No sub-category defined"
 msgstr "Подкатегории"
 
-#: src/categories_onglet.c:596 src/qif.c:1284 src/qif.c:1291
+#: src/categories_onglet.c:597 src/qif.c:1284 src/qif.c:1291
 #, fuzzy
 msgid "No category defined"
 msgstr "Новая категория"
@@ -715,45 +697,45 @@ msgstr "Новая категория"
 #. Financial year name
 #. set the name
 #. Name entry
-#: src/categories_onglet.c:617 src/gsb_archive_config.c:98
-#: src/gsb_archive_config.c:188 src/gsb_assistant_archive_export.c:148
+#: src/categories_onglet.c:618 src/gsb_archive_config.c:99
+#: src/gsb_archive_config.c:189 src/gsb_assistant_archive_export.c:148
 #: src/gsb_assistant_reconcile_config.c:390
 #: src/gsb_assistant_reconcile_config.c:1254 src/gsb_bank.c:727
 #: src/gsb_bank.c:833 src/gsb_currency_config.c:336 src/gsb_fyear_config.c:192
 #: src/gsb_fyear_config.c:279 src/gsb_payment_method_config.c:240
-#: src/gsb_reconcile_config.c:181 src/gsb_transactions_list.c:3097
-#: src/imputation_budgetaire.c:654 src/tiers_onglet.c:453
+#: src/gsb_reconcile_config.c:180 src/gsb_transactions_list.c:1776
+#: src/imputation_budgetaire.c:655 src/tiers_onglet.c:459
 msgid "Name"
 msgstr "Имя"
 
 #. Description entry
 #. Payment method method_ptr
 #. Description entry
-#: src/categories_onglet.c:642 src/gsb_payment_method_config.c:293
-#: src/import.c:329 src/imputation_budgetaire.c:679
+#: src/categories_onglet.c:643 src/gsb_payment_method_config.c:293
+#: src/import.c:333 src/imputation_budgetaire.c:680
 msgid "Type"
 msgstr ""
 
-#: src/categories_onglet.c:678 src/imputation_budgetaire.c:716
-#: src/tiers_onglet.c:503
+#: src/categories_onglet.c:679 src/imputation_budgetaire.c:717
+#: src/tiers_onglet.c:509
 #, c-format
 msgid ""
 "You tried to rename current %s to '%s' but this %s already exists.  Please "
 "choose another name."
 msgstr ""
 
-#: src/categories_onglet.c:681 src/categories_onglet.c:683
+#: src/categories_onglet.c:682 src/categories_onglet.c:684
 #: src/etats_config.c:4574 src/etats_config.c:6335
 #, fuzzy
 msgid "sub-category"
 msgstr "Подкатегории"
 
-#: src/categories_onglet.c:681 src/categories_onglet.c:683
+#: src/categories_onglet.c:682 src/categories_onglet.c:684
 #: src/etats_config.c:4546 src/etats_config.c:6330 src/etats_config.c:6440
 msgid "category"
 msgstr ""
 
-#: src/categories_onglet.c:684
+#: src/categories_onglet.c:685
 #, fuzzy
 msgid "Category already exists"
 msgstr "Файл с таким именем уже есть"
@@ -1161,12 +1143,12 @@ msgstr ""
 msgid "Result without financial year"
 msgstr ""
 
-#: src/etats_affiche.c:1334 src/gsb_transactions_list.c:5111
+#: src/etats_affiche.c:1334 src/gsb_transactions_list.c:3248
 #, c-format
 msgid "Transfer to %s"
 msgstr ""
 
-#: src/etats_affiche.c:1336 src/gsb_transactions_list.c:5114
+#: src/etats_affiche.c:1336 src/gsb_transactions_list.c:3251
 #, c-format
 msgid "Transfer from %s"
 msgstr ""
@@ -1218,8 +1200,8 @@ msgid "Transfert"
 msgstr ""
 
 #: src/etats_affiche.c:1788 src/export_csv.c:561 src/gsb_data_category.c:1042
-#: src/gsb_form.c:684 src/gsb_form.c:2391 src/gsb_form.c:2744
-#: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:5094
+#: src/gsb_form.c:726 src/gsb_form.c:2428 src/gsb_form.c:2784
+#: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3231
 msgid "Breakdown of transaction"
 msgstr ""
 
@@ -1253,37 +1235,37 @@ msgstr ""
 msgid "Outgoings"
 msgstr ""
 
-#: src/etats_affiche.c:2328 src/traitement_variables.c:88
+#: src/etats_affiche.c:2328 src/traitement_variables.c:90
 msgid "Number"
 msgstr ""
 
-#: src/etats_affiche.c:2342 src/export_csv.c:755 src/gsb_archive_config.c:98
-#: src/gsb_assistant_archive_export.c:148 src/gsb_form_widget.c:416
-#: src/gsb_transactions_list.c:200 src/traitement_variables.c:81
+#: src/etats_affiche.c:2342 src/export_csv.c:755 src/gsb_archive_config.c:99
+#: src/gsb_assistant_archive_export.c:148 src/gsb_form_widget.c:417
+#: src/gsb_transactions_list.c:155 src/traitement_variables.c:83
 msgid "Financial year"
 msgstr "Финансовый год"
 
 #. mise en place de la paddingbox des tiers
 #: src/etats_affiche.c:2349 src/etats_config.c:475 src/etats_config.c:478
 #: src/etats_config.c:643 src/etats_config.c:6753 src/export_csv.c:761
-#: src/fenetre_principale.c:273 src/gsb_assistant_reconcile_config.c:628
-#: src/gsb_form.c:1258 src/gsb_form_widget.c:420 src/gsb_scheduler_list.c:328
-#: src/gsb_transactions_list.c:192 src/import.c:2547 src/import_csv.c:80
-#: src/meta_payee.c:76 src/traitement_variables.c:73
+#: src/fenetre_principale.c:270 src/gsb_assistant_reconcile_config.c:628
+#: src/gsb_form.c:1299 src/gsb_form_widget.c:421 src/gsb_scheduler_list.c:327
+#: src/gsb_transactions_list.c:147 src/import.c:2578 src/import_csv.c:80
+#: src/meta_payee.c:76 src/traitement_variables.c:75
 msgid "Payee"
 msgstr ""
 
-#: src/etats_affiche.c:2363 src/etats_config.c:635 src/gsb_form.c:1293
-#: src/gsb_form_widget.c:432 src/gsb_transactions_list.c:193
+#: src/etats_affiche.c:2363 src/etats_config.c:635 src/gsb_form.c:1334
+#: src/gsb_form_widget.c:433 src/gsb_transactions_list.c:148
 #: src/imputation_budgetaire.c:152 src/meta_budgetary.c:62
 msgid "Budgetary line"
 msgstr "Бюджетная линия"
 
 #. Notes
 #: src/etats_affiche.c:2370 src/export_csv.c:782 src/gsb_bank.c:893
-#: src/gsb_form.c:1301 src/gsb_form_widget.c:436 src/gsb_scheduler_list.c:329
-#: src/gsb_transactions_list.c:204 src/import_csv.c:82
-#: src/traitement_variables.c:85
+#: src/gsb_form.c:1342 src/gsb_form_widget.c:437 src/gsb_scheduler_list.c:328
+#: src/gsb_transactions_list.c:159 src/import_csv.c:82
+#: src/traitement_variables.c:87
 msgid "Notes"
 msgstr "Заметки"
 
@@ -1298,15 +1280,15 @@ msgstr ""
 msgid "Cheque"
 msgstr "Чек"
 
-#: src/etats_affiche.c:2391 src/export_csv.c:791 src/gsb_form.c:1353
-#: src/gsb_form_widget.c:456 src/gsb_transactions_list.c:203
-#: src/traitement_variables.c:84
+#: src/etats_affiche.c:2391 src/export_csv.c:791 src/gsb_form.c:1394
+#: src/gsb_form_widget.c:457 src/gsb_transactions_list.c:158
+#: src/traitement_variables.c:86
 msgid "Voucher"
 msgstr "Поручитель"
 
-#: src/etats_affiche.c:2398 src/export_csv.c:797 src/gsb_form.c:1345
-#: src/gsb_form_widget.c:460 src/gsb_transactions_list.c:205
-#: src/traitement_variables.c:86
+#: src/etats_affiche.c:2398 src/export_csv.c:797 src/gsb_form.c:1386
+#: src/gsb_form_widget.c:461 src/gsb_transactions_list.c:160
+#: src/traitement_variables.c:88
 msgid "Bank references"
 msgstr ""
 
@@ -1414,23 +1396,23 @@ msgstr ""
 
 #. mise en place de la paddingbox des comptes
 #: src/etats_config.c:466 src/etats_config.c:469 src/etats_config.c:6719
-#: src/fenetre_principale.c:251 src/navigation.c:251
+#: src/fenetre_principale.c:248 src/navigation.c:253
 msgid "Accounts"
 msgstr "Счета"
 
 #. mise en place de la paddingbox des catÃ©gories
 #. set the title
 #: src/etats_config.c:484 src/etats_config.c:487 src/etats_config.c:3102
-#: src/etats_config.c:6791 src/fenetre_principale.c:286 src/navigation.c:323
-#: src/navigation.c:1265
+#: src/etats_config.c:6791 src/fenetre_principale.c:283 src/navigation.c:325
+#: src/navigation.c:1250
 msgid "Categories"
 msgstr "Категории"
 
 #. mise en place de la paddingbox des ib
 #. set the title
 #: src/etats_config.c:493 src/etats_config.c:496 src/etats_config.c:3369
-#: src/etats_config.c:6878 src/export_csv.c:785 src/fenetre_principale.c:291
-#: src/navigation.c:340 src/navigation.c:1279 src/traitement_variables.c:74
+#: src/etats_config.c:6878 src/export_csv.c:785 src/fenetre_principale.c:288
+#: src/navigation.c:342 src/navigation.c:1264 src/traitement_variables.c:76
 msgid "Budgetary lines"
 msgstr "Бюджетные линии"
 
@@ -1442,7 +1424,7 @@ msgstr ""
 msgid "Amounts"
 msgstr ""
 
-#: src/etats_config.c:529 src/gsb_category.c:80
+#: src/etats_config.c:529 src/gsb_category.c:79
 msgid "Misc."
 msgstr "Разное"
 
@@ -1473,7 +1455,7 @@ msgid "Generalities"
 msgstr ""
 
 #: src/etats_config.c:591 src/etats_config.c:594 src/export_csv.c:737
-#: src/fenetre_principale.c:255 src/parametres.c:335
+#: src/fenetre_principale.c:252 src/parametres.c:335
 msgid "Transactions"
 msgstr "Транзакции"
 
@@ -1569,19 +1551,19 @@ msgid "Detail financial years"
 msgstr ""
 
 #. set the initial date
-#: src/etats_config.c:2395 src/gsb_archive_config.c:98
+#: src/etats_config.c:2395 src/gsb_archive_config.c:99
 #: src/gsb_assistant_archive.c:239 src/gsb_assistant_archive_export.c:148
 #: src/gsb_assistant_reconcile_config.c:422
-#: src/gsb_assistant_reconcile_config.c:1254 src/gsb_reconcile_config.c:196
+#: src/gsb_assistant_reconcile_config.c:1254 src/gsb_reconcile_config.c:195
 msgid "Initial date"
 msgstr ""
 
 #. set the final date
-#: src/etats_config.c:2427 src/gsb_archive_config.c:98
+#: src/etats_config.c:2427 src/gsb_archive_config.c:99
 #: src/gsb_assistant_archive.c:257 src/gsb_assistant_archive_export.c:148
 #: src/gsb_assistant_reconcile_config.c:437
-#: src/gsb_assistant_reconcile_config.c:1254 src/gsb_reconcile_config.c:98
-#: src/gsb_reconcile_config.c:211 src/gsb_transactions_list.c:3097
+#: src/gsb_assistant_reconcile_config.c:1254 src/gsb_reconcile_config.c:97
+#: src/gsb_reconcile_config.c:210 src/gsb_transactions_list.c:1776
 msgid "Final date"
 msgstr ""
 
@@ -1688,8 +1670,8 @@ msgid "Exclude transactions without budgetary line"
 msgstr ""
 
 #. set the title
-#: src/etats_config.c:3635 src/navigation.c:286 src/navigation.c:1238
-#: src/tiers_onglet.c:169
+#: src/etats_config.c:3635 src/navigation.c:288 src/navigation.c:1223
+#: src/tiers_onglet.c:170
 msgid "Payees"
 msgstr ""
 
@@ -1734,7 +1716,7 @@ msgid "Remove"
 msgstr ""
 
 #: src/etats_config.c:4490 src/etats_config.c:6325 src/etats_config.c:6433
-#: src/tiers_onglet.c:506 src/tiers_onglet.c:508
+#: src/tiers_onglet.c:512 src/tiers_onglet.c:514
 msgid "payee"
 msgstr ""
 
@@ -1744,12 +1726,12 @@ msgid "payee information"
 msgstr "Информация"
 
 #: src/etats_config.c:4602 src/etats_config.c:6340 src/etats_config.c:6447
-#: src/imputation_budgetaire.c:721 src/imputation_budgetaire.c:725
+#: src/imputation_budgetaire.c:722 src/imputation_budgetaire.c:726
 msgid "budgetary line"
 msgstr ""
 
 #: src/etats_config.c:4630 src/etats_config.c:6345
-#: src/imputation_budgetaire.c:720 src/imputation_budgetaire.c:724
+#: src/imputation_budgetaire.c:721 src/imputation_budgetaire.c:725
 #, fuzzy
 msgid "sub-budgetary line"
 msgstr "Бюджетная линия"
@@ -1800,9 +1782,9 @@ msgid "isn't empty"
 msgstr ""
 
 #: src/etats_config.c:4898 src/export_csv.c:770
-#: src/gsb_assistant_reconcile_config.c:628 src/gsb_scheduler_list.c:329
-#: src/gsb_transactions_list.c:197 src/import.c:2555
-#: src/traitement_variables.c:78
+#: src/gsb_assistant_reconcile_config.c:628 src/gsb_scheduler_list.c:328
+#: src/gsb_transactions_list.c:152 src/import.c:2586
+#: src/traitement_variables.c:80
 msgid "Amount"
 msgstr "Кол-во"
 
@@ -1986,7 +1968,7 @@ msgstr ""
 msgid "day"
 msgstr ""
 
-#: src/etats_config.c:6212 src/gsb_archive_config.c:98
+#: src/etats_config.c:6212 src/gsb_archive_config.c:99
 #: src/gsb_assistant_archive_export.c:148
 msgid "Report name"
 msgstr ""
@@ -2179,7 +2161,7 @@ msgstr ""
 msgid "Select methods of payment to include"
 msgstr ""
 
-#: src/etats_csv.c:180
+#: src/etats_csv.c:184
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr ""
@@ -2260,8 +2242,8 @@ msgstr "_Закрыть"
 msgid "Clone selected report"
 msgstr "Склонировать отчёт"
 
-#: src/etats_onglet.c:226 src/fenetre_principale.c:296 src/navigation.c:357
-#: src/navigation.c:1313
+#: src/etats_onglet.c:226 src/fenetre_principale.c:293 src/navigation.c:359
+#: src/navigation.c:1298
 msgid "Reports"
 msgstr "Отчёты"
 
@@ -2419,8 +2401,8 @@ msgstr "Файл HTML"
 msgid "Exporting report ..."
 msgstr "Экспортировать в CSV"
 
-#: src/etats_onglet.c:1241 src/gsb_file.c:491 src/gsb_file.c:611
-#: src/gsb_file.c:656 src/gsb_file_debug.c:204
+#: src/etats_onglet.c:1241 src/gsb_file.c:491 src/gsb_file.c:609
+#: src/gsb_file.c:654 src/gsb_file_debug.c:204
 #, fuzzy
 msgid "Done"
 msgstr "Ничего"
@@ -2515,7 +2497,7 @@ msgid "Select accounts to export"
 msgstr ""
 
 #: src/export.c:168 src/export_csv.c:740 src/gsb_account_property.c:159
-#: src/import.c:1055 src/import.c:1091
+#: src/import.c:1060 src/import.c:1096
 msgid "Account name"
 msgstr "Название счёта"
 
@@ -2561,8 +2543,8 @@ msgstr ""
 
 #. set the initial balance
 #: src/export_csv.c:274 src/gsb_account_property.c:372
-#: src/gsb_assistant_reconcile_config.c:453 src/gsb_reconcile.c:209
-#: src/gsb_reconcile_config.c:240
+#: src/gsb_assistant_reconcile_config.c:453 src/gsb_reconcile.c:211
+#: src/gsb_reconcile_config.c:239
 msgid "Initial balance"
 msgstr "Исходный баланс"
 
@@ -2579,13 +2561,13 @@ msgid "C"
 msgstr ""
 
 #. RECONCILED_TRANSACTION
-#: src/export_csv.c:462 src/gsb_transactions_list.c:1525
-#: src/gsb_transactions_list.c:2949
+#: src/export_csv.c:462 src/gsb_transactions_list.c:852
+#: src/gsb_transactions_list.c:1649
 msgid "R"
 msgstr ""
 
 #. TELECHECKED_TRANSACTION
-#: src/export_csv.c:465 src/gsb_transactions_list.c:1521
+#: src/export_csv.c:465 src/gsb_transactions_list.c:848
 msgid "T"
 msgstr ""
 
@@ -2601,7 +2583,7 @@ msgstr ""
 msgid "Transfer"
 msgstr ""
 
-#: src/export_csv.c:693 src/gsb_form.c:1767
+#: src/export_csv.c:693 src/gsb_form.c:1806
 msgid "Deleted account"
 msgstr "Удалённая учётная запись"
 
@@ -2609,9 +2591,9 @@ msgstr "Удалённая учётная запись"
 msgid "Breakdown"
 msgstr ""
 
-#: src/export_csv.c:749 src/gsb_form.c:1236 src/gsb_form_widget.c:412
-#: src/gsb_transactions_list.c:191 src/import_csv.c:79
-#: src/traitement_variables.c:72
+#: src/export_csv.c:749 src/gsb_form.c:1277 src/gsb_form_widget.c:413
+#: src/gsb_transactions_list.c:146 src/import_csv.c:79
+#: src/traitement_variables.c:74
 msgid "Value date"
 msgstr ""
 
@@ -2619,8 +2601,8 @@ msgstr ""
 msgid "Cheques"
 msgstr ""
 
-#: src/export_csv.c:758 src/gsb_transactions_list.c:202 src/import_csv.c:91
-#: src/traitement_variables.c:83
+#: src/export_csv.c:758 src/gsb_transactions_list.c:157 src/import_csv.c:91
+#: src/traitement_variables.c:85
 msgid "C/R"
 msgstr ""
 
@@ -2636,21 +2618,21 @@ msgstr ""
 msgid "Reconciliation number"
 msgstr "Номер выверки счетов"
 
-#: src/fenetre_principale.c:239
+#: src/fenetre_principale.c:236
 msgid "Main page"
 msgstr "Резюме"
 
-#: src/fenetre_principale.c:268 src/navigation.c:269
+#: src/fenetre_principale.c:265 src/navigation.c:271
 msgid "Scheduler"
 msgstr "Расписание"
 
 #. set the title
-#: src/fenetre_principale.c:280 src/navigation.c:304 src/navigation.c:1253
+#: src/fenetre_principale.c:277 src/navigation.c:306 src/navigation.c:1238
 #, fuzzy
 msgid "Balance estimate"
 msgstr "Балансы"
 
-#: src/fenetre_principale.c:307
+#: src/fenetre_principale.c:304
 msgid "Outbox"
 msgstr ""
 
@@ -3107,11 +3089,11 @@ msgstr ""
 msgid "Account details"
 msgstr "Подробнее о счёте"
 
-#: src/gsb_account_property.c:176 src/import.c:1008
+#: src/gsb_account_property.c:176 src/import.c:1013
 msgid "Account type"
 msgstr "Тип счёта"
 
-#: src/gsb_account_property.c:194 src/import.c:1109
+#: src/gsb_account_property.c:194 src/import.c:1114
 msgid "Account currency"
 msgstr "Валюта счёта"
 
@@ -3203,49 +3185,49 @@ msgid "Change the transactions currency"
 msgstr "Добавить транзакции"
 
 #. create the page
-#: src/gsb_archive_config.c:111 src/parametres.c:462
+#: src/gsb_archive_config.c:112 src/parametres.c:462
 msgid "Archives"
 msgstr ""
 
-#: src/gsb_archive_config.c:116
+#: src/gsb_archive_config.c:117
 #, fuzzy
 msgid "Known archives"
 msgstr "Известные валюты"
 
-#: src/gsb_archive_config.c:175
+#: src/gsb_archive_config.c:176
 msgid "Archive modification"
 msgstr ""
 
 #. button to delete an archive and free the transactions
-#: src/gsb_archive_config.c:205
+#: src/gsb_archive_config.c:206
 #, fuzzy
 msgid "Delete the archive"
 msgstr "Удалить транзакцию"
 
 #. button to delete an archive and delete the transactions
-#: src/gsb_archive_config.c:222
+#: src/gsb_archive_config.c:223
 #, fuzzy
 msgid "Delete the archive and transactions"
 msgstr "Удалить транзакцию"
 
-#: src/gsb_archive_config.c:243
+#: src/gsb_archive_config.c:244
 msgid "Automatic check"
 msgstr ""
 
-#: src/gsb_archive_config.c:245
+#: src/gsb_archive_config.c:246
 msgid "Check at opening if creating archive is needed."
 msgstr ""
 
-#: src/gsb_archive_config.c:259
+#: src/gsb_archive_config.c:260
 msgid "Warn if more than "
 msgstr ""
 
-#: src/gsb_archive_config.c:272
+#: src/gsb_archive_config.c:273
 #, fuzzy
 msgid " transactions are not archived."
 msgstr "Просмотр вида списка транзакций"
 
-#: src/gsb_archive_config.c:460
+#: src/gsb_archive_config.c:461
 #, c-format
 msgid ""
 "Warning, you are about the delete the archive \"%s\".\n"
@@ -3257,11 +3239,11 @@ msgid ""
 "Do you want to continue ?"
 msgstr ""
 
-#: src/gsb_archive_config.c:462
+#: src/gsb_archive_config.c:463
 msgid "Deleting an archive"
 msgstr ""
 
-#: src/gsb_archive_config.c:523
+#: src/gsb_archive_config.c:520
 #, c-format
 msgid ""
 "Warning, you are about the delete the archive \"%s\" and its associated "
@@ -3275,13 +3257,13 @@ msgid ""
 "Are you sure you want to continue ?"
 msgstr ""
 
-#: src/gsb_archive_config.c:525
+#: src/gsb_archive_config.c:522
 #, fuzzy
 msgid "Deleting an archive and its transactions"
 msgstr "Удалить транзакцию"
 
 #. New account
-#: src/gsb_assistant_account.c:87 src/import.c:1000
+#: src/gsb_assistant_account.c:87 src/import.c:1005
 msgid "Create a new account"
 msgstr "Создать новый счёт"
 
@@ -3457,8 +3439,8 @@ msgstr "Напечатать отчёт"
 msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
-#: src/gsb_assistant_archive.c:354 src/gsb_data_payee.c:519
-#: src/gsb_form.c:2500 src/gsb_form.c:2501 src/navigation.c:1311
+#: src/gsb_assistant_archive.c:354 src/gsb_data_payee.c:512
+#: src/gsb_form.c:2537 src/gsb_form.c:2538 src/navigation.c:1296
 msgid "Report"
 msgstr ""
 
@@ -3467,7 +3449,7 @@ msgstr ""
 msgid "Please choose a name for archive"
 msgstr ""
 
-#: src/gsb_assistant_archive.c:482 src/import.c:710
+#: src/gsb_assistant_archive.c:482 src/import.c:714
 msgid "Congratulations !"
 msgstr ""
 
@@ -3867,8 +3849,8 @@ msgid ""
 msgstr ""
 
 #. set the final date
-#: src/gsb_assistant_reconcile_config.c:468 src/gsb_reconcile.c:217
-#: src/gsb_reconcile_config.c:99 src/gsb_reconcile_config.c:255
+#: src/gsb_assistant_reconcile_config.c:468 src/gsb_reconcile.c:219
+#: src/gsb_reconcile_config.c:98 src/gsb_reconcile_config.c:254
 msgid "Final balance"
 msgstr ""
 
@@ -3989,7 +3971,7 @@ msgstr "Преобразовать транзакцию в _запланиров
 msgid "No selection found, the transactions are not modified."
 msgstr ""
 
-#: src/gsb_bank.c:381 src/gsb_reconcile.c:416
+#: src/gsb_bank.c:381 src/gsb_reconcile.c:418
 msgid "None"
 msgstr "Ничего"
 
@@ -4080,3347 +4062,3341 @@ msgstr ""
 msgid "Cancel"
 msgstr "Отменить"
 
-#: src/gsb_category.c:57
+#: src/gsb_category.c:56
 msgid "Food : Bar"
 msgstr "Еда : Бар"
 
-#: src/gsb_category.c:58
+#: src/gsb_category.c:57
 msgid "Food : Baker"
 msgstr "Еда : Булочник"
 
-#: src/gsb_category.c:59
+#: src/gsb_category.c:58
 msgid "Food : Canteen"
 msgstr "Еда : Столовая"
 
-#: src/gsb_category.c:60
+#: src/gsb_category.c:59
 msgid "Food : Sweets"
 msgstr "Еда : Сладкое"
 
-#: src/gsb_category.c:61
+#: src/gsb_category.c:60
 msgid "Food : Misc"
 msgstr "Еда : Разное"
 
-#: src/gsb_category.c:62
+#: src/gsb_category.c:61
 msgid "Food : Grocery"
 msgstr "Еда : Зеленщик"
 
-#: src/gsb_category.c:63
+#: src/gsb_category.c:62
 msgid "Food : Restaurant"
 msgstr "Еда : Ресторан"
 
-#: src/gsb_category.c:64
+#: src/gsb_category.c:63
 msgid "Food : Self-service"
 msgstr "Еда : Самообслуживание"
 
-#: src/gsb_category.c:65
+#: src/gsb_category.c:64
 msgid "Food : Supermarket"
 msgstr "Еда : Супермаркет"
 
-#: src/gsb_category.c:66
+#: src/gsb_category.c:65
 msgid "Pets : Food"
 msgstr "Домашние животные : Еда"
 
-#: src/gsb_category.c:67
+#: src/gsb_category.c:66
 msgid "Pets : Various supplies"
 msgstr "Домашние животные : Фуфыськи"
 
-#: src/gsb_category.c:68
+#: src/gsb_category.c:67
 msgid "Pets : Grooming"
 msgstr "Домашние животные : Уход"
 
-#: src/gsb_category.c:69
+#: src/gsb_category.c:68
 msgid "Pets : Veterinary surgeon"
 msgstr "Домашние животные : Ветеринар"
 
-#: src/gsb_category.c:70
+#: src/gsb_category.c:69
 msgid "Insurance : Car"
 msgstr "Страховка : Автомобиль"
 
-#: src/gsb_category.c:71
+#: src/gsb_category.c:70
 msgid "Insurance : Health"
 msgstr "Страховка : Здоровье"
 
-#: src/gsb_category.c:72
+#: src/gsb_category.c:71
 msgid "Insurance : House"
 msgstr "Страховка : Дом"
 
-#: src/gsb_category.c:73
+#: src/gsb_category.c:72
 msgid "Insurance : Civil liability"
 msgstr "Страховка : Гражданская ответственность"
 
-#: src/gsb_category.c:74
+#: src/gsb_category.c:73
 msgid "Insurance : Life"
 msgstr "Страховка : Жизнь"
 
-#: src/gsb_category.c:75
+#: src/gsb_category.c:74
 msgid "Car : Fuel"
 msgstr "Автомобиль : Топливо"
 
-#: src/gsb_category.c:76
+#: src/gsb_category.c:75
 msgid "Car : Repairs"
 msgstr "Автомобиль : Ремонт"
 
-#: src/gsb_category.c:77
+#: src/gsb_category.c:76
 msgid "Car : Maintenance"
 msgstr "Автомобиль : Обслуживание"
 
-#: src/gsb_category.c:78
+#: src/gsb_category.c:77
 msgid "Car : Parking"
 msgstr "Автомобиль : Парковка"
 
-#: src/gsb_category.c:79
+#: src/gsb_category.c:78
 msgid "Car : Fines"
 msgstr "Автомобиль : Штраф"
 
-#: src/gsb_category.c:81
+#: src/gsb_category.c:80
 msgid "Gifts"
 msgstr "Подарки"
 
-#: src/gsb_category.c:82
+#: src/gsb_category.c:81
 msgid "Children : Nurse"
 msgstr "Дети : Сиделка"
 
-#: src/gsb_category.c:83
+#: src/gsb_category.c:82
 msgid "Children : Misc."
 msgstr "Дети : Разное"
 
-#: src/gsb_category.c:84
+#: src/gsb_category.c:83
 msgid "Children : Studies"
 msgstr "Дети : Частные уроки"
 
-#: src/gsb_category.c:85
+#: src/gsb_category.c:84
 msgid "Studies : Lessons"
 msgstr "Учёба : Частные уроки"
 
-#: src/gsb_category.c:86
+#: src/gsb_category.c:85
 #, fuzzy
 msgid "Studies : Scool fees"
 msgstr "Учёба : Оплата школы"
 
-#: src/gsb_category.c:87
+#: src/gsb_category.c:86
 msgid "Studies : Books"
 msgstr "Учёба : Книги"
 
-#: src/gsb_category.c:88
+#: src/gsb_category.c:87
 #, fuzzy
 msgid "Miscelanious : Gifts"
 msgstr "Разное : Подарки"
 
-#: src/gsb_category.c:89
+#: src/gsb_category.c:88
 #, fuzzy
 msgid "Financial expenses : Miscelanious"
 msgstr "Налоги : Разное"
 
-#: src/gsb_category.c:90
+#: src/gsb_category.c:89
 msgid "Financial expenses : Bank charges"
 msgstr ""
 
-#: src/gsb_category.c:91
+#: src/gsb_category.c:90
 msgid "Financial expenses : Loan/Mortgage"
 msgstr ""
 
-#: src/gsb_category.c:92
+#: src/gsb_category.c:91
 msgid "Financial expenses : Charges"
 msgstr ""
 
-#: src/gsb_category.c:93
+#: src/gsb_category.c:92
 msgid "Financial expenses : Refunding"
 msgstr ""
 
-#: src/gsb_category.c:94
+#: src/gsb_category.c:93
 msgid "Professionnal expenses : Non refundable"
 msgstr ""
 
-#: src/gsb_category.c:95
+#: src/gsb_category.c:94
 msgid "Professionnal expenses : Refundable"
 msgstr ""
 
-#: src/gsb_category.c:96
+#: src/gsb_category.c:95
 #, fuzzy
 msgid "Taxes : Miscelanious"
 msgstr "Налоги : Разное"
 
-#: src/gsb_category.c:97
+#: src/gsb_category.c:96
 msgid "Taxes : Income"
 msgstr "Налоги : Подоходный"
 
-#: src/gsb_category.c:98
+#: src/gsb_category.c:97
 msgid "Taxes : Land"
 msgstr "Налоги : Земля"
 
-#: src/gsb_category.c:99
+#: src/gsb_category.c:98
 msgid "Housing : Hotel"
 msgstr "Дом : Отель"
 
-#: src/gsb_category.c:100
+#: src/gsb_category.c:99
 msgid "Housing : Rent"
 msgstr "Дом : Рента"
 
-#: src/gsb_category.c:101
+#: src/gsb_category.c:100
 msgid "Housing : TV"
 msgstr "Дом : ТВ"
 
-#: src/gsb_category.c:102
+#: src/gsb_category.c:101
 msgid "Housing : Furnitures"
 msgstr "Дом : Мебель"
 
-#: src/gsb_category.c:103
+#: src/gsb_category.c:102
 msgid "Housing : Charges"
 msgstr "Дом : Рента"
 
-#: src/gsb_category.c:104
+#: src/gsb_category.c:103
 msgid "Housing : Heating"
 msgstr "Дом : Отопление"
 
-#: src/gsb_category.c:105
+#: src/gsb_category.c:104
 msgid "Housing : Decoration"
 msgstr "Дом : Украшение интерьера"
 
-#: src/gsb_category.c:106
+#: src/gsb_category.c:105
 msgid "Housing : Water"
 msgstr "Дом : Вода"
 
-#: src/gsb_category.c:107
+#: src/gsb_category.c:106
 msgid "Housing : Electricity"
 msgstr "Дом : Электричество"
 
-#: src/gsb_category.c:108
+#: src/gsb_category.c:107
 msgid "Housing : White products"
 msgstr ""
 
-#: src/gsb_category.c:109
+#: src/gsb_category.c:108
 msgid "Housing : Equipment"
 msgstr "Дом : Инструменты"
 
-#: src/gsb_category.c:110
+#: src/gsb_category.c:109
 msgid "Housing : Gaz"
 msgstr "Дом : Газ"
 
-#: src/gsb_category.c:111
+#: src/gsb_category.c:110
 msgid "Housing : Garden"
 msgstr "Дом : Сад"
 
-#: src/gsb_category.c:112
+#: src/gsb_category.c:111
 msgid "Housing : House keeper"
 msgstr "Дом : Экономка"
 
-#: src/gsb_category.c:113
+#: src/gsb_category.c:112
 msgid "Housing : Phone"
 msgstr "Дом : Телефон"
 
-#: src/gsb_category.c:114
+#: src/gsb_category.c:113
 msgid "Housing : Mobile Phone"
 msgstr "Дом : Мобильный телефон"
 
-#: src/gsb_category.c:115
+#: src/gsb_category.c:114
 msgid "Leisures : Snooker"
 msgstr "Хобби : Бильярд"
 
-#: src/gsb_category.c:116
+#: src/gsb_category.c:115
 msgid "Leisures : Bowling"
 msgstr "Хобби : Боулинг"
 
-#: src/gsb_category.c:117
+#: src/gsb_category.c:116
 msgid "Leisures : Movies"
 msgstr "Хобби : Кинотеатр"
 
-#: src/gsb_category.c:118
+#: src/gsb_category.c:117
 msgid "Leisures : Night club"
 msgstr "Хобби : Ночной клуб"
 
-#: src/gsb_category.c:119
+#: src/gsb_category.c:118
 msgid "Leisures : IT"
 msgstr "Хобби : Компьютер"
 
-#: src/gsb_category.c:120
+#: src/gsb_category.c:119
 msgid "Leisures : Games"
 msgstr "Хобби : Игры"
 
-#: src/gsb_category.c:121
+#: src/gsb_category.c:120
 msgid "Leisures : Books"
 msgstr "Хобби : Книги"
 
-#: src/gsb_category.c:122
+#: src/gsb_category.c:121
 msgid "Leisures : Parks"
 msgstr "Хобби : Парк"
 
-#: src/gsb_category.c:123
+#: src/gsb_category.c:122
 msgid "Leisures : Concerts"
 msgstr "Хобби : Концерты"
 
-#: src/gsb_category.c:124
+#: src/gsb_category.c:123
 msgid "Leisures : Sports"
 msgstr "Хобби : Спорт"
 
-#: src/gsb_category.c:125
+#: src/gsb_category.c:124
 msgid "Leisures : Video"
 msgstr "Хобби : Видео"
 
-#: src/gsb_category.c:126
+#: src/gsb_category.c:125
 msgid "Leisures : Travels"
 msgstr "Хобби : Путешествия"
 
-#: src/gsb_category.c:127
+#: src/gsb_category.c:126
 msgid "Leisures : Equipment"
 msgstr "Хобби : Снаряжение"
 
-#: src/gsb_category.c:128
+#: src/gsb_category.c:127
 msgid "Leisures : Museums/Exhibitions"
 msgstr "Хобби : Музеи и выставки"
 
-#: src/gsb_category.c:129
+#: src/gsb_category.c:128
 msgid "Loan/Mortgage : Capital"
 msgstr ""
 
-#: src/gsb_category.c:130
+#: src/gsb_category.c:129
 msgid "Health : Insurance"
 msgstr "Здоровье : Страховка"
 
-#: src/gsb_category.c:131
+#: src/gsb_category.c:130
 msgid "Health : Dentist"
 msgstr "Здоровье : Зубной врач"
 
-#: src/gsb_category.c:132
+#: src/gsb_category.c:131
 msgid "Health : Hospital"
 msgstr "Здоровье : Больница"
 
-#: src/gsb_category.c:133
+#: src/gsb_category.c:132
 msgid "Health : Kinesitherapist"
 msgstr ""
 
-#: src/gsb_category.c:134
+#: src/gsb_category.c:133
 msgid "Health : Doctor"
 msgstr "Здоровье : Врач"
 
-#: src/gsb_category.c:135
+#: src/gsb_category.c:134
 msgid "Health : Ophtalmologist"
 msgstr "Здоровье : Офтальмолог"
 
-#: src/gsb_category.c:136
+#: src/gsb_category.c:135
 msgid "Health : Osteopath"
 msgstr "Здоровье : Остеопат"
 
-#: src/gsb_category.c:137
+#: src/gsb_category.c:136
 msgid "Health : Chemist"
 msgstr ""
 
-#: src/gsb_category.c:138
+#: src/gsb_category.c:137
 msgid "Health : Social security"
 msgstr "Здоровье : Социальное страхование"
 
-#: src/gsb_category.c:139
+#: src/gsb_category.c:138
 msgid "Care : Hairdresser"
 msgstr ""
 
-#: src/gsb_category.c:140
+#: src/gsb_category.c:139
 msgid "Care : Clothing"
 msgstr ""
 
-#: src/gsb_category.c:141
+#: src/gsb_category.c:140
 msgid "Transport : Bus"
 msgstr "Транспорт : Автобус"
 
-#: src/gsb_category.c:142
+#: src/gsb_category.c:141
 msgid "Transport : Metro"
 msgstr "Транспорт : Метро"
 
-#: src/gsb_category.c:143
+#: src/gsb_category.c:142
 msgid "Transport : Toll"
 msgstr "Транспорт : Мостовой сбор"
 
-#: src/gsb_category.c:144 src/gsb_category.c:147
+#: src/gsb_category.c:143 src/gsb_category.c:146
 msgid "Transport : Train"
 msgstr "Транспорт : Поезд"
 
-#: src/gsb_category.c:145
+#: src/gsb_category.c:144
 msgid "Transport : Tramway"
 msgstr "Транспорт : Трамвай"
 
-#: src/gsb_category.c:146
+#: src/gsb_category.c:145
 msgid "Transport : Travels"
 msgstr "Транспорт : Путешествия"
 
-#: src/gsb_category.c:148
+#: src/gsb_category.c:147
 msgid "Holiday : Housing"
 msgstr ""
 
-#: src/gsb_category.c:149
+#: src/gsb_category.c:148
 msgid "Holiday : Visits"
 msgstr ""
 
-#: src/gsb_category.c:150
+#: src/gsb_category.c:149
 #, fuzzy
 msgid "Holiday : Travels"
 msgstr "Хобби : Путешествия"
 
-#: src/gsb_category.c:154
+#: src/gsb_category.c:153
 msgid "Other incomes : Unemployment benefit"
 msgstr ""
 
-#: src/gsb_category.c:155
+#: src/gsb_category.c:154
 msgid "Other incomes : Family allowance"
 msgstr ""
 
-#: src/gsb_category.c:156
+#: src/gsb_category.c:155
 msgid "Other incomes : Tax credit"
 msgstr ""
 
-#: src/gsb_category.c:157
+#: src/gsb_category.c:156
 msgid "Other incomes : Gamble"
 msgstr ""
 
-#: src/gsb_category.c:158
+#: src/gsb_category.c:157
 msgid "Other incomes : Mutual insurance"
 msgstr ""
 
-#: src/gsb_category.c:159
+#: src/gsb_category.c:158
 msgid "Other incomes : Social security"
 msgstr ""
 
-#: src/gsb_category.c:160
+#: src/gsb_category.c:159
 msgid "Retirement : Retirement Fund"
 msgstr ""
 
-#: src/gsb_category.c:161
+#: src/gsb_category.c:160
 msgid "Retirement : Pension"
 msgstr ""
 
-#: src/gsb_category.c:162
+#: src/gsb_category.c:161
 msgid "Retirement : Supplementary pension"
 msgstr ""
 
-#: src/gsb_category.c:163
+#: src/gsb_category.c:162
 msgid "Investment incomes : Dividends"
 msgstr ""
 
-#: src/gsb_category.c:164
+#: src/gsb_category.c:163
 msgid "Investment incomes : Interests"
 msgstr ""
 
-#: src/gsb_category.c:165
+#: src/gsb_category.c:164
 msgid "Investment incomes : Capital gain"
 msgstr ""
 
-#: src/gsb_category.c:166
+#: src/gsb_category.c:165
 msgid "Salary : Overtime"
 msgstr ""
 
-#: src/gsb_category.c:167
+#: src/gsb_category.c:166
 msgid "Salary : Leave allowance"
 msgstr ""
 
-#: src/gsb_category.c:168
+#: src/gsb_category.c:167
 msgid "Salary : Misc. premiums"
 msgstr ""
 
-#: src/gsb_category.c:169
+#: src/gsb_category.c:168
 msgid "Salary : Success fee"
 msgstr ""
 
-#: src/gsb_category.c:170
+#: src/gsb_category.c:169
 msgid "Salary : Net salary"
 msgstr ""
 
-#: src/gsb_category.c:171
+#: src/gsb_category.c:170
 msgid "Misc. incomes : Gifts"
 msgstr ""
 
-#: src/gsb_category.c:172
+#: src/gsb_category.c:171
 msgid "Misc. incomes : Refunds"
 msgstr ""
 
-#: src/gsb_category.c:173
+#: src/gsb_category.c:172
 msgid "Misc. incomes : Second hand sales"
 msgstr ""
 
-#: src/gsb_category.c:178
+#: src/gsb_category.c:177
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1020. Fonds associatifs sans droit de "
 "reprise"
 msgstr ""
 
-#: src/gsb_category.c:179
+#: src/gsb_category.c:178
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1021. Valeur du patrimoine intÃ©grÃ©"
 msgstr ""
 
-#: src/gsb_category.c:180
+#: src/gsb_category.c:179
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1022. Fonds statutaires (Ã  dÃ©clarer "
 "en fonction des statuts)"
 msgstr ""
 
-#: src/gsb_category.c:181
+#: src/gsb_category.c:180
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1024. Apports sans droit de reprise"
 msgstr ""
 
-#: src/gsb_category.c:182
+#: src/gsb_category.c:181
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1025. Lges et donations avec "
 "contrepartie d'actifs immobilisÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:183
+#: src/gsb_category.c:182
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1026. Subventions d'investissement "
 "affectÃ©es Ã  des biens renouvelables"
 msgstr ""
 
-#: src/gsb_category.c:184
+#: src/gsb_category.c:183
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1030. Fonfs associatifs avec droit de "
 "reprise"
 msgstr ""
 
-#: src/gsb_category.c:185
+#: src/gsb_category.c:184
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1034. Apports avec droit de reprise"
 msgstr ""
 
-#: src/gsb_category.c:186
+#: src/gsb_category.c:185
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1035. Legs et donations avec "
 "contrepartie d'actifs immobilisÃ©s assorties d'une obligation ou d'une "
 "condition"
 msgstr ""
 
-#: src/gsb_category.c:187
+#: src/gsb_category.c:186
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1036. Subventions d'investissement "
 "affectÃ©es Ã  des biens renouvelables"
 msgstr ""
 
-#: src/gsb_category.c:188
+#: src/gsb_category.c:187
 msgid "10. Fonds associatifs et rÃ©serves : 1050. Ecarts et rÃ©Ã©valuation"
 msgstr ""
 
-#: src/gsb_category.c:189
+#: src/gsb_category.c:188
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1051. Ecarts et rÃ©Ã©valuations sur des "
 "biens sans droit de reprise"
 msgstr ""
 
-#: src/gsb_category.c:190
+#: src/gsb_category.c:189
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1052. Ecarts et rÃ©Ã©valuations sur des "
 "biens avec droit de reprise"
 msgstr ""
 
-#: src/gsb_category.c:191
+#: src/gsb_category.c:190
 msgid "10. Fonds associatifs et rÃ©serves : 1060. RÃ©serves"
 msgstr ""
 
-#: src/gsb_category.c:192
+#: src/gsb_category.c:191
 msgid "10. Fonds associatifs et rÃ©serves : 1062. RÃ©serves indisponibles"
 msgstr ""
 
-#: src/gsb_category.c:193
+#: src/gsb_category.c:192
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1063. RÃ©serves statutaires ou "
 "contractuelles"
 msgstr ""
 
-#: src/gsb_category.c:194
+#: src/gsb_category.c:193
 msgid "10. Fonds associatifs et rÃ©serves : 1064. RÃ©serves rÃ©glementÃ©es"
 msgstr ""
 
-#: src/gsb_category.c:195
+#: src/gsb_category.c:194
 msgid ""
 "10. Fonds associatifs et rÃ©serves : 1068. Autres rÃ©serves (dont rÃ©serves "
 "pour projet associatif)"
 msgstr ""
 
-#: src/gsb_category.c:196
+#: src/gsb_category.c:195
 msgid "11. ElÃ©ments en instance d'affectation : 110. Report Ã  nouveau"
 msgstr ""
 
-#: src/gsb_category.c:197
+#: src/gsb_category.c:196
 msgid ""
 "11. ElÃ©ments en instance d'affectation : 115. RÃ©sultats sous contrÃ´le de "
 "tiers financeurs"
 msgstr ""
 
-#: src/gsb_category.c:198
+#: src/gsb_category.c:197
 msgid ""
 "12. RÃ©sultat net de l'exercice (exÃ©dent ou dÃ©ficit) : 120. RÃ©sultat des "
 "l'exercice (exÃ©dent)"
 msgstr ""
 
-#: src/gsb_category.c:199
+#: src/gsb_category.c:198
 msgid ""
 "12. RÃ©sultat net de l'exercice (exÃ©dent ou dÃ©ficit) : 129. RÃ©sultat de "
 "l'exercice (dÃ©ficit)"
 msgstr ""
 
-#: src/gsb_category.c:200
+#: src/gsb_category.c:199
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1310. Subventions d'investissements (renouvelable)"
 msgstr ""
 
-#: src/gsb_category.c:201
+#: src/gsb_category.c:200
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1311. Etat"
 msgstr ""
 
-#: src/gsb_category.c:202
+#: src/gsb_category.c:201
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1312. RÃ©gions"
 msgstr ""
 
-#: src/gsb_category.c:203
+#: src/gsb_category.c:202
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1313. DÃ©partements"
 msgstr ""
 
-#: src/gsb_category.c:204
+#: src/gsb_category.c:203
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1314. Communes"
 msgstr ""
 
-#: src/gsb_category.c:205
+#: src/gsb_category.c:204
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1315. CollectivitÃ©s publiques"
 msgstr ""
 
-#: src/gsb_category.c:206
+#: src/gsb_category.c:205
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1316. Entreprise publiques"
 msgstr ""
 
-#: src/gsb_category.c:207
+#: src/gsb_category.c:206
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1317. Entreprises et organismes privÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:208
+#: src/gsb_category.c:207
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1318. Autres"
 msgstr ""
 
-#: src/gsb_category.c:209
+#: src/gsb_category.c:208
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1380. Autres subventions d'investissement"
 msgstr ""
 
-#: src/gsb_category.c:210
+#: src/gsb_category.c:209
 msgid ""
 "13. Subventions d'investissement affectÃ©es Ã  des biens non renouvelables : "
 "1390. Subventions d'investissement inscrites au compte de rÃ©sultat"
 msgstr ""
 
-#: src/gsb_category.c:211
+#: src/gsb_category.c:210
 msgid ""
 "14. Provisions rÃ©glementÃ©es : 1420. Provisions rÃ©glementÃ©es relatives "
 "aux immobilisations"
 msgstr ""
 
-#: src/gsb_category.c:212
+#: src/gsb_category.c:211
 msgid ""
 "14. Provisions rÃ©glementÃ©es : 1430. Provisions rÃ©glementÃ©es relatives "
 "aux stocks"
 msgstr ""
 
-#: src/gsb_category.c:213
+#: src/gsb_category.c:212
 msgid ""
 "14. Provisions rÃ©glementÃ©es : 1424. Provisions pour investissement "
 "(participation des salariÃ©s)"
 msgstr ""
 
-#: src/gsb_category.c:214
+#: src/gsb_category.c:213
 msgid "14. Provisions rÃ©glementÃ©es : 1431. Hausse des prix"
 msgstr ""
 
-#: src/gsb_category.c:215
+#: src/gsb_category.c:214
 msgid "14. Provisions rÃ©glementÃ©es : 1432. Fluctuations des cours"
 msgstr ""
 
-#: src/gsb_category.c:216
+#: src/gsb_category.c:215
 msgid ""
 "14. Provisions rÃ©glementÃ©es : 1440. Provisions rÃ©glementÃ©es relatives "
 "aux autres Ã©lÃ©ments de l'actif"
 msgstr ""
 
-#: src/gsb_category.c:217
+#: src/gsb_category.c:216
 msgid "14. Provisions rÃ©glementÃ©es : 1450. Ammortissements dÃ©rogatoires"
 msgstr ""
 
-#: src/gsb_category.c:218
+#: src/gsb_category.c:217
 msgid ""
 "14. Provisions rÃ©glementÃ©es : 1460. Provisions spÃ©ciale de rÃ©Ã©valuation"
 msgstr ""
 
-#: src/gsb_category.c:219
+#: src/gsb_category.c:218
 msgid "14. Provisions rÃ©glementÃ©es : 1480. Autres provisions rÃ©glementÃ©es"
 msgstr ""
 
-#: src/gsb_category.c:220
+#: src/gsb_category.c:219
 msgid "15. Provisions pour risques et charges : 1510. Provisions pour risques"
 msgstr ""
 
-#: src/gsb_category.c:221
+#: src/gsb_category.c:220
 msgid "15. Provisions pour risques et charges : 1511. Provisions pour litiges"
 msgstr ""
 
-#: src/gsb_category.c:222
+#: src/gsb_category.c:221
 msgid ""
 "15. Provisions pour risques et charges : 1514. Provisions pour amendes et "
 "pÃ©nalitÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:223
+#: src/gsb_category.c:222
 msgid ""
 "15. Provisions pour risques et charges : 1515. Provisions pour pertes de "
 "changes"
 msgstr ""
 
-#: src/gsb_category.c:224
+#: src/gsb_category.c:223
 msgid ""
 "15. Provisions pour risques et charges : 1516. Provisions pour risque "
 "d'emploi"
 msgstr ""
 
-#: src/gsb_category.c:225
+#: src/gsb_category.c:224
 msgid ""
 "15. Provisions pour risques et charges : 1518. Autres provisions pour risques"
 msgstr ""
 
-#: src/gsb_category.c:226
+#: src/gsb_category.c:225
 msgid ""
 "15. Provisions pour risques et charges : 1530. Provisions pour pensions et "
 "obligations similaires"
 msgstr ""
 
-#: src/gsb_category.c:227
+#: src/gsb_category.c:226
 msgid "15. Provisions pour risques et charges : 1550. Provisions pour impÃ´ts"
 msgstr ""
 
-#: src/gsb_category.c:228
+#: src/gsb_category.c:227
 msgid ""
 "15. Provisions pour risques et charges : 1570. Provisions pour charges Ã  "
 "rÃ©partir sur plusieurs exercice"
 msgstr ""
 
-#: src/gsb_category.c:229
+#: src/gsb_category.c:228
 msgid ""
 "15. Provisions pour risques et charges : 1572. Provisions pour grosses "
 "rÃ©parations"
 msgstr ""
 
-#: src/gsb_category.c:230
+#: src/gsb_category.c:229
 msgid ""
 "15. Provisions pour risques et charges : 1580. Autres provisions pour charges"
 msgstr ""
 
-#: src/gsb_category.c:231
+#: src/gsb_category.c:230
 msgid ""
 "15. Provisions pour risques et charges : 1582. Provisions pour charges "
 "sociales et fiscales sur congÃ©s payer"
 msgstr ""
 
-#: src/gsb_category.c:232
+#: src/gsb_category.c:231
 msgid ""
 "16. Emprunt et dettes assimilÃ©es : 1640. Emprunts auprÃ¨s des "
 "Ã©tablissements de crÃ©dit"
 msgstr ""
 
-#: src/gsb_category.c:233
+#: src/gsb_category.c:232
 msgid "16. Emprunt et dettes assimilÃ©es : 1641. Emprunt (Ã  dÃ©tailler)"
 msgstr ""
 
-#: src/gsb_category.c:234
+#: src/gsb_category.c:233
 msgid ""
 "16. Emprunt et dettes assimilÃ©es : 1650. DÃ©pÃ´ts et cautionnements reÃ§us"
 msgstr ""
 
-#: src/gsb_category.c:235
+#: src/gsb_category.c:234
 msgid "16. Emprunt et dettes assimilÃ©es : 1651. DÃ©pÃ´ts"
 msgstr ""
 
-#: src/gsb_category.c:236
+#: src/gsb_category.c:235
 msgid "16. Emprunt et dettes assimilÃ©es : 1655. Cautionnements"
 msgstr ""
 
-#: src/gsb_category.c:237
+#: src/gsb_category.c:236
 msgid ""
 "16. Emprunt et dettes assimilÃ©es : 1660. Participation des salariÃ©s aux "
 "rÃ©sultats"
 msgstr ""
 
-#: src/gsb_category.c:238
+#: src/gsb_category.c:237
 msgid "16. Emprunt et dettes assimilÃ©es : 1661. Comptes bloquÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:239
+#: src/gsb_category.c:238
 msgid "16. Emprunt et dettes assimilÃ©es : 1662. Fonds de participation"
 msgstr ""
 
-#: src/gsb_category.c:240
+#: src/gsb_category.c:239
 msgid ""
 "16. Emprunt et dettes assimilÃ©es : 1670. Emprunts et dettes assorties de "
 "conditions particuliÃ¨res"
 msgstr ""
 
-#: src/gsb_category.c:241
+#: src/gsb_category.c:240
 msgid "16. Emprunt et dettes assimilÃ©es : 1672. Titre associatif"
 msgstr ""
 
-#: src/gsb_category.c:242
+#: src/gsb_category.c:241
 msgid ""
 "16. Emprunt et dettes assimilÃ©es : 1680. Autres emprunts et dettes "
 "assimilÃ©es"
 msgstr ""
 
-#: src/gsb_category.c:243
+#: src/gsb_category.c:242
 msgid ""
 "16. Emprunt et dettes assimilÃ©es : 1681. Autres emprunts (Ã  dÃ©tailler)"
 msgstr ""
 
-#: src/gsb_category.c:244
+#: src/gsb_category.c:243
 msgid "16. Emprunt et dettes assimilÃ©es : 1685. Rents viagÃ¨res capitalisÃ©es"
 msgstr ""
 
-#: src/gsb_category.c:245
+#: src/gsb_category.c:244
 msgid "16. Emprunt et dettes assimilÃ©es : 1687. Autres dettes (Ã  dÃ©tailler)"
 msgstr ""
 
-#: src/gsb_category.c:246
+#: src/gsb_category.c:245
 msgid ""
 "16. Emprunt et dettes assimilÃ©es : 1688. IntÃ©rÃªts courus ( Ã  dÃ©tailler)"
 msgstr ""
 
-#: src/gsb_category.c:247
+#: src/gsb_category.c:246
 msgid ""
 "18. Comptes de liaisons des Ã©tablissements (avec le siÃ¨ge social ou entre "
 "eux) : 1810. Apports permanents entre siÃ¨ge social et Ã©tablissement"
 msgstr ""
 
-#: src/gsb_category.c:248
+#: src/gsb_category.c:247
 msgid ""
 "18. Comptes de liaisons des Ã©tablissements (avec le siÃ¨ge social ou entre "
 "eux) : 1850. Biens et prestations de services Ã©changÃ©s entre "
 "Ã©tablissements et le siÃ¨ge social"
 msgstr ""
 
-#: src/gsb_category.c:249
+#: src/gsb_category.c:248
 msgid ""
 "18. Comptes de liaisons des Ã©tablissements (avec le siÃ¨ge social ou entre "
 "eux) : 1860. Biens et prestations de services Ã©changÃ©s entre "
 "Ã©tablissement (charges)"
 msgstr ""
 
-#: src/gsb_category.c:250
+#: src/gsb_category.c:249
 msgid ""
 "18. Comptes de liaisons des Ã©tablissements (avec le siÃ¨ge social ou entre "
 "eux) : 1670. Biens et prestations de services Ã©changÃ©s entre "
 "Ã©tablissements (produits)"
 msgstr ""
 
-#: src/gsb_category.c:251
+#: src/gsb_category.c:250
 msgid ""
 "19. Fonds dÃ©diÃ©s : 1940. Fonds dÃ©diÃ©s sur subventions de fonctionnement"
 msgstr ""
 
-#: src/gsb_category.c:252
+#: src/gsb_category.c:251
 msgid "19. Fonds dÃ©diÃ©s : 1950. Fonds dÃ©diÃ©s sur dons manuels affectÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:253
+#: src/gsb_category.c:252
 msgid "19. Fonds dÃ©diÃ©s : 1970. Fons dÃ©diÃ©s sur legs et dons affectÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:254
+#: src/gsb_category.c:253
 msgid "20. Immobilisations incorporelles : 2010. Frais d'Ã©tablissement"
 msgstr ""
 
-#: src/gsb_category.c:255
+#: src/gsb_category.c:254
 msgid ""
 "20. Immobilisations incorporelles : 2012. Frais de premier Ã©tablissement"
 msgstr ""
 
-#: src/gsb_category.c:256
+#: src/gsb_category.c:255
 msgid "20. Immobilisations incorporelles : 2060. Droit au bail"
 msgstr ""
 
-#: src/gsb_category.c:257
+#: src/gsb_category.c:256
 msgid ""
 "20. Immobilisations incorporelles : 2080. Autres immobilisations "
 "incorporelles"
 msgstr ""
 
-#: src/gsb_category.c:258
+#: src/gsb_category.c:257
 msgid "21. Immoblilisations corporelles : 2110. Terrains"
 msgstr ""
 
-#: src/gsb_category.c:259
+#: src/gsb_category.c:258
 msgid ""
 "21. Immoblilisations corporelles : 2120. Agencements et amÃ©nagements de "
 "terrains"
 msgstr ""
 
-#: src/gsb_category.c:260
+#: src/gsb_category.c:259
 msgid "21. Immoblilisations corporelles : 2130. Constructions"
 msgstr ""
 
-#: src/gsb_category.c:261
+#: src/gsb_category.c:260
 msgid "21. Immoblilisations corporelles : 2131. BÃ¢timents"
 msgstr ""
 
-#: src/gsb_category.c:262
+#: src/gsb_category.c:261
 msgid ""
 "21. Immoblilisations corporelles : 2135. Installations gÃ©nÃ©rales, "
 "agencements, amÃ©nagements des constructions"
 msgstr ""
 
-#: src/gsb_category.c:263
+#: src/gsb_category.c:262
 msgid "21. Immoblilisations corporelles : 2140. Constructions sur sol d'autrui"
 msgstr ""
 
-#: src/gsb_category.c:264
+#: src/gsb_category.c:263
 msgid ""
 "21. Immoblilisations corporelles : 2150. Installations techniques, "
 "matÃ©riels et outillages industriels"
 msgstr ""
 
-#: src/gsb_category.c:265
+#: src/gsb_category.c:264
 msgid ""
 "21. Immoblilisations corporelles : 2151. Installations complexes "
 "spÃ©cialisÃ©es"
 msgstr ""
 
-#: src/gsb_category.c:266
+#: src/gsb_category.c:265
 msgid "21. Immoblilisations corporelles : 2154. MatÃ©riels industriel"
 msgstr ""
 
-#: src/gsb_category.c:267
+#: src/gsb_category.c:266
 msgid "21. Immoblilisations corporelles : 2155. Outillages industriel"
 msgstr ""
 
-#: src/gsb_category.c:268
+#: src/gsb_category.c:267
 msgid ""
 "21. Immoblilisations corporelles : 2180. Autres immobilisations incorporelles"
 msgstr ""
 
-#: src/gsb_category.c:269
+#: src/gsb_category.c:268
 msgid ""
 "21. Immoblilisations corporelles : 2181. Installations gÃ©nÃ©rales, "
 "agencements, amÃ©nagements divers"
 msgstr ""
 
-#: src/gsb_category.c:270
+#: src/gsb_category.c:269
 msgid "21. Immoblilisations corporelles : 2182. MatÃ©riels de transport"
 msgstr ""
 
-#: src/gsb_category.c:271
+#: src/gsb_category.c:270
 msgid ""
 "21. Immoblilisations corporelles : 2183. MatÃ©riels de bureau et matÃ©riels "
 "informatique"
 msgstr ""
 
-#: src/gsb_category.c:272
+#: src/gsb_category.c:271
 msgid "21. Immoblilisations corporelles : 2184. Mobilier"
 msgstr ""
 
-#: src/gsb_category.c:273
+#: src/gsb_category.c:272
 msgid "21. Immoblilisations corporelles : 2185. Cheptel"
 msgstr ""
 
-#: src/gsb_category.c:274
+#: src/gsb_category.c:273
 msgid ""
 "22. Immobilisations mises en concession : 2280. Immobilisations grevÃ©es de "
 "droits"
 msgstr ""
 
-#: src/gsb_category.c:275
+#: src/gsb_category.c:274
 msgid ""
 "22. Immobilisations mises en concession : 2290. Droits des propriÃ©taires"
 msgstr ""
 
-#: src/gsb_category.c:276
+#: src/gsb_category.c:275
 msgid ""
 "23. Immobilisations en cours : 2310.Immobilisations corporelles en cours"
 msgstr ""
 
-#: src/gsb_category.c:277
+#: src/gsb_category.c:276
 msgid "23. Immobilisations en cours : 2312. Terrain"
 msgstr ""
 
-#: src/gsb_category.c:278
+#: src/gsb_category.c:277
 msgid "23. Immobilisations en cours : 2313. Constructions"
 msgstr ""
 
-#: src/gsb_category.c:279
+#: src/gsb_category.c:278
 msgid ""
 "23. Immobilisations en cours : 2315. Installations techniques, matÃ©riels et "
 "outillages industriels"
 msgstr ""
 
-#: src/gsb_category.c:280
+#: src/gsb_category.c:279
 msgid "23. Immobilisations en cours : 2318. Autres immobilisations corporelles"
 msgstr ""
 
-#: src/gsb_category.c:281
+#: src/gsb_category.c:280
 msgid ""
 "23. Immobilisations en cours : 2320. Immobilisations incorporelles en cours"
 msgstr ""
 
-#: src/gsb_category.c:282
+#: src/gsb_category.c:281
 msgid ""
 "23. Immobilisations en cours : 2380. Avances et acomptes versÃ©s sur "
 "commandes d'immobilisations corporelles"
 msgstr ""
 
-#: src/gsb_category.c:283
+#: src/gsb_category.c:282
 msgid ""
 "26. Participations et crÃ©ances rattachÃ©es Ã  des participations : 2610. "
 "Titres de participations"
 msgstr ""
 
-#: src/gsb_category.c:284
+#: src/gsb_category.c:283
 msgid ""
 "26. Participations et crÃ©ances rattachÃ©es Ã  des participations : 2660. "
 "Autres formes de participation"
 msgstr ""
 
-#: src/gsb_category.c:285
+#: src/gsb_category.c:284
 msgid ""
 "26. Participations et crÃ©ances rattachÃ©es Ã  des participations : 2670. "
 "CrÃ©ances rattachÃ©es Ã  des particiations"
 msgstr ""
 
-#: src/gsb_category.c:286
+#: src/gsb_category.c:285
 msgid ""
 "26. Participations et crÃ©ances rattachÃ©es Ã  des participations : 2690. "
 "Versements restant Ã  effectuer sur titres de participation non libÃ©rÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:287
+#: src/gsb_category.c:286
 msgid ""
 "27. Autres immobilisations financiÃ¨res : 2710. Titres immobilisÃ©s (droit "
 "de propiÃ©tÃ©)"
 msgstr ""
 
-#: src/gsb_category.c:288
+#: src/gsb_category.c:287
 msgid "27. Autres immobilisations financiÃ¨res : 2711. Actions"
 msgstr ""
 
-#: src/gsb_category.c:289
+#: src/gsb_category.c:288
 msgid ""
 "27. Autres immobilisations financiÃ¨res : 2720. Titres immobilisÃ©s (droit "
 "decrÃ©ance)"
 msgstr ""
 
-#: src/gsb_category.c:290
+#: src/gsb_category.c:289
 msgid "27. Autres immobilisations financiÃ¨res : 2721. Obligations"
 msgstr ""
 
-#: src/gsb_category.c:291
+#: src/gsb_category.c:290
 msgid "27. Autres immobilisations financiÃ¨res : 2722. Bons"
 msgstr ""
 
-#: src/gsb_category.c:292
+#: src/gsb_category.c:291
 msgid "27. Autres immobilisations financiÃ¨res : 2728. Autres"
 msgstr ""
 
-#: src/gsb_category.c:293
+#: src/gsb_category.c:292
 msgid ""
 "27. Autres immobilisations financiÃ¨res : 2730. Titres immobilisÃ©s de "
 "l'activitÃ© de portefeuille"
 msgstr ""
 
-#: src/gsb_category.c:294
+#: src/gsb_category.c:293
 msgid "27. Autres immobilisations financiÃ¨res : 2740. PrÃªts"
 msgstr ""
 
-#: src/gsb_category.c:295
+#: src/gsb_category.c:294
 msgid "27. Autres immobilisations financiÃ¨res : 2743. PrÃªts au personnel"
 msgstr ""
 
-#: src/gsb_category.c:296
+#: src/gsb_category.c:295
 msgid "27. Autres immobilisations financiÃ¨res : 2748. Autres prÃªts"
 msgstr ""
 
-#: src/gsb_category.c:297
+#: src/gsb_category.c:296
 msgid ""
 "27. Autres immobilisations financiÃ¨res : 2750. DÃ©pÃ´ts et cautionnements "
 "versÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:298
+#: src/gsb_category.c:297
 msgid "27. Autres immobilisations financiÃ¨res : 2751. DÃ©pots"
 msgstr ""
 
-#: src/gsb_category.c:299
+#: src/gsb_category.c:298
 msgid "27. Autres immobilisations financiÃ¨res : 2755. Cautionnements"
 msgstr ""
 
-#: src/gsb_category.c:300
+#: src/gsb_category.c:299
 msgid ""
 "27. Autres immobilisations financiÃ¨res : 2760. AUtres crÃ©ances "
 "immobilisÃ©es"
 msgstr ""
 
-#: src/gsb_category.c:301
+#: src/gsb_category.c:300
 msgid "27. Autres immobilisations financiÃ¨res : 2761. CrÃ©ances divers"
 msgstr ""
 
-#: src/gsb_category.c:302
+#: src/gsb_category.c:301
 msgid ""
 "27. Autres immobilisations financiÃ¨res : 2768. IntÃ©rÃªts courus (Ã  "
 "dÃ©tailler)"
 msgstr ""
 
-#: src/gsb_category.c:303
+#: src/gsb_category.c:302
 msgid ""
 "27. Autres immobilisations financiÃ¨res : 2790. Versements restant Ã  "
 "effectuer sur titres immobilisÃ©s non libÃ©rÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:304
+#: src/gsb_category.c:303
 msgid ""
 "28. Ammortissements des immobiloisations : 2800. Ammortissements des "
 "immobilisations incorporelles"
 msgstr ""
 
-#: src/gsb_category.c:305
+#: src/gsb_category.c:304
 msgid ""
 "28. Ammortissements des immobiloisations : 2801. Frais d'Ã©tablissement "
 "(mÃªme ventilation que celle du compte 201)"
 msgstr ""
 
-#: src/gsb_category.c:306
+#: src/gsb_category.c:305
 msgid ""
 "28. Ammortissements des immobiloisations : 2808. Autres immobilisations "
 "incorporelles"
 msgstr ""
 
-#: src/gsb_category.c:307
+#: src/gsb_category.c:306
 msgid ""
 "28. Ammortissements des immobiloisations : 2810. Ammortissements des "
 "immobilisations corporelles"
 msgstr ""
 
-#: src/gsb_category.c:308
+#: src/gsb_category.c:307
 msgid ""
 "28. Ammortissements des immobiloisations : 2812. Agencememnts, amÃ©nagements "
 "des terrains (mÃªme ventilations que celle du compte 212)"
 msgstr ""
 
-#: src/gsb_category.c:309
+#: src/gsb_category.c:308
 msgid ""
 "28. Ammortissements des immobiloisations : 2813. Constructions (mÃªme "
 "ventilation que celle du compte 213)"
 msgstr ""
 
-#: src/gsb_category.c:310
+#: src/gsb_category.c:309
 msgid ""
 "28. Ammortissements des immobiloisations : 2814. Constructions sur sol "
 "d'autrui (mÃªme ventilations que celles du comptes 214)"
 msgstr ""
 
-#: src/gsb_category.c:311
+#: src/gsb_category.c:310
 msgid ""
 "28. Ammortissements des immobiloisations : 2815. Installtions techniques, "
 "matÃ©riels et outillages industriels (mÃªme ventilation que celle du compte "
 "215)"
 msgstr ""
 
-#: src/gsb_category.c:312
+#: src/gsb_category.c:311
 msgid ""
 "28. Ammortissements des immobiloisations : 2818. Autres immobilisations "
 "corporelles (mÃªme ventilation que celle du compte 218)"
 msgstr ""
 
-#: src/gsb_category.c:313
+#: src/gsb_category.c:312
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2900. Provisions pour "
 "dÃ©prÃ©ciations des immobilisations incorporelles"
 msgstr ""
 
-#: src/gsb_category.c:314
+#: src/gsb_category.c:313
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2906. Droit au bail"
 msgstr ""
 
-#: src/gsb_category.c:315
+#: src/gsb_category.c:314
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2908. Autres "
 "immobilisations incorporelles"
 msgstr ""
 
-#: src/gsb_category.c:316
+#: src/gsb_category.c:315
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2910. Provisions pour "
 "dÃ©prÃ©ciation des immobilisations corporelles"
 msgstr ""
 
-#: src/gsb_category.c:317
+#: src/gsb_category.c:316
 msgid "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2911. Terrain"
 msgstr ""
 
-#: src/gsb_category.c:318
+#: src/gsb_category.c:317
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2960. Provisions pour "
 "dÃ©prÃ©ciations des participations et crÃ©ances rattachÃ©es Ã  des "
 "participations"
 msgstr ""
 
-#: src/gsb_category.c:319
+#: src/gsb_category.c:318
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2961. Tires de "
 "participations"
 msgstr ""
 
-#: src/gsb_category.c:320
+#: src/gsb_category.c:319
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2966. Autres formes "
 "de participations"
 msgstr ""
 
-#: src/gsb_category.c:321
+#: src/gsb_category.c:320
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2967. CrÃ©ances "
 "rattachÃ©es Ã  des participations (mÃªme ventilations que celles du compte "
 "267)"
 msgstr ""
 
-#: src/gsb_category.c:322
+#: src/gsb_category.c:321
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2970. Provisions pour "
 "dÃ©prÃ©ciations des autres immobilisations financiÃ¨res"
 msgstr ""
 
-#: src/gsb_category.c:323
+#: src/gsb_category.c:322
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2971. Tires "
 "immobilisÃ©s (droit de propriÃ©tÃ©) (mÃªme ventilation que celle du compte "
 "271)"
 msgstr ""
 
-#: src/gsb_category.c:324
+#: src/gsb_category.c:323
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2972. Titres "
 "immobilisÃ©s (droit de crÃ©ances) ( mÃªme ventilations que celle compte 272)"
 msgstr ""
 
-#: src/gsb_category.c:325
+#: src/gsb_category.c:324
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2974. PrÃªts (mÃªme "
 "ventilation que celle du compte 274)"
 msgstr ""
 
-#: src/gsb_category.c:326
+#: src/gsb_category.c:325
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2975. DÃ©pÃ´ts et "
 "cautionnements versÃ©s (mÃªme ventilation que celle du compte 275)"
 msgstr ""
 
-#: src/gsb_category.c:327
+#: src/gsb_category.c:326
 msgid ""
 "29. Provision pour dÃ©prÃ©ciation des immobilisation : 2976. Autres "
 "crÃ©ances immobilisÃ©es ( mÃªme ventilation que celle du compte 276)"
 msgstr ""
 
-#: src/gsb_category.c:328
+#: src/gsb_category.c:327
 msgid "31. MatiÃ¨res premiÃ¨res et fournitures : 3110. MatiÃ¨res premiÃ¨res"
 msgstr ""
 
-#: src/gsb_category.c:329
+#: src/gsb_category.c:328
 msgid "31. MatiÃ¨res premiÃ¨res et fournitures : 3170. Fournitures"
 msgstr ""
 
-#: src/gsb_category.c:330
+#: src/gsb_category.c:329
 msgid "32. Autres approvisionnements : 3210. MatiÃ¨res consommables"
 msgstr ""
 
-#: src/gsb_category.c:331
+#: src/gsb_category.c:330
 msgid "32. Autres approvisionnements : 3220. Fournitures consommables"
 msgstr ""
 
-#: src/gsb_category.c:332
+#: src/gsb_category.c:331
 msgid "32. Autres approvisionnements : 3260. Emballages"
 msgstr ""
 
-#: src/gsb_category.c:333
+#: src/gsb_category.c:332
 msgid "33. En-cours de production de biens : 3310. Produit en cours"
 msgstr ""
 
-#: src/gsb_category.c:334
+#: src/gsb_category.c:333
 msgid "33. En-cours de production de biens : 3350. Travaux en cours"
 msgstr ""
 
-#: src/gsb_category.c:335
+#: src/gsb_category.c:334
 msgid "34. En-cours de production de services : 3410. Produit en cours"
 msgstr ""
 
-#: src/gsb_category.c:336
+#: src/gsb_category.c:335
 msgid ""
 "34. En-cours de production de services : 3450. Prestations de servevices en "
 "cours"
 msgstr ""
 
-#: src/gsb_category.c:337
+#: src/gsb_category.c:336
 msgid "35. Stocks de produits : 3510. Produits intermÃ©diaires"
 msgstr ""
 
-#: src/gsb_category.c:338
+#: src/gsb_category.c:337
 msgid "35. Stocks de produits : 3550. Produit finis"
 msgstr ""
 
-#: src/gsb_category.c:339
+#: src/gsb_category.c:338
 msgid ""
 "39. Provisions pour dÃ©prÃ©ciations des stocks et en-cours : 3910. Provision "
 "pour dÃ©prÃ©ciations des matiÃ©res premiÃ¨res et fournitures"
 msgstr ""
 
-#: src/gsb_category.c:340
+#: src/gsb_category.c:339
 msgid ""
 "39. Provisions pour dÃ©prÃ©ciations des stocks et en-cours : 3920. Provision "
 "pour dÃ©prÃ©ciation  des autres approvisionnement"
 msgstr ""
 
-#: src/gsb_category.c:341
+#: src/gsb_category.c:340
 msgid ""
 "39. Provisions pour dÃ©prÃ©ciations des stocks et en-cours : 3930. Provision "
 "pour dÃ©prÃ©ciation des en-cours de production de biens"
 msgstr ""
 
-#: src/gsb_category.c:342
+#: src/gsb_category.c:341
 msgid ""
 "39. Provisions pour dÃ©prÃ©ciations des stocks et en-cours : 3940. Provision "
 "pour dÃ©prÃ©ciation des en-cours de production de services"
 msgstr ""
 
-#: src/gsb_category.c:343
+#: src/gsb_category.c:342
 msgid ""
 "39. Provisions pour dÃ©prÃ©ciations des stocks et en-cours : 3950. Provision "
 "pour dÃ©prÃ©ciation des stocks de produits"
 msgstr ""
 
-#: src/gsb_category.c:344
+#: src/gsb_category.c:343
 msgid ""
 "39. Provisions pour dÃ©prÃ©ciations des stocks et en-cours : 3970. Provision "
 "pour dÃ©prÃ©ciation des stocks de marchandises"
 msgstr ""
 
-#: src/gsb_category.c:345
+#: src/gsb_category.c:344
 msgid "40. Fournisseurs et comptes rattachÃ©s : 4010. Fournisseurs"
 msgstr ""
 
-#: src/gsb_category.c:346
+#: src/gsb_category.c:345
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4011. Forunisseurs. Achats de biens "
 "ou de prestations de services"
 msgstr ""
 
-#: src/gsb_category.c:347
+#: src/gsb_category.c:346
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4040. Fournisseurs d'immobilisations"
 msgstr ""
 
-#: src/gsb_category.c:348
+#: src/gsb_category.c:347
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4041. Fournisseurs. Achats "
 "d'immobilisations"
 msgstr ""
 
-#: src/gsb_category.c:349
+#: src/gsb_category.c:348
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4047. Fournisseurs "
 "d'immobilisations. Retenues de garantie"
 msgstr ""
 
-#: src/gsb_category.c:350
+#: src/gsb_category.c:349
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4080. Fournisseurs. Factures non "
 "parvenues"
 msgstr ""
 
-#: src/gsb_category.c:351
+#: src/gsb_category.c:350
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4081. Fournisseurs. Achats de biens "
 "ou prestations de services"
 msgstr ""
 
-#: src/gsb_category.c:352
+#: src/gsb_category.c:351
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4084. Fournisseurs. Achats "
 "d'immobilisations"
 msgstr ""
 
-#: src/gsb_category.c:353
+#: src/gsb_category.c:352
 msgid "40. Fournisseurs et comptes rattachÃ©s : 4090. Fournisseurs dÃ©biteurs"
 msgstr ""
 
-#: src/gsb_category.c:354
+#: src/gsb_category.c:353
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4091. Fournisseurs. Avances et "
 "acomptes versÃ©s sur commandes"
 msgstr ""
 
-#: src/gsb_category.c:355
+#: src/gsb_category.c:354
 msgid ""
 "40. Fournisseurs et comptes rattachÃ©s : 4096. Fournisserus. CrÃ©ances pour "
 "embalage et matÃ©riel Ã  rendre"
 msgstr ""
 
-#: src/gsb_category.c:356
+#: src/gsb_category.c:355
 msgid ""
 "41. Usagers et comptes rattachÃ©s : 4110. Usagers ( et organismes de prise "
 "en charges)"
 msgstr ""
 
-#: src/gsb_category.c:357
+#: src/gsb_category.c:356
 msgid ""
 "41. Usagers et comptes rattachÃ©s : 4116. CrÃ©ances douteuses ou litigieuses"
 msgstr ""
 
-#: src/gsb_category.c:358
+#: src/gsb_category.c:357
 msgid ""
 "41. Usagers et comptes rattachÃ©s : 4118. Usagers. Produitd non encore "
 "facturÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:359
+#: src/gsb_category.c:358
 msgid "41. Usagers et comptes rattachÃ©s : 4119. Usagers crÃ©diteurs"
 msgstr ""
 
-#: src/gsb_category.c:360
+#: src/gsb_category.c:359
 msgid ""
 "42. Personnel et comptes rattachÃ©s : 4210. Personnel. RÃ©munÃ©ration dues"
 msgstr ""
 
-#: src/gsb_category.c:361
+#: src/gsb_category.c:360
 msgid ""
 "42. Personnel et comptes rattachÃ©s : 4220. ComitÃ©s d'entreprise, "
 "d'Ã©tablissement"
 msgstr ""
 
-#: src/gsb_category.c:362
+#: src/gsb_category.c:361
 msgid ""
 "42. Personnel et comptes rattachÃ©s : 4250. Personnel. Avances et acomptes"
 msgstr ""
 
-#: src/gsb_category.c:363
+#: src/gsb_category.c:362
 msgid "42. Personnel et comptes rattachÃ©s : 4270. Personnel. Opposition"
 msgstr ""
 
-#: src/gsb_category.c:364
+#: src/gsb_category.c:363
 msgid ""
 "42. Personnel et comptes rattachÃ©s : 4280. Personnel. Charges Ã  payer et "
 "produits Ã  recevoir"
 msgstr ""
 
-#: src/gsb_category.c:365
+#: src/gsb_category.c:364
 msgid ""
 "42. Personnel et comptes rattachÃ©s : 4282. Dettes provisionnÃ©es pour "
 "congÃ©s Ã  payer"
 msgstr ""
 
-#: src/gsb_category.c:366
+#: src/gsb_category.c:365
 msgid "42. Personnel et comptes rattachÃ©s : 4286. Autres charges Ã  payer"
 msgstr ""
 
-#: src/gsb_category.c:367
+#: src/gsb_category.c:366
 msgid "42. Personnel et comptes rattachÃ©s : 4287. Produit Ã  recevoir"
 msgstr ""
 
-#: src/gsb_category.c:368
+#: src/gsb_category.c:367
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4310. SÃ©curitÃ© sociale"
 msgstr ""
 
-#: src/gsb_category.c:369
+#: src/gsb_category.c:368
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4370. Autres organismes "
 "sociaux"
 msgstr ""
 
-#: src/gsb_category.c:370
+#: src/gsb_category.c:369
 msgid "43 SÃ©curitÃ© social et autres organismes sociaux : 4372. Mutuelles"
 msgstr ""
 
-#: src/gsb_category.c:371
+#: src/gsb_category.c:370
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4373. Caisses de "
 "retraite et de prÃ©voyance"
 msgstr ""
 
-#: src/gsb_category.c:372
+#: src/gsb_category.c:371
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4374. Caisse "
 "d'allocation chÃ´mage. ASSEDIC"
 msgstr ""
 
-#: src/gsb_category.c:373
+#: src/gsb_category.c:372
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4378. Autres organismes "
 "sociaux. Divers"
 msgstr ""
 
-#: src/gsb_category.c:374
+#: src/gsb_category.c:373
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4380. Organismes "
 "sociaux. Charges Ã  payer et produits Ã  recevoir"
 msgstr ""
 
-#: src/gsb_category.c:375
+#: src/gsb_category.c:374
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4382. Charges sociales "
 "sur congÃ©s Ã  payer"
 msgstr ""
 
-#: src/gsb_category.c:376
+#: src/gsb_category.c:375
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4386. Autres charges Ã  "
 "payer"
 msgstr ""
 
-#: src/gsb_category.c:377
+#: src/gsb_category.c:376
 msgid ""
 "43 SÃ©curitÃ© social et autres organismes sociaux : 4387. Produits Ã  "
 "recevoir"
 msgstr ""
 
-#: src/gsb_category.c:378
+#: src/gsb_category.c:377
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4410. Etat. Subvention Ã  "
 "recevoir"
 msgstr ""
 
-#: src/gsb_category.c:379
+#: src/gsb_category.c:378
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4411. Subventions "
 "d'investissement"
 msgstr ""
 
-#: src/gsb_category.c:380
+#: src/gsb_category.c:379
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4417. Subvention d'exploitation"
 msgstr ""
 
-#: src/gsb_category.c:381
+#: src/gsb_category.c:380
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4419. Avances sur subventions"
 msgstr ""
 
-#: src/gsb_category.c:382
+#: src/gsb_category.c:381
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4430. OpÃ©rations "
 "particuliÃ¨res avec l'Ã©tat, les collectivitÃ©s publiques, les organismes "
 "internationnaux"
 msgstr ""
 
-#: src/gsb_category.c:383
+#: src/gsb_category.c:382
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4440. Etat. ImpÃ´ts sur les "
 "bÃ©nÃ©fices"
 msgstr ""
 
-#: src/gsb_category.c:384
+#: src/gsb_category.c:383
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4445. Etat. ImpÃ´ts sur les "
 "sociÃ©tÃ©s (organismes sans but lucratif)"
 msgstr ""
 
-#: src/gsb_category.c:385
+#: src/gsb_category.c:384
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4450. Etat. taxes sur le "
 "chiffre d'affaires"
 msgstr ""
 
-#: src/gsb_category.c:386
+#: src/gsb_category.c:385
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4452. TVA due "
 "intercommunautaire"
 msgstr ""
 
-#: src/gsb_category.c:387
+#: src/gsb_category.c:386
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4455. Taxes sur le chiffre "
 "d'affaires Ã  dÃ©caisser"
 msgstr ""
 
-#: src/gsb_category.c:388
+#: src/gsb_category.c:387
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4456. Taxes sur le chiffres "
 "d'affaires dÃ©ductible"
 msgstr ""
 
-#: src/gsb_category.c:389
+#: src/gsb_category.c:388
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44562. TVA sur immobilisation"
 msgstr ""
 
-#: src/gsb_category.c:390
+#: src/gsb_category.c:389
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44566. TVA sur autres biens et "
 "services"
 msgstr ""
 
-#: src/gsb_category.c:391
+#: src/gsb_category.c:390
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44567. CrÃ©dit de TVA Ã  "
 "reporter"
 msgstr ""
 
-#: src/gsb_category.c:392
+#: src/gsb_category.c:391
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4457. Taxes sur le chiffre "
 "d'affaires collectÃ©s par l'association"
 msgstr ""
 
-#: src/gsb_category.c:393
+#: src/gsb_category.c:392
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4458. Taxes sur le chiffre "
 "d'affaires Ã  rÃ©gulariser ou en attente"
 msgstr ""
 
-#: src/gsb_category.c:394
+#: src/gsb_category.c:393
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44586. Taxes sur le chiffre "
 "d'affaires sur factures non parvenues"
 msgstr ""
 
-#: src/gsb_category.c:395
+#: src/gsb_category.c:394
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44587. Taxes sur le chiffre "
 "d'affaires sur factures Ã  Ã©tablir"
 msgstr ""
 
-#: src/gsb_category.c:396
+#: src/gsb_category.c:395
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4470. Autres impÃ´ts et taxes "
 "et versements assimilÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:397
+#: src/gsb_category.c:396
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4471. ImpÃ´ts, taxes et "
 "versements assimilÃ©s sur Ã©munÃ©rations ( administration des impÃ´ts)"
 msgstr ""
 
-#: src/gsb_category.c:398
+#: src/gsb_category.c:397
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44711. Taxes sur les salaires"
 msgstr ""
 
-#: src/gsb_category.c:399
+#: src/gsb_category.c:398
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44713. Participation des "
 "employeurs Ã  la formation professionnelle continue"
 msgstr ""
 
-#: src/gsb_category.c:400
+#: src/gsb_category.c:399
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44714. Cotisation pour dÃ©faut "
 "d'investissement dans la construction"
 msgstr ""
 
-#: src/gsb_category.c:401
+#: src/gsb_category.c:400
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44718. Autres impÃ´ts, taxes "
 "et versements assimilÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:402
+#: src/gsb_category.c:401
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4473. ImpÃ´ts, taxes et "
 "versements assimilÃ©s sur rÃ©munÃ©rations (autres organisme)"
 msgstr ""
 
-#: src/gsb_category.c:403
+#: src/gsb_category.c:402
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44733. Participation des "
 "employeurs Ã  la formation professionnelle continue"
 msgstr ""
 
-#: src/gsb_category.c:404
+#: src/gsb_category.c:403
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 44734. Participation des "
 "employeurs Ã  l'effort de construction (versement Ã  fond perdu)"
 msgstr ""
 
-#: src/gsb_category.c:405
+#: src/gsb_category.c:404
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4475. Autres impÃ´ts, taxes et "
 "versements assimilÃ©s (administration des impÃ´ts)"
 msgstr ""
 
-#: src/gsb_category.c:406
+#: src/gsb_category.c:405
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4477. AUtres impÃ´ts, taxes et "
 "versements assimilÃ©s (autres organismes)"
 msgstr ""
 
-#: src/gsb_category.c:407
+#: src/gsb_category.c:406
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4480. Etat. Charges Ã  payer "
 "et produits Ã  recevoir"
 msgstr ""
 
-#: src/gsb_category.c:408
+#: src/gsb_category.c:407
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4482. Charges fiscales sur "
 "congÃ©s Ã  payer"
 msgstr ""
 
-#: src/gsb_category.c:409
+#: src/gsb_category.c:408
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4486. Autres charges Ã  payer"
 msgstr ""
 
-#: src/gsb_category.c:410
+#: src/gsb_category.c:409
 msgid ""
 "44. Etat et autres collectivitÃ©s publiques : 4487. Produits Ã  recevoir"
 msgstr ""
 
-#: src/gsb_category.c:411
+#: src/gsb_category.c:410
 msgid ""
 "45. ConfÃ©dÃ©ration, fÃ©dÃ©ration, union, association affiliÃ©es : 4510. "
 "ConfÃ©dÃ©ration, fÃ©dÃ©ration, associations affiliÃ©es. Compte courant"
 msgstr ""
 
-#: src/gsb_category.c:412
+#: src/gsb_category.c:411
 msgid ""
 "45. ConfÃ©dÃ©ration, fÃ©dÃ©ration, union, association affiliÃ©es : 4550. "
 "SociÃ©taires. Comptes courants"
 msgstr ""
 
-#: src/gsb_category.c:413
+#: src/gsb_category.c:412
 msgid ""
 "46. DÃ©biteurs divers et crÃ©diteurs divers : 4670. Autres comptes "
 "dÃ©biteurs ou crÃ©diteurs"
 msgstr ""
 
-#: src/gsb_category.c:414
+#: src/gsb_category.c:413
 msgid ""
 "46. DÃ©biteurs divers et crÃ©diteurs divers : 4680. Divers. Charges Ã  payer "
 "et produits Ã  recevoir"
 msgstr ""
 
-#: src/gsb_category.c:415
+#: src/gsb_category.c:414
 msgid "46. DÃ©biteurs divers et crÃ©diteurs divers : 4686. Charges Ã  payer"
 msgstr ""
 
-#: src/gsb_category.c:416
+#: src/gsb_category.c:415
 msgid ""
 "46. DÃ©biteurs divers et crÃ©diteurs divers : 4687. Produits Ã  recevoir"
 msgstr ""
 
-#: src/gsb_category.c:417
+#: src/gsb_category.c:416
 msgid "47. Comptes d'attente : 4710. Recettes Ã  classer"
 msgstr ""
 
-#: src/gsb_category.c:418
+#: src/gsb_category.c:417
 msgid "47. Comptes d'attente : 4720. DÃ©pences Ã  classer et rÃ©gulariser"
 msgstr ""
 
-#: src/gsb_category.c:419
+#: src/gsb_category.c:418
 msgid ""
 "47. Comptes d'attente : 4750. Legs et donnations en cours de rÃ©alisation"
 msgstr ""
 
-#: src/gsb_category.c:420
+#: src/gsb_category.c:419
 msgid ""
 "48. Comptes de rÃ©gularisation : 4810. Charges Ã  rÃ©partir sur plusieurs "
 "exercices"
 msgstr ""
 
-#: src/gsb_category.c:421
+#: src/gsb_category.c:420
 msgid ""
 "48. Comptes de rÃ©gularisation : 4812. Frais d'acquisition des immobilisation"
 msgstr ""
 
-#: src/gsb_category.c:422
+#: src/gsb_category.c:421
 msgid "48. Comptes de rÃ©gularisation : 4818. Charges Ã  Ã©taler"
 msgstr ""
 
-#: src/gsb_category.c:423
+#: src/gsb_category.c:422
 msgid "48. Comptes de rÃ©gularisation : 4860. Charges constatÃ© d'avance"
 msgstr ""
 
-#: src/gsb_category.c:424
+#: src/gsb_category.c:423
 msgid "48. Comptes de rÃ©gularisation : 4870. Produits constatÃ©s d'avance"
 msgstr ""
 
-#: src/gsb_category.c:425
+#: src/gsb_category.c:424
 msgid ""
 "49. Provision pour dÃ©prÃ©ciation des comptes de tiers : 4910. Provision "
 "pour dÃ©prÃ©ciation des comptes d'usagers (et organisme de prise en charge)"
 msgstr ""
 
-#: src/gsb_category.c:426
+#: src/gsb_category.c:425
 msgid ""
 "49. Provision pour dÃ©prÃ©ciation des comptes de tiers : 4960. Provision "
 "pour dÃ©prÃ©ciation des comptes de dÃ©biteurs divers"
 msgstr ""
 
-#: src/gsb_category.c:427
+#: src/gsb_category.c:426
 msgid "50. Valeurs mobiliÃ¨res de placement : 5030. Actions"
 msgstr ""
 
-#: src/gsb_category.c:428
+#: src/gsb_category.c:427
 msgid "50. Valeurs mobiliÃ¨res de placement : 5031. Titres cotÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:429
+#: src/gsb_category.c:428
 msgid "50. Valeurs mobiliÃ¨res de placement : 5035. Titres non cotÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:430
+#: src/gsb_category.c:429
 msgid "50. Valeurs mobiliÃ¨res de placement : 5060. Obligations"
 msgstr ""
 
-#: src/gsb_category.c:431
+#: src/gsb_category.c:430
 msgid "50. Valeurs mobiliÃ¨res de placement : 5061. Titres cotÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:432
+#: src/gsb_category.c:431
 msgid "50. Valeurs mobiliÃ¨res de placement : 5065. Titres non cotÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:433
+#: src/gsb_category.c:432
 msgid ""
 "50. Valeurs mobiliÃ¨res de placement : 5070. Bons du trÃ©sor et bons de "
 "caisse Ã  court terme"
 msgstr ""
 
-#: src/gsb_category.c:434
+#: src/gsb_category.c:433
 msgid ""
 "50. Valeurs mobiliÃ¨res de placement : 5080. Autres valeurs mobiliÃ¨res et "
 "crÃ©ances assimilÃ©es"
 msgstr ""
 
-#: src/gsb_category.c:435
+#: src/gsb_category.c:434
 msgid ""
 "50. Valeurs mobiliÃ¨res de placement : 5088. IntÃ©rÃªts courus sur "
 "obligations, bons et valeurs assimilÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:436
+#: src/gsb_category.c:435
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5110. Valeurs Ã  "
 "l'encaissement"
 msgstr ""
 
-#: src/gsb_category.c:437
+#: src/gsb_category.c:436
 msgid "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5120. Banques"
 msgstr ""
 
-#: src/gsb_category.c:438
+#: src/gsb_category.c:437
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5130. Caisse des "
 "dÃ©pÃ´ts et consignation"
 msgstr ""
 
-#: src/gsb_category.c:439
+#: src/gsb_category.c:438
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5140. ChÃ©ques "
 "postaux"
 msgstr ""
 
-#: src/gsb_category.c:440
+#: src/gsb_category.c:439
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5150. Caisse du "
 "trÃ©sor et des Ã©tablissement publics"
 msgstr ""
 
-#: src/gsb_category.c:441
+#: src/gsb_category.c:440
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5170. Autres "
 "organismes financiers"
 msgstr ""
 
-#: src/gsb_category.c:442
+#: src/gsb_category.c:441
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5171. Caisse "
 "d'Ã©pargne"
 msgstr ""
 
-#: src/gsb_category.c:443
+#: src/gsb_category.c:442
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5180. IntÃ©rÃªts "
 "courus"
 msgstr ""
 
-#: src/gsb_category.c:444
+#: src/gsb_category.c:443
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5186. IntÃ©rÃªts "
 "couris Ã  payer"
 msgstr ""
 
-#: src/gsb_category.c:445
+#: src/gsb_category.c:444
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5187. IntÃ©rÃªts "
 "courus Ã  recevoir"
 msgstr ""
 
-#: src/gsb_category.c:446
+#: src/gsb_category.c:445
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5190. Concours "
 "bancaires courants"
 msgstr ""
 
-#: src/gsb_category.c:447
+#: src/gsb_category.c:446
 msgid ""
 "51. Banques, Ã©tablissements financiers et assimilÃ©s : 5198. IntÃ©rÃªts "
 "courus sur concours bancaires courants"
 msgstr ""
 
-#: src/gsb_category.c:448
+#: src/gsb_category.c:447
 msgid "53. Caisse : 5310. Caisse du siÃ¨ge"
 msgstr ""
 
-#: src/gsb_category.c:449
+#: src/gsb_category.c:448
 msgid "53. Caisse : 5320. Caisse des leiux d'activitÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:450
+#: src/gsb_category.c:449
 msgid "54 RÃ©gies d'avances et accrÃ©ditifs : 5410. RÃ©gies d'avances"
 msgstr ""
 
-#: src/gsb_category.c:451
+#: src/gsb_category.c:450
 msgid "54 RÃ©gies d'avances et accrÃ©ditifs : 5420. AccrÃ©ditifs"
 msgstr ""
 
-#: src/gsb_category.c:452
+#: src/gsb_category.c:451
 msgid "58.Virements internes : 5810. Virements de fonds"
 msgstr ""
 
-#: src/gsb_category.c:453
+#: src/gsb_category.c:452
 msgid ""
 "59. Provision pour dÃ©prÃ©ciation des comptes financiers : 5900. Provision "
 "pour dÃ©prÃ©ciation des valeurs mobiliÃ¨res de placement"
 msgstr ""
 
-#: src/gsb_category.c:454
+#: src/gsb_category.c:453
 msgid ""
 "60. Achat (sauf 603) : 6010. Achats stockÃ©s. MatiÃ¨res premiÃ¨res et "
 "fournitures"
 msgstr ""
 
-#: src/gsb_category.c:455
+#: src/gsb_category.c:454
 msgid "60. Achat (sauf 603) : 6020. Achats stockÃ©s. Autres approvisionnements"
 msgstr ""
 
-#: src/gsb_category.c:456
+#: src/gsb_category.c:455
 msgid "60. Achat (sauf 603) : 6021. MatiÃ¨res consommables"
 msgstr ""
 
-#: src/gsb_category.c:457
+#: src/gsb_category.c:456
 msgid "60. Achat (sauf 603) : 6022. Fournitures consommables"
 msgstr ""
 
-#: src/gsb_category.c:458
+#: src/gsb_category.c:457
 msgid "60. Achat (sauf 603) : 60221. Combustibles"
 msgstr ""
 
-#: src/gsb_category.c:459
+#: src/gsb_category.c:458
 msgid "60. Achat (sauf 603) : 60222. Produits d'entretien"
 msgstr ""
 
-#: src/gsb_category.c:460
+#: src/gsb_category.c:459
 msgid "60. Achat (sauf 603) : 60223. Fournitures d'atelier"
 msgstr ""
 
-#: src/gsb_category.c:461
+#: src/gsb_category.c:460
 msgid "60. Achat (sauf 603) : 60224. Fournitures de magasin"
 msgstr ""
 
-#: src/gsb_category.c:462
+#: src/gsb_category.c:461
 msgid "60. Achat (sauf 603) : 60225. Fournitures de bureau"
 msgstr ""
 
-#: src/gsb_category.c:463
+#: src/gsb_category.c:462
 msgid ""
 "60. Achat (sauf 603) : 6030. Variations de stocks (approvisionnements et "
 "marchandises)"
 msgstr ""
 
-#: src/gsb_category.c:464
+#: src/gsb_category.c:463
 msgid ""
 "60. Achat (sauf 603) : 6031. Variations de stocks de matiÃ¨res premiÃ¨res et "
 "fournitures"
 msgstr ""
 
-#: src/gsb_category.c:465
+#: src/gsb_category.c:464
 msgid ""
 "60. Achat (sauf 603) : 6032. Variations de stocks des autres "
 "approvisionnements"
 msgstr ""
 
-#: src/gsb_category.c:466
+#: src/gsb_category.c:465
 msgid "60. Achat (sauf 603) : 6037. Variations des stocks de marchandises"
 msgstr ""
 
-#: src/gsb_category.c:467
+#: src/gsb_category.c:466
 msgid ""
 "60. Achat (sauf 603) : 6040. Achats d'Ã©tudes et de prestation de services"
 msgstr ""
 
-#: src/gsb_category.c:468
+#: src/gsb_category.c:467
 msgid ""
 "60. Achat (sauf 603) : 6060. Achats non stockÃ©s de matiÃ¨res et fournitures"
 msgstr ""
 
-#: src/gsb_category.c:469
+#: src/gsb_category.c:468
 msgid ""
 "60. Achat (sauf 603) : 6061. Fournitures non stockables (eau, "
 "Ã©lectricitÃ©...)"
 msgstr ""
 
-#: src/gsb_category.c:470
+#: src/gsb_category.c:469
 msgid ""
 "60. Achat (sauf 603) : 6063. Fournitures d'entretiens et de petit Ã©quipement"
 msgstr ""
 
-#: src/gsb_category.c:471
+#: src/gsb_category.c:470
 msgid "60. Achat (sauf 603) : 6064. Fournitures administrative"
 msgstr ""
 
-#: src/gsb_category.c:472
+#: src/gsb_category.c:471
 msgid "60. Achat (sauf 603) : 6068. Autres matiÃ¨res et fournitures"
 msgstr ""
 
-#: src/gsb_category.c:473
+#: src/gsb_category.c:472
 msgid "60. Achat (sauf 603) : 6070. Achats de marchandises"
 msgstr ""
 
-#: src/gsb_category.c:474
+#: src/gsb_category.c:473
 msgid "60. Achat (sauf 603) : 6071. MArchandises  A"
 msgstr ""
 
-#: src/gsb_category.c:475
+#: src/gsb_category.c:474
 msgid "60. Achat (sauf 603) : 6072. Marchandise B"
 msgstr ""
 
-#: src/gsb_category.c:476
+#: src/gsb_category.c:475
 msgid ""
 "60. Achat (sauf 603) : 6090. Rabais, remises et ristournes obtenus sur achats"
 msgstr ""
 
-#: src/gsb_category.c:477
+#: src/gsb_category.c:476
 msgid "61. Service exterieurs : 6110. Sous-traitance gÃ©nÃ©ral"
 msgstr ""
 
-#: src/gsb_category.c:478
+#: src/gsb_category.c:477
 msgid "61. Service exterieurs : 6120. Redevances de crÃ©dit-bail"
 msgstr ""
 
-#: src/gsb_category.c:479
+#: src/gsb_category.c:478
 msgid "61. Service exterieurs : 6122. CrÃ©dit-bail mobilier"
 msgstr ""
 
-#: src/gsb_category.c:480
+#: src/gsb_category.c:479
 msgid "61. Service exterieurs : 6125. CrÃ©dit-bail immobilier"
 msgstr ""
 
-#: src/gsb_category.c:481
+#: src/gsb_category.c:480
 msgid "61. Service exterieurs : 6130. Locations"
 msgstr ""
 
-#: src/gsb_category.c:482
+#: src/gsb_category.c:481
 msgid "61. Service exterieurs : 6132. Locations immobiliÃ¨res"
 msgstr ""
 
-#: src/gsb_category.c:483
+#: src/gsb_category.c:482
 msgid "61. Service exterieurs : 6135. Locations mobiliÃ¨res"
 msgstr ""
 
-#: src/gsb_category.c:484
+#: src/gsb_category.c:483
 msgid "61. Service exterieurs : 6140. Charges locatives et de copropriÃ©tÃ¨"
 msgstr ""
 
-#: src/gsb_category.c:485
+#: src/gsb_category.c:484
 msgid "61. Service exterieurs : 6150. Entretiens et rÃ©parations"
 msgstr ""
 
-#: src/gsb_category.c:486
+#: src/gsb_category.c:485
 msgid "61. Service exterieurs : 6152. SUr biens immobiliers"
 msgstr ""
 
-#: src/gsb_category.c:487
+#: src/gsb_category.c:486
 msgid "61. Service exterieurs : 6155. Sur biens mobiliers"
 msgstr ""
 
-#: src/gsb_category.c:488
+#: src/gsb_category.c:487
 msgid "61. Service exterieurs : 6156. Maintenance"
 msgstr ""
 
-#: src/gsb_category.c:489
+#: src/gsb_category.c:488
 msgid "61. Service exterieurs : 6160. Primes d'assurance"
 msgstr ""
 
-#: src/gsb_category.c:490
+#: src/gsb_category.c:489
 msgid "61. Service exterieurs : 6161. Multirisque"
 msgstr ""
 
-#: src/gsb_category.c:491
+#: src/gsb_category.c:490
 msgid ""
 "61. Service exterieurs : 6162. Assurance obligatoire dommage-construction"
 msgstr ""
 
-#: src/gsb_category.c:492
+#: src/gsb_category.c:491
 msgid "61. Service exterieurs : 6168. Autres assurances"
 msgstr ""
 
-#: src/gsb_category.c:493
+#: src/gsb_category.c:492
 msgid "61. Service exterieurs : 6170. Etudes et recherches"
 msgstr ""
 
-#: src/gsb_category.c:494
+#: src/gsb_category.c:493
 msgid "61. Service exterieurs : 6180 Divers"
 msgstr ""
 
-#: src/gsb_category.c:495
+#: src/gsb_category.c:494
 msgid "61. Service exterieurs : 6181. Docummentations gÃ©nÃ©rale"
 msgstr ""
 
-#: src/gsb_category.c:496
+#: src/gsb_category.c:495
 msgid "61. Service exterieurs : 6183. Documantations technique"
 msgstr ""
 
-#: src/gsb_category.c:497
+#: src/gsb_category.c:496
 msgid ""
 "61. Service exterieurs : 6185. Frais de colloques, sÃ©minaires, confÃ©rences"
 msgstr ""
 
-#: src/gsb_category.c:498
+#: src/gsb_category.c:497
 msgid ""
 "61. Service exterieurs : 6190. Rabais, remises, ristournes obtenus sur "
 "services exterieurs"
 msgstr ""
 
-#: src/gsb_category.c:499
+#: src/gsb_category.c:498
 msgid ""
 "62. Autres services exterieurs : 6210. Personnel exterieur Ã  l'association"
 msgstr ""
 
-#: src/gsb_category.c:500
+#: src/gsb_category.c:499
 msgid "62. Autres services exterieurs : 6211. Personnel intÃ©rimaire"
 msgstr ""
 
-#: src/gsb_category.c:501
+#: src/gsb_category.c:500
 msgid ""
 "62. Autres services exterieurs : 6214. Personnel dÃ©tachÃ© ou prÃªtÃ© Ã  "
 "l'association"
 msgstr ""
 
-#: src/gsb_category.c:502
+#: src/gsb_category.c:501
 msgid ""
 "62. Autres services exterieurs : 6220. RÃ©munÃ©rations d'intÃ©rimaires et "
 "honoraires"
 msgstr ""
 
-#: src/gsb_category.c:503
+#: src/gsb_category.c:502
 msgid "62. Autres services exterieurs : 6226. Honoraires"
 msgstr ""
 
-#: src/gsb_category.c:504
+#: src/gsb_category.c:503
 msgid "62. Autres services exterieurs : 6227. Frais d'actes et de contencieux"
 msgstr ""
 
-#: src/gsb_category.c:505
+#: src/gsb_category.c:504
 msgid ""
 "62. Autres services exterieurs : 6230. PublicitÃ©, publication, relations "
 "publiques"
 msgstr ""
 
-#: src/gsb_category.c:506
+#: src/gsb_category.c:505
 msgid "62. Autres services exterieurs : 6231. Annonces et insertions"
 msgstr ""
 
-#: src/gsb_category.c:507
+#: src/gsb_category.c:506
 msgid "62. Autres services exterieurs : 6233. Foires et expositions"
 msgstr ""
 
-#: src/gsb_category.c:508
+#: src/gsb_category.c:507
 msgid "62. Autres services exterieurs : 6236. Catalogues et imprimÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:509
+#: src/gsb_category.c:508
 msgid "62. Autres services exterieurs : 6237. Publications"
 msgstr ""
 
-#: src/gsb_category.c:510
+#: src/gsb_category.c:509
 msgid ""
 "62. Autres services exterieurs : 6238. Divers (pourboires, dons courant...)"
 msgstr ""
 
-#: src/gsb_category.c:511
+#: src/gsb_category.c:510
 msgid ""
 "62. Autres services exterieurs : 6240. Trasports de biens et transports "
 "colletifs de personnels"
 msgstr ""
 
-#: src/gsb_category.c:512
+#: src/gsb_category.c:511
 msgid "62. Autres services exterieurs : 6241. Transports sur achats"
 msgstr ""
 
-#: src/gsb_category.c:513
+#: src/gsb_category.c:512
 msgid "62. Autres services exterieurs : 6242. Transports sur ventes"
 msgstr ""
 
-#: src/gsb_category.c:514
+#: src/gsb_category.c:513
 msgid "62. Autres services exterieurs : 6243. Transports entre Ã©tablissements"
 msgstr ""
 
-#: src/gsb_category.c:515
+#: src/gsb_category.c:514
 msgid "62. Autres services exterieurs : 6248. Divers"
 msgstr ""
 
-#: src/gsb_category.c:516
+#: src/gsb_category.c:515
 msgid ""
 "62. Autres services exterieurs : 6250. DÃ©placements, missions et rÃ©ceptions"
 msgstr ""
 
-#: src/gsb_category.c:517
+#: src/gsb_category.c:516
 msgid "62. Autres services exterieurs : 6251. Voyages et dÃ©placements"
 msgstr ""
 
-#: src/gsb_category.c:518
+#: src/gsb_category.c:517
 msgid "62. Autres services exterieurs : 6256. Missions"
 msgstr ""
 
-#: src/gsb_category.c:519
+#: src/gsb_category.c:518
 msgid "62. Autres services exterieurs : 6257. RÃ©ceptions"
 msgstr ""
 
-#: src/gsb_category.c:520
+#: src/gsb_category.c:519
 msgid ""
 "62. Autres services exterieurs : 6260. Frais postaux et frais de "
 "tÃ©lÃ©communications"
 msgstr ""
 
-#: src/gsb_category.c:521
+#: src/gsb_category.c:520
 msgid ""
 "62. Autres services exterieurs : 6261. Liaisons informatiques ou "
 "spÃ©cialisÃ©es"
 msgstr ""
 
-#: src/gsb_category.c:522
+#: src/gsb_category.c:521
 msgid "62. Autres services exterieurs : 6263. Affranchissements"
 msgstr ""
 
-#: src/gsb_category.c:523
+#: src/gsb_category.c:522
 msgid "62. Autres services exterieurs : 6265. TÃ©lÃ©phone"
 msgstr ""
 
-#: src/gsb_category.c:524
+#: src/gsb_category.c:523
 msgid ""
 "62. Autres services exterieurs : 6270. Services banquaires et assimilÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:525
+#: src/gsb_category.c:524
 msgid "62. Autres services exterieurs : 6280. Divers"
 msgstr ""
 
-#: src/gsb_category.c:526
+#: src/gsb_category.c:525
 msgid ""
 "62. Autres services exterieurs : 6281. Cotisations (liÃ©es Ã  l'activitÃ©s "
 "Ã©conomique)"
 msgstr ""
 
-#: src/gsb_category.c:527
+#: src/gsb_category.c:526
 msgid ""
 "62. Autres services exterieurs : 6284. Frais de recrutement du personnel"
 msgstr ""
 
-#: src/gsb_category.c:528
+#: src/gsb_category.c:527
 msgid ""
 "62. Autres services exterieurs : 6290. Rabais, remies, ristournes obtenus "
 "sur autres services exterieurs"
 msgstr ""
 
-#: src/gsb_category.c:529
+#: src/gsb_category.c:528
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6310. ImpÃ´ts, taxes et "
 "versements assimilÃ©es sur rÃ©munÃ©rations (administration des impÃ´ts)"
 msgstr ""
 
-#: src/gsb_category.c:530
+#: src/gsb_category.c:529
 msgid "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6311. Taxes sur salaires"
 msgstr ""
 
-#: src/gsb_category.c:531
+#: src/gsb_category.c:530
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6312. Taxe d'apprentissage"
 msgstr ""
 
-#: src/gsb_category.c:532
+#: src/gsb_category.c:531
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6313. Participation des "
 "employeurs Ã  la formation professionelle continue"
 msgstr ""
 
-#: src/gsb_category.c:533
+#: src/gsb_category.c:532
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6314. Cotisation pour dÃ©faut "
 "d'investissement obligatoire dans la construction"
 msgstr ""
 
-#: src/gsb_category.c:534
+#: src/gsb_category.c:533
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6330. ImpÃ´ts, taxes et "
 "versements assimilÃ©s sur rÃ©munÃ©rations ( autres organismes)"
 msgstr ""
 
-#: src/gsb_category.c:535
+#: src/gsb_category.c:534
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6331. Versements de transports"
 msgstr ""
 
-#: src/gsb_category.c:536
+#: src/gsb_category.c:535
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6333. Participations des "
 "employeurs Ã  la formations professionnellescontinue"
 msgstr ""
 
-#: src/gsb_category.c:537
+#: src/gsb_category.c:536
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6334. Participation des "
 "employeurs Ã  l'effort de construction (versement Ã  fonds perdu)"
 msgstr ""
 
-#: src/gsb_category.c:538
+#: src/gsb_category.c:537
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6335. Versements libÃ©ratoire "
 "donnant droit Ã  l'exonÃ©ration de la taxe d'apprentissage"
 msgstr ""
 
-#: src/gsb_category.c:539
+#: src/gsb_category.c:538
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6350. Autres impÃ´ts, taxes et "
 "versements assimilÃ©s (administrations des impÃ´ts)"
 msgstr ""
 
-#: src/gsb_category.c:540
+#: src/gsb_category.c:539
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6351. ImpÃ´ts directs (sauf "
 "impÃ´t sur les bÃ©nÃ©fices)"
 msgstr ""
 
-#: src/gsb_category.c:541
+#: src/gsb_category.c:540
 msgid "63. ImpÃ´ts, taxes et versements assimilÃ©s : 63512. Taxes fonciÃ¨res"
 msgstr ""
 
-#: src/gsb_category.c:542
+#: src/gsb_category.c:541
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 62413. Autres impÃ´ts locaux"
 msgstr ""
 
-#: src/gsb_category.c:543
+#: src/gsb_category.c:542
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 63518.Autres impÃ´ts directs"
 msgstr ""
 
-#: src/gsb_category.c:544
+#: src/gsb_category.c:543
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6352. Taxes sur les chiffres "
 "d'affaires non rÃ©cupÃ©rables"
 msgstr ""
 
-#: src/gsb_category.c:545
+#: src/gsb_category.c:544
 msgid "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6353. ImpÃ´ts indirects"
 msgstr ""
 
-#: src/gsb_category.c:546
+#: src/gsb_category.c:545
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6354. Droits d'enregistrement "
 "et de timbre"
 msgstr ""
 
-#: src/gsb_category.c:547
+#: src/gsb_category.c:546
 msgid "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6358. Autres droits"
 msgstr ""
 
-#: src/gsb_category.c:548
+#: src/gsb_category.c:547
 msgid ""
 "63. ImpÃ´ts, taxes et versements assimilÃ©s : 6370. Autres impÃ´ts, taxes et "
 "versements assimilÃ©s (autres organismes)"
 msgstr ""
 
-#: src/gsb_category.c:549
+#: src/gsb_category.c:548
 msgid "64. Charges de personnel : 6410. RÃ©munÃ©rations du personnel"
 msgstr ""
 
-#: src/gsb_category.c:550
+#: src/gsb_category.c:549
 msgid "64. Charges de personnel : 6411. Salaires et appointements"
 msgstr ""
 
-#: src/gsb_category.c:551
+#: src/gsb_category.c:550
 msgid "64. Charges de personnel : 6412. CongÃ©s payÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:552
+#: src/gsb_category.c:551
 msgid "64. Charges de personnel : 6413. Primes et gratifications"
 msgstr ""
 
-#: src/gsb_category.c:553
+#: src/gsb_category.c:552
 msgid "64. Charges de personnel : 6414. IndemnitÃ©s et avantages divers"
 msgstr ""
 
-#: src/gsb_category.c:554
+#: src/gsb_category.c:553
 msgid "64. Charges de personnel : 6415. SupplÃ©ments familial"
 msgstr ""
 
-#: src/gsb_category.c:555
+#: src/gsb_category.c:554
 msgid ""
 "64. Charges de personnel : 6450. Charges de sÃ©curitÃ© sociale et de "
 "prÃ©voyance"
 msgstr ""
 
-#: src/gsb_category.c:556
+#: src/gsb_category.c:555
 msgid "64. Charges de personnel : 6451. Cotisations de l'URSSAF"
 msgstr ""
 
-#: src/gsb_category.c:557
+#: src/gsb_category.c:556
 msgid "64. Charges de personnel : 6452. Cotisations aux mutuelles"
 msgstr ""
 
-#: src/gsb_category.c:558
+#: src/gsb_category.c:557
 msgid ""
 "64. Charges de personnel : 6453. Cotisations aux caisses de retraite et de "
 "prÃ©voyance"
 msgstr ""
 
-#: src/gsb_category.c:559
+#: src/gsb_category.c:558
 msgid "64. Charges de personnel : 6454. Cotisations aux ASSEDIC"
 msgstr ""
 
-#: src/gsb_category.c:560
+#: src/gsb_category.c:559
 msgid ""
 "64. Charges de personnel : 6458. Cotisations aux autres organismes sociaux"
 msgstr ""
 
-#: src/gsb_category.c:561
+#: src/gsb_category.c:560
 msgid "64. Charges de personnel : 6470. Autres charges sociales"
 msgstr ""
 
-#: src/gsb_category.c:562
+#: src/gsb_category.c:561
 msgid ""
 "64. Charges de personnel : 6472. Versements aux comitÃ©s d'entreprise et "
 "d'Ã©tablissement"
 msgstr ""
 
-#: src/gsb_category.c:563
+#: src/gsb_category.c:562
 msgid "64. Charges de personnel : 6475. MÃ©decine du travail, pharmacie"
 msgstr ""
 
-#: src/gsb_category.c:564
+#: src/gsb_category.c:563
 msgid "64. Charges de personnel : 6480. Autres charges de personnel"
 msgstr ""
 
-#: src/gsb_category.c:565
+#: src/gsb_category.c:564
 msgid ""
 "65. Autres charges de gestions courante : 6510. Redevances pour concessions, "
 "brevet, licences, marques, procÃ©dÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:566
+#: src/gsb_category.c:565
 msgid ""
 "65. Autres charges de gestions courante : 6516. Droits d'auteur et de "
 "reproduction (SACEM)"
 msgstr ""
 
-#: src/gsb_category.c:567
+#: src/gsb_category.c:566
 msgid ""
 "65. Autres charges de gestions courante : 6518. Autres droits et valeurs "
 "similaires"
 msgstr ""
 
-#: src/gsb_category.c:568
+#: src/gsb_category.c:567
 msgid ""
 "65. Autres charges de gestions courante : 6540. Pertes sur crÃ©ances "
 "irrÃ©couvrables"
 msgstr ""
 
-#: src/gsb_category.c:569
+#: src/gsb_category.c:568
 msgid "65. Autres charges de gestions courante : 6541. CrÃ©ances de l'exercice"
 msgstr ""
 
-#: src/gsb_category.c:570
+#: src/gsb_category.c:569
 msgid ""
 "65. Autres charges de gestions courante : 6544. CrÃ©ances des exercices "
 "antÃ©rieurs"
 msgstr ""
 
-#: src/gsb_category.c:571
+#: src/gsb_category.c:570
 msgid ""
 "65. Autres charges de gestions courante : 6550. Qoute-part de rÃ©sultat sur "
 "opÃ©ration faites en commun"
 msgstr ""
 
-#: src/gsb_category.c:572
+#: src/gsb_category.c:571
 msgid ""
 "65. Autres charges de gestions courante : 6570. Subventions versÃ©es par "
 "l'association"
 msgstr ""
 
-#: src/gsb_category.c:573
+#: src/gsb_category.c:572
 msgid ""
 "65. Autres charges de gestions courante : 6571. Bourses accordÃ©es aux "
 "usagers"
 msgstr ""
 
-#: src/gsb_category.c:574
+#: src/gsb_category.c:573
 msgid ""
 "65. Autres charges de gestions courante : 6580. Charges divers de gestion "
 "courante"
 msgstr ""
 
-#: src/gsb_category.c:575
+#: src/gsb_category.c:574
 msgid ""
 "65. Autres charges de gestions courante : 6586. Cotisations (liÃ©es Ã  la "
 "vie statutaire)"
 msgstr ""
 
-#: src/gsb_category.c:576
+#: src/gsb_category.c:575
 msgid "66. Charges financiÃ¨res : 6610. Charges d'intÃ©rÃªts"
 msgstr ""
 
-#: src/gsb_category.c:577
+#: src/gsb_category.c:576
 msgid "66. Charges financiÃ¨res : 6611. IntÃ©rÃªts des emprunts et dettes"
 msgstr ""
 
-#: src/gsb_category.c:578
+#: src/gsb_category.c:577
 msgid "66. Charges financiÃ¨res : 6616. IntÃ©rÃªts banquaires"
 msgstr ""
 
-#: src/gsb_category.c:579
+#: src/gsb_category.c:578
 msgid "66. Charges financiÃ¨res : 6618. IntÃ©rÃªts des autres dettes"
 msgstr ""
 
-#: src/gsb_category.c:580
+#: src/gsb_category.c:579
 msgid "66. Charges financiÃ¨res : 6660. Pertes de change"
 msgstr ""
 
-#: src/gsb_category.c:581
+#: src/gsb_category.c:580
 msgid ""
 "66. Charges financiÃ¨res : 6670. Charges nettes sur cessions de valeurs "
 "immobiliÃ¨res de placement"
 msgstr ""
 
-#: src/gsb_category.c:582
+#: src/gsb_category.c:581
 msgid "66. Charges financiÃ¨res : 6680. Autres chages financiÃ¨res"
 msgstr ""
 
-#: src/gsb_category.c:583
+#: src/gsb_category.c:582
 msgid ""
 "67. Charges exeptionnelles : 6710. Charges exeptionnelles sur opÃ©rations de "
 "gestion"
 msgstr ""
 
-#: src/gsb_category.c:584
+#: src/gsb_category.c:583
 msgid ""
 "67. Charges exeptionnelles : 6712. PÃ©nalitÃ©s et amendes fiscales ou "
 "pÃ©nales"
 msgstr ""
 
-#: src/gsb_category.c:585
+#: src/gsb_category.c:584
 msgid "67. Charges exeptionnelles : 6713. Dons, libÃ©ralitÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:586
+#: src/gsb_category.c:585
 msgid ""
 "67. Charges exeptionnelles : 6714. CrÃ©ances devenues irrÃ©couvrables dans "
 "l'exercice"
 msgstr ""
 
-#: src/gsb_category.c:587
+#: src/gsb_category.c:586
 msgid ""
 "67. Charges exeptionnelles : 6717. Rappel d'impÃ´ts (autres qu'impÃ´ts sur "
 "les bÃ©nÃ©fices)"
 msgstr ""
 
-#: src/gsb_category.c:588
+#: src/gsb_category.c:587
 msgid ""
 "67. Charges exeptionnelles : 6718. Autres charges exeptionnelles sur "
 "opÃ©rations de gestion"
 msgstr ""
 
-#: src/gsb_category.c:589
+#: src/gsb_category.c:588
 msgid ""
 "67. Charges exeptionnelles : 6720. Charges sur exercices antÃ©rieurs ( Ã  "
 "reclasser)"
 msgstr ""
 
-#: src/gsb_category.c:590
+#: src/gsb_category.c:589
 msgid ""
 "67. Charges exeptionnelles : 6750. Valeurs comptables des Ã©lÃ©ments d'actif "
 "cÃ©dÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:591
+#: src/gsb_category.c:590
 msgid "67. Charges exeptionnelles : 6751. Immobilisations incorporelles"
 msgstr ""
 
-#: src/gsb_category.c:592
+#: src/gsb_category.c:591
 msgid "67. Charges exeptionnelles : 6752. Immobilisations corporelles"
 msgstr ""
 
-#: src/gsb_category.c:593
+#: src/gsb_category.c:592
 msgid "67. Charges exeptionnelles : 6756. Immobilisations financiÃ¨res"
 msgstr ""
 
-#: src/gsb_category.c:594
+#: src/gsb_category.c:593
 msgid "67. Charges exeptionnelles : 6780. Autres charges exeptionnelles"
 msgstr ""
 
-#: src/gsb_category.c:595
+#: src/gsb_category.c:594
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6810. "
 "Dotations aux ammortissements et aux provisions. Charges d'exploitation"
 msgstr ""
 
-#: src/gsb_category.c:596
+#: src/gsb_category.c:595
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6811. "
 "Dotations aux ammortissements des immobilisations incorporelles et "
 "corporelles"
 msgstr ""
 
-#: src/gsb_category.c:597
+#: src/gsb_category.c:596
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 68111. "
 "Immobilisations incorporelles"
 msgstr ""
 
-#: src/gsb_category.c:598
+#: src/gsb_category.c:597
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 68112. "
 "Immobilisations corporelles"
 msgstr ""
 
-#: src/gsb_category.c:599
+#: src/gsb_category.c:598
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6812. "
 "Dotations aux ammortissements des charges d'exploitation Ã  rÃ©partir"
 msgstr ""
 
-#: src/gsb_category.c:600
+#: src/gsb_category.c:599
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6815. "
 "Dotations aux provisions, pour risque et charges d'exploitation"
 msgstr ""
 
-#: src/gsb_category.c:601
+#: src/gsb_category.c:600
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6816. "
 "Dotationsaux provisions pour dÃ©prÃ©ciation des immobilisations "
 "incorporelles et corporelles"
 msgstr ""
 
-#: src/gsb_category.c:602
+#: src/gsb_category.c:601
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 68161. "
 "Immobilisations incorporelles"
 msgstr ""
 
-#: src/gsb_category.c:603
+#: src/gsb_category.c:602
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 68162. "
 "Immobilisations corporelles"
 msgstr ""
 
-#: src/gsb_category.c:604
+#: src/gsb_category.c:603
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6817. "
 "Dotations aux provisions pour dÃ©prÃ©ciation des actifs circulants"
 msgstr ""
 
-#: src/gsb_category.c:605
+#: src/gsb_category.c:604
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6860. "
 "Dotations aux ammortissements et aux provisions. Charges financiÃ¨res"
 msgstr ""
 
-#: src/gsb_category.c:606
+#: src/gsb_category.c:605
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6866. Dotation "
 "aux provisions pour dÃ©prÃ©ciations des Ã©lÃ©ments financiers"
 msgstr ""
 
-#: src/gsb_category.c:607
+#: src/gsb_category.c:606
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 68662. "
 "Immobilisations financiÃ¨res"
 msgstr ""
 
-#: src/gsb_category.c:608
+#: src/gsb_category.c:607
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 68665. Valeurs "
 "mobiliÃ¨res de placement"
 msgstr ""
 
-#: src/gsb_category.c:609
+#: src/gsb_category.c:608
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6870. "
 "Dotations aux ammortissements et aux provisions. Charges exeptionnelles"
 msgstr ""
 
-#: src/gsb_category.c:610
+#: src/gsb_category.c:609
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6871. "
 "Dotations aux ammortissements exceptionnelles des immobilisations"
 msgstr ""
 
-#: src/gsb_category.c:611
+#: src/gsb_category.c:610
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6876. "
 "Dotations aux ammortissements pour dÃ©prÃ©ciation exceptionnelles"
 msgstr ""
 
-#: src/gsb_category.c:612
+#: src/gsb_category.c:611
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6890. "
 "Engagements Ã  rÃ©aliser sur ressources affectÃ©es"
 msgstr ""
 
-#: src/gsb_category.c:613
+#: src/gsb_category.c:612
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6894. "
 "Engagements Ã  rÃ©aliser sur subventions attribuÃ©es"
 msgstr ""
 
-#: src/gsb_category.c:614
+#: src/gsb_category.c:613
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6895. "
 "Engagements Ã  rÃ©aliser sur dons manuels affectÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:615
+#: src/gsb_category.c:614
 msgid ""
 "68. Dotations aux ammortissements, provision et engagements : 6897. "
 "Engagements Ã  rÃ©aliser sur legs et donations affectÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:616
+#: src/gsb_category.c:615
 msgid "69. ImpÃ´ts sur les bÃ©nÃ©fices : 6950. ImpÃ´ts sur les bÃ©nÃ©fices"
 msgstr ""
 
-#: src/gsb_category.c:617
+#: src/gsb_category.c:616
 msgid ""
 "69. ImpÃ´ts sur les bÃ©nÃ©fices : 6910. Participations des salariÃ¨s aux "
 "rÃ©sultats"
 msgstr ""
 
-#: src/gsb_category.c:618
+#: src/gsb_category.c:617
 msgid ""
 "69. ImpÃ´ts sur les bÃ©nÃ©fices : 69511. ImpÃ´ts sur les sociÃ©tÃ©s des "
 "personnes morales non lucratives"
 msgstr ""
 
-#: src/gsb_category.c:619
+#: src/gsb_category.c:618
 msgid ""
 "69. ImpÃ´ts sur les bÃ©nÃ©fices : 69512. ImpÃ´ts sur les sociÃ©tÃ©s de droit "
 "commun"
 msgstr ""
 
-#: src/gsb_category.c:620
+#: src/gsb_category.c:619
 msgid ""
 "69. ImpÃ´ts sur les bÃ©nÃ©fices : 6952. Contributions additionnelles Ã  "
 "l'impÃ´ts sur les bÃ©nÃ©fices"
 msgstr ""
 
-#: src/gsb_category.c:621
+#: src/gsb_category.c:620
 msgid ""
 "69. ImpÃ´ts sur les bÃ©nÃ©fices : 6970. Imposition forfaitaire et annuelle "
 "(IFA)"
 msgstr ""
 
-#: src/gsb_category.c:622
+#: src/gsb_category.c:621
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7010. "
 "Ventes de produits finis"
 msgstr ""
 
-#: src/gsb_category.c:623
+#: src/gsb_category.c:622
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7050. "
 "Etudes"
 msgstr ""
 
-#: src/gsb_category.c:624
+#: src/gsb_category.c:623
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7060. "
 "Prestations de services"
 msgstr ""
 
-#: src/gsb_category.c:625
+#: src/gsb_category.c:624
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7070. "
 "Ventes de marchandises"
 msgstr ""
 
-#: src/gsb_category.c:626
+#: src/gsb_category.c:625
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7080. "
 "Produits des activitÃ©s annexes"
 msgstr ""
 
-#: src/gsb_category.c:627
+#: src/gsb_category.c:626
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7081. "
 "Produits des prestations fournies au personnel"
 msgstr ""
 
-#: src/gsb_category.c:628
+#: src/gsb_category.c:627
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7083. "
 "Locations divers"
 msgstr ""
 
-#: src/gsb_category.c:629
+#: src/gsb_category.c:628
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7084. "
 "Mise Ã  disposition de personnel facturÃ©e"
 msgstr ""
 
-#: src/gsb_category.c:630
+#: src/gsb_category.c:629
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7088. "
 "Autres produits d'activitÃ©s annexes"
 msgstr ""
 
-#: src/gsb_category.c:631
+#: src/gsb_category.c:630
 msgid ""
 "70. Ventes de produits finis, prestations de services, marchandises : 7090. "
 "Rabais, remises et ristournes accordÃ©es par l'association"
 msgstr ""
 
-#: src/gsb_category.c:632
+#: src/gsb_category.c:631
 msgid ""
 "71. Production stockÃ©e (ou destockage) : 7130. Variations de stock (en-"
 "cours de production, produits)"
 msgstr ""
 
-#: src/gsb_category.c:633
+#: src/gsb_category.c:632
 msgid ""
 "71. Production stockÃ©e (ou destockage) : 7133. Variations des en-cours de "
 "production de biens"
 msgstr ""
 
-#: src/gsb_category.c:634
+#: src/gsb_category.c:633
 msgid ""
 "71. Production stockÃ©e (ou destockage) : 7134. Variations des en-cours de "
 "productions de services"
 msgstr ""
 
-#: src/gsb_category.c:635
+#: src/gsb_category.c:634
 msgid ""
 "71. Production stockÃ©e (ou destockage) : 7135. Variations des stocks de "
 "produits"
 msgstr ""
 
-#: src/gsb_category.c:636
+#: src/gsb_category.c:635
 msgid ""
 "75. Autres produits de gestions courante : 7510. Redevances pour "
 "concessions, brevets, licences, marques, procÃ©dÃ©s, droits et valeurs "
 "similaires"
 msgstr ""
 
-#: src/gsb_category.c:637
+#: src/gsb_category.c:636
 msgid ""
 "75. Autres produits de gestions courante : 7520. Revenues des immeubles non "
 "affectÃ©s aux activitÃ©s de l'association"
 msgstr ""
 
-#: src/gsb_category.c:638
+#: src/gsb_category.c:637
 msgid "75. Autres produits de gestions courante : 7540. Collectes"
 msgstr ""
 
-#: src/gsb_category.c:639
+#: src/gsb_category.c:638
 msgid "75. Autres produits de gestions courante : 7560. cotisations"
 msgstr ""
 
-#: src/gsb_category.c:640
+#: src/gsb_category.c:639
 msgid ""
 "75. Autres produits de gestions courante : 7570. Quote-part d'Ã©lÃ©ments du "
 "fond associatif virÃ©e au compte de rÃ©sultat"
 msgstr ""
 
-#: src/gsb_category.c:641
+#: src/gsb_category.c:640
 msgid ""
 "75. Autres produits de gestions courante : 7571. Quote part de subventions "
 "d'investissement (renouvelables) virÃ©e au compte de rÃ©sultat"
 msgstr ""
 
-#: src/gsb_category.c:642
+#: src/gsb_category.c:641
 msgid ""
 "75. Autres produits de gestions courante : 7573. Quote-part des apports "
 "virÃ©s au compte de rÃ©sultat"
 msgstr ""
 
-#: src/gsb_category.c:643
+#: src/gsb_category.c:642
 msgid ""
 "75. Autres produits de gestions courante : 7580. Produits divers de gestion "
 "courante"
 msgstr ""
 
-#: src/gsb_category.c:644
+#: src/gsb_category.c:643
 msgid ""
 "75. Autres produits de gestions courante : 7581. Dons manuels non affectÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:645
+#: src/gsb_category.c:644
 msgid "75. Autres produits de gestions courante : 7582. Dons manuels affectÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:646
+#: src/gsb_category.c:645
 msgid ""
 "75. Autres produits de gestions courante : 7585. Legs et donations non "
 "affectÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:647
+#: src/gsb_category.c:646
 msgid ""
 "75. Autres produits de gestions courante : 7586. Legs et donations affectÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:648
+#: src/gsb_category.c:647
 msgid ""
 "75. Autres produits de gestions courante : 7587. Ventes de dons en nature"
 msgstr ""
 
-#: src/gsb_category.c:649
+#: src/gsb_category.c:648
 msgid ""
 "75. Autres produits de gestions courante : 7588. Autres produits de la "
 "gÃ©nÃ©rositÃ© public"
 msgstr ""
 
-#: src/gsb_category.c:650
+#: src/gsb_category.c:649
 msgid "76. Produits financiers : 7610. Produits des participations"
 msgstr ""
 
-#: src/gsb_category.c:651
+#: src/gsb_category.c:650
 msgid ""
 "76. Produits financiers : 7620. Produits des autres immobilisations "
 "financiÃ¨res"
 msgstr ""
 
-#: src/gsb_category.c:652
+#: src/gsb_category.c:651
 msgid "76. Produits financiers : 7621. Revenus des titres immobilisÃ©s"
 msgstr ""
 
-#: src/gsb_category.c:653
+#: src/gsb_category.c:652
 msgid "76. Produits financiers : 7624. Revenus des prÃªts"
 msgstr ""
 
-#: src/gsb_category.c:654
+#: src/gsb_category.c:653
 msgid ""
 "76. Produits financiers : 7640. Revenues des valeurs mobiliÃ¨res de "
 "placements"
 msgstr ""
 
-#: src/gsb_category.c:655
+#: src/gsb_category.c:654
 msgid "76. Produits financiers : 7650. Escomptes obtenus"
 msgstr ""
 
-#: src/gsb_category.c:656
+#: src/gsb_category.c:655
 msgid "76. Produits financiers : 7660. Gains de change"
 msgstr ""
 
-#: src/gsb_category.c:657
+#: src/gsb_category.c:656
 msgid ""
 "76. Produits financiers : 7670. Produits nets sur cession de valeurs "
 "mobiliÃ¨res de placement"
 msgstr ""
 
-#: src/gsb_category.c:658
+#: src/gsb_category.c:657
 msgid "76. Produits financiers : 7680. Autres produits financiers"
 msgstr ""
 
-#: src/gsb_category.c:659
+#: src/gsb_category.c:658
 msgid ""
 "76. Produits financiers : 7681. IntÃ©rÃªts des comptes financiers dÃ©biteurs"
 msgstr ""
 
-#: src/gsb_category.c:660
+#: src/gsb_category.c:659
 msgid ""
 "77. Produits exceptionnels : 7710. Produits exceptionnels sur opÃ©ration de "
 "gestion"
 msgstr ""
 
-#: src/gsb_category.c:661
+#: src/gsb_category.c:660
 msgid "77. Produits exceptionnels : 7713. LibÃ©rabilitÃ©s perÃ§ues"
 msgstr ""
 
-#: src/gsb_category.c:662
+#: src/gsb_category.c:661
 msgid "77. Produits exceptionnels : 7714. RentrÃ©es sur crÃ©ances amorties"
 msgstr ""
 
-#: src/gsb_category.c:663
+#: src/gsb_category.c:662
 msgid "77. Produits exceptionnels : 7715. Subvention d'Ã©quilibre"
 msgstr ""
 
-#: src/gsb_category.c:664
+#: src/gsb_category.c:663
 msgid ""
 "77. Produits exceptionnels : 7717. DÃ©grÃ¨vements d'impÃ´ts (autres qu'impÃ"
 "´ts sue les bÃ©nÃ©fices)"
 msgstr ""
 
-#: src/gsb_category.c:665
+#: src/gsb_category.c:664
 msgid ""
 "77. Produits exceptionnels : 7718. Autres produits excepetionnels sur "
 "opÃ©rations de gestion"
 msgstr ""
 
-#: src/gsb_category.c:666
+#: src/gsb_category.c:665
 msgid ""
 "77. Produits exceptionnels : 7720. Produits sur exercices antÃ©rieurs (Ã  "
 "reclaser)"
 msgstr ""
 
-#: src/gsb_category.c:667
+#: src/gsb_category.c:666
 msgid ""
 "77. Produits exceptionnels : 7750. Produits de cessions d'Ã©lÃ©ments d'actif"
 msgstr ""
 
-#: src/gsb_category.c:668
+#: src/gsb_category.c:667
 msgid "77. Produits exceptionnels : 7751. Immobilisations incorporelles"
 msgstr ""
 
-#: src/gsb_category.c:669
+#: src/gsb_category.c:668
 msgid "77. Produits exceptionnels : 7752. Immobilisations corporelles"
 msgstr ""
 
-#: src/gsb_category.c:670
+#: src/gsb_category.c:669
 msgid "77. Produits exceptionnels : 7756. Immobilisations financiÃ¨res"
 msgstr ""
 
-#: src/gsb_category.c:671
+#: src/gsb_category.c:670
 msgid ""
 "77. Produits exceptionnels : 7770. Quote-part des "
 "subventionsd'investissement virÃ©e au rÃ©sultat de l'exercice"
 msgstr ""
 
-#: src/gsb_category.c:672
+#: src/gsb_category.c:671
 msgid "77. Produits exceptionnels : 7780. Autres produits exceptionnels"
 msgstr ""
 
-#: src/gsb_category.c:673
+#: src/gsb_category.c:672
 msgid ""
 "78. Reprise sur amortissements et provisions : 7810. Reprise sur "
 "amoratissements et provisions (Ã  inscrire dans les produits d'exploitation)"
 msgstr ""
 
-#: src/gsb_category.c:674
+#: src/gsb_category.c:673
 msgid ""
 "78. Reprise sur amortissements et provisions : 7811. Reprise sur "
 "amortissement et provisions des immobilisations incorporelles et corporelles"
 msgstr ""
 
-#: src/gsb_category.c:675
+#: src/gsb_category.c:674
 msgid ""
 "78. Reprise sur amortissements et provisions : 7815. Reprise surprovision "
 "pour risques et charges d'exploitation"
 msgstr ""
 
-#: src/gsb_category.c:676
+#: src/gsb_category.c:675
 msgid ""
 "78. Reprise sur amortissements et provisions : 7816. Reprise sur provisions "
 "pour dÃ©prÃ©ciation des immobilisations incorporelles et corporelles"
 msgstr ""
 
-#: src/gsb_category.c:677
+#: src/gsb_category.c:676
 msgid ""
 "78. Reprise sur amortissements et provisions : 78161. Immobilisations "
 "incorporelles"
 msgstr ""
 
-#: src/gsb_category.c:678
+#: src/gsb_category.c:677
 msgid ""
 "78. Reprise sur amortissements et provisions : 78162. Immobilisation "
 "corporelles"
 msgstr ""
 
-#: src/gsb_category.c:679
+#: src/gsb_category.c:678
 msgid ""
 "78. Reprise sur amortissements et provisions : 7817. Reprise sur provisions "
 "pour dÃ©prÃ©ciation des actifs circulants"
 msgstr ""
 
-#: src/gsb_category.c:680
+#: src/gsb_category.c:679
 msgid ""
 "78. Reprise sur amortissements et provisions : 7860. Reprise sur provisions "
 "( Ã  inscrire dans les produits exceptionnels)"
 msgstr ""
 
-#: src/gsb_category.c:681
+#: src/gsb_category.c:680
 msgid ""
 "78. Reprise sur amortissements et provisions : 7866. Reprise sur provision "
 "pour dÃ©prÃ©ciation des Ã©lÃ©ments financiers"
 msgstr ""
 
-#: src/gsb_category.c:682
+#: src/gsb_category.c:681
 msgid ""
 "78. Reprise sur amortissements et provisions : 78662. Immobilisations "
 "financiÃ¨res"
 msgstr ""
 
-#: src/gsb_category.c:683
+#: src/gsb_category.c:682
 msgid ""
 "78. Reprise sur amortissements et provisions : 78665. Valeurs mobiliÃ¨res de "
 "placement"
 msgstr ""
 
-#: src/gsb_category.c:684
+#: src/gsb_category.c:683
 msgid ""
 "78. Reprise sur amortissements et provisions : 7870. Reprise sur provisions "
 "( Ã  inscrire dans les produits exceptionnels)"
 msgstr ""
 
-#: src/gsb_category.c:685
+#: src/gsb_category.c:684
 msgid ""
 "78. Reprise sur amortissements et provisions : 7876. Reprise sur provision "
 "pour dÃ©prÃ©ciation exceptionnelles"
 msgstr ""
 
-#: src/gsb_category.c:686
+#: src/gsb_category.c:685
 msgid ""
 "78. Reprise sur amortissements et provisions : 7890. Report des ressources "
 "non utilisÃ©es des exercices antÃ©rieurs"
 msgstr ""
 
-#: src/gsb_category.c:687
+#: src/gsb_category.c:686
 msgid ""
 "78. Reprise sur amortissements et provisions : 7894. Reports des ressources "
 "non utilisÃ©es sur subventions attribÃ©es"
 msgstr ""
 
-#: src/gsb_category.c:688
+#: src/gsb_category.c:687
 msgid ""
 "78. Reprise sur amortissements et provisions : 7895. Reports des ressources "
 "non utilisÃ©es sur dons manuels reÃ§us"
 msgstr ""
 
-#: src/gsb_category.c:689
+#: src/gsb_category.c:688
 msgid ""
 "78. Reprise sur amortissements et provisions : 7897. Report des ressources "
 "non utilisÃ©es sur legs et donations affectÃ©es"
 msgstr ""
 
-#: src/gsb_category.c:690
+#: src/gsb_category.c:689
 msgid "79. Transferts de charges : 7910. Transferts de charges d'exploitation"
 msgstr ""
 
-#: src/gsb_category.c:691
+#: src/gsb_category.c:690
 msgid "79. Transferts de charges : 7960. Transferts des charges financiÃ¨res"
 msgstr ""
 
-#: src/gsb_category.c:692
+#: src/gsb_category.c:691
 msgid "79. Transferts de charges : 7970. Transferts de charges exceptionnelles"
 msgstr ""
 
-#: src/gsb_category.c:693
+#: src/gsb_category.c:692
 msgid "86. RÃ©partition par nature de charges : 8600. Secours en nature"
 msgstr ""
 
-#: src/gsb_category.c:694
+#: src/gsb_category.c:693
 msgid "86. RÃ©partition par nature de charges : 8601. Alimentaires"
 msgstr ""
 
-#: src/gsb_category.c:695
+#: src/gsb_category.c:694
 msgid "86. RÃ©partition par nature de charges : 8602. Vestimentaires"
 msgstr ""
 
-#: src/gsb_category.c:696
+#: src/gsb_category.c:695
 msgid ""
 "86. RÃ©partition par nature de charges : 8610. Mise Ã  disposition gratuite "
 "de biens"
 msgstr ""
 
-#: src/gsb_category.c:697
+#: src/gsb_category.c:696
 msgid "86. RÃ©partition par nature de charges : 8611. Locaux"
 msgstr ""
 
-#: src/gsb_category.c:698
+#: src/gsb_category.c:697
 msgid "86. RÃ©partition par nature de charges : 8612. MatÃ©riels"
 msgstr ""
 
-#: src/gsb_category.c:699
+#: src/gsb_category.c:698
 msgid "86. RÃ©partition par nature de charges : 8620. Prestations"
 msgstr ""
 
-#: src/gsb_category.c:700
+#: src/gsb_category.c:699
 msgid "86. RÃ©partition par nature de charges : 8640. Personnel bÃ©nÃ©vole"
 msgstr ""
 
-#: src/gsb_category.c:701
+#: src/gsb_category.c:700
 msgid "87. RÃ©partition par nautre des ressources : 8700. BÃ©nÃ©volat"
 msgstr ""
 
-#: src/gsb_category.c:702
+#: src/gsb_category.c:701
 msgid "87. RÃ©partition par nautre des ressources : 8710. Prestation en nature"
 msgstr ""
 
-#: src/gsb_category.c:703
+#: src/gsb_category.c:702
 msgid "87. RÃ©partition par nautre des ressources : 8750. Dons en nature"
 msgstr ""
 
-#: src/gsb_category.c:708
+#: src/gsb_category.c:707
 msgid "Petit outillage"
 msgstr ""
 
-#: src/gsb_category.c:709
+#: src/gsb_category.c:708
 msgid "Impots et taxes : Taxe sur la valeur ajoutÃ©e"
 msgstr ""
 
-#: src/gsb_category.c:710
+#: src/gsb_category.c:709
 msgid "Impots et taxes : Taxe professionnelle"
 msgstr ""
 
-#: src/gsb_category.c:711
+#: src/gsb_category.c:710
 msgid "Impots et taxes : Autres impÃ´ts"
 msgstr ""
 
-#: src/gsb_category.c:712
+#: src/gsb_category.c:711
 #, fuzzy
 msgid "Achats"
 msgstr "Наличные"
 
-#: src/gsb_category.c:713
+#: src/gsb_category.c:712
 #, fuzzy
 msgid "P.T.T."
 msgstr "..."
 
-#: src/gsb_category.c:714
+#: src/gsb_category.c:713
 msgid "Autres frais de dÃ©placements"
 msgstr ""
 
-#: src/gsb_category.c:715
+#: src/gsb_category.c:714
 msgid "Frais de vÃ©hicules"
 msgstr ""
 
-#: src/gsb_category.c:716
+#: src/gsb_category.c:715
 msgid "RÃ©ception, ReprÃ©sentation, CongrÃ¨s"
 msgstr ""
 
-#: src/gsb_category.c:717
+#: src/gsb_category.c:716
 msgid "Entretien et rÃ©parations"
 msgstr ""
 
-#: src/gsb_category.c:718
+#: src/gsb_category.c:717
 msgid "Cotisations professionnelles et syndicales"
 msgstr ""
 
-#: src/gsb_category.c:719
+#: src/gsb_category.c:718
 msgid "Autres frais divers de gestion"
 msgstr ""
 
-#: src/gsb_category.c:720
+#: src/gsb_category.c:719
 msgid "Location de matÃ©riel ou de mobilier"
 msgstr ""
 
-#: src/gsb_category.c:721
+#: src/gsb_category.c:720
 #, fuzzy
 msgid "Fournitures de bureau et documentation"
 msgstr "Документация по Grisbi"
 
-#: src/gsb_category.c:722
+#: src/gsb_category.c:721
 #, fuzzy
 msgid "Frais financiers"
 msgstr "Финансовый год"
 
-#: src/gsb_category.c:723
+#: src/gsb_category.c:722
 msgid "RÃ©trocession d'honoraires"
 msgstr ""
 
-#: src/gsb_category.c:724
+#: src/gsb_category.c:723
 msgid "Honoraires ne constituant pas des rÃ©trocessions"
 msgstr ""
 
-#: src/gsb_category.c:725
+#: src/gsb_category.c:724
 msgid "Charges sociales du praticien"
 msgstr ""
 
-#: src/gsb_category.c:730
+#: src/gsb_category.c:729
 msgid "Don't create any list, i will do it by myself or it will be imported"
 msgstr ""
 
-#: src/gsb_category.c:731
+#: src/gsb_category.c:730
 msgid "General category list (most common choice)"
 msgstr ""
 
-#: src/gsb_category.c:732
+#: src/gsb_category.c:731
 msgid ""
 "Association category list (in french for now, special categories to "
 "associations)"
 msgstr ""
 
-#: src/gsb_category.c:733
+#: src/gsb_category.c:732
 msgid ""
 "Liberal category list (in french for now, to use Grisbi for a small business)"
 msgstr ""
 
-#. FIXME : for now, just a dialog, but will be include in a nice assistant
-#: src/gsb_category.c:752
-#, fuzzy
-msgid "Choose the categories"
-msgstr "Объединить категории"
-
-#: src/gsb_crypt.c:176
+#: src/gsb_crypt.c:174
 msgid "The password was incorrect ! Please try again..."
 msgstr ""
 
-#: src/gsb_crypt.c:187 src/plugins/openssl/openssl.c:183
+#: src/gsb_crypt.c:185 src/plugins/openssl/openssl.c:182
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr ""
 
 #. FIXME: import symbols to be sure we can call this kind of stuff.
-#: src/gsb_crypt.c:189 src/plugins/openssl/openssl.c:181
+#: src/gsb_crypt.c:187 src/plugins/openssl/openssl.c:180
 msgid ""
 "This build of Grisbi does not support encryption.\n"
 "Please recompile Grisbi with OpenSSL encryption enabled."
 msgstr ""
 
-#: src/gsb_crypt.c:214 src/plugins/openssl/openssl.c:208
+#: src/gsb_crypt.c:212 src/plugins/openssl/openssl.c:207
 #, fuzzy
 msgid "Grisbi password"
 msgstr "Логотип Grisbi"
 
-#: src/gsb_crypt.c:218 src/plugins/openssl/openssl.c:212
+#: src/gsb_crypt.c:216 src/plugins/openssl/openssl.c:211
 #, fuzzy
 msgid "Crypt file"
 msgstr "Экспортировать файлы"
 
-#: src/gsb_crypt.c:218 src/plugins/openssl/openssl.c:212
+#: src/gsb_crypt.c:216 src/plugins/openssl/openssl.c:211
 #, fuzzy
 msgid "Decrypt file"
 msgstr "Отладить файл"
 
-#: src/gsb_crypt.c:243
+#: src/gsb_crypt.c:241
 #, c-format
 msgid ""
 "Please enter password to encrypt file\n"
 "'<tt>%s</tt>'"
 msgstr ""
 
-#: src/gsb_crypt.c:250
+#: src/gsb_crypt.c:248
 #, c-format
 msgid ""
 "Please enter password to decrypt file\n"
 "'<tt>%s</tt>'"
 msgstr ""
 
-#: src/gsb_crypt.c:260 src/plugins/openssl/openssl.c:248
+#: src/gsb_crypt.c:258 src/plugins/openssl/openssl.c:247
 msgid "Password"
 msgstr ""
 
-#: src/gsb_crypt.c:268 src/plugins/openssl/openssl.c:256
+#: src/gsb_crypt.c:266 src/plugins/openssl/openssl.c:255
 msgid "Don't ask password again for this session."
 msgstr ""
 
@@ -8907,7 +8883,7 @@ msgstr "Валюта счёта"
 msgid "Invalid"
 msgstr ""
 
-#: src/gsb_data_account.c:212
+#: src/gsb_data_account.c:213
 #, c-format
 msgid "No name %d"
 msgstr ""
@@ -8919,7 +8895,7 @@ msgid ""
 msgstr ""
 
 #. TODO dOm : the return value of g_strdup_printf was not used ! I add the devel_debug to print it. Is it OK to do that ?
-#: src/gsb_data_account.c:1173
+#: src/gsb_data_account.c:1179
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
@@ -8927,7 +8903,7 @@ msgid ""
 msgstr ""
 
 #. TODO dOm : the value of g_strdup_printf was not used. I add the devel_debug function to print it. Is it OK ?
-#: src/gsb_data_account.c:1211
+#: src/gsb_data_account.c:1217
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
@@ -8953,22 +8929,22 @@ msgstr ""
 msgid "<span foreground=\"red\">Warning : that link is already defined</span>"
 msgstr ""
 
-#: src/gsb_data_fyear.c:567
+#: src/gsb_data_fyear.c:566
 msgid ""
 "<span foreground=\"red\">Warning : the dates are not in good order</span>"
 msgstr ""
 
-#: src/gsb_data_fyear.c:570
+#: src/gsb_data_fyear.c:569
 msgid ""
 "<span foreground=\"red\">Warning : that financial year cross with another "
 "one</span>"
 msgstr ""
 
-#: src/gsb_data_fyear.c:573
+#: src/gsb_data_fyear.c:572
 msgid "<span foreground=\"red\">Warning : Invalid date</span>"
 msgstr ""
 
-#: src/gsb_data_payee.c:402
+#: src/gsb_data_payee.c:395
 msgid "No payee defined"
 msgstr ""
 
@@ -8985,8 +8961,8 @@ msgstr "Кредитная карта"
 msgid "Direct debit"
 msgstr ""
 
-#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1966
-#: src/gsb_data_transaction.c:2028
+#: src/gsb_data_scheduled.c:1541 src/gsb_data_transaction.c:1982
+#: src/gsb_data_transaction.c:2044
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr ""
 
@@ -9057,103 +9033,103 @@ msgstr ""
 msgid "Creating interface"
 msgstr ""
 
-#: src/gsb_file.c:569
+#: src/gsb_file.c:567
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
 "with another name or activate the \"%s\" option in preferences."
 msgstr ""
 
-#: src/gsb_file.c:570 src/gsb_file.c:706 src/parametres.c:663
+#: src/gsb_file.c:568 src/gsb_file.c:704 src/parametres.c:663
 msgid "Force saving of locked files"
 msgstr ""
 
-#: src/gsb_file.c:571
+#: src/gsb_file.c:569
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr ""
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: src/gsb_file.c:582
+#: src/gsb_file.c:580
 msgid "Saving file"
 msgstr ""
 
-#: src/gsb_file.c:637
+#: src/gsb_file.c:635
 msgid "Saving backup"
 msgstr "Сохраняется архивная копия"
 
-#: src/gsb_file.c:703
+#: src/gsb_file.c:701
 msgid "Save locked files?"
 msgstr ""
 
-#: src/gsb_file.c:704
+#: src/gsb_file.c:702
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: src/gsb_file.c:705 src/gsb_file.c:716 src/gsb_file.c:898
+#: src/gsb_file.c:703 src/gsb_file.c:714 src/gsb_file.c:896
 msgid "unnamed"
 msgstr ""
 
-#: src/gsb_file.c:708 src/gsb_file.c:719
+#: src/gsb_file.c:706 src/gsb_file.c:717
 msgid "Close without saving"
 msgstr "Закрыть _без сохранения"
 
-#: src/gsb_file.c:715
+#: src/gsb_file.c:713
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr ""
 
-#: src/gsb_file.c:728
+#: src/gsb_file.c:726
 #, c-format
 msgid "%dÂ minutes and %dÂ seconds"
 msgstr ""
 
-#: src/gsb_file.c:733
+#: src/gsb_file.c:731
 #, c-format
 msgid "1Â minute and %dÂ seconds"
 msgstr ""
 
-#: src/gsb_file.c:738
+#: src/gsb_file.c:736
 #, c-format
 msgid "%dÂ seconds"
 msgstr ""
 
-#: src/gsb_file.c:741
+#: src/gsb_file.c:739
 #, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr ""
 
-#: src/gsb_file.c:777
+#: src/gsb_file.c:775
 msgid "Name the accounts file"
 msgstr "Имя файла со счетами"
 
-#: src/gsb_file.c:902
+#: src/gsb_file.c:900
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: src/gsb_file_config.c:711
+#: src/gsb_file_config.c:696
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr ""
 
-#: src/gsb_file_config.c:755
+#: src/gsb_file_config.c:736
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
 "please check it."
 msgstr ""
 
-#: src/gsb_file_config.c:792
+#: src/gsb_file_config.c:773
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr ""
 
-#: src/gsb_file_config.c:1216 src/print_config.c:50
+#: src/gsb_file_config.c:1193 src/print_config.c:50
 msgid "A4"
 msgstr "A4"
 
@@ -9330,7 +9306,7 @@ msgid ""
 "please check it and try again."
 msgstr ""
 
-#: src/gsb_file_load.c:330 src/gsb_file_save.c:308
+#: src/gsb_file_load.c:330 src/gsb_file_save.c:322
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -9338,11 +9314,11 @@ msgid ""
 "installed) and try again."
 msgstr ""
 
-#: src/gsb_file_load.c:335 src/gsb_file_save.c:313
+#: src/gsb_file_load.c:335 src/gsb_file_save.c:327
 msgid "Encryption plugin not found."
 msgstr ""
 
-#: src/gsb_file_load.c:430 src/gsb_file_load.c:3935
+#: src/gsb_file_load.c:430 src/gsb_file_load.c:3929
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr ""
 
@@ -9356,14 +9332,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:7114
+#: src/gsb_file_load.c:7107
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr ""
 
-#: src/gsb_file_load.c:7153
+#: src/gsb_file_load.c:7146
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -9371,12 +9347,12 @@ msgid ""
 "transactions or important informations."
 msgstr ""
 
-#: src/gsb_file_load.c:7154
+#: src/gsb_file_load.c:7147
 msgid "Grisbi archive opened"
 msgstr ""
 
 #: src/gsb_file_others.c:136 src/gsb_file_others.c:218
-#: src/gsb_file_others.c:301 src/gsb_file_save.c:333 src/gsb_file_save.c:351
+#: src/gsb_file_others.c:301 src/gsb_file_save.c:347 src/gsb_file_save.c:365
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr ""
@@ -9439,142 +9415,142 @@ msgstr ""
 msgid "File already exists"
 msgstr "Файл с таким именем уже есть"
 
-#: src/gsb_file_util.c:123
+#: src/gsb_file_util.c:122
 #, c-format
 msgid "Grisbi cannot stat file %s, please check the file."
 msgstr ""
 
-#: src/gsb_file_util.c:164
+#: src/gsb_file_util.c:163
 #, c-format
 msgid "Failed to read from file '%s': %s"
 msgstr ""
 
-#: src/gsb_file_util.c:335
+#: src/gsb_file_util.c:334
 #, c-format
 msgid "Cannot write lock file :'%s': %s"
 msgstr ""
 
-#: src/gsb_file_util.c:362
+#: src/gsb_file_util.c:361
 #, c-format
 msgid "Cannot erase lock file :'%s': %s"
 msgstr ""
 
-#: src/gsb_form.c:219
+#: src/gsb_form.c:230
 #, fuzzy
 msgid "Transaction/Scheduled _form"
 msgstr "Формуляр транзакции"
 
 #. create the check button to recover the children of breakdowns
-#: src/gsb_form.c:299
+#: src/gsb_form.c:316
 msgid "Recover the children"
 msgstr ""
 
-#: src/gsb_form.c:699
+#: src/gsb_form.c:741
 #, fuzzy
 msgid "Transfer : Deleted account"
 msgstr "Удалённая учётная запись"
 
-#: src/gsb_form.c:703 src/gsb_form.c:1756 src/gsb_form.c:1757
+#: src/gsb_form.c:745 src/gsb_form.c:1795 src/gsb_form.c:1796
 #, fuzzy
 msgid "Transfer : "
 msgstr "Транспорт : Автобус"
 
-#: src/gsb_form.c:856
+#: src/gsb_form.c:898
 msgid "Auto"
 msgstr ""
 
-#: src/gsb_form.c:859 src/gsb_form_scheduler.c:164
-#: src/gsb_scheduler_list.c:873
+#: src/gsb_form.c:901 src/gsb_form_scheduler.c:164
+#: src/gsb_scheduler_list.c:862
 msgid "Manual"
 msgstr ""
 
-#: src/gsb_form.c:1282
+#: src/gsb_form.c:1323
 msgid "Categories : Sub-categories"
 msgstr ""
 
-#: src/gsb_form.c:1323 src/gsb_form_widget.c:444
+#: src/gsb_form.c:1364 src/gsb_form_widget.c:445
 msgid "Cheque/Transfer number"
 msgstr ""
 
-#: src/gsb_form.c:2111
+#: src/gsb_form.c:2150
 msgid "No payee selected for this report."
 msgstr ""
 
-#: src/gsb_form.c:2341
+#: src/gsb_form.c:2378
 msgid "You must enter a date."
 msgstr ""
 
-#: src/gsb_form.c:2348
+#: src/gsb_form.c:2385
 #, fuzzy, c-format
 msgid "Invalid date %s"
 msgstr "все даты"
 
-#: src/gsb_form.c:2367
+#: src/gsb_form.c:2404
 #, fuzzy, c-format
 msgid "Invalid value date %s"
 msgstr "все даты"
 
-#: src/gsb_form.c:2393
+#: src/gsb_form.c:2430
 msgid ""
 "You cannot set breakdown of transaction in category for a daughter of a "
 "breakdown of transaction."
 msgstr ""
 
-#: src/gsb_form.c:2428
+#: src/gsb_form.c:2465
 #, fuzzy
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "Преобразовать транзакцию в _запланированную"
 
-#: src/gsb_form.c:2435
+#: src/gsb_form.c:2472
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr ""
 
-#: src/gsb_form.c:2443
+#: src/gsb_form.c:2480
 msgid "Can't issue a transfer its own account."
 msgstr ""
 
-#: src/gsb_form.c:2448
+#: src/gsb_form.c:2485
 msgid "Can't issue a transfer on a closed account."
 msgstr ""
 
-#: src/gsb_form.c:2474
+#: src/gsb_form.c:2511
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
 "Continue anyway?"
 msgstr ""
 
-#: src/gsb_form.c:2488
+#: src/gsb_form.c:2525
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
 msgstr ""
 
-#: src/gsb_form.c:2508
+#: src/gsb_form.c:2545
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 
-#: src/gsb_form.c:2513
+#: src/gsb_form.c:2550
 msgid "A transaction with a multiple payee cannot be a breakdown child."
 msgstr ""
 
-#: src/gsb_form.c:2524
+#: src/gsb_form.c:2561
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 
-#: src/gsb_form.c:2531
+#: src/gsb_form.c:2568
 msgid "Invalid multiple payee."
 msgstr ""
 
-#: src/gsb_form.c:2767
+#: src/gsb_form.c:2807
 #, fuzzy
 msgid "Modifying a transaction"
 msgstr "_Изменить транзакцию"
 
-#: src/gsb_form.c:2768
+#: src/gsb_form.c:2808
 msgid ""
 "You are trying to change a breakdown of transaction to another kind of "
 "transaction.\n"
@@ -9583,67 +9559,85 @@ msgid ""
 "Are you sure ?"
 msgstr ""
 
-#: src/gsb_form_config.c:112 src/parametres.c:372
+#: src/gsb_form_config.c:121 src/parametres.c:372
 msgid "Transaction form"
 msgstr "Формуляр транзакции"
 
-#: src/gsb_form_config.c:145
+#: src/gsb_form_config.c:154
 msgid "Form structure preview"
 msgstr ""
 
 #. the button to choose the configuration for all/one account
-#: src/gsb_form_config.c:160
+#: src/gsb_form_config.c:168
 msgid "Each account has his own form"
 msgstr ""
 
-#: src/gsb_form_config.c:203
+#: src/gsb_form_config.c:196
+#, fuzzy
+msgid "Update"
+msgstr "по дате"
+
+#: src/gsb_form_config.c:209
+msgid " : Update all the accounts forms according to the selected account"
+msgstr ""
+
+#: src/gsb_form_config.c:237
 msgid "Form structure content"
 msgstr ""
 
-#: src/gsb_form_config.c:251
+#: src/gsb_form_config.c:287
 msgid "Col 1"
 msgstr ""
 
-#: src/gsb_form_config.c:252
+#: src/gsb_form_config.c:288
 msgid "Col 2"
 msgstr ""
 
-#: src/gsb_form_config.c:253
+#: src/gsb_form_config.c:289
 msgid "Col 3"
 msgstr ""
 
-#: src/gsb_form_config.c:254
+#: src/gsb_form_config.c:290
 msgid "Col 4"
 msgstr ""
 
-#: src/gsb_form_config.c:255
+#: src/gsb_form_config.c:291
 msgid "Col 5"
 msgstr ""
 
-#: src/gsb_form_config.c:256
+#: src/gsb_form_config.c:292
 msgid "Col 6"
 msgstr ""
 
-#: src/gsb_form_config.c:365
+#: src/gsb_form_config.c:404
 msgid "rows"
 msgstr ""
 
-#: src/gsb_form_config.c:412
+#: src/gsb_form_config.c:451
 #, fuzzy
 msgid "columns"
 msgstr "Счета"
 
-#: src/gsb_form_config.c:735
+#: src/gsb_form_config.c:654
+msgid ""
+"Warning : all the form of the accounts will be updated according to the "
+"selected account. All the changes in the other accounts will be "
+"overwritten.\n"
+"\n"
+"Are you sure to do that ?"
+msgstr ""
+
+#: src/gsb_form_config.c:792
 msgid ""
 "There is no place enough to put the element. You need to increase the number "
 "of rows or columns to add an element."
 msgstr ""
 
-#: src/gsb_form_config.c:736 src/gsb_form_config.c:739
+#: src/gsb_form_config.c:793 src/gsb_form_config.c:796
 msgid "The table is full"
 msgstr ""
 
-#: src/gsb_form_config.c:738
+#: src/gsb_form_config.c:795
 msgid ""
 "There is no place enough to put the two elements (you have clicked on an "
 "element which contains two). You need to increase the number of rows or "
@@ -9659,16 +9653,16 @@ msgid ""
 msgstr ""
 
 #: src/gsb_form_scheduler.c:164 src/gsb_fyear.c:271
-#: src/gsb_scheduler_list.c:871
+#: src/gsb_scheduler_list.c:860
 msgid "Automatic"
 msgstr ""
 
 #: src/gsb_form_scheduler.c:165 src/gsb_form_scheduler.c:879
-#: src/gsb_scheduler_list.c:862
+#: src/gsb_scheduler_list.c:851
 msgid "Once"
 msgstr ""
 
-#: src/gsb_form_scheduler.c:165 src/gsb_scheduler_list.c:862
+#: src/gsb_form_scheduler.c:165 src/gsb_scheduler_list.c:851
 msgid "Weekly"
 msgstr ""
 
@@ -9684,7 +9678,7 @@ msgstr ""
 msgid "trimester"
 msgstr ""
 
-#: src/gsb_form_scheduler.c:165 src/gsb_scheduler_list.c:863
+#: src/gsb_form_scheduler.c:165 src/gsb_scheduler_list.c:852
 msgid "Yearly"
 msgstr ""
 
@@ -9713,7 +9707,7 @@ msgid "Automatic/manual scheduled transaction"
 msgstr ""
 
 #: src/gsb_form_scheduler.c:196 src/gsb_form_scheduler.c:197
-#: src/gsb_scheduler_list.c:328
+#: src/gsb_scheduler_list.c:327
 msgid "Frequency"
 msgstr ""
 
@@ -9739,52 +9733,52 @@ msgstr ""
 msgid "Report : "
 msgstr "Сообщить об ошибке"
 
-#: src/gsb_form_widget.c:180 src/gsb_form_widget.c:181
+#: src/gsb_form_widget.c:181 src/gsb_form_widget.c:182
 msgid "Choose the financial year"
 msgstr ""
 
-#: src/gsb_form_widget.c:245 src/gsb_form_widget.c:246
+#: src/gsb_form_widget.c:246 src/gsb_form_widget.c:247
 msgid "Choose the method of payment"
 msgstr ""
 
-#: src/gsb_form_widget.c:253 src/gsb_form_widget.c:254
+#: src/gsb_form_widget.c:254 src/gsb_form_widget.c:255
 msgid "Choose currency"
 msgstr ""
 
-#: src/gsb_form_widget.c:260 src/gsb_form_widget.c:452
+#: src/gsb_form_widget.c:261 src/gsb_form_widget.c:453
 msgid "Change"
 msgstr ""
 
-#: src/gsb_form_widget.c:274 src/gsb_form_widget.c:275
-#: src/gsb_form_widget.c:464
+#: src/gsb_form_widget.c:275 src/gsb_form_widget.c:276
+#: src/gsb_form_widget.c:465
 msgid "Contra-transaction method of payment"
 msgstr ""
 
-#: src/gsb_form_widget.c:424
+#: src/gsb_form_widget.c:425
 #, fuzzy
 msgid "Category line"
 msgstr "Категории"
 
-#: src/gsb_form_widget.c:428
+#: src/gsb_form_widget.c:429
 #, fuzzy
 msgid "Free"
 msgstr "Гонорар"
 
-#: src/gsb_form_widget.c:440 src/gsb_transactions_list.c:198
-#: src/traitement_variables.c:79
+#: src/gsb_form_widget.c:441 src/gsb_transactions_list.c:153
+#: src/traitement_variables.c:81
 msgid "Method of payment"
 msgstr "Способ оплаты"
 
-#: src/gsb_form_widget.c:448 src/import_csv.c:77
+#: src/gsb_form_widget.c:449 src/import_csv.c:77
 msgid "Currency"
 msgstr "Валюта"
 
-#: src/gsb_form_widget.c:468 src/gsb_transactions_list.c:206
-#: src/traitement_variables.c:87
+#: src/gsb_form_widget.c:469 src/gsb_transactions_list.c:161
+#: src/traitement_variables.c:89
 msgid "Transaction number"
 msgstr "Номер транзакции"
 
-#: src/gsb_form_widget.c:472
+#: src/gsb_form_widget.c:473
 msgid "Automatic/Manual"
 msgstr ""
 
@@ -9938,48 +9932,48 @@ msgstr ""
 msgid "Associate transactions with"
 msgstr ""
 
-#: src/gsb_plugins.c:191
+#: src/gsb_plugins.c:196
 msgid "with plugins"
 msgstr ""
 
-#: src/gsb_reconcile.c:126 src/gsb_reconcile.c:133
-#: src/gsb_transactions_list.c:199
+#: src/gsb_reconcile.c:128 src/gsb_reconcile.c:135
+#: src/gsb_transactions_list.c:154
 msgid "Reconciliation reference"
 msgstr ""
 
-#: src/gsb_reconcile.c:132
+#: src/gsb_reconcile.c:134
 msgid ""
 "If reconciliation reference ends in a digit, it is automatically incremented "
 "at each reconciliation.\n"
 "You can let it empty if you don't want to keep a trace of the reconciliation."
 msgstr ""
 
-#: src/gsb_reconcile.c:225
+#: src/gsb_reconcile.c:227
 msgid "Checking"
 msgstr ""
 
-#: src/gsb_reconcile.c:236
+#: src/gsb_reconcile.c:238
 msgid "Variance"
 msgstr ""
 
-#: src/gsb_reconcile.c:251
+#: src/gsb_reconcile.c:253
 #, fuzzy
 msgid "Sort by method of payment"
 msgstr "Способ оплаты"
 
-#: src/gsb_reconcile.c:509
+#: src/gsb_reconcile.c:511
 msgid ""
 "There is a variance in balances, check that both final balance and initial "
 "balance minus marked transactions are equal."
 msgstr ""
 
-#: src/gsb_reconcile.c:510 src/gsb_reconcile.c:519 src/gsb_reconcile.c:531
-#: src/gsb_reconcile.c:539
+#: src/gsb_reconcile.c:512 src/gsb_reconcile.c:521 src/gsb_reconcile.c:533
+#: src/gsb_reconcile.c:541
 #, fuzzy
 msgid "Reconciliation can't be completed."
 msgstr "Номер выверки счетов"
 
-#: src/gsb_reconcile.c:518
+#: src/gsb_reconcile.c:520
 msgid ""
 "There is already a reconcile with that name, you must use another name or "
 "let it free.\n"
@@ -9987,54 +9981,54 @@ msgid ""
 "it will be automatically incremented."
 msgstr ""
 
-#: src/gsb_reconcile.c:528
+#: src/gsb_reconcile.c:530
 #, c-format
 msgid "Invalid date: '%s'"
 msgstr ""
 
-#: src/gsb_reconcile.c:538
+#: src/gsb_reconcile.c:540
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automaticaly incremented later"
 msgstr ""
 
-#: src/gsb_reconcile.c:543 src/navigation.c:1079
+#: src/gsb_reconcile.c:553 src/navigation.c:1064
 #, c-format
 msgid "Last statement: %s"
 msgstr ""
 
-#: src/gsb_reconcile_config.c:98 src/gsb_transactions_list.c:3097
+#: src/gsb_reconcile_config.c:97 src/gsb_transactions_list.c:1776
 #, fuzzy
 msgid "Init date"
 msgstr "Соединённые штаты Америки"
 
-#: src/gsb_reconcile_config.c:99
+#: src/gsb_reconcile_config.c:98
 #, fuzzy
 msgid "Init balance"
 msgstr "Исходный баланс"
 
-#: src/gsb_reconcile_config.c:104 src/parametres.c:353
+#: src/gsb_reconcile_config.c:103 src/parametres.c:353
 msgid "Reconciliation"
 msgstr "Выверка счётов"
 
-#: src/gsb_reconcile_config.c:107
+#: src/gsb_reconcile_config.c:106
 #, fuzzy
 msgid "List of reconciliations"
 msgstr "Выверка счётов"
 
-#: src/gsb_reconcile_config.c:172
+#: src/gsb_reconcile_config.c:171
 #, fuzzy
 msgid "Selected reconcile"
 msgstr "Удалённая учётная запись"
 
 #. set the delete button
-#: src/gsb_reconcile_config.c:227
+#: src/gsb_reconcile_config.c:226
 #, fuzzy
 msgid "Delete the reconcile"
 msgstr "Удалить транзакцию"
 
 #. set the button to find non-associated transactions
-#: src/gsb_reconcile_config.c:274
+#: src/gsb_reconcile_config.c:273
 msgid "Find the marked transactions not associated to a reconcile number"
 msgstr ""
 
@@ -10074,11 +10068,11 @@ msgstr ""
 msgid "Split neutral payment methods"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:329
+#: src/gsb_scheduler_list.c:328
 msgid "Mode"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:723
+#: src/gsb_scheduler_list.c:714
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -10087,59 +10081,59 @@ msgid ""
 "It's normal if appending a new scheduled transaction, but abnormal else..."
 msgstr ""
 
-#: src/gsb_scheduler_list.c:843
+#: src/gsb_scheduler_list.c:832
 #, c-format
 msgid "%d days"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:848
+#: src/gsb_scheduler_list.c:837
 #, c-format
 msgid "%d months"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:853
+#: src/gsb_scheduler_list.c:842
 #, c-format
 msgid "%d years"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:862
+#: src/gsb_scheduler_list.c:851
 #, fuzzy
 msgid "Montly"
 msgstr "Понедельник"
 
-#: src/gsb_scheduler_list.c:863
+#: src/gsb_scheduler_list.c:852
 msgid "Bimonthly"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:863
+#: src/gsb_scheduler_list.c:852
 msgid "Quarterly"
 msgstr ""
 
 #. ask all the time for a child
-#: src/gsb_scheduler_list.c:1489
+#: src/gsb_scheduler_list.c:1476
 #, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1492
+#: src/gsb_scheduler_list.c:1479
 msgid "Delete a scheduled transaction"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1507 src/gsb_transactions_list.c:3238
-#: src/gsb_transactions_list.c:3254
+#: src/gsb_scheduler_list.c:1494 src/gsb_transactions_list.c:1924
+#: src/gsb_transactions_list.c:1939
 #, fuzzy
 msgid "Delete a transaction"
 msgstr "Удалить транзакцию"
 
-#: src/gsb_scheduler_list.c:1508
+#: src/gsb_scheduler_list.c:1495
 #, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1541
+#: src/gsb_scheduler_list.c:1528
 #, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -10148,99 +10142,102 @@ msgid ""
 "%s : %s [%s %s]"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1549
+#: src/gsb_scheduler_list.c:1536
 #, fuzzy
 msgid "Delete this scheduled transaction?"
 msgstr "Преобразовать транзакцию в _запланированную"
 
-#: src/gsb_scheduler_list.c:1554
+#: src/gsb_scheduler_list.c:1541
 msgid "All the occurences"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1555
+#: src/gsb_scheduler_list.c:1542
 msgid "Only this one"
 msgstr ""
 
 #. set the title
-#: src/gsb_scheduler_list.c:1610 src/navigation.c:1215
+#: src/gsb_scheduler_list.c:1597 src/navigation.c:1200
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "Удалить транзакцию"
 
-#: src/gsb_scheduler_list.c:1635
+#: src/gsb_scheduler_list.c:1622
 #, fuzzy
 msgid "days"
 msgstr "Понедельник"
 
-#: src/gsb_scheduler_list.c:1635
+#: src/gsb_scheduler_list.c:1622
 msgid "weeks"
 msgstr ""
 
-#: src/gsb_scheduler_list.c:1635
+#: src/gsb_scheduler_list.c:1622
 #, fuzzy
 msgid "months"
 msgstr "Шрифты"
 
-#: src/gsb_scheduler_list.c:1635
+#: src/gsb_scheduler_list.c:1622
 #, fuzzy
 msgid "years"
 msgstr "год %d"
 
-#: src/gsb_scheduler_list.c:1638 src/gsb_scheduler_list.c:1647
+#: src/gsb_scheduler_list.c:1625 src/gsb_scheduler_list.c:1634
 #, fuzzy
 msgid "Scheduler frequency"
 msgstr "Предупреждения по расписанию"
 
-#: src/gsb_scheduler_list.c:1654
+#: src/gsb_scheduler_list.c:1641
 #, fuzzy
 msgid "Show transactions for the next "
 msgstr "_Перенести транзакцию на другой счёт"
 
-#: src/gsb_transactions_list.c:207
+#: src/gsb_transactions_list.c:162
 #, fuzzy
 msgid "Cheque number"
 msgstr "Номер поручителя"
 
-#: src/gsb_transactions_list.c:1053
-#, fuzzy, c-format
-msgid "archive %s (%d transactions)"
-msgstr "Список категорий (транзакции)"
+#: src/gsb_transactions_list.c:572
+msgid ""
+"Some children didn't find their mother in the list, this shouldn't happen "
+"and there is probably a bug behind that. Please contact the Grisbi team.\n"
+"\n"
+"The concerned children number are :\n"
+msgstr ""
 
-#: src/gsb_transactions_list.c:1517 src/gsb_transactions_list.c:2802
+#: src/gsb_transactions_list.c:844
 msgid "P"
 msgstr ""
 
-#: src/gsb_transactions_list.c:2240
+#: src/gsb_transactions_list.c:1229
 #, c-format
 msgid "Do you want to load the transaction of the archive %s into the list ?"
 msgstr ""
 
-#: src/gsb_transactions_list.c:2249
+#: src/gsb_transactions_list.c:1238
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: src/gsb_transactions_list.c:2251
+#: src/gsb_transactions_list.c:1240
 msgid ""
 "An archive was clicked but it seems to have the number 0, wich should not "
 "happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: src/gsb_transactions_list.c:2874
+#: src/gsb_transactions_list.c:1578
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
 msgstr ""
 
 #. it's a normal transaction, ask to be sure
-#: src/gsb_transactions_list.c:2881 src/gsb_transactions_list.c:2895
+#: src/gsb_transactions_list.c:1585 src/gsb_transactions_list.c:1599
 msgid "Confirmation of manual (un)reconciliation"
 msgstr ""
 
-#: src/gsb_transactions_list.c:2882
+#: src/gsb_transactions_list.c:1586
 msgid ""
 "You are currently trying to reconcile or unreconcile manually a transaction "
 "which isn't a regular way to do.\n"
@@ -10251,7 +10248,7 @@ msgid ""
 "Are you really sure to know what you do?"
 msgstr ""
 
-#: src/gsb_transactions_list.c:2896
+#: src/gsb_transactions_list.c:1600
 msgid ""
 "You are currently trying to reconcile or unreconcile manually a transaction "
 "which isn't a regular way to do.\n"
@@ -10260,7 +10257,8 @@ msgid ""
 msgstr ""
 
 #. we warn the user the transaction disappear
-#: src/gsb_transactions_list.c:2982
+#. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
+#: src/gsb_transactions_list.c:1662
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -10268,24 +10266,29 @@ msgid ""
 "did."
 msgstr ""
 
-#: src/gsb_transactions_list.c:2983
+#: src/gsb_transactions_list.c:1663
 #, fuzzy
 msgid "Marking a transaction as R"
 msgstr "согласно дате транзакции"
 
-#: src/gsb_transactions_list.c:3050
+#: src/gsb_transactions_list.c:1729
 msgid "Choosing a reconcile"
 msgstr ""
 
-#: src/gsb_transactions_list.c:3061
+#: src/gsb_transactions_list.c:1740
 msgid "Select the reconcile wich the transaction should be associated with :"
 msgstr ""
 
-#: src/gsb_transactions_list.c:3182
+#: src/gsb_transactions_list.c:1861
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr ""
 
-#: src/gsb_transactions_list.c:3225
+#: src/gsb_transactions_list.c:1902
+#, fuzzy
+msgid "Impossible to delete an archived transaction."
+msgstr "Удалить транзакцию"
+
+#: src/gsb_transactions_list.c:1911
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a breakdown "
@@ -10293,94 +10296,76 @@ msgid ""
 "really necessary."
 msgstr ""
 
-#: src/gsb_transactions_list.c:3235
+#: src/gsb_transactions_list.c:1921
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 
-#: src/gsb_transactions_list.c:3251
+#: src/gsb_transactions_list.c:1936
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 
 #. Edit transaction
-#: src/gsb_transactions_list.c:3524
+#: src/gsb_transactions_list.c:2135
 msgid "Edit transaction"
 msgstr "_Изменить транзакцию"
 
 #. Delete transaction
-#: src/gsb_transactions_list.c:3547
+#: src/gsb_transactions_list.c:2158
 msgid "Delete transaction"
 msgstr "Удалить транзакцию"
 
 #. Clone transaction
-#: src/gsb_transactions_list.c:3561
+#: src/gsb_transactions_list.c:2172
 msgid "Clone transaction"
 msgstr "_Склонировать транзакцию"
 
 #. Convert to scheduled transaction
-#: src/gsb_transactions_list.c:3573
+#: src/gsb_transactions_list.c:2184
 msgid "Convert transaction to scheduled transaction"
 msgstr "Преобразовать транзакцию в _запланированную"
 
 #. Move to another account
-#: src/gsb_transactions_list.c:3582
+#: src/gsb_transactions_list.c:2193
 msgid "Move transaction to another account"
 msgstr "_Перенести транзакцию на другой счёт"
 
 #. Change cell content.
-#: src/gsb_transactions_list.c:3605
+#: src/gsb_transactions_list.c:2216
 msgid "Change cell content"
 msgstr ""
 
-#: src/gsb_transactions_list.c:3680
-msgid "Try to update a cell in an archive or separator, should not happen..."
-msgstr ""
-
-#: src/gsb_transactions_list.c:3948
+#: src/gsb_transactions_list.c:2532
 msgid "Cannot move a transfer on his contra-account"
 msgstr ""
 
-#. ligne trier par
-#: src/gsb_transactions_list.c:4214
+#. sort by line
+#: src/gsb_transactions_list.c:2798
 msgid "Sort list by :"
 msgstr ""
 
-#. we show a message because it can take some time
-#: src/gsb_transactions_list.c:4451
-#, fuzzy
-msgid "Loading reconciled transactions."
-msgstr "Форматирование транзакций"
-
-#: src/gsb_transactions_list.c:4452 src/gsb_transactions_list.c:5235
-msgid "This operation can take some time..."
-msgstr ""
-
-#: src/gsb_transactions_list.c:5104
+#: src/gsb_transactions_list.c:3241
 msgid "Transfer to a deleted account"
 msgstr ""
 
-#: src/gsb_transactions_list.c:5106
+#: src/gsb_transactions_list.c:3243
 msgid "Transfer from a deleted account"
 msgstr ""
 
-#. we show a message because it can take some time
-#: src/gsb_transactions_list.c:5234
-#, fuzzy
-msgid "Loading archived transactions."
-msgstr "Добавить транзакции"
-
-#: src/gsb_transactions_list.c:5246
+#: src/gsb_transactions_list.c:3340
 msgid ""
-"Problem getting the transactions in the list, appending archive aborted."
+"You have just recovered an archive, if you don't see any new transaction, "
+"remember that the R transactions are not showed so the archived transactions "
+"are certainly hidden...\n"
+"\n"
+"Sow the R transactions to make them visible."
 msgstr ""
 
-#: src/gsb_transactions_list_sort.c:395
+#: src/gsb_transactions_list_sort.c:358
 #, c-format
-msgid ""
-"problem in gsb_transactions_list_sort_by_no_sort : ask for the sort number %"
-"d which doesn't exist... return by date\n"
+msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""
 
 #: src/help.c:58
@@ -10490,81 +10475,81 @@ msgstr "Ссылки"
 msgid "License"
 msgstr "Лицензия"
 
-#: src/import.c:266
+#: src/import.c:270
 #, fuzzy
 msgid "Choose file to import"
 msgstr "Выбрать шаблон для нового отчёта"
 
-#: src/import.c:268
+#: src/import.c:272
 msgid "Add file to import..."
 msgstr ""
 
-#: src/import.c:336
+#: src/import.c:340
 #, fuzzy
 msgid "File name"
 msgstr "Имя владельца"
 
-#: src/import.c:472 src/import.c:612 src/import.c:2846 src/import.c:2869
+#: src/import.c:476 src/import.c:616 src/import.c:2877 src/import.c:2900
 msgid "Unknown"
 msgstr ""
 
-#: src/import.c:498
+#: src/import.c:502
 #, fuzzy
 msgid "Choose files to import."
 msgstr "Выбрать шаблон для нового отчёта"
 
-#: src/import.c:522
+#: src/import.c:526
 #, c-format
 msgid "Known files (%s)"
 msgstr ""
 
-#: src/import.c:536
+#: src/import.c:540
 #, c-format
 msgid "%s files (*.%s)"
 msgstr ""
 
-#: src/import.c:563
+#: src/import.c:567
 msgid "Encoding"
 msgstr ""
 
-#: src/import.c:715
+#: src/import.c:719
 msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files"
 msgstr ""
 
-#: src/import.c:728
+#: src/import.c:732
 #, fuzzy
 msgid "Unnamed Imported account"
 msgstr "Удалённая учётная запись"
 
-#: src/import.c:754
+#: src/import.c:758
 msgid "Error !"
 msgstr ""
 
-#: src/import.c:759
+#: src/import.c:763
 msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
 msgstr ""
 
-#: src/import.c:824
+#: src/import.c:828
 #, fuzzy
 msgid "Import terminated"
 msgstr "Импортировать файл отчёта"
 
-#: src/import.c:828
+#: src/import.c:832
 msgid ""
 "You have successfully set up transactions import into Grisbi.  Press the "
 "'Close' button to terminate import."
 msgstr ""
 
-#: src/import.c:986
+#: src/import.c:991
 #, fuzzy
 msgid "file"
 msgstr "_Файл"
 
-#: src/import.c:991
+#: src/import.c:996
 #, c-format
 msgid ""
 "<span size=\"x-large\">%s</span>\n"
@@ -10572,12 +10557,12 @@ msgid ""
 "What do you want to do with contents from <tt>%s</tt>?\n"
 msgstr ""
 
-#: src/import.c:1049
+#: src/import.c:1054
 #, fuzzy
 msgid "Add transactions to an account"
 msgstr "_Перенести транзакцию на другой счёт"
 
-#: src/import.c:1085
+#: src/import.c:1090
 #, fuzzy
 msgid "Mark transactions of an account"
 msgstr "_Перенести транзакцию на другой счёт"
@@ -10586,7 +10571,7 @@ msgstr "_Перенести транзакцию на другой счёт"
 #. - soit elle n'est pas cree (l'utilisateur
 #. la crÃ©era une fois la fenetre affichÃ©e)
 #. - soit elle est crÃ©Ã© mais pas avec le bon code
-#: src/import.c:1135
+#: src/import.c:1140
 #, c-format
 msgid ""
 "Currency of imported account '%s' is %s.  Either this currency doesn't exist "
@@ -10595,12 +10580,18 @@ msgid ""
 "To avoid this message, please set its ISO code in configuration."
 msgstr ""
 
-#: src/import.c:1138
+#: src/import.c:1143
 #, c-format
 msgid "Can't associate ISO 4217 code for currency '%s'."
 msgstr ""
 
-#: src/import.c:1268
+#. invert amount of transactions
+#: src/import.c:1153
+#, fuzzy
+msgid "Invert the amount of the imported transactions"
+msgstr "Преобразовать транзакцию в _запланированную"
+
+#: src/import.c:1279
 msgid ""
 "No account in memory now, this is bad...\n"
 "Better to leave the import before a crash.\n"
@@ -10608,17 +10599,17 @@ msgid ""
 "Please contact the grisbi team to find the problem."
 msgstr ""
 
-#: src/import.c:1276
+#: src/import.c:1287
 msgid "Please wait"
 msgstr "Подождите, пожалуйста"
 
-#: src/import.c:1496
+#: src/import.c:1507
 msgid "Imported account"
 msgstr ""
 
 #. there is a difference between the imported account id and grisbi account id,
 #. * ask to be sure
-#: src/import.c:1549
+#: src/import.c:1560
 #, c-format
 msgid ""
 "The Grisbi's id account is %s, but the imported id account is %s.\n"
@@ -10630,71 +10621,71 @@ msgstr ""
 
 #. l'id du compte choisi et l'id du compte importÃ© sont diffÃ©rents
 #. on propose encore d'arrÃªter...
-#: src/import.c:1552 src/import.c:2179
+#: src/import.c:1563 src/import.c:2210
 msgid "The id of the imported and chosen accounts are different"
 msgstr ""
 
-#: src/import.c:1746
+#: src/import.c:1773
 msgid "Confirmation of importation of transactions"
 msgstr ""
 
-#: src/import.c:1756
+#: src/import.c:1783
 msgid ""
 "Some imported transactions seem to be already saved. Please select the "
 "transactions to import."
 msgstr ""
 
-#: src/import.c:1822
+#: src/import.c:1849
 #, c-format
 msgid "Transactions to import : %s ; %s ; %s"
 msgstr ""
 
-#: src/import.c:1861
+#: src/import.c:1888
 #, c-format
 msgid "Transaction found : %s ; %s ; %s ; %s"
 msgstr ""
 
-#: src/import.c:1874
+#: src/import.c:1901
 #, c-format
 msgid "Transaction found : %s ; %s ; %s"
 msgstr ""
 
-#: src/import.c:2118
+#: src/import.c:2149
 #, c-format
 msgid ""
 "Warning : the cheque number %ld is already used.\n"
 "We skip it"
 msgstr ""
 
-#: src/import.c:2180
+#: src/import.c:2211
 msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
 msgstr ""
 
-#: src/import.c:2457
+#: src/import.c:2488
 msgid "Orphaned transactions"
 msgstr ""
 
-#: src/import.c:2465
+#: src/import.c:2496
 msgid "Mark transactions you want to add to the list and click the add button"
 msgstr ""
 
-#: src/import.c:2532
+#: src/import.c:2563
 msgid "Mark"
 msgstr ""
 
-#: src/import.c:2731
+#: src/import.c:2762
 #, fuzzy, c-format
 msgid "%s #%d"
 msgstr "%s %d"
 
-#: src/import.c:2766
+#: src/import.c:2797
 #, fuzzy
 msgid "Search the transaction "
 msgstr "Добавить транзакции"
 
-#: src/import.c:2790
+#: src/import.c:2821
 msgid "days around the date in the imported transaction."
 msgstr ""
 
@@ -10834,20 +10825,20 @@ msgstr "Бюджетная линия"
 msgid "Sub-budgetary line view"
 msgstr "Бюджетная линия"
 
-#: src/imputation_budgetaire.c:629
+#: src/imputation_budgetaire.c:630
 msgid "No sub-budget defined"
 msgstr ""
 
-#: src/imputation_budgetaire.c:634
+#: src/imputation_budgetaire.c:635
 msgid "No budget defined"
 msgstr ""
 
-#: src/imputation_budgetaire.c:726
+#: src/imputation_budgetaire.c:727
 #, fuzzy
 msgid "Budgetary line already exists"
 msgstr "Файл с таким именем уже есть"
 
-#: src/main.c:150
+#: src/main.c:146
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
 
@@ -11106,7 +11097,7 @@ msgid "No sub-payee"
 msgstr ""
 
 #. * Find a unique name for payee
-#: src/meta_payee.c:317 src/tiers_onglet.c:254
+#: src/meta_payee.c:317 src/tiers_onglet.c:255
 msgid "New payee"
 msgstr ""
 
@@ -11115,26 +11106,26 @@ msgstr ""
 msgid "New payee #%d"
 msgstr ""
 
-#: src/metatree.c:468
+#: src/metatree.c:470
 msgid "breakdown"
 msgstr ""
 
 #. FIXME: tell the truth ;-)
-#: src/metatree.c:697
+#: src/metatree.c:699
 msgid "This should not theorically happen."
 msgstr ""
 
-#: src/metatree.c:698
+#: src/metatree.c:700
 msgid "Can't remove selected division."
 msgstr ""
 
 #. create the box to move change the division and sub-div of the transactions
-#: src/metatree.c:1605
+#: src/metatree.c:1608
 #, fuzzy, c-format
 msgid "'%s' still contains transactions or archived transactions."
 msgstr "Преобразовать транзакцию в _запланированную"
 
-#: src/metatree.c:1609
+#: src/metatree.c:1612
 #, c-format
 msgid ""
 "If you want to remove it but want to keep transactions, you can transfer "
@@ -11142,53 +11133,53 @@ msgid ""
 "along with their division."
 msgstr ""
 
-#: src/metatree.c:1621
+#: src/metatree.c:1624
 #, fuzzy, c-format
 msgid "Transfer transactions to %s"
 msgstr "Три линии на транзакцию"
 
-#: src/metatree.c:1720
+#: src/metatree.c:1723
 #, c-format
 msgid "Just remove this %s."
 msgstr ""
 
-#: src/metatree.c:1722
+#: src/metatree.c:1725
 #, c-format
 msgid "Just remove this sub-%s."
 msgstr ""
 
-#: src/metatree.c:1745
+#: src/metatree.c:1748
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
 "was entered."
 msgstr ""
 
-#: src/metatree.c:1746
+#: src/metatree.c:1749
 #, c-format
 msgid "Please enter a %s!"
 msgstr ""
 
-#: src/navigation.c:378 src/navigation.c:1296
+#: src/navigation.c:380 src/navigation.c:1281
 #, fuzzy
 msgid "AqBanking"
 msgstr "Предупреждение"
 
-#: src/navigation.c:1086
+#: src/navigation.c:1071
 msgid "Last statement: none"
 msgstr ""
 
-#: src/navigation.c:1155 src/traitement_variables.c:262
+#: src/navigation.c:1140 src/traitement_variables.c:270
 #, fuzzy
 msgid "My accounts"
 msgstr "Счета"
 
 #. set the title
-#: src/navigation.c:1172
+#: src/navigation.c:1157
 msgid "Account transactions"
 msgstr "Транзакции счёта"
 
-#: src/navigation.c:1178
+#: src/navigation.c:1163
 #, fuzzy
 msgid "closed"
 msgstr "_Закрыть"
@@ -11426,32 +11417,32 @@ msgstr "Предупреждение"
 msgid "An error or warning has occured. Do you still want to import the data ?"
 msgstr ""
 
-#: src/plugins/gnucash/gnucash.c:170
+#: src/plugins/gnucash/gnucash.c:171
 #, fuzzy
 msgid "Gnucash"
 msgstr "Наличные"
 
-#: src/plugins/gnucash/gnucash.c:171
+#: src/plugins/gnucash/gnucash.c:172
 msgid "Invalid Gnucash account, please check gnucash file is not compressed."
 msgstr ""
 
-#: src/plugins/gnucash/gnucash.c:612
+#: src/plugins/gnucash/gnucash.c:613
 #, c-format
 msgid "Either file \"%s\" does not exist or it is not a regular file."
 msgstr ""
 
-#: src/plugins/gnucash/gnucash.c:614
+#: src/plugins/gnucash/gnucash.c:615
 #, c-format
 msgid "Error opening file '%s'."
 msgstr ""
 
-#: src/plugins/gnucash/gnucash.c:622
+#: src/plugins/gnucash/gnucash.c:623
 msgid ""
 "Grisbi needs to open a temporary file in order to import Gnucash data but "
 "file can't be created.  Check that you have permission to do that."
 msgstr ""
 
-#: src/plugins/gnucash/gnucash.c:623
+#: src/plugins/gnucash/gnucash.c:624
 #, c-format
 msgid "Error opening temporary file '%s'."
 msgstr ""
@@ -11529,20 +11520,20 @@ msgstr ""
 msgid "Repeating payment/standing order"
 msgstr ""
 
-#: src/plugins/openssl/openssl.c:170
+#: src/plugins/openssl/openssl.c:169
 msgid ""
 "<b>Password incorrect ! Please try again...</b>\n"
 "\n"
 msgstr ""
 
-#: src/plugins/openssl/openssl.c:237
+#: src/plugins/openssl/openssl.c:236
 #, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
 "'<tt>%s</tt>'"
 msgstr ""
 
-#: src/plugins/openssl/openssl.c:241
+#: src/plugins/openssl/openssl.c:240
 #, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
@@ -11684,26 +11675,26 @@ msgstr ""
 msgid "Error opening file '%s'"
 msgstr ""
 
-#: src/tiers_onglet.c:258
+#: src/tiers_onglet.c:259
 #, fuzzy
 msgid "Create a new payee"
 msgstr "Создать новый счёт"
 
-#: src/tiers_onglet.c:267
+#: src/tiers_onglet.c:268
 #, fuzzy
 msgid "Delete selected payee"
 msgstr "Последний выбранный финансовый год"
 
-#: src/tiers_onglet.c:276
+#: src/tiers_onglet.c:277
 msgid "Edit selected payee"
 msgstr ""
 
 #. Edit transaction
-#: src/tiers_onglet.c:313
+#: src/tiers_onglet.c:314
 msgid "Payee view"
 msgstr ""
 
-#: src/tiers_onglet.c:509
+#: src/tiers_onglet.c:515
 #, fuzzy
 msgid "Payee already exists"
 msgstr "Файл с таким именем уже есть"
@@ -11712,8 +11703,45 @@ msgstr "Файл с таким именем уже есть"
 msgid "Did you know that..."
 msgstr ""
 
-#: src/traitement_variables.c:80
+#: src/traitement_variables.c:82
 msgid "Reconciliation ref."
+msgstr ""
+
+#: src/transaction_list.c:297
+#, fuzzy, c-format
+msgid "archive %s (%d transactions)"
+msgstr "Список категорий (транзакции)"
+
+#. this value should not be changed here, check later if i'm right,
+#. * for now just show a message
+#: src/transaction_list.c:1363
+msgid ""
+"Try to change a visible line by transaction_list_set. It shouldn't append ! "
+"Check that."
+msgstr ""
+
+#: src/transaction_list.c:1447
+#, c-format
+msgid ""
+"While trying to append a breakdown child in the tree view, one or all the "
+"mothers of the child number %d couldn't be found.\n"
+"This is a bug and should not happen.\n"
+"The child won't be appended to the list and Grisbi won't crash,\n"
+"but please contact the Grisbi's team to fix the problem."
+msgstr ""
+
+#: src/transaction_list.c:1470
+#, c-format
+msgid ""
+"Trying to append the child number %d to the mother %d in the model, but no "
+"white line was created before... Better to stop here, please contact the "
+"Grisbi team to fix that issue."
+msgstr ""
+
+#: src/transaction_list_sort.c:136
+#, c-format
+msgid ""
+"Asked to sort by column %d, wich is bigger than the visible columns (%d)"
 msgstr ""
 
 #: src/utils.c:150
@@ -11735,18 +11763,36 @@ msgid ""
 "Please adjust your settings to a valid executable."
 msgstr ""
 
-#: src/utils_files.c:65
+#: src/utils_files.c:66
 msgid "Print to file"
 msgstr ""
 
 #. aie, pb de mÃÂ©moire, on vire
-#: src/utils_files.c:143 src/utils_files.c:160
+#: src/utils_files.c:144 src/utils_files.c:161
 msgid "Memory allocation error"
 msgstr ""
 
-#: src/utils_files.c:205
+#: src/utils_files.c:206
 msgid "Browse"
 msgstr ""
+
+#~ msgid "Revert to default font"
+#~ msgstr "Сбросить до исходного"
+
+#~ msgid "Sort transaction list"
+#~ msgstr "Сортировать список транзакций"
+
+#, fuzzy
+#~ msgid "Choose the categories"
+#~ msgstr "Объединить категории"
+
+#, fuzzy
+#~ msgid "Loading reconciled transactions."
+#~ msgstr "Форматирование транзакций"
+
+#, fuzzy
+#~ msgid "Loading archived transactions."
+#~ msgstr "Добавить транзакции"
 
 #, fuzzy
 #~ msgid "Account name is empty"

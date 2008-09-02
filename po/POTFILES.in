@@ -115,6 +115,10 @@ src/qif.c
 src/tiers_onglet.c
 src/tip.c
 src/traitement_variables.c
+src/transaction_list.c
+src/transaction_list_select.c
+src/transaction_list_sort.c
+src/transaction_model.c
 src/utils_buttons.c
 src/utils.c
 src/utils_dates.c
