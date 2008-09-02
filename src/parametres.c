@@ -722,6 +722,15 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
+    /* Compression level of backups */
+    check_button_compress_backup =
+	gsb_automem_checkbutton_new ( _("Compress Grisbi backup"),
+				   &(etat.compress_backup), NULL, NULL );
+    g_signal_connect ( G_OBJECT (check_button_compress_backup ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &check_button_compress_backup );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_button_compress_backup,
+			 FALSE, FALSE, 0 );
+
     /* if automatic backup, choose a dir */
     gtk_widget_set_sensitive ( hbox, etat.make_backup);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
@@ -742,15 +751,6 @@ GtkWidget *onglet_fichier ( void )
 		       NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button,
 			 TRUE, TRUE, 0);
-
-    /* Compression level of backups */
-    check_button_compress_backup =
-	gsb_automem_checkbutton_new ( _("Compress Grisbi backup"),
-				   &(etat.compress_backup), NULL, NULL );
-    g_signal_connect ( G_OBJECT (check_button_compress_backup ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &check_button_compress_backup );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_button_compress_backup,
-			 FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( vbox_pref );
 
