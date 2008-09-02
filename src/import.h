@@ -11,10 +11,11 @@ struct struct_compte_importation
 {
     gchar *id_compte;
 
-    gchar * origine;    /* 0=qif, 1=ofx, 2=html, 3=gnucash, 4=csv */
+    gchar * origine;    /* QIF, OFX ... */
 
     gchar *nom_de_compte;
     gchar *filename;
+    gchar *real_filename;	/* needed because filename is overwritten, need to fix that when work again with imports */
     gint type_de_compte;  /* 0=OFX_CHECKING,1=OFX_SAVINGS,2=OFX_MONEYMRKT,3=OFX_CREDITLINE,4=OFX_CMA,5=OFX_CREDITCARD,6=OFX_INVESTMENT, 7=cash */
     gchar *devise;
 
@@ -30,6 +31,10 @@ struct struct_compte_importation
     gint action;				/* IMPORT_CREATE_ACCOUNT, IMPORT_ADD_TRANSACTIONS, IMPORT_MARK_TRANSACTIONS */
 
     gboolean	invert_transaction_amount;	/* if TRUE, all the transactions imported will have their amount inverted */
+
+    gboolean	create_rule;			/* if TRUE, we create a rule according the values of this structure */
+    GtkWidget	*entry_name_rule;			/* entry containing the name of the rule */
+    GtkWidget	*hbox_rule;
 
     GtkWidget *bouton_type_compte;             /* adr du bouton du type de compte dans le récapitulatif */
     GtkWidget *bouton_compte_add;             /* adr du bouton du compte
@@ -107,6 +112,7 @@ struct import_format {
 
 
 /* START_DECLARATION */
+gboolean gsb_import_by_rule ( gint rule );
 void gsb_import_register_account ( struct struct_compte_importation * account );
 void gsb_import_register_account_error ( struct struct_compte_importation * account );
 GSList * import_selected_files ( GtkWidget * assistant );

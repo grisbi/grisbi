@@ -40,6 +40,7 @@
 #include "./gsb_data_currency_link.h"
 #include "./gsb_data_form.h"
 #include "./gsb_data_fyear.h"
+#include "./gsb_data_import_rule.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_reconcile.h"
@@ -88,6 +89,9 @@ static gulong gsb_file_save_general_part ( gulong iterator,
 				    gulong *length_calculated,
 				    gchar **file_content,
 				    gint archive_number );
+static gulong gsb_file_save_import_rule_part ( gulong iterator,
+					gulong *length_calculated,
+					gchar **file_content );
 static gulong gsb_file_save_party_part ( gulong iterator,
 				  gulong *length_calculated,
 				  gchar **file_content );
@@ -166,6 +170,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint archive_part;
     gint reconcile_part;
     gint report_part;
+    gint import_rule_part;
 
     struct stat buf;
 
@@ -209,6 +214,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     archive_part = 120;
     reconcile_part = 50;
     report_part = 2500;
+    import_rule_part = 50;
     
     length_calculated = general_part
 	+ account_part * gsb_data_account_get_accounts_amount ()
@@ -222,7 +228,8 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 	+ financial_year_part * g_slist_length (gsb_data_fyear_get_fyears_list ())
 	+ archive_part * g_slist_length (gsb_data_archive_get_archives_list ())
 	+ reconcile_part * g_list_length (gsb_data_reconcile_get_reconcile_list ())
-	+ report_part * g_slist_length ( gsb_data_report_get_report_list ());
+	+ report_part * g_slist_length ( gsb_data_report_get_report_list ())
+	+ import_rule_part * g_slist_length ( gsb_data_import_rule_get_list ());
 
     iterator = 0;
     file_content = g_malloc0 ( length_calculated );
@@ -295,7 +302,11 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 					      &length_calculated,
 					      &file_content );
 
-    iterator = gsb_file_save_report_part ( iterator,
+    iterator = gsb_file_save_import_rule_part ( iterator,
+						&length_calculated,
+						&file_content );
+
+     iterator = gsb_file_save_report_part ( iterator,
 					   &length_calculated,
 					   &file_content,
 					   FALSE );
@@ -1597,6 +1608,51 @@ gulong gsb_file_save_reconcile_part ( gulong iterator,
     }
     return iterator;
 }
+
+/**
+ * save the import rules structures
+ *
+ * \param iterator the current iterator
+ * \param length_calculated a pointer to the variable lengh_calculated
+ * \param file_content a pointer to the variable file_content
+ *
+ * \return the new iterator
+ * */
+gulong gsb_file_save_import_rule_part ( gulong iterator,
+					gulong *length_calculated,
+					gchar **file_content )
+{
+    GSList *list_tmp;
+
+    list_tmp = gsb_data_import_rule_get_list ();
+
+    while ( list_tmp )
+    {
+	gchar *new_string;
+	gint import_rule_number;
+
+	import_rule_number = gsb_data_import_rule_get_number (list_tmp -> data);
+
+	new_string = g_markup_printf_escaped ( "\t<Import_rule Nb=\"%d\" Na=\"%s\" Acc=\"%d\" Cur=\"%d\" Inv=\"%d\" Fil=\"%s\" Act=\"%d\" />\n",
+					       import_rule_number,
+					       gsb_data_import_rule_get_name (import_rule_number),
+					       gsb_data_import_rule_get_account (import_rule_number),
+					       gsb_data_import_rule_get_currency (import_rule_number),
+					       gsb_data_import_rule_get_invert (import_rule_number),
+					       gsb_data_import_rule_get_last_file_name (import_rule_number),
+					       gsb_data_import_rule_get_action (import_rule_number));
+
+	/* append the new string to the file content
+	 * and take the new iterator */
+	iterator = gsb_file_save_append_part ( iterator,
+					       length_calculated,
+					       file_content,
+					       new_string );
+	list_tmp = list_tmp -> next;
+    }
+    return iterator;
+}
+
 
 
 /**

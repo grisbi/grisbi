@@ -150,6 +150,7 @@ GSList * recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file 
 	account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
 	account -> nom_de_compte = unique_imported_name ( _("Invalid OFX file") );
 	account -> filename = g_strdup ( ofx_filename );
+	account -> real_filename = g_strdup (ofx_filename);
 	account -> origine = "OFX";
 	gsb_import_register_account_error ( account );
 	return ( FALSE );
@@ -286,7 +287,8 @@ int ofx_proc_account_cb(struct OfxAccountData data)
 	compte_ofx_importation_en_cours -> filename = ofx_filename;
     }
 
-    compte_ofx_importation_en_cours -> origine = "OFX";
+	compte_ofx_importation_en_cours -> real_filename = g_strdup (ofx_filename);
+	compte_ofx_importation_en_cours -> origine = "OFX";
 
     if ( data.account_type_valid )
 	compte_ofx_importation_en_cours -> type_de_compte = data.account_type;

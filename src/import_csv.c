@@ -256,7 +256,7 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
 	}
 	else
 	{
-	    name = _( csv_fields [ csv_fields_config[i] ] . name );
+	    name = my_strdup (_( csv_fields [ csv_fields_config[i] ] . name ));
 	}
 	label = gtk_label_new ( name );
 	gtk_label_set_markup ( GTK_LABEL(label), name );

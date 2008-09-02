@@ -31,7 +31,9 @@
 #include "barre_outils.h"
 #include "./gsb_automem.h"
 #include "./gsb_data_account.h"
+#include "./gsb_data_import_rule.h"
 #include "./navigation.h"
+#include "./import.h"
 #include "./gsb_reconcile.h"
 #include "./gsb_scheduler_list.h"
 #include "./gsb_transactions_list.h"
@@ -45,7 +47,10 @@
 /*START_STATIC*/
 static GtkWidget *creation_barre_outils ( void );
 static gboolean popup_scheduled_view_mode_menu ( GtkWidget * button );
-static gboolean popup_transaction_view_mode_menu ( GtkWidget * button );
+static gboolean popup_transaction_rules_menu ( GtkWidget * button,
+					gpointer null );
+static  gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
+						   gpointer null );
 /*END_STATIC*/
 
 
@@ -61,6 +66,9 @@ GtkWidget *scheduler_button_delete = NULL;
 GtkWidget *scheduler_button_edit = NULL;
 
 
+/** the import rules button is showed or hidden if account have or no some rules
+ * so need to set in global variables */
+GtkWidget *menu_import_rules;
 
 
 /*START_EXTERN*/
@@ -127,6 +135,16 @@ GtkWidget *creation_barre_outils ( void )
 
     gtk_widget_show_all ( hbox );
 
+    menu_import_rules = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
+							    GTK_STOCK_EXECUTE, _("Import rules"),
+							    G_CALLBACK(popup_transaction_rules_menu),
+							    NULL );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), menu_import_rules,
+			   _("Quick file import by rules"), "" );
+    gtk_box_pack_start ( GTK_BOX(hbox), menu_import_rules, FALSE, FALSE, 0 );
+
+    gtk_widget_show_all ( hbox );
+
     return ( hbox );
 }
 
@@ -158,7 +176,8 @@ void gsb_gui_update_transaction_toolbar ( void )
  *
  *
  */
-gboolean popup_transaction_view_mode_menu ( GtkWidget * button )
+static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
+						   gpointer null )
 {
     GtkWidget *menu, *menu_item;
 
@@ -187,6 +206,39 @@ gboolean popup_transaction_view_mode_menu ( GtkWidget * button )
     gtk_menu_set_active ( GTK_MENU(menu), 
 			  gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () ) );
 
+    gtk_widget_show_all ( menu );
+    gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
+		     gtk_get_current_event_time());
+
+    return FALSE;
+}
+
+/**
+ *
+ *
+ */
+gboolean popup_transaction_rules_menu ( GtkWidget * button,
+					gpointer null )
+{
+    GtkWidget *menu, *menu_item;
+    GSList *tmp_list;
+
+    menu = gtk_menu_new ();
+
+    tmp_list = gsb_data_import_rule_get_from_account (gsb_gui_navigation_get_current_account ());
+    while (tmp_list)
+    {
+	gint rule;
+
+	rule = gsb_data_import_rule_get_number (tmp_list -> data);
+
+	menu_item = gtk_menu_item_new_with_label (gsb_data_import_rule_get_name (rule));
+	gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+	g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
+				   G_CALLBACK (gsb_import_by_rule), GINT_TO_POINTER (rule) );
+
+	tmp_list = tmp_list -> next;
+    }
     gtk_widget_show_all ( menu );
     gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
 		     gtk_get_current_event_time());

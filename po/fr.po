@@ -73,19 +73,19 @@ msgstr "Solde courant"
 msgid "Global balances"
 msgstr "Soldes finaux"
 
-#. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
-#. solde.
-#: src/accueil.c:714
-#, fuzzy, c-format
+#. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes de passif 
+#. avec leur solde.
+#: src/accueil.c:719
+#, c-format
 msgid "Liabilities accounts balances in %s"
-msgstr "Solde des comptes de passif en"
+msgstr "Solde des comptes de passif en %s"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
 #: src/accueil.c:977
-#, fuzzy, c-format
+#, c-format
 msgid "Assets accounts balances in %s"
-msgstr "Solde des comptes d'actif en"
+msgstr "Solde des comptes d'actif en %s"
 
 #: src/accueil.c:1337 src/accueil.c:1458 src/accueil.c:1914
 #, fuzzy, c-format

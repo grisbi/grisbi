@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger	(cedric@grisbi.org)	      */
-/*			2005-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger	(cedric@grisbi.org)	      */
+/*			2005-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -86,11 +86,15 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 
     /* fichier pointe sur le fichier qui a été reconnu comme qif */
     rewind ( fichier );
+
     
     compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
     compte -> nom_de_compte = unique_imported_name ( _("Invalid QIF file") );
     compte -> filename = my_strdup ( imported -> name );
     compte -> origine = my_strdup ( "QIF" );
+
+    /* save filename */
+    compte -> real_filename = my_strdup (imported -> name);
 
     do
     {
@@ -203,6 +207,10 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 
 	compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
 	compte -> origine = my_strdup ( "QIF" );
+
+	/* save filename */
+	compte -> real_filename = my_strdup (imported -> name);
+
 
 	/* récupération du type de compte */
 

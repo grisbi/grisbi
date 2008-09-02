@@ -29,6 +29,7 @@
 #include "./echeancier_infos.h"
 #include "./gsb_account_property.h"
 #include "./gsb_data_account.h"
+#include "./gsb_data_import_rule.h"
 #include "./gsb_data_reconcile.h"
 #include "./gsb_data_report.h"
 #include "./utils_dates.h"
@@ -104,6 +105,7 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source,
 extern GtkTreeStore *budgetary_line_tree_model ;
 extern GtkTreeStore * categ_tree_model;
 extern GtkWidget *label_last_statement ;
+extern GtkWidget *menu_import_rules;
 extern GtkWidget *notebook_general ;
 extern GtkTreeStore *payee_tree_model ;
 extern GtkTreeSelection * selection ;
@@ -1038,6 +1040,12 @@ gboolean navigation_change_account ( gint *no_account )
     {
 	gsb_menu_transaction_operations_set_sensitive ( TRUE );
     }
+
+    /* show or hide the rules button in toolbar */
+    if (gsb_data_import_rule_account_has_rule (new_account))
+	gtk_widget_show (menu_import_rules);
+    else
+	gtk_widget_hide (menu_import_rules);
 
     /* unset the last date written */
     gsb_date_free_last_date ();

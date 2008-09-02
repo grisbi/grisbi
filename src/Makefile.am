@@ -66,6 +66,7 @@ sources = \
 	gsb_data_currency_link.c	\
 	gsb_data_form.c		\
 	gsb_data_fyear.c	\
+	gsb_data_import_rule.c	\
 	gsb_data_mix.c		\
 	gsb_data_payee.c	\
 	gsb_data_payment.c		\
@@ -188,6 +189,7 @@ grisbi_INCLUDES =		\
 	gsb_data_currency_link.h	\
 	gsb_data_form.h		\
 	gsb_data_fyear.h	\
+	gsb_data_import_rule.h	\
 	gsb_data_mix.h		\
 	gsb_data_payee.h	\
 	gsb_data_payment.h		\

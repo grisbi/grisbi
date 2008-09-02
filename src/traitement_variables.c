@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -40,6 +40,7 @@
 #include "./gsb_data_currency.h"
 #include "./gsb_data_currency_link.h"
 #include "./gsb_data_fyear.h"
+#include "./gsb_data_import_rule.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_reconcile.h"
@@ -226,6 +227,7 @@ void init_variables ( void )
     gsb_data_payment_init_variables ();
     gsb_data_archive_init_variables ();
     gsb_data_archive_store_init_variables ();
+    gsb_data_import_rule_init_variables ();
 
     gsb_currency_init_variables ();
     gsb_fyear_init_variables ();

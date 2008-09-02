@@ -39,6 +39,7 @@
 #include "./gsb_data_currency_link.h"
 #include "./gsb_data_form.h"
 #include "./gsb_data_fyear.h"
+#include "./gsb_data_import_rule.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_reconcile.h"
@@ -94,6 +95,8 @@ static void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context
 					     const gchar *text );
 static gint gsb_file_load_get_new_payment_number ( gint account_number,
 					    gint payment_number );
+static void gsb_file_load_import_rule ( const gchar **attribute_names,
+				 const gchar **attribute_values );
 static void gsb_file_load_party ( const gchar **attribute_names,
 			   const gchar **attribute_values );
 static void gsb_file_load_payment_part ( const gchar **attribute_names,
@@ -561,6 +564,14 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
     {
 	gsb_file_load_reconcile ( attribute_names,
 				  attribute_values );
+	return;
+    }
+
+    if ( !strcmp ( element_name,
+		   "Import_rule" ))
+    {
+	gsb_file_load_import_rule ( attribute_names,
+				    attribute_values );
 	return;
     }
 
@@ -2862,6 +2873,104 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
 	{
 	    gsb_data_reconcile_set_final_balance ( reconcile_number,
 						   gsb_real_get_from_string (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	/* normally, shouldn't come here */
+	i++;
+    }
+    while ( attribute_names[i] );
+}
+
+/**
+ * load the import rules structure in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_import_rule ( const gchar **attribute_names,
+				 const gchar **attribute_values )
+{
+    gint i=0;
+    gint import_rule_number = 0;
+
+    if ( !attribute_names[i] )
+	return;
+
+    import_rule_number = gsb_data_import_rule_new (NULL);
+
+    do
+    {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+	if ( !strcmp (attribute_values[i],
+	     "(null)"))
+	{
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Nb" ))
+	{
+	    import_rule_number = gsb_data_import_rule_set_new_number ( import_rule_number,
+								       utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Na" ))
+	{
+	    gsb_data_import_rule_set_name ( import_rule_number,
+					    attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Acc" ))
+	{
+	    gsb_data_import_rule_set_account ( import_rule_number,
+					       utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Cur" ))
+	{
+	    gsb_data_import_rule_set_currency ( import_rule_number,
+						utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Inv" ))
+	{
+	    gsb_data_import_rule_set_invert ( import_rule_number,
+					      utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Fil" ))
+	{
+	    gsb_data_import_rule_set_last_file_name ( import_rule_number,
+						      attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
+		       "Act" ))
+	{
+	    gsb_data_import_rule_set_action ( import_rule_number,
+					      utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}

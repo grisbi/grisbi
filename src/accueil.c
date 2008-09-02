@@ -358,6 +358,7 @@ void update_liste_comptes_accueil ( gboolean force )
     gint i;
     gint nb_comptes_bancaires=0, nb_comptes_passif=0, nb_comptes_actif=0;
     GSList *list_tmp;
+    gchar *chaine_espace = "                         ";
 
     if ( !force
 	 &&
@@ -461,6 +462,10 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
 	/* Création et remplissage de la première ligne du tableau */
+    pLabel = gtk_label_new (chaine_espace);
+    gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
+	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 0, 1, 0, 1 );
+	gtk_widget_show ( pLabel );
 	pLabel = gtk_label_new (_("Reconciled balance"));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 1, 2, 0, 1 );
@@ -492,7 +497,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		 && gsb_data_account_get_kind (account_number) != GSB_TYPE_ASSET )
 	    {
 
-		/* Deuxième colonne : elle contient le nom du compte */
+		/* Première colonne : elle contient le nom du compte */
 		gchar* tmpstr = g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL );
 		pLabel = gtk_label_new ( tmpstr );
 		g_free ( tmpstr );
@@ -519,7 +524,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* Troisième colonne : elle contient le solde pointé du compte */
+		/* Deuxième colonne : elle contient le solde pointé du compte */
 		tmpstr = gsb_real_get_string_with_currency (
 				gsb_data_account_get_marked_balance (account_number),
 				gsb_data_account_get_currency (account_number), TRUE);
@@ -571,7 +576,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* Sixième colonne : elle contient le solde courant du compte */
+		/* Troisième colonne : elle contient le solde courant du compte */
 		tmpstr = gsb_real_get_string_with_currency (
 				gsb_data_account_get_current_balance (account_number),
 				gsb_data_account_get_currency (account_number), TRUE);
@@ -636,14 +641,14 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	/* Création et remplissage de la (nb_comptes + 3)ième ligne du tableau :
 	   elle contient la somme des soldes de chaque compte */
-	/* Deuxième colonne */
+	/* Première colonne */
 	pLabel = gtk_label_new ( COLON(_("Global balances")));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel,
 				    0, 1, i+1, i+2 );
 	gtk_widget_show ( pLabel );
 
-	/* Troisième colonne : elle contient le solde total pointé des comptes */
+	/* Deuxième colonne : elle contient le solde total pointé des comptes */
 	tmpstr = gsb_real_get_string_with_currency (solde_global_pointe,
 								    currency_number, TRUE);
 	pLabel = gtk_label_new ( tmpstr );
@@ -653,7 +658,7 @@ void update_liste_comptes_accueil ( gboolean force )
 				    1, 2, i+1, i+2 );
 	gtk_widget_show ( pLabel );
 
-	/* Sixième colonne : elle contient le solde total courant des comptes */
+	/* Troisième colonne : elle contient le solde total courant des comptes */
 	tmpstr = gsb_real_get_string_with_currency (solde_global_courant, 
 								    currency_number, TRUE);
 	pLabel = gtk_label_new ( tmpstr );
@@ -707,6 +712,10 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
 	/* Création et remplissage de la première ligne du tableau */
+    pLabel = gtk_label_new (chaine_espace);
+    gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
+	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 0, 1, 0, 1 );
+	gtk_widget_show ( pLabel );
 	pLabel = gtk_label_new (_("Reconciled balance"));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 1, 2, 0, 1 );
@@ -737,7 +746,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		 gsb_data_account_get_kind (account_number) == GSB_TYPE_LIABILITIES )
 	    {
 
-		/* Deuxième colonne : elle contient le nom du compte */
+		/* Première colonne : elle contient le nom du compte */
 		gchar* tmpstr = g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL );
 		pLabel = gtk_label_new ( tmpstr );
 		g_free ( tmpstr );
@@ -766,7 +775,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* Troisième colonne : elle contient le solde pointé du compte */
+		/* Deuxième colonne : elle contient le solde pointé du compte */
 		tmpstr = gsb_real_get_string_with_currency (
 					gsb_data_account_get_marked_balance (account_number),
 					gsb_data_account_get_currency (account_number), TRUE);
@@ -818,9 +827,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* Cinquième colonne : vide */
-
-		/* Sixième colonne : elle contient le solde courant du compte */
+		/* Troisième colonne : elle contient le solde courant du compte */
 		tmpstr = gsb_real_get_string_with_currency (
 					gsb_data_account_get_current_balance (account_number),
 					gsb_data_account_get_currency (account_number), TRUE);
@@ -852,7 +859,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		}
 		gtk_widget_set_style ( pLabel, pStyleLabelSoldeCourant );
 
-		/* Création d'une boite à évènement qui sera rattachée au solde pointé du compte */
+		/* Création d'une boite à évènement qui sera rattachée au solde courant du compte */
 		pEventBox = gtk_event_box_new ();
 		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
 				     "enter-notify-event",
@@ -888,7 +895,7 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	/* Création et remplissage de la (nb_comptes + 3)ième ligne du tableau :
 	   elle contient la somme des soldes de chaque compte */
-	/* Deuxième colonne */
+	/* Première colonne */
 	pLabel = gtk_label_new ( COLON(_("Global balances")));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
@@ -897,7 +904,7 @@ void update_liste_comptes_accueil ( gboolean force )
 			   0, 0 );
 	gtk_widget_show ( pLabel );
 
-	/* Troisième colonne : elle contient le solde total pointé des comptes */
+	/* Deuxième colonne : elle contient le solde total pointé des comptes */
 	tmpstr = gsb_real_get_string_with_currency (solde_global_pointe,
 								    currency_number, TRUE);
 	pLabel = gtk_label_new ( tmpstr );
@@ -907,7 +914,7 @@ void update_liste_comptes_accueil ( gboolean force )
 				    1, 2, i+1, i+2 );
 	gtk_widget_show ( pLabel );
 
-	/* Sixième colonne : elle contient le solde total courant des comptes */
+	/* Troisieme colonne : elle contient le solde total courant des comptes */
 	tmpstr = gsb_real_get_string_with_currency (solde_global_courant, 
 								    currency_number, TRUE);
 	pLabel = gtk_label_new ( tmpstr );
@@ -966,6 +973,10 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
 	/* Création et remplissage de la première ligne du tableau */
+    pLabel = gtk_label_new (chaine_espace);
+    gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
+	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 0, 1, 0, 1 );
+	gtk_widget_show ( pLabel );
 	pLabel = gtk_label_new (_("Reconciled balance"));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 1, 2, 0, 1 );
@@ -997,7 +1008,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		 gsb_data_account_get_kind (account_number) == GSB_TYPE_ASSET )
 	    {
 
-		/* Deuxième colonne : elle contient le nom du compte */
+		/* Première colonne : elle contient le nom du compte */
 		gchar* tmpstr = g_strconcat ( gsb_data_account_get_name (account_number), " : ", NULL );
 		pLabel = gtk_label_new ( tmpstr );
 		g_free ( tmpstr );
@@ -1024,7 +1035,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* Troisième colonne : elle contient le solde pointé du compte */
+		/* Deuxième colonne : elle contient le solde pointé du compte */
 		tmpstr = gsb_real_get_string_with_currency (
 					gsb_data_account_get_marked_balance (account_number),
 					gsb_data_account_get_currency (account_number), TRUE);
@@ -1076,7 +1087,7 @@ void update_liste_comptes_accueil ( gboolean force )
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
 
-		/* Sixième colonne : elle contient le solde courant du compte */
+		/* Troisième colonne : elle contient le solde courant du compte */
 		tmpstr = gsb_real_get_string_with_currency (
 					gsb_data_account_get_current_balance (account_number),
 					gsb_data_account_get_currency (account_number), TRUE);
@@ -1141,14 +1152,14 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	/* Création et remplissage de la (nb_comptes + 3)ième ligne du tableau :
 	   elle contient la somme des soldes de chaque compte */
-	/* Deuxième colonne */
+	/* Première colonne */
 	pLabel = gtk_label_new ( COLON(_("Global balances")));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
 	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel,
 				    0, 1, i+1, i+2 );
 	gtk_widget_show ( pLabel );
 
-	/* Troisième colonne : elle contient le solde total pointé des comptes */
+	/* Deuxième colonne : elle contient le solde total pointé des comptes */
 	tmpstr = gsb_real_get_string_with_currency (solde_global_pointe, 
 								    currency_number, TRUE);
 	pLabel = gtk_label_new ( tmpstr );
@@ -1158,7 +1169,7 @@ void update_liste_comptes_accueil ( gboolean force )
 				    1, 2, i+1, i+2 );
 	gtk_widget_show ( pLabel );
 
-	/* Sixième colonne : elle contient le solde total courant des comptes */
+	/* Troisième colonne : elle contient le solde total courant des comptes */
 	tmpstr = gsb_real_get_string_with_currency (solde_global_courant, currency_number, TRUE);
 	pLabel = gtk_label_new ( tmpstr );
 	g_free ( tmpstr );

@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
 /*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -640,6 +640,59 @@ GtkWindow *gsb_dialog_create_information_window ( gchar *text )
 
     return message_window;
 }
+
+
+/**
+ * Display an info dialog window with a hint displayed larger and in
+ * bold.
+ * add an entry and return the content of the entry
+ *
+ * \param text 			Text to display in window
+ * \param hint 			Hint to display
+ * \param entry_description 	label to set in front of the entry
+ */
+const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_description )
+{
+    GtkWidget *dialog;
+    gchar *format_text;
+    GtkWidget *entry;
+    GtkWidget *hbox;
+    GtkWidget *label;
+    const gchar *string;
+
+    format_text = make_hint (hint, text);
+
+    dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
+				      GTK_DIALOG_DESTROY_WITH_PARENT,
+				      GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, format_text );
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), format_text );
+
+    hbox = gtk_hbox_new (FALSE, 5);
+    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+			 hbox,
+			 FALSE, FALSE, 0);
+
+    label = gtk_label_new (entry_description);
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 label,
+			 FALSE, FALSE, 0);
+
+    entry = gtk_entry_new ();
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 entry,
+			 FALSE, FALSE, 0);
+
+    gtk_widget_show_all (dialog);
+
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+    gtk_dialog_run (GTK_DIALOG (dialog));
+    string = gtk_entry_get_text (GTK_ENTRY (entry));
+    gtk_widget_destroy ( dialog );
+
+    return string;
+}
+
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

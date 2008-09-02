@@ -48,7 +48,6 @@
 /** \struct
  * describe an account
  * */
-
 typedef struct
 {
     /** @name general stuff */
