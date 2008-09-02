@@ -467,7 +467,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 	pLabel = gtk_label_new (_("Current balance"));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 2, 3, 0, 1 );
+	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel, 2, 4, 0, 1 );
 	gtk_widget_show ( pLabel );
 
 	/* Affichage des comptes et de leur solde */
@@ -513,10 +513,8 @@ void update_liste_comptes_accueil ( gboolean force )
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER (account_number) );
-		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
-				   0, 1, i, i+1,
-				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-				   0, 0 );
+		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
+					    0, 1, i, i+1 );
 		gtk_widget_show ( pEventBox );
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
@@ -567,10 +565,8 @@ void update_liste_comptes_accueil ( gboolean force )
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER (account_number) );
-		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
-				   1, 2, i, i+1,
-				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-				   0, 0 );
+		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
+					    1, 2, i, i+1 );
 		gtk_widget_show ( pEventBox );
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
@@ -621,10 +617,8 @@ void update_liste_comptes_accueil ( gboolean force )
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC (gsb_main_page_click_on_account),
 					    GINT_TO_POINTER (account_number) );
-		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
-				   2, 3, i, i+1,
-				   GTK_FILL| GTK_SHRINK, GTK_FILL| GTK_SHRINK,
-				   0, 0 );
+		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
+					    2, 4, i, i+1 );
 		gtk_widget_show ( pEventBox );
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
@@ -645,10 +639,8 @@ void update_liste_comptes_accueil ( gboolean force )
 	/* Deuxième colonne */
 	pLabel = gtk_label_new ( COLON(_("Global balances")));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
-	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-			   0, 1, i+1, i+2,
-			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-			   0, 0 );
+	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel,
+				    0, 1, i+1, i+2 );
 	gtk_widget_show ( pLabel );
 
 	/* Troisième colonne : elle contient le solde total pointé des comptes */
@@ -657,10 +649,8 @@ void update_liste_comptes_accueil ( gboolean force )
 	pLabel = gtk_label_new ( tmpstr );
 	g_free ( tmpstr );
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-			   1, 2, i+1, i+2,
-			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-			   0, 0 );
+	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel,
+				    1, 2, i+1, i+2 );
 	gtk_widget_show ( pLabel );
 
 	/* Sixième colonne : elle contient le solde total courant des comptes */
@@ -669,10 +659,8 @@ void update_liste_comptes_accueil ( gboolean force )
 	pLabel = gtk_label_new ( tmpstr );
 	g_free ( tmpstr );
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-			   2, 3, i+1, i+2,
-			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-			   0, 0 );
+	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel,
+				    2, 4, i+1, i+2 );
 	gtk_widget_show ( pLabel );
 
 	gtk_widget_show_all ( paddingbox );
@@ -715,7 +703,7 @@ void update_liste_comptes_accueil ( gboolean force )
 				  gsb_data_currency_get_name (currency_number) );
 	paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
 	g_free ( tmpstr );
-	pTable = gtk_table_new ( nb_comptes_passif + 3, 5, FALSE );
+	pTable = gtk_table_new ( nb_comptes_passif + 3, 4, FALSE );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
 	/* Création et remplissage de la première ligne du tableau */
@@ -824,10 +812,8 @@ void update_liste_comptes_accueil ( gboolean force )
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ));
-		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
-				   1, 2, i, i+1,
-				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-				   0, 0 );
+		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
+					    1, 2, i, i+1 );
 		gtk_widget_show ( pEventBox );
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
@@ -881,7 +867,7 @@ void update_liste_comptes_accueil ( gboolean force )
 					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
-				   2, 3, i, i+1,
+				   2, 4, i, i+1,
 				   GTK_FILL| GTK_SHRINK, GTK_FILL| GTK_SHRINK,
 				   0, 0 );
 		gtk_widget_show ( pEventBox );
@@ -917,10 +903,8 @@ void update_liste_comptes_accueil ( gboolean force )
 	pLabel = gtk_label_new ( tmpstr );
 	g_free ( tmpstr );
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-			   1, 2, i+1, i+2,
-			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-			   0, 0 );
+	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel,
+				    1, 2, i+1, i+2 );
 	gtk_widget_show ( pLabel );
 
 	/* Sixième colonne : elle contient le solde total courant des comptes */
@@ -930,7 +914,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	g_free ( tmpstr );
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
 	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-			   2, 3, i+1, i+2,
+			   2, 4, i+1, i+2,
 			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
 			   0, 0 );
 	gtk_widget_show ( pLabel );
@@ -975,10 +959,10 @@ void update_liste_comptes_accueil ( gboolean force )
 	/* Création du tableau dans lequel seront stockés les comptes avec leur     */
 	/* solde.                                                                   */
 	gchar* tmpstr = g_strdup_printf (_("Assets accounts balances in %s"),
-				  gsb_data_currency_get_name (currency_number));
+					 gsb_data_currency_get_name (currency_number));
 	paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
 	g_free ( tmpstr );
-	pTable = gtk_table_new ( nb_comptes_actif + 3, 5, FALSE );
+	pTable = gtk_table_new ( nb_comptes_actif + 3, 4, FALSE );
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
 	/* Création et remplissage de la première ligne du tableau */
@@ -1034,10 +1018,8 @@ void update_liste_comptes_accueil ( gboolean force )
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ) );
-		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
-				   0, 1, i, i+1,
-				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-				   0, 0 );
+		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
+					    0, 1, i, i+1 );
 		gtk_widget_show ( pEventBox );
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
@@ -1088,10 +1070,8 @@ void update_liste_comptes_accueil ( gboolean force )
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ));
-		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
-				   1, 2, i, i+1,
-				   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-				   0, 0 );
+		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
+					    1, 2, i, i+1 );
 		gtk_widget_show ( pEventBox );
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
@@ -1142,10 +1122,8 @@ void update_liste_comptes_accueil ( gboolean force )
 					    "button-press-event",
 					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( account_number ));
-		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
-				   2, 3, i, i+1,
-				   GTK_FILL| GTK_SHRINK, GTK_FILL| GTK_SHRINK,
-				   0, 0 );
+		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
+					    2, 4, i, i+1 );
 		gtk_widget_show ( pEventBox );
 		gtk_container_add ( GTK_CONTAINER ( pEventBox ), pLabel );
 		gtk_widget_show ( pLabel );
@@ -1166,10 +1144,8 @@ void update_liste_comptes_accueil ( gboolean force )
 	/* Deuxième colonne */
 	pLabel = gtk_label_new ( COLON(_("Global balances")));
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
-	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-			   0, 1, i+1, i+2,
-			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-			   0, 0 );
+	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel,
+				    0, 1, i+1, i+2 );
 	gtk_widget_show ( pLabel );
 
 	/* Troisième colonne : elle contient le solde total pointé des comptes */
@@ -1178,10 +1154,8 @@ void update_liste_comptes_accueil ( gboolean force )
 	pLabel = gtk_label_new ( tmpstr );
 	g_free ( tmpstr );
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-			   1, 2, i+1, i+2,
-			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-			   0, 0 );
+	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel,
+				    1, 2, i+1, i+2 );
 	gtk_widget_show ( pLabel );
 
 	/* Sixième colonne : elle contient le solde total courant des comptes */
@@ -1189,10 +1163,8 @@ void update_liste_comptes_accueil ( gboolean force )
 	pLabel = gtk_label_new ( tmpstr );
 	g_free ( tmpstr );
 	gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach ( GTK_TABLE ( pTable ), pLabel,
-			   2, 3, i+1, i+2,
-			   GTK_FILL | GTK_SHRINK, GTK_FILL | GTK_SHRINK,
-			   0, 0 );
+	gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pLabel,
+				    2, 4, i+1, i+2 );
 	gtk_widget_show ( pLabel );
 
 	gtk_widget_show_all ( paddingbox );

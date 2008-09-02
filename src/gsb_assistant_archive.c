@@ -372,10 +372,11 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
 
     label_archived = gtk_label_new (NULL);
     g_signal_connect ( G_OBJECT (label_archived ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &label_archived );
+		       G_CALLBACK ( gtk_widget_destroyed), &label_archived );
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 label_archived,
 			 FALSE, FALSE, 0 );
+    gtk_misc_set_alignment ( GTK_MISC (label_archived), 0, 0 );
 
     gsb_assistant_sensitive_button_next ( assistant, FALSE );
 
