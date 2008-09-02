@@ -242,7 +242,7 @@ GtkWidget *gsb_account_property_create_page ( void )
 							   G_CALLBACK (gsb_data_account_set_holder_address), 0 );
 
     /* now the checkbutton for different address */
-    button_holder_address = gsb_autofunc_checkbutton_new ( _("Different holder's address :"), FALSE,
+    button_holder_address = gsb_autofunc_checkbutton_new ( _("Holder's address :"), FALSE,
 							   G_CALLBACK (gsb_editable_erase_text_view), detail_adresse_titulaire,
 							   NULL, 0 );
     gtk_button_set_alignment ( GTK_BUTTON (button_holder_address), 0.0, 0.0 );
