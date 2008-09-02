@@ -76,10 +76,9 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static GtkWidget *gsb_import_create_file_chooser (void);
 static gboolean affichage_recapitulatif_importation ( GtkWidget * assistant );
 static const gchar * autodetect_file_type ( gchar * filename,
-			       gchar * pointeur_char );
+				     gchar * pointeur_char );
 static gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button );
 static gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 				       gint result,
@@ -92,6 +91,7 @@ static void cree_liens_virements_ope_import ( void );
 static GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte );
 static void gsb_import_add_imported_transactions ( struct struct_compte_importation *imported_account,
 					    gint account_number );
+static GtkWidget *gsb_import_create_file_chooser (void);
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
 				     gint account_number );
@@ -111,6 +111,7 @@ static void pointe_opes_importees ( struct struct_compte_importation *imported_a
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GtkWidget *menu_import_rules;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget *window ;
@@ -1370,7 +1371,13 @@ void traitement_operations_importees ( void )
     gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
 				    FALSE );
 
-    /* show the account list */
+    /* set the rule button if necessary */
+     if (gsb_data_import_rule_account_has_rule (gsb_gui_navigation_get_current_account ()))
+	gtk_widget_show (menu_import_rules);
+    else
+	gtk_widget_hide (menu_import_rules);
+
+   /* show the account list */
     gsb_menu_update_accounts_in_menus();
 
     /* update main page */
@@ -3063,7 +3070,7 @@ gboolean gsb_import_by_rule ( gint rule )
 /* 					 gsb_file_get_last_path ()); */
 /*    gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (file_chooser), */
 /* 				   gsb_data_import_rule_get_last_file_name (rule)); */
-/*     printf ( "name %s\n", gsb_data_import_rule_get_last_file_name (rule)); */
+    printf ( "name %s\n", gsb_data_import_rule_get_last_file_name (rule));
 
 
     gtk_dialog_run (GTK_DIALOG (dialog));
