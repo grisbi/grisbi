@@ -73,10 +73,10 @@ GtkResponseType gsb_assistant_first_run ( void )
 
     /* create the assistant */
     assistant = gsb_assistant_new ( _("Welcome to Grisbi !"),
-				    _("This is the first time you open Grisbi, this assistant will help you to configure it.\n"
-				      "All that you do here can be changed later in the configuration page.\n"
+				    _("This is the first time you open Grisbi, this assistant will help you to configure it."
+				      "You can change any option later in the configuration page.\n"
 				      "Many other options are available in the configuration window.\n"
-				      "Enjoy..." ),
+				      "Thanks for using Grisbi, enjoy!" ),
 				    "grisbi.png",
 				    NULL );
     gsb_assistant_add_page ( assistant,
@@ -123,17 +123,18 @@ GtkResponseType gsb_assistant_first_come_to_0_6 ( void )
 
     /* create the assistant */
     assistant = gsb_assistant_new ( _("Welcome to Grisbi 0.6!"),
-				    _("You are using Grisbi 0.6 for the first time.  While some of the " 
+				    _("You are using Grisbi 0.6 for the first time.  While most of the " 
 				      "interface has not changed, you will notice a lot of improvements. "
-				      "Do not hesitate to read tips of the day to learn more on the new "
+				      "Do not hesitate to read some tips of the day to learn more on the new "
 				      "features.\n\n" 
 				      "Of the most notable enhancements to Grisbi, we redesigned the "
-				      "backup function.\n\n"
-				      "From now, grisbi automatically put backup files in a directory "
+				      "backup function. "
+				      "Grisbi will now automatically put backup files in a directory "
 				      "that you will be able to set manually in next screen.\n\n"
 				      "Also, we advise you to configure your web browser "
 				      "to your system configuration and to configure various settings "
-				      "in next screen.\n"),
+				      "in next screen.\n\n" 
+				      "You can find out other improvements on http://www.grisbi.org/."),
 				    "grisbi.png",
 				    NULL );
     gsb_assistant_add_page ( assistant,
