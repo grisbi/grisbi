@@ -108,21 +108,21 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening )
     /* create the assistant */
     if (first_opening)
 	assistant = gsb_assistant_new ( _("Welcome to Grisbi!"),
-					_("The general configuration of Grisbi is done.\n\n"
-					  "The Assistant will now help you to create and configure a new file.\n"
-					  "Don't forget that you can change all later in the configurations page.\n\n"
+					_("General configuration of Grisbi is done.\n\n"
+					  "Next assistant will now help you to create and configure a new account file.\n"
+					  "Don't forget that you can change everything later in the 'Preferences' dialog.\n\n"
 					  "Once the file created, you will be able to create a new account "
-					  "or import some previous datas"),
+					  "or to import some previous datas"),
 					"grisbi.png",
 					NULL );
     else
 	assistant = gsb_assistant_new ( _("New file Assistant"),
-					_("This assistant will help you to create a new accounting file.\n\n"
-					  "Every configuration step from this assistant can be configured "
+					_("This assistant will help you to create a new account file.\n\n"
+					  "Every configuration step from this assistant can be edited "
 					  "later in the 'Preferences' dialog.\n"
-					  "Once you have created your accounting file, you will be able to "
+					  "Once you have created your account file, you will be able to "
 					  "create a new account from scratch or to import previous data, i.e. "
-					  "from your previous accounting software or online bank website."),
+					  "from your previous accounting software or your bank website."),
 					"grisbi.png",
 					NULL );
     gsb_assistant_add_page ( assistant,
@@ -445,9 +445,9 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant )
 			 TRUE, TRUE, 0 );
 
     /* set up the menu */
-    label = gtk_label_new (_("You have finished to configure default values for your account file. "
-			     "Next assistant will help you to create a new account.\n\n"
-			     "Remember that all of the values can be changed in the 'Preference' dialog.\n\n"
+    label = gtk_label_new (_("Default values are now configured for your account file. "
+			     "Next assistant will help you creating a new account.\n\n"
+			     "Remember that all of the values can be changed in the 'Preferences' dialog.\n\n"
 			     "Select a way to populate your account file and press the 'Close' button."));
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
