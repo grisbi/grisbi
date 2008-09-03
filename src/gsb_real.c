@@ -3,7 +3,7 @@
 /*                                  gsb_real	                              */
 /*                                                                            */
 /*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -225,6 +225,24 @@ gchar *gsb_real_format_string ( gsb_real number,
 gsb_real gsb_real_get_from_string ( const gchar *string )
 {
     return gsb_real_get_from_string_normalized ( string, -1 );
+}
+
+
+
+/**
+ * get a real number from an integer
+ *
+ * \param mantissa
+ * \param exponent -1 for no limit
+ *
+ * \return a gsb_real from the integer
+ */
+gsb_real gsb_real_new ( gint mantissa, gint exponent )
+{
+    gsb_real number = null_real;
+    number.mantissa = mantissa;
+    number.exponent = exponent;
+    return number;
 }
 
 
