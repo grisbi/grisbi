@@ -259,6 +259,8 @@ AC_SUBST(XML2_CFLAGS)
 AC_SUBST(prefix)
 AC_SUBST(CFLAGS)
 AC_SUBST(LDFLAGS)
+AC_SUBST(export_dynamic_flag_spec)
+AC_SUBST(lt_prog_compiler_wl)
 
 dnl ******************************
 dnl Makefiles

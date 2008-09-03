@@ -6,7 +6,7 @@ bin_PROGRAMS = grisbi
 
 # TODO: This manual setting of -Wl is a hack, I cannot get it from
 # configure right now because of no doc.
-grisbi_LDFLAGS = $(lt_prog_compiler_wl)$(export_dynamic_flag_spec_CXX)
+grisbi_LDFLAGS = @lt_prog_compiler_wl@@export_dynamic_flag_spec@
 
 config_dir = config
 
