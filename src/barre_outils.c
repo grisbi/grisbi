@@ -5,7 +5,7 @@
 /*                                  barre_outils.c                             */
 /*                                                                            */
 /*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -132,8 +132,6 @@ GtkWidget *creation_barre_outils ( void )
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), menu,
 			   _("Change display mode of the list"), "" );
     gtk_box_pack_start ( GTK_BOX(hbox), menu, FALSE, FALSE, 0 );
-
-    gtk_widget_show_all ( hbox );
 
     menu_import_rules = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
 							    GTK_STOCK_EXECUTE, _("Import rules"),
