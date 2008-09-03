@@ -38,7 +38,6 @@
 #include "./gsb_automem.h"
 #include "./utils_buttons.h"
 #include "./gsb_combo_box.h"
-#include "./gsb_currency_config.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_category.h"
@@ -91,7 +90,10 @@ static void cree_liens_virements_ope_import ( void );
 static GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte );
 static void gsb_import_add_imported_transactions ( struct struct_compte_importation *imported_account,
 					    gint account_number );
-static GtkWidget *gsb_import_create_file_chooser (void);
+static gchar **gsb_import_by_rule_ask_filename ( gint rule );
+static gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
+				       GtkWidget *entry );
+static GSList *gsb_import_create_file_chooser (void);
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
 				     gint account_number );
@@ -499,91 +501,84 @@ void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel *
  */
 gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 {
-    GtkWidget *dialog;
+    GSList * filenames, * iterator;
+    GtkTreeModel * model;
 
-    dialog = gsb_import_create_file_chooser ();
+    filenames = gsb_import_create_file_chooser ();
+    if (!filenames)
+	return FALSE;
 
-    if ( gtk_dialog_run ( GTK_DIALOG (dialog ) ) == GTK_RESPONSE_ACCEPT )
+    iterator = filenames;
+
+    model = g_object_get_data ( G_OBJECT ( assistant ), "model" );
+
+    while ( iterator && model )
     {
-	GSList * filenames, * iterator;
-	GtkTreeModel * model;
+	GtkTreeIter iter;
+	const gchar * type;
+	gchar * pointeur_char;
+	GError * error;
 
-	filenames = gtk_file_chooser_get_filenames ( GTK_FILE_CHOOSER ( dialog ) );
-	iterator = filenames;
-
-	model = g_object_get_data ( G_OBJECT ( assistant ), "model" );
-	
-	while ( iterator && model )
+	/* Open file */
+	if ( ! g_file_get_contents ( iterator -> data, &pointeur_char, NULL, &error ) )
 	{
-	    GtkTreeIter iter;
-	    const gchar * type;
-	    gchar * pointeur_char;
-	    GError * error;
-
-	    /* Open file */
-	    if ( ! g_file_get_contents ( iterator -> data, &pointeur_char, NULL, &error ) )
-	    {
-		g_print ("Unable to read file: %s\n", error -> message);
-		return FALSE;
-	    }
-
-	    type = autodetect_file_type ( iterator -> data, pointeur_char );
-	    g_free (pointeur_char);
-
-	    gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
-	    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, 
-				 IMPORT_FILESEL_SELECTED, TRUE,
-				 IMPORT_FILESEL_TYPENAME, type,
-				 IMPORT_FILESEL_FILENAME, g_path_get_basename ( iterator -> data ),
-				 IMPORT_FILESEL_REALNAME, iterator -> data,
-				 IMPORT_FILESEL_TYPE, type,
-				 IMPORT_FILESEL_CODING, go_charmap_sel_get_encoding ( (GOCharmapSel * )go_charmap_sel ),
-				 -1 ); 
-
-	    /* CSV is special because it needs configuration, so we
-	     * add a conditional jump there. */
-	    if ( ! strcmp ( type, "CSV" ) )
-	    {
-		gsb_assistant_set_next ( assistant, IMPORT_FILESEL_PAGE, IMPORT_CSV_PAGE );
-		gsb_assistant_set_prev ( assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE );
-	    }
-
-	    if ( strcmp ( type, _("Unknown") ) )
-	    {
-		/* A valid file was selected, so we can now go ahead. */
-		gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ), 
-					   TRUE );
-	    }
-
-	    iterator = iterator -> next;
+	    g_print ("Unable to read file: %s\n", error -> message);
+	    return FALSE;
 	}
-	
-	if ( filenames )
+
+	type = autodetect_file_type ( iterator -> data, pointeur_char );
+	g_free (pointeur_char);
+
+	gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
+	gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, 
+			     IMPORT_FILESEL_SELECTED, TRUE,
+			     IMPORT_FILESEL_TYPENAME, type,
+			     IMPORT_FILESEL_FILENAME, g_path_get_basename ( iterator -> data ),
+			     IMPORT_FILESEL_REALNAME, iterator -> data,
+			     IMPORT_FILESEL_TYPE, type,
+			     IMPORT_FILESEL_CODING, go_charmap_sel_get_encoding ( (GOCharmapSel * )go_charmap_sel ),
+			     -1 ); 
+
+	/* CSV is special because it needs configuration, so we
+	 * add a conditional jump there. */
+	if ( ! strcmp ( type, "CSV" ) )
 	{
-	    g_slist_free ( filenames );
+	    gsb_assistant_set_next ( assistant, IMPORT_FILESEL_PAGE, IMPORT_CSV_PAGE );
+	    gsb_assistant_set_prev ( assistant, IMPORT_RESUME_PAGE, IMPORT_CSV_PAGE );
 	}
+
+	if ( strcmp ( type, _("Unknown") ) )
+	{
+	    /* A valid file was selected, so we can now go ahead. */
+	    gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ), 
+				       TRUE );
+	}
+
+	iterator = iterator -> next;
     }
-    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
-    gtk_widget_destroy ( dialog );
+
+    if ( filenames )
+	g_slist_free ( filenames );
     return FALSE;
 }
 
 
 /**
  * create an appropriate dialog file chooser
- * for importing files to grisbi
+ * for importing files to grisbi and return the selected files
  *
  * \param
  *
  * \return a GtkFileChooser
  * */
-GtkWidget *gsb_import_create_file_chooser (void)
+GSList *gsb_import_create_file_chooser (void)
 {
     GtkWidget * dialog, * hbox, * go_charmap_sel;
     GtkFileFilter * filter, * default_filter;
     gchar * files;
     GSList * tmp;
     struct import_format * format;
+    GSList *filenames = NULL;
 
     dialog = gtk_file_chooser_dialog_new ( _("Choose files to import."),
 					   NULL, GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -656,7 +651,12 @@ GtkWidget *gsb_import_create_file_chooser (void)
     gtk_box_pack_start ( GTK_BOX ( hbox ), go_charmap_sel, TRUE, TRUE, 0 );
     gtk_widget_show_all ( hbox );
 
-    return dialog;
+    if ( gtk_dialog_run ( GTK_DIALOG (dialog ) ) == GTK_RESPONSE_ACCEPT )
+	filenames = gtk_file_chooser_get_filenames ( GTK_FILE_CHOOSER (dialog));
+
+    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
+    gtk_widget_destroy (dialog);
+    return filenames;
 }
 
 /**
@@ -1336,7 +1336,7 @@ void traitement_operations_importees ( void )
     else
 	gtk_widget_hide (menu_import_rules);
 
-   /* show the account list */
+    /* show the account list */
     gsb_menu_update_accounts_in_menus();
 
     /* update main page */
@@ -2954,7 +2954,7 @@ const gchar * autodetect_file_type ( gchar * filename,
 	}
     }
 
-  return type;
+    return type;
 }
 
 
@@ -2991,15 +2991,128 @@ void gsb_import_register_account_error ( struct struct_compte_importation * acco
 gboolean gsb_import_by_rule ( gint rule )
 {
     gint account_number;
+    gchar **array;
+    gint i=0;
+
+
+    array = gsb_import_by_rule_ask_filename (rule);
+    if (!array)
+	return FALSE;
+
+    account_number = gsb_data_import_rule_get_account (rule);
+
+    while (array[i])
+    {
+	gchar *filename = array[i];
+	const gchar *type;
+	struct imported_file imported;
+	GSList * tmp = import_formats;
+	struct struct_compte_importation *account;
+
+	/* check if we are on ofx or qif file */
+	type = autodetect_file_type (filename, NULL);
+	if (strcmp (type, "OFX") && strcmp (type, "QIF"))
+	{
+	    gchar *tmpstr = g_path_get_basename (filename);
+	    gchar *tmpstr2 = g_strdup_printf (_("%s is neither an OFX file, neither a QIF file. Nothing will be done for that file."),
+					      tmpstr );
+	    dialogue_error (tmpstr2);
+	    g_free (tmpstr);
+	    g_free (tmpstr2);
+	    i++;
+	    continue;
+	}
+
+	/* get the transactions */
+	imported.name = filename;
+	imported.coding_system = go_charmap_sel_get_encoding ( (GOCharmapSel * )go_charmap_sel );
+	imported.type = type;
+
+	liste_comptes_importes_error = NULL;
+	liste_comptes_importes = NULL;
+
+	while ( tmp )
+	{
+	    struct import_format * format = (struct import_format *) tmp -> data;
+
+	    if ( !strcmp ( imported.type, format -> name ) )
+	    {
+		format -> import ( NULL, &imported );
+		tmp = tmp -> next;
+		continue;
+	    }
+	    tmp = tmp -> next;
+	}
+
+	/* now liste_comptes_importes contains the account structure of imported transactions */
+	if (liste_comptes_importes_error)
+	{
+	    gchar *tmpstr = g_path_get_basename (filename);
+	    gchar *tmpstr2 = g_strdup_printf (_("%s was not imported successfully. An error occured while getting the transactions."),
+					      tmpstr );
+	    dialogue_error (tmpstr2);
+	    g_free (tmpstr);
+	    g_free (tmpstr2);
+	    i++;
+	    continue;
+	}
+
+	account = liste_comptes_importes -> data;
+
+	switch (gsb_data_import_rule_get_action (rule))
+	{
+	    case IMPORT_ADD_TRANSACTIONS:
+		gsb_import_add_imported_transactions ( account,
+						       account_number);
+
+		break;
+
+	    case IMPORT_MARK_TRANSACTIONS:
+		pointe_opes_importees (account);
+		break;
+	}
+	/* update the current and marked balance */
+	gsb_data_account_calculate_current_and_marked_balances (account_number);
+
+	g_slist_free (account -> operations_importees);
+	g_free (account);
+	g_slist_free (liste_comptes_importes);
+	i++;
+    }
+    g_strfreev (array);
+
+    /* update main page */
+    mise_a_jour_liste_comptes_accueil = 1;
+    mise_a_jour_soldes_minimaux = 1;
+    mise_a_jour_accueil (FALSE);
+
+    modification_fichier ( TRUE );
+
+    return FALSE;
+}
+
+
+/**
+ * show a popup asking the name of the file to import with a rule
+ *
+ * \param rule
+ *
+ * \return a newly-allocated NULL-terminated array of strings of filenames, or NULL
+ * 		use g_strfreev to free it
+ * */
+gchar **gsb_import_by_rule_ask_filename ( gint rule )
+{
     gchar *tmpstr;
     GtkWidget *dialog;
     GtkWidget *label;
     GtkWidget *button;
-    GtkWidget *file_chooser;
     GtkWidget *entry;
+    GtkWidget *separator;
+    GtkWidget *hbox;
+    gchar **array = NULL;
 
     if (!rule)
-	return FALSE;
+	return NULL;
 
     dialog = gtk_dialog_new_with_buttons (_("Import a file with a rule"),
 					  GTK_WINDOW (window),
@@ -3007,7 +3120,8 @@ gboolean gsb_import_by_rule ( gint rule )
 					  GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 					  GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 					  NULL);
-    tmpstr = g_strdup_printf (_("Enter the filename to import with the rule %s :"),
+
+    tmpstr = g_strdup_printf (_("Properties of the rule %s :\n"),
 			      gsb_data_import_rule_get_name (rule));
     label = gtk_label_new (tmpstr);
     g_free (tmpstr);
@@ -3015,53 +3129,127 @@ gboolean gsb_import_by_rule ( gint rule )
 			 label,
 			 FALSE, FALSE, 0);
 
+    if (gsb_data_import_rule_get_action (rule) == IMPORT_ADD_TRANSACTIONS)
+	tmpstr = g_strdup_printf (_("Imported transactions will be added to the account %s.\n"),
+				  gsb_data_account_get_name (gsb_data_import_rule_get_account (rule)));
+    else
+	tmpstr = g_strdup_printf (_("Imported transactions will mark transactions in the account %s.\n"),
+				  gsb_data_account_get_name (gsb_data_import_rule_get_account (rule)));
+    label = gtk_label_new (tmpstr);
+    g_free (tmpstr);
+    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+			 label,
+			 FALSE, FALSE, 0);
+
+    tmpstr = g_strdup_printf (_("Currency to import is %s.\n"),
+			      gsb_data_currency_get_name (gsb_data_import_rule_get_currency (rule)));
+    label = gtk_label_new (tmpstr);
+    g_free (tmpstr);
+    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+			 label,
+			 FALSE, FALSE, 0);
+
+    if (gsb_data_import_rule_get_invert (rule))
+    {
+	label = gtk_label_new (_("Amounts of the transactions will be inverted.\n"));
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+	gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+			     label,
+			     FALSE, FALSE, 0);
+    }
+
+    separator = gtk_hseparator_new ();
+    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+			 separator,
+			 FALSE, FALSE, 0);
+
+    hbox = gtk_hbox_new (FALSE, 5);
+    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+			 hbox,
+			 FALSE, FALSE, 0);
+
+    label = gtk_label_new (_("Name of the file to import : "));
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 label,
+			 FALSE, FALSE, 0);
+
     /* i tried to use gtk_file_chooser_button, but the name of the file is showed only sometimes
      * so go back to the old method with a gtkentry */
+    entry = gtk_entry_new ();
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 entry,
+			 FALSE, FALSE, 0);
+    gtk_widget_grab_focus (entry);
+    if (gsb_data_import_rule_get_last_file_name (rule))
+    {
+	gtk_entry_set_text ( GTK_ENTRY (entry),
+			     gsb_data_import_rule_get_last_file_name (rule));
+	gtk_entry_select_region ( GTK_ENTRY (entry),
+				  0, -1);
+    }
 
-/* xxx en suis ici, doit faire l'entrée */
-    file_chooser = gsb_import_create_file_chooser ();
-
-    button = gtk_file_chooser_button_new_with_dialog (file_chooser);
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+    button = gtk_button_new_from_stock (GTK_STOCK_OPEN);
+    g_signal_connect (G_OBJECT (button),
+		      "clicked",
+		      G_CALLBACK (gsb_import_by_rule_get_file),
+		      entry );
+    gtk_box_pack_start ( GTK_BOX (hbox),
 			 button,
 			 FALSE, FALSE, 0);
 
-    gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (button),
-				   gsb_data_import_rule_get_last_file_name (rule));
-   gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (file_chooser),
-				   gsb_data_import_rule_get_last_file_name (rule));
+
     gtk_widget_show_all (dialog);
-    printf ( "name %s\n", gsb_data_import_rule_get_last_file_name (rule));
+    if ( gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+	array = g_strsplit ( gtk_entry_get_text (GTK_ENTRY (entry)),
+			     ";", 0);
 
-
-    gtk_dialog_run (GTK_DIALOG (dialog));
-    return FALSE;
-
-
-
-
-
-
-    account_number = gsb_data_import_rule_get_account (rule);
-    liste_comptes_importes_error = NULL;
-    liste_comptes_importes = NULL;
-
-    switch (gsb_data_import_rule_get_action (rule))
-	{
-	    case IMPORT_ADD_TRANSACTIONS:
-/* 		gsb_import_add_imported_transactions ( compte, */
-/* 						       account_number); */
-
-		break;
-
-	    case IMPORT_MARK_TRANSACTIONS:
-/* 		pointe_opes_importees ( compte ); */
-		break;
-	}
-
-    return FALSE;
+    gtk_widget_destroy (dialog);
+    return array;
 }
 
+
+
+/**
+ * callback when user click on the button to open a file by file chooser
+ *
+ * \param button	the button to open the file chooser
+ * \param entry		the entry to fill with the new filename
+ *
+ * \return FALSE
+ * */
+gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
+				       GtkWidget *entry )
+{
+    GSList *filenames;
+    GSList *tmp_list;
+    gchar *string = NULL;
+
+    filenames = gsb_import_create_file_chooser ();
+    if (!filenames)
+	return FALSE;
+
+    /* separate all the files by ; */
+    tmp_list = filenames;
+    while (tmp_list)
+    {
+	if (string)
+	{
+	    gchar *last_string = string;
+
+	    string = g_strconcat (string, ";", tmp_list -> data, NULL);
+	    g_free (last_string);
+	}
+	else
+	    string = my_strdup (tmp_list -> data);
+	tmp_list = tmp_list -> next;
+    }
+    g_slist_free (filenames);
+    gtk_entry_set_text (GTK_ENTRY (entry), string);
+    g_free (string);
+    return FALSE;
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

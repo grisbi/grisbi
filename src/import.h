@@ -96,8 +96,8 @@ struct struct_ope_importation
 
 struct imported_file {
     gchar * name;
-    gchar * coding_system;
-    gchar * type;
+    const gchar * coding_system;
+    const gchar * type;
 };
 
 
