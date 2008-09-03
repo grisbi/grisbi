@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-02 22:54-0400\n"
-"PO-Revision-Date: 2008-09-01 23:54+0200\n"
+"PO-Revision-Date: 2008-09-03 12:59+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:195
 msgid "Closed liabilities accounts"
@@ -139,9 +139,8 @@ msgid "Grisbi logo"
 msgstr "Logotipo de Grisbi"
 
 #: src/affichage.c:134
-#, fuzzy
 msgid "Display a logo"
-msgstr "Modos de presentación"
+msgstr "Mostrar un logotipo"
 
 #: src/affichage.c:188
 msgid "Click on preview to change logo"
@@ -186,9 +185,8 @@ msgid "Secondary address"
 msgstr "Direcciones secundarias"
 
 #: src/affichage.c:430
-#, fuzzy
 msgid "No font defined"
-msgstr "Sin presupuesto definido"
+msgstr "No se definión ninguna fuente"
 
 #: src/affichage.c:483
 msgid "Transaction list font"
@@ -458,13 +456,12 @@ msgid "Change display mode of the list"
 msgstr "Cambia el modo de presentación de la lista"
 
 #: src/barre_outils.c:139
-#, fuzzy
 msgid "Import rules"
-msgstr "Importar categorías"
+msgstr "Importar reglas"
 
 #: src/barre_outils.c:143
 msgid "Quick file import by rules"
-msgstr ""
+msgstr "Importación rápida de fichero por reglas"
 
 #: src/barre_outils.c:186
 msgid "Simple view"
@@ -3158,9 +3155,8 @@ msgstr "Nombre del titular"
 
 #. now the checkbutton for different address
 #: src/gsb_account_property.c:245
-#, fuzzy
 msgid "Holder's address :"
-msgstr "Diferente Dirección del titular :"
+msgstr "Dirección del titular :"
 
 #. ligne de l'Ã©tablissement financier
 #: src/gsb_account_property.c:277 src/gsb_bank.c:506
@@ -3760,6 +3756,13 @@ msgid ""
 "account from scratch or to import previous data, i.e. from your previous "
 "accounting software or online bank website."
 msgstr ""
+"Este asistente le ayudará a crear un nuevo fichero de cuentas.\n"
+"\n"
+"Cada paso que de en la configuración con este asistente puede cambiarlo después "
+"en el diálogo de 'Preferencias'.\n"
+"Una vez que haya creado su fichero de cuentas, podrá crear una nueva cuenta "
+"desde cero o importar su información anterior, es decir, de su programa de contabilidad "
+"anterior o de su sitio de banca online."
 
 #: src/gsb_assistant_file.c:238
 msgid "General configuration"
@@ -3804,6 +3807,12 @@ msgid ""
 "\n"
 "Select a way to populate your account file and press the 'Close' button."
 msgstr ""
+"Ha terminado de configurar los valores por defecto para su fichero de cuentas. "
+"El siguiente asistente le ayudará a crear una nueva cuenta.\n"
+"\n"
+"Recuerde que todos los valores pueden cambiarse en el diálogo de 'Preferencias'.\n"
+"\n"
+"Elija una forma para rellenar su fichero de cuentas y pulse el botón de 'Cerrar'."
 
 #: src/gsb_assistant_file.c:459
 msgid "Create a new account from scratch"
@@ -9647,9 +9656,8 @@ msgid "This is not a report file, loading canceled..."
 msgstr "Esto no es un archivo de informes, la carga se ha cancelado..."
 
 #: src/gsb_file_util.c:63
-#, fuzzy
 msgid "No name to the file !"
-msgstr "No se puede abrir el archivo '%s'"
+msgstr "¡ No ha indicado un nombre para el ficheor !"
 
 #: src/gsb_file_util.c:74
 #, c-format
@@ -9675,9 +9683,9 @@ msgid "Grisbi cannot stat file %s, please check the file."
 msgstr "Grisbi no puede iniciar el fichero %s, por favor compruebe el fichero."
 
 #: src/gsb_file_util.c:163
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to read from file '%s': %s"
-msgstr "No se puede bloquear el archivo '%s': %s"
+msgstr "No se puede leer del fichero '%s': %s"
 
 #: src/gsb_file_util.c:334
 #, c-format
@@ -9699,9 +9707,8 @@ msgid "Recover the children"
 msgstr "Recuperar los hijos"
 
 #: src/gsb_form.c:741
-#, fuzzy
 msgid "Transfer : Deleted account"
-msgstr "Transferencia: cuenta borrada"
+msgstr "Transferencia: Cuenta borrada"
 
 #: src/gsb_form.c:745 src/gsb_form.c:1795 src/gsb_form.c:1796
 msgid "Transfer : "
@@ -9725,9 +9732,8 @@ msgid "Cheque/Transfer number"
 msgstr "Cheque/Número de transferencia"
 
 #: src/gsb_form.c:2150
-#, fuzzy
 msgid "No payee selected for this report."
-msgstr "No hay terceras partes seleccionadas para este informe."
+msgstr "No hay terceros seleccionados para este informe."
 
 #: src/gsb_form.c:2378
 msgid "You must enter a date."
@@ -9752,10 +9758,10 @@ msgstr ""
 "una anotación de transacción."
 
 #: src/gsb_form.c:2465
-#, fuzzy
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
-msgstr "Convertir la transacción en un transacción programada"
+msgstr ""
+"No se puede asociar una transferencia a una cuenta borrada en una transacción programada."
 
 #: src/gsb_form.c:2472
 #, fuzzy
@@ -9791,9 +9797,8 @@ msgstr ""
 "¿Continuar de todas formas?"
 
 #: src/gsb_form.c:2545
-#, fuzzy
 msgid "A transaction with a multiple payee must be a new one."
-msgstr "Una transacción con múltiples terceras partes debe ser nueva."
+msgstr "Una transacción con múltiples terceros debe ser nueva."
 
 #: src/gsb_form.c:2550
 #, fuzzy
@@ -9805,9 +9810,8 @@ msgid "The word \"Report\" is reserved. Please use another one."
 msgstr "La palabra \"Informe\" está reservada. Por favor, use otra."
 
 #: src/gsb_form.c:2568
-#, fuzzy
 msgid "Invalid multiple payee."
-msgstr "Múltiples terceras partes no válidas"
+msgstr "Múltiples terceros no válidos."
 
 #: src/gsb_form.c:2807
 #, fuzzy
@@ -9841,13 +9845,12 @@ msgid "Each account has his own form"
 msgstr "Cada cuenta tiene su propio formulario"
 
 #: src/gsb_form_config.c:196
-#, fuzzy
 msgid "Update"
-msgstr "fecha"
+msgstr "Actualizar"
 
 #: src/gsb_form_config.c:209
 msgid " : Update all the accounts forms according to the selected account"
-msgstr ""
+msgstr " : Actualizar todos los formularios de cuentas de acuerdo con la cuenta seleccionada"
 
 #: src/gsb_form_config.c:237
 msgid "Form structure content"
@@ -9893,6 +9896,10 @@ msgid ""
 "\n"
 "Are you sure to do that ?"
 msgstr ""
+"Atención : Todos los formularios de las cuentas se actualizarán de acuerdo con "
+"la cuenta seleccionada. Todos los cambios en otras cuentas serán sobreescritos.\n"
+"\n"
+"¿ Está seguro de hacerlo ?"
 
 #: src/gsb_form_config.c:792
 msgid ""
@@ -9997,9 +10004,8 @@ msgid "Limit date"
 msgstr "Fecha límite"
 
 #: src/gsb_form_scheduler.c:634
-#, fuzzy
 msgid "User frequency"
-msgstr "Frecuencia aleatoria"
+msgstr "Frecuencia del usuario"
 
 #: src/gsb_form_scheduler.c:843
 msgid "Own frequency"
@@ -10106,12 +10112,14 @@ msgid "The selected financial year is used in the file"
 msgstr "Último año financiero seleccionado"
 
 #: src/gsb_fyear_config.c:709
-#, fuzzy
 msgid ""
 "If you really remove it, all the associated transactions will be without "
 "financial year.\n"
 "Are you sure ?"
-msgstr "Asociar transacciones sin los años financieros"
+msgstr ""
+"Si realmente lo borra, todas las transacciones asociadas se quedarán sin "
+"año financiero.\n"
+"¿ Está seguro ?"
 
 #: src/gsb_fyear_config.c:763
 msgid "Automatic association of financial years?"
@@ -10502,6 +10510,10 @@ msgid ""
 "\n"
 "The concerned children number are :\n"
 msgstr ""
+"Algunos hijos no encontraron a su madre en la list, esto no debería pasar "
+"y probablemente hay un fallo detrás. Por favor contacte con el equipo de Grisbi.\n"
+"\n"
+"Los números de hijos implicados son : \n"
 
 #: src/gsb_transactions_list.c:844
 msgid "P"
@@ -10769,7 +10781,6 @@ msgid "Bug report"
 msgstr "Informe de fallos"
 
 #: src/help.c:109
-#, fuzzy
 msgid "Information list (new releases announces, ...) : "
 msgstr "Lista de información (anuncio de nuevas versiones, ...): "
 
@@ -10924,7 +10935,7 @@ msgstr " días alrededor de la fecha en la transacción importada."
 
 #: src/import.c:1194
 msgid "Create a rule for this import. Name of the rule : "
-msgstr ""
+msgstr "Crear una regla para esta importación. Nombre de la regla : "
 
 #: src/import.c:1336
 #, c-format
@@ -10932,6 +10943,8 @@ msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
 "to that rule. Please set a name or let it empty to cancel the rule creation."
 msgstr ""
+"Quiere crear una regla de importación para la cuenta %s pero no le dio un nombre "
+"a esa regla. Por favor, elija un nombre o déjelo en blanco para cancelar la creación de la regla."
 
 #: src/import.c:1338
 #, fuzzy
@@ -10939,9 +10952,8 @@ msgid "No name for the import rule"
 msgstr "No se puede abrir el archivo '%s'"
 
 #: src/import.c:1338
-#, fuzzy
 msgid "Name of the rule :"
-msgstr "No se puede abrir el archivo '%s'"
+msgstr "Nombre de la regla :"
 
 #: src/import.c:1360
 msgid ""
@@ -10996,19 +11008,19 @@ msgstr ""
 "Por favor seleccione las transacciones a importar."
 
 #: src/import.c:1936
-#, fuzzy, c-format
+#, c-format
 msgid "Transactions to import : %s ; %s ; %s"
-msgstr "Transacciones a importar : %02d/%02d/%04d ; %s ; %4.2f"
+msgstr "Transacciones a importar : %s ; %s ; %s"
 
 #: src/import.c:1975
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction found : %s ; %s ; %s ; %s"
-msgstr "Transacción encontrada : %02d/%02d/%04d ; %s ; %4.2f ; %s"
+msgstr "Transacción encontrada : %s ; %s ; %s ; %s"
 
 #: src/import.c:1988
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction found : %s ; %s ; %s"
-msgstr "Transacción encontrada : %02d/%02d/%04d ; %s ; %4.2f"
+msgstr "Transacción encontrada : %s ; %s ; %s"
 
 #: src/import.c:2236
 #, c-format
@@ -11056,12 +11068,12 @@ msgstr " días alrededor de la fecha en la transacción importada."
 
 #: src/import.c:3044
 msgid "Import a file with a rule"
-msgstr ""
+msgstr "Importar un fichero con una regla"
 
 #: src/import.c:3050
 #, c-format
 msgid "Enter the filename to import with the rule %s :"
-msgstr ""
+msgstr "Introduzca el nombre de fichero a importar con la regla %s :"
 
 #: src/import_csv.c:76
 msgid "Unknown field"
@@ -11126,9 +11138,8 @@ msgid "Import budgetary lines"
 msgstr "Importar las líneas presupuestarias"
 
 #: src/imputation_budgetaire.c:388
-#, fuzzy
 msgid "Grisbi budgetary lines files (*.igsb)"
-msgstr "Archivo de líneas presupuestarias no válido"
+msgstr "Ficheros de líneas presupuestarias de Grisbi (*.igsb)"
 
 #: src/imputation_budgetaire.c:415
 #, fuzzy
@@ -11198,9 +11209,8 @@ msgid "Budgetary line view"
 msgstr "Vista de línea presupuestaria"
 
 #: src/imputation_budgetaire.c:578
-#, fuzzy
 msgid "Sub-budgetary line view"
-msgstr "Líneas subpresupuestarias"
+msgstr "Vista de líneas subpresupuestarias"
 
 #: src/imputation_budgetaire.c:630
 msgid "No sub-budget defined"
@@ -11252,14 +11262,12 @@ msgid "_Export accounts as QIF/CSV file..."
 msgstr "_Exportar Cuentas como archivo QIF/CSV ..."
 
 #: src/menu.c:193
-#, fuzzy
 msgid "Archive transactions..."
-msgstr "Archivar algunas transacciones ?"
+msgstr "Archivar algunas transacciones..."
 
 #: src/menu.c:196
-#, fuzzy
 msgid "_Export an archive as GSB/QIF/CSV file..."
-msgstr "_Exportar Cuentas como archivo QIF/CSV ..."
+msgstr "_Export un archivo a un fichero GSB/QIF/CSV ..."
 
 #: src/menu.c:199
 msgid "_Debug account file..."
@@ -11407,9 +11415,9 @@ msgid "New sub-budget"
 msgstr "Nuevo subpresupuesto"
 
 #: src/meta_budgetary.c:250
-#, fuzzy, c-format
+#, c-format
 msgid "New sub-budget #%d"
-msgstr "Nueva línea subpresupuestaria"
+msgstr "Nueva línea subpresupuestaria #%d"
 
 #: src/meta_categories.c:66
 msgid "No sub-category"
@@ -11485,9 +11493,9 @@ msgid "Transfer transactions to %s"
 msgstr "Transferir las transacciones a %s"
 
 #: src/metatree.c:1723
-#, fuzzy, c-format
+#, c-format
 msgid "Just remove this %s."
-msgstr "Sólo borrar esta subcategoría"
+msgstr "Tan sólo borre este %s."
 
 #: src/metatree.c:1725
 #, fuzzy, c-format
@@ -11800,9 +11808,8 @@ msgid "Warning"
 msgstr "Advertencia"
 
 #: src/plugins/g2banking/g2banking.c:246
-#, fuzzy
 msgid "An error or warning has occured. Do you still want to import the data ?"
-msgstr "Un error o aviso ha ocurrido. ¿ Aun quiere importar el archivo ?"
+msgstr "Un error o un aviso ha ocurrido. ¿ Todavía quiere importar los datos ?"
 
 #: src/plugins/gnucash/gnucash.c:171
 msgid "Gnucash"
@@ -11847,9 +11854,8 @@ msgid "OFX processing returned following message:\n"
 msgstr "El procesado OFX devolvió el siguiente mensaje:\n"
 
 #: src/plugins/ofx/ofx.c:218
-#, fuzzy
 msgid "OFX processing ended in a warning message which is not valid."
-msgstr "El archivo ha devuelto un mensaje de aviso que no es válido."
+msgstr "El procesado OFX terminó en un mensaje de aviso que no es válido."
 
 #: src/plugins/ofx/ofx.c:224
 msgid "OFX processing returned following error message:\n"
@@ -12113,6 +12119,8 @@ msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't append ! "
 "Check that."
 msgstr ""
+"Intente cambiar una línea visible por transaction_list_set ¡ Debería añadirlo !"
+"Comprobar eso."
 
 #: src/transaction_list.c:1447
 #, c-format
@@ -12137,6 +12145,7 @@ msgstr ""
 msgid ""
 "Asked to sort by column %d, wich is bigger than the visible columns (%d)"
 msgstr ""
+"Pidió ordenar por columna %d, que es mayor que las columnas visibles (%d)"
 
 #: src/utils.c:150
 #, c-format
