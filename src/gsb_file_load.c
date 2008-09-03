@@ -5602,7 +5602,15 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 	 * we append the buffer to the list */
 	buffer_reconcile_conversion = g_malloc0 (sizeof (GMarkupParser));
 	if (buffer_reconcile_conversion)
-	    buffer_reconcile_conversion -> final_date = gsb_parse_date_string (text);
+	{
+		    gchar **pointeur_char;
+	    pointeur_char = g_strsplit ( text, "/", 0 );
+
+		    buffer_reconcile_conversion -> final_date = g_date_new_dmy ( utils_str_atoi ( pointeur_char[0] ),
+					    utils_str_atoi ( pointeur_char[1] ),
+					    utils_str_atoi ( pointeur_char[2] ));
+		    g_strfreev ( pointeur_char );
+	    }
 	return;
     }
 
