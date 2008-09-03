@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2006-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2006-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -28,6 +28,7 @@
 #include "./gsb_account_property.h"
 #include "./gsb_category.h"
 #include "./gsb_data_account.h"
+#include "./gsb_data_currency.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
@@ -35,6 +36,7 @@
 #include "./gsb_form_scheduler.h"
 #include "./navigation.h"
 #include "./menu.h"
+#include "./gsb_real.h"
 #include "./gsb_scheduler_list.h"
 #include "./main.h"
 #include "./traitement_variables.h"
@@ -63,6 +65,7 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget *notebook_general ;
+extern gsb_real null_real ;
 /*END_EXTERN*/
 
 
@@ -99,6 +102,12 @@ gboolean gsb_account_new ( kind_account account_type,
     gsb_data_account_set_currency ( account_number, currency_number);
     gsb_data_account_set_bank (account_number, bank_number);
     gsb_data_account_set_init_balance (account_number, init_amount);
+    gsb_data_account_set_mini_balance_wanted ( account_number, 
+					       gsb_real_new ( 0, 
+							      gsb_data_currency_get_floating_point (currency_number) ) );
+    gsb_data_account_set_mini_balance_authorized (account_number, 
+						  gsb_real_new ( 0, 
+								 gsb_data_currency_get_floating_point (currency_number) ) );
     gsb_data_account_set_name (account_number, name);
 
     /* update the combofix for categ */ 
