@@ -1205,7 +1205,6 @@ void gsb_file_config_clean_config ( void )
 #ifndef _WIN32
     }
 #endif /* _WIN32 */
-    printf ( etat.browser_command );
 
     /* Print */
     etat.print_config.printer = 0;
