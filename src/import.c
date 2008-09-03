@@ -930,47 +930,6 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
     {
 	struct struct_compte_importation * compte;
 	compte = list_tmp -> data;
-	gint currency_number = 0;
-		
-	if ( compte -> devise )
-	{
-	    /* First, we search currency from ISO4217 code for
-	       existing currencies */
-	    currency_number = gsb_data_currency_get_number_by_code_iso4217 ( compte -> devise );
-
-	    /* Then, by nickname for existing currencies */
-	    if ( !currency_number )
-		currency_number = gsb_data_currency_get_number_by_name ( compte -> devise );
-
-	    /* Last ressort, we browse ISO4217 currency list and create
-	       currency if found */
-	    if ( !currency_number )
-		currency_number = gsb_currency_config_create_currency_from_iso4217list ( compte -> devise );
-	}
-	else
-	{
-	    /* try to find the default currency of the system */
-	    struct lconv * conv = localeconv();
-
-	    /* We try to set default currency of account according to
-	     * locale.  We will not prompt user since import dialog is
-	     * too long already. */
-	    if ( conv && conv -> int_curr_symbol && strlen ( conv -> int_curr_symbol ) )
-	    {
-		gchar *name = conv -> int_curr_symbol;
-
-		currency_number = gsb_data_currency_get_number_by_code_iso4217 (name);
-
-		/* create the currency if not exist */
-		if (!currency_number)
-		    currency_number =  gsb_currency_config_create_currency_from_iso4217list ( name );
-	    }
-	    if ( ! currency_number &&
-		 ! gsb_currency_config_create_currency_from_iso4217list ( "USD" ) )
-	    {
-		dialogue_error_brain_damage ();
-	    }
-	}
 
 	/* add one page per account */
 	gsb_assistant_add_page ( assistant, cree_ligne_recapitulatif ( list_tmp -> data ), 
@@ -3037,6 +2996,7 @@ gboolean gsb_import_by_rule ( gint rule )
     GtkWidget *label;
     GtkWidget *button;
     GtkWidget *file_chooser;
+    GtkWidget *entry;
 
     if (!rule)
 	return FALSE;
@@ -3055,21 +3015,22 @@ gboolean gsb_import_by_rule ( gint rule )
 			 label,
 			 FALSE, FALSE, 0);
 
+    /* i tried to use gtk_file_chooser_button, but the name of the file is showed only sometimes
+     * so go back to the old method with a gtkentry */
+
+/* xxx en suis ici, doit faire l'entrée */
     file_chooser = gsb_import_create_file_chooser ();
 
     button = gtk_file_chooser_button_new_with_dialog (file_chooser);
     gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
 			 button,
 			 FALSE, FALSE, 0);
-/* xxx en suis ici, il refuse de me mettre le nom de last file name dans le boutton */
-/*     marche parfois, mais rarement */
+
     gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (button),
 				   gsb_data_import_rule_get_last_file_name (rule));
+   gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (file_chooser),
+				   gsb_data_import_rule_get_last_file_name (rule));
     gtk_widget_show_all (dialog);
-/*     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (button), */
-/* 					 gsb_file_get_last_path ()); */
-/*    gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (file_chooser), */
-/* 				   gsb_data_import_rule_get_last_file_name (rule)); */
     printf ( "name %s\n", gsb_data_import_rule_get_last_file_name (rule));
 
 
