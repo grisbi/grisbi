@@ -242,10 +242,11 @@ GtkWidget *gsb_account_property_create_page ( void )
 							   G_CALLBACK (gsb_data_account_set_holder_address), 0 );
 
     /* now the checkbutton for different address */
-    button_holder_address = gsb_autofunc_checkbutton_new ( _("Holder's address :"), FALSE,
+    button_holder_address = gsb_autofunc_checkbutton_new ( COLON(_("Holder's own address")), FALSE,
 							   G_CALLBACK (gsb_editable_erase_text_view), detail_adresse_titulaire,
 							   NULL, 0 );
     gtk_button_set_alignment ( GTK_BUTTON (button_holder_address), 0.0, 0.0 );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), button_holder_address );
     g_signal_connect ( G_OBJECT (button_holder_address), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &button_holder_address );
     gtk_box_pack_start ( GTK_BOX(vbox2), button_holder_address, FALSE, FALSE, 0);
