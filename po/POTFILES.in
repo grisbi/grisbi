@@ -55,6 +55,7 @@ src/gsb_data_currency.c
 src/gsb_data_currency_link.c
 src/gsb_data_form.c
 src/gsb_data_fyear.c
+src/gsb_data_import_rule.c
 src/gsb_data_mix.c
 src/gsb_data_payee.c
 src/gsb_data_payment.c
