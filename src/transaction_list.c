@@ -80,6 +80,24 @@ static CustomRecord *last_mother_appended = NULL;
 
 
 /**
+ * create the new custom list
+ *
+ * \param
+ *
+ * \return TRUE : ok, FALSE : pb while creating the list
+ * */
+gboolean transaction_list_create (void)
+{
+    CustomList *custom_list;
+
+    custom_list = custom_list_new ();
+    transaction_model_set_model (custom_list);
+    
+    return (custom_list != NULL);
+}
+
+
+/**
  * append a transaction to the list
  * that transaction can be a mother or a child (breakdown)
  * create the CustomList if still not created
@@ -102,15 +120,7 @@ void transaction_list_append_transaction ( gint transaction_number )
     CustomRecord **children_rows = NULL;
     CustomRecord *white_record = NULL;
 
-
     custom_list = transaction_model_get_model ();
-
-    /* first create the custom_list if necessary */
-    if (!custom_list)
-    {
-	custom_list = custom_list_new ();
-	transaction_model_set_model (custom_list);
-    }
 
     g_return_if_fail ( custom_list != NULL );
 
@@ -242,7 +252,6 @@ void transaction_list_append_transaction ( gint transaction_number )
     /* save the grid line pointer */
     custom_list->rows[pos] = grid_line;
     grid_line->pos = pos;
-
 }
 
 
@@ -265,13 +274,6 @@ void transaction_list_append_archive (gint archive_store_number)
     CustomList *custom_list;
 
     custom_list = transaction_model_get_model ();
-
-    /* first create the custom_list if necessary */
-    if (!custom_list)
-    {
-	custom_list = custom_list_new ();
-	transaction_model_set_model (custom_list);
-    }
 
     g_return_if_fail ( custom_list != NULL );
 

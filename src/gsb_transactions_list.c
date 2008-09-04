@@ -681,7 +681,6 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_fin_comptes_passifs = 1;
-
     return FALSE;
 }
 

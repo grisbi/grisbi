@@ -9,7 +9,7 @@ void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint po
 			      gint prev, gint next, GCallback enter_callback );
 void gsb_assistant_change_button_next ( GtkWidget * assistant, gchar * title,
 					GtkResponseType response );
-GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
+GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
 				gchar * image_filename,
 				GCallback enter_callback );
 void gsb_assistant_next_page ( GtkWidget *assistant );

@@ -65,7 +65,6 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget *notebook_general ;
-extern gsb_real null_real ;
 /*END_EXTERN*/
 
 

@@ -455,7 +455,6 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 }
 
 
-
 /**
  * Utility functions that returns currency value of a currency node.
  *

@@ -805,7 +805,9 @@ gint gsb_data_category_get_pointer_from_name_in_glist ( struct_category *categor
 gint gsb_data_category_get_pointer_from_sub_name_in_glist ( struct_sub_category *sub_category,
 							    const gchar *name )
 {
-    if ( ! sub_category -> sub_category_name )
+    if ( ! sub_category -> sub_category_name
+	 ||
+	 !name );
     {
 	return 1;
     }

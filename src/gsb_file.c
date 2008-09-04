@@ -53,6 +53,7 @@
 #include "./utils_str.h"
 #include "./parametres.h"
 #include "./affichage_liste.h"
+#include "./transaction_list.h"
 #include "./utils_files.h"
 #include "./utils_file_selection.h"
 #include "./fenetre_principale.h"
@@ -116,7 +117,7 @@ gboolean gsb_file_new ( void )
     /* set up all the default variables */
     init_variables ();
 
-    gsb_assistant_file_run (FALSE);
+    gsb_assistant_file_run (FALSE, FALSE);
 
     return FALSE;
 }
@@ -163,15 +164,22 @@ void gsb_file_new_gui ( void )
     GtkWidget * tree_view_widget;
 
     /* dégrise les menus nécessaire */
-    
     menus_sensitifs ( TRUE );
 
     /*     récupère l'organisation des colonnes  */
     recuperation_noms_colonnes_et_tips ();
 
     /* Create main widget. */
+    gsb_status_message ( _("Creating main window"));
     gtk_box_pack_start ( GTK_BOX ( window_vbox_principale), create_main_widget(),
 			 TRUE, TRUE, 0 );
+
+    /* create the model */
+    if (!transaction_list_create ())
+    {
+	dialogue_error (_("The model of the list couldn't be created... Bad things will happen very soon..."));
+	return;
+    }
 
     /* Create transaction list. */
     tree_view_widget = gsb_transactions_list_make_gui_list ();
@@ -181,6 +189,7 @@ void gsb_file_new_gui ( void )
 			 TRUE,
 			 0 );
     gtk_widget_show ( tree_view_widget );
+
 
     navigation_change_account ( GINT_TO_POINTER ( gsb_gui_navigation_get_current_account () ) );
 
@@ -337,7 +346,6 @@ gboolean gsb_file_open_direct_menu ( GtkMenuItem *item,
 gboolean gsb_file_open_file ( gchar *filename )
 {
     GSList *list_tmp;
-    GtkWidget *main_widget;
 
     devel_debug (filename);
 
@@ -421,15 +429,12 @@ gboolean gsb_file_open_file ( gchar *filename )
     /* the the name in the last opened files */
     gsb_file_append_name_to_opened_list ( filename );
 
-    /* get the names of the columns */
-    recuperation_noms_colonnes_et_tips ();
+    /* create the archives store data, ie the transaction wich will replace the archive in
+     * the list of transactions */
+    gsb_data_archive_store_create_list ();
 
-    /* we show and update the menus */
-    menus_sensitifs ( TRUE );
-
-    /* we make the main window */
-    gsb_status_message ( _("Creating main window"));
-    main_widget = create_main_widget();
+    /* create all the gui */
+    gsb_file_new_gui ();
 
     /* check the amounts of all the accounts */
     gsb_status_message ( _("Checking amounts"));
@@ -444,7 +449,6 @@ gboolean gsb_file_open_file ( gchar *filename )
 	gsb_data_account_calculate_current_and_marked_balances (account_number);
 
 	/* set the minimum balances to be shown or not */
-
 	gsb_data_account_set_mini_balance_authorized_message ( account_number,
 							       gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
 									      gsb_data_account_get_mini_balance_authorized (account_number)) == -1 );
@@ -454,35 +458,8 @@ gboolean gsb_file_open_file ( gchar *filename )
 	list_tmp = list_tmp -> next;
     }
 
-    /* set the name of the file in the window title
-     * and in the menu of the main window, so main_widget must
-     * have been created */
-    gsb_file_update_window_title();
-
-    gsb_status_message ( _("Creating interface"));
-    gsb_menu_update_view_menu (gsb_gui_navigation_get_current_account ());
-    gsb_menu_update_accounts_in_menus ();
-
-    /* append that window to the main window */
-    gtk_box_pack_start ( GTK_BOX (window_vbox_principale), main_widget, TRUE, TRUE, 0 );
-    gtk_widget_show ( main_widget );
-
-    /* create the archives store data, ie the transaction wich will replace the archive in
-     * the list of transactions */
-    gsb_data_archive_store_create_list ();
-
-    /* create and fill the gui transactions list */
-    gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ),
-			 gsb_transactions_list_make_gui_list (),
-			 TRUE,
-			 TRUE,
-			 0 );
-
     /* update the main page */
     mise_a_jour_accueil (TRUE);
-
-    /* 	set the grid */
-    gsb_transactions_list_draw_grid (etat.affichage_grille);
 
     /* for now, the flag for modification of the file is ok, but the menu couldn't be set as sensitive/unsensitive
      * so do it now */

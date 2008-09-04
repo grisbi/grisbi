@@ -58,7 +58,8 @@ static  GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_file_page_3 ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_file_page_4 ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_file_page_5 ( GtkWidget *assistant );
-static  GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant );
+static  GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
+						   gboolean import );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -92,11 +93,14 @@ static GtkWidget *button_create_account_next;
  * this function is called to launch the file opening assistant
  *
  * \param first_opening TRUE if this is the first opening of Grisbi,
- * 		and that assistant is continuing from the general configuration assistant
+ * 			and that assistant is continuing from the general configuration assistant
+ * \param import	TRUE if we come from import (possible when we do file->import without anything
+ * 			opened, because we need to set up the variables and currencies)
  *
  * \return a GtkResponseType containing the return value at the end of the assistant
  * */
-GtkResponseType gsb_assistant_file_run ( gboolean first_opening )
+GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
+					 gboolean import )
 {
     GtkResponseType return_value;
     GtkWidget *assistant;
@@ -104,27 +108,47 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening )
     gint currency_floating;
     GtkTreeIter iter;
     gboolean launch_account_assistant;
+    const gchar *text_1, *text_2;
 
     /* create the assistant */
     if (first_opening)
-	assistant = gsb_assistant_new ( _("Welcome to Grisbi!"),
-					_("General configuration of Grisbi is done.\n\n"
-					  "Next assistant will now help you to create and configure a new account file.\n"
-					  "Don't forget that you can change everything later in the 'Preferences' dialog.\n\n"
-					  "Once the file created, you will be able to create a new account "
-					  "or to import some previous datas"),
-					"grisbi.png",
-					NULL );
+    {
+	text_1 = _("Welcome to Grisbi!");
+	text_2 = _("General configuration of Grisbi is done.\n\n"
+		   "Next assistant will now help you to create and configure a new account file.\n"
+		   "Don't forget that you can change everything later in the 'Preferences' dialog.\n\n"
+		   "Once the file created, you will be able to create a new account "
+		   "or to import some previous datas");
+    }
     else
-	assistant = gsb_assistant_new ( _("New file Assistant"),
-					_("This assistant will help you to create a new account file.\n\n"
-					  "Every configuration step from this assistant can be edited "
-					  "later in the 'Preferences' dialog.\n"
-					  "Once you have created your account file, you will be able to "
-					  "create a new account from scratch or to import previous data, i.e. "
-					  "from your previous accounting software or your bank website."),
-					"grisbi.png",
-					NULL );
+    {
+	if (import)
+	{
+	    text_1 = _("New file Assistant to import");
+	    text_2 = _("Before importing files, you need to create a new file and fill "
+		       "some default values as created a new currency.\n"
+		       "This assistant will help you to create a new account file.\n\n"
+		       "Every configuration step from this assistant can be edited "
+		       "later in the 'Preferences' dialog.\n"
+		       "Once you have created your account file, you will be able to "
+		       "create a new account from scratch or to import previous data, i.e. "
+		       "from your previous accounting software or your bank website.");
+	}
+	else
+	{
+	    text_1 = _("New file Assistant");
+	    text_2 = _("This assistant will help you to create a new account file.\n\n"
+		       "Every configuration step from this assistant can be edited "
+		       "later in the 'Preferences' dialog.\n"
+		       "Once you have created your account file, you will be able to "
+		       "create a new account from scratch or to import previous data, i.e. "
+		       "from your previous accounting software or your bank website.");
+	}
+    }
+
+    assistant = gsb_assistant_new (text_1, text_2,
+				   "grisbi.png", NULL);
+
     gsb_assistant_add_page ( assistant,
 			     gsb_assistant_file_page_2 (assistant),
 			     FILE_ASSISTANT_PAGE_2,
@@ -150,7 +174,7 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening )
 			     FILE_ASSISTANT_PAGE_FINISH,
 			     NULL );
     gsb_assistant_add_page ( assistant,
-			     gsb_assistant_file_page_finish (assistant),
+			     gsb_assistant_file_page_finish (assistant, import),
 			     FILE_ASSISTANT_PAGE_FINISH,
 			     FILE_ASSISTANT_PAGE_5,
 			     0,
@@ -423,11 +447,14 @@ static GtkWidget *gsb_assistant_file_page_5 ( GtkWidget *assistant )
 /**
  * create the last page of the first assistant
  *
- * \param assistant the GtkWidget assistant
+ * \param assistant 	the GtkWidget assistant
+ * \param import	TRUE if we come to this assistant for importing some files
+ * 			so by default, set the radiobutton on import files
  *
  * \return a GtkWidget containing the page
  * */
-static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant )
+static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
+						   gboolean import )
 {
     GtkWidget *page;
     GtkWidget *vbox;
@@ -463,6 +490,9 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant )
 
     button = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (GTK_RADIO_BUTTON (button_create_account_next)),
 					       _("Import data from online bank services or from accounting software"));
+    if (import)
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
+				      TRUE );
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 button,
 			 FALSE, FALSE, 0 );

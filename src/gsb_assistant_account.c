@@ -410,7 +410,6 @@ static gboolean gsb_assistant_account_enter_page_finish ( GtkWidget * assistant,
 }
 
 
-
 /**
  * callback called when toggle the choice of type of account
  * it will save the choice in the assistant widget

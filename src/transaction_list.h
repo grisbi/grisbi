@@ -9,6 +9,7 @@
 void transaction_list_append_archive (gint archive_store_number);
 void transaction_list_append_transaction ( gint transaction_number );
 void transaction_list_colorize (void);
+gboolean transaction_list_create (void);
 void transaction_list_filter ( gint account_number );
 gboolean transaction_list_remove_archive ( gint archive_number );
 gboolean transaction_list_remove_transaction ( gint transaction_number );

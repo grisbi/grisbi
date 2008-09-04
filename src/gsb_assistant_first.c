@@ -101,7 +101,7 @@ GtkResponseType gsb_assistant_first_run ( void )
     }
 
     /* the assistant is finish, we launch the new file assistant */
-    return_value = gsb_assistant_file_run (TRUE);
+    return_value = gsb_assistant_file_run (TRUE, FALSE);
 
     return return_value;
 }

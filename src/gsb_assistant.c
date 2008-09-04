@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_assistant.h"
+#include "./utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -57,7 +58,7 @@ extern GtkWidget *window ;
  *				be : gboolean callback ( GtkWidget *assistant, gint new_page ) )
  *
  */
-GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
+GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
 				gchar * image_filename,
 				GCallback enter_callback )
 {
@@ -142,7 +143,9 @@ GtkWidget * gsb_assistant_new ( gchar * title, gchar * explanation,
 
     gsb_assistant_set_next ( assistant, 0, 1 );
     g_object_set_data ( G_OBJECT(assistant), "notebook", notebook );
-    g_object_set_data ( G_OBJECT(assistant), "title", title );
+    /* need to set (gchar *) because title is const gchar, the good way should be my_strdup,
+     * but we don't touch/free title later so it should be ok... */
+    g_object_set_data ( G_OBJECT(assistant), "title", (gchar *) title );
     g_object_set_data ( G_OBJECT(assistant), "enter0", enter_callback );
 
     return assistant;

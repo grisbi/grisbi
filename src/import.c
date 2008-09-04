@@ -35,6 +35,7 @@
 #include "./gsb_account.h"
 #include "./gsb_account_property.h"
 #include "./gsb_assistant.h"
+#include "./gsb_assistant_file.h"
 #include "./gsb_automem.h"
 #include "./utils_buttons.h"
 #include "./gsb_combo_box.h"
@@ -202,6 +203,14 @@ void importer_fichier ( void )
     GSList * tmp = import_formats;
     gchar * formats = g_strdup("");
     GtkWidget * assistant;
+
+    /* if nothing opened, we need to create a new file to set up all the variables */
+    if (!gsb_data_currency_get_currency_list ())
+    {
+	init_variables ();
+	gsb_assistant_file_run (FALSE, TRUE);
+	return;
+    }
 
     liste_comptes_importes = NULL;
     liste_comptes_importes_error = NULL;
@@ -1386,9 +1395,9 @@ void cree_liens_virements_ope_import ( void )
 	    {
 		/* we have not found the contra-account */
 		gsb_data_transaction_set_contra_transaction_account ( transaction_number_tmp,
-								   0);
+								      0);
 		gsb_data_transaction_set_contra_transaction_number ( transaction_number_tmp,
-								       0);
+								     0);
 	    }
 	    else
 	    {
@@ -1399,6 +1408,11 @@ void cree_liens_virements_ope_import ( void )
 		while ( list_tmp_transactions_2 )
 		{
 		    gint contra_transaction_number_tmp;
+		    gchar *account_target_tmp = g_strconcat ("[",
+							     gsb_data_account_get_name (transaction_number_tmp),
+							     "]",
+							     NULL);
+
 		    contra_transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions_2 -> data);
 
 		    if ( gsb_data_transaction_get_account_number (contra_transaction_number_tmp) == contra_account_number
@@ -1407,10 +1421,7 @@ void cree_liens_virements_ope_import ( void )
 			 &&
 			 gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp )
 			 &&
-			 (!g_strcasecmp ( g_strconcat ("[", /* TODO dOm : fix memory leak */
-						       gsb_data_account_get_name (transaction_number_tmp),
-						       "]",
-						       NULL),
+			 (!g_strcasecmp ( account_target_tmp,
 					  gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp ))
 			  ||
 			  g_strcasecmp ( gsb_data_account_get_name (transaction_number_tmp),
@@ -1427,7 +1438,9 @@ void cree_liens_virements_ope_import ( void )
 			 !g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
 					   gsb_data_transaction_get_date (contra_transaction_number_tmp)))
 		    {
-			/* la 2ème opération correspond en tout point à la 1ère, on met les relations */
+			/* we have found the contra transaction, set all the values */
+			gint payment_number;
+
 			gsb_data_transaction_set_contra_transaction_number ( transaction_number_tmp,
 									       contra_transaction_number_tmp );
 			gsb_data_transaction_set_contra_transaction_account ( transaction_number_tmp,
@@ -1442,12 +1455,24 @@ void cree_liens_virements_ope_import ( void )
 								   NULL );
 			gsb_data_transaction_set_bank_references ( contra_transaction_number_tmp,
 								   NULL );
+
+			/* try to set the good method of payment to transfer */
+			payment_number = gsb_data_payment_get_transfer_payment_number (gsb_data_transaction_get_account_number (gsb_data_transaction_get_account_number (transaction_number_tmp)));
+			if (payment_number)
+			    gsb_data_transaction_set_method_of_payment_number (transaction_number_tmp, payment_number);
+
+			payment_number = gsb_data_payment_get_transfer_payment_number (gsb_data_transaction_get_account_number (gsb_data_transaction_get_account_number (contra_transaction_number_tmp)));
+			if (payment_number)
+			    gsb_data_transaction_set_method_of_payment_number (contra_transaction_number_tmp, payment_number);
 		    }
+
+		    if (account_target_tmp)
+			g_free (account_target_tmp);
+
 		    list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
 		}
 
 		/* if no contra-transaction, that transaction becomes normal */
-
 		if ( gsb_data_transaction_get_contra_transaction_account (transaction_number_tmp) == -2 )
 		{
 		    gsb_data_transaction_set_contra_transaction_account ( transaction_number_tmp,
@@ -1464,6 +1489,7 @@ void cree_liens_virements_ope_import ( void )
      * and the transfer was not written, we need to update the categories values
      * in the lists */
     transaction_list_update_element (ELEMENT_CATEGORY);
+    transaction_list_update_element (ELEMENT_TYPE);
 }
 
 
@@ -1544,10 +1570,10 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
 	g_strfreev ( tab_str );
     }
 
-    /* set the name */
+    /* set the name (the g_strstrip is VERY important !!!) */
     if ( imported_account -> nom_de_compte )
 	gsb_data_account_set_name ( account_number,
-				    imported_account -> nom_de_compte);
+				    g_strstrip (imported_account -> nom_de_compte));
     else
 	gsb_data_account_set_name ( account_number,
 				    _("Imported account"));
@@ -2107,15 +2133,18 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 				       2 );
 
 		/* get the category and create it if doesn't exist */
-
-		category_number = gsb_data_category_get_number_by_name ( g_strstrip (tab_str[0]),
+		if (tab_str[0])
+		    tab_str[0] = g_strstrip (tab_str[0]);
+		category_number = gsb_data_category_get_number_by_name ( tab_str[0],
 									 TRUE,
 									 imported_transaction -> montant.mantissa < 0 );
 		gsb_data_transaction_set_category_number ( transaction_number,
 							   category_number );
+		if (tab_str[1])
+		    tab_str[1] = g_strstrip (tab_str[1]);
 		gsb_data_transaction_set_sub_category_number ( transaction_number,
 							       gsb_data_category_get_sub_category_number_by_name ( category_number,
-														   g_strstrip (tab_str[1]),
+														   tab_str[1],
 														   TRUE ));
 	    }
 	}

@@ -763,7 +763,6 @@ gint gsb_data_account_get_no_account_by_name ( const gchar *account_name )
 	struct_account *account;
 
 	account = list_tmp -> data;
-
 	if ( !strcmp ( account -> account_name,
 		       account_name ))
 	    return account -> account_number;

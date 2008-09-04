@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -563,6 +563,39 @@ gboolean gsb_data_payment_set_automatic_numbering ( gint payment_number,
     return TRUE;
 }
 
+
+/**
+ * used to find easily the transfer payment number for an account
+ * while importing transactions and if grisbi found a link between 2 transactions,
+ * it tries to set transfer as method of payment and use that function
+ * if necessary, we can modify that function to find any method of payment,
+ * but it's not usefull for now...
+ *
+ * \param account_number	the account we want the transfer payment number
+ *
+ * \return the number of payment for transfer or 0 if not found
+ * */
+gint gsb_data_payment_get_transfer_payment_number ( gint account_number )
+{
+    GSList *tmp_list;
+
+    if (account_number < 0)
+	return 0;
+
+    tmp_list = payment_list;
+    while (tmp_list)
+    {
+	struct_payment *payment;
+
+	payment = tmp_list -> data;
+	if (payment -> account_number == account_number)
+	    if (!g_strcasecmp (payment -> payment_name, _("Transfer")))
+		return payment -> payment_number;
+
+	tmp_list = tmp_list -> next;
+    }
+    return 0;
+}
 
 /**
  * return the last_number of the method of payment
