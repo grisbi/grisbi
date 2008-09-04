@@ -128,6 +128,7 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GtkTreeModel *bank_list_model ;
 extern gchar *chemin_logo ;
+extern gint current_tree_view_width ;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
@@ -274,6 +275,7 @@ void init_variables ( void )
     adresse_secondaire = NULL;
 
     etat.largeur_auto_colonnes = 1;
+    current_tree_view_width = 0;
 
     liste_categ_etat = NULL;
 

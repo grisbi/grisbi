@@ -3402,8 +3402,13 @@ gboolean gsb_transactions_list_size_allocate ( GtkWidget *tree_view,
 	/* size of the tree view didn't change, but we received an allocated signal
 	 * it happens several times, and especially when we change the columns,
 	 * so we update the colums */
+
+	/* sometimes, when the list is not visible, he will set all the columns to 1%... we block that here */
+	if (gtk_tree_view_column_get_width (transactions_tree_view_columns[0]) == 1)
+	    return FALSE;
+
 	for (i=0 ; i<CUSTOM_MODEL_N_VISIBLES_COLUMN ; i++)
-		transaction_col_width[i] = (gtk_tree_view_column_get_width (transactions_tree_view_columns[i]) * 100) / allocation -> width + 1;
+	    transaction_col_width[i] = (gtk_tree_view_column_get_width (transactions_tree_view_columns[i]) * 100) / allocation -> width + 1;
 	return FALSE;
     }
 
