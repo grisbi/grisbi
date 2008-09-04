@@ -1906,6 +1906,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tShow_transaction_amount=\"%d\"\n"
 					       "\t\tShow_transaction_nb=\"%d\"\n"
 					       "\t\tShow_transaction_date=\"%d\"\n"
+					       "\t\tShow_transaction_value_date=\"%d\"\n"
 					       "\t\tShow_transaction_payee=\"%d\"\n"
 					       "\t\tShow_transaction_categ=\"%d\"\n"
 					       "\t\tShow_transaction_sub_categ=\"%d\"\n"
@@ -1984,6 +1985,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    gsb_data_report_get_show_report_transaction_amount (report_number),
 	    gsb_data_report_get_show_report_transaction_number (report_number),
 	    gsb_data_report_get_show_report_date (report_number),
+	    gsb_data_report_get_show_report_value_date (report_number),
 	    gsb_data_report_get_show_report_payee (report_number),
 	    gsb_data_report_get_show_report_category (report_number),
 	    gsb_data_report_get_show_report_sub_category (report_number),

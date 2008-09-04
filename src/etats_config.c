@@ -171,6 +171,7 @@ static GtkWidget *bouton_opes_r_etat = NULL;
 static GtkWidget *bouton_afficher_opes = NULL;
 static GtkWidget *bouton_afficher_nb_opes = NULL;
 static GtkWidget *bouton_afficher_date_opes = NULL;
+static GtkWidget *bouton_afficher_value_date_opes = NULL;
 static GtkWidget *bouton_afficher_tiers_opes = NULL;
 static GtkWidget *bouton_afficher_categ_opes = NULL;
 static GtkWidget *bouton_afficher_sous_categ_opes = NULL;
@@ -693,6 +694,8 @@ void personnalisation_etat (void)
 				   gsb_data_report_get_show_report_transaction_number (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_opes ),
 				   gsb_data_report_get_show_report_date (current_report_number));
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_value_date_opes ),
+				   gsb_data_report_get_show_report_value_date (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_tiers_opes ),
 				   gsb_data_report_get_show_report_payee (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_categ_opes ),
@@ -1413,6 +1416,8 @@ void recuperation_info_perso_etat ( void )
 							 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_ope )));
     gsb_data_report_set_show_report_date ( current_report_number,
 					   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_opes )));
+    gsb_data_report_set_show_report_value_date ( current_report_number,
+						 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_value_date_opes )));
     gsb_data_report_set_show_report_payee ( current_report_number,
 					    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_tiers_opes )));
     gsb_data_report_set_show_report_category ( current_report_number,
@@ -6317,10 +6322,10 @@ GtkWidget * onglet_affichage_etat_operations ( void )
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_date_opes );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_date_opes, 1, 2, 0, 1 );
 
-    bouton_afficher_exo_opes = gtk_check_button_new_with_label ( _("financial year") );
-    g_signal_connect ( G_OBJECT (bouton_afficher_exo_opes ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_exo_opes );
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_exo_opes, 2, 3, 0, 1 );
+    bouton_afficher_value_date_opes = gtk_check_button_new_with_label ( _("value date") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_value_date_opes ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_value_date_opes );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_value_date_opes, 2, 3, 0, 1 );
 
     bouton_afficher_tiers_opes = gtk_check_button_new_with_label ( _("payee") );
     g_signal_connect ( G_OBJECT (bouton_afficher_tiers_opes ), "destroy",
@@ -6366,6 +6371,11 @@ GtkWidget * onglet_affichage_etat_operations ( void )
     g_signal_connect ( G_OBJECT (bouton_afficher_pc_opes ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_pc_opes );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_pc_opes, 2, 3, 3, 4 );
+
+    bouton_afficher_exo_opes = gtk_check_button_new_with_label ( _("financial year") );
+    g_signal_connect ( G_OBJECT (bouton_afficher_exo_opes ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &bouton_afficher_exo_opes );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_afficher_exo_opes, 2, 3, 4, 5 );
 
     bouton_afficher_infobd_opes = gtk_check_button_new_with_label ( _("bank reference") );
     g_signal_connect ( G_OBJECT (bouton_afficher_infobd_opes ), "destroy",
@@ -6423,73 +6433,80 @@ GtkWidget * onglet_affichage_etat_operations ( void )
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
 
-    menu_item = gtk_menu_item_new_with_label ( _("transaction number"));
+    menu_item = gtk_menu_item_new_with_label ( _("value date"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 1 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
 
-    menu_item = gtk_menu_item_new_with_label ( _("payee"));
+    menu_item = gtk_menu_item_new_with_label ( _("transaction number"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 2 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
 
-    menu_item = gtk_menu_item_new_with_label ( _("category"));
+    menu_item = gtk_menu_item_new_with_label ( _("payee"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 3 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
 
-    menu_item = gtk_menu_item_new_with_label ( _("budgetary line"));
+    menu_item = gtk_menu_item_new_with_label ( _("category"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 4 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
 
-    menu_item = gtk_menu_item_new_with_label ( _("note"));
+    menu_item = gtk_menu_item_new_with_label ( _("budgetary line"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 5 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
 
-    menu_item = gtk_menu_item_new_with_label ( _("method of payment"));
+    menu_item = gtk_menu_item_new_with_label ( _("note"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 6 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
 
-    menu_item = gtk_menu_item_new_with_label ( _("cheque/transfer number"));
+    menu_item = gtk_menu_item_new_with_label ( _("method of payment"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 7 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
 
-    menu_item = gtk_menu_item_new_with_label ( _("voucher"));
+    menu_item = gtk_menu_item_new_with_label ( _("cheque/transfer number"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 8 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
 
-    menu_item = gtk_menu_item_new_with_label ( _("bank reference"));
+    menu_item = gtk_menu_item_new_with_label ( _("voucher"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 9 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
 
-    menu_item = gtk_menu_item_new_with_label ( _("reconciliation reference"));
+    menu_item = gtk_menu_item_new_with_label ( _("bank reference"));
     gtk_object_set_data ( GTK_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 10 ));
+    gtk_menu_append ( GTK_MENU ( menu ),
+		      menu_item );
+
+    menu_item = gtk_menu_item_new_with_label ( _("reconciliation reference"));
+    gtk_object_set_data ( GTK_OBJECT ( menu_item ),
+			  "no_classement",
+			  GINT_TO_POINTER ( 11 ));
     gtk_menu_append ( GTK_MENU ( menu ),
 		      menu_item );
 

@@ -80,6 +80,7 @@ gint gsb_data_report_get_show_report_sub_category ( gint report_number );
 gint gsb_data_report_get_show_report_transaction_amount ( gint report_number );
 gint gsb_data_report_get_show_report_transaction_number ( gint report_number );
 gint gsb_data_report_get_show_report_transactions ( gint report_number );
+gint gsb_data_report_get_show_report_value_date ( gint report_number );
 gint gsb_data_report_get_show_report_voucher ( gint report_number );
 gint gsb_data_report_get_sorting_report ( gint report_number );
 GSList *gsb_data_report_get_sorting_type ( gint report_number );
@@ -235,6 +236,8 @@ gboolean gsb_data_report_set_show_report_transaction_number ( gint report_number
 							      gint show_report_transaction_number );
 gboolean gsb_data_report_set_show_report_transactions ( gint report_number,
 							gint show_report_transactions );
+gboolean gsb_data_report_set_show_report_value_date ( gint report_number,
+						      gint show_report_value_date );
 gboolean gsb_data_report_set_show_report_voucher ( gint report_number,
 						   gint show_report_voucher );
 gboolean gsb_data_report_set_sorting_report ( gint report_number,

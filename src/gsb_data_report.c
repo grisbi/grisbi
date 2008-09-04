@@ -53,6 +53,7 @@ typedef struct
     gint show_report_transactions;
     gint show_report_transaction_amount;
     gint show_report_date;
+    gint show_report_value_date;
     gint show_report_payee;
     gint show_report_category;
     gint show_report_sub_category;
@@ -688,6 +689,48 @@ gboolean gsb_data_report_set_show_report_date ( gint report_number,
 	return FALSE;
 
     report -> show_report_date = show_report_date;
+
+    return TRUE;
+}
+
+/**
+ * get the  show_report_value_date
+ * 
+ * \param report_number the number of the report
+ *
+ * \return the show_report_value_date  of the report, -1 if problem
+ * */
+gint gsb_data_report_get_show_report_value_date ( gint report_number )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure (report_number);
+
+    if ( !report )
+	return -1;
+
+    return report -> show_report_value_date;
+}
+
+/** 
+ * set the show_report_value_date
+ * 
+ * \param report_number number of the report
+ * \param show_report_value_date
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_data_report_set_show_report_value_date ( gint report_number,
+						      gint show_report_value_date )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure (report_number);
+
+    if ( !report )
+	return FALSE;
+
+    report -> show_report_value_date = show_report_value_date;
 
     return TRUE;
 }

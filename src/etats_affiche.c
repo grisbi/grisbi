@@ -1270,6 +1270,25 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		g_free (text);
 	}
 
+	if ( gsb_data_report_get_show_report_value_date (current_report_number))
+	{
+	    text = gsb_format_gdate ( gsb_data_transaction_get_value_date (transaction_number));
+
+	    if ( gsb_data_report_get_report_can_click (current_report_number))
+	    {
+		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+	    }
+	    else
+	    {
+		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+	    }
+
+	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	    colonne = colonne + 2;
+	    if (text)
+		g_free (text);
+	}
+
 	if ( gsb_data_report_get_show_report_financial_year (current_report_number))
 	{
 	    if ( gsb_data_transaction_get_financial_year_number ( transaction_number))
@@ -2333,6 +2352,13 @@ gint etat_affiche_affiche_titres_colonnes ( gint ligne )
     if ( gsb_data_report_get_show_report_date (current_report_number))
     {
 	etat_affiche_attach_label ( _("Date"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
+	colonne = colonne + 2;
+    }
+
+    if ( gsb_data_report_get_show_report_value_date (current_report_number))
+    {
+	etat_affiche_attach_label ( _("Value date"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, 0 );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }

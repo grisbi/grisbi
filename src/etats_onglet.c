@@ -621,6 +621,8 @@ gboolean ajout_etat ( void )
 							   1 );
 	    gsb_data_report_set_show_report_date ( report_number,
 						   1 );
+	    gsb_data_report_set_show_report_value_date ( report_number,
+							 1 );
 	    gsb_data_report_set_show_report_payee ( report_number,
 						    1 );
 	    gsb_data_report_set_show_report_category ( report_number,
@@ -788,6 +790,8 @@ gboolean ajout_etat ( void )
 
 	    gsb_data_report_set_show_report_date ( report_number,
 						   1 );
+	    gsb_data_report_set_show_report_value_date ( report_number,
+							 1 );
 	    gsb_data_report_set_show_report_category ( report_number,
 						       1 );
 	    gsb_data_report_set_split_credit_debit ( report_number,
@@ -855,6 +859,8 @@ gboolean ajout_etat ( void )
 							   1 );
 	    gsb_data_report_set_show_report_date ( report_number,
 						   1 );
+	    gsb_data_report_set_show_report_value_date ( report_number,
+							 1 );
 	    gsb_data_report_set_show_report_payee ( report_number,
 						    1 );
 	    gsb_data_report_set_show_report_category ( report_number,

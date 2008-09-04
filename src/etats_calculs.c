@@ -1811,16 +1811,38 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    /* date  */
 
 	    return_value = g_date_compare ( gsb_data_transaction_get_date (transaction_number_1),
-				      gsb_data_transaction_get_date (transaction_number_2));
+					    gsb_data_transaction_get_date (transaction_number_2));
 	    break;
 
 	case 1:
+	    /* value date  */
+
+	    if (gsb_data_transaction_get_value_date (transaction_number_1))
+	    {
+		if (gsb_data_transaction_get_value_date (transaction_number_2))
+		    return_value = g_date_compare ( gsb_data_transaction_get_value_date (transaction_number_1),
+						    gsb_data_transaction_get_value_date (transaction_number_2));
+		else
+		    return_value = -1;
+	    }
+	    else
+	    {
+		if (gsb_data_transaction_get_value_date (transaction_number_2))
+		    return_value = 1;
+		else
+		    return_value = g_date_compare ( gsb_data_transaction_get_date (transaction_number_1),
+						    gsb_data_transaction_get_date (transaction_number_2));
+	    }
+
+	    break;
+
+	case 2:
 	    /* no opé  */
 
 	    return_value = transaction_number_1 - transaction_number_2;
 	    break;
 
-	case 2:
+	case 3:
 	    /* tiers  */
 
 	    if ( !gsb_data_transaction_get_party_number ( transaction_number_1)
@@ -1832,7 +1854,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 					gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number_2), TRUE ));
 	    break;
 
-	case 3:
+	case 4:
 	    /* categ  */
 
 	    if ( !gsb_data_transaction_get_category_number ( transaction_number_1)
@@ -1857,7 +1879,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    }
 	    break;
 
-	case 4:
+	case 5:
 	    /* ib  */
 
 	    if ( !gsb_data_transaction_get_budgetary_number ( transaction_number_1)
@@ -1882,7 +1904,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    }
 	    break;
 
-	case 5:
+	case 6:
 	    /* note si une des 2 opés n'a pas de notes, elle va en 2ème */
 
 	    if ( gsb_data_transaction_get_notes ( transaction_number_1)
@@ -1894,7 +1916,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 		return_value = GPOINTER_TO_INT ( gsb_data_transaction_get_notes ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_notes ( transaction_number_1));
 	    break;
 
-	case 6:
+	case 7:
 	    /* type ope  */
 
 	    if ( !gsb_data_transaction_get_method_of_payment_number ( transaction_number_1)
@@ -1910,7 +1932,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    }
 	    break;
 
-	case 7:
+	case 8:
 	    /* no chq  */
 
 	    if ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_1)
@@ -1922,7 +1944,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 		return_value = GPOINTER_TO_INT ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_method_of_payment_content ( transaction_number_1));
 	    break;
 
-	case 8:
+	case 9:
 	    /* pc  */
 
 	    if ( gsb_data_transaction_get_voucher ( transaction_number_1)
@@ -1934,7 +1956,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 		return_value = GPOINTER_TO_INT ( gsb_data_transaction_get_voucher ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_voucher ( transaction_number_1));
 	    break;
 
-	case 9:
+	case 10:
 	    /* ibg  */
 
 	    if ( gsb_data_transaction_get_bank_references ( transaction_number_1)
@@ -1946,7 +1968,7 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 		return_value = GPOINTER_TO_INT ( gsb_data_transaction_get_bank_references ( transaction_number_2)) - GPOINTER_TO_INT ( gsb_data_transaction_get_bank_references ( transaction_number_1));
 	    break;
 
-	case 10:
+	case 11:
 	    /* no rappr  */
 
 	    if ( !gsb_data_transaction_get_reconcile_number ( transaction_number_1)
@@ -2194,6 +2216,7 @@ pas_decalage:
     if ( gsb_data_report_get_show_report_transactions (current_report_number))
     {
 	nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_date (current_report_number);
+	nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_value_date (current_report_number);
 	nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_payee (current_report_number);
 	nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_category (current_report_number);
 	nb_colonnes = nb_colonnes + gsb_data_report_get_show_report_budget (current_report_number);

@@ -3087,6 +3087,15 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	}
 
 	if ( !strcmp ( attribute_names[i],
+		       "Show_transaction_value_date" ))
+	{
+	    gsb_data_report_set_show_report_value_date ( report_number,
+							 utils_str_atoi (attribute_values[i]));
+	    i++;
+	    continue;
+	}
+
+	if ( !strcmp ( attribute_names[i],
 		       "Show_transaction_payee" ))
 	{
 	    gsb_data_report_set_show_report_payee ( report_number,
