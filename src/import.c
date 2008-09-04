@@ -2150,8 +2150,8 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	}
 	else
 	{
-	    gsb_data_transaction_set_category_number ( transaction_number, -1 );
-	    gsb_data_transaction_set_sub_category_number ( transaction_number, -1 );
+	    gsb_data_transaction_set_category_number ( transaction_number, 0 );
+	    gsb_data_transaction_set_sub_category_number ( transaction_number, 0 );
 	}
     }
 

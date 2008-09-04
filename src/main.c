@@ -81,7 +81,6 @@ extern gint largeur_window;
 extern gchar *nom_fichier_comptes ;
 /*END_EXTERN*/
 
-
 /**                                                                              
  * Main function
  *
@@ -161,7 +160,6 @@ int main (int argc, char **argv)
 #ifdef HAVE_PLUGINS
     gsb_plugins_scan_dir ( PLUGINS_DIR );
 #endif
-
     /* create the icon of grisbi (set in the panel of gnome or other) */
     string = g_build_filename ( PIXMAPS_DIR, "grisbi.png", NULL );
     if (g_file_test ( string,

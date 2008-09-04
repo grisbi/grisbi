@@ -140,7 +140,6 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	g_free ( tmp );
 
 	plugins = g_slist_append ( plugins, plugin );
-
     }
 
     g_dir_close ( plugin_dir );
