@@ -3409,6 +3409,7 @@ gboolean gsb_transactions_list_size_allocate ( GtkWidget *tree_view,
 
 	for (i=0 ; i<CUSTOM_MODEL_N_VISIBLES_COLUMN ; i++)
 	    transaction_col_width[i] = (gtk_tree_view_column_get_width (transactions_tree_view_columns[i]) * 100) / allocation -> width + 1;
+	modification_fichier (TRUE);
 	return FALSE;
     }
 

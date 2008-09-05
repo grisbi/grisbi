@@ -304,6 +304,10 @@ void init_variables ( void )
     etat.combofix_force_payee = FALSE;
     etat.combofix_force_category = FALSE;
     
+    /* archive stuff */
+    etat.check_for_archival = TRUE;
+    etat.max_non_archived_transactions_for_check = 2000;
+
     /* defaut value for width of columns */
     for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
 	transaction_col_width[i] = transaction_col_width_init[i];

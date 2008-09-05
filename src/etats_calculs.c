@@ -1835,7 +1835,10 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    }
 
 	    break;
-
+/* xxx en suis ici */
+/*     vient de faire la value date, il faudrait en profiter pour ajouter dans l'état les sous categs */
+/*     un bug aussi, qd crée un nouveau compte, il met le nb d'opé pour mettre le message qu'il faut archiver à 0 */
+/*     du coup dès que ouvre, il met un message si on veut archiver */
 	case 2:
 	    /* no opé  */
 

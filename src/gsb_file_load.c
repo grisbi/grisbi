@@ -7199,7 +7199,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 	     * untill 0.6, no archive, so by default we let grisbi check at opening and set
 	     * the transactions limit to 1000 */
 	    etat.check_for_archival = TRUE;
-	    etat.max_non_archived_transactions_for_check = 1000;
+	    etat.max_non_archived_transactions_for_check = 2000;
 
 	    /**
 	     * new in 0.6, there is no name for saving file but a directory
@@ -7263,7 +7263,9 @@ gboolean gsb_file_load_update_previous_version ( void )
     /* check now if a lot of transactions,
      * if yes, we propose to file the transactions
      * by default take the 2000 transactions as limit */
-    if ( g_slist_length (gsb_data_transaction_get_transactions_list ()) > 
+    if ( etat.check_for_archival
+	 &&
+	 g_slist_length (gsb_data_transaction_get_transactions_list ()) > 
 	 etat.max_non_archived_transactions_for_check )
 	    gsb_assistant_archive_run (TRUE);
 
