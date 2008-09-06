@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-02 22:54-0400\n"
-"PO-Revision-Date: 2008-09-03 12:59+0200\n"
+"PO-Revision-Date: 2008-09-06 03:15+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3836,6 +3836,10 @@ msgid ""
 "Many other options are available in the configuration window.\n"
 "Thanks for using Grisbi, enjoy!"
 msgstr ""
+"Esta es la primera vez que inicia Grisbi, este asistente le ayudará a "
+"configurarlo. Puede cambiar cualquier opción más tarde en la página de configuración.\n"
+"Hay muchas más opciones disponibles en la ventana de configuración.\n"
+"Gracias por usar Grisbi ¡Diviértase!"
 
 #. create the assistant
 #: src/gsb_assistant_first.c:125
@@ -3857,6 +3861,18 @@ msgid ""
 "\n"
 "You can find out other improvements on http://www.grisbi.org/."
 msgstr ""
+"Está usando Grisbi 0.6 por primera vez,  Aunque la mayor parte de la interfaz "
+"no ha cambiado, notará muchas mejoras. No dude en leer algunos "
+"consejos del día para aprender más de las nuevas características.\n"
+"\n"
+"Dentro de las mejoras más significativas de Grisbi, hemos rediseñado la "
+"función de copias de seguridad. A partir de ahora Grisbi guardará copias de seguridad "
+"en un directorio que podrá indicar en las próximas pantallas.\n"
+"\n"
+"También le aconsejamos que configura el navegador de internet a la configuración de "
+"su sistema y que configure las siguientes opciones en la próxima pantalla.\n"
+"\n"
+"Puede encontrar otras mejoras en http://www.grisbi.org/."
 
 #: src/gsb_assistant_first.c:181
 msgid "General configuration of Grisbi"
@@ -3934,6 +3950,16 @@ msgid ""
 "precisely (you will be able to create new reconciliations in the next step). "
 "Previous reconciliations will be available too."
 msgstr ""
+"Grisbi encontró %d transacciones marcadas que no están asociadas con un número "
+"de reconciliación, esto puede ocurrirle a los antiguos usuarios de Grisbi o por un mal "
+"uso del atajo de teclado Ctrl-R.\n"
+"\n"
+"Este asistente le ayudará a relacionar estas transacciones y una reconciliación.\n"
+"\n"
+"Antes de continuar debería comprobar si todas las fechas de las reconciliaciones existentes "
+"son correctas porque Grisbi tratará de averiguarlas de una forma no muy precisa (podrá "
+"crear nuevas reconciliaciones en el paso siguiente). Las reconciliaciones previas "
+"también estarán disponibles."
 
 #: src/gsb_assistant_reconcile_config.c:198
 msgid "Associate orphan transactions to a reconciliation"
@@ -3977,6 +4003,8 @@ msgid ""
 "needed reconciles\n"
 "\tand adjust the date of the known reconciles."
 msgstr ""
+"\tEsto hará todo el trabajo por usted si crea previamente todas las reconciliaciones necesarias\n"
+"\ty ajusta la fecha de las reconciliaciones conocidas."
 
 #: src/gsb_assistant_reconcile_config.c:332
 msgid ""
@@ -4014,6 +4042,11 @@ msgid ""
 "assistant\n"
 "menu page) or check the transactions themselves."
 msgstr ""
+"Este asistente intentará encontrar una reconciliación para cada transacción huérfana,\n"
+"de acuerdo con la fecha de la transacción y las fechas de la reconciliación.\n"
+"Si todas las transacciones huérfanas no pueden relacionarse aquí, debería comprobar\n"
+"si creó todas las reconciliaciones necesarias (primero elija en la página\n"
+"del asistente de menús) o compruebe las transacciones."
 
 #: src/gsb_assistant_reconcile_config.c:591
 msgid "Launch automatic association"
@@ -9801,9 +9834,8 @@ msgid "A transaction with a multiple payee must be a new one."
 msgstr "Una transacción con múltiples terceros debe ser nueva."
 
 #: src/gsb_form.c:2550
-#, fuzzy
 msgid "A transaction with a multiple payee cannot be a breakdown child."
-msgstr "Una transacción con múltiples terceras partes debe ser nueva."
+msgstr "Una transacción con múltiples terceros no puede ser el hijo de un desglose."
 
 #: src/gsb_form.c:2561
 msgid "The word \"Report\" is reserved. Please use another one."
@@ -9814,9 +9846,8 @@ msgid "Invalid multiple payee."
 msgstr "Múltiples terceros no válidos."
 
 #: src/gsb_form.c:2807
-#, fuzzy
 msgid "Modifying a transaction"
-msgstr "Marcar las transacciones como R"
+msgstr "Modificando una transacción"
 
 #: src/gsb_form.c:2808
 msgid ""
@@ -10090,9 +10121,8 @@ msgstr "Finalizar"
 
 #. Activate in transaction form?
 #: src/gsb_fyear_config.c:251
-#, fuzzy
 msgid "Activate financial year in transaction form"
-msgstr "Activar en forma de transacción"
+msgstr "Activar el año financiero en el formulario de la transacción"
 
 #: src/gsb_fyear_config.c:280
 msgid "Begin date"
@@ -10107,9 +10137,8 @@ msgid "New financial year"
 msgstr "Nuevo año financiero"
 
 #: src/gsb_fyear_config.c:708
-#, fuzzy
 msgid "The selected financial year is used in the file"
-msgstr "Último año financiero seleccionado"
+msgstr "El año financiero seleccionado esta siendo usado en el fichero"
 
 #: src/gsb_fyear_config.c:709
 msgid ""
@@ -10138,14 +10167,13 @@ msgstr ""
 "la transacción no será cambiada."
 
 #: src/gsb_fyear_config.c:793
-#, fuzzy, c-format
+#, c-format
 msgid "%d transactions associated"
-msgstr "Hacer las transacciones cliqueables"
+msgstr "%d transacciones asociadas"
 
 #: src/gsb_fyear_config.c:801
-#, fuzzy
 msgid "no transaction to associate"
-msgstr "Transferir transacciones a la categoría"
+msgstr "no hay transacciones para asociar"
 
 #: src/gsb_payment_method_config.c:123
 msgid "Known payment methods"
@@ -10470,9 +10498,8 @@ msgstr "Sólo ésta"
 
 #. set the title
 #: src/gsb_scheduler_list.c:1597 src/navigation.c:1208
-#, fuzzy
 msgid "Scheduled transactions"
-msgstr "Transacciones programadas cerradas"
+msgstr "Transacciones programadas"
 
 #: src/gsb_scheduler_list.c:1622
 msgid "days"
@@ -10495,9 +10522,8 @@ msgid "Scheduler frequency"
 msgstr "Frecuencia del programador de tareas"
 
 #: src/gsb_scheduler_list.c:1641
-#, fuzzy
 msgid "Show transactions for the next "
-msgstr "Seleccionar las transacciones de acuerdo con el texto"
+msgstr "Seleccionar transacciones para las siguientes"
 
 #: src/gsb_transactions_list.c:162
 msgid "Cheque number"
@@ -10619,9 +10645,8 @@ msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr "Grisbi no puedo obtener la selección, se ha cancelado la operación..."
 
 #: src/gsb_transactions_list.c:1902
-#, fuzzy
 msgid "Impossible to delete an archived transaction."
-msgstr "Es imposible borrar una transacción reconciliada."
+msgstr "Es imposible borrar una transacción archivada."
 
 #: src/gsb_transactions_list.c:1911
 msgid ""
@@ -10704,6 +10729,11 @@ msgid ""
 "\n"
 "Sow the R transactions to make them visible."
 msgstr ""
+"Acaba de recuperar un archivo, si no ve ninguna transacción nueva, "
+"recuerde que las transacciones R no se muestran por lo que están ciertamente "
+"ocultas...\n"
+"\n"
+"Muestre las transacciones R para hacerlas visibles."
 
 #: src/gsb_transactions_list_sort.c:358
 #, fuzzy, c-format
@@ -10929,9 +10959,8 @@ msgstr "No se puede asociar el código ISO 4217 para la moneda '%s'."
 
 #. invert amount of transactions
 #: src/import.c:1182
-#, fuzzy
 msgid "Invert the amount of the imported transactions"
-msgstr " días alrededor de la fecha en la transacción importada."
+msgstr "Invertir la cantidad de las transacciones importadas"
 
 #: src/import.c:1194
 msgid "Create a rule for this import. Name of the rule : "
@@ -10947,9 +10976,8 @@ msgstr ""
 "a esa regla. Por favor, elija un nombre o déjelo en blanco para cancelar la creación de la regla."
 
 #: src/import.c:1338
-#, fuzzy
 msgid "No name for the import rule"
-msgstr "No se puede abrir el archivo '%s'"
+msgstr "No hay un nombre para la regla de importación"
 
 #: src/import.c:1338
 msgid "Name of the rule :"
@@ -11190,9 +11218,8 @@ msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "Este archivo no es un archivo de líneas presupuestarias de Grisbi"
 
 #: src/imputation_budgetaire.c:524
-#, fuzzy
 msgid "Delete selected budgetary line"
-msgstr "Borrar una línea presupuestaria"
+msgstr "Borrar la línea presupuestaria seleccionada"
 
 #: src/imputation_budgetaire.c:534
 #, fuzzy
@@ -11498,9 +11525,9 @@ msgid "Just remove this %s."
 msgstr "Tan sólo borre este %s."
 
 #: src/metatree.c:1725
-#, fuzzy, c-format
+#, c-format
 msgid "Just remove this sub-%s."
-msgstr "Sólo borrar esta subcategoría"
+msgstr "Sólo borrar esta sub-%s"
 
 #: src/metatree.c:1748
 #, c-format
@@ -11862,9 +11889,8 @@ msgid "OFX processing returned following error message:\n"
 msgstr "El procesado OFX devolvió el siguiente mensaje de error:\n"
 
 #: src/plugins/ofx/ofx.c:230
-#, fuzzy
 msgid "OFX processing returned an error message which is not valid."
-msgstr "El archivo ha devuelto un mensaje de aviso que no es válido."
+msgstr "El procesado OFX ha devuelto un mensaje de aviso que no es válido."
 
 #: src/plugins/ofx/ofx.c:369
 msgid "A transaction try to be saved but no account was created...\n"
@@ -12131,6 +12157,11 @@ msgid ""
 "The child won't be appended to the list and Grisbi won't crash,\n"
 "but please contact the Grisbi's team to fix the problem."
 msgstr ""
+"Mientras intentaba añadir un hijo al desglose en la vista de árbol ona de las madres del "
+"hijo número %d no se pudo encontrar.\n"
+"Esto es un fallo y no debería ocurrir.\n"
+"Este hijo no será añadido a la lista y Grisbi no se cerrará,\n"
+"pero por favor, contacte con el equipo de Grisbi para solucionar el problema."
 
 #: src/transaction_list.c:1470
 #, c-format
@@ -12139,6 +12170,9 @@ msgid ""
 "white line was created before... Better to stop here, please contact the "
 "Grisbi team to fix that issue."
 msgstr ""
+"Intentando añadir el hijo número %d a la madre %d en el modelo, pero no se creó "
+"una línea blanca anteriormente.... Mejor parar aquí, por favor contacte con el equipo "
+"de Grisbi para solucionar este problema."
 
 #: src/transaction_list_sort.c:136
 #, c-format
