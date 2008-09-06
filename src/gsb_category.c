@@ -726,7 +726,7 @@ const gchar *liberal_category_list [] = {
 };
 
 const gchar *category_choice_list [] = {
-    N_("Don't create any list, i will do it by myself or it will be imported"),
+    N_("Don't create any list, I will do it by myself or it will be imported"),
     N_("General category list (most common choice)"),
     N_("Association category list (in french for now, special categories to associations)"),
     N_("Liberal category list (in french for now, to use Grisbi for a small business)"),
