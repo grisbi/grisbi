@@ -1130,15 +1130,15 @@ msgid "Transport : Travels"
 msgstr ""
 
 #: src/categories_onglet.c:152
-msgid "Hollydays : Housing"
+msgid "Holiday : Housing"
 msgstr ""
 
 #: src/categories_onglet.c:153
-msgid "Hollydays : Visits"
+msgid "Holiday : Visits"
 msgstr ""
 
 #: src/categories_onglet.c:154
-msgid "Hollydays : Travels"
+msgid "Holiday : Travels"
 msgstr ""
 
 #: src/categories_onglet.c:158
