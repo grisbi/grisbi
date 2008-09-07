@@ -8,13 +8,13 @@
  *     (at your option) any later version.
  *
  *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of 
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
- *     GNU General Public License for more details. 
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
  *
- *     You should have received a copy of the GNU General Public License 
- *     along with this program; if not, write to the Free Software 
- *     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program; if not, write to the Free Software
+ *     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 /*
@@ -22,14 +22,14 @@
  *
  * TODO : change the color of each line in the graph :
  * red if balance is less than 0.
- * orange if balance is less than the minimum wanted balance. 
+ * orange if balance is less than the minimum wanted balance.
  * TODO : add a select button to display the selected line in the array
  * in the scheduler tab or in the account tab.
  */
-#include "include.h" 
+#include "include.h"
 #include <config.h>
 
-#ifdef ENABLE_BALANCE_ESTIMATE 
+#ifdef ENABLE_BALANCE_ESTIMATE
 
 /*START_INCLUDE*/
 #include "balance_estimate_tab.h"
@@ -84,12 +84,12 @@ enum bet_estimation_tree_columns {
 	SPP_ESTIMATE_TREE_NUM_COLUMNS
 };
 static gchar* bet_duration_array[] = {
-	"One month",
-	"Two months",
-	"Three months",
-	"Six months",
-	"One year",
-	"Two years",
+	N_("One month"),
+	N_("Two months"),
+	N_("Three months"),
+	N_("Six months"),
+	N_("One year"),
+	N_("Two years"),
 	NULL
 };
 static gint bet_months_array[] = {
@@ -107,7 +107,7 @@ static GtkWidget *bet_container = NULL;
 gint bet_date_sort_function (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data);
 
 /*
- * bet_duration_button_clicked 
+ * bet_duration_button_clicked
  * This function is called when a radio button is called to change the estimate duration.
  * It copies the new durations from the data parameter (of the radio button) into
  * the bet_months property of the bet container
@@ -115,13 +115,13 @@ gint bet_date_sort_function (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b
 static void bet_duration_button_clicked (GtkToggleButton *togglebutton, gpointer data)
 {
 	gint months = GPOINTER_TO_INT(data);
-    	g_object_set_data (G_OBJECT(bet_container), 
+    	g_object_set_data (G_OBJECT(bet_container),
 		"bet_months", GINT_TO_POINTER(months));
 	bet_estimate_refresh();
 }
 
 /*
- * bet_account_selection_changed 
+ * bet_account_selection_changed
  * This function is called for each change in the selected line in the account list.
  * It refreshs balance estimation.
  */
@@ -150,9 +150,9 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	gtk_widget_show(GTK_WIDGET(widget));
 	GtkWidget *page = gtk_vbox_new(FALSE, 5);
 	gtk_widget_show(GTK_WIDGET(page));
-	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), 
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
 		GTK_WIDGET(page), GTK_WIDGET(widget));
-	
+
 	GtkWidget *hbox = gtk_hbox_new(FALSE, 5);
 	gtk_widget_show(GTK_WIDGET(hbox));
 	gtk_box_pack_start(GTK_BOX(page), hbox, FALSE, FALSE, 15);
@@ -171,7 +171,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	hbox = gtk_hbox_new(FALSE, 5);
 	gtk_widget_show(GTK_WIDGET(hbox));
 	gtk_box_pack_start(GTK_BOX(page), hbox, FALSE, FALSE, 5);
-	
+
 	/* create the account list */
 	GtkWidget *tree_view = gtk_tree_view_new();
     	g_object_set_data (G_OBJECT(notebook), "bet_account_treeview", tree_view);
@@ -194,10 +194,10 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 
 	GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
 	GtkTreeViewColumn *column = gtk_tree_view_column_new_with_attributes (
-		_("Account"), cell, 
-		"text", SPP_ACCOUNT_TREE_NAME_COLUMN, 
+		_("Account"), cell,
+		"text", SPP_ACCOUNT_TREE_NAME_COLUMN,
 		NULL);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), 
+	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view),
 		GTK_TREE_VIEW_COLUMN(column));
 
 	/* create duration selection */
@@ -229,15 +229,15 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	}
 
 	/****** Estimation array page ******/
-	widget = gtk_label_new("Estimate array");
+	widget = gtk_label_new(_("Estimate array"));
 	gtk_widget_show(widget);
 	vbox = gtk_vbox_new(FALSE, 5);
 	gtk_widget_show(GTK_WIDGET(vbox));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
 		GTK_WIDGET(vbox), GTK_WIDGET(widget));
-	
+
 	/* create the title */
-	widget = gtk_label_new("Estimation array");
+	widget = gtk_label_new(_("Estimation array"));
 	gtk_widget_show(GTK_WIDGET(widget));
 	gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(widget), FALSE, FALSE, 5);
     	g_object_set_data (G_OBJECT(notebook), "bet_array_title", widget);
@@ -246,7 +246,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	tree_view = gtk_tree_view_new();
     	g_object_set_data (G_OBJECT(bet_container), "bet_estimate_treeview", tree_view);
 	gtk_widget_show(tree_view);
-	tree_model = gtk_tree_store_new(SPP_ESTIMATE_TREE_NUM_COLUMNS, 
+	tree_model = gtk_tree_store_new(SPP_ESTIMATE_TREE_NUM_COLUMNS,
 		G_TYPE_STRING, /* SPP_ESTIMATE_TREE_DATE_COLUMN */
 		G_TYPE_STRING, /* SPP_ESTIMATE_TREE_DESC_COLUMN */
 		G_TYPE_STRING, /* SPP_ESTIMATE_TREE_DEBIT_COLUMN */
@@ -256,7 +256,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	gtk_tree_view_set_model(GTK_TREE_VIEW(tree_view), GTK_TREE_MODEL(tree_model));
 	g_object_unref (G_OBJECT(tree_model));
 
-	/* sort by date */ 
+	/* sort by date */
 	gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(tree_model),
 					  SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
 					  (GtkTreeIterCompareFunc) bet_date_sort_function,
@@ -270,26 +270,26 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_container_add (GTK_CONTAINER(scrolled_window), tree_view);
 	gtk_widget_show(scrolled_window);
-	gtk_box_pack_start(GTK_BOX(vbox), 
+	gtk_box_pack_start(GTK_BOX(vbox),
 		GTK_WIDGET(scrolled_window), TRUE, TRUE, 5);
 
 	/* Date column */
 	cell = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (
-		_("Date"), cell, 
-		"text", SPP_ESTIMATE_TREE_DATE_COLUMN, 
+		_("Date"), cell,
+		"text", SPP_ESTIMATE_TREE_DATE_COLUMN,
 		NULL);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), 
+	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view),
 		GTK_TREE_VIEW_COLUMN(column));
 	gtk_tree_view_column_set_min_width(GTK_TREE_VIEW_COLUMN(column), 160);
 
 	/* Description column */
 	cell = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (
-		_("Description"), cell, 
-		"text", SPP_ESTIMATE_TREE_DESC_COLUMN, 
+		_("Description"), cell,
+		"text", SPP_ESTIMATE_TREE_DESC_COLUMN,
 		NULL);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), 
+	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view),
 		GTK_TREE_VIEW_COLUMN(column));
 	gtk_tree_view_column_set_min_width(column, 300);
 	gtk_tree_view_column_set_expand(GTK_TREE_VIEW_COLUMN(column), TRUE);
@@ -297,10 +297,10 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	/* Debit column */
 	cell = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (
-		_("Debit"), cell, 
-		"text", SPP_ESTIMATE_TREE_DEBIT_COLUMN, 
+		_("Debit"), cell,
+		"text", SPP_ESTIMATE_TREE_DEBIT_COLUMN,
 		NULL);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), 
+	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view),
 		GTK_TREE_VIEW_COLUMN(column));
 	gtk_tree_view_column_set_min_width(column, 150);
 	g_object_set(G_OBJECT(GTK_CELL_RENDERER(cell)), "xalign", 1.0, NULL );
@@ -311,10 +311,10 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	cell = gtk_cell_renderer_text_new ();
 	g_object_set(G_OBJECT(GTK_CELL_RENDERER(cell)), "xalign", 1, NULL );
 	column = gtk_tree_view_column_new_with_attributes (
-		_("Credit"), cell, 
-		"text", SPP_ESTIMATE_TREE_CREDIT_COLUMN, 
+		_("Credit"), cell,
+		"text", SPP_ESTIMATE_TREE_CREDIT_COLUMN,
 		NULL);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), 
+	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view),
 		GTK_TREE_VIEW_COLUMN(column));
 	gtk_tree_view_column_set_min_width(column, 150);
 	g_object_set(G_OBJECT(GTK_CELL_RENDERER(cell)), "xalign", 1.0, NULL );
@@ -324,33 +324,33 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	/* Average column */
 	cell = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (
-		_("Average"), cell, 
-		"text", SPP_ESTIMATE_TREE_BALANCE_COLUMN, 
+		_("Average"), cell,
+		"text", SPP_ESTIMATE_TREE_BALANCE_COLUMN,
 		NULL);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view), 
+	gtk_tree_view_append_column(GTK_TREE_VIEW(tree_view),
 		GTK_TREE_VIEW_COLUMN(column));
 	gtk_tree_view_column_set_min_width(column, 170);
 	g_object_set(G_OBJECT(GTK_CELL_RENDERER(cell)), "xalign", 1.0, NULL );
 	gtk_tree_view_column_set_alignment(column, 1);
 	gtk_tree_view_column_set_expand(GTK_TREE_VIEW_COLUMN(column), FALSE);
-	
+
 	/****** Estimation graph page ******/
-	widget = gtk_label_new("Previson graph");
+	widget = gtk_label_new(_("Previson graph"));
 	gtk_widget_show(widget);
 	vbox = gtk_vbox_new(FALSE, 5);
 	gtk_widget_show(GTK_WIDGET(vbox));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
 		GTK_WIDGET(vbox), GTK_WIDGET(widget));
-	
+
 	/* create the title */
-	widget = gtk_label_new("Estimation graph");
+	widget = gtk_label_new(_("Estimation graph"));
 	gtk_widget_show(GTK_WIDGET(widget));
 	gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(widget), FALSE, FALSE, 5);
     	g_object_set_data (G_OBJECT(notebook), "bet_graph_title", widget);
 
 	widget = gtk_curve_new();
 	gtk_widget_show(GTK_WIDGET(widget));
-	gtk_box_pack_start(GTK_BOX(vbox), 
+	gtk_box_pack_start(GTK_BOX(vbox),
 		GTK_WIDGET(widget), TRUE, TRUE, 5);
     	g_object_set_data (G_OBJECT(notebook), "bet_graph_curve", widget);
 
@@ -384,7 +384,7 @@ void bet_update_balance_estimate_tab(void)
 			continue;
 		gchar* account_name = gsb_data_account_get_name(i);
 		gtk_tree_store_append (GTK_TREE_STORE(tree_model), &iter, NULL);
-		gtk_tree_store_set(GTK_TREE_STORE(tree_model), &iter, 
+		gtk_tree_store_set(GTK_TREE_STORE(tree_model), &iter,
 			SPP_ACCOUNT_TREE_NAME_COLUMN, account_name, -1);
 		/* select the previous selected account */
 		if (previous_account_name && strcmp(account_name, previous_account_name) == 0)
@@ -406,7 +406,7 @@ void bet_update_balance_estimate_tab(void)
 }
 
 /*
- * bet_date_sort_function 
+ * bet_date_sort_function
  * This function is called by the Tree Model to sort
  * two lines by date.
  */
@@ -416,7 +416,7 @@ static gint bet_date_sort_function (GtkTreeModel *model, GtkTreeIter *itera, Gtk
 
 	/* get first date to compare */
 	GValue date_value_a = {0,};
-	gtk_tree_model_get_value(GTK_TREE_MODEL(model), itera, 
+	gtk_tree_model_get_value(GTK_TREE_MODEL(model), itera,
 		SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
 		&date_value_a);
 	GDate* datea = g_value_get_boxed(&date_value_a);
@@ -425,7 +425,7 @@ static gint bet_date_sort_function (GtkTreeModel *model, GtkTreeIter *itera, Gtk
 
 	/* get second date to compare */
 	GValue date_value_b = {0,};
-	gtk_tree_model_get_value(GTK_TREE_MODEL(model), iterb, 
+	gtk_tree_model_get_value(GTK_TREE_MODEL(model), iterb,
 		SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
 		&date_value_b);
 	GDate* dateb = g_value_get_boxed(&date_value_b);
@@ -436,8 +436,8 @@ static gint bet_date_sort_function (GtkTreeModel *model, GtkTreeIter *itera, Gtk
 
 	g_value_unset(&date_value_b);
 	g_value_unset(&date_value_a);
-	
-	return result; 
+
+	return result;
 }
 
 /*
@@ -453,7 +453,7 @@ static gboolean bet_update_average_column (GtkTreeModel *model, GtkTreePath *pat
 	struct bet_range* tmp_range = (struct bet_range*)data;
 
 	gchar* date = NULL;
-	gtk_tree_model_get(model, iter, SPP_ESTIMATE_TREE_DATE_COLUMN, 
+	gtk_tree_model_get(model, iter, SPP_ESTIMATE_TREE_DATE_COLUMN,
 		&date, -1);
 
 	gchar* str = NULL;
@@ -471,7 +471,7 @@ static gboolean bet_update_average_column (GtkTreeModel *model, GtkTreePath *pat
 
 	tmp_range->current_balance = gsb_real_add(tmp_range->current_balance, amount);
 	gchar* str_balance = gsb_real_get_string(tmp_range->current_balance);
-	gtk_tree_store_set(GTK_TREE_STORE(model), iter, 
+	gtk_tree_store_set(GTK_TREE_STORE(model), iter,
 		SPP_ESTIMATE_TREE_BALANCE_COLUMN, str_balance,
 		-1);
 	g_free(str_balance);
@@ -485,7 +485,7 @@ static gboolean bet_update_average_column (GtkTreeModel *model, GtkTreePath *pat
 }
 
 /*
- * bet_update_graph 
+ * bet_update_graph
  * This function is called for each line of the estimate array and it updates
  * the graph.
  */
@@ -500,12 +500,12 @@ static gboolean bet_update_graph (GtkTreeModel *model, GtkTreePath *path, GtkTre
 
 	/* get date */
 	GValue date_value = {0,};
-	gtk_tree_model_get_value(GTK_TREE_MODEL(model), iter, 
+	gtk_tree_model_get_value(GTK_TREE_MODEL(model), iter,
 		SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
 		&date_value);
 		/*
 	GDate* date = g_value_get_boxed(&date_value);
-	guint32 dt = g_date_get_julian(date); 
+	guint32 dt = g_date_get_julian(date);
 	*/
 	g_value_unset(&date_value);
 
@@ -530,8 +530,8 @@ static void bet_estimate_refresh()
 	if (!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(tree_selection), &tree_model, &iter))
 	{
 		GtkWidget* dialog = gtk_message_dialog_new (GTK_WINDOW(window),
-			GTK_DIALOG_DESTROY_WITH_PARENT, 
-			GTK_MESSAGE_ERROR, 
+			GTK_DIALOG_DESTROY_WITH_PARENT,
+			GTK_MESSAGE_ERROR,
 			GTK_BUTTONS_CLOSE,
 			"Please, select an account in the list !\n");
 		gtk_dialog_run(GTK_DIALOG(dialog));
@@ -554,8 +554,7 @@ static void bet_estimate_refresh()
 	GtkWidget *widget;
 	gchar* str_date_min = gsb_format_gdate(date_min);
 	gchar* str_date_max = gsb_format_gdate(date_max);
-	gchar* title = g_strdup_printf(
-		"Balance estimate of the account \"%s\" from %s to %s", 
+	gchar* title = g_strdup_printf(_("Balance estimate of the account \"%s\" from %s to %s"),
 		account_name, str_date_min, str_date_max);
 	g_free(str_date_min);
 	g_free(str_date_max);
@@ -586,17 +585,17 @@ static void bet_estimate_refresh()
 		if (account_number != selected_account)
 			continue;
 
-		/* ignore transaction which are before date_min (today) */ 
+		/* ignore transaction which are before date_min (today) */
 		GDate *date = gsb_data_transaction_get_date(transaction_number);
 		if (g_date_compare(date, date_min) <= 0)
 			continue;
-		
+
 		/* update the current_balance.
 		 * our target is to calculate the balance of date_min (today) */
 		gsb_real amount = gsb_data_transaction_get_amount(transaction_number);
 		current_balance = gsb_real_sub(current_balance, amount);
 
-		/* ignore transaction which are after date_max */ 
+		/* ignore transaction which are after date_max */
 		if (g_date_compare(date, date_max) > 0)
 			continue;
 
@@ -609,7 +608,7 @@ static void bet_estimate_refresh()
 			str_credit = str_value;
 
 		/* TODO add something else if description is empty (payee by example) */
-		const gchar* str_description = gsb_data_transaction_get_notes(transaction_number); 
+		const gchar* str_description = gsb_data_transaction_get_notes(transaction_number);
 		gchar* str_date = gsb_format_gdate(date);
 
 		GValue date_value = {0, };
@@ -618,10 +617,10 @@ static void bet_estimate_refresh()
 
 		/* add a line in the estimate array */
 		gtk_tree_store_append (GTK_TREE_STORE(tree_model), &iter, NULL);
-		gtk_tree_store_set_value(GTK_TREE_STORE(tree_model), &iter, 
+		gtk_tree_store_set_value(GTK_TREE_STORE(tree_model), &iter,
 			SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
 			&date_value);
-		gtk_tree_store_set(GTK_TREE_STORE(tree_model), &iter, 
+		gtk_tree_store_set(GTK_TREE_STORE(tree_model), &iter,
 			SPP_ESTIMATE_TREE_DATE_COLUMN, str_date,
 			SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
 			SPP_ESTIMATE_TREE_DEBIT_COLUMN, str_debit,
@@ -632,7 +631,7 @@ static void bet_estimate_refresh()
 		g_free(str_date);
 		g_free(str_value);
 	}
-	
+
 	/* for each schedulded operation */
 	tmp_list = gsb_data_scheduled_get_scheduled_list();
 	while (tmp_list)
@@ -646,13 +645,13 @@ static void bet_estimate_refresh()
 
 		/* ignore scheduled operations of other account */
 		gint account_number = gsb_data_scheduled_get_account_number(scheduled_number);
-		gint transfer_account_number = 
+		gint transfer_account_number =
 			gsb_data_scheduled_get_account_number_transfer(scheduled_number);
 		if (account_number != selected_account &&
 			transfer_account_number != selected_account)
 			continue;
 
-		gchar* str_description = gsb_data_scheduled_get_notes(scheduled_number); 
+		gchar* str_description = gsb_data_scheduled_get_notes(scheduled_number);
 		gsb_real amount = gsb_data_scheduled_get_amount(scheduled_number);
 
 		gchar* str_value = gsb_real_get_string(amount);
@@ -671,7 +670,7 @@ static void bet_estimate_refresh()
 			str_credit = str_value;
 		}
 
-		/* calculate each instance of the scheduled operation 
+		/* calculate each instance of the scheduled operation
 		 * in the range from date_min (today) to date_max */
 		GDate *date = gsb_data_scheduled_get_date(scheduled_number);
 		while (date != NULL && g_date_valid(date))
@@ -692,17 +691,17 @@ static void bet_estimate_refresh()
 
 			/* add a line in the estimate array */
 			gtk_tree_store_append (GTK_TREE_STORE(tree_model), &iter, NULL);
-			gtk_tree_store_set_value(GTK_TREE_STORE(tree_model), &iter, 
+			gtk_tree_store_set_value(GTK_TREE_STORE(tree_model), &iter,
 				SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
 				&date_value);
-			gtk_tree_store_set(GTK_TREE_STORE(tree_model), &iter, 
+			gtk_tree_store_set(GTK_TREE_STORE(tree_model), &iter,
 				/*SPP_ESTIMATE_TREE_SORT_DATE_COLUMN, &date_value,*/
 				SPP_ESTIMATE_TREE_DATE_COLUMN, str_date,
 				SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
 				SPP_ESTIMATE_TREE_DEBIT_COLUMN, str_debit,
 				SPP_ESTIMATE_TREE_CREDIT_COLUMN, str_credit,
 				-1);
-			
+
 			g_value_unset(&date_value);
 			g_free(str_date);
 			date = gsb_scheduler_get_next_date(scheduled_number, date);
@@ -717,8 +716,8 @@ static void bet_estimate_refresh()
 	tmp_range.min_date = *date_min;
 	tmp_range.max_date = *date_max;
 	gsb_real null_real = { 0 , 0 };
-	tmp_range.min_balance = null_real; 
-	tmp_range.max_balance = null_real; 
+	tmp_range.min_balance = null_real;
+	tmp_range.max_balance = null_real;
 	tmp_range.current_balance = current_balance;
 	gtk_tree_model_foreach(GTK_TREE_MODEL(tree_model),
 		bet_update_average_column, &tmp_range);

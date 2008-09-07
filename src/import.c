@@ -83,7 +83,7 @@ static gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spi
 static gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 				       gint result,
 				       GtkWidget *liste_ope_celibataires );
-static gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *renderer, 
+static gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *renderer,
 					   gchar *ligne,
 					   GtkTreeModel *store );
 static void confirmation_enregistrement_ope_import ( struct struct_compte_importation *imported_account );
@@ -126,8 +126,8 @@ static GSList * import_formats = NULL;
 
 /** Known built-in import formats.  Others are plugins.  */
 struct import_format builtin_formats[] = {
-{ "CSV", "Comma Separated Values",     "csv", (import_function) csv_import_csv_account },
-{ "QIF", "Quicken Interchange Format", "qif", (import_function) recuperation_donnees_qif },
+{ "CSV", N_("Comma Separated Values"),     "csv", (import_function) csv_import_csv_account },
+{ "QIF", N_("Quicken Interchange Format"), "qif", (import_function) recuperation_donnees_qif },
 { NULL,  NULL,				NULL,		NULL },
 };
 
@@ -141,7 +141,7 @@ static gint virements_a_chercher;
 
 static GtkWidget *go_charmap_sel;
 
-enum import_filesel_columns { 
+enum import_filesel_columns {
     IMPORT_FILESEL_SELECTED = 0,
     IMPORT_FILESEL_TYPENAME,
     IMPORT_FILESEL_FILENAME,
@@ -181,11 +181,11 @@ void register_import_formats ()
  *
  * \param format		A pointer to a structure describing
  *				this import format.
- *  
+ *
  */
 void register_import_format ( struct import_format * format )
 {
-    gchar* tmpstr = g_strdup_printf ( "Adding '%s' as an import format", format -> name );
+    gchar* tmpstr = g_strdup_printf ( _("Adding '%s' as an import format"), format -> name );
     devel_debug ( tmpstr );
     g_free ( tmpstr );
     import_formats = g_slist_append ( import_formats, format );
@@ -220,7 +220,7 @@ void importer_fichier ( void )
     {
 	struct import_format * format = (struct import_format *) tmp -> data;
 	gchar* old_str = formats;
-	formats = g_strconcat ( formats, 
+	formats = g_strconcat ( formats,
 				"	• ",
 				format -> complete_name,
 				" (", format -> name, ")\n",
@@ -229,28 +229,28 @@ void importer_fichier ( void )
 	tmp = tmp -> next;
     }
 
-    gchar* tmpstr = g_strconcat ( "This assistant will help you import one or several files into Grisbi."
+    gchar* tmpstr = g_strconcat ( _("This assistant will help you import one or several files into Grisbi."
 				  "\n\n"
 				  "Grisbi will try to do its best to guess which format are imported, but you may have to manually set them in the list of next page.  "
 				  "So far, the following formats are supported:"
-				  "\n\n",
+				  "\n\n"),
 				  formats, NULL );
-    assistant = gsb_assistant_new ( "Importing transactions into Grisbi",
+    assistant = gsb_assistant_new ( _("Importing transactions into Grisbi"),
 			    tmpstr,
 			    "csv.png",
 			    NULL );
     g_free (formats);
     g_free (tmpstr);
 
-    gsb_assistant_add_page ( assistant, import_create_file_selection_page ( assistant ), 
-			     IMPORT_FILESEL_PAGE, IMPORT_STARTUP_PAGE, IMPORT_RESUME_PAGE, 
+    gsb_assistant_add_page ( assistant, import_create_file_selection_page ( assistant ),
+			     IMPORT_FILESEL_PAGE, IMPORT_STARTUP_PAGE, IMPORT_RESUME_PAGE,
 			     G_CALLBACK ( import_enter_file_selection_page ) );
-    gsb_assistant_add_page ( assistant, import_create_csv_preview_page ( assistant ), 
+    gsb_assistant_add_page ( assistant, import_create_csv_preview_page ( assistant ),
 			     IMPORT_CSV_PAGE, IMPORT_FILESEL_PAGE, IMPORT_RESUME_PAGE,
 			     G_CALLBACK ( import_enter_csv_preview_page ) );
-    gsb_assistant_add_page ( assistant, import_create_resume_page ( assistant ), 
-			     IMPORT_RESUME_PAGE, IMPORT_FILESEL_PAGE, 
-			     IMPORT_FIRST_ACCOUNT_PAGE, 
+    gsb_assistant_add_page ( assistant, import_create_resume_page ( assistant ),
+			     IMPORT_RESUME_PAGE, IMPORT_FILESEL_PAGE,
+			     IMPORT_FIRST_ACCOUNT_PAGE,
 			     G_CALLBACK ( import_enter_resume_page ) );
 
     if ( gsb_assistant_run ( assistant ) == GTK_RESPONSE_APPLY )
@@ -260,7 +260,7 @@ void importer_fichier ( void )
 	gtk_widget_destroy ( assistant );
 	gsb_status_stop_wait ( TRUE );
     }
-    else 
+    else
     {
 	gtk_widget_destroy ( assistant );
     }
@@ -285,11 +285,11 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     paddingbox = new_paddingbox_with_title ( vbox, TRUE, _("Choose file to import"));
-    
+
     chooser = gtk_button_new_with_label ( _("Add file to import..." ));
     gchar* tmpstr = g_build_filename ( PIXMAPS_DIR,
 				       "import.png", NULL );
-    gtk_button_set_image ( GTK_BUTTON(chooser), 
+    gtk_button_set_image ( GTK_BUTTON(chooser),
 			   gtk_image_new_from_file ( tmpstr ) );
     g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX(paddingbox), chooser, FALSE, FALSE, 6 );
@@ -305,8 +305,8 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     gtk_box_pack_start ( GTK_BOX(paddingbox), sw, TRUE, TRUE, 6 );
 
     /* Tree view and model. */
-    model = GTK_TREE_MODEL ( gtk_tree_store_new ( IMPORT_FILESEL_NUM_COLS, G_TYPE_BOOLEAN, 
-						  G_TYPE_STRING, G_TYPE_STRING, 
+    model = GTK_TREE_MODEL ( gtk_tree_store_new ( IMPORT_FILESEL_NUM_COLS, G_TYPE_BOOLEAN,
+						  G_TYPE_STRING, G_TYPE_STRING,
 						  G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING));
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( model ) );
     gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
@@ -315,13 +315,13 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     renderer = gtk_cell_renderer_toggle_new ();
     g_signal_connect ( renderer, "toggled", G_CALLBACK (import_active_toggled), model);
     column = gtk_tree_view_column_new_with_attributes ( _("Import"), renderer,
-							"active", IMPORT_FILESEL_SELECTED, 
+							"active", IMPORT_FILESEL_SELECTED,
 							NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), column );
 
     /* Type column. */
     renderer = gtk_cell_renderer_combo_new ();
-    g_signal_connect ( G_OBJECT (renderer), "edited", G_CALLBACK ( import_switch_type), 
+    g_signal_connect ( G_OBJECT (renderer), "edited", G_CALLBACK ( import_switch_type),
 		       model );
 
     list_acc = GTK_TREE_MODEL (gtk_list_store_new (1, G_TYPE_STRING));
@@ -329,26 +329,26 @@ GtkWidget * import_create_file_selection_page ( GtkWidget * assistant )
     tmp = import_formats;
     while ( tmp )
     {
-	GtkTreeIter iter; 
+	GtkTreeIter iter;
 	struct import_format * format = (struct import_format *) tmp -> data;
 
 	gtk_list_store_append (GTK_LIST_STORE (list_acc), &iter);
-	gtk_list_store_set (GTK_LIST_STORE (list_acc), &iter, 0, 
+	gtk_list_store_set (GTK_LIST_STORE (list_acc), &iter, 0,
 			    format -> name, -1);
 
 	tmp = tmp -> next;
     }
 
-    g_object_set ( renderer, 
-		   "model", list_acc, 
-		   "text-column", 0, 
-		   "editable", TRUE, 
-		   "editable-set", FALSE, 
-		   "has-entry", FALSE, 
+    g_object_set ( renderer,
+		   "model", list_acc,
+		   "text-column", 0,
+		   "editable", TRUE,
+		   "editable-set", FALSE,
+		   "has-entry", FALSE,
 		   NULL );
 
     column = gtk_tree_view_column_new_with_attributes ( _("Type"), renderer,
-							"text", IMPORT_FILESEL_TYPENAME, 
+							"text", IMPORT_FILESEL_TYPENAME,
 							NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), column );
 
@@ -391,17 +391,17 @@ gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 	     if ( ! strcmp ( value, format -> name ) )
 	     {
 		 gtk_tree_store_set ( GTK_TREE_STORE (model), &iter,
-				      IMPORT_FILESEL_TYPENAME, value, 
-				      IMPORT_FILESEL_TYPE, format -> name, 
+				      IMPORT_FILESEL_TYPENAME, value,
+				      IMPORT_FILESEL_TYPE, format -> name,
 				      -1 );
-		 
+
 		 /* CSV is special because it needs configuration, so
 		  * we add a conditional jump there. */
 		 if ( ! strcmp ( value, "CSV" ) )
 		 {
-		     gsb_assistant_set_next ( assistant, IMPORT_FILESEL_PAGE, 
+		     gsb_assistant_set_next ( assistant, IMPORT_FILESEL_PAGE,
 					      IMPORT_CSV_PAGE );
-		     gsb_assistant_set_prev ( assistant, IMPORT_RESUME_PAGE, 
+		     gsb_assistant_set_prev ( assistant, IMPORT_RESUME_PAGE,
 					      IMPORT_CSV_PAGE );
 		 }
 
@@ -413,7 +413,7 @@ gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
      }
 
      return FALSE;
-}    
+}
 
 
 
@@ -450,9 +450,9 @@ gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *path_str,
     assistant = g_object_get_data ( G_OBJECT ( model ), "assistant" );
 
     gtk_tree_model_get_iter ( GTK_TREE_MODEL ( model ), &iter, path);
-    gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 
+    gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
 			 IMPORT_FILESEL_SELECTED, &toggle_item, -1 );
-    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, 
+    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
 			 IMPORT_FILESEL_SELECTED, !toggle_item, -1 );
 
     import_preview_maybe_sensitive_next ( assistant, model );
@@ -467,7 +467,7 @@ gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *path_str,
  *
  *
  */
-void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel * model ) 
+void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel * model )
 {
     GtkTreeIter iter;
 
@@ -481,19 +481,19 @@ void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel *
     }
 
     /* Iterate over lines so we check if some are checked. */
-    do 
+    do
     {
 	gboolean selected;
 	gchar * type;
 
-	gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 
-			     IMPORT_FILESEL_SELECTED, &selected, 
+	gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
+			     IMPORT_FILESEL_SELECTED, &selected,
 			     IMPORT_FILESEL_TYPE, &type,
 			     -1 );
 	if ( selected && strcmp ( type, _("Unknown") ) )
 	{
-	    gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), 
-							   "button_next" ), 
+	    gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant),
+							   "button_next" ),
 				       TRUE );
 	    return;
 	}
@@ -531,7 +531,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 	/* Open file */
 	if ( ! g_file_get_contents ( iterator -> data, &pointeur_char, NULL, &error ) )
 	{
-	    g_print ("Unable to read file: %s\n", error -> message);
+	    g_print ( _("Unable to read file: %s\n"), error -> message);
 	    return FALSE;
 	}
 
@@ -539,14 +539,14 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 	g_free (pointeur_char);
 
 	gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
-	gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, 
+	gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
 			     IMPORT_FILESEL_SELECTED, TRUE,
 			     IMPORT_FILESEL_TYPENAME, type,
 			     IMPORT_FILESEL_FILENAME, g_path_get_basename ( iterator -> data ),
 			     IMPORT_FILESEL_REALNAME, iterator -> data,
 			     IMPORT_FILESEL_TYPE, type,
 			     IMPORT_FILESEL_CODING, go_charmap_sel_get_encoding ( (GOCharmapSel * )go_charmap_sel ),
-			     -1 ); 
+			     -1 );
 
 	/* CSV is special because it needs configuration, so we
 	 * add a conditional jump there. */
@@ -559,7 +559,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 	if ( strcmp ( type, _("Unknown") ) )
 	{
 	    /* A valid file was selected, so we can now go ahead. */
-	    gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ), 
+	    gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ),
 				       TRUE );
 	}
 
@@ -623,18 +623,18 @@ GSList *gsb_import_create_file_chooser (void)
     tmp = import_formats;
     while ( tmp )
     {
-	GtkFileFilter * format_filter;	
+	GtkFileFilter * format_filter;
 
 	format = (struct import_format *) tmp -> data;
 
 	format_filter = gtk_file_filter_new ();
 	gchar* tmpstr = g_strdup_printf ( _("%s files (*.%s)"),
-						     format -> name, 
+						     format -> name,
 						     format -> extension );
 	gtk_file_filter_set_name ( format_filter, tmpstr );
 	g_free ( tmpstr );
 	tmpstr = g_strconcat ( "*.", format -> extension, NULL );
-	gtk_file_filter_add_pattern ( format_filter, 
+	gtk_file_filter_add_pattern ( format_filter,
 				      tmpstr );
 	g_free ( tmpstr );
 	gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), format_filter );
@@ -654,7 +654,7 @@ GSList *gsb_import_create_file_chooser (void)
     /* Add encoding preview */
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER ( dialog ), hbox );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( COLON(_("Encoding")) ), 
+    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( COLON(_("Encoding")) ),
 			 FALSE, FALSE, 0 );
     go_charmap_sel = go_charmap_sel_new (GO_CHARMAP_SEL_TO_UTF8);
     gtk_box_pack_start ( GTK_BOX ( hbox ), go_charmap_sel, TRUE, TRUE, 0 );
@@ -687,12 +687,12 @@ GtkWidget * import_create_resume_page ( GtkWidget * assistant )
 
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
     gtk_text_buffer_create_tag ( buffer, "bold",
-				 "weight", PANGO_WEIGHT_BOLD, NULL);  
+				 "weight", PANGO_WEIGHT_BOLD, NULL);
     gtk_text_buffer_create_tag ( buffer, "x-large",
 				 "scale", PANGO_SCALE_X_LARGE, NULL);
     gtk_text_buffer_create_tag (buffer, "indented",
 				"left-margin", 24, NULL);
-  
+
     g_object_set_data ( G_OBJECT ( assistant ), "text-buffer", buffer );
 
     return view;
@@ -748,8 +748,8 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 						  "x-large", NULL);
 	gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
-	gtk_text_buffer_insert (buffer, &iter, 
-				COLON ( _("You successfully imported files into Grisbi.  The following pages will help you set up imported data for the following files") ), 
+	gtk_text_buffer_insert (buffer, &iter,
+				COLON ( _("You successfully imported files into Grisbi.  The following pages will help you set up imported data for the following files") ),
 				-1 );
 	gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
@@ -766,11 +766,11 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 	    }
 
 	    gchar* tmpstr = g_strconcat ( "• ", compte -> nom_de_compte,
-						" (", 
+						" (",
 						compte -> origine,
-						")\n\n", 
+						")\n\n",
 						NULL );
-	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, 
+	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
 						      tmpstr ,
 						      -1, "indented", NULL );
 	    g_free ( tmpstr );
@@ -785,15 +785,15 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 	}
 	affichage_recapitulatif_importation ( assistant );
     }
-    else 
+    else
     {
 	gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
 						  _("Error !"), -1,
 						  "x-large", NULL);
 	gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
-	gtk_text_buffer_insert (buffer, &iter, 
-				_("No file has been imported, please double check that they are valid files.  Please make sure that they are not compressed and that their format is valid."), 
+	gtk_text_buffer_insert (buffer, &iter,
+				_("No file has been imported, please double check that they are valid files.  Please make sure that they are not compressed and that their format is valid."),
 				-1 );
 	if ( strlen ( error_message ) )
 	{
@@ -805,7 +805,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 
     if ( liste_comptes_importes_error )
     {
-	gtk_text_buffer_insert (buffer, &iter, "The following files are in error:", -1 );
+	gtk_text_buffer_insert (buffer, &iter, _("The following files are in error:"), -1 );
 	gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
 	list = liste_comptes_importes_error;
@@ -815,11 +815,11 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 	    compte = list -> data;
 
 	    gchar* tmpstr = g_strconcat ( "• ", compte -> nom_de_compte,
-						" (", 
+						" (",
 						compte -> origine,
-						")\n\n", 
+						")\n\n",
 						NULL );
-	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, 
+	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
 						      tmpstr,
 						      -1, "indented", NULL );
 	    g_free ( tmpstr );
@@ -855,14 +855,14 @@ GtkWidget * import_create_final_page ( GtkWidget * assistant )
     gtk_text_buffer_create_tag ( buffer, "x-large",
 				 "scale", PANGO_SCALE_X_LARGE, NULL);
     gtk_text_buffer_get_iter_at_offset (buffer, &iter, 1);
-  
+
     gtk_text_buffer_insert (buffer, &iter, "\n", -1 );
     gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
 					      _("Import terminated"), -1,
 					      "x-large", NULL);
     gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
-    gtk_text_buffer_insert (buffer, &iter, 
-			    _("You have successfully set up transactions import into Grisbi.  Press the 'Close' button to terminate import."), 
+    gtk_text_buffer_insert (buffer, &iter,
+			    _("You have successfully set up transactions import into Grisbi.  Press the 'Close' button to terminate import."),
 			    -1 );
     gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
@@ -886,17 +886,17 @@ GSList * import_selected_files ( GtkWidget * assistant )
     g_return_val_if_fail ( model, NULL );
 
     gtk_tree_model_get_iter_first ( model, &iter );
-    
-    do 
+
+    do
     {
 	struct imported_file * imported;
 	gboolean selected;
 
 	imported = g_malloc0 ( sizeof ( struct imported_file ) );
-	gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 
+	gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
 			     IMPORT_FILESEL_SELECTED, &selected,
-			     IMPORT_FILESEL_REALNAME, &(imported -> name), 
-			     IMPORT_FILESEL_TYPE, &(imported -> type), 
+			     IMPORT_FILESEL_REALNAME, &(imported -> name),
+			     IMPORT_FILESEL_TYPE, &(imported -> type),
 			     IMPORT_FILESEL_CODING, &(imported -> coding_system),
 			     -1 );
 
@@ -941,7 +941,7 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 	compte = list_tmp -> data;
 
 	/* add one page per account */
-	gsb_assistant_add_page ( assistant, cree_ligne_recapitulatif ( list_tmp -> data ), 
+	gsb_assistant_add_page ( assistant, cree_ligne_recapitulatif ( list_tmp -> data ),
 				 page, page - 1, page + 1, G_CALLBACK ( NULL ) );
 	page ++;
 
@@ -949,7 +949,7 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
     }
 
     /* And final page */
-    gsb_assistant_add_page ( assistant, import_create_final_page ( assistant ), 
+    gsb_assistant_add_page ( assistant, import_create_final_page ( assistant ),
 			     page, page - 1, -1, G_CALLBACK ( NULL ) );
 
     /* Replace button. */
@@ -1016,7 +1016,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 
     compte -> bouton_type_compte = gsb_combo_box_new_with_index_by_list ( gsb_account_property_create_combobox_list (),
 									  NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( compte -> hbox1 ), compte -> bouton_type_compte, 
+    gtk_box_pack_start ( GTK_BOX ( compte -> hbox1 ), compte -> bouton_type_compte,
 			 TRUE, TRUE, 0 );
 
     /* at this level imported_account -> type_de_compte was filled while importing transactions,
@@ -1042,12 +1042,12 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 
     g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox1 );
     g_object_set_data ( G_OBJECT ( radio ), "account", compte );
-    g_signal_connect ( G_OBJECT ( radio ), "toggled", 
+    g_signal_connect ( G_OBJECT ( radio ), "toggled",
 		       G_CALLBACK ( import_account_action_activated ), IMPORT_CREATE_ACCOUNT );
 
 
     /* Add to account */
-    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), 
+    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ),
 							  _("Add transactions to an account") );
     gtk_box_pack_start ( GTK_BOX ( vbox ), radio, FALSE, FALSE, 0 );
     gtk_widget_set_sensitive  ( radio, assert_account_loaded ( ) );
@@ -1067,7 +1067,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 
     g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox2 );
     g_object_set_data ( G_OBJECT ( radio ), "account", compte );
-    g_signal_connect ( G_OBJECT ( radio ), "toggled", 
+    g_signal_connect ( G_OBJECT ( radio ), "toggled",
 		       G_CALLBACK ( import_account_action_activated ), GINT_TO_POINTER (IMPORT_ADD_TRANSACTIONS));
 
     /* set on the right account, (Yoann) */
@@ -1075,7 +1075,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     if(account_number >= 0)
     {
 	g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox2 );
-	g_object_set_data ( G_OBJECT ( radio ), "account", compte );	
+	g_object_set_data ( G_OBJECT ( radio ), "account", compte );
 	import_account_action_activated(radio,IMPORT_ADD_TRANSACTIONS);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio), TRUE);
 	gsb_account_set_combo_account_number (compte -> bouton_compte_add, account_number);
@@ -1083,7 +1083,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     }
 
     /* Mark account */
-    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), 
+    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ),
 							  _("Mark transactions of an account") );
     gtk_box_pack_start ( GTK_BOX ( vbox ), radio, FALSE, FALSE, 0 );
     gtk_widget_set_sensitive  ( radio, assert_account_loaded ( ) );
@@ -1103,7 +1103,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 
     g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox3 );
     g_object_set_data ( G_OBJECT ( radio ), "account", compte );
-    g_signal_connect ( G_OBJECT ( radio ), "toggled", 
+    g_signal_connect ( G_OBJECT ( radio ), "toggled",
 		       G_CALLBACK ( import_account_action_activated ), GINT_TO_POINTER (IMPORT_MARK_TRANSACTIONS));
 
     /* Currency */
@@ -1149,19 +1149,19 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     /* invert amount of transactions */
     button = gsb_automem_checkbutton_new (_("Invert the amount of the imported transactions"),
 					  &compte -> invert_transaction_amount, NULL, NULL);
-    gtk_box_pack_start ( GTK_BOX ( vbox ), 
+    gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 button,
 			 FALSE, FALSE, 0 );
 
     /* propose to create a rule */
     compte -> hbox_rule = gtk_hbox_new (FALSE, 5);
-    gtk_box_pack_start ( GTK_BOX ( vbox ), 
+    gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 compte -> hbox_rule,
 			 FALSE, FALSE, 0 );
     compte -> entry_name_rule = gtk_entry_new ();
     button = gsb_automem_checkbutton_new (_("Create a rule for this import. Name of the rule : "),
 					  &compte -> create_rule, G_CALLBACK (gsb_button_sensitive_by_checkbutton), compte -> entry_name_rule);
-    gtk_box_pack_start ( GTK_BOX (compte -> hbox_rule), 
+    gtk_box_pack_start ( GTK_BOX (compte -> hbox_rule),
 			 button,
 			 FALSE, FALSE, 0 );
 
@@ -1170,7 +1170,7 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
 	gtk_widget_set_sensitive (button, FALSE);
 
     gtk_widget_set_sensitive (compte -> entry_name_rule, FALSE);
-    gtk_box_pack_start ( GTK_BOX (compte -> hbox_rule), 
+    gtk_box_pack_start ( GTK_BOX (compte -> hbox_rule),
 			 compte -> entry_name_rule,
 			 FALSE, FALSE, 0 );
 
@@ -1186,7 +1186,7 @@ gboolean import_account_action_activated ( GtkWidget * radio, gint action )
     struct struct_compte_importation * account;
 
     account = g_object_get_data ( G_OBJECT ( radio ), "account" );
-    
+
     gtk_widget_set_sensitive ( account -> hbox1, FALSE );
     gtk_widget_set_sensitive ( account -> hbox2, FALSE );
     gtk_widget_set_sensitive ( account -> hbox3, FALSE );
@@ -1196,7 +1196,7 @@ gboolean import_account_action_activated ( GtkWidget * radio, gint action )
 
     gtk_widget_set_sensitive ( account -> hbox_rule,
 			       action != IMPORT_CREATE_ACCOUNT);
-    return FALSE;    
+    return FALSE;
 }
 
 
@@ -1218,7 +1218,7 @@ void traitement_operations_importees ( void )
     /* when come here, all the currencies are already created
      * and init_variables is already called
      * ( see affichage_recapitulatif_importation) */
-    
+
     /* if new file, init grisbi */
     if ( gsb_data_account_get_accounts_amount () )
 	new_file = 0;
@@ -1245,7 +1245,7 @@ void traitement_operations_importees ( void )
 
 		if ( account_number == -1 )
 		{
-		    gchar* tmpstr = g_strdup_printf ("An error occured while creating the new account %s,\nWe try to continue to import but bad things can happen...", compte -> nom_de_compte);
+		    gchar* tmpstr = g_strdup_printf ( _("An error occured while creating the new account %s,\nWe try to continue to import but bad things can happen..."), compte -> nom_de_compte);
 		    dialogue_error ( tmpstr);
 		    g_free ( tmpstr );
 		    continue;
@@ -1425,7 +1425,7 @@ void cree_liens_virements_ope_import ( void )
 					  gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp ))
 			  ||
 			  g_strcasecmp ( gsb_data_account_get_name (transaction_number_tmp),
-					 gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp))) 
+					 gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp)))
 			 &&
 			 !gsb_real_cmp ( gsb_real_abs (gsb_data_transaction_get_amount (transaction_number_tmp)),
 					 gsb_real_abs (gsb_data_transaction_get_adjusted_amount_for_currency ( contra_transaction_number_tmp,
@@ -1498,7 +1498,7 @@ void cree_liens_virements_ope_import ( void )
  * don't work with the gui here, all the gui will be done later
  *
  * \param imported_account the account we want to create
- * 
+ *
  * \return the number of the new account or -1 if problem
  * */
 gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account )
@@ -1585,9 +1585,9 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
     /* set the initial balance */
     gsb_data_account_set_init_balance ( account_number,
 					imported_account -> solde);
-    gsb_data_account_set_current_balance ( account_number, 
+    gsb_data_account_set_current_balance ( account_number,
 					   imported_account -> solde);
-    gsb_data_account_set_marked_balance ( account_number, 
+    gsb_data_account_set_marked_balance ( account_number,
 					  imported_account -> solde);
 
     /* Use two lines view by default. */
@@ -1605,10 +1605,10 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
  * import the transactions in an existent account
  * check the id of the account and if the transaction already exists
  * add too the transactions to the gui
- * 
+ *
  * \param imported_account an imported structure account which contains the transactions
  * \param account_number the number of account where we want to put the new transations
- * 
+ *
  * \return
  * */
 void gsb_import_add_imported_transactions ( struct struct_compte_importation *imported_account,
@@ -1762,7 +1762,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 			     !imported_transaction -> ope_de_ventilation )
 			{
 			    /* the imported transaction has the same date and same amount, will ask the user */
-			    imported_transaction -> action = IMPORT_TRANSACTION_ASK_FOR_TRANSACTION; 
+			    imported_transaction -> action = IMPORT_TRANSACTION_ASK_FOR_TRANSACTION;
 			    imported_transaction -> ope_correspondante = transaction_number_tmp;
 			    demande_confirmation = 1;
 			}
@@ -1806,7 +1806,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	    /* we need to add the transaction now to the tree model here
 	     * to avoid to write again all the account */
 	    gsb_transactions_list_append_new_transaction (transaction_number, FALSE);
-	} 
+	}
 	list_tmp = list_tmp -> next;
     }
 
@@ -1893,7 +1893,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	/* on n'affiche pas si c'est des opés de ventil, si la mère est cochée, les filles seront alors cochées */
 	/* on ne teste pas ici car ça a été testé avant */
 
-	if ( ope_import -> action == 1 
+	if ( ope_import -> action == 1
 	     &&
 	     !ope_import -> ope_de_ventilation )
 	{
@@ -2024,7 +2024,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    /* si c'était une ventil on met l'action de la dernière ventil à 0 */
 
 	    if ( ope_import -> operation_ventilee )
-		action_derniere_ventilation = 0;	
+		action_derniere_ventilation = 0;
 	}
 
 	list_tmp = list_tmp -> next;
@@ -2036,10 +2036,10 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
 /**
  * get an imported transaction structure in arg and create the corresponding transaction
- * 
+ *
  * \param imported_transaction the transaction to import
  * \param account_number the account where to put the new transaction
- * 
+ *
  * \return the number of the new transaction
  * */
 gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
@@ -2085,7 +2085,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 					       imported_transaction -> devise );
 
     /* rÃ©cupération du tiers */
-    if ( imported_transaction -> tiers 
+    if ( imported_transaction -> tiers
 	 &&
 	 strlen (imported_transaction -> tiers))
 	gsb_data_transaction_set_party_number ( transaction_number,
@@ -2380,7 +2380,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 		/* on marque donc cette opé comme seule */
 		/* sauf si c'est une opé de ventil  */
 
-		if ( !ope_import -> ope_de_ventilation ) 
+		if ( !ope_import -> ope_de_ventilation )
 		{
 		    /* on met le no de compte et la devise de l'opération si plus tard on l'enregistre */
 
@@ -2432,7 +2432,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 		}
 		break;
 
-	    default: 	   
+	    default:
 		/* il y a plusieurs opé trouvées correspondant à l'opé importée */
 
 		/* on va voir s'il y a d'autres opées importées ayant la même date et le même montant
@@ -2586,7 +2586,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
 	list_tmp = liste_opes_import_celibataires;
 
-	while ( list_tmp ) 
+	while ( list_tmp )
 	{
 	    struct struct_ope_importation *ope_import;
 	    GtkTreeIter iter;
@@ -2724,7 +2724,7 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
 		    ope_import = list_tmp -> data;
 
-		    transaction_number = gsb_import_create_transaction ( ope_import, 
+		    transaction_number = gsb_import_create_transaction ( ope_import,
 									 ope_import -> no_compte );
 		    gsb_data_transaction_set_marked_transaction ( transaction_number,
 								  2 );
@@ -2783,7 +2783,7 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
 
 /* *******************************************************************************/
-gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *renderer, 
+gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *renderer,
 					   gchar *ligne,
 					   GtkTreeModel *store )
 {
@@ -2805,7 +2805,7 @@ gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *renderer,
 			     -1 );
     }
     return ( FALSE );
-}		
+}
 
 
 
@@ -2842,7 +2842,7 @@ gchar * unique_imported_name ( gchar * account_name )
 	}
     }
     while ( tmp_list );
-    
+
     return basename;
 }
 
@@ -2859,7 +2859,7 @@ GtkWidget *onglet_importation (void)
     GtkWidget *bouton;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Import"),
-					       "import.png" ); 
+					       "import.png" );
     hbox = gtk_hbox_new ( FALSE,
 			  0 );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
@@ -2925,7 +2925,7 @@ gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_butto
  * \param filename
  * \param pointeur_char	pointer returned by g_file_get_contents
  * 			can be NULL, in that case only the extension will be used
- * 
+ *
  * \return a string : OFX, QIF, Gnucash
  *
  *
@@ -2948,25 +2948,25 @@ const gchar * autodetect_file_type ( gchar * filename,
 	    if ( !strcasecmp ( extension + 1, format -> extension ) )
 	    {
 		return format -> name;
-	    }	
+	    }
 
 	    tmp = tmp -> next;
 	}
     }
-    
+
     if ( ! pointeur_char )
     {
 	return _("Unknown");
     }
 
     /** FIXME: add auto-detection to plugin. */
-    
+
     if ( g_strrstr ( pointeur_char, "ofx" ) || g_strrstr ( pointeur_char, "OFX" ))
     {
 	type = "OFX";
     }
     else if ( !my_strncasecmp ( pointeur_char, "!Type", 5 ) ||
-	      !my_strncasecmp ( pointeur_char, "!Account", 8 ) || 
+	      !my_strncasecmp ( pointeur_char, "!Account", 8 ) ||
 	      !my_strncasecmp ( pointeur_char, "!Option", 7 ))
     {
 	type = "QIF";
