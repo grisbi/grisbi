@@ -1794,7 +1794,10 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	    gint transaction_number;
 
 	    /* set the account currency to the transaction and create the transaction */
-	    imported_transaction -> devise = gsb_currency_get_currency_from_combobox (imported_account -> bouton_devise);
+	    if (imported_account -> bouton_devise)
+		imported_transaction -> devise = gsb_currency_get_currency_from_combobox (imported_account -> bouton_devise);
+	    else
+		imported_transaction -> devise = gsb_data_currency_get_number_by_code_iso4217 (imported_account -> devise);
 	    transaction_number = gsb_import_create_transaction ( imported_transaction,
 								 account_number );
 
@@ -3023,7 +3026,6 @@ gboolean gsb_import_by_rule ( gint rule )
     gchar **array;
     gint i=0;
 
-
     array = gsb_import_by_rule_ask_filename (rule);
     if (!array)
 	return FALSE;
@@ -3087,6 +3089,7 @@ gboolean gsb_import_by_rule ( gint rule )
 	}
 
 	account = liste_comptes_importes -> data;
+	account -> invert_transaction_amount = gsb_data_import_rule_get_invert ( rule );
 
 	switch (gsb_data_import_rule_get_action (rule))
 	{
@@ -3102,6 +3105,9 @@ gboolean gsb_import_by_rule ( gint rule )
 	}
 	/* update the current and marked balance */
 	gsb_data_account_calculate_current_and_marked_balances (account_number);
+
+	/* save the last file used */
+	gsb_data_import_rule_set_last_file_name ( rule, account -> real_filename);
 
 	g_slist_free (account -> operations_importees);
 	g_free (account);
@@ -3276,6 +3282,7 @@ gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
     }
     g_slist_free (filenames);
     gtk_entry_set_text (GTK_ENTRY (entry), string);
+    gtk_entry_select_region ( GTK_ENTRY (entry), 0, -1);
     g_free (string);
     return FALSE;
 }

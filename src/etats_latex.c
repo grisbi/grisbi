@@ -422,8 +422,8 @@ void latex_safe ( gchar * text )
 		    fprintf ( file_out, "%c", *text );
 		break;
 
-	    case '�':
-		if ( *(text+1) == '�' && *(text+2) == '�' )
+	    case 'â':
+		if ( *(text+1) == '' && *(text+2) == '¬' )
 		{
 		    fprintf ( file_out, "\\officialeuro" );
 		    text+=2;
