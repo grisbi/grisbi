@@ -36,11 +36,13 @@
 #include "./utils_str.h"
 #include "./utils.h"
 #include "./transaction_list.h"
+#include "./utils_font.h"
 #include "./structures.h"
 #include "./custom_list.h"
 #include "./utils_file_selection.h"
 #include "./utils_buttons.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -50,13 +52,9 @@ static gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 				     GtkWidget *hbox );
 static void change_logo_accueil ( GtkWidget * file_selector );
 static gboolean change_toolbar_display_mode ( GtkRadioButton * button );
-static gboolean gsb_font_choose ( GtkWidget *bouton,
-			   gpointer null );
 static gboolean modification_logo_accueil ( );
-static void update_font_button(GtkWidget * name_label,
-			GtkWidget * size_label,
-			const gchar * fontname);
-static void update_fonte_listes ( void );
+static void update_fonte_listes ( gchar *fontname,
+			   gpointer null);
 /*END_STATIC*/
 
 
@@ -77,9 +75,6 @@ extern GtkWidget *window ;
 
 
 
-
-static GtkWidget* list_font_name_label = NULL;
-static GtkWidget* list_font_size_label = NULL;
 
 /** Button used to store a nice preview of the homepage logo */
 static GtkWidget *logo_button = NULL;
@@ -120,7 +115,7 @@ gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data )
 GtkWidget * onglet_display_fonts ( void )
 {
     GtkWidget *hbox, *vbox_pref, *label, *paddingbox, *font_button;
-    GtkWidget *hbox_font, *check_button, *vbox;
+    GtkWidget *check_button, *vbox;
     GdkPixbuf * pixbuf = NULL;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"), "fonts.png" );
@@ -212,37 +207,14 @@ GtkWidget * onglet_display_fonts ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
     /* Create font button */
-    font_button = gtk_button_new ();
-    g_signal_connect ( G_OBJECT ( font_button ), "clicked",
-		       G_CALLBACK ( gsb_font_choose ), NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), font_button, TRUE, TRUE, 0 );
-
-    hbox_font = gtk_hbox_new ( FALSE, 6 );
-    gtk_container_add (GTK_CONTAINER(font_button), hbox_font);
-
-    list_font_name_label = gtk_label_new (NULL);
-    gtk_box_pack_start ( GTK_BOX ( hbox_font ), list_font_name_label,
-			 TRUE, TRUE, 5 );
-
-    gtk_box_pack_start ( GTK_BOX ( hbox_font ), gtk_vseparator_new (),
-			 FALSE, FALSE, 0 );
-
-    list_font_size_label = gtk_label_new (NULL);
-    gtk_box_pack_start ( GTK_BOX ( hbox_font ), list_font_size_label,
-			 FALSE, FALSE, 5 );
-
-    update_font_button(list_font_name_label, list_font_size_label,
-		       etat.font_string);
+    font_button = utils_font_create_button (&etat.font_string,
+					    G_CALLBACK (update_fonte_listes), NULL);
+    gtk_box_pack_start ( GTK_BOX (hbox), font_button, FALSE, FALSE, 0 );
 
     if ( !gsb_data_account_get_accounts_amount () )
     {
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
-
-    g_signal_connect ( G_OBJECT (list_font_name_label ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &list_font_name_label );
-    g_signal_connect ( G_OBJECT (list_font_size_label ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &list_font_size_label );
 
     return vbox_pref;
 }
@@ -297,12 +269,37 @@ gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
     gtk_widget_set_sensitive ( vbox,
 			       etat.utilise_fonte_listes );
 
-    update_fonte_listes ();
+    update_fonte_listes (etat.font_string, NULL);
 
     return ( FALSE );
 }
 /* ********************************************************************** */
 
+
+/**
+ * update the font in all the transactions in the list
+ *
+ * \param
+ *
+ * \return
+ * */
+void update_fonte_listes ( gchar *fontname,
+			   gpointer null)
+{
+    GValue value = {0,};
+    gchar *font;
+
+    devel_debug (NULL);
+
+    if ( etat.utilise_fonte_listes )
+	font = fontname;
+    else
+	font = NULL;
+
+    g_value_init (&value, G_TYPE_STRING);
+    g_value_set_string (&value, font);
+    transaction_list_update_column (CUSTOM_MODEL_FONT, &value);
+}
 
 
 
@@ -386,128 +383,6 @@ GtkWidget *onglet_display_addresses ( void )
 
 
 
-/**
- * Update two labels according to font name, which is parsed to
- * separate both name and size
- *
- * \param name_label a widget which is to receive the name part of the
- *                   font name
- * \param size_label a widget which is to receive the size part of the
- *                   font name
- * \param fontname a font name in the form "name, size" or "name,
- *                 attr, size"
- */
-void update_font_button(GtkWidget * name_label,
-			GtkWidget * size_label,
-			const gchar * fontname)
-{
-    gchar * font_name, *font_size;
-    PangoFontDescription *font_description;
-
-    if (fontname)
-    {
-	gchar *tmp;
-
-	font_description = pango_font_description_from_string (fontname);
-
-	font_name = my_strdup ( fontname );
-	tmp = font_name + strlen(font_name) - 1;
-	while (g_ascii_isdigit(*tmp) ||
-	       (*tmp) == '.')
-	    tmp --;
-	font_size = tmp+1;
-
-	while (*tmp == ' ' ||
-	       *tmp == ',')
-	{
-	    *tmp=0;
-	    tmp--;
-	}
-    }
-    else
-    {
-	font_description = NULL;
-	font_name = my_strdup (_("No font defined"));
-	font_size = NULL;
-    }
-
-    gtk_widget_modify_font (name_label, font_description);
-
-    gtk_label_set_text (GTK_LABEL(name_label), font_name);
-    gtk_label_set_text (GTK_LABEL(size_label), font_size);
-
-    if ( font_name ) g_free ( font_name );
-}
-
-
-
-/**
- * update the font in all the transactions in the list
- *
- * \param
- *
- * \return
- * */
-void update_fonte_listes ( void )
-{
-    GValue value = {0,};
-    gchar *font;
-
-    if ( etat.utilise_fonte_listes )
-	font = etat.font_string;
-    else
-	font = NULL;
-
-    g_value_init (&value, G_TYPE_STRING);
-    g_value_set_string (&value, font);
-    transaction_list_update_column (CUSTOM_MODEL_FONT, &value);
-}
-
-
-
-/**
- * callback called when click on the font button
- * to change the font
- *
- * \param button
- * \param null
- *
- * \return FALSE
- * */
-gboolean gsb_font_choose ( GtkWidget *bouton,
-			   gpointer null )
-{
-    gchar *fontname;
-    GtkWidget *dialog;
-
-    dialog = gtk_font_selection_dialog_new (COLON(_("Transaction list font")));
-
-    if (etat.font_string)
-	gtk_font_selection_dialog_set_font_name (GTK_FONT_SELECTION_DIALOG(dialog), 
-						 etat.font_string );
-    gtk_window_set_modal ( GTK_WINDOW ( dialog ), 
-			   TRUE );
-
-    switch ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
-    {
-	case GTK_RESPONSE_OK:
-	    fontname = gtk_font_selection_dialog_get_font_name (GTK_FONT_SELECTION_DIALOG(dialog));
-	    gtk_widget_destroy (dialog);  
-	    update_font_button (list_font_name_label, list_font_size_label, 
-				fontname);
-	    break;
-	default:
-	    gtk_widget_destroy (dialog);
-	    return FALSE;
-    }
-
-    if (etat.font_string)
-	g_free (etat.font_string);
-    etat.font_string = fontname;
-
-    update_fonte_listes ();
-    return FALSE;
-}
 
 
 

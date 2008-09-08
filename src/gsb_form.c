@@ -2074,7 +2074,7 @@ gboolean gsb_form_finish_edition ( void )
     gboolean execute_scheduled = FALSE;
     gint saved_scheduled_number = 0;
 
-    devel_debug ("gsb_form_finish_edition");
+    devel_debug (NULL);
 
     /* get the number of the transaction, stored in the form (<0 if new) */
     transaction_number = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( transaction_form ),
@@ -2761,12 +2761,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 {
     GtkWidget *category_combofix;
 
-
-    gchar* tmpstr = g_strdup_printf ( "gsb_form_get_categories %d, new : %d", 
-				    transaction_number,
-				    new_transaction );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (transaction_number);
 
     if ( !gsb_data_form_check_for_value ( TRANSACTION_FORM_CATEGORY ))
 	return FALSE;
@@ -2895,7 +2890,6 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 	{
 	    /* it's a breakdown of transaction */
 	    /* if it was a transfer, we delete the contra-transaction */
-
 	    if ( is_transaction
 		 &&
 		 !new_transaction
@@ -2913,7 +2907,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 	    }
 
 	    /* if it's a modification of a transaction and it was not a breakdown,
-	     * we add a white line as first child */
+	     * but it is now, we add a white line as first child */
 	    if (!new_transaction
 		&&
 		!gsb_data_mix_get_breakdown_of_transaction (transaction_number, is_transaction))

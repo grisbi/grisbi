@@ -1,9 +1,7 @@
 /* ************************************************************************** */
-/*                                  utils_dates.c                             */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 CÃ©dric Auger (cedric@grisbi.org)      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
-/*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
+/*     Copyright (C)	2000-2008 Cedric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */

@@ -119,6 +119,8 @@ sources = \
 	parametres.c		\
 	parse_cmdline.c		\
 	print_config.c		\
+	print_dialog_config.c		\
+	print_transactions_list.c		\
 	qif.c			\
 	tiers_onglet.c		\
 	tip.c			\
@@ -133,6 +135,7 @@ sources = \
 	utils_editables.c	\
 	utils_file_selection.c	\
 	utils_files.c		\
+	utils_font.c		\
 	utils_operations.c	\
 	utils_str.c		\
 	balance_estimate_tab.c
@@ -253,6 +256,8 @@ grisbi_INCLUDES =		\
 	parametres.h		\
 	parse_cmdline.h		\
 	print_config.h		\
+	print_dialog_config.h		\
+	print_transactions_list.h		\
 	qif.h			\
 	import.h		\
 	tip.h			\
@@ -269,6 +274,7 @@ grisbi_INCLUDES =		\
 	utils_editables.h	\
 	utils_file_selection.h	\
 	utils_files.h		\
+	utils_font.h		\
 	utils_operations.h	\
 	utils_str.h
 

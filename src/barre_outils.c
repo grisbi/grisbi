@@ -1,10 +1,6 @@
 /* ************************************************************************** */
-/* Fichier qui s'occupe de la page d'accueil ( de démarrage lors de           */
-/* l'ouverture d'un fichier de comptes                                        */
 /*                                                                            */
-/*                                  barre_outils.c                             */
-/*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
 /*			2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -24,6 +20,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * \file barre_outils.c
+ * set up the toolbar
+ */
+
 
 #include "include.h"
 
@@ -39,6 +40,7 @@
 #include "./gsb_transactions_list.h"
 #include "./menu.h"
 #include "./traitement_variables.h"
+#include "./print_transactions_list.h"
 #include "./utils_buttons.h"
 #include "./include.h"
 #include "./structures.h"
@@ -123,6 +125,15 @@ GtkWidget *creation_barre_outils ( void )
 					       GINT_TO_POINTER(-1) );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
 			   _("Start account reconciliation"), "" );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+					       _("Print"),
+					       GTK_STOCK_PRINT,
+					       G_CALLBACK (print_transaction_list),
+					       GINT_TO_POINTER(-1) );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
+			   _("Print the transactions list"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     menu = gsb_automem_stock_button_menu_new ( etat.display_toolbar,

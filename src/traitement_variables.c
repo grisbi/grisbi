@@ -57,13 +57,13 @@
 #include "./gsb_scheduler_list.h"
 #include "./main.h"
 #include "./transaction_model.h"
-#include "./structures.h"
 #include "./custom_list.h"
 #include "./gsb_transactions_list.h"
 #include "./gsb_scheduler_list.h"
 #include "./include.h"
 #include "./echeancier_infos.h"
 #include "./erreur.h"
+#include "./structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

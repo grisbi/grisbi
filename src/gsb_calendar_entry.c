@@ -35,7 +35,6 @@
 #include "gsb_calendar_entry.h"
 #include "./utils_dates.h"
 #include "./gsb_form_widget.h"
-#include "./structures.h"
 #include "./traitement_variables.h"
 #include "./include.h"
 /*END_INCLUDE*/

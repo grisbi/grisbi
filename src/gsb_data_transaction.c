@@ -1154,9 +1154,12 @@ gint gsb_data_transaction_get_sub_category_number ( gint transaction_number )
 }
 
 
-/** set the sub_category_number
+/**
+ * set the sub_category_number
+ * 
  * \param transaction_number
  * \param value
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_sub_category_number ( gint transaction_number,

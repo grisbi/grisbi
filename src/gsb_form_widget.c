@@ -42,7 +42,6 @@
 #include "./gsb_fyear.h"
 #include "./gsb_payment_method.h"
 #include "./gtk_combofix.h"
-#include "./structures.h"
 #include "./traitement_variables.h"
 #include "./gsb_form.h"
 #include "./gsb_data_payment.h"
@@ -50,6 +49,7 @@
 #include "./include.h"
 #include "./gsb_data_form.h"
 #include "./erreur.h"
+#include "./structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
