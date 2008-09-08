@@ -55,11 +55,13 @@ static  gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
 						   gpointer null );
 /*END_STATIC*/
 
-
+/* xxx virer la grille */
 
 /** Used to display/hide comments in scheduler list */
 static GtkWidget *scheduler_display_hide_comments = NULL;
 
+/* display/hide marked transactions */
+static GtkWidget * bouton_affiche_ope_r = NULL;
 
 /** here are the 3 buttons on the scheduler toolbar
  * which can been unsensitive or sensitive */
@@ -143,6 +145,10 @@ GtkWidget *creation_barre_outils ( void )
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), menu,
 			   _("Change display mode of the list"), "" );
     gtk_box_pack_start ( GTK_BOX(hbox), menu, FALSE, FALSE, 0 );
+
+    /* set the button to show/hide R transactions */
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_affiche_ope_r, FALSE, FALSE, 0 );
+
 
     menu_import_rules = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
 							    GTK_STOCK_EXECUTE, _("Import rules"),
@@ -401,7 +407,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 							    G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction_by_menu ),
 							    NULL );
     g_signal_connect ( G_OBJECT (scheduler_button_delete ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &scheduler_button_delete );
+		       G_CALLBACK ( gtk_widget_destroyed), &scheduler_button_delete );
     gtk_widget_set_sensitive ( scheduler_button_delete,
 			       FALSE );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), scheduler_button_delete,
@@ -462,7 +468,37 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 
     return ( handlebox );
 }
-/*******************************************************************************************/
+
+
+
+
+/* ajouté pour la gestion des boutons afficher/masquer les opérations rapprochées */
+void gsb_gui_update_bouton_affiche_ope_r ( gboolean show_r )
+{
+    if (show_r)
+    {
+	bouton_affiche_ope_r = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+								  _("Mask reconcile"),
+								  "hide_r.png",
+								  G_CALLBACK (gsb_gui_toggle_show_reconciled),
+								  NULL );
+	gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), bouton_affiche_ope_r,
+			       _("Mask reconciled transactions"), "" );
+    }
+    else
+    {
+	bouton_affiche_ope_r = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+								  _("Display reconcile"),
+								  "show_r.png",
+								  G_CALLBACK (gsb_gui_toggle_show_reconciled),
+								  NULL );
+	gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), bouton_affiche_ope_r,
+			       _("Display reconciled transactions"), "" );
+    }
+    gsb_gui_update_transaction_toolbar ( );
+
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

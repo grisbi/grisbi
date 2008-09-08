@@ -3063,6 +3063,9 @@ void mise_a_jour_affichage_r ( gboolean show_r )
 	}
     }
     gsb_transactions_list_update_tree_view (current_account, TRUE);
+
+    /* update the button in toolbar */
+    gsb_gui_update_bouton_affiche_ope_r ( show_r );
     return;
 }
 

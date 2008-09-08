@@ -27,6 +27,7 @@ grisbi_pixmaps_DATA = \
 	grid.png \
 	grisbi-logo.png \
 	grisbi.png \
+	hide_r.png \
 	import.png \
 	money.png \
 	new-categ.png \
@@ -44,6 +45,7 @@ grisbi_pixmaps_DATA = \
 	reports.png \
 	resume.png \
 	scheduler.png \
+	show_r.png	\
 	text.png \
 	toolbar.png \
 	transaction-list.png \

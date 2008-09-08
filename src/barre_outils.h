@@ -8,5 +8,6 @@
 gboolean change_aspect_liste ( gint demande );
 GtkWidget *creation_barre_outils_echeancier ( void );
 void gsb_gui_update_transaction_toolbar ( void );
+void gsb_gui_update_bouton_affiche_ope_r ( gboolean show_r );
 /* END_DECLARATION */
 #endif

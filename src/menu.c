@@ -58,7 +58,6 @@ static void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAct
 				     gpointer user_data );
 static gboolean gsb_gui_toggle_show_closed_accounts ();
 static gboolean gsb_gui_toggle_show_form ();
-static gboolean gsb_gui_toggle_show_reconciled ();
 static gboolean help_bugreport ();
 static gboolean help_manual ();
 static gboolean help_quick_start ();
@@ -286,7 +285,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	  NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_grid_mode ), 
 	  etat.affichage_grille },
 	{ "ShowReconciled",	NULL,			_("Show _reconciled"),
-	  GINT_TO_POINTER (gsb_data_account_get_r ( gsb_gui_navigation_get_current_account ())), 
+	  "<Alt>R", 
 	  NULL,			G_CALLBACK ( gsb_gui_toggle_show_reconciled),
 	  0 },
 	{ "ShowClosed",		NULL,			_("Show _closed accounts"),
@@ -693,6 +692,8 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 				   gsb_form_is_visible () );
     g_free ( tmpstr );
 
+    /* update the toggle button to show marked transactions */
+    gsb_gui_update_bouton_affiche_ope_r ( gsb_data_account_get_r (account_number) );
 
     /* update the number of line showed */
 

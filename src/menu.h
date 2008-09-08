@@ -28,5 +28,6 @@ gboolean gsb_menu_update_accounts_in_menus ( void );
 gboolean gsb_menu_update_view_menu ( gint account_number );
 GtkWidget *init_menus ( GtkWidget *vbox );
 gchar * menu_name ( gchar * menu, gchar * submenu, gchar * subsubmenu );
+gboolean gsb_gui_toggle_show_reconciled ( void );
 /* END_DECLARATION */
 #endif

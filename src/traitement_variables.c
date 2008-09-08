@@ -27,7 +27,6 @@
 
 #include "include.h"
 
-
 /*START_INCLUDE*/
 #include "traitement_variables.h"
 #include "./gsb_currency.h"
@@ -112,6 +111,9 @@ GdkColor couleur_nom_compte_prelight;
 
 GdkColor couleur_bleue;
 GdkColor couleur_jaune;
+
+/* ajouté pour la gestion des boutons afficher/masquer les opérations rapprochées */
+GtkIconFactory *gsb_factory;
 
 GSList *liste_labels_titres_colonnes_liste_ope = NULL;
 
@@ -202,6 +204,7 @@ void init_variables ( void )
     gint scheduler_col_width_init[NB_COLS_SCHEDULER] = {119, 121, 352, 129, 147, 0, 116};
     gint transaction_col_width_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = {10, 12, 36, 6, 12, 12, 12 };
     gint i;
+    
 /* xxx on devrait séparer ça en 2 : les variables liées au fichier de compte, qui doivent être remises  à 0,
  * et les variables liées à grisbi (ex sauvegarde auto...) qui doivent rester */
     devel_debug (NULL);
