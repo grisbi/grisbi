@@ -202,11 +202,11 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
 	/* there is a selection, normaly, always the case */
 	gtk_tree_model_get ( GTK_TREE_MODEL (g_object_get_data(G_OBJECT (currency_list_box),
 							       "model")),
-			     &iter, 
+			     &iter,
 			     CURRENCY_NAME_COLUMN, &currency_name,
 			     CURRENCY_ISO_CODE_COLUMN, &currency_iso_code,
-			     CURRENCY_NICKNAME_COLUMN, &currency_nickname, 
-			     CURRENCY_FLOATING_COLUMN, &currency_floating, 
+			     CURRENCY_NICKNAME_COLUMN, &currency_nickname,
+			     CURRENCY_FLOATING_COLUMN, &currency_floating,
 			     -1 );
 	gsb_currency_config_create_currency ( currency_name, currency_nickname,
 					      currency_iso_code, currency_floating);
@@ -333,7 +333,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 				     GTK_POLICY_AUTOMATIC );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
 			 FALSE, FALSE, 0);
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
 					  GTK_SHADOW_IN );
     textview = gsb_automem_textview_new ( &adresse_commune, NULL, NULL );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
@@ -374,8 +374,8 @@ static GtkWidget *gsb_assistant_file_page_3 ( GtkWidget *assistant )
 			 TRUE, TRUE, 0 );
 
     /* Select default currency. */
-    gtk_tree_model_foreach ( GTK_TREE_MODEL(g_object_get_data ( G_OBJECT(currency_list_box), "model" )), 
-			     (GtkTreeModelForeachFunc) gsb_currency_config_select_default, 
+    gtk_tree_model_foreach ( GTK_TREE_MODEL(g_object_get_data ( G_OBJECT(currency_list_box), "model" )),
+			     (GtkTreeModelForeachFunc) gsb_currency_config_select_default,
 			     g_object_get_data ( G_OBJECT(currency_list_box), "treeview" ) );
 
     gtk_widget_show_all (page);
@@ -526,7 +526,7 @@ static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
      * else we don't touch the filename entry */
     last_title = g_object_get_data ( G_OBJECT (title_entry),
 				     "last_title");
-    last_filename = g_strconcat ( my_get_gsb_file_default_dir (), 
+    last_filename = g_strconcat ( my_get_gsb_file_default_dir (),
 				  G_DIR_SEPARATOR_S,
 				  last_title,
 				  ".gsb",
@@ -549,7 +549,7 @@ static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
      * so we change it */
     g_free (last_filename);
 
-    new_filename = g_strconcat ( my_get_gsb_file_default_dir (), 
+    new_filename = g_strconcat ( my_get_gsb_file_default_dir (),
 				 G_DIR_SEPARATOR_S,
 				 gtk_entry_get_text (GTK_ENTRY (title_entry)),
 				 ".gsb",
@@ -575,7 +575,7 @@ static gboolean gsb_assistant_file_choose_filename ( GtkWidget *button,
     GtkWidget *dialog;
     gchar *tmpstr;
 
-    dialog = gtk_file_chooser_dialog_new ("Create filename",
+    dialog = gtk_file_chooser_dialog_new (_("Create filename"),
 					  GTK_WINDOW (window),
 					  GTK_FILE_CHOOSER_ACTION_SAVE,
 					  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,

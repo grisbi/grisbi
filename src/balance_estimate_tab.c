@@ -229,7 +229,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	}
 
 	/****** Estimation array page ******/
-	widget = gtk_label_new(_("Estimate array"));
+	widget = gtk_label_new("Estimate array");
 	gtk_widget_show(widget);
 	vbox = gtk_vbox_new(FALSE, 5);
 	gtk_widget_show(GTK_WIDGET(vbox));
@@ -335,7 +335,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	gtk_tree_view_column_set_expand(GTK_TREE_VIEW_COLUMN(column), FALSE);
 
 	/****** Estimation graph page ******/
-	widget = gtk_label_new(_("Previson graph"));
+	widget = gtk_label_new("Estimation graph");
 	gtk_widget_show(widget);
 	vbox = gtk_vbox_new(FALSE, 5);
 	gtk_widget_show(GTK_WIDGET(vbox));

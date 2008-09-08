@@ -37,7 +37,7 @@
 
 /*START_STATIC*/
 static void latex_attach_hsep ( int x, int x2, int y, int y2);
-static void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
+static void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
 			  enum alignement align, gint transaction_number );
 static void latex_attach_vsep ( int x, int x2, int y, int y2);
 static gint latex_finish ();
@@ -87,7 +87,7 @@ extern gint nb_colonnes;
  * \param transaction_number a number of transaction to link to (not used as latex
  *            backend is not interactive)
  */
-void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
+void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
 			  enum alignement align, gint transaction_number )
 {
     int pad, realsize, realcolumns;
@@ -127,11 +127,11 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
     }
     if ( gsb_data_report_get_show_report_transactions (current_report_number))
 	realcolumns = (float)((nb_colonnes / 2) + 1);
-    else 
+    else
 	realcolumns = nb_colonnes;
 
-    fprintf ( file_out, 
-	      "\\begin{boxedminipage}{%f\\text%s}\n", 
+    fprintf ( file_out,
+	      "\\begin{boxedminipage}{%f\\text%s}\n",
 	      (float) realsize / (float) realcolumns,
 	      ( etat.print_config.orientation == LANDSCAPE ? "height" : "width") );
 
@@ -264,11 +264,11 @@ gint latex_initialise (GSList * opes_selectionnees, gchar * filename )
     file_out = utf8_fopen ( filename, "w+x" );
     if ( ! file_out )
     {
-	dialogue_error ( g_strdup_printf ("File '%s' already exists.", filename ));;
+	dialogue_error ( g_strdup_printf (_("File '%s' already exists."), filename ));;
 	return FALSE;
     }
 
-    fprintf (file_out, 
+    fprintf (file_out,
 	     "\\documentclass{article}\n\n"
 	     "\\special{! TeXDict begin /landplus90{true}store end }\n"
 	     "\\usepackage{a4}\n"
@@ -292,7 +292,7 @@ gint latex_initialise (GSList * opes_selectionnees, gchar * filename )
       {
 	fprintf (file_out, "\\landscape\n\n");
       }
-	  
+
     fprintf (file_out,
 	     "\\fboxsep \\parskip\n"
 	     "\\fboxrule 0pt\n"
@@ -318,7 +318,7 @@ gint latex_initialise (GSList * opes_selectionnees, gchar * filename )
 	}
 	fprintf ( file_out, "}" );
     }
-    else 
+    else
     {
 	colwidth = real_width / (float) nb_colonnes;
 	for (i = 0 ; i < nb_colonnes ; i++)
@@ -353,13 +353,13 @@ gint latex_finish ()
 	if ( system ( command ) > 0 )
 	    dialogue_error_hint ( _("See console output for details.  Be sure you have installed LaTeX properly with unicode support."),
 				  _("LaTeX run was unable to complete.") );
-	else 
+	else
 	{
 	  command = g_strdup_printf ( "%s %s \"%s.dvi\" -o \"%s\"",  etat.dvips_command,
 				      ( etat.print_config.orientation == LANDSCAPE ? "-t landscape" : ""),
 				      tempname,
-				      (etat.print_config.printer ? 
-				       (g_strconcat ( tempname, ".ps", NULL )) : 
+				      (etat.print_config.printer ?
+				       (g_strconcat ( tempname, ".ps", NULL )) :
 				       etat.print_config.printer_filename) );
 	    unlink ( g_strdup_printf ("%s.tex", tempname) );
 	    unlink ( g_strdup_printf ("%s.aux", tempname) );
@@ -368,7 +368,7 @@ gint latex_finish ()
 	    {
 		if ( etat.print_config.printer )
 		{
-		    command = g_strdup_printf ( "%s %s.ps", etat.print_config.printer_name, 
+		    command = g_strdup_printf ( "%s %s.ps", etat.print_config.printer_name,
 						tempname );
 		    if ( system ( command ) )
 		    {
@@ -389,21 +389,21 @@ gint latex_finish ()
 	}
 
 	g_free ( tempname );
-    }  
+    }
 
     return 1;
 }
 
 
 
-/** 
+/**
  * Print a latex safe string into the file_out file descriptor.  All chars
  * that cannot be printed via latex are converted to their latex
  * equivalent (i.e. backslashes are escaped).
  *
  * \param text Text to print.
  */
-void latex_safe ( gchar * text ) 
+void latex_safe ( gchar * text )
 {
     gboolean start = 1;
 
@@ -422,14 +422,14 @@ void latex_safe ( gchar * text )
 		    fprintf ( file_out, "%c", *text );
 		break;
 
-	    case 'â':
-		if ( *(text+1) == '‚' && *(text+2) == '¬' )
+	    case 'ï¿½':
+		if ( *(text+1) == 'ï¿½' && *(text+2) == 'ï¿½' )
 		{
 		    fprintf ( file_out, "\\officialeuro" );
 		    text+=2;
 		}
-		break;		    
-		
+		break;
+
 	    case '_':
 	    case '&':
 	    case '%':

@@ -135,18 +135,18 @@ GtkWidget *onglet_tiers ( void )
     scroll_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scroll_window ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scroll_window), 
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scroll_window),
 					  GTK_SHADOW_IN );
     gtk_box_pack_start ( GTK_BOX ( onglet ), scroll_window, TRUE, TRUE, 0 );
     gtk_widget_show ( scroll_window );
 
     /* Create model */
-    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(payee_tree_model), 
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(payee_tree_model),
 					   META_TREE_TEXT_COLUMN, GTK_SORT_ASCENDING );
-    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(payee_tree_model), 
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(payee_tree_model),
 				      META_TREE_TEXT_COLUMN, metatree_sort_column,
 				      NULL, NULL );
-    g_object_set_data ( G_OBJECT ( payee_tree_model), "metatree-interface", 
+    g_object_set_data ( G_OBJECT ( payee_tree_model), "metatree-interface",
 			payee_interface );
 
     /* Create container + TreeView */
@@ -159,48 +159,48 @@ GtkWidget *onglet_tiers ( void )
     gtk_tree_view_set_reorderable (GTK_TREE_VIEW(payee_tree), TRUE);
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(payee_tree)),
 				  GTK_SELECTION_SINGLE );
-    gtk_tree_view_set_model (GTK_TREE_VIEW (payee_tree), 
+    gtk_tree_view_set_model (GTK_TREE_VIEW (payee_tree),
 			     GTK_TREE_MODEL (payee_tree_model));
     g_object_unref (G_OBJECT(payee_tree_model));
-    g_object_set_data ( G_OBJECT(payee_tree_model), "tree-view", 
+    g_object_set_data ( G_OBJECT(payee_tree_model), "tree-view",
 			payee_tree );
 
     /* Make category column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes (_("Payees"), cell, 
-						       "text", META_TREE_TEXT_COLUMN, 
+    column = gtk_tree_view_column_new_with_attributes (_("Payees"), cell,
+						       "text", META_TREE_TEXT_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
 						       NULL);
 #if GTK_CHECK_VERSION(2,4,0)
     gtk_tree_view_column_set_expand ( column, TRUE );
 #endif
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ), 
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
 
     /* Make account column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes ("Account", cell, 
-						       "text", META_TREE_ACCOUNT_COLUMN, 
+    column = gtk_tree_view_column_new_with_attributes (_("Account"), cell,
+						       "text", META_TREE_ACCOUNT_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
 						       NULL);
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ), 
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
 
     /* Make balance column */
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes ("Balance", cell, 
+    column = gtk_tree_view_column_new_with_attributes (_("Balance"), cell,
 						       "text", META_TREE_BALANCE_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
 						       "xalign", META_TREE_XALIGN_COLUMN,
 						       NULL);
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ), 
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
 
     gtk_container_add ( GTK_CONTAINER ( scroll_window ), payee_tree );
     gtk_widget_show ( payee_tree );
 
     /* Connect to signals */
-    g_signal_connect ( G_OBJECT(payee_tree), "row-expanded", 
+    g_signal_connect ( G_OBJECT(payee_tree), "row-expanded",
 		       G_CALLBACK(division_column_expanded), NULL );
     g_signal_connect( G_OBJECT(payee_tree), "row-activated",
 		      G_CALLBACK(division_activated), NULL);
@@ -270,7 +270,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_PROPERTIES, _("Properties"),
-					   G_CALLBACK(edit_payee), 
+					   G_CALLBACK(edit_payee),
 					   payee_tree );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL (payee_tree_model), button, "selection" );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
@@ -278,7 +278,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
-						GTK_STOCK_SELECT_COLOR, 
+						GTK_STOCK_SELECT_COLOR,
 						_("View"),
 						G_CALLBACK(popup_payee_view_mode_menu),
 						NULL );
@@ -288,7 +288,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 
     gtk_widget_show_all ( handlebox );
 
-    metatree_set_linked_widgets_sensitive ( GTK_TREE_MODEL(payee_tree_model), 
+    metatree_set_linked_widgets_sensitive ( GTK_TREE_MODEL(payee_tree_model),
 					    FALSE, "selection" );
 
     return ( handlebox );
@@ -312,20 +312,20 @@ gboolean popup_payee_view_mode_menu ( GtkWidget * button )
 
     /* Edit transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Payee view") );
-    g_signal_connect ( G_OBJECT(menu_item), "activate", 
+    g_signal_connect ( G_OBJECT(menu_item), "activate",
 		       G_CALLBACK(expand_arbre_division), (gpointer) 0 );
     g_object_set_data ( G_OBJECT(menu_item), "tree-view", payee_tree );
     gtk_menu_append ( menu, menu_item );
 
     menu_item = gtk_image_menu_item_new_with_label ( _("Complete view") );
-    g_signal_connect ( G_OBJECT(menu_item), "activate", 
+    g_signal_connect ( G_OBJECT(menu_item), "activate",
 		       G_CALLBACK(expand_arbre_division), (gpointer) 2 );
     g_object_set_data ( G_OBJECT(menu_item), "tree-view", payee_tree );
     gtk_menu_append ( menu, menu_item );
 
     gtk_widget_show_all ( menu );
 
-    gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
+    gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1,
 		     gtk_get_current_event_time());
 
     return FALSE;
@@ -364,7 +364,7 @@ void payee_fill_tree ( void )
 	payee_number = gsb_data_payee_get_no_payee (payee_list_tmp -> data);
 
 	gtk_tree_store_append (GTK_TREE_STORE (payee_tree_model), &iter_payee, NULL);
-	fill_division_row ( GTK_TREE_MODEL(payee_tree_model), payee_interface, 
+	fill_division_row ( GTK_TREE_MODEL(payee_tree_model), payee_interface,
 			    &iter_payee, payee_number );
 
 	payee_list_tmp = payee_list_tmp -> next;
@@ -390,7 +390,7 @@ gboolean payee_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * pa
     {
 	gtk_tree_set_row_drag_data (selection_data, GTK_TREE_MODEL(payee_tree_model), path);
     }
-    
+
     return FALSE;
 }
 
@@ -427,7 +427,7 @@ gboolean edit_payee ( GtkTreeView * view )
     selection = gtk_tree_view_get_selection ( view );
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
     {
-	gtk_tree_model_get ( model, &iter, 
+	gtk_tree_model_get ( model, &iter,
 			     META_TREE_POINTER_COLUMN, &payee_number,
 			     META_TREE_NO_DIV_COLUMN, &no_division,
 			     -1 );
@@ -439,8 +439,8 @@ gboolean edit_payee ( GtkTreeView * view )
     title = g_strdup_printf ( _("Properties for %s"), gsb_data_payee_get_name(payee_number,
 									      TRUE));
     dialog = gtk_dialog_new_with_buttons ( title, GTK_WINDOW (window), GTK_DIALOG_MODAL,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO, 
-					   GTK_STOCK_APPLY, GTK_RESPONSE_OK, 
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
+					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,
 					   NULL);
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
@@ -478,10 +478,10 @@ gboolean edit_payee ( GtkTreeView * view )
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
 					  GTK_SHADOW_IN );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), entry_description );
-    gtk_table_attach ( GTK_TABLE(table), scrolled_window, 
+    gtk_table_attach ( GTK_TABLE(table), scrolled_window,
 		       1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     gtk_widget_show_all ( dialog );
@@ -494,7 +494,7 @@ gboolean edit_payee ( GtkTreeView * view )
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
 	    return FALSE;
 	}
-	
+
 	if ( ! gsb_data_payee_get_number_by_name ( gtk_entry_get_text ( GTK_ENTRY ( entry_name ) ),
 						   FALSE ) ||
 	     gsb_data_payee_get_number_by_name ( gtk_entry_get_text ( GTK_ENTRY ( entry_name ) ),
@@ -509,7 +509,7 @@ gboolean edit_payee ( GtkTreeView * view )
 	    gchar * message = g_strdup_printf ( _("You tried to rename current %s to '%s' "
 						  "but this %s already exists.  Please "
 						  "choose another name."),
-						_("payee"), 
+						_("payee"),
 						gtk_entry_get_text ( GTK_ENTRY ( entry_name ) ),
 						_("payee") );
 	    dialogue_warning_hint ( message, _("Payee already exists") );
