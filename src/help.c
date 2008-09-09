@@ -1,7 +1,7 @@
 /* Fichier help.c */
 
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2006 Benjamin Drieu (bdrieu@april.org) */
+/*			2008 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -164,6 +164,14 @@ NULL );
     gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
     gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
+
+#if ! GTK_CHECK_VERSION(2,10,0)
+    /* Warn about obsolete dependencies */
+    label = gtk_label_new ( _("This version of Grisbi does not support print feature.  Version of GTK+ used is obsolete.") );
+    gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
+    gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
+#endif
 
     /* Authors */
     label = gtk_label_new (NULL);

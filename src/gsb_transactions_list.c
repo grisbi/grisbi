@@ -3355,7 +3355,7 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number,
 gboolean gsb_transactions_list_draw_grid ( gboolean show_grid )
 {
 #if GTK_CHECK_VERSION(2,10,0)
-    /* This is stuff only existing from GTK+ 2.6 and upper. */
+    /* This is stuff only existing from GTK+ 2.10 and upper. */
 
     if ( show_grid )
     {

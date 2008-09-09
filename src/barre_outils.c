@@ -129,7 +129,7 @@ GtkWidget *creation_barre_outils ( void )
 			   _("Start account reconciliation"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
-#if GTK_CHECK_VERSION(2,14,0)
+#if GTK_CHECK_VERSION(2,10,0)
     /* This stuff needs GTK+ 2.10 to work. */
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					    GTK_STOCK_PRINT,

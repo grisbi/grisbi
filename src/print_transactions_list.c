@@ -24,7 +24,6 @@
  * dialog functions for printing
  */
 
-
 #include "include.h"
 
 /*START_INCLUDE*/
@@ -43,6 +42,8 @@
 #include "./erreur.h"
 #include "./structures.h"
 /*END_INCLUDE*/
+
+#if GTK_CHECK_VERSION(2,10,0)
 
 /*START_STATIC*/
 static gint print_transaction_list_draw_line ( gint line_position );
@@ -845,3 +846,11 @@ static gint print_transaction_list_draw_row ( GtkPrintContext *context,
 
     return line_position;
 }
+
+#endif /* GTK_CHECK_VERSION(2,10,0) */
+
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
