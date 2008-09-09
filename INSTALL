@@ -3,7 +3,7 @@ How to install Grisbi :
 
 Requirements:
 
- - GTK 2.4
+ - GTK 2.10
  - libofx (optional)
 
 Installation steps:

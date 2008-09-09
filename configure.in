@@ -16,8 +16,9 @@ AC_ISC_POSIX
 AC_PROG_CC
 AC_STDC_HEADERS
 AM_PROG_LIBTOOL
+AC_LIBTOOL_DLOPEN_SELF
 AC_SUBST(LIBTOOL_DEPS)
-
+AC_SUBST(lt_prog_compiler_wl)
 dnl Check if we have backtrace support
 AC_CHECK_FUNCS(backtrace)
 
@@ -30,7 +31,7 @@ AC_CHECK_LIB(intl,main)
 dnl
 dnl Standard GTK checks
 dnl
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2)
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.10.0 glib-2.0 >= 2.2)
 LDFLAGS="${LDFLAGS} ${GTK_LIBS}"
 CFLAGS="${CFLAGS} ${GTK_CFLAGS}"
 
@@ -259,6 +260,7 @@ AC_SUBST(XML2_CFLAGS)
 AC_SUBST(prefix)
 AC_SUBST(CFLAGS)
 AC_SUBST(LDFLAGS)
+AC_SUBST(export_dynamic_flag_spec_CXX)
 AC_SUBST(export_dynamic_flag_spec)
 AC_SUBST(lt_prog_compiler_wl)
 
