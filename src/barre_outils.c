@@ -129,14 +129,17 @@ GtkWidget *creation_barre_outils ( void )
 			   _("Start account reconciliation"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
-    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
-					       _("Print"),
-					       GTK_STOCK_PRINT,
-					       G_CALLBACK (print_transaction_list),
-					       GINT_TO_POINTER(-1) );
+#if GTK_CHECK_VERSION(2,14,0)
+    /* This stuff needs GTK+ 2.10 to work. */
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					    GTK_STOCK_PRINT,
+					    _("Print"),
+					    G_CALLBACK (print_transaction_list),
+					    GINT_TO_POINTER(-1) );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
 			   _("Print the transactions list"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+#endif /* GTK_CHECK_VERSION(2,10,0) */
 
     menu = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
 					      GTK_STOCK_SELECT_COLOR, _("View"),
@@ -147,7 +150,8 @@ GtkWidget *creation_barre_outils ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), menu, FALSE, FALSE, 0 );
 
     /* set the button to show/hide R transactions */
-    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_affiche_ope_r, FALSE, FALSE, 0 );
+    if ( bouton_affiche_ope_r && GTK_IS_WIDGET ( bouton_affiche_ope_r ) )
+	gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_affiche_ope_r, FALSE, FALSE, 0 );
 
 
     menu_import_rules = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
