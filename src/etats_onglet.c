@@ -144,6 +144,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_exporter_etat, FALSE, FALSE, 0 );
 
     /* print button */
+#if GTK_CHECK_VERSION(2,10,0)
     bouton_imprimer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
 							  GTK_STOCK_PRINT, 
 							  _("Print"),
@@ -155,12 +156,13 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 			   bouton_imprimer_etat,
 			   _("Print selected report"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_imprimer_etat, FALSE, FALSE, 0 );
+#endif /* GTK_CHECK_VERSION(2,10,0) */
 
-     bouton_effacer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
-							GTK_STOCK_DELETE, 
-							_("Delete"),
-							G_CALLBACK ( efface_etat ),
-							NULL );
+    bouton_effacer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
+							 GTK_STOCK_DELETE, 
+							 _("Delete"),
+							 G_CALLBACK ( efface_etat ),
+							 NULL );
     g_signal_connect ( G_OBJECT (bouton_effacer_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_effacer_etat );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 

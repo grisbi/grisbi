@@ -38,6 +38,9 @@
 #include "./structures.h"
 /*END_INCLUDE*/
 
+#if GTK_CHECK_VERSION(2,10,0)
+
+
 /*START_STATIC*/
 static gboolean print_report_begin ( GtkPrintOperation *operation,
 			      GtkPrintContext *context,
@@ -458,3 +461,12 @@ static void print_report_draw_row ( GtkPrintContext *context,
     pango_cairo_show_layout (cr, layout);
     g_object_unref (layout);
 }
+
+
+#endif /* GTK_CHECK_VERSION(2,10,0) */
+
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
