@@ -1,23 +1,29 @@
-/*  Fichier qui s'occupe de l'onglet états */
-/*      etats.c */
-
+/* ************************************************************************** */
+/*                                                                            */
 /*     Copyright (C)	2000-2008 Cedric Auger (cedric@grisbi.org) */
 /*			2002-2008 Benjamin Drieu (bdrieu@april.org) */
-/* 			http://www.grisbi.org */
+/* 			http://www.grisbi.org				      */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/**
+ * \file etats_onglet.c
+ * Handle all UI actions for the reports.
+ */
 
 #include "include.h"
 
@@ -156,7 +162,16 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 			   bouton_imprimer_etat,
 			   _("Print selected report"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_imprimer_etat, FALSE, FALSE, 0 );
+#else
+    bouton_imprimer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
+							  GTK_STOCK_PRINT, 
+							  _("Print"),
+							  G_CALLBACK (impression_etat_courant),
+							  NULL );
+    g_signal_connect ( G_OBJECT (bouton_imprimer_etat ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &bouton_imprimer_etat );
 #endif /* GTK_CHECK_VERSION(2,10,0) */
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_imprimer_etat, FALSE, FALSE, 0 );
 
     bouton_effacer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
 							 GTK_STOCK_DELETE, 
