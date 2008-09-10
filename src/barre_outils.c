@@ -164,6 +164,11 @@ GtkWidget *creation_barre_outils ( void )
 
     gtk_widget_show_all ( hbox );
 
+    if ( gsb_data_import_rule_account_has_rule ( gsb_gui_navigation_get_current_account ( ) ) )
+	gtk_widget_show ( menu_import_rules );
+    else
+	gtk_widget_hide ( menu_import_rules );
+
     return ( hbox );
 }
 
