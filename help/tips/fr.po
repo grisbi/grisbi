@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-15 18:05+0200\n"
-"PO-Revision-Date: 2004-12-29 20:58+0100\n"
+"PO-Revision-Date: 2008-09-10 18:49+0200\n"
 "Last-Translator: Benjamin Drieu <bdrieu@april.org>\n"
 "Language-Team: Francais <traduction@grisbi.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid ""
 "By double cliking on a date field, you can pop up a calendar to select a "
 "date."
-msgstr ""
+msgstr "En double cliquant sur un champ de date, vous pouvez faire apparaître un calendrier pour sélectionner une date."
 
 #: tips.txt:3
 #, fuzzy

@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in.
 
 EXTRA_DIST = tips.txt fr.gmo de.gmo 
-grisbi_helpdir = $(datadir)/grisbi
+grisbi_helpdir = $(datadir)/$(PACKAGE)
 grisbi_help_DATA = tips.txt
 
 #grisbi_potdir = $(datadir)/locale/grisbi-tips
