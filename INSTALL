@@ -3,7 +3,7 @@ How to install Grisbi :
 
 Requirements:
 
- - GTK 2.10
+ - GTK 2.2, 2.10 is needed to be able to print
  - libofx (optional)
 
 Installation steps:
@@ -17,11 +17,6 @@ fun !
 
 OFX support is optional and can be disabled by using the --without-ofx
 parameter.
-
-To use the print feature, make sure you have installed unicode support for
-LaTeX (http://www.unruh.de/DniQ/latex/unicode/).  Most distributions have
-unicode support already enabled or only require that you install the latex-ucs
-binary package.
 
 
  -- Grisbi development team <team@grisbi.org>
