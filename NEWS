@@ -1,28 +1,33 @@
 New in version 0.6 :
  - Encryption of the file
+ - New and improved print system.  LaTeX no more needed, printing has
+   never been so straightforward
  - Improved user interface
    + Tabs deprecated in favor of a navigation tree
    + Redesigned categories/payees/budgetary lines trees
    + Totally redesigned transaction list with native GTK2 widgets
+   + Breakdown of transactions displayed directly in transaction list
    + Optional grid in transaction list
    + New "view" menu
    + Use of assistants to ease some operations
    + Custom sort for transaction list columns
    + Reconcile now shows togglable buttons
+   + Use of + and - in amount entry to increment/decrement values
    + Astonishing icons ... can't ask for more!
  - Archival of old transactions, possibly into separate files
  - Form structure defined by user
  - End of the obligation to use Euro
  - Gnucash and CSV files import
  - HBCI support through aqbanking plugin
- - Use of + and - in amount entry to increment/decrement values
  - Tip of the day
+ - New archival system, that allow old transactions to be archived and
+   hidden
  - Reconciled transactions are "archived" by default
  - Tip of the day
  - Huge work on localization :
    + Grisbi suggests a default currency according to the locale
    + Dates are now displayed and parsed according to the locale, no
-     more ugly european dates!
+     more unbearable european dates for overseas folks!
    + Amounts are displayed according to locale
  - It is now possible to omit decimal separator in numerical fields
  - Plugin system
