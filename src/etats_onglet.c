@@ -1,8 +1,8 @@
 /*  Fichier qui s'occupe de l'onglet états */
 /*      etats.c */
 
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org) */
-/*			2002-2006 Benjamin Drieu (bdrieu@april.org) */
+/*     Copyright (C)	2000-2008 Cedric Auger (cedric@grisbi.org) */
+/*			2002-2008 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -38,6 +38,7 @@
 #include "./utils.h"
 #include "./etats_config.h"
 #include "./print_config.h"
+#include "./print_report.h"
 #include "./utils_files.h"
 #include "./structures.h"
 #include "./utils_file_selection.h"
@@ -142,19 +143,20 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 			   _("Export selected report to egsb, HTML, Tex, CSV, PostScript"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_exporter_etat, FALSE, FALSE, 0 );
 
+    /* print button */
     bouton_imprimer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
-							 GTK_STOCK_PRINT, 
-							 _("Print"),
-							 G_CALLBACK (impression_etat_courant),
-							 NULL );
+							  GTK_STOCK_PRINT, 
+							  _("Print"),
+							  G_CALLBACK (print_report),
+							  NULL );
     g_signal_connect ( G_OBJECT (bouton_imprimer_etat ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &bouton_imprimer_etat );
+		       G_CALLBACK ( gtk_widget_destroyed), &bouton_imprimer_etat );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
 			   bouton_imprimer_etat,
 			   _("Print selected report"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_imprimer_etat, FALSE, FALSE, 0 );
 
-    bouton_effacer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
+     bouton_effacer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
 							GTK_STOCK_DELETE, 
 							_("Delete"),
 							G_CALLBACK ( efface_etat ),

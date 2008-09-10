@@ -120,6 +120,7 @@ sources = \
 	parse_cmdline.c		\
 	print_config.c		\
 	print_dialog_config.c		\
+	print_report.c		\
 	print_transactions_list.c		\
 	qif.c			\
 	tiers_onglet.c		\
@@ -257,6 +258,7 @@ grisbi_INCLUDES =		\
 	parse_cmdline.h		\
 	print_config.h		\
 	print_dialog_config.h		\
+	print_report.h		\
 	print_transactions_list.h		\
 	qif.h			\
 	import.h		\

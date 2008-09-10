@@ -34,11 +34,11 @@
 #include "./gsb_data_account.h"
 #include "./gsb_data_import_rule.h"
 #include "./navigation.h"
+#include "./menu.h"
 #include "./import.h"
 #include "./gsb_reconcile.h"
 #include "./gsb_scheduler_list.h"
 #include "./gsb_transactions_list.h"
-#include "./menu.h"
 #include "./traitement_variables.h"
 #include "./print_transactions_list.h"
 #include "./utils_buttons.h"
@@ -134,8 +134,8 @@ GtkWidget *creation_barre_outils ( void )
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					    GTK_STOCK_PRINT,
 					    _("Print"),
-					    G_CALLBACK (print_transaction_list),
-					    GINT_TO_POINTER(-1) );
+					    G_CALLBACK (print_transactions_list),
+					    NULL );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
 			   _("Print the transactions list"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );

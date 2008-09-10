@@ -6,7 +6,7 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-gboolean print_transaction_list ( GtkWidget *button,
+gboolean print_transactions_list ( GtkWidget *button,
 				  gpointer null );
 /* END_DECLARATION */
 #endif

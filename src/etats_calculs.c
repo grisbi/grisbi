@@ -43,11 +43,9 @@
 #include "./gsb_real.h"
 #include "./gsb_status.h"
 #include "./utils_str.h"
-#include "./print_config.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_real.h"
-#include "./print_config.h"
 #include "./etats_affiche.h"
 /*END_INCLUDE*/
 
@@ -63,7 +61,6 @@ static gint compare_montants_etat ( gsb_real montant_ope,
 static void etape_finale_affichage_etat ( GSList *ope_selectionnees,
 				   struct struct_etat_affichage *affichage,
 				   gchar * filename );
-static void impression_etat ( gint report_number );
 static const gchar *recupere_texte_test_etat ( gint transaction_number,
 					gint champ );
 static gint verifie_chq_test_etat ( gint text_comparison_number,
@@ -102,7 +99,6 @@ extern gint devise_tiers_etat;
 extern gint exo_en_cours_etat;
 extern struct struct_etat_affichage gtktable_affichage ;
 extern struct struct_etat_affichage gtktable_affichage;
-extern struct struct_etat_affichage latex_affichage ;
 extern gint ligne_debut_partie;
 extern gsb_real montant_categ_etat;
 extern gsb_real montant_compte_etat;
@@ -129,7 +125,6 @@ extern const gchar *nom_ib_en_cours;
 extern const gchar *nom_ss_categ_en_cours;
 extern const gchar *nom_ss_ib_en_cours;
 extern const gchar *nom_tiers_en_cours;
-extern GtkWidget *notebook_general ;
 extern gsb_real null_real ;
 extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
@@ -1423,28 +1418,6 @@ void rafraichissement_etat ( gint report_number )
     affichage_etat ( report_number, &gtktable_affichage, NULL );
 }
 
-
-/*****************************************************************************************************/
-/* Fonction d'impression de l'état */
-/*****************************************************************************************************/
-void impression_etat ( gint report_number )
-{
-
-    if ( ! print_config() )
-	return;
-
-    affichage_etat ( report_number, &latex_affichage, NULL );
-}
-
-
-void impression_etat_courant ( )
-{
-    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != 7 )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
-				7 );
-
-    impression_etat (gsb_gui_navigation_get_current_report ());
-}
 
 
 /*****************************************************************************************************/

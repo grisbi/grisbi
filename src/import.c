@@ -70,8 +70,8 @@
 #include "./go-charmap-sel.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_account.h"
-#include "./gsb_form_scheduler.h"
 #include "./include.h"
+#include "./gsb_form_scheduler.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
 
@@ -106,7 +106,7 @@ static GtkWidget * import_create_final_page ( GtkWidget * assistant );
 static GtkWidget * import_create_resume_page ( GtkWidget * assistant );
 static gboolean import_enter_file_selection_page ( GtkWidget * assistant );
 static gboolean import_enter_resume_page ( GtkWidget * assistant );
-static void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel * model ) ;
+static void import_preview_maybe_sensitive_next ( GtkWidget * assistant, GtkTreeModel * model );
 static gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant );
 static gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 			      const gchar *value, GtkListStore * model );

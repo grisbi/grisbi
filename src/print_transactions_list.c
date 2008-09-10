@@ -20,8 +20,8 @@
 /* ************************************************************************** */
 
 /**
- * \file print_dialog.c
- * dialog functions for printing
+ * \file print_transactions_list.c
+ * print the transactions list
  */
 
 #include "include.h"
@@ -46,29 +46,29 @@
 #if GTK_CHECK_VERSION(2,10,0)
 
 /*START_STATIC*/
-static gint print_transaction_list_draw_line ( gint line_position );
 static gboolean print_transactions_list_begin ( GtkPrintOperation *operation,
 					 GtkPrintContext *context,
 					 gpointer null );
+static  void print_transactions_list_calculate_columns ( gdouble page_width );
+static  void print_transactions_list_draw_background ( CustomRecord *record,
+						      gboolean color_bg,
+						      gint line_position );
+static  gint print_transactions_list_draw_column ( gint column_position,
+						 gint line_position );
+static  gint print_transactions_list_draw_columns_title ( GtkPrintContext *context,
+							 gint line_position);
+static  gint print_transactions_list_draw_line ( gint line_position );
 static gboolean print_transactions_list_draw_page ( GtkPrintOperation *operation,
 					     GtkPrintContext *context,
 					     gint page,
 					     gpointer null );
-static void print_transactions_list_calculate_columns ( gdouble page_width );
-static gboolean print_transactions_list_get_visibles_lines ( gint *number_of_archives,
-						      gint *number_of_transactions );
-static gint print_transactions_list_draw_title ( GtkPrintContext *context,
-						 gint line_position );
-static gint print_transactions_list_draw_columns_title ( GtkPrintContext *context,
-						  gint line_position);
-static void print_transactions_list_draw_background ( CustomRecord *record,
-						      gboolean color_bg,
-						      gint line_position );
-static gint print_transaction_list_draw_column ( gint column_position,
-						 gint line_position );
-static gint print_transaction_list_draw_row ( GtkPrintContext *context,
+static  gint print_transactions_list_draw_row ( GtkPrintContext *context,
 					      CustomRecord *record,
 					      gint line_position );
+static  gint print_transactions_list_draw_title ( GtkPrintContext *context,
+						 gint line_position );
+static gboolean print_transactions_list_get_visibles_lines ( gint *number_of_archives,
+						      gint *number_of_transactions );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -121,7 +121,7 @@ static gdouble page_height = 0.0;
  * \param button	toobar button
  * \param null
  * */
-gboolean print_transaction_list ( GtkWidget *button,
+gboolean print_transactions_list ( GtkWidget *button,
 				  gpointer null )
 {
     GtkWidget *dialog;
@@ -445,7 +445,7 @@ gboolean print_transactions_list_draw_page ( GtkPrintOperation *operation,
 	CustomRecord *record = NULL;
 
 	/* begin a transaction : fill the line before the transaction */
-	line_position = print_transaction_list_draw_line (line_position);
+	line_position = print_transactions_list_draw_line (line_position);
 
 	/* print the transaction */
 	for (i=0 ; i<custom_list -> nb_rows_by_transaction ; i++)
@@ -495,9 +495,9 @@ gboolean print_transactions_list_draw_page ( GtkPrintOperation *operation,
 		print_transactions_list_draw_background (record, color_bg, line_position );
 
 	    /* draw the last column */
-	    print_transaction_list_draw_column (page_width, line_position);
+	    print_transactions_list_draw_column (page_width, line_position);
 
-	    line_position = print_transaction_list_draw_row (context, record, line_position);
+	    line_position = print_transactions_list_draw_row (context, record, line_position);
 
 	    current_row_to_print++;
 
@@ -521,7 +521,7 @@ gboolean print_transactions_list_draw_page ( GtkPrintOperation *operation,
     }
 
     /* draw the last line */
-    print_transaction_list_draw_line (line_position);
+    print_transactions_list_draw_line (line_position);
     return FALSE;
 }
 
@@ -754,7 +754,7 @@ static void print_transactions_list_draw_background ( CustomRecord *record,
  *
  * \return the new line position
  * */
-static gint print_transaction_list_draw_line ( gint line_position )
+static gint print_transactions_list_draw_line ( gint line_position )
 {
     if (!draw_lines)
 	return line_position;
@@ -777,7 +777,7 @@ static gint print_transaction_list_draw_line ( gint line_position )
  *
  * \return the new column position
  * */
-static gint print_transaction_list_draw_column ( gint column_position,
+static gint print_transactions_list_draw_column ( gint column_position,
 						 gint line_position )
 {
     if (!draw_column)
@@ -800,7 +800,7 @@ static gint print_transaction_list_draw_column ( gint column_position,
  *
  * \return the new line_position
  * */
-static gint print_transaction_list_draw_row ( GtkPrintContext *context,
+static gint print_transactions_list_draw_row ( GtkPrintContext *context,
 					      CustomRecord *record,
 					      gint line_position )
 {
@@ -819,7 +819,7 @@ static gint print_transaction_list_draw_row ( GtkPrintContext *context,
 	column_position = columns_position[column];
 
 	/* draw first the column */
-	column_position = print_transaction_list_draw_column (column_position, line_position);
+	column_position = print_transactions_list_draw_column (column_position, line_position);
 
 	/* get the text */
 	text = record -> visible_col[column];
@@ -841,7 +841,6 @@ static gint print_transaction_list_draw_row ( GtkPrintContext *context,
 	g_object_unref (layout);
     }
     /* go to the next row */
-/*     line_position = line_position + size_row + draw_lines; */
     line_position = line_position + size_row;
 
     return line_position;

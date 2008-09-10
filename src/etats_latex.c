@@ -42,7 +42,7 @@ static void latex_attach_label ( gchar * text, gdouble properties, int x, int x2
 static void latex_attach_vsep ( int x, int x2, int y, int y2);
 static gint latex_finish ();
 static gint latex_initialise (GSList * opes_selectionnees, gchar * filename );
-static void latex_safe ( gchar * text ) ;
+static void latex_safe ( gchar * text );
 /*END_STATIC*/
 
 

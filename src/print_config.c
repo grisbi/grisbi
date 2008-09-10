@@ -61,6 +61,7 @@ extern GtkWidget *window ;
 /*END_EXTERN*/
 
 
+/* FIXME : is this functions/file still usefull with the new print report ? */
 /** 
  * Open a dialog window which asks for information about paper,
  * margins, etc..
