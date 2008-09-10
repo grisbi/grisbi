@@ -107,11 +107,10 @@ src/metatree.c
 src/navigation.c
 src/parametres.c
 src/parse_cmdline.c
-src/plugins/g2banking/g2banking.c
-src/plugins/gnucash/gnucash.c
-src/plugins/ofx/ofx.c
-src/plugins/openssl/openssl.c
 src/print_config.c
+src/print_dialog_config.c
+src/print_report.c
+src/print_transactions_list.c
 src/qif.c
 src/tiers_onglet.c
 src/tip.c
@@ -126,5 +125,6 @@ src/utils_dates.c
 src/utils_editables.c
 src/utils_files.c
 src/utils_file_selection.c
+src/utils_font.c
 src/utils_operations.c
 src/utils_str.c
