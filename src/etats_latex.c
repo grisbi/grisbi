@@ -444,7 +444,6 @@ void latex_safe ( gchar * text )
 		break;
 	}
     }
-
 }
 
 

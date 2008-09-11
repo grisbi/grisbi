@@ -134,7 +134,6 @@ extern gint current_tree_view_width ;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
-extern GtkWidget *liste_categ_etat ;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
@@ -279,8 +278,6 @@ void init_variables ( void )
 
     etat.largeur_auto_colonnes = 1;
     current_tree_view_width = 0;
-
-    liste_categ_etat = NULL;
 
     initialise_tab_affichage_ope();
 

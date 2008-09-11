@@ -4,10 +4,27 @@
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
+/** \struct
+ * describe an report category list
+ * the selected category list in the report struct is a list of struct_report_category
+ * we have here the numbers of categories selected, and for each category the sub-categories selected
+ * */
+typedef struct
+{
+    gint category_number;
+    GSList *sub_categories_number;	/* list of number of sub-categories selected for the category */
+
+} struct_report_category;
+
+
 /* START_DECLARATION */
+gboolean gsb_data_report_check_category_in_report ( gint report_number,
+						    gint category_number,
+						    gint sub_category_number );
 gint gsb_data_report_compare_position ( gint report_number_1,
 					gint report_number_2 );
 gint gsb_data_report_dup ( gint report_number );
+gboolean gsb_data_report_free_category_struct (GSList *categ_struct_list);
 gint gsb_data_report_get_account_group_reports ( gint report_number );
 GSList *gsb_data_report_get_account_numbers ( gint report_number );
 gint gsb_data_report_get_account_show_amount ( gint report_number );
@@ -30,13 +47,12 @@ gint gsb_data_report_get_budget_show_without_budget ( gint report_number );
 gint gsb_data_report_get_budget_used ( gint report_number );
 gint gsb_data_report_get_category_currency ( gint report_number );
 gint gsb_data_report_get_category_detail_used ( gint report_number );
-GSList *gsb_data_report_get_category_numbers ( gint report_number );
-gint gsb_data_report_get_category_only_report_with_category ( gint report_number );
 gint gsb_data_report_get_category_show_category_amount ( gint report_number );
 gint gsb_data_report_get_category_show_name ( gint report_number );
 gint gsb_data_report_get_category_show_sub_category ( gint report_number );
 gint gsb_data_report_get_category_show_sub_category_amount ( gint report_number );
 gint gsb_data_report_get_category_show_without_category ( gint report_number );
+GSList *gsb_data_report_get_category_struct ( gint report_number );
 gint gsb_data_report_get_category_used ( gint report_number );
 gint gsb_data_report_get_column_title_show ( gint report_number );
 gint gsb_data_report_get_column_title_type ( gint report_number );
@@ -142,10 +158,6 @@ gboolean gsb_data_report_set_category_currency ( gint report_number,
 						 gint category_currency );
 gboolean gsb_data_report_set_category_detail_used ( gint report_number,
 						    gint category_detail_used );
-gboolean gsb_data_report_set_category_numbers ( gint report_number,
-						GSList *category_numbers );
-gboolean gsb_data_report_set_category_only_report_with_category ( gint report_number,
-								  gint category_only_report_with_category );
 gboolean gsb_data_report_set_category_show_category_amount ( gint report_number,
 							     gint category_show_category_amount );
 gboolean gsb_data_report_set_category_show_name ( gint report_number,
@@ -156,6 +168,8 @@ gboolean gsb_data_report_set_category_show_sub_category_amount ( gint report_num
 								 gint category_show_sub_category_amount );
 gboolean gsb_data_report_set_category_show_without_category ( gint report_number,
 							      gint category_show_without_category );
+gboolean gsb_data_report_set_category_struct ( gint report_number,
+					       GSList *categories_numbers_struct );
 gboolean gsb_data_report_set_category_used ( gint report_number,
 					     gint category_used );
 gboolean gsb_data_report_set_column_title_show ( gint report_number,

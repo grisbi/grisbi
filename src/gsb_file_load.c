@@ -67,6 +67,7 @@
 #include "./gsb_plugins.h"
 #include "./gsb_real.h"
 #include "./gsb_currency_config.h"
+#include "./gsb_data_report.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -3461,18 +3462,9 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Categ_selected" ))
 	{
-	    gsb_data_report_set_category_numbers ( report_number,
-						   gsb_string_get_int_list_from_string (attribute_values[i],
-											"/-/" ));
-	    i++;
-	    continue;
-	}
-
-	if ( !strcmp ( attribute_names[i],
-		       "Categ_exclude_transactions" ))
-	{
-	    gsb_data_report_set_category_only_report_with_category ( report_number,
-								     utils_str_atoi (attribute_values[i]));
+	    /* the line is in the form : no_categ/no_sub_categ/no_sub_categ-no_categ/no_sub_categ... */
+	    gsb_data_report_set_category_struct ( report_number,
+						  gsb_string_get_categ_struct_list_from_string ((attribute_values[i])));
 	    i++;
 	    continue;
 	}
@@ -6338,7 +6330,11 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     {
 	gchar **pointeur_char;
 	gint i;
+	GSList *tmp_list = NULL;
+	struct_report_category *categ_struct;
 
+	/* before 0.6, it was only categories, so by default, we select all the sub-categories
+	 * of the selected categories */
 	pointeur_char = g_strsplit ( text,
 				     "/",
 				     0 );
@@ -6346,20 +6342,36 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 
 	while ( pointeur_char[i] )
 	{
-	    gsb_data_report_set_category_numbers ( last_report_number,
-						   g_slist_append ( gsb_data_report_get_category_numbers (last_report_number),
-								    GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] ))));
+	    GSList *sub_categ_list;
+
+	    categ_struct = g_malloc0 (sizeof (struct_report_category));
+	    tmp_list = g_slist_append (tmp_list, categ_struct);
+
+	    categ_struct -> category_number = utils_str_atoi ( pointeur_char[i] );
+
+	    /* we append now all the sub-categories */
+	    sub_categ_list = gsb_data_category_get_sub_category_list (categ_struct -> category_number);
+	    while (sub_categ_list)
+	    {
+		categ_struct -> sub_categories_number = g_slist_append (categ_struct -> sub_categories_number,
+									GINT_TO_POINTER (gsb_data_category_get_no_sub_category (sub_categ_list -> data)));
+		sub_categ_list = sub_categ_list -> next;
+	    }
+	    /* we append a null sub-category  */
+	    categ_struct -> sub_categories_number = g_slist_append (categ_struct -> sub_categories_number,
+								    NULL );
 	    i++;
 	}
+	/* we append a null category with a null sub-category only if detail is not set*/
+	if (!gsb_data_report_get_category_detail_used (last_report_number))
+	{ 
+	    categ_struct = g_malloc0 (sizeof (struct_report_category));
+	    tmp_list = g_slist_append (tmp_list, categ_struct);
+	    categ_struct -> sub_categories_number = g_slist_append (categ_struct -> sub_categories_number,
+								    NULL );
+	}
 	g_strfreev ( pointeur_char );
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Exclut_categ" ))
-    {
-	gsb_data_report_set_category_only_report_with_category ( last_report_number,
-								 utils_str_atoi (text));
+	gsb_data_report_set_category_struct (last_report_number, tmp_list);
 	return;
     }
 

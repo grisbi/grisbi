@@ -519,8 +519,8 @@ gboolean gsb_file_others_load ( gchar *filename,
 		    gsb_data_report_set_transfer_account_numbers ( report_number,
 								   NULL );
 		    /* erase the categories */
-		    gsb_data_report_set_category_numbers ( report_number,
-							   NULL );
+		    gsb_data_report_set_category_struct ( report_number,
+							  NULL );
 		    /* erase the budget */
 		    gsb_data_report_set_budget_numbers ( report_number,
 							 NULL );

@@ -3,9 +3,8 @@
 /*                                                                            */
 /*                            etats_affiche.c                                 */
 /*                                                                            */
-/*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004 Benjamin Drieu (bdrieu@april.org)		      */
-/*			2005 Alain Portal (aportal@univ-montp2.fr)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -1884,11 +1883,16 @@ gint etat_affiche_affiche_sous_categ_etat ( gint transaction_number,
 
 	if ( gsb_data_report_get_category_show_name (current_report_number))
 	{
-	    pointeur_char = my_strdup (gsb_data_category_get_sub_category_name ( gsb_data_transaction_get_category_number (transaction_number),
-										gsb_data_transaction_get_sub_category_number (transaction_number),
-										0 ));
-
-	    if ( !pointeur_char )
+	    gchar *sub_categ = gsb_data_category_get_sub_category_name ( gsb_data_transaction_get_category_number (transaction_number),
+									 gsb_data_transaction_get_sub_category_number (transaction_number),
+									 0 );
+	    if (sub_categ)
+	    {
+		pointeur_char = g_strconcat ( decalage_sous_categ,
+					      sub_categ,
+					      NULL );
+	    }
+	    else
 	    {
 		if ( gsb_data_report_get_category_show_without_category (current_report_number))
 		    pointeur_char = g_strconcat ( decalage_sous_categ,

@@ -2,8 +2,8 @@
 /*                                                                            */
 /*                                  gsb_data_report                           */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -41,7 +41,6 @@
 /** \struct
  * describe an report 
  * */
-
 typedef struct
 {
     /** @name general stuff */
@@ -112,11 +111,10 @@ typedef struct
     /** @name category part of the report */
     gint category_used;
     gint category_detail_used;
-    GSList *category_numbers;
+    GSList *categories_numbers_struct;		/* list of struct_report_category containing the selected categories and sub-categories */
     gint category_show_sub_category;
     gint category_show_category_amount;
     gint category_show_sub_category_amount;
-    gint category_only_report_with_category;
     gint category_currency;
     gint category_show_without_category;
     gint category_show_name;
@@ -157,8 +155,10 @@ typedef struct
 } struct_report;
 
 
+
 /*START_STATIC*/
 static  void _gsb_data_report_free ( struct_report *report );
+static GSList *gsb_data_report_copy_category_struct (GSList *orig_categ_struct);
 static struct_report *gsb_data_report_get_structure ( gint report_number );
 /*END_STATIC*/
 
@@ -392,7 +392,8 @@ static void _gsb_data_report_free ( struct_report *report )
     g_slist_free (report -> sorting_type);
     g_slist_free (report -> account_numbers);
     g_slist_free (report -> transfer_account_numbers);
-    g_slist_free (report -> category_numbers);
+    gsb_data_report_free_category_struct (report -> categories_numbers_struct);
+    report -> categories_numbers_struct = NULL;
     g_slist_free (report -> budget_numbers);
     g_slist_free (report -> payee_numbers);
     g_slist_free (report -> method_of_payment_list);
@@ -2498,48 +2499,6 @@ gboolean gsb_data_report_set_category_show_sub_category_amount ( gint report_num
 }
 
 
-/**
- * get the  category_only_report_with_category
- * 
- * \param report_number the number of the report
- *
- * \return the category_only_report_with_category  of the report, -1 if problem
- * */
-gint gsb_data_report_get_category_only_report_with_category ( gint report_number )
-{
-    struct_report *report;
-
-    report = gsb_data_report_get_structure (report_number);
-
-    if ( !report )
-	return -1;
-
-    return report -> category_only_report_with_category;
-}
-
-/** 
- * set the category_only_report_with_category
- * 
- * \param report_number number of the report
- * \param category_only_report_with_category
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_set_category_only_report_with_category ( gint report_number,
-								  gint category_only_report_with_category )
-{
-    struct_report *report;
-
-    report = gsb_data_report_get_structure (report_number);
-
-    if ( !report )
-	return FALSE;
-
-    report -> category_only_report_with_category = category_only_report_with_category;
-
-    return TRUE;
-}
-
 
 /**
  * get the  category_currency
@@ -3654,14 +3613,17 @@ gboolean gsb_data_report_set_transfer_account_numbers ( gint report_number,
     return TRUE;
 }
 
+/* xxx ajouter le groupage par jour dans les états en plus de semaine et mois */
+
 /**
- * get the  category_numbers
+ * return the list of struct_report_category
+ * 	containing the selected categories and sub-categories
  * 
  * \param report_number the number of the report
  *
- * \return the category_numbers  of the report, -1 if problem
+ * \return the categories_numbers_struct  of the report, -1 if problem
  * */
-GSList *gsb_data_report_get_category_numbers ( gint report_number )
+GSList *gsb_data_report_get_category_struct ( gint report_number )
 {
     struct_report *report;
 
@@ -3670,19 +3632,21 @@ GSList *gsb_data_report_get_category_numbers ( gint report_number )
     if ( !report )
 	return NULL;
 
-    return report -> category_numbers;
+    return report -> categories_numbers_struct;
 }
 
 /** 
- * set the category_numbers
+ * set the list of struct_report_category
+ * this is a list of struct_report_category
+ * if there were a previous category struct list, we free it before
  * 
  * \param report_number number of the report
- * \param category_numbers
+ * \param categories_numbers_struct
  *
  * \return TRUE if ok
  * */
-gboolean gsb_data_report_set_category_numbers ( gint report_number,
-						GSList *category_numbers )
+gboolean gsb_data_report_set_category_struct ( gint report_number,
+					       GSList *categories_numbers_struct )
 {
     struct_report *report;
 
@@ -3691,10 +3655,72 @@ gboolean gsb_data_report_set_category_numbers ( gint report_number,
     if ( !report )
 	return FALSE;
 
-    report -> category_numbers = category_numbers;
+    if (report -> categories_numbers_struct)
+	gsb_data_report_free_category_struct (report -> categories_numbers_struct);
+
+    report -> categories_numbers_struct = categories_numbers_struct;
 
     return TRUE;
 }
+
+/**
+ * free the list of categories struct
+ *
+ * \param categ_struct_list	the list of struct_report_category to free
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_data_report_free_category_struct (GSList *categ_struct_list)
+{
+    GSList *tmp_list;
+
+    tmp_list = categ_struct_list;
+    while (tmp_list)
+    {
+	struct_report_category *categ_struct;
+
+	categ_struct = tmp_list -> data;
+	if (categ_struct -> sub_categories_number)
+	    g_slist_free (categ_struct -> sub_categories_number);
+	g_free (categ_struct);
+	tmp_list = tmp_list -> next;
+    }
+    g_slist_free (categ_struct_list);
+    return TRUE;
+}
+
+/**
+ * coppy the list of categories struct
+ *
+ * \param orig_categ_struct the struct_report_category list to copy
+ *
+ * \return a new GSList of struct_report_category
+ * */
+GSList *gsb_data_report_copy_category_struct (GSList *orig_categ_struct)
+{
+    GSList *tmp_list;
+    GSList *new_list = NULL;
+
+    tmp_list = orig_categ_struct;
+    while (tmp_list)
+    {
+	struct_report_category *categ_struct;
+	struct_report_category *new_categ_struct;
+
+	categ_struct = tmp_list -> data;
+	new_categ_struct = g_malloc0 (sizeof (struct_report_category));
+	new_list = g_slist_append (new_list, new_categ_struct);
+
+	new_categ_struct -> category_number = categ_struct -> category_number;
+
+	if (categ_struct -> sub_categories_number)
+	    new_categ_struct -> sub_categories_number = g_slist_copy (categ_struct -> sub_categories_number);
+
+	tmp_list = tmp_list -> next;
+    }
+    return new_list;
+}
+
 
 /**
  * get the budget_numbers 
@@ -3951,7 +3977,7 @@ gint gsb_data_report_dup ( gint report_number )
     new_report -> sorting_type = g_slist_copy ( report -> sorting_type );
     new_report -> account_numbers = g_slist_copy ( report -> account_numbers );
     new_report -> transfer_account_numbers = g_slist_copy ( report -> transfer_account_numbers );
-    new_report -> category_numbers = g_slist_copy ( report -> category_numbers );
+    new_report -> categories_numbers_struct = gsb_data_report_copy_category_struct ( report -> categories_numbers_struct );
     new_report -> budget_numbers = g_slist_copy ( report -> budget_numbers );
     new_report -> payee_numbers = g_slist_copy ( report -> payee_numbers );
     new_report -> method_of_payment_list = g_slist_copy ( report -> method_of_payment_list );
@@ -4076,6 +4102,51 @@ gboolean gsb_data_report_move_report ( gint report_number,
 				   report );
     return FALSE;
 }
+
+
+/**
+ * get a category and sub-category number and check if they are selected
+ * in the report
+ *
+ * \param report_number		report to check
+ * \param category_number
+ * \param sub_category_number
+ *
+ * \return TRUE : the couple categ/sub-categ exist, FALSE : it is not in that report
+ * */
+gboolean gsb_data_report_check_category_in_report ( gint report_number,
+						    gint category_number,
+						    gint sub_category_number )
+{
+    struct_report *report;
+    GSList *tmp_list;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if (!report )
+	return FALSE;
+
+    tmp_list = report -> categories_numbers_struct;
+    while (tmp_list)
+    {
+	struct_report_category *categ_struct = tmp_list -> data;
+
+	if (categ_struct -> category_number == category_number)
+	{
+	    /* found the categ, now check sub-categ */
+	    GSList *sub_categ_list = categ_struct -> sub_categories_number;
+	    if (g_slist_find (sub_categ_list, GINT_TO_POINTER (sub_category_number)))
+		return TRUE;
+	    else
+		/* can return FALSE, needn't to check other categories */
+		return FALSE;
+	}
+	tmp_list = tmp_list -> next;
+    }
+    return FALSE;
+}
+
+
 
 
 

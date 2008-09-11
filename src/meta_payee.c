@@ -162,7 +162,7 @@ gint payee_sub_div_nb_transactions ( gint div, gint sub_div )
  */
 gchar *payee_div_name ( gint div )
 {
-    gchar * payee_name = gsb_data_payee_get_name ( div, TRUE );
+    const gchar * payee_name = gsb_data_payee_get_name ( div, TRUE );
     if ( ! payee_name )
 	payee_name = payee_interface -> no_div_label;
 

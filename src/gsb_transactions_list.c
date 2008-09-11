@@ -373,8 +373,8 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 	{
 	    GtkCellRenderer * radio_renderer = gtk_cell_renderer_toggle_new ( );
 	    gtk_tree_view_column_pack_start ( transactions_tree_view_columns[i],
-					    radio_renderer,
-					    FALSE );
+					      radio_renderer,
+					      FALSE );
 	    gtk_tree_view_column_set_attributes (transactions_tree_view_columns[i], radio_renderer,
 						 "active", CUSTOM_MODEL_CHECKBOX_ACTIVE,
 						 "activatable", CUSTOM_MODEL_CHECKBOX_VISIBLE,

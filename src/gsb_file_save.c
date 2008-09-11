@@ -64,6 +64,7 @@
 #include "./echeancier_infos.h"
 #include "./erreur.h"
 #include "./gsb_plugins.h"
+#include "./gsb_data_report.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -1679,7 +1680,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	gchar *new_string;
 	gint report_number;
 	gint report_number_to_write;
-	GSList *pointer_list;
+	GSList *tmp_list;
 	gchar *general_sort_type;
 	gchar *financial_year_select;
 	gchar *account_selected;
@@ -1725,171 +1726,195 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    report_name = my_strdup (gsb_data_report_get_report_name (report_number));
 
 	/* set the general sort type */
-	pointer_list = gsb_data_report_get_sorting_type (report_number);
+	tmp_list = gsb_data_report_get_sorting_type (report_number);
 	general_sort_type = NULL;
 
-	while ( pointer_list )
+	while ( tmp_list )
 	{
 	    if ( general_sort_type )
 	    {
 	        gchar* tmpstr = general_sort_type;
 		general_sort_type = g_strconcat ( tmpstr,
 						  "/-/",
-						  utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+						  utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
 						  NULL );
 	        g_free ( tmpstr );
 	    }
 	    else
-		general_sort_type = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+		general_sort_type = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
 
-	    pointer_list = pointer_list -> next;
+	    tmp_list = tmp_list -> next;
 	}
 
 	/* set the financial_year_select */
-	pointer_list = gsb_data_report_get_financial_year_list (report_number);
+	tmp_list = gsb_data_report_get_financial_year_list (report_number);
 	financial_year_select = NULL;
 
-	while ( pointer_list )
+	while ( tmp_list )
 	{
 	    if ( financial_year_select )
 	    {
 	        gchar* tmpstr = financial_year_select ;
 		financial_year_select = g_strconcat ( tmpstr,
 						      "/-/",
-						      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+						      utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
 						      NULL );
 	        g_free (tmpstr);
 	    }
 	    else
-		financial_year_select = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+		financial_year_select = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
 
-	    pointer_list = pointer_list -> next;
+	    tmp_list = tmp_list -> next;
 	}
 
 	/* set the account_selected */
-	pointer_list = gsb_data_report_get_account_numbers (report_number);
+	tmp_list = gsb_data_report_get_account_numbers (report_number);
 	account_selected = NULL;
 
-	while ( pointer_list )
+	while ( tmp_list )
 	{
 	    if ( account_selected )
 	    {
 	        gchar* tmpstr = account_selected;
 		account_selected = g_strconcat ( tmpstr,
 						 "/-/",
-						 utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+						 utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
 						 NULL );
 	        g_free (tmpstr);
 	    }
 	    else
-		account_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+		account_selected = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
 
-	    pointer_list = pointer_list -> next;
+	    tmp_list = tmp_list -> next;
 	}
 
 	/* 	set the transfer_selected_accounts */
-	pointer_list = gsb_data_report_get_transfer_account_numbers (report_number);
+	tmp_list = gsb_data_report_get_transfer_account_numbers (report_number);
 	transfer_selected_accounts = NULL;
 
-	while ( pointer_list )
+	while ( tmp_list )
 	{
 	    if ( transfer_selected_accounts )
 	    {
 	        gchar* tmpstr = transfer_selected_accounts;
 		transfer_selected_accounts = g_strconcat ( tmpstr,
 					      "/-/",
-					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+					      utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
 					      NULL );
 	        g_free ( tmpstr );
 	    }
 	    else
-		transfer_selected_accounts = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+		transfer_selected_accounts = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
 
-	    pointer_list = pointer_list -> next;
+	    tmp_list = tmp_list -> next;
 	}
 
-	/* 	set the categ_selected */
-	pointer_list = gsb_data_report_get_category_numbers (report_number);
+	/* save the category and sub-category list */
+	tmp_list = gsb_data_report_get_category_struct (report_number);
 	categ_selected = NULL;
 
-	while ( pointer_list )
+	while ( tmp_list )
 	{
+	    struct_report_category *struct_categ = tmp_list -> data;
+	    gchar *last_categ;
+	    gchar *new_categ;
+	    GSList *sub_categ_list;
+
+	    /* first, save the category */
+	    new_categ = utils_str_itoa (struct_categ -> category_number);
 	    if ( categ_selected )
 	    {
-	        gchar* tmpstr = categ_selected;
-		categ_selected = g_strconcat ( tmpstr ,
-					      "/-/",
-					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
-					      NULL );
-	        g_free ( tmpstr );
+		last_categ = categ_selected;
+
+		categ_selected = g_strconcat ( last_categ,
+					       "-",
+					       new_categ,
+					       NULL );
+		g_free (last_categ);
+		g_free (new_categ);
 	    }
 	    else
-		categ_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+		categ_selected = new_categ;
 
-	    pointer_list = pointer_list -> next;
+	    /* if there are sub-categories, it's here */
+	    sub_categ_list = struct_categ -> sub_categories_number;
+	    while (sub_categ_list)
+	    {
+		new_categ = utils_str_itoa (GPOINTER_TO_INT (sub_categ_list -> data));
+
+		last_categ = categ_selected;
+		categ_selected = g_strconcat ( last_categ,
+					       "/",
+					       new_categ,
+					       NULL );
+		g_free (new_categ);
+		g_free (last_categ);
+		sub_categ_list = sub_categ_list -> next;
+	    }
+	    tmp_list = tmp_list -> next;
 	}
 
 	/* 	set the budget_selected */
-	pointer_list = gsb_data_report_get_budget_numbers (report_number);
+	tmp_list = gsb_data_report_get_budget_numbers (report_number);
 	budget_selected = NULL;
 
-	while ( pointer_list )
+	while ( tmp_list )
 	{
 	    if ( budget_selected )
 	    {
 	        gchar* tmpstr = budget_selected;
 		budget_selected = g_strconcat ( tmpstr,
 					      "/-/",
-					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+					      utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
 					      NULL );
 	        g_free ( tmpstr );
 	    }
 	    else
-		budget_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+		budget_selected = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
 
-	    pointer_list = pointer_list -> next;
+	    tmp_list = tmp_list -> next;
 	}
 
 	/* 	set the payee_selected */
-	pointer_list = gsb_data_report_get_payee_numbers (report_number);
+	tmp_list = gsb_data_report_get_payee_numbers (report_number);
 	payee_selected = NULL;
 
-	while ( pointer_list )
+	while ( tmp_list )
 	{
 	    if ( payee_selected )
 	    {
 	        gchar* tmpstr = payee_selected;
 		payee_selected = g_strconcat ( tmpstr,
 					      "/-/",
-					      utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data )),
+					      utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
 					      NULL );
 	        g_free ( tmpstr );
 	    }
 	    else
-		payee_selected = utils_str_itoa ( GPOINTER_TO_INT ( pointer_list -> data ));
+		payee_selected = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
 
-	    pointer_list = pointer_list -> next;
+	    tmp_list = tmp_list -> next;
 	}
 
 	/* 	set the payment_method_list */
-	pointer_list = gsb_data_report_get_method_of_payment_list (report_number);
+	tmp_list = gsb_data_report_get_method_of_payment_list (report_number);
 	payment_method_list = NULL;
 
-	while ( pointer_list )
+	while ( tmp_list )
 	{
 	    if ( payment_method_list )
 	    {
 	        gchar* tmpstr = payment_method_list;
 		payment_method_list = g_strconcat ( tmpstr,
 						    "/-/",
-						    pointer_list -> data,
+						    tmp_list -> data,
 						    NULL );
 	        g_free ( tmpstr );
 	    }
 	    else
-		payment_method_list = my_strdup (pointer_list -> data );
+		payment_method_list = my_strdup (tmp_list -> data );
 
-	    pointer_list = pointer_list -> next;
+	    tmp_list = tmp_list -> next;
 	}
 
 	/* set the dates */
@@ -1948,7 +1973,6 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tCateg_use=\"%d\"\n"
 					       "\t\tCateg_use_selection=\"%d\"\n"
 					       "\t\tCateg_selected=\"%s\"\n"
-					       "\t\tCateg_exclude_transactions=\"%d\"\n"
 					       "\t\tCateg_show_amount=\"%d\"\n"
 					       "\t\tCateg_show_sub_categ=\"%d\"\n"
 					       "\t\tCateg_show_without_sub_categ=\"%d\"\n"
@@ -2027,7 +2051,6 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    gsb_data_report_get_category_used (report_number),
 	    gsb_data_report_get_category_detail_used (report_number),
 	    categ_selected,
-	    gsb_data_report_get_category_only_report_with_category (report_number),
 	    gsb_data_report_get_category_show_category_amount (report_number),
 	    gsb_data_report_get_category_show_sub_category (report_number),
 	    gsb_data_report_get_category_show_without_category (report_number),

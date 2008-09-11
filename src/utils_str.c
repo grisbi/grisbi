@@ -28,6 +28,7 @@
 /*START_INCLUDE*/
 #include "utils_str.h"
 #include "./include.h"
+#include "./gsb_data_report.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -602,6 +603,61 @@ GSList *gsb_string_get_string_list_from_string ( const gchar *string,
     return list_tmp;
 }
 
+
+/**
+ * return a gslist of struct_report_category
+ * from a string as no_categ/no_sub_categ/no_sub_categ/no_sub_categ-no_categ/no_sub_categ... 
+ *
+ * \param string	the string we want to change to a list
+ *
+ * \return a g_slist or NULL
+ * */
+GSList *gsb_string_get_categ_struct_list_from_string ( const gchar *string )
+{
+    GSList *list_tmp = NULL;
+    gchar **tab;
+    gint i=0;
+
+    if ( !string
+	 ||
+	 !strlen (string))
+	return NULL;
+
+    tab = g_strsplit ( string,
+		       "-",
+		       0 );
+
+    while ( tab[i] )
+    {
+	struct_report_category *categ_report = NULL;
+	gchar **sub_tab;
+	gint j=0;
+
+	sub_tab = g_strsplit (tab[i], "/", 0);
+	while (sub_tab[j])
+	{
+	    if (!categ_report)
+	    {
+		/* no categ_report created, so we are on the category */
+		categ_report = g_malloc0 (sizeof (struct_report_category));
+		categ_report -> category_number = utils_str_atoi(sub_tab[j]);
+	    }
+	    else
+	    {
+		/* categ_report is created, so we are on sub-category */
+		categ_report -> sub_categories_number = g_slist_append (categ_report -> sub_categories_number,
+									GINT_TO_POINTER (utils_str_atoi (sub_tab[j])));
+	    }
+	    j++;
+	}
+	g_strfreev (sub_tab);
+	list_tmp = g_slist_append (list_tmp, categ_report);
+	i++;
+    }
+    g_strfreev ( tab );
+
+    return list_tmp;
+}
 
 
 

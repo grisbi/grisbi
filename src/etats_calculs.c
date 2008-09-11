@@ -648,27 +648,21 @@ GSList *recupere_opes_etat ( gint report_number )
 			    goto operation_refusee;
 		    }
 
-
-		    /* on va maintenant vérifier que les catég sont bonnes */
-		    /* si on exclut les opés sans categ, on vérifie que c'est pas un virement ni une ventilation */
-
-		    if ((( gsb_data_report_get_category_detail_used (report_number)
-			   &&
-			   g_slist_index ( gsb_data_report_get_category_numbers (report_number),
-					   GINT_TO_POINTER ( gsb_data_transaction_get_category_number ( transaction_number_tmp))) == -1 )
-			 ||
-			 ( gsb_data_report_get_category_only_report_with_category (report_number)
-			   &&
-			   !gsb_data_transaction_get_category_number ( transaction_number_tmp)))
+		    /* check the categ only if it's not a breakdown or transfer */
+		    if (!gsb_data_transaction_get_breakdown_of_transaction ( transaction_number_tmp)
 			&&
-			!gsb_data_transaction_get_breakdown_of_transaction ( transaction_number_tmp)
+			!gsb_data_transaction_get_contra_transaction_number ( transaction_number_tmp)
 			&&
-			!gsb_data_transaction_get_contra_transaction_number ( transaction_number_tmp))
+			/* it's a normal categ (or not categ) */
+			gsb_data_report_get_category_detail_used (report_number)
+			&&
+			!gsb_data_report_check_category_in_report (report_number,
+								   gsb_data_transaction_get_category_number (transaction_number_tmp),
+								   gsb_data_transaction_get_sub_category_number (transaction_number_tmp)))
 			goto operation_refusee;
 
 
 		    /* vérification de l'imputation budgétaire */
-
 		    if ( gsb_data_report_get_budget_only_report_with_budget (report_number)
 			 &&
 			 !gsb_data_transaction_get_budgetary_number ( transaction_number_tmp))
@@ -1813,8 +1807,6 @@ gint classement_ope_perso_etat ( gpointer transaction_1, gpointer transaction_2 
 	    }
 
 	    break;
-/* xxx en suis ici */
-/*     vient de faire la value date, il faudrait en profiter pour ajouter dans l'état les sous categs */
 	case 2:
 	    /* no opé  */
 

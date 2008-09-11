@@ -102,9 +102,6 @@ typedef struct
 static void gsb_data_transaction_delete_all_transactions ();
 static  void gsb_data_transaction_free ( struct_transaction *transaction);
 static gint gsb_data_transaction_get_last_white_number (void);
-static gint gsb_data_transaction_get_number_by_account ( gint account_number,
-						  gboolean include_breakdown,
-						  gboolean include_marked );
 static struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transaction_number );
 static gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction );
 /*END_STATIC*/
@@ -2454,53 +2451,6 @@ gint gsb_data_transaction_find_by_id ( gchar *id )
 	tmp_list = tmp_list -> next;
     }
     return 0;
-}
-
-
-
-/**
- * return the number of transaction in the given account
- * (the archived transactions are not counted, if need, should append a new param with include archived transactions)
- *
- * \param account_number 
- * \param include_breakdown TRUE if we want to include the breakdown children in the amount, FALSE if we want only the first level transactions
- * \param include_marked TRUE if we want to include the R transactions
- * 
- * \return the number of transactions in the account
- *
- * */
-gint gsb_data_transaction_get_number_by_account ( gint account_number,
-						  gboolean include_breakdown,
-						  gboolean include_marked )
-{
-    gint number=0;
-    GSList *tmp_list;
-
-    if (account_number < 0)
-	return 0;
-
-    tmp_list = gsb_data_transaction_get_transactions_list ();
-
-    while (tmp_list)
-    {
-	struct_transaction *transaction;
-	
-	transaction = tmp_list -> data;
-
-	if (transaction -> account_number == account_number)
-	{
-	    if ( (include_breakdown
-		 ||
-		 !transaction -> mother_transaction_number)
-		 &&
-		 (include_marked
-		  ||
-		  transaction -> marked_transaction != OPERATION_RAPPROCHEE))
-		number++;
-	}
-	tmp_list = tmp_list -> next;
-    }
-    return number;
 }
 
 

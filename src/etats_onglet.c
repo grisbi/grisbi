@@ -573,8 +573,6 @@ gboolean ajout_etat ( void )
 					    4 );
 	    gsb_data_report_set_category_used ( report_number,
 						1 );
-	    gsb_data_report_set_category_only_report_with_category ( report_number,
-								     1 );
 	    gsb_data_report_set_category_show_category_amount ( report_number,
 								1 );
 	    gsb_data_report_set_category_show_sub_category ( report_number,

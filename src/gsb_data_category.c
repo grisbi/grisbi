@@ -254,13 +254,11 @@ gpointer gsb_data_category_get_sub_category_structure ( gint no_category,
     GSList *tmp;
     struct_category *category;
 
-    if (!no_category
-	||
-	!no_sub_category)
+    /* check empty sub-categ */
+    if (!no_sub_category)
 	return NULL;
 
     /* before checking all the categories, we check the buffer */
-
     if ( sub_category_buffer
 	 &&
 	 sub_category_buffer -> mother_category_number == no_category
@@ -357,6 +355,7 @@ gint gsb_data_category_get_no_sub_category ( gpointer sub_category_ptr )
 {
     struct_sub_category *sub_category;
 
+    /* if sub_category_ptr is NULL, we are on empty sub-category, the number is 0 */
     if ( !sub_category_ptr )
 	return 0;
 
