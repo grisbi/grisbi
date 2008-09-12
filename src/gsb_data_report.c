@@ -111,7 +111,7 @@ typedef struct
     /** @name category part of the report */
     gint category_used;
     gint category_detail_used;
-    GSList *categories_numbers_struct;		/* list of struct_report_category containing the selected categories and sub-categories */
+    GSList *categ_select_struct;		/* list of struct_categ_budget_sel containing the selected categories and sub-categories */
     gint category_show_sub_category;
     gint category_show_category_amount;
     gint category_show_sub_category_amount;
@@ -122,11 +122,10 @@ typedef struct
     /** @name budget part of the report */
     gint budget_used;
     gint budget_detail_used;
-    GSList *budget_numbers;
+    GSList *budget_select_struct;		/* list of struct_categ_budget_sel containing the selected budgets and sub-budgets */
     gint budget_show_sub_budget;
     gint budget_show_budget_amount;
     gint budget_show_sub_budget_amount;
-    gint budget_only_report_with_budget;
     gint budget_currency;
     gint budget_show_without_budget;
     gint budget_show_name;
@@ -158,7 +157,7 @@ typedef struct
 
 /*START_STATIC*/
 static  void _gsb_data_report_free ( struct_report *report );
-static GSList *gsb_data_report_copy_category_struct (GSList *orig_categ_struct);
+static GSList *gsb_data_report_copy_categ_budget_struct (GSList *orig_categ_budget_list);
 static struct_report *gsb_data_report_get_structure ( gint report_number );
 /*END_STATIC*/
 
@@ -392,9 +391,10 @@ static void _gsb_data_report_free ( struct_report *report )
     g_slist_free (report -> sorting_type);
     g_slist_free (report -> account_numbers);
     g_slist_free (report -> transfer_account_numbers);
-    gsb_data_report_free_category_struct (report -> categories_numbers_struct);
-    report -> categories_numbers_struct = NULL;
-    g_slist_free (report -> budget_numbers);
+    gsb_data_report_free_categ_budget_struct (report -> categ_select_struct);
+    report -> categ_select_struct = NULL;
+    gsb_data_report_free_categ_budget_struct (report -> budget_select_struct);
+    report -> budget_select_struct = NULL;
     g_slist_free (report -> payee_numbers);
     g_slist_free (report -> method_of_payment_list);
 
@@ -2844,48 +2844,6 @@ gboolean gsb_data_report_set_budget_show_sub_budget_amount ( gint report_number,
 
 
 
-/**
- * get the  budget_only_report_with_budget
- * 
- * \param report_number the number of the report
- *
- * \return the budget_only_report_with_budget  of the report, -1 if problem
- * */
-gint gsb_data_report_get_budget_only_report_with_budget ( gint report_number )
-{
-    struct_report *report;
-
-    report = gsb_data_report_get_structure (report_number);
-
-    if ( !report )
-	return -1;
-
-    return report -> budget_only_report_with_budget;
-}
-
-/** 
- * set the budget_only_report_with_budget
- * 
- * \param report_number number of the report
- * \param budget_only_report_with_budget
- *
- * \return TRUE if ok
- * */
-gboolean gsb_data_report_set_budget_only_report_with_budget ( gint report_number,
-							      gint budget_only_report_with_budget )
-{
-    struct_report *report;
-
-    report = gsb_data_report_get_structure (report_number);
-
-    if ( !report )
-	return FALSE;
-
-    report -> budget_only_report_with_budget = budget_only_report_with_budget;
-
-    return TRUE;
-}
-
 
 /**
  * get the  budget_currency
@@ -3616,12 +3574,12 @@ gboolean gsb_data_report_set_transfer_account_numbers ( gint report_number,
 /* xxx ajouter le groupage par jour dans les états en plus de semaine et mois */
 
 /**
- * return the list of struct_report_category
+ * return the list of struct_categ_budget_sel
  * 	containing the selected categories and sub-categories
  * 
  * \param report_number the number of the report
  *
- * \return the categories_numbers_struct  of the report, -1 if problem
+ * \return the categ_select_struct  of the report, -1 if problem
  * */
 GSList *gsb_data_report_get_category_struct ( gint report_number )
 {
@@ -3632,21 +3590,21 @@ GSList *gsb_data_report_get_category_struct ( gint report_number )
     if ( !report )
 	return NULL;
 
-    return report -> categories_numbers_struct;
+    return report -> categ_select_struct;
 }
 
 /** 
- * set the list of struct_report_category
- * this is a list of struct_report_category
+ * set the list of struct_categ_budget_sel
+ * this is a list of struct_categ_budget_sel
  * if there were a previous category struct list, we free it before
  * 
  * \param report_number number of the report
- * \param categories_numbers_struct
+ * \param categ_select_struct
  *
  * \return TRUE if ok
  * */
 gboolean gsb_data_report_set_category_struct ( gint report_number,
-					       GSList *categories_numbers_struct )
+					       GSList *categ_select_struct )
 {
     struct_report *report;
 
@@ -3655,81 +3613,81 @@ gboolean gsb_data_report_set_category_struct ( gint report_number,
     if ( !report )
 	return FALSE;
 
-    if (report -> categories_numbers_struct)
-	gsb_data_report_free_category_struct (report -> categories_numbers_struct);
+    if (report -> categ_select_struct)
+	gsb_data_report_free_categ_budget_struct (report -> categ_select_struct);
 
-    report -> categories_numbers_struct = categories_numbers_struct;
+    report -> categ_select_struct = categ_select_struct;
 
     return TRUE;
 }
 
 /**
- * free the list of categories struct
+ * free the list of categories/budgets struct
  *
- * \param categ_struct_list	the list of struct_report_category to free
+ * \param categ_budget_sel_list	the list of struct_categ_budget_sel to free
  *
  * \return TRUE if ok
  * */
-gboolean gsb_data_report_free_category_struct (GSList *categ_struct_list)
+gboolean gsb_data_report_free_categ_budget_struct (GSList *categ_budget_sel_list)
 {
     GSList *tmp_list;
 
-    tmp_list = categ_struct_list;
+    tmp_list = categ_budget_sel_list;
     while (tmp_list)
     {
-	struct_report_category *categ_struct;
+	struct_categ_budget_sel *categ_budget_struct;
 
-	categ_struct = tmp_list -> data;
-	if (categ_struct -> sub_categories_number)
-	    g_slist_free (categ_struct -> sub_categories_number);
-	g_free (categ_struct);
+	categ_budget_struct = tmp_list -> data;
+	if (categ_budget_struct -> sub_div_numbers)
+	    g_slist_free (categ_budget_struct -> sub_div_numbers);
+	g_free (categ_budget_struct);
 	tmp_list = tmp_list -> next;
     }
-    g_slist_free (categ_struct_list);
+    g_slist_free (categ_budget_sel_list);
     return TRUE;
 }
 
 /**
- * coppy the list of categories struct
+ * coppy the list of categories/budgets struct
  *
- * \param orig_categ_struct the struct_report_category list to copy
+ * \param orig_categ_budget_list the struct_categ_budget_sel list to copy
  *
- * \return a new GSList of struct_report_category
+ * \return a new GSList of struct_categ_budget_sel
  * */
-GSList *gsb_data_report_copy_category_struct (GSList *orig_categ_struct)
+GSList *gsb_data_report_copy_categ_budget_struct (GSList *orig_categ_budget_list)
 {
     GSList *tmp_list;
     GSList *new_list = NULL;
 
-    tmp_list = orig_categ_struct;
+    tmp_list = orig_categ_budget_list;
     while (tmp_list)
     {
-	struct_report_category *categ_struct;
-	struct_report_category *new_categ_struct;
+	struct_categ_budget_sel *categ_budget_struct;
+	struct_categ_budget_sel *new_categ_budget_struct;
 
-	categ_struct = tmp_list -> data;
-	new_categ_struct = g_malloc0 (sizeof (struct_report_category));
-	new_list = g_slist_append (new_list, new_categ_struct);
+	categ_budget_struct = tmp_list -> data;
+	new_categ_budget_struct = g_malloc0 (sizeof (struct_categ_budget_sel));
+	new_list = g_slist_append (new_list, new_categ_budget_struct);
 
-	new_categ_struct -> category_number = categ_struct -> category_number;
+	new_categ_budget_struct -> div_number = categ_budget_struct -> div_number;
 
-	if (categ_struct -> sub_categories_number)
-	    new_categ_struct -> sub_categories_number = g_slist_copy (categ_struct -> sub_categories_number);
+	if (categ_budget_struct -> sub_div_numbers)
+	    new_categ_budget_struct -> sub_div_numbers = g_slist_copy (categ_budget_struct -> sub_div_numbers);
 
 	tmp_list = tmp_list -> next;
     }
     return new_list;
 }
 
-
 /**
- * get the budget_numbers 
+ * return the list of struct_categ_budget_sel
+ * 	containing the selected budgets and sub-budgets
  * 
  * \param report_number the number of the report
  *
- * \return the  budget_numbers of the report, -1 if problem
+ * \return the categ_select_struct  of the report, -1 if problem
  * */
-GSList *gsb_data_report_get_budget_numbers ( gint report_number )
+GSList *gsb_data_report_get_budget_struct ( gint report_number )
 {
     struct_report *report;
 
@@ -3738,19 +3696,21 @@ GSList *gsb_data_report_get_budget_numbers ( gint report_number )
     if ( !report )
 	return NULL;
 
-    return report -> budget_numbers;
+    return report -> budget_select_struct;
 }
 
 /** 
- * set the budget_numbers
+ * set the list of budgets struct
+ * this is a list of struct_categ_budget_sel
+ * if there were a previous budget struct list, we free it before
  * 
  * \param report_number number of the report
- * \param budget_numbers
+ * \param categ_select_struct
  *
  * \return TRUE if ok
  * */
-gboolean gsb_data_report_set_budget_numbers ( gint report_number,
-					      GSList *budget_numbers )
+gboolean gsb_data_report_set_budget_struct ( gint report_number,
+					     GSList *budget_select_struct )
 {
     struct_report *report;
 
@@ -3759,10 +3719,15 @@ gboolean gsb_data_report_set_budget_numbers ( gint report_number,
     if ( !report )
 	return FALSE;
 
-    report -> budget_numbers = budget_numbers;
+    if (report -> budget_select_struct)
+	gsb_data_report_free_categ_budget_struct (report -> budget_select_struct);
+
+    report -> budget_select_struct = budget_select_struct;
 
     return TRUE;
 }
+
+
 
 /**
  * get the  payee_numbers
@@ -3977,8 +3942,8 @@ gint gsb_data_report_dup ( gint report_number )
     new_report -> sorting_type = g_slist_copy ( report -> sorting_type );
     new_report -> account_numbers = g_slist_copy ( report -> account_numbers );
     new_report -> transfer_account_numbers = g_slist_copy ( report -> transfer_account_numbers );
-    new_report -> categories_numbers_struct = gsb_data_report_copy_category_struct ( report -> categories_numbers_struct );
-    new_report -> budget_numbers = g_slist_copy ( report -> budget_numbers );
+    new_report -> categ_select_struct = gsb_data_report_copy_categ_budget_struct ( report -> categ_select_struct );
+    new_report -> budget_select_struct = gsb_data_report_copy_categ_budget_struct ( report -> budget_select_struct );
     new_report -> payee_numbers = g_slist_copy ( report -> payee_numbers );
     new_report -> method_of_payment_list = g_slist_copy ( report -> method_of_payment_list );
 
@@ -4105,37 +4070,32 @@ gboolean gsb_data_report_move_report ( gint report_number,
 
 
 /**
- * get a category and sub-category number and check if they are selected
+ * get a category/budget and sub-category/budget number and check if they are selected
  * in the report
  *
- * \param report_number		report to check
- * \param category_number
- * \param sub_category_number
+ * \param list_struct_report	a GSList of struct_categ_budget_sel (either categ, either budget)
+ * \param div_number	categ or budget number
+ * \param sub_div_number	sub-categ or sub-budget number
  *
- * \return TRUE : the couple categ/sub-categ exist, FALSE : it is not in that report
+ * \return TRUE : the couple categ/sub-categ or budget/sub-budget exist, FALSE : it is not in that report
  * */
-gboolean gsb_data_report_check_category_in_report ( gint report_number,
-						    gint category_number,
-						    gint sub_category_number )
+gboolean gsb_data_report_check_categ_budget_in_report ( GSList *list_struct_report,
+							gint div_number,
+							gint sub_div_number )
 {
-    struct_report *report;
     GSList *tmp_list;
 
-    report = gsb_data_report_get_structure ( report_number );
-
-    if (!report )
-	return FALSE;
-
-    tmp_list = report -> categories_numbers_struct;
+    tmp_list = list_struct_report;
     while (tmp_list)
     {
-	struct_report_category *categ_struct = tmp_list -> data;
+	struct_categ_budget_sel *categ_budget_struct = tmp_list -> data;
 
-	if (categ_struct -> category_number == category_number)
+	if (categ_budget_struct -> div_number == div_number)
 	{
 	    /* found the categ, now check sub-categ */
-	    GSList *sub_categ_list = categ_struct -> sub_categories_number;
-	    if (g_slist_find (sub_categ_list, GINT_TO_POINTER (sub_category_number)))
+	    GSList *sub_categ_budget_list = categ_budget_struct -> sub_div_numbers;
+
+	    if (g_slist_find (sub_categ_budget_list, GINT_TO_POINTER (sub_div_number)))
 		return TRUE;
 	    else
 		/* can return FALSE, needn't to check other categories */

@@ -3462,9 +3462,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Categ_selected" ))
 	{
-	    /* the line is in the form : no_categ/no_sub_categ/no_sub_categ-no_categ/no_sub_categ... */
 	    gsb_data_report_set_category_struct ( report_number,
-						  gsb_string_get_categ_struct_list_from_string ((attribute_values[i])));
+						  gsb_string_get_categ_budget_struct_list_from_string ((attribute_values[i])));
 	    i++;
 	    continue;
 	}
@@ -3544,18 +3543,8 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Budget_selected" ))
 	{
-	    gsb_data_report_set_budget_numbers ( report_number,
-						 gsb_string_get_int_list_from_string (attribute_values[i],
-										      "/-/" ));
-	    i++;
-	    continue;
-	}
-
-	if ( !strcmp ( attribute_names[i],
-		       "Budget_exclude_transactions" ))
-	{
-	    gsb_data_report_set_budget_only_report_with_budget ( report_number,
-								 utils_str_atoi (attribute_values[i]));
+	    gsb_data_report_set_budget_struct ( report_number,
+						gsb_string_get_categ_budget_struct_list_from_string ((attribute_values[i])));
 	    i++;
 	    continue;
 	}
@@ -6331,7 +6320,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 	gchar **pointeur_char;
 	gint i;
 	GSList *tmp_list = NULL;
-	struct_report_category *categ_struct;
+	struct_categ_budget_sel *categ_struct;
 
 	/* before 0.6, it was only categories, so by default, we select all the sub-categories
 	 * of the selected categories */
@@ -6342,33 +6331,33 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 
 	while ( pointeur_char[i] )
 	{
-	    GSList *sub_categ_list;
+	    GSList *sub_categ_budget_list;
 
-	    categ_struct = g_malloc0 (sizeof (struct_report_category));
+	    categ_struct = g_malloc0 (sizeof (struct_categ_budget_sel));
 	    tmp_list = g_slist_append (tmp_list, categ_struct);
 
-	    categ_struct -> category_number = utils_str_atoi ( pointeur_char[i] );
+	    categ_struct -> div_number = utils_str_atoi ( pointeur_char[i] );
 
 	    /* we append now all the sub-categories */
-	    sub_categ_list = gsb_data_category_get_sub_category_list (categ_struct -> category_number);
-	    while (sub_categ_list)
+	    sub_categ_budget_list = gsb_data_category_get_sub_category_list (categ_struct -> div_number);
+	    while (sub_categ_budget_list)
 	    {
-		categ_struct -> sub_categories_number = g_slist_append (categ_struct -> sub_categories_number,
-									GINT_TO_POINTER (gsb_data_category_get_no_sub_category (sub_categ_list -> data)));
-		sub_categ_list = sub_categ_list -> next;
+		categ_struct -> sub_div_numbers = g_slist_append (categ_struct -> sub_div_numbers,
+								  GINT_TO_POINTER (gsb_data_category_get_no_sub_category (sub_categ_budget_list -> data)));
+		sub_categ_budget_list = sub_categ_budget_list -> next;
 	    }
 	    /* we append a null sub-category  */
-	    categ_struct -> sub_categories_number = g_slist_append (categ_struct -> sub_categories_number,
-								    NULL );
+	    categ_struct -> sub_div_numbers = g_slist_append (categ_struct -> sub_div_numbers,
+							      NULL );
 	    i++;
 	}
 	/* we append a null category with a null sub-category only if detail is not set*/
 	if (!gsb_data_report_get_category_detail_used (last_report_number))
 	{ 
-	    categ_struct = g_malloc0 (sizeof (struct_report_category));
+	    categ_struct = g_malloc0 (sizeof (struct_categ_budget_sel));
 	    tmp_list = g_slist_append (tmp_list, categ_struct);
-	    categ_struct -> sub_categories_number = g_slist_append (categ_struct -> sub_categories_number,
-								    NULL );
+	    categ_struct -> sub_div_numbers = g_slist_append (categ_struct -> sub_div_numbers,
+							      NULL );
 	}
 	g_strfreev ( pointeur_char );
 	gsb_data_report_set_category_struct (last_report_number, tmp_list);
@@ -6444,7 +6433,11 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     {
 	gchar **pointeur_char;
 	gint i;
+	GSList *tmp_list = NULL;
+	struct_categ_budget_sel *budget_struct;
 
+	/* before 0.6, it was only budgets, so by default, we select all the sub-budgets
+	 * of the selected budgets */
 	pointeur_char = g_strsplit ( text,
 				     "/",
 				     0 );
@@ -6452,21 +6445,36 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 
 	while ( pointeur_char[i] )
 	{
-	    gsb_data_report_set_budget_numbers ( last_report_number,
-						 g_slist_append ( gsb_data_report_get_budget_numbers (last_report_number),
-								  GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] ))));
+	    GSList *sub_budget_list;
+
+	    budget_struct = g_malloc0 (sizeof (struct_categ_budget_sel));
+	    tmp_list = g_slist_append (tmp_list, budget_struct);
+
+	    budget_struct -> div_number = utils_str_atoi ( pointeur_char[i] );
+
+	    /* we append now all the sub-categories */
+	    sub_budget_list = gsb_data_budget_get_sub_budget_list (budget_struct -> div_number);
+	    while (sub_budget_list)
+	    {
+		budget_struct -> sub_div_numbers = g_slist_append (budget_struct -> sub_div_numbers,
+								   GINT_TO_POINTER (gsb_data_budget_get_no_sub_budget (sub_budget_list -> data)));
+		sub_budget_list = sub_budget_list -> next;
+	    }
+	    /* we append a null sub-category  */
+	    budget_struct -> sub_div_numbers = g_slist_append (budget_struct -> sub_div_numbers,
+							       NULL );
 	    i++;
 	}
+	/* we append a null budget with a null sub-budget only if detail is not set*/
+	if (!gsb_data_report_get_budget_detail_used (last_report_number))
+	{ 
+	    budget_struct = g_malloc0 (sizeof (struct_categ_budget_sel));
+	    tmp_list = g_slist_append (tmp_list, budget_struct);
+	    budget_struct -> sub_div_numbers = g_slist_append (budget_struct -> sub_div_numbers,
+							       NULL );
+	}
 	g_strfreev ( pointeur_char );
-	return;
-    }
-
-
-    if ( !strcmp ( element_name,
-		   "Exclut_ib" ))
-    {
-	gsb_data_report_set_budget_only_report_with_budget ( last_report_number,
-							     utils_str_atoi (text));
+	gsb_data_report_set_budget_struct (last_report_number, tmp_list);
 	return;
     }
 

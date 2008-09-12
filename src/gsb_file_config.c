@@ -834,13 +834,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 	if ( !gsb_file_get_last_path ()
 	     ||
 	     !strlen (gsb_file_get_last_path ()))
-        {
 	    gsb_file_update_last_path (g_get_home_dir ());
-/* xxx à vérif par françois que le dessus marche pour win, si oui virer ce dessous et le my_get_gsb_file_default_dir */
-/* 	    gchar* tmpstr = g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL ); */
-/* 	    gsb_file_update_last_path ( tmpstr ); */
-/* 	    g_free ( tmpstr ); */
-	}
 	return;
     }
 
@@ -1157,10 +1151,7 @@ void gsb_file_config_clean_config ( void )
     gsb_file_update_last_path (g_get_home_dir ());
     gsb_file_set_backup_path (g_get_home_dir ());
     etat.make_backup = FALSE;
-/* xxx à vérif par françois que le dessus marche pour win, si oui virer ce dessous et le my_get_gsb_file_default_dir */
-/*     gchar* tmpstr = g_strconcat ( my_get_gsb_file_default_dir(), C_DIRECTORY_SEPARATOR,NULL ); */
-/*     gsb_file_update_last_path ( tmpstr ); */
-/*     g_free ( tmpstr ); */
+
     nb_derniers_fichiers_ouverts = 0;
     nb_max_derniers_fichiers_ouverts = 3;
     tab_noms_derniers_fichiers_ouverts = NULL;

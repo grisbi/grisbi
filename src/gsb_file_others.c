@@ -508,7 +508,6 @@ gboolean gsb_file_others_load ( gchar *filename,
 							 1 );
 		    gsb_data_report_set_amount_comparison_currency ( report_number,
 								     1 );
-
 		    /* erase the financials years */
 		    gsb_data_report_set_financial_year_list ( report_number,
 							      NULL );
@@ -521,9 +520,6 @@ gboolean gsb_file_others_load ( gchar *filename,
 		    /* erase the categories */
 		    gsb_data_report_set_category_struct ( report_number,
 							  NULL );
-		    /* erase the budget */
-		    gsb_data_report_set_budget_numbers ( report_number,
-							 NULL );
 		    /* erase the parties */
 		    gsb_data_report_set_payee_numbers ( report_number,
 							NULL );

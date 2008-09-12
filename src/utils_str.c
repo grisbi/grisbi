@@ -605,14 +605,15 @@ GSList *gsb_string_get_string_list_from_string ( const gchar *string,
 
 
 /**
- * return a gslist of struct_report_category
+ * return a gslist of struct_categ_budget_sel
  * from a string as no_categ/no_sub_categ/no_sub_categ/no_sub_categ-no_categ/no_sub_categ... 
+ * (or idem with budget)
  *
  * \param string	the string we want to change to a list
  *
  * \return a g_slist or NULL
  * */
-GSList *gsb_string_get_categ_struct_list_from_string ( const gchar *string )
+GSList *gsb_string_get_categ_budget_struct_list_from_string ( const gchar *string )
 {
     GSList *list_tmp = NULL;
     gchar **tab;
@@ -629,29 +630,29 @@ GSList *gsb_string_get_categ_struct_list_from_string ( const gchar *string )
 
     while ( tab[i] )
     {
-	struct_report_category *categ_report = NULL;
+	struct_categ_budget_sel *categ_budget_struct = NULL;
 	gchar **sub_tab;
 	gint j=0;
 
 	sub_tab = g_strsplit (tab[i], "/", 0);
 	while (sub_tab[j])
 	{
-	    if (!categ_report)
+	    if (!categ_budget_struct)
 	    {
-		/* no categ_report created, so we are on the category */
-		categ_report = g_malloc0 (sizeof (struct_report_category));
-		categ_report -> category_number = utils_str_atoi(sub_tab[j]);
+		/* no categ_budget_struct created, so we are on the category */
+		categ_budget_struct = g_malloc0 (sizeof (struct_categ_budget_sel));
+		categ_budget_struct -> div_number = utils_str_atoi(sub_tab[j]);
 	    }
 	    else
 	    {
-		/* categ_report is created, so we are on sub-category */
-		categ_report -> sub_categories_number = g_slist_append (categ_report -> sub_categories_number,
-									GINT_TO_POINTER (utils_str_atoi (sub_tab[j])));
+		/* categ_budget_struct is created, so we are on sub-category */
+		categ_budget_struct -> sub_div_numbers = g_slist_append (categ_budget_struct -> sub_div_numbers,
+									 GINT_TO_POINTER (utils_str_atoi (sub_tab[j])));
 	    }
 	    j++;
 	}
 	g_strfreev (sub_tab);
-	list_tmp = g_slist_append (list_tmp, categ_report);
+	list_tmp = g_slist_append (list_tmp, categ_budget_struct);
 	i++;
     }
     g_strfreev ( tab );

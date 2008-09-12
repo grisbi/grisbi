@@ -5,26 +5,26 @@
 /* END_INCLUDE_H */
 
 /** \struct
- * describe an report category list
- * the selected category list in the report struct is a list of struct_report_category
- * we have here the numbers of categories selected, and for each category the sub-categories selected
+ * describe an report category list or report budget list
+ * the selected category/budget list in the report struct is a list of struct_report_category
+ * we have here the numbers of categories/budgets selected, and for each one, the sub-categories/budgets selected
  * */
 typedef struct
 {
-    gint category_number;
-    GSList *sub_categories_number;	/* list of number of sub-categories selected for the category */
+    gint div_number;
+    GSList *sub_div_numbers;	/* list of number of sub-categories/budgets selected for the category/budget */
 
-} struct_report_category;
+} struct_categ_budget_sel;
 
 
 /* START_DECLARATION */
-gboolean gsb_data_report_check_category_in_report ( gint report_number,
-						    gint category_number,
-						    gint sub_category_number );
+gboolean gsb_data_report_check_categ_budget_in_report ( GSList *list_struct_report,
+							gint div_number,
+							gint sub_div_number );
 gint gsb_data_report_compare_position ( gint report_number_1,
 					gint report_number_2 );
 gint gsb_data_report_dup ( gint report_number );
-gboolean gsb_data_report_free_category_struct (GSList *categ_struct_list);
+gboolean gsb_data_report_free_categ_budget_struct (GSList *categ_budget_sel_list);
 gint gsb_data_report_get_account_group_reports ( gint report_number );
 GSList *gsb_data_report_get_account_numbers ( gint report_number );
 gint gsb_data_report_get_account_show_amount ( gint report_number );
@@ -37,13 +37,12 @@ gint gsb_data_report_get_amount_comparison_used ( gint report_number );
 gint gsb_data_report_get_append_in_payee ( gint report_number );
 gint gsb_data_report_get_budget_currency ( gint report_number );
 gint gsb_data_report_get_budget_detail_used ( gint report_number );
-GSList *gsb_data_report_get_budget_numbers ( gint report_number );
-gint gsb_data_report_get_budget_only_report_with_budget ( gint report_number );
 gint gsb_data_report_get_budget_show_budget_amount ( gint report_number );
 gint gsb_data_report_get_budget_show_name ( gint report_number );
 gint gsb_data_report_get_budget_show_sub_budget ( gint report_number );
 gint gsb_data_report_get_budget_show_sub_budget_amount ( gint report_number );
 gint gsb_data_report_get_budget_show_without_budget ( gint report_number );
+GSList *gsb_data_report_get_budget_struct ( gint report_number );
 gint gsb_data_report_get_budget_used ( gint report_number );
 gint gsb_data_report_get_category_currency ( gint report_number );
 gint gsb_data_report_get_category_detail_used ( gint report_number );
@@ -138,10 +137,6 @@ gboolean gsb_data_report_set_budget_currency ( gint report_number,
 					       gint budget_currency );
 gboolean gsb_data_report_set_budget_detail_used ( gint report_number,
 						  gint budget_detail_used );
-gboolean gsb_data_report_set_budget_numbers ( gint report_number,
-					      GSList *budget_numbers );
-gboolean gsb_data_report_set_budget_only_report_with_budget ( gint report_number,
-							      gint budget_only_report_with_budget );
 gboolean gsb_data_report_set_budget_show_budget_amount ( gint report_number,
 							 gint budget_show_budget_amount );
 gboolean gsb_data_report_set_budget_show_name ( gint report_number,
@@ -152,6 +147,8 @@ gboolean gsb_data_report_set_budget_show_sub_budget_amount ( gint report_number,
 							 gint budget_show_sub_budget_amount );
 gboolean gsb_data_report_set_budget_show_without_budget ( gint report_number,
 							  gint budget_show_without_budget );
+gboolean gsb_data_report_set_budget_struct ( gint report_number,
+					     GSList *budget_select_struct );
 gboolean gsb_data_report_set_budget_used ( gint report_number,
 					   gint budget_used );
 gboolean gsb_data_report_set_category_currency ( gint report_number,
@@ -169,7 +166,7 @@ gboolean gsb_data_report_set_category_show_sub_category_amount ( gint report_num
 gboolean gsb_data_report_set_category_show_without_category ( gint report_number,
 							      gint category_show_without_category );
 gboolean gsb_data_report_set_category_struct ( gint report_number,
-					       GSList *categories_numbers_struct );
+					       GSList *categ_select_struct );
 gboolean gsb_data_report_set_category_used ( gint report_number,
 					     gint category_used );
 gboolean gsb_data_report_set_column_title_show ( gint report_number,

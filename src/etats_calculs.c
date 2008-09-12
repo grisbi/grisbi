@@ -45,6 +45,7 @@
 #include "./utils_str.h"
 #include "./print_config.h"
 #include "./gsb_data_account.h"
+#include "./navigation.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_real.h"
 #include "./print_config.h"
@@ -656,29 +657,21 @@ GSList *recupere_opes_etat ( gint report_number )
 			/* it's a normal categ (or not categ) */
 			gsb_data_report_get_category_detail_used (report_number)
 			&&
-			!gsb_data_report_check_category_in_report (report_number,
-								   gsb_data_transaction_get_category_number (transaction_number_tmp),
-								   gsb_data_transaction_get_sub_category_number (transaction_number_tmp)))
+			!gsb_data_report_check_categ_budget_in_report (gsb_data_report_get_category_struct (report_number),
+								       gsb_data_transaction_get_category_number (transaction_number_tmp),
+								       gsb_data_transaction_get_sub_category_number (transaction_number_tmp)))
 			goto operation_refusee;
 
 
-		    /* vérification de l'imputation budgétaire */
-		    if ( gsb_data_report_get_budget_only_report_with_budget (report_number)
-			 &&
-			 !gsb_data_transaction_get_budgetary_number ( transaction_number_tmp))
-			goto operation_refusee;
-
+		    /* check the buget */
 		    if ((gsb_data_report_get_budget_detail_used (report_number)
 			 &&
-			 g_slist_index(gsb_data_report_get_budget_numbers (report_number),
-				       GINT_TO_POINTER(gsb_data_transaction_get_budgetary_number ( transaction_number_tmp))) == -1)
-			&&
-			gsb_data_transaction_get_budgetary_number ( transaction_number_tmp))
+			 !gsb_data_report_check_categ_budget_in_report (gsb_data_report_get_budget_struct (report_number),
+									gsb_data_transaction_get_budgetary_number (transaction_number_tmp),
+									gsb_data_transaction_get_sub_budgetary_number (transaction_number_tmp))))
 			goto operation_refusee;
 
-
 		    /* vérification du tiers */
-
 		    if ( gsb_data_report_get_payee_detail_used (report_number)
 			 &&
 			 g_slist_index ( gsb_data_report_get_payee_numbers (report_number),

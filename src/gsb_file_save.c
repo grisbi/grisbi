@@ -1815,13 +1815,13 @@ gulong gsb_file_save_report_part ( gulong iterator,
 
 	while ( tmp_list )
 	{
-	    struct_report_category *struct_categ = tmp_list -> data;
+	    struct_categ_budget_sel *struct_categ = tmp_list -> data;
 	    gchar *last_categ;
 	    gchar *new_categ;
 	    GSList *sub_categ_list;
 
 	    /* first, save the category */
-	    new_categ = utils_str_itoa (struct_categ -> category_number);
+	    new_categ = utils_str_itoa (struct_categ -> div_number);
 	    if ( categ_selected )
 	    {
 		last_categ = categ_selected;
@@ -1837,7 +1837,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 		categ_selected = new_categ;
 
 	    /* if there are sub-categories, it's here */
-	    sub_categ_list = struct_categ -> sub_categories_number;
+	    sub_categ_list = struct_categ -> sub_div_numbers;
 	    while (sub_categ_list)
 	    {
 		new_categ = utils_str_itoa (GPOINTER_TO_INT (sub_categ_list -> data));
@@ -1854,24 +1854,48 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    tmp_list = tmp_list -> next;
 	}
 
-	/* 	set the budget_selected */
-	tmp_list = gsb_data_report_get_budget_numbers (report_number);
+	/* save the budget and sub-budget list */
+	tmp_list = gsb_data_report_get_budget_struct (report_number);
 	budget_selected = NULL;
 
 	while ( tmp_list )
 	{
+	    struct_categ_budget_sel *struct_budget = tmp_list -> data;
+	    gchar *last_budget;
+	    gchar *new_budget;
+	    GSList *sub_budget_list;
+
+	    /* first, save the budget */
+	    new_budget = utils_str_itoa (struct_budget -> div_number);
 	    if ( budget_selected )
 	    {
-	        gchar* tmpstr = budget_selected;
-		budget_selected = g_strconcat ( tmpstr,
-					      "/-/",
-					      utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data )),
-					      NULL );
-	        g_free ( tmpstr );
+		last_budget = budget_selected;
+
+		budget_selected = g_strconcat ( last_budget,
+					       "-",
+					       new_budget,
+					       NULL );
+		g_free (last_budget);
+		g_free (new_budget);
 	    }
 	    else
-		budget_selected = utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ));
+		budget_selected = new_budget;
 
+	    /* if there are sub-budgets, it's here */
+	    sub_budget_list = struct_budget -> sub_div_numbers;
+	    while (sub_budget_list)
+	    {
+		new_budget = utils_str_itoa (GPOINTER_TO_INT (sub_budget_list -> data));
+
+		last_budget = budget_selected;
+		budget_selected = g_strconcat ( last_budget,
+					       "/",
+					       new_budget,
+					       NULL );
+		g_free (new_budget);
+		g_free (last_budget);
+		sub_budget_list = sub_budget_list -> next;
+	    }
 	    tmp_list = tmp_list -> next;
 	}
 
@@ -1982,7 +2006,6 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tBudget_use=\"%d\"\n"
 					       "\t\tBudget_use_selection=\"%d\"\n"
 					       "\t\tBudget_selected=\"%s\"\n"
-					       "\t\tBudget_exclude_transactions=\"%d\"\n"
 					       "\t\tBudget_show_amount=\"%d\"\n"
 					       "\t\tBudget_show_sub_budget=\"%d\"\n"
 					       "\t\tBudget_show_without_sub_budget=\"%d\"\n"
@@ -2060,7 +2083,6 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    gsb_data_report_get_budget_used (report_number),
 	    gsb_data_report_get_budget_detail_used (report_number),
 	    budget_selected,
-	    gsb_data_report_get_budget_only_report_with_budget (report_number),
 	    gsb_data_report_get_budget_show_budget_amount (report_number),
 	    gsb_data_report_get_budget_show_sub_budget (report_number),
 	    gsb_data_report_get_budget_show_without_budget (report_number),

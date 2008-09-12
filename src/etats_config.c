@@ -67,7 +67,6 @@ static void click_haut_classement_etat ( void );
 static void click_liste_etat ( GtkCList *liste,
 			GdkEventButton *evenement,
 			gint origine );
-static void click_type_ib_etat ( gint type );
 static GtkWidget *cree_bouton_champ ( gint text_comparison_number );
 static GtkWidget *cree_bouton_comparateur_montant ( gint amount_comparison_number );
 static GtkWidget *cree_bouton_comparateur_texte ( gint text_comparison_number );
@@ -95,23 +94,37 @@ static GtkWidget *page_data_separation ( void );
 static void recuperation_info_perso_etat ( void );
 static void remplissage_liste_comptes_virements ( void );
 static void remplissage_liste_exo_etats ( void );
-static void remplissage_liste_ib_etats ( void );
 static void remplissage_liste_modes_paiement_etats ( void );
 static void remplissage_liste_tiers_etats ( void );
 static void remplit_liste_comparaisons_montants_etat ( void );
 static void remplit_liste_comparaisons_textes_etat ( void );
-static  GSList *report_config_category_get_list ( void );
+static  gboolean report_config_budget_select_all ( GtkWidget *button,
+						  gboolean *select_ptr );
+static  gboolean report_config_budget_select_type ( GtkWidget *button,
+						   gboolean *type_ptr );
+static  GSList *report_config_categ_budget_get_selected ( gboolean is_categ );
+static  gboolean report_config_categ_budget_toggled ( GtkCellRendererToggle *radio_renderer,
+						     gchar *path_str,
+						     GtkTreeStore *store );
 static  gboolean report_config_category_select_all ( GtkWidget *button,
 						    gboolean *select_ptr );
 static  gboolean report_config_category_select_type ( GtkWidget *button,
 						     gboolean *type_ptr );
-static  void report_config_category_toggle_categ (struct_report_category *categ_struct);
-static  gboolean report_config_category_toggled ( GtkCellRendererToggle *radio_renderer,
-						 gchar *path_str,
-						 GtkTreeStore *store );
-static  void report_config_category_update_treeview ( void );
-static  GtkWidget *report_config_create_category_list ( void );
-static gboolean report_config_fill_category_list ( GtkWidget *tree_view );
+static  void report_config_category_toggle_categ ( struct_categ_budget_sel *categ_budget_struct,
+						  gboolean is_categ );
+static  void report_config_category_update_treeview ( gboolean is_categ );
+static  GtkWidget *report_config_create_categ_budget_list ( void );
+static gboolean report_config_fill_categ_budget_list ( gboolean is_categ );
+static  gboolean report_config_mix_select_all ( GtkTreeModel *model,
+					       gboolean toggle_value );
+static  gboolean report_config_mix_select_type ( gboolean is_categ,
+						gboolean type );
+static  void report_config_mixed_list_add_div ( gboolean is_categ,
+					       const gchar *name,
+					       gint number );
+static  void report_config_mixed_list_add_sub_div ( gboolean is_categ,
+						   const gchar *name,
+						   gint number );
 static gboolean report_tree_selectable_func (GtkTreeSelection *selection,
 				      GtkTreeModel *model,
 				      GtkTreePath *path,
@@ -130,7 +143,6 @@ static void selectionne_devise_categ_etat_courant ( void );
 static void selectionne_devise_ib_etat_courant ( void );
 static void selectionne_devise_tiers_etat_courant ( void );
 static void selectionne_liste_exo_etat_courant ( void );
-static void selectionne_liste_ib_etat_courant ( void );
 static void selectionne_liste_modes_paiement_etat_courant ( void );
 static void selectionne_liste_tiers_etat_courant ( void );
 static void selectionne_liste_virements_etat_courant ( void );
@@ -265,11 +277,10 @@ static GtkWidget *bouton_afficher_noms_categ = NULL;
 static GtkWidget *bouton_utilise_ib_etat = NULL;
 static GtkWidget *bouton_detaille_ib_etat = NULL;
 static GtkWidget *hbox_detaille_ib_etat = NULL;
-static GtkWidget *liste_ib_etat = NULL;
+static GtkWidget *tree_view_budget = NULL;
 static GtkWidget *bouton_afficher_sous_ib = NULL;
 static GtkWidget *bouton_affiche_sous_total_ib = NULL;
 static GtkWidget *bouton_affiche_sous_total_sous_ib = NULL;
-static GtkWidget *bouton_exclure_ope_sans_ib = NULL;
 static GtkWidget *bouton_devise_ib_etat = NULL;
 static GtkWidget *bouton_afficher_pas_de_sous_ib = NULL;
 static GtkWidget *bouton_afficher_noms_ib = NULL;
@@ -343,6 +354,11 @@ static GtkWidget *liste_mode_paiement_etat = NULL;
 static GtkTreeStore * report_tree_model = NULL;
 static GtkWidget * report_tree_view = NULL;
 
+/** globals used to speed up the category/budget list 
+ * and clarify the code */
+static GtkTreeModel *model_categ;
+static GtkTreeModel *model_budget;
+static GtkTreeIter parent_iter;
 
 
 /*START_EXTERN*/
@@ -935,7 +951,6 @@ void personnalisation_etat (void)
 
 
     /* onglet catégories */
-
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_group_by_categ ),
 				   gsb_data_report_get_category_used (current_report_number));
 
@@ -957,7 +972,7 @@ void personnalisation_etat (void)
 				hbox_detaille_categ_etat );
 
     /* select the categories and sub-categories */
-    report_config_category_update_treeview ();
+    report_config_category_update_treeview (TRUE);
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_categ ),
 				   gsb_data_report_get_category_show_category_amount (current_report_number));
@@ -978,7 +993,6 @@ void personnalisation_etat (void)
 
 
     /* onglet ib */
-
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_ib_etat ),
 				   gsb_data_report_get_budget_used (current_report_number));
 
@@ -999,13 +1013,9 @@ void personnalisation_etat (void)
     sens_desensitive_pointeur ( bouton_detaille_ib_etat,
 				hbox_detaille_ib_etat );
 
+    /* select the budgets and sub-budgets */
+    report_config_category_update_treeview (FALSE);
 
-    /* on sélectionne les ib choisies */
-
-    selectionne_liste_ib_etat_courant ();
-
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_ib ),
-				   gsb_data_report_get_budget_only_report_with_budget (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_ib ),
 				   gsb_data_report_get_budget_show_budget_amount (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib ),
@@ -1230,29 +1240,6 @@ void selectionne_devise_categ_etat_courant ( void )
 }
 /******************************************************************************/
 
-/******************************************************************************/
-void selectionne_liste_ib_etat_courant ( void )
-{
-    GSList *pointeur_sliste;
-    gint current_report_number;
-
-    current_report_number = gsb_gui_navigation_get_current_report ();
-
-
-    gtk_clist_unselect_all ( GTK_CLIST ( liste_ib_etat ));
-
-    pointeur_sliste = gsb_data_report_get_budget_numbers (current_report_number);
-
-    while ( pointeur_sliste )
-    {
-	gtk_clist_select_row ( GTK_CLIST ( liste_ib_etat ),
-			       gtk_clist_find_row_from_data ( GTK_CLIST ( liste_ib_etat ),
-							      pointeur_sliste -> data ),
-			       0 );
-	pointeur_sliste = pointeur_sliste -> next;
-    }
-}
-/******************************************************************************/
 
 /******************************************************************************/
 void selectionne_devise_ib_etat_courant ( void )
@@ -1627,7 +1614,7 @@ void recuperation_info_perso_etat ( void )
     gsb_data_report_set_category_detail_used ( current_report_number,
 					       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_detail_categ )));
 
-    gsb_data_report_set_category_struct (current_report_number, report_config_category_get_list ());
+    gsb_data_report_set_category_struct (current_report_number, report_config_categ_budget_get_selected (TRUE));
 
     /* if all was selected, remove the category_detail_used */
     if (!gsb_data_report_get_category_struct (current_report_number))
@@ -1649,54 +1636,24 @@ void recuperation_info_perso_etat ( void )
 					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_categ )));
 
 
-    /*   récupération des ib */
-
+    /* get the budget */
     gsb_data_report_set_budget_used ( current_report_number,
 				      gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_ib_etat )));
 
     gsb_data_report_set_budget_detail_used ( current_report_number,
 					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat )));
 
-    if ( gsb_data_report_get_budget_numbers (current_report_number))
-    {
-	g_slist_free ( gsb_data_report_get_budget_numbers (current_report_number));
-	gsb_data_report_set_budget_numbers ( current_report_number,
-					     NULL );
-    }
+    gsb_data_report_set_budget_struct (current_report_number, report_config_categ_budget_get_selected (FALSE));
 
-    list_tmp = GTK_CLIST ( liste_ib_etat ) -> selection;
-
-    while ( list_tmp )
-    {
-	gsb_data_report_set_budget_numbers ( current_report_number,
-					     g_slist_append ( gsb_data_report_get_budget_numbers (current_report_number),
-							      gtk_clist_get_row_data ( GTK_CLIST ( liste_ib_etat ),
-										       GPOINTER_TO_INT ( list_tmp -> data ))));
-	list_tmp = list_tmp -> next;
-    }
-
-    gsb_data_report_set_budget_show_sub_budget ( current_report_number,
-						 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib )));
-
-    /*   si toutes les ib ont été sélectionnés, on met utilise_detail_ib à 0 (plus rapide) */
-
-    if ( ( g_list_length ( GTK_CLIST ( liste_ib_etat ) -> selection )
-	   ==
-	   GTK_CLIST ( liste_ib_etat ) -> rows )
-	 &&
-	 gsb_data_report_get_budget_detail_used (current_report_number))
-    {
-	dialogue_special ( GTK_MESSAGE_INFO, 
-			   make_hint ( _("Performance issue."),
-				       _("All budgetary lines have been selected.  Grisbi will run faster without the \"Detail budgetary lines used\" option activated.") ) );
+    /* if all was selected, remove the budget_detail_used */
+    if (!gsb_data_report_get_budget_struct (current_report_number))
 	gsb_data_report_set_budget_detail_used ( current_report_number,
-						 0 );
-    }
+						 FALSE );
 
-    gsb_data_report_set_budget_only_report_with_budget ( current_report_number,
-							 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_ib )));
     gsb_data_report_set_budget_show_budget_amount ( current_report_number,
 						    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_ib )));
+    gsb_data_report_set_budget_show_sub_budget ( current_report_number,
+						 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (bouton_afficher_sous_ib)));
     gsb_data_report_set_budget_show_sub_budget_amount ( current_report_number,
 							gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_ib )));
     gsb_data_report_set_budget_show_without_budget ( current_report_number,
@@ -2032,9 +1989,7 @@ gboolean report_tree_update_style_iterator ( GtkTreeModel * tree_model,
 	case 5:
 	    /* page des ib */
 
-	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat ))
-		 ||
-		 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_sans_ib )))
+	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat )))
 		italic = TRUE;
 	    break;
 
@@ -3138,7 +3093,8 @@ GtkWidget *onglet_etat_categories ( void )
     gtk_widget_show ( scrolled_window );
 
     /* add the categories list */
-    tree_view_categ = report_config_create_category_list ();
+    tree_view_categ = report_config_create_categ_budget_list ();
+    model_categ = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view_categ));
     g_signal_connect ( G_OBJECT (tree_view_categ ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &tree_view_categ );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
@@ -3146,10 +3102,9 @@ GtkWidget *onglet_etat_categories ( void )
     gtk_widget_show ( tree_view_categ );
 
     /* fill the list */
-    report_config_fill_category_list (tree_view_categ);
+    report_config_fill_categ_budget_list (TRUE);
 
     /*   sur la partie de droite, on met les boutons (dé)sélectionner tout */
-
     vbox = gtk_vbox_new ( FALSE,
 			  5 );
     gtk_box_pack_start ( GTK_BOX ( hbox_detaille_categ_etat ),
@@ -3221,14 +3176,15 @@ GtkWidget *onglet_etat_categories ( void )
 
 
 /**
- * create the category list for reports
- * it's a tree with categories and sub-categories, and a check-button to select them
+ * create the category/budget list for reports
+ * it's a tree with categories/budget and sub-categories/budgets,
+ * and a check-button to select them
  *
  * \param
  *
  * \return a GtkWidget : the GtkTreeView
  * */
-static GtkWidget *report_config_create_category_list ( void )
+static GtkWidget *report_config_create_categ_budget_list ( void )
 {
     GtkWidget *tree_view;
     GtkTreeStore *store;
@@ -3262,7 +3218,7 @@ static GtkWidget *report_config_create_category_list ( void )
 					 NULL);
     g_signal_connect ( G_OBJECT (radio_renderer),
 		       "toggled",
-		       G_CALLBACK (report_config_category_toggled),
+		       G_CALLBACK (report_config_categ_budget_toggled),
 		       store );
 
     /* create the text part */
@@ -3287,120 +3243,171 @@ static GtkWidget *report_config_create_category_list ( void )
     return tree_view;
 }
 
-/* xxx grisbi plante qd crée une nouvell categ */
 
 /**
  * fill the categories selection list for report
  *
- * \param 
+ * \param is_categ	TRUE for category, FALSE for budget
  *
  * \return FALSE
  * */
-gboolean report_config_fill_category_list ( GtkWidget *tree_view )
+static gboolean report_config_fill_categ_budget_list ( gboolean is_categ )
 {
     GSList *list_tmp;
-    GtkTreeModel *model;
-    GtkTreeIter iter_categ;
+    gchar *name;
+    gchar *without_name, *without_sub_name;
 
-    if ( !tree_view_categ )
-	return FALSE;
-
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
-    gtk_tree_store_clear (GTK_TREE_STORE (model));
-
-    list_tmp = gsb_data_category_get_categories_list ();
+    if (is_categ)
+    {
+	list_tmp = gsb_data_category_get_categories_list ();
+	gtk_tree_store_clear (GTK_TREE_STORE (model_categ));
+	without_name = _("Empty category");
+	without_sub_name = _("Empty sub-category");
+    }
+    else
+    {
+	list_tmp = gsb_data_budget_get_budgets_list ();
+	gtk_tree_store_clear (GTK_TREE_STORE (model_budget));
+	without_name = _("Empty budget");
+	without_sub_name = _("Empty sub-budget");
+    }
 
     while ( list_tmp )
     {
-	gint category_number;
-	gchar *name;
-	GSList *tmp_list_sub_categ;
-	GtkTreeIter iter_sub_categ;
+	gint div_number;
+	GSList *tmp_list_sub_div;
 
 	/* get the category to append */
-	category_number = gsb_data_category_get_no_category ( list_tmp -> data );
-	name = gsb_data_category_get_name (category_number, 0, NULL );
+	if (is_categ)
+	{
+	    div_number = gsb_data_category_get_no_category ( list_tmp -> data );
+	    name = gsb_data_category_get_name (div_number, 0, NULL );
+	    tmp_list_sub_div = gsb_data_category_get_sub_category_list (div_number);
+	}
+	else
+	{
+	    div_number = gsb_data_budget_get_no_budget ( list_tmp -> data );
+	    name = gsb_data_budget_get_name (div_number, 0, NULL );
+	    tmp_list_sub_div = gsb_data_budget_get_sub_budget_list (div_number);
+	}
 
 	/* append to the model */
-	gtk_tree_store_append ( GTK_TREE_STORE (model),
-				&iter_categ,
-				NULL );
-	gtk_tree_store_set (GTK_TREE_STORE (model),
-			    &iter_categ,
-			    REPORT_CATEG_BUDGET_LIST_NAME, name,
-			    REPORT_CATEG_BUDGET_LIST_NUMBER, category_number,
-			    REPORT_CATEG_BUDGET_LIST_SUB_NUMBER, -1,
-			    REPORT_CATEG_BUDGET_LIST_ACTIVATABLE, TRUE,
-			    -1 );
+	report_config_mixed_list_add_div (is_categ, name, div_number);
 	g_free (name);
 
 	/* append the sub categories */
-	tmp_list_sub_categ = gsb_data_category_get_sub_category_list (category_number);
-
-	while (tmp_list_sub_categ)
+	while (tmp_list_sub_div)
 	{
-	    gint sub_category_number;
+	    gint sub_div_number;
 
-	    sub_category_number = gsb_data_category_get_no_sub_category (tmp_list_sub_categ -> data);
-	    name = gsb_data_category_get_sub_category_name (category_number, sub_category_number, NULL);
+	    if (is_categ)
+	    {
+		sub_div_number = gsb_data_category_get_no_sub_category (tmp_list_sub_div -> data);
+		name = gsb_data_category_get_sub_category_name (div_number, sub_div_number, NULL);
+	    }
+	    else
+	    {
+		sub_div_number = gsb_data_budget_get_no_sub_budget (tmp_list_sub_div -> data);
+		name = gsb_data_budget_get_sub_budget_name (div_number, sub_div_number, NULL);
+	    }
 
 	    /* append to the model */
-	    gtk_tree_store_append ( GTK_TREE_STORE (model),
-				    &iter_sub_categ,
-				    &iter_categ );
-	    gtk_tree_store_set (GTK_TREE_STORE (model),
-				&iter_sub_categ,
-				REPORT_CATEG_BUDGET_LIST_NAME, name,
-				REPORT_CATEG_BUDGET_LIST_NUMBER, category_number,
-				REPORT_CATEG_BUDGET_LIST_SUB_NUMBER, sub_category_number,
-				REPORT_CATEG_BUDGET_LIST_ACTIVATABLE, TRUE,
-				-1 );
+	    report_config_mixed_list_add_sub_div (is_categ, name, sub_div_number);
 	    g_free (name);
-	    tmp_list_sub_categ = tmp_list_sub_categ -> next;
+	    tmp_list_sub_div = tmp_list_sub_div -> next;
 	}
 
-	/* append without sub-categ */
-	gtk_tree_store_append ( GTK_TREE_STORE (model),
-				&iter_sub_categ,
-				&iter_categ );
-	gtk_tree_store_set (GTK_TREE_STORE (model),
-			    &iter_sub_categ,
-			    REPORT_CATEG_BUDGET_LIST_NAME, _("Empty sub-category"),
-			    REPORT_CATEG_BUDGET_LIST_NUMBER, category_number,
-			    REPORT_CATEG_BUDGET_LIST_SUB_NUMBER, 0,
-			    REPORT_CATEG_BUDGET_LIST_ACTIVATABLE, TRUE,
-			    -1 );
-
+	/* append without sub-div */
+	report_config_mixed_list_add_sub_div (is_categ, without_sub_name, 0);
 	list_tmp = list_tmp -> next;
     }
-    /* append without categ */
-    gtk_tree_store_append ( GTK_TREE_STORE (model),
-			    &iter_categ,
-			    NULL );
-    gtk_tree_store_set (GTK_TREE_STORE (model),
-			&iter_categ,
-			REPORT_CATEG_BUDGET_LIST_NAME, _("Empty category"),
-			REPORT_CATEG_BUDGET_LIST_NUMBER, 0,
-			REPORT_CATEG_BUDGET_LIST_SUB_NUMBER, 0,
-			REPORT_CATEG_BUDGET_LIST_ACTIVATABLE, TRUE,
-			-1 );
+    /* append without div and sub-div*/
+    report_config_mixed_list_add_div (is_categ, without_name, 0);
+    report_config_mixed_list_add_sub_div (is_categ, without_sub_name, 0);
+
     return FALSE;
 }
 
 
+/**
+ * append the div given in param to the categ/budget list
+ * this place parent_iter on the place of the div appended
+ *
+ * \param is_categ 	TRUE for categ, FALSE for budget
+ * \param name
+ * \param number
+ *
+ * \return
+ * */
+static void report_config_mixed_list_add_div ( gboolean is_categ,
+					       const gchar *name,
+					       gint number )
+{
+    GtkTreeModel *model;
+
+    if (is_categ)
+	model = model_categ;
+    else
+	model = model_budget;
+    gtk_tree_store_append ( GTK_TREE_STORE (model),
+			    &parent_iter,
+			    NULL );
+    gtk_tree_store_set (GTK_TREE_STORE (model),
+			&parent_iter,
+			REPORT_CATEG_BUDGET_LIST_NAME, name,
+			REPORT_CATEG_BUDGET_LIST_NUMBER, number,
+			REPORT_CATEG_BUDGET_LIST_SUB_NUMBER, -1,
+			REPORT_CATEG_BUDGET_LIST_ACTIVATABLE, TRUE,
+			-1 );
+}
 
 /**
- * callback if we toggle a checkbox in the category list
+ * append the sub-div given in param to the categ/budget list
+ *
+ * \param is_categ 	TRUE for categ, FALSE for budget
+ * \param name
+ * \param number
+ *
+ * \return
+ * */
+static void report_config_mixed_list_add_sub_div ( gboolean is_categ,
+						   const gchar *name,
+						   gint number )
+{
+    GtkTreeModel *model;
+    GtkTreeIter child_iter;
+
+    if (is_categ)
+	model = model_categ;
+    else
+	model = model_budget;
+    gtk_tree_store_append ( GTK_TREE_STORE (model),
+			    &child_iter,
+			    &parent_iter );
+    gtk_tree_store_set (GTK_TREE_STORE (model),
+			&child_iter,
+			REPORT_CATEG_BUDGET_LIST_NAME, name,
+			REPORT_CATEG_BUDGET_LIST_NUMBER, -1,
+			REPORT_CATEG_BUDGET_LIST_SUB_NUMBER, number,
+			REPORT_CATEG_BUDGET_LIST_ACTIVATABLE, TRUE,
+			-1 );
+}
+
+
+/**
+ * callback if we toggle a checkbox in the category/budget list
+ * if we toggle a div, toggle all the sub-div
+ * if we toggle a sub-div, toggle also the div
  *
  * \param radio_renderer
  * \param path			the string of path
- * \param store			the GtkTreeStore
+ * \param store			the GtkTreeStore of categ/budget
  *
  * \return FALSE
  * */
-static gboolean report_config_category_toggled ( GtkCellRendererToggle *radio_renderer,
-						 gchar *path_str,
-						 GtkTreeStore *store )
+static gboolean report_config_categ_budget_toggled ( GtkCellRendererToggle *radio_renderer,
+						     gchar *path_str,
+						     GtkTreeStore *store )
 {
     GtkTreePath *path;
     GtkTreeIter iter;
@@ -3463,12 +3470,39 @@ static gboolean report_config_category_toggled ( GtkCellRendererToggle *radio_re
 static gboolean report_config_category_select_all ( GtkWidget *button,
 						    gboolean *select_ptr )
 {
-    GtkTreeModel *model;
-    GtkTreeIter iter;
-    gboolean toggle_value = GPOINTER_TO_INT (select_ptr);
+    return (report_config_mix_select_all (model_categ, GPOINTER_TO_INT (select_ptr)));
+}
 
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view_categ));
-    if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter))
+
+
+/**
+ * select or unselect all the budgets
+ *
+ * \param button
+ * \param select_ptr	TRUE or FALSE to select/unselect all
+ *
+ * \return FALSE
+ * */
+static gboolean report_config_budget_select_all ( GtkWidget *button,
+						  gboolean *select_ptr )
+{
+    return (report_config_mix_select_all (model_budget, GPOINTER_TO_INT (select_ptr)));
+}
+
+
+
+/**
+ * select or unselect all the budgets or categories
+ *
+ * \param model		the model to fill (is model_categ or model_budget
+ * \param select_ptr	TRUE or FALSE to select/unselect all
+ *
+ * \return FALSE
+ * */
+static gboolean report_config_mix_select_all ( GtkTreeModel *model,
+					       gboolean toggle_value )
+{
+    if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &parent_iter))
 	return FALSE;
 
     do
@@ -3476,11 +3510,11 @@ static gboolean report_config_category_select_all ( GtkWidget *button,
 	GtkTreeIter iter_children;
 
 	gtk_tree_store_set ( GTK_TREE_STORE (model),
-			     &iter,
+			     &parent_iter,
 			     REPORT_CATEG_BUDGET_LIST_ACTIVE, toggle_value,
 			     -1 );
 
-	if (gtk_tree_model_iter_children ( GTK_TREE_MODEL (model), &iter_children, &iter))
+	if (gtk_tree_model_iter_children ( GTK_TREE_MODEL (model), &iter_children, &parent_iter))
 	{
 	    /* we are on the children */
 	    do
@@ -3491,7 +3525,7 @@ static gboolean report_config_category_select_all ( GtkWidget *button,
 	    while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter_children));
 	}
     }
-    while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
+    while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &parent_iter));
     return FALSE;
 }
 
@@ -3508,29 +3542,63 @@ static gboolean report_config_category_select_type ( GtkWidget *button,
 						     gboolean *type_ptr )
 
 {
+    return (report_config_mix_select_type (TRUE, GPOINTER_TO_INT (type_ptr)));
+}
+
+/**
+ * select the income or outgoing budget
+ *
+ * \param button
+ * \param type_ptr	FALSE to income budgets, TRUE for outgoing budgets
+ *
+ * \return FALSE
+ * */
+static gboolean report_config_budget_select_type ( GtkWidget *button,
+						   gboolean *type_ptr )
+{
+    return (report_config_mix_select_type (FALSE, GPOINTER_TO_INT (type_ptr)));
+}
+
+/**
+ * select the income or outgoing categories or budget
+ *
+ * \param is_categ	TRUE for category, FALSE for budget
+ * \param type		FALSE to income item, TRUE for outgoing item
+ *
+ * \return FALSE
+ * */
+static gboolean report_config_mix_select_type ( gboolean is_categ,
+						gboolean type )
+
+{
     GtkTreeModel *model;
     GtkTreeIter iter;
-    gboolean type = GPOINTER_TO_INT (type_ptr);
 
-    report_config_category_select_all (NULL, GINT_TO_POINTER (FALSE));
+    if (is_categ)
+	model = model_categ;
+    else
+	model = model_budget;
 
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view_categ));
+    report_config_mix_select_all (model, FALSE);
+
     if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter))
 	return FALSE;
 
     do
     {
-	gint category_number;
+	gint div_number;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (model),
 			    &iter,
-			    REPORT_CATEG_BUDGET_LIST_NUMBER, &category_number,
+			    REPORT_CATEG_BUDGET_LIST_NUMBER, &div_number,
 			    -1 );
 
-	/* we always select without categories ?? set yes by default */
-	if ( !category_number
+	/* we always select without categories/budget ?? set yes by default */
+	if ( !div_number
 	     ||
-	     gsb_data_category_get_type (category_number) == type )
+	     (is_categ && (gsb_data_category_get_type (div_number) == type))
+	     ||
+	     (!is_categ && (gsb_data_budget_get_type (div_number) == type)))
 	{
 	    GtkTreeIter iter_children;
 
@@ -3557,35 +3625,38 @@ static gboolean report_config_category_select_type ( GtkWidget *button,
 
 
 /**
- * get all the selected categ and sub-categ and place them in a list of struct_report_category
+ * get all the selected categ and sub-categ and place them in a list of struct_categ_budget_sel
  * to be saved in the report
  *
- * \param
+ * \param is_categ	TRUE for categ, FALSE for budget
  *
- * \return a GSList of struct_report_category or NULL if all the categories/sub-categ were selected
+ * \return a GSList of struct_categ_budget_sel or NULL if all the categories/sub-categ were selected
  * 		to avoid to filter by categ, to improve speed
  * */
-static GSList *report_config_category_get_list ( void )
+static GSList *report_config_categ_budget_get_selected ( gboolean is_categ )
 {
     GtkTreeModel *model;
-    GtkTreeIter iter;
     gboolean all_selected = TRUE;
     GSList *tmp_list = NULL;
 
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view_categ));
-    if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter))
+    if (is_categ)
+	model = model_categ;
+    else
+	model = model_budget;
+
+    if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &parent_iter))
 	return NULL;
 
     do
     {
-	gint category_number;
+	gint div_number;
 	gboolean active;
-	struct_report_category *categ_struct;
+	struct_categ_budget_sel *categ_budget_struct;
 	GtkTreeIter iter_children;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (model),
-			    &iter,
-			    REPORT_CATEG_BUDGET_LIST_NUMBER, &category_number,
+			    &parent_iter,
+			    REPORT_CATEG_BUDGET_LIST_NUMBER, &div_number,
 			    REPORT_CATEG_BUDGET_LIST_ACTIVE, &active,
 			    -1 );
 	if (!active)
@@ -3594,44 +3665,51 @@ static GSList *report_config_category_get_list ( void )
 	    continue;
 	}
 
-	/* ok, we are on a selected category, create and fill the structure */
-	categ_struct = g_malloc0 (sizeof (struct_report_category));
+	/* ok, we are on a selected category/budget, create and fill the structure */
+	categ_budget_struct = g_malloc0 (sizeof (struct_categ_budget_sel));
 
-	categ_struct -> category_number = category_number;
-	tmp_list = g_slist_append (tmp_list, categ_struct);
+	categ_budget_struct -> div_number = div_number;
+	tmp_list = g_slist_append (tmp_list, categ_budget_struct);
 
 	/* check the children */
-	if (gtk_tree_model_iter_children ( GTK_TREE_MODEL (model), &iter_children, &iter))
+	if (gtk_tree_model_iter_children ( GTK_TREE_MODEL (model), &iter_children, &parent_iter))
 	{
 	    /* we are on the children */
 	    do
 	    {
-		gint sub_category_number;
+		gint sub_div_number;
 
 		gtk_tree_model_get (GTK_TREE_MODEL (model),
 				    &iter_children,
-				    REPORT_CATEG_BUDGET_LIST_SUB_NUMBER, &sub_category_number,
+				    REPORT_CATEG_BUDGET_LIST_SUB_NUMBER, &sub_div_number,
 				    REPORT_CATEG_BUDGET_LIST_ACTIVE, &active,
 				    -1 );
 		if (active)
-		    categ_struct -> sub_categories_number = g_slist_append ( categ_struct -> sub_categories_number,
-									     GINT_TO_POINTER (sub_category_number));
+		    categ_budget_struct -> sub_div_numbers = g_slist_append ( categ_budget_struct -> sub_div_numbers,
+									      GINT_TO_POINTER (sub_div_number));
 		else
 		    all_selected = FALSE;
 	    }
 	    while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter_children));
 	}
     }
-    while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
+    while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &parent_iter));
 
     /* if all is selected, erase the new list and set an info message */
     if (all_selected)
     {
-	dialogue_special ( GTK_MESSAGE_INFO, 
-			   make_hint ( _("Performance issue."),
-				       _("All categories have been selected.  Grisbi will run faster without the \"Detail categories used\" option activated.") ) );
-	report_config_category_select_all (NULL, GINT_TO_POINTER (FALSE));
-	gsb_data_report_free_category_struct (tmp_list);
+	if (is_categ)
+	    dialogue_special ( GTK_MESSAGE_INFO, 
+			       make_hint ( _("Performance issue."),
+					   _("All categories have been selected.  Grisbi will run faster without the \"Detail categories used\" option activated.")));
+	else
+	    dialogue_special ( GTK_MESSAGE_INFO, 
+			       make_hint ( _("Performance issue."),
+					   _("All budgets have been selected.  Grisbi will run faster without the \"Detail budgets used\" option activated.")));
+
+	report_config_mix_select_all (model, FALSE);
+	gsb_data_report_free_categ_budget_struct (tmp_list);
+	tmp_list = NULL;
     }
     return tmp_list;
 }
@@ -3640,77 +3718,87 @@ static GSList *report_config_category_get_list ( void )
 /**
  * toggle the categories and sub-categories selected
  *
- * \param
+ * \param is_categ	TRUE for categ, FALSE for budgets
  *
  * \return
  * */
-static void report_config_category_update_treeview ( void )
+static void report_config_category_update_treeview ( gboolean is_categ )
 {
     GSList *tmp_list;
     gint current_report_number;
 
-    if ( !tree_view_categ )
-	return;
-
     current_report_number = gsb_gui_navigation_get_current_report ();
-    report_config_category_select_all (NULL, GINT_TO_POINTER (FALSE));
 
-    tmp_list = gsb_data_report_get_category_struct (current_report_number);
+    if (is_categ)
+    {
+	report_config_mix_select_all (model_categ, FALSE);
+	tmp_list = gsb_data_report_get_category_struct (current_report_number);
+    }
+    else
+    {
+	report_config_mix_select_all (model_budget, FALSE);
+	tmp_list = gsb_data_report_get_budget_struct (current_report_number);
+    }
 
     while ( tmp_list )
     {
-	struct_report_category *categ_struct = tmp_list -> data;
-	report_config_category_toggle_categ (categ_struct);
+	struct_categ_budget_sel *categ_budget_struct = tmp_list -> data;
+	report_config_category_toggle_categ (categ_budget_struct, is_categ);
 	tmp_list = tmp_list -> next;
     }
 }
 
 /**
- * get a struct_report_category and toggle on the tree view the corresponding category
+ * get a struct_categ_budget_sel and toggle on the tree view the corresponding category
  * and the sub-categories
  *
- * \param categ_struct	a struct_report_category
+ * \param categ_budget_struct	a struct_categ_budget_sel
+ * \param is_categ		TRUE for categ, FALSE for budget
  *
  * \return
  * */
-static void report_config_category_toggle_categ (struct_report_category *categ_struct)
+static void report_config_category_toggle_categ ( struct_categ_budget_sel *categ_budget_struct,
+						  gboolean is_categ )
 {
-    GtkTreeIter iter;
     GtkTreeModel *model;
 
-    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view_categ));
-    if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &iter))
+    if (is_categ)
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view_categ));
+    else
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view_budget));
+
+    if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &parent_iter))
 	return;
 
     do
     {
-	gint category_number;
+	gint div_number;
 
 	gtk_tree_model_get ( GTK_TREE_MODEL (model),
-			     &iter,
-			     REPORT_CATEG_BUDGET_LIST_NUMBER, &category_number,
+			     &parent_iter,
+			     REPORT_CATEG_BUDGET_LIST_NUMBER, &div_number,
 			     -1 );
 
 	/* we check the children only if the category is selected */
-	if (category_number == categ_struct -> category_number)
+	if (div_number == categ_budget_struct -> div_number)
 	{
 	    gtk_tree_store_set ( GTK_TREE_STORE (model),
-				 &iter,
+				 &parent_iter,
 				 REPORT_CATEG_BUDGET_LIST_ACTIVE, TRUE,
 				 -1 );
-	    if (categ_struct -> sub_categories_number)
+	    if (categ_budget_struct -> sub_div_numbers)
 	    {
 		GtkTreeIter iter_child;
-		if (gtk_tree_model_iter_children (GTK_TREE_MODEL (model), &iter_child, &iter))
+		if (gtk_tree_model_iter_children (GTK_TREE_MODEL (model), &iter_child, &parent_iter))
 		    do
 		    {
-			gint sub_category_number;
+			gint sub_div_number;
 
 			gtk_tree_model_get ( GTK_TREE_MODEL (model),
 					     &iter_child,
-					     REPORT_CATEG_BUDGET_LIST_SUB_NUMBER, &sub_category_number,
+					     REPORT_CATEG_BUDGET_LIST_SUB_NUMBER, &sub_div_number,
 					     -1 );
-			if (g_slist_find (categ_struct -> sub_categories_number, GINT_TO_POINTER (sub_category_number)))
+			if (g_slist_find (categ_budget_struct -> sub_div_numbers, GINT_TO_POINTER (sub_div_number)))
 			    gtk_tree_store_set ( GTK_TREE_STORE (model),
 						 &iter_child,
 						 REPORT_CATEG_BUDGET_LIST_ACTIVE, TRUE,
@@ -3722,7 +3810,7 @@ static void report_config_category_toggle_categ (struct_report_category *categ_s
 	    break;
 	}
     }
-    while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &iter));
+    while (gtk_tree_model_iter_next (GTK_TREE_MODEL (model), &parent_iter));
 }
 
 
@@ -3810,26 +3898,19 @@ GtkWidget *onglet_etat_ib ( void )
 			 0 );
     gtk_widget_show ( scrolled_window );
 
-    liste_ib_etat = gtk_clist_new ( 1 );
-    g_signal_connect ( G_OBJECT (liste_ib_etat ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &liste_ib_etat );
-    gtk_clist_set_selection_mode ( GTK_CLIST ( liste_ib_etat ),
-				   GTK_SELECTION_MULTIPLE );
-    gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_ib_etat ),
-				       0,
-				       TRUE );
-    gtk_clist_set_compare_func ( GTK_CLIST ( liste_ib_etat ),
-				 (GtkCListCompareFunc) classement_alphabetique_tree );
+    /* add the budget list */
+    tree_view_budget = report_config_create_categ_budget_list ();
+    model_budget = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view_budget));
+    g_signal_connect ( G_OBJECT (tree_view_budget ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &tree_view_budget );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			liste_ib_etat );
-    gtk_widget_show ( liste_ib_etat );
+			tree_view_budget );
+    gtk_widget_show ( tree_view_budget );
 
-    /* on va remplir la liste avec les ib */
-
-    remplissage_liste_ib_etats ();
+    /* fill the list */
+    report_config_fill_categ_budget_list (FALSE);
 
     /*   sur la partie de droite, on met les boutons (dé)sélectionner tout */
-
     vbox = gtk_vbox_new ( FALSE,
 			  5 );
     gtk_box_pack_start ( GTK_BOX ( hbox_detaille_ib_etat ),
@@ -3842,10 +3923,10 @@ GtkWidget *onglet_etat_ib ( void )
     bouton = gtk_button_new_with_label ( _("Select all") );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
-				"clicked",
-				GTK_SIGNAL_FUNC ( gtk_clist_select_all ),
-				GTK_OBJECT  ( liste_ib_etat ));
+    g_signal_connect ( G_OBJECT (bouton),
+		       "clicked",
+		       G_CALLBACK (report_config_budget_select_all),
+		       GINT_TO_POINTER (TRUE));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
 			 TRUE,
@@ -3856,10 +3937,10 @@ GtkWidget *onglet_etat_ib ( void )
     bouton = gtk_button_new_with_label ( _("Unselect all") );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
-				"clicked",
-				GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ),
-				GTK_OBJECT  ( liste_ib_etat ));
+    g_signal_connect ( G_OBJECT (bouton),
+		       "clicked",
+		       G_CALLBACK (report_config_budget_select_all),
+		       GINT_TO_POINTER (FALSE));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
 			 TRUE,
@@ -3870,10 +3951,10 @@ GtkWidget *onglet_etat_ib ( void )
     bouton = gtk_button_new_with_label ( _("Income budget lines") );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
-				"clicked",
-				GTK_SIGNAL_FUNC ( click_type_ib_etat ),
-				NULL );
+    g_signal_connect ( G_OBJECT (bouton),
+		       "clicked",
+		       G_CALLBACK (report_config_budget_select_type),
+		       GINT_TO_POINTER (FALSE));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
 			 TRUE,
@@ -3884,10 +3965,10 @@ GtkWidget *onglet_etat_ib ( void )
     bouton = gtk_button_new_with_label ( _("Outgoing budget lines") );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
-				"clicked",
-				GTK_SIGNAL_FUNC ( click_type_ib_etat ),
-				GINT_TO_POINTER (1));
+    g_signal_connect ( G_OBJECT (bouton),
+		       "clicked",
+		       G_CALLBACK (report_config_budget_select_type),
+		       GINT_TO_POINTER (TRUE));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
 			 TRUE,
@@ -3904,99 +3985,18 @@ GtkWidget *onglet_etat_ib ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    bouton_exclure_ope_sans_ib = gtk_check_button_new_with_label ( _("Exclude transactions without budgetary line") );
-    g_signal_connect ( G_OBJECT (bouton_exclure_ope_sans_ib ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &bouton_exclure_ope_sans_ib );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_exclure_ope_sans_ib ),
-				"toggled",
-				GTK_SIGNAL_FUNC ( report_tree_update_style ),
-				GINT_TO_POINTER ( 5 ));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton_exclure_ope_sans_ib,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( bouton_exclure_ope_sans_ib );
-
-
-
     return ( vbox_onglet );
 }
 
 
 
-
-
-
-
-
-void click_type_ib_etat ( gint type )
-{
-    /* type est 0 pour les revenus et 1 pour les dépenses */
-    /* fait le tour des catég dans la liste et sélectionne celles */
-    /* qui correspondent au type recherché */
-
-    gint i;
-
-    gtk_clist_unselect_all ( GTK_CLIST ( liste_ib_etat ));
-
-    for ( i=0 ; i<GTK_CLIST ( liste_ib_etat ) -> rows ; i++ )
-    {
-	gint budget_number;
-
-	budget_number = GPOINTER_TO_INT ( gtk_clist_get_row_data ( GTK_CLIST ( liste_ib_etat ),
-								   i ));
-
-	if ( budget_number
-	     &&
-	     gsb_data_budget_get_type (budget_number) == type )
-	    gtk_clist_select_row ( GTK_CLIST ( liste_ib_etat ),
-				   i,
-				   0 );
-    }
-}
-/******************************************************************************/
-
-/******************************************************************************/
-void remplissage_liste_ib_etats ( void )
-{
-    GSList *list_tmp;
-
-    if ( !onglet_config_etat )
-	return;
-
-    devel_debug ( "remplissage_liste_ib_etats" );
-
-    gtk_clist_clear ( GTK_CLIST ( liste_ib_etat ) );
-
-    list_tmp = gsb_data_budget_get_budgets_list ();
-
-    while ( list_tmp )
-    {
-	gint budget_number;
-	gchar *name[1];
-	gint line;
-
-	budget_number = gsb_data_budget_get_no_budget ( list_tmp -> data );
-
-	name[0] = my_strdup (gsb_data_budget_get_name (budget_number,
-						      0,
-						      NULL ));
-
-	line = gtk_clist_append ( GTK_CLIST ( liste_ib_etat ),
-				  name );
-
-	gtk_clist_set_row_data ( GTK_CLIST ( liste_ib_etat ),
-				 line,
-				 GINT_TO_POINTER (budget_number));
-
-	list_tmp = list_tmp -> next;
-    }
-    gtk_clist_sort ( GTK_CLIST ( liste_ib_etat ));
-}
-/******************************************************************************/
-
-/******************************************************************************/
+/**
+ * create the budget widget to select them in a list
+ *
+ * \param
+ *
+ * \return the GtkWidget
+ * */
 GtkWidget *onglet_etat_tiers ( void )
 {
     GtkWidget *hbox;
@@ -4140,7 +4140,8 @@ GtkWidget *onglet_etat_tiers ( void )
 
     return ( vbox_onglet );
 }
-/******************************************************************************/
+
+
 
 /******************************************************************************/
 void remplissage_liste_tiers_etats ( void )
