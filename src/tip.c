@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /* Ce fichier s'occupe des astuces					      */
 /*                                                                            */
-/*     Copyright (C)	2004-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -74,6 +74,7 @@ void display_tip ( gboolean force )
 	dialog_message ( "no-tip-available" );
 	return;
     }
+    printf (">%s<\n", tip);
     dialog = dialogue_special_no_run ( GTK_MESSAGE_INFO, GTK_BUTTONS_NONE,
 				       make_hint ( _("Did you know that..."),
 						   /* We use the grisbi-tips catalog */
@@ -150,7 +151,7 @@ gchar * get_next_tip ()
   }
   g_free (filename);
 
-  tips = g_strsplit ( buffer, "'\n\n", length );
+  tips = g_strsplit ( buffer, "\"\n\n", length );
 
   for ( ; tips && *tips ; tips++ )
     {
@@ -183,7 +184,10 @@ gchar * format_tip ( gchar * tip )
 {
     gchar * new, * tmp;
 
-    /** Tokens removed include  */
+    while ( tip && ( isdigit ( *tip ) || isspace ( *tip ) ) )
+    {
+	tip++;
+    }
 
     /* leading '- ' if any */
     if ( g_str_has_prefix ( tip, "_ " ) )
@@ -192,7 +196,7 @@ gchar * format_tip ( gchar * tip )
     }
 
     /* leading '"' if any */
-    if ( g_str_has_prefix ( tip, "'" ) )
+    if ( g_str_has_prefix ( tip, "\"" ) )
     {
 	tip ++;
     }
@@ -204,7 +208,7 @@ gchar * format_tip ( gchar * tip )
     }
 
     /* trailing '"' if any */
-    if ( g_str_has_suffix ( tip, "'" ) )
+    if ( g_str_has_suffix ( tip, "\"" ) )
     {
 	tip[strlen(tip)-1] = '\0';
     }
