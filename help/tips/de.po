@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-15 18:05+0200\n"
+"POT-Creation-Date: 2008-09-12 11:39+0200\n"
 "PO-Revision-Date: 2007-10-23 22:28+0200\n"
 "Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -26,21 +26,25 @@ msgstr ""
 "Datumsfeld übernommen werden."
 
 #: tips.txt:3
+#, fuzzy
 msgid ""
-"Grisbi automatically saves a copy of your work if it segfaults.\n"
+"Grisbi automatically saves a copy of your work if it crashes.\n"
 "\n"
 "Thus it is unlikely that you loose any data in case Grisbi encounters a "
-"segmentation error."
+"programming error."
 msgstr ""
 "Grisbi erstellt automatisch eine Sicherungsdatei bei einem Programmabsturz.\n"
 "\n"
 "Durch diese Maßnahme wird ein Datenverlust verhindert."
 
 #: tips.txt:7
-msgid "Grisbi can import Gnucash files natively, then you don"
+#, fuzzy
+msgid ""
+"Grisbi can import Gnucash files natively, then you don't loose your work "
+"when you switch from Gnucash to Grisbi."
 msgstr "Grisbi kann Gnucash Dateien ohne Konvertierung importieren."
 
-#: tips.txt:49
+#: tips.txt:53
 msgid ""
 "No more tip available !  Please send any tips you know to grisbi-devel@lists."
 "sourceforge.net so that we can include them in next version for all users."
@@ -50,13 +54,14 @@ msgstr ""
 "sourceforge.net)."
 
 #: tips.txt:45
+#, fuzzy
 msgid ""
 "There are shortcuts in date fields, to avoid typing date or selecting it "
 "with mouse.\n"
 "\n"
-"<i>Up</i> and <i>Down</i> increment and decrement date of one day, <i>Page "
-"Up</i> and <i>Page Down</i> increment and decrement date of one month ... "
-"and there are more, check out the manual."
+"<i>+</i> and <i>-</i> increment and decrement date of one day, <i>Page Up</"
+"i> and <i>Page Down</i> increment and decrement date of one month ... and "
+"there are more, check out the manual."
 msgstr ""
 "In Datumsfeldern gibt es Tastenkombinationen für eine schnellere "
 "Dateneingabe.\n"
@@ -64,6 +69,12 @@ msgstr ""
 "<i>Pfeil auf</i> und <i>Pfeil ab</i> erhöhen bzw. reduzieren das Datum um "
 "einen Tag, <i>Bild auf</i> und <i>Bild ab</i> erhöhen bzw. reduzieren das "
 "Datum um ein Monat... Alle Tastenkombinationen sind im Handbuch beschrieben."
+
+#: tips.txt:49
+msgid ""
+"You can archive previous financial years to speed up Grisbi and possibily "
+"put old transactions into separate files for archival."
+msgstr ""
 
 #: tips.txt:35
 msgid ""
@@ -92,6 +103,21 @@ msgstr ""
 "Durch einen \"Rechts-Klick\" kann in der Buchungsübersicht ein Kontextmenü "
 "aufgerufen werden, mit <i>Den Zelleninhalt ändern</i> kann die Darstellung "
 "der Buchungsübersicht Ihren persönlichen Bedürfnissen angepasst werden."
+
+#: tips.txt:13
+msgid ""
+"You can create categories or budgetary lines directly by typing them in "
+"transaction form.\n"
+"\n"
+"If you write a category or a budgetary line which name contains a ':', a sub-"
+"category or sub-budgetary line will be created as well."
+msgstr ""
+
+#: tips.txt:51
+msgid ""
+"You can customize the transaction form layout via the 'Preferences' window "
+"and define whatever layout suits your needs."
+msgstr ""
 
 #: tips.txt:27
 msgid ""
@@ -124,6 +150,16 @@ msgstr ""
 "<i>Geschäftsausgaben</i> und <i>Geschäftseinnahmen</i> erstellen wird Ihnen "
 "die Bilanz angezeigt."
 
+#: tips.txt:17
+msgid ""
+"You can encrypt your Grisbi files to improve your privacy.  Just select the "
+"'Encrypt Grisbi file' in preferences window and enter a password next time "
+"you save your file.\n"
+"\n"
+"Encryption is irreversible, if you loose your password, there is NO WAY to "
+"restore your Grisbi accounts.  Use with caution !"
+msgstr ""
+
 #: tips.txt:39
 msgid ""
 "You can hide annoying dialogs like this one, by clicking the <i>'Do not show "
@@ -135,13 +171,22 @@ msgstr ""
 "Sie können die Anzeige von Hinweisfenstern im Dialog Einstellungen unter "
 "\"Meldungen & Warnungen\" festlegen."
 
+#: tips.txt:9
+msgid ""
+"You can organize transactions into budgetary lines, which are budgetary "
+"items (why money is spent) that can help you classify your spendings.\n"
+"\n"
+"Combined with categories (how money is spend), budgetary lines are a "
+"powerful way to analyse budget and to make reports."
+msgstr ""
+
 #: tips.txt:1
 msgid ""
-"You can press <tt>Ctrl-R</tt> to reconcile a transaction in transactions "
-"list."
+"You can reconcile transactions to match your real financial state as seen on "
+"your bank receipts.  If you just spend 15mn each month reconciling Grisbi "
+"transactions with your bank receipts, you are guaranteed that your accounts "
+"are in perfect shape."
 msgstr ""
-"Sie können mit <tt>Ctrl-R</tt> in der Buchungsübersicht eine ausgewählte "
-"Buchung abstimmen."
 
 #: tips.txt:29
 msgid ""
@@ -151,3 +196,10 @@ msgstr ""
 "Sie können mit dem Import von QIF oder OFX Dateien von Ihrem Bankkonto die "
 "erfassten Buchungen abstimmen. Die meisten Banken bieten die Möglichkeit, "
 "Kontodaten \"online\" zu exportieren."
+
+#~ msgid ""
+#~ "You can press <tt>Ctrl-R</tt> to reconcile a transaction in transactions "
+#~ "list."
+#~ msgstr ""
+#~ "Sie können mit <tt>Ctrl-R</tt> in der Buchungsübersicht eine ausgewählte "
+#~ "Buchung abstimmen."
