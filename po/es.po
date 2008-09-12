@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-02 22:54-0400\n"
-"PO-Revision-Date: 2008-09-06 03:15+0200\n"
+"PO-Revision-Date: 2008-09-12 18:48+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -769,7 +769,6 @@ msgid "Encryption is irreversible."
 msgstr "La encriptación es irreversible"
 
 #: src/dialog.c:61
-#, fuzzy
 msgid ""
 "Grisbi encrypts files in a very secure way that does not allow recovery "
 "without original password.  It means that if you forget your password, you "
@@ -778,12 +777,11 @@ msgid ""
 "I repeat: if you ever forget your password, there is no coming back, we "
 "cannot help you."
 msgstr ""
-"Grisby encripta los archivos de una forma segura que permite que no sean "
+"Grisby encripta los ficheros de una forma muy segura que permite que no sean "
 "recuperados sin la contraseña.  Esto significa que si se olvida de su "
 "contraseña, perderá toda su información.  Úselo con precaución.\n"
 "\n"
-"Repito: Si usted olvida su contraseña, no habrá vuelta atrás, no nos envíe "
-"quejas al respecto."
+"Repito: Si usted olvida su contraseña, no habrá vuelta atrás, y no podremos ayudarle."
 
 #: src/dialog.c:64
 msgid "Account file is world readable."
@@ -9797,11 +9795,11 @@ msgstr ""
 "No se puede asociar una transferencia a una cuenta borrada en una transacción programada."
 
 #: src/gsb_form.c:2472
-#, fuzzy
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
-msgstr "La cuenta asociada para esta transferencia no es válida"
+msgstr ""
+"No hay una cuenta asociada para esta transferencia o la cuenta asociada no es válida."
 
 #: src/gsb_form.c:2480
 msgid "Can't issue a transfer its own account."
@@ -10155,16 +10153,14 @@ msgid "Automatic association of financial years?"
 msgstr "¿Asociación automática del año financiero?"
 
 #: src/gsb_fyear_config.c:764
-#, fuzzy
 msgid ""
 "This function assigns each transaction without a financial year to the one "
 "related to its transaction date.  If no financial year matches, the "
 "transaction will not be changed."
 msgstr ""
-"Esta función asigna a cada transacción sin un año financiero a el\n"
-"que año que aparece en la fecha de la transacción.  Si éste no coincide con "
-"un año financiero,\n"
-"la transacción no será cambiada."
+"Esta función asigna a cada transacción sin un año financiero a el que está relacionado "
+"con su fecha de transacción.  Si no hay un año financiero que encaje, la transacción "
+"no se cambiará."
 
 #: src/gsb_fyear_config.c:793
 #, c-format
@@ -10263,14 +10259,14 @@ msgid "Reconciliation reference"
 msgstr "Referencia de reconciliación"
 
 #: src/gsb_reconcile.c:134
-#, fuzzy
 msgid ""
 "If reconciliation reference ends in a digit, it is automatically incremented "
 "at each reconciliation.\n"
 "You can let it empty if you don't want to keep a trace of the reconciliation."
 msgstr ""
 "Si la referencia de reconciliación termina en un número, éste es "
-"automáticamente incrementado en cada reconciliación"
+"automáticamente incrementado en cada reconciliación.\n"
+"Puede dejarlo en blanco si no quiere hacer un seguimiento de la reconciliación."
 
 #: src/gsb_reconcile.c:227
 msgid "Checking"
@@ -10281,9 +10277,8 @@ msgid "Variance"
 msgstr "Variación"
 
 #: src/gsb_reconcile.c:253
-#, fuzzy
 msgid "Sort by method of payment"
-msgstr "Seleccionar las transacciones por la forma de pago"
+msgstr "Ordenar por forma de pago"
 
 #: src/gsb_reconcile.c:511
 msgid ""
@@ -10446,13 +10441,13 @@ msgstr "Cuatrimestralmente"
 
 #. ask all the time for a child
 #: src/gsb_scheduler_list.c:1476
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
 msgstr ""
-"¿Está seguro de que quiere borrar el hijo de la transacción con la tercera "
-"parte '%s' ?"
+"¿Está seguro de que quiere borrar el hijo de la transacción programada con "
+"el tercero '%s' ?"
 
 #: src/gsb_scheduler_list.c:1479
 msgid "Delete a scheduled transaction"
@@ -10464,12 +10459,11 @@ msgid "Delete a transaction"
 msgstr "Borrar una transacción"
 
 #: src/gsb_scheduler_list.c:1495
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr ""
-"¿Está seguro de que quiere borrar el hijo de la transacción con la tercera "
-"parte '%s' ?"
+"¿ Está seguro de que quiere borrar la transacción programada con el tercero '%s' ?"
 
 #: src/gsb_scheduler_list.c:1528
 #, c-format
@@ -10484,9 +10478,8 @@ msgstr ""
 "%s : %s [%s %s]"
 
 #: src/gsb_scheduler_list.c:1536
-#, fuzzy
 msgid "Delete this scheduled transaction?"
-msgstr "Borrar una transacción programada"
+msgstr "¿ Borrar esta transacción programada ?"
 
 #: src/gsb_scheduler_list.c:1541
 msgid "All the occurences"
@@ -10546,9 +10539,9 @@ msgid "P"
 msgstr "P"
 
 #: src/gsb_transactions_list.c:1229
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to load the transaction of the archive %s into the list ?"
-msgstr "¿Quiere recuperar todas las líneas de la última anotación?"
+msgstr "¿ quiere cargar la transacción del archivo %s en la lista ?"
 
 #: src/gsb_transactions_list.c:1238
 msgid ""
@@ -10736,11 +10729,9 @@ msgstr ""
 "Muestre las transacciones R para hacerlas visibles."
 
 #: src/gsb_transactions_list_sort.c:358
-#, fuzzy, c-format
+#, c-format
 msgid "ask for the sort number %d which doesn't exist... return by date"
-msgstr ""
-"Hay un problema en gsb_transactions_list_sort_by_no_sort : Se preguntó por "
-"el número de clasificación %d que no existe... El resultado está por fecha\n"
+msgstr "preguntar por el número de orden %d que no existe... devolver ordenador por fecha"
 
 #: src/help.c:58
 msgid "Programming"
@@ -10874,13 +10865,12 @@ msgid "Encoding"
 msgstr "Codificación"
 
 #: src/import.c:743
-#, fuzzy
 msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files"
 msgstr ""
-"Se han importado con éxito los archivos a Grisbi.  Las siguientes páginas le "
-"ayudarán a configurar la información importada para los siguientes archivos:"
+"Ha importado con éxito los ficheros a Grisbi.  Las siguientes páginas le "
+"ayudarán a configurar la información importada para los siguientes ficheros"
 
 #: src/import.c:756
 msgid "Unnamed Imported account"
@@ -10927,9 +10917,8 @@ msgstr ""
 "¿ Qué es lo que quiere hacer con los contenidos de <tt>%s</tt>?\n"
 
 #: src/import.c:1083
-#, fuzzy
 msgid "Add transactions to an account"
-msgstr "Mover la transacción a otra cuenta"
+msgstr "Añadir transacciones a una cuenta"
 
 #: src/import.c:1119
 msgid "Mark transactions of an account"
@@ -11006,7 +10995,7 @@ msgstr "Cuenta importada"
 #. there is a difference between the imported account id and grisbi account id,
 #. * ask to be sure
 #: src/import.c:1647
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The Grisbi's id account is %s, but the imported id account is %s.\n"
 "\n"
@@ -11014,8 +11003,11 @@ msgid ""
 "If you choose to continue, the id of the Grisbi's account will be changed.  "
 "Do you want to continue ?"
 msgstr ""
-"¿Quizá eligió una cuenta equivocada? Si elige coninuar, el id de la cuenta "
-"cambiará.  ¿Desea continuar ?"
+"El identificador de cuenta de Grisbi es %s, pero el identificador de cuenta importado es %s.\n"
+"\n"
+"¿ Quizá eligió una cuenta equivocada ?\n"
+"Si elige continuar el identificador de la cuenta de Grisbi se cambiará  "
+"¿ Quiere continuar ?"
 
 #. l'id du compte choisi et l'id du compte importÃ© sont diffÃ©rents
 #. on propose encore d'arrÃªter...
@@ -11170,9 +11162,8 @@ msgid "Grisbi budgetary lines files (*.igsb)"
 msgstr "Ficheros de líneas presupuestarias de Grisbi (*.igsb)"
 
 #: src/imputation_budgetaire.c:415
-#, fuzzy
 msgid "Merge imported budgetary lines with existing?"
-msgstr "importar las líneas presupuestarias"
+msgstr "¿ Incorporar las líneas presupuestarias importadas a las ya existentes ?"
 
 #: src/imputation_budgetaire.c:418
 msgid ""
@@ -11208,23 +11199,20 @@ msgstr ""
 "subpresupuestaria"
 
 #: src/imputation_budgetaire.c:504
-#, fuzzy
 msgid "Import a Grisbi budgetary line file (.igsb)"
-msgstr "Este archivo no es un archivo de líneas presupuestarias de Grisbi"
+msgstr "Importar un fichero de presupuestos de Grisbi (.igsb)"
 
 #: src/imputation_budgetaire.c:514
-#, fuzzy
 msgid "Export a Grisbi budgetary line file (.igsb)"
-msgstr "Este archivo no es un archivo de líneas presupuestarias de Grisbi"
+msgstr "Exportar un fichero de presupuestos de Grisbi (.igsb)"
 
 #: src/imputation_budgetaire.c:524
 msgid "Delete selected budgetary line"
 msgstr "Borrar la línea presupuestaria seleccionada"
 
 #: src/imputation_budgetaire.c:534
-#, fuzzy
 msgid "Edit selected budgetary line"
-msgstr "Borrar una línea presupuestaria"
+msgstr "Editar la línea presupuestaria seleccionada"
 
 #: src/imputation_budgetaire.c:544
 msgid "Change display mode"
@@ -11248,9 +11236,8 @@ msgid "No budget defined"
 msgstr "Sin presupuesto definido"
 
 #: src/imputation_budgetaire.c:727
-#, fuzzy
 msgid "Budgetary line already exists"
-msgstr "La línea presupuestaria '%s' ya existe."
+msgstr "La línea presupuestaria ya existe."
 
 #: src/main.c:146
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
