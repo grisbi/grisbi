@@ -57,7 +57,7 @@ static gboolean popup_category_view_mode_menu ( GtkWidget * button );
 
 
 /* Category tree model & view */
-GtkTreeStore * categ_tree_model;
+GtkTreeStore * categ_tree_model = NULL;
 static GtkWidget *arbre_categ = NULL;
 gint no_devise_totaux_categ;
 
@@ -210,6 +210,11 @@ void remplit_arbre_categ ( void )
     GtkTreeIter iter_categ, iter_sous_categ;
 
     devel_debug (NULL);
+
+    /* Model might be empty because we are importing categories
+     * before file is opened.  So don't do anything. */
+    if ( ! categ_tree_model || ! GTK_IS_TREE_STORE(categ_tree_model) )
+	return;
 
     /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (categ_tree_model) );

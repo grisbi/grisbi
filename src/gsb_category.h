@@ -11,4 +11,12 @@ gboolean gsb_category_assistant_create_categories ( GtkWidget *assistant );
 GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant );
 gboolean gsb_category_update_combofix ( void );
 /* END_DECLARATION */
+
+
+enum builtin_category_model_columns_enum {
+    BUILTIN_CATEGORY_MODEL_FILENAME,
+    BUILTIN_CATEGORY_MODEL_NAME,
+    BUILTIN_CATEGORY_MODEL_COLUMNS,
+};
+
 #endif

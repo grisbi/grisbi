@@ -406,12 +406,10 @@ static GtkWidget *gsb_assistant_file_page_4 ( GtkWidget *assistant )
 			 vbox,
 			 TRUE, TRUE, 0 );
 
-    /* create the buttons,
-     * the change will be saved in the assistant widget with the key "choice_value" (see gsb_category.h for the choices) */
     button_list = gsb_category_assistant_create_choice_page (assistant);
     gtk_box_pack_start ( GTK_BOX (vbox),
 			 button_list,
-			 FALSE, FALSE, 0 );
+			 TRUE, TRUE, 0 );
 
     gtk_widget_show_all (page);
     return page;
@@ -607,3 +605,7 @@ static gboolean gsb_assistant_file_choose_filename ( GtkWidget *button,
     gtk_widget_destroy (dialog);
     return FALSE;
 }
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
