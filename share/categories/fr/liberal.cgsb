@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Grisbi_categ>
+	<General
+		File_version="0.6.0"
+		Grisbi_version="0.6.0" 
+		Description="Catégories adaptées aux professions libérales." 
+		Title="Comptabilité libérale"/>
+	<Category Nb="1" Na="Petit outillage" Kd="1" />
+	<Category Nb="2" Na="Impots et taxes" Kd="1" />
+	<Sub_category Nbc="2" Nb="1" Na="Taxe sur la valeur ajoutée" />
+	<Sub_category Nbc="2" Nb="2" Na="Taxe professionnelle" />
+	<Sub_category Nbc="2" Nb="3" Na="Autres impôts" />
+	<Category Nb="3" Na="Achats" Kd="1" />
+	<Category Nb="4" Na="P.T.T." Kd="1" />
+	<Category Nb="5" Na="Autres frais de déplacements" Kd="1" />
+	<Category Nb="6" Na="Frais de véhicules" Kd="1" />
+	<Category Nb="7" Na="Réception, Représentation, Congrès" Kd="1" />
+	<Category Nb="8" Na="Entretien et réparations" Kd="1" />
+	<Category Nb="9" Na="Cotisations professionnelles et syndicales" Kd="1" />
+	<Category Nb="10" Na="Autres frais divers de gestion" Kd="1" />
+	<Category Nb="11" Na="Location de matériel ou de mobilier" Kd="1" />
+	<Category Nb="12" Na="Fournitures de bureau et documentation" Kd="1" />
+	<Category Nb="13" Na="Frais financiers" Kd="1" />
+	<Category Nb="14" Na="Rétrocession d&apos;honoraires" Kd="1" />
+	<Category Nb="15" Na="Honoraires ne constituant pas des rétrocessions" Kd="1" />
+	<Category Nb="16" Na="Charges sociales du praticien" Kd="1" />
+</Grisbi_categ>

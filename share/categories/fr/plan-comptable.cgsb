@@ -1,655 +1,597 @@
 <?xml version="1.0"?>
 <Grisbi_categ>
-  <Generalites>
-    <Version_fichier_categ>0.5.0</Version_fichier_categ>
-    <Version_grisbi>0.5.3</Version_grisbi>
-  </Generalites>
-  <Details_des_categories>
-    <Categorie Nom="10. Fonds associatifs et r&#xE9;serves" Type="0" No_derniere_sous_cagegorie="19">
-      <Sous-categorie No="1" Nom="1020. Fonds associatifs sans droit de reprise"/>
-      <Sous-categorie No="2" Nom="1021. Valeur du patrimoine int&#xE9;gr&#xE9;"/>
-      <Sous-categorie No="3" Nom="1022. Fonds statutaires (&#xE0; d&#xE9;clarer en fonction des statuts)"/>
-      <Sous-categorie No="4" Nom="1024. Apports sans droit de reprise"/>
-      <Sous-categorie No="5" Nom="1025. Lges et donations avec contrepartie d'actifs immobilis&#xE9;s"/>
-      <Sous-categorie No="6" Nom="1026. Subventions d'investissement affect&#xE9;es &#xE0; des biens renouvelables"/>
-      <Sous-categorie No="7" Nom="1030. Fonfs associatifs avec droit de reprise"/>
-      <Sous-categorie No="8" Nom="1034. Apports avec droit de reprise"/>
-      <Sous-categorie No="10" Nom="1035. Legs et donations avec contrepartie d'actifs immobilis&#xE9;s assorties d'une obligation ou d'une condition"/>
-      <Sous-categorie No="11" Nom="1036. Subventions d'investissement affect&#xE9;es &#xE0; des biens renouvelables"/>
-      <Sous-categorie No="12" Nom="1050. Ecarts et r&#xE9;&#xE9;valuation"/>
-      <Sous-categorie No="13" Nom="1051. Ecarts et r&#xE9;&#xE9;valuations sur des biens sans droit de reprise"/>
-      <Sous-categorie No="14" Nom="1052. Ecarts et r&#xE9;&#xE9;valuations sur des biens avec droit de reprise"/>
-      <Sous-categorie No="15" Nom="1060. R&#xE9;serves"/>
-      <Sous-categorie No="16" Nom="1062. R&#xE9;serves indisponibles"/>
-      <Sous-categorie No="17" Nom="1063. R&#xE9;serves statutaires ou contractuelles"/>
-      <Sous-categorie No="18" Nom="1064. R&#xE9;serves r&#xE9;glement&#xE9;es"/>
-      <Sous-categorie No="19" Nom="1068. Autres r&#xE9;serves (dont r&#xE9;serves pour projet associatif)"/>
-    </Categorie>
-    <Categorie Nom="11. El&#xE9;ments en instance d'affectation" Type="0" No_derniere_sous_cagegorie="2">
-      <Sous-categorie No="1" Nom="110. Report &#xE0; nouveau"/>
-      <Sous-categorie No="2" Nom="115. R&#xE9;sultats sous contr&#xF4;le de tiers financeurs"/>
-    </Categorie>
-    <Categorie Nom="12. R&#xE9;sultat net de l'exercice (ex&#xE9;dent ou d&#xE9;ficit)" Type="0" No_derniere_sous_cagegorie="2">
-      <Sous-categorie No="1" Nom="120. R&#xE9;sultat des l'exercice (ex&#xE9;dent)"/>
-      <Sous-categorie No="2" Nom="129. R&#xE9;sultat de l'exercice (d&#xE9;ficit)"/>
-    </Categorie>
-    <Categorie Nom="13. Subventions d'investissement affect&#xE9;es &#xE0; des biens non renouvelables" Type="0" No_derniere_sous_cagegorie="11">
-      <Sous-categorie No="1" Nom="1310. Subventions d'investissements (renouvelable)"/>
-      <Sous-categorie No="2" Nom="1311. Etat"/>
-      <Sous-categorie No="3" Nom="1312. R&#xE9;gions"/>
-      <Sous-categorie No="4" Nom="1313. D&#xE9;partements"/>
-      <Sous-categorie No="5" Nom="1314. Communes"/>
-      <Sous-categorie No="6" Nom="1315. Collectivit&#xE9;s publiques"/>
-      <Sous-categorie No="7" Nom="1316. Entreprise publiques"/>
-      <Sous-categorie No="8" Nom="1317. Entreprises et organismes priv&#xE9;s"/>
-      <Sous-categorie No="9" Nom="1318. Autres"/>
-      <Sous-categorie No="10" Nom="1380. Autres subventions d'investissement"/>
-      <Sous-categorie No="11" Nom="1390. Subventions d'investissement inscrites au compte de r&#xE9;sultat"/>
-    </Categorie>
-    <Categorie Nom="14. Provisions r&#xE9;glement&#xE9;es" Type="0" No_derniere_sous_cagegorie="9">
-      <Sous-categorie No="1" Nom="1420. Provisions r&#xE9;glement&#xE9;es relatives aux immobilisations"/>
-      <Sous-categorie No="2" Nom="1430. Provisions r&#xE9;glement&#xE9;es relatives aux stocks"/>
-      <Sous-categorie No="3" Nom="1424. Provisions pour investissement (participation des salari&#xE9;s)"/>
-      <Sous-categorie No="4" Nom="1431. Hausse des prix"/>
-      <Sous-categorie No="5" Nom="1432. Fluctuations des cours"/>
-      <Sous-categorie No="6" Nom="1440. Provisions r&#xE9;glement&#xE9;es relatives aux autres &#xE9;l&#xE9;ments de l'actif"/>
-      <Sous-categorie No="7" Nom="1450. Ammortissements d&#xE9;rogatoires"/>
-      <Sous-categorie No="8" Nom="1460. Provisions sp&#xE9;ciale de r&#xE9;&#xE9;valuation"/>
-      <Sous-categorie No="9" Nom="1480. Autres provisions r&#xE9;glement&#xE9;es"/>
-    </Categorie>
-    <Categorie Nom="15. Provisions pour risques et charges" Type="0" No_derniere_sous_cagegorie="12">
-      <Sous-categorie No="1" Nom="1510. Provisions pour risques"/>
-      <Sous-categorie No="2" Nom="1511. Provisions pour litiges"/>
-      <Sous-categorie No="3" Nom="1514. Provisions pour amendes et p&#xE9;nalit&#xE9;s"/>
-      <Sous-categorie No="4" Nom="1515. Provisions pour pertes de changes"/>
-      <Sous-categorie No="5" Nom="1516. Provisions pour risque d'emploi"/>
-      <Sous-categorie No="6" Nom="1518. Autres provisions pour risques"/>
-      <Sous-categorie No="7" Nom="1530. Provisions pour pensions et obligations similaires"/>
-      <Sous-categorie No="8" Nom="1550. Provisions pour imp&#xF4;ts"/>
-      <Sous-categorie No="9" Nom="1570. Provisions pour charges &#xE0; r&#xE9;partir sur plusieurs exercice"/>
-      <Sous-categorie No="10" Nom="1572. Provisions pour grosses r&#xE9;parations"/>
-      <Sous-categorie No="11" Nom="1580. Autres provisions pour charges"/>
-      <Sous-categorie No="12" Nom="1582. Provisions pour charges sociales et fiscales sur cong&#xE9;s payer"/>
-    </Categorie>
-    <Categorie Nom="16. Emprunt et dettes assimil&#xE9;es" Type="0" No_derniere_sous_cagegorie="16">
-      <Sous-categorie No="1" Nom="1640. Emprunts aupr&#xE8;s des &#xE9;tablissements de cr&#xE9;dit"/>
-      <Sous-categorie No="2" Nom="1641. Emprunt (&#xE0; d&#xE9;tailler)"/>
-      <Sous-categorie No="3" Nom="1650. D&#xE9;p&#xF4;ts et cautionnements re&#xE7;us"/>
-      <Sous-categorie No="4" Nom="1651. D&#xE9;p&#xF4;ts"/>
-      <Sous-categorie No="5" Nom="1655. Cautionnements"/>
-      <Sous-categorie No="6" Nom="1660. Participation des salari&#xE9;s aux r&#xE9;sultats"/>
-      <Sous-categorie No="7" Nom="1661. Comptes bloqu&#xE9;s"/>
-      <Sous-categorie No="8" Nom="1662. Fonds de participation"/>
-      <Sous-categorie No="9" Nom="1670. Emprunts et dettes assorties de conditions particuli&#xE8;res"/>
-      <Sous-categorie No="10" Nom="1672. Titre associatif"/>
-      <Sous-categorie No="11" Nom="1680. Autres emprunts et dettes assimil&#xE9;es"/>
-      <Sous-categorie No="12" Nom="1681. Autres emprunts (&#xE0; d&#xE9;tailler)"/>
-      <Sous-categorie No="13" Nom="1685. Rents viag&#xE8;res capitalis&#xE9;es"/>
-      <Sous-categorie No="14" Nom="1687. Autres dettes (&#xE0; d&#xE9;tailler)"/>
-      <Sous-categorie No="15" Nom="1688. Int&#xE9;r&#xEA;ts courus ( &#xE0; d&#xE9;tailler)"/>
-    </Categorie>
-    <Categorie Nom="17. Dettes rattach&#xE9;es &#xE0; des participations" Type="0" No_derniere_sous_cagegorie="0"/>
-    <Categorie Nom="18. Comptes de liaisons des &#xE9;tablissements (avec le si&#xE8;ge social ou entre eux)" Type="0" No_derniere_sous_cagegorie="4">
-      <Sous-categorie No="1" Nom="1810. Apports permanents entre si&#xE8;ge social et &#xE9;tablissement"/>
-      <Sous-categorie No="2" Nom="1850. Biens et prestations de services &#xE9;chang&#xE9;s entre &#xE9;tablissements et le si&#xE8;ge social"/>
-      <Sous-categorie No="3" Nom="1860. Biens et prestations de services &#xE9;chang&#xE9;s entre &#xE9;tablissement (charges)"/>
-      <Sous-categorie No="4" Nom="1670. Biens et prestations de services &#xE9;chang&#xE9;s entre &#xE9;tablissements (produits)"/>
-    </Categorie>
-    <Categorie Nom="19. Fonds d&#xE9;di&#xE9;s" Type="0" No_derniere_sous_cagegorie="3">
-      <Sous-categorie No="1" Nom="1940. Fonds d&#xE9;di&#xE9;s sur subventions de fonctionnement"/>
-      <Sous-categorie No="2" Nom="1950. Fonds d&#xE9;di&#xE9;s sur dons manuels affect&#xE9;s"/>
-      <Sous-categorie No="3" Nom="1970. Fons d&#xE9;di&#xE9;s sur legs et dons affect&#xE9;s"/>
-    </Categorie>
-    <Categorie Nom="20. Immobilisations incorporelles" Type="0" No_derniere_sous_cagegorie="4">
-      <Sous-categorie No="1" Nom="2010. Frais d'&#xE9;tablissement"/>
-      <Sous-categorie No="2" Nom="2012. Frais de premier &#xE9;tablissement"/>
-      <Sous-categorie No="3" Nom="2060. Droit au bail"/>
-      <Sous-categorie No="4" Nom="2080. Autres immobilisations incorporelles"/>
-    </Categorie>
-    <Categorie Nom="21. Immoblilisations corporelles" Type="0" No_derniere_sous_cagegorie="16">
-      <Sous-categorie No="1" Nom="2110. Terrains"/>
-      <Sous-categorie No="2" Nom="2120. Agencements et am&#xE9;nagements de terrains"/>
-      <Sous-categorie No="3" Nom="2130. Constructions"/>
-      <Sous-categorie No="4" Nom="2131. B&#xE2;timents"/>
-      <Sous-categorie No="5" Nom="2135. Installations g&#xE9;n&#xE9;rales, agencements, am&#xE9;nagements des constructions"/>
-      <Sous-categorie No="6" Nom="2140. Constructions sur sol d'autrui"/>
-      <Sous-categorie No="7" Nom="2150. Installations techniques, mat&#xE9;riels et outillages industriels"/>
-      <Sous-categorie No="8" Nom="2151. Installations complexes sp&#xE9;cialis&#xE9;es"/>
-      <Sous-categorie No="9" Nom="2154. Mat&#xE9;riels industriel"/>
-      <Sous-categorie No="10" Nom="2155. Outillages industriel"/>
-      <Sous-categorie No="11" Nom="2180. Autres immobilisations incorporelles"/>
-      <Sous-categorie No="12" Nom="2181. Installations g&#xE9;n&#xE9;rales, agencements, am&#xE9;nagements divers"/>
-      <Sous-categorie No="13" Nom="2182. Mat&#xE9;riels de transport"/>
-      <Sous-categorie No="14" Nom="2183. Mat&#xE9;riels de bureau et mat&#xE9;riels informatique"/>
-      <Sous-categorie No="15" Nom="2184. Mobilier"/>
-      <Sous-categorie No="16" Nom="2185. Cheptel"/>
-    </Categorie>
-    <Categorie Nom="22. Immobilisations mises en concession" Type="0" No_derniere_sous_cagegorie="2">
-      <Sous-categorie No="1" Nom="2280. Immobilisations grev&#xE9;es de droits"/>
-      <Sous-categorie No="2" Nom="2290. Droits des propri&#xE9;taires"/>
-    </Categorie>
-    <Categorie Nom="23. Immobilisations en cours" Type="0" No_derniere_sous_cagegorie="8">
-      <Sous-categorie No="1" Nom="2310.Immobilisations corporelles en cours"/>
-      <Sous-categorie No="2" Nom="2312. Terrain"/>
-      <Sous-categorie No="3" Nom="2313. Constructions"/>
-      <Sous-categorie No="4" Nom="2315. Installations techniques, mat&#xE9;riels et outillages industriels"/>
-      <Sous-categorie No="5" Nom="2318. Autres immobilisations corporelles"/>
-      <Sous-categorie No="6" Nom="2320. Immobilisations incorporelles en cours"/>
-      <Sous-categorie No="7" Nom="2380. Avances et acomptes vers&#xE9;s sur commandes d'immobilisations corporelles"/>
-    </Categorie>
-    <Categorie Nom="26. Participations et cr&#xE9;ances rattach&#xE9;es &#xE0; des participations" Type="0" No_derniere_sous_cagegorie="4">
-      <Sous-categorie No="1" Nom="2610. Titres de participations"/>
-      <Sous-categorie No="2" Nom="2660. Autres formes de participation"/>
-      <Sous-categorie No="3" Nom="2670. Cr&#xE9;ances rattach&#xE9;es &#xE0; des particiations"/>
-      <Sous-categorie No="4" Nom="2690. Versements restant &#xE0; effectuer sur titres de participation non lib&#xE9;r&#xE9;s"/>
-    </Categorie>
-    <Categorie Nom="27. Autres immobilisations financi&#xE8;res" Type="0" No_derniere_sous_cagegorie="17">
-      <Sous-categorie No="1" Nom="2710. Titres immobilis&#xE9;s (droit de propi&#xE9;t&#xE9;)"/>
-      <Sous-categorie No="2" Nom="2711. Actions"/>
-      <Sous-categorie No="3" Nom="2720. Titres immobilis&#xE9;s (droit decr&#xE9;ance)"/>
-      <Sous-categorie No="4" Nom="2721. Obligations"/>
-      <Sous-categorie No="5" Nom="2722. Bons"/>
-      <Sous-categorie No="6" Nom="2728. Autres"/>
-      <Sous-categorie No="7" Nom="2730. Titres immobilis&#xE9;s de l'activit&#xE9; de portefeuille"/>
-      <Sous-categorie No="8" Nom="2740. Pr&#xEA;ts"/>
-      <Sous-categorie No="9" Nom="2743. Pr&#xEA;ts au personnel"/>
-      <Sous-categorie No="10" Nom="2748. Autres pr&#xEA;ts"/>
-      <Sous-categorie No="11" Nom="2750. D&#xE9;p&#xF4;ts et cautionnements vers&#xE9;s"/>
-      <Sous-categorie No="12" Nom="2751. D&#xE9;pots"/>
-      <Sous-categorie No="13" Nom="2755. Cautionnements"/>
-      <Sous-categorie No="14" Nom="2760. AUtres cr&#xE9;ances immobilis&#xE9;es"/>
-      <Sous-categorie No="15" Nom="2761. Cr&#xE9;ances divers"/>
-      <Sous-categorie No="16" Nom="2768. Int&#xE9;r&#xEA;ts courus (&#xE0; d&#xE9;tailler)"/>
-      <Sous-categorie No="17" Nom="2790. Versements restant &#xE0; effectuer sur titres immobilis&#xE9;s non lib&#xE9;r&#xE9;s"/>
-    </Categorie>
-    <Categorie Nom="28. Ammortissements des immobiloisations" Type="0" No_derniere_sous_cagegorie="9">
-      <Sous-categorie No="1" Nom="2800. Ammortissements des immobilisations incorporelles"/>
-      <Sous-categorie No="2" Nom="2801. Frais d'&#xE9;tablissement (m&#xEA;me ventilation que celle du compte 201)"/>
-      <Sous-categorie No="3" Nom="2808. Autres immobilisations incorporelles"/>
-      <Sous-categorie No="4" Nom="2810. Ammortissements des immobilisations corporelles"/>
-      <Sous-categorie No="5" Nom="2812. Agencememnts, am&#xE9;nagements des terrains (m&#xEA;me ventilations que celle du compte 212)"/>
-      <Sous-categorie No="6" Nom="2813. Constructions (m&#xEA;me ventilation que celle du compte 213)"/>
-      <Sous-categorie No="7" Nom="2814. Constructions sur sol d'autrui (m&#xEA;me ventilations que celles du comptes 214)"/>
-      <Sous-categorie No="8" Nom="2815. Installtions techniques, mat&#xE9;riels et outillages industriels (m&#xEA;me ventilation que celle du compte 215)"/>
-      <Sous-categorie No="9" Nom="2818. Autres immobilisations corporelles (m&#xEA;me ventilation que celle du compte 218)"/>
-    </Categorie>
-    <Categorie Nom="29. Provision pour d&#xE9;pr&#xE9;ciation des immobilisation" Type="0" No_derniere_sous_cagegorie="15">
-      <Sous-categorie No="1" Nom="2900. Provisions pour d&#xE9;pr&#xE9;ciations des immobilisations incorporelles"/>
-      <Sous-categorie No="2" Nom="2906. Droit au bail"/>
-      <Sous-categorie No="3" Nom="2908. Autres immobilisations incorporelles"/>
-      <Sous-categorie No="4" Nom="2910. Provisions pour d&#xE9;pr&#xE9;ciation des immobilisations corporelles"/>
-      <Sous-categorie No="5" Nom="2911. Terrain"/>
-      <Sous-categorie No="6" Nom="2960. Provisions pour d&#xE9;pr&#xE9;ciations des participations et cr&#xE9;ances rattach&#xE9;es &#xE0; des participations"/>
-      <Sous-categorie No="7" Nom="2961. Tires de participations"/>
-      <Sous-categorie No="8" Nom="2966. Autres formes de participations"/>
-      <Sous-categorie No="9" Nom="2967. Cr&#xE9;ances rattach&#xE9;es &#xE0; des participations (m&#xEA;me ventilations que celles du compte 267)"/>
-      <Sous-categorie No="10" Nom="2970. Provisions pour d&#xE9;pr&#xE9;ciations des autres immobilisations financi&#xE8;res"/>
-      <Sous-categorie No="11" Nom="2971. Tires immobilis&#xE9;s (droit de propri&#xE9;t&#xE9;) (m&#xEA;me ventilation que celle du compte 271)"/>
-      <Sous-categorie No="12" Nom="2972. Titres immobilis&#xE9;s (droit de cr&#xE9;ances) ( m&#xEA;me ventilations que celle compte 272)"/>
-      <Sous-categorie No="13" Nom="2974. Pr&#xEA;ts (m&#xEA;me ventilation que celle du compte 274)"/>
-      <Sous-categorie No="14" Nom="2975. D&#xE9;p&#xF4;ts et cautionnements vers&#xE9;s (m&#xEA;me ventilation que celle du compte 275)"/>
-      <Sous-categorie No="15" Nom="2976. Autres cr&#xE9;ances immobilis&#xE9;es ( m&#xEA;me ventilation que celle du compte 276)"/>
-    </Categorie>
-    <Categorie Nom="31. Mati&#xE8;res premi&#xE8;res et fournitures" Type="0" No_derniere_sous_cagegorie="4">
-      <Sous-categorie No="1" Nom="3110. Mati&#xE8;res premi&#xE8;res"/>
-      <Sous-categorie No="2" Nom="3170. Fournitures"/>
-    </Categorie>
-    <Categorie Nom="32. Autres approvisionnements" Type="0" No_derniere_sous_cagegorie="3">
-      <Sous-categorie No="1" Nom="3210. Mati&#xE8;res consommables"/>
-      <Sous-categorie No="2" Nom="3220. Fournitures consommables"/>
-      <Sous-categorie No="3" Nom="3260. Emballages"/>
-    </Categorie>
-    <Categorie Nom="33. En-cours de production de biens" Type="0" No_derniere_sous_cagegorie="2">
-      <Sous-categorie No="1" Nom="3310. Produit en cours"/>
-      <Sous-categorie No="2" Nom="3350. Travaux en cours"/>
-    </Categorie>
-    <Categorie Nom="34. En-cours de production de services" Type="0" No_derniere_sous_cagegorie="2">
-      <Sous-categorie No="1" Nom="3410. Produit en cours"/>
-      <Sous-categorie No="2" Nom="3450. Prestations de servevices en cours"/>
-    </Categorie>
-    <Categorie Nom="35. Stocks de produits" Type="0" No_derniere_sous_cagegorie="3">
-      <Sous-categorie No="1" Nom="3510. Produits interm&#xE9;diaires"/>
-      <Sous-categorie No="2" Nom="3550. Produit finis"/>
-    </Categorie>
-    <Categorie Nom="37. Stocks de marchandises" Type="0" No_derniere_sous_cagegorie="0"/>
-    <Categorie Nom="39. Provisions pour d&#xE9;pr&#xE9;ciations des stocks et en-cours" Type="0" No_derniere_sous_cagegorie="7">
-      <Sous-categorie No="1" Nom="3910. Provision pour d&#xE9;pr&#xE9;ciations des mati&#xE9;res premi&#xE8;res et fournitures"/>
-      <Sous-categorie No="2" Nom="3920. Provision pour d&#xE9;pr&#xE9;ciation  des autres approvisionnement"/>
-      <Sous-categorie No="3" Nom="3930. Provision pour d&#xE9;pr&#xE9;ciation des en-cours de production de biens"/>
-      <Sous-categorie No="4" Nom="3940. Provision pour d&#xE9;pr&#xE9;ciation des en-cours de production de services"/>
-      <Sous-categorie No="5" Nom="3950. Provision pour d&#xE9;pr&#xE9;ciation des stocks de produits"/>
-      <Sous-categorie No="6" Nom="3970. Provision pour d&#xE9;pr&#xE9;ciation des stocks de marchandises"/>
-    </Categorie>
-    <Categorie Nom="40. Fournisseurs et comptes rattach&#xE9;s" Type="0" No_derniere_sous_cagegorie="11">
-      <Sous-categorie No="1" Nom="4010. Fournisseurs"/>
-      <Sous-categorie No="2" Nom="4011. Forunisseurs. Achats de biens ou de prestations de services"/>
-      <Sous-categorie No="3" Nom="4040. Fournisseurs d'immobilisations"/>
-      <Sous-categorie No="4" Nom="4041. Fournisseurs. Achats d'immobilisations"/>
-      <Sous-categorie No="5" Nom="4047. Fournisseurs d'immobilisations. Retenues de garantie"/>
-      <Sous-categorie No="6" Nom="4080. Fournisseurs. Factures non parvenues"/>
-      <Sous-categorie No="7" Nom="4081. Fournisseurs. Achats de biens ou prestations de services"/>
-      <Sous-categorie No="8" Nom="4084. Fournisseurs. Achats d'immobilisations"/>
-      <Sous-categorie No="9" Nom="4090. Fournisseurs d&#xE9;biteurs"/>
-      <Sous-categorie No="10" Nom="4091. Fournisseurs. Avances et acomptes vers&#xE9;s sur commandes"/>
-      <Sous-categorie No="11" Nom="4096. Fournisserus. Cr&#xE9;ances pour embalage et mat&#xE9;riel &#xE0; rendre"/>
-    </Categorie>
-    <Categorie Nom="41. Usagers et comptes rattach&#xE9;s" Type="0" No_derniere_sous_cagegorie="4">
-      <Sous-categorie No="1" Nom="4110. Usagers ( et organismes de prise en charges)"/>
-      <Sous-categorie No="2" Nom="4116. Cr&#xE9;ances douteuses ou litigieuses"/>
-      <Sous-categorie No="3" Nom="4118. Usagers. Produitd non encore factur&#xE9;s"/>
-      <Sous-categorie No="4" Nom="4119. Usagers cr&#xE9;diteurs"/>
-    </Categorie>
-    <Categorie Nom="42. Personnel et comptes rattach&#xE9;s" Type="0" No_derniere_sous_cagegorie="8">
-      <Sous-categorie No="1" Nom="4210. Personnel. R&#xE9;mun&#xE9;ration dues"/>
-      <Sous-categorie No="2" Nom="4220. Comit&#xE9;s d'entreprise, d'&#xE9;tablissement"/>
-      <Sous-categorie No="3" Nom="4250. Personnel. Avances et acomptes"/>
-      <Sous-categorie No="4" Nom="4270. Personnel. Opposition"/>
-      <Sous-categorie No="5" Nom="4280. Personnel. Charges &#xE0; payer et produits &#xE0; recevoir"/>
-      <Sous-categorie No="6" Nom="4282. Dettes provisionn&#xE9;es pour cong&#xE9;s &#xE0; payer"/>
-      <Sous-categorie No="7" Nom="4286. Autres charges &#xE0; payer"/>
-      <Sous-categorie No="8" Nom="4287. Produit &#xE0; recevoir"/>
-    </Categorie>
-    <Categorie Nom="43 S&#xE9;curit&#xE9; social et autres organismes sociaux" Type="0" No_derniere_sous_cagegorie="10">
-      <Sous-categorie No="1" Nom="4310. S&#xE9;curit&#xE9; sociale"/>
-      <Sous-categorie No="2" Nom="4370. Autres organismes sociaux"/>
-      <Sous-categorie No="3" Nom="4372. Mutuelles"/>
-      <Sous-categorie No="4" Nom="4373. Caisses de retraite et de pr&#xE9;voyance"/>
-      <Sous-categorie No="5" Nom="4374. Caisse d'allocation ch&#xF4;mage. ASSEDIC"/>
-      <Sous-categorie No="6" Nom="4378. Autres organismes sociaux. Divers"/>
-      <Sous-categorie No="7" Nom="4380. Organismes sociaux. Charges &#xE0; payer et produits &#xE0; recevoir"/>
-      <Sous-categorie No="8" Nom="4382. Charges sociales sur cong&#xE9;s &#xE0; payer"/>
-      <Sous-categorie No="9" Nom="4386. Autres charges &#xE0; payer"/>
-      <Sous-categorie No="10" Nom="4387. Produits &#xE0; recevoir"/>
-    </Categorie>
-    <Categorie Nom="44. Etat et autres collectivit&#xE9;s publiques" Type="0" No_derniere_sous_cagegorie="33">
-      <Sous-categorie No="1" Nom="4410. Etat. Subvention &#xE0; recevoir"/>
-      <Sous-categorie No="2" Nom="4411. Subventions d'investissement"/>
-      <Sous-categorie No="3" Nom="4417. Subvention d'exploitation"/>
-      <Sous-categorie No="4" Nom="4419. Avances sur subventions"/>
-      <Sous-categorie No="5" Nom="4430. Op&#xE9;rations particuli&#xE8;res avec l'&#xE9;tat, les collectivit&#xE9;s publiques, les organismes internationnaux"/>
-      <Sous-categorie No="6" Nom="4440. Etat. Imp&#xF4;ts sur les b&#xE9;n&#xE9;fices"/>
-      <Sous-categorie No="7" Nom="4445. Etat. Imp&#xF4;ts sur les soci&#xE9;t&#xE9;s (organismes sans but lucratif)"/>
-      <Sous-categorie No="8" Nom="4450. Etat. taxes sur le chiffre d'affaires"/>
-      <Sous-categorie No="9" Nom="4452. TVA due intercommunautaire"/>
-      <Sous-categorie No="10" Nom="4455. Taxes sur le chiffre d'affaires &#xE0; d&#xE9;caisser"/>
-      <Sous-categorie No="11" Nom="4456. Taxes sur le chiffres d'affaires d&#xE9;ductible"/>
-      <Sous-categorie No="12" Nom="44562. TVA sur immobilisation"/>
-      <Sous-categorie No="13" Nom="44566. TVA sur autres biens et services"/>
-      <Sous-categorie No="14" Nom="44567. Cr&#xE9;dit de TVA &#xE0; reporter"/>
-      <Sous-categorie No="15" Nom="4457. Taxes sur le chiffre d'affaires collect&#xE9;s par l'association"/>
-      <Sous-categorie No="16" Nom="4458. Taxes sur le chiffre d'affaires &#xE0; r&#xE9;gulariser ou en attente"/>
-      <Sous-categorie No="17" Nom="44586. Taxes sur le chiffre d'affaires sur factures non parvenues"/>
-      <Sous-categorie No="18" Nom="44587. Taxes sur le chiffre d'affaires sur factures &#xE0; &#xE9;tablir"/>
-      <Sous-categorie No="19" Nom="4470. Autres imp&#xF4;ts et taxes et versements assimil&#xE9;s"/>
-      <Sous-categorie No="20" Nom="4471. Imp&#xF4;ts, taxes et versements assimil&#xE9;s sur &#xE9;mun&#xE9;rations ( administration des imp&#xF4;ts)"/>
-      <Sous-categorie No="21" Nom="44711. Taxes sur les salaires"/>
-      <Sous-categorie No="22" Nom="44713. Participation des employeurs &#xE0; la formation professionnelle continue"/>
-      <Sous-categorie No="23" Nom="44714. Cotisation pour d&#xE9;faut d'investissement dans la construction"/>
-      <Sous-categorie No="24" Nom="44718. Autres imp&#xF4;ts, taxes et versements assimil&#xE9;s"/>
-      <Sous-categorie No="25" Nom="4473. Imp&#xF4;ts, taxes et versements assimil&#xE9;s sur r&#xE9;mun&#xE9;rations (autres organisme)"/>
-      <Sous-categorie No="26" Nom="44733. Participation des employeurs &#xE0; la formation professionnelle continue"/>
-      <Sous-categorie No="27" Nom="44734. Participation des employeurs &#xE0; l'effort de construction (versement &#xE0; fond perdu)"/>
-      <Sous-categorie No="28" Nom="4475. Autres imp&#xF4;ts, taxes et versements assimil&#xE9;s (administration des imp&#xF4;ts)"/>
-      <Sous-categorie No="29" Nom="4477. AUtres imp&#xF4;ts, taxes et versements assimil&#xE9;s (autres organismes)"/>
-      <Sous-categorie No="30" Nom="4480. Etat. Charges &#xE0; payer et produits &#xE0; recevoir"/>
-      <Sous-categorie No="31" Nom="4482. Charges fiscales sur cong&#xE9;s &#xE0; payer"/>
-      <Sous-categorie No="32" Nom="4486. Autres charges &#xE0; payer"/>
-      <Sous-categorie No="33" Nom="4487. Produits &#xE0; recevoir"/>
-    </Categorie>
-    <Categorie Nom="45. Conf&#xE9;d&#xE9;ration, f&#xE9;d&#xE9;ration, union, association affili&#xE9;es" Type="0" No_derniere_sous_cagegorie="2">
-      <Sous-categorie No="1" Nom="4510. Conf&#xE9;d&#xE9;ration, f&#xE9;d&#xE9;ration, associations affili&#xE9;es. Compte courant"/>
-      <Sous-categorie No="2" Nom="4550. Soci&#xE9;taires. Comptes courants"/>
-    </Categorie>
-    <Categorie Nom="46. D&#xE9;biteurs divers et cr&#xE9;diteurs divers" Type="0" No_derniere_sous_cagegorie="4">
-      <Sous-categorie No="1" Nom="4670. Autres comptes d&#xE9;biteurs ou cr&#xE9;diteurs"/>
-      <Sous-categorie No="2" Nom="4680. Divers. Charges &#xE0; payer et produits &#xE0; recevoir"/>
-      <Sous-categorie No="3" Nom="4686. Charges &#xE0; payer"/>
-      <Sous-categorie No="4" Nom="4687. Produits &#xE0; recevoir"/>
-    </Categorie>
-    <Categorie Nom="47. Comptes d'attente" Type="0" No_derniere_sous_cagegorie="3">
-      <Sous-categorie No="1" Nom="4710. Recettes &#xE0; classer"/>
-      <Sous-categorie No="2" Nom="4720. D&#xE9;pences &#xE0; classer et r&#xE9;gulariser"/>
-      <Sous-categorie No="3" Nom="4750. Legs et donnations en cours de r&#xE9;alisation"/>
-    </Categorie>
-    <Categorie Nom="48. Comptes de r&#xE9;gularisation" Type="0" No_derniere_sous_cagegorie="5">
-      <Sous-categorie No="1" Nom="4810. Charges &#xE0; r&#xE9;partir sur plusieurs exercices"/>
-      <Sous-categorie No="2" Nom="4812. Frais d'acquisition des immobilisation"/>
-      <Sous-categorie No="3" Nom="4818. Charges &#xE0; &#xE9;taler"/>
-      <Sous-categorie No="4" Nom="4860. Charges constat&#xE9; d'avance"/>
-      <Sous-categorie No="5" Nom="4870. Produits constat&#xE9;s d'avance"/>
-    </Categorie>
-    <Categorie Nom="49. Provision pour d&#xE9;pr&#xE9;ciation des comptes de tiers" Type="0" No_derniere_sous_cagegorie="2">
-      <Sous-categorie No="1" Nom="4910. Provision pour d&#xE9;pr&#xE9;ciation des comptes d'usagers (et organisme de prise en charge)"/>
-      <Sous-categorie No="2" Nom="4960. Provision pour d&#xE9;pr&#xE9;ciation des comptes de d&#xE9;biteurs divers"/>
-    </Categorie>
-    <Categorie Nom="50. Valeurs mobili&#xE8;res de placement" Type="0" No_derniere_sous_cagegorie="15">
-      <Sous-categorie No="1" Nom="5030. Actions"/>
-      <Sous-categorie No="2" Nom="5031. Titres cot&#xE9;s"/>
-      <Sous-categorie No="3" Nom="5035. Titres non cot&#xE9;s"/>
-      <Sous-categorie No="4" Nom="5060. Obligations"/>
-      <Sous-categorie No="5" Nom="5061. Titres cot&#xE9;s"/>
-      <Sous-categorie No="6" Nom="5065. Titres non cot&#xE9;s"/>
-      <Sous-categorie No="7" Nom="5070. Bons du tr&#xE9;sor et bons de caisse &#xE0; court terme"/>
-      <Sous-categorie No="8" Nom="5080. Autres valeurs mobili&#xE8;res et cr&#xE9;ances assimil&#xE9;es"/>
-      <Sous-categorie No="9" Nom="5088. Int&#xE9;r&#xEA;ts courus sur obligations, bons et valeurs assimil&#xE9;s"/>
-    </Categorie>
-    <Categorie Nom="51. Banques, &#xE9;tablissements financiers et assimil&#xE9;s" Type="0" No_derniere_sous_cagegorie="12">
-      <Sous-categorie No="1" Nom="5110. Valeurs &#xE0; l'encaissement"/>
-      <Sous-categorie No="2" Nom="5120. Banques"/>
-      <Sous-categorie No="3" Nom="5130. Caisse des d&#xE9;p&#xF4;ts et consignation"/>
-      <Sous-categorie No="4" Nom="5140. Ch&#xE9;ques postaux"/>
-      <Sous-categorie No="5" Nom="5150. &quot;Caisse&quot; du tr&#xE9;sor et des &#xE9;tablissement publics"/>
-      <Sous-categorie No="6" Nom="5170. Autres organismes financiers"/>
-      <Sous-categorie No="7" Nom="5171. Caisse d'&#xE9;pargne"/>
-      <Sous-categorie No="8" Nom="5180. Int&#xE9;r&#xEA;ts courus"/>
-      <Sous-categorie No="9" Nom="5186. Int&#xE9;r&#xEA;ts couris &#xE0; payer"/>
-      <Sous-categorie No="10" Nom="5187. Int&#xE9;r&#xEA;ts courus &#xE0; recevoir"/>
-      <Sous-categorie No="11" Nom="5190. Concours bancaires courants"/>
-      <Sous-categorie No="12" Nom="5198. Int&#xE9;r&#xEA;ts courus sur concours bancaires courants"/>
-    </Categorie>
-    <Categorie Nom="53. Caisse" Type="0" No_derniere_sous_cagegorie="3">
-      <Sous-categorie No="1" Nom="5310. Caisse du si&#xE8;ge"/>
-      <Sous-categorie No="2" Nom="5320. Caisse des leiux d'activit&#xE9;s"/>
-    </Categorie>
-    <Categorie Nom="54 R&#xE9;gies d'avances et accr&#xE9;ditifs" Type="0" No_derniere_sous_cagegorie="2">
-      <Sous-categorie No="1" Nom="5410. R&#xE9;gies d'avances"/>
-      <Sous-categorie No="2" Nom="5420. Accr&#xE9;ditifs"/>
-    </Categorie>
-    <Categorie Nom="58.Virements internes" Type="0" No_derniere_sous_cagegorie="1">
-      <Sous-categorie No="1" Nom="5810. Virements de fonds"/>
-    </Categorie>
-    <Categorie Nom="59. Provision pour d&#xE9;pr&#xE9;ciation des comptes financiers" Type="0" No_derniere_sous_cagegorie="1">
-      <Sous-categorie No="1" Nom="5900. Provision pour d&#xE9;pr&#xE9;ciation des valeurs mobili&#xE8;res de placement"/>
-    </Categorie>
-    <Categorie Nom="60. Achat (sauf 603)" Type="0" No_derniere_sous_cagegorie="31">
-      <Sous-categorie No="1" Nom="6010. Achats stock&#xE9;s. Mati&#xE8;res premi&#xE8;res et fournitures"/>
-      <Sous-categorie No="2" Nom="6020. Achats stock&#xE9;s. Autres approvisionnements"/>
-      <Sous-categorie No="3" Nom="6021. Mati&#xE8;res consommables"/>
-      <Sous-categorie No="4" Nom="6022. Fournitures consommables"/>
-      <Sous-categorie No="5" Nom="60221. Combustibles"/>
-      <Sous-categorie No="6" Nom="60222. Produits d'entretien"/>
-      <Sous-categorie No="7" Nom="60223. Fournitures d'atelier"/>
-      <Sous-categorie No="8" Nom="60224. Fournitures de magasin"/>
-      <Sous-categorie No="9" Nom="60225. Fournitures de bureau"/>
-      <Sous-categorie No="10" Nom="6030. Variations de stocks (approvisionnements et marchandises)"/>
-      <Sous-categorie No="11" Nom="6031. Variations de stocks de mati&#xE8;res premi&#xE8;res et fournitures"/>
-      <Sous-categorie No="12" Nom="6032. Variations de stocks des autres approvisionnements"/>
-      <Sous-categorie No="13" Nom="6037. Variations des stocks de marchandises"/>
-      <Sous-categorie No="14" Nom="6040. Achats d'&#xE9;tudes et de prestation de services"/>
-      <Sous-categorie No="15" Nom="6060. Achats non stock&#xE9;s de mati&#xE8;res et fournitures"/>
-      <Sous-categorie No="16" Nom="6061. Fournitures non stockables (eau, &#xE9;lectricit&#xE9;...)"/>
-      <Sous-categorie No="17" Nom="6063. Fournitures d'entretiens et de petit &#xE9;quipement"/>
-      <Sous-categorie No="18" Nom="6064. Fournitures administrative"/>
-      <Sous-categorie No="19" Nom="6068. Autres mati&#xE8;res et fournitures"/>
-      <Sous-categorie No="20" Nom="6070. Achats de marchandises"/>
-      <Sous-categorie No="21" Nom="6071. MArchandises  A"/>
-      <Sous-categorie No="22" Nom="6072. Marchandise B"/>
-      <Sous-categorie No="23" Nom="6090. Rabais, remises et ristournes obtenus sur achats"/>
-    </Categorie>
-    <Categorie Nom="61. Service exterieurs" Type="0" No_derniere_sous_cagegorie="22">
-      <Sous-categorie No="1" Nom="6110. Sous-traitance g&#xE9;n&#xE9;ral"/>
-      <Sous-categorie No="2" Nom="6120. Redevances de cr&#xE9;dit-bail"/>
-      <Sous-categorie No="3" Nom="6122. Cr&#xE9;dit-bail mobilier"/>
-      <Sous-categorie No="4" Nom="6125. Cr&#xE9;dit-bail immobilier"/>
-      <Sous-categorie No="5" Nom="6130. Locations"/>
-      <Sous-categorie No="6" Nom="6132. Locations immobili&#xE8;res"/>
-      <Sous-categorie No="7" Nom="6135. Locations mobili&#xE8;res"/>
-      <Sous-categorie No="8" Nom="6140. Charges locatives et de copropri&#xE9;t&#xE8;"/>
-      <Sous-categorie No="9" Nom="6150. Entretiens et r&#xE9;parations"/>
-      <Sous-categorie No="10" Nom="6152. SUr biens immobiliers"/>
-      <Sous-categorie No="11" Nom="6155. Sur biens mobiliers"/>
-      <Sous-categorie No="12" Nom="6156. Maintenance"/>
-      <Sous-categorie No="13" Nom="6160. Primes d'assurance"/>
-      <Sous-categorie No="14" Nom="6161. Multirisque"/>
-      <Sous-categorie No="15" Nom="6162. Assurance obligatoire dommage-construction"/>
-      <Sous-categorie No="16" Nom="6168. Autres assurances"/>
-      <Sous-categorie No="17" Nom="6170. Etudes et recherches"/>
-      <Sous-categorie No="18" Nom="6180 Divers"/>
-      <Sous-categorie No="19" Nom="6181. Docummentations g&#xE9;n&#xE9;rale"/>
-      <Sous-categorie No="20" Nom="6183. Documantations technique"/>
-      <Sous-categorie No="21" Nom="6185. Frais de colloques, s&#xE9;minaires, conf&#xE9;rences"/>
-      <Sous-categorie No="22" Nom="6190. Rabais, remises, ristournes obtenus sur services exterieurs"/>
-    </Categorie>
-    <Categorie Nom="62. Autres services exterieurs" Type="0" No_derniere_sous_cagegorie="30">
-      <Sous-categorie No="1" Nom="6210. Personnel exterieur &#xE0; l'association"/>
-      <Sous-categorie No="2" Nom="6211. Personnel int&#xE9;rimaire"/>
-      <Sous-categorie No="3" Nom="6214. Personnel d&#xE9;tach&#xE9; ou pr&#xEA;t&#xE9; &#xE0; l'association"/>
-      <Sous-categorie No="4" Nom="6220. R&#xE9;mun&#xE9;rations d'int&#xE9;rimaires et honoraires"/>
-      <Sous-categorie No="5" Nom="6226. Honoraires"/>
-      <Sous-categorie No="6" Nom="6227. Frais d'actes et de contencieux"/>
-      <Sous-categorie No="7" Nom="6230. Publicit&#xE9;, publication, relations publiques"/>
-      <Sous-categorie No="8" Nom="6231. Annonces et insertions"/>
-      <Sous-categorie No="9" Nom="6233. Foires et expositions"/>
-      <Sous-categorie No="10" Nom="6236. Catalogues et imprim&#xE9;s"/>
-      <Sous-categorie No="11" Nom="6237. Publications"/>
-      <Sous-categorie No="12" Nom="6238. Divers (pourboires, dons courant...)"/>
-      <Sous-categorie No="13" Nom="6240. Trasports de biens et transports colletifs de personnels"/>
-      <Sous-categorie No="14" Nom="6241. Transports sur achats"/>
-      <Sous-categorie No="15" Nom="6242. Transports sur ventes"/>
-      <Sous-categorie No="16" Nom="6243. Transports entre &#xE9;tablissements"/>
-      <Sous-categorie No="17" Nom="6248. Divers"/>
-      <Sous-categorie No="18" Nom="6250. D&#xE9;placements, missions et r&#xE9;ceptions"/>
-      <Sous-categorie No="19" Nom="6251. Voyages et d&#xE9;placements"/>
-      <Sous-categorie No="20" Nom="6256. Missions"/>
-      <Sous-categorie No="21" Nom="6257. R&#xE9;ceptions"/>
-      <Sous-categorie No="22" Nom="6260. Frais postaux et frais de t&#xE9;l&#xE9;communications"/>
-      <Sous-categorie No="23" Nom="6261. Liaisons informatiques ou sp&#xE9;cialis&#xE9;es"/>
-      <Sous-categorie No="24" Nom="6263. Affranchissements"/>
-      <Sous-categorie No="25" Nom="6265. T&#xE9;l&#xE9;phone"/>
-      <Sous-categorie No="26" Nom="6270. Services banquaires et assimil&#xE9;s"/>
-      <Sous-categorie No="27" Nom="6280. Divers"/>
-      <Sous-categorie No="28" Nom="6281. Cotisations (li&#xE9;es &#xE0; l'activit&#xE9;s &#xE9;conomique)"/>
-      <Sous-categorie No="29" Nom="6284. Frais de recrutement du personnel"/>
-      <Sous-categorie No="30" Nom="6290. Rabais, remies, ristournes obtenus sur autres services exterieurs"/>
-    </Categorie>
-    <Categorie Nom="63. Imp&#xF4;ts, taxes et versements assimil&#xE9;s" Type="0" No_derniere_sous_cagegorie="20">
-      <Sous-categorie No="1" Nom="6310. Imp&#xF4;ts, taxes et versements assimil&#xE9;es sur r&#xE9;mun&#xE9;rations (administration des imp&#xF4;ts)"/>
-      <Sous-categorie No="2" Nom="6311. Taxes sur salaires"/>
-      <Sous-categorie No="3" Nom="6312. Taxe d'apprentissage"/>
-      <Sous-categorie No="4" Nom="6313. Participation des employeurs &#xE0; la formation professionelle continue"/>
-      <Sous-categorie No="5" Nom="6314. Cotisation pour d&#xE9;faut d'investissement obligatoire dans la construction"/>
-      <Sous-categorie No="6" Nom="6330. Imp&#xF4;ts, taxes et versements assimil&#xE9;s sur r&#xE9;mun&#xE9;rations ( autres organismes)"/>
-      <Sous-categorie No="7" Nom="6331. Versements de transports"/>
-      <Sous-categorie No="8" Nom="6333. Participations des employeurs &#xE0; la formations professionnellescontinue"/>
-      <Sous-categorie No="9" Nom="6334. Participation des employeurs &#xE0; l'effort de construction (versement &#xE0; fonds perdu)"/>
-      <Sous-categorie No="10" Nom="6335. Versements lib&#xE9;ratoire donnant droit &#xE0; l'exon&#xE9;ration de la taxe d'apprentissage"/>
-      <Sous-categorie No="11" Nom="6350. Autres imp&#xF4;ts, taxes et versements assimil&#xE9;s (administrations des imp&#xF4;ts)"/>
-      <Sous-categorie No="12" Nom="6351. Imp&#xF4;ts directs (sauf imp&#xF4;t sur les b&#xE9;n&#xE9;fices)"/>
-      <Sous-categorie No="13" Nom="63512. Taxes fonci&#xE8;res"/>
-      <Sous-categorie No="14" Nom="62413. Autres imp&#xF4;ts locaux"/>
-      <Sous-categorie No="15" Nom="63518.Autres imp&#xF4;ts directs"/>
-      <Sous-categorie No="16" Nom="6352. Taxes sur les chiffres d'affaires non r&#xE9;cup&#xE9;rables"/>
-      <Sous-categorie No="17" Nom="6353. Imp&#xF4;ts indirects"/>
-      <Sous-categorie No="18" Nom="6354. Droits d'enregistrement et de timbre"/>
-      <Sous-categorie No="19" Nom="6358. Autres droits"/>
-      <Sous-categorie No="20" Nom="6370. Autres imp&#xF4;ts, taxes et versements assimil&#xE9;s (autres organismes)"/>
-    </Categorie>
-    <Categorie Nom="64. Charges de personnel" Type="0" No_derniere_sous_cagegorie="16">
-      <Sous-categorie No="1" Nom="6410. R&#xE9;mun&#xE9;rations du personnel"/>
-      <Sous-categorie No="2" Nom="6411. Salaires et appointements"/>
-      <Sous-categorie No="3" Nom="6412. Cong&#xE9;s pay&#xE9;s"/>
-      <Sous-categorie No="4" Nom="6413. Primes et gratifications"/>
-      <Sous-categorie No="5" Nom="6414. Indemnit&#xE9;s et avantages divers"/>
-      <Sous-categorie No="6" Nom="6415. Suppl&#xE9;ments familial"/>
-      <Sous-categorie No="7" Nom="6450. Charges de s&#xE9;curit&#xE9; sociale et de pr&#xE9;voyance"/>
-      <Sous-categorie No="8" Nom="6451. Cotisations de l'URSSAF"/>
-      <Sous-categorie No="9" Nom="6452. Cotisations aux mutuelles"/>
-      <Sous-categorie No="10" Nom="6453. Cotisations aux caisses de retraite et de pr&#xE9;voyance"/>
-      <Sous-categorie No="11" Nom="6454. Cotisations aux ASSEDIC"/>
-      <Sous-categorie No="12" Nom="6458. Cotisations aux autres organismes sociaux"/>
-      <Sous-categorie No="13" Nom="6470. Autres charges sociales"/>
-      <Sous-categorie No="14" Nom="6472. Versements aux comit&#xE9;s d'entreprise et d'&#xE9;tablissement"/>
-      <Sous-categorie No="15" Nom="6475. M&#xE9;decine du travail, pharmacie"/>
-      <Sous-categorie No="16" Nom="6480. Autres charges de personnel"/>
-    </Categorie>
-    <Categorie Nom="65. Autres charges de gestions courante" Type="0" No_derniere_sous_cagegorie="11">
-      <Sous-categorie No="1" Nom="6510. Redevances pour concessions, brevet, licences, marques, proc&#xE9;d&#xE9;s"/>
-      <Sous-categorie No="2" Nom="6516. Droits d'auteur et de reproduction (SACEM)"/>
-      <Sous-categorie No="3" Nom="6518. Autres droits et valeurs similaires"/>
-      <Sous-categorie No="4" Nom="6540. Pertes sur cr&#xE9;ances irr&#xE9;couvrables"/>
-      <Sous-categorie No="5" Nom="6541. Cr&#xE9;ances de l'exercice"/>
-      <Sous-categorie No="6" Nom="6544. Cr&#xE9;ances des exercices ant&#xE9;rieurs"/>
-      <Sous-categorie No="7" Nom="6550. Qoute-part de r&#xE9;sultat sur op&#xE9;ration faites en commun"/>
-      <Sous-categorie No="8" Nom="6570. Subventions vers&#xE9;es par l'association"/>
-      <Sous-categorie No="9" Nom="6571. Bourses accord&#xE9;es aux usagers"/>
-      <Sous-categorie No="10" Nom="6580. Charges divers de gestion courante"/>
-      <Sous-categorie No="11" Nom="6586. Cotisations (li&#xE9;es &#xE0; la vie statutaire)"/>
-    </Categorie>
-    <Categorie Nom="66. Charges financi&#xE8;res" Type="0" No_derniere_sous_cagegorie="7">
-      <Sous-categorie No="1" Nom="6610. Charges d'int&#xE9;r&#xEA;ts"/>
-      <Sous-categorie No="2" Nom="6611. Int&#xE9;r&#xEA;ts des emprunts et dettes"/>
-      <Sous-categorie No="3" Nom="6616. Int&#xE9;r&#xEA;ts banquaires"/>
-      <Sous-categorie No="4" Nom="6618. Int&#xE9;r&#xEA;ts des autres dettes"/>
-      <Sous-categorie No="5" Nom="6660. Pertes de change"/>
-      <Sous-categorie No="6" Nom="6670. Charges nettes sur cessions de valeurs immobili&#xE8;res de placement"/>
-      <Sous-categorie No="7" Nom="6680. Autres chages financi&#xE8;res"/>
-    </Categorie>
-    <Categorie Nom="67. Charges exeptionnelles" Type="0" No_derniere_sous_cagegorie="12">
-      <Sous-categorie No="1" Nom="6710. Charges exeptionnelles sur op&#xE9;rations de gestion"/>
-      <Sous-categorie No="2" Nom="6712. P&#xE9;nalit&#xE9;s et amendes fiscales ou p&#xE9;nales"/>
-      <Sous-categorie No="3" Nom="6713. Dons, lib&#xE9;ralit&#xE9;s"/>
-      <Sous-categorie No="4" Nom="6714. Cr&#xE9;ances devenues irr&#xE9;couvrables dans l'exercice"/>
-      <Sous-categorie No="5" Nom="6717. Rappel d'imp&#xF4;ts (autres qu'imp&#xF4;ts sur les b&#xE9;n&#xE9;fices)"/>
-      <Sous-categorie No="6" Nom="6718. Autres charges exeptionnelles sur op&#xE9;rations de gestion"/>
-      <Sous-categorie No="7" Nom="6720. Charges sur exercices ant&#xE9;rieurs ( &#xE0; reclasser)"/>
-      <Sous-categorie No="8" Nom="6750. Valeurs comptables des &#xE9;l&#xE9;ments d'actif c&#xE9;d&#xE9;s"/>
-      <Sous-categorie No="9" Nom="6751. Immobilisations incorporelles"/>
-      <Sous-categorie No="10" Nom="6752. Immobilisations corporelles"/>
-      <Sous-categorie No="11" Nom="6756. Immobilisations financi&#xE8;res"/>
-      <Sous-categorie No="12" Nom="6780. Autres charges exeptionnelles"/>
-    </Categorie>
-    <Categorie Nom="68. Dotations aux ammortissements, provision et engagements" Type="0" No_derniere_sous_cagegorie="21">
-      <Sous-categorie No="1" Nom="6810. Dotations aux ammortissements et aux provisions. Charges d'exploitation"/>
-      <Sous-categorie No="2" Nom="6811. Dotations aux ammortissements des immobilisations incorporelles et corporelles"/>
-      <Sous-categorie No="3" Nom="68111. Immobilisations incorporelles"/>
-      <Sous-categorie No="4" Nom="68112. Immobilisations corporelles"/>
-      <Sous-categorie No="5" Nom="6812. Dotations aux ammortissements des charges d'exploitation &#xE0; r&#xE9;partir"/>
-      <Sous-categorie No="6" Nom="6815. Dotations aux provisions, pour risque et charges d'exploitation"/>
-      <Sous-categorie No="7" Nom="6816. Dotationsaux provisions pour d&#xE9;pr&#xE9;ciation des immobilisations incorporelles et corporelles"/>
-      <Sous-categorie No="8" Nom="68161. Immobilisations incorporelles"/>
-      <Sous-categorie No="9" Nom="68162. Immobilisations corporelles"/>
-      <Sous-categorie No="10" Nom="6817. Dotations aux provisions pour d&#xE9;pr&#xE9;ciation des actifs circulants"/>
-      <Sous-categorie No="11" Nom="6860. Dotations aux ammortissements et aux provisions. Charges financi&#xE8;res"/>
-      <Sous-categorie No="12" Nom="6866. Dotation aux provisions pour d&#xE9;pr&#xE9;ciations des &#xE9;l&#xE9;ments financiers"/>
-      <Sous-categorie No="13" Nom="68662. Immobilisations financi&#xE8;res"/>
-      <Sous-categorie No="14" Nom="68665. Valeurs mobili&#xE8;res de placement"/>
-      <Sous-categorie No="15" Nom="6870. Dotations aux ammortissements et aux provisions. Charges exeptionnelles"/>
-      <Sous-categorie No="16" Nom="6871. Dotations aux ammortissements exceptionnelles des immobilisations"/>
-      <Sous-categorie No="17" Nom="6876. Dotations aux ammortissements pour d&#xE9;pr&#xE9;ciation exceptionnelles"/>
-      <Sous-categorie No="18" Nom="6890. Engagements &#xE0; r&#xE9;aliser sur ressources affect&#xE9;es"/>
-      <Sous-categorie No="19" Nom="6894. Engagements &#xE0; r&#xE9;aliser sur subventions attribu&#xE9;es"/>
-      <Sous-categorie No="20" Nom="6895. Engagements &#xE0; r&#xE9;aliser sur dons manuels affect&#xE9;s"/>
-      <Sous-categorie No="21" Nom="6897. Engagements &#xE0; r&#xE9;aliser sur legs et donations affect&#xE9;s"/>
-    </Categorie>
-    <Categorie Nom="69. Imp&#xF4;ts sur les b&#xE9;n&#xE9;fices" Type="0" No_derniere_sous_cagegorie="6">
-      <Sous-categorie No="1" Nom="6950. Imp&#xF4;ts sur les b&#xE9;n&#xE9;fices"/>
-      <Sous-categorie No="2" Nom="6910. Participations des salari&#xE8;s aux r&#xE9;sultats"/>
-      <Sous-categorie No="3" Nom="69511. Imp&#xF4;ts sur les soci&#xE9;t&#xE9;s des personnes morales non lucratives"/>
-      <Sous-categorie No="4" Nom="69512. Imp&#xF4;ts sur les soci&#xE9;t&#xE9;s de droit commun"/>
-      <Sous-categorie No="5" Nom="6952. Contributions additionnelles &#xE0; l'imp&#xF4;ts sur les b&#xE9;n&#xE9;fices"/>
-      <Sous-categorie No="6" Nom="6970. Imposition forfaitaire et annuelle (IFA)"/>
-    </Categorie>
-    <Categorie Nom="70. Ventes de produits finis, prestations de services, marchandises" Type="0" No_derniere_sous_cagegorie="10">
-      <Sous-categorie No="1" Nom="7010. Ventes de produits finis"/>
-      <Sous-categorie No="2" Nom="7050. Etudes"/>
-      <Sous-categorie No="3" Nom="7060. Prestations de services"/>
-      <Sous-categorie No="4" Nom="7070. Ventes de marchandises"/>
-      <Sous-categorie No="5" Nom="7080. Produits des activit&#xE9;s annexes"/>
-      <Sous-categorie No="6" Nom="7081. Produits des prestations fournies au personnel"/>
-      <Sous-categorie No="7" Nom="7083. Locations divers"/>
-      <Sous-categorie No="8" Nom="7084. Mise &#xE0; disposition de personnel factur&#xE9;e"/>
-      <Sous-categorie No="9" Nom="7088. Autres produits d'activit&#xE9;s annexes"/>
-      <Sous-categorie No="10" Nom="7090. Rabais, remises et ristournes accord&#xE9;es par l'association"/>
-    </Categorie>
-    <Categorie Nom="71. Production stock&#xE9;e (ou destockage)" Type="0" No_derniere_sous_cagegorie="4">
-      <Sous-categorie No="1" Nom="7130. Variations de stock (en-cours de production, produits)"/>
-      <Sous-categorie No="2" Nom="7133. Variations des en-cours de production de biens"/>
-      <Sous-categorie No="3" Nom="7134. Variations des en-cours de productions de services"/>
-      <Sous-categorie No="4" Nom="7135. Variations des stocks de produits"/>
-    </Categorie>
-    <Categorie Nom="72. Production immobilis&#xE9;e" Type="0" No_derniere_sous_cagegorie="0"/>
-    <Categorie Nom="74. Subvention d'exploitation" Type="0" No_derniere_sous_cagegorie="0"/>
-    <Categorie Nom="75. Autres produits de gestions courante" Type="0" No_derniere_sous_cagegorie="14">
-      <Sous-categorie No="1" Nom="7510. Redevances pour concessions, brevets, licences, marques, proc&#xE9;d&#xE9;s, droits et valeurs similaires"/>
-      <Sous-categorie No="2" Nom="7520. Revenues des immeubles non affect&#xE9;s aux activit&#xE9;s de l'association"/>
-      <Sous-categorie No="3" Nom="7540. Collectes"/>
-      <Sous-categorie No="4" Nom="7560. cotisations"/>
-      <Sous-categorie No="5" Nom="7570. Quote-part d'&#xE9;l&#xE9;ments du fond associatif vir&#xE9;e au compte de r&#xE9;sultat"/>
-      <Sous-categorie No="6" Nom="7571. Quote part de subventions d'investissement (renouvelables) vir&#xE9;e au compte de r&#xE9;sultat"/>
-      <Sous-categorie No="7" Nom="7573. Quote-part des apports vir&#xE9;s au compte de r&#xE9;sultat"/>
-      <Sous-categorie No="8" Nom="7580. Produits divers de gestion courante"/>
-      <Sous-categorie No="9" Nom="7581. Dons manuels non affect&#xE9;s"/>
-      <Sous-categorie No="10" Nom="7582. Dons manuels affect&#xE9;s"/>
-      <Sous-categorie No="11" Nom="7585. Legs et donations non affect&#xE9;s"/>
-      <Sous-categorie No="12" Nom="7586. Legs et donations affect&#xE9;s"/>
-      <Sous-categorie No="13" Nom="7587. Ventes de dons en nature"/>
-      <Sous-categorie No="14" Nom="7588. Autres produits de la g&#xE9;n&#xE9;rosit&#xE9; public"/>
-    </Categorie>
-    <Categorie Nom="76. Produits financiers" Type="0" No_derniere_sous_cagegorie="10">
-      <Sous-categorie No="1" Nom="7610. Produits des participations"/>
-      <Sous-categorie No="2" Nom="7620. Produits des autres immobilisations financi&#xE8;res"/>
-      <Sous-categorie No="3" Nom="7621. Revenus des titres immobilis&#xE9;s"/>
-      <Sous-categorie No="4" Nom="7624. Revenus des pr&#xEA;ts"/>
-      <Sous-categorie No="5" Nom="7640. Revenues des valeurs mobili&#xE8;res de placements"/>
-      <Sous-categorie No="6" Nom="7650. Escomptes obtenus"/>
-      <Sous-categorie No="7" Nom="7660. Gains de change"/>
-      <Sous-categorie No="8" Nom="7670. Produits nets sur cession de valeurs mobili&#xE8;res de placement"/>
-      <Sous-categorie No="9" Nom="7680. Autres produits financiers"/>
-      <Sous-categorie No="10" Nom="7681. Int&#xE9;r&#xEA;ts des comptes financiers d&#xE9;biteurs"/>
-    </Categorie>
-    <Categorie Nom="77. Produits exceptionnels" Type="0" No_derniere_sous_cagegorie="13">
-      <Sous-categorie No="1" Nom="7710. Produits exceptionnels sur op&#xE9;ration de gestion"/>
-      <Sous-categorie No="2" Nom="7713. Lib&#xE9;rabilit&#xE9;s per&#xE7;ues"/>
-      <Sous-categorie No="3" Nom="7714. Rentr&#xE9;es sur cr&#xE9;ances amorties"/>
-      <Sous-categorie No="4" Nom="7715. Subvention d'&#xE9;quilibre"/>
-      <Sous-categorie No="5" Nom="7717. D&#xE9;gr&#xE8;vements d'imp&#xF4;ts (autres qu'imp&#xF4;ts sue les b&#xE9;n&#xE9;fices)"/>
-      <Sous-categorie No="6" Nom="7718. Autres produits excepetionnels sur op&#xE9;rations de gestion"/>
-      <Sous-categorie No="7" Nom="7720. Produits sur exercices ant&#xE9;rieurs (&#xE0; reclaser)"/>
-      <Sous-categorie No="8" Nom="7750. Produits de cessions d'&#xE9;l&#xE9;ments d'actif"/>
-      <Sous-categorie No="9" Nom="7751. Immobilisations incorporelles"/>
-      <Sous-categorie No="10" Nom="7752. Immobilisations corporelles"/>
-      <Sous-categorie No="11" Nom="7756. Immobilisations financi&#xE8;res"/>
-      <Sous-categorie No="12" Nom="7770. Quote-part des subventionsd'investissement vir&#xE9;e au r&#xE9;sultat de l'exercice"/>
-      <Sous-categorie No="13" Nom="7780. Autres produits exceptionnels"/>
-    </Categorie>
-    <Categorie Nom="78. Reprise sur amortissements et provisions" Type="0" No_derniere_sous_cagegorie="17">
-      <Sous-categorie No="1" Nom="7810. Reprise sur amoratissements et provisions (&#xE0; inscrire dans les produits d'exploitation)"/>
-      <Sous-categorie No="2" Nom="7811. Reprise sur amortissement et provisions des immobilisations incorporelles et corporelles"/>
-      <Sous-categorie No="3" Nom="7815. Reprise surprovision pour risques et charges d'exploitation"/>
-      <Sous-categorie No="4" Nom="7816. Reprise sur provisions pour d&#xE9;pr&#xE9;ciation des immobilisations incorporelles et corporelles"/>
-      <Sous-categorie No="5" Nom="78161. Immobilisations incorporelles"/>
-      <Sous-categorie No="6" Nom="78162. Immobilisation corporelles"/>
-      <Sous-categorie No="7" Nom="7817. Reprise sur provisions pour d&#xE9;pr&#xE9;ciation des actifs circulants"/>
-      <Sous-categorie No="8" Nom="7860. Reprise sur provisions ( &#xE0; inscrire dans les produits exceptionnels)"/>
-      <Sous-categorie No="9" Nom="7866. Reprise sur provision pour d&#xE9;pr&#xE9;ciation des &#xE9;l&#xE9;ments financiers"/>
-      <Sous-categorie No="10" Nom="78662. Immobilisations financi&#xE8;res"/>
-      <Sous-categorie No="11" Nom="78665. Valeurs mobili&#xE8;res de placement"/>
-      <Sous-categorie No="12" Nom="7870. Reprise sur provisions ( &#xE0; inscrire dans les produits exceptionnels)"/>
-      <Sous-categorie No="13" Nom="7876. Reprise sur provision pour d&#xE9;pr&#xE9;ciation exceptionnelles"/>
-      <Sous-categorie No="14" Nom="7890. Report des ressources non utilis&#xE9;es des exercices ant&#xE9;rieurs"/>
-      <Sous-categorie No="15" Nom="7894. Reports des ressources non utilis&#xE9;es sur subventions attrib&#xE9;es"/>
-      <Sous-categorie No="16" Nom="7895. Reports des ressources non utilis&#xE9;es sur dons manuels re&#xE7;us"/>
-      <Sous-categorie No="17" Nom="7897. Report des ressources non utilis&#xE9;es sur legs et donations affect&#xE9;es"/>
-    </Categorie>
-    <Categorie Nom="79. Transferts de charges" Type="0" No_derniere_sous_cagegorie="3">
-      <Sous-categorie No="1" Nom="7910. Transferts de charges d'exploitation"/>
-      <Sous-categorie No="2" Nom="7960. Transferts des charges financi&#xE8;res"/>
-      <Sous-categorie No="3" Nom="7970. Transferts de charges exceptionnelles"/>
-    </Categorie>
-    <Categorie Nom="86. R&#xE9;partition par nature de charges" Type="0" No_derniere_sous_cagegorie="8">
-      <Sous-categorie No="1" Nom="8600. Secours en nature"/>
-      <Sous-categorie No="2" Nom="8601. Alimentaires"/>
-      <Sous-categorie No="3" Nom="8602. Vestimentaires"/>
-      <Sous-categorie No="4" Nom="8610. Mise &#xE0; disposition gratuite de biens"/>
-      <Sous-categorie No="5" Nom="8611. Locaux"/>
-      <Sous-categorie No="6" Nom="8612. Mat&#xE9;riels"/>
-      <Sous-categorie No="7" Nom="8620. Prestations"/>
-      <Sous-categorie No="8" Nom="8640. Personnel b&#xE9;n&#xE9;vole"/>
-    </Categorie>
-    <Categorie Nom="87. R&#xE9;partition par nautre des ressources" Type="0" No_derniere_sous_cagegorie="3">
-      <Sous-categorie No="1" Nom="8700. B&#xE9;n&#xE9;volat"/>
-      <Sous-categorie No="2" Nom="8710. Prestation en nature"/>
-      <Sous-categorie No="3" Nom="8750. Dons en nature"/>
-    </Categorie>
-  </Details_des_categories>
+	<General
+		File_version="0.6.0"
+		Grisbi_version="0.6.0" 
+		Title="Plan comptable associatif"
+		Description="Catégories adaptées au plan comptable associatif Français." />
+	<Category Nb="25" Na="10. Fonds associatifs et réserves" Kd="0" />
+	<Sub_category Nbc="25" Nb="1" Na="1020. Fonds associatifs sans droit de reprise" />
+	<Sub_category Nbc="25" Nb="2" Na="1021. Valeur du patrimoine intégré" />
+	<Sub_category Nbc="25" Nb="3" Na="1022. Fonds statutaires (à déclarer en fonction des statuts)" />
+	<Sub_category Nbc="25" Nb="4" Na="1024. Apports sans droit de reprise" />
+	<Sub_category Nbc="25" Nb="5" Na="1025. Lges et donations avec contrepartie d&apos;actifs immobilisés" />
+	<Sub_category Nbc="25" Nb="6" Na="1026. Subventions d&apos;investissement affectées à des biens renouvelables" />
+	<Sub_category Nbc="25" Nb="7" Na="1030. Fonfs associatifs avec droit de reprise" />
+	<Sub_category Nbc="25" Nb="8" Na="1034. Apports avec droit de reprise" />
+	<Sub_category Nbc="25" Nb="10" Na="1035. Legs et donations avec contrepartie d&apos;actifs immobilisés assorties d&apos;une obligation ou d&apos;une condition" />
+	<Sub_category Nbc="25" Nb="11" Na="1036. Subventions d&apos;investissement affectées à des biens renouvelables" />
+	<Sub_category Nbc="25" Nb="12" Na="1050. Ecarts et réévaluation" />
+	<Sub_category Nbc="25" Nb="13" Na="1051. Ecarts et réévaluations sur des biens sans droit de reprise" />
+	<Sub_category Nbc="25" Nb="14" Na="1052. Ecarts et réévaluations sur des biens avec droit de reprise" />
+	<Sub_category Nbc="25" Nb="15" Na="1060. Réserves" />
+	<Sub_category Nbc="25" Nb="16" Na="1062. Réserves indisponibles" />
+	<Sub_category Nbc="25" Nb="17" Na="1063. Réserves statutaires ou contractuelles" />
+	<Sub_category Nbc="25" Nb="18" Na="1064. Réserves réglementées" />
+	<Sub_category Nbc="25" Nb="19" Na="1068. Autres réserves (dont réserves pour projet associatif)" />
+	<Category Nb="26" Na="11. Eléments en instance d&apos;affectation" Kd="0" />
+	<Sub_category Nbc="26" Nb="1" Na="110. Report à nouveau" />
+	<Sub_category Nbc="26" Nb="2" Na="115. Résultats sous contrôle de tiers financeurs" />
+	<Category Nb="27" Na="12. Résultat net de l&apos;exercice (exédent ou déficit)" Kd="0" />
+	<Sub_category Nbc="27" Nb="1" Na="120. Résultat des l&apos;exercice (exédent)" />
+	<Sub_category Nbc="27" Nb="2" Na="129. Résultat de l&apos;exercice (déficit)" />
+	<Category Nb="28" Na="13. Subventions d&apos;investissement affectées à des biens non renouvelables" Kd="0" />
+	<Sub_category Nbc="28" Nb="1" Na="1310. Subventions d&apos;investissements (renouvelable)" />
+	<Sub_category Nbc="28" Nb="2" Na="1311. Etat" />
+	<Sub_category Nbc="28" Nb="3" Na="1312. Régions" />
+	<Sub_category Nbc="28" Nb="4" Na="1313. Départements" />
+	<Sub_category Nbc="28" Nb="5" Na="1314. Communes" />
+	<Sub_category Nbc="28" Nb="6" Na="1315. Collectivités publiques" />
+	<Sub_category Nbc="28" Nb="7" Na="1316. Entreprise publiques" />
+	<Sub_category Nbc="28" Nb="8" Na="1317. Entreprises et organismes privés" />
+	<Sub_category Nbc="28" Nb="9" Na="1318. Autres" />
+	<Sub_category Nbc="28" Nb="10" Na="1380. Autres subventions d&apos;investissement" />
+	<Sub_category Nbc="28" Nb="11" Na="1390. Subventions d&apos;investissement inscrites au compte de résultat" />
+	<Category Nb="29" Na="14. Provisions réglementées" Kd="0" />
+	<Sub_category Nbc="29" Nb="1" Na="1420. Provisions réglementées relatives aux immobilisations" />
+	<Sub_category Nbc="29" Nb="2" Na="1430. Provisions réglementées relatives aux stocks" />
+	<Sub_category Nbc="29" Nb="3" Na="1424. Provisions pour investissement (participation des salariés)" />
+	<Sub_category Nbc="29" Nb="4" Na="1431. Hausse des prix" />
+	<Sub_category Nbc="29" Nb="5" Na="1432. Fluctuations des cours" />
+	<Sub_category Nbc="29" Nb="6" Na="1440. Provisions réglementées relatives aux autres éléments de l&apos;actif" />
+	<Sub_category Nbc="29" Nb="7" Na="1450. Ammortissements dérogatoires" />
+	<Sub_category Nbc="29" Nb="8" Na="1460. Provisions spéciale de réévaluation" />
+	<Sub_category Nbc="29" Nb="9" Na="1480. Autres provisions réglementées" />
+	<Category Nb="30" Na="15. Provisions pour risques et charges" Kd="0" />
+	<Sub_category Nbc="30" Nb="1" Na="1510. Provisions pour risques" />
+	<Sub_category Nbc="30" Nb="2" Na="1511. Provisions pour litiges" />
+	<Sub_category Nbc="30" Nb="3" Na="1514. Provisions pour amendes et pénalités" />
+	<Sub_category Nbc="30" Nb="4" Na="1515. Provisions pour pertes de changes" />
+	<Sub_category Nbc="30" Nb="5" Na="1516. Provisions pour risque d&apos;emploi" />
+	<Sub_category Nbc="30" Nb="6" Na="1518. Autres provisions pour risques" />
+	<Sub_category Nbc="30" Nb="7" Na="1530. Provisions pour pensions et obligations similaires" />
+	<Sub_category Nbc="30" Nb="8" Na="1550. Provisions pour impôts" />
+	<Sub_category Nbc="30" Nb="9" Na="1570. Provisions pour charges à répartir sur plusieurs exercice" />
+	<Sub_category Nbc="30" Nb="10" Na="1572. Provisions pour grosses réparations" />
+	<Sub_category Nbc="30" Nb="11" Na="1580. Autres provisions pour charges" />
+	<Sub_category Nbc="30" Nb="12" Na="1582. Provisions pour charges sociales et fiscales sur congés payer" />
+	<Category Nb="31" Na="16. Emprunt et dettes assimilées" Kd="0" />
+	<Sub_category Nbc="31" Nb="1" Na="1640. Emprunts auprès des établissements de crédit" />
+	<Sub_category Nbc="31" Nb="2" Na="1641. Emprunt (à détailler)" />
+	<Sub_category Nbc="31" Nb="3" Na="1650. Dépôts et cautionnements reçus" />
+	<Sub_category Nbc="31" Nb="4" Na="1651. Dépôts" />
+	<Sub_category Nbc="31" Nb="5" Na="1655. Cautionnements" />
+	<Sub_category Nbc="31" Nb="6" Na="1660. Participation des salariés aux résultats" />
+	<Sub_category Nbc="31" Nb="7" Na="1661. Comptes bloqués" />
+	<Sub_category Nbc="31" Nb="8" Na="1662. Fonds de participation" />
+	<Sub_category Nbc="31" Nb="9" Na="1670. Emprunts et dettes assorties de conditions particulières" />
+	<Sub_category Nbc="31" Nb="10" Na="1672. Titre associatif" />
+	<Sub_category Nbc="31" Nb="11" Na="1680. Autres emprunts et dettes assimilées" />
+	<Sub_category Nbc="31" Nb="12" Na="1681. Autres emprunts (à détailler)" />
+	<Sub_category Nbc="31" Nb="13" Na="1685. Rents viagères capitalisées" />
+	<Sub_category Nbc="31" Nb="14" Na="1687. Autres dettes (à détailler)" />
+	<Sub_category Nbc="31" Nb="15" Na="1688. Intérêts courus ( à détailler)" />
+	<Category Nb="32" Na="17. Dettes rattachées à des participations" Kd="0" />
+	<Category Nb="33" Na="18. Comptes de liaisons des établissements (avec le siège social ou entre eux)" Kd="0" />
+	<Sub_category Nbc="33" Nb="1" Na="1810. Apports permanents entre siège social et établissement" />
+	<Sub_category Nbc="33" Nb="2" Na="1850. Biens et prestations de services échangés entre établissements et le siège social" />
+	<Sub_category Nbc="33" Nb="3" Na="1860. Biens et prestations de services échangés entre établissement (charges)" />
+	<Sub_category Nbc="33" Nb="4" Na="1670. Biens et prestations de services échangés entre établissements (produits)" />
+	<Category Nb="34" Na="19. Fonds dédiés" Kd="0" />
+	<Sub_category Nbc="34" Nb="1" Na="1940. Fonds dédiés sur subventions de fonctionnement" />
+	<Sub_category Nbc="34" Nb="2" Na="1950. Fonds dédiés sur dons manuels affectés" />
+	<Sub_category Nbc="34" Nb="3" Na="1970. Fons dédiés sur legs et dons affectés" />
+	<Category Nb="35" Na="20. Immobilisations incorporelles" Kd="0" />
+	<Sub_category Nbc="35" Nb="1" Na="2010. Frais d&apos;établissement" />
+	<Sub_category Nbc="35" Nb="2" Na="2012. Frais de premier établissement" />
+	<Sub_category Nbc="35" Nb="3" Na="2060. Droit au bail" />
+	<Sub_category Nbc="35" Nb="4" Na="2080. Autres immobilisations incorporelles" />
+	<Category Nb="36" Na="21. Immoblilisations corporelles" Kd="0" />
+	<Sub_category Nbc="36" Nb="1" Na="2110. Terrains" />
+	<Sub_category Nbc="36" Nb="2" Na="2120. Agencements et aménagements de terrains" />
+	<Sub_category Nbc="36" Nb="3" Na="2130. Constructions" />
+	<Sub_category Nbc="36" Nb="4" Na="2131. Bâtiments" />
+	<Sub_category Nbc="36" Nb="5" Na="2135. Installations générales, agencements, aménagements des constructions" />
+	<Sub_category Nbc="36" Nb="6" Na="2140. Constructions sur sol d&apos;autrui" />
+	<Sub_category Nbc="36" Nb="7" Na="2150. Installations techniques, matériels et outillages industriels" />
+	<Sub_category Nbc="36" Nb="8" Na="2151. Installations complexes spécialisées" />
+	<Sub_category Nbc="36" Nb="9" Na="2154. Matériels industriel" />
+	<Sub_category Nbc="36" Nb="10" Na="2155. Outillages industriel" />
+	<Sub_category Nbc="36" Nb="11" Na="2180. Autres immobilisations incorporelles" />
+	<Sub_category Nbc="36" Nb="12" Na="2181. Installations générales, agencements, aménagements divers" />
+	<Sub_category Nbc="36" Nb="13" Na="2182. Matériels de transport" />
+	<Sub_category Nbc="36" Nb="14" Na="2183. Matériels de bureau et matériels informatique" />
+	<Sub_category Nbc="36" Nb="15" Na="2184. Mobilier" />
+	<Sub_category Nbc="36" Nb="16" Na="2185. Cheptel" />
+	<Category Nb="37" Na="22. Immobilisations mises en concession" Kd="0" />
+	<Sub_category Nbc="37" Nb="1" Na="2280. Immobilisations grevées de droits" />
+	<Sub_category Nbc="37" Nb="2" Na="2290. Droits des propriétaires" />
+	<Category Nb="38" Na="23. Immobilisations en cours" Kd="0" />
+	<Sub_category Nbc="38" Nb="1" Na="2310.Immobilisations corporelles en cours" />
+	<Sub_category Nbc="38" Nb="2" Na="2312. Terrain" />
+	<Sub_category Nbc="38" Nb="3" Na="2313. Constructions" />
+	<Sub_category Nbc="38" Nb="4" Na="2315. Installations techniques, matériels et outillages industriels" />
+	<Sub_category Nbc="38" Nb="5" Na="2318. Autres immobilisations corporelles" />
+	<Sub_category Nbc="38" Nb="6" Na="2320. Immobilisations incorporelles en cours" />
+	<Sub_category Nbc="38" Nb="7" Na="2380. Avances et acomptes versés sur commandes d&apos;immobilisations corporelles" />
+	<Category Nb="39" Na="26. Participations et créances rattachées à des participations" Kd="0" />
+	<Sub_category Nbc="39" Nb="1" Na="2610. Titres de participations" />
+	<Sub_category Nbc="39" Nb="2" Na="2660. Autres formes de participation" />
+	<Sub_category Nbc="39" Nb="3" Na="2670. Créances rattachées à des particiations" />
+	<Sub_category Nbc="39" Nb="4" Na="2690. Versements restant à effectuer sur titres de participation non libérés" />
+	<Category Nb="40" Na="27. Autres immobilisations financières" Kd="0" />
+	<Sub_category Nbc="40" Nb="1" Na="2710. Titres immobilisés (droit de propiété)" />
+	<Sub_category Nbc="40" Nb="2" Na="2711. Actions" />
+	<Sub_category Nbc="40" Nb="3" Na="2720. Titres immobilisés (droit decréance)" />
+	<Sub_category Nbc="40" Nb="4" Na="2721. Obligations" />
+	<Sub_category Nbc="40" Nb="5" Na="2722. Bons" />
+	<Sub_category Nbc="40" Nb="6" Na="2728. Autres" />
+	<Sub_category Nbc="40" Nb="7" Na="2730. Titres immobilisés de l&apos;activité de portefeuille" />
+	<Sub_category Nbc="40" Nb="8" Na="2740. Prêts" />
+	<Sub_category Nbc="40" Nb="9" Na="2743. Prêts au personnel" />
+	<Sub_category Nbc="40" Nb="10" Na="2748. Autres prêts" />
+	<Sub_category Nbc="40" Nb="11" Na="2750. Dépôts et cautionnements versés" />
+	<Sub_category Nbc="40" Nb="12" Na="2751. Dépots" />
+	<Sub_category Nbc="40" Nb="13" Na="2755. Cautionnements" />
+	<Sub_category Nbc="40" Nb="14" Na="2760. AUtres créances immobilisées" />
+	<Sub_category Nbc="40" Nb="15" Na="2761. Créances divers" />
+	<Sub_category Nbc="40" Nb="16" Na="2768. Intérêts courus (à détailler)" />
+	<Sub_category Nbc="40" Nb="17" Na="2790. Versements restant à effectuer sur titres immobilisés non libérés" />
+	<Category Nb="41" Na="28. Ammortissements des immobiloisations" Kd="0" />
+	<Sub_category Nbc="41" Nb="1" Na="2800. Ammortissements des immobilisations incorporelles" />
+	<Sub_category Nbc="41" Nb="2" Na="2801. Frais d&apos;établissement (même ventilation que celle du compte 201)" />
+	<Sub_category Nbc="41" Nb="3" Na="2808. Autres immobilisations incorporelles" />
+	<Sub_category Nbc="41" Nb="4" Na="2810. Ammortissements des immobilisations corporelles" />
+	<Sub_category Nbc="41" Nb="5" Na="2812. Agencememnts, aménagements des terrains (même ventilations que celle du compte 212)" />
+	<Sub_category Nbc="41" Nb="6" Na="2813. Constructions (même ventilation que celle du compte 213)" />
+	<Sub_category Nbc="41" Nb="7" Na="2814. Constructions sur sol d&apos;autrui (même ventilations que celles du comptes 214)" />
+	<Sub_category Nbc="41" Nb="8" Na="2815. Installtions techniques, matériels et outillages industriels (même ventilation que celle du compte 215)" />
+	<Sub_category Nbc="41" Nb="9" Na="2818. Autres immobilisations corporelles (même ventilation que celle du compte 218)" />
+	<Category Nb="42" Na="29. Provision pour dépréciation des immobilisation" Kd="0" />
+	<Sub_category Nbc="42" Nb="1" Na="2900. Provisions pour dépréciations des immobilisations incorporelles" />
+	<Sub_category Nbc="42" Nb="2" Na="2906. Droit au bail" />
+	<Sub_category Nbc="42" Nb="3" Na="2908. Autres immobilisations incorporelles" />
+	<Sub_category Nbc="42" Nb="4" Na="2910. Provisions pour dépréciation des immobilisations corporelles" />
+	<Sub_category Nbc="42" Nb="5" Na="2911. Terrain" />
+	<Sub_category Nbc="42" Nb="6" Na="2960. Provisions pour dépréciations des participations et créances rattachées à des participations" />
+	<Sub_category Nbc="42" Nb="7" Na="2961. Tires de participations" />
+	<Sub_category Nbc="42" Nb="8" Na="2966. Autres formes de participations" />
+	<Sub_category Nbc="42" Nb="9" Na="2967. Créances rattachées à des participations (même ventilations que celles du compte 267)" />
+	<Sub_category Nbc="42" Nb="10" Na="2970. Provisions pour dépréciations des autres immobilisations financières" />
+	<Sub_category Nbc="42" Nb="11" Na="2971. Tires immobilisés (droit de propriété) (même ventilation que celle du compte 271)" />
+	<Sub_category Nbc="42" Nb="12" Na="2972. Titres immobilisés (droit de créances) ( même ventilations que celle compte 272)" />
+	<Sub_category Nbc="42" Nb="13" Na="2974. Prêts (même ventilation que celle du compte 274)" />
+	<Sub_category Nbc="42" Nb="14" Na="2975. Dépôts et cautionnements versés (même ventilation que celle du compte 275)" />
+	<Sub_category Nbc="42" Nb="15" Na="2976. Autres créances immobilisées ( même ventilation que celle du compte 276)" />
+	<Category Nb="43" Na="31. Matières premières et fournitures" Kd="0" />
+	<Sub_category Nbc="43" Nb="1" Na="3110. Matières premières" />
+	<Sub_category Nbc="43" Nb="2" Na="3170. Fournitures" />
+	<Category Nb="44" Na="32. Autres approvisionnements" Kd="0" />
+	<Sub_category Nbc="44" Nb="1" Na="3210. Matières consommables" />
+	<Sub_category Nbc="44" Nb="2" Na="3220. Fournitures consommables" />
+	<Sub_category Nbc="44" Nb="3" Na="3260. Emballages" />
+	<Category Nb="45" Na="33. En-cours de production de biens" Kd="0" />
+	<Sub_category Nbc="45" Nb="1" Na="3310. Produit en cours" />
+	<Sub_category Nbc="45" Nb="2" Na="3350. Travaux en cours" />
+	<Category Nb="46" Na="34. En-cours de production de services" Kd="0" />
+	<Sub_category Nbc="46" Nb="1" Na="3410. Produit en cours" />
+	<Sub_category Nbc="46" Nb="2" Na="3450. Prestations de servevices en cours" />
+	<Category Nb="47" Na="35. Stocks de produits" Kd="0" />
+	<Sub_category Nbc="47" Nb="1" Na="3510. Produits intermédiaires" />
+	<Sub_category Nbc="47" Nb="2" Na="3550. Produit finis" />
+	<Category Nb="48" Na="37. Stocks de marchandises" Kd="0" />
+	<Category Nb="49" Na="39. Provisions pour dépréciations des stocks et en-cours" Kd="0" />
+	<Sub_category Nbc="49" Nb="1" Na="3910. Provision pour dépréciations des matiéres premières et fournitures" />
+	<Sub_category Nbc="49" Nb="2" Na="3920. Provision pour dépréciation  des autres approvisionnement" />
+	<Sub_category Nbc="49" Nb="3" Na="3930. Provision pour dépréciation des en-cours de production de biens" />
+	<Sub_category Nbc="49" Nb="4" Na="3940. Provision pour dépréciation des en-cours de production de services" />
+	<Sub_category Nbc="49" Nb="5" Na="3950. Provision pour dépréciation des stocks de produits" />
+	<Sub_category Nbc="49" Nb="6" Na="3970. Provision pour dépréciation des stocks de marchandises" />
+	<Category Nb="50" Na="40. Fournisseurs et comptes rattachés" Kd="0" />
+	<Sub_category Nbc="50" Nb="1" Na="4010. Fournisseurs" />
+	<Sub_category Nbc="50" Nb="2" Na="4011. Forunisseurs. Achats de biens ou de prestations de services" />
+	<Sub_category Nbc="50" Nb="3" Na="4040. Fournisseurs d&apos;immobilisations" />
+	<Sub_category Nbc="50" Nb="4" Na="4041. Fournisseurs. Achats d&apos;immobilisations" />
+	<Sub_category Nbc="50" Nb="5" Na="4047. Fournisseurs d&apos;immobilisations. Retenues de garantie" />
+	<Sub_category Nbc="50" Nb="6" Na="4080. Fournisseurs. Factures non parvenues" />
+	<Sub_category Nbc="50" Nb="7" Na="4081. Fournisseurs. Achats de biens ou prestations de services" />
+	<Sub_category Nbc="50" Nb="8" Na="4084. Fournisseurs. Achats d&apos;immobilisations" />
+	<Sub_category Nbc="50" Nb="9" Na="4090. Fournisseurs débiteurs" />
+	<Sub_category Nbc="50" Nb="10" Na="4091. Fournisseurs. Avances et acomptes versés sur commandes" />
+	<Sub_category Nbc="50" Nb="11" Na="4096. Fournisserus. Créances pour embalage et matériel à rendre" />
+	<Category Nb="51" Na="41. Usagers et comptes rattachés" Kd="0" />
+	<Sub_category Nbc="51" Nb="1" Na="4110. Usagers ( et organismes de prise en charges)" />
+	<Sub_category Nbc="51" Nb="2" Na="4116. Créances douteuses ou litigieuses" />
+	<Sub_category Nbc="51" Nb="3" Na="4118. Usagers. Produitd non encore facturés" />
+	<Sub_category Nbc="51" Nb="4" Na="4119. Usagers créditeurs" />
+	<Category Nb="52" Na="42. Personnel et comptes rattachés" Kd="0" />
+	<Sub_category Nbc="52" Nb="1" Na="4210. Personnel. Rémunération dues" />
+	<Sub_category Nbc="52" Nb="2" Na="4220. Comités d&apos;entreprise, d&apos;établissement" />
+	<Sub_category Nbc="52" Nb="3" Na="4250. Personnel. Avances et acomptes" />
+	<Sub_category Nbc="52" Nb="4" Na="4270. Personnel. Opposition" />
+	<Sub_category Nbc="52" Nb="5" Na="4280. Personnel. Charges à payer et produits à recevoir" />
+	<Sub_category Nbc="52" Nb="6" Na="4282. Dettes provisionnées pour congés à payer" />
+	<Sub_category Nbc="52" Nb="7" Na="4286. Autres charges à payer" />
+	<Sub_category Nbc="52" Nb="8" Na="4287. Produit à recevoir" />
+	<Category Nb="53" Na="43 Sécurité social et autres organismes sociaux" Kd="0" />
+	<Sub_category Nbc="53" Nb="1" Na="4310. Sécurité sociale" />
+	<Sub_category Nbc="53" Nb="2" Na="4370. Autres organismes sociaux" />
+	<Sub_category Nbc="53" Nb="3" Na="4372. Mutuelles" />
+	<Sub_category Nbc="53" Nb="4" Na="4373. Caisses de retraite et de prévoyance" />
+	<Sub_category Nbc="53" Nb="5" Na="4374. Caisse d&apos;allocation chômage. ASSEDIC" />
+	<Sub_category Nbc="53" Nb="6" Na="4378. Autres organismes sociaux. Divers" />
+	<Sub_category Nbc="53" Nb="7" Na="4380. Organismes sociaux. Charges à payer et produits à recevoir" />
+	<Sub_category Nbc="53" Nb="8" Na="4382. Charges sociales sur congés à payer" />
+	<Sub_category Nbc="53" Nb="9" Na="4386. Autres charges à payer" />
+	<Sub_category Nbc="53" Nb="10" Na="4387. Produits à recevoir" />
+	<Category Nb="54" Na="44. Etat et autres collectivités publiques" Kd="0" />
+	<Sub_category Nbc="54" Nb="1" Na="4410. Etat. Subvention à recevoir" />
+	<Sub_category Nbc="54" Nb="2" Na="4411. Subventions d&apos;investissement" />
+	<Sub_category Nbc="54" Nb="3" Na="4417. Subvention d&apos;exploitation" />
+	<Sub_category Nbc="54" Nb="4" Na="4419. Avances sur subventions" />
+	<Sub_category Nbc="54" Nb="5" Na="4430. Opérations particulières avec l&apos;état, les collectivités publiques, les organismes internationnaux" />
+	<Sub_category Nbc="54" Nb="6" Na="4440. Etat. Impôts sur les bénéfices" />
+	<Sub_category Nbc="54" Nb="7" Na="4445. Etat. Impôts sur les sociétés (organismes sans but lucratif)" />
+	<Sub_category Nbc="54" Nb="8" Na="4450. Etat. taxes sur le chiffre d&apos;affaires" />
+	<Sub_category Nbc="54" Nb="9" Na="4452. TVA due intercommunautaire" />
+	<Sub_category Nbc="54" Nb="10" Na="4455. Taxes sur le chiffre d&apos;affaires à décaisser" />
+	<Sub_category Nbc="54" Nb="11" Na="4456. Taxes sur le chiffres d&apos;affaires déductible" />
+	<Sub_category Nbc="54" Nb="12" Na="44562. TVA sur immobilisation" />
+	<Sub_category Nbc="54" Nb="13" Na="44566. TVA sur autres biens et services" />
+	<Sub_category Nbc="54" Nb="14" Na="44567. Crédit de TVA à reporter" />
+	<Sub_category Nbc="54" Nb="15" Na="4457. Taxes sur le chiffre d&apos;affaires collectés par l&apos;association" />
+	<Sub_category Nbc="54" Nb="16" Na="4458. Taxes sur le chiffre d&apos;affaires à régulariser ou en attente" />
+	<Sub_category Nbc="54" Nb="17" Na="44586. Taxes sur le chiffre d&apos;affaires sur factures non parvenues" />
+	<Sub_category Nbc="54" Nb="18" Na="44587. Taxes sur le chiffre d&apos;affaires sur factures à établir" />
+	<Sub_category Nbc="54" Nb="19" Na="4470. Autres impôts et taxes et versements assimilés" />
+	<Sub_category Nbc="54" Nb="20" Na="4471. Impôts, taxes et versements assimilés sur émunérations ( administration des impôts)" />
+	<Sub_category Nbc="54" Nb="21" Na="44711. Taxes sur les salaires" />
+	<Sub_category Nbc="54" Nb="22" Na="44713. Participation des employeurs à la formation professionnelle continue" />
+	<Sub_category Nbc="54" Nb="23" Na="44714. Cotisation pour défaut d&apos;investissement dans la construction" />
+	<Sub_category Nbc="54" Nb="24" Na="44718. Autres impôts, taxes et versements assimilés" />
+	<Sub_category Nbc="54" Nb="25" Na="4473. Impôts, taxes et versements assimilés sur rémunérations (autres organisme)" />
+	<Sub_category Nbc="54" Nb="26" Na="44733. Participation des employeurs à la formation professionnelle continue" />
+	<Sub_category Nbc="54" Nb="27" Na="44734. Participation des employeurs à l&apos;effort de construction (versement à fond perdu)" />
+	<Sub_category Nbc="54" Nb="28" Na="4475. Autres impôts, taxes et versements assimilés (administration des impôts)" />
+	<Sub_category Nbc="54" Nb="29" Na="4477. AUtres impôts, taxes et versements assimilés (autres organismes)" />
+	<Sub_category Nbc="54" Nb="30" Na="4480. Etat. Charges à payer et produits à recevoir" />
+	<Sub_category Nbc="54" Nb="31" Na="4482. Charges fiscales sur congés à payer" />
+	<Sub_category Nbc="54" Nb="32" Na="4486. Autres charges à payer" />
+	<Sub_category Nbc="54" Nb="33" Na="4487. Produits à recevoir" />
+	<Category Nb="55" Na="45. Confédération, fédération, union, association affiliées" Kd="0" />
+	<Sub_category Nbc="55" Nb="1" Na="4510. Confédération, fédération, associations affiliées. Compte courant" />
+	<Sub_category Nbc="55" Nb="2" Na="4550. Sociétaires. Comptes courants" />
+	<Category Nb="56" Na="46. Débiteurs divers et créditeurs divers" Kd="0" />
+	<Sub_category Nbc="56" Nb="1" Na="4670. Autres comptes débiteurs ou créditeurs" />
+	<Sub_category Nbc="56" Nb="2" Na="4680. Divers. Charges à payer et produits à recevoir" />
+	<Sub_category Nbc="56" Nb="3" Na="4686. Charges à payer" />
+	<Sub_category Nbc="56" Nb="4" Na="4687. Produits à recevoir" />
+	<Category Nb="57" Na="47. Comptes d&apos;attente" Kd="0" />
+	<Sub_category Nbc="57" Nb="1" Na="4710. Recettes à classer" />
+	<Sub_category Nbc="57" Nb="2" Na="4720. Dépences à classer et régulariser" />
+	<Sub_category Nbc="57" Nb="3" Na="4750. Legs et donnations en cours de réalisation" />
+	<Category Nb="58" Na="48. Comptes de régularisation" Kd="0" />
+	<Sub_category Nbc="58" Nb="1" Na="4810. Charges à répartir sur plusieurs exercices" />
+	<Sub_category Nbc="58" Nb="2" Na="4812. Frais d&apos;acquisition des immobilisation" />
+	<Sub_category Nbc="58" Nb="3" Na="4818. Charges à étaler" />
+	<Sub_category Nbc="58" Nb="4" Na="4860. Charges constaté d&apos;avance" />
+	<Sub_category Nbc="58" Nb="5" Na="4870. Produits constatés d&apos;avance" />
+	<Category Nb="59" Na="49. Provision pour dépréciation des comptes de tiers" Kd="0" />
+	<Sub_category Nbc="59" Nb="1" Na="4910. Provision pour dépréciation des comptes d&apos;usagers (et organisme de prise en charge)" />
+	<Sub_category Nbc="59" Nb="2" Na="4960. Provision pour dépréciation des comptes de débiteurs divers" />
+	<Category Nb="60" Na="50. Valeurs mobilières de placement" Kd="1" />
+	<Sub_category Nbc="60" Nb="1" Na="5030. Actions" />
+	<Sub_category Nbc="60" Nb="2" Na="5031. Titres cotés" />
+	<Sub_category Nbc="60" Nb="3" Na="5035. Titres non cotés" />
+	<Sub_category Nbc="60" Nb="4" Na="5060. Obligations" />
+	<Sub_category Nbc="60" Nb="5" Na="5061. Titres cotés" />
+	<Sub_category Nbc="60" Nb="6" Na="5065. Titres non cotés" />
+	<Sub_category Nbc="60" Nb="7" Na="5070. Bons du trésor et bons de caisse à court terme" />
+	<Sub_category Nbc="60" Nb="8" Na="5080. Autres valeurs mobilières et créances assimilées" />
+	<Sub_category Nbc="60" Nb="9" Na="5088. Intérêts courus sur obligations, bons et valeurs assimilés" />
+	<Category Nb="61" Na="51. Banques, établissements financiers et assimilés" Kd="1" />
+	<Sub_category Nbc="61" Nb="1" Na="5110. Valeurs à l&apos;encaissement" />
+	<Sub_category Nbc="61" Nb="2" Na="5120. Banques" />
+	<Sub_category Nbc="61" Nb="3" Na="5130. Caisse des dépôts et consignation" />
+	<Sub_category Nbc="61" Nb="4" Na="5140. Chéques postaux" />
+	<Sub_category Nbc="61" Nb="5" Na="5150. &quot;Caisse&quot; du trésor et des établissement publics" />
+	<Sub_category Nbc="61" Nb="6" Na="5170. Autres organismes financiers" />
+	<Sub_category Nbc="61" Nb="7" Na="5171. Caisse d&apos;épargne" />
+	<Sub_category Nbc="61" Nb="8" Na="5180. Intérêts courus" />
+	<Sub_category Nbc="61" Nb="9" Na="5186. Intérêts couris à payer" />
+	<Sub_category Nbc="61" Nb="10" Na="5187. Intérêts courus à recevoir" />
+	<Sub_category Nbc="61" Nb="11" Na="5190. Concours bancaires courants" />
+	<Sub_category Nbc="61" Nb="12" Na="5198. Intérêts courus sur concours bancaires courants" />
+	<Category Nb="62" Na="53. Caisse" Kd="1" />
+	<Sub_category Nbc="62" Nb="1" Na="5310. Caisse du siège" />
+	<Sub_category Nbc="62" Nb="2" Na="5320. Caisse des leiux d&apos;activités" />
+	<Category Nb="63" Na="54 Régies d&apos;avances et accréditifs" Kd="1" />
+	<Sub_category Nbc="63" Nb="1" Na="5410. Régies d&apos;avances" />
+	<Sub_category Nbc="63" Nb="2" Na="5420. Accréditifs" />
+	<Category Nb="64" Na="58.Virements internes" Kd="1" />
+	<Sub_category Nbc="64" Nb="1" Na="5810. Virements de fonds" />
+	<Category Nb="65" Na="59. Provision pour dépréciation des comptes financiers" Kd="1" />
+	<Sub_category Nbc="65" Nb="1" Na="5900. Provision pour dépréciation des valeurs mobilières de placement" />
+	<Category Nb="66" Na="60. Achat (sauf 603)" Kd="1" />
+	<Sub_category Nbc="66" Nb="1" Na="6010. Achats stockés. Matières premières et fournitures" />
+	<Sub_category Nbc="66" Nb="2" Na="6020. Achats stockés. Autres approvisionnements" />
+	<Sub_category Nbc="66" Nb="3" Na="6021. Matières consommables" />
+	<Sub_category Nbc="66" Nb="4" Na="6022. Fournitures consommables" />
+	<Sub_category Nbc="66" Nb="5" Na="60221. Combustibles" />
+	<Sub_category Nbc="66" Nb="6" Na="60222. Produits d&apos;entretien" />
+	<Sub_category Nbc="66" Nb="7" Na="60223. Fournitures d&apos;atelier" />
+	<Sub_category Nbc="66" Nb="8" Na="60224. Fournitures de magasin" />
+	<Sub_category Nbc="66" Nb="9" Na="60225. Fournitures de bureau" />
+	<Sub_category Nbc="66" Nb="10" Na="6030. Variations de stocks (approvisionnements et marchandises)" />
+	<Sub_category Nbc="66" Nb="11" Na="6031. Variations de stocks de matières premières et fournitures" />
+	<Sub_category Nbc="66" Nb="12" Na="6032. Variations de stocks des autres approvisionnements" />
+	<Sub_category Nbc="66" Nb="13" Na="6037. Variations des stocks de marchandises" />
+	<Sub_category Nbc="66" Nb="14" Na="6040. Achats d&apos;études et de prestation de services" />
+	<Sub_category Nbc="66" Nb="15" Na="6060. Achats non stockés de matières et fournitures" />
+	<Sub_category Nbc="66" Nb="16" Na="6061. Fournitures non stockables (eau, électricité...)" />
+	<Sub_category Nbc="66" Nb="17" Na="6063. Fournitures d&apos;entretiens et de petit équipement" />
+	<Sub_category Nbc="66" Nb="18" Na="6064. Fournitures administratives" />
+	<Sub_category Nbc="66" Nb="19" Na="6068. Autres matières et fournitures" />
+	<Sub_category Nbc="66" Nb="20" Na="6070. Achats de marchandises" />
+	<Sub_category Nbc="66" Nb="21" Na="6071. Marchandises  A" />
+	<Sub_category Nbc="66" Nb="22" Na="6072. Marchandise B" />
+	<Sub_category Nbc="66" Nb="23" Na="6090. Rabais, remises et ristournes obtenus sur achats" />
+	<Category Nb="67" Na="61. Service exterieurs" Kd="1" />
+	<Sub_category Nbc="67" Nb="1" Na="6110. Sous-traitance générale" />
+	<Sub_category Nbc="67" Nb="2" Na="6120. Redevances de crédit-bail" />
+	<Sub_category Nbc="67" Nb="3" Na="6122. Crédit-bail mobilier" />
+	<Sub_category Nbc="67" Nb="4" Na="6125. Crédit-bail immobilier" />
+	<Sub_category Nbc="67" Nb="5" Na="6130. Locations" />
+	<Sub_category Nbc="67" Nb="6" Na="6132. Locations immobilières" />
+	<Sub_category Nbc="67" Nb="7" Na="6135. Locations mobilières" />
+	<Sub_category Nbc="67" Nb="8" Na="6140. Charges locatives et de copropriétè" />
+	<Sub_category Nbc="67" Nb="9" Na="6150. Entretiens et réparations" />
+	<Sub_category Nbc="67" Nb="10" Na="6152. Sur biens immobiliers" />
+	<Sub_category Nbc="67" Nb="11" Na="6155. Sur biens mobiliers" />
+	<Sub_category Nbc="67" Nb="12" Na="6156. Maintenance" />
+	<Sub_category Nbc="67" Nb="13" Na="6160. Primes d&apos;assurance" />
+	<Sub_category Nbc="67" Nb="14" Na="6161. Multirisque" />
+	<Sub_category Nbc="67" Nb="15" Na="6162. Assurance obligatoire dommage-construction" />
+	<Sub_category Nbc="67" Nb="16" Na="6168. Autres assurances" />
+	<Sub_category Nbc="67" Nb="17" Na="6170. Etudes et recherches" />
+	<Sub_category Nbc="67" Nb="18" Na="6180 Divers" />
+	<Sub_category Nbc="67" Nb="19" Na="6181. Documentation générale" />
+	<Sub_category Nbc="67" Nb="20" Na="6183. Documentations technique" />
+	<Sub_category Nbc="67" Nb="21" Na="6185. Frais de colloques, séminaires, conférences" />
+	<Sub_category Nbc="67" Nb="22" Na="6190. Rabais, remises, ristournes obtenus sur services exterieurs" />
+	<Category Nb="68" Na="62. Autres services exterieurs" Kd="1" />
+	<Sub_category Nbc="68" Nb="1" Na="6210. Personnel exterieur à l&apos;association" />
+	<Sub_category Nbc="68" Nb="2" Na="6211. Personnel intérimaire" />
+	<Sub_category Nbc="68" Nb="3" Na="6214. Personnel détaché ou prêté à l&apos;association" />
+	<Sub_category Nbc="68" Nb="4" Na="6220. Rémunérations d&apos;intérimaires et honoraires" />
+	<Sub_category Nbc="68" Nb="5" Na="6226. Honoraires" />
+	<Sub_category Nbc="68" Nb="6" Na="6227. Frais d&apos;actes et de contencieux" />
+	<Sub_category Nbc="68" Nb="7" Na="6230. Publicité, publication, relations publiques" />
+	<Sub_category Nbc="68" Nb="8" Na="6231. Annonces et insertions" />
+	<Sub_category Nbc="68" Nb="9" Na="6233. Foires et expositions" />
+	<Sub_category Nbc="68" Nb="10" Na="6236. Catalogues et imprimés" />
+	<Sub_category Nbc="68" Nb="11" Na="6237. Publications" />
+	<Sub_category Nbc="68" Nb="12" Na="6238. Divers (pourboires, dons courant...)" />
+	<Sub_category Nbc="68" Nb="13" Na="6240. Trasports de biens et transports colletifs de personnels" />
+	<Sub_category Nbc="68" Nb="14" Na="6241. Transports sur achats" />
+	<Sub_category Nbc="68" Nb="15" Na="6242. Transports sur ventes" />
+	<Sub_category Nbc="68" Nb="16" Na="6243. Transports entre établissements" />
+	<Sub_category Nbc="68" Nb="17" Na="6248. Divers" />
+	<Sub_category Nbc="68" Nb="19" Na="6251. Voyages et déplacements" />
+	<Sub_category Nbc="68" Nb="20" Na="6256. Missions" />
+	<Sub_category Nbc="68" Nb="21" Na="6257. Réceptions" />
+	<Sub_category Nbc="68" Nb="23" Na="6261. Liaisons informatiques ou spécialisées" />
+	<Sub_category Nbc="68" Nb="24" Na="6263. Affranchissements" />
+	<Sub_category Nbc="68" Nb="25" Na="6265. Téléphone" />
+	<Sub_category Nbc="68" Nb="26" Na="6270. Services banquaires et assimilés" />
+	<Sub_category Nbc="68" Nb="27" Na="6280. Divers" />
+	<Sub_category Nbc="68" Nb="28" Na="6281. Cotisations (liées à l&apos;activités économique)" />
+	<Sub_category Nbc="68" Nb="29" Na="6284. Frais de recrutement du personnel" />
+	<Sub_category Nbc="68" Nb="30" Na="6290. Rabais, remies, ristournes obtenus sur autres services exterieurs" />
+	<Sub_category Nbc="68" Nb="31" Na="6250. Déplacements, missions et réceptions" />
+	<Sub_category Nbc="68" Nb="33" Na="6260. Frais postaux et frais de télécommunications" />
+	<Category Nb="69" Na="63. Impôts, taxes et versements assimilés" Kd="1" />
+	<Sub_category Nbc="69" Nb="1" Na="6310. Impôts, taxes et versements assimilées sur rémunérations (administration des impôts)" />
+	<Sub_category Nbc="69" Nb="2" Na="6311. Taxes sur salaires" />
+	<Sub_category Nbc="69" Nb="3" Na="6312. Taxe d&apos;apprentissage" />
+	<Sub_category Nbc="69" Nb="4" Na="6313. Participation des employeurs à la formation professionelle continue" />
+	<Sub_category Nbc="69" Nb="5" Na="6314. Cotisation pour défaut d&apos;investissement obligatoire dans la construction" />
+	<Sub_category Nbc="69" Nb="6" Na="6330. Impôts, taxes et versements assimilés sur rémunérations ( autres organismes)" />
+	<Sub_category Nbc="69" Nb="7" Na="6331. Versements de transports" />
+	<Sub_category Nbc="69" Nb="8" Na="6333. Participations des employeurs à la formations professionnellescontinue" />
+	<Sub_category Nbc="69" Nb="9" Na="6334. Participation des employeurs à l&apos;effort de construction (versement à fonds perdu)" />
+	<Sub_category Nbc="69" Nb="10" Na="6335. Versements libératoire donnant droit à l&apos;exonération de la taxe d&apos;apprentissage" />
+	<Sub_category Nbc="69" Nb="11" Na="6350. Autres impôts, taxes et versements assimilés (administrations des impôts)" />
+	<Sub_category Nbc="69" Nb="12" Na="6351. Impôts directs (sauf impôt sur les bénéfices)" />
+	<Sub_category Nbc="69" Nb="13" Na="63512. Taxes foncières" />
+	<Sub_category Nbc="69" Nb="14" Na="62413. Autres impôts locaux" />
+	<Sub_category Nbc="69" Nb="15" Na="63518.Autres impôts directs" />
+	<Sub_category Nbc="69" Nb="16" Na="6352. Taxes sur les chiffres d&apos;affaires non récupérables" />
+	<Sub_category Nbc="69" Nb="17" Na="6353. Impôts indirects" />
+	<Sub_category Nbc="69" Nb="18" Na="6354. Droits d&apos;enregistrement et de timbre" />
+	<Sub_category Nbc="69" Nb="19" Na="6358. Autres droits" />
+	<Sub_category Nbc="69" Nb="20" Na="6370. Autres impôts, taxes et versements assimilés (autres organismes)" />
+	<Category Nb="70" Na="64. Charges de personnel" Kd="1" />
+	<Sub_category Nbc="70" Nb="1" Na="6410. Rémunérations du personnel" />
+	<Sub_category Nbc="70" Nb="2" Na="6411. Salaires et appointements" />
+	<Sub_category Nbc="70" Nb="3" Na="6412. Congés payés" />
+	<Sub_category Nbc="70" Nb="4" Na="6413. Primes et gratifications" />
+	<Sub_category Nbc="70" Nb="5" Na="6414. Indemnités et avantages divers" />
+	<Sub_category Nbc="70" Nb="6" Na="6415. Suppléments familial" />
+	<Sub_category Nbc="70" Nb="7" Na="6450. Charges de sécurité sociale et de prévoyance" />
+	<Sub_category Nbc="70" Nb="8" Na="6451. Cotisations de l&apos;URSSAF" />
+	<Sub_category Nbc="70" Nb="9" Na="6452. Cotisations aux mutuelles" />
+	<Sub_category Nbc="70" Nb="10" Na="6453. Cotisations aux caisses de retraite et de prévoyance" />
+	<Sub_category Nbc="70" Nb="11" Na="6454. Cotisations aux ASSEDIC" />
+	<Sub_category Nbc="70" Nb="12" Na="6458. Cotisations aux autres organismes sociaux" />
+	<Sub_category Nbc="70" Nb="13" Na="6470. Autres charges sociales" />
+	<Sub_category Nbc="70" Nb="14" Na="6472. Versements aux comités d&apos;entreprise et d&apos;établissement" />
+	<Sub_category Nbc="70" Nb="15" Na="6475. Médecine du travail, pharmacie" />
+	<Sub_category Nbc="70" Nb="16" Na="6480. Autres charges de personnel" />
+	<Category Nb="71" Na="65. Autres charges de gestions courante" Kd="1" />
+	<Sub_category Nbc="71" Nb="1" Na="6510. Redevances pour concessions, brevet, licences, marques, procédés" />
+	<Sub_category Nbc="71" Nb="2" Na="6516. Droits d&apos;auteur et de reproduction (SACEM)" />
+	<Sub_category Nbc="71" Nb="3" Na="6518. Autres droits et valeurs similaires" />
+	<Sub_category Nbc="71" Nb="4" Na="6540. Pertes sur créances irrécouvrables" />
+	<Sub_category Nbc="71" Nb="5" Na="6541. Créances de l&apos;exercice" />
+	<Sub_category Nbc="71" Nb="6" Na="6544. Créances des exercices antérieurs" />
+	<Sub_category Nbc="71" Nb="7" Na="6550. Qoute-part de résultat sur opération faites en commun" />
+	<Sub_category Nbc="71" Nb="8" Na="6570. Subventions versées par l&apos;association" />
+	<Sub_category Nbc="71" Nb="9" Na="6571. Bourses accordées aux usagers" />
+	<Sub_category Nbc="71" Nb="10" Na="6580. Charges divers de gestion courante" />
+	<Sub_category Nbc="71" Nb="12" Na="6680. Autres charges financières" />
+	<Sub_category Nbc="71" Nb="13" Na="6586. Cotisations (liées à la vie statutaire)" />
+	<Category Nb="72" Na="66. Charges financières" Kd="1" />
+	<Sub_category Nbc="72" Nb="1" Na="6610. Charges d&apos;intérêts" />
+	<Sub_category Nbc="72" Nb="2" Na="6611. Intérêts des emprunts et dettes" />
+	<Sub_category Nbc="72" Nb="3" Na="6616. Intérêts bancaires" />
+	<Sub_category Nbc="72" Nb="4" Na="6618. Intérêts des autres dettes" />
+	<Sub_category Nbc="72" Nb="5" Na="6660. Pertes de change" />
+	<Sub_category Nbc="72" Nb="6" Na="6670. Charges nettes sur cessions de valeurs immobilières de placement" />
+	<Sub_category Nbc="72" Nb="8" Na="6680. Autres charges financières" />
+	<Category Nb="73" Na="67. Charges exceptionnelles" Kd="1" />
+	<Sub_category Nbc="73" Nb="1" Na="6710. Charges exeptionnelles sur opérations de gestion" />
+	<Sub_category Nbc="73" Nb="2" Na="6712. Pénalités et amendes fiscales ou pénales" />
+	<Sub_category Nbc="73" Nb="3" Na="6713. Dons, libéralités" />
+	<Sub_category Nbc="73" Nb="4" Na="6714. Créances devenues irrécouvrables dans l&apos;exercice" />
+	<Sub_category Nbc="73" Nb="5" Na="6717. Rappel d&apos;impôts (autres qu&apos;impôts sur les bénéfices)" />
+	<Sub_category Nbc="73" Nb="6" Na="6718. Autres charges exeptionnelles sur opérations de gestion" />
+	<Sub_category Nbc="73" Nb="7" Na="6720. Charges sur exercices antérieurs ( à reclasser)" />
+	<Sub_category Nbc="73" Nb="8" Na="6750. Valeurs comptables des éléments d&apos;actif cédés" />
+	<Sub_category Nbc="73" Nb="9" Na="6751. Immobilisations incorporelles" />
+	<Sub_category Nbc="73" Nb="10" Na="6752. Immobilisations corporelles" />
+	<Sub_category Nbc="73" Nb="11" Na="6756. Immobilisations financières" />
+	<Sub_category Nbc="73" Nb="12" Na="6780. Autres charges exeptionnelles" />
+	<Category Nb="74" Na="68. Dotations aux ammortissements, provision et engagements" Kd="1" />
+	<Sub_category Nbc="74" Nb="1" Na="6810. Dotations aux ammortissements et aux provisions. Charges d&apos;exploitation" />
+	<Sub_category Nbc="74" Nb="2" Na="6811. Dotations aux ammortissements des immobilisations incorporelles et corporelles" />
+	<Sub_category Nbc="74" Nb="3" Na="68111. Immobilisations incorporelles" />
+	<Sub_category Nbc="74" Nb="4" Na="68112. Immobilisations corporelles" />
+	<Sub_category Nbc="74" Nb="5" Na="6812. Dotations aux ammortissements des charges d&apos;exploitation à répartir" />
+	<Sub_category Nbc="74" Nb="6" Na="6815. Dotations aux provisions, pour risque et charges d&apos;exploitation" />
+	<Sub_category Nbc="74" Nb="7" Na="6816. Dotationsaux provisions pour dépréciation des immobilisations incorporelles et corporelles" />
+	<Sub_category Nbc="74" Nb="8" Na="68161. Immobilisations incorporelles" />
+	<Sub_category Nbc="74" Nb="9" Na="68162. Immobilisations corporelles" />
+	<Sub_category Nbc="74" Nb="10" Na="6817. Dotations aux provisions pour dépréciation des actifs circulants" />
+	<Sub_category Nbc="74" Nb="11" Na="6860. Dotations aux ammortissements et aux provisions. Charges financières" />
+	<Sub_category Nbc="74" Nb="12" Na="6866. Dotation aux provisions pour dépréciations des éléments financiers" />
+	<Sub_category Nbc="74" Nb="13" Na="68662. Immobilisations financières" />
+	<Sub_category Nbc="74" Nb="14" Na="68665. Valeurs mobilières de placement" />
+	<Sub_category Nbc="74" Nb="15" Na="6870. Dotations aux ammortissements et aux provisions. Charges exeptionnelles" />
+	<Sub_category Nbc="74" Nb="16" Na="6871. Dotations aux ammortissements exceptionnelles des immobilisations" />
+	<Sub_category Nbc="74" Nb="17" Na="6876. Dotations aux ammortissements pour dépréciation exceptionnelles" />
+	<Sub_category Nbc="74" Nb="18" Na="6890. Engagements à réaliser sur ressources affectées" />
+	<Sub_category Nbc="74" Nb="19" Na="6894. Engagements à réaliser sur subventions attribuées" />
+	<Sub_category Nbc="74" Nb="20" Na="6895. Engagements à réaliser sur dons manuels affectés" />
+	<Sub_category Nbc="74" Nb="21" Na="6897. Engagements à réaliser sur legs et donations affectés" />
+	<Category Nb="75" Na="69. Impôts sur les bénéfices" Kd="1" />
+	<Sub_category Nbc="75" Nb="1" Na="6950. Impôts sur les bénéfices" />
+	<Sub_category Nbc="75" Nb="2" Na="6910. Participations des salariès aux résultats" />
+	<Sub_category Nbc="75" Nb="3" Na="69511. Impôts sur les sociétés des personnes morales non lucratives" />
+	<Sub_category Nbc="75" Nb="4" Na="69512. Impôts sur les sociétés de droit commun" />
+	<Sub_category Nbc="75" Nb="5" Na="6952. Contributions additionnelles à l&apos;impôts sur les bénéfices" />
+	<Sub_category Nbc="75" Nb="6" Na="6970. Imposition forfaitaire et annuelle (IFA)" />
+	<Category Nb="76" Na="70. Ventes de produits finis, prestations de services, marchandises" Kd="0" />
+	<Sub_category Nbc="76" Nb="1" Na="7010. Ventes de produits finis" />
+	<Sub_category Nbc="76" Nb="2" Na="7050. Etudes" />
+	<Sub_category Nbc="76" Nb="3" Na="7060. Prestations de services" />
+	<Sub_category Nbc="76" Nb="5" Na="7080. Produits des activités annexes" />
+	<Sub_category Nbc="76" Nb="6" Na="7081. Produits des prestations fournies au personnel" />
+	<Sub_category Nbc="76" Nb="7" Na="7083. Locations divers" />
+	<Sub_category Nbc="76" Nb="8" Na="7084. Mise à disposition de personnel facturée" />
+	<Sub_category Nbc="76" Nb="9" Na="7088. Autres produits d&apos;activités annexes" />
+	<Sub_category Nbc="76" Nb="10" Na="7090. Rabais, remises et ristournes accordées par l&apos;association" />
+	<Sub_category Nbc="76" Nb="11" Na="7070. Ventes de marchandises" />
+	<Category Nb="77" Na="71. Production stockée (ou destockage)" Kd="0" />
+	<Sub_category Nbc="77" Nb="1" Na="7130. Variations de stock (en-cours de production, produits)" />
+	<Sub_category Nbc="77" Nb="2" Na="7133. Variations des en-cours de production de biens" />
+	<Sub_category Nbc="77" Nb="3" Na="7134. Variations des en-cours de productions de services" />
+	<Sub_category Nbc="77" Nb="4" Na="7135. Variations des stocks de produits" />
+	<Category Nb="78" Na="72. Production immobilisée" Kd="0" />
+	<Category Nb="79" Na="74. Subvention d&apos;exploitation" Kd="0" />
+	<Category Nb="80" Na="75. Autres produits de gestion courante" Kd="0" />
+	<Sub_category Nbc="80" Nb="1" Na="7510. Redevances pour concessions, brevets, licences, marques, procédés, droits et valeurs similaires" />
+	<Sub_category Nbc="80" Nb="2" Na="7520. Revenues des immeubles non affectés aux activités de l&apos;association" />
+	<Sub_category Nbc="80" Nb="3" Na="7540. Collectes" />
+	<Sub_category Nbc="80" Nb="4" Na="7560. Cotisations" />
+	<Sub_category Nbc="80" Nb="5" Na="7570. Quote-part d&apos;éléments du fond associatif virée au compte de résultat" />
+	<Sub_category Nbc="80" Nb="6" Na="7571. Quote part de subventions d&apos;investissement (renouvelables) virée au compte de résultat" />
+	<Sub_category Nbc="80" Nb="7" Na="7573. Quote-part des apports virés au compte de résultat" />
+	<Sub_category Nbc="80" Nb="8" Na="7580. Produits divers de gestion courante" />
+	<Sub_category Nbc="80" Nb="9" Na="7581. Dons manuels non affectés" />
+	<Sub_category Nbc="80" Nb="10" Na="7582. Dons manuels affectés" />
+	<Sub_category Nbc="80" Nb="11" Na="7585. Legs et donations non affectés" />
+	<Sub_category Nbc="80" Nb="12" Na="7586. Legs et donations affectés" />
+	<Sub_category Nbc="80" Nb="13" Na="7587. Ventes de dons en nature" />
+	<Sub_category Nbc="80" Nb="14" Na="7588. Autres produits de la générosité publique" />
+	<Category Nb="81" Na="76. Produits financiers" Kd="0" />
+	<Sub_category Nbc="81" Nb="1" Na="7610. Produits des participations" />
+	<Sub_category Nbc="81" Nb="2" Na="7620. Produits des autres immobilisations financières" />
+	<Sub_category Nbc="81" Nb="3" Na="7621. Revenus des titres immobilisés" />
+	<Sub_category Nbc="81" Nb="4" Na="7624. Revenus des prêts" />
+	<Sub_category Nbc="81" Nb="5" Na="7640. Revenues des valeurs mobilières de placements" />
+	<Sub_category Nbc="81" Nb="6" Na="7650. Escomptes obtenus" />
+	<Sub_category Nbc="81" Nb="7" Na="7660. Gains de change" />
+	<Sub_category Nbc="81" Nb="8" Na="7670. Produits nets sur cession de valeurs mobilières de placement" />
+	<Sub_category Nbc="81" Nb="9" Na="7680. Autres produits financiers" />
+	<Sub_category Nbc="81" Nb="10" Na="7681. Intérêts des comptes financiers débiteurs" />
+	<Category Nb="82" Na="77. Produits exceptionnels" Kd="0" />
+	<Sub_category Nbc="82" Nb="1" Na="7710. Produits exceptionnels sur opération de gestion" />
+	<Sub_category Nbc="82" Nb="2" Na="7713. Libérabilités perçues" />
+	<Sub_category Nbc="82" Nb="3" Na="7714. Rentrées sur créances amorties" />
+	<Sub_category Nbc="82" Nb="4" Na="7715. Subvention d&apos;équilibre" />
+	<Sub_category Nbc="82" Nb="5" Na="7717. Dégrèvements d&apos;impôts (autres qu&apos;impôts sue les bénéfices)" />
+	<Sub_category Nbc="82" Nb="6" Na="7718. Autres produits exceptionnels sur opérations de gestion" />
+	<Sub_category Nbc="82" Nb="7" Na="7720. Produits sur exercices antérieurs (à reclaser)" />
+	<Sub_category Nbc="82" Nb="8" Na="7750. Produits de cessions d&apos;éléments d&apos;actif" />
+	<Sub_category Nbc="82" Nb="9" Na="7751. Immobilisations incorporelles" />
+	<Sub_category Nbc="82" Nb="10" Na="7752. Immobilisations corporelles" />
+	<Sub_category Nbc="82" Nb="11" Na="7756. Immobilisations financières" />
+	<Sub_category Nbc="82" Nb="12" Na="7770. Quote-part des subventions d&apos;investissement virée au résultat de l&apos;exercice" />
+	<Sub_category Nbc="82" Nb="13" Na="7780. Autres produits exceptionnels" />
+	<Category Nb="83" Na="78. Reprise sur amortissements et provisions" Kd="0" />
+	<Sub_category Nbc="83" Nb="1" Na="7810. Reprise sur amoratissements et provisions (à inscrire dans les produits d&apos;exploitation)" />
+	<Sub_category Nbc="83" Nb="2" Na="7811. Reprise sur amortissement et provisions des immobilisations incorporelles et corporelles" />
+	<Sub_category Nbc="83" Nb="3" Na="7815. Reprise surprovision pour risques et charges d&apos;exploitation" />
+	<Sub_category Nbc="83" Nb="4" Na="7816. Reprise sur provisions pour dépréciation des immobilisations incorporelles et corporelles" />
+	<Sub_category Nbc="83" Nb="5" Na="78161. Immobilisations incorporelles" />
+	<Sub_category Nbc="83" Nb="6" Na="78162. Immobilisation corporelles" />
+	<Sub_category Nbc="83" Nb="7" Na="7817. Reprise sur provisions pour dépréciation des actifs circulants" />
+	<Sub_category Nbc="83" Nb="8" Na="7860. Reprise sur provisions ( à inscrire dans les produits exceptionnels)" />
+	<Sub_category Nbc="83" Nb="9" Na="7866. Reprise sur provision pour dépréciation des éléments financiers" />
+	<Sub_category Nbc="83" Nb="10" Na="78662. Immobilisations financières" />
+	<Sub_category Nbc="83" Nb="11" Na="78665. Valeurs mobilières de placement" />
+	<Sub_category Nbc="83" Nb="12" Na="7870. Reprise sur provisions ( à inscrire dans les produits exceptionnels)" />
+	<Sub_category Nbc="83" Nb="13" Na="7876. Reprise sur provision pour dépréciation exceptionnelles" />
+	<Sub_category Nbc="83" Nb="14" Na="7890. Report des ressources non utilisées des exercices antérieurs" />
+	<Sub_category Nbc="83" Nb="15" Na="7894. Reports des ressources non utilisées sur subventions attribées" />
+	<Sub_category Nbc="83" Nb="16" Na="7895. Reports des ressources non utilisées sur dons manuels reçus" />
+	<Sub_category Nbc="83" Nb="17" Na="7897. Report des ressources non utilisées sur legs et donations affectées" />
+	<Category Nb="84" Na="79. Transferts de charges" Kd="0" />
+	<Sub_category Nbc="84" Nb="1" Na="7910. Transferts de charges d&apos;exploitation" />
+	<Sub_category Nbc="84" Nb="2" Na="7960. Transferts des charges financières" />
+	<Sub_category Nbc="84" Nb="3" Na="7970. Transferts de charges exceptionnelles" />
+	<Category Nb="85" Na="86. Répartition par nature de charges" Kd="0" />
+	<Sub_category Nbc="85" Nb="1" Na="8600. Secours en nature" />
+	<Sub_category Nbc="85" Nb="2" Na="8601. Alimentaires" />
+	<Sub_category Nbc="85" Nb="3" Na="8602. Vestimentaires" />
+	<Sub_category Nbc="85" Nb="4" Na="8610. Mise à disposition gratuite de biens" />
+	<Sub_category Nbc="85" Nb="5" Na="8611. Locaux" />
+	<Sub_category Nbc="85" Nb="6" Na="8612. Matériels" />
+	<Sub_category Nbc="85" Nb="7" Na="8620. Prestations" />
+	<Sub_category Nbc="85" Nb="8" Na="8640. Personnel bénévole" />
+	<Category Nb="86" Na="87. Répartition par nautre des ressources" Kd="0" />
+	<Sub_category Nbc="86" Nb="1" Na="8700. Bénévolat" />
+	<Sub_category Nbc="86" Nb="2" Na="8710. Prestation en nature" />
+	<Sub_category Nbc="86" Nb="3" Na="8750. Dons en nature" />
 </Grisbi_categ>

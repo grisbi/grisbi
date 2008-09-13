@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<Grisbi_categ>
+	<General
+		File_version="0.6.0"
+		Grisbi_version="0.6.0" 
+		Title="Liste vide"
+		Description="Aucune catégorie définie."/>
+</Grisbi_categ>
