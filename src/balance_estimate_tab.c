@@ -213,12 +213,12 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 		if (previous == NULL)
 		{
 			widget = gtk_radio_button_new_with_label(NULL,
-				bet_duration_array[iduration]);
+				_(bet_duration_array[iduration]));
 			previous = widget;
 		} else {
 			widget = gtk_radio_button_new_with_label_from_widget(
 				GTK_RADIO_BUTTON(previous),
-				bet_duration_array[iduration]);
+				_(bet_duration_array[iduration]));
 		}
 		gtk_widget_show(GTK_WIDGET(widget));
 		gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(widget), FALSE, FALSE, 5);
@@ -229,7 +229,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	}
 
 	/****** Estimation array page ******/
-	widget = gtk_label_new("Estimate array");
+	widget = gtk_label_new(_("Estimate array"));
 	gtk_widget_show(widget);
 	vbox = gtk_vbox_new(FALSE, 5);
 	gtk_widget_show(GTK_WIDGET(vbox));
@@ -237,7 +237,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 		GTK_WIDGET(vbox), GTK_WIDGET(widget));
 
 	/* create the title */
-	widget = gtk_label_new(_("Estimation array"));
+	widget = gtk_label_new("Estimation array");
 	gtk_widget_show(GTK_WIDGET(widget));
 	gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(widget), FALSE, FALSE, 5);
     	g_object_set_data (G_OBJECT(notebook), "bet_array_title", widget);
@@ -335,7 +335,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	gtk_tree_view_column_set_expand(GTK_TREE_VIEW_COLUMN(column), FALSE);
 
 	/****** Estimation graph page ******/
-	widget = gtk_label_new("Estimation graph");
+	widget = gtk_label_new(_("Estimation graph"));
 	gtk_widget_show(widget);
 	vbox = gtk_vbox_new(FALSE, 5);
 	gtk_widget_show(GTK_WIDGET(vbox));
@@ -343,7 +343,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 		GTK_WIDGET(vbox), GTK_WIDGET(widget));
 
 	/* create the title */
-	widget = gtk_label_new(_("Estimation graph"));
+	widget = gtk_label_new("Estimation graph");
 	gtk_widget_show(GTK_WIDGET(widget));
 	gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(widget), FALSE, FALSE, 5);
     	g_object_set_data (G_OBJECT(notebook), "bet_graph_title", widget);
