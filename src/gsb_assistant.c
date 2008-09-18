@@ -217,7 +217,7 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 	gint current = gtk_notebook_get_current_page ( GTK_NOTEBOOK(notebook) );
 	gint result, prev, next;
 
-        gchar* tmpstr = g_strdup_printf ( "%s (%d of %d)", 
+        gchar* tmpstr = g_strdup_printf ( _("%s (%d of %d)"), 
 						 (gchar *) g_object_get_data ( G_OBJECT(assistant),
 									       "title" ),
 						 current + 1,

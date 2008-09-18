@@ -376,7 +376,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
 
     paddingbox = new_paddingbox_with_title ( page, FALSE,
-					     COLON("Fill the fields and click the button \"Create the new reconcile\""));
+					     COLON(_("Fill the fields and click the button \"Create the new reconcile\"")));
 
     /* create the table, this is the same as the reconcile config,
      * but here it's to create new ones */

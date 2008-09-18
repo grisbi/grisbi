@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-13 22:06+0200\n"
-"PO-Revision-Date: 2008-09-14 11:46+0200\n"
+"POT-Creation-Date: 2008-09-16 20:24+0200\n"
+"PO-Revision-Date: 2008-09-18 20:19+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -241,7 +241,7 @@ msgstr "Details einer Buchung bei Selektion im Buchungsformular anzeigen"
 
 #: src/affichage_liste.c:280
 msgid "Account differentiation"
-msgstr "Konten Einstellungen"
+msgstr "Kontospezifische Einstellungen"
 
 #: src/affichage_liste.c:283
 msgid "Remember display settings for each account separately"
@@ -777,7 +777,7 @@ msgid ""
 "choose another name."
 msgstr ""
 "Sie haben versucht %s in '%s' umzubenennen, jedoch ist %s bereits "
-"vorhanden.  Bitte wählen Sie einen anderen Namen."
+"vorhanden.  Bitte wählen Sie einen anderen Namen aus."
 
 #: src/categories_onglet.c:687 src/categories_onglet.c:689
 #: src/etats_config.c:4949 src/etats_config.c:6713
@@ -826,12 +826,11 @@ msgid ""
 "I repeat: if you ever forget your password, there is no coming back, we "
 "cannot help you."
 msgstr ""
-"Grisbi verwendet zum Verschlüsseln eine Methode, die ohne Passwort eine "
+"Grisbi verwendet zum Verschlüsseln eine Methode welche ohne Passwort eine "
 "Wiederherstellung nicht zulässt.  Wenn Sie das Passwort vergessen, können "
 "Sie nicht mehr auf die Daten zugreifen.\n"
 "\n"
-"Bitte beachten Sie, ohne Passwort ist ein Zugriff auf die Daten nicht "
-"möglich."
+"Bitte beachten Sie, ohne Passwort ist ein Zugriff auf die Daten nicht mehr möglich."
 
 #: src/dialog.c:64
 msgid "Account file is world readable."
@@ -843,7 +842,7 @@ msgid ""
 "should change its permissions.\n"
 "Should this be fixed now?"
 msgstr ""
-"Ihre Grisbi Datei sollte nicht von jedem gelesen werden können. Die "
+"Ihre Grisbi-Datei sollte nicht von jedem gelesen werden können. Die "
 "Berechtigungen sollten geändert werden.\n"
 "Soll diese Änderung durchgeführt werden?"
 
@@ -899,11 +898,11 @@ msgstr ""
 
 #: src/dialog.c:84
 msgid "No inconsistency found."
-msgstr "Keine Inkonsistenz gefunden."
+msgstr "Keine Inkonsistenzen gefunden."
 
 #: src/dialog.c:85
 msgid "Grisbi found no known inconsistency in accounts processed."
-msgstr "Keine Inkonsistenz gefunden."
+msgstr "Es wurden keine Inkonsistenzen in den geprüften Konten gefunden."
 
 #: src/dialog.c:88
 msgid "Reconcile start and end dates."
@@ -959,7 +958,7 @@ msgid ""
 "file in case Grisbi would corrupt files."
 msgstr ""
 "Es ist ein interner Fehler aufgetreten, Speichern Sie alle Änderungen in "
-"eine neuen Datei."
+"einer neuen Datei."
 
 #: src/dialog.c:574
 msgid "Cannot allocate memory"
@@ -980,7 +979,7 @@ msgstr "Datei speichern"
 #: src/erreur.c:119
 #, c-format
 msgid "Grisbi made a backup file at '%s'."
-msgstr "Grisbi hat eine Sicherung in folgendem Verzeichnis %s erstellt."
+msgstr "Grisbi hat eine Sicherung im Verzeichnis '%s' erstellt."
 
 #: src/erreur.c:128
 msgid "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
@@ -989,7 +988,7 @@ msgstr "Bitte den Fehler unter <tt>http://www.grisbi.org/bugtracking/</tt>. meld
 #: src/erreur.c:134
 msgid "Copy and paste the following backtrace with your bug report."
 msgstr ""
-"Die Ausgabe des \"Backtrace\" mitKopieren und Einfügen zum Fehlerbericht "
+"Die Ausgabe vom \"Backtrace\" mitKopieren und Einfügen zum Fehlerbericht "
 "hinzufügen."
 
 #: src/erreur.c:140
@@ -1477,7 +1476,7 @@ msgstr "Datum"
 
 #: src/etats_config.c:495 src/etats_config.c:498 src/etats_config.c:2725
 msgid "Transfers"
-msgstr "Buchungen"
+msgstr "Umbuchungen"
 
 #. mise en place de la paddingbox des comptes
 #: src/etats_config.c:504 src/etats_config.c:507 src/etats_config.c:7097
@@ -1515,7 +1514,7 @@ msgstr "Verschiedenes"
 
 #: src/etats_config.c:570 src/etats_config.c:6180
 msgid "Miscellaneous"
-msgstr "Abstimmungen"
+msgstr "Verschiedenes"
 
 #: src/etats_config.c:578 src/etats_config.c:6259 src/etats_config.c:6377
 msgid "Data organization"
@@ -1599,8 +1598,8 @@ msgid ""
 "All methods of payment have been selected.  Grisbi will run faster without "
 "the \"Detail methods of payment used\" option activated."
 msgstr ""
-"Es wurden alle Zahlungsweisen ausgewählt. Grisbi wird schneller seinohne der "
-"\"Details Zahlungsweisen \" Einstellung."
+"Es wurden alle Zahlungsweisen ausgewählt. Grisbi wird schneller sein\n"
+"ohne der \"Details Zahlungsweisen \" Einstellung."
 
 #: src/etats_config.c:2046
 msgid "Date selection"
@@ -1978,11 +1977,11 @@ msgstr "abgestimmte Buchungen"
 
 #: src/etats_config.c:6229
 msgid "Breakdown of transactions detail"
-msgstr "Detailinformationen bei abgestimmten Buchungen"
+msgstr "Detailinformationen bei Splittbuchungen"
 
 #: src/etats_config.c:6231
 msgid "Do not detail breakdown of transactions"
-msgstr "Keine Detailinformationen bei abgestimmten Buchungen"
+msgstr "Keine Detailinformationen bei Splittbuchungen"
 
 #. choix de ce qu'on utilise dans le classement
 #: src/etats_config.c:6264
@@ -2271,7 +2270,7 @@ msgid ""
 "See console output for details.  Be sure you have installed LaTeX properly "
 "with unicode support."
 msgstr ""
-"In der Konsole sind mehr Details ersichtlich.  Bitte prüfen Sie, ob LaTex "
+"In der Konsole sind mehr Details ersichtlich.  Bitte prüfen Sie ob LaTex "
 "mit Unicode Unterstützung installiert wurde."
 
 #: src/etats_latex.c:355
@@ -2396,8 +2395,8 @@ msgid ""
 "default, all accounts are selected."
 msgstr ""
 "Dieser Bericht zeigt die Einnahmen und Ausgaben des letzten Monats an. "
-"DieSortierung erfolgt nach Kategorien und Unterkategorien. Es müssen nur "
-"dieKonten ausgewählt werden, in der Vorlage sind alle Konten ausgewählt."
+"Die Sortierung erfolgt nach Kategorien und Unterkategorien. Es müssen nur "
+"die Konten ausgewählt werden, in der Vorlage sind alle Konten ausgewählt."
 
 #. revenus et dÃ©penses du mois en cours
 #: src/etats_onglet.c:962
@@ -2407,8 +2406,8 @@ msgid ""
 "default, all accounts are selected."
 msgstr ""
 "Dieser Bericht zeigt die Einnahmen und Ausgaben des aktuellen Monats an. "
-"DieSortierung erfolgt nach Kategorien und Unterkategorien. Es müssen nur "
-"dieKonten ausgewählt werden, in der Vorlage sind alle Konten ausgewählt."
+"Die Sortierung erfolgt nach Kategorien und Unterkategorien. Es müssen nur "
+"die Konten ausgewählt werden, in der Vorlage sind alle Konten ausgewählt."
 
 #. budget annuel
 #: src/etats_onglet.c:968
@@ -2417,8 +2416,8 @@ msgid ""
 "By default all accounts are selected."
 msgstr ""
 "Dieser Bericht zeigt die Einnahmen und Ausgaben des aktuellen Jahres an. "
-"DieSortierung erfolgt nach Kategorien und Unterkategorien. Es müssen nur "
-"dieKonten ausgewählt werden, in der Vorlage sind alle Konten ausgewählt."
+"Die Sortierung erfolgt nach Kategorien und Unterkategorien. Es müssen nur "
+"die Konten ausgewählt werden, in der Vorlage sind alle Konten ausgewählt."
 
 #. etat vierge
 #: src/etats_onglet.c:974
@@ -2433,7 +2432,7 @@ msgid ""
 "This report displays the cheques deposit. You just need to select the account"
 "(s). By default all accounts are selected."
 msgstr ""
-"Dieser Bericht zeigt die Einreichung von Schecks an. Es müssen nur dieKonten "
+"Dieser Bericht zeigt die Einreichung von Schecks an. Es müssen nur die Konten "
 "ausgewählt werden, in der Vorlage sind alle Konten ausgewählt."
 
 #. dÃ©penses mensuelles par tiers
@@ -2442,7 +2441,7 @@ msgid ""
 "This report displays current month's outgoings sorted by payees. You just "
 "need to select the account(s). By default all accounts areselected."
 msgstr ""
-"Dieser Bericht zeigt Ausgaben des aktuellen Monats an. Die Sortierungerfolgt "
+"Dieser Bericht zeigt Ausgaben des aktuellen Monats an. Die Sortierung erfolgt "
 "nach Empfänger. Es müssen nur die Konten ausgewählt werden, in derVorlage "
 "sind alle Konten ausgewählt."
 
@@ -2455,7 +2454,7 @@ msgid ""
 msgstr ""
 "Dieser Bericht zeigt alle Einnahmen und Ausgaben des aktuellen Jahres an.Sie "
 "können den Bericht noch individuell anpassen, in der Vorlage sind "
-"alleBuchungen auswählbar."
+"alle Buchungen auswählbar."
 
 #: src/etats_onglet.c:997
 msgid "???? should not be displayed..."
@@ -2591,7 +2590,8 @@ msgid ""
 "As QIF and CSV do not support currencies, all transactions will be converted "
 "into currency of their respective account."
 msgstr ""
-"Dieser Assistent wird Sie beim Export von Daten in Csv oder Qif Dateien unterstützen.\n"
+"Dieser Assistent wird Sie beim Export von Daten in Csv oder Qif Dateien "
+"unterstützen.\n"
 "\n"
 "Qif oder Csv Dateien unterstützen keine Währungen, alle Buchungen werden in "
 "die Währung des dazugehörigen Kontos konvertiert."
@@ -2614,7 +2614,7 @@ msgid ""
 "You have successfully set up data export into Grisbi.  Press the 'Close' "
 "button to actually export data."
 msgstr ""
-"Sie haben die Einstellungen für den Export festgelegt.\n"
+"Die Einstellungen für den Export sind festgelegt.\n"
 "Bitte 'Schließen' auswählen um die Daten zu exportieren."
 
 #: src/export.c:283
@@ -3203,7 +3203,7 @@ msgstr "Kontoinhaber Name"
 #. now the checkbutton for different address
 #: src/gsb_account_property.c:245
 msgid "Holder's own address"
-msgstr "Kontoinhaber Adresse :"
+msgstr "Kontoinhaber Adresse"
 
 #. ligne de l'Ã©tablissement financier
 #: src/gsb_account_property.c:278 src/gsb_bank.c:506
@@ -3267,14 +3267,14 @@ msgid ""
 "Archived and reconcilied transactions will be left unmodified."
 msgstr ""
 "Sie ändern die Währung eines Kontos, soll die Währung der Buchungen des "
-"Kontos ebenfalls geändert werden?\\(bei der Auswahl von \"Ja\" wird für alle "
-"Buchungen die Währung von %s nach %s geändert. Alle Buchungen mit anderen "
-"Währungen werden nicht geändert).\n"
+"Kontos ebenfalls geändert werden?\n"
+"(bei der Auswahl von 'Ja' wird für alle Buchungen die Währung von %s nach %s geändert. Alle Buchungen mit anderen Währungen werden nicht geändert).\n"
+"\n"
 "Archivierte und abgestimmte Buchungen werden dadurch nicht verändert."
 
 #: src/gsb_account_property.c:666
 msgid "Change the transactions currency"
-msgstr "Die Währung der Buchung ändern"
+msgstr "Die Währung der Buchungen ändern"
 
 #. create the page
 #: src/gsb_archive_config.c:112 src/parametres.c:462
@@ -3375,9 +3375,13 @@ msgid ""
 "This assistant will help you to create a new account.\n"
 "All that you do here can be changed later in the account configuration page."
 msgstr ""
-"Dieser Assistent wird Sie bei der Erstellung und Konfiguration von einem "
-"Konto unterstützen.\n"
-"Die Einstellungen können jederzeit nachträglich beim Konto geändert werden."
+"Dieser Assistent wird Sie bei der Erstellung und Konfiguration von Konten "
+"unterstützen.\n"
+"\n"
+"Die Konfiguration von einem Konto kann jederzeit nachträglich im Dialog "
+"'Eigenschaften' geändert werden.\n"
+"In diesem Dialog gibt es desweiteren zusätzliche Konfigurationsparameter für "
+"das Konto."
 
 #: src/gsb_assistant_account.c:147
 msgid ""
@@ -3422,9 +3426,8 @@ msgid ""
 "The account will be created with default payment methods chosen according to "
 "your choice.\n"
 msgstr ""
-"Die Kontoart auswählen.\n"
-"Das Konto wird mit den entsprechenden Zahlungsweisen - abhängig von Ihrer "
-"Auswahl angelegt.\n"
+"Die Kontoart auswählen, das Konto wird je nach Auswahl mit den "
+"entsprechenden Zahlungsweisen angelegt.\n"
 
 #. choose the currency
 #: src/gsb_assistant_account.c:224
@@ -3454,13 +3457,17 @@ msgid ""
 "More options are available in the account configuration page once you "
 "created it.\n"
 msgstr ""
-"Sie haben die Einstellungen für das Konto festgelegt.\n"
+"Die notwendigen Konfigurationsparameter für das Konto sind vorhanden.\n"
+"\n"
 "Das Konto kann nach der Eingabe von einem Namen erstellt werden.\n"
-"Weitere Einstellungen für das Konto sind nach der Anlage im Dialog 'Eigenschaften' möglich.\n"
+"Die Konfiguration von einem Konto kann jederzeit nachträglich im Dialog "
+"'Eigenschaften' geändert werden.\n"
+"In diesem Dialog gibt es desweiteren zusätzliche Konfigurationsparameter für "
+"das Konto.\n"
 
 #: src/gsb_assistant_account.c:346
 msgid "Please enter the name of the new account : "
-msgstr "Einen Namen für das Konto festlegen : "
+msgstr "Kontoname : "
 
 #: src/gsb_assistant_account.c:386
 #, c-format
@@ -3496,16 +3503,17 @@ msgid ""
 "\n"
 "Press Cancel if you don't want make an archive now\n"
 msgstr ""
-"In der Datei sind mehr Buchungen (%d) als mit dem eingestellten Limit von %d "
-"angezeigt werden können.\n"
-"Für eine bessere Performance sollten Buchungen archiviert werden.\n"
+"In der Grisbi-Datei sind mehr Buchungen (%d) als mit dem eingestellten Limit "
+"von %d \n"
+"angezeigt werden können. Für eine bessere Performance sollten Buchungen "
+"archiviert werden.\n"
 "\n"
 "Dieser Assistent wird Sie bei der Archivierung von Buchungen unterstützen.\n"
 "\n"
-"Bei der Archivierung werden keine Buchungen in das Archiv verschoben, die "
-"Buchungen erhalten lediglich den Status archiviert.\n"
-"Es besteht jederzeit die Möglichkeit, Buchungen in eine eigene Archivdatei "
-"zu exportieren falls dies notwendig sein sollte.\n"
+"Bei der Archivierung werden keine Buchungen in das Archiv exportiert, die "
+"Buchungen erhalten nur\n"
+"den Status archiviert. Es besteht jederzeit die Möglichkeit, Buchungen in "
+"ein Archiv zu exportieren.\n"
 
 #. come by menu action
 #: src/gsb_assistant_archive.c:135
@@ -3518,13 +3526,12 @@ msgid ""
 "\n"
 "You can still export them into a separate archive file if necessary.\n"
 msgstr ""
-"Dieser Assistent wird Sie dabei unterstützen Buchungen zu archivieren.\n"
-"Durch eine Archivierung wird die Datenbearbeitung in Grisbi performanter.\n"
+"Dieser Assistent wird Sie bei der Archivierung von Buchungen unterstützen.\n"
 "\n"
-"In der Standardeinstellung werden beim Archivieren keine Buchungen in das "
-"Archiv exportiert, die Buchungen erhalten lediglich den Status archiviert.\n"
-"Es besteht jederzeit die Möglichkeit, Buchungen in eine eigene Archivdatei "
-"zu exportieren falls dies notwendig sein sollte.\n"
+"Bei der Archivierung werden keine Buchungen in das Archiv exportiert, die "
+"Buchungen erhalten nur\n"
+"den Status archiviert. Es besteht jederzeit die Möglichkeit, Buchungen in "
+"ein Archiv zu exportieren.\n"
 
 #. create the assistant
 #: src/gsb_assistant_archive.c:142
@@ -3534,7 +3541,7 @@ msgstr "Buchungen archivieren"
 #. set up the menu
 #: src/gsb_assistant_archive.c:203
 msgid "Please select a way to select transactions for this archive"
-msgstr "Die Kriterien für das Archivieren auswählen"
+msgstr "Die Kriterien für die Archivierung auswählen"
 
 #. archive by date
 #: src/gsb_assistant_archive.c:211
@@ -3573,7 +3580,7 @@ msgstr "Bericht"
 #. set up the menu
 #: src/gsb_assistant_archive.c:412
 msgid "Please choose a name for archive"
-msgstr "Bitte einen Namen für das Archiv eingeben"
+msgstr "Name für das Archiv"
 
 #: src/gsb_assistant_archive.c:483 src/import.c:747
 msgid "Congratulations !"
@@ -3588,16 +3595,17 @@ msgid ""
 "Press the 'Previous' button to create another archive of 'Close' to exit "
 "this assistant."
 msgstr ""
-"Wenn sich die Performance durch die Archivierung nicht verbessert hat "
-"besteht die Möglichkeit, archivierte Buchungen beim Start von Grisbi nicht "
-"zu laden.\n"
+"Wenn durch die Archivierung die Datenverarbeitung nicht performanter "
+"geworden ist\n"
+"besteht die Möglichkeit, abgestimmte Buchungen (A) beim Start von Grisbi "
+"nicht zu laden.\n"
 "\n"
 "Mit 'Zurück' kann ein weiteres Archiv erstellt werden, mit 'Schließen' wird "
 "der Assistent beendet."
 
 #: src/gsb_assistant_archive.c:527
 msgid "Failed !"
-msgstr "Fehlgeschlagen !"
+msgstr "Fehlgeschlagen!"
 
 #: src/gsb_assistant_archive.c:539
 msgid ""
@@ -3607,12 +3615,14 @@ msgid ""
 "\n"
 "Press the Previous button to try again or cancel this process."
 msgstr ""
-"Bei der Erstellung vom Archiv ist ein Fehler aufgetreten...\n"
-"Es ist sehr wahrscheinlich das versucht wurde ein leeres Archiv zu "
-"erstellen, Grisbi erstellt keine leeren Archive.\n"
+"Bei der Erstellung vom Archiv ist ein Fehler aufgetreten.\n"
 "\n"
-"Mit 'Zurück' kann die Archiverstellung erneut aufgerufen werden, mit "
-"'Abbrechen' wird die Archiverstellung beendet."
+"Es ist sehr wahrscheinlich das versucht wurde, ein leeres Archiv zu "
+"erstellen.\n"
+"Die Archivierung von Grisbi erstellt keine leeren Archive.\n"
+"\n"
+"Mit 'Zurück' kann die Archivierung erneut aufgerufen werden, mit 'Abbrechen' "
+"wird der Assistent beendet."
 
 #: src/gsb_assistant_archive.c:615
 #, c-format
@@ -3709,11 +3719,12 @@ msgid ""
 "you want to delete the archive from Grisbi, you need to do it from the "
 "preference window."
 msgstr ""
-"Der Assistent wird Sie dabei unterstützen, ein Grisbi-Archiv in eine GSB, "
-"QIF oder CSV Datei zu exportieren. Bei diesem Vorgang werden keine Daten in "
-"der Grisbi-Datei gelöscht, die Daten werden 'nur' exportiert. Wenn Sie ein "
-"Grisbi-Archiv löschen wollen rufen Sie bitte den Dialog Einstellungen auf - "
-"aus diesem Dialog ist die Löschung von einem Grisbi-Archiv möglich."
+"Dieser Assistent wird Sie beim Export von Buchungen aus einem Archiv "
+"unterstützen.\n"
+"\n"
+"Beim Export aus einem Archiv werden keine Buchungen im Archiv oder der "
+"Grisbi-Datei gelöscht.\n"
+"Die Löschung von einem Archiv ist im Dialog 'Einstellungen' möglich."
 
 #: src/gsb_assistant_archive_export.c:159
 msgid "Select the archive to export : "
@@ -3737,9 +3748,8 @@ msgid ""
 "\n"
 "You can now close the assistant."
 msgstr ""
-"Der Export vom Archiv wurde erfolgreich abgeschlossen.\n"
-"\n"
-"Sie können den Assistenten nun beenden."
+"Der Export von Buchungen aus einem Archiv ist abgeschlossen.\n"
+"Mit 'Abbrechen' oder 'Schließen' wird der Assistent beendet."
 
 #: src/gsb_assistant_archive_export.c:428
 msgid ""
@@ -3753,6 +3763,11 @@ msgstr ""
 "\n"
 "Mit 'Zurück' kann der Vorgang wiederholt werden, mit 'Abbrechen' wird der "
 "Vorgang beendet."
+
+#: src/gsb_assistant.c:220
+#, c-format
+msgid "%s (%d of %d)"
+msgstr "%s (%d von %d)"
 
 #: src/gsb_assistant_file.c:116
 msgid "Welcome to Grisbi!"
@@ -3773,16 +3788,16 @@ msgstr ""
 "Die Basiskonfiguration von Grisbi ist abgeschlossen.\n"
 "\n"
 "Dieser Assistent wird Sie bei der Erstellung und Konfiguration von einer "
-"Kontendatei unterstützen.\n"
-"Die Einstellungen können jederzeit nachträglich in den "
-"Konfigurationsdialogen geändert werden.\n"
+"Grisbi-Datei unterstützen.\n"
+"Die Konfiguration der Grisbi-Datei kann jederzeit nachträglich im Dialog "
+"'Einstellungen' geändert werden.\n"
 "\n"
-"Wenn die Kontendatei erstellt und konfiguriert ist können Sie Konten anlegen "
-"oder importieren."
+"Wenn die Grisbi-Datei erstellt ist können Konten angelegt oder importiert "
+"werden."
 
 #: src/gsb_assistant_file.c:127
 msgid "New file Assistant to import"
-msgstr "Assistent für eine neue Datei aus Import"
+msgstr "Assistent für eine neue Datei mittels Import"
 
 #: src/gsb_assistant_file.c:128
 msgid ""
@@ -3796,15 +3811,16 @@ msgid ""
 "account from scratch or to import previous data, i.e. from your previous "
 "accounting software or your bank website."
 msgstr ""
-"Bevor Daten importiert werden können ist es notwendig, eine neue Datei zu "
-"erstellen.\n"
-"Dieser Assistent wird Sie bei der Erstellung und Konfiguration einer neuen "
-"Datei unterstützen.\n"
+"Bevor Daten importiert werden können muss eine Grisbi-Datei erstellt "
+"werden.\n"
 "\n"
-"Die Einstellungen können jederzeit nachträglich in den "
-"Konfigurationsdialogen geändert werden.\n"
-"Wenn die Datei erstellt und konfiguriert ist können Sie Konten anlegen oder "
-"importieren."
+"Dieser Assistent wird Sie bei der Erstellung und Konfiguration von einer "
+"Grisbi-Datei unterstützen.\n"
+"Die Konfiguration der Grisbi-Datei kann jederzeit nachträglich im Dialog "
+"'Einstellungen' geändert werden.\n"
+"\n"
+"Wenn die Grisbi-Datei erstellt ist können Konten angelegt oder importiert "
+"werden."
 
 #: src/gsb_assistant_file.c:139
 msgid "New file Assistant"
@@ -3871,11 +3887,14 @@ msgid ""
 "\n"
 "Select a way to populate your account file and press the 'Close' button."
 msgstr ""
-"Die Konfiguration der Kontendatei ist abgeschlossen.\n"
+"Die Konfiguration der Grisbi-Datei ist abgeschlossen.\n"
 "\n"
-"Der nächste Assistent wird Sie bei der Erstellung von Konten unterstützen.\n"
-"Die Einstellungen können jederzeit nachträglich in den "
-"Konfigurationsdialogen geändert werden.\n"
+"Der nächste Assistent wird Sie bei der Erstellung und Konfiguration von "
+"Konten unterstützen.\n"
+"Die Konfiguration von einem Konto kann jederzeit nachträglich im Dialog "
+"'Eigenschaften' geändert werden.\n"
+"In diesem Dialog gibt es desweiteren zusätzliche Konfigurationsparameter für "
+"das Konto.\n"
 "\n"
 "Eine Auswahl treffen wie die Konten erstellt werden sollen und den Button "
 "'Schließen' aufrufen."
@@ -3906,9 +3925,13 @@ msgid ""
 msgstr ""
 "Dieser Assistent wird Sie bei der Basiskonfiguration von Grisbi "
 "unterstützen.\n"
-"Die Einstellungen können jederzeit nachträglich in den "
-"Konfigurationsdialogen geändert werden.\n"
-"Viel Spaß mit Grisbi!"
+"\n"
+"Die Basiskonfiguration kann jederzeit nachträglich im Dialog 'Einstellungen' "
+"geändert werden.\n"
+"In diesem Dialog gibt es desweiteren zusätzliche Konfigurationsparameter für "
+"die Basiskonfiguration.\n"
+"\n"
+"Danke das Sie Grisbi verwenden, viel Spaß dabei!"
 
 #. create the assistant
 #: src/gsb_assistant_first.c:125
@@ -3930,20 +3953,17 @@ msgid ""
 "\n"
 "You can find out other improvements on http://www.grisbi.org/."
 msgstr ""
-"Sie verwenden Grisbi 0.6 zum ersten Mal.\n"
-"Einige Dialoge sind im Vergleich zu den Vorversionen unverändert - jedoch "
-"gibt es auch etliche Neuerungen.\n"
+"Grisbi 0.6 wird das erste Mal mit einer vorhandenen Datei verwendet.\n"
 "\n"
-"Besonders hervorzuheben ist die neue Sicherungsfunktionalität - diese "
-"Komponente wurde komplett überarbeitet.\n"
-"Ab dieser Version werden automatisch Sicherungen in einem Verzeichnis Ihrer "
-"Auswahl erstellt.\n"
-"\n"
-"Es wird empfohlen, den Browser und einige Basisparameter in den den nächsten "
-"Dialogen festzulegen.\n"
-"\n"
+"Ein Großteil der Funktionalität und der Benutzeroberfläche sind im Vergleich "
+"zu den Vorversionen \n"
+"unverändert, jedoch gibt es auch etliche Neuerungen. Besonders hervorzuheben "
+"sind die Archivierung\n"
+"von Buchungen und die komplett überarbeitete Sicherungsfunktionalität.\n"
 "Weitere Informationen zu den Neuerungen in Version 0.6 finden Sie auf http://"
-"www.grisbi.org/."
+"www.grisbi.org\n"
+"\n"
+"Es wird empfohlen, die Basiskonfiguration im nächsten Dialog festzulegen."
 
 #: src/gsb_assistant_first.c:181
 msgid "General configuration of Grisbi"
@@ -4021,16 +4041,13 @@ msgid ""
 "precisely (you will be able to create new reconciliations in the next step). "
 "Previous reconciliations will be available too."
 msgstr ""
-"Grisbi hat %d Buchungen ohne Abstimmungsnummern gefunden. Dieser Zustand "
-"kann entstehen\n"
-"wenn Buchungen mit der Tastenkombination STRG+R abgestimmt werden.\n"
+"Es wurden %d abgestimmte Buchungen ohne Abstimmungsnummer gefunden.\n"
+"Dieser Zustand ist durch eine manuelle Abstimmung mit STRG+R entstanden.\n"
 "\n"
-"Dieser Assistent wird Sie dabei unterstützen, Buchungen ohne "
-"Abstimmungsnummern einer Abstimmung zuzuordnen.\n"
+"Dieser Assistent wird Sie bei der Zuordnung zu einer Abstimmungsnummer unterstützen.\n"
 "\n"
-"Die Zuordnung zu einer Abstimmung wird mit dem Buchungsdatum durchgeführt - "
-"bevor Sie den Vorgang fortsetzen prüfen Sie bitte ob alle Buchungen ein "
-"gültiges Buchungsdatum aufweisen."
+"Die Zuordnung zu einer Abstimmungsnummer wird mit dem Buchungsdatum durchgeführt,\n"
+"bitte prüfen Sie daher ob alle Buchungen ein gültiges Buchungsdatum aufweisen."
 
 #: src/gsb_assistant_reconcile_config.c:198
 msgid "Associate orphan transactions to a reconciliation"
@@ -4039,12 +4056,12 @@ msgstr "Buchungen ohne Abstimmungsnummer zuordnen"
 #: src/gsb_assistant_reconcile_config.c:262
 #, c-format
 msgid "Still %d transactions to link with a reconciliation."
-msgstr "Es sind noch %d Buchungen keiner Abstimmung zugeordnet."
+msgstr "Es sind %d Buchungen keiner Abstimmungsnummer zugeordnet."
 
 #. set up the menu
 #: src/gsb_assistant_reconcile_config.c:281
 msgid "Choose the next operation to do :"
-msgstr "Wählen Sie die Folgeaktion aus :"
+msgstr "Wählen Sie eine Folgeaktion aus :"
 
 #: src/gsb_assistant_reconcile_config.c:290
 msgid "Manually create a new reconciliation"
@@ -4056,7 +4073,7 @@ msgid ""
 "reconciliation.\n"
 "\tYou can create all the previous needed reconciliations here."
 msgstr ""
-"\t Nach einer langen Verwendung von Grisbi besteht die Möglichkeit das "
+"\t Nach einer langen Verwendung von Grisbi besteht die Möglichkeit, das "
 "einige Buchungen vor dem Datum der ersten Abstimmung sind.\n"
 "\t Sie können alle notwendigen Abstimmungen in diesem Dialog erfassen."
 
@@ -4075,7 +4092,7 @@ msgid ""
 "\tand adjust the date of the known reconciles."
 msgstr ""
 "\t Durch diesen Vorgang werden Buchungen ohne Abstimmungsnummern den "
-"vorhandenen Abstimmungen zugeordnet\n"
+"vorhandenen Abstimmungen zugeordnet,\n"
 "\t wenn entsprechende Abstimmungen vorhanden sind."
 
 #: src/gsb_assistant_reconcile_config.c:332
@@ -4092,8 +4109,12 @@ msgid ""
 "\t(you will be able to choose a reconciliation for each orphan transaction)."
 msgstr ""
 "\t Sie können selbst entscheiden, welcher Abstimmung eine Buchung ohne "
-"Abstimmungsnummer zugeordnet wird!\n"
+"Abstimmungsnummer zugeordnet wird.\n"
 "\t Diese Variante ist sehr zeitaufwändig."
+
+#: src/gsb_assistant_reconcile_config.c:379
+msgid "Fill the fields and click the button \"Create the new reconcile\""
+msgstr "Daten eingeben und den Button \"Eine neue Abstimmung erstellen\" aufrufen"
 
 #. set the final date
 #: src/gsb_assistant_reconcile_config.c:468 src/gsb_reconcile.c:219
@@ -4114,10 +4135,10 @@ msgid ""
 "assistant\n"
 "menu page) or check the transactions themselves."
 msgstr ""
-"Der Assistent wird versuchen Buchungen ohne Abstimmungsnummern einer "
+"Dieser Assistent wird Buchungen ohne Abstimmungsnummern einer "
 "entsprechenden Abstimmung zuzuordnen.\n"
-"Falls nicht alle Buchungen ohne Abstimmungsnummer zugeordnet werden können "
-"prüfen Sie bitte ob entsprechende Abstimmung vorhanden sind.\n"
+"\n"
+"Falls nicht alle Buchungen zugeordnet werden können prüfen Sie bitte ob entsprechende Abstimmungen vorhanden sind.\n"
 "Wenn die Abstimmung vorhanden sind überprüfen Sie bitte die Buchungen selbst."
 
 #: src/gsb_assistant_reconcile_config.c:591
@@ -4131,7 +4152,7 @@ msgstr "Die Buchungen auswählen welche einer Abstimmung zugeordnet werden solle
 
 #: src/gsb_assistant_reconcile_config.c:715
 msgid "Link the selection to a reconcile..."
-msgstr "Die Auswahl einer Abstimmung zuordnen..."
+msgstr "Auswahl zuordnen"
 
 #: src/gsb_assistant_reconcile_config.c:744
 msgid ""
@@ -4142,25 +4163,22 @@ msgid ""
 "any way now\n"
 "\tto have some transactions without reconciliation number."
 msgstr ""
-"Es wurden alle Buchungen ohne Abstimmungsnummern der entsprechenden "
-"Abstimmung zugeordnet.\n"
+"Es wurden alle Buchungen ohne Abstimmungsnummern einer entsprechenden Abstimmung zugeordnet.\n"
 "\n"
-"Der Assistent kann beendet werden - im Regelfall sollte es nicht mehr "
-"notwendig sein diesen Assistenten aufzurufen."
+"Im Regelfall sollte es nicht mehr notwendig sein diesen Assistenten aufzurufen.\n"
+"Mit 'Abbrechen' oder 'Schließen' wird der Assistent beendet."
 
 #: src/gsb_assistant_reconcile_config.c:804
 msgid ""
 "<span foreground=\"red\">The initial date is not valid, please check it</"
 "span>"
 msgstr ""
-"<span foreground=\"red\">Das Beginndatum ist ungültig, das Datum überprüfen</"
+"<span foreground=\"red\">Das Beginndatum ist nicht gültig</"
 "span>"
 
 #: src/gsb_assistant_reconcile_config.c:812
 msgid "<span foreground=\"red\">The final date is not valid, please check it</span>"
-msgstr ""
-"<span foreground=\"red\">Das Enddatum ist nicht gültig, das Datum "
-"überprüfen</span>"
+msgstr "<span foreground=\"red\">Das Enddatum ist nicht gültig</span>"
 
 #: src/gsb_assistant_reconcile_config.c:821
 msgid "<span foreground=\"red\">Please give a name to the new reconcile</span>"
@@ -4195,7 +4213,7 @@ msgstr "<span foreground=\"blue\">Abstimmung %s erfolgreich abgeschlossen !</spa
 #: src/gsb_assistant_reconcile_config.c:1376
 #, c-format
 msgid "Still %d transactions to link with a reconciliation"
-msgstr "Es sind weiterhin %d Buchungen ohne Abstimmung vorhanden"
+msgstr "Es sind noch %d Buchungen keiner Abstimmungsnummer zugeordnet."
 
 #: src/gsb_assistant_reconcile_config.c:974
 #, c-format
@@ -4336,7 +4354,7 @@ msgstr "Kategorienliste ohne Namen"
 
 #: src/gsb_crypt.c:174
 msgid "The password was incorrect ! Please try again..."
-msgstr "Das Passwort ist nicht korrekt! Bitte erneut eingeben ..."
+msgstr "Das Passwort ist nicht korrekt! Bitte erneut eingeben..."
 
 #: src/gsb_crypt.c:185
 #, c-format
@@ -5804,7 +5822,7 @@ msgstr "Eine Währung hinzufügen"
 
 #: src/gsb_currency_config.c:917
 msgid "Select base currency for your account"
-msgstr "Basiswährung für das Konto auswählen"
+msgstr "Basiswährung für das Konto festlegen"
 
 #: src/gsb_currency_config.c:926
 msgid "World currencies"
@@ -5983,7 +6001,7 @@ msgstr "Datei öffnen - Grisbi"
 
 #: src/gsb_file.c:227
 msgid "Grisbi files (*.gsb)"
-msgstr "Grisbi Datei (*.gsb)"
+msgstr "Grisbi-Datei (*.gsb)"
 
 #: src/gsb_file.c:358
 msgid "Loading accounts"
@@ -6044,7 +6062,7 @@ msgid ""
 msgstr ""
 "Grisbi konnte die Datei nicht speichern, weil die Datei gesperrt ist. Bitte "
 "speichern Sie die Datei unter einen anderen Namen, oder aktivieren Sie die "
-"\"%s\" Option in den Einstellungen."
+"Option \"%s\" in den Einstellungen."
 
 #: src/gsb_file.c:545 src/gsb_file.c:681 src/parametres.c:663
 msgid "Force saving of locked files"
@@ -6239,16 +6257,14 @@ msgstr "Die Datei auf Inkonsistenz prüfen ..."
 
 #: src/gsb_file_debug.c:119
 msgid "Grisbi accounts debug"
-msgstr "Grisbi Konten debuggen"
+msgstr "Grisbi Konten überprüfen"
 
 #: src/gsb_file_debug.c:120
 msgid ""
 "This assistant will help you to search your account file for "
 "inconsistencies, which can be caused either by bugs or by erroneous "
 "manipulation."
-msgstr ""
-"Dieser Assistent wird Ihnen dabei helfen, inkonsistente Zustände in der "
-"Grisbi Datei zu finden."
+msgstr "Dieser Assistent wird die Grisbi-Datei auf Konsistenz prüfen."
 
 #: src/gsb_file_debug.c:184
 msgid ""
@@ -6263,8 +6279,7 @@ msgid ""
 "The following debug tests found inconsistencies in this accounts file:\n"
 "\n"
 msgstr ""
-"Der \"Debug-Test\" hat folgende Inkonsistenzen in der Grisbi Datei "
-"gefunden:\n"
+"Es wurden folgende Inkonsistenzen in der Grisbi-Datei gefunden:\n"
 "\n"
 
 #: src/gsb_file_debug.c:209
@@ -6277,7 +6292,7 @@ msgstr ""
 
 #: src/gsb_file_debug.c:212
 msgid "Congratulations, your account file is in good shape!\n"
-msgstr "Die Grisbi Datei ist in einem konsistenten Zustand!\n"
+msgstr "Die Grisbi-Datei ist in einem konsistenten Zustand!\n"
 
 #: src/gsb_file_debug.c:243
 msgid "Details"
@@ -6293,7 +6308,7 @@ msgid ""
 "modifications."
 msgstr ""
 "Grisbi hat die Datei in einen konsistenten Zustand gebracht.  Sie können die "
-"Modifikationen nun speichern."
+"Änderungen nun speichern."
 
 #: src/gsb_file_debug.c:286
 msgid "Fix completed"
@@ -6373,7 +6388,7 @@ msgstr "Das Modul für die Verschlüsselung kann nicht gefunden werden."
 
 #: src/gsb_file_load.c:434 src/gsb_file_load.c:4028
 msgid "This is not a Grisbi file... Loading aborted."
-msgstr "Diese Datei ist kein Grisbi Datei...der Ladevorgang wird abgebrochen."
+msgstr "Diese Datei ist kein Grisbi-Datei...der Ladevorgang wird abgebrochen."
 
 #. the first time we come here, we check if it's a grisbi file
 #: src/gsb_file_load.c:613
@@ -6442,7 +6457,7 @@ msgstr "Einen Bericht importieren"
 
 #: src/gsb_file_others.c:573
 msgid "This is not a grisbi file, loading canceled..."
-msgstr "Diese Datei ist keine Grisbi Datei, öffnen abgebrochen..."
+msgstr "Diese Datei ist keine Grisbi-Datei..."
 
 #: src/gsb_file_others.c:590 src/gsb_file_others.c:601
 #: src/gsb_file_others.c:618
@@ -6457,11 +6472,11 @@ msgstr "Diese Datei ist keine Grisbi Kategorien Datei..."
 
 #: src/gsb_file_others.c:609
 msgid "This is not a budget file, loading canceled..."
-msgstr "Diese Datei ist keine \"Budget-Datei\", der Ladevorgang wird abgebrochen..."
+msgstr "Diese Datei ist keine Budget-Datei..."
 
 #: src/gsb_file_others.c:626
 msgid "This is not a report file, loading canceled..."
-msgstr "Diese Datei ist keine \"Bericht-Datei\", der Ladevorgang wird abgebrochen..."
+msgstr "Diese Datei ist keine Bericht-Datei..."
 
 #: src/gsb_file_util.c:63
 msgid "No name to the file !"
@@ -6541,7 +6556,7 @@ msgstr "Nr"
 
 #: src/gsb_form.c:2150
 msgid "No payee selected for this report."
-msgstr "Für diesen Bericht wurden keine Empfänger ausgewählt."
+msgstr "Für den Bericht wurden keine Empfänger ausgewählt."
 
 #: src/gsb_form.c:2378
 msgid "You must enter a date."
@@ -6573,15 +6588,15 @@ msgstr "Das Konto für die zeitlich geplante Umbuchung ist gelöscht."
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
-msgstr "Das zugeordnete Konto für diese Umbuchung ist ungültig."
+msgstr "Das zugeordnete Konto für diese Umbuchung ist nicht mehr vorhanden oder geschlossen."
 
 #: src/gsb_form.c:2480
 msgid "Can't issue a transfer its own account."
-msgstr "Die Buchung kann nicht demselben Konto zugeordnet werden."
+msgstr "Eine Umbuchung auf das gleiche Konto ist nicht möglich."
 
 #: src/gsb_form.c:2485
 msgid "Can't issue a transfer on a closed account."
-msgstr "Die Ausgabe kann nicht einem geschlossenen Konto zugeordnet werden."
+msgstr "Eine Umbuchung auf ein geschlossenes Konto ist nicht möglich."
 
 #: src/gsb_form.c:2511
 msgid ""
@@ -6591,8 +6606,8 @@ msgid ""
 msgstr ""
 "Die gewählte Zahlungsweise hat automatisch erzeugte, inkrementelle "
 "Nummern, \n"
-"aber beinhalten keine Nummern.\n"
-"Soll trotzdem fortgefahren werden?"
+"jedoch sind keine Nummern vorhanden.\n"
+"Soll der Vorgang trotzdem ausgeführt werden?"
 
 #: src/gsb_form.c:2525
 msgid ""
@@ -6600,7 +6615,7 @@ msgid ""
 "Continue anyway?"
 msgstr ""
 "Achtung: Diese Schecknummer wird bereit benützt.\n"
-"Soll trotzdem fortgefahren werden?"
+"Soll der Vorgang trotzdem ausgeführt werden?"
 
 #: src/gsb_form.c:2545
 msgid "A transaction with a multiple payee must be a new one."
@@ -6632,7 +6647,7 @@ msgid ""
 msgstr ""
 "Wenn eine Splittbuchung mit Teilbuchungen in eine andere Art geändert wird "
 "werden die Teilbuchungen gelöscht.\n"
-"Soll der Vorgang fortgesetzt werden?"
+"Soll der Vorgang trotzdem ausgeführt werden?"
 
 #: src/gsb_form_config.c:121 src/parametres.c:372
 msgid "Transaction form"
@@ -6640,7 +6655,7 @@ msgstr "Buchungsformular"
 
 #: src/gsb_form_config.c:154
 msgid "Form structure preview"
-msgstr "Buchungsformular anzeigen"
+msgstr "Buchungsformular Vorschau"
 
 #. the button to choose the configuration for all/one account
 #: src/gsb_form_config.c:168
@@ -7006,7 +7021,7 @@ msgid ""
 "is irreversible, these transactions are to be associated with another "
 "payment method."
 msgstr ""
-"Einige Buchungen benützen noch immer diese Zahlungsweise. Die Löschung "
+"Einige Buchungen verwenden noch diese Zahlungsweise. Die Löschung "
 "dieser Zahlungsweise kann nicht rückgängig gemacht werden. Die Buchungen "
 "werden einer anderen Zahlungsweise zugeordnet."
 
@@ -7115,7 +7130,7 @@ msgstr "Auflistung der Abstimmungen"
 
 #: src/gsb_reconcile_config.c:171
 msgid "Selected reconcile"
-msgstr "Gewählte abstimmen"
+msgstr "Abstimmung selektieren"
 
 #. set the delete button
 #: src/gsb_reconcile_config.c:226
@@ -7217,7 +7232,7 @@ msgstr "vierteljährlich"
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
-msgstr "Soll die Teil-Buchung mit dem Empfänger '%s' gelöscht werden?"
+msgstr "Soll die geplante Teil-Buchung mit dem Empfänger '%s' gelöscht werden?"
 
 #: src/gsb_scheduler_list.c:1479
 msgid "Delete a scheduled transaction"
@@ -7231,7 +7246,7 @@ msgstr "Eine Buchung löschen"
 #: src/gsb_scheduler_list.c:1495
 #, c-format
 msgid "Do you really want to delete the scheduled transaction with party '%s' ?"
-msgstr "Soll die Teil-Buchung mit dem Empfänger '%s' gelöscht werden?"
+msgstr "Soll die geplante Buchung mit dem Empfänger '%s' gelöscht werden?"
 
 #: src/gsb_scheduler_list.c:1528
 #, c-format
@@ -7344,7 +7359,7 @@ msgid ""
 msgstr ""
 "Es ist nicht möglich, während einer Abstimmung eine Buchung manuell als "
 "abgestimmt/nicht abgestimmt zu markieren.\n"
-"Die Abstimmung muss beendet/abgebrochen damit dies möglich ist."
+"Die Abstimmung muss beendet oder abgebrochen werden damit dies möglich ist."
 
 #. it's a normal transaction, ask to be sure
 #: src/gsb_transactions_list.c:1584 src/gsb_transactions_list.c:1598
@@ -7634,7 +7649,8 @@ msgstr ""
 "\n"
 "Grisbi wird versuchen das Format der Importdatei zu ermitteln, jedoch kann "
 "es notwendig sein das Sie das Format der Importdatei im nächsten Dialogen "
-"eingeben müssen.  Akutell werden folgende Formate für ein Import unterstützt:\n"
+"eingeben müssen.  Aktuell werden folgende Formate für einen Import "
+"unterstützt:\n"
 "\n"
 
 #: src/import.c:238
@@ -7686,7 +7702,8 @@ msgid ""
 "you set up imported data for the following files"
 msgstr ""
 "Der Import der Daten wurde erfolgreich abgeschlossen.\n"
-"In den nächsten Dialogen werden die Importierten Daten von den aufgelisteten Einträgen weiterverarbeitet"
+"In den nächsten Dialogen werden die Importierten Daten von den aufgelisteten "
+"Einträgen weiterverarbeitet"
 
 #: src/import.c:765
 msgid "Unnamed Imported account"
@@ -7739,7 +7756,7 @@ msgstr "Buchungen einem Konto zuordnen"
 
 #: src/import.c:1087
 msgid "Mark transactions of an account"
-msgstr "Buchungen eines Kontos markieren"
+msgstr "Buchungen für ein Konto auswählen"
 
 #. la devise avait un nom mais n'a pas Ã©tÃ© retrouvÃ©e; 2 possibilitÃ©s :
 #. - soit elle n'est pas cree (l'utilisateur
@@ -7756,7 +7773,7 @@ msgstr ""
 "Die Währung des importierten Kontos %s ist %s.Wenn die Währung nicht "
 "vorhanden ist müssen Sie die Währung im Dialogfenster eingeben.\n"
 "Wenn die Währung bereits vorhanden ist, aber der ISO Code falsch ist müssen "
-"Sie den ISO Code in der Konfiguration setzen."
+"Sie den ISO Code in der Konfiguration festlegen."
 
 #: src/import.c:1140
 #, c-format
@@ -7853,7 +7870,9 @@ msgstr "Den Import der Buchungen bestätigen"
 msgid ""
 "Some imported transactions seem to be already saved. Please select the "
 "transactions to import."
-msgstr "Einige der importieren Buchungen sind bereits vorhanden. Bitte wählen Sie die Buchungen aus, welche importiert werden sollen."
+msgstr ""
+"Einige der importieren Buchungen sind bereits vorhanden. Bitte wählen Sie "
+"die Buchungen aus, welche importiert werden sollen."
 
 #: src/import.c:1924
 #, c-format
@@ -7885,8 +7904,7 @@ msgid ""
 "the account will be changed.  Do you want to continue ?"
 msgstr ""
 "Haben Sie versehentlich das falsche Konto ausgewählt ? Wenn Sie sich "
-"entscheiden fortzufahren wird die Id des Kontos geändert. Soll fortgefahren "
-"werden?"
+"entscheiden den Vorgang fortzusetzen wird die Id des Kontos geändert. Soll der Vorgang fortgesetzt werden?"
 
 #: src/import.c:2566
 msgid "Orphaned transactions"
@@ -7896,7 +7914,7 @@ msgstr "verwaiste Buchungen"
 msgid "Mark transactions you want to add to the list and click the add button"
 msgstr ""
 "Die Buchungen markieren, welche der Liste hinzugefügt werden sollen, danach "
-"den Hinzufügen Button drücken"
+"den Button Hinzufügen aufrufen"
 
 #: src/import.c:2641
 msgid "Mark"
@@ -7921,7 +7939,7 @@ msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr ""
-"%s ist keine OFX oder QIF Datei, es werden keine Daten aus dieser Datei "
+"%s ist keine Ofx oder Qif Datei, es werden keine Daten aus dieser Datei "
 "importiert."
 
 #: src/import.c:3082
@@ -8016,7 +8034,7 @@ msgstr "<b>Folgende Felder fehlen:</b> %s"
 
 #: src/import_csv.c:921
 msgid "All mandatory fields are filed in."
-msgstr "Es wurden nicht alle Eingabefelder befüllt."
+msgstr "Es sind alle Pflichtfelder befüllt."
 
 #: src/import_csv.c:1094
 msgid "Imported CSV account"
@@ -8162,7 +8180,7 @@ msgstr "Archiv als GSB/QIF/CSV Datei _exportieren ..."
 
 #: src/menu.c:198
 msgid "_Debug account file..."
-msgstr "Datei _debuggen ..."
+msgstr "Datei _prüfen ..."
 
 #: src/menu.c:201
 msgid "_Close"
@@ -8303,7 +8321,7 @@ msgstr "Neuer Budgeteintrag #%d"
 #. * Find a unique name for budget
 #: src/meta_budgetary.c:244
 msgid "New sub-budget"
-msgstr "Neues"
+msgstr "Neuer Teil-Budgeteintrag"
 
 #: src/meta_budgetary.c:250
 #, c-format
@@ -8893,7 +8911,7 @@ msgid ""
 "so Grisbi created %d files, one per account :\n"
 msgstr ""
 "Es waren mehrere Konten im Archiv.\n"
-"Das QIF-Format unterstützt nur eine Datei pro Konto,\n"
+"Das Qif-Format unterstützt nur eine Datei pro Konto,\n"
 "deshalb hat Grisbi %d Dateien erstellt - jeweils eine pro Konto:\n"
 
 #: src/qif.c:1112
@@ -8942,7 +8960,7 @@ msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't append ! "
 "Check that."
 msgstr ""
-"Es wurde versucht eine sichtbare Linie in der Buchungsliste zu änderen. "
+"Es wurde versucht eine sichtbare Linie in der Buchungsliste zu ändern. "
 "Diese Funktionalität sollte im Regelfall nicht möglich sein."
 
 #: src/transaction_list.c:1449
