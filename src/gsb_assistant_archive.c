@@ -120,7 +120,7 @@ GtkResponseType gsb_assistant_archive_run ( gboolean origin )
 
     if (origin)
 	/* come from check while opening file */
-	tmpstr = g_strdup_printf ( _("There are too many transactions in your file (%d) and the current limit is %d transactions.\n"
+	tmpstr = g_strdup_printf ( _("There are a lot of transactions in your file (%d) and the current limit is %d transactions.\n"
 				     "To increase speed, you should archive them "
 				     "(the current limit and the opening check-up can be changed in the Preferences)\n\n"
 				     "This assistant will guide you through the process of archiving transactions "
