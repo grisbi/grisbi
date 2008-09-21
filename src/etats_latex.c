@@ -1,7 +1,7 @@
 /*  Fichier qui s'occupe d'afficher les états via une impression latex */
 /*      etats_latex.c */
 
-/*     Copyright (C)	2004-2006 Benjamin Drieu (bdrieu@april.org) */
+/*     Copyright (C)	2004-2008 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org				      */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -260,11 +260,16 @@ gint latex_initialise (GSList * opes_selectionnees, gchar * filename )
 	filename = etat.print_config.printer_filename;
     }
 
+    if ( ! filename )
+    {
+	filename = "";
+    }
+
     unlink ( filename );
     file_out = utf8_fopen ( filename, "w+x" );
     if ( ! file_out )
     {
-	dialogue_error ( g_strdup_printf (_("File '%s' already exists."), filename ));;
+	dialogue_error ( g_strdup_printf (_("Cannot open file '%s': %s."), filename, g_strerror ( errno ) ) );
 	return FALSE;
     }
 
@@ -355,12 +360,12 @@ gint latex_finish ()
 				  _("LaTeX run was unable to complete.") );
 	else
 	{
-	  command = g_strdup_printf ( "%s %s \"%s.dvi\" -o \"%s\"",  etat.dvips_command,
-				      ( etat.print_config.orientation == LANDSCAPE ? "-t landscape" : ""),
-				      tempname,
-				      (etat.print_config.printer ?
-				       (g_strconcat ( tempname, ".ps", NULL )) :
-				       etat.print_config.printer_filename) );
+	    command = g_strdup_printf ( "%s %s \"%s.dvi\" -o \"%s\"",  etat.dvips_command,
+					( etat.print_config.orientation == LANDSCAPE ? "-t landscape" : ""),
+					tempname,
+					(etat.print_config.printer ?
+					 (g_strconcat ( tempname, ".ps", NULL )) :
+					 etat.print_config.printer_filename) );
 	    unlink ( g_strdup_printf ("%s.tex", tempname) );
 	    unlink ( g_strdup_printf ("%s.aux", tempname) );
 	    unlink ( g_strdup_printf ("%s.log", tempname) );
