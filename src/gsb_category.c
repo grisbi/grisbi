@@ -40,6 +40,7 @@
 #include "./gtk_combofix.h"
 #include "./gsb_data_form.h"
 #include "./include.h"
+#include "./utils_files.h"
 /*END_INCLUDE*/
 
 
@@ -54,6 +55,32 @@ static void gsb_category_assistant_start_element ( GMarkupParseContext *context,
 /*START_EXTERN*/
 extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
+
+
+
+/**
+ * A handy GCompareFunc that compares two files depending on their
+ * basename and not only the full string, containing a possibly
+ * disturbing dirname.
+ *
+ * \param file1	String 1 to compare
+ * \param file2	String 2 to compare
+ *
+ * \return A result suitable for use as of any GCompareFunc.
+ */
+gint compare_basename ( gchar * file1, gchar * file2 )
+{
+    gchar * base1 = g_path_get_basename ( file1 );
+    gchar * base2 = g_path_get_basename ( file2 );
+    gint result;
+    
+    result = strcmp ( base1, base2 );
+    
+    g_free ( base1 );
+    g_free ( base2 );
+
+    return result;
+}
 
 
 
@@ -109,24 +136,26 @@ GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX ( page ), GTK_WIDGET ( sw ),
 			 TRUE, TRUE, 0 );
 
+    /* First, we iterate over all locales except for C to avoid mixing
+     * national languages and default one.  We will handle the C
+     * locale later if nothing wirlds a match.  */
     while ( *languages )
     {
 	GSList * list;
 
-	if ( strlen ( (gchar *) *languages ) )
+	if ( strlen ( (gchar *) *languages ) && strcmp ( (gchar *) *languages, "C" ) )
 	{
 	    list = gsb_category_assistant_scan_directory ( (gchar *) * languages, 
 							   builtin_category_model );
-	}
-
-	while ( list )
-	{
-	    if ( ! g_slist_find_custom ( category_files, list -> data, 
-					 (GCompareFunc) cherche_string_equivalente_dans_slist ) )
+	    while ( list )
 	    {
-		category_files = g_slist_append ( category_files, list -> data );
+		if ( ! g_slist_find_custom ( category_files, list -> data, 
+					     (GCompareFunc) cherche_string_equivalente_dans_slist ) )
+		{
+		    category_files = g_slist_append ( category_files, list -> data );
+		}
+		list = list -> next;
 	    }
-	    list = list -> next;
 	}
 
 	languages++;
@@ -135,6 +164,8 @@ GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
     {
 	category_files = gsb_category_assistant_scan_directory ( "C", builtin_category_model );
     }
+    
+    category_files = g_slist_sort ( category_files, (GCompareFunc) compare_basename );
 
     while ( category_files )
     {
@@ -211,7 +242,6 @@ gboolean gsb_category_update_combofix ( void )
 }
 
 
-
 /**
  * Scan a directory for Grisbi category files in order to put their
  * titles in a GtkTreeModel.
@@ -228,20 +258,20 @@ GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel 
     GDir * dir;
     GSList * list = NULL;
 
-    dirname = g_strconcat ( "/home/benj/grisbi/share/categories/", basename, NULL );
+    dirname = g_strconcat ( DATA_PATH, C_DIRECTORY_SEPARATOR, "categories", C_DIRECTORY_SEPARATOR, basename, NULL );
     if ( ! g_file_test ( dirname, G_FILE_TEST_IS_DIR ) )
     {
 	gchar * pos = strchr ( basename, '.' );
 	if ( pos ) 
 	    *pos = '\0';
-	dirname = g_strconcat ( "/home/benj/grisbi/share/categories/", basename, NULL );
+	dirname = g_strconcat ( DATA_PATH, C_DIRECTORY_SEPARATOR, "categories", C_DIRECTORY_SEPARATOR, basename, NULL );
     }
     if ( ! g_file_test ( dirname, G_FILE_TEST_IS_DIR ) )
     {
 	gchar * pos = strchr ( basename, '_' );
 	if ( pos ) 
 	    *pos = '\0';
-	dirname = g_strconcat ( "/home/benj/grisbi/share/categories/", basename, NULL );
+	dirname = g_strconcat ( DATA_PATH, C_DIRECTORY_SEPARATOR, "categories", C_DIRECTORY_SEPARATOR, basename, NULL );
     }
 
     dir = g_dir_open ( dirname, 0, NULL );
@@ -259,7 +289,7 @@ GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel 
 	}
     }
 
-    return g_slist_sort ( list, strcmp );
+    return g_slist_sort ( list, (GCompareFunc) strcmp );
 }
 
 
