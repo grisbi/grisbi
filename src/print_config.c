@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2004 Benjamin Drieu (bdrieu@april.org)		      */
+/*     Copyright (C)	2008 Benjamin Drieu (bdrieu@april.org)		      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -113,7 +113,12 @@ gboolean print_config ( )
 	    }
 
 	    filename = my_strdup ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), 
-										    "printer_filename") ) ) );
+										     "printer_filename") ) ) );
+
+	    if ( ! filename )
+	    {
+		filename = "";
+	    }		
 
 	    test = utf8_fopen ( filename, "r" );
 	    if ( test )
@@ -213,9 +218,9 @@ GtkWidget * print_config_general ( GtkWidget * dialog )
 		       GTK_SHRINK, GTK_SHRINK, 
 		       0, 0 );
     g_object_set_data ( G_OBJECT(dialog), "printer", radio1 );
+    g_object_set_data ( G_OBJECT(radio1), "printer_value", 1 );
     g_signal_connect ( G_OBJECT(radio1), "toggled", 
 		       (GCallback) print_config_radio_toggled, NULL );
-
     input1 = gtk_entry_new ( );
     gtk_table_attach_defaults ( GTK_TABLE(table), input1, 1, 2, 0, 1 );
     g_object_set_data ( G_OBJECT(dialog), "printer_name", input1 );
@@ -227,6 +232,7 @@ GtkWidget * print_config_general ( GtkWidget * dialog )
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 
 		       0, 0 );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON(radio2), !etat.print_config.printer );
+    g_object_set_data ( G_OBJECT(radio2), "printer_value", 0 );
     g_signal_connect ( G_OBJECT(radio2), "toggled", 
 		       (GCallback) print_config_radio_toggled, NULL );
 
@@ -358,7 +364,9 @@ GtkWidget * print_config_appearance ( GtkWidget * dialog )
 gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer user_data ) 
 {
   GtkWidget *peer1, *peer2;
+  gboolean value;
 
+  value = g_object_get_data ( G_OBJECT(togglebutton), "printer_value" );
   peer1 = g_object_get_data ( G_OBJECT(togglebutton), "peer1" );
   peer2 = g_object_get_data ( G_OBJECT(togglebutton), "peer2" );
 
@@ -370,6 +378,8 @@ gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer u
     {
       gtk_widget_set_sensitive ( peer2, !gtk_toggle_button_get_active(togglebutton) );
     }
+
+  etat.print_config.printer = value;
 
   return FALSE;
 }
