@@ -2,9 +2,9 @@
 <Grisbi_categ>
 	<General
 		File_version="0.6.0"
-		Grisbi_version="0.6.0" 
+		Grisbi_version="0.6.0"
 		Title="Plan comptable associatif"
-		Description="Catégories adaptées au plan comptable associatif Français." />
+		Description="Catégories conformes au plan comptable associatif, pour toute association de loi 1901." />
 	<Category Nb="25" Na="10. Fonds associatifs et réserves" Kd="0" />
 	<Sub_category Nbc="25" Nb="1" Na="1020. Fonds associatifs sans droit de reprise" />
 	<Sub_category Nbc="25" Nb="2" Na="1021. Valeur du patrimoine intégré" />
@@ -340,14 +340,14 @@
 	<Sub_category Nbc="66" Nb="15" Na="6060. Achats non stockés de matières et fournitures" />
 	<Sub_category Nbc="66" Nb="16" Na="6061. Fournitures non stockables (eau, électricité...)" />
 	<Sub_category Nbc="66" Nb="17" Na="6063. Fournitures d&apos;entretiens et de petit équipement" />
-	<Sub_category Nbc="66" Nb="18" Na="6064. Fournitures administratives" />
+	<Sub_category Nbc="66" Nb="18" Na="6064. Fournitures administrative" />
 	<Sub_category Nbc="66" Nb="19" Na="6068. Autres matières et fournitures" />
 	<Sub_category Nbc="66" Nb="20" Na="6070. Achats de marchandises" />
-	<Sub_category Nbc="66" Nb="21" Na="6071. Marchandises  A" />
+	<Sub_category Nbc="66" Nb="21" Na="6071. MArchandises  A" />
 	<Sub_category Nbc="66" Nb="22" Na="6072. Marchandise B" />
 	<Sub_category Nbc="66" Nb="23" Na="6090. Rabais, remises et ristournes obtenus sur achats" />
 	<Category Nb="67" Na="61. Service exterieurs" Kd="1" />
-	<Sub_category Nbc="67" Nb="1" Na="6110. Sous-traitance générale" />
+	<Sub_category Nbc="67" Nb="1" Na="6110. Sous-traitance général" />
 	<Sub_category Nbc="67" Nb="2" Na="6120. Redevances de crédit-bail" />
 	<Sub_category Nbc="67" Nb="3" Na="6122. Crédit-bail mobilier" />
 	<Sub_category Nbc="67" Nb="4" Na="6125. Crédit-bail immobilier" />
@@ -356,7 +356,7 @@
 	<Sub_category Nbc="67" Nb="7" Na="6135. Locations mobilières" />
 	<Sub_category Nbc="67" Nb="8" Na="6140. Charges locatives et de copropriétè" />
 	<Sub_category Nbc="67" Nb="9" Na="6150. Entretiens et réparations" />
-	<Sub_category Nbc="67" Nb="10" Na="6152. Sur biens immobiliers" />
+	<Sub_category Nbc="67" Nb="10" Na="6152. SUr biens immobiliers" />
 	<Sub_category Nbc="67" Nb="11" Na="6155. Sur biens mobiliers" />
 	<Sub_category Nbc="67" Nb="12" Na="6156. Maintenance" />
 	<Sub_category Nbc="67" Nb="13" Na="6160. Primes d&apos;assurance" />
@@ -365,8 +365,8 @@
 	<Sub_category Nbc="67" Nb="16" Na="6168. Autres assurances" />
 	<Sub_category Nbc="67" Nb="17" Na="6170. Etudes et recherches" />
 	<Sub_category Nbc="67" Nb="18" Na="6180 Divers" />
-	<Sub_category Nbc="67" Nb="19" Na="6181. Documentation générale" />
-	<Sub_category Nbc="67" Nb="20" Na="6183. Documentations technique" />
+	<Sub_category Nbc="67" Nb="19" Na="6181. Docummentations générale" />
+	<Sub_category Nbc="67" Nb="20" Na="6183. Documantations technique" />
 	<Sub_category Nbc="67" Nb="21" Na="6185. Frais de colloques, séminaires, conférences" />
 	<Sub_category Nbc="67" Nb="22" Na="6190. Rabais, remises, ristournes obtenus sur services exterieurs" />
 	<Category Nb="68" Na="62. Autres services exterieurs" Kd="1" />
@@ -505,13 +505,13 @@
 	<Sub_category Nbc="76" Nb="1" Na="7010. Ventes de produits finis" />
 	<Sub_category Nbc="76" Nb="2" Na="7050. Etudes" />
 	<Sub_category Nbc="76" Nb="3" Na="7060. Prestations de services" />
+	<Sub_category Nbc="76" Nb="4" Na="7070. Ventes de marchandises" />
 	<Sub_category Nbc="76" Nb="5" Na="7080. Produits des activités annexes" />
 	<Sub_category Nbc="76" Nb="6" Na="7081. Produits des prestations fournies au personnel" />
 	<Sub_category Nbc="76" Nb="7" Na="7083. Locations divers" />
 	<Sub_category Nbc="76" Nb="8" Na="7084. Mise à disposition de personnel facturée" />
 	<Sub_category Nbc="76" Nb="9" Na="7088. Autres produits d&apos;activités annexes" />
 	<Sub_category Nbc="76" Nb="10" Na="7090. Rabais, remises et ristournes accordées par l&apos;association" />
-	<Sub_category Nbc="76" Nb="11" Na="7070. Ventes de marchandises" />
 	<Category Nb="77" Na="71. Production stockée (ou destockage)" Kd="0" />
 	<Sub_category Nbc="77" Nb="1" Na="7130. Variations de stock (en-cours de production, produits)" />
 	<Sub_category Nbc="77" Nb="2" Na="7133. Variations des en-cours de production de biens" />
@@ -533,7 +533,8 @@
 	<Sub_category Nbc="80" Nb="11" Na="7585. Legs et donations non affectés" />
 	<Sub_category Nbc="80" Nb="12" Na="7586. Legs et donations affectés" />
 	<Sub_category Nbc="80" Nb="13" Na="7587. Ventes de dons en nature" />
-	<Sub_category Nbc="80" Nb="14" Na="7588. Autres produits de la générosité publique" />
+	<Sub_category Nbc="80" Nb="14" Na="7588. Autres produits de la générosité public" />
+	<Sub_category Nbc="80" Nb="15" Na="7561. Cotisations personnes morales" />
 	<Category Nb="81" Na="76. Produits financiers" Kd="0" />
 	<Sub_category Nbc="81" Nb="1" Na="7610. Produits des participations" />
 	<Sub_category Nbc="81" Nb="2" Na="7620. Produits des autres immobilisations financières" />
