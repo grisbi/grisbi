@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<Grisbi_categ>
+	<General
+		File_version="0.5.0"
+		Grisbi_version="0.5.0"
+		Title="Basiskategorien"
+		Description="Basiskategorien, minimale Anzahl von Kategorien" />
+	<Category Nb="1" Na="Sonstige Einnahmen" Kd="0" />
+	<Sub_category Nbc="1" Nb="1" Na="Glücksspiel" />
+	<Sub_category Nbc="1" Nb="2" Na="Geschenke" />
+	<Category Nb="2" Na="Pension" Kd="0" />
+	<Sub_category Nbc="2" Nb="1" Na="Rente" />
+	<Sub_category Nbc="2" Nb="2" Na="Versehrtenrente" />
+	<Category Nb="3" Na="Gehalt" Kd="0" />
+	<Sub_category Nbc="3" Nb="1" Na="Überstunden" />
+	<Sub_category Nbc="3" Nb="2" Na="Nettogehalt" />
+	<Category Nb="4" Na="Lebensmittel" Kd="1" />
+	<Sub_category Nbc="4" Nb="1" Na="Restaurant" />
+	<Sub_category Nbc="4" Nb="2" Na="Supermarkt" />
+	<Category Nb="5" Na="Haustiere" Kd="1" />
+	<Sub_category Nbc="5" Nb="1" Na="Futter" />
+	<Sub_category Nbc="5" Nb="2" Na="Tierarzt" />
+	<Category Nb="6" Na="Versicherungen" Kd="1" />
+	<Sub_category Nbc="6" Nb="1" Na="Haushaltsversicherung" />
+	<Sub_category Nbc="6" Nb="2" Na="Haftpflichtversicherung" />
+	<Category Nb="7" Na="Auto" Kd="1" />
+	<Sub_category Nbc="7" Nb="1" Na="Kraftstoff" />
+	<Sub_category Nbc="7" Nb="2" Na="Reparaturen" />
+	<Category Nb="8" Na="Kinder" Kd="1" />
+	<Sub_category Nbc="8" Nb="1" Na="Kindergarten" />
+	<Sub_category Nbc="8" Nb="2" Na="Spielzeug" />
+	<Category Nb="9" Na="Studium" Kd="1" />
+	<Sub_category Nbc="9" Nb="1" Na="Studiengebühren" />
+	<Sub_category Nbc="9" Nb="2" Na="Bücher" />
+	<Category Nb="10" Na="Bankgebühren" Kd="1" />
+	<Sub_category Nbc="10" Nb="1" Na="Dispozinsen" />
+	<Sub_category Nbc="10" Nb="2" Na="Kontoführung" />
+	<Category Nb="11" Na="Steuern" Kd="1" />
+	<Sub_category Nbc="11" Nb="1" Na="Einkommensteuer" />
+	<Sub_category Nbc="11" Nb="2" Na="Grundsteuer" />
+	<Category Nb="12" Na="Wohnen" Kd="1" />
+	<Sub_category Nbc="12" Nb="1" Na="Miete" />
+	<Sub_category Nbc="12" Nb="2" Na="Heizung" />
+	<Category Nb="13" Na="Freizeit" Kd="1" />
+	<Sub_category Nbc="13" Nb="1" Na="Multimedia" />
+	<Sub_category Nbc="13" Nb="2" Na="Sport" />
+	<Category Nb="14" Na="Gesundheit" Kd="1" />
+	<Sub_category Nbc="14" Nb="1" Na="Krankenhaus" />
+	<Sub_category Nbc="14" Nb="2" Na="Praktischer Arzt" />
+	<Category Nb="15" Na="Urlaub" Kd="1" />
+	<Sub_category Nbc="15" Nb="1" Na="Hotel" />
+	<Sub_category Nbc="15" Nb="2" Na="Reisebüro" />
+</Grisbi_categ>

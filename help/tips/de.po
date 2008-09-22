@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Martin Stromberger <fabiolla@aon.at>, 2007.
+# Martin Stromberger <mstromberger@aon.at>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-12 11:39+0200\n"
-"PO-Revision-Date: 2007-10-23 22:28+0200\n"
-"Last-Translator: Martin Stromberger <fabiolla@aon.at>\n"
+"PO-Revision-Date: 2008-09-22 20:59+0200\n"
+"Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,6 @@ msgstr ""
 "Datumsfeld übernommen werden."
 
 #: tips.txt:3
-#, fuzzy
 msgid ""
 "Grisbi automatically saves a copy of your work if it crashes.\n"
 "\n"
@@ -38,11 +38,10 @@ msgstr ""
 "Durch diese Maßnahme wird ein Datenverlust verhindert."
 
 #: tips.txt:7
-#, fuzzy
 msgid ""
 "Grisbi can import Gnucash files natively, then you don't loose your work "
 "when you switch from Gnucash to Grisbi."
-msgstr "Grisbi kann Gnucash Dateien ohne Konvertierung importieren."
+msgstr "Grisbi kann Gnucash Dateien ohne Konvertierung importieren, dadurch entsteht kein Datenverlust bei einem Wechseln von Gnucash zu Grisbi."
 
 #: tips.txt:53
 msgid ""
@@ -54,7 +53,6 @@ msgstr ""
 "sourceforge.net)."
 
 #: tips.txt:45
-#, fuzzy
 msgid ""
 "There are shortcuts in date fields, to avoid typing date or selecting it "
 "with mouse.\n"
@@ -66,7 +64,7 @@ msgstr ""
 "In Datumsfeldern gibt es Tastenkombinationen für eine schnellere "
 "Dateneingabe.\n"
 "\n"
-"<i>Pfeil auf</i> und <i>Pfeil ab</i> erhöhen bzw. reduzieren das Datum um "
+"<i>+</i> und <i>-</i> erhöhen bzw. reduzieren das Datum um "
 "einen Tag, <i>Bild auf</i> und <i>Bild ab</i> erhöhen bzw. reduzieren das "
 "Datum um ein Monat... Alle Tastenkombinationen sind im Handbuch beschrieben."
 
@@ -74,7 +72,7 @@ msgstr ""
 msgid ""
 "You can archive previous financial years to speed up Grisbi and possibily "
 "put old transactions into separate files for archival."
-msgstr ""
+msgstr "Buchungen können seit Version 0.6 archiviert werden, dadurch wird die Datenverarbeitung beschleunigt. Desweiteren können archivierte Buchungen in separate Dateien verschoben werden."
 
 #: tips.txt:35
 msgid ""
@@ -112,12 +110,15 @@ msgid ""
 "If you write a category or a budgetary line which name contains a ':', a sub-"
 "category or sub-budgetary line will be created as well."
 msgstr ""
+"Kategorien oder Budgeteinträge können direkt im Buchungsformular erfasst werden.\n"
+"\n"
+"Mit dem Trennzeichen ':' können auch Unterkategorien und Teil-Budgeteinträge direkt erstellt werden, z.B.: 'Wohnung:Miete'."
 
 #: tips.txt:51
 msgid ""
 "You can customize the transaction form layout via the 'Preferences' window "
 "and define whatever layout suits your needs."
-msgstr ""
+msgstr "Das Buchungsformular kann im Dialog Einstellungen individuell angepasst werden."
 
 #: tips.txt:27
 msgid ""
@@ -159,6 +160,9 @@ msgid ""
 "Encryption is irreversible, if you loose your password, there is NO WAY to "
 "restore your Grisbi accounts.  Use with caution !"
 msgstr ""
+"Die Grisbi-Datei kann verschlüsselt werden.  Die Verschlüsselung wird im Dialog Einstellungen mit der Option 'Datei verschlüsseln' aktiviert. Das Passwort wird beim ersten Speichern nach dem Aktivieren der Verschlüsselung festgelegt.\n"
+"\n"
+"Beachten Sie bitte dass die Verschlüsselung nicht rückgängig gemacht werden werden kann - wenn Sie das Passwort vergessen ist kein Zugriff auf die Daten in der Grisbi-Datei möglich."
 
 #: tips.txt:39
 msgid ""
@@ -179,6 +183,9 @@ msgid ""
 "Combined with categories (how money is spend), budgetary lines are a "
 "powerful way to analyse budget and to make reports."
 msgstr ""
+"Mit Budgeteinträgen und Kategorien können Buchungen gruppiert und in weiterer Folge analysiert/mit Berichten ausgewertet werden.\n"
+"\n"
+"Mit den Budgeteinträgen kann das 'Warum' und mit den Kategorien das 'Wie' ausgewertet werden."
 
 #: tips.txt:1
 msgid ""
@@ -187,6 +194,8 @@ msgid ""
 "transactions with your bank receipts, you are guaranteed that your accounts "
 "are in perfect shape."
 msgstr ""
+"Buchungen können abgestimmt werden, damit die Buchungen in Grisbi mit den Buchungen von Bankkonten übereinstimmen.\n"
+"Eine Abstimmung dauert pro Monat maximal 15 Minuten, wenn Sie diese Zeit investieren sind die Buchungen in der Grisbi-Datei immer in einem konsistenten Zustand."
 
 #: tips.txt:29
 msgid ""
@@ -197,9 +206,3 @@ msgstr ""
 "erfassten Buchungen abstimmen. Die meisten Banken bieten die Möglichkeit, "
 "Kontodaten \"online\" zu exportieren."
 
-#~ msgid ""
-#~ "You can press <tt>Ctrl-R</tt> to reconcile a transaction in transactions "
-#~ "list."
-#~ msgstr ""
-#~ "Sie können mit <tt>Ctrl-R</tt> in der Buchungsübersicht eine ausgewählte "
-#~ "Buchung abstimmen."
