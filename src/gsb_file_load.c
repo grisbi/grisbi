@@ -2958,6 +2958,15 @@ void gsb_file_load_import_rule ( const gchar **attribute_names,
 	    continue;
 	}
 
+    if ( !strcmp ( attribute_names[i],
+		       "Enc" ))
+	{
+	    gsb_data_import_rule_set_charmap ( import_rule_number,
+						      attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
 	if ( !strcmp ( attribute_names[i],
 		       "Fil" ))
 	{

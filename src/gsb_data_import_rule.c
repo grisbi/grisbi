@@ -50,6 +50,9 @@ typedef struct
     /* if TRUE, all the transactions imported will have their amount inverted */
     gboolean invert_transaction_amount;
 
+    /* charmap du fichier importé   */
+    gchar *charmap;
+    
     /* last file imported with a rule */
     gchar *last_file_name;
 
@@ -246,6 +249,8 @@ static void _gsb_data_import_rule_free ( struct_import_rule* import_rule)
 	return;
     if ( import_rule -> rule_name )
 	g_free ( import_rule -> rule_name );
+    if ( import_rule -> charmap )
+    g_free (import_rule -> charmap);
     if ( import_rule -> last_file_name )
 	g_free ( import_rule -> last_file_name );
     g_free ( import_rule );
@@ -485,6 +490,55 @@ gboolean gsb_data_import_rule_set_invert ( gint import_rule_number,
 	return FALSE;
 
     import_rule -> invert_transaction_amount = invert;
+
+    return TRUE;
+}
+
+
+/**
+ * return the last_file_name of the import_rule
+ *
+ * \param import_rule_number the number of the import_rule
+ *
+ * \return the last_file_name of the import_rule or NULL if fail
+ * */
+const gchar *gsb_data_import_rule_get_charmap ( gint import_rule_number )
+{
+    struct_import_rule *import_rule;
+
+    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+
+    if (!import_rule)
+	return NULL;
+
+    return import_rule -> charmap;
+}
+
+
+/**
+ * set the charmap of the import_rule
+ *
+ * \param import_rule_number the number of the import_rule
+ * \param charmap the charmap of the import_file
+ *
+ * \return TRUE if ok or FALSE if problem
+ * */
+gboolean gsb_data_import_rule_set_charmap ( gint import_rule_number,
+					 const gchar *charmap )
+{
+    struct_import_rule *import_rule;
+
+    import_rule = gsb_data_import_rule_get_structure ( import_rule_number );
+
+    if (!import_rule)
+	return FALSE;
+
+    /* we free the last charmap */
+    if ( import_rule -> charmap )
+	g_free (import_rule -> charmap);
+
+    /* and copy the new one */
+    import_rule -> charmap = my_strdup (charmap);
 
     return TRUE;
 }

@@ -45,6 +45,7 @@ typedef enum {
 /* START_DECLARATION */
 gchar const * go_charmap_sel_get_encoding (GOCharmapSel *cs);
 GtkWidget * go_charmap_sel_new (GOCharmapSelTestDirection test);
+gboolean go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc);
 /* END_DECLARATION */
 
 G_END_DECLS

@@ -687,7 +687,7 @@ static void cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
 /* 
  * TODO dOm : this function seems not to be used :
  * warning: ‘go_charmap_sel_set_encoding’ defined but not used
- * Is it possible to remove it ?
+ * Is it possible to remove it ? */
 gboolean go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc)
 {
 	struct cb_find_entry cl;
@@ -720,7 +720,7 @@ gboolean go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc)
 
 	return TRUE;
 }
-*/
+
 
 static void cs_set_property (GObject      *object,
 		 guint         prop_id,

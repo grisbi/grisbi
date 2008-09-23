@@ -94,7 +94,7 @@ static void gsb_import_add_imported_transactions ( struct struct_compte_importat
 static gchar **gsb_import_by_rule_ask_filename ( gint rule );
 static gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
 				       GtkWidget *entry );
-static GSList *gsb_import_create_file_chooser (void);
+static GSList *gsb_import_create_file_chooser (const char *enc);
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
 				     gint account_number );
@@ -139,7 +139,7 @@ GSList *liste_comptes_importes;
 GSList *liste_comptes_importes_error;
 static gint virements_a_chercher;
 
-static GtkWidget *go_charmap_sel;
+gchar   * charmap_imported;
 
 enum import_filesel_columns {
     IMPORT_FILESEL_SELECTED = 0,
@@ -513,7 +513,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     GSList * filenames, * iterator;
     GtkTreeModel * model;
 
-    filenames = gsb_import_create_file_chooser ();
+    filenames = gsb_import_create_file_chooser (NULL);
     if (!filenames)
 	return FALSE;
 
@@ -545,7 +545,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 			     IMPORT_FILESEL_FILENAME, g_path_get_basename ( iterator -> data ),
 			     IMPORT_FILESEL_REALNAME, iterator -> data,
 			     IMPORT_FILESEL_TYPE, type,
-			     IMPORT_FILESEL_CODING, go_charmap_sel_get_encoding ( (GOCharmapSel * )go_charmap_sel ),
+			     IMPORT_FILESEL_CODING, charmap_imported,
 			     -1 );
 
 	/* CSV is special because it needs configuration, so we
@@ -580,7 +580,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
  *
  * \return a GtkFileChooser
  * */
-GSList *gsb_import_create_file_chooser (void)
+GSList *gsb_import_create_file_chooser (const char *enc)
 {
     GtkWidget * dialog, * hbox, * go_charmap_sel;
     GtkFileFilter * filter, * default_filter;
@@ -657,12 +657,17 @@ GSList *gsb_import_create_file_chooser (void)
     gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( COLON(_("Encoding")) ),
 			 FALSE, FALSE, 0 );
     go_charmap_sel = go_charmap_sel_new (GO_CHARMAP_SEL_TO_UTF8);
+    if (enc && strlen (enc))
+        go_charmap_sel_set_encoding ((GOCharmapSel *) go_charmap_sel, enc);
     gtk_box_pack_start ( GTK_BOX ( hbox ), go_charmap_sel, TRUE, TRUE, 0 );
     gtk_widget_show_all ( hbox );
 
     if ( gtk_dialog_run ( GTK_DIALOG (dialog ) ) == GTK_RESPONSE_ACCEPT )
 	filenames = gtk_file_chooser_get_filenames ( GTK_FILE_CHOOSER (dialog));
-
+    
+    /* save charmap */
+    charmap_imported = g_strdup (go_charmap_sel_get_encoding ( (GOCharmapSel * )go_charmap_sel ));
+    
     gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
     gtk_widget_destroy (dialog);
     return filenames;
@@ -1050,7 +1055,8 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ),
 							  _("Add transactions to an account") );
     gtk_box_pack_start ( GTK_BOX ( vbox ), radio, FALSE, FALSE, 0 );
-    gtk_widget_set_sensitive  ( radio, assert_account_loaded ( ) );
+    if (radio && GTK_WIDGET_VISIBLE (radio))
+        gtk_widget_set_sensitive  ( radio, assert_account_loaded ( ) );
 
     compte -> hbox2 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox2, FALSE, FALSE, 0 );
@@ -1187,14 +1193,18 @@ gboolean import_account_action_activated ( GtkWidget * radio, gint action )
 
     account = g_object_get_data ( G_OBJECT ( radio ), "account" );
 
-    gtk_widget_set_sensitive ( account -> hbox1, FALSE );
-    gtk_widget_set_sensitive ( account -> hbox2, FALSE );
-    gtk_widget_set_sensitive ( account -> hbox3, FALSE );
+    if (account -> hbox1 && GTK_WIDGET_VISIBLE (account -> hbox1))
+        gtk_widget_set_sensitive ( account -> hbox1, FALSE );
+    if (account -> hbox2 && GTK_WIDGET_VISIBLE (account -> hbox2))
+        gtk_widget_set_sensitive ( account -> hbox2, FALSE );
+    if (account -> hbox3 && GTK_WIDGET_VISIBLE (account -> hbox3))
+        gtk_widget_set_sensitive ( account -> hbox3, FALSE );
     gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT ( radio ), "associated" ), TRUE );
 
     account -> action = action;
 
-    gtk_widget_set_sensitive ( account -> hbox_rule,
+    if (account -> hbox_rule && GTK_WIDGET_VISIBLE (account -> hbox_rule))
+        gtk_widget_set_sensitive ( account -> hbox_rule,
 			       action != IMPORT_CREATE_ACCOUNT);
     return FALSE;
 }
@@ -1314,6 +1324,7 @@ void traitement_operations_importees ( void )
 	    gsb_data_import_rule_set_account (rule, account_number);
 	    gsb_data_import_rule_set_currency (rule, gsb_currency_get_currency_from_combobox (compte -> bouton_devise));
 	    gsb_data_import_rule_set_invert (rule, compte -> invert_transaction_amount);
+        gsb_data_import_rule_set_charmap (rule, charmap_imported);
 	    gsb_data_import_rule_set_last_file_name (rule, compte -> real_filename);
 	    gsb_data_import_rule_set_action (rule, compte -> action);
 	}
@@ -2087,7 +2098,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gsb_data_transaction_set_currency_number ( transaction_number,
 					       imported_transaction -> devise );
 
-    /* rÃ©cupération du tiers */
+    /* récupération du tiers */
     if ( imported_transaction -> tiers
 	 &&
 	 strlen (imported_transaction -> tiers))
@@ -3026,6 +3037,7 @@ gboolean gsb_import_by_rule ( gint rule )
     gchar **array;
     gint i=0;
 
+    charmap_imported = my_strdup ( gsb_data_import_rule_get_charmap ( rule ));
     array = gsb_import_by_rule_ask_filename (rule);
     if (!array)
 	return FALSE;
@@ -3056,7 +3068,7 @@ gboolean gsb_import_by_rule ( gint rule )
 
 	/* get the transactions */
 	imported.name = filename;
-	imported.coding_system = go_charmap_sel_get_encoding ( (GOCharmapSel * )go_charmap_sel );
+	imported.coding_system =  charmap_imported;
 	imported.type = type;
 
 	liste_comptes_importes_error = NULL;
@@ -3106,8 +3118,11 @@ gboolean gsb_import_by_rule ( gint rule )
 	/* update the current and marked balance */
 	gsb_data_account_calculate_current_and_marked_balances (account_number);
 
-	/* save the last file used */
-	gsb_data_import_rule_set_last_file_name ( rule, account -> real_filename);
+	/* save the charmap for the last file used */
+    gsb_data_import_rule_set_charmap (rule, charmap_imported);
+
+    /* save the last file used */
+	gsb_data_import_rule_set_last_file_name (rule, account -> real_filename);
 
 	g_slist_free (account -> operations_importees);
 	g_free (account);
@@ -3233,8 +3248,9 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 button,
 			 FALSE, FALSE, 0);
-
-
+    
+    g_object_set_data ( G_OBJECT(entry), "rule", GINT_TO_POINTER ( rule ) );
+    
     gtk_widget_show_all (dialog);
     if ( gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
 	array = g_strsplit ( gtk_entry_get_text (GTK_ENTRY (entry)),
@@ -3260,8 +3276,12 @@ gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
     GSList *filenames;
     GSList *tmp_list;
     gchar *string = NULL;
+    const gchar *enc;
+    gint rule;
 
-    filenames = gsb_import_create_file_chooser ();
+    rule = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (entry), "rule"));
+    enc = gsb_data_import_rule_get_charmap ( rule );
+    filenames = gsb_import_create_file_chooser (enc);
     if (!filenames)
 	return FALSE;
 

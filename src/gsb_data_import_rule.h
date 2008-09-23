@@ -9,6 +9,7 @@
 gboolean gsb_data_import_rule_account_has_rule ( gint account_number );
 gint gsb_data_import_rule_get_account ( gint import_rule_number );
 gint gsb_data_import_rule_get_action ( gint import_rule_number );
+const gchar *gsb_data_import_rule_get_charmap ( gint import_rule_number );
 gint gsb_data_import_rule_get_currency ( gint import_rule_number );
 GSList *gsb_data_import_rule_get_from_account ( gint account_number );
 gboolean gsb_data_import_rule_get_invert ( gint import_rule_number );
@@ -22,6 +23,8 @@ gboolean gsb_data_import_rule_set_account ( gint import_rule_number,
 					    gint account_number );
 gboolean gsb_data_import_rule_set_action ( gint import_rule_number,
 					   gint action );
+gboolean gsb_data_import_rule_set_charmap ( gint import_rule_number,
+					 const gchar *charmap );
 gboolean gsb_data_import_rule_set_currency ( gint import_rule_number,
 					     gint currency_number );
 gboolean gsb_data_import_rule_set_invert ( gint import_rule_number,

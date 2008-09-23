@@ -649,6 +649,7 @@ gboolean gsb_file_config_save_config ( void )
 			    "Print config",
 			    "Printer name",
 			    etat.print_config.printer_name );
+    if ( etat.print_config.printer_filename )
     g_key_file_set_string ( config,
 			    "Print config",
 			    "Printer filename",

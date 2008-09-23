@@ -280,7 +280,6 @@ macros/Makefile
 pixmaps/Makefile
 pixmaps/flags/Makefile
 po/Makefile.in
-share/Makefile
 src/Makefile
 src/plugins/g2banking/Makefile
 src/plugins/gnucash/Makefile
