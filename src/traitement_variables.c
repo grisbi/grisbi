@@ -42,6 +42,7 @@
 #include "./gsb_data_import_rule.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
+#include "./gsb_data_print_config.h"
 #include "./gsb_data_reconcile.h"
 #include "./gsb_data_report_amout_comparison.h"
 #include "./gsb_data_report.h"
@@ -235,6 +236,8 @@ void init_variables ( void )
     gsb_currency_init_variables ();
     gsb_fyear_init_variables ();
     gsb_report_init_variables ();
+
+    gsb_data_print_config_init ();
 
     /* no bank in memory for now */
     bank_list_model = NULL;

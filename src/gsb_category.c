@@ -37,14 +37,15 @@
 #include "./gsb_form_widget.h"
 #include "./gtk_combofix.h"
 #include "./gsb_data_category.h"
+#include "./utils_files.h"
 #include "./gtk_combofix.h"
 #include "./gsb_data_form.h"
 #include "./include.h"
-#include "./utils_files.h"
 /*END_INCLUDE*/
 
 
 /*START_STATIC*/
+static gint compare_basename ( gchar * file1, gchar * file2 );
 static void gsb_category_assistant_parse_file ( gchar * filename, GtkTreeModel * model );
 static GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel * model );
 static void gsb_category_assistant_start_element ( GMarkupParseContext *context, const gchar * element_name,

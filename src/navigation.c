@@ -103,7 +103,7 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source,
 
 /*START_EXTERN*/
 extern GtkTreeStore *budgetary_line_tree_model ;
-extern GtkTreeStore * categ_tree_model;
+extern GtkTreeStore * categ_tree_model ;
 extern GtkWidget *label_last_statement ;
 extern GtkWidget *menu_import_rules;
 extern GtkWidget *notebook_general ;

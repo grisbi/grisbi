@@ -30,12 +30,11 @@
 /*START_INCLUDE*/
 #include "print_report.h"
 #include "./dialog.h"
-#include "./utils_str.h"
+#include "./gsb_data_print_config.h"
 #include "./print_dialog_config.h"
 #include "./utils_font.h"
 #include "./include.h"
 #include "./erreur.h"
-#include "./structures.h"
 /*END_INCLUDE*/
 
 #if GTK_CHECK_VERSION(2,10,0)
@@ -64,9 +63,6 @@ extern GtkWidget *table_etat ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 
-
-static PangoFontDescription *font_text = NULL;
-static PangoFontDescription *font_title = NULL;
 
 /* size and pos of the columns calculated when begin the print */
 static gint size_row = 0;
@@ -136,16 +132,7 @@ gboolean print_report ( GtkWidget *button,
 			label,
 			FALSE, FALSE, 0);
 
-    if (font_text)
-	fontname_transactions = pango_font_description_to_string (font_text);
-    else
-    {
-	if (etat.utilise_fonte_listes && etat.font_string)
-	    fontname_transactions = my_strdup (etat.font_string);
-	else
-	    fontname_transactions = my_strdup ("sans 6");
-    }
-
+    fontname_transactions = pango_font_description_to_string (gsb_data_print_config_get_report_font_transactions ());
     font_button_transactions =  utils_font_create_button(&fontname_transactions, NULL, NULL);
     gtk_box_pack_start (GTK_BOX (hbox),
 			font_button_transactions,
@@ -162,10 +149,7 @@ gboolean print_report ( GtkWidget *button,
 			label,
 			FALSE, FALSE, 0);
 
-    if (font_title)
-	fontname_title = pango_font_description_to_string (font_title);
-    else
-	fontname_title = my_strdup ("sans 12");
+    fontname_title = pango_font_description_to_string (gsb_data_print_config_get_report_font_title ());
     font_button_title =  utils_font_create_button(&fontname_title, NULL, NULL);
     gtk_box_pack_start (GTK_BOX (hbox),
 			font_button_title,
@@ -177,8 +161,8 @@ gboolean print_report ( GtkWidget *button,
 
     /* save what we have done in all cases, so if we cancel and come back, our values
      * come back */
-    font_text = pango_font_description_from_string (fontname_transactions);
-    font_title = pango_font_description_from_string (fontname_title);
+    gsb_data_print_config_set_report_font_transaction (pango_font_description_from_string (fontname_transactions));
+    gsb_data_print_config_set_report_font_title (pango_font_description_from_string (fontname_title));
 
     gtk_widget_destroy (dialog);
 
@@ -211,8 +195,8 @@ gboolean print_report_begin ( GtkPrintOperation *operation,
 
     /* initialize globals variables */
     cr = gtk_print_context_get_cairo_context (context);
-    size_row = pango_font_description_get_size (font_text)/PANGO_SCALE;
-    size_title = pango_font_description_get_size (font_title)/PANGO_SCALE;
+    size_row = pango_font_description_get_size (gsb_data_print_config_get_report_font_transactions ())/PANGO_SCALE;
+    size_title = pango_font_description_get_size (gsb_data_print_config_get_report_font_title ())/PANGO_SCALE;
 
     /* get the size of a complete transaction and an archive */
     /* the heigh of a page decrease of 1 line if we use the columns titles */
@@ -446,14 +430,14 @@ static void print_report_draw_row ( GtkPrintContext *context,
     if (is_title)
     {
 	/* it's the title, special values */
-	pango_layout_set_font_description (layout, font_title);
+	pango_layout_set_font_description (layout, gsb_data_print_config_get_report_font_title ());
 	pango_layout_set_width (layout,page_width * PANGO_SCALE);
 	pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
     }
     else
     {
 	/* it's a normal line */
-	pango_layout_set_font_description (layout, font_text);
+	pango_layout_set_font_description (layout, gsb_data_print_config_get_report_font_transactions ());
 	pango_layout_set_width (layout,width);
 	pango_layout_set_alignment (layout, pango_alignment);
     }

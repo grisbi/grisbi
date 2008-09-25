@@ -43,6 +43,7 @@
 #include "./gsb_data_import_rule.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
+#include "./gsb_data_print_config.h"
 #include "./gsb_data_reconcile.h"
 #include "./gsb_data_report_amout_comparison.h"
 #include "./gsb_data_report.h"
@@ -99,6 +100,10 @@ static gulong gsb_file_save_party_part ( gulong iterator,
 static gulong gsb_file_save_payment_part ( gulong iterator,
 				    gulong *length_calculated,
 				    gchar **file_content );
+static gulong gsb_file_save_print_part ( gulong iterator,
+				  gulong *length_calculated,
+				  gchar **file_content,
+				  gint archive_number );
 static gulong gsb_file_save_reconcile_part ( gulong iterator,
 				      gulong *length_calculated,
 				      gchar **file_content );
@@ -246,7 +251,12 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 					    &file_content,
 					    archive_number );
 
-    iterator = gsb_file_save_currency_part ( iterator,
+    iterator = gsb_file_save_print_part ( iterator,
+					  &length_calculated,
+					  &file_content,
+					  archive_number );
+
+     iterator = gsb_file_save_currency_part ( iterator,
 					     &length_calculated,
 					     &file_content );
 
@@ -652,6 +662,59 @@ gulong gsb_file_save_general_part ( gulong iterator,
 				       file_content,
 				       new_string );
 }
+
+/**
+ * save the print part
+ *
+ * \param iterator the current iterator
+ * \param length_calculated a pointer to the variable lengh_calculated
+ * \param file_content a pointer to the variable file_content
+ * \param archive_number the number of the archive or 0 if not an archive 
+ *
+ * \return the new iterator
+ * */
+gulong gsb_file_save_print_part ( gulong iterator,
+				  gulong *length_calculated,
+				  gchar **file_content,
+				  gint archive_number )
+{
+    gchar *new_string;
+
+    /* save the print config informations */
+    new_string = g_markup_printf_escaped ( "\t<Print\n"
+					   "\t\tDraw_lines=\"%d\"\n"
+					   "\t\tDraw_column=\"%d\"\n"
+					   "\t\tDraw_background=\"%d\"\n"
+					   "\t\tDraw_archives=\"%d\"\n"
+					   "\t\tDraw_columns_name=\"%d\"\n"
+					   "\t\tDraw_title=\"%d\"\n"
+					   "\t\tDraw_interval_dates=\"%d\"\n"
+					   "\t\tDraw_dates_are_value_dates=\"%d\"\n"
+					   "\t\tFont_transactions=\"%s\"\n"
+					   "\t\tFont_title=\"%s\"\n"
+					   "\t\tReport_font_transactions=\"%s\"\n"
+					   "\t\tReport_font_title=\"%s\" />\n",
+					   gsb_data_print_config_get_draw_lines (),
+					   gsb_data_print_config_get_draw_column (),
+					   gsb_data_print_config_get_draw_background (),
+					   gsb_data_print_config_get_draw_archives (),
+					   gsb_data_print_config_get_draw_columns_name (),
+					   gsb_data_print_config_get_draw_title (),
+					   gsb_data_print_config_get_draw_interval_dates (),
+					   gsb_data_print_config_get_draw_dates_are_value_dates (),
+					   pango_font_description_to_string (gsb_data_print_config_get_font_transactions ()),
+					   pango_font_description_to_string (gsb_data_print_config_get_font_title ()),
+					   pango_font_description_to_string (gsb_data_print_config_get_report_font_transactions ()),
+					   pango_font_description_to_string (gsb_data_print_config_get_report_font_title ()));
+
+    /* append the new string to the file content
+     * and return the new iterator */
+    return gsb_file_save_append_part ( iterator,
+				       length_calculated,
+				       file_content,
+				       new_string );
+}
+
 
 
 /**

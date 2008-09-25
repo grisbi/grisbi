@@ -28,10 +28,11 @@
 
 /*START_INCLUDE*/
 #include "print_transactions_list.h"
+#include "./gsb_autofunc.h"
 #include "./gsb_automem.h"
 #include "./gsb_calendar_entry.h"
+#include "./gsb_data_print_config.h"
 #include "./gsb_data_transaction.h"
-#include "./utils_str.h"
 #include "./print_dialog_config.h"
 #include "./utils.h"
 #include "./transaction_model.h"
@@ -40,7 +41,6 @@
 #include "./custom_list.h"
 #include "./include.h"
 #include "./erreur.h"
-#include "./structures.h"
 /*END_INCLUDE*/
 
 #if GTK_CHECK_VERSION(2,10,0)
@@ -91,20 +91,10 @@ static gint total_transactions_printed;
 /** current row to print (this is row, not transaction) */
 static gint current_row_to_print;
 
-static gboolean draw_lines = TRUE;
-static gboolean draw_column = TRUE;
-static gboolean draw_background = FALSE;
-static gboolean draw_archives = FALSE;
-static gboolean draw_columns_name = TRUE;
-static gboolean draw_title = FALSE;
 static gchar *title_string;
-static gboolean draw_interval_dates = FALSE;
-static gboolean draw_dates_are_value_dates = FALSE;
 static GDate *draw_initial_date = NULL;
 static GDate *draw_final_date = NULL;
 
-static PangoFontDescription *font_transactions = NULL;
-static PangoFontDescription *font_title = NULL;
 
 /* size and pos of the columns calculated when begin the print */
 static gdouble columns_position[CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -122,7 +112,7 @@ static gdouble page_height = 0.0;
  * \param null
  * */
 gboolean print_transactions_list ( GtkWidget *button,
-				  gpointer null )
+				   gpointer null )
 {
     GtkWidget *dialog;
     GtkWidget *check_button;
@@ -136,6 +126,8 @@ gboolean print_transactions_list ( GtkWidget *button,
     gchar *fontname_title;
     GtkWidget *init_date_entry;
     GtkWidget *final_date_entry;
+    GtkWidget *expander;
+    GtkWidget *vbox;
 
     dialog = gtk_dialog_new_with_buttons ( _("Print transactions list"),
 					   GTK_WINDOW (window),
@@ -151,52 +143,24 @@ gboolean print_transactions_list ( GtkWidget *button,
 			label,
 			FALSE, FALSE, 0);
 
-    /* set up all the checkbuttons */
-    check_button = gsb_automem_checkbutton_new (_("Draw the lines between transactions"),
-					  &draw_lines, NULL, NULL );
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			check_button,
-			FALSE, FALSE, 0);
-    check_button = gsb_automem_checkbutton_new (_("Draw the lines between the columns"),
-					  &draw_column, NULL, NULL );
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			check_button,
-			FALSE, FALSE, 0);
-
-    check_button = gsb_automem_checkbutton_new (_("Fill the background as the transactions list"),
-					  &draw_background, NULL, NULL );
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			check_button,
-			FALSE, FALSE, 0);
-
-    check_button = gsb_automem_checkbutton_new (_("Print the archives lines"),
-						&draw_archives, NULL, NULL );
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			check_button,
-			FALSE, FALSE, 0);
-
-    check_button = gsb_automem_checkbutton_new (_("Print the names of the columns"),
-						&draw_columns_name, NULL, NULL );
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			check_button,
-			FALSE, FALSE, 0);
-
+    /* set up the title and dates, this is never saved, so ask each time */
     /* title line */
-    hbox = gtk_hbox_new (FALSE, 0);
+    hbox = gtk_hbox_new (FALSE, 10);
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
 			hbox,
 			FALSE, FALSE, 0);
 
     entry = gsb_automem_entry_new (&title_string, NULL, NULL);
 
-    check_button = gsb_automem_checkbutton_new (_("Print a title : "),
-						&draw_title,
-						G_CALLBACK (sens_desensitive_pointeur), entry);
+    check_button = gsb_autofunc_checkbutton_new (_("Print a title : "),
+						 gsb_data_print_config_get_draw_title (),
+						 G_CALLBACK (sens_desensitive_pointeur), entry,
+						 G_CALLBACK (gsb_data_print_config_set_draw_title), 0);
     gtk_box_pack_start (GTK_BOX (hbox),
 			check_button,
 			FALSE, FALSE, 0);
 
-    gtk_widget_set_sensitive (entry, draw_title);
+    gtk_widget_set_sensitive (entry, gsb_data_print_config_get_draw_title ());
     gtk_box_pack_start (GTK_BOX (hbox),
 			entry,
 			TRUE, TRUE, 0);
@@ -204,9 +168,10 @@ gboolean print_transactions_list ( GtkWidget *button,
     /* add the dates interval */
     hbox = gtk_hbox_new (FALSE, 10);
 
-    check_button = gsb_automem_checkbutton_new (_("Select dates interval : "),
-						&draw_interval_dates,
-						G_CALLBACK (sens_desensitive_pointeur), hbox);
+    check_button = gsb_autofunc_checkbutton_new (_("Select dates interval : "),
+						 gsb_data_print_config_get_draw_interval_dates (),
+						 G_CALLBACK (sens_desensitive_pointeur), hbox,
+						 G_CALLBACK (gsb_data_print_config_set_draw_interval_dates), 0);
     gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
 			check_button,
 			FALSE, FALSE, 0);
@@ -240,20 +205,72 @@ gboolean print_transactions_list ( GtkWidget *button,
 			final_date_entry,
 			FALSE, FALSE, 0);
 
-    check_button = gsb_automem_checkbutton_new (_("Use value date"),
-						&draw_dates_are_value_dates,
-						NULL, NULL);
+    check_button = gsb_autofunc_checkbutton_new (_("Use value date"),
+						 gsb_data_print_config_get_draw_dates_are_value_dates (),
+						 NULL, NULL,
+						 G_CALLBACK (gsb_data_print_config_set_draw_dates_are_value_dates), 0);
     gtk_box_pack_start (GTK_BOX (hbox),
 			check_button,
 			FALSE, FALSE, 0);
 
-    if (!draw_interval_dates)
+    if (!gsb_data_print_config_get_draw_interval_dates ())
 	gtk_widget_set_sensitive (hbox, FALSE);
+
+    
+    /* set up the buttons of general printing configuration, all is saved and restored */
+    expander = gtk_expander_new (_("General printing configuration"));
+    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+			expander,
+			FALSE, FALSE, 0);
+
+    vbox = gtk_vbox_new ( FALSE, 5 );
+    gtk_container_add ( GTK_CONTAINER (expander),
+			vbox );
+
+    /* set up all the checkbuttons */
+    check_button = gsb_autofunc_checkbutton_new (_("Draw the lines between transactions"),
+						 gsb_data_print_config_get_draw_lines (),
+						 NULL, NULL,
+						 G_CALLBACK (gsb_data_print_config_set_draw_lines), 0);
+    gtk_box_pack_start (GTK_BOX (vbox),
+			check_button,
+			FALSE, FALSE, 0);
+    check_button = gsb_autofunc_checkbutton_new (_("Draw the lines between the columns"),
+						 gsb_data_print_config_get_draw_column (),
+						 NULL, NULL,
+						 G_CALLBACK (gsb_data_print_config_set_draw_column), 0);
+    gtk_box_pack_start (GTK_BOX (vbox),
+			check_button,
+			FALSE, FALSE, 0);
+
+    check_button = gsb_autofunc_checkbutton_new (_("Fill the background as the transactions list"),
+						 gsb_data_print_config_get_draw_background (),
+						 NULL, NULL,
+						 G_CALLBACK (gsb_data_print_config_set_draw_background), 0);
+    gtk_box_pack_start (GTK_BOX (vbox),
+			check_button,
+			FALSE, FALSE, 0);
+
+    check_button = gsb_autofunc_checkbutton_new (_("Print the archives lines"),
+						 gsb_data_print_config_get_draw_archives (),
+						 NULL, NULL,
+						 G_CALLBACK (gsb_data_print_config_set_draw_archives), 0);
+    gtk_box_pack_start (GTK_BOX (vbox),
+			check_button,
+			FALSE, FALSE, 0);
+
+    check_button = gsb_autofunc_checkbutton_new (_("Print the names of the columns"),
+						 gsb_data_print_config_get_draw_columns_name (),
+						 NULL, NULL,
+						 G_CALLBACK (gsb_data_print_config_set_draw_columns_name), 0);
+    gtk_box_pack_start (GTK_BOX (vbox),
+			check_button,
+			FALSE, FALSE, 0);
 
     /* set up the font of the transactions,
      * by default use the font of the lists */
     hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+    gtk_box_pack_start (GTK_BOX (vbox),
 			hbox,
 			FALSE, FALSE, 0);
 
@@ -262,15 +279,7 @@ gboolean print_transactions_list ( GtkWidget *button,
 			label,
 			FALSE, FALSE, 0);
 
-    if (font_transactions)
-	fontname_transactions = pango_font_description_to_string (font_transactions);
-    else
-    {
-	if (etat.utilise_fonte_listes && etat.font_string)
-	    fontname_transactions = my_strdup (etat.font_string);
-	else
-	    fontname_transactions = my_strdup ("sans 6");
-    }
+    fontname_transactions = pango_font_description_to_string (gsb_data_print_config_get_font_transactions ());
     font_button_transactions =  utils_font_create_button(&fontname_transactions, NULL, NULL);
     gtk_box_pack_start (GTK_BOX (hbox),
 			font_button_transactions,
@@ -278,7 +287,7 @@ gboolean print_transactions_list ( GtkWidget *button,
 
     /* set up the font for the title */
     hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+    gtk_box_pack_start (GTK_BOX (vbox),
 			hbox,
 			FALSE, FALSE, 0);
 
@@ -287,10 +296,7 @@ gboolean print_transactions_list ( GtkWidget *button,
 			label,
 			FALSE, FALSE, 0);
 
-    if (font_title)
-	fontname_title = pango_font_description_to_string (font_title);
-    else
-	fontname_title = my_strdup ("sans 12");
+    fontname_title = pango_font_description_to_string (gsb_data_print_config_get_font_title ());
     font_button_title =  utils_font_create_button(&fontname_title, NULL, NULL);
     gtk_box_pack_start (GTK_BOX (hbox),
 			font_button_title,
@@ -302,8 +308,8 @@ gboolean print_transactions_list ( GtkWidget *button,
 
     /* save what we have done in all cases, so if we cancel and come back, our values
      * come back */
-    font_transactions = pango_font_description_from_string (fontname_transactions);
-    font_title = pango_font_description_from_string (fontname_title);
+    gsb_data_print_config_set_font_transaction (pango_font_description_from_string (fontname_transactions));
+    gsb_data_print_config_set_font_title (pango_font_description_from_string (fontname_title));
     draw_initial_date = gsb_calendar_entry_get_date (init_date_entry);
     draw_final_date = gsb_calendar_entry_get_date (final_date_entry);
 
@@ -345,8 +351,8 @@ gboolean print_transactions_list_begin ( GtkPrintOperation *operation,
     custom_list = transaction_model_get_model ();
 
     /* get the size of the title */
-    if (draw_title && title_string && strlen (title_string))
-	size_title = pango_font_description_get_size (font_title)/PANGO_SCALE;
+    if (gsb_data_print_config_get_draw_title () && title_string && strlen (title_string))
+	size_title = pango_font_description_get_size (gsb_data_print_config_get_font_title ())/PANGO_SCALE;
 
     /* we need the number of archives and of transactions to print
      * number_of_archives will be set to 0 if no draw archives */
@@ -356,17 +362,17 @@ gboolean print_transactions_list_begin ( GtkPrintOperation *operation,
 /*  xxx   mk_include 2 fois de suite modifie qd même des fichiers */
 
     /* get the size of a complete transaction and an archive */
-    size_row = pango_font_description_get_size (font_transactions)/PANGO_SCALE;
-    size_transaction = size_row * custom_list -> nb_rows_by_transaction + 2*draw_lines;
-    size_archive = size_row + 2*draw_lines;
+    size_row = pango_font_description_get_size (gsb_data_print_config_get_font_transactions ())/PANGO_SCALE;
+    size_transaction = size_row * custom_list -> nb_rows_by_transaction + 2*gsb_data_print_config_get_draw_lines ();
+    size_archive = size_row + 2*gsb_data_print_config_get_draw_lines ();
 
     /* the heigh of a page decrease of 1 line if we use the columns titles */
-    page_height = gtk_print_context_get_height (context) - draw_columns_name*size_transaction;
+    page_height = gtk_print_context_get_height (context) - gsb_data_print_config_get_draw_columns_name ()*size_transaction;
 
     /* how much transactions we can show in a page : */
     transactions_per_page_double = page_height / size_transaction;
 
-    if (!size_title && !draw_archives)
+    if (!size_title && !gsb_data_print_config_get_draw_archives ())
     {
 	/* simple way : no archives and no title */
 	nb_pages = ceil ( total_transactions_to_print / transactions_per_page_double );
@@ -426,7 +432,7 @@ gboolean print_transactions_list_draw_page ( GtkPrintOperation *operation,
 	line_position = print_transactions_list_draw_title (context, line_position);
 
     /* draw the columns titles */
-    if (draw_columns_name)
+    if (gsb_data_print_config_get_draw_columns_name ())
 	line_position = print_transactions_list_draw_columns_title (context, line_position);
 
     /* draw the transactions lines */
@@ -453,7 +459,7 @@ gboolean print_transactions_list_draw_page ( GtkPrintOperation *operation,
 	    record = custom_list -> visibles_rows[current_row_to_print];
 
 	    /* if it's an archive, check we want it */
-	    if (record -> what_is_line == IS_ARCHIVE && !draw_archives)
+	    if (record -> what_is_line == IS_ARCHIVE && !gsb_data_print_config_get_draw_archives ())
 	    {
 		/* go to the next row but come back to the first line of transaction */
 		current_row_to_print++;
@@ -462,7 +468,7 @@ gboolean print_transactions_list_draw_page ( GtkPrintOperation *operation,
 	    }
 
 	    /* if we use the dates, it's here */
-	    if (draw_interval_dates && draw_initial_date && draw_final_date
+	    if (gsb_data_print_config_get_draw_interval_dates () && draw_initial_date && draw_final_date
 		&& record -> what_is_line == IS_TRANSACTION)
 	    {
 		/* we want an interval, so check the transaction */
@@ -470,7 +476,7 @@ gboolean print_transactions_list_draw_page ( GtkPrintOperation *operation,
 		GDate *date = NULL;
 
 		transaction_number = gsb_data_transaction_get_transaction_number (record -> transaction_pointer);
-		if (draw_dates_are_value_dates)
+		if (gsb_data_print_config_get_draw_dates_are_value_dates ())
 		    date = gsb_data_transaction_get_value_date (transaction_number);
 
 		/* if no value date, get the date */
@@ -554,18 +560,18 @@ gboolean print_transactions_list_get_visibles_lines ( gint *number_of_archives,
 	switch (record -> what_is_line)
 	{
 	    case IS_ARCHIVE:
-		if (draw_archives)
+		if (gsb_data_print_config_get_draw_archives ())
 		    archives_nb++;
 		break;
 	    case IS_TRANSACTION:
-		if (draw_interval_dates && draw_initial_date && draw_final_date)
+		if (gsb_data_print_config_get_draw_interval_dates () && draw_initial_date && draw_final_date)
 		{
 		    /* we want an interval, so check the transaction */
 		    gint transaction_number;
 		    GDate *date;
 
 		    transaction_number = gsb_data_transaction_get_transaction_number (record -> transaction_pointer);
-		    if (draw_dates_are_value_dates)
+		    if (gsb_data_print_config_get_draw_dates_are_value_dates ())
 		    {
 			date = gsb_data_transaction_get_value_date (transaction_number);
 
@@ -619,11 +625,11 @@ static void print_transactions_list_calculate_columns ( gdouble page_width )
     /* set the page_width of the columns */
     for (column = 0 ; column < (CUSTOM_MODEL_VISIBLE_COLUMNS  - 1); column++ )
     {
-	columns_width[column] = (columns_position[column + 1] - columns_position[column] - 3*draw_column) * PANGO_SCALE;
+	columns_width[column] = (columns_position[column + 1] - columns_position[column] - 3*gsb_data_print_config_get_draw_column ()) * PANGO_SCALE;
 	total_text_width = total_text_width + columns_width[column];
     }
     /* last column is the rest of the line */
-    columns_width[CUSTOM_MODEL_VISIBLE_COLUMNS - 1] = (page_width -3*draw_column*(CUSTOM_MODEL_VISIBLE_COLUMNS)) * PANGO_SCALE - total_text_width;
+    columns_width[CUSTOM_MODEL_VISIBLE_COLUMNS - 1] = (page_width -3*gsb_data_print_config_get_draw_column ()*(CUSTOM_MODEL_VISIBLE_COLUMNS)) * PANGO_SCALE - total_text_width;
 }
 
 /**
@@ -639,7 +645,7 @@ static void print_transactions_list_calculate_columns ( gdouble page_width )
 static gint print_transactions_list_draw_title ( GtkPrintContext *context,
 						 gint line_position )
 {
-    if (draw_title && title_string && strlen (title_string))
+    if (gsb_data_print_config_get_draw_title () && title_string && strlen (title_string))
     {
 	PangoLayout *layout;
 
@@ -649,13 +655,13 @@ static gint print_transactions_list_draw_title ( GtkPrintContext *context,
 	layout = gtk_print_context_create_pango_layout (context);
 
 	pango_layout_set_text (layout, title_string, -1);
-	pango_layout_set_font_description (layout, font_title);
+	pango_layout_set_font_description (layout, gsb_data_print_config_get_font_title ());
 	pango_layout_set_width (layout,page_width*PANGO_SCALE);
 	pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
 	pango_layout_set_ellipsize (layout, PANGO_ELLIPSIZE_END);
 	pango_cairo_show_layout (cr, layout);
 	g_object_unref (layout);
-	line_position = line_position + pango_font_description_get_size (font_title)/PANGO_SCALE;
+	line_position = line_position + pango_font_description_get_size (gsb_data_print_config_get_font_title ())/PANGO_SCALE;
     }
     return line_position;
 }
@@ -672,7 +678,7 @@ static gint print_transactions_list_draw_columns_title ( GtkPrintContext *contex
 {
     gint column;
 
-    if (!draw_column)
+    if (!gsb_data_print_config_get_draw_column ())
 	return line_position;
 
     for (column=0 ; column<CUSTOM_MODEL_VISIBLE_COLUMNS ; column++)
@@ -694,7 +700,7 @@ static gint print_transactions_list_draw_columns_title ( GtkPrintContext *contex
 	layout = gtk_print_context_create_pango_layout (context);
 
 	pango_layout_set_text (layout, text, -1);
-	pango_layout_set_font_description (layout, font_transactions);
+	pango_layout_set_font_description (layout, gsb_data_print_config_get_font_transactions ());
 	pango_layout_set_width (layout,columns_width[column]);
 	pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
 	pango_layout_set_ellipsize (layout, PANGO_ELLIPSIZE_END);
@@ -702,7 +708,7 @@ static gint print_transactions_list_draw_columns_title ( GtkPrintContext *contex
 	pango_cairo_show_layout (cr, layout);
 	g_object_unref (layout);
     }
-    line_position = line_position + size_row + draw_lines;
+    line_position = line_position + size_row + gsb_data_print_config_get_draw_lines ();
 
     return line_position;
 }
@@ -722,12 +728,12 @@ static void print_transactions_list_draw_background ( CustomRecord *record,
 						      gboolean color_bg,
 						      gint line_position )
 {
-    if (!draw_background)
+    if (!gsb_data_print_config_get_draw_background ())
 	return;
 
     if (record -> what_is_line == IS_ARCHIVE)
     {
-	cairo_rectangle (cr, 0, line_position, page_width, size_row + 2*draw_lines);
+	cairo_rectangle (cr, 0, line_position, page_width, size_row + 2*gsb_data_print_config_get_draw_lines ());
 	cairo_set_source_rgb (cr, (gdouble) COLOR_ARCHIVE_BG_RED/65535, (gdouble) COLOR_ARCHIVE_BG_GREEN/65535, (gdouble) COLOR_ARCHIVE_BG_BLUE/65535);
     }
     else
@@ -735,7 +741,7 @@ static void print_transactions_list_draw_background ( CustomRecord *record,
 	if (color_bg)
 	{
 	    CustomList *custom_list = transaction_model_get_model ();
-	    cairo_rectangle (cr, 0, line_position, page_width, custom_list -> nb_rows_by_transaction * size_row + 2*draw_lines);
+	    cairo_rectangle (cr, 0, line_position, page_width, custom_list -> nb_rows_by_transaction * size_row + 2*gsb_data_print_config_get_draw_lines ());
 	    cairo_set_source_rgb (cr, (gdouble) COULEUR1_RED/65535, (gdouble) COULEUR1_GREEN/65535, (gdouble) COULEUR1_BLUE/65535);
 	}
 	else return;
@@ -756,7 +762,7 @@ static void print_transactions_list_draw_background ( CustomRecord *record,
  * */
 static gint print_transactions_list_draw_line ( gint line_position )
 {
-    if (!draw_lines)
+    if (!gsb_data_print_config_get_draw_lines ())
 	return line_position;
 
     /* add a space with the last transaction */
@@ -780,12 +786,12 @@ static gint print_transactions_list_draw_line ( gint line_position )
 static gint print_transactions_list_draw_column ( gint column_position,
 						 gint line_position )
 {
-    if (!draw_column)
+    if (!gsb_data_print_config_get_draw_column ())
 	return column_position;
 
     cairo_move_to (cr, column_position, line_position);
     cairo_set_line_width (cr, 0.5);
-    cairo_line_to (cr, column_position, line_position + size_row + 2*draw_lines);
+    cairo_line_to (cr, column_position, line_position + size_row + 2*gsb_data_print_config_get_draw_lines ());
     cairo_stroke (cr);
     /* add a space with the next column */
     column_position++;
@@ -832,7 +838,7 @@ static gint print_transactions_list_draw_row ( GtkPrintContext *context,
 	layout = gtk_print_context_create_pango_layout (context);
 
 	pango_layout_set_text (layout, text, -1);
-	pango_layout_set_font_description (layout, font_transactions);
+	pango_layout_set_font_description (layout, gsb_data_print_config_get_font_transactions ());
 	pango_layout_set_width (layout,columns_width[column]);
 	pango_layout_set_alignment (layout, alignment[column]);
 	pango_layout_set_ellipsize (layout, PANGO_ELLIPSIZE_END);

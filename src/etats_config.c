@@ -114,7 +114,7 @@ static  void report_config_category_toggle_categ ( struct_categ_budget_sel *cate
 						  gboolean is_categ );
 static  void report_config_category_update_treeview ( gboolean is_categ );
 static  GtkWidget *report_config_create_categ_budget_list ( void );
-static gboolean report_config_fill_categ_budget_list ( gboolean is_categ );
+static  gboolean report_config_fill_categ_budget_list ( gboolean is_categ );
 static  gboolean report_config_mix_select_all ( GtkTreeModel *model,
 					       gboolean toggle_value );
 static  gboolean report_config_mix_select_type ( gboolean is_categ,

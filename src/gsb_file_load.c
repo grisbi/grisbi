@@ -42,6 +42,7 @@
 #include "./gsb_data_import_rule.h"
 #include "./gsb_data_payee.h"
 #include "./gsb_data_payment.h"
+#include "./gsb_data_print_config.h"
 #include "./gsb_data_reconcile.h"
 #include "./gsb_data_report_amout_comparison.h"
 #include "./gsb_data_report.h"
@@ -102,6 +103,8 @@ static void gsb_file_load_party ( const gchar **attribute_names,
 			   const gchar **attribute_values );
 static void gsb_file_load_payment_part ( const gchar **attribute_names,
 				  const gchar **attribute_values );
+static void gsb_file_load_print_part ( const gchar **attribute_names,
+				const gchar **attribute_values );
 static void gsb_file_load_reconcile ( const gchar **attribute_names,
 			       const gchar **attribute_values );
 static void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
@@ -449,6 +452,14 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
     }
 
     if ( !strcmp ( element_name,
+		   "Print" ))
+    {
+	gsb_file_load_print_part ( attribute_names,
+				   attribute_values );
+	return;
+    }
+
+     if ( !strcmp ( element_name,
 		   "Account" ))
     {
 	gsb_file_load_account_part ( attribute_names,
@@ -934,6 +945,111 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
     }
     while ( attribute_names[i] );
 }
+
+/**
+ * load the print part in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_print_part ( const gchar **attribute_names,
+				const gchar **attribute_values )
+{
+    gint i=0;
+
+    if ( !attribute_names[i] )
+	return;
+
+    do
+    {
+	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+		      "(null)"))
+	{
+	    /* Nothing */
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Draw_lines" ))
+	{
+	    gsb_data_print_config_set_draw_lines (0, utils_str_atoi (attribute_values[i]));
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Draw_column" ))
+	{
+	    gsb_data_print_config_set_draw_column (0, utils_str_atoi (attribute_values[i]));
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Draw_background" ))
+	{
+	    gsb_data_print_config_set_draw_background (0, utils_str_atoi (attribute_values[i]));
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Draw_archives" ))
+	{
+	    gsb_data_print_config_set_draw_archives (0, utils_str_atoi (attribute_values[i]));
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Draw_columns_name" ))
+	{
+	    gsb_data_print_config_set_draw_columns_name (0, utils_str_atoi (attribute_values[i]));
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Draw_title" ))
+	{
+	    gsb_data_print_config_set_draw_title (0, utils_str_atoi (attribute_values[i]));
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Draw_interval_dates" ))
+	{
+	    gsb_data_print_config_set_draw_interval_dates (0, utils_str_atoi (attribute_values[i]));
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Draw_dates_are_value_dates" ))
+	{
+	    gsb_data_print_config_set_draw_dates_are_value_dates (0, utils_str_atoi (attribute_values[i]));
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Font_transactions" ))
+	{
+	    gsb_data_print_config_set_font_transaction (pango_font_description_from_string (attribute_values[i]));
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Font_title" ))
+	{
+	    gsb_data_print_config_set_font_title (pango_font_description_from_string (attribute_values[i]));
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Report_font_transactions" ))
+	{
+	    gsb_data_print_config_set_report_font_transaction (pango_font_description_from_string (attribute_values[i]));
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Report_font_title" ))
+	{
+	    gsb_data_print_config_set_report_font_title (pango_font_description_from_string (attribute_values[i]));
+	}
+
+
+	i++;
+    }
+    while ( attribute_names[i] );
+}
+
 
 
 

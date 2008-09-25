@@ -218,7 +218,7 @@ GtkWidget * print_config_general ( GtkWidget * dialog )
 		       GTK_SHRINK, GTK_SHRINK, 
 		       0, 0 );
     g_object_set_data ( G_OBJECT(dialog), "printer", radio1 );
-    g_object_set_data ( G_OBJECT(radio1), "printer_value", 1 );
+    g_object_set_data ( G_OBJECT(radio1), "printer_value", GINT_TO_POINTER (1));
     g_signal_connect ( G_OBJECT(radio1), "toggled", 
 		       (GCallback) print_config_radio_toggled, NULL );
     input1 = gtk_entry_new ( );
@@ -366,7 +366,7 @@ gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer u
   GtkWidget *peer1, *peer2;
   gboolean value;
 
-  value = g_object_get_data ( G_OBJECT(togglebutton), "printer_value" );
+  value = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT(togglebutton), "printer_value" ));
   peer1 = g_object_get_data ( G_OBJECT(togglebutton), "peer1" );
   peer2 = g_object_get_data ( G_OBJECT(togglebutton), "peer2" );
 

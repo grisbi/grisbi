@@ -70,6 +70,7 @@ sources = \
 	gsb_data_mix.c		\
 	gsb_data_payee.c	\
 	gsb_data_payment.c		\
+	gsb_data_print_config.c		\
 	gsb_data_reconcile.c	\
 	gsb_data_report.c	\
 	gsb_data_report_amout_comparison.c	\
@@ -197,6 +198,7 @@ grisbi_INCLUDES =		\
 	gsb_data_mix.h		\
 	gsb_data_payee.h	\
 	gsb_data_payment.h		\
+	gsb_data_print_config.h		\
 	gsb_data_reconcile.h	\
 	gsb_data_report.h	\
 	gsb_data_report_amout_comparison.h	\

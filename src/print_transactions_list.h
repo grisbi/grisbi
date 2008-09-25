@@ -7,6 +7,6 @@
 
 /* START_DECLARATION */
 gboolean print_transactions_list ( GtkWidget *button,
-				  gpointer null );
+				   gpointer null );
 /* END_DECLARATION */
 #endif
