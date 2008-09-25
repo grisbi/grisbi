@@ -62,6 +62,8 @@ struct print_config
 gboolean print_config ( );
 struct print_config * print_config_dup ();
 void print_config_set ( struct print_config * config );
+gboolean print_config_show_config ( GtkWidget *button,
+				    gpointer null );
 /*END_DECLARATION*/
 
 #endif /* PRINT_CONFIG_H */

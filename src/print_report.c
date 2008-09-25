@@ -32,7 +32,6 @@
 #include "./dialog.h"
 #include "./gsb_data_print_config.h"
 #include "./print_dialog_config.h"
-#include "./utils_font.h"
 #include "./include.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
@@ -60,7 +59,6 @@ static  void print_report_draw_row ( GtkPrintContext *context,
 
 /*START_EXTERN*/
 extern GtkWidget *table_etat ;
-extern GtkWidget *window ;
 /*END_EXTERN*/
 
 
@@ -80,8 +78,7 @@ static gint current_child_line = 0;
 
 
 /**
- * show a dialog to set wether we want the rows/columns lines,
- * the background color, the titles...
+ * print the current report
  *
  * \param button	toobar button
  * \param null
@@ -91,84 +88,14 @@ static gint current_child_line = 0;
 gboolean print_report ( GtkWidget *button,
 			gpointer null )
 {
-    GtkWidget *dialog;
-    GtkWidget *label;
-    gint result;
-    GtkWidget *hbox;
-    GtkWidget *font_button_transactions;
-    GtkWidget *font_button_title;
-    gchar *fontname_transactions;
-    gchar *fontname_title;
-
     if (!table_etat)
     {
 	dialogue_error_hint (_("Please select a report before trying to print it."), _("No report selected"));
 	return FALSE;
     }
 
-    dialog = gtk_dialog_new_with_buttons ( _("Print report"),
-					   GTK_WINDOW (window),
-					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					   GTK_STOCK_PRINT,
-					   GTK_RESPONSE_ACCEPT,
-					   GTK_STOCK_CANCEL,
-					   GTK_RESPONSE_REJECT,
-					   NULL);
-
-    label = gtk_label_new (_("That printing function will print the report list with the same view has actually.\nblah blah blah..."));
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			label,
-			FALSE, FALSE, 0);
-
-    /* set up the font of the transactions,
-     * by default use the font of the lists */
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			hbox,
-			FALSE, FALSE, 0);
-
-    label = gtk_label_new (_("Lines font : "));
-    gtk_box_pack_start (GTK_BOX (hbox),
-			label,
-			FALSE, FALSE, 0);
-
-    fontname_transactions = pango_font_description_to_string (gsb_data_print_config_get_report_font_transactions ());
-    font_button_transactions =  utils_font_create_button(&fontname_transactions, NULL, NULL);
-    gtk_box_pack_start (GTK_BOX (hbox),
-			font_button_transactions,
-			TRUE, TRUE, 0);
-
-    /* set up the font for the title */
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			hbox,
-			FALSE, FALSE, 0);
-
-    label = gtk_label_new (_("Title's font : "));
-    gtk_box_pack_start (GTK_BOX (hbox),
-			label,
-			FALSE, FALSE, 0);
-
-    fontname_title = pango_font_description_to_string (gsb_data_print_config_get_report_font_title ());
-    font_button_title =  utils_font_create_button(&fontname_title, NULL, NULL);
-    gtk_box_pack_start (GTK_BOX (hbox),
-			font_button_title,
-			TRUE, TRUE, 0);
-
-
-    gtk_widget_show_all (dialog);
-    result = gtk_dialog_run (GTK_DIALOG (dialog));
-
-    /* save what we have done in all cases, so if we cancel and come back, our values
-     * come back */
-    gsb_data_print_config_set_report_font_transaction (pango_font_description_from_string (fontname_transactions));
-    gsb_data_print_config_set_report_font_title (pango_font_description_from_string (fontname_title));
-
-    gtk_widget_destroy (dialog);
-
-    if (result == GTK_RESPONSE_ACCEPT)
-	print_dialog_config ( G_CALLBACK (print_report_begin),
-			      G_CALLBACK (print_report_draw_page));
+    print_dialog_config ( G_CALLBACK (print_report_begin),
+			  G_CALLBACK (print_report_draw_page));
     return FALSE;
 }
 

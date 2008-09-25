@@ -1,6 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2008 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2008 Cedric Auger (cedric@grisbi.org)		      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -25,10 +26,12 @@
 /*START_INCLUDE*/
 #include "print_config.h"
 #include "./utils_file_selection.h"
+#include "./gsb_data_print_config.h"
 #include "./utils_files.h"
 #include "./utils_str.h"
 #include "./utils.h"
 #include "./dialog.h"
+#include "./utils_font.h"
 #include "./include.h"
 #include "./structures.h"
 /*END_INCLUDE*/
@@ -61,7 +64,90 @@ extern GtkWidget *window ;
 /*END_EXTERN*/
 
 
-/* FIXME : is this functions/file still usefull with the new print report ? */
+/**
+ * show a dialog to configure the report print
+ *
+ * \param button
+ * \param null
+ *
+ * \return FALSE
+ * */
+gboolean print_config_show_config ( GtkWidget *button,
+				    gpointer null )
+{
+    GtkWidget *dialog;
+    GtkWidget *label;
+    gint result;
+    GtkWidget *hbox;
+    GtkWidget *font_button_transactions;
+    GtkWidget *font_button_title;
+    gchar *fontname_transactions;
+    gchar *fontname_title;
+
+    dialog = gtk_dialog_new_with_buttons ( _("Configure print report"),
+					   GTK_WINDOW (window),
+					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+					   GTK_STOCK_OK,
+					   GTK_RESPONSE_ACCEPT,
+					   GTK_STOCK_CANCEL,
+					   GTK_RESPONSE_REJECT,
+					   NULL);
+
+    label = gtk_label_new (_("Configure the print report parameters"));
+    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+			label,
+			FALSE, FALSE, 0);
+
+    /* set up the font of the transactions,
+     * by default use the font of the lists */
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+			hbox,
+			FALSE, FALSE, 0);
+
+    label = gtk_label_new (_("Lines font : "));
+    gtk_box_pack_start (GTK_BOX (hbox),
+			label,
+			FALSE, FALSE, 0);
+
+    fontname_transactions = pango_font_description_to_string (gsb_data_print_config_get_report_font_transactions ());
+    font_button_transactions =  utils_font_create_button(&fontname_transactions, NULL, NULL);
+    gtk_box_pack_start (GTK_BOX (hbox),
+			font_button_transactions,
+			TRUE, TRUE, 0);
+
+    /* set up the font for the title */
+    hbox = gtk_hbox_new (FALSE, 0);
+    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+			hbox,
+			FALSE, FALSE, 0);
+
+    label = gtk_label_new (_("Title's font : "));
+    gtk_box_pack_start (GTK_BOX (hbox),
+			label,
+			FALSE, FALSE, 0);
+
+    fontname_title = pango_font_description_to_string (gsb_data_print_config_get_report_font_title ());
+    font_button_title =  utils_font_create_button(&fontname_title, NULL, NULL);
+    gtk_box_pack_start (GTK_BOX (hbox),
+			font_button_title,
+			TRUE, TRUE, 0);
+
+
+    gtk_widget_show_all (dialog);
+    result = gtk_dialog_run (GTK_DIALOG (dialog));
+
+    if (result == GTK_RESPONSE_ACCEPT)
+    {
+	gsb_data_print_config_set_report_font_transaction (pango_font_description_from_string (fontname_transactions));
+	gsb_data_print_config_set_report_font_title (pango_font_description_from_string (fontname_title));
+    }
+    gtk_widget_destroy (dialog);
+    return FALSE;
+}
+
+
+/* FIXME : remove all of that when debian stable goes into gtk 2.10 */
 /** 
  * Open a dialog window which asks for information about paper,
  * margins, etc..

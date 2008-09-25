@@ -161,6 +161,20 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
 			   bouton_imprimer_etat,
 			   _("Print selected report"), "" );
+
+    /* the print config button */
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					    GTK_STOCK_PRINT, 
+					    _("Config Print"),
+					    G_CALLBACK (print_config_show_config),
+					    NULL );
+    g_signal_connect ( G_OBJECT (button ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &button );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
+			   button,
+			   _("Configure Printing"), "" );
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, FALSE, 0 );
+
 #else
     bouton_imprimer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
 							  GTK_STOCK_PRINT, 
