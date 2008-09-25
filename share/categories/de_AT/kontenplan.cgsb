@@ -1,0 +1,273 @@
+<?xml version="1.0"?>
+<Grisbi_categ>
+	<General
+		File_version="0.6.0"
+		Grisbi_version="0.6.0"
+		Title="Einheitskontenrahmen"
+		Description="Einheitskontenrahmen für Österreich" />
+	<Category Nb="1" Na="00 Aufwendungen für das Ingangsetzen und Erweitern eines Betriebes" Kd="1" />
+	<Sub_category Nbc="1" Nb="1" Na="001 Aufwendungen für das Ingangsetzen und Erweitern eines Betriebes" />
+	<Sub_category Nbc="1" Nb="2" Na="009 Kumulierte Abschreibungen" />
+	<Category Nb="2" Na="01 Immaterielle Vermögensgegenstände" Kd="0" />
+	<Sub_category Nbc="2" Nb="1" Na="010 Konzessionen" />
+	<Sub_category Nbc="2" Nb="2" Na="011 Patentrechte und Lizenzen" />
+	<Sub_category Nbc="2" Nb="3" Na="012 Datenverarbeitungsprogramme" />
+	<Sub_category Nbc="2" Nb="4" Na="013 Marken, Warenzeichen und Musterschutzrechte, sonstige Urheberrechte" />
+	<Sub_category Nbc="2" Nb="5" Na="014 Pacht- und Mietrechte" />
+	<Sub_category Nbc="2" Nb="6" Na="015 Geschäfts(Firmen)wert" />
+	<Sub_category Nbc="2" Nb="7" Na="018 Geleistete Anzahlungen" />
+	<Sub_category Nbc="2" Nb="8" Na="019 Kumulierte Abschreibungen" />
+	<Category Nb="3" Na="02 - 03 Grundstücke, grundstücksgleiche Rechte und Bauten" Kd="1" />
+	<Sub_category Nbc="3" Nb="1" Na="020 Unbebaute Grundstücke" />
+	<Sub_category Nbc="3" Nb="2" Na="021 Bebaute Grundstücke (Grundwert)" />
+	<Sub_category Nbc="3" Nb="3" Na="022 Grundstücksgleiche Rechte" />
+	<Sub_category Nbc="3" Nb="4" Na="030 Betriebs- und Geschäftsgebäude auf eigenem Grund" />
+	<Sub_category Nbc="3" Nb="5" Na="031 Wohn- und Sozialgebäude auf eigenem Grund" />
+	<Sub_category Nbc="3" Nb="6" Na="032 Betriebs- und Geschäftsgebäude auf fremdem Grund" />
+	<Sub_category Nbc="3" Nb="7" Na="033 Wohn- und Sozialgebäude auf fremdem Grund" />
+	<Sub_category Nbc="3" Nb="8" Na="034 Grundstückseinrichtungen auf eigenem Grund" />
+	<Sub_category Nbc="3" Nb="9" Na="035 Grundstückseinrichtungen auf fremdem Grund" />
+	<Sub_category Nbc="3" Nb="10" Na="036 Bauliche Investitionen in fremden (gepachteten) Betriebs- und Geschäftsgebäuden" />
+	<Sub_category Nbc="3" Nb="11" Na="037 Bauliche Investitionen in fremden (gepachteten) Wohn- und Sozialgebäuden" />
+	<Sub_category Nbc="3" Nb="12" Na="039 Kumulierte Abschreibungen" />
+	<Category Nb="4" Na="04 - 05 Technische Anlagen und Maschinen" Kd="1" />
+	<Sub_category Nbc="4" Nb="1" Na="040 Fertigungsmaschinen" />
+	<Sub_category Nbc="4" Nb="2" Na="041 Antriebsmaschinen" />
+	<Sub_category Nbc="4" Nb="3" Na="042 Energieversorgungsanlagen" />
+	<Sub_category Nbc="4" Nb="4" Na="043 Transportanlagen" />
+	<Sub_category Nbc="4" Nb="5" Na="044-049 Sonstige Maschinen und maschinelle Anlagen" />
+	<Sub_category Nbc="4" Nb="6" Na="050 Maschinenwerkzeuge" />
+	<Sub_category Nbc="4" Nb="7" Na="051 Allgemeine Werkzeuge und Handwerkzeuge" />
+	<Sub_category Nbc="4" Nb="8" Na="052 Vorrichtungen, Formen und Modelle" />
+	<Sub_category Nbc="4" Nb="9" Na="053 Andere Erzeugungshilfsmittel" />
+	<Sub_category Nbc="4" Nb="10" Na="054 Hebezeuge und Montageanlagen" />
+	<Sub_category Nbc="4" Nb="11" Na="055 Geringwertige Vermögensgegenstände, soweit im Erzeugungsprozeß verwendet" />
+	<Category Nb="5" Na="06 Andere Anlagen, Betriebs- und Geschäftsausstattung" Kd="1" />
+	<Sub_category Nbc="5" Nb="1" Na="060 Beheizungs- und Beleuchtungsanlagen" />
+	<Sub_category Nbc="5" Nb="2" Na="061 Nachrichten- und Kontrollanlagen" />
+	<Sub_category Nbc="5" Nb="3" Na="062 Büromaschinen, EDV-Anlagen" />
+	<Sub_category Nbc="5" Nb="4" Na="063 PKW" />
+	<Sub_category Nbc="5" Nb="5" Na="064 LKW" />
+	<Sub_category Nbc="5" Nb="6" Na="065 Andere Beförderungsmittel" />
+	<Sub_category Nbc="5" Nb="7" Na="066 Andere Betriebs- und Geschäftsausstattung" />
+	<Sub_category Nbc="5" Nb="8" Na="067 Gebinde" />
+	<Sub_category Nbc="5" Nb="9" Na="068 Geringwertige Vermögensgegenstände, soweit nicht im Erzeugungsprozess verwendet" />
+	<Sub_category Nbc="5" Nb="10" Na="069 Kumulierte Abschreibungen" />
+	<Category Nb="6" Na="07 Geleistete Anzahlungen und Anlagen in Bau" Kd="1" />
+	<Sub_category Nbc="6" Nb="1" Na="070 Geleistete Anzahlungen" />
+	<Sub_category Nbc="6" Nb="2" Na="071 Anlagen in Bau" />
+	<Sub_category Nbc="6" Nb="3" Na="079 Kumulierte Abschreibungen" />
+	<Category Nb="7" Na="08 - 09 Finanzanlagen" Kd="0" />
+	<Sub_category Nbc="7" Nb="1" Na="080 Anteile an verbundenen Unternehmen" />
+	<Sub_category Nbc="7" Nb="2" Na="081 Beteiligungen an Gemeinschaftsunternehmen" />
+	<Sub_category Nbc="7" Nb="3" Na="082 Beteiligungen an angeschlossenen (assoziierten) Unternehmen" />
+	<Sub_category Nbc="7" Nb="4" Na="083 Sonstige Beteiligungen" />
+	<Sub_category Nbc="7" Nb="5" Na="084 Ausleihungen an verbundene Unternehmen" />
+	<Sub_category Nbc="7" Nb="6" Na="085 Ausleihungen an Unternehmen, mit denen ein Beteiligungsverhältnis besteht" />
+	<Sub_category Nbc="7" Nb="7" Na="086 Sonstige Ausleihungen" />
+	<Sub_category Nbc="7" Nb="8" Na="087 Anteile an Kapitalgesellschaften ohne Beteiligungscharakter" />
+	<Sub_category Nbc="7" Nb="9" Na="088 Anteile an Personengesellschaften ohne Beteiligungscharakter" />
+	<Sub_category Nbc="7" Nb="10" Na="090 Genossenschaftsanteile ohne Beteiligungscharakter" />
+	<Sub_category Nbc="7" Nb="11" Na="091 Anteile an Investmentfonds" />
+	<Sub_category Nbc="7" Nb="12" Na="092-093 Festverzinsliche Wertpapiere des Anlagevermögens" />
+	<Sub_category Nbc="7" Nb="13" Na="094-097 Sonstige Finanzanlagen, Wertrechte" />
+	<Sub_category Nbc="7" Nb="14" Na="098 Geleistete Anzahlungen" />
+	<Sub_category Nbc="7" Nb="15" Na="099 Kumulierte Abschreibungen" />
+	<Category Nb="8" Na="10 Bezugsverrechnung" Kd="1" />
+	<Category Nb="9" Na="11 Rohstoffe" Kd="1" />
+	<Category Nb="10" Na="12 Bezogene Teile" Kd="1" />
+	<Category Nb="11" Na="13 Hilfsstoffe, Betriebsstoffe" Kd="1" />
+	<Category Nb="12" Na="14 Unfertige Erzeugnisse" Kd="1" />
+	<Category Nb="13" Na="15 Fertige Erzeugnisse" Kd="1" />
+	<Category Nb="14" Na="16 Waren" Kd="1" />
+	<Category Nb="15" Na="17 Noch nicht abrechenbare Leistungen" Kd="1" />
+	<Category Nb="16" Na="18 Geleistete Anzahlungen" Kd="1" />
+	<Category Nb="17" Na="19 Wertberichtigungen" Kd="1" />
+	<Category Nb="18" Na="20 - 21 Forderungen aus Lieferungen und Leistungen" Kd="0" />
+	<Sub_category Nbc="18" Nb="1" Na="200-207 Forderungen aus Lieferungen und Leistungen Inland" />
+	<Sub_category Nbc="18" Nb="2" Na="208 Einzelwertberichtigungen zu Forderungen aus Lieferungen und Leistungen Inland" />
+	<Sub_category Nbc="18" Nb="3" Na="209 Pauschalwertberichtigungen zu Forderungen aus Lieferungen und Leistungen Inland" />
+	<Sub_category Nbc="18" Nb="4" Na="210-212 Forderungen aus Lieferungen und Leistungen Währungsunion" />
+	<Sub_category Nbc="18" Nb="5" Na="213 Einzelwertberichtigungen zu Forderungen aus Lieferungen und Leistungen Währungsunion" />
+	<Sub_category Nbc="18" Nb="6" Na="214 Pauschalwertberichtigungen zu Forderungen aus Lieferungen und Leistungen Währungsunion" />
+	<Sub_category Nbc="18" Nb="7" Na="215-217 Forderungen aus Lieferungen und Leistungen sonstiges Ausland" />
+	<Sub_category Nbc="18" Nb="8" Na="218 Einzelwertberichtigungen zu Forderungen aus Lieferungen und Leistungen sonstiges Ausland" />
+	<Sub_category Nbc="18" Nb="9" Na="219 Pauschalwertberichtigungen zu Forderungen aus Lieferungen und Leistungen sonstiges Ausland" />
+	<Category Nb="19" Na="22 Forderungen gegenüber verbundenen Unternehmen und Unternehmen" Kd="0" />
+	<Sub_category Nbc="19" Nb="1" Na="220-222 Forderungen gegenüber verbundenen Unternehmen" />
+	<Sub_category Nbc="19" Nb="2" Na="223 Einzelwertberichtigungen zu Forderungen gegenüber verbundenen Unternehmen" />
+	<Sub_category Nbc="19" Nb="3" Na="224 Pauschalwertberichtigungen zu Forderungen gegenüber verbundenen Unternehmen" />
+	<Sub_category Nbc="19" Nb="4" Na="225-227 Forderungen gegenüber Unternehmen, mit denen ein Beteiligungsverhältnis besteht" />
+	<Sub_category Nbc="19" Nb="5" Na="228 Einzelwertberichtigungen zu Forderungen gegenüber Unternehmen, mit denen ein Beteiligungsverhältnis besteht" />
+	<Sub_category Nbc="19" Nb="6" Na="229 Pauschalwertberichtigungen zu Forderungen gegenüber Unternehmen, mit denen ein Beteiligungsverhältnis besteht" />
+	<Category Nb="20" Na="23 - 24 Sonstige Forderungen und Vermögensgegenstände" Kd="0" />
+	<Sub_category Nbc="20" Nb="1" Na="230-246 Sonstige Forderungen und Vermögensgegenstände" />
+	<Sub_category Nbc="20" Nb="2" Na="247 Eingeforderte, aber noch nicht eingezahlte Einlagen" />
+	<Sub_category Nbc="20" Nb="3" Na="248 Einzelwertberichtigungen zu sonstigen Forderungen und Vermögensgegenständen" />
+	<Sub_category Nbc="20" Nb="4" Na="249 Pauschalwertberichtigungen zu sonstigen Forderungen und Vermögensgegenständen" />
+	<Category Nb="21" Na="25 Forderungen aus der Abgabenverrechnung" Kd="0" />
+	<Sub_category Nbc="21" Nb="1" Na="250-259 Forderungen aus der Abgabenverrechnung" />
+	<Category Nb="22" Na="26 Wertpapiere und Anteile" Kd="0" />
+	<Sub_category Nbc="22" Nb="1" Na="260 Eigene Anteile" />
+	<Sub_category Nbc="22" Nb="2" Na="261 Anteile an verbundenen Unternehmen" />
+	<Sub_category Nbc="22" Nb="3" Na="262 Sonstige Anteile" />
+	<Sub_category Nbc="22" Nb="4" Na="263-267 Sonstige Wertpapiere" />
+	<Sub_category Nbc="22" Nb="5" Na="268 Besitzwechsel, soweit dem Unternehmen nicht die der Ausstellung zugrundeliegenden Forderungen zustehen" />
+	<Sub_category Nbc="22" Nb="6" Na="269 Wertberichtigungen" />
+	<Category Nb="23" Na="27 - 28 Kassenbestand, Schecks, Guthaben bei Kreditinstituten" Kd="0" />
+	<Sub_category Nbc="23" Nb="1" Na="270-272 Kassenbestände in Inlandswährung" />
+	<Sub_category Nbc="23" Nb="2" Na="273 Postwertzeichen" />
+	<Sub_category Nbc="23" Nb="3" Na="274 Stempelmarken" />
+	<Sub_category Nbc="23" Nb="4" Na="275-277 Kassenbestände in Fremdwährung" />
+	<Sub_category Nbc="23" Nb="5" Na="278 Schecks in Inlandswährung" />
+	<Sub_category Nbc="23" Nb="6" Na="280-288 Guthaben bei Kreditinstituten" />
+	<Sub_category Nbc="23" Nb="7" Na="289 Wertberichtigungen" />
+	<Category Nb="24" Na="29 Rechnungsabgrenzungsposten" Kd="0" />
+	<Sub_category Nbc="24" Nb="1" Na="290 Aktive Rechnungsabgrenzungsposten" />
+	<Sub_category Nbc="24" Nb="2" Na="295 Disagio" />
+	<Sub_category Nbc="24" Nb="3" Na="296 Unterschiedsbetrag zur gebotenen Pensionsrückstellung" />
+	<Sub_category Nbc="24" Nb="4" Na="297 Unterschiedsbetrag gem. Abschnitt XII Pensionskassengesetz" />
+	<Sub_category Nbc="24" Nb="5" Na="298 Steuerabgrenzung" />
+	<Category Nb="25" Na="30 Rückstellungen" Kd="1" />
+	<Sub_category Nbc="25" Nb="1" Na="300 Rückstellungen für Abfertigungen" />
+	<Sub_category Nbc="25" Nb="2" Na="301 Rückstellungen für Pensionen" />
+	<Sub_category Nbc="25" Nb="3" Na="302-303 Steuerrückstellungen" />
+	<Sub_category Nbc="25" Nb="4" Na="304-309 Sonstige Rückstellungen" />
+	<Category Nb="26" Na="31 Anleihen, Verbindlichkeiten gegenüber Kreditinstituten und Finanzinstituten" Kd="1" />
+	<Sub_category Nbc="26" Nb="1" Na="310 Anleihen (einschließlich konvertibler)" />
+	<Sub_category Nbc="26" Nb="2" Na="311-317 Verbindlichkeiten gegenüber Kreditinstituten" />
+	<Sub_category Nbc="26" Nb="3" Na="318-319 Verbindlichkeiten gegenüber Finanzinstituten" />
+	<Category Nb="27" Na="32 Erhaltene Anzahlungen auf Bestellungen" Kd="0" />
+	<Sub_category Nbc="27" Nb="1" Na="320 Erhaltene Anzahlungen auf Bestellungen" />
+	<Sub_category Nbc="27" Nb="2" Na="321 Umsatzsteuer-Evidenzkonto für erhaltene Anzahlungen auf Bestellungen" />
+	<Category Nb="28" Na="33 Verbindlichkeiten aus Lieferungen und Leistungen, Verbindlichkeiten" Kd="1" />
+	<Sub_category Nbc="28" Nb="1" Na="330-335 Verbindlichkeiten aus Lieferungen und Leistungen Inland" />
+	<Sub_category Nbc="28" Nb="2" Na="336 Verbindlichkeiten aus Lieferungen und Leistungen Währungsunion" />
+	<Sub_category Nbc="28" Nb="3" Na="337 Verbindlichkeiten aus Lieferungen und Leistungen sonstiges Ausland" />
+	<Sub_category Nbc="28" Nb="4" Na="338-339 Verbindlichkeiten aus der Annahme gezogener Wechsel und der Ausstellung eigener Wechsel" />
+	<Category Nb="29" Na="34 Verbindlichkeiten gegenüber verbundenen Unternehmen, gegenüber Unternehmen" Kd="1" />
+	<Sub_category Nbc="29" Nb="1" Na="340-347 Verbindlichkeiten gegenüber verbundenen Unternehmen, Verbindlichkeiten gegenüber Unternehmen, mit denen ein Beteiligungsverhältnis besteht" />
+	<Sub_category Nbc="29" Nb="2" Na="348 Verbindlichkeiten gegenüber Gesellschaftern" />
+	<Category Nb="30" Na="35 Verbindlichkeiten aus Steuern" Kd="1" />
+	<Sub_category Nbc="30" Nb="1" Na="350-359 Verbindlichkeiten aus Steuern" />
+	<Category Nb="31" Na="36 Verbindlichkeiten im Rahmen der sozialen Sicherheit" Kd="1" />
+	<Sub_category Nbc="31" Nb="1" Na="360-369 Verbindlichkeiten im Rahmen der sozialen Sicherheit" />
+	<Category Nb="32" Na="37 - 38 Übrige sonstige Verbindlichkeiten" Kd="1" />
+	<Sub_category Nbc="32" Nb="1" Na="370-389 Übrige sonstige Verbindlichkeiten" />
+	<Category Nb="33" Na="39 Rechnungsabgrenzungsposten" Kd="1" />
+	<Sub_category Nbc="33" Nb="1" Na="390-399 Passive Rechnungsabgrenzungsposten" />
+	<Category Nb="34" Na="40 - 44 Brutto-Umsatzerlöse und Erlösschmälerungen" Kd="0" />
+	<Sub_category Nbc="34" Nb="1" Na="400-439 Brutto-Umsatzerlöse" />
+	<Sub_category Nbc="34" Nb="2" Na="440-449 Erlösschmälerungen" />
+	<Category Nb="35" Na="45 Bestandsveränderungen und aktivierte Eigenleistungen" Kd="0" />
+	<Sub_category Nbc="35" Nb="1" Na="450-457 Veränderungen des Bestandes an fertigen und unfertigen Erzeugnissen sowie an noch nicht abrechenbaren Leistungen" />
+	<Sub_category Nbc="35" Nb="2" Na="458-459 andere aktivierte Eigenleistungen" />
+	<Category Nb="36" Na="46 - 49 Sonstige betriebliche Erträge" Kd="0" />
+	<Sub_category Nbc="36" Nb="1" Na="460-462 Erlöse aus dem Abgang vom Anlagevermögen, ausgenommen Finanzanlagen" />
+	<Sub_category Nbc="36" Nb="2" Na="463-465 Erträge aus dem Abgang vom Anlagevermögen, ausgenommen Finanzanlagen" />
+	<Sub_category Nbc="36" Nb="3" Na="466-467 Erträge aus der Zuschreibung zum Anlagevermögen, ausgenommen Finanzanlagen" />
+	<Sub_category Nbc="36" Nb="4" Na="470-479 Erträge aus der Auflösung von Rückstellungen" />
+	<Sub_category Nbc="36" Nb="5" Na="480-499 Übrige betriebliche Erträge" />
+	<Category Nb="37" Na="50 Wareneinsatz" Kd="1" />
+	<Category Nb="38" Na="51 Verbrauch von Rohstoffen" Kd="1" />
+	<Category Nb="39" Na="52 Verbrauch von bezogenen Fertig- und Einzelteilen" Kd="1" />
+	<Category Nb="40" Na="53 Verbrauch von Hilfsstoffen" Kd="1" />
+	<Category Nb="41" Na="54 Verbrauch von Betriebsstoffen" Kd="1" />
+	<Category Nb="42" Na="55 Verbrauch von Werkzeugen und anderen Erzeugungshilfsmitteln" Kd="1" />
+	<Category Nb="43" Na="56 Verbrauch von Brenn- und Treibstoffen, Energie und Wasser" Kd="1" />
+	<Category Nb="44" Na="57 Sonstige bezogene Herstellungsleistungen" Kd="1" />
+	<Category Nb="45" Na="58 Skontoerträge auf Materialaufwand sowie auf sonstige bezogene Herstellungsleistungen" Kd="1" />
+	<Category Nb="46" Na="59 Aufwandsstellenrechnung" Kd="1" />
+	<Category Nb="47" Na="60-61 Löhne" Kd="1" />
+	<Category Nb="48" Na="62-63 Gehälter" Kd="1" />
+	<Category Nb="49" Na="64 Aufwendungen für Abfertigungen, Aufwendungen für Altersversorgung" Kd="1" />
+	<Category Nb="50" Na="65 Gesetzlicher Sozialaufwand Arbeiter und Angestellte" Kd="1" />
+	<Category Nb="51" Na="66 Lohn- und gehaltsabhängige Abgaben und Pflichtbeiträge" Kd="1" />
+	<Category Nb="52" Na="67-68 Sonstige Sozialaufwendungen" Kd="1" />
+	<Category Nb="53" Na="69 Aufwandsstellenrechnung" Kd="1" />
+	<Category Nb="54" Na="70 Abschreibungen" Kd="1" />
+	<Sub_category Nbc="54" Nb="1" Na="700 Abschreibungen auf aktivierte Aufwendungen für das Ingangsetzen und Erweitern eines Betriebes" />
+	<Sub_category Nbc="54" Nb="2" Na="701-708 Abschreibungen auf das Anlagevermögen (ausgenommen Finanzanlagen)" />
+	<Sub_category Nbc="54" Nb="3" Na="709 Abschreibungen vom Umlaufvermögen, soweit diese die im Unternehmen üblichen Abschreibungen übersteigen" />
+	<Category Nb="55" Na="71 Sonstige Steuern" Kd="1" />
+	<Sub_category Nbc="55" Nb="1" Na="710-719 Sonstige Steuern" />
+	<Category Nb="56" Na="72 Instandhaltung und Reinigung durch Dritte, Entsorgung, Beleuchtung" Kd="1" />
+	<Sub_category Nbc="56" Nb="1" Na="720-729 Instandhaltung und Reinigung durch Dritte, Entsorgung, Beleuchtung" />
+	<Category Nb="57" Na="73 Transport-, Reise- und Fahrtaufwand, Nachrichtenaufwand" Kd="1" />
+	<Sub_category Nbc="57" Nb="1" Na="730-731 Transporte durch Dritte" />
+	<Sub_category Nbc="57" Nb="2" Na="732-733 Kfz-Aufwand" />
+	<Sub_category Nbc="57" Nb="3" Na="734-735 Reise- und Fahrtaufwand" />
+	<Sub_category Nbc="57" Nb="4" Na="736-737 Tag- und Nächtigungsgelder" />
+	<Sub_category Nbc="57" Nb="5" Na="738-739 Nachrichtenaufwand" />
+	<Category Nb="58" Na="74 Miet-, Pacht-, Leasing- und Lizenzaufwand" Kd="1" />
+	<Sub_category Nbc="58" Nb="1" Na="740-743 Miet- und Pachtaufwand" />
+	<Sub_category Nbc="58" Nb="2" Na="744-747 Leasingaufwand" />
+	<Sub_category Nbc="58" Nb="3" Na="748-749 Lizenzaufwand" />
+	<Category Nb="59" Na="75 Aufwand für beigestelltes Personal, Provisionen an Dritte, Aufsichtsratsvergütungen" Kd="1" />
+	<Sub_category Nbc="59" Nb="1" Na="750-753 Aufwand für beigestelltes Personal" />
+	<Sub_category Nbc="59" Nb="2" Na="754-757 Provisionen an Dritte" />
+	<Sub_category Nbc="59" Nb="3" Na="758-759 Aufsichtsratsvergütungen" />
+	<Category Nb="60" Na="76 Büro-, Werbe- und Repräsentationsaufwand" Kd="1" />
+	<Sub_category Nbc="60" Nb="1" Na="760 Büromaterial und Drucksorten" />
+	<Sub_category Nbc="60" Nb="2" Na="761-762 Druckerzeugnisse und Vervielfältigungen" />
+	<Sub_category Nbc="60" Nb="3" Na="763 Fachliteratur und Zeitungen" />
+	<Sub_category Nbc="60" Nb="4" Na="765-768 Werbung und Repräsentation" />
+	<Sub_category Nbc="60" Nb="5" Na="769 Spenden und Trinkgelder" />
+	<Category Nb="61" Na="77 - 78 Versicherungen, Übrige Aufwendungen" Kd="1" />
+	<Sub_category Nbc="61" Nb="1" Na="770-774 Versicherungen" />
+	<Sub_category Nbc="61" Nb="2" Na="775-776 Beratungs- und Prüfungsaufwand" />
+	<Sub_category Nbc="61" Nb="3" Na="777 Aus- und Fortbildung" />
+	<Sub_category Nbc="61" Nb="4" Na="778 Mitgliedsbeiträge" />
+	<Sub_category Nbc="61" Nb="5" Na="779 Spesen des Geldverkehrs" />
+	<Sub_category Nbc="61" Nb="6" Na="780-781 Schadensfälle" />
+	<Sub_category Nbc="61" Nb="7" Na="782 Buchwert abgegangener Anlagen, ausgenommen Finanzanlagen" />
+	<Sub_category Nbc="61" Nb="8" Na="783 Verluste aus dem Abgang vom Anlagevermögen, ausgenommen Finanzanlagn" />
+	<Sub_category Nbc="61" Nb="9" Na="784-788 Verschiedene betriebliche Aufwendungen" />
+	<Sub_category Nbc="61" Nb="10" Na="789 Skontoerträge auf sonstige betriebliche Aufwendungen" />
+	<Category Nb="62" Na="79 Konten für das Umsatzkostenverfahren" Kd="1" />
+	<Sub_category Nbc="62" Nb="1" Na="790 Aufwandsstellenrechnung" />
+	<Sub_category Nbc="62" Nb="2" Na="791 - 799 Aufwandsstellen im Rahmen des Umsatzkostenverfahrens" />
+	<Sub_category Nbc="62" Nb="3" Na="791-795 Aufwandsstellen der Herstellung" />
+	<Sub_category Nbc="62" Nb="4" Na="796 Herstellungskosten der zur Erzielung der Umsatzerlöse erbrachten Leistungen" />
+	<Sub_category Nbc="62" Nb="5" Na="797 Vertriebskosten" />
+	<Sub_category Nbc="62" Nb="6" Na="798 Verwaltungskosten" />
+	<Sub_category Nbc="62" Nb="7" Na="799 Sonstige betriebliche Aufwendungen" />
+	<Category Nb="63" Na="80 - 83 Finanzerträge und Finanzaufwendungen" Kd="0" />
+	<Sub_category Nbc="63" Nb="1" Na="800-804 Erträge aus Beteiligungen" />
+	<Sub_category Nbc="63" Nb="2" Na="805-809 Erträge aus anderen Wertpapieren und Ausleihungen des Finanzanlagevermögens" />
+	<Sub_category Nbc="63" Nb="3" Na="810-813 Sonstige Zinsen und ähnliche Erträge" />
+	<Sub_category Nbc="63" Nb="4" Na="814 Erlöse aus dem Abgang von Beteiligungen" />
+	<Sub_category Nbc="63" Nb="5" Na="815 Erlöse aus dem Abgang von sonstigen Finanzanlagen" />
+	<Sub_category Nbc="63" Nb="6" Na="816 Erlöse aus dem Abgang von Wertpapieren des Umlaufvermögens" />
+	<Sub_category Nbc="63" Nb="7" Na="817 Buchwert abgegangener Beteiligungen" />
+	<Sub_category Nbc="63" Nb="8" Na="818 Buchwert abgegangener sonstiger Finanzanlagen" />
+	<Sub_category Nbc="63" Nb="9" Na="819 Buchwert abgegangener Wertpapiere des Umlaufvermögens" />
+	<Sub_category Nbc="63" Nb="10" Na="820 Erträge aus dem Abgang von und der Zuschreibung zu Finanzanlagen" />
+	<Sub_category Nbc="63" Nb="11" Na="821 Erträge aus dem Abgang von und der Zuschreibung zu Wertpapieren des Umlaufvermögens" />
+	<Sub_category Nbc="63" Nb="12" Na="822-825 Aufwendungen aus Beteiligungen" />
+	<Sub_category Nbc="63" Nb="13" Na="826-827 Aufwendungen aus sonstigen Finanzanlagen und aus Wertpapieren des Umlaufvermögens" />
+	<Sub_category Nbc="63" Nb="14" Na="828-834 Zinsen und ähnliche Aufwendungen" />
+	<Sub_category Nbc="63" Nb="15" Na="835 Nicht ausgenützte Lieferantenskonti" />
+	<Category Nb="64" Na="84 Außerordentliche Erträge und außerordentliche Aufwendungen" Kd="0" />
+	<Sub_category Nbc="64" Nb="1" Na="840-844 Außerordentliche Erträge" />
+	<Sub_category Nbc="64" Nb="2" Na="845-849 Außerordentliche Aufwendungen" />
+	<Category Nb="65" Na="85 Steuern vom Einkommen und vom Ertrag" Kd="1" />
+	<Sub_category Nbc="65" Nb="1" Na="850-859 Steuern vom Einkommen und vom Ertrag" />
+	<Category Nb="66" Na="86 - 89 Rücklagenbewegung, Ergebnisüberrechnung" Kd="0" />
+	<Sub_category Nbc="66" Nb="1" Na="860-869 Auflösung unversteuerter Rücklagen" />
+	<Sub_category Nbc="66" Nb="2" Na="870-874 Auflösung von Kapitalrücklagen" />
+	<Sub_category Nbc="66" Nb="3" Na="875-879 Auflösung von Gewinnrücklagen" />
+	<Sub_category Nbc="66" Nb="4" Na="880-889 Zuweisung zu unversteuerten Rücklagen" />
+	<Sub_category Nbc="66" Nb="5" Na="890-895 Zuweisung zu Gewinnrücklagen" />
+	<Sub_category Nbc="66" Nb="6" Na="899 Gewinnabfuhr bzw. Verlustüberrechnung aus Ergebnisabführungsverträgen" />
+	<Category Nb="67" Na="90 Gezeichnetes bzw. gewidmetes Kapital" Kd="0" />
+	<Category Nb="68" Na="91 Nicht eingeforderte ausstehende Einlagen" Kd="0" />
+	<Category Nb="69" Na="92 Kapitalrücklagen" Kd="0" />
+	<Category Nb="70" Na="93 Gewinnrücklagen, Bilanzgewinn, Bilanzverlust" Kd="0" />
+	<Category Nb="71" Na="94 Bewertungsreserven" Kd="0" />
+	<Category Nb="72" Na="95 Sonstige unversteuerte Rücklagen" Kd="0" />
+	<Category Nb="73" Na="96 Privat- und Verrechnungskonten bei Einzelunternehmen und Personengesellschaften" Kd="0" />
+	<Category Nb="74" Na="97 Einlagen Stiller Gesellschafter" Kd="0" />
+	<Category Nb="75" Na="98 Eröffnungsbilanz, Schlussbilanz, Gewinn- und Verlustrechnung" Kd="0" />
+	<Category Nb="76" Na="99 Evidenzkonten" Kd="0" />
+</Grisbi_categ>
