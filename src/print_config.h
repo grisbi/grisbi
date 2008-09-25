@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2004 Benjamin Drieu (bdrieu@april.org)		      */
+/*     Copyright (C)	2008 Benjamin Drieu (bdrieu@april.org)		      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -62,8 +62,11 @@ struct print_config
 gboolean print_config ( );
 struct print_config * print_config_dup ();
 void print_config_set ( struct print_config * config );
-gboolean print_config_show_config ( GtkWidget *button,
-				    gpointer null );
+GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
+				       gpointer null );
+gboolean print_config_show_config_apply ( GtkPrintOperation * operation,
+					  GtkWidget * widget,
+					  gpointer null );
 /*END_DECLARATION*/
 
 #endif /* PRINT_CONFIG_H */

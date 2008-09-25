@@ -72,79 +72,88 @@ extern GtkWidget *window ;
  *
  * \return FALSE
  * */
-gboolean print_config_show_config ( GtkWidget *button,
-				    gpointer null )
+GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
+				       gpointer null )
 {
-    GtkWidget *dialog;
-    GtkWidget *label;
-    gint result;
-    GtkWidget *hbox;
-    GtkWidget *font_button_transactions;
-    GtkWidget *font_button_title;
-    gchar *fontname_transactions;
-    gchar *fontname_title;
+    GtkWidget * hbox, * label, * paddingbox;
+    GtkWidget * font_button_transactions, * vbox, * font_button_title;
+    GtkSizeGroup * size_group;
 
-    dialog = gtk_dialog_new_with_buttons ( _("Configure print report"),
-					   GTK_WINDOW (window),
-					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					   GTK_STOCK_OK,
-					   GTK_RESPONSE_ACCEPT,
-					   GTK_STOCK_CANCEL,
-					   GTK_RESPONSE_REJECT,
-					   NULL);
+    vbox = gtk_vbox_new ( FALSE, 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Fonts") );
 
-    label = gtk_label_new (_("Configure the print report parameters"));
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			label,
-			FALSE, FALSE, 0);
+    size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
     /* set up the font of the transactions,
      * by default use the font of the lists */
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+    hbox = gtk_hbox_new (FALSE, 12);
+    gtk_box_pack_start (GTK_BOX ( paddingbox ),
 			hbox,
 			FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Lines font : "));
+    label = gtk_label_new (_("Lines font"));
+    gtk_size_group_add_widget ( size_group, label );
     gtk_box_pack_start (GTK_BOX (hbox),
 			label,
 			FALSE, FALSE, 0);
 
-    fontname_transactions = pango_font_description_to_string (gsb_data_print_config_get_report_font_transactions ());
-    font_button_transactions =  utils_font_create_button(&fontname_transactions, NULL, NULL);
+    font_button_transactions = gtk_font_button_new_with_font ( pango_font_description_to_string ( gsb_data_print_config_get_report_font_transactions ( ) ) );
+    gtk_font_button_set_use_font ( GTK_FONT_BUTTON(font_button_transactions), TRUE );
+    gtk_font_button_set_use_size ( GTK_FONT_BUTTON(font_button_transactions), TRUE );
     gtk_box_pack_start (GTK_BOX (hbox),
 			font_button_transactions,
 			TRUE, TRUE, 0);
 
     /* set up the font for the title */
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+    hbox = gtk_hbox_new (FALSE, 12);
+    gtk_box_pack_start (GTK_BOX ( paddingbox ),
 			hbox,
 			FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Title's font : "));
+    label = gtk_label_new (_("Title's font"));
+    gtk_size_group_add_widget ( size_group, label );
     gtk_box_pack_start (GTK_BOX (hbox),
 			label,
 			FALSE, FALSE, 0);
 
-    fontname_title = pango_font_description_to_string (gsb_data_print_config_get_report_font_title ());
-    font_button_title =  utils_font_create_button(&fontname_title, NULL, NULL);
+    font_button_title = gtk_font_button_new_with_font ( pango_font_description_to_string ( gsb_data_print_config_get_report_font_title ( ) ) );
+    gtk_font_button_set_use_font ( GTK_FONT_BUTTON(font_button_title), TRUE );
+    gtk_font_button_set_use_size ( GTK_FONT_BUTTON(font_button_title), TRUE );
     gtk_box_pack_start (GTK_BOX (hbox),
 			font_button_title,
 			TRUE, TRUE, 0);
 
+    g_object_set_data ( G_OBJECT(operation), "font_transaction_button", font_button_transactions );
+    g_object_set_data ( G_OBJECT(operation), "font_title_button", font_button_title );
 
-    gtk_widget_show_all (dialog);
-    result = gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_show_all ( vbox );
 
-    if (result == GTK_RESPONSE_ACCEPT)
-    {
-	gsb_data_print_config_set_report_font_transaction (pango_font_description_from_string (fontname_transactions));
-	gsb_data_print_config_set_report_font_title (pango_font_description_from_string (fontname_title));
-    }
-    gtk_widget_destroy (dialog);
+    return vbox;
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean print_config_show_config_apply ( GtkPrintOperation * operation,
+					  GtkWidget * widget,
+					  gpointer null )
+{
+    GtkFontButton * font_button_transactions, * font_button_title;
+
+    font_button_transactions = g_object_get_data ( G_OBJECT(operation), "font_transaction_button" );
+    font_button_title = g_object_get_data ( G_OBJECT(operation), "font_title_button" );
+
+    gsb_data_print_config_set_report_font_transaction ( pango_font_description_from_string ( gtk_font_button_get_font_name ( font_button_transactions ) ) );
+    gsb_data_print_config_set_report_font_title ( pango_font_description_from_string ( gtk_font_button_get_font_name ( font_button_title ) ) );
+    
     return FALSE;
 }
+
 
 
 /* FIXME : remove all of that when debian stable goes into gtk 2.10 */
