@@ -74,7 +74,6 @@ void display_tip ( gboolean force )
 	dialog_message ( "no-tip-available" );
 	return;
     }
-    printf (">%s<\n", tip);
     dialog = dialogue_special_no_run ( GTK_MESSAGE_INFO, GTK_BUTTONS_NONE,
 				       make_hint ( _("Did you know that..."),
 						   /* We use the grisbi-tips catalog */

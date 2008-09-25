@@ -500,7 +500,7 @@ GtkWidget *gsb_form_config_create_buttons_table ( void )
 	    gchar *string;
 	    gchar *changed_string;
 
-	    string = gsb_form_widget_get_name (current_element_number);
+	    string = _(gsb_form_widget_get_name (current_element_number));
 
 	    if ( string )
 	    {
@@ -874,9 +874,9 @@ gboolean gsb_form_config_fill_store ( gint account_number )
 	for ( column = 0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
 	    gtk_list_store_set ( GTK_LIST_STORE ( store ),
 				 &iter,
-				 column, gsb_form_widget_get_name (gsb_data_form_get_value ( account_number,
+				 column, _(gsb_form_widget_get_name (gsb_data_form_get_value ( account_number,
 											     column,
-											     row )),
+											     row ))),
 				 -1 );
     }
     return FALSE;

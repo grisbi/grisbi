@@ -570,7 +570,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
     g_signal_connect (cell, "toggled", G_CALLBACK (gsb_gui_messages_toggled), model);
 
     cell = gtk_cell_renderer_text_new ();
-    column = gtk_tree_view_column_new_with_attributes ("Message", cell, "text", 1, NULL);
+    column = gtk_tree_view_column_new_with_attributes (_("Message"), cell, "text", 1, NULL);
     gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), GTK_TREE_VIEW_COLUMN (column));
 
     for  ( i = 0; messages[i].name; i++ )
@@ -579,7 +579,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
 	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
 	gtk_tree_store_set (GTK_TREE_STORE (model), &iter,
 			    0, !messages[i] . hidden,
-			    1, messages[i] . hint,
+			    1, _(messages[i] . hint),
 			    2, i,
 			    -1);
     }

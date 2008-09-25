@@ -59,6 +59,7 @@ src/gsb_data_import_rule.c
 src/gsb_data_mix.c
 src/gsb_data_payee.c
 src/gsb_data_payment.c
+src/gsb_data_print_config.c
 src/gsb_data_reconcile.c
 src/gsb_data_report_amout_comparison.c
 src/gsb_data_report.c
