@@ -29,6 +29,7 @@
 
 /*START_INCLUDE*/
 #include "print_dialog_config.h"
+#include "print_config.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -58,9 +59,13 @@ void print_dialog_config ( GCallback begin_callback,
 
     print = gtk_print_operation_new ();
 
+    gtk_print_operation_set_custom_tab_label ( print, _("Fonts") );
+
     if (settings != NULL) 
 	gtk_print_operation_set_print_settings (print, settings);
 
+    g_signal_connect (print, "create-custom-widget", G_CALLBACK (print_config_show_config), NULL);
+    g_signal_connect (print, "custom-widget-apply", G_CALLBACK (print_config_show_config_apply), NULL);
     g_signal_connect (print, "begin_print", G_CALLBACK (begin_callback), NULL);
     g_signal_connect (print, "draw_page", G_CALLBACK (draw_callback), NULL);
 
