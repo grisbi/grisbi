@@ -834,7 +834,6 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	date = gsb_data_transaction_get_date (transaction_number);
 
 	/* si la date de début de période est nulle, on la met au début de la période la date de l'opération */
-
 	if ( !date_debut_periode )
 	{
 	    if ( transaction_number )
@@ -845,8 +844,14 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 		switch ( gsb_data_report_get_period_split_type (current_report_number))
 		{
 		    case 0:
-			/* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
+			/* split by day, set the day of the transaction */
+			date_debut_periode = g_date_new_dmy ( g_date_day ( date),
+							      g_date_month ( date),
+							      g_date_year ( date));
+			break;
 
+		    case 1:
+			/* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
 			date_debut_periode = g_date_new_dmy ( g_date_day ( date),
 							      g_date_month ( date),
 							      g_date_year ( date));
@@ -862,7 +867,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 			}
 			break;
 
-		    case 1:
+		    case 2:
 			/* séparation par mois */
 
 			date_debut_periode = g_date_new_dmy ( 1,
@@ -870,7 +875,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 							      g_date_year ( date));
 			break;
 
-		    case 2:
+		    case 3:
 			/* séparation par an */
 
 			date_debut_periode = g_date_new_dmy ( 1,
@@ -885,13 +890,42 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	}
 
 	/* on vérifie maintenant s'il faut afficher un total ou pas */
-
 	switch ( gsb_data_report_get_period_split_type (current_report_number))
 	{
-	    gchar buffer[30];
+	    gchar buffer[60];
 	    GDate *date_tmp;
 
 	    case 0:
+	    /* split by day, we do nothing only if it's the same day as the transaction before */
+	    if ( !force
+		 &&
+		 !g_date_compare ( date,
+				   date_debut_periode ))
+		return ( ligne );
+
+	    /* ok, not the same day, we show a separation */
+	    g_date_strftime ( buffer,
+			      59,
+			      "%A %d %B %Y",
+			      date_debut_periode );
+
+	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
+	    {
+	        gchar* fmtstr;
+		if ( nb_ope_periode_etat <= 1 )
+		    fmtstr = _("Result of %s (%d transaction)");
+		else
+		    fmtstr = _("Result of %s (%d transactions)");
+		text = g_strdup_printf ( COLON(fmtstr), buffer, nb_ope_periode_etat );
+	    }
+	    else
+		text = g_strdup_printf ( COLON(_("Result of %s")),
+					 buffer );
+
+
+	    break;
+
+	    case 1:
 	    /* séparation par semaine */
 
 	    /* 	  si c'est le même jour que l'opé précédente, on fait rien */
@@ -962,7 +996,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
 	    break;
 
-	    case 1:
+	    case 2:
 	    /* séparation par mois */
 
 	    if ( !force
@@ -971,7 +1005,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 		return ( ligne );
 
 	    g_date_strftime ( buffer,
-			      29,
+			      59,
 			      "%B %Y",
 			      date_debut_periode );
 
@@ -990,7 +1024,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
 	    break;
 
-	    case 2:
+	    case 3:
 	    /* séparation par an */
 
 	    if ( !force
@@ -999,7 +1033,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 		return ( ligne );
 
 	    g_date_strftime ( buffer,
-			      29,
+			      59,
 			      "%Y",
 			      date_debut_periode );
 
@@ -1047,10 +1081,15 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	{
 	    /*  il y a une opération, on va rechercher le début de la période qui la contient */
 	    /* ça peut être le début de la semaine, du mois ou de l'année de l'opé */
-
 	    switch ( gsb_data_report_get_period_split_type (current_report_number))
 	    {
 		case 0:
+		    /* split by day, set on the transactions day */
+		    date_debut_periode = g_date_new_dmy ( g_date_day ( date),
+							  g_date_month ( date),
+							  g_date_year ( date));
+		    break;
+		case 1:
 		    /* séparation par semaine : on recherche le début de la semaine qui contient l'opé */
 
 		    date_debut_periode = g_date_new_dmy ( g_date_day ( date),
@@ -1068,7 +1107,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 		    }
 		    break;
 
-		case 1:
+		case 2:
 		    /* séparation par mois */
 
 		    date_debut_periode = g_date_new_dmy ( 1,
@@ -1076,7 +1115,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 							  g_date_year ( date));
 		    break;
 
-		case 2:
+		case 3:
 		    /* séparation par an */
 
 		    date_debut_periode = g_date_new_dmy ( 1,

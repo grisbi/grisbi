@@ -910,7 +910,7 @@ gboolean ajout_etat ( void )
 	    gsb_data_report_set_period_split ( report_number,
 					       1 );
 	    gsb_data_report_set_period_split_type ( report_number,
-						    2 );
+						    3 );
 	    gsb_data_report_set_transfer_choice ( report_number,
 						  2 );
 

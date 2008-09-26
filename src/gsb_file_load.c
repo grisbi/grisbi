@@ -6309,8 +6309,9 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Sep_plages" ))
     {
+	/* in 0.6 we add separation per day, so + 1 */
 	gsb_data_report_set_period_split_type ( last_report_number,
-						utils_str_atoi (text));
+						utils_str_atoi (text) + 1);
 	return;
     }
 

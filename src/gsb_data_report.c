@@ -91,7 +91,7 @@ typedef struct
     GDate *personal_date_start;
     GDate *personal_date_end;
     gint period_split;       /* TRUE : split by period */
-    gint period_split_type;        /*  0=week, 1=month, 2=year */
+    gint period_split_type;        /*  0=day, 1=week, 2=month, 3=year */
     gint period_split_day;           /* 0 = monday ... */
 
     GSList *sorting_type;  /* list of numbers : 1=categ,2=sub-categ,3=budget,4=sub-budget,5=account,6=payee */
@@ -3571,7 +3571,6 @@ gboolean gsb_data_report_set_transfer_account_numbers ( gint report_number,
     return TRUE;
 }
 
-/* xxx ajouter le groupage par jour dans les états en plus de semaine et mois */
 
 /**
  * return the list of struct_categ_budget_sel
