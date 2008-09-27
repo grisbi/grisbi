@@ -9,6 +9,7 @@ grisbi_pixmaps_DATA = \
 	archives.png \
 	asset.png \
 	csv.png \
+	balance_estimate.png \
 	bank-account.png \
 	banks.png \
 	budgetary_lines.png \
