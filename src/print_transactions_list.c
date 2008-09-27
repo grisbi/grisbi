@@ -362,7 +362,7 @@ gboolean print_transactions_list ( GtkWidget * button,
 {
     print_dialog_config ( G_CALLBACK (print_transactions_list_begin),
 			  G_CALLBACK (print_transactions_list_draw_page),
-			  _("Layout"),
+			  _("Fonts & layout"),
 			  G_CALLBACK (print_transactions_list_layout_config),
 			  G_CALLBACK (print_transactions_list_apply) );
     return FALSE;
