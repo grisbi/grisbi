@@ -98,6 +98,8 @@ static GSList *gsb_import_create_file_chooser (const char *enc);
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
 				     gint account_number );
+static gboolean gsb_import_set_tmp_file ( gchar * filename,
+				       gchar * pointeur_char );
 static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
 static gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *path_str,
 				 gpointer model );
@@ -525,8 +527,9 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     {
 	GtkTreeIter iter;
 	const gchar * type;
+    gchar * nom_fichier;
 	gchar * pointeur_char;
-	GError * error;
+	GError * error = NULL;
 
 	/* Open file */
 	if ( ! g_file_get_contents ( iterator -> data, &pointeur_char, NULL, &error ) )
@@ -536,17 +539,32 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 	}
 
 	type = autodetect_file_type ( iterator -> data, pointeur_char );
-	g_free (pointeur_char);
+        
+    /* passe par un fichier temporaire pour bipasser le bug libofx */
+    if ( ! strcmp ( type, "OFX" ) )
+	{
+        nom_fichier = g_strconcat (g_get_tmp_dir (),G_DIR_SEPARATOR_S, 
+                                   g_path_get_basename ( iterator -> data ), NULL);
+        if (! gsb_import_set_tmp_file (nom_fichier, pointeur_char ) )
+        {
+            g_free (pointeur_char);
+            return FALSE;
+        }
+    }
+    else
+        nom_fichier = my_strdup (iterator -> data);
 
+    g_free (pointeur_char);
 	gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
 	gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
 			     IMPORT_FILESEL_SELECTED, TRUE,
 			     IMPORT_FILESEL_TYPENAME, type,
 			     IMPORT_FILESEL_FILENAME, g_path_get_basename ( iterator -> data ),
-			     IMPORT_FILESEL_REALNAME, iterator -> data,
+			     IMPORT_FILESEL_REALNAME, nom_fichier,
 			     IMPORT_FILESEL_TYPE, type,
 			     IMPORT_FILESEL_CODING, charmap_imported,
 			     -1 );
+    g_free (nom_fichier);
 
 	/* CSV is special because it needs configuration, so we
 	 * add a conditional jump there. */
@@ -3307,6 +3325,25 @@ gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
     return FALSE;
 }
 
+gboolean gsb_import_set_tmp_file ( gchar * filename,
+				       gchar * pointeur_char )
+{
+    gchar * contenu_fichier;
+    GError * error = NULL;
+    
+    contenu_fichier = my_strdelimit (pointeur_char, "°", " ");
+    
+    /* create tmp file */
+	if ( ! g_file_set_contents ( filename, contenu_fichier, -1, &error ) )
+	{
+        g_free (contenu_fichier);
+	    g_print ( _("Unable to create tmp file: %s\n"), error -> message);
+	    return FALSE;
+	}
+    
+    g_free (contenu_fichier);
+    return TRUE;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
