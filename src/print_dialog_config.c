@@ -48,24 +48,32 @@ static GtkPrintSettings *settings = NULL;
  *
  * \param begin_callback	the function to call when the "begin" signal is emited
  * \param draw_callback		the function to call when the "draw" signal is emited
- *
- * \return
- * */
+ * \param custom_tab_label	Tab title for an optional custom config tab
+ * \param custom_tab_callback	Callback that creates an optional config tab 
+ * \param custom_apply_callback	Callback called when user validate config
+ */
 void print_dialog_config ( GCallback begin_callback,
-			   GCallback draw_callback )
+			   GCallback draw_callback,
+			   gchar * custom_tab_label,
+			   GCallback custom_tab_callback,
+			   GCallback custom_apply_callback )
 {
     GtkPrintOperation *print;
     GtkPrintOperationResult res;
 
     print = gtk_print_operation_new ();
 
-    gtk_print_operation_set_custom_tab_label ( print, _("Fonts") );
-
     if (settings != NULL) 
 	gtk_print_operation_set_print_settings (print, settings);
 
-    g_signal_connect (print, "create-custom-widget", G_CALLBACK (print_config_show_config), NULL);
-    g_signal_connect (print, "custom-widget-apply", G_CALLBACK (print_config_show_config_apply), NULL);
+    /* Custom stuff */
+    if ( custom_tab_label )
+	gtk_print_operation_set_custom_tab_label ( print, custom_tab_label );
+    if ( custom_tab_callback )
+	g_signal_connect (print, "create-custom-widget", custom_tab_callback, NULL);
+    if ( custom_apply_callback )
+	g_signal_connect (print, "custom-widget-apply", custom_apply_callback, NULL);
+
     g_signal_connect (print, "begin_print", G_CALLBACK (begin_callback), NULL);
     g_signal_connect (print, "draw_page", G_CALLBACK (draw_callback), NULL);
 

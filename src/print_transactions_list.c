@@ -69,7 +69,10 @@ static  gint print_transactions_list_draw_title ( GtkPrintContext *context,
 						 gint line_position );
 static gboolean print_transactions_list_get_visibles_lines ( gint *number_of_archives,
 						      gint *number_of_transactions );
+static GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operation,
+							   gpointer null );
 /*END_STATIC*/
+
 
 /*START_EXTERN*/
 extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
@@ -104,20 +107,22 @@ static cairo_t *cr = NULL;
 static gdouble page_width = 0.0;
 static gdouble page_height = 0.0;
 
+
+
 /**
- * show a dialog to set wether we want the rows/columns lines,
+ * Show a dialog to set wether we want the rows/columns lines,
  * the background color, the titles...
  *
- * \param button	toobar button
- * \param null
- * */
-gboolean print_transactions_list ( GtkWidget *button,
-				   gpointer null )
+ * \param operation	GtkPrintOperation responsible of this job.
+ * \param null		Not used.
+ *
+ * \return		A newly allocated widget.
+ */
+GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operation,
+						    gpointer null )
 {
-    GtkWidget *dialog;
     GtkWidget *check_button;
     GtkWidget *label;
-    gint result;
     GtkWidget *hbox;
     GtkWidget *entry;
     GtkWidget *font_button_transactions;
@@ -126,27 +131,20 @@ gboolean print_transactions_list ( GtkWidget *button,
     gchar *fontname_title;
     GtkWidget *init_date_entry;
     GtkWidget *final_date_entry;
-    GtkWidget *expander;
     GtkWidget *vbox;
+    GtkWidget *paddingbox;
+    GtkSizeGroup * size_group;
 
-    dialog = gtk_dialog_new_with_buttons ( _("Print transactions list"),
-					   GTK_WINDOW (window),
-					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					   GTK_STOCK_PRINT,
-					   GTK_RESPONSE_ACCEPT,
-					   GTK_STOCK_CANCEL,
-					   GTK_RESPONSE_REJECT,
-					   NULL);
+    size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
-    label = gtk_label_new (_("That printing function will print the transactions list with the same view has actually.\nSo you need to change the number of rows per line, the sort of the list,\n the transactions viewed before coming here."));
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			label,
-			FALSE, FALSE, 0);
+    vbox = gtk_vbox_new ( FALSE, 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Layout") );
 
     /* set up the title and dates, this is never saved, so ask each time */
     /* title line */
     hbox = gtk_hbox_new (FALSE, 10);
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+    gtk_box_pack_start (GTK_BOX (paddingbox),
 			hbox,
 			FALSE, FALSE, 0);
 
@@ -172,12 +170,12 @@ gboolean print_transactions_list ( GtkWidget *button,
 						 gsb_data_print_config_get_draw_interval_dates (),
 						 G_CALLBACK (sens_desensitive_pointeur), hbox,
 						 G_CALLBACK (gsb_data_print_config_set_draw_interval_dates), 0);
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+    gtk_box_pack_start (GTK_BOX (paddingbox),
 			check_button,
 			FALSE, FALSE, 0);
 
 
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+    gtk_box_pack_start (GTK_BOX (paddingbox),
 			hbox,
 			FALSE, FALSE, 0);
 
@@ -216,30 +214,20 @@ gboolean print_transactions_list ( GtkWidget *button,
     if (!gsb_data_print_config_get_draw_interval_dates ())
 	gtk_widget_set_sensitive (hbox, FALSE);
 
-    
-    /* set up the buttons of general printing configuration, all is saved and restored */
-    expander = gtk_expander_new (_("General printing configuration"));
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			expander,
-			FALSE, FALSE, 0);
-
-    vbox = gtk_vbox_new ( FALSE, 5 );
-    gtk_container_add ( GTK_CONTAINER (expander),
-			vbox );
 
     /* set up all the checkbuttons */
     check_button = gsb_autofunc_checkbutton_new (_("Draw the lines between transactions"),
 						 gsb_data_print_config_get_draw_lines (),
 						 NULL, NULL,
 						 G_CALLBACK (gsb_data_print_config_set_draw_lines), 0);
-    gtk_box_pack_start (GTK_BOX (vbox),
+    gtk_box_pack_start (GTK_BOX (paddingbox),
 			check_button,
 			FALSE, FALSE, 0);
     check_button = gsb_autofunc_checkbutton_new (_("Draw the lines between the columns"),
 						 gsb_data_print_config_get_draw_column (),
 						 NULL, NULL,
 						 G_CALLBACK (gsb_data_print_config_set_draw_column), 0);
-    gtk_box_pack_start (GTK_BOX (vbox),
+    gtk_box_pack_start (GTK_BOX (paddingbox),
 			check_button,
 			FALSE, FALSE, 0);
 
@@ -247,7 +235,7 @@ gboolean print_transactions_list ( GtkWidget *button,
 						 gsb_data_print_config_get_draw_background (),
 						 NULL, NULL,
 						 G_CALLBACK (gsb_data_print_config_set_draw_background), 0);
-    gtk_box_pack_start (GTK_BOX (vbox),
+    gtk_box_pack_start (GTK_BOX (paddingbox),
 			check_button,
 			FALSE, FALSE, 0);
 
@@ -255,7 +243,7 @@ gboolean print_transactions_list ( GtkWidget *button,
 						 gsb_data_print_config_get_draw_archives (),
 						 NULL, NULL,
 						 G_CALLBACK (gsb_data_print_config_set_draw_archives), 0);
-    gtk_box_pack_start (GTK_BOX (vbox),
+    gtk_box_pack_start (GTK_BOX (paddingbox),
 			check_button,
 			FALSE, FALSE, 0);
 
@@ -263,48 +251,58 @@ gboolean print_transactions_list ( GtkWidget *button,
 						 gsb_data_print_config_get_draw_columns_name (),
 						 NULL, NULL,
 						 G_CALLBACK (gsb_data_print_config_set_draw_columns_name), 0);
-    gtk_box_pack_start (GTK_BOX (vbox),
+    gtk_box_pack_start (GTK_BOX (paddingbox),
 			check_button,
 			FALSE, FALSE, 0);
 
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Fonts") );
+
     /* set up the font of the transactions,
      * by default use the font of the lists */
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox),
+    hbox = gtk_hbox_new (FALSE, 12);
+    gtk_box_pack_start (GTK_BOX (paddingbox),
 			hbox,
 			FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Transaction's font : "));
+    label = gtk_label_new (_("Transactions font"));
+    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    gtk_size_group_add_widget ( size_group, label );
     gtk_box_pack_start (GTK_BOX (hbox),
 			label,
 			FALSE, FALSE, 0);
 
     fontname_transactions = pango_font_description_to_string (gsb_data_print_config_get_font_transactions ());
-    font_button_transactions =  utils_font_create_button(&fontname_transactions, NULL, NULL);
+    font_button_transactions = gtk_font_button_new_with_font ( fontname_transactions );
+    gtk_font_button_set_use_font ( GTK_FONT_BUTTON(font_button_transactions), TRUE );
+    gtk_font_button_set_use_size ( GTK_FONT_BUTTON(font_button_transactions), TRUE );
+
     gtk_box_pack_start (GTK_BOX (hbox),
 			font_button_transactions,
 			TRUE, TRUE, 0);
 
     /* set up the font for the title */
-    hbox = gtk_hbox_new (FALSE, 0);
-    gtk_box_pack_start (GTK_BOX (vbox),
+    hbox = gtk_hbox_new (FALSE, 12);
+    gtk_box_pack_start (GTK_BOX (paddingbox),
 			hbox,
 			FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Title's font : "));
+    label = gtk_label_new (_("Title font"));
+    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+    gtk_size_group_add_widget ( size_group, label );
     gtk_box_pack_start (GTK_BOX (hbox),
 			label,
 			FALSE, FALSE, 0);
 
     fontname_title = pango_font_description_to_string (gsb_data_print_config_get_font_title ());
-    font_button_title =  utils_font_create_button(&fontname_title, NULL, NULL);
+    font_button_title =  gtk_font_button_new_with_font ( fontname_title );
+    gtk_font_button_set_use_font ( GTK_FONT_BUTTON(font_button_title), TRUE );
+    gtk_font_button_set_use_size ( GTK_FONT_BUTTON(font_button_title), TRUE );
     gtk_box_pack_start (GTK_BOX (hbox),
 			font_button_title,
 			TRUE, TRUE, 0);
 
-
-    gtk_widget_show_all (dialog);
-    result = gtk_dialog_run (GTK_DIALOG (dialog));
 
     /* save what we have done in all cases, so if we cancel and come back, our values
      * come back */
@@ -313,17 +311,67 @@ gboolean print_transactions_list ( GtkWidget *button,
     draw_initial_date = gsb_calendar_entry_get_date (init_date_entry);
     draw_final_date = gsb_calendar_entry_get_date (final_date_entry);
 
-    gtk_widget_destroy (dialog);
+    g_object_set_data ( G_OBJECT(operation), "font_transaction_button", font_button_transactions );
+    g_object_set_data ( G_OBJECT(operation), "font_title_button", font_button_title );
 
-    if (result == GTK_RESPONSE_ACCEPT)
-	print_dialog_config ( G_CALLBACK (print_transactions_list_begin),
-			      G_CALLBACK (print_transactions_list_draw_page));
+    gtk_widget_show_all ( vbox );
+
+    return vbox;
+}
+
+
+
+/**
+ * Callback that is called when we hit the "Apply" button of a
+ * transaction print config dialog.  It is responsible of setting the
+ * fonts.
+ *
+ * \param operation	GtkPrintOperation responsible of this job.
+ * \param widget	Custom widget.  Not used.
+ * \param null		Not used.
+ *
+ * \return NULL
+ */
+gboolean print_transactions_list_apply ( GtkPrintOperation * operation,
+					 GtkWidget * widget,
+					 gpointer null )
+{
+    GtkFontButton * font_button_transactions, * font_button_title;
+
+    font_button_transactions = g_object_get_data ( G_OBJECT(operation), "font_transaction_button" );
+    font_button_title = g_object_get_data ( G_OBJECT(operation), "font_title_button" );
+    
+    gsb_data_print_config_set_font_transaction ( pango_font_description_from_string ( gtk_font_button_get_font_name ( font_button_transactions ) ) );
+    gsb_data_print_config_set_font_title ( pango_font_description_from_string ( gtk_font_button_get_font_name ( font_button_title ) ) );
+    
     return FALSE;
 }
 
 
+
 /**
- * function called first when try to print the transaction list
+ * Pop up a transaction print config dialog.
+ *
+ * \param button	Not used.
+ * \param null		Not used.
+ *
+ * \return		FALSE
+ */
+gboolean print_transactions_list ( GtkWidget * button,
+				   gpointer null )
+{
+    print_dialog_config ( G_CALLBACK (print_transactions_list_begin),
+			  G_CALLBACK (print_transactions_list_draw_page),
+			  _("Layout"),
+			  G_CALLBACK (print_transactions_list_layout_config),
+			  G_CALLBACK (print_transactions_list_apply) );
+    return FALSE;
+}
+
+
+
+/**
+ * Function called first when try to print the transaction list
  * initialize the variables and calculate the number of pages
  *
  * \param operation	GtkPrintOperation

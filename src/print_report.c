@@ -34,6 +34,7 @@
 #include "./print_dialog_config.h"
 #include "./include.h"
 #include "./erreur.h"
+#include "./print_config.h"
 /*END_INCLUDE*/
 
 #if GTK_CHECK_VERSION(2,10,0)
@@ -95,7 +96,10 @@ gboolean print_report ( GtkWidget *button,
     }
 
     print_dialog_config ( G_CALLBACK (print_report_begin),
-			  G_CALLBACK (print_report_draw_page));
+			  G_CALLBACK (print_report_draw_page),
+			  _("Fonts"),
+			  G_CALLBACK (print_config_show_config),
+			  G_CALLBACK (print_config_show_config_apply) );
     return FALSE;
 }
 
@@ -281,7 +285,7 @@ static void print_report_draw_line ( GtkTableChild *child,
 static void print_report_draw_column ( GtkTableChild *child,
 				       gint line_position  )
 {
-    gint column_position;
+    gint column_position = 0;
     gint i;
 
     /* calculate the column position */
@@ -308,12 +312,12 @@ static void print_report_draw_row ( GtkPrintContext *context,
 				    gint is_title )
 {
     PangoLayout *layout;
-    gint column_position;
+    gint column_position = 0;
     gint width = 0;
     gint i;
     const gchar *text;
     PangoAlignment pango_alignment;
-    GtkWidget *label;
+    GtkWidget *label = NULL;
     gfloat alignment;
 
     /* calculate the width of the column in pango mode */
