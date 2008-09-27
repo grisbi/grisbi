@@ -232,7 +232,7 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 	prev = GPOINTER_TO_INT( g_object_get_data ( G_OBJECT(assistant), tmpstr ));
 	g_free ( tmpstr );
 
-        tmpstr = g_strdup_printf ( "next%d", current );
+    tmpstr = g_strdup_printf ( "next%d", current );
 	next = GPOINTER_TO_INT( g_object_get_data ( G_OBJECT(assistant), tmpstr));
 	g_free ( tmpstr );
 

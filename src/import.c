@@ -22,7 +22,7 @@
 
 
 #include "include.h"
-
+#include <glib/gstdio.h>
 
 
 /*START_INCLUDE*/
@@ -1265,7 +1265,7 @@ void traitement_operations_importees ( void )
 	gint account_number = 0;
 
 	compte = list_tmp -> data;
-
+    
 	switch ( compte -> action )
 	{
 	    case IMPORT_CREATE_ACCOUNT:
@@ -1346,7 +1346,10 @@ void traitement_operations_importees ( void )
 	    gsb_data_import_rule_set_last_file_name (rule, compte -> real_filename);
 	    gsb_data_import_rule_set_action (rule, compte -> action);
 	}
-
+    if ( ! strcmp ( compte -> origine, "OFX" ) )
+	{   
+        g_remove (compte -> real_filename);
+    }
 	list_tmp = list_tmp -> next;
     }
 
@@ -3066,6 +3069,7 @@ gboolean gsb_import_by_rule ( gint rule )
     {
 	gchar *filename = array[i];
 	const gchar *type;
+    gchar * nom_fichier;
 	struct imported_file imported;
 	GSList * tmp = import_formats;
 	struct struct_compte_importation *account;
@@ -3083,9 +3087,33 @@ gboolean gsb_import_by_rule ( gint rule )
 	    i++;
 	    continue;
 	}
+    else if ( ! strcmp ( type, "OFX" ) )
+	{
+        gchar * pointeur_char;
+	    GError * error = NULL;
+        
+        if ( ! g_file_get_contents ( filename, &pointeur_char, NULL, &error ) )
+        {
+            g_print ( _("Unable to read file: %s\n"), error -> message);
+            i++;
+            continue;
+        }
+        nom_fichier = g_strconcat (g_get_tmp_dir (),G_DIR_SEPARATOR_S, 
+                                   g_path_get_basename ( filename ), NULL);
+        if (! gsb_import_set_tmp_file (nom_fichier, pointeur_char ) )
+        {
+            g_free (pointeur_char);
+            g_free (nom_fichier);
+            i++;
+            continue;
+        }
+        g_free (pointeur_char);
+    }
+    else
+        nom_fichier = my_strdup (filename);
 
 	/* get the transactions */
-	imported.name = filename;
+	imported.name = nom_fichier;
 	imported.coding_system =  charmap_imported;
 	imported.type = type;
 
@@ -3140,11 +3168,17 @@ gboolean gsb_import_by_rule ( gint rule )
     gsb_data_import_rule_set_charmap (rule, charmap_imported);
 
     /* save the last file used */
-	gsb_data_import_rule_set_last_file_name (rule, account -> real_filename);
+	gsb_data_import_rule_set_last_file_name (rule, filename);
 
+    if ( ! strcmp ( type, "OFX" ) )
+	{   
+        g_remove (account -> real_filename);
+    }
+        
 	g_slist_free (account -> operations_importees);
 	g_free (account);
 	g_slist_free (liste_comptes_importes);
+    g_free (nom_fichier);
 	i++;
     }
     g_strfreev (array);
