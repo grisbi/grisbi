@@ -65,13 +65,14 @@ extern GtkWidget *window ;
 
 
 /**
- * show a dialog to configure the report print
+ * Show a dialog to set wether we want the rows/columns lines,
+ * the background color, the titles...
  *
- * \param button
- * \param null
+ * \param operation	GtkPrintOperation responsible of this job.
+ * \param null		Not used.
  *
- * \return FALSE
- * */
+ * \return		A newly allocated widget.
+ */
 GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
 				       gpointer null )
 {
@@ -135,9 +136,15 @@ GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
 
 
 /**
+ * Callback that is called when we hit the "Apply" button of a
+ * transaction print config dialog.  It is responsible of setting the
+ * fonts.
  *
+ * \param operation	GtkPrintOperation responsible of this job.
+ * \param widget	Custom widget.  Not used.
+ * \param null		Not used.
  *
- *
+ * \return NULL
  */
 gboolean print_config_show_config_apply ( GtkPrintOperation * operation,
 					  GtkWidget * widget,
