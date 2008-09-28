@@ -31,6 +31,7 @@
 #include <gtk/gtktext.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
+#include <glib/gstdio.h>
 
 #ifndef NOSSL
 #  include <openssl/des.h>
