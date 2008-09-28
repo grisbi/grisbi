@@ -151,7 +151,7 @@ GtkWidget *creation_barre_outils ( void )
 
     /* set the button to show/hide R transactions */
     if ( bouton_affiche_ope_r && GTK_IS_WIDGET ( bouton_affiche_ope_r ) )
-	gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_affiche_ope_r, FALSE, FALSE, 0 );
+	    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_affiche_ope_r, FALSE, FALSE, 0 );
 
 
     menu_import_rules = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
@@ -165,9 +165,9 @@ GtkWidget *creation_barre_outils ( void )
     gtk_widget_show_all ( hbox );
 
     if ( gsb_data_import_rule_account_has_rule ( gsb_gui_navigation_get_current_account ( ) ) )
-	gtk_widget_show ( menu_import_rules );
+	    gtk_widget_show ( menu_import_rules );
     else
-	gtk_widget_hide ( menu_import_rules );
+	    gtk_widget_hide ( menu_import_rules );
 
     return ( hbox );
 }
@@ -246,20 +246,39 @@ gboolean popup_transaction_rules_menu ( GtkWidget * button,
 {
     GtkWidget *menu, *menu_item;
     GSList *tmp_list;
+    gint current_account = gsb_gui_navigation_get_current_account ();
+    gint nbre_rules;
+    gint i = 0;
 
     menu = gtk_menu_new ();
 
-    tmp_list = gsb_data_import_rule_get_from_account (gsb_gui_navigation_get_current_account ());
+    tmp_list = gsb_data_import_rule_get_from_account (current_account);
+    nbre_rules = g_slist_length (tmp_list);
+    
     while (tmp_list)
     {
 	gint rule;
 
 	rule = gsb_data_import_rule_get_number (tmp_list -> data);
-
-	menu_item = gtk_menu_item_new_with_label (gsb_data_import_rule_get_name (rule));
+ 
+    if (i > 0)
+    { 
+        menu_item = gtk_separator_menu_item_new ( );
+        gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    }
+  
+    menu_item = gtk_menu_item_new_with_label (gsb_data_import_rule_get_name (rule));
 	gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 	g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
 				   G_CALLBACK (gsb_import_by_rule), GINT_TO_POINTER (rule) );
+    if (nbre_rules == 1)
+        menu_item = gtk_menu_item_new_with_label (_("Remove the rule"));
+    else
+        menu_item = gtk_menu_item_new_with_label (_("Remove the rules"));
+    	g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
+				   G_CALLBACK (gsb_data_import_rule_remove), GINT_TO_POINTER (rule) );
+
+	gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 
 	tmp_list = tmp_list -> next;
     }
