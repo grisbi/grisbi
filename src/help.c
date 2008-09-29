@@ -48,53 +48,59 @@ extern GtkWidget *window ;
 void a_propos ( GtkWidget *bouton,
 		gint data )
 {
-    GtkWidget *dialogue, *url, *label, *notebook, *vbox, *hbox, *sw, *logo;
+    GtkWidget *dialogue, *url, *label, *notebook, *vbox, *hbox, *sw;
     gint i;
+    gchar* tmpstr;
+    GdkPixbuf * logo;
 
-#define CPREFIX "  "
 #define CSUFFIX "\n"
 
-    gchar *auteurs = g_strconcat ( 
-"\n", "<b><big>", _("Programming"), "</big></b>\n",
-CPREFIX, "Benjamin Drieu (bdrieu[at]april.org)", CSUFFIX,
-CPREFIX, "Cedric Auger (cedric[at]grisbi.org)", CSUFFIX,
-CPREFIX, "Francois Terrot (grisbi[at]terrot.net)", CSUFFIX,
+    gchar *auteurs[] = {
+_("Programming"),
+"Benjamin Drieu (bdrieu[at]april.org)",
+"Cedric Auger (cedric[at]grisbi.org)",
+"Francois Terrot (grisbi[at]terrot.net)",
+"",
+
+_("Packaging"),
+"Alain Pichon (aph[at]grisbi.org)",
+"Baluchiterium  (baluchiterium[at]users.sf.net)",
+"Francois Terrot (grisbi[at]terrot.net)",
+"Gerald Niel (gerald.niel[at]grisbi.org)",
+"PMF (ugly.duck[at]gmx.de)",
+"Pascal Bleser (guru[at]linuxbe.org)",
+"Sylvain Glaize (mokona[at]puupuu.org)",
+"Thierry Thomas (thierry[at]pompo.net)",
+"Vincent Marqueton (vincent[at]marqueton.com)",
 "\n",
 
-"<b><big>", _("Packaging"), "</big></b>\n",
-CPREFIX, "Alain Pichon (aph[at]grisbi.org)", CSUFFIX,
-CPREFIX, "Baluchiterium  (baluchiterium[at]users.sf.net)", CSUFFIX,
-CPREFIX, "Francois Terrot (grisbi[at]terrot.net)", CSUFFIX,
-CPREFIX, "Gerald Niel (gerald.niel[at]grisbi.org)", CSUFFIX,
-CPREFIX, "PMF (ugly.duck[at]gmx.de)", CSUFFIX,
-CPREFIX, "Pascal Bleser (guru[at]linuxbe.org)", CSUFFIX,
-CPREFIX, "Sylvain Glaize (mokona[at]puupuu.org)", CSUFFIX,
-CPREFIX, "Thierry Thomas (thierry[at]pompo.net)", CSUFFIX,
-CPREFIX, "Vincent Marqueton (vincent[at]marqueton.com)", CSUFFIX,
-"\n",
+_("Other"),
+"Axel Rousseau (axel584[at]axel584.org) ",
+"Dominique Parisot (parisot[at]villey-le-sec.com) ",
+"Gerald Niel (gerald.niel[at]grisbi.org) ",
+NULL };	
 
-"<b><big>", _("Translation"), "</big></b>\n",
-CPREFIX, "Alain Portal (dionysos[at]grisbi.org): ", _("English"), CSUFFIX,
-CPREFIX, "Benjamin Drieu (bdrieu[at]april.org): ", _("English"), CSUFFIX,
-CPREFIX, "Carlos M. Cámara Mora (carcam_moceu[at]yahoo.es): ", _("Spanish"), CSUFFIX,
-CPREFIX, "Daniel Cartron (cartron[at]grisbi.org): ", _("English"), CSUFFIX,
-CPREFIX, "Edwin Huijsing (e.huijsing[at]fiberworld.nl): ", _("Dutch"), CSUFFIX,
-CPREFIX, "Fabio Erculiani (fabio.erculiani[at]tiscali.it): ", _("Italian"), CSUFFIX,
-CPREFIX, "Flavio Henrique Somensi (flavio[at]opens.com.br): ", _("Brazilian Portuguese"), CSUFFIX,
-CPREFIX, "Giorgio Mandolfo (giorgio[at]pollycoke.org): ", _("Italian"), CSUFFIX,
-CPREFIX, "Martin Stromberger (Fabiolla[at]aon.at): ", _("German"), CSUFFIX,
-CPREFIX, "Ryszard Jeziorski (rjeziorski[at]eagle): ", _("Polish"), CSUFFIX,
-"\n",
+  gchar * translators = g_strconcat(
+"Alain Portal (dionysos[at]grisbi.org): ", _("English"), CSUFFIX,
+"Benjamin Drieu (bdrieu[at]april.org): ", _("English"), CSUFFIX,
+"Carlos M. Cámara Mora (carcam_moceu[at]yahoo.es): ", _("Spanish"), CSUFFIX,
+"Daniel Cartron (cartron[at]grisbi.org): ", _("English"), CSUFFIX,
+"Edwin Huijsing (e.huijsing[at]fiberworld.nl): ", _("Dutch"), CSUFFIX,
+"Fabio Erculiani (fabio.erculiani[at]tiscali.it): ", _("Italian"), CSUFFIX,
+"Flavio Henrique Somensi (flavio[at]opens.com.br): ", _("Brazilian Portuguese"), CSUFFIX,
+"Giorgio Mandolfo (giorgio[at]pollycoke.org): ", _("Italian"), CSUFFIX,
+"Martin Stromberger (Fabiolla[at]aon.at): ", _("German"), CSUFFIX,
+"Ryszard Jeziorski (rjeziorski[at]eagle): ", _("Polish"), CSUFFIX,
+NULL);
 
-"<b><big>", _("Other"), "</big></b>\n",
-CPREFIX, "Alain Portal (aportal[at]univ-monpt2.fr): ", _("manual"), CSUFFIX,
-CPREFIX, "Andre Pascual (andre[at]linuxgraphic.org): ", _("logo"), CSUFFIX,
-CPREFIX, "Axel Rousseau (axel584[at]axel584.org): ", _("contributor"), CSUFFIX,
-CPREFIX, "Daniel Cartron (doc[at]grisbi.org): ", _("manual"), CSUFFIX,
-CPREFIX, "Dominique Parisot (parisot[at]villey-le-sec.com): ", _("contributor"), CSUFFIX,
-CPREFIX, "Gerald Niel (gerald.niel[at]grisbi.org): ", _("administration"), CSUFFIX,
+  gchar *documenters [] = {
+"Alain Portal (aportal[at]univ-monpt2.fr)",
+"Daniel Cartron (doc[at]grisbi.org)",
+NULL};
 
-NULL );	
+  gchar *artists [] = {
+"Andre Pascual (andre[at]linuxgraphic.org)",
+NULL};
 
     const gchar *liens[] = { 
 	COLON(_("Website")),
@@ -117,32 +123,52 @@ NULL );
     const gchar *license = "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n\n"
 	"This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit. (http://www.openssl.org/)";
 
-    dialogue = gtk_dialog_new_with_buttons ( _("About..."),
-					     GTK_WINDOW (window),
-					     GTK_DIALOG_MODAL,
-					     GTK_STOCK_CLOSE,0,
-					     NULL );
+#if ! GTK_CHECK_VERSION(2,20,0)
+    // Warn about obsolete dependencies 
+    gchar * warn_print = _("\nThis version of Grisbi does not support print feature.\nVersion of GTK+ it was built with is obsolete.");
+#else
+    gchar * warn_print = NULL;
+#endif
 
-    notebook = gtk_notebook_new ();
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialogue ) -> vbox ),
-			 notebook, TRUE, TRUE, 0 );
-
-    /* Generalities */
-    sw = gtk_scrolled_window_new ( NULL, NULL );    
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( sw ),
-				     GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-
-    vbox = gtk_vbox_new ( FALSE, 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 6 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( sw ), vbox );
+    /* Plugins list */
+    gchar* comments = g_strconcat ( _("Personal finance manager for everyone\n"),
+				    gsb_plugin_get_list(),
+				    warn_print,
+				    NULL );
 
     /* Logo */
     if ( !chemin_logo || !strlen ( chemin_logo ))
 	chemin_logo = my_strdup ( LOGO_PATH );
+    logo =  gdk_pixbuf_new_from_file ( chemin_logo, NULL );
+
+
+
+    gtk_show_about_dialog (GTK_WINDOW (window), 
+			   "logo", logo,
+                           "program-name", "Grisbi",
+			   "comments", comments,
+			   "artists", artists,
+			   "authors", auteurs,
+			   "documenters"  , documenters,
+			   "translator-credits", translators,
+			   "version", VERSION,
+                           "license", license,
+			   "wrap-license", TRUE,
+			   "website", "http://www.grisbi.org/",
+			   NULL);
+
+
+    return;
+    /* Logo */
+    /* TODO
+    if ( !chemin_logo || !strlen ( chemin_logo ))
+	chemin_logo = my_strdup ( LOGO_PATH );
     logo =  gtk_image_new_from_file ( chemin_logo );
     gtk_box_pack_start ( GTK_BOX ( vbox ), logo, FALSE, FALSE, 0 );
+    */
 
     /* Title */
+    /* TODO pugin list
     gchar* tmpstr = g_strconcat ( "Grisbi ", VERSION, "\n\n", NULL );
     label = gtk_label_new ( tmpstr );
     g_free ( tmpstr );
@@ -159,76 +185,14 @@ NULL );
     gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
 
-    /* Resume */
-    label = gtk_label_new ( _("Personal finance manager for everyone") );
-    gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
-    gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
-
 #if ! GTK_CHECK_VERSION(2,10,0)
-    /* Warn about obsolete dependencies */
+    // Warn about obsolete dependencies 
     label = gtk_label_new ( _("This version of Grisbi does not support print feature.  Version of GTK+ it was built with is obsolete.") );
     gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
     gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
 #endif
-
-    /* Authors */
-    label = gtk_label_new (NULL);
-    gchar** tmparray = g_strsplit ( auteurs, "[at]", 0 );
-    tmpstr = g_strjoinv ( "@", tmparray );
-    g_free ( auteurs );
-    g_strfreev(tmparray);
-    gtk_label_set_markup ( GTK_LABEL(label), tmpstr );
-    g_free ( tmpstr );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
-
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), sw,
-			       gtk_label_new ( _("About Grisbi")));
-
-
-    /* mise en forme de l'onglet liens */
-    vbox = gtk_vbox_new ( FALSE, 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
-
-    i=0;
-
-    while ( liens[i] )
-	{
-	    hbox = gtk_hbox_new ( FALSE, 5 );
-	    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
-
-	    label = gtk_label_new ( liens[i] );
-	    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
-
-	    url = cree_bouton_url ( liens[i+1], liens[i+2] );
-	    gtk_box_pack_start ( GTK_BOX ( hbox ), url, FALSE, FALSE, 0 );
-
-	    i = i + 3;
-	}
-
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), vbox, 
-			       gtk_label_new ( _("Links")));
-
-
-    /* mise en forme de l'onglet de license */ 
-    vbox = gtk_vbox_new ( FALSE, 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
-
-    label = gtk_label_new ( license );
-    gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
-    gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
-
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), vbox,
-			       gtk_label_new ( _("License")));
-
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook ), 0 );
-
-    gtk_widget_show_all ( dialogue );
-
-    gtk_dialog_run ( GTK_DIALOG ( dialogue ));
-    gtk_widget_destroy ( dialogue );
+*/
 }
 
 
