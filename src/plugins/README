@@ -1,3 +1,17 @@
-Here are various Grisbi plugins
+Grisbi provides several plugins that allow feature enhancement without
+adding compile-time dependencies.
 
-FIXME : TODO
+List of plugins:
+
+ - G2Banking : HBCI implementation for Grisbi, using aqbanking
+   library.
+
+ - Gnucash : import Gnucash files into Grisbi.
+
+ - OFX : import OFX files into Grisbi.
+
+ - OpenSSL : encryption support for Grisbi files.
+
+
+To make them work, they need to be installed in <prefix>/lib/grisbi
+(which is done by running "make install").
