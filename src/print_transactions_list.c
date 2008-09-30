@@ -33,10 +33,9 @@
 #include "./gsb_calendar_entry.h"
 #include "./gsb_data_print_config.h"
 #include "./gsb_data_transaction.h"
-#include "./print_dialog_config.h"
 #include "./utils.h"
+#include "./print_dialog_config.h"
 #include "./transaction_model.h"
-#include "./utils_font.h"
 #include "./traitement_variables.h"
 #include "./custom_list.h"
 #include "./include.h"
@@ -46,6 +45,9 @@
 #if GTK_CHECK_VERSION(2,10,0)
 
 /*START_STATIC*/
+static gboolean print_transactions_list_apply ( GtkPrintOperation * operation,
+					 GtkWidget * widget,
+					 gpointer null );
 static gboolean print_transactions_list_begin ( GtkPrintOperation *operation,
 					 GtkPrintContext *context,
 					 gpointer null );
@@ -70,14 +72,13 @@ static  gint print_transactions_list_draw_title ( GtkPrintContext *context,
 static gboolean print_transactions_list_get_visibles_lines ( gint *number_of_archives,
 						      gint *number_of_transactions );
 static GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operation,
-							   gpointer null );
+						    gpointer null );
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
 extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
-extern GtkWidget *window ;
 /*END_EXTERN*/
 
 

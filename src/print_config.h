@@ -62,11 +62,6 @@ struct print_config
 gboolean print_config ( );
 struct print_config * print_config_dup ();
 void print_config_set ( struct print_config * config );
-GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
-				       gpointer null );
-gboolean print_config_show_config_apply ( GtkPrintOperation * operation,
-					  GtkWidget * widget,
-					  gpointer null );
 /*END_DECLARATION*/
 
 #endif /* PRINT_CONFIG_H */

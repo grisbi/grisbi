@@ -26,12 +26,10 @@
 /*START_INCLUDE*/
 #include "print_config.h"
 #include "./utils_file_selection.h"
-#include "./gsb_data_print_config.h"
 #include "./utils_files.h"
 #include "./utils_str.h"
 #include "./utils.h"
 #include "./dialog.h"
-#include "./utils_font.h"
 #include "./include.h"
 #include "./structures.h"
 /*END_INCLUDE*/
@@ -62,104 +60,6 @@ struct paper_config paper_sizes[8] = {
 /*START_EXTERN*/
 extern GtkWidget *window ;
 /*END_EXTERN*/
-
-
-/**
- * Show a dialog to set wether we want the rows/columns lines,
- * the background color, the titles...
- *
- * \param operation	GtkPrintOperation responsible of this job.
- * \param null		Not used.
- *
- * \return		A newly allocated widget.
- */
-GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
-				       gpointer null )
-{
-    GtkWidget * hbox, * label, * paddingbox;
-    GtkWidget * font_button_transactions, * vbox, * font_button_title;
-    GtkSizeGroup * size_group;
-
-    vbox = gtk_vbox_new ( FALSE, 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
-    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Fonts") );
-
-    size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
-
-    /* set up the font of the transactions,
-     * by default use the font of the lists */
-    hbox = gtk_hbox_new (FALSE, 12);
-    gtk_box_pack_start (GTK_BOX ( paddingbox ),
-			hbox,
-			FALSE, FALSE, 0);
-
-    label = gtk_label_new (_("Lines font"));
-    gtk_size_group_add_widget ( size_group, label );
-    gtk_box_pack_start (GTK_BOX (hbox),
-			label,
-			FALSE, FALSE, 0);
-
-    font_button_transactions = gtk_font_button_new_with_font ( pango_font_description_to_string ( gsb_data_print_config_get_report_font_transactions ( ) ) );
-    gtk_font_button_set_use_font ( GTK_FONT_BUTTON(font_button_transactions), TRUE );
-    gtk_font_button_set_use_size ( GTK_FONT_BUTTON(font_button_transactions), TRUE );
-    gtk_box_pack_start (GTK_BOX (hbox),
-			font_button_transactions,
-			TRUE, TRUE, 0);
-
-    /* set up the font for the title */
-    hbox = gtk_hbox_new (FALSE, 12);
-    gtk_box_pack_start (GTK_BOX ( paddingbox ),
-			hbox,
-			FALSE, FALSE, 0);
-
-    label = gtk_label_new (_("Title's font"));
-    gtk_size_group_add_widget ( size_group, label );
-    gtk_box_pack_start (GTK_BOX (hbox),
-			label,
-			FALSE, FALSE, 0);
-
-    font_button_title = gtk_font_button_new_with_font ( pango_font_description_to_string ( gsb_data_print_config_get_report_font_title ( ) ) );
-    gtk_font_button_set_use_font ( GTK_FONT_BUTTON(font_button_title), TRUE );
-    gtk_font_button_set_use_size ( GTK_FONT_BUTTON(font_button_title), TRUE );
-    gtk_box_pack_start (GTK_BOX (hbox),
-			font_button_title,
-			TRUE, TRUE, 0);
-
-    g_object_set_data ( G_OBJECT(operation), "font_transaction_button", font_button_transactions );
-    g_object_set_data ( G_OBJECT(operation), "font_title_button", font_button_title );
-
-    gtk_widget_show_all ( vbox );
-
-    return vbox;
-}
-
-
-
-/**
- * Callback that is called when we hit the "Apply" button of a
- * transaction print config dialog.  It is responsible of setting the
- * fonts.
- *
- * \param operation	GtkPrintOperation responsible of this job.
- * \param widget	Custom widget.  Not used.
- * \param null		Not used.
- *
- * \return NULL
- */
-gboolean print_config_show_config_apply ( GtkPrintOperation * operation,
-					  GtkWidget * widget,
-					  gpointer null )
-{
-    GtkFontButton * font_button_transactions, * font_button_title;
-
-    font_button_transactions = g_object_get_data ( G_OBJECT(operation), "font_transaction_button" );
-    font_button_title = g_object_get_data ( G_OBJECT(operation), "font_title_button" );
-
-    gsb_data_print_config_set_report_font_transaction ( pango_font_description_from_string ( gtk_font_button_get_font_name ( font_button_transactions ) ) );
-    gsb_data_print_config_set_report_font_title ( pango_font_description_from_string ( gtk_font_button_get_font_name ( font_button_title ) ) );
-    
-    return FALSE;
-}
 
 
 

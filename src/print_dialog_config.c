@@ -29,7 +29,6 @@
 
 /*START_INCLUDE*/
 #include "print_dialog_config.h"
-#include "print_config.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
