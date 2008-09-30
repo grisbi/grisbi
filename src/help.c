@@ -24,7 +24,6 @@
 
 /*START_INCLUDE*/
 #include "help.h"
-#include "./utils_buttons.h"
 #include "./dialog.h"
 #include "./gsb_plugins.h"
 #include "./utils_str.h"
@@ -48,9 +47,6 @@ extern GtkWidget *window ;
 void a_propos ( GtkWidget *bouton,
 		gint data )
 {
-    GtkWidget *dialogue, *url, *label, *notebook, *vbox, *hbox, *sw;
-    gint i;
-    gchar* tmpstr;
     GdkPixbuf * logo;
 
 #define CSUFFIX "\n"
@@ -102,7 +98,7 @@ NULL};
 "Andre Pascual (andre[at]linuxgraphic.org)",
 NULL};
 
-    const gchar *liens[] = { 
+  const gchar *liens[] = { 
 	COLON(_("Website")),
 	"http://www.grisbi.org/",
 	"http://www.grisbi.org/",
