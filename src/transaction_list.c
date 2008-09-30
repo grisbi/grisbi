@@ -1437,22 +1437,14 @@ static void transaction_list_append_child ( gint transaction_number )
 	    mother_record = (CustomRecord *) mother_iter.user_data;
 	else
 	{
-	    /* we didn't find all the mother of the child, shouldn't not happen
-	     * but some previous versions of Grisbi saved the children before the mother,
-	     * so it can happen at the opening of the file and we can know that
-	     * because the tree view is still not created. in that case we save the children numbers
-	     * in a list and we will try later to append them again */
+	    /* we didn't find the mother of the child, we append the child number to
+	     * orphan_child_transactions and the function wich called here has to play
+	     * with it
+	     * (it happens in the versions before 0.6 when the children could have a number
+	     * before the mother */
 
-	    if (gsb_transactions_list_get_tree_view ())
-	    {
-		gchar *tmpstr;
-		tmpstr = g_strdup_printf (_("While trying to append a breakdown child in the tree view, one or all the mothers of the child number %d couldn't be found.\nThis is a bug and should not happen.\nThe child won't be appended to the list and Grisbi won't crash,\nbut please contact the Grisbi's team to fix the problem."), gsb_data_transaction_get_transaction_number (newrecord -> transaction_pointer));
-		dialogue_error (tmpstr);
-		g_free (tmpstr);
-	    }
-	    else
-		orphan_child_transactions = g_slist_append ( orphan_child_transactions,
-							     GINT_TO_POINTER (transaction_number));
+	    orphan_child_transactions = g_slist_append ( orphan_child_transactions,
+							 GINT_TO_POINTER (transaction_number));
 	    return;
 	}
     }

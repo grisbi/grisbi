@@ -7,7 +7,7 @@
 
 /* START_DECLARATION */
 GSList *gsb_data_archive_get_archives_list ( void );
-GDate *gsb_data_archive_get_begining_date ( gint archive_number );
+GDate *gsb_data_archive_get_beginning_date ( gint archive_number );
 GDate *gsb_data_archive_get_end_date ( gint archive_number );
 gint gsb_data_archive_get_from_date ( const GDate *date );
 gint gsb_data_archive_get_from_fyear ( gint fyear_number );
@@ -18,7 +18,7 @@ const gchar *gsb_data_archive_get_report_title ( gint archive_number );
 gboolean gsb_data_archive_init_variables ( void );
 gint gsb_data_archive_new ( const gchar *name );
 gboolean gsb_data_archive_remove ( gint archive_number );
-gboolean gsb_data_archive_set_begining_date ( gint archive_number,
+gboolean gsb_data_archive_set_beginning_date ( gint archive_number,
 					      const GDate *date );
 gboolean gsb_data_archive_set_end_date ( gint archive_number,
 					 const GDate *date );

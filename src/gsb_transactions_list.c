@@ -80,6 +80,7 @@ static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
 static gboolean gsb_transactions_list_check_mark ( gint transaction_number );
 static gint gsb_transactions_list_choose_reconcile ( gint account_number,
 					      gint selected_reconcile_number );
+static gint gsb_transactions_list_clone_transaction ( gint transaction_number );
 static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model );
 static void gsb_transactions_list_create_tree_view_columns ( void );
 static gboolean gsb_transactions_list_fill_archive_store ( void );
@@ -2388,14 +2389,15 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number )
 {
     gint new_transaction_number;
 
-    /* dupplicate the transaction */
+    /* NOTE : if we fix a bug here, think to fix also in gsb_form_transaction_recover_breakdowns_of_transaction
+     * wich is almost the same to recover breakdowns */
 
+    /* dupplicate the transaction */
     new_transaction_number = gsb_data_transaction_new_transaction ( gsb_data_transaction_get_account_number (transaction_number));
     gsb_data_transaction_copy_transaction ( transaction_number,
 					    new_transaction_number );
 
     /* create the contra-transaction if necessary */
-
     if ( gsb_data_transaction_get_contra_transaction_number (transaction_number))
 	gsb_form_transaction_validate_transfer ( new_transaction_number,
 						 1,
@@ -3306,19 +3308,20 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number,
 {
     GSList *tmp_list;
     gint account_number;
+    gint transaction_number;
 
     /* remove the lines of the archive in the model */
     transaction_list_remove_archive (archive_number);
     /* remove the structures of archive_model */
     gsb_data_archive_store_remove_by_archive (archive_number);
 
+    orphan_child_transactions = NULL;
+
     /* second step, we add all the archived transactions of that archive into the transactions_list
      * and into the store */
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
     {
-	gint transaction_number;
-
 	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
 
 	if ( gsb_data_transaction_get_archive_number (transaction_number) == archive_number)
@@ -3330,6 +3333,50 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number,
 	    transaction_list_append_transaction ( transaction_number);
 	}
 	tmp_list = tmp_list -> next;
+    }
+
+    /* if orphan_child_transactions if filled, there are some children wich didn't find their
+     * mother, we try again now that all the mothers are in the model */
+    if (orphan_child_transactions)
+    {
+	GSList *orphan_list_copy;
+
+	orphan_list_copy = g_slist_copy (orphan_child_transactions);
+	g_slist_free (orphan_child_transactions);
+	orphan_child_transactions = NULL;
+
+	tmp_list = orphan_list_copy;
+	while (tmp_list)
+	{
+	    transaction_number = GPOINTER_TO_INT (tmp_list -> data);
+	    transaction_list_append_transaction (transaction_number);
+	    tmp_list = tmp_list -> next;
+	}
+	g_slist_free (orphan_list_copy);
+
+	/* if orphan_child_transactions is not null, there is still some children
+	 * wich didn't find their mother. show them now */
+	if (orphan_child_transactions)
+	{
+	    gchar *message = _("Some children didn't find their mother in the list, this shouldn't happen and there is probably a bug behind that. Please contact the Grisbi team.\n\nThe concerned children number are :\n");
+	    gchar *string_1;
+	    gchar *string_2;
+
+	    string_1 = g_strconcat (message, NULL);
+	    tmp_list = orphan_child_transactions;
+	    while (tmp_list)
+	    {
+		string_2 = g_strconcat ( string_1,
+					 utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data)),
+					 " - ",
+					 NULL);
+		g_free (string_1);
+		string_1 = string_2;
+		tmp_list = tmp_list -> next;
+	    }
+	    dialogue_warning (string_1);
+	    g_free (string_1);
+	}
     }
 
     /* all the transactions of the archive have been added, we just need to clean the list,

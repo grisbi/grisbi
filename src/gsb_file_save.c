@@ -1703,7 +1703,7 @@ gulong gsb_file_save_import_rule_part ( gulong iterator,
 					       gsb_data_import_rule_get_account (import_rule_number),
 					       gsb_data_import_rule_get_currency (import_rule_number),
 					       gsb_data_import_rule_get_invert (import_rule_number),
-                           gsb_data_import_rule_get_charmap (import_rule_number),
+					       gsb_data_import_rule_get_charmap (import_rule_number),
 					       gsb_data_import_rule_get_last_file_name (import_rule_number),
 					       gsb_data_import_rule_get_action (import_rule_number));
 

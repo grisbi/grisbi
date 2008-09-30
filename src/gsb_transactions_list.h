@@ -46,7 +46,6 @@ gint find_element_line ( gint element_number );
 gchar *gsb_transactions_get_category_real_name ( gint transaction_number );
 gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
 							gboolean update_tree_view );
-gint gsb_transactions_list_clone_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
 						    gint show_warning );
 gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transaction_number );

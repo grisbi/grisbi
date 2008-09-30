@@ -38,6 +38,7 @@
 #include "./utils_str.h"
 #include "./include.h"
 #include "./gsb_real.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 
@@ -1272,7 +1273,8 @@ void gsb_data_budget_update_counters ( void )
     }
 }
 
-
+/* xxx dans le déboggage du fichier, il faudrait vérifier si les categs des opés correspondent à des categs existantes */
+/* pareil pour les budgets et tiers (pour toutes les opés, vérifier que le budget ou le tiers existent */
 
 /**
  * Add the given transaction to a budget in the counters if no budget
@@ -1292,6 +1294,20 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
     budget = gsb_data_budget_get_structure (  budget_id );
     sub_budget = gsb_data_budget_get_sub_budget_structure ( budget_id ,
 							    sub_budget_id );
+
+    /* should not happen, this is if the transaction has a budget wich doesn't exist
+     * we show a debug warning and get without budget */
+    if (!budget)
+    {
+	gchar *tmpstr;
+	tmpstr = g_strdup_printf ( _("The transaction %d has a budget n°%d and sub-budget n°%d but they don't exist."),
+				   transaction_number, 
+				   budget_id,
+				   sub_budget_id );
+	warning_debug (tmpstr);
+	g_free (tmpstr);
+	budget = empty_budget;
+    }
 
     /* now budget is on the budget structure or on empty_budget */
     if ( budget )

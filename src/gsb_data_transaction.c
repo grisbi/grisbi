@@ -2072,8 +2072,10 @@ gint gsb_data_transaction_new_white_line ( gint mother_transaction_number)
 /**
  * copy the content of a transaction into the second one
  * the 2 transactions must exist before
- * only the account_number and the transaction_number will be saved in the target transaction
- * all the char are dupplicated, and transaction_id is set to NULL
+ * only the account_number and the transaction_number will be modified in the target transaction
+ * all the char are dupplicated,
+ * 	transaction_id is set to NULL,
+ * 	marked, reconcile number and archive number are set to 0
  * 
  * \param source_transaction_number the transaction we want to copy
  * \param target_transaction_number the trnasaction we want to fill with the content of the first one
@@ -2105,6 +2107,7 @@ gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
     target_transaction -> reconcile_number = 0;
     target_transaction -> marked_transaction = 0;
     target_transaction -> transaction_id = NULL;
+    target_transaction -> archive_number = 0;
 
     /* make a new copy of all the pointers */
     if ( target_transaction -> notes)
@@ -2124,7 +2127,6 @@ gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
 
     if ( target_transaction -> method_of_payment_content)
 	target_transaction -> method_of_payment_content = my_strdup ( source_transaction -> method_of_payment_content );
-
 
     return TRUE;
 }

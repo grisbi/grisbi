@@ -10,7 +10,7 @@ void gsb_data_fyear_check_all_for_invalid ( void );
 gboolean gsb_data_fyear_check_for_invalid ( gint fyear_number );
 gint gsb_data_fyear_compare ( gint fyear_number_1,
 			      gint fyear_number_2 );
-GDate *gsb_data_fyear_get_begining_date ( gint fyear_number );
+GDate *gsb_data_fyear_get_beginning_date ( gint fyear_number );
 GDate *gsb_data_fyear_get_end_date ( gint fyear_number );
 gboolean gsb_data_fyear_get_form_show ( gint fyear_number );
 gint gsb_data_fyear_get_from_date ( const GDate *date );
@@ -22,7 +22,7 @@ gint gsb_data_fyear_get_no_fyear ( gpointer fyear_ptr );
 gboolean gsb_data_fyear_init_variables ( void );
 gint gsb_data_fyear_new ( const gchar *name );
 gboolean gsb_data_fyear_remove ( gint fyear_number );
-gboolean gsb_data_fyear_set_begining_date ( gint fyear_number,
+gboolean gsb_data_fyear_set_beginning_date ( gint fyear_number,
 					    GDate *date );
 gboolean gsb_data_fyear_set_end_date ( gint fyear_number,
 				       GDate *date );

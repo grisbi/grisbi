@@ -24,7 +24,6 @@
 
 /*START_INCLUDE*/
 #include "help.h"
-#include "./dialog.h"
 #include "./gsb_plugins.h"
 #include "./utils_str.h"
 #include "./structures.h"

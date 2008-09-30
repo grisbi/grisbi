@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     copyright (c)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2006 Benjamin Drieu (bdrieu@april.org) 	      */
+/*     copyright (c)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2008 Benjamin Drieu (bdrieu@april.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -58,6 +58,7 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GtkWidget *form_button_recover_breakdown;
 /*END_EXTERN*/
 
 
@@ -76,10 +77,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
     gint account_number;
     GSList *tmp_list;
 
-    gchar* tmpstr = g_strdup_printf ( "gsb_form_transaction_complete_form_by_payee %s",
-				    payee_name );
-    devel_debug ( tmpstr );
-    g_free(tmpstr);
+    devel_debug (payee_name);
 
     if ( !strlen (payee_name))
 	return FALSE;
@@ -147,10 +145,21 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
 	     element -> element_number != TRANSACTION_FORM_PARTY
 	     &&
 	     element -> element_number != TRANSACTION_FORM_MODE )
+	{
 	    gsb_form_fill_element ( element -> element_number,
 				    account_number,
 				    transaction_number,
 				    TRUE );
+
+	    /* if breakdown of transaction, propose to recover the children */
+	    if (element -> element_number == TRANSACTION_FORM_CATEGORY
+		&&
+		gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+	    {
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (form_button_recover_breakdown), TRUE);
+		gtk_widget_show (form_button_recover_breakdown);
+	    }
+	}
 
 	tmp_list = tmp_list -> next;
     }
@@ -241,28 +250,24 @@ void gsb_form_transaction_check_change_button ( gint currency_number,
 
 
 /**
- * Get a breakdown of transactions and ask if we want to clone the daughters
- * do the copy if needed, set for the daugthers the number of the new transaction
+ * Clone the children of a breakdown transaction to add the to the new breakdown
  * 
- * \param new_transaction_number the number of the new mother of the cloned transaction
- * \param no_last_breakdown the no of last breakdown mother
- * \param no_account the account of the last breakdown mother (important if it's not the same of the new_transaction)
+ * \param new_transaction_number	the number of the new mother of the cloned transaction
+ * \param no_last_breakdown		the no of last breakdown mother
  *
  * \return FALSE
  * */
 gboolean gsb_form_transaction_recover_breakdowns_of_transaction ( gint new_transaction_number,
-								  gint no_last_breakdown,
-								  gint no_account )
+								  gint no_last_breakdown )
 {
-    gint result;
     GSList *list_tmp_transactions;
 
     /* FIXME : check for win, normally should work fine now because
      * that dialog is showed after all, and not when losing focus */
-    result = question_conditional_yes_no ( "recover-breakdown" );
+/*     result = question_conditional_yes_no ( "recover-breakdown" ); */
 
-    if ( !result )
-	return FALSE;
+/*     if ( !result ) */
+/* 	return FALSE; */
 
     /* go around the transactions list to get the daughters of the last breakdown */
     list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
@@ -270,14 +275,29 @@ gboolean gsb_form_transaction_recover_breakdowns_of_transaction ( gint new_trans
     while ( list_tmp_transactions )
     {
 	gint transaction_number_tmp;
+
 	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == no_account
-	     &&
-	     gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == no_last_breakdown)
+	if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == no_last_breakdown)
 	{
-	    gsb_data_transaction_set_mother_transaction_number ( gsb_transactions_list_clone_transaction (transaction_number_tmp),
+	    gint new_child_number;
+
+	    new_child_number = gsb_data_transaction_new_transaction ( gsb_data_transaction_get_account_number (new_transaction_number));
+	    gsb_data_transaction_copy_transaction ( transaction_number_tmp,
+						    new_child_number );
+	    gsb_data_transaction_set_mother_transaction_number ( new_child_number,
 								 new_transaction_number);
+	    gsb_data_transaction_set_date ( new_child_number,
+					    gsb_data_transaction_get_date (new_transaction_number));
+
+	    /* if this is a transfer, create the contra transaction */
+	    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp))
+		gsb_form_transaction_validate_transfer ( new_child_number,
+							 TRUE,
+							 gsb_data_transaction_get_contra_transaction_account (transaction_number_tmp));
+
+	    /* add the transaction to the list */
+	    gsb_transactions_list_append_new_transaction (new_child_number, TRUE);
 	}
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
@@ -370,9 +390,9 @@ GSList *gsb_form_transaction_get_parties_list_from_report ( void )
  * - delete the last contra-transaction if it's a modification
  * - append the contra-transaction to the tree view or update the tree_view
  * 
- * \param transaction_number the new transaction or the modify transaction
- * \param new_transaction TRUE if it's a new transaction
- * \param account_transfer the number of the account we want to create the contra-transaction
+ * \param transaction_number	the new transaction or the modify transaction
+ * \param new_transaction 	TRUE if it's a new transaction
+ * \param account_transfer 	the number of the account we want to create the contra-transaction
  * 
  * \return the number of the contra-transaction
  * */

@@ -39,6 +39,7 @@
 #include "./meta_payee.h"
 #include "./include.h"
 #include "./gsb_real.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 
@@ -696,13 +697,23 @@ void gsb_data_payee_add_transaction_to_payee ( gint transaction_number )
     /* if no payee in that transaction, and it's neither a breakdown, neither a transfer,
      * we work with empty_payee */
 
+    /* should not happen, this is if the transaction has a payee wich doesn't exists
+     * we show a debug warning and get without payee */
     if (!payee)
+    {
+	gchar *tmpstr;
+	tmpstr = g_strdup_printf ( _("The transaction %d has a payee n°%d but it doesn't exist."),
+				   transaction_number, 
+				   gsb_data_transaction_get_party_number (transaction_number));
+	warning_debug (tmpstr);
+	g_free (tmpstr);
 	payee = empty_payee;
+    }
 
-	payee -> payee_nb_transactions ++;
-	payee -> payee_balance = gsb_real_add ( payee -> payee_balance,
-						gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-													payee_tree_currency (), -1));
+    payee -> payee_nb_transactions ++;
+    payee -> payee_balance = gsb_real_add ( payee -> payee_balance,
+					    gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
+												    payee_tree_currency (), -1));
 }
 
 

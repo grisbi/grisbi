@@ -126,7 +126,7 @@ static gboolean block_size_allocate = FALSE;
 /** when the automatic complete transaction is done
  * for a breakdown of transaction, we propose to recover too
  * the children with that button */
-static GtkWidget *form_button_recover_breakdown;
+GtkWidget *form_button_recover_breakdown;
 
 /** need to set the 2 buttons valid/cancel here and cannot
  * just show/hide the form_button_part because of the breakdown button */
@@ -836,8 +836,8 @@ void gsb_form_fill_element ( gint element_number,
 	    gsb_currency_set_combobox_history ( widget,
 						number);
 	    if (is_transaction)
-	    gsb_form_transaction_check_change_button ( number,
-						       account_number );
+		gsb_form_transaction_check_change_button ( number,
+							   account_number );
 	    break;
 
 	case TRANSACTION_FORM_BANK:
@@ -1412,6 +1412,10 @@ gboolean gsb_form_clean ( gint account_number )
     g_object_set_data ( G_OBJECT ( transaction_form ),
 			"transaction_number_in_form",
 			NULL );
+
+    /* don't show the recover button */
+    gtk_widget_hide (form_button_recover_breakdown);
+
     return FALSE;
 }
 
@@ -1527,14 +1531,12 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
     switch ( element_number )
     {
 	case TRANSACTION_FORM_PARTY :
-
 	    /* we complete the transaction */
 	    if ( !gsb_form_transaction_complete_form_by_payee (gtk_entry_get_text (GTK_ENTRY (entry))))
 		string = gsb_form_widget_get_name (TRANSACTION_FORM_PARTY);
 	    break;
 
 	case TRANSACTION_FORM_DEBIT :
-
 	    /* we change the payment method to adapt it for the debit */
 	    if ( strlen ( gtk_entry_get_text ( GTK_ENTRY (entry))))
 	    {
@@ -1581,7 +1583,6 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 	    break;
 
 	case TRANSACTION_FORM_CREDIT :
-
 	    /* we change the payment method to adapt it for the debit */
 	    if ( strlen ( gtk_entry_get_text ( GTK_ENTRY (entry))))
 	    {
@@ -1626,11 +1627,10 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 		string = gsb_form_widget_get_name (TRANSACTION_FORM_CREDIT);
 	    break;
 
-
 	case TRANSACTION_FORM_CATEGORY :
-
 	    if ( strlen ( gtk_entry_get_text ( GTK_ENTRY (entry))))
 	    {
+		/* if it's a transafer, set the content of the contra combo */
 		if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA ))
 		{
 		    /* if it's a transfer, set the contra_method of payment menu */
@@ -1657,7 +1657,6 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 	    }
 	    else
 		string = gsb_form_widget_get_name (TRANSACTION_FORM_CATEGORY);
-
 	    break;
 
 	case TRANSACTION_FORM_CHEQUE :
@@ -2240,12 +2239,13 @@ gboolean gsb_form_finish_edition ( void )
 		     &&
 		     !execute_scheduled
 		     &&
+		     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (form_button_recover_breakdown))
+		     &&
 		     (breakdown_transaction_number = gsb_form_transactions_look_for_last_party ( gsb_data_transaction_get_party_number (transaction_number),
 												 transaction_number,
 												 gsb_data_transaction_get_account_number(transaction_number))))
 		    gsb_form_transaction_recover_breakdowns_of_transaction ( transaction_number,
-									     breakdown_transaction_number,
-									     gsb_data_transaction_get_account_number (breakdown_transaction_number));
+									     breakdown_transaction_number);
 	    }
 	    else
 		gsb_transactions_list_update_transaction (transaction_number);
