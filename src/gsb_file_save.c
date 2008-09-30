@@ -1518,24 +1518,24 @@ gulong gsb_file_save_financial_year_part ( gulong iterator,
     {
 	gchar *new_string;
 	gint fyear_number;
-	gchar *begining_date;
+	gchar *beginning_date;
 	gchar *end_date;
 
 	fyear_number = gsb_data_fyear_get_no_fyear (list_tmp -> data);
 
 	/* set the date */
-	begining_date = gsb_format_gdate_safe (gsb_data_fyear_get_begining_date(fyear_number));
+	beginning_date = gsb_format_gdate_safe (gsb_data_fyear_get_beginning_date(fyear_number));
 	end_date = gsb_format_gdate_safe (gsb_data_fyear_get_end_date(fyear_number));
 
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped( "\t<Financial_year Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" Edte=\"%s\" Sho=\"%d\" />\n",
 					      fyear_number,
 					      gsb_data_fyear_get_name (fyear_number),
-					      begining_date,
+					      beginning_date,
 					      end_date,
 					      gsb_data_fyear_get_form_show (fyear_number));
 
-	g_free (begining_date);
+	g_free (beginning_date);
 	g_free (end_date);
 
 	/* append the new string to the file content
@@ -1571,26 +1571,26 @@ gulong gsb_file_save_archive_part ( gulong iterator,
     {
 	gint archive_number;
 	gchar *new_string;
-	gchar *begining_date;
+	gchar *beginning_date;
 	gchar *end_date;
 
 	archive_number = gsb_data_archive_get_no_archive (list_tmp -> data);
 
 	/* set the date */
-	begining_date = gsb_format_gdate_safe (gsb_data_archive_get_begining_date (archive_number));
+	beginning_date = gsb_format_gdate_safe (gsb_data_archive_get_beginning_date (archive_number));
 	end_date = gsb_format_gdate_safe (gsb_data_archive_get_end_date (archive_number));
 
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped( "\t<Archive Nb=\"%d\" Na=\"%s\" Bdte=\"%s\" Edte=\"%s\" Fye=\"%d\" Rep=\"%s\" />\n",
 					      archive_number,
 					      gsb_data_archive_get_name (archive_number),
-					      begining_date,
+					      beginning_date,
 					      end_date,
 					      gsb_data_archive_get_fyear (archive_number),
 					      gsb_data_archive_get_report_title (archive_number));
 
-	if (begining_date)
-	    g_free (begining_date);
+	if (beginning_date)
+	    g_free (beginning_date);
 	if (end_date)
 	    g_free (end_date);
 
@@ -2044,12 +2044,12 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tFinancial_year_kind=\"%d\"\n"
 					       "\t\tFinancial_year_select=\"%s\"\n"
 					       "\t\tDate_kind=\"%d\"\n"
-					       "\t\tDate_begining=\"%s\"\n"
+					       "\t\tDate_beginning=\"%s\"\n"
 					       "\t\tDate_end=\"%s\"\n"
 					       "\t\tSplit_by_date=\"%d\"\n"
 					       "\t\tSplit_date_period=\"%d\"\n"
 					       "\t\tSplit_by_fin_year=\"%d\"\n"
-					       "\t\tSplit_day_begining=\"%d\"\n"
+					       "\t\tSplit_day_beginning=\"%d\"\n"
 					       "\t\tAccount_use_selection=\"%d\"\n"
 					       "\t\tAccount_selected=\"%s\"\n"
 					       "\t\tAccount_group_transactions=\"%d\"\n"

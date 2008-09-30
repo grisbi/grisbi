@@ -262,7 +262,7 @@ gboolean gsb_fyear_update_fyear_list ( void )
 
     gtk_list_store_clear (GTK_LIST_STORE (fyear_model));
 
-    /* put at the begining 'Automatic' wich mean at the validation of
+    /* put at the beginning 'Automatic' wich mean at the validation of
      * the transaction, the fyear will take the value of the date */
     gtk_list_store_append ( GTK_LIST_STORE (fyear_model),
 			    &iter );

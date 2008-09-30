@@ -786,7 +786,7 @@ static gboolean gsb_assistant_reconcile_config_page_menu_toggled ( GtkWidget *bu
  * check the entries and create the corresponding reconcile
  *
  * \param button
- * \param label a message label, hidden at the begining, that will say ok the reconcile is created
+ * \param label a message label, hidden at the beginning, that will say ok the reconcile is created
  * 		or if there is a problem...
  *
  * \return FALSE

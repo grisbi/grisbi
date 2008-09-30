@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -312,7 +312,7 @@ static void gsb_archive_config_fill_list ( GtkListStore *store )
 
 	archive_number = gsb_data_archive_get_no_archive (tmp_list -> data);
 
-	init_date = gsb_format_gdate (gsb_data_archive_get_begining_date (archive_number));
+	init_date = gsb_format_gdate (gsb_data_archive_get_beginning_date (archive_number));
 	final_date = gsb_format_gdate (gsb_data_archive_get_end_date (archive_number));
 
 	gtk_list_store_append ( GTK_LIST_STORE (store),

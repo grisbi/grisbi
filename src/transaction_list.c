@@ -295,7 +295,7 @@ void transaction_list_append_archive (gint archive_store_number)
 
     archive_number = gsb_data_archive_store_get_archive_number (archive_store_number);
 
-    newrecord -> visible_col[find_element_col (ELEMENT_DATE)] = gsb_format_gdate (gsb_data_archive_get_begining_date (archive_number));
+    newrecord -> visible_col[find_element_col (ELEMENT_DATE)] = gsb_format_gdate (gsb_data_archive_get_beginning_date (archive_number));
     newrecord -> visible_col[find_element_col (ELEMENT_PARTY)] = g_strdup_printf ( _("archive %s (%d transactions)"),
 										   gsb_data_archive_get_name (archive_number),
 										   gsb_data_archive_store_get_transactions_number (archive_store_number));
@@ -821,7 +821,7 @@ void transaction_list_set_balances ( void )
 
     floating_point = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (account_number));
 
-    /* get the begining balance */
+    /* get the beginning balance */
     current_total = solde_debut_affichage ( account_number,
 					    floating_point);
 

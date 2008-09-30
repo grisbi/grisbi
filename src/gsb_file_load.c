@@ -647,7 +647,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -963,7 +963,7 @@ void gsb_file_load_print_part ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -1071,7 +1071,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -1434,7 +1434,7 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -1534,7 +1534,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -1858,7 +1858,7 @@ void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
     
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -2105,7 +2105,7 @@ void gsb_file_load_party ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -2167,7 +2167,7 @@ void gsb_file_load_category ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -2230,7 +2230,7 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -2292,7 +2292,7 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -2355,7 +2355,7 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -2422,7 +2422,7 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 	if ( !strcmp (attribute_values[i],
 	     "(null)"))
@@ -2516,7 +2516,7 @@ void gsb_file_load_currency_link ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 	if ( !strcmp (attribute_values[i],
 	     "(null)"))
@@ -2585,7 +2585,7 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -2732,7 +2732,7 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -2764,7 +2764,7 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
 		       "Bdte" ))
 	{
 	    date = gsb_parse_date_string_safe (attribute_values[i]);
-	    gsb_data_fyear_set_begining_date ( fyear_number,
+	    gsb_data_fyear_set_beginning_date ( fyear_number,
 					       date );
 	    if ( date )
 	    {
@@ -2826,7 +2826,7 @@ void gsb_file_load_archive ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 	if ( !strcmp (attribute_values[i],
 		      "(null)"))
@@ -2857,7 +2857,7 @@ void gsb_file_load_archive ( const gchar **attribute_names,
 		       "Bdte" ))
 	{
 	    date = gsb_parse_date_string_safe (attribute_values[i]);
-	    gsb_data_archive_set_begining_date ( archive_number,
+	    gsb_data_archive_set_beginning_date ( archive_number,
 						 date );
 	    if ( date )
 		g_date_free (date);
@@ -2922,7 +2922,7 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 	if ( !strcmp (attribute_values[i],
 	     "(null)"))
@@ -3020,7 +3020,7 @@ void gsb_file_load_import_rule ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 	if ( !strcmp (attribute_values[i],
 	     "(null)"))
@@ -3125,7 +3125,7 @@ void gsb_file_load_report ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -3439,7 +3439,7 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	}
 
 	if ( !strcmp ( attribute_names[i],
-		       "Date_begining" ))
+		       "Date_beginning" ))
 	{
 	    gsb_data_report_set_personal_date_start ( report_number,
 						      gsb_parse_date_string_safe (attribute_values[i]));
@@ -3484,7 +3484,7 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	}
 
 	if ( !strcmp ( attribute_names[i],
-		       "Split_day_begining" ))
+		       "Split_day_beginning" ))
 	{
 	    gsb_data_report_set_period_split_day ( report_number,
 						   utils_str_atoi (attribute_values[i]));
@@ -3863,7 +3863,7 @@ void gsb_file_load_text_comparison ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -4026,7 +4026,7 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
 
     do
     {
-	/* 	we test at the begining if the attribute_value is NULL, if yes, */
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 	/* 	   go to the next */
 
 	if ( !strcmp (attribute_values[i],
@@ -4623,7 +4623,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 	    do
 	    {
-		/* 	we test at the begining if the attribute_value is NULL, if yes, */
+		/* 	we test at the beginning if the attribute_value is NULL, if yes, */
 		/* 	   go to the next */
 
 		if ( !strcmp (attribute_values[i],
@@ -4996,7 +4996,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 					    utils_str_atoi ( pointeur_char[1] ),
 					    utils_str_atoi ( pointeur_char[2] ));
 
-		    gsb_data_fyear_set_begining_date ( fyear_number, date);
+		    gsb_data_fyear_set_beginning_date ( fyear_number, date);
 		    g_strfreev ( pointeur_char );
 		    if (date)
 			g_date_free (date);
@@ -7302,7 +7302,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 
 	    /* third step, we want to fill the inital and final balance of all the reconcile
 	     * but all that we have is the final balance of the last reconcile and the transactions for
-	     * all the reconciles (cannot run from the begining with the initial balance of account because
+	     * all the reconciles (cannot run from the beginning with the initial balance of account because
 	     * user can change the first time the initial balance of the reconcile)
 	     * so run from the end and go to the start */
 

@@ -271,7 +271,7 @@ static void custom_list_init (CustomList *custom_list)
     custom_list->column_types[16] = G_TYPE_BOOLEAN;    	/* col 16 ( checkbox visible during reconciliation ) */
     custom_list->column_types[17] = G_TYPE_BOOLEAN;    	/* col 17 ( checkbox active ) */
 
-    /* no row at the begining */
+    /* no row at the beginning */
     custom_list->num_rows = 0;
     custom_list->rows     = NULL;
 

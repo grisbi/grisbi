@@ -327,7 +327,7 @@ GDate * gsb_parse_date_string ( const gchar *date_string )
     /* replace all separators by . */
     g_strcanon ( string, "0123456789", '.' );
 
-    /* remove the . at the begining and ending of the string */
+    /* remove the . at the beginning and ending of the string */
     while ( * string == '.' && * string ) string ++;
     while ( string [ strlen ( string ) - 1 ] == '.' && strlen ( string ) ) 
 	string [ strlen ( string )  - 1 ] = '\0';

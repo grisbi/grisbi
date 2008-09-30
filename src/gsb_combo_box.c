@@ -45,7 +45,7 @@
  * column 0 will contain the text
  * column 1 will have the index, in the order of the strings
  * 
- * this function takes an array of string and attribute a number begining by the first element of the array
+ * this function takes an array of string and attribute a number beginning by the first element of the array
  * to link some text with a special number, use gsb_combo_box_new_with_index_by_list
  *
  * \param string a pointer to an array of strings terminated by NULL, string will be appended in that order

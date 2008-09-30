@@ -697,7 +697,7 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
 	init_gdate = gsb_calendar_entry_get_date (initial_date);
 	final_gdate = gsb_calendar_entry_get_date (final_date);
 
-	gsb_data_archive_set_begining_date ( archive_number,
+	gsb_data_archive_set_beginning_date ( archive_number,
 					     init_gdate );
 	gsb_data_archive_set_end_date ( archive_number,
 					final_gdate );

@@ -1115,7 +1115,7 @@ gint gsb_form_get_account_number ( void )
  * ORIGIN_VALUE_HOME : we are on the welcome page
  * ORIGIN_VALUE_SCHEDULED : we are on the scheduled transactions
  *  0 to x : the account number where we are
- *  that function is called at each begining to know where we are and what to do...
+ *  that function is called at each beginning to know where we are and what to do...
  *
  *  \param
  *

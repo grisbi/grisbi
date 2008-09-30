@@ -44,7 +44,7 @@ typedef struct
 {
     guint fyear_number;
     gchar *fyear_name;
-    GDate *begining_date;
+    GDate *beginning_date;
     GDate *end_date;
     gboolean showed_in_form;
 
@@ -245,8 +245,8 @@ static void _gsb_data_fyear_free ( struct_fyear *fyear )
 	return;
     if ( fyear -> fyear_name )
 	g_free ( fyear -> fyear_name );
-    if ( fyear -> begining_date )
-	g_date_free ( fyear -> begining_date );
+    if ( fyear -> beginning_date )
+	g_date_free ( fyear -> beginning_date );
     if ( fyear -> end_date )
 	g_date_free ( fyear -> end_date );
     g_free ( fyear );
@@ -376,13 +376,13 @@ gboolean gsb_data_fyear_set_name ( gint fyear_number,
 
 
 /**
- * return the begining date of the fyear
+ * return the beginning date of the fyear
  *
  * \param fyear_number the number of the fyear
  *
- * \return the begining date of the fyear or NULL if fail
+ * \return the beginning date of the fyear or NULL if fail
  * */
-GDate *gsb_data_fyear_get_begining_date ( gint fyear_number )
+GDate *gsb_data_fyear_get_beginning_date ( gint fyear_number )
 {
     struct_fyear *fyear;
 
@@ -391,20 +391,20 @@ GDate *gsb_data_fyear_get_begining_date ( gint fyear_number )
     if (!fyear)
 	return NULL;
 
-    return fyear -> begining_date;
+    return fyear -> beginning_date;
 }
 
 
 /**
- * set the begining date of the fyear
+ * set the beginning date of the fyear
  * the value is dupplicate in memory
  *
  * \param fyear_number the number of the fyear
- * \param date the begining date of the fyear
+ * \param date the beginning date of the fyear
  *
  * \return TRUE if ok or FALSE if problem
  * */
-gboolean gsb_data_fyear_set_begining_date ( gint fyear_number,
+gboolean gsb_data_fyear_set_beginning_date ( gint fyear_number,
 					    GDate *date )
 {
     struct_fyear *fyear;
@@ -415,11 +415,11 @@ gboolean gsb_data_fyear_set_begining_date ( gint fyear_number,
 	return FALSE;
 
     /* we free the last date */
-    if ( fyear -> begining_date )
-	g_date_free (fyear -> begining_date);
+    if ( fyear -> beginning_date )
+	g_date_free (fyear -> beginning_date);
     
     /* and copy the new one */
-    fyear -> begining_date = gsb_date_copy (date);
+    fyear -> beginning_date = gsb_date_copy (date);
 
     return TRUE;
 }
@@ -620,7 +620,7 @@ gboolean gsb_data_fyear_check_for_invalid ( gint fyear_number )
 	return FALSE;
 
     /* check if there is some good date */
-    if (!fyear -> begining_date
+    if (!fyear -> beginning_date
 	||
 	!fyear -> end_date)
     {
@@ -629,7 +629,7 @@ gboolean gsb_data_fyear_check_for_invalid ( gint fyear_number )
     }
 
     /* first : we check that the first date is above the second */
-    if ( g_date_compare (fyear -> begining_date,
+    if ( g_date_compare (fyear -> beginning_date,
 			 fyear -> end_date) > 0)
     {
 	fyear -> invalid_fyear = FYEAR_INVALID_DATE_ORDER;
@@ -637,7 +637,7 @@ gboolean gsb_data_fyear_check_for_invalid ( gint fyear_number )
     }
 
     /* second : we check if there is not a cross with another fyear */
-    if ( (gsb_data_fyear_get_from_date (fyear -> begining_date) != fyear_number)
+    if ( (gsb_data_fyear_get_from_date (fyear -> beginning_date) != fyear_number)
 	 ||
 	 (gsb_data_fyear_get_from_date (fyear -> end_date) != fyear_number))
     {
@@ -677,9 +677,9 @@ gint gsb_data_fyear_get_from_date ( const GDate *date )
 	fyear = tmp_list -> data;
 
 	/* check the fyear only if the dates are valid */
-	if (fyear -> begining_date && fyear -> end_date)
+	if (fyear -> beginning_date && fyear -> end_date)
 	{
-	    if ( g_date_compare ( date, fyear -> begining_date) >= 0
+	    if ( g_date_compare ( date, fyear -> beginning_date) >= 0
 		 &&
 		 g_date_compare ( date, fyear -> end_date) <= 0 )
 	    {
@@ -717,9 +717,9 @@ gint gsb_data_fyear_compare ( gint fyear_number_1,
 	!fyear_2)
 	return 0;
 
-    if (g_date_compare (fyear_1 -> begining_date, fyear_2 -> end_date) >= 0)
+    if (g_date_compare (fyear_1 -> beginning_date, fyear_2 -> end_date) >= 0)
 	return 1;
-    if (g_date_compare (fyear_2 -> begining_date, fyear_1 -> end_date) >= 0)
+    if (g_date_compare (fyear_2 -> beginning_date, fyear_1 -> end_date) >= 0)
 	return -1;
     return 0;
 }

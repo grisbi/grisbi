@@ -145,7 +145,7 @@ guint gtk_combofix_get_type ( void )
  * by default, force is not set, auto_sort is TRUE, no max items
  * and case unsensitive
  *
- * \param list a g_slist of name (\t at the begining makes it as a child)
+ * \param list a g_slist of name (\t at the beginning makes it as a child)
  * \param force TRUE and the text must be in the list
  * \param sort TRUE and the list will be sorted automatickly
  * \param max_items the minimum of characters to show the popup
@@ -177,7 +177,7 @@ GtkWidget *gtk_combofix_new ( GSList *list )
  * by default, force is not set, auto_sort is TRUE, no max items
  * and case unsensitive
  *
- * \param list a g_slist of name (\t at the begining makes it as a child)
+ * \param list a g_slist of name (\t at the beginning makes it as a child)
  * \param force TRUE and the text must be in the list
  * \param sort TRUE and the list will be sorted automatickly
  * \param max_items the minimum of characters to show the popup

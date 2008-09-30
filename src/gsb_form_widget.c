@@ -268,7 +268,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_CONTRA:
-	    /* no menu at begining, appened when choose the contra-account */
+	    /* no menu at beginning, appened when choose the contra-account */
 	    widget = gtk_combo_box_new ();
 	    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 				   widget,

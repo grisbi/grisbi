@@ -214,7 +214,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 		       0, 0 );
     entry = gsb_autofunc_date_new ( NULL,
 				    G_CALLBACK (gsb_fyear_config_modify_fyear), tree_view,
-				    G_CALLBACK (gsb_data_fyear_set_begining_date), 0 );
+				    G_CALLBACK (gsb_data_fyear_set_beginning_date), 0 );
     g_object_set_data ( G_OBJECT (tree_model),
 			"fyear_begin_date_entry", entry );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -398,7 +398,7 @@ void gsb_fyear_config_append_line ( GtkTreeModel *model,
     gtk_list_store_set ( GTK_LIST_STORE (model),
 			 iter_ptr,
 			 FYEAR_NAME_COLUMN, gsb_data_fyear_get_name (fyear_number),
-			 FYEAR_BEGIN_DATE_COLUMN, gsb_format_gdate (gsb_data_fyear_get_begining_date (fyear_number)),
+			 FYEAR_BEGIN_DATE_COLUMN, gsb_format_gdate (gsb_data_fyear_get_beginning_date (fyear_number)),
 			 FYEAR_END_DATE_COLUMN, gsb_format_gdate (gsb_data_fyear_get_end_date (fyear_number)),
 			 FYEAR_INVALID_COLUMN, invalid,
 			 FYEAR_NUMBER_COLUMN, fyear_number,
@@ -442,12 +442,12 @@ gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
 				   gsb_data_fyear_get_name (fyear_number),
 				   fyear_number );
 
-    /* set the begining date */
+    /* set the beginning date */
     widget = g_object_get_data ( G_OBJECT (model),
 				 "fyear_begin_date_entry" );
     gsb_calendar_entry_set_color (widget, TRUE);
     gsb_autofunc_date_set ( widget,
-			    gsb_data_fyear_get_begining_date (fyear_number),
+			    gsb_data_fyear_get_beginning_date (fyear_number),
 			    fyear_number );
 
     /* set the end date */
@@ -547,7 +547,7 @@ gboolean gsb_fyear_config_modify_fyear ( GtkWidget *entry,
      gtk_list_store_set ( GTK_LIST_STORE (model),
 			  &iter,
 			  FYEAR_NAME_COLUMN, gsb_data_fyear_get_name (fyear_number),
-			  FYEAR_BEGIN_DATE_COLUMN, gsb_format_gdate (gsb_data_fyear_get_begining_date (fyear_number)),
+			  FYEAR_BEGIN_DATE_COLUMN, gsb_format_gdate (gsb_data_fyear_get_beginning_date (fyear_number)),
 			  FYEAR_END_DATE_COLUMN, gsb_format_gdate (gsb_data_fyear_get_end_date (fyear_number)) ,
 			  FYEAR_INVALID_COLUMN, invalid,
 			  FYEAR_NUMBER_COLUMN, fyear_number,
@@ -622,7 +622,7 @@ gboolean gsb_fyear_config_add_fyear ( GtkWidget *tree_view )
     
     gsb_data_fyear_set_form_show ( fyear_number,
 				   TRUE );
-    gsb_data_fyear_set_begining_date ( fyear_number,
+    gsb_data_fyear_set_beginning_date ( fyear_number,
 				       date = gdate_today());
     gsb_data_fyear_set_end_date ( fyear_number,
 				  date );
@@ -694,7 +694,7 @@ gboolean gsb_fyear_config_remove_fyear ( GtkWidget *tree_view )
 	     ==
 	     gsb_data_transaction_get_financial_year_number (transaction_number))
 	{
-	    /* at the begining warning_showed is FALSE and we show a warning,
+	    /* at the beginning warning_showed is FALSE and we show a warning,
 	     * if the user doesn't want to continue, we go out of the while so cannot come
 	     * here again ; but if he wants to continue, warning_showed is set to TRUE, we delete
 	     * the financial year and continue to come here to set the fyear of the

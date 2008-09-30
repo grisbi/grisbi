@@ -6448,7 +6448,7 @@ GtkWidget *page_data_separation ( void )
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( POSTSPACIFY(_("Begining of week")) );
+    label = gtk_label_new ( POSTSPACIFY(_("Beginning of week")) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     bouton_debut_semaine = gtk_option_menu_new ();

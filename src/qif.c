@@ -1100,7 +1100,7 @@ gboolean qif_export ( const gchar *filename,
 {
     FILE * fichier_qif;
     GSList *list_tmp_transactions;
-    gint begining;
+    gint beginning;
     gint floating_point;
 
     if (!gsb_file_util_test_overwrite (filename))
@@ -1134,7 +1134,7 @@ gboolean qif_export ( const gchar *filename,
 
 
     list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
-    begining = 1;
+    beginning = 1;
 
     while ( list_tmp_transactions )
     {
@@ -1147,9 +1147,9 @@ gboolean qif_export ( const gchar *filename,
 	      ||
 	      gsb_data_transaction_get_archive_number (transaction_number_tmp) == archive_number))
 	{
-	    if ( begining )
+	    if ( beginning )
 	    {
-		/* this is the begining of the qif file, we set some beginings things */
+		/* this is the beginning of the qif file, we set some beginnings things */
 		fprintf ( fichier_qif,
 			  "D%d/%d/%d\n",
 			  g_date_day (gsb_data_transaction_get_date (transaction_number_tmp)),
@@ -1175,7 +1175,7 @@ gboolean qif_export ( const gchar *filename,
 					gsb_data_account_get_name (account_nb),
 					"]",
 					NULL ) );
-		begining = 0;
+		beginning = 0;
 	    }
 
 	    /* si c'est une opé de ventilation, on la saute pas elle sera recherchée quand */
@@ -1353,7 +1353,7 @@ gboolean qif_export ( const gchar *filename,
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
 
-    if ( begining )
+    if ( beginning )
     {
 	/* there is no transaction in the account, so do the opening of the account, bug no date */
 	/* met le solde initial */

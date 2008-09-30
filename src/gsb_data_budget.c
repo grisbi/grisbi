@@ -986,7 +986,7 @@ GSList *gsb_data_budget_get_name_list ( gboolean set_debit,
 
 
 /**
- * append the sub-budgets name with a tab at the begining
+ * append the sub-budgets name with a tab at the beginning
  * to the list of budgets given in param
  *
  * \param budget_list a g_slist of budgets names

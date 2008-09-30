@@ -265,7 +265,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 				3, 4,
 				2, 3 );
 
-    /* at the begining, the table is unsensitive */
+    /* at the beginning, the table is unsensitive */
     gtk_widget_set_sensitive ( table_selection,
 			       FALSE );
 

@@ -1037,7 +1037,7 @@ GSList *gsb_data_category_get_name_list ( gboolean set_debit,
 	special_list = g_slist_append ( special_list,
 					_("Transfer"));
 
-	/* append the accounts name with a tab at the begining */
+	/* append the accounts name with a tab at the beginning */
 
 	tmp_list= gsb_data_account_get_list_accounts ();
 
@@ -1062,7 +1062,7 @@ GSList *gsb_data_category_get_name_list ( gboolean set_debit,
 
 
 /**
- * append the sub-categories name with a tab at the begining
+ * append the sub-categories name with a tab at the beginning
  * to the list of categories given in param
  *
  * \param category_list a g_slist of categories names

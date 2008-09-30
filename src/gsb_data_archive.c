@@ -49,7 +49,7 @@ typedef struct
 
     /* for the archive created by date,
      * else the 2 values are NULL */
-    GDate *begining_date;
+    GDate *beginning_date;
     GDate *end_date;
 
     /* for the archive created by financial year,
@@ -249,8 +249,8 @@ static void _gsb_data_archive_free ( struct_archive* archive)
         return;
     if ( archive -> archive_name )
 	g_free ( archive -> archive_name );
-    if ( archive -> begining_date )
-	g_date_free ( archive -> begining_date );
+    if ( archive -> beginning_date )
+	g_date_free ( archive -> beginning_date );
     if ( archive -> end_date )
 	g_date_free ( archive -> end_date );
     if ( archive -> report_title )
@@ -396,13 +396,13 @@ gboolean gsb_data_archive_set_name ( gint archive_number,
 
 
 /**
- * return the begining date of the archive
+ * return the beginning date of the archive
  *
  * \param archive_number the number of the archive
  *
- * \return the begining date of the archive or NULL if fail
+ * \return the beginning date of the archive or NULL if fail
  * */
-GDate *gsb_data_archive_get_begining_date ( gint archive_number )
+GDate *gsb_data_archive_get_beginning_date ( gint archive_number )
 {
     struct_archive *archive;
 
@@ -411,20 +411,20 @@ GDate *gsb_data_archive_get_begining_date ( gint archive_number )
     if (!archive)
 	return NULL;
 
-    return archive -> begining_date;
+    return archive -> beginning_date;
 }
 
 
 /**
- * set the begining date of the archive
+ * set the beginning date of the archive
  * the value is dupplicate in memory
  *
  * \param archive_number the number of the archive
- * \param date the begining date of the archive
+ * \param date the beginning date of the archive
  *
  * \return TRUE if ok or FALSE if problem
  * */
-gboolean gsb_data_archive_set_begining_date ( gint archive_number,
+gboolean gsb_data_archive_set_beginning_date ( gint archive_number,
 					      const GDate *date )
 {
     struct_archive *archive;
@@ -435,11 +435,11 @@ gboolean gsb_data_archive_set_begining_date ( gint archive_number,
 	return FALSE;
 
     /* we free the last date */
-    if ( archive -> begining_date )
-	g_date_free (archive -> begining_date);
+    if ( archive -> beginning_date )
+	g_date_free (archive -> beginning_date);
 
     /* and copy the new one */
-    archive -> begining_date = gsb_date_copy (date);
+    archive -> beginning_date = gsb_date_copy (date);
 
     return TRUE;
 }
@@ -610,9 +610,9 @@ gint gsb_data_archive_get_from_date ( const GDate *date )
 	archive = tmp_list -> data;
 
 	/* check the archive only if the dates are valid */
-	if (archive -> begining_date && archive -> end_date)
+	if (archive -> beginning_date && archive -> end_date)
 	{
-	    if ( g_date_compare ( date, archive -> begining_date) >= 0
+	    if ( g_date_compare ( date, archive -> beginning_date) >= 0
 		 &&
 		 g_date_compare ( date, archive -> end_date) <= 0 )
 	    {

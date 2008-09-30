@@ -118,7 +118,7 @@ static gint last_account_number = 0;
 
 
 /**
- * create the scheduled part : that widgets are created at the begining
+ * create the scheduled part : that widgets are created at the beginning
  * and normally never destroyed, they are showed only for
  * scheduled transactions
  *
