@@ -136,7 +136,7 @@ PKG_CHECK_MODULES(OpenSSL, libssl, , nossl=true)
 if test x$nossl == xtrue
 then
 	AC_MSG_RESULT([OpenSSL support not available, this Grisbi build will not be able to crypt/decrypt files.])
-	CFLAGS="${CFLAGS}"
+	CFLAGS="${CFLAGS} -DNOSSL"
 fi
 AM_CONDITIONAL(HAVE_SSL, test x$nossl != xtrue)
 
