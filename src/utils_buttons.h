@@ -13,8 +13,6 @@ typedef enum GSB_BUTTON_STYLE {
 
 
 /*START_DECLARATION*/
-GtkWidget *cree_bouton_url ( const gchar *adr,
-			     const gchar *inscription );
 gboolean gsb_button_sensitive_by_checkbutton ( GtkWidget *check_button,
 					       GtkWidget *widget );
 GtkWidget * new_image_label ( GsbButtonStyle style, const gchar * image_name, const gchar * name );

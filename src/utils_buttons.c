@@ -31,6 +31,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static GtkWidget *cree_bouton_url ( const gchar *adr,
+			     const gchar *inscription );
 /*END_STATIC*/
 
 
