@@ -246,28 +246,46 @@ void preferences ( gint page )
     gtk_box_pack_start ( GTK_BOX ( hbox ), GTK_WIDGET(preference_frame),
 			 TRUE, TRUE, 0 );
 
-    /* File tab */
+    /* Main subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 			&iter,
+			0, _("Main"),
+			1, NOT_A_PAGE,
+			2, 800, 
+			-1);
+
+    /* File tab */
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter2,
 			0, _("Files"),
 			1, FILES_PAGE,
 			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_fichier(), NULL);
 
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter,
+			&iter2,
+			0, _("Archives"),
+			1, ARCHIVE_PAGE,
+			2, 400, 
+			-1);
+    gtk_notebook_append_page (preference_frame, gsb_archive_config_create (), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter2,
 			0, _("Import"),
 			1, IMPORT_PAGE,
 			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_importation(), NULL);
 
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter,
+			&iter2,
 			0, _("Programs"),
 			1, SOFTWARE_PAGE,
 			2, 400, 
@@ -455,15 +473,6 @@ void preferences ( gint page )
 			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, gsb_payment_method_config_create (), NULL);
-
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Archives"),
-			1, ARCHIVE_PAGE,
-			2, 400, 
-			-1);
-    gtk_notebook_append_page (preference_frame, gsb_archive_config_create (), NULL);
 
     gtk_widget_show_all ( hpaned );
     gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );

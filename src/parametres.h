@@ -5,6 +5,7 @@
 enum preference_page  {
     NOT_A_PAGE = -1,
     FILES_PAGE,
+    ARCHIVE_PAGE,
     IMPORT_PAGE,
     SOFTWARE_PAGE,
     FONTS_AND_LOGO_PAGE,
@@ -23,7 +24,6 @@ enum preference_page  {
     BANKS_PAGE,
     FINANCIAL_YEARS_PAGE,
     METHODS_OF_PAYMENT_PAGE,
-    ARCHIVE_PAGE,
     NUM_PREFERENCES_PAGES
 };
 /* START_INCLUDE_H */
