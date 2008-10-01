@@ -55,7 +55,6 @@ static  gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
 						   gpointer null );
 /*END_STATIC*/
 
-/* xxx virer la grille */
 
 /** Used to display/hide comments in scheduler list */
 static GtkWidget *scheduler_display_hide_comments = NULL;

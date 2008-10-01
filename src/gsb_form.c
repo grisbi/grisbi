@@ -64,6 +64,7 @@
 #include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./transaction_list_select.h"
+#include "./transaction_list.h"
 #include "./utils_operations.h"
 #include "./fenetre_principale.h"
 #include "./gsb_data_payment.h"
@@ -2271,12 +2272,17 @@ gboolean gsb_form_finish_edition ( void )
      * the amount of marked transactions */
     if ( is_transaction
 	 &&
-	 etat.equilibrage
-	 &&
-	 !new_transaction )
+	 etat.equilibrage )
     {
-	gsb_data_account_calculate_marked_balance (account_number);
-	gsb_reconcile_update_amounts (NULL, NULL);
+	if (new_transaction)
+	    /* we are reconciling and it's a new transaction, so need to show the checkbox */
+	    transaction_list_show_toggle_mark (TRUE);
+	else
+	{
+	    /* we are reconciling and it's a modification of transaction, need to recalculate the marked balance */
+	    gsb_data_account_calculate_marked_balance (account_number);
+	    gsb_reconcile_update_amounts (NULL, NULL);
+	}
     }
 
     /* if we executed a scheduled transation, need to increase the date of the scheduled

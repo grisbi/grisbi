@@ -1254,7 +1254,9 @@ gboolean transaction_list_show_toggle_mark ( gboolean show )
 	    ||
 	    record -> what_is_line == IS_SEPARATOR
 	    ||
-	    record -> line_in_transaction != line_p )
+	    record -> line_in_transaction != line_p
+	    ||
+	    gsb_data_transaction_get_transaction_number (record -> transaction_pointer) == -1)
 	    continue;
 
 	record -> checkbox_visible = show;
