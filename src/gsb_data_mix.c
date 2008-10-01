@@ -92,8 +92,8 @@ gint gsb_data_mix_get_account_number ( gint transaction_number,
 	return (gsb_data_scheduled_get_account_number ( transaction_number));
 }
 
-GDate *gsb_data_mix_get_date ( gint transaction_number,
-			       gboolean is_transaction )
+const GDate *gsb_data_mix_get_date ( gint transaction_number,
+				     gboolean is_transaction )
 {
     if (is_transaction)
 	return (gsb_data_transaction_get_date ( transaction_number));

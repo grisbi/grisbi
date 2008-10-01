@@ -452,8 +452,8 @@ gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1,
 						gint transaction_number_2 )
 {
     gint return_value;
-    GDate *value_date_1;
-    GDate *value_date_2;
+    const GDate *value_date_1;
+    const GDate *value_date_2;
 
     /* need to work a little more here because value date is not obligatory filled,
      * if we compare 2 transactions and 1 has no value date, set the value date before */

@@ -829,7 +829,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
     if ( gsb_data_report_get_period_split (current_report_number))
     {
 	gchar *text = NULL;
-	GDate *date;
+	const GDate *date;
 
 	date = gsb_data_transaction_get_date (transaction_number);
 

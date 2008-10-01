@@ -581,11 +581,40 @@ static gboolean gsb_assistant_archive_switch_to_intro ( GtkWidget *assistant,
 static gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
 						       gint new_page )
 {
+    GSList *tmp_list;
+    const GDate *date = NULL;
+
     /* enter into the menu page */
     gtk_label_set_text ( GTK_LABEL (label_archived), NULL );
     gsb_assistant_change_button_next ( assistant,
 				       GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
     gsb_assistant_archive_update_labels ( assistant );
+
+    /* set the initial date to the first transaction in grisbi */
+    tmp_list = gsb_data_transaction_get_transactions_list ();
+    while (tmp_list)
+    {
+	gint transaction_number;
+
+	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+	if (date)
+	{
+	    if (g_date_compare (date, gsb_data_transaction_get_date (transaction_number)) > 0)
+		date = gsb_data_transaction_get_date (transaction_number);
+	}
+	else
+	    date = gsb_data_transaction_get_date (transaction_number);
+	tmp_list = tmp_list -> next;
+    }
+    if (date)
+    {
+	gtk_entry_set_text ( GTK_ENTRY (initial_date),
+			     gsb_format_gdate (date));
+	gtk_entry_select_region (GTK_ENTRY (initial_date),
+				 0, -1);
+    }
+    gtk_widget_grab_focus (initial_date);
+
     return FALSE;
 }
 

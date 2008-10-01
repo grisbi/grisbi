@@ -28,8 +28,8 @@ GSList *gsb_data_mix_get_children ( gint transaction_number,
 				    gboolean is_transaction );
 gint gsb_data_mix_get_currency_number ( gint transaction_number,
 					gboolean is_transaction );
-GDate *gsb_data_mix_get_date ( gint transaction_number,
-			       gboolean is_transaction );
+const GDate *gsb_data_mix_get_date ( gint transaction_number,
+				     gboolean is_transaction );
 gint gsb_data_mix_get_financial_year_number ( gint transaction_number,
 					      gboolean is_transaction );
 gint gsb_data_mix_get_method_of_payment_number ( gint transaction_number,

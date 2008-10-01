@@ -722,7 +722,7 @@ gint gsb_data_reconcile_get_previous ( gint reconcile_number )
  *
  * \return the number of the found reconcile or 0 if not found
  * */
-gint gsb_data_reconcile_get_number_by_date ( GDate *date,
+gint gsb_data_reconcile_get_number_by_date ( const GDate *date,
 					     gint account_number )
 {
     GList *tmp_list;

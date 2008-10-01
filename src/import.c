@@ -1645,7 +1645,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 					    gint account_number )
 {
     GSList *list_tmp;
-    GDate *last_date_import;
+    const GDate *last_date_import;
     gint demande_confirmation;
     GSList *list_tmp_transactions;
 

@@ -215,8 +215,11 @@ gpointer gsb_data_transaction_get_pointer_of_transaction ( gint transaction_numb
     return transaction;
 }
 
-/** find the last number of transaction
+/**
+ * find the last number of transaction
+ * 
  * \param none
+ * 
  * \return the number
  * */
 gint gsb_data_transaction_get_last_number (void)
@@ -238,6 +241,7 @@ gint gsb_data_transaction_get_last_number (void)
     }
     return last_number;
 }
+
 
 
 /** find the last number of the white lines
@@ -491,7 +495,7 @@ gboolean gsb_data_transaction_set_account_number ( gint transaction_number,
  * 
  * \return the GDate of the transaction
  * */
-GDate *gsb_data_transaction_get_date ( gint transaction_number )
+const GDate *gsb_data_transaction_get_date ( gint transaction_number )
 {
     struct_transaction *transaction;
 
@@ -560,7 +564,7 @@ gboolean gsb_data_transaction_set_date ( gint transaction_number,
  * \param transaction_number the number of the transaction
  * \return the GDate of the transaction
  * */
-GDate *gsb_data_transaction_get_value_date ( gint transaction_number )
+const GDate *gsb_data_transaction_get_value_date ( gint transaction_number )
 {
     struct_transaction *transaction;
 

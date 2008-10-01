@@ -161,8 +161,8 @@ gint gsb_reconcile_list_sort_func (CustomRecord **a,
     if (!return_value)
     {
 	/* same method of payment, return by date or no */
-	GDate *date_1;
-	GDate *date_2;
+	const GDate *date_1;
+	const GDate *date_2;
 
 	date_1 = gsb_data_transaction_get_date (transaction_number_1);
 	date_2 = gsb_data_transaction_get_date (transaction_number_2);

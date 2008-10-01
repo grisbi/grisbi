@@ -340,7 +340,6 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 }
 /* ************************************************************************* */
 
-/* xxx pour l'archivage, remplir la date initiale avec la première opé non archivée */
 /* et voir le nb d'archive max initial sur nouveau fichier */
 /* xxx dans le form, et dans la liste, mettre débit à gauche et crédit à droite */
 /* xxx virer la grille */

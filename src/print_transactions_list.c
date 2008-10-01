@@ -522,7 +522,7 @@ gboolean print_transactions_list_draw_page ( GtkPrintOperation *operation,
 	    {
 		/* we want an interval, so check the transaction */
 		gint transaction_number;
-		GDate *date = NULL;
+		const GDate *date = NULL;
 
 		transaction_number = gsb_data_transaction_get_transaction_number (record -> transaction_pointer);
 		if (gsb_data_print_config_get_draw_dates_are_value_dates ())
@@ -617,7 +617,7 @@ gboolean print_transactions_list_get_visibles_lines ( gint *number_of_archives,
 		{
 		    /* we want an interval, so check the transaction */
 		    gint transaction_number;
-		    GDate *date;
+		    const GDate *date;
 
 		    transaction_number = gsb_data_transaction_get_transaction_number (record -> transaction_pointer);
 		    if (gsb_data_print_config_get_draw_dates_are_value_dates ())

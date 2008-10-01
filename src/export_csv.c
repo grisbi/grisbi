@@ -427,7 +427,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
        son opé ventilée sera exportée */
     if ( ! gsb_data_transaction_get_mother_transaction_number (transaction_number) )
     {
-	GDate * value_date, * date;
+	const GDate * value_date, * date;
 	gint payment_method;
 
 	/* met la date */
