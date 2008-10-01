@@ -228,9 +228,9 @@ GtkWidget *gsb_archive_config_create ( void )
 		       G_CALLBACK (gsb_archive_config_destroy_archive),
 		       archive_treeview );
     tmpstr = g_build_filename ( PIXMAPS_DIR, "import.png", NULL );
-    g_free ( tmpstr );
     gtk_button_set_image ( GTK_BUTTON(button), 
 			   gtk_image_new_from_file ( tmpstr ) );
+    g_free ( tmpstr );
 
     gtk_button_set_relief ( GTK_BUTTON (button),
 			    GTK_RELIEF_NONE );
