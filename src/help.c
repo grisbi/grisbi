@@ -131,24 +131,25 @@ NULL};
 				    warn_print,
 				    NULL );
 
+    GtkWidget * about;
+
     /* Logo */
     if ( !chemin_logo || !strlen ( chemin_logo ))
 	chemin_logo = my_strdup ( LOGO_PATH );
     logo =  gdk_pixbuf_new_from_file ( chemin_logo, NULL );
 
-    gtk_show_about_dialog (GTK_WINDOW (window), 
-			   "logo", logo,
-                           "program-name", "Grisbi",
-			   "comments", comments,
-			   "artists", artists,
-			   "authors", auteurs,
-			   "documenters", documenters,
-			   "translator-credits", translators,
-			   "version", VERSION,
-                           "license", license,
-			   "wrap-license", TRUE,
-			   "website", "http://www.grisbi.org/",
-			   NULL);
+    about = gtk_about_dialog_new ( );
+    gtk_about_dialog_set_name ( about, "Grisbi" );
+    gtk_about_dialog_set_comments ( about, comments );
+    gtk_about_dialog_set_license ( about, license );
+    gtk_about_dialog_set_wrap_license ( about, TRUE );
+    gtk_about_dialog_set_version ( about, VERSION );
+    gtk_about_dialog_set_artists ( about, artists );
+    gtk_about_dialog_set_documenters ( about, documenters );
+    gtk_about_dialog_set_authors ( about, auteurs );
+    gtk_about_dialog_set_translator_credits ( about, translators );
+
+    gtk_dialog_run ( about ) ;
 
     if (logo)
 	g_object_unref (logo);
