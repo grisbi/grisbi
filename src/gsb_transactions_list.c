@@ -669,9 +669,19 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
 	&&
 	!gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
+	gchar *string;
+
 	gsb_transactions_list_update_tree_view (account_number, TRUE);
-	gsb_gui_headings_update_suffix ( gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-									     gsb_data_account_get_currency (account_number), TRUE));
+
+	if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
+	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
+				       gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
+									   gsb_data_account_get_currency (account_number), TRUE ));
+	else
+	    string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
+							 gsb_data_account_get_currency (account_number), TRUE );
+	gsb_gui_headings_update_suffix (string);
+	g_free (string);
 
 	/* if it's a mother, open the expander */
 	if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
@@ -901,7 +911,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 gboolean gsb_transactions_list_update_transaction ( gint transaction_number )
 {
     gint account_number;
-    gchar *tmpstr, *tmpstr2;
+    gchar *string;
     gsb_real current_balance;
 
     devel_debug_int (transaction_number);
@@ -920,13 +930,15 @@ gboolean gsb_transactions_list_update_transaction ( gint transaction_number )
     gsb_data_account_set_current_balance ( account_number,
 					   current_balance);
 
-    tmpstr2 = gsb_real_get_string (current_balance);
-    tmpstr = g_strdup_printf ( "%s %s", 
-			       tmpstr2,
-			       gsb_data_currency_get_code (gsb_data_account_get_currency (account_number)));
-    gsb_gui_headings_update_suffix ( tmpstr );
-    g_free(tmpstr);
-    g_free(tmpstr2);
+    if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
+	string = g_strdup_printf ( "<span color=\"red\">%s</span>",
+				   gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
+								       gsb_data_account_get_currency (account_number), TRUE ));
+    else
+	string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
+						     gsb_data_account_get_currency (account_number), TRUE );
+    gsb_gui_headings_update_suffix (string);
+    g_free(string);
 
     /* update first page */
     mise_a_jour_liste_comptes_accueil = 1;
@@ -2447,6 +2459,7 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
 					      gpointer null )
 {
     gint target_account, source_account;
+    gchar *string;
 
     if (! assert_selected_transaction()) return FALSE;
 
@@ -2463,8 +2476,15 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
 
 	gsb_data_account_calculate_current_and_marked_balances (source_account);
 
-	gsb_gui_headings_update_suffix ( gsb_real_get_string_with_currency (gsb_data_account_get_current_balance (source_account ),
-									       gsb_data_account_get_currency (source_account), TRUE));
+	if (gsb_data_account_get_current_balance (source_account).mantissa < 0)
+	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
+				       gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (source_account),
+									   gsb_data_account_get_currency (source_account), TRUE ));
+	else
+	    string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (source_account),
+							 gsb_data_account_get_currency (source_account), TRUE );
+	gsb_gui_headings_update_suffix (string);
+	g_free (string);
 	mise_a_jour_accueil (FALSE);
 
 	modification_fichier ( TRUE );
@@ -2492,14 +2512,22 @@ void move_selected_operation_to_account_nb ( gint *account )
     if ( gsb_transactions_list_move_transaction_to_account ( gsb_data_account_get_current_transaction_number (source_account),
 							     target_account ))
     {
+	gchar *string;
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
 	update_transaction_in_trees (gsb_data_account_get_current_transaction_number (source_account));
 
 	gsb_data_account_calculate_current_and_marked_balances (source_account);
 
-	gsb_gui_headings_update_suffix ( gsb_real_get_string_with_currency (gsb_data_account_get_current_balance (source_account ),
-									       gsb_data_account_get_currency (source_account), TRUE));
+	if (gsb_data_account_get_current_balance (source_account).mantissa < 0)
+	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
+				       gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (source_account),
+									   gsb_data_account_get_currency (source_account), TRUE ));
+	else
+	    string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (source_account),
+							 gsb_data_account_get_currency (source_account), TRUE );
+	gsb_gui_headings_update_suffix (string);
+	g_free (string);
 
 	modification_fichier ( TRUE );
     }

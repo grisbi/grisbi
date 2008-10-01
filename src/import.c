@@ -1849,9 +1849,19 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
     /* if we are on the current account, we need to update the tree_view */
     if (gsb_gui_navigation_get_current_account () == account_number)
     {
+	gchar *string;
+
 	gsb_transactions_list_update_tree_view (account_number, TRUE);
-	gsb_gui_headings_update_suffix ( gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-									     gsb_data_account_get_currency (account_number), TRUE));
+
+	if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
+	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
+				       gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
+									   gsb_data_account_get_currency (account_number), TRUE ));
+	else
+	    string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
+							 gsb_data_account_get_currency (account_number), TRUE );
+	gsb_gui_headings_update_suffix (string);
+	g_free (string);
     }
 }
 

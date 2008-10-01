@@ -1173,8 +1173,13 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    }
 
 	    currency_number = gsb_data_account_get_currency (account_number);
-	    suffix = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-							 currency_number, TRUE );
+	    if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
+		suffix = g_strdup_printf ( "<span color=\"red\">%s</span>",
+					   gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
+									       currency_number, TRUE ));
+	    else
+		suffix = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
+							     currency_number, TRUE );
 	    gsb_menu_update_view_menu ( account_number );
 
 	    /* what to be done if switch to that page */

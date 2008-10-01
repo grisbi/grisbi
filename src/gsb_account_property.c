@@ -699,8 +699,13 @@ gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
     transaction_list_set_balances ();
 
     /* update the headings balance */
-    string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-						 gsb_data_account_get_currency (account_number), TRUE );
+    if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
+	string = g_strdup_printf ( "<span color=\"red\">%s</span>",
+				   gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
+								       gsb_data_account_get_currency (account_number), TRUE ));
+    else
+	string = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
+						     gsb_data_account_get_currency (account_number), TRUE );
     gsb_gui_headings_update_suffix ( string );
     g_free (string);
     return FALSE;
