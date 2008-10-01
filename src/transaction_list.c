@@ -828,7 +828,7 @@ void transaction_list_set_balances ( void )
     for (i=0 ; i < custom_list -> num_visibles_rows ; i++)
     {
 	CustomRecord *record;
-	gsb_real amount;
+	gsb_real amount = { 0, 0 };
 
 	record = custom_list -> visibles_rows[i];
 
