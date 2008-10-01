@@ -86,6 +86,87 @@ gint compare_basename ( gchar * file1, gchar * file2 )
 
 
 /**
+ * Fill a GtkTreeModel with pre-defined category sets.
+ *
+ * \param view		A GtkTreeView that will be used to select
+ *			first entry as de default choice.
+ * \param model		A GtkListModel that will be filled.
+ * \param show_foreign	Control whether foreign files should be included.
+ */
+void gsb_category_fill_sets ( GtkTreeView * view, GtkTreeModel * model, gboolean show_foreign )
+{
+    const gchar* const * languages = g_get_language_names ();
+    GSList * category_files = NULL;
+
+    /* First, we iterate over all locales except for C to avoid mixing
+     * national languages and default one.  We will handle the C
+     * locale later if nothing wirlds a match.  */
+    while ( *languages )
+    {
+	GSList * list;
+
+	if ( show_foreign || 
+	     ( strlen ( (gchar *) *languages ) && strcmp ( (gchar *) *languages, "C" ) ) )
+	{
+	    list = gsb_category_assistant_scan_directory ( (gchar *) * languages, 
+							   model );
+	    while ( list )
+	    {
+		if ( ! g_slist_find_custom ( category_files, list -> data, 
+					     (GCompareFunc) cherche_string_equivalente_dans_slist ) )
+		{
+		    category_files = g_slist_append ( category_files, list -> data );
+		}
+		list = list -> next;
+	    }
+	}
+
+	languages++;
+    }
+    if ( ! category_files )
+    {
+	category_files = gsb_category_assistant_scan_directory ( "C", model );
+    }
+    
+    category_files = g_slist_sort ( category_files, (GCompareFunc) compare_basename );
+
+    while ( category_files )
+    {
+	gsb_category_assistant_parse_file ( (gchar * ) category_files -> data, 
+					    model );
+
+	category_files = category_files -> next;
+    }
+
+    gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( view ),
+				     gtk_tree_path_new_first ( ) );
+    gtk_tree_selection_set_mode ( gtk_tree_view_get_selection ( view ),
+				  GTK_SELECTION_BROWSE );
+}
+
+
+
+/**
+ * Handler that is responsible of toggling what is displayed in the 
+ *
+ * \param button		GtkButton that triggered this handler.
+ *
+ * \return			FALSE
+ */
+gboolean gsb_category_display_foreign_toggled ( GtkWidget * button )
+{
+    GtkTreeModel * model = g_object_get_data ( G_OBJECT(button), "model" );
+    GtkTreeView * view = g_object_get_data ( G_OBJECT(button), "view" );
+
+    gtk_list_store_clear ( GTK_LIST_STORE (model) );
+    gsb_category_fill_sets ( view, model, (gboolean) gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON(button) ) );
+
+    return FALSE;
+}
+
+
+
+/**
  * create a widget to include in an assistant
  * it gives the choice between the kind of categories list we can create
  * later, to create the categories according to the choice,
@@ -102,14 +183,11 @@ gint compare_basename ( gchar * file1, gchar * file2 )
  * */
 GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
 {
-    GtkWidget *page;
-    const gchar* const * languages = g_get_language_names ();
-    GtkWidget * sw;
+    GtkWidget * page, * sw, * radiobutton;
     GtkTreeModel * builtin_category_model;
     GtkTreeView * builtin_category_view;
     GtkCellRenderer *cell;
     gint col_offset;
-    GSList * category_files = NULL;
 
     page = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
@@ -137,51 +215,15 @@ GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX ( page ), GTK_WIDGET ( sw ),
 			 TRUE, TRUE, 0 );
 
-    /* First, we iterate over all locales except for C to avoid mixing
-     * national languages and default one.  We will handle the C
-     * locale later if nothing wirlds a match.  */
-    while ( *languages )
-    {
-	GSList * list;
-
-	if ( strlen ( (gchar *) *languages ) && strcmp ( (gchar *) *languages, "C" ) )
-	{
-	    list = gsb_category_assistant_scan_directory ( (gchar *) * languages, 
-							   builtin_category_model );
-	    while ( list )
-	    {
-		if ( ! g_slist_find_custom ( category_files, list -> data, 
-					     (GCompareFunc) cherche_string_equivalente_dans_slist ) )
-		{
-		    category_files = g_slist_append ( category_files, list -> data );
-		}
-		list = list -> next;
-	    }
-	}
-
-	languages++;
-    }
-    if ( ! category_files )
-    {
-	category_files = gsb_category_assistant_scan_directory ( "C", builtin_category_model );
-    }
-    
-    category_files = g_slist_sort ( category_files, (GCompareFunc) compare_basename );
-
-    while ( category_files )
-    {
-	gsb_category_assistant_parse_file ( (gchar * ) category_files -> data, 
-					    builtin_category_model );
-
-	category_files = category_files -> next;
-    }
-
-    gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( builtin_category_view ),
-				     gtk_tree_path_new_first ( ) );
-    gtk_tree_selection_set_mode ( gtk_tree_view_get_selection ( builtin_category_view ),
-				  GTK_SELECTION_BROWSE );
+    gsb_category_fill_sets ( builtin_category_view, builtin_category_model, FALSE );
 
     g_object_set_data ( G_OBJECT (assistant), "builtin_category_view", builtin_category_view );
+
+    radiobutton = gtk_check_button_new_with_label ( _("Display foreign category sets") );
+    gtk_box_pack_start ( GTK_BOX ( page ), radiobutton, FALSE, FALSE, 0 );
+    g_object_set_data ( G_OBJECT(radiobutton), "model", builtin_category_model );
+    g_object_set_data ( G_OBJECT(radiobutton), "view", builtin_category_view );
+    g_signal_connect ( radiobutton, "toggled", G_CALLBACK(gsb_category_display_foreign_toggled), NULL );
 
     gtk_widget_show_all (page);
     return page;
