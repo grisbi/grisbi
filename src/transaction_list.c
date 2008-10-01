@@ -1511,13 +1511,10 @@ static void transaction_list_append_child ( gint transaction_number )
 
 	/* we go on the last mother record, wich contains the expander */
 	mother_record = mother_record -> transaction_records[custom_list -> nb_rows_by_transaction - 1];
-	if (!mother_record -> has_expander)
-	{
-	    printf ( "la mère n'a pas d'expander\n");
-	    exit(0);
-	}
 
 	newrecord -> mother_row = mother_record;
+	/* this is very important to keep to compatibility with the normal transactions */
+	newrecord -> transaction_records[0] = newrecord;
 
 	path = gtk_tree_path_new();
 	gtk_tree_path_append_index(path, mother_record->filtered_pos);

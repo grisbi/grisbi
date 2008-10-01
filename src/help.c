@@ -50,7 +50,7 @@ void a_propos ( GtkWidget *bouton,
 
 #define CSUFFIX "\n"
 
-    gchar *auteurs[] = {
+    const gchar *auteurs[] = {
 _("Programming"),
 "Benjamin Drieu (bdrieu[at]april.org)",
 "Cedric Auger (cedric[at]grisbi.org)",
@@ -88,12 +88,12 @@ NULL };
 "Ryszard Jeziorski (rjeziorski[at]eagle): ", _("Polish"), CSUFFIX,
 NULL);
 
-  gchar *documenters [] = {
+  const gchar *documenters [] = {
 "Alain Portal (aportal[at]univ-monpt2.fr)",
 "Daniel Cartron (doc[at]grisbi.org)",
 NULL};
 
-  gchar *artists [] = {
+  const gchar *artists [] = {
 "Andre Pascual (andre[at]linuxgraphic.org)",
 NULL};
 
@@ -139,17 +139,17 @@ NULL};
     logo =  gdk_pixbuf_new_from_file ( chemin_logo, NULL );
 
     about = gtk_about_dialog_new ( );
-    gtk_about_dialog_set_name ( about, "Grisbi" );
-    gtk_about_dialog_set_comments ( about, comments );
-    gtk_about_dialog_set_license ( about, license );
-    gtk_about_dialog_set_wrap_license ( about, TRUE );
-    gtk_about_dialog_set_version ( about, VERSION );
-    gtk_about_dialog_set_artists ( about, artists );
-    gtk_about_dialog_set_documenters ( about, documenters );
-    gtk_about_dialog_set_authors ( about, auteurs );
-    gtk_about_dialog_set_translator_credits ( about, translators );
+    gtk_about_dialog_set_name ( GTK_ABOUT_DIALOG (about), "Grisbi" );
+    gtk_about_dialog_set_comments ( GTK_ABOUT_DIALOG (about), comments );
+    gtk_about_dialog_set_license ( GTK_ABOUT_DIALOG (about), license );
+    gtk_about_dialog_set_wrap_license ( GTK_ABOUT_DIALOG (about), TRUE );
+    gtk_about_dialog_set_version ( GTK_ABOUT_DIALOG (about), VERSION );
+    gtk_about_dialog_set_artists ( GTK_ABOUT_DIALOG (about), artists );
+    gtk_about_dialog_set_documenters ( GTK_ABOUT_DIALOG (about), documenters );
+    gtk_about_dialog_set_authors ( GTK_ABOUT_DIALOG (about), auteurs );
+    gtk_about_dialog_set_translator_credits ( GTK_ABOUT_DIALOG (about), translators );
 
-    gtk_dialog_run ( about ) ;
+    gtk_dialog_run ( GTK_DIALOG (about)) ;
 
     if (logo)
 	g_object_unref (logo);
