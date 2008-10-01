@@ -120,7 +120,7 @@ NULL};
 
 #if ! GTK_CHECK_VERSION(2,20,0)
     // Warn about obsolete dependencies 
-    gchar * warn_print = _("\nThis version of Grisbi does not support print feature.\nVersion of GTK+ it was built with is obsolete.");
+    gchar * warn_print = _("\n\nThis version of Grisbi does not support print feature.\nVersion of GTK+ it was built with is obsolete.");
 #else
     gchar * warn_print = NULL;
 #endif
@@ -136,15 +136,13 @@ NULL};
 	chemin_logo = my_strdup ( LOGO_PATH );
     logo =  gdk_pixbuf_new_from_file ( chemin_logo, NULL );
 
-
-
     gtk_show_about_dialog (GTK_WINDOW (window), 
 			   "logo", logo,
                            "program-name", "Grisbi",
 			   "comments", comments,
 			   "artists", artists,
 			   "authors", auteurs,
-			   "documenters"  , documenters,
+			   "documenters", documenters,
 			   "translator-credits", translators,
 			   "version", VERSION,
                            "license", license,
@@ -152,42 +150,10 @@ NULL};
 			   "website", "http://www.grisbi.org/",
 			   NULL);
 
+    if (logo)
+	g_object_unref (logo);
 
     return;
-    /* Logo */
-    /* TODO
-    if ( !chemin_logo || !strlen ( chemin_logo ))
-	chemin_logo = my_strdup ( LOGO_PATH );
-    logo =  gtk_image_new_from_file ( chemin_logo );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), logo, FALSE, FALSE, 0 );
-    */
-
-    /* Title */
-    /* TODO pugin list
-    gchar* tmpstr = g_strconcat ( "Grisbi ", VERSION, "\n\n", NULL );
-    label = gtk_label_new ( tmpstr );
-    g_free ( tmpstr );
-    gchar* plugin_list = gsb_plugin_get_list();
-    gchar* buffer = g_strconcat ( "<span size=\"x-large\" weight=\"bold\">",
-					 "Grisbi ", VERSION, "</span>\n", 
-					 "<span size=\"small\">",
-					 plugin_list, 
-					 "</span>", NULL );
-    gtk_label_set_markup ( GTK_LABEL (label), buffer);
-    g_free(buffer);
-    g_free(plugin_list);
-    gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_CENTER );
-    gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
-
-#if ! GTK_CHECK_VERSION(2,10,0)
-    // Warn about obsolete dependencies 
-    label = gtk_label_new ( _("This version of Grisbi does not support print feature.  Version of GTK+ it was built with is obsolete.") );
-    gtk_label_set_selectable ( GTK_LABEL ( label ), TRUE );
-    gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
-#endif
-*/
 }
 
 
