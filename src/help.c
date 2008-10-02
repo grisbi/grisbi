@@ -139,6 +139,7 @@ NULL};
 
     about = gtk_about_dialog_new ( );
     gtk_about_dialog_set_name ( GTK_ABOUT_DIALOG (about), "Grisbi" );
+    gtk_about_dialog_set_logo ( about, logo );
     gtk_about_dialog_set_comments ( GTK_ABOUT_DIALOG (about), comments );
     gtk_about_dialog_set_license ( GTK_ABOUT_DIALOG (about), license );
     gtk_about_dialog_set_wrap_license ( GTK_ABOUT_DIALOG (about), TRUE );
