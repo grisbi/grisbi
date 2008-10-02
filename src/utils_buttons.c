@@ -31,8 +31,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static GtkWidget *cree_bouton_url ( const gchar *adr,
-			     const gchar *inscription );
 /*END_STATIC*/
 
 
@@ -44,23 +42,24 @@ extern GtkWidget *window ;
 
 
 /* **************************************************************************************************************************** */
-GtkWidget *cree_bouton_url ( const gchar *adr,
-			     const gchar *inscription )
-{
-    GtkWidget *bouton;
+/* ne devrait plus servir 30/09/08 pbi92*/
+ //~ GtkWidget *cree_bouton_url ( const gchar *adr,
+			     //~ const gchar *inscription )
+//~ {
+    //~ GtkWidget *bouton;
 
-    bouton = gtk_button_new_with_mnemonic ( inscription );
-    gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    GTK_RELIEF_NONE );
-    g_signal_connect_data ( G_OBJECT ( bouton ),
-			    "clicked",
-			    G_CALLBACK ( lance_navigateur_web ),
-			    my_strdup ( adr),
-			    NULL,
-			    G_CONNECT_SWAPPED );
-    return ( bouton );
+    //~ bouton = gtk_button_new_with_mnemonic ( inscription );
+    //~ gtk_button_set_relief ( GTK_BUTTON ( bouton ),
+			    //~ GTK_RELIEF_NONE );
+    //~ g_signal_connect_data ( G_OBJECT ( bouton ),
+			    //~ "clicked",
+			    //~ G_CALLBACK ( lance_navigateur_web ),
+			    //~ my_strdup ( adr),
+			    //~ NULL,
+			    //~ G_CONNECT_SWAPPED );
+    //~ return ( bouton );
 
-}
+//~ }
 /* **************************************************************************************************************************** */
 
 
