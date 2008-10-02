@@ -75,8 +75,8 @@ gchar *labels_titres_colonnes_liste_ope[] = {
     N_("Value date"),
     N_("Payee"),
     N_("Budgetary lines"),
-    N_("Credit"),
     N_("Debit"),
+    N_("Credit"),
     N_("Balance"),
     N_("Amount"),
     N_("Method of payment"),
@@ -309,7 +309,7 @@ void init_variables ( void )
     
     /* archive stuff */
     etat.check_for_archival = TRUE;
-    etat.max_non_archived_transactions_for_check = 5000;
+    etat.max_non_archived_transactions_for_check = 2000;
 
     /* defaut value for width of columns */
     for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )

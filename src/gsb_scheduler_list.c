@@ -546,6 +546,7 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
     GSList *tmp_list;
     GDate *end_date;
     GtkTreeIter iter;
+    GSList *orphan_scheduled = NULL;
 
     devel_debug (NULL);
 
@@ -563,11 +564,61 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
 
 	scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
 
-	gsb_scheduler_list_append_new_scheduled ( scheduled_number,
-						  end_date );
-
+	if (!gsb_scheduler_list_append_new_scheduled ( scheduled_number,
+						       end_date ))
+	    /* the scheduled transaction was not added, add to orphan scheduledlist */
+	    orphan_scheduled = g_slist_append (orphan_scheduled, tmp_list -> data);
 
 	tmp_list = tmp_list -> next;
+    }
+
+    /* if there are some orphan sheduler (children of breakdonw wich didn't find their mother */
+    if (orphan_scheduled)
+    {
+	GSList *real_orphan = NULL;
+
+	tmp_list = orphan_scheduled;
+
+	while (tmp_list)
+	{
+	    gint scheduled_number;
+
+	    scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
+
+	    if (!gsb_scheduler_list_append_new_scheduled ( scheduled_number,
+							   end_date ))
+		/* the scheduled transaction was not added, add to orphan scheduledlist */
+		real_orphan = g_slist_append (real_orphan, tmp_list -> data);
+
+	    tmp_list = tmp_list -> next;
+	}
+
+	/* if orphan_scheduled is not null, there is still some children
+	 * wich didn't find their mother. show them now */
+	if (real_orphan)
+	{
+	    gchar *message = _("Some scheduled children didn't find their mother in the list, this shouldn't happen and there is probably a bug behind that. Please contact the Grisbi team.\n\nThe concerned children number are :\n");
+	    gchar *string_1;
+	    gchar *string_2;
+
+	    string_1 = g_strconcat (message, NULL);
+	    tmp_list = real_orphan;
+	    while (tmp_list)
+	    {
+		string_2 = g_strconcat ( string_1,
+					 utils_str_itoa (gsb_data_scheduled_get_scheduled_number (tmp_list -> data)),
+					 " - ",
+					 NULL);
+		g_free (string_1);
+		string_1 = string_2;
+		tmp_list = tmp_list -> next;
+	    }
+	    dialogue_warning (string_1);
+	    g_free (string_1);
+
+	    g_slist_free (real_orphan);
+	}
+	g_slist_free (orphan_scheduled);
     }
 
     /* create and append the white line */
@@ -591,23 +642,34 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
  * \param scheduled_number
  * \param end_date
  *
- * \return
+ * \return TRUE : scheduled added, FALSE : not added (usually for children who didn't find their mother)
  * */
-void gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
-					       GDate *end_date )
+gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
+						   GDate *end_date )
 {
     GDate *pGDateCurrent;
     gint virtual_transaction = 0;
-    GtkTreeIter *mother_iter;
+    GtkTreeIter *mother_iter = NULL;
     const gchar *line[NB_COLS_SCHEDULER];
+    gint mother_scheduled_number;
 
     devel_debug_int (scheduled_number);
 
     if (!tree_model_scheduler_list)
-	return;
+	return FALSE;
 
-    /* fill the mother_iter if needed, else will be set to NULL */
-    mother_iter = gsb_scheduler_list_get_iter_from_scheduled_number (gsb_data_scheduled_get_mother_scheduled_number (scheduled_number));
+    /* get the mother iter if needed */
+    mother_scheduled_number = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
+    if (mother_scheduled_number)
+    {
+	mother_iter = gsb_scheduler_list_get_iter_from_scheduled_number (mother_scheduled_number);
+	if (!mother_iter)
+	    /* it's a child but didn't find the mother, it can happen in old files previous to 0.6
+	     * where the children wer saved before the mother, return FALSE here will add that
+	     * child to a list to append it again later */
+	    return FALSE;
+    }
+
     pGDateCurrent = gsb_date_copy (gsb_data_scheduled_get_date (scheduled_number));
 
     /* fill the text line */
@@ -661,6 +723,7 @@ void gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 
     if ( mother_iter )
 	gtk_tree_iter_free (mother_iter);
+    return TRUE;
 }
 
 
@@ -813,7 +876,24 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
 							      gsb_data_scheduled_get_sub_category_number (scheduled_number),
 							      NULL );
 	else
-	    line[COL_NB_PARTY] = NULL;
+	{
+	    /* there is no category, it can be a transfer */
+	    if (gsb_data_scheduled_get_account_number_transfer (scheduled_number) >= 0
+		&&
+		scheduled_number > 0)
+	    {
+		/* it's a transfer */
+		if (gsb_data_scheduled_get_amount (scheduled_number).mantissa < 0)
+		    line[COL_NB_PARTY] = g_strdup_printf ( _("Transfer to %s"),
+							   gsb_data_account_get_name (gsb_data_scheduled_get_account_number_transfer (scheduled_number)));
+		else
+		    line[COL_NB_PARTY] = g_strdup_printf ( _("Transfer from %s"),
+							   gsb_data_account_get_name (gsb_data_scheduled_get_account_number_transfer (scheduled_number)));
+	    }
+	    else
+		/* it's not a transfer, so no category */
+		line[COL_NB_PARTY] = NULL;
+	}
     }
     else
     {

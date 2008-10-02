@@ -24,7 +24,7 @@ enum
     CUSTOM_MODEL_BACKGROUND,			/*< color of the background (a GdkColor) */
     CUSTOM_MODEL_AMOUNT_COLOR,			/*< color of the amount (a string like "red" or NULL)*/
     CUSTOM_MODEL_TRANSACTION_ADDRESS,		/* pointer to the transaction structure */
-    CUSTOM_MODEL_WHAT_IS_LINE,			/*< on what the address point to ? IS_TRANSACTION, IS_ARCHIVE, IS_SEPARATOR (see below) */
+    CUSTOM_MODEL_WHAT_IS_LINE,			/*< on what the address point to ? IS_TRANSACTION, IS_ARCHIVE (see below) */
     CUSTOM_MODEL_SAVE_BACKGROUND, 		/*< when selection, save of the normal color of background (a GdkColor) */
     CUSTOM_MODEL_FONT, 				/*< PangoFontDescription if used */
     CUSTOM_MODEL_TRANSACTION_LINE, 		/*< the line in the transaction (0, 1, 2 or 3) */
@@ -45,7 +45,6 @@ enum
 /* possible values to CUSTOM_MODEL_WHAT_IS_LINE */
 #define IS_TRANSACTION 0
 #define IS_ARCHIVE 1
-#define IS_SEPARATOR 2
 
 
 typedef struct _CustomRecord     CustomRecord;

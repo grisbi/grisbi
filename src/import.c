@@ -1286,9 +1286,6 @@ void traitement_operations_importees ( void )
 		    /* init the gui */
 		    gsb_file_new_gui ();
 
-		    /* 	set the grid */
-		    gsb_transactions_list_draw_grid (etat.affichage_grille);
-
 		    new_file = 0;
 		}
 		else

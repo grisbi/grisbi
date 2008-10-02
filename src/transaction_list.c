@@ -100,7 +100,6 @@ gboolean transaction_list_create (void)
 /**
  * append a transaction to the list
  * that transaction can be a mother or a child (breakdown)
- * create the CustomList if still not created
  *
  * \param transaction_number	the transaction to append
  *
@@ -112,7 +111,6 @@ void transaction_list_append_transaction ( gint transaction_number )
     guint pos;
     gint account_number;
     CustomRecord *newrecord[TRANSACTION_LIST_ROWS_NB];
-    CustomRecord *grid_line;
     gint i, j;
     gint line_p;
     gboolean marked_transaction;
@@ -160,8 +158,7 @@ void transaction_list_append_transaction ( gint transaction_number )
     /* increase the table of pointer of struct CustomRecord */
     /* we add the 4 rows of the transaction in one time,
      * so increase 4*sizeof (CustomRecord *) */
-    /* the +1 is for the separator line, 1 separator per transaction */
-    custom_list->num_rows = custom_list -> num_rows + TRANSACTION_LIST_ROWS_NB + 1;
+    custom_list->num_rows = custom_list -> num_rows + TRANSACTION_LIST_ROWS_NB;
     newsize = custom_list->num_rows * sizeof(CustomRecord*);
     custom_list->rows = g_realloc(custom_list->rows, newsize);
 
@@ -228,6 +225,10 @@ void transaction_list_append_transaction ( gint transaction_number )
 	    iter.user_data = newrecord[i];
 
 	    gtk_tree_model_row_inserted (GTK_TREE_MODEL(custom_list), path, &iter);
+	    /* if there is a child (white line), set the expander */
+	    if (newrecord[i] -> has_expander)
+		gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list),
+						      path, &iter);
 	    gtk_tree_path_free(path);
 	}
 	else
@@ -244,14 +245,6 @@ void transaction_list_append_transaction ( gint transaction_number )
 
     /* we save the adress of the last row in the buffer to increase speed if there is any child */
     last_mother_appended = newrecord[TRANSACTION_LIST_ROWS_NB - 1];
-
-    /* add the line for the grid */
-    grid_line = g_malloc0 (sizeof (CustomRecord));
-    grid_line -> what_is_line = IS_SEPARATOR;
-    grid_line -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (transaction_number);
-    /* save the grid line pointer */
-    custom_list->rows[pos] = grid_line;
-    grid_line->pos = pos;
 }
 
 
@@ -269,7 +262,6 @@ void transaction_list_append_archive (gint archive_store_number)
     gulong newsize;
     guint pos;
     CustomRecord *newrecord;
-    CustomRecord *grid_line;
     gint amount_col;
     CustomList *custom_list;
 
@@ -281,8 +273,8 @@ void transaction_list_append_archive (gint archive_store_number)
     pos = custom_list->num_rows;
 
     /* increase the table of pointer of struct CustomRecord,
-     * 1 for the archive, 1 for the separator */
-    custom_list->num_rows = custom_list -> num_rows + 2;
+     * 1 for the archive */
+    custom_list->num_rows = custom_list -> num_rows + 1;
     newsize = custom_list->num_rows * sizeof(CustomRecord*);
     custom_list->rows = g_realloc(custom_list->rows, newsize);
 
@@ -316,14 +308,6 @@ void transaction_list_append_archive (gint archive_store_number)
     /* and the pos (number) of the row */
     newrecord->pos = pos;
     pos++;
-
-    /* add the line for the grid */
-    grid_line = g_malloc0 (sizeof (CustomRecord));
-    grid_line -> what_is_line = IS_SEPARATOR;
-    grid_line -> transaction_pointer = gsb_data_archive_store_get_structure (archive_store_number);
-    /* save the grid line pointer */
-    custom_list->rows[pos] = grid_line;
-    grid_line->pos = pos;
 }
 
 
@@ -574,6 +558,13 @@ void transaction_list_filter ( gint account_number )
     g_return_if_fail ( custom_list != NULL );
     g_return_if_fail ( custom_list->num_rows != 0 );
 
+    /* there is a bug, i think in gtk, wich when we re-filter the list with opened breakdown, and when
+     * there is less lines in the list that the window, gtk close the breakdown opened without
+     * informing the tree view so tree view errors laters... i didn't find anything here
+     * wich close the breakdown, so i assume is gtk. the solution is to close all the breakdown.
+     * this is very important to keep gtk_tree_view_collapse_all to avoid very nuts bugs !!!  */
+    gtk_tree_view_collapse_all (GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()));
+
     /* we erase the selection */
     if (custom_list -> selected_row)
 	transaction_list_select_unselect ();
@@ -601,8 +592,7 @@ void transaction_list_filter ( gint account_number )
 	/* was the line visible before ? */
 	previous_shown = record -> line_visible;
 
-	/* check if line is shown,
-	 * a grid line will be shown only if the transaction is shown */
+	/* check if line is shown */
 	shown = gsb_transactions_list_transaction_visible ( record -> transaction_pointer,
 							    account_number,
 							    record -> line_in_transaction,
@@ -643,9 +633,8 @@ void transaction_list_filter ( gint account_number )
 
 	switch (record -> what_is_line)
 	{
-	    case IS_SEPARATOR:
 	    case IS_ARCHIVE:
-		/* we are on a separator or archive line, the only thing to know is
+		/* we are on an  archive line, the only thing to know is
 		 * if it is at the same place as before or not,
 		 * if yes, just continue, if not, we will see later if
 		 * we need to add or change the row */
@@ -683,7 +672,6 @@ void transaction_list_filter ( gint account_number )
 		     * tell to the tree view that children changed */
 		    gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list),
 							  path, &iter);
-
 		    gtk_tree_path_next (path);
 		    continue;
 		}
@@ -842,10 +830,6 @@ void transaction_list_set_balances ( void )
 
 	switch (record -> what_is_line)
 	{
-	    case IS_SEPARATOR:
-		continue;
-		break;
-
 	    case IS_ARCHIVE:
 		amount = gsb_data_archive_store_get_balance (gsb_data_archive_store_get_number (record -> transaction_pointer));
 		break;
@@ -1156,8 +1140,6 @@ gboolean transaction_list_update_cell ( gint cell_col,
 	record = custom_list -> rows[i];
 	if (record -> what_is_line == IS_ARCHIVE
 	    ||
-	    record -> what_is_line == IS_SEPARATOR
-	    ||
 	    record -> line_in_transaction != cell_line )
 	    continue;
 
@@ -1256,8 +1238,6 @@ gboolean transaction_list_show_toggle_mark ( gboolean show )
 
 	record = custom_list -> rows[i];
 	if (record -> what_is_line == IS_ARCHIVE
-	    ||
-	    record -> what_is_line == IS_SEPARATOR
 	    ||
 	    record -> line_in_transaction != line_p
 	    ||

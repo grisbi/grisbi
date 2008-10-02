@@ -10,8 +10,8 @@ enum
     ELEMENT_VALUE_DATE ,
     ELEMENT_PARTY ,
     ELEMENT_BUDGET ,
-    ELEMENT_CREDIT ,
     ELEMENT_DEBIT ,
+    ELEMENT_CREDIT ,
     ELEMENT_BALANCE ,
     ELEMENT_AMOUNT ,
     ELEMENT_TYPE ,
@@ -49,7 +49,6 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
 gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
 						    gint show_warning );
 gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transaction_number );
-gboolean gsb_transactions_list_draw_grid ( gboolean show_grid );
 gboolean gsb_transactions_list_edit_current_transaction ( void );
 gboolean gsb_transactions_list_edit_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_edit_transaction_by_pointer ( gint *transaction_number );

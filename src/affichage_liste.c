@@ -346,18 +346,21 @@ GtkWidget *cree_menu_quatres_lignes ( void )
 
 
 
-/* ************************************************************************************************************** */
-/* récupère les noms de colonnes ( en fait les objets de la 1ère ligne ), */
-/* et ce qu'on met dans les tips des titres de colonnes */
-/* donc, remplit les variables tips_col_liste_operations et titres_colonnes_liste_operations */
-/* ************************************************************************************************************** */
+/**
+ * fill the titres_colonnes_liste_operations variable and the associated tips
+ * so get the first row element name and set it for title
+ * fill the tips with all the elements of the column
+ *
+ * \param
+ *
+ * \return
+ * */
 void recuperation_noms_colonnes_et_tips ( void )
 {
     gint i, j;
-    gchar *ligne[CUSTOM_MODEL_VISIBLE_COLUMNS];
+    gchar *row[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
-    /* on met les titres et tips à NULL */
-
+    /* unset the titles and tips */
     for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
     {
 	titres_colonnes_liste_operations[j] = NULL;
@@ -368,39 +371,37 @@ void recuperation_noms_colonnes_et_tips ( void )
     for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
 	for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	{
-	    ligne[j] = g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
-					  tab_affichage_ope[i][j] - 1 );
+	    /* 	    xxx changer ça pour faire une fonction comme gsb_form_widget_get_name */
+	    row[j] = g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
+					tab_affichage_ope[i][j] - 1 );
 
-	    /* 	  si on est sur la 1ère ligne, on met les titres ainsi que la 1ere ligne des tips */
-	    /* 	    sinon, on rajoute aux tips existant */
-
+	    /* on the first row, set for titles and tips, for others row, only for tips */
 	    if ( i )
 	    {
-		if ( ligne[j] )
+		if ( row[j] )
 		{
 		    if ( !titres_colonnes_liste_operations[j] )
-			titres_colonnes_liste_operations[j] = ligne[j];
+			titres_colonnes_liste_operations[j] = row[j];
 
 		    if ( tips_col_liste_operations[j] )
 			tips_col_liste_operations[j] = g_strconcat ( tips_col_liste_operations[j],
 								     ", ",
-								     ligne[j],
+								     row[j],
 								     NULL );
 		    else
-			tips_col_liste_operations[j] = ligne[j];
+			tips_col_liste_operations[j] = row[j];
 		}
 	    }
 	    else
 	    {
-		if ( ligne[j] )
+		if ( row[j] )
 		{
-		    titres_colonnes_liste_operations[j] = ligne[j];
-		    tips_col_liste_operations[j] = ligne[j];
+		    titres_colonnes_liste_operations[j] = row[j];
+		    tips_col_liste_operations[j] = row[j];
 		}
 	    }
 	}
 }
-/* ************************************************************************************************************** */
 
 
 

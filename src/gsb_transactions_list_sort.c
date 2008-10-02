@@ -244,20 +244,10 @@ gint gsb_transactions_list_sort_general_test ( CustomRecord *record_1,
 
     /* check if we are on the same transaction */
     if ( record_1 -> transaction_pointer == record_2 -> transaction_pointer )
-    {
-	/* a grid line is always at the end */
-	if (record_1 -> what_is_line == IS_SEPARATOR)
-	    return_value = 1;
-	else
-	{
-	    if (record_2 -> what_is_line == IS_SEPARATOR)
-		return_value = -1;
-	    else
-		/* the 2 records belong at the same transaction and are not a separator,
-		 * we keep always the order of the lines in transaction */
-		return_value = record_1->line_in_transaction - record_2->line_in_transaction;
-	}
-    }
+	/* the 2 records belong at the same transaction,
+	 * we keep always the order of the lines in transaction */
+	return_value = record_1->line_in_transaction - record_2->line_in_transaction;
+
     return return_value;
 }
 

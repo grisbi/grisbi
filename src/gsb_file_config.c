@@ -275,11 +275,6 @@ gboolean gsb_file_config_load_config ( void )
 							  "Columns width auto",
 							  NULL );
 
-    etat.affichage_grille = g_key_file_get_integer ( config,
-						     "Display",
-						     "Show grid",
-						     NULL );
-
     etat.affichage_exercice_automatique = g_key_file_get_integer ( config,
 								   "Display",
 								   "Show automatic financial year",
@@ -580,11 +575,6 @@ gboolean gsb_file_config_save_config ( void )
 			     "Display",
 			     "Show valid_cancel buttons",
 			     etat.affiche_boutons_valider_annuler );
-
-    g_key_file_set_integer ( config,
-			     "Display",
-			     "Show grid",
-			     etat.affichage_grille );
 
     g_key_file_set_integer ( config,
 			     "Display",
@@ -1036,13 +1026,6 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 		   "display_toolbar" ))
     {
 	etat.display_toolbar = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Affichage_grille" ))
-    {
-	etat.affichage_grille = utils_str_atoi (text);
 	return;
     }
 

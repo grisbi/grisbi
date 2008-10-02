@@ -192,8 +192,6 @@ gboolean transaction_list_select_up ( gboolean into_children )
 	/* the current selection is a mother, we go on the prev mother or the prev child */
 
 	record = custom_list -> visibles_rows[record -> filtered_pos -1];
-	if (record -> what_is_line == IS_SEPARATOR)
-	    record = custom_list -> visibles_rows[record -> filtered_pos -1];
 
 	/* if the upper row is an archive, do nothin */
 	if (record -> what_is_line == IS_ARCHIVE)

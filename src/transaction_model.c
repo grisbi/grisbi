@@ -360,31 +360,3 @@ gboolean transaction_model_iter_next (GtkTreeIter *iter)
 }
 
 
-/**
- * GtkTreeViewRowSeparatorFunc to check if the line is a separator or no
- * to set the grid
- *
- * \param model		the CustomList
- * \param iter		iter to check if line or not
- * \param null
- *
- * \return TRUE if separator, FALSE else
- * */
-#if GTK_CHECK_VERSION(2,10,0)
-gboolean transaction_model_separator_func ( GtkTreeModel *model,
-					    GtkTreeIter *iter,
-					    gpointer null )
-{
-    CustomRecord  *record;
-
-    g_return_val_if_fail (iter != NULL, FALSE);
-    g_return_val_if_fail (iter->user_data != NULL, FALSE);
-
-    record = (CustomRecord *) iter->user_data;
-
-    return (record -> what_is_line == IS_SEPARATOR);
-}
-#endif /*GTK_CHECK_VERSION(2,10,0)*/
-
-
-

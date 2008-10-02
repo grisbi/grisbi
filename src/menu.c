@@ -53,7 +53,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_gui_toggle_grid_mode ();
 static void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *current, 
 				     gpointer user_data );
 static gboolean gsb_gui_toggle_show_closed_accounts ();
@@ -122,9 +121,6 @@ static gchar * buffer =
 "    </menu>"
 "    <menu action='ViewMenu'>"
 "      <menuitem action='ShowTransactionForm'/>"
-#if GTK_CHECK_VERSION(2,10,0)
-"      <menuitem action='ShowGrid'/>"
-#endif
 "      <menuitem action='ShowReconciled'/>"
 "      <menuitem action='ShowClosed'/>"
 "      <separator/>"
@@ -281,9 +277,6 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	{ "ShowTransactionForm",NULL,			_("Show transaction _form"),
 	  NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_show_form ), 
 	  etat.formulaire_toujours_affiche },
-	{ "ShowGrid",		NULL,			_("Show _grid"),
-	  NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_grid_mode ), 
-	  etat.affichage_grille },
 	{ "ShowReconciled",	NULL,			_("Show _reconciled"),
 	  "<Alt>R", 
 	  NULL,			G_CALLBACK ( gsb_gui_toggle_show_reconciled),
@@ -602,23 +595,6 @@ gboolean gsb_gui_toggle_show_form ()
     if ( block_menu_cb ) return FALSE;
 
     gsb_form_switch_expander ( );
-
-    return FALSE;
-}
-
-
-
-/**
- * Set or unset the grid
- *
- * \return FALSE
- */
-gboolean gsb_gui_toggle_grid_mode ()
-{
-    devel_debug (NULL);
-
-    etat.affichage_grille = ! etat.affichage_grille;
-    gsb_transactions_list_draw_grid (etat.affichage_grille);
 
     return FALSE;
 }

@@ -68,7 +68,6 @@
 
 /*START_STATIC*/
 static gboolean assert_selected_transaction ();
-static void creation_titres_tree_view ( void );
 static gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr );
 static GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y );
 static gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
@@ -320,28 +319,6 @@ GtkWidget *gsb_transactions_list_make_gui_list ( void )
 
 
 
-/******************************************************************************/
-/* cette fonction est appelée pour créer les tree_view_column des listes d'opé et */
-/* de ventil */
-/******************************************************************************/
-void creation_titres_tree_view ( void )
-{
-    GSList *list_tmp;
-
-    /*     on commence par s'occuper des listes d'opérations */
-    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-	gint i;
-
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	/* 	creation_colonnes_tree_view_par_compte (i); */
-	list_tmp = list_tmp -> next;
-    }
-}
-
 
 /** 
  * creates the columns of the tree_view
@@ -406,42 +383,29 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 
 
 
-/******************************************************************************/
-/* cette fonction est appelée une fois que les titres et tips pour les col */
-/* de la liste d'opé ont été créés. donc soit on les crée, soit on les update */
-/******************************************************************************/
+/**
+ * update the titles of the tree view
+ *
+ * \param
+ *
+ * \return
+ * */
 void update_titres_tree_view ( void )
 {
     gint i;
-    GSList *list_tmp;
 
-    if ( !transactions_tree_view_columns[CUSTOM_MODEL_COL_0])
-	creation_titres_tree_view ();
-
-    /*     on s'occupe des listes d'opérations */
-
-    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while ( list_tmp )
+    for ( i = 0 ; i < CUSTOM_MODEL_N_VISIBLES_COLUMN ; i++ )
     {
-	gint j;
+	gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN (transactions_tree_view_columns[i]),
+					 _(titres_colonnes_liste_operations[i]) );
 
-	j = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	for ( i = 0 ; i < CUSTOM_MODEL_N_VISIBLES_COLUMN ; i++ )
+	if ( GTK_TREE_VIEW_COLUMN (transactions_tree_view_columns[i])->button )
 	{
-	    gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN (transactions_tree_view_columns[i]),
-					     _(titres_colonnes_liste_operations[i]) );
-
-	    if ( GTK_TREE_VIEW_COLUMN (transactions_tree_view_columns[i])->button )
-	    {
-		gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
-				       GTK_TREE_VIEW_COLUMN (transactions_tree_view_columns[i])->button,
-				       tips_col_liste_operations[i],
-				       tips_col_liste_operations[i] ); 
-	    }
+	    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
+				   GTK_TREE_VIEW_COLUMN (transactions_tree_view_columns[i])->button,
+				   tips_col_liste_operations[i],
+				   tips_col_liste_operations[i] ); 
 	}
-	list_tmp = list_tmp -> next;
     }
 }
 
@@ -590,7 +554,6 @@ gboolean gsb_transactions_list_fill_model ( void )
 	    g_free (string_1);
 	}
     }
-
     return FALSE; 
 }
 
@@ -670,8 +633,15 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
 	!gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
 	gchar *string;
+	gint selected_transaction;
 
-	gsb_transactions_list_update_tree_view (account_number, TRUE);
+	/* we cannot use update_tree_view here because re-filter the model will close
+	 * all the opened breakdowns */
+	selected_transaction = transaction_list_select_get ();
+	transaction_list_sort ();
+	transaction_list_colorize ();
+	transaction_list_set_balances ();
+	transaction_list_select (selected_transaction);
 
 	if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
 	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
@@ -1218,10 +1188,6 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 			 CUSTOM_MODEL_TRANSACTION_LINE, &line_in_transaction,
 			 CUSTOM_MODEL_WHAT_IS_LINE, &what_is_line,
 			 -1 );
-
-    /* for a separator, do nothing */
-    if (what_is_line == IS_SEPARATOR)
-	return TRUE;
 
     /* for now for an archive, check the double-click */
     if (what_is_line == IS_ARCHIVE)
@@ -3158,7 +3124,7 @@ void gsb_transactions_list_set_visible_rows_number ( gint rows_number )
  * \param transaction_number 	the pointer in the model, usually a transaction, but can be archive
  * \param account_number	account number
  * \param line_in_transaction	the line in the transaction (0, 1, 2 or 3)
- * \param what_is_line		IS_TRANSACTION / IS_ARCHIVE / IS_SEPARATOR
+ * \param what_is_line		IS_TRANSACTION / IS_ARCHIVE
  * 
  * \return TRUE if the transaction should be shown, FALSE else
  * */
@@ -3185,9 +3151,7 @@ gboolean gsb_transactions_list_transaction_visible ( gpointer transaction_ptr,
     transaction_number = gsb_data_transaction_get_transaction_number (transaction_ptr);
 
     /* check the general white line (one for all the list, so no account number) */
-    if ( transaction_number == -1
-	 &&
-	 what_is_line != IS_SEPARATOR)
+    if ( transaction_number == -1 )
 	return ( line_in_transaction < nb_rows );
 
     /* check the account */
@@ -3199,13 +3163,6 @@ gboolean gsb_transactions_list_transaction_visible ( gpointer transaction_ptr,
 	 &&
 	 !r_shown )
 	return FALSE;
-
-#if GTK_CHECK_VERSION(2,10,0)
-    /* now we can check for a separator because the transaction will be shown (or some rows of the transaction,
-     * if the grid is showed, show it */
-    if (what_is_line == IS_SEPARATOR)
-	return etat.affichage_grille;
-#endif
 
     /* 	    now we check if we show 1, 2, 3 or 4 lines */
 
@@ -3305,6 +3262,8 @@ gchar *gsb_transactions_get_category_real_name ( gint transaction_number )
 gboolean gsb_transactions_list_switch_expander ( gint transaction_number )
 {
     GtkTreePath *path;
+
+    devel_debug_int (transaction_number);
 
     if ( !gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
 	return FALSE;
@@ -3419,44 +3378,6 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number,
     return FALSE;
 }
 
-
-/**
- * draw a grid or undraw it on the lists
- *
- * \param show_grid TRUE or FALSE
- *
- * \return FALSE
- * */
-gboolean gsb_transactions_list_draw_grid ( gboolean show_grid )
-{
-#if GTK_CHECK_VERSION(2,10,0)
-    /* This is stuff only existing from GTK+ 2.10 and upper. */
-
-    if ( show_grid )
-    {
-	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
-				       GTK_TREE_VIEW_GRID_LINES_VERTICAL );
-	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_scheduler_list_get_tree_view ()),
-				       GTK_TREE_VIEW_GRID_LINES_BOTH );
-	gtk_tree_view_set_row_separator_func ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
-					       (GtkTreeViewRowSeparatorFunc) transaction_model_separator_func, 
-					       NULL,
-					       NULL );
-    }
-    else
-    {
-	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view()),
-				       GTK_TREE_VIEW_GRID_LINES_NONE );
-	gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW (gsb_scheduler_list_get_tree_view ()),
-				       GTK_TREE_VIEW_GRID_LINES_NONE );
-	gtk_tree_view_set_row_separator_func ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
-					       NULL,
-					       NULL,
-					       NULL );
-    }
-#endif
-    return FALSE;
-}
 
 
 /**

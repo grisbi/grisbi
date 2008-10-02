@@ -17,9 +17,6 @@ gboolean transaction_model_get_transaction_iter ( GtkTreeIter *iter,
 						  gint line_in_transaction );
 void transaction_model_initialize ( void );
 gboolean transaction_model_iter_next (GtkTreeIter *iter);
-gboolean transaction_model_separator_func ( GtkTreeModel *model,
-					    GtkTreeIter *iter,
-					    gpointer null );
 void transaction_model_set_model ( CustomList *new_custom_list );
 /* END_DECLARATION */
 #endif

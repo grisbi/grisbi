@@ -98,7 +98,6 @@ CustomList *custom_list_new (void)
     CustomList *custom_list;
     CustomRecord *white_record[TRANSACTION_LIST_ROWS_NB];
     gint white_line_number;
-    CustomRecord *grid_line;
     gint i, j;
     gulong newsize;
 
@@ -107,7 +106,7 @@ CustomList *custom_list_new (void)
     g_assert( custom_list != NULL );
 
     /* increase the table of CustomRecord */
-    custom_list->num_rows = TRANSACTION_LIST_ROWS_NB + 1;
+    custom_list->num_rows = TRANSACTION_LIST_ROWS_NB;
     newsize = custom_list->num_rows * sizeof(CustomRecord*);
     custom_list->rows = g_malloc0 (newsize);
     custom_list->visibles_rows = g_malloc0 (newsize);
@@ -134,15 +133,6 @@ CustomList *custom_list_new (void)
     for (i=0 ; i < TRANSACTION_LIST_ROWS_NB ; i++)
 	for (j=0 ; j < TRANSACTION_LIST_ROWS_NB ; j++)
 	    white_record[i] -> transaction_records[j] = white_record[j];
-
-
-    /* add the line for the grid */
-    grid_line = g_malloc0 (sizeof (CustomRecord));
-    grid_line -> what_is_line = IS_SEPARATOR;
-    grid_line -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (white_line_number);
-    /* save the grid line pointer */
-    custom_list->rows[TRANSACTION_LIST_ROWS_NB] = grid_line;
-    grid_line->pos = TRANSACTION_LIST_ROWS_NB;
 
     return custom_list;
 }
@@ -726,7 +716,6 @@ static gboolean custom_list_iter_children (GtkTreeModel *tree_model,
 
     g_return_val_if_fail (CUSTOM_IS_LIST (tree_model), FALSE);
     g_return_val_if_fail (iter != NULL, FALSE);
-
     custom_list = CUSTOM_LIST(tree_model);
 
     /* No rows => no first row */
@@ -748,9 +737,8 @@ static gboolean custom_list_iter_children (GtkTreeModel *tree_model,
     g_return_val_if_fail (parent_record != NULL, FALSE);
 
     /* if no child, return FALSE */
-    if (parent_record -> number_of_children == 0
-	||
-	!parent_record -> has_expander )
+    if (!parent_record -> has_expander)
+	/* no need to check number_of_children, if no child or no good line, has_expander is FALSE */
 	return FALSE;
 
     /* there is at least one child, so set iter on that child */
@@ -785,9 +773,9 @@ static gboolean custom_list_iter_has_child (GtkTreeModel *tree_model,
 
     /* the transaction can have some children but they can be displayed in another row */
     if (!parent_record -> has_expander)
-	return 0;
+	return FALSE;
 
-    return (parent_record -> number_of_children != 0);
+    return TRUE;
 }
 
 

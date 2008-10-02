@@ -72,7 +72,6 @@ extern GdkColor couleur_solde_alarme_rouge_normal;
 extern GdkColor couleur_solde_alarme_rouge_prelight;
 extern GdkColor couleur_solde_alarme_verte_normal;
 extern GdkColor couleur_solde_alarme_verte_prelight;
-extern gint max;
 extern gsb_real null_real ;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
@@ -340,10 +339,8 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 }
 /* ************************************************************************* */
 
-/* et voir le nb d'archive max initial sur nouveau fichier */
-/* xxx dans le form, et dans la liste, mettre débit à gauche et crédit à droite */
-/* xxx virer la grille */
 /* xxx mettre le montant total des ventils dans la ligne blanche ou dans form */
+/* xxx si on importe des opés relevées, proposer de les associer à un n° de relevé */
 
 /* ************************************************************************* */
 /* Fonction update_liste_comptes_accueil                                     */
@@ -1188,7 +1185,6 @@ void update_liste_comptes_accueil ( gboolean force )
     gtk_widget_show_all (vbox);
 }
 /* ************************************************************************* */
-
 
 
 /**
