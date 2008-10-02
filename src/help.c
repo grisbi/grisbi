@@ -21,29 +21,28 @@
 
 #include "include.h"
 
-
 /*START_INCLUDE*/
 #include "help.h"
 #include "./gsb_plugins.h"
+#include "./utils.h"
 #include "./utils_str.h"
-#include "./structures.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void launch_url (GtkAboutDialog *about, const gchar * link, gpointer data);
 /*END_STATIC*/
-
 
 /*START_EXTERN*/
 extern gchar *chemin_logo ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 
 
 
 /* **************************************************************************************************************************** */
-void a_propos ( GtkWidget *bouton,
-		gint data )
+void a_propos ( GtkWidget *bouton, gint data )
 {
     GdkPixbuf * logo;
 
@@ -74,7 +73,7 @@ _("Other"),
 "Gerald Niel (gerald.niel[at]grisbi.org) ",
 NULL };	
 
-  gchar * translators = g_strconcat(
+    const gchar * translators = g_strconcat(
 "Alain Portal (dionysos[at]grisbi.org): ", _("English"), CSUFFIX,
 "Benjamin Drieu (bdrieu[at]april.org): ", _("English"), CSUFFIX,
 "Carlos M. Cámara Mora (carcam_moceu[at]yahoo.es): ", _("Spanish"), CSUFFIX,
@@ -87,39 +86,22 @@ NULL };
 "Ryszard Jeziorski (rjeziorski[at]eagle): ", _("Polish"), CSUFFIX,
 NULL);
 
-  const gchar *documenters [] = {
+    const gchar *documenters [] = {
 "Alain Portal (aportal[at]univ-monpt2.fr)",
 "Daniel Cartron (doc[at]grisbi.org)",
 NULL};
 
-  const gchar *artists [] = {
+    const gchar *artists [] = {
 "Andre Pascual (andre[at]linuxgraphic.org)",
 NULL};
 
-  const gchar *liens[] = { 
-	COLON(_("Website")),
-	"http://www.grisbi.org/",
-	"http://www.grisbi.org/",
-	_("Development list (discuss, participate, criticize, ...) : "),
-	"http://lists.sourceforge.net/lists/listinfo/grisbi-devel",
-	_("subscribe"),
-	COLON(_("Bug report")),
-	"http://www.grisbi.org/bugtracking/",
-	"http://www.grisbi.org/bugtracking/",
-	_("Information list (new releases announces, ...) : "),
-	"http://lists.sourceforge.net/lists/listinfo/grisbi-info",
-	_("subscribe"),
-	COLON(_("Grisbi documentation")),
-	"http://www.grisbi.org/manuel.html",
-	"http://www.grisbi.org/manuel.html",
-	NULL };
 
     const gchar *license = "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA\n\n"
 	"This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit. (http://www.openssl.org/)";
 
-#if ! GTK_CHECK_VERSION(2,20,0)
+#if ! GTK_CHECK_VERSION(2,10,0)
     // Warn about obsolete dependencies 
-    gchar * warn_print = _("\n\nThis version of Grisbi does not support print feature.\nVersion of GTK+ it was built with is obsolete.");
+    gchar * warn_print = _("\nThis version of Grisbi does not support print feature.\nVersion of GTK+ it was built with is obsolete.");
 #else
     gchar * warn_print = NULL;
 #endif
@@ -130,34 +112,34 @@ NULL};
 				    warn_print,
 				    NULL );
 
-    GtkWidget * about;
-
     /* Logo */
     if ( !chemin_logo || !strlen ( chemin_logo ))
 	chemin_logo = my_strdup ( LOGO_PATH );
     logo =  gdk_pixbuf_new_from_file ( chemin_logo, NULL );
+    
+    gtk_about_dialog_set_url_hook (launch_url, NULL, NULL);
 
-    about = gtk_about_dialog_new ( );
-    gtk_about_dialog_set_name ( GTK_ABOUT_DIALOG (about), "Grisbi" );
-    gtk_about_dialog_set_logo ( about, logo );
-    gtk_about_dialog_set_comments ( GTK_ABOUT_DIALOG (about), comments );
-    gtk_about_dialog_set_license ( GTK_ABOUT_DIALOG (about), license );
-    gtk_about_dialog_set_wrap_license ( GTK_ABOUT_DIALOG (about), TRUE );
-    gtk_about_dialog_set_version ( GTK_ABOUT_DIALOG (about), VERSION );
-    gtk_about_dialog_set_artists ( GTK_ABOUT_DIALOG (about), artists );
-    gtk_about_dialog_set_documenters ( GTK_ABOUT_DIALOG (about), documenters );
-    gtk_about_dialog_set_authors ( GTK_ABOUT_DIALOG (about), auteurs );
-    gtk_about_dialog_set_translator_credits ( GTK_ABOUT_DIALOG (about), translators );
-
-    gtk_dialog_run ( GTK_DIALOG (about)) ;
-
-    if (logo)
-	g_object_unref (logo);
+    gtk_show_about_dialog (GTK_WINDOW (window), 
+			   "logo", logo,
+                           "program-name", "Grisbi",
+			   "comments", comments,
+			   "artists", artists,
+			   "authors", auteurs,
+			   "documenters"  , documenters,
+			   "translator-credits", translators,
+			   "version", VERSION,
+                           "license", license,
+			   "wrap-license", TRUE,
+			   "website", "http://www.grisbi.org/",
+			   NULL);
 
     return;
 }
 
-
+void launch_url (GtkAboutDialog *about, const gchar * link, gpointer data)
+{
+    lance_navigateur_web ( link );
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
