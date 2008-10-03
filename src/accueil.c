@@ -339,7 +339,6 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 }
 /* ************************************************************************* */
 
-/* xxx mettre le montant total des ventils dans la ligne blanche ou dans form */
 /* xxx si on importe des opés relevées, proposer de les associer à un n° de relevé */
 
 /* ************************************************************************* */

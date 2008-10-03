@@ -61,6 +61,7 @@
 static  void transaction_list_append_child ( gint transaction_number );
 static  CustomRecord *transaction_list_create_record ( gint transaction_number,
 						      gint line_in_transaction );
+static gboolean transaction_list_update_white_child ( CustomRecord *white_record );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -70,6 +71,7 @@ extern GdkColor couleur_fond[2];
 extern GSList *orphan_child_transactions ;
 extern GtkTreeSelection * selection ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern gsb_real null_real;
 /*END_EXTERN*/
 
 
@@ -137,6 +139,9 @@ void transaction_list_append_transaction ( gint transaction_number )
     {
 	/* append a white line */
 	gint white_line_number;
+	gchar *amount_string;
+	gchar *variance_string;
+
 	white_line_number = gsb_data_transaction_new_white_line (transaction_number);
 	children_rows = g_malloc0 (sizeof (CustomRecord*));
 
@@ -145,6 +150,18 @@ void transaction_list_append_transaction ( gint transaction_number )
 	white_record -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (white_line_number);
 	white_record -> what_is_line = IS_TRANSACTION;
 	white_record -> row_bg = &breakdown_background;
+
+	/* as we append just now the white line, there are no child breakdown, so the total is 0 */
+	amount_string = gsb_real_get_string_with_currency (null_real,
+							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
+	variance_string = gsb_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
+							     gsb_data_transaction_get_currency_number (transaction_number), TRUE);
+	white_record -> visible_col[2] = g_strdup_printf ( _("Total : %s (variance : %s)"),
+							   amount_string,
+							   variance_string );
+	g_free (amount_string);
+	g_free (variance_string);
+
 	children_rows[0] = white_record;
     }
 
@@ -235,6 +252,11 @@ void transaction_list_append_transaction ( gint transaction_number )
 	    newrecord[i] -> filtered_pos = -1;
 	pos++;
     }
+
+    /* in case of the transaction is not visible, we save in the white number
+     * the record of the mother to avoid crash later */
+    if (white_record && !white_record -> mother_row)
+	white_record -> mother_row = newrecord[0];
 
     /* save the records in all the records of the transaction
      * this will increase the speed for associate the children to
@@ -388,6 +410,9 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
 	    record -> mother_row -> transaction_records[i] -> number_of_children = new_number_of_children;
 	    record -> mother_row -> transaction_records[i] -> children_rows = new_children_rows;
 	}
+
+	/* update the white line */
+	transaction_list_update_white_child (record -> mother_row -> children_rows[new_number_of_children -1]);
 
 	/* delete the row of the tree view */
 	if (record -> mother_row -> filtered_pos != -1)
@@ -1490,6 +1515,9 @@ static void transaction_list_append_child ( gint transaction_number )
 	}
     }
 
+    /* we need now to recalculate the amount of breakdown and update the white line */
+    transaction_list_update_white_child (white_record);
+
     if (mother_record -> filtered_pos != -1)
     {
 	/* the mother is visible, inform the tree view we append a child */
@@ -1503,6 +1531,7 @@ static void transaction_list_append_child ( gint transaction_number )
 	/* this is very important to keep to compatibility with the normal transactions */
 	newrecord -> transaction_records[0] = newrecord;
 
+	/* update the new line, wich replace the white line */
 	path = gtk_tree_path_new();
 	gtk_tree_path_append_index(path, mother_record->filtered_pos);
 	gtk_tree_path_append_index(path, newrecord->filtered_pos);
@@ -1513,6 +1542,7 @@ static void transaction_list_append_child ( gint transaction_number )
 	gtk_tree_model_row_changed (GTK_TREE_MODEL(custom_list), path, &iter);
 	gtk_tree_path_free(path);
 
+	/* update white line, wich moved to the end */
 	path = gtk_tree_path_new();
 	gtk_tree_path_append_index(path, mother_record->filtered_pos);
 	gtk_tree_path_append_index(path, white_record->filtered_pos);
@@ -1563,4 +1593,59 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
     return newrecord;
 }
 
+/**
+ * get a white line record of breakdown
+ * and update it to set the total of breakdown children and the variance
+ * we just modify the content of the record, no inform the tree view here
+ *
+ * \param white_record	the record of white line we want update
+ *
+ * \return FALSE : nothing done, TRUE : ok
+ * */
+static gboolean transaction_list_update_white_child ( CustomRecord *white_record )
+{
+    gsb_real total_breakdown = null_real;
+    gsb_real variance;
+    gchar *amount_string;
+    gchar *variance_string;
+    CustomRecord *mother_record;
+    gint i;
+    gint transaction_number;
 
+    if (!white_record)
+	return FALSE;
+
+    mother_record = white_record -> mother_row;
+
+    for (i=0 ; i < mother_record -> number_of_children -1 ; i++)
+    {
+	CustomRecord *child_record;
+	gint child_number;
+
+	child_record = mother_record -> children_rows[i];
+	child_number = gsb_data_transaction_get_transaction_number (child_record -> transaction_pointer);
+	total_breakdown = gsb_real_add ( total_breakdown,
+					 gsb_data_transaction_get_amount (child_number));
+    }
+
+    transaction_number = gsb_data_transaction_get_transaction_number (mother_record -> transaction_pointer);
+    variance = gsb_real_sub ( gsb_data_transaction_get_amount (transaction_number),
+			      total_breakdown);
+    /* update the white line */
+    amount_string = gsb_real_get_string_with_currency (total_breakdown,
+						       gsb_data_transaction_get_currency_number (transaction_number), TRUE);
+    variance_string = gsb_real_get_string_with_currency (variance,
+							 gsb_data_transaction_get_currency_number (transaction_number), TRUE);
+
+    /* show the variance and sub-total only if different of the transaction */
+    if (variance.mantissa)
+	white_record -> visible_col[2] = g_strdup_printf ( _("Total : %s (variance : %s)"),
+							   amount_string,
+							   variance_string );
+    else
+	white_record -> visible_col[2] = NULL;
+
+    g_free (amount_string);
+    g_free (variance_string);
+    return TRUE;
+}
