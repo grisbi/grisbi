@@ -61,17 +61,18 @@
 static  void transaction_list_append_child ( gint transaction_number );
 static  CustomRecord *transaction_list_create_record ( gint transaction_number,
 						      gint line_in_transaction );
-static gboolean transaction_list_update_white_child ( CustomRecord *white_record );
+static  gboolean transaction_list_update_white_child ( CustomRecord *white_record );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern GdkColor archive_background_color;
 extern GdkColor breakdown_background;
 extern GdkColor couleur_fond[2];
+extern gsb_real null_real ;
 extern GSList *orphan_child_transactions ;
 extern GtkTreeSelection * selection ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gsb_real null_real;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 
@@ -927,6 +928,8 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
     gint line_p;
     gboolean marked_transaction;
     CustomList *custom_list;
+    CustomRecord *white_record = NULL;
+    CustomRecord **children_rows = NULL;
 
     custom_list = transaction_model_get_model ();
 
@@ -940,6 +943,40 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
     record = iter.user_data;
     if (!record)
 	return FALSE;
+
+    /* if the transaction is a breakdown, we need to check if there are already children,
+     * else we add the white line */
+    if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
+	&&
+	!record -> number_of_children )
+    {
+	/* there is no children, we add a white line */
+	gint white_line_number;
+	gchar *amount_string;
+	gchar *variance_string;
+
+	white_line_number = gsb_data_transaction_new_white_line (transaction_number);
+	children_rows = g_malloc0 (sizeof (CustomRecord*));
+
+	/* create and fill the white line record */
+	white_record = g_malloc0 (sizeof (CustomRecord));
+	white_record -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (white_line_number);
+	white_record -> what_is_line = IS_TRANSACTION;
+	white_record -> row_bg = &breakdown_background;
+
+	/* as we append just now the white line, there are no child breakdown, so the total is 0 */
+	amount_string = gsb_real_get_string_with_currency (null_real,
+							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
+	variance_string = gsb_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
+							     gsb_data_transaction_get_currency_number (transaction_number), TRUE);
+	white_record -> visible_col[2] = g_strdup_printf ( _("Total : %s (variance : %s)"),
+							   amount_string,
+							   variance_string );
+	g_free (amount_string);
+	g_free (variance_string);
+
+	children_rows[0] = white_record;
+    }
 
     /* get the P position if the transaction is marked */
     marked_transaction = gsb_data_transaction_get_marked_transaction (transaction_number) != OPERATION_NORMALE;
@@ -970,6 +1007,13 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 
 	g_free (tmp_record);
 
+	/* set the white line if necessary */
+	if (children_rows)
+	{
+	    record -> number_of_children = 1;
+	    record -> children_rows = children_rows;
+	}
+
 	/* set the checkbox is the transaction is marked */
 	if (line_p == i)
 	    record -> checkbox_active = marked_transaction;
@@ -978,6 +1022,15 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 	if (record -> filtered_pos != -1)
 	{
 	    GtkTreePath *path = gtk_tree_path_new();
+
+	    /* if there is some children and we are the last row, set the expander */
+	    if (white_record
+		&&
+		i == (custom_list -> nb_rows_by_transaction -1 ))
+	    {
+		record -> has_expander = TRUE;
+		white_record -> mother_row = record;
+	    }
 
 	    /* set the path */
 	    if (record -> mother_row)
@@ -990,6 +1043,11 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 
 	    /* update the transaction */
 	    gtk_tree_model_row_changed(GTK_TREE_MODEL(custom_list), path, &iter);
+
+	    /* if there is a child (white line), set the expander */
+	    if (record -> has_expander)
+		gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list),
+						      path, &iter);
 	    gtk_tree_path_free(path);
 	}
     }
@@ -1399,6 +1457,38 @@ void transaction_list_set ( GtkTreeIter *iter,
     gtk_tree_path_append_index(path, record->filtered_pos);
     gtk_tree_model_row_changed(GTK_TREE_MODEL(custom_list), path, iter);
     gtk_tree_path_free(path);
+}
+
+
+/**
+ * return the number of children of the transaction, in the tree view
+ * so the white line is count into
+ *
+ * \param transaction_number	the breakdown we want the children number
+ *
+ * \return the number of children or 0 if not a breakdown
+ * */
+gint transaction_list_get_n_children ( gint transaction_number )
+{
+    CustomRecord *record;
+    CustomList *custom_list;
+    GtkTreeIter iter;
+
+    custom_list = transaction_model_get_model ();
+
+    g_return_val_if_fail ( custom_list != NULL, 0);
+
+    if (!gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+	return 0;
+
+    if (!transaction_model_get_transaction_iter (&iter, transaction_number, 0))
+	return 0;
+
+    record = iter.user_data;
+    if (!record)
+	return 0;
+
+    return record -> number_of_children;
 }
 
 

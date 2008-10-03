@@ -63,8 +63,8 @@
 #include "./gtk_combofix.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
-#include "./transaction_list_select.h"
 #include "./transaction_list.h"
+#include "./transaction_list_select.h"
 #include "./utils_operations.h"
 #include "./fenetre_principale.h"
 #include "./gsb_data_payment.h"
@@ -2249,7 +2249,19 @@ gboolean gsb_form_finish_edition ( void )
 									     breakdown_transaction_number);
 	    }
 	    else
+	    {
+		/* update a transaction */
 		gsb_transactions_list_update_transaction (transaction_number);
+
+		/* we are on a modification of transaction, but if the modified transaction is a breakdown
+		 * and has no children (ie only white line), we assume the user wants now fill the children, so we will do the
+		 * same as for a new transaction : open the expander and select the white line */
+		if (transaction_list_get_n_children (transaction_number) == 1)
+		{
+		    new_transaction = TRUE;
+		    gsb_transactions_list_switch_expander (transaction_number);
+		}
+	    }
 	}
 	else
 	{

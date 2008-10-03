@@ -51,6 +51,8 @@ static GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTre
 static void gsb_category_assistant_start_element ( GMarkupParseContext *context, const gchar * element_name,
 					    const gchar ** attribute_names, const gchar ** attribute_values,
 					    gchar ** return_string, GError ** error );
+static gboolean gsb_category_display_foreign_toggled ( GtkWidget * button );
+static void gsb_category_fill_sets ( GtkTreeView * view, GtkTreeModel * model, gboolean show_foreign );
 /*END_STATIC*/
 
 /*START_EXTERN*/
