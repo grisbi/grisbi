@@ -8,7 +8,6 @@ grisbi_pixmaps_DATA = \
 	archive.png \
 	archives.png \
 	asset.png \
-	csv.png \
 	balance_estimate.png \
 	bank-account.png \
 	banks.png \
@@ -16,20 +15,22 @@ grisbi_pixmaps_DATA = \
 	bug.png \
 	categories.png \
 	comments.png \
+	csv.png \
 	currencies.png \
-	dollar.gif \
-	euro.gif \
 	exec.png \
-	flags.png \
 	files.png \
 	financial-years.png \
+	flags.png \
 	fonts.png \
 	form.png \
+	generalities.png \
 	grid.png \
 	grisbi-logo.png \
 	grisbi.png \
+	hbci.png \
 	hide_r.png \
 	import.png \
+	miscellaneous.png \
 	money.png \
 	new-categ.png \
 	new-ib.png \
@@ -39,17 +40,22 @@ grisbi_pixmaps_DATA = \
 	new-sub-categ.png \
 	new-sub-ib.png \
 	new-transaction.png \
+	organization.png \
 	payees.png \
 	payment-methods.png \
-	r.png \
+	payment.png \
 	reconciliation.png \
 	reports.png \
 	resume.png \
+	r.png \
 	scheduler.png \
-	show_r.png	\
+	show_r.png \
 	text.png \
+	title.png \
 	toolbar.png \
 	transaction-list.png \
+	transdisplay.png \
+	transfer.png \
 	warnings.png
 
-EXTRA_DIST = $(grisbi_pixmaps_DATA) 
+EXTRA_DIST = $(grisbi_pixmaps_DATA)
