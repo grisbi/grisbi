@@ -413,7 +413,8 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
 	}
 
 	/* update the white line */
-	transaction_list_update_white_child (record -> mother_row -> children_rows[new_number_of_children -1]);
+	if (transaction_number > 0)
+	    transaction_list_update_white_child (record -> mother_row -> children_rows[new_number_of_children -1]);
 
 	/* delete the row of the tree view */
 	if (record -> mother_row -> filtered_pos != -1)
