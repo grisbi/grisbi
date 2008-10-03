@@ -2724,7 +2724,7 @@ GtkWidget *onglet_etat_virements ( void )
     GtkWidget *vbox;
     GtkWidget *bouton;
 
-    vbox_onglet = new_vbox_with_title_and_icon ( _("Transfers"), ".png" );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Transfers"), "transfer.png" );
     gtk_widget_show ( vbox_onglet );
 
     /*   on met les boutons d'inclusion ou non des virements */
@@ -6179,7 +6179,7 @@ GtkWidget *onglet_etat_divers ( void )
     GtkWidget *vbox_onglet;
     GtkWidget *frame;
 
-    vbox_onglet = new_vbox_with_title_and_icon ( _("Miscellaneous"), ".png" );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Miscellaneous"), "miscellaneous.png" );
     gtk_widget_show ( vbox_onglet );
 
 
@@ -6258,7 +6258,7 @@ GtkWidget *page_data_grouping ( void )
     GtkWidget *vbox_onglet;
     GtkWidget * paddingbox;
 
-    vbox_onglet = new_vbox_with_title_and_icon ( _("Data organization"), ".png" );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Data organization"), "organization.png" );
     gtk_widget_show ( vbox_onglet );
 
     /* choix de ce qu'on utilise dans le classement */
@@ -6376,7 +6376,7 @@ GtkWidget *page_data_separation ( void )
     GtkWidget * paddingbox;
     gint i;
 
-    vbox_onglet = new_vbox_with_title_and_icon ( _("Data organization"), ".png" );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Data organization"), "organization.png" );
     gtk_widget_show ( vbox_onglet );
 
     /* choix de ce qu'on utilise dans le classement */
@@ -6579,7 +6579,7 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
 
-    vbox_onglet = new_vbox_with_title_and_icon ( _("Generalities"), ".png" );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Generalities"), "generalities.png" );
     gtk_widget_show ( vbox_onglet );
 
     /* choix du name du rapport */
@@ -6669,7 +6669,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 {
     GtkWidget * table, * vbox_onglet, * menu, * menu_item, * paddingbox;
 
-    vbox_onglet = new_vbox_with_title_and_icon ( _("Transactions display"), ".png" );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Transactions display"), "transdisplay.png" );
     gtk_widget_show ( vbox_onglet );
 
     /* afficher ou non les opés */
@@ -6929,7 +6929,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
     GtkWidget *vbox_onglet;
 
 
-    vbox_onglet = new_vbox_with_title_and_icon ( _("Totals currencies"), "euro.png" );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Totals currencies"), "currencies.png" );
     gtk_widget_show ( vbox_onglet );
 
 
@@ -7099,7 +7099,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     GtkWidget *vbox_onglet;
     GtkWidget *paddingbox;
 
-    vbox_onglet = new_vbox_with_title_and_icon ( _("Titles"), ".png" );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Titles"), "title.png" );
     gtk_widget_show ( vbox_onglet );
 
     /* mise en place de la paddingbox des comptes */
@@ -7359,7 +7359,7 @@ GtkWidget *onglet_etat_mode_paiement ( void )
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
 
-    vbox_onglet = new_vbox_with_title_and_icon ( _("Payment methods"), ".png" );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Payment methods"), "payment.png" );
     gtk_widget_show ( vbox_onglet );
 
     /* on met dans la partie de gauche une liste contenant les modes de paiement à */
