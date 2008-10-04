@@ -268,6 +268,8 @@ GtkWidget *creation_onglet_accueil ( void )
 }
 /* ************************************************************************* */
 
+/* xxx lors de l'import, s'il y a des opés relevées, demander dans quel relevé elles doivent être ajoutées et */
+/* avoir la possibilité de créer un nouveau relevé */
 
 /**
  * update the first page, force the updating if asked,
@@ -339,7 +341,6 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 }
 /* ************************************************************************* */
 
-/* xxx si on importe des opés relevées, proposer de les associer à un n° de relevé */
 
 /* ************************************************************************* */
 /* Fonction update_liste_comptes_accueil                                     */

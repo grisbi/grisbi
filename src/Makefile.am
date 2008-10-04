@@ -35,6 +35,7 @@ sources = \
 	export.c		\
 	export_csv.c		\
 	fenetre_principale.c	\
+	file_obfuscate.c	\
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
 	gsb_account.c		\
@@ -77,9 +78,9 @@ sources = \
 	gsb_data_report_text_comparison.c	\
 	gsb_data_scheduled.c	\
 	gsb_data_transaction.c	\
+	gsb_debug.c		\
 	gsb_file.c		\
 	gsb_file_config.c	\
-	gsb_file_debug.c	\
 	gsb_file_load.c		\
 	gsb_file_others.c	\
 	gsb_file_save.c		\
@@ -161,7 +162,6 @@ grisbi_INCLUDES =		\
         etats_html.h            \
         export.h                \
         export_csv.h            \
-	import_csv.h		\
         go-charmap-sel.h        \
         go-optionmenu.h         \
 	gsb_account.h		\
@@ -205,9 +205,9 @@ grisbi_INCLUDES =		\
 	gsb_data_report_text_comparison.h	\
 	gsb_data_scheduled.h	\
 	gsb_data_transaction.h	\
+	gsb_debug.h		\
 	gsb_file.h		\
 	gsb_file_config.h	\
-        gsb_file_debug.h        \
 	gsb_file_load.h		\
 	gsb_file_others.h	\
 	gsb_file_save.h		\
@@ -244,8 +244,11 @@ grisbi_INCLUDES =		\
 	etats_onglet.h		\
 	etats_support.h		\
 	fenetre_principale.h	\
+	file_obfuscate.h	\
 	gtk_combofix.h		\
 	help.h			\
+	import.h		\
+	import_csv.h		\
 	imputation_budgetaire.h	\
 	include.h		\
 	main.h			\
@@ -263,7 +266,6 @@ grisbi_INCLUDES =		\
 	print_report.h		\
 	print_transactions_list.h		\
 	qif.h			\
-	import.h		\
 	tip.h			\
 	structures.h		\
 	tiers_onglet.h		\

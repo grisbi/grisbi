@@ -33,14 +33,15 @@
 #include "./gsb_transactions_list.h"
 #include "./navigation.h"
 #include "./export.h"
+#include "./file_obfuscate.h"
 #include "./tip.h"
 #include "./gsb_account.h"
 #include "./gsb_assistant_account.h"
 #include "./gsb_assistant_archive_export.h"
 #include "./gsb_assistant_archive.h"
 #include "./gsb_data_account.h"
+#include "./gsb_debug.h"
 #include "./gsb_file.h"
-#include "./gsb_file_debug.h"
 #include "./gsb_form.h"
 #include "./main.h"
 #include "./import.h"
@@ -100,6 +101,7 @@ static gchar * buffer =
 "      <menuitem action='ExportArchive'/>"
 "      <separator/>"
 "      <menuitem action='DebugFile'/>"
+"      <menuitem action='Obfuscate'/>"
 "      <separator/>"
 "      <menuitem action='Close'/>"
 "      <menuitem action='Quit'/>"
@@ -192,7 +194,10 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	  NULL,			NULL,			G_CALLBACK(gsb_assistant_archive_export_run) },
 
 	{ "DebugFile",		GTK_STOCK_FIND,		_("_Debug account file..."),
-	  NULL,			NULL,			G_CALLBACK( gsb_file_debug ) },
+	  NULL,			NULL,			G_CALLBACK( gsb_debug ) },
+
+	{ "Obfuscate",		GTK_STOCK_FIND,		_("_Obfuscate account file..."),
+	  NULL,			NULL,			G_CALLBACK( file_obfuscate_run ) },
 
 	{ "Close",		GTK_STOCK_CLOSE,	_("_Close"),
 	  NULL,			NULL,			G_CALLBACK( gsb_file_close ) },
