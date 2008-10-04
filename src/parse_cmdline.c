@@ -32,7 +32,6 @@ static gboolean is_valid_window_number(gint w);
 static CMDLINE_ERRNO parse_tab_parameters(char *tab_parameters, cmdline_options* pOpt);
 static void show_errstr(gint errval, gchar* extra);
 static void show_help(void);
-static void show_synoptic(void);
 static void   show_usage(gint errval, gchar* extra);
 static void show_version(void);
 /*END_STATIC*/
@@ -43,30 +42,17 @@ static struct option long_options[] =           /*!< configure the list of 'long
 {
     {"version", no_argument,       0, 'V'},     /*!< '--version   */
     {"help"   , no_argument,       0, 'H'},     /*!< '--help'     */
-    {"tab",     required_argument, 0, 'T'},     /*!< '--tab=s' */
     {0, 0, 0, 0} /* end of long arg list DO NOT REMOVE */
 };
 
 /* Please make sure to keep consistency between short_options/long_options and USAGE_STRING/HELP_STRING definition */
 #define   GET_DETAIL N_("Try grisbi --help for details\n\n")
-#define   USAGE_STRING  		        						\
- N_("Usage: gribi [--version | -v] | [--help | -?] |" 				\
-	"[--tab=w[,x[,y[,z]]] | -t w[,x[,y[,z]]]] [file]\n"      \
- )
+#define   USAGE_STRING N_("Usage: gribi [--version | -v] | [--help | -?]\n")
 
 #define   HELP_STRING  				                               \
  N_("gribi [options] [file]\n"                                                 \
-    "  -?, --help                    Show this help message and exit\n"        \
+    "  --help                    Show this help message and exit\n"        \
     "  -v, --version                 Show version number and exit\n"           \
-    "  -t, --tab=w[,x[,y[,z]]]    Open file and show specified tab\n"       \
-    "              w=-1              Show configuration window\n"              \
-    "              w=[0-6]           Show tab no <w>\n"                        \
-    "              w=7,x[,y[,z]]]    Show report pane\n"                       \
-    "                                    x: report number to show\n"           \
-    "                                    y: show main customization tab\n"     \
-    "                                       number <y> of report\n"            \
-    "                                    z: show custmization tab number <z>\n"\
-    "                                       of report\n\n"                     \
    )
 
 /**
@@ -169,17 +155,6 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
 }
 
 
-/**
- * 
- * Display grisbi synoptic
- *
- * \private
- */
-void show_synoptic(void)
-{ 
-    g_print(_("\nGrisbi\n\n  Personal accounting program under GNU General Public Licence\n\n")); 
-}
-
 
 /**
  * 
@@ -189,8 +164,11 @@ void show_synoptic(void)
  **/
 void show_version(void)
 {
-    show_synoptic();
-    g_print(N_("Version %s\n\n"), VERSION);	
+#ifdef HAVE_PLUGINS
+    gsb_plugins_scan_dir ( PLUGINS_DIR );
+#endif
+
+    g_print(N_("Grisbi version %s, %s\n"), VERSION, gsb_plugin_get_list());
 }
 
 
@@ -202,7 +180,6 @@ void show_version(void)
  */
 void show_help(void)
 {
-    show_synoptic();
     show_usage(0,NULL);
     g_print(HELP_STRING);
 }
