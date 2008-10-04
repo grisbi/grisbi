@@ -547,14 +547,27 @@ static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
      * so we change it */
     g_free (last_filename);
 
-    new_filename = g_strconcat ( my_get_gsb_file_default_dir (),
-				 G_DIR_SEPARATOR_S,
-				 gtk_entry_get_text (GTK_ENTRY (title_entry)),
-				 ".gsb",
-				 NULL );
+    if ( strlen ( gtk_entry_get_text (GTK_ENTRY (title_entry) ) ) )
+    {
+	new_filename = g_strconcat ( my_get_gsb_file_default_dir (),
+				     G_DIR_SEPARATOR_S,
+				     gtk_entry_get_text (GTK_ENTRY (title_entry)),
+				     ".gsb",
+				     NULL );
+    }
+    else
+    {
+	new_filename = g_strconcat ( my_get_gsb_file_default_dir (),
+				     G_DIR_SEPARATOR_S,
+				     _("My accounts"),
+				     ".gsb",
+				     NULL );
+    }
+
     gtk_entry_set_text ( GTK_ENTRY (filename_entry),
 			 new_filename );
     g_free (new_filename);
+
     return FALSE;
 }
 
