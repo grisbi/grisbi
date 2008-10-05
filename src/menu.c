@@ -3,8 +3,8 @@
 /*                                                                            */
 /*                                  menu.c                                    */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -194,10 +194,10 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	  NULL,			NULL,			G_CALLBACK(gsb_assistant_archive_export_run) },
 
 	{ "DebugFile",		GTK_STOCK_FIND,		_("_Debug account file..."),
-	  NULL,			NULL,			G_CALLBACK( gsb_debug ) },
+	  "",			NULL,			G_CALLBACK( gsb_debug ) },
 
 	{ "Obfuscate",		GTK_STOCK_FIND,		_("_Obfuscate account file..."),
-	  NULL,			NULL,			G_CALLBACK( file_obfuscate_run ) },
+	  "",			NULL,			G_CALLBACK( file_obfuscate_run ) },
 
 	{ "Close",		GTK_STOCK_CLOSE,	_("_Close"),
 	  NULL,			NULL,			G_CALLBACK( gsb_file_close ) },

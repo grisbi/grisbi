@@ -472,9 +472,7 @@ void menus_sensitifs ( gboolean sensitif )
     };
     gchar ** tmp = items;
 
-    gchar * tmpstr = g_strdup_printf ("menus_sensitifs : %d", sensitif );
-    devel_debug ( tmpstr );
-    g_free (tmpstr);
+    devel_debug_int (sensitif);
 
     while ( *tmp )
     {
