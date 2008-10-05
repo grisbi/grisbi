@@ -22,6 +22,7 @@
 
 /*START_INCLUDE*/
 #include "parse_cmdline.h"
+#include "./gsb_plugins.h"
 #include "./main.h"
 #include "./utils_str.h"
 #include "./include.h"

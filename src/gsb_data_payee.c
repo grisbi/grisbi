@@ -751,3 +751,54 @@ void gsb_data_payee_remove_transaction_from_payee ( gint transaction_number )
 }
 
 
+/**
+ * remove all the payees wich are not used
+ *
+ * \param button	the toolbar button
+ * \param null
+ *
+ * \return the number of payees removed
+ * */
+gint gsb_data_payee_remove_unused ( void )
+{
+    GSList *tmp_list;
+    GSList *used = NULL;
+    gint nb_removed = 0;
+
+    /* first we create a list of used categories */
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+    while (tmp_list)
+    {
+	gint payee_number;
+
+	payee_number = gsb_data_transaction_get_party_number (gsb_data_transaction_get_transaction_number (tmp_list -> data));
+	if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
+	{
+	    printf ( "add %d\n", payee_number);
+	    used = g_slist_append ( used,
+				    GINT_TO_POINTER (payee_number));
+	}
+	tmp_list = tmp_list -> next;
+    }
+
+    if (!used)
+	return 0;
+
+    /* now check each payee to know if it is used */
+    tmp_list = gsb_data_payee_get_payees_list ();
+    while (tmp_list)
+    {
+	struct_payee *payee = tmp_list -> data;
+
+	tmp_list = tmp_list -> next;
+
+	if (!g_slist_find (used, GINT_TO_POINTER (payee -> payee_number)))
+	{
+	    /* payee not used */
+	    payee_buffer = payee;	/* increase speed */
+	    gsb_data_payee_remove (payee -> payee_number);
+	    nb_removed++;
+	}
+    }
+    return nb_removed;
+}

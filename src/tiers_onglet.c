@@ -60,6 +60,8 @@ static GtkWidget *creation_barre_outils_tiers ( void );
 static gboolean edit_payee ( GtkTreeView * view );
 static gboolean payee_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 			       GtkSelectionData * selection_data );
+static gboolean payee_remove_unused ( GtkWidget *button,
+			       gpointer null );
 static gboolean popup_payee_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
 
@@ -291,9 +293,49 @@ GtkWidget *creation_barre_outils_tiers ( void )
     metatree_set_linked_widgets_sensitive ( GTK_TREE_MODEL(payee_tree_model),
 					    FALSE, "selection" );
 
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					   GTK_STOCK_DELETE, _("Delete unused payees"),
+					   G_CALLBACK(payee_remove_unused),
+					   NULL );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
+			   _("Delete unused payees"), "" );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+
     return ( handlebox );
 }
 
+
+/**
+ * called by button delete unused payees
+ * show a message to be sure and remove all the payees without transactions
+ *
+ * \param button	the button of the toolbar
+ * \param null
+ *
+ * \return FALSE
+ * */
+gboolean payee_remove_unused ( GtkWidget *button,
+			       gpointer null )
+{
+    gint result;
+
+    result = question_yes_no (_("This will remove all the payees wich are not used in any transactions.\n(Archives payees will be safe, even if not used outside the archive)\n\nAre you sure ?"),
+			      GTK_RESPONSE_CANCEL );
+
+    if (result == TRUE)
+    {
+	gint nb_removed;
+	gchar *tmpstr;
+
+	nb_removed = gsb_data_payee_remove_unused ();
+	payee_fill_tree ();
+	tmpstr = g_strdup_printf ( _("Removed %d payees."),
+				   nb_removed);
+	dialogue (tmpstr);
+	g_free (tmpstr);
+    }
+    return FALSE;
+}
 
 
 /**
