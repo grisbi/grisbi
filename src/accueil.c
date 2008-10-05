@@ -1197,10 +1197,7 @@ void update_liste_comptes_accueil ( gboolean force )
  * */
 gboolean gsb_main_page_click_on_account ( gint *account_number )
 {
-    gchar* tmpstr = g_strdup_printf ( "gsb_main_page_click_on_account account %d",
-				    GPOINTER_TO_INT (account_number ));
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (GPOINTER_TO_INT (account_number));
     gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
 				       GPOINTER_TO_INT (account_number),
 				       NULL );

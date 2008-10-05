@@ -110,6 +110,7 @@ extern GtkWidget *notebook_general ;
 extern GtkTreeStore *payee_tree_model ;
 extern GtkTreeSelection * selection ;
 extern gchar *titre_fichier ;
+extern gint mise_a_jour_liste_comptes_accueil;
 /*END_EXTERN*/
 
 
@@ -1356,14 +1357,22 @@ gboolean gsb_gui_navigation_set_selection ( gint page, gint account_number, gpoi
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
     g_return_val_if_fail ( selection, FALSE );
 
-    gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &iter );
+    /* if we select an account, open the expander if necessary,
+     * we assume the accounts are still in first place */
+    if (page == GSB_ACCOUNT_PAGE)
+    {
+	GtkTreePath *path = gtk_tree_path_new_first ();
+	gtk_tree_view_expand_row ( GTK_TREE_VIEW (navigation_tree_view),
+				   path, TRUE );
+	gtk_tree_path_free (path);
+    }
 
+    gtk_tree_model_get_iter_first ( GTK_TREE_MODEL(navigation_model), &iter );
     gsb_gui_navigation_set_selection_branch ( selection, &iter, page, account_number, 
 					      report );
 
     return TRUE;
 }
-
 
 
 /**
@@ -1652,6 +1661,10 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
 	gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(model), 
 					  NAVIGATION_PAGE, navigation_sort_column,
 					  NULL, NULL );
+
+	/* update the order of accounts in first page */
+	mise_a_jour_liste_comptes_accueil = TRUE;
+
 	modification_fichier (TRUE);
     }
     return FALSE;

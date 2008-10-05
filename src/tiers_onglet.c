@@ -53,6 +53,7 @@
 #include "./include.h"
 #include "./erreur.h"
 #include "./structures.h"
+#include "./traitement_variables.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -333,6 +334,7 @@ gboolean payee_remove_unused ( GtkWidget *button,
 				   nb_removed);
 	dialogue (tmpstr);
 	g_free (tmpstr);
+	modification_fichier (TRUE);
     }
     return FALSE;
 }
