@@ -190,6 +190,11 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
  * \param x2		Right horizontal position
  * \param y		Top vertical position
  * \param y2		Bottom vertical position
+ *
+ * Martin Stromberger, 28.08.2008:
+ * changed xpadding from 0 to 2 for a better printlayout.
+ * xpadding=0 -> no space between separator and text in printlayout.
+ *
  */
 void gtktable_attach_vsep ( int x, int x2, int y, int y2)
 {
@@ -201,7 +206,7 @@ void gtktable_attach_vsep ( int x, int x2, int y, int y2)
 		       x, x2, y, y2,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
-		       0, 0 );
+		       2, 0 );
     gtk_widget_show ( separateur );
 }
 
