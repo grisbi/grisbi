@@ -446,6 +446,7 @@ void menus_sensitifs ( gboolean sensitif )
 	menu_name ( "FileMenu",		"Save",			NULL ),
 	menu_name ( "FileMenu",		"SaveAs",		NULL ),
 	menu_name ( "FileMenu",		"DebugFile",		NULL ),
+	menu_name ( "FileMenu",		"Obfuscate",		NULL ),
 	menu_name ( "FileMenu",		"ExportFile",		NULL ),
 	menu_name ( "FileMenu",		"CreateArchive",	NULL ),
 	menu_name ( "FileMenu",		"ExportArchive",	NULL ),
