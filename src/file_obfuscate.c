@@ -87,6 +87,7 @@ gboolean file_obfuscate_run ( void )
 				    _("This assistant produces anonymized copies of account files, with all personnal data replaced with harmless random data.\n"
 				      "You can then send us account files that hold the same structure than yours but without personnal informations.\n"
 				      "Still, check that bugs you submit are still valid with anonymized files.\n"
+					  "\n"
 				      "To avoid any problems in your file, after saving the modified file,\n"
 				      "Grisbi will close close without letting you saving anything,\n"
 				      "so if you didn't save your changes, please stop this assistant,\n"
