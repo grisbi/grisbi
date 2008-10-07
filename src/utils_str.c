@@ -475,22 +475,30 @@ gchar *limit_string ( gchar *string,
 		      gint length )
 {
     gchar *string_return;
+    gchar *tmpstr;
+    gint i;
 
     if ( !string )
 	return NULL;
 
-    if ( strlen ( string ) <= length )
+    if ( g_utf8_strlen ( string, -1 ) <= length )
 	return my_strdup (string);
 
     string_return = my_strdup ( string );
-    string_return[length-3] = '.';
-    string_return[length-2] = '.';
-    string_return[length-1] = '.';
-    string_return[length] = 0;
+    tmpstr = string_return;
+    for (i=0 ; i<(length-3) ; i++)
+	tmpstr = g_utf8_next_char (tmpstr);
+
+    tmpstr[0] = '.';
+    tmpstr = g_utf8_next_char (tmpstr);
+    tmpstr[0] = '.';
+    tmpstr = g_utf8_next_char (tmpstr);
+    tmpstr[0] = '.';
+    tmpstr = g_utf8_next_char (tmpstr);
+    tmpstr[0] = 0;
 
     return string_return;
 }
-/* ******************************************************************************* */
 
 
 

@@ -902,14 +902,14 @@ static gchar **gsb_qif_get_date_content ( gchar *date_string )
      * we will remove all wich is not a number */
     pointer = date_string;
     for (i=0 ; i<strlen (date_string) ; i++)
-	if (pointer[i] < '0' || pointer[i] > '9')
+	if (!isalnum (pointer[i]))
 	    pointer[i] = '/';
 
     /* some qif have some text at the end of the date... i don't know what to do with
      * that, so i remove all the text after the 2nd / */
     pointer = date_string;
     for (i=0 ; i<strlen (date_string) ; i++)
-	if (pointer[i] < '0' || pointer[i] > '9')
+	if (!isalnum (pointer[i]))
 	{
 	    /* we are on a /, only 2 will survive */
 	    if (number_of_slash < 2)
