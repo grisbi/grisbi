@@ -348,10 +348,10 @@ gboolean file_obfuscate_run ( void )
 	    filename = g_strconcat ( my_get_gsb_file_default_dir (), "No_name-obfuscated.gsb", NULL);
 
 	if (gsb_file_save_save_file (filename, FALSE, FALSE))
-	    dialogue_warning_hint ( g_strdup_printf ( _("Obfuscated file saved as <tt>%s</tt>"), filename ),
+	    dialogue_warning_hint ( g_strdup_printf ( _("Obfuscated file saved as\n<tt>%s</tt>"), filename ),
 				    _("Obfuscation succeeded") );
 	else
-	    dialogue_error_hint (g_strdup_printf (_("Grisbi couldn't save the file <tt>%s</tt>"), filename ),
+	    dialogue_error_hint (g_strdup_printf (_("Grisbi couldn't save the file\n<tt>%s</tt>"), filename ),
 				 _("Obfuscation succeeded") );
 
 	/* bye bye */
@@ -380,7 +380,12 @@ GtkWidget *file_obfuscate_page_1 ( void )
     vbox = gtk_vbox_new (FALSE, 5);
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
-    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Select features to hide") );
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Select features to hide :\n") );
+
+    button_accounts_names = gtk_check_button_new_with_label (_("Hide accounts names"));
+    gtk_box_pack_start ( GTK_BOX (paddingbox),
+			 button_accounts_names,
+			 FALSE, FALSE, 0);
     
     button_accounts_details = gtk_check_button_new_with_label (_("Hide accounts details"));
     gtk_box_pack_start ( GTK_BOX (paddingbox),
@@ -390,11 +395,6 @@ GtkWidget *file_obfuscate_page_1 ( void )
     button_amount = gtk_check_button_new_with_label (_("Hide amounts"));
     gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_amount,
-			 FALSE, FALSE, 0);
-
-    button_accounts_names = gtk_check_button_new_with_label (_("Hide accounts names"));
-    gtk_box_pack_start ( GTK_BOX (paddingbox),
-			 button_accounts_names,
 			 FALSE, FALSE, 0);
 
     button_payee = gtk_check_button_new_with_label (_("Hide payees names"));
