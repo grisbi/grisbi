@@ -24,6 +24,7 @@
 
 
 /*START_INCLUDE*/
+#include "./erreur.h"
 #include "qif.h"
 #include "./dialog.h"
 #include "./utils_files.h"
@@ -45,6 +46,10 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gint gsb_qif_get_date_order ( GSList *transactions_list );
+static gchar **gsb_qif_get_date_content ( gchar *date_string );
+static GDate *gsb_qif_get_date ( gchar *date_string,
+				 gint order );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -70,11 +75,8 @@ extern gsb_real null_real ;
 gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file * imported )
 {
     gchar *pointeur_char;
-    gchar **tab_char;
     struct struct_compte_importation *compte;
     gint retour = 0;
-    gint format_date;
-    GSList *liste_tmp;
     gchar **tab;
     gint pas_le_premier_compte = 0;
     FILE * fichier = utf8_fopen ( imported -> name, "r" );
@@ -98,6 +100,10 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 
     do
     {
+	GSList *tmp_list;
+	gint order;
+	gchar **tab_char;
+
 	do
 	{
 	    /* 	    si ce n'est pas le premier compte du fichier, pointeur_char est déjà sur la ligne du nouveau compte */
@@ -371,16 +377,14 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 	}
 	else
 	{
-	    /* c'est un compte ccard */
-
+	    /* credit card account */
 	    compte -> nom_de_compte = unique_imported_name ( my_strdup ( _("Credit card")) );
 	    compte -> filename = my_strdup ( imported -> name );
 	    compte -> solde = null_real;
 	    retour = 0;
 	}
 
-	/* si le compte n'a pas de nom, on en met un ici */
-
+	/* if no name, set a new name */
 	if ( !compte -> nom_de_compte )
 	    compte -> nom_de_compte = unique_imported_name ( my_strdup ( _("Imported QIF account" )) );
 
@@ -401,9 +405,9 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 	    }
 	}
 
-
-	/* récupération des opérations en brut, on les traitera ensuite */
-
+	/* fill the struct_ope_importation */
+	/* we fill all the fields except the date, because that format is variable,
+	 * so keep the date into date_tmp in string and try to decode the string later */
 	do
 	{
 	    struct struct_ope_importation *operation;
@@ -432,10 +436,7 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 		    if ( pointeur_char [ strlen (pointeur_char)-1 ] == 10 )
 			pointeur_char [ strlen (pointeur_char)-1 ] = 0;
 
-		    /* récupération de la date */
-		    /* on la met pour l'instant dans date_tmp, et après avoir récupéré toutes */
-		    /* les opés on transformera les dates en gdate */
-
+		    /* set the date into date_tmp */
 		    if ( pointeur_char[0] == 'D' )
 			operation -> date_tmp = my_strdup ( pointeur_char + 1 );
 
@@ -633,7 +634,7 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 		    &&
 		    pointeur_char[0] != '!' );
 
-	    /* 	à ce stade, soit on est à la fin d'une opération, soit à la fin du fichier */
+	    /* either we are at the end of a transaction, either at the end of the file */
 
 	    /* 	    en théorie, on a toujours ^ à la fin d'une opération */
 	    /* 		donc si on en est à eof ou !, on n'enregistre pas l'opé */
@@ -675,313 +676,38 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 		&&
 		pointeur_char[0] != '!' );
 
-	/* toutes les opérations du compte ont été récupérées */
-	/* on peut maintenant transformer la date_tmp en gdate */
 
-	format_date = 0;
+	/* the struct_ope_importation has been filled,
+	 * now we need to transform the dates of transaction
+	 * into gdate */
 
-changement_format_date:
+	/* try to understand the order */
+	order = gsb_qif_get_date_order (compte -> operations_importees);
+	if (order == -1)
+	    dialogue_error (_("Grisbi couldn't determine the format of the date into the qif file.\nPlease contact the Grisbi team (devel@listes.grisbi.org) to find the problem.\nFor now, all the dates will be imported as 01.01.1970"));
 
-	liste_tmp = compte -> operations_importees;
-
-	while ( liste_tmp )
+	tmp_list = compte -> operations_importees;
+	while (tmp_list)
 	{
-	    struct struct_ope_importation *operation;
-	    gchar **tab_str;
-	    gint jour, mois, annee;
+	    struct struct_ope_importation *import_transaction = tmp_list -> data;
 
-	    operation = liste_tmp -> data;
-
-	    /*   vérification qu'il y a une date, sinon on vire l'opé de toute manière */
-
-	    if ( operation -> date_tmp)
-	    {	      
-		/* récupération de la date qui est du format jj/mm/aaaa ou jj/mm/aa ou jj/mm'aa à partir de 2000 */
-		/* 	      si format_date = 0, c'est sous la forme jjmm sinon mmjj */
-
-
-		tab_str = g_strsplit ( operation -> date_tmp,
-				       "/",
-				       3 );
-
-		if ( tab_str [2] && tab_str [1] )
-		{
-		    /* 		  le format est xx/xx/xx, pas d'apostrophe */
-
-		    if ( format_date )
-		    {
-			mois = my_strtod ( tab_str[0],
-					   NULL );
-			jour = my_strtod ( tab_str[1],
-					   NULL );
-		    }
-		    else
-		    {
-			jour = my_strtod ( tab_str[0],
-					   NULL );
-			mois = my_strtod ( tab_str[1],
-					   NULL );
-		    }
-
-		    if ( strlen ( tab_str[2] ) >= 4 )
-			annee = my_strtod ( tab_str[2],
-					    NULL );
-		    else
-		    {
-			annee = my_strtod ( tab_str[2],
-					    NULL );
-			if ( annee < 80 )
-			    annee = annee + 2000;
-			else
-			    annee = annee + 1900;
-		    }
-		}
-		else
-		{
-		    if ( tab_str[1] )
-		    {
-			/* le format est xx/xx'xx */
-
-			gchar **tab_str2;
-
-			tab_str2 = g_strsplit ( tab_str[1],
-						"'",
-						2 );
-
-			if ( format_date )
-			{
-			    mois = my_strtod ( tab_str[0],
-					       NULL );
-			    jour = my_strtod ( tab_str2[0],
-					       NULL );
-			}
-			else
-			{
-			    jour = my_strtod ( tab_str[0],
-					       NULL );
-			    mois = my_strtod ( tab_str2[0],
-					       NULL );
-			}
-
-			/* si on avait 'nn, en fait ça peut être 'nn ou 'nnnn ... */
-
-			if ( strlen ( tab_str2[1] ) == 2 )
-			    annee = my_strtod ( tab_str2[1],
-						NULL ) + 2000;
-			else
-			    annee = my_strtod ( tab_str2[1],
-						NULL );
-			g_strfreev ( tab_str2 );
-
-		    }
-		    else
-		    {
-			/* le format est aaaa-mm-jj */
-
-			tab_str = g_strsplit ( operation -> date_tmp,
-					       "-",
-					       3 );
-
-			mois = my_strtod ( tab_str[1],
-					   NULL );
-			jour = my_strtod ( tab_str[2],
-					   NULL );
-			if ( strlen ( tab_str[0] ) >= 4 )
-			    annee = my_strtod ( tab_str[0],
-						NULL );
-			else
-			{
-			    annee = my_strtod ( tab_str[0],
-						NULL );
-			    if ( annee < 80 )
-				annee = annee + 2000;
-			    else
-				annee = annee + 1900;
-			}
-		    }
-		}
-
-		g_strfreev ( tab_str );
-
-		if ( g_date_valid_dmy ( jour,
-					mois,
-					annee ))
-		    operation -> date = g_date_new_dmy ( jour,
-							 mois,
-							 annee );
-		else
-		{
-		    if ( format_date )
-		    {
-			liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
-									compte );
-			fclose ( fichier );
-			return (FALSE);
-		    }
-
-		    format_date = 1;
-
-		    goto changement_format_date;
-		}
-	    }
+	    if (order == -1)
+		/* we didn't find the order */
+		import_transaction -> date = g_date_new_dmy (1,1,1970);
 	    else
-	    {
-		/* il n'y a pas de date, on vire l'opé de la liste */
-
-		compte -> operations_importees = g_slist_remove ( compte -> operations_importees,
-								  liste_tmp -> data );
-	    }
-	    liste_tmp = liste_tmp -> next;
+		import_transaction -> date = gsb_qif_get_date (import_transaction -> date_tmp, order);
+	    tmp_list = tmp_list -> next;
 	}
 
-
-	/* récupération de la date du fichier  */
-	/* si format_date = 0, c'est sous la forme jjmm sinon mmjj */
-
+	/* get the date of the qif file */
 	if ( compte -> date_solde_qif )
-	{
-	    gchar **tab_str;
-	    gint jour, mois, annee;
+	    compte -> date_fin = gsb_qif_get_date (compte -> date_solde_qif, order);
 
-	    tab_str = g_strsplit ( compte -> date_solde_qif,
-				   "/",
-				   3 );
-
-	    if ( tab_str [2] && tab_str [1] )
-	    {
-		/* 		  le format est xx/xx/xx, pas d'apostrophe */
-		if ( format_date )
-		{
-		    mois = my_strtod ( tab_str[0],
-				       NULL );
-		    jour = my_strtod ( tab_str[1],
-				       NULL );
-		}
-		else
-		{
-		    jour = my_strtod ( tab_str[0],
-				       NULL );
-		    mois = my_strtod ( tab_str[1],
-				       NULL );
-		}
-
-		if ( strlen ( tab_str[2] ) == 4 )
-		    annee = my_strtod ( tab_str[2],
-					NULL );
-		else
-		{
-		    annee = my_strtod ( tab_str[2],
-					NULL );
-		    if ( annee < 80 )
-			annee = annee + 2000;
-		    else
-			annee = annee + 1900;
-		}
-	    }
-	    else
-	    {
-		if ( tab_str[1] )
-		{
-		    /* le format est xx/xx'xx */
-		    gchar **tab_str2;
-
-		    tab_str2 = g_strsplit ( tab_str[1],
-					    "'",
-					    2 );
-
-		    if ( format_date )
-		    {
-			mois = my_strtod ( tab_str[0],
-					   NULL );
-			jour = my_strtod ( tab_str2[0],
-					   NULL );
-		    }
-		    else
-		    {
-			jour = my_strtod ( tab_str[0],
-					   NULL );
-			mois = my_strtod ( tab_str2[0],
-					   NULL );
-		    }
-
-		    /* si on avait 'aa, en fait ça peut être 'aa ou 'aaaa ... */
-
-		    if ( strlen ( tab_str2[1] ) == 2 )
-			annee = my_strtod ( tab_str2[1],
-					    NULL ) + 2000;
-		    else
-			annee = my_strtod ( tab_str2[1],
-					    NULL );
-		    g_strfreev ( tab_str2 );
-		}
-		else
-		{
-		    if ( strchr ( compte -> date_solde_qif, '-' ) )
-		    {
-			/* le format est aaaa-mm-jj */
-			tab_str = g_strsplit ( compte -> date_solde_qif, "-", 3 );
-
-			mois = my_strtod ( tab_str[1], NULL );
-			jour = my_strtod ( tab_str[2], NULL );
-			if ( strlen ( tab_str[0] ) == 4 )
-			    annee = my_strtod ( tab_str[0], NULL );
-			else
-			{
-			    annee = my_strtod ( tab_str[0], NULL );
-			    if ( annee < 80 )
-				annee = annee + 2000;
-			    else
-				annee = annee + 1900;
-			}
-		    }
-		    else
-		    {
-			if ( strchr ( compte -> date_solde_qif, '.' ) )
-			{
-			    /* le format est aaaa.mm.jj */
-			    tab_str = g_strsplit ( compte -> date_solde_qif, ".", 3 );
-
-			    mois = my_strtod ( tab_str[1], NULL );
-			    jour = my_strtod ( tab_str[2], NULL );
-			    if ( strlen ( tab_str[0] ) == 4 )
-				annee = my_strtod ( tab_str[0], NULL );
-			    else
-			    {
-				annee = my_strtod ( tab_str[0], NULL );
-				if ( annee < 80 )
-				    annee = annee + 2000;
-				else
-				    annee = annee + 1900;
-			    }
-			}
-			else
-			{
-			    /* i don't know any other format, if there is new, it's here... */
-			    jour = 0;
-			    mois = 0;
-			    annee = 0;
-			}
-		    }
-		}
-	    }
-	    g_strfreev ( tab_str );
-
-	    if ( g_date_valid_dmy ( jour,
-				    mois,
-				    annee ))
-		compte -> date_fin = g_date_new_dmy ( jour,
-						      mois,
-						      annee );
-	}
-
-	/* ajoute ce compte aux autres comptes importés */
-
+	/* add that account to the others */
 	liste_comptes_importes = g_slist_append ( liste_comptes_importes,
 						  compte );
 
-	/*     si à la fin des opérations c'était un changement de compte et pas la fin du fichier, */
-	/*     on y retourne !!! */
-
+	/* go to the next account */
 	pas_le_premier_compte = 1;
     }
     while ( retour != EOF );
@@ -989,6 +715,172 @@ changement_format_date:
     fclose ( fichier );
 
     return ( TRUE );
+}
+
+
+/**
+ * this function try to understand in what order are the content of the date,
+ * the two order known are d-m-y or y-m-d (hoping Money won't do something like m-y-d...)
+ * the only way to know that is to check all the transactions imported and verify the first
+ * order, if doesn't work, it's the second
+ *
+ * \param transactions_list	the list of imported transactions
+ *
+ * \return 0 for d-m-y, 1 for y-m-d, -1 for problem
+ * */
+static gint gsb_qif_get_date_order ( GSList *transactions_list )
+{
+    GSList *tmp_list;
+    gint order = 0;
+
+    tmp_list = transactions_list;
+    while (tmp_list)
+    {
+	struct struct_ope_importation *transaction = tmp_list -> data;
+	gchar **array;
+	gint year;
+
+	if (!transaction -> date_tmp)
+	    continue;
+
+	array = gsb_qif_get_date_content (transaction -> date_tmp);
+
+	/* if array still contains /, there is a problem (more than 2 / in the first entry) */
+	if (memchr (array[2], '/', strlen (array[2])))
+	{
+	    gchar *string = g_strdup_printf ( _("The date %s seems contains more than 2 separators.\nThis shouldn't happen. Please contact the Grisbi team to try to add your strange format into Grisbi"),
+					      transaction -> date_tmp );
+	    devel_debug (string);
+	    g_free (string);
+	    return -1;
+	}
+
+	/* the year can be yy or yyyy, we change that here */
+	if (order)
+	    /* order is yy-mm-dd */
+	    year = atoi (array[0]);
+	else
+	    /* order is dd-mm-yy */
+	    year = atoi (array[2]);
+	if (year < 100)
+	{
+	    if (year < 80)
+		year = year + 2000;
+	    else
+		year = year + 1900;
+	}
+	printf  ("%d, %s : %s, %s-%s-%s, %d\n", order, transaction -> tiers, transaction -> date_tmp, array[0], array[1], array[2], year );
+
+	if ((order && g_date_valid_dmy (year, atoi (array[1]), atoi(array[0])))
+	    ||
+	    (!order && g_date_valid_dmy (atoi (array[0]), atoi (array[1]), year)))
+	    /* the date is valid, go to the next date */
+	    tmp_list = tmp_list -> next;
+	else
+	{
+	    /* the date is not valid, change the order or go away */
+	    if (order)
+	    {
+		/* the order was already changed, we just leave */
+		g_strfreev (array);
+		return -1;
+	    }
+	    order = 1;
+	    tmp_list = transactions_list;
+	}
+	g_strfreev (array);
+    }
+    return order;
+}
+
+
+/**
+ * get a string representing a date in qif format and return
+ * a newly-allocated NULL-terminated array of strings.
+ * * the order in the array is the same as in the string
+ * 	known formats :
+ * 		dd/mm/yyyy
+ * 		dd/mm/yy
+ * 		yyyy/mm/dd
+ * 		dd/mm'yy
+ * 		dd/mm'yyyy
+ * 		dd-mm-yy
+ *
+ * \param date_string	a qif formatted (so randomed...) string
+ *
+ * \return a newly-allocated NULL-terminated array of 3 strings. Use g_strfreev() to free it.
+ * */
+static gchar **gsb_qif_get_date_content ( gchar *date_string )
+{
+    gchar *pointer;
+    gchar **array;
+    gint i;
+
+    if (!date_string)
+	return NULL;
+
+    date_string = my_strdup (date_string);
+
+    /* as the format is risky, we will not check only / ' and -
+     * we will remove all wich is not a number */
+    pointer = date_string;
+    for (i=0 ; i<strlen (date_string) ; i++)
+	if (pointer[i] < '0' || pointer[i] > '9')
+	    pointer[i] = '/';
+
+    array = g_strsplit (date_string, "/", 3);
+    g_free (date_string);
+    return array;
+}
+
+
+/**
+ * get the date from the qif formated string
+ *
+ * \param date_string	the string into the qif
+ * \param order		the value retrieved by gsb_qif_get_date_order
+* 			0 is dd-mm-yy, 1 is yy-mm-dd
+ *
+ * \return a newly allocated GDate
+ * */
+static GDate *gsb_qif_get_date ( gchar *date_string,
+				 gint order )
+{
+    gchar **array;
+    GDate *date;
+    gint year;
+
+    array = gsb_qif_get_date_content (date_string);
+    if (!array)
+	return NULL;
+
+    /* the year can be yy or yyyy, we change that here */
+    if (order)
+	/* order is yy-mm-dd */
+	year = atoi (array[0]);
+    else
+	/* order is dd-mm-yy */
+	year = atoi (array[2]);
+    if (year < 100)
+    {
+	if (year < 80)
+	    year = year + 2000;
+	else
+	    year = year + 1900;
+    }
+
+    if (order)
+	date = g_date_new_dmy (year, atoi (array[1]), atoi (array[0]));
+    else
+	date = g_date_new_dmy (atoi (array[0]), atoi (array[1]), year);
+
+    g_strfreev (array);
+
+    if (!date
+	||
+	!g_date_valid (date))
+	return NULL;
+    return date;
 }
 
 

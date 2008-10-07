@@ -1386,7 +1386,8 @@ void traitement_operations_importees ( void )
 }
 
 
-
+/* xxx ne rafraichir les états qd clique dessus que si qque chose à changé dans la liste des opés */
+/* xxx vérifier au démarrage si  certains children n'ont pas de mère (peut être déjà fait) */
 
 /**
  * called at the end of an import, check all the transactions with an account_number_transfer at -2
