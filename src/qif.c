@@ -444,7 +444,6 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 	    {
 		retour = get_line_from_file ( fichier,
 					      &pointeur_char );
-
 		if ( retour != EOF
 		     &&
 		     pointeur_char[0] != '^'
@@ -465,7 +464,6 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 
 
 		    /* récupération du pointage */
-
 		    if ( pointeur_char[0] == 'C' )
 		    {
 			if ( pointeur_char[1] == '*' )
@@ -476,7 +474,6 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 
 
 		    /* récupération de la note */
-
 		    if ( pointeur_char[0] == 'M' )
 		    {
 			operation -> notes = g_strstrip ( g_strdelimit ( pointeur_char + 1,
@@ -520,7 +517,6 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 							  NULL ); 
 
 		    /* récupération du tiers */
-
 		    if ( pointeur_char[0] == 'P' )
 		    {
 			if ( g_utf8_validate ( pointeur_char+1,-1,NULL ))
@@ -533,7 +529,6 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 
 
 		    /* récupération des catég */
-
 		    if ( pointeur_char[0] == 'L' )
 		    {
 			if ( g_utf8_validate ( pointeur_char+1,-1,NULL ))
@@ -543,8 +538,6 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 			else
 			    operation -> categ = latin2utf8 (my_strdup ( pointeur_char + 1 )); 
 		    }
-
-
 
 		    /* récupération de la ventilation et de sa categ */
 
@@ -598,13 +591,10 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 			}
 			else
 			    ventilation -> categ = latin2utf8 (my_strdup ( pointeur_char + 1 )); 
-
-
 		    }
 
 
 		    /* récupération de la note de ventilation */
-
 		    if ( pointeur_char[0] == 'E'
 			 &&
 			 ventilation )
@@ -661,8 +651,9 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 
 	    /* 	    en théorie, on a toujours ^ à la fin d'une opération */
 	    /* 		donc si on en est à eof ou !, on n'enregistre pas l'opé */
+	    /* sometimes we have ^ and EOF, so we need in that case to take the transaction */
 
-	    if ( retour != EOF
+	    if ( (retour != EOF || (pointeur_char && pointeur_char[0]=='^'))
 		 &&
 		 pointeur_char[0] != '!' )
 	    {
