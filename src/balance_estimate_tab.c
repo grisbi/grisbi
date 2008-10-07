@@ -22,7 +22,7 @@
  *
  * TODO : change the color of each line in the graph :
  * red if balance is less than 0.
- * orange if balance is less than the minimum wanted balance.
+ * orange if balance is less than the minimum desired balance.
  * TODO : add a select button to display the selected line in the array
  * in the scheduler tab or in the account tab.
  */

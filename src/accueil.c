@@ -254,7 +254,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
     /* partie des soldes minimaux voulus */
     paddingbox = new_paddingbox_with_title ( base, FALSE,
-					     _("Accounts under wanted balance") );
+					     _("Accounts under desired balance") );
     frame_etat_soldes_minimaux_voulus = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_voulus), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_voulus), FALSE );

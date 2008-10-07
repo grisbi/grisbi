@@ -404,7 +404,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Minimum wanted balance")) );
+    label = gtk_label_new ( COLON(_("Minimum desired balance")) );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );

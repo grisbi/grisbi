@@ -1560,7 +1560,8 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
     if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
 	if (question_yes_no_hint ( _("Confirmation of manual (un)reconciliation"),
-				   _("You are currently trying to reconcile or unreconcile "
+				   _("You are trying to reconcile or unreconcile a transaction manually, "
+				     "which is not a recommended action. Are you really sure you know what you're doing?"
 				     "manually a transaction which isn't a regular way to do.\n\n"
 				     "And moreover the transaction you try to reconcile is a child of breakdown, so "
 				     "the modification will be done on the mother and all its children.\n\n"
@@ -1574,9 +1575,8 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
     else
 	/* it's a normal transaction, ask to be sure */
 	if ( !question_yes_no_hint ( _("Confirmation of manual (un)reconciliation"),
-				     _("You are currently trying to reconcile or unreconcile "
-				       "manually a transaction which isn't a regular way to do.\n\n"
-				       "Are you really sure to know what you do?"),
+				     _("You are trying to reconcile or unreconcile a transaction manually, "
+				       "which is not a recommended action. Are you really sure you know what you're doing?"),
 				     GTK_RESPONSE_NO ))
 	    return FALSE;
 

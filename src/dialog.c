@@ -69,8 +69,8 @@ struct conditional_message messages[] =
       N_("Either this file is already opened by another user or it wasn't closed correctly (maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the \"Force saving locked files\" option in setup."),
       FALSE, FALSE, },
      
-    { "minimum-balance-alert", N_("Account under wanted balance."),
-      N_("Grisbi detected that an account is under a wanted balance: %s"), 
+    { "minimum-balance-alert", N_("Account under desired balance."),
+      N_("Grisbi detected that an account is under a desired balance: %s"), 
       FALSE, FALSE, },
     
     { "no-budgetary-line", N_("No budgetary line was entered"),
