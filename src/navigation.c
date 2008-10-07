@@ -106,11 +106,11 @@ extern GtkTreeStore *budgetary_line_tree_model ;
 extern GtkTreeStore * categ_tree_model ;
 extern GtkWidget *label_last_statement ;
 extern GtkWidget *menu_import_rules;
+extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkWidget *notebook_general ;
 extern GtkTreeStore *payee_tree_model ;
 extern GtkTreeSelection * selection ;
 extern gchar *titre_fichier ;
-extern gint mise_a_jour_liste_comptes_accueil;
 /*END_EXTERN*/
 
 

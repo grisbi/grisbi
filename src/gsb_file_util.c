@@ -255,7 +255,6 @@ void switch_t_r ( void )
 }
 
 
-
 /**
  * create or delete a file ".name_of_file.swp" to check if the file is opened
  * already or not

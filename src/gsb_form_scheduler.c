@@ -1,9 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                gsb_form_scheduler                          */
-/*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -70,7 +68,6 @@ static GDate *gsb_form_scheduler_get_limit_date ( void );
 static gboolean gsb_form_scheduler_set_account ( gint account_number );
 static gboolean gsb_form_scheduler_set_auto ( gboolean automatic );
 static void gsb_form_scheduler_set_content_list ( GSList *content_list );
-static gboolean gsb_form_scheduler_set_frequency ( gint frequency );
 static gboolean gsb_form_scheduler_set_frequency_user ( gint user_freq );
 static gboolean gsb_form_scheduler_set_frequency_user_button ( gboolean automatic );
 static gboolean gsb_form_scheduler_set_limit_date ( GDate *date );
@@ -691,9 +688,7 @@ gboolean gsb_form_scheduler_sensitive_buttons ( gboolean sensitive )
  * */
 gboolean gsb_form_scheduler_set ( gint scheduled_number )
 {
-    gchar* tmpstr = g_strdup_printf ( "gsb_form_scheduler_set %d", scheduled_number);
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (scheduled_number);
 
     gsb_form_scheduler_sensitive_buttons (TRUE);
 

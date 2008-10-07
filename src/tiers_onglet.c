@@ -43,6 +43,7 @@
 #include "./utils_editables.h"
 #include "./gsb_form_widget.h"
 #include "./gtk_combofix.h"
+#include "./traitement_variables.h"
 #include "./utils.h"
 #include "./utils_buttons.h"
 #include "./transaction_list.h"
@@ -53,7 +54,6 @@
 #include "./include.h"
 #include "./erreur.h"
 #include "./structures.h"
-#include "./traitement_variables.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

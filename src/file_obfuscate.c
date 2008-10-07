@@ -41,6 +41,7 @@
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_file_save.h"
+#include "./gsb_file_util.h"
 #include "./gsb_status.h"
 #include "./utils_files.h"
 #include "./include.h"
@@ -110,6 +111,9 @@ gboolean file_obfuscate_run ( void )
 	GSList *tmp_list;
 	gchar *filename;
 	
+	/*  remove the swp file */
+	gsb_file_util_modify_lock (FALSE);
+
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button_accounts_details)))
 	{
 	    /* hide the details of account but not the names */

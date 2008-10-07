@@ -1008,6 +1008,7 @@ gboolean gsb_form_show ( gboolean show )
 	    break;
 
 	case ORIGIN_VALUE_SCHEDULED:
+	    gsb_form_scheduler_set_frequency (2);
 	    gtk_widget_show (form_scheduled_part);
 	    break;
 
@@ -1239,10 +1240,7 @@ gboolean gsb_form_clean ( gint account_number )
 {
     GSList *tmp_list;
 
-    gchar* tmpstr = g_strdup_printf ( "gsb_form_clean account %d",
-				    account_number );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (account_number);
 
     /* clean the transactions widget */
     tmp_list = gsb_form_widget_get_list ();

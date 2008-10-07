@@ -1467,16 +1467,18 @@ void cree_liens_virements_ope_import ( void )
 		    {
 			/* we have found the contra transaction, set all the values */
 			gint payment_number;
+			gint transaction_account = gsb_data_transaction_get_account_number (transaction_number_tmp);
+			gint contra_transaction_account = gsb_data_transaction_get_account_number (contra_transaction_number_tmp);
 
 			gsb_data_transaction_set_contra_transaction_number ( transaction_number_tmp,
-									       contra_transaction_number_tmp );
+									     contra_transaction_number_tmp );
 			gsb_data_transaction_set_contra_transaction_account ( transaction_number_tmp,
-									   gsb_data_transaction_get_account_number (contra_transaction_number_tmp));
+									      contra_transaction_account);
 
 			gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number_tmp,
-									       transaction_number_tmp);
+									     transaction_number_tmp);
 			gsb_data_transaction_set_contra_transaction_account ( contra_transaction_number_tmp,
-									   gsb_data_transaction_get_account_number (transaction_number_tmp));
+									      transaction_account);
 
 			gsb_data_transaction_set_bank_references ( transaction_number_tmp,
 								   NULL );
@@ -1484,11 +1486,11 @@ void cree_liens_virements_ope_import ( void )
 								   NULL );
 
 			/* try to set the good method of payment to transfer */
-			payment_number = gsb_data_payment_get_transfer_payment_number (gsb_data_transaction_get_account_number (gsb_data_transaction_get_account_number (transaction_number_tmp)));
+			payment_number = gsb_data_payment_get_transfer_payment_number (transaction_account);
 			if (payment_number)
 			    gsb_data_transaction_set_method_of_payment_number (transaction_number_tmp, payment_number);
 
-			payment_number = gsb_data_payment_get_transfer_payment_number (gsb_data_transaction_get_account_number (gsb_data_transaction_get_account_number (contra_transaction_number_tmp)));
+			payment_number = gsb_data_payment_get_transfer_payment_number (contra_transaction_account);
 			if (payment_number)
 			    gsb_data_transaction_set_method_of_payment_number (contra_transaction_number_tmp, payment_number);
 		    }
