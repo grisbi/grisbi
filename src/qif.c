@@ -748,6 +748,12 @@ static gint gsb_qif_get_date_order ( GSList *transactions_list )
     gint order = 0;
     gchar *date_wrong[ORDER_MAX];
 
+    /* to find the good order of the content of the date, we check all possible orders
+     * and check if all the dates are possible with that order. if one day 2 different order
+     * can be good with that check, we should implement a second check : the transactions
+     * are sorted normally, either in ascending, sometimes in descending order.
+     * so check for the valids order if the transactions are sorted, normally, only one we be correct */
+
     tmp_list = transactions_list;
     while (tmp_list)
     {

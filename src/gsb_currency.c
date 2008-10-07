@@ -425,7 +425,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 					   NULL );
 
     gchar* tmpstr = g_strdup_printf( _("Please enter exchange rate for %s"), 
-						      gsb_data_currency_get_name (transaction_currency_number));
+				     gsb_data_currency_get_name (transaction_currency_number));
     paddingbox = new_paddingbox_with_title ( GTK_WIDGET ( GTK_DIALOG ( dialog ) -> vbox ), FALSE, 
 					     tmpstr );
     g_free ( tmpstr );
@@ -507,22 +507,22 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 	if ( link_currency )
 	{
 	    gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox_1),
-				       link_currency );
+				       !link_currency );
 	    gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox_2),
-				       link_currency );
+				       !link_currency );
 	}
 	else
 	{
 	    gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox_1),
-				       !link_currency );
+				       link_currency );
 	    gtk_combo_box_set_active ( GTK_COMBO_BOX (combobox_2),
-				       !link_currency );
+				       link_currency );
 	}
 	gchar* tmpstr = gsb_real_get_string (exchange_rate);
 	gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr);
 	g_free ( tmpstr );
 
-	tmpstr = gsb_real_get_string (gsb_real_abs (exchange_rate));
+	tmpstr = gsb_real_get_string (gsb_real_abs (exchange_fees));
 	gtk_entry_set_text ( GTK_ENTRY ( fees_entry ), tmpstr);
 	g_free ( tmpstr );
     }

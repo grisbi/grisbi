@@ -556,7 +556,7 @@ gboolean gsb_form_transaction_change_clicked ( GtkWidget *button,
 						     1 );
 	else
 	    gsb_data_transaction_set_change_between (transaction_number,
-						      0 );
+						     0 );
     }
     return FALSE;
 }
