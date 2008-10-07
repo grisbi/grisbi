@@ -145,6 +145,7 @@ NULL};
     gtk_about_dialog_set_name ( GTK_ABOUT_DIALOG (about), "Grisbi" );
     gtk_about_dialog_set_logo ( GTK_ABOUT_DIALOG (about), logo );
     gtk_about_dialog_set_comments ( GTK_ABOUT_DIALOG (about), comments );
+    gtk_about_dialog_set_website ( GTK_ABOUT_DIALOG (about), "http://www.grisbi.org/");
     gtk_about_dialog_set_license ( GTK_ABOUT_DIALOG (about), license );
     gtk_about_dialog_set_wrap_license ( GTK_ABOUT_DIALOG (about), TRUE );
     gtk_about_dialog_set_version ( GTK_ABOUT_DIALOG (about), VERSION );
@@ -152,9 +153,11 @@ NULL};
     gtk_about_dialog_set_documenters ( GTK_ABOUT_DIALOG (about), documenters );
     gtk_about_dialog_set_authors ( GTK_ABOUT_DIALOG (about), auteurs );
     gtk_about_dialog_set_translator_credits ( GTK_ABOUT_DIALOG (about), translators );
-
+                                  
     gtk_dialog_run ( GTK_DIALOG (about)) ;
-
+    
+    gtk_widget_destroy (about);
+                                  
     if (logo)
 	g_object_unref (logo);
 
