@@ -328,28 +328,7 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 		/* on ne vire la , que s'il y a un . */
 
 		if ( pointeur_char[0] == 'T' )
-		{
-		    tab = g_strsplit ( pointeur_char,
-				       ".",
-				       2 );
-
-		    if( tab[1] )
-		    {
-			tab_char = g_strsplit ( pointeur_char,
-						",",
-						FALSE );
-
-			pointeur_char = g_strjoinv ( NULL,
-						     tab_char );
-			compte -> solde = gsb_real_get_from_string (pointeur_char + 1);
-			g_strfreev ( tab_char );
-		    }
-		    else
-			compte -> solde = gsb_real_get_from_string (pointeur_char + 1);
-
-		    g_strfreev ( tab );
-
-		}
+		    compte -> solde = gsb_real_get_from_string (pointeur_char + 1);
 
 
 		/* récupération du nom du compte */
@@ -487,29 +466,8 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 			    operation -> notes = NULL;
 		    }
 
-		    /* if there is a '.' to separate the decimals, we need to check if there is no ','
-		     * to separate the thousands (thanks money...) */
 		    if ( pointeur_char[0] == 'T' )
-		    {
-			tab = g_strsplit ( pointeur_char,
-					   ".",
-					   2 );
-
-			if( tab[1] )
-			{
-			    /* we remove the ',' wich split the thousands for money */
-			    tab_char = g_strsplit ( pointeur_char,
-						    ",",
-						    FALSE );
-			    pointeur_char = g_strjoinv ( NULL,
-							 tab_char );
-			    g_strfreev ( tab_char );
-			}
-			g_strfreev ( tab );
-
-			/* now we are sure there is only 1 ',' or '.' to separate the decimals */
 			operation -> montant = gsb_real_get_from_string (pointeur_char + 1);
-		    }
 
 		    /* récupération du chèque */
 		    if ( pointeur_char[0] == 'N' )
@@ -613,32 +571,10 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 		    /* récupération du montant de la ventilation */
 		    /* récupération du montant ( on doit virer la , que money met pour séparer les milliers ) */
 		    /* on ne vire la , que s'il y a un . */
-
 		    if ( pointeur_char[0] == '$'
 			 &&
 			 ventilation )
-		    {
-			tab = g_strsplit ( pointeur_char,
-					   ".",
-					   2 );
-
-			if( tab[1] )
-			{
-			    tab_char = g_strsplit ( pointeur_char,
-						    ",",
-						    FALSE );
-
-			    pointeur_char = g_strjoinv ( NULL,
-							 tab_char );
-			    ventilation -> montant = gsb_real_get_from_string (pointeur_char + 1);
-
-			    g_strfreev ( tab_char );
-			}
-			else
-			    ventilation -> montant = gsb_real_get_from_string (pointeur_char + 1);
-
-			g_strfreev ( tab );
-		    }
+			ventilation -> montant = gsb_real_get_from_string (pointeur_char + 1);
 		}
 	    }
 	    while ( pointeur_char[0] != '^'
