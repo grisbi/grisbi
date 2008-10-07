@@ -44,6 +44,7 @@
 #include "./gsb_file_util.h"
 #include "./gsb_status.h"
 #include "./utils_files.h"
+#include "./utils.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
@@ -82,17 +83,23 @@ gboolean file_obfuscate_run ( void )
     GtkWidget *assistant;
     gint result;
 
-    gsb_status_message ( _("Obfuscate file...") );
+    gsb_status_message ( _("Obfuscating file...") );
 
-    assistant = gsb_assistant_new ( _("Grisbi file obfuscate"),
-				    _("This assistant produces anonymized copies of account files, with all personnal data replaced with harmless random data.\n"
-				      "You can then send us account files that hold the same structure than yours but without personnal informations.\n"
-				      "Still, check that bugs you submit are still valid with anonymized files.\n"
-					  "\n"
-				      "To avoid any problems in your file, after saving the modified file,\n"
-				      "Grisbi will close close without letting you saving anything,\n"
-				      "so if you didn't save your changes, please stop this assistant,\n"
-				      "save your work and launch again the obfuscate creation" ),
+    assistant = gsb_assistant_new ( _("Grisbi file obfuscation"),
+				    _("This assistant produces anonymized copies of account files, with "
+				      "all personal data replaced with harmless random data, in order to "
+				      "attach an anonimized copy of your Grisbi file with any bug report "
+				      "you submit."
+				      "\n\n"
+				      "That said, please check that bugs you submit are still valid with "
+				      "anonymized version of your files.\n"
+				      "\n"
+				      "To avoid any problems in your file, after saving the modified file, "
+				      "Grisbi will close without letting you saving anything.  "
+				      "So if you didn't save your changes, please stop this assistant, "
+				      "save your work and restart the obfuscation process.\n\n" 
+				      "In next page, you will be able to select individual features to "
+				      "obfuscate or to keep depending on the level of privacy needed."),
 				    "bug.png",
 				    NULL );
 
@@ -335,17 +342,17 @@ gboolean file_obfuscate_run ( void )
 	{
 	    /* remove the .gsb */
 	    nom_fichier_comptes[strlen(nom_fichier_comptes) -4] = 0;
-	    filename = g_strconcat ( nom_fichier_comptes, "-obfuscate.gsb", NULL);
+	    filename = g_strconcat ( nom_fichier_comptes, "-obfuscated.gsb", NULL);
 	}
 	else
-	    filename = g_strconcat ( my_get_gsb_file_default_dir (), "No_name-obfuscate", NULL);
+	    filename = g_strconcat ( my_get_gsb_file_default_dir (), "No_name-obfuscated.gsb", NULL);
 
 	if (gsb_file_save_save_file (filename, FALSE, FALSE))
-	    dialogue_warning (g_strdup_printf (_("Obfuscate file saved as %s"),
-					       filename ));
+	    dialogue_warning_hint ( g_strdup_printf ( _("Obfuscated file saved as <tt>%s</tt>"), filename ),
+				    _("Obfuscation succeeded") );
 	else
-	    dialogue_error (g_strdup_printf (_("Grisbi couldn't save the file %s"),
-					     filename ));
+	    dialogue_error_hint (g_strdup_printf (_("Grisbi couldn't save the file <tt>%s</tt>"), filename ),
+				 _("Obfuscation succeeded") );
 
 	/* bye bye */
 	exit (0);
@@ -355,6 +362,8 @@ gboolean file_obfuscate_run ( void )
     
     return FALSE;
 }
+
+
 
 /**
  * first page of the assistant
@@ -366,77 +375,68 @@ gboolean file_obfuscate_run ( void )
  * */
 GtkWidget *file_obfuscate_page_1 ( void )
 {
-    GtkWidget *vbox;
-    GtkWidget *label;
+    GtkWidget * vbox, * paddingbox;
 
     vbox = gtk_vbox_new (FALSE, 5);
+    gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
-    label = gtk_label_new (_("Select the parts to hide :"));
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 label,
-			 FALSE, FALSE, 10);
-    label = gtk_label_new (_("(you may want to keep something to reproduce the bug or find it easilly)"));
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 label,
-			 FALSE, FALSE, 10);
-    label = gtk_label_new (NULL);
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 label,
-			 FALSE, FALSE, 10);
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Select features to hide") );
     
-    button_accounts_details = gtk_check_button_new_with_label (_("Hide the accounts details"));
-    gtk_box_pack_start ( GTK_BOX (vbox),
+    button_accounts_details = gtk_check_button_new_with_label (_("Hide accounts details"));
+    gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_accounts_details,
-			 FALSE, FALSE, 5);
+			 FALSE, FALSE, 0);
 
-    button_amount = gtk_check_button_new_with_label (_("Hide the amounts"));
-    gtk_box_pack_start ( GTK_BOX (vbox),
+    button_amount = gtk_check_button_new_with_label (_("Hide amounts"));
+    gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_amount,
-			 FALSE, FALSE, 5);
+			 FALSE, FALSE, 0);
 
-    button_accounts_names = gtk_check_button_new_with_label (_("Hide the accounts names"));
-    gtk_box_pack_start ( GTK_BOX (vbox),
+    button_accounts_names = gtk_check_button_new_with_label (_("Hide accounts names"));
+    gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_accounts_names,
-			 FALSE, FALSE, 5);
+			 FALSE, FALSE, 0);
 
-    button_payee = gtk_check_button_new_with_label (_("Hide the payees"));
-    gtk_box_pack_start ( GTK_BOX (vbox),
+    button_payee = gtk_check_button_new_with_label (_("Hide payees names"));
+    gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_payee,
-			 FALSE, FALSE, 5);
+			 FALSE, FALSE, 0);
 
-    button_categories = gtk_check_button_new_with_label (_("Hide the categories"));
-    gtk_box_pack_start ( GTK_BOX (vbox),
+    button_categories = gtk_check_button_new_with_label (_("Hide categories names"));
+    gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_categories,
-			 FALSE, FALSE, 5);
+			 FALSE, FALSE, 0);
 
-    button_budgets = gtk_check_button_new_with_label (_("Hide the budgets"));
-    gtk_box_pack_start ( GTK_BOX (vbox),
+    button_budgets = gtk_check_button_new_with_label (_("Hide budgets names"));
+    gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_budgets,
-			 FALSE, FALSE, 5);
+			 FALSE, FALSE, 0);
 
-    button_notes = gtk_check_button_new_with_label (_("Hide the notes"));
-    gtk_box_pack_start ( GTK_BOX (vbox),
+    button_notes = gtk_check_button_new_with_label (_("Hide notes"));
+    gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_notes,
-			 FALSE, FALSE, 5);
+			 FALSE, FALSE, 0);
 
-    button_banks = gtk_check_button_new_with_label (_("Hide the banks"));
-    gtk_box_pack_start ( GTK_BOX (vbox),
+    button_banks = gtk_check_button_new_with_label (_("Hide banks details"));
+    gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_banks,
-			 FALSE, FALSE, 5);
+			 FALSE, FALSE, 0);
 
-    button_reports = gtk_check_button_new_with_label (_("Hide the reports names"));
-    gtk_box_pack_start ( GTK_BOX (vbox),
+    button_reports = gtk_check_button_new_with_label (_("Hide reports names"));
+    gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_reports,
-			 FALSE, FALSE, 5);
+			 FALSE, FALSE, 0);
 
-    button_reconcile = gtk_check_button_new_with_label (_("Hide the reconciles names and amounts"));
-    gtk_box_pack_start ( GTK_BOX (vbox),
+    button_reconcile = gtk_check_button_new_with_label (_("Hide reconcile names and amounts"));
+    gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_reconcile,
-			 FALSE, FALSE, 5);
+			 FALSE, FALSE, 0);
 
     gtk_widget_show_all (vbox);
     return vbox;
 }
+
+
 
 /**
  * second page of the assistant
@@ -447,24 +447,66 @@ GtkWidget *file_obfuscate_page_1 ( void )
  * */
 GtkWidget *file_obfuscate_page_2 ( void )
 {
-    GtkWidget *vbox;
-    GtkWidget *label;
+    GtkWidget *vbox, *text_view;
+    GtkTextBuffer * buffer;
+    GtkTextIter iter;
+    gchar * text, * filename;
 
     vbox = gtk_vbox_new (FALSE, 5);
 
-    label = gtk_label_new (_("Please press the 'Close' button to obfuscate the file\n"
-			     "The name will be the same of your file with -obfuscate after, in the same directory\n"
-			     "Please check the bug is still there and send your file with the explanation to\n"
-			     "make the bug at bugsreports@listes.grisbi.org or on the bugracker (Mantis)\n"
-			     "at http://grisbi.tuxfamily.org/mantis/main_page.php\n\n"
-			     "The account is saved in text, you can check with a text editor if there are still no information in your file\n"
-			     "Thanks !\n\n"
-			     "Grisbi will close immediatly after saving the obfuscated file" ));
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 label,
-			 FALSE, FALSE, 10);
+    text_view = gtk_text_view_new ();
+    gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD);
+    gtk_text_view_set_editable ( GTK_TEXT_VIEW(text_view), FALSE );
+    gtk_text_view_set_cursor_visible ( GTK_TEXT_VIEW(text_view), FALSE );
+    gtk_text_view_set_left_margin ( GTK_TEXT_VIEW(text_view), 12 );
+    gtk_text_view_set_right_margin ( GTK_TEXT_VIEW(text_view), 12 );
+
+    buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+    gtk_text_buffer_create_tag ( buffer, "bold", "weight", PANGO_WEIGHT_BOLD, NULL);  
+    gtk_text_buffer_create_tag ( buffer, "x-large", "scale", PANGO_SCALE_X_LARGE, NULL);
+    gtk_text_buffer_create_tag ( buffer, "indented", "left-margin", 24, NULL);
+
+    gtk_text_buffer_get_iter_at_offset (buffer, &iter, 1);
+    gtk_text_buffer_insert ( buffer, &iter, "\n", -1 );
+
+    if (nom_fichier_comptes)
+    {
+	gchar * base_filename = g_strdup ( nom_fichier_comptes );
+	gchar * complete_filename;
+	base_filename[strlen(base_filename) - 4] = 0;
+	complete_filename = g_strconcat ( base_filename, "-obfuscated.gsb", NULL);
+	filename = g_path_get_basename ( complete_filename );
+	g_free ( complete_filename );
+	g_free ( base_filename );
+    }
+    else
+    {
+	filename = g_strconcat ( "No_name-obfuscated.gsb", NULL);
+    }
+
+    text = g_strdup_printf ( _("Please press the 'Close' button to obfuscate your file\n\n"
+			       "Obfuscated file will be named %s, in the same directory as original file.\n\n"
+			       "Please check the bug is still there and send your file with the explanation to "
+			       "make the bug at bugsreports@listes.grisbi.org or on the bugracker (Mantis) "
+			       "at http://grisbi.tuxfamily.org/mantis/main_page.php\n\n"
+			       "The account is saved in text, you may double check with a text editor if there "
+			       "is no personal information anymore in this file."
+			       "Grisbi will close immediatly after saving the obfuscated file"),
+			     filename );
+    gtk_text_buffer_insert ( buffer, &iter, text, -1 );
+
+
+    gtk_box_pack_start ( GTK_BOX (vbox), text_view, TRUE, TRUE, 0);
+
+    g_free ( text );
+    g_free ( filename );
 
     gtk_widget_show_all (vbox);
     return vbox;
 }
 
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
