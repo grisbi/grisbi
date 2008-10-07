@@ -58,6 +58,24 @@ extern GSList *liste_comptes_importes_error;
 extern gsb_real null_real ;
 /*END_EXTERN*/
 
+enum
+{
+    ORDER_DD_MM_YY = 0,
+    ORDER_DD_YY_MM,
+    ORDER_YY_MM_DD,
+    ORDER_YY_DD_MM,
+    ORDER_MM_DD_YY,
+    ORDER_MM_YY_DD,
+
+    ORDER_MAX,
+};
+static gchar *order_names[] = {
+    "day-month-year",
+    "day-year-month",
+    "year-month-day",
+    "year-day-month",
+    "month-day-year",
+    "month-year-day" };
 
 
 /**
@@ -241,8 +259,13 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 	    {
 		/* 		on considère le compte d'investissement comme un compte bancaire mais met un */
 		/* 		    warning car pas implémenté ; aucune idée si ça passe ou pas... */
+		gchar *tmpstr;
+		
 		compte -> type_de_compte = 0;
-		dialogue_warning ( _("Grisbi found an investment account, which is not implemented yet.  Nevertheless, Grisbi will try to import it as a bank account." ));
+		tmpstr = g_strdup_printf ( _("Grisbi found an investment account (%s), which is not implemented yet.  Nevertheless, Grisbi will try to import it as a bank account." ),
+					   imported -> name );
+		dialogue_warning (tmpstr);
+		g_free (tmpstr);
 	    }
 	    else
 	    {
@@ -463,7 +486,7 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 			if ( !g_utf8_validate ( operation -> notes ,-1,NULL ))
 			    operation -> notes = latin2utf8 (operation -> notes ); 
 
-			if ( !strlen ( operation -> notes ))
+			if ( operation -> notes && !strlen ( operation -> notes ))
 			    operation -> notes = NULL;
 		    }
 
@@ -593,7 +616,7 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 			if ( !g_utf8_validate ( ventilation -> notes ,-1,NULL ))
 			    ventilation -> notes = latin2utf8 (ventilation -> notes ); 
 
-			if ( !strlen ( ventilation -> notes ))
+			if ( ventilation -> notes && !strlen ( ventilation -> notes ))
 			    ventilation -> notes = NULL;
 		    }
 
@@ -717,7 +740,7 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
     return ( TRUE );
 }
 
-
+/* xxx permettre de mettre le mode debug directement dans les menus */
 /**
  * this function try to understand in what order are the content of the date,
  * the two order known are d-m-y or y-m-d (hoping Money won't do something like m-y-d...)
@@ -726,19 +749,20 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
  *
  * \param transactions_list	the list of imported transactions
  *
- * \return 0 for d-m-y, 1 for y-m-d, -1 for problem
+ * \return -1 for not found, or ORDER_... (see the enum at the begining of file)
  * */
 static gint gsb_qif_get_date_order ( GSList *transactions_list )
 {
     GSList *tmp_list;
     gint order = 0;
+    gchar *date_wrong[ORDER_MAX];
 
     tmp_list = transactions_list;
     while (tmp_list)
     {
 	struct struct_ope_importation *transaction = tmp_list -> data;
 	gchar **array;
-	gint year;
+	gint year, month, day;
 
 	if (!transaction -> date_tmp)
 	    continue;
@@ -750,18 +774,52 @@ static gint gsb_qif_get_date_order ( GSList *transactions_list )
 	{
 	    gchar *string = g_strdup_printf ( _("The date %s seems contains more than 2 separators.\nThis shouldn't happen. Please contact the Grisbi team to try to add your strange format into Grisbi"),
 					      transaction -> date_tmp );
-	    devel_debug (string);
+	    dialogue_error (string);
 	    g_free (string);
 	    return -1;
 	}
 
+	/* get the day, month and year according to the order */
+	switch (order)
+	{
+	    case ORDER_DD_MM_YY:
+		day = atoi (array[0]);
+		month = atoi (array[1]);
+		year = atoi (array[2]);
+		break;
+
+	    case ORDER_DD_YY_MM:
+		day = atoi (array[0]);
+		month = atoi (array[2]);
+		year = atoi (array[1]);
+		break;
+
+	    case ORDER_YY_MM_DD:
+		day = atoi (array[2]);
+		month = atoi (array[1]);
+		year = atoi (array[0]);
+		break;
+
+	    case ORDER_YY_DD_MM:
+		day = atoi (array[1]);
+		month = atoi (array[2]);
+		year = atoi (array[0]);
+		break;
+
+	    case ORDER_MM_DD_YY:
+		day = atoi (array[1]);
+		month = atoi (array[0]);
+		year = atoi (array[2]);
+		break;
+
+	    case ORDER_MM_YY_DD:
+		day = atoi (array[2]);
+		month = atoi (array[0]);
+		year = atoi (array[1]);
+		break;
+	}
+
 	/* the year can be yy or yyyy, we change that here */
-	if (order)
-	    /* order is yy-mm-dd */
-	    year = atoi (array[0]);
-	else
-	    /* order is dd-mm-yy */
-	    year = atoi (array[2]);
 	if (year < 100)
 	{
 	    if (year < 80)
@@ -770,22 +828,38 @@ static gint gsb_qif_get_date_order ( GSList *transactions_list )
 		year = year + 1900;
 	}
 
-	if ((order && g_date_valid_dmy (year, atoi (array[1]), atoi(array[0])))
-	    ||
-	    (!order && g_date_valid_dmy (atoi (array[0]), atoi (array[1]), year)))
+	if (g_date_valid_dmy (day, month, year))
 	    /* the date is valid, go to the next date */
 	    tmp_list = tmp_list -> next;
 	else
 	{
 	    /* the date is not valid, change the order or go away */
-	    if (order)
+	    date_wrong[order] = transaction -> date_tmp;
+	    order++;
+	    if (order < ORDER_MAX )
+		/* we try again with the new order */
+		tmp_list = transactions_list;
+	    else
 	    {
-		/* the order was already changed, we just leave */
+		/* the order was already changed for all the formats, we show the problem and leave */
+		gint i;
+		gchar *string = my_strdup (_("The order cannot be determined,\n"));
+
+		for (i=0 ; i<ORDER_MAX ; i++)
+		{
+		    gchar *tmp_str;
+		    tmp_str = g_strconcat ( string,_("Date wrong for the order "),
+					    order_names[i], " : ",
+					    date_wrong[i], "\n", NULL );
+		    g_free (string);
+		    string = tmp_str;
+		}
+
+		dialogue_error (string);
+		g_free (string);
 		g_strfreev (array);
 		return -1;
 	    }
-	    order = 1;
-	    tmp_list = transactions_list;
 	}
 	g_strfreev (array);
     }
@@ -814,11 +888,18 @@ static gchar **gsb_qif_get_date_content ( gchar *date_string )
     gchar *pointer;
     gchar **array;
     gint i;
+    gchar *tmp_str;
+    gint number_of_slash = 0;
 
     if (!date_string)
 	return NULL;
 
     date_string = my_strdup (date_string);
+
+    /* some software set a space in the format to annoy us... */
+    tmp_str = my_strdelimit (date_string, " ", "");
+    g_free (date_string);
+    date_string = tmp_str;
 
     /* as the format is risky, we will not check only / ' and -
      * we will remove all wich is not a number */
@@ -826,6 +907,21 @@ static gchar **gsb_qif_get_date_content ( gchar *date_string )
     for (i=0 ; i<strlen (date_string) ; i++)
 	if (pointer[i] < '0' || pointer[i] > '9')
 	    pointer[i] = '/';
+
+    /* some qif have some text at the end of the date... i don't know what to do with
+     * that, so i remove all the text after the 2nd / */
+    pointer = date_string;
+    for (i=0 ; i<strlen (date_string) ; i++)
+	if (pointer[i] < '0' || pointer[i] > '9')
+	{
+	    /* we are on a /, only 2 will survive */
+	    if (number_of_slash < 2)
+		number_of_slash++;
+	    else
+		/* sorry, end game for you*/
+		pointer[i] = 0;
+	}
+
 
     array = g_strsplit (date_string, "/", 3);
     g_free (date_string);
@@ -838,7 +934,6 @@ static gchar **gsb_qif_get_date_content ( gchar *date_string )
  *
  * \param date_string	the string into the qif
  * \param order		the value retrieved by gsb_qif_get_date_order
-* 			0 is dd-mm-yy, 1 is yy-mm-dd
  *
  * \return a newly allocated GDate
  * */
@@ -847,19 +942,53 @@ static GDate *gsb_qif_get_date ( gchar *date_string,
 {
     gchar **array;
     GDate *date;
-    gint year;
+    gint year = 0, month = 0, day = 0;
 
     array = gsb_qif_get_date_content (date_string);
     if (!array)
 	return NULL;
 
+    /* get the day, month and year according to the order */
+    switch (order)
+    {
+	case ORDER_DD_MM_YY:
+	    day = atoi (array[0]);
+	    month = atoi (array[1]);
+	    year = atoi (array[2]);
+	    break;
+
+	case ORDER_DD_YY_MM:
+	    day = atoi (array[0]);
+	    month = atoi (array[2]);
+	    year = atoi (array[1]);
+	    break;
+
+	case ORDER_YY_MM_DD:
+	    day = atoi (array[2]);
+	    month = atoi (array[1]);
+	    year = atoi (array[0]);
+	    break;
+
+	case ORDER_YY_DD_MM:
+	    day = atoi (array[1]);
+	    month = atoi (array[2]);
+	    year = atoi (array[0]);
+	    break;
+
+	case ORDER_MM_DD_YY:
+	    day = atoi (array[1]);
+	    month = atoi (array[0]);
+	    year = atoi (array[2]);
+	    break;
+
+	case ORDER_MM_YY_DD:
+	    day = atoi (array[2]);
+	    month = atoi (array[0]);
+	    year = atoi (array[1]);
+	    break;
+    }
+
     /* the year can be yy or yyyy, we change that here */
-    if (order)
-	/* order is yy-mm-dd */
-	year = atoi (array[0]);
-    else
-	/* order is dd-mm-yy */
-	year = atoi (array[2]);
     if (year < 100)
     {
 	if (year < 80)
@@ -868,10 +997,7 @@ static GDate *gsb_qif_get_date ( gchar *date_string,
 	    year = year + 1900;
     }
 
-    if (order)
-	date = g_date_new_dmy (year, atoi (array[1]), atoi (array[0]));
-    else
-	date = g_date_new_dmy (atoi (array[0]), atoi (array[1]), year);
+    date = g_date_new_dmy (day, month, year);
 
     g_strfreev (array);
 
