@@ -564,10 +564,13 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
 
 	scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
 
-	if (!gsb_scheduler_list_append_new_scheduled ( scheduled_number,
-						       end_date ))
-	    /* the scheduled transaction was not added, add to orphan scheduledlist */
-	    orphan_scheduled = g_slist_append (orphan_scheduled, tmp_list -> data);
+	if (!end_date || g_date_compare ( gsb_data_scheduled_get_date (scheduled_number), end_date) <= 0)
+	{
+	    if (!gsb_scheduler_list_append_new_scheduled ( scheduled_number,
+							   end_date ))
+		/* the scheduled transaction was not added, add to orphan scheduledlist */
+		orphan_scheduled = g_slist_append (orphan_scheduled, tmp_list -> data);
+	}
 
 	tmp_list = tmp_list -> next;
     }
@@ -717,8 +720,8 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 	}
     }
     while ( pGDateCurrent &&
+	    end_date &&
 	    g_date_compare ( end_date, pGDateCurrent ) > 0 &&
-	    affichage_echeances != SCHEDULER_PERIODICITY_ONCE_VIEW &&
 	    !mother_iter );
 
     if ( mother_iter )
@@ -1263,7 +1266,7 @@ GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_
  *
  * \param
  *
- * \return a newly allocated final date
+ * \return a newly allocated final date or NULL for unique view
  * */
 GDate *gsb_scheduler_list_get_end_date_scheduled_showed ( void )
 {
@@ -1278,6 +1281,10 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed ( void )
 
     switch ( affichage_echeances )
     {
+	case SCHEDULER_PERIODICITY_ONCE_VIEW:
+	    return NULL;
+	    break;
+
 	case SCHEDULER_PERIODICITY_WEEK_VIEW:
 	    g_date_add_days ( end_date, 7 );
 	    g_date_add_months ( end_date, 0 );
@@ -1658,11 +1665,13 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 /**
  * called from the toolbar to change the scheduler view
  *
- * \param periodicity the new view wanted
+ * \param periodicity 	the new view wanted
+ * \param item		not used
  *
  * \return FALSE
  * */
-gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity periodicity )
+gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity periodicity,
+						    gpointer item )
 {
     gchar * names[] = { _("Unique view"), _("Week view"), _("Month view"), 
 			_("Two months view"), _("Quarter view"), 
@@ -1682,6 +1691,7 @@ gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity p
     affichage_echeances = periodicity;
     gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
     gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
+    gsb_scheduler_list_select (-1);
 
     modification_fichier ( TRUE );
     return FALSE;

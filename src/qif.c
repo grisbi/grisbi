@@ -78,6 +78,9 @@ static gchar *order_names[] = {
     "month-year-day" };
 
 
+/* xxx mettre en highlight une breakdown dont les children ne font pas la totalité de la transaction */
+/* ou un pixmap à gauche ? */
+
 /**
  * \brief Import QIF data.
  *
@@ -95,7 +98,6 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
     gchar *pointeur_char;
     struct struct_compte_importation *compte;
     gint retour = 0;
-    gchar **tab;
     gint pas_le_premier_compte = 0;
     FILE * fichier = utf8_fopen ( imported -> name, "r" );
 
@@ -120,7 +122,6 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
     {
 	GSList *tmp_list;
 	gint order;
-	gchar **tab_char;
 
 	do
 	{
