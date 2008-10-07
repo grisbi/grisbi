@@ -769,7 +769,6 @@ static gint gsb_qif_get_date_order ( GSList *transactions_list )
 	    else
 		year = year + 1900;
 	}
-	printf  ("%d, %s : %s, %s-%s-%s, %d\n", order, transaction -> tiers, transaction -> date_tmp, array[0], array[1], array[2], year );
 
 	if ((order && g_date_valid_dmy (year, atoi (array[1]), atoi(array[0])))
 	    ||
