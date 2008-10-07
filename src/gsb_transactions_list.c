@@ -781,14 +781,14 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 	    account_currency = gsb_data_account_get_currency (gsb_data_transaction_get_account_number (transaction_number));
 	    if ( account_currency != gsb_data_transaction_get_currency_number (transaction_number))
 	    {
-		gchar* tmpstr = gsb_real_get_string (gsb_data_transaction_get_adjusted_amount (
-			transaction_number, gsb_data_currency_get_floating_point (account_currency)));
+		gchar* tmpstr = gsb_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number,
+											       gsb_data_currency_get_floating_point (account_currency)));
 		gchar* result = g_strconcat ( "(",
-				       tmpstr,
-				       gsb_data_currency_get_code (account_currency),
-				       ")",
-				       NULL );
-	        g_free ( tmpstr );
+					      tmpstr,
+					      gsb_data_currency_get_code (account_currency),
+					      ")",
+					      NULL );
+		g_free ( tmpstr );
 		return result;
 	    }
 	    else 
