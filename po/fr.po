@@ -7630,9 +7630,8 @@ msgstr ""
 
 #. Plugins list
 #: src/help.c:110
-#, fuzzy
 msgid "Personal finance manager for everyone\n"
-msgstr "Gestionnaire de comptes personels"
+msgstr "Gestionnaire de finances personelles\n"
 
 #: src/import.c:129
 msgid "Comma Separated Values"
