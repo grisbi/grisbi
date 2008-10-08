@@ -1977,8 +1977,11 @@ gboolean gsb_data_account_set_holder_address ( gint account_number,
 
 
 
-/** get default_debit on the account given
+/**
+ * get default_debit on the account given
+ * 
  * \param account_number no of the account
+ * 
  * \return default_debit or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_default_debit ( gint account_number )
@@ -1994,9 +1997,12 @@ gint gsb_data_account_get_default_debit ( gint account_number )
 }
 
 
-/** set default_debit in the account given
+/**
+ * set default_debit in the account given
+ * 
  * \param account_number no of the account
  * \param default_debit default_debit to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_default_debit ( gint account_number,
@@ -2016,8 +2022,11 @@ gboolean gsb_data_account_set_default_debit ( gint account_number,
 
 
 
-/** get default_credit on the account given
+/**
+ * get default_credit on the account given
+ * 
  * \param account_number no of the account
+ * 
  * \return default_credit or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_default_credit ( gint account_number )
@@ -2033,9 +2042,12 @@ gint gsb_data_account_get_default_credit ( gint account_number )
 }
 
 
-/** set default_credit in the account given
+/**
+ * set default_credit in the account given
+ * 
  * \param account_number no of the account
  * \param default_credit default_credit to set
+ * 
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_default_credit ( gint account_number,

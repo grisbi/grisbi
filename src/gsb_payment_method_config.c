@@ -730,8 +730,7 @@ gboolean gsb_payment_method_config_name_changed ( GtkWidget *entry,
 		    if (GTK_WIDGET_VISIBLE (widget))
 		    {
 			gsb_payment_method_set_combobox_history ( widget,
-								  gsb_data_account_get_default_debit (account_number),
-								  account_number );
+								  gsb_data_account_get_default_debit (account_number));
 		    }
 		    else
 		    {

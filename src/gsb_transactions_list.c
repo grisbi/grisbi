@@ -976,6 +976,9 @@ gboolean gsb_transactions_list_set_row_align ( gfloat row_align )
 
     devel_debug (NULL);
 
+    if (gsb_gui_navigation_get_current_account () == -1)
+	return FALSE;
+
     /* if we just want to let the tree view by himself, it's here
      * we get the path of the last line in transaction because untill now,
      * we do that when open the form, so only the last line interest us */

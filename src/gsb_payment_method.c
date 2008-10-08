@@ -1,5 +1,5 @@
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org) */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org) */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org) */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -36,7 +36,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint gsb_payment_method_get_payment_location ( GtkWidget *combo_box,
+static gint gsb_payment_method_get_payment_position ( GtkWidget *combo_box,
 					       gint payment_number );
 /*END_STATIC*/
 
@@ -129,8 +129,7 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
     if (store_filled)
     {
 	gsb_payment_method_set_combobox_history ( combo_box,
-						  gsb_data_account_get_default_debit (account_number),
-						  account_number );
+						  gsb_data_account_get_default_debit (account_number));
 	gtk_widget_show (combo_box);
     }
     else
@@ -203,9 +202,9 @@ gint gsb_payment_method_get_selected_number ( GtkWidget *combo_box )
  * \param combo_box
  * \param payment_number
  *
- * \return the location of the payment or -1 if not found
+ * \return the position of the payment or -1 if not found
  * */
-gint gsb_payment_method_get_payment_location ( GtkWidget *combo_box,
+gint gsb_payment_method_get_payment_position ( GtkWidget *combo_box,
 					       gint payment_number )
 {
     gint i = 0;
@@ -251,29 +250,30 @@ gint gsb_payment_method_get_payment_location ( GtkWidget *combo_box,
  * \return TRUE if we can set the payment_number, FALSE if it's the default wich is set
  * */
 gboolean gsb_payment_method_set_combobox_history ( GtkWidget *combo_box,
-						   gint payment_number,
-						   gint account_number )
+						   gint payment_number )
 {
-    gint location;
+    gint position;
     gboolean return_value;
+    gint account_number;
 
-    location = gsb_payment_method_get_payment_location ( combo_box,
+    account_number = gsb_data_payment_get_account_number (payment_number);
+    position = gsb_payment_method_get_payment_position ( combo_box,
 							 payment_number );
 
-    if (location != -1)
+    if (position != -1)
 	return_value = TRUE;
     else
     {
 	if ( gsb_payment_method_get_combo_sign (combo_box) == GSB_PAYMENT_CREDIT)
-	    location = gsb_payment_method_get_payment_location ( combo_box,
+	    position = gsb_payment_method_get_payment_position ( combo_box,
 								 gsb_data_account_get_default_credit (account_number));
 	else
-	    location = gsb_payment_method_get_payment_location ( combo_box,
+	    position = gsb_payment_method_get_payment_position ( combo_box,
 								 gsb_data_account_get_default_debit (account_number));
 	return_value = FALSE;
     }
     gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_box),
-			       location );
+			       position );
     return return_value;
 }
 

@@ -817,8 +817,7 @@ void gsb_form_fill_element ( gint element_number,
 
 		/* we show the cheque entry only for transactions */
 		if (gsb_payment_method_set_combobox_history ( widget,
-							      number,
-							      account_number )
+							      number )
 		    &&
 		    gsb_data_payment_get_show_entry (number)
 		    &&
@@ -886,8 +885,7 @@ void gsb_form_fill_element ( gint element_number,
 			    method = gsb_data_scheduled_get_contra_method_of_payment_number (transaction_number);
 
 			gsb_payment_method_set_combobox_history ( widget,
-								  method,
-								  number );
+								  method );
 		    }
 		}
 	    }
@@ -1202,7 +1200,11 @@ gboolean gsb_form_fill_from_account ( gint account_number )
 	{
 	    GtkWidget *widget;
 	    gint element = gsb_data_form_get_value ( form_account_number, column, row );
-	    widget = gsb_form_widget_create ( element, form_account_number );
+
+	    /* we use form_account_number to find what is shown or not in the form,
+	     * but to fill the form we need to use account_number because some elements
+	     * are account dependant (ex method of payment) */
+		widget = gsb_form_widget_create ( element, account_number );
 
 	    if ( !widget )
 		continue;
@@ -1261,7 +1263,6 @@ gboolean gsb_form_clean ( gint account_number )
 	    switch (element -> element_number)
 	    {
 		case TRANSACTION_FORM_DATE:
-
 		    gsb_form_widget_set_empty ( element -> element_widget,
 						TRUE );
 		    gtk_entry_set_text ( GTK_ENTRY ( element -> element_widget ),
@@ -1269,7 +1270,6 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_VALUE_DATE:
-
 		    gsb_form_widget_set_empty ( element -> element_widget,
 						TRUE );
 		    gtk_entry_set_text ( GTK_ENTRY ( element -> element_widget ),
@@ -1277,7 +1277,6 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_EXERCICE:
-
 		    /* editing a transaction can show some fyear wich shouldn't be showed,
 		     * so hide them here */
 		    gsb_fyear_update_fyear_list ();
@@ -1291,7 +1290,6 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_PARTY:
-
 		    gsb_form_widget_set_empty ( GTK_COMBOFIX ( element -> element_widget ) -> entry,
 						TRUE );
 		    gtk_combofix_set_text ( GTK_COMBOFIX ( element -> element_widget ),
@@ -1299,7 +1297,6 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_DEBIT:
-
 		    gsb_form_widget_set_empty ( element -> element_widget,
 						TRUE );
 		    gtk_entry_set_text ( GTK_ENTRY ( element -> element_widget ),
@@ -1307,7 +1304,6 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_CREDIT:
-
 		    gsb_form_widget_set_empty ( element -> element_widget,
 						TRUE );
 		    gtk_entry_set_text ( GTK_ENTRY ( element -> element_widget ),
@@ -1315,7 +1311,6 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_CATEGORY:
-
 		    gsb_form_widget_set_empty ( GTK_COMBOFIX ( element -> element_widget ) -> entry,
 						TRUE );
 		    gtk_combofix_set_text ( GTK_COMBOFIX ( element -> element_widget ),
@@ -1326,7 +1321,6 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_BUDGET:
-
 		    gsb_form_widget_set_empty ( GTK_COMBOFIX ( element -> element_widget ) -> entry,
 						TRUE );
 		    gtk_combofix_set_text ( GTK_COMBOFIX ( element -> element_widget ),
@@ -1334,7 +1328,6 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_NOTES:
-
 		    gsb_form_widget_set_empty ( element -> element_widget,
 						TRUE );
 		    gtk_entry_set_text ( GTK_ENTRY ( element -> element_widget ),
@@ -1343,20 +1336,17 @@ gboolean gsb_form_clean ( gint account_number )
 
 		case TRANSACTION_FORM_TYPE:
 		    gsb_payment_method_set_combobox_history ( element -> element_widget,
-							      gsb_data_account_get_default_debit (account_number),
-							      account_number );
+							      gsb_data_account_get_default_debit (account_number));
 		    gtk_widget_set_sensitive ( GTK_WIDGET ( element -> element_widget ),
 					       FALSE );
 		    break;
 
 		case TRANSACTION_FORM_CONTRA:
-
 		    gtk_widget_hide ( element -> element_widget );
 
 		    break;
 
 		case TRANSACTION_FORM_CHEQUE:
-
 		    gsb_form_widget_set_empty ( element -> element_widget,
 						TRUE );
 		    gtk_entry_set_text ( GTK_ENTRY ( element -> element_widget ),
@@ -1364,7 +1354,6 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_DEVISE:
-
 		    gsb_currency_set_combobox_history ( element -> element_widget,
 							gsb_data_account_get_currency (account_number));
 		    gtk_widget_set_sensitive ( GTK_WIDGET ( element -> element_widget ),
@@ -1372,13 +1361,11 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_CHANGE:
-
 		    gtk_widget_hide ( element -> element_widget );
 
 		    break;
 
 		case TRANSACTION_FORM_BANK:
-
 		    gsb_form_widget_set_empty ( element -> element_widget,
 						TRUE );
 		    gtk_entry_set_text ( GTK_ENTRY ( element -> element_widget ),
@@ -1386,7 +1373,6 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_VOUCHER:
-
 		    gsb_form_widget_set_empty ( element -> element_widget,
 						TRUE );
 		    gtk_entry_set_text ( GTK_ENTRY ( element -> element_widget ),
@@ -1394,13 +1380,11 @@ gboolean gsb_form_clean ( gint account_number )
 		    break;
 
 		case TRANSACTION_FORM_OP_NB:
-
 		    gtk_label_set_text ( GTK_LABEL ( element -> element_widget ),
 					 NULL );
 		    break;
 
 		case TRANSACTION_FORM_MODE:
-
 		    gtk_label_set_text ( GTK_LABEL ( element -> element_widget ),
 					 NULL );
 		    break;
@@ -2606,9 +2590,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
     GSList *tmp_list;
     GDate *date;
 
-    gchar* tmpstr = g_strdup_printf ( "%d", transaction_number );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (transaction_number);
 
     /* we set a date variable to avoid to parse 2 times, one time for the date,
      * and perhaps a second time with the financial year
@@ -2964,6 +2946,8 @@ gboolean gsb_form_get_categories ( gint transaction_number,
  * */
 gboolean gsb_form_escape_form ( void )
 {
+    devel_debug (NULL);
+
     switch ( gsb_form_get_origin ())
     {
 	case ORIGIN_VALUE_OTHER:
@@ -2983,6 +2967,9 @@ gboolean gsb_form_escape_form ( void )
 	    gtk_widget_grab_focus (gsb_transactions_list_get_tree_view());
     }
 
+    /* in all case clean the scheduler part of the form */
+    gsb_form_scheduler_clean ();
+
     if ( etat.formulaire_toujours_affiche )
     {
 	gsb_form_clean (gsb_form_get_account_number ());
@@ -2993,10 +2980,6 @@ gboolean gsb_form_escape_form ( void )
 	gtk_expander_set_expanded ( GTK_EXPANDER (form_expander),
 				    FALSE );
     }
-
-    /* in all case clean the scheduler part of the form */
-    gsb_form_scheduler_clean ();
-
     return FALSE;
 }
 

@@ -33,10 +33,14 @@
 #include "./gsb_account.h"
 #include "./gsb_calendar_entry.h"
 #include "./gsb_combo_box.h"
+#include "./gsb_currency.h"
+#include "./gsb_data_payment.h"
 #include "./gsb_data_scheduled.h"
 #include "./utils_dates.h"
 #include "./gsb_form.h"
 #include "./gsb_form_widget.h"
+#include "./gsb_fyear.h"
+#include "./gsb_payment_method.h"
 #include "./gtk_combofix.h"
 #include "./utils_str.h"
 #include "./gtk_combofix.h"
@@ -96,8 +100,7 @@ typedef struct
 typedef struct {
     gint element_number;
     gchar *element_string;
-    /* if we decide to save too the values of buttons,
-     * can set here a gint element_int */
+    gint element_int;
 } content_element;
 
 /** contains the list of the scheduled elements, ie list of link
@@ -270,7 +273,7 @@ gboolean gsb_form_scheduler_free_list ( void )
 {
     GSList *list_tmp;
 
-    devel_debug ("gsb_form_scheduler_free_list");
+    devel_debug (NULL);
 
     if (!scheduled_element_list)
 	return FALSE;
@@ -346,7 +349,7 @@ gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
 							"execute_scheduled"));
     content_list = gsb_form_scheduler_get_content_list ();
 
-    gsb_form_fill_from_account (-1);
+    gsb_form_fill_from_account (new_account_number);
 
     /* a problem now, fill_from_account will clean the form,
      * and make unsensitive some part of the form (method of payment...)
@@ -396,6 +399,8 @@ GSList *gsb_form_scheduler_get_content_list ( void )
 
 	if (GTK_WIDGET_VISIBLE (element -> element_widget))
 	{
+	    content_element *element_save;
+
 	    switch (element -> element_number)
 	    {
 		/* first, check the entries */
@@ -408,8 +413,6 @@ GSList *gsb_form_scheduler_get_content_list ( void )
 		case TRANSACTION_FORM_VOUCHER:
 		    if (!gsb_form_widget_check_empty (element -> element_widget))
 		    {
-			content_element *element_save;
-
 			element_save = g_malloc0 (sizeof (content_element));
 			element_save -> element_number = element -> element_number;
 			element_save -> element_string = my_strdup (gtk_entry_get_text (GTK_ENTRY (element -> element_widget)));
@@ -418,16 +421,36 @@ GSList *gsb_form_scheduler_get_content_list ( void )
 		    }
 		    break;
 
-		    /* next, check the combobox */
-		case TRANSACTION_FORM_EXERCICE:
 		case TRANSACTION_FORM_TYPE:
-		case TRANSACTION_FORM_DEVISE:
+			element_save = g_malloc0 (sizeof (content_element));
+			element_save -> element_number = element -> element_number;
+			element_save -> element_int = gsb_payment_method_get_selected_number (element -> element_widget);
+			content_list = g_slist_append ( content_list,
+							element_save );
+		    break;
+
 		case TRANSACTION_FORM_CONTRA:
-		    /* for now, i do nothig here because complex, change with the buttons, and :
-		     * exercice usually is set automaticly with the date
-		     * the type and contra should change with the change of bank
-		     * the devise will change with the bank
-		     * */
+			element_save = g_malloc0 (sizeof (content_element));
+			element_save -> element_number = element -> element_number;
+			element_save -> element_int = gsb_payment_method_get_selected_number (element -> element_widget);
+			content_list = g_slist_append ( content_list,
+							element_save );
+		    break;
+
+		case TRANSACTION_FORM_EXERCICE:
+			element_save = g_malloc0 (sizeof (content_element));
+			element_save -> element_number = element -> element_number;
+			element_save -> element_int = gsb_fyear_get_fyear_from_combobox ( element -> element_widget, NULL );
+			content_list = g_slist_append ( content_list,
+							element_save );
+		    break;
+
+		case TRANSACTION_FORM_DEVISE:
+			element_save = g_malloc0 (sizeof (content_element));
+			element_save -> element_number = element -> element_number;
+			element_save -> element_int = gsb_currency_get_currency_from_combobox (element -> element_widget);
+			content_list = g_slist_append ( content_list,
+							element_save );
 		    break;
 
 		    /* check the combofix */
@@ -436,8 +459,6 @@ GSList *gsb_form_scheduler_get_content_list ( void )
 		case TRANSACTION_FORM_BUDGET:
 		    if (!gsb_form_widget_check_empty (GTK_COMBOFIX (element -> element_widget) -> entry))
 		    {
-			content_element *element_save;
-
 			element_save = g_malloc0 (sizeof (content_element));
 			element_save -> element_number = element -> element_number;
 			element_save -> element_string = my_strdup (gtk_combofix_get_text (GTK_COMBOFIX (element -> element_widget)));
@@ -464,6 +485,9 @@ GSList *gsb_form_scheduler_get_content_list ( void )
 void gsb_form_scheduler_set_content_list ( GSList *content_list )
 {
     GSList *list_tmp;
+    gint account_number;
+
+    account_number = gsb_form_scheduler_get_account ();
 
     list_tmp = content_list;
 
@@ -511,16 +535,34 @@ void gsb_form_scheduler_set_content_list ( GSList *content_list )
 					 element -> element_string );
 		    break;
 
-		    /* next, the combobox */
-		case TRANSACTION_FORM_EXERCICE:
 		case TRANSACTION_FORM_TYPE:
-		case TRANSACTION_FORM_DEVISE:
+		    printf ( "ça passe 2\n");
+		    gsb_payment_method_create_combo_list ( form_element -> element_widget,
+							   gsb_data_payment_get_sign (element -> element_int),
+							   account_number, FALSE );
+		    gsb_payment_method_set_combobox_history ( form_element -> element_widget,
+							      gsb_data_payment_get_similar (element -> element_int, account_number));
+		    break;
+/* xxx en suis ici */
+/*     + si en trimestriel, il semble afficher une 2ème opé qd l'édite, et si c'est normal, ne la trie pas */
+/*     + voir le truncate dans échéances et liste opé, si le vire pose pb, sinon faire ça mieux */
+/*     car pb d'utf8 parfois */
 		case TRANSACTION_FORM_CONTRA:
-		    /* for now, i do nothig here because complex, change with the buttons, and :
-		     * exercice usually is set automaticly with the date
-		     * the type and contra should change with the change of bank
-		     * the devise will change with the bank
-		     * */
+		    gsb_payment_method_create_combo_list ( form_element -> element_widget,
+							   gsb_data_payment_get_sign (element -> element_int),
+							   account_number, FALSE );
+		    gsb_payment_method_set_combobox_history ( form_element -> element_widget,
+							      gsb_data_payment_get_similar (element -> element_int, account_number));
+			break;
+
+		case TRANSACTION_FORM_EXERCICE:
+		    gsb_fyear_set_combobox_history ( form_element -> element_widget,
+						     element -> element_int );
+		    break;
+
+		case TRANSACTION_FORM_DEVISE:
+		    gsb_currency_set_combobox_history ( form_element -> element_widget,
+							element -> element_int );
 		    break;
 
 		    /* check the combofix */
@@ -649,9 +691,7 @@ gboolean gsb_form_scheduler_sensitive_buttons ( gboolean sensitive )
 {
     gint column;
 
-    gchar* tmpstr = g_strdup_printf ( "gsb_form_scheduler_sensitive_buttons %d", sensitive);
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (sensitive);
 
     /* clean the scheduled widget */
     for ( column = 0 ; column < SCHEDULED_FORM_MAX_WIDGETS ; column++ )
@@ -720,7 +760,8 @@ gboolean gsb_form_scheduler_get_scheduler_part ( gint scheduled_number )
 	return FALSE;
 
     /* needn't to fill the account number because set while creating the scheduled transaction */
-
+    gsb_data_scheduled_set_account_number (scheduled_number,
+					   gsb_form_scheduler_get_account ());
     gsb_data_scheduled_set_automatic_scheduled ( scheduled_number,
 						 gsb_form_scheduler_get_auto ());
     gsb_data_scheduled_set_frequency ( scheduled_number,

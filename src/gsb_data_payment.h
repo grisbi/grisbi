@@ -20,6 +20,8 @@ gint gsb_data_payment_get_number ( gpointer payment_ptr );
 GSList *gsb_data_payment_get_payments_list ( void );
 gint gsb_data_payment_get_show_entry ( gint payment_number );
 gint gsb_data_payment_get_sign ( gint payment_number );
+gint gsb_data_payment_get_similar ( gint origin_payment,
+				    gint target_account_number );
 gint gsb_data_payment_get_transfer_payment_number ( gint account_number );
 gboolean gsb_data_payment_init_variables ( void );
 gint gsb_data_payment_new ( const gchar *name );

@@ -47,7 +47,7 @@ typedef struct
     guint payment_number;
     gint account_number;
     gchar *payment_name;
-    gint payment_sign;		/**< 0 : neutral, 1 : debit, 2 : credit */
+    gint payment_sign;		/**< GSB_PAYMENT_NEUTRAL, GSB_PAYMENT_DEBIT, GSB_PAYMENT_CREDIT */
 
     gint show_entry;		/**< when select it in form, need to show an entry (for cheque number for example) or not */
     gint automatic_numbering;	/**< for cheque number for example */
@@ -726,4 +726,47 @@ gint gsb_data_payment_create_default  ( gint account_number )
     return TRUE;
 }
 
+
+/**
+ * try to find a method of payment similar to the origin method of payement
+ *
+ * \param origin_payment	the method of payment we try to find a similar other
+ * \param target_account_number	the account we want to search into for the new method of payment
+ *
+ * \return the similar method of payment or default method of payment if nothing found
+ * */
+gint gsb_data_payment_get_similar ( gint origin_payment,
+				    gint target_account_number )
+{
+    struct_payment *payment;
+    GSList *tmp_list;
+
+    payment = gsb_data_payment_get_structure (origin_payment);
+
+    if (!payment)
+	return 0;
+
+    tmp_list = payment_list;
+
+    while (tmp_list)
+    {
+	struct_payment *tmp_payment;
+
+	tmp_payment = tmp_list -> data;
+
+	if (tmp_payment -> account_number == target_account_number
+	    &&
+	    !strcmp (payment -> payment_name, tmp_payment -> payment_name)
+	    &&
+	    payment -> payment_sign == tmp_payment -> payment_sign)
+	    return tmp_payment -> payment_number;
+
+	tmp_list = tmp_list -> next;
+    }
+
+    if (payment -> payment_sign == 1)
+	return gsb_data_account_get_default_debit (target_account_number);
+    else
+	return gsb_data_account_get_default_credit (target_account_number);
+}
 

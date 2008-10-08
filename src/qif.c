@@ -24,7 +24,6 @@
 
 
 /*START_INCLUDE*/
-#include "./erreur.h"
 #include "qif.h"
 #include "./dialog.h"
 #include "./utils_files.h"
@@ -46,10 +45,10 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gint gsb_qif_get_date_order ( GSList *transactions_list );
-static gchar **gsb_qif_get_date_content ( gchar *date_string );
-static GDate *gsb_qif_get_date ( gchar *date_string,
+static  GDate *gsb_qif_get_date ( gchar *date_string,
 				 gint order );
+static  gchar **gsb_qif_get_date_content ( gchar *date_string );
+static  gint gsb_qif_get_date_order ( GSList *transactions_list );
 /*END_STATIC*/
 
 /*START_EXTERN*/
