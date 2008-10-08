@@ -536,7 +536,6 @@ void gsb_form_scheduler_set_content_list ( GSList *content_list )
 		    break;
 
 		case TRANSACTION_FORM_TYPE:
-		    printf ( "ça passe 2\n");
 		    gsb_payment_method_create_combo_list ( form_element -> element_widget,
 							   gsb_data_payment_get_sign (element -> element_int),
 							   account_number, FALSE );

@@ -797,6 +797,8 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
 {
     GtkTreeStore *store;
     GtkTreeIter iter;
+    GDate *pGDateCurrent;
+
     /* TODO dOm : each line of the array `line' contains a newly allocated string. When are they freed ? */
     const gchar *line[NB_COLS_SCHEDULER];
 
@@ -811,6 +813,8 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
      * not so difficult, go throw the list and for each iter corresponding to the scheduled
      * transaction, re-fill the line */
     store = GTK_TREE_STORE (gsb_scheduler_list_get_model ());
+
+    pGDateCurrent = gsb_date_copy (gsb_data_scheduled_get_date (scheduled_number));
 
     /* fill the text line */
     gsb_scheduler_list_fill_transaction_text ( scheduled_number,
@@ -827,9 +831,15 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
 				 SCHEDULER_COL_NB_TRANSACTION_NUMBER, &scheduled_number_tmp,
 				 -1 );
 	    if (scheduled_number_tmp == scheduled_number)
+	    {
 		gsb_scheduler_list_fill_transaction_row ( GTK_TREE_STORE (store),
 							  &iter,
 							  line );
+		/* go to the next date if ever there is several lines of that scheduled */
+		pGDateCurrent = gsb_scheduler_get_next_date ( scheduled_number, pGDateCurrent );
+
+		line[COL_NB_DATE] = gsb_format_gdate ( pGDateCurrent );
+	    }
 
 	    /* i still haven't found a function to go line by line, including the children,
 	     * so do another do/while into the first one */

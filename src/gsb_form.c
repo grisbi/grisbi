@@ -2251,13 +2251,13 @@ gboolean gsb_form_finish_edition ( void )
 	    gsb_form_scheduler_get_scheduler_part (transaction_number);
 
 	    if (new_transaction)
-	    {
 		gsb_scheduler_list_append_new_scheduled ( transaction_number,
 							  gsb_scheduler_list_get_end_date_scheduled_showed ());
-		gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
-	    }
 	    else
 		gsb_scheduler_list_update_transaction_in_list (transaction_number);
+
+	    /* needed for the two in case of we change the date */
+	    gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
 	}
     }
     g_slist_free ( payee_list );
