@@ -5,20 +5,20 @@
 		Grisbi_version="0.6.0" 
 		Title="Standard category set"
 		Description="Category set suitable for personal use" />
-	<Category Nb="1" Na="Other incomes" Kd="0" />
+	<Category Nb="1" Na="Other income" Kd="0" />
 	<Sub_category Nbc="1" Nb="1" Na="Unemployment benefit" />
 	<Sub_category Nbc="1" Nb="2" Na="Family allowance" />
 	<Sub_category Nbc="1" Nb="3" Na="Tax credit" />
-	<Sub_category Nbc="1" Nb="4" Na="Gamble" />
+	<Sub_category Nbc="1" Nb="4" Na="Gambling" />
 	<Sub_category Nbc="1" Nb="5" Na="Mutual insurance" />
 	<Sub_category Nbc="1" Nb="6" Na="Social security" />
 	<Category Nb="2" Na="Retirement" Kd="0" />
 	<Sub_category Nbc="2" Nb="1" Na="Retirement Fund" />
 	<Sub_category Nbc="2" Nb="2" Na="Pension" />
 	<Sub_category Nbc="2" Nb="3" Na="Supplementary pension" />
-	<Category Nb="3" Na="Investment incomes" Kd="0" />
-	<Sub_category Nbc="3" Nb="1" Na="Dividends" />
-	<Sub_category Nbc="3" Nb="2" Na="Interests" />
+	<Category Nb="3" Na="Investment income" Kd="0" />
+	<Sub_category Nbc="3" Nb="1" Na="Dividend" />
+	<Sub_category Nbc="3" Nb="2" Na="Interest" />
 	<Sub_category Nbc="3" Nb="3" Na="Capital gain" />
 	<Category Nb="4" Na="Salary" Kd="0" />
 	<Sub_category Nbc="4" Nb="1" Na="Overtime" />
@@ -91,7 +91,7 @@
 	<Sub_category Nbc="18" Nb="7" Na="Decoration" />
 	<Sub_category Nbc="18" Nb="8" Na="Water" />
 	<Sub_category Nbc="18" Nb="9" Na="Electricity" />
-	<Sub_category Nbc="18" Nb="10" Na="White products" />
+	<Sub_category Nbc="18" Nb="10" Na="White goods" />
 	<Sub_category Nbc="18" Nb="11" Na="Equipment" />
 	<Sub_category Nbc="18" Nb="12" Na="Gaz" />
 	<Sub_category Nbc="18" Nb="13" Na="Garden" />
@@ -135,6 +135,7 @@
 	<Sub_category Nbc="23" Nb="4" Na="Train" />
 	<Sub_category Nbc="23" Nb="5" Na="Tramway" />
 	<Sub_category Nbc="23" Nb="6" Na="Travels" />
+	<Sub_category Nbc="23" Nb="7" Na="Air" />
 	<Category Nb="24" Na="Hollydays" Kd="1" />
 	<Sub_category Nbc="24" Nb="1" Na="Housing" />
 	<Sub_category Nbc="24" Nb="2" Na="Visits" />
