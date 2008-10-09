@@ -542,10 +542,7 @@ void gsb_form_scheduler_set_content_list ( GSList *content_list )
 		    gsb_payment_method_set_combobox_history ( form_element -> element_widget,
 							      gsb_data_payment_get_similar (element -> element_int, account_number));
 		    break;
-/* xxx en suis ici */
-/*     + si en trimestriel, il semble afficher une 2ème opé qd l'édite, et si c'est normal, ne la trie pas */
-/*     + voir le truncate dans échéances et liste opé, si le vire pose pb, sinon faire ça mieux */
-/*     car pb d'utf8 parfois */
+
 		case TRANSACTION_FORM_CONTRA:
 		    gsb_payment_method_create_combo_list ( form_element -> element_widget,
 							   gsb_data_payment_get_sign (element -> element_int),

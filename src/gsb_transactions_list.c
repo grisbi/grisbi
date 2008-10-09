@@ -2575,13 +2575,10 @@ void schedule_selected_transaction ()
     scheduled_number = schedule_transaction ( gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()));
 
     mise_a_jour_liste_echeances_auto_accueil = 1;
-    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
 
-    gsb_form_set_sensitive(gsb_data_scheduled_get_breakdown_of_scheduled (scheduled_number),
-			   gsb_data_scheduled_get_mother_scheduled_number (scheduled_number));
-    gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number ());
-
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK(notebook_general), 2 );
+    gsb_gui_navigation_set_selection (GSB_SCHEDULER_PAGE, 0, NULL);
+    gsb_scheduler_list_select (scheduled_number);
+    gsb_scheduler_list_edit_transaction (scheduled_number);
 
     modification_fichier ( TRUE );
 }

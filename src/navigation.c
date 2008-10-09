@@ -1092,7 +1092,6 @@ void gsb_gui_navigation_remove_account ( gint account_number )
     gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model), 
 			     (GtkTreeModelForeachFunc) gsb_gui_navigation_remove_account_iterator, 
 			     GINT_TO_POINTER ( account_number ) );
-   
 }
 
 

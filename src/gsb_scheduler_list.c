@@ -911,7 +911,6 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
     else
     {
 	/* fill her for normal scheduled transaction (not children) */
-
 	gint frequency;
 
 	line[COL_NB_DATE] = gsb_format_gdate (gsb_data_scheduled_get_date (scheduled_number));
