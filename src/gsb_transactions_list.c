@@ -2380,9 +2380,15 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number )
 
     /* create the contra-transaction if necessary */
     if ( gsb_data_transaction_get_contra_transaction_number (transaction_number))
+    {
 	gsb_form_transaction_validate_transfer ( new_transaction_number,
 						 1,
 						 gsb_data_transaction_get_contra_transaction_account (transaction_number));
+	
+	/* we need to set the contra method of payment of the transfer */
+	gsb_data_transaction_set_method_of_payment_number ( gsb_data_transaction_get_contra_transaction_number (new_transaction_number),
+							    gsb_data_transaction_get_method_of_payment_number (gsb_data_transaction_get_contra_transaction_number (transaction_number)));
+    }
 
     gsb_transactions_list_append_new_transaction (new_transaction_number, TRUE);
 

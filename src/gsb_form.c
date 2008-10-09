@@ -1343,7 +1343,6 @@ gboolean gsb_form_clean ( gint account_number )
 
 		case TRANSACTION_FORM_CONTRA:
 		    gtk_widget_hide ( element -> element_widget );
-
 		    break;
 
 		case TRANSACTION_FORM_CHEQUE:

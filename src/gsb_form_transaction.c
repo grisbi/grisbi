@@ -262,13 +262,6 @@ gboolean gsb_form_transaction_recover_breakdowns_of_transaction ( gint new_trans
 {
     GSList *list_tmp_transactions;
 
-    /* FIXME : check for win, normally should work fine now because
-     * that dialog is showed after all, and not when losing focus */
-/*     result = question_conditional_yes_no ( "recover-breakdown" ); */
-
-/*     if ( !result ) */
-/* 	return FALSE; */
-
     /* go around the transactions list to get the daughters of the last breakdown */
     list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
@@ -390,7 +383,7 @@ GSList *gsb_form_transaction_get_parties_list_from_report ( void )
  * - delete the last contra-transaction if it's a modification
  * - append the contra-transaction to the tree view or update the tree_view
  * 
- * \param transaction_number	the new transaction or the modify transaction
+ * \param transaction_number	the new transaction or the modifed transaction
  * \param new_transaction 	TRUE if it's a new transaction
  * \param account_transfer 	the number of the account we want to create the contra-transaction
  * 
