@@ -198,9 +198,7 @@ gint gsb_form_transactions_look_for_last_party ( gint no_party,
 	     &&
 	     transaction_number_tmp != no_new_transaction
 	     &&
-	     !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp)
-	     &&
-	     gsb_data_transaction_get_breakdown_of_transaction (transaction_number_tmp))
+	     !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp))
 	{
 	    /* we are on a transaction with the same party, it's also a breakdown, so we keep it */
 	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number)
