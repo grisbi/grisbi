@@ -654,15 +654,13 @@ gboolean gsb_gui_toggle_show_closed_accounts ()
 gboolean gsb_menu_update_view_menu ( gint account_number )
 {
     gchar * item_name = NULL;
+    gchar *tmpstr;
 
-    gchar* tmpstr = g_strdup_printf ("gsb_menu_update_view_menu account : %d", account_number );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    devel_debug_int (account_number);
 
     block_menu_cb = TRUE;
 
     /* update the showing of reconciled transactions */
-
     tmpstr = menu_name ( "ViewMenu", "ShowReconciled", NULL );
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (gtk_ui_manager_get_action ( ui_manager, tmpstr)), 
 				   gsb_data_account_get_r (account_number) );
@@ -677,7 +675,6 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
     gsb_gui_update_bouton_affiche_ope_r ( gsb_data_account_get_r (account_number) );
 
     /* update the number of line showed */
-
     switch ( gsb_data_account_get_nb_rows (account_number))
     {
 	default:

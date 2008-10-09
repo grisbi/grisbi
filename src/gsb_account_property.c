@@ -584,6 +584,8 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
 	    remplissage_liste_comptes_etats ();
 	    selectionne_liste_comptes_etat_courant ();
 
+	    /*update the the view menu */
+	    gsb_navigation_update_account_label (account_number);
 	    /* no break here !! need to do the same to PROPERTY_CLOSED_ACCOUNT too */
 
 	case PROPERTY_CLOSED_ACCOUNT:

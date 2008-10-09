@@ -1081,6 +1081,45 @@ void gsb_navigation_update_statement_label ( gint account_number )
 }
 
 
+/**
+ * update the account name and the amount on the bottom
+ *
+ * \param account_number
+ *
+ * \return
+ * */
+void gsb_navigation_update_account_label ( gint account_number )
+{
+    gchar * title = NULL; 
+    gchar * suffix = NULL; 
+    gint currency_number;
+
+    /* set the title */
+    title = g_strconcat ( _("Account transactions"), " : ",
+			  gsb_data_account_get_name ( account_number ),
+			  NULL );
+    if ( gsb_data_account_get_closed_account ( account_number ) )
+    {
+	gchar* old_title = title;
+	title = g_strconcat ( title, " (", _("closed"), ")", NULL );
+	g_free ( old_title );
+    }
+
+    currency_number = gsb_data_account_get_currency (account_number);
+    if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
+	suffix = g_strdup_printf ( "<span color=\"red\">%s</span>",
+				   gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
+								       currency_number, TRUE ));
+    else
+	suffix = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
+						     currency_number, TRUE );
+    if (!suffix)
+    	suffix = g_strdup("");
+    gsb_gui_headings_update ( title, suffix );
+    g_free ( suffix );
+    g_free ( title );
+}
+
 
 /**
  * Remove account from the navigation pane.
@@ -1112,7 +1151,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 {
     GtkWidget * account_notebook;
     gint account_number, page_number;
-    gint currency_number;
     gint report_number;
     GtkTreeIter dummy_iter;
     gchar * title = NULL; 
@@ -1161,27 +1199,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 	    account_number = gsb_gui_navigation_get_current_account ();
 
-	    /* set the title */
-	    title = g_strconcat ( _("Account transactions"), " : ",
-				  gsb_data_account_get_name ( account_number ),
-				  NULL );
-	    if ( gsb_data_account_get_closed_account ( account_number ) )
-	    {
-	        gchar* old_title = title;
-		title = g_strconcat ( title, " (", _("closed"), ")", NULL );
-		g_free ( old_title );
-	    }
-
-	    currency_number = gsb_data_account_get_currency (account_number);
-	    if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
-		suffix = g_strdup_printf ( "<span color=\"red\">%s</span>",
-					   gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-									       currency_number, TRUE ));
-	    else
-		suffix = gsb_real_get_string_with_currency ( gsb_data_account_get_current_balance (account_number),
-							     currency_number, TRUE );
-	    gsb_menu_update_view_menu ( account_number );
-
+	    gsb_navigation_update_account_label (account_number);
 	    /* what to be done if switch to that page */
 	    if (account_number >= 0 )
 	    {
@@ -1189,6 +1207,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 		gsb_account_property_fill_page ();
 	    }
 	    gsb_menu_update_accounts_in_menus ();
+	    gsb_menu_update_view_menu ( account_number );
 
 	    /* set the form */
 	    account_notebook = g_object_get_data ( G_OBJECT (notebook_general), "account_notebook" );
@@ -1326,11 +1345,16 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    break;
     }
 
-    if (!suffix)
-    	suffix = g_strdup("");
-    gsb_gui_headings_update ( title, suffix );
-    g_free ( suffix );
-    g_free ( title );
+    /* title is not set when go on account
+     * because gsb_navigation_update_account_label was called instead */
+    if (title)
+    {
+	if (!suffix)
+	    suffix = g_strdup("");
+	gsb_gui_headings_update ( title, suffix );
+	g_free ( suffix );
+	g_free ( title );
+    }
     return FALSE;
 }
 

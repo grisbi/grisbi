@@ -58,6 +58,7 @@
 #include "./transaction_model.h"
 #include "./utils_operations.h"
 #include "./custom_list.h"
+#include "./fenetre_principale.h"
 #include "./include.h"
 #include "./gsb_data_transaction.h"
 #include "./mouse.h"
