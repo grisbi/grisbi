@@ -88,7 +88,7 @@ static gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number );
 /*START_EXTERN*/
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
-extern GdkColor breakdown_background;
+extern GdkColor split_background;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
@@ -454,7 +454,7 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
 	return_value = g_date_compare ( date_1,
 					date_2 );
 
-    /* if we are here it's because we are in a child of breakdown */
+    /* if we are here it's because we are in a child of split */
 
     if ( number_1 < 0 )
     {
@@ -699,16 +699,16 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 			     SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, virtual_transaction,
 			     -1 );
 
-	/* if it's a breakdown, we append a white line now */
-	if (gsb_data_scheduled_get_breakdown_of_scheduled (scheduled_number))
+	/* if it's a split, we append a white line now */
+	if (gsb_data_scheduled_get_split_of_scheduled (scheduled_number))
 	    gsb_scheduler_list_append_new_scheduled ( gsb_data_scheduled_new_white_line (scheduled_number),
 						      end_date );
 
-	/* if it's a breakdown, we show only one time and color the background */
+	/* if it's a split, we show only one time and color the background */
 	if ( mother_iter )
 	    gtk_tree_store_set ( GTK_TREE_STORE (tree_model_scheduler_list),
 				 &iter,
-				 SCHEDULER_COL_NB_BACKGROUND, &breakdown_background,
+				 SCHEDULER_COL_NB_BACKGROUND, &split_background,
 				 -1 );
 	else
 	{
@@ -878,7 +878,7 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
 {
     if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
     {
-	/* for child breakdown we set all to NULL except the party, we show the category instead */
+	/* for child split we set all to NULL except the party, we show the category instead */
 	line[COL_NB_DATE] = NULL;
 	line[COL_NB_FREQUENCY] = NULL;
 	line[COL_NB_ACCOUNT] = NULL;
@@ -954,7 +954,7 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
 	    line[COL_NB_MODE] = _("Manual");
     }
 
-    /* that can be filled for mother and children of breakdown */
+    /* that can be filled for mother and children of split */
     line[COL_NB_NOTES] = gsb_data_scheduled_get_notes (scheduled_number);
 
     /* if it's a white line don't fill the amount
@@ -998,7 +998,7 @@ gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
 
 /**
  * set the background colors of the list
- * just for normal scheduled transactions, not for children of breakdown
+ * just for normal scheduled transactions, not for children of split
  *
  * \param tree_view
  *
@@ -1081,7 +1081,7 @@ gboolean gsb_scheduler_list_select ( gint scheduled_number )
 
     devel_debug_int (scheduled_number);
 
-    /* if it's a breakdown child, we must open the mother to select it */
+    /* if it's a split child, we must open the mother to select it */
     mother_number = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
     if (mother_number)
     {
@@ -1164,7 +1164,7 @@ GtkTreeIter *gsb_scheduler_list_get_iter_from_scheduled_number ( gint scheduled_
 	    if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL (model),
 						&iter_child, &iter))
 	    {
-		/* ok so iter_child is on a breakdown child, we go to see all the breakdowns */
+		/* ok so iter_child is on a split child, we go to see all the splits */
 		do
 		{
 		    gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
@@ -1206,7 +1206,7 @@ GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_
 
     /* that function is called too for deleting a scheduled transaction,
      * and it can be already deleted, so we cannot call gsb_data_scheduled_... here
-     * but... we need to know if it's a child breakdown, so we call it, in all
+     * but... we need to know if it's a child split, so we call it, in all
      * the cases, if the transactions doesn't exist we will have no mother, so very good !*/
 
     mother_number = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
@@ -1424,7 +1424,7 @@ gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 	    break;
 
 	case GDK_space:
-	    /* space open/close a breakdown */
+	    /* space open/close a split */
 	    gsb_scheduler_list_switch_expander (scheduled_number);
 	    break;
     }
@@ -1505,7 +1505,7 @@ gint gsb_scheduler_list_get_current_scheduled_number ( void )
 /**
  * edit the scheduling transaction given in param
  *
- * \param scheduled_number the number, -1 if new scheduled transaction or < -1 if new child of breakdown
+ * \param scheduled_number the number, -1 if new scheduled transaction or < -1 if new child of split
  *
  * \return FALSE
  * */
@@ -1542,7 +1542,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction_by_menu ( GtkWidget *bu
  * \param scheduled_number the transaction to delete
  * \param show_warning TRUE to warn, FALSE to delete directly
  * 		!! this don't affect the question to delete only the occurence or the whole scheduled transaction
- * 		it affects only for children of breakdown, and especially deleting the white line child
+ * 		it affects only for children of split, and especially deleting the white line child
  * 
  * \return FALSE
  * */
@@ -1600,7 +1600,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 	}
     }
 
-    /* split with child of breakdown or normal scheduled,
+    /* split with child of split or normal scheduled,
      * for a child, we directly delete it, for mother, ask
      * for just that occurrence or the complete transaction */
 
@@ -1773,9 +1773,9 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
 
 
 /**
- * switch the expander of the breakdown given in param
+ * switch the expander of the split given in param
  *
- * \param scheduled_number the scheduled breakdown we want to switch
+ * \param scheduled_number the scheduled split we want to switch
  *
  * \return FALSE
  * */
@@ -1785,7 +1785,7 @@ gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number )
     GtkTreePath *path;
     GtkTreePath *path_sorted;
 
-    if ( !gsb_data_scheduled_get_breakdown_of_scheduled (scheduled_number)
+    if ( !gsb_data_scheduled_get_split_of_scheduled (scheduled_number)
 	 ||
 	 !tree_view_scheduler_list )
 	return FALSE;

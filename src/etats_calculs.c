@@ -372,14 +372,14 @@ GSList *recupere_opes_etat ( gint report_number )
 		{
 		    /* si c'est une opé ventilée, dépend de la conf */
 
-		    if ( gsb_data_transaction_get_breakdown_of_transaction ( transaction_number_tmp)
+		    if ( gsb_data_transaction_get_split_of_transaction ( transaction_number_tmp)
 			 &&
-			 !gsb_data_report_get_not_detail_breakdown (report_number))
+			 !gsb_data_report_get_not_detail_split (report_number))
 			goto operation_refusee;
 
 		    if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number_tmp)
 			 &&
-			 gsb_data_report_get_not_detail_breakdown (report_number))
+			 gsb_data_report_get_not_detail_split (report_number))
 			goto operation_refusee;
 
 		    /* on vérifie ensuite si un texte est recherché */
@@ -649,8 +649,8 @@ GSList *recupere_opes_etat ( gint report_number )
 			    goto operation_refusee;
 		    }
 
-		    /* check the categ only if it's not a breakdown or transfer */
-		    if (!gsb_data_transaction_get_breakdown_of_transaction ( transaction_number_tmp)
+		    /* check the categ only if it's not a split or transfer */
+		    if (!gsb_data_transaction_get_split_of_transaction ( transaction_number_tmp)
 			&&
 			!gsb_data_transaction_get_contra_transaction_number ( transaction_number_tmp)
 			&&
@@ -1504,35 +1504,35 @@ classement_suivant:
 		    return -1;
 		}
 
-		/* come here if transaction_1 has no category, so can be transfer or breakdown */
-		if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_1))
+		/* come here if transaction_1 has no category, so can be transfer or split */
+		if ( gsb_data_transaction_get_split_of_transaction (transaction_number_1))
 		{
 		    if (category_number_2)
 			/* transaction_2 has a category => go before transaction_1 */
 			return 1;
 		    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_2))
-			/* transaction_2 is a transfer, and transaction_1 a breakdown, so breakdown first please */
+			/* transaction_2 is a transfer, and transaction_1 a split, so split first please */
 			return -1;
-		    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_2))
+		    if ( gsb_data_transaction_get_split_of_transaction (transaction_number_2))
 		    {
-			/* ok, the 2 transactions are breakdown, so cannot separate them with category and
+			/* ok, the 2 transactions are split, so cannot separate them with category and
 			 * sub category, so go to 2 times after that sort */
 			pointeur = pointeur -> next;
 			pointeur = pointeur -> next;
 			goto classement_suivant;
 		    }
-		    /* category_number_2 is 0, so go go before the transaction_1 (without categ come before breakdown or transfer) */
+		    /* category_number_2 is 0, so go go before the transaction_1 (without categ come before split or transfer) */
 		    return 1;
 		}
 
-		/* come here if transaction_1 has no category and is not a breakdown */
+		/* come here if transaction_1 has no category and is not a split */
 		if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_1))
 		{
 		    if (category_number_2)
 			/* transaction_2 has a category => go before transaction_1 */
 			return 1;
-		    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_2))
-			/* transaction_2 is a breakdown, and transaction_1 a transfer, so breakdown first please */
+		    if ( gsb_data_transaction_get_split_of_transaction (transaction_number_2))
+			/* transaction_2 is a split, and transaction_1 a transfer, so split first please */
 			return 1;
 		    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_2))
 		    {
@@ -1554,17 +1554,17 @@ classement_suivant:
 		    return 1;
 		}
 
-		/* come here if transaction_1 has no categ, no transfer and no breakdown,
+		/* come here if transaction_1 has no categ, no transfer and no split,
 		 * return according to transaction_2 */
 
 		if (category_number_2)
 		    return 1;
-		if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number_2)
+		if (gsb_data_transaction_get_split_of_transaction (transaction_number_2)
 		    ||
 		    gsb_data_transaction_get_contra_transaction_number (transaction_number_2))
 		    return -1;
 
-		/* transaction_2 has too no categ, no transfer and no breakdown,
+		/* transaction_2 has too no categ, no transfer and no split,
 		 * so jumb sub categ and go to the next sort */
  		pointeur = pointeur -> next;
  		pointeur = pointeur -> next;

@@ -229,25 +229,25 @@ gboolean gsb_data_mix_set_sub_category_number ( gint transaction_number,
 							     no_sub_category));
 }
 
-gint gsb_data_mix_get_breakdown_of_transaction ( gint transaction_number,
+gint gsb_data_mix_get_split_of_transaction ( gint transaction_number,
 						 gboolean is_transaction )
 {
     if (is_transaction)
-	return (gsb_data_transaction_get_breakdown_of_transaction ( transaction_number));
+	return (gsb_data_transaction_get_split_of_transaction ( transaction_number));
     else
-	return (gsb_data_scheduled_get_breakdown_of_scheduled ( transaction_number));
+	return (gsb_data_scheduled_get_split_of_scheduled ( transaction_number));
 }
 
-gboolean gsb_data_mix_set_breakdown_of_transaction ( gint transaction_number,
-						     gint is_breakdown,
+gboolean gsb_data_mix_set_split_of_transaction ( gint transaction_number,
+						     gint is_split,
 						     gboolean is_transaction )
 {
     if (is_transaction)
-	return (gsb_data_transaction_set_breakdown_of_transaction ( transaction_number,
-								    is_breakdown));
+	return (gsb_data_transaction_set_split_of_transaction ( transaction_number,
+								    is_split));
     else
-	return (gsb_data_scheduled_set_breakdown_of_scheduled ( transaction_number,
-								is_breakdown));
+	return (gsb_data_scheduled_set_split_of_scheduled ( transaction_number,
+								is_split));
 }
 
 const gchar *gsb_data_mix_get_notes ( gint transaction_number,

@@ -70,7 +70,7 @@ typedef struct
     /** @name stuff showed in the report */
     gint sorting_report;     /**< 0=date, 1=tr number, 2=payee, 3=categ, 4=budget, 5=notes, 6=method payment, 7=method paym content, 8=voucher, 9=bank ref, 10=marked number */
 
-    gint not_detail_breakdown;
+    gint not_detail_split;
     gint split_credit_debit;
 
     gint currency_general;
@@ -1340,13 +1340,13 @@ gboolean gsb_data_report_set_sorting_report ( gint report_number,
 
 
 /**
- * get the  not_detail_breakdown
+ * get the  not_detail_split
  * 
  * \param report_number the number of the report
  *
- * \return the not_detail_breakdown  of the report, -1 if problem
+ * \return the not_detail_split  of the report, -1 if problem
  * */
-gint gsb_data_report_get_not_detail_breakdown ( gint report_number )
+gint gsb_data_report_get_not_detail_split ( gint report_number )
 {
     struct_report *report;
 
@@ -1355,19 +1355,19 @@ gint gsb_data_report_get_not_detail_breakdown ( gint report_number )
     if ( !report )
 	return -1;
 
-    return report -> not_detail_breakdown;
+    return report -> not_detail_split;
 }
 
 /** 
- * set the not_detail_breakdown
+ * set the not_detail_split
  * 
  * \param report_number number of the report
- * \param not_detail_breakdown
+ * \param not_detail_split
  *
  * \return TRUE if ok
  * */
-gboolean gsb_data_report_set_not_detail_breakdown ( gint report_number,
-						    gint not_detail_breakdown )
+gboolean gsb_data_report_set_not_detail_split ( gint report_number,
+						    gint not_detail_split )
 {
     struct_report *report;
 
@@ -1376,7 +1376,7 @@ gboolean gsb_data_report_set_not_detail_breakdown ( gint report_number,
     if ( !report )
 	return FALSE;
 
-    report -> not_detail_breakdown = not_detail_breakdown;
+    report -> not_detail_split = not_detail_split;
 
     return TRUE;
 }

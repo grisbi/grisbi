@@ -918,12 +918,12 @@ msgstr ""
 "crear fácilmente presupuestos y hacer informes sobre los mismos."
 
 #: src/dialog.c:80
-msgid "Recover breakdown?"
+msgid "Recover split?"
 msgstr "¿Recuperar anotación?"
 
 #: src/dialog.c:81
 msgid ""
-"This is a breakdown of transaction, associated transactions can be recovered "
+"This is a split of transaction, associated transactions can be recovered "
 "as in last transaction with this payee.  Do you want to recover them?"
 msgstr ""
 "Esto es una anotación de una transacción, las transacciones asociadas pueden "
@@ -1323,7 +1323,7 @@ msgstr "Transferencia"
 #: src/etats_affiche.c:1845 src/export_csv.c:561 src/gsb_data_category.c:1036
 #: src/gsb_form.c:726 src/gsb_form.c:2428 src/gsb_form.c:2779
 #: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3233
-msgid "Breakdown of transaction"
+msgid "Split of transaction"
 msgstr "Anotación en la transacción"
 
 #: src/etats_affiche.c:1852 src/gsb_data_category.c:156
@@ -2025,11 +2025,11 @@ msgid "Select reconciled transactions"
 msgstr "Seleccionar las transacciones reconciliadas"
 
 #: src/etats_config.c:6231
-msgid "Breakdown of transactions detail"
+msgid "Split of transactions detail"
 msgstr "Detalle del desglose de las transacciones"
 
 #: src/etats_config.c:6233
-msgid "Do not detail breakdown of transactions"
+msgid "Do not detail split of transactions"
 msgstr "No detallar el desglose de las transacciones"
 
 #. choix de ce qu'on utilise dans le classement
@@ -2749,7 +2749,7 @@ msgid "Deleted account"
 msgstr "Cuenta borrada"
 
 #: src/export_csv.c:743 src/import_csv.c:92
-msgid "Breakdown"
+msgid "Split"
 msgstr "Anotación"
 
 #: src/export_csv.c:752
@@ -6623,7 +6623,7 @@ msgstr "No se puede borrar el archivo bloqueado '%s': %s"
 msgid "Transaction/Scheduled _form"
 msgstr "Transaction/Scheduled _form"
 
-#. create the check button to recover the children of breakdowns
+#. create the check button to recover the children of splits
 #: src/gsb_form.c:316
 msgid "Recover the children"
 msgstr "Recuperar los hijos"
@@ -6673,8 +6673,8 @@ msgstr "Fecha no válida %s"
 
 #: src/gsb_form.c:2430
 msgid ""
-"You cannot set breakdown of transaction in category for a daughter of a "
-"breakdown of transaction."
+"You cannot set split of transaction in category for a daughter of a "
+"split of transaction."
 msgstr ""
 "No puede poner una anotación de transacción en la categoría para un hijo de "
 "una anotación de transacción."
@@ -6725,7 +6725,7 @@ msgid "A transaction with a multiple payee must be a new one."
 msgstr "Una transacción con múltiples terceros debe ser nueva."
 
 #: src/gsb_form.c:2550
-msgid "A transaction with a multiple payee cannot be a breakdown child."
+msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 "Una transacción con múltiples terceros no puede ser el hijo de un desglose."
 
@@ -6743,7 +6743,7 @@ msgstr "Modificando una transacción"
 
 #: src/gsb_form.c:2803
 msgid ""
-"You are trying to change a breakdown of transaction to another kind of "
+"You are trying to change a split of transaction to another kind of "
 "transaction.\n"
 "There is some children to that transaction, if you continue, the children "
 "will be deleted.\n"
@@ -7482,7 +7482,7 @@ msgid ""
 "You are currently trying to reconcile or unreconcile manually a transaction "
 "which isn't a regular way to do.\n"
 "\n"
-"And moreover the transaction you try to reconcile is a child of breakdown, "
+"And moreover the transaction you try to reconcile is a child of split, "
 "so the modification will be done on the mother and all its children.\n"
 "\n"
 "Are you really sure to know what you do?"
@@ -7544,7 +7544,7 @@ msgstr "Es imposible borrar una transacción archivada."
 #: src/gsb_transactions_list.c:1910
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
-"The transaction, the contra-transaction or the children if it is a breakdown "
+"The transaction, the contra-transaction or the children if it is a split "
 "are reconciled. You can remove the reconciliation with Ctrl R if it is "
 "really necessary."
 msgstr ""
@@ -8450,7 +8450,7 @@ msgid "New payee #%d"
 msgstr "Nuevo tercero #%d"
 
 #: src/metatree.c:470
-msgid "breakdown"
+msgid "split"
 msgstr "anotación"
 
 #. FIXME: tell the truth ;-)
@@ -9055,7 +9055,7 @@ msgstr ""
 #: src/transaction_list.c:1449
 #, c-format
 msgid ""
-"While trying to append a breakdown child in the tree view, one or all the "
+"While trying to append a split child in the tree view, one or all the "
 "mothers of the child number %d couldn't be found.\n"
 "This is a bug and should not happen.\n"
 "The child won't be appended to the list and Grisbi won't crash,\n"
@@ -9814,7 +9814,7 @@ msgstr "No se definión ninguna fuente"
 #~ "forma incorrecta."
 
 #~ msgid ""
-#~ "Do you really want to delete the child of breakdown whit the category '%"
+#~ "Do you really want to delete the child of split whit the category '%"
 #~ "s' ?"
 #~ msgstr ""
 #~ "¿ Está seguro de que quiere borrar el hijo de la anotación con la "
@@ -10019,11 +10019,11 @@ msgstr "No se definión ninguna fuente"
 #~ msgid "%4.2f %s"
 #~ msgstr "%4.2f %s"
 
-#~ msgid "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
-#~ msgstr "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
+#~ msgid "%d/%d/%d : %4.2f %s (split) [ %s ]"
+#~ msgstr "%d/%d/%d : %4.2f %s (split) [ %s ]"
 
-#~ msgid "%d/%d/%d : %4.2f %s (breakdown)"
-#~ msgstr "%d/%d/%d : %4.2f %s (breakdown)"
+#~ msgid "%d/%d/%d : %4.2f %s (split)"
+#~ msgstr "%d/%d/%d : %4.2f %s (split)"
 
 #~ msgid "Remove a category"
 #~ msgstr "Borrar una categoría"
@@ -10116,18 +10116,18 @@ msgstr "No se definión ninguna fuente"
 #~ "entre ellos.  Desafortunadamente no sabemos cómo ha sucedido esto.\n"
 #~ "Las siguientes cuentas son inconsistentes:\n"
 
-#~ msgid "Breakdown line #%d is orpheanous.\n"
+#~ msgid "Split line #%d is orpheanous.\n"
 #~ msgstr "La línea de anotaciones #%d está huérfana.\n"
 
 #~ msgid ""
-#~ "Transaction #%d has a financial year named %s and breakdown line #%d of "
+#~ "Transaction #%d has a financial year named %s and split line #%d of "
 #~ "this transaction has a financial year named %s\n"
 #~ msgstr ""
 #~ "La transacción #%d tiene un año financiero llamado %s y una línea de "
 #~ "anotación #%d de esta transacción tiene un año financiero llamado %s\n"
 
 #~ msgid ""
-#~ "Grisbi found breakdown lines that have financial years different from the "
+#~ "Grisbi found split lines that have financial years different from the "
 #~ "financial years of the related transaction.  Perhaps it isn't a problem, "
 #~ "but perhaps it is.\n"
 #~ "The following accounts seems inconsistent:\n"
@@ -10246,7 +10246,7 @@ msgstr "No se definión ninguna fuente"
 #~ msgstr "Sin terceras partes"
 
 #~ msgid ""
-#~ "This breakdown of transaction contains a transfer on itself.  Either "
+#~ "This split of transaction contains a transfer on itself.  Either "
 #~ "change the sub transaction to transfer on another account or change "
 #~ "account of the transaction itself."
 #~ msgstr ""
@@ -10288,7 +10288,7 @@ msgstr "No se definión ninguna fuente"
 #~ "El montante de la transacción no ha sido completamente anotado.\n"
 #~ "¿Continuar de todas formas?"
 
-#~ msgid "A breakdown line is to be deleted though it is not yet registered."
+#~ msgid "A split line is to be deleted though it is not yet registered."
 #~ msgstr ""
 #~ "Una línea de la anotación será borrada aunque no ha sido registrada aun."
 
@@ -10555,8 +10555,8 @@ msgstr "No se definión ninguna fuente"
 
 #~ msgid ""
 #~ "There was a bug in versions before 0.4.0, which could lead to orphan "
-#~ "transactions (either transfers without countra-transaction, or breakdown "
-#~ "transactions details without associated breakdown transaction.\n"
+#~ "transactions (either transfers without countra-transaction, or split "
+#~ "transactions details without associated split transaction.\n"
 #~ "\n"
 #~ "Grisbi searched for such transaction and found:\n"
 #~ "\n"
@@ -10569,7 +10569,7 @@ msgstr "No se definión ninguna fuente"
 #~ "Grisbi ha buscado estas transacciones y ha encontrado:\n"
 #~ "\n"
 
-#~ msgid "breakdown transactions, all of them were deleted.\n"
+#~ msgid "split transactions, all of them were deleted.\n"
 #~ msgstr "Todas las anotaciones de las transacciones han sido borradas.\n"
 
 #~ msgid ""
@@ -10830,7 +10830,7 @@ msgstr "No se definión ninguna fuente"
 #~ msgid "Curent balance"
 #~ msgstr "Balance actual"
 
-#~ msgid "Account breakdown"
+#~ msgid "Account split"
 #~ msgstr "Anotación en la cuenta"
 
 #~ msgid "Confirmation of transaction removal"
@@ -10854,7 +10854,7 @@ msgstr "No se definión ninguna fuente"
 #~ "es imposible."
 
 #~ msgid ""
-#~ "One of the breakdown lines is a transfer whose contra-transaction is "
+#~ "One of the split lines is a transfer whose contra-transaction is "
 #~ "reconciled.  Deletion canceled."
 #~ msgstr ""
 #~ "Una de las líneas de anotación es una transferencia cuya "
@@ -10888,7 +10888,7 @@ msgstr "No se definión ninguna fuente"
 #~ msgid "Do not warn about removal scheduled transaction"
 #~ msgstr "No avisar sobre el borrado de una transacción programada"
 
-#~ msgid "Do not warn about incomplete breakdown"
+#~ msgid "Do not warn about incomplete split"
 #~ msgstr "No avisar sobre anotaciones incompletas"
 
 #~ msgid "Do not warn about no reconciliation reference"
@@ -10994,7 +10994,7 @@ msgstr "No se definión ninguna fuente"
 #~ "Grisbi no pudo ejecutar '%s'\n"
 #~ "Por favor ajuste sus preferencias a un ejecutable válido."
 
-#~ msgid "This transaction has a reconciled breakdown line, deletion canceled."
+#~ msgid "This transaction has a reconciled split line, deletion canceled."
 #~ msgstr ""
 #~ "Esta transacción tiene una línea de anotación reconciliada, borrado "
 #~ "cancelado."

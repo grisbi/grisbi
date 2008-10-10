@@ -97,7 +97,7 @@ GdkColor couleur_fond[2];
 GdkColor couleur_grise;
 GdkColor archive_background_color;
 GdkColor couleur_selection;
-GdkColor breakdown_background;
+GdkColor split_background;
 
 
 /* colors of the amounts in the first page */
@@ -364,12 +364,12 @@ void initialisation_couleurs_listes ( void )
     archive_background_color.blue = COLOR_ARCHIVE_BG_BLUE;
     archive_background_color.pixel = 0;
 
-    /* color for breakdown children */
+    /* color for split children */
 
-    breakdown_background.red = BREAKDOWN_BACKGROUND_COLOR_RED;
-    breakdown_background.green = BREAKDOWN_BACKGROUND_COLOR_GREEN;
-    breakdown_background.blue = BREAKDOWN_BACKGROUND_COLOR_BLUE;
-    breakdown_background.pixel = 0;
+    split_background.red = BREAKDOWN_BACKGROUND_COLOR_RED;
+    split_background.green = BREAKDOWN_BACKGROUND_COLOR_GREEN;
+    split_background.blue = BREAKDOWN_BACKGROUND_COLOR_BLUE;
+    split_background.pixel = 0;
 
     /* initialise la couleur de la sélection */
 

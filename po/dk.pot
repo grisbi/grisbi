@@ -388,7 +388,7 @@ msgstr ""
 #: src/operations_formulaire.c:367
 #: src/operations_onglet.c:95
 #: src/operations_onglet.c:147
-msgid "Breakdown"
+msgid "Split"
 msgstr ""
 
 #: src/affichage_formulaire.c:869
@@ -1072,13 +1072,13 @@ msgstr ""
 #: src/categories_onglet.c:1114
 #: src/imputation_budgetaire.c:1137
 #, c-format
-msgid "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
+msgid "%d/%d/%d : %4.2f %s (split) [ %s ]"
 msgstr ""
 
 #: src/categories_onglet.c:1133
 #: src/imputation_budgetaire.c:1156
 #, c-format
-msgid "%d/%d/%d : %4.2f %s (breakdown)"
+msgid "%d/%d/%d : %4.2f %s (split)"
 msgstr ""
 
 #: src/categories_onglet.c:1676
@@ -1134,7 +1134,7 @@ msgstr ""
 #: src/operations_liste.c:1359
 #: src/operations_liste.c:2338
 #: src/ventilation.c:183
-msgid "Breakdown of transaction"
+msgid "Split of transaction"
 msgstr ""
 
 #. Si c'est un virement, on fait les vÃ©rifications
@@ -1915,7 +1915,7 @@ msgstr ""
 
 #: src/echeancier_ventilation.c:2437
 #: src/ventilation.c:2459
-msgid "Incomplete breakdown"
+msgid "Incomplete split"
 msgstr ""
 
 #: src/echeancier_ventilation.c:2438
@@ -1927,7 +1927,7 @@ msgstr ""
 
 #: src/echeancier_ventilation.c:2620
 #: src/ventilation.c:2687
-msgid "A breakdown line is to be deleted though it is not yet registered."
+msgid "A split line is to be deleted though it is not yet registered."
 msgstr ""
 
 #: src/equilibrage.c:185
@@ -4496,11 +4496,11 @@ msgstr ""
 
 #. affiche la question de rÃ©cupÃ©ration
 #: src/operations_formulaire.c:2116
-msgid "This is a breakdown transaction"
+msgid "This is a split transaction"
 msgstr ""
 
 #: src/operations_formulaire.c:2117
-msgid "Recover breakdown?"
+msgid "Recover split?"
 msgstr ""
 
 #: src/operations_formulaire.c:2330
@@ -4584,7 +4584,7 @@ msgid "The contra-transaction of this transfer is reconciled, deletion impossibl
 msgstr ""
 
 #: src/operations_liste.c:2838
-msgid "One of the breakdown lines is a transfer whose contra-transaction is reconciled.  Deletion canceled."
+msgid "One of the split lines is a transfer whose contra-transaction is reconciled.  Deletion canceled."
 msgstr ""
 
 #. Delete transaction
@@ -5075,7 +5075,7 @@ msgid "The associated account for this transfer is closed"
 msgstr ""
 
 #: src/ventilation.c:2019
-msgid "This transaction has a reconciled breakdown line, deletion canceled."
+msgid "This transaction has a reconciled split line, deletion canceled."
 msgstr ""
 
 #: src/ventilation.c:2039

@@ -65,9 +65,9 @@ typedef struct
     gint sub_category_number;
     gint budgetary_number;
     gint sub_budgetary_number;
-    gint account_number_transfer;			/**< -1 for a scheduled neither categ, neither transfer, neither breakdown */
-    gint breakdown_of_scheduled;			/**< 1 if it's a breakdown of scheduled */
-    gint mother_scheduled_number;			/**< for a breakdown, the mother's scheduled number */
+    gint account_number_transfer;			/**< -1 for a scheduled neither categ, neither transfer, neither split */
+    gint split_of_scheduled;			/**< 1 if it's a split of scheduled */
+    gint mother_scheduled_number;			/**< for a split, the mother's scheduled number */
 
     /** @name method of payment */
     gint method_of_payment_number;
@@ -101,7 +101,7 @@ static GSList *scheduled_list = NULL;
 
 /** the g_slist which contains all the white scheduleds structures
  * ie : 1 general white line
- * and 1 white line per breakdown of scheduled */
+ * and 1 white line per split of scheduled */
 static GSList *white_scheduled_list = NULL;
 
 /** 2 pointers to the 2 last scheduled used (to increase the speed) */
@@ -188,7 +188,7 @@ gint gsb_data_scheduled_get_last_number (void)
  * find the last number of the white lines
  * all the white lines have a number < 0, and it always exists at least
  * one line, which number -1 which is the general white line (without mother)
- * so we never return 0 to avoid -1 for a number of white breakdown
+ * so we never return 0 to avoid -1 for a number of white split
  * 
  * \param none
  *
@@ -362,8 +362,8 @@ gboolean gsb_data_scheduled_set_account_number ( gint scheduled_number,
 
     scheduled -> account_number = no_account;
 
-    /* if the scheduled is a breakdown, change all the children */
-    if (scheduled -> breakdown_of_scheduled)
+    /* if the scheduled is a split, change all the children */
+    if (scheduled -> split_of_scheduled)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -428,8 +428,8 @@ gboolean gsb_data_scheduled_set_date ( gint scheduled_number,
 	g_date_free (scheduled -> date);
     scheduled -> date = gsb_date_copy (date);
 
-    /* if the scheduled is a breakdown, change all the children */
-    if (scheduled -> breakdown_of_scheduled)
+    /* if the scheduled is a split, change all the children */
+    if (scheduled -> split_of_scheduled)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -543,8 +543,8 @@ gboolean gsb_data_scheduled_set_currency_number ( gint scheduled_number,
 
     scheduled -> currency_number = no_currency;
 
-    /* if the scheduled is a breakdown, change all the children */
-    if (scheduled -> breakdown_of_scheduled)
+    /* if the scheduled is a split, change all the children */
+    if (scheduled -> split_of_scheduled)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -608,8 +608,8 @@ gboolean gsb_data_scheduled_set_party_number ( gint scheduled_number,
 
     scheduled -> party_number = no_party;
 
-    /* if the scheduled is a breakdown, change all the children */
-    if (scheduled -> breakdown_of_scheduled)
+    /* if the scheduled is a split, change all the children */
+    if (scheduled -> split_of_scheduled)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -720,13 +720,13 @@ gboolean gsb_data_scheduled_set_sub_category_number ( gint scheduled_number,
 
 
 /**
- * get if the scheduled is a breakdown_of_scheduled
+ * get if the scheduled is a split_of_scheduled
  * 
  * \param scheduled_number the number of the scheduled
  * 
- * \return TRUE if the scheduled is a breakdown of scheduled
+ * \return TRUE if the scheduled is a split of scheduled
  * */
-gint gsb_data_scheduled_get_breakdown_of_scheduled ( gint scheduled_number )
+gint gsb_data_scheduled_get_split_of_scheduled ( gint scheduled_number )
 {
     struct_scheduled *scheduled;
 
@@ -735,19 +735,19 @@ gint gsb_data_scheduled_get_breakdown_of_scheduled ( gint scheduled_number )
     if ( !scheduled )
 	return -1;
 
-    return scheduled -> breakdown_of_scheduled;
+    return scheduled -> split_of_scheduled;
 }
 
 
 /**
- * set if the scheduled is a breakdown_of_scheduled
+ * set if the scheduled is a split_of_scheduled
  * \param scheduled_number
- * \param is_breakdown
+ * \param is_split
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_scheduled_set_breakdown_of_scheduled ( gint scheduled_number,
-							 gint is_breakdown )
+gboolean gsb_data_scheduled_set_split_of_scheduled ( gint scheduled_number,
+							 gint is_split )
 {
     struct_scheduled *scheduled;
 
@@ -756,7 +756,7 @@ gboolean gsb_data_scheduled_set_breakdown_of_scheduled ( gint scheduled_number,
     if ( !scheduled )
 	return FALSE;
 
-    scheduled -> breakdown_of_scheduled = is_breakdown;
+    scheduled -> split_of_scheduled = is_split;
 
     return TRUE;
 }
@@ -857,8 +857,8 @@ gboolean gsb_data_scheduled_set_method_of_payment_number ( gint scheduled_number
 
     scheduled -> method_of_payment_number = number;
 
-    /* if the scheduled is a breakdown, change all the children */
-    if (scheduled -> breakdown_of_scheduled)
+    /* if the scheduled is a split, change all the children */
+    if (scheduled -> split_of_scheduled)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -1141,10 +1141,10 @@ gboolean gsb_data_scheduled_is_transfer ( gint scheduled_number )
 	return TRUE;
     
     /* ok, now we have an account_number_transfer at 0, so it can be
-     * a normal scheduled transactions (with categs), or breakdown */
+     * a normal scheduled transactions (with categs), or split */
     if (scheduled -> category_number
 	||
-	scheduled -> breakdown_of_scheduled)
+	scheduled -> split_of_scheduled)
 	return FALSE;
     return TRUE;
 }
@@ -1517,15 +1517,15 @@ gint gsb_data_scheduled_new_scheduled ( void )
 
 /** 
  * create a new white line
- * if there is a mother scheduled, it's a breakdown and we increment in the negatives values
+ * if there is a mother scheduled, it's a split and we increment in the negatives values
  * the number of that line
  * without mother scheduled, it's the general white line, the number is -1
  *
- * if it's a child breakdown, the account is set as for its mother,
+ * if it's a child split, the account is set as for its mother,
  * if it's the last white line, the account is set to -1
  * that scheduled is appended to the white scheduleds list
  * 
- * \param mother_scheduled_number the number of the mother's scheduled if it's a breakdown child ; 0 if not
+ * \param mother_scheduled_number the number of the mother's scheduled if it's a split child ; 0 if not
  *
  * \return the number of the white line
  *
@@ -1543,7 +1543,7 @@ gint gsb_data_scheduled_new_white_line ( gint mother_scheduled_number)
 	return -1;
     }
 
-    /* we fill some things for the child breakdown to help to sort the list */
+    /* we fill some things for the child split to help to sort the list */
 
     if ( mother_scheduled_number )
     {
@@ -1605,7 +1605,7 @@ gboolean gsb_data_scheduled_remove_scheduled ( gint scheduled_number )
     if ( !scheduled )
 	return FALSE;
 
-    if ( scheduled -> breakdown_of_scheduled )
+    if ( scheduled -> split_of_scheduled )
     {
 	GSList *list_tmp;
 
@@ -1636,11 +1636,11 @@ gboolean gsb_data_scheduled_remove_scheduled ( gint scheduled_number )
 
 
 /**
- * find the children of the breakdown given in param and
+ * find the children of the split given in param and
  * return their numbers or their adress in a GSList
  * the list sould be freed
  *
- * \param scheduled_number a breakdown of scheduled transaction
+ * \param scheduled_number a split of scheduled transaction
  * \param return_number TRUE if we want a list of number, FALSE if we want a list of struct adr
  *
  * \return a GSList of the numbers/adress of the children, NULL if no child
@@ -1656,7 +1656,7 @@ GSList *gsb_data_scheduled_get_children ( gint scheduled_number,
 
     if ( !scheduled
 	 ||
-	 !scheduled -> breakdown_of_scheduled)
+	 !scheduled -> split_of_scheduled)
 	return NULL;
 
     /* get the normal children */
@@ -1706,11 +1706,11 @@ GSList *gsb_data_scheduled_get_children ( gint scheduled_number,
 /**
  * find the white line corresponding to the scheduled transaction
  * given in param and return the number
- * if the scheduled is not a breakdown, return -1, the general white line
+ * if the scheduled is not a split, return -1, the general white line
  *
- * \param scheduled_number a breakdown scheduled number
+ * \param scheduled_number a split scheduled number
  *
- * \return the number of the white line of the breakdown or -1
+ * \return the number of the white line of the split or -1
  * */
 gint gsb_data_scheduled_get_white_line ( gint scheduled_number)
 {
@@ -1721,7 +1721,7 @@ gint gsb_data_scheduled_get_white_line ( gint scheduled_number)
 
     if (!scheduled
 	 ||
-	 !scheduled -> breakdown_of_scheduled)
+	 !scheduled -> split_of_scheduled)
        return -1;
 
     tmp_list = white_scheduled_list;

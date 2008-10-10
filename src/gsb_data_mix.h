@@ -17,7 +17,7 @@ gint gsb_data_mix_get_automatic_transaction ( gint transaction_number,
 					      gboolean is_transaction );
 const gchar *gsb_data_mix_get_bank_references ( gint transaction_number,
 						gboolean is_transaction );
-gint gsb_data_mix_get_breakdown_of_transaction ( gint transaction_number,
+gint gsb_data_mix_get_split_of_transaction ( gint transaction_number,
 						 gboolean is_transaction );
 gint gsb_data_mix_get_budgetary_number ( gint transaction_number,
 					 gboolean is_transaction );
@@ -61,8 +61,8 @@ gboolean gsb_data_mix_set_amount ( gint transaction_number,
 gboolean gsb_data_mix_set_bank_references ( gint transaction_number,
 					    const gchar *bank_references,
 					    gboolean is_transaction );
-gboolean gsb_data_mix_set_breakdown_of_transaction ( gint transaction_number,
-						     gint is_breakdown,
+gboolean gsb_data_mix_set_split_of_transaction ( gint transaction_number,
+						     gint is_split,
 						     gboolean is_transaction );
 gboolean gsb_data_mix_set_budgetary_number ( gint transaction_number,
 					     gint budgetary_number,

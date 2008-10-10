@@ -13,8 +13,8 @@ void gsb_form_transaction_check_change_button ( gint currency_number,
 						gint account_number );
 gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name );
 GSList *gsb_form_transaction_get_parties_list_from_report ( void );
-gboolean gsb_form_transaction_recover_breakdowns_of_transaction ( gint new_transaction_number,
-								  gint no_last_breakdown );
+gboolean gsb_form_transaction_recover_splits_of_transaction ( gint new_transaction_number,
+								  gint no_last_split );
 gint gsb_form_transaction_validate_transfer ( gint transaction_number,
 					      gint new_transaction,
 					      gint account_transfer );

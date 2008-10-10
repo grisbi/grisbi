@@ -6,7 +6,7 @@ New in version 0.6 :
    + Tabs deprecated in favor of a navigation tree
    + Redesigned categories/payees/budgetary lines trees
    + Totally redesigned transaction list with native GTK2 widgets
-   + Breakdown of transactions displayed directly in transaction list
+   + Split of transactions displayed directly in transaction list
    + Optional grid in transaction list
    + New "view" menu
    + Use of assistants to ease some operations

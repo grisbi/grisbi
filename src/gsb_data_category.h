@@ -31,7 +31,7 @@ gchar *gsb_data_category_get_name ( gint no_category,
 GSList *gsb_data_category_get_name_list ( gboolean set_debit,
 					  gboolean set_credit,
 					  gboolean set_special,
-					  gboolean set_breakdown );
+					  gboolean set_split );
 gint gsb_data_category_get_nb_direct_transactions ( gint no_category );
 gint gsb_data_category_get_nb_transactions ( gint no_category );
 gint gsb_data_category_get_no_category ( gpointer category_ptr );

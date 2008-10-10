@@ -966,7 +966,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
 	/* the report is ok */
 	report_transactions_list = recupere_opes_etat (report_number);
 
-	/* the list from report doesn't contain contra-transaction and mother/children breakdown,
+	/* the list from report doesn't contain contra-transaction and mother/children split,
 	 * so for each transaction of that list, we need to check the contra-transaction, the mother and children
 	 * and add them to the list */
 	tmp_list = report_transactions_list;
@@ -1019,7 +1019,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
  * add too all the linked transactions with it
  * 	ie : 	the contra-transfer if exists
  * 		if child, the mother and the other children
- * 		if breakdown, the children
+ * 		if split, the children
  *
  * prevent multiple entry of the transaction, so can just call that function,
  * 	the same transaction won't be added several times
@@ -1047,11 +1047,11 @@ static void gsb_assistant_archive_add_transaction_to_list ( gpointer transaction
     /* check for contra-transaction */
     gsb_assistant_archive_add_contra_transaction_to_list (transaction_number);
  
-    /* check for breakdown */
+    /* check for split */
     gsb_assistant_archive_add_children_to_list (transaction_number);
 
     /* check for child
-     * if the transaction is a child, the best way is to get the mother and check for breakdown */
+     * if the transaction is a child, the best way is to get the mother and check for split */
     gsb_assistant_archive_add_children_to_list (gsb_data_transaction_get_mother_transaction_number (transaction_number));
 
     return;
@@ -1061,7 +1061,7 @@ static void gsb_assistant_archive_add_transaction_to_list ( gpointer transaction
 /**
  * check the transaction
  * if it's a transfer, add the contra-transaction to the archive list
- * if the contra-transaction is a child of breakdown, add too all the breakdown
+ * if the contra-transaction is a child of split, add too all the split
  *
  * \param transaction_number the transaction we want to check and add its contra-transaction
  *
@@ -1087,8 +1087,8 @@ static void gsb_assistant_archive_add_contra_transaction_to_list ( gint transact
 	    list_transaction_to_archive = g_slist_append ( list_transaction_to_archive,
 							   contra_transaction_pointer );
 
-	/* if the contra-transaction is a child of breakdown,
-	 * we need to add the breakdown and all children to the list */
+	/* if the contra-transaction is a child of split,
+	 * we need to add the split and all children to the list */
 	gsb_assistant_archive_add_children_to_list (gsb_data_transaction_get_mother_transaction_number (contra_transaction_number));
     }
     return;
@@ -1096,8 +1096,8 @@ static void gsb_assistant_archive_add_contra_transaction_to_list ( gint transact
 
 /**
  * check the transaction
- * if it's a breakdown, add all the children (and their contra-transactions) to the archive list
- * this will add too the breakdown itself
+ * if it's a split, add all the children (and their contra-transactions) to the archive list
+ * this will add too the split itself
  *
  * \param transaction_number the transaction we want to check and add the children
  *
@@ -1108,11 +1108,11 @@ static void gsb_assistant_archive_add_children_to_list ( gint transaction_number
     if (transaction_number <= 0)
 	return;
 
-    if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+    if (gsb_data_transaction_get_split_of_transaction (transaction_number))
     {
 	GSList *child_list;
 
-	/* add the breakdown */
+	/* add the split */
 	if (!g_slist_find ( list_transaction_to_archive,
 			    gsb_data_transaction_get_pointer_of_transaction (transaction_number)))
 	    list_transaction_to_archive = g_slist_append ( list_transaction_to_archive,

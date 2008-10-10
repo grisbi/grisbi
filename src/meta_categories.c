@@ -219,7 +219,7 @@ gsb_real category_sub_div_balance ( gint div, gint sub_div )
  *
  * @return	Transaction category number.  0 if no transaction is
  *		demanded.  -1 if transaction is a transfert or a
- *		breakdown of transaction to avoid transaction being
+ *		split of transaction to avoid transaction being
  *		considered as a "No category" transaction.
  */
 gint category_transaction_div_id ( gint transaction_number )
@@ -228,7 +228,7 @@ gint category_transaction_div_id ( gint transaction_number )
     {
 	if ( gsb_data_transaction_get_contra_transaction_number (transaction_number)
 	     || 
-	     gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+	     gsb_data_transaction_get_split_of_transaction (transaction_number))
 	    return -1;
 	else
 	    return gsb_data_transaction_get_category_number (transaction_number);

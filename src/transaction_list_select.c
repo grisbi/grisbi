@@ -148,7 +148,7 @@ gint transaction_list_select_get ( void )
  * this doesn't change the selection in the account, only on the model,
  * so need to update the account
  *
- * \param into_children		if TRUE and the previous transaction is a breakdown and is opened,
+ * \param into_children		if TRUE and the previous transaction is a split and is opened,
  * 				the selection goes on the last child of the previous transactions,
  * 				else it goes directly on the mother
  *
@@ -279,7 +279,7 @@ gboolean transaction_list_select_down ( gboolean into_children )
 	if (gsb_data_transaction_get_transaction_number (record -> transaction_pointer) == -1)
 	    return FALSE;
 
-	/* if we are on a breakdown, and it is opened, and into_children i set, go
+	/* if we are on a split, and it is opened, and into_children i set, go
 	 * to the first child */
 	if (record -> number_of_children && into_children)
 	{

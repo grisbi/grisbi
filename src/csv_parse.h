@@ -7,7 +7,7 @@
 
 /* START_DECLARATION */
 gboolean csv_import_parse_balance ( struct struct_ope_importation * ope, gchar * string );
-gboolean csv_import_parse_breakdown ( struct struct_ope_importation * ope, gchar * string );
+gboolean csv_import_parse_split ( struct struct_ope_importation * ope, gchar * string );
 gboolean csv_import_parse_category ( struct struct_ope_importation * ope, gchar * string );
 gboolean csv_import_parse_credit ( struct struct_ope_importation * ope, gchar * string );
 gboolean csv_import_parse_currency ( struct struct_ope_importation * ope, gchar * string );

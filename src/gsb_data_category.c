@@ -50,7 +50,7 @@ typedef struct
     /** @name category content */
     guint category_number;
     gchar *category_name;
-    gint category_type;		/**< 0:credit / 1:debit / 2:special (transfert, breakdown...) */
+    gint category_type;		/**< 0:credit / 1:debit / 2:special (transfert, split...) */
 
     GSList *sub_category_list;
 
@@ -690,7 +690,7 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
  * \param name the name of the category
  * \param create TRUE if we want to create it if it doen't exist
  * \param category_type the type of the category if we create it
- * 0:credit / 1:debit / 2:special (transfert, breakdown...) *
+ * 0:credit / 1:debit / 2:special (transfert, split...) *
  * \return the number of the category or 0 if problem
  * */
 gint gsb_data_category_get_number_by_name ( const gchar *name,
@@ -969,14 +969,14 @@ gboolean gsb_data_category_set_sub_category_name ( gint no_category,
  * \param set_debit TRUE if we want to have the debits
  * \param set_credit TRUE if we want to have the credits
  * \param set_special TRUE if we want to have the specials
- * \param set_breakdown TRUE if we want to add the breakdown to the specials category
+ * \param set_split TRUE if we want to add the split to the specials category
  *
  * \return a g_slist of g_slist of gchar *
  * */
 GSList *gsb_data_category_get_name_list ( gboolean set_debit,
 					  gboolean set_credit,
 					  gboolean set_special,
-					  gboolean set_breakdown )
+					  gboolean set_split )
 {
     GSList *return_list;
     GSList *tmp_list;
@@ -1032,9 +1032,9 @@ GSList *gsb_data_category_get_name_list ( gboolean set_debit,
     {
 	GSList *special_list = NULL;
 
-	if (set_breakdown)
+	if (set_split)
 	    special_list = g_slist_append ( special_list,
-					    _("Breakdown of transaction"));
+					    _("Split of transaction"));
 	special_list = g_slist_append ( special_list,
 					_("Transfer"));
 
@@ -1101,7 +1101,7 @@ GSList *gsb_data_category_append_sub_category_to_list ( GSList *category_list,
 
 /**
  * return the type of the category
- * 0:credit / 1:debit / 2:special (transfert, breakdown...)
+ * 0:credit / 1:debit / 2:special (transfert, split...)
  *
  * \param no_category the number of the category
  * \param can_return_null if problem, return NULL if TRUE or "No category" if FALSE
@@ -1123,7 +1123,7 @@ gint gsb_data_category_get_type ( gint no_category )
 
 /**
  * set the type of the category
- * 0:credit / 1:debit / 2:special (transfert, breakdown...)
+ * 0:credit / 1:debit / 2:special (transfert, split...)
  *
  * \param no_category the number of the category
  * \param name the name of the category
@@ -1369,8 +1369,8 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
     struct_category *category;
     struct_sub_category *sub_category;
 
-    /* if the transaction is a transfer or a breakdown transaction, don't take it */
-    if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
+    /* if the transaction is a transfer or a split transaction, don't take it */
+    if (gsb_data_transaction_get_split_of_transaction (transaction_number)
 	||
 	gsb_data_transaction_get_contra_transaction_number (transaction_number))
 	return;

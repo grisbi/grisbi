@@ -20,7 +20,7 @@ Encryption is irreversible, if you loose your password, there is NO WAY to resto
 
 7 _ "You can efficiently manage your professional expenses with Grisbi.
 
-Create a <i>Professional expenses</i> budgetary line and put all professional expenses there.  When you are paid, split your salary as a breakdown of transaction, with both a <i>Salary</i> part and a <i>Profesionnal expenses</i> part.  
+Create a <i>Professional expenses</i> budgetary line and put all professional expenses there.  When you are paid, split your salary as a split of transaction, with both a <i>Salary</i> part and a <i>Profesionnal expenses</i> part.  
 
 Then, you can create a new report that sums up transactions from the <i>Profesionnal expenses</i> budgetary line and see the balance."
 

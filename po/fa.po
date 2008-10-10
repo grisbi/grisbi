@@ -875,12 +875,12 @@ msgid ""
 msgstr ""
 
 #: src/dialog.c:80
-msgid "Recover breakdown?"
+msgid "Recover split?"
 msgstr ""
 
 #: src/dialog.c:81
 msgid ""
-"This is a breakdown of transaction, associated transactions can be recovered "
+"This is a split of transaction, associated transactions can be recovered "
 "as in last transaction with this payee.  Do you want to recover them?"
 msgstr ""
 
@@ -1258,7 +1258,7 @@ msgstr ""
 #: src/etats_affiche.c:1845 src/export_csv.c:561 src/gsb_data_category.c:1037
 #: src/gsb_form.c:727 src/gsb_form.c:2444 src/gsb_form.c:2795
 #: src/gsb_form_scheduler.c:329 src/gsb_transactions_list.c:3219
-msgid "Breakdown of transaction"
+msgid "Split of transaction"
 msgstr ""
 
 #: src/etats_affiche.c:1852 src/gsb_data_category.c:157
@@ -1946,11 +1946,11 @@ msgid "Select reconciled transactions"
 msgstr "جستجوی تراکنش"
 
 #: src/etats_config.c:6231
-msgid "Breakdown of transactions detail"
+msgid "Split of transactions detail"
 msgstr ""
 
 #: src/etats_config.c:6233
-msgid "Do not detail breakdown of transactions"
+msgid "Do not detail split of transactions"
 msgstr ""
 
 #. choix de ce qu'on utilise dans le classement
@@ -2651,7 +2651,7 @@ msgid "Deleted account"
 msgstr "حساب حذف شده"
 
 #: src/export_csv.c:743 src/import_csv.c:92
-msgid "Breakdown"
+msgid "Split"
 msgstr ""
 
 #: src/export_csv.c:752
@@ -6402,7 +6402,7 @@ msgstr ""
 msgid "Transaction/Scheduled _form"
 msgstr ""
 
-#. create the check button to recover the children of breakdowns
+#. create the check button to recover the children of splits
 #: src/gsb_form.c:317
 msgid "Recover the children"
 msgstr ""
@@ -6453,8 +6453,8 @@ msgstr "نام فایل معتبر نیست \"%s\"!"
 
 #: src/gsb_form.c:2446
 msgid ""
-"You cannot set breakdown of transaction in category for a daughter of a "
-"breakdown of transaction."
+"You cannot set split of transaction in category for a daughter of a "
+"split of transaction."
 msgstr ""
 
 #: src/gsb_form.c:2481
@@ -6494,7 +6494,7 @@ msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 
 #: src/gsb_form.c:2566
-msgid "A transaction with a multiple payee cannot be a breakdown child."
+msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 
 #: src/gsb_form.c:2577
@@ -6512,7 +6512,7 @@ msgstr "حذف تراکنش"
 
 #: src/gsb_form.c:2819
 msgid ""
-"You are trying to change a breakdown of transaction to another kind of "
+"You are trying to change a split of transaction to another kind of "
 "transaction.\n"
 "There is some children to that transaction, if you continue, the children "
 "will be deleted.\n"
@@ -7195,7 +7195,7 @@ msgid ""
 "not a recommended action. Are you really sure you know what you're doing?"
 "manually a transaction which isn't a regular way to do.\n"
 "\n"
-"And moreover the transaction you try to reconcile is a child of breakdown, "
+"And moreover the transaction you try to reconcile is a child of split, "
 "so the modification will be done on the mother and all its children.\n"
 "\n"
 "Are you really sure to know what you do?"
@@ -7241,7 +7241,7 @@ msgstr ""
 #: src/gsb_transactions_list.c:1888
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
-"The transaction, the contra-transaction or the children if it is a breakdown "
+"The transaction, the contra-transaction or the children if it is a split "
 "are reconciled. You can remove the reconciliation with Ctrl R if it is "
 "really necessary."
 msgstr ""
@@ -8070,7 +8070,7 @@ msgid "New payee #%d"
 msgstr ""
 
 #: src/metatree.c:470
-msgid "breakdown"
+msgid "split"
 msgstr ""
 
 #. FIXME: tell the truth ;-)

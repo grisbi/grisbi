@@ -315,7 +315,7 @@ gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
     gint save_transaction;
     gint save_execute;
     GSList *content_list;
-    gboolean is_breakdown;
+    gboolean is_split;
     GtkWidget *category_entry;
     gint new_account_number;
 
@@ -323,17 +323,17 @@ gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
 
     new_account_number = gsb_form_get_account_number ();
 
-    /* need to check first if breakdown (see later) */
+    /* need to check first if split (see later) */
     category_entry = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
     if (category_entry
 	&&
 	gsb_form_widget_check_empty (GTK_COMBOFIX (category_entry) -> entry)
 	&&
-	!strcmp (gtk_combofix_get_text (GTK_COMBOFIX (category_entry)), _("Breakdown of transaction")))
-	/* ok it's a breakdown */
-	is_breakdown = TRUE;
+	!strcmp (gtk_combofix_get_text (GTK_COMBOFIX (category_entry)), _("Split of transaction")))
+	/* ok it's a split */
+	is_split = TRUE;
     else
-	is_breakdown = FALSE;
+	is_split = FALSE;
 	
     /* problem here : when change account, the form can be changed, with new or less widgets
      * so we fill again de form
@@ -353,13 +353,13 @@ gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
 
     /* a problem now, fill_from_account will clean the form,
      * and make unsensitive some part of the form (method of payment...)
-     * and make sensitive some other part wich could be unsensitive (for breakdown for example)
-     * so we call gsb_form_set_sensitive, but 2 args, breakdown or child.
+     * and make sensitive some other part wich could be unsensitive (for split for example)
+     * so we call gsb_form_set_sensitive, but 2 args, split or child.
      * cannot be a child because child cannot access to the account button, so just to check
-     * if it's a breakdown (done before)
+     * if it's a split (done before)
      */
     gsb_form_change_sensitive_buttons (TRUE);
-    gsb_form_set_sensitive (is_breakdown, FALSE);
+    gsb_form_set_sensitive (is_split, FALSE);
 
     gsb_form_scheduler_set_content_list (content_list);
     gsb_form_scheduler_free_content_list (content_list);
@@ -637,7 +637,7 @@ gboolean gsb_form_scheduler_clean ( void )
     {
 	widget = gsb_form_scheduler_get_element_widget (column);
 
-	/* some widgets can be set unsensitive because of the children of breakdowns,
+	/* some widgets can be set unsensitive because of the children of splits,
 	 * so resensitive all to be sure */
 	if (widget)
 	{
@@ -728,7 +728,7 @@ gboolean gsb_form_scheduler_set ( gint scheduled_number )
 
     gsb_form_scheduler_sensitive_buttons (TRUE);
 
-    /* if we are on a white breakdown line, set all as the mother */
+    /* if we are on a white split line, set all as the mother */
     if (scheduled_number < -1)
 	scheduled_number = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
 

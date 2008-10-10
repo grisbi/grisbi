@@ -62,7 +62,7 @@ gint gsb_data_report_get_financial_year_split ( gint report_number );
 gint gsb_data_report_get_financial_year_type ( gint report_number );
 GSList *gsb_data_report_get_method_of_payment_list ( gint report_number );
 gint gsb_data_report_get_method_of_payment_used ( gint report_number );
-gint gsb_data_report_get_not_detail_breakdown ( gint report_number );
+gint gsb_data_report_get_not_detail_split ( gint report_number );
 gint gsb_data_report_get_payee_currency ( gint report_number );
 gint gsb_data_report_get_payee_detail_used ( gint report_number );
 GSList *gsb_data_report_get_payee_numbers ( gint report_number );
@@ -187,8 +187,8 @@ gboolean gsb_data_report_set_method_of_payment_list ( gint report_number,
 						      GSList *method_of_payment_list );
 gboolean gsb_data_report_set_method_of_payment_used ( gint report_number,
 						      gint method_of_payment_used );
-gboolean gsb_data_report_set_not_detail_breakdown ( gint report_number,
-						    gint not_detail_breakdown );
+gboolean gsb_data_report_set_not_detail_split ( gint report_number,
+						    gint not_detail_split );
 gboolean gsb_data_report_set_payee_currency ( gint report_number,
 					      gint payee_currency );
 gboolean gsb_data_report_set_payee_detail_used ( gint report_number,

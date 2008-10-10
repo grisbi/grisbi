@@ -1025,7 +1025,7 @@ GSList *gsb_data_budget_append_sub_budget_to_list ( GSList *budget_list,
 
 /**
  * return the type of the budget
- * 0:credit / 1:debit / 2:special (transfert, breakdown...)
+ * 0:credit / 1:debit / 2:special (transfert, split...)
  *
  * \param no_budget the number of the budget
  * \param can_return_null if problem, return NULL if TRUE or "No budget" if FALSE
@@ -1047,7 +1047,7 @@ gint gsb_data_budget_get_type ( gint no_budget )
 
 /**
  * set the type of the budget
- * 0:credit / 1:debit / 2:special (transfert, breakdown...)
+ * 0:credit / 1:debit / 2:special (transfert, split...)
  *
  * \param no_budget the number of the budget
  * \param name the name of the budget

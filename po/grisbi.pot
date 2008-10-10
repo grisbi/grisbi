@@ -1746,12 +1746,12 @@ msgid ""
 msgstr ""
 
 #: src/dialog.c:86
-msgid "Recover breakdown?"
+msgid "Recover split?"
 msgstr ""
 
 #: src/dialog.c:87
 msgid ""
-"This is a breakdown of transaction, associated transactions can be recovered "
+"This is a split of transaction, associated transactions can be recovered "
 "as in last transaction with this payee.  Do you want to recover them?"
 msgstr ""
 
@@ -1802,7 +1802,7 @@ msgstr ""
 #. bouton ventilation, pour accÃ©der Ã  la fenetre de ventil de l'Ã©chÃ©ance
 #: src/echeancier_formulaire.c:478 src/echeancier_onglet.c:104
 #: src/import_csv.c:81
-msgid "Breakdown"
+msgid "Split"
 msgstr ""
 
 #: src/echeancier_formulaire.c:537 src/echeancier_formulaire.c:538
@@ -1874,7 +1874,7 @@ msgstr ""
 #: src/operations_formulaire.c:1801 src/operations_formulaire.c:2496
 #: src/operations_formulaire.c:2918 src/operations_liste.c:2363
 #: src/operations_liste.c:4578
-msgid "Breakdown of transaction"
+msgid "Split of transaction"
 msgstr ""
 
 #: src/echeancier_formulaire.c:1037 src/echeancier_formulaire.c:2334
@@ -1909,13 +1909,13 @@ msgstr ""
 
 #: src/echeancier_formulaire.c:1740
 msgid ""
-"This breakdown of transaction has a transfer on itself.  Either change the "
+"This split of transaction has a transfer on itself.  Either change the "
 "sub transaction to transfer on another account or change account of the "
 "transaction itself."
 msgstr ""
 
 #: src/echeancier_formulaire.c:1741
-msgid "Invalid breakdown of transaction."
+msgid "Invalid split of transaction."
 msgstr ""
 
 #: src/echeancier_formulaire.c:1764 src/echeancier_ventilation.c:1415
@@ -2061,7 +2061,7 @@ msgid "Deleted account"
 msgstr ""
 
 #: src/echeancier_ventilation.c:2172
-msgid "Incomplete breakdown"
+msgid "Incomplete split"
 msgstr ""
 
 #: src/echeancier_ventilation.c:2173
@@ -2071,7 +2071,7 @@ msgid ""
 msgstr ""
 
 #: src/echeancier_ventilation.c:2355
-msgid "A breakdown line is to be deleted thought it is not yet registered."
+msgid "A split line is to be deleted thought it is not yet registered."
 msgstr ""
 
 #: src/equilibrage.c:154 src/equilibrage.c:160
@@ -4702,7 +4702,7 @@ msgid "New payee #%d"
 msgstr ""
 
 #: src/metatree.c:337
-msgid "breakdown"
+msgid "split"
 msgstr ""
 
 #. FIXME: tell the truth ;-)
@@ -4865,7 +4865,7 @@ msgstr ""
 
 #: src/operations_formulaire.c:2500
 msgid ""
-"You cannot set a daughter of a breakdown of transaction as a breakdown of "
+"You cannot set a daughter of a split of transaction as a split of "
 "transaction."
 msgstr ""
 
@@ -4929,7 +4929,7 @@ msgstr ""
 #: src/operations_liste.c:2828
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
-"The transaction, the contra-transaction or the children if it is a breakdown "
+"The transaction, the contra-transaction or the children if it is a split "
 "are reconciled. You can remove the reconciliation with Ctrl R if it is "
 "really necessary."
 msgstr ""

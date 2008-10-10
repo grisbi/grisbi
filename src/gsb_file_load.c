@@ -1676,7 +1676,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Br" ))
 	{
-	    gsb_data_transaction_set_breakdown_of_transaction ( transaction_number,
+	    gsb_data_transaction_set_split_of_transaction ( transaction_number,
 								utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -2063,7 +2063,7 @@ void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Br" ))
 	{
-	    gsb_data_scheduled_set_breakdown_of_scheduled ( scheduled_number,
+	    gsb_data_scheduled_set_split_of_scheduled ( scheduled_number,
 							    utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -3357,9 +3357,9 @@ void gsb_file_load_report ( const gchar **attribute_names,
 	}
 
 	if ( !strcmp ( attribute_names[i],
-		       "Show_exclude_breakdown_child" ))
+		       "Show_exclude_split_child" ))
 	{
-	    gsb_data_report_set_not_detail_breakdown ( report_number,
+	    gsb_data_report_set_not_detail_split ( report_number,
 						       utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
@@ -4366,7 +4366,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 		if ( !strcmp ( attribute_names[i],
 			       "Ov" ))
-		    gsb_data_transaction_set_breakdown_of_transaction ( transaction_number,
+		    gsb_data_transaction_set_split_of_transaction ( transaction_number,
 									utils_str_atoi ( attribute_values[i]) );
 
 		if ( !strcmp ( attribute_names[i],
@@ -4593,7 +4593,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
 		if ( !strcmp ( attribute_names[i],
 			       "Ech_ventilee" ))
-		    gsb_data_scheduled_set_breakdown_of_scheduled ( scheduled_number,
+		    gsb_data_scheduled_set_split_of_scheduled ( scheduled_number,
 								    utils_str_atoi (attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
@@ -6178,7 +6178,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Pas_detail_ventil" ))
     {
-	gsb_data_report_set_not_detail_breakdown ( last_report_number,
+	gsb_data_report_set_not_detail_split ( last_report_number,
 						   utils_str_atoi (text));
 	return;
     }
@@ -6805,7 +6805,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 
 		/*  si l'opération est une ventil, on refait le tour de la liste pour trouver ses filles */
 
-		if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_tmp))
+		if ( gsb_data_transaction_get_split_of_transaction (transaction_number_tmp))
 		{
 		    GSList *list_tmp_transactions_2;
 		    list_tmp_transactions_2 = gsb_data_transaction_get_complete_transactions_list ();
@@ -7015,8 +7015,8 @@ gboolean gsb_file_load_update_previous_version ( void )
 		list_tmp = list_tmp -> next;
 	    }
 
-	    /* a problem untill the 0.5.7, the children of a scheduled breakdown are marked
-	     * as a breakdown mother */
+	    /* a problem untill the 0.5.7, the children of a scheduled split are marked
+	     * as a split mother */
 	    list_tmp_scheduled = gsb_data_scheduled_get_scheduled_list ();
 
 	    while (list_tmp_scheduled)
@@ -7025,20 +7025,20 @@ gboolean gsb_file_load_update_previous_version ( void )
 		scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp_scheduled -> data);
 
 		if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
-		    gsb_data_scheduled_set_breakdown_of_scheduled ( scheduled_number,
+		    gsb_data_scheduled_set_split_of_scheduled ( scheduled_number,
 								    0 );
 		list_tmp_scheduled = list_tmp_scheduled -> next;
 	    }
 
-	    /* there is a bug untill now, which is some children of breakdown
+	    /* there is a bug untill now, which is some children of split
 	     * are not marked R, and the mother is...
 	     * very annoying now, we MUST mark them as R, so check here... */
 
-	    /* we use that to correct another bug, sometimes, the mother of breakdown
+	    /* we use that to correct another bug, sometimes, the mother of split
 	     * has a financial year an budget... bad things because makes errors in reports,
 	     * so change that here */
 
-	    /* another fix, some children of breakdown have not the same values of the mother
+	    /* another fix, some children of split have not the same values of the mother
 	     * for some fields wich should be ; fix here */
 
 	    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
@@ -7050,8 +7050,8 @@ gboolean gsb_file_load_update_previous_version ( void )
 
 		transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-		/*  if it's a breakdown and marked R, we look for the children */
-		if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+		/*  if it's a split and marked R, we look for the children */
+		if ( gsb_data_transaction_get_split_of_transaction (transaction_number))
 		{
 		    /* change the problem of marked transactions */
 		    if (gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE)

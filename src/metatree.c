@@ -467,7 +467,7 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
     if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number))
     {
         gchar* tmpstr = label;
-	label = g_strconcat ( tmpstr, " (", _("breakdown"), ")", NULL );
+	label = g_strconcat ( tmpstr, " (", _("split"), ")", NULL );
 	g_free ( tmpstr );
     }
 
@@ -1027,14 +1027,14 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
 	    /* set the transaction if the same div/sub-div
-	     * or if no categ (must check if no transfer or breakdown) */
+	     * or if no categ (must check if no transfer or split) */
 	    if ( transaction_number_tmp &&
 		 ( (iface -> transaction_div_id ( transaction_number_tmp) == no_division &&
 		    iface -> transaction_sub_div_id ( transaction_number_tmp) == no_sub_division )
 		   ||
 		   ( !no_division &&
 		     !iface -> transaction_div_id ( transaction_number_tmp) &&
-		     !gsb_data_transaction_get_breakdown_of_transaction (transaction_number_tmp) &&
+		     !gsb_data_transaction_get_split_of_transaction (transaction_number_tmp) &&
 		     !gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp))))
 
 	    {

@@ -694,7 +694,7 @@ void gsb_data_payee_add_transaction_to_payee ( gint transaction_number )
 
     payee = gsb_data_payee_get_structure ( gsb_data_transaction_get_party_number (transaction_number));
 
-    /* if no payee in that transaction, and it's neither a breakdown, neither a transfer,
+    /* if no payee in that transaction, and it's neither a split, neither a transfer,
      * we work with empty_payee */
 
     /* should not happen, this is if the transaction has a payee wich doesn't exists
@@ -731,12 +731,12 @@ void gsb_data_payee_remove_transaction_from_payee ( gint transaction_number )
 
     payee = gsb_data_payee_get_structure ( gsb_data_transaction_get_party_number (transaction_number));
 
-    /* if no payee in that transaction, and it's neither a breakdown, neither a transfer,
+    /* if no payee in that transaction, and it's neither a split, neither a transfer,
      * we work with empty_payee */
 
     if (!payee
 	&&
-	!gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
+	!gsb_data_transaction_get_split_of_transaction (transaction_number)
 	&& 
 	!gsb_data_transaction_get_contra_transaction_number (transaction_number))
 	payee = empty_payee;

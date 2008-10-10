@@ -804,7 +804,7 @@ gint gsb_transactions_list_sort_by_category ( gint transaction_number_1,
     gchar *temp_2;
 
     /** we want to take the name of the categ, so, either
-     * breakdown of transaction
+     * split of transaction
      * transfer : ...
      * categ : under-categ
      * and after, we sort by str

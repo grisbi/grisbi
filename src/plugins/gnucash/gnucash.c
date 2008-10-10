@@ -358,7 +358,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 
       /**
        * Gnucash transactions are in fact "splits", much like grisbi's
-       * breakdowns of transactions.  We need to parse all splits and
+       * splits of transactions.  We need to parse all splits and
        * see whether they are transfers to real accounts or transfers
        * to category accounts.  In that case, we only create one
        * transactions.  The other is discarded as grisbi is not a
@@ -430,7 +430,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
   if ( account )
     account -> operations_importees = g_slist_append ( account -> operations_importees, transaction );
 
-  /** Breakdowns of transactions are handled the same way, we process
+  /** Splits of transactions are handled the same way, we process
       them if we find more than one split in transaction node. */
   if ( g_slist_length ( split_list ) > 1 )
     {

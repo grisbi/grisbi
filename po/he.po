@@ -1209,12 +1209,12 @@ msgstr ""
 
 #: src/dialog.c:80
 #, fuzzy
-msgid "Recover breakdown?"
+msgid "Recover split?"
 msgstr "שבירת החשבון"
 
 #: src/dialog.c:81
 msgid ""
-"This is a breakdown of transaction, associated transactions can be recovered "
+"This is a split of transaction, associated transactions can be recovered "
 "as in last transaction with this payee.  Do you want to recover them?"
 msgstr ""
 
@@ -1595,7 +1595,7 @@ msgstr "העברה"
 #: src/etats_affiche.c:1845 src/export_csv.c:561 src/gsb_data_category.c:1036
 #: src/gsb_form.c:726 src/gsb_form.c:2428 src/gsb_form.c:2779
 #: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3233
-msgid "Breakdown of transaction"
+msgid "Split of transaction"
 msgstr "שבירת עיסקה"
 
 #: src/etats_affiche.c:1852 src/gsb_data_category.c:156
@@ -2318,12 +2318,12 @@ msgstr "העיסקאות המתואמות"
 
 #: src/etats_config.c:6231
 #, fuzzy
-msgid "Breakdown of transactions detail"
+msgid "Split of transactions detail"
 msgstr "שבירת עיסקה"
 
 #: src/etats_config.c:6233
 #, fuzzy
-msgid "Do not detail breakdown of transactions"
+msgid "Do not detail split of transactions"
 msgstr "לא לפרט עיסקאות מתואמות"
 
 #. choix de ce qu'on utilise dans le classement
@@ -3063,7 +3063,7 @@ msgid "Deleted account"
 msgstr "מחיקת חשבון"
 
 #: src/export_csv.c:743 src/import_csv.c:92
-msgid "Breakdown"
+msgid "Split"
 msgstr "שבירה"
 
 #: src/export_csv.c:752
@@ -6775,7 +6775,7 @@ msgstr "לא ניתן לנעול את הקובץ '%s': %s"
 msgid "Transaction/Scheduled _form"
 msgstr "טופס העברה"
 
-#. create the check button to recover the children of breakdowns
+#. create the check button to recover the children of splits
 #: src/gsb_form.c:316
 msgid "Recover the children"
 msgstr ""
@@ -6828,8 +6828,8 @@ msgstr "תאריך לא תקין"
 
 #: src/gsb_form.c:2430
 msgid ""
-"You cannot set breakdown of transaction in category for a daughter of a "
-"breakdown of transaction."
+"You cannot set split of transaction in category for a daughter of a "
+"split of transaction."
 msgstr ""
 
 #: src/gsb_form.c:2465
@@ -6878,7 +6878,7 @@ msgstr "עיסקה עם צד שלישי מרובה משתתפים חייבת ל�
 
 #: src/gsb_form.c:2550
 #, fuzzy
-msgid "A transaction with a multiple payee cannot be a breakdown child."
+msgid "A transaction with a multiple payee cannot be a split child."
 msgstr "עיסקה עם צד שלישי מרובה משתתפים חייבת להיות עיסקה חדשה."
 
 #: src/gsb_form.c:2561
@@ -6897,7 +6897,7 @@ msgstr "עריכת עיסקה"
 
 #: src/gsb_form.c:2803
 msgid ""
-"You are trying to change a breakdown of transaction to another kind of "
+"You are trying to change a split of transaction to another kind of "
 "transaction.\n"
 "There is some children to that transaction, if you continue, the children "
 "will be deleted.\n"
@@ -7614,7 +7614,7 @@ msgid ""
 "You are currently trying to reconcile or unreconcile manually a transaction "
 "which isn't a regular way to do.\n"
 "\n"
-"And moreover the transaction you try to reconcile is a child of breakdown, "
+"And moreover the transaction you try to reconcile is a child of split, "
 "so the modification will be done on the mother and all its children.\n"
 "\n"
 "Are you really sure to know what you do?"
@@ -7671,7 +7671,7 @@ msgstr "לא ניתן למחוק עיסקה מתואמת."
 #: src/gsb_transactions_list.c:1910
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
-"The transaction, the contra-transaction or the children if it is a breakdown "
+"The transaction, the contra-transaction or the children if it is a split "
 "are reconciled. You can remove the reconciliation with Ctrl R if it is "
 "really necessary."
 msgstr ""
@@ -8610,7 +8610,7 @@ msgstr "דרך תשלום חדשה"
 
 #: src/metatree.c:470
 #, fuzzy
-msgid "breakdown"
+msgid "split"
 msgstr "שבירה"
 
 #. FIXME: tell the truth ;-)
@@ -9177,7 +9177,7 @@ msgstr ""
 #: src/transaction_list.c:1449
 #, c-format
 msgid ""
-"While trying to append a breakdown child in the tree view, one or all the "
+"While trying to append a split child in the tree view, one or all the "
 "mothers of the child number %d couldn't be found.\n"
 "This is a bug and should not happen.\n"
 "The child won't be appended to the list and Grisbi won't crash,\n"
@@ -9848,10 +9848,10 @@ msgstr "אין קו תקציב"
 #~ msgid "%4.2f %s"
 #~ msgstr "%4.2f %s"
 
-#~ msgid "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
+#~ msgid "%d/%d/%d : %4.2f %s (split) [ %s ]"
 #~ msgstr "%d/%d/%d : %4.2f %s (שבירה) [ %s ]"
 
-#~ msgid "%d/%d/%d : %4.2f %s (breakdown)"
+#~ msgid "%d/%d/%d : %4.2f %s (split)"
 #~ msgstr "%d/%d/%d : %4.2f %s (שבירה)"
 
 #~ msgid "Remove a category"
@@ -9950,18 +9950,18 @@ msgstr "אין קו תקציב"
 #~ "המזל, אין אנו יודעים כרגע כיצד הדבר אירע.\n"
 #~ "החשבונות הבאים אינם מתואמים:\n"
 
-#~ msgid "Breakdown line #%d is orpheanous.\n"
+#~ msgid "Split line #%d is orpheanous.\n"
 #~ msgstr "שורת שבירה #%d היא יתומה.\n"
 
 #~ msgid ""
-#~ "Transaction #%d has a financial year named %s and breakdown line #%d of "
+#~ "Transaction #%d has a financial year named %s and split line #%d of "
 #~ "this transaction has a financial year named %s\n"
 #~ msgstr ""
 #~ "לעיסקה #%d יש שנת כספים בשם %s ולשורת השבירה #%d של העברה זו יש שנת כספים "
 #~ "בשם %s\n"
 
 #~ msgid ""
-#~ "Grisbi found breakdown lines that have financial years different from the "
+#~ "Grisbi found split lines that have financial years different from the "
 #~ "financial years of the related transaction.  Perhaps it isn't a problem, "
 #~ "but perhaps it is.\n"
 #~ "The following accounts seems inconsistent:\n"
@@ -10086,7 +10086,7 @@ msgstr "אין קו תקציב"
 #~ msgstr "ללא צד שלישי"
 
 #~ msgid ""
-#~ "This breakdown of transaction contains a transfer on itself.  Either "
+#~ "This split of transaction contains a transfer on itself.  Either "
 #~ "change the sub transaction to transfer on another account or change "
 #~ "account of the transaction itself."
 #~ msgstr ""
@@ -10127,7 +10127,7 @@ msgstr "אין קו תקציב"
 #~ "סכום העיסקה אינו שבור באופן מלא. \n"
 #~ "להמשיך בכל זאת?"
 
-#~ msgid "A breakdown line is to be deleted though it is not yet registered."
+#~ msgid "A split line is to be deleted though it is not yet registered."
 #~ msgstr "קו שבירה יימחק, למרות שהוא טרם נרשם."
 
 #~ msgid "Checked balance: %4.2f %s"
@@ -10403,8 +10403,8 @@ msgstr "אין קו תקציב"
 
 #~ msgid ""
 #~ "There was a bug in versions before 0.4.0, which could lead to orphan "
-#~ "transactions (either transfers without countra-transaction, or breakdown "
-#~ "transactions details without associated breakdown transaction.\n"
+#~ "transactions (either transfers without countra-transaction, or split "
+#~ "transactions details without associated split transaction.\n"
 #~ "\n"
 #~ "Grisbi searched for such transaction and found:\n"
 #~ "\n"
@@ -10416,7 +10416,7 @@ msgstr "אין קו תקציב"
 #~ "גריסבי חיפש עיסקאות כאלו, ומצא:\n"
 #~ "\n"
 
-#~ msgid "breakdown transactions, all of them were deleted.\n"
+#~ msgid "split transactions, all of them were deleted.\n"
 #~ msgstr "עיסקאות שבירה. כולן נמחקו.\n"
 
 #~ msgid ""
@@ -10763,7 +10763,7 @@ msgstr "אין קו תקציב"
 #~ msgstr "העיסקה הנגדית של עברה זו הינה מתואמת. המחיקה בלתי אפשרית."
 
 #~ msgid ""
-#~ "One of the breakdown lines is a transfer whose contra-transaction is "
+#~ "One of the split lines is a transfer whose contra-transaction is "
 #~ "reconciled.  Deletion canceled."
 #~ msgstr ""
 #~ "אחת משורות השבירה היא העברה, אשר העיסקה הנגדית שלה עברה תיאום. המחיקה "
@@ -10797,7 +10797,7 @@ msgstr "אין קו תקציב"
 #~ msgid "Do not warn about removal scheduled transaction"
 #~ msgstr "לא להזהיר אודות הסרת עיסקה מתוכננת"
 
-#~ msgid "Do not warn about incomplete breakdown"
+#~ msgid "Do not warn about incomplete split"
 #~ msgstr "לא להזהיר אודות שבירה חלקית"
 
 #~ msgid "Do not warn about existing reconciliation reference"
@@ -10907,7 +10907,7 @@ msgstr "אין קו תקציב"
 #~ "גריסבי לא הצליח להפעיל '%s'\n"
 #~ "נא לשנות את ההגדרות, כך שיופיע שם המיקום הנכון של היישום."
 
-#~ msgid "This transaction has a reconciled breakdown line, deletion canceled."
+#~ msgid "This transaction has a reconciled split line, deletion canceled."
 #~ msgstr "לעיסקה זו יש קו שבירה מתואם. המחיקה בוטלה."
 
 #~ msgid ""

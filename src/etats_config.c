@@ -756,7 +756,7 @@ void personnalisation_etat (void)
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_infobd_opes ),
 				   gsb_data_report_get_show_report_bank_references (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation ),
-				   gsb_data_report_get_not_detail_breakdown (current_report_number));
+				   gsb_data_report_get_not_detail_split (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separer_revenus_depenses ),
 				   gsb_data_report_get_split_credit_debit (current_report_number));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_exo_opes ),
@@ -1420,7 +1420,7 @@ void recuperation_info_perso_etat ( void )
 					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_rappr )));
     gsb_data_report_set_show_report_bank_references ( current_report_number,
 						      gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_infobd_opes )));
-    gsb_data_report_set_not_detail_breakdown ( current_report_number,
+    gsb_data_report_set_not_detail_split ( current_report_number,
 					       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation )));
     gsb_data_report_set_split_credit_debit ( current_report_number,
 					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separer_revenus_depenses )));
@@ -6228,9 +6228,9 @@ GtkWidget *onglet_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_opes_r_etat );
 
-    frame = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Breakdown of transactions detail") );
+    frame = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Split of transactions detail") );
 
-    bouton_pas_detailler_ventilation = gtk_check_button_new_with_label ( _("Do not detail breakdown of transactions") );
+    bouton_pas_detailler_ventilation = gtk_check_button_new_with_label ( _("Do not detail split of transactions") );
     g_signal_connect ( G_OBJECT (bouton_pas_detailler_ventilation ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_pas_detailler_ventilation );
     gtk_signal_connect_object ( GTK_OBJECT ( bouton_pas_detailler_ventilation ),

@@ -597,8 +597,8 @@ gboolean gsb_transactions_list_fill_archive_store ( void )
  * 	several transactions, it's better to use gsb_transactions_list_append_transaction
  * 	and do the stuff separatly
  *
- * if the transaction is a breakdown, append a white line and open
- * the breakdown to see the daughters
+ * if the transaction is a split, append a white line and open
+ * the split to see the daughters
  *
  * \param transaction_number
  * \param update_tree_view	should be TRUE, except if we append a lot of transactions (import...)
@@ -637,7 +637,7 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
 	gint selected_transaction;
 
 	/* we cannot use update_tree_view here because re-filter the model will close
-	 * all the opened breakdowns */
+	 * all the opened splits */
 	selected_transaction = transaction_list_select_get ();
 	transaction_list_sort ();
 	transaction_list_colorize ();
@@ -655,7 +655,7 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
 	g_free (string);
 
 	/* if it's a mother, open the expander */
-	if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+	if (gsb_data_transaction_get_split_of_transaction (transaction_number))
 	    gsb_transactions_list_switch_expander (transaction_number);
     }
 
@@ -710,12 +710,12 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 {
     gint account_currency;
 
-    /* for a child of breakdown, we show only the category (instead of party or category), the
+    /* for a child of split, we show only the category (instead of party or category), the
      * debit and credit, nothing else */
     if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
 	/* FIXME : if the user show the payee and the category both on the 1st line,
-	 * we will have the categ showed 2 times for a breakdown child. rare, but
+	 * we will have the categ showed 2 times for a split child. rare, but
 	 * possible... try to fix this ? */
 	switch (cell_content_number)
 	{
@@ -1068,15 +1068,15 @@ gint find_element_line ( gint element_number )
 }
 
 /**
- * find column number for the element, but for breakdown transaction
+ * find column number for the element, but for split transaction
  * there is no line find because only 1 line
- * for now, only payee, debit and credit are shown in a breakdown child
+ * for now, only payee, debit and credit are shown in a split child
  *
- * \param element_number the element we look for in a breakdown child
+ * \param element_number the element we look for in a split child
  *
  * \return column number or -1 if the element is not shown
  * */
-gint find_element_col_breakdown ( gint element_number )
+gint find_element_col_split ( gint element_number )
 {
     switch (element_number)
     {
@@ -1334,7 +1334,7 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 		    transaction_list_select_down (FALSE);
 		}
 		else
-		    /* space open/close a breakdown */
+		    /* space open/close a split */
 		    gsb_transactions_list_switch_expander (transaction_number);
 	    }
 	    break;
@@ -1460,7 +1460,7 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
     if ( col == -1 )
 	return FALSE;
 
-    /* if we are on the white line, a R transaction or a child of breakdown, do nothing */
+    /* if we are on the white line, a R transaction or a child of split, do nothing */
     if ( transaction_number == -1
 	 ||
 	 gsb_data_transaction_get_marked_transaction (transaction_number)== OPERATION_RAPPROCHEE
@@ -1490,8 +1490,8 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
 
     transaction_list_update_transaction (transaction_number);
 
-    /* if it's a breakdown, set the mark to the children */
-    if ( gsb_data_transaction_get_breakdown_of_transaction ( transaction_number))
+    /* if it's a split, set the mark to the children */
+    if ( gsb_data_transaction_get_split_of_transaction ( transaction_number))
     {
 	GSList *list_tmp_transactions;
 	gint mark;
@@ -1549,7 +1549,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
     if ( r_column == -1 )
 	return FALSE;
 
-    /* if we are on the white line or a child of breakdown, do nothing */
+    /* if we are on the white line or a child of split, do nothing */
     if ( transaction_number == -1 )
 	return FALSE;
 
@@ -1567,7 +1567,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 				   _("You are trying to reconcile or unreconcile a transaction manually, "
 				     "which is not a recommended action. Are you really sure you know what you're doing?"
 				     "manually a transaction which isn't a regular way to do.\n\n"
-				     "And moreover the transaction you try to reconcile is a child of breakdown, so "
+				     "And moreover the transaction you try to reconcile is a child of split, so "
 				     "the modification will be done on the mother and all its children.\n\n"
 				     "Are you really sure to know what you do?"),
 				   GTK_RESPONSE_NO ))
@@ -1645,8 +1645,8 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 	}
     }
 
-    /* if it's a breakdown, set the mark to the children */
-    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+    /* if it's a split, set the mark to the children */
+    if ( gsb_data_transaction_get_split_of_transaction (transaction_number))
     {
 	GSList *list_tmp_transactions;
 	gint mark;
@@ -1849,7 +1849,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
 /**
  * delete a transaction
  * if it's a transfer, delete also the contra-transaction
- * if it's a breakdown, delete the childs
+ * if it's a split, delete the childs
  * 
  * \param transaction The transaction to delete
  * \param show_warning TRUE to ask if the user is sure, FALSE directly delete the transaction
@@ -1889,7 +1889,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     /* check if the transaction is not reconciled */
     if ( gsb_transactions_list_check_mark (transaction_number))
     {
-	dialogue_error ( _("Impossible to delete a reconciled transaction.\nThe transaction, the contra-transaction or the children if it is a breakdown are reconciled. You can remove the reconciliation with Ctrl R if it is really necessary.") );
+	dialogue_error ( _("Impossible to delete a reconciled transaction.\nThe transaction, the contra-transaction or the children if it is a split are reconciled. You can remove the reconciliation with Ctrl R if it is really necessary.") );
 	return FALSE;
     }
 
@@ -1999,9 +1999,9 @@ gboolean gsb_transactions_list_check_mark ( gint transaction_number )
 	    return TRUE;
     }
 
-    /* if it's a breakdown of transaction, check all the children
+    /* if it's a split of transaction, check all the children
      * if there is not a transfer which is marked */
-    if ( gsb_data_transaction_get_breakdown_of_transaction ( transaction_number))
+    if ( gsb_data_transaction_get_split_of_transaction ( transaction_number))
     {
 	GSList *list_tmp_transactions;
 	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
@@ -2020,7 +2020,7 @@ gboolean gsb_transactions_list_check_mark ( gint transaction_number )
 
 		if (  gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp))
 		{
-		    /* the breakdown is a transfer, we check the contra-transaction */
+		    /* the split is a transfer, we check the contra-transaction */
 		    gint contra_transaction_number;
 
 		    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp);
@@ -2041,7 +2041,7 @@ gboolean gsb_transactions_list_check_mark ( gint transaction_number )
 /**
  * Delete the transaction from the tree view
  * if it's a transfer, delete the contra transaction from the tree view
- * if it's a breakdown, delete a the children and if necessary the contra transactions
+ * if it's a split, delete a the children and if necessary the contra transactions
  * 
  * don't do any check about possible or marked... check before
  * do nothing in memory, only on the tree view
@@ -2061,9 +2061,9 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transact
     if (gsb_data_transaction_get_contra_transaction_number (transaction_number))
 	transaction_list_remove_transaction (gsb_data_transaction_get_contra_transaction_number (transaction_number));
 
-    /* check if it's a breakdown, we needn't to erase all breakdowns children, they will be deleted
+    /* check if it's a split, we needn't to erase all splits children, they will be deleted
      * with the mother, but if one of them if a transfer, we need to delete it now */
-    if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+    if (gsb_data_transaction_get_split_of_transaction (transaction_number))
     {
 	GSList *tmp_list;
 
@@ -2359,7 +2359,7 @@ void clone_selected_transaction ()
 
 
 /**
- * Clone transaction.  If it is a breakdown or a transfer, perform all
+ * Clone transaction.  If it is a split or a transfer, perform all
  * needed operations, like cloning associated transactions as well.
  *
  * \param transaction_number Initial transaction to clone
@@ -2370,8 +2370,8 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number )
 {
     gint new_transaction_number;
 
-    /* NOTE : if we fix a bug here, think to fix also in gsb_form_transaction_recover_breakdowns_of_transaction
-     * wich is almost the same to recover breakdowns */
+    /* NOTE : if we fix a bug here, think to fix also in gsb_form_transaction_recover_splits_of_transaction
+     * wich is almost the same to recover splits */
 
     /* dupplicate the transaction */
     new_transaction_number = gsb_data_transaction_new_transaction ( gsb_data_transaction_get_account_number (transaction_number));
@@ -2392,9 +2392,9 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number )
 
     gsb_transactions_list_append_new_transaction (new_transaction_number, TRUE);
 
-    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+    if ( gsb_data_transaction_get_split_of_transaction (transaction_number))
     {
-	/* the transaction was a breakdown, we look for the children to copy them */
+	/* the transaction was a split, we look for the children to copy them */
 
 	GSList *list_tmp_transactions;
 	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
@@ -2408,10 +2408,10 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number )
 		 &&
 		 gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number )
 	    {
-		gint breakdown_transaction_number;
+		gint split_transaction_number;
 
-		breakdown_transaction_number = gsb_transactions_list_clone_transaction (transaction_number_tmp);
-		gsb_data_transaction_set_mother_transaction_number ( breakdown_transaction_number,
+		split_transaction_number = gsb_transactions_list_clone_transaction (transaction_number_tmp);
+		gsb_data_transaction_set_mother_transaction_number ( split_transaction_number,
 								     transaction_number );
 	    }
 	    list_tmp_transactions = list_tmp_transactions -> next;
@@ -2644,7 +2644,7 @@ gint schedule_transaction ( gint transaction_number )
     else
 	if ( !gsb_data_scheduled_get_category_number (scheduled_number)
 	     &&
-	     !gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+	     !gsb_data_transaction_get_split_of_transaction (transaction_number))
 	    gsb_data_scheduled_set_account_number_transfer ( scheduled_number,
 							     -1 );
 
@@ -2661,8 +2661,8 @@ gint schedule_transaction ( gint transaction_number )
 					      gsb_data_transaction_get_budgetary_number (transaction_number));
     gsb_data_scheduled_set_sub_budgetary_number ( scheduled_number,
 						  gsb_data_transaction_get_sub_budgetary_number (transaction_number));
-    gsb_data_scheduled_set_breakdown_of_scheduled ( scheduled_number,
-						    gsb_data_transaction_get_breakdown_of_transaction (transaction_number));
+    gsb_data_scheduled_set_split_of_scheduled ( scheduled_number,
+						    gsb_data_transaction_get_split_of_transaction (transaction_number));
 
     /*     par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
     /*     (c'est le cas, à 0 avec g_malloc0) */
@@ -2674,7 +2674,7 @@ gint schedule_transaction ( gint transaction_number )
 
     /*     on récupère les opés de ventil si c'était une opé ventilée */
 
-    if ( gsb_data_scheduled_get_breakdown_of_scheduled ( scheduled_number))
+    if ( gsb_data_scheduled_get_split_of_scheduled ( scheduled_number))
     {
 	GSList *list_tmp_transactions;
 	list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
@@ -2688,26 +2688,26 @@ gint schedule_transaction ( gint transaction_number )
 		 &&
 		 gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number)
 	    {
-		gint breakdown_scheduled_number;
+		gint split_scheduled_number;
 
-		breakdown_scheduled_number = gsb_data_scheduled_new_scheduled ();
+		split_scheduled_number = gsb_data_scheduled_new_scheduled ();
 
-		if ( !breakdown_scheduled_number)
+		if ( !split_scheduled_number)
 		    return FALSE;
 
-		gsb_data_scheduled_set_account_number ( breakdown_scheduled_number,
+		gsb_data_scheduled_set_account_number ( split_scheduled_number,
 							gsb_data_transaction_get_account_number (transaction_number_tmp));
-		gsb_data_scheduled_set_date ( breakdown_scheduled_number,
+		gsb_data_scheduled_set_date ( split_scheduled_number,
 					      gsb_data_transaction_get_date (transaction_number_tmp));
-		gsb_data_scheduled_set_amount ( breakdown_scheduled_number,
+		gsb_data_scheduled_set_amount ( split_scheduled_number,
 						gsb_data_transaction_get_amount (transaction_number_tmp));
-		gsb_data_scheduled_set_currency_number ( breakdown_scheduled_number,
+		gsb_data_scheduled_set_currency_number ( split_scheduled_number,
 							 gsb_data_transaction_get_currency_number (transaction_number_tmp));
-		gsb_data_scheduled_set_party_number ( breakdown_scheduled_number,
+		gsb_data_scheduled_set_party_number ( split_scheduled_number,
 						      gsb_data_transaction_get_party_number (transaction_number_tmp));
-		gsb_data_scheduled_set_category_number ( breakdown_scheduled_number,
+		gsb_data_scheduled_set_category_number ( split_scheduled_number,
 							 gsb_data_transaction_get_category_number (transaction_number_tmp));
-		gsb_data_scheduled_set_sub_category_number ( breakdown_scheduled_number,
+		gsb_data_scheduled_set_sub_category_number ( split_scheduled_number,
 							     gsb_data_transaction_get_sub_category_number (transaction_number_tmp));
 
 		/*     pour 1 virement, categ et sous categ sont à 0, et compte_virement contient le no de compte */
@@ -2720,33 +2720,33 @@ gint schedule_transaction ( gint transaction_number )
 
 		    gint contra_transaction_number;
 
-		    gsb_data_scheduled_set_account_number_transfer ( breakdown_scheduled_number,
+		    gsb_data_scheduled_set_account_number_transfer ( split_scheduled_number,
 								     gsb_data_transaction_get_contra_transaction_account (transaction_number_tmp));
 
 		    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp);
 
-		    gsb_data_scheduled_set_contra_method_of_payment_number ( breakdown_scheduled_number,
+		    gsb_data_scheduled_set_contra_method_of_payment_number ( split_scheduled_number,
 									     gsb_data_transaction_get_method_of_payment_number (contra_transaction_number));
 		}
 		else
-		    if ( !gsb_data_scheduled_get_category_number (breakdown_scheduled_number))
-			gsb_data_scheduled_set_account_number_transfer ( breakdown_scheduled_number,
+		    if ( !gsb_data_scheduled_get_category_number (split_scheduled_number))
+			gsb_data_scheduled_set_account_number_transfer ( split_scheduled_number,
 									 -1 );
 
-		gsb_data_scheduled_set_notes ( breakdown_scheduled_number,
+		gsb_data_scheduled_set_notes ( split_scheduled_number,
 					       gsb_data_transaction_get_notes (transaction_number_tmp));
-		gsb_data_scheduled_set_method_of_payment_number ( breakdown_scheduled_number,
+		gsb_data_scheduled_set_method_of_payment_number ( split_scheduled_number,
 								  gsb_data_transaction_get_method_of_payment_number (transaction_number_tmp));
-		gsb_data_scheduled_set_method_of_payment_content ( breakdown_scheduled_number,
+		gsb_data_scheduled_set_method_of_payment_content ( split_scheduled_number,
 								   gsb_data_transaction_get_method_of_payment_content (transaction_number_tmp));
-		gsb_data_scheduled_set_financial_year_number ( breakdown_scheduled_number,
+		gsb_data_scheduled_set_financial_year_number ( split_scheduled_number,
 							       gsb_data_transaction_get_financial_year_number (transaction_number_tmp));
-		gsb_data_scheduled_set_budgetary_number ( breakdown_scheduled_number,
+		gsb_data_scheduled_set_budgetary_number ( split_scheduled_number,
 							  gsb_data_transaction_get_budgetary_number (transaction_number_tmp));
-		gsb_data_scheduled_set_sub_budgetary_number ( breakdown_scheduled_number,
+		gsb_data_scheduled_set_sub_budgetary_number ( split_scheduled_number,
 							      gsb_data_transaction_get_sub_budgetary_number (transaction_number_tmp));
 
-		gsb_data_scheduled_set_mother_scheduled_number ( breakdown_scheduled_number,
+		gsb_data_scheduled_set_mother_scheduled_number ( split_scheduled_number,
 								 scheduled_number );
 
 		/*     par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date, */
@@ -2754,7 +2754,7 @@ gint schedule_transaction ( gint transaction_number )
 		/*     que l'opé soit enregistrée immédiatement ; de même on le met en mensuel par défaut */
 		/* 	pour la même raison */
 
-		gsb_data_scheduled_set_frequency ( breakdown_scheduled_number,
+		gsb_data_scheduled_set_frequency ( split_scheduled_number,
 						   2);
 	    }
 	    list_tmp_transactions = list_tmp_transactions -> next;
@@ -3077,7 +3077,7 @@ void mise_a_jour_affichage_r ( gboolean show_r )
  * called to change the number of visible rows
  * depends of the conf, change the number of rows of the current account,
  * and if necessary of all the accounts
- * adapts also the tree for the breakdowns to set the expander on the new last line
+ * adapts also the tree for the splits to set the expander on the new last line
  *
  * \param rows_number the new number of lines we want to see
  *
@@ -3211,7 +3211,7 @@ gboolean gsb_transactions_list_transaction_visible ( gpointer transaction_ptr,
 
 /*
  * get the real name of the category of the transaction
- * so return breakdown of transaction, transfer : ..., categ : under_categ
+ * so return split of transaction, transfer : ..., categ : under_categ
  * 
  * \param transaction the adr of the transaction
  * 
@@ -3222,8 +3222,8 @@ gchar *gsb_transactions_get_category_real_name ( gint transaction_number )
 {
     gchar *tmp;
 
-    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
-	tmp = g_strdup(_("Breakdown of transaction"));
+    if ( gsb_data_transaction_get_split_of_transaction (transaction_number))
+	tmp = g_strdup(_("Split of transaction"));
     else
     {
 	if ( gsb_data_transaction_get_contra_transaction_number (transaction_number))
@@ -3259,9 +3259,9 @@ gchar *gsb_transactions_get_category_real_name ( gint transaction_number )
 
 
 /**
- * switch the expander of the breakdown given in param
+ * switch the expander of the split given in param
  *
- * \param transaction_number the breakdown we want to switch
+ * \param transaction_number the split we want to switch
  *
  * \return FALSE
  * */
@@ -3271,7 +3271,7 @@ gboolean gsb_transactions_list_switch_expander ( gint transaction_number )
 
     devel_debug_int (transaction_number);
 
-    if ( !gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+    if ( !gsb_data_transaction_get_split_of_transaction (transaction_number))
 	return FALSE;
 
     path = transaction_model_get_path ( transaction_number,

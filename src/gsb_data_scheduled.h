@@ -10,7 +10,7 @@ gint gsb_data_scheduled_get_account_number ( gint scheduled_number );
 gint gsb_data_scheduled_get_account_number_transfer ( gint scheduled_number );
 gsb_real gsb_data_scheduled_get_amount ( gint scheduled_number );
 gint gsb_data_scheduled_get_automatic_scheduled ( gint scheduled_number );
-gint gsb_data_scheduled_get_breakdown_of_scheduled ( gint scheduled_number );
+gint gsb_data_scheduled_get_split_of_scheduled ( gint scheduled_number );
 gint gsb_data_scheduled_get_budgetary_number ( gint scheduled_number );
 gint gsb_data_scheduled_get_category_number ( gint scheduled_number );
 GSList *gsb_data_scheduled_get_children ( gint scheduled_number,
@@ -47,8 +47,8 @@ gboolean gsb_data_scheduled_set_amount ( gint scheduled_number,
 					 gsb_real amount );
 gboolean gsb_data_scheduled_set_automatic_scheduled ( gint scheduled_number,
 						      gint automatic_scheduled );
-gboolean gsb_data_scheduled_set_breakdown_of_scheduled ( gint scheduled_number,
-							 gint is_breakdown );
+gboolean gsb_data_scheduled_set_split_of_scheduled ( gint scheduled_number,
+							 gint is_split );
 gboolean gsb_data_scheduled_set_budgetary_number ( gint scheduled_number,
 						   gint budgetary_number );
 gboolean gsb_data_scheduled_set_category_number ( gint scheduled_number,

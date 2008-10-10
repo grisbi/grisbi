@@ -132,7 +132,7 @@ struct import_format builtin_formats[] = {
 };
 
 
-/** used to keep the number of the mother transaction while importing breakdown transactions */
+/** used to keep the number of the mother transaction while importing split transactions */
 static gint mother_transaction_number;
 gint valeur_echelle_recherche_date_import;
 GSList *liste_comptes_importes;
@@ -1418,7 +1418,7 @@ void cree_liens_virements_ope_import ( void )
 						 "[]", "");
 	    contra_account_number = gsb_data_account_get_no_account_by_name ( contra_account_name );
 	    g_free (contra_account_name);
-
+printf ( "contra account trouvé : %d\n", contra_account_number);
 	    if ( contra_account_number == -1 )
 	    {
 		/* we have not found the contra-account */
@@ -1430,47 +1430,29 @@ void cree_liens_virements_ope_import ( void )
 	    else
 	    {
 		/* we have found the contra-account, we look for the contra-transaction */
-
 		GSList *list_tmp_transactions_2;
+
+		/* save the contra-account, will be reset to 0 if contra transaction not found */
+		gsb_data_transaction_set_contra_transaction_account (transaction_number_tmp,
+								     contra_account_number );
+
 		list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
 		while ( list_tmp_transactions_2 )
 		{
 		    gint contra_transaction_number_tmp;
-		    gchar *account_target_tmp = g_strconcat ("[",
-							     gsb_data_account_get_name (transaction_number_tmp),
-							     "]",
-							     NULL);
 
 		    contra_transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions_2 -> data);
 
-		    if ( gsb_data_transaction_get_account_number (contra_transaction_number_tmp) == contra_account_number
-			 &&
-			 gsb_data_transaction_get_contra_transaction_account ( contra_transaction_number_tmp ) == -2
-			 &&
-			 gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp )
-			 &&
-			 (!g_strcasecmp ( account_target_tmp,
-					  gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp ))
-			  ||
-			  g_strcasecmp ( gsb_data_account_get_name (transaction_number_tmp),
-					 gsb_data_transaction_get_bank_references ( contra_transaction_number_tmp)))
-			 &&
-			 !gsb_real_cmp ( gsb_real_abs (gsb_data_transaction_get_amount (transaction_number_tmp)),
-					 gsb_real_abs (gsb_data_transaction_get_adjusted_amount_for_currency ( contra_transaction_number_tmp,
-													       gsb_data_account_get_currency (transaction_number_tmp), -1)))
-			 &&
-			 ( gsb_data_transaction_get_party_number (transaction_number_tmp)
-			   ==
-			   gsb_data_transaction_get_party_number ( contra_transaction_number_tmp ))
-			 &&
-			 !g_date_compare ( gsb_data_transaction_get_date (transaction_number_tmp),
-					   gsb_data_transaction_get_date (contra_transaction_number_tmp)))
+		    if (gsb_import_check_transaction_link (transaction_number_tmp, contra_transaction_number_tmp))
 		    {
 			/* we have found the contra transaction, set all the values */
 			gint payment_number;
 			gint transaction_account = gsb_data_transaction_get_account_number (transaction_number_tmp);
 			gint contra_transaction_account = gsb_data_transaction_get_account_number (contra_transaction_number_tmp);
-
+printf ( "trouvé contra transaction %d\n", contra_transaction_number_tmp);
+/* xxx en suis ici, en ouvrant bug.gsb par ex, faire import de compte_1.qif et Compte_2.qif d'un coup */
+/*     en créant les comptes, les virements ne sont pas fait ; il n'arrive pas ici, le printf du dessus n'apparait pas */
+/*     alors que le contra account a été trouvé */
 			gsb_data_transaction_set_contra_transaction_number ( transaction_number_tmp,
 									     contra_transaction_number_tmp );
 			gsb_data_transaction_set_contra_transaction_account ( transaction_number_tmp,
@@ -1495,20 +1477,18 @@ void cree_liens_virements_ope_import ( void )
 			if (payment_number)
 			    gsb_data_transaction_set_method_of_payment_number (contra_transaction_number_tmp, payment_number);
 		    }
-
-		    if (account_target_tmp)
-			g_free (account_target_tmp);
-
 		    list_tmp_transactions_2 = list_tmp_transactions_2 -> next;
 		}
 
 		/* if no contra-transaction, that transaction becomes normal */
-		if ( gsb_data_transaction_get_contra_transaction_account (transaction_number_tmp) == -2 )
+		if (gsb_data_transaction_get_bank_references (transaction_number_tmp))
 		{
+		    /* there is still a bank reference, ie name of the contra account,
+		     * so we didn't find the contra transaction, set all to 0 */
 		    gsb_data_transaction_set_contra_transaction_account ( transaction_number_tmp,
-								       0);
+									  0);
 		    gsb_data_transaction_set_contra_transaction_number ( transaction_number_tmp,
-									   0);
+									 0);
 		    gsb_data_transaction_set_bank_references ( transaction_number_tmp, NULL );
 		}
 	    }
@@ -1520,6 +1500,68 @@ void cree_liens_virements_ope_import ( void )
      * in the lists */
     transaction_list_update_element (ELEMENT_CATEGORY);
     transaction_list_update_element (ELEMENT_TYPE);
+}
+
+
+/**
+ * check if the transaction 2 is the link of the transaction 1
+ * called after importing to create the link
+ *
+ * \param transaction_number
+ * \param tested_transaction
+ *
+ * \return TRUE : the transactions are linked, FALSE : the transactions are different
+ * */
+gboolean gsb_import_check_transaction_link ( gint transaction_number,
+					     gint tested_transaction )
+{
+    gchar *contra_account_name;
+    gint contra_account_number;
+    gsb_real amount_1, amount_2;
+
+    /* we check first the easy and quick things, and if all ok, comes after the check
+     * which need some time */
+
+    /* check if it's the good account */
+    if (gsb_data_transaction_get_contra_transaction_account (transaction_number) != gsb_data_transaction_get_account_number (tested_transaction))
+	return FALSE;
+
+    /* check if the contra account of the tested transaction is -2 (ie transfer not found) */
+    if (gsb_data_transaction_get_contra_transaction_account (tested_transaction) != -2)
+	return FALSE;
+
+    /* check if there is a contra account name */
+    if (!gsb_data_transaction_get_bank_references (tested_transaction))
+	return FALSE;
+
+    /* check same payee */
+    if (gsb_data_transaction_get_party_number (transaction_number) != gsb_data_transaction_get_party_number (tested_transaction))
+	return FALSE;
+
+    /* check same date */
+    if (g_date_compare ( gsb_data_transaction_get_date (transaction_number),
+			 gsb_data_transaction_get_date (tested_transaction)))
+	return FALSE;
+
+    /* check if same amount (but opposite) */
+    amount_1 = gsb_real_abs (gsb_data_transaction_get_amount (transaction_number));
+    amount_2 = gsb_real_abs (gsb_data_transaction_get_adjusted_amount_for_currency ( tested_transaction,
+										     gsb_data_account_get_currency (transaction_number),
+										     -1));
+    if (gsb_real_cmp (amount_1, amount_2))
+	return FALSE;
+
+    /* check if the contra account name of the tested transaction is the account of the transaction */
+    contra_account_name = my_strdelimit (gsb_data_transaction_get_bank_references (tested_transaction),
+					 "[]", "");
+    contra_account_number = gsb_data_account_get_no_account_by_name ( contra_account_name );
+    g_free (contra_account_name);
+
+    if (gsb_data_transaction_get_account_number (transaction_number) != contra_account_number)
+	return FALSE;
+
+    /* all seems the same, can return TRUE */
+    return TRUE;
 }
 
 
@@ -2140,7 +2182,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     {
 	/* l'opération est ventilée */
 
-	gsb_data_transaction_set_breakdown_of_transaction ( transaction_number,
+	gsb_data_transaction_set_split_of_transaction ( transaction_number,
 							    1 );
     }
     else
@@ -2453,7 +2495,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 								  2 );
 		    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 
-		    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+		    if ( gsb_data_transaction_get_split_of_transaction (transaction_number))
 		    {
 			GSList *list_tmp_transactions;
 
@@ -2552,7 +2594,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 
 			    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre le même pointage que la mère */
 
-			    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+			    if ( gsb_data_transaction_get_split_of_transaction (transaction_number))
 			    {
 				GSList *list_tmp_transactions;
 

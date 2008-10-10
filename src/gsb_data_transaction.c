@@ -89,8 +89,8 @@ typedef struct
     gint transaction_number_transfer;
     gint account_number_transfer;			/**< -1 for a deleted account FIXME later, the account_number_transfer should disappear, not needed
     								perhaps set transaction_number_transfer to -1 for deleted account ?*/
-    gint breakdown_of_transaction;			/**< 1 if it's a breakdown of transaction */
-    gint mother_transaction_number;			/**< for a breakdown, the mother's transaction number */
+    gint split_of_transaction;			/**< 1 if it's a split of transaction */
+    gint mother_transaction_number;			/**< for a split, the mother's transaction number */
 
     /** @name method of payment */
     gint method_of_payment_number;
@@ -119,7 +119,7 @@ static GSList *complete_transactions_list = NULL;
 
 /** the g_slist which contains all the white transactions structures
  * ie : 1 general white line
- * and 1 white line per breakdown of transaction */
+ * and 1 white line per split of transaction */
 static GSList *white_transactions_list = NULL;
 
 /** 2 pointers to the 2 last transaction used (to increase the speed) */
@@ -247,7 +247,7 @@ gint gsb_data_transaction_get_last_number (void)
 /** find the last number of the white lines
  * all the white lines have a number < 0, and it always exists at least
  * one line, which number -1 which is the general white line (without mother)
- * so we never return 0 to avoid -1 for a number of white breakdown
+ * so we never return 0 to avoid -1 for a number of white split
  * 
  * \param none
  *
@@ -465,8 +465,8 @@ gboolean gsb_data_transaction_set_account_number ( gint transaction_number,
 
     transaction -> account_number = no_account;
 
-    /* if the transaction is a breakdown, change all the children */
-    if (transaction -> breakdown_of_transaction)
+    /* if the transaction is a split, change all the children */
+    if (transaction -> split_of_transaction)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -532,8 +532,8 @@ gboolean gsb_data_transaction_set_date ( gint transaction_number,
 
     transaction -> date = gsb_date_copy (date);
 
-    /* if the transaction is a breakdown, change all the children */
-    if (transaction -> breakdown_of_transaction)
+    /* if the transaction is a split, change all the children */
+    if (transaction -> split_of_transaction)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -601,8 +601,8 @@ gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
 
     transaction ->  value_date = gsb_date_copy (date);
 
-    /* if the transaction is a breakdown, change all the children */
-    if (transaction -> breakdown_of_transaction)
+    /* if the transaction is a split, change all the children */
+    if (transaction -> split_of_transaction)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -821,8 +821,8 @@ gboolean gsb_data_transaction_set_currency_number ( gint transaction_number,
 
     transaction -> currency_number = no_currency;
     
-    /* if the transaction is a breakdown, change all the children */
-    if (transaction -> breakdown_of_transaction)
+    /* if the transaction is a split, change all the children */
+    if (transaction -> split_of_transaction)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -890,8 +890,8 @@ gboolean gsb_data_transaction_set_change_between ( gint transaction_number,
 
     transaction -> change_between_account_and_transaction = value;
     
-    /* if the transaction is a breakdown, change all the children */
-    if (transaction -> breakdown_of_transaction)
+    /* if the transaction is a split, change all the children */
+    if (transaction -> split_of_transaction)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -955,8 +955,8 @@ gboolean gsb_data_transaction_set_exchange_rate ( gint transaction_number,
 
     transaction -> exchange_rate = rate;
     
-    /* if the transaction is a breakdown, change all the children */
-    if (transaction -> breakdown_of_transaction)
+    /* if the transaction is a split, change all the children */
+    if (transaction -> split_of_transaction)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -1018,8 +1018,8 @@ gboolean gsb_data_transaction_set_exchange_fees ( gint transaction_number,
 
     transaction -> exchange_fees = rate;
     
-    /* if the transaction is a breakdown, change all the children */
-    if (transaction -> breakdown_of_transaction)
+    /* if the transaction is a split, change all the children */
+    if (transaction -> split_of_transaction)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -1082,8 +1082,8 @@ gboolean gsb_data_transaction_set_party_number ( gint transaction_number,
 
     transaction -> party_number = no_party;
 
-    /* if the transaction is a breakdown, change all the children */
-    if (transaction -> breakdown_of_transaction)
+    /* if the transaction is a split, change all the children */
+    if (transaction -> split_of_transaction)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -1185,13 +1185,13 @@ gboolean gsb_data_transaction_set_sub_category_number ( gint transaction_number,
 
 
 /**
- * check if the transaction is a breakdown (mother)
+ * check if the transaction is a split (mother)
  * 
  * \param transaction_number the number of the transaction
  * 
- * \return TRUE if the transaction is a breakdown of transaction
+ * \return TRUE if the transaction is a split of transaction
  * */
-gint gsb_data_transaction_get_breakdown_of_transaction ( gint transaction_number )
+gint gsb_data_transaction_get_split_of_transaction ( gint transaction_number )
 {
     struct_transaction *transaction;
 
@@ -1200,20 +1200,20 @@ gint gsb_data_transaction_get_breakdown_of_transaction ( gint transaction_number
     if ( !transaction )
 	return -1;
 
-    return transaction -> breakdown_of_transaction;
+    return transaction -> split_of_transaction;
 }
 
 
 /** 
- * set the transaction as breakdown or not
+ * set the transaction as split or not
  *
  * \param transaction_number
- * \param is_breakdown
+ * \param is_split
  * 
  * \return TRUE if ok
  * */
-gboolean gsb_data_transaction_set_breakdown_of_transaction ( gint transaction_number,
-							     gint is_breakdown )
+gboolean gsb_data_transaction_set_split_of_transaction ( gint transaction_number,
+							     gint is_split )
 {
     struct_transaction *transaction;
 
@@ -1222,7 +1222,7 @@ gboolean gsb_data_transaction_set_breakdown_of_transaction ( gint transaction_nu
     if ( !transaction )
 	return FALSE;
 
-    transaction -> breakdown_of_transaction = is_breakdown;
+    transaction -> split_of_transaction = is_split;
 
     return TRUE;
 }
@@ -1318,8 +1318,8 @@ gboolean gsb_data_transaction_set_method_of_payment_number ( gint transaction_nu
 
     transaction -> method_of_payment_number = number;
 
-    /* if the transaction is a breakdown, change all the children */
-    if (transaction -> breakdown_of_transaction)
+    /* if the transaction is a split, change all the children */
+    if (transaction -> split_of_transaction)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -1430,8 +1430,8 @@ gboolean gsb_data_transaction_set_marked_transaction ( gint transaction_number,
 
     transaction -> marked_transaction = marked_transaction;
 
-    /* if the transaction is a breakdown, change all the children */
-    if (transaction -> breakdown_of_transaction)
+    /* if the transaction is a split, change all the children */
+    if (transaction -> split_of_transaction)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -1596,8 +1596,8 @@ gboolean gsb_data_transaction_set_reconcile_number ( gint transaction_number,
 
     transaction -> reconcile_number = reconcile_number;
 
-    /* if the transaction is a breakdown, change all the children */
-    if (transaction -> breakdown_of_transaction)
+    /* if the transaction is a split, change all the children */
+    if (transaction -> split_of_transaction)
     {
 	GSList *tmp_list;
 	GSList *save_tmp_list;
@@ -2030,15 +2030,15 @@ gint gsb_data_transaction_new_transaction ( gint no_account )
 
 /** 
  * create a new white line
- * if there is a mother transaction, it's a breakdown and we increment in the negatives values
+ * if there is a mother transaction, it's a split and we increment in the negatives values
  * the number of that line
  * without mother transaction, it's the general white line, the number is -1
  *
- * if it's a child breakdown, the account is set as for its mother,
+ * if it's a child split, the account is set as for its mother,
  * if it's the last white line, the account is set to -1
  * that transaction is appended to the white transactions list
  * 
- * \param mother_transaction_number the number of the mother's transaction if it's a breakdown child ; 0 if not
+ * \param mother_transaction_number the number of the mother's transaction if it's a split child ; 0 if not
  *
  * \return the number of the white line
  * */
@@ -2054,7 +2054,7 @@ gint gsb_data_transaction_new_white_line ( gint mother_transaction_number)
 	return 0;
     }
 
-    /* we fill some things for the child breakdown to help to sort the list */
+    /* we fill some things for the child split to help to sort the list */
 
     transaction -> account_number = gsb_data_transaction_get_account_number (mother_transaction_number);
 
@@ -2205,8 +2205,8 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 	}
     }
 
-    /* check if it's a breakdown */
-    if (transaction -> breakdown_of_transaction)
+    /* check if it's a split */
+    if (transaction -> split_of_transaction)
     {
 	GSList *tmp_list;
 
@@ -2328,11 +2328,11 @@ void gsb_data_transaction_delete_all_transactions ()
 }
 
 /**
- * find the children of the breakdown given in param and
+ * find the children of the split given in param and
  * return their adress or their number in a GSList
  * the list sould be freed
  *
- * \param transaction_number a breakdown of transaction
+ * \param transaction_number a split of transaction
  * \param return_number TRUE if we want a list of numbers, FALSE if we want a list of adress
  *
  * \return a GSList of the address/numbers of the children, NULL if no child
@@ -2348,7 +2348,7 @@ GSList *gsb_data_transaction_get_children ( gint transaction_number,
 
     if ( !transaction
 	 ||
-	 !transaction -> breakdown_of_transaction)
+	 !transaction -> split_of_transaction)
 	return NULL;
 
     /* get the normal children */
@@ -2469,11 +2469,11 @@ gint gsb_data_transaction_find_by_id ( gchar *id )
 /**
  * find the white line corresponding to the transaction
  * given in param and return the number
- * if the transaction is not a breakdown, return -1, the general white line
+ * if the transaction is not a split, return -1, the general white line
  *
- * \param transaction_number a breakdown transaction number
+ * \param transaction_number a split transaction number
  *
- * \return the number of the white line of the breakdown or -1
+ * \return the number of the white line of the split or -1
  * */
 gint gsb_data_transaction_get_white_line ( gint transaction_number )
 {
@@ -2484,7 +2484,7 @@ gint gsb_data_transaction_get_white_line ( gint transaction_number )
 
     if ( !transaction
 	 ||
-	 !transaction -> breakdown_of_transaction)
+	 !transaction -> split_of_transaction)
 	return -1;
 
     tmp_list = white_transactions_list;

@@ -77,7 +77,7 @@ static gchar *order_names[] = {
     "month-year-day" };
 
 
-/* xxx mettre en highlight une breakdown dont les children ne font pas la totalité de la transaction */
+/* xxx mettre en highlight une split dont les children ne font pas la totalité de la transaction */
 /* ou un pixmap à gauche ? */
 
 /**
@@ -1188,9 +1188,9 @@ gboolean qif_export ( const gchar *filename,
 		/* et les met à la suite */
 		/* la catégorie de l'opé sera celle de la première opé de ventilation */
 
-		if ( gsb_data_transaction_get_breakdown_of_transaction ( transaction_number_tmp))
+		if ( gsb_data_transaction_get_split_of_transaction ( transaction_number_tmp))
 		{
-		    /* it's a breakdown of transactions, look for the children and append them */
+		    /* it's a split of transactions, look for the children and append them */
 
 		    gint mother_transaction_category_written;
 		    GSList *list_tmp_transactions_2;
@@ -1249,14 +1249,14 @@ gboolean qif_export ( const gchar *filename,
 								      _("No category defined")));
 			    }
 
-			    /* set the notes of the breakdown child */
+			    /* set the notes of the split child */
 
 			    if ( gsb_data_transaction_get_notes (transaction_number_tmp_2))
 				fprintf ( fichier_qif,
 					  "E%s\n",
 					  gsb_data_transaction_get_notes (transaction_number_tmp_2));
 
-			    /* set the amount of the breakdown child */
+			    /* set the amount of the split child */
 
 			    gchar* tmpstr = gsb_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2, floating_point));
 			    fprintf ( fichier_qif,

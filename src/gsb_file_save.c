@@ -1039,7 +1039,7 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 					       gsb_data_transaction_get_party_number ( transaction_number),
 					       gsb_data_transaction_get_category_number ( transaction_number),
 					       gsb_data_transaction_get_sub_category_number (transaction_number),
-					       gsb_data_transaction_get_breakdown_of_transaction (transaction_number),
+					       gsb_data_transaction_get_split_of_transaction (transaction_number),
 					       gsb_data_transaction_get_notes (transaction_number),
 					       gsb_data_transaction_get_method_of_payment_number (transaction_number),
 					       gsb_data_transaction_get_method_of_payment_content (transaction_number),
@@ -1132,7 +1132,7 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 					       gsb_data_scheduled_get_user_interval ( scheduled_number),
 					       gsb_data_scheduled_get_user_entry ( scheduled_number),
 					       limit_date,
-					       gsb_data_scheduled_get_breakdown_of_scheduled ( scheduled_number),
+					       gsb_data_scheduled_get_split_of_scheduled ( scheduled_number),
 					       gsb_data_scheduled_get_mother_scheduled_number ( scheduled_number));
 
 	g_free (amount);
@@ -2035,7 +2035,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tShow_transaction_sort_type=\"%d\"\n"
 					       "\t\tShow_columns_titles=\"%d\"\n"
 					       "\t\tShow_title_column_kind=\"%d\"\n"
-					       "\t\tShow_exclude_breakdown_child=\"%d\"\n"
+					       "\t\tShow_exclude_split_child=\"%d\"\n"
 					       "\t\tShow_split_amounts=\"%d\"\n"
 					       "\t\tCurrency_general=\"%d\"\n"
 					       "\t\tReport_in_payees=\"%d\"\n"
@@ -2112,7 +2112,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    gsb_data_report_get_sorting_report (report_number),
 	    gsb_data_report_get_column_title_show (report_number),
 	    gsb_data_report_get_column_title_type (report_number),
-	    gsb_data_report_get_not_detail_breakdown (report_number),
+	    gsb_data_report_get_not_detail_split (report_number),
 	    gsb_data_report_get_split_credit_debit (report_number),
 	    gsb_data_report_get_currency_general (report_number),
 	    gsb_data_report_get_append_in_payee (report_number),

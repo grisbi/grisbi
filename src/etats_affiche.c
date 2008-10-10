@@ -1509,7 +1509,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 		    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == gsb_data_transaction_get_account_number (transaction_number))
 		    {
-			if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number_tmp)
+			if ( gsb_data_transaction_get_split_of_transaction (transaction_number_tmp)
 			     &&
 			     transaction_number_tmp == gsb_data_transaction_get_mother_transaction_number ( transaction_number)
 			     &&
@@ -1783,11 +1783,11 @@ gint etat_affiche_affiche_categ_etat ( gint transaction_number,
 	   ||
 	   ( ancienne_categ_speciale_etat == 2
 	     &&
-	     !gsb_data_transaction_get_breakdown_of_transaction ( transaction_number))
+	     !gsb_data_transaction_get_split_of_transaction ( transaction_number))
 	   ||
 	   ( ancienne_categ_speciale_etat == 3
 	     &&
-	     ( gsb_data_transaction_get_breakdown_of_transaction ( transaction_number)
+	     ( gsb_data_transaction_get_split_of_transaction ( transaction_number)
 	       ||
 	       gsb_data_transaction_get_contra_transaction_number ( transaction_number)))))
     {
@@ -1839,10 +1839,10 @@ gint etat_affiche_affiche_categ_etat ( gint transaction_number,
 		}
 		else
 		{
-		    if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+		    if ( gsb_data_transaction_get_split_of_transaction (transaction_number))
 		    {
 			pointeur_char = g_strconcat ( decalage_categ,
-						      _("Breakdown of transaction"),
+						      _("Split of transaction"),
 						      NULL );
 			ancienne_categ_speciale_etat = 2;
 		    }

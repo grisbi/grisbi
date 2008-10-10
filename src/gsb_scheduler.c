@@ -67,7 +67,7 @@ extern GSList *scheduled_transactions_to_take;
 /**
  * set the next date in the scheduled transaction
  * if it's above the limit date, that transaction is deleted
- * if it's a breakdown, the children are updated too
+ * if it's a split, the children are updated too
  * if the scheduled transaction is finished, it's removed from the list and from the scheduled transactions
  * 
  * \param scheduled_number the scheduled transaction we want to increase
@@ -94,7 +94,7 @@ gboolean gsb_scheduler_increase_scheduled ( gint scheduled_number )
 	/* set the new date */
 	gsb_data_scheduled_set_date ( scheduled_number, new_date);
 
-	if ( gsb_data_scheduled_get_breakdown_of_scheduled ( scheduled_number ))
+	if ( gsb_data_scheduled_get_split_of_scheduled ( scheduled_number ))
 	{
 	    GSList *children_numbers_list;
 
@@ -243,10 +243,10 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 /**
  * create a new transaction and fill it directly from a scheduled transaction
  * (don't pass throw the form)
- * if it's a child of breakdown, append it automatickly to the mother
+ * if it's a child of split, append it automatickly to the mother
  * 
  * \param scheduled_number the transaction we use to fill the new transaction
- * \param transaction_mother the number of the mother if it's a breakdown child, 0 else
+ * \param transaction_mother the number of the mother if it's a split child, 0 else
  *
  * \return the number of the new transaction
  * */
@@ -329,7 +329,7 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
     gsb_scheduler_get_category_for_transaction_from_transaction ( transaction_number,
 								  scheduled_number );
 
-     /* set the mother breakdown if exists */
+     /* set the mother split if exists */
     gsb_data_transaction_set_mother_transaction_number ( transaction_number,
 							 transaction_mother );
 
@@ -342,9 +342,9 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 
 /**
  * used to catch a transaction from a scheduled transaction
- * take the category, check if it's a transfer or a breakdown and
+ * take the category, check if it's a transfer or a split and
  * do the necessary (create contra-transaction)
- * don't execute the children if it's a breakdown, need to call 
+ * don't execute the children if it's a split, need to call 
  * gsb_scheduler_execute_children_of_scheduled_transaction later
  * 
  *
@@ -369,18 +369,18 @@ gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint tran
 	return TRUE;
     }
 
-    if ( gsb_data_scheduled_get_breakdown_of_scheduled (scheduled_number))
+    if ( gsb_data_scheduled_get_split_of_scheduled (scheduled_number))
     {
-	/* it's a breakdown of transaction,
+	/* it's a split of transaction,
 	 * we don't append the children here, we need to call later
 	 * the function gsb_scheduler_execute_children_of_scheduled_transaction */
 
-	gsb_data_transaction_set_breakdown_of_transaction ( transaction_number,
+	gsb_data_transaction_set_split_of_transaction ( transaction_number,
 							    1 );
     }
     else
     {
-	/* it's not a breakdown of transaction and not a normal category so it's a transfer
+	/* it's not a split of transaction and not a normal category so it's a transfer
 	 * except if the target account is -1 then it's a
 	 * transaction with no category */
 
@@ -400,11 +400,11 @@ gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint tran
 
 
 /**
- * get the children of a breakdown scheduled transaction,
+ * get the children of a split scheduled transaction,
  * make the transactions from them and append them to the transactions list
  *
  *
- * \param scheduled_number the number of the mother scheduled transaction (the breakdown)
+ * \param scheduled_number the number of the mother scheduled transaction (the split)
  * \param transaction_number the number of the transaction created from that scheduled (so, the future mother of the children)
  *
  * \return FALSE
@@ -472,7 +472,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 
 	scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
 
-	/* we check that scheduled transaction only if it's not a child of a breakdown */
+	/* we check that scheduled transaction only if it's not a child of a split */
 	if ( !gsb_data_scheduled_get_mother_scheduled_number (scheduled_number)
 	     &&
 	     gsb_data_scheduled_get_date (scheduled_number)
@@ -488,7 +488,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 		/* take automaticaly the scheduled transaction untill today */
 		transaction_number = gsb_scheduler_create_transaction_from_scheduled_transaction (scheduled_number,
 												  0 );
-		if ( gsb_data_scheduled_get_breakdown_of_scheduled (scheduled_number))
+		if ( gsb_data_scheduled_get_split_of_scheduled (scheduled_number))
 		    gsb_scheduler_execute_children_of_scheduled_transaction ( scheduled_number,
 									      transaction_number );
 

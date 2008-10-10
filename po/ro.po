@@ -967,12 +967,12 @@ msgid ""
 msgstr ""
 
 #: src/dialog.c:80
-msgid "Recover breakdown?"
+msgid "Recover split?"
 msgstr "Recuperarea ventilaţiilor ?"
 
 #: src/dialog.c:81
 msgid ""
-"This is a breakdown of transaction, associated transactions can be recovered "
+"This is a split of transaction, associated transactions can be recovered "
 "as in last transaction with this payee.  Do you want to recover them?"
 msgstr ""
 
@@ -1353,7 +1353,7 @@ msgstr "Virament"
 #: src/etats_affiche.c:1845 src/export_csv.c:561 src/gsb_data_category.c:1036
 #: src/gsb_form.c:726 src/gsb_form.c:2428 src/gsb_form.c:2779
 #: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3233
-msgid "Breakdown of transaction"
+msgid "Split of transaction"
 msgstr "Tranzacţie ventilată"
 
 #: src/etats_affiche.c:1852 src/gsb_data_category.c:156
@@ -2077,12 +2077,12 @@ msgstr "Operaţiile apropiate"
 
 #: src/etats_config.c:6231
 #, fuzzy
-msgid "Breakdown of transactions detail"
+msgid "Split of transactions detail"
 msgstr "Tranzacţie ventilată"
 
 #: src/etats_config.c:6233
 #, fuzzy
-msgid "Do not detail breakdown of transactions"
+msgid "Do not detail split of transactions"
 msgstr "Nu detaliaţi operaţiile ventilate"
 
 #. choix de ce qu'on utilise dans le classement
@@ -2832,7 +2832,7 @@ msgid "Deleted account"
 msgstr "Cont suprimat"
 
 #: src/export_csv.c:743 src/import_csv.c:92
-msgid "Breakdown"
+msgid "Split"
 msgstr "Ventilaţie"
 
 #: src/export_csv.c:752
@@ -6550,7 +6550,7 @@ msgstr "Imposibil de a marca fişierul '%s' ca utilizat: %s"
 msgid "Transaction/Scheduled _form"
 msgstr "Formular de tranzacţie"
 
-#. create the check button to recover the children of breakdowns
+#. create the check button to recover the children of splits
 #: src/gsb_form.c:316
 msgid "Recover the children"
 msgstr ""
@@ -6603,8 +6603,8 @@ msgstr "Dată neconformă"
 
 #: src/gsb_form.c:2430
 msgid ""
-"You cannot set breakdown of transaction in category for a daughter of a "
-"breakdown of transaction."
+"You cannot set split of transaction in category for a daughter of a "
+"split of transaction."
 msgstr ""
 
 #: src/gsb_form.c:2465
@@ -6655,7 +6655,7 @@ msgstr ""
 
 #: src/gsb_form.c:2550
 #, fuzzy
-msgid "A transaction with a multiple payee cannot be a breakdown child."
+msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 "O operaţiune a cărui terţ este o stare trebuie să fie fără îndoială o nouă "
 "operaţiune. "
@@ -6676,7 +6676,7 @@ msgstr "Edtarea operaţiunii"
 
 #: src/gsb_form.c:2803
 msgid ""
-"You are trying to change a breakdown of transaction to another kind of "
+"You are trying to change a split of transaction to another kind of "
 "transaction.\n"
 "There is some children to that transaction, if you continue, the children "
 "will be deleted.\n"
@@ -7401,7 +7401,7 @@ msgid ""
 "You are currently trying to reconcile or unreconcile manually a transaction "
 "which isn't a regular way to do.\n"
 "\n"
-"And moreover the transaction you try to reconcile is a child of breakdown, "
+"And moreover the transaction you try to reconcile is a child of split, "
 "so the modification will be done on the mother and all its children.\n"
 "\n"
 "Are you really sure to know what you do?"
@@ -7456,7 +7456,7 @@ msgstr "Imposibil de a suprima o operaţiune listată."
 #: src/gsb_transactions_list.c:1910
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
-"The transaction, the contra-transaction or the children if it is a breakdown "
+"The transaction, the contra-transaction or the children if it is a split "
 "are reconciled. You can remove the reconciliation with Ctrl R if it is "
 "really necessary."
 msgstr ""
@@ -8402,7 +8402,7 @@ msgstr "Nou mod de plată"
 
 #: src/metatree.c:470
 #, fuzzy
-msgid "breakdown"
+msgid "split"
 msgstr "Ventilaţie"
 
 #. FIXME: tell the truth ;-)
@@ -8973,7 +8973,7 @@ msgstr ""
 #: src/transaction_list.c:1449
 #, c-format
 msgid ""
-"While trying to append a breakdown child in the tree view, one or all the "
+"While trying to append a split child in the tree view, one or all the "
 "mothers of the child number %d couldn't be found.\n"
 "This is a bug and should not happen.\n"
 "The child won't be appended to the list and Grisbi won't crash,\n"
@@ -9647,10 +9647,10 @@ msgstr "Nici'o imputaţie"
 #~ msgid "%4.2f %s"
 #~ msgstr "%4.2f %s"
 
-#~ msgid "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
+#~ msgid "%d/%d/%d : %4.2f %s (split) [ %s ]"
 #~ msgstr "%d/%d/%d : %4.2f %s (ventilaţie) [ %s ]"
 
-#~ msgid "%d/%d/%d : %4.2f %s (breakdown)"
+#~ msgid "%d/%d/%d : %4.2f %s (split)"
 #~ msgstr "%d/%d/%d : %4.2f %s (ventilaţie)"
 
 #~ msgid "Remove a category"
@@ -9866,7 +9866,7 @@ msgstr "Nici'o imputaţie"
 #~ msgstr "Nu există terţ"
 
 #~ msgid ""
-#~ "This breakdown of transaction contains a transfer on itself.  Either "
+#~ "This split of transaction contains a transfer on itself.  Either "
 #~ "change the sub transaction to transfer on another account or change "
 #~ "account of the transaction itself."
 #~ msgstr ""
@@ -9908,7 +9908,7 @@ msgstr "Nici'o imputaţie"
 #~ "Suma operaţiei nu este total ventilată.\n"
 #~ "Vreţi să continuaţi totuşi ?"
 
-#~ msgid "A breakdown line is to be deleted though it is not yet registered."
+#~ msgid "A split line is to be deleted though it is not yet registered."
 #~ msgstr ""
 #~ "O operaţie de ventilare a fost marcată pentru suprimare atunci când nu "
 #~ "era încă înregistrată"
@@ -10193,8 +10193,8 @@ msgstr "Nici'o imputaţie"
 
 #~ msgid ""
 #~ "There was a bug in versions before 0.4.0, which could lead to orphan "
-#~ "transactions (either transfers without countra-transaction, or breakdown "
-#~ "transactions details without associated breakdown transaction.\n"
+#~ "transactions (either transfers without countra-transaction, or split "
+#~ "transactions details without associated split transaction.\n"
 #~ "\n"
 #~ "Grisbi searched for such transaction and found:\n"
 #~ "\n"
@@ -10206,7 +10206,7 @@ msgstr "Nici'o imputaţie"
 #~ "Grisbi a căutat asemenea operaţiuni şi a găsit :\n"
 #~ "\n"
 
-#~ msgid "breakdown transactions, all of them were deleted.\n"
+#~ msgid "split transactions, all of them were deleted.\n"
 #~ msgstr "operaţiuni ventilate, toate au fost şterse \n"
 
 #~ msgid ""
@@ -10522,7 +10522,7 @@ msgstr "Nici'o imputaţie"
 #~ msgid "Curent balance"
 #~ msgstr "Sold curent"
 
-#~ msgid "Account breakdown"
+#~ msgid "Account split"
 #~ msgstr "Ventilaţia contului"
 
 #~ msgid "Confirmation of transaction removal"
@@ -10547,7 +10547,7 @@ msgstr "Nici'o imputaţie"
 #~ "imposibilă."
 
 #~ msgid ""
-#~ "One of the breakdown lines is a transfer whose contra-transaction is "
+#~ "One of the split lines is a transfer whose contra-transaction is "
 #~ "reconciled.  Deletion canceled."
 #~ msgstr ""
 #~ "Una din operaţiunile de ventilaţie este un virament a cărui contra-"
@@ -10581,7 +10581,7 @@ msgstr "Nici'o imputaţie"
 #~ msgid "Do not warn about removal scheduled transaction"
 #~ msgstr "A nu anunţa în timpul suprimării unei operaţiuni planificate"
 
-#~ msgid "Do not warn about incomplete breakdown"
+#~ msgid "Do not warn about incomplete split"
 #~ msgstr "A nu anunţa în timpul unei ventilaţii incomplecte"
 
 #~ msgid "Do not warn about no reconciliation reference"
@@ -10695,7 +10695,7 @@ msgstr "Nici'o imputaţie"
 #~ "Grisbi nu a putut lansa '%s'\n"
 #~ ". Vă rugăm modificaţi configuraţia dvs spre un executabil valid."
 
-#~ msgid "This transaction has a reconciled breakdown line, deletion canceled."
+#~ msgid "This transaction has a reconciled split line, deletion canceled."
 #~ msgstr ""
 #~ "Operaţiunea ventilată a acestei operaţiuni este relevată, suprimarea este "
 #~ "anulată."

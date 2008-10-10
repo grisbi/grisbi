@@ -355,7 +355,7 @@ gchar * gsb_debug_reconcile_test ( void )
 		 On ne prend pas en compte les opérations de ventilation. */
 	      if ( ( gsb_data_transaction_get_marked_transaction ( transaction )
 		     == 3 ) &&	/* FIXME: use enum */
-		   ! gsb_data_transaction_get_breakdown_of_transaction ( transaction ) )
+		   ! gsb_data_transaction_get_split_of_transaction ( transaction ) )
 	      {
 		  reconcilied_amount = gsb_real_add ( reconcilied_amount,
 						      gsb_data_transaction_get_adjusted_amount_for_currency ( transaction, 
@@ -556,19 +556,19 @@ gchar * gsb_debug_transfer_test ( void )
 
 /*     while ( pTransactionList ) */
 /*     { */
-/*       struct structure_operation *pBreakdownTransaction; */
+/*       struct structure_operation *pSplitTransaction; */
 
-/*       pBreakdownTransaction = pTransactionList -> data; */
+/*       pSplitTransaction = pTransactionList -> data; */
 
 /*       /\* si c'est une ventilation d'opération et que cette ventilation a un exercice, */
 /*          on va voir si l'opération mère possède le même exercice *\/ */
-/*       if ( pBreakdownTransaction -> no_operation_ventilee_associee && */
-/*            pBreakdownTransaction -> no_exercice ) */
+/*       if ( pSplitTransaction -> no_operation_ventilee_associee && */
+/*            pSplitTransaction -> no_exercice ) */
 /*       { */
 /* 	struct structure_operation *pTransaction; */
 
 /* 	pTransaction = g_slist_find_custom ( LISTE_OPERATIONS, */
-/* 					     GINT_TO_POINTER ( pBreakdownTransaction -> no_operation_ventilee_associee ), */
+/* 					     GINT_TO_POINTER ( pSplitTransaction -> no_operation_ventilee_associee ), */
 /* 					     (GCompareFunc) recherche_operation_par_no ) -> data; */
 /* 	if (!pTransaction) */
 /* 	{ */
@@ -581,14 +581,14 @@ gchar * gsb_debug_transfer_test ( void )
 /* 				  NULL ); */
 /* 	  } */
 /* 	  pText = g_strconcat ( pText, */
-/* 				g_strdup_printf ( _("Breakdown line #%d is orpheanous.\n"), */
-/* 						  pBreakdownTransaction -> no_operation), */
+/* 				g_strdup_printf ( _("Split line #%d is orpheanous.\n"), */
+/* 						  pSplitTransaction -> no_operation), */
 /* 				NULL ); */
 /* 	  corrupted_account = TRUE; */
 /* 	} */
 /* 	else */
 /* 	{ */
-/* 	  if( pTransaction -> no_exercice != pBreakdownTransaction -> no_exercice ) */
+/* 	  if( pTransaction -> no_exercice != pSplitTransaction -> no_exercice ) */
 /* 	  { */
 /* 	    /\* S'il n'y avait pas eu encore d'erreur dans ce compte, */
 /* 	       on affiche son nom *\/ */
@@ -600,12 +600,12 @@ gchar * gsb_debug_transfer_test ( void )
 /* 	    } */
 /* 	    pText = g_strconcat ( pText, */
 /* 				  g_strdup_printf ( _("Transaction #%d has a financial year named %s and " */
-/* 						      "breakdown line #%d of this transaction has a " */
+/* 						      "split line #%d of this transaction has a " */
 /* 						      "financial year named %s\n"), */
 /* 						    pTransaction -> no_operation, */
 /* 						    gsb_data_fyear_get_name ( pTransaction -> no_exercice ), */
-/* 						    pBreakdownTransaction -> no_operation, */
-/* 						    gsb_data_fyear_get_name ( pBreakdownTransaction -> no_exercice ) ), */
+/* 						    pSplitTransaction -> no_operation, */
+/* 						    gsb_data_fyear_get_name ( pSplitTransaction -> no_exercice ) ), */
 /* 				  NULL ); */
 /* 	    corrupted_account = TRUE; */
 /* 	  } */
@@ -624,7 +624,7 @@ gchar * gsb_debug_transfer_test ( void )
 
 /*   if ( affected_accounts ) */
 /*   { */
-/*     pText = g_strconcat ( _("Grisbi found breakdown lines that have financial years different " */
+/*     pText = g_strconcat ( _("Grisbi found split lines that have financial years different " */
 /* 			    "from the financial years of the related transaction.  Perhaps it isn't " */
 /* 			    "a problem, but perhaps it is.\n" */
 /* 			    "The following accounts seems inconsistent:\n"),  */

@@ -952,12 +952,12 @@ msgstr ""
 # geen idee waar het staat (Opsplitsing van rekening)
 #: src/dialog.c:80
 #, fuzzy
-msgid "Recover breakdown?"
+msgid "Recover split?"
 msgstr "Rekening opsplitsen"
 
 #: src/dialog.c:81
 msgid ""
-"This is a breakdown of transaction, associated transactions can be recovered "
+"This is a split of transaction, associated transactions can be recovered "
 "as in last transaction with this payee.  Do you want to recover them?"
 msgstr ""
 
@@ -1341,7 +1341,7 @@ msgstr "Overgeschreven"
 #: src/etats_affiche.c:1845 src/export_csv.c:561 src/gsb_data_category.c:1036
 #: src/gsb_form.c:726 src/gsb_form.c:2428 src/gsb_form.c:2779
 #: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3233
-msgid "Breakdown of transaction"
+msgid "Split of transaction"
 msgstr "Opsplitsen van transactie"
 
 #: src/etats_affiche.c:1852 src/gsb_data_category.c:156
@@ -2071,12 +2071,12 @@ msgstr "De gecontroleerde transacties"
 
 #: src/etats_config.c:6231
 #, fuzzy
-msgid "Breakdown of transactions detail"
+msgid "Split of transactions detail"
 msgstr "Opsplitsen van transactie"
 
 #: src/etats_config.c:6233
 #, fuzzy
-msgid "Do not detail breakdown of transactions"
+msgid "Do not detail split of transactions"
 msgstr "Laat geen details zien van de gecontroleerde transacties"
 
 #. choix de ce qu'on utilise dans le classement
@@ -2824,7 +2824,7 @@ msgid "Deleted account"
 msgstr "Verwijderde rekening"
 
 #: src/export_csv.c:743 src/import_csv.c:92
-msgid "Breakdown"
+msgid "Split"
 msgstr "Opsplitsen"
 
 #: src/export_csv.c:752
@@ -6559,7 +6559,7 @@ msgstr "Kan bestand '%s': %s niet vergrendelen"
 msgid "Transaction/Scheduled _form"
 msgstr "Transactie formulier"
 
-#. create the check button to recover the children of breakdowns
+#. create the check button to recover the children of splits
 #: src/gsb_form.c:316
 msgid "Recover the children"
 msgstr ""
@@ -6613,8 +6613,8 @@ msgstr "Datum onbekende"
 
 #: src/gsb_form.c:2430
 msgid ""
-"You cannot set breakdown of transaction in category for a daughter of a "
-"breakdown of transaction."
+"You cannot set split of transaction in category for a daughter of a "
+"split of transaction."
 msgstr ""
 
 #: src/gsb_form.c:2465
@@ -6663,7 +6663,7 @@ msgstr "Een transactie met meerdere begunstigden moet een nieuwe zijn"
 
 #: src/gsb_form.c:2550
 #, fuzzy
-msgid "A transaction with a multiple payee cannot be a breakdown child."
+msgid "A transaction with a multiple payee cannot be a split child."
 msgstr "Een transactie met meerdere begunstigden moet een nieuwe zijn"
 
 #: src/gsb_form.c:2561
@@ -6682,7 +6682,7 @@ msgstr "Bewerk transacties"
 
 #: src/gsb_form.c:2803
 msgid ""
-"You are trying to change a breakdown of transaction to another kind of "
+"You are trying to change a split of transaction to another kind of "
 "transaction.\n"
 "There is some children to that transaction, if you continue, the children "
 "will be deleted.\n"
@@ -7413,7 +7413,7 @@ msgid ""
 "You are currently trying to reconcile or unreconcile manually a transaction "
 "which isn't a regular way to do.\n"
 "\n"
-"And moreover the transaction you try to reconcile is a child of breakdown, "
+"And moreover the transaction you try to reconcile is a child of split, "
 "so the modification will be done on the mother and all its children.\n"
 "\n"
 "Are you really sure to know what you do?"
@@ -7470,7 +7470,7 @@ msgstr "Het is niet mogelijk om een gecontroleerde transactie te verwijderen."
 #: src/gsb_transactions_list.c:1910
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
-"The transaction, the contra-transaction or the children if it is a breakdown "
+"The transaction, the contra-transaction or the children if it is a split "
 "are reconciled. You can remove the reconciliation with Ctrl R if it is "
 "really necessary."
 msgstr ""
@@ -8420,7 +8420,7 @@ msgstr "Nieuwe betalingsmethode"
 
 #: src/metatree.c:470
 #, fuzzy
-msgid "breakdown"
+msgid "split"
 msgstr "Opsplitsen"
 
 #. FIXME: tell the truth ;-)
@@ -8995,7 +8995,7 @@ msgstr ""
 #: src/transaction_list.c:1449
 #, c-format
 msgid ""
-"While trying to append a breakdown child in the tree view, one or all the "
+"While trying to append a split child in the tree view, one or all the "
 "mothers of the child number %d couldn't be found.\n"
 "This is a bug and should not happen.\n"
 "The child won't be appended to the list and Grisbi won't crash,\n"
@@ -9670,10 +9670,10 @@ msgstr "Geen budgetregel"
 #~ msgid "%4.2f %s"
 #~ msgstr "%4.2f %s"
 
-#~ msgid "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
+#~ msgid "%d/%d/%d : %4.2f %s (split) [ %s ]"
 #~ msgstr "%d/%d/%d : %4.2f %s (Opgesplitst) [ %s ]"
 
-#~ msgid "%d/%d/%d : %4.2f %s (breakdown)"
+#~ msgid "%d/%d/%d : %4.2f %s (split)"
 #~ msgstr "%d/%d/%d : %4.2f %s (Opgesplitst)"
 
 #~ msgid "Remove a category"
@@ -9775,18 +9775,18 @@ msgstr "Geen budgetregel"
 #~ "Helaas weten wij  op dit  moment niet wat er gebeurd is.\n"
 #~ "De volgende rekeningen hebben problemen:\n"
 
-#~ msgid "Breakdown line #%d is orpheanous.\n"
+#~ msgid "Split line #%d is orpheanous.\n"
 #~ msgstr "Opslitsregel #%d is wees.\n"
 
 #~ msgid ""
-#~ "Transaction #%d has a financial year named %s and breakdown line #%d of "
+#~ "Transaction #%d has a financial year named %s and split line #%d of "
 #~ "this transaction has a financial year named %s\n"
 #~ msgstr ""
 #~ "Transactie #%d is gekoppeld aan het financieel jaar genaamd %s en de "
 #~ "opsplitsregel #%d is gekoppeld aan het financieel jaar genaamd %s\n"
 
 #~ msgid ""
-#~ "Grisbi found breakdown lines that have financial years different from the "
+#~ "Grisbi found split lines that have financial years different from the "
 #~ "financial years of the related transaction.  Perhaps it isn't a problem, "
 #~ "but perhaps it is.\n"
 #~ "The following accounts seems inconsistent:\n"
@@ -9915,7 +9915,7 @@ msgstr "Geen budgetregel"
 #~ msgstr "Geen begunstigde"
 
 #~ msgid ""
-#~ "This breakdown of transaction contains a transfer on itself.  Either "
+#~ "This split of transaction contains a transfer on itself.  Either "
 #~ "change the sub transaction to transfer on another account or change "
 #~ "account of the transaction itself."
 #~ msgstr ""
@@ -9960,7 +9960,7 @@ msgstr "Geen budgetregel"
 #~ "overeen met het totaal van de gebruikte bedragen.\n"
 #~ "Toch door gaan?"
 
-#~ msgid "A breakdown line is to be deleted though it is not yet registered."
+#~ msgid "A split line is to be deleted though it is not yet registered."
 #~ msgstr ""
 #~ "Een opsplitsregel wordt verwijderd terwijl deze nog niet is gekoppeld"
 
@@ -10244,8 +10244,8 @@ msgstr "Geen budgetregel"
 
 #~ msgid ""
 #~ "There was a bug in versions before 0.4.0, which could lead to orphan "
-#~ "transactions (either transfers without countra-transaction, or breakdown "
-#~ "transactions details without associated breakdown transaction.\n"
+#~ "transactions (either transfers without countra-transaction, or split "
+#~ "transactions details without associated split transaction.\n"
 #~ "\n"
 #~ "Grisbi searched for such transaction and found:\n"
 #~ "\n"
@@ -10257,7 +10257,7 @@ msgstr "Geen budgetregel"
 #~ "Grisbi zocht naar dit soort transacties en heeft er gevonden:\n"
 #~ "\n"
 
-#~ msgid "breakdown transactions, all of them were deleted.\n"
+#~ msgid "split transactions, all of them were deleted.\n"
 #~ msgstr "opsplitstransacties, deze zijn allemaal verwijderd.\n"
 
 #~ msgid ""
@@ -10619,7 +10619,7 @@ msgstr "Geen budgetregel"
 #~ "verwijdering is niet mogelijk!"
 
 #~ msgid ""
-#~ "One of the breakdown lines is a transfer whose contra-transaction is "
+#~ "One of the split lines is a transfer whose contra-transaction is "
 #~ "reconciled.  Deletion canceled."
 #~ msgstr ""
 #~ "Een van de regels in de splitsing heeft een overschrijving naar een "
@@ -10654,7 +10654,7 @@ msgstr "Geen budgetregel"
 #~ msgid "Do not warn about removal scheduled transaction"
 #~ msgstr "Niet waarschuwen voor verwijderen van een geplande transactie"
 
-#~ msgid "Do not warn about incomplete breakdown"
+#~ msgid "Do not warn about incomplete split"
 #~ msgstr "Niet waarschuwen voor onvolledige opsplitsingstransacties"
 
 #~ msgid "Do not warn about existing reconciliation reference"
@@ -10766,7 +10766,7 @@ msgstr "Geen budgetregel"
 #~ "Grisbi kon '%s' niet uitvoeren\n"
 #~ "Pas de instellingen aan om het probleem op te lossen."
 
-#~ msgid "This transaction has a reconciled breakdown line, deletion canceled."
+#~ msgid "This transaction has a reconciled split line, deletion canceled."
 #~ msgstr ""
 #~ "Deze transactie heeft een gecontroleerde opsplitsregel, verwijdering "
 #~ "afgebroken."

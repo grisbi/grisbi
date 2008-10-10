@@ -125,12 +125,12 @@ static gboolean block_size_allocate = FALSE;
 
 
 /** when the automatic complete transaction is done
- * for a breakdown of transaction, we propose to recover too
+ * for a split of transaction, we propose to recover too
  * the children with that button */
-GtkWidget *form_button_recover_breakdown;
+GtkWidget *form_button_recover_split;
 
 /** need to set the 2 buttons valid/cancel here and cannot
- * just show/hide the form_button_part because of the breakdown button */
+ * just show/hide the form_button_part because of the split button */
 static GtkWidget *form_button_valid;
 static GtkWidget *form_button_cancel;
 
@@ -298,7 +298,7 @@ void gsb_form_create_widgets ()
 			 FALSE, FALSE,
 			 0 );
 
-    /* the buttons part is a hbox, with the recuperate child breakdown
+    /* the buttons part is a hbox, with the recuperate child split
      * on the left and valid/cancel on the right */
     form_button_part = gtk_vbox_new ( FALSE, 0 );
     g_signal_connect ( G_OBJECT (form_button_part ), "destroy",
@@ -313,12 +313,12 @@ void gsb_form_create_widgets ()
     hbox_buttons = gtk_hbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX (form_button_part), hbox_buttons, FALSE, FALSE, 0 );
 
-    /* create the check button to recover the children of breakdowns */
-    form_button_recover_breakdown = gtk_check_button_new_with_label ( _("Recover the children"));
-    g_signal_connect ( G_OBJECT (form_button_recover_breakdown ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &form_button_recover_breakdown );
+    /* create the check button to recover the children of splits */
+    form_button_recover_split = gtk_check_button_new_with_label ( _("Recover the children"));
+    g_signal_connect ( G_OBJECT (form_button_recover_split ), "destroy",
+    		G_CALLBACK ( gtk_widget_destroyed), &form_button_recover_split );
     gtk_box_pack_start ( GTK_BOX (hbox_buttons),
-			 form_button_recover_breakdown,
+			 form_button_recover_split,
 			 FALSE, FALSE,
 			 0 );
 
@@ -398,7 +398,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
     gint mother_number;
     gint account_number;
     gint focus_to;
-    gint is_breakdown;
+    gint is_split;
     GSList *tmp_list;
 
     devel_debug_int (transaction_number);
@@ -409,7 +409,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
     /* get the account */
     account_number = gsb_data_mix_get_account_number (transaction_number, is_transaction);
     mother_number = gsb_data_mix_get_mother_transaction_number (transaction_number, is_transaction);
-    is_breakdown = gsb_data_mix_get_breakdown_of_transaction (transaction_number, is_transaction);
+    is_split = gsb_data_mix_get_split_of_transaction (transaction_number, is_transaction);
 
     if (!is_transaction)
     {
@@ -453,7 +453,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
     }
 
     /* set the number of the transaction in the form, can be -2, -3...
-     * for white line breakdown
+     * for white line split
      * that must be defined before gsb_form_change_sensitive_buttons
      * because without that number, others functions cannot get the account
      * number for an execution of scheduled in the home page
@@ -465,8 +465,8 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
     gsb_form_change_sensitive_buttons (TRUE);
 
     /* by default, a function before changed all the form from non sensitive to sensitive,
-     * but for breakdown or breakdown child, some widgets need to be unsensitive/hidden */
-    gsb_form_set_sensitive (is_breakdown, mother_number);
+     * but for split or split child, some widgets need to be unsensitive/hidden */
+    gsb_form_set_sensitive (is_split, mother_number);
 
     /* fill what is necessary in the form */
     tmp_list = gsb_form_widget_get_list ();
@@ -481,7 +481,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
 	    &&
 	    transaction_number < 0)
 	{
-	    /* we are on a breakdown white line, we fill only few fields
+	    /* we are on a split white line, we fill only few fields
 	     * with the element_number of the mother */
 	    switch (element -> element_number)
 	    {
@@ -540,7 +540,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
     /* we take focus only if asked */
     if (grab_focus)
     {
-	/* the form is full, if it's not a breakdown, we give the focus to the date
+	/* the form is full, if it's not a split, we give the focus to the date
 	 * else, we give the focus to the first free form element */
 	if (mother_number)
 	    focus_to = gsb_form_widget_next_element ( account_number,
@@ -559,24 +559,24 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
 
 
 /**
- * set the form sensitive, depend if it's a breakdown child or normal transaction
- * in fact, the form is always sensitive, so just unsensitive what is needed for breakdown child
- * or breakdown mother
+ * set the form sensitive, depend if it's a split child or normal transaction
+ * in fact, the form is always sensitive, so just unsensitive what is needed for split child
+ * or split mother
  *
- * \param breakdown TRUE if is breakdown of transaction (mother)
- * \param breakdown_child TRUE if it's a child
+ * \param split TRUE if is split of transaction (mother)
+ * \param split_child TRUE if it's a child
  *
  * \return FALSE
  * */
-gboolean gsb_form_set_sensitive ( gboolean breakdown,
-				  gboolean breakdown_child)
+gboolean gsb_form_set_sensitive ( gboolean split,
+				  gboolean split_child)
 {
     GSList *tmp_list;
 
-    /* for now, come here only for breakdown or breakdown child */
-    if (!breakdown
+    /* for now, come here only for split or split child */
+    if (!split
 	&&
-	!breakdown_child)
+	!split_child)
 	return FALSE;
 
     tmp_list = gsb_form_widget_get_list ();
@@ -587,8 +587,8 @@ gboolean gsb_form_set_sensitive ( gboolean breakdown,
 
 	element = tmp_list -> data;
 
-	/* for a breakdown, hide the exercice and the budget */
-	if (breakdown)
+	/* for a split, hide the exercice and the budget */
+	if (split)
 	{
 	    switch (element -> element_number)
 	    {
@@ -601,8 +601,8 @@ gboolean gsb_form_set_sensitive ( gboolean breakdown,
 	    }
 	}
 
-	/* for a child of breakdown, cannot change the date, payee... */
-	if ( breakdown_child )
+	/* for a child of split, cannot change the date, payee... */
+	if ( split_child )
 	{
 	    /* mixed widgets for transactions and scheduled transactions */
 	    switch (element -> element_number)
@@ -719,12 +719,12 @@ void gsb_form_fill_element ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_CATEGORY:
-	    if (gsb_data_mix_get_breakdown_of_transaction (transaction_number, is_transaction))
+	    if (gsb_data_mix_get_split_of_transaction (transaction_number, is_transaction))
 	    {
-		/* it's a breakdown of transaction */
+		/* it's a split of transaction */
 		gsb_form_entry_get_focus (widget);
 		gtk_combofix_set_text ( GTK_COMBOFIX (widget),
-					_("Breakdown of transaction") );
+					_("Split of transaction") );
 	    }
 	    else
 	    {
@@ -789,14 +789,14 @@ void gsb_form_fill_element ( gint element_number,
 
 	case TRANSACTION_FORM_TYPE:
 	    /* one small thing here : normally if the transaction is a debit, we set the
-	     * negative payment method. but the problem : if we are on a child of breakdown,
+	     * negative payment method. but the problem : if we are on a child of split,
 	     * that child contains the payment method of the mother, and if the child has not
 	     * the same sign of the mother (rare but possible), grisbi will not find the good payment
-	     * method for that child because it's not on the good sign... so for a child of breakdown,
+	     * method for that child because it's not on the good sign... so for a child of split,
 	     * we set the payment box of the mother */
 	    number = gsb_data_mix_get_mother_transaction_number (transaction_number, is_transaction);
 	    if (!number)
-		/* it's not a child breakdown, so set number to transaction_number */
+		/* it's not a child split, so set number to transaction_number */
 		number = transaction_number;
 
 	    /* ok, now number contains either the transaction_number, either the mother transaction number,
@@ -810,7 +810,7 @@ void gsb_form_fill_element ( gint element_number,
 						       GSB_PAYMENT_CREDIT,
 						       account_number, 0 );
 
-	    /* don't show the cheque entry for a child of breakdown */
+	    /* don't show the cheque entry for a child of split */
 	    if ( GTK_WIDGET_VISIBLE (widget))
 	    {
 		number = gsb_data_mix_get_method_of_payment_number (transaction_number, is_transaction);
@@ -1256,7 +1256,7 @@ gboolean gsb_form_clean ( gint account_number )
 	/* better to protect here if widget != NULL (bad experience...) */
 	if (element -> element_widget)
 	{
-	    /* some widgets can be set unsensitive because of the children of breakdowns,
+	    /* some widgets can be set unsensitive because of the children of splits,
 	     * so resensitive all to be sure */
 	    gtk_widget_set_sensitive ( element -> element_widget, TRUE );
 
@@ -1396,7 +1396,7 @@ gboolean gsb_form_clean ( gint account_number )
 			NULL );
 
     /* don't show the recover button */
-    gtk_widget_hide (form_button_recover_breakdown);
+    gtk_widget_hide (form_button_recover_split);
 
     return FALSE;
 }
@@ -1535,7 +1535,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 		widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE);
 
 		/* change the method of payment if necessary
-		 * (if grey, it's a child of breakdown so do nothing) */
+		 * (if grey, it's a child of split so do nothing) */
 		if ( widget
 		     &&
 		     GTK_WIDGET_SENSITIVE (widget))
@@ -1580,7 +1580,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 		widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE);
 
 		/* change the method of payment if necessary
-		 * (if grey, it's a child of breakdown so do nothing) */
+		 * (if grey, it's a child of split so do nothing) */
 		if ( widget
 		     &&
 		     GTK_WIDGET_SENSITIVE (widget))
@@ -2159,7 +2159,7 @@ gboolean gsb_form_finish_edition ( void )
 	    }
 	}
 
-	/* now we create the transaction if necessary and set the mother in case of child of breakdown */
+	/* now we create the transaction if necessary and set the mother in case of child of split */
 	if ( new_transaction )
 	{
 	    /* it's a new transaction, we create it, and set the mother if necessary */
@@ -2177,7 +2177,7 @@ gboolean gsb_form_finish_edition ( void )
 	}
 	else
 	{
-	    /* it's not a new transaction, if it's not a child breakdown,
+	    /* it's not a new transaction, if it's not a child split,
 	     * we remove the amount of that transaction from the balance of the account,
 	     * because later, the amount will be add again to the balance */
 	    if ( is_transaction
@@ -2211,30 +2211,30 @@ gboolean gsb_form_finish_edition ( void )
 	    /* it's a transaction or an execution of scheduled transaction */
 	    if ( new_transaction )
 	    {
-		gint breakdown_transaction_number;
+		gint split_transaction_number;
 
 		gsb_transactions_list_append_new_transaction (transaction_number, TRUE);
 
-		/* if it's a real new transaction and if it's a breakdown, we ask if the user wants
+		/* if it's a real new transaction and if it's a split, we ask if the user wants
 		 * to recover previous children */
-		if ( gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
+		if ( gsb_data_transaction_get_split_of_transaction (transaction_number)
 		     &&
 		     !execute_scheduled
 		     &&
-		     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (form_button_recover_breakdown))
+		     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (form_button_recover_split))
 		     &&
-		     (breakdown_transaction_number = gsb_form_transactions_look_for_last_party ( gsb_data_transaction_get_party_number (transaction_number),
+		     (split_transaction_number = gsb_form_transactions_look_for_last_party ( gsb_data_transaction_get_party_number (transaction_number),
 												 transaction_number,
 												 gsb_data_transaction_get_account_number(transaction_number))))
-		    gsb_form_transaction_recover_breakdowns_of_transaction ( transaction_number,
-									     breakdown_transaction_number);
+		    gsb_form_transaction_recover_splits_of_transaction ( transaction_number,
+									     split_transaction_number);
 	    }
 	    else
 	    {
 		/* update a transaction */
 		gsb_transactions_list_update_transaction (transaction_number);
 
-		/* we are on a modification of transaction, but if the modified transaction is a breakdown
+		/* we are on a modification of transaction, but if the modified transaction is a split
 		 * and has no children (ie only white line), we assume the user wants now fill the children, so we will do the
 		 * same as for a new transaction : open the expander and select the white line */
 		if (transaction_list_get_n_children (transaction_number) == 1)
@@ -2279,13 +2279,13 @@ gboolean gsb_form_finish_edition ( void )
     }
 
     /* if we executed a scheduled transation, need to increase the date of the scheduled
-     * and execute the children if it's a breakdown */
+     * and execute the children if it's a split */
     if (execute_scheduled)
     {
 	gint increase_result;
 
-	/* first, check if it's a scheduled breakdown and execute the childrent */
-	if (gsb_data_scheduled_get_breakdown_of_scheduled (saved_scheduled_number))
+	/* first, check if it's a scheduled split and execute the childrent */
+	if (gsb_data_scheduled_get_split_of_scheduled (saved_scheduled_number))
 	    gsb_scheduler_execute_children_of_scheduled_transaction ( saved_scheduled_number,
 								      transaction_number );
 
@@ -2308,13 +2308,13 @@ gboolean gsb_form_finish_edition ( void )
 	 &&
 	 !execute_scheduled)
     {
-	/* we are on a new transaction, if that transaction is a breakdown,
+	/* we are on a new transaction, if that transaction is a split,
 	 * we give the focus to the new white line created for that and
 	 * edit it, for that we need to open the transaction to select the
 	 * white line, and set it as current transaction */
-	if (gsb_data_mix_get_breakdown_of_transaction (transaction_number, is_transaction))
+	if (gsb_data_mix_get_split_of_transaction (transaction_number, is_transaction))
 	{
-	    /* it's a breakdown */
+	    /* it's a split */
 	    gint white_line_number;
 
 	    white_line_number = gsb_data_mix_get_white_line (transaction_number, is_transaction);
@@ -2327,7 +2327,7 @@ gboolean gsb_form_finish_edition ( void )
 	/* it was a new transaction, we save the last date entry */
 	gsb_date_set_last_date (gtk_entry_get_text ( GTK_ENTRY (gsb_form_widget_get_widget (TRANSACTION_FORM_DATE))));
 
-	/* we need to use edit_transaction to make a new child breakdown if necessary */
+	/* we need to use edit_transaction to make a new child split if necessary */
 	if (is_transaction)
 	    gsb_transactions_list_edit_transaction (gsb_data_account_get_current_transaction_number (account_number));
 	else
@@ -2416,7 +2416,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
     mother_number = gsb_data_mix_get_mother_transaction_number (transaction_number, is_transaction);
 
-    /* check if it's a daughter breakdown that the category is not a breakdown of transaction */
+    /* check if it's a daughter split that the category is not a split of transaction */
     if ( widget
 	 &&
 	 !gsb_form_widget_check_empty (GTK_COMBOFIX (widget) -> entry)
@@ -2424,9 +2424,9 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 	 mother_number
 	 &&
 	 !strcmp ( gtk_combofix_get_text (GTK_COMBOFIX (widget)),
-		   _("Breakdown of transaction")))
+		   _("Split of transaction")))
     {
-	dialogue_error ( _("You cannot set breakdown of transaction in category for a daughter of a breakdown of transaction.") );
+	dialogue_error ( _("You cannot set split of transaction in category for a daughter of a split of transaction.") );
 	return (FALSE);
     }
 
@@ -2546,7 +2546,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 	    }
 	    if (transaction_number < 0)
 	    {
-		dialogue_error ( _("A transaction with a multiple payee cannot be a breakdown child.") );
+		dialogue_error ( _("A transaction with a multiple payee cannot be a split child.") );
 		return (FALSE);
 	    }
 
@@ -2773,9 +2773,9 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 	string = gtk_combofix_get_text ( GTK_COMBOFIX (category_combofix));
 
 	if ( strcmp ( string,
-		      _("Breakdown of transaction") ))
+		      _("Split of transaction") ))
 	{
-	    /* it's not a breakdown of transaction, if it was one, we delete the
+	    /* it's not a split of transaction, if it was one, we delete the
 	     * transaction's daughters */
 	    gint account_transfer;
 
@@ -2783,9 +2783,9 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 	     * that function returns -1 */
 	    if ( !new_transaction
 		 &&
-		 gsb_data_mix_get_breakdown_of_transaction (transaction_number, is_transaction) == 1)
+		 gsb_data_mix_get_split_of_transaction (transaction_number, is_transaction) == 1)
 	    {
-		/* we try to modify a breakdown to a non breakdown transaction */
+		/* we try to modify a split to a non split transaction */
 		GSList *children_list;
 
 		/* get the number list of children */
@@ -2797,7 +2797,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		    GSList *save_children_list;
 
 		    if (!question_yes_no_hint ( _("Modifying a transaction"),
-						_("You are trying to change a breakdown of transaction to another kind of transaction.\nThere is some children to that transaction, if you continue, the children will be deleted.\nAre you sure ?"),
+						_("You are trying to change a split of transaction to another kind of transaction.\nThere is some children to that transaction, if you continue, the children will be deleted.\nAre you sure ?"),
 						GTK_RESPONSE_OK ))
 			return FALSE;
 
@@ -2818,7 +2818,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		    while ( children_list );
 		    g_slist_free (save_children_list);
 		}
-		gsb_data_mix_set_breakdown_of_transaction ( transaction_number,
+		gsb_data_mix_set_split_of_transaction ( transaction_number,
 							    0, is_transaction );
 	    }
 
@@ -2885,7 +2885,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 	}
 	else
 	{
-	    /* it's a breakdown of transaction */
+	    /* it's a split of transaction */
 	    /* if it was a transfer, we delete the contra-transaction */
 	    if ( is_transaction
 		 &&
@@ -2903,25 +2903,25 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 								   0);
 	    }
 
-	    /* if it's a modification of a transaction and it was not a breakdown,
+	    /* if it's a modification of a transaction and it was not a split,
 	     * but it is now, we add a white line as first child */
 	    if (!new_transaction
 		&&
-		!gsb_data_mix_get_breakdown_of_transaction (transaction_number, is_transaction))
+		!gsb_data_mix_get_split_of_transaction (transaction_number, is_transaction))
 	    {
 		if (!is_transaction)
 		    gsb_scheduler_list_append_new_scheduled ( gsb_data_scheduled_new_white_line (transaction_number),
 							      gsb_data_scheduled_get_limit_date (transaction_number ));
 	    }
 
-	    gsb_data_mix_set_breakdown_of_transaction ( transaction_number,
+	    gsb_data_mix_set_split_of_transaction ( transaction_number,
 							1, is_transaction );
 	    gsb_data_mix_set_category_number ( transaction_number,
 					       0, is_transaction );
 	    gsb_data_mix_set_sub_category_number ( transaction_number,
 						   0, is_transaction );
 
-	    /* normally the following widgets are hidden for a breakdown, but if the user really
+	    /* normally the following widgets are hidden for a split, but if the user really
 	     * want he can annoy us and set an budget for example, and after cry because problems
 	     * in reports... so, erase here budget and financial year, if ever they are defined */
 	    gsb_data_mix_set_budgetary_number (transaction_number, 0, is_transaction);

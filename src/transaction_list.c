@@ -66,7 +66,7 @@ static  gboolean transaction_list_update_white_child ( CustomRecord *white_recor
 
 /*START_EXTERN*/
 extern GdkColor archive_background_color;
-extern GdkColor breakdown_background;
+extern GdkColor split_background;
 extern GdkColor couleur_fond[2];
 extern gsb_real null_real ;
 extern GSList *orphan_child_transactions ;
@@ -102,7 +102,7 @@ gboolean transaction_list_create (void)
 
 /**
  * append a transaction to the list
- * that transaction can be a mother or a child (breakdown)
+ * that transaction can be a mother or a child (split)
  *
  * \param transaction_number	the transaction to append
  *
@@ -135,8 +135,8 @@ void transaction_list_append_transaction ( gint transaction_number )
     /* the transaction is a mother */
     account_number = gsb_gui_navigation_get_current_account ();
 
-    /* if the transaction is a breakdown, create a white line, we will append it later */
-    if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+    /* if the transaction is a split, create a white line, we will append it later */
+    if (gsb_data_transaction_get_split_of_transaction (transaction_number))
     {
 	/* append a white line */
 	gint white_line_number;
@@ -150,9 +150,9 @@ void transaction_list_append_transaction ( gint transaction_number )
 	white_record = g_malloc0 (sizeof (CustomRecord));
 	white_record -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (white_line_number);
 	white_record -> what_is_line = IS_TRANSACTION;
-	white_record -> row_bg = &breakdown_background;
+	white_record -> row_bg = &split_background;
 
-	/* as we append just now the white line, there are no child breakdown, so the total is 0 */
+	/* as we append just now the white line, there are no child split, so the total is 0 */
 	amount_string = gsb_real_get_string_with_currency (null_real,
 							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 	variance_string = gsb_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
@@ -585,10 +585,10 @@ void transaction_list_filter ( gint account_number )
     g_return_if_fail ( custom_list != NULL );
     g_return_if_fail ( custom_list->num_rows != 0 );
 
-    /* there is a bug, i think in gtk, wich when we re-filter the list with opened breakdown, and when
-     * there is less lines in the list that the window, gtk close the breakdown opened without
+    /* there is a bug, i think in gtk, wich when we re-filter the list with opened split, and when
+     * there is less lines in the list that the window, gtk close the split opened without
      * informing the tree view so tree view errors laters... i didn't find anything here
-     * wich close the breakdown, so i assume is gtk. the solution is to close all the breakdown.
+     * wich close the split, so i assume is gtk. the solution is to close all the split.
      * this is very important to keep gtk_tree_view_collapse_all to avoid very nuts bugs !!!  */
     gtk_tree_view_collapse_all (GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()));
 
@@ -945,9 +945,9 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
     if (!record)
 	return FALSE;
 
-    /* if the transaction is a breakdown, we need to check if there are already children,
+    /* if the transaction is a split, we need to check if there are already children,
      * else we add the white line */
-    if (gsb_data_transaction_get_breakdown_of_transaction (transaction_number)
+    if (gsb_data_transaction_get_split_of_transaction (transaction_number)
 	&&
 	!record -> number_of_children )
     {
@@ -963,9 +963,9 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 	white_record = g_malloc0 (sizeof (CustomRecord));
 	white_record -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (white_line_number);
 	white_record -> what_is_line = IS_TRANSACTION;
-	white_record -> row_bg = &breakdown_background;
+	white_record -> row_bg = &split_background;
 
-	/* as we append just now the white line, there are no child breakdown, so the total is 0 */
+	/* as we append just now the white line, there are no child split, so the total is 0 */
 	amount_string = gsb_real_get_string_with_currency (null_real,
 							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 	variance_string = gsb_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
@@ -1200,7 +1200,7 @@ gboolean transaction_list_update_cell ( gint cell_col,
 					gint cell_line )
 {
     gint element_number;
-    gint column_element_breakdown;
+    gint column_element_split;
     GtkTreeIter iter;
     gint i;
     CustomList *custom_list;
@@ -1209,8 +1209,8 @@ gboolean transaction_list_update_cell ( gint cell_col,
 
     element_number = tab_affichage_ope[cell_line][cell_col];
 
-    /* the element exists in the view, find the column of the breakdown if exists (-1 if don't exist) */
-    column_element_breakdown = find_element_col_breakdown (element_number);
+    /* the element exists in the view, find the column of the split if exists (-1 if don't exist) */
+    column_element_split = find_element_col_split (element_number);
 
     /* begin to fill the iter for later */
     iter.stamp = custom_list->stamp;
@@ -1250,7 +1250,7 @@ gboolean transaction_list_update_cell ( gint cell_col,
 	}
 
 	/* if the transaction has children and they contain too the element, update them */
-	if (column_element_breakdown != -1
+	if (column_element_split != -1
 	    &&
 	    record -> number_of_children )
 	{
@@ -1266,9 +1266,9 @@ gboolean transaction_list_update_cell ( gint cell_col,
 		    continue;
 
 		/* update the element */
-		if (child_record -> visible_col[column_element_breakdown])
-		    g_free (child_record -> visible_col[column_element_breakdown]);
-		child_record -> visible_col[column_element_breakdown] = gsb_transactions_list_grep_cell_content_trunc (transaction_number, element_number);
+		if (child_record -> visible_col[column_element_split])
+		    g_free (child_record -> visible_col[column_element_split]);
+		child_record -> visible_col[column_element_split] = gsb_transactions_list_grep_cell_content_trunc (transaction_number, element_number);
 
 		/* inform the tree view we changed the row, only if visible
 		 * we check the mother because the children are alway visible */
@@ -1465,9 +1465,9 @@ void transaction_list_set ( GtkTreeIter *iter,
  * return the number of children of the transaction, in the tree view
  * so the white line is count into
  *
- * \param transaction_number	the breakdown we want the children number
+ * \param transaction_number	the split we want the children number
  *
- * \return the number of children or 0 if not a breakdown
+ * \return the number of children or 0 if not a split
  * */
 gint transaction_list_get_n_children ( gint transaction_number )
 {
@@ -1479,7 +1479,7 @@ gint transaction_list_get_n_children ( gint transaction_number )
 
     g_return_val_if_fail ( custom_list != NULL, 0);
 
-    if (!gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+    if (!gsb_data_transaction_get_split_of_transaction (transaction_number))
 	return 0;
 
     if (!transaction_model_get_transaction_iter (&iter, transaction_number, 0))
@@ -1590,7 +1590,7 @@ static void transaction_list_append_child ( gint transaction_number )
     white_record -> filtered_pos = pos;
 
     /* set the color */
-    newrecord -> row_bg = &breakdown_background;
+    newrecord -> row_bg = &split_background;
 
     /* we can now save the new number of children and the new children rows into their mothers */
     for (i=0 ; i < TRANSACTION_LIST_ROWS_NB ; i++)
@@ -1606,7 +1606,7 @@ static void transaction_list_append_child ( gint transaction_number )
 	}
     }
 
-    /* we need now to recalculate the amount of breakdown and update the white line */
+    /* we need now to recalculate the amount of split and update the white line */
     transaction_list_update_white_child (white_record);
 
     if (mother_record -> filtered_pos != -1)
@@ -1685,8 +1685,8 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
 }
 
 /**
- * get a white line record of breakdown
- * and update it to set the total of breakdown children and the variance
+ * get a white line record of split
+ * and update it to set the total of split children and the variance
  * we just modify the content of the record, no inform the tree view here
  *
  * \param white_record	the record of white line we want update
@@ -1695,7 +1695,7 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
  * */
 static gboolean transaction_list_update_white_child ( CustomRecord *white_record )
 {
-    gsb_real total_breakdown = null_real;
+    gsb_real total_split = null_real;
     gsb_real variance;
     gchar *amount_string;
     gchar *variance_string;
@@ -1715,15 +1715,15 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
 
 	child_record = mother_record -> children_rows[i];
 	child_number = gsb_data_transaction_get_transaction_number (child_record -> transaction_pointer);
-	total_breakdown = gsb_real_add ( total_breakdown,
+	total_split = gsb_real_add ( total_split,
 					 gsb_data_transaction_get_amount (child_number));
     }
 
     transaction_number = gsb_data_transaction_get_transaction_number (mother_record -> transaction_pointer);
     variance = gsb_real_sub ( gsb_data_transaction_get_amount (transaction_number),
-			      total_breakdown);
+			      total_split);
     /* update the white line */
-    amount_string = gsb_real_get_string_with_currency (total_breakdown,
+    amount_string = gsb_real_get_string_with_currency (total_split,
 						       gsb_data_transaction_get_currency_number (transaction_number), TRUE);
     variance_string = gsb_real_get_string_with_currency (variance,
 							 gsb_data_transaction_get_currency_number (transaction_number), TRUE);

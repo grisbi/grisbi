@@ -56,8 +56,8 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 GtkWidget *gsb_form_new ( void );
 gboolean gsb_form_set_expander_visible ( gboolean visible,
 					 gboolean transactions_list );
-gboolean gsb_form_set_sensitive ( gboolean breakdown,
-				  gboolean breakdown_child);
+gboolean gsb_form_set_sensitive ( gboolean split,
+				  gboolean split_child);
 gboolean gsb_form_show ( gboolean show );
 gboolean gsb_form_switch_expander ( void );
 /* END_DECLARATION */

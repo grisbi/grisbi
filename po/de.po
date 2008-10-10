@@ -891,12 +891,12 @@ msgstr ""
 "Budgeteintrag erfassen, damit Budgets und Berichte erstellt werden können."
 
 #: src/dialog.c:80
-msgid "Recover breakdown?"
+msgid "Recover split?"
 msgstr "Splittbuchung wiederherstellen"
 
 #: src/dialog.c:81
 msgid ""
-"This is a breakdown of transaction, associated transactions can be recovered "
+"This is a split of transaction, associated transactions can be recovered "
 "as in last transaction with this payee.  Do you want to recover them?"
 msgstr ""
 "Bei dieser Splittbuchung können die dazugehörigen Teilbuchungen "
@@ -1290,7 +1290,7 @@ msgstr "Umbuchung"
 #: src/etats_affiche.c:1845 src/export_csv.c:561 src/gsb_data_category.c:1037
 #: src/gsb_form.c:727 src/gsb_form.c:2446 src/gsb_form.c:2797
 #: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3219
-msgid "Breakdown of transaction"
+msgid "Split of transaction"
 msgstr "Buchung aufsplitten"
 
 #: src/etats_affiche.c:1852 src/gsb_data_category.c:157
@@ -1984,11 +1984,11 @@ msgid "Select reconciled transactions"
 msgstr "abgestimmte Buchungen"
 
 #: src/etats_config.c:6231
-msgid "Breakdown of transactions detail"
+msgid "Split of transactions detail"
 msgstr "Detailinformationen bei Splittbuchungen"
 
 #: src/etats_config.c:6233
-msgid "Do not detail breakdown of transactions"
+msgid "Do not detail split of transactions"
 msgstr "Keine Detailinformationen bei Splittbuchungen"
 
 #. choix de ce qu'on utilise dans le classement
@@ -2707,7 +2707,7 @@ msgid "Deleted account"
 msgstr "Gelöschtes Konto"
 
 #: src/export_csv.c:743 src/import_csv.c:92
-msgid "Breakdown"
+msgid "Split"
 msgstr "Splittbuchung"
 
 #: src/export_csv.c:752
@@ -6691,7 +6691,7 @@ msgstr "Die Datei kann nicht entsperrt werden '%s': %s"
 msgid "Transaction/Scheduled _form"
 msgstr "Buchungsformular"
 
-#. create the check button to recover the children of breakdowns
+#. create the check button to recover the children of splits
 #: src/gsb_form.c:317
 msgid "Recover the children"
 msgstr "Unterelemente anzeigen"
@@ -6741,8 +6741,8 @@ msgstr "Ungültiges Betragsdatum %s"
 
 #: src/gsb_form.c:2448
 msgid ""
-"You cannot set breakdown of transaction in category for a daughter of a "
-"breakdown of transaction."
+"You cannot set split of transaction in category for a daughter of a "
+"split of transaction."
 msgstr ""
 "Für eine Element einer Splitt-Buchung kann keine weitere Splitt-Buchung "
 "erstellt werden."
@@ -6791,7 +6791,7 @@ msgid "A transaction with a multiple payee must be a new one."
 msgstr "Für Buchungen an mehrere Empfänger muss eine neue Buchung erfasst werden."
 
 #: src/gsb_form.c:2568
-msgid "A transaction with a multiple payee cannot be a breakdown child."
+msgid "A transaction with a multiple payee cannot be a split child."
 msgstr "Eine Buchung an mehrere Empfänger darf kein Teil einer Splitt-Buchung sein."
 
 #: src/gsb_form.c:2579
@@ -6808,7 +6808,7 @@ msgstr "Eine Buchung bearbeiten"
 
 #: src/gsb_form.c:2821
 msgid ""
-"You are trying to change a breakdown of transaction to another kind of "
+"You are trying to change a split of transaction to another kind of "
 "transaction.\n"
 "There is some children to that transaction, if you continue, the children "
 "will be deleted.\n"
@@ -7555,7 +7555,7 @@ msgid ""
 "You are currently trying to reconcile or unreconcile manually a transaction "
 "which isn't a regular way to do.\n"
 "\n"
-"And moreover the transaction you try to reconcile is a child of breakdown, "
+"And moreover the transaction you try to reconcile is a child of split, "
 "so the modification will be done on the mother and all its children.\n"
 "\n"
 "Are you really sure to know what you do?"
@@ -7617,7 +7617,7 @@ msgstr "Die archivierte Buchung konnte nicht gelöscht werden."
 #: src/gsb_transactions_list.c:1888
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
-"The transaction, the contra-transaction or the children if it is a breakdown "
+"The transaction, the contra-transaction or the children if it is a split "
 "are reconciled. You can remove the reconciliation with Ctrl R if it is "
 "really necessary."
 msgstr ""
@@ -8505,7 +8505,7 @@ msgid "New payee #%d"
 msgstr "Neuer Empfänger #%d"
 
 #: src/metatree.c:470
-msgid "breakdown"
+msgid "split"
 msgstr "Splittbuchung"
 
 #. FIXME: tell the truth ;-)

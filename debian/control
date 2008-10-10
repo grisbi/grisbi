@@ -20,7 +20,7 @@ Description: Personal financial management program
   - money interchange fees;
   - switch to euro account per account;
   - description of the transactions with third parties, categories,
-    sub-categories, financial year, notes, breakdown;
+    sub-categories, financial year, notes, split;
   - transfers between accounts, even for accounts of different
     currencies; 
   - bank reconciliation;

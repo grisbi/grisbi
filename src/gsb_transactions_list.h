@@ -41,7 +41,7 @@ enum
 void clone_selected_transaction ();
 GtkWidget *creation_fenetre_operations ( void );
 gint find_element_col ( gint element_number );
-gint find_element_col_breakdown ( gint element_number );
+gint find_element_col_split ( gint element_number );
 gint find_element_line ( gint element_number );
 gchar *gsb_transactions_get_category_real_name ( gint transaction_number );
 gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,

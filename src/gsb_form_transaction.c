@@ -58,7 +58,7 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *form_button_recover_breakdown;
+extern GtkWidget *form_button_recover_split;
 /*END_EXTERN*/
 
 
@@ -151,13 +151,13 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
 				    transaction_number,
 				    TRUE );
 
-	    /* if breakdown of transaction, propose to recover the children */
+	    /* if split of transaction, propose to recover the children */
 	    if (element -> element_number == TRANSACTION_FORM_CATEGORY
 		&&
-		gsb_data_transaction_get_breakdown_of_transaction (transaction_number))
+		gsb_data_transaction_get_split_of_transaction (transaction_number))
 	    {
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (form_button_recover_breakdown), TRUE);
-		gtk_widget_show (form_button_recover_breakdown);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (form_button_recover_split), TRUE);
+		gtk_widget_show (form_button_recover_split);
 	    }
 	}
 
@@ -200,7 +200,7 @@ gint gsb_form_transactions_look_for_last_party ( gint no_party,
 	     &&
 	     !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp))
 	{
-	    /* we are on a transaction with the same party, it's also a breakdown, so we keep it */
+	    /* we are on a transaction with the same party, it's also a split, so we keep it */
 	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number)
 		last_transaction_with_party_in_account = transaction_number_tmp;
 	    else
@@ -248,19 +248,19 @@ void gsb_form_transaction_check_change_button ( gint currency_number,
 
 
 /**
- * Clone the children of a breakdown transaction to add the to the new breakdown
+ * Clone the children of a split transaction to add the to the new split
  * 
  * \param new_transaction_number	the number of the new mother of the cloned transaction
- * \param no_last_breakdown		the no of last breakdown mother
+ * \param no_last_split		the no of last split mother
  *
  * \return FALSE
  * */
-gboolean gsb_form_transaction_recover_breakdowns_of_transaction ( gint new_transaction_number,
-								  gint no_last_breakdown )
+gboolean gsb_form_transaction_recover_splits_of_transaction ( gint new_transaction_number,
+								  gint no_last_split )
 {
     GSList *list_tmp_transactions;
 
-    /* go around the transactions list to get the daughters of the last breakdown */
+    /* go around the transactions list to get the daughters of the last split */
     list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
     while ( list_tmp_transactions )
@@ -269,7 +269,7 @@ gboolean gsb_form_transaction_recover_breakdowns_of_transaction ( gint new_trans
 
 	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == no_last_breakdown)
+	if ( gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == no_last_split)
 	{
 	    gint new_child_number;
 
@@ -413,7 +413,7 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
 	{
 	    /* the transaction is a transfer */
 
-	    /* if the contra transaction was a child of breakdown, copying/deleting it will remove the information
+	    /* if the contra transaction was a child of split, copying/deleting it will remove the information
 	     * of the mother, so we get it here */
 	    contra_mother_number = gsb_data_transaction_get_mother_transaction_number (contra_transaction_number);
 
@@ -448,8 +448,8 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
 					    contra_transaction_number );
 
     /* contra_mother_number contains the mother number of the contra transaction if it was a modification
-     * and that contra-transaction was a child of breakdown, and if not it is 0, and it's a good thing because
-     * now contra-transaction has a mother number if the transaction was a child of breakdown, and we have to
+     * and that contra-transaction was a child of split, and if not it is 0, and it's a good thing because
+     * now contra-transaction has a mother number if the transaction was a child of split, and we have to
      * set that mother number to 0 (for the contra-transaction) */
     gsb_data_transaction_set_mother_transaction_number ( contra_transaction_number,
 							 contra_mother_number );

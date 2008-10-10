@@ -929,12 +929,12 @@ msgstr ""
 "imputations pour produire des budgets et effectuer des états."
 
 #: src/dialog.c:80
-msgid "Recover breakdown?"
+msgid "Recover split?"
 msgstr "Récupération des ventilations ?"
 
 #: src/dialog.c:81
 msgid ""
-"This is a breakdown of transaction, associated transactions can be recovered "
+"This is a split of transaction, associated transactions can be recovered "
 "as in last transaction with this payee.  Do you want to recover them?"
 msgstr ""
 "Cette opération étant une ventilation, les opérations associées de la "
@@ -1334,7 +1334,7 @@ msgstr "Virement"
 #: src/etats_affiche.c:1845 src/export_csv.c:561 src/gsb_data_category.c:1037
 #: src/gsb_form.c:727 src/gsb_form.c:2434 src/gsb_form.c:2785
 #: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3220
-msgid "Breakdown of transaction"
+msgid "Split of transaction"
 msgstr "Opération ventilée"
 
 #: src/etats_affiche.c:1852 src/gsb_data_category.c:157
@@ -2060,12 +2060,12 @@ msgstr "Les opérations rapprochées"
 
 #: src/etats_config.c:6231
 #, fuzzy
-msgid "Breakdown of transactions detail"
+msgid "Split of transactions detail"
 msgstr "Opération ventilée"
 
 #: src/etats_config.c:6233
 #, fuzzy
-msgid "Do not detail breakdown of transactions"
+msgid "Do not detail split of transactions"
 msgstr "Ne pas détailler les opérations ventilées"
 
 #. choix de ce qu'on utilise dans le classement
@@ -2811,7 +2811,7 @@ msgid "Deleted account"
 msgstr "Compte supprimé"
 
 #: src/export_csv.c:743 src/import_csv.c:92
-msgid "Breakdown"
+msgid "Split"
 msgstr "Ventilation"
 
 #: src/export_csv.c:752
@@ -6598,7 +6598,7 @@ msgstr "Impossible de marquer le fichier « %s » comme utilisé: %s"
 msgid "Transaction/Scheduled _form"
 msgstr "Formulaire de saisie d'opérations"
 
-#. create the check button to recover the children of breakdowns
+#. create the check button to recover the children of splits
 #: src/gsb_form.c:317
 msgid "Recover the children"
 msgstr ""
@@ -6650,8 +6650,8 @@ msgstr "La date est invalide."
 
 #: src/gsb_form.c:2436
 msgid ""
-"You cannot set breakdown of transaction in category for a daughter of a "
-"breakdown of transaction."
+"You cannot set split of transaction in category for a daughter of a "
+"split of transaction."
 msgstr ""
 
 #: src/gsb_form.c:2471
@@ -6702,7 +6702,7 @@ msgstr ""
 
 #: src/gsb_form.c:2556
 #, fuzzy
-msgid "A transaction with a multiple payee cannot be a breakdown child."
+msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 "Une opération dont le tiers est un état doit forcément être une nouvelle "
 "opération."
@@ -6723,7 +6723,7 @@ msgstr "correspondant à la date de l'opération"
 
 #: src/gsb_form.c:2809
 msgid ""
-"You are trying to change a breakdown of transaction to another kind of "
+"You are trying to change a split of transaction to another kind of "
 "transaction.\n"
 "There is some children to that transaction, if you continue, the children "
 "will be deleted.\n"
@@ -7446,7 +7446,7 @@ msgid ""
 "You are currently trying to reconcile or unreconcile manually a transaction "
 "which isn't a regular way to do.\n"
 "\n"
-"And moreover the transaction you try to reconcile is a child of breakdown, "
+"And moreover the transaction you try to reconcile is a child of split, "
 "so the modification will be done on the mother and all its children.\n"
 "\n"
 "Are you really sure to know what you do?"
@@ -7500,7 +7500,7 @@ msgstr "Effacer une opération planifiée"
 #: src/gsb_transactions_list.c:1889
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
-"The transaction, the contra-transaction or the children if it is a breakdown "
+"The transaction, the contra-transaction or the children if it is a split "
 "are reconciled. You can remove the reconciliation with Ctrl R if it is "
 "really necessary."
 msgstr ""
@@ -8384,7 +8384,7 @@ msgid "New payee #%d"
 msgstr "Nouveau tiers %d"
 
 #: src/metatree.c:470
-msgid "breakdown"
+msgid "split"
 msgstr "ventilation"
 
 #. FIXME: tell the truth ;-)
@@ -12683,7 +12683,7 @@ msgstr "Aucune imputation"
 #~ msgstr "Date invalide"
 
 #~ msgid ""
-#~ "This breakdown of transaction has a transfer on itself.  Either change "
+#~ "This split of transaction has a transfer on itself.  Either change "
 #~ "the sub transaction to transfer on another account or change account of "
 #~ "the transaction itself."
 #~ msgstr ""
@@ -12691,7 +12691,7 @@ msgstr "Aucune imputation"
 #~ "associée pour faire un virement vers un autre compte ou changez le compte "
 #~ "de l'opération ventilée elle même."
 
-#~ msgid "Invalid breakdown of transaction."
+#~ msgid "Invalid split of transaction."
 #~ msgstr "Opération ventilée"
 
 #~ msgid ""
@@ -12751,7 +12751,7 @@ msgstr "Aucune imputation"
 #~ msgid "Associated method of payment"
 #~ msgstr "Type d'opération associée"
 
-#~ msgid "Incomplete breakdown"
+#~ msgid "Incomplete split"
 #~ msgstr "Ventilation incomplète"
 
 #~ msgid ""
@@ -12761,7 +12761,7 @@ msgstr "Aucune imputation"
 #~ "Le montant de l'opération n'est pas totalement ventilé.\n"
 #~ "Continuer quand même ?"
 
-#~ msgid "A breakdown line is to be deleted thought it is not yet registered."
+#~ msgid "A split line is to be deleted thought it is not yet registered."
 #~ msgstr ""
 #~ "Une opé de ventilation a été marquée pour la suppression alors qu'elle "
 #~ "n'était pas encore enregistrée."
@@ -13280,7 +13280,7 @@ msgstr "Aucune imputation"
 
 #, fuzzy
 #~ msgid ""
-#~ "Do you really want to delete the child of breakdown whit the category '%"
+#~ "Do you really want to delete the child of split whit the category '%"
 #~ "s' ?"
 #~ msgstr "Voulez vous vraiment supprimer l'opération avec le tiers « %s » ?"
 

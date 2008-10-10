@@ -973,12 +973,12 @@ msgstr ""
 
 #: src/dialog.c:80
 #, fuzzy
-msgid "Recover breakdown?"
+msgid "Recover split?"
 msgstr "Valor da divisão"
 
 #: src/dialog.c:81
 msgid ""
-"This is a breakdown of transaction, associated transactions can be recovered "
+"This is a split of transaction, associated transactions can be recovered "
 "as in last transaction with this payee.  Do you want to recover them?"
 msgstr ""
 
@@ -1360,7 +1360,7 @@ msgstr "Transferir"
 #: src/etats_affiche.c:1845 src/export_csv.c:561 src/gsb_data_category.c:1036
 #: src/gsb_form.c:726 src/gsb_form.c:2428 src/gsb_form.c:2779
 #: src/gsb_form_scheduler.c:332 src/gsb_transactions_list.c:3233
-msgid "Breakdown of transaction"
+msgid "Split of transaction"
 msgstr "Divisão do lançamento"
 
 #: src/etats_affiche.c:1852 src/gsb_data_category.c:156
@@ -2091,12 +2091,12 @@ msgstr "Os lançamentos reconciliados"
 
 #: src/etats_config.c:6231
 #, fuzzy
-msgid "Breakdown of transactions detail"
+msgid "Split of transactions detail"
 msgstr "Divisão do lançamento"
 
 #: src/etats_config.c:6233
 #, fuzzy
-msgid "Do not detail breakdown of transactions"
+msgid "Do not detail split of transactions"
 msgstr "Não detalhar lançamentos reconciliados"
 
 #. choix de ce qu'on utilise dans le classement
@@ -2842,7 +2842,7 @@ msgid "Deleted account"
 msgstr "Apagar conta"
 
 #: src/export_csv.c:743 src/import_csv.c:92
-msgid "Breakdown"
+msgid "Split"
 msgstr "Dividir"
 
 #: src/export_csv.c:752
@@ -6564,7 +6564,7 @@ msgstr "Não posso bloquear o arquivo '%s': %s"
 msgid "Transaction/Scheduled _form"
 msgstr "Formulário de lançamentos"
 
-#. create the check button to recover the children of breakdowns
+#. create the check button to recover the children of splits
 #: src/gsb_form.c:316
 msgid "Recover the children"
 msgstr ""
@@ -6617,8 +6617,8 @@ msgstr "Data inválida."
 
 #: src/gsb_form.c:2430
 msgid ""
-"You cannot set breakdown of transaction in category for a daughter of a "
-"breakdown of transaction."
+"You cannot set split of transaction in category for a daughter of a "
+"split of transaction."
 msgstr ""
 
 #: src/gsb_form.c:2465
@@ -6667,7 +6667,7 @@ msgstr "Cada lançamento com vários terceiros deverá ser única."
 
 #: src/gsb_form.c:2550
 #, fuzzy
-msgid "A transaction with a multiple payee cannot be a breakdown child."
+msgid "A transaction with a multiple payee cannot be a split child."
 msgstr "Cada lançamento com vários terceiros deverá ser única."
 
 #: src/gsb_form.c:2561
@@ -6686,7 +6686,7 @@ msgstr "Editar lançamento"
 
 #: src/gsb_form.c:2803
 msgid ""
-"You are trying to change a breakdown of transaction to another kind of "
+"You are trying to change a split of transaction to another kind of "
 "transaction.\n"
 "There is some children to that transaction, if you continue, the children "
 "will be deleted.\n"
@@ -7414,7 +7414,7 @@ msgid ""
 "You are currently trying to reconcile or unreconcile manually a transaction "
 "which isn't a regular way to do.\n"
 "\n"
-"And moreover the transaction you try to reconcile is a child of breakdown, "
+"And moreover the transaction you try to reconcile is a child of split, "
 "so the modification will be done on the mother and all its children.\n"
 "\n"
 "Are you really sure to know what you do?"
@@ -7469,7 +7469,7 @@ msgstr "Impossível apagar um lançamento reconciliado"
 #: src/gsb_transactions_list.c:1910
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
-"The transaction, the contra-transaction or the children if it is a breakdown "
+"The transaction, the contra-transaction or the children if it is a split "
 "are reconciled. You can remove the reconciliation with Ctrl R if it is "
 "really necessary."
 msgstr ""
@@ -8416,7 +8416,7 @@ msgstr "Nova forma de pagamento"
 
 #: src/metatree.c:470
 #, fuzzy
-msgid "breakdown"
+msgid "split"
 msgstr "Dividir"
 
 #. FIXME: tell the truth ;-)
@@ -8987,7 +8987,7 @@ msgstr ""
 #: src/transaction_list.c:1449
 #, c-format
 msgid ""
-"While trying to append a breakdown child in the tree view, one or all the "
+"While trying to append a split child in the tree view, one or all the "
 "mothers of the child number %d couldn't be found.\n"
 "This is a bug and should not happen.\n"
 "The child won't be appended to the list and Grisbi won't crash,\n"
@@ -9686,10 +9686,10 @@ msgstr "Nenhum orçamento"
 #~ msgid "%4.2f %s"
 #~ msgstr "%4.2f %s"
 
-#~ msgid "%d/%d/%d : %4.2f %s (breakdown) [ %s ]"
+#~ msgid "%d/%d/%d : %4.2f %s (split) [ %s ]"
 #~ msgstr "%d/%d/%d : %4.2f %s (dividir) [ %s ]"
 
-#~ msgid "%d/%d/%d : %4.2f %s (breakdown)"
+#~ msgid "%d/%d/%d : %4.2f %s (split)"
 #~ msgstr "%d/%d/%d : %4.2f %s (dividir)"
 
 #~ msgid "Remove a category"
@@ -9827,7 +9827,7 @@ msgstr "Nenhum orçamento"
 #~ "Valor do lançamento não é o mesmo das divisões.\n"
 #~ "Continuar assim mesmo ?"
 
-#~ msgid "A breakdown line is to be deleted though it is not yet registered."
+#~ msgid "A split line is to be deleted though it is not yet registered."
 #~ msgstr ""
 #~ "Uma divisão do lançamento para ser apagada deve estar gravada antes."
 
@@ -10274,7 +10274,7 @@ msgstr "Nenhum orçamento"
 #~ "esta função."
 
 #, fuzzy
-#~ msgid "This is a breakdown transaction"
+#~ msgid "This is a split transaction"
 #~ msgstr "Divisão do lançamento"
 
 #~ msgid "Curent balance"
@@ -10288,7 +10288,7 @@ msgstr "Nenhum orçamento"
 #~ "possível apagá-lo."
 
 #~ msgid ""
-#~ "One of the breakdown lines is a transfer whose contra-transaction is "
+#~ "One of the split lines is a transfer whose contra-transaction is "
 #~ "reconciled.  Deletion canceled."
 #~ msgstr ""
 #~ "Uma divisão é uma transferência cujo contra-lançamento está reconciliado. "
@@ -10410,7 +10410,7 @@ msgstr "Nenhum orçamento"
 #~ msgid "The associated account for this transfer is closed"
 #~ msgstr "A conta associadas para esta transferência é inválida"
 
-#~ msgid "This transaction has a reconciled breakdown line, deletion canceled."
+#~ msgid "This transaction has a reconciled split line, deletion canceled."
 #~ msgstr ""
 #~ "Este lançamento tem uma divisão reconciliada, não é possível apagá-lo."
 
@@ -10489,18 +10489,18 @@ msgstr "Nenhum orçamento"
 #~ "entre si. Infelizmente nós não sabemos como isto aconteceu./n As "
 #~ "seguintes contas estão inconsistentes:\n"
 
-#~ msgid "Breakdown line #%d is orpheanous.\n"
+#~ msgid "Split line #%d is orpheanous.\n"
 #~ msgstr "Divisão do lançamento #%d está órfão.\n"
 
 #~ msgid ""
-#~ "Transaction #%d has a financial year named %s and breakdown line #%d of "
+#~ "Transaction #%d has a financial year named %s and split line #%d of "
 #~ "this transaction has a financial year named %s\n"
 #~ msgstr ""
 #~ "Lançamento #%d está num ano contábil nomeado %s e a divisão do lançamento "
 #~ "#%d para este lançamento está num ano contábil nomeado %s\n"
 
 #~ msgid ""
-#~ "Grisbi found breakdown lines that have financial years different from the "
+#~ "Grisbi found split lines that have financial years different from the "
 #~ "financial years of the related transaction.  Perhaps it isn't a problem, "
 #~ "but perhaps it is.\n"
 #~ "The following accounts seems inconsistent:\n"
@@ -10575,7 +10575,7 @@ msgstr "Nenhum orçamento"
 #~ "isto. Você confirma esta remoção ?"
 
 #~ msgid ""
-#~ "This breakdown of transaction contains a transfer on itself.  Either "
+#~ "This split of transaction contains a transfer on itself.  Either "
 #~ "change the sub transaction to transfer on another account or change "
 #~ "account of the transaction itself."
 #~ msgstr ""
@@ -10660,8 +10660,8 @@ msgstr "Nenhum orçamento"
 
 #~ msgid ""
 #~ "There was a bug in versions before 0.4.0, which could lead to orphan "
-#~ "transactions (either transfers without countra-transaction, or breakdown "
-#~ "transactions details without associated breakdown transaction.\n"
+#~ "transactions (either transfers without countra-transaction, or split "
+#~ "transactions details without associated split transaction.\n"
 #~ "\n"
 #~ "Grisbi searched for such transaction and found:\n"
 #~ "\n"
@@ -10673,7 +10673,7 @@ msgstr "Nenhum orçamento"
 #~ "Grisbi procurou por estes lançamentos e encontrou:\n"
 #~ "\n"
 
-#~ msgid "breakdown transactions, all of them were deleted.\n"
+#~ msgid "split transactions, all of them were deleted.\n"
 #~ msgstr "Lançamentos divididos, todos eles serão apagadas.\n"
 
 #~ msgid ""
@@ -10819,7 +10819,7 @@ msgstr "Nenhum orçamento"
 #~ msgid "Do not warn about removal scheduled transaction"
 #~ msgstr "Não avisar ao remover lançamentos agendados"
 
-#~ msgid "Do not warn about incomplete breakdown"
+#~ msgid "Do not warn about incomplete split"
 #~ msgstr "Não avisar sobre lançamentos divididos e incompletos"
 
 #~ msgid "Do not warn about existing reconciliation reference"
