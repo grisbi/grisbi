@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-29 23:50+0200\n"
-"PO-Revision-Date: 2008-09-12 18:48+0200\n"
+"PO-Revision-Date: 2008-10-11 12:39+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:195
 msgid "Closed liabilities accounts"
@@ -346,34 +346,28 @@ msgstr ""
 "ilimitado)"
 
 #: src/balance_estimate_tab.c:87
-#, fuzzy
 msgid "One month"
-msgstr "Del mes"
+msgstr "Un mes"
 
 #: src/balance_estimate_tab.c:88
-#, fuzzy
 msgid "Two months"
-msgstr "dos meses"
+msgstr "Dos meses"
 
 #: src/balance_estimate_tab.c:89
-#, fuzzy
 msgid "Three months"
-msgstr "%d meses"
+msgstr "Tres meses"
 
 #: src/balance_estimate_tab.c:90
-#, fuzzy
 msgid "Six months"
-msgstr "meses"
+msgstr "Seis meses"
 
 #: src/balance_estimate_tab.c:91
-#, fuzzy
 msgid "One year"
-msgstr "Del año"
+msgstr "Un año"
 
 #: src/balance_estimate_tab.c:92
-#, fuzzy
 msgid "Two years"
-msgstr "años"
+msgstr "Dos años"
 
 #. ***** Parameter page *****
 #: src/balance_estimate_tab.c:149
@@ -400,9 +394,8 @@ msgstr "Cuenta"
 
 #. ***** Estimation array page *****
 #: src/balance_estimate_tab.c:232
-#, fuzzy
 msgid "Estimate array"
-msgstr "Estimar parámetros"
+msgstr "Estimar tabla"
 
 #: src/balance_estimate_tab.c:279 src/etats_affiche.c:2397
 #: src/export_csv.c:746 src/gsb_assistant_reconcile_config.c:628
@@ -444,12 +437,12 @@ msgstr "Promedio"
 #. ***** Estimation graph page *****
 #: src/balance_estimate_tab.c:338
 msgid "Estimation graph"
-msgstr ""
+msgstr "Gráfico de estimaciones"
 
 #: src/balance_estimate_tab.c:557
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
-msgstr ""
+msgstr "Balance estimado de la cuenta \"%s\" desde %s hasta %s"
 
 #. New transaction
 #: src/barre_outils.c:97 src/gsb_transactions_list.c:2149
@@ -493,9 +486,8 @@ msgid "Print"
 msgstr "Imprimir"
 
 #: src/barre_outils.c:140
-#, fuzzy
 msgid "Print the transactions list"
-msgstr "Ordenar la lista de transacciones"
+msgstr "Imprimir la lista de transacciones"
 
 #: src/barre_outils.c:145 src/barre_outils.c:488 src/categories_onglet.c:507
 #: src/imputation_budgetaire.c:540 src/tiers_onglet.c:282
@@ -532,14 +524,12 @@ msgid "Complete view"
 msgstr "Vista completa"
 
 #: src/barre_outils.c:275
-#, fuzzy
 msgid "Remove the rule"
-msgstr "Recuperar los hijos"
+msgstr "Eliminar la regla"
 
 #: src/barre_outils.c:277
-#, fuzzy
 msgid "Remove the rules"
-msgstr "Recuperar los hijos"
+msgstr "Eliminar las reglas"
 
 #: src/barre_outils.c:379 src/gsb_scheduler_list.c:1587
 msgid "Unique view"
@@ -609,18 +599,16 @@ msgstr ""
 "Cambiar el modo de presentación a la lista de transacciones programadas"
 
 #: src/barre_outils.c:509
-#, fuzzy
 msgid "Mask reconcile"
-msgstr "Reconciliar"
+msgstr "Enmascarar las reconciliaciones"
 
 #: src/barre_outils.c:514
 msgid "Mask reconciled transactions"
 msgstr "Enmascarar las transacciones reconciliadas"
 
 #: src/barre_outils.c:519
-#, fuzzy
 msgid "Display reconcile"
-msgstr "Mostrar los títulos de las columnas"
+msgstr "Mostrar las reconciliaciones"
 
 #: src/barre_outils.c:524
 msgid "Display reconciled transactions"
@@ -1768,24 +1756,20 @@ msgid "Outgoing categories"
 msgstr "Categorías salientes"
 
 #: src/etats_config.c:3266
-#, fuzzy
 msgid "Empty category"
-msgstr "categoría"
+msgstr "Vaciar la categoría"
 
 #: src/etats_config.c:3267
-#, fuzzy
 msgid "Empty sub-category"
-msgstr "la subcategoría"
+msgstr "Vaciar la subcategoría"
 
 #: src/etats_config.c:3273
-#, fuzzy
 msgid "Empty budget"
-msgstr "Nuevo presupuesto"
+msgstr "Vaciar presupuesto"
 
 #: src/etats_config.c:3274
-#, fuzzy
 msgid "Empty sub-budget"
-msgstr "Nuevo subpresupuesto"
+msgstr "Vaciar subpresupuesto"
 
 #: src/etats_config.c:3706
 msgid ""
@@ -1796,13 +1780,12 @@ msgstr ""
 "opción \"Detallar categorías usadas\" activada"
 
 #: src/etats_config.c:3710
-#, fuzzy
 msgid ""
 "All budgets have been selected.  Grisbi will run faster without the \"Detail "
 "budgets used\" option activated."
 msgstr ""
 "Todas las líneas presupuestarias han sido seleccionadas. Grisbi irá más "
-"rápido sin la opción \"Detallar las líneas presupuestarias\" activada."
+"rápido sin la opción \"Detallar las líneas presupuestarias usadas\" activada."
 
 #: src/etats_config.c:3841
 msgid "Detail budgetary lines"
@@ -2087,9 +2070,8 @@ msgid "Separation by time period"
 msgstr "Separación por periodo de tiempo"
 
 #: src/etats_config.c:6428
-#, fuzzy
 msgid "Day"
-msgstr "Días"
+msgstr "Día"
 
 #: src/etats_config.c:6432
 msgid "Week"
@@ -2147,9 +2129,8 @@ msgid "date"
 msgstr "fecha"
 
 #: src/etats_config.c:6707 src/etats_config.c:6810
-#, fuzzy
 msgid "value date"
-msgstr "Fecha Valor"
+msgstr "fecha Valor"
 
 #: src/etats_config.c:6737
 msgid "notes"
@@ -2318,9 +2299,9 @@ msgid "Cannot open file '%s' for writing"
 msgstr "No se puede abrir para escritura el archivo '%s'"
 
 #: src/etats_latex.c:272
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open file '%s': %s."
-msgstr "No se puede abrir el archivo '%s': %s"
+msgstr "No se puede abrir el archivo '%s': %s."
 
 #: src/etats_latex.c:359
 msgid ""
@@ -3257,9 +3238,8 @@ msgstr "Nombre del titular"
 
 #. now the checkbutton for different address
 #: src/gsb_account_property.c:245
-#, fuzzy
 msgid "Holder's own address"
-msgstr "Dirección del titular :"
+msgstr "Dirección del titular"
 
 #. ligne de l'Ã©tablissement financier
 #: src/gsb_account_property.c:278 src/gsb_bank.c:506
@@ -3539,7 +3519,7 @@ msgstr "xxx pasivo"
 
 #. come from check while opening file
 #: src/gsb_assistant_archive.c:123
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "There are a lot of transactions in your file (%d) and the current limit is %"
 "d transactions.\n"
@@ -3560,7 +3540,7 @@ msgstr ""
 "comprobación inicial pueden cambiarse en las Preferencias)\n"
 "\n"
 "Este asistente le guiará en el proceso de archivado de transacciones por "
-"defecto, Grisbi no exporta ningún archivo a ficheros separados, tan sólo "
+"defecto, Grisbi no exporta ningún archivo en ficheros separados, tan sólo "
 "marque las transacciones como archivadas y no las use.\n"
 "\n"
 "Aun puede exportarlas a un fichero separado si es necesario.\n"
@@ -3826,14 +3806,13 @@ msgstr ""
 #: src/gsb_assistant.c:221
 #, c-format
 msgid "%s (%d of %d)"
-msgstr ""
+msgstr "%s (%d de %d)"
 
 #: src/gsb_assistant_file.c:116
 msgid "Welcome to Grisbi!"
 msgstr "¡ Bienvenido a Grisbi !"
 
 #: src/gsb_assistant_file.c:117
-#, fuzzy
 msgid ""
 "General configuration of Grisbi is done.\n"
 "\n"
@@ -3848,15 +3827,14 @@ msgstr ""
 "La configuración general de Grisbi está lista.\n"
 "\n"
 "El asistente le ayudará ahora a crear y configurar un nuevo fichero.\n"
-"No se olvide que puede cambiarlo después en la página de configuración.\n"
+"Recuerde que puede cambiarlo después en el diálogo de 'Preferencias'.\n"
 "\n"
 "Una vez que el fichero haya sido creado, podrá crear una nueva cuenta para "
 "importar algunos datos anteriores"
 
 #: src/gsb_assistant_file.c:127
-#, fuzzy
 msgid "New file Assistant to import"
-msgstr "Asistente de nuevo fichero"
+msgstr "Nuveo Asistente de fichero para importar"
 
 #: src/gsb_assistant_file.c:128
 #, fuzzy
@@ -3966,9 +3944,8 @@ msgstr ""
 "contabilidad"
 
 #: src/gsb_assistant_file.c:576
-#, fuzzy
 msgid "Create filename"
-msgstr "Archivo de LaTeX"
+msgstr "Crear nombre de fichero"
 
 #. create the assistant
 #: src/gsb_assistant_first.c:75
@@ -4176,7 +4153,7 @@ msgstr ""
 
 #: src/gsb_assistant_reconcile_config.c:379
 msgid "Fill the fields and click the button \"Create the new reconcile\""
-msgstr ""
+msgstr "Rellene los campos y pulse el botón \"Crear la nueva reconciliación\""
 
 #. set the final date
 #: src/gsb_assistant_reconcile_config.c:468 src/gsb_reconcile.c:219
@@ -4424,14 +4401,12 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: src/gsb_category.c:133
-#, fuzzy
 msgid "Category list"
 msgstr "Lista de categorías"
 
 #: src/gsb_category.c:329
-#, fuzzy
 msgid "Unnamed category list"
-msgstr "Categorías de ingresos"
+msgstr "Lista de categorías sin nombre"
 
 #: src/gsb_crypt.c:174
 msgid "The password was incorrect ! Please try again..."
@@ -6084,6 +6059,7 @@ msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
 msgstr ""
+"El modelo de la lista no puedo crearse... Algo malo sucederá pronto..."
 
 #: src/gsb_file.c:220
 msgid "Open an accounts file"
@@ -6204,17 +6180,17 @@ msgstr "¿Guardar los cambios al documento '%s' antes de cerrar?"
 #: src/gsb_file.c:703
 #, c-format
 msgid "%dÂ minutes and %dÂ seconds"
-msgstr ""
+msgstr "%dÂ minutos y %dÂ segundos"
 
 #: src/gsb_file.c:708
 #, c-format
 msgid "1Â minute and %dÂ seconds"
-msgstr ""
+msgstr "1Â minuto y %dÂ segundos"
 
 #: src/gsb_file.c:713
 #, c-format
 msgid "%dÂ seconds"
-msgstr ""
+msgstr "%dÂ segundos"
 
 #: src/gsb_file.c:716
 #, c-format
@@ -7698,16 +7674,18 @@ msgid ""
 "This version of Grisbi does not support print feature.\n"
 "Version of GTK+ it was built with is obsolete."
 msgstr ""
+"\n"
+"Esta versión de Grisbi no tiene soporte para las características de impresión.\n"
+"La versión de GTK+ con la que se construyó está desfasada."
 
 #. Plugins list
 #: src/help.c:134
-#, fuzzy
 msgid "Personal finance manager for everyone\n"
-msgstr "Gestor de finanzas personal para todo el mundo"
+msgstr "Gestor de finanzas personal para todo el mundo\n"
 
 #: src/import.c:129
 msgid "Comma Separated Values"
-msgstr ""
+msgstr "Valores separados por comas"
 
 #: src/import.c:130
 #, fuzzy
@@ -7717,7 +7695,7 @@ msgstr "Introduzca la tasa de cambio"
 #: src/import.c:188
 #, c-format
 msgid "Adding '%s' as an import format"
-msgstr ""
+msgstr "Añadiendo '%s' como formato para importar"
 
 #: src/import.c:232
 msgid ""
@@ -7728,11 +7706,16 @@ msgid ""
 "following formats are supported:\n"
 "\n"
 msgstr ""
+"Este asistente le ayudará a importar uno o varios ficheros en Grisbi.\n"
+"\n"
+"Grisbi intentará por todos los medios averiguar el formato del fichero importado, pero "
+"usted puede seleccionar el formato manualmente en el listado de la siguiente página.  "
+"Los siguientes formatos son soportados:\n"
+"\n"
 
 #: src/import.c:238
-#, fuzzy
 msgid "Importing transactions into Grisbi"
-msgstr "Ordenar las transacciones por"
+msgstr "Importando transacciones a Grisbi"
 
 #: src/import.c:287
 msgid "Choose file to import"
@@ -7751,9 +7734,9 @@ msgid "Unknown"
 msgstr "Desconocido"
 
 #: src/import.c:535 src/import.c:3095 src/import_csv.c:1045
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to read file: %s\n"
-msgstr "No se puede abrir el archivo '%s'"
+msgstr "No se puede leer el fichero: %s\n"
 
 #: src/import.c:608
 msgid "Choose files to import."
@@ -7800,7 +7783,7 @@ msgstr ""
 
 #: src/import.c:829
 msgid "The following files are in error:"
-msgstr ""
+msgstr "Las siguientes ficheros tienen un error:"
 
 #: src/import.c:882
 msgid "Import terminated"
@@ -7874,6 +7857,8 @@ msgid ""
 "An error occured while creating the new account %s,\n"
 "We try to continue to import but bad things can happen..."
 msgstr ""
+"Ha ocurrido un error mientras se creaba la nueva cuenta %s,\n"
+"Intentaremos continuar con la importación, pero pueden suceder cosas malas..."
 
 #: src/import.c:1330
 #, c-format
@@ -8014,6 +7999,7 @@ msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr ""
+"%s no es un fichero OFX, ni un fichero QIF. No se hará nada para este fichero."
 
 #: src/import.c:3138
 #, c-format
@@ -8021,22 +8007,21 @@ msgid ""
 "%s was not imported successfully. An error occured while getting the "
 "transactions."
 msgstr ""
+"%s no se importó con éxito. Un error ocurrió mientras que se tomaban las transacciones."
 
 #: src/import.c:3217
 msgid "Import a file with a rule"
 msgstr "Importar un fichero con una regla"
 
 #: src/import.c:3224
-#, fuzzy, c-format
+#, c-format
 msgid "Properties of the rule %s :\n"
-msgstr "Propiedades para %s"
+msgstr "Propiedades para la regla %s :\n"
 
 #: src/import.c:3233
-#, fuzzy, c-format
+#, c-format
 msgid "Imported transactions will be added to the account %s.\n"
-msgstr ""
-"Todas las transacciones serán convertidas a la moneda de sus respectivas "
-"cuentas."
+msgstr "Las transacciones importadas se añadirán a la cuenta %s.\n"
 
 #: src/import.c:3236
 #, fuzzy, c-format
@@ -8054,21 +8039,19 @@ msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Transacciones automáticas programadas introducidas"
 
 #: src/import.c:3273
-#, fuzzy
 msgid "Name of the file to import : "
-msgstr "Nombre de la regla :"
+msgstr "Nombre del fichero a importar : "
 
 #: src/import.c:3372
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create tmp file: %s\n"
-msgstr "No se puede abrir el archivo '%s'"
+msgstr "No se ha podido crear el fichero tmp: %s\n"
 
 #: src/import_csv.c:76
 msgid "Unknown field"
 msgstr "Campo desconocido"
 
 #: src/import_csv.c:81
-#, fuzzy
 msgid "Wording"
 msgstr "Ordenando"
 
@@ -8094,12 +8077,11 @@ msgstr "Debe (negativo)"
 
 #: src/import_csv.c:131
 msgid "Choose CSV separator"
-msgstr ""
+msgstr "Elija un separador CSV"
 
 #: src/import_csv.c:160
-#, fuzzy
 msgid "Select CSV fields"
-msgstr "Seleccione el siguiente campo"
+msgstr "Seleccione los campos CSV"
 
 #: src/import_csv.c:234
 msgid "Skip"
@@ -8602,9 +8584,8 @@ msgid "Display following warnings messages"
 msgstr "Mostrar los siguientes mensajes de advertencia"
 
 #: src/parametres.c:573
-#, fuzzy
 msgid "Message"
-msgstr "Mensaje de información"
+msgstr "Mensaje"
 
 #: src/parametres.c:681
 msgid "Compress Grisbi file"
@@ -8813,12 +8794,11 @@ msgstr "Ejecutivo US"
 
 #: src/print_config.c:96
 msgid "Lines font"
-msgstr ""
+msgstr "Fuente de las líneas"
 
 #: src/print_config.c:115
-#, fuzzy
 msgid "Title's font"
-msgstr "Títulos"
+msgstr "Tipos de letra de los Títulos"
 
 #: src/print_config.c:194
 msgid "General"
@@ -8872,41 +8852,35 @@ msgstr "Horizontal"
 
 #: src/print_report.c:94
 msgid "Please select a report before trying to print it."
-msgstr ""
+msgstr "Por favor, elija un informe antes de intentar imprimirlo."
 
 #: src/print_report.c:94
-#, fuzzy
 msgid "No report selected"
-msgstr "Exportar el fichero del informe"
+msgstr "No ha elegido ningún informe"
 
 #: src/print_transactions_list.c:142
 msgid "Layout"
-msgstr ""
+msgstr "Presentación"
 
 #: src/print_transactions_list.c:153
-#, fuzzy
 msgid "Print a title : "
-msgstr "Imprimir a un fichero"
+msgstr "Imprimir un título : "
 
 #: src/print_transactions_list.c:169
-#, fuzzy
 msgid "Select dates interval : "
-msgstr "Seleccione el archivo a exportar"
+msgstr "Elija el intervalo de fechas : "
 
 #: src/print_transactions_list.c:182
-#, fuzzy
 msgid "Initial date : "
-msgstr "Fecha inicial"
+msgstr "Fecha inicial : "
 
 #: src/print_transactions_list.c:194
-#, fuzzy
 msgid "Final date : "
-msgstr "Fecha final"
+msgstr "Fecha final : "
 
 #: src/print_transactions_list.c:206
-#, fuzzy
 msgid "Use value date"
-msgstr "por fecha efectiva"
+msgstr "Usar la fecha valor"
 
 #. set up all the checkbuttons
 #: src/print_transactions_list.c:219
@@ -8916,37 +8890,31 @@ msgstr "Muestra _tres líneas por transacción"
 
 #: src/print_transactions_list.c:226
 msgid "Draw the lines between the columns"
-msgstr ""
+msgstr "Dibujar líneas entre las columnas"
 
 #: src/print_transactions_list.c:234
-#, fuzzy
 msgid "Fill the background as the transactions list"
-msgstr "Invertir la cantidad de las transacciones importadas"
+msgstr "Rellenar el fondo como la lista de transacciones"
 
 #: src/print_transactions_list.c:242
-#, fuzzy
 msgid "Print the archives lines"
-msgstr "Borrar el fichero"
+msgstr "Imprimir las líneas del archivo"
 
 #: src/print_transactions_list.c:250
-#, fuzzy
 msgid "Print the names of the columns"
-msgstr "Por favor, introduzca el nombre de la nueva cuenta : "
+msgstr "Imprimir el nombre de las columnas"
 
 #: src/print_transactions_list.c:267
-#, fuzzy
 msgid "Transactions font"
 msgstr "Fuente de la lista de transacciones"
 
 #: src/print_transactions_list.c:290
-#, fuzzy
 msgid "Title font"
-msgstr "Formato de archivo"
+msgstr "Tipo de letra del título"
 
 #: src/print_transactions_list.c:365
-#, fuzzy
 msgid "Fonts & layout"
-msgstr "Fuentes y logotipo"
+msgstr "Tipos de letra y presentación"
 
 #: src/qif.c:92
 msgid "Invalid QIF file"
@@ -9123,9 +9091,8 @@ msgid "Browse"
 msgstr "Navegar"
 
 #: src/utils_font.c:123
-#, fuzzy
 msgid "Choosing font"
-msgstr "Escogiendo una reconciliación"
+msgstr "Escogiendo un tipo de letra"
 
 #: src/utils_font.c:201
 msgid "No font defined"
