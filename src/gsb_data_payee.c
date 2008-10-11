@@ -774,7 +774,6 @@ gint gsb_data_payee_remove_unused ( void )
 	payee_number = gsb_data_transaction_get_party_number (gsb_data_transaction_get_transaction_number (tmp_list -> data));
 	if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
 	{
-	    printf ( "add %d\n", payee_number);
 	    used = g_slist_append ( used,
 				    GINT_TO_POINTER (payee_number));
 	}
