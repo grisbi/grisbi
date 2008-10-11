@@ -712,9 +712,9 @@ gsb_real gsb_data_transaction_get_adjusted_amount ( gint transaction_number,
  * get the amount of the transaction, modified to be ok with the currency
  * given in param 
  * 
- * \param transaction_number the number of the transaction
- * \param return_currency_number the currency we want to adjust the transaction's amount
- * \param return_exponent the exponent we want to have for the returned number, or -1 for the exponent of the returned currency
+ * \param transaction_number 		the number of the transaction
+ * \param return_currency_number 	the currency we want to adjust the transaction's amount
+ * \param return_exponent 		the exponent we want to have for the returned number, or -1 for the exponent of the returned currency
  * 
  * \return the amount of the transaction
  * */

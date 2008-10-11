@@ -74,6 +74,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gboolean gsb_import_check_transaction_link ( gint transaction_number,
+					     gint tested_transaction );
 static gboolean affichage_recapitulatif_importation ( GtkWidget * assistant );
 static const gchar * autodetect_file_type ( gchar * filename,
 				     gchar * pointeur_char );
@@ -1263,7 +1265,7 @@ void traitement_operations_importees ( void )
 	gint account_number = 0;
 
 	compte = list_tmp -> data;
-    
+
 	switch ( compte -> action )
 	{
 	    case IMPORT_CREATE_ACCOUNT:
@@ -1337,14 +1339,14 @@ void traitement_operations_importees ( void )
 	    gsb_data_import_rule_set_account (rule, account_number);
 	    gsb_data_import_rule_set_currency (rule, gsb_currency_get_currency_from_combobox (compte -> bouton_devise));
 	    gsb_data_import_rule_set_invert (rule, compte -> invert_transaction_amount);
-        gsb_data_import_rule_set_charmap (rule, charmap_imported);
+	    gsb_data_import_rule_set_charmap (rule, charmap_imported);
 	    gsb_data_import_rule_set_last_file_name (rule, compte -> real_filename);
 	    gsb_data_import_rule_set_action (rule, compte -> action);
 	}
-    if ( ! strcmp ( compte -> origine, "OFX" ) )
+	if ( ! strcmp ( compte -> origine, "OFX" ) )
 	{   
         g_remove (compte -> real_filename);
-    }
+	}
 	list_tmp = list_tmp -> next;
     }
 
@@ -1418,7 +1420,7 @@ void cree_liens_virements_ope_import ( void )
 						 "[]", "");
 	    contra_account_number = gsb_data_account_get_no_account_by_name ( contra_account_name );
 	    g_free (contra_account_name);
-printf ( "contra account trouvé : %d\n", contra_account_number);
+
 	    if ( contra_account_number == -1 )
 	    {
 		/* we have not found the contra-account */
@@ -1449,10 +1451,7 @@ printf ( "contra account trouvé : %d\n", contra_account_number);
 			gint payment_number;
 			gint transaction_account = gsb_data_transaction_get_account_number (transaction_number_tmp);
 			gint contra_transaction_account = gsb_data_transaction_get_account_number (contra_transaction_number_tmp);
-printf ( "trouvé contra transaction %d\n", contra_transaction_number_tmp);
-/* xxx en suis ici, en ouvrant bug.gsb par ex, faire import de compte_1.qif et Compte_2.qif d'un coup */
-/*     en créant les comptes, les virements ne sont pas fait ; il n'arrive pas ici, le printf du dessus n'apparait pas */
-/*     alors que le contra account a été trouvé */
+
 			gsb_data_transaction_set_contra_transaction_number ( transaction_number_tmp,
 									     contra_transaction_number_tmp );
 			gsb_data_transaction_set_contra_transaction_account ( transaction_number_tmp,
@@ -1546,7 +1545,7 @@ gboolean gsb_import_check_transaction_link ( gint transaction_number,
     /* check if same amount (but opposite) */
     amount_1 = gsb_real_abs (gsb_data_transaction_get_amount (transaction_number));
     amount_2 = gsb_real_abs (gsb_data_transaction_get_adjusted_amount_for_currency ( tested_transaction,
-										     gsb_data_account_get_currency (transaction_number),
+										     gsb_data_transaction_get_currency_number (transaction_number),
 										     -1));
     if (gsb_real_cmp (amount_1, amount_2))
 	return FALSE;
@@ -1870,6 +1869,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 		imported_transaction -> devise = gsb_currency_get_currency_from_combobox (imported_account -> bouton_devise);
 	    else
 		imported_transaction -> devise = gsb_data_currency_get_number_by_code_iso4217 (imported_account -> devise);
+
 	    transaction_number = gsb_import_create_transaction ( imported_transaction,
 								 account_number );
 
@@ -2181,7 +2181,6 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     if ( imported_transaction -> operation_ventilee )
     {
 	/* l'opération est ventilée */
-
 	gsb_data_transaction_set_split_of_transaction ( transaction_number,
 							    1 );
     }
