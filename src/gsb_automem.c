@@ -2,7 +2,7 @@
 /*                                  gsb_automem.c                            */
 /*                                                                            */
 /*     Copyright (C)	2000-2007 Cedric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -172,6 +172,7 @@ static gboolean gsb_automem_entry_changed (GtkWidget *entry,
         if ( *data )
 	    g_free ( *data );
 	*data = my_strdup (gtk_entry_get_text ( GTK_ENTRY (entry) ));
+	modification_fichier ( TRUE );
     }
 
     return FALSE;
@@ -288,7 +289,11 @@ static gboolean gsb_automem_textview_changed ( GtkTextBuffer *buffer,
     gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );
 
     if (data)
+    {
 	*data = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+	modification_fichier ( TRUE );
+    }
+
     return FALSE;
 }
 
@@ -329,7 +334,6 @@ GtkWidget *gsb_automem_checkbutton_new ( const gchar *label,
 	g_object_set_data ( G_OBJECT ( checkbutton ), "changed-hook", 
 			    (gpointer) g_signal_connect (checkbutton, "toggled",
 							 G_CALLBACK (hook), data ));
-    modification_fichier (TRUE);
     return checkbutton;
 }
 
@@ -391,7 +395,10 @@ static gboolean gsb_automem_checkbutton_changed ( GtkWidget *checkbutton,
 
     value = g_object_get_data ( G_OBJECT (checkbutton), "pointer");
     if (value)
+    {
 	*value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbutton));
+	modification_fichier ( TRUE );
+    }
 
     return FALSE;
 }
@@ -640,7 +647,11 @@ static gboolean gsb_automem_spin_button_changed ( GtkWidget *spin,
     data = g_object_get_data ( G_OBJECT(spin), "pointer" );
 
     if ( data )
+    {
 	*data = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON(spin));
+	modification_fichier ( TRUE );
+    }
+
     return (FALSE);
 }
 
