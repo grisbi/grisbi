@@ -75,9 +75,11 @@ static gchar *order_names[] = {
     "month-day-year",
     "month-year-day" };
 
-
+/* xxx faire un obfuscate pour fichier qif */
 /* xxx mettre en highlight une split dont les children ne font pas la totalité de la transaction */
 /* ou un pixmap à gauche ? */
+/* xxx dans l'assistant nouveau fichier, permettre de sélectionne les éléments du formulaire qu'on veut utiliser */
+
 
 /**
  * \brief Import QIF data.

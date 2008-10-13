@@ -2765,7 +2765,17 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 
     category_combofix = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
 
-    if (!gsb_form_widget_check_empty (category_combofix))
+    if (gsb_form_widget_check_empty (category_combofix))
+    {
+	/* there is no category */
+	gsb_data_mix_set_category_number (transaction_number, 0, is_transaction);
+	gsb_data_mix_set_sub_category_number (transaction_number, 0, is_transaction);
+
+	/* if it's a scheduled transaction, we need to set account_transfer to -1 */
+	if (!is_transaction)
+	    gsb_data_scheduled_set_account_number_transfer (transaction_number, -1);
+    }
+    else
     {
 	const gchar *string;
 	gint contra_transaction_number;
@@ -2930,6 +2940,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 	    gsb_data_mix_set_voucher (transaction_number, NULL, is_transaction);
 	}
     }
+
     return FALSE;
 }
 
