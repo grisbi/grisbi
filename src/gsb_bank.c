@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -521,14 +521,14 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     /* Create bank list */
     paned1 = gtk_vbox_new (FALSE, 0);
     gtk_paned_pack1 ( GTK_PANED (vpaned), paned1,
-		      TRUE, TRUE );
+		      FALSE, FALSE );
 
-    paddingbox = new_paddingbox_with_title ( paned1, TRUE,
+    paddingbox = new_paddingbox_with_title ( paned1, FALSE,
 					     _("Known banks") );
 
     hbox = gtk_hbox_new ( FALSE, 10 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 TRUE, TRUE, 0);
+			 FALSE, FALSE, 0);
 
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
@@ -636,7 +636,7 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     /* Add a scroll because bank details are huge */
     paned2 = gtk_vbox_new (FALSE, 0);
     gtk_paned_pack2 ( GTK_PANED (vpaned), paned2,
-		      TRUE, TRUE );
+		      TRUE, FALSE );
 
     scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
