@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-29 23:50+0200\n"
-"PO-Revision-Date: 2008-10-11 12:39+0200\n"
+"PO-Revision-Date: 2008-10-13 15:15+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -7688,9 +7688,8 @@ msgid "Comma Separated Values"
 msgstr "Valores separados por comas"
 
 #: src/import.c:130
-#, fuzzy
 msgid "Quicken Interchange Format"
-msgstr "Introduzca la tasa de cambio"
+msgstr "Formato de intercambio rápido"
 
 #: src/import.c:188
 #, c-format
@@ -8024,19 +8023,18 @@ msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Las transacciones importadas se añadirán a la cuenta %s.\n"
 
 #: src/import.c:3236
-#, fuzzy, c-format
+#, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
-msgstr "Una anotación de la transacción es una transferencia a esta cuenta.\n"
+msgstr "Las transacciones importadas marcarán las transacciones en la cuenta %s.\n"
 
 #: src/import.c:3245
-#, fuzzy, c-format
+#, c-format
 msgid "Currency to import is %s.\n"
-msgstr "Propiedades de la moneda"
+msgstr "La moneda a importar es %s.\n"
 
 #: src/import.c:3256
-#, fuzzy
 msgid "Amounts of the transactions will be inverted.\n"
-msgstr "Transacciones automáticas programadas introducidas"
+msgstr "Se invertirán las cantidades de las transacciones.\n"
 
 #: src/import.c:3273
 msgid "Name of the file to import : "
@@ -8884,9 +8882,8 @@ msgstr "Usar la fecha valor"
 
 #. set up all the checkbuttons
 #: src/print_transactions_list.c:219
-#, fuzzy
 msgid "Draw the lines between transactions"
-msgstr "Muestra _tres líneas por transacción"
+msgstr "Muestra las líneas entre transacciones"
 
 #: src/print_transactions_list.c:226
 msgid "Draw the lines between the columns"
