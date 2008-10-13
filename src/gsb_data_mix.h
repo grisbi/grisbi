@@ -17,8 +17,6 @@ gint gsb_data_mix_get_automatic_transaction ( gint transaction_number,
 					      gboolean is_transaction );
 const gchar *gsb_data_mix_get_bank_references ( gint transaction_number,
 						gboolean is_transaction );
-gint gsb_data_mix_get_split_of_transaction ( gint transaction_number,
-						 gboolean is_transaction );
 gint gsb_data_mix_get_budgetary_number ( gint transaction_number,
 					 gboolean is_transaction );
 gint gsb_data_mix_get_category_number ( gint transaction_number,
@@ -40,6 +38,8 @@ const gchar *gsb_data_mix_get_notes ( gint transaction_number,
 				      gboolean is_transaction );
 gint gsb_data_mix_get_party_number ( gint transaction_number,
 				     gboolean is_transaction );
+gint gsb_data_mix_get_split_of_transaction ( gint transaction_number,
+						 gboolean is_transaction );
 gint gsb_data_mix_get_sub_budgetary_number ( gint transaction_number,
 					     gboolean is_transaction );
 gint gsb_data_mix_get_sub_category_number ( gint transaction_number,
@@ -61,9 +61,6 @@ gboolean gsb_data_mix_set_amount ( gint transaction_number,
 gboolean gsb_data_mix_set_bank_references ( gint transaction_number,
 					    const gchar *bank_references,
 					    gboolean is_transaction );
-gboolean gsb_data_mix_set_split_of_transaction ( gint transaction_number,
-						     gint is_split,
-						     gboolean is_transaction );
 gboolean gsb_data_mix_set_budgetary_number ( gint transaction_number,
 					     gint budgetary_number,
 					     gboolean is_transaction );
@@ -94,6 +91,9 @@ gboolean gsb_data_mix_set_notes ( gint transaction_number,
 gboolean gsb_data_mix_set_party_number ( gint transaction_number,
 					 gint no_party,
 					 gboolean is_transaction );
+gboolean gsb_data_mix_set_split_of_transaction ( gint transaction_number,
+						     gint is_split,
+						     gboolean is_transaction );
 gboolean gsb_data_mix_set_sub_budgetary_number ( gint transaction_number,
 						 gint sub_budgetary_number,
 						 gboolean is_transaction );

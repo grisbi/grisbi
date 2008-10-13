@@ -7,7 +7,6 @@
 
 /* START_DECLARATION */
 gboolean csv_import_parse_balance ( struct struct_ope_importation * ope, gchar * string );
-gboolean csv_import_parse_split ( struct struct_ope_importation * ope, gchar * string );
 gboolean csv_import_parse_category ( struct struct_ope_importation * ope, gchar * string );
 gboolean csv_import_parse_credit ( struct struct_ope_importation * ope, gchar * string );
 gboolean csv_import_parse_currency ( struct struct_ope_importation * ope, gchar * string );
@@ -16,6 +15,7 @@ gboolean csv_import_parse_debit ( struct struct_ope_importation * ope, gchar * s
 gboolean csv_import_parse_notes ( struct struct_ope_importation * ope, gchar * string );
 gboolean csv_import_parse_p_r ( struct struct_ope_importation * ope, gchar * string );
 gboolean csv_import_parse_payee ( struct struct_ope_importation * ope, gchar * string );
+gboolean csv_import_parse_split ( struct struct_ope_importation * ope, gchar * string );
 gboolean csv_import_parse_sub_category ( struct struct_ope_importation * ope, gchar * string );
 gboolean csv_import_parse_value_date ( struct struct_ope_importation * ope, gchar * string );
 gboolean csv_import_parse_voucher ( struct struct_ope_importation * ope, gchar * string );

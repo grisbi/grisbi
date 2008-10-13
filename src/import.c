@@ -71,11 +71,10 @@
 #include "./include.h"
 #include "./gsb_form_scheduler.h"
 #include "./erreur.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_import_check_transaction_link ( gint transaction_number,
-					     gint tested_transaction );
 static gboolean affichage_recapitulatif_importation ( GtkWidget * assistant );
 static const gchar * autodetect_file_type ( gchar * filename,
 				     gchar * pointeur_char );
@@ -94,6 +93,8 @@ static void gsb_import_add_imported_transactions ( struct struct_compte_importat
 static gchar **gsb_import_by_rule_ask_filename ( gint rule );
 static gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
 				       GtkWidget *entry );
+static gboolean gsb_import_check_transaction_link ( gint transaction_number,
+					     gint tested_transaction );
 static GSList *gsb_import_create_file_chooser (const char *enc);
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
@@ -555,15 +556,15 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
         nom_fichier = my_strdup (iterator -> data);
 
     g_free (pointeur_char);
-	gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
-	gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
-			     IMPORT_FILESEL_SELECTED, TRUE,
-			     IMPORT_FILESEL_TYPENAME, type,
-			     IMPORT_FILESEL_FILENAME, g_path_get_basename ( iterator -> data ),
-			     IMPORT_FILESEL_REALNAME, nom_fichier,
-			     IMPORT_FILESEL_TYPE, type,
-			     IMPORT_FILESEL_CODING, charmap_imported,
-			     -1 );
+    gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
+    gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter,
+			 IMPORT_FILESEL_SELECTED, TRUE,
+			 IMPORT_FILESEL_TYPENAME, type,
+			 IMPORT_FILESEL_FILENAME, g_path_get_basename ( iterator -> data ),
+			 IMPORT_FILESEL_REALNAME, nom_fichier,
+			 IMPORT_FILESEL_TYPE, type,
+			 IMPORT_FILESEL_CODING, charmap_imported,
+			 -1 );
     g_free (nom_fichier);
 
 	/* CSV is special because it needs configuration, so we
@@ -2894,20 +2895,21 @@ gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *renderer,
 
 
 /**
+ * check if the name of the imported account in param is not already
+ * used, if yes, modify it
+ *
+ * \param account_name	name to check
  *
  * return a newly allocated string or NULL
  */
 gchar * unique_imported_name ( gchar * account_name )
 {
     GSList * tmp_list = liste_comptes_importes;
-    gchar * basename = account_name;
+    gchar * basename = my_strdup (account_name);
     gint iter = 1;
 
-/* TODO dOm : fix memory leaks in this function */
-    if ( ! liste_comptes_importes )
-    {
-	return account_name;
-    }
+    if ( !liste_comptes_importes )
+	return basename;
 
     do
     {
@@ -2918,6 +2920,7 @@ gchar * unique_imported_name ( gchar * account_name )
 	if ( !strcmp ( basename, tmp_account -> nom_de_compte ) )
 	{
 	    tmp_list = liste_comptes_importes;
+	    g_free (basename);
 	    basename = g_strdup_printf ( _("%s #%d"), account_name, ++iter );
 	}
 	else
@@ -3214,20 +3217,20 @@ gboolean gsb_import_by_rule ( gint rule )
 	gsb_data_account_calculate_current_and_marked_balances (account_number);
 
 	/* save the charmap for the last file used */
-    gsb_data_import_rule_set_charmap (rule, charmap_imported);
+	gsb_data_import_rule_set_charmap (rule, charmap_imported);
 
-    /* save the last file used */
+	/* save the last file used */
 	gsb_data_import_rule_set_last_file_name (rule, filename);
 
-    if ( ! strcmp ( type, "OFX" ) )
+	if ( ! strcmp ( type, "OFX" ) )
 	{   
-        g_remove (account -> real_filename);
-    }
-        
+	    g_remove (account -> real_filename);
+	}
+
 	g_slist_free (account -> operations_importees);
 	g_free (account);
 	g_slist_free (liste_comptes_importes);
-    g_free (nom_fichier);
+	g_free (nom_fichier);
 	i++;
     }
     g_strfreev (array);

@@ -88,7 +88,6 @@ static gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number );
 /*START_EXTERN*/
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
-extern GdkColor split_background;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
@@ -97,6 +96,7 @@ extern GtkWidget *scheduler_button_delete ;
 extern GtkWidget *scheduler_button_edit ;
 extern GtkWidget *scheduler_button_execute ;
 extern GtkTreeSelection * selection ;
+extern GdkColor split_background;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 

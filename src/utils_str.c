@@ -32,6 +32,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gchar *get_line_from_string ( const gchar *string );
 /*END_STATIC*/
 
 
@@ -502,12 +503,15 @@ gchar *limit_string ( gchar *string,
 
 
 
-/* ******************************************************************************* */
-/* fonction qui rÃ©cupÃšre une ligne de charactÃšre dans une chaine */
-/* elle alloue la mÃ©moire nÃ©cessaire et n'incorpore pas le \n final */
-/* renvoie NULL en cas de pb */
-/* ******************************************************************************* */
-gchar *get_line_from_string ( gchar *string )
+/*
+ * get the content of the string given in param
+ * and remove the final \n and \r (windows)
+ *
+ * \param string
+ *
+ * \return a newly allocated string or NULL
+ * */
+gchar *get_line_from_string ( const gchar *string )
 {
     gchar *pointeur_char;
 
@@ -521,7 +525,6 @@ gchar *get_line_from_string ( gchar *string )
 				   0 );
     return pointeur_char;
 }
-/* ******************************************************************************* */
 
 
 /**

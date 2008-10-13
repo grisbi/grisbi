@@ -34,6 +34,7 @@
 #include "./utils_str.h"
 #include "./utils_file_selection.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -118,37 +119,42 @@ gchar* my_get_gsb_file_default_dir(void)
 
 
 
-/* ******************************************************************************* */
-/* fonction qui rÃ©cupÃšre une ligne de charactÃšre dans le pointeur de fichier donnÃ© en argument */
-/* elle alloue la mÃ©moire nÃ©cessaire et place le pointeur en argument sur la mÃ©moire allouÃ©e */
-/* renvoie 0 en cas de pb, eof en cas de fin de fichier, 1 sinon */
-/* ******************************************************************************* */
-gint get_line_from_file ( FILE *fichier,
-			  gchar **string )
+/* get the line af the file,
+ * convert it in UTF8 and fill string with that line
+ *
+ * \param fichier
+ * \param string
+ * \param coding_system	the orig coding system of the string
+ *
+ * \return EOF, 1 if ok, 0 if problem
+ * */
+gint get_utf8_line_from_file ( FILE *fichier,
+			       gchar **string,
+			       const gchar *coding_system )
 {
     gchar c = 0;
     gint i = 0;
     gint j = 0;
     gchar *pointeur_char = NULL;
+    gchar *tmp_string;
 
     if ( !fichier )
 	return 0;
 	    
-    /*     on commence par allouer une taille de 30 caractÃšres, qu'on augment ensuite de 30 par 30 */
-
+    /* allocate 30 characters, and increase it 30 by 30 */
     pointeur_char = (gchar*)g_realloc(pointeur_char,30*sizeof(gchar));
 
     if ( !pointeur_char )
     {
-	/* 	aie, pb de mÃ©moire, on vire */
+	/* ouch, not enough memory */
 	dialogue_error ( _("Memory allocation error" ));
 	return 0;
     }
 
-    while ( ( c != '\n' ) && (c != '\r'))
+    /* get the string untill \n or \r (windows format) */
+    c =(gchar)fgetc(fichier);
+    while ( ( c != '\n' ) && (c != '\r') && !feof (fichier))
     {
-	c =(gchar)fgetc(fichier);
-	if (feof(fichier)) break;
 	pointeur_char[j++] = c;
 
 	if ( ++i == 29 )
@@ -157,32 +163,42 @@ gint get_line_from_file ( FILE *fichier,
 
 	    if ( !pointeur_char )
 	    {
-		/* 	aie, pb de mÃ©moire, on vire */
+		/* ouch, not enough memory */
 		dialogue_error ( _("Memory allocation error" ));
 		return 0;
 	    }
 	    i = 0;
 	}
+	c =(gchar)fgetc(fichier);
     }
     pointeur_char[j] = 0;
 
-    *string = pointeur_char;
-
+    /* if we finished on \r, jump the \n after it */
     if ( c == '\r' )
-      {
+    {
 	c =(gchar)fgetc(fichier);
 	if ( c != '\n' )
-	  {
+	{
 	    ungetc ( c, fichier );
-	  }
-      }
+	}
+    }
+
+    tmp_string = g_convert ( pointeur_char, -1, "UTF-8", 
+			     coding_system, NULL, NULL,
+			     NULL );
+    if (!tmp_string)
+    {
+	devel_debug ("convert to utf8 failed, will use latin2utf8");
+	tmp_string = latin2utf8 (pointeur_char);
+    }
+    *string = tmp_string;
+    g_free (pointeur_char);
 
     if ( feof(fichier))
 	return EOF;
     else
 	return 1;
 }
-/* ******************************************************************************* */
 
 
 

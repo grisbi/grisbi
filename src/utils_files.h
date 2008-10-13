@@ -19,8 +19,9 @@ enum get_filename_returned_value {
 #endif
 
 /*START_DECLARATION*/
-gint get_line_from_file ( FILE *fichier,
-			  gchar **string );
+gint get_utf8_line_from_file ( FILE *fichier,
+			       gchar **string,
+			       const gchar *coding_system );
 GtkWidget * my_file_chooser ();
 gchar* my_get_grisbirc_dir(void);
 gchar* my_get_gsb_file_default_dir(void);

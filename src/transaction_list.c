@@ -66,11 +66,11 @@ static  gboolean transaction_list_update_white_child ( CustomRecord *white_recor
 
 /*START_EXTERN*/
 extern GdkColor archive_background_color;
-extern GdkColor split_background;
 extern GdkColor couleur_fond[2];
 extern gsb_real null_real ;
 extern GSList *orphan_child_transactions ;
 extern GtkTreeSelection * selection ;
+extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GtkWidget *window ;
 /*END_EXTERN*/

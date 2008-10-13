@@ -43,7 +43,6 @@
 #include "./gsb_real.h"
 #include "./gsb_transactions_list.h"
 #include "./gtk_combofix.h"
-#include "./dialog.h"
 #include "./etats_calculs.h"
 #include "./gtk_combofix.h"
 #include "./gsb_data_form.h"

@@ -638,18 +638,18 @@ GtkWidget * go_charmap_sel_new (GOCharmapSelTestDirection test)
 
 gchar const * go_charmap_sel_get_encoding (GOCharmapSel *cs)
 {
-	GtkMenuItem *selection;
-	char const *locale_encoding;
-	char const *encoding;
+    GtkMenuItem *selection;
+    char const *locale_encoding;
+    char const *encoding;
 
-	g_get_charset (&locale_encoding);
+    g_get_charset (&locale_encoding);
 
- 	g_return_val_if_fail (IS_GO_CHARMAP_SEL (cs), locale_encoding);
+    g_return_val_if_fail (IS_GO_CHARMAP_SEL (cs), locale_encoding);
 
- 	selection = GTK_MENU_ITEM (go_option_menu_get_history (cs->encodings));
-	encoding = (char const *) g_object_get_data (G_OBJECT (selection),
-						     CHARMAP_NAME_KEY);
-	return encoding ? encoding : locale_encoding;
+    selection = GTK_MENU_ITEM (go_option_menu_get_history (cs->encodings));
+    encoding = (char const *) g_object_get_data (G_OBJECT (selection),
+						 CHARMAP_NAME_KEY);
+    return encoding ? encoding : locale_encoding;
 }
 
 static void cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)

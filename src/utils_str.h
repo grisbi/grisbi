@@ -5,7 +5,6 @@
 
 
 /* START_DECLARATION */
-gchar *get_line_from_string ( gchar *string );
 gint gsb_strcasecmp ( gchar *string_1,
 		      gchar *string_2 );
 GSList *gsb_string_get_categ_budget_struct_list_from_string ( const gchar *string );

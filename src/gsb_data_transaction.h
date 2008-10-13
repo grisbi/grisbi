@@ -35,7 +35,6 @@ gsb_real gsb_data_transaction_get_amount ( gint transaction_number );
 gint gsb_data_transaction_get_archive_number ( gint transaction_number );
 gint gsb_data_transaction_get_automatic_transaction ( gint transaction_number );
 const gchar *gsb_data_transaction_get_bank_references ( gint transaction_number );
-gint gsb_data_transaction_get_split_of_transaction ( gint transaction_number );
 gint gsb_data_transaction_get_budgetary_number ( gint transaction_number );
 gint gsb_data_transaction_get_category_number ( gint transaction_number );
 gint gsb_data_transaction_get_change_between ( gint transaction_number );
@@ -58,6 +57,7 @@ const gchar *gsb_data_transaction_get_notes ( gint transaction_number );
 gint gsb_data_transaction_get_party_number ( gint transaction_number );
 gpointer gsb_data_transaction_get_pointer_of_transaction ( gint transaction_number );
 gint gsb_data_transaction_get_reconcile_number ( gint transaction_number );
+gint gsb_data_transaction_get_split_of_transaction ( gint transaction_number );
 gint gsb_data_transaction_get_sub_budgetary_number ( gint transaction_number );
 gint gsb_data_transaction_get_sub_category_number ( gint transaction_number );
 const gchar *gsb_data_transaction_get_transaction_id ( gint transaction_number );
@@ -83,8 +83,6 @@ gboolean gsb_data_transaction_set_automatic_transaction ( gint transaction_numbe
 							  gint automatic_transaction );
 gboolean gsb_data_transaction_set_bank_references ( gint transaction_number,
 						    const gchar *bank_references );
-gboolean gsb_data_transaction_set_split_of_transaction ( gint transaction_number,
-							     gint is_split );
 gboolean gsb_data_transaction_set_budgetary_number ( gint transaction_number,
 						     gint budgetary_number );
 gboolean gsb_data_transaction_set_category_number ( gint transaction_number,
@@ -119,6 +117,8 @@ gboolean gsb_data_transaction_set_party_number ( gint transaction_number,
 						 gint no_party );
 gboolean gsb_data_transaction_set_reconcile_number ( gint transaction_number,
 						     gint reconcile_number );
+gboolean gsb_data_transaction_set_split_of_transaction ( gint transaction_number,
+							     gint is_split );
 gboolean gsb_data_transaction_set_sub_budgetary_number ( gint transaction_number,
 							 gint sub_budgetary_number );
 gboolean gsb_data_transaction_set_sub_category_number ( gint transaction_number,
