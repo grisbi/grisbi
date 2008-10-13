@@ -61,7 +61,7 @@
 #include "./gsb_transactions_list.h"
 #include "./gsb_scheduler_list.h"
 #include "./include.h"
-#include "./echeancier_infos.h"
+#include "./gsb_calendar.h"
 #include "./erreur.h"
 #include "./structures.h"
 /*END_INCLUDE*/

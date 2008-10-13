@@ -35,6 +35,7 @@
 #include "./dialog.h"
 #include "./utils_dates.h"
 #include "./gsb_automem.h"
+#include "./gsb_calendar.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_category.h"
 #include "./gsb_data_currency.h"
@@ -44,13 +45,12 @@
 #include "./fenetre_principale.h"
 #include "./gsb_real.h"
 #include "./gsb_scheduler.h"
-#include "./echeancier_infos.h"
 #include "./traitement_variables.h"
 #include "./utils.h"
 #include "./utils_str.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
-#include "./echeancier_infos.h"
+#include "./gsb_calendar.h"
 #include "./erreur.h"
 #include "./structures.h"
 /*END_INCLUDE*/
@@ -1662,7 +1662,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 
     gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
 
-    mise_a_jour_calendrier();
+    gsb_calendar_update ();
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
 
     modification_fichier (TRUE);

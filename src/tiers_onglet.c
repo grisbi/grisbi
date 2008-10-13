@@ -42,6 +42,7 @@
 #include "./gsb_data_payee.h"
 #include "./utils_editables.h"
 #include "./gsb_form_widget.h"
+#include "./gsb_status.h"
 #include "./gtk_combofix.h"
 #include "./traitement_variables.h"
 #include "./utils.h"

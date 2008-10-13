@@ -13,7 +13,7 @@ enum periodicity_units affichage_echeances_perso_j_m_a;
 
 
 /* START_DECLARATION */
-GtkWidget *creation_partie_gauche_echeancier ( void );
-void mise_a_jour_calendrier ( void );
+GtkWidget *gsb_calendar_new ( void );
+gboolean gsb_calendar_update ( void );
 /* END_DECLARATION */
 #endif

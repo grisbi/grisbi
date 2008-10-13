@@ -21,7 +21,6 @@ sources = \
 	csv_parse.c		\
 	custom_list.c		\
 	dialog.c		\
-	echeancier_infos.c	\
 	erreur.c		\
 	etats_affiche.c		\
 	etats_calculs.c		\
@@ -53,6 +52,7 @@ sources = \
 	gsb_bank.c		\
 	gsb_category.c		\
 	gsb_combo_box.c		\
+	gsb_calendar.c		\
 	gsb_calendar_entry.c	\
 	gsb_currency.c		\
 	gsb_currency_config.c	\
@@ -179,6 +179,7 @@ grisbi_INCLUDES =		\
 	gsb_bank.h		\
 	gsb_category.h		\
 	gsb_combo_box.h		\
+	gsb_calendar.h		\
 	gsb_calendar_entry.h	\
         gsb_crypt.h             \
 	gsb_currency.h		\
@@ -234,7 +235,6 @@ grisbi_INCLUDES =		\
 	gsb_transactions_list.h	\
 	gsb_transactions_list_sort.h	\
 	dialog.h		\
-	echeancier_infos.h	\
 	erreur.h		\
 	etats_calculs.h		\
 	etats_config.h		\

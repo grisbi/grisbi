@@ -33,6 +33,7 @@
 #include "./accueil.h"
 #include "./dialog.h"
 #include "./gsb_calendar_entry.h"
+#include "./gsb_calendar.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_budget.h"
@@ -2260,6 +2261,7 @@ gboolean gsb_form_finish_edition ( void )
 
 	    /* needed for the two in case of we change the date */
 	    gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
+	    gsb_calendar_update ();
 	}
     }
     g_slist_free ( payee_list );
@@ -2948,7 +2950,8 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 }
 
 
-
+/* xxx les dates ne sont plus en gras dans l'échéancier et vérifier en hebdomadaire que ça mette même les suivantes
+ * et vérif que se met en gras dès que crée l'échéance */
 
 /**
  * called when cancel a form

@@ -26,8 +26,8 @@
 /*START_INCLUDE*/
 #include "navigation.h"
 #include "./balance_estimate_tab.h"
-#include "./echeancier_infos.h"
 #include "./gsb_account_property.h"
+#include "./gsb_calendar.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_import_rule.h"
 #include "./gsb_data_reconcile.h"
@@ -395,7 +395,7 @@ GtkWidget * create_navigation_pane ( void )
     gtk_box_pack_start ( GTK_BOX(vbox), sw, TRUE, TRUE, 0 );
 
     /* Create calendar (hidden for now). */
-    scheduler_calendar = creation_partie_gauche_echeancier();
+    scheduler_calendar = gsb_calendar_new ();
     g_signal_connect ( G_OBJECT (scheduler_calendar ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &scheduler_calendar );
     gtk_box_pack_end ( GTK_BOX(vbox), scheduler_calendar, FALSE, FALSE, 0 );
@@ -1245,6 +1245,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    gsb_form_show ( FALSE );
 
 	    /* show the calendar */
+	    gsb_calendar_update ();
 	    gtk_widget_show_all ( scheduler_calendar );
 	    break;
 

@@ -399,7 +399,6 @@ gboolean gsb_file_config_save_config ( void )
     config = g_key_file_new ();
     
     /* get the geometry */
-
     if ( GTK_WIDGET ( window) -> window ) 
 	gtk_window_get_size (GTK_WINDOW ( window ),
 			     &largeur_window,&hauteur_window);
@@ -425,7 +424,6 @@ gboolean gsb_file_config_save_config ( void )
 
 
     /* save general */
-
     g_key_file_set_integer ( config,
 			     "General",
 			     "Can modify R",
@@ -497,7 +495,6 @@ gboolean gsb_file_config_save_config ( void )
 			     etat.largeur_colonne_comptes_operation );
 
     /* save input/output */
-
     g_key_file_set_integer ( config,
 			     "IO",
 			     "Load last file",
