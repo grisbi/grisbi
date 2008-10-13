@@ -829,7 +829,32 @@ GtkWidget *onglet_programmes (void)
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Programs"), "exec.png" ); 
 
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Print support"));
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Web"));
+
+    table = gtk_table_new ( 0, 3, FALSE );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
+    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
+    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
+
+    label = gtk_label_new ( _("Web browser command"));
+    gtk_size_group_add_widget ( size_group, label );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
+		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+    entry = gsb_automem_entry_new ( &etat.browser_command, NULL, NULL );
+    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+
+    text = g_strconcat ( "<i>", _("You may use %s to expand the URL. "
+				  "I.e: \"firefox -remote %s\""), "</i>", NULL );
+    label = gtk_label_new ( text );
+    gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_table_attach ( GTK_TABLE(table), label, 1, 2, 2, 3,
+		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+    g_free ( text );
+
+
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("LaTeX support (old print system)"));
     
     table = gtk_table_new ( 0, 2, FALSE );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
@@ -852,30 +877,6 @@ GtkWidget *onglet_programmes (void)
     entry = gsb_automem_entry_new ( &etat.dvips_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
-
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Misc"));
-
-    table = gtk_table_new ( 0, 3, FALSE );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
-    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
-    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
-
-    label = gtk_label_new ( _("Web browser"));
-    gtk_size_group_add_widget ( size_group, label );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entry = gsb_automem_entry_new ( &etat.browser_command, NULL, NULL );
-    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
-
-    text = g_strconcat ( "<i>", _("You may use %s to expand URL.\n"
-				  "I.e: \"firefox -remote %s\""), "</i>", NULL );
-    label = gtk_label_new ( text );
-    gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 1, 2, 2, 3,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    g_free ( text );
 
     gtk_size_group_set_mode ( size_group, GTK_SIZE_GROUP_HORIZONTAL );
     gtk_widget_show_all ( vbox_pref );

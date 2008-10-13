@@ -295,11 +295,11 @@ GtkWidget *creation_barre_outils_tiers ( void )
 					    FALSE, "selection" );
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
-					   GTK_STOCK_DELETE, _("Delete unused payees"),
+					   GTK_STOCK_DELETE, _("Remove unused payees"),
 					   G_CALLBACK(payee_remove_unused),
 					   NULL );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
-			   _("Delete unused payees"), "" );
+			   _("Remove unused payees"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     return ( handlebox );
@@ -320,8 +320,11 @@ gboolean payee_remove_unused ( GtkWidget *button,
 {
     gint result;
 
-    result = question_yes_no (_("This will remove all the payees wich are not used in any transactions.\n(Archives payees will be safe, even if not used outside the archive)\n\nAre you sure ?"),
-			      GTK_RESPONSE_CANCEL );
+    result = question_yes_no_hint (_("Remove unused payees"),
+				   _("This will remove all the payees wich are not used in any transactions.  "
+				     "Payees linked to an archived transactions will not be removed, even if not "
+				     "used outside the archive.\n\nAre you sure you want to do that?"),
+				   GTK_RESPONSE_CANCEL );
 
     if (result == TRUE)
     {
@@ -391,6 +394,12 @@ void payee_fill_tree ( void )
 
     devel_debug (NULL);
 
+    gsb_status_wait ( FALSE );
+
+    /* Dettach the model so that insertion will be much faster */
+    g_object_ref ( G_OBJECT(payee_tree_model) );
+    gtk_tree_view_set_model ( payee_tree, NULL );
+
     /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (payee_tree_model) );
 
@@ -413,6 +422,13 @@ void payee_fill_tree ( void )
 
 	payee_list_tmp = payee_list_tmp -> next;
     }
+
+    /* Reattach the model */
+    gtk_tree_view_set_model (GTK_TREE_VIEW (payee_tree),
+			     GTK_TREE_MODEL (payee_tree_model));
+    g_object_unref ( G_OBJECT(payee_tree_model) );
+
+    gsb_status_stop_wait ( FALSE );
 }
 
 
