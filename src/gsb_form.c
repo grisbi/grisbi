@@ -210,7 +210,7 @@ GtkWidget *gsb_form_get_button_part ( void )
  */
 void gsb_form_create_widgets ()
 {
-    GtkWidget * hbox, * label, * separator, * hbox_buttons;
+    GtkWidget * hbox, * label, * separator, * hbox_buttons, * hbox_buttons_inner;
     GtkWidget * child = gtk_bin_get_child ( GTK_BIN(form_expander) );
 
     devel_debug (NULL);
@@ -313,11 +313,14 @@ void gsb_form_create_widgets ()
     hbox_buttons = gtk_hbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX (form_button_part), hbox_buttons, FALSE, FALSE, 0 );
 
+    hbox_buttons_inner = gtk_hbox_new ( TRUE, 0 );
+    gtk_box_pack_end ( GTK_BOX (hbox_buttons), hbox_buttons_inner, FALSE, FALSE, 0 );
+
     /* create the check button to recover the children of splits */
     form_button_recover_split = gtk_check_button_new_with_label ( _("Recover the children"));
     g_signal_connect ( G_OBJECT (form_button_recover_split ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &form_button_recover_split );
-    gtk_box_pack_start ( GTK_BOX (hbox_buttons),
+    gtk_box_pack_start ( GTK_BOX (hbox_buttons_inner),
 			 form_button_recover_split,
 			 FALSE, FALSE,
 			 0 );
@@ -329,7 +332,7 @@ void gsb_form_create_widgets ()
     gtk_button_set_relief ( GTK_BUTTON (form_button_valid), GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT (form_button_valid), "clicked",
 		       G_CALLBACK (gsb_form_finish_edition), NULL );
-    gtk_box_pack_end ( GTK_BOX (hbox_buttons), form_button_valid, FALSE, FALSE, 0 );
+    gtk_box_pack_end ( GTK_BOX (hbox_buttons_inner), form_button_valid, FALSE, FALSE, 0 );
 
     form_button_cancel = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
     g_signal_connect ( G_OBJECT (form_button_cancel ), "destroy",
@@ -337,7 +340,7 @@ void gsb_form_create_widgets ()
     gtk_button_set_relief ( GTK_BUTTON (form_button_cancel), GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT (form_button_cancel), "clicked",
 		       G_CALLBACK (gsb_form_escape_form), NULL );
-    gtk_box_pack_end ( GTK_BOX (hbox_buttons), form_button_cancel, FALSE, FALSE, 0 );
+    gtk_box_pack_end ( GTK_BOX (hbox_buttons_inner), form_button_cancel, FALSE, FALSE, 0 );
 
     /* Kludge : otherwise, GtkExpander won't give us as many space
        as we need. */
