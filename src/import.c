@@ -636,8 +636,6 @@ GSList *gsb_import_create_file_chooser (const char *enc)
     gchar* tmpstr = g_strdup_printf ( _("Known files (%s)"), files );
     gtk_file_filter_set_name ( default_filter, tmpstr );
     g_free ( tmpstr );
-    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), default_filter );
-    gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER ( dialog ), default_filter );
 
     tmp = import_formats;
     while ( tmp )
@@ -648,8 +646,8 @@ GSList *gsb_import_create_file_chooser (const char *enc)
 
 	format_filter = gtk_file_filter_new ();
 	gchar* tmpstr = g_strdup_printf ( _("%s files (*.%s)"),
-						     format -> name,
-						     format -> extension );
+					  format -> name,
+					  format -> extension );
 	gtk_file_filter_set_name ( format_filter, tmpstr );
 	g_free ( tmpstr );
 	tmpstr = g_strconcat ( "*.", format -> extension, NULL );
@@ -666,9 +664,13 @@ GSList *gsb_import_create_file_chooser (const char *enc)
 	tmp = tmp -> next;
     }
 
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), default_filter );
+    gtk_file_chooser_set_filter ( GTK_FILE_CHOOSER ( dialog ), default_filter );
+
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("All files") );
     gtk_file_filter_add_pattern ( filter, "*" );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
 
     /* Add encoding preview */
     hbox = gtk_hbox_new ( FALSE, 6 );
@@ -2956,7 +2958,7 @@ GtkWidget *onglet_importation (void)
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( _("Search the transaction "));
+    label = gtk_label_new ( _("Threshold while matching transaction date during import (in days)"));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,
@@ -2977,16 +2979,8 @@ GtkWidget *onglet_importation (void)
 			 bouton,
 			 FALSE,
 			 FALSE,
-			 0 );
+			 12 );
     gtk_widget_show ( bouton );
-
-    label = gtk_label_new ( _("days around the date in the imported transaction."));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
 
     if ( ! assert_account_loaded() )
       gtk_widget_set_sensitive ( vbox_pref, FALSE );
