@@ -272,7 +272,15 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
     account_combobox_bank = gsb_bank_create_combobox (0, NULL, NULL, NULL, 0);
     g_signal_connect ( G_OBJECT (account_combobox_bank ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &account_combobox_bank );
-    gsb_bank_list_set_bank ( account_combobox_bank, 0, 0 );
+
+    if ( gsb_data_bank_max_number() != 0 )
+    {
+	gsb_bank_list_set_bank ( account_combobox_bank, 1, 0 );
+    }
+    else
+    {
+	gsb_bank_list_set_bank ( account_combobox_bank, 0, 0 );
+    }
     gtk_table_attach ( GTK_TABLE ( table ), account_combobox_bank, 
 		       1, 2, 1, 2,
 		       GTK_SHRINK | GTK_FILL,
@@ -382,7 +390,9 @@ static gboolean gsb_assistant_account_enter_page_finish ( GtkWidget * assistant,
 		const gchar * bank_name;
 
 		bank_name = gsb_data_bank_get_name ( gsb_bank_list_get_bank_number ( account_combobox_bank ) );
-		if ( bank_name )
+		/* Do not use a bank name if no bank is set or if its
+		 * name has not been changed. */
+		if ( bank_name && strcmp ( bank_name, _("New bank") ) )
 		    default_name = g_strdup_printf ( _("%s account"), bank_name );
 		else
 		    default_name = g_strdup ( _("Bank account" ) );
