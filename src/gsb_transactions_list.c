@@ -991,8 +991,8 @@ gboolean gsb_transactions_list_set_row_align ( gfloat row_align )
 	    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
 					   path, NULL,
 					   FALSE, 0.0, 0.0 );
+	    gtk_tree_path_free (path);
 	}
-	gtk_tree_path_free (path);
 	return FALSE;
     }
 
