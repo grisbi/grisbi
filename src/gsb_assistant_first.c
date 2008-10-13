@@ -72,10 +72,10 @@ GtkResponseType gsb_assistant_first_run ( void )
     GtkWidget *assistant;
 
     /* create the assistant */
-    assistant = gsb_assistant_new ( _("Welcome to Grisbi !"),
-				    _("This is the first time you open Grisbi, this assistant will help you to configure it."
-				      "You can change any option later in the configuration page.\n"
-				      "Many other options are available in the configuration window.\n"
+    assistant = gsb_assistant_new ( _("Welcome to Grisbi!"),
+				    _("This is the first time you use Grisbi, this assistant will guide you through the configuration process. "
+				      "You can change any option later in the configuration window, "
+				      "where many other options are available.\n\n"
 				      "Thanks for using Grisbi, enjoy!" ),
 				    "grisbi.png",
 				    NULL );

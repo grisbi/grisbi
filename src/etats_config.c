@@ -6258,7 +6258,7 @@ GtkWidget *page_data_grouping ( void )
     GtkWidget *vbox_onglet;
     GtkWidget * paddingbox;
 
-    vbox_onglet = new_vbox_with_title_and_icon ( _("Data organization"), "organization.png" );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Data grouping"), "organization.png" );
     gtk_widget_show ( vbox_onglet );
 
     /* choix de ce qu'on utilise dans le classement */
@@ -6376,7 +6376,7 @@ GtkWidget *page_data_separation ( void )
     GtkWidget * paddingbox;
     gint i;
 
-    vbox_onglet = new_vbox_with_title_and_icon ( _("Data organization"), "organization.png" );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Data separation"), "organization.png" );
     gtk_widget_show ( vbox_onglet );
 
     /* choix de ce qu'on utilise dans le classement */
