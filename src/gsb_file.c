@@ -697,17 +697,17 @@ static gint gsb_file_dialog_save ( void )
 
     if ( difference >= 120 )
     {
-	time_elapsed = g_strdup_printf ( _( "%d minutes and %d seconds" ),
+	time_elapsed = g_strdup_printf ( _( "%d minutes and %d seconds" ),
 					 difference / 60, difference % 60 );
     }
     else if ( difference >= 60 )
     {
-	time_elapsed = g_strdup_printf ( _( "1 minute and %d seconds" ),
+	time_elapsed = g_strdup_printf ( _( "1 minute and %d seconds" ),
 					 difference % 60 );
     }
     else
     {
-	time_elapsed = g_strdup_printf ( _( "%d seconds" ), difference );
+	time_elapsed = g_strdup_printf ( _( "%d seconds" ), difference );
     }
     gchar* tmpstr1 = message;
     gchar* tmpstr2 = g_strdup_printf ( _("If you close without saving, all of your changes "
