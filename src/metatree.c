@@ -2119,12 +2119,15 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
     tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
-    if ( !iface || !tree_view )
+    if ( !iface || !tree_view || ! model)
 	return FALSE;
 
     if ( selection && gtk_tree_selection_get_selected ( selection, &model, &iter ) )
     {
 	gchar * text, * balance = "";
+
+	if ( !model)
+	    return FALSE;
 
 	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter,
 			     META_TREE_NO_DIV_COLUMN, &div_id,
@@ -2166,6 +2169,9 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 	g_free ( text );
 	selection_is_set = TRUE;
     }
+
+    if ( ! model )
+	return FALSE;
 
     /* Update sensitiveness of linked widgets. */
     metatree_set_linked_widgets_sensitive ( model, selection_is_set, "selection" );

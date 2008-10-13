@@ -986,9 +986,12 @@ gboolean gsb_transactions_list_set_row_align ( gfloat row_align )
     if (row_align < 0)
     {
 	path = transaction_list_select_get_path (gsb_data_account_get_nb_rows (gsb_gui_navigation_get_current_account())- 1);
-	gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
-				       path, NULL,
-				       FALSE, 0.0, 0.0 );
+	if ( path )
+	{
+	    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (gsb_transactions_list_get_tree_view ()),
+					   path, NULL,
+					   FALSE, 0.0, 0.0 );
+	}
 	gtk_tree_path_free (path);
 	return FALSE;
     }
@@ -3414,7 +3417,7 @@ gboolean gsb_transactions_list_size_allocate ( GtkWidget *tree_view,
 
 	for (i=0 ; i<CUSTOM_MODEL_N_VISIBLES_COLUMN ; i++)
 	    transaction_col_width[i] = (gtk_tree_view_column_get_width (transactions_tree_view_columns[i]) * 100) / allocation -> width + 1;
-	modification_fichier (TRUE);
+
 	return FALSE;
     }
 
