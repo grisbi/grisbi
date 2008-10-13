@@ -202,14 +202,11 @@ GtkWidget * onglet_display_fonts ( void )
     g_signal_connect ( G_OBJECT ( check_button ), "toggled",
 		       G_CALLBACK ( change_choix_utilise_fonte_liste ), vbox );
 
-    /* mise en place de la ligne du font button */ 
-    hbox = gtk_hbox_new ( TRUE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
     /* Create font button */
     font_button = utils_font_create_button (&etat.font_string,
 					    G_CALLBACK (update_fonte_listes), NULL);
-    gtk_box_pack_start ( GTK_BOX (hbox), font_button, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (paddingbox), font_button, FALSE, FALSE, 0 );
 
     if ( !gsb_data_account_get_accounts_amount () )
     {
