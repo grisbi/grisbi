@@ -23,5 +23,6 @@ gboolean sens_desensitive_pointeur ( GtkWidget *bouton,
 gboolean sensitive_widget ( gpointer object,
 			    GtkWidget *widget );
 void update_ecran ( void );
+gboolean radio_set_active_linked_widgets ( GtkWidget * widget );
 /* END_DECLARATION */
 #endif

@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*     Copyright (C)	2000-2003 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /*			2003-2004 Alain Portal (aportal@univ-montp2.fr)	      */
 /*			2003-2004 Francois Terrot (francois.terrot@grisbi.org)*/
 /* 			http://www.grisbi.org				      */
@@ -358,6 +358,40 @@ void update_ecran ( void )
 /******************************************************************************/
 
 
+
+
+void register_button_as_linked ( GtkWidget * widget, GtkWidget * linked )
+{
+    GSList * links;
+
+    g_return_if_fail ( widget != NULL );
+
+    links = g_object_get_data ( G_OBJECT(widget), "linked" );
+    g_object_set_data ( G_OBJECT(widget), "linked", g_slist_append ( links, linked ) );
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean radio_set_active_linked_widgets ( GtkWidget * widget )
+{
+    GSList * links;
+
+    links = g_object_get_data ( G_OBJECT(widget), "linked" );
+
+    while ( links )
+    {
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON(links -> data), 
+				       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( widget ) ) );
+	links = links -> next;
+    }
+
+    return FALSE;
+}
 
 
 /* Local Variables: */
