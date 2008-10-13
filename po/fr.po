@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-03 06:31+0200\n"
-"PO-Revision-Date: 2008-09-08 12:16+0200\n"
+"PO-Revision-Date: 2008-10-08 14:11+0200\n"
 "Last-Translator: Matthieu Pupat <mpupat@free.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -201,7 +201,7 @@ msgstr "Barres d'outils"
 
 #: src/affichage.c:559
 msgid "Display toolbar buttons as"
-msgstr "Afficher les barres d'outil comme"
+msgstr "Afficher les boutons de barres d'outils avec"
 
 #: src/affichage.c:561
 msgid "Text"
@@ -1567,23 +1567,20 @@ msgid "Misc."
 msgstr "Divers"
 
 #: src/etats_config.c:570 src/etats_config.c:6182
-#, fuzzy
 msgid "Miscellaneous"
-msgstr "Impôts : Autres impôts"
+msgstr "Divers"
 
 #: src/etats_config.c:578 src/etats_config.c:6261 src/etats_config.c:6379
-#, fuzzy
 msgid "Data organization"
 msgstr "Organisation des données"
 
 #: src/etats_config.c:585 src/etats_config.c:590
 msgid "Data grouping"
-msgstr ""
+msgstr "Groupement des données"
 
 #: src/etats_config.c:595 src/etats_config.c:600
-#, fuzzy
 msgid "Data separation"
-msgstr "Sélection des données"
+msgstr "Séparation des données"
 
 #: src/etats_config.c:605
 msgid "Data display"
@@ -1664,9 +1661,8 @@ msgstr ""
 "règlement. »"
 
 #: src/etats_config.c:2048
-#, fuzzy
 msgid "Date selection"
-msgstr "Sélection des données"
+msgstr "Sélection de la date"
 
 #: src/etats_config.c:2073
 msgid "Use dates ranges"
@@ -1710,9 +1706,8 @@ msgid "Final date"
 msgstr "Date finale"
 
 #: src/etats_config.c:2477
-#, fuzzy
 msgid "Account selection"
-msgstr "Différenciation du compte"
+msgstr "Sélection du compte"
 
 #. on met dans la partie de gauche une liste contenant les comptes Ã 
 #. sÃ©lectionner
@@ -1789,24 +1784,20 @@ msgid "Outgoing categories"
 msgstr "Catégories de dépenses"
 
 #: src/etats_config.c:3266
-#, fuzzy
 msgid "Empty category"
-msgstr "la catégorie"
+msgstr "Catégorie vide"
 
 #: src/etats_config.c:3267
-#, fuzzy
 msgid "Empty sub-category"
-msgstr "la sous-catégorie"
+msgstr "Sous-catégorie vide"
 
 #: src/etats_config.c:3273
-#, fuzzy
 msgid "Empty budget"
-msgstr "Nouvelle imputation"
+msgstr "Imputation vide"
 
 #: src/etats_config.c:3274
-#, fuzzy
 msgid "Empty sub-budget"
-msgstr "Nouvelle sous-imputation"
+msgstr "Sous-imputation vide"
 
 #: src/etats_config.c:3706
 #, fuzzy
@@ -1850,9 +1841,8 @@ msgid "Payees"
 msgstr "Tiers"
 
 #: src/etats_config.c:4023
-#, fuzzy
 msgid "Detail payees"
-msgstr "Détailler les catégories utilisées"
+msgstr "Détailler les tiers"
 
 #: src/etats_config.c:4064
 #, fuzzy
@@ -1860,9 +1850,8 @@ msgid "Select payees to include in this report"
 msgstr "Sélectionner les tiers à inclure dans l'état"
 
 #: src/etats_config.c:4194
-#, fuzzy
 msgid "Transaction content"
-msgstr "N° opération"
+msgstr "Contenu de l'opération"
 
 #: src/etats_config.c:4209
 #, fuzzy
@@ -1893,14 +1882,12 @@ msgstr "Retirer"
 
 #: src/etats_config.c:4867 src/etats_config.c:6712 src/etats_config.c:6824
 #: src/tiers_onglet.c:512 src/tiers_onglet.c:514
-#, fuzzy
 msgid "payee"
-msgstr "Débiteur/Créditeur"
+msgstr "tiers"
 
 #: src/etats_config.c:4895
-#, fuzzy
 msgid "payee information"
-msgstr "l'information du tiers"
+msgstr "information du tiers"
 
 #: src/etats_config.c:4979 src/etats_config.c:6727 src/etats_config.c:6838
 #: src/imputation_budgetaire.c:722 src/imputation_budgetaire.c:726
@@ -1909,9 +1896,8 @@ msgstr "imputation budgétaire"
 
 #: src/etats_config.c:5007 src/etats_config.c:6732
 #: src/imputation_budgetaire.c:721 src/imputation_budgetaire.c:725
-#, fuzzy
 msgid "sub-budgetary line"
-msgstr "Pas de sous-imputation"
+msgstr "sous-imputation"
 
 #: src/etats_config.c:5035 src/etats_config.c:6845
 msgid "note"
@@ -1926,9 +1912,8 @@ msgid "voucher"
 msgstr "pièce comptable"
 
 #: src/etats_config.c:5112
-#, fuzzy
 msgid "cheque number"
-msgstr "le numéro de chèque"
+msgstr "numéro de chèque"
 
 #: src/etats_config.c:5132 src/etats_config.c:6767 src/etats_config.c:6880
 msgid "reconciliation reference"
@@ -2044,9 +2029,8 @@ msgid "Reconciled transactions"
 msgstr "Opérations rapprochées"
 
 #: src/etats_config.c:6191
-#, fuzzy
 msgid "Select all transactions"
-msgstr "Supprimer l'opération"
+msgstr "Sélectionner toutes les opérations"
 
 #: src/etats_config.c:6202
 #, fuzzy
@@ -7698,7 +7682,7 @@ msgstr "fichiers %s (*.%s)"
 #: src/import.c:647
 #, c-format
 msgid "%s files (*.%s)"
-msgstr "fichiers %s (*.%s)"
+msgstr "Fichiers %s (*.%s)"
 
 #: src/import.c:673
 msgid "Encoding"
