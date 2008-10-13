@@ -376,61 +376,78 @@ gboolean file_obfuscate_run ( void )
 GtkWidget *file_obfuscate_page_1 ( void )
 {
     GtkWidget * vbox, * paddingbox;
+    GtkWidget * button_everything;
 
     vbox = gtk_vbox_new (FALSE, 5);
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Select features to hide :\n") );
 
+    button_everything = gtk_check_button_new_with_label (_("Hide everything"));
+    g_signal_connect ( button_everything, "toggled", G_CALLBACK(radio_set_active_linked_widgets), NULL );
+    gtk_box_pack_start ( GTK_BOX (paddingbox),
+			 button_everything,
+			 FALSE, FALSE, 0);
+    
     button_accounts_names = gtk_check_button_new_with_label (_("Hide accounts names"));
     gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_accounts_names,
 			 FALSE, FALSE, 0);
-    
+    register_button_as_linked ( button_everything, button_accounts_names );
+
     button_accounts_details = gtk_check_button_new_with_label (_("Hide accounts details"));
     gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_accounts_details,
 			 FALSE, FALSE, 0);
+    register_button_as_linked ( button_everything, button_accounts_details );
 
     button_amount = gtk_check_button_new_with_label (_("Hide amounts"));
     gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_amount,
 			 FALSE, FALSE, 0);
+    register_button_as_linked ( button_everything, button_amount );
 
     button_payee = gtk_check_button_new_with_label (_("Hide payees names"));
     gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_payee,
 			 FALSE, FALSE, 0);
+    register_button_as_linked ( button_everything, button_payee );
 
     button_categories = gtk_check_button_new_with_label (_("Hide categories names"));
     gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_categories,
 			 FALSE, FALSE, 0);
+    register_button_as_linked ( button_everything, button_categories );
 
     button_budgets = gtk_check_button_new_with_label (_("Hide budgets names"));
     gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_budgets,
 			 FALSE, FALSE, 0);
+    register_button_as_linked ( button_everything, button_budgets );
 
     button_notes = gtk_check_button_new_with_label (_("Hide notes"));
     gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_notes,
 			 FALSE, FALSE, 0);
+    register_button_as_linked ( button_everything, button_notes );
 
     button_banks = gtk_check_button_new_with_label (_("Hide banks details"));
     gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_banks,
 			 FALSE, FALSE, 0);
+    register_button_as_linked ( button_everything, button_banks );
 
     button_reports = gtk_check_button_new_with_label (_("Hide reports names"));
     gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_reports,
 			 FALSE, FALSE, 0);
+    register_button_as_linked ( button_everything, button_reports );
 
     button_reconcile = gtk_check_button_new_with_label (_("Hide reconcile names and amounts"));
     gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_reconcile,
 			 FALSE, FALSE, 0);
+    register_button_as_linked ( button_everything, button_reconcile );
 
     gtk_widget_show_all (vbox);
     return vbox;
