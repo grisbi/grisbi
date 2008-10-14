@@ -53,6 +53,11 @@ enum report_list_columns {
     REPORT_COL_VIEW,
 };
 
+/* contain the current report showed, 0 if non showed or to update the report
+ * used to avoid to re-calculate the report when leave and come back to the report
+ * without needing an update */
+static gint current_report;
+
 
 /*START_STATIC*/
 static gboolean gsb_report_create_combobox_store ( void );
@@ -80,6 +85,7 @@ void gsb_report_init_variables ( void )
 
     report_model = NULL;
     report_model_filter = NULL;
+    current_report = 0;
 }
 
 
@@ -214,7 +220,31 @@ gboolean gsb_report_create_combobox_store ( void )
 }
 
 
+/**
+ * set the current report calculated, 0 to invalidate the report
+ * and re-calculate it the next time we try to show it
+ *
+ * \param report_number the current report or 0 to invalidate it
+ *
+ * \return
+ * */
+void gsb_report_set_current ( gint report_number )
+{
+    current_report = report_number;
+}
 
+
+/**
+ * get the current report showed, or 0 if none (or need to re-calculate )
+ *
+ * \param
+ *
+ * \return	the current report number
+ * */
+gint gsb_report_get_current ( void )
+{
+    return current_report;
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

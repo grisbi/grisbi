@@ -49,9 +49,9 @@
 #include "./gsb_real.h"
 #include "./gsb_reconcile.h"
 #include "./gsb_scheduler_list.h"
-#include "./utils_str.h"
 #include "./main.h"
 #include "./traitement_variables.h"
+#include "./utils_str.h"
 #include "./transaction_list.h"
 #include "./transaction_list_select.h"
 #include "./transaction_list_sort.h"
@@ -171,7 +171,6 @@ extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
-extern gint max;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;

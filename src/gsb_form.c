@@ -57,6 +57,7 @@
 #include "./gsb_payment_method.h"
 #include "./gsb_real.h"
 #include "./gsb_reconcile.h"
+#include "./gsb_report.h"
 #include "./gsb_scheduler.h"
 #include "./gsb_scheduler_list.h"
 #include "./gsb_transactions_list.h"
@@ -2347,6 +2348,9 @@ gboolean gsb_form_finish_edition ( void )
 	affiche_dialogue_soldes_minimaux ();
 	update_transaction_in_trees (transaction_number);
     }
+
+    /* as we modify or create a transaction, we invalidate the current report */
+    gsb_report_set_current (0);
 
     modification_fichier ( TRUE );
     return FALSE;

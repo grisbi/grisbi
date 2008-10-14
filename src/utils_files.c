@@ -39,7 +39,6 @@
 
 /*START_STATIC*/
 static void browse_file ( GtkButton *button, gpointer data );
-static gint utf8_stat(const gchar* utf8filename, struct stat* p_stat);
 /*END_STATIC*/
 
 
@@ -258,20 +257,6 @@ gint utf8_remove(const gchar* utf8filename)
     return remove(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
 }
 
-/**
- * \brief utf8 compliant version of stat (see stat for more detail about mode)
- * 
- * Convert utf8 encoded file path to system local compliant encoding before 
- * calling 'stat()'
- * \param utf8filename filename to stat filename parameter
- * \param p_stat pointer to stat structure to use in stat() call.
- * 
- * \return returns stat() return value.
- */
-gint utf8_stat(const gchar* utf8filename, struct stat* p_stat)
-{
-	return stat ( g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL), p_stat);
-}
 /** 
  * Sanitize a safe filename.  All chars that are not normally allowed
  * are replaced by underscores.

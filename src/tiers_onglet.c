@@ -399,7 +399,7 @@ void payee_fill_tree ( void )
 
     /* Dettach the model so that insertion will be much faster */
     g_object_ref ( G_OBJECT(payee_tree_model) );
-    gtk_tree_view_set_model ( payee_tree, NULL );
+    gtk_tree_view_set_model ( GTK_TREE_VIEW (payee_tree), NULL );
 
     /** First, remove previous tree */
     gtk_tree_store_clear ( GTK_TREE_STORE (payee_tree_model) );

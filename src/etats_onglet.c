@@ -39,6 +39,7 @@
 #include "./gsb_file.h"
 #include "./gsb_file_others.h"
 #include "./navigation.h"
+#include "./gsb_report.h"
 #include "./gsb_status.h"
 #include "./traitement_variables.h"
 #include "./utils.h"
@@ -1042,6 +1043,8 @@ void efface_etat ( void )
 
 
 
+
+
 /**
  * Set widgets associated to active report unsensitive.  For instance
  * when there is no selected report.
@@ -1074,7 +1077,11 @@ void gsb_gui_update_gui_to_report ( gint report_number )
     gtk_widget_set_sensitive ( bouton_dupliquer_etat, TRUE );
     gtk_widget_set_sensitive ( bouton_effacer_etat, TRUE );
 
-    rafraichissement_etat ( report_number );
+    if (gsb_report_get_current () != report_number)
+    {
+	rafraichissement_etat ( report_number );
+	gsb_report_set_current (report_number);
+    }
 }
 
 

@@ -32,7 +32,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gchar *get_line_from_string ( const gchar *string );
+static gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc );
 /*END_STATIC*/
 
 
@@ -502,29 +502,6 @@ gchar *limit_string ( gchar *string,
 }
 
 
-
-/*
- * get the content of the string given in param
- * and remove the final \n and \r (windows)
- *
- * \param string
- *
- * \return a newly allocated string or NULL
- * */
-gchar *get_line_from_string ( const gchar *string )
-{
-    gchar *pointeur_char;
-
-    if ( !string )
-	return NULL;
-	    
-    pointeur_char = my_strdup ( string );
-
-    pointeur_char = g_strdelimit ( pointeur_char,
-				   "\n\r",
-				   0 );
-    return pointeur_char;
-}
 
 
 /**

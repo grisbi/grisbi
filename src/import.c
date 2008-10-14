@@ -61,6 +61,7 @@
 #include "./main.h"
 #include "./accueil.h"
 #include "./utils_str.h"
+#include "./parametres.h"
 #include "./qif.h"
 #include "./transaction_list.h"
 #include "./structures.h"
@@ -69,6 +70,7 @@
 #include "./gsb_data_payment.h"
 #include "./gsb_data_account.h"
 #include "./include.h"
+#include "./gsb_data_transaction.h"
 #include "./gsb_form_scheduler.h"
 #include "./erreur.h"
 #include "./gsb_real.h"
@@ -1403,7 +1405,6 @@ void traitement_operations_importees ( void )
 }
 
 
-/* xxx ne rafraichir les états qd clique dessus que si qque chose à changé dans la liste des opés */
 /* xxx vérifier au démarrage si  certains children n'ont pas de mère (peut être déjà fait) */
 
 /**

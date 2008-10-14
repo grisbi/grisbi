@@ -47,6 +47,7 @@
 #include "./gsb_data_account.h"
 #include "./navigation.h"
 #include "./gsb_data_transaction.h"
+#include "./erreur.h"
 #include "./gsb_real.h"
 #include "./print_config.h"
 #include "./etats_affiche.h"
@@ -1404,6 +1405,8 @@ gint compare_montants_etat ( gsb_real montant_ope,
 /*****************************************************************************************************/
 void rafraichissement_etat ( gint report_number )
 {
+    devel_debug_int (report_number);
+
     if ( !report_number )
 	report_number = gsb_gui_navigation_get_current_report ();
 
