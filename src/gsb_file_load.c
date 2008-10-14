@@ -7179,9 +7179,35 @@ gboolean gsb_file_load_update_previous_version ( void )
 		list_tmp = list_tmp -> next;
 	    }
 
+	    /* there is a bug from i don't know when, sometimes when removing some splitted
+	     * transactions, the children were not removed, so we check all the children to make
+	     * sure the mother is a splitted transaction, else we erase it */
+	    list_tmp = gsb_data_transaction_get_complete_transactions_list ();
+	    while (list_tmp)
+	    {
+		gint mother_transaction;
+		gint transaction_number = gsb_data_transaction_get_transaction_number (list_tmp -> data);
+
+		list_tmp = list_tmp -> next;
+
+		mother_transaction = gsb_data_transaction_get_mother_transaction_number (transaction_number);
+
+		if (mother_transaction 
+		    &&
+		    !gsb_data_transaction_get_split_of_transaction (mother_transaction))
+		{
+		    /* the mother is not a splitted transaction */
+		    /* if it was a transfer, remove the contra transaction */
+		    if (gsb_data_transaction_get_contra_transaction_number (transaction_number))
+			gsb_data_transaction_remove_transaction_without_check (gsb_data_transaction_get_contra_transaction_number (transaction_number));
+
+		    /*we erase the child */
+		    gsb_data_transaction_remove_transaction_without_check (transaction_number);
+		}
+	    }
+
 	    /* a bug before 0.6 (and perhaps after ? still not found for now) set
 	     * a negative number for certain banks, so change that here */
-
 	    list_tmp = gsb_data_bank_get_bank_list ();
 
 	    while ( list_tmp )
@@ -7343,9 +7369,9 @@ gboolean gsb_file_load_update_previous_version ( void )
 
 	    /*
 	     * untill 0.6, no archive, so by default we let grisbi check at opening and set
-	     * the transactions limit to 1000 */
+	     * the transactions limit to 3000 */
 	    etat.check_for_archival = TRUE;
-	    etat.max_non_archived_transactions_for_check = 2000;
+	    etat.max_non_archived_transactions_for_check = 3000;
 
 	    /**
 	     * new in 0.6, there is no name for saving file but a directory

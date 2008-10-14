@@ -1405,8 +1405,6 @@ void traitement_operations_importees ( void )
 }
 
 
-/* xxx vérifier au démarrage si  certains children n'ont pas de mère (peut être déjà fait) */
-
 /**
  * called at the end of an import, check all the transactions with an account_number_transfer at -2
  * and try to find the contra-transaction to make a real transfer in grisbi
