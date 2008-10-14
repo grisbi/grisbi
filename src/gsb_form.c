@@ -2950,8 +2950,6 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 }
 
 
-/* xxx les dates ne sont plus en gras dans l'échéancier et vérifier en hebdomadaire que ça mette même les suivantes
- * et vérif que se met en gras dès que crée l'échéance */
 
 /**
  * called when cancel a form

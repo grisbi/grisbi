@@ -127,6 +127,11 @@ extern GtkWidget *window ;
 /** Suppported import formats.  Plugins may register themselves. */
 static GSList * import_formats = NULL;
 
+/* set to TRUE if we import some marked R transactions
+ * grisbi cannot associate them to a reconcile number, so if TRUE,
+ * grisbi will show a dialog to tell people to manually associate them */
+static gboolean marked_r_transactions_imported;
+
 /** Known built-in import formats.  Others are plugins.  */
 struct import_format builtin_formats[] = {
 { "CSV", N_("Comma Separated Values"),     "csv", (import_function) csv_import_csv_account },
@@ -1259,6 +1264,9 @@ void traitement_operations_importees ( void )
 	new_file = 1;
     }
 
+    /* for now, no marked transactions imported */
+    marked_r_transactions_imported = FALSE;
+
     /* go throw the accounts and do what is asked */
     list_tmp = liste_comptes_importes;
 
@@ -1386,6 +1394,10 @@ void traitement_operations_importees ( void )
     mise_a_jour_accueil (FALSE);
 
     gsb_status_clear();
+
+    /* if some R marked transactions are imported, show a message */
+    if (marked_r_transactions_imported)
+	dialogue (_("You have just imported some marked R transactions, but they are for now not associated to any reconcile. It would be a good thing to create the necessary reconcile and associate that transactions.\nYou can add/modify the reconciles into the preferences."));
 
     modification_fichier ( TRUE );
 }
@@ -2333,6 +2345,9 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     /* récupération du pointé */
     gsb_data_transaction_set_marked_transaction ( transaction_number,
 						  imported_transaction -> p_r );
+    if (imported_transaction -> p_r == OPERATION_RAPPROCHEE)
+	marked_r_transactions_imported = TRUE;
+
 
     /* si c'est une ope de ventilation, lui ajoute le no de l'opération précédente */
     if ( imported_transaction -> ope_de_ventilation )

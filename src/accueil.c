@@ -268,8 +268,6 @@ GtkWidget *creation_onglet_accueil ( void )
 }
 /* ************************************************************************* */
 
-/* xxx lors de l'import, s'il y a des opés relevées, demander dans quel relevé elles doivent être ajoutées et */
-/* avoir la possibilité de créer un nouveau relevé */
 
 /**
  * update the first page, force the updating if asked,
