@@ -164,7 +164,7 @@ gchar *payee_div_name ( gint div )
 {
     const gchar * payee_name = gsb_data_payee_get_name ( div, TRUE );
     if ( ! payee_name )
-	payee_name = payee_interface -> no_div_label;
+	payee_name = _(payee_interface -> no_div_label);
 
     return my_strdup ( payee_name );
 }

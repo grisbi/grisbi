@@ -9,7 +9,6 @@ src/comptes_onglet.c
 src/csv_parse.c
 src/custom_list.c
 src/dialog.c
-src/echeancier_infos.c
 src/erreur.c
 src/etats_affiche.c
 src/etats_calculs.c
@@ -39,6 +38,7 @@ src/gsb_assistant_reconcile_config.c
 src/gsb_autofunc.c
 src/gsb_automem.c
 src/gsb_bank.c
+src/gsb_calendar.c
 src/gsb_calendar_entry.c
 src/gsb_category.c
 src/gsb_combo_box.c

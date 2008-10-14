@@ -103,11 +103,11 @@ struct csv_separators {
     gchar * value; 		/** Real value */
 } csv_separators[] =		/* Contains all pre-defined CSV separators. */
 {
-    { "Comma",		"," },
-    { "Semi-colon",	";" },
-    { "Colon",		":" },
-    { "Tabulation",	"\t" },
-    { "Other",		NULL },
+    { N_("Comma"),		"," },
+    { N_("Semi-colon"),	";" },
+    { N_("Colon"),		":" },
+    { N_("Tabulation"),	"\t" },
+    { N_("Other"),		NULL },
 };
 
 
@@ -137,7 +137,7 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
     do
     {
 	gchar * complete_name = g_strdup_printf ( "%s : \"%s\"",
-						  csv_separators [ i ] . name,
+						  _(csv_separators [ i ] . name),
 						  ( csv_separators [ i ] . value ?
 						    csv_separators [ i ] . value : "" ) );
 	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), complete_name );

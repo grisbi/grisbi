@@ -158,7 +158,7 @@ gchar * budgetary_line_div_name ( gint div )
 {
     return gsb_data_budget_get_name ( div,
 				      0,
-				      budgetary_interface -> no_div_label );
+				      _(budgetary_interface -> no_div_label ));
 }
 
 
@@ -171,7 +171,7 @@ gchar * budgetary_line_sub_div_name ( gint div, gint sub_div )
 {
     return gsb_data_budget_get_sub_budget_name ( div,
 						 sub_div,
-						 budgetary_interface -> no_sub_div_label );
+						 _(budgetary_interface -> no_sub_div_label ));
 }
 
 

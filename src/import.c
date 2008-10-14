@@ -232,7 +232,7 @@ void importer_fichier ( void )
 	gchar* old_str = formats;
 	formats = g_strconcat ( formats,
 				"	• ",
-				format -> complete_name,
+				_(format -> complete_name),
 				" (", format -> name, ")\n",
 				NULL );
 	g_free ( old_str );
