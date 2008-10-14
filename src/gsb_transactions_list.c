@@ -672,6 +672,7 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
  * Take in a transaction the content to set in a cell of the
  * transaction's list.  Truncate to a fixed size to avoid taking too
  * much space.
+ * FIXME xxx fonction à virer si benj est ok
  * 
  * \param transaction_number
  * \param cell_content_number what we need in the transaction
@@ -682,16 +683,9 @@ gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_number,
 						       gint cell_content_number )
 {
     gchar *string;
-    gchar *return_string;
 
-    /* xxx FIXME : dans la béta : le tuncate prend un nb de caractère max, utiliser plutôt la largeur courante de la colonne ? */
     string = gsb_transactions_list_grep_cell_content ( transaction_number, cell_content_number );
-    return_string =  gsb_string_truncate_n ( string,
-					     cell_views [ cell_content_number - 1 ] . max_size,
-					     cell_views [ cell_content_number - 1 ] . hard_trunc );
-    if (string)
-	g_free (string);
-    return return_string;
+    return string;
 }
 
 

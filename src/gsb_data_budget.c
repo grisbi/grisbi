@@ -1273,8 +1273,6 @@ void gsb_data_budget_update_counters ( void )
     }
 }
 
-/* xxx dans le déboggage du fichier, il faudrait vérifier si les categs des opés correspondent à des categs existantes */
-/* pareil pour les budgets et tiers (pour toutes les opés, vérifier que le budget ou le tiers existent */
 
 /**
  * Add the given transaction to a budget in the counters if no budget
