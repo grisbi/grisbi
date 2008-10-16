@@ -41,6 +41,7 @@
 #include "./gsb_assistant_archive.h"
 #include "./gsb_data_account.h"
 #include "./gsb_debug.h"
+#include "./erreur.h"
 #include "./gsb_file.h"
 #include "./gsb_form.h"
 #include "./main.h"
@@ -102,6 +103,7 @@ static gchar * buffer =
 "      <separator/>"
 "      <menuitem action='DebugFile'/>"
 "      <menuitem action='Obfuscate'/>"
+"      <menuitem action='DebugMode'/>"
 "      <separator/>"
 "      <menuitem action='Close'/>"
 "      <menuitem action='Quit'/>"
@@ -279,6 +281,10 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	  NULL,			NULL,			FOUR_LINES_PER_TRANSACTION },
     }; 
     GtkToggleActionEntry toggle_entries[] = {
+	{ "DebugMode",		NULL,			_("Start the Debug mode"),
+	  NULL,			NULL,			G_CALLBACK(gsb_debug_start_log ),
+	  etat.debug_mode },
+
 	{ "ShowTransactionForm",NULL,			_("Show transaction _form"),
 	  NULL,			NULL,			G_CALLBACK ( gsb_gui_toggle_show_form ), 
 	  etat.formulaire_toujours_affiche },

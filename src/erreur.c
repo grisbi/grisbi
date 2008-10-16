@@ -52,9 +52,15 @@ static GtkWidget * print_backtrace ( void );
 
 /*START_EXTERN*/
 extern gchar *nom_fichier_comptes ;
+extern GtkUIManager * ui_manager;
 /*END_EXTERN*/
 
 static gint debugging_grisbi;
+
+/* path and name of the file containing the log when debug mode is active
+ * this values should not be freed when begin a new file to continue the log */
+gchar *debug_filename = NULL;
+FILE *debug_file = NULL;
 
 /*************************************************************************************************************/
 void traitement_sigsegv ( gint signal_nb )
@@ -260,7 +266,7 @@ extern void debug_message_string ( gchar *prefixe, gchar * file, gint line, cons
 				   const gchar *message, gint level, gboolean force_debug_display)
 {
     /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display) 
+    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode) 
     {
 	gchar* tmpstr;
 
@@ -273,6 +279,12 @@ extern void debug_message_string ( gchar *prefixe, gchar * file, gint line, cons
 	    tmpstr = g_strdup_printf(_("%s : %s - %s:%d:%s\n"),
 				     get_debug_time (), prefixe,
 				     file, line, function);
+
+	if (etat.debug_mode)
+	{
+	    fwrite ( tmpstr, sizeof (gchar), strlen (tmpstr), debug_file);
+	    fflush (debug_file);
+	}
 
 	g_print( tmpstr );
 	g_free ( tmpstr );
@@ -299,12 +311,18 @@ extern void debug_message_int ( gchar *prefixe, gchar * file, gint line, const c
 				gint message, gint level, gboolean force_debug_display)
 {
     /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display) 
+    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode) 
     {
 	/* on affiche dans la console le message */
 	gchar* tmpstr = g_strdup_printf(_("%s : %s - %s:%d:%s - %d\n"),
 					get_debug_time (), prefixe,
 					file, line, function, message);
+
+	if (etat.debug_mode)
+	{
+	    fwrite ( tmpstr, sizeof (gchar), strlen (tmpstr), debug_file);
+	    fflush (debug_file);
+	}
 	g_print( tmpstr );
 	g_free ( tmpstr );
     }
@@ -348,6 +366,61 @@ GtkWidget * print_backtrace ( void )
 #endif
 }
 
+/**
+ * called by menu : begin the debug mode
+ * show a message to say where the log will be saved
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_debug_start_log (void)
+{
+    gchar *tmpstr;
+
+    if (nom_fichier_comptes)
+    {
+	gchar * base_filename = g_strdup ( nom_fichier_comptes );
+	gchar * complete_filename;
+	gchar *basename;
+
+	base_filename[strlen(base_filename) - 4] = 0;
+	complete_filename = g_strconcat ( base_filename, "-log.txt", NULL);
+	basename = g_path_get_basename ( complete_filename );
+
+	debug_filename = g_strconcat ( my_get_gsb_file_default_dir (), "/", basename, NULL);
+
+	g_free ( basename);
+	g_free ( complete_filename );
+	g_free ( base_filename );
+    }
+    else
+    {
+	debug_filename = g_strconcat ( my_get_gsb_file_default_dir (), "/", "No_name-log.txt", NULL);
+    }
+
+
+    tmpstr = g_strdup_printf (_("The debug-mode is starting. Grisbi will write a log into %s. Please send that file with the obfuscated file into the bug report."),
+				debug_filename );
+    dialogue (tmpstr);
+    g_free (tmpstr);
+
+
+    debug_file = g_fopen ( debug_filename,
+			   "w" );
+    if (debug_file)
+    {
+	GtkWidget * widget = gtk_ui_manager_get_widget ( ui_manager, "/MenuBar/FileMenu/DebugMode" );
+	etat.debug_mode = TRUE;
+
+	/* unsensitive the menu, we cannot reverse the debug mode */
+	if ( widget && GTK_IS_WIDGET(widget) )
+	    gtk_widget_set_sensitive ( widget, FALSE );
+    }
+    else
+	dialogue_error (_("Grisbi failed to create the log file..."));
+    return FALSE;
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

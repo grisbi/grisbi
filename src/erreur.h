@@ -29,6 +29,7 @@ extern void debug_message_int ( gchar *prefixe, gchar * file, gint line, const c
 				gint message, gint level, gboolean force_debug_display);
 extern void debug_message_string ( gchar *prefixe, gchar * file, gint line, const char * function, 
 				   const gchar *message, gint level, gboolean force_debug_display);
+gboolean gsb_debug_start_log (void);
 void initialize_debugging ( void );
 void traitement_sigsegv ( gint signal_nb );
 /* END_DECLARATION */

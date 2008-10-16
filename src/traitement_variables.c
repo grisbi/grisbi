@@ -323,6 +323,7 @@ void init_variables ( void )
     /* free the form */
     gsb_form_widget_free_list ();
     gsb_form_scheduler_free_list ();
+
 }
 /*****************************************************************************************************/
 
@@ -447,6 +448,7 @@ void menus_sensitifs ( gboolean sensitif )
 	menu_name ( "FileMenu",		"SaveAs",		NULL ),
 	menu_name ( "FileMenu",		"DebugFile",		NULL ),
 	menu_name ( "FileMenu",		"Obfuscate",		NULL ),
+	menu_name ( "FileMenu",		"DebugMode",		NULL ),
 	menu_name ( "FileMenu",		"ExportFile",		NULL ),
 	menu_name ( "FileMenu",		"CreateArchive",	NULL ),
 	menu_name ( "FileMenu",		"ExportArchive",	NULL ),

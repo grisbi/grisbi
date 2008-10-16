@@ -76,6 +76,7 @@ GtkTooltips *tooltips_general_grisbi;
 
 
 /*START_EXTERN*/
+extern FILE *debug_file ;
 extern gint hauteur_window;
 extern gint largeur_window;
 extern gchar *nom_fichier_comptes ;
@@ -328,9 +329,14 @@ gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
  * */
 gboolean gsb_grisbi_close ( void )
 {
-    devel_debug ( "gsb_grisbi_close" );
+    devel_debug (NULL);
     if (! main_window_delete_event (window, NULL))
     	gtk_widget_destroy ( window );
+
+    /* clean finish of the debug file */
+    if (etat.debug_mode && debug_file)
+	fclose (debug_file);
+
     return FALSE;
 }
 

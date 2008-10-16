@@ -333,7 +333,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     GtkTreePath * path;
     enum meta_tree_row_type type;
     gint number_transactions = 0;
-
+/* xxx correction du 398  */
     if ( ! metatree_model_is_displayed ( model ) )
 	return;
 
@@ -343,12 +343,10 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 
     path = gtk_tree_model_get_path ( model, iter );
     type = metatree_get_row_type ( model, path );
+/*     g_free ( path ); */
+
     if ( type != META_TREE_SUB_DIV && type != META_TREE_INVALID )
-    {
-	g_free ( path );
 	return;
-    }
-    g_free ( path );
 
     string_tmp = iface -> sub_div_name (division, sub_division);
 
@@ -361,7 +359,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 	label = g_strdup_printf ( "%s (%d)",
 				  string_tmp,
 				  number_transactions );
-	g_free (string_tmp);
+/* 	g_free (string_tmp); */
 	string_tmp = label;
 
 	if ( ! gtk_tree_model_iter_has_child ( model, iter ) )
@@ -382,9 +380,9 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			 META_TREE_FONT_COLUMN, 400,
 			 META_TREE_DATE_COLUMN, NULL,
 			 -1 );
-    g_free (string_tmp);
-    if (balance)
-	g_free (balance);
+/*     g_free (string_tmp); */
+/*     if (balance) */
+/* 	g_free (balance); */
 }
 
 

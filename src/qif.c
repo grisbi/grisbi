@@ -499,11 +499,14 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 	/* the struct_ope_importation has been filled */
 
 	/* first, we need to check if the first transaction is an opening balance
-	 * or a normal transaction */
+	 * or a normal transaction
+	 * update : money sometimes translate Opening balance... */
 	imported_transaction = imported_account -> operations_importees -> data;
 	if (imported_transaction -> tiers
 	    &&
-	    !g_strcasecmp (imported_transaction -> tiers, "Opening Balance"))
+	    (!g_strcasecmp (imported_transaction -> tiers, "Opening Balance")
+	     ||
+	     !g_strcasecmp (imported_transaction -> tiers, _("Opening Balance"))))
 	{
 	    /* ok, we are on an opening balance, we transfer the first transaction
 	     * to the initial datas of the account */
