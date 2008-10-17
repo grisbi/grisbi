@@ -75,10 +75,8 @@ static gchar *order_names[] = {
     "month-day-year",
     "month-year-day" };
 
-/* xxx faire un obfuscate pour fichier qif */
 /* xxx mettre en highlight une split dont les children ne font pas la totalité de la transaction */
 /* ou un pixmap à gauche ? */
-/* xxx dans l'assistant nouveau fichier, permettre de sélectionne les éléments du formulaire qu'on veut utiliser */
 
 
 /**
@@ -571,7 +569,6 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
     return ( TRUE );
 }
 
-/* xxx permettre de mettre le mode debug directement dans les menus */
 /**
  * this function try to understand in what order are the content of the date,
  * the two order known are d-m-y or y-m-d (hoping Money won't do something like m-y-d...)

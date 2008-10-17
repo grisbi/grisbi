@@ -34,7 +34,9 @@ enum preference_page  {
 gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
 					gpointer null );
 gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data );
-void preferences ( gint page );
+gboolean gsb_preferences_menu_open ( GtkWidget *menu_item,
+				     gpointer page_ptr );
+gboolean preferences ( gint page );
 /*END_DECLARATION*/
 
 #endif

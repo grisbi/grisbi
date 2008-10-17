@@ -29,6 +29,7 @@
 
 
 /*START_INCLUDE*/
+#include "./erreur.h"
 #include "parametres.h"
 #include "./menu.h"
 #include "./utils.h"
@@ -202,16 +203,34 @@ gboolean preference_selectable_func (GtkTreeSelection *selection,
 
 
 /**
+ * call the preferences page by a menu
+ *
+ * \param menu_item
+ * \param page_ptr	the page to open
+ *
+ * \return FALSE
+ * */
+gboolean gsb_preferences_menu_open ( GtkWidget *menu_item,
+				     gpointer page_ptr )
+{
+    preferences (GPOINTER_TO_INT (page_ptr));
+    return FALSE;
+}
+
+
+/**
  * Creates a new GtkDialog with a paned list of topics and a paned
  * notebook that allows to switch between all pages.  A click on the
  * list selects one specific page.
  *
  * \param page Initial page to select.
  */
-void preferences ( gint page )
+gboolean preferences ( gint page )
 {
     GtkWidget *hbox, *tree;
     GtkTreeIter iter, iter2;
+
+    devel_debug_int (page);
 
     /* Create dialog */
     fenetre_preferences = gtk_dialog_new_with_buttons (_("Grisbi preferences"), 
@@ -222,13 +241,13 @@ void preferences ( gint page )
 						       GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 						       NULL);
     g_signal_connect ( G_OBJECT (fenetre_preferences ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &fenetre_preferences );
+		       G_CALLBACK ( gtk_widget_destroyed), &fenetre_preferences );
 
     /* Create List & Tree for topics */
     tree = create_preferences_tree();  
     hpaned = gtk_hpaned_new();
     g_signal_connect ( G_OBJECT (hpaned ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &hpaned );
+		       G_CALLBACK ( gtk_widget_destroyed), &hpaned );
     gtk_paned_add1(GTK_PANED(hpaned), tree);
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_paned_add2(GTK_PANED(hpaned), hbox);
@@ -264,6 +283,7 @@ void preferences ( gint page )
 			2, 400, 
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_fichier(), NULL);
+    /* by default, we select that first page */
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -392,7 +412,6 @@ void preferences ( gint page )
 			2, 800, 
 			-1);
 
-
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 			&iter2,
@@ -479,6 +498,11 @@ void preferences ( gint page )
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(fenetre_preferences) -> vbox ), 
 			 hpaned, TRUE, TRUE, 0);
 
+    /* select the page */
+    if (page >= 0 && page < NUM_PREFERENCES_PAGES)
+	gtk_notebook_set_current_page ( GTK_NOTEBOOK (preference_frame),
+					page );
+
     while ( 1 )
     {
 	switch (gtk_dialog_run ( GTK_DIALOG ( fenetre_preferences ) ))
@@ -488,11 +512,11 @@ void preferences ( gint page )
 		break;
 	    default:
 		gtk_widget_destroy ( GTK_WIDGET ( fenetre_preferences ));
-		return;
+		return FALSE;
 	}
     }
+    return FALSE;
 }
-/* ************************************************************************************************************** */
 
 
 /* ************************************************************************************************************** */

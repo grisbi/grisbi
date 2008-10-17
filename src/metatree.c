@@ -261,12 +261,10 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 
     path = gtk_tree_model_get_path ( model, iter );
     type = metatree_get_row_type ( model, path );
+/* xxx correction du 398  */
+    gtk_tree_path_free ( path );
     if ( type != META_TREE_DIV && type != META_TREE_INVALID )
-    {
-	g_free ( path );
 	return;
-    }
-    g_free ( path );
 
     devel_debug_int (division);
 
@@ -343,7 +341,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 
     path = gtk_tree_model_get_path ( model, iter );
     type = metatree_get_row_type ( model, path );
-/*     g_free ( path ); */
+    gtk_tree_path_free ( path );
 
     if ( type != META_TREE_SUB_DIV && type != META_TREE_INVALID )
 	return;
@@ -410,12 +408,10 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 
     path = gtk_tree_model_get_path ( model, iter );
     type = metatree_get_row_type ( model, path );
+    gtk_tree_path_free (path);
     if ( type != META_TREE_TRANSACTION && type != META_TREE_INVALID)
-    {
-	g_free ( path );
+/* xxx correction du 398  */
 	return;
-    }
-    g_free ( path );
 
     string = gsb_data_transaction_get_notes ( transaction_number);
 
@@ -440,7 +436,7 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 		gchar * trunc = g_strndup ( gsb_data_transaction_get_notes ( transaction_number), 
 					    (tmp - string));
 		notes = g_strconcat ( trunc, " ...", NULL );
-		g_free ( trunc );
+/* 		g_free ( trunc ); */
 	    }
 	}
 	else 
@@ -459,14 +455,14 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
     if ( notes )
     {
 	label = g_strconcat ( label, " : ", notes, NULL );
-	g_free (notes); 
+/* 	g_free (notes);  */
     }
 
     if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number))
     {
         gchar* tmpstr = label;
 	label = g_strconcat ( tmpstr, " (", _("split"), ")", NULL );
-	g_free ( tmpstr );
+/* 	g_free ( tmpstr ); */
     }
 
     amount = gsb_format_amount ( gsb_data_transaction_get_amount (transaction_number),
@@ -484,8 +480,8 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 			 META_TREE_FONT_COLUMN, 400,
 			 META_TREE_DATE_COLUMN, gsb_data_transaction_get_date ( transaction_number ),
 			 -1);
-    g_free(amount);
-    g_free(label);
+/*     g_free(amount); */
+/*     g_free(label); */
 }
 
 
@@ -2094,7 +2090,7 @@ void metatree_remove_iter_and_select_next ( GtkTreeView * tree_view, GtkTreeMode
 	gtk_tree_selection_select_path ( selection, path );
 
 	gtk_tree_iter_free ( next );
-	g_free ( path );
+	gtk_tree_path_free ( path );
     }    
 }
 

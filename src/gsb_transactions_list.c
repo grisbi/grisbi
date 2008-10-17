@@ -72,7 +72,8 @@ static gboolean assert_selected_transaction ();
 static gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr );
 static GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y );
 static gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
-					      GdkEventButton *ev );
+					      GdkEventButton *ev,
+					      gpointer null );
 static gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view_column,
 						    gint *column_ptr );
 static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
@@ -1144,7 +1145,8 @@ gsb_real solde_debut_affichage ( gint account_number,
  * \return normally TRUE to block the signal, if we are outside the tree_view, FALSE
  * */
 gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
-					      GdkEventButton *ev )
+					      GdkEventButton *ev,
+					      gpointer null )
 {
     GtkTreeIter iter;
     GtkTreeModel *model;

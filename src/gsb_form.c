@@ -55,6 +55,7 @@
 #include "./menu.h"
 #include "./tiers_onglet.h"
 #include "./gsb_payment_method.h"
+#include "./parametres.h"
 #include "./gsb_real.h"
 #include "./gsb_reconcile.h"
 #include "./gsb_report.h"
@@ -72,8 +73,10 @@
 #include "./gsb_data_payment.h"
 #include "./gtk_combofix.h"
 #include "./gsb_data_transaction.h"
+#include "./mouse.h"
 #include "./gsb_form_scheduler.h"
 #include "./gsb_data_form.h"
+#include "./parametres.h"
 #include "./include.h"
 #include "./erreur.h"
 #include "./structures.h"
@@ -83,6 +86,9 @@
 /*START_STATIC*/
 static gboolean gsb_form_activate_expander ( GtkWidget *expander,
 				      gpointer null );
+static gboolean gsb_form_button_press ( GtkWidget *vbox,
+				 GdkEventButton *ev,
+				 gpointer null );
 static void gsb_form_check_auto_separator ( GtkWidget *entry );
 static gint gsb_form_check_for_transfer ( const gchar *entry_string );
 static gboolean gsb_form_get_categories ( gint transaction_number,
@@ -214,6 +220,7 @@ void gsb_form_create_widgets ()
 {
     GtkWidget * hbox, * label, * separator, * hbox_buttons, * hbox_buttons_inner;
     GtkWidget * child = gtk_bin_get_child ( GTK_BIN(form_expander) );
+    GtkWidget *event_box;
 
     devel_debug (NULL);
 
@@ -251,7 +258,6 @@ void gsb_form_create_widgets ()
      * top : the values specific for the scheduled transactions
      * middle : the values for transactions and scheduled transactions
      * bottom : the buttons valid/cancel */
-
     transaction_form = gtk_vbox_new ( FALSE, 5 );
     g_signal_connect ( G_OBJECT (transaction_form ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &transaction_form );
@@ -260,11 +266,12 @@ void gsb_form_create_widgets ()
 
     /* play with that widget to tell to the tree view to scroll to keep the selection visible */
     g_signal_connect_after ( G_OBJECT (transaction_form),
-		       "size-allocate",
-		       G_CALLBACK (gsb_form_size_allocate),
-		       NULL );
+			     "size-allocate",
+			     G_CALLBACK (gsb_form_size_allocate),
+			     NULL );
 
     /* the scheduled part is a table of SCHEDULED_WIDTH col x SCHEDULED_HEIGHT rows */
+
     form_scheduled_part = gtk_table_new ( SCHEDULED_HEIGHT, 
 					  SCHEDULED_WIDTH,
 					  FALSE );
@@ -276,6 +283,7 @@ void gsb_form_create_widgets ()
 			 form_scheduled_part,
 			 FALSE, FALSE,
 			 0 );
+
     gsb_form_scheduler_create (form_scheduled_part);
 
     /* add a separator between the scheduled and transaction part */
@@ -287,6 +295,20 @@ void gsb_form_create_widgets ()
 
     /* the transactions part is a variable table,
      * so set to 1x1 for now, it will change when we show it */
+    /* didn't find another way to get the button-press-event on the form_transaction_part,
+     * so use an event box */
+    event_box = gtk_event_box_new ();
+    gtk_event_box_set_above_child (GTK_EVENT_BOX (event_box),
+				   TRUE );
+    gtk_box_pack_start ( GTK_BOX (transaction_form),
+			 event_box ,
+			 FALSE, FALSE,
+			 0 );
+    g_signal_connect ( G_OBJECT (event_box),
+		       "button-press-event",
+		       G_CALLBACK (gsb_form_button_press),
+		       NULL );
+
     form_transaction_part = gtk_table_new ( 1, 1, FALSE );
     g_signal_connect ( G_OBJECT (form_transaction_part ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &form_transaction_part );
@@ -295,10 +317,8 @@ void gsb_form_create_widgets ()
 		       "size-allocate",
 		       G_CALLBACK (gsb_form_allocate_size),
 		       NULL );
-    gtk_box_pack_start ( GTK_BOX (transaction_form),
-			 form_transaction_part,
-			 FALSE, FALSE,
-			 0 );
+    gtk_container_add ( GTK_CONTAINER (event_box),
+			form_transaction_part );
 
     /* the buttons part is a hbox, with the recuperate child split
      * on the left and valid/cancel on the right */
@@ -359,6 +379,8 @@ void gsb_form_create_widgets ()
 
     gsb_form_show ( FALSE );
 }
+
+
 
 /**
  * this function is used to move the tree view when open the form,
@@ -3092,3 +3114,44 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
     return FALSE;
 }
 
+
+/**
+ * called by a click on the form
+ * propose to configure the form with the right click
+ *
+ * \param vbox
+ * \param ev
+ * \param null
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_button_press ( GtkWidget *vbox,
+				 GdkEventButton *ev,
+				 gpointer null )
+{
+    GtkWidget *menu, *menu_item;
+
+    devel_debug (NULL);
+
+    if ( ev -> button != RIGHT_BUTTON )
+	return FALSE;
+
+    menu = gtk_menu_new ();
+
+    /* propose to configure the form */
+    menu_item = gtk_image_menu_item_new_with_label ( _("Configure the form") );
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				    gtk_image_new_from_stock ( GTK_STOCK_PROPERTIES,
+							       GTK_ICON_SIZE_MENU ));
+    g_signal_connect ( G_OBJECT(menu_item),
+		       "activate",
+		       G_CALLBACK (gsb_preferences_menu_open),
+		       GINT_TO_POINTER (TRANSACTION_FORM_PAGE));
+    gtk_menu_append ( menu, menu_item );
+
+    /* Finish all. */
+    gtk_widget_show_all (menu);
+    gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
+
+    return FALSE;
+}
