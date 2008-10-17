@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-15 22:03+0200\n"
-"PO-Revision-Date: 2008-10-13 15:29+0200\n"
+"PO-Revision-Date: 2008-10-17 20:27+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:195
 msgid "Closed liabilities accounts"
@@ -37,7 +37,6 @@ msgid "Accounts under authorized balance"
 msgstr "Cuentas por debajo del balance autorizado"
 
 #: src/accueil.c:257
-#, fuzzy
 msgid "Accounts under desired balance"
 msgstr "Cuentas por debajo del balance deseado"
 
@@ -881,15 +880,13 @@ msgstr ""
 "guardar en los ficheros bloqueados\" en la configuración."
 
 #: src/dialog.c:72
-#, fuzzy
 msgid "Account under desired balance."
 msgstr "La cuenta está por debajo del balance deseado"
 
 #: src/dialog.c:73
-#, fuzzy, c-format
+#, c-format
 msgid "Grisbi detected that an account is under a desired balance: %s"
-msgstr ""
-"Grisbi ha detectado que una cuenta está por debajo del balance deseado: %s"
+msgstr "Grisbi ha detectado que una cuenta está por debajo del balance deseado: %s"
 
 #: src/dialog.c:76
 msgid "No budgetary line was entered"
@@ -1065,10 +1062,12 @@ msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
 "that file with the obfuscated file into the bug report."
 msgstr ""
+"El modo de depuración está iniciándose. Grisbi escribirá un registro en %s. Por favor "
+"envíe ese fichero con el fichero truncado dentro del informe de fallos."
 
 #: src/erreur.c:422
 msgid "Grisbi failed to create the log file..."
-msgstr ""
+msgstr "Grisbi no pudo crear el fichero de registro..."
 
 #: src/etats_affiche.c:178 src/etats_affiche.c:411 src/etats_affiche.c:635
 #: src/etats_affiche.c:742
@@ -2097,7 +2096,6 @@ msgid "Year"
 msgstr "Año"
 
 #: src/etats_config.c:6451
-#, fuzzy
 msgid "Beginning of week"
 msgstr "Comienzo de la semana"
 
@@ -2784,14 +2782,12 @@ msgid "Outbox"
 msgstr "Buzón de salida"
 
 #: src/file_obfuscate.c:86
-#, fuzzy
 msgid "Obfuscating file..."
-msgstr "Guardando archivo"
+msgstr "Truncando el fichero..."
 
 #: src/file_obfuscate.c:88
-#, fuzzy
 msgid "Grisbi file obfuscation"
-msgstr "Documentación de Grisbi"
+msgstr "Truncamiento de fichero Grisbi"
 
 #: src/file_obfuscate.c:89
 msgid ""
@@ -2817,10 +2813,12 @@ msgid ""
 "Obfuscated file saved as\n"
 "<tt>%s</tt>"
 msgstr ""
+"Fichero truncado guardado como \n"
+"<tt>%s</tt>"
 
 #: src/file_obfuscate.c:352 src/file_obfuscate.c:355
 msgid "Obfuscation succeeded"
-msgstr ""
+msgstr "La truncación ha tenido éxito"
 
 #: src/file_obfuscate.c:354
 #, c-format
@@ -2828,40 +2826,36 @@ msgid ""
 "Grisbi couldn't save the file\n"
 "<tt>%s</tt>"
 msgstr ""
+"Grisbi no pudo guardar el fichero\n"
+"<tt>%s</tt>"
 
 #: src/file_obfuscate.c:384
-#, fuzzy
 msgid "Select features to hide :\n"
-msgstr "Seleccionar las categorías a incluir"
+msgstr "Seleccionar las características a ocultar :\n"
 
 #: src/file_obfuscate.c:386
 msgid "Hide everything"
-msgstr ""
+msgstr "Ocultar todo"
 
 #: src/file_obfuscate.c:392
-#, fuzzy
 msgid "Hide accounts names"
-msgstr "Mostrar el nombre de cuenta"
+msgstr "Ocultar nombres de cuenta"
 
 #: src/file_obfuscate.c:398
-#, fuzzy
 msgid "Hide accounts details"
-msgstr "Detalles de la cuenta"
+msgstr "Ocultar los detalles de la cuenta"
 
 #: src/file_obfuscate.c:404
-#, fuzzy
 msgid "Hide amounts"
-msgstr "%d meses"
+msgstr "Ocultar meses"
 
 #: src/file_obfuscate.c:410
-#, fuzzy
 msgid "Hide payees names"
-msgstr "Mostrar el nombre del tercero"
+msgstr "Ocultar el nombre de los terceros"
 
 #: src/file_obfuscate.c:416
-#, fuzzy
 msgid "Hide categories names"
-msgstr "Fichero de categorías no válido"
+msgstr "Ocultar el nombre de las categorías"
 
 #: src/file_obfuscate.c:422
 #, fuzzy
@@ -2885,7 +2879,7 @@ msgstr "Nombre del informe"
 
 #: src/file_obfuscate.c:446
 msgid "Hide reconcile names and amounts"
-msgstr ""
+msgstr "Ocultar nombres reconciliados y cantidades"
 
 #: src/file_obfuscate.c:504
 #, c-format
@@ -8524,7 +8518,7 @@ msgstr "Muestra _cuatro líneas por transacción"
 
 #: src/menu.c:284
 msgid "Start the Debug mode"
-msgstr ""
+msgstr "Comenzar el modo de depuración"
 
 #: src/menu.c:288
 msgid "Show transaction _form"
@@ -8686,9 +8680,8 @@ msgid "Grisbi preferences"
 msgstr "Preferencias de grisbi"
 
 #: src/parametres.c:253
-#, fuzzy
 msgid "Main"
-msgstr "España"
+msgstr "Principal"
 
 #: src/parametres.c:262 src/parametres.c:647
 msgid "Files"
@@ -8782,14 +8775,12 @@ msgid "Make a backup copy after opening files"
 msgstr "Hacer una copia de seguridad antes de abrir los archivos"
 
 #: src/parametres.c:832
-#, fuzzy
 msgid "Web"
-msgstr "Página web"
+msgstr "Web"
 
 #: src/parametres.c:839
-#, fuzzy
 msgid "Web browser command"
-msgstr "Navegador web"
+msgstr "Comando para el navegador web"
 
 #: src/parametres.c:847
 #, fuzzy, c-format
@@ -8798,7 +8789,7 @@ msgstr "Debería usar %s para cargar la URL. EJ: \"firefox -remote %s\""
 
 #: src/parametres.c:857
 msgid "LaTeX support (old print system)"
-msgstr ""
+msgstr "Soporte para LaTeX (Antiguo sistema de impresión)"
 
 #: src/parametres.c:864
 msgid "LaTeX command"
@@ -8818,11 +8809,9 @@ msgstr ""
 "\n"
 
 #: src/parse_cmdline.c:51
-#, fuzzy
 msgid "Usage: gribi [--version | -v] | [--help | -?]\n"
 msgstr ""
-"Uso: gribi [--version | -v] | [--help | -?] |[--tab=w[,x[,y[,z]]] | -t w[,x[,"
-"y[,z]]]] [archivo]\n"
+"Uso: grisbi [--version | -v] | [--help | -?]\n"
 
 #: src/parse_cmdline.c:54
 msgid ""
@@ -8830,6 +8819,9 @@ msgid ""
 "  --help                    Show this help message and exit\n"
 "  -v, --version                 Show version number and exit\n"
 msgstr ""
+"grisbi [opciones] [fichero]\n"
+"  --ayuda                    Mostrar este mensaje de ayuda y terminar\n"
+"  -v, --versión                 Mostrar el número de versión y terminar\n"
 
 #: src/parse_cmdline.c:172
 #, fuzzy, c-format
@@ -9087,9 +9079,8 @@ msgid " [Transaction imported without date]"
 msgstr " [Transacción importada sin fecha]"
 
 #: src/qif.c:509
-#, fuzzy
 msgid "Opening Balance"
-msgstr "Balance inicial"
+msgstr "Balance de apertura"
 
 #: src/qif.c:533
 msgid "Imported QIF account"
@@ -9112,14 +9103,12 @@ msgid ""
 msgstr ""
 
 #: src/qif.c:683
-#, fuzzy
 msgid "The order cannot be determined,\n"
-msgstr "¡El soporte para OFX no puede ser activado!"
+msgstr "El pedido no puede determinarse,\n"
 
 #: src/qif.c:688
-#, fuzzy
 msgid "Date wrong for the order "
-msgstr "al principio del informe"
+msgstr "Fecha errónea para el pedido "
 
 #: src/qif.c:904
 #, c-format
@@ -9150,9 +9139,8 @@ msgid "Edit selected payee"
 msgstr "Editar el tercero seleccionado"
 
 #: src/tiers_onglet.c:299 src/tiers_onglet.c:303 src/tiers_onglet.c:324
-#, fuzzy
 msgid "Remove unused payees"
-msgstr "Eliminar las reglas"
+msgstr "Eliminar terceros que no se usan"
 
 #: src/tiers_onglet.c:325
 msgid ""
@@ -9166,7 +9154,7 @@ msgstr ""
 #: src/tiers_onglet.c:337
 #, c-format
 msgid "Removed %d payees."
-msgstr ""
+msgstr "%d Terceros eliminados"
 
 #. Edit transaction
 #: src/tiers_onglet.c:362
@@ -9187,9 +9175,9 @@ msgstr "Ref. de reconciliación"
 
 #: src/transaction_list.c:160 src/transaction_list.c:973
 #: src/transaction_list.c:1733
-#, fuzzy, c-format
+#, c-format
 msgid "Total : %s (variance : %s)"
-msgstr "Total %s: %s (%d transacciones)"
+msgstr "Total : %s (variación : %s)"
 
 #: src/transaction_list.c:314
 #, c-format
