@@ -79,6 +79,7 @@ static  void custom_list_tree_model_init (GtkTreeModelIface *iface);
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GdkColor text_color[2];
 /*END_EXTERN*/
 
 
@@ -250,16 +251,17 @@ static void custom_list_init (CustomList *custom_list)
     custom_list->column_types[6] = G_TYPE_STRING;     	/* col 6 ( balance by default) */
 
     custom_list->column_types[7] = GDK_TYPE_COLOR;     	/* col 7 ( color of bg ) */
-    custom_list->column_types[8] = G_TYPE_STRING;     	/* col 8 ( color of amount ) */
-    custom_list->column_types[9] = G_TYPE_POINTER;     	/* col 9 ( transaction struct address ) */
-    custom_list->column_types[10] = G_TYPE_INT;     	/* col 10 ( what is line ) */
-    custom_list->column_types[11] = G_TYPE_POINTER; 	/* col 11 ( normal bg when selected ) */
-    custom_list->column_types[12] = G_TYPE_STRING;    	/* col 12 ( font ) */
-    custom_list->column_types[13] = G_TYPE_INT;     	/* col 13 ( line in transaction ) */
-    custom_list->column_types[14] = G_TYPE_BOOLEAN;    	/* col 14 ( transaction visible ) */
-    custom_list->column_types[15] = G_TYPE_BOOLEAN;    	/* col 15 ( checkbox visible ) */
-    custom_list->column_types[16] = G_TYPE_BOOLEAN;    	/* col 16 ( checkbox visible during reconciliation ) */
-    custom_list->column_types[17] = G_TYPE_BOOLEAN;    	/* col 17 ( checkbox active ) */
+    custom_list->column_types[8] = GDK_TYPE_COLOR; 	/* col 8 ( bg saved when selected ) */
+    custom_list->column_types[9] = G_TYPE_STRING;     	/* col 9 ( color of amount ) */
+    custom_list->column_types[10] = GDK_TYPE_COLOR; 	/* col 10 ( color of the text ) */
+    custom_list->column_types[11] = G_TYPE_POINTER;     /* col 11 ( transaction struct address ) */
+    custom_list->column_types[12] = G_TYPE_INT;     	/* col 12 ( what is line ) */
+    custom_list->column_types[13] = G_TYPE_STRING;    	/* col 12 ( font ) */
+    custom_list->column_types[14] = G_TYPE_INT;     	/* col 13 ( line in transaction ) */
+    custom_list->column_types[15] = G_TYPE_BOOLEAN;    	/* col 14 ( transaction visible ) */
+    custom_list->column_types[16] = G_TYPE_BOOLEAN;    	/* col 15 ( checkbox visible ) */
+    custom_list->column_types[17] = G_TYPE_BOOLEAN;    	/* col 16 ( checkbox visible during reconciliation ) */
+    custom_list->column_types[18] = G_TYPE_BOOLEAN;    	/* col 17 ( checkbox active ) */
 
     /* no row at the beginning */
     custom_list->num_rows = 0;
@@ -501,17 +503,20 @@ static void custom_list_get_value (GtkTreeModel *tree_model,
 	case CUSTOM_MODEL_BACKGROUND:
 	    g_value_set_boxed(value, (gpointer) record->row_bg);
 	    break;
+	case CUSTOM_MODEL_SAVE_BACKGROUND:
+	    g_value_set_boxed(value, (gpointer) record->row_bg_save);
+	    break;
 	case CUSTOM_MODEL_AMOUNT_COLOR:
 	    g_value_set_string(value, record->amount_color);
+	    break;
+	case CUSTOM_MODEL_TEXT_COLOR:
+	    g_value_set_boxed(value, (gpointer) record->text_color);
 	    break;
 	case CUSTOM_MODEL_TRANSACTION_ADDRESS:
 	    g_value_set_pointer(value, record->transaction_pointer);
 	    break;
 	case CUSTOM_MODEL_WHAT_IS_LINE:
 	    g_value_set_int(value, record->what_is_line);
-	    break;
-	case CUSTOM_MODEL_SAVE_BACKGROUND:
-	    g_value_set_boxed(value, (gpointer) record->row_bg_save);
 	    break;
 	case CUSTOM_MODEL_FONT:
 	    g_value_set_string(value, record->font);
@@ -584,17 +589,20 @@ void custom_list_set_value (GtkTreeModel *tree_model,
 	case CUSTOM_MODEL_BACKGROUND:
 	    record -> row_bg = g_value_get_boxed(value);
 	    break;
+	case CUSTOM_MODEL_SAVE_BACKGROUND:
+	    record -> row_bg_save = g_value_get_boxed(value);
+	    break;
 	case CUSTOM_MODEL_AMOUNT_COLOR:
 	    record -> amount_color = g_value_dup_string(value);
+	    break;
+	case CUSTOM_MODEL_TEXT_COLOR:
+	    record -> text_color = g_value_get_boxed(value);
 	    break;
 	case CUSTOM_MODEL_TRANSACTION_ADDRESS:
 	    record -> transaction_pointer = g_value_get_pointer(value);
 	    break;
 	case CUSTOM_MODEL_WHAT_IS_LINE:
 	    record -> what_is_line = g_value_get_int(value);
-	    break;
-	case CUSTOM_MODEL_SAVE_BACKGROUND:
-	    record -> row_bg_save = g_value_get_boxed(value);
 	    break;
 	case CUSTOM_MODEL_FONT:
 	    record -> font = g_value_dup_string (value);

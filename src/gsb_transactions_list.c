@@ -346,6 +346,7 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 										       "text", i,
 										       "cell-background-gdk", CUSTOM_MODEL_BACKGROUND,
 										       "font", CUSTOM_MODEL_FONT,
+										       "foreground-gdk", CUSTOM_MODEL_TEXT_COLOR,
 										       NULL );
 
 	if ( i == find_element_col (ELEMENT_MARK))

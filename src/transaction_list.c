@@ -72,6 +72,7 @@ extern GSList *orphan_child_transactions ;
 extern GtkTreeSelection * selection ;
 extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern GdkColor text_color[2];
 extern GtkWidget *window ;
 /*END_EXTERN*/
 
@@ -1678,6 +1679,7 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
     newrecord -> line_in_transaction = line_in_transaction;
     newrecord -> checkbox_visible_reconcile = line_in_transaction == 0 ? 1 : 0;
     newrecord -> checkbox_active = gsb_data_transaction_get_marked_transaction (transaction_number) != 0;
+    newrecord -> text_color = &text_color[0];
 
     return newrecord;
 }
@@ -1700,6 +1702,7 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
     CustomRecord *mother_record;
     gint i;
     gint transaction_number;
+    GdkColor *mother_text_color;
 
     if (!white_record)
 	return FALSE;
@@ -1728,11 +1731,21 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
 
     /* show the variance and sub-total only if different of the transaction */
     if (variance.mantissa)
+    {
 	white_record -> visible_col[2] = g_strdup_printf ( _("Total : %s (variance : %s)"),
 							   amount_string,
 							   variance_string );
+	mother_text_color = &text_color[1];
+    }
     else
+    {
 	white_record -> visible_col[2] = NULL;
+	mother_text_color = &text_color[0];
+    }
+
+    /* set the color of the mother */
+    for (i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++)
+	mother_record -> transaction_records[i] -> text_color = mother_text_color;
 
     g_free (amount_string);
     g_free (variance_string);

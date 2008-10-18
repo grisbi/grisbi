@@ -22,10 +22,11 @@ enum
     CUSTOM_MODEL_COL_6,		/* by default, balance */
 
     CUSTOM_MODEL_BACKGROUND,			/*< color of the background (a GdkColor) */
+    CUSTOM_MODEL_SAVE_BACKGROUND, 		/*< when selection, save of the normal color of background (a GdkColor) */
     CUSTOM_MODEL_AMOUNT_COLOR,			/*< color of the amount (a string like "red" or NULL)*/
+    CUSTOM_MODEL_TEXT_COLOR,			/*< color of the text */
     CUSTOM_MODEL_TRANSACTION_ADDRESS,		/* pointer to the transaction structure */
     CUSTOM_MODEL_WHAT_IS_LINE,			/*< on what the address point to ? IS_TRANSACTION, IS_ARCHIVE (see below) */
-    CUSTOM_MODEL_SAVE_BACKGROUND, 		/*< when selection, save of the normal color of background (a GdkColor) */
     CUSTOM_MODEL_FONT, 				/*< PangoFontDescription if used */
     CUSTOM_MODEL_TRANSACTION_LINE, 		/*< the line in the transaction (0, 1, 2 or 3) */
     CUSTOM_MODEL_VISIBLE, 			/*< whether that transaction is visible or not */
@@ -63,7 +64,7 @@ struct _CustomRecord
     GdkColor *row_bg;			/* bg color */
     GdkColor *row_bg_save;		/* save bg */
     gchar *amount_color;		/* amout color */
-    gchar *text_color;			/* color of the text (to highlight the splitted transactions not finished */
+    GdkColor *text_color;		/* color of the text (to highlight the splitted transactions not finished */
 
     gpointer transaction_pointer;	/* transaction struct address */
     gint what_is_line;			/* IS_TRANSACTION /IS_ARCHIVE */

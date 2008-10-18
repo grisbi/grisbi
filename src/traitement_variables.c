@@ -391,10 +391,6 @@ void initialisation_couleurs_listes ( void )
     calendar_entry_color.blue = CALENDAR_ENTRY_COLOR_BLUE;
     calendar_entry_color.pixel = 0;
 
-/* xxx EN SUIS ICI : vient de modifier les noms des couleurs en anglais, le but est de mettre en highlight */
-/*     une splitted transaction dont les enfants sont pas fin, déjà ajouté une ligne dans la struct de la liste */
-/*     reste à faire le reste. de plus avec les noms des couleurs ici, on peut ajouter une modif des couleurs dans les paramètres */
-
     /* Initialisation des couleurs des différents labels */
     /* Pourra être intégré à la configuration générale */
     couleur_solde_alarme_verte_normal.red =     0.00 * 65535 ;
