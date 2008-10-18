@@ -61,10 +61,12 @@ struct _CustomRecord
     gchar *visible_col[7];
 
     GdkColor *row_bg;			/* bg color */
-    gchar *amount_color;		/* amout color */
-    gpointer transaction_pointer;	/* transaction struct address */
-    gint what_is_line;			/* IS_TRANSACTION /IS_ARCHIVE  / IS_SEPARATOR */
     GdkColor *row_bg_save;		/* save bg */
+    gchar *amount_color;		/* amout color */
+    gchar *text_color;			/* color of the text (to highlight the splitted transactions not finished */
+
+    gpointer transaction_pointer;	/* transaction struct address */
+    gint what_is_line;			/* IS_TRANSACTION /IS_ARCHIVE */
     gchar *font;			/* font */
     gint line_in_transaction;		/* line in transaction (0,1, 2 or 3) */
     gboolean line_visible;		/* is line visible (TRUE/FALSE, this value shouldn't be changed by gsb_list_model_set */

@@ -261,7 +261,7 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 
     path = gtk_tree_model_get_path ( model, iter );
     type = metatree_get_row_type ( model, path );
-/* xxx correction du 398  */
+
     gtk_tree_path_free ( path );
     if ( type != META_TREE_DIV && type != META_TREE_INVALID )
 	return;
@@ -331,7 +331,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     GtkTreePath * path;
     enum meta_tree_row_type type;
     gint number_transactions = 0;
-/* xxx correction du 398  */
+
     if ( ! metatree_model_is_displayed ( model ) )
 	return;
 
@@ -357,7 +357,7 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 	label = g_strdup_printf ( "%s (%d)",
 				  string_tmp,
 				  number_transactions );
-/* 	g_free (string_tmp); */
+	g_free (string_tmp);
 	string_tmp = label;
 
 	if ( ! gtk_tree_model_iter_has_child ( model, iter ) )
@@ -378,9 +378,9 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 			 META_TREE_FONT_COLUMN, 400,
 			 META_TREE_DATE_COLUMN, NULL,
 			 -1 );
-/*     g_free (string_tmp); */
-/*     if (balance) */
-/* 	g_free (balance); */
+    g_free (string_tmp);
+    if (balance)
+	g_free (balance);
 }
 
 
@@ -410,7 +410,6 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
     type = metatree_get_row_type ( model, path );
     gtk_tree_path_free (path);
     if ( type != META_TREE_TRANSACTION && type != META_TREE_INVALID)
-/* xxx correction du 398  */
 	return;
 
     string = gsb_data_transaction_get_notes ( transaction_number);
@@ -436,7 +435,7 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 		gchar * trunc = g_strndup ( gsb_data_transaction_get_notes ( transaction_number), 
 					    (tmp - string));
 		notes = g_strconcat ( trunc, " ...", NULL );
-/* 		g_free ( trunc ); */
+		g_free ( trunc );
 	    }
 	}
 	else 
@@ -455,14 +454,14 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
     if ( notes )
     {
 	label = g_strconcat ( label, " : ", notes, NULL );
-/* 	g_free (notes);  */
+	g_free (notes); 
     }
 
     if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number))
     {
         gchar* tmpstr = label;
 	label = g_strconcat ( tmpstr, " (", _("split"), ")", NULL );
-/* 	g_free ( tmpstr ); */
+	g_free ( tmpstr );
     }
 
     amount = gsb_format_amount ( gsb_data_transaction_get_amount (transaction_number),
@@ -480,8 +479,8 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 			 META_TREE_FONT_COLUMN, 400,
 			 META_TREE_DATE_COLUMN, gsb_data_transaction_get_date ( transaction_number ),
 			 -1);
-/*     g_free(amount); */
-/*     g_free(label); */
+    g_free(amount);
+    g_free(label);
 }
 
 

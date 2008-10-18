@@ -791,7 +791,7 @@ static void print_transactions_list_draw_background ( CustomRecord *record,
 	{
 	    CustomList *custom_list = transaction_model_get_model ();
 	    cairo_rectangle (cr, 0, line_position, page_width, custom_list -> nb_rows_by_transaction * size_row + 2*gsb_data_print_config_get_draw_lines ());
-	    cairo_set_source_rgb (cr, (gdouble) COULEUR1_RED/65535, (gdouble) COULEUR1_GREEN/65535, (gdouble) COULEUR1_BLUE/65535);
+	    cairo_set_source_rgb (cr, (gdouble) BG_COLOR_1_RED/65535, (gdouble) BG_COLOR_1_GREEN/65535, (gdouble) BG_COLOR_1_BLUE/65535);
 	}
 	else return;
     }

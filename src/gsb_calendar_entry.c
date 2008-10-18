@@ -35,7 +35,6 @@
 #include "gsb_calendar_entry.h"
 #include "./utils_dates.h"
 #include "./gsb_form_widget.h"
-#include "./traitement_variables.h"
 #include "./include.h"
 /*END_INCLUDE*/
 
@@ -64,6 +63,7 @@ static void gsb_calendar_entry_step_date ( GtkWidget *entry,
 
 
 /*START_EXTERN*/
+extern GdkColor calendar_entry_color;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 
@@ -178,15 +178,8 @@ GDate *gsb_calendar_entry_get_date ( GtkWidget *entry )
 gboolean gsb_calendar_entry_set_color ( GtkWidget *entry,
 					gboolean normal_color )
 {
-    GdkColor red;
-
     if (!entry)
 	return FALSE;
-
-    red.pixel = 0;
-    red.red = COULEUR_ROUGE_RED; 
-    red.green = COULEUR_ROUGE_GREEN;
-    red.blue = COULEUR_ROUGE_BLUE;
 
     if (normal_color)
     {
@@ -198,7 +191,7 @@ gboolean gsb_calendar_entry_set_color ( GtkWidget *entry,
     {
 	gtk_widget_modify_base ( entry, 
 				 GTK_STATE_NORMAL,
-				 &red );
+				 &calendar_entry_color );
     }
 
     return FALSE;

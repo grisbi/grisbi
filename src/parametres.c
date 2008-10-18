@@ -29,7 +29,6 @@
 
 
 /*START_INCLUDE*/
-#include "./erreur.h"
 #include "parametres.h"
 #include "./menu.h"
 #include "./utils.h"
@@ -53,6 +52,7 @@
 #include "./import.h"
 #include "./structures.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

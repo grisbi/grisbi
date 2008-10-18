@@ -696,9 +696,9 @@ void gsb_form_widget_set_empty ( GtkWidget *entry,
     GdkColor gray, black;
 
     gray.pixel = 0;
-    gray.red = COULEUR_GRISE_RED; 
-    gray.green = COULEUR_GRISE_GREEN;
-    gray.blue = COULEUR_GRISE_BLUE; 
+    gray.red = EMPTY_ENTRY_COLOR_RED; 
+    gray.green = EMPTY_ENTRY_COLOR_GREEN;
+    gray.blue = EMPTY_ENTRY_COLOR_BLUE; 
 
     black.pixel = 0;
     black.red = 0;

@@ -93,12 +93,14 @@ gchar *labels_titres_colonnes_liste_ope[] = {
 
 
 
+/** colors in the transactions list */
 GdkColor couleur_fond[2];
 GdkColor couleur_grise;
 GdkColor archive_background_color;
 GdkColor couleur_selection;
 GdkColor split_background;
-
+GdkColor text_color[2];
+GdkColor calendar_entry_color;
 
 /* colors of the amounts in the first page */
 GdkColor couleur_solde_alarme_verte_normal;
@@ -147,6 +149,7 @@ extern gint no_devise_totaux_tiers;
 extern GtkWidget *notebook_general ;
 extern GSList *orphan_child_transactions ;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
+extern GtkTreeSelection * selection ;
 extern GtkWidget *solde_label ;
 extern GtkWidget *solde_label_pointe ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -325,38 +328,49 @@ void init_variables ( void )
     gsb_form_scheduler_free_list ();
 
 }
-/*****************************************************************************************************/
 
 
 
 
 
-/*****************************************************************************************************/
+/**
+ * initialize the colors used in grisbi 
+ *
+ * \param
+ *
+ * \return
+ * */
 void initialisation_couleurs_listes ( void )
 {
-    GdkColor couleur_rouge;
+    devel_debug (NULL);
 
-    devel_debug ("initialisation_couleurs_listes");
+    /* colors of the background */
+    couleur_fond[0].red = BG_COLOR_1_RED;
+    couleur_fond[0].green = BG_COLOR_1_GREEN;
+    couleur_fond[0].blue = BG_COLOR_1_BLUE;
 
-    /* Initialisation des couleurs de la clist */
+    couleur_fond[1].red = BG_COLOR_2_RED;
+    couleur_fond[1].green = BG_COLOR_2_GREEN;
+    couleur_fond[1].blue = BG_COLOR_2_BLUE;
 
-    couleur_fond[0].red = COULEUR1_RED ;
-    couleur_fond[0].green = COULEUR1_GREEN;
-    couleur_fond[0].blue = COULEUR1_BLUE;
+    /* colors of the text */
+    text_color[0].red = TEXT_COLOR_1_RED;
+    text_color[0].green = TEXT_COLOR_1_GREEN;
+    text_color[0].blue = TEXT_COLOR_1_BLUE;
 
-    couleur_fond[1].red = COULEUR2_RED;
-    couleur_fond[1].green = COULEUR2_GREEN;
-    couleur_fond[1].blue = COULEUR2_BLUE;
+    text_color[1].red = TEXT_COLOR_2_RED;
+    text_color[1].green = TEXT_COLOR_2_GREEN;
+    text_color[1].blue = TEXT_COLOR_2_BLUE;
 
-    couleur_rouge.red = COULEUR_ROUGE_RED;
-    couleur_rouge.green = COULEUR_ROUGE_GREEN;
-    couleur_rouge.blue = COULEUR_ROUGE_BLUE;
-    couleur_rouge.pixel = 0;
+    /* selection color */
+    couleur_selection.red= SELECTION_COLOR_RED;
+    couleur_selection.green= SELECTION_COLOR_GREEN ;
+    couleur_selection.blue= SELECTION_COLOR_BLUE;
 
-    /*     couleur grise de l'échéancier */
-    couleur_grise.red = COULEUR_GRISE_RED;
-    couleur_grise.green = COULEUR_GRISE_GREEN;
-    couleur_grise.blue = COULEUR_GRISE_BLUE;
+    /* color of the non selectable transactions on scheduler */
+    couleur_grise.red = UNSENSITIVE_SCHEDULED_COLOR_RED;
+    couleur_grise.green = UNSENSITIVE_SCHEDULED_COLOR_GREEN;
+    couleur_grise.blue = UNSENSITIVE_SCHEDULED_COLOR_BLUE;
     couleur_grise.pixel = 0;
 
     /* set the archive background color */
@@ -366,17 +380,20 @@ void initialisation_couleurs_listes ( void )
     archive_background_color.pixel = 0;
 
     /* color for split children */
-
     split_background.red = BREAKDOWN_BACKGROUND_COLOR_RED;
     split_background.green = BREAKDOWN_BACKGROUND_COLOR_GREEN;
     split_background.blue = BREAKDOWN_BACKGROUND_COLOR_BLUE;
     split_background.pixel = 0;
 
-    /* initialise la couleur de la sélection */
+    /* color for wrong entry in calendar entry */
+    calendar_entry_color.red = CALENDAR_ENTRY_COLOR_RED;
+    calendar_entry_color.green = CALENDAR_ENTRY_COLOR_GREEN;
+    calendar_entry_color.blue = CALENDAR_ENTRY_COLOR_BLUE;
+    calendar_entry_color.pixel = 0;
 
-    couleur_selection.red= COULEUR_SELECTION_RED;
-    couleur_selection.green= COULEUR_SELECTION_GREEN ;
-    couleur_selection.blue= COULEUR_SELECTION_BLUE;
+/* xxx EN SUIS ICI : vient de modifier les noms des couleurs en anglais, le but est de mettre en highlight */
+/*     une splitted transaction dont les enfants sont pas fin, déjà ajouté une ligne dans la struct de la liste */
+/*     reste à faire le reste. de plus avec les noms des couleurs ici, on peut ajouter une modif des couleurs dans les paramètres */
 
     /* Initialisation des couleurs des différents labels */
     /* Pourra être intégré à la configuration générale */

@@ -345,7 +345,6 @@ GtkWidget *cree_menu_quatres_lignes ( void )
 /* ************************************************************************************************************** */
 
 
-
 /**
  * fill the titres_colonnes_liste_operations variable and the associated tips
  * so get the first row element name and set it for title

@@ -739,8 +739,6 @@ void transaction_list_filter ( gint account_number )
 
 /**
  * colorize transactions in the model
- * static for now because called by the filter, can remove the static if necessary
- * but i don't see any reason
  *
  * to update all the tree view, use gsb_transactions_list_update_tree_view instead
  *
