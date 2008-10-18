@@ -54,8 +54,8 @@ gboolean gsb_transactions_list_edit_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_edit_transaction_by_pointer ( gint *transaction_number );
 gfloat gsb_transactions_list_get_row_align ( void );
 GtkWidget *gsb_transactions_list_get_tree_view (void);
-gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_number,
-						       gint cell_content_number );
+gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
+						 gint cell_content_number );
 gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 					   GdkEventKey *ev );
 GtkWidget *gsb_transactions_list_make_gui_list ( void );

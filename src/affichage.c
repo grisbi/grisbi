@@ -213,6 +213,8 @@ GtkWidget * onglet_display_fonts ( void )
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
 
+    /* change colors */
+
     return vbox_pref;
 }
 

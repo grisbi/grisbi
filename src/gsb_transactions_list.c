@@ -86,8 +86,6 @@ static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
 static void gsb_transactions_list_create_tree_view_columns ( void );
 static gboolean gsb_transactions_list_fill_archive_store ( void );
 static gboolean gsb_transactions_list_fill_model ( void );
-static gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
-						 gint cell_content_number );
 static gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_number,
 							     gint target_account );
 static void gsb_transactions_list_set_tree_view (GtkWidget *tree_view);
@@ -136,35 +134,27 @@ gint current_tree_view_width = 0;
  * when some children didn't find their mother */
 GSList *orphan_child_transactions = NULL;
 
-/** Determine how we display cells according to their type.  Only used
- * by gsb_transactions_list_grep_cell_content_trunc().  */
-struct cell_view {
-    gchar * name;		/* Name of the cell. */
-    gint max_size;		/* Max size to display (will truncate
-				 * the rest). */
-    gboolean hard_trunc;	/* Should truncation be hard. */
-} cell_views[] = {
-    { N_("Date"), 16, FALSE },
-    { N_("Value date"), 16, FALSE },
-    { N_("Payee"), 32, FALSE },
-    { N_("Budgetary line"), 32, FALSE },
-    { N_("Debit"), 32, FALSE },
-    { N_("Credit"), 32, FALSE },
-    { N_("Balance"), 32, FALSE },
-    { N_("Amount"), 32, FALSE },
-    { N_("Method of payment"), 24, FALSE },
-    { N_("Reconciliation reference"), 16, FALSE },
-    { N_("Financial year"), 16, FALSE },
-    { N_("Category"), 64, FALSE },
-    { N_("C/R"), 2, FALSE },
-    { N_("Voucher"), 10, TRUE },
-    { N_("Notes"), 32, FALSE },
-    { N_("Bank references"), 10, TRUE },
-    { N_("Transaction number"), 10, TRUE },
-    { N_("Cheque number"), 10, TRUE },
-    { NULL, 0, FALSE },
-};
-
+/* names of the cells */
+gchar *cell_views[] = {
+    N_("Date"),
+    N_("Value date"),
+    N_("Payee"),
+    N_("Budgetary line"),
+    N_("Debit"),
+    N_("Credit"),
+    N_("Balance"),
+    N_("Amount"),
+    N_("Method of payment"),
+    N_("Reconciliation reference"),
+    N_("Financial year"),
+    N_("Category"),
+    N_("C/R"),
+    N_("Voucher"),
+    N_("Notes"),
+    N_("Bank references"),
+    N_("Transaction number"),
+    N_("Cheque number"),
+    NULL };
 
 
 /*START_EXTERN*/
@@ -667,27 +657,6 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
     return FALSE;
 }
 
-
-
-/**
- * Take in a transaction the content to set in a cell of the
- * transaction's list.  Truncate to a fixed size to avoid taking too
- * much space.
- * FIXME xxx fonction à virer si benj est ok
- * 
- * \param transaction_number
- * \param cell_content_number what we need in the transaction
- * 
- * \return the content of the transaction, in gchar, need to be freed after
- * */
-gchar *gsb_transactions_list_grep_cell_content_trunc ( gint transaction_number,
-						       gint cell_content_number )
-{
-    gchar *string;
-
-    string = gsb_transactions_list_grep_cell_content ( transaction_number, cell_content_number );
-    return string;
-}
 
 
 
@@ -2224,9 +2193,9 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
 
     menu = gtk_menu_new ();
 
-    for ( i = 0 ; cell_views[i].name != NULL ; i++ )
+    for ( i = 0 ; cell_views[i] != NULL ; i++ )
     {
-	item = gtk_menu_item_new_with_label ( _(cell_views[i] . name) );
+	item = gtk_menu_item_new_with_label (cell_views[i]);
 	g_object_set_data ( G_OBJECT (item), "x", GINT_TO_POINTER (x) );
 	g_object_set_data ( G_OBJECT (item), "y", GINT_TO_POINTER (y) );
 	g_signal_connect ( G_OBJECT(item), "activate", 

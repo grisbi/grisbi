@@ -1234,7 +1234,7 @@ gboolean transaction_list_update_cell ( gint cell_col,
 	if (record -> visible_col[cell_col])
 	    g_free (record -> visible_col[cell_col]);
 	if (element_number)
-	    record -> visible_col[cell_col] = gsb_transactions_list_grep_cell_content_trunc (transaction_number, element_number);
+	    record -> visible_col[cell_col] = gsb_transactions_list_grep_cell_content (transaction_number, element_number);
 	else
 	    record -> visible_col[cell_col] = NULL;
 
@@ -1267,7 +1267,7 @@ gboolean transaction_list_update_cell ( gint cell_col,
 		/* update the element */
 		if (child_record -> visible_col[column_element_split])
 		    g_free (child_record -> visible_col[column_element_split]);
-		child_record -> visible_col[column_element_split] = gsb_transactions_list_grep_cell_content_trunc (transaction_number, element_number);
+		child_record -> visible_col[column_element_split] = gsb_transactions_list_grep_cell_content (transaction_number, element_number);
 
 		/* inform the tree view we changed the row, only if visible
 		 * we check the mother because the children are alway visible */
@@ -1669,8 +1669,8 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
 
     /* fill the row with the visibles columns */
     for ( column = 0 ; column < CUSTOM_MODEL_N_VISIBLES_COLUMN ; column++ )
-	newrecord -> visible_col[column] = gsb_transactions_list_grep_cell_content_trunc ( transaction_number,
-											   tab_affichage_ope[line_in_transaction][column]);
+	newrecord -> visible_col[column] = gsb_transactions_list_grep_cell_content ( transaction_number,
+										     tab_affichage_ope[line_in_transaction][column]);
 
     if (etat.utilise_fonte_listes)
 	newrecord -> font = etat.font_string;
