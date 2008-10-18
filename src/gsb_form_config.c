@@ -523,7 +523,7 @@ GtkWidget *gsb_form_config_create_buttons_table ( void )
 					    row, row+1 );
 
 		/* set the tooltip with the real name */
-
+		string = g_strconcat ( " ", string, " ", NULL );
 		gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
 				       form_config_buttons[column + row*6],
 				       string,
