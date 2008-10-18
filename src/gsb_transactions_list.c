@@ -323,6 +323,10 @@ void gsb_transactions_list_create_tree_view_columns ( void )
     };
     gint column_balance;
 
+    /* get the position of the amount column to set it in red */
+    column_balance = find_element_col (ELEMENT_BALANCE);
+
+    /* create the columns */
     for ( i = 0 ; i < CUSTOM_MODEL_N_VISIBLES_COLUMN ; i++ )
     {
 	GtkCellRenderer *cell_renderer;
@@ -336,8 +340,17 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 										       "text", i,
 										       "cell-background-gdk", CUSTOM_MODEL_BACKGROUND,
 										       "font", CUSTOM_MODEL_FONT,
-										       "foreground-gdk", CUSTOM_MODEL_TEXT_COLOR,
 										       NULL );
+
+	if (i == column_balance)
+	    gtk_tree_view_column_add_attribute ( transactions_tree_view_columns[i],
+						 cell_renderer,
+						 "foreground", CUSTOM_MODEL_AMOUNT_COLOR);
+	else
+	    gtk_tree_view_column_add_attribute ( transactions_tree_view_columns[i],
+						 cell_renderer,
+						 "foreground-gdk", CUSTOM_MODEL_TEXT_COLOR);
+
 
 	if ( i == find_element_col (ELEMENT_MARK))
 	{
@@ -364,13 +377,6 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 					     TRUE );
     }
 
-    /* get the position of the amount column to set it in red */
-    column_balance = find_element_col (ELEMENT_BALANCE);
-
-    if ( column_balance != -1 )
-	gtk_tree_view_column_add_attribute ( transactions_tree_view_columns[column_balance],
-					     gtk_tree_view_column_get_cell_renderers ( transactions_tree_view_columns[column_balance]) -> data,
-					     "foreground", CUSTOM_MODEL_AMOUNT_COLOR);
 }
 
 

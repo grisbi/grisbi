@@ -214,7 +214,6 @@ GtkWidget * onglet_display_fonts ( void )
     }
 
     /* change colors */
-
     return vbox_pref;
 }
 
