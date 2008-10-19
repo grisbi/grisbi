@@ -144,7 +144,7 @@ GtkWidget * create_main_widget ( void )
     /* Then create and fill the main hpaned. */
     main_hpaned = gtk_hpaned_new ();
     g_signal_connect ( G_OBJECT (main_hpaned ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &main_hpaned );
+		       G_CALLBACK ( gtk_widget_destroyed), &main_hpaned );
     gtk_box_pack_start ( GTK_BOX(main_vbox), main_hpaned, TRUE, TRUE, 0 );
     gtk_paned_add1 ( GTK_PANED( main_hpaned ), create_navigation_pane ( ) );
     gtk_paned_add2 ( GTK_PANED( main_hpaned ), create_main_notebook ( ) );

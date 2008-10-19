@@ -346,9 +346,11 @@ gboolean gsb_grisbi_close ( void )
  */
 static gboolean main_window_delete_event (GtkWidget *window, gpointer data)
 {
+    /* need to save the config before gsb_file_close */
+    gsb_file_config_save_config();
+
     if (!gsb_file_close ())
         return TRUE;
-    gsb_file_config_save_config();
     return FALSE;
 }
 
