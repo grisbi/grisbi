@@ -2820,12 +2820,9 @@ GtkWidget *onglet_etat_virements ( void )
     gtk_widget_show ( liste_comptes_virements );
 
     /* on remplit la liste des comptes */
-
     remplissage_liste_comptes_virements ();
 
-
     /*   sur la partie de droite, on met les boutons (dé)sélectionner tout */
-
     vbox = gtk_vbox_new ( FALSE,
 			  5 );
     gtk_box_pack_start ( GTK_BOX ( hbox_liste_comptes_virements ),
@@ -2960,7 +2957,7 @@ void remplissage_liste_comptes_virements ( void )
 {
     GSList *list_tmp;
 
-    if ( !onglet_config_etat )
+    if ( !liste_comptes_virements )
 	return;
 
     gtk_clist_clear ( GTK_CLIST ( liste_comptes_virements ) );
@@ -4150,10 +4147,10 @@ void remplissage_liste_tiers_etats ( void )
 {
     GSList *payee_list;
 
-    if ( !onglet_config_etat )
+    if ( !liste_tiers_etat )
 	return;
 
-    devel_debug ( "remplissage_liste_tiers_etats" );
+    devel_debug (NULL);
 
     gtk_clist_clear ( GTK_CLIST ( liste_tiers_etat ) );
 
