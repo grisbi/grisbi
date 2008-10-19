@@ -2202,6 +2202,7 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
     for ( i = 0 ; cell_views[i] != NULL ; i++ )
     {
 	item = gtk_menu_item_new_with_label ( _(cell_views[i]) );
+
 	g_object_set_data ( G_OBJECT (item), "x", GINT_TO_POINTER (x) );
 	g_object_set_data ( G_OBJECT (item), "y", GINT_TO_POINTER (y) );
 	g_signal_connect ( G_OBJECT(item), "activate", 

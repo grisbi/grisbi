@@ -93,6 +93,15 @@ gchar *labels_titres_colonnes_liste_ope[] = {
 
 
 
+/** defaults colors in the transactions list */
+GdkColor default_couleur_fond[2];
+GdkColor default_couleur_grise;
+GdkColor default_archive_background_color;
+GdkColor default_couleur_selection;
+GdkColor default_split_background;
+GdkColor default_text_color[2];
+GdkColor default_calendar_entry_color;
+
 /** colors in the transactions list */
 GdkColor couleur_fond[2];
 GdkColor couleur_grise;
@@ -327,6 +336,16 @@ void init_variables ( void )
     gsb_form_widget_free_list ();
     gsb_form_scheduler_free_list ();
 
+    /* set colors to default */
+    couleur_fond[0] = default_couleur_fond[0];
+    couleur_fond[1] = default_couleur_fond[1];
+    couleur_grise = default_couleur_grise;
+    archive_background_color = default_archive_background_color;
+    couleur_selection = default_couleur_selection;
+    split_background = default_split_background;
+    text_color[0] = default_text_color[0];
+    text_color[1] = default_text_color[1];
+    calendar_entry_color = default_calendar_entry_color;
 }
 
 
@@ -345,51 +364,51 @@ void initialisation_couleurs_listes ( void )
     devel_debug (NULL);
 
     /* colors of the background */
-    couleur_fond[0].red = BG_COLOR_1_RED;
-    couleur_fond[0].green = BG_COLOR_1_GREEN;
-    couleur_fond[0].blue = BG_COLOR_1_BLUE;
+    default_couleur_fond[0].red = BG_COLOR_1_RED;
+    default_couleur_fond[0].green = BG_COLOR_1_GREEN;
+    default_couleur_fond[0].blue = BG_COLOR_1_BLUE;
 
-    couleur_fond[1].red = BG_COLOR_2_RED;
-    couleur_fond[1].green = BG_COLOR_2_GREEN;
-    couleur_fond[1].blue = BG_COLOR_2_BLUE;
+    default_couleur_fond[1].red = BG_COLOR_2_RED;
+    default_couleur_fond[1].green = BG_COLOR_2_GREEN;
+    default_couleur_fond[1].blue = BG_COLOR_2_BLUE;
 
     /* colors of the text */
-    text_color[0].red = TEXT_COLOR_1_RED;
-    text_color[0].green = TEXT_COLOR_1_GREEN;
-    text_color[0].blue = TEXT_COLOR_1_BLUE;
+    default_text_color[0].red = TEXT_COLOR_1_RED;
+    default_text_color[0].green = TEXT_COLOR_1_GREEN;
+    default_text_color[0].blue = TEXT_COLOR_1_BLUE;
 
-    text_color[1].red = TEXT_COLOR_2_RED;
-    text_color[1].green = TEXT_COLOR_2_GREEN;
-    text_color[1].blue = TEXT_COLOR_2_BLUE;
+    default_text_color[1].red = TEXT_COLOR_2_RED;
+    default_text_color[1].green = TEXT_COLOR_2_GREEN;
+    default_text_color[1].blue = TEXT_COLOR_2_BLUE;
 
     /* selection color */
-    couleur_selection.red= SELECTION_COLOR_RED;
-    couleur_selection.green= SELECTION_COLOR_GREEN ;
-    couleur_selection.blue= SELECTION_COLOR_BLUE;
+    default_couleur_selection.red= SELECTION_COLOR_RED;
+    default_couleur_selection.green= SELECTION_COLOR_GREEN ;
+    default_couleur_selection.blue= SELECTION_COLOR_BLUE;
 
     /* color of the non selectable transactions on scheduler */
-    couleur_grise.red = UNSENSITIVE_SCHEDULED_COLOR_RED;
-    couleur_grise.green = UNSENSITIVE_SCHEDULED_COLOR_GREEN;
-    couleur_grise.blue = UNSENSITIVE_SCHEDULED_COLOR_BLUE;
-    couleur_grise.pixel = 0;
+    default_couleur_grise.red = UNSENSITIVE_SCHEDULED_COLOR_RED;
+    default_couleur_grise.green = UNSENSITIVE_SCHEDULED_COLOR_GREEN;
+    default_couleur_grise.blue = UNSENSITIVE_SCHEDULED_COLOR_BLUE;
+    default_couleur_grise.pixel = 0;
 
     /* set the archive background color */
-    archive_background_color.red = COLOR_ARCHIVE_BG_RED;
-    archive_background_color.green = COLOR_ARCHIVE_BG_GREEN;
-    archive_background_color.blue = COLOR_ARCHIVE_BG_BLUE;
-    archive_background_color.pixel = 0;
+    default_archive_background_color.red = COLOR_ARCHIVE_BG_RED;
+    default_archive_background_color.green = COLOR_ARCHIVE_BG_GREEN;
+    default_archive_background_color.blue = COLOR_ARCHIVE_BG_BLUE;
+    default_archive_background_color.pixel = 0;
 
     /* color for split children */
-    split_background.red = BREAKDOWN_BACKGROUND_COLOR_RED;
-    split_background.green = BREAKDOWN_BACKGROUND_COLOR_GREEN;
-    split_background.blue = BREAKDOWN_BACKGROUND_COLOR_BLUE;
-    split_background.pixel = 0;
+    default_split_background.red = BREAKDOWN_BACKGROUND_COLOR_RED;
+    default_split_background.green = BREAKDOWN_BACKGROUND_COLOR_GREEN;
+    default_split_background.blue = BREAKDOWN_BACKGROUND_COLOR_BLUE;
+    default_split_background.pixel = 0;
 
     /* color for wrong entry in calendar entry */
-    calendar_entry_color.red = CALENDAR_ENTRY_COLOR_RED;
-    calendar_entry_color.green = CALENDAR_ENTRY_COLOR_GREEN;
-    calendar_entry_color.blue = CALENDAR_ENTRY_COLOR_BLUE;
-    calendar_entry_color.pixel = 0;
+    default_calendar_entry_color.red = CALENDAR_ENTRY_COLOR_RED;
+    default_calendar_entry_color.green = CALENDAR_ENTRY_COLOR_GREEN;
+    default_calendar_entry_color.blue = CALENDAR_ENTRY_COLOR_BLUE;
+    default_calendar_entry_color.pixel = 0;
 
     /* Initialisation des couleurs des différents labels */
     /* Pourra être intégré à la configuration générale */

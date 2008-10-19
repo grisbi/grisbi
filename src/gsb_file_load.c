@@ -81,6 +81,8 @@ static void gsb_file_load_archive ( const gchar **attribute_names,
 static void gsb_file_load_bank ( const gchar **attribute_names,
 			  const gchar **attribute_values );
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
+static void gsb_file_load_color_part ( const gchar **attribute_names,
+				const gchar **attribute_values );
 static void gsb_file_load_currency ( const gchar **attribute_names,
 			      const gchar **attribute_values );
 static void gsb_file_load_currency_link ( const gchar **attribute_names,
@@ -139,7 +141,12 @@ extern gchar *adresse_commune ;
 extern gchar *adresse_secondaire ;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
+extern GdkColor archive_background_color;
+extern GdkColor calendar_entry_color;
 extern gchar *chemin_logo ;
+extern GdkColor couleur_fond[2];
+extern GdkColor couleur_grise;
+extern GdkColor couleur_selection;
 extern struct iso_4217_currency iso_4217_currencies[] ;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
@@ -149,7 +156,9 @@ extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gsb_real null_real ;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
+extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern GdkColor text_color[2];
 extern gchar *titre_fichier ;
 extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
@@ -448,6 +457,14 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
     {
 	gsb_file_load_general_part ( attribute_names,
 				     attribute_values );
+	return;
+    }
+
+    if ( !strcmp ( element_name,
+		   "Color" ))
+    {
+	gsb_file_load_color_part ( attribute_names,
+				   attribute_values );
 	return;
     }
 
@@ -945,6 +962,200 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
     }
     while ( attribute_names[i] );
 }
+
+/**
+ * load the color part in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_color_part ( const gchar **attribute_names,
+				const gchar **attribute_values )
+{
+    gint i=0;
+
+    if ( !attribute_names[i] )
+	return;
+
+    do
+    {
+	/* 	we test at the beginning if the attribute_value is NULL, if yes, */
+	/* 	   go to the next */
+
+	if ( !strcmp (attribute_values[i],
+		      "(null)"))
+	{
+	    /* Nothing */
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Background_color_0_red" ))
+	{
+	    couleur_fond[0].red = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Background_color_0_green" ))
+	{
+	    couleur_fond[0].green = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Background_color_0_blue" ))
+	{
+	    couleur_fond[0].blue = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Background_color_1_red" ))
+	{
+	    couleur_fond[1].red = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Background_color_1_green" ))
+	{
+	    couleur_fond[1].green = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Background_color_1_blue" ))
+	{
+	    couleur_fond[1].blue = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Background_scheduled_red" ))
+	{
+	    couleur_grise.red = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Background_scheduled_green" ))
+	{
+	    couleur_grise.green = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Background_scheduled_blue" ))
+	{
+	    couleur_grise.blue = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Background_archive_red" ))
+	{
+	    archive_background_color.red = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Background_archive_green" ))
+	{
+	    archive_background_color.green = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Background_archive_blue" ))
+	{
+	    archive_background_color.blue = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Selection_red" ))
+	{
+	    couleur_selection.red = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Selection_green" ))
+	{
+	    couleur_selection.green = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Selection_blue" ))
+	{
+	    couleur_selection.blue = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Background_split_red" ))
+	{
+	    split_background.red = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Background_split_green" ))
+	{
+	    split_background.green = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Background_split_blue" ))
+	{
+	    split_background.blue = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Text_color_0_red" ))
+	{
+	    text_color[0].red = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Text_color_0_green" ))
+	{
+	    text_color[0].green = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Text_color_0_blue" ))
+	{
+	    text_color[0].blue = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Text_color_1_red" ))
+	{
+	    text_color[1].red = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Text_color_1_green" ))
+	{
+	    text_color[1].green = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Text_color_1_blue" ))
+	{
+	    text_color[1].blue = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Calendar_entry_red" ))
+	{
+	    calendar_entry_color.red = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Calendar_entry_green" ))
+	{
+	    calendar_entry_color.green = utils_str_atoi (attribute_values[i]);
+	}
+
+	else if ( !strcmp ( attribute_names[i],
+			    "Calendar_entry_blue" ))
+	{
+	    calendar_entry_color.blue = utils_str_atoi (attribute_values[i]);
+	}
+
+	i++;
+    }
+    while ( attribute_names[i] );
+}
+
 
 /**
  * load the print part in the grisbi file

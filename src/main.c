@@ -170,6 +170,7 @@ int main (int argc, char **argv)
     g_free (string);
 
     /* initialisation of the variables */
+    initialisation_couleurs_listes ();
     init_variables ();
     register_import_formats ();
 
@@ -177,7 +178,6 @@ int main (int argc, char **argv)
     {
 	first_use = TRUE;
     }
-    initialisation_couleurs_listes ();
 
     /* create the toplevel window */
     window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );

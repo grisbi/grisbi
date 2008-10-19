@@ -1493,6 +1493,65 @@ gint transaction_list_get_n_children ( gint transaction_number )
 
 
 /**
+ * send a "row-changed" to all the row of the showed transactions,
+ * so in fact re-draw the list and colors
+ *
+ * \param
+ *
+ * \return
+ * */
+gboolean transaction_list_redraw ( void )
+{
+    CustomList *custom_list;
+    gint i;
+    GtkTreeIter iter;
+
+    custom_list = transaction_model_get_model ();
+
+    g_return_val_if_fail ( custom_list != NULL, 0);
+
+    iter.stamp = custom_list -> stamp;
+
+    for ( i=0 ; i < custom_list -> num_visibles_rows ; i++)
+    {
+	CustomRecord *record;
+	GtkTreePath *path;
+
+	record = custom_list -> visibles_rows[i];
+
+	path = gtk_tree_path_new();
+	gtk_tree_path_append_index(path, record->filtered_pos);
+	iter.user_data = record;
+	gtk_tree_model_row_changed(GTK_TREE_MODEL(custom_list), path, &iter);
+	gtk_tree_path_free(path);
+
+	if (record -> number_of_children)
+	{
+	    gint j;
+
+	    for (j=0 ; j<record -> number_of_children ; j++)
+	    {
+		CustomRecord *child_record;
+
+		child_record = record -> children_rows[j];
+
+		path = gtk_tree_path_new();
+
+		/* it's a child, need to get the path of the mother */
+		gtk_tree_path_append_index (path, record -> filtered_pos);
+		gtk_tree_path_append_index(path, child_record->pos);
+		iter.user_data = child_record;
+
+		gtk_tree_model_row_changed(GTK_TREE_MODEL(custom_list), path, &iter);
+		gtk_tree_path_free(path);
+	    }
+	}
+    }
+    return FALSE;
+}
+
+
+/**
  * append a child to the mother in the custom list
  * this function is called internally by transaction_list_append_transaction
  *
@@ -1751,3 +1810,5 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
     g_free (variance_string);
     return TRUE;
 }
+
+

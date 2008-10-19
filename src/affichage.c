@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger	(cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2008 Cédric Auger	(cedric@grisbi.org)	      */
 /*			2006-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -31,6 +31,7 @@
 #include "./gsb_file.h"
 #include "./gsb_form.h"
 #include "./barre_outils.h"
+#include "./gsb_scheduler_list.h"
 #include "./main.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
@@ -53,6 +54,13 @@ static gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 static void change_logo_accueil ( GtkWidget * file_selector );
 static gboolean change_toolbar_display_mode ( GtkRadioButton * button );
 static gboolean modification_logo_accueil ( );
+static  gboolean preferences_view_color_changed ( GtkWidget *color_button,
+						 GtkWidget *combobox );
+static  gboolean preferences_view_color_combobox_changed ( GtkWidget *combobox,
+							  GtkWidget *color_button );
+static  gboolean preferences_view_color_default ( GtkWidget *button,
+						 GtkWidget *combobox );
+static  GtkWidget *preferences_view_create_color_combobox (void);
 static void update_fonte_listes ( gchar *fontname,
 			   gpointer null);
 /*END_STATIC*/
@@ -61,7 +69,19 @@ static void update_fonte_listes ( gchar *fontname,
 /*START_EXTERN*/
 extern gchar *adresse_commune ;
 extern gchar *adresse_secondaire ;
+extern GdkColor archive_background_color;
+extern GdkColor calendar_entry_color;
 extern gchar *chemin_logo ;
+extern GdkColor couleur_fond[2];
+extern GdkColor couleur_grise;
+extern GdkColor couleur_selection;
+extern GdkColor default_archive_background_color;
+extern GdkColor default_calendar_entry_color;
+extern GdkColor default_couleur_fond[2];
+extern GdkColor default_couleur_grise;
+extern GdkColor default_couleur_selection;
+extern GdkColor default_split_background;
+extern GdkColor default_text_color[2];
 extern GtkWidget *entree_adresse_commune ;
 extern GtkWidget *entree_adresse_secondaire ;
 extern GtkWidget *entree_titre_fichier ;
@@ -69,6 +89,8 @@ extern GtkWidget *fenetre_preferences ;
 extern GtkWidget *hbox_title ;
 extern GtkWidget *label_titre_fichier ;
 extern GtkWidget *logo_accueil ;
+extern GdkColor split_background;
+extern GdkColor text_color[2];
 extern gchar *titre_fichier ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
@@ -117,6 +139,9 @@ GtkWidget * onglet_display_fonts ( void )
     GtkWidget *hbox, *vbox_pref, *label, *paddingbox, *font_button;
     GtkWidget *check_button, *vbox;
     GdkPixbuf * pixbuf = NULL;
+    GtkWidget *button;
+    GtkWidget *color_combobox;
+    GtkWidget *color_button;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"), "fonts.png" );
 
@@ -214,6 +239,42 @@ GtkWidget * onglet_display_fonts ( void )
     }
 
     /* change colors */
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Colors") );
+
+    hbox = gtk_hbox_new ( FALSE, 10 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 10 );
+
+    color_combobox = preferences_view_create_color_combobox ();
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 color_combobox,
+			 FALSE, FALSE, 0);
+
+    color_button = gtk_color_button_new ();
+    g_signal_connect ( G_OBJECT (color_button),
+		       "color-set",
+		       G_CALLBACK (preferences_view_color_changed),
+		       G_OBJECT (color_combobox));
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 color_button,
+			 FALSE, FALSE, 0);
+
+    /* connect the color button to the combobox if changed */
+    g_signal_connect ( G_OBJECT (color_combobox),
+		       "changed",
+		       G_CALLBACK (preferences_view_color_combobox_changed),
+		       G_OBJECT (color_button));
+
+    button = gtk_button_new_with_label (_("Back to default"));
+    g_signal_connect ( G_OBJECT (button),
+		       "clicked",
+		       G_CALLBACK (preferences_view_color_default),
+		       G_OBJECT (color_combobox));
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 button,
+			 FALSE, FALSE, 0);
+
+    gtk_combo_box_set_active ( GTK_COMBO_BOX (color_combobox), 0);
+
     return vbox_pref;
 }
 
@@ -603,6 +664,193 @@ GtkWidget *tab_display_toolbar ( void )
 
     return ( vbox_pref );
 
+}
+
+/**
+ * create a list of customable colors
+ *
+ * \param
+ *
+ * \return a GtkComboBox
+ * */
+static GtkWidget *preferences_view_create_color_combobox (void)
+{
+    GtkWidget *combobox;
+    GtkListStore *store;
+    gint i;
+    GtkCellRenderer *renderer;
+
+    struct config_color {
+	gchar *name;
+	GdkColor *color;
+	GdkColor *default_color;
+
+    } config_colors[] = {
+	{ N_("Transaction list background 1"), &couleur_fond[0], &default_couleur_fond[0]},
+	{ N_("Transaction list background 2"), &couleur_fond[1], &default_couleur_fond[1]},
+	{ N_("Color of transaction's text"), &text_color[0], &default_text_color[0]},
+	{ N_("Text of unfinished splitted transaction"), &text_color[1], &default_text_color[1]},
+	{ N_("Children of splitted transaction"), &split_background, &default_split_background},
+	{ N_("Selection color"), &couleur_selection, &default_couleur_selection},
+	{ N_("Background of non selectable scheduled transactions"), &couleur_grise, &default_couleur_grise},
+	{ N_("Archive color"), &archive_background_color, &default_archive_background_color},
+	{ N_("Background of invalid date entry"), &calendar_entry_color, &default_calendar_entry_color },
+	{ NULL, 0, 0},
+    };
+
+    /* the store contains the name of the color we can modify and
+     * a pointer to the corresponding variable */
+    store = gtk_list_store_new ( 3,
+				 G_TYPE_STRING,
+				 G_TYPE_POINTER,
+				 G_TYPE_POINTER );
+    /* fill the store */
+    for ( i = 0 ; config_colors[i].name != NULL ; i++ )
+    {
+	GtkTreeIter iter;
+
+	gtk_list_store_append ( GTK_LIST_STORE (store),
+				&iter );
+	gtk_list_store_set ( GTK_LIST_STORE (store),
+			     &iter,
+			     0, _(config_colors[i].name),
+			     1, config_colors[i].color,
+			     2, config_colors[i].default_color,
+			     -1);
+    }
+
+    /* create the combobox */
+    combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
+
+    renderer = gtk_cell_renderer_text_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combobox), renderer,
+				    "text", 0,
+				    NULL);
+    return combobox;
+}
+
+
+/**
+ * called when the color combobox changed,
+ * update the GtkColorButton with the color of the combobox
+ *
+ * \param combobox
+ * \param color_button
+ *
+ * \return FALSE
+ * */
+static gboolean preferences_view_color_combobox_changed ( GtkWidget *combobox,
+							  GtkWidget *color_button )
+{
+    GtkTreeIter iter;
+
+    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter))
+    {
+	GtkTreeModel *model;
+	GdkColor *color;
+
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
+	gtk_tree_model_get ( GTK_TREE_MODEL (model),
+			     &iter,
+			     1, &color,
+			     -1 );
+	if (color)
+	    gtk_color_button_set_color ( GTK_COLOR_BUTTON (color_button),
+					 color );
+    }
+    return FALSE;
+}
+
+
+/**
+ * called when a color is chosen in the GtkColorButton,
+ * update the color selected
+ *
+ * \param color_button
+ * \param combobox
+ *
+ * \return FALSE
+ * */
+static gboolean preferences_view_color_changed ( GtkWidget *color_button,
+						 GtkWidget *combobox )
+{
+    GtkTreeIter iter;
+
+    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter))
+    {
+	GtkTreeModel *model;
+	GdkColor *color;
+
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
+	gtk_tree_model_get ( GTK_TREE_MODEL (model),
+			     &iter,
+			     1, &color,
+			     -1 );
+	if (color)
+	{
+	    gtk_color_button_get_color ( GTK_COLOR_BUTTON (color_button),
+				       color );
+
+	    /* update the colors in the transactions list */
+	    transaction_list_redraw ();
+
+	    /* update scheduled list */
+	    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
+	    gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
+	    gsb_scheduler_list_select (-1);
+	}
+    }
+    return FALSE;
+}
+
+
+/**
+ * revert to default the selected color into the combobox
+ *
+ * \param button
+ * \param combobox
+ *
+ * \return FALSE
+ * */
+static gboolean preferences_view_color_default ( GtkWidget *button,
+						 GtkWidget *combobox )
+{
+    GtkTreeIter iter;
+
+    if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter))
+    {
+	GtkTreeModel *model;
+	GdkColor *color;
+	GdkColor *default_color;
+
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
+	gtk_tree_model_get ( GTK_TREE_MODEL (model),
+			     &iter,
+			     1, &color,
+			     2, &default_color,
+			     -1 );
+	if (color && default_color)
+	{
+	    gboolean return_val;
+
+	    color -> pixel = default_color -> pixel;
+	    color -> red = default_color -> red;
+	    color -> green = default_color -> green;
+	    color -> blue = default_color -> blue;
+
+	    g_signal_emit_by_name (combobox,
+				   "changed",
+				   &return_val);
+
+	    /* update the colors in the list */
+	    transaction_list_redraw ();
+
+	    /* update scheduled list */
+	    gsb_scheduler_list_redraw ();
+	}
+    }
+    return FALSE;
 }
 
 /* Local Variables: */

@@ -638,6 +638,54 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
 
 
 /**
+ * send a "row-changed" to all the row of the showed transactions,
+ * so in fact re-draw the list and colors
+ *
+ * \param
+ *
+ * \return
+ * */
+gboolean gsb_scheduler_list_redraw ( void )
+{
+    GtkTreeIter iter;
+    GtkTreeModel *tree_model;
+
+    tree_model = gsb_scheduler_list_get_model ();
+
+    if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (tree_model), &iter))
+    {
+	do
+	{
+	    GtkTreePath *path;
+	    GtkTreeIter child_iter;
+
+	    path = gtk_tree_model_get_path ( GTK_TREE_MODEL (tree_model),
+					     &iter );
+	    gtk_tree_model_row_changed ( GTK_TREE_MODEL (tree_model), path, &iter);
+	    gtk_tree_path_free(path);
+
+	    /* update the children if necessary */
+	    if (gtk_tree_model_iter_children ( GTK_TREE_MODEL (tree_model),
+					       &child_iter,
+					       &iter ))
+	    {
+		do
+		{
+		    path = gtk_tree_model_get_path ( GTK_TREE_MODEL (tree_model),
+						     &child_iter );
+		    gtk_tree_model_row_changed ( GTK_TREE_MODEL (tree_model), path, &child_iter);
+		    gtk_tree_path_free(path);
+		}
+		while (gtk_tree_model_iter_next (GTK_TREE_MODEL (tree_model), &child_iter));
+	    }
+	}
+	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (tree_model), &iter));
+    }
+    return FALSE;
+}
+
+
+/**
  * append the scheduled transaction to the tree_view given in param
  * if that transaction need to be appended several times (untill end_date),
  * it's done here

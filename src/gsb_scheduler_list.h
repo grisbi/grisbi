@@ -67,6 +67,7 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed ( void );
 gint gsb_scheduler_list_get_last_scheduled_number ( void );
 GtkWidget *gsb_scheduler_list_get_tree_view ( void );
 void gsb_scheduler_list_init_variables ( void );
+gboolean gsb_scheduler_list_redraw ( void );
 gboolean gsb_scheduler_list_remove_transaction_from_list ( gint scheduled_number );
 gboolean gsb_scheduler_list_select ( gint scheduled_number );
 gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view );

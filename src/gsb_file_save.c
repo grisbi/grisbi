@@ -78,6 +78,10 @@ static gulong gsb_file_save_archive_part ( gulong iterator,
 static gulong gsb_file_save_bank_part ( gulong iterator,
 				 gulong *length_calculated,
 				 gchar **file_content );
+static gulong gsb_file_save_color_part ( gulong iterator,
+				  gulong *length_calculated,
+				  gchar **file_content,
+				  gint archive_number );
 static gulong gsb_file_save_currency_link_part ( gulong iterator,
 					  gulong *length_calculated,
 					  gchar **file_content );
@@ -122,7 +126,12 @@ extern gchar *adresse_commune ;
 extern gchar *adresse_secondaire ;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
+extern GdkColor archive_background_color;
+extern GdkColor calendar_entry_color;
 extern gchar *chemin_logo ;
+extern GdkColor couleur_fond[2];
+extern GdkColor couleur_grise;
+extern GdkColor couleur_selection;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
@@ -130,7 +139,9 @@ extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
+extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern GdkColor text_color[2];
 extern gchar *titre_fichier ;
 extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
@@ -250,6 +261,11 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 					    &length_calculated,
 					    &file_content,
 					    archive_number );
+
+    iterator = gsb_file_save_color_part ( iterator,
+					  &length_calculated,
+					  &file_content,
+					  archive_number );
 
     iterator = gsb_file_save_print_part ( iterator,
 					  &length_calculated,
@@ -653,6 +669,89 @@ gulong gsb_file_save_general_part ( gulong iterator,
     g_free (tree_lines_showed);
     g_free (scheduler_column_width_write);
     g_free (transaction_column_width_write);
+
+    /* append the new string to the file content
+     * and return the new iterator */
+
+    return gsb_file_save_append_part ( iterator,
+				       length_calculated,
+				       file_content,
+				       new_string );
+}
+
+/**
+ * save the color part
+ *
+ * \param iterator the current iterator
+ * \param length_calculated a pointer to the variable lengh_calculated
+ * \param file_content a pointer to the variable file_content
+ * \param archive_number the number of the archive or 0 if not an archive 
+ *
+ * \return the new iterator
+ * */
+gulong gsb_file_save_color_part ( gulong iterator,
+				  gulong *length_calculated,
+				  gchar **file_content,
+				  gint archive_number )
+{
+    gchar *new_string;
+
+    /* save the general informations */
+    new_string = g_markup_printf_escaped ( "\t<Color\n"
+					   "\t\tBackground_color_0_red=\"%d\"\n"
+					   "\t\tBackground_color_0_green=\"%d\"\n"
+					   "\t\tBackground_color_0_blue=\"%d\"\n"
+					   "\t\tBackground_color_1_red=\"%d\"\n"
+					   "\t\tBackground_color_1_green=\"%d\"\n"
+					   "\t\tBackground_color_1_blue=\"%d\"\n"
+					   "\t\tBackground_scheduled_red=\"%d\"\n"
+					   "\t\tBackground_scheduled_green=\"%d\"\n"
+					   "\t\tBackground_scheduled_blue=\"%d\"\n"
+					   "\t\tBackground_archive_red=\"%d\"\n"
+					   "\t\tBackground_archive_green=\"%d\"\n"
+					   "\t\tBackground_archive_blue=\"%d\"\n"
+					   "\t\tSelection_red=\"%d\"\n"
+					   "\t\tSelection_green=\"%d\"\n"
+					   "\t\tSelection_blue=\"%d\"\n"
+					   "\t\tBackground_split_red=\"%d\"\n"
+					   "\t\tBackground_split_green=\"%d\"\n"
+					   "\t\tBackground_split_blue=\"%d\"\n"
+					   "\t\tText_color_0_red=\"%d\"\n"
+					   "\t\tText_color_0_green=\"%d\"\n"
+					   "\t\tText_color_0_blue=\"%d\"\n"
+					   "\t\tText_color_1_red=\"%d\"\n"
+					   "\t\tText_color_1_green=\"%d\"\n"
+					   "\t\tText_color_1_blue=\"%d\"\n"
+					   "\t\tCalendar_entry_red=\"%d\"\n"
+					   "\t\tCalendar_entry_green=\"%d\"\n"
+					   "\t\tCalendar_entry_blue=\"%d\" />\n",
+	couleur_fond[0].red,
+	couleur_fond[0].green,
+	couleur_fond[0].blue,
+	couleur_fond[1].red,
+	couleur_fond[1].green,
+	couleur_fond[1].blue,
+	couleur_grise.red,
+	couleur_grise.green,
+	couleur_grise.blue,
+	archive_background_color.red,
+	archive_background_color.green,
+	archive_background_color.blue,
+	couleur_selection.red,
+	couleur_selection.green,
+	couleur_selection.blue,
+	split_background.red,
+	split_background.green,
+	split_background.blue,
+	text_color[0].red,
+	text_color[0].green,
+	text_color[0].blue,
+	text_color[1].red,
+	text_color[1].green,
+	text_color[1].blue,
+	calendar_entry_color.red,
+	calendar_entry_color.green,
+	calendar_entry_color.blue );
 
     /* append the new string to the file content
      * and return the new iterator */
