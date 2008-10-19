@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-15 22:03+0200\n"
-"PO-Revision-Date: 2008-10-17 20:27+0200\n"
+"PO-Revision-Date: 2008-10-19 12:46+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2806,6 +2806,20 @@ msgid ""
 "In next page, you will be able to select individual features to obfuscate or "
 "to keep depending on the level of privacy needed."
 msgstr ""
+"Este asistente creará copias anónimas de sus ficheros de cuentas, con toda "
+"la información personal reemplazada por información aleatoria sin peligro, así podrá "
+"adjuntar una copia anónima de su fichero de Grisbi con cualquier informe de fallos "
+"que envíe.\n"
+"\n"
+"Dicho esto, por favor compruebe que los fallos que envíe siguen produciéndose "
+"con la versión anonimizada de sus ficheros.\n"
+"\n"
+"Para evitar cualquier problema con sus ficheros, tras guardar el fichero modificado, "
+"Grisbi se cerrará sin permitirle guardar nada más.  Así que si no guardó los cambios,"
+"por favor, pare el asistente guarde su trabajo y reinicie después el proceso de truncamiento.\n"
+"\n"
+"En la siguiente página podrá elegir las características individuales que quiere truncar o "
+"mantener en función del nivel de privacidad que necesite."
 
 #: src/file_obfuscate.c:351
 #, c-format
@@ -2858,24 +2872,20 @@ msgid "Hide categories names"
 msgstr "Ocultar el nombre de las categorías"
 
 #: src/file_obfuscate.c:422
-#, fuzzy
 msgid "Hide budgets names"
-msgstr "Líneas presupuestarias de entradas"
+msgstr "Ocultar nombres de presupuestos"
 
 #: src/file_obfuscate.c:428
-#, fuzzy
 msgid "Hide notes"
-msgstr "las notas"
+msgstr "Ocultar notas"
 
 #: src/file_obfuscate.c:434
-#, fuzzy
 msgid "Hide banks details"
-msgstr "Detalles del banco"
+msgstr "Ocultar detalles del banco"
 
 #: src/file_obfuscate.c:440
-#, fuzzy
 msgid "Hide reports names"
-msgstr "Nombre del informe"
+msgstr "Ocultar nombres del informe"
 
 #: src/file_obfuscate.c:446
 msgid "Hide reconcile names and amounts"
@@ -2896,6 +2906,17 @@ msgid ""
 "there is no personal information anymore in this file.Grisbi will close "
 "immediatly after saving the obfuscated file"
 msgstr ""
+"Por favor, pulse el botón 'Cerrar' para truncar su fichero\n"
+"\n"
+"El fichero truncado se llamará %s en el mismo directorio que el fichero original.\n"
+"\n"
+"Por favor compruebe que el fallo todavía se produce y envíe su fichero con la "
+"explicación para reproducir el fallo a bugsreports@listes.grisbi.org o en el "
+"seguidor de fallos (Mantis) en http://grisbi.tuxfamily.org/mantis/main_page.php\n"
+"\n"
+"La cuenta se guardará como un fichero de texto, así que puede volver a comprobar "
+"con un editor de textos que el fichero no contiene información personal. Grisbi se "
+"cerrará inmediatamente tras guardar el fichero truncado."
 
 #: src/go-charmap-sel.c:181
 msgid "Arabic"
@@ -3398,7 +3419,6 @@ msgid "Minimum authorised balance"
 msgstr "Balance mínimo autorizado"
 
 #: src/gsb_account_property.c:407
-#, fuzzy
 msgid "Minimum desired balance"
 msgstr "Balance mínimo deseado"
 
@@ -4087,7 +4107,6 @@ msgid "Create filename"
 msgstr "Crear nombre de fichero"
 
 #: src/gsb_assistant_first.c:76
-#, fuzzy
 msgid ""
 "This is the first time you use Grisbi, this assistant will guide you through "
 "the configuration process. You can change any option later in the "
@@ -4095,10 +4114,10 @@ msgid ""
 "\n"
 "Thanks for using Grisbi, enjoy!"
 msgstr ""
-"Esta es la primera vez que inicia Grisbi, este asistente le ayudará a "
-"configurarlo. Puede cambiar cualquier opción más tarde en la página de "
-"configuración.\n"
-"Hay muchas más opciones disponibles en la ventana de configuración.\n"
+"Esta es la primera vez que inicia Grisbi, este asistente le ayudará en "
+"el proceso de configuración. Puede cambiar cualquier opción más tarde "
+"en la ventana de configuración, donde hay muchas otras opciones disponibles.\n"
+"\n"
 "Gracias por usar Grisbi ¡Diviértase!"
 
 #. create the assistant
@@ -4535,9 +4554,8 @@ msgid "Category list"
 msgstr "Lista de categorías"
 
 #: src/gsb_category.c:224
-#, fuzzy
 msgid "Display foreign category sets"
-msgstr "Mostrar las subcategorías"
+msgstr "Mostrar los grupos de categorías foráneas."
 
 #: src/gsb_category.c:373
 msgid "Unnamed category list"
@@ -6126,13 +6144,13 @@ msgid "No budget line"
 msgstr "Sin línea presupuestaria"
 
 #: src/gsb_data_budget.c:1301
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The transaction %d has a budget n°%d and sub-budget n°%d but they don't "
 "exist."
 msgstr ""
-"La transacción #%d debería tener una contratransacción #%d, pero ésta no "
-"existe.\n"
+"La transacción %d debería tener una línea y una sublínea presupuestaria nº%d, pero "
+"no existen."
 
 #: src/gsb_data_budget.c:1442 src/gsb_data_category.c:1528
 #, c-format
@@ -6140,13 +6158,13 @@ msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr "ln <i>%s</i>, <i> es un duplicado de <i>%s</i>.\n"
 
 #: src/gsb_data_category.c:1387
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The transaction %d has a category n°%d and sub-category n°%d but they don't "
 "exist."
 msgstr ""
-"La transacción #%d debería tener una contratransacción #%d, pero ésta no "
-"existe.\n"
+"La transacción %d tiene una categoría nº%d y una subcategoría nº%d pero éstas no "
+"existen.\n"
 
 #: src/gsb_data_currency_link.c:475
 msgid ""
@@ -6185,11 +6203,10 @@ msgid "No payee defined"
 msgstr "No hay tercero definido"
 
 #: src/gsb_data_payee.c:705
-#, fuzzy, c-format
+#, c-format
 msgid "The transaction %d has a payee n°%d but it doesn't exist."
 msgstr ""
-"La transacción #%d debería tener una contratransacción #%d, pero ésta no "
-"existe.\n"
+"La transacción %d tiene un tercero nº%d pero ésta no existe."
 
 #: src/gsb_data_payment.c:679
 msgid "Deposit"
@@ -6533,19 +6550,19 @@ msgid "Save changes to document '%s' before closing?"
 msgstr "¿Guardar los cambios al documento '%s' antes de cerrar?"
 
 #: src/gsb_file.c:700
-#, fuzzy, c-format
+#, c-format
 msgid "%d minutes and %d seconds"
-msgstr "%dÂ minutos y %dÂ segundos"
+msgstr "%d minutos y %d segundos"
 
 #: src/gsb_file.c:705
-#, fuzzy, c-format
+#, c-format
 msgid "1 minute and %d seconds"
-msgstr "1Â minuto y %dÂ segundos"
+msgstr "1 minuto y %d segundos"
 
 #: src/gsb_file.c:710
-#, fuzzy, c-format
+#, c-format
 msgid "%d seconds"
-msgstr "%dÂ segundos"
+msgstr "%d segundos"
 
 #: src/gsb_file.c:713
 #, c-format
@@ -7431,7 +7448,6 @@ msgid "Mode"
 msgstr "Modo"
 
 #: src/gsb_scheduler_list.c:603
-#, fuzzy
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
 "happen and there is probably a bug behind that. Please contact the Grisbi "
@@ -7439,11 +7455,11 @@ msgid ""
 "\n"
 "The concerned children number are :\n"
 msgstr ""
-"Algunos hijos no encontraron a su madre en la list, esto no debería pasar y "
+"Algunos hijos programados no encontraron a su madre en la lista, esto no debería pasar y "
 "probablemente hay un fallo detrás. Por favor contacte con el equipo de "
 "Grisbi.\n"
 "\n"
-"Los números de hijos implicados son : \n"
+"Los números de hijos implicados son :\n"
 
 #: src/gsb_scheduler_list.c:780
 #, c-format
@@ -7627,7 +7643,6 @@ msgid "Confirmation of manual (un)reconciliation"
 msgstr "Confirmación de (ir)reconciliación manual"
 
 #: src/gsb_transactions_list.c:1563
-#, fuzzy
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
 "not a recommended action. Are you really sure you know what you're doing?"
@@ -7639,23 +7654,21 @@ msgid ""
 "Are you really sure to know what you do?"
 msgstr ""
 "Está intentando reconciliar o irreconciliar manualmente una transacción y "
-"esto no es la forma normal de hacerlo.\n"
+"esta no es una acción recomendada ¿ Está realmente seguro de que sabe lo que "
+"está haciendo ?\n"
 "\n"
 "Y además la transacción que esté intentando reconciliar es la hija de una "
-"anotación, por lo que la modificación será hecha en la madre y en la hija.\n"
+"anotación, por lo que la modificación será hecha en la madre y en todos sus hijos.\n"
 "\n"
 "¿ Está seguro de que sabe lo que está haciendo ?"
 
 #: src/gsb_transactions_list.c:1578
-#, fuzzy
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
 "not a recommended action. Are you really sure you know what you're doing?"
 msgstr ""
 "Está intentando reconciliar o irreconciliar manualmente una transacción y "
-"esto no es una forma regular de hacer esto,\n"
-"\n"
-"¿Está seguro de que sabe lo que está haciendo?"
+"esto no es la forma recomendada de hacer esto ¿Está seguro de que sabe lo que está haciendo?"
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
@@ -7823,13 +7836,13 @@ msgstr "Polaco"
 
 #. Warn about obsolete dependencies
 #: src/help.c:125
-#, fuzzy
 msgid ""
 "\n"
 "\n"
 "This version of Grisbi does not support print feature.\n"
 "Version of GTK+ it was built with is obsolete."
 msgstr ""
+"\n"
 "\n"
 "Esta versión de Grisbi no tiene soporte para las características de "
 "impresión.\n"
@@ -8057,6 +8070,10 @@ msgid ""
 "necessary reconcile and associate that transactions.\n"
 "You can add/modify the reconciles into the preferences."
 msgstr ""
+"Acaba de importar algunas transacciones marcadas como R, pero de momento no "
+"están asociadas a ninguna reconciliación. Lo mejor sería crear la reconciliación "
+"necesaria y asociarla con esas transacciones.\n"
+"Puede añadir/modificar reconciliaciones en las preferencias."
 
 #: src/import.c:1664
 msgid "Imported account"
@@ -8151,7 +8168,7 @@ msgstr "%s #%d"
 
 #: src/import.c:2975
 msgid "Threshold while matching transaction date during import (in days)"
-msgstr ""
+msgstr "Umbral para cuadrar la fecha de transacción en la importación (en días)"
 
 #: src/import.c:3142
 #, c-format
@@ -8410,9 +8427,8 @@ msgid "_Debug account file..."
 msgstr "_Reparar archivo de cuentas"
 
 #: src/menu.c:201
-#, fuzzy
 msgid "_Obfuscate account file..."
-msgstr "_Reparar archivo de cuentas"
+msgstr "_Truncar archivo de cuentas..."
 
 #: src/menu.c:204
 msgid "_Close"
@@ -8783,9 +8799,9 @@ msgid "Web browser command"
 msgstr "Comando para el navegador web"
 
 #: src/parametres.c:847
-#, fuzzy, c-format
+#, c-format
 msgid "You may use %s to expand the URL. I.e: \"firefox -remote %s\""
-msgstr "Debería usar %s para cargar la URL. EJ: \"firefox -remote %s\""
+msgstr "Podrá usar %s para cargar la URL. EJ: \"firefox -remote %s\""
 
 #: src/parametres.c:857
 msgid "LaTeX support (old print system)"
@@ -8824,9 +8840,9 @@ msgstr ""
 "  -v, --versión                 Mostrar el número de versión y terminar\n"
 
 #: src/parse_cmdline.c:172
-#, fuzzy, c-format
+#, c-format
 msgid "Grisbi version %s, %s\n"
-msgstr "Está usando la versión de Grisbi %s"
+msgstr "Grisbi versión %s, %s\n"
 
 #: src/parse_cmdline.c:221
 #, c-format
@@ -9066,13 +9082,13 @@ msgid "oth l)"
 msgstr "oth l)"
 
 #: src/qif.c:256
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Grisbi found an investment account (%s), which is not implemented yet.  "
 "Nevertheless, Grisbi will try to import it as a bank account."
 msgstr ""
-"Grisbi encontró una cuenta de inversiones que no ha sido implementada "
-"todavía.  Grisbi no volverá a intentar importarla como una cuenta bancaria."
+"Grisbi encontró una cuenta de inversiones (%s) que no ha sido implementada "
+"todavía.  A pesar de todo Grisbi intentará importarla como una cuenta bancaria."
 
 #: src/qif.c:483 src/qif.c:486
 msgid " [Transaction imported without date]"
@@ -9093,6 +9109,10 @@ msgid ""
 "problem.\n"
 "For now, all the dates will be imported as 01.01.1970"
 msgstr ""
+"Grisbi no pudo determinar el formato de la fecha en el fichero qif.\n"
+"Por favor, contacte con el equipo de Grisbi (devel@listes.grisbi.org) para "
+"encontrar el problema.\n"
+"De momento todas las fechas se importarán como 01.01.1970"
 
 #: src/qif.c:612
 #, c-format
@@ -9101,6 +9121,9 @@ msgid ""
 "This shouldn't happen. Please contact the Grisbi team to try to add your "
 "strange format into Grisbi"
 msgstr ""
+"La fecha %s parece que contiene más de dos separadores.\n"
+"Esto no debería pasar. Por favor póngase en contacto con el Equipo de Grisbi "
+"para intentar añadir su formato a Grisbi."
 
 #: src/qif.c:683
 msgid "The order cannot be determined,\n"
@@ -9150,6 +9173,11 @@ msgid ""
 "\n"
 "Are you sure you want to do that?"
 msgstr ""
+"Esto borrará todos los terceros que no se usan en ninguna transacción.  "
+"Los terceros unidos a transacciones archivadas no serán eliminados, aunque "
+"no se usen fuera del archivo.\n"
+"\n"
+"¿ Está seguro de que quiere hacer esto?"
 
 #: src/tiers_onglet.c:337
 #, c-format
