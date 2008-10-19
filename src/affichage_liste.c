@@ -371,8 +371,8 @@ void recuperation_noms_colonnes_et_tips ( void )
 	for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	{
 	    /* 	    xxx changer ça pour faire une fonction comme gsb_form_widget_get_name */
-	    row[j] = g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
-					tab_affichage_ope[i][j] - 1 );
+	    row[j] = _(g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
+					tab_affichage_ope[i][j] - 1 ));
 
 	    /* on the first row, set for titles and tips, for others row, only for tips */
 	    if ( i )
@@ -384,11 +384,11 @@ void recuperation_noms_colonnes_et_tips ( void )
 
 		    if ( tips_col_liste_operations[j] )
 			tips_col_liste_operations[j] = g_strconcat ( tips_col_liste_operations[j],
-								     ", ",
-								     row[j],
+								     "- ",
+								     row[j], " ",
 								     NULL );
 		    else
-			tips_col_liste_operations[j] = row[j];
+			tips_col_liste_operations[j] = g_strconcat ( " ", row[j], " ", NULL );
 		}
 	    }
 	    else
@@ -396,7 +396,7 @@ void recuperation_noms_colonnes_et_tips ( void )
 		if ( row[j] )
 		{
 		    titres_colonnes_liste_operations[j] = row[j];
-		    tips_col_liste_operations[j] = row[j];
+		    tips_col_liste_operations[j] = g_strconcat ( " ", row[j], " ", NULL );
 		}
 	    }
 	}

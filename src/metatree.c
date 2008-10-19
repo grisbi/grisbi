@@ -1603,7 +1603,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 					 iface -> div_name ( division ) :
 					 iface -> sub_div_name ( division, sub_division ) ) );
     gchar* tmpstr2 = g_strdup_printf ( _("If you want to remove it but want to keep transactions, you can transfer them to another (sub-)%s.  Otherwise, transactions can be simply deleted along with their division."), 
-				       g_ascii_strdown ( iface -> meta_name, -1 ) );
+				       _( iface -> meta_name ) );
     dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
 				       make_hint ( tmpstr1 , tmpstr2 ) );
 
@@ -1614,7 +1614,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
 			 FALSE, FALSE, 0 );
 
-    tmpstr1 = g_strdup_printf (_("Transfer transactions to %s"), iface -> meta_name);
+    tmpstr1 = g_strdup_printf (_("Transfer transactions to %s"), _(iface -> meta_name));
     button_move = gtk_radio_button_new_with_label ( NULL, tmpstr1);
     g_free ( tmpstr1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_move,
@@ -1713,9 +1713,9 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 			 FALSE, FALSE, 0 );
 
     if (!sub_division)
-	tmpstr = g_strdup_printf(_("Just remove this %s."), iface -> meta_name );
+	tmpstr = g_strdup_printf(_("Just remove this %s."), _(iface -> meta_name) );
     else
-	tmpstr = g_strdup_printf(_("Just remove this sub-%s."), iface -> meta_name );
+	tmpstr = g_strdup_printf(_("Just remove this sub-%s."), _(iface -> meta_name) );
     button_delete = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( button_move )), tmpstr );
     g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_delete, FALSE, FALSE, 0 );
@@ -1738,8 +1738,8 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 	/* we want to move the transactions */
 	if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	{
-	    gchar* tmpstr1 = g_strdup_printf ( _("It is compulsory to specify a destination %s to move transactions but no %s was entered."), iface -> meta_name, iface -> meta_name );
-	    gchar* tmpstr2 = g_strdup_printf ( _("Please enter a %s!"), iface -> meta_name );
+	    gchar* tmpstr1 = g_strdup_printf ( _("It is compulsory to specify a destination %s to move transactions but no %s was entered."), _(iface -> meta_name), _(iface -> meta_name) );
+	    gchar* tmpstr2 = g_strdup_printf ( _("Please enter a %s!"), _(iface -> meta_name) );
 	    dialogue_warning_hint ( tmpstr1 , tmpstr2 );
 	    g_free ( tmpstr1 );
 	    g_free ( tmpstr2 );

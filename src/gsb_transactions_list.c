@@ -2201,7 +2201,7 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
 
     for ( i = 0 ; cell_views[i] != NULL ; i++ )
     {
-	item = gtk_menu_item_new_with_label (cell_views[i]);
+	item = gtk_menu_item_new_with_label ( _(cell_views[i]) );
 	g_object_set_data ( G_OBJECT (item), "x", GINT_TO_POINTER (x) );
 	g_object_set_data ( G_OBJECT (item), "y", GINT_TO_POINTER (y) );
 	g_signal_connect ( G_OBJECT(item), "activate", 
@@ -2809,8 +2809,8 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
 			break;
 
 		    default:
-			temp = g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
-						  tab_affichage_ope[i][column_number] - 1 );
+			temp = _(g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
+						  tab_affichage_ope[i][column_number] - 1 ));
 		}
 
 		if ( temp
