@@ -36,7 +36,6 @@
 #include "./utils.h"
 #include "./print_dialog_config.h"
 #include "./transaction_model.h"
-#include "./traitement_variables.h"
 #include "./custom_list.h"
 #include "./include.h"
 #include "./erreur.h"
@@ -77,6 +76,8 @@ static GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * o
 
 
 /*START_EXTERN*/
+extern GdkColor archive_background_color;
+extern GdkColor couleur_fond[2];
 extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 /*END_EXTERN*/
@@ -783,7 +784,7 @@ static void print_transactions_list_draw_background ( CustomRecord *record,
     if (record -> what_is_line == IS_ARCHIVE)
     {
 	cairo_rectangle (cr, 0, line_position, page_width, size_row + 2*gsb_data_print_config_get_draw_lines ());
-	cairo_set_source_rgb (cr, (gdouble) COLOR_ARCHIVE_BG_RED/65535, (gdouble) COLOR_ARCHIVE_BG_GREEN/65535, (gdouble) COLOR_ARCHIVE_BG_BLUE/65535);
+	cairo_set_source_rgb (cr, (gdouble) archive_background_color.red/65535, (gdouble) archive_background_color.green/65535, (gdouble) archive_background_color.blue/65535);
     }
     else
     {
@@ -791,9 +792,14 @@ static void print_transactions_list_draw_background ( CustomRecord *record,
 	{
 	    CustomList *custom_list = transaction_model_get_model ();
 	    cairo_rectangle (cr, 0, line_position, page_width, custom_list -> nb_rows_by_transaction * size_row + 2*gsb_data_print_config_get_draw_lines ());
-	    cairo_set_source_rgb (cr, (gdouble) BG_COLOR_1_RED/65535, (gdouble) BG_COLOR_1_GREEN/65535, (gdouble) BG_COLOR_1_BLUE/65535);
+	    cairo_set_source_rgb (cr, (gdouble) couleur_fond[0].red/65535, (gdouble) couleur_fond[0].green/65535, (gdouble) couleur_fond[0].blue/65535);
 	}
-	else return;
+	else
+	{
+	    CustomList *custom_list = transaction_model_get_model ();
+	    cairo_rectangle (cr, 0, line_position, page_width, custom_list -> nb_rows_by_transaction * size_row + 2*gsb_data_print_config_get_draw_lines ());
+	    cairo_set_source_rgb (cr, (gdouble) couleur_fond[1].red/65535, (gdouble) couleur_fond[1].green/65535, (gdouble) couleur_fond[1].blue/65535);
+	}
     }
     cairo_fill (cr);
     cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
