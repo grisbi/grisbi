@@ -38,7 +38,8 @@ enum
 
 
 /* START_DECLARATION */
-void clone_selected_transaction ();
+gboolean clone_selected_transaction (GtkWidget *menu_item,
+				      gpointer null );
 GtkWidget *creation_fenetre_operations ( void );
 gint find_element_col ( gint element_number );
 gint find_element_col_split ( gint element_number );

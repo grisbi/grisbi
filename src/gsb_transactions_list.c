@@ -68,6 +68,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
+						       gpointer null );
 static gboolean assert_selected_transaction ();
 static gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr );
 static GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y );
@@ -81,7 +83,8 @@ static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
 static gboolean gsb_transactions_list_check_mark ( gint transaction_number );
 static gint gsb_transactions_list_choose_reconcile ( gint account_number,
 					      gint selected_reconcile_number );
-static gint gsb_transactions_list_clone_transaction ( gint transaction_number );
+gint gsb_transactions_list_clone_transaction ( gint transaction_number,
+					       gint mother_transaction_number );
 static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model );
 static void gsb_transactions_list_create_tree_view_columns ( void );
 static gboolean gsb_transactions_list_fill_archive_store ( void );
@@ -2123,12 +2126,23 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 	gtk_widget_set_sensitive ( menu_item, FALSE );
     gtk_menu_append ( menu, menu_item );
 
+    /* use transaction as template */
+    menu_item = gtk_image_menu_item_new_with_label ( _("Use selected transaction as a template") );
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				    gtk_image_new_from_stock ( GTK_STOCK_COPY,
+							       GTK_ICON_SIZE_MENU ));
+    g_signal_connect ( G_OBJECT(menu_item), "activate",
+		       G_CALLBACK (gsb_transactions_list_clone_template), NULL );
+    gtk_widget_set_sensitive ( menu_item, full );
+    gtk_menu_append ( menu, menu_item );
+
     /* Clone transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Clone transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
 				    gtk_image_new_from_stock ( GTK_STOCK_COPY,
 							       GTK_ICON_SIZE_MENU ));
-    g_signal_connect ( G_OBJECT(menu_item), "activate", clone_selected_transaction, NULL );
+    g_signal_connect ( G_OBJECT(menu_item), "activate",
+		       G_CALLBACK (clone_selected_transaction), NULL );
     gtk_widget_set_sensitive ( menu_item, full );
     gtk_menu_append ( menu, menu_item );
 
@@ -2315,43 +2329,83 @@ void remove_transaction ()
 
 /**
  * Clone selected transaction if any.  Update user interface as well.
+ *
+ * \param menu_item
+ * \param null
+ *
+ * \return FALSE
  */
-void clone_selected_transaction ()
+gboolean clone_selected_transaction ( GtkWidget *menu_item,
+				      gpointer null )
 {
     gint new_transaction_number;
 
-    if (! assert_selected_transaction()) return;
+    if (! assert_selected_transaction()) return FALSE;
 
-    new_transaction_number = gsb_transactions_list_clone_transaction (gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()));
+    new_transaction_number = gsb_transactions_list_clone_transaction (gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()),
+								      0 );
 
     update_transaction_in_trees (new_transaction_number);
 
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
 
     modification_fichier ( TRUE );
+    return FALSE;
 }
 
+
+/**
+ * use the current selected transaction as template
+ *
+ * \param menu_item
+ * \param null
+ *
+ * \return FALSE
+ * */
+static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
+						       gpointer null )
+{
+    gint new_transaction_number;
+
+    if (! assert_selected_transaction()) return FALSE;
+
+    new_transaction_number = gsb_transactions_list_clone_transaction (gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()),
+								      0 );
+
+    update_transaction_in_trees (new_transaction_number);
+
+    transaction_list_select (new_transaction_number);
+    gsb_transactions_list_edit_transaction (new_transaction_number);
+
+    modification_fichier ( TRUE );
+    return FALSE;
+}
 
 
 /**
  * Clone transaction.  If it is a split or a transfer, perform all
  * needed operations, like cloning associated transactions as well.
  *
- * \param transaction_number Initial transaction to clone
+ * \param transaction_number 		Initial transaction to clone
+ * \param mother_transaction_number	if the transaction cloned is a child with another mother, this is the new mother
  *
  * \return the number newly created transaction.
  */
-gint gsb_transactions_list_clone_transaction ( gint transaction_number )
+gint gsb_transactions_list_clone_transaction ( gint transaction_number,
+					       gint mother_transaction_number )
 {
     gint new_transaction_number;
-
-    /* NOTE : if we fix a bug here, think to fix also in gsb_form_transaction_recover_splits_of_transaction
-     * wich is almost the same to recover splits */
 
     /* dupplicate the transaction */
     new_transaction_number = gsb_data_transaction_new_transaction ( gsb_data_transaction_get_account_number (transaction_number));
     gsb_data_transaction_copy_transaction ( transaction_number,
 					    new_transaction_number );
+
+    if (gsb_data_transaction_get_mother_transaction_number (transaction_number)
+	&&
+	mother_transaction_number )
+	gsb_data_transaction_set_mother_transaction_number ( new_transaction_number,
+							     mother_transaction_number );
 
     /* create the contra-transaction if necessary */
     if ( gsb_data_transaction_get_contra_transaction_number (transaction_number))
@@ -2382,13 +2436,7 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number )
 	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == gsb_data_transaction_get_account_number (transaction_number)
 		 &&
 		 gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp) == transaction_number )
-	    {
-		gint split_transaction_number;
-
-		split_transaction_number = gsb_transactions_list_clone_transaction (transaction_number_tmp);
-		gsb_data_transaction_set_mother_transaction_number ( split_transaction_number,
-								     transaction_number );
-	    }
+		gsb_transactions_list_clone_transaction (transaction_number_tmp, new_transaction_number);
 	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
     }
