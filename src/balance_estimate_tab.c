@@ -555,9 +555,6 @@ static void bet_estimate_refresh()
     {
 	/* no selection, select the first account
 	 * (no warning here because cause a conflict with the tree of navigation */
-	gtk_tree_model_get_iter_first (tree_model, &iter);
-	gtk_tree_selection_select_iter ( tree_selection,
-					 &iter );
 	gtk_notebook_set_page ( GTK_NOTEBOOK (bet_container),
 				0 );
 	return;
