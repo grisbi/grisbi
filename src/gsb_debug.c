@@ -347,16 +347,18 @@ gchar * gsb_debug_reconcile_test ( void )
 	  reconcilied_amount = gsb_data_account_get_init_balance ( account_nb, -1 );
 
 	  /* On récupère la liste des opérations */
-	  pTransactionList = gsb_data_transaction_get_transactions_list ();;
+	  pTransactionList = gsb_data_transaction_get_complete_transactions_list ();;
 
 	  while ( pTransactionList )
 	  {
-	      gint transaction = GPOINTER_TO_INT ( pTransactionList -> data );
+	      gint transaction = gsb_data_transaction_get_transaction_number ( pTransactionList -> data );
 
 	      /* On ne prend en compte que les opérations rapprochées.
 		 On ne prend pas en compte les opérations de ventilation. */
-	      if ( ( gsb_data_transaction_get_marked_transaction ( transaction )
-		     == 3 ) &&	/* FIXME: use enum */
+	      if ( gsb_data_transaction_get_account_number (transaction) == account_nb
+		   &&
+		   (gsb_data_transaction_get_marked_transaction ( transaction ) == OPERATION_RAPPROCHEE )
+		   &&
 		   ! gsb_data_transaction_get_split_of_transaction ( transaction ) )
 	      {
 		  reconcilied_amount = gsb_real_add ( reconcilied_amount,
