@@ -805,7 +805,6 @@ static void print_transactions_list_draw_background ( CustomRecord *record,
     cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
 }
 
-
 /**
  * draw the line before the transaction
  *

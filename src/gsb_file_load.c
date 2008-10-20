@@ -7645,12 +7645,12 @@ gboolean gsb_file_load_update_previous_version ( void )
 
     /* check now if a lot of transactions,
      * if yes, we propose to file the transactions
-     * by default take the 2000 transactions as limit */
+     * by default take the 3000 transactions as limit */
     if ( etat.check_for_archival
 	 &&
 	 g_slist_length (gsb_data_transaction_get_transactions_list ()) > 
 	 etat.max_non_archived_transactions_for_check )
-	    gsb_assistant_archive_run (TRUE);
+	gsb_assistant_archive_run (TRUE);
 
     /* if we opened an archive, we say it here */
     if (etat.is_archive)

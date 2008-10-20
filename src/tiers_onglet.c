@@ -592,6 +592,7 @@ gboolean edit_payee ( GtkTreeView * view )
     /* update the transactions list */
     transaction_list_update_element (ELEMENT_PARTY);
 
+    modification_fichier (TRUE);
     return FALSE;
 }
 
