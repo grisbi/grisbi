@@ -1344,6 +1344,7 @@ void dupliquer_etat ( void )
 
     report_number = gsb_data_report_dup (current_report_number);
 
+    gsb_gui_navigation_add_report (report_number);
     gsb_gui_update_gui_to_report ( report_number );
 
     personnalisation_etat ();
