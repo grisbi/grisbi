@@ -866,7 +866,6 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix,
 	 completed_string )
     {
 	/* there is a completed_string, we set it in the entry only when inserting some text */
-
 	gint position;
 
 	position = gtk_editable_get_position ( GTK_EDITABLE (combofix -> entry));
@@ -1409,6 +1408,8 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
 			gtk_editable_select_region ( GTK_EDITABLE (combofix -> entry),
 						     0,
 						     0 );
+			/* important to return TRUE else grisbi will finish the transaction */
+			return TRUE;
 		    }
 		}
 	    }
