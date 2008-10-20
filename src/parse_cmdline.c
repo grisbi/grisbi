@@ -51,7 +51,7 @@ static struct option long_options[] =           /*!< configure the list of 'long
 #define   USAGE_STRING N_("Usage: gribi [--version | -v] | [--help | -?]\n")
 
 #define   HELP_STRING  				                               \
- N_("gribi [options] [file]\n"                                                 \
+ N_("grisbi [options] [file]\n"                                                 \
     "  --help                    Show this help message and exit\n"        \
     "  -v, --version                 Show version number and exit\n"           \
    )
