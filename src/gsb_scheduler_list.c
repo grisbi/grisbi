@@ -81,6 +81,9 @@ static gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selecti
 static void gsb_scheduler_list_set_model ( GtkTreeModel *model );
 static void gsb_scheduler_list_set_sorted_model ( GtkTreeModelSort *tree_model_sort );
 static void gsb_scheduler_list_set_tree_view ( GtkWidget *tree_view );
+static gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
+					    GtkAllocation *allocation,
+					    gpointer null );
 static gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number );
 /*END_STATIC*/
 
@@ -118,6 +121,8 @@ GSList *scheduled_transactions_taken;
 
 /** used to save and restore the width of the scheduled list */
 gint scheduler_col_width[NB_COLS_SCHEDULER];
+
+gint scheduler_current_tree_view_width = 0;
 
 /**
  *
@@ -187,7 +192,6 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     gsb_scheduler_list_show_notes ();
 
     /* create the store and set it in the tree_view */
-
     GtkTreeModel *tree_model = gsb_scheduler_list_create_model ();
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), tree_model);
     g_object_unref (G_OBJECT(tree_model));
@@ -294,6 +298,10 @@ GtkWidget *gsb_scheduler_list_create_tree_view (void)
 				  GTK_SELECTION_SINGLE );
 
     g_signal_connect ( G_OBJECT ( tree_view ),
+		       "size_allocate",
+		       G_CALLBACK (gsb_scheduler_list_size_allocate),
+		       NULL );
+    g_signal_connect ( G_OBJECT ( tree_view ),
 		       "button-press-event",
 		       G_CALLBACK ( gsb_scheduler_list_button_press ),
 		       NULL );
@@ -357,17 +365,10 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
 					     FALSE );
 
 	/* automatic and resizeable sizing */
-	gtk_tree_view_column_set_expand ( scheduler_list_column[i],
-					  TRUE );
 	gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
 					  GTK_TREE_VIEW_COLUMN_FIXED );
 	gtk_tree_view_column_set_resizable ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
 					     TRUE );
-
-	/* initial size */
-	if (scheduler_col_width[i])
-	    gtk_tree_view_column_set_fixed_width ( scheduler_list_column[i],
-						   scheduler_col_width[i] );
     }
 }
 
@@ -1854,26 +1855,56 @@ gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number )
 }
 
 
+
+/* xxx IMPORTANT : voir gsb_scheduler_list.h dans les define, il y a un numéro qui saute */
+
 /**
- * update the value of scheduler_col_width with the current width of column
- * this is called usually juste before saving the file,
- * to save the initial width of columns in the next opening
+ * called when the size of the tree view changed, to keep the same ration
+ * between the columns
  *
- * \param
+ * \param tree_view	the tree view of the transactions list
+ * \param allocation	the new size
+ * \param null
  *
- * \return
+ * \return FALSE
  * */
-void gsb_scheduler_list_update_col_width (void)
+gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
+					    GtkAllocation *allocation,
+					    gpointer null )
 {
     gint i;
 
-    if (!tree_view_scheduler_list)
-	return;
+    if (allocation -> width == scheduler_current_tree_view_width)
+    {
+	/* size of the tree view didn't change, but we received an allocated signal
+	 * it happens several times, and especially when we change the columns,
+	 * so we update the colums */
 
-    for (i=0 ; i<NB_COLS_SCHEDULER ; i++)
-	if (scheduler_list_column[i])
-	    scheduler_col_width[i] = gtk_tree_view_column_get_width (scheduler_list_column[i]);
-    return;
+	/* sometimes, when the list is not visible, he will set all the columns to 1%... we block that here */
+	if (gtk_tree_view_column_get_width (scheduler_list_column[0]) == 1)
+	    return FALSE;
+
+	for (i=0 ; i<NB_COLS_SCHEDULER ; i++)
+	    if (gtk_tree_view_column_get_width (scheduler_list_column[i]))
+		scheduler_col_width[i] = (gtk_tree_view_column_get_width (scheduler_list_column[i]) * 100) / allocation -> width + 1;
+
+	return FALSE;
+    }
+
+    /* the size of the tree view changed, we keep the ration between the columns,
+     * we don't set the size of the last column to avoid the calculate problems,
+     * it will take the end of the width alone */
+    scheduler_current_tree_view_width = allocation -> width;
+
+    for ( i = 0 ; i < NB_COLS_SCHEDULER - 1 ; i++ )
+    {
+	gint width;
+
+	width = (scheduler_col_width[i] * (allocation -> width))/ 100;
+	gtk_tree_view_column_set_fixed_width ( scheduler_list_column[i],
+					       width );
+    }
+    return FALSE;
 }
 
 

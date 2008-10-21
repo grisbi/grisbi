@@ -37,7 +37,6 @@
 struct {
     time_t modification_fichier;
     gint is_archive;		/** TRUE if the file is an archive, FALSE else */
-    gint ctrl;
     gint equilibrage;
     gint r_modifiable;
     gint dernier_fichier_auto;

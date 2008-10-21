@@ -55,7 +55,6 @@
 #include "./navigation.h"
 #include "./gsb_plugins.h"
 #include "./gsb_real.h"
-#include "./gsb_scheduler_list.h"
 #include "./utils_str.h"
 #include "./structures.h"
 #include "./custom_list.h"
@@ -557,9 +556,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	else
 	    transaction_column_width_write  = utils_str_itoa ( transaction_col_width[i] );
 
-
-    /* prepare scheduler_column_width_write */
-    gsb_scheduler_list_update_col_width ();
 
     scheduler_column_width_write = NULL;
 

@@ -7,8 +7,8 @@
 #define COL_NB_FREQUENCY 3
 #define COL_NB_MODE 4
 #define COL_NB_NOTES 5
-#define COL_NB_AMOUNT 6		/* doit Ãªtre le dernier de la liste
-				   Ã  cause de plusieurs boucles for */
+#define COL_NB_AMOUNT 6	
+
 #define NB_COLS_SCHEDULER 7
 
 /* define the columns in the store
@@ -72,7 +72,6 @@ gboolean gsb_scheduler_list_remove_transaction_from_list ( gint scheduled_number
 gboolean gsb_scheduler_list_select ( gint scheduled_number );
 gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view );
 gboolean gsb_scheduler_list_show_notes ( void );
-void gsb_scheduler_list_update_col_width (void);
 gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number );
 /* END_DECLARATION */
 

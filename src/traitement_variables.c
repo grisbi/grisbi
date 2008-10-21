@@ -158,6 +158,7 @@ extern gint no_devise_totaux_tiers;
 extern GtkWidget *notebook_general ;
 extern GSList *orphan_child_transactions ;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
+extern gint scheduler_current_tree_view_width ;
 extern GtkWidget *solde_label ;
 extern GtkWidget *solde_label_pointe ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -212,7 +213,8 @@ void modification_fichier ( gboolean modif )
  * */
 void init_variables ( void )
 {
-    gint scheduler_col_width_init[NB_COLS_SCHEDULER] = {119, 121, 352, 129, 147, 0, 116};
+    /* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
+    gint scheduler_col_width_init[NB_COLS_SCHEDULER] = {10, 12, 36, 12, 12, 12, 12 };
     gint transaction_col_width_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = {10, 12, 36, 6, 12, 12, 12 };
     gint i;
     
@@ -292,6 +294,7 @@ void init_variables ( void )
 
     etat.largeur_auto_colonnes = 1;
     current_tree_view_width = 0;
+    scheduler_current_tree_view_width = 0;
 
     initialise_tab_affichage_ope();
 
