@@ -64,6 +64,7 @@
 
 /*START_STATIC*/
 static void gsb_file_append_name_to_opened_list ( gchar * path_fichier );
+static gboolean gsb_file_automatic_backup ( gpointer null );
 static  gchar *gsb_file_dialog_ask_name ( void );
 static  gint gsb_file_dialog_save ( void );
 static gboolean gsb_file_save_backup ( void );
@@ -76,6 +77,9 @@ static gboolean gsb_file_save_file ( gint origine );
 static gchar *last_path_used;
 
 static gchar *backup_path;
+
+/** the timeout used to save a backup every x minutes */
+gint id_timeout = 0;
 
 
 
@@ -95,7 +99,6 @@ extern GtkWidget *tree_view_vbox ;
 extern GtkWidget *window ;
 extern GtkWidget *window_vbox_principale ;
 /*END_EXTERN*/
-
 
 
 /**
@@ -362,18 +365,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 	/* the file has been opened succesfully */
 	/* we make a backup if necessary */
 	if ( etat.sauvegarde_demarrage )
-	{
-	    gchar *backup_filename;
-
-	    gsb_status_message ( _("Autosaving") );
-
-	    /* we get only the name of the file, not the path */
-	    backup_filename = utils_files_create_backup_name (filename);
-	    gsb_file_save_save_file ( backup_filename,
-				      etat.compress_backup,
-				      FALSE );
-	    g_free (backup_filename);
-	}
+	    gsb_file_save_backup();
     }
     else
     {
@@ -385,7 +377,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 	if ( etat.sauvegarde_demarrage )
 	{
 	    gchar *backup_filename;
-
+/* xxx ça marche plus ici */
 	    gsb_status_message ( _("Loading backup") );
 
 	    /* create the name of the backup */
@@ -512,8 +504,8 @@ gboolean gsb_file_save_file ( gint origine )
 
     etat_force = 0;
 
-    if ( ( ! etat.modification_fichier && origine != -2 ) ||
-	 ! gsb_data_account_get_accounts_amount () )
+    if ( ( !etat.modification_fichier && origine != -2 ) ||
+	 !gsb_data_account_get_accounts_amount () )
     {
 	notice_debug ( "nothing done in gsb_file_save_file" );
 	return ( TRUE );
@@ -548,6 +540,10 @@ gboolean gsb_file_save_file ( gint origine )
 	return ( FALSE );
     }
 
+    /* make backup before saving if asked */
+    if (etat.make_backup)
+	gsb_file_save_backup();
+
     /*   on a maintenant un nom de fichier */
     /*     et on sait qu'on peut sauvegarder */
     gsb_status_message ( _("Saving file") );
@@ -558,26 +554,20 @@ gboolean gsb_file_save_file ( gint origine )
 
     if ( result )
     {
-	/* 	l'enregistrement s'est bien passé, */
-	/* 	on délock le fichier (l'ancien ou le courant) */
-	    
+	/* saving was right, so unlock the last name */
 	gsb_file_util_modify_lock ( FALSE );
 
 	nom_fichier_comptes = nouveau_nom_enregistrement;
 
-	/* 	... et locke le nouveau */
-
+	/* and lock the new name */
 	gsb_file_util_modify_lock ( TRUE );
 
-	/* 	dans tout les cas, le fichier n'était plus ouvert à l'ouverture */
+	/* update variables */
 	etat.fichier_deja_ouvert = 0;
 	modification_fichier ( FALSE );
 	gsb_file_update_window_title ();
 	gsb_file_append_name_to_opened_list ( nom_fichier_comptes );
     }
-
-    /*     on enregistre la backup si nécessaire */
-    gsb_file_save_backup();
 
     gsb_status_message ( _("Done") );
 
@@ -600,9 +590,9 @@ gboolean gsb_file_save_backup ( void )
     time_t temps;
     gchar *name;
 
-    if (!etat.make_backup
+    if (!gsb_file_get_backup_path ()
 	||
-	!gsb_file_get_backup_path ())
+	!etat.modification_fichier )
 	return FALSE;
 
     gsb_status_message ( _("Saving backup") );
@@ -618,9 +608,9 @@ gboolean gsb_file_save_backup ( void )
 				 name,
 				 day_time -> tm_year + 1900, day_time -> tm_mon + 1, day_time -> tm_mday,
 				 day_time -> tm_hour, day_time -> tm_min, day_time -> tm_sec );
-    retour = gsb_file_save_save_file( filename,
-				      etat.compress_backup,
-				      FALSE );
+    retour = gsb_file_save_save_file ( filename,
+				       etat.compress_backup,
+				       FALSE );
     g_free (filename);
     g_free (name);
 
@@ -629,6 +619,89 @@ gboolean gsb_file_save_backup ( void )
     return ( retour );
 }
 
+
+/**
+ * called when the user select the backup every x minutes
+ *
+ * \param checkbutton
+ * \param null
+ *
+ * \return FALSE
+ * */
+gboolean gsb_file_automatic_backup_start ( GtkWidget *checkbutton,
+					   gpointer null )
+{
+    devel_debug_int (etat.make_backup_every_minutes);
+
+    /* if there is already a timeout, we remove it */
+    if (id_timeout)
+    {
+	g_source_remove (id_timeout);
+	id_timeout = 0;
+    }
+
+    /* launch the timeout only if active and if there is some minutes */
+    if (etat.make_backup_every_minutes
+	&&
+	etat.make_backup_nb_minutes )
+	id_timeout = g_timeout_add_seconds ( etat.make_backup_nb_minutes * 60,
+					     (GSourceFunc) (gsb_file_automatic_backup),
+					     NULL );
+    return FALSE;
+}
+
+/**
+ * called when the user change the interval of automatic backup
+ *
+ * \param spinbutton
+ * \param null
+ *
+ * \return FALSE
+ * */
+gboolean gsb_file_automatic_backup_change_time ( GtkWidget *spinbutton,
+						 gpointer null )
+{
+    devel_debug_int (etat.make_backup_nb_minutes);
+
+    /* if there is already a timeout, we stop it */
+    if (id_timeout)
+    {
+	g_source_remove (id_timeout);
+	id_timeout = 0;
+    }
+
+    /* set a new timeout only if there is an interval */
+    if (etat.make_backup_nb_minutes)
+	id_timeout = g_timeout_add_seconds ( etat.make_backup_nb_minutes * 60,
+					     (GSourceFunc) (gsb_file_automatic_backup),
+					     NULL );
+
+    return FALSE;
+}
+
+
+/**
+ * called every x minutes defined by user
+ * to save a backup of the file
+ *
+ * \param null
+ *
+ * \return TRUE to continue the timeout, FALSE to stop the timeout
+ * */
+gboolean gsb_file_automatic_backup ( gpointer null )
+{
+    devel_debug (NULL);
+
+    if (!etat.make_backup_every_minutes)
+	/* stop the timeout */
+	return FALSE;
+
+    /* we save only if there is a nb of minutes, but don't stop the timer if not */
+    if (etat.make_backup_nb_minutes)
+	gsb_file_save_backup ();
+
+    return TRUE;
+}
 
 
 /**

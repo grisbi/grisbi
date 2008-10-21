@@ -39,10 +39,15 @@ struct {
     gint is_archive;		/** TRUE if the file is an archive, FALSE else */
     gint equilibrage;
     gint r_modifiable;
+
+    /* files and backup part */
     gint dernier_fichier_auto;
     gint sauvegarde_auto;             /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
     gint sauvegarde_demarrage;        /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
     gint make_backup;			/* TRUE for create a backup when save file */
+    gint make_backup_every_minutes;	/* TRUE to make backup every x mn */
+    gint make_backup_nb_minutes;	/* the number of minutes we want to make a backup */
+
     gboolean debug_mode;		/* TRUE in debug mode, FALSE for normale mode */
     gint entree;   			 /* si etat.entree = 1, la touche entrée finit l'opération */ 
     gint alerte_mini;

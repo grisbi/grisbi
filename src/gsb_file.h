@@ -5,6 +5,10 @@
 
 
 /* START_DECLARATION */
+gboolean gsb_file_automatic_backup_change_time ( GtkWidget *spinbutton,
+						 gpointer null );
+gboolean gsb_file_automatic_backup_start ( GtkWidget *checkbutton,
+					   gpointer null );
 gboolean gsb_file_close ( void );
 const gchar *gsb_file_get_backup_path ( void );
 const gchar *gsb_file_get_last_path ( void );

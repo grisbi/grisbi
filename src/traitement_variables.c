@@ -59,8 +59,8 @@
 #include "./transaction_model.h"
 #include "./custom_list.h"
 #include "./gsb_transactions_list.h"
-#include "./gsb_scheduler_list.h"
 #include "./include.h"
+#include "./gsb_scheduler_list.h"
 #include "./gsb_calendar.h"
 #include "./erreur.h"
 #include "./structures.h"
@@ -143,6 +143,7 @@ extern gint affichage_echeances_perso_nb_libre;
 extern GtkTreeModel *bank_list_model ;
 extern gchar *chemin_logo ;
 extern gint current_tree_view_width ;
+extern gint id_timeout ;
 extern gint ligne_affichage_une_ligne;
 extern GSList *lignes_affichage_deux_lignes;
 extern GSList *lignes_affichage_trois_lignes;
@@ -348,6 +349,14 @@ void init_variables ( void )
     text_color[0] = default_text_color[0];
     text_color[1] = default_text_color[1];
     calendar_entry_color = default_calendar_entry_color;
+
+    /* remove the timeout if necessary */
+    if (id_timeout)
+    {
+	g_source_remove (id_timeout);
+	id_timeout = 0;
+    }
+
 }
 
 

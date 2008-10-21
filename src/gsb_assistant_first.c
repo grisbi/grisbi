@@ -33,8 +33,8 @@
 #include "./gsb_assistant.h"
 #include "./gsb_assistant_file.h"
 #include "./gsb_automem.h"
-#include "./utils_buttons.h"
 #include "./parametres.h"
+#include "./gsb_file.h"
 #include "./traitement_variables.h"
 #include "./utils.h"
 #include "./structures.h"
@@ -226,20 +226,33 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     /* Automatic backup ? */
-
-    /* create first the box for choosing the dir of backup, to (un)sensitive it */
-    hbox = gtk_hbox_new ( FALSE, 6 );
-
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
-					  &etat.make_backup, G_CALLBACK (gsb_button_sensitive_by_checkbutton), hbox);
+					  &etat.make_backup, NULL, NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
+    /* Automatic backup every x minutes */
+    hbox = gtk_hbox_new ( FALSE, 6);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+			 FALSE, FALSE, 0);
+
+    button = gsb_automem_checkbutton_new (_("Make a backup copy every "),
+					  &etat.make_backup_every_minutes,
+					  G_CALLBACK (gsb_file_automatic_backup_start), NULL);
+    gtk_box_pack_start ( GTK_BOX (hbox), button,
+			 FALSE, FALSE, 0 );
+
+    button = gsb_automem_spin_button_new ( &etat.make_backup_nb_minutes,
+					   G_CALLBACK (gsb_file_automatic_backup_change_time), NULL );
+    gtk_box_pack_start ( GTK_BOX (hbox), button,
+			 FALSE, FALSE, 0 );
+
+    label = gtk_label_new (_(" minutes"));
+    gtk_box_pack_start ( GTK_BOX (hbox), label,
+			 FALSE, FALSE, 0 );
+
     /* if automatic backup, choose a dir */
-    /* unsensitive by default */
-    if (!etat.make_backup)
-	gtk_widget_set_sensitive ( hbox,
-				   FALSE );
+    hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0);
 
@@ -255,6 +268,14 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 		       NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button,
 			 TRUE, TRUE, 0);
+
+    /* crypt the grisbi file */
+    button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
+					   &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
+    g_signal_connect ( G_OBJECT (button ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
+			 FALSE, FALSE, 0 );
 
 
     gtk_widget_show_all (page);

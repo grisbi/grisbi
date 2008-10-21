@@ -146,6 +146,16 @@ gboolean gsb_file_config_load_config ( void )
 						"Make backup",
 						NULL );
 
+    etat.make_backup_every_minutes = g_key_file_get_integer ( config,
+							      "General",
+							      "Make backup every x minutes",
+							      NULL );
+
+    etat.make_backup_nb_minutes = g_key_file_get_integer ( config,
+							   "General",
+							   "Make backup nb minutes",
+							   NULL );
+
     gsb_file_set_backup_path ( g_key_file_get_string ( config,
 						       "General",
 						       "Backup path",
@@ -442,6 +452,14 @@ gboolean gsb_file_config_save_config ( void )
 			     "General",
 			     "Make backup",
 			     etat.make_backup );
+    g_key_file_set_integer ( config,
+			     "General",
+			     "Make backup every x minutes",
+			     etat.make_backup_every_minutes );
+    g_key_file_set_integer ( config,
+			     "General",
+			     "Make backup nb minutes",
+			     etat.make_backup_nb_minutes );
     if (gsb_file_get_backup_path ())
 	g_key_file_set_string ( config,
 				"General",
@@ -562,8 +580,8 @@ gboolean gsb_file_config_save_config ( void )
 			     "Scheduled",
 			     "Execute scheduled of month",
 			     execute_scheduled_of_month );
-    /* save shown section */
 
+    /* save shown section */
     g_key_file_set_integer ( config,
 			     "Display",
 			     "Show transaction form",
@@ -1139,6 +1157,8 @@ void gsb_file_config_clean_config ( void )
     gsb_file_update_last_path (g_get_home_dir ());
     gsb_file_set_backup_path (g_get_home_dir ());
     etat.make_backup = FALSE;
+    etat.make_backup_every_minutes = FALSE;
+    etat.make_backup_nb_minutes = 0;
 
     nb_derniers_fichiers_ouverts = 0;
     nb_max_derniers_fichiers_ouverts = 3;

@@ -36,7 +36,6 @@
 #include "./gsb_archive_config.h"
 #include "./gsb_automem.h"
 #include "./gsb_bank.h"
-#include "./utils_buttons.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_currency_link_config.h"
 #include "./gsb_data_account.h"
@@ -722,24 +721,40 @@ GtkWidget *onglet_fichier ( void )
 
     /* Backup at each opening? */
     button = gsb_automem_checkbutton_new ( _("Make a backup copy after opening files"),
-					   &(etat.sauvegarde_demarrage), NULL, NULL );
+					   &(etat.sauvegarde_demarrage), NULL, NULL);
     g_signal_connect ( G_OBJECT (button ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
     /* Automatic backup ? */
-
-    /* create first the box for choosing the dir of backup, to (un)sensitive it */
-    hbox = gtk_hbox_new ( FALSE, 6 );
-
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
-					  &etat.make_backup, G_CALLBACK (gsb_button_sensitive_by_checkbutton), hbox);
+					  &etat.make_backup, NULL, NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
+    /* Automatic backup every x minutes */
+    hbox = gtk_hbox_new ( FALSE, 6);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+			 FALSE, FALSE, 0);
+
+    button = gsb_automem_checkbutton_new (_("Make a backup copy every "),
+					  &etat.make_backup_every_minutes,
+					  G_CALLBACK (gsb_file_automatic_backup_start), NULL);
+    gtk_box_pack_start ( GTK_BOX (hbox), button,
+			 FALSE, FALSE, 0 );
+
+    button = gsb_automem_spin_button_new ( &etat.make_backup_nb_minutes,
+					   G_CALLBACK (gsb_file_automatic_backup_change_time), NULL );
+    gtk_box_pack_start ( GTK_BOX (hbox), button,
+			 FALSE, FALSE, 0 );
+
+    label = gtk_label_new (_(" minutes"));
+    gtk_box_pack_start ( GTK_BOX (hbox), label,
+			 FALSE, FALSE, 0 );
+
     /* if automatic backup, choose a dir */
-    gtk_widget_set_sensitive ( hbox, etat.make_backup);
+    hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0);
 
@@ -885,7 +900,7 @@ GtkWidget *onglet_programmes (void)
     return ( vbox_pref );
 }
 
-/* xxx faire enregistrement toutes les x minutes */
+
 
 /**
  * create the scheduler config page

@@ -75,9 +75,6 @@ static gchar *order_names[] = {
     "month-day-year",
     "month-year-day" };
 
-/* xxx mettre en highlight une split dont les children ne font pas la totalité de la transaction */
-/* ou un pixmap à gauche ? */
-
 
 /**
  * \brief Import QIF data.
