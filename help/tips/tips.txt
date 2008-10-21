@@ -50,7 +50,7 @@ You can then activate them again by going to the <i>Preferences</i> window and t
 
 16 _ "You can sort the transaction list according to any criteria.  Click on the column titles to sort transactions differently.  For example, you can sort transactions by payee or category name."
 
-17 _ "You can reorder accounts in the navigation list using drag & drop."
+17 _ "You can reorder accounts in the navigation list using drag &amp; drop."
 
 18 _ "You can have future scheduled transactions 'executed' before their date, "
 
