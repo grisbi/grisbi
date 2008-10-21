@@ -6164,7 +6164,7 @@ msgid ""
 "exist."
 msgstr ""
 "La transacción %d tiene una categoría nº%d y una subcategoría nº%d pero éstas no "
-"existen.\n"
+"existen."
 
 #: src/gsb_data_currency_link.c:475
 msgid ""
