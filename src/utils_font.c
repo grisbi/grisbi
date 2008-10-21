@@ -43,7 +43,6 @@ static  void utils_font_update_labels ( GtkWidget *button,
 
 
 /*START_EXTERN*/
-extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 

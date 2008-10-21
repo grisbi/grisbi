@@ -158,7 +158,6 @@ extern gint no_devise_totaux_tiers;
 extern GtkWidget *notebook_general ;
 extern GSList *orphan_child_transactions ;
 extern gint scheduler_col_width[NB_COLS_SCHEDULER];
-extern GtkTreeSelection * selection ;
 extern GtkWidget *solde_label ;
 extern GtkWidget *solde_label_pointe ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];

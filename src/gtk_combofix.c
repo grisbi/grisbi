@@ -108,7 +108,6 @@ enum combofix_key_direction {
 
 /*START_EXTERN*/
 extern gint max;
-extern GtkTreeSelection * selection ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 

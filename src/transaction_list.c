@@ -69,7 +69,6 @@ extern GdkColor archive_background_color;
 extern GdkColor couleur_fond[2];
 extern gsb_real null_real ;
 extern GSList *orphan_child_transactions ;
-extern GtkTreeSelection * selection ;
 extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GdkColor text_color[2];

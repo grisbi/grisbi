@@ -37,7 +37,6 @@
 
 
 /*START_EXTERN*/
-extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 

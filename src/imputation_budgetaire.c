@@ -72,7 +72,6 @@ gint no_devise_totaux_ib;
 
 /*START_EXTERN*/
 extern MetatreeInterface * budgetary_interface ;
-extern GtkTreeSelection * selection ;
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window ;
 /*END_EXTERN*/

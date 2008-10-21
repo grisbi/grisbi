@@ -79,7 +79,6 @@ static  gboolean gsb_archive_config_select ( GtkTreeSelection *selection,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeSelection * selection ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 

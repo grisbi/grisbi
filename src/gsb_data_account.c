@@ -120,7 +120,6 @@ static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 
 /*START_EXTERN*/
 extern gsb_real null_real ;
-extern GtkTreeSelection * selection ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 

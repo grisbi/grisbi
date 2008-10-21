@@ -97,7 +97,6 @@ static  void go_option_menu_update_contents_real (GOOptionMenu *option_menu,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeSelection * selection ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 

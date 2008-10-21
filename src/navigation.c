@@ -109,7 +109,6 @@ extern GtkWidget *menu_import_rules;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkWidget *notebook_general ;
 extern GtkTreeStore *payee_tree_model ;
-extern GtkTreeSelection * selection ;
 extern gchar *titre_fichier ;
 /*END_EXTERN*/
 

@@ -82,9 +82,6 @@ extern GdkColor default_couleur_grise;
 extern GdkColor default_couleur_selection;
 extern GdkColor default_split_background;
 extern GdkColor default_text_color[2];
-extern GtkWidget *entree_adresse_commune ;
-extern GtkWidget *entree_adresse_secondaire ;
-extern GtkWidget *entree_titre_fichier ;
 extern GtkWidget *fenetre_preferences ;
 extern GtkWidget *hbox_title ;
 extern GtkWidget *label_titre_fichier ;
@@ -372,6 +369,7 @@ GtkWidget *onglet_display_addresses ( void )
 {
     GtkWidget *hbox, *vbox_pref, *scrolled_window, *label;
     GtkWidget *paddingbox;
+    GtkWidget *entry;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Addresses & titles"),
 					       "addresses.png" );
@@ -387,9 +385,9 @@ GtkWidget *onglet_display_addresses ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0);
 
-    entree_titre_fichier = gsb_automem_entry_new (&titre_fichier,
-						 ((GCallback)update_homepage_title), NULL);
-    gtk_box_pack_start ( GTK_BOX ( hbox ), entree_titre_fichier,
+    entry = gsb_automem_entry_new (&titre_fichier,
+				   ((GCallback)update_homepage_title), NULL);
+    gtk_box_pack_start ( GTK_BOX ( hbox ), entry,
 			 TRUE, TRUE, 0);
 
     /* Addresses */
@@ -410,9 +408,9 @@ GtkWidget *onglet_display_addresses ( void )
 			 FALSE, FALSE, 0);
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
 					  GTK_SHADOW_IN );
-    entree_adresse_commune = gsb_automem_textview_new ( &adresse_commune, NULL, NULL );
+    entry = gsb_automem_textview_new ( &adresse_commune, NULL, NULL );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			entree_adresse_commune );
+			entry );
 
     /* Secondary address */
     /** \note This is not implemented yet */
@@ -429,9 +427,9 @@ GtkWidget *onglet_display_addresses ( void )
 					  GTK_SHADOW_IN );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
 			 FALSE, FALSE, 0);
-    entree_adresse_secondaire = gsb_automem_textview_new ( &adresse_secondaire, NULL, NULL );
+    entry = gsb_automem_textview_new ( &adresse_secondaire, NULL, NULL );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			entree_adresse_secondaire );
+			entry );
 
     if ( !gsb_data_account_get_accounts_amount () )
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );

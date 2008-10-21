@@ -367,7 +367,6 @@ extern GtkWidget *notebook_config_etat ;
 extern GtkWidget *notebook_etats ;
 extern GtkWidget *notebook_general ;
 extern GtkWidget *onglet_config_etat ;
-extern GtkTreeSelection * selection ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 
@@ -386,6 +385,7 @@ void personnalisation_etat (void)
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
     GtkTreeIter iter, iter2;
+    GtkTreeSelection *selection ;
 
     if ( !(current_report_number = gsb_gui_navigation_get_current_report()))
 	return;

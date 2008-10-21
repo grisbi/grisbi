@@ -53,7 +53,6 @@ static gboolean gsb_currency_link_config_select_currency ( GtkTreeSelection *tre
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 

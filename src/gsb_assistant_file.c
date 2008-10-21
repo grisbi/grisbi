@@ -65,7 +65,6 @@ static  GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
 /*START_EXTERN*/
 extern gchar *adresse_commune ;
 extern gchar *nom_fichier_comptes ;
-extern GtkTreeSelection * selection ;
 extern gchar *titre_fichier ;
 extern GtkWidget *window ;
 /*END_EXTERN*/

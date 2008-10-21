@@ -43,7 +43,6 @@ static  gboolean transaction_list_select_record ( CustomRecord *record );
 
 /*START_EXTERN*/
 extern GdkColor couleur_selection;
-extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 

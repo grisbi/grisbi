@@ -68,8 +68,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
-						       gpointer null );
 static gboolean assert_selected_transaction ();
 static gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr );
 static GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y );
@@ -83,7 +81,9 @@ static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
 static gboolean gsb_transactions_list_check_mark ( gint transaction_number );
 static gint gsb_transactions_list_choose_reconcile ( gint account_number,
 					      gint selected_reconcile_number );
-gint gsb_transactions_list_clone_transaction ( gint transaction_number,
+static  gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
+						       gpointer null );
+static gint gsb_transactions_list_clone_transaction ( gint transaction_number,
 					       gint mother_transaction_number );
 static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model );
 static void gsb_transactions_list_create_tree_view_columns ( void );
@@ -172,7 +172,6 @@ extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget * navigation_tree_view ;
 extern GtkWidget *notebook_general ;
 extern GtkWidget *reconcile_sort_list_button;
-extern GtkTreeSelection * selection ;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window ;

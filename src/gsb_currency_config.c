@@ -78,7 +78,6 @@ extern GtkWidget *main_vbox ;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern GtkTreeSelection * selection ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 

@@ -58,7 +58,6 @@ static gboolean gsb_reconcile_config_update_line ( GtkWidget *entry,
 
 /*START_EXTERN*/
 extern gsb_real null_real ;
-extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 /* the tree view used to modify the reconciles */

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                  gsb_automem.c                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cedric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2008 Cedric Auger (cedric@grisbi.org)	      */
 /*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -449,6 +449,8 @@ GtkWidget *gsb_automem_radiobutton_new_with_title ( GtkWidget *parent,
  *        according to buttons toggles.
  * \param hook An optional hook to run at each toggle
  * \param data optional data to send to hook
+ *
+ * \return a vbox containing the radiobuttons
  */
 GtkWidget *gsb_automem_radiobutton_new ( const gchar *choice1,
 					 const gchar *choice2,

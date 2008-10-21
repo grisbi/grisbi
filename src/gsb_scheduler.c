@@ -57,10 +57,15 @@ static gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gi
 /*START_EXTERN*/
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern gint nb_days_before_scheduled;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 /*END_EXTERN*/
+
+/** number of days before the scheduled to execute it */
+gint nb_days_before_scheduled;
+
+/** warn/execute scheduled at expiration (FALSE) or of the month (TRUE) */
+gboolean execute_scheduled_of_month;
 
 
 
@@ -457,9 +462,23 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 
     /* get the date today + nb_days_before_scheduled */
 
+    /* the date untill we execute the scheduled transactions is :
+     * - either today + nb_days_before_scheduled if warn n days before the scheduled
+     * - either the end of the month in nb_days_before_scheduled days (so current month or next month)
+     *   */
     date = gdate_today ();
     g_date_add_days ( date,
 		      nb_days_before_scheduled );
+    /* now date is in nb_days_before_scheduled, if we want the transactions of the month,
+     * we change date to the end of its month */
+    if (execute_scheduled_of_month)
+    {
+	gint last_day;
+	
+	last_day = g_date_get_days_in_month ( g_date_month (date),
+					      g_date_year (date));
+	g_date_set_day (date, last_day);
+    }
 
     /* check all the scheduled transactions,
      * if automatic, it's taken

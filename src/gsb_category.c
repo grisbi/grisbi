@@ -56,7 +56,6 @@ static void gsb_category_fill_sets ( GtkTreeView * view, GtkTreeModel * model, g
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 

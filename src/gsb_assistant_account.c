@@ -53,7 +53,6 @@ static gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 enum first_assistant_page

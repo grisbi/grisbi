@@ -75,7 +75,6 @@ static void gsb_fyear_update_invalid ( GtkWidget *tree_view );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeSelection * selection ;
 /*END_EXTERN*/
 
 

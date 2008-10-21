@@ -57,6 +57,7 @@ static gboolean gsb_file_config_load_last_xml_config ( gchar *filename );
 
 
 /*START_EXTERN*/
+extern gboolean execute_scheduled_of_month;
 extern GtkWidget *main_hpaned ;
 extern gint max;
 extern struct conditional_message messages[] ;
@@ -252,6 +253,11 @@ gboolean gsb_file_config_load_config ( void )
     nb_days_before_scheduled = g_key_file_get_integer ( config,
 							"Scheduled",
 							"Days before remind",
+							NULL );
+
+    execute_scheduled_of_month = g_key_file_get_integer ( config,
+							"Scheduled",
+							"Execute scheduled of month",
 							NULL );
 
     /* get shown section */
@@ -547,12 +553,15 @@ gboolean gsb_file_config_save_config ( void )
 			     etat.max_non_archived_transactions_for_check );
 
     /* save scheduled section */
-
     g_key_file_set_integer ( config,
 			     "Scheduled",
 			     "Days before remind",
 			     nb_days_before_scheduled );
 
+    g_key_file_set_integer ( config,
+			     "Scheduled",
+			     "Execute scheduled of month",
+			     execute_scheduled_of_month );
     /* save shown section */
 
     g_key_file_set_integer ( config,
@@ -985,6 +994,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 		   "Delai_rappel_echeances" ))
     {
 	nb_days_before_scheduled = utils_str_atoi (text);
+	execute_scheduled_of_month = FALSE;
 	return;
     }
 
@@ -1107,6 +1117,7 @@ void gsb_file_config_clean_config ( void )
     etat.sauvegarde_auto = 0;    /* on ne sauvegarde pas automatiquement */
     etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
     nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
+    execute_scheduled_of_month = FALSE;
     etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
     etat.limit_completion_to_current_account = 0;        /* By default, do full search */

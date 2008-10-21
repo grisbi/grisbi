@@ -70,7 +70,6 @@ GSList *lignes_affichage_trois_lignes;
 /*START_EXTERN*/
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
 extern gint max;
-extern GtkTreeSelection * selection ;
 extern gchar *tips_col_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 /*END_EXTERN*/

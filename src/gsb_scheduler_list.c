@@ -95,7 +95,6 @@ extern GtkWidget * navigation_tree_view ;
 extern GtkWidget *scheduler_button_delete ;
 extern GtkWidget *scheduler_button_edit ;
 extern GtkWidget *scheduler_button_execute ;
-extern GtkTreeSelection * selection ;
 extern GdkColor split_background;
 extern GtkWidget *window ;
 /*END_EXTERN*/
@@ -112,9 +111,6 @@ static GtkTreeModelSort *tree_model_sort_scheduler_list;
 static GtkTreeViewColumn *scheduler_list_column[NB_COLS_SCHEDULER];
 
 static gint last_scheduled_number;
-
-/** number of days before the scheduled to execute it */
-gint nb_days_before_scheduled;
 
 /** lists of number of scheduled transactions taken or to be taken */
 GSList *scheduled_transactions_to_take;

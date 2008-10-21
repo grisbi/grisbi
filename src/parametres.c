@@ -57,6 +57,7 @@
 
 /*START_STATIC*/
 static GtkWidget * create_preferences_tree ( );
+static  GtkWidget *gsb_config_scheduler_page ( void );
 static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
 				    GtkTreeModel * model );
 static GtkWidget *onglet_fichier ( void );
@@ -73,36 +74,16 @@ static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 
 
 
-
-static GtkTreeStore *preference_tree_model = NULL;
-static GtkWidget * hpaned = NULL;
-static GtkNotebook * preference_frame = NULL;
-static gint preference_selected = -1;
-GtkTreeSelection * selection = NULL;
-static GtkWidget *tree_view = NULL;
-
 GtkWidget *fenetre_preferences = NULL;
 
-GtkWidget *entree_titre_fichier = NULL;
-GtkWidget *entree_adresse_commune = NULL;
-GtkWidget *entree_adresse_secondaire = NULL;
+static GtkTreeStore *preference_tree_model = NULL;
+static GtkNotebook * preference_frame = NULL;
 
-/* FIXME : some of that buttons are used only in a function, check them and
- * remove them from the globals variables */
-
-static GtkWidget *bouton_avec_demarrage = NULL;
-static GtkWidget *bouton_save_auto = NULL;
-static GtkWidget *bouton_force_enregistrement = NULL;
-static GtkWidget *crypt_file_button = NULL;
-static GtkWidget *spin_button_derniers_fichiers_ouverts = NULL;
-static GtkWidget *check_button_compress_file = NULL;
-static GtkWidget *check_button_compress_backup = NULL;
-static GtkWidget *bouton_save_demarrage = NULL;
-static GtkWidget *entree_jours = NULL;
 
 
 
 /*START_EXTERN*/
+extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[] ;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts ;
@@ -122,6 +103,8 @@ GtkWidget * create_preferences_tree ( )
     GtkWidget *sw;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
+    GtkTreeSelection * selection;
+    GtkWidget *tree_view;
 
     /* Create model */
     preference_tree_model = gtk_tree_store_new (3, 
@@ -229,6 +212,7 @@ gboolean preferences ( gint page )
 {
     GtkWidget *hbox, *tree;
     GtkTreeIter iter, iter2;
+    GtkWidget *hpaned;
 
     devel_debug_int (page);
 
@@ -451,6 +435,15 @@ gboolean preferences ( gint page )
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 			&iter2,
+			0, _("Scheduler"),
+			1, SCHEDULER_PAGE,
+			2, 400, 
+			-1);
+    gtk_notebook_append_page (preference_frame, gsb_config_scheduler_page (), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter2,
 			0, _("Currencies"),
 			1, CURRENCIES_PAGE,
 			2, 400, 
@@ -527,6 +520,7 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 {
     GtkTreeIter iter;
     GValue value = {0, };
+    gint preference_selected;
 
     if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
 	return(FALSE);
@@ -550,7 +544,7 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
  */
 GtkWidget *onglet_messages_and_warnings ( void )
 {
-    GtkWidget *hbox, *vbox_pref, *paddingbox, *label, *tip_checkbox, *tree_view, *sw;
+    GtkWidget *vbox_pref, *paddingbox, *tip_checkbox, *tree_view, *sw;
     GtkTreeModel * model;
     GtkCellRenderer * cell;
     GtkTreeViewColumn * column;
@@ -558,20 +552,6 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"),
 					       "warnings.png" );
-
-    /* Number of days before a warning message advertising a scheduled
-       transaction */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Scheduler warnings"));
-    hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
-    label = gtk_label_new ( SPACIFY(COLON(_("Number of days before a warning message advertising a scheduled transaction"))) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
-
-    entree_jours = gsb_automem_spin_button_new ( &nb_days_before_scheduled,
-						 NULL, NULL );
-    g_signal_connect ( G_OBJECT (entree_jours ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &entree_jours );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), entree_jours, FALSE, FALSE, 0 );
 
     /* Tip of the day */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Tip of the day"));
@@ -676,46 +656,42 @@ GtkWidget *onglet_fichier ( void )
 					    _("Account files handling"));
 
     /* Automatically load last file on startup? */
-    bouton_avec_demarrage =
-	gsb_automem_checkbutton_new (_("Automatically load last file on startup"),
-				  &(etat.dernier_fichier_auto), NULL, NULL );
-    g_signal_connect ( G_OBJECT (bouton_avec_demarrage ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &bouton_avec_demarrage );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_avec_demarrage, 
+    button = gsb_automem_checkbutton_new (_("Automatically load last file on startup"),
+					  &(etat.dernier_fichier_auto), NULL, NULL );
+    g_signal_connect ( G_OBJECT (button ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, 
 			 FALSE, FALSE, 0 );
 
-    bouton_save_auto = gsb_automem_checkbutton_new (_("Automatically save on exit"),
-						 &(etat.sauvegarde_auto), NULL, NULL);
-    g_signal_connect ( G_OBJECT (bouton_save_auto ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &bouton_save_auto );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_save_auto, 
+    button = gsb_automem_checkbutton_new (_("Automatically save on exit"),
+					  &(etat.sauvegarde_auto), NULL, NULL);
+    g_signal_connect ( G_OBJECT (button ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, 
 			 FALSE, FALSE, 0 );
 
     /* Warn if file is used by someone else? */
-    bouton_force_enregistrement = 
-	gsb_automem_checkbutton_new ( _("Force saving of locked files"),
-				   &(etat.force_enregistrement), NULL, NULL );
-    g_signal_connect ( G_OBJECT (bouton_force_enregistrement ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &bouton_force_enregistrement );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_force_enregistrement,
+    button = gsb_automem_checkbutton_new ( _("Force saving of locked files"),
+					   &(etat.force_enregistrement), NULL, NULL );
+    g_signal_connect ( G_OBJECT (button ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
     /* crypt the grisbi file */
-    crypt_file_button = 
-	gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-				   &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
-    g_signal_connect ( G_OBJECT (crypt_file_button ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &crypt_file_button );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), crypt_file_button,
+    button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
+					   &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
+    g_signal_connect ( G_OBJECT (button ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
     /* Compression level of files */
-    check_button_compress_file = 
-	gsb_automem_checkbutton_new ( _("Compress Grisbi file"),
-				   &(etat.compress_file), NULL, NULL );
-    g_signal_connect ( G_OBJECT (check_button_compress_file ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &check_button_compress_file );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_button_compress_file,
+    button = gsb_automem_checkbutton_new ( _("Compress Grisbi file"),
+					   &(etat.compress_file), NULL, NULL );
+    g_signal_connect ( G_OBJECT (button ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
     /* Memorize last opened files in menu */
@@ -725,11 +701,11 @@ GtkWidget *onglet_fichier ( void )
     label = gtk_label_new ( COLON(_("Memorise last opened files")) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0 );
-    spin_button_derniers_fichiers_ouverts = gsb_automem_spin_button_new ( &(nb_max_derniers_fichiers_ouverts),
-									  G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
-    g_signal_connect ( G_OBJECT (spin_button_derniers_fichiers_ouverts ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &spin_button_derniers_fichiers_ouverts );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button_derniers_fichiers_ouverts,
+    button = gsb_automem_spin_button_new ( &(nb_max_derniers_fichiers_ouverts),
+					   G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
+    g_signal_connect ( G_OBJECT (button ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &button );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button,
 			 FALSE, FALSE, 0 );
 
     /* Backups */
@@ -737,21 +713,19 @@ GtkWidget *onglet_fichier ( void )
 					    _("Backups"));
 
     /* Compression level of backups */
-    check_button_compress_backup =
-	gsb_automem_checkbutton_new ( _("Compress Grisbi backup"),
-				   &(etat.compress_backup), NULL, NULL );
-    g_signal_connect ( G_OBJECT (check_button_compress_backup ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &check_button_compress_backup );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_button_compress_backup,
+    button = gsb_automem_checkbutton_new ( _("Compress Grisbi backup"),
+					   &(etat.compress_backup), NULL, NULL );
+    g_signal_connect ( G_OBJECT (button ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
     /* Backup at each opening? */
-    bouton_save_demarrage = 
-	gsb_automem_checkbutton_new ( _("Make a backup copy after opening files"),
-				   &(etat.sauvegarde_demarrage), NULL, NULL );
-    g_signal_connect ( G_OBJECT (bouton_save_demarrage ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &bouton_save_demarrage );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_save_demarrage,
+    button = gsb_automem_checkbutton_new ( _("Make a backup copy after opening files"),
+					   &(etat.sauvegarde_demarrage), NULL, NULL );
+    g_signal_connect ( G_OBJECT (button ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
     /* Automatic backup ? */
@@ -911,6 +885,60 @@ GtkWidget *onglet_programmes (void)
     return ( vbox_pref );
 }
 
+/* xxx faire enregistrement toutes les x minutes */
+/* xxx la largeur des listes dépasse en général au démarrage et met un ascenseur en bas */
+
+/**
+ * create the scheduler config page
+ *
+ * \param
+ *
+ * \return a GtkWidget containing the page of scheduler config
+ * */
+static GtkWidget *gsb_config_scheduler_page ( void )
+{
+    GtkWidget *vbox_pref;
+    GtkWidget *hbox;
+    GtkWidget *label;
+    GtkWidget *entry;
+    GtkWidget *vbox;
+
+    vbox_pref = new_vbox_with_title_and_icon ( _("Scheduler"),
+					       "scheduler.png" );
+
+    /* Number of days before a warning message advertising a scheduled
+       transaction */
+    vbox = gsb_automem_radiobutton_new_with_title ( vbox_pref,
+						    _("Scheduler warnings at Grisbi's opening"),
+						    _("Warn/Execute the scheduled transactions arriving at expiration date"),
+						    _("Warn/Execute the scheduled transactions of the month"),
+						    &execute_scheduled_of_month,
+						    NULL, NULL );
+    g_signal_connect ( G_OBJECT (vbox), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &vbox );
+    gtk_box_pack_start ( GTK_BOX (vbox_pref),
+			 vbox,
+			 FALSE, FALSE, 0);
+
+    hbox = gtk_hbox_new ( FALSE, 0);
+    gtk_box_pack_start ( GTK_BOX (vbox_pref),
+			 hbox,
+			 FALSE, FALSE, 0);
+
+    label = gtk_label_new ( SPACIFY(COLON(_("Number of days before the warning or the execution"))));
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 label, FALSE, FALSE, 0 );
+
+    entry = gsb_automem_spin_button_new ( &nb_days_before_scheduled,
+					  NULL, NULL );
+    g_signal_connect ( G_OBJECT (entry), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &entry );
+    gtk_box_pack_start ( GTK_BOX (hbox),
+			 entry,
+			 FALSE, FALSE, 0 );
+
+    return vbox_pref;
+}
 
 
 /* Local Variables: */

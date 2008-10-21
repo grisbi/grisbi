@@ -88,7 +88,6 @@ extern gsize nb_derniers_fichiers_ouverts ;
 extern gint nb_max_derniers_fichiers_ouverts ;
 extern gchar *nom_fichier_comptes ;
 extern GtkWidget *notebook_general ;
-extern GtkTreeSelection * selection ;
 extern gchar **tab_noms_derniers_fichiers_ouverts ;
 extern GtkWidget *table_etat ;
 extern gchar *titre_fichier ;

@@ -32,10 +32,10 @@
 #ifdef ENABLE_BALANCE_ESTIMATE
 
 /*START_INCLUDE*/
-#include "./gsb_data_payee.h"
 #include "balance_estimate_tab.h"
 #include "./utils_dates.h"
 #include "./gsb_data_account.h"
+#include "./gsb_data_payee.h"
 #include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_real.h"
@@ -57,7 +57,6 @@ static  gboolean bet_update_graph (GtkTreeModel *model, GtkTreePath *path, GtkTr
 
 /*START_EXTERN*/
 extern gsb_real null_real ;
-extern GtkTreeSelection * selection ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 
