@@ -67,9 +67,9 @@ static gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
 						gpointer null );
 static gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
 						   GtkTreeIter *iter,
-						   const gchar *line[NB_COLS_SCHEDULER] );
+						   const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] );
 static gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
-						    const gchar *line[NB_COLS_SCHEDULER]  );
+						    const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS]  );
 static GtkTreeIter *gsb_scheduler_list_get_iter_from_scheduled_number ( gint scheduled_number );
 static GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_number );
 static GtkTreeModel *gsb_scheduler_list_get_model ( void );
@@ -111,7 +111,7 @@ static GtkWidget *tree_view_scheduler_list;
 static GtkTreeModel *tree_model_scheduler_list;
 static GtkTreeModelSort *tree_model_sort_scheduler_list;
 
-static GtkTreeViewColumn *scheduler_list_column[NB_COLS_SCHEDULER];
+static GtkTreeViewColumn *scheduler_list_column[SCHEDULER_COL_VISIBLE_COLUMNS];
 
 static gint last_scheduled_number;
 
@@ -120,7 +120,7 @@ GSList *scheduled_transactions_to_take;
 GSList *scheduled_transactions_taken;
 
 /** used to save and restore the width of the scheduled list */
-gint scheduler_col_width[NB_COLS_SCHEDULER];
+gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 
 gint scheduler_current_tree_view_width = 0;
 
@@ -338,7 +338,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
 
     devel_debug (NULL);
 
-    for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
+    for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
     {
 	GtkCellRenderer *cell_renderer;
 
@@ -388,7 +388,6 @@ GtkTreeModel *gsb_scheduler_list_create_model ( void )
     devel_debug (NULL);
 
     store = gtk_tree_store_new ( SCHEDULER_COL_NB_TOTAL,
-				 G_TYPE_STRING,
 				 G_TYPE_STRING,
 				 G_TYPE_STRING,
 				 G_TYPE_STRING,
@@ -698,7 +697,7 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
     GDate *pGDateCurrent;
     gint virtual_transaction = 0;
     GtkTreeIter *mother_iter = NULL;
-    const gchar *line[NB_COLS_SCHEDULER];
+    const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS];
     gint mother_scheduled_number;
 
     devel_debug_int (scheduled_number);
@@ -845,7 +844,7 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
     GDate *pGDateCurrent;
 
     /* TODO dOm : each line of the array `line' contains a newly allocated string. When are they freed ? */
-    const gchar *line[NB_COLS_SCHEDULER];
+    const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS];
 
     devel_debug_int (scheduled_number);
 
@@ -914,12 +913,12 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
  * fill the char tab in the param with the transaction given in param
  *
  * \param scheduled_number
- * \param  line a tab of gchar with NB_COLS_SCHEDULER of size, wich will contain the text of the line
+ * \param  line a tab of gchar with SCHEDULER_COL_VISIBLE_COLUMNS of size, wich will contain the text of the line
  *
  * \return FALSE
  * */
 gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
-						    const gchar *line[NB_COLS_SCHEDULER]  )
+						    const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS]  )
 {
     if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
     {
@@ -1023,17 +1022,17 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
  *
  * \param store
  * \param iter
- * \param line a tab of gchar with NB_COLS_SCHEDULER of size, wich is the text content of the line
+ * \param line a tab of gchar with SCHEDULER_COL_VISIBLE_COLUMNS of size, wich is the text content of the line
  * 
  * \return FALSE
  * */
 gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
 						   GtkTreeIter *iter,
-						   const gchar *line[NB_COLS_SCHEDULER] )
+						   const gchar *line[SCHEDULER_COL_VISIBLE_COLUMNS] )
 {
     gint i;
 
-    for ( i=0 ; i<NB_COLS_SCHEDULER ; i++ )
+    for ( i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
 	gtk_tree_store_set ( GTK_TREE_STORE ( store ),
 			     iter,
 			     i, line[i],
@@ -1856,7 +1855,6 @@ gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number )
 
 
 
-/* xxx IMPORTANT : voir gsb_scheduler_list.h dans les define, il y a un numéro qui saute */
 
 /**
  * called when the size of the tree view changed, to keep the same ration
@@ -1884,9 +1882,10 @@ gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
 	if (gtk_tree_view_column_get_width (scheduler_list_column[0]) == 1)
 	    return FALSE;
 
-	for (i=0 ; i<NB_COLS_SCHEDULER ; i++)
+	for (i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS ; i++)
 	    if (gtk_tree_view_column_get_width (scheduler_list_column[i]))
 		scheduler_col_width[i] = (gtk_tree_view_column_get_width (scheduler_list_column[i]) * 100) / allocation -> width + 1;
+	modification_fichier (TRUE);
 
 	return FALSE;
     }
@@ -1896,7 +1895,7 @@ gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
      * it will take the end of the width alone */
     scheduler_current_tree_view_width = allocation -> width;
 
-    for ( i = 0 ; i < NB_COLS_SCHEDULER - 1 ; i++ )
+    for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS - 1 ; i++ )
     {
 	gint width;
 

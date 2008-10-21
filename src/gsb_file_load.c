@@ -155,7 +155,7 @@ extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gsb_real null_real ;
-extern gint scheduler_col_width[NB_COLS_SCHEDULER];
+extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GdkColor text_color[2];
@@ -884,7 +884,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 					 "-",
 					 0 );
 
-	    for ( j=0 ; j<NB_COLS_SCHEDULER ; j++ )
+	    for ( j=0 ; j<SCHEDULER_COL_VISIBLE_COLUMNS ; j++ )
 		scheduler_col_width[j] = utils_str_atoi ( pointeur_char[j]);
 
 	    g_strfreev ( pointeur_char );

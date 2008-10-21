@@ -1,28 +1,33 @@
 #ifndef GSB_SCHEDULER_LIST_H
 #define GSB_SCHEDULER_LIST_H
 
-#define COL_NB_DATE 0
-#define COL_NB_ACCOUNT 1
-#define COL_NB_PARTY 2
-#define COL_NB_FREQUENCY 3
-#define COL_NB_MODE 4
-#define COL_NB_NOTES 5
-#define COL_NB_AMOUNT 6	
+enum
+{
+    COL_NB_DATE = 0,
+    COL_NB_ACCOUNT,
+    COL_NB_PARTY,
+    COL_NB_FREQUENCY,
+    COL_NB_MODE,
+    COL_NB_NOTES,
+    COL_NB_AMOUNT,
 
-#define NB_COLS_SCHEDULER 7
+    SCHEDULER_COL_NB_BACKGROUND,		/*< color of the background */
+    SCHEDULER_COL_NB_SAVE_BACKGROUND,		/*< when selection, save of the normal color of background */
+    SCHEDULER_COL_NB_AMOUNT_COLOR, 		/*< color of the amount */
+    SCHEDULER_COL_NB_TRANSACTION_NUMBER,
+    SCHEDULER_COL_NB_FONT,			/*< PangoFontDescription if used */
+    SCHEDULER_COL_NB_VIRTUAL_TRANSACTION,	/*< to 1 if it's a calculated scheduled transaction (for longer view), so, cannot edit */
+
+    SCHEDULER_COL_NB_TOTAL,
+};
+
+
+/* number of visible columns */
+#define SCHEDULER_COL_VISIBLE_COLUMNS 7
 
 /* define the columns in the store
  * as the data are filled above, the number here
  * begin at NB_COLS_SCHEDULER */
-
-#define SCHEDULER_COL_NB_BACKGROUND 8		/*< color of the background */
-#define SCHEDULER_COL_NB_SAVE_BACKGROUND 9	/*< when selection, save of the normal color of background */
-#define SCHEDULER_COL_NB_AMOUNT_COLOR 10 	/*< color of the amount */
-#define SCHEDULER_COL_NB_TRANSACTION_NUMBER 11
-#define SCHEDULER_COL_NB_FONT 12		/*< PangoFontDescription if used */
-#define SCHEDULER_COL_NB_VIRTUAL_TRANSACTION 13 /*< to 1 if it's a calculated scheduled transaction (for longer view), so, cannot edit */
-
-#define SCHEDULER_COL_NB_TOTAL 14
 
 
 enum scheduler_periodicity {

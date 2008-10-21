@@ -157,7 +157,7 @@ extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern GtkWidget *notebook_general ;
 extern GSList *orphan_child_transactions ;
-extern gint scheduler_col_width[NB_COLS_SCHEDULER];
+extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern gint scheduler_current_tree_view_width ;
 extern GtkWidget *solde_label ;
 extern GtkWidget *solde_label_pointe ;
@@ -214,7 +214,7 @@ void modification_fichier ( gboolean modif )
 void init_variables ( void )
 {
     /* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
-    gint scheduler_col_width_init[NB_COLS_SCHEDULER] = {10, 12, 36, 12, 12, 12, 12 };
+    gint scheduler_col_width_init[SCHEDULER_COL_VISIBLE_COLUMNS] = {10, 12, 36, 12, 12, 12, 12 };
     gint transaction_col_width_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = {10, 12, 36, 6, 12, 12, 12 };
     gint i;
     
@@ -328,7 +328,7 @@ void init_variables ( void )
     /* defaut value for width of columns */
     for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
 	transaction_col_width[i] = transaction_col_width_init[i];
-     for ( i = 0 ; i < NB_COLS_SCHEDULER ; i++ )
+     for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
 	scheduler_col_width[i] = scheduler_col_width_init[i];
     
 

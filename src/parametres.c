@@ -886,7 +886,6 @@ GtkWidget *onglet_programmes (void)
 }
 
 /* xxx faire enregistrement toutes les x minutes */
-/* xxx la largeur des listes dépasse en général au démarrage et met un ascenseur en bas */
 
 /**
  * create the scheduler config page

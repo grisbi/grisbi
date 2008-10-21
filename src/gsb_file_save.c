@@ -137,7 +137,7 @@ extern GSList *lignes_affichage_trois_lignes;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern gint scheduler_col_width[NB_COLS_SCHEDULER];
+extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GdkColor text_color[2];
@@ -559,7 +559,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 
     scheduler_column_width_write = NULL;
 
-    for ( i=0 ; i<NB_COLS_SCHEDULER ; i++ )
+    for ( i=0 ; i<SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
 	if ( scheduler_column_width_write )
 	{
 	    scheduler_column_width_write = g_strconcat ( first_string_to_free = scheduler_column_width_write,
