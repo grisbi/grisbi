@@ -145,8 +145,8 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
     gchar *account_type[] = {
 	_("Bank account\nStandard account with credit card and cheques."),
 	_("Cash account\nStandard cash account, to use with a cashier."),
-	_("Liabilities account\n"),
-	_("Assets account\n"),
+	_("Liabilities account\nSpecial account to represent a debt, like a long-term loan."),
+	_("Assets account\nSpecial account to represent an asset, like a car or special subscriptions."),
 	NULL };
 
     page = gtk_hbox_new (FALSE, 15);
@@ -159,7 +159,9 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
 			 vbox,
 			 TRUE, TRUE, 0 );
 
-    label = gtk_label_new (_("Please select type for this account.\nThe account will be created with default payment methods chosen according to your choice.\n"));
+    label = gtk_label_new (_("Please select type for this account.\n"
+			     "The account will be created with default payment methods chosen according to your choice.\n"
+			     "If you are unsure and novice to accounting, we advise that you choose a bank account.\n"));
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox),
