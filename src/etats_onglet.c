@@ -79,7 +79,6 @@ gint nb_colonnes;
 gint ligne_debut_partie;
 GtkWidget *notebook_etats = NULL;
 GtkWidget *notebook_config_etat = NULL;
-GtkWidget *onglet_config_etat = NULL;
 static GtkWidget *reports_toolbar = NULL;
 
 
@@ -253,9 +252,6 @@ GtkWidget *creation_onglet_etats ( void )
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window_etat ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
     gtk_box_pack_start ( GTK_BOX ( vbox ), scrolled_window_etat, TRUE, TRUE, 0 );
-
-    /* L'onglet de config sera créé que si nécessaire */
-    onglet_config_etat = NULL;
 
     gtk_widget_show_all ( tab );
 

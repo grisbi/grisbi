@@ -366,7 +366,6 @@ extern GtkWidget * navigation_tree_view ;
 extern GtkWidget *notebook_config_etat ;
 extern GtkWidget *notebook_etats ;
 extern GtkWidget *notebook_general ;
-extern GtkWidget *onglet_config_etat ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 
@@ -1263,7 +1262,7 @@ void selectionne_liste_tiers_etat_courant ( void )
     current_report_number = gsb_gui_navigation_get_current_report ();
 
 
-    if ( !onglet_config_etat )
+    if ( !liste_tiers_etat )
 	return;
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_tiers_etat ));
@@ -2435,7 +2434,7 @@ void remplissage_liste_exo_etats ( void )
 {
     GSList *list_tmp;
 
-    if ( !onglet_config_etat )
+    if ( !liste_exo_etat )
 	return;
 
     gtk_clist_clear ( GTK_CLIST ( liste_exo_etat ) );
