@@ -566,12 +566,12 @@ gboolean edit_payee ( GtkTreeView * view )
 	}
 	else
 	{
-	    gchar * message = g_strdup_printf ( _("You tried to rename current %s to '%s' "
-						  "but this %s already exists.  Please "
-						  "choose another name."),
-						_("payee"),
-						gtk_entry_get_text ( GTK_ENTRY ( entry_name ) ),
-						_("payee") );
+	    gchar * message;
+	    
+	    message = g_strdup_printf ( _("You tried to rename current payee to '%s' "
+					  "but this payee already exists.  Please "
+					  "choose another name."),
+					gtk_entry_get_text ( GTK_ENTRY ( entry_name ) ) );
 	    dialogue_warning_hint ( message, _("Payee already exists") );
 	    g_free ( message );
 	}

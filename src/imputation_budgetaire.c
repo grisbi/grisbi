@@ -713,16 +713,21 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 	       gsb_data_budget_get_number_by_name ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
 						    FALSE, 0 ) != budget_number ) )
 	{
-	    gchar * message = g_strdup_printf ( _("You tried to rename current %s to '%s' "
-						  "but this %s already exists.  Please "
-						  "choose another name."),
-						( sub_budget_number > 0 ? 
-						  _("sub-budgetary line") : 
-						  _("budgetary line") ),
-						gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
-						( sub_budget_number > 0 ? 
-						  _("sub-budgetary line") : 
-						  _("budgetary line") ) );
+	    gchar * message;
+	    if ( sub_budget_number > 0 ) 
+	    {
+		message = g_strdup_printf ( _("You tried to rename current sub-budgetary line to '%s' "
+					      "but this sub-budgetary line already exists.  Please "
+					      "choose another name."),
+					    gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+	    }
+	    else
+	    {
+		message = g_strdup_printf ( _("You tried to rename current budgetary line to '%s' "
+					      "but this budgetary line already exists.  Please "
+					      "choose another name."),
+					    gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+	    }
 	    dialogue_warning_hint ( message, _("Budgetary line already exists") );
 	    g_free ( message );
 	}

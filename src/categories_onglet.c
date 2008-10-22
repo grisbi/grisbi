@@ -680,12 +680,21 @@ gboolean edit_category ( GtkTreeView * view )
 	       gsb_data_category_get_number_by_name ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
 						      FALSE, 0 ) != category_number ) )
 	{
-	    gchar * message = g_strdup_printf ( _("You tried to rename current %s to '%s' "
-						  "but this %s already exists.  Please "
-						  "choose another name."),
-						( sub_category_number > 0 ? _("sub-category") : _("category") ),
-						gtk_entry_get_text ( GTK_ENTRY ( entry ) ),
-						( sub_category_number > 0 ? _("sub-category") : _("category") ) );
+	    gchar * message;
+	    if ( sub_category_number > 0 ) 
+	    {
+		message = g_strdup_printf ( _("You tried to rename current sub-category to '%s' "
+					      "but this sub-category already exists.  Please "
+					      "choose another name."),
+					    gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+	    }
+	    else
+	    {
+		message = g_strdup_printf ( _("You tried to rename current category to '%s' "
+					      "but this category already exists.  Please "
+					      "choose another name."),
+					    gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+	    }
 	    dialogue_warning_hint ( message, _("Category already exists") );
 	    g_free ( message );
 	}

@@ -451,8 +451,8 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	/* Création du tableau dans lequel seront stockés les comptes avec leur     */
 	/* solde.                                                                   */
-	gchar* tmpstr = g_sprintf ( _("Account balances in %s"),
-				    gsb_data_currency_get_name (currency_number) );
+	gchar* tmpstr = g_strdup_printf ( _("Account balances in %s"),
+					   gsb_data_currency_get_name (currency_number) );
 	paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
 	g_free ( tmpstr );
 	pTable = gtk_table_new ( nb_comptes_bancaires + 3, 4, FALSE );
@@ -702,7 +702,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	/* Création du tableau dans lequel seront stockés les comptes avec leur     */
 	/* solde.                                                                   */
 	gchar* tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s"),
-				  gsb_data_currency_get_name (currency_number) );
+					 gsb_data_currency_get_name (currency_number) );
 	paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
 	g_free ( tmpstr );
 	pTable = gtk_table_new ( nb_comptes_passif + 3, 4, FALSE );

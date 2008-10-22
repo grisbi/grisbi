@@ -1,7 +1,7 @@
 /* ce fichier contient les paramètres de l'affichage de la liste d'opé */
 
 /*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org) */
-/*			2006 Benjamin Drieu (bdrieu@april.org) */
+/*			2008 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -268,7 +268,7 @@ GtkWidget *onglet_affichage_operations ( void )
     /* do we show the content of the selected transaction in the form for
      * each selection ? */
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 gsb_automem_checkbutton_new (_("Show the content of the transaction in the form when it's selected."),
+			 gsb_automem_checkbutton_new (_("Use simple click to select transactions"),
 						      &etat.show_transaction_selected_in_form,
 						      NULL, NULL ),
 			 FALSE, FALSE, 0 );
