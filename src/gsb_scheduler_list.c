@@ -1900,8 +1900,9 @@ gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
 	gint width;
 
 	width = (scheduler_col_width[i] * (allocation -> width))/ 100;
-	gtk_tree_view_column_set_fixed_width ( scheduler_list_column[i],
-					       width );
+	if ( width > 0 )
+	    gtk_tree_view_column_set_fixed_width ( scheduler_list_column[i],
+						   width );
     }
     return FALSE;
 }
