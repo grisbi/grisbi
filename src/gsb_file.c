@@ -369,43 +369,34 @@ gboolean gsb_file_open_file ( gchar *filename )
     }
     else
     {
-	/* Loading failed.  If the saving function at opening is set,
-	 * we ask to load the last file */
-
+	/* Loading failed. */
 	gsb_status_message ( _("Failed to load accounts") );
 
-	if ( etat.sauvegarde_demarrage )
+	if ( etat.sauvegarde_demarrage || etat.make_backup || etat.make_backup_every_minutes )
 	{
-	    gchar *backup_filename;
-/* xxx ça marche plus ici */
-	    gsb_status_message ( _("Loading backup") );
-
-	    /* create the name of the backup */
-	    backup_filename = utils_files_create_backup_name (filename);
-	    /* try to load the backup */
-
-	    if ( gsb_file_load_open_file ( backup_filename ) )
-	    {
-		/* the backup loaded succesfully */
-		gchar* tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
-		dialogue_error_hint ( _("Grisbi was unable to load file.  However, Grisbi loaded a backup file instead but all changes made since this backup were possibly lost."), tmpstr );
-		g_free ( tmpstr );
-		g_free (backup_filename);
-	    }
-	    else
-	    {
-		/* the loading backup failed */
-
-		gchar* tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
-		dialogue_error_hint ( _("Grisbi was unable to load file.  Additionally, Grisbi was unable to load a backup file instead."), tmpstr );
-		g_free ( tmpstr );
-		g_free (backup_filename);
-		gsb_status_stop_wait ( TRUE );
-		return FALSE;
-	    }
+	    gchar *tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
+	    gchar *tmpstr2 = g_strdup_printf ( _("Grisbi was unable to load file. You should find the last backups in '%s', they are saved with date and time into their name so you should find easily the last backup saved.\nPlease contact the Grisbi's team on devel@listes.grisbi.org to find what happened to you current file."),
+					       gsb_file_get_backup_path ());
+	    dialogue_error_hint ( tmpstr2, tmpstr );
+	    g_free ( tmpstr );
+	    g_free ( tmpstr2 );
+	    gsb_status_stop_wait ( TRUE );
+	    return FALSE;
 	}
 	else
 	{
+	    gchar *tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
+	    gchar *tmpstr2;
+
+	    if (gsb_file_get_backup_path ())
+		tmpstr2 = g_strdup_printf ( _("Grisbi was unable to load file and the backups seem not to be activated... This is a bad thing.\nYour backup path is '%s', try to find if earlier you had some backups in there ?\nPlease contact the Grisbi's team on devel@listes.grisbi.org to find what happened to you current file."),
+					    gsb_file_get_backup_path ());
+	    else
+		tmpstr2 = my_strdup ( _("Grisbi was unable to load file and the backups seem not to be activated... This is a bad thing.\nPlease contact the Grisbi's team on devel@listes.grisbi.org to find what happened to you current file."));
+
+	    dialogue_error_hint ( tmpstr2, tmpstr );
+	    g_free ( tmpstr );
+	    g_free ( tmpstr2 );
 	    gsb_status_stop_wait ( TRUE );
 	    return FALSE;
 	}

@@ -144,9 +144,9 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
     gint i;
     gchar *account_type[] = {
 	_("Bank account\nStandard account with credit card and cheques."),
-	_("Cash account\nStandard cash account, to use with a cashier."), /* xxx */
-	_("Liabilities account\nxxx"),
-	_("Assets account\nxxx"),
+	_("Cash account\nStandard cash account, to use with a cashier."),
+	_("Liabilities account\n"),
+	_("Assets account\n"),
 	NULL };
 
     page = gtk_hbox_new (FALSE, 15);
@@ -399,15 +399,15 @@ static gboolean gsb_assistant_account_enter_page_finish ( GtkWidget * assistant,
 	    break;
 
 	case GSB_TYPE_CASH:
-	    default_name = g_strdup_printf ( _("Cashier") ); /* xxx */
+	    default_name = g_strdup_printf ( _("Cashier") );
 	    break;
 
 	case GSB_TYPE_ASSET:
-	    default_name = g_strdup_printf ( _("xxx asset") ); /* xxx */
+	    default_name = g_strdup_printf ( _("Assets account") );
 	    break;
 
 	case GSB_TYPE_LIABILITIES:
-	    default_name = g_strdup_printf ( _("xxx liabilities") ); /* xxx */
+	    default_name = g_strdup_printf ( _(""Liabilities account));
 	    break;
     }
 

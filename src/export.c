@@ -77,7 +77,7 @@ void export_accounts ( void )
 				   "As QIF and CSV do not support currencies, all "
 				   "transactions will be converted into currency of their "
 				   "respective account."),
-				 "xxx",
+				 "import.png",
 				 NULL );
 
     gsb_assistant_add_page ( dialog, export_create_selection_page(dialog), 1, 0, 2, 
