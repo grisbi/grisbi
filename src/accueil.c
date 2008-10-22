@@ -205,7 +205,7 @@ GtkWidget *creation_onglet_accueil ( void )
     /* mise en place de la partie des échéances manuelles ( non affiché ) */
     /*     sera mis à jour automatiquement si nécessaire */
     paddingbox = new_paddingbox_with_title ( base, FALSE,
-					     _("Manual scheduled transactions at maturity date") );
+					     _("Run out manual scheduled transactions") );
     frame_etat_echeances_manuelles_accueil = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil), 
 				 FALSE );
@@ -451,9 +451,8 @@ void update_liste_comptes_accueil ( gboolean force )
 
 	/* Création du tableau dans lequel seront stockés les comptes avec leur     */
 	/* solde.                                                                   */
-	gchar* tmpstr = g_strconcat (_("Account balances in "),
-				      gsb_data_currency_get_name (currency_number),
-				      NULL );
+	gchar* tmpstr = g_sprintf ( _("Account balances in %s"),
+				    gsb_data_currency_get_name (currency_number) );
 	paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
 	g_free ( tmpstr );
 	pTable = gtk_table_new ( nb_comptes_bancaires + 3, 4, FALSE );
@@ -1663,11 +1662,11 @@ void affiche_dialogue_soldes_minimaux ( void )
     if ( liste_autorise_et_voulu )
     {
 	if ( g_slist_length ( liste_autorise_et_voulu ) == 1 )
-	    texte_affiche = g_strdup_printf ( _("balance of account %s is under wanted and authorised minima!"),
+	    texte_affiche = g_strdup_printf ( _("balance of account %s is under desired and authorised minima!"),
 					      (gchar *) liste_autorise_et_voulu -> data );
 	else
 	{
-	    texte_affiche = g_strdup(_("accounts with the balance under wanted and authorised minimal :\n\n"));
+	    texte_affiche = g_strdup(_("accounts with the balance under desired and authorised minimal :\n\n"));
 	    liste_tmp = liste_autorise_et_voulu;
 	    while ( liste_tmp )
 	    {
@@ -1738,7 +1737,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 	if ( g_slist_length ( liste_voulu ) == 1 )
 	{
 	    gchar* oldstr = texte_affiche;
-	    gchar* tmpstr = g_strdup_printf ( _("balance of account %s is under wanted minimum!"),
+	    gchar* tmpstr = g_strdup_printf ( _("balance of account %s is under desired minimum!"),
 							    (gchar *) liste_voulu -> data );
 	    texte_affiche = g_strconcat ( texte_affiche, tmpstr , NULL );
 	    g_free ( tmpstr );
@@ -1748,7 +1747,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 	{
 	    gchar* oldstr = texte_affiche;
 	    texte_affiche = g_strconcat ( oldstr,
-					  _("accounts with the balance under wanted minimal :\n\n"),
+					  _("accounts with the balance under desired minimal :\n\n"),
 					  NULL );
 	    g_free ( oldstr );
 	    liste_tmp = liste_voulu;

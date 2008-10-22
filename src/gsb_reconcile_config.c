@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -269,7 +269,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 			       FALSE );
 
     /* set the button to find non-associated transactions */
-    button = gtk_button_new_with_label ( _("Find the marked transactions not associated to a reconcile number"));
+    button = gtk_button_new_with_label ( _("Find all marked transactions not associated with a reconcile number"));
     gtk_button_set_relief ( GTK_BUTTON (button),
 			    GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT (button),

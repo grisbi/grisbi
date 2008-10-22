@@ -475,7 +475,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 			       FALSE );
     gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
 			   scheduler_button_execute,
-			   _("Execute current scheduled transaction if it is at maturity date"), "" );
+			   _("Execute current scheduled transaction if run out"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_execute, FALSE, FALSE, 0 );
 
     button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,

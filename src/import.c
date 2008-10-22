@@ -1399,7 +1399,8 @@ void traitement_operations_importees ( void )
 
     /* if some R marked transactions are imported, show a message */
     if (marked_r_transactions_imported)
-	dialogue (_("You have just imported some marked R transactions, but they are for now not associated to any reconcile. It would be a good thing to create the necessary reconcile and associate that transactions.\nYou can add/modify the reconciles into the preferences."));
+	dialogue (_("You have just imported reconciled transactions but they not associated with any reconcile number yet. "
+		    "You may associate them with a reconcilation later via the preferences windows."));
 
     modification_fichier ( TRUE );
 }

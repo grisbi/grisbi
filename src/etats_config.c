@@ -6407,7 +6407,7 @@ GtkWidget *page_data_separation ( void )
     gtk_widget_show ( vbox_onglet );
 
     /* choix de ce qu'on utilise dans le classement */
-    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Transaction separation") );
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Data separation") );
 
     /* on permet la séparation des revenus et des dépenses */
     bouton_separer_revenus_depenses = gtk_check_button_new_with_label ( _("Split incomes and outgoings") );
