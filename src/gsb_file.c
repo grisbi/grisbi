@@ -634,9 +634,15 @@ gboolean gsb_file_automatic_backup_start ( GtkWidget *checkbutton,
     if (etat.make_backup_every_minutes
 	&&
 	etat.make_backup_nb_minutes )
+#if GLIB_CHECK_VERSION(2,14,0)
 	id_timeout = g_timeout_add_seconds ( etat.make_backup_nb_minutes * 60,
 					     (GSourceFunc) (gsb_file_automatic_backup),
 					     NULL );
+#else
+	id_timeout = g_timeout_add ( etat.make_backup_nb_minutes * 60000,
+				     (GSourceFunc) (gsb_file_automatic_backup),
+				     NULL );
+#endif
     return FALSE;
 }
 
@@ -662,9 +668,15 @@ gboolean gsb_file_automatic_backup_change_time ( GtkWidget *spinbutton,
 
     /* set a new timeout only if there is an interval */
     if (etat.make_backup_nb_minutes)
+#if GLIB_CHECK_VERSION(2,14,0)
 	id_timeout = g_timeout_add_seconds ( etat.make_backup_nb_minutes * 60,
 					     (GSourceFunc) (gsb_file_automatic_backup),
 					     NULL );
+#else
+	id_timeout = g_timeout_add ( etat.make_backup_nb_minutes * 60000,
+				     (GSourceFunc) (gsb_file_automatic_backup),
+				     NULL );
+#endif
 
     return FALSE;
 }
