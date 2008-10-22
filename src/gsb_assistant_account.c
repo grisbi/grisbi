@@ -407,7 +407,7 @@ static gboolean gsb_assistant_account_enter_page_finish ( GtkWidget * assistant,
 	    break;
 
 	case GSB_TYPE_LIABILITIES:
-	    default_name = g_strdup_printf ( _(""Liabilities account));
+	    default_name = g_strdup_printf ( _("Liabilities account"));
 	    break;
     }
 
