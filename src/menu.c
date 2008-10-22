@@ -33,6 +33,7 @@
 #include "./gsb_transactions_list.h"
 #include "./navigation.h"
 #include "./export.h"
+#include "./file_obfuscate_qif.h"
 #include "./file_obfuscate.h"
 #include "./tip.h"
 #include "./gsb_account.h"
@@ -103,6 +104,7 @@ static gchar * buffer =
 "      <separator/>"
 "      <menuitem action='DebugFile'/>"
 "      <menuitem action='Obfuscate'/>"
+"      <menuitem action='ObfuscateQif'/>"
 "      <menuitem action='DebugMode'/>"
 "      <separator/>"
 "      <menuitem action='Close'/>"
@@ -200,6 +202,9 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 
 	{ "Obfuscate",		GTK_STOCK_FIND,		_("_Obfuscate account file..."),
 	  "",			NULL,			G_CALLBACK( file_obfuscate_run ) },
+
+	{ "ObfuscateQif",	GTK_STOCK_FIND,		_("_Obfuscate QIF file..."),
+	  "",			NULL,			G_CALLBACK( file_obfuscate_qif_run ) },
 
 	{ "Close",		GTK_STOCK_CLOSE,	_("_Close"),
 	  NULL,			NULL,			G_CALLBACK( gsb_file_close ) },

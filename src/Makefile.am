@@ -35,6 +35,7 @@ sources = \
 	export_csv.c		\
 	fenetre_principale.c	\
 	file_obfuscate.c	\
+	file_obfuscate_qif.c	\
 	go-charmap-sel.c	\
 	go-optionmenu.c		\
 	gsb_account.c		\
@@ -245,6 +246,7 @@ grisbi_INCLUDES =		\
 	etats_support.h		\
 	fenetre_principale.h	\
 	file_obfuscate.h	\
+	file_obfuscate_qif.h	\
 	gtk_combofix.h		\
 	help.h			\
 	import.h		\

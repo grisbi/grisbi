@@ -318,8 +318,6 @@ gboolean file_obfuscate_run ( void )
 
 		tmp_list = tmp_list -> next;
 	    }
-
-
 	}
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button_reconcile)))
@@ -359,7 +357,8 @@ gboolean file_obfuscate_run ( void )
     }
 
     gtk_widget_destroy ( assistant );
-    
+    gsb_status_message ( _("Done.") );
+
     return FALSE;
 }
 

@@ -318,20 +318,6 @@ gboolean recuperation_donnees_qif ( GtkWidget * assistant, struct imported_file 
 		     &&
 		     tmp_str[0] != '!' )
 		{
-		    /* remove the 0D at the end if present */
-		    if ( tmp_str [ strlen (tmp_str)-1 ] == 13 )
-		    {
-			printf ( "0d à la fin de la ligne\n");
-			tmp_str [ strlen (tmp_str)-1 ] = 0;
-		    }
-
-		    /* remove the 0A at the end if present */
-		    if ( tmp_str [ strlen (tmp_str)-1 ] == 10 )
-		    {
-			printf ( "0a à la fin de la ligne\n");
-			tmp_str [ strlen (tmp_str)-1 ] = 0;
-		    }
-
 		    /* set the date into date_tmp */
 		    if ( tmp_str[0] == 'D' )
 			imported_transaction -> date_tmp = my_strdup ( tmp_str + 1 );

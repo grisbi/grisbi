@@ -39,6 +39,7 @@
 
 /*START_STATIC*/
 static void browse_file ( GtkButton *button, gpointer data );
+static gchar *utils_files_create_backup_name ( const gchar *filename );
 /*END_STATIC*/
 
 

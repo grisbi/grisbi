@@ -54,7 +54,6 @@
 #include "./parametres.h"
 #include "./affichage_liste.h"
 #include "./transaction_list.h"
-#include "./utils_files.h"
 #include "./utils_file_selection.h"
 #include "./fenetre_principale.h"
 #include "./include.h"

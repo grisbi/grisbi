@@ -31,6 +31,7 @@
 /*START_INCLUDE*/
 #include "gsb_category.h"
 #include "./etats_calculs.h"
+#include "./dialog.h"
 #include "./gsb_data_category.h"
 #include "./gsb_data_form.h"
 #include "./gsb_file_others.h"
@@ -351,10 +352,14 @@ void gsb_category_assistant_parse_file ( gchar * filename, GtkTreeModel * model 
     gchar * file_content, * description = NULL;
     GtkTreeIter iter;
 
-    g_file_get_contents ( filename,
-			  &file_content,
-			  NULL,
-			  NULL );
+    if (!g_file_get_contents ( filename,
+			       &file_content,
+			       NULL,
+			       NULL ))
+    {
+	dialogue_error (_("Cannot open the category file."));
+	return;
+    }
 
     markup_parser -> start_element = (void *) gsb_category_assistant_start_element;
 
