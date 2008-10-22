@@ -1,7 +1,8 @@
 New in version 0.6 :
  - Encryption of the file
- - New and improved print system.  LaTeX no more needed, printing has
-   never been so straightforward
+ - New and improved print system
+   + LaTeX no more needed, printing has never been so straightforward
+   + Transaction list can be printed as well as reports.
  - Improved user interface
    + Tabs deprecated in favor of a navigation tree
    + Redesigned categories/payees/budgetary lines trees
@@ -15,6 +16,7 @@ New in version 0.6 :
    + Use of + and - in amount entry to increment/decrement values
    + Quick import of recurrent files
    + Pre-built category sets dependent of the locale
+   + All colors can be customized
    + Astonishing icons ... can't ask for more!
  - Archival of old transactions, possibly into separate files
  - Form structure defined by user
