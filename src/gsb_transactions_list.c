@@ -2301,12 +2301,12 @@ gboolean assert_selected_transaction ()
  */
 gboolean new_transaction () 
 {
+    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
     gsb_form_escape_form();
+    gsb_form_show (TRUE);
     transaction_list_select ( -1 );
     gsb_transactions_list_edit_transaction (-1);
 
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
-    gsb_form_show (TRUE);
     return FALSE;
 }
 
