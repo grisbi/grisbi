@@ -1519,7 +1519,7 @@ void recuperation_info_perso_etat ( void )
 										    "type" )));
     gsb_data_report_set_period_split_day ( current_report_number,
 					   GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT ( GTK_OPTION_MENU ( bouton_debut_semaine ) -> menu_item ),
-										   "jour" )));
+										   "day" )));
 
     /* récupération des comptes */
 
@@ -6430,84 +6430,83 @@ GtkWidget *page_data_separation ( void )
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_separe_plages_etat );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_separe_plages_etat, FALSE, FALSE, 0 );
 
-	/* on permet ensuite la séparation des résultats par période */
-	paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Separation by period") );
+    /* on permet ensuite la séparation des résultats par période */
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Separation by period") );
 
-	table = gtk_table_new ( 2, 2, FALSE );
-	gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
-	gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
-	gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 5 );
+    table = gtk_table_new ( 2, 2, FALSE );
+    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
+    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 5 );
 
-	label = gtk_label_new (COLON(_("Separation by time period")));
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table ), label,
-			0, 1, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    label = gtk_label_new (COLON(_("Separation by time period")));
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+    gtk_table_attach ( GTK_TABLE ( table ), label,
+		       0, 1, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-	/* FIXME BENJ XXX : be sure this is selectionned correctly when
-	 * editing report for the first time (see line 834). */
-	bouton_type_separe_plages_etat = gtk_option_menu_new ();
-	g_signal_connect ( G_OBJECT (bouton_separe_plages_etat),
-			"toggled",
-			G_CALLBACK (sens_desensitive_pointeur),
-			bouton_type_separe_plages_etat );
-	g_signal_connect ( G_OBJECT (bouton_type_separe_plages_etat ), "destroy",
-			G_CALLBACK ( gtk_widget_destroyed), &bouton_type_separe_plages_etat );
+    /* add split button by day, week... */
+    bouton_type_separe_plages_etat = gtk_option_menu_new ();
+    g_signal_connect ( G_OBJECT (bouton_separe_plages_etat),
+		       "toggled",
+		       G_CALLBACK (sens_desensitive_pointeur),
+		       bouton_type_separe_plages_etat );
+    g_signal_connect ( G_OBJECT (bouton_type_separe_plages_etat ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &bouton_type_separe_plages_etat );
 
-	gtk_table_attach ( GTK_TABLE ( table ), bouton_type_separe_plages_etat,
-			1, 2, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_table_attach ( GTK_TABLE ( table ), bouton_type_separe_plages_etat,
+		       1, 2, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-	menu = gtk_menu_new ();
-	menu_item = gtk_menu_item_new_with_label ( _("Day") );
-	gtk_object_set_data ( GTK_OBJECT ( menu_item ), "type", NULL );
-	gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    menu = gtk_menu_new ();
+    menu_item = gtk_menu_item_new_with_label ( _("Day") );
+    gtk_object_set_data ( GTK_OBJECT ( menu_item ), "type", NULL );
+    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 
-	menu_item = gtk_menu_item_new_with_label ( _("Week") );
-	gtk_object_set_data ( GTK_OBJECT ( menu_item ), "type", GINT_TO_POINTER (1) );
-	gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    menu_item = gtk_menu_item_new_with_label ( _("Week") );
+    gtk_object_set_data ( GTK_OBJECT ( menu_item ), "type", GINT_TO_POINTER (1) );
+    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 
-	menu_item = gtk_menu_item_new_with_label ( _("Month") );
-	gtk_object_set_data ( GTK_OBJECT ( menu_item ), "type", GINT_TO_POINTER (2) );
-	gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    menu_item = gtk_menu_item_new_with_label ( _("Month") );
+    gtk_object_set_data ( GTK_OBJECT ( menu_item ), "type", GINT_TO_POINTER (2) );
+    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 
-	menu_item = gtk_menu_item_new_with_label ( _("Year") );
-	gtk_object_set_data ( GTK_OBJECT ( menu_item ), "type", GINT_TO_POINTER (3));
-	gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    menu_item = gtk_menu_item_new_with_label ( _("Year") );
+    gtk_object_set_data ( GTK_OBJECT ( menu_item ), "type", GINT_TO_POINTER (3));
+    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ), menu );
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ), menu );
 
-	/* mise en place de la row de début de semaine */
-	label = gtk_label_new (COLON(_("Beginning of week")));
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table ), label,
-			0, 1, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    /* add beginning day of the week */
+    label = gtk_label_new (COLON(_("Beginning of week")));
+    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+    gtk_table_attach ( GTK_TABLE ( table ), label,
+		       0, 1, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-	bouton_debut_semaine = gtk_option_menu_new ();
-	g_signal_connect ( G_OBJECT (bouton_separe_plages_etat),
-			"toggled",
-			G_CALLBACK (sens_desensitive_pointeur),
-			bouton_debut_semaine );
-	g_signal_connect ( G_OBJECT (bouton_debut_semaine ), "destroy",
-			G_CALLBACK ( gtk_widget_destroyed), &bouton_debut_semaine );
+    bouton_debut_semaine = gtk_option_menu_new ();
+    g_signal_connect ( G_OBJECT (bouton_separe_plages_etat),
+		       "toggled",
+		       G_CALLBACK (sens_desensitive_pointeur),
+		       bouton_debut_semaine );
+    g_signal_connect ( G_OBJECT (bouton_debut_semaine ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &bouton_debut_semaine );
 
-	gtk_table_attach ( GTK_TABLE ( table ), bouton_debut_semaine,
-			1, 2, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    gtk_table_attach ( GTK_TABLE ( table ), bouton_debut_semaine,
+		       1, 2, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-	menu = gtk_menu_new ();
+    menu = gtk_menu_new ();
 
-	i = 0;
+    i = 0;
 
-	while ( jours_semaine[i] )
-	{
+    while ( jours_semaine[i] )
+    {
 	menu_item = gtk_menu_item_new_with_label ( _(jours_semaine[i]) );
 	gtk_object_set_data ( GTK_OBJECT ( menu_item ), _("day"), GINT_TO_POINTER (i));
 	gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 	i++;
-	}
-	gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_debut_semaine ), menu );
+    }
+    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_debut_semaine ), menu );
 
-	return ( vbox_onglet );
+    return ( vbox_onglet );
 }
 /******************************************************************************/
 

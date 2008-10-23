@@ -1691,7 +1691,8 @@ classement_suivant:
 
 	    if ( gsb_data_report_get_account_group_reports (current_report_number))
 	    {
-		/* sort by account, alphabetic order FIXME : perhaps ask in parameters for alphabetic or different order ?*/
+		/* sort by account, alphabetic order
+		 * TODO : perhaps ask in parameters for alphabetic or different order ?*/
 		gchar *account_name_1;
 		gchar *account_name_2;
 
