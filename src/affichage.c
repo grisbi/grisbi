@@ -63,6 +63,8 @@ static  gboolean preferences_view_color_default ( GtkWidget *button,
 static  GtkWidget *preferences_view_create_color_combobox (void);
 static void update_fonte_listes ( gchar *fontname,
 			   gpointer null);
+static gboolean preferences_view_update_preview_logo ( GtkFileChooser *file_chooser,
+						       GtkWidget *preview );
 /*END_STATIC*/
 
 
@@ -515,13 +517,18 @@ void change_logo_accueil ( GtkWidget * file_selector )
 gboolean modification_logo_accueil ( )
 {
     GtkWidget *file_selector;
+    GtkWidget *preview;
 
     file_selector = file_selection_new (_("Select a new logo"),
 					FILE_SELECTION_IS_OPEN_DIALOG|FILE_SELECTION_MUST_EXIST);
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selector),
 					 gsb_file_get_last_path ());
-    /* FIXME: be sure preview will be displayed. */
-    gtk_file_chooser_set_preview_widget_active ( GTK_FILE_CHOOSER(file_selector), TRUE );
+
+    /* create the preview */
+    preview = gtk_image_new ();
+    gtk_file_chooser_set_preview_widget (GTK_FILE_CHOOSER (file_selector), preview);
+    g_signal_connect (G_OBJECT (file_selector), "update-preview",
+		      G_CALLBACK (preferences_view_update_preview_logo), preview);
 
     gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
 				   GTK_WINDOW ( fenetre_preferences ));
@@ -538,8 +545,39 @@ gboolean modification_logo_accueil ( )
 	    break;
     }
 
-
     return ( FALSE );
+}
+
+
+/**
+ * update the preview of the log file chooser
+ *
+ * \param file_chooser
+ * \param preview
+ *
+ * \return FALSE
+ * */
+static gboolean preferences_view_update_preview_logo ( GtkFileChooser *file_chooser,
+						       GtkWidget *preview )
+{
+  char *filename;
+  GdkPixbuf *pixbuf;
+  gboolean have_preview;
+
+  filename = gtk_file_chooser_get_preview_filename (file_chooser);
+  if (!filename)
+      return FALSE;
+
+  pixbuf = gdk_pixbuf_new_from_file_at_size (filename, 128, 128, NULL);
+  have_preview = (pixbuf != NULL);
+  g_free (filename);
+
+  gtk_image_set_from_pixbuf (GTK_IMAGE (preview), pixbuf);
+  if (pixbuf)
+    g_object_unref (pixbuf);
+
+  gtk_file_chooser_set_preview_widget_active (file_chooser, have_preview);
+  return FALSE;
 }
 
 
