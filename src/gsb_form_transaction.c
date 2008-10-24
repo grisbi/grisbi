@@ -393,7 +393,7 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
     gint contra_transaction_number;
     gint contra_mother_number = 0;
 
-    g_return_val_if_fail ( account_transfer, -1 );
+    g_return_val_if_fail ( account_transfer >= 0, -1 );
 
     /* either it's a new transfer or a change of a non-transfer transaction
      * either it was already a transfer, in that case, if we change the target account,

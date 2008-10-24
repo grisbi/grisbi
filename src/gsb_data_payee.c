@@ -351,7 +351,10 @@ gint gsb_data_payee_get_number_by_name ( const gchar *name,
     else
     {
 	if (create)
+	{
 	    payee_number = gsb_data_payee_new (name);
+	    gsb_payee_update_combofix ();
+	}
     }
     return payee_number;
 }
@@ -426,11 +429,7 @@ gboolean gsb_data_payee_set_name ( gint no_payee,
     /* and copy the new one or set NULL */
     payee -> payee_name = my_strdup (name);
 
-   /* update the form combofix, FIXME later, we should set that in another
-    * place but need to change the form of the function to prevent if there
-    * is a creation. this must be done when all the gsb_data_x will be separate
-    * of grisbi, for now, no problem */
-   gsb_payee_update_combofix ();
+    gsb_payee_update_combofix ();
 
     return TRUE;
 }

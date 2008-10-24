@@ -679,10 +679,6 @@ gint gsb_data_budget_get_number_by_name ( const gchar *name,
 	    budget_number = gsb_data_budget_new (name);
 	    gsb_data_budget_set_type ( budget_number,
 				       budget_type );
-	    /* update the form combofix, FIXME later, we should set that in another
-	     * place but need to change the form of the function to prevent if there
-	     * is a creation. this must be done when all the gsb_data_x will be separate
-	     * of grisbi, for now, no problem */
 	    gsb_budget_update_combofix ();
 	}
     }
@@ -850,10 +846,6 @@ gboolean gsb_data_budget_set_name ( gint no_budget,
     else
 	budget -> budget_name = NULL;
 
-    /* update the form combofix, FIXME later, we should set that in another
-     * place but need to change the form of the function to prevent if there
-     * is a creation. this must be done when all the gsb_data_x will be separate
-     * of grisbi, for now, no problem */
     gsb_budget_update_combofix ();
 
     return TRUE;

@@ -90,7 +90,6 @@ gchar *gsb_real_get_string_with_currency ( gsb_real number,
 {
     gchar *string;
 
-    /** FIXME: use locale instead of hardcoded european-style format */
     string = gsb_real_format_string (number,
 				     currency_number,
 				     show_symbol);
@@ -106,8 +105,8 @@ gchar *gsb_real_get_string_with_currency ( gsb_real number,
  * thousands separator and positive or negative sign.
  * 
  * \param number		Number to format.
- * \param currency_number the currency we want to adapt the number, 0 for no adaptation
- * \param show_symbol TRUE to add the currency symbol in the string
+ * \param currency_number 	the currency we want to adapt the number, 0 for no adaptation
+ * \param show_symbol 		TRUE to add the currency symbol in the string
  *
  * \return		A newly allocated string of the number (this
  *			function will never return NULL) 
@@ -123,7 +122,10 @@ gchar *gsb_real_format_string ( gsb_real number,
     glong num;
     const gchar *currency_symbol = NULL;
 
-   if (currency_number && show_symbol)
+    /* as we use localeconv, all the currencies in grisbi will be formatted as the locale of the system
+     * i think it's ok like that, and to adapt the view according with the currency and not the current
+     * locale is much more complicated */
+    if (currency_number && show_symbol)
 	currency_symbol = gsb_data_currency_get_code (currency_number);
 
     /* first we need to adapt the exponent to the currency */
@@ -139,7 +141,7 @@ gchar *gsb_real_format_string ( gsb_real number,
     mantissa = g_malloc0 ( 15*sizeof (gchar) );
     exponent = g_malloc0 ( 15*sizeof (gchar) );
     string = mantissa;
-    
+
     num = labs(number.mantissa);
 
     /*     Construct the result in the reverse order from right to left, then reverse it. */
@@ -182,7 +184,7 @@ gchar *gsb_real_format_string ( gsb_real number,
 	 * and 0.51 will be 0.51 and no 51 without that check */
     }
     while ( ( num = result_div.quot )
-  	    ||
+	    ||
   	    (currency_number
 	     &&
 	     i < gsb_data_currency_get_floating_point (currency_number)));

@@ -1889,13 +1889,19 @@ gboolean gsb_data_transaction_set_contra_transaction_number ( gint transaction_n
 gint gsb_data_transaction_get_contra_transaction_account ( gint transaction_number )
 {
     struct_transaction *transaction;
+    struct_transaction *contra_transaction;
 
     transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
 
     if ( !transaction )
 	return -1;
-
     return transaction -> account_number_transfer;
+
+    contra_transaction = gsb_data_transaction_get_transaction_by_no (transaction -> transaction_number_transfer);
+    if (!contra_transaction)
+	return -1;
+
+    return contra_transaction -> account_number;
 }
 
 

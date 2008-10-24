@@ -718,6 +718,7 @@ gint gsb_data_category_get_number_by_name ( const gchar *name,
 	    category_number = gsb_data_category_new (name);
 	    gsb_data_category_set_type ( category_number,
 					 category_type );
+	    gsb_category_update_combofix ();
 	}
     }
     return category_number;
@@ -762,8 +763,11 @@ gint gsb_data_category_get_sub_category_number_by_name ( gint category_number,
     else
     {
 	if (create)
+	{
 	    sub_category_number = gsb_data_category_new_sub_category ( category_number,
 								       name);
+	    gsb_category_update_combofix ();
+	}
     }
     return sub_category_number;
 }
@@ -885,10 +889,6 @@ gboolean gsb_data_category_set_name ( gint no_category,
     else
 	category -> category_name = NULL;
 
-    /* update the form combofix, FIXME later, we should set that in another
-     * place but need to change the form of the function to prevent if there
-     * is a creation. this must be done when all the gsb_data_x will be separate
-     * of grisbi, for now, no problem */
     gsb_category_update_combofix ();
 
     return TRUE;
@@ -953,10 +953,6 @@ gboolean gsb_data_category_set_sub_category_name ( gint no_category,
     else
 	sub_category -> sub_category_name = NULL;
 
-    /* update the form combofix, FIXME later, we should set that in another
-     * place but need to change the form of the function to prevent if there
-     * is a creation. this must be done when all the gsb_data_x will be separate
-     * of grisbi, for now, no problem */
     gsb_category_update_combofix ();
 
     return TRUE;
