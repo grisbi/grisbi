@@ -380,8 +380,8 @@ void importer_categ ( void )
     dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 				       make_hint ( _("Merge imported categories with existing?"),
 						   ( last_transaction_number ?
-						     _("File already contains transactions.  If you decide to continue, existing categories will be merged with imported ones.") :
-						     _("File does not contain transactions.  "
+						     _("File already contains categories.  If you decide to continue, existing categories will be merged with imported ones.") :
+						     _("File does not contain categories.  "
 						       "If you decide to continue, existing categories will be merged with imported ones.  "
 						       "Once performed, there is no undo for this.\n"
 						       "You may also decide to replace existing categories with imported ones." ) ) ) );
