@@ -90,6 +90,8 @@ gchar *gsb_real_get_string_with_currency ( gsb_real number,
 {
     gchar *string;
 
+    /** FIXME: use locale instead of hardcoded european-style format */
+xxx marche pas avec dollard
     string = gsb_real_format_string (number,
 				     currency_number,
 				     show_symbol);

@@ -144,28 +144,6 @@ gsb_real gsb_currency_get_current_exchange_fees (void)
 }
 
 
-/**
- * Format an amount together with an associated currency and return a
- * string according to locale.
- *
- * \param amount	Amount to format.
- * \param currency	Associated currency.
- *
- * \return		Newly-allocated char, to free when unused.
- */
-gchar * gsb_format_amount ( gsb_real amount, gint currency )
-{
-    /** FIXME: use locale instead of hardcoded european-style format */
-
-    gchar* tmpstr = gsb_real_get_string ( gsb_real_adjust_exponent ( amount,
-					gsb_data_currency_get_floating_point ( currency ) ) );
-    return g_strconcat ( tmpstr,
-			 " ",
-			 gsb_data_currency_get_code_or_isocode ( currency ),
-			 NULL );
-}
-
-
 
 /**
  * create and return a combobox with the currencies
