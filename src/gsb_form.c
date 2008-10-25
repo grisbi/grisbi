@@ -2490,10 +2490,8 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 							       0 );
 		    gsb_data_transaction_set_sub_category_number ( transaction_number,
 								   0 );
-		    gsb_data_transaction_set_contra_transaction_account ( transaction_number,
-								       -1);
 		    gsb_data_transaction_set_contra_transaction_number ( transaction_number,
-									   -1);
+									 -1);
 		}
 		else
 		{
@@ -2886,23 +2884,19 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		    {
 			/* it was a transfer, we delete the contra-transaction */
 			gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number,
-									       0);
+									     0);
 			gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE );
 			gsb_data_transaction_set_contra_transaction_number ( transaction_number,
-									       0);
-			gsb_data_transaction_set_contra_transaction_account ( transaction_number,
-									   0);
+									     0);
 		    }
 		    gsb_data_category_fill_transaction_by_string ( transaction_number,
 								   string, is_transaction );
 		    break;
 
 		case -2:
-		    /* if the check returns -2, it's a deleted account,
+		    /* if the check returns -2, it's a deleted account, so set -1 for transaction number transfer
 		     * normally cannot come here if scheduled transaction, but in case,
 		     * we set data_mix to protect */
-		    gsb_data_mix_set_account_number_transfer ( transaction_number,
-							       -1, is_transaction );
 		    gsb_data_mix_set_transaction_number_transfer ( transaction_number,
 								   -1, is_transaction );
 		    /* we don't set any break here, so with the case -1 the 
@@ -2940,13 +2934,11 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		 ( contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number)))
 	    {
 		gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number,
-								       0);
+								     0);
 		gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE );
 
 		gsb_data_transaction_set_contra_transaction_number ( transaction_number,
-								       0);
-		gsb_data_transaction_set_contra_transaction_account ( transaction_number,
-								   0);
+								     0);
 	    }
 
 	    /* if it's a modification of a transaction and it was not a split,

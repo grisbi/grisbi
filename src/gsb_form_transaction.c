@@ -479,13 +479,9 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
 
     /* set the link between the transactions */
     gsb_data_transaction_set_contra_transaction_number ( transaction_number,
-							   contra_transaction_number);
-    gsb_data_transaction_set_contra_transaction_account ( transaction_number,
-						       gsb_data_transaction_get_account_number (contra_transaction_number));
+							 contra_transaction_number);
     gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number,
-							   transaction_number);
-    gsb_data_transaction_set_contra_transaction_account ( contra_transaction_number,
-						       gsb_data_transaction_get_account_number (transaction_number));
+							 transaction_number);
 
     /* show the contra_transaction */
     if ( new_transaction )

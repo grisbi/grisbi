@@ -580,10 +580,6 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
 	    /* update the scheduler list */
 	    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
 
-	    /* update reports */
-	    remplissage_liste_comptes_etats ();
-	    selectionne_liste_comptes_etat_courant ();
-
 	    /*update the the view menu */
 	    gsb_navigation_update_account_label (account_number);
 	    /* no break here !! need to do the same to PROPERTY_CLOSED_ACCOUNT too */

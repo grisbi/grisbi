@@ -2024,16 +2024,6 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 
 
 	if ( !strcmp ( attribute_names[i],
-		       "Tra" ))
-	{
-	    gsb_data_transaction_set_contra_transaction_account ( transaction_number,
-							       utils_str_atoi (attribute_values[i]));
-	    i++;
-	    continue;
-	}
-
-
-	if ( !strcmp ( attribute_names[i],
 		       "Mo" ))
 	{
 	    gsb_data_transaction_set_mother_transaction_number ( transaction_number,
@@ -4638,11 +4628,6 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 			       "Ro" ))
 		    gsb_data_transaction_set_contra_transaction_number ( transaction_number,
 									   utils_str_atoi ( attribute_values[i]));
-
-		if ( !strcmp ( attribute_names[i],
-			       "Rc" ))
-		    gsb_data_transaction_set_contra_transaction_account ( transaction_number,
-								       utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Va" ))

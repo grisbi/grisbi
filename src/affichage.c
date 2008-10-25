@@ -61,10 +61,10 @@ static  gboolean preferences_view_color_combobox_changed ( GtkWidget *combobox,
 static  gboolean preferences_view_color_default ( GtkWidget *button,
 						 GtkWidget *combobox );
 static  GtkWidget *preferences_view_create_color_combobox (void);
+static  gboolean preferences_view_update_preview_logo ( GtkFileChooser *file_chooser,
+						       GtkWidget *preview );
 static void update_fonte_listes ( gchar *fontname,
 			   gpointer null);
-static gboolean preferences_view_update_preview_logo ( GtkFileChooser *file_chooser,
-						       GtkWidget *preview );
 /*END_STATIC*/
 
 

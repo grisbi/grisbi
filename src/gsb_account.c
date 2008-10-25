@@ -44,6 +44,8 @@
 #include "./etats_config.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
+#include "./transaction_list.h"
+#include "./gsb_transactions_list.h"
 #include "./fenetre_principale.h"
 #include "./gsb_form_scheduler.h"
 #include "./include.h"
@@ -119,9 +121,6 @@ gboolean gsb_account_new ( kind_account account_type,
     /* update the main page */ 
     mise_a_jour_liste_comptes_accueil = 1;
 
-    remplissage_liste_comptes_etats ();
-    selectionne_liste_comptes_etat_courant ();
-
     /* update the accounts lists */ 
     gsb_menu_update_accounts_in_menus (); 
 
@@ -160,7 +159,7 @@ gboolean gsb_account_delete ( void )
     deleted_account = gsb_gui_navigation_get_current_account ();
 
     gchar* tmpstr = g_strdup_printf (_("Delete account \"%s\"?"),
-						  gsb_data_account_get_name (deleted_account)) ;
+				     gsb_data_account_get_name (deleted_account)) ;
     if ( !question_yes_no_hint ( tmpstr,
 				 _("This will irreversibly remove this account and all operations that were previously contained.  There is no undo for this. Usually it's a better way to close an account."),
 				 GTK_RESPONSE_NO ))
@@ -171,7 +170,6 @@ gboolean gsb_account_delete ( void )
     g_free ( tmpstr );
 
     /* if the last account, close the file */
-
     if ( gsb_data_account_get_accounts_amount () == 1 )
     {
 	modification_fichier ( FALSE );
@@ -180,7 +178,6 @@ gboolean gsb_account_delete ( void )
     }
 
     /* delete the schedules transactions on that account */
-
     list_tmp = gsb_data_scheduled_get_scheduled_list ();
 
     while (list_tmp)
@@ -196,37 +193,32 @@ gboolean gsb_account_delete ( void )
     }
 
 
-    /*     delete the account */
-
-    gsb_data_account_delete ( deleted_account );
-
-    /*     check all the transactions, and put -1 if it's a transfer to the deleted account */
-
-    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while ( list_tmp )
+    /* remove all the transactions of that account */
+    list_tmp = gsb_data_transaction_get_complete_transactions_list ();
+    while (list_tmp)
     {
-	gint i;
-	GSList *list_tmp_transactions;
+	gint transaction_number;
+	transaction_number = gsb_data_transaction_get_transaction_number (list_tmp -> data);
 
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
-
-	list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
-
-	while ( list_tmp_transactions )
-	{
-	    gint transaction_number;
-	    transaction_number = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
-
-	    if ( gsb_data_transaction_get_account_number (transaction_number) == i
-		 &&
-		 gsb_data_transaction_get_contra_transaction_account (transaction_number) == deleted_account )
-		gsb_data_transaction_set_contra_transaction_account ( transaction_number,
-								   -1);
-	    list_tmp_transactions = list_tmp_transactions -> next;
-	}
+	/* better to go to the next transaction now */
 	list_tmp = list_tmp -> next;
+
+	if (gsb_data_transaction_get_account_number (transaction_number) == deleted_account)
+	{
+	    /* we are on a transaction on the deleted account, we delete that transaction,
+	     * but if it's a transfer, modify the contra-transaction to set transfer to deleted account */
+	    gint contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
+	    if (contra_transaction_number > 0)
+		/* it's a transfer, modify the contra-transaction */
+		gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number, -1);
+
+	    /* now can remove the transaction */
+	    gsb_data_transaction_remove_transaction_without_check (transaction_number);
+	}
     }
+
+    /*     delete the account */
+    gsb_data_account_delete ( deleted_account );
 
     /* check gsb_gui_navigation_get_current_account () and gsb_gui_navigation_get_current_account ()_onglet and put them
      * on the first account if they are on the deleted account */
@@ -243,14 +235,15 @@ gboolean gsb_account_delete ( void )
     }
 
     /* update the buttons lists */
-
     gsb_menu_update_accounts_in_menus();
 
     /* Replace trees contents. */
-
     remplit_arbre_categ ();
     remplit_arbre_imputation ();
     payee_fill_tree ();
+
+    /* update the categories in lists */
+    transaction_list_update_element (ELEMENT_CATEGORY);
 
     /* update the name of accounts in form */
     gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
@@ -261,9 +254,6 @@ gboolean gsb_account_delete ( void )
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_fin_comptes_passifs = 1;
-
-    remplissage_liste_comptes_etats ();
-    selectionne_liste_comptes_etat_courant ();
 
     /* Update navigation pane. */
     gsb_gui_navigation_remove_account ( deleted_account );

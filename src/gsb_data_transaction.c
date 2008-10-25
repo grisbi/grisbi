@@ -86,10 +86,8 @@ typedef struct
     gint sub_category_number;
     gint budgetary_number;
     gint sub_budgetary_number;
-    gint transaction_number_transfer;
-    gint account_number_transfer;			/**< -1 for a deleted account FIXME later, the account_number_transfer should disappear, not needed
-    								perhaps set transaction_number_transfer to -1 for deleted account ?*/
-    gint split_of_transaction;			/**< 1 if it's a split of transaction */
+    gint transaction_number_transfer;			/**< -1 for a transfer to a deleted account, the contra-transaction number else */
+    gint split_of_transaction;				/**< 1 if it's a split of transaction */
     gint mother_transaction_number;			/**< for a split, the mother's transaction number */
 
     /** @name method of payment */
@@ -97,7 +95,7 @@ typedef struct
     gchar *method_of_payment_content;
 } struct_transaction;
 
-
+/* xxx qd le form est fermé et que click 2 fois sur une opé, ne prend plus le click de la souris */
 /*START_STATIC*/
 static void gsb_data_transaction_delete_all_transactions ();
 static  void gsb_data_transaction_free ( struct_transaction *transaction);
@@ -1785,8 +1783,11 @@ gboolean gsb_data_transaction_set_voucher ( gint transaction_number,
 
 
 
-/** get the bank_references
+/** 
+ * get the bank_references
+ *
  * \param transaction_number the number of the transaction
+ *
  * \return bank_references
  * */
 const gchar *gsb_data_transaction_get_bank_references ( gint transaction_number )
@@ -1879,12 +1880,13 @@ gboolean gsb_data_transaction_set_contra_transaction_number ( gint transaction_n
 
 
 /**
- * get the  account_number_transfer
- * FIXME : that function is not usefull because can have that with the contra_transaction_number
- * let it for now, see to remove it
+ * get the account number of the contra transaction
+ * it's not saved into grisbi, this function avoid just to get the contra-transaction
+ * and find its account
+ *
  * \param transaction_number the number of the transaction
  * 
- * \return the account_number_transfer number of the transaction
+ * \return the account number of the contra-transaction
  * */
 gint gsb_data_transaction_get_contra_transaction_account ( gint transaction_number )
 {
@@ -1895,7 +1897,6 @@ gint gsb_data_transaction_get_contra_transaction_account ( gint transaction_numb
 
     if ( !transaction )
 	return -1;
-    return transaction -> account_number_transfer;
 
     contra_transaction = gsb_data_transaction_get_transaction_by_no (transaction -> transaction_number_transfer);
     if (!contra_transaction)
@@ -1904,31 +1905,6 @@ gint gsb_data_transaction_get_contra_transaction_account ( gint transaction_numb
     return contra_transaction -> account_number;
 }
 
-
-/**
- * set the account_number_transfer
- * FIXME : that function is not usefull because can have that with the contra_transaction_number
- * let it for now, see to remove it
- *
- * \param transaction_number
- * \param account_number_transfer
- * 
- * \return TRUE if ok
- * */
-gboolean gsb_data_transaction_set_contra_transaction_account ( gint transaction_number,
-							    gint account_number_transfer )
-{
-    struct_transaction *transaction;
-
-    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
-
-    if ( !transaction )
-	return FALSE;
-
-    transaction -> account_number_transfer = account_number_transfer;
-
-    return TRUE;
-}
 
 
 
@@ -1952,9 +1928,12 @@ gint gsb_data_transaction_get_mother_transaction_number ( gint transaction_numbe
 }
 
 
-/** set the mother_transaction_number
+/**
+ * set the mother_transaction_number
+ * 
  * \param transaction_number
  * \param mother_transaction_number
+ * 
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_mother_transaction_number ( gint transaction_number,

@@ -1407,8 +1407,12 @@ void traitement_operations_importees ( void )
 
 
 /**
- * called at the end of an import, check all the transactions with an account_number_transfer at -2
- * and try to find the contra-transaction to make a real transfer in grisbi
+ * called at the end of an import, check all the transactions wich need a link
+ * to another transaction.
+ * we can find that transactions because they have contra_transaction_number to -1
+ * and the bank_references is the name of the contra account, with [ ]
+ * 
+ * that function try to find the contra-transaction and create the link
  *
  * */
 void cree_liens_virements_ope_import ( void )
@@ -1421,9 +1425,9 @@ void cree_liens_virements_ope_import ( void )
 	gint transaction_number_tmp;
 	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	/* if the account number of transfer is -2, it's a transfer,
+	/* if the contra transaction number is -1, it's a transfer,
 	 * in that case, the name of the contra account is in the bank_references */
-	if ( gsb_data_transaction_get_contra_transaction_account (transaction_number_tmp)== -2
+	if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp)== -1
 	     &&
 	     gsb_data_transaction_get_bank_references (transaction_number_tmp))
 	{
@@ -1436,11 +1440,12 @@ void cree_liens_virements_ope_import ( void )
 	    contra_account_number = gsb_data_account_get_no_account_by_name ( contra_account_name );
 	    g_free (contra_account_name);
 
+	    /* now we needn't the bank reference anymore */
+	    gsb_data_transaction_set_bank_references ( transaction_number_tmp, NULL );
+
 	    if ( contra_account_number == -1 )
 	    {
 		/* we have not found the contra-account */
-		gsb_data_transaction_set_contra_transaction_account ( transaction_number_tmp,
-								      0);
 		gsb_data_transaction_set_contra_transaction_number ( transaction_number_tmp,
 								     0);
 	    }
@@ -1448,37 +1453,30 @@ void cree_liens_virements_ope_import ( void )
 	    {
 		/* we have found the contra-account, we look for the contra-transaction */
 		GSList *list_tmp_transactions_2;
-
-		/* save the contra-account, will be reset to 0 if contra transaction not found */
-		gsb_data_transaction_set_contra_transaction_account (transaction_number_tmp,
-								     contra_account_number );
+		gint transaction_account = gsb_data_transaction_get_account_number (transaction_number_tmp);
 
 		list_tmp_transactions_2 = gsb_data_transaction_get_transactions_list ();
 		while ( list_tmp_transactions_2 )
 		{
 		    gint contra_transaction_number_tmp;
+		    gint contra_transaction_account;
 
 		    contra_transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions_2 -> data);
+		    contra_transaction_account = gsb_data_transaction_get_account_number (contra_transaction_number_tmp);
 
-		    if (gsb_import_check_transaction_link (transaction_number_tmp, contra_transaction_number_tmp))
+		    if (contra_account_number == contra_transaction_account
+			&&
+			gsb_import_check_transaction_link (transaction_number_tmp, contra_transaction_number_tmp))
 		    {
 			/* we have found the contra transaction, set all the values */
 			gint payment_number;
-			gint transaction_account = gsb_data_transaction_get_account_number (transaction_number_tmp);
-			gint contra_transaction_account = gsb_data_transaction_get_account_number (contra_transaction_number_tmp);
 
 			gsb_data_transaction_set_contra_transaction_number ( transaction_number_tmp,
 									     contra_transaction_number_tmp );
-			gsb_data_transaction_set_contra_transaction_account ( transaction_number_tmp,
-									      contra_transaction_account);
-
 			gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number_tmp,
 									     transaction_number_tmp);
-			gsb_data_transaction_set_contra_transaction_account ( contra_transaction_number_tmp,
-									      transaction_account);
 
-			gsb_data_transaction_set_bank_references ( transaction_number_tmp,
-								   NULL );
+			/* unset the reference of the contra transaction */
 			gsb_data_transaction_set_bank_references ( contra_transaction_number_tmp,
 								   NULL );
 
@@ -1495,18 +1493,13 @@ void cree_liens_virements_ope_import ( void )
 		}
 
 		/* if no contra-transaction, that transaction becomes normal */
-		if (gsb_data_transaction_get_bank_references (transaction_number_tmp))
-		{
-		    /* there is still a bank reference, ie name of the contra account,
-		     * so we didn't find the contra transaction, set all to 0 */
-		    gsb_data_transaction_set_contra_transaction_account ( transaction_number_tmp,
-									  0);
+		if (gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp) == -1)
+		    /* the contra transaction is still -1, so no contra transaction found, unset that */
 		    gsb_data_transaction_set_contra_transaction_number ( transaction_number_tmp,
 									 0);
-		    gsb_data_transaction_set_bank_references ( transaction_number_tmp, NULL );
-		}
 	    }
 	}
+
 	list_tmp_transactions = list_tmp_transactions -> next;
     }
     /* the transactions were already set in the list,
@@ -1536,12 +1529,8 @@ gboolean gsb_import_check_transaction_link ( gint transaction_number,
     /* we check first the easy and quick things, and if all ok, comes after the check
      * which need some time */
 
-    /* check if it's the good account */
-    if (gsb_data_transaction_get_contra_transaction_account (transaction_number) != gsb_data_transaction_get_account_number (tested_transaction))
-	return FALSE;
-
-    /* check if the contra account of the tested transaction is -2 (ie transfer not found) */
-    if (gsb_data_transaction_get_contra_transaction_account (tested_transaction) != -2)
+    /* check if the contra transaction number of the tested transaction is -1 (ie imported transfer) */
+    if (gsb_data_transaction_get_contra_transaction_number (tested_transaction) != -1)
 	return FALSE;
 
     /* check if there is a contra account name */
@@ -2197,28 +2186,25 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     {
 	/* l'opération est ventilée */
 	gsb_data_transaction_set_split_of_transaction ( transaction_number,
-							    1 );
+							1 );
     }
     else
     {
-	/* vérification que ce n'est pas un virement */
-
 	if ( imported_transaction -> categ
 	     &&
 	     strlen (imported_transaction -> categ))
 	{
 	    if ( imported_transaction -> categ[0] == '[' )
 	    {
-		/* 		      c'est un virement, or le compte n'a peut être pas encore été créé, */
-		/* on va mettre le nom du compte dans info_banque_guichet qui n'est jamais utilisé */
-		/* lors d'import, et relation_no_compte sera mis à -2 (-1 est déjà utilisé pour les comptes supprimés */
+		/* it's a transfer,
+		 * we will try to make the link later, for now, we keep the name of the contra account into
+		 * the bank references (never used for import)
+		 * and set contra_transaction_number to -1 to search the link later */
 
 		gsb_data_transaction_set_bank_references ( transaction_number,
 							   imported_transaction -> categ);
-		gsb_data_transaction_set_contra_transaction_account ( transaction_number,
-								   -2);
 		gsb_data_transaction_set_contra_transaction_number ( transaction_number,
-								       -1);
+								     -1);
 		virements_a_chercher = 1;
 	    }
 	    else

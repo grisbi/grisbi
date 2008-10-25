@@ -89,8 +89,6 @@ gboolean gsb_data_transaction_set_category_number ( gint transaction_number,
 						    gint no_category );
 gboolean gsb_data_transaction_set_change_between ( gint transaction_number,
 						   gint value );
-gboolean gsb_data_transaction_set_contra_transaction_account ( gint transaction_number,
-							    gint account_number_transfer );
 gboolean gsb_data_transaction_set_contra_transaction_number ( gint transaction_number,
 							      gint transaction_number_transfer );
 gboolean gsb_data_transaction_set_currency_number ( gint transaction_number,

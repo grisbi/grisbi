@@ -52,9 +52,6 @@ gint gsb_data_mix_get_white_line ( gint transaction_number,
 				   gboolean is_transaction );
 gint gsb_data_mix_new_transaction ( gint account_number,
 				    gboolean is_transaction );
-gboolean gsb_data_mix_set_account_number_transfer ( gint transaction_number,
-						    gint account_number_transfer,
-						    gboolean is_transaction );
 gboolean gsb_data_mix_set_amount ( gint transaction_number,
 				   gsb_real amount,
 				   gboolean is_transaction );

@@ -2547,26 +2547,26 @@ gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_nu
     gint current_account;
 
     source_account = gsb_data_transaction_get_account_number (transaction_number);
+    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
 
     /* if it's a transfer, update the contra-transaction category line */
-    if ( ( contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number)))
+    if (contra_transaction_number > 0)
     {
 	/* the transaction is a transfer, we check if the contra-transaction is not on the target account */
-
-	if ( gsb_data_transaction_get_contra_transaction_account (transaction_number) == target_account )
+	if ( gsb_data_transaction_get_account_number (contra_transaction_number) == target_account )
 	{
 	    dialogue_error ( _("Cannot move a transfer on his contra-account"));
 	    return FALSE;
 	}
-
-	gsb_data_transaction_set_contra_transaction_account ( contra_transaction_number,
-							   target_account);
-	gsb_transactions_list_update_transaction (contra_transaction_number);
     }
 
     /* we change now the account of the transaction */
     gsb_data_transaction_set_account_number ( transaction_number,
 					      target_account );
+
+    /* update the field of the contra transaction if necessary */
+    if (contra_transaction_number > 0)
+	gsb_transactions_list_update_transaction (contra_transaction_number);
 
     /* normally we can change the account only by right click button
      * so the current transaction is selected,

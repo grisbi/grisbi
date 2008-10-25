@@ -441,17 +441,6 @@ gint gsb_data_mix_get_account_number_transfer ( gint transaction_number,
 	return (gsb_data_scheduled_get_account_number_transfer ( transaction_number));
 }
 
-gboolean gsb_data_mix_set_account_number_transfer ( gint transaction_number,
-						    gint account_number_transfer,
-						    gboolean is_transaction )
-{
-    if (is_transaction)
-	return (gsb_data_transaction_set_contra_transaction_account ( transaction_number,
-								   account_number_transfer));
-    else
-	return (gsb_data_scheduled_set_account_number_transfer ( transaction_number,
-								 account_number_transfer));
-}
 
 gint gsb_data_mix_get_mother_transaction_number ( gint transaction_number,
 						  gboolean is_transaction )
