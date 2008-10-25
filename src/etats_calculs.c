@@ -595,7 +595,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 		    /* 	      on vérifie les virements */
 
-		    if ( gsb_data_transaction_get_contra_transaction_number ( transaction_number_tmp))
+		    if ( gsb_data_transaction_get_contra_transaction_number ( transaction_number_tmp) > 0)
 		    {
 			if ( !gsb_data_report_get_transfer_choice (report_number))
 			    goto operation_refusee;
@@ -652,7 +652,7 @@ GSList *recupere_opes_etat ( gint report_number )
 		    /* check the categ only if it's not a split or transfer */
 		    if (!gsb_data_transaction_get_split_of_transaction ( transaction_number_tmp)
 			&&
-			!gsb_data_transaction_get_contra_transaction_number ( transaction_number_tmp)
+			gsb_data_transaction_get_contra_transaction_number ( transaction_number_tmp) == 0
 			&&
 			/* it's a normal categ (or not categ) */
 			gsb_data_report_get_category_detail_used (report_number)
@@ -1512,7 +1512,7 @@ classement_suivant:
 		    if (category_number_2)
 			/* transaction_2 has a category => go before transaction_1 */
 			return 1;
-		    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_2))
+		    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_2) > 0)
 			/* transaction_2 is a transfer, and transaction_1 a split, so split first please */
 			return -1;
 		    if ( gsb_data_transaction_get_split_of_transaction (transaction_number_2))
@@ -1528,7 +1528,7 @@ classement_suivant:
 		}
 
 		/* come here if transaction_1 has no category and is not a split */
-		if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_1))
+		if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_1) > 0)
 		{
 		    if (category_number_2)
 			/* transaction_2 has a category => go before transaction_1 */
@@ -1536,7 +1536,7 @@ classement_suivant:
 		    if ( gsb_data_transaction_get_split_of_transaction (transaction_number_2))
 			/* transaction_2 is a split, and transaction_1 a transfer, so split first please */
 			return 1;
-		    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_2))
+		    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_2) > 0)
 		    {
 			/* the 2 transactions are transfer, we return a strcmp on their name */
 			return_value = my_strcasecmp ( gsb_data_account_get_name (gsb_data_transaction_get_contra_transaction_number (transaction_number_1)),
@@ -1563,7 +1563,7 @@ classement_suivant:
 		    return 1;
 		if (gsb_data_transaction_get_split_of_transaction (transaction_number_2)
 		    ||
-		    gsb_data_transaction_get_contra_transaction_number (transaction_number_2))
+		    gsb_data_transaction_get_contra_transaction_number (transaction_number_2) > 0)
 		    return -1;
 
 		/* transaction_2 has too no categ, no transfer and no split,

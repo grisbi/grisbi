@@ -1091,7 +1091,7 @@ gboolean qif_export ( const gchar *filename,
 			    /* we are on a child, for the first one, we set the mother category */
 			    /*  the child can only be a normal category or a transfer */
 
-			    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp_2))
+			    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp_2) > 0)
 			    {
 				/* the child is a transfer */
 
@@ -1155,9 +1155,7 @@ gboolean qif_export ( const gchar *filename,
 		    /* if it's a transfer, the contra-account must exist, else we do
 		     * as for a normal category */
 
-		    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp)
-			 &&
-			 gsb_data_transaction_get_contra_transaction_account (transaction_number_tmp)>= 0 )
+		    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp) > 0 )
 		    {
 			/* it's a transfer */
 

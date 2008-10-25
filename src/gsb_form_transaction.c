@@ -281,7 +281,7 @@ gboolean gsb_form_transaction_recover_splits_of_transaction ( gint new_transacti
 					    gsb_data_transaction_get_date (new_transaction_number));
 
 	    /* if this is a transfer, create the contra transaction */
-	    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp))
+	    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp) > 0)
 		gsb_form_transaction_validate_transfer ( new_child_number,
 							 TRUE,
 							 gsb_data_transaction_get_contra_transaction_account (transaction_number_tmp));
@@ -407,8 +407,9 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
 						   0 );
 	gsb_data_transaction_set_sub_category_number ( transaction_number,
 						       0 );
+	contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
 
-	if ((contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number)))
+	if (contra_transaction_number > 0)
 	{
 	    /* the transaction is a transfer */
 

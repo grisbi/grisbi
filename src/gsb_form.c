@@ -547,7 +547,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
 	/* if the contra transaction is marked R, cannot change category and amounts */
 	if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
 	     ||
-	     ( contra_transaction_number
+	     ( contra_transaction_number > 0
 	       &&
 	       gsb_data_transaction_get_marked_transaction (contra_transaction_number) == OPERATION_RAPPROCHEE ))
 	{
@@ -755,39 +755,35 @@ void gsb_form_fill_element ( gint element_number,
 	    }
 	    else
 	    {
-		if (gsb_data_mix_get_transaction_number_transfer (transaction_number, is_transaction))
+		gint contra_transaction_number = gsb_data_mix_get_transaction_number_transfer (transaction_number, is_transaction);
+		switch (contra_transaction_number)
 		{
-		    /* it's a transfer */
-		    gsb_form_entry_get_focus (widget);
-
-		    /* check first the deleted account, don't worry with scheduled transactions because
-		     * gsb_data_mix_get_transaction_number_transfer cannot be -1 for them */
-		    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number) == -1
-			 &&
-			 gsb_data_transaction_get_contra_transaction_account (transaction_number) == -1 )
-			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-						_("Transfer : Deleted account") );
-		    else
-		    {
-			gtk_combofix_set_text ( GTK_COMBOFIX (widget),
-						char_tmp = g_strconcat ( _("Transfer : "),
-						 gsb_data_account_get_name (gsb_data_mix_get_account_number_transfer (transaction_number, is_transaction)), NULL ));
-			g_free (char_tmp);
-		    }
-		}
-		else
-		{
-		    /* it's a normal category */
-		    char_tmp = gsb_data_category_get_name ( gsb_data_mix_get_category_number (transaction_number, is_transaction),
-							    gsb_data_mix_get_sub_category_number (transaction_number, is_transaction),
-							    NULL );
-		    if (char_tmp)
-		    {
+		    case -1:
+			/* transfer to deleted account, not possible with scheduled */
 			gsb_form_entry_get_focus (widget);
 			gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
-						char_tmp );
+						_("Transfer : Deleted account") );
+			break;
+		    case 0:
+			/* normal category */
+			char_tmp = gsb_data_category_get_name ( gsb_data_mix_get_category_number (transaction_number, is_transaction),
+								gsb_data_mix_get_sub_category_number (transaction_number, is_transaction),
+								NULL );
+			if (char_tmp)
+			{
+			    gsb_form_entry_get_focus (widget);
+			    gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
+						    char_tmp );
+			    g_free (char_tmp);
+			}
+			break;
+		    default:
+			/* transfer */
+			gsb_form_entry_get_focus (widget);
+			gtk_combofix_set_text ( GTK_COMBOFIX (widget),
+						char_tmp = g_strconcat ( _("Transfer : "),
+									 gsb_data_account_get_name (gsb_data_mix_get_account_number_transfer (transaction_number, is_transaction)), NULL ));
 			g_free (char_tmp);
-		    }
 		}
 	    }
 	    break;
@@ -886,34 +882,30 @@ void gsb_form_fill_element ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_CONTRA:
-	    if (gsb_data_mix_get_transaction_number_transfer (transaction_number, is_transaction))
+	    if (gsb_data_mix_get_transaction_number_transfer (transaction_number, is_transaction) > 0)
 	    {
 		number = gsb_data_mix_get_account_number_transfer (transaction_number, is_transaction);
 
-		/* only if not closed account */
-		if (number != -1)
+		if ( gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa < 0 )
+		    gsb_payment_method_create_combo_list ( widget,
+							   GSB_PAYMENT_CREDIT,
+							   number, 0);
+		else
+		    gsb_payment_method_create_combo_list ( widget,
+							   GSB_PAYMENT_DEBIT,
+							   number, 0);
+
+		if (GTK_WIDGET_VISIBLE (widget))
 		{
-		    if ( gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa < 0 )
-			gsb_payment_method_create_combo_list ( widget,
-							       GSB_PAYMENT_CREDIT,
-							       number, 0);
+		    gint method;
+
+		    if (is_transaction)
+			method = gsb_data_transaction_get_method_of_payment_number (gsb_data_transaction_get_contra_transaction_number (transaction_number));
 		    else
-			gsb_payment_method_create_combo_list ( widget,
-							       GSB_PAYMENT_DEBIT,
-							       number, 0);
+			method = gsb_data_scheduled_get_contra_method_of_payment_number (transaction_number);
 
-		    if (GTK_WIDGET_VISIBLE (widget))
-		    {
-			gint method;
-
-			if (is_transaction)
-			    method = gsb_data_transaction_get_method_of_payment_number (gsb_data_transaction_get_contra_transaction_number (transaction_number));
-			else
-			    method = gsb_data_scheduled_get_contra_method_of_payment_number (transaction_number);
-
-			gsb_payment_method_set_combobox_history ( widget,
-								  method );
-		    }
+		    gsb_payment_method_set_combobox_history ( widget,
+							      method );
 		}
 	    }
 	    break;
@@ -2876,11 +2868,12 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		    /* if it's a modification, check if before it was not a transfer and delete
 		     * the contra-transaction if necessary
 		     * that only for transaction, not scheduled */
+		    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
 		    if ( is_transaction
 			 &&
 			 !new_transaction
 			 &&
-			 (contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number)))
+			 contra_transaction_number > 0)
 		    {
 			/* it was a transfer, we delete the contra-transaction */
 			gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number,
@@ -2927,11 +2920,12 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 	{
 	    /* it's a split of transaction */
 	    /* if it was a transfer, we delete the contra-transaction */
+	    gint contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
 	    if ( is_transaction
 		 &&
 		 !new_transaction
 		 &&
-		 ( contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number)))
+		 contra_transaction_number > 0 )
 	    {
 		gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number,
 								     0);

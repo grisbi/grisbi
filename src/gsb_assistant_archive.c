@@ -1075,7 +1075,7 @@ static void gsb_assistant_archive_add_contra_transaction_to_list ( gint transact
 	return;
 
     contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
-    if (contra_transaction_number)
+    if (contra_transaction_number > 0)
     {
 	gpointer contra_transaction_pointer;
 

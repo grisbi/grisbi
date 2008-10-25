@@ -1382,7 +1382,7 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 		/* si c'est un virement, on le marque, sinon c'est qu'il n'y a pas de categ */
 		/* ou que c'est une opé ventilée, et on marque rien */
 
-		if ( gsb_data_transaction_get_contra_transaction_number ( transaction_number))
+		if ( gsb_data_transaction_get_contra_transaction_number ( transaction_number) > 0)
 		{
 		    /* c'est un virement */
 
@@ -1779,7 +1779,7 @@ gint etat_affiche_affiche_categ_etat ( gint transaction_number,
 	   ||
 	   ( ancienne_categ_speciale_etat == 1
 	     &&
-	     !gsb_data_transaction_get_contra_transaction_number ( transaction_number))
+	     gsb_data_transaction_get_contra_transaction_number ( transaction_number) == 0)
 	   ||
 	   ( ancienne_categ_speciale_etat == 2
 	     &&
@@ -1789,7 +1789,7 @@ gint etat_affiche_affiche_categ_etat ( gint transaction_number,
 	     &&
 	     ( gsb_data_transaction_get_split_of_transaction ( transaction_number)
 	       ||
-	       gsb_data_transaction_get_contra_transaction_number ( transaction_number)))))
+	       gsb_data_transaction_get_contra_transaction_number ( transaction_number) > 0))))
     {
 
 	/* lorsqu'on est au début de l'affichage de l'état, on n'affiche pas de totaux */
@@ -1830,7 +1830,7 @@ gint etat_affiche_affiche_categ_etat ( gint transaction_number,
 	    }
 	    else
 	    {
-		if ( gsb_data_transaction_get_contra_transaction_number (transaction_number))
+		if ( gsb_data_transaction_get_contra_transaction_number (transaction_number) > 0)
 		{
 		    pointeur_char = g_strconcat ( decalage_categ,
 						  _("Transfert"),

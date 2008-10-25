@@ -1120,7 +1120,7 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 	value_date = gsb_format_gdate_safe ( gsb_data_transaction_get_value_date ( transaction_number ));
 
 	/* now we can fill the file content */
-	new_string = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Cu=\"%d\" Am=\"%s\" Exb=\"%d\" Exr=\"%s\" Exf=\"%s\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Ar=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Tra=\"%d\" Mo=\"%d\" />\n",
+	new_string = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Cu=\"%d\" Am=\"%s\" Exb=\"%d\" Exr=\"%s\" Exf=\"%s\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Ar=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Mo=\"%d\" />\n",
 					       gsb_data_transaction_get_account_number ( transaction_number ),
 					       transaction_number,
 					       gsb_data_transaction_get_transaction_id ( transaction_number),
@@ -1148,7 +1148,6 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 					       gsb_data_transaction_get_voucher (transaction_number),
 					       gsb_data_transaction_get_bank_references (transaction_number),
 					       gsb_data_transaction_get_contra_transaction_number (transaction_number),
-					       gsb_data_transaction_get_contra_transaction_account (transaction_number),
 					       gsb_data_transaction_get_mother_transaction_number (transaction_number));
 
 	g_free (amount);

@@ -1953,7 +1953,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
  * */
 gboolean gsb_transactions_list_check_mark ( gint transaction_number )
 {
-    gint transaction_number_tmp;
+    gint contra_transaction_number;
 
     /* vérifications de bases */
     if (transaction_number <= 0)
@@ -1963,15 +1963,10 @@ gboolean gsb_transactions_list_check_mark ( gint transaction_number )
 	return TRUE;
 
     /* if it's a transfer, check the contra-transaction */
-    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number)
-	 &&
-	 gsb_data_transaction_get_contra_transaction_account (transaction_number)!= -1 )
+    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
+    if ( contra_transaction_number > 0 )
     {
-	transaction_number_tmp = gsb_data_transaction_get_contra_transaction_number (transaction_number);
-
-	if ( transaction_number_tmp
-	     &&
-	     gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_RAPPROCHEE )
+	if (gsb_data_transaction_get_marked_transaction (contra_transaction_number) == OPERATION_RAPPROCHEE )
 	    return TRUE;
     }
 
@@ -1984,7 +1979,7 @@ gboolean gsb_transactions_list_check_mark ( gint transaction_number )
 
 	while ( list_tmp_transactions )
 	{
-	    transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+	    gint transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
 	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == gsb_data_transaction_get_account_number (transaction_number)
 		 &&
@@ -1994,16 +1989,12 @@ gboolean gsb_transactions_list_check_mark ( gint transaction_number )
 		if ( gsb_data_transaction_get_marked_transaction (transaction_number_tmp) == OPERATION_RAPPROCHEE )
 		    return TRUE;
 
-		if (  gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp))
+		contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp);
+
+		if ( contra_transaction_number > 0)
 		{
 		    /* the split is a transfer, we check the contra-transaction */
-		    gint contra_transaction_number;
-
-		    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp);
-
-		    if ( contra_transaction_number
-			 &&
-			 gsb_data_transaction_get_marked_transaction (contra_transaction_number)== OPERATION_RAPPROCHEE )
+		    if ( gsb_data_transaction_get_marked_transaction (contra_transaction_number)== OPERATION_RAPPROCHEE )
 			return TRUE;
 		}
 	    }
@@ -2028,14 +2019,17 @@ gboolean gsb_transactions_list_check_mark ( gint transaction_number )
  * */
 gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transaction_number )
 {
+    gint contra_transaction_number;
+
     devel_debug_int (transaction_number);
 
     if ( transaction_number == -1 )
 	return FALSE;
 
     /* if the transaction is a transfer, erase the contra-transaction */
-    if (gsb_data_transaction_get_contra_transaction_number (transaction_number))
-	transaction_list_remove_transaction (gsb_data_transaction_get_contra_transaction_number (transaction_number));
+    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
+    if (contra_transaction_number > 0)
+	transaction_list_remove_transaction (contra_transaction_number);
 
     /* check if it's a split, we needn't to erase all splits children, they will be deleted
      * with the mother, but if one of them if a transfer, we need to delete it now */
@@ -2048,10 +2042,12 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transact
 	{
 	    gint test_transaction = gsb_data_transaction_get_transaction_number (tmp_list -> data);
 
+	    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (test_transaction);
+
 	    if ( gsb_data_transaction_get_mother_transaction_number (test_transaction) == transaction_number
 		 &&
-		 gsb_data_transaction_get_contra_transaction_number (test_transaction))
-		transaction_list_remove_transaction (gsb_data_transaction_get_contra_transaction_number (test_transaction));
+		 contra_transaction_number > 0)
+		transaction_list_remove_transaction (contra_transaction_number);
 
 	    tmp_list = tmp_list -> next;
 	}
@@ -2407,7 +2403,7 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number,
 							     mother_transaction_number );
 
     /* create the contra-transaction if necessary */
-    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number))
+    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number) > 0)
     {
 	gsb_form_transaction_validate_transfer ( new_transaction_number,
 						 1,
@@ -2649,7 +2645,7 @@ gint schedule_transaction ( gint transaction_number )
     /* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement ni une ventil, compte_virement = -1 */
     /*     on va changer ça la prochaine version, dès que c'est pas un virement -> -1 */
 
-    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number))
+    if ( gsb_data_transaction_get_contra_transaction_number (transaction_number) > 0)
     {
 	/* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
 
@@ -2736,7 +2732,7 @@ gint schedule_transaction ( gint transaction_number )
 		/* 	mais si categ et sous categ sont à 0 et que ce n'est pas un virement, compte_virement = -1 */
 		/*     on va changer ça la prochaine version, dès que c'est pas un virement -> -1 */
 
-		if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp))
+		if ( gsb_data_transaction_get_contra_transaction_number (transaction_number_tmp) > 0)
 		{
 		    /* 	c'est un virement, on met la relation et on recherche le type de la contre opération */
 
@@ -3243,37 +3239,37 @@ gboolean gsb_transactions_list_transaction_visible ( gpointer transaction_ptr,
 gchar *gsb_transactions_get_category_real_name ( gint transaction_number )
 {
     gchar *tmp;
+    gint contra_transaction_number;
 
     if ( gsb_data_transaction_get_split_of_transaction (transaction_number))
 	tmp = g_strdup(_("Split of transaction"));
     else
     {
-	if ( gsb_data_transaction_get_contra_transaction_number (transaction_number))
+	contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
+	switch (contra_transaction_number)
 	{
-	    /** it's a transfer */
-
-	    if ( gsb_data_transaction_get_contra_transaction_account (transaction_number)== -1 )
-	    {
+	    case -1:
+		/* transfer to deleted account */
 		if ( gsb_data_transaction_get_amount ( transaction_number).mantissa < 0 )
 		    tmp = g_strdup(_("Transfer to a deleted account"));
 		else
 		    tmp = g_strdup(_("Transfer from a deleted account"));
-	    }
-	    else
-	    {
+		break;
+	    case 0:
+		/* normal category */
+		tmp = gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
+						   gsb_data_transaction_get_sub_category_number (transaction_number),
+						   NULL );
+		break;
+	    default:
+		/* transfer */
 		if ( gsb_data_transaction_get_amount (transaction_number).mantissa < 0 )
 		    tmp = g_strdup_printf ( _("Transfer to %s"),
-					    gsb_data_account_get_name ( gsb_data_transaction_get_contra_transaction_account (transaction_number)) );
+					    gsb_data_account_get_name ( gsb_data_transaction_get_account_number (contra_transaction_number)));
 		else
 		    tmp = g_strdup_printf ( _("Transfer from %s"),
-					    gsb_data_account_get_name ( gsb_data_transaction_get_contra_transaction_account (transaction_number)) );
-	    }
+					    gsb_data_account_get_name ( gsb_data_transaction_get_account_number (contra_transaction_number)));
 	}
-	else
-	    /* it's a normal category */
-	    tmp = gsb_data_category_get_name ( gsb_data_transaction_get_category_number (transaction_number),
-					       gsb_data_transaction_get_sub_category_number (transaction_number),
-					       NULL );
     }
     return tmp;
 }

@@ -580,7 +580,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 		    CSV_CLEAR_FIELD (csv_field_operation);
 		    csv_field_operation = g_strdup_printf("%d", pSplitTransaction );
 
-		    if ( gsb_data_transaction_get_contra_transaction_number ( pSplitTransaction ) )
+		    if ( gsb_data_transaction_get_contra_transaction_number ( pSplitTransaction )  > 0)
 		    {
 			/* c'est un virement */
 			CSV_CLEAR_FIELD (csv_field_categ);
@@ -672,49 +672,50 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	}
 	else
 	{
-	    /* Si c'est un virement ... */
-	    if ( gsb_data_transaction_get_contra_transaction_number ( transaction_number ))
-	    {
-		CSV_CLEAR_FIELD (csv_field_categ);
-		csv_field_categ = my_strdup (_("Transfer"));
+	    gchar *tmpstr;
+	    gint contra_transaction_number = gsb_data_transaction_get_contra_transaction_number ( transaction_number );
 
-		/* ... vers un compte existant */
-		if ( gsb_data_transaction_get_contra_transaction_account (  transaction_number ) >= 0 )
-		{
-		    gchar* tmpstr = g_strconcat ( "[", gsb_data_account_get_name ( gsb_data_transaction_get_contra_transaction_account ( transaction_number ) ), "]", NULL );
-		    /* TODO dOm : is it necessary to duplicate memory with my_strdup since it was already newly allocated memory ? */
-		    CSV_CLEAR_FIELD (csv_field_sous_categ);
-		    csv_field_sous_categ = my_strdup (tmpstr);
-		    g_free ( tmpstr );
-		}
-		/* ... vers un compte supprimé */
-		else
-		{
-		    gchar* tmpstr = g_strconcat ( "[", _("Deleted account"), "]", NULL );
-		    /* TODO dOm : is it necessary to duplicate memory with my_strdup since it was already newly allocated memory ? */
-		    CSV_CLEAR_FIELD (csv_field_sous_categ);
-		    csv_field_sous_categ = my_strdup (tmpstr);
-		    g_free ( tmpstr );
-		}
-	    }
-	    else
+	    switch (contra_transaction_number)
 	    {
-		/* c'est du type categ : sous-categ */
-		if ( gsb_data_transaction_get_category_number ( transaction_number ) != -1 )
-		{
-		    CSV_CLEAR_FIELD (csv_field_categ);
-		    csv_field_categ = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_category_number ( transaction_number ), 0, "" ) );
-
-		    if ( gsb_data_transaction_get_sub_category_number ( transaction_number ) != -1 )
+		case 0:
+		    /* normal category */
+		    if ( gsb_data_transaction_get_category_number ( transaction_number ) != -1 )
 		    {
-			CSV_CLEAR_FIELD (csv_field_sous_categ);
-			csv_field_sous_categ = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_category_number ( transaction_number ),
-												 gsb_data_transaction_get_sub_category_number ( transaction_number ),
-												 NULL ) );
-		    }
-		}
-	    }
+			CSV_CLEAR_FIELD (csv_field_categ);
+			csv_field_categ = my_strdup ( gsb_data_budget_get_name ( gsb_data_transaction_get_category_number ( transaction_number ), 0, "" ) );
 
+			if ( gsb_data_transaction_get_sub_category_number ( transaction_number ) != -1 )
+			{
+			    CSV_CLEAR_FIELD (csv_field_sous_categ);
+			    csv_field_sous_categ = my_strdup ( gsb_data_budget_get_sub_budget_name ( gsb_data_transaction_get_category_number ( transaction_number ),
+												     gsb_data_transaction_get_sub_category_number ( transaction_number ),
+												     NULL ) );
+			}
+		    }
+		    break;
+		case -1:
+		    /* transfer to deleted account */
+		    CSV_CLEAR_FIELD (csv_field_categ);
+		    csv_field_categ = my_strdup (_("Transfer"));
+
+		    tmpstr = g_strconcat ( "[", _("Deleted account"), "]", NULL );
+		    /* TODO dOm : is it necessary to duplicate memory with my_strdup since it was already newly allocated memory ? */
+		    CSV_CLEAR_FIELD (csv_field_sous_categ);
+		    csv_field_sous_categ = my_strdup (tmpstr);
+		    g_free ( tmpstr );
+
+		    break;
+		default:
+		    /* transfer */
+		    CSV_CLEAR_FIELD (csv_field_categ);
+		    csv_field_categ = my_strdup (_("Transfer"));
+
+		    tmpstr = g_strconcat ( "[", gsb_data_account_get_name ( gsb_data_transaction_get_contra_transaction_account ( transaction_number ) ), "]", NULL );
+		    /* TODO dOm : is it necessary to duplicate memory with my_strdup since it was already newly allocated memory ? */
+		    CSV_CLEAR_FIELD (csv_field_sous_categ);
+		    csv_field_sous_categ = my_strdup (tmpstr);
+		    g_free ( tmpstr );
+	    }
 	    csv_add_record(csv_file,TRUE, print_balance);
 	}
     }

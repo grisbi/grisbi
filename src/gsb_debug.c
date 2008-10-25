@@ -445,8 +445,7 @@ gchar * gsb_debug_transfer_test ( void )
 
 	/* Si l'opération est un virement vers un compte non supprimé */
 	if ( gsb_data_transaction_get_account_number ( transaction ) == account_nb &&
-	     transfer_transaction &&
-	     gsb_data_transaction_get_contra_transaction_account ( transaction ) != -1 )
+	     transfer_transaction > 0 )
 	{
 	    
 	    if ( gsb_data_transaction_get_account_number ( transfer_transaction ) !=

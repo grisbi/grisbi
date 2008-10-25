@@ -7394,7 +7394,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 		{
 		    /* the mother is not a splitted transaction */
 		    /* if it was a transfer, remove the contra transaction */
-		    if (gsb_data_transaction_get_contra_transaction_number (transaction_number))
+		    if (gsb_data_transaction_get_contra_transaction_number (transaction_number) > 0)
 			gsb_data_transaction_remove_transaction_without_check (gsb_data_transaction_get_contra_transaction_number (transaction_number));
 
 		    /*we erase the child */

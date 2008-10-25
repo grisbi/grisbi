@@ -1103,9 +1103,12 @@ gboolean gsb_data_transaction_set_party_number ( gint transaction_number,
 
 
 
-/** get the category_number 
+/** 
+ * get the category_number 
+ * 
  * \param transaction_number the number of the transaction
- * \return the category number of the transaction
+ * 
+ * \return the category number of the transaction, -1 for error
  * */
 gint gsb_data_transaction_get_category_number ( gint transaction_number )
 {
@@ -1278,8 +1281,10 @@ gboolean gsb_data_transaction_set_notes ( gint transaction_number,
 
 
 
-/** get the method_of_payment_number
+/**
+ * get the method_of_payment_number
  * \param transaction_number the number of the transaction
+ * 
  * \return the method_of_payment_number
  * */
 gint gsb_data_transaction_get_method_of_payment_number ( gint transaction_number )
