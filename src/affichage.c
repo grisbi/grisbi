@@ -104,28 +104,6 @@ static GtkWidget *logo_button = NULL;
 static GtkWidget *preview = NULL;
 
 
-/**
- * Update transaction form according to state "etat"
- *
- * \param checkbox Widget that triggers this event.  Normally not
- * needed there.
- * \param data A pointer to some random data passed to this hook.  Not
- * used there.
- */
-gboolean update_transaction_form ( GtkWidget * checkbox, gpointer data )
-{
-    if ( etat.affiche_boutons_valider_annuler )
-    {
-	gtk_widget_show_all (gsb_form_get_button_part ());
-    }
-    else
-    {
-	gtk_widget_hide_all (gsb_form_get_button_part ());
-    }
-    return ( FALSE );
-}
-
-
 
 /**
  * Creates the "Fonts & logo" tab.  This function creates some buttons

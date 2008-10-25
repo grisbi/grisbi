@@ -61,8 +61,6 @@ static gboolean gsb_debug_try_fix ( gboolean (* fix) () );
 extern gsb_real null_real ;
 /*END_EXTERN*/
 
-/* FIXME  il faudrait vérifier si les categs des opés correspondent à des categs existantes */
-/* pareil pour les budgets et tiers (pour toutes les opés, vérifier que le budget ou le tiers existent */
 
 
 /** Tests  */

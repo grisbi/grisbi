@@ -73,7 +73,6 @@ struct {
     gint max_non_archived_transactions_for_check; /* the max number of transaction before grisbi warm at the opening */
 
     gint formulaire_distinct_par_compte;  /* à 1 si le formulaire est différent pour chaque compte */
-    gint affiche_boutons_valider_annuler;
     gint affiche_nb_ecritures_listes;
     gint largeur_auto_colonnes;
     gint retient_affichage_par_compte;   /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */

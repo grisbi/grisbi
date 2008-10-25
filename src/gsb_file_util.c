@@ -133,7 +133,7 @@ gboolean gsb_file_util_get_contents ( gchar *filename,
 	alloc_size = orig_size + 1;
     else
 	/* the file is compressed, the final size should be about 20x more
-	 * FIXME this is not completly true, if the file is compressed AND crypted,
+	 *  this is not completly true, if the file is compressed AND crypted,
 	 * the size doesn't really change. but i can't know here if the file is crypted
 	 * because encrypt before compressed. perhaps forbid to compress a crypted file ?
 	 * but i don't think it's a big thing because that allocated memory will be freed

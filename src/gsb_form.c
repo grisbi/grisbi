@@ -124,7 +124,6 @@ static GtkWidget *form_expander = NULL;
  * the buttons valid/cancel */
 static GtkWidget *form_scheduled_part;
 GtkWidget *form_transaction_part;
-static GtkWidget *form_button_part;
 
 /* block the size allocate signal to avoid to move several times
  * the tree view when open the form */
@@ -196,18 +195,6 @@ GtkWidget *gsb_form_get_scheduler_part ( void )
     return form_scheduled_part;
 }
 
-/**
- * return the address of the button part widget
- *
- * \param
- *
- * \return a pointer to a widget (the scheduler part of the form)
- * */
-GtkWidget *gsb_form_get_button_part ( void )
-{
-    return form_button_part;
-}
-
 
 /**
  *  Do the grunt job of creating widgets in for the Grisbi form.
@@ -220,6 +207,7 @@ void gsb_form_create_widgets ()
     GtkWidget * hbox, * label, * separator, * hbox_buttons, * hbox_buttons_inner;
     GtkWidget * child = gtk_bin_get_child ( GTK_BIN(form_expander) );
     GtkWidget *event_box;
+    GtkWidget *form_button_part;
 
     devel_debug (NULL);
 
@@ -371,11 +359,6 @@ void gsb_form_create_widgets ()
     gtk_widget_show_all ( transaction_form );
     gtk_widget_hide ( form_scheduled_part );
 
-    if ( ! etat.affiche_boutons_valider_annuler )
-    {
-	gtk_widget_hide_all ( form_button_part );
-    }
-
     gsb_form_show ( FALSE );
 }
 
@@ -451,6 +434,10 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
 
     /* show and prepare the form */
     gsb_form_show (TRUE);
+
+    /* sensitive the valid and cancel buttons */
+    gtk_widget_set_sensitive (GTK_WIDGET (form_button_valid), TRUE);
+    gtk_widget_set_sensitive (GTK_WIDGET (form_button_cancel), TRUE);
 
     /* if the transaction is the white line, we set the date and necessary stuff and go away
      * for that use the button_press function, so clicking on a form's field or do enter/double click
@@ -1040,10 +1027,6 @@ gboolean gsb_form_show ( gboolean show )
 	gtk_expander_set_expanded (GTK_EXPANDER (form_expander),
 				   TRUE );
 
-    /* FIXME :transform that to be local variable here */
-    if ( etat.affiche_boutons_valider_annuler )
-	gtk_widget_show (form_button_part);
-
     return FALSE;
 }
 
@@ -1417,6 +1400,10 @@ gboolean gsb_form_clean ( gint account_number )
     /* don't show the recover button */
     gtk_widget_hide (form_button_recover_split);
 
+    /* unsensitive the valid and cancel buttons */
+    gtk_widget_set_sensitive (GTK_WIDGET (form_button_valid), FALSE);
+    gtk_widget_set_sensitive (GTK_WIDGET (form_button_cancel), FALSE);
+
     return FALSE;
 }
 
@@ -1476,6 +1463,10 @@ gboolean gsb_form_entry_get_focus ( GtkWidget *entry )
 					FALSE );
 	}
     }
+    /* sensitive the valid and cancel buttons */
+    gtk_widget_set_sensitive (GTK_WIDGET (form_button_valid), TRUE);
+    gtk_widget_set_sensitive (GTK_WIDGET (form_button_cancel), TRUE);
+
     return FALSE;
 }
 

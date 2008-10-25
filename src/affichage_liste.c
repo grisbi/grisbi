@@ -425,12 +425,6 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
 					    COLON(_("Displayed fields")));
 
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
-			 gsb_automem_checkbutton_new (_("'Accept' and 'Cancel' buttons"),
-						      &etat.affiche_boutons_valider_annuler,
-						      G_CALLBACK ( update_transaction_form), NULL),
-			 FALSE, FALSE, 0 );
-
     /* How to display financial year */
     radiogroup = gsb_automem_radiobutton_new_with_title (vbox_pref,
 							 _("By default, use financial year"),
