@@ -21,7 +21,5 @@ enum report_tree_columns {
 
 /* START_DECLARATION */
 void personnalisation_etat (void);
-void remplissage_liste_comptes_etats ( void );
-void selectionne_liste_comptes_etat_courant ( void );
 /* END_DECLARATION */
 #endif

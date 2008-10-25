@@ -48,11 +48,11 @@
 #include "./traitement_variables.h"
 #include "./utils.h"
 #include "./utils_str.h"
+#include "./structures.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
 #include "./gsb_calendar.h"
 #include "./erreur.h"
-#include "./structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

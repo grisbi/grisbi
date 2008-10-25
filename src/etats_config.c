@@ -92,6 +92,7 @@ static GtkWidget *onglet_etat_virements ( void );
 static GtkWidget *page_data_grouping ( void );
 static GtkWidget *page_data_separation ( void );
 static void recuperation_info_perso_etat ( void );
+static void remplissage_liste_comptes_etats ( void );
 static void remplissage_liste_comptes_virements ( void );
 static void remplissage_liste_exo_etats ( void );
 static void remplissage_liste_modes_paiement_etats ( void );
@@ -142,6 +143,7 @@ static void retire_ligne_liste_comparaisons_textes_etat ( gint last_text_compari
 static void selectionne_devise_categ_etat_courant ( void );
 static void selectionne_devise_ib_etat_courant ( void );
 static void selectionne_devise_tiers_etat_courant ( void );
+static void selectionne_liste_comptes_etat_courant ( void );
 static void selectionne_liste_exo_etat_courant ( void );
 static void selectionne_liste_modes_paiement_etat_courant ( void );
 static void selectionne_liste_tiers_etat_courant ( void );

@@ -63,7 +63,6 @@ static  void _gsb_data_payee_free ( struct_payee* payee);
 static GSList *gsb_data_payee_get_name_list ( void );
 static gint gsb_data_payee_get_pointer_from_name_in_glist ( struct_payee *payee,
 						     const gchar *name );
-static gpointer gsb_data_payee_get_structure ( gint no_payee );
 static gint gsb_data_payee_max_number ( void );
 static void gsb_data_payee_reset_counters ( void );
 /*END_STATIC*/

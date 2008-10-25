@@ -26,14 +26,16 @@
 #include "./dialog.h"
 #include "./gsb_assistant.h"
 #include "./gsb_data_account.h"
-#include "./gsb_data_fyear.h"
-#include "./gsb_data_reconcile.h"
-#include "./gsb_data_transaction.h"
 #include "./gsb_data_budget.h"
 #include "./gsb_data_category.h"
+#include "./gsb_data_fyear.h"
+#include "./gsb_data_payee.h"
+#include "./gsb_data_reconcile.h"
+#include "./gsb_data_transaction.h"
 #include "./gsb_real.h"
 #include "./gsb_status.h"
 #include "./traitement_variables.h"
+#include "./utils_str.h"
 #include "./include.h"
 #include "./gsb_data_transaction.h"
 #include "./structures.h"
@@ -43,7 +45,13 @@
 /*START_STATIC*/
 static void gsb_debug_add_report_page ( GtkWidget * assistant, gint page, 
 				 struct gsb_debug_test * test, gchar * summary );
+static gchar *gsb_debug_budget_test  ( void );
+static gboolean gsb_debug_budget_test_fix ();
+static gchar *gsb_debug_category_test  ( void );
+static gboolean gsb_debug_category_test_fix ();
 static gboolean gsb_debug_enter_test_page ( GtkWidget * assistant );
+static gchar *gsb_debug_payee_test  ( void );
+static gboolean gsb_debug_payee_test_fix ();
 static gchar * gsb_debug_reconcile_test ( void );
 static gchar * gsb_debug_transfer_test ( void );
 static gboolean gsb_debug_try_fix ( gboolean (* fix) () );
@@ -58,14 +66,16 @@ extern gsb_real null_real ;
 
 
 /** Tests  */
-struct gsb_debug_test debug_tests [5] = {
+struct gsb_debug_test debug_tests [8] = {
     /* Check for reconciliation inconcistency.  */
     { N_("Incorrect reconcile totals"),
       N_("This test will look for accounts where reconcile totals do not match reconciled transactions."),
       N_("Grisbi found accounts where reconciliation totals are inconsistent "
 	 "with the sum of reconcilied transactions.  Generally, the cause is "
 	 "too many transfers to other accounts are reconciled.  You have to "
-	 "manually unreconcile some transferts in inconsistent accounts."), 
+	 "manually unreconcile some transferts in inconsistent accounts."
+	 "It happens sometimes too for old accounts wich pass to Euro"
+	 "In that case the inconsistent is only some cents and it's normal."), 
       gsb_debug_reconcile_test, NULL },
 
     { N_("Duplicate sub-categories check"),
@@ -102,6 +112,28 @@ struct gsb_debug_test debug_tests [5] = {
 	 "(with a text editor) and fix transactions using their numeric ID."),
       gsb_debug_transfer_test, NULL },
 
+    { N_("Incorrect category/sub-category number"),
+      N_("This test will look for transactions wich have non existant categories/sub-categories."),
+      N_("Grisbi found some transactions with non existants categories/sub-categories "
+	 "If you choose to continue, Grisbi will remove that category error "
+	 "and that transactions will have no categories." ),
+      gsb_debug_category_test, gsb_debug_category_test_fix },
+
+    { N_("Incorrect budget/sub-budget number"),
+      N_("This test will look for transactions wich have non existant budgets/sub-budgets."),
+      N_("Grisbi found some transactions with non existants budgets/sub-budgets "
+	 "If you choose to continue, Grisbi will remove that budget error "
+	 "and that transactions will have no budgets." ),
+      gsb_debug_budget_test, gsb_debug_budget_test_fix },
+
+    { N_("Incorrect payee number"),
+      N_("This test will look for transactions wich have non existant payees."),
+      N_("Grisbi found some transactions with non existants payees "
+	 "If you choose to continue, Grisbi will "
+	 "remove them and that transactions will have no payee." ),
+      gsb_debug_payee_test, gsb_debug_payee_test_fix },
+
+
     { NULL, NULL, NULL, NULL, NULL },
 };
 
@@ -116,6 +148,7 @@ gboolean gsb_debug ( void )
 {
     GtkWidget * assistant, * text_view;
     GtkTextBuffer * text_buffer;
+    GtkWidget *scrolled_window;
 
     gsb_status_message ( _("Checking file for possible corruption...") );
 
@@ -126,12 +159,19 @@ gboolean gsb_debug ( void )
 				    "bug.png",
 				    NULL );
 
+    scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+				    GTK_POLICY_AUTOMATIC,
+				    GTK_POLICY_AUTOMATIC );
+
     text_view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD );
     gtk_text_view_set_editable ( GTK_TEXT_VIEW(text_view), FALSE );
     gtk_text_view_set_cursor_visible ( GTK_TEXT_VIEW(text_view), FALSE );
     gtk_text_view_set_left_margin ( GTK_TEXT_VIEW(text_view), 12 );
     gtk_text_view_set_right_margin ( GTK_TEXT_VIEW(text_view), 12 );
+    gtk_container_add ( GTK_CONTAINER (scrolled_window),
+			text_view );
 
     text_buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW ( text_view ) );
     g_object_set_data ( G_OBJECT ( assistant ), "text-buffer", text_buffer );
@@ -139,7 +179,7 @@ gboolean gsb_debug ( void )
     gtk_text_buffer_create_tag ( text_buffer, "x-large", "scale", PANGO_SCALE_X_LARGE, NULL);
     gtk_text_buffer_create_tag ( text_buffer, "indented", "left-margin", 24, NULL);
 
-    gsb_assistant_add_page ( assistant, text_view, 1, 0, -1, 
+    gsb_assistant_add_page ( assistant, scrolled_window, 1, 0, -1, 
 			     G_CALLBACK ( gsb_debug_enter_test_page ) );
     
     gsb_assistant_run ( assistant );
@@ -229,8 +269,16 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
 				 struct gsb_debug_test * test, gchar * summary )
 {
     GtkWidget * vbox, * label, * button;
+    GtkWidget *scrolled_window;
+
+    scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
+				    GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
 
     vbox = gtk_vbox_new ( FALSE, 6 );
+    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (scrolled_window),
+					    vbox );
+
     label = gtk_label_new ( NULL );
     gtk_label_set_markup ( GTK_LABEL(label), make_hint ( _( test -> name ), summary ) );
     gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
@@ -264,9 +312,9 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
 				   (gpointer) test -> fix );
     }
 
-    gtk_widget_show_all ( vbox );
+    gtk_widget_show_all ( scrolled_window );
 
-    gsb_assistant_add_page ( assistant, vbox, page, page - 1, -1, NULL );
+    gsb_assistant_add_page ( assistant, scrolled_window, page, page - 1, -1, NULL );
     gsb_assistant_set_next ( assistant, page - 1, page );
     gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
 }
@@ -309,25 +357,25 @@ gboolean gsb_debug_try_fix ( gboolean (* fix) () )
 /******************************************************************************/
 gchar * gsb_debug_reconcile_test ( void )
 {
-  gint affected_accounts = 0;
-  gint tested_account = 0;
-  GSList *pUserAccountsList = NULL;
-  gchar *pText = g_strdup("");
+    gint affected_accounts = 0;
+    gint tested_account = 0;
+    GSList *pUserAccountsList = NULL;
+    gchar *pText = g_strdup("");
 
-  /* S'il n'y a pas de compte, on quitte */
-  if ( ! gsb_data_account_get_accounts_amount ( ) )
-  {
-    g_free ( pText );
-    return NULL;
-  }
-    
-  /* On fera la vérification des comptes dans l'ordre préféré
-     de l'utilisateur. On fait une copie de la liste. */
-  pUserAccountsList = g_slist_copy ( gsb_data_account_get_list_accounts ( ) );
-  
-  /* Pour chacun des comptes, faire */
-  do
-  {
+    /* S'il n'y a pas de compte, on quitte */
+    if ( ! gsb_data_account_get_accounts_amount ( ) )
+    {
+	g_free ( pText );
+	return NULL;
+    }
+
+    /* On fera la vérification des comptes dans l'ordre préféré
+       de l'utilisateur. On fait une copie de la liste. */
+    pUserAccountsList = g_slist_copy ( gsb_data_account_get_list_accounts ( ) );
+
+    /* Pour chacun des comptes, faire */
+    do
+    {
       gpointer p_account = pUserAccountsList -> data;
       gint account_nb = gsb_data_account_get_no_account ( p_account );
       gint reconcile_number;
@@ -396,18 +444,18 @@ gchar * gsb_debug_reconcile_test ( void )
 	  }
 	  tested_account++;
       }
-  }
-  while ( (  pUserAccountsList = pUserAccountsList -> next ) );
+    }
+    while ( (  pUserAccountsList = pUserAccountsList -> next ) );
 
-  g_slist_free ( pUserAccountsList );
+    g_slist_free ( pUserAccountsList );
 
-  if ( affected_accounts )
-  {
-      pText [ strlen(pText) - 1 ] = '\0';
-      return pText;
-  }
+    if ( affected_accounts )
+    {
+	pText [ strlen(pText) - 1 ] = '\0';
+	return pText;
+    }
 
-  return NULL;
+    return NULL;
 }
 
 
@@ -421,14 +469,14 @@ gchar * gsb_debug_reconcile_test ( void )
 /******************************************************************************/
 gchar * gsb_debug_transfer_test ( void )
 {
-  gboolean corrupted_file = FALSE;
-  GSList * pUserAccountsList;
-  gchar * pText = g_strdup("");
+    gboolean corrupted_file = FALSE;
+    GSList * pUserAccountsList;
+    gchar * pText = g_strdup("");
 
-  pUserAccountsList = gsb_data_account_get_list_accounts ();
-  
-  do
-  {
+    pUserAccountsList = gsb_data_account_get_list_accounts ();
+
+    do
+    {
     gboolean corrupted_account = FALSE;
     GSList *pTransactionList;
     gpointer p_account = pUserAccountsList -> data;
@@ -447,7 +495,6 @@ gchar * gsb_debug_transfer_test ( void )
 	if ( gsb_data_transaction_get_account_number ( transaction ) == account_nb &&
 	     transfer_transaction > 0 )
 	{
-	    
 	    if ( gsb_data_transaction_get_account_number ( transfer_transaction ) !=
 		 gsb_data_transaction_get_contra_transaction_account ( transaction ) )
 	    {
@@ -502,19 +549,301 @@ gchar * gsb_debug_transfer_test ( void )
 
     pUserAccountsList = pUserAccountsList -> next;
 
-  }
-  while ( pUserAccountsList );
+    }
+    while ( pUserAccountsList );
 
-  if ( corrupted_file )
-  {
-      /* Skip both last and first carriage return. */
-      pText [ strlen(pText) - 1 ] = '\0';
-      return pText + 1;
-  }
+    if ( corrupted_file )
+    {
+	/* Skip both last and first carriage return. */
+	pText [ strlen(pText) - 1 ] = '\0';
+	printf ( "%s\n", pText);
+	return pText + 1;
+    }
 
-  return NULL;
+    return NULL;
 }
 
+
+/**
+ * check if all the categories into the transactions exist
+ *
+ * \param
+ *
+ * \return a gchar containing the transactions with problem or NULL
+ * */
+gchar *gsb_debug_category_test  ( void )
+{
+    GSList *tmp_list;
+    gchar *returned_text = g_strdup (""); 	/* !!! don't set here my_strdup else returned_text becomes NULL */
+    gchar *tmpstr;
+    gchar *tmpstr1;
+    gboolean invalid = FALSE;
+
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+    while (tmp_list)
+    {
+	gint transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+	gint category_number = gsb_data_transaction_get_category_number (transaction_number);
+
+	if ( gsb_data_category_get_structure (category_number))
+	{
+	    /* category found, check sub-category */
+	    gint sub_category_number = gsb_data_transaction_get_sub_category_number (transaction_number);
+	    if (sub_category_number &&
+		!gsb_data_category_get_sub_category_structure (category_number, sub_category_number))
+	    {
+		/* sub-category not found */
+		tmpstr = g_strdup_printf ( _("Transaction %d has category %d but invalid sub-category %d.\n"),
+					   transaction_number, category_number, sub_category_number );
+		tmpstr1 = g_strconcat ( returned_text,
+					tmpstr,
+					NULL );
+		g_free (returned_text);
+		g_free (tmpstr);
+		returned_text = tmpstr1;
+		invalid = TRUE;
+	    }
+	}
+	else
+	{
+	    /* category not found */
+	    tmpstr = g_strdup_printf ( _("Transaction %d has invalid category %d.\n"),
+				       transaction_number, category_number );
+	    tmpstr1 = g_strconcat ( returned_text,
+				    tmpstr,
+				    NULL );
+	    g_free (returned_text);
+	    g_free (tmpstr);
+	    returned_text = tmpstr1;
+	    invalid = TRUE;
+	}
+	tmp_list = tmp_list -> next;
+    }
+
+    if (invalid)
+	return returned_text;
+    else
+    {
+	g_free (returned_text);
+	return NULL;
+    }
+}
+
+/**
+ * fix the transactions with non-existant categories,
+ * just remove the categories
+ *
+ * \param
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_debug_category_test_fix ()
+{
+    GSList *tmp_list;
+
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+    while (tmp_list)
+    {
+	gint transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+	gint category_number = gsb_data_transaction_get_category_number (transaction_number);
+
+	if ( gsb_data_category_get_structure (category_number))
+	{
+	    /* category found, check sub-category */
+	    gint sub_category_number = gsb_data_transaction_get_sub_category_number (transaction_number);
+	    if (sub_category_number &&
+		!gsb_data_category_get_sub_category_structure (category_number, sub_category_number))
+		/* sub-category not found */
+		gsb_data_transaction_set_sub_category_number (transaction_number, 0);
+	}
+	else
+	{
+	    /* category not found */
+	    gsb_data_transaction_set_category_number (transaction_number, 0);
+	    gsb_data_transaction_set_sub_category_number (transaction_number, 0);
+	}
+	tmp_list = tmp_list -> next;
+    }
+
+    return TRUE;
+}
+
+/**
+ * check if all the budgets into the transactions exist
+ *
+ * \param
+ *
+ * \return a gchar containing the transactions with problem or NULL
+ * */
+gchar *gsb_debug_budget_test  ( void )
+{
+    GSList *tmp_list;
+    gchar *returned_text = g_strdup (""); 	/* !!! don't set here my_strdup else returned_text becomes NULL */
+    gchar *tmpstr;
+    gchar *tmpstr1;
+    gboolean invalid = FALSE;
+
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+    while (tmp_list)
+    {
+	gint transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+	gint budget_number = gsb_data_transaction_get_budgetary_number (transaction_number);
+
+	if ( gsb_data_budget_get_structure (budget_number))
+	{
+	    /* budget found, check sub-budget */
+	    gint sub_budget_number = gsb_data_transaction_get_sub_budgetary_number (transaction_number);
+	    if (sub_budget_number &&
+		!gsb_data_budget_get_sub_budget_structure (budget_number, sub_budget_number))
+	    {
+		/* sub-budget not found */
+		tmpstr = g_strdup_printf ( _("Transaction %d has budget %d but invalid sub-budget %d.\n"),
+					   transaction_number, budget_number, sub_budget_number );
+		tmpstr1 = g_strconcat ( returned_text,
+					tmpstr,
+					NULL );
+		g_free (returned_text);
+		g_free (tmpstr);
+		returned_text = tmpstr1;
+		invalid = TRUE;
+	    }
+	}
+	else
+	{
+	    /* budget not found */
+	    tmpstr = g_strdup_printf ( _("Transaction %d has invalid budget %d.\n"),
+				       transaction_number, budget_number );
+	    tmpstr1 = g_strconcat ( returned_text,
+				    tmpstr,
+				    NULL );
+	    g_free (returned_text);
+	    g_free (tmpstr);
+	    returned_text = tmpstr1;
+	    invalid = TRUE;
+	}
+	tmp_list = tmp_list -> next;
+    }
+
+    if (invalid)
+	return returned_text;
+    else
+    {
+	g_free (returned_text);
+	return NULL;
+    }
+    return NULL;
+}
+
+/**
+ * fix the transactions with non-existant budgets,
+ * just remove the categories
+ *
+ * \param
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_debug_budget_test_fix ()
+{
+    GSList *tmp_list;
+
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+    while (tmp_list)
+    {
+	gint transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+	gint budget_number = gsb_data_transaction_get_budgetary_number (transaction_number);
+
+	if ( gsb_data_budget_get_structure (budget_number))
+	{
+	    /* budget found, check sub-budget */
+	    gint sub_budget_number = gsb_data_transaction_get_sub_budgetary_number (transaction_number);
+	    if (sub_budget_number &&
+		!gsb_data_budget_get_sub_budget_structure (budget_number, sub_budget_number))
+		/* sub-budget not found */
+		gsb_data_transaction_set_budgetary_number (transaction_number, 0);
+	}
+	else
+	{
+	    /* budget not found */
+	    gsb_data_transaction_set_sub_budgetary_number (transaction_number, 0);
+	    gsb_data_transaction_set_budgetary_number (transaction_number, 0);
+	}
+	tmp_list = tmp_list -> next;
+    }
+    return TRUE;
+}
+
+/**
+ * check if all the payees into the transactions exist
+ *
+ * \param
+ *
+ * \return a gchar containing the transactions with problem or NULL
+ * */
+gchar *gsb_debug_payee_test  ( void )
+{
+    GSList *tmp_list;
+    gchar *returned_text = g_strdup (""); 	/* !!! don't set here my_strdup else returned_text becomes NULL */
+    gchar *tmpstr;
+    gchar *tmpstr1;
+    gboolean invalid = FALSE;
+
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+    while (tmp_list)
+    {
+	gint transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+	gint payee_number = gsb_data_transaction_get_party_number (transaction_number);
+
+	if ( !gsb_data_payee_get_structure (payee_number))
+	{
+	    /* payee not found */
+	    tmpstr = g_strdup_printf ( _("Transaction %d has invalid payee %d.\n"),
+				       transaction_number, payee_number );
+	    tmpstr1 = g_strconcat ( returned_text,
+				    tmpstr,
+				    NULL );
+	    g_free (returned_text);
+	    g_free (tmpstr);
+	    returned_text = tmpstr1;
+	    invalid = TRUE;
+	}
+	tmp_list = tmp_list -> next;
+    }
+
+    if (invalid)
+	return returned_text;
+    else
+    {
+	g_free (returned_text);
+	return NULL;
+    }
+    return NULL;
+}
+
+/**
+ * fix the transactions with non-existant payees,
+ * just remove the categories
+ *
+ * \param
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_debug_payee_test_fix ()
+{
+    GSList *tmp_list;
+
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+    while (tmp_list)
+    {
+	gint transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+	gint payee_number = gsb_data_transaction_get_party_number (transaction_number);
+
+	if ( !gsb_data_payee_get_structure (payee_number))
+	    gsb_data_transaction_set_party_number (transaction_number, 0);
+
+	tmp_list = tmp_list -> next;
+    }
+    return TRUE;
+}
 
 
 /* /\******************************************************************************\/ */

@@ -54,7 +54,6 @@
 #include "./utils.h"
 #include "./tiers_onglet.h"
 #include "./dialog.h"
-#include "./etats_config.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
 #include "./transaction_list.h"
