@@ -1783,7 +1783,7 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
     hbox2 = gtk_hbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox2, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( _("Show transactions for the next "));
+    label = gtk_label_new ( COLON(_("Show transactions for the next")));
     gtk_box_pack_start ( GTK_BOX(hbox2), label, FALSE, FALSE, 0 );
     entry = gsb_automem_spin_button_new ( &affichage_echeances_perso_nb_libre, 
 					  NULL, NULL );

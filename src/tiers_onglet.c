@@ -280,6 +280,14 @@ GtkWidget *creation_barre_outils_tiers ( void )
 			   _("Edit selected payee"), "" );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					   GTK_STOCK_DELETE, _("Remove unused payees"),
+					   G_CALLBACK(payee_remove_unused),
+					   NULL );
+    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
+			   _("Remove orphan payees"), "" );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+
     button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
 						GTK_STOCK_SELECT_COLOR,
 						_("View"),
@@ -293,14 +301,6 @@ GtkWidget *creation_barre_outils_tiers ( void )
 
     metatree_set_linked_widgets_sensitive ( GTK_TREE_MODEL(payee_tree_model),
 					    FALSE, "selection" );
-
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
-					   GTK_STOCK_DELETE, _("Remove unused payees"),
-					   G_CALLBACK(payee_remove_unused),
-					   NULL );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
-			   _("Remove unused payees"), "" );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     return ( handlebox );
 }
@@ -320,7 +320,7 @@ gboolean payee_remove_unused ( GtkWidget *button,
 {
     gint result;
 
-    result = question_yes_no_hint (_("Remove unused payees"),
+    result = question_yes_no_hint (_("Remove orphan payees"),
 				   _("This will remove all the payees wich are not used in any transactions.  "
 				     "Payees linked to an archived transactions will not be removed, even if not "
 				     "used outside the archive.\n\nAre you sure you want to do that?"),
