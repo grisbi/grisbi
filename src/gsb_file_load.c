@@ -4629,6 +4629,17 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 		    gsb_data_transaction_set_contra_transaction_number ( transaction_number,
 									   utils_str_atoi ( attribute_values[i]));
 
+		/* new in grisbi 0.6, no contra account number, so if it was -1,
+		 * set contra transaction to -1 to set deleted account,
+		 * else, do nothing with that value */
+		if ( !strcmp ( attribute_names[i],
+			       "Rc" ))
+		{
+		    if (utils_str_atoi (attribute_values[i]) == -1)
+			gsb_data_transaction_set_contra_transaction_number ( transaction_number,
+									     -1 );
+		}
+
 		if ( !strcmp ( attribute_names[i],
 			       "Va" ))
 		    gsb_data_transaction_set_mother_transaction_number ( transaction_number,
