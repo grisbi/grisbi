@@ -298,7 +298,7 @@ void gsb_form_create_widgets ()
      * so use an event box */
     event_box = gtk_event_box_new ();
     gtk_event_box_set_above_child (GTK_EVENT_BOX (event_box),
-				   TRUE );
+				   FALSE );
     gtk_box_pack_start ( GTK_BOX (transaction_form),
 			 event_box ,
 			 FALSE, FALSE,

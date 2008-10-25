@@ -95,7 +95,7 @@ typedef struct
     gchar *method_of_payment_content;
 } struct_transaction;
 
-/* xxx qd le form est fermé et que click 2 fois sur une opé, ne prend plus le click de la souris */
+
 /*START_STATIC*/
 static void gsb_data_transaction_delete_all_transactions ();
 static  void gsb_data_transaction_free ( struct_transaction *transaction);
