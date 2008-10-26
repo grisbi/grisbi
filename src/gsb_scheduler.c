@@ -172,8 +172,9 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 
 	case SCHEDULER_PERIODICITY_WEEK_VIEW:
 	    g_date_add_days ( return_date, 7 );
-	    /* need to add 0 month to make it work... */
-	    /* FIXME check if the bug in g_date_add_days is still present */
+	    /* FIXME : there were a bug in gtk and we had to add 0 month to have the good date,
+	     * it seems fixed but we should wait the stable debian is upgraded to
+	     * remove that [26/10/2008] */
 	    g_date_add_months ( return_date, 0 );
 	    break;
 
@@ -205,8 +206,9 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 		case PERIODICITY_DAYS:
 		    g_date_add_days ( return_date, 
 				      gsb_data_scheduled_get_user_entry (scheduled_number));
-		    /* need to add 0 month to make it work... */
-		    /* FIXME check if the bug in g_date_add_days is still present */
+		    /* FIXME : there were a bug in gtk and we had to add 0 month to have the good date,
+		     * it seems fixed but we should wait the stable debian is upgraded to
+		     * remove that [26/10/2008] */
 		    g_date_add_months ( return_date, 0 );
 		    break;
 

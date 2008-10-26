@@ -2587,8 +2587,8 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    gsb_data_currency_set_new_number ( currency_number,
-					       utils_str_atoi (attribute_values[i]));
+	    currency_number = gsb_data_currency_set_new_number ( currency_number,
+								 utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -2681,8 +2681,8 @@ void gsb_file_load_currency_link ( const gchar **attribute_names,
 	if ( !strcmp ( attribute_names[i],
 		       "Nb" ))
 	{
-	    gsb_data_currency_link_set_new_number ( link_number,
-						    utils_str_atoi (attribute_values[i]));
+	    link_number = gsb_data_currency_link_set_new_number ( link_number,
+								  utils_str_atoi (attribute_values[i]));
 	    i++;
 	    continue;
 	}
@@ -4954,8 +4954,8 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 	    {
 		if ( !strcmp ( attribute_names[i],
 			       "No" ))
-		    gsb_data_currency_set_new_number ( currency_number,
-						       utils_str_atoi (attribute_values[i]));
+		    currency_number = gsb_data_currency_set_new_number ( currency_number,
+									 utils_str_atoi (attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
@@ -5136,8 +5136,8 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 	    {
 		if ( !strcmp ( attribute_names[i],
 			       "No" ))
-		    gsb_data_fyear_set_new_number ( fyear_number,
-						    utils_str_atoi ( attribute_values[i]));
+		    fyear_number = gsb_data_fyear_set_new_number ( fyear_number,
+								   utils_str_atoi ( attribute_values[i]));
 
 		if ( !strcmp ( attribute_names[i],
 			       "Nom" ))
