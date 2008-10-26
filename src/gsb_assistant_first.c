@@ -179,20 +179,20 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
     vbox = new_vbox_with_title_and_icon ( _("General configuration of Grisbi"),
-					  "money.png" );
+					  "generalities.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );
 
     /* configure the browser */
-    paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Web browser"));
+    paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Web"));
 
     table = gtk_table_new ( 0, 3, FALSE );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
     gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
     gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
 
-    label = gtk_label_new ( _("Web browser"));
+    label = gtk_label_new ( COLON(_("Web browser command")));
     gtk_size_group_add_widget ( size_group, label );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
@@ -223,6 +223,14 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     button = gsb_automem_checkbutton_new (_("Automatically save on exit"),
 					  &(etat.sauvegarde_auto), NULL, NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, 
+			 FALSE, FALSE, 0 );
+
+    /* crypt the grisbi file */
+    button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
+					   &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
+    g_signal_connect ( G_OBJECT (button ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
     /* Automatic backup ? */
@@ -268,14 +276,6 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 		       NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button,
 			 TRUE, TRUE, 0);
-
-    /* crypt the grisbi file */
-    button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-					   &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
-    g_signal_connect ( G_OBJECT (button ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &button );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-			 FALSE, FALSE, 0 );
 
 
     gtk_widget_show_all (page);
