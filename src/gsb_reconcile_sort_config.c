@@ -86,7 +86,7 @@ GtkWidget *gsb_reconcile_sort_config_create ( void )
     vbox_pref = new_vbox_with_title_and_icon ( _("Sort for reconciliation"),
 					       "reconciliation.png" );
     paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE,
-					     COLON(_("Reconciliation: sort transactions") ) );
+					     _("Reconciliation: sort transactions") );
 
     /* la partie du milieu est une hbox avec les types */
     hbox = gtk_hbox_new ( FALSE, 5 );

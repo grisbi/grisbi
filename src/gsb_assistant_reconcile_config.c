@@ -375,108 +375,93 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
 
     paddingbox = new_paddingbox_with_title ( page, FALSE,
-					     COLON(_("Fill the fields and click the button \"Create the new reconcile\"")));
+					     _("Fill the fields and click the button \"Create the new reconcile\""));
 
     /* create the table, this is the same as the reconcile config,
      * but here it's to create new ones */
-    table = gtk_table_new ( 4, 3, FALSE );
-    gtk_box_pack_start ( GTK_BOX (paddingbox),
-			 table,
-			 FALSE, FALSE,
-			 0 );
+	table = gtk_table_new ( 4, 3, FALSE );
+	gtk_table_set_row_spacings ( GTK_TABLE ( table ), 6 );
+	gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
+	gtk_box_pack_start ( GTK_BOX (paddingbox), table, FALSE, FALSE, 0 );
 
-    /* set the name */
-    label = gtk_label_new ( _("Name"));
-    gtk_table_attach_defaults ( GTK_TABLE (table),
-				label,
-				0, 1,
-				0, 1 );
+	/* set the name */
+	label = gtk_label_new (COLON(_("Name")));
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
+			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-    reconcile_name_entry = gtk_entry_new ();
-    g_signal_connect ( G_OBJECT (reconcile_name_entry ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &reconcile_name_entry );
-    gtk_table_attach_defaults ( GTK_TABLE (table),
-				reconcile_name_entry,
-				1, 2,
-				0, 1 );
+	reconcile_name_entry = gtk_entry_new ();
+	g_signal_connect ( G_OBJECT (reconcile_name_entry ), "destroy",
+			G_CALLBACK ( gtk_widget_destroyed), &reconcile_name_entry );
+	gtk_table_attach ( GTK_TABLE ( table ), reconcile_name_entry, 1, 2, 0, 1,
+			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
 
-    /* set the choice of account */
-    label = gtk_label_new ( _("Account"));
-    gtk_table_attach_defaults ( GTK_TABLE (table),
-				label,
-				2, 3,
-				0, 1 );
+	/* set the choice of account */
+	label = gtk_label_new (COLON(_("Account")));
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+	gtk_table_attach ( GTK_TABLE ( table ), label, 2, 3, 0, 1,
+			GTK_SHRINK | GTK_FILL, 0, 10, 0 );
 
-    reconcile_account_button = gsb_account_create_combo_list ( NULL, NULL, TRUE );
-    g_signal_connect ( G_OBJECT (reconcile_account_button ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &reconcile_account_button );
-    gtk_combo_box_set_active ( GTK_COMBO_BOX (reconcile_account_button),
-			       0 );
-    gtk_table_attach_defaults ( GTK_TABLE (table),
-				reconcile_account_button,
-				3, 4,
-				0, 1 );
+	reconcile_account_button = gsb_account_create_combo_list ( NULL, NULL, TRUE );
+	g_signal_connect ( G_OBJECT (reconcile_account_button ), "destroy",
+			G_CALLBACK ( gtk_widget_destroyed), &reconcile_account_button );
+	gtk_combo_box_set_active ( GTK_COMBO_BOX (reconcile_account_button), 0 );
+	gtk_table_attach ( GTK_TABLE ( table ), reconcile_account_button, 3, 4, 0, 1,
+			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
-    /* set the initial date */
-    label = gtk_label_new ( _("Initial date"));
-    gtk_table_attach_defaults ( GTK_TABLE (table),
-				label,
-				0, 1,
-				1, 2 );
+	/* set the initial date */
+	label = gtk_label_new (COLON(_("Initial date")));
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
+			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-    reconcile_init_date_entry = gsb_calendar_entry_new (FALSE);
-    g_signal_connect ( G_OBJECT (reconcile_init_date_entry ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &reconcile_init_date_entry );
-    gtk_table_attach_defaults ( GTK_TABLE (table),
-				reconcile_init_date_entry,
-				1, 2,
-				1, 2 );
+	reconcile_init_date_entry = gsb_calendar_entry_new (FALSE);
+	g_signal_connect ( G_OBJECT (reconcile_init_date_entry ), "destroy",
+			G_CALLBACK ( gtk_widget_destroyed), &reconcile_init_date_entry );
+	gtk_table_attach ( GTK_TABLE ( table ), reconcile_init_date_entry, 1, 2, 1, 2,
+			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
 
-    /* set the final date */
-    label = gtk_label_new ( _("Final date"));
-    gtk_table_attach_defaults ( GTK_TABLE (table),
-				label,
-				0, 1,
-				2, 3 );
+	/* set the final date */
+	label = gtk_label_new (COLON(_("Final date")));
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 2, 3,
+			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-    reconcile_final_date_entry = gsb_calendar_entry_new (FALSE);
-    g_signal_connect ( G_OBJECT (reconcile_final_date_entry ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &reconcile_final_date_entry );
-    gtk_table_attach_defaults ( GTK_TABLE (table),
-				reconcile_final_date_entry,
-				1, 2,
-				2, 3 );
+	reconcile_final_date_entry = gsb_calendar_entry_new (FALSE);
+	g_signal_connect ( G_OBJECT (reconcile_final_date_entry ), "destroy",
+			G_CALLBACK ( gtk_widget_destroyed), &reconcile_final_date_entry );
+	gtk_table_attach ( GTK_TABLE ( table ), reconcile_final_date_entry, 1, 2, 2, 3,
+			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
 
+	/* set the initial balance */
+	label = gtk_label_new (COLON(_("Initial balance")));
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+	gtk_table_attach ( GTK_TABLE ( table ), label, 2, 3, 1, 2,
+			GTK_SHRINK | GTK_FILL, 0, 10, 0 );
 
-    /* set the initial balance */
-    label = gtk_label_new ( _("Initial balance"));
-    gtk_table_attach_defaults ( GTK_TABLE (table),
-				label,
-				2, 3,
-				1, 2 );
+	reconcile_init_balance_entry = gtk_entry_new ();
+	g_signal_connect ( G_OBJECT (reconcile_init_balance_entry ), "destroy",
+			G_CALLBACK ( gtk_widget_destroyed), &reconcile_init_balance_entry );
+	gtk_table_attach ( GTK_TABLE ( table ), reconcile_init_balance_entry, 3, 4, 1, 2,
+			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
-    reconcile_init_balance_entry = gtk_entry_new ();
-    g_signal_connect ( G_OBJECT (reconcile_init_balance_entry ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &reconcile_init_balance_entry );
-    gtk_table_attach_defaults ( GTK_TABLE (table),
-				reconcile_init_balance_entry,
-				3, 4,
-				1, 2 );
+    /* set the final balance */
+	label = gtk_label_new (COLON(_("Final balance")));
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+	gtk_table_attach ( GTK_TABLE ( table ), label, 2, 3, 2, 3,
+			GTK_SHRINK | GTK_FILL, 0, 10, 0 );
 
-    /* set the final date */
-    label = gtk_label_new ( _("Final balance"));
-    gtk_table_attach_defaults ( GTK_TABLE (table),
-				label,
-				2, 3,
-				2, 3 );
-
-    reconcile_final_balance_entry = gtk_entry_new ();
-    g_signal_connect ( G_OBJECT (reconcile_final_balance_entry ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &reconcile_final_balance_entry );
-    gtk_table_attach_defaults ( GTK_TABLE (table),
-				reconcile_final_balance_entry,
-				3, 4,
-				2, 3 );
+	reconcile_final_balance_entry = gtk_entry_new ();
+	g_signal_connect ( G_OBJECT (reconcile_final_balance_entry ), "destroy",
+			G_CALLBACK ( gtk_widget_destroyed), &reconcile_final_balance_entry );
+	gtk_table_attach ( GTK_TABLE ( table ), reconcile_final_balance_entry, 3, 4, 2, 3,
+			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
     /* create the button */
     hbox = gtk_hbox_new (TRUE, 0);
@@ -649,6 +634,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
 
     /* now we can show the list of orphans transactions */
     label = gtk_label_new (_("Select the transaction(s) you want to associate with a reconciliation :"));
+    gtk_misc_set_padding ( GTK_MISC ( label ), 3, 0 );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_box_pack_start ( GTK_BOX (page),
 			 label,
 			 FALSE, FALSE, 10 );

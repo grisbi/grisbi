@@ -119,7 +119,7 @@ static gboolean utils_font_choose ( GtkWidget *button,
     GtkWidget *dialog;
     GCallback (*hook) (gchar *, gpointer);
 
-    dialog = gtk_font_selection_dialog_new (COLON(_("Choosing font")));
+    dialog = gtk_font_selection_dialog_new (_("Choosing font"));
 
     if (*fontname)
 	gtk_font_selection_dialog_set_font_name (GTK_FONT_SELECTION_DIALOG(dialog), 

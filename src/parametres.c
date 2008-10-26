@@ -844,25 +844,25 @@ GtkWidget *onglet_programmes (void)
 
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Web"));
 
-    table = gtk_table_new ( 0, 3, FALSE );
+    table = gtk_table_new ( 0, 2, FALSE );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
     gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
     gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
 
-    label = gtk_label_new ( _("Web browser command"));
+    label = gtk_label_new ( COLON(_("Web browser command")));
     gtk_size_group_add_widget ( size_group, label );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
+    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
     entry = gsb_automem_entry_new ( &etat.browser_command, NULL, NULL );
-    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     text = g_strconcat ( "<i>", _("You may use %s to expand the URL. "
 				  "I.e: \"firefox -remote %s\""), "</i>", NULL );
     label = gtk_label_new ( text );
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 1, 2, 2, 3,
+    gtk_table_attach ( GTK_TABLE(table), label, 1, 2, 1, 2,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
     g_free ( text );
 
@@ -874,7 +874,7 @@ GtkWidget *onglet_programmes (void)
     gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
     gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
 
-    label = gtk_label_new ( _("LaTeX command"));
+    label = gtk_label_new ( COLON(_("LaTeX command")));
     gtk_size_group_add_widget ( size_group, label );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
@@ -882,7 +882,7 @@ GtkWidget *onglet_programmes (void)
     entry = gsb_automem_entry_new ( &etat.latex_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
-    label = gtk_label_new ( _("dvips command"));
+    label = gtk_label_new ( COLON(_("dvips command")));
     gtk_size_group_add_widget ( size_group, label );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
