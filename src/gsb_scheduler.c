@@ -166,6 +166,10 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 
     switch (gsb_data_scheduled_get_frequency (scheduled_number))
     {
+	case SCHEDULER_PERIODICITY_ONCE_VIEW:
+	    return NULL;
+	    break;
+
 	case SCHEDULER_PERIODICITY_WEEK_VIEW:
 	    g_date_add_days ( return_date, 7 );
 	    /* need to add 0 month to make it work... */
@@ -187,14 +191,9 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 
 	case SCHEDULER_PERIODICITY_YEAR_VIEW:
 	    g_date_add_years ( return_date, 1 );
+	    break;
 
 	case SCHEDULER_PERIODICITY_CUSTOM_VIEW:
-	    /* set default here because sometimes the periodicity can be more than 4... 
-	     * FIXME to check why... if it was a bug, change that
-	     * here it's a personnal periodicity of 3 monthes which have here 6 instead of 4 */
-	    /* c'est corrigé lors de l'import mais ça serait pas mal de retrouver le bug... */
-	default:
-
 	    if ( gsb_data_scheduled_get_user_entry (scheduled_number) <= 0 )
 	    {
 		g_date_free (return_date);

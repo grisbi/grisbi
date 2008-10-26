@@ -653,7 +653,16 @@ gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
     if (!string
 	||
 	!strlen (string))
-	return FALSE;
+    {
+	/* no string so set no category */
+	gsb_data_mix_set_category_number ( transaction_number,
+					   0,
+					   is_transaction );
+	gsb_data_mix_set_sub_category_number ( transaction_number,
+					       0,
+					       is_transaction );
+	return TRUE;
+    }
 
     tab_char = g_strsplit ( string,
 			    " : ",

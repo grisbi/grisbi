@@ -420,13 +420,6 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
     mother_number = gsb_data_mix_get_mother_transaction_number (transaction_number, is_transaction);
     is_split = gsb_data_mix_get_split_of_transaction (transaction_number, is_transaction);
 
-    if (!is_transaction)
-    {
-	/* we need to set up the part of scheduler form here because changing the account
-	 * button will change the form */
-	gsb_form_scheduler_set (transaction_number);
-    }
-
     /* if here account number = -1, it's because it's a white line or there were a problem ; 
      * in all case, get the current account number */
     if (account_number == -1)
@@ -438,6 +431,13 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
     /* sensitive the valid and cancel buttons */
     gtk_widget_set_sensitive (GTK_WIDGET (form_button_valid), TRUE);
     gtk_widget_set_sensitive (GTK_WIDGET (form_button_cancel), TRUE);
+
+    if (!is_transaction)
+    {
+	/* we need to set up the part of scheduler form here because changing the account
+	 * button will change the form */
+	gsb_form_scheduler_set (transaction_number);
+    }
 
     /* if the transaction is the white line, we set the date and necessary stuff and go away
      * for that use the button_press function, so clicking on a form's field or do enter/double click
@@ -2874,27 +2874,30 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 
 	    /* now, check if it's a transfer or a normal category */
 	    account_transfer = gsb_form_check_for_transfer (string);
-
 	    switch (account_transfer)
 	    {
 		/* if the check returns -3, it's not a transfer, so it's a normal category */
 		case -3:
 		    /* if it's a modification, check if before it was not a transfer and delete
-		     * the contra-transaction if necessary
-		     * that only for transaction, not scheduled */
-		    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
-		    if ( is_transaction
-			 &&
-			 !new_transaction
-			 &&
-			 contra_transaction_number > 0)
+		     * the contra-transaction if necessary */
+		    if (!new_transaction)
 		    {
-			/* it was a transfer, we delete the contra-transaction */
-			gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number,
-									     0);
-			gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE );
-			gsb_data_transaction_set_contra_transaction_number ( transaction_number,
-									     0);
+			if (is_transaction)
+			{
+			    contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
+			    if (contra_transaction_number > 0)
+			    {
+				/* it was a transfer, we delete the contra-transaction */
+				gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number,
+										     0);
+				gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE );
+				gsb_data_transaction_set_contra_transaction_number ( transaction_number,
+										     0);
+			    }
+			}
+			else
+			    /* if the scheduled transaction was a transfer, it is not anymore, remove that */
+			    gsb_data_scheduled_set_account_number_transfer (transaction_number, 0);
 		    }
 		    gsb_data_category_fill_transaction_by_string ( transaction_number,
 								   string, is_transaction );

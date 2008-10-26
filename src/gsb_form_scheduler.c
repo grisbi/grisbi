@@ -1046,7 +1046,7 @@ gboolean gsb_form_scheduler_set_auto ( gboolean automatic )
  *
  * \param
  *
- * \return 0 : Once, 1 : Weekly, 2 : Monthly, 3: Yearly, 4: Custom, -1 if nothing selected (normaly should not append)
+ * \return SCHEDULER_PERIODICITY_x_VIEW (see gsb_scheduler_list.h), -1 if nothing selected (normaly should not append)
  * */
 gint gsb_form_scheduler_get_frequency ( void )
 {
@@ -1064,7 +1064,7 @@ gint gsb_form_scheduler_get_frequency ( void )
 /**
  * set the frequency on the form's button
  *
- * \param frequency 0 : Once, 1 : Weekly, 2 : Monthly, 3: Yearly, 4: Custom
+ * \param frequency SCHEDULER_PERIODICITY_x_VIEW (see gsb_scheduler_list.h)
  *
  * \return TRUE if ok, FALSE else
  * */
@@ -1119,6 +1119,9 @@ gboolean gsb_form_scheduler_set_limit_date ( GDate *date )
 {
     GtkWidget *entry;
 
+    if (!date)
+	return FALSE;
+
     entry = gsb_form_scheduler_get_element_widget(SCHEDULED_FORM_LIMIT_DATE);
     /* if no entry, go away... */
     if (!entry
@@ -1126,7 +1129,7 @@ gboolean gsb_form_scheduler_set_limit_date ( GDate *date )
 	!GTK_WIDGET_VISIBLE (entry))
 	return FALSE;
 
-    if (gsb_calendar_entry_set_date ( entry, date ))
+    if (!gsb_calendar_entry_set_date ( entry, date ))
 	gsb_form_widget_set_empty (entry, FALSE);
 
     return TRUE;

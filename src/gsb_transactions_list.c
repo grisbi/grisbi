@@ -1829,6 +1829,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
  * 
  * \param transaction The transaction to delete
  * \param show_warning TRUE to ask if the user is sure, FALSE directly delete the transaction
+ * 			if TRUE, the form will be reset too
  *
  * \return FALSE if canceled or nothing done, TRUE if ok
  * */
@@ -1935,7 +1936,8 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     affiche_dialogue_soldes_minimaux ();
 
     /* We blank form. */
-    gsb_form_escape_form ();
+    if (show_warning)
+	gsb_form_escape_form ();
 
     /* FIXME : on devrait réafficher les listes de tiers, categ, ib... */
     modification_fichier( TRUE );
