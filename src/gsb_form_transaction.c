@@ -392,6 +392,7 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
 {
     gint contra_transaction_number;
     gint contra_mother_number = 0;
+    GtkWidget *contra_payment_button;
 
     g_return_val_if_fail ( account_transfer >= 0, -1 );
 
@@ -462,21 +463,15 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
     /* we have to check the change */
     gsb_currency_check_for_change ( contra_transaction_number );
 
-    /* set the method of payment
-     * FIXME : for the scheduled transactions, we arrive here but there is no button for that,
-     * so for now, TRANSACTION_FORM_CONTRA won't be visible so he just copy the method of the scheduled transaction */
-
-    if ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA)
-	 &&
-	 GTK_IS_WIDGET ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA))
-	 &&
-	 gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA )
-	 &&
-	 GTK_WIDGET_VISIBLE ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA)))
-    {
+    /* set the contra-method of payment,
+     * there is no place into the transaction structure for that, so it was not taken with the form,
+     * we need to get it now from the form */
+    contra_payment_button = gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA);
+    if (contra_payment_button
+	&&
+	GTK_WIDGET_VISIBLE (contra_payment_button))
 	gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
-							    gsb_payment_method_get_selected_number (gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA)));
-    }
+							    gsb_payment_method_get_selected_number (contra_payment_button));
 
     /* set the link between the transactions */
     gsb_data_transaction_set_contra_transaction_number ( transaction_number,

@@ -2706,7 +2706,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 
 	    case TRANSACTION_FORM_TYPE:
 		/* set the type only if visible */
-		if ( GTK_WIDGET_VISIBLE ( gsb_form_widget_get_widget (TRANSACTION_FORM_TYPE)))
+		if ( GTK_WIDGET_VISIBLE (element -> element_widget))
 		{
 		    GtkWidget *widget_tmp;
 		    gint payment_number;
@@ -2738,6 +2738,13 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		    gsb_data_mix_set_method_of_payment_number ( transaction_number, 0, is_transaction );
 		    gsb_data_mix_set_method_of_payment_content ( transaction_number, NULL, is_transaction);
 		}
+		break;
+
+	    case TRANSACTION_FORM_CONTRA:
+		/* here only for scheduled transaction */
+		if (!is_transaction && GTK_WIDGET_VISIBLE (element -> element_widget))
+		    gsb_data_scheduled_set_contra_method_of_payment_number ( transaction_number,
+									     gsb_payment_method_get_selected_number (element -> element_widget));
 		break;
 
 	    case TRANSACTION_FORM_DEVISE:
