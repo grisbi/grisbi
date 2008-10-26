@@ -276,7 +276,7 @@ GtkWidget *onglet_affichage_operations ( void )
 
     /* Account distinction */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
-					    COLON(_("Account differentiation")));
+					    _("Account differentiation"));
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 gsb_automem_checkbutton_new (_("Remember display settings for each account separately"),
@@ -423,7 +423,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 
     /* Displayed fields */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
-					    COLON(_("Displayed fields")));
+					    _("Displayed fields"));
 
     /* How to display financial year */
     radiogroup = gsb_automem_radiobutton_new_with_title (vbox_pref,
@@ -435,7 +435,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 
     /* automatic amount separatior fields */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
-					    COLON(_("Automatic amount separator")));
+					    _("Automatic amount separator"));
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 gsb_automem_checkbutton_new (_("Automagically add separator in amounts fields if unspecified"),

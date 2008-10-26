@@ -798,7 +798,7 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
     gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
 
-    label = gtk_label_new (_("Currency for payees tree"));
+    label = gtk_label_new (COLON(_("Currency for payees tree")));
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 
@@ -808,7 +808,7 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
     gtk_table_attach ( GTK_TABLE ( table ), combo_box,
 		       1, 2, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-    label = gtk_label_new (_("Currency for categories tree"));
+    label = gtk_label_new (COLON(_("Currency for categories tree")));
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label,
@@ -818,7 +818,7 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
     gtk_table_attach ( GTK_TABLE ( table ), combo_box,
 		       1, 2, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-    label = gtk_label_new (_("Currency for budgetary lines tree"));
+    label = gtk_label_new (COLON(_("Currency for budgetary lines tree")));
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label,

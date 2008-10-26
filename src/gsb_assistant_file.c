@@ -323,7 +323,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 
     /* Address */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE,
-					     COLON(_("Your address")));
+					     _("Your address"));
 
     /* Common address */
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
