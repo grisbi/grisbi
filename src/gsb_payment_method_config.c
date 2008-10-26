@@ -258,7 +258,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
 						       G_CALLBACK (gsb_data_payment_set_show_entry), 0 );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       button_show_entry, 2, 3, 0, 1,
-		       GTK_SHRINK, 0,
+		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
 
 
@@ -285,7 +285,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
 							   G_CALLBACK (gsb_data_payment_set_automatic_numbering), 0 );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       button_auto_numbering, 2, 3, 1, 2,
-		       GTK_SHRINK, 0,
+		       GTK_SHRINK | GTK_FILL, 0,
 		       0, 0 );
 
     /* Payment method method_ptr */

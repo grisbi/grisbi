@@ -421,10 +421,6 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 							 _("terminates transaction"),
 							 &etat.entree, NULL, NULL);
 
-    /* Displayed fields */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
-					    _("Displayed fields"));
-
     /* How to display financial year */
     radiogroup = gsb_automem_radiobutton_new_with_title (vbox_pref,
 							 _("By default, use financial year"),
@@ -503,7 +499,7 @@ GtkWidget *onglet_form_completion ( void )
 			 hbox,
 			 FALSE, FALSE, 0 );
 
-    label = gtk_label_new (_("Maximum items showed in drop down lists (0 for no limit)"));
+    label = gtk_label_new (COLON(_("Maximum items showed in drop down lists (0 for no limit)")));
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 label,
 			 FALSE, FALSE, 0 );
