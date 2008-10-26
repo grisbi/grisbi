@@ -29,7 +29,6 @@
 #include "./gsb_automem.h"
 #include "./gsb_data_account.h"
 #include "./gsb_file.h"
-#include "./gsb_form.h"
 #include "./barre_outils.h"
 #include "./gsb_scheduler_list.h"
 #include "./main.h"

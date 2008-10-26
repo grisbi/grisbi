@@ -31,6 +31,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_fyear.h"
 #include "./utils_dates.h"
+#include "./gsb_fyear.h"
 #include "./utils_str.h"
 #include "./include.h"
 /*END_INCLUDE*/
@@ -370,6 +371,10 @@ gboolean gsb_data_fyear_set_name ( gint fyear_number,
     /* and copy the new one */
     fyear -> fyear_name = my_strdup (name);
 
+   /* update list fyear in form */
+    if (fyear -> showed_in_form)
+	gsb_fyear_update_fyear_list ();
+
     return TRUE;
 }
 
@@ -516,6 +521,9 @@ gboolean gsb_data_fyear_set_form_show ( gint fyear_number,
 
     /* and copy the new one */
     fyear -> showed_in_form = showed_in_form;
+
+    /* update list fyear in form */
+    gsb_fyear_update_fyear_list ();
 
     return TRUE;
 }

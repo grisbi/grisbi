@@ -1444,6 +1444,8 @@ gint gsb_form_get_element_expandable ( gint element_number )
  * */
 gboolean gsb_form_entry_get_focus ( GtkWidget *entry )
 {
+    GtkWidget *fyear_button;
+
     /* the entry can be a combofix or a real entry */
     if (GTK_IS_COMBOFIX ( entry ))
     {
@@ -1466,6 +1468,12 @@ gboolean gsb_form_entry_get_focus ( GtkWidget *entry )
     /* sensitive the valid and cancel buttons */
     gtk_widget_set_sensitive (GTK_WIDGET (form_button_valid), TRUE);
     gtk_widget_set_sensitive (GTK_WIDGET (form_button_cancel), TRUE);
+
+    /* set the financial year on automatic by default */
+    fyear_button = gsb_form_widget_get_widget (TRANSACTION_FORM_EXERCICE);
+    if (fyear_button)
+	gsb_fyear_set_combobox_history ( fyear_button,
+					 0 );
 
     return FALSE;
 }
@@ -2605,6 +2613,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 {
     GSList *tmp_list;
     GDate *date;
+    GDate *value_date;
 
     devel_debug_int (transaction_number);
 
@@ -2613,6 +2622,10 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
      * (cannot take it from the transaction if the fyear field is before the date field...) */
     /* get the date first, because the financial year will use it and it can set before the date in the form */
     date = gsb_calendar_entry_get_date (gsb_form_widget_get_widget (TRANSACTION_FORM_DATE));
+
+    /* as financial year can be taken with value date, need to get the value date now too,
+     * if TRANSACTION_FORM_VALUE_DATE doesn't exist, value_date will be NULL */
+    value_date = gsb_calendar_entry_get_date (gsb_form_widget_get_widget (TRANSACTION_FORM_VALUE_DATE));
 
     tmp_list = gsb_form_widget_get_list ();
 
@@ -2640,9 +2653,12 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		break;
 
 	    case TRANSACTION_FORM_EXERCICE:
-		/* FIXME : voir pour faire la différence date/date de valeur à partir de la conf ? pour la date pour choisir l'exo*/
-		gsb_data_mix_set_financial_year_number ( transaction_number,
-							 gsb_fyear_get_fyear_from_combobox ( element -> element_widget, date ), is_transaction);
+		if (etat.affichage_exercice_automatique && value_date)
+		    gsb_data_mix_set_financial_year_number ( transaction_number,
+							     gsb_fyear_get_fyear_from_combobox ( element -> element_widget, value_date ), is_transaction);
+		else
+		    gsb_data_mix_set_financial_year_number ( transaction_number,
+							     gsb_fyear_get_fyear_from_combobox ( element -> element_widget, date ), is_transaction);
 		break;
 
 	    case TRANSACTION_FORM_PARTY:

@@ -32,7 +32,6 @@
 #include "./gtk_combofix.h"
 #include "./traitement_variables.h"
 #include "./utils.h"
-#include "./affichage.h"
 #include "./utils_str.h"
 #include "./structures.h"
 #include "./custom_list.h"
@@ -423,9 +422,9 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 
     /* How to display financial year */
     radiogroup = gsb_automem_radiobutton_new_with_title (vbox_pref,
-							 _("By default, use financial year"),
-							 _("last selected financial year"),
+							 _("Automatic financial year is set"),
 							 _("according to transaction date"),
+							 _("according to transaction value date"),
 							 &etat.affichage_exercice_automatique, 
 							 NULL, NULL);
 

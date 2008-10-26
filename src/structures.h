@@ -56,8 +56,7 @@ struct {
     gint fichier_deja_ouvert;   /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
     gint force_enregistrement;    /* à un si on force l'enregistrement */
     gint show_transaction_selected_in_form;	/* TRUE will show the selected transaction in the form */
-    gint affichage_exercice_automatique;   /* à 1 si exercice
-					    * automatique selon la date, 0 si affiche le dernier choisi */
+    gint affichage_exercice_automatique;	/* automatic fyear :0 to set according to the date, 2 according to value date */
     gboolean limit_completion_to_current_account;   /** Limit payee *
 						     completion to
 						     current account,

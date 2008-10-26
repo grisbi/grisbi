@@ -62,7 +62,6 @@ static void update_soldes_minimaux ( gboolean force );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *form_transaction_part;
 extern GdkColor couleur_bleue;
 extern GdkColor couleur_jaune;
 extern GdkColor couleur_nom_compte_normal;
@@ -73,6 +72,7 @@ extern GdkColor couleur_solde_alarme_rouge_normal;
 extern GdkColor couleur_solde_alarme_rouge_prelight;
 extern GdkColor couleur_solde_alarme_verte_normal;
 extern GdkColor couleur_solde_alarme_verte_prelight;
+extern GtkWidget *form_transaction_part;
 extern gsb_real null_real ;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
