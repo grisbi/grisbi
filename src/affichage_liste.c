@@ -1,6 +1,6 @@
 /* ce fichier contient les paramètres de l'affichage de la liste d'opé */
 
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org) */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org) */
 /*			2008 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org */
 
@@ -41,29 +41,28 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static GtkWidget *cree_menu_quatres_lignes ( void );
+static  gboolean display_mode_button_changed ( GtkWidget *button,
+					      gint *line_ptr );
 static gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
 							  gpointer null );
 static gboolean gsb_transactions_list_display_update_combofix ( void );
-static gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
-							 gpointer null );
 /*END_STATIC*/
 
 
 
 gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-static GtkWidget *bouton_affichage_lignes_une_ligne = NULL;
-static GtkWidget *bouton_affichage_lignes_deux_lignes_1 = NULL;
-static GtkWidget *bouton_affichage_lignes_deux_lignes_2 = NULL;
-static GtkWidget *bouton_affichage_lignes_trois_lignes_1 = NULL;
-static GtkWidget *bouton_affichage_lignes_trois_lignes_2 = NULL;
-static GtkWidget *bouton_affichage_lignes_trois_lignes_3 = NULL;
-/* contient le no de ligne à afficher lorsqu'on n'affiche qu'une ligne */
-gint ligne_affichage_une_ligne;
-/* contient les no de lignes à afficher lorsqu'on affiche deux lignes */
-GSList *lignes_affichage_deux_lignes;
-/* contient les no de lignes à afficher lorsqu'on affiche trois lignes */
-GSList *lignes_affichage_trois_lignes;
+
+/* line displayed when the list show 1 line */
+gint display_one_line;
+
+/* lines displayed when the list show 2 lines
+ * this is a number 0-5 according the order of the combo-box in the configuration */
+gint display_two_lines;
+
+/* lines displayed when the list show 3 lines
+ * this is a number 0-3 according the order of the combo-box in the configuration */
+gint display_three_lines;
+
 
 
 /*START_EXTERN*/
@@ -75,48 +74,6 @@ extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 
 
 
-/**
- * Callback called whent we change the order of the display
- * for the lines
- *
- * \param menu_shell
- * \param null
- *
- * \return FALSE
- * */
-gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
-							 gpointer null )
-{
-    ligne_affichage_une_ligne = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_une_ligne ) -> menu_item ),
-								      "no_ligne" ));
-
-    lignes_affichage_deux_lignes = NULL;
-    lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
-						    g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_1 ) -> menu_item ),
-									"no_ligne" ));
-    lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
-						    g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_2 ) -> menu_item ),
-									"no_ligne" ));
-
-    lignes_affichage_trois_lignes = NULL;
-    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-						     g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_1 ) -> menu_item ),
-									 "no_ligne" ));
-    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-						     g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_2 ) -> menu_item ),
-									 "no_ligne" ));
-    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-						     g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_3 ) -> menu_item ),
-									 "no_ligne" ));
-
-    /* update the visible account */
-    gsb_transactions_list_update_tree_view (gsb_gui_navigation_get_current_account (), TRUE);
-
-    modification_fichier ( TRUE );
-
-    return ( FALSE );
-}
-
 
 /**
  * create the page of configuration for the transaction list behavior
@@ -127,7 +84,22 @@ gboolean transactions_list_display_modes_menu_changed  ( GtkWidget * menu_shell,
  * */
 GtkWidget *onglet_affichage_operations ( void )
 {
-    GtkWidget * vbox_pref, *table, *label, *paddingbox;
+    GtkWidget * vbox_pref, *label, *paddingbox;
+    gchar *display_mode_lines_text [] = {
+	_("In one line visible, show the lines"),
+	_("In two lines visibles, show the lines"),
+	_("In three lines visibles, show the lines"),
+    };
+    gchar *line_1 [] = {
+	"1", "2", "3", "4",
+	NULL };
+    gchar *line_2 [] = {
+	"1-2", "1-3", "1-4", "2-3", "2-4", "3-4",
+	NULL };
+    gchar *line_3 [] = {
+	"1-2-3", "1-2-4", "1-3-4", "2-3-4",
+	NULL };
+    gint i;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Transaction list behavior"),
 					       "transaction-list.png" );
@@ -138,131 +110,59 @@ GtkWidget *onglet_affichage_operations ( void )
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 					    _("Display modes"));
 
-    table = gtk_table_new ( 3, 6, FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table,
-			 FALSE, FALSE, 0 );
-
-    label = gtk_label_new ( COLON(_("One line mode")));
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-
-    bouton_affichage_lignes_une_ligne = gtk_option_menu_new ();
-    g_signal_connect ( G_OBJECT (bouton_affichage_lignes_une_ligne ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affichage_lignes_une_ligne );
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU(bouton_affichage_lignes_une_ligne),
-			       cree_menu_quatres_lignes ());
-    gtk_table_attach_defaults ( GTK_TABLE(table), bouton_affichage_lignes_une_ligne,
-				1, 2, 0, 1 );
-
-    /* pour 2 lignes */
-    label = gtk_label_new ( COLON(_("Two lines mode")));
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-
-    bouton_affichage_lignes_deux_lignes_1 = gtk_option_menu_new ();
-    g_signal_connect ( G_OBJECT (bouton_affichage_lignes_deux_lignes_1 ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affichage_lignes_deux_lignes_1 );
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU(bouton_affichage_lignes_deux_lignes_1),
-			       cree_menu_quatres_lignes ());
-    gtk_table_attach_defaults ( GTK_TABLE(table), bouton_affichage_lignes_deux_lignes_1,
-				1, 2, 1, 2 );
-
-    bouton_affichage_lignes_deux_lignes_2 = gtk_option_menu_new ();
-    g_signal_connect ( G_OBJECT (bouton_affichage_lignes_deux_lignes_2 ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affichage_lignes_deux_lignes_2 );
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU(bouton_affichage_lignes_deux_lignes_2),
-			       cree_menu_quatres_lignes ());
-    gtk_table_attach_defaults ( GTK_TABLE(table), bouton_affichage_lignes_deux_lignes_2,
-				2, 3, 1, 2 );
-
-
-    /* pour 3 lignes */
-    label = gtk_label_new ( COLON(_("Three lines mode")));
-    gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
-    gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 2, 3,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-
-    bouton_affichage_lignes_trois_lignes_1 = gtk_option_menu_new ();
-    g_signal_connect ( G_OBJECT (bouton_affichage_lignes_trois_lignes_1 ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affichage_lignes_trois_lignes_1 );
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_1 ),
-			       cree_menu_quatres_lignes ());
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_affichage_lignes_trois_lignes_1,
-				1, 2, 2, 3 );
-
-    bouton_affichage_lignes_trois_lignes_2 = gtk_option_menu_new ();
-    g_signal_connect ( G_OBJECT (bouton_affichage_lignes_trois_lignes_2 ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affichage_lignes_trois_lignes_2 );
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_2 ),
-			       cree_menu_quatres_lignes ());
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_affichage_lignes_trois_lignes_2,
-				2, 3, 2, 3 );
-
-
-    bouton_affichage_lignes_trois_lignes_3 = gtk_option_menu_new ();
-    g_signal_connect ( G_OBJECT (bouton_affichage_lignes_trois_lignes_3 ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &bouton_affichage_lignes_trois_lignes_3 );
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_3 ),
-			       cree_menu_quatres_lignes ());
-    gtk_table_attach_defaults ( GTK_TABLE ( table ), bouton_affichage_lignes_trois_lignes_3,
-				3, 4, 2, 3 );
-
-
-    if ( gsb_data_account_get_accounts_amount () )
+    /* fill the table */
+    for (i=0 ; i<3 ; i++)
     {
-	/* on place les lignes à afficher */
+	gint j;
+	GtkWidget *hbox;
+	GtkWidget *button;
+	gchar **text_line = NULL;
+	gint position = 0;
 
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_affichage_lignes_une_ligne ),
-				      ligne_affichage_une_ligne);
+	hbox = gtk_hbox_new ( FALSE, 5);
+	gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+			     FALSE, FALSE, 0 );
 
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_1 ),
-				      GPOINTER_TO_INT (lignes_affichage_deux_lignes->data));
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_affichage_lignes_deux_lignes_2 ),
-				      GPOINTER_TO_INT (lignes_affichage_deux_lignes->next->data));
+	/* set the line title */
+	label = gtk_label_new ( COLON(display_mode_lines_text[i]));
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
+	gtk_box_pack_start ( GTK_BOX (hbox), label,
+			     FALSE, FALSE, 0);
 
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_1 ),
-				      GPOINTER_TO_INT (lignes_affichage_trois_lignes->data));
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_2 ),
-				      GPOINTER_TO_INT (lignes_affichage_trois_lignes->next->data));
-	gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_affichage_lignes_trois_lignes_3 ),
-				      GPOINTER_TO_INT (lignes_affichage_trois_lignes->next->next->data));
-    }
-    else
-    {
-	gtk_widget_set_sensitive ( table, FALSE );
-	gtk_widget_set_sensitive ( bouton_affichage_lignes_une_ligne, FALSE );
-	gtk_widget_set_sensitive ( bouton_affichage_lignes_deux_lignes_1, FALSE );
-	gtk_widget_set_sensitive ( bouton_affichage_lignes_deux_lignes_2, FALSE );
-	gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_1, FALSE );
-	gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_2, FALSE );
-	gtk_widget_set_sensitive ( bouton_affichage_lignes_trois_lignes_3, FALSE );
+	switch (i)
+	{
+	    case 0:
+		text_line = line_1;
+		position = display_one_line;
+		break;
+	    case 1:
+		text_line = line_2;
+		position = display_two_lines;
+		break;
+	    case 2:
+		text_line = line_3;
+		position = display_three_lines;
+		break;
+	}
+
+	button = gtk_combo_box_new_text ();
+	g_signal_connect ( G_OBJECT (button),
+			   "changed",
+			   G_CALLBACK (display_mode_button_changed),
+			   GINT_TO_POINTER (i));
+	gtk_box_pack_start ( GTK_BOX (hbox), button,
+			     FALSE, FALSE, 0);
+
+	j=0;
+	while (text_line[j])
+	{
+	    gtk_combo_box_append_text (GTK_COMBO_BOX (button), text_line[j]);
+	    j++;
+	}
+	gtk_combo_box_set_active ( GTK_COMBO_BOX (button), position);
     }
 
-    /* Connect all menus */
-    g_signal_connect ( G_OBJECT ( bouton_affichage_lignes_une_ligne ), "changed",
-		       G_CALLBACK ( transactions_list_display_modes_menu_changed),
-		       NULL );
-    g_signal_connect ( G_OBJECT (bouton_affichage_lignes_deux_lignes_1), "changed",
-		       G_CALLBACK ( transactions_list_display_modes_menu_changed),
-		       NULL );
-    g_signal_connect ( G_OBJECT(bouton_affichage_lignes_deux_lignes_2), "changed",
-		       G_CALLBACK ( transactions_list_display_modes_menu_changed),
-		       NULL );
-    g_signal_connect ( G_OBJECT(bouton_affichage_lignes_trois_lignes_1), "changed",
-		       G_CALLBACK ( transactions_list_display_modes_menu_changed),
-		       NULL );
-    g_signal_connect ( G_OBJECT(bouton_affichage_lignes_trois_lignes_2), "changed",
-		       G_CALLBACK ( transactions_list_display_modes_menu_changed),
-		       NULL );
-    g_signal_connect ( G_OBJECT(bouton_affichage_lignes_trois_lignes_3), "changed",
-		       G_CALLBACK ( transactions_list_display_modes_menu_changed),
-		       NULL );
 
     /* do we show the content of the selected transaction in the form for
      * each selection ? */
@@ -292,55 +192,131 @@ GtkWidget *onglet_affichage_operations ( void )
 }
 
 
-
-/* ************************************************************************************************************** */
-/* renvoie un menu contenant 1ère ligne, 2ème ligne, 3ème ligne, 4ème ligne */
-/* ************************************************************************************************************** */
-
-GtkWidget *cree_menu_quatres_lignes ( void )
+/**
+ * called when we change a button for the display mode
+ *
+ * \param button 	the combo box wich changed
+ * \param line_ptr	a gint* wich is the line of the button (ie 1 line mode, 2 lines or 3 lines)
+ *
+ * \return FALSE
+ * */
+static gboolean display_mode_button_changed ( GtkWidget *button,
+					      gint *line_ptr )
 {
-    GtkWidget *menu;
-    GtkWidget *menu_item;
+    gint line = GPOINTER_TO_INT (line_ptr);
 
-    menu = gtk_menu_new ();
+    switch (line)
+    {
+	case 0:
+	    /* 1 line visible mode */
+	    display_one_line = gtk_combo_box_get_active (GTK_COMBO_BOX (button));
+	    break;
+	case 1:
+	    /* 2 lines visibles mode */
+	    display_two_lines = gtk_combo_box_get_active (GTK_COMBO_BOX (button));
+	    break;
+	case 2:
+	    /* 3 lines visibles mode */
+	    display_three_lines = gtk_combo_box_get_active (GTK_COMBO_BOX (button));
+	    break;
+    }
 
-    menu_item = gtk_menu_item_new_with_label ( _("first line"));
-    gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			  "no_ligne",
-			  GINT_TO_POINTER ( 0 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
-		      menu_item );
-    gtk_widget_show ( menu_item );
+    /* update the visible account */
+    gsb_transactions_list_update_tree_view (gsb_gui_navigation_get_current_account (), TRUE);
 
-    menu_item = gtk_menu_item_new_with_label ( _("second line"));
-    gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			  "no_ligne",
-			  GINT_TO_POINTER ( 1 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
-		      menu_item );
-    gtk_widget_show ( menu_item );
+    modification_fichier ( TRUE );
 
-    menu_item = gtk_menu_item_new_with_label ( _("third line"));
-    gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			  "no_ligne",
-			  GINT_TO_POINTER ( 2 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
-		      menu_item );
-    gtk_widget_show ( menu_item );
-
-    menu_item = gtk_menu_item_new_with_label ( _("fourth line"));
-    gtk_object_set_data ( GTK_OBJECT ( menu_item ),
-			  "no_ligne",
-			  GINT_TO_POINTER ( 3 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
-		      menu_item );
-    gtk_widget_show ( menu_item );
-
-    gtk_widget_show ( menu );
-
-    return ( menu );
+    return FALSE;
 }
-/* ************************************************************************************************************** */
+
+
+/**
+ * check if the line given in param, according to the number of visible lines
+ * if visibles_lines is 4, that function returns always TRUE
+ *
+ * \param line_in_transaction	the line in the transaction we want to check
+ * \param visibles_lines	the number of visibles lines (1, 2, 3 or 4)
+ *
+ * \return TRUE : the line should be showed, FALSE : the line must be hidden
+ * */
+gboolean display_mode_check_line ( gint line_in_transaction,
+				   gint visibles_lines )
+{
+    switch (visibles_lines)
+    {
+	case 1:
+	    /* 1 line visible mode */
+	    if (line_in_transaction == display_one_line)
+		return TRUE;
+	    break;
+	case 2:
+	    /* 2 lines visibles mode */
+	    switch (display_two_lines)
+	    {
+		case 0:
+		    /* show lines 1-2 */
+		    if (line_in_transaction == 0 || line_in_transaction == 1)
+			return TRUE;
+		    break;
+		case 1:
+		    /* show lines 1-3 */
+		    if (line_in_transaction == 0 || line_in_transaction == 2)
+			return TRUE;
+		    break;
+		case 2:
+		    /* show lines 1-4 */
+		    if (line_in_transaction == 0 || line_in_transaction == 3)
+			return TRUE;
+		    break;
+		case 3:
+		    /* show lines 2-3 */
+		    if (line_in_transaction == 1 || line_in_transaction == 2)
+			return TRUE;
+		    break;
+		case 4:
+		    /* show lines 2-4 */
+		    if (line_in_transaction == 1 || line_in_transaction == 3)
+			return TRUE;
+		    break;
+		case 5:
+		    /* show lines 3-4 */
+		    if (line_in_transaction == 2 || line_in_transaction == 3)
+			return TRUE;
+		    break;
+	    }
+	    break;
+	case 3:
+	    /* 3 lines visibles mode */
+	    switch (display_three_lines)
+	    {
+		case 0:
+		    /* show lines 1-2-3 */
+		    if (line_in_transaction == 0 || line_in_transaction == 1 || line_in_transaction == 2)
+			return TRUE;
+		    break;
+		case 1:
+		    /* show lines 1-2-4 */
+		    if (line_in_transaction == 0 || line_in_transaction == 1 || line_in_transaction == 3)
+			return TRUE;
+		    break;
+		case 2:
+		    /* show lines 1-3-4 */
+		    if (line_in_transaction == 0 || line_in_transaction == 2 || line_in_transaction == 3)
+			return TRUE;
+		    break;
+		case 3:
+		    /* show lines 2-3-4 */
+		    if (line_in_transaction == 1 || line_in_transaction == 2 || line_in_transaction == 3)
+			return TRUE;
+		    break;
+	    }
+	    break;
+	default:
+	    /* here all the lines should be visible (visibles_lines = 4) */
+	    return TRUE;
+    }
+    return FALSE;
+}
 
 
 /**

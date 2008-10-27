@@ -131,9 +131,9 @@ extern gchar *chemin_logo ;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
-extern gint ligne_affichage_une_ligne;
-extern GSList *lignes_affichage_deux_lignes;
-extern GSList *lignes_affichage_trois_lignes;
+extern gint display_one_line;
+extern gint display_three_lines;
+extern gint display_two_lines;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -491,11 +491,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 {
     gchar *first_string_to_free;
     gchar *second_string_to_free;
-    gchar *third_string_to_free;
     gint i,j;
     gchar *transactions_view;
-    gchar *two_lines_showed;
-    gchar *tree_lines_showed;
     gchar *scheduler_column_width_write;
     gchar *transaction_column_width_write;
     gchar *new_string;
@@ -520,25 +517,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	    }
 	    else
 		transactions_view = utils_str_itoa ( tab_affichage_ope[i][j] );
-
-    /* prepare two_lines_showed */
-    two_lines_showed = g_strconcat ( first_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data )),
-				     "-",
-				     second_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> next -> data )),
-				     NULL );
-    g_free (first_string_to_free);
-    g_free (second_string_to_free);
-
-    /* prepare tree_lines_showed */
-    tree_lines_showed = g_strconcat ( first_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> data )),
-				      "-",
-				      second_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> data )),
-				      "-",
-				      third_string_to_free = utils_str_itoa ( GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> next -> data )),
-				      NULL );
-    g_free (first_string_to_free);
-    g_free (second_string_to_free);
-    g_free (third_string_to_free);
 
     /* prepare transaction_column_width_write */
     transaction_column_width_write = NULL;
@@ -612,8 +590,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tRemind_display_per_account=\"%d\"\n"
 					   "\t\tTransactions_view=\"%s\"\n"
 					   "\t\tOne_line_showed=\"%d\"\n"
-					   "\t\tTwo_lines_showed=\"%s\"\n"
-					   "\t\tThree_lines_showed=\"%s\"\n"
+					   "\t\tTwo_lines_showed=\"%d\"\n"
+					   "\t\tThree_lines_showed=\"%d\"\n"
 					   "\t\tRemind_form_per_account=\"%d\"\n"
 					   "\t\tTransaction_column_width=\"%s\"\n"
 					   "\t\tScheduler_column_width=\"%s\"\n"
@@ -644,9 +622,9 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	chemin_logo,
 	etat.retient_affichage_par_compte,
 	transactions_view,
-	ligne_affichage_une_ligne,
-	two_lines_showed,
-	tree_lines_showed,
+	display_one_line,
+	display_two_lines,
+	display_three_lines,
 	etat.formulaire_distinct_par_compte,
 	transaction_column_width_write,
 	scheduler_column_width_write,
@@ -661,8 +639,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	skipped_lines_string );
 
     g_free (transactions_view);
-    g_free (two_lines_showed);
-    g_free (tree_lines_showed);
     g_free (scheduler_column_width_write);
     g_free (transaction_column_width_write);
 

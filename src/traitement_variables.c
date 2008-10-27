@@ -143,10 +143,10 @@ extern gint affichage_echeances_perso_nb_libre;
 extern GtkTreeModel *bank_list_model ;
 extern gchar *chemin_logo ;
 extern gint current_tree_view_width ;
+extern gint display_one_line;
+extern gint display_three_lines;
+extern gint display_two_lines;
 extern gint id_timeout ;
-extern gint ligne_affichage_une_ligne;
-extern GSList *lignes_affichage_deux_lignes;
-extern GSList *lignes_affichage_trois_lignes;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
@@ -553,28 +553,11 @@ void initialise_tab_affichage_ope ( void )
 	for ( j = 0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	    tab_affichage_ope[i][j] = tab[i][j];
 
-    ligne_affichage_une_ligne = 0;
-
-    if ( lignes_affichage_deux_lignes )
-	g_slist_free ( lignes_affichage_deux_lignes );
-    if ( lignes_affichage_trois_lignes )
-	g_slist_free ( lignes_affichage_trois_lignes );
-
-    lignes_affichage_deux_lignes = NULL;
-    lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
-						    NULL );
-    lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
-						    GINT_TO_POINTER (1));
-
-    lignes_affichage_trois_lignes = NULL;
-    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-						     NULL );
-    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-						     GINT_TO_POINTER (1));
-    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-						     GINT_TO_POINTER (2));
+    /* by default, the display of lines is 1, 1-2, 1-2-4 */
+    display_one_line = 0;
+    display_two_lines = 0;
+    display_three_lines = 1;
 }
-/*****************************************************************************************************/
 
 
   

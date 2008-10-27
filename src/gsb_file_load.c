@@ -147,10 +147,10 @@ extern gchar *chemin_logo ;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
+extern gint display_one_line;
+extern gint display_three_lines;
+extern gint display_two_lines;
 extern struct iso_4217_currency iso_4217_currencies[] ;
-extern gint ligne_affichage_une_ligne;
-extern GSList *lignes_affichage_deux_lignes;
-extern GSList *lignes_affichage_trois_lignes;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -759,47 +759,19 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	else if ( !strcmp ( attribute_names[i],
 			    "One_line_showed" ))
 	{
-	    ligne_affichage_une_ligne = utils_str_atoi ( attribute_values[i]);
+	    display_one_line = utils_str_atoi ( attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
 			    "Two_lines_showed" ))
 	{
-	    gchar **pointeur_char;
-
-	    pointeur_char = g_strsplit ( attribute_values[i],
-					 "-",
-					 0 );
-
-	    lignes_affichage_deux_lignes = NULL;
-	    lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
-							    GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[0] )));
-	    lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
-							    GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[1] )));
-
-	    g_strfreev ( pointeur_char );
-
+	    display_two_lines = utils_str_atoi ( attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
 			    "Three_lines_showed" ))
 	{
-	    gchar **pointeur_char;
-
-	    pointeur_char = g_strsplit ( attribute_values[i],
-					 "-",
-					 0 );
-
-	    lignes_affichage_trois_lignes = NULL;
-	    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-							     GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[0] )));
-	    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-							     GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[1] )));
-	    lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-							     GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[2] )));
-
-	    g_strfreev ( pointeur_char );
-
+	    display_three_lines = utils_str_atoi ( attribute_values[i]);
 	}
 
 	else if ( !strcmp ( attribute_names[i],
@@ -5616,53 +5588,6 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
 		else
 		    j = CUSTOM_MODEL_VISIBLE_COLUMNS;
 	    }
-
-	g_strfreev ( pointeur_char );
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Ligne_aff_une_ligne" ))
-    {
-	ligne_affichage_une_ligne = utils_str_atoi ( text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Lignes_aff_deux_lignes" ))
-    {
-	gchar **pointeur_char;
-
-	pointeur_char = g_strsplit ( text,
-				     "-",
-				     0 );
-
-	lignes_affichage_deux_lignes = NULL;
-	lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
-							GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[0] )));
-	lignes_affichage_deux_lignes = g_slist_append ( lignes_affichage_deux_lignes,
-							GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[1] )));
-
-	g_strfreev ( pointeur_char );
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Lignes_aff_trois_lignes" ))
-    {
-	gchar **pointeur_char;
-
-	pointeur_char = g_strsplit ( text,
-				     "-",
-				     0 );
-
-	lignes_affichage_trois_lignes = NULL;
-	lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-							 GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[0] )));
-	lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-							 GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[1] )));
-	lignes_affichage_trois_lignes = g_slist_append ( lignes_affichage_trois_lignes,
-							 GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[2] )));
 
 	g_strfreev ( pointeur_char );
 	return;

@@ -27,6 +27,7 @@
 #include "./accueil.h"
 #include "./utils_operations.h"
 #include "./dialog.h"
+#include "./affichage_liste.h"
 #include "./gsb_account.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"
@@ -161,9 +162,6 @@ gchar *cell_views[] = {
 
 
 /*START_EXTERN*/
-extern gint ligne_affichage_une_ligne;
-extern GSList *lignes_affichage_deux_lignes;
-extern GSList *lignes_affichage_trois_lignes;
 extern GSList *liste_labels_titres_colonnes_liste_ope ;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
@@ -3185,40 +3183,7 @@ gboolean gsb_transactions_list_transaction_visible ( gpointer transaction_ptr,
 	return FALSE;
 
     /* 	    now we check if we show 1, 2, 3 or 4 lines */
-
-    /* FIXME: lors de l'affichage de plusieurs lignes, les lignes du dessous doivent forcemment être
-     * plus bas que celles du desssus, par ex
-     * sur 3 lignes, ligne 1 -> 1, ligne 2-> 2, ligne 3-> 4   => ok
-     * mais ligne 1 -> 2 et ligne 2 -> 1  => pas bon ;
-     * if faut l'interdire dans les paramètres */
-
-    switch ( nb_rows )
-    {
-	case 1:
-	    if ( line_in_transaction == ligne_affichage_une_ligne )
-		return TRUE;
-	    break;
-
-	case 2:
-	    if ( line_in_transaction == GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> next -> data )
-		 ||
-		 line_in_transaction == GPOINTER_TO_INT ( lignes_affichage_deux_lignes -> data ))
-		return TRUE;
-	    break;
-
-	case 3:
-	    if ( line_in_transaction == GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> data )
-		 ||
-		 line_in_transaction == GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> data )
-		 ||
-		 line_in_transaction == GPOINTER_TO_INT ( lignes_affichage_trois_lignes -> next -> next -> data ))
-		return TRUE;
-	    break;
-
-	default:
-	    return TRUE;
-    }
-    return FALSE;
+    return display_mode_check_line (line_in_transaction, nb_rows);
 }
 
 

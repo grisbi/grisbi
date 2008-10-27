@@ -55,6 +55,7 @@
 #include "./erreur.h"
 #include "./structures.h"
 #include "./gsb_real.h"
+#include "./affichage_liste.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -826,7 +827,7 @@ void transaction_list_set_balances ( void )
 	 ||
 	 line_balance == -1 
 	 ||
-	 line_balance >= gsb_data_account_get_nb_rows (account_number))
+	 !display_mode_check_line (line_balance, gsb_data_account_get_nb_rows (account_number)))
 	return;
 
     /* begin to fill the iter for later */
