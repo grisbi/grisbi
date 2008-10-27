@@ -504,7 +504,8 @@ gboolean gsb_file_config_save_config ( void )
     }
 
     /* Remember size of main panel */
-    etat.largeur_colonne_comptes_operation = gtk_paned_get_position ( GTK_PANED ( main_hpaned ) );
+    if (main_hpaned && GTK_IS_WIDGET (main_hpaned))
+	etat.largeur_colonne_comptes_operation = gtk_paned_get_position ( GTK_PANED ( main_hpaned ) );
     g_key_file_set_integer ( config,
 			     "General",
 			     "Panel width",
