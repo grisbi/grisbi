@@ -249,9 +249,9 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     GtkWidget *entry;
     GtkWidget *scrolled_window;
     GtkWidget *paddingbox;
-    GtkWidget *hbox;
     GtkWidget *textview;
     GtkWidget *button;
+    GtkWidget *table;
     GtkWidget *filename_entry;
 
     page = gtk_hbox_new (FALSE, 15);
@@ -264,56 +264,54 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 			 vbox,
 			 TRUE, TRUE, 0 );
 
-    /* Account file title */
-    paddingbox = new_paddingbox_with_title ( vbox, FALSE,
-					     _("Titles and filenames") );
-    hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0);
+	/* table 2x3 for layout */
+	table = gtk_table_new ( 2, 3, FALSE );
+	gtk_table_set_row_spacings ( GTK_TABLE ( table ), 6 );
+	gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
 
-    label = gtk_label_new ( COLON(_("Accounts file title")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0);
+	/* Account file title */
+	paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Titles and filenames") );
+	gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0);
 
-    /* need to declare filename_entry first for the next callback,
-     * if no filename, set the title.gsb as default name */
-    if (!nom_fichier_comptes)
+	/* label account name */
+	label = gtk_label_new (COLON(_("Accounts file title")));
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
+			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+
+	/* need to declare filename_entry first for the next callback,
+	 * if no filename, set the title.gsb as default name */
+	if (!nom_fichier_comptes)
 	nom_fichier_comptes = g_strconcat ( my_get_gsb_file_default_dir (),
-					    G_DIR_SEPARATOR_S,
-					    titre_fichier,
-					    ".gsb",
-					    NULL );
-    filename_entry = gsb_automem_entry_new (&nom_fichier_comptes,
-					    NULL, NULL);
+			G_DIR_SEPARATOR_S, titre_fichier, ".gsb", NULL );
+	filename_entry = gsb_automem_entry_new (&nom_fichier_comptes,
+			NULL, NULL);
 
-    entry = gsb_automem_entry_new (&titre_fichier,
-				   ((GCallback)gsb_assistant_file_change_title), filename_entry);
-    g_object_set_data ( G_OBJECT (entry),
+	entry = gsb_automem_entry_new (&titre_fichier,
+			((GCallback)gsb_assistant_file_change_title), filename_entry);
+	g_object_set_data ( G_OBJECT (entry),
 			"last_title", my_strdup (titre_fichier));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), entry,
-			 TRUE, TRUE, 0);
+	gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 3, 0, 1,
+			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
-    /* filename */
-    hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0);
+	/* filename */
+	label = gtk_label_new (COLON(_("Filename")));
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
+	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
+			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-    label = gtk_label_new ( COLON(_("Filename")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0);
+	gtk_table_attach ( GTK_TABLE ( table ), filename_entry, 1, 2, 1, 2,
+			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
-    gtk_box_pack_start ( GTK_BOX ( hbox ), filename_entry,
-			 TRUE, TRUE, 0);
+	button = gtk_button_new_with_label ("...");
+	gtk_button_set_relief ( GTK_BUTTON (button), GTK_RELIEF_NONE );
+	g_signal_connect ( G_OBJECT (button), "clicked",
+			G_CALLBACK (gsb_assistant_file_choose_filename), filename_entry );
 
-    button = gtk_button_new_with_label ("...");
-    gtk_button_set_relief ( GTK_BUTTON (button),
-			    GTK_RELIEF_NONE );
-    g_signal_connect ( G_OBJECT (button),
-		       "clicked",
-		       G_CALLBACK (gsb_assistant_file_choose_filename),
-		       filename_entry );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button,
-			 FALSE, FALSE, 0);
+	gtk_table_attach ( GTK_TABLE ( table ), button, 2, 3, 1, 2,
+			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* will we crypt the file ? */
     button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
