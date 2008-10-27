@@ -72,7 +72,6 @@ static  void main_window_destroy_event( GObject* obj, gpointer data);
 
 GtkWidget *window = NULL;
 GtkWidget *window_vbox_principale = NULL;
-GtkTooltips *tooltips_general_grisbi;
 
 
 /*START_EXTERN*/
@@ -145,8 +144,6 @@ int main (int argc, char **argv)
     if ( sigaction ( SIGSEGV, &sig_sev, NULL ))
 	g_print (_("Error on sigaction: SIGSEGV won't be trapped\n"));
 #endif
-
-    tooltips_general_grisbi = gtk_tooltips_new ();
 
     /* parse command line parameter, exit with correct error code when needed */
     {
@@ -281,8 +278,6 @@ int main (int argc, char **argv)
     /* sauvegarde les raccourcis claviers */
     gtk_accel_map_save (path);
     g_free (path);
-
-    gtk_object_destroy (GTK_OBJECT(tooltips_general_grisbi));
 
 #if GSB_GMEMPROFILE
     g_mem_profile();

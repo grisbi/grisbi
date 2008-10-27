@@ -68,7 +68,6 @@ extern GtkWidget *label_last_statement ;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkWidget * navigation_tree_view ;
 extern GtkWidget * reconcile_panel;
-extern GtkTooltips *tooltips_general_grisbi;
 extern GtkUIManager * ui_manager;
 /*END_EXTERN*/
 
@@ -129,10 +128,8 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
 
     reconcile_number_entry = gtk_entry_new ();
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
-    			reconcile_number_entry,
-			   _("If reconciliation reference ends in a digit, it is automatically incremented at each reconciliation.\nYou can let it empty if you don't want to keep a trace of the reconciliation."),
-			   _("Reconciliation reference") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (reconcile_number_entry),
+				  _("If reconciliation reference ends in a digit, it is automatically incremented at each reconciliation.\nYou can let it empty if you don't want to keep a trace of the reconciliation."));
     g_signal_connect ( G_OBJECT ( reconcile_number_entry ),
 		       "key-press-event",
 		       G_CALLBACK ( gsb_reconcile_key_press_event ), NULL );

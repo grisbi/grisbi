@@ -82,7 +82,6 @@ static gboolean gsb_form_config_update_form_config ( gint account_number );
 extern GtkWidget *form_transaction_part;
 extern gint max;
 extern gint saved_allocation_size;
-extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 
@@ -524,10 +523,8 @@ GtkWidget *gsb_form_config_create_buttons_table ( void )
 
 		/* set the tooltip with the real name */
 		string = g_strconcat ( " ", string, " ", NULL );
-		gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
-				       form_config_buttons[column + row*6],
-				       string,
-				       string );
+		gtk_widget_set_tooltip_text ( GTK_WIDGET (form_config_buttons[column + row*6]),
+					      string);
 		g_free (changed_string);
 	    }
 

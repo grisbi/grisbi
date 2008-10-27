@@ -173,7 +173,6 @@ extern GtkWidget * navigation_tree_view ;
 extern GtkWidget *notebook_general ;
 extern GtkWidget *reconcile_sort_list_button;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 
@@ -401,10 +400,8 @@ void update_titres_tree_view ( void )
 
 	if ( GTK_TREE_VIEW_COLUMN (transactions_tree_view_columns[i])->button )
 	{
-	    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
-				   GTK_TREE_VIEW_COLUMN (transactions_tree_view_columns[i])->button,
-				   tips_col_liste_operations[i],
-				   tips_col_liste_operations[i] ); 
+	    gtk_widget_set_tooltip_text ( GTK_WIDGET (GTK_TREE_VIEW_COLUMN (transactions_tree_view_columns[i])->button),
+					  tips_col_liste_operations[i]);
 	}
     }
 }
@@ -458,10 +455,8 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
 					     TRUE );
 
 	/* 	    set the tooltips */
-	gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
-			       transactions_tree_view_columns[i] ->button,
-			       tips_col_liste_operations[i],
-			       tips_col_liste_operations[i] ); 
+	gtk_widget_set_tooltip_text ( GTK_WIDGET (transactions_tree_view_columns[i] ->button),
+				      tips_col_liste_operations[i]);
 
 	g_signal_connect ( G_OBJECT ( transactions_tree_view_columns[i] -> button),
 			   "button-press-event",
@@ -675,7 +670,7 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
  * \param transaction_number
  * \param cell_content_number what we need in the transaction
  * 
- * \return a newly allocated string which reprsent the content of the transaction, or NULL
+ * \return a newly allocated string which represent the content of the transaction, or NULL
  * */
 gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 						 gint cell_content_number )
@@ -686,9 +681,6 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
      * debit and credit, nothing else */
     if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
     {
-	/* FIXME : if the user show the payee and the category both on the 1st line,
-	 * we will have the categ showed 2 times for a split child. rare, but
-	 * possible... try to fix this ? */
 	switch (cell_content_number)
 	{
 	    case ELEMENT_PARTY:

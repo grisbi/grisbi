@@ -78,7 +78,6 @@ static gboolean gsb_form_scheduler_set_limit_date ( GDate *date );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTooltips *tooltips_general_grisbi;
 /*END_EXTERN*/
 
 /**
@@ -160,6 +159,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 	{
 	    gint element_number;
 	    GtkWidget *widget = NULL;
+	    const gchar *tooltip_text = NULL;
 	    gchar *text_auto [] = { _("Manual"), _("Automatic"), NULL };
 	    gchar *text_frequency [] = { _("Once"), _("Weekly"), _("Monthly"), _("two months"),  _("trimester"), _("Yearly"), _("Custom"), NULL };
 	    gchar *text_frequency_user [] = { _("Days"), _("Weeks"), _("Months"), _("Years"), NULL };
@@ -172,28 +172,19 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 		    widget = gsb_account_create_combo_list ((GtkSignalFunc) gsb_form_scheduler_change_account, NULL, FALSE);
 		    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget),
 					       0 );
-		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
-					   widget,
-					   _("Choose the account"),
-					   _("Choose the account") );
+		    tooltip_text = _("Choose the account");
 		    break;
 
 		case SCHEDULED_FORM_AUTO:
 		    widget = gsb_combo_box_new_with_index ( text_auto,
 							    NULL, NULL );
-		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
-					   widget,
-					   _("Automatic/manual scheduled transaction"),
-					   _("Automatic/manual scheduled transaction") );
+		    tooltip_text = _("Automatic/manual scheduled transaction");
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_BUTTON:
 		    widget = gsb_combo_box_new_with_index ( text_frequency,
 							    G_CALLBACK (gsb_form_scheduler_frequency_button_changed), NULL );
-		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
-					   widget,
-					   _("Frequency"),
-					   _("Frequency"));
+		    tooltip_text = _("Frequency");
 		    break;
 
 		case SCHEDULED_FORM_LIMIT_DATE:
@@ -210,29 +201,27 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 					     "focus-out-event",
 					     G_CALLBACK (gsb_form_scheduler_entry_lose_focus),
 					     GINT_TO_POINTER (element_number));
+		    tooltip_text = _("Frequency");
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
 		    widget = gtk_entry_new ();
-		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
-					   widget,
-					   _("Custom frequency"),
-					   _("Custom frequency") );
-
+		    tooltip_text = _("Custom frequency");
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
 		    widget = gsb_combo_box_new_with_index ( text_frequency_user,
 							    NULL, NULL );
-		    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ),
-					   widget,
-					   _("Custom frequency"),
-					   _("Custom frequency") );
+		    tooltip_text = _("Custom frequency");
 		    break;
 	    }
 
 	    if (!widget)
 		continue;
+
+	    if (tooltip_text)
+		gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
+					      tooltip_text);
 
 	    /* save the element */
 	    element = g_malloc0 (sizeof (scheduled_element));

@@ -77,7 +77,6 @@ GtkWidget *menu_import_rules;
 /*START_EXTERN*/
 extern GtkWidget *barre_outils;
 extern gboolean block_menu_cb ;
-extern GtkTooltips *tooltips_general_grisbi;
 extern GtkUIManager * ui_manager;
 /*END_EXTERN*/
 
@@ -97,8 +96,8 @@ GtkWidget *creation_barre_outils ( void )
 					       "new-transaction.png",
 					       G_CALLBACK ( new_transaction ),
 					       GINT_TO_POINTER(-1) );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
-			   _("Blank the form to create a new transaction"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  _("Blank the form to create a new transaction"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -106,8 +105,8 @@ GtkWidget *creation_barre_outils ( void )
 					   _("Delete"),
 					   G_CALLBACK ( remove_transaction ),
 					   NULL );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
-			   _("Delete selected transaction"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  _("Delete selected transaction"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -115,8 +114,8 @@ GtkWidget *creation_barre_outils ( void )
 					   _("Edit"),
 					   G_CALLBACK ( gsb_transactions_list_edit_current_transaction ),
 					   NULL );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
-			   _("Edit current transaction"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  _("Edit current transaction"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
@@ -124,8 +123,8 @@ GtkWidget *creation_barre_outils ( void )
 					       "reconciliation.png",
 					       G_CALLBACK (gsb_reconcile_run_reconciliation),
 					       GINT_TO_POINTER(-1) );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
-			   _("Start account reconciliation"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  _("Start account reconciliation"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
 #if GTK_CHECK_VERSION(2,10,0)
@@ -135,8 +134,8 @@ GtkWidget *creation_barre_outils ( void )
 					    _("Print"),
 					    G_CALLBACK (print_transactions_list),
 					    NULL );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
-			   _("Print the transactions list"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  _("Print the transactions list"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 #endif /* GTK_CHECK_VERSION(2,10,0) */
 
@@ -144,8 +143,8 @@ GtkWidget *creation_barre_outils ( void )
 					      GTK_STOCK_SELECT_COLOR, _("View"),
 					      G_CALLBACK(popup_transaction_view_mode_menu),
 					      NULL );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), menu,
-			   _("Change display mode of the list"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (menu),
+				  _("Change display mode of the list"));
     gtk_box_pack_start ( GTK_BOX(hbox), menu, FALSE, FALSE, 0 );
 
     /* set the button to show/hide R transactions */
@@ -157,8 +156,8 @@ GtkWidget *creation_barre_outils ( void )
 							    GTK_STOCK_EXECUTE, _("Import rules"),
 							    G_CALLBACK(popup_transaction_rules_menu),
 							    NULL );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), menu_import_rules,
-			   _("Quick file import by rules"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (menu_import_rules),
+				  _("Quick file import by rules"));
     gtk_box_pack_start ( GTK_BOX(hbox), menu_import_rules, FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( hbox );
@@ -419,8 +418,8 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 					       "new-scheduled.png",
 					       G_CALLBACK (gsb_scheduler_list_edit_transaction),
 					       GINT_TO_POINTER(-1) );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
-			   _("Prepare form to create a new scheduled transaction"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  _("Prepare form to create a new scheduled transaction"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     scheduler_button_delete = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -432,8 +431,8 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 		       G_CALLBACK ( gtk_widget_destroyed), &scheduler_button_delete );
     gtk_widget_set_sensitive ( scheduler_button_delete,
 			       FALSE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), scheduler_button_delete,
-			   _("Delete selected scheduled transaction"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_button_delete),
+				  _("Delete selected scheduled transaction"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_delete, FALSE, FALSE, 0 );
 
     scheduler_button_edit = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -445,8 +444,8 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     		G_CALLBACK ( gtk_widget_destroyed), &scheduler_button_edit );
     gtk_widget_set_sensitive ( scheduler_button_edit,
 			       FALSE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), scheduler_button_edit,
-			   _("Edit selected transaction"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_button_edit),
+				_("Edit selected transaction"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_edit, FALSE, FALSE, 0 );
 
     /* Display/hide comments */
@@ -456,10 +455,9 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 									G_CALLBACK ( gsb_scheduler_list_show_notes ),
 									0 );
     g_signal_connect ( G_OBJECT (scheduler_display_hide_comments ), "destroy",
-    		G_CALLBACK ( gtk_widget_destroyed), &scheduler_display_hide_comments );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
-			   scheduler_display_hide_comments,
-			   _("Display scheduled transactions comments"), "" );
+		       G_CALLBACK ( gtk_widget_destroyed), &scheduler_display_hide_comments );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_display_hide_comments),
+				  _("Display scheduled transactions comments"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_display_hide_comments, 
 			 FALSE, FALSE, 0 );
 
@@ -473,17 +471,16 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     		G_CALLBACK ( gtk_widget_destroyed), &scheduler_button_execute );
     gtk_widget_set_sensitive ( scheduler_button_execute,
 			       FALSE );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), 
-			   scheduler_button_execute,
-			   _("Execute current scheduled transaction if run out"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_button_execute),
+				  _("Execute current scheduled transaction if run out"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_execute, FALSE, FALSE, 0 );
 
     button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
 						GTK_STOCK_SELECT_COLOR, _("View"),
 						G_CALLBACK(popup_scheduled_view_mode_menu),
 						NULL );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
-			   _("Change display mode of scheduled transaction list"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  _("Change display mode of scheduled transaction list"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( handlebox );
@@ -504,8 +501,8 @@ void gsb_gui_update_bouton_affiche_ope_r ( gboolean show_r )
 								  "hide_r.png",
 								  G_CALLBACK (gsb_gui_toggle_show_reconciled),
 								  NULL );
-	gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), bouton_affiche_ope_r,
-			       _("Mask reconciled transactions"), "" );
+	gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_affiche_ope_r),
+				      ("Mask reconciled transactions"));
     }
     else
     {
@@ -514,8 +511,8 @@ void gsb_gui_update_bouton_affiche_ope_r ( gboolean show_r )
 								  "show_r.png",
 								  G_CALLBACK (gsb_gui_toggle_show_reconciled),
 								  NULL );
-	gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), bouton_affiche_ope_r,
-			       _("Display reconciled transactions"), "" );
+	gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_affiche_ope_r),
+				      _("Display reconciled transactions"));
     }
     gsb_gui_update_transaction_toolbar ( );
 

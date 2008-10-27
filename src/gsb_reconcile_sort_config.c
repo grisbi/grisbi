@@ -35,7 +35,6 @@
 #include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./utils.h"
-#include "./structures.h"
 #include "./gsb_data_payment.h"
 #include "./include.h"
 /*END_INCLUDE*/

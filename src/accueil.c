@@ -337,7 +337,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     return FALSE;
 }
 /* ************************************************************************* */
-
+/* xxx et il y a GtkRecentAction aussi */
 
 /* ************************************************************************* */
 /* Fonction update_liste_comptes_accueil                                     */

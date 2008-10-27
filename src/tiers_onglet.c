@@ -76,7 +76,6 @@ GtkTreeStore *payee_tree_model = NULL;
 
 /*START_EXTERN*/
 extern MetatreeInterface * payee_interface ;
-extern GtkTooltips *tooltips_general_grisbi;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 
@@ -258,8 +257,8 @@ GtkWidget *creation_barre_outils_tiers ( void )
 					       _("New payee"), "new-payee.png",
 					       G_CALLBACK(metatree_new_division),
 					       payee_tree_model );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
-			   _("Create a new payee"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  _("Create a new payee"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -267,8 +266,8 @@ GtkWidget *creation_barre_outils_tiers ( void )
 					   G_CALLBACK(supprimer_division),
 					   payee_tree );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL (payee_tree_model), button, "selection" );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
-			   _("Delete selected payee"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  _("Delete selected payee"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -276,16 +275,16 @@ GtkWidget *creation_barre_outils_tiers ( void )
 					   G_CALLBACK(edit_payee),
 					   payee_tree );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL (payee_tree_model), button, "selection" );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
-			   _("Edit selected payee"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  _("Edit selected payee"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_DELETE, _("Remove unused payees"),
 					   G_CALLBACK(payee_remove_unused),
 					   NULL );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
-			   _("Remove orphan payees"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  _("Remove orphan payees"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
@@ -293,8 +292,8 @@ GtkWidget *creation_barre_outils_tiers ( void )
 						_("View"),
 						G_CALLBACK(popup_payee_view_mode_menu),
 						NULL );
-    gtk_tooltips_set_tip ( GTK_TOOLTIPS ( tooltips_general_grisbi ), button,
-			   _("Change view mode"), "" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  _("Change view mode"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     gtk_widget_show_all ( handlebox );
