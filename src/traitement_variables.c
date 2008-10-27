@@ -300,7 +300,7 @@ void init_variables ( void )
     initialise_tab_affichage_ope();
 
     valeur_echelle_recherche_date_import = 2;
-
+    etat.get_fyear_by_value_date = FALSE;
 
     /* 	on initialise la liste des labels des titres de colonnes */
     if ( !liste_labels_titres_colonnes_liste_ope )

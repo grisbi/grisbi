@@ -96,6 +96,9 @@ struct {
     gint display_message_qif_export_currency;
     gint display_message_ofx_security;
 
+    /* import rules */
+    gint get_fyear_by_value_date;	/* TRUE to get the fyear by value date, FALSE by date */
+
     /* combofix configuration */
     gint combofix_mixed_sort;  /* TRUE for no separation between the categories */
     gint combofix_max_item;    /* maximum number of items we want before showing the popup */

@@ -585,6 +585,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tScheduler_custom_number=\"%d\"\n"
 					   "\t\tScheduler_custom_menu=\"%d\"\n"
 					   "\t\tImport_interval_search=\"%d\"\n"
+					   "\t\tImport_fyear_by_value_date=\"%d\"\n"
 					   "\t\tUse_logo=\"%d\"\n"
 					   "\t\tPath_logo=\"%s\"\n"
 					   "\t\tRemind_display_per_account=\"%d\"\n"
@@ -618,6 +619,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	affichage_echeances_perso_nb_libre,
 	affichage_echeances_perso_j_m_a,
 	valeur_echelle_recherche_date_import,
+	etat.get_fyear_by_value_date,
 	etat.utilise_logo,
 	chemin_logo,
 	etat.retient_affichage_par_compte,

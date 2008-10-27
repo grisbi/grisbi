@@ -959,7 +959,6 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
     gint page;
     GSList *list_tmp;
 
-    /* FIXME */
     if (!assistant)
 	return FALSE;
 
@@ -2136,7 +2135,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 {
     gchar **tab_str;
     gint transaction_number;
-    gint fyear;
+    gint fyear = 0;
 
     /* we create the new transaction */
     transaction_number = gsb_data_transaction_new_transaction ( account_number );
@@ -2154,12 +2153,12 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gsb_data_transaction_set_value_date ( transaction_number,
 					  imported_transaction -> date_de_valeur );
 
-    /* set the financial year according to the date,
-     * accord to value date by default, and if not, by date
-     * FIXME : propose in configuration to take by date by default ? */
-    if (imported_transaction -> date_de_valeur)
+    /* set the financial year according to the date or value date */
+    if (etat.get_fyear_by_value_date && imported_transaction -> date_de_valeur)
 	fyear = gsb_data_fyear_get_from_date (imported_transaction -> date_de_valeur );
-    else
+
+    /* if no fyear found, get from the date */
+    if (fyear <= 0)
 	fyear = gsb_data_fyear_get_from_date (imported_transaction -> date );
     if (fyear > 0)
 	gsb_data_transaction_set_financial_year_number ( transaction_number,
@@ -2946,7 +2945,7 @@ GtkWidget *onglet_importation (void)
     GtkWidget *vbox_pref;
     GtkWidget *hbox;
     GtkWidget *label;
-    GtkWidget *bouton;
+    GtkWidget *button;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Import"),
 					       "import.png" );
@@ -2967,24 +2966,29 @@ GtkWidget *onglet_importation (void)
 			 0 );
     gtk_widget_show ( label );
 
-    bouton = gtk_spin_button_new_with_range ( 0.0,
+    button = gtk_spin_button_new_with_range ( 0.0,
 					      100.0,
 					      1.0);
-    gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( bouton ),
+    gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( button ),
 				valeur_echelle_recherche_date_import );
-    g_signal_connect ( G_OBJECT ( bouton ),
+    g_signal_connect ( G_OBJECT ( button ),
 		       "value-changed",
 		       G_CALLBACK ( changement_valeur_echelle_recherche_date_import ),
 		       NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 bouton,
+			 button,
 			 FALSE,
 			 FALSE,
 			 12 );
-    gtk_widget_show ( bouton );
+    gtk_widget_show ( button );
 
-    if ( ! assert_account_loaded() )
-      gtk_widget_set_sensitive ( vbox_pref, FALSE );
+    /* propose to choose between getting the fyear by value date or by date */
+    gsb_automem_radiobutton_new_with_title ( vbox_pref,
+					     _("Set the financial year"),
+					     _("According to the date"),
+					     _("According to the value date (if fail, try with the date)"),
+					     &etat.get_fyear_by_value_date,
+					     NULL, NULL );
 
     return ( vbox_pref );
 }
