@@ -93,9 +93,6 @@ static gboolean search_for_transaction ( GtkTreeModel *model, GtkTreePath *path,
 static void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 			      MetatreeInterface * iface, 
 			      gint sub_division, gint division );
-static void supprimer_transaction ( GtkTreeView * tree_view, GtkTreeModel * model,
-			     MetatreeInterface * iface, 
-			     gint transaction);
 /*END_STATIC*/
 
 
@@ -700,7 +697,7 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
     switch ( metatree_get_row_type ( model, path ) )
     {
 	case META_TREE_TRANSACTION:
-	    supprimer_transaction ( tree_view, model, iface, current_number );
+	    metatree_remove_transaction ( tree_view, iface, current_number, TRUE );
 	    return FALSE;
 	case META_TREE_DIV:
 	    /* Nothing, do the grunt job after. */
@@ -931,9 +928,12 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 
 /**
  * Remove a transaction from a metatree
+ * if delete_transaction is TRUE, will delete the transaction
+ * 	before removing it from the metatree
+ * for now, the transaction MUST NOT be deleted at this call
+ * 	(if we don't want that function deletes the transaction)
  *
  * \param tree_view
- * \param model
  * \param iface the metatree interface
  * \param transaction the transaction number we want to remove
  * \param sub_division the parent sub-division number
@@ -941,19 +941,24 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
  *
  * \return
  */
-void supprimer_transaction ( GtkTreeView * tree_view, GtkTreeModel * model,
-			     MetatreeInterface * iface, 
-			     gint transaction)
+void metatree_remove_transaction ( GtkTreeView * tree_view,
+				   MetatreeInterface * iface, 
+				   gint transaction,
+				   gboolean delete_transaction )
 {
-    GtkTreeIter iter, * it;
+    GtkTreeModel *model;
     gint division, sub_division;
+    GtkTreeIter iter, *it;
+
+    model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
 
     division = iface -> transaction_div_id ( transaction );
     sub_division = iface -> transaction_sub_div_id ( transaction );
 
     /* remove the transaction from memory and list, and show the warnings */
-    if (!gsb_transactions_list_delete_transaction (transaction, TRUE))
-	return;
+    if (delete_transaction)
+	if (!gsb_transactions_list_delete_transaction (transaction, TRUE))
+	    return;
 
     /* Fill parent sub division */
     it = get_iter_from_div ( model, division, sub_division );

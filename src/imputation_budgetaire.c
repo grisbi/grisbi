@@ -65,7 +65,7 @@ static gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
 
 
-static GtkWidget *budgetary_line_tree = NULL;
+GtkWidget *budgetary_line_tree = NULL;
 GtkTreeStore *budgetary_line_tree_model = NULL;
 gint no_devise_totaux_ib;
 

@@ -25,6 +25,7 @@
 /*START_INCLUDE*/
 #include "gsb_transactions_list.h"
 #include "./accueil.h"
+#include "./utils_operations.h"
 #include "./dialog.h"
 #include "./gsb_account.h"
 #include "./gsb_data_account.h"
@@ -56,7 +57,6 @@
 #include "./transaction_list_select.h"
 #include "./transaction_list_sort.h"
 #include "./transaction_model.h"
-#include "./utils_operations.h"
 #include "./custom_list.h"
 #include "./fenetre_principale.h"
 #include "./include.h"
@@ -1909,6 +1909,9 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
      * all the children and contra transaction will be removed with that */
     gsb_transactions_list_delete_transaction_from_tree_view (transaction_number);
 
+    /*  update the metatrees, this MUST be before remove_transaction */
+    delete_transaction_in_trees (transaction_number);
+
     /* delete the transaction in memory,
      * all the children and contra transaction will be removed with that */
     gsb_data_transaction_remove_transaction ( transaction_number);
@@ -1931,7 +1934,6 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     if (show_warning)
 	gsb_form_escape_form ();
 
-    /* FIXME : on devrait réafficher les listes de tiers, categ, ib... */
     modification_fichier( TRUE );
     return TRUE;
 }

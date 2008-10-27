@@ -106,6 +106,10 @@ GtkTreeIter *get_iter_from_div ( GtkTreeModel * model, int div, int sub_div );
 void metatree_new_division ( GtkTreeModel * model );
 void metatree_register_widget_as_linked ( GtkTreeModel * model, GtkWidget * widget,
 					  gchar * link_type );
+void metatree_remove_transaction ( GtkTreeView * tree_view,
+				   MetatreeInterface * iface, 
+				   gint transaction,
+				   gboolean delete_transaction );
 gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel * model );
 void metatree_set_linked_widgets_sensitive ( GtkTreeModel * model, gboolean sensitive,
 					     gchar * link_type );

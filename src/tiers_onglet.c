@@ -71,7 +71,7 @@ GtkWidget *arbre_tiers = NULL;
 
 gint no_devise_totaux_tiers;
 
-static GtkWidget *payee_tree = NULL;
+GtkWidget *payee_tree = NULL;
 GtkTreeStore *payee_tree_model = NULL;
 
 /*START_EXTERN*/

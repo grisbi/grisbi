@@ -58,7 +58,7 @@ static gboolean popup_category_view_mode_menu ( GtkWidget * button );
 
 /* Category tree model & view */
 GtkTreeStore * categ_tree_model = NULL;
-static GtkWidget *arbre_categ = NULL;
+GtkWidget *arbre_categ = NULL;
 gint no_devise_totaux_categ;
 
 
