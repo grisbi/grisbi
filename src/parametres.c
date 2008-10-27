@@ -915,24 +915,21 @@ static GtkWidget *gsb_config_scheduler_page ( void )
     GtkWidget *hbox;
     GtkWidget *label;
     GtkWidget *entry;
-    GtkWidget *vbox;
+    GtkWidget *button;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Scheduler"),
 					       "scheduler.png" );
 
     /* Number of days before a warning message advertising a scheduled
        transaction */
-    vbox = gsb_automem_radiobutton_new_with_title ( vbox_pref,
-						    _("Scheduler warnings at Grisbi's opening"),
-						    _("Warn/Execute the scheduled transactions arriving at expiration date"),
-						    _("Warn/Execute the scheduled transactions of the month"),
-						    &execute_scheduled_of_month,
-						    NULL, NULL );
-    g_signal_connect ( G_OBJECT (vbox), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &vbox );
-    gtk_box_pack_start ( GTK_BOX (vbox_pref),
-			 vbox,
-			 FALSE, FALSE, 0);
+    button = gsb_automem_radiobutton_new_with_title ( vbox_pref,
+						      _("Scheduler warnings at Grisbi's opening"),
+						      _("Warn/Execute the scheduled transactions arriving at expiration date"),
+						      _("Warn/Execute the scheduled transactions of the month"),
+						      &execute_scheduled_of_month,
+						      NULL, NULL );
+    g_signal_connect ( G_OBJECT (button), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &button );
 
     hbox = gtk_hbox_new ( FALSE, 0);
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
