@@ -518,8 +518,9 @@ GSList *gsb_data_payee_get_name_and_report_list ( void )
 	pointer = pointer -> next;
     }
 
-    return_list = g_slist_append ( return_list,
-				   tmp_list );
+    if (tmp_list)
+	return_list = g_slist_append ( return_list,
+				       tmp_list );
 
     return return_list;
 }

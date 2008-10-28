@@ -1726,10 +1726,6 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest,
 				 NAVIGATION_PAGE, &dst_page,
 				 -1 );
 	
-	/* FIXME: Handle case where it is dropped at the END of
-	 * account lists.  Not easy since GTK will consider we drop on
-	 * next item. */
-
 	/* We handle an account */
 	if ( src_account >= 0 && dst_account >= 0 )
 	{
