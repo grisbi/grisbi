@@ -258,7 +258,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 					       G_CALLBACK(metatree_new_division),
 					       payee_tree_model );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Create a new payee"));
+				  SPACIFY(_("Create a new payee")));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -267,7 +267,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 					   payee_tree );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL (payee_tree_model), button, "selection" );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Delete selected payee"));
+				  SPACIFY(_("Delete selected payee")));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -276,7 +276,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 					   payee_tree );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL (payee_tree_model), button, "selection" );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Edit selected payee"));
+				  SPACIFY(_("Edit selected payee")));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -284,7 +284,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 					   G_CALLBACK(payee_remove_unused),
 					   NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Remove orphan payees"));
+				  SPACIFY(_("Remove orphan payees")));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
@@ -293,7 +293,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 						G_CALLBACK(popup_payee_view_mode_menu),
 						NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Change view mode"));
+				  SPACIFY(_("Change view mode")));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     gtk_widget_show_all ( handlebox );

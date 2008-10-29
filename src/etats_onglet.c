@@ -123,7 +123,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 					       G_CALLBACK ( ajout_etat ),
 					       NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Create a new report"));
+				  SPACIFY(_("Create a new report")));
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -132,7 +132,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 					   G_CALLBACK (importer_etat),
 					   NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Import a Grisbi report file (.egsb)"));
+				  SPACIFY(_("Import a Grisbi report file (.egsb)")));
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, FALSE, 0 );
 
     bouton_exporter_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -143,7 +143,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     g_signal_connect ( G_OBJECT (bouton_exporter_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_exporter_etat );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_exporter_etat),
-				  _("Export selected report to egsb, HTML, Tex, CSV, PostScript"));
+				  SPACIFY(_("Export selected report to egsb, HTML, Tex, CSV, PostScript")));
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_exporter_etat, FALSE, FALSE, 0 );
 
     /* print button */
@@ -156,7 +156,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     g_signal_connect ( G_OBJECT (bouton_imprimer_etat ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &bouton_imprimer_etat );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_imprimer_etat),
-				  _("Print selected report"));
+				  SPACIFY(_("Print selected report")));
 
 #else
     bouton_imprimer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -177,7 +177,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     g_signal_connect ( G_OBJECT (bouton_effacer_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_effacer_etat );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_effacer_etat),
-				   _("Delete selected report"));
+				   SPACIFY(_("Delete selected report")));
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_effacer_etat, FALSE, FALSE, 0 );
 
     bouton_personnaliser_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -188,7 +188,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     g_signal_connect ( G_OBJECT (bouton_personnaliser_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_personnaliser_etat );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_personnaliser_etat),
-				  _("Edit selected report"));
+				  SPACIFY(_("Edit selected report")));
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_personnaliser_etat, FALSE, FALSE, 0 );
 
     bouton_dupliquer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -199,7 +199,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     g_signal_connect ( G_OBJECT (bouton_dupliquer_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_dupliquer_etat );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_dupliquer_etat),
-				  _("Clone selected report"));
+				  SPACIFY(_("Clone selected report")));
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_dupliquer_etat, FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( hbox );

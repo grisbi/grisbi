@@ -49,6 +49,7 @@
 #include "./include.h"
 #include "./erreur.h"
 #include "./gsb_form_widget.h"
+#include "./structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -172,19 +173,19 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 		    widget = gsb_account_create_combo_list ((GtkSignalFunc) gsb_form_scheduler_change_account, NULL, FALSE);
 		    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget),
 					       0 );
-		    tooltip_text = _("Choose the account");
+		    tooltip_text = SPACIFY(_("Choose the account"));
 		    break;
 
 		case SCHEDULED_FORM_AUTO:
 		    widget = gsb_combo_box_new_with_index ( text_auto,
 							    NULL, NULL );
-		    tooltip_text = _("Automatic/manual scheduled transaction");
+		    tooltip_text = SPACIFY(_("Automatic/manual scheduled transaction"));
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_BUTTON:
 		    widget = gsb_combo_box_new_with_index ( text_frequency,
 							    G_CALLBACK (gsb_form_scheduler_frequency_button_changed), NULL );
-		    tooltip_text = _("Frequency");
+		    tooltip_text = SPACIFY(_("Frequency"));
 		    break;
 
 		case SCHEDULED_FORM_LIMIT_DATE:
@@ -201,18 +202,18 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 					     "focus-out-event",
 					     G_CALLBACK (gsb_form_scheduler_entry_lose_focus),
 					     GINT_TO_POINTER (element_number));
-		    tooltip_text = _("Frequency");
+		    tooltip_text = SPACIFY(_("Frequency"));
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
 		    widget = gtk_entry_new ();
-		    tooltip_text = _("Custom frequency");
+		    tooltip_text = SPACIFY(_("Custom frequency"));
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
 		    widget = gsb_combo_box_new_with_index ( text_frequency_user,
 							    NULL, NULL );
-		    tooltip_text = _("Custom frequency");
+		    tooltip_text = SPACIFY(_("Custom frequency"));
 		    break;
 	    }
 
