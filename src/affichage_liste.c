@@ -85,6 +85,7 @@ extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 GtkWidget *onglet_affichage_operations ( void )
 {
     GtkWidget * vbox_pref, *label, *paddingbox;
+    GtkWidget *hbox, *vbox_label, *vbox_buttons;
     gchar *display_mode_lines_text [] = {
 	_("In one line visible, show the lines"),
 	_("In two lines visibles, show the lines"),
@@ -101,34 +102,31 @@ GtkWidget *onglet_affichage_operations ( void )
 	NULL };
     gint i;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Transaction list behavior"),
-					       "transaction-list.png" );
+	vbox_pref = new_vbox_with_title_and_icon ( _("Transaction list behavior"),
+			"transaction-list.png" );
 
-    /* on permet de choisir quelle ligne seront affichées en fonction des caractéristiques de l'affichage */
-    /* pour opé simplifiée */
+	/* heading and boxes for layout */
+	paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
+			_("Display modes"));
 
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
-					    _("Display modes"));
+	hbox = gtk_hbox_new ( FALSE, 5);
+	vbox_label = gtk_vbox_new ( TRUE, 5);
+	vbox_buttons = gtk_vbox_new ( TRUE, 5);
+	gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     /* fill the table */
     for (i=0 ; i<3 ; i++)
     {
 	gint j;
-	GtkWidget *hbox;
 	GtkWidget *button;
 	gchar **text_line = NULL;
 	gint position = 0;
-
-	hbox = gtk_hbox_new ( FALSE, 5);
-	gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			     FALSE, FALSE, 0 );
 
 	/* set the line title */
 	label = gtk_label_new ( COLON(display_mode_lines_text[i]));
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
-	gtk_box_pack_start ( GTK_BOX (hbox), label,
-			     FALSE, FALSE, 0);
+	gtk_box_pack_start ( GTK_BOX (vbox_label), label, FALSE, FALSE, 0);
 
 	switch (i)
 	{
@@ -147,12 +145,10 @@ GtkWidget *onglet_affichage_operations ( void )
 	}
 
 	button = gtk_combo_box_new_text ();
-	g_signal_connect ( G_OBJECT (button),
-			   "changed",
-			   G_CALLBACK (display_mode_button_changed),
-			   GINT_TO_POINTER (i));
-	gtk_box_pack_start ( GTK_BOX (hbox), button,
-			     FALSE, FALSE, 0);
+	g_signal_connect ( G_OBJECT (button), "changed",
+			G_CALLBACK (display_mode_button_changed),
+			GINT_TO_POINTER (i));
+	gtk_box_pack_start ( GTK_BOX (vbox_buttons), button, FALSE, FALSE, 0);
 
 	j=0;
 	while (text_line[j])
@@ -162,6 +158,11 @@ GtkWidget *onglet_affichage_operations ( void )
 	}
 	gtk_combo_box_set_active ( GTK_COMBO_BOX (button), position);
     }
+
+
+	/* pack vboxes in hbox */
+	gtk_box_pack_start ( GTK_BOX ( hbox ), vbox_label, FALSE, FALSE, 0 );
+	gtk_box_pack_start ( GTK_BOX ( hbox ), vbox_buttons, FALSE, FALSE, 0 );
 
 
     /* do we show the content of the selected transaction in the form for
