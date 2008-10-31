@@ -772,7 +772,7 @@ GtkWidget *onglet_fichier ( void )
 		       G_CALLBACK (gsb_config_backup_dir_chosen),
 		       NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button,
-			 TRUE, TRUE, 0);
+			 FALSE, TRUE, 0);
 
     gtk_widget_show_all ( vbox_pref );
 

@@ -187,7 +187,7 @@ GtkWidget * onglet_display_fonts ( void )
     /* Change fonts */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Fonts") );
 
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_hbox_new ( FALSE, 10 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     check_button = gtk_check_button_new_with_label ( _("Use a custom font for the transactions"));
@@ -197,7 +197,7 @@ GtkWidget * onglet_display_fonts ( void )
 
     /*     on crée la vbox qui contiendra la font button et le raz */ 
     vbox = gtk_vbox_new ( FALSE, 10 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), vbox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
 
     gtk_widget_set_sensitive ( vbox, etat.utilise_fonte_listes );
     g_signal_connect ( G_OBJECT ( check_button ), "toggled",
@@ -207,7 +207,7 @@ GtkWidget * onglet_display_fonts ( void )
     /* Create font button */
     font_button = utils_font_create_button (&etat.font_string,
 					    G_CALLBACK (update_fonte_listes), NULL);
-    gtk_box_pack_start ( GTK_BOX (paddingbox), font_button, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX (vbox), font_button, FALSE, FALSE, 0 );
 
     if ( !gsb_data_account_get_accounts_amount () )
     {
