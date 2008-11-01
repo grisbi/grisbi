@@ -1121,7 +1121,8 @@ void gsb_file_config_clean_config ( void )
     nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
     execute_scheduled_of_month = FALSE;
     etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
-    etat.affichage_exercice_automatique = 1;        /* l'exercice est choisi en fonction de la date */
+    etat.affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
+    etat.get_fyear_by_value_date = 0;        /* By default use transaction-date */
     etat.limit_completion_to_current_account = 0;        /* By default, do full search */
 
     etat.display_toolbar = GSB_BUTTON_BOTH;        /* How to display toolbar icons. */

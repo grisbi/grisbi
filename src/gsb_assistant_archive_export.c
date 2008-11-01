@@ -382,7 +382,7 @@ static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
 	case ARCHIVE_EXPORT_ASSISTANT_NAME:
 	    /* if we come here, an archive must have been selected,
 	     * so needn't to check */
-	    tmpstr = g_strdup_printf ( _("<span size=\"x-large\">Exporting the archive <i>%s</i></span>"),
+	    tmpstr = g_strdup_printf ( _("<span size=\"x-large\">Exporting the archive : %s</span>"),
 						     gsb_data_archive_get_name (archive_number));
 	    gtk_label_set_markup ( GTK_LABEL ( archive_export_label ), tmpstr);
 	    g_free ( tmpstr );

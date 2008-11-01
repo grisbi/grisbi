@@ -350,7 +350,7 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_label_set_markup ( GTK_LABEL ( label ),
-			   g_strdup_printf ( _("<span size=\"x-large\">Exporting <i>%s</i></span>"),
+			   g_strdup_printf ( _("<span size=\"x-large\">Export of : %s</span>"),
 					     gsb_data_account_get_name ( account -> account_nb ) ) );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
     

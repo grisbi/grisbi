@@ -489,7 +489,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     metatree_register_widget_as_linked ( GTK_TREE_MODEL(budgetary_line_tree_model), button, "selection" );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL(budgetary_line_tree_model), button, "sub-division" );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  SPACIFY(_("Create a new budgetary line")));
+				  SPACIFY(_("Create a new sub-budgetary line")));
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
 
     /* Import button */
