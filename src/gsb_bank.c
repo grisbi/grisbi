@@ -972,6 +972,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
 					   GTK_DIALOG_DESTROY_WITH_PARENT,
 					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 					   NULL );
+    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
 
     scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),

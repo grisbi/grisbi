@@ -84,6 +84,7 @@ gboolean print_config ( )
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_PRINT, GTK_RESPONSE_OK,
 					   NULL );
+    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
 
     /* Insert notebook */
     notebook = gtk_notebook_new ();

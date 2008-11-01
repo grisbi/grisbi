@@ -1023,8 +1023,8 @@ GtkWidget * cree_ligne_recapitulatif ( struct struct_compte_importation * compte
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gchar* tmpstr = g_strdup_printf ( _("<span size=\"x-large\">%s</span>\n\n"
-					       "What do you want to do with contents from <tt>%s</tt>?\n"),
-					     compte -> nom_de_compte, short_filename );
+				"What do you want to do with contents from <span foreground=\"blue\">%s</span>?\n"),
+				compte -> nom_de_compte, short_filename );
     gtk_label_set_markup ( GTK_LABEL ( label ), tmpstr );
     g_free ( tmpstr );
     g_free (short_filename);

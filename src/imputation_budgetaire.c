@@ -337,6 +337,7 @@ void exporter_ib ( void )
     gchar *nom_ib;
 
     fenetre_nom = file_selection_new (  _("Export the budgetary lines"),FILE_SELECTION_IS_SAVE_DIALOG);
+	gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( fenetre_nom ),  _("Budgetary-lines.igsb"));
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( fenetre_nom ),
 					  gsb_file_get_last_path () );
     file_selection_set_entry ( GTK_FILE_CHOOSER ( fenetre_nom ), ".igsb" );
@@ -636,6 +637,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO, 
 					   GTK_STOCK_APPLY, GTK_RESPONSE_OK, 
 					   NULL);
+    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
     hbox = gtk_hbox_new ( FALSE, 0 );

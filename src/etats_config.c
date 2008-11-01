@@ -400,6 +400,7 @@ void personnalisation_etat (void)
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,
 					   NULL );
+    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
 
     /* Create model */
     report_tree_model = gtk_tree_store_new ( REPORT_TREE_NUM_COLUMNS, 

@@ -1259,6 +1259,7 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_HELP,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,
 					   NULL );
+    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
     gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog) -> vbox), 6 );
 
     account_number = gsb_data_payment_get_account_number (payment_number);

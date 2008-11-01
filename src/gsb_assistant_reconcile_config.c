@@ -1201,9 +1201,10 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   NULL );
-    gtk_widget_set_usize ( dialog,
-			   FALSE,
-			   500 );
+
+    gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 412 );
+    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
+
     label = gtk_label_new (_("Select the reconciliation to associate to the selected transactions :"));
     gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
 			 label,

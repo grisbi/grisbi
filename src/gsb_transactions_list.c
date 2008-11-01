@@ -1673,21 +1673,20 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
     GtkTreeIter iter;
     gint reconcile_number;
 
-    dialog = gtk_dialog_new_with_buttons ( _("Choosing a reconcile"),
+    dialog = gtk_dialog_new_with_buttons ( _("Selection of a reconciliation"),
 					   GTK_WINDOW (window),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   NULL );
     /* need to set a size, else the list will be small */
-    gtk_widget_set_usize ( dialog,
-			   FALSE,
-			   300 );
+    gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 412 );
+    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
 
-    label = gtk_label_new ( _("Select the reconcile wich the transaction should be associated with :"));
+    label = gtk_label_new ( _("Select the reconciliation to associate to the selected transaction :"));
     gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
 			 label,
-			 FALSE, FALSE, 0 );
+			 FALSE, FALSE, 10 );
     gtk_widget_show (label);
 
     scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);

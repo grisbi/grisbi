@@ -309,6 +309,7 @@ gboolean exporter_categ ( GtkButton * widget, gpointer data )
     gchar *nom_categ;
 
     fenetre_nom = file_selection_new ( _("Export categories"), FILE_SELECTION_IS_SAVE_DIALOG );
+	gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( fenetre_nom ),  _("Categories.cgsb"));
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( fenetre_nom ), 
 					  gsb_file_get_last_path () );
     file_selection_set_entry ( GTK_FILE_CHOOSER ( fenetre_nom ), ".cgsb" );
@@ -603,6 +604,7 @@ gboolean edit_category ( GtkTreeView * view )
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO, 
 					   GTK_STOCK_APPLY, GTK_RESPONSE_OK, 
 					   NULL);
+    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
     hbox = gtk_hbox_new ( FALSE, 0 );

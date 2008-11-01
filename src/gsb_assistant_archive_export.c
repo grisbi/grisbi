@@ -157,7 +157,7 @@ static GtkWidget *gsb_assistant_archive_export_page_choose ( GtkWidget *assistan
     vbox_page = gtk_vbox_new ( FALSE, 0);
     gtk_container_set_border_width ( GTK_CONTAINER(vbox_page), 12 );
     paddingbox = new_paddingbox_with_title (vbox_page, TRUE,
-					    _("Select the archive to export : "));
+					    _("Select the archive to export"));
 
 
     /* Create scrolled window */

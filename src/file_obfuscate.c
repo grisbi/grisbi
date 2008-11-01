@@ -346,11 +346,11 @@ gboolean file_obfuscate_run ( void )
 	    filename = g_strconcat ( my_get_gsb_file_default_dir (), "No_name-obfuscated.gsb", NULL);
 
 	if (gsb_file_save_save_file (filename, FALSE, FALSE))
-	    dialogue_warning_hint ( g_strdup_printf ( _("Obfuscated file saved as\n<tt>%s</tt>"), filename ),
+	    dialogue_hint ( g_strdup_printf ( _("Obfuscated file saved as\n'%s'"), filename ),
 				    _("Obfuscation succeeded") );
 	else
-	    dialogue_error_hint (g_strdup_printf (_("Grisbi couldn't save the file\n<tt>%s</tt>"), filename ),
-				 _("Obfuscation succeeded") );
+	    dialogue_error_hint (g_strdup_printf (_("Grisbi couldn't save the file\n'%s'"), filename ),
+				 _("Obfuscation failed") );
 
 	/* bye bye */
 	exit (0);

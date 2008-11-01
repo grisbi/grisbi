@@ -501,6 +501,7 @@ gboolean edit_payee ( GtkTreeView * view )
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
 					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,
 					   NULL);
+    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
     hbox = gtk_hbox_new ( FALSE, 0 );

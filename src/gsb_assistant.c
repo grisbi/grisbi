@@ -74,8 +74,8 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
 					      NULL );
 
     /* set a default size to have all the assistant in the same aspect */
-    gtk_window_set_default_size (GTK_WINDOW (assistant),
-				 800, 500 );
+    gtk_window_set_default_size (GTK_WINDOW (assistant), 800, 500 );
+    gtk_window_set_position ( GTK_WINDOW (assistant), GTK_WIN_POS_CENTER );
 
     button_cancel = gtk_dialog_add_button ( GTK_DIALOG(assistant), 
 					    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL );

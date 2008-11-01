@@ -401,6 +401,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_OK, 0,
 					   NULL );
+    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
 
     gchar* tmpstr = g_strdup_printf( _("Please enter exchange rate for %s"), 
 				     gsb_data_currency_get_name (transaction_currency_number));
