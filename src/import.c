@@ -1936,9 +1936,8 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 					   GTK_STOCK_OK,
 					   GTK_RESPONSE_OK,
 					   NULL );
-    gtk_widget_set_usize ( dialog,
-			   FALSE,
-			   300 );
+    gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 412 );
+    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
 
     label = gtk_label_new ( _("Some imported transactions seem to be already saved. Please select the transactions to import." ));
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog )-> vbox ),
@@ -2654,6 +2653,8 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					       GTK_STOCK_OK, GTK_RESPONSE_OK,
 					       NULL );
+    gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 412 );
+    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
 
 	label = gtk_label_new ( _("Mark transactions you want to add to the list and click the add button"));
 	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
@@ -3273,6 +3274,7 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
 					  GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 					  GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 					  NULL);
+    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
 
     tmpstr = g_strdup_printf (_("Properties of the rule %s :\n"),
 			      gsb_data_import_rule_get_name (rule));

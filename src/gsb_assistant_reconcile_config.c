@@ -634,7 +634,6 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
 
     /* now we can show the list of orphans transactions */
     label = gtk_label_new (_("Select the transaction(s) you want to associate with a reconciliation :"));
-    gtk_misc_set_padding ( GTK_MISC ( label ), 3, 0 );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_box_pack_start ( GTK_BOX (page),
 			 label,
@@ -1204,8 +1203,10 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
 
     gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 412 );
     gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
+    gtk_container_set_border_width ( GTK_CONTAINER(dialog), 12 );
 
-    label = gtk_label_new (_("Select the reconciliation to associate to the selected transactions :"));
+    label = gtk_label_new (COLON(_("Select the reconciliation to associate to the selected transactions")));
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
 			 label,
 			 FALSE, FALSE,
@@ -1219,7 +1220,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
     gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
 			 scrolled_window,
 			 TRUE, TRUE,
-			 10 );
+			 0 );
 
     dialog_store = gtk_list_store_new ( DIALOG_NB_COL,
 					G_TYPE_STRING,

@@ -223,6 +223,9 @@ gboolean preferences ( gint page )
 						       /* 			  GTK_STOCK_HELP,  GTK_RESPONSE_HELP, */
 						       GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 						       NULL);
+    gtk_window_set_default_size (GTK_WINDOW (fenetre_preferences), -1, 500 );
+    gtk_window_set_position ( GTK_WINDOW (fenetre_preferences), GTK_WIN_POS_CENTER );
+
     g_signal_connect ( G_OBJECT (fenetre_preferences ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &fenetre_preferences );
 
