@@ -1,12 +1,12 @@
 AC_INIT(src/main.c)
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(grisbidev,0.6.0)
+AM_INIT_AUTOMAKE(grisbi,0.6.0)
 AM_ACLOCAL_INCLUDE(macros)
 AM_MAINTAINER_MODE
 
 AC_GNU_SOURCE
 
-PACKAGE=grisbidev
+PACKAGE=grisbi
 VERSION=0.6.0
 AC_SUBST(PACKAGE)
 AC_SUBST(VERSION)
@@ -23,7 +23,7 @@ dnl Check if we have backtrace support
 AC_CHECK_FUNCS(backtrace)
 
 dnl Check for NLS support.                                                      
-ALL_LINGUAS="cs da de es fa fr he it nl pl pt_BR ro ru"
+ALL_LINGUAS="cs da de es fa fr he it nl pl pt_BR ro ru zh_CN"
 AM_GNU_GETTEXT
 AC_CHECK_LIB(intl,main)
 

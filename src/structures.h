@@ -12,7 +12,8 @@
  * to VERSION_GRISBI */
 #define VERSION_FICHIER "0.6.0"
 
-#define IS_DEVELOPMENT_VERSION (1)
+/* Define this when in CVS development branch. */
+//#define IS_DEVELOPMENT_VERSION (1)
 
 #define VERSION_FICHIER_ETAT "0.6.0"
 #define VERSION_FICHIER_CATEG "0.6.0"
