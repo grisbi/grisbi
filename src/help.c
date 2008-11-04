@@ -75,6 +75,7 @@ _("Programming"),
 "Benjamin Drieu (bdrieu[at]april.org)",
 "Cedric Auger (cedric[at]grisbi.org)",
 "Francois Terrot (grisbi[at]terrot.net)",
+"Pierre Bavia ([at]terrot.net)",
 "",
 
 _("Packaging"),
