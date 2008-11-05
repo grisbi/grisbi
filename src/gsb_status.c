@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2005-2006 Benjamin Drieu (bdrieu@april.org)	      */
+/*     Copyright (C)	2005-2008 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -296,6 +296,9 @@ void gsb_status_wait ( gboolean force_update )
  */
 void gsb_status_stop_wait ( gboolean force_update )
 {
+    if ( ! window )
+	return;
+
     gdk_window_set_cursor ( window -> window, NULL );
 
     if ( tracked_window && gdk_window_is_visible ( tracked_window ) )
