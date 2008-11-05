@@ -1558,7 +1558,10 @@ gint gsb_scheduler_list_get_current_scheduled_number ( void )
 gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
 {
     devel_debug_int (scheduled_number);
-    gsb_form_fill_by_transaction ( scheduled_number, FALSE, TRUE );
+    if ( scheduled_number == 0 )
+        gsb_form_fill_by_transaction ( gsb_scheduler_list_get_current_scheduled_number ( ), FALSE, TRUE );
+    else
+        gsb_form_fill_by_transaction ( scheduled_number, FALSE, TRUE );
     return FALSE;
 }
 

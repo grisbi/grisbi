@@ -146,6 +146,11 @@ sources = \
 
 grisbi_SOURCES = $(sources) $(sources_config)
 
+grisbi_LDADD = \
+	$(GTK_LIBS) \
+	$(OpenSSL_LIBS) \
+	$(XML2_LIBS)
+
 grisbi_INCLUDES =		\
 	$(include_config)       \
 	accueil.h		\
@@ -294,4 +299,10 @@ mime_DATA = grisbi.keys grisbi.mime
 
 if HAVE_PLUGINS
 SUBDIRS = plugins/g2banking plugins/gnucash plugins/ofx plugins/openssl
+
+AM_CPPFLAGS = \
+	$(GTK_CFLAGS) \
+	$(OpenSSL_CFLAGS) \
+	$(XML2_CFLAGS)
+
 endif

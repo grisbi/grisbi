@@ -27,8 +27,8 @@ msgid "Closed liabilities accounts"
 msgstr "Comptes passifs terminés"
 
 #: src/accueil.c:208
-#, fuzzy
-msgid "Run out manual scheduled transactions"
+#. msgid "Run out manual scheduled transactions"
+msgid "Automatic / manual planned operation"
 msgstr "Opération planifiée automatique / manuelle"
 
 #: src/accueil.c:224
@@ -44,21 +44,20 @@ msgid "Accounts under authorized balance"
 msgstr "Comptes sous le solde autorisé"
 
 #: src/accueil.c:257
-#, fuzzy
-msgid "Accounts under desired balance"
+msgid "Accounts under required minimum balance"
 msgstr "Comptes sous le solde minimum voulu"
 
-#. crÃ©e la boite de dialogue
+#. crée la boite de dialogue
 #: src/accueil.c:304
 msgid "Enter a scheduled transaction"
 msgstr "Saisie d'une opération planifiée"
 
-#. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
+#. Création du tableau dans lequel seront stockés les comptes avec leur
 #. solde.
 #: src/accueil.c:454
-#, fuzzy, c-format
+#, c-format
 msgid "Account balances in %s"
-msgstr "Solde des comptes en "
+msgstr "Solde des comptes en %s"
 
 #: src/accueil.c:466 src/accueil.c:716 src/accueil.c:977
 msgid "Reconciled balance"
@@ -621,18 +620,17 @@ msgid "_New scheduled"
 msgstr "_Nouvelle échéance"
 
 #: src/barre_outils.c:423
-#, fuzzy
 msgid "Prepare form to create a new scheduled transaction"
-msgstr "Effacer une opération planifiée"
+msgstr "Céer une nouvelle opération planifiée"
 
 #: src/barre_outils.c:436
-#, fuzzy
+
 msgid "Delete selected scheduled transaction"
-msgstr "Effacer une opération planifiée"
+msgstr "Supprimer l'opération sélectionnée"
 
 #: src/barre_outils.c:449
 msgid "Edit selected transaction"
-msgstr "Supprimer l'opération sélectionnée"
+msgstr "Editer l'opération sélectionnée"
 
 #. comments line
 #: src/barre_outils.c:454 src/gsb_account_property.c:420

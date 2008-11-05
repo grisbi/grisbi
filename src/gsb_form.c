@@ -436,7 +436,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
     {
 	/* we need to set up the part of scheduler form here because changing the account
 	 * button will change the form */
-	gsb_form_scheduler_set (transaction_number);
+    gsb_form_scheduler_set ( transaction_number );
     }
 
     /* if the transaction is the white line, we set the date and necessary stuff and go away
