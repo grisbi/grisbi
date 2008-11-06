@@ -472,7 +472,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_widget_set_sensitive ( scheduler_button_execute,
 			       FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_button_execute),
-				  SPACIFY(_("Execute current scheduled transaction if run out")));
+				  SPACIFY(_("Execute current scheduled transaction")));
     gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_execute, FALSE, FALSE, 0 );
 
     button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,

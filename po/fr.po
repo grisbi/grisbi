@@ -67,21 +67,21 @@ msgstr "Solde pointé"
 msgid "Current balance"
 msgstr "Solde courant"
 
-#. CrÃ©ation et remplissage de la (nb_comptes + 3)iÃ¨me ligne du tableau :
+#. Création et remplissage de la (nb_comptes + 3)ème ligne du tableau :
 #. elle contient la somme des soldes de chaque compte
-#. PremiÃ¨re colonne
+#. Première colonne
 #: src/accueil.c:642 src/accueil.c:896 src/accueil.c:1153
 msgid "Global balances"
 msgstr "Soldes finaux"
 
-#. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
+#. Création du tableau dans lequel seront stockés les comptes avec leur
 #. solde.
 #: src/accueil.c:704
 #, c-format
 msgid "Liabilities accounts balances in %s"
 msgstr "Solde des comptes de passif en %s"
 
-#. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
+#. Création du tableau dans lequel seront stockés les comptes avec leur
 #. solde.
 #: src/accueil.c:965
 #, c-format
@@ -638,23 +638,20 @@ msgid "Comments"
 msgstr "Commentaires"
 
 #: src/barre_outils.c:462
-#, fuzzy
 msgid "Display scheduled transactions comments"
-msgstr "Affichage des opérations planifiées"
+msgstr "Afficher les commentaires des opérations planifiées"
 
 #: src/barre_outils.c:469
 msgid "Execute"
-msgstr "Executer"
+msgstr "Exécuter"
 
 #: src/barre_outils.c:478
-#, fuzzy
-msgid "Execute current scheduled transaction if run out"
-msgstr "Opérations planifiées manuelles arrivées à terme"
+msgid "Execute current scheduled transaction"
+msgstr "Exécute l'opération planifiée sélectionnée"
 
 #: src/barre_outils.c:486
-#, fuzzy
 msgid "Change display mode of scheduled transaction list"
-msgstr "Affichage des opérations planifiées"
+msgstr "Modifie l'affichage de la liste des opérations planifiées"
 
 #: src/barre_outils.c:503
 msgid "Mask reconcile"
@@ -6591,7 +6588,6 @@ msgid "Cannot erase lock file :'%s': %s"
 msgstr "Impossible de marquer le fichier « %s » comme utilisé: %s"
 
 #: src/gsb_form.c:239
-#, fuzzy
 msgid "Transaction/Scheduled _form"
 msgstr "Formulaire de saisie d'opérations"
 
@@ -7192,9 +7188,9 @@ msgid ""
 msgstr ""
 
 #: src/gsb_reconcile.c:553 src/navigation.c:1072
-#, fuzzy, c-format
+#, c-format
 msgid "Last statement: %s"
-msgstr "Dernier relevé"
+msgstr "Dernier relevé : %s"
 
 #: src/gsb_reconcile_config.c:96 src/gsb_transactions_list.c:1733
 #, fuzzy
@@ -7331,7 +7327,7 @@ msgstr "Voulez vous vraiment supprimer l'opération avec le tiers « %s » ?"
 
 #: src/gsb_scheduler_list.c:1621
 msgid "Delete a scheduled transaction"
-msgstr "Effacer une opération planifiée"
+msgstr "Supprimer une opération planifiée"
 
 #: src/gsb_scheduler_list.c:1636 src/gsb_transactions_list.c:1881
 #: src/gsb_transactions_list.c:1896
@@ -7358,8 +7354,8 @@ msgstr ""
 
 #: src/gsb_scheduler_list.c:1678
 #, fuzzy
-msgid "Delete this scheduled transaction?"
-msgstr "Effacer une opération planifiée"
+msgid "Delete this scheduled transaction ?"
+msgstr "Voulez vous supprimer cette opération planifiée ?"
 
 #: src/gsb_scheduler_list.c:1683
 msgid "All the occurences"
@@ -7966,14 +7962,14 @@ msgid "Import a file with a rule"
 msgstr ""
 
 #: src/import.c:3287
-#, fuzzy, c-format
+#, c-format
 msgid "Properties of the rule %s :\n"
-msgstr "Propriétés pour %s"
+msgstr "Propriétés pour %s :\n"
 
 #: src/import.c:3296
-#, fuzzy, c-format
+#, c-format
 msgid "Imported transactions will be added to the account %s.\n"
-msgstr "Déplacer l'opération vers un autre compte"
+msgstr "Les opérations importées seront ajoutées au compte : %s.\n"
 
 #: src/import.c:3299
 #, fuzzy, c-format
@@ -7981,19 +7977,17 @@ msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "Déplacer l'opération vers un autre compte"
 
 #: src/import.c:3308
-#, fuzzy, c-format
+#, c-format
 msgid "Currency to import is %s.\n"
-msgstr "Propriétés de la devise"
+msgstr "La devise des opérations importées est : %s.\n"
 
 #: src/import.c:3319
-#, fuzzy
 msgid "Amounts of the transactions will be inverted.\n"
-msgstr "Opérations planifiées automatiques saisies"
+msgstr "Le montant des opérations sera inversé.\n"
 
 #: src/import.c:3336
-#, fuzzy
 msgid "Name of the file to import : "
-msgstr "Impossible d'ouvrir le fichier '%s': %s"
+msgstr "Nom du fichier à importer: "
 
 #: src/import.c:3435
 #, fuzzy, c-format

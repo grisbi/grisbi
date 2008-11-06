@@ -329,7 +329,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
     gint i;
     gchar *scheduler_titles[] = {
 	_("Date"), _("Account"), _("Payee"), _("Frequency"), 
-	_("Mode"), _("Notes"), _("Amount"), _("Balance")
+	_("Mode"), _("Comments"), _("Amount"), _("Balance")
     };
     gfloat col_justs[] = {
 	COLUMN_CENTER, COLUMN_LEFT, COLUMN_LEFT, COLUMN_CENTER, 
