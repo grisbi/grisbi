@@ -380,7 +380,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 				    gsb_real exchange_fees,
 				    gboolean force )
 {
-    GtkWidget *dialog, *label, *entry, *hbox, *fees_entry, *paddingbox;
+    GtkWidget *dialog, *label, *entry, *hbox, *fees_entry, *paddingbox, *table;
     struct cached_exchange_rate *cache;
     gint result;
     GtkWidget *combobox_1;
@@ -396,58 +396,63 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 	return;
     }
 
-    dialog = gtk_dialog_new_with_buttons ( _("Enter exchange rate"),
-					   GTK_WINDOW (window),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_OK, 0,
-					   NULL );
+    dialog = gtk_dialog_new_with_buttons ( _("Enter exchange rate"), GTK_WINDOW (window), GTK_DIALOG_MODAL,
+                       GTK_STOCK_OK, 0, NULL);
     gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
 
+    /* text for paddingbox */
     gchar* tmpstr = g_strdup_printf( _("Please enter exchange rate for %s"), 
 				     gsb_data_currency_get_name (transaction_currency_number));
-    paddingbox = new_paddingbox_with_title ( GTK_WIDGET ( GTK_DIALOG ( dialog ) -> vbox ), FALSE, 
-					     tmpstr );
+
+    /* Ugly dance to avoid side effects on dialog's vbox. */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, FALSE, FALSE, 0 );
+    paddingbox = new_paddingbox_with_title ( hbox, TRUE, tmpstr );
+    gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
     g_free ( tmpstr );
-    gtk_container_set_border_width ( GTK_CONTAINER ( paddingbox ), 6 );
-    gtk_box_set_spacing ( GTK_BOX ( GTK_DIALOG (dialog)->vbox ), 6 );
 
-    /* exchange line */
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0);
+    /* table for layout */
+    table = gtk_table_new ( 2, 5, FALSE );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 6 );
+    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
+    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
 
-    label = gtk_label_new ( POSTSPACIFY(_("A")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0);
+    /* echange line label */
+    label = gtk_label_new ( _("1") );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
+               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
+    /* echange line currency 1 */
     combobox_1 = gtk_combo_box_new_text ();
     gtk_combo_box_append_text ( GTK_COMBO_BOX (combobox_1),
 				gsb_data_currency_get_name (transaction_currency_number));
     gtk_combo_box_append_text ( GTK_COMBO_BOX (combobox_1),
 				gsb_data_currency_get_name (account_currency_number));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 combobox_1,
-			 TRUE, TRUE, 0);
+    gtk_table_attach ( GTK_TABLE(table), combobox_1, 1, 2, 0, 1,
+               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-    label = gtk_label_new ( SPACIFY(_("equals")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0);
+    /* echange line compare sign */
+    label = gtk_label_new ( _("=") );
+    gtk_table_attach ( GTK_TABLE(table), label, 2, 3, 0, 1,
+               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
+    /* echange line input field */
     entry = gtk_entry_new ();
     gtk_widget_set_usize ( entry, 100, FALSE );
-    gtk_entry_set_activates_default ( GTK_ENTRY ( entry ),
-				      TRUE );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), entry,
-			 TRUE, TRUE, 0);
+    gtk_entry_set_activates_default ( GTK_ENTRY ( entry ), TRUE );
+    gtk_table_attach ( GTK_TABLE(table), entry, 3, 4, 0, 1,
+               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
+    /* echange line currency 2 */
     combobox_2 = gtk_combo_box_new_text ();
     gtk_combo_box_append_text ( GTK_COMBO_BOX (combobox_2),
 				gsb_data_currency_get_name (account_currency_number));
     gtk_combo_box_append_text ( GTK_COMBO_BOX (combobox_2),
 				gsb_data_currency_get_name (transaction_currency_number));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 combobox_2,
-			 TRUE, TRUE, 0);
+    gtk_table_attach ( GTK_TABLE(table), combobox_2, 4, 5, 0, 1,
+               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* set the connections */
     g_signal_connect ( G_OBJECT (combobox_1),
@@ -459,24 +464,23 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 		       GTK_SIGNAL_FUNC ( gsb_currency_select_change_currency ),
 		       combobox_1);
 
-    /* exchange fees line */
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 5 );
-
+    /* exchange fees line label */
     label = gtk_label_new ( COLON(_("Exchange fees")) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 5 );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    gtk_table_attach ( GTK_TABLE(table), label, 0, 3, 1, 2,
+               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
+    /* exchange fees line input field */
     fees_entry = gtk_entry_new ();
-    gtk_entry_set_activates_default ( GTK_ENTRY ( fees_entry ),
-				      TRUE );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), fees_entry,
-			 TRUE, TRUE, 5 );
+    gtk_entry_set_activates_default ( GTK_ENTRY ( fees_entry ), TRUE );
+    gtk_table_attach ( GTK_TABLE(table), fees_entry, 3, 4, 1, 2,
+               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
+    /* exchange fees currency for fees */
     label = gtk_label_new (gsb_data_currency_get_name (account_currency_number));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 5 );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    gtk_table_attach ( GTK_TABLE(table), label, 4, 5, 1, 2,
+               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     gtk_widget_show_all ( dialog );
 
