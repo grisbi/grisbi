@@ -3257,102 +3257,89 @@ gboolean gsb_import_by_rule ( gint rule )
 gchar **gsb_import_by_rule_ask_filename ( gint rule )
 {
     gchar *tmpstr;
-    GtkWidget *dialog;
+    GtkWidget *dialog, *paddingbox, *table;
     GtkWidget *label;
     GtkWidget *button;
     GtkWidget *entry;
-    GtkWidget *separator;
     GtkWidget *hbox;
     gchar **array = NULL;
 
     if (!rule)
 	return NULL;
 
-    dialog = gtk_dialog_new_with_buttons (_("Import a file with a rule"),
-					  GTK_WINDOW (window),
+    dialog = gtk_dialog_new_with_buttons (_("Import a file with a rule"), GTK_WINDOW (window),
 					  GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                      GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 					  GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-					  GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 					  NULL);
     gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
 
-    tmpstr = g_strdup_printf (_("Properties of the rule %s :\n"),
-			      gsb_data_import_rule_get_name (rule));
-    label = gtk_label_new (tmpstr);
-    g_free (tmpstr);
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			 label,
-			 FALSE, FALSE, 0);
+    /* text for paddingbox */
+    tmpstr = g_strdup_printf (_("Properties of the rule %s"),
+                  gsb_data_import_rule_get_name (rule));
 
-    if (gsb_data_import_rule_get_action (rule) == IMPORT_ADD_TRANSACTIONS)
+    /* Ugly dance to avoid side effects on dialog's vbox. */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, FALSE, FALSE, 0 );
+    paddingbox = new_paddingbox_with_title ( hbox, TRUE, tmpstr );
+    gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
+    g_free ( tmpstr );
+
+    /* table for layout */
+    table = gtk_table_new ( 2, 3, FALSE );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 6 );
+    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
+    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
+
+    /* textstring 1 */
+	if (gsb_data_import_rule_get_action (rule) == IMPORT_ADD_TRANSACTIONS)
 	tmpstr = g_strdup_printf (_("Imported transactions will be added to the account %s.\n"),
 				  gsb_data_account_get_name (gsb_data_import_rule_get_account (rule)));
     else
 	tmpstr = g_strdup_printf (_("Imported transactions will mark transactions in the account %s.\n"),
 				  gsb_data_account_get_name (gsb_data_import_rule_get_account (rule)));
-    label = gtk_label_new (tmpstr);
-    g_free (tmpstr);
-    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			 label,
-			 FALSE, FALSE, 0);
 
-    tmpstr = g_strdup_printf (_("Currency to import is %s.\n"),
-			      gsb_data_currency_get_name (gsb_data_import_rule_get_currency (rule)));
-    label = gtk_label_new (tmpstr);
-    g_free (tmpstr);
-    gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			 label,
-			 FALSE, FALSE, 0);
+    /* textstring 2 */
+    tmpstr = g_strconcat(tmpstr, g_strdup_printf (_("Currency to import is %s.\n"),
+			      gsb_data_currency_get_name (gsb_data_import_rule_get_currency (rule))), NULL);
 
+    /* textstring 3 */
     if (gsb_data_import_rule_get_invert (rule))
     {
-	label = gtk_label_new (_("Amounts of the transactions will be inverted.\n"));
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
-	gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			     label,
-			     FALSE, FALSE, 0);
+	tmpstr = g_strconcat(tmpstr, g_strdup_printf (_("Amounts of the transactions will be inverted.\n")), NULL);
     }
 
-    separator = gtk_hseparator_new ();
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			 separator,
-			 FALSE, FALSE, 0);
+    label = gtk_label_new ( tmpstr );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    gtk_table_attach ( GTK_TABLE(table), label, 0, 3, 0, 1,
+               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+    g_free ( tmpstr );
 
-    hbox = gtk_hbox_new (FALSE, 5);
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
-			 hbox,
-			 FALSE, FALSE, 0);
-
-    label = gtk_label_new (_("Name of the file to import : "));
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 label,
-			 FALSE, FALSE, 0);
+    /* label filename */
+    label = gtk_label_new (COLON(_("Name of the file to import")));
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
+               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* i tried to use gtk_file_chooser_button, but the name of the file is showed only sometimes
      * so go back to the old method with a gtkentry */
     entry = gtk_entry_new ();
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 entry,
-			 FALSE, FALSE, 0);
-    gtk_widget_grab_focus (entry);
+    gtk_widget_set_usize ( entry, 200, FALSE );
+    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2,
+               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+
     if (gsb_data_import_rule_get_last_file_name (rule))
     {
 	gtk_entry_set_text ( GTK_ENTRY (entry),
-			     gsb_data_import_rule_get_last_file_name (rule));
-	gtk_entry_select_region ( GTK_ENTRY (entry),
-				  0, -1);
+               g_path_get_basename(gsb_data_import_rule_get_last_file_name (rule)));
     }
 
-    button = gtk_button_new_from_stock (GTK_STOCK_OPEN);
-    g_signal_connect (G_OBJECT (button),
-		      "clicked",
-		      G_CALLBACK (gsb_import_by_rule_get_file),
-		      entry );
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 button,
-			 FALSE, FALSE, 0);
+    button = gtk_button_new_with_label ("...");
+    g_signal_connect (G_OBJECT (button), "clicked",
+		      G_CALLBACK (gsb_import_by_rule_get_file), entry );
+    gtk_table_attach ( GTK_TABLE(table), button, 2, 3, 1, 2,
+               GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     
     g_object_set_data ( G_OBJECT(entry), "rule", GINT_TO_POINTER ( rule ) );
     
