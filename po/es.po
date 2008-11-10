@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-15 22:03+0200\n"
-"PO-Revision-Date: 2008-10-19 12:46+0200\n"
+"PO-Revision-Date: 2008-11-10 17:22+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3736,7 +3736,7 @@ msgstr ""
 #. archive by date
 #: src/gsb_assistant_archive.c:211
 msgid "Archive by date"
-msgstr "Fichero por fecha"
+msgstr "Archivar por fecha"
 
 #: src/gsb_assistant_archive.c:221
 msgid "Grisbi will archive all transactions between initial and final dates."
