@@ -971,7 +971,7 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
     struct_account *account;
     GSList *tmp_list;
     gsb_real current_balance;
-    gsb_real marked_balance = null_real;
+    gsb_real marked_balance;
     gint floating_point;
 
     account = gsb_data_account_get_structure ( account_number );
@@ -983,8 +983,8 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
 
     current_balance = gsb_real_adjust_exponent ( account -> init_balance,
 						 floating_point );
-    //~ marked_balance = gsb_real_adjust_exponent ( account -> init_balance,
-						//~ floating_point );
+    marked_balance = gsb_real_adjust_exponent ( account -> init_balance,
+						floating_point );
 
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
 
@@ -1129,8 +1129,6 @@ gsb_real gsb_data_account_calculate_waiting_marked_balance ( gint account_number
 	return null_real;
 
     floating_point = gsb_data_currency_get_floating_point (account -> currency);
-    //~ marked_balance = gsb_real_adjust_exponent ( account -> init_balance,
-						//~ floating_point );
 
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
 
