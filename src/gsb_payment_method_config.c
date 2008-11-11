@@ -1247,7 +1247,7 @@ gboolean gsb_payment_method_config_remove ( GtkWidget *button,
  * */
 gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
 {
-    GtkWidget *dialog, *label, * combo_box, *separator, *hbox;
+    GtkWidget *dialog, *label, * combo_box, *hbox, *paddingbox;
     gint resultat;
     gint new_payment_number;
     GSList *tmp_list;
@@ -1256,16 +1256,22 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
     dialog = gtk_dialog_new_with_buttons ( _("Delete a payment method"),
 					   GTK_WINDOW (fenetre_preferences),
 					   GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_HELP,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,
 					   NULL );
     gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
-    gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog) -> vbox), 6 );
 
-    account_number = gsb_data_payment_get_account_number (payment_number);
+    /* Ugly dance to avoid side effects on dialog's vbox. */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, FALSE, FALSE, 0 );
+    paddingbox = new_paddingbox_with_title ( hbox, TRUE, _("Payment method is used by transactions") );
+    gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
+    gtk_widget_show_all ( hbox );
 
     /* create first the combo_box with the possible target to the method of payment,
      * if no target, say it in the label and let that function choose if it has to be shown or not */
+    account_number = gsb_data_payment_get_account_number (payment_number);
     combo_box = gtk_combo_box_new ();
     if (!gsb_payment_method_create_combo_list ( combo_box,
 						gsb_data_payment_get_sign (payment_number),
@@ -1281,32 +1287,23 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
     else
 	label = gtk_label_new (_("No target method of payment to switch the transactions to another method of payment. If you continue, the transactions with this method of payment will have no new one."));
     gtk_label_set_line_wrap ( GTK_LABEL (label), TRUE );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), label,
-			 FALSE, FALSE, 6 );
+	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    gtk_widget_set_size_request ( label, 400, -1 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), label, FALSE, FALSE, 0 );
     gtk_widget_show (label);
 
-    separator = gtk_hseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
-			 separator,
-			 FALSE, FALSE, 0 );
-    gtk_widget_show ( separator );
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
-			 FALSE, FALSE, 0 );
-    gtk_widget_show (hbox);
-
-    label = gtk_label_new ( POSTSPACIFY(_("Associate transactions with")));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 6 );
-    gtk_widget_show (label);
+    label = gtk_label_new ( COLON(_("Associate transactions with")));
+	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
 
     /* the combo_box was created before */
-    gtk_box_pack_start ( GTK_BOX ( hbox ), combo_box,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), combo_box, TRUE, TRUE, 0 );
 
-    if (!GTK_WIDGET_VISIBLE (combo_box))
-	gtk_widget_set_sensitive ( hbox, FALSE );
+    if (GTK_WIDGET_VISIBLE (combo_box))
+    gtk_widget_show_all ( hbox );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
