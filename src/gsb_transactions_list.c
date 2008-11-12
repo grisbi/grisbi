@@ -1676,8 +1676,8 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
     dialog = gtk_dialog_new_with_buttons ( _("Selection of a reconciliation"),
 					   GTK_WINDOW (window),
 					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_OK, GTK_RESPONSE_OK,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                       GTK_STOCK_OK, GTK_RESPONSE_OK,
 					   NULL );
     /* need to set a size, else the list will be small */
     gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 412 );

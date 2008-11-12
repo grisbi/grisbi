@@ -309,11 +309,11 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,
 					   NULL );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER );
-    gtk_dialog_set_default_response ( GTK_DIALOG (dialog),
-				      GTK_RESPONSE_OK );
+    gtk_dialog_set_default_response ( GTK_DIALOG (dialog), GTK_RESPONSE_OK );
 
     /* first we reparent the form in the dialog */
     gtk_widget_reparent ( form_transaction_part, GTK_DIALOG ( dialog ) -> vbox );
+    gtk_container_set_border_width ( GTK_CONTAINER (form_transaction_part), 12 );
 
     /* next we fill the form,
      * don't use gsb_form_show because we are neither on transactions list, neither scheduled list */

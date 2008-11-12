@@ -1927,6 +1927,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     GtkWidget *hbox;
     GtkWidget *scrolled_window;
     GtkWidget *label;
+    GtkWidget *frame;
     gint action_derniere_ventilation;
 
 
@@ -1938,21 +1939,32 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 					   NULL );
     gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 412 );
     gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
+    gtk_container_set_border_width ( GTK_CONTAINER(dialog), 12 );
 
     label = gtk_label_new ( _("Some imported transactions seem to be already saved. Please select the transactions to import." ));
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog )-> vbox ),
 			 label,
 			 FALSE,
 			 FALSE,
-			 0 );
+			 10 );
     gtk_widget_show ( label );
+
+    /* set the decoration */
+    frame = gtk_frame_new (NULL);
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog )-> vbox ), frame, TRUE, TRUE, 0 );
+    gtk_widget_show ( frame );
+
+    vbox = gtk_vbox_new ( FALSE, 0 );
+    gtk_container_add ( GTK_CONTAINER ( frame ), vbox);
+    gtk_widget_show ( vbox );
 
     scrolled_window = gtk_scrolled_window_new ( FALSE,
 						FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_AUTOMATIC,
 				     GTK_POLICY_AUTOMATIC );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog )-> vbox ),
+    gtk_box_pack_start ( GTK_BOX ( vbox),
 			 scrolled_window,
 			 TRUE,
 			 TRUE,
@@ -2655,13 +2667,15 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 					       NULL );
     gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 412 );
     gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
+    gtk_container_set_border_width ( GTK_CONTAINER(dialog), 12 );
 
 	label = gtk_label_new ( _("Mark transactions you want to add to the list and click the add button"));
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
 	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			     label,
 			     FALSE,
 			     FALSE,
-			     0 );
+			     10 );
 	gtk_widget_show ( label );
 
 	store = gtk_list_store_new ( 4,
@@ -2714,6 +2728,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 					 GTK_POLICY_AUTOMATIC );
 	gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 						liste_ope_celibataires );
+    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (liste_ope_celibataires), TRUE);
 	gtk_widget_show_all ( scrolled_window );
 
 	/* on affiche les colonnes */
@@ -3332,7 +3347,7 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     if (gsb_data_import_rule_get_last_file_name (rule))
     {
 	gtk_entry_set_text ( GTK_ENTRY (entry),
-               g_path_get_basename(gsb_data_import_rule_get_last_file_name (rule)));
+               gsb_data_import_rule_get_last_file_name (rule));
     }
 
     button = gtk_button_new_with_label ("...");
