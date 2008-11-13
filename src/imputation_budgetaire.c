@@ -671,7 +671,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 			     gsb_data_budget_get_name ( budget_number, 0, NULL ) );
     }
 
-    gtk_widget_set_usize ( entry, 400, 0 );
+    gtk_widget_set_size_request ( entry, 400, 0 );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     if ( sub_budget_number <= 0 )

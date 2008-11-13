@@ -899,7 +899,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
 			 TRUE, TRUE, 5 );
     bank_notes = gsb_autofunc_textview_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_note), 0);
-    gtk_widget_set_usize ( bank_notes, FALSE, 100 );
+    gtk_widget_set_size_request ( bank_notes, FALSE, 100 );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), bank_notes );
 
     return parent;
@@ -980,7 +980,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
 					  GTK_SHADOW_NONE );
     gtk_container_add ( GTK_CONTAINER ( GTK_DIALOG(dialog)->vbox ), scrolled_window );
-    gtk_widget_set_usize ( scrolled_window, 600, 400 );
+    gtk_widget_set_size_request ( scrolled_window, 600, 400 );
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER (vbox), 12 );

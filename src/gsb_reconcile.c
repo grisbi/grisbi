@@ -165,7 +165,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     /* set the old balance,
      * an entry the first time, will be unsensitive after */
     reconcile_initial_balance_entry = gtk_entry_new ( );
-    gtk_widget_set_usize ( reconcile_initial_balance_entry, 50, FALSE );
+    gtk_widget_set_size_request ( reconcile_initial_balance_entry, 50, FALSE );
     g_signal_connect ( G_OBJECT ( reconcile_initial_balance_entry ), "changed",
 		       G_CALLBACK (gsb_reconcile_update_amounts),
 		       NULL );
@@ -177,7 +177,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
 
     /* make the new date entry */
     reconcile_new_date_entry = gsb_calendar_entry_new (TRUE);
-    gtk_widget_set_usize ( reconcile_new_date_entry, 50, FALSE );
+    gtk_widget_set_size_request ( reconcile_new_date_entry, 50, FALSE );
     g_signal_connect ( G_OBJECT ( reconcile_new_date_entry ),
 		       "key-press-event",
 		       G_CALLBACK( gsb_reconcile_key_press_event ), NULL );
@@ -186,7 +186,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
 
     /* set the new balance */
     reconcile_final_balance_entry = gtk_entry_new ();
-    gtk_widget_set_usize ( reconcile_final_balance_entry, 50, FALSE );
+    gtk_widget_set_size_request ( reconcile_final_balance_entry, 50, FALSE );
     g_signal_connect ( G_OBJECT ( reconcile_final_balance_entry ), "changed",
 		       G_CALLBACK (gsb_reconcile_update_amounts),
 		       NULL );

@@ -3073,7 +3073,7 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
 									    column,
 									    row ));
 	    if ( widget )
-		gtk_widget_set_usize ( widget,
+		gtk_widget_set_size_request ( widget,
 				       gsb_data_form_get_width_column (account_number,
 								       column ) * allocation -> width / 100,
 				       FALSE );
@@ -3114,7 +3114,7 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
 		    break;
 	    }
 	    if (widget && GTK_IS_WIDGET (widget))
-		gtk_widget_set_usize ( widget,
+		gtk_widget_set_size_request ( widget,
 				       width_percent * allocation -> width / 100,
 				       FALSE );
 	}

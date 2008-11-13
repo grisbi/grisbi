@@ -525,7 +525,7 @@ gboolean edit_payee ( GtkTreeView * view )
     gtk_entry_set_text ( GTK_ENTRY ( entry_name ),
 			 gsb_data_payee_get_name(payee_number,
 						 TRUE));
-    gtk_widget_set_usize ( entry_name, 400, 0 );
+    gtk_widget_set_size_request ( entry_name, 400, 0 );
     gtk_table_attach ( GTK_TABLE(table), entry_name, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     /* Description entry */

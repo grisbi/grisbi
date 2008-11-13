@@ -1191,7 +1191,7 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
 			       x,
 			       y );
 
-    gtk_widget_set_usize ( GTK_WIDGET ( combofix->popup ),
+    gtk_widget_set_size_request ( GTK_WIDGET ( combofix->popup ),
 			   GTK_WIDGET ( combofix ) ->allocation.width,
 			   height );
     return FALSE;

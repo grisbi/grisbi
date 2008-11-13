@@ -359,7 +359,7 @@ GtkWidget *gsb_account_property_create_page ( void )
 						 G_CALLBACK (gsb_data_account_set_bank_account_key), 0);
     g_signal_connect ( G_OBJECT (detail_cle_compte ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &detail_cle_compte );
-    gtk_widget_set_usize ( detail_cle_compte, 30, FALSE );
+    gtk_widget_set_size_request ( detail_cle_compte, 30, FALSE );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_cle_compte, FALSE, FALSE, 0 );
 
 
