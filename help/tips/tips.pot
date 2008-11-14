@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-12 11:39+0200\n"
+"POT-Creation-Date: 2008-11-14 22:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: tips.txt:43
+#: tips.txt:41
 msgid ""
 "By double cliking on a date field, you can pop up a calendar to select a "
 "date."
@@ -36,13 +36,20 @@ msgid ""
 "when you switch from Gnucash to Grisbi."
 msgstr ""
 
-#: tips.txt:53
+#: tips.txt:49
+msgid ""
+"If unused payees have accumulated in the course of time due to bank imports, "
+"you can remove all of them in one click!  Just go to the <i>Payees</i> page "
+"and click on the 'Remove unused payees' button."
+msgstr ""
+
+#: tips.txt:57
 msgid ""
 "No more tip available !  Please send any tips you know to grisbi-devel@lists."
 "sourceforge.net so that we can include them in next version for all users."
 msgstr ""
 
-#: tips.txt:45
+#: tips.txt:43
 msgid ""
 "There are shortcuts in date fields, to avoid typing date or selecting it "
 "with mouse.\n"
@@ -52,13 +59,14 @@ msgid ""
 "there are more, check out the manual."
 msgstr ""
 
-#: tips.txt:49
+#: tips.txt:47
 msgid ""
 "You can archive previous financial years to speed up Grisbi and possibily "
-"put old transactions into separate files for archival."
+"put old transactions into separate files for archival.  Use 'File/Archive "
+"transaction' menu to achieve this."
 msgstr ""
 
-#: tips.txt:35
+#: tips.txt:33
 msgid ""
 "You can configure fields displayed in the transaction form.\n"
 "\n"
@@ -67,7 +75,7 @@ msgid ""
 "the form to adjust their position."
 msgstr ""
 
-#: tips.txt:31
+#: tips.txt:29
 msgid ""
 "You can configure the contents of the transaction list.\n"
 "\n"
@@ -85,26 +93,14 @@ msgid ""
 "category or sub-budgetary line will be created as well."
 msgstr ""
 
-#: tips.txt:51
-msgid ""
-"You can customize the transaction form layout via the 'Preferences' window "
-"and define whatever layout suits your needs."
-msgstr ""
-
-#: tips.txt:27
-msgid ""
-"You can double-click on any date entry to pop up a calendar in order to "
-"enter a date more easily."
-msgstr ""
-
 #: tips.txt:21
 msgid ""
 "You can efficiently manage your professional expenses with Grisbi.\n"
 "\n"
 "Create a <i>Professional expenses</i> budgetary line and put all "
 "professional expenses there.  When you are paid, split your salary as a "
-"split of transaction, with both a <i>Salary</i> part and a "
-"<i>Profesionnal expenses</i> part.  \n"
+"split of transaction, with both a <i>Salary</i> part and a <i>Profesionnal "
+"expenses</i> part.  \n"
 "\n"
 "Then, you can create a new report that sums up transactions from the "
 "<i>Profesionnal expenses</i> budgetary line and see the balance."
@@ -120,7 +116,12 @@ msgid ""
 "restore your Grisbi accounts.  Use with caution !"
 msgstr ""
 
-#: tips.txt:39
+#: tips.txt:55
+msgid ""
+"You can have future scheduled transactions 'executed' before their date, "
+msgstr ""
+
+#: tips.txt:37
 msgid ""
 "You can hide annoying dialogs like this one, by clicking the <i>'Do not show "
 "this message again'</i> checkbox in this dialog.  \n"
@@ -146,7 +147,18 @@ msgid ""
 "are in perfect shape."
 msgstr ""
 
-#: tips.txt:29
+#: tips.txt:53
+msgid "You can reorder accounts in the navigation list using drag &amp; drop."
+msgstr ""
+
+#: tips.txt:51
+msgid ""
+"You can sort the transaction list according to any criteria.  Click on the "
+"column titles to sort transactions differently.  For example, you can sort "
+"transactions by payee or category name."
+msgstr ""
+
+#: tips.txt:27
 msgid ""
 "You can use the import facility to automatically reconcile transactions "
 "against a QIF or OFX file from your online bank."
