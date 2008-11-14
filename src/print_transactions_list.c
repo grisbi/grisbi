@@ -278,7 +278,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
     font_button_transactions = gtk_font_button_new_with_font ( fontname_transactions );
     gtk_font_button_set_use_font ( GTK_FONT_BUTTON(font_button_transactions), TRUE );
     gtk_font_button_set_use_size ( GTK_FONT_BUTTON(font_button_transactions), TRUE );
-
+    gtk_font_button_set_title ( GTK_FONT_BUTTON(font_button_transactions), _("Choosing font") );
     gtk_box_pack_start (GTK_BOX (hbox),
 			font_button_transactions,
 			TRUE, TRUE, 0);
@@ -301,6 +301,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
     font_button_title =  gtk_font_button_new_with_font ( fontname_title );
     gtk_font_button_set_use_font ( GTK_FONT_BUTTON(font_button_title), TRUE );
     gtk_font_button_set_use_size ( GTK_FONT_BUTTON(font_button_title), TRUE );
+    gtk_font_button_set_title ( GTK_FONT_BUTTON(font_button_title), _("Choosing font") );
     gtk_box_pack_start (GTK_BOX (hbox),
 			font_button_title,
 			TRUE, TRUE, 0);

@@ -226,6 +226,7 @@ GtkWidget * onglet_display_fonts ( void )
 			 FALSE, FALSE, 0);
 
     color_button = gtk_color_button_new ();
+    gtk_color_button_set_title ( GTK_COLOR_BUTTON(color_button), _("Choosing color") );
     g_signal_connect ( G_OBJECT (color_button),
 		       "color-set",
 		       G_CALLBACK (preferences_view_color_changed),

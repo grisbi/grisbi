@@ -62,7 +62,7 @@ void display_tip ( gboolean force )
     GtkWidget * dialog = NULL;
     gchar * tip;
 
-    if ( !force && etat.show_tip )
+    if ( !force && !etat.show_tip )
 	return;
 
     etat.last_tip ++;
@@ -80,7 +80,7 @@ void display_tip ( gboolean force )
 						   dgettext("grisbi-tips", (tip) ) ) );
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
 
-    checkbox = gsb_automem_checkbutton_new ( _("Do not show this message again"), 
+    checkbox = gsb_automem_checkbutton_new ( _("Display tips at next start"), 
 					     &(etat.show_tip), NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -> vbox ), checkbox, FALSE, FALSE, 6 );
     gtk_widget_show ( checkbox );
