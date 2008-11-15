@@ -899,7 +899,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
 			 TRUE, TRUE, 5 );
     bank_notes = gsb_autofunc_textview_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_note), 0);
-    gtk_widget_set_size_request ( bank_notes, FALSE, 100 );
+    gtk_widget_set_size_request ( bank_notes, -1, 100 );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), bank_notes );
 
     return parent;

@@ -419,7 +419,7 @@ static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant
     name_entry = gtk_entry_new ();
     g_signal_connect ( G_OBJECT (name_entry ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &name_entry );
-    gtk_widget_set_size_request ( name_entry, 400, FALSE );
+    gtk_widget_set_size_request ( name_entry, 400, -1 );
     g_signal_connect_object ( G_OBJECT (name_entry),
 			      "changed",
 			      G_CALLBACK (gsb_assistant_archive_update_labels),

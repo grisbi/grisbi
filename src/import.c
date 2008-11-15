@@ -2717,7 +2717,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 			    "liste_ope",
 			    liste_opes_import_celibataires );
 	scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
-	gtk_widget_set_size_request ( scrolled_window, FALSE, 300 );
+	gtk_widget_set_size_request ( scrolled_window, -1, 300 );
 	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
 			     scrolled_window,
 			     TRUE,
@@ -3290,7 +3290,7 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
 
     /* text for paddingbox */
-    tmpstr = g_strdup_printf (_("Properties of the rule %s"),
+    tmpstr = g_strdup_printf (_("Properties of the rule : %s\n"),
                   gsb_data_import_rule_get_name (rule));
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
@@ -3332,7 +3332,7 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     g_free ( tmpstr );
 
     /* label filename */
-    label = gtk_label_new (COLON(_("Name of the file to import")));
+    label = gtk_label_new (COLON(_("Name of the file to import ")));
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -3340,7 +3340,7 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     /* i tried to use gtk_file_chooser_button, but the name of the file is showed only sometimes
      * so go back to the old method with a gtkentry */
     entry = gtk_entry_new ();
-    gtk_widget_set_size_request ( entry, 200, FALSE );
+    gtk_widget_set_size_request ( entry, 200, -1 );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 

@@ -440,7 +440,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 
     /* echange line input field */
     entry = gtk_entry_new ();
-    gtk_widget_set_size_request ( entry, 100, FALSE );
+    gtk_widget_set_size_request ( entry, 100, -1 );
     gtk_entry_set_activates_default ( GTK_ENTRY ( entry ), TRUE );
     gtk_table_attach ( GTK_TABLE(table), entry, 3, 4, 0, 1,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );

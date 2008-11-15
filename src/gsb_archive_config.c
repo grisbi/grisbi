@@ -264,7 +264,7 @@ GtkWidget *gsb_archive_config_create ( void )
     entry = gsb_automem_spin_button_new (&etat.max_non_archived_transactions_for_check,
 					 NULL, NULL );
     gtk_widget_set_size_request ( entry,
-			   100, FALSE );
+			   100, -1 );
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 entry,
 			 FALSE, FALSE,

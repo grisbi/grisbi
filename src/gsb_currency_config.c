@@ -1152,7 +1152,7 @@ GtkWidget *gsb_currency_config_create_box_popup ( GCallback select_callback )
 				    GTK_POLICY_ALWAYS);
 
     treeview = gsb_currency_config_create_list ();
-    gtk_widget_set_size_request ( treeview, FALSE, 200 );
+    gtk_widget_set_size_request ( treeview, -1, 200 );
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW(treeview) );
     if (select_callback)
 	g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( treeview ) ), 

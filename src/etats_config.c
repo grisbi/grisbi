@@ -2328,7 +2328,7 @@ GtkWidget *onglet_etat_dates ( void )
     		G_CALLBACK ( gtk_widget_destroyed), &entree_date_init_etat );
     gtk_widget_set_size_request ( entree_date_init_etat,
 			   100,
-			   FALSE );
+			   -1 );
     gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       entree_date_init_etat,
 		       FALSE,
@@ -2360,7 +2360,7 @@ GtkWidget *onglet_etat_dates ( void )
     		G_CALLBACK ( gtk_widget_destroyed), &entree_date_finale_etat );
     gtk_widget_set_size_request ( entree_date_finale_etat,
 			   100,
-			   FALSE );
+			   -1 );
     gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       entree_date_finale_etat,
 		       FALSE,
@@ -4603,7 +4603,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
     label = gtk_label_new ( NULL );
     gtk_widget_set_size_request ( label,
 			   12,
-			   FALSE );
+			   -1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,
@@ -4651,7 +4651,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 
     gtk_widget_set_size_request ( gsb_data_report_text_comparison_get_entry_text (text_comparison_number),
 			   150,
-			   FALSE );
+			   -1 );
     gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)),
 			 gsb_data_report_text_comparison_get_entry_text (text_comparison_number),
 			 FALSE,
@@ -4674,7 +4674,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
     label = gtk_label_new ( NULL );
     gtk_widget_set_size_request ( label,
 			   12,
-			   FALSE );
+			   -1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,
@@ -4735,7 +4735,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 							     gtk_entry_new ());
     gtk_widget_set_size_request ( gsb_data_report_text_comparison_get_entry_first_amount (text_comparison_number),
 			   100,
-			   FALSE );
+			   -1 );
     gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)),
 			 gsb_data_report_text_comparison_get_entry_first_amount (text_comparison_number),
 			 FALSE,
@@ -4792,7 +4792,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 							      gtk_entry_new ());
     gtk_widget_set_size_request ( gsb_data_report_text_comparison_get_entry_second_amount (text_comparison_number),
 			   100,
-			   FALSE );
+			   -1 );
     gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_second_part (text_comparison_number)),
 			 gsb_data_report_text_comparison_get_entry_second_amount (text_comparison_number),
 			 FALSE,
@@ -5630,7 +5630,7 @@ GtkWidget *cree_ligne_comparaison_montant ( gint amount_comparison_number )
     widget = gtk_entry_new ();
     gtk_widget_set_size_request ( widget,
 			   50,
-			   FALSE );
+			   -1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 widget,
 			 FALSE,
@@ -5691,7 +5691,7 @@ GtkWidget *cree_ligne_comparaison_montant ( gint amount_comparison_number )
     widget = gtk_entry_new ();
     gtk_widget_set_size_request ( widget,
 			   50,
-			   FALSE );
+			   -1 );
     gtk_box_pack_start ( GTK_BOX ( widget_1 ),
 			 widget,
 			 FALSE,

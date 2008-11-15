@@ -482,7 +482,7 @@ GtkWidget *onglet_form_completion ( void )
 
     entry = gtk_entry_new ();
     gtk_widget_set_size_request ( entry,
-			   30, FALSE );
+			   30, -1 );
     gchar* tmpstr = utils_str_itoa (etat.combofix_max_item);
     gtk_entry_set_text ( GTK_ENTRY (entry), tmpstr);
     g_free ( tmpstr );

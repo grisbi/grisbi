@@ -7959,12 +7959,12 @@ msgstr ""
 
 #: src/import.c:3280
 msgid "Import a file with a rule"
-msgstr ""
+msgstr "Importer un fichier à partir d'une règle"
 
 #: src/import.c:3287
 #, c-format
-msgid "Properties of the rule %s :\n"
-msgstr "Propriétés pour %s :\n"
+msgid "Properties of the rule : %s\n"
+msgstr "Propriétés de la règle : %s\n"
 
 #: src/import.c:3296
 #, c-format
@@ -7986,8 +7986,8 @@ msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Le montant des opérations sera inversé.\n"
 
 #: src/import.c:3336
-msgid "Name of the file to import : "
-msgstr "Nom du fichier à importer: "
+msgid "Name of the file to import "
+msgstr "Nom du fichier à importer "
 
 #: src/import.c:3435
 #, fuzzy, c-format
