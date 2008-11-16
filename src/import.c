@@ -1766,7 +1766,10 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
     {
 	struct struct_ope_importation *imported_transaction;
 	imported_transaction = list_tmp -> data;
-
+    
+    /* on remplace ici le caractère utilisé pour contourner le bug de la libofx "&"
+       par le bon caractère "°" */
+       
     if ( imported_transaction -> cheque )
     imported_transaction -> tiers = my_strdelimit (imported_transaction -> tiers, "&", "°");
 
