@@ -148,8 +148,8 @@ GtkWidget *creation_barre_outils ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), menu, FALSE, FALSE, 0 );
 
     /* set the button to show/hide R transactions */
-    if ( bouton_affiche_ope_r && GTK_IS_WIDGET ( bouton_affiche_ope_r ) )
-	    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_affiche_ope_r, FALSE, FALSE, 0 );
+/*     if ( bouton_affiche_ope_r && GTK_IS_WIDGET ( bouton_affiche_ope_r ) ) */
+/* 	    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_affiche_ope_r, FALSE, FALSE, 0 ); */
 
 
     menu_import_rules = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
@@ -225,6 +225,15 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
     g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
 			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (4) );
 
+    gtk_menu_append ( GTK_MENU ( menu ), gtk_separator_menu_item_new ( ) );
+
+    menu_item = gtk_check_menu_item_new_with_label ( _("Display reconciled transactions") );
+    gtk_check_menu_item_set_active ( menu_item,
+				     gsb_data_account_get_r ( gsb_gui_navigation_get_current_account () ) );
+    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
+			       G_CALLBACK (gsb_gui_toggle_show_reconciled), GINT_TO_POINTER (4) );
+
     gtk_menu_set_active ( GTK_MENU(menu), 
 			  gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () ) );
 
@@ -257,24 +266,25 @@ gboolean popup_transaction_rules_menu ( GtkWidget * button,
 
 	rule = gsb_data_import_rule_get_number (tmp_list -> data);
  
-    if (i > 0)
-    { 
-        menu_item = gtk_separator_menu_item_new ( );
-        gtk_menu_append ( GTK_MENU ( menu ), menu_item );
-    }
+	if (i > 0)
+	{ 
+	    menu_item = gtk_separator_menu_item_new ( );
+	    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+	}
   
-    menu_item = gtk_menu_item_new_with_label (gsb_data_import_rule_get_name (rule));
+	menu_item = gtk_menu_item_new_with_label (gsb_data_import_rule_get_name (rule));
 	gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 	g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
 				   G_CALLBACK (gsb_import_by_rule), GINT_TO_POINTER (rule) );
-    menu_item = gtk_menu_item_new_with_label (_("Remove the rule"));
-    g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
+	menu_item = gtk_menu_item_new_with_label (_("Remove the rule"));
+	g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
 				   G_CALLBACK (gsb_data_import_rule_remove), GINT_TO_POINTER (rule) );
 
 	gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 
 	tmp_list = tmp_list -> next;
     }
+
     gtk_widget_show_all ( menu );
     gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
 		     gtk_get_current_event_time());
