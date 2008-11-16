@@ -7519,7 +7519,7 @@ msgid ""
 msgstr "Voulez vous vraiment supprimer l'opération avec le tiers « %s » ?"
 
 #: src/gsb_transactions_list.c:1893
-#, fuzzy, c-format
+#, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr "Voulez vous vraiment supprimer l'opération avec le tiers « %s » ?"
 

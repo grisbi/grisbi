@@ -1767,6 +1767,9 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	struct struct_ope_importation *imported_transaction;
 	imported_transaction = list_tmp -> data;
 
+    if ( imported_transaction -> cheque )
+    imported_transaction -> tiers = my_strdelimit (imported_transaction -> tiers, "&", "°");
+
 	/* on ne fait le tour de la liste des opés que si la date de l'opé importée est inférieure à la dernière date */
 	/* de la liste */
 
@@ -3420,7 +3423,7 @@ gboolean gsb_import_set_tmp_file ( gchar * filename,
     gchar * contenu_fichier;
     GError * error = NULL;
     
-    contenu_fichier = my_strdelimit (pointeur_char, "°", " ");
+    contenu_fichier = my_strdelimit (pointeur_char, "°", "&");
     
     /* create tmp file */
 	if ( ! g_file_set_contents ( filename, contenu_fichier, -1, &error ) )
