@@ -39,8 +39,8 @@
 #include "./gsb_data_currency.h"
 #include "./gsb_real.h"
 #include "./utils.h"
-#include "./gsb_data_account.h"
 #include "./structures.h"
+#include "./gsb_data_account.h"
 #include "./include.h"
 /*END_INCLUDE*/
 

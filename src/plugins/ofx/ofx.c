@@ -427,7 +427,6 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 	{
 	    case OFX_CHECK:
 		/* 		   si c'est un chèque, svt ya pas de tiers, on va mettre chèque...  */
-
 		if ( !ope_import -> tiers )
 		    ope_import -> tiers = g_strdup ( _("Check"));
 		break;

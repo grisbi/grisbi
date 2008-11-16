@@ -17,6 +17,8 @@ gint gsb_data_payment_get_last_number ( gint payment_number );
 GSList *gsb_data_payment_get_list_for_account ( gint account_number );
 const gchar *gsb_data_payment_get_name ( gint payment_number );
 gint gsb_data_payment_get_number ( gpointer payment_ptr );
+gint gsb_data_payment_get_number_by_name ( const gchar *name,
+						    gint account_number );
 GSList *gsb_data_payment_get_payments_list ( void );
 gint gsb_data_payment_get_show_entry ( gint payment_number );
 gint gsb_data_payment_get_sign ( gint payment_number );

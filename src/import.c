@@ -22,7 +22,8 @@
 
 
 #include "include.h"
-
+#include <libofx/libofx.h>
+ 
 /*START_INCLUDE*/
 #include "import.h"
 #include "./utils.h"
@@ -100,7 +101,7 @@ static gboolean gsb_import_check_transaction_link ( gint transaction_number,
 static GSList *gsb_import_create_file_chooser (const char *enc);
 static gint gsb_import_create_imported_account ( struct struct_compte_importation *imported_account );
 static gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
-				     gint account_number );
+				     gint account_number, gchar * origine );
 static gboolean gsb_import_set_tmp_file ( gchar * filename,
 				       gchar * pointeur_char );
 static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
@@ -1726,7 +1727,6 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 				     imported_account -> id_compte );
     }
 
-
     /* on fait un premier tour de la liste des opés pour repérer celles qui sont déjà entrées */
     /*   si on n'importe que du ofx, c'est facile, chaque opé est repérée par une id */
     /*     donc si l'opé importée a une id, il suffit de rechercher l'id dans le compte, si elle */
@@ -1768,9 +1768,9 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	imported_transaction = list_tmp -> data;
     
     /* on remplace ici le caractère utilisé pour contourner le bug de la libofx "&"
-       par le bon caractère "°" */
-       
-    if ( imported_transaction -> cheque )
+       par le bon caractère "°" 
+       regarder si on ne pourrait pas utiliser imported_account -> type_de_compte */
+    if ( g_ascii_strcasecmp (imported_account -> origine, "OFX") == 0 && imported_transaction -> cheque )
     imported_transaction -> tiers = my_strdelimit (imported_transaction -> tiers, "&", "°");
 
 	/* on ne fait le tour de la liste des opés que si la date de l'opé importée est inférieure à la dernière date */
@@ -1880,7 +1880,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 		imported_transaction -> devise = gsb_data_currency_get_number_by_code_iso4217 (imported_account -> devise);
 
 	    transaction_number = gsb_import_create_transaction ( imported_transaction,
-								 account_number );
+								 account_number, imported_account -> origine );
 
 	    /* invert the amount of the transaction if asked */
 	    if (imported_account -> invert_transaction_amount)
@@ -2148,7 +2148,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
  * \return the number of the new transaction
  * */
 gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
-				     gint account_number )
+				     gint account_number, gchar * origine )
 {
     gchar **tab_str;
     gint transaction_number;
@@ -2259,7 +2259,69 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     /* récupération des notes */
     gsb_data_transaction_set_notes ( transaction_number,
 				     imported_transaction -> notes );
+    
+    if (origine && g_ascii_strcasecmp (origine, "OFX") == 0 )
+    {
+    gint payment_number = 0;
+    
+    switch ( imported_transaction -> type_de_transaction )
+	{
+	    case OFX_CHECK:
+        payment_number = gsb_data_payment_get_number_by_name ( _("Check"),
+						    account_number );
+        gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
+		break;
+	    //~ case OFX_INT:
+		//~ break;
+	    //~ case OFX_DIV:
+		//~ break;
+	    //~ case OFX_SRVCHG:
+		//~ break;
+	    //~ case OFX_FEE:
+		//~ break;
+	    case OFX_DEP:
+        payment_number = gsb_data_payment_get_number_by_name ( _("Direct deposit"),
+						    account_number );
+        gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
+		break;
+	    case OFX_ATM:
+        payment_number = gsb_data_payment_get_number_by_name ( _("Credit card"),
+						    account_number );
+        gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
+		break;
+	    //~ case OFX_POS:
+		//~ break;
+	    //~ case OFX_XFER:
+		//~ break;
+	    case OFX_PAYMENT:
+        payment_number = gsb_data_payment_get_number_by_name ( _("Direct debit"),
+						    account_number );
+        gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
+		break;
+	    //~ case OFX_CASH:
+		//~ break;
+	    case OFX_DIRECTDEP:
+		payment_number = gsb_data_payment_get_number_by_name ( _("Transfert"),
+						    account_number );
+        gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
+		break;
+	    case OFX_DIRECTDEBIT:
+         payment_number = gsb_data_payment_get_number_by_name ( _("Direct debit"),
+						    account_number );
+        gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
 
+		break;
+	    //~ case OFX_REPEATPMT:
+		//~ break;
+
+	    case OFX_DEBIT:
+	    case OFX_CREDIT:
+	    case OFX_OTHER:
+		break;
+	}  
+    }
+    else
+    {
     /* récupération du chèque et mise en forme du type d'opération */
     if ( imported_transaction -> cheque )
     {
@@ -2343,7 +2405,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
 								gsb_data_account_get_default_credit (account_number));
     }
-
+    }
     /* récupération du pointé */
     gsb_data_transaction_set_marked_transaction ( transaction_number,
 						  imported_transaction -> p_r );
@@ -2834,7 +2896,7 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 		    ope_import = list_tmp -> data;
 
 		    transaction_number = gsb_import_create_transaction ( ope_import,
-									 ope_import -> no_compte );
+									 ope_import -> no_compte , NULL);
 		    gsb_data_transaction_set_marked_transaction ( transaction_number,
 								  2 );
 

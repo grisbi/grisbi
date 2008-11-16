@@ -47,9 +47,9 @@
 #include "./gsb_data_payment.h"
 #include "./gtk_combofix.h"
 #include "./include.h"
+#include "./structures.h"
 #include "./gsb_data_form.h"
 #include "./erreur.h"
-#include "./structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

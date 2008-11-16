@@ -40,9 +40,9 @@
 #include "./gsb_transactions_list.h"
 #include "./utils_file_selection.h"
 #include "./metatree.h"
+#include "./structures.h"
 #include "./include.h"
 #include "./erreur.h"
-#include "./structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

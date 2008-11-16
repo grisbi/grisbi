@@ -7535,9 +7535,8 @@ msgstr "Supprimer l'opération"
 
 #. use transaction as template
 #: src/gsb_transactions_list.c:2129
-#, fuzzy
 msgid "Use selected transaction as a template"
-msgstr "Effacer l'opération sélectionnée"
+msgstr "Utiliser l'opération séléctionnée comme modèle"
 
 #. Clone transaction
 #: src/gsb_transactions_list.c:2139
@@ -12637,8 +12636,8 @@ msgstr "Aucune imputation"
 #~ msgid "Autres frais divers de gestion"
 #~ msgstr "Autres frais divers de gestion"
 
-#~ msgid "Location de matÃ©riel ou de mobilier"
-#~ msgstr "Location de matÃ©riel ou de mobilier"
+#~ msgid "Location de matériel ou de mobilier"
+#~ msgstr "Location de matériel ou de mobilier"
 
 #, fuzzy
 #~ msgid "Fournitures de bureau et documentation"
@@ -12648,11 +12647,11 @@ msgstr "Aucune imputation"
 #~ msgid "Frais financiers"
 #~ msgstr "Utiliser les exercices"
 
-#~ msgid "RÃ©trocession d'honoraires"
-#~ msgstr "RÃ©trocession d'honoraires"
+#~ msgid "Rétrocession d'honoraires"
+#~ msgstr "Rétrocession d'honoraires"
 
-#~ msgid "Honoraires ne constituant pas des rÃ©trocessions"
-#~ msgstr "Honoraires ne constituant pas des rÃ©trocessions"
+#~ msgid "Honoraires ne constituant pas des rétrocessions"
+#~ msgstr "Honoraires ne constituant pas des rétrocessions"
 
 #~ msgid "Charges sociales du praticien"
 #~ msgstr "Charges sociales du praticien"
@@ -12744,8 +12743,8 @@ msgstr "Aucune imputation"
 #~ "Tentative d'enregistrement d'une opération sans compte créé "
 #~ "précédemment...\n"
 
-#~ msgid "Check"
-#~ msgstr "Chèque"
+msgid "Check"
+msgstr "Chèque"
 
 #~ msgid "Interest"
 #~ msgstr "Intérêt"
@@ -12759,20 +12758,20 @@ msgstr "Aucune imputation"
 #~ msgid "Fee"
 #~ msgstr "Frais"
 
-#~ msgid "Cash dispenser"
-#~ msgstr "Distributeur de billets"
+msgid "Cash dispenser"
+msgstr "Distributeur de billets"
 
 #~ msgid "Point of sale"
 #~ msgstr "Point de vente"
 
-#~ msgid "Electronic payment"
-#~ msgstr "Paiement électronique"
+msgid "Electronic payment"
+msgstr "Prélèvement"
 
 #~ msgid "Cash"
 #~ msgstr "Espèces"
 
-#~ msgid "Direct deposit"
-#~ msgstr "Dépôt direct"
+msgid "Direct deposit"
+msgstr "Dépôt"
 
 #~ msgid "Merchant initiated debit"
 #~ msgstr "Prélèvement"

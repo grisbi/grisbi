@@ -51,9 +51,9 @@
 #include "./parse_cmdline.h"
 #include "./import.h"
 #include "./parse_cmdline.h"
-#include "./structures.h"
 #include "./include.h"
 #include "./erreur.h"
+#include "./structures.h"
 /*END_INCLUDE*/
 
 

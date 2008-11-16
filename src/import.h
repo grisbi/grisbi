@@ -60,16 +60,16 @@ struct struct_ope_importation
 {
     gchar *id_operation;
 
-    gint no_compte;    /*  mis à jour si lors du marquage, si pas d'opé associée trouvée */
-    gint devise;      /* mis à jour au moment de l'enregistrement de l'opé */
+    gint no_compte;             /* mis à jour si lors du marquage, si pas d'opé associée trouvée */
+    gint devise;                /* mis à jour au moment de l'enregistrement de l'opé */
     GDate *date;
     GDate *date_de_valeur;
-    gchar *date_tmp;      /* pour un fichier qif, utilisé en tmp avant de le transformer en gdate */
+    gchar *date_tmp;            /* pour un fichier qif, utilisé en tmp avant de le transformer en gdate */
 
-    gint action;		/* IMPORT_TRANSACTION_GET_TRANSACTION, IMPORT_TRANSACTION_ASK_FOR_TRANSACTION, IMPORT_TRANSACTION_LEAVE_TRANSACTION*/
-    gint ope_correspondante; /* contient l'adrde l'opé qui correspond peut être à l'opé importée pour la présentation à l'utilisateur */
-    GtkWidget *bouton;  /*  adr du bouton si cette opé est douteuse et vérifiée par l'utilisateur */
-
+    gint action;		        /* IMPORT_TRANSACTION_GET_TRANSACTION, IMPORT_TRANSACTION_ASK_FOR_TRANSACTION, IMPORT_TRANSACTION_LEAVE_TRANSACTION*/
+    gint ope_correspondante;    /* contient l'adr de l'opé qui correspond peut être à l'opé importée pour la présentation à l'utilisateur */
+    GtkWidget *bouton;          /*  adr du bouton si cette opé est douteuse et vérifiée par l'utilisateur */
+    
     gchar *tiers;
     gchar *notes;
     gulong cheque;

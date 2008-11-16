@@ -48,10 +48,10 @@
 #include "./utils_file_selection.h"
 #include "./gtk_combofix.h"
 #include "./metatree.h"
+#include "./structures.h"
 #include "./gsb_data_form.h"
 #include "./include.h"
 #include "./erreur.h"
-#include "./structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

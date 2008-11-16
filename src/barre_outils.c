@@ -42,8 +42,8 @@
 #include "./traitement_variables.h"
 #include "./print_transactions_list.h"
 #include "./utils_buttons.h"
-#include "./include.h"
 #include "./structures.h"
+#include "./include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -135,7 +135,7 @@ gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
 
 
 /***********************************************************************************************************/
-/* cette fonction protÃšge atoi qui plante quand on lui envoie un null */
+/* cette fonction protège atoi qui plante quand on lui envoie un null */
 /***********************************************************************************************************/
 /*!
  * @brief Secured version of atoi
@@ -165,17 +165,17 @@ gint utils_str_atoi ( const gchar *chaine )
 
 /******************************************************************************/
 /* Fonction my_strtod (string to decimal)                                    */
-/* Convertie une chaine de caractÃšres en un nombre                            */
-/* ParamÃštres d'entrÃ©e :                                                      */
+/* Convertie une chaine de caractères en un nombre                            */
+/* Paramètres d'entrée :                                                      */
 /*   - nptr : pointeur sur la chaine de caractÃšres Ã  convertir                */
-/*   - endptr : n'est pas utilisÃ©, alors Ã  quoi peut-il bien servir ?         */
+/*   - endptr : n'est pas utilisé, alors à quoi peut-il bien servir ?         */
 /* Valeur de retour :                                                         */
-/*   - resultat : le rÃ©sultat de la conversion                                */
+/*   - resultat : le résultat de la conversion                                */
 /* Variables locales :                                                        */
-/*   - entier : la partie entiÃšre du rÃ©sultat                                 */
-/*   - mantisse : la partie dÃ©cimale du rÃ©sultat                              */
-/*   - invert : le signe du rÃ©sultat (0 -> positif, 1 -> nÃ©gatif)             */
-/*   - p, m : pointeurs locaux sur la chaine de caractÃšres Ã  convertir        */
+/*   - entier : la partie entière du résultat                                 */
+/*   - mantisse : la partie décimale du résultat                              */
+/*   - invert : le signe du résultat (0 -> positif, 1 -> négatif)             */
+/*   - p, m : pointeurs locaux sur la chaine de caractères à convertir        */
 /******************************************************************************/
 double my_strtod ( const char *nptr, const char **endptr )
 {

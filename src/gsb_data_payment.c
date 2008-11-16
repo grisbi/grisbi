@@ -208,6 +208,41 @@ gint gsb_data_payment_get_number ( gpointer payment_ptr )
 
 
 /**
+ * return the number of the payment given in param
+ *
+ * \param the name of the payment
+ * \param the account_number
+ *
+ * \return the number of the payment, 0 if problem
+ * */
+gint gsb_data_payment_get_number_by_name ( const gchar *name,
+						    gint account_number )
+{
+    GSList *tmp_list;
+    gint payment_number = 0 ;
+    gint compare;
+    
+    tmp_list = payment_list;
+
+    while ( tmp_list )
+    {
+	struct_payment *payment;
+
+	payment = tmp_list -> data;
+
+	if ( payment -> account_number == account_number )
+    {
+        if ( (compare = gsb_strcasecmp (  (gchar *)name, payment -> payment_name ) ) == 0 )
+            return payment -> payment_number;
+    }
+	tmp_list = tmp_list -> next;
+    }
+
+    return payment_number;
+}
+
+
+/**
  * find and return the last number of payment
  * carrefull, it's an internal function to create a new payment number,
  * nothing to see to the number of cheque we want to increase
