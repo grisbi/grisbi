@@ -7902,6 +7902,10 @@ msgstr "Opération trouvée : %02d/%02d/%04d ; %s ; %4.2f ; %s"
 msgid "Transaction found : %s ; %s ; %s"
 msgstr "Opération trouvée : %02d/%02d/%04d ; %s ; %4.2f"
 
+#: src/import.c:2315
+msgid "Cash withdrawal"
+msgstr "Liquide"
+
 #: src/import.c:2323
 #, fuzzy, c-format
 msgid ""
