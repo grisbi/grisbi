@@ -2267,6 +2267,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     switch ( imported_transaction -> type_de_transaction )
 	{
 	    case OFX_CHECK:
+        /* Check = Chèque */
         payment_number = gsb_data_payment_get_number_by_name ( _("Check"),
 						    account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
@@ -2280,33 +2281,50 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	    //~ case OFX_FEE:
 		//~ break;
 	    case OFX_DEP:
-        payment_number = gsb_data_payment_get_number_by_name ( _("Direct deposit"),
+        /* Deposit = Dépôt */
+        payment_number = gsb_data_payment_get_number_by_name ( _("Deposit"),
 						    account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
 		break;
 	    case OFX_ATM:
+        /* pas trouvé de définition remplacé par carte de crédit */
         payment_number = gsb_data_payment_get_number_by_name ( _("Credit card"),
 						    account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
 		break;
-	    //~ case OFX_POS:
-		//~ break;
-	    //~ case OFX_XFER:
-		//~ break;
+	    case OFX_POS:
+        /* Point of sale = Point de vente remplacé par carte de crédit */
+        payment_number = gsb_data_payment_get_number_by_name ( _("Credit card"),
+						    account_number );
+        gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
+		break;
+	    case OFX_XFER:
+        /* Transfer = Virement */
+		payment_number = gsb_data_payment_get_number_by_name ( _("Transfert"),
+						    account_number );
+        gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
+		break;
 	    case OFX_PAYMENT:
+        /* Electronic payment remplacé par Direct debit = Prélèvement */
         payment_number = gsb_data_payment_get_number_by_name ( _("Direct debit"),
 						    account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
 		break;
-	    //~ case OFX_CASH:
-		//~ break;
+	    case OFX_CASH:
+        /* Cash withdrawal = retrait en liquide */
+        payment_number = gsb_data_payment_get_number_by_name ( _("Cash withdrawal"),
+						    account_number );
+        gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
+		break;
 	    case OFX_DIRECTDEP:
+        /* Direct deposit remplacé par Transfert = Virement */
 		payment_number = gsb_data_payment_get_number_by_name ( _("Transfert"),
 						    account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
 		break;
 	    case OFX_DIRECTDEBIT:
-         payment_number = gsb_data_payment_get_number_by_name ( _("Direct debit"),
+        /* Merchant initiated debit remplacé par Direct debit = Prélèvement */
+        payment_number = gsb_data_payment_get_number_by_name ( _("Direct debit"),
 						    account_number );
         gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
 
