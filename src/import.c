@@ -22,7 +22,6 @@
 
 
 #include "include.h"
-#include <libofx/libofx.h>
  
 /*START_INCLUDE*/
 #include "import.h"
@@ -125,6 +124,27 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget *window ;
 /*END_EXTERN*/
+
+/* recopie des types de transaction de la libofx en attendant une version propre */
+typedef enum {
+    OFX_CREDIT,     /**< Generic credit */
+    OFX_DEBIT,      /**< Generic debit */
+    OFX_INT,        /**< Interest earned or paid (Note: Depends on signage of amount) */
+    OFX_DIV,        /**< Dividend */
+    OFX_FEE,        /**< FI fee */
+    OFX_SRVCHG,     /**< Service charge */
+    OFX_DEP,        /**< Deposit */
+    OFX_ATM,        /**< ATM debit or credit (Note: Depends on signage of amount) */
+    OFX_POS,        /**< Point of sale debit or credit (Note: Depends on signage of amount) */
+    OFX_XFER,       /**< Transfer */
+    OFX_CHECK,      /**< Check */
+    OFX_PAYMENT,    /**< Electronic payment */
+    OFX_CASH,       /**< Cash withdrawal */
+    OFX_DIRECTDEP,  /**< Direct deposit */
+    OFX_DIRECTDEBIT,/**< Merchant initiated debit */
+    OFX_REPEATPMT,  /**< Repeating payment/standing order */
+    OFX_OTHER       /**< Somer other type of transaction */
+  } OFXTransactionType;
 
 
 /** Suppported import formats.  Plugins may register themselves. */
