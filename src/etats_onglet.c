@@ -1207,6 +1207,10 @@ void exporter_etat ( void )
 		       fenetre_nom );
     gtk_widget_show_all ( hbox );
     gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER(fenetre_nom), hbox );
+    gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER ( fenetre_nom ), TRUE);
+
+    gtk_window_set_transient_for ( GTK_WINDOW ( fenetre_nom ), GTK_WINDOW ( window ));
+    gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ), TRUE );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
     if ( resultat == GTK_RESPONSE_OK )
@@ -1278,11 +1282,9 @@ void importer_etat ( void )
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
-    fenetre_nom = file_selection_new ( _("Import a report") , FILE_SELECTION_MUST_EXIST);
-    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( fenetre_nom ),
-					  gsb_file_get_last_path () );
-    file_selection_set_entry (  GTK_FILE_CHOOSER ( fenetre_nom ),
-				g_strconcat ( gsb_file_get_last_path (), ".egsb", NULL ));
+    fenetre_nom = file_selection_new ( _("Import a report"), FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( fenetre_nom ), gsb_file_get_last_path () );
+    file_selection_set_entry ( GTK_FILE_CHOOSER ( fenetre_nom ), g_strconcat ( gsb_file_get_last_path (), ".egsb", NULL ));
 
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("Grisbi report files (*.egsb)") );
@@ -1294,6 +1296,9 @@ void importer_etat ( void )
     gtk_file_filter_set_name ( filter, _("All files") );
     gtk_file_filter_add_pattern ( filter, "*" );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( fenetre_nom ), filter );
+
+    gtk_window_set_transient_for ( GTK_WINDOW ( fenetre_nom ), GTK_WINDOW ( window ));
+    gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ), TRUE );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
 
