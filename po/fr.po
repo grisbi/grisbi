@@ -666,8 +666,8 @@ msgid "Display reconcile"
 msgstr "Affiche les opérations rapprochées"
 
 #: src/barre_outils.c:518
-msgid "Display reconciled transactions"
-msgstr "Affiche les opérations rapprochées"
+msgid "Display reconciled transactions (Alt+R)"
+msgstr "Montrer les opérations rapprochées (Alt+R)"
 
 #: src/categories_onglet.c:140 src/etats_affiche.c:2425 src/etats_config.c:668
 #: src/export_csv.c:776 src/gsb_transactions_list.c:153 src/import_csv.c:84
@@ -1120,10 +1120,12 @@ msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
 "that file with the obfuscated file into the bug report."
 msgstr ""
+"Le mode de débuggage est démarré. Grisbi va créer le fichier de log %s. "
+"Merci d'envoyer ce fichier avec votre fichier de compte et/ou QIF rendu obscur."
 
 #: src/erreur.c:421
 msgid "Grisbi failed to create the log file..."
-msgstr ""
+msgstr "Grisbi n'a pas pu créer le fichier de log"
 
 #: src/etats_affiche.c:178 src/etats_affiche.c:411 src/etats_affiche.c:635
 #: src/etats_affiche.c:742
@@ -2916,7 +2918,7 @@ msgstr ""
 msgid ""
 "Obfuscated file saved as\n"
 "<tt>%s</tt>"
-msgstr ""
+msgstr "Le fichier obscurcit <tt>%s</tt> a été sauvegardé."
 
 #: src/file_obfuscate.c:352 src/file_obfuscate.c:355
 msgid "Obfuscation succeeded"
@@ -2927,7 +2929,8 @@ msgstr ""
 msgid ""
 "Grisbi couldn't save the file\n"
 "<tt>%s</tt>"
-msgstr ""
+msgstr "Grisbi n'a pas pu sauvegarder le fichier\n"
+"<tt>%s</tt>"
 
 #: src/file_obfuscate.c:384
 #, fuzzy
@@ -7144,9 +7147,8 @@ msgid "Variance"
 msgstr "Écart"
 
 #: src/gsb_reconcile.c:253
-#, fuzzy
 msgid "Sort by method of payment"
-msgstr "Sélectionner les opérations en fonction des modes de règlement"
+msgstr "Trier les opérations par mode de règlement"
 
 #. set the title
 #: src/gsb_reconcile.c:439
@@ -8252,9 +8254,12 @@ msgid "_Debug account file..."
 msgstr "_Déboguer le fichier de compte..."
 
 #: src/menu.c:201
-#, fuzzy
 msgid "_Obfuscate account file..."
-msgstr "_Déboguer le fichier de compte..."
+msgstr "Rendre obscur le fichier de compte..."
+
+#: src/menu.c:201
+msgid "_Obfuscate QIF file..."
+msgstr "Rendre obscur le fichier QIF..."
 
 #: src/menu.c:204
 msgid "_Close"
@@ -8360,7 +8365,7 @@ msgstr "Montrer _quatre lignes par opération"
 
 #: src/menu.c:284
 msgid "Start the Debug mode"
-msgstr ""
+msgstr "Démarrer le mode débuggage"
 
 #: src/menu.c:288
 msgid "Show transaction _form"

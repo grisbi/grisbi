@@ -124,9 +124,6 @@ GdkColor couleur_nom_compte_prelight;
 GdkColor couleur_bleue;
 GdkColor couleur_jaune;
 
-/* ajouté pour la gestion des boutons afficher/masquer les opérations rapprochées */
-GtkIconFactory *gsb_factory;
-
 GSList *liste_labels_titres_colonnes_liste_ope = NULL;
 
 gchar *nom_fichier_comptes = NULL;

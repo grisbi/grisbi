@@ -227,8 +227,8 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
 
     gtk_menu_append ( GTK_MENU ( menu ), gtk_separator_menu_item_new ( ) );
 
-    menu_item = gtk_check_menu_item_new_with_label ( _("Display reconciled transactions") );
-    gtk_check_menu_item_set_active ( menu_item,
+    menu_item = gtk_check_menu_item_new_with_label ( _("Display reconciled transactions (Alt+R)") );
+    gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM (menu_item),
 				     gsb_data_account_get_r ( gsb_gui_navigation_get_current_account () ) );
     gtk_menu_append ( GTK_MENU ( menu ), menu_item );
     g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 

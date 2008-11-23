@@ -127,6 +127,17 @@ gchar *gsb_real_format_string ( gsb_real number,
      * locale is much more complicated */
     if (currency_number && show_symbol)
 	currency_symbol = gsb_data_currency_get_code (currency_number);
+    
+    /* First of all if number = 0 I return 0 with the symbol of the currency if necessary */
+    if (number.mantissa == 0)
+    {
+        if (currency_symbol && conv -> p_cs_precedes)
+            return g_strdup_printf ( "%s %s", currency_symbol, "0" );
+        else if (currency_symbol && ! conv -> p_cs_precedes)
+            return g_strdup_printf ( "%s %s", "0", currency_symbol );
+        else
+            return g_strdup ("0");
+    }
 
     /* first we need to adapt the exponent to the currency */
     if (currency_number
