@@ -215,11 +215,9 @@ gboolean gsb_file_open_menu ( void )
     GtkWidget *selection_fichier;
     GtkFileFilter * filter;
 
-    selection_fichier = file_selection_new ( _("Open an accounts file"),
-					     FILE_SELECTION_MUST_EXIST);
+    selection_fichier = file_selection_new ( _("Open an accounts file"), FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
     gtk_window_set_position ( GTK_WINDOW ( selection_fichier ), GTK_WIN_POS_MOUSE);
-    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection_fichier),
-					 gsb_file_get_last_path ());
+    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection_fichier), gsb_file_get_last_path ());
 
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("Grisbi files (*.gsb)") );
@@ -231,6 +229,9 @@ gboolean gsb_file_open_menu ( void )
     gtk_file_filter_set_name ( filter, _("All files") );
     gtk_file_filter_add_pattern ( filter, "*" );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( selection_fichier ), filter );
+
+    gtk_window_set_transient_for ( GTK_WINDOW ( selection_fichier ), GTK_WINDOW ( window ));
+    gtk_window_set_modal ( GTK_WINDOW ( selection_fichier ), TRUE );
 
     switch ( gtk_dialog_run ( GTK_DIALOG (selection_fichier)))
     {
@@ -820,22 +821,21 @@ static gchar *gsb_file_dialog_ask_name ( void )
     GtkWidget *dialog;
     gint result;
 
-    dialog = file_selection_new ( _("Name the accounts file"),
-				  FILE_SELECTION_IS_SAVE_DIALOG);
-    gtk_window_set_modal ( GTK_WINDOW ( dialog ),
-			   TRUE );
-    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog),
-					 gsb_file_get_last_path ());
+    dialog = file_selection_new ( _("Name the accounts file"), FILE_SELECTION_IS_SAVE_DIALOG );
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
+    gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER ( dialog ), TRUE);
+
+    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( window ));
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
 
     if ( ! nom_fichier_comptes )
     {
         gchar* tmpstr = g_strconcat ( titre_fichier, ".gsb", NULL );
-	gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ), tmpstr);
+        gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ), tmpstr);
         g_free ( tmpstr );
     }
     else
-	gtk_file_chooser_select_filename ( GTK_FILE_CHOOSER (dialog),
-					   nom_fichier_comptes );
+	gtk_file_chooser_select_filename ( GTK_FILE_CHOOSER (dialog), nom_fichier_comptes );
 
     result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 

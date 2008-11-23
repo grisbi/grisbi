@@ -336,11 +336,14 @@ void exporter_ib ( void )
     gint resultat;
     gchar *nom_ib;
 
-    fenetre_nom = file_selection_new (  _("Export the budgetary lines"),FILE_SELECTION_IS_SAVE_DIALOG);
-	gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( fenetre_nom ),  _("Budgetary-lines.igsb"));
-    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( fenetre_nom ),
-					  gsb_file_get_last_path () );
-    file_selection_set_entry ( GTK_FILE_CHOOSER ( fenetre_nom ), ".igsb" );
+    fenetre_nom = file_selection_new ( _("Export the budgetary lines"), FILE_SELECTION_IS_SAVE_DIALOG );
+    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( fenetre_nom ),  _("Budgetary-lines.igsb"));
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( fenetre_nom ), gsb_file_get_last_path () );
+    gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER ( fenetre_nom ), TRUE);
+
+    gtk_window_set_transient_for ( GTK_WINDOW ( fenetre_nom ), GTK_WINDOW ( window ));
+    gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ), TRUE );
+
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
 
     switch ( resultat )
@@ -378,10 +381,9 @@ void importer_ib ( void )
     gint last_transaction_number;
     GtkFileFilter * filter;
 
-    dialog = file_selection_new ( _("Import budgetary lines"),
-				  FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
+    dialog = file_selection_new ( _("Import budgetary lines"), FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
-    file_selection_set_entry ( GTK_FILE_CHOOSER ( dialog ), ".igsb" );
+    file_selection_set_entry ( GTK_FILE_CHOOSER ( dialog ), g_strconcat ( gsb_file_get_last_path (), ".igsb", NULL ));
 
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("Grisbi budgetary lines files (*.igsb)") );
@@ -393,6 +395,9 @@ void importer_ib ( void )
     gtk_file_filter_set_name ( filter, _("All files") );
     gtk_file_filter_add_pattern ( filter, "*" );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
+
+    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( window ));
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 

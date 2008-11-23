@@ -637,7 +637,7 @@ GSList *gsb_import_create_file_chooser (const char *enc)
     GSList *filenames = NULL;
 
     dialog = gtk_file_chooser_dialog_new ( _("Choose files to import."),
-					   NULL, GTK_FILE_CHOOSER_ACTION_OPEN,
+					   GTK_WINDOW (window), GTK_FILE_CHOOSER_ACTION_OPEN,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 					   NULL );
