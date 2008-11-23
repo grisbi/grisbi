@@ -643,7 +643,7 @@ gboolean edit_category ( GtkTreeView * view )
 			     gsb_data_category_get_name ( category_number, 0, NULL ) );
     }
 
-    gtk_widget_set_size_request ( entry, 400, 0 );
+    gtk_widget_set_size_request ( entry, 400, -1 );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     if ( sub_category_number <= 0 )
