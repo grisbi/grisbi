@@ -654,7 +654,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	}
 
 	else if ( !strcmp ( attribute_names[i],
-			    "File_title" ))
+			    "File_title" ) && strlen (attribute_values[i]))
 	{
 	    if ( titre_fichier )
 	        g_free ( titre_fichier );
@@ -737,6 +737,9 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	    if ( chemin_logo )
 	        g_free ( chemin_logo );
 	    chemin_logo = my_strdup (attribute_values[i]);
+        /* modify the icon of grisbi (set in the panel of gnome or other) */
+        if (g_file_test ( chemin_logo, G_FILE_TEST_EXISTS ) && etat.utilise_logo)
+            gtk_window_set_default_icon_from_file ( chemin_logo, NULL );
 	}
 
 	else if ( !strcmp ( attribute_names[i],

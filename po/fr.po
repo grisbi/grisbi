@@ -233,45 +233,39 @@ msgstr "Afficher la barre d'informations"
 
 #: src/affichage.c:687
 msgid "Transaction list background 1"
-msgstr "Fond de la liste des opérations 1"
+msgstr "Couleur de fond 1 de la liste des opérations"
 
 #: src/affichage.c:688
 msgid "Transaction list background 2"
-msgstr "Fond de la liste des opérations 2"
+msgstr "Couleur de fond 2 de la liste des opérations"
 
 #: src/affichage.c:689
-#, fuzzy
 msgid "Color of transaction's text"
-msgstr "Opération ventilée"
+msgstr "Couleur du texte des opérations"
 
 #: src/affichage.c:690
-#, fuzzy
 msgid "Text of unfinished splitted transaction"
-msgstr "Effacer une opération planifiée"
+msgstr "Couleur d'une transaction ventilée non terminée"
 
 #: src/affichage.c:691
-#, fuzzy
 msgid "Children of splitted transaction"
-msgstr "Effacer l'opération sélectionnée"
+msgstr "Couleur d'une sous-opération"
 
 #: src/affichage.c:692
-#, fuzzy
 msgid "Selection color"
-msgstr "Sélectionner tout"
+msgstr "Couleur d'une sélection"
 
 #: src/affichage.c:693
-#, fuzzy
 msgid "Background of non selectable scheduled transactions"
-msgstr "Effacer une opération planifiée"
+msgstr "Couleur de fond d'une opération planifiée non sélectionnable"
 
 #: src/affichage.c:694
-#, fuzzy
 msgid "Archive color"
-msgstr "Activer"
+msgstr "Couleur de fond de la ligne archive"
 
 #: src/affichage.c:695
 msgid "Background of invalid date entry"
-msgstr ""
+msgstr "Couleur de fond d'une zone de saisie d'une date invalide"
 
 #: src/affichage_liste.c:133
 #, fuzzy
@@ -870,7 +864,7 @@ msgstr "La catégorie existe déjà"
 
 #: src/dialog.c:51
 msgid "No tip of the day available"
-msgstr "Aucune astuce du jour disponible"
+msgstr "Astuces du jour"
 
 #: src/dialog.c:52
 msgid ""
@@ -1120,8 +1114,8 @@ msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
 "that file with the obfuscated file into the bug report."
 msgstr ""
-"Le mode de débuggage est démarré. Grisbi va créer le fichier de log %s. "
-"Merci d'envoyer ce fichier avec votre fichier de compte et/ou QIF rendu obscur."
+"Le mode de débuggage est démarré.\nGrisbi va créer le fichier de log %s. "
+"Merci d'envoyer ce fichier avec votre fichier de compte et/ou QIF rendu anonyme."
 
 #: src/erreur.c:421
 msgid "Grisbi failed to create the log file..."
@@ -1757,8 +1751,8 @@ msgstr "Date finale"
 msgid "Account selection"
 msgstr "Sélection du compte"
 
-#. on met dans la partie de gauche une liste contenant les comptes Ã 
-#. sÃ©lectionner
+#. on met dans la partie de gauche une liste contenant les comptes à
+#. sélectionner
 #: src/etats_config.c:2482
 msgid "Select transactions only for given accounts"
 msgstr "Sélectionner les opérations uniquement sur certains comptes"
@@ -2918,11 +2912,11 @@ msgstr ""
 msgid ""
 "Obfuscated file saved as\n"
 "<tt>%s</tt>"
-msgstr "Le fichier obscurcit <tt>%s</tt> a été sauvegardé."
+msgstr "Le fichier <tt>%s</tt> a été rendu anonyme et sauvegardé."
 
 #: src/file_obfuscate.c:352 src/file_obfuscate.c:355
 msgid "Obfuscation succeeded"
-msgstr ""
+msgstr "L'opération pour rendre anonyme le fichier a réussi"
 
 #: src/file_obfuscate.c:354
 #, c-format
@@ -3502,7 +3496,7 @@ msgstr "Guichet / Agence"
 msgid "Account number / Key"
 msgstr "Numéro de compte / Clé"
 
-#. crÃ©ation de la ligne du solde initial
+#. création de la ligne du solde initial
 #: src/gsb_account_property.c:368
 msgid "Balances"
 msgstr "Soldes"
@@ -3551,49 +3545,42 @@ msgstr "Transférer les opérations sur le tiers"
 
 #. create the page
 #: src/gsb_archive_config.c:111 src/parametres.c:274
-#, fuzzy
 msgid "Archives"
-msgstr "Activer"
+msgstr "Archives"
 
 #: src/gsb_archive_config.c:116
-#, fuzzy
 msgid "Known archives"
-msgstr "Devises connues"
+msgstr "Archives existantes"
 
 #: src/gsb_archive_config.c:175
-#, fuzzy
 msgid "Archive modification"
-msgstr "Modif"
+msgstr "Modifier l'archive"
 
 #. button to delete an archive and free the transactions
 #: src/gsb_archive_config.c:205
-#, fuzzy
 msgid "Delete the archive"
-msgstr "Supprimer l'opération"
+msgstr "Supprimer l'archive"
 
 #. button to delete an archive and delete the transactions
 #: src/gsb_archive_config.c:222
-#, fuzzy
 msgid "Delete the archive and transactions"
-msgstr "Effacer une opération planifiée"
+msgstr "Supprimer l'archive et les opérations"
 
 #: src/gsb_archive_config.c:243
-#, fuzzy
 msgid "Automatic check"
-msgstr "Automatique"
+msgstr "Création automatique"
 
 #: src/gsb_archive_config.c:245
 msgid "Check at opening if creating archive is needed."
-msgstr ""
+msgstr "Créer automatiquement une archive si nécessaire"
 
 #: src/gsb_archive_config.c:259
 msgid "Warn if more than "
-msgstr ""
+msgstr "Avertir si plus de "
 
 #: src/gsb_archive_config.c:272
-#, fuzzy
 msgid " transactions are not archived."
-msgstr "Regrouper les opérations par compte"
+msgstr " opérations ne sont pas archivées"
 
 #: src/gsb_archive_config.c:460
 #, c-format
@@ -3768,47 +3755,44 @@ msgstr ""
 
 #. create the assistant
 #: src/gsb_assistant_archive.c:142
-#, fuzzy
 msgid "Archive transactions"
-msgstr "Chercher l'opération"
+msgstr "Créer une archive"
 
 #. set up the menu
 #: src/gsb_assistant_archive.c:203
 msgid "Please select a way to select transactions for this archive"
-msgstr ""
+msgstr "Choisir la façon de sélectionner les opérations de l'archive"
 
 #. archive by date
 #: src/gsb_assistant_archive.c:211
-#, fuzzy
 msgid "Archive by date"
 msgstr "Tri par date"
 
 #: src/gsb_assistant_archive.c:221
 msgid "Grisbi will archive all transactions between initial and final dates."
 msgstr ""
+"Grisbi archivera les transactions dont les dates sont comprises entre"
+"la date initiale et la date finale"
 
 #: src/gsb_assistant_archive.c:277
-#, fuzzy
 msgid "Archive by financial year"
-msgstr "Séparer les résultats par exercice"
+msgstr "Archiver les opérations par exercice"
 
 #: src/gsb_assistant_archive.c:287
 msgid "Grisbi will archive all transactions belonging to a financial year."
-msgstr ""
+msgstr "Grisbi archivera toutes les opérations appartenant à un exercice"
 
 #: src/gsb_assistant_archive.c:305
-#, fuzzy
 msgid "Financial year :"
 msgstr "Exercice"
 
 #: src/gsb_assistant_archive.c:326
-#, fuzzy
 msgid "Archive by report"
-msgstr "Effacer l'état"
+msgstr "Archiver les opérations appartenantà l'état"
 
 #: src/gsb_assistant_archive.c:336
 msgid "Grisbi will archive transactions selected by a report."
-msgstr ""
+msgstr "Grisbi archivera toutes les transactions appartenant à l'état sélectionné"
 
 #: src/gsb_assistant_archive.c:354 src/gsb_data_payee.c:513
 #: src/gsb_form.c:2572 src/gsb_form.c:2573 src/navigation.c:1328
@@ -3817,9 +3801,8 @@ msgstr "État"
 
 #. set up the menu
 #: src/gsb_assistant_archive.c:412
-#, fuzzy
 msgid "Please choose a name for archive"
-msgstr "Impossible d'ouvrir le fichier '%s': %s"
+msgstr "Choisissez un nom pour le fichier"
 
 #: src/gsb_assistant_archive.c:483 src/import.c:780
 msgid "Congratulations !"
@@ -3937,7 +3920,7 @@ msgstr "Regrouper les opérations par compte"
 #: src/gsb_assistant_archive_export.c:104
 #, fuzzy
 msgid "Export an archive"
-msgstr "Créer un nouveau compte"
+msgstr "Exporter une archive"
 
 #: src/gsb_assistant_archive_export.c:105
 msgid ""
@@ -3946,6 +3929,9 @@ msgid ""
 "you want to delete the archive from Grisbi, you need to do it from the "
 "preference window."
 msgstr ""
+"Cet assistant vous aide à exporter une archive dans un fichier au format gsb, "
+"QIF ou CSV.\nNotez que rien ne sera effacé dans grisbi. Si vous voulez "
+"effacer un fichier d'archive vous devez le faire à partir du menu préférences."
 
 #: src/gsb_assistant_archive_export.c:160
 #, fuzzy
@@ -4173,10 +4159,9 @@ msgstr "Enregistrer automatiquement en fermant"
 msgid "Make a backup copy before saving files"
 msgstr "Effectuer une copie de sauvegarde avant d'enregistrer les fichiers"
 
-#: src/gsb_assistant_first.c:239 src/parametres.c:741
-#, fuzzy
+#: src/gsb_assistant_first.c:239 src/parametres.c:744
 msgid "Make a backup copy every "
-msgstr "Effectuer une copie de sauvegarde avant d'enregistrer les fichiers"
+msgstr "Effectuer une copie de sauvegarde toutes les "
 
 #: src/gsb_assistant_first.c:250 src/parametres.c:752
 #, fuzzy
@@ -4184,9 +4169,8 @@ msgid " minutes"
 msgstr "note"
 
 #: src/gsb_assistant_first.c:259 src/parametres.c:761
-#, fuzzy
 msgid "Backup directory"
-msgstr "Fichier de sauvegarde"
+msgstr "Répertoire de sauvegarde"
 
 #: src/gsb_assistant_first.c:263 src/parametres.c:765
 #, fuzzy
@@ -4231,9 +4215,8 @@ msgid ""
 msgstr ""
 
 #: src/gsb_assistant_reconcile_config.c:197
-#, fuzzy
 msgid "Associate orphan transactions to a reconciliation"
-msgstr "Associer ces opérations avec"
+msgstr "Associer des transactions orphelines à une réconciliation"
 
 #: src/gsb_assistant_reconcile_config.c:261
 #, fuzzy, c-format
@@ -4247,9 +4230,8 @@ msgid "Choose the next operation to do :"
 msgstr "Choix du mode de règlement"
 
 #: src/gsb_assistant_reconcile_config.c:289
-#, fuzzy
 msgid "Manually create a new reconciliation"
-msgstr "Dernière chance d'abandonner le rapprochement !"
+msgstr "Créer une nouvelle réconciliation"
 
 #: src/gsb_assistant_reconcile_config.c:300
 msgid ""
@@ -6597,7 +6579,7 @@ msgstr "Formulaire de saisie d'opérations"
 #. create the check button to recover the children of splits
 #: src/gsb_form.c:341
 msgid "Recover the children"
-msgstr ""
+msgstr "Restaurer les sous-opérations"
 
 #: src/gsb_form.c:769
 #, fuzzy
@@ -6724,12 +6706,14 @@ msgid ""
 "There is some children to that transaction, if you continue, the children "
 "will be deleted.\n"
 "Are you sure ?"
-msgstr ""
+msgstr "Vous essayez de transformer une opération ventilée en opération simple.\n"
+"Il y a plusieurs sous-opérations, si vous continuez, elles seront supprimées.\n\n"
+"Etes vous certain ?"
 
 #. propose to configure the form
 #: src/gsb_form.c:3147
 msgid "Configure the form"
-msgstr ""
+msgstr "Configurer le formulaire"
 
 #: src/gsb_form_config.c:121 src/parametres.c:393
 msgid "Transaction form"
@@ -7498,9 +7482,8 @@ msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr "Ce fichier n'est pas un fichier de budget Grisbi, action annulée..."
 
 #: src/gsb_transactions_list.c:1859
-#, fuzzy
 msgid "Impossible to delete an archived transaction."
-msgstr "Effacer une opération planifiée"
+msgstr "Impossible d'effacer une opération archivée"
 
 #: src/gsb_transactions_list.c:1868
 msgid ""
@@ -7510,15 +7493,15 @@ msgid ""
 "necessary."
 msgstr ""
 "Impossible de supprimer une transaction rapprochée.\n"
-"L'opération, la contre opération ou les opérations filles si c'est une "
+"L'opération, la contre opération ou les sous-opérations si c'est une "
 "ventilation sont marquées comme rapprochées. Vous pouvez supprimer le "
 "rapprochement avec Ctrl-R si c'est vraiment necessaire."
 
 #: src/gsb_transactions_list.c:1878
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
-msgstr "Voulez vous vraiment supprimer l'opération avec le tiers « %s » ?"
+msgstr "Voulez vous vraiment supprimer la sous-opération avec le tiers « %s » ?"
 
 #: src/gsb_transactions_list.c:1893
 #, c-format
@@ -7946,21 +7929,33 @@ msgstr "%s %d"
 
 #: src/import.c:2976
 msgid "Threshold while matching transaction date during import (in days)"
-msgstr ""
+msgstr "Intervale de recherche des opérations similaires en jour"
+
+#: src/import.c:3109
+msgid "Set the financial year"
+msgstr "Définition de l'exercice"
+
+#: src/import.c:3110
+msgid "According to the date"
+msgstr "Utiliser la date de l'opération"
+
+#: src/import.c:311
+msgid "According to the value date (if fail, try with the date)"
+msgstr "Utiliser la date de valeur ou la date de l'opération si non présente"
 
 #: src/import.c:3143
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
-msgstr ""
+msgstr "%s n'est pas un fichier OFX ou QIF. Il ne peut pas être importé"
 
 #: src/import.c:3201
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
 "transactions."
-msgstr ""
+msgstr "%s : echec de l'import des opérations."
 
 #: src/import.c:3280
 msgid "Import a file with a rule"
@@ -8240,14 +8235,12 @@ msgid "_Export accounts as QIF/CSV file..."
 msgstr "_Exporter vers un fichier QIF/CSV..."
 
 #: src/menu.c:192
-#, fuzzy
 msgid "Archive transactions..."
-msgstr "Chercher l'opération"
+msgstr "Créer une archive"
 
 #: src/menu.c:195
-#, fuzzy
 msgid "_Export an archive as GSB/QIF/CSV file..."
-msgstr "_Exporter vers un fichier QIF/CSV..."
+msgstr "_Exporter une archive vers un fichier GSB/QIF/CSV..."
 
 #: src/menu.c:198
 msgid "_Debug account file..."
@@ -8255,11 +8248,11 @@ msgstr "_Déboguer le fichier de compte..."
 
 #: src/menu.c:201
 msgid "_Obfuscate account file..."
-msgstr "Rendre obscur le fichier de compte..."
+msgstr "Rendre anonyme le fichier de compte..."
 
 #: src/menu.c:201
 msgid "_Obfuscate QIF file..."
-msgstr "Rendre obscur le fichier QIF..."
+msgstr "Rendre anonyme le fichier QIF..."
 
 #: src/menu.c:204
 msgid "_Close"
@@ -8588,13 +8581,12 @@ msgstr "Afficher l'astuce du jour"
 
 #. Warnings
 #: src/parametres.c:565
-#, fuzzy
 msgid "Display following warnings messages"
-msgstr "Messages d'alerte"
+msgstr "Afficher les messages ou alertes suivants"
 
 #: src/parametres.c:585
 msgid "Message"
-msgstr ""
+msgstr "Message"
 
 #. Warn if file is used by someone else?
 #: src/parametres.c:673
@@ -8604,7 +8596,7 @@ msgstr "Forcer l'enregistrement des fichiers verrouillés"
 #. Compression level of files
 #: src/parametres.c:689
 msgid "Compress Grisbi file"
-msgstr "Fichier Grisbi compressé"
+msgstr "Compresser le fichier Grisbi"
 
 #: src/parametres.c:700
 msgid "Memorise last opened files"
@@ -8617,7 +8609,7 @@ msgstr "Sauvegardes"
 #. Compression level of backups
 #: src/parametres.c:715
 msgid "Compress Grisbi backup"
-msgstr ""
+msgstr "Compresser le fichier de sauvegarde"
 
 #. Backup at each opening?
 #: src/parametres.c:723
@@ -8630,18 +8622,18 @@ msgid "Web"
 msgstr "Web"
 
 #: src/parametres.c:852
-#, fuzzy
 msgid "Web browser command"
 msgstr "Navigateur Web"
 
 #: src/parametres.c:860
-#, c-format
-msgid "You may use %s to expand the URL. I.e: \"firefox -remote %s\""
+msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr ""
+"En cas de non fonctionnement vous pouvez essayer de mettre %s\n"
+"Exemple : 'firefox -remote %s'"
 
 #: src/parametres.c:870
 msgid "LaTeX support (old print system)"
-msgstr ""
+msgstr "Support LaTex (ancien système d'impression)"
 
 #: src/parametres.c:877
 msgid "LaTeX command"
@@ -8652,7 +8644,6 @@ msgid "dvips command"
 msgstr "Commande dvips"
 
 #: src/parametres.c:926
-#, fuzzy
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Alertes de l'échéancier"
 
