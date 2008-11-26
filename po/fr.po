@@ -2906,13 +2906,26 @@ msgid ""
 "In next page, you will be able to select individual features to obfuscate or "
 "to keep depending on the level of privacy needed."
 msgstr ""
+"Cet assistant produit une copie rendue anonyme de votre fichier de comptes, "
+"avec vos données personnelles remplacées par des valeurs non "
+"signicatives. Attachez ce fichier au rapport de bug que vous envoyez.\n"
+"\n"
+"Cela dit, vérifiez avant l'envoi que les bugs sont toujours présents avec "
+"ce nouveau fichier.\n"
+"\n"
+"Pour ne pas avoir de problème avec votre fichier originel, grisbi le fermera sans "
+"enregistrer quoi que ce soit. Si vous n'avez pas sauvegardé vos dernières "
+"modifications, arrêtez cet assistant enregistrez votre fichier puis "
+"recommencez cet assistant.\n"
+"\n"
+"Dans la page suivante, vous pourrez choisir individuellement les caractéristiques "
+"que vous pourrez soit cacher soit garder en fonction du niveau de confidentialité "
+"désiré."
 
 #: src/file_obfuscate.c:351
 #, c-format
-msgid ""
-"Obfuscated file saved as\n"
-"<tt>%s</tt>"
-msgstr "Le fichier <tt>%s</tt> a été rendu anonyme et sauvegardé."
+msgid "Obfuscated file saved as\n'%s'"
+msgstr "Le fichier\n%s\na été rendu anonyme et sauvegardé."
 
 #: src/file_obfuscate.c:352 src/file_obfuscate.c:355
 msgid "Obfuscation succeeded"
@@ -2927,63 +2940,52 @@ msgstr "Grisbi n'a pas pu sauvegarder le fichier\n"
 "<tt>%s</tt>"
 
 #: src/file_obfuscate.c:384
-#, fuzzy
 msgid "Select features to hide :\n"
-msgstr "Sélectionner les catégories à inclure dans l'état"
+msgstr "Sélectionner les données à cacher\n"
 
 #: src/file_obfuscate.c:386
 msgid "Hide everything"
-msgstr ""
+msgstr "Tout cacher"
 
 #: src/file_obfuscate.c:392
-#, fuzzy
 msgid "Hide accounts names"
-msgstr "Afficher le nom du compte"
+msgstr "Cacher le nom des comptes"
 
 #: src/file_obfuscate.c:398
-#, fuzzy
 msgid "Hide accounts details"
-msgstr "Détails du compte"
+msgstr "Cacher les détails des comptes"
 
 #: src/file_obfuscate.c:404
-#, fuzzy
 msgid "Hide amounts"
-msgstr "%d mois"
+msgstr "Cacher les montants"
 
 #: src/file_obfuscate.c:410
-#, fuzzy
 msgid "Hide payees names"
-msgstr "Afficher le nom du tiers"
+msgstr "Cacher le nom des tiers"
 
 #: src/file_obfuscate.c:416
-#, fuzzy
 msgid "Hide categories names"
-msgstr "Détailler les catégories utilisées"
+msgstr "Cacher les catégories utilisées"
 
 #: src/file_obfuscate.c:422
-#, fuzzy
 msgid "Hide budgets names"
-msgstr "I.B. de revenus"
+msgstr "Cacher les imputations budgétaires"
 
 #: src/file_obfuscate.c:428
-#, fuzzy
 msgid "Hide notes"
-msgstr "les notes"
+msgstr "Cacher les notes"
 
 #: src/file_obfuscate.c:434
-#, fuzzy
 msgid "Hide banks details"
-msgstr "Détails de la banque"
+msgstr "Cacher les détails de la banque"
 
 #: src/file_obfuscate.c:440
-#, fuzzy
 msgid "Hide reports names"
-msgstr "Nom de l'état"
+msgstr "Cacher le nom des états"
 
 #: src/file_obfuscate.c:446
-#, fuzzy
 msgid "Hide reconcile names and amounts"
-msgstr "Les opérations rapprochées"
+msgstr "Cacher les opérations rapprochées"
 
 #: src/file_obfuscate.c:504
 #, c-format
@@ -3000,6 +3002,18 @@ msgid ""
 "there is no personal information anymore in this file.Grisbi will close "
 "immediatly after saving the obfuscated file"
 msgstr ""
+"Appuyez sur le bouton 'Fermer' pour terminer l'opération.\n"
+"\n"
+"Le fichier sera nommé %s et enregistré dans le même répertoire que l'original.\n"
+"\n"
+"Vérifiez que le bug est toujours présent et envoyez le avec vos explications "
+"à : bugsreports@listes.grisbi.org ou déposez le sur le gestionnaire de bugs "
+"(Mantis) à l'adresse : http://grisbi.tuxfamily.org/mantis/main_page.php\n"
+"\n"
+"Le fichier est en mode texte, vous pouvez vérifier avec un éditeur de texte si "
+"des données personnelles sont encore présentes. Grisbi se fermera "
+"immédiatement après avoir sauvegardé le fichier."
+
 
 #: src/go-charmap-sel.c:180
 msgid "Arabic"
@@ -3634,6 +3648,8 @@ msgid ""
 "Bank account\n"
 "Standard account with credit card and cheques."
 msgstr ""
+"Compte bancaire"
+"Compte standard avec carte bancaire etchèques."
 
 #: src/gsb_assistant_account.c:147
 msgid ""
@@ -6308,11 +6324,11 @@ msgstr ""
 "\n"
 
 #: src/gsb_debug.c:212
-#, fuzzy
 msgid ""
 "No inconsistency found\n"
 "\n"
-msgstr "Pas d'incohérence."
+msgstr "Pas d'incohérence trouvée.\n"
+"\n"
 
 #: src/gsb_debug.c:215
 msgid "Congratulations, your account file is in good shape!\n"
@@ -7650,21 +7666,25 @@ msgid ""
 "following formats are supported:\n"
 "\n"
 msgstr ""
-
+"Cet assistant vous aide à importer un ou plusieurs fichiers dans Grisbi.\n"
+"\n"
+"Grisbi essayera de choisir lui même le bon format à importer mais vous "
+"pourrez le faire manuellement dans la page suivante.\n"
+"\n"
+"Pour l'instant les formats suivants sont supportés :\n"
+"\n"
+ 
 #: src/import.c:248
-#, fuzzy
 msgid "Importing transactions into Grisbi"
-msgstr "Classement des opérations par"
+msgstr "Importation des opérations par Grisbi"
 
 #: src/import.c:297
-#, fuzzy
 msgid "Choose file to import"
-msgstr "Sélectionner les fichiers à importer"
+msgstr "Sélectionner un fichier à importer"
 
 #: src/import.c:299
-#, fuzzy
 msgid "Add file to import..."
-msgstr "Sélectionner les fichiers à importer"
+msgstr "Ajouter un ou des fichiers..."
 
 #: src/import.c:367
 msgid "File name"
@@ -7675,12 +7695,11 @@ msgid "Unknown"
 msgstr "Inconnu"
 
 #: src/import.c:545 src/import.c:3158 src/import_csv.c:1045
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to read file: %s\n"
-msgstr "Impossible d'ouvrir le fichier '%s'."
+msgstr "Impossible d'ouvrir le fichier '%s'.\n"
 
 #: src/import.c:618
-#, fuzzy
 msgid "Choose files to import."
 msgstr "Sélectionner les fichiers à importer"
 
@@ -7699,18 +7718,17 @@ msgid "Encoding"
 msgstr "Codage"
 
 #: src/import.c:785
-#, fuzzy
 msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files"
 msgstr ""
-"L'importation des fichiers s'est bien déroulé.  Les dialogues suivant vont "
-"vous assister à l'importation des données pour les fichiers suivants :"
+"L'importation des fichiers s'est bien déroulée.  Les dialogues suivants vont "
+"vous permettre de fixer les paramètres de l'importation des données pour "
+"les fichiers suivants"
 
 #: src/import.c:798
-#, fuzzy
 msgid "Unnamed Imported account"
-msgstr "Compte importé"
+msgstr "Compte Importé anonyme"
 
 #: src/import.c:824
 msgid "Error !"
@@ -7721,21 +7739,25 @@ msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
 msgstr ""
+"Aucun dossier n'a été importé, Vérifiez que les fichiers sont valides." 
+"Assurez vous qu'ils ne sont pas compressés et que leur format est valide."
 
 #: src/import.c:841
 msgid "The following files are in error:"
-msgstr ""
+msgstr "Les fichiers suivants sont en erreur"
 
 #: src/import.c:894
-#, fuzzy
+
 msgid "Import terminated"
-msgstr "Importer un fichier d'état"
+msgstr "Import terminé"
 
 #: src/import.c:898
 msgid ""
 "You have successfully set up transactions import into Grisbi.  Press the "
 "'Close' button to terminate import."
 msgstr ""
+"Vous avez réussi l'importation des opérations dans Grisbi. "
+"Appuyez sur le bouton 'Fermer' pour terminer l'opération."
 
 #: src/import.c:1020
 msgid "file"
@@ -7759,10 +7781,10 @@ msgstr "Déplacer l'opération vers un autre compte"
 msgid "Mark transactions of an account"
 msgstr "Déplacer l'opération vers un autre compte"
 
-#. la devise avait un nom mais n'a pas Ã©tÃ© retrouvÃ©e; 2 possibilitÃ©s :
-#. - soit elle n'est pas cree (l'utilisateur
-#. la crÃ©era une fois la fenetre affichÃ©e)
-#. - soit elle est crÃ©Ã© mais pas avec le bon code
+#. la devise avait un nom mais n'a pas été retrouvée; 2 possibilités :
+#. - soit elle n'est pas créée (l'utilisateur
+#. la créera une fois la fenêtre affichée)
+#. - soit elle est créée mais pas avec le bon code
 #: src/import.c:1171
 #, fuzzy, c-format
 msgid ""
