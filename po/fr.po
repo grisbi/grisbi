@@ -1851,7 +1851,6 @@ msgstr ""
 "en retirant l'option « Détailler les catégories utilisées »"
 
 #: src/etats_config.c:3725
-#, fuzzy
 msgid ""
 "All budgets have been selected.  Grisbi will run faster without the \"Detail "
 "budgets used\" option activated."
@@ -3607,11 +3606,17 @@ msgid ""
 "\n"
 "Do you want to continue ?"
 msgstr ""
+"Attention vous aller supprimer l'archive \"%s\".\n"
+"\n"
+"Si vous continuez les informations caractérisant cette archive seront perdues "
+"et toutes les opérations qui lui sont liées seront à nouveau considérées "
+"comme des opérations normales.\n"
+"\n"
+"Voulez vous continuer ?"
 
 #: src/gsb_archive_config.c:462
-#, fuzzy
 msgid "Deleting an archive"
-msgstr "Supprimer l'opération"
+msgstr "Supprimer une archive"
 
 #: src/gsb_archive_config.c:519
 #, c-format
@@ -3626,11 +3631,19 @@ msgid ""
 "\n"
 "Are you sure you want to continue ?"
 msgstr ""
+"Attention vous aller supprimer l'archive \"%s\" et toutes les opérations "
+"qui lui sont liées.\n"
+"\n"
+"Si vous continuez toutes les opérations qui lui sont liées seront supprimées "
+" et les soldes seront ajustés.\n"
+"Toutes les informations caractérisant cette archive seront perdues.\n"
+"Vous pouvez aussi exporter cette archive dans un autre fichier...\n"
+"\n"
+"Voulez vous continuer ?"
 
 #: src/gsb_archive_config.c:521
-#, fuzzy
 msgid "Deleting an archive and its transactions"
-msgstr "Les opérations rapprochées"
+msgstr "Supprimer une archive et les opérations qu'elle contient"
 
 #. New account
 #: src/gsb_assistant_account.c:86 src/import.c:1035
@@ -4071,9 +4084,8 @@ msgid "Select base currency"
 msgstr "Sélectionner les comptes bancaires"
 
 #: src/gsb_assistant_file.c:402
-#, fuzzy
 msgid "Select the list of categories you will use"
-msgstr "Sélectionner les catégories à inclure dans l'état"
+msgstr "Sélectionner les catégories à utiliser"
 
 #: src/gsb_assistant_file.c:465
 #, fuzzy
@@ -5982,9 +5994,9 @@ msgid "Impossible to remove currency '%s'"
 msgstr "Impossible de supprimer la devise « %s »"
 
 #: src/gsb_currency_config.c:801
-#, fuzzy
+
 msgid "Currency for payees tree"
-msgstr "Devise pour l'arbre des catégories"
+msgstr "Devise pour l'arbre des tiers"
 
 #: src/gsb_currency_config.c:811
 msgid "Currency for categories tree"
@@ -7209,9 +7221,8 @@ msgid "Reconciliation"
 msgstr "Rapprochement"
 
 #: src/gsb_reconcile_config.c:105
-#, fuzzy
 msgid "List of reconciliations"
-msgstr "Dernière chance d'abandonner le rapprochement !"
+msgstr "Liste des rapprochements"
 
 #: src/gsb_reconcile_config.c:170
 #, fuzzy
