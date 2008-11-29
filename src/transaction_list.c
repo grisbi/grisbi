@@ -527,8 +527,9 @@ gboolean transaction_list_remove_archive ( gint archive_number )
 	}
 
 	/* if the archive was showed, modify the visible transactions */
-	if (record -> filtered_pos != -1)
+	if ( record -> filtered_pos != -1  && custom_list -> num_visibles_rows > 0 )
 	{
+        printf ("filtered_pos est différent de -1 et j = %d \n", j );
 	    custom_list -> num_visibles_rows--;
 
 	    for (j=record -> filtered_pos ; j < custom_list -> num_visibles_rows ; j++)
