@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-20 21:02+0100\n"
-"PO-Revision-Date: 2008-11-20 21:04+0100\n"
+"POT-Creation-Date: 2008-11-29 18:30+0100\n"
+"PO-Revision-Date: 2008-11-29 18:42+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -432,21 +432,21 @@ msgid "Description"
 msgstr "Beschreibung"
 
 #. Debit method_ptr
-#: src/balance_estimate_tab.c:307 src/categories_onglet.c:653
+#: src/balance_estimate_tab.c:307 src/categories_onglet.c:657
 #: src/export_csv.c:768 src/gsb_form.c:1305 src/gsb_form_widget.c:402
 #: src/gsb_payment_method_config.c:311 src/gsb_payment_method_config.c:382
 #: src/gsb_payment_method_config.c:1070 src/gsb_transactions_list.c:147
-#: src/import_csv.c:89 src/imputation_budgetaire.c:685
+#: src/import_csv.c:89 src/imputation_budgetaire.c:690
 #: src/traitement_variables.c:78
 msgid "Debit"
 msgstr "Ausgaben"
 
 #. Credit method_ptr
-#: src/balance_estimate_tab.c:321 src/categories_onglet.c:653
+#: src/balance_estimate_tab.c:321 src/categories_onglet.c:657
 #: src/export_csv.c:765 src/gsb_form.c:1312 src/gsb_form_widget.c:406
 #: src/gsb_payment_method_config.c:318 src/gsb_payment_method_config.c:395
 #: src/gsb_payment_method_config.c:1066 src/gsb_transactions_list.c:148
-#: src/imputation_budgetaire.c:685 src/traitement_variables.c:79
+#: src/imputation_budgetaire.c:690 src/traitement_variables.c:79
 msgid "Credit"
 msgstr "Einnahmen"
 
@@ -473,8 +473,8 @@ msgstr "Neue Buchung"
 msgid "Blank the form to create a new transaction"
 msgstr "Eine neue Buchung erstellen"
 
-#: src/barre_outils.c:105 src/barre_outils.c:437 src/categories_onglet.c:487
-#: src/etats_onglet.c:174 src/imputation_budgetaire.c:518
+#: src/barre_outils.c:105 src/barre_outils.c:437 src/categories_onglet.c:491
+#: src/etats_onglet.c:174 src/imputation_budgetaire.c:523
 #: src/tiers_onglet.c:265
 msgid "Delete"
 msgstr "Löschen"
@@ -509,8 +509,8 @@ msgstr "Drucken"
 msgid "Print the transactions list"
 msgstr "Buchungen drucken"
 
-#: src/barre_outils.c:143 src/barre_outils.c:489 src/categories_onglet.c:506
-#: src/imputation_budgetaire.c:539 src/tiers_onglet.c:292
+#: src/barre_outils.c:143 src/barre_outils.c:489 src/categories_onglet.c:510
+#: src/imputation_budgetaire.c:544 src/tiers_onglet.c:292
 msgid "View"
 msgstr "Ansicht"
 
@@ -538,13 +538,13 @@ msgstr "Zweizeilig"
 msgid "Three lines view"
 msgstr "Dreizeilig"
 
-#: src/barre_outils.c:223 src/categories_onglet.c:550
-#: src/imputation_budgetaire.c:583 src/tiers_onglet.c:366
+#: src/barre_outils.c:223 src/categories_onglet.c:554
+#: src/imputation_budgetaire.c:588 src/tiers_onglet.c:366
 msgid "Complete view"
 msgstr "Vollständig"
 
-#: src/barre_outils.c:230 src/barre_outils.c:525
-msgid "Display reconciled transactions"
+#: src/barre_outils.c:230
+msgid "Display reconciled transactions (Alt+R)"
 msgstr "Abgestimmte Buchungen anzeigen"
 
 #: src/barre_outils.c:279
@@ -629,6 +629,10 @@ msgstr "Abgestimmte Buchungen verbergen"
 msgid "Display reconcile"
 msgstr "Abgestimmte anzeigen"
 
+#: src/barre_outils.c:525
+msgid "Display reconciled transactions"
+msgstr "Abgestimmte Buchungen anzeigen"
+
 #: src/categories_onglet.c:139 src/etats_affiche.c:2425 src/etats_config.c:671
 #: src/export_csv.c:777 src/gsb_transactions_list.c:154 src/import_csv.c:84
 #: src/meta_categories.c:64 src/traitement_variables.c:85
@@ -651,25 +655,25 @@ msgstr "Kategorien exportieren - Grisbi"
 msgid "Categories.cgsb"
 msgstr "Kategorien.cgsb"
 
-#: src/categories_onglet.c:348
+#: src/categories_onglet.c:350
 msgid "Import categories"
 msgstr "Kategorien importieren - Grisbi"
 
-#: src/categories_onglet.c:354
+#: src/categories_onglet.c:355
 msgid "Grisbi category files (*.cgsb)"
 msgstr "Grisbi Kategorien (*.cgsb)"
 
-#: src/categories_onglet.c:360 src/etats_onglet.c:1294
-#: src/file_obfuscate_qif.c:102 src/gsb_file.c:231 src/import.c:699
-#: src/imputation_budgetaire.c:393
+#: src/categories_onglet.c:361 src/etats_onglet.c:1296
+#: src/file_obfuscate_qif.c:100 src/gsb_file.c:229 src/import.c:699
+#: src/imputation_budgetaire.c:395
 msgid "All files"
 msgstr "Alle Dateien"
 
-#: src/categories_onglet.c:381
+#: src/categories_onglet.c:385
 msgid "Merge imported categories with existing?"
 msgstr "Importierte und vorhandene Kategorien zusammenführen?"
 
-#: src/categories_onglet.c:383
+#: src/categories_onglet.c:387
 msgid ""
 "File already contains categories.  If you decide to continue, existing "
 "categories will be merged with imported ones."
@@ -678,7 +682,7 @@ msgstr ""
 "fortsetzen werden die importierten Kategorien mit den Vorhandenen "
 "zusammengeführt."
 
-#: src/categories_onglet.c:384
+#: src/categories_onglet.c:388
 msgid ""
 "File does not contain categories.  If you decide to continue, existing "
 "categories will be merged with imported ones.  Once performed, there is no "
@@ -691,11 +695,11 @@ msgstr ""
 "Es besteht auch die Möglichkeit die vorhandenen Kategorien durch die "
 "Importierten zu ersetzen."
 
-#: src/categories_onglet.c:391 src/imputation_budgetaire.c:424
+#: src/categories_onglet.c:395 src/imputation_budgetaire.c:429
 msgid "Replace existing"
 msgstr "Bestehende ersetzen"
 
-#: src/categories_onglet.c:445
+#: src/categories_onglet.c:449
 msgid ""
 "New\n"
 "category"
@@ -703,11 +707,11 @@ msgstr ""
 "Neue\n"
 "Kategorie"
 
-#: src/categories_onglet.c:450
+#: src/categories_onglet.c:454
 msgid "Create a new category"
 msgstr "Eine neue Kategorie erstellen"
 
-#: src/categories_onglet.c:455
+#: src/categories_onglet.c:459
 msgid ""
 "New sub\n"
 "category"
@@ -715,67 +719,67 @@ msgstr ""
 "Neue\n"
 "Unterkategorie"
 
-#: src/categories_onglet.c:462
+#: src/categories_onglet.c:466
 msgid "Create a new sub-category"
 msgstr "Eine neue Unterkategorie erstellen"
 
-#: src/categories_onglet.c:468 src/etats_onglet.c:131 src/import.c:348
-#: src/import.c:3072 src/imputation_budgetaire.c:499 src/parametres.c:286
+#: src/categories_onglet.c:472 src/etats_onglet.c:131 src/import.c:348
+#: src/import.c:3072 src/imputation_budgetaire.c:504 src/parametres.c:286
 msgid "Import"
 msgstr "Import"
 
-#: src/categories_onglet.c:472
+#: src/categories_onglet.c:476
 msgid "Import a Grisbi category file (.cgsb)"
 msgstr "Kategorien (*.cgsb) importieren"
 
-#: src/categories_onglet.c:478 src/etats_onglet.c:140 src/export.c:159
-#: src/imputation_budgetaire.c:509
+#: src/categories_onglet.c:482 src/etats_onglet.c:140 src/export.c:159
+#: src/imputation_budgetaire.c:514
 msgid "Export"
 msgstr "Export"
 
-#: src/categories_onglet.c:482
+#: src/categories_onglet.c:486
 msgid "Export a Grisbi category file (.cgsb)"
 msgstr "Kategorien (*.cgsb) exportieren"
 
-#: src/categories_onglet.c:491
+#: src/categories_onglet.c:495
 msgid "Delete selected category"
 msgstr "Die selektiere Kategorie löschen"
 
-#: src/categories_onglet.c:496 src/etats_onglet.c:185
-#: src/fenetre_principale.c:255 src/imputation_budgetaire.c:528
+#: src/categories_onglet.c:500 src/etats_onglet.c:185
+#: src/fenetre_principale.c:255 src/imputation_budgetaire.c:533
 #: src/tiers_onglet.c:274
 msgid "Properties"
 msgstr "Eigenschaften"
 
-#: src/categories_onglet.c:500
+#: src/categories_onglet.c:504
 msgid "Edit selected category"
 msgstr "Die selektierte Kategorie bearbeiten"
 
-#: src/categories_onglet.c:510 src/tiers_onglet.c:296
+#: src/categories_onglet.c:514 src/tiers_onglet.c:296
 msgid "Change view mode"
 msgstr "Die Darstellung ändern"
 
 #. Edit transaction
-#: src/categories_onglet.c:538
+#: src/categories_onglet.c:542
 msgid "Category view"
 msgstr "Einfach"
 
-#: src/categories_onglet.c:544
+#: src/categories_onglet.c:548
 msgid "Subcategory view"
 msgstr "Unterkategorien"
 
-#: src/categories_onglet.c:595 src/categories_onglet.c:599
-#: src/imputation_budgetaire.c:626 src/imputation_budgetaire.c:631
+#: src/categories_onglet.c:599 src/categories_onglet.c:603
+#: src/imputation_budgetaire.c:631 src/imputation_budgetaire.c:636
 #: src/tiers_onglet.c:498
 #, c-format
 msgid "Properties for %s"
 msgstr "Eigenschaften von %s"
 
-#: src/categories_onglet.c:597
+#: src/categories_onglet.c:601
 msgid "No sub-category defined"
 msgstr "Keine Unterkategorie definiert"
 
-#: src/categories_onglet.c:601 src/qif.c:1125 src/qif.c:1132
+#: src/categories_onglet.c:605 src/qif.c:1125 src/qif.c:1132
 msgid "No category defined"
 msgstr "Keine Kategorie definiert"
 
@@ -787,26 +791,26 @@ msgstr "Keine Kategorie definiert"
 #. Financial year name
 #. set the name
 #. Name entry
-#: src/categories_onglet.c:623 src/gsb_archive_config.c:98
+#: src/categories_onglet.c:627 src/gsb_archive_config.c:98
 #: src/gsb_archive_config.c:188 src/gsb_assistant_archive_export.c:148
 #: src/gsb_assistant_reconcile_config.c:388
 #: src/gsb_assistant_reconcile_config.c:1242 src/gsb_bank.c:726
 #: src/gsb_bank.c:832 src/gsb_currency_config.c:352 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:239
 #: src/gsb_reconcile_config.c:179 src/gsb_transactions_list.c:1724
-#: src/imputation_budgetaire.c:655 src/tiers_onglet.c:519
+#: src/imputation_budgetaire.c:660 src/tiers_onglet.c:519
 msgid "Name"
 msgstr "Name"
 
 #. Description entry
 #. Payment method method_ptr
 #. Description entry
-#: src/categories_onglet.c:648 src/gsb_payment_method_config.c:292
-#: src/import.c:381 src/imputation_budgetaire.c:680
+#: src/categories_onglet.c:652 src/gsb_payment_method_config.c:292
+#: src/import.c:381 src/imputation_budgetaire.c:685
 msgid "Type"
 msgstr "Art"
 
-#: src/categories_onglet.c:687
+#: src/categories_onglet.c:691
 #, c-format
 msgid ""
 "You tried to rename current sub-category to '%s' but this sub-category "
@@ -816,7 +820,7 @@ msgstr ""
 "bereits eine Unterkategorie mit diesem Namen vorhanden. Bitte wählen Sie "
 "einen anderen Namen aus."
 
-#: src/categories_onglet.c:694
+#: src/categories_onglet.c:698
 #, c-format
 msgid ""
 "You tried to rename current category to '%s' but this category already "
@@ -826,7 +830,7 @@ msgstr ""
 "eine Kategorie mit diesem Namen vorhanden. Bitte wählen Sie einen anderen "
 "Namen aus."
 
-#: src/categories_onglet.c:699
+#: src/categories_onglet.c:703
 msgid "Category already exists"
 msgstr "Die Kategorie ist bereits vorhanden"
 
@@ -2560,20 +2564,20 @@ msgstr "Postscript Datei"
 msgid "Latex file"
 msgstr "LaTeX Datei"
 
-#: src/etats_onglet.c:1216
+#: src/etats_onglet.c:1220
 msgid "Exporting report ..."
 msgstr "Bericht exportieren ..."
 
-#: src/etats_onglet.c:1260 src/gsb_debug.c:245 src/gsb_file.c:446
-#: src/gsb_file.c:562 src/gsb_file.c:607
+#: src/etats_onglet.c:1264 src/gsb_debug.c:245 src/gsb_file.c:447
+#: src/gsb_file.c:563 src/gsb_file.c:608
 msgid "Done"
 msgstr "Fertig"
 
-#: src/etats_onglet.c:1281
+#: src/etats_onglet.c:1285
 msgid "Import a report"
 msgstr "Bericht importieren - Grisbi"
 
-#: src/etats_onglet.c:1288
+#: src/etats_onglet.c:1290
 msgid "Grisbi report files (*.egsb)"
 msgstr "Grisbi Berichte (*.egsb)"
 
@@ -2853,7 +2857,7 @@ msgstr ""
 
 #: src/file_obfuscate.c:350
 msgid "Obfuscation succeeded"
-msgstr "Anonymiserung erfolgreich"
+msgstr "Anonymisierung erfolgreich"
 
 #: src/file_obfuscate.c:352
 #, c-format
@@ -2866,9 +2870,9 @@ msgstr ""
 
 #: src/file_obfuscate.c:353
 msgid "Obfuscation failed"
-msgstr "Anonymiserung fehlgeschlagen"
+msgstr "Anonymisierung fehlgeschlagen"
 
-#: src/file_obfuscate.c:360 src/file_obfuscate_qif.c:122
+#: src/file_obfuscate.c:360 src/file_obfuscate_qif.c:123
 msgid "Done."
 msgstr "Fertig"
 
@@ -2987,17 +2991,17 @@ msgstr ""
 
 #: src/file_obfuscate_qif.c:89
 msgid "Open a QIF file"
-msgstr "Qif-Datei öffnen - Grisbi"
+msgstr "Qif-Datei auswählen - Grisbi"
 
-#: src/file_obfuscate_qif.c:96
+#: src/file_obfuscate_qif.c:94
 msgid "QIF files (*.qif)"
 msgstr "Qif-Dateien (*.qif)"
 
-#: src/file_obfuscate_qif.c:146
+#: src/file_obfuscate_qif.c:147
 msgid "Cannot open the QIF file."
 msgstr "Die Qif-Datei kann nicht geöffnet werden."
 
-#: src/file_obfuscate_qif.c:152
+#: src/file_obfuscate_qif.c:153
 msgid ""
 "This file doesn't seem to be a QIF file,\n"
 "operation canceled."
@@ -3005,12 +3009,12 @@ msgstr ""
 "Diese Datei ist keine gültige Qif-Datei,\n"
 "die Verarbeitung wird beendet."
 
-#: src/file_obfuscate_qif.c:237
+#: src/file_obfuscate_qif.c:238
 #, c-format
 msgid "File '%s' successfully saved"
 msgstr "Die Datei '%s' wurde erfolgreich gespeichert"
 
-#: src/file_obfuscate_qif.c:244
+#: src/file_obfuscate_qif.c:245
 #, c-format
 msgid "File '%s' could not be saved"
 msgstr "Die Datei '%s' konnte nicht gespeichert werden"
@@ -4195,7 +4199,7 @@ msgid "Import data from online bank services or from accounting software"
 msgstr "Konten und Daten von anderen Finanzprogrammen oder Ihrer Bank importieren"
 
 #: src/gsb_assistant_file.c:559 src/navigation.c:1185
-#: src/traitement_variables.c:292
+#: src/traitement_variables.c:289
 msgid "My accounts"
 msgstr "Meine Konten"
 
@@ -6627,28 +6631,28 @@ msgstr "Das Modell für die Liste konnte nicht erstellt werden"
 
 #: src/gsb_file.c:218
 msgid "Open an accounts file"
-msgstr "Datei öffnen - Grisbi"
+msgstr "Datei auswählen - Grisbi"
 
-#: src/gsb_file.c:225
+#: src/gsb_file.c:223
 msgid "Grisbi files (*.gsb)"
 msgstr "Grisbi-Datei (*.gsb)"
 
-#: src/gsb_file.c:356
+#: src/gsb_file.c:357
 msgid "Loading accounts"
 msgstr "Konten laden"
 
 #. Loading failed.
-#: src/gsb_file.c:372
+#: src/gsb_file.c:373
 msgid "Failed to load accounts"
 msgstr "Fehler beim Laden der Konten"
 
-#: src/gsb_file.c:376 src/gsb_file.c:387 src/gsb_file_load.c:245
+#: src/gsb_file.c:377 src/gsb_file.c:388 src/gsb_file_load.c:245
 #: src/gsb_file_load.c:259 src/gsb_file_load.c:357
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Fehler beim Öffnen der Datei '%s'"
 
-#: src/gsb_file.c:377
+#: src/gsb_file.c:378
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -6664,7 +6668,7 @@ msgstr ""
 "Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) um die "
 "Ursache für den Fehler zu finden."
 
-#: src/gsb_file.c:391
+#: src/gsb_file.c:392
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -6681,7 +6685,7 @@ msgstr ""
 "Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) um die "
 "Ursache für den Fehler zu finden."
 
-#: src/gsb_file.c:394
+#: src/gsb_file.c:395
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -6694,16 +6698,16 @@ msgstr ""
 "Ursache für den Fehler zu finden."
 
 #. ok, here the file or backup is loaded
-#: src/gsb_file.c:405
+#: src/gsb_file.c:406
 msgid "Checking schedulers"
 msgstr "Geplante Buchungen prüfen"
 
 #. check the amounts of all the accounts
-#: src/gsb_file.c:418
+#: src/gsb_file.c:419
 msgid "Checking amounts"
 msgstr "Beträge prüfen"
 
-#: src/gsb_file.c:522
+#: src/gsb_file.c:523
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -6714,30 +6718,30 @@ msgstr ""
 "Option \"%s\" in den Einstellungen."
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:523 src/gsb_file.c:752 src/parametres.c:676
+#: src/gsb_file.c:524 src/gsb_file.c:753 src/parametres.c:676
 msgid "Force saving of locked files"
 msgstr "Das Speichern von gesperrten Dateien erzwingen"
 
-#: src/gsb_file.c:524
+#: src/gsb_file.c:525
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "Datei \"%s\" kann nicht gespeichert werden"
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: src/gsb_file.c:539
+#: src/gsb_file.c:540
 msgid "Saving file"
 msgstr "Datei speichern"
 
-#: src/gsb_file.c:588
+#: src/gsb_file.c:589
 msgid "Saving backup"
 msgstr "Sicherung speichern"
 
-#: src/gsb_file.c:749
+#: src/gsb_file.c:750
 msgid "Save locked files?"
 msgstr "Gesperrte Datei speichern?"
 
-#: src/gsb_file.c:750
+#: src/gsb_file.c:751
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
@@ -6747,40 +6751,40 @@ msgstr ""
 "speichern wollen, müssen Sie den Vorgang abbrechen und die Datei unter einem "
 "anderen Namen speichern oder die Option \"%s\" in den Einstellungen setzen."
 
-#: src/gsb_file.c:751 src/gsb_file.c:762 src/gsb_file.c:944
+#: src/gsb_file.c:752 src/gsb_file.c:763 src/gsb_file.c:944
 msgid "unnamed"
 msgstr "Unbenannt"
 
-#: src/gsb_file.c:754 src/gsb_file.c:765
+#: src/gsb_file.c:755 src/gsb_file.c:766
 msgid "Close without saving"
 msgstr "Beenden ohne Speichern"
 
-#: src/gsb_file.c:761
+#: src/gsb_file.c:762
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "Die Änderungen in Datei '%s' vor dem Schließen speichern?"
 
-#: src/gsb_file.c:774
+#: src/gsb_file.c:775
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr "%d Minuten und %d Sekunden"
 
-#: src/gsb_file.c:779
+#: src/gsb_file.c:780
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr "1 Minute und %d Sekunden"
 
-#: src/gsb_file.c:784
+#: src/gsb_file.c:785
 #, c-format
 msgid "%d seconds"
 msgstr "%d Sekunden"
 
-#: src/gsb_file.c:787
+#: src/gsb_file.c:788
 #, c-format
 msgid "If you close without saving, all of your changes since %s will be discarded."
 msgstr "Beim Schließen ohne Speichern werden alle Änderungen seit %s verworfen."
 
-#: src/gsb_file.c:823
+#: src/gsb_file.c:824
 msgid "Name the accounts file"
 msgstr "Datei speichern - Grisbi"
 
@@ -6846,7 +6850,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "Das Modul für die Verschlüsselung kann nicht gefunden werden."
 
-#: src/gsb_file_load.c:398 src/gsb_file_load.c:4284
+#: src/gsb_file_load.c:398 src/gsb_file_load.c:4287
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Diese Datei ist kein Grisbi-Datei...der Ladevorgang wird abgebrochen."
 
@@ -6863,7 +6867,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:7495
+#: src/gsb_file_load.c:7498
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -6872,7 +6876,7 @@ msgstr ""
 "Grisbi mit Version %s ist zum Öffnen der Datei notwendig.\n"
 "Sie verwenden Version %s."
 
-#: src/gsb_file_load.c:7536
+#: src/gsb_file_load.c:7539
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -6883,7 +6887,7 @@ msgstr ""
 "Bevor Buchungen oder wichtige Informationen geändert werden sollten Sie "
 "beachten, dass es sich um ein Archiv handelt."
 
-#: src/gsb_file_load.c:7537
+#: src/gsb_file_load.c:7540
 msgid "Grisbi archive opened"
 msgstr "Grisbi Archiv geöffnet"
 
@@ -7494,7 +7498,8 @@ msgid ""
 "This is not normal, please contact the grisbi team."
 msgstr ""
 "Es ist ein Problem beim Befüllen/Löschen der Zahlungsweise aufgetreten.\n"
-"Bitte kontaktieren Sie das Grisbi Team."
+"Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) um die "
+"Ursache für den Fehler zu finden."
 
 #: src/gsb_payment_method_config.c:1286
 msgid ""
@@ -7684,7 +7689,8 @@ msgstr ""
 "In der Liste kann keine Zuordnung von untergeordneten Einträgen zu Toplevel "
 "Einträgen hergestellt werden, dies sollte im Regelfall nicht passieren - "
 "vermutlich handelt es sich um einen Fehler. Bitte kontaktieren Sie das "
-"Grisbi-Team.\n"
+"Grisbi-Team (devel@listes.grisbi.org) um die Ursache für den Fehler zu "
+"finden.\n"
 "\n"
 "Die Nummern der betroffenen untergeordneten Einträge sind : \n"
 
@@ -7822,7 +7828,8 @@ msgstr ""
 "In der Liste kann keine Zuordnung von untergeordneten Einträgen zu Toplevel "
 "Einträgen hergestellt werden, dies sollte im Regelfall nicht passieren - "
 "vermutlich handelt es sich um einen Fehler. Bitte kontaktieren Sie das "
-"Grisbi-Team.\n"
+"Grisbi-Team (devel@listes.grisbi.org) um die Ursache für den Fehler zu "
+"finden.\n"
 "\n"
 "Die Nummern der betroffenen untergeordneten Einträge sind: \n"
 
@@ -8175,7 +8182,7 @@ msgstr "Fehler!"
 msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
-msgstr "Es wurden keine Daten importiert. Bitte die Import-Datei(en) prüfen."
+msgstr "Es wurden keine Daten importiert. Bitte die Import-Dateien prüfen."
 
 #: src/import.c:862
 msgid "The following files are in error:"
@@ -8203,7 +8210,7 @@ msgid ""
 "<span size=\"x-large\">%s</span>\n"
 "\n"
 "What do you want to do with contents from <span foreground=\"blue\">%s</"
-"span>?\n"
+"span> ?\n"
 msgstr ""
 "<span size=\"x-large\">%s</span>\n"
 "\n"
@@ -8288,8 +8295,8 @@ msgstr ""
 "Bitte beenden Sie den Import, ansonsten kann es zu einem Programmabsturz "
 "kommen.\n"
 "\n"
-"Kontaktieren Sie das Grisbi-Team damit der Fehler gefunden und korrigiert "
-"werden kann."
+"Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) um die "
+"Ursache für den Fehler zu finden."
 
 #: src/import.c:1398
 msgid "Please wait"
@@ -8386,7 +8393,7 @@ msgid ""
 "the account will be changed.  Do you want to continue ?"
 msgstr ""
 "Haben Sie versehentlich das falsche Konto ausgewählt ? Wenn Sie sich "
-"entscheiden den Vorgang fortzusetzen wird die Id des Kontos geändert. Soll "
+"entscheiden den Vorgang fortzusetzen wird die ID des Kontos geändert. Soll "
 "der Vorgang fortgesetzt werden?"
 
 #: src/import.c:2767
@@ -8563,23 +8570,23 @@ msgstr "Budgeteinträge exportieren - Grisbi"
 msgid "Budgetary-lines.igsb"
 msgstr "Budgeteinträge.igsb"
 
-#: src/imputation_budgetaire.c:357
+#: src/imputation_budgetaire.c:360
 msgid "Cannot save file."
 msgstr "Datei kann nicht gespeichert werden."
 
-#: src/imputation_budgetaire.c:381
+#: src/imputation_budgetaire.c:384
 msgid "Import budgetary lines"
 msgstr "Budgeteinträge importieren - Grisbi"
 
-#: src/imputation_budgetaire.c:387
+#: src/imputation_budgetaire.c:389
 msgid "Grisbi budgetary lines files (*.igsb)"
 msgstr "Grisbi Budgeteinträge (*.igsb)"
 
-#: src/imputation_budgetaire.c:414
+#: src/imputation_budgetaire.c:419
 msgid "Merge imported budgetary lines with existing?"
 msgstr "Importierte und vorhandene Budgeteinträge zusammenführen?"
 
-#: src/imputation_budgetaire.c:416
+#: src/imputation_budgetaire.c:421
 msgid ""
 "File already contains budgetary lines.  If you decide to continue, existing "
 "budgetary lines will be merged with imported ones."
@@ -8588,7 +8595,7 @@ msgstr ""
 "Import fortsetzen werden die importierten Budgeteinträge mit den Vorhandenen "
 "zusammengeführt."
 
-#: src/imputation_budgetaire.c:417
+#: src/imputation_budgetaire.c:422
 msgid ""
 "File does not contain budgetary lines.  If you decide to continue, existing "
 "budgetary lines will be merged with imported ones.  Once performed, there is "
@@ -8601,7 +8608,7 @@ msgstr ""
 "Es besteht auch die Möglichkeit die vorhandenen Budgeteinträge durch die "
 "Importierten zu ersetzen."
 
-#: src/imputation_budgetaire.c:477
+#: src/imputation_budgetaire.c:482
 msgid ""
 "New\n"
 "budgetary line"
@@ -8609,11 +8616,11 @@ msgstr ""
 "Neuer\n"
 "Budgeteintrag"
 
-#: src/imputation_budgetaire.c:481
+#: src/imputation_budgetaire.c:486
 msgid "Create a new budgetary line"
 msgstr "Einen neuen Budgeteintrag erstellen"
 
-#: src/imputation_budgetaire.c:486
+#: src/imputation_budgetaire.c:491
 msgid ""
 "New sub\n"
 "budgetary line"
@@ -8621,48 +8628,48 @@ msgstr ""
 "Neuer\n"
 "Teil-Budgeteintrag"
 
-#: src/imputation_budgetaire.c:493
+#: src/imputation_budgetaire.c:498
 msgid "Create a new sub-budgetary line"
 msgstr "Einen neuen Teil-Budgeteintrag erstellen"
 
-#: src/imputation_budgetaire.c:503
+#: src/imputation_budgetaire.c:508
 msgid "Import a Grisbi budgetary line file (.igsb)"
 msgstr "Budgeteinträge (*.igsb) importieren"
 
-#: src/imputation_budgetaire.c:513
+#: src/imputation_budgetaire.c:518
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "Budgeteinträge (*.igsb) exportieren"
 
-#: src/imputation_budgetaire.c:523
+#: src/imputation_budgetaire.c:528
 msgid "Delete selected budgetary line"
 msgstr "Den selektierten Budgeteintrag löschen"
 
-#: src/imputation_budgetaire.c:533
+#: src/imputation_budgetaire.c:538
 msgid "Edit selected budgetary line"
 msgstr "Den selektierten Budgeteintrag bearbeiten"
 
-#: src/imputation_budgetaire.c:543
+#: src/imputation_budgetaire.c:548
 msgid "Change display mode"
 msgstr "Die Darstellung ändern"
 
 #. Edit transaction
-#: src/imputation_budgetaire.c:571
+#: src/imputation_budgetaire.c:576
 msgid "Budgetary line view"
 msgstr "Einfach"
 
-#: src/imputation_budgetaire.c:577
+#: src/imputation_budgetaire.c:582
 msgid "Sub-budgetary line view"
 msgstr "Teil-Budgeteinträge"
 
-#: src/imputation_budgetaire.c:629
+#: src/imputation_budgetaire.c:634
 msgid "No sub-budget defined"
 msgstr "Kein Teil-Budgeteintrag definiert"
 
-#: src/imputation_budgetaire.c:634
+#: src/imputation_budgetaire.c:639
 msgid "No budget defined"
 msgstr "Kein Budgeteintrag definiert"
 
-#: src/imputation_budgetaire.c:720
+#: src/imputation_budgetaire.c:725
 #, c-format
 msgid ""
 "You tried to rename current sub-budgetary line to '%s' but this sub-"
@@ -8672,7 +8679,7 @@ msgstr ""
 "bereits ein Teil-Budgeteintrag mit diesem Namen vorhanden. Bitte wählen Sie "
 "einen anderen Namen aus."
 
-#: src/imputation_budgetaire.c:727
+#: src/imputation_budgetaire.c:732
 #, c-format
 msgid ""
 "You tried to rename current budgetary line to '%s' but this budgetary line "
@@ -8682,7 +8689,7 @@ msgstr ""
 "bereits ein Budgeteintrag mit diesem Namen vorhanden. Bitte wählen Sie einen "
 "anderen Namen aus."
 
-#: src/imputation_budgetaire.c:732
+#: src/imputation_budgetaire.c:737
 msgid "Budgetary line already exists"
 msgstr "Der Budgeteintrag ist bereits vorhanden"
 
@@ -9140,11 +9147,11 @@ msgstr "Aufruf: gribi [--version | -v] | [--help | -?]\n"
 msgid ""
 "grisbi [options] [file]\n"
 "  --help                    Show this help message and exit\n"
-"  -v, --version                 Show version number and exit\n"
+"  -v, --version             Show version number and exit\n"
 msgstr ""
 "gribi [options] [file]\n"
 "  --help                    diese Hilfe anzeigen und beenden\n"
-"  -v, --version                 die Versionsnummer anzeigen und beenden\n"
+"  -v, --version           die Versionsnummer anzeigen und beenden\n"
 
 #: src/parse_cmdline.c:172
 #, c-format
@@ -9427,8 +9434,8 @@ msgid ""
 msgstr ""
 "Das Datumsformat von den Buchungen in der Qif Datei konnte nicht ermittelt "
 "werden.\n"
-"Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) um das "
-"Problem zu lösen.\n"
+"Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) um die "
+"Ursache für den Fehler zu finden.\n"
 "Die Buchungen werden mit dem Standarddatum 01.01.1970 importiert"
 
 #: src/qif.c:592
@@ -9440,12 +9447,12 @@ msgid ""
 msgstr ""
 "Das Datum %s hat mehr als 2 Trennzeichen.\n"
 "Ein Datumsformat mit mehr als 2 Trennzeichen sollte im 'Regelfall' nicht "
-"vorkommen. Kontaktieren Sie bitte das Grisbi-Team und geben Sie das "
-"spezielle Datumsformat bekannt."
+"vorkommen. Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) "
+"um die Ursache für den Fehler zu finden."
 
 #: src/qif.c:663
 msgid "The order cannot be determined,\n"
-msgstr "Die Sortierung kann nicht festgelget werden,\n"
+msgstr "Die Sortierung kann nicht festgelegt werden,\n"
 
 #: src/qif.c:668
 msgid "Date wrong for the order "
@@ -9536,8 +9543,8 @@ msgstr "Tipps beim nächsten Start anzeigen"
 msgid "Reconciliation ref."
 msgstr "Abstimmung Ref."
 
-#: src/transaction_list.c:161 src/transaction_list.c:972
-#: src/transaction_list.c:1794
+#: src/transaction_list.c:161 src/transaction_list.c:973
+#: src/transaction_list.c:1795
 #, c-format
 msgid "Total : %s (variance : %s)"
 msgstr "Gesamt : %s (variiert : %s)"
@@ -9549,7 +9556,7 @@ msgstr "Archiv %s (%d Buchungen)"
 
 #. this value should not be changed here, check later if i'm right,
 #. * for now just show a message
-#: src/transaction_list.c:1435
+#: src/transaction_list.c:1436
 msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't append ! "
 "Check that."
@@ -9557,7 +9564,7 @@ msgstr ""
 "Es wurde versucht eine sichtbare Linie in der Buchungsliste zu ändern. Diese "
 "Funktionalität sollte im Regelfall nicht möglich sein."
 
-#: src/transaction_list.c:1625
+#: src/transaction_list.c:1626
 #, c-format
 msgid ""
 "Trying to append the child number %d to the mother %d in the model, but no "
@@ -9566,8 +9573,8 @@ msgid ""
 msgstr ""
 "Bei der Zuordnung vom untergeordneten Eintrag mit der Nummer %d zum Toplevel "
 "Eintrag mit der Nummer %d wurde keine \"weise Linie\" erstellt.\n"
-"Vermutlich handelt es sich um einen Fehler, bitte kontaktieren Sie das "
-"Grisbi-Team"
+"Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) um die "
+"Ursache für den Fehler zu finden."
 
 #: src/transaction_list_sort.c:136
 #, c-format
