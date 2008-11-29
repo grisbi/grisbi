@@ -3947,7 +3947,6 @@ msgstr "Regrouper les opérations par compte"
 
 #. create the assistant
 #: src/gsb_assistant_archive_export.c:104
-#, fuzzy
 msgid "Export an archive"
 msgstr "Exporter une archive"
 
@@ -3959,24 +3958,24 @@ msgid ""
 "preference window."
 msgstr ""
 "Cet assistant vous aide à exporter une archive dans un fichier au format gsb, "
-"QIF ou CSV.\nNotez que rien ne sera effacé dans grisbi. Si vous voulez "
+"QIF ou CSV.\n"
+"Notez que rien ne sera effacé dans grisbi. Si vous voulez "
 "effacer un fichier d'archive vous devez le faire à partir du menu préférences."
 
 #: src/gsb_assistant_archive_export.c:160
-#, fuzzy
-msgid "Select the archive to export : "
-msgstr "Sélectionner les comptes à exporter"
+msgid "Select the archive to export"
+msgstr "Sélectionnez l'archive à exporter"
 
 #: src/gsb_assistant_archive_export.c:306
 msgid "Grisbi (GSB) format"
-msgstr ""
+msgstr "Format Grisbi (GSB)"
 
 #. if we come here, an archive must have been selected,
 #. * so needn't to check
 #: src/gsb_assistant_archive_export.c:385
-#, fuzzy, c-format
-msgid "<span size=\"x-large\">Exporting the archive <i>%s</i></span>"
-msgstr "<span size=\"x-large\">Exportation de <i>%s</i></span>"
+#, c-format
+msgid "<span size=\"x-large\">Exporting the archive : %s</span>"
+msgstr "<span size=\"x-large\">Exportation de : <i>%s</i></span>"
 
 #: src/gsb_assistant_archive_export.c:425
 msgid ""
@@ -3985,6 +3984,10 @@ msgid ""
 "\n"
 "You can now close the assistant."
 msgstr ""
+"Opération réussie !\n"
+"L'export de l''archive s'est bien terminée.\n"
+"\n"
+"Vous pouvez clore l'assistant."
 
 #: src/gsb_assistant_archive_export.c:429
 msgid ""
@@ -6511,7 +6514,7 @@ msgstr "Paramètres"
 #: src/gsb_file_others.c:301 src/gsb_file_save.c:384 src/gsb_file_save.c:402
 #, c-format
 msgid "Cannot save file '%s': %s"
-msgstr "Impossible de sauvegarder le fichier « %s » : %s"
+msgstr "Impossible de sauvegarder le fichier « %s »\n%s"
 
 #. inform the user of that
 #: src/gsb_file_others.c:533
