@@ -10,7 +10,7 @@
       <Sous-categorie No="2" Nom="1021. Valeur du patrimoine int&#xE9;gr&#xE9;"/>
       <Sous-categorie No="3" Nom="1022. Fonds statutaires (&#xE0; d&#xE9;clarer en fonction des statuts)"/>
       <Sous-categorie No="4" Nom="1024. Apports sans droit de reprise"/>
-      <Sous-categorie No="5" Nom="1025. Lges et donations avec contrepartie d'actifs immobilis&#xE9;s"/>
+      <Sous-categorie No="5" Nom="1025. Legs et donations avec contrepartie d'actifs immobilis&#xE9;s"/>
       <Sous-categorie No="6" Nom="1026. Subventions d'investissement affect&#xE9;es &#xE0; des biens renouvelables"/>
       <Sous-categorie No="7" Nom="1030. Fonfs associatifs avec droit de reprise"/>
       <Sous-categorie No="8" Nom="1034. Apports avec droit de reprise"/>
@@ -27,7 +27,7 @@
     </Categorie>
     <Categorie Nom="11. El&#xE9;ments en instance d'affectation" Type="0" No_derniere_sous_cagegorie="2">
       <Sous-categorie No="1" Nom="110. Report &#xE0; nouveau"/>
-      <Sous-categorie No="2" Nom="115. R&#xE9;sultats sous contr&#xF4;le de tiers financeurs"/>
+      <Sous-categorie No="2" Nom="115. R&#xE9;sultats sous contr&#xF4;le de tiers financeur"/>
     </Categorie>
     <Categorie Nom="12. R&#xE9;sultat net de l'exercice (ex&#xE9;dent ou d&#xE9;ficit)" Type="0" No_derniere_sous_cagegorie="2">
       <Sous-categorie No="1" Nom="120. R&#xE9;sultat des l'exercice (ex&#xE9;dent)"/>
@@ -81,10 +81,10 @@
       <Sous-categorie No="7" Nom="1661. Comptes bloqu&#xE9;s"/>
       <Sous-categorie No="8" Nom="1662. Fonds de participation"/>
       <Sous-categorie No="9" Nom="1670. Emprunts et dettes assorties de conditions particuli&#xE8;res"/>
-      <Sous-categorie No="10" Nom="1672. Titre associatif"/>
+      <Sous-categorie No="10" Nom="1672. Titres associatifs"/>
       <Sous-categorie No="11" Nom="1680. Autres emprunts et dettes assimil&#xE9;es"/>
       <Sous-categorie No="12" Nom="1681. Autres emprunts (&#xE0; d&#xE9;tailler)"/>
-      <Sous-categorie No="13" Nom="1685. Rents viag&#xE8;res capitalis&#xE9;es"/>
+      <Sous-categorie No="13" Nom="1685. Rentes viag&#xE8;res capitalis&#xE9;es"/>
       <Sous-categorie No="14" Nom="1687. Autres dettes (&#xE0; d&#xE9;tailler)"/>
       <Sous-categorie No="15" Nom="1688. Int&#xE9;r&#xEA;ts courus ( &#xE0; d&#xE9;tailler)"/>
     </Categorie>
@@ -116,7 +116,7 @@
       <Sous-categorie No="7" Nom="2150. Installations techniques, mat&#xE9;riels et outillages industriels"/>
       <Sous-categorie No="8" Nom="2151. Installations complexes sp&#xE9;cialis&#xE9;es"/>
       <Sous-categorie No="9" Nom="2154. Mat&#xE9;riels industriel"/>
-      <Sous-categorie No="10" Nom="2155. Outillages industriel"/>
+      <Sous-categorie No="10" Nom="2155. Outillage industriel"/>
       <Sous-categorie No="11" Nom="2180. Autres immobilisations incorporelles"/>
       <Sous-categorie No="12" Nom="2181. Installations g&#xE9;n&#xE9;rales, agencements, am&#xE9;nagements divers"/>
       <Sous-categorie No="13" Nom="2182. Mat&#xE9;riels de transport"/>
@@ -155,25 +155,25 @@
       <Sous-categorie No="9" Nom="2743. Pr&#xEA;ts au personnel"/>
       <Sous-categorie No="10" Nom="2748. Autres pr&#xEA;ts"/>
       <Sous-categorie No="11" Nom="2750. D&#xE9;p&#xF4;ts et cautionnements vers&#xE9;s"/>
-      <Sous-categorie No="12" Nom="2751. D&#xE9;pots"/>
+      <Sous-categorie No="12" Nom="2751. D&#xE9;p&#xF4;ts"/>
       <Sous-categorie No="13" Nom="2755. Cautionnements"/>
       <Sous-categorie No="14" Nom="2760. AUtres cr&#xE9;ances immobilis&#xE9;es"/>
-      <Sous-categorie No="15" Nom="2761. Cr&#xE9;ances divers"/>
+      <Sous-categorie No="15" Nom="2761. Cr&#xE9;ances diverses"/>
       <Sous-categorie No="16" Nom="2768. Int&#xE9;r&#xEA;ts courus (&#xE0; d&#xE9;tailler)"/>
       <Sous-categorie No="17" Nom="2790. Versements restant &#xE0; effectuer sur titres immobilis&#xE9;s non lib&#xE9;r&#xE9;s"/>
     </Categorie>
-    <Categorie Nom="28. Ammortissements des immobiloisations" Type="0" No_derniere_sous_cagegorie="9">
-      <Sous-categorie No="1" Nom="2800. Ammortissements des immobilisations incorporelles"/>
+    <Categorie Nom="28. Amortissements des immobilisations" Type="0" No_derniere_sous_cagegorie="9">
+      <Sous-categorie No="1" Nom="2800. Amortissements des immobilisations incorporelles"/>
       <Sous-categorie No="2" Nom="2801. Frais d'&#xE9;tablissement (m&#xEA;me ventilation que celle du compte 201)"/>
       <Sous-categorie No="3" Nom="2808. Autres immobilisations incorporelles"/>
-      <Sous-categorie No="4" Nom="2810. Ammortissements des immobilisations corporelles"/>
+      <Sous-categorie No="4" Nom="2810. Amortissements des immobilisations corporelles"/>
       <Sous-categorie No="5" Nom="2812. Agencememnts, am&#xE9;nagements des terrains (m&#xEA;me ventilations que celle du compte 212)"/>
       <Sous-categorie No="6" Nom="2813. Constructions (m&#xEA;me ventilation que celle du compte 213)"/>
       <Sous-categorie No="7" Nom="2814. Constructions sur sol d'autrui (m&#xEA;me ventilations que celles du comptes 214)"/>
-      <Sous-categorie No="8" Nom="2815. Installtions techniques, mat&#xE9;riels et outillages industriels (m&#xEA;me ventilation que celle du compte 215)"/>
+      <Sous-categorie No="8" Nom="2815. Installations techniques, mat&#xE9;riels et outillages industriels (m&#xEA;me ventilation que celle du compte 215)"/>
       <Sous-categorie No="9" Nom="2818. Autres immobilisations corporelles (m&#xEA;me ventilation que celle du compte 218)"/>
     </Categorie>
-    <Categorie Nom="29. Provision pour d&#xE9;pr&#xE9;ciation des immobilisation" Type="0" No_derniere_sous_cagegorie="15">
+    <Categorie Nom="29. Provision pour d&#xE9;pr&#xE9;ciation des immobilisations" Type="0" No_derniere_sous_cagegorie="15">
       <Sous-categorie No="1" Nom="2900. Provisions pour d&#xE9;pr&#xE9;ciations des immobilisations incorporelles"/>
       <Sous-categorie No="2" Nom="2906. Droit au bail"/>
       <Sous-categorie No="3" Nom="2908. Autres immobilisations incorporelles"/>
