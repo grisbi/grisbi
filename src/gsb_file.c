@@ -422,18 +422,17 @@ gboolean gsb_file_open_file ( gchar *filename )
     while ( list_tmp )
     {
 	gint account_number;
-
+	volatile gint value;
+	
 	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	gsb_data_account_calculate_current_and_marked_balances (account_number);
 
 	/* set the minimum balances to be shown or not */
-	gsb_data_account_set_mini_balance_authorized_message ( account_number,
-							       gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
-									      gsb_data_account_get_mini_balance_authorized (account_number)) == -1 );
-	gsb_data_account_set_mini_balance_wanted_message ( account_number,
-							   gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
-									  gsb_data_account_get_mini_balance_wanted (account_number)) == -1 );
+	value = gsb_real_cmp ( gsb_data_account_get_current_balance (account_number), gsb_data_account_get_mini_balance_authorized (account_number)) == -1;
+		gsb_data_account_set_mini_balance_authorized_message ( account_number, value);
+			value = gsb_real_cmp ( gsb_data_account_get_current_balance (account_number), gsb_data_account_get_mini_balance_wanted (account_number)) == -1;
+				gsb_data_account_set_mini_balance_wanted_message ( account_number, value);
 	list_tmp = list_tmp -> next;
     }
 
