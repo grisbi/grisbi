@@ -8,13 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-30 20:42+0100\n"
-"PO-Revision-Date: 2008-11-26 00:27+0100\n"
+"POT-Creation-Date: 2008-12-03 19:10+0100\n"
+"PO-Revision-Date: 2008-12-06 13:08+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:196
 msgid "Closed liabilities accounts"
@@ -93,17 +93,16 @@ msgid "%s debited on %s"
 msgstr "%s débito sobre %s"
 
 #: src/accueil.c:1663
-#, fuzzy, c-format
+#, c-format
 msgid "balance of account %s is under desired and authorised minima!"
 msgstr "¡El balance de la cuenta %s esta bajo el mínimo deseado y autorizado!"
 
 #: src/accueil.c:1667
-#, fuzzy
 msgid ""
 "accounts with the balance under desired and authorised minimal :\n"
 "\n"
 msgstr ""
-"Cuentas con balance por debajo del mínimo deseado y autorizado : \n"
+"Cuentas con balance por debajo del mínimo deseado y autorizado :\n"
 "\n"
 
 #: src/accueil.c:1696
@@ -120,12 +119,11 @@ msgstr ""
 "\n"
 
 #: src/accueil.c:1738
-#, fuzzy, c-format
+#, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr "¡El balance de la cuenta %s está bajo el mínimo deseado!"
 
 #: src/accueil.c:1748
-#, fuzzy
 msgid ""
 "accounts with the balance under desired minimal :\n"
 "\n"
@@ -249,9 +247,8 @@ msgid "Text of unfinished splitted transaction"
 msgstr "Borrar una transacción programada"
 
 #: src/affichage.c:707
-#, fuzzy
 msgid "Children of splitted transaction"
-msgstr "Borrar la transacción seleccionada"
+msgstr "Hijos de una transacción dividida"
 
 #: src/affichage.c:708
 msgid "Selection color"
@@ -319,9 +316,8 @@ msgid "terminates transaction"
 msgstr "Finaliza la transacción"
 
 #: src/affichage_liste.c:402
-#, fuzzy
 msgid "Automatic financial year is set"
-msgstr "Detallar los años financieros"
+msgstr "El año financiero automático ha sido fijado"
 
 #: src/affichage_liste.c:403
 msgid "according to transaction date"
@@ -479,170 +475,168 @@ msgstr "Balance estimado de la cuenta \"%s\" desde %s hasta %s"
 msgid "New transaction"
 msgstr "Nueva transacción"
 
-#: src/barre_outils.c:100
+#: src/barre_outils.c:101
 msgid "Blank the form to create a new transaction"
 msgstr "Limpia el formulario para crear una nueva transacción"
 
-#: src/barre_outils.c:105 src/barre_outils.c:437 src/categories_onglet.c:491
+#: src/barre_outils.c:107 src/barre_outils.c:453 src/categories_onglet.c:491
 #: src/etats_onglet.c:174 src/imputation_budgetaire.c:523
 #: src/tiers_onglet.c:265
 msgid "Delete"
 msgstr "Borrar"
 
-#: src/barre_outils.c:109
+#: src/barre_outils.c:112
 msgid "Delete selected transaction"
 msgstr "Borrar la transacción seleccionada"
 
-#: src/barre_outils.c:114 src/barre_outils.c:450
+#: src/barre_outils.c:118 src/barre_outils.c:468
 msgid "Edit"
 msgstr "Editar"
 
-#: src/barre_outils.c:118
+#: src/barre_outils.c:123
 msgid "Edit current transaction"
 msgstr "Editar la transacción actual"
 
-#: src/barre_outils.c:122
+#: src/barre_outils.c:128
 msgid "Reconcile"
 msgstr "Reconciliar"
 
-#: src/barre_outils.c:127
+#: src/barre_outils.c:134
 msgid "Start account reconciliation"
 msgstr "Comenzar la reconciliación de la cuenta"
 
 #. Set up dialog
-#: src/barre_outils.c:134 src/etats_onglet.c:153 src/etats_onglet.c:164
+#: src/barre_outils.c:142 src/etats_onglet.c:153 src/etats_onglet.c:164
 #: src/print_config.c:80
 msgid "Print"
 msgstr "Imprimir"
 
-#: src/barre_outils.c:138
+#: src/barre_outils.c:147
 msgid "Print the transactions list"
 msgstr "Imprimir la lista de transacciones"
 
-#: src/barre_outils.c:143 src/barre_outils.c:489 src/categories_onglet.c:510
+#: src/barre_outils.c:153 src/barre_outils.c:513 src/categories_onglet.c:510
 #: src/imputation_budgetaire.c:544 src/tiers_onglet.c:292
 msgid "View"
 msgstr "Vista"
 
-#: src/barre_outils.c:147
+#: src/barre_outils.c:158
 msgid "Change display mode of the list"
 msgstr "Cambia el modo de presentación de la lista"
 
-#: src/barre_outils.c:156
+#: src/barre_outils.c:168
 msgid "Import rules"
 msgstr "Importar reglas"
 
-#: src/barre_outils.c:160
+#: src/barre_outils.c:173
 msgid "Quick file import by rules"
 msgstr "Importación rápida de fichero por reglas"
 
-#: src/barre_outils.c:208
+#: src/barre_outils.c:222
 msgid "Simple view"
 msgstr "Vista Simple"
 
-#: src/barre_outils.c:213
+#: src/barre_outils.c:227
 msgid "Two lines view"
 msgstr "Vista de dos líneas"
 
-#: src/barre_outils.c:218
+#: src/barre_outils.c:232
 msgid "Three lines view"
 msgstr "Vista de tres líneas"
 
-#: src/barre_outils.c:223 src/categories_onglet.c:554
+#: src/barre_outils.c:237 src/categories_onglet.c:554
 #: src/imputation_budgetaire.c:588 src/tiers_onglet.c:366
 msgid "Complete view"
 msgstr "Vista completa"
 
-#: src/barre_outils.c:230
-#, fuzzy
+#: src/barre_outils.c:244
 msgid "Display reconciled transactions (Alt+R)"
-msgstr "Mostrar las transacciones reconciliadas"
+msgstr "Mostrar las transacciones reconciliadas (Alt+R)"
 
-#: src/barre_outils.c:279
+#: src/barre_outils.c:293
 msgid "Remove the rule"
 msgstr "Eliminar la regla"
 
-#: src/barre_outils.c:382 src/gsb_scheduler_list.c:1734
+#: src/barre_outils.c:396 src/gsb_scheduler_list.c:1734
 msgid "Unique view"
 msgstr "Vista única"
 
-#: src/barre_outils.c:382 src/gsb_scheduler_list.c:1734
+#: src/barre_outils.c:396 src/gsb_scheduler_list.c:1734
 msgid "Week view"
 msgstr "Vista semanal"
 
-#: src/barre_outils.c:382 src/gsb_scheduler_list.c:1734
+#: src/barre_outils.c:396 src/gsb_scheduler_list.c:1734
 msgid "Month view"
 msgstr "Vista mensual"
 
-#: src/barre_outils.c:383 src/gsb_scheduler_list.c:1735
+#: src/barre_outils.c:397 src/gsb_scheduler_list.c:1735
 msgid "Two months view"
 msgstr "Vista bimensual"
 
-#: src/barre_outils.c:383 src/gsb_scheduler_list.c:1735
+#: src/barre_outils.c:397 src/gsb_scheduler_list.c:1735
 msgid "Quarter view"
 msgstr "Vista cuatrimestral"
 
-#: src/barre_outils.c:384 src/gsb_scheduler_list.c:1736
+#: src/barre_outils.c:398 src/gsb_scheduler_list.c:1736
 msgid "Year view"
 msgstr "Vista anual"
 
-#: src/barre_outils.c:384 src/gsb_scheduler_list.c:1736
+#: src/barre_outils.c:398 src/gsb_scheduler_list.c:1736
 msgid "Custom view"
 msgstr "Vista Aleatoria"
 
-#: src/barre_outils.c:427
+#: src/barre_outils.c:441
 msgid "_New scheduled"
 msgstr "_Nuevo Planificador"
 
-#: src/barre_outils.c:432
+#: src/barre_outils.c:447
 msgid "Prepare form to create a new scheduled transaction"
 msgstr "Preparar el formulario para crear una nueva transacción programada"
 
-#: src/barre_outils.c:445
+#: src/barre_outils.c:462
 msgid "Delete selected scheduled transaction"
 msgstr "Borrar la transacción programada seleccionada"
 
-#: src/barre_outils.c:458
+#: src/barre_outils.c:477
 msgid "Edit selected transaction"
 msgstr "Editar la transacción seleccionada"
 
 #. comments line
-#: src/barre_outils.c:463 src/gsb_account_property.c:419
+#: src/barre_outils.c:483 src/gsb_account_property.c:419
 #: src/gsb_scheduler_list.c:332
 msgid "Comments"
 msgstr "Comentarios"
 
-#: src/barre_outils.c:470
+#: src/barre_outils.c:491
 msgid "Display scheduled transactions comments"
 msgstr "Mostrar los comentarios de las transacciones programadas"
 
-#: src/barre_outils.c:477
+#: src/barre_outils.c:499
 msgid "Execute"
 msgstr "Ejecutar"
 
-#: src/barre_outils.c:485
-#, fuzzy
+#: src/barre_outils.c:508
 msgid "Execute current scheduled transaction"
-msgstr "Introduzca una transacción programada"
+msgstr "Ejecutar la transacción programada actual"
 
-#: src/barre_outils.c:493
+#: src/barre_outils.c:518
 msgid "Change display mode of scheduled transaction list"
 msgstr ""
 "Cambiar el modo de presentación a la lista de transacciones programadas"
 
-#: src/barre_outils.c:510
+#: src/barre_outils.c:536
 msgid "Mask reconcile"
 msgstr "Enmascarar las reconciliaciones"
 
-#: src/barre_outils.c:515
+#: src/barre_outils.c:542
 msgid "Mask reconciled transactions"
 msgstr "Enmascarar las transacciones reconciliadas"
 
-#: src/barre_outils.c:520
+#: src/barre_outils.c:548
 msgid "Display reconcile"
 msgstr "Mostrar las reconciliaciones"
 
-#: src/barre_outils.c:525
+#: src/barre_outils.c:554
 msgid "Display reconciled transactions"
 msgstr "Mostrar las transacciones reconciliadas"
 
@@ -834,12 +828,12 @@ msgstr ""
 "elija otro nombre."
 
 #: src/categories_onglet.c:698
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You tried to rename current category to '%s' but this category already "
 "exists.  Please choose another name."
 msgstr ""
-"Intenta renombrar el actual %s a '$s' pero este %s ya existe.  Por favor "
+"Intenta renombrar la categoría actual a %s pero esta categoría ya existe.  Por favor "
 "elija otro nombre."
 
 #: src/categories_onglet.c:703
@@ -2987,7 +2981,6 @@ msgid "Grisbi QIF obfuscation"
 msgstr "Truncamiento QIF de Grisbi"
 
 #: src/file_obfuscate_qif.c:68
-#, fuzzy
 msgid ""
 "This assistant produces anonymized copies of qif files, with all personal "
 "data replaced with harmless random data, in order to attach an anonimized "
@@ -2999,7 +2992,7 @@ msgid ""
 "In next page, you will have to choose a QIF file wich will be renamedwith -"
 "obfuscate at the end."
 msgstr ""
-"Este asistente creará copias anónimas de sus ficheros de cuentas, con toda "
+"Este asistente creará copias anónimas de sus ficheros qif, con toda "
 "la información personal reemplazada por información aleatoria sin peligro, "
 "así podrá adjuntar una copia anónima de su fichero de Grisbi con cualquier "
 "informe de fallos que envíe.\n"
@@ -3007,13 +3000,7 @@ msgstr ""
 "Dicho esto, por favor compruebe que los fallos que envíe siguen "
 "produciéndose con la versión anonimizada de sus ficheros.\n"
 "\n"
-"Para evitar cualquier problema con sus ficheros, tras guardar el fichero "
-"modificado, Grisbi se cerrará sin permitirle guardar nada más.  Así que si "
-"no guardó los cambios,por favor, pare el asistente guarde su trabajo y "
-"reinicie después el proceso de truncamiento.\n"
-"\n"
-"En la siguiente página podrá elegir las características individuales que "
-"quiere truncar o mantener en función del nivel de privacidad que necesite."
+"En la siguiente página podrá elegir el fichero QIF que será renombrado y ofuscado."
 
 #: src/file_obfuscate_qif.c:89
 msgid "Open a QIF file"
@@ -3028,11 +3015,12 @@ msgid "Cannot open the QIF file."
 msgstr "No se puede abrir el fichero QIF"
 
 #: src/file_obfuscate_qif.c:153
-#, fuzzy
 msgid ""
 "This file doesn't seem to be a QIF file,\n"
 "operation canceled."
-msgstr "Esto no es un archivo de presupuestos, la carga se ha cancelado..."
+msgstr ""
+"Este fichero no parece que sea un fichero QIF,\n"
+"operación cancelada."
 
 #: src/file_obfuscate_qif.c:238
 #, c-format
@@ -3794,7 +3782,7 @@ msgstr "Cajero"
 
 #. come from check while opening file
 #: src/gsb_assistant_archive.c:123
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "There are a lot of transactions in your file (%d) and it is advised not to "
 "keep more than about %d transactions unarchived.\n"
@@ -3809,13 +3797,13 @@ msgid ""
 "\n"
 "Press Cancel if you don't want make an archive now\n"
 msgstr ""
-"Hay demasiadas transacciones en su fichero (%d) y el límite actual es de %d "
-"transacciones.\n"
+"Hay demasiadas transacciones en su fichero (%d) y es aconsejable no tener "
+"más de %d transacciones sin archivar.\n"
 "Para aumentar la velocidad, debería archivarlas (el límite actual y la "
 "comprobación inicial pueden cambiarse en las Preferencias)\n"
 "\n"
-"Este asistente le guiará en el proceso de archivado de transacciones por "
-"defecto, Grisbi no exporta ningún archivo en ficheros separados, tan sólo "
+"Este asistente le guiará en el proceso de archivado de transacciones."
+"Por defecto, Grisbi no exporta ningún archivo en ficheros separados, tan sólo "
 "marque las transacciones como archivadas y no las use.\n"
 "\n"
 "Aun puede exportarlas a un fichero separado si es necesario.\n"
@@ -6491,6 +6479,9 @@ msgid ""
 "If you choose to continue, Grisbi will remove that category error and that "
 "transactions will have no categories."
 msgstr ""
+"Grisbi encontró algunas transacciones con categorías/subcategorías inexistentes "
+"si elige continuar, Grisbi eliminará estas categorías erróneas y las transacciones "
+"no tendrán categorías."
 
 #: src/gsb_debug.c:120
 msgid "Incorrect budget/sub-budget number"
@@ -6501,6 +6492,8 @@ msgid ""
 "This test will look for transactions wich have non existant budgets/sub-"
 "budgets."
 msgstr ""
+"Esta prueba buscará transacciones que tengan lineas presupuestarias/subpresupuestarias "
+"inexistentes."
 
 #: src/gsb_debug.c:122
 msgid ""
@@ -6508,6 +6501,9 @@ msgid ""
 "choose to continue, Grisbi will remove that budget error and that "
 "transactions will have no budgets."
 msgstr ""
+"Grisbi encontró algunas transacciones con líneas presupuestarias/subpresupuestarias "
+"inexistentes. Si elige continuar, Grisbi eliminará esa línea presupuestaria errónea y esas "
+"transacciones no tendrán líneas presupuestarias."
 
 #: src/gsb_debug.c:127
 msgid "Incorrect payee number"
@@ -6522,6 +6518,8 @@ msgid ""
 "Grisbi found some transactions with non existants payees If you choose to "
 "continue, Grisbi will remove them and that transactions will have no payee."
 msgstr ""
+"Grisbi encontró algunas transacciones con terceros inexistentes si elige continuar, "
+"Grisbi los borrará y esas transacciones se quedarán sin tercero."
 
 #: src/gsb_debug.c:151
 msgid "Checking file for possible corruption..."
@@ -6628,37 +6626,34 @@ msgstr ""
 
 #. sub-category not found
 #: src/gsb_debug.c:594
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction %d has category %d but invalid sub-category %d.\n"
-msgstr ""
-"La transacción %d tiene una categoría nº%d y una subcategoría nº%d pero "
-"éstas no existen."
+msgstr "La transacción %d tiene una categoría %d pero laa subcategoría %d no es válida.\n"
 
 #. category not found
 #: src/gsb_debug.c:608
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction %d has invalid category %d.\n"
-msgstr "Agrupar las transacciones por categoría"
+msgstr "La transacción %d tiene la categoría no válida %d.\n"
 
 #. sub-budget not found
 #: src/gsb_debug.c:698
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
-msgstr ""
-"La transacción %d debería tener una línea y una sublínea presupuestaria nº%"
-"d, pero no existen."
+msgstr "La transacción %d tiene la línea presupuestaria %d pero una línea "
+"subpresupuestaria que no es correcta %d\n"
 
 #. budget not found
 #: src/gsb_debug.c:712
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction %d has invalid budget %d.\n"
-msgstr "La transacción %d tiene un tercero nº%d pero ésta no existe."
+msgstr "La transacción %d tiene una línea presupuestaria no válida %d.\n"
 
 #. payee not found
 #: src/gsb_debug.c:797
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction %d has invalid payee %d.\n"
-msgstr "La transacción %d tiene un tercero nº%d pero ésta no existe."
+msgstr "La transacción %d tiene un tercero %d que no es válido.\n"
 
 #. Create main widget.
 #: src/gsb_file.c:171
@@ -6703,6 +6698,11 @@ msgid ""
 "Please contact the Grisbi's team on devel@listes.grisbi.org to find what "
 "happened to you current file."
 msgstr ""
+"Grisbi no pudo cargar el fichero. Debería encontrar el último archivo de respaldo en '%s', "
+"Los archivos de respaldo se guardan con la fecha y hora como nombre así que podrá "
+"encontrar fácilmente el último archivo de respaldo guardado.\n"
+"Por favor, póngase en contacto con el equipo de Grisbi en devel@listes.grisbi.org para "
+"averiguar que le ocurrió a su último fichero."
 
 #: src/gsb_file.c:392
 #, c-format
@@ -6714,6 +6714,12 @@ msgid ""
 "Please contact the Grisbi's team on devel@listes.grisbi.org to find what "
 "happened to you current file."
 msgstr ""
+"Grisbi no pudo cargar el fichero y los archivos de respaldo parece que no se activaron... "
+"Esto es algo malo.\n"
+"Su ruta hacia los archivos de respaldo es '%s', averigue si tiene algún respaldo "
+"anterior allí.\n"
+"Por favor, contacte con el equipo de Grisbi en devel@listes.grisbi.org para averiguar qué "
+"ocurrió con su fichero actual."
 
 #: src/gsb_file.c:395
 msgid ""
@@ -6722,6 +6728,10 @@ msgid ""
 "Please contact the Grisbi's team on devel@listes.grisbi.org to find what "
 "happened to you current file."
 msgstr ""
+"Grisbi no pudo cargar el fichero y los archivos de respaldo parece que no se activaron... "
+"Esto es algo malo.\n"
+"Por favor, contacte con el equipo de Grisbi en devel@listes.grisbi.org para averiguar qué "
+"le sucedió a su fichero actual."
 
 #. ok, here the file or backup is loaded
 #: src/gsb_file.c:406
@@ -7353,9 +7363,8 @@ msgid "Change"
 msgstr "Cambiar"
 
 #: src/gsb_form_widget.c:262
-#, fuzzy
 msgid "Define the change for that transaction"
-msgstr "Borrar el archivo y las transacciones"
+msgstr "Defina el cambio para esa transacción"
 
 #: src/gsb_form_widget.c:273 src/gsb_form_widget.c:462
 msgid "Contra-transaction method of payment"
@@ -7513,9 +7522,8 @@ msgid "Delete a payment method"
 msgstr "Borrar una forma de pago"
 
 #: src/gsb_payment_method_config.c:1267
-#, fuzzy
 msgid "Payment method is used by transactions"
-msgstr "Detalles de la forma de pago"
+msgstr "El método de pago es usado por las transacciones"
 
 #: src/gsb_payment_method_config.c:1281
 msgid ""
@@ -7657,10 +7665,8 @@ msgstr "Borrar la reconciliación"
 
 #. set the button to find non-associated transactions
 #: src/gsb_reconcile_config.c:257
-#, fuzzy
 msgid "Find all marked transactions not associated with a reconcile number"
-msgstr ""
-"Encuentra las transacciones marcadas que no estén asociadas a un número de "
+msgstr "Encuentra  todas las transacciones marcadas que no estén asociadas a un número de "
 "reconciliación"
 
 #. we are on a reconcile,
@@ -8238,7 +8244,7 @@ msgid "file"
 msgstr "archivo"
 
 #: src/import.c:1046
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<span size=\"x-large\">%s</span>\n"
 "\n"
@@ -8247,7 +8253,8 @@ msgid ""
 msgstr ""
 "<span size=\"x-large\">%s</span>\n"
 "\n"
-"¿ Qué es lo que quiere hacer con los contenidos de <tt>%s</tt>?\n"
+"¿ Qué es lo que quiere hacer con los contenidos de <span foreground=\"blue\">%s</"
+"span> ?\n"
 
 #: src/import.c:1104
 msgid "Add transactions to an account"
@@ -8406,7 +8413,7 @@ msgstr "Comprobar"
 #. Cash withdrawal = retrait en liquide
 #: src/import.c:2335
 msgid "Cash withdrawal"
-msgstr ""
+msgstr "Retirada de efectivo"
 
 #: src/import.c:2425
 #, c-format
@@ -9148,16 +9155,13 @@ msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Avisos del programador de tareas al iniciar Grisbi"
 
 #: src/parametres.c:930
-#, fuzzy
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr ""
-"Ejecutar la transacción programada actual si está en la fecha de vencimiento"
+"Aviso/Ejecutar la transacción programada actual si está en la fecha de vencimiento"
 
 #: src/parametres.c:931
-#, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
-msgstr ""
-"Ejecutar la transacción programada actual si está en la fecha de vencimiento"
+msgstr "Aviso/Ejecutar las transacciones programadas del mes"
 
 #: src/parametres.c:942
 msgid "Number of days before the warning or the execution"
@@ -9548,13 +9552,13 @@ msgid "Payee view"
 msgstr "Vista de terceros"
 
 #: src/tiers_onglet.c:571
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
 "Please choose another name."
 msgstr ""
-"Intenta renombrar el actual %s a '$s' pero este %s ya existe.  Por favor "
-"elija otro nombre."
+"Intenta renombrar el tercero actual a '%s' pero este tercero ya existe.  "
+"Por favor elija otro nombre."
 
 #: src/tiers_onglet.c:575
 msgid "Payee already exists"
