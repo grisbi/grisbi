@@ -140,6 +140,9 @@ GtkWidget *form_button_recover_split;
 static GtkWidget *form_button_valid;
 static GtkWidget *form_button_cancel;
 
+/* Buttons for the form */
+GtkWidget *form_button_part;
+
 /** THE form */
 static GtkWidget *transaction_form;
 
@@ -207,7 +210,6 @@ void gsb_form_create_widgets ()
     GtkWidget * hbox, * label, * separator, * hbox_buttons, * hbox_buttons_inner;
     GtkWidget * child = gtk_bin_get_child ( GTK_BIN(form_expander) );
     GtkWidget *event_box;
-    GtkWidget *form_button_part;
 
     devel_debug (NULL);
 
