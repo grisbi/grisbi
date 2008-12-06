@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-12-03 19:10+0100\n"
-"PO-Revision-Date: 2008-12-06 13:08+0100\n"
+"PO-Revision-Date: 2008-12-06 20:49+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,9 +21,8 @@ msgid "Closed liabilities accounts"
 msgstr "Cuentas del pasivo cerradas"
 
 #: src/accueil.c:209
-#, fuzzy
 msgid "Run out manual scheduled transactions"
-msgstr "Transacción programada automática/manual"
+msgstr "Ejecutar las transacciones programadas manuales"
 
 #: src/accueil.c:225
 msgid "Automatic scheduled transactions entered"
@@ -242,9 +241,8 @@ msgid "Color of transaction's text"
 msgstr "Color del texto de la transacción"
 
 #: src/affichage.c:706
-#, fuzzy
 msgid "Text of unfinished splitted transaction"
-msgstr "Borrar una transacción programada"
+msgstr "Texto de la transacción dividida sin terminar"
 
 #: src/affichage.c:707
 msgid "Children of splitted transaction"
@@ -324,9 +322,8 @@ msgid "according to transaction date"
 msgstr "De acuerdo con la fecha de transacción"
 
 #: src/affichage_liste.c:404
-#, fuzzy
 msgid "according to transaction value date"
-msgstr "De acuerdo con la fecha de transacción"
+msgstr "de acuerdo con la fecha valor de la transacción"
 
 #: src/affichage_liste.c:410
 msgid "Automatic amount separator"
@@ -681,26 +678,24 @@ msgid "Merge imported categories with existing?"
 msgstr "¿ Unir las categorías importadas con las existentes ?"
 
 #: src/categories_onglet.c:387
-#, fuzzy
 msgid ""
 "File already contains categories.  If you decide to continue, existing "
 "categories will be merged with imported ones."
 msgstr ""
-"El fichero ya contiene transacciones, si decide continuar, las categorías "
+"El fichero ya contiene categorías.  Si decide continuar, las categorías "
 "existentes se unirán con las importadas."
 
 #: src/categories_onglet.c:388
-#, fuzzy
 msgid ""
 "File does not contain categories.  If you decide to continue, existing "
 "categories will be merged with imported ones.  Once performed, there is no "
 "undo for this.\n"
 "You may also decide to replace existing categories with imported ones."
 msgstr ""
-"El archivo no contiene transacciones.  Si decide continuar, las categorías "
+"El fichero no contiene transacciones.  Si decide continuar, las categorías "
 "existentes serán incluídas dentro de las importadas.  Una vez realizada esta "
 "operación, no hay forma de deshacerla.\n"
-"También puede optar por reemplacar las categorías existentes por las "
+"También puede optar por reemplazar las categorías existentes por las "
 "importadas."
 
 #: src/categories_onglet.c:395 src/imputation_budgetaire.c:429
@@ -819,13 +814,13 @@ msgid "Type"
 msgstr "Tipo"
 
 #: src/categories_onglet.c:691
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You tried to rename current sub-category to '%s' but this sub-category "
 "already exists.  Please choose another name."
 msgstr ""
-"Intenta renombrar el actual %s a '$s' pero este %s ya existe.  Por favor "
-"elija otro nombre."
+"Intenta renombrar la subcategoría actual con '%s' pero esta subcategoría "
+"ya existe.  Por favor elija otro nombre."
 
 #: src/categories_onglet.c:698
 #, c-format
@@ -3715,7 +3710,6 @@ msgid "Account type selection"
 msgstr "Selección de tipo de cuenta"
 
 #: src/gsb_assistant_account.c:163
-#, fuzzy
 msgid ""
 "Please select type for this account.\n"
 "The account will be created with default payment methods chosen according to "
@@ -3726,6 +3720,8 @@ msgstr ""
 "Por favor, elija el tipo de cuenta.\n"
 "La cuenta se creará con los métodos de pago por defecto de acuerdo con su "
 "elección.\n"
+"Si no está seguro y es nuevo a la contabilidad, le aconsejamos que elija una cuenta "
+"bancaria.\n"
 
 #. choose the currency
 #: src/gsb_assistant_account.c:226
@@ -4281,9 +4277,9 @@ msgid "Web browser command"
 msgstr "Comando para el navegador web"
 
 #: src/gsb_assistant_first.c:204 src/parametres.c:864
-#, fuzzy, c-format
+#, c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
-msgstr "Podrá usar %s para cargar la URL. EJ: \"firefox -remote %s\""
+msgstr "Podrá usar %s para cargar la URL. EJ: 'firefox -remote %s' "
 
 #: src/gsb_assistant_first.c:214 src/parametres.c:658
 msgid "Account files handling"
@@ -6377,7 +6373,6 @@ msgstr ""
 "con las transacciones reconciliadas."
 
 #: src/gsb_debug.c:71
-#, fuzzy
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
 "sum of reconcilied transactions.  Generally, the cause is too many transfers "
@@ -6390,7 +6385,9 @@ msgstr ""
 "inconsistentes con la suma de las transacciones reconciliadas.  "
 "Generalmente, la causa de esto es que hay demasiadas transferencias a otras "
 "cuentas que están reconciliadas.  Debe quitar la reconciliación de algunas "
-"transferencias manualmente en las cuentas inconsistentes."
+"transferencias manualmente en las cuentas inconsistentes. Ocurre a veces "
+"también para las cuentas antiguas que pasan a Euroln que la inconsistencia es "
+"tan sólo de algunos céntimos y es normal."
 
 #: src/gsb_debug.c:79
 msgid "Duplicate sub-categories check"
@@ -6465,13 +6462,12 @@ msgid "Incorrect category/sub-category number"
 msgstr "Número de categoría/subcategoría incorrecto"
 
 #: src/gsb_debug.c:114
-#, fuzzy
 msgid ""
 "This test will look for transactions wich have non existant categories/sub-"
 "categories."
 msgstr ""
-"Este test buscará las cuentas dónde los totales reconciliados no coincidan "
-"con las transacciones reconciliadas."
+"Esta prueba buscará las transacciones que tienen categorías/subcategorías "
+"no existentes."
 
 #: src/gsb_debug.c:115
 msgid ""
@@ -8339,16 +8335,14 @@ msgid "Please wait"
 msgstr "Por favor espere"
 
 #: src/import.c:1422
-#, fuzzy
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet. You may associate them with a reconcilation later "
 "via the preferences windows."
 msgstr ""
-"Acaba de importar algunas transacciones marcadas como R, pero de momento no "
-"están asociadas a ninguna reconciliación. Lo mejor sería crear la "
-"reconciliación necesaria y asociarla con esas transacciones.\n"
-"Puede añadir/modificar reconciliaciones en las preferencias."
+"Acaba de importar transacciones reconciliadas, pero no están asociadas a "
+"ningún número de reconciliación todavía. Puede asociarlas con una reconciliación "
+"más tarde a través de la ventana de opciones."
 
 #: src/import.c:1674
 msgid "Imported account"
@@ -8626,23 +8620,21 @@ msgstr ""
 "¿ Incorporar las líneas presupuestarias importadas a las ya existentes ?"
 
 #: src/imputation_budgetaire.c:421
-#, fuzzy
 msgid ""
 "File already contains budgetary lines.  If you decide to continue, existing "
 "budgetary lines will be merged with imported ones."
 msgstr ""
-"El fichero ya contiene transacciones, si decide continuar, las categorías "
-"existentes se unirán con las importadas."
+"El fichero ya contiene líneas presupuestarias.  Si decide continuar, las "
+"líneas presupuestaras existentes se unirán con las importadas."
 
 #: src/imputation_budgetaire.c:422
-#, fuzzy
 msgid ""
 "File does not contain budgetary lines.  If you decide to continue, existing "
 "budgetary lines will be merged with imported ones.  Once performed, there is "
 "no undo for this.\n"
 "You may also decide to replace existing budgetary lines with imported ones."
 msgstr ""
-"El archivo no contiene transacciones.  Si decide continuar, las líneas "
+"El archivo no contiene líneas presupuestarias.  Si decide continuar, las líneas "
 "presupuestarias existentes se mezclarán con las importadas.  Una vez "
 "realizada, no hay forma de dehacer esta operación.\n"
 "También puede decidir reemplazar las líneas presupuestarias existentes con "
@@ -8710,22 +8702,22 @@ msgid "No budget defined"
 msgstr "Sin presupuesto definido"
 
 #: src/imputation_budgetaire.c:725
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You tried to rename current sub-budgetary line to '%s' but this sub-"
 "budgetary line already exists.  Please choose another name."
 msgstr ""
-"Intenta renombrar el actual %s a '$s' pero este %s ya existe.  Por favor "
-"elija otro nombre."
+"Intenta renombrar la líneas subpresupuestaria actual a '%s' pero "
+"esa línea subpresupuestaria ya existe.  Por favor elija otro nombre."
 
 #: src/imputation_budgetaire.c:732
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You tried to rename current budgetary line to '%s' but this budgetary line "
 "already exists.  Please choose another name."
 msgstr ""
-"Intenta renombrar el actual %s a '$s' pero este %s ya existe.  Por favor "
-"elija otro nombre."
+"Intenta renombrar la línea presupuestaria actual a '%s' pero esa línea "
+"presupuestaria ya existe.  Por favor, elija otro nombre."
 
 #: src/imputation_budgetaire.c:737
 msgid "Budgetary line already exists"
