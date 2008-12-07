@@ -897,7 +897,7 @@ gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
     gint associate_number;
 
     /* update the string containing the number of transactions to link */
-    string = g_strdup_printf (_("Still %d transactions to link with a reconciliation"),
+    string = g_strdup_printf (_("Still %d transactions to link with a reconciliation."),
 			      transactions_to_link);
 
     gtk_label_set_text ( GTK_LABEL (label_transactions_to_link_2),
@@ -1016,7 +1016,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *butt
 	gchar *string;
 
 	/* update the labels */
-	string = g_strdup_printf (_("Still %d transactions to link with a reconciliation"),
+	string = g_strdup_printf (_("Still %d transactions to link with a reconciliation."),
 				  transactions_to_link);
 	gtk_label_set_text ( GTK_LABEL (label_transactions_to_link_2),
 			     string);
@@ -1059,7 +1059,7 @@ gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *assistant,
     GtkListStore *store;
 
     /* update the string containing the number of transactions to link */
-    string = g_strdup_printf (_("Still %d transactions to link with a reconciliation"),
+    string = g_strdup_printf (_("Still %d transactions to link with a reconciliation."),
 			      transactions_to_link);
     gtk_label_set_text ( GTK_LABEL (label_transactions_to_link_3),
 			 string);
@@ -1361,7 +1361,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
 	gchar *string;
 
 	/* update the labels */
-	string = g_strdup_printf (_("Still %d transactions to link with a reconciliation"),
+	string = g_strdup_printf (_("Still %d transactions to link with a reconciliation."),
 				  transactions_to_link);
 	gtk_label_set_text ( GTK_LABEL (label_transactions_to_link_1),
 			     string);
