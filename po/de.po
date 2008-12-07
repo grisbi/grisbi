@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-11-29 18:30+0100\n"
-"PO-Revision-Date: 2008-11-29 18:42+0100\n"
+"POT-Creation-Date: 2008-12-07 13:48+0100\n"
+"PO-Revision-Date: 2008-12-07 13:48+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -419,7 +419,7 @@ msgstr "Prognose Daten"
 
 #: src/balance_estimate_tab.c:286 src/etats_affiche.c:2397
 #: src/export_csv.c:747 src/gsb_assistant_reconcile_config.c:612
-#: src/gsb_form.c:1271 src/gsb_form_widget.c:398 src/gsb_reconcile.c:155
+#: src/gsb_form.c:1273 src/gsb_form_widget.c:398 src/gsb_reconcile.c:155
 #: src/gsb_scheduler_list.c:331 src/gsb_transactions_list.c:143
 #: src/import.c:2855 src/import_csv.c:78 src/traitement_variables.c:74
 msgid "Date"
@@ -433,7 +433,7 @@ msgstr "Beschreibung"
 
 #. Debit method_ptr
 #: src/balance_estimate_tab.c:307 src/categories_onglet.c:657
-#: src/export_csv.c:768 src/gsb_form.c:1305 src/gsb_form_widget.c:402
+#: src/export_csv.c:768 src/gsb_form.c:1307 src/gsb_form_widget.c:402
 #: src/gsb_payment_method_config.c:311 src/gsb_payment_method_config.c:382
 #: src/gsb_payment_method_config.c:1070 src/gsb_transactions_list.c:147
 #: src/import_csv.c:89 src/imputation_budgetaire.c:690
@@ -443,7 +443,7 @@ msgstr "Ausgaben"
 
 #. Credit method_ptr
 #: src/balance_estimate_tab.c:321 src/categories_onglet.c:657
-#: src/export_csv.c:765 src/gsb_form.c:1312 src/gsb_form_widget.c:406
+#: src/export_csv.c:765 src/gsb_form.c:1314 src/gsb_form_widget.c:406
 #: src/gsb_payment_method_config.c:318 src/gsb_payment_method_config.c:395
 #: src/gsb_payment_method_config.c:1066 src/gsb_transactions_list.c:148
 #: src/imputation_budgetaire.c:690 src/traitement_variables.c:79
@@ -469,167 +469,167 @@ msgstr "Voraussichtlicher Saldo für das Konto \"%s\" von %s bis %s"
 msgid "New transaction"
 msgstr "Neue Buchung"
 
-#: src/barre_outils.c:100
+#: src/barre_outils.c:101
 msgid "Blank the form to create a new transaction"
 msgstr "Eine neue Buchung erstellen"
 
-#: src/barre_outils.c:105 src/barre_outils.c:437 src/categories_onglet.c:491
+#: src/barre_outils.c:107 src/barre_outils.c:453 src/categories_onglet.c:491
 #: src/etats_onglet.c:174 src/imputation_budgetaire.c:523
 #: src/tiers_onglet.c:265
 msgid "Delete"
 msgstr "Löschen"
 
-#: src/barre_outils.c:109
+#: src/barre_outils.c:112
 msgid "Delete selected transaction"
 msgstr "Die selektierte Buchung löschen"
 
-#: src/barre_outils.c:114 src/barre_outils.c:450
+#: src/barre_outils.c:118 src/barre_outils.c:468
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: src/barre_outils.c:118
+#: src/barre_outils.c:123
 msgid "Edit current transaction"
 msgstr "Die selektierte Buchung bearbeiten"
 
-#: src/barre_outils.c:122
+#: src/barre_outils.c:128
 msgid "Reconcile"
 msgstr "Abstimmen"
 
-#: src/barre_outils.c:127
+#: src/barre_outils.c:134
 msgid "Start account reconciliation"
 msgstr "Das Konto abstimmen"
 
 #. Set up dialog
-#: src/barre_outils.c:134 src/etats_onglet.c:153 src/etats_onglet.c:164
+#: src/barre_outils.c:142 src/etats_onglet.c:153 src/etats_onglet.c:164
 #: src/print_config.c:80
 msgid "Print"
 msgstr "Drucken"
 
-#: src/barre_outils.c:138
+#: src/barre_outils.c:147
 msgid "Print the transactions list"
 msgstr "Buchungen drucken"
 
-#: src/barre_outils.c:143 src/barre_outils.c:489 src/categories_onglet.c:510
+#: src/barre_outils.c:153 src/barre_outils.c:513 src/categories_onglet.c:510
 #: src/imputation_budgetaire.c:544 src/tiers_onglet.c:292
 msgid "View"
 msgstr "Ansicht"
 
-#: src/barre_outils.c:147
+#: src/barre_outils.c:158
 msgid "Change display mode of the list"
 msgstr "Die Darstellung ändern"
 
-#: src/barre_outils.c:156
+#: src/barre_outils.c:168
 msgid "Import rules"
 msgstr "Import Regeln"
 
-#: src/barre_outils.c:160
+#: src/barre_outils.c:173
 msgid "Quick file import by rules"
 msgstr "Import basierend auf Regeln"
 
-#: src/barre_outils.c:208
+#: src/barre_outils.c:222
 msgid "Simple view"
 msgstr "Einzeilig"
 
-#: src/barre_outils.c:213
+#: src/barre_outils.c:227
 msgid "Two lines view"
 msgstr "Zweizeilig"
 
-#: src/barre_outils.c:218
+#: src/barre_outils.c:232
 msgid "Three lines view"
 msgstr "Dreizeilig"
 
-#: src/barre_outils.c:223 src/categories_onglet.c:554
+#: src/barre_outils.c:237 src/categories_onglet.c:554
 #: src/imputation_budgetaire.c:588 src/tiers_onglet.c:366
 msgid "Complete view"
 msgstr "Vollständig"
 
-#: src/barre_outils.c:230
+#: src/barre_outils.c:244
 msgid "Display reconciled transactions (Alt+R)"
 msgstr "Abgestimmte Buchungen anzeigen"
 
-#: src/barre_outils.c:279
+#: src/barre_outils.c:293
 msgid "Remove the rule"
 msgstr "Regel entfernen"
 
-#: src/barre_outils.c:382 src/gsb_scheduler_list.c:1734
+#: src/barre_outils.c:396 src/gsb_scheduler_list.c:1734
 msgid "Unique view"
 msgstr "Einfache Ansicht"
 
-#: src/barre_outils.c:382 src/gsb_scheduler_list.c:1734
+#: src/barre_outils.c:396 src/gsb_scheduler_list.c:1734
 msgid "Week view"
 msgstr "Ansicht nach Wochen"
 
-#: src/barre_outils.c:382 src/gsb_scheduler_list.c:1734
+#: src/barre_outils.c:396 src/gsb_scheduler_list.c:1734
 msgid "Month view"
 msgstr "Ansicht nach Monaten"
 
-#: src/barre_outils.c:383 src/gsb_scheduler_list.c:1735
+#: src/barre_outils.c:397 src/gsb_scheduler_list.c:1735
 msgid "Two months view"
 msgstr "Ansicht nach 2 Monaten"
 
-#: src/barre_outils.c:383 src/gsb_scheduler_list.c:1735
+#: src/barre_outils.c:397 src/gsb_scheduler_list.c:1735
 msgid "Quarter view"
 msgstr "Ansicht Vierteljährlich"
 
-#: src/barre_outils.c:384 src/gsb_scheduler_list.c:1736
+#: src/barre_outils.c:398 src/gsb_scheduler_list.c:1736
 msgid "Year view"
 msgstr "Ansicht Jährlich"
 
-#: src/barre_outils.c:384 src/gsb_scheduler_list.c:1736
+#: src/barre_outils.c:398 src/gsb_scheduler_list.c:1736
 msgid "Custom view"
 msgstr "Ansicht benutzerdefiniert"
 
-#: src/barre_outils.c:427
+#: src/barre_outils.c:441
 msgid "_New scheduled"
 msgstr "Neue geplante Buchung"
 
-#: src/barre_outils.c:432
+#: src/barre_outils.c:447
 msgid "Prepare form to create a new scheduled transaction"
 msgstr "Eine neue Buchung erstellen"
 
-#: src/barre_outils.c:445
+#: src/barre_outils.c:462
 msgid "Delete selected scheduled transaction"
 msgstr "Die selektiere Buchung löschen"
 
-#: src/barre_outils.c:458
+#: src/barre_outils.c:477
 msgid "Edit selected transaction"
 msgstr "Die selektierte Buchung bearbeiten"
 
 #. comments line
-#: src/barre_outils.c:463 src/gsb_account_property.c:419
+#: src/barre_outils.c:483 src/gsb_account_property.c:419
 #: src/gsb_scheduler_list.c:332
 msgid "Comments"
 msgstr "Notizen"
 
-#: src/barre_outils.c:470
+#: src/barre_outils.c:491
 msgid "Display scheduled transactions comments"
 msgstr "Notizen in der Buchungsübersicht anzeigen"
 
-#: src/barre_outils.c:477
+#: src/barre_outils.c:499
 msgid "Execute"
 msgstr "Ausführen"
 
-#: src/barre_outils.c:485
+#: src/barre_outils.c:508
 msgid "Execute current scheduled transaction"
 msgstr "Die selektierte Buchung ausführen"
 
-#: src/barre_outils.c:493
+#: src/barre_outils.c:518
 msgid "Change display mode of scheduled transaction list"
 msgstr "Die Darstellung ändern"
 
-#: src/barre_outils.c:510
+#: src/barre_outils.c:536
 msgid "Mask reconcile"
 msgstr "Abgestimmte verbergen"
 
-#: src/barre_outils.c:515
+#: src/barre_outils.c:542
 msgid "Mask reconciled transactions"
 msgstr "Abgestimmte Buchungen verbergen"
 
-#: src/barre_outils.c:520
+#: src/barre_outils.c:548
 msgid "Display reconcile"
 msgstr "Abgestimmte anzeigen"
 
-#: src/barre_outils.c:525
+#: src/barre_outils.c:554
 msgid "Display reconciled transactions"
 msgstr "Abgestimmte Buchungen anzeigen"
 
@@ -1340,7 +1340,7 @@ msgid "Transfert"
 msgstr "Umbuchung"
 
 #: src/etats_affiche.c:1845 src/export_csv.c:561 src/gsb_data_category.c:1039
-#: src/gsb_form.c:741 src/gsb_form.c:2454 src/gsb_form.c:2826
+#: src/gsb_form.c:743 src/gsb_form.c:2456 src/gsb_form.c:2828
 #: src/gsb_form_scheduler.c:321 src/gsb_transactions_list.c:3207
 msgid "Split of transaction"
 msgstr "Buchung splitten"
@@ -1378,7 +1378,7 @@ msgstr "Ausgaben"
 msgid "Number"
 msgstr "Nr."
 
-#: src/etats_affiche.c:2404 src/export_csv.c:750 src/gsb_form.c:1278
+#: src/etats_affiche.c:2404 src/export_csv.c:750 src/gsb_form.c:1280
 #: src/gsb_form_widget.c:410 src/gsb_transactions_list.c:144
 #: src/import_csv.c:79 src/traitement_variables.c:75
 msgid "Value date"
@@ -1394,13 +1394,13 @@ msgstr "Geschäftsjahr"
 #: src/etats_affiche.c:2418 src/etats_config.c:515 src/etats_config.c:518
 #: src/etats_config.c:683 src/etats_config.c:7175 src/export_csv.c:762
 #: src/fenetre_principale.c:270 src/gsb_assistant_reconcile_config.c:612
-#: src/gsb_form.c:1298 src/gsb_form_widget.c:418 src/gsb_scheduler_list.c:331
+#: src/gsb_form.c:1300 src/gsb_form_widget.c:418 src/gsb_scheduler_list.c:331
 #: src/gsb_transactions_list.c:145 src/import.c:2862 src/import_csv.c:80
 #: src/meta_payee.c:76 src/traitement_variables.c:76
 msgid "Payee"
 msgstr "Empfänger"
 
-#: src/etats_affiche.c:2432 src/etats_config.c:675 src/gsb_form.c:1329
+#: src/etats_affiche.c:2432 src/etats_config.c:675 src/gsb_form.c:1331
 #: src/gsb_form_widget.c:430 src/gsb_transactions_list.c:146
 #: src/imputation_budgetaire.c:150 src/meta_budgetary.c:62
 msgid "Budgetary line"
@@ -1408,7 +1408,7 @@ msgstr "Budgeteintrag"
 
 #. Notes
 #: src/etats_affiche.c:2439 src/export_csv.c:783 src/gsb_bank.c:892
-#: src/gsb_form.c:1336 src/gsb_form_widget.c:434
+#: src/gsb_form.c:1338 src/gsb_form_widget.c:434
 #: src/gsb_transactions_list.c:157 src/import_csv.c:82
 #: src/traitement_variables.c:88
 msgid "Notes"
@@ -1425,13 +1425,13 @@ msgstr "Zahlungsweisen"
 msgid "Cheque"
 msgstr "Scheck"
 
-#: src/etats_affiche.c:2460 src/export_csv.c:792 src/gsb_form.c:1380
+#: src/etats_affiche.c:2460 src/export_csv.c:792 src/gsb_form.c:1382
 #: src/gsb_form_widget.c:454 src/gsb_transactions_list.c:156
 #: src/traitement_variables.c:87
 msgid "Voucher"
 msgstr "Beleg"
 
-#: src/etats_affiche.c:2467 src/export_csv.c:798 src/gsb_form.c:1373
+#: src/etats_affiche.c:2467 src/export_csv.c:798 src/gsb_form.c:1375
 #: src/gsb_form_widget.c:458 src/gsb_transactions_list.c:158
 #: src/traitement_variables.c:89
 msgid "Bank references"
@@ -2568,8 +2568,8 @@ msgstr "LaTeX Datei"
 msgid "Exporting report ..."
 msgstr "Bericht exportieren ..."
 
-#: src/etats_onglet.c:1264 src/gsb_debug.c:245 src/gsb_file.c:447
-#: src/gsb_file.c:563 src/gsb_file.c:608
+#: src/etats_onglet.c:1264 src/gsb_debug.c:245 src/gsb_file.c:446
+#: src/gsb_file.c:562 src/gsb_file.c:607
 msgid "Done"
 msgstr "Fertig"
 
@@ -2754,10 +2754,11 @@ msgstr "B"
 #: src/export_csv.c:587 src/export_csv.c:699 src/export_csv.c:711
 #: src/gsb_data_category.c:1041 src/gsb_data_payment.c:627
 #: src/gsb_data_payment.c:709 src/gsb_data_payment.c:748
+#: src/plugins/ofx/ofx.c:463
 msgid "Transfer"
 msgstr "Umbuchung"
 
-#: src/export_csv.c:701 src/gsb_form.c:1805
+#: src/export_csv.c:701 src/gsb_form.c:1807
 msgid "Deleted account"
 msgstr "Gelöschtes Konto"
 
@@ -3075,7 +3076,7 @@ msgstr "Vietnamesisch"
 msgid "Western"
 msgstr "Westlich"
 
-#: src/go-charmap-sel.c:194 src/help.c:93 src/import_csv.c:110
+#: src/go-charmap-sel.c:194 src/help.c:94 src/import_csv.c:110
 msgid "Other"
 msgstr "Andere"
 
@@ -3859,7 +3860,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr "Es werden alle Buchungen aus einem gewählten Bericht archiviert."
 
 #: src/gsb_assistant_archive.c:354 src/gsb_data_payee.c:511
-#: src/gsb_form.c:2561 src/gsb_form.c:2562 src/navigation.c:1328
+#: src/gsb_form.c:2563 src/gsb_form.c:2564 src/navigation.c:1328
 msgid "Report"
 msgstr "Bericht"
 
@@ -4027,7 +4028,7 @@ msgstr "Grisbi Format (*.gsb)"
 msgid "<span size=\"x-large\">Exporting the archive : %s</span>"
 msgstr "<span size=\"x-large\">Export von Archiv : %s</span>"
 
-#: src/gsb_assistant_archive_export.c:425
+#: src/gsb_assistant_archive_export.c:443
 msgid ""
 "Success !\n"
 "The export of the archive finished successfully.\n"
@@ -4037,7 +4038,7 @@ msgstr ""
 "Der Export von Buchungen aus einem Archiv ist abgeschlossen.\n"
 "Mit 'Abbrechen' oder 'Schließen' wird der Assistent beendet."
 
-#: src/gsb_assistant_archive_export.c:429
+#: src/gsb_assistant_archive_export.c:447
 msgid ""
 "Error !\n"
 "An error occured while saving the archive.\n"
@@ -4668,12 +4669,13 @@ msgstr "Kategorienliste ohne Namen"
 msgid "The password was incorrect ! Please try again..."
 msgstr "Das Passwort ist nicht korrekt! Bitte erneut eingeben..."
 
-#: src/gsb_crypt.c:185
+#: src/gsb_crypt.c:185 src/plugins/openssl/openssl.c:182
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Die verschlüsselte Datei kann nicht geöffnet werden '%s'"
 
-#: src/gsb_crypt.c:187
+#. FIXME: import symbols to be sure we can call this kind of stuff.
+#: src/gsb_crypt.c:187 src/plugins/openssl/openssl.c:180
 msgid ""
 "This build of Grisbi does not support encryption.\n"
 "Please recompile Grisbi with OpenSSL encryption enabled."
@@ -4681,15 +4683,15 @@ msgstr ""
 "Diese Version von Grisbi unterstützt keine Verschlüsselung.\n"
 "Bitte rekompilieren Sie Grisbi mit OpenSSL Unterstützung."
 
-#: src/gsb_crypt.c:212
+#: src/gsb_crypt.c:212 src/plugins/openssl/openssl.c:207
 msgid "Grisbi password"
 msgstr "Grisbi Passwort"
 
-#: src/gsb_crypt.c:216
+#: src/gsb_crypt.c:216 src/plugins/openssl/openssl.c:211
 msgid "Crypt file"
 msgstr "Datei verschlüsseln"
 
-#: src/gsb_crypt.c:216
+#: src/gsb_crypt.c:216 src/plugins/openssl/openssl.c:211
 msgid "Decrypt file"
 msgstr "Datei entschlüsseln"
 
@@ -4711,11 +4713,11 @@ msgstr ""
 "Bitte das Passwort zum Entschlüsseln der Datei eingeben\n"
 "'<tt>%s</tt>'"
 
-#: src/gsb_crypt.c:259
+#: src/gsb_crypt.c:259 src/plugins/openssl/openssl.c:247
 msgid "Password"
 msgstr "Passwort"
 
-#: src/gsb_crypt.c:267
+#: src/gsb_crypt.c:267 src/plugins/openssl/openssl.c:255
 msgid "Don't ask password again for this session."
 msgstr "Solange das Programm geöffnet ist nicht mehr nach dem Passwort fragen."
 
@@ -6308,7 +6310,7 @@ msgstr ""
 "vorhanden."
 
 #. Deposit = DÃ©pÃ´t
-#: src/gsb_data_payment.c:714 src/import.c:2305
+#: src/gsb_data_payment.c:714 src/import.c:2305 src/plugins/ofx/ofx.c:451
 msgid "Deposit"
 msgstr "Einzahlung"
 
@@ -6707,7 +6709,7 @@ msgstr "Geplante Buchungen prüfen"
 msgid "Checking amounts"
 msgstr "Beträge prüfen"
 
-#: src/gsb_file.c:523
+#: src/gsb_file.c:522
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -6718,30 +6720,30 @@ msgstr ""
 "Option \"%s\" in den Einstellungen."
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:524 src/gsb_file.c:753 src/parametres.c:676
+#: src/gsb_file.c:523 src/gsb_file.c:752 src/parametres.c:676
 msgid "Force saving of locked files"
 msgstr "Das Speichern von gesperrten Dateien erzwingen"
 
-#: src/gsb_file.c:525
+#: src/gsb_file.c:524
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "Datei \"%s\" kann nicht gespeichert werden"
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: src/gsb_file.c:540
+#: src/gsb_file.c:539
 msgid "Saving file"
 msgstr "Datei speichern"
 
-#: src/gsb_file.c:589
+#: src/gsb_file.c:588
 msgid "Saving backup"
 msgstr "Sicherung speichern"
 
-#: src/gsb_file.c:750
+#: src/gsb_file.c:749
 msgid "Save locked files?"
 msgstr "Gesperrte Datei speichern?"
 
-#: src/gsb_file.c:751
+#: src/gsb_file.c:750
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
@@ -6751,44 +6753,44 @@ msgstr ""
 "speichern wollen, müssen Sie den Vorgang abbrechen und die Datei unter einem "
 "anderen Namen speichern oder die Option \"%s\" in den Einstellungen setzen."
 
-#: src/gsb_file.c:752 src/gsb_file.c:763 src/gsb_file.c:944
+#: src/gsb_file.c:751 src/gsb_file.c:762 src/gsb_file.c:943
 msgid "unnamed"
 msgstr "Unbenannt"
 
-#: src/gsb_file.c:755 src/gsb_file.c:766
+#: src/gsb_file.c:754 src/gsb_file.c:765
 msgid "Close without saving"
 msgstr "Beenden ohne Speichern"
 
-#: src/gsb_file.c:762
+#: src/gsb_file.c:761
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "Die Änderungen in Datei '%s' vor dem Schließen speichern?"
 
-#: src/gsb_file.c:775
+#: src/gsb_file.c:774
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr "%d Minuten und %d Sekunden"
 
-#: src/gsb_file.c:780
+#: src/gsb_file.c:779
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr "1 Minute und %d Sekunden"
 
-#: src/gsb_file.c:785
+#: src/gsb_file.c:784
 #, c-format
 msgid "%d seconds"
 msgstr "%d Sekunden"
 
-#: src/gsb_file.c:788
+#: src/gsb_file.c:787
 #, c-format
 msgid "If you close without saving, all of your changes since %s will be discarded."
 msgstr "Beim Schließen ohne Speichern werden alle Änderungen seit %s verworfen."
 
-#: src/gsb_file.c:824
+#: src/gsb_file.c:823
 msgid "Name the accounts file"
 msgstr "Datei speichern - Grisbi"
 
-#: src/gsb_file.c:948
+#: src/gsb_file.c:947
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -6992,59 +6994,59 @@ msgstr "Die Datei kann nicht gesperrt werden '%s': %s"
 msgid "Cannot erase lock file :'%s': %s"
 msgstr "Die Datei kann nicht entsperrt werden '%s': %s"
 
-#: src/gsb_form.c:227
+#: src/gsb_form.c:229
 msgid "Transaction/Scheduled _form"
 msgstr "Buchungsformular"
 
 #. create the check button to recover the children of splits
-#: src/gsb_form.c:329
+#: src/gsb_form.c:331
 msgid "Recover the children"
 msgstr "Unterelemente anzeigen"
 
-#: src/gsb_form.c:752
+#: src/gsb_form.c:754
 msgid "Transfer : Deleted account"
 msgstr "Buchung: gelöschtes Konto"
 
-#: src/gsb_form.c:771 src/gsb_form.c:1794 src/gsb_form.c:1795
+#: src/gsb_form.c:773 src/gsb_form.c:1796 src/gsb_form.c:1797
 msgid "Transfer : "
 msgstr "Umbuchung : "
 
-#: src/gsb_form.c:903
+#: src/gsb_form.c:905
 msgid "Auto"
 msgstr "Auto"
 
-#: src/gsb_form.c:906 src/gsb_form_scheduler.c:164
+#: src/gsb_form.c:908 src/gsb_form_scheduler.c:164
 #: src/gsb_scheduler_list.c:998
 msgid "Manual"
 msgstr "manuell"
 
-#: src/gsb_form.c:1319
+#: src/gsb_form.c:1321
 msgid "Categories : Sub-categories"
 msgstr "Kategorien : Unterkategorien"
 
-#: src/gsb_form.c:1354 src/gsb_form_widget.c:442
+#: src/gsb_form.c:1356 src/gsb_form_widget.c:442
 msgid "Cheque/Transfer number"
 msgstr "Nr"
 
-#: src/gsb_form.c:2149
+#: src/gsb_form.c:2151
 msgid "No payee selected for this report."
 msgstr "Für den Bericht wurden keine Empfänger ausgewählt."
 
-#: src/gsb_form.c:2404
+#: src/gsb_form.c:2406
 msgid "You must enter a date."
 msgstr "Sie müssen ein Datum eingeben."
 
-#: src/gsb_form.c:2411
+#: src/gsb_form.c:2413
 #, c-format
 msgid "Invalid date %s"
 msgstr "Ungültiges Datum %s"
 
-#: src/gsb_form.c:2430
+#: src/gsb_form.c:2432
 #, c-format
 msgid "Invalid value date %s"
 msgstr "Ungültiges Betragsdatum %s"
 
-#: src/gsb_form.c:2456
+#: src/gsb_form.c:2458
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
@@ -7052,11 +7054,11 @@ msgstr ""
 "Für eine Element einer Splitt-Buchung kann keine weitere Splitt-Buchung "
 "erstellt werden."
 
-#: src/gsb_form.c:2489
+#: src/gsb_form.c:2491
 msgid "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "Das Konto für die zeitlich geplante Umbuchung ist gelöscht."
 
-#: src/gsb_form.c:2496
+#: src/gsb_form.c:2498
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
@@ -7064,15 +7066,15 @@ msgstr ""
 "Das zugeordnete Konto für diese Umbuchung ist nicht mehr vorhanden oder "
 "geschlossen."
 
-#: src/gsb_form.c:2504
+#: src/gsb_form.c:2506
 msgid "Can't issue a transfer its own account."
 msgstr "Eine Umbuchung auf das gleiche Konto ist nicht möglich."
 
-#: src/gsb_form.c:2509
+#: src/gsb_form.c:2511
 msgid "Can't issue a transfer on a closed account."
 msgstr "Eine Umbuchung auf ein geschlossenes Konto ist nicht möglich."
 
-#: src/gsb_form.c:2535
+#: src/gsb_form.c:2537
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -7083,7 +7085,7 @@ msgstr ""
 "jedoch sind keine Nummern vorhanden.\n"
 "Soll der Vorgang fortgesetzt werden?"
 
-#: src/gsb_form.c:2549
+#: src/gsb_form.c:2551
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -7091,27 +7093,27 @@ msgstr ""
 "Achtung: Diese Schecknummer wird bereit benützt.\n"
 "Soll der Vorgang fortgesetzt werden?"
 
-#: src/gsb_form.c:2569
+#: src/gsb_form.c:2571
 msgid "A transaction with a multiple payee must be a new one."
 msgstr "Für Buchungen an mehrere Empfänger muss eine neue Buchung erfasst werden."
 
-#: src/gsb_form.c:2574
+#: src/gsb_form.c:2576
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr "Eine Buchung an mehrere Empfänger darf kein Teil einer Splitt-Buchung sein."
 
-#: src/gsb_form.c:2585
+#: src/gsb_form.c:2587
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr "Das Wort \"Report\" ist reserviert, bitte ein anderes Wort verwenden."
 
-#: src/gsb_form.c:2592
+#: src/gsb_form.c:2594
 msgid "Invalid multiple payee."
 msgstr "Ungültige Gruppe von Empfängern."
 
-#: src/gsb_form.c:2849
+#: src/gsb_form.c:2851
 msgid "Modifying a transaction"
 msgstr "Eine Buchung bearbeiten"
 
-#: src/gsb_form.c:2850
+#: src/gsb_form.c:2852
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7124,7 +7126,7 @@ msgstr ""
 "Soll der Vorgang fortgesetzt werden?"
 
 #. propose to configure the form
-#: src/gsb_form.c:3150
+#: src/gsb_form.c:3152
 msgid "Configure the form"
 msgstr "Buchungsformular Einstellungen"
 
@@ -8042,36 +8044,36 @@ msgstr "Programmierung"
 msgid "Packaging"
 msgstr "Paketverwaltung"
 
-#: src/help.c:100 src/help.c:101 src/help.c:103
+#: src/help.c:101 src/help.c:102 src/help.c:104
 msgid "English"
 msgstr "Englisch"
 
-#: src/help.c:102
+#: src/help.c:103
 msgid "Spanish"
 msgstr "Spanisch"
 
-#: src/help.c:104
+#: src/help.c:105
 msgid "Dutch"
 msgstr "Niederländisch"
 
-#: src/help.c:105 src/help.c:107
+#: src/help.c:106 src/help.c:108
 msgid "Italian"
 msgstr "Italienisch"
 
-#: src/help.c:106
+#: src/help.c:107
 msgid "Brazilian Portuguese"
 msgstr "Brasilianisches Portugiesisch"
 
-#: src/help.c:108
+#: src/help.c:109
 msgid "German"
 msgstr "Deutsch"
 
-#: src/help.c:109
+#: src/help.c:110
 msgid "Polish"
 msgstr "Polnisch"
 
 #. Warn about obsolete dependencies
-#: src/help.c:126
+#: src/help.c:127
 msgid ""
 "\n"
 "\n"
@@ -8084,7 +8086,7 @@ msgstr ""
 "Die Version von GTK+ bietet keine Druckfunktionalität."
 
 #. Plugins list
-#: src/help.c:132
+#: src/help.c:133
 msgid "Personal finance manager for everyone\n"
 msgstr "Finanzprogramm für Privatpersonen\n"
 
@@ -8369,7 +8371,7 @@ msgid "Transaction found : %s ; %s ; %s"
 msgstr "Buchungen gefunden : %s ; %s ; %s"
 
 #. Check = ChÃ¨que
-#: src/import.c:2291
+#: src/import.c:2291 src/plugins/ofx/ofx.c:431
 msgid "Check"
 msgstr "Überprüfen"
 
@@ -9220,6 +9222,159 @@ msgstr ""
 "Syntaktischer Fehler!\n"
 "\n"
 
+#: src/plugins/g2banking/g2banking.c:65
+msgid "Online banking will not be available"
+msgstr "Online-Banking wird nicht verfügbar sein"
+
+#: src/plugins/g2banking/g2banking.c:66
+msgid "Could not initialize AqBanking."
+msgstr "AqBanking konnte nicht gestartet werden"
+
+#: src/plugins/g2banking/g2banking.c:94
+#, c-format
+msgid "Could not uninitialize AqBanking (%d)\n"
+msgstr "AqBanking konnte nicht beendet werden (%d)\n"
+
+#: src/plugins/g2banking/g2banking.c:245
+msgid "Warning"
+msgstr "Warnung"
+
+#: src/plugins/g2banking/g2banking.c:246
+msgid "An error or warning has occured. Do you still want to import the data ?"
+msgstr ""
+"Es wurde eine Warnung ausgegeben oder es ist ein Fehler aufgetreten. Sollen "
+"die Daten trotzdem importiert werden?"
+
+#: src/plugins/gnucash/gnucash.c:171
+msgid "Gnucash"
+msgstr "Gnucash"
+
+#: src/plugins/gnucash/gnucash.c:172
+msgid "Invalid Gnucash account, please check gnucash file is not compressed."
+msgstr ""
+"Ungültiges Gnucash-Konto, bitte prüfen Sie ob die Gnucash-Datei nicht "
+"komprimiert ist."
+
+#: src/plugins/gnucash/gnucash.c:612
+#, c-format
+msgid "Either file \"%s\" does not exist or it is not a regular file."
+msgstr "Die Datei \"%s\" ist nicht vorhanden oder keine gültige Datei."
+
+#: src/plugins/gnucash/gnucash.c:614
+#, c-format
+msgid "Error opening file '%s'."
+msgstr "Fehler beim Öffnen der Datei '%s'"
+
+#: src/plugins/gnucash/gnucash.c:622
+msgid ""
+"Grisbi needs to open a temporary file in order to import Gnucash data but "
+"file can't be created.  Check that you have permission to do that."
+msgstr ""
+"Für den Import von Gnucash-Daten muss eine temporäre Datei angelegt werden, "
+"jedoch kann diese temporäre Datei nicht erstellt werden. Bitte überprüfen "
+"Sie die Berechtigungen für die Anlage von temporären Dateien."
+
+#: src/plugins/gnucash/gnucash.c:623
+#, c-format
+msgid "Error opening temporary file '%s'."
+msgstr "Fehler beim Öffnen der temporären Datei '%s'"
+
+#: src/plugins/ofx/ofx.c:151
+msgid "Invalid OFX file"
+msgstr "Ungültige Ofx-Datei"
+
+#: src/plugins/ofx/ofx.c:212
+msgid "OFX processing returned following message:\n"
+msgstr "Bei der Verarbeitung der Ofx-Datei wurde folgende Warnung zurückgegeben:\n"
+
+#: src/plugins/ofx/ofx.c:218
+msgid "OFX processing ended in a warning message which is not valid."
+msgstr "Die Datei ist keine gültige Ofx-Datei."
+
+#: src/plugins/ofx/ofx.c:224
+msgid "OFX processing returned following error message:\n"
+msgstr "Bei der Verarbeitung der Ofx-Datei wurde folgender Fehler zurückgegeben:\n"
+
+#: src/plugins/ofx/ofx.c:230
+msgid "OFX processing returned an error message which is not valid."
+msgstr "Es ist ein unbekannter Fehler aufgetreten."
+
+#: src/plugins/ofx/ofx.c:369
+msgid "A transaction try to be saved but no account was created...\n"
+msgstr ""
+"Es wurde versucht eine Buchung auf ein nicht existierendes Konto zu "
+"buchen...\n"
+
+#: src/plugins/ofx/ofx.c:435
+msgid "Interest"
+msgstr "Beteiligung"
+
+#: src/plugins/ofx/ofx.c:439
+msgid "Dividend"
+msgstr "Dividende"
+
+#: src/plugins/ofx/ofx.c:443
+msgid "Service charge"
+msgstr "Service Gebühren"
+
+#: src/plugins/ofx/ofx.c:447
+msgid "Fee"
+msgstr "Gebühren"
+
+#: src/plugins/ofx/ofx.c:455
+msgid "Cash dispenser"
+msgstr "Bankomat"
+
+#: src/plugins/ofx/ofx.c:459
+msgid "Point of sale"
+msgstr "Verkaufsstelle"
+
+#: src/plugins/ofx/ofx.c:467
+msgid "Electronic payment"
+msgstr "Elektronische Zahlungsweise"
+
+#: src/plugins/ofx/ofx.c:471
+msgid "Cash"
+msgstr "Bargeld"
+
+#: src/plugins/ofx/ofx.c:475
+msgid "Direct deposit"
+msgstr "Barzahlung"
+
+#: src/plugins/ofx/ofx.c:479
+msgid "Merchant initiated debit"
+msgstr "Handelsbedingte Zahlung"
+
+#: src/plugins/ofx/ofx.c:483
+msgid "Repeating payment/standing order"
+msgstr "Wiederkehrende Zahlung/Auftragbestellung"
+
+#: src/plugins/openssl/openssl.c:169
+msgid ""
+"<b>Password incorrect ! Please try again...</b>\n"
+"\n"
+msgstr ""
+"<b>Das Passwort ist nicht korrekt! Bitte erneut eingeben...</b>\n"
+"\n"
+
+#: src/plugins/openssl/openssl.c:236
+#, c-format
+msgid ""
+"%sPlease enter password to encrypt file\n"
+"'<tt>%s</tt>'"
+msgstr ""
+"%sBitte das Passwort zum Verschlüsseln der Datei eingeben\n"
+"'<tt>%s</tt>'"
+
+#: src/plugins/openssl/openssl.c:240
+#, c-format
+msgid ""
+"%sPlease enter password to decrypt file\n"
+"'<tt>%s</tt>'"
+msgstr ""
+"%sBitte das Passwort zum Entschlüsseln der Datei eingeben\n"
+"'<tt>%s</tt>'"
+
 #: src/print_config.c:50
 msgid "A3"
 msgstr "A3"
@@ -9543,8 +9698,8 @@ msgstr "Tipps beim nächsten Start anzeigen"
 msgid "Reconciliation ref."
 msgstr "Abstimmung Ref."
 
-#: src/transaction_list.c:161 src/transaction_list.c:973
-#: src/transaction_list.c:1795
+#: src/transaction_list.c:161 src/transaction_list.c:972
+#: src/transaction_list.c:1796
 #, c-format
 msgid "Total : %s (variance : %s)"
 msgstr "Gesamt : %s (variiert : %s)"
@@ -9556,7 +9711,7 @@ msgstr "Archiv %s (%d Buchungen)"
 
 #. this value should not be changed here, check later if i'm right,
 #. * for now just show a message
-#: src/transaction_list.c:1436
+#: src/transaction_list.c:1437
 msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't append ! "
 "Check that."
@@ -9564,7 +9719,7 @@ msgstr ""
 "Es wurde versucht eine sichtbare Linie in der Buchungsliste zu ändern. Diese "
 "Funktionalität sollte im Regelfall nicht möglich sein."
 
-#: src/transaction_list.c:1626
+#: src/transaction_list.c:1627
 #, c-format
 msgid ""
 "Trying to append the child number %d to the mother %d in the model, but no "
