@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2007 Cï¿½dric Auger (cedric@grisbi.org)	      */
 /*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -45,9 +45,9 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static struct cached_exchange_rate *gsb_currency_config_get_cached_exchange ( gint currency1_number, 
+static struct cached_exchange_rate *gsb_currency_config_get_cached_exchange ( gint currency1_number,
 								       gint currency2_number );
-static void gsb_currency_config_set_cached_exchange ( gint currency1_number, 
+static void gsb_currency_config_set_cached_exchange ( gint currency1_number,
 					       gint currency2_number,
 					       gsb_real change, gsb_real fees );
 static gboolean gsb_currency_create_combobox_store ( void );
@@ -73,7 +73,7 @@ enum currency_list_columns {
 
 /** Exchange rates cache, used by
  * gsb_currency_config_set_cached_exchange
- * and 
+ * and
  * gsb_currency_config_get_cached_exchange */
 static GSList * cached_exchange_rates = NULL;
 
@@ -131,7 +131,7 @@ gsb_real gsb_currency_get_current_exchange (void)
 }
 
 /**
- * return the content of the current exchange fees 
+ * return the content of the current exchange fees
  * that variable should have been filed before with gsb_currency_exchange_dialog
  *
  * \param
@@ -168,7 +168,7 @@ GtkWidget *gsb_currency_make_combobox ( gboolean set_name )
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), flag_renderer, FALSE);
     gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), flag_renderer,
 				    "pixbuf", CURRENCY_COL_FLAG, NULL );
-    
+
     GTK_CELL_RENDERER(flag_renderer) -> xpad = 3; /* Ugly but how to set it otherwise ?*/
 
     text_renderer = gtk_cell_renderer_text_new ();
@@ -231,12 +231,12 @@ gboolean gsb_currency_set_combobox_history ( GtkWidget *combo_box,
 }
 
 
-/** 
+/**
  * Get and return the number of the currency in the option_menu given
  * in param
- * 
+ *
  * \param currency_option_menu an option menu with the currencies
- * 
+ *
  * \return the number of currency
  * */
 gint gsb_currency_get_currency_from_combobox ( GtkWidget *combo_box )
@@ -290,7 +290,7 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
 			      "flags", C_DIRECTORY_SEPARATOR,
 			      gsb_data_currency_get_code_iso4217 (currency_number),
 			      ".png", NULL );
-	pixbuf = gdk_pixbuf_new_from_file ( string, NULL );	
+	pixbuf = gdk_pixbuf_new_from_file ( string, NULL );
 	g_free (string);
 
 
@@ -319,11 +319,11 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
 
 
 
-/** 
+/**
  * Check if a transaction need an exchange rate and fees with its
  * account
  * if yes, ask for that and set the in the transaction.
- * 
+ *
  * \param transaction_number
  */
 void gsb_currency_check_for_change ( gint transaction_number )
@@ -366,7 +366,7 @@ void gsb_currency_check_for_change ( gint transaction_number )
  *
  * \param account_currency_number
  * \param transaction_currency_number
- * \param link_currency si = 1 : 1 nom_devise = "change" devise_en_rapport 
+ * \param link_currency si = 1 : 1 nom_devise = "change" devise_en_rapport
  * \param exchange_rate
  * \param exchange_fees
  * \param force if TRUE will not get the cached exchange rate and will really ask to the user
@@ -388,7 +388,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 
 
     if ( !force
-	 && 
+	 &&
 	 (cache = gsb_currency_config_get_cached_exchange ( account_currency_number, transaction_currency_number )) )
     {
 	current_exchange = cache -> rate;
@@ -396,12 +396,17 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 	return;
     }
 
-    dialog = gtk_dialog_new_with_buttons ( _("Enter exchange rate"), GTK_WINDOW (window), GTK_DIALOG_MODAL,
-                       GTK_STOCK_OK, 0, NULL);
-    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
+    dialog = gtk_dialog_new_with_buttons ( _("Enter exchange rate"),
+					   GTK_WINDOW ( window ),
+					   GTK_DIALOG_MODAL,
+					   GTK_STOCK_OK, 0,
+					   NULL );
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
 
     /* text for paddingbox */
-    gchar* tmpstr = g_strdup_printf( _("Please enter exchange rate for %s"), 
+    gchar* tmpstr = g_strdup_printf( _("Please enter exchange rate for %s"),
 				     gsb_data_currency_get_name (transaction_currency_number));
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
@@ -537,7 +542,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 	if ( tmp_currency_number != transaction_currency_number )
 	    current_exchange = gsb_real_opposite (current_exchange);
 
-	gsb_currency_config_set_cached_exchange ( account_currency_number, transaction_currency_number, 
+	gsb_currency_config_set_cached_exchange ( account_currency_number, transaction_currency_number,
 						  current_exchange, current_exchange_fees );
     }
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
@@ -556,7 +561,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
  * \return NULL on failure, a pointer to a cached_exchange_rate
  * structure on success.
  */
-struct cached_exchange_rate *gsb_currency_config_get_cached_exchange ( gint currency1_number, 
+struct cached_exchange_rate *gsb_currency_config_get_cached_exchange ( gint currency1_number,
 								       gint currency2_number )
 {
     GSList * tmp_list = cached_exchange_rates;
@@ -583,7 +588,7 @@ struct cached_exchange_rate *gsb_currency_config_get_cached_exchange ( gint curr
  * \param change    Exchange rate between two currencies.
  * \param fees      Fees of transaction.
  */
-void gsb_currency_config_set_cached_exchange ( gint currency1_number, 
+void gsb_currency_config_set_cached_exchange ( gint currency1_number,
 					       gint currency2_number,
 					       gsb_real change, gsb_real fees )
 {
@@ -602,7 +607,7 @@ void gsb_currency_config_set_cached_exchange ( gint currency1_number,
 
 
 
-/* 
+/*
  * Handler that change the second combobox of a window that ask for
  * change.
  *

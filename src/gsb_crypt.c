@@ -52,12 +52,12 @@ extern GtkWidget *window ;
  * crypt if necessary the string given in the param
  * if the string is crypted, the parameter string is freed
  *
- * \param file_name	File name, used to 
+ * \param file_name	File name, used to
  * \param file_content	A string which is the file
  * \param crypt		TRUE to crypt, FALSE to uncrypt
  * \param length	The length of the grisbi data,
  *                      without "Grisbi encrypted file " if comes to crypt
- *                      with "Grisbi encrypted file " if comes to decrypt 
+ *                      with "Grisbi encrypted file " if comes to decrypt
  *
  * \return the length of the new file_content or 0 if problem
  */
@@ -109,10 +109,10 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 		  22 );
 
 	des_cbc_encrypt ( (guchar *) (* file_content),
-			  (guchar *) (encrypted_file + 22), 
-			  (long) length, 
-			  sched, 
-			  (DES_cblock *) key, 
+			  (guchar *) (encrypted_file + 22),
+			  (long) length,
+			  sched,
+			  (DES_cblock *) key,
 			  TRUE );
 
 	g_free (*file_content);
@@ -130,7 +130,7 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 	/* we set the length on the rigt size */
 
 	length = length - 22;
-	
+
 return_bad_password:
 
 	/* now, if we know here a key to crypt, we use it, else, we ask for it */
@@ -152,12 +152,12 @@ return_bad_password:
 	/* we create a copy of the file in memory which will begin by "Grisbi encrypted file " */
 
 	decrypted_file = g_malloc ( length * sizeof ( gchar ));
-	
-	des_cbc_encrypt ( (guchar *) (* file_content + 22), 
-			  (guchar *) decrypted_file, 
-			  (long) length, 
-			  sched, 
-			  (DES_cblock *) key, 
+
+	des_cbc_encrypt ( (guchar *) (* file_content + 22),
+			  (guchar *) decrypted_file,
+			  (long) length,
+			  sched,
+			  (DES_cblock *) key,
 			  FALSE );
 
 	/* before freeing file_content and go back, we check that the password was correct
@@ -213,11 +213,12 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt )
 					   GTK_WINDOW ( window ),
 					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   ( encrypt ? _("Crypt file") : _("Decrypt file") ),
-					   GTK_RESPONSE_OK,
+					   ( encrypt ? _("Crypt file") : _("Decrypt file") ), GTK_RESPONSE_OK,
 					   NULL );
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
     gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK );
-    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
 
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox), hbox, TRUE, TRUE, 6 );
@@ -228,7 +229,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt )
     icon = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_AUTHENTICATION,
 				      GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( vbox ), icon, FALSE, FALSE, 6 );
-    
+
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, TRUE, TRUE, 6 );
 
@@ -255,8 +256,8 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt )
 
     hbox2 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox2, FALSE, FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 gtk_label_new ( COLON(_("Password")) ), 
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+			 gtk_label_new ( COLON(_("Password")) ),
 			 FALSE, FALSE, 0 );
 
     entry = gtk_entry_new ();
@@ -272,7 +273,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gboolean encrypt )
     result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     switch (result)
-    {	
+    {
 	case GTK_RESPONSE_OK:
 
 	    key = my_strdup (gtk_entry_get_text ( GTK_ENTRY ( entry )));

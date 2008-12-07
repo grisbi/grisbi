@@ -64,13 +64,13 @@ static  gboolean gsb_bank_list_check_separator ( GtkTreeModel *model,
 						gpointer null );
 static  gboolean gsb_bank_update_form ( gint bank_number,
 				       GtkWidget *frame );
-static  gboolean gsb_bank_update_selected_line ( GtkEntry *entry, 
+static  gboolean gsb_bank_update_selected_line ( GtkEntry *entry,
 						GtkWidget *combobox );
 static  gboolean gsb_bank_update_selected_line_model ( GtkWidget *combobox );
 /*END_STATIC*/
 
 static GtkWidget *bank_list_tree_view;
-enum bank_list_col 
+enum bank_list_col
 {
    BANK_VIEW_NAME_COL = 0,
    BANK_TALKER_COL,
@@ -82,7 +82,7 @@ enum bank_list_col
 /* the model containing the list of the banks for the combobox */
 GtkTreeModel *bank_list_model = NULL;
 
-enum bank_list_model_col 
+enum bank_list_model_col
 {
    BANK_NAME_COL = 0,
    BANK_NUMBER_COL
@@ -163,12 +163,12 @@ GtkWidget *gsb_bank_create_combobox ( gint index,
     g_object_set_data ( G_OBJECT (combo_box),
 			"number_for_func", GINT_TO_POINTER (number_for_func));
     if (default_func)
-	g_object_set_data ( G_OBJECT (combo_box), "changed", 
+	g_object_set_data ( G_OBJECT (combo_box), "changed",
 			    (gpointer) g_signal_connect_after (G_OBJECT(combo_box), "changed",
 							       G_CALLBACK (gsb_bank_combobox_changed), default_func ));
     /* add the hook if exists */
     if ( hook )
-	g_object_set_data ( G_OBJECT (combo_box), "changed-hook", 
+	g_object_set_data ( G_OBJECT (combo_box), "changed-hook",
 			    (gpointer) g_signal_connect_after (GTK_OBJECT(combo_box), "changed",
 							       ((GCallback) hook), data ));
 
@@ -210,7 +210,7 @@ gint gsb_bank_list_get_bank_number ( GtkWidget *combobox )
  *
  * \param combobox
  * \param bank_number 0 for none, -1 for new bank
- * \param number_for_func the number to give to the default_func when something changed 
+ * \param number_for_func the number to give to the default_func when something changed
  *
  * \return FALSE
  * */
@@ -230,11 +230,11 @@ gboolean gsb_bank_list_set_bank ( GtkWidget *combobox,
     /* Block hook and default_func */
     if ( g_object_get_data (G_OBJECT (combobox), "changed") > 0 )
 	g_signal_handler_block ( GTK_OBJECT(combobox),
-				 (gulong) g_object_get_data (G_OBJECT (combobox), 
+				 (gulong) g_object_get_data (G_OBJECT (combobox),
 							     "changed"));
     if ( g_object_get_data (G_OBJECT (combobox), "changed-hook") > 0 )
 	g_signal_handler_block ( GTK_OBJECT(combobox),
-				 (gulong) g_object_get_data (G_OBJECT (combobox), 
+				 (gulong) g_object_get_data (G_OBJECT (combobox),
 							     "changed-hook"));
 
     do
@@ -262,11 +262,11 @@ gboolean gsb_bank_list_set_bank ( GtkWidget *combobox,
     /* Unblock everything */
     if ( g_object_get_data (G_OBJECT (combobox), "changed") > 0 )
 	g_signal_handler_unblock ( GTK_OBJECT(combobox),
-				   (gulong) g_object_get_data (G_OBJECT (combobox), 
+				   (gulong) g_object_get_data (G_OBJECT (combobox),
 							       "changed"));
     if ( g_object_get_data (G_OBJECT (combobox), "changed-hook") > 0 )
 	g_signal_handler_unblock ( GTK_OBJECT(combobox),
-				   (gulong) g_object_get_data (G_OBJECT (combobox), 
+				   (gulong) g_object_get_data (G_OBJECT (combobox),
 							       "changed-hook"));
     return FALSE;
 }
@@ -351,7 +351,7 @@ static gboolean gsb_bank_create_combobox_model ( void )
  *
  * \param combobox a facultative option, if not NULL, the current selection will be saved and restored at the end of the function
  *
- * \return TRUE if ok, FALSE if problem 
+ * \return TRUE if ok, FALSE if problem
  * */
 static gboolean gsb_bank_update_selected_line_model ( GtkWidget *combobox )
 {
@@ -764,7 +764,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_NEVER,
 				     GTK_POLICY_AUTOMATIC );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
 					  GTK_SHADOW_IN );
     /* Create the text view */
     bank_adr = gsb_autofunc_textview_new ( NULL, NULL, NULL, G_CALLBACK (gsb_data_bank_set_bank_address), 0);
@@ -894,7 +894,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_NEVER,
 				     GTK_POLICY_AUTOMATIC );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
 					  GTK_SHADOW_IN );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
 			 TRUE, TRUE, 5 );
@@ -968,16 +968,18 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
 	return FALSE;
 
     dialog = gtk_dialog_new_with_buttons ( _("Edit bank"),
-					   GTK_WINDOW(window),
-					   GTK_DIALOG_DESTROY_WITH_PARENT,
+					   GTK_WINDOW ( window ),
+					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 					   NULL );
-    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
 
     scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
 					  GTK_SHADOW_NONE );
     gtk_container_add ( GTK_CONTAINER ( GTK_DIALOG(dialog)->vbox ), scrolled_window );
     gtk_widget_set_size_request ( scrolled_window, 600, 400 );
@@ -1001,7 +1003,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
 
 
 
-/** 
+/**
  * Update bank name in list, called when the name of the bank changes, or
  * the name of the talker
  * update too the model list of the combobox
@@ -1011,7 +1013,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
  *
  * \return FALSE
  */
-static gboolean gsb_bank_update_selected_line ( GtkEntry *entry, 
+static gboolean gsb_bank_update_selected_line ( GtkEntry *entry,
 						GtkWidget *combobox )
 {
     GtkTreeIter iter;
