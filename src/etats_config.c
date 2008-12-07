@@ -132,9 +132,9 @@ static gboolean report_tree_selectable_func (GtkTreeSelection *selection,
 				      gboolean path_currently_selected,
 				      gpointer data);
 static gboolean report_tree_update_style ( gint * page_number );
-static gboolean report_tree_update_style_iterator ( GtkTreeModel * tree_model, 
-					     GtkTreePath *path, 
-					     GtkTreeIter *iter, 
+static gboolean report_tree_update_style_iterator ( GtkTreeModel * tree_model,
+					     GtkTreePath *path,
+					     GtkTreeIter *iter,
 					     gpointer data );
 static gboolean report_tree_view_selection_changed ( GtkTreeSelection *selection,
 					      GtkTreeModel *model );
@@ -169,9 +169,9 @@ enum
 
 
 
-/***********************************/ 
+/***********************************/
 /* fichier etats_config.c */
-/***********************************/ 
+/***********************************/
 
 gchar *liste_plages_dates[] = {
     N_("All"),
@@ -356,7 +356,7 @@ static GtkWidget *liste_mode_paiement_etat = NULL;
 static GtkTreeStore * report_tree_model = NULL;
 static GtkWidget * report_tree_view = NULL;
 
-/** globals used to speed up the category/budget list 
+/** globals used to speed up the category/budget list
  * and clarify the code */
 static GtkTreeModel *model_categ;
 static GtkTreeModel *model_budget;
@@ -395,16 +395,19 @@ void personnalisation_etat (void)
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
 				GSB_REPORTS_PAGE );
 
-    dialog = gtk_dialog_new_with_buttons ( _("Report properties"), 
-					   GTK_WINDOW (window), GTK_DIALOG_MODAL, 
+    dialog = gtk_dialog_new_with_buttons ( _("Report properties"),
+					   GTK_WINDOW ( window ),
+					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,
 					   NULL );
-    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
 
     /* Create model */
-    report_tree_model = gtk_tree_store_new ( REPORT_TREE_NUM_COLUMNS, 
-					     G_TYPE_STRING, 
+    report_tree_model = gtk_tree_store_new ( REPORT_TREE_NUM_COLUMNS,
+					     G_TYPE_STRING,
 					     G_TYPE_INT,
 					     G_TYPE_INT,
 					     G_TYPE_INT );
@@ -418,13 +421,13 @@ void personnalisation_etat (void)
     report_tree_view = gtk_tree_view_new();
     g_signal_connect ( G_OBJECT (report_tree_view ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &report_tree_view );
-    gtk_tree_view_set_model (GTK_TREE_VIEW (report_tree_view), 
+    gtk_tree_view_set_model (GTK_TREE_VIEW (report_tree_view),
 			     GTK_TREE_MODEL (report_tree_model));
     g_object_unref (G_OBJECT(report_tree_model));
 
     /* Make column */
     cell = gtk_cell_renderer_text_new ();
-    column = 
+    column =
 	gtk_tree_view_column_new_with_attributes ("Categories",
 						  cell,
 						  "text", REPORT_TREE_TEXT_COLUMN,
@@ -437,12 +440,12 @@ void personnalisation_etat (void)
 
     /* Handle select */
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (report_tree_view));
-    g_signal_connect (selection, "changed", 
+    g_signal_connect (selection, "changed",
 		      ((GCallback) report_tree_view_selection_changed),
 		      report_tree_model);
 
     /* Choose which entries will be selectable */
-    gtk_tree_selection_set_select_function ( selection, report_tree_selectable_func, 
+    gtk_tree_selection_set_select_function ( selection, report_tree_selectable_func,
 					     NULL, NULL );
 
     /* Put the tree in the scroll */
@@ -464,9 +467,9 @@ void personnalisation_etat (void)
     notebook_config_etat = gtk_notebook_new ();
     gtk_paned_add2(GTK_PANED(paned), notebook_config_etat );
 
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_config_etat ), 
+    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_config_etat ),
 				 FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook_config_etat ), 
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook_config_etat ),
 				   FALSE );
     gtk_container_set_border_width ( GTK_CONTAINER ( notebook_config_etat ), 0 );
 
@@ -480,7 +483,7 @@ void personnalisation_etat (void)
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter,
 			REPORT_TREE_TEXT_COLUMN, _("Data selection"),
 			REPORT_TREE_PAGE_COLUMN, -1,
-			REPORT_TREE_BOLD_COLUMN, 800, 
+			REPORT_TREE_BOLD_COLUMN, 800,
 			-1);
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
@@ -1312,7 +1315,7 @@ void recuperation_info_perso_etat ( void )
 	 !gsb_date_check_entry ( entree_date_init_etat ) )
     {
 	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
-			      g_strdup_printf ( _("Invalid initial date '%s'"), 
+			      g_strdup_printf ( _("Invalid initial date '%s'"),
 						gtk_entry_get_text(GTK_ENTRY(entree_date_init_etat)) ) );
 	return;
     }
@@ -1321,7 +1324,7 @@ void recuperation_info_perso_etat ( void )
 	 !gsb_date_check_entry (entree_date_finale_etat ) )
     {
 	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
-			      g_strdup_printf ( _("Invalid final date '%s'"), 
+			      g_strdup_printf ( _("Invalid final date '%s'"),
 						gtk_entry_get_text(GTK_ENTRY(entree_date_finale_etat)) ) );
 	return;
     }
@@ -1496,7 +1499,7 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 gsb_data_report_get_financial_year_type (current_report_number) == 3 )
     {
-	dialogue_special ( GTK_MESSAGE_INFO, 
+	dialogue_special ( GTK_MESSAGE_INFO,
 			   make_hint ( _("Performance issue."),
 				       _("All financial years have been selected.  Grisbi will run faster without the \"Detail financial years\" option activated.") ) );
 	gsb_data_report_set_financial_year_type ( current_report_number,
@@ -1555,7 +1558,7 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 gsb_data_report_get_account_use_chosen (current_report_number))
     {
-	dialogue_special ( GTK_MESSAGE_INFO, 
+	dialogue_special ( GTK_MESSAGE_INFO,
 			   make_hint ( _("Performance issue."),
 				       _("All accounts have been selected.  Grisbi will run faster without the \"Detail accounts used\" option activated.") ) );
 	gsb_data_report_set_account_use_chosen ( current_report_number,
@@ -1704,7 +1707,7 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 gsb_data_report_get_payee_detail_used (current_report_number))
     {
-	dialogue_special ( GTK_MESSAGE_INFO, 
+	dialogue_special ( GTK_MESSAGE_INFO,
 			   make_hint ( _("Performance issue."),
 				       _("All payees have been selected.  Grisbi will run faster without the \"Detail payees used\" option activated.") ) );
 	gsb_data_report_set_payee_detail_used ( current_report_number,
@@ -1883,7 +1886,7 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 gsb_data_report_get_method_of_payment_used (current_report_number))
     {
-	dialogue_special ( GTK_MESSAGE_INFO, 
+	dialogue_special ( GTK_MESSAGE_INFO,
 			   make_hint ( _("Performance issue."),
 				       _("All methods of payment have been selected.  Grisbi will run faster without the \"Detail methods of payment used\" option activated.") ) );
 	gsb_data_report_set_method_of_payment_used ( current_report_number,
@@ -1942,9 +1945,9 @@ gboolean report_tree_update_style ( gint * page_number )
  *
  * \return TRUE if this iter matches.
  */
-gboolean report_tree_update_style_iterator ( GtkTreeModel * tree_model, 
-					     GtkTreePath *path, 
-					     GtkTreeIter *iter, 
+gboolean report_tree_update_style_iterator ( GtkTreeModel * tree_model,
+					     GtkTreePath *path,
+					     GtkTreeIter *iter,
 					     gpointer data )
 {
     gint page_number = GPOINTER_TO_INT(data);
@@ -3719,11 +3722,11 @@ static GSList *report_config_categ_budget_get_selected ( gboolean is_categ )
     if (all_selected)
     {
 	if (is_categ)
-	    dialogue_special ( GTK_MESSAGE_INFO, 
+	    dialogue_special ( GTK_MESSAGE_INFO,
 			       make_hint ( _("Performance issue."),
 					   _("All categories have been selected.  Grisbi will run faster without the \"Detail categories used\" option activated.")));
 	else
-	    dialogue_special ( GTK_MESSAGE_INFO, 
+	    dialogue_special ( GTK_MESSAGE_INFO,
 			       make_hint ( _("Performance issue."),
 					   _("All budgets have been selected.  Grisbi will run faster without the \"Detail budgets used\" option activated.")));
 
@@ -4363,7 +4366,7 @@ void remplit_liste_comparaisons_textes_etat ( void )
 				      gsb_data_report_text_comparison_get_field (text_comparison_number));
 	gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_operator (text_comparison_number)),
 				      gsb_data_report_text_comparison_get_operator (text_comparison_number));
-	
+
 	if (gsb_data_report_text_comparison_get_text (text_comparison_number))
 	    gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)),
 				 gsb_data_report_text_comparison_get_text (text_comparison_number));
@@ -4463,7 +4466,7 @@ void ajoute_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_num
     text_comparison_number = gsb_data_report_text_comparison_new (0);
     gsb_data_report_text_comparison_set_report_number ( text_comparison_number,
 							current_report_number );
-    
+
     /* on crée la row et remplit les widget de la structure */
 
     widget = cree_ligne_comparaison_texte (text_comparison_number);
@@ -5949,7 +5952,7 @@ void change_comparaison_montant ( GtkWidget *menu_item,
     }
 
     if ( gtk_menu_get_attach_widget ( GTK_MENU ( menu_item -> parent ))
-	 == 
+	 ==
 	 gsb_data_report_amount_comparison_get_button_first_comparison (amount_comparison_number))
 	gtk_widget_set_sensitive ( gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number),
 				   sensitif );
@@ -6172,9 +6175,9 @@ void retire_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison
      gint current_report_number;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
-    
+
     /* il faut qu'il y ai plus d'une row affichée */
-    
+
     if ( g_slist_length ( gsb_data_report_get_amount_comparison_list (current_report_number)) < 2 )
 	return;
 

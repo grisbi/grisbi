@@ -170,7 +170,7 @@ GtkResponseType gsb_assistant_reconcile_config_run ( void )
     transactions_to_link = g_slist_length (transactions_list);
 
     /* come here if we have some orphan transactions
-     * this can happen by 2 ways : 
+     * this can happen by 2 ways :
      * for old users of grisbi, before i don't remember what version, there were no reconcile number,
      * 		the reconciled transactions were juste marked R
      * before the 0.6.0, ctrl R didn't permit to choose a reconcile
@@ -275,7 +275,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
     gtk_box_pack_start ( GTK_BOX (page),
 			 separator,
 			 FALSE, FALSE, 0 );
-    
+
     /* set up the menu */
     label = gtk_label_new (_("Choose the next operation to do :"));
     gtk_misc_set_alignment ( GTK_MISC (label),
@@ -283,7 +283,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
     gtk_box_pack_start ( GTK_BOX (page),
 			 label,
 			 FALSE, FALSE, 0 );
-	
+
     /* create a new reconcile */
     button = gtk_radio_button_new_with_label ( NULL,
 					       _("Manually create a new reconciliation"));
@@ -704,7 +704,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
 		       assistant );
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 button,
-			 FALSE, FALSE,
+			 TRUE, TRUE,
 			 0 );
 
     gtk_widget_show_all (page);
@@ -855,7 +855,7 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
     gtk_label_set_markup ( GTK_LABEL (label),
 			   string );
     g_free (string);
-    
+
     /* update the list of reconcile in the configuration list */
     gsb_reconcile_config_fill ();
 
@@ -1195,15 +1195,16 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
     /* ok, all the transactions belong to the same account, we can
      * show a dialog to select the reconcile */
     dialog = gtk_dialog_new_with_buttons ( _("Selection of a reconciliation"),
-					   GTK_WINDOW (assistant),
+					   GTK_WINDOW ( assistant ),
 					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                       GTK_STOCK_OK, GTK_RESPONSE_OK,
+					   GTK_STOCK_OK, GTK_RESPONSE_OK,
 					   NULL );
 
-    gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 412 );
-    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
-    gtk_container_set_border_width ( GTK_CONTAINER(dialog), 12 );
+    gtk_window_set_default_size ( GTK_WINDOW ( dialog ), 770, 412 );
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
+    gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), 12 );
 
     label = gtk_label_new (COLON(_("Select the reconciliation to associate to the selected transactions")));
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
@@ -1211,7 +1212,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
 			 label,
 			 FALSE, FALSE,
 			 10 );
-    
+
     /* make the list */
     scrolled_window = gtk_scrolled_window_new (FALSE, FALSE);
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW (scrolled_window),

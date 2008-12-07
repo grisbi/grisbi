@@ -119,7 +119,7 @@ GtkWidget *creation_onglet_accueil ( void )
     base_scroll = gtk_scrolled_window_new ( NULL, NULL);
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( base_scroll ),
 				     GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( base_scroll ), 
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( base_scroll ),
 					  GTK_SHADOW_NONE );
 
     base = gtk_vbox_new ( FALSE, 15 );
@@ -164,7 +164,7 @@ GtkWidget *creation_onglet_accueil ( void )
 	    			G_CALLBACK( gtk_widget_destroyed ), &logo_accueil);
 	    gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 20 );
 	}
-	
+
 	gtk_box_pack_end ( GTK_BOX ( hbox_title ), label_titre_fichier, TRUE, TRUE, 20 );
 	gtk_container_set_border_width ( GTK_CONTAINER ( hbox_title ), 6 );
 	gtk_container_add ( GTK_CONTAINER(eb), hbox_title );
@@ -176,7 +176,7 @@ GtkWidget *creation_onglet_accueil ( void )
 	label_titre_fichier = gtk_label_new ( NULL );
 	gtk_box_pack_start ( GTK_BOX ( base ), label_titre_fichier, FALSE, FALSE, 0 );
     }
-    
+
     /* on crée la première frame dans laquelle on met les états des comptes */
     frame_etat_comptes_accueil = gtk_notebook_new ();
     g_signal_connect ( G_OBJECT ( frame_etat_comptes_accueil ), "destroy",
@@ -208,14 +208,14 @@ GtkWidget *creation_onglet_accueil ( void )
     paddingbox = new_paddingbox_with_title ( base, FALSE,
 					     _("Run out manual scheduled transactions") );
     frame_etat_echeances_manuelles_accueil = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil), 
+    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil),
 				 FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil), 
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil),
 				   FALSE );
     gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_echeances_manuelles_accueil),
 				     0 );
     gtk_box_set_spacing ( GTK_BOX(paddingbox), 6 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_echeances_manuelles_accueil, 
+    gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_echeances_manuelles_accueil,
 			 FALSE, FALSE, 6 );
 
 
@@ -308,7 +308,9 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,
 					   NULL );
-    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER );
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
     gtk_dialog_set_default_response ( GTK_DIALOG (dialog), GTK_RESPONSE_OK );
 
     /* first we reparent the form in the dialog */
@@ -346,7 +348,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 void update_liste_comptes_accueil ( gboolean force )
 {
     GtkWidget *pTable, *pEventBox, *pLabel, *vbox, *paddingbox;
-    GtkStyle *pStyleLabelNomCompte, *pStyleLabelSoldeCourant, 
+    GtkStyle *pStyleLabelNomCompte, *pStyleLabelSoldeCourant,
 	     *pStyleLabelSoldePointe;
     GSList *devise;
     gsb_real solde_global_courant, solde_global_pointe;
@@ -359,7 +361,7 @@ void update_liste_comptes_accueil ( gboolean force )
     if ( !force
 	 &&
 	 !(mise_a_jour_liste_comptes_accueil
-	   && 
+	   &&
 	   gsb_data_account_get_accounts_amount ()))
 	return;
 
@@ -654,7 +656,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Troisième colonne : elle contient le solde total courant des comptes */
-	tmpstr = gsb_real_get_string_with_currency (solde_global_courant, 
+	tmpstr = gsb_real_get_string_with_currency (solde_global_courant,
 								    currency_number, TRUE);
 	pLabel = gtk_label_new ( tmpstr );
 	g_free ( tmpstr );
@@ -910,7 +912,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Troisieme colonne : elle contient le solde total courant des comptes */
-	tmpstr = gsb_real_get_string_with_currency (solde_global_courant, 
+	tmpstr = gsb_real_get_string_with_currency (solde_global_courant,
 								    currency_number, TRUE);
 	pLabel = gtk_label_new ( tmpstr );
 	g_free ( tmpstr );
@@ -1143,7 +1145,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	    }
 	    i++;
 	    list_tmp = list_tmp -> next;
-	}	
+	}
 
 	/* Création et remplissage de la (nb_comptes + 3)ième ligne du tableau :
 	   elle contient la somme des soldes de chaque compte */
@@ -1155,7 +1157,7 @@ void update_liste_comptes_accueil ( gboolean force )
 	gtk_widget_show ( pLabel );
 
 	/* Deuxième colonne : elle contient le solde total pointé des comptes */
-	tmpstr = gsb_real_get_string_with_currency (solde_global_pointe, 
+	tmpstr = gsb_real_get_string_with_currency (solde_global_pointe,
 								    currency_number, TRUE);
 	pLabel = gtk_label_new ( tmpstr );
 	g_free ( tmpstr );
@@ -1836,9 +1838,9 @@ void update_fin_comptes_passifs ( gboolean force )
 /**
  * update the finished scheduled transactions part in the main page
  * the scheduled transaction in param is finished
- * 
+ *
  * \param scheduled_number
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_number )
