@@ -179,7 +179,7 @@ extern GtkWidget *window ;
 
 /**
  * save the transactions tree_view
- * 
+ *
  * \param tree_view
  *
  * \return
@@ -275,9 +275,9 @@ GtkWidget *creation_fenetre_operations ( void )
 
 /**
  * create fully the gui list and fill it
- * 
+ *
  * \param
- * 
+ *
  * \return the widget which contains the list, to set at the right place
  * */
 GtkWidget *gsb_transactions_list_make_gui_list ( void )
@@ -310,14 +310,14 @@ GtkWidget *gsb_transactions_list_make_gui_list ( void )
 
 
 
-/** 
+/**
  * creates the columns of the tree_view
  * */
 void gsb_transactions_list_create_tree_view_columns ( void )
 {
     gint i;
     gfloat alignment[] = {
-	COLUMN_CENTER, COLUMN_CENTER, COLUMN_LEFT, 
+	COLUMN_CENTER, COLUMN_CENTER, COLUMN_LEFT,
 	COLUMN_CENTER, COLUMN_RIGHT, COLUMN_RIGHT, COLUMN_RIGHT
     };
     gint column_balance;
@@ -408,9 +408,9 @@ void update_titres_tree_view ( void )
 
 /**
  * create the tree view from the CustomList
- * 
+ *
  * \param model	the CustomList
- * 
+ *
  * \return the tree_view
  * */
 GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
@@ -477,9 +477,9 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
 /**
  * fill the new store with the all the transactions
  * normally called at the opening of a file
- * 
- * \param 
- * 
+ *
+ * \param
+ *
  * \return FALSE
  * */
 gboolean gsb_transactions_list_fill_model ( void )
@@ -547,7 +547,7 @@ gboolean gsb_transactions_list_fill_model ( void )
 	    g_free (string_1);
 	}
     }
-    return FALSE; 
+    return FALSE;
 }
 
 
@@ -581,7 +581,7 @@ gboolean gsb_transactions_list_fill_archive_store ( void )
 
 
 
-/** 
+/**
  * append a new transaction in the tree_view
  * use gsb_transactions_list_append_transaction and do all the stuff
  * 	arround that, ie calculate the balances, show or not the line...
@@ -664,10 +664,10 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
 /**
  * take in a transaction the content to set in a cell of the transaction's list
  * all the value are dupplicate and have to be freed after use (except when NULL)
- * 
+ *
  * \param transaction_number
  * \param cell_content_number what we need in the transaction
- * 
+ *
  * \return a newly allocated string which represent the content of the transaction, or NULL
  * */
 gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
@@ -754,7 +754,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 		g_free ( tmpstr );
 		return result;
 	    }
-	    else 
+	    else
 		return NULL;
 	    break;
 
@@ -833,11 +833,11 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
     return ( NULL );
 }
 
-/** 
+/**
  * update the transaction given in the tree_view
- * 
+ *
  * \param transaction transaction to update
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_transactions_list_update_transaction ( gint transaction_number )
@@ -1106,7 +1106,7 @@ gsb_real solde_debut_affichage ( gint account_number,
 
 /**
  * called when press a mouse button on the transactions list
- * 
+ *
  * \param tree_view
  * \param ev a GdkEventButton
  *
@@ -1131,7 +1131,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
     /* first, give the focus to the list */
     gtk_widget_grab_focus (tree_view);
 
-    /* get the path, 
+    /* get the path,
      * if it's a right button and we are not in the list, show the partial popup
      * else go away */
     if ( !gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ),
@@ -1172,7 +1172,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 	    name = gsb_data_archive_get_name (archive_number);
 	    if (name)
 	    {
-	        gchar* tmpstr = g_strdup_printf ( 
+	        gchar* tmpstr = g_strdup_printf (
 		         _("Do you want to load the transaction of the archive %s into the list ?"),
                          name );
 		if (question_yes_no ( tmpstr , GTK_RESPONSE_CANCEL ))
@@ -1333,12 +1333,12 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
     if ( new_selected_transaction != -1 )
     {
 	account_number = gsb_data_transaction_get_account_number (new_selected_transaction);
-	gsb_menu_transaction_operations_set_sensitive ( TRUE );	
+	gsb_menu_transaction_operations_set_sensitive ( TRUE );
     }
     else
     {
 	account_number = gsb_gui_navigation_get_current_account ();
-	gsb_menu_transaction_operations_set_sensitive ( FALSE );	
+	gsb_menu_transaction_operations_set_sensitive ( FALSE );
     }
 
     /* save the new current transaction */
@@ -1356,9 +1356,9 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
 
 
 
-/** 
+/**
  * Called to edit a specific transaction
- * 
+ *
  * \param transaction_number
  *
  * \return FALSE
@@ -1371,10 +1371,10 @@ gboolean gsb_transactions_list_edit_transaction ( gint transaction_number )
 }
 
 
-/** 
+/**
  * Called to edit a specific transaction but the number of transaction
  * is passed via a pointer (by g_signal_connect)
- * 
+ *
  * \param transaction_number a pointer wich is the number of the transaction
  *
  * \return FALSE
@@ -1388,9 +1388,9 @@ gboolean gsb_transactions_list_edit_transaction_by_pointer ( gint *transaction_n
 
 
 
-/** 
+/**
  * Called to edit a the current transaction
- * 
+ *
  * \param
  *
  * \return FALSE
@@ -1408,9 +1408,9 @@ gboolean gsb_transactions_list_edit_current_transaction ( void )
  * switch the mark of the transaction in the list between P or empty
  * it will mark/unmark the transaction and update the marked amount
  * if we are reconciling, update too the amounts of the reconcile panel
- * 
+ *
  * \param transaction_number
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
@@ -1498,9 +1498,9 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
  * 	reconcile number (but if come from before, it could happen)
  * when we unmark, we keep the reconcile number into the transaction to find it easily when the user
  * 	will re-R again
- * 
+ *
  * \param transaction_number
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
@@ -1606,7 +1606,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 
 	    /* we warn the user the transaction disappear
 	     * don't laugh ! there were several bugs reports about a transaction wich disappear :-) */
-	    dialogue_hint ( _("The transaction has disappear from the list...\nDon't worry, it's because you marked it as R, and you choosed not to show the R transactions into the list ; show them if you want to check what you did."), 
+	    dialogue_hint ( _("The transaction has disappear from the list...\nDon't worry, it's because you marked it as R, and you choosed not to show the R transactions into the list ; show them if you want to check what you did."),
 			   _("Marking a transaction as R"));
 	}
     }
@@ -1674,15 +1674,16 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
     gint reconcile_number;
 
     dialog = gtk_dialog_new_with_buttons ( _("Selection of a reconciliation"),
-					   GTK_WINDOW (window),
+					   GTK_WINDOW ( window ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                       GTK_STOCK_OK, GTK_RESPONSE_OK,
+					   GTK_STOCK_OK, GTK_RESPONSE_OK,
 					   NULL );
-    /* need to set a size, else the list will be small */
-    gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 412 );
-    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
-    gtk_container_set_border_width ( GTK_CONTAINER(dialog), 12 );
+
+    gtk_window_set_default_size ( GTK_WINDOW ( dialog ), 770, 412 );
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
+    gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), 12 );
 
     label = gtk_label_new (COLON(_("Select the reconciliation to associate to the selected transaction")));
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
@@ -1805,7 +1806,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
 	gtk_widget_destroy (dialog);
 	return reconcile_number;
     }
-    
+
     dialogue_error ( _("Grisbi couldn't get the selection, operation canceled..."));
     gtk_widget_destroy (dialog);
     return 0;
@@ -1817,7 +1818,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
  * delete a transaction
  * if it's a transfer, delete also the contra-transaction
  * if it's a split, delete the childs
- * 
+ *
  * \param transaction The transaction to delete
  * \param show_warning TRUE to ask if the user is sure, FALSE directly delete the transaction
  * 			if TRUE, the form will be reset too
@@ -1866,22 +1867,22 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     {
 	if (gsb_data_transaction_get_mother_transaction_number (transaction_number))
 	{
-	    gchar* tmpstr = g_strdup_printf ( 
+	    gchar* tmpstr = g_strdup_printf (
 	              _("Do you really want to delete the child of the transaction with party '%s' ?"),
  	              gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number),
 										     FALSE ));
 	    if ( !question_yes_no_hint ( _("Delete a transaction"),
 					 tmpstr,
 					 GTK_RESPONSE_NO ))
-            {	
+            {
 	        g_free(tmpstr);
 		return FALSE;
-            }	
+            }
 	    g_free(tmpstr);
 	}
 	else
 	{
-	    gchar *tmpstr = g_strdup_printf ( 
+	    gchar *tmpstr = g_strdup_printf (
                          _("Do you really want to delete transaction with party '%s' ?"),
                          gsb_data_payee_get_name ( gsb_data_transaction_get_party_number ( transaction_number),
 										     FALSE ));
@@ -2004,7 +2005,7 @@ gboolean gsb_transactions_list_check_mark ( gint transaction_number )
  * Delete the transaction from the tree view
  * if it's a transfer, delete the contra transaction from the tree view
  * if it's a split, delete a the children and if necessary the contra transactions
- * 
+ *
  * don't do any check about possible or marked... check before
  * do nothing in memory, only on the tree view
  *
@@ -2057,8 +2058,8 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transact
 
 /**
  * Pop up a menu with several actions to apply to current transaction.
- * 
- * \param 
+ *
+ * \param
  *
  */
 void popup_transaction_context_menu ( gboolean full, int x, int y )
@@ -2109,7 +2110,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item), "activate", remove_transaction, NULL );
     if ( !full
-	 || 
+	 ||
 	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
 	 ||
 	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELERAPPROCHEE )
@@ -2156,7 +2157,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     if ( !full
 	 ||
 	 !mi_full
-	 || 
+	 ||
 	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
 	 ||
 	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELERAPPROCHEE )
@@ -2164,7 +2165,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_menu_append ( menu, menu_item );
 
     /* Add accounts submenu */
-    gtk_menu_item_set_submenu ( GTK_MENU_ITEM(menu_item), 
+    gtk_menu_item_set_submenu ( GTK_MENU_ITEM(menu_item),
 				GTK_WIDGET(gsb_account_create_menu_list (GTK_SIGNAL_FUNC(move_selected_operation_to_account), FALSE, FALSE)) );
 
 
@@ -2174,7 +2175,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     /* Change cell content. */
     menu_item = gtk_menu_item_new_with_label ( _("Change cell content") );
     if ( full )
-	gtk_menu_item_set_submenu ( GTK_MENU_ITEM ( menu_item ), 
+	gtk_menu_item_set_submenu ( GTK_MENU_ITEM ( menu_item ),
 				    GTK_WIDGET ( gsb_gui_create_cell_contents_menu ( x, y ) ) );
     gtk_widget_set_sensitive ( menu_item, full );
     gtk_menu_append ( menu, menu_item );
@@ -2190,7 +2191,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
  * Create and return a menu that contains all cell content types.
  * When a type is selected, the cell that triggered this pop-up menu
  * is changed accordingly.
- * 
+ *
  * \param x	Horizontal coordinate of the cell that will be modified.
  * \param y	Vertical coordinate of the cell that will be modified.
  *
@@ -2209,7 +2210,7 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
 
 	g_object_set_data ( G_OBJECT (item), "x", GINT_TO_POINTER (x) );
 	g_object_set_data ( G_OBJECT (item), "y", GINT_TO_POINTER (y) );
-	g_signal_connect ( G_OBJECT(item), "activate", 
+	g_signal_connect ( G_OBJECT(item), "activate",
 			   G_CALLBACK(gsb_gui_change_cell_content), GINT_TO_POINTER (i+1));
 	gtk_menu_append ( menu, item );
     }
@@ -2274,7 +2275,7 @@ gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr )
 
 
 /**
- *  Check that a transaction is selected 
+ *  Check that a transaction is selected
  *
  * \return TRUE on success, FALSE otherwise.
  */
@@ -2290,7 +2291,7 @@ gboolean assert_selected_transaction ()
 /**
  *  Empty transaction form and select transactions tab.
  */
-gboolean new_transaction () 
+gboolean new_transaction ()
 {
     gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
     gsb_form_escape_form();
@@ -2403,7 +2404,7 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number,
 	gsb_form_transaction_validate_transfer ( new_transaction_number,
 						 1,
 						 gsb_data_transaction_get_contra_transaction_account (transaction_number));
-	
+
 	/* we need to set the contra method of payment of the transfer */
 	gsb_data_transaction_set_method_of_payment_number ( gsb_data_transaction_get_contra_transaction_number (new_transaction_number),
 							    gsb_data_transaction_get_method_of_payment_number (gsb_data_transaction_get_contra_transaction_number (transaction_number)));
@@ -2452,8 +2453,8 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
     if (! assert_selected_transaction()) return FALSE;
 
     source_account = gsb_gui_navigation_get_current_account ();
-    target_account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item), 
-							     "account_number" ) );  
+    target_account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item),
+							     "account_number" ) );
 
     if ( gsb_transactions_list_move_transaction_to_account ( gsb_data_account_get_current_transaction_number (source_account),
 							     target_account ))
@@ -2495,7 +2496,7 @@ void move_selected_operation_to_account_nb ( gint *account )
     if (! assert_selected_transaction()) return;
 
     source_account = gsb_gui_navigation_get_current_account ();
-    target_account = GPOINTER_TO_INT ( account );  
+    target_account = GPOINTER_TO_INT ( account );
 
     if ( gsb_transactions_list_move_transaction_to_account ( gsb_data_account_get_current_transaction_number (source_account),
 							     target_account ))
@@ -3018,7 +3019,7 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
 	}
 	tmp_list = tmp_list -> next;
     }
- 
+
     selected_transaction = transaction_list_select_get ();
 
     /* now we can sort the list */
@@ -3122,7 +3123,7 @@ void gsb_transactions_list_set_visible_rows_number ( gint rows_number )
 	     ||
 	     i == current_account)
 	{
-	    gsb_data_account_set_nb_rows ( i, 
+	    gsb_data_account_set_nb_rows ( i,
 					   rows_number );
 	}
 	list_tmp = list_tmp -> next;
@@ -3134,17 +3135,17 @@ void gsb_transactions_list_set_visible_rows_number ( gint rows_number )
 
 
 
-/** 
+/**
  * check if the transaction given in param should be visible or not
  * according to the account and the current line
  * this function is called to filter the model for each line in transaction_list_filter
  * 	so need to be very fast
- * 
+ *
  * \param transaction_number 	the pointer in the model, usually a transaction, but can be archive
  * \param account_number	account number
  * \param line_in_transaction	the line in the transaction (0, 1, 2 or 3)
  * \param what_is_line		IS_TRANSACTION / IS_ARCHIVE
- * 
+ *
  * \return TRUE if the transaction should be shown, FALSE else
  * */
 gboolean gsb_transactions_list_transaction_visible ( gpointer transaction_ptr,
@@ -3192,9 +3193,9 @@ gboolean gsb_transactions_list_transaction_visible ( gpointer transaction_ptr,
 /*
  * get the real name of the category of the transaction
  * so return split of transaction, transfer : ..., categ : under_categ
- * 
+ *
  * \param transaction the adr of the transaction
- * 
+ *
  * \return the real name. It returns a newly allocated string which must be
  * freed when no more used.
  * */

@@ -22,7 +22,7 @@
 
 
 #include "include.h"
- 
+
 /*START_INCLUDE*/
 #include "import.h"
 #include "./utils.h"
@@ -568,11 +568,11 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 	}
 
 	type = autodetect_file_type ( iterator -> data, pointeur_char );
-        
+
     /* passe par un fichier temporaire pour bipasser le bug libofx */
     if ( ! strcmp ( type, "OFX" ) )
 	{
-        nom_fichier = g_strconcat (g_get_tmp_dir (),G_DIR_SEPARATOR_S, 
+        nom_fichier = g_strconcat (g_get_tmp_dir (),G_DIR_SEPARATOR_S,
                                    g_path_get_basename ( iterator -> data ), NULL);
         if (! gsb_import_set_tmp_file (nom_fichier, pointeur_char ) )
         {
@@ -713,10 +713,10 @@ GSList *gsb_import_create_file_chooser (const char *enc)
 
     if ( gtk_dialog_run ( GTK_DIALOG (dialog ) ) == GTK_RESPONSE_ACCEPT )
 	filenames = gtk_file_chooser_get_filenames ( GTK_FILE_CHOOSER (dialog));
-    
+
     /* save charmap */
     charmap_imported = g_strdup (go_charmap_sel_get_encoding ( (GOCharmapSel * )go_charmap_sel ));
-    
+
     gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
     gtk_widget_destroy (dialog);
     return filenames;
@@ -1377,7 +1377,7 @@ void traitement_operations_importees ( void )
 	    gsb_data_import_rule_set_action (rule, compte -> action);
 	}
 	if ( ! strcmp ( compte -> origine, "OFX" ) )
-	{   
+	{
         g_remove (compte -> real_filename);
 	}
 	list_tmp = list_tmp -> next;
@@ -1431,7 +1431,7 @@ void traitement_operations_importees ( void )
  * to another transaction.
  * we can find that transactions because they have contra_transaction_number to -1
  * and the bank_references is the name of the contra account, with [ ]
- * 
+ *
  * that function try to find the contra-transaction and create the link
  *
  * */
@@ -1786,9 +1786,9 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
     {
 	struct struct_ope_importation *imported_transaction;
 	imported_transaction = list_tmp -> data;
-    
+
     /* on remplace ici le caractère utilisé pour contourner le bug de la libofx "&"
-       par le bon caractère "°" 
+       par le bon caractère "°"
        regarder si on ne pourrait pas utiliser imported_account -> type_de_compte */
     if ( g_ascii_strcasecmp (imported_account -> origine, "OFX") == 0 && imported_transaction -> cheque )
     imported_transaction -> tiers = my_strdelimit (imported_transaction -> tiers, "&", "°");
@@ -1958,13 +1958,15 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
 
     dialog = gtk_dialog_new_with_buttons ( _("Confirmation of importation of transactions"),
-					   GTK_WINDOW ( window),
+					   GTK_WINDOW ( window ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_OK,
 					   GTK_RESPONSE_OK,
 					   NULL );
-    gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 412 );
-    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
+
+    gtk_window_set_default_size ( GTK_WINDOW ( dialog ), 770, 412 );
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
     gtk_container_set_border_width ( GTK_CONTAINER(dialog), 12 );
 
     label = gtk_label_new ( _("Some imported transactions seem to be already saved. Please select the transactions to import." ));
@@ -2279,11 +2281,11 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     /* récupération des notes */
     gsb_data_transaction_set_notes ( transaction_number,
 				     imported_transaction -> notes );
-    
+
     if (origine && g_ascii_strcasecmp (origine, "OFX") == 0 )
     {
     gint payment_number = 0;
-    
+
     switch ( imported_transaction -> type_de_transaction )
 	{
 	    case OFX_CHECK:
@@ -2356,7 +2358,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	    case OFX_CREDIT:
 	    case OFX_OTHER:
 		break;
-	}  
+	}
     }
     else
     {
@@ -2763,16 +2765,17 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account 
 	GtkTreeViewColumn *column;
 
 
+    dialog = gtk_dialog_new_with_buttons ( _("Orphaned transactions"),
+					   GTK_WINDOW ( window ),
+					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+					   GTK_STOCK_APPLY, 1,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_OK, GTK_RESPONSE_OK,
+					   NULL );
 
-	dialog = gtk_dialog_new_with_buttons ( _("Orphaned transactions"),
-					       GTK_WINDOW ( window ),
-					       GTK_DIALOG_DESTROY_WITH_PARENT,
-					       GTK_STOCK_APPLY, 1,
-					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					       GTK_STOCK_OK, GTK_RESPONSE_OK,
-					       NULL );
-    gtk_window_set_default_size (GTK_WINDOW (dialog), 770, 412 );
-    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
+    gtk_window_set_default_size ( GTK_WINDOW ( dialog ), 770, 412 );
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
     gtk_container_set_border_width ( GTK_CONTAINER(dialog), 12 );
 
 	label = gtk_label_new ( _("Mark transactions you want to add to the list and click the add button"));
@@ -3264,14 +3267,14 @@ gboolean gsb_import_by_rule ( gint rule )
 	{
         gchar * pointeur_char;
 	    GError * error = NULL;
-        
+
         if ( ! g_file_get_contents ( filename, &pointeur_char, NULL, &error ) )
         {
             g_print ( _("Unable to read file: %s\n"), error -> message);
             i++;
             continue;
         }
-        nom_fichier = g_strconcat (g_get_tmp_dir (),G_DIR_SEPARATOR_S, 
+        nom_fichier = g_strconcat (g_get_tmp_dir (),G_DIR_SEPARATOR_S,
                                    g_path_get_basename ( filename ), NULL);
         if (! gsb_import_set_tmp_file (nom_fichier, pointeur_char ) )
         {
@@ -3344,7 +3347,7 @@ gboolean gsb_import_by_rule ( gint rule )
 	gsb_data_import_rule_set_last_file_name (rule, filename);
 
 	if ( ! strcmp ( type, "OFX" ) )
-	{   
+	{
 	    g_remove (account -> real_filename);
 	}
 
@@ -3388,12 +3391,15 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     if (!rule)
 	return NULL;
 
-    dialog = gtk_dialog_new_with_buttons (_("Import a file with a rule"), GTK_WINDOW (window),
-					  GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                      GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-					  GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-					  NULL);
-    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
+    dialog = gtk_dialog_new_with_buttons (_("Import a file with a rule"),
+					   GTK_WINDOW ( window ),
+					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+					   GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+					   NULL );
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
 
     /* text for paddingbox */
     tmpstr = g_strdup_printf (_("Properties of the rule : %s\n"),
@@ -3461,9 +3467,9 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
 		      G_CALLBACK (gsb_import_by_rule_get_file), entry );
     gtk_table_attach ( GTK_TABLE(table), button, 2, 3, 1, 2,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    
+
     g_object_set_data ( G_OBJECT(entry), "rule", GINT_TO_POINTER ( rule ) );
-    
+
     gtk_widget_show_all (dialog);
     if ( gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
 	array = g_strsplit ( gtk_entry_get_text (GTK_ENTRY (entry)),
@@ -3525,9 +3531,9 @@ gboolean gsb_import_set_tmp_file ( gchar * filename,
 {
     gchar * contenu_fichier;
     GError * error = NULL;
-    
+
     contenu_fichier = my_strdelimit (pointeur_char, "°", "&");
-    
+
     /* create tmp file */
 	if ( ! g_file_set_contents ( filename, contenu_fichier, -1, &error ) )
 	{
@@ -3535,7 +3541,7 @@ gboolean gsb_import_set_tmp_file ( gchar * filename,
 	    g_print ( _("Unable to create tmp file: %s\n"), error -> message);
 	    return FALSE;
 	}
-    
+
     g_free (contenu_fichier);
     return TRUE;
 }

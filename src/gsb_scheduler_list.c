@@ -154,18 +154,18 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     GtkWidget *tree_view;
 
     devel_debug (NULL);
-   
+
     /* first, a vbox */
     vbox = gtk_vbox_new ( FALSE, 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 0 );
     gtk_widget_show ( vbox );
 
-    /* create the toolbar */ 
+    /* create the toolbar */
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 creation_barre_outils_echeancier(),
 			 FALSE, FALSE, 0 );
 
-    /* create the scrolled window */ 
+    /* create the scrolled window */
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL);
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
@@ -181,8 +181,8 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     gsb_scheduler_list_set_tree_view (tree_view);
     gtk_container_add ( GTK_CONTAINER (scrolled_window),
 			tree_view);
- 
-    
+
+
     /* create the columns */
     gsb_scheduler_list_create_list_columns (tree_view);
 
@@ -220,7 +220,7 @@ GtkWidget *gsb_scheduler_list_get_tree_view ( void )
  *
  * \param tree_view
  *
- * \return 
+ * \return
  * */
 void gsb_scheduler_list_set_tree_view ( GtkWidget *tree_view )
 {
@@ -245,7 +245,7 @@ GtkTreeModel *gsb_scheduler_list_get_model ( void )
  *
  * \param model
  *
- * \return 
+ * \return
  * */
 void gsb_scheduler_list_set_model ( GtkTreeModel *model )
 {
@@ -260,7 +260,7 @@ void gsb_scheduler_list_set_model ( GtkTreeModel *model )
  *
  * \param tree_model_sort
  *
- * \return 
+ * \return
  * */
 void gsb_scheduler_list_set_sorted_model ( GtkTreeModelSort *tree_model_sort )
 {
@@ -328,11 +328,11 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
 {
     gint i;
     gchar *scheduler_titles[] = {
-	_("Date"), _("Account"), _("Payee"), _("Frequency"), 
+	_("Date"), _("Account"), _("Payee"), _("Frequency"),
 	_("Mode"), _("Comments"), _("Amount"), _("Balance")
     };
     gfloat col_justs[] = {
-	COLUMN_CENTER, COLUMN_LEFT, COLUMN_LEFT, COLUMN_CENTER, 
+	COLUMN_CENTER, COLUMN_LEFT, COLUMN_LEFT, COLUMN_CENTER,
 	COLUMN_CENTER, COLUMN_LEFT, COLUMN_RIGHT, COLUMN_RIGHT
     };
 
@@ -477,11 +477,11 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
 
 
 /**
- * change the showed informations on the list : 
+ * change the showed informations on the list :
  * either show the frequency and mode of the scheduled
  * either show the notes
  *
- * \param 
+ * \param
  *
  * \return FALSE
  */
@@ -519,7 +519,7 @@ gboolean gsb_scheduler_list_execute_transaction ( gint scheduled_number )
     gsb_scheduler_list_edit_transaction (scheduled_number);
 
     /* the only difference for now between an execution and a edition of scheduled is here :
-     * set the flag to say that we execute the scheduled transaction 
+     * set the flag to say that we execute the scheduled transaction
      * and hide the scheduler part of the form */
     g_object_set_data ( G_OBJECT (gsb_form_get_form_widget ()),
 			"execute_scheduled", GINT_TO_POINTER (TRUE));
@@ -777,7 +777,7 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 /**
  * remove the given scheduled transaction from the list
  * and too all the corresponding virtual transactions
- * 
+ *
  * \param transaction_number
  *
  * \return FALSE
@@ -984,7 +984,7 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
 		 &&
 		 frequency >= 0 )
 	    {
-		gchar * names[] = { _("Once"), _("Weekly"), _("Montly"), 
+		gchar * names[] = { _("Once"), _("Weekly"), _("Montly"),
 		    _("Bimonthly"), _("Quarterly"), _("Yearly") };
 		line[COL_NB_FREQUENCY] = names [frequency];
 	    }
@@ -1023,7 +1023,7 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
  * \param store
  * \param iter
  * \param line a tab of gchar with SCHEDULER_COL_VISIBLE_COLUMNS of size, wich is the text content of the line
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
@@ -1086,7 +1086,7 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
 			     SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_transaction,
 			     COL_NB_AMOUNT, &amount,
 			     -1 );
-	
+
 	if ( virtual_transaction )
 	    gtk_tree_store_set ( store,
 				 &iter,
@@ -1169,11 +1169,11 @@ gboolean gsb_scheduler_list_select ( gint scheduled_number )
 }
 
 
-/** 
+/**
  * get the iter of the scheduled transaction given in param
- * 
+ *
  * \param scheduled_number
- * 
+ *
  * \return a newly allocated GtkTreeIter or NULL if not found
  * */
 GtkTreeIter *gsb_scheduler_list_get_iter_from_scheduled_number ( gint scheduled_number )
@@ -1229,14 +1229,14 @@ GtkTreeIter *gsb_scheduler_list_get_iter_from_scheduled_number ( gint scheduled_
     return NULL;
 }
 
-/** 
+/**
  * the same as gsb_scheduler_list_get_iter_from_scheduled_number but
  * return a gslist of iter corresponding to that scheduled number,
  * so there is only 1 iter for the once view, but more than 1 for the other views
  * use when changin the scheduled, to change also the virtuals ones on the screen
- * 
+ *
  * \param scheduled_number
- * 
+ *
  * \return a gslist of pointer to the iters, need to be free, or NULL if not found
  * */
 GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_number )
@@ -1295,11 +1295,11 @@ GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_
 	    }
 
 	}
-	
+
 	if ( scheduled_transaction_buf == mother_number )
 	{
 	    GtkTreeIter *mother_iter;
-	 
+
 	    mother_iter = gtk_tree_iter_copy (&iter);
 	    return_iter = gtk_tree_model_iter_children ( model,
 							 &iter,
@@ -1326,7 +1326,7 @@ GSList *gsb_scheduler_list_get_iter_list_from_scheduled_number ( gint scheduled_
 GDate *gsb_scheduler_list_get_end_date_scheduled_showed ( void )
 {
     GDate *end_date;
-    
+
     /* on récupère la date du jour et la met dans end_date pour les
     * vérifications ultérieures */
 
@@ -1474,7 +1474,7 @@ gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 	    gsb_scheduler_list_switch_expander (scheduled_number);
 	    break;
     }
-    return ( FALSE );    
+    return ( FALSE );
 }
 
 /**
@@ -1509,7 +1509,7 @@ gboolean gsb_scheduler_list_button_press ( GtkWidget *tree_view,
  * get the current selected transaction and return it
  * if it's a virtual transaction, return 0
  *
- * \param 
+ * \param
  *
  * \return the current scheduled transaction number
  * */
@@ -1587,12 +1587,12 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction_by_menu ( GtkWidget *bu
 
 /**
  * delete the scheduled transaction
- * 
+ *
  * \param scheduled_number the transaction to delete
  * \param show_warning TRUE to warn, FALSE to delete directly
  * 		!! this don't affect the question to delete only the occurence or the whole scheduled transaction
  * 		it affects only for children of split, and especially deleting the white line child
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number,
@@ -1731,8 +1731,8 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity periodicity,
 						    gpointer item )
 {
-    gchar * names[] = { _("Unique view"), _("Week view"), _("Month view"), 
-			_("Two months view"), _("Quarter view"), 
+    gchar * names[] = { _("Unique view"), _("Week view"), _("Month view"),
+			_("Two months view"), _("Quarter view"),
 			_("Year view"), _("Custom view"), NULL };
 
     if ( periodicity == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
@@ -1741,7 +1741,7 @@ gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity p
 	    return FALSE;
     }
 
-    gchar* tmpstr = g_strconcat ( _("Scheduled transactions"), " : ", 
+    gchar* tmpstr = g_strconcat ( _("Scheduled transactions"), " : ",
 					    names[periodicity], NULL);
     gsb_gui_headings_update ( tmpstr, "" );
     g_free ( tmpstr );
@@ -1770,12 +1770,15 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
     gchar * names[] = { _("days"), _("weeks"), _("months"), _("years"), NULL };
     int i;
 
-    dialog = gtk_dialog_new_with_buttons ( _("Show scheduled transactions"), 
-					   GTK_WINDOW (window), GTK_DIALOG_MODAL,
+    dialog = gtk_dialog_new_with_buttons ( _("Show scheduled transactions"),
+					   GTK_WINDOW ( window ),
+					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,
-					   NULL);
-    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
+					   NULL );
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
     hbox = gtk_hbox_new ( FALSE, 0 );
@@ -1789,7 +1792,7 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
 
     label = gtk_label_new ( COLON(_("Show transactions for the next")));
     gtk_box_pack_start ( GTK_BOX(hbox2), label, FALSE, FALSE, 0 );
-    entry = gsb_automem_spin_button_new ( &affichage_echeances_perso_nb_libre, 
+    entry = gsb_automem_spin_button_new ( &affichage_echeances_perso_nb_libre,
 					  NULL, NULL );
     gtk_box_pack_start ( GTK_BOX(hbox2), entry, FALSE, FALSE, 6 );
 

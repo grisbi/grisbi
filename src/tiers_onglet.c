@@ -497,11 +497,16 @@ gboolean edit_payee ( GtkTreeView * view )
 
     title = g_strdup_printf ( _("Properties for %s"), gsb_data_payee_get_name(payee_number,
 									      TRUE));
-    dialog = gtk_dialog_new_with_buttons ( title, GTK_WINDOW (window), GTK_DIALOG_MODAL,
+
+    dialog = gtk_dialog_new_with_buttons ( title,
+					   GTK_WINDOW ( window ),
+					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
 					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,
-					   NULL);
-    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
+					   NULL );
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
     hbox = gtk_hbox_new ( FALSE, 0 );
@@ -567,7 +572,7 @@ gboolean edit_payee ( GtkTreeView * view )
 	else
 	{
 	    gchar * message;
-	    
+
 	    message = g_strdup_printf ( _("You tried to rename current payee to '%s' "
 					  "but this payee already exists.  Please "
 					  "choose another name."),

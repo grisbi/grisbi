@@ -64,7 +64,7 @@ extern GtkWidget *window ;
 
 
 /* FIXME : remove all of that when debian stable goes into gtk 2.10 */
-/** 
+/**
  * Open a dialog window which asks for information about paper,
  * margins, etc..
  *
@@ -78,23 +78,24 @@ gboolean print_config ( )
 
     /* Set up dialog */
     dialog = gtk_dialog_new_with_buttons ( _("Print"),
-					   GTK_WINDOW(window),
-					   GTK_DIALOG_DESTROY_WITH_PARENT | 
-					   GTK_DIALOG_NO_SEPARATOR,
+					   GTK_WINDOW ( window ),
+					   GTK_DIALOG_MODAL | GTK_DIALOG_NO_SEPARATOR | GTK_DIALOG_DESTROY_WITH_PARENT,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_PRINT, GTK_RESPONSE_OK,
 					   NULL );
-    gtk_window_set_position ( GTK_WINDOW (dialog), GTK_WIN_POS_CENTER );
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
 
     /* Insert notebook */
     notebook = gtk_notebook_new ();
     gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), notebook, TRUE, TRUE, 6 );
 
     /* Add tabs */
-    gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), print_config_general(dialog), 
+    gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), print_config_general(dialog),
 			       gtk_label_new (_("General")) );
 
-    gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), print_config_paper(dialog), 
+    gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), print_config_paper(dialog),
 			       gtk_label_new (_("Paper")) );
 
     /*   gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), print_config_appearance(dialog),  */
@@ -115,19 +116,19 @@ gboolean print_config ( )
 		break;
 	    }
 
-	    filename = my_strdup ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog), 
+	    filename = my_strdup ( gtk_entry_get_text ( GTK_ENTRY (g_object_get_data(G_OBJECT(dialog),
 										     "printer_filename") ) ) );
 
 	    if ( ! filename )
 	    {
 		filename = "";
-	    }		
+	    }
 
 	    test = utf8_fopen ( filename, "r" );
 	    if ( test )
 	    {
 		fclose ( test );
-		if ( question_yes_no_hint ( g_strdup_printf ( _("File %s already exists."), 
+		if ( question_yes_no_hint ( g_strdup_printf ( _("File %s already exists."),
 							      filename ),
 					    _("Do you want to overwrite it?  There is no undo for this."),
 					    GTK_RESPONSE_NO  ) )
@@ -171,13 +172,13 @@ gboolean print_config ( )
 /**
  * Handler triggered when user validates a file selector window.
  *
- * \param button Widget that triggered this event. 
+ * \param button Widget that triggered this event.
  * \param data Pointer to a GtkEntry to fill with the result of the
  *             file selector window
  *
  * \return FALSE to allow other handlers to be processed
  */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
+/* TODO dOm : this function seems not to be used. Is it possible to remove it
 gboolean change_print_to_file ( GtkButton *button, gpointer data )
 {
     GtkFileSelection * file_selector;
@@ -218,11 +219,11 @@ GtkWidget * print_config_general ( GtkWidget * dialog )
     /* Print to printer */
     radio1 = gtk_radio_button_new_with_label ( NULL, _("Printer") );
     gtk_table_attach ( GTK_TABLE(table), radio1, 0, 1, 0, 1,
-		       GTK_SHRINK, GTK_SHRINK, 
+		       GTK_SHRINK, GTK_SHRINK,
 		       0, 0 );
     g_object_set_data ( G_OBJECT(dialog), "printer", radio1 );
     g_object_set_data ( G_OBJECT(radio1), "printer_value", GINT_TO_POINTER (1));
-    g_signal_connect ( G_OBJECT(radio1), "toggled", 
+    g_signal_connect ( G_OBJECT(radio1), "toggled",
 		       (GCallback) print_config_radio_toggled, NULL );
     input1 = gtk_entry_new ( );
     gtk_table_attach_defaults ( GTK_TABLE(table), input1, 1, 2, 0, 1 );
@@ -232,16 +233,16 @@ GtkWidget * print_config_general ( GtkWidget * dialog )
     /* Print to file */
     radio2 = gtk_radio_button_new_with_label ( gtk_radio_button_group (GTK_RADIO_BUTTON(radio1)), _("File") );
     gtk_table_attach ( GTK_TABLE(table), radio2, 0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 
+		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL,
 		       0, 0 );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON(radio2), !etat.print_config.printer );
     g_object_set_data ( G_OBJECT(radio2), "printer_value", 0 );
-    g_signal_connect ( G_OBJECT(radio2), "toggled", 
+    g_signal_connect ( G_OBJECT(radio2), "toggled",
 		       (GCallback) print_config_radio_toggled, NULL );
 
     input2 = my_file_chooser ();
     gtk_table_attach_defaults ( GTK_TABLE(table), input2, 1, 2, 1, 2 );
-    g_object_set_data ( G_OBJECT(dialog), "printer_filename", 
+    g_object_set_data ( G_OBJECT(dialog), "printer_filename",
 			g_object_get_data (G_OBJECT(input2), "entry") );
     gtk_entry_set_text ( GTK_ENTRY(g_object_get_data (G_OBJECT(input2), "entry")),
 			 etat.print_config.printer_filename );
@@ -331,7 +332,7 @@ GtkWidget * print_config_paper ( GtkWidget * dialog )
  *
  * \return a pointer to a newly created GtkVbox
  */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
+/* TODO dOm : this function seems not to be used. Is it possible to remove it
 GtkWidget * print_config_appearance ( GtkWidget * dialog )
 {
     GtkWidget *vbox, *paddingbox;
@@ -364,7 +365,7 @@ GtkWidget * print_config_appearance ( GtkWidget * dialog )
  *
  * \return FALSE to allow other handlers to be executed
  */
-gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer user_data ) 
+gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer user_data )
 {
   GtkWidget *peer1, *peer2;
   gboolean value;
