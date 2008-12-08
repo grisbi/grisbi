@@ -29,6 +29,7 @@
 #include "openssl.h"
 #include "./../../dialog.h"
 #include "./../../gsb_crypt.h"
+#include "./../../utils_str.h"
 #include "./../../structures.h"
 #include "./../../include.h"
 #include "./../../erreur.h"
@@ -36,6 +37,7 @@
 
 /*START_EXTERN*/
 extern gchar *crypt_key;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 #ifndef NOSSL
@@ -47,12 +49,12 @@ extern gchar *crypt_key;
 /**
  * Crypt or decrypt string given in the param
  *
- * \param file_name	File name, used to 
+ * \param file_name	File name, used to
  * \param file_content	A string which is the file
  * \param crypt		TRUE to crypt, FALSE to uncrypt
  * \param length	The length of the grisbi data,
  *                      without "Grisbi encrypted file " if comes to crypt
- *                      with "Grisbi encrypted file " if comes to decrypt 
+ *                      with "Grisbi encrypted file " if comes to decrypt
  *
  * \return the length of the new file_content or 0 if problem
  */
@@ -95,10 +97,10 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 		  22 );
 
 	des_cbc_encrypt ( (guchar *) (* file_content),
-			  (guchar *) (encrypted_file + 22), 
-			  (long) length, 
-			  sched, 
-			  (DES_cblock *) key, 
+			  (guchar *) (encrypted_file + 22),
+			  (long) length,
+			  sched,
+			  (DES_cblock *) key,
 			  TRUE );
 
 	if ( length % 8 != 0 )
@@ -120,7 +122,7 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 	/* we set the length on the rigt size */
 
 	length = length - 22;
-	
+
 return_bad_password:
 
 	/* now, if we know here a key to crypt, we use it, else, we ask for it */
@@ -143,12 +145,12 @@ return_bad_password:
 	 * with "Grisbi encrypted file " */
 
 	decrypted_file = g_malloc ( length * sizeof ( gchar ));
-	
-	des_cbc_encrypt ( (guchar *) (* file_content + 22), 
-			  (guchar *) decrypted_file, 
-			  (long) length, 
-			  sched, 
-			  (DES_cblock *) key, 
+
+	des_cbc_encrypt ( (guchar *) (* file_content + 22),
+			  (guchar *) decrypted_file,
+			  (long) length,
+			  sched,
+			  (DES_cblock *) key,
 			  FALSE );
 
 	/* before freeing file_content and go back, we check that the password was correct
@@ -166,7 +168,7 @@ return_bad_password:
 
 	    free ( decrypted_file );
 
-	    message = _( "<b>Password incorrect ! Please try again...</b>\n\n");
+	    message = _( "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n\n");
 	    crypt_key = NULL;
 	    goto return_bad_password;
 	}
@@ -205,12 +207,14 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
     gint result;
 
     dialog = gtk_dialog_new_with_buttons ( _("Grisbi password"),
-					   NULL,
+					   GTK_WINDOW ( window ),
 					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   ( encrypt ? _("Crypt file") : _("Decrypt file") ),
-					   GTK_RESPONSE_OK,
+					   ( encrypt ? _("Crypt file") : _("Decrypt file") ), GTK_RESPONSE_OK,
 					   NULL );
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
     gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK );
 
     hbox = gtk_hbox_new ( FALSE, 6 );
@@ -222,7 +226,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
     icon = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_AUTHENTICATION,
 				      GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( vbox ), icon, FALSE, FALSE, 6 );
-    
+
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, TRUE, TRUE, 6 );
 
@@ -233,18 +237,18 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
 
     if ( encrypt )
 	gtk_label_set_markup ( GTK_LABEL (label),
-			       g_strdup_printf ( _( "%sPlease enter password to encrypt file\n'<tt>%s</tt>'" ),
+			       g_strdup_printf ( _( "%sPlease enter password to encrypt file\n'<span foreground=\"blue\">%s</span>'" ),
 						 additional_message, file_name ) );
     else
-	gtk_label_set_markup ( GTK_LABEL (label), 
-			       g_strdup_printf ( _( "%sPlease enter password to decrypt file\n'<tt>%s</tt>'" ),
+	gtk_label_set_markup ( GTK_LABEL (label),
+			       g_strdup_printf ( _( "%sPlease enter password to decrypt file\n'<span foreground=\"blue\">%s</span>'" ),
 						 additional_message, file_name ) );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 6 );
 
     hbox2 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox2, FALSE, FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), 
-			 gtk_label_new ( COLON(_("Password")) ), 
+    gtk_box_pack_start ( GTK_BOX ( hbox2 ),
+			 gtk_label_new ( COLON(_("Password")) ),
 			 FALSE, FALSE, 0 );
 
     entry = gtk_entry_new ();
@@ -260,7 +264,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
     result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     switch (result)
-    {	
+    {
 	case GTK_RESPONSE_OK:
 
 	    key = strdup (gtk_entry_get_text ( GTK_ENTRY ( entry )));
@@ -303,7 +307,7 @@ extern void openssl_plugin_register ()
 extern gint openssl_plugin_run ( gchar * file_name, gchar **file_content,
 					  gboolean crypt, gulong length )
 {
-    return gsb_file_util_crypt_file ( file_name, file_content, crypt, length );    
+    return gsb_file_util_crypt_file ( file_name, file_content, crypt, length );
 }
 
 

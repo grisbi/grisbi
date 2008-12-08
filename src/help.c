@@ -37,6 +37,7 @@ static void launch_url (GtkAboutDialog *about, const gchar * link, gpointer data
 
 /*START_EXTERN*/
 extern gchar *chemin_logo ;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 
@@ -45,7 +46,7 @@ extern gchar *chemin_logo ;
 /**
  * Handler used to pop up a web browser when user clicked on a link in
  * the GtkAboutDialog.
- * 
+ *
  * \param about		Dialog that triggered the event.
  * \param link		URL to display.
  * \param data		Not used.
@@ -95,7 +96,7 @@ _("Other"),
 "Axel Rousseau (axel584[at]axel584.org) ",
 "Dominique Parisot (parisot[at]villey-le-sec.com) ",
 "Gerald Niel (gerald.niel[at]grisbi.org) ",
-NULL };	
+NULL };
 
   gchar * translators = g_strconcat(
 "Alain Portal (dionysos[at]grisbi.org): ", _("English"), CSUFFIX,
@@ -123,7 +124,7 @@ NULL};
 	"This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit. (http://www.openssl.org/)";
 
 #if ! GTK_CHECK_VERSION(2,10,0)
-    // Warn about obsolete dependencies 
+    // Warn about obsolete dependencies
     gchar * warn_print = _("\n\nThis version of Grisbi does not support print feature.\nVersion of GTK+ it was built with is obsolete.");
 #else
     gchar * warn_print = NULL;
@@ -155,11 +156,16 @@ NULL};
     gtk_about_dialog_set_documenters ( GTK_ABOUT_DIALOG (about), documenters );
     gtk_about_dialog_set_authors ( GTK_ABOUT_DIALOG (about), auteurs );
     gtk_about_dialog_set_translator_credits ( GTK_ABOUT_DIALOG (about), translators );
-                                  
+
+    gtk_window_set_position ( GTK_WINDOW ( about ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( about ), TRUE );
+    gtk_window_set_modal ( GTK_WINDOW ( about ), TRUE );
+    gtk_window_set_transient_for ( GTK_WINDOW ( about ), GTK_WINDOW ( window ) );
+
     gtk_dialog_run ( GTK_DIALOG (about)) ;
-    
+
     gtk_widget_destroy (about);
-                                  
+
     if (logo)
 	g_object_unref (logo);
 
