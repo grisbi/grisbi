@@ -338,18 +338,16 @@ msgid "terminates transaction"
 msgstr "termine l'enregistrement de l'opération"
 
 #: src/affichage_liste.c:402
-#, fuzzy
 msgid "Automatic financial year is set"
-msgstr "Détailler les exercices utilisés"
+msgstr "Détermination automatique de l'exercice"
 
 #: src/affichage_liste.c:403
 msgid "according to transaction date"
-msgstr "correspondant à la date de l'opération"
+msgstr "correspond à la date de l'opération"
 
 #: src/affichage_liste.c:404
-#, fuzzy
 msgid "according to transaction value date"
-msgstr "correspondant à la date de l'opération"
+msgstr "correspond à la date de valeur l'opération"
 
 #: src/affichage_liste.c:410
 msgid "Automatic amount separator"
@@ -6529,31 +6527,49 @@ msgstr "Frais"
 
 #: src/gsb_debug.c:81
 msgid ""
-"Due to a bug in previous versions of Grisbi, sub-categories may share the same numeric identifier in some cases, resulting in transactions having two sub-categories.  If you choose to continue, Grisbi will remove one of each duplicates and recreate it with a new identifier.\n"
+"Due to a bug in previous versions of Grisbi, sub-categories may share the "
+"same numeric identifier in some cases, resulting in transactions having two "
+"sub-categories.  If you choose to continue, Grisbi will remove one of each "
+"duplicates and recreate it with a new identifier.\n"
 "\n"
-"No transaction will be lost, but in some cases, you will have to manually move transactions to this new sub-category."
-msgstr "À cause d'une anomalie introduite dans une version précédente de Grisbi, des sous-catégories peuvent partager, dans certains cas, le même identifiant numérique, entrainant le fait que des opérations ont deux sous-catégories. Si vous choisissez de continuer, Grisbi effacera un des deux doublons pour le recréer avec un nouvel identifiant."
+"No transaction will be lost, but in some cases, you will have to manually "
+"move transactions to this new sub-category."
+msgstr ""
+"À cause d'une anomalie introduite dans une version précédente de "
+"Grisbi, des sous-catégories peuvent partager, dans certains cas, le même "
+"identifiant numérique, entrainant le fait que des opérations ont deux "
+"sous-catégories. Si vous choisissez de continuer, Grisbi effacera un des "
+"deux doublons pour le recréer avec un nouvel identifiant\n."
+"\n"
+"Aucune transaction ne sera perdue ! Mais dans certains cas, vous devrez "
+"modifier la sous catégorie pour ces transactions."
 
 #: src/gsb_debug.c:92
-#, fuzzy
 msgid "Duplicate sub-budgetary lines check"
-msgstr "la sous-imputation budgétaire"
+msgstr "Vérification des sous-imutations dupliquées"
 
 #: src/gsb_debug.c:94
-#, fuzzy
 msgid ""
-"Due to a bug in previous versions of Grisbi, sub-budgetary lines may share the same numeric id in some cases, resulting in transactions having two sub-budgetary lines.  If you choose to continue, Grisbi will remove one of each duplicates and recreate it with a new id.entifier\n"
+"Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
+"the same numeric id in some cases, resulting in transactions having two "
+"sub-budgetary lines.  If you choose to continue, Grisbi will remove one "
+"of each duplicates and recreate it with a new id.entifier\n"
 "\n"
-"No transactions will be lost, but in some cases, you will have to manually move transactions to this new sub-budgetary line."
+"No transactions will be lost, but in some cases, you will have to manually "
+"move transactions to this new sub-budgetary line."
 msgstr ""
-"À cause d'une anomalie introduite dans une version précédente de Grisbi, des sous-catégories peuvent partager, dans certains cas, le même identifiant numérique, entrainant le fait que des opérations ont deux sous-catégories. Si vous choisissez de continuer, Grisbi effacera un des deux doublons pour le recréer avec un nouvel identifiant.\n"
+"À cause d'une anomalie introduite dans une version précédente de Grisbi, "
+"des sous-imputations peuvent partager, dans certains cas, le même identifiant "
+"numérique, entrainant le fait que des opérations ont deux sous-imputations. "
+"Si vous choisissez de continuer, Grisbi effacera un des deux doublons pour "
+"le recréer avec un nouvel identifiant.\n"
 "\n"
-"Aucune opération ne sera perdue ! Mais, dans certains cas, il vous faudra déplacer des opérations vers cette nouvelle sous-catégorie."
+"Aucune opération ne sera perdue ! Mais, dans certains cas, vous devrez "
+"modifier la sous-imputation pour ces transactions."
 
 #: src/gsb_debug.c:105
-#, fuzzy
-msgid "Orphan countra-transactions check"
-msgstr "Opérations orphelines"
+msgid "Orphan contra-transactions check"
+msgstr "Vérifications des contre-opérations orphelines"
 
 #: src/gsb_debug.c:107
 msgid ""
@@ -7184,14 +7200,12 @@ msgid "The word \"Report\" is reserved. Please use another one."
 msgstr "Le mot « État » est réservé.  Veuillez en utiliser un autre."
 
 #: src/gsb_form.c:2592
-#, fuzzy
 msgid "Invalid multiple payee."
-msgstr "Le nom de l'état dans le tiers est invalide."
+msgstr "Nom de tiers déjà utilisé."
 
 #: src/gsb_form.c:2849
-#, fuzzy
 msgid "Modifying a transaction"
-msgstr "correspondant à la date de l'opération"
+msgstr "Modifier une opération"
 
 #: src/gsb_form.c:2850
 msgid ""
@@ -7224,13 +7238,12 @@ msgid "Each account has his own form"
 msgstr "Chaque compte a son propre formulaire"
 
 #: src/gsb_form_config.c:195
-#, fuzzy
 msgid "Update"
-msgstr "date"
+msgstr "Mettre à jour"
 
 #: src/gsb_form_config.c:208
 msgid " : Update all the accounts forms according to the selected account"
-msgstr ""
+msgstr "Mettre à jour tous les comptes avec le formulaire du compte sélectionné"
 
 #: src/gsb_form_config.c:236
 msgid "Form structure content"
@@ -7412,9 +7425,8 @@ msgid "Contra-transaction method of payment"
 msgstr "Mode de règlement de la contre-opération"
 
 #: src/gsb_form_widget.c:422
-#, fuzzy
 msgid "Category line"
-msgstr "Catégories"
+msgstr "Catégorie"
 
 #: src/gsb_form_widget.c:426
 #, fuzzy
@@ -7439,9 +7451,8 @@ msgid "Transaction number"
 msgstr "N° opération"
 
 #: src/gsb_form_widget.c:470
-#, fuzzy
 msgid "Automatic/Manual"
-msgstr "Automatique"
+msgstr "Auto/Manuel"
 
 #: src/gsb_fyear_config.c:99
 #: src/parametres.c:476
@@ -7473,19 +7484,16 @@ msgstr "Fin"
 
 #. Activate in transaction form?
 #: src/gsb_fyear_config.c:250
-#, fuzzy
 msgid "Activate financial year in transaction form"
-msgstr "Activer dans le formulaire de saisie d'opérations"
+msgstr "Activer les exercices dans le formulaire de saisie d'opérations"
 
 #: src/gsb_fyear_config.c:279
-#, fuzzy
 msgid "Begin date"
-msgstr "Date finale"
+msgstr "Date de début"
 
 #: src/gsb_fyear_config.c:280
-#, fuzzy
 msgid "End date"
-msgstr "Date initiale"
+msgstr "Date de fin"
 
 #: src/gsb_fyear_config.c:616
 msgid "New financial year"
