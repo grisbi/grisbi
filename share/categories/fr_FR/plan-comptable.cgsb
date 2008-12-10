@@ -181,22 +181,22 @@
 	<Sub_category Nbc="44" Nb="2" Na="3220. Fournitures consommables" />
 	<Sub_category Nbc="44" Nb="3" Na="3260. Emballages" />
 	<Category Nb="45" Na="33. En-cours de production de biens" Kd="0" />
-	<Sub_category Nbc="45" Nb="1" Na="3310. Produit en cours" />
+	<Sub_category Nbc="45" Nb="1" Na="3310. Produits en cours" />
 	<Sub_category Nbc="45" Nb="2" Na="3350. Travaux en cours" />
 	<Category Nb="46" Na="34. En-cours de production de services" Kd="0" />
-	<Sub_category Nbc="46" Nb="1" Na="3410. Produit en cours" />
+	<Sub_category Nbc="46" Nb="1" Na="3410. Produits en cours" />
 	<Sub_category Nbc="46" Nb="2" Na="3450. Prestations de servevices en cours" />
 	<Category Nb="47" Na="35. Stocks de produits" Kd="0" />
 	<Sub_category Nbc="47" Nb="1" Na="3510. Produits intermédiaires" />
-	<Sub_category Nbc="47" Nb="2" Na="3550. Produit finis" />
+	<Sub_category Nbc="47" Nb="2" Na="3550. Produits finis" />
 	<Category Nb="48" Na="37. Stocks de marchandises" Kd="0" />
 	<Category Nb="49" Na="39. Provisions pour dépréciations des stocks et en-cours" Kd="0" />
-	<Sub_category Nbc="49" Nb="1" Na="3910. Provision pour dépréciations des matiéres premières et fournitures" />
-	<Sub_category Nbc="49" Nb="2" Na="3920. Provision pour dépréciation  des autres approvisionnement" />
-	<Sub_category Nbc="49" Nb="3" Na="3930. Provision pour dépréciation des en-cours de production de biens" />
-	<Sub_category Nbc="49" Nb="4" Na="3940. Provision pour dépréciation des en-cours de production de services" />
-	<Sub_category Nbc="49" Nb="5" Na="3950. Provision pour dépréciation des stocks de produits" />
-	<Sub_category Nbc="49" Nb="6" Na="3970. Provision pour dépréciation des stocks de marchandises" />
+	<Sub_category Nbc="49" Nb="1" Na="3910. Provisions pour dépréciation des matières premières et fournitures" />
+	<Sub_category Nbc="49" Nb="2" Na="3920. Provisions pour dépréciation des autres approvisionnements" />
+	<Sub_category Nbc="49" Nb="3" Na="3930. Provisions pour dépréciation des en-cours de production de biens" />
+	<Sub_category Nbc="49" Nb="4" Na="3940. Provisions pour dépréciation des en-cours de production de services" />
+	<Sub_category Nbc="49" Nb="5" Na="3950. Provisions pour dépréciation des stocks de produits" />
+	<Sub_category Nbc="49" Nb="6" Na="3970. Provisions pour dépréciation des stocks de marchandises" />
 	<Category Nb="50" Na="40. Fournisseurs et comptes rattachés" Kd="0" />
 	<Sub_category Nbc="50" Nb="1" Na="4010. Fournisseurs" />
 	<Sub_category Nbc="50" Nb="2" Na="4011. Forunisseurs. Achats de biens ou de prestations de services" />
@@ -208,22 +208,22 @@
 	<Sub_category Nbc="50" Nb="8" Na="4084. Fournisseurs. Achats d&apos;immobilisations" />
 	<Sub_category Nbc="50" Nb="9" Na="4090. Fournisseurs débiteurs" />
 	<Sub_category Nbc="50" Nb="10" Na="4091. Fournisseurs. Avances et acomptes versés sur commandes" />
-	<Sub_category Nbc="50" Nb="11" Na="4096. Fournisserus. Créances pour embalage et matériel à rendre" />
+	<Sub_category Nbc="50" Nb="11" Na="4096. Fournisserus. Créances pour emballage et matériel à rendre" />
 	<Category Nb="51" Na="41. Usagers et comptes rattachés" Kd="0" />
-	<Sub_category Nbc="51" Nb="1" Na="4110. Usagers ( et organismes de prise en charges)" />
+	<Sub_category Nbc="51" Nb="1" Na="4110. Usagers (et organismes de prise en charge)" />
 	<Sub_category Nbc="51" Nb="2" Na="4116. Créances douteuses ou litigieuses" />
-	<Sub_category Nbc="51" Nb="3" Na="4118. Usagers. Produitd non encore facturés" />
+	<Sub_category Nbc="51" Nb="3" Na="4118. Usagers. Produits non encore facturés" />
 	<Sub_category Nbc="51" Nb="4" Na="4119. Usagers créditeurs" />
 	<Category Nb="52" Na="42. Personnel et comptes rattachés" Kd="0" />
-	<Sub_category Nbc="52" Nb="1" Na="4210. Personnel. Rémunération dues" />
-	<Sub_category Nbc="52" Nb="2" Na="4220. Comités d&apos;entreprise, d&apos;établissement" />
+	<Sub_category Nbc="52" Nb="1" Na="4210. Personnel. Rémunérations dues" />
+	<Sub_category Nbc="52" Nb="2" Na="4220. Comités d&apos;entreprise, d&apos;établissement,.." />
 	<Sub_category Nbc="52" Nb="3" Na="4250. Personnel. Avances et acomptes" />
 	<Sub_category Nbc="52" Nb="4" Na="4270. Personnel. Opposition" />
 	<Sub_category Nbc="52" Nb="5" Na="4280. Personnel. Charges à payer et produits à recevoir" />
 	<Sub_category Nbc="52" Nb="6" Na="4282. Dettes provisionnées pour congés à payer" />
 	<Sub_category Nbc="52" Nb="7" Na="4286. Autres charges à payer" />
-	<Sub_category Nbc="52" Nb="8" Na="4287. Produit à recevoir" />
-	<Category Nb="53" Na="43 Sécurité social et autres organismes sociaux" Kd="0" />
+	<Sub_category Nbc="52" Nb="8" Na="4287. Produits à recevoir" />
+	<Category Nb="53" Na="43 Sécurité sociale et autres organismes sociaux" Kd="0" />
 	<Sub_category Nbc="53" Nb="1" Na="4310. Sécurité sociale" />
 	<Sub_category Nbc="53" Nb="2" Na="4370. Autres organismes sociaux" />
 	<Sub_category Nbc="53" Nb="3" Na="4372. Mutuelles" />
@@ -235,31 +235,31 @@
 	<Sub_category Nbc="53" Nb="9" Na="4386. Autres charges à payer" />
 	<Sub_category Nbc="53" Nb="10" Na="4387. Produits à recevoir" />
 	<Category Nb="54" Na="44. Etat et autres collectivités publiques" Kd="0" />
-	<Sub_category Nbc="54" Nb="1" Na="4410. Etat. Subvention à recevoir" />
+	<Sub_category Nbc="54" Nb="1" Na="4410. Etat. Subventions à recevoir" />
 	<Sub_category Nbc="54" Nb="2" Na="4411. Subventions d&apos;investissement" />
-	<Sub_category Nbc="54" Nb="3" Na="4417. Subvention d&apos;exploitation" />
+	<Sub_category Nbc="54" Nb="3" Na="4417. Subventions d&apos;exploitation" />
 	<Sub_category Nbc="54" Nb="4" Na="4419. Avances sur subventions" />
-	<Sub_category Nbc="54" Nb="5" Na="4430. Opérations particulières avec l&apos;état, les collectivités publiques, les organismes internationnaux" />
+	<Sub_category Nbc="54" Nb="5" Na="4430. Opérations particulières avec l&apos;état, les collectivités publiques, les organismes internationaux" />
 	<Sub_category Nbc="54" Nb="6" Na="4440. Etat. Impôts sur les bénéfices" />
 	<Sub_category Nbc="54" Nb="7" Na="4445. Etat. Impôts sur les sociétés (organismes sans but lucratif)" />
 	<Sub_category Nbc="54" Nb="8" Na="4450. Etat. taxes sur le chiffre d&apos;affaires" />
 	<Sub_category Nbc="54" Nb="9" Na="4452. TVA due intercommunautaire" />
 	<Sub_category Nbc="54" Nb="10" Na="4455. Taxes sur le chiffre d&apos;affaires à décaisser" />
-	<Sub_category Nbc="54" Nb="11" Na="4456. Taxes sur le chiffres d&apos;affaires déductible" />
-	<Sub_category Nbc="54" Nb="12" Na="44562. TVA sur immobilisation" />
+	<Sub_category Nbc="54" Nb="11" Na="4456. Taxes sur le chiffre d&apos;affaires déductibles" />
+	<Sub_category Nbc="54" Nb="12" Na="44562. TVA sur immobilisations" />
 	<Sub_category Nbc="54" Nb="13" Na="44566. TVA sur autres biens et services" />
 	<Sub_category Nbc="54" Nb="14" Na="44567. Crédit de TVA à reporter" />
-	<Sub_category Nbc="54" Nb="15" Na="4457. Taxes sur le chiffre d&apos;affaires collectés par l&apos;association" />
+	<Sub_category Nbc="54" Nb="15" Na="4457. Taxes sur le chiffre d&apos;affaires collectées par l&apos;association" />
 	<Sub_category Nbc="54" Nb="16" Na="4458. Taxes sur le chiffre d&apos;affaires à régulariser ou en attente" />
 	<Sub_category Nbc="54" Nb="17" Na="44586. Taxes sur le chiffre d&apos;affaires sur factures non parvenues" />
 	<Sub_category Nbc="54" Nb="18" Na="44587. Taxes sur le chiffre d&apos;affaires sur factures à établir" />
 	<Sub_category Nbc="54" Nb="19" Na="4470. Autres impôts et taxes et versements assimilés" />
-	<Sub_category Nbc="54" Nb="20" Na="4471. Impôts, taxes et versements assimilés sur émunérations ( administration des impôts)" />
+	<Sub_category Nbc="54" Nb="20" Na="4471. Impôts, taxes et versements assimilés sur rémunérations (administration des impôts)" />
 	<Sub_category Nbc="54" Nb="21" Na="44711. Taxes sur les salaires" />
 	<Sub_category Nbc="54" Nb="22" Na="44713. Participation des employeurs à la formation professionnelle continue" />
 	<Sub_category Nbc="54" Nb="23" Na="44714. Cotisation pour défaut d&apos;investissement dans la construction" />
 	<Sub_category Nbc="54" Nb="24" Na="44718. Autres impôts, taxes et versements assimilés" />
-	<Sub_category Nbc="54" Nb="25" Na="4473. Impôts, taxes et versements assimilés sur rémunérations (autres organisme)" />
+	<Sub_category Nbc="54" Nb="25" Na="4473. Impôts, taxes et versements assimilés sur rémunérations (autres organismes)" />
 	<Sub_category Nbc="54" Nb="26" Na="44733. Participation des employeurs à la formation professionnelle continue" />
 	<Sub_category Nbc="54" Nb="27" Na="44734. Participation des employeurs à l&apos;effort de construction (versement à fond perdu)" />
 	<Sub_category Nbc="54" Nb="28" Na="4475. Autres impôts, taxes et versements assimilés (administration des impôts)" />
@@ -278,17 +278,17 @@
 	<Sub_category Nbc="56" Nb="4" Na="4687. Produits à recevoir" />
 	<Category Nb="57" Na="47. Comptes d&apos;attente" Kd="0" />
 	<Sub_category Nbc="57" Nb="1" Na="4710. Recettes à classer" />
-	<Sub_category Nbc="57" Nb="2" Na="4720. Dépences à classer et régulariser" />
-	<Sub_category Nbc="57" Nb="3" Na="4750. Legs et donnations en cours de réalisation" />
+	<Sub_category Nbc="57" Nb="2" Na="4720. Dépenses à classer et régulariser" />
+	<Sub_category Nbc="57" Nb="3" Na="4750. Legs et donations en cours de réalisation" />
 	<Category Nb="58" Na="48. Comptes de régularisation" Kd="0" />
 	<Sub_category Nbc="58" Nb="1" Na="4810. Charges à répartir sur plusieurs exercices" />
-	<Sub_category Nbc="58" Nb="2" Na="4812. Frais d&apos;acquisition des immobilisation" />
+	<Sub_category Nbc="58" Nb="2" Na="4812. Frais d&apos;acquisition des immobilisations" />
 	<Sub_category Nbc="58" Nb="3" Na="4818. Charges à étaler" />
-	<Sub_category Nbc="58" Nb="4" Na="4860. Charges constaté d&apos;avance" />
+	<Sub_category Nbc="58" Nb="4" Na="4860. Charges constatées d&apos;avance" />
 	<Sub_category Nbc="58" Nb="5" Na="4870. Produits constatés d&apos;avance" />
-	<Category Nb="59" Na="49. Provision pour dépréciation des comptes de tiers" Kd="0" />
-	<Sub_category Nbc="59" Nb="1" Na="4910. Provision pour dépréciation des comptes d&apos;usagers (et organisme de prise en charge)" />
-	<Sub_category Nbc="59" Nb="2" Na="4960. Provision pour dépréciation des comptes de débiteurs divers" />
+	<Category Nb="59" Na="49. Provisions pour dépréciation des comptes de tiers" Kd="0" />
+	<Sub_category Nbc="59" Nb="1" Na="4910. Provisions pour dépréciation des comptes d&apos;usagers (et organisme de prise en charge)" />
+	<Sub_category Nbc="59" Nb="2" Na="4960. Provisions pour dépréciation des comptes de débiteurs divers" />
 	<Category Nb="60" Na="50. Valeurs mobilières de placement" Kd="1" />
 	<Sub_category Nbc="60" Nb="1" Na="5030. Actions" />
 	<Sub_category Nbc="60" Nb="2" Na="5031. Titres cotés" />
