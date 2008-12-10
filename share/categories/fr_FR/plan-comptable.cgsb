@@ -208,7 +208,7 @@
 	<Sub_category Nbc="50" Nb="8" Na="4084. Fournisseurs. Achats d&apos;immobilisations" />
 	<Sub_category Nbc="50" Nb="9" Na="4090. Fournisseurs débiteurs" />
 	<Sub_category Nbc="50" Nb="10" Na="4091. Fournisseurs. Avances et acomptes versés sur commandes" />
-	<Sub_category Nbc="50" Nb="11" Na="4096. Fournisserus. Créances pour emballage et matériel à rendre" />
+	<Sub_category Nbc="50" Nb="11" Na="4096. Fournisseurs. Créances pour emballage et matériel à rendre" />
 	<Category Nb="51" Na="41. Usagers et comptes rattachés" Kd="0" />
 	<Sub_category Nbc="51" Nb="1" Na="4110. Usagers (et organismes de prise en charge)" />
 	<Sub_category Nbc="51" Nb="2" Na="4116. Créances douteuses ou litigieuses" />
@@ -508,79 +508,79 @@
 	<Sub_category Nbc="76" Nb="4" Na="7070. Ventes de marchandises" />
 	<Sub_category Nbc="76" Nb="5" Na="7080. Produits des activités annexes" />
 	<Sub_category Nbc="76" Nb="6" Na="7081. Produits des prestations fournies au personnel" />
-	<Sub_category Nbc="76" Nb="7" Na="7083. Locations divers" />
+	<Sub_category Nbc="76" Nb="7" Na="7083. Locations diverses" />
 	<Sub_category Nbc="76" Nb="8" Na="7084. Mise à disposition de personnel facturée" />
 	<Sub_category Nbc="76" Nb="9" Na="7088. Autres produits d&apos;activités annexes" />
-	<Sub_category Nbc="76" Nb="10" Na="7090. Rabais, remises et ristournes accordées par l&apos;association" />
+	<Sub_category Nbc="76" Nb="10" Na="7090. Rabais, remises et ristournes accordés par l&apos;association" />
 	<Category Nb="77" Na="71. Production stockée (ou destockage)" Kd="0" />
-	<Sub_category Nbc="77" Nb="1" Na="7130. Variations de stock (en-cours de production, produits)" />
-	<Sub_category Nbc="77" Nb="2" Na="7133. Variations des en-cours de production de biens" />
-	<Sub_category Nbc="77" Nb="3" Na="7134. Variations des en-cours de productions de services" />
-	<Sub_category Nbc="77" Nb="4" Na="7135. Variations des stocks de produits" />
+	<Sub_category Nbc="77" Nb="1" Na="7130. Variation de stock (en-cours de production, produits)" />
+	<Sub_category Nbc="77" Nb="2" Na="7133. Variation des en-cours de production de biens" />
+	<Sub_category Nbc="77" Nb="3" Na="7134. Variation des en-cours de production de services" />
+	<Sub_category Nbc="77" Nb="4" Na="7135. Variation des stocks de produits" />
 	<Category Nb="78" Na="72. Production immobilisée" Kd="0" />
-	<Category Nb="79" Na="74. Subvention d&apos;exploitation" Kd="0" />
+	<Category Nb="79" Na="74. Subventions d&apos;exploitation" Kd="0" />
 	<Category Nb="80" Na="75. Autres produits de gestion courante" Kd="0" />
 	<Sub_category Nbc="80" Nb="1" Na="7510. Redevances pour concessions, brevets, licences, marques, procédés, droits et valeurs similaires" />
-	<Sub_category Nbc="80" Nb="2" Na="7520. Revenues des immeubles non affectés aux activités de l&apos;association" />
+	<Sub_category Nbc="80" Nb="2" Na="7520. Revenus des immeubles non affectés aux activités de l&apos;association" />
 	<Sub_category Nbc="80" Nb="3" Na="7540. Collectes" />
 	<Sub_category Nbc="80" Nb="4" Na="7560. Cotisations" />
 	<Sub_category Nbc="80" Nb="5" Na="7570. Quote-part d&apos;éléments du fond associatif virée au compte de résultat" />
 	<Sub_category Nbc="80" Nb="6" Na="7571. Quote part de subventions d&apos;investissement (renouvelables) virée au compte de résultat" />
-	<Sub_category Nbc="80" Nb="7" Na="7573. Quote-part des apports virés au compte de résultat" />
+	<Sub_category Nbc="80" Nb="7" Na="7573. Quote-part des apports virée au compte de résultat" />
 	<Sub_category Nbc="80" Nb="8" Na="7580. Produits divers de gestion courante" />
 	<Sub_category Nbc="80" Nb="9" Na="7581. Dons manuels non affectés" />
 	<Sub_category Nbc="80" Nb="10" Na="7582. Dons manuels affectés" />
 	<Sub_category Nbc="80" Nb="11" Na="7585. Legs et donations non affectés" />
 	<Sub_category Nbc="80" Nb="12" Na="7586. Legs et donations affectés" />
 	<Sub_category Nbc="80" Nb="13" Na="7587. Ventes de dons en nature" />
-	<Sub_category Nbc="80" Nb="14" Na="7588. Autres produits de la générosité public" />
+	<Sub_category Nbc="80" Nb="14" Na="7588. Autres produits de la générosité publique" />
 	<Sub_category Nbc="80" Nb="15" Na="7561. Cotisations personnes morales" />
 	<Category Nb="81" Na="76. Produits financiers" Kd="0" />
 	<Sub_category Nbc="81" Nb="1" Na="7610. Produits des participations" />
 	<Sub_category Nbc="81" Nb="2" Na="7620. Produits des autres immobilisations financières" />
 	<Sub_category Nbc="81" Nb="3" Na="7621. Revenus des titres immobilisés" />
 	<Sub_category Nbc="81" Nb="4" Na="7624. Revenus des prêts" />
-	<Sub_category Nbc="81" Nb="5" Na="7640. Revenues des valeurs mobilières de placements" />
+	<Sub_category Nbc="81" Nb="5" Na="7640. Revenus des valeurs mobilières de placement" />
 	<Sub_category Nbc="81" Nb="6" Na="7650. Escomptes obtenus" />
 	<Sub_category Nbc="81" Nb="7" Na="7660. Gains de change" />
 	<Sub_category Nbc="81" Nb="8" Na="7670. Produits nets sur cession de valeurs mobilières de placement" />
 	<Sub_category Nbc="81" Nb="9" Na="7680. Autres produits financiers" />
 	<Sub_category Nbc="81" Nb="10" Na="7681. Intérêts des comptes financiers débiteurs" />
 	<Category Nb="82" Na="77. Produits exceptionnels" Kd="0" />
-	<Sub_category Nbc="82" Nb="1" Na="7710. Produits exceptionnels sur opération de gestion" />
+	<Sub_category Nbc="82" Nb="1" Na="7710. Produits exceptionnels sur opérations de gestion" />
 	<Sub_category Nbc="82" Nb="2" Na="7713. Libérabilités perçues" />
 	<Sub_category Nbc="82" Nb="3" Na="7714. Rentrées sur créances amorties" />
-	<Sub_category Nbc="82" Nb="4" Na="7715. Subvention d&apos;équilibre" />
-	<Sub_category Nbc="82" Nb="5" Na="7717. Dégrèvements d&apos;impôts (autres qu&apos;impôts sue les bénéfices)" />
+	<Sub_category Nbc="82" Nb="4" Na="7715. Subventions d&apos;équilibre" />
+	<Sub_category Nbc="82" Nb="5" Na="7717. Dégrèvements d&apos;impôts (autres qu&apos;impôts sur les bénéfices)" />
 	<Sub_category Nbc="82" Nb="6" Na="7718. Autres produits exceptionnels sur opérations de gestion" />
-	<Sub_category Nbc="82" Nb="7" Na="7720. Produits sur exercices antérieurs (à reclaser)" />
-	<Sub_category Nbc="82" Nb="8" Na="7750. Produits de cessions d&apos;éléments d&apos;actif" />
+	<Sub_category Nbc="82" Nb="7" Na="7720. Produits sur exercices antérieurs (à reclasser)" />
+	<Sub_category Nbc="82" Nb="8" Na="7750. Produits des cessions d&apos;éléments d&apos;actif" />
 	<Sub_category Nbc="82" Nb="9" Na="7751. Immobilisations incorporelles" />
 	<Sub_category Nbc="82" Nb="10" Na="7752. Immobilisations corporelles" />
 	<Sub_category Nbc="82" Nb="11" Na="7756. Immobilisations financières" />
 	<Sub_category Nbc="82" Nb="12" Na="7770. Quote-part des subventions d&apos;investissement virée au résultat de l&apos;exercice" />
 	<Sub_category Nbc="82" Nb="13" Na="7780. Autres produits exceptionnels" />
-	<Category Nb="83" Na="78. Reprise sur amortissements et provisions" Kd="0" />
-	<Sub_category Nbc="83" Nb="1" Na="7810. Reprise sur amoratissements et provisions (à inscrire dans les produits d&apos;exploitation)" />
-	<Sub_category Nbc="83" Nb="2" Na="7811. Reprise sur amortissement et provisions des immobilisations incorporelles et corporelles" />
-	<Sub_category Nbc="83" Nb="3" Na="7815. Reprise surprovision pour risques et charges d&apos;exploitation" />
+	<Category Nb="83" Na="78. Reprises sur amortissements et provisions" Kd="0" />
+	<Sub_category Nbc="83" Nb="1" Na="7810. Reprise sur amortissements et provisions (à inscrire dans les produits d&apos;exploitation)" />
+	<Sub_category Nbc="83" Nb="2" Na="7811. Reprise sur amortissements et provisions des immobilisations incorporelles et corporelles" />
+	<Sub_category Nbc="83" Nb="3" Na="7815. Reprise sur provisions pour risques et charges d&apos;exploitation" />
 	<Sub_category Nbc="83" Nb="4" Na="7816. Reprise sur provisions pour dépréciation des immobilisations incorporelles et corporelles" />
 	<Sub_category Nbc="83" Nb="5" Na="78161. Immobilisations incorporelles" />
 	<Sub_category Nbc="83" Nb="6" Na="78162. Immobilisation corporelles" />
 	<Sub_category Nbc="83" Nb="7" Na="7817. Reprise sur provisions pour dépréciation des actifs circulants" />
-	<Sub_category Nbc="83" Nb="8" Na="7860. Reprise sur provisions ( à inscrire dans les produits exceptionnels)" />
-	<Sub_category Nbc="83" Nb="9" Na="7866. Reprise sur provision pour dépréciation des éléments financiers" />
+	<Sub_category Nbc="83" Nb="8" Na="7860. Reprise sur provisions (à inscrire dans les produits exceptionnels)" />
+	<Sub_category Nbc="83" Nb="9" Na="7866. Reprise sur provisions pour dépréciation des éléments financiers" />
 	<Sub_category Nbc="83" Nb="10" Na="78662. Immobilisations financières" />
 	<Sub_category Nbc="83" Nb="11" Na="78665. Valeurs mobilières de placement" />
-	<Sub_category Nbc="83" Nb="12" Na="7870. Reprise sur provisions ( à inscrire dans les produits exceptionnels)" />
-	<Sub_category Nbc="83" Nb="13" Na="7876. Reprise sur provision pour dépréciation exceptionnelles" />
+	<Sub_category Nbc="83" Nb="12" Na="7870. Reprise sur provisions (à inscrire dans les produits exceptionnels)" />
+	<Sub_category Nbc="83" Nb="13" Na="7876. Reprise sur provisions pour dépréciations exceptionnelles" />
 	<Sub_category Nbc="83" Nb="14" Na="7890. Report des ressources non utilisées des exercices antérieurs" />
-	<Sub_category Nbc="83" Nb="15" Na="7894. Reports des ressources non utilisées sur subventions attribées" />
-	<Sub_category Nbc="83" Nb="16" Na="7895. Reports des ressources non utilisées sur dons manuels reçus" />
-	<Sub_category Nbc="83" Nb="17" Na="7897. Report des ressources non utilisées sur legs et donations affectées" />
+	<Sub_category Nbc="83" Nb="15" Na="7894. Report des ressources non utilisées sur subventions attribuées" />
+	<Sub_category Nbc="83" Nb="16" Na="7895. Report des ressources non utilisées sur dons manuels reçus" />
+	<Sub_category Nbc="83" Nb="17" Na="7897. Report des ressources non utilisées sur legs et donations affectés" />
 	<Category Nb="84" Na="79. Transferts de charges" Kd="0" />
 	<Sub_category Nbc="84" Nb="1" Na="7910. Transferts de charges d&apos;exploitation" />
-	<Sub_category Nbc="84" Nb="2" Na="7960. Transferts des charges financières" />
+	<Sub_category Nbc="84" Nb="2" Na="7960. Transferts de charges financières" />
 	<Sub_category Nbc="84" Nb="3" Na="7970. Transferts de charges exceptionnelles" />
 	<Category Nb="85" Na="86. Répartition par nature de charges" Kd="0" />
 	<Sub_category Nbc="85" Nb="1" Na="8600. Secours en nature" />
@@ -591,7 +591,7 @@
 	<Sub_category Nbc="85" Nb="6" Na="8612. Matériels" />
 	<Sub_category Nbc="85" Nb="7" Na="8620. Prestations" />
 	<Sub_category Nbc="85" Nb="8" Na="8640. Personnel bénévole" />
-	<Category Nb="86" Na="87. Répartition par nautre des ressources" Kd="0" />
+	<Category Nb="86" Na="87. Répartition par nature des ressources" Kd="0" />
 	<Sub_category Nbc="86" Nb="1" Na="8700. Bénévolat" />
 	<Sub_category Nbc="86" Nb="2" Na="8710. Prestation en nature" />
 	<Sub_category Nbc="86" Nb="3" Na="8750. Dons en nature" />
