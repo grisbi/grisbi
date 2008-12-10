@@ -3609,23 +3609,23 @@ msgstr "Menu"
 
 #: src/go-optionmenu.c:241
 msgid "The menu of options"
-msgstr ""
+msgstr "Menu des options"
 
 #: src/go-optionmenu.c:247
 msgid "Indicator Size"
-msgstr ""
+msgstr "Indicateur de taille"
 
 #: src/go-optionmenu.c:248
 msgid "Size of dropdown indicator"
-msgstr ""
+msgstr "Taille de l'indicateur de liste déroulante"
 
 #: src/go-optionmenu.c:253
 msgid "Indicator Spacing"
-msgstr ""
+msgstr "Indicateur d'espacement"
 
 #: src/go-optionmenu.c:254
 msgid "Spacing around indicator"
-msgstr ""
+msgstr "Espacement autour de l'indicateur"
 
 #: src/gsb_account.c:160
 #, c-format
@@ -3836,31 +3836,33 @@ msgid ""
 "All that you do here can be changed later in the account configuration page."
 msgstr ""
 "Cet assistant va vous aider à créer un nouveau compte.\n"
-"Tout ce que vous ferez ici pourra être modifier plus tard dans les propriétés du compte."
+"Tout ce que vous ferez ici pourra être modifié plus tard dans les propriétés du compte."
 
 #: src/gsb_assistant_account.c:147
 msgid ""
 "Bank account\n"
 "Standard account with credit card and cheques."
-msgstr "Compte bancaireCompte standard avec carte bancaire etchèques."
+msgstr "Compte bancaire standard avec carte bancaire et chèques."
 
 #: src/gsb_assistant_account.c:148
 msgid ""
 "Cash account\n"
 "Standard cash account, to use with a cashier."
-msgstr ""
+msgstr "Compte de caisse standard, à utiliser avec une caisse"
 
 #: src/gsb_assistant_account.c:149
 msgid ""
 "Liabilities account\n"
 "Special account to represent a debt, like a long-term loan."
-msgstr ""
+msgstr "Compte de passif\n"
+"Compte spécial représentant une dette, comme un prêt à long terme."
 
 #: src/gsb_assistant_account.c:150
 msgid ""
 "Assets account\n"
 "Special account to represent an asset, like a car or special subscriptions."
-msgstr ""
+msgstr "Compte d'actif\n"
+"Compte spécial pour représenter un atout, comme une voiture ou des abonnements spécifiques."
 
 #: src/gsb_assistant_account.c:157
 #, fuzzy
@@ -3873,25 +3875,27 @@ msgid ""
 "Please select type for this account.\n"
 "The account will be created with default payment methods chosen according to your choice.\n"
 "If you are unsure and novice to accounting, we advise that you choose a bank account.\n"
-msgstr "Choisissez le type de compte.Votre choix influera sur les méthodes de paiement par défaut.Vous pourrez ultérieurement changer le type de compte."
+msgstr "Choisissez le type de compte.\n"
+"Ce compte sera créé avec les méthodes de paiement par défaut adaptées à votre choix.\n"
+"Si vous n'êtes pas sûr ou novice en comptabilité, nous vous conseillons de choisir un compte bancaire.\n"
 
 #. choose the currency
 #: src/gsb_assistant_account.c:226
 #, fuzzy
 msgid "Currency for the account."
-msgstr "Devise pour l'arbre des catégories"
+msgstr "Monnaie du compte."
 
 #. propose to add a currency
 #: src/gsb_assistant_account.c:254
 #, fuzzy
 msgid "Add/Change..."
-msgstr "Change"
+msgstr "Ajouter/Changer"
 
 #. choose the bank
 #: src/gsb_assistant_account.c:266
 #, fuzzy
 msgid "Bank for the account."
-msgstr "Compte bancaire"
+msgstr "Banque du compte."
 
 #. set the initial amount
 #: src/gsb_assistant_account.c:293
@@ -3904,11 +3908,13 @@ msgid ""
 "You are about to validate the new account.\n"
 "You juste have to enter a name and finish the assistant.\n"
 "More options are available in the account configuration page once you created it.\n"
-msgstr ""
+msgstr "Vous êtes sur le point de valider le nouveau compte.\n"
+"Vous avez juste à entrer un nom et à fermer l'assistant.\n"
+"Plus d'options sont disponibles dans l'onglet des propriétés du compte que vous venez de créer.\n"
 
 #: src/gsb_assistant_account.c:356
 msgid "Please enter the name of the new account : "
-msgstr ""
+msgstr "Veuillez entrer le nom du nouveau compte : "
 
 #. Do not use a bank name if no bank is set or if its
 #. * name has not been changed.
@@ -3921,7 +3927,7 @@ msgstr "Nouvelle banque"
 #: src/gsb_assistant_account.c:398
 #, fuzzy, c-format
 msgid "%s account"
-msgstr "Compte de caisse"
+msgstr "Compte %s"
 
 #: src/gsb_assistant_account.c:405
 #, fuzzy
@@ -3941,11 +3947,14 @@ msgid ""
 "\n"
 "Press Cancel if you don't want make an archive now\n"
 msgstr ""
-"Cet assistant va vous guider dans le processus d'archivage des transactions de Grisbi afin d'améliorer sa rapidité.\n"
+"Il y a de nombreuses transactions dans votre fichier (%d) et il est conseillé de ne pas garder plus de ùd transactions non archivées.\n"
+"Pour augmenter la vitesse, vous devez les archiver (la limite actuelle et le contrôle à l'ouverture peuvent être modifiés dans les préférences)\n"
 "\n"
-"Par défaut, Grisbi n'exporte pas ses archives dans des fichiers séparés. Il les marque juste comme archivées et ne les utilise plus.\n"
+"Cet assistant va vous guider dans le processus d'archivage des transactions. Par défaut, Grisbi n'exporte aucune archive dans des fichiers séparés, il marque juste les transactions comme archivées et ne les utilise plus.\n"
 "\n"
-"Vous pouvez les exporter dans un fichier séparé si nécessaire.\n"
+"Vous pourrez toujours les exporter dans un fichier archive séparé si nécessaire.\n"
+"\n"
+"Appuyez sur Annuler si vous ne souhaitez pas créer une archive maintenant\n"
 
 #. come by menu action
 #: src/gsb_assistant_archive.c:135
