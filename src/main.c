@@ -81,7 +81,7 @@ extern gint largeur_window;
 extern gchar *nom_fichier_comptes ;
 /*END_EXTERN*/
 
-/**                                                                              
+/**
  * Main function
  *
  * @param argc number of arguments
@@ -116,7 +116,7 @@ int main (int argc, char **argv)
     /* we store the path of the running file to use it for pixmaps, help and locales .... */
     win32_set_app_path(argv[0]);
     /* needed to be able to use the "common" installation of GTK libraries */
-    win32_make_sure_the_gtk2_dlls_path_is_in_PATH(); 
+    win32_make_sure_the_gtk2_dlls_path_is_in_PATH();
 #endif
 
     bindtextdomain ("grisbi-tips", LOCALEDIR);
@@ -182,7 +182,7 @@ int main (int argc, char **argv)
 		       "delete_event",
 		       G_CALLBACK ( main_window_delete_event ),
 		       NULL);
-    g_signal_connect ( G_OBJECT ( window ), 
+    g_signal_connect ( G_OBJECT ( window ),
 		       "destroy",
 		       G_CALLBACK ( main_window_destroy_event ),
 		       NULL);
@@ -190,11 +190,8 @@ int main (int argc, char **argv)
 		       "window-state-event",
 		       G_CALLBACK (gsb_grisbi_change_state_window),
 		       NULL );
-    
-    gtk_window_set_policy ( GTK_WINDOW ( window ),
-			    TRUE,
-			    TRUE,
-			    FALSE );
+
+    gtk_window_set_resizable ( GTK_WINDOW ( window ), TRUE );
 
     /* create the main window : a vbox */
     window_vbox_principale = gtk_vbox_new ( FALSE, 0 );
@@ -202,7 +199,7 @@ int main (int argc, char **argv)
 			window_vbox_principale );
     gtk_widget_show ( window_vbox_principale );
     g_signal_connect ( G_OBJECT(window_vbox_principale), "destroy",
-    			G_CALLBACK(gtk_widget_destroyed), 
+    			G_CALLBACK(gtk_widget_destroyed),
 			&window_vbox_principale);
 
     /* We create the statusbar first. */
@@ -230,20 +227,23 @@ int main (int argc, char **argv)
 				      largeur_window, hauteur_window );
     else
 	gtk_window_set_default_size ( GTK_WINDOW ( window ),
-				      800, 600 );
+				      900, 600 );
+
+    /* display window centered */
+    gtk_window_set_position ( GTK_WINDOW (window), GTK_WIN_POS_CENTER );
 
     gtk_widget_show ( window );
 
     /* check the command line, if there is something to open */
 
-    if (opt.fichier) 
+    if (opt.fichier)
     {
 	nom_fichier_comptes = opt.fichier;
 
 	if (!gsb_file_open_file(nom_fichier_comptes))
 	    nom_fichier_comptes = NULL;
     }
-    else 
+    else
     {
 	/* open the last file if needed, nom_fichier_comptes was filled while loading the configuration */
 	if ( etat.dernier_fichier_auto
@@ -271,7 +271,7 @@ int main (int argc, char **argv)
 	gtk_window_maximize (GTK_WINDOW (window));
 
     gtk_main ();
-   
+
 
     gsb_plugins_release ( );
 

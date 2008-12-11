@@ -1,7 +1,7 @@
 /* ComboFix Widget
  *
- *     Copyright (C)	2001-2008 Cédric Auger (cedric@grisbi.org) 
- *			2003-2008 Benjamin Drieu (bdrieu@april.org) 
+ *     Copyright (C)	2001-2008 Cédric Auger (cedric@grisbi.org)
+ *			2003-2008 Benjamin Drieu (bdrieu@april.org)
  * 			http://www.grisbi.org
  *
  * This library is free software; you can redistribute it and/or
@@ -145,7 +145,7 @@ guint gtk_combofix_get_type ( void )
  * \param force TRUE and the text must be in the list
  * \param sort TRUE and the list will be sorted automatickly
  * \param max_items the minimum of characters to show the popup
- * 
+ *
  * \return the new widget
  * */
 GtkWidget *gtk_combofix_new ( GSList *list )
@@ -177,7 +177,7 @@ GtkWidget *gtk_combofix_new ( GSList *list )
  * \param force TRUE and the text must be in the list
  * \param sort TRUE and the list will be sorted automatickly
  * \param max_items the minimum of characters to show the popup
- * 
+ *
  * \return the new widget
  * */
 GtkWidget *gtk_combofix_new_complex ( GSList *list )
@@ -580,10 +580,8 @@ g_signal_connect ( G_OBJECT (combofix -> popup),
 		   "key-press-event",
 		   G_CALLBACK (gtk_combofix_popup_key_press_event),
 		   combofix );
-gtk_window_set_policy ( GTK_WINDOW ( combofix->popup ),
-			FALSE,
-			FALSE,
-			TRUE );
+gtk_window_set_resizable ( GTK_WINDOW ( combofix->popup ), FALSE );
+
 g_signal_connect ( G_OBJECT ( combofix->popup ),
 		   "button-press-event",
 		   G_CALLBACK ( gtk_combofix_button_press ),
@@ -1285,7 +1283,7 @@ static gboolean gtk_combofix_hide_popup ( GtkComboFix *combofix )
  * show the popup with all the content, not according to the entry
  *
  * \param combofix
- * 
+ *
  * return FALSE
  * */
 static gboolean gtk_combofix_show_popup ( GtkComboFix *combofix )
@@ -1299,7 +1297,7 @@ static gboolean gtk_combofix_show_popup ( GtkComboFix *combofix )
     gtk_widget_grab_focus ( GTK_WIDGET ( combofix -> entry ));
     gtk_window_set_modal (GTK_WINDOW (combofix -> popup), TRUE);
     return FALSE;
-} 
+}
 
 
 
@@ -1432,7 +1430,7 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
  * Called when a button press event is triggered on the tree view.
  * Select an entry if clicked.
  *
- * \param tree_view	GtkTreeView that triggered event.  It should be the tree view 
+ * \param tree_view	GtkTreeView that triggered event.  It should be the tree view
 			attached to a gtk combofix.
  * \param ev		Triggered event.
  * \param combofix	The GtkComboFix that contains tree view.
@@ -1494,13 +1492,13 @@ static gboolean gtk_combofix_choose_selection ( GtkComboFix *combofix )
     gchar *string;
 
     tree_selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (combofix -> tree_view));
-    
+
     /* if there is no selection, go away */
     if (!gtk_tree_selection_get_selected ( tree_selection,
 					   NULL,
 					   &iter ))
 	return FALSE;
-    
+
     gtk_tree_model_get ( GTK_TREE_MODEL (combofix -> model_sort),
 			 &iter,
 			 COMBOFIX_COL_REAL_STRING, &string,
@@ -1534,7 +1532,7 @@ static gboolean gtk_combofix_move_selection ( GtkComboFix *combofix,
 	return FALSE;
 
     tree_selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (combofix -> tree_view));
-    
+
     if (gtk_tree_selection_get_selected ( tree_selection,
 					  NULL,
 					  &sorted_iter ))
@@ -1792,7 +1790,7 @@ static gboolean gtk_combofix_move_selection_one_step ( GtkComboFix *combofix,
  * \param iter_1
  * \param iter_2
  * \param combofix
- * 
+ *
  * \return -1 if iter_1 before iter_2 ...
  * */
 static gint gtk_combofix_default_sort_func ( GtkTreeModel *model_sort,
@@ -1820,7 +1818,7 @@ static gint gtk_combofix_default_sort_func ( GtkTreeModel *model_sort,
 			 COMBOFIX_COL_VISIBLE_STRING, &string_2,
 			 COMBOFIX_COL_SEPARATOR, &separator_2,
 			 -1 );
-    
+
     if (!combofix -> mixed_sort)
 	return_value = list_number_1 - list_number_2;
 
