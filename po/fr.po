@@ -359,7 +359,7 @@ msgstr "Ajout automagique du séparateur dans les champs numériques s'il est om
 
 #: src/affichage_liste.c:435
 msgid "Form completion"
-msgstr "Remplissement automatique du formulaire"
+msgstr "Aide à la saisie du formulaire"
 
 #: src/affichage_liste.c:439
 msgid "Limit payee completion to current account"
@@ -383,7 +383,7 @@ msgstr "Ne pas permettre la création de nouveaux tiers"
 
 #: src/affichage_liste.c:467
 msgid "Don't allow new category/budget creation"
-msgstr "Ne pas autoriser la création de nouveaux catégories/imputation budgétaires"
+msgstr "Ne pas autoriser la création de nouvelles catégories/imputations budgétaires"
 
 #: src/affichage_liste.c:478
 msgid "Maximum items showed in drop down lists (0 for no limit)"
@@ -3168,25 +3168,24 @@ msgstr ""
 "Dans la page suivante, vous pourrez choisir individuellement les caractéristiques que vous pourrez soit cacher soit garder en fonction du niveau de confidentialité désiré."
 
 #: src/file_obfuscate_qif.c:89
-#, fuzzy
 msgid "Open a QIF file"
-msgstr "Fichier QIF non valide"
+msgstr "Ouvrir un fichier QIF"
 
 #: src/file_obfuscate_qif.c:94
 msgid "QIF files (*.qif)"
 msgstr "Fichier QIF"
 
 #: src/file_obfuscate_qif.c:147
-#, fuzzy
 msgid "Cannot open the QIF file."
-msgstr "Impossible d'ouvrir le fichier '%s': %s"
+msgstr "Impossible d'ouvrir le fichier QIF"
 
 #: src/file_obfuscate_qif.c:153
-#, fuzzy
 msgid ""
 "This file doesn't seem to be a QIF file,\n"
 "operation canceled."
-msgstr "Ce fichier n'est pas un fichier de budget Grisbi, action annulée..."
+msgstr ""
+"Ce fichier n'est pas un fichier QIF,\n"
+"action annulée..."
 
 #: src/file_obfuscate_qif.c:238
 #, c-format
@@ -3194,9 +3193,9 @@ msgid "File '%s' successfully saved"
 msgstr "Le fichier %s a été enregistré avec succès"
 
 #: src/file_obfuscate_qif.c:245
-#, fuzzy, c-format
+#, c-format
 msgid "File '%s' could not be saved"
-msgstr "???? ne devrait pas être affiché ..."
+msgstr "Le fichier %s ne peut pas être sauvegardé"
 
 #: src/go-charmap-sel.c:180
 msgid "Arabic"
@@ -3730,11 +3729,19 @@ msgstr "Compte d'actif"
 #: src/gsb_account_property.c:660
 #, c-format
 msgid ""
-"You are changing the currency of the account, do you want to change the currency of the transactions too ?\n"
-"(yes will change all the transactions currency from %s to %s, all the transactions with another currency will stay the same).\n"
+"You are changing the currency of the account, do you want to change the "
+"currency of the transactions too ?\n"
+"(yes will change all the transactions currency from %s to %s, all the "
+"transactions with another currency will stay the same).\n"
 "\n"
 "Archived and reconcilied transactions will be left unmodified."
 msgstr ""
+"Vous changez la devise du compte, voulez-vous aussi changer la devise des "
+"transactions ?\n"
+"(oui changera la devise de toutes les transactions de %s à %s, les "
+"transactions avec une autre devise resteront les mêmes).\n"
+"\n"
+"Les transactions archivées et rapprochées ne seront pas modifiées."
 
 #: src/gsb_account_property.c:663
 #, fuzzy
@@ -6353,20 +6360,17 @@ msgid "Include obsolete currencies"
 msgstr "Afficher les devises obsolètes"
 
 #: src/gsb_currency_link_config.c:88
-#, fuzzy
 msgid "Links between currencies"
-msgstr "Devises connues"
+msgstr "Liens entre devises"
 
 #: src/gsb_currency_link_config.c:89
-#, fuzzy
 msgid "Known links"
-msgstr "Banques connues"
+msgstr "Liens existants"
 
 #. Input form for currencies
 #: src/gsb_currency_link_config.c:136
-#, fuzzy
 msgid "Link properties"
-msgstr "Propriétés de la devise"
+msgstr "Propriétés du lien"
 
 #. Create first currency link entry
 #: src/gsb_currency_link_config.c:152
@@ -6379,19 +6383,16 @@ msgid " = "
 msgstr " = "
 
 #: src/gsb_currency_link_config.c:223
-#, fuzzy
 msgid "First currency"
-msgstr "Choix de la devise"
+msgstr "Première Devise"
 
 #: src/gsb_currency_link_config.c:225
-#, fuzzy
 msgid "Exchange"
-msgstr "Frais de change"
+msgstr "Taux de change"
 
 #: src/gsb_currency_link_config.c:226
-#, fuzzy
 msgid "Second currency"
-msgstr "Devise du compte"
+msgstr "Seconde devise"
 
 #: src/gsb_currency_link_config.c:227
 #: src/gsb_fyear_config.c:281
@@ -9004,7 +9005,7 @@ msgstr "Comportement"
 
 #: src/parametres.c:422
 msgid "Completion"
-msgstr "Complétion"
+msgstr "Aide à la saisie"
 
 #: src/parametres.c:432
 msgid "Resources"
@@ -9073,19 +9074,16 @@ msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Alertes de l'échéancier"
 
 #: src/parametres.c:930
-#, fuzzy
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
-msgstr "Opérations planifiées manuelles arrivées à terme"
+msgstr "Alerter/Exécuter les opérations planifiées arrivées à terme"
 
 #: src/parametres.c:931
-#, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
-msgstr "Opérations planifiées manuelles arrivées à terme"
+msgstr "Alerter/Exécuter les opérations planifiées du mois"
 
 #: src/parametres.c:942
-#, fuzzy
 msgid "Number of days before the warning or the execution"
-msgstr "Nombre de jours précédant le rappel d'une opération planifiée"
+msgstr "Nombre de jours précédant l'alerte ou l'exécution d'une opération planifiée"
 
 #. Please make sure to keep consistency between short_options/long_options and USAGE_STRING/HELP_STRING definition
 #: src/parse_cmdline.c:50
