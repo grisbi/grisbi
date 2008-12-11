@@ -572,6 +572,8 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
     gint account_number;
 
     account_number = gsb_gui_navigation_get_current_account ();
+    if ( account_number == -1)
+        return FALSE;
 
     switch (origin)
     {
