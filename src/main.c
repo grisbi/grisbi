@@ -191,7 +191,10 @@ int main (int argc, char **argv)
 		       G_CALLBACK (gsb_grisbi_change_state_window),
 		       NULL );
 
-    gtk_window_set_resizable ( GTK_WINDOW ( window ), TRUE );
+    gtk_window_set_policy ( GTK_WINDOW ( window ),
+			    TRUE,
+			    TRUE,
+			    FALSE );
 
     /* create the main window : a vbox */
     window_vbox_principale = gtk_vbox_new ( FALSE, 0 );
