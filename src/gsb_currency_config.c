@@ -361,7 +361,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
 		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_name", entry );
 
-    /* Create code entry */
+    /* Create Sign entry */
     label = gtk_label_new (COLON(_("Sign")));
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
@@ -374,7 +374,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
 		       GTK_EXPAND | GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT(currency_tree_model), "entry_code", entry );
 
-    /* Create code entry */
+    /* Create ISO code entry */
     label = gtk_label_new ( COLON(_("ISO code")) );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
@@ -1009,15 +1009,15 @@ dialog_return:
 		 (strlen ( currency_code ) ||
 		  strlen ( currency_isocode )))
 	    {
-		/* check if the currency exists */
+		/* check if the currency exists si la devise existe on ne fait rien */
 
 		if ( gsb_data_currency_get_number_by_name ( currency_name ) )
 		{
-		    currency_number = gsb_data_currency_get_number_by_name ( currency_name );
+		    currency_number = 0;
 		}
 		else if ( gsb_data_currency_get_number_by_code_iso4217 ( currency_isocode ) )
 		{
-		    currency_number = gsb_data_currency_get_number_by_code_iso4217 ( currency_isocode );
+		    currency_number = 0;
 		}
 		else
 		{
@@ -1026,9 +1026,15 @@ dialog_return:
 		}
 
 		/* update the currency list for combobox */
-		gsb_currency_update_combobox_currency_list ();
+        /* mise en commentaire car introduit deux bugs 
+         * 1) passage à 0 des variaables no_devise_totaux_categ, no_devise_totaux_ib,
+         *    no_devise_totaux_tiers dans le fichier gribi;
+         * 2) bug affichage de la liste des opérations (passage à 0 de la devise du 
+         *    premier compte de la liste des comptes */
 
-		if ( currency_tree_model )
+		//~ gsb_currency_update_combobox_currency_list ();
+
+		if ( currency_tree_model && currency_number > 0 )
 		{
 		    gsb_currency_append_currency_to_list ( GTK_LIST_STORE ( currency_tree_model ),
 							   currency_number );

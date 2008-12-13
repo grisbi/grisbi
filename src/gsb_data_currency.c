@@ -192,6 +192,7 @@ gint gsb_data_currency_max_number ( void )
 
 	tmp = tmp -> next;
     }
+
     return number_tmp;
 }
 

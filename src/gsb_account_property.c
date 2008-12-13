@@ -652,6 +652,7 @@ gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
     account_number = gsb_gui_navigation_get_current_account ();
 
     account_currency_number = gsb_data_account_get_currency (account_number);
+
     new_currency_number = gsb_currency_get_currency_from_combobox (detail_devise_compte);
 
     /* set the new currency, must set here and no in the autofunc directly  */
