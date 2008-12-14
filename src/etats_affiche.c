@@ -830,8 +830,12 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
     {
 	gchar *text = NULL;
 	const GDate *date;
+    gint jour_debut_semaine;
 
 	date = gsb_data_transaction_get_date (transaction_number);
+
+    /* on récupère ici le premier jour de la semaine */
+    jour_debut_semaine = gsb_data_report_get_period_split_day ( current_report_number ) + 1;
 
 	/* si la date de début de période est nulle, on la met au début de la période la date de l'opération */
 	if ( !date_debut_periode )
@@ -856,14 +860,13 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 							      g_date_month ( date),
 							      g_date_year ( date));
 
-			if ( g_date_weekday ( date_debut_periode )  != (gsb_data_report_get_period_split_day (current_report_number) + 1 ))
+            if ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine )
 			{
-			    if ( g_date_weekday ( date_debut_periode ) < (gsb_data_report_get_period_split_day (current_report_number)+ 1 ))
-				g_date_subtract_days ( date_debut_periode,
-						       g_date_weekday ( date_debut_periode ) + gsb_data_report_get_period_split_day (current_report_number)- 2 );
-			    else
-				g_date_subtract_days ( date_debut_periode,
-						       g_date_weekday ( date_debut_periode ) - gsb_data_report_get_period_split_day (current_report_number)- 1 );
+                do 
+                {
+                    g_date_subtract_days ( date_debut_periode, 1 );
+                }
+                while ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine );
 			}
 			break;
 
@@ -946,7 +949,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
 	    if ( !force
 		 &&
-		 ( g_date_weekday ( date)  != (gsb_data_report_get_period_split_day (current_report_number)+ 1 )
+		 ( g_date_get_weekday ( date)  != (gsb_data_report_get_period_split_day (current_report_number)+ 1 )
 		   &&
 		   g_date_compare ( date,
 				    date_tmp ) < 0 ))
@@ -954,15 +957,14 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
 	    /* on doit retrouver la date du début de semaine et y ajouter 6j pour afficher la période */
 
-	    if ( g_date_weekday ( date_debut_periode )  != (gsb_data_report_get_period_split_day (current_report_number)+ 1 ))
-	    {
-		if ( g_date_weekday ( date_debut_periode ) < (gsb_data_report_get_period_split_day (current_report_number)+ 1 ))
-		    g_date_subtract_days ( date_debut_periode,
-					   g_date_weekday ( date_debut_periode ) + gsb_data_report_get_period_split_day (current_report_number)- 2 );
-		else
-		    g_date_subtract_days ( date_debut_periode,
-					   g_date_weekday ( date_debut_periode ) - gsb_data_report_get_period_split_day (current_report_number)- 1 );
-	    }
+	    if ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine )
+			{
+                do 
+                {
+                    g_date_subtract_days ( date_debut_periode, 1 );
+                }
+                while ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine );
+			}
 
 
 	    g_date_free ( date_tmp );
@@ -1096,15 +1098,14 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 							  g_date_month ( date),
 							  g_date_year ( date));
 
-		    if ( g_date_weekday ( date_debut_periode )  != (gsb_data_report_get_period_split_day (current_report_number)+ 1 ))
-		    {
-			if ( g_date_weekday ( date_debut_periode ) < (gsb_data_report_get_period_split_day (current_report_number)+ 1 ))
-			    g_date_subtract_days ( date_debut_periode,
-						   g_date_weekday ( date_debut_periode ) + gsb_data_report_get_period_split_day (current_report_number)- 2 );
-			else
-			    g_date_subtract_days ( date_debut_periode,
-						   g_date_weekday ( date_debut_periode ) - gsb_data_report_get_period_split_day (current_report_number)- 1 );
-		    }
+		    if ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine )
+			{
+                do 
+                {
+                    g_date_subtract_days ( date_debut_periode, 1 );
+                }
+                while ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine );
+			}
 		    break;
 
 		case 2:

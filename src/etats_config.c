@@ -151,6 +151,8 @@ static void selectionne_liste_virements_etat_courant ( void );
 static void selectionne_partie_liste_compte_etat ( gint *type_compte );
 static void selectionne_partie_liste_compte_vir_etat ( gint *type_compte );
 static void sensitive_hbox_fonction_bouton_txt ( gint text_comparison_number );
+
+void etat_option_menu_changed (GtkWidget *optionmenu, GtkWidget *user_data);
 /*END_STATIC*/
 
 /* the def of the columns in the categ and budget list
@@ -880,10 +882,12 @@ void personnalisation_etat (void)
     {
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat ),
 				       TRUE );
-	gtk_widget_set_sensitive ( bouton_type_separe_plages_etat,
+	if (gtk_option_menu_get_history ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat )) == 1)
+        gtk_widget_set_sensitive ( bouton_debut_semaine,
 				   TRUE );
-	gtk_widget_set_sensitive ( bouton_debut_semaine,
-				   TRUE );
+    else
+        gtk_widget_set_sensitive ( bouton_debut_semaine,
+				   FALSE );
     }
     else
     {
@@ -897,7 +901,6 @@ void personnalisation_etat (void)
 				  gsb_data_report_get_period_split_type (current_report_number));
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_debut_semaine ),
 				  gsb_data_report_get_period_split_day (current_report_number));
-
 
     /* onglet comptes */
 
@@ -6456,8 +6459,10 @@ GtkWidget *page_data_separation ( void )
 		       "toggled",
 		       G_CALLBACK (sens_desensitive_pointeur),
 		       bouton_type_separe_plages_etat );
-    g_signal_connect ( G_OBJECT (bouton_type_separe_plages_etat ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &bouton_type_separe_plages_etat );
+    g_signal_connect ( G_OBJECT (bouton_type_separe_plages_etat ), 
+               "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), 
+               &bouton_type_separe_plages_etat );
 
     gtk_table_attach ( GTK_TABLE ( table ), bouton_type_separe_plages_etat,
 		       1, 2, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -6493,8 +6498,10 @@ GtkWidget *page_data_separation ( void )
 		       "toggled",
 		       G_CALLBACK (sens_desensitive_pointeur),
 		       bouton_debut_semaine );
-    g_signal_connect ( G_OBJECT (bouton_debut_semaine ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &bouton_debut_semaine );
+    g_signal_connect ( G_OBJECT (bouton_debut_semaine ), 
+               "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), 
+               &bouton_debut_semaine );
 
     gtk_table_attach ( GTK_TABLE ( table ), bouton_debut_semaine,
 		       1, 2, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -6506,11 +6513,20 @@ GtkWidget *page_data_separation ( void )
     while ( jours_semaine[i] )
     {
 	menu_item = gtk_menu_item_new_with_label ( _(jours_semaine[i]) );
-	gtk_object_set_data ( GTK_OBJECT ( menu_item ), _("day"), GINT_TO_POINTER (i));
+	gtk_object_set_data ( GTK_OBJECT ( menu_item ), "day", GINT_TO_POINTER (i));
 	gtk_menu_append ( GTK_MENU ( menu ), menu_item );
 	i++;
     }
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_debut_semaine ), menu );
+
+    /* on connecte le signal "changed" au bouton bouton_type_separe_plages_etat
+     * pour rendre insensible le choix du jour de la semaine pour les choix
+     * autres que la semaine. On le met ici pour que l'initialisation se fasse
+     * proprement */
+    g_signal_connect ( G_OBJECT ( bouton_type_separe_plages_etat ), 
+                  "changed",
+		          G_CALLBACK ( etat_option_menu_changed ), 
+                  bouton_debut_semaine );
 
     return ( vbox_onglet );
 }
@@ -7617,8 +7633,19 @@ void selectionne_liste_modes_paiement_etat_courant ( void )
 }
 /******************************************************************************/
 
-
-
+/******************************************************************************/
+void etat_option_menu_changed (GtkWidget *optionmenu, GtkWidget *user_data)
+{
+    gint current_report_number = gsb_gui_navigation_get_current_report();
+    if ( gsb_data_report_get_period_split (current_report_number))
+    {
+    if (gtk_option_menu_get_history ( GTK_OPTION_MENU ( optionmenu )) == 1)
+        gtk_widget_set_sensitive ( user_data, TRUE );
+    else
+        gtk_widget_set_sensitive ( user_data, FALSE );
+    }
+}
+/******************************************************************************/
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

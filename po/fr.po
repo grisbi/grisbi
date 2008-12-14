@@ -859,16 +859,14 @@ msgid "Properties for %s"
 msgstr "Propriétés pour %s"
 
 #: src/categories_onglet.c:601
-#, fuzzy
 msgid "No sub-category defined"
-msgstr "Aucune sous-catégorie (%d)"
+msgstr "Pas de sous-catégorie définie"
 
 #: src/categories_onglet.c:605
 #: src/qif.c:1125
 #: src/qif.c:1132
-#, fuzzy
 msgid "No category defined"
-msgstr "Aucune catégorie (%d)"
+msgstr "Pas de catégorie définie"
 
 #. Name entry
 #. set the name
@@ -1297,19 +1295,19 @@ msgid "Result of %s"
 msgstr "Résultat de %s"
 
 #: src/etats_affiche.c:979
-#, fuzzy, c-format
+#, c-format
 msgid "Result from %s to %s (%d transaction):"
-msgstr "Résultat pour %s (%d opération)"
+msgstr "Résultat du %s au %s (%d opération):"
 
 #: src/etats_affiche.c:981
-#, fuzzy, c-format
+#, c-format
 msgid "Result from %s to %s (%d transactions):"
-msgstr "Résultat pour %s (%d opérations)"
+msgstr "Résultat du %s au %s (%d opérations):"
 
 #: src/etats_affiche.c:992
-#, fuzzy, c-format
+#, c-format
 msgid "Result from %s to %s:"
-msgstr "Résultat pour %s"
+msgstr "Résultat du %s au %s"
 
 #: src/etats_affiche.c:1044
 #, c-format
@@ -1637,9 +1635,8 @@ msgid "Sunday"
 msgstr "Dimanche"
 
 #: src/etats_config.c:398
-#, fuzzy
 msgid "Report properties"
-msgstr "Propriétés de la devise"
+msgstr "Propriétés de l'état"
 
 #: src/etats_config.c:481
 msgid "Data selection"
@@ -2002,7 +1999,6 @@ msgid "Detail payees"
 msgstr "Détailler les tiers"
 
 #: src/etats_config.c:4089
-#, fuzzy
 msgid "Select payees to include in this report"
 msgstr "Sélectionner les tiers à inclure dans l'état"
 
@@ -2011,9 +2007,8 @@ msgid "Transaction content"
 msgstr "Contenu de l'opération"
 
 #: src/etats_config.c:4239
-#, fuzzy
 msgid "Select transactions according to content"
-msgstr "Sélectionner les opérations par rapport à du texte"
+msgstr "Sélectionner les opérations d'après leur contenu"
 
 #: src/etats_config.c:4562
 msgid "Transactions whose"
@@ -2059,9 +2054,8 @@ msgstr "catégorie"
 
 #: src/etats_config.c:4981
 #: src/etats_config.c:6757
-#, fuzzy
 msgid "sub-category"
-msgstr "Aucune sous-catégorie"
+msgstr "sous-catégorie"
 
 #: src/etats_config.c:5009
 #: src/etats_config.c:6762
@@ -2227,30 +2221,25 @@ msgid "Select all transactions"
 msgstr "Sélectionner toutes les opérations"
 
 #: src/etats_config.c:6232
-#, fuzzy
 msgid "Select unreconciled transactions"
-msgstr "Les opérations rapprochées"
+msgstr "Sélectionner les opérations non rapprochées"
 
 #: src/etats_config.c:6247
-#, fuzzy
 msgid "Select reconciled transactions"
-msgstr "Les opérations rapprochées"
+msgstr "Sélectionner les opérations rapprochées"
 
 #: src/etats_config.c:6261
-#, fuzzy
 msgid "Split of transactions detail"
-msgstr "Opération ventilée"
+msgstr "Détail des opération ventilée"
 
 #: src/etats_config.c:6263
-#, fuzzy
 msgid "Do not detail split of transactions"
 msgstr "Ne pas détailler les opérations ventilées"
 
 #. choix de ce qu'on utilise dans le classement
 #: src/etats_config.c:6296
-#, fuzzy
 msgid "Group transactions"
-msgstr "Regrouper les opérations par catégorie"
+msgstr "Regroupement des opérations"
 
 #: src/etats_config.c:6298
 msgid "Group transactions by account"
@@ -2289,19 +2278,16 @@ msgstr "Séparer les résultats par période"
 
 #. on permet ensuite la séparation des résultats par période
 #: src/etats_config.c:6437
-#, fuzzy
 msgid "Separation by period"
-msgstr "Séparer les résultats par période"
+msgstr "Séparation par période"
 
 #: src/etats_config.c:6444
-#, fuzzy
 msgid "Separation by time period"
-msgstr "Séparer les résultats par période"
+msgstr "Période de temps"
 
 #: src/etats_config.c:6463
-#, fuzzy
 msgid "Day"
-msgstr "Jours"
+msgstr "Journée"
 
 #: src/etats_config.c:6467
 msgid "Week"
@@ -2335,14 +2321,12 @@ msgid "Diplay the number of transactions with the totals"
 msgstr "Afficher le nombre d'opérations avec les totaux"
 
 #: src/etats_config.c:6682
-#, fuzzy
 msgid "Consider the payees of this report as a multiple payee."
-msgstr "Inclure cet état dans la liste des tiers du formulaire de saisie d'opération."
+msgstr "Considérer les tiers de ce rapport comme un tiers multiple."
 
 #: src/etats_config.c:6707
-#, fuzzy
 msgid "Transactions display"
-msgstr "Opérations"
+msgstr "Afficher les opérations"
 
 #. afficher ou non les opés
 #: src/etats_config.c:6712
@@ -2352,7 +2336,7 @@ msgstr "Afficher les opérations"
 #. demande les détails affichés dans les opérations
 #: src/etats_config.c:6727
 msgid "Include following informations"
-msgstr ""
+msgstr "Inclure les renseignements suivants"
 
 #: src/etats_config.c:6732
 #: src/etats_config.c:6852
@@ -2412,9 +2396,8 @@ msgstr "Classement des opérations par"
 
 #. on propose de rendre clickable le détails des opérations
 #: src/etats_config.c:6927
-#, fuzzy
 msgid "Clickable transactions"
-msgstr "Toutes les opérations"
+msgstr "Opérations clickables"
 
 #: src/etats_config.c:6929
 msgid "Make transactions clickable"
@@ -2431,9 +2414,8 @@ msgid "General totals currency"
 msgstr "Devise utilisée pour les totaux généraux"
 
 #: src/etats_config.c:7011
-#, fuzzy
 msgid "Payees currency"
-msgstr "Devise utilisée pour les catégories"
+msgstr "Devise utilisée pour les tiers"
 
 #: src/etats_config.c:7042
 msgid "Categories currency"
@@ -6718,30 +6700,34 @@ msgstr "L'opération N°%d dit avoir une contre-opération N°%d, mais l'opérat
 #, c-format
 msgid "Transaction %d has category %d but invalid sub-category %d.\n"
 msgstr ""
+"La sous-catégorie %d de la catégorie %d de la transaction %d "
+"est invalide.\n"
 
 #. category not found
 #: src/gsb_debug.c:608
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction %d has invalid category %d.\n"
-msgstr "Regrouper les opérations par catégorie"
+msgstr "La catégorie %d de la transaction %d est invalide.\n"
 
 #. sub-budget not found
 #: src/gsb_debug.c:698
 #, c-format
 msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
 msgstr ""
+"La sous-imputation budgétaire %d de l'imputation budgétaire %d de "
+"la transaction %d est invalide.\n"
 
 #. budget not found
 #: src/gsb_debug.c:712
 #, c-format
 msgid "Transaction %d has invalid budget %d.\n"
-msgstr ""
+msgstr "L'imputation budgétaire %d de la transaction %d est invalide\n"
 
 #. payee not found
 #: src/gsb_debug.c:797
 #, c-format
 msgid "Transaction %d has invalid payee %d.\n"
-msgstr ""
+msgstr "Le tiers %d de la transaction %d est invalide.\n"
 
 #. Create main widget.
 #: src/gsb_file.c:171
@@ -8465,9 +8451,8 @@ msgid "Voucher number"
 msgstr "Numéro de pièce comptable"
 
 #: src/import_csv.c:85
-#, fuzzy
 msgid "Sub-Category"
-msgstr "Catégorie"
+msgstr "Sous-Catégorie"
 
 #: src/import_csv.c:87
 #, fuzzy
