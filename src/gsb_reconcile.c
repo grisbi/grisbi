@@ -386,9 +386,11 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 	GDate *today;
 	gchar *string ;
 
-	string = gsb_format_gdate (date);
-	gtk_label_set_text ( GTK_LABEL (reconcile_last_date_label),
+	string = gsb_format_gdate ( date );
+	gtk_label_set_text ( GTK_LABEL ( reconcile_last_date_label ),
 			     string);
+    gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_last_date_label ),
+				   FALSE );
 	g_free (string);
 	g_date_add_months ( date, 1 );
 
@@ -562,7 +564,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 					date );
     g_date_free (date);
 
-    date = gsb_parse_date_string_safe (gtk_label_get_label (GTK_LABEL (reconcile_last_date_label)));
+    date = gsb_parse_date_string (gtk_label_get_text (GTK_LABEL (reconcile_last_date_label)));
     gsb_data_reconcile_set_init_date ( reconcile_number,
 				       date );
     g_free (date);

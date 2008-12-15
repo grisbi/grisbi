@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-11-30 21:57+0100\n"
-"PO-Revision-Date: 2008-12-08 22:55+0100\n"
+"PO-Revision-Date: 2008-12-15 22:09+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +49,7 @@ msgstr "Comptes sous le solde minimum voulu"
 #. crée la boite de dialogue
 #: src/accueil.c:305
 msgid "Enter a scheduled transaction"
-msgstr "Saisie d'une opération planifiée"
+msgstr "Saisir une opération planifiée"
 
 #. Création du tableau dans lequel seront stockés les comptes avec leur
 #. solde.
@@ -134,12 +134,11 @@ msgstr ""
 "\n"
 
 #: src/accueil.c:1738
-#, fuzzy, c-format
+#, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr "le compte %s est passé sous le seuil minimum voulu !"
 
 #: src/accueil.c:1748
-#, fuzzy
 msgid ""
 "accounts with the balance under desired minimal :\n"
 "\n"
@@ -183,9 +182,8 @@ msgid "Colors"
 msgstr "Couleurs"
 
 #: src/affichage.c:229
-#, fuzzy
 msgid "Choosing color"
-msgstr "Choisissez une police"
+msgstr "Choisissez une couleur"
 
 #: src/affichage.c:244
 msgid "Back to default"
@@ -327,7 +325,7 @@ msgstr "Comportement du formulaire"
 
 #: src/affichage_liste.c:395
 msgid "Pressing RETURN in transaction form"
-msgstr "Presser ENTRÉE dans le formulaire de saisie d'opérations"
+msgstr "Presser ENTRÉE dans le formulaire de saisie des opérations"
 
 #: src/affichage_liste.c:396
 msgid "selects next field"
@@ -416,7 +414,7 @@ msgstr "Deux ans"
 #. ***** Parameter page *****
 #: src/balance_estimate_tab.c:153
 msgid "Estimate parameters"
-msgstr ""
+msgstr "Paramètres approximatifs"
 
 #: src/balance_estimate_tab.c:170
 msgid ""
@@ -498,7 +496,7 @@ msgstr "Crédit"
 
 #: src/balance_estimate_tab.c:334
 msgid "Average"
-msgstr ""
+msgstr "Moyenne"
 
 #. ***** Estimation graph page *****
 #: src/balance_estimate_tab.c:345
@@ -517,9 +515,8 @@ msgid "New transaction"
 msgstr "Nouvelle opération"
 
 #: src/barre_outils.c:100
-#, fuzzy
 msgid "Blank the form to create a new transaction"
-msgstr "Total catégorie (%d opération)"
+msgstr "Effacer le formulaire pour créer une nouvelle opération"
 
 #: src/barre_outils.c:105
 #: src/barre_outils.c:437
@@ -697,7 +694,6 @@ msgid "Display reconcile"
 msgstr "Affiche les opérations rapprochées"
 
 #: src/barre_outils.c:525
-#, fuzzy
 msgid "Display reconciled transactions"
 msgstr "Montrer les opérations rapprochées (Alt+R)"
 
@@ -730,18 +726,16 @@ msgid "Export categories"
 msgstr "Exporter les catégories"
 
 #: src/categories_onglet.c:312
-#, fuzzy
 msgid "Categories.cgsb"
-msgstr "Catégories"
+msgstr "Catégories.cgsb"
 
 #: src/categories_onglet.c:350
 msgid "Import categories"
 msgstr "Importer des catégories"
 
 #: src/categories_onglet.c:355
-#, fuzzy
 msgid "Grisbi category files (*.cgsb)"
-msgstr "Exporter les catégories"
+msgstr "Fichier des catégories Grisbi (*.cgsb)"
 
 #: src/categories_onglet.c:361
 #: src/etats_onglet.c:1296
@@ -753,22 +747,19 @@ msgid "All files"
 msgstr "Tous les fichiers"
 
 #: src/categories_onglet.c:385
-#, fuzzy
 msgid "Merge imported categories with existing?"
-msgstr "Fusionner les deux listes de catégories"
+msgstr "Fusionner les catégories importées avec celles existantes ?"
 
 #: src/categories_onglet.c:387
-#, fuzzy
 msgid "File already contains categories.  If you decide to continue, existing categories will be merged with imported ones."
-msgstr "Le fichier contient déjà des opérations, les deux listes de catégories seront fusionnées."
+msgstr "Le fichier contient déjà des catégories, les catégories existantes seront fusionnées avec celles importées."
 
 #: src/categories_onglet.c:388
-#, fuzzy
 msgid ""
 "File does not contain categories.  If you decide to continue, existing categories will be merged with imported ones.  Once performed, there is no undo for this.\n"
 "You may also decide to replace existing categories with imported ones."
 msgstr ""
-"Le fichier ne contient pas d'opérations. Si vous choisissez de continuer, les catégories importées seront fusionnées avec les catégories existantes. Cette opération est irréversible.\n"
+"Le fichier ne contient pas de catégories. Si vous choisissez de continuer, les catégories importées seront fusionnées avec les catégories existantes. Cette opération est irréversible.\n"
 "Vous pouvez également décider de remplacer les catégories existantes par les catégories que vous êtes en train d'importer."
 
 #: src/categories_onglet.c:395
@@ -906,14 +897,14 @@ msgid "Type"
 msgstr "Type"
 
 #: src/categories_onglet.c:691
-#, fuzzy, c-format
+#, c-format
 msgid "You tried to rename current sub-category to '%s' but this sub-category already exists.  Please choose another name."
-msgstr "Vous avez tenté de renommer cette sous-catégorie en '%s' mais elle existe déjà. Veuillez choisir un autre nom."
+msgstr "Vous avez tenté de renommer cette sous-catégorie en «%s» mais elle existe déjà. Veuillez choisir un autre nom."
 
 #: src/categories_onglet.c:698
-#, fuzzy, c-format
+#, c-format
 msgid "You tried to rename current category to '%s' but this category already exists.  Please choose another name."
-msgstr "Vous avez tenté de renommer cette catégorie en « %s » mais elle existe déjà. Veuillez choisir un autre nom."
+msgstr "Vous avez tenté de renommer cette catégorie en «%s» mais elle existe déjà. Veuillez choisir un autre nom."
 
 #: src/categories_onglet.c:703
 msgid "Category already exists"
@@ -1088,23 +1079,23 @@ msgid "GRISBI %s Debug"
 msgstr "Debug GRISBI %s"
 
 #: src/erreur.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "Debug enabled, level is '%s'"
-msgstr "Mode Debug actif: niveau '%s'"
+msgstr "Mode Debug actif: niveau «%s»"
 
 #: src/erreur.c:215
 msgid "Wrong debug level, please check DEBUG_GRISBI environnement variable"
 msgstr "Niveau de debugging invalide, vérifiez la variable d'environnement DEBUG_GRISBI"
 
 #: src/erreur.c:275
-#, fuzzy, c-format
+#, c-format
 msgid "%s : %s - %s:%d:%s - %s\n"
-msgstr "%s : %s - %s\n"
+msgstr "%s : %s - %s:%d:%s - %s\n"
 
 #: src/erreur.c:279
-#, fuzzy, c-format
+#, c-format
 msgid "%s : %s - %s:%d:%s\n"
-msgstr "%s : %s - %s\n"
+msgstr "%s : %s - %s:%d:%s\n"
 
 #. on affiche dans la console le message
 #: src/erreur.c:317
@@ -3711,17 +3702,13 @@ msgstr "Compte d'actif"
 #: src/gsb_account_property.c:660
 #, c-format
 msgid ""
-"You are changing the currency of the account, do you want to change the "
-"currency of the transactions too ?\n"
-"(yes will change all the transactions currency from %s to %s, all the "
-"transactions with another currency will stay the same).\n"
+"You are changing the currency of the account, do you want to change the currency of the transactions too ?\n"
+"(yes will change all the transactions currency from %s to %s, all the transactions with another currency will stay the same).\n"
 "\n"
 "Archived and reconcilied transactions will be left unmodified."
 msgstr ""
-"Vous changez la devise du compte, voulez-vous aussi changer la devise des "
-"transactions ?\n"
-"(oui changera la devise de toutes les transactions de %s à %s, les "
-"transactions avec une autre devise resteront les mêmes).\n"
+"Vous changez la devise du compte, voulez-vous aussi changer la devise des transactions ?\n"
+"(oui changera la devise de toutes les transactions de %s à %s, les transactions avec une autre devise resteront les mêmes).\n"
 "\n"
 "Les transactions archivées et rapprochées ne seront pas modifiées."
 
@@ -3843,14 +3830,16 @@ msgstr "Compte de caisse standard, à utiliser avec une caisse"
 msgid ""
 "Liabilities account\n"
 "Special account to represent a debt, like a long-term loan."
-msgstr "Compte de passif\n"
+msgstr ""
+"Compte de passif\n"
 "Compte spécial représentant une dette, comme un prêt à long terme."
 
 #: src/gsb_assistant_account.c:150
 msgid ""
 "Assets account\n"
 "Special account to represent an asset, like a car or special subscriptions."
-msgstr "Compte d'actif\n"
+msgstr ""
+"Compte d'actif\n"
 "Compte spécial pour représenter un atout, comme une voiture ou des abonnements spécifiques."
 
 #: src/gsb_assistant_account.c:157
@@ -3864,7 +3853,8 @@ msgid ""
 "Please select type for this account.\n"
 "The account will be created with default payment methods chosen according to your choice.\n"
 "If you are unsure and novice to accounting, we advise that you choose a bank account.\n"
-msgstr "Choisissez le type de compte.\n"
+msgstr ""
+"Choisissez le type de compte.\n"
 "Ce compte sera créé avec les méthodes de paiement par défaut adaptées à votre choix.\n"
 "Si vous n'êtes pas sûr ou novice en comptabilité, nous vous conseillons de choisir un compte bancaire.\n"
 
@@ -3897,7 +3887,8 @@ msgid ""
 "You are about to validate the new account.\n"
 "You juste have to enter a name and finish the assistant.\n"
 "More options are available in the account configuration page once you created it.\n"
-msgstr "Vous êtes sur le point de valider le nouveau compte.\n"
+msgstr ""
+"Vous êtes sur le point de valider le nouveau compte.\n"
 "Vous avez juste à entrer un nom et à fermer l'assistant.\n"
 "Plus d'options sont disponibles dans l'onglet des propriétés du compte que vous venez de créer.\n"
 
@@ -4061,44 +4052,36 @@ msgid ""
 msgstr "L'archive « %s » a été créée et %d opérations sur %d ont été archivées.\n"
 
 #: src/gsb_assistant_archive.c:839
-#, fuzzy
 msgid "<span foreground=\"red\">Please fill the initial date</span>"
-msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
+msgstr "<span foreground=\"red\">Saisir la date initiale</span>"
 
 #: src/gsb_assistant_archive.c:843
-#, fuzzy
 msgid "<span foreground=\"red\">Please fill the final date</span>"
-msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
+msgstr "<span foreground=\"red\">Saisir la date finale</span>"
 
 #: src/gsb_assistant_archive.c:851
-#, fuzzy
 msgid "<span foreground=\"red\">The initial date is after the final date</span>"
-msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
+msgstr "<span foreground=\"red\">La date initiale est postérieure à la date finale</span>"
 
 #: src/gsb_assistant_archive.c:855
-#, fuzzy
 msgid "<span foreground=\"red\">The initial date is not valid.</span>"
-msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
+msgstr "<span foreground=\"red\">La date initiale n'est pas valide</span>"
 
 #: src/gsb_assistant_archive.c:859
-#, fuzzy
 msgid "<span foreground=\"red\">The final date is not valid</span>"
-msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
+msgstr "<span foreground=\"red\">La date finale n'est pas valide</span>"
 
 #: src/gsb_assistant_archive.c:863
-#, fuzzy
 msgid "<span foreground=\"red\">The initial date belongs already to an archive.</span>"
-msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
+msgstr "<span foreground=\"red\">la date initiale appartient déjà à une archive.</span>"
 
 #: src/gsb_assistant_archive.c:867
-#, fuzzy
 msgid "<span foreground=\"red\">The final date belongs already to an archive.</span>"
-msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
+msgstr "<span foreground=\"red\">la date finale appartient déjà à une archive.</span>"
 
 #: src/gsb_assistant_archive.c:910
-#, fuzzy
 msgid "<span foreground=\"red\">Please choose a financial year</span>"
-msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
+msgstr "<span foreground=\"red\">Choisissez un exercice.</span>"
 
 #: src/gsb_assistant_archive.c:915
 msgid "<span foreground=\"red\">There is already an archive for that financial year.</span>"
@@ -6519,22 +6502,13 @@ msgstr "Frais"
 
 #: src/gsb_debug.c:81
 msgid ""
-"Due to a bug in previous versions of Grisbi, sub-categories may share the "
-"same numeric identifier in some cases, resulting in transactions having two "
-"sub-categories.  If you choose to continue, Grisbi will remove one of each "
-"duplicates and recreate it with a new identifier.\n"
+"Due to a bug in previous versions of Grisbi, sub-categories may share the same numeric identifier in some cases, resulting in transactions having two sub-categories.  If you choose to continue, Grisbi will remove one of each duplicates and recreate it with a new identifier.\n"
 "\n"
-"No transaction will be lost, but in some cases, you will have to manually "
-"move transactions to this new sub-category."
+"No transaction will be lost, but in some cases, you will have to manually move transactions to this new sub-category."
 msgstr ""
-"À cause d'une anomalie introduite dans une version précédente de "
-"Grisbi, des sous-catégories peuvent partager, dans certains cas, le même "
-"identifiant numérique, entrainant le fait que des opérations ont deux "
-"sous-catégories. Si vous choisissez de continuer, Grisbi effacera un des "
-"deux doublons pour le recréer avec un nouvel identifiant\n."
-"\n"
-"Aucune transaction ne sera perdue ! Mais dans certains cas, vous devrez "
-"modifier la sous catégorie pour ces transactions."
+"À cause d'une anomalie introduite dans une version précédente de Grisbi, des sous-catégories peuvent partager, dans certains cas, le même identifiant numérique, entrainant le fait que des opérations ont deux sous-catégories. Si vous choisissez de continuer, Grisbi effacera un des deux doublons pour le recréer avec un nouvel identifiant\n"
+".\n"
+"Aucune transaction ne sera perdue ! Mais dans certains cas, vous devrez modifier la sous catégorie pour ces transactions."
 
 #: src/gsb_debug.c:92
 msgid "Duplicate sub-budgetary lines check"
@@ -6542,22 +6516,13 @@ msgstr "Vérification des sous-imutations dupliquées"
 
 #: src/gsb_debug.c:94
 msgid ""
-"Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
-"the same numeric id in some cases, resulting in transactions having two "
-"sub-budgetary lines.  If you choose to continue, Grisbi will remove one "
-"of each duplicates and recreate it with a new id.entifier\n"
+"Due to a bug in previous versions of Grisbi, sub-budgetary lines may share the same numeric id in some cases, resulting in transactions having two sub-budgetary lines.  If you choose to continue, Grisbi will remove one of each duplicates and recreate it with a new id.entifier\n"
 "\n"
-"No transactions will be lost, but in some cases, you will have to manually "
-"move transactions to this new sub-budgetary line."
+"No transactions will be lost, but in some cases, you will have to manually move transactions to this new sub-budgetary line."
 msgstr ""
-"À cause d'une anomalie introduite dans une version précédente de Grisbi, "
-"des sous-imputations peuvent partager, dans certains cas, le même identifiant "
-"numérique, entrainant le fait que des opérations ont deux sous-imputations. "
-"Si vous choisissez de continuer, Grisbi effacera un des deux doublons pour "
-"le recréer avec un nouvel identifiant.\n"
+"À cause d'une anomalie introduite dans une version précédente de Grisbi, des sous-imputations peuvent partager, dans certains cas, le même identifiant numérique, entrainant le fait que des opérations ont deux sous-imputations. Si vous choisissez de continuer, Grisbi effacera un des deux doublons pour le recréer avec un nouvel identifiant.\n"
 "\n"
-"Aucune opération ne sera perdue ! Mais, dans certains cas, vous devrez "
-"modifier la sous-imputation pour ces transactions."
+"Aucune opération ne sera perdue ! Mais, dans certains cas, vous devrez modifier la sous-imputation pour ces transactions."
 
 #: src/gsb_debug.c:105
 msgid "Orphan contra-transactions check"
@@ -6699,9 +6664,7 @@ msgstr "L'opération N°%d dit avoir une contre-opération N°%d, mais l'opérat
 #: src/gsb_debug.c:594
 #, c-format
 msgid "Transaction %d has category %d but invalid sub-category %d.\n"
-msgstr ""
-"La sous-catégorie %d de la catégorie %d de la transaction %d "
-"est invalide.\n"
+msgstr "La sous-catégorie %d de la catégorie %d de la transaction %d est invalide.\n"
 
 #. category not found
 #: src/gsb_debug.c:608
@@ -6713,9 +6676,7 @@ msgstr "La catégorie %d de la transaction %d est invalide.\n"
 #: src/gsb_debug.c:698
 #, c-format
 msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
-msgstr ""
-"La sous-imputation budgétaire %d de l'imputation budgétaire %d de "
-"la transaction %d est invalide.\n"
+msgstr "La sous-imputation budgétaire %d de l'imputation budgétaire %d de la transaction %d est invalide.\n"
 
 #. budget not found
 #: src/gsb_debug.c:712
@@ -7086,7 +7047,7 @@ msgstr ""
 
 #: src/gsb_form.c:227
 msgid "Transaction/Scheduled _form"
-msgstr "Formulaire de saisie d'opérations"
+msgstr "Formulaire de saisie des opérations"
 
 #. create the check button to recover the children of splits
 #: src/gsb_form.c:329
@@ -8483,13 +8444,12 @@ msgid "Colon"
 msgstr "Fermer"
 
 #: src/import_csv.c:109
-#, fuzzy
 msgid "Tabulation"
-msgstr "Traduction"
+msgstr "Tabulation"
 
 #: src/import_csv.c:131
 msgid "Choose CSV separator"
-msgstr ""
+msgstr "Choisissez le séparateur CSV"
 
 #: src/import_csv.c:160
 #, fuzzy
@@ -8509,7 +8469,7 @@ msgstr "Regrouper les opérations par compte"
 #: src/import_csv.c:912
 #, c-format
 msgid "<b>Following fields are missing:</b> %s"
-msgstr ""
+msgstr "<b>Les champs suivants manquent :</b> %s"
 
 #: src/import_csv.c:921
 #, fuzzy
@@ -9076,10 +9036,12 @@ msgid ""
 "Try grisbi --help for details\n"
 "\n"
 msgstr ""
+"Lancez grisbi --help pour avoir la liste des options\n"
+"\n"
 
 #: src/parse_cmdline.c:51
 msgid "Usage: gribi [--version | -v] | [--help | -?]\n"
-msgstr ""
+msgstr "Usage: gribi [--version | -v] | [--help | -?]\n"
 
 #: src/parse_cmdline.c:54
 msgid ""
@@ -9087,6 +9049,9 @@ msgid ""
 "  --help                    Show this help message and exit\n"
 "  -v, --version             Show version number and exit\n"
 msgstr ""
+"grisbi [options] [file]\n"
+"  --help                    Affiche les options de l'aide et sortir\n"
+"  -v, --version             Affiche la version du logiciel et sortir\n"
 
 #: src/parse_cmdline.c:172
 #, fuzzy, c-format
@@ -9101,6 +9066,8 @@ msgid ""
 "Missing parameter for option %s\n"
 "\n"
 msgstr ""
+"Paramètre manquant pour l'option %s\n"
+"\n"
 
 #: src/parse_cmdline.c:224
 #, c-format
@@ -9108,6 +9075,8 @@ msgid ""
 "Syntax error (%s)\n"
 "\n"
 msgstr ""
+"Erreur de syntaxe\n"
+"\n"
 
 #: src/parse_cmdline.c:227
 #, fuzzy, c-format
