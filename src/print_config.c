@@ -37,7 +37,7 @@
 /*START_STATIC*/
 static GtkWidget * print_config_general ( GtkWidget * dialog );
 static GtkWidget * print_config_paper ( GtkWidget * dialog );
-static gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer user_data ) ;
+static gboolean print_config_radio_toggled ( GtkToggleButton * togglebutton, gpointer user_data );
 /*END_STATIC*/
 
 

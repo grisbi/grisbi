@@ -75,6 +75,7 @@ static GtkWidget *cree_bouton_lien_lignes_comparaison ( void );
 static GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number );
 static GtkWidget *cree_ligne_comparaison_montant ( gint amount_comparison_number );
 static GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number );
+static void etat_option_menu_changed (GtkWidget *optionmenu, GtkWidget *user_data);
 static GtkWidget *onglet_affichage_etat_devises ( void );
 static GtkWidget *onglet_affichage_etat_divers ( void );
 static GtkWidget *onglet_affichage_etat_generalites ( void );
@@ -151,8 +152,6 @@ static void selectionne_liste_virements_etat_courant ( void );
 static void selectionne_partie_liste_compte_etat ( gint *type_compte );
 static void selectionne_partie_liste_compte_vir_etat ( gint *type_compte );
 static void sensitive_hbox_fonction_bouton_txt ( gint text_comparison_number );
-
-void etat_option_menu_changed (GtkWidget *optionmenu, GtkWidget *user_data);
 /*END_STATIC*/
 
 /* the def of the columns in the categ and budget list

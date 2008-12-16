@@ -56,13 +56,13 @@ gboolean gsb_currency_config_add_currency_set_combobox ( GtkWidget * button,
 							 GtkWidget * combobox );
 GtkWidget *gsb_currency_config_create_box_popup ( GCallback select_callback );
 gint gsb_currency_config_create_currency ( const gchar *currency_name,
-					   const gchar *currency_code, 
+					   const gchar *currency_code,
 					   const gchar *currency_isocode,
 					   gint floating_point );
 gint gsb_currency_config_create_currency_from_iso4217list ( gchar *currency_name );
 GtkWidget *gsb_currency_config_create_page ( void );
 GtkWidget *gsb_currency_config_create_totals_page ( void );
-gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTreePath * path, 
+gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTreePath * path,
 					      GtkTreeIter * iter, GtkTreeView * tree_view );
 /* END_DECLARATION */
 #endif

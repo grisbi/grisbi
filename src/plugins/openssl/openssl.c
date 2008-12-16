@@ -29,7 +29,6 @@
 #include "openssl.h"
 #include "./../../dialog.h"
 #include "./../../gsb_crypt.h"
-#include "./../../utils_str.h"
 #include "./../../structures.h"
 #include "./../../include.h"
 #include "./../../erreur.h"

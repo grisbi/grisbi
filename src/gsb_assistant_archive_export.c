@@ -38,6 +38,7 @@
 #include "./gsb_file_util.h"
 #include "./utils_dates.h"
 #include "./qif.h"
+#include "./utils_str.h"
 #include "./utils.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
