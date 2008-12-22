@@ -390,7 +390,7 @@ GtkWidget * create_navigation_pane ( void )
     }
 
     /* Finish tree. */
-    gtk_tree_view_expand_all ( GTK_TREE_VIEW(navigation_tree_view) );
+    /* gtk_tree_view_expand_all ( GTK_TREE_VIEW(navigation_tree_view) ); */
     gtk_box_pack_start ( GTK_BOX(vbox), sw, TRUE, TRUE, 0 );
 
     /* Create calendar (hidden for now). */
@@ -892,12 +892,15 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model,
 	    break;
 
 	case GSB_TYPE_CASH:
-	    account_icon = "money";
+	    account_icon = "cash";
 	    break;
 
 	case GSB_TYPE_ASSET:
+    account_icon = "asset";
+	    break;
+
 	case GSB_TYPE_LIABILITIES:
-	    account_icon = "asset";
+	    account_icon = "liabilities";
 	    break;
 
 	default:
