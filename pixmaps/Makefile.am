@@ -13,6 +13,7 @@ grisbi_pixmaps_DATA = \
 	banks.png \
 	budgetary_lines.png \
 	bug.png \
+	cash.png \
 	categories.png \
 	comments.png \
 	csv.png \
@@ -24,12 +25,12 @@ grisbi_pixmaps_DATA = \
 	fonts.png \
 	form.png \
 	generalities.png \
-	grid.png \
 	grisbi-logo.png \
 	grisbi.png \
 	hbci.png \
 	hide_r.png \
 	import.png \
+	liabilities.png \
 	miscellaneous.png \
 	money.png \
 	new-categ.png \
