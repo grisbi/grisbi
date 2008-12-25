@@ -3,20 +3,21 @@ SUBDIRS = flags
 grisbi_pixmapsdir = $(datadir)/pixmaps/$(PACKAGE)
 
 grisbi_pixmaps_DATA = \
+	ac_asset.png \
+	ac_bank.png \
+	ac_cash.png \
+	ac_home.png \
+	ac_liability.png \
 	addresses.png \
-	aqbanking.png \
+	amount.png \
 	archive.png \
 	archives.png \
-	asset.png \
 	balance_estimate.png \
-	bank-account.png \
 	banks.png \
 	budgetary_lines.png \
 	bug.png \
-	cash.png \
 	categories.png \
 	comments.png \
-	csv.png \
 	currencies.png \
 	exec.png \
 	files.png \
@@ -27,12 +28,10 @@ grisbi_pixmaps_DATA = \
 	generalities.png \
 	grisbi-logo.png \
 	grisbi.png \
-	hbci.png \
 	hide_r.png \
+	impexp.png \
+	importlg.png \
 	import.png \
-	liabilities.png \
-	miscellaneous.png \
-	money.png \
 	new-categ.png \
 	new-ib.png \
 	new-payee.png \
@@ -43,12 +42,10 @@ grisbi_pixmaps_DATA = \
 	new-transaction.png \
 	organization.png \
 	payees.png \
-	payment-methods.png \
 	payment.png \
+	reconciliationlg.png \
 	reconciliation.png \
 	reports.png \
-	resume.png \
-	r.png \
 	scheduler.png \
 	show_r.png \
 	text.png \
