@@ -268,7 +268,7 @@ void importer_fichier ( void )
 				  formats, NULL );
     assistant = gsb_assistant_new ( _("Importing transactions into Grisbi"),
 			    tmpstr,
-			    "csv.png",
+			    "impexp.png",
 			    NULL );
     g_free (formats);
     g_free (tmpstr);
@@ -3073,7 +3073,7 @@ GtkWidget *onglet_importation (void)
     GtkWidget *button;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Import"),
-					       "import.png" );
+					       "importlg.png" );
     hbox = gtk_hbox_new ( FALSE,
 			  0 );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),

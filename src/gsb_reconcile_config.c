@@ -100,7 +100,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
     GtkWidget *button;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Reconciliation"),
-					       "reconciliation.png" );
+					       "reconciliationlg.png" );
     paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE,
 					     _("List of reconciliations") );
 

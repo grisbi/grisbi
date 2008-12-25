@@ -2481,7 +2481,7 @@ GtkWidget *onglet_etat_comptes ( void )
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
 
-    vbox_onglet = new_vbox_with_title_and_icon ( _("Account selection"), "bank-account.png" );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Account selection"), "ac_bank.png" );
     gtk_widget_show ( vbox_onglet );
 
     /* on met dans la partie de gauche une liste contenant les comptes à */
@@ -5307,7 +5307,7 @@ GtkWidget *onglet_etat_montant ( void )
     GtkWidget *vbox_onglet;
     GtkWidget *scrolled_window;
 
-    vbox_onglet = new_vbox_with_title_and_icon ( _("Amount"), "money.png" );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Amount"), "amount.png" );
     gtk_widget_show ( vbox_onglet );
 
 
@@ -6214,7 +6214,7 @@ GtkWidget *onglet_etat_divers ( void )
     GtkWidget *vbox_onglet;
     GtkWidget *frame;
 
-    vbox_onglet = new_vbox_with_title_and_icon ( _("Miscellaneous"), "miscellaneous.png" );
+    vbox_onglet = new_vbox_with_title_and_icon ( _("Miscellaneous"), "generalities.png" );
     gtk_widget_show ( vbox_onglet );
 
 

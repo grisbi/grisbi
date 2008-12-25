@@ -155,7 +155,7 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
 				     10 );
 
     vbox = new_vbox_with_title_and_icon ( _("Account type selection"),
-					  "bank-account.png" );
+					  "ac_bank.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );

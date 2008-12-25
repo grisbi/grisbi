@@ -246,7 +246,7 @@ GtkWidget * create_navigation_pane ( void )
 				  GTK_TREE_VIEW_COLUMN ( column ) );
     /* Account list */
     gchar* tmpstr = g_build_filename ( PIXMAPS_DIR,
-				       "resume.png", NULL );
+				       "ac_home.png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
     g_free ( tmpstr );
     gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &account_iter, NULL);
@@ -367,27 +367,6 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_SENSITIVE, 1,
 		       -1 );
     create_report_list ( GTK_TREE_MODEL(navigation_model), &reports_iter );
-
-    /** FIXME (later) : define an api so that plugin register here itself.  */
-    if ( gsb_plugin_find ( "g2banking" ) )
-    {
-	/* Gbanking */
-	gchar* tmpstr = g_build_filename( PIXMAPS_DIR,
-					  "aqbanking.png", NULL );
-        pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
-        g_free ( tmpstr );
-	gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
-	gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
-			   NAVIGATION_PIX, pixbuf,
-			   NAVIGATION_TEXT, _("AqBanking"), 
-			   NAVIGATION_PIX_VISIBLE, TRUE, 
-			   NAVIGATION_FONT, 800,
-			   NAVIGATION_PAGE, GSB_AQBANKING_PAGE,
-			   NAVIGATION_ACCOUNT, -1,
-			   NAVIGATION_REPORT, -1,
-			   NAVIGATION_SENSITIVE, 1,
-			   -1 );
-    }
 
     /* Finish tree. */
     /* gtk_tree_view_expand_all ( GTK_TREE_VIEW(navigation_tree_view) ); */
@@ -888,23 +867,23 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model,
     switch ( gsb_data_account_get_kind ( account_number ) )
     {
 	case GSB_TYPE_BANK:
-	    account_icon = "bank-account";
+	    account_icon = "ac_bank";
 	    break;
 
 	case GSB_TYPE_CASH:
-	    account_icon = "cash";
+	    account_icon = "ac_cash";
 	    break;
 
 	case GSB_TYPE_ASSET:
-    account_icon = "asset";
+    account_icon = "ac_asset";
 	    break;
 
 	case GSB_TYPE_LIABILITIES:
-	    account_icon = "liabilities";
+	    account_icon = "ac_liability";
 	    break;
 
 	default:
-	    account_icon = "warnings";
+	    account_icon = "ac_bank";
 	    break;
     }
 

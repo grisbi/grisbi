@@ -259,7 +259,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 				     10 );
 
     vbox = new_vbox_with_title_and_icon ( _("General configuration"),
-					  "new-payee.png" );
+					  "payees.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 TRUE, TRUE, 0 );
