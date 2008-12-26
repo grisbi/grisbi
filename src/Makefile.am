@@ -1,7 +1,7 @@
 # Process this file with automake to produce Makefile.in
 
 localedir = $(datadir)/locale
-INCLUDES = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(prefix)/lib/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(datadir)/doc/@PACKAGE@\""  -Wall @g2banking_includes@
+INCLUDES = -I$(top_srcdir) -I$(includedir) -I../intl -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(prefix)/lib/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(datadir)/doc/@PACKAGE@\""  -Wall
 bin_PROGRAMS = grisbi
 
 # TODO: This manual setting of -Wl is a hack, I cannot get it from
@@ -293,6 +293,6 @@ mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime
 
 if HAVE_PLUGINS
-SUBDIRS = plugins/g2banking plugins/gnucash plugins/ofx plugins/openssl
+SUBDIRS = plugins/gnucash plugins/ofx plugins/openssl
 
 endif

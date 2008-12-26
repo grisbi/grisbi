@@ -1285,21 +1285,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 		remplit_arbre_imputation ();
 	    break;
 
-	case GSB_AQBANKING_PAGE:
-	    notice_debug ("Aqbanking page selected");
-
-	    /* set the title */
-	    /** FIXME (later) : define an api so that plugin register here itself.  */
-	    if ( gsb_plugin_find ( "g2banking" ) )
-	    {
-		title = g_strdup(_("AqBanking"));
-	    }
-
-	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
-	    break;
-
 	case GSB_REPORTS_PAGE:
 	    notice_debug ("Reports page selected");
 

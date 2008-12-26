@@ -228,8 +228,6 @@ GtkWidget *create_main_notebook (void )
  * */
 gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 {
-    gsb_plugin * plugin;
-
     /* append the main page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 			       creation_onglet_accueil(),
@@ -291,20 +289,6 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
 			       creation_onglet_etats (),
 			       gtk_label_new (SPACIFY(_("Reports"))) );
-
-    /* append the g2banking page */
-#ifdef HAVE_PLUGINS
-    plugin = gsb_plugin_find ( "g2banking" );
-    if ( plugin )
-    {
-	GtkWidget * outbox = plugin -> plugin_run ( );
-	if ( outbox )
-	    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-				       outbox,
-				       gtk_label_new (SPACIFY(_("Outbox")) ) );
-    }
-
-#endif
 
     return FALSE;
 }
