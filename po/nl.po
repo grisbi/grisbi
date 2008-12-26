@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-22 19:03+0100\n"
+"POT-Creation-Date: 2008-12-26 17:19+0100\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -816,7 +816,7 @@ msgid "Delete selected category"
 msgstr "Vul aub een categorie in!"
 
 #: src/categories_onglet.c:500 src/etats_onglet.c:185
-#: src/fenetre_principale.c:255 src/imputation_budgetaire.c:533
+#: src/fenetre_principale.c:253 src/imputation_budgetaire.c:533
 #: src/tiers_onglet.c:274
 #, fuzzy
 msgid "Properties"
@@ -1451,7 +1451,7 @@ msgstr "Financieel jaar"
 #. mise en place de la paddingbox des tiers
 #: src/etats_affiche.c:2419 src/etats_config.c:519 src/etats_config.c:522
 #: src/etats_config.c:687 src/etats_config.c:7193 src/export_csv.c:762
-#: src/fenetre_principale.c:270 src/gsb_assistant_reconcile_config.c:612
+#: src/fenetre_principale.c:268 src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_form.c:1300 src/gsb_form_widget.c:418 src/gsb_scheduler_list.c:331
 #: src/gsb_transactions_list.c:145 src/import.c:2865 src/import_csv.c:80
 #: src/meta_payee.c:76 src/traitement_variables.c:76
@@ -1600,15 +1600,15 @@ msgstr "Overschrijvingen"
 
 #. mise en place de la paddingbox des comptes
 #: src/etats_config.c:510 src/etats_config.c:513 src/etats_config.c:7159
-#: src/fenetre_principale.c:248 src/navigation.c:255
+#: src/fenetre_principale.c:246 src/navigation.c:255
 msgid "Accounts"
 msgstr "Rekeningen"
 
 #. mise en place de la paddingbox des catÃ©gories
 #. set the title
 #: src/etats_config.c:528 src/etats_config.c:531 src/etats_config.c:3039
-#: src/etats_config.c:7231 src/fenetre_principale.c:283 src/navigation.c:327
-#: src/navigation.c:1285
+#: src/etats_config.c:7231 src/fenetre_principale.c:281 src/navigation.c:327
+#: src/navigation.c:1264
 msgid "Categories"
 msgstr "Categorieën"
 
@@ -1616,8 +1616,8 @@ msgstr "Categorieën"
 #. mise en place de la paddingbox des ib
 #. set the title
 #: src/etats_config.c:537 src/etats_config.c:540 src/etats_config.c:3851
-#: src/etats_config.c:7318 src/export_csv.c:786 src/fenetre_principale.c:288
-#: src/navigation.c:344 src/navigation.c:1299 src/traitement_variables.c:77
+#: src/etats_config.c:7318 src/export_csv.c:786 src/fenetre_principale.c:286
+#: src/navigation.c:344 src/navigation.c:1278 src/traitement_variables.c:77
 msgid "Budgetary lines"
 msgstr "Budgetregels"
 
@@ -1664,7 +1664,7 @@ msgid "Generalities"
 msgstr "Algemeen"
 
 #: src/etats_config.c:635 src/etats_config.c:638 src/export_csv.c:738
-#: src/fenetre_principale.c:252 src/parametres.c:359
+#: src/fenetre_principale.c:250 src/parametres.c:359
 msgid "Transactions"
 msgstr "Boekingen"
 
@@ -1912,7 +1912,7 @@ msgid "Outgoing budget lines"
 msgstr "Uitgaande budgetregel"
 
 #. set the title
-#: src/etats_config.c:4041 src/navigation.c:290 src/navigation.c:1258
+#: src/etats_config.c:4041 src/navigation.c:290 src/navigation.c:1237
 #: src/tiers_onglet.c:172
 #, fuzzy
 msgid "Payees"
@@ -2507,8 +2507,8 @@ msgstr "Sluiten"
 msgid "Clone selected report"
 msgstr "Kloon rapport"
 
-#: src/etats_onglet.c:238 src/fenetre_principale.c:293 src/navigation.c:361
-#: src/navigation.c:1333
+#: src/etats_onglet.c:238 src/fenetre_principale.c:291 src/navigation.c:361
+#: src/navigation.c:1297
 msgid "Reports"
 msgstr "Rapporten"
 
@@ -2906,25 +2906,20 @@ msgstr "Sub-budgetregel"
 msgid "Reconciliation number"
 msgstr "Controlenummer"
 
-#: src/fenetre_principale.c:236
+#: src/fenetre_principale.c:234
 msgid "Main page"
 msgstr "Hoofdpagina"
 
-#: src/fenetre_principale.c:265 src/navigation.c:273 src/parametres.c:440
+#: src/fenetre_principale.c:263 src/navigation.c:273 src/parametres.c:440
 #: src/parametres.c:923
 msgid "Scheduler"
 msgstr "Planner"
 
 #. set the title
-#: src/fenetre_principale.c:277 src/navigation.c:308 src/navigation.c:1273
+#: src/fenetre_principale.c:275 src/navigation.c:308 src/navigation.c:1252
 #, fuzzy
 msgid "Balance estimate"
 msgstr "Saldo's"
-
-#: src/fenetre_principale.c:304
-#, fuzzy
-msgid "Outbox"
-msgstr "Automatisch"
 
 #: src/file_obfuscate.c:86
 #, fuzzy
@@ -3934,7 +3929,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
 #: src/gsb_assistant_archive.c:354 src/gsb_data_payee.c:511
-#: src/gsb_form.c:2563 src/gsb_form.c:2564 src/navigation.c:1331
+#: src/gsb_form.c:2563 src/gsb_form.c:2564 src/navigation.c:1295
 msgid "Report"
 msgstr "Rapport"
 
@@ -4214,7 +4209,7 @@ msgstr "Nieuwe rekening maken"
 msgid "Import data from online bank services or from accounting software"
 msgstr ""
 
-#: src/gsb_assistant_file.c:559 src/navigation.c:1188
+#: src/gsb_assistant_file.c:559 src/navigation.c:1167
 #: src/traitement_variables.c:289
 #, fuzzy
 msgid "My accounts"
@@ -7557,7 +7552,7 @@ msgid ""
 msgstr ""
 
 # datum laaste automatische controle
-#: src/gsb_reconcile.c:552 src/navigation.c:1075
+#: src/gsb_reconcile.c:552 src/navigation.c:1054
 #, fuzzy, c-format
 msgid "Last statement: %s"
 msgstr "Laatste datum"
@@ -7738,7 +7733,7 @@ msgid "Only this one"
 msgstr "Alleen deze"
 
 #. set the title
-#: src/gsb_scheduler_list.c:1744 src/navigation.c:1234
+#: src/gsb_scheduler_list.c:1744 src/navigation.c:1213
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "Gesloten geplande transacties"
@@ -8967,21 +8962,16 @@ msgstr ""
 msgid "Please enter a %s!"
 msgstr "Vul aub een categorie in!"
 
-#: src/navigation.c:382 src/navigation.c:1316
-#, fuzzy
-msgid "AqBanking"
-msgstr "Waarschuwing"
-
-#: src/navigation.c:1082
+#: src/navigation.c:1061
 msgid "Last statement: none"
 msgstr "Laatste datum: geen"
 
 #. set the title
-#: src/navigation.c:1100
+#: src/navigation.c:1079
 msgid "Account transactions"
 msgstr "Rekening transacties"
 
-#: src/navigation.c:1106
+#: src/navigation.c:1085
 #, fuzzy
 msgid "closed"
 msgstr "Sluiten"
@@ -9187,28 +9177,6 @@ msgid ""
 "Syntax error!\n"
 "\n"
 msgstr ""
-
-#: src/plugins/g2banking/g2banking.c:65
-msgid "Online banking will not be available"
-msgstr ""
-
-#: src/plugins/g2banking/g2banking.c:66
-msgid "Could not initialize AqBanking."
-msgstr ""
-
-#: src/plugins/g2banking/g2banking.c:94
-#, c-format
-msgid "Could not uninitialize AqBanking (%d)\n"
-msgstr ""
-
-#: src/plugins/g2banking/g2banking.c:245
-msgid "Warning"
-msgstr "Waarschuwing"
-
-#: src/plugins/g2banking/g2banking.c:246
-#, fuzzy
-msgid "An error or warning has occured. Do you still want to import the data ?"
-msgstr "Er was een foutmelding. Wilt u het bestand nog steeds importeren?"
 
 #: src/plugins/gnucash/gnucash.c:171
 #, fuzzy
@@ -9751,6 +9719,22 @@ msgstr "Browse"
 #, fuzzy
 msgid "No font defined"
 msgstr "Geen budgetregel"
+
+#, fuzzy
+#~ msgid "Outbox"
+#~ msgstr "Automatisch"
+
+#, fuzzy
+#~ msgid "AqBanking"
+#~ msgstr "Waarschuwing"
+
+#~ msgid "Warning"
+#~ msgstr "Waarschuwing"
+
+#, fuzzy
+#~ msgid ""
+#~ "An error or warning has occured. Do you still want to import the data ?"
+#~ msgstr "Er was een foutmelding. Wilt u het bestand nog steeds importeren?"
 
 #~ msgid "day"
 #~ msgstr "dag"
