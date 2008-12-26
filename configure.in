@@ -167,19 +167,6 @@ AM_CONDITIONAL(HAVE_OFX_SET_STATUS_CB, test x$OFX_SET_STATUS_CB != xtrue)
 
 
 dnl
-dnl Check for g2banking
-dnl
-AC_AQBANKING()
-if test "$have_aqbanking" = "yes"; then
-  CFLAGS="$CFLAGS $aqbanking_includes"
-  LDFLAGS="$LDFLAGS $aqbanking_libs"
-fi
-
-AC_G2BANKING()
-AM_CONDITIONAL(HAVE_G2BANKING, test "$have_g2banking" = "yes")
-
-
-dnl
 dnl ElectricFence support
 dnl
 dnl --enable-electricfence flag
@@ -248,9 +235,6 @@ AC_SUBST(GSB_NOOPTIM)
 
 
 
-AC_SUBST(g2banking_libs)
-AC_SUBST(g2banking_includes)
-
 AC_SUBST(GTK_LIBS)
 AC_SUBST(GTK_CFLAGS)
 
@@ -288,7 +272,6 @@ share/categories/fr_FR/Makefile
 share/categories/de_DE/Makefile
 share/categories/de_AT/Makefile
 src/Makefile
-src/plugins/g2banking/Makefile
 src/plugins/gnucash/Makefile
 src/plugins/ofx/Makefile
 src/plugins/openssl/Makefile
