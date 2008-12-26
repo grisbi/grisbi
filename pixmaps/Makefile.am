@@ -22,7 +22,6 @@ grisbi_pixmaps_DATA = \
 	exec.png \
 	files.png \
 	financial-years.png \
-	flags.png \
 	fonts.png \
 	form.png \
 	generalities.png \
@@ -43,6 +42,7 @@ grisbi_pixmaps_DATA = \
 	organization.png \
 	payees.png \
 	payment.png \
+	reconat.png \
 	reconciliationlg.png \
 	reconciliation.png \
 	reports.png \
