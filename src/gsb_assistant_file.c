@@ -583,25 +583,23 @@ static gboolean gsb_assistant_file_choose_filename ( GtkWidget *button,
     GtkWidget *dialog;
     gchar *tmpstr;
 
-    dialog = gtk_file_chooser_dialog_new (_("Create filename"),
-					  GTK_WINDOW (window),
-					  GTK_FILE_CHOOSER_ACTION_SAVE,
-					  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					  GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-					  NULL);
-    gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dialog), TRUE);
+    dialog = gtk_file_chooser_dialog_new ( _("Create filename"),
+					   GTK_WINDOW ( window ),
+					   GTK_FILE_CHOOSER_ACTION_SAVE,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+					   NULL);
 
-    /* set the folder */
-    tmpstr = g_path_get_dirname (gtk_entry_get_text (GTK_ENTRY (entry)));
-    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog),
-					 tmpstr);
-    g_free (tmpstr);
-
-    /* set the new name */
     tmpstr = g_path_get_basename (gtk_entry_get_text (GTK_ENTRY (entry)));
-    gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (dialog),
-				       tmpstr );
+    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ), tmpstr );
     g_free (tmpstr);
+
+    tmpstr = g_path_get_dirname (gtk_entry_get_text (GTK_ENTRY (entry)));
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), tmpstr );
+    g_free (tmpstr);
+
+    gtk_file_chooser_set_do_overwrite_confirmation ( GTK_FILE_CHOOSER ( dialog ), TRUE);
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {

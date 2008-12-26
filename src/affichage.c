@@ -136,7 +136,7 @@ GtkWidget * onglet_display_fonts ( void )
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    /*     le logo est grisé ou non suivant qu'on l'utilise ou pas */ 
+    /*     le logo est grisé ou non suivant qu'on l'utilise ou pas */
     gtk_widget_set_sensitive ( hbox, etat.utilise_logo );
     g_signal_connect ( G_OBJECT ( check_button ), "toggled",
 		       G_CALLBACK ( change_choix_utilise_logo ), hbox );
@@ -153,7 +153,7 @@ GtkWidget * onglet_display_fonts ( void )
 
     if (!pixbuf)
     {
-	preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE, 
+	preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE,
 					     GTK_ICON_SIZE_BUTTON );
     }
     else
@@ -162,11 +162,11 @@ GtkWidget * onglet_display_fonts ( void )
 	     gdk_pixbuf_get_height(pixbuf) > 64 )
 	{
 	    GdkPixbuf * tmp;
-	    tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8, 
-				   gdk_pixbuf_get_width(pixbuf)/2, 
+	    tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8,
+				   gdk_pixbuf_get_width(pixbuf)/2,
 				   gdk_pixbuf_get_height(pixbuf)/2 );
-	    gdk_pixbuf_scale ( pixbuf, tmp, 0, 0, 
-			       gdk_pixbuf_get_width(pixbuf)/2, 
+	    gdk_pixbuf_scale ( pixbuf, tmp, 0, 0,
+			       gdk_pixbuf_get_width(pixbuf)/2,
 			       gdk_pixbuf_get_height(pixbuf)/2,
 			       0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
 	    pixbuf = tmp;
@@ -195,7 +195,7 @@ GtkWidget * onglet_display_fonts ( void )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ),
 				   etat.utilise_fonte_listes );
 
-    /*     on crée la vbox qui contiendra la font button et le raz */ 
+    /*     on crée la vbox qui contiendra la font button et le raz */
     vbox = gtk_vbox_new ( FALSE, 10 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
 
@@ -288,7 +288,7 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 	}
     }
     else
-	gtk_widget_destroy ( logo_accueil ); 
+	gtk_widget_destroy ( logo_accueil );
 
     modification_fichier ( TRUE );
 
@@ -386,7 +386,7 @@ GtkWidget *onglet_display_addresses ( void )
 				     GTK_POLICY_AUTOMATIC );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
 			 FALSE, FALSE, 0);
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
 					  GTK_SHADOW_IN );
     entry = gsb_automem_textview_new ( &adresse_commune, NULL, NULL );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
@@ -403,7 +403,7 @@ GtkWidget *onglet_display_addresses ( void )
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_AUTOMATIC,
 				     GTK_POLICY_AUTOMATIC );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window), 
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
 					  GTK_SHADOW_IN );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
 			 FALSE, FALSE, 0);
@@ -448,7 +448,7 @@ void change_logo_accueil ( GtkWidget * file_selector )
 	else
 	{
 	    /* Update homepage logo */
-	    gtk_widget_destroy ( logo_accueil ); 
+	    gtk_widget_destroy ( logo_accueil );
 
 	    logo_accueil =  gtk_image_new_from_file ( chemin_logo );
 	    gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
@@ -460,7 +460,7 @@ void change_logo_accueil ( GtkWidget * file_selector )
 	gtk_container_remove (GTK_CONTAINER(logo_button), preview);
 	if (!pixbuf)
 	{
-	    preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE, 
+	    preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE,
 						 GTK_ICON_SIZE_BUTTON );
 	}
 	else
@@ -469,11 +469,11 @@ void change_logo_accueil ( GtkWidget * file_selector )
 		 gdk_pixbuf_get_height(pixbuf) > 64)
 	    {
 		GdkPixbuf * tmp;
-		tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8, 
-				       gdk_pixbuf_get_width(pixbuf)/2, 
+		tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8,
+				       gdk_pixbuf_get_width(pixbuf)/2,
 				       gdk_pixbuf_get_height(pixbuf)/2 );
-		gdk_pixbuf_scale ( pixbuf, tmp, 0, 0, 
-				   gdk_pixbuf_get_width(pixbuf)/2, 
+		gdk_pixbuf_scale ( pixbuf, tmp, 0, 0,
+				   gdk_pixbuf_get_width(pixbuf)/2,
 				   gdk_pixbuf_get_height(pixbuf)/2,
 				   0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
 		pixbuf = tmp;
@@ -497,20 +497,21 @@ gboolean modification_logo_accueil ( )
     GtkWidget *file_selector;
     GtkWidget *preview;
 
-    file_selector = file_selection_new (_("Select a new logo"),
-					FILE_SELECTION_IS_OPEN_DIALOG|FILE_SELECTION_MUST_EXIST);
-    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selector),
-					 gsb_file_get_last_path ());
+    file_selector = gtk_file_chooser_dialog_new ( _("Select a new logo"),
+					   GTK_WINDOW ( fenetre_preferences ),
+					   GTK_FILE_CHOOSER_ACTION_OPEN,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+					   NULL);
+
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( file_selector ), gsb_file_get_last_path () );
+    gtk_window_set_position ( GTK_WINDOW ( file_selector ), GTK_WIN_POS_CENTER_ON_PARENT );
 
     /* create the preview */
     preview = gtk_image_new ();
     gtk_file_chooser_set_preview_widget (GTK_FILE_CHOOSER (file_selector), preview);
     g_signal_connect (G_OBJECT (file_selector), "update-preview",
-		      G_CALLBACK (preferences_view_update_preview_logo), preview);
-
-    gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
-				   GTK_WINDOW ( fenetre_preferences ));
-    gtk_window_set_modal ( GTK_WINDOW ( file_selector ), TRUE );
+    		G_CALLBACK (preferences_view_update_preview_logo), preview);
 
     switch ( gtk_dialog_run ( GTK_DIALOG ( file_selector ) ) )
     {
@@ -568,13 +569,13 @@ static gboolean preferences_view_update_preview_logo ( GtkFileChooser *file_choo
  * \param length Not used handler parameter.
  * \param position Not used handler parameter.
  */
-gboolean update_homepage_title (GtkEntry *entry, gchar *value, 
+gboolean update_homepage_title (GtkEntry *entry, gchar *value,
 				gint length, gint * position)
 {
     /* at the first use of grisbi,label_titre_fichier doesn't still exist */
     if (label_titre_fichier)
     {
-	gtk_label_set_text ( GTK_LABEL(label_titre_fichier), 
+	gtk_label_set_text ( GTK_LABEL(label_titre_fichier),
 			     (gchar *) gtk_entry_get_text (GTK_ENTRY (entry)) );
 
 	gchar* tmpstr = g_strconcat ("<span size=\"x-large\">",
@@ -599,7 +600,7 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
  * buttons.
  *
  * \param button	Radio button that triggered event.
- * 
+ *
  * \return FALSE
  */
 gboolean change_toolbar_display_mode ( GtkRadioButton * button )
@@ -628,7 +629,7 @@ GtkWidget *tab_display_toolbar ( void )
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Toolbars"), "toolbar.png" );
 
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, 
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
 					     _("Display toolbar buttons as") );
 
     radiogroup = radio = gtk_radio_button_new_with_label ( NULL, _("Text") );
@@ -636,25 +637,25 @@ GtkWidget *tab_display_toolbar ( void )
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
     if ( etat.display_toolbar == GSB_BUTTON_TEXT )
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
-    g_signal_connect ( G_OBJECT(radio), "toggled", 
+    g_signal_connect ( G_OBJECT(radio), "toggled",
 		       G_CALLBACK(change_toolbar_display_mode), NULL );
 
-    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON(radiogroup), 
+    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON(radiogroup),
 							  _("Icons") );
     g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_ICON) );
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
     if ( etat.display_toolbar == GSB_BUTTON_ICON )
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
-    g_signal_connect ( G_OBJECT(radio), "toggled", 
+    g_signal_connect ( G_OBJECT(radio), "toggled",
 		       G_CALLBACK(change_toolbar_display_mode), NULL );
 
-    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON(radiogroup), 
+    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON(radiogroup),
 							  _("Both") );
     g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_BOTH) );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );    
+    gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
     if ( etat.display_toolbar == GSB_BUTTON_BOTH )
 	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
-    g_signal_connect ( G_OBJECT(radio), "toggled", 
+    g_signal_connect ( G_OBJECT(radio), "toggled",
 		       G_CALLBACK(change_toolbar_display_mode), NULL );
 
     gtk_widget_show_all ( vbox_pref );
@@ -670,7 +671,7 @@ GtkWidget *tab_display_toolbar ( void )
 /* 						   NULL ), */
 /* 			 FALSE, FALSE, 0 ); */
 
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), 
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
 			 gsb_automem_checkbutton_new ( _("Display headings bar"),
 						       &(etat.show_headings_bar),
 						       NULL, NULL ),

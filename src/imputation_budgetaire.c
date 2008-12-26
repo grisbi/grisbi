@@ -332,26 +332,30 @@ gboolean gsb_budget_update_combofix ( void )
  */
 void exporter_ib ( void )
 {
-    GtkWidget *fenetre_nom;
+    GtkWidget *dialog;
     gint resultat;
     gchar *nom_ib;
 
-    fenetre_nom = file_selection_new ( _("Export the budgetary lines"), FILE_SELECTION_IS_SAVE_DIALOG );
-    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( fenetre_nom ),  _("Budgetary-lines.igsb"));
-    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( fenetre_nom ), gsb_file_get_last_path () );
-    gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER ( fenetre_nom ), TRUE);
+    dialog = gtk_file_chooser_dialog_new ( _("Export the budgetary lines"),
+					   GTK_WINDOW ( window ),
+					   GTK_FILE_CHOOSER_ACTION_SAVE,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					   NULL);
 
-    gtk_window_set_transient_for ( GTK_WINDOW ( fenetre_nom ), GTK_WINDOW ( window ));
-    gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ), TRUE );
+    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ),  _("Budgetary-lines.igsb"));
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
+    gtk_file_chooser_set_do_overwrite_confirmation ( GTK_FILE_CHOOSER ( dialog ), TRUE);
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
-    resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     switch ( resultat )
     {
 	case GTK_RESPONSE_OK :
-	    nom_ib =file_selection_get_filename ( GTK_FILE_CHOOSER ( fenetre_nom ));
-	    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE));
-	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
+	    nom_ib =file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
+	    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
 	    /* vérification que c'est possible est faite par la boite de dialogue */
 
@@ -364,7 +368,7 @@ void exporter_ib ( void )
 	    break;
 
 	default :
-	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 	    return;
     }
 }
@@ -381,9 +385,15 @@ void importer_ib ( void )
     gint last_transaction_number;
     GtkFileFilter * filter;
 
-    dialog = file_selection_new ( _("Import budgetary lines"), FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
+    dialog = gtk_file_chooser_dialog_new ( _("Import budgetary lines"),
+					   GTK_WINDOW ( window ),
+					   GTK_FILE_CHOOSER_ACTION_OPEN,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+					   NULL);
+
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
-    file_selection_set_entry ( GTK_FILE_CHOOSER ( dialog ), g_strconcat ( gsb_file_get_last_path (), ".igsb", NULL ));
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("Grisbi budgetary lines files (*.igsb)") );
@@ -395,9 +405,6 @@ void importer_ib ( void )
     gtk_file_filter_set_name ( filter, _("All files") );
     gtk_file_filter_add_pattern ( filter, "*" );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
-
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( window ));
-    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 

@@ -43,6 +43,7 @@
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
+#include "./gsb_file.h"
 /*END_INCLUDE*/
 
 
@@ -387,17 +388,17 @@ static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
 						     gsb_data_archive_get_name (archive_number));
 	    gtk_label_set_markup ( GTK_LABEL ( archive_export_label ), tmpstr);
 	    g_free ( tmpstr );
-        /* on remplace les slash des dates par des points 
+        /* on remplace les slash des dates par des points
          * avant de fixer le nom du fichier par défaut */
         tmpstr = ( gchar * )gsb_data_archive_get_name ( archive_number );
         tmpstr = my_strdelimit (tmpstr, "/", "." );
-	    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER (archive_export_filechooser),
-						tmpstr );
+	    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER (archive_export_filechooser), tmpstr );
+	    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (archive_export_filechooser), gsb_file_get_last_path () );
 	    g_free ( tmpstr );
 	    /* need to set the next button to the next function,
 	     * because if the export failed and the user did previous button,
 	     * the next button stay in the close state */
-	    gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, 
+	    gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD,
 					       GTK_RESPONSE_YES );
 
 	    break;

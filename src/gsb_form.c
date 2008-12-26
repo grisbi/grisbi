@@ -2534,7 +2534,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
 	    if (gsb_form_widget_check_empty (widget))
 	    {
-		if (!question ( _("Selected method of payment has an automatic incremental number\nbut doesn't contain any number.\nContinue anyway?")))
+		if (!question_yes_no ( _("Selected method of payment has an automatic incremental number\nbut doesn't contain any number.\nContinue anyway?"), GTK_RESPONSE_CANCEL))
 		    return (FALSE);
 	    }
 	    else
@@ -2548,7 +2548,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 		     &&
 		     tmp_transaction_number != transaction_number
 		     &&
-		     !question ( _("Warning: this cheque number is already used.\nContinue anyway?")))
+		     !question_yes_no ( _("Warning: this cheque number is already used.\nContinue anyway?"), GTK_RESPONSE_CANCEL))
 		    return FALSE;
 	    }
 	}

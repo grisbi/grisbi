@@ -104,9 +104,9 @@ extern GtkWidget *window_vbox_principale ;
  * Called by menu file -> new,
  * close the last file and open a new one
  * in fact just an assistant launcher, but need to check if the previous file is closed
- * 
+ *
  * \param none
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_file_new ( void )
@@ -215,9 +215,15 @@ gboolean gsb_file_open_menu ( void )
     GtkWidget *selection_fichier;
     GtkFileFilter * filter;
 
-    selection_fichier = file_selection_new ( _("Open an accounts file"), FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
-    gtk_window_set_position ( GTK_WINDOW ( selection_fichier ), GTK_WIN_POS_MOUSE);
-    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (selection_fichier), gsb_file_get_last_path ());
+    selection_fichier = gtk_file_chooser_dialog_new ( _("Open an accounts file"),
+					   GTK_WINDOW ( window ),
+					   GTK_FILE_CHOOSER_ACTION_OPEN,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+					   NULL);
+
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( selection_fichier ), gsb_file_get_last_path () );
+    gtk_window_set_position ( GTK_WINDOW ( selection_fichier ), GTK_WIN_POS_CENTER_ON_PARENT );
 
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("Grisbi files (*.gsb)") );
@@ -229,9 +235,6 @@ gboolean gsb_file_open_menu ( void )
     gtk_file_filter_set_name ( filter, _("All files") );
     gtk_file_filter_add_pattern ( filter, "*" );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( selection_fichier ), filter );
-
-    gtk_window_set_transient_for ( GTK_WINDOW ( selection_fichier ), GTK_WINDOW ( window ));
-    gtk_window_set_modal ( GTK_WINDOW ( selection_fichier ), TRUE );
 
     switch ( gtk_dialog_run ( GTK_DIALOG (selection_fichier)))
     {
@@ -337,9 +340,9 @@ gboolean gsb_file_open_direct_menu ( GtkMenuItem *item,
 /**
  * open a new grisbi file, don't check anything about another opened file that must
  * have been done before
- * 
+ *
  * \para filename the name of the file
- * 
+ *
  * \return TRUE ok, FALSE problem
  * */
 gboolean gsb_file_open_file ( gchar *filename )
@@ -423,7 +426,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     {
 	gint account_number;
 	volatile gint value;
-	
+
 	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	gsb_data_account_calculate_current_and_marked_balances (account_number);
@@ -447,7 +450,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     gsb_status_stop_wait ( TRUE );
 
     /* go to the home page */
-    gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );    
+    gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
 
     /* set the focus to the selection tree at left */
     gtk_widget_grab_focus (navigation_tree_view);
@@ -521,7 +524,7 @@ gboolean gsb_file_save_file ( gint origine )
     {
         gchar* tmpstr1 = g_strdup_printf( _("Grisbi was unable to save this file because it is locked.  Please save it with another name or activate the \"%s\" option in preferences."),
 					       _("Force saving of locked files" ) );
-	gchar* tmpstr2 = g_strdup_printf( _("Can not save file \"%s\""), 
+	gchar* tmpstr2 = g_strdup_printf( _("Can not save file \"%s\""),
 					       nom_fichier_comptes );
 	dialogue_error_hint ( tmpstr1,
 			      tmpstr2 );
@@ -716,20 +719,20 @@ gboolean gsb_file_automatic_backup ( gpointer null )
  * */
 static gint gsb_file_dialog_save ( void )
 {
-    gchar * hint; 
+    gchar * hint;
     gchar* time_elapsed;
     time_t now = time ( NULL );
     gint result;
     GtkWidget *dialog;
     gint difference = (gint) difftime ( now, etat.modification_fichier );
-    gchar* message; 
+    gchar* message;
 
     /*     si le fichier n'est pas modifié on renvoie qu'on ne veut pas enregistrer */
 
     if ( !etat.modification_fichier )
 	return GTK_RESPONSE_NO;
-    
-    if ( etat.sauvegarde_auto && 
+
+    if ( etat.sauvegarde_auto &&
 	 ( !etat.fichier_deja_ouvert || etat.force_enregistrement ) &&
 	 nom_fichier_comptes )
       return GTK_RESPONSE_OK;
@@ -737,9 +740,9 @@ static gint gsb_file_dialog_save ( void )
     /*     si le fichier était déjà locké et que force enregistrement n'est pas mis, */
     /*     on prévient ici */
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW (window), 
+    dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
 				      GTK_DIALOG_DESTROY_WITH_PARENT,
-				      GTK_MESSAGE_WARNING, 
+				      GTK_MESSAGE_WARNING,
 				      GTK_BUTTONS_NONE,
 				      " " );
     if ( etat.fichier_deja_ouvert
@@ -754,7 +757,7 @@ static gint gsb_file_dialog_save ( void )
 				 _("Close without saving"), GTK_RESPONSE_NO,
 				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				 NULL );
-	gtk_dialog_set_default_response ( GTK_DIALOG(dialog), GTK_RESPONSE_CANCEL ); 
+	gtk_dialog_set_default_response ( GTK_DIALOG(dialog), GTK_RESPONSE_CANCEL );
     }
     else
     {
@@ -766,7 +769,7 @@ static gint gsb_file_dialog_save ( void )
 				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				 GTK_STOCK_SAVE, GTK_RESPONSE_OK,
 				 NULL );
-	gtk_dialog_set_default_response ( GTK_DIALOG(dialog), GTK_RESPONSE_OK ); 
+	gtk_dialog_set_default_response ( GTK_DIALOG(dialog), GTK_RESPONSE_OK );
     }
 
     if ( difference >= 120 )
@@ -791,8 +794,8 @@ static gint gsb_file_dialog_save ( void )
     g_free ( tmpstr1 );
     g_free ( tmpstr2 );
     g_free ( time_elapsed );
-    
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), 
+
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ),
 			   make_hint ( hint, message ) );
 
     g_free ( message );
@@ -820,12 +823,16 @@ static gchar *gsb_file_dialog_ask_name ( void )
     GtkWidget *dialog;
     gint result;
 
-    dialog = file_selection_new ( _("Name the accounts file"), FILE_SELECTION_IS_SAVE_DIALOG );
-    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
-    gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER ( dialog ), TRUE);
+    dialog = gtk_file_chooser_dialog_new ( _("Name the accounts file"),
+					   GTK_WINDOW ( window ),
+					   GTK_FILE_CHOOSER_ACTION_SAVE,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					   NULL);
 
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( window ));
-    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
+    gtk_file_chooser_set_do_overwrite_confirmation ( GTK_FILE_CHOOSER ( dialog ), TRUE);
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
     if ( ! nom_fichier_comptes )
     {
@@ -946,7 +953,7 @@ void gsb_file_update_window_title ( void )
     gchar* tmpstr = titre;
     titre = g_strconcat ( tmpstr, " - ", _("Grisbi"), NULL );
     g_free ( tmpstr );
-    
+
     gtk_window_set_title ( GTK_WINDOW ( window ), titre );
     g_free ( titre );
 }
@@ -975,7 +982,7 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
 	nb_derniers_fichiers_ouverts = 0;
 
     if ( !g_path_is_absolute ( nom_fichier_comptes ) )
-    {	
+    {
 	real_name = g_strdup( (gchar*)realpath ( nom_fichier_comptes, NULL ));
 	if ( ! real_name )
 	{

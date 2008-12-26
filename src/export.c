@@ -33,12 +33,13 @@
 #include "./qif.h"
 #include "./structures.h"
 #include "./include.h"
+#include "./gsb_file.h"
 /*END_INCLUDE*/
 
 
 /*START_STATIC*/
 static GtkWidget * create_export_account_resume_page ( struct exported_account * account ) ;
-static gboolean export_account_change_format ( GtkWidget * combo, 
+static gboolean export_account_change_format ( GtkWidget * combo,
 					struct exported_account * account );
 static void export_account_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
 			      GtkTreeModel * model );
@@ -71,7 +72,7 @@ void export_accounts ( void )
     selected_accounts = NULL;
     exported_accounts = NULL;
 
-    dialog = gsb_assistant_new ( _("Exporting Grisbi accounts"), 
+    dialog = gsb_assistant_new ( _("Exporting Grisbi accounts"),
 				 _("This assistant will guide you through the process of "
 				   "exporting Grisbi accounts into QIF or CSV files.\n\n"
 				   "As QIF and CSV do not support currencies, all "
@@ -80,9 +81,9 @@ void export_accounts ( void )
 				 "impexp.png",
 				 NULL );
 
-    gsb_assistant_add_page ( dialog, export_create_selection_page(dialog), 1, 0, 2, 
+    gsb_assistant_add_page ( dialog, export_create_selection_page(dialog), 1, 0, 2,
 			     G_CALLBACK ( export_resume_maybe_sensitive_next ) );
-    gsb_assistant_add_page ( dialog, export_create_resume_page(dialog), 2, 1, 3, 
+    gsb_assistant_add_page ( dialog, export_create_resume_page(dialog), 2, 1, 3,
 			     G_CALLBACK ( export_enter_resume_page ) );
 
 
@@ -173,15 +174,15 @@ GtkWidget * export_create_selection_page ( GtkWidget * assistant )
     while ( tmp_list )
     {
 	gint i;
-	GtkTreeIter iter; 
+	GtkTreeIter iter;
 
 	i = gsb_data_account_get_no_account ( tmp_list -> data );
 
 	gtk_list_store_append ( GTK_LIST_STORE (model), &iter);
-	gtk_list_store_set ( GTK_LIST_STORE (model), &iter, 
+	gtk_list_store_set ( GTK_LIST_STORE (model), &iter,
 			     0, FALSE,
 			     1, gsb_data_account_get_name ( i ),
-			     2, i, 
+			     2, i,
 			     -1 );
 	tmp_list = tmp_list -> next;
     }
@@ -210,12 +211,12 @@ GtkWidget * export_create_resume_page ( GtkWidget * assistant )
 
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
     gtk_text_buffer_create_tag ( buffer, "bold",
-				 "weight", PANGO_WEIGHT_BOLD, NULL);  
+				 "weight", PANGO_WEIGHT_BOLD, NULL);
     gtk_text_buffer_create_tag ( buffer, "x-large",
 				 "scale", PANGO_SCALE_X_LARGE, NULL);
     gtk_text_buffer_create_tag (buffer, "indented",
 				"left-margin", 24, NULL);
-  
+
     g_object_set_data ( G_OBJECT ( assistant ), "text-buffer", buffer );
 
     return view;
@@ -245,14 +246,14 @@ GtkWidget * export_create_final_page ( GtkWidget * assistant )
     gtk_text_buffer_create_tag ( buffer, "x-large",
 				 "scale", PANGO_SCALE_X_LARGE, NULL);
     gtk_text_buffer_get_iter_at_offset (buffer, &iter, 1);
-  
+
     gtk_text_buffer_insert (buffer, &iter, "\n", -1 );
     gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
 					      _("Export setup terminated"), -1,
 					      "x-large", NULL);
     gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
-    gtk_text_buffer_insert (buffer, &iter, 
-			    _("You have successfully set up data export into Grisbi.  Press the 'Close' button to actually export data."), 
+    gtk_text_buffer_insert (buffer, &iter,
+			    _("You have successfully set up data export into Grisbi.  Press the 'Close' button to actually export data."),
 			    -1 );
     gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
@@ -272,7 +273,7 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
     GtkTextIter iter;
     GSList * list;
     gint page = 3;
-    
+
     buffer = g_object_get_data ( G_OBJECT ( assistant ), "text-buffer" );
     gtk_text_buffer_set_text (buffer, "\n", -1 );
     gtk_text_buffer_get_iter_at_offset (buffer, &iter, 1);
@@ -284,10 +285,10 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
 						  "x-large", NULL);
 	gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
-	gtk_text_buffer_insert (buffer, &iter, 
+	gtk_text_buffer_insert (buffer, &iter,
 				_("The following accounts are to be exported. "
 				  "In the next screens, you will choose what to do with "
-				  "each of them."), 
+				  "each of them."),
 				-1 );
 	gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
@@ -303,17 +304,17 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
 	    struct exported_account * account;
 	    gint i = GPOINTER_TO_INT(list -> data);
 
-	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter, 
+	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
 						      g_strconcat ( "• ",
 								    gsb_data_account_get_name ( i ),
-								    "\n\n", 
+								    "\n\n",
 								    NULL ),
 						      -1, "indented", NULL );
-	    
+
 	    account = g_malloc0 ( sizeof ( struct exported_account ) );
 	    account -> account_nb = i;
 	    exported_accounts = g_slist_append ( exported_accounts, account );
-	    gsb_assistant_add_page ( assistant, 
+	    gsb_assistant_add_page ( assistant,
 				     create_export_account_resume_page ( account ),
 				     page, page - 1, page + 1, G_CALLBACK ( NULL ) );
 	    page ++;
@@ -322,7 +323,7 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
 	}
 
 	/* And final page */
-	gsb_assistant_add_page ( assistant, export_create_final_page ( assistant ), 
+	gsb_assistant_add_page ( assistant, export_create_final_page ( assistant ),
 				 page, page - 1, -1, G_CALLBACK ( NULL ) );
 
 	/* Replace the "next" button of resume page */
@@ -339,7 +340,7 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
  *
  *
  */
-GtkWidget * create_export_account_resume_page ( struct exported_account * account ) 
+GtkWidget * create_export_account_resume_page ( struct exported_account * account )
 {
     GtkWidget * vbox, * hbox, * label, * combo;
 
@@ -353,7 +354,7 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
 			   g_strdup_printf ( _("<span size=\"x-large\">Export of : %s</span>"),
 					     gsb_data_account_get_name ( account -> account_nb ) ) );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
-    
+
     /* Layout */
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( COLON ( _("Export format") ) ),
@@ -364,8 +365,8 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("QIF format" ) );
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("CSV format" ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, TRUE, TRUE, 0 );
-    g_signal_connect ( G_OBJECT(combo), "changed", 
-		       G_CALLBACK ( export_account_change_format ), 
+    g_signal_connect ( G_OBJECT(combo), "changed",
+		       G_CALLBACK ( export_account_change_format ),
 		       (gpointer) account );
 
     account -> chooser = gtk_file_chooser_widget_new ( GTK_FILE_CHOOSER_ACTION_SAVE );
@@ -381,17 +382,17 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
 
 /**
  * Callback of the file format menu in the export dialog.
- * 
+ *
  * It responsible to change the default value of filename in the
  * selector.
- * 
+ *
  * \param combo		Combo box that triggered event.
  * \param account	A pointer to a structure representing attached
  *			account.
- * 
+ *
  * \return FALSE
  */
-gboolean export_account_change_format ( GtkWidget * combo, 
+gboolean export_account_change_format ( GtkWidget * combo,
 					struct exported_account * account )
 {
     gchar * extension = "", * title;
@@ -419,9 +420,8 @@ gboolean export_account_change_format ( GtkWidget * combo,
     }
 
     gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER(account -> chooser),
-					g_strconcat ( title, "-",
-						      gsb_data_account_get_name ( account -> account_nb ), 
-						      ".", extension, NULL ) );
+		       g_strconcat ( title, "-", gsb_data_account_get_name ( account -> account_nb ), ".", extension, NULL ) );
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER(account -> chooser), gsb_file_get_last_path () );
 
     return FALSE;
 }
@@ -445,8 +445,8 @@ void export_account_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
 
     /* get toggled iter */
     gtk_tree_model_get_iter (GTK_TREE_MODEL(model), &iter, path);
-    gtk_tree_model_get (GTK_TREE_MODEL(model), &iter, 
-			0, &toggle_item, 
+    gtk_tree_model_get (GTK_TREE_MODEL(model), &iter,
+			0, &toggle_item,
 			2, &account_toggled,
 			-1);
 

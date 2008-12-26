@@ -304,29 +304,33 @@ gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * pa
  */
 gboolean exporter_categ ( GtkButton * widget, gpointer data )
 {
-    GtkWidget * fenetre_nom;
+    GtkWidget *dialog;
     gint resultat;
     gchar *nom_categ;
 
-    fenetre_nom = file_selection_new ( _("Export categories"), FILE_SELECTION_IS_SAVE_DIALOG );
-	gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( fenetre_nom ),  _("Categories.cgsb"));
-    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( fenetre_nom ), gsb_file_get_last_path () );
-    gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER ( fenetre_nom ), TRUE);
+    dialog = gtk_file_chooser_dialog_new ( _("Export categories"),
+					   GTK_WINDOW ( window ),
+					   GTK_FILE_CHOOSER_ACTION_SAVE,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					   NULL);
 
-    gtk_window_set_transient_for ( GTK_WINDOW ( fenetre_nom ), GTK_WINDOW ( window ));
-    gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ), TRUE );
+    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ),  _("Categories.cgsb"));
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
+    gtk_file_chooser_set_do_overwrite_confirmation ( GTK_FILE_CHOOSER ( dialog ), TRUE);
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
-    resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
     if ( resultat != GTK_RESPONSE_OK )
     {
-	gtk_widget_destroy ( fenetre_nom );
+	gtk_widget_destroy ( dialog );
 	return FALSE;
     }
 
-    nom_categ = file_selection_get_filename ( GTK_FILE_CHOOSER ( fenetre_nom ));
-    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE));
-    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
+    nom_categ = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
+    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
+    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
     gsb_file_others_save_category ( nom_categ );
 
@@ -347,9 +351,15 @@ void importer_categ ( void )
     gint last_transaction_number;
     GtkFileFilter * filter;
 
-    dialog = file_selection_new ( _("Import categories"), FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
+    dialog = gtk_file_chooser_dialog_new ( _("Import categories"),
+					   GTK_WINDOW ( window ),
+					   GTK_FILE_CHOOSER_ACTION_OPEN,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+					   NULL);
+
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
-    file_selection_set_entry ( GTK_FILE_CHOOSER ( dialog ), g_strconcat ( gsb_file_get_last_path (), ".cgsb", NULL ));
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("Grisbi category files (*.cgsb)") );
@@ -361,9 +371,6 @@ void importer_categ ( void )
     gtk_file_filter_set_name ( filter, _("All files") );
     gtk_file_filter_add_pattern ( filter, "*" );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), filter );
-
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( window ));
-    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 

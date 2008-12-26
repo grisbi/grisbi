@@ -86,9 +86,15 @@ gboolean file_obfuscate_qif_run ( void )
 	GtkFileFilter * filter;
 	gchar *qif_name;
 
-	file_selection = file_selection_new ( _("Open a QIF file"), FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
-	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selection), gsb_file_get_last_path ());
-    file_selection_set_entry ( GTK_FILE_CHOOSER ( file_selection ), g_strconcat ( gsb_file_get_last_path (), ".qif", NULL ));
+    file_selection = gtk_file_chooser_dialog_new ( _("Open a QIF file"),
+					   GTK_WINDOW ( assistant ),
+					   GTK_FILE_CHOOSER_ACTION_OPEN,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+					   NULL);
+
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( file_selection ), gsb_file_get_last_path () );
+    gtk_window_set_position ( GTK_WINDOW ( file_selection ), GTK_WIN_POS_CENTER_ON_PARENT );
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name ( filter, _("QIF files (*.qif)") );
@@ -100,9 +106,6 @@ gboolean file_obfuscate_qif_run ( void )
 	gtk_file_filter_set_name ( filter, _("All files") );
 	gtk_file_filter_add_pattern ( filter, "*" );
 	gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( file_selection ), filter );
-
-    gtk_window_set_transient_for ( GTK_WINDOW ( file_selection ), GTK_WINDOW ( assistant ));
-    gtk_window_set_modal ( GTK_WINDOW ( file_selection ), TRUE );
 
 	switch ( gtk_dialog_run ( GTK_DIALOG (file_selection)))
 	{

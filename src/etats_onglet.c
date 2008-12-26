@@ -127,7 +127,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
-					   GTK_STOCK_OPEN, 
+					   GTK_STOCK_OPEN,
 					   _("Import"),
 					   G_CALLBACK (importer_etat),
 					   NULL );
@@ -136,7 +136,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, FALSE, 0 );
 
     bouton_exporter_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
-							 GTK_STOCK_SAVE, 
+							 GTK_STOCK_SAVE,
 							 _("Export"),
 							 G_CALLBACK (exporter_etat),
 							 NULL );
@@ -149,7 +149,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     /* print button */
 #if GTK_CHECK_VERSION(2,10,0)
     bouton_imprimer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
-							  GTK_STOCK_PRINT, 
+							  GTK_STOCK_PRINT,
 							  _("Print"),
 							  G_CALLBACK (print_report),
 							  NULL );
@@ -160,7 +160,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 
 #else
     bouton_imprimer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
-							  GTK_STOCK_PRINT, 
+							  GTK_STOCK_PRINT,
 							  _("Print"),
 							  G_CALLBACK (impression_etat_courant),
 							  NULL );
@@ -170,7 +170,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_imprimer_etat, FALSE, FALSE, 0 );
 
     bouton_effacer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
-							 GTK_STOCK_DELETE, 
+							 GTK_STOCK_DELETE,
 							 _("Delete"),
 							 G_CALLBACK ( efface_etat ),
 							 NULL );
@@ -181,10 +181,10 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_effacer_etat, FALSE, FALSE, 0 );
 
     bouton_personnaliser_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
-							      GTK_STOCK_PROPERTIES, 
+							      GTK_STOCK_PROPERTIES,
 							      _("Properties"),
 							      G_CALLBACK (personnalisation_etat),
-							      NULL ), 
+							      NULL ),
     g_signal_connect ( G_OBJECT (bouton_personnaliser_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_personnaliser_etat );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_personnaliser_etat),
@@ -192,10 +192,10 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_personnaliser_etat, FALSE, FALSE, 0 );
 
     bouton_dupliquer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
-							  GTK_STOCK_COPY, 
+							  GTK_STOCK_COPY,
 							  _("Clone"),
 							  G_CALLBACK (dupliquer_etat),
-							  NULL ), 
+							  NULL ),
     g_signal_connect ( G_OBJECT (bouton_dupliquer_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_dupliquer_etat );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_dupliquer_etat),
@@ -241,7 +241,7 @@ GtkWidget *creation_onglet_etats ( void )
     scrolled_window_etat = gtk_scrolled_window_new ( FALSE, FALSE );
     g_signal_connect ( G_OBJECT (scrolled_window_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &scrolled_window_etat );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_etat), 
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_etat),
 					  GTK_SHADOW_NONE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window_etat ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
@@ -1040,7 +1040,7 @@ void efface_etat ( void )
  */
 void gsb_gui_unsensitive_report_widgets ()
 {
-    if ( scrolled_window_etat && GTK_IS_WIDGET ( scrolled_window_etat ) && 
+    if ( scrolled_window_etat && GTK_IS_WIDGET ( scrolled_window_etat ) &&
 	 GTK_BIN ( scrolled_window_etat ) -> child )
 	gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
 
@@ -1110,22 +1110,22 @@ void export_etat_courant_vers_csv ( gchar * filename )
 /**
  * Callback of the file format menu in the export report dialog.  It
  * is responsible to change the "format" object property of the
- * dialog, which is used when it is closed to determine format.  
- * 
+ * dialog, which is used when it is closed to determine format.
+ *
  * It is also responsible to change the default value of filename in
  * the selector.  For that, it uses the "basename" property set in the
  * chosser creation.  The "basename" property is the report name.
- * 
+ *
  * \param combo		Combo box that triggered event.
  * \param selector	GtkFileChooser containing combo.
- * 
+ *
  * \return FALSE
  */
 gboolean gsb_report_export_change_format ( GtkWidget * combo, GtkWidget * selector )
 {
     gchar * name, * extension;
 
-    g_object_set_data ( G_OBJECT(selector), "format", 
+    g_object_set_data ( G_OBJECT(selector), "format",
 			GINT_TO_POINTER ( gtk_combo_box_get_active ( GTK_COMBO_BOX(combo) ) ));
 
     name = safe_file_name ( g_object_get_data ( G_OBJECT ( selector ), "basename" ) );
@@ -1156,7 +1156,7 @@ gboolean gsb_report_export_change_format ( GtkWidget * combo, GtkWidget * select
 		break;
     }
 
-    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER(selector), 
+    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER(selector),
 					g_strconcat ( name, ".", extension, NULL ) );
     return FALSE;
 }
@@ -1170,7 +1170,7 @@ gboolean gsb_report_export_change_format ( GtkWidget * combo, GtkWidget * select
  */
 void exporter_etat ( void )
 {
-    GtkWidget * fenetre_nom, *hbox, * combo;
+    GtkWidget *fenetre_nom, *hbox, * combo;
     gint resultat, current_report_number;
     gchar * nom_etat;
     struct print_config * print_config_backup;
@@ -1179,17 +1179,25 @@ void exporter_etat ( void )
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
-    
-    fenetre_nom = file_selection_new ( _("Export report"), FILE_SELECTION_IS_SAVE_DIALOG );
-    gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (fenetre_nom),
-					 gsb_file_get_last_path ());
-    g_object_set_data ( G_OBJECT(fenetre_nom), "basename", 
-			gsb_data_report_get_report_name ( gsb_gui_navigation_get_current_report () ) );
-    
+
+    fenetre_nom = gtk_file_chooser_dialog_new ( _("Export report"),
+					   GTK_WINDOW ( window ),
+					   GTK_FILE_CHOOSER_ACTION_SAVE,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					   NULL);
+
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( fenetre_nom ), gsb_file_get_last_path () );
+    gtk_file_chooser_set_do_overwrite_confirmation ( GTK_FILE_CHOOSER ( fenetre_nom ), TRUE);
+    gtk_window_set_position ( GTK_WINDOW ( fenetre_nom ), GTK_WIN_POS_CENTER_ON_PARENT );
+
+    g_object_set_data ( G_OBJECT(fenetre_nom), "basename",
+			 gsb_data_report_get_report_name ( gsb_gui_navigation_get_current_report () ) );
+
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX(hbox), gtk_label_new ( COLON(_("File format")) ), 
+    gtk_box_pack_start ( GTK_BOX(hbox), gtk_label_new ( COLON(_("File format")) ),
 			 FALSE, FALSE, 0 );
-    
+
     combo = gtk_combo_box_new_text();
     gtk_box_pack_start ( GTK_BOX(hbox), combo, TRUE, TRUE, 0 );
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("Grisbi report file (egsb file)" ) );
@@ -1202,21 +1210,17 @@ void exporter_etat ( void )
     gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), REPORT_HTML );
     gsb_report_export_change_format ( combo, fenetre_nom );
 
-    g_signal_connect ( G_OBJECT(combo), "changed", 
-		       G_CALLBACK ( gsb_report_export_change_format ), 
+    g_signal_connect ( G_OBJECT(combo), "changed",
+		       G_CALLBACK ( gsb_report_export_change_format ),
 		       fenetre_nom );
     gtk_widget_show_all ( hbox );
     gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER(fenetre_nom), hbox );
-    gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER ( fenetre_nom ), TRUE);
-
-    gtk_window_set_transient_for ( GTK_WINDOW ( fenetre_nom ), GTK_WINDOW ( window ));
-    gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ), TRUE );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
     if ( resultat == GTK_RESPONSE_OK )
     {
 	nom_etat = file_selection_get_filename ( GTK_FILE_CHOOSER ( fenetre_nom ));
-	
+
 	gsb_status_message ( _("Exporting report ...") );
 
 	gsb_status_wait ( TRUE );
@@ -1226,7 +1230,7 @@ void exporter_etat ( void )
 	    case REPORT_EGSB:		/* EGSB */
 		gsb_file_others_save_report ( nom_etat );
 		break;
-		
+
 	    case REPORT_HTML:		/* HTML */
 		export_etat_courant_vers_html ( nom_etat );
 		break;
@@ -1282,9 +1286,15 @@ void importer_etat ( void )
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
 	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
-    fenetre_nom = file_selection_new ( _("Import a report"), FILE_SELECTION_IS_OPEN_DIALOG | FILE_SELECTION_MUST_EXIST);
+    fenetre_nom = gtk_file_chooser_dialog_new ( _("Import a report"),
+					   GTK_WINDOW ( window ),
+					   GTK_FILE_CHOOSER_ACTION_OPEN,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+					   NULL);
+
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( fenetre_nom ), gsb_file_get_last_path () );
-    file_selection_set_entry ( GTK_FILE_CHOOSER ( fenetre_nom ), g_strconcat ( gsb_file_get_last_path (), ".egsb", NULL ));
+    gtk_window_set_position ( GTK_WINDOW ( fenetre_nom ), GTK_WIN_POS_CENTER_ON_PARENT );
 
     filter = gtk_file_filter_new ();
     gtk_file_filter_set_name ( filter, _("Grisbi report files (*.egsb)") );
@@ -1297,9 +1307,6 @@ void importer_etat ( void )
     gtk_file_filter_add_pattern ( filter, "*" );
     gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( fenetre_nom ), filter );
 
-    gtk_window_set_transient_for ( GTK_WINDOW ( fenetre_nom ), GTK_WINDOW ( window ));
-    gtk_window_set_modal ( GTK_WINDOW ( fenetre_nom ), TRUE );
-
     resultat = gtk_dialog_run ( GTK_DIALOG ( fenetre_nom ));
 
     switch ( resultat )
@@ -1309,7 +1316,7 @@ void importer_etat ( void )
 	    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (fenetre_nom), TRUE));
 	    gtk_widget_destroy ( GTK_WIDGET ( fenetre_nom ));
 
-	    /* la vÃ©rification que c'est possible a été faite par la boite de selection*/
+	    /* la vÃ©rification que c'est possible a ï¿½tï¿½ faite par la boite de selection*/
 	    if ( !gsb_file_others_load_report ( nom_etat ))
 	    {
 		return;
