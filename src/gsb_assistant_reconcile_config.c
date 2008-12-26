@@ -196,7 +196,7 @@ GtkResponseType gsb_assistant_reconcile_config_run ( void )
 						       transactions_to_link );
     assistant = gsb_assistant_new ( _("Associate orphan transactions to a reconciliation"),
 				    tmpstr,
-				    "reconciliation.png",
+				    "reconat.png",
 				    NULL );
     g_free ( tmpstr );
 

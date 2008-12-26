@@ -917,7 +917,7 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
 
     main_vbox = new_vbox_with_title_and_icon ( _("Select base currency for your account"),
-					       "flags.png" );
+					       "currencies.png" );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), main_vbox, TRUE, TRUE, 0 );
 
     vbox = gtk_vbox_new ( FALSE, 12 );
