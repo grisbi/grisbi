@@ -257,6 +257,7 @@ Makefile
 help/Makefile
 help/C/Makefile
 help/de/Makefile
+help/en/Makefile
 help/fr/Makefile
 help/tips/Makefile
 intl/Makefile
