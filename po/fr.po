@@ -7376,7 +7376,6 @@ msgid "Known financial years"
 msgstr "Exercices définis"
 
 #: src/gsb_fyear_config.c:162
-#, fuzzy
 msgid "Associate operations without financial years"
 msgstr "Associer les opérations sans exercice"
 
@@ -7424,12 +7423,10 @@ msgid ""
 msgstr ""
 
 #: src/gsb_fyear_config.c:762
-#, fuzzy
 msgid "Automatic association of financial years?"
-msgstr "Association automatique d'exercice"
+msgstr "Association automatique des opérations à un exercice"
 
 #: src/gsb_fyear_config.c:763
-#, fuzzy
 msgid ""
 "This function assigns each transaction without a financial year to the one "
 "related to its transaction date.  If no financial year matches, the "
@@ -7440,14 +7437,13 @@ msgstr ""
 "Si aucun exercice ne correspond, l'opération sera inchangée."
 
 #: src/gsb_fyear_config.c:792
-#, fuzzy, c-format
+#, c-format
 msgid "%d transactions associated"
-msgstr "Regrouper les opérations par compte"
+msgstr "%d opérations associées à un exercice"
 
 #: src/gsb_fyear_config.c:800
-#, fuzzy
 msgid "no transaction to associate"
-msgstr "Déplacer l'opération vers un autre compte"
+msgstr "Aucune opération à associer avec un exercice"
 
 #: src/gsb_payment_method_config.c:122
 msgid "Known payment methods"
