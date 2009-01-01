@@ -38,7 +38,6 @@
 #include "./fenetre_principale.h"
 #include "./menu.h"
 #include "./etats_onglet.h"
-#include "./gsb_plugins.h"
 #include "./gsb_real.h"
 #include "./gsb_reconcile.h"
 #include "./gsb_scheduler_list.h"
@@ -863,6 +862,35 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model,
 {
     GdkPixbuf * pixbuf;
     gchar * account_icon;
+
+    if ( (account_icon = gsb_data_account_get_path_icon ( account_number ) ) )
+    {
+        GError *error = NULL;
+
+        pixbuf = gdk_pixbuf_new_from_file_at_size ( account_icon , 32, 32, &error );
+        if ( pixbuf )
+        {
+            gtk_tree_store_set(GTK_TREE_STORE(model), account_iter, 
+		       NAVIGATION_PIX, pixbuf,
+		       NAVIGATION_PIX_VISIBLE, TRUE, 
+		       NAVIGATION_TEXT, gsb_data_account_get_name ( account_number ), 
+		       NAVIGATION_FONT, 400,
+		       NAVIGATION_PAGE, GSB_ACCOUNT_PAGE,
+		       NAVIGATION_ACCOUNT, account_number,
+		       NAVIGATION_SENSITIVE, !gsb_data_account_get_closed_account ( account_number ),
+		       NAVIGATION_REPORT, -1,
+		       -1 );
+            return;
+        }
+        else
+        {
+            gchar* tmpstr = g_strconcat( "Erreur de pixbuf : " , 
+                 error -> message, " image ",
+				 account_icon, NULL );
+            devel_debug (tmpstr);
+            g_free ( tmpstr );
+        }
+    }
 	    
     switch ( gsb_data_account_get_kind ( account_number ) )
     {
@@ -1140,7 +1168,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     devel_debug (NULL);
 
     page_number = gsb_gui_navigation_get_current_page ();
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
 
     if ( page_number != GSB_ACCOUNT_PAGE )
     {
