@@ -2645,7 +2645,7 @@ void denote_struct_sous_jaccentes ( gint origine )
 
 
 /*****************************************************************************************************/
-/* Fonction d'impression de l'Ã©tat */
+/* Fonction d'impression de l'état */
 /*****************************************************************************************************/
 void impression_etat ( gint report_number )
 {

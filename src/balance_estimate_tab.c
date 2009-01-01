@@ -17,6 +17,9 @@
  *     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+/* Ajout du 18/12/2008 Pierre Biava option de compilation :
+ * ./configure --with-balance-estimate */
+
 /*
  * prefix bet : Balance Estimate Tab
  *
@@ -26,6 +29,7 @@
  * TODO : add a select button to display the selected line in the array
  * in the scheduler tab or in the account tab.
  */
+
 #include "include.h"
 #include <config.h>
 
@@ -554,7 +558,7 @@ static void bet_estimate_refresh()
     {
 	/* no selection, select the first account
 	 * (no warning here because cause a conflict with the tree of navigation */
-	gtk_notebook_set_page ( GTK_NOTEBOOK (bet_container),
+	gtk_notebook_set_current_page ( GTK_NOTEBOOK (bet_container),
 				0 );
 	return;
     }

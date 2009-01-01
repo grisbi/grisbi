@@ -530,7 +530,7 @@ gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
     gtk_tree_model_get_value (model, &iter, 1, &value);
 
     preference_selected = g_value_get_int(&value);
-    gtk_notebook_set_page (preference_frame, preference_selected);
+    gtk_notebook_set_current_page (preference_frame, preference_selected);
 
     g_value_unset (&value);
 

@@ -38,7 +38,6 @@
 #include "./utils_buttons.h"
 #include "./transaction_list.h"
 #include "./gsb_transactions_list.h"
-#include "./utils_file_selection.h"
 #include "./metatree.h"
 #include "./structures.h"
 #include "./include.h"

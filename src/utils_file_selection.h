@@ -53,7 +53,6 @@
 gchar* file_selection_get_filename(GtkFileChooser* filesel);
 gchar* file_selection_get_last_directory(GtkFileChooser* filesel,gboolean ended) ;
 GtkWidget* file_selection_new ( const gchar *title, const gint properties );
-void file_selection_set_entry(GtkFileChooser* filesel,const gchar* utf8string);
 /*END_DECLARATION*/
 
 #endif

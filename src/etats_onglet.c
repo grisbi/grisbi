@@ -48,7 +48,6 @@
 #include "./print_report.h"
 #include "./utils_files.h"
 #include "./structures.h"
-#include "./utils_file_selection.h"
 #include "./fenetre_principale.h"
 #include "./print_config.h"
 #include "./include.h"
@@ -269,7 +268,7 @@ gboolean ajout_etat ( void )
 
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != GSB_REPORTS_PAGE )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), GSB_REPORTS_PAGE );
+	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), GSB_REPORTS_PAGE );
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION,
 				       GTK_BUTTONS_OK_CANCEL,
@@ -1008,7 +1007,7 @@ void efface_etat ( void )
 	return;
 
      if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
+	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general),
 				GSB_REPORTS_PAGE );
 
    if ( !question_yes_no_hint ( g_strdup_printf (_("Delete report \"%s\"?"),
@@ -1084,7 +1083,7 @@ void gsb_gui_update_gui_to_report ( gint report_number )
 void export_etat_courant_vers_html ( gchar * filename )
 {
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
+	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     affichage_etat ( gsb_gui_navigation_get_current_report (), &html_affichage, filename );
 }
@@ -1100,7 +1099,7 @@ void export_etat_courant_vers_html ( gchar * filename )
 void export_etat_courant_vers_csv ( gchar * filename )
 {
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
+	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     affichage_etat ( gsb_gui_navigation_get_current_report (), &csv_affichage, filename );
 }
@@ -1178,7 +1177,7 @@ void exporter_etat ( void )
     current_report_number = gsb_gui_navigation_get_current_report ();
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
+	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     fenetre_nom = gtk_file_chooser_dialog_new ( _("Export report"),
 					   GTK_WINDOW ( window ),
@@ -1284,7 +1283,7 @@ void importer_etat ( void )
     GtkFileFilter * filter;
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
+	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     fenetre_nom = gtk_file_chooser_dialog_new ( _("Import a report"),
 					   GTK_WINDOW ( window ),
@@ -1341,7 +1340,7 @@ void dupliquer_etat ( void )
     current_report_number = gsb_gui_navigation_get_current_report ();
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
+	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     report_number = gsb_data_report_dup (current_report_number);
 

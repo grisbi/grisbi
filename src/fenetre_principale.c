@@ -32,7 +32,6 @@
 #include "./comptes_onglet.h"
 #include "./etats_onglet.h"
 #include "./gsb_form.h"
-#include "./gsb_plugins.h"
 #include "./gsb_scheduler_list.h"
 #include "./main.h"
 #include "./categories_onglet.h"
@@ -41,7 +40,6 @@
 #include "./structures.h"
 #include "./include.h"
 #include "./erreur.h"
-#include "./gsb_plugins.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -404,7 +402,7 @@ void gsb_gui_sensitive_headings ( gboolean sensitive )
  */
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page )
 {
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page );
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page );
 }
 
 

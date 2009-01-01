@@ -48,6 +48,7 @@ extern "C" {
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void file_selection_set_entry(GtkFileChooser* filesel,const gchar* utf8string);
 /*END_STATIC*/
 
 /*START_EXTERN*/

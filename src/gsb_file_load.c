@@ -1281,6 +1281,15 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	    continue;
 	}
 
+    if ( !strcmp ( attribute_names[i],
+		       "Path_icon" ))
+	{
+	    gsb_data_account_set_path_icon ( account_number,
+					    attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
 	if ( !strcmp ( attribute_names[i],
 		       "Bank" ))
 	{

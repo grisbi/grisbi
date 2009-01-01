@@ -34,7 +34,6 @@
 #include "./gsb_assistant.h"
 #include "./gsb_file.h"
 #include "./gsb_status.h"
-#include "./utils_file_selection.h"
 #include "./include.h"
 /*END_INCLUDE*/
 

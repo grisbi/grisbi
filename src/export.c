@@ -29,16 +29,16 @@
 #include "./gsb_assistant.h"
 #include "./export_csv.h"
 #include "./gsb_data_account.h"
+#include "./gsb_file.h"
 #include "./utils.h"
 #include "./qif.h"
 #include "./structures.h"
 #include "./include.h"
-#include "./gsb_file.h"
 /*END_INCLUDE*/
 
 
 /*START_STATIC*/
-static GtkWidget * create_export_account_resume_page ( struct exported_account * account ) ;
+static GtkWidget * create_export_account_resume_page ( struct exported_account * account );
 static gboolean export_account_change_format ( GtkWidget * combo,
 					struct exported_account * account );
 static void export_account_toggled ( GtkCellRendererToggle *cell, gchar *path_str,

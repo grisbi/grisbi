@@ -208,7 +208,7 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
     gtk_widget_show_all ( assistant );
 
     notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
-    gtk_notebook_set_page ( GTK_NOTEBOOK (notebook),
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK (notebook),
 			    0 );
     gtk_widget_grab_focus (GTK_WIDGET (g_object_get_data (G_OBJECT (assistant),
 							  "button_next")));
@@ -248,7 +248,7 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 							  FALSE );
 		}
 
-		gtk_notebook_set_page ( GTK_NOTEBOOK(notebook), next );
+		gtk_notebook_set_current_page ( GTK_NOTEBOOK(notebook), next );
 		break;
 
 	    case GTK_RESPONSE_NO:
@@ -265,7 +265,7 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 		    gtk_widget_set_sensitive ( button_prev, FALSE );
 		}
 
-		gtk_notebook_set_page ( GTK_NOTEBOOK(notebook), prev );
+		gtk_notebook_set_current_page ( GTK_NOTEBOOK(notebook), prev );
 		break;
 
 	    case GTK_RESPONSE_APPLY:

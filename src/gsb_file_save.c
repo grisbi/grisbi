@@ -918,6 +918,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 					       "\t\tOwner=\"%s\"\n"
 					       "\t\tKind=\"%d\"\n"
 					       "\t\tCurrency=\"%d\"\n"
+                           "\t\tPath_icon=\"%s\"\n"
 					       "\t\tBank=\"%d\"\n"
 					       "\t\tBank_branch_code=\"%s\"\n"
 					       "\t\tBank_account_number=\"%s\"\n"
@@ -948,6 +949,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    gsb_data_account_get_holder_name (account_number),
 	    gsb_data_account_get_kind (account_number),
 	    gsb_data_account_get_currency (account_number),
+        gsb_data_account_get_path_icon (account_number),
 	    gsb_data_account_get_bank (account_number),
 	    gsb_data_account_get_bank_branch_code (account_number),
 	    gsb_data_account_get_bank_account_number (account_number),

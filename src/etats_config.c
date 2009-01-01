@@ -393,7 +393,7 @@ void personnalisation_etat (void)
 	return;
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
+	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general),
 				GSB_REPORTS_PAGE );
 
     dialog = gtk_dialog_new_with_buttons ( _("Report properties"),
@@ -1136,7 +1136,7 @@ gboolean report_tree_view_selection_changed ( GtkTreeSelection *selection,
 	return(FALSE);
 
     gtk_tree_model_get ( model, &iter, 1, &selected, -1 );
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_config_etat ), selected);
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_config_etat ), selected);
 
     return FALSE;
 }
@@ -1905,7 +1905,7 @@ void recuperation_info_perso_etat ( void )
     rafraichissement_etat ( gsb_gui_navigation_get_current_report ());
 
     /* on repasse à la 1ère page du notebook */
-    gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_etats ),
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_etats ),
 			    0 );
     gtk_widget_set_sensitive ( navigation_tree_view, TRUE );
 

@@ -39,7 +39,6 @@
 #include "./utils_font.h"
 #include "./structures.h"
 #include "./custom_list.h"
-#include "./utils_file_selection.h"
 #include "./utils_buttons.h"
 #include "./include.h"
 #include "./erreur.h"

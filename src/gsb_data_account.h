@@ -61,6 +61,7 @@ gchar *gsb_data_account_get_name ( gint account_number );
 gint gsb_data_account_get_nb_rows ( gint account_number );
 gint gsb_data_account_get_no_account ( gpointer account_ptr );
 gint gsb_data_account_get_no_account_by_name ( const gchar *account_name );
+gchar *gsb_data_account_get_path_icon (gint account_number);
 gboolean gsb_data_account_get_r ( gint account_number );
 gint gsb_data_account_get_reconcile_sort_type ( gint account_number );
 gfloat gsb_data_account_get_row_align ( gint account_number );
@@ -126,6 +127,8 @@ gboolean gsb_data_account_set_name ( gint account_number,
 				     const gchar *name );
 gboolean gsb_data_account_set_nb_rows ( gint account_number,
 					gint nb_rows );
+gboolean gsb_data_account_set_path_icon ( gint account_number,
+					       const gchar *filename );
 gboolean gsb_data_account_set_r ( gint account_number,
 				  gboolean show_r );
 gboolean gsb_data_account_set_reconcile_sort_type ( gint account_number,

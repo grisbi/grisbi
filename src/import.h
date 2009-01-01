@@ -120,7 +120,6 @@ void importer_fichier ( void );
 GtkWidget *onglet_importation (void);
 void register_import_format ( struct import_format * format );
 void register_import_formats ();
-void traitement_operations_importees ( void );
 gchar * unique_imported_name ( gchar * account_name );
 /* END_DECLARATION */
 

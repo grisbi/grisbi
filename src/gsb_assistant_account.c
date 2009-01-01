@@ -32,6 +32,7 @@
 #include "gsb_assistant_account.h"
 #include "./gsb_account.h"
 #include "./gsb_assistant.h"
+#include "./gsb_automem.h"
 #include "./gsb_bank.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_currency.h"
@@ -40,6 +41,7 @@
 #include "./gsb_real.h"
 #include "./utils.h"
 #include "./structures.h"
+#include "./utils_buttons.h"
 #include "./gsb_data_account.h"
 #include "./include.h"
 /*END_INCLUDE*/
@@ -209,13 +211,14 @@ static GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant )
 static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 {
     GtkWidget *page, *label, *button, *table;
+    GtkWidget *align;
     struct lconv * conv = localeconv();
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
-    table = gtk_table_new ( 0, 3, FALSE );
+    table = gtk_table_new ( 3, 4, FALSE );
     gtk_table_set_row_spacings ( GTK_TABLE ( table ), 6 );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
 
@@ -306,6 +309,25 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
 		       0, 0 );
+    
+    /* création du choix de l'icône du compte */
+    /* Récupération de l'icône par défaut */
+    align = gtk_alignment_new (0.5,0.5,1,1);
+    gtk_alignment_set_padding ( GTK_ALIGNMENT ( align ), 0, 0, 20, 20 );
+    button = gsb_automem_imagefile_button_new ( GSB_BUTTON_ICON,
+					       NULL,
+					       "ac_bank.png",
+					       NULL,
+					       NULL );
+    gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NORMAL );
+    gtk_container_add (GTK_CONTAINER (align), button);
+    gtk_table_attach ( GTK_TABLE ( table ), align, 
+		       3, 4, 0, 3,
+		       GTK_FILL | GTK_FILL,
+		       GTK_FILL | GTK_FILL,
+		       0, 0 );
+    gtk_widget_set_size_request ( button, 80, 80 );
+    g_object_set_data ( G_OBJECT (assistant), "bouton_icon", button );
 
     gtk_widget_show_all (page);
     return page;
@@ -434,8 +456,41 @@ static gboolean gsb_assistant_account_enter_page_finish ( GtkWidget * assistant,
 gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
 						      GtkWidget *assistant )
 {
+    GtkWidget *bouton_icon, *image;
+    kind_account account_kind;
+    gchar * account_icon;
+
+    account_kind = GPOINTER_TO_INT ( g_object_get_data 
+                ( G_OBJECT (button), "account_kind"));
     g_object_set_data ( G_OBJECT (assistant),
-			"account_kind", g_object_get_data ( G_OBJECT (button),
-							    "account_kind" ));
+			"account_kind", GINT_TO_POINTER ( account_kind ) );
+
+    switch ( account_kind )
+    {
+	case GSB_TYPE_BANK:
+	    account_icon = "ac_bank.png";
+	    break;
+
+	case GSB_TYPE_CASH:
+	    account_icon = "ac_cash.png";
+	    break;
+
+	case GSB_TYPE_ASSET:
+    account_icon = "ac_asset.png";
+	    break;
+
+	case GSB_TYPE_LIABILITIES:
+	    account_icon = "ac_liability.png";
+	    break;
+
+	default:
+	    account_icon = "ac_bank.png";
+	    break;
+    }
+
+    bouton_icon = g_object_get_data ( G_OBJECT (assistant), "bouton_icon" );
+    image = gtk_image_new_from_file (g_build_filename (PIXMAPS_DIR,
+							   account_icon, NULL));
+    gtk_button_set_image ( GTK_BUTTON ( bouton_icon ), image);
     return FALSE;
 }

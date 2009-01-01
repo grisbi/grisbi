@@ -54,7 +54,6 @@
 #include "./parametres.h"
 #include "./affichage_liste.h"
 #include "./transaction_list.h"
-#include "./utils_file_selection.h"
 #include "./fenetre_principale.h"
 #include "./include.h"
 #include "./erreur.h"
@@ -196,7 +195,7 @@ void gsb_file_new_gui ( void )
 
     /* Affiche le nom du fichier de comptes dans le titre de la fenetre */
     gsb_file_update_window_title();
-    gtk_notebook_set_page ( GTK_NOTEBOOK( notebook_general ), GSB_HOME_PAGE );
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK( notebook_general ), GSB_HOME_PAGE );
 
     gtk_widget_show ( notebook_general );
 }

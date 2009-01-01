@@ -34,6 +34,7 @@
 #include "./export_csv.h"
 #include "./gsb_data_archive.h"
 #include "./gsb_data_fyear.h"
+#include "./gsb_file.h"
 #include "./gsb_file_save.h"
 #include "./gsb_file_util.h"
 #include "./utils_dates.h"
@@ -43,7 +44,6 @@
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
 #include "./include.h"
-#include "./gsb_file.h"
 /*END_INCLUDE*/
 
 

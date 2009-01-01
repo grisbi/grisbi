@@ -56,6 +56,7 @@ typedef struct
     kind_account account_kind;
     gchar 	*account_name;
     gint 	currency;
+    gchar   *path_icon;                         /* path for not standard icon ajout pbiava 31/12/2008 */
     gint 	closed_account;                     /**< if 1 => closed */
     gchar 	*comment;
     gchar 	*holder_name;
@@ -2448,4 +2449,56 @@ gboolean gsb_data_form_dup_sort_values ( gint origin_account,
     target_account_ptr -> sort_column = origin_account_ptr -> sort_column;
     return TRUE;
 }
+
+
+/**
+ * get the icon_path of the account
+ * 
+ * \param account_number no of the account
+ * 
+ * \return icon_path or NULL if the account doesn't exist
+ * */
+gchar *gsb_data_account_get_path_icon (gint account_number)
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	return NULL;
+
+    return account -> path_icon;
+}
+
+
+/**
+ * set the icon_path of the account
+ * the address is copied in memory
+ * 
+ * \param account_number no of the account
+ * \param filename name of file to set
+ * 
+ * \return TRUE, ok ; FALSE, problem
+ * */
+gboolean gsb_data_account_set_path_icon ( gint account_number,
+					       const gchar *filename )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	return FALSE;
+
+    if ( account -> path_icon )
+        g_free ( account -> path_icon );
+
+    if (!filename || !strlen (filename))
+	account -> path_icon = NULL;
+    else
+	account -> path_icon = my_strdup (filename);
+
+    return TRUE;
+}
+
 

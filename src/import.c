@@ -116,6 +116,7 @@ static gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
 static gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
 			      const gchar *value, GtkListStore * model );
 static void pointe_opes_importees ( struct struct_compte_importation *imported_account );
+static void traitement_operations_importees ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/

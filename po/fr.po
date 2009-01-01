@@ -3483,14 +3483,14 @@ msgid "Delete account \"%s\"?"
 msgstr "Supprimer le compte « %s » ?"
 
 #: src/gsb_account.c:163
-#, fuzzy
 msgid ""
 "This will irreversibly remove this account and all operations that were "
 "previously contained.  There is no undo for this. Usually it's a better way "
 "to close an account."
 msgstr ""
-"Cela détruira irrémédiablement votre compte ainsi que toutes les opérations "
-"qui y étaient précédemment. Il n'y a pas d'annulation possible."
+"Cela supprimera irrémédiablement ce compte ainsi que toutes les opérations "
+"associées. Il n'y a pas d'annulation possible.\n"
+"Habituellement c'est le meilleur moyen de clore un compte."
 
 #: src/gsb_account_property.c:151
 msgid "Account details"
@@ -3698,6 +3698,7 @@ msgid ""
 "All that you do here can be changed later in the account configuration page."
 msgstr ""
 "Cet assistant va vous aider à créer un nouveau compte.\n"
+"\n"
 "Tout ce que vous ferez ici pourra être modifié plus tard dans les propriétés "
 "du compte."
 
@@ -3727,16 +3728,14 @@ msgid ""
 "Special account to represent an asset, like a car or special subscriptions."
 msgstr ""
 "Compte d'actif\n"
-"Compte spécial pour représenter un atout, comme une voiture ou des "
+"Compte spécial pour représenter un investissement, comme une voiture ou des "
 "abonnements spécifiques."
 
 #: src/gsb_assistant_account.c:157
-#, fuzzy
 msgid "Account type selection"
-msgstr "Différenciation du compte"
+msgstr "Sélection du type de compte"
 
 #: src/gsb_assistant_account.c:163
-#, fuzzy
 msgid ""
 "Please select type for this account.\n"
 "The account will be created with default payment methods chosen according to "
@@ -3745,26 +3744,24 @@ msgid ""
 "account.\n"
 msgstr ""
 "Choisissez le type de compte.\n"
-"Ce compte sera créé avec les méthodes de paiement par défaut adaptées à "
-"votre choix.\n"
+"\n"
+"Ce compte sera créé avec les méthodes de paiement par défaut adaptées au "
+"type de compte choisi.\n"
 "Si vous n'êtes pas sûr ou novice en comptabilité, nous vous conseillons de "
 "choisir un compte bancaire.\n"
 
 #. choose the currency
 #: src/gsb_assistant_account.c:226
-#, fuzzy
 msgid "Currency for the account."
-msgstr "Monnaie du compte."
+msgstr "Devise du compte."
 
 #. propose to add a currency
 #: src/gsb_assistant_account.c:254
-#, fuzzy
 msgid "Add/Change..."
 msgstr "Ajouter/Changer"
 
 #. choose the bank
 #: src/gsb_assistant_account.c:266
-#, fuzzy
 msgid "Bank for the account."
 msgstr "Banque du compte."
 
@@ -4132,6 +4129,11 @@ msgid ""
 "account from scratch or to import previous data, i.e. from your previous "
 "accounting software or your bank website."
 msgstr ""
+"Cet assistant va vous aider à créer un nouveau fichier de compte.\n"
+"\n"
+"Tout ce que vous ferez ici pourra être modifié plus tard dans les "
+"propriétés du compte.\n"
+" "
 
 #: src/gsb_assistant_file.c:261
 #, fuzzy
@@ -7411,9 +7413,8 @@ msgid "New financial year"
 msgstr "Nouvel exercice"
 
 #: src/gsb_fyear_config.c:707
-#, fuzzy
 msgid "The selected financial year is used in the file"
-msgstr "sélectionné en dernier"
+msgstr "L'exercice sélectionné est déjà utilisé"
 
 #: src/gsb_fyear_config.c:708
 msgid ""
@@ -7421,6 +7422,9 @@ msgid ""
 "financial year.\n"
 "Are you sure ?"
 msgstr ""
+"Si vous supprimez cet exercice, toutes les opérations associées se "
+"retrouveront sans exercice \n"
+"Etes-vous sûr de vouloir continuer"
 
 #: src/gsb_fyear_config.c:762
 msgid "Automatic association of financial years?"
