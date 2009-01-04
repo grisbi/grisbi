@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*    copyright (c)	2000-2008 Cédric Auger (cedric@grisbi.org)	              */
-/*			2004-2008 Benjamin Drieu (bdrieu@april.org) 	                  */
+/*			2004-2009 Benjamin Drieu (bdrieu@april.org) 	                  */
 /*          2000-2008 Pierre Biava (pierre@pierre.biava.name                  */
 /*			                                                                  */
 /*			http://www.grisbi.org   			                              */
@@ -95,7 +95,7 @@ gchar * gsb_select_icon_create_window ( gchar * name_icon )
                                 GTK_STOCK_OK,
                                 GTK_RESPONSE_ACCEPT);
     gtk_widget_set_size_request ( dialog, 400, 450 );
-    content_area = gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) );
+    content_area = GTK_DIALOG ( dialog ) -> vbox;
 
     /* création hbox pour GtkEntry répertoire et bouton sélection des répertoires */
     hbox = gtk_hbox_new ( FALSE, 5);
