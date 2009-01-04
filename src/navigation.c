@@ -50,9 +50,7 @@
 #include "./imputation_budgetaire.h"
 #include "./transaction_list_select.h"
 #include "./transaction_list_sort.h"
-#include "./utils_files.h"
 #include "./fenetre_principale.h"
-#include "./gsb_data_account.h"
 #include "./include.h"
 #include "./balance_estimate_tab.h"
 #include "./erreur.h"
@@ -860,66 +858,10 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model,
 					      GtkTreeIter * account_iter,
 					      gint account_number )
 {
-    GdkPixbuf * pixbuf;
-    gchar * account_icon;
+    GdkPixbuf * pixbuf = NULL;
 
-    if ( (account_icon = gsb_data_account_get_path_icon ( account_number ) ) )
-    {
-        GError *error = NULL;
+    pixbuf = gsb_data_account_get_account_icon_pixbuf ( account_number );
 
-        pixbuf = gdk_pixbuf_new_from_file_at_size ( account_icon , 32, 32, &error );
-        if ( pixbuf )
-        {
-            gtk_tree_store_set(GTK_TREE_STORE(model), account_iter, 
-		       NAVIGATION_PIX, pixbuf,
-		       NAVIGATION_PIX_VISIBLE, TRUE, 
-		       NAVIGATION_TEXT, gsb_data_account_get_name ( account_number ), 
-		       NAVIGATION_FONT, 400,
-		       NAVIGATION_PAGE, GSB_ACCOUNT_PAGE,
-		       NAVIGATION_ACCOUNT, account_number,
-		       NAVIGATION_SENSITIVE, !gsb_data_account_get_closed_account ( account_number ),
-		       NAVIGATION_REPORT, -1,
-		       -1 );
-            return;
-        }
-        else
-        {
-            gchar* tmpstr = g_strconcat( "Erreur de pixbuf : " , 
-                 error -> message, " image ",
-				 account_icon, NULL );
-            devel_debug (tmpstr);
-            g_free ( tmpstr );
-        }
-    }
-	    
-    switch ( gsb_data_account_get_kind ( account_number ) )
-    {
-	case GSB_TYPE_BANK:
-	    account_icon = "ac_bank";
-	    break;
-
-	case GSB_TYPE_CASH:
-	    account_icon = "ac_cash";
-	    break;
-
-	case GSB_TYPE_ASSET:
-    account_icon = "ac_asset";
-	    break;
-
-	case GSB_TYPE_LIABILITIES:
-	    account_icon = "ac_liability";
-	    break;
-
-	default:
-	    account_icon = "ac_bank";
-	    break;
-    }
-
-    gchar* tmpstr = g_strconcat( PIXMAPS_DIR, 
-				 C_DIRECTORY_SEPARATOR,
-				 account_icon, ".png", NULL );
-    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
-    g_free ( tmpstr );
     gtk_tree_store_set(GTK_TREE_STORE(model), account_iter, 
 		       NAVIGATION_PIX, pixbuf,
 		       NAVIGATION_PIX_VISIBLE, TRUE, 

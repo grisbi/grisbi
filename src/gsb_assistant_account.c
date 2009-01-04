@@ -30,23 +30,26 @@
 
 /*START_INCLUDE*/
 #include "gsb_assistant_account.h"
+#include "./dialog.h"
 #include "./gsb_account.h"
 #include "./gsb_assistant.h"
-#include "./gsb_automem.h"
 #include "./gsb_bank.h"
 #include "./gsb_currency_config.h"
 #include "./gsb_currency.h"
+#include "./gsb_data_account.h"
 #include "./gsb_data_bank.h"
 #include "./gsb_data_currency.h"
 #include "./gsb_real.h"
+#include "./gsb_select_icon.h"
 #include "./utils.h"
 #include "./structures.h"
-#include "./utils_buttons.h"
 #include "./gsb_data_account.h"
 #include "./include.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void gsb_assistant_account_change_account_icon ( GtkWidget *button, gpointer data );
 static  gboolean gsb_assistant_account_enter_page_finish ( GtkWidget * assistant, gint new_page );
 static  GtkWidget *gsb_assistant_account_page_2 ( GtkWidget *assistant );
 static  GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant );
@@ -57,6 +60,8 @@ static gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
 
 /*START_EXTERN*/
 /*END_EXTERN*/
+
+static gchar * new_icon = NULL;
 
 enum first_assistant_page
 {
@@ -86,6 +91,8 @@ GtkResponseType gsb_assistant_account_run ( void )
     GtkResponseType return_value;
     GtkWidget *assistant;
 
+    if ( new_icon && strlen ( new_icon ) > 0)
+        g_free ( new_icon );
     assistant = gsb_assistant_new ( _("Create a new account"),
 				    _("This assistant will help you to create a new account.\n"
 				      "All that you do here can be changed later in the account configuration page." ),
@@ -120,7 +127,8 @@ GtkResponseType gsb_assistant_account_run ( void )
 			  gsb_currency_get_currency_from_combobox (account_combobox_currency),
 			  gsb_bank_list_get_bank_number (account_combobox_bank),
 			  gsb_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (account_entry_initial_amount))),
-			  gtk_entry_get_text (GTK_ENTRY (account_entry_name)));
+			  gtk_entry_get_text (GTK_ENTRY (account_entry_name)),
+              new_icon );
         result = TRUE; /* assistant was not cancelled */
     }
 
@@ -212,6 +220,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 {
     GtkWidget *page, *label, *button, *table;
     GtkWidget *align;
+    GtkWidget *image;
     struct lconv * conv = localeconv();
 
     page = gtk_hbox_new (FALSE, 15);
@@ -314,11 +323,11 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
     /* Récupération de l'icône par défaut */
     align = gtk_alignment_new (0.5,0.5,1,1);
     gtk_alignment_set_padding ( GTK_ALIGNMENT ( align ), 0, 0, 20, 20 );
-    button = gsb_automem_imagefile_button_new ( GSB_BUTTON_ICON,
-					       NULL,
-					       "ac_bank.png",
-					       NULL,
-					       NULL );
+    button = gtk_button_new ( );
+    gtk_widget_set_size_request ( button, 80, 80 );
+    image = gtk_image_new_from_pixbuf (
+                gsb_data_account_get_account_standard_pixbuf ( 0 ) );
+    gtk_button_set_image ( GTK_BUTTON ( button ), image);
     gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NORMAL );
     gtk_container_add (GTK_CONTAINER (align), button);
     gtk_table_attach ( GTK_TABLE ( table ), align, 
@@ -326,8 +335,11 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 		       GTK_FILL | GTK_FILL,
 		       GTK_FILL | GTK_FILL,
 		       0, 0 );
-    gtk_widget_set_size_request ( button, 80, 80 );
     g_object_set_data ( G_OBJECT (assistant), "bouton_icon", button );
+    g_signal_connect ( G_OBJECT( button ), 
+                            "pressed", 
+                            G_CALLBACK(gsb_assistant_account_change_account_icon), 
+                            NULL );
 
     gtk_widget_show_all (page);
     return page;
@@ -458,39 +470,43 @@ gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
 {
     GtkWidget *bouton_icon, *image;
     kind_account account_kind;
-    gchar * account_icon;
 
     account_kind = GPOINTER_TO_INT ( g_object_get_data 
                 ( G_OBJECT (button), "account_kind"));
     g_object_set_data ( G_OBJECT (assistant),
-			"account_kind", GINT_TO_POINTER ( account_kind ) );
-
-    switch ( account_kind )
-    {
-	case GSB_TYPE_BANK:
-	    account_icon = "ac_bank.png";
-	    break;
-
-	case GSB_TYPE_CASH:
-	    account_icon = "ac_cash.png";
-	    break;
-
-	case GSB_TYPE_ASSET:
-    account_icon = "ac_asset.png";
-	    break;
-
-	case GSB_TYPE_LIABILITIES:
-	    account_icon = "ac_liability.png";
-	    break;
-
-	default:
-	    account_icon = "ac_bank.png";
-	    break;
-    }
+                "account_kind", GINT_TO_POINTER ( account_kind ) );
 
     bouton_icon = g_object_get_data ( G_OBJECT (assistant), "bouton_icon" );
-    image = gtk_image_new_from_file (g_build_filename (PIXMAPS_DIR,
-							   account_icon, NULL));
+    image = gtk_image_new_from_pixbuf (
+                gsb_data_account_get_account_standard_pixbuf ( account_kind ) );
     gtk_button_set_image ( GTK_BUTTON ( bouton_icon ), image);
     return FALSE;
+}
+
+void gsb_assistant_account_change_account_icon ( GtkWidget *button, gpointer data )
+{
+    GdkPixbuf * pixbuf;
+    GtkWidget *image;
+    gchar * name_icon;
+    GError *error = NULL;
+
+    devel_debug ( NULL );
+    image = gtk_button_get_image ( GTK_BUTTON ( button ) );
+    pixbuf = gtk_image_get_pixbuf ( GTK_IMAGE ( image ) );
+    name_icon = g_object_get_data ( G_OBJECT ( pixbuf ), "name_icon" );
+    devel_debug (name_icon);
+    new_icon = gsb_select_icon_create_window ( name_icon );
+    devel_debug (new_icon);
+    pixbuf = gdk_pixbuf_new_from_file_at_size ( new_icon , 32, 32, &error );
+    if ( ! pixbuf )
+    {
+        devel_debug ( error -> message );
+        dialogue_error ( error -> message );
+    }
+    else
+    {
+    image = gtk_image_new_from_pixbuf ( pixbuf );
+        if ( image )
+            gtk_button_set_image ( GTK_BUTTON ( button ), image );
+    }
 }

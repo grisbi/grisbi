@@ -35,7 +35,6 @@
 #include "gsb_account_property.h"
 #include "./gsb_account.h"
 #include "./gsb_autofunc.h"
-#include "./gsb_automem.h"
 #include "./gsb_bank.h"
 #include "./utils_buttons.h"
 #include "./gsb_currency.h"
@@ -60,8 +59,6 @@
 #include "./transaction_list.h"
 #include "./structures.h"
 #include "./gsb_transactions_list.h"
-#include "./utils_buttons.h"
-#include "./gsb_data_account.h"
 #include "./accueil.h"
 #include "./gsb_data_transaction.h"
 #include "./gsb_form_scheduler.h"
@@ -162,12 +159,13 @@ GtkWidget *gsb_account_property_create_page ( void )
     align = gtk_alignment_new (0.5,0.5,0.5,0.5);
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), align );
     gtk_box_pack_start ( GTK_BOX(hbox_account), align, FALSE, FALSE, 0);
-    bouton_icon = gsb_automem_imagefile_button_new ( GSB_BUTTON_ICON,
-					       NULL,
-					       "ac_bank.png",
-					       NULL,
-					       NULL );
+    bouton_icon = gtk_button_new ( );
     gtk_button_set_relief ( GTK_BUTTON ( bouton_icon ), GTK_RELIEF_NORMAL );
+    gtk_widget_set_size_request ( bouton_icon, 60, 60 );
+    g_signal_connect ( G_OBJECT( bouton_icon ), 
+                            "pressed", 
+                            G_CALLBACK(gsb_data_account_change_account_icon), 
+                            NULL );
     gtk_container_add (GTK_CONTAINER (align), bouton_icon);
     vbox_account = gtk_vbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX(hbox_account), vbox_account, TRUE, TRUE, 0);
@@ -468,8 +466,6 @@ void gsb_account_property_fill_page ( void )
 {
     gint bank_number;
     gint current_account;
-    kind_account account_kind;
-    gchar * account_icon;
     GtkWidget *image;
 
     devel_debug (NULL);
@@ -479,43 +475,13 @@ void gsb_account_property_fill_page ( void )
     gsb_autofunc_entry_set_value (detail_nom_compte,
 				  gsb_data_account_get_name (current_account), current_account);
 
+    gsb_autofunc_combobox_set_index (detail_type_compte,
+				     gsb_data_account_get_kind (current_account), current_account);
+    
     /* modification pour mettre à jour l'icône du sélecteur d'icône du compte */
-    account_kind = gsb_data_account_get_kind ( current_account );
-    gsb_autofunc_combobox_set_index (detail_type_compte, account_kind, current_account);
-    
-    if ( (account_icon = gsb_data_account_get_path_icon ( current_account ) ) )
-    {
-        GdkPixbuf * pixbuf;
+    image = gsb_data_account_get_account_icon_image ( current_account );
+    gtk_button_set_image ( GTK_BUTTON ( bouton_icon ), image );
         
-        pixbuf = gdk_pixbuf_new_from_file_at_size ( account_icon , 32, 32, NULL );
-        image = gtk_image_new_from_pixbuf ( pixbuf );
-    }
-    else 
-    {
-        switch ( account_kind )
-        {
-        case GSB_TYPE_BANK:
-            account_icon = "ac_bank.png";
-            break;
-        case GSB_TYPE_CASH:
-            account_icon = "ac_cash.png";
-            break;
-        case GSB_TYPE_ASSET:
-        account_icon = "ac_asset.png";
-            break;
-        case GSB_TYPE_LIABILITIES:
-            account_icon = "ac_liability.png";
-            break;
-        default:
-            account_icon = "ac_bank.png";
-            break;
-        }
-        image = gtk_image_new_from_file (g_build_filename (PIXMAPS_DIR,
-							   account_icon, NULL));
-    }
-    if ( image )
-        gtk_button_set_image ( GTK_BUTTON ( bouton_icon ), image );
-    
     gsb_autofunc_currency_set_currency_number (detail_devise_compte,
 					       gsb_data_account_get_currency (current_account), current_account);
 
@@ -628,6 +594,7 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
 {
     gint origin = GPOINTER_TO_INT (p_origin);
     gint account_number;
+    GtkWidget *image;
 
     account_number = gsb_gui_navigation_get_current_account ();
     if ( account_number == -1)
@@ -659,6 +626,8 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
 
 	case PROPERTY_KIND:
 	    gsb_gui_navigation_update_account ( account_number );
+        image = gsb_data_account_get_account_icon_image ( account_number );
+        gtk_button_set_image ( GTK_BUTTON ( bouton_icon ), image );
 	    gsb_form_clean(gsb_form_get_account_number ());
 	    break;
 

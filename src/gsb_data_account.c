@@ -34,7 +34,9 @@
 #include "./gsb_data_currency.h"
 #include "./gsb_data_form.h"
 #include "./gsb_data_transaction.h"
+#include "./navigation.h"
 #include "./gsb_real.h"
+#include "./gsb_select_icon.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
 #include "./custom_list.h"
@@ -56,7 +58,7 @@ typedef struct
     kind_account account_kind;
     gchar 	*account_name;
     gint 	currency;
-    gchar   *path_icon;                         /* path for not standard icon ajout pbiava 31/12/2008 */
+    gchar   *name_icon;                         /* path for not standard icon ajout pbiava 31/12/2008 */
     gint 	closed_account;                     /**< if 1 => closed */
     gchar 	*comment;
     gchar 	*holder_name;
@@ -2458,7 +2460,7 @@ gboolean gsb_data_form_dup_sort_values ( gint origin_account,
  * 
  * \return icon_path or NULL if the account doesn't exist
  * */
-gchar *gsb_data_account_get_path_icon (gint account_number)
+gchar *gsb_data_account_get_name_icon (gint account_number)
 {
     struct_account *account;
 
@@ -2467,7 +2469,7 @@ gchar *gsb_data_account_get_path_icon (gint account_number)
     if (!account )
 	return NULL;
 
-    return account -> path_icon;
+    return account -> name_icon;
 }
 
 
@@ -2480,7 +2482,7 @@ gchar *gsb_data_account_get_path_icon (gint account_number)
  * 
  * \return TRUE, ok ; FALSE, problem
  * */
-gboolean gsb_data_account_set_path_icon ( gint account_number,
+gboolean gsb_data_account_set_name_icon ( gint account_number,
 					       const gchar *filename )
 {
     struct_account *account;
@@ -2490,15 +2492,139 @@ gboolean gsb_data_account_set_path_icon ( gint account_number,
     if (!account )
 	return FALSE;
 
-    if ( account -> path_icon )
-        g_free ( account -> path_icon );
+    if ( account -> name_icon )
+        g_free ( account -> name_icon );
 
     if (!filename || !strlen (filename))
-	account -> path_icon = NULL;
+	account -> name_icon = NULL;
     else
-	account -> path_icon = my_strdup (filename);
+	account -> name_icon = my_strdup (filename);
 
     return TRUE;
+}
+
+/**
+ * get the image icon of the account
+ * 
+ * \param account_number no of the account
+ * 
+ * \return image icon 
+ * */
+GtkWidget *gsb_data_account_get_account_icon_image ( gint account_number )
+{
+    GdkPixbuf * pixbuf;
+    GtkWidget *image;
+
+    pixbuf = gsb_data_account_get_account_icon_pixbuf ( account_number );
+    image = gtk_image_new_from_pixbuf ( pixbuf );
+
+    return image;
+}
+
+/**
+ * get the pixbuf icon of the account
+ * 
+ * \param account_number no of the account
+ * 
+ * \return pixbuf icon 
+ * */
+GdkPixbuf *gsb_data_account_get_account_icon_pixbuf ( gint account_number )
+{
+    GdkPixbuf * pixbuf = NULL;
+    gchar * account_icon;
+    GError *error = NULL;
+
+    if ( (account_icon = gsb_data_account_get_name_icon ( account_number ) ) )
+    {
+        pixbuf = gdk_pixbuf_new_from_file_at_size ( account_icon , 32, 32, &error );
+        g_object_set_data ( G_OBJECT ( pixbuf ), "name_icon", account_icon );
+    }
+
+    if ( ! pixbuf )
+    {
+        if (account_icon && strlen (account_icon) > 0)
+        {
+            gchar* tmpstr = g_strconcat( "Erreur de pixbuf : " , 
+                 error -> message, " image ",
+                 account_icon, NULL );
+            devel_debug (tmpstr);
+            dialogue_error ( tmpstr );
+            g_free ( tmpstr );
+        }        
+        pixbuf = gsb_data_account_get_account_standard_pixbuf ( 
+                    gsb_data_account_get_kind ( account_number ) );
+    }
+
+    return pixbuf;
+}
+
+
+GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_kind )
+{
+    GdkPixbuf * pixbuf = NULL;
+    gchar * account_icon;
+    GError *error = NULL;
+
+    switch ( account_kind )
+    {
+    case GSB_TYPE_BANK:
+        account_icon = "ac_bank.png";
+        break;
+    case GSB_TYPE_CASH:
+        account_icon = "ac_cash.png";
+        break;
+    case GSB_TYPE_ASSET:
+    account_icon = "ac_asset.png";
+        break;
+    case GSB_TYPE_LIABILITIES:
+        account_icon = "ac_liability.png";
+        break;
+    default:
+        account_icon = "ac_bank.png";
+        break;
+    }
+    pixbuf = gdk_pixbuf_new_from_file ( g_build_filename (PIXMAPS_DIR,
+                           account_icon, NULL), &error );
+    g_object_set_data ( G_OBJECT ( pixbuf ), "name_icon",  
+                           g_build_filename (PIXMAPS_DIR,
+                           account_icon, NULL) );
+
+    if ( ! pixbuf )
+    {
+        gchar* tmpstr = g_strconcat( "Erreur de pixbuf : " , 
+             error -> message, " image ",
+             account_icon, NULL );
+        devel_debug (tmpstr);
+        g_free ( tmpstr );
+    }
+
+    return pixbuf;
+}
+
+
+void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
+{
+    GdkPixbuf * pixbuf;
+    GtkWidget *image;
+    gchar * name_icon;
+    gchar * new_icon;
+    gint current_account;
+
+    devel_debug ( NULL );
+    image = gtk_button_get_image ( GTK_BUTTON ( button ) );
+    pixbuf = gtk_image_get_pixbuf ( GTK_IMAGE ( image ) );
+    name_icon = g_object_get_data ( G_OBJECT ( pixbuf ), "name_icon" );
+    devel_debug (name_icon);
+    new_icon = gsb_select_icon_create_window ( name_icon );
+    devel_debug (new_icon);
+    if ( new_icon )
+    {
+        current_account = gsb_gui_navigation_get_current_account ();
+        gsb_data_account_set_name_icon ( current_account, new_icon );
+        image = gsb_data_account_get_account_icon_image ( current_account );
+        gtk_button_set_image ( GTK_BUTTON ( button ), image );
+        gsb_gui_navigation_update_account ( current_account );
+    }
 }
 
 

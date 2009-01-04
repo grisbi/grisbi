@@ -144,7 +144,8 @@ sources = \
 	utils_str.c		\
 	balance_estimate_tab.c
 
-grisbi_SOURCES = $(sources) $(sources_config)
+grisbi_SOURCES = $(sources) $(sources_config) \
+	gsb_select_icon.c
 
 grisbi_INCLUDES =		\
 	$(include_config)       \

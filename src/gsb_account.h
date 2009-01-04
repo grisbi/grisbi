@@ -19,7 +19,8 @@ gboolean gsb_account_new ( kind_account account_type,
 			   gint currency_number,
 			   gint bank_number,
 			   gsb_real init_amount,
-			   const gchar *name );
+			   const gchar *name,
+               gchar *name_icon );
 gboolean gsb_account_set_combo_account_number ( GtkWidget *combo_box,
 						gint account_number );
 gboolean gsb_account_update_combo_list ( GtkWidget *combo_box,

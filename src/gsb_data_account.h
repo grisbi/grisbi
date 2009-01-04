@@ -25,11 +25,15 @@ typedef enum _kind_account	kind_account;
 gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_number );
 gsb_real gsb_data_account_calculate_marked_balance ( gint account_number );
 gsb_real gsb_data_account_calculate_waiting_marked_balance ( gint account_number );
+void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data );
 gint gsb_data_account_compare_position ( gint account_number_1,
 					 gint account_number_2 );
 gboolean gsb_data_account_delete ( gint account_number );
 gint gsb_data_account_first_number ( void );
 gint gsb_data_account_get_account_by_id ( const gchar *account_id );
+GtkWidget *gsb_data_account_get_account_icon_image ( gint account_number );
+GdkPixbuf *gsb_data_account_get_account_icon_pixbuf ( gint account_number );
+GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_kind );
 gint gsb_data_account_get_accounts_amount ( void );
 gint gsb_data_account_get_bank ( gint account_number );
 gchar *gsb_data_account_get_bank_account_key ( gint account_number );
@@ -58,10 +62,10 @@ gboolean gsb_data_account_get_mini_balance_authorized_message ( gint account_num
 gsb_real gsb_data_account_get_mini_balance_wanted ( gint account_number );
 gboolean gsb_data_account_get_mini_balance_wanted_message ( gint account_number );
 gchar *gsb_data_account_get_name ( gint account_number );
+gchar *gsb_data_account_get_name_icon (gint account_number);
 gint gsb_data_account_get_nb_rows ( gint account_number );
 gint gsb_data_account_get_no_account ( gpointer account_ptr );
 gint gsb_data_account_get_no_account_by_name ( const gchar *account_name );
-gchar *gsb_data_account_get_path_icon (gint account_number);
 gboolean gsb_data_account_get_r ( gint account_number );
 gint gsb_data_account_get_reconcile_sort_type ( gint account_number );
 gfloat gsb_data_account_get_row_align ( gint account_number );
@@ -125,10 +129,10 @@ gboolean gsb_data_account_set_mini_balance_wanted_message ( gint account_number,
 							    gboolean value );
 gboolean gsb_data_account_set_name ( gint account_number,
 				     const gchar *name );
+gboolean gsb_data_account_set_name_icon ( gint account_number,
+					       const gchar *filename );
 gboolean gsb_data_account_set_nb_rows ( gint account_number,
 					gint nb_rows );
-gboolean gsb_data_account_set_path_icon ( gint account_number,
-					       const gchar *filename );
 gboolean gsb_data_account_set_r ( gint account_number,
 				  gboolean show_r );
 gboolean gsb_data_account_set_reconcile_sort_type ( gint account_number,

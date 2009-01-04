@@ -84,7 +84,8 @@ gboolean gsb_account_new ( kind_account account_type,
 			   gint currency_number,
 			   gint bank_number,
 			   gsb_real init_amount,
-			   const gchar *name )
+			   const gchar *name,
+               gchar *name_icon )
 {
     gint account_number;
 
@@ -98,6 +99,10 @@ gboolean gsb_account_new ( kind_account account_type,
 
     /* set the default method of payment */
     gsb_data_payment_create_default (account_number);
+
+    /* set the icon_name */
+    if ( name_icon )
+        gsb_data_account_set_name_icon ( account_number, name_icon );
 
     gsb_data_account_set_currency ( account_number, currency_number);
     gsb_data_account_set_bank (account_number, bank_number);
