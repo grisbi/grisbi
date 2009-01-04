@@ -1,7 +1,7 @@
 /*  Fichier qui s'occupe d'afficher les états via une impression latex */
 /*      etats_latex.c */
 
-/*     Copyright (C)	2004-2008 Benjamin Drieu (bdrieu@april.org) */
+/*     Copyright (C)	2004-2009 Benjamin Drieu (bdrieu@april.org) */
 /* 			http://www.grisbi.org				      */
 
 /*     This program is free software; you can redistribute it and/or modify */
@@ -281,7 +281,9 @@ gint latex_initialise (GSList * opes_selectionnees, gchar * filename )
 	     "\\usepackage{boxedminipage}\n"
 	     "\\usepackage{longtable}\n"
 	     "\\usepackage{vmargin}\n"
-	     "\\usepackage[T1]{fontenc}\n");
+	     "\\usepackage[T1]{fontenc}\n"
+	     "\\usepackage{ucs}\n"
+	     "\\usepackage[utf8x]{inputenc}\n" );
 
     if ( etat.print_config.orientation == LANDSCAPE )
     {
@@ -417,7 +419,8 @@ void latex_safe ( gchar * text )
 
     for ( ; * text; text ++ )
     {
-	switch ( * text )
+	guchar c = * text;
+	switch ( c )
 	{
 
 	    case ' ':
@@ -425,14 +428,6 @@ void latex_safe ( gchar * text )
 		    fprintf ( file_out, "~" );
 		else
 		    fprintf ( file_out, "%c", *text );
-		break;
-
-	    case 'â':
-		if ( *(text+1) == '' && *(text+2) == '¬' )
-		{
-		    fprintf ( file_out, "\\officialeuro" );
-		    text+=2;
-		}
 		break;
 
 	    case '_':
