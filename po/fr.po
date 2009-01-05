@@ -3520,11 +3520,10 @@ msgstr "Nom du titulaire"
 
 #. now the checkbutton for different address
 #: src/gsb_account_property.c:244
-#, fuzzy
 msgid "Holder's own address"
-msgstr "Le titulaire a sa propre adresse"
+msgstr "Adresse du titulaire"
 
-#. ligne de l'Ã©tablissement financier
+#. ligne de l'établissement financier
 #: src/gsb_account_property.c:277 src/gsb_bank.c:505
 msgid "Bank"
 msgstr "Banque"

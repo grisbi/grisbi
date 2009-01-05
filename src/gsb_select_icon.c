@@ -2,7 +2,7 @@
 /*                                                                            */
 /*    copyright (c)	2000-2008 Cédric Auger (cedric@grisbi.org)	              */
 /*			2004-2009 Benjamin Drieu (bdrieu@april.org) 	                  */
-/*          2000-2008 Pierre Biava (pierre@pierre.biava.name                  */
+/*          2000-2009 Pierre Biava (pierre@pierre.biava.name                  */
 /*			                                                                  */
 /*			http://www.grisbi.org   			                              */
 /*                                                                            */
@@ -461,7 +461,7 @@ gchar * gsb_select_icon_troncate_name_icon ( gchar *name_icon, gint trunc )
 
 
 /**
- * ajoute le nouveau path. S'il existe déjà dans la liste on le suprrime
+ * ajoute le nouveau path. S'il existe déjà dans la liste on le supprime
  * de telle façon qu'il n'existe qu'une fois et apparaisse en premier dans
  * la liste
  *
