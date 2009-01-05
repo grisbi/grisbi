@@ -394,7 +394,13 @@ void gsb_select_icon_selection_changed ( GtkIconView *icon_view,
     gchar *name_icon = NULL;
 
     liste = gtk_icon_view_get_selected_items ( GTK_ICON_VIEW ( icon_view ) );
+
+    /* Could happen if selection is unset, exiting then. */
+    if ( ! liste )
+	return;
+
     path = liste -> data;
+
     model = gtk_icon_view_get_model ( GTK_ICON_VIEW ( icon_view ) );
     if (gtk_tree_model_get_iter ( GTK_TREE_MODEL (model), &iter, path ))
         gtk_tree_model_get (model, &iter, TEXT_COLUMN, &name_icon, -1);
