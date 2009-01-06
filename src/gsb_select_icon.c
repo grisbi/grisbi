@@ -47,6 +47,7 @@ static gchar * gsb_select_icon_troncate_name_icon ( gchar *name_icon, gint trunc
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 static GtkWidget * dialog;
@@ -85,11 +86,14 @@ gchar * gsb_select_icon_create_window ( gchar * name_icon )
     devel_debug ( name_icon );
     path_icon = g_path_get_dirname ( name_icon );
     dialog = gtk_dialog_new_with_buttons ( _("Browse icons"),
-                            NULL,
+                            GTK_WINDOW ( window ),
                             GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                             GTK_STOCK_CANCEL,
                             GTK_RESPONSE_REJECT,
                             NULL);
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
 
     bouton_OK = gtk_dialog_add_button (GTK_DIALOG ( dialog ),
                                 GTK_STOCK_OK,
@@ -99,6 +103,7 @@ gchar * gsb_select_icon_create_window ( gchar * name_icon )
 
     /* création hbox pour GtkEntry répertoire et bouton sélection des répertoires */
     hbox = gtk_hbox_new ( FALSE, 5);
+	gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
     gtk_box_pack_start ( GTK_BOX ( content_area ), hbox, FALSE, FALSE, 5 );
 
     /* création du GtkComboBoxEntry pour la saisie du répertoire */
@@ -115,6 +120,7 @@ gchar * gsb_select_icon_create_window ( gchar * name_icon )
                              GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
     gtk_box_pack_start ( GTK_BOX ( content_area ), scroll, TRUE, TRUE, 0 );
     icon_view = gsb_select_icon_create_icon_view ( name_icon );
+    gtk_container_set_border_width ( GTK_CONTAINER( scroll ), 6 );
     gtk_container_add ( GTK_CONTAINER ( scroll ), icon_view );
 
     /* gestion des signaux */
@@ -266,7 +272,7 @@ GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon )
                 tree_path = gtk_tree_path_new_from_string ( tmpstr );
                 g_free ( tmpstr );
             }
-            pixbuf = gdk_pixbuf_new_from_file_at_size ( tmpstr, 48, 48, NULL);
+            pixbuf = gdk_pixbuf_new_from_file_at_size ( tmpstr, 32, 32, NULL);
             if ( pixbuf )
             {
                 gchar *tmpstr;
@@ -310,12 +316,14 @@ void gsb_select_icon_create_file_chooser ( GtkWidget * button,
     GtkWidget * chooser;
     GtkFileFilter *filter;
     
-    chooser = gtk_file_chooser_dialog_new ( _("Browse"),
+    chooser = gtk_file_chooser_dialog_new ( _("Select icon directory"),
                         GTK_WINDOW (dialog),
                         GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                         GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
                         NULL);
+
+	gtk_window_set_position ( GTK_WINDOW (chooser), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_transient_for (GTK_WINDOW (chooser), GTK_WINDOW (dialog));
 	gtk_window_set_destroy_with_parent (GTK_WINDOW (chooser), TRUE);
     gtk_widget_set_size_request ( chooser, 600, 750 );
