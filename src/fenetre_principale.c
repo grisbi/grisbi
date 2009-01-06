@@ -28,6 +28,7 @@
 #include "./balance_estimate_tab.h"
 #include "./navigation.h"
 #include "./gsb_transactions_list.h"
+#include "./gsb_account_property.h"
 #include "./accueil.h"
 #include "./comptes_onglet.h"
 #include "./etats_onglet.h"
@@ -321,6 +322,7 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 	case 1:
 	    gsb_form_set_expander_visible (FALSE,
 					   FALSE );
+        gsb_account_property_fill_page ();
 	    break;
     }
     return ( FALSE );

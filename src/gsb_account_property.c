@@ -468,6 +468,9 @@ void gsb_account_property_fill_page ( void )
     
     /* modification pour mettre à jour l'icône du sélecteur d'icône du compte */
     image = gsb_data_account_get_account_icon_image ( current_account );
+    gtk_image_set_pixel_size ( GTK_IMAGE (image ), 32 );
+    gint size = gtk_image_get_pixel_size ( GTK_IMAGE (image ) );
+    devel_debug_int ( size );
     gtk_button_set_image ( GTK_BUTTON ( bouton_icon ), image );
 
     gsb_autofunc_currency_set_currency_number (detail_devise_compte,
