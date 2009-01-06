@@ -2453,7 +2453,7 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
     if (! assert_selected_transaction()) return FALSE;
 
     source_account = gsb_gui_navigation_get_current_account ();
-    target_account = GPOINTER_TO_INT ( gtk_object_get_data ( GTK_OBJECT(menu_item),
+    target_account = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT(menu_item),
 							     "account_number" ) );
 
     if ( gsb_transactions_list_move_transaction_to_account ( gsb_data_account_get_current_transaction_number (source_account),

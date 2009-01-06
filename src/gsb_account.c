@@ -493,7 +493,7 @@ GtkWidget *gsb_account_create_menu_list ( GtkSignalFunc func,
 	if (  i >= 0 && ( !gsb_data_account_get_closed_account (i) || include_closed ) )
 	{
 	    item = gtk_menu_item_new_with_label ( gsb_data_account_get_name (i));
-	    gtk_object_set_data ( GTK_OBJECT ( item ),
+	    g_object_set_data ( G_OBJECT ( item ),
 				  "account_number",
 				  GINT_TO_POINTER (i));
 	    if ( func )

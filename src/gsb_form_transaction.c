@@ -511,7 +511,7 @@ gboolean gsb_form_transaction_change_clicked ( GtkWidget *button,
     account_number = gsb_form_get_account_number ();
     gtk_widget_grab_focus ( gsb_form_widget_get_widget (TRANSACTION_FORM_DATE));
 
-    transaction_number = GPOINTER_TO_INT (gtk_object_get_data ( GTK_OBJECT ( gsb_form_get_form_widget () ),
+    transaction_number = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( gsb_form_get_form_widget () ),
 								"transaction_number_in_form" ));
 
     account_currency_number = gsb_data_account_get_currency (account_number);
