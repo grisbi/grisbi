@@ -2660,7 +2660,7 @@ void impression_etat ( gint report_number )
 void impression_etat_courant ( )
 {
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != NAVIGATION_REPORT )
-       gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general),
+       gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general),
                                NAVIGATION_REPORT );
 
     impression_etat (gsb_gui_navigation_get_current_report ());

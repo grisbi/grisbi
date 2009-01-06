@@ -137,9 +137,9 @@ gboolean gsb_account_new ( kind_account account_type,
 					 TRUE );
 
 	/* Go to accounts properties */
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ),
+	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ),
 				GSB_ACCOUNT_PAGE );
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( account_page ), 1 );
+	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), 1 );
 
 	gsb_account_property_fill_page ();
     }
@@ -235,7 +235,7 @@ gboolean gsb_account_delete ( void )
 
 	navigation_change_account ( GINT_TO_POINTER ( gsb_data_account_first_number () ));
 
-	gtk_notebook_set_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
+	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
     }
 
     /* update the buttons lists */
