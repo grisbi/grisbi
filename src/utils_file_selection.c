@@ -48,7 +48,6 @@ extern "C" {
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void file_selection_set_entry(GtkFileChooser* filesel,const gchar* utf8string);
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -175,22 +174,6 @@ GtkWidget* file_selection_new ( const gchar *title, const gint properties )
     return GTK_WIDGET (filesel);
 
 } /* }}} file_selection_new */
-
-
-
-/** file_selection_set_entry.
- *
- *  Set the "filename" entry widget of the given GtkFileChooser dialog with an UTF-8 string
- *
- * \param filesel GtkFileChooser widget
- * \param utf8string a UTF-8 coded string to be put in the netry field
- *  
- */
-void file_selection_set_entry(GtkFileChooser* filesel,const gchar* utf8string)
-{ /* {{{ */
-    gtk_file_chooser_set_filename ( filesel, 
-				    g_filename_from_utf8(utf8string,-1,NULL,NULL,NULL) );
-} /* }}} file_selection_set_entry */
 
 
 
