@@ -2108,9 +2108,9 @@ GtkWidget *onglet_etat_dates ( void )
 
     /* on met la connection pour rendre sensitif cette frame */
 
-    gtk_signal_connect ( GTK_OBJECT ( radio_button_utilise_dates ),
+    g_signal_connect ( G_OBJECT ( radio_button_utilise_dates ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 vbox_utilisation_date );
 
     scrolled_window = gtk_scrolled_window_new ( FALSE,
@@ -2132,9 +2132,9 @@ GtkWidget *onglet_etat_dates ( void )
     gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_plages_dates_etat ),
 				       0,
 				       TRUE );
-    gtk_signal_connect ( GTK_OBJECT ( liste_plages_dates_etat ),
+    g_signal_connect ( G_OBJECT ( liste_plages_dates_etat ),
 			 "button_press_event",
-			 GTK_SIGNAL_FUNC ( click_liste_etat ),
+			 G_CALLBACK ( click_liste_etat ),
 			 NULL );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 			liste_plages_dates_etat );
@@ -2202,9 +2202,9 @@ GtkWidget *onglet_etat_dates ( void )
 
     /* on met la connection pour rendre sensitif cette frame */
 
-    gtk_signal_connect ( GTK_OBJECT (radio_button_utilise_exo ),
+    g_signal_connect ( G_OBJECT (radio_button_utilise_exo ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 frame );
 
     vbox_utilisation_exo = gtk_vbox_new ( FALSE, 5 );
@@ -2275,9 +2275,9 @@ GtkWidget *onglet_etat_dates ( void )
 			 0 );
     gtk_widget_show ( vbox_generale_exo_etat );
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_detaille_exo_etat ),
+    g_signal_connect ( G_OBJECT ( bouton_detaille_exo_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 vbox_generale_exo_etat );
 
     scrolled_window = gtk_scrolled_window_new ( FALSE,
@@ -2391,7 +2391,7 @@ void click_liste_etat ( GtkCList *liste,
     /* origine = 1 si ça vient du choix de type de classement */
 
 
-    gtk_signal_emit_stop_by_name ( GTK_OBJECT ( liste ),
+    g_signal_stop_emission_by_name ( G_OBJECT ( liste ),
 				   "button_press_event");
 
     /* Récupération des coordonnées de la souris */
@@ -2490,9 +2490,9 @@ GtkWidget *onglet_etat_comptes ( void )
     bouton_detaille_comptes_etat = gtk_check_button_new_with_label ( _("Select transactions only for given accounts"));
     g_signal_connect ( G_OBJECT (bouton_detaille_comptes_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_detaille_comptes_etat );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_comptes_etat ),
+    g_signal_connect_swapped ( G_OBJECT ( bouton_detaille_comptes_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( report_tree_update_style ),
+				G_CALLBACK ( report_tree_update_style ),
 				GINT_TO_POINTER ( 2 ));
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 bouton_detaille_comptes_etat,
@@ -2513,9 +2513,9 @@ GtkWidget *onglet_etat_comptes ( void )
     gtk_widget_show ( vbox_generale_comptes_etat );
 
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_detaille_comptes_etat ),
+    g_signal_connect ( G_OBJECT ( bouton_detaille_comptes_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 vbox_generale_comptes_etat );
 
     label = gtk_label_new ( COLON(_("Select the accounts included in the report")) );
@@ -2582,10 +2582,10 @@ GtkWidget *onglet_etat_comptes ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( gtk_clist_select_all ),
-				GTK_OBJECT  ( liste_comptes_etat ));
+				G_CALLBACK ( gtk_clist_select_all ),
+				G_OBJECT  ( liste_comptes_etat ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
 			 TRUE,
@@ -2597,10 +2597,10 @@ GtkWidget *onglet_etat_comptes ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ),
-				GTK_OBJECT  ( liste_comptes_etat ));
+				G_CALLBACK ( gtk_clist_unselect_all ),
+				G_OBJECT  ( liste_comptes_etat ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
 			 TRUE,
@@ -2612,9 +2612,9 @@ GtkWidget *onglet_etat_comptes ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( selectionne_partie_liste_compte_etat ),
+				G_CALLBACK ( selectionne_partie_liste_compte_etat ),
 				GINT_TO_POINTER ( 0 ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
@@ -2627,9 +2627,9 @@ GtkWidget *onglet_etat_comptes ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( selectionne_partie_liste_compte_etat ),
+				G_CALLBACK ( selectionne_partie_liste_compte_etat ),
 				GINT_TO_POINTER ( 1 ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
@@ -2642,9 +2642,9 @@ GtkWidget *onglet_etat_comptes ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( selectionne_partie_liste_compte_etat ),
+				G_CALLBACK ( selectionne_partie_liste_compte_etat ),
 				GINT_TO_POINTER ( 2 ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
@@ -2657,9 +2657,9 @@ GtkWidget *onglet_etat_comptes ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( selectionne_partie_liste_compte_etat ),
+				G_CALLBACK ( selectionne_partie_liste_compte_etat ),
 				GINT_TO_POINTER ( 3 ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
@@ -2757,9 +2757,9 @@ GtkWidget *onglet_etat_virements ( void )
 									       _("Include transfers from or to assets or liabilities accounts") );
     g_signal_connect ( G_OBJECT (bouton_inclusion_virements_actifs_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_inclusion_virements_actifs_etat );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_inclusion_virements_actifs_etat ),
+    g_signal_connect_swapped ( G_OBJECT ( bouton_inclusion_virements_actifs_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( report_tree_update_style ),
+				G_CALLBACK ( report_tree_update_style ),
 				GINT_TO_POINTER ( 1 ));
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 bouton_inclusion_virements_actifs_etat,
@@ -2772,9 +2772,9 @@ GtkWidget *onglet_etat_virements ( void )
 									     _("Include transfers from or to accounts not in this report") );
     g_signal_connect ( G_OBJECT (bouton_inclusion_virements_hors_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_inclusion_virements_hors_etat );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_inclusion_virements_hors_etat ),
+    g_signal_connect_swapped ( G_OBJECT ( bouton_inclusion_virements_hors_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( report_tree_update_style ),
+				G_CALLBACK ( report_tree_update_style ),
 				GINT_TO_POINTER ( 1 ));
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 bouton_inclusion_virements_hors_etat,
@@ -2787,9 +2787,9 @@ GtkWidget *onglet_etat_virements ( void )
 									 _("Include transfers from or to these accounts") );
     g_signal_connect ( G_OBJECT (bouton_inclusion_virements_perso ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_inclusion_virements_perso );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_inclusion_virements_perso ),
+    g_signal_connect_swapped ( G_OBJECT ( bouton_inclusion_virements_perso ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( report_tree_update_style ),
+				G_CALLBACK ( report_tree_update_style ),
 				GINT_TO_POINTER ( 1 ));
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 bouton_inclusion_virements_perso,
@@ -2849,10 +2849,10 @@ GtkWidget *onglet_etat_virements ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( gtk_clist_select_all ),
-				GTK_OBJECT  ( liste_comptes_virements ));
+				G_CALLBACK ( gtk_clist_select_all ),
+				G_OBJECT  ( liste_comptes_virements ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
 			 TRUE,
@@ -2864,10 +2864,10 @@ GtkWidget *onglet_etat_virements ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ),
-				GTK_OBJECT  ( liste_comptes_virements ));
+				G_CALLBACK ( gtk_clist_unselect_all ),
+				G_OBJECT  ( liste_comptes_virements ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
 			 TRUE,
@@ -2879,9 +2879,9 @@ GtkWidget *onglet_etat_virements ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( selectionne_partie_liste_compte_vir_etat ),
+				G_CALLBACK ( selectionne_partie_liste_compte_vir_etat ),
 				GINT_TO_POINTER ( 0 ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
@@ -2894,9 +2894,9 @@ GtkWidget *onglet_etat_virements ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( selectionne_partie_liste_compte_vir_etat ),
+				G_CALLBACK ( selectionne_partie_liste_compte_vir_etat ),
 				GINT_TO_POINTER ( 1 ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
@@ -2909,9 +2909,9 @@ GtkWidget *onglet_etat_virements ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( selectionne_partie_liste_compte_vir_etat ),
+				G_CALLBACK ( selectionne_partie_liste_compte_vir_etat ),
 				GINT_TO_POINTER ( 2 ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
@@ -2924,9 +2924,9 @@ GtkWidget *onglet_etat_virements ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( selectionne_partie_liste_compte_vir_etat ),
+				G_CALLBACK ( selectionne_partie_liste_compte_vir_etat ),
 				GINT_TO_POINTER ( 3 ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
@@ -2935,9 +2935,9 @@ GtkWidget *onglet_etat_virements ( void )
 			 0 );
     gtk_widget_show ( bouton );
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_inclusion_virements_perso ),
+    g_signal_connect ( G_OBJECT ( bouton_inclusion_virements_perso ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 hbox_liste_comptes_virements );
 
 
@@ -2953,17 +2953,17 @@ GtkWidget *onglet_etat_virements ( void )
 			 0 );
     gtk_widget_show ( bouton_exclure_non_virements_etat );
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_inclusion_virements_perso ),
+    g_signal_connect ( G_OBJECT ( bouton_inclusion_virements_perso ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_exclure_non_virements_etat );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_inclusion_virements_hors_etat ),
+    g_signal_connect ( G_OBJECT ( bouton_inclusion_virements_hors_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_exclure_non_virements_etat );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_inclusion_virements_actifs_etat ),
+    g_signal_connect ( G_OBJECT ( bouton_inclusion_virements_actifs_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_exclure_non_virements_etat );
 
 
@@ -3052,9 +3052,9 @@ GtkWidget *onglet_etat_categories ( void )
     button_detail_categ = gtk_check_button_new_with_label ( _("Detail categories") );
     g_signal_connect ( G_OBJECT (button_detail_categ ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &button_detail_categ );
-    gtk_signal_connect_object ( GTK_OBJECT ( button_detail_categ ),
+    g_signal_connect_swapped ( G_OBJECT ( button_detail_categ ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( report_tree_update_style ),
+				G_CALLBACK ( report_tree_update_style ),
 				GINT_TO_POINTER ( 4 ));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 button_detail_categ,
@@ -3075,9 +3075,9 @@ GtkWidget *onglet_etat_categories ( void )
 			 0 );
     gtk_widget_show ( hbox_detaille_categ_etat );
 
-    gtk_signal_connect ( GTK_OBJECT ( button_detail_categ ),
+    g_signal_connect ( G_OBJECT ( button_detail_categ ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 hbox_detaille_categ_etat );
 
     vbox = gtk_vbox_new ( FALSE,
@@ -3864,9 +3864,9 @@ GtkWidget *onglet_etat_ib ( void )
     bouton_detaille_ib_etat = gtk_check_button_new_with_label ( _("Detail budgetary lines") );
     g_signal_connect ( G_OBJECT (bouton_detaille_ib_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_detaille_ib_etat );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_ib_etat ),
+    g_signal_connect_swapped ( G_OBJECT ( bouton_detaille_ib_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( report_tree_update_style ),
+				G_CALLBACK ( report_tree_update_style ),
 				GINT_TO_POINTER ( 5 ));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_detaille_ib_etat,
@@ -3888,9 +3888,9 @@ GtkWidget *onglet_etat_ib ( void )
 			 0 );
     gtk_widget_show ( hbox_detaille_ib_etat );
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_detaille_ib_etat ),
+    g_signal_connect ( G_OBJECT ( bouton_detaille_ib_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 hbox_detaille_ib_etat );
 
     vbox = gtk_vbox_new ( FALSE,
@@ -4053,9 +4053,9 @@ GtkWidget *onglet_etat_tiers ( void )
     bouton_detaille_tiers_etat = gtk_check_button_new_with_label ( _("Detail payees") );
     g_signal_connect ( G_OBJECT (bouton_detaille_tiers_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_detaille_tiers_etat );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_tiers_etat ),
+    g_signal_connect_swapped ( G_OBJECT ( bouton_detaille_tiers_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( report_tree_update_style ),
+				G_CALLBACK ( report_tree_update_style ),
 				GINT_TO_POINTER ( 3 ));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_detaille_tiers_etat,
@@ -4077,9 +4077,9 @@ GtkWidget *onglet_etat_tiers ( void )
 			 0 );
     gtk_widget_show ( hbox_detaille_tiers_etat );
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_detaille_tiers_etat ),
+    g_signal_connect ( G_OBJECT ( bouton_detaille_tiers_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 hbox_detaille_tiers_etat );
 
     vbox = gtk_vbox_new ( FALSE,
@@ -4148,10 +4148,10 @@ GtkWidget *onglet_etat_tiers ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( gtk_clist_select_all ),
-				GTK_OBJECT  ( liste_tiers_etat ));
+				G_CALLBACK ( gtk_clist_select_all ),
+				G_OBJECT  ( liste_tiers_etat ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
 			 TRUE,
@@ -4163,10 +4163,10 @@ GtkWidget *onglet_etat_tiers ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ),
-				GTK_OBJECT  ( liste_tiers_etat ));
+				G_CALLBACK ( gtk_clist_unselect_all ),
+				G_OBJECT  ( liste_tiers_etat ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
 			 TRUE,
@@ -4244,9 +4244,9 @@ GtkWidget *onglet_etat_texte ( void )
     bouton_utilise_texte = gtk_check_button_new_with_label ( _("Select transactions according to content") );
     g_signal_connect ( G_OBJECT (bouton_utilise_texte ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_utilise_texte );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_utilise_texte ),
+    g_signal_connect_swapped ( G_OBJECT ( bouton_utilise_texte ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( report_tree_update_style ),
+				G_CALLBACK ( report_tree_update_style ),
 				GINT_TO_POINTER ( 6 ));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_utilise_texte,
@@ -4265,9 +4265,9 @@ GtkWidget *onglet_etat_texte ( void )
 			 0 );
     gtk_widget_show ( vbox_generale_textes_etat );
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_utilise_texte ),
+    g_signal_connect ( G_OBJECT ( bouton_utilise_texte ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 vbox_generale_textes_etat );
 
 
@@ -4618,9 +4618,9 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 
     /* on met le check button utilisé en cas de champ à no */
 
-    gtk_signal_connect ( GTK_OBJECT ( gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)),
+    g_signal_connect ( G_OBJECT ( gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 gsb_data_report_text_comparison_get_hbox_text (text_comparison_number));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 gsb_data_report_text_comparison_get_button_use_text (text_comparison_number),
@@ -4690,9 +4690,9 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 
     /* on met le check button utilisé en cas de champ à no */
 
-    gtk_signal_connect ( GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)),
+    g_signal_connect ( G_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 gsb_data_report_text_comparison_get_button_use_number (text_comparison_number),
@@ -4905,26 +4905,26 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
 			  GINT_TO_POINTER ( 0 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+    g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+				G_CALLBACK ( gtk_toggle_button_set_active ),
+				G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("payee information"));
@@ -4933,26 +4933,26 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
 			  GINT_TO_POINTER ( 1 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+    g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+				G_CALLBACK ( gtk_toggle_button_set_active ),
+				G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("category"));
@@ -4961,26 +4961,26 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
 			  GINT_TO_POINTER ( 2 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+    g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+				G_CALLBACK ( gtk_toggle_button_set_active ),
+				G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("sub-category"));
@@ -4989,26 +4989,26 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
 			  GINT_TO_POINTER ( 3 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+    g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+				G_CALLBACK ( gtk_toggle_button_set_active ),
+				G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("budgetary line"));
@@ -5017,26 +5017,26 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
 			  GINT_TO_POINTER ( 4 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+    g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+				G_CALLBACK ( gtk_toggle_button_set_active ),
+				G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("sub-budgetary line"));
@@ -5045,26 +5045,26 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
 			  GINT_TO_POINTER ( 5 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+    g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+				G_CALLBACK ( gtk_toggle_button_set_active ),
+				G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("note"));
@@ -5073,26 +5073,26 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
 			  GINT_TO_POINTER ( 6 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+    g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+				G_CALLBACK ( gtk_toggle_button_set_active ),
+				G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("bank reference"));
@@ -5101,26 +5101,26 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
 			  GINT_TO_POINTER ( 7 ));
-    gtk_signal_connect_object ( GTK_OBJECT ( menu_item ),
+    g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 				"activate",
-				GTK_SIGNAL_FUNC ( gtk_toggle_button_set_active ),
-				GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+				G_CALLBACK ( gtk_toggle_button_set_active ),
+				G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("voucher"));
@@ -5129,14 +5129,14 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
 			  GINT_TO_POINTER ( 8 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 			       "activate",
 			       G_CALLBACK ( sensitive_hbox_fonction_bouton_txt ),
@@ -5150,14 +5150,14 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
 			  GINT_TO_POINTER ( 9 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 				"activate",
 				G_CALLBACK ( sensitive_hbox_fonction_bouton_txt ),
@@ -5170,14 +5170,14 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
 			  GINT_TO_POINTER ( 10 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)));
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_button_use_number (text_comparison_number)));
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
 				"activate",
 				G_CALLBACK ( sensitive_hbox_fonction_bouton_txt ),
@@ -5225,10 +5225,10 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_operateur",
 			  GINT_TO_POINTER ( 0 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("doesn't contain"));
@@ -5237,10 +5237,10 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_operateur",
 			  GINT_TO_POINTER ( 1 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("begins with"));
@@ -5249,10 +5249,10 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_operateur",
 			  GINT_TO_POINTER ( 2 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("ends with"));
@@ -5261,10 +5261,10 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_operateur",
 			  GINT_TO_POINTER ( 3 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("is empty"));
@@ -5273,10 +5273,10 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_operateur",
 			  GINT_TO_POINTER ( 4 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("isn't empty"));
@@ -5285,10 +5285,10 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_operateur",
 			  GINT_TO_POINTER ( 5 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
     gtk_widget_show ( menu_item );
 
 
@@ -5325,9 +5325,9 @@ GtkWidget *onglet_etat_montant ( void )
     bouton_utilise_montant = gtk_check_button_new_with_label ( _("Select the transactions by amount") );
     g_signal_connect ( G_OBJECT (bouton_utilise_montant ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_utilise_montant );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_utilise_montant ),
+    g_signal_connect_swapped ( G_OBJECT ( bouton_utilise_montant ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( report_tree_update_style ),
+				G_CALLBACK ( report_tree_update_style ),
 				GINT_TO_POINTER ( 7 ));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_utilise_montant,
@@ -5346,9 +5346,9 @@ GtkWidget *onglet_etat_montant ( void )
 			 0 );
     gtk_widget_show ( vbox_generale_montants_etat );
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_utilise_montant ),
+    g_signal_connect ( G_OBJECT ( bouton_utilise_montant ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 vbox_generale_montants_etat );
 
 
@@ -5381,9 +5381,9 @@ GtkWidget *onglet_etat_montant ( void )
     bouton_exclure_ope_nulles_etat = gtk_check_button_new_with_label ( _("Exclude the transactions with a null amount") );
     g_signal_connect ( G_OBJECT (bouton_exclure_ope_nulles_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_exclure_ope_nulles_etat );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_exclure_ope_nulles_etat ),
+    g_signal_connect_swapped ( G_OBJECT ( bouton_exclure_ope_nulles_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( report_tree_update_style ),
+				G_CALLBACK ( report_tree_update_style ),
 				GINT_TO_POINTER ( 7 ));
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 bouton_exclure_ope_nulles_etat,
@@ -6117,10 +6117,10 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_lien",
 			  GINT_TO_POINTER ( 0 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT ( hbox ));
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT ( hbox ));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("or"));
@@ -6129,10 +6129,10 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_lien",
 			  GINT_TO_POINTER ( 1 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT ( hbox ));
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT ( hbox ));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("except"));
@@ -6141,10 +6141,10 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_lien",
 			  GINT_TO_POINTER ( 2 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( sensitive_widget ),
-			 GTK_OBJECT ( hbox ));
+			 G_CALLBACK ( sensitive_widget ),
+			 G_OBJECT ( hbox ));
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("stop"));
@@ -6153,10 +6153,10 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_lien",
 			  GINT_TO_POINTER ( 3 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ),
+    g_signal_connect ( G_OBJECT ( menu_item ),
 			 "activate",
-			 GTK_SIGNAL_FUNC ( desensitive_widget ),
-			 GTK_OBJECT ( hbox ));
+			 G_CALLBACK ( desensitive_widget ),
+			 G_OBJECT ( hbox ));
     gtk_widget_show ( menu_item );
 
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton ),
@@ -6237,9 +6237,9 @@ GtkWidget *onglet_etat_divers ( void )
 							       _("Select unreconciled transactions") );
     g_signal_connect ( G_OBJECT (bouton_opes_non_r_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_opes_non_r_etat );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_opes_non_r_etat ),
+    g_signal_connect_swapped ( G_OBJECT ( bouton_opes_non_r_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( report_tree_update_style ),
+				G_CALLBACK ( report_tree_update_style ),
 				GINT_TO_POINTER ( 9 ));
     gtk_box_pack_start ( GTK_BOX ( frame ),
 			 bouton_opes_non_r_etat,
@@ -6252,9 +6252,9 @@ GtkWidget *onglet_etat_divers ( void )
 							   _("Select reconciled transactions") );
     g_signal_connect ( G_OBJECT (bouton_opes_r_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_opes_r_etat );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_opes_r_etat ),
+    g_signal_connect_swapped ( G_OBJECT ( bouton_opes_r_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( report_tree_update_style ),
+				G_CALLBACK ( report_tree_update_style ),
 				GINT_TO_POINTER ( 9 ));
     gtk_box_pack_start ( GTK_BOX ( frame ),
 			 bouton_opes_r_etat,
@@ -6268,9 +6268,9 @@ GtkWidget *onglet_etat_divers ( void )
     bouton_pas_detailler_ventilation = gtk_check_button_new_with_label ( _("Do not detail split of transactions") );
     g_signal_connect ( G_OBJECT (bouton_pas_detailler_ventilation ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_pas_detailler_ventilation );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_pas_detailler_ventilation ),
+    g_signal_connect_swapped ( G_OBJECT ( bouton_pas_detailler_ventilation ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( report_tree_update_style ),
+				G_CALLBACK ( report_tree_update_style ),
 				GINT_TO_POINTER ( 9 ));
     gtk_box_pack_start ( GTK_BOX ( frame ),
 			 bouton_pas_detailler_ventilation,
@@ -6358,9 +6358,9 @@ GtkWidget *page_data_grouping ( void )
     gtk_ctree_set_expander_style ( GTK_CTREE ( liste_type_classement_etat ),
 				   GTK_CTREE_EXPANDER_NONE );
 
-    gtk_signal_connect ( GTK_OBJECT ( liste_type_classement_etat ),
+    g_signal_connect ( G_OBJECT ( liste_type_classement_etat ),
 			 "button_press_event",
-			 GTK_SIGNAL_FUNC ( click_liste_etat ),
+			 G_CALLBACK ( click_liste_etat ),
 			 GINT_TO_POINTER (1) );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 			liste_type_classement_etat );
@@ -6379,9 +6379,9 @@ GtkWidget *page_data_grouping ( void )
     fleche = gtk_button_new_from_stock (GTK_STOCK_GO_UP);
     gtk_button_set_relief ( GTK_BUTTON ( fleche ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( fleche ),
+    g_signal_connect ( G_OBJECT ( fleche ),
 			 "clicked",
-			 GTK_SIGNAL_FUNC ( click_haut_classement_etat ),
+			 G_CALLBACK ( click_haut_classement_etat ),
 			 NULL );
     gtk_container_add ( GTK_CONTAINER ( vbox ),
 			fleche  );
@@ -6389,9 +6389,9 @@ GtkWidget *page_data_grouping ( void )
     fleche = gtk_button_new_from_stock (GTK_STOCK_GO_DOWN);
     gtk_button_set_relief ( GTK_BUTTON ( fleche ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect ( GTK_OBJECT ( fleche ),
+    g_signal_connect ( G_OBJECT ( fleche ),
 			 "clicked",
-			 GTK_SIGNAL_FUNC ( click_bas_classement_etat ),
+			 G_CALLBACK ( click_bas_classement_etat ),
 			 NULL);
     gtk_container_add ( GTK_CONTAINER ( vbox ),
 			fleche  );
@@ -6428,9 +6428,9 @@ GtkWidget *page_data_separation ( void )
     g_signal_connect ( G_OBJECT (bouton_separe_exo_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_separe_exo_etat );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_separe_exo_etat, FALSE, FALSE, 0 );
-    gtk_signal_connect ( GTK_OBJECT ( radio_button_utilise_exo ),
+    g_signal_connect ( G_OBJECT ( radio_button_utilise_exo ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_separe_exo_etat );
 
     bouton_separe_plages_etat = gtk_check_button_new_with_label ( _("Split by period") );
@@ -6951,21 +6951,21 @@ GtkWidget *onglet_affichage_etat_operations ( void )
 
 
     /* on met les connexions */
-    gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_categ_opes ),
+    g_signal_connect ( G_OBJECT ( bouton_afficher_categ_opes ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_afficher_sous_categ_opes );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_ib_opes ),
+    g_signal_connect ( G_OBJECT ( bouton_afficher_ib_opes ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_afficher_sous_ib_opes );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_titres_colonnes ),
+    g_signal_connect ( G_OBJECT ( bouton_afficher_titres_colonnes ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_titre_changement );
-    gtk_signal_connect ( GTK_OBJECT ( bouton_afficher_titres_colonnes ),
+    g_signal_connect ( G_OBJECT ( bouton_afficher_titres_colonnes ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_titre_en_haut );
 
     gtk_widget_show_all ( vbox_onglet );
@@ -7183,9 +7183,9 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_affiche_sous_total_compte );
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_regroupe_ope_compte_etat ),
+    g_signal_connect ( G_OBJECT ( bouton_regroupe_ope_compte_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_affiche_sous_total_compte );
 
     /* mise en place de la paddingbox des tiers */
@@ -7203,9 +7203,9 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_afficher_noms_tiers );
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_utilise_tiers_etat ),
+    g_signal_connect ( G_OBJECT ( bouton_utilise_tiers_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_afficher_noms_tiers );
 
     /* permet d'afficher un ss total lors de chgt de tiers */
@@ -7221,9 +7221,9 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_affiche_sous_total_tiers );
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_utilise_tiers_etat ),
+    g_signal_connect ( G_OBJECT ( bouton_utilise_tiers_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_affiche_sous_total_tiers );
 
 
@@ -7241,9 +7241,9 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_afficher_noms_categ );
 
-    gtk_signal_connect ( GTK_OBJECT ( button_group_by_categ ),
+    g_signal_connect ( G_OBJECT ( button_group_by_categ ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_afficher_noms_categ );
 
     /* permet d'afficher un sous total lors de chgt de categ */
@@ -7259,9 +7259,9 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_affiche_sous_total_categ );
 
-    gtk_signal_connect ( GTK_OBJECT ( button_group_by_categ ),
+    g_signal_connect ( G_OBJECT ( button_group_by_categ ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_affiche_sous_total_categ );
 
     /* mise en place du bouton pour afficher les sous categ */
@@ -7276,9 +7276,9 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_afficher_sous_categ );
 
-    gtk_signal_connect ( GTK_OBJECT ( button_group_by_categ ),
+    g_signal_connect ( G_OBJECT ( button_group_by_categ ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_afficher_sous_categ );
 
 
@@ -7292,9 +7292,9 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_affiche_sous_total_sous_categ );
 
-    gtk_signal_connect ( GTK_OBJECT ( button_group_by_categ ),
+    g_signal_connect ( G_OBJECT ( button_group_by_categ ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_affiche_sous_total_sous_categ );
 
 
@@ -7308,9 +7308,9 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_afficher_pas_de_sous_categ );
 
-    gtk_signal_connect ( GTK_OBJECT ( button_group_by_categ ),
+    g_signal_connect ( G_OBJECT ( button_group_by_categ ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_afficher_pas_de_sous_categ );
 
 
@@ -7327,9 +7327,9 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_afficher_noms_ib );
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_utilise_ib_etat ),
+    g_signal_connect ( G_OBJECT ( bouton_utilise_ib_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_afficher_noms_ib );
 
     /* permet d'afficher un sous total lors de chgt d'ib */
@@ -7345,9 +7345,9 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_affiche_sous_total_ib );
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_utilise_ib_etat ),
+    g_signal_connect ( G_OBJECT ( bouton_utilise_ib_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_affiche_sous_total_ib );
 
     /* mise en place du bouton pour afficher les sous categ */
@@ -7362,9 +7362,9 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_afficher_sous_ib );
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_utilise_ib_etat ),
+    g_signal_connect ( G_OBJECT ( bouton_utilise_ib_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_afficher_sous_ib );
 
     bouton_affiche_sous_total_sous_ib = gtk_check_button_new_with_label ( _("Display a sub-total for each sub-budget line") );
@@ -7377,9 +7377,9 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_affiche_sous_total_sous_ib );
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_utilise_ib_etat ),
+    g_signal_connect ( G_OBJECT ( bouton_utilise_ib_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_affiche_sous_total_sous_ib );
 
 
@@ -7393,9 +7393,9 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_afficher_pas_de_sous_ib );
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_utilise_ib_etat ),
+    g_signal_connect ( G_OBJECT ( bouton_utilise_ib_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_afficher_pas_de_sous_ib );
 
     return ( vbox_onglet );
@@ -7421,9 +7421,9 @@ GtkWidget *onglet_etat_mode_paiement ( void )
     bouton_detaille_mode_paiement_etat = gtk_check_button_new_with_label ( _("Select the transactions by method of payment"));
     g_signal_connect ( G_OBJECT (bouton_detaille_mode_paiement_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_detaille_mode_paiement_etat );
-    gtk_signal_connect_object ( GTK_OBJECT ( bouton_detaille_mode_paiement_etat ),
+    g_signal_connect_swapped ( G_OBJECT ( bouton_detaille_mode_paiement_etat ),
 				"toggled",
-				GTK_SIGNAL_FUNC ( report_tree_update_style ),
+				G_CALLBACK ( report_tree_update_style ),
 				GINT_TO_POINTER ( 8 ));
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
 			 bouton_detaille_mode_paiement_etat,
@@ -7443,9 +7443,9 @@ GtkWidget *onglet_etat_mode_paiement ( void )
     gtk_widget_show ( vbox_mode_paiement_etat );
 
 
-    gtk_signal_connect ( GTK_OBJECT ( bouton_detaille_mode_paiement_etat ),
+    g_signal_connect ( G_OBJECT ( bouton_detaille_mode_paiement_etat ),
 			 "toggled",
-			 GTK_SIGNAL_FUNC ( sens_desensitive_pointeur ),
+			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 vbox_mode_paiement_etat );
 
     label = gtk_label_new ( COLON(_("Select methods of payment to include")) );
@@ -7513,10 +7513,10 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( gtk_clist_select_all ),
-				GTK_OBJECT  ( liste_mode_paiement_etat ));
+				G_CALLBACK ( gtk_clist_select_all ),
+				G_OBJECT  ( liste_mode_paiement_etat ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
 			 TRUE,
@@ -7528,10 +7528,10 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 	gtk_button_set_alignment ( GTK_BUTTON ( bouton ), 0.1, 0.0 );
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );
-    gtk_signal_connect_object ( GTK_OBJECT  ( bouton ),
+    g_signal_connect_swapped ( G_OBJECT  ( bouton ),
 				"clicked",
-				GTK_SIGNAL_FUNC ( gtk_clist_unselect_all ),
-				GTK_OBJECT  ( liste_mode_paiement_etat ));
+				G_CALLBACK ( gtk_clist_unselect_all ),
+				G_OBJECT  ( liste_mode_paiement_etat ));
     gtk_box_pack_start ( GTK_BOX ( vbox ),
 			 bouton,
 			 TRUE,

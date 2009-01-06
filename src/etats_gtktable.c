@@ -132,17 +132,17 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 	style->fg[GTK_STATE_PRELIGHT] = color;
 
 	event_box = gtk_event_box_new ();
-	gtk_signal_connect ( GTK_OBJECT ( event_box ),
+	g_signal_connect ( G_OBJECT ( event_box ),
 			     "enter_notify_event",
-			     GTK_SIGNAL_FUNC ( met_en_prelight ),
+			     G_CALLBACK ( met_en_prelight ),
 			     NULL );
-	gtk_signal_connect ( GTK_OBJECT ( event_box ),
+	g_signal_connect ( G_OBJECT ( event_box ),
 			     "leave_notify_event",
-			     GTK_SIGNAL_FUNC ( met_en_normal ),
+			     G_CALLBACK ( met_en_normal ),
 			     NULL );
-	gtk_signal_connect_object ( GTK_OBJECT ( event_box ),
+	g_signal_connect_swapped ( G_OBJECT ( event_box ),
 				    "button_press_event",
-				    GTK_SIGNAL_FUNC ( gtktable_click_sur_ope_etat ),
+				    G_CALLBACK ( gtktable_click_sur_ope_etat ),
 				    (GtkObject *) GINT_TO_POINTER (transaction_number) );
 	gtk_table_attach ( GTK_TABLE ( table_etat ), event_box,
 			   x, x2, y, y2,

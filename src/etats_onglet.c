@@ -312,9 +312,9 @@ gboolean ajout_etat ( void )
     gtk_menu_append ( GTK_MENU ( menu ), menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
 			  GINT_TO_POINTER ( 0 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ), "activate",
-			 GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-			 GTK_OBJECT ( label_description ));
+    g_signal_connect ( G_OBJECT ( menu_item ), "activate",
+			 G_CALLBACK ( change_choix_nouvel_etat ),
+			 G_OBJECT ( label_description ));
 
     /* on met le texte du 1er choix */
     change_choix_nouvel_etat ( menu_item, label_description );
@@ -323,49 +323,49 @@ gboolean ajout_etat ( void )
     gtk_menu_append ( GTK_MENU ( menu ), menu_item )
 	; g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
 				GINT_TO_POINTER ( 1 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ), "activate",
-			 GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-			 GTK_OBJECT ( label_description ));
+    g_signal_connect ( G_OBJECT ( menu_item ), "activate",
+			 G_CALLBACK ( change_choix_nouvel_etat ),
+			 G_OBJECT ( label_description ));
 
     menu_item = gtk_menu_item_new_with_label ( _("Annual budget"));
     gtk_menu_append ( GTK_MENU ( menu ), menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
 			  GINT_TO_POINTER ( 2 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ), "activate",
-			 GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-			 GTK_OBJECT ( label_description ));
+    g_signal_connect ( G_OBJECT ( menu_item ), "activate",
+			 G_CALLBACK ( change_choix_nouvel_etat ),
+			 G_OBJECT ( label_description ));
 
     menu_item = gtk_menu_item_new_with_label ( _("Cheques deposit"));
     gtk_menu_append ( GTK_MENU ( menu ), menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
 			  GINT_TO_POINTER ( 4 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ), "activate",
-			 GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-			 GTK_OBJECT ( label_description ));
+    g_signal_connect ( G_OBJECT ( menu_item ), "activate",
+			 G_CALLBACK ( change_choix_nouvel_etat ),
+			 G_OBJECT ( label_description ));
 
     menu_item = gtk_menu_item_new_with_label ( _("Monthly outgoings by payee"));
     gtk_menu_append ( GTK_MENU ( menu ), menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
 			  GINT_TO_POINTER ( 5 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ), "activate",
-			 GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-			 GTK_OBJECT ( label_description ));
+    g_signal_connect ( G_OBJECT ( menu_item ), "activate",
+			 G_CALLBACK ( change_choix_nouvel_etat ),
+			 G_OBJECT ( label_description ));
 
     menu_item = gtk_menu_item_new_with_label ( _("Search"));
     gtk_menu_append ( GTK_MENU ( menu ), menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
 			  GINT_TO_POINTER ( 6 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ), "activate",
-			 GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-			 GTK_OBJECT ( label_description ));
+    g_signal_connect ( G_OBJECT ( menu_item ), "activate",
+			 G_CALLBACK ( change_choix_nouvel_etat ),
+			 G_OBJECT ( label_description ));
 
     menu_item = gtk_menu_item_new_with_label ( _("Blank report"));
     gtk_menu_append ( GTK_MENU ( menu ), menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
 			  GINT_TO_POINTER ( 3 ));
-    gtk_signal_connect ( GTK_OBJECT ( menu_item ), "activate",
-			 GTK_SIGNAL_FUNC ( change_choix_nouvel_etat ),
-			 GTK_OBJECT ( label_description ));
+    g_signal_connect ( G_OBJECT ( menu_item ), "activate",
+			 G_CALLBACK ( change_choix_nouvel_etat ),
+			 G_OBJECT ( label_description ));
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu ), menu );
 
     gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog)->vbox), 6 );
