@@ -93,6 +93,7 @@ src/gsb_reconcile_sort_config.c
 src/gsb_report.c
 src/gsb_scheduler.c
 src/gsb_scheduler_list.c
+src/gsb_select_icon.c
 src/gsb_status.c
 src/gsb_transactions_list.c
 src/gsb_transactions_list_sort.c
