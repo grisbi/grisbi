@@ -3523,7 +3523,7 @@ gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
     }
     g_slist_free (filenames);
     gtk_entry_set_text (GTK_ENTRY (entry), string);
-    gtk_entry_select_region ( GTK_ENTRY (entry), 0, -1);
+    gtk_editable_select_region ( GTK_EDITABLE (entry), 0, -1);
     g_free (string);
     return FALSE;
 }

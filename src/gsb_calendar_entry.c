@@ -476,10 +476,6 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
 				g_date_get_month ( date ) - 1, 
 				g_date_get_year ( date ) );
     gtk_calendar_select_day ( GTK_CALENDAR ( pCalendar ), g_date_get_day ( date ) );
-    gtk_calendar_display_options ( GTK_CALENDAR ( pCalendar ),
-				   GTK_CALENDAR_SHOW_HEADING |
-				   GTK_CALENDAR_SHOW_DAY_NAMES |
-				   GTK_CALENDAR_WEEK_START_MONDAY );
 
     g_signal_connect ( G_OBJECT ( pCalendar ),
 		       "day_selected_double_click",

@@ -1104,7 +1104,7 @@ static gboolean gsb_bank_add ( GtkWidget *button,
 					 &iter );
 
 	/* select the new bank in the entry and give the focus */
-	gtk_entry_select_region ( GTK_ENTRY ( bank_name ), 0, -1 );
+	gtk_editable_select_region ( GTK_EDITABLE ( bank_name ), 0, -1 );
 	gtk_widget_grab_focus ( bank_name );
     }
     else

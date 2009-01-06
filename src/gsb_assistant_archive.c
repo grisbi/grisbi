@@ -610,7 +610,7 @@ static gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
     {
 	gtk_entry_set_text ( GTK_ENTRY (initial_date),
 			     gsb_format_gdate (date));
-	gtk_entry_select_region (GTK_ENTRY (initial_date),
+	gtk_editable_select_region ( GTK_EDITABLE (initial_date),
 				 0, -1);
     }
     gtk_widget_grab_focus (initial_date);

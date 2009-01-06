@@ -642,7 +642,7 @@ gboolean gsb_fyear_config_add_fyear ( GtkWidget *tree_view )
     /* select the new name and give it the focus */
     entry = g_object_get_data ( G_OBJECT (model),
 				"fyear_name_entry");
-    gtk_entry_select_region ( GTK_ENTRY (entry), 0, -1 );
+    gtk_editable_select_region ( GTK_EDITABLE (entry), 0, -1 );
     gtk_widget_grab_focus (entry);
 
     /* Update various menus */

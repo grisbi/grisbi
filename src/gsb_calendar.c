@@ -70,10 +70,6 @@ GtkWidget *gsb_calendar_new ( void )
     scheduled_calendar = gtk_calendar_new ();
     g_signal_connect ( G_OBJECT (scheduled_calendar ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &scheduled_calendar );
-    gtk_calendar_display_options ( GTK_CALENDAR ( scheduled_calendar ),
-				   GTK_CALENDAR_SHOW_HEADING |
-				   GTK_CALENDAR_SHOW_DAY_NAMES |
-				   GTK_CALENDAR_WEEK_START_MONDAY );
     gtk_calendar_select_month ( GTK_CALENDAR ( scheduled_calendar ),
 				localtime ( &temps ) -> tm_mon,
 				localtime ( &temps ) -> tm_year + 1900 );

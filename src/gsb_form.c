@@ -462,7 +462,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
 					  NULL,
 					  GINT_TO_POINTER (TRANSACTION_FORM_DATE));
 
-	gtk_entry_select_region ( GTK_ENTRY (date_entry), 0, -1);
+	gtk_editable_select_region ( GTK_EDITABLE (date_entry), 0, -1);
 	gtk_widget_grab_focus ( GTK_WIDGET (date_entry));
 	return FALSE;
     }
@@ -564,7 +564,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
 	else
 	    focus_to = TRANSACTION_FORM_DATE;
 
-	gtk_entry_select_region ( GTK_ENTRY ( gsb_form_widget_get_widget (focus_to)),
+	gtk_editable_select_region ( GTK_EDITABLE ( gsb_form_widget_get_widget (focus_to)),
 				  0,
 				  -1);
 	gtk_widget_grab_focus ( gsb_form_widget_get_widget (focus_to));
@@ -2414,7 +2414,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 					   gtk_entry_get_text (GTK_ENTRY (widget)));
 	dialogue_error ( tmpstr );
 	g_free(tmpstr);
-	gtk_entry_select_region ( GTK_ENTRY (widget),
+	gtk_editable_select_region ( GTK_EDITABLE (widget),
 				  0,
 				  -1);
 	gtk_widget_grab_focus (widget);
@@ -2433,7 +2433,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 					   gtk_entry_get_text (GTK_ENTRY (widget)));
 	dialogue_error ( tmpstr );
 	g_free ( tmpstr );
-	gtk_entry_select_region ( GTK_ENTRY (widget),
+	gtk_editable_select_region ( GTK_EDITABLE (widget),
 				  0,
 				  -1);
 	gtk_widget_grab_focus (widget);
