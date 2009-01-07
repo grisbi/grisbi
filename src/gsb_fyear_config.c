@@ -160,9 +160,9 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 			 FALSE, FALSE, 0);
 
     button = gtk_button_new_with_label ( _("Associate operations without financial years") );
-    gtk_signal_connect ( GTK_OBJECT ( button ),
+    g_signal_connect ( G_OBJECT ( button ),
 			 "clicked",
-			 GTK_SIGNAL_FUNC ( gsb_fyear_config_associate_transactions ),
+			 G_CALLBACK ( gsb_fyear_config_associate_transactions ),
 			 NULL );
     gtk_box_pack_start ( GTK_BOX (hbox), button,
 			 FALSE, FALSE, 5 );

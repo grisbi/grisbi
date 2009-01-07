@@ -951,8 +951,8 @@ GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field,
 	g_object_set_data ( G_OBJECT ( item ), "column", col );
 	g_object_set_data ( G_OBJECT ( item ), "field", GINT_TO_POINTER( field - 1 ) );
 	g_object_set_data ( G_OBJECT ( item ), "assistant", assistant );
-	gtk_signal_connect ( GTK_OBJECT ( item ), "activate",
-			     GTK_SIGNAL_FUNC ( csv_import_change_field ), GINT_TO_POINTER(  i ) );
+	g_signal_connect ( G_OBJECT ( item ), "activate",
+			     G_CALLBACK ( csv_import_change_field ), GINT_TO_POINTER(  i ) );
 	gtk_menu_append ( GTK_MENU ( menu ), item );
     }
 

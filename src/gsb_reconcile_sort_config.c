@@ -179,7 +179,7 @@ GtkWidget *gsb_reconcile_sort_config_create ( void )
 
     button_move_up = gtk_button_new_from_stock (GTK_STOCK_GO_UP);
     gtk_button_set_relief ( GTK_BUTTON ( button_move_up ), GTK_RELIEF_NONE );
-    g_signal_connect ( GTK_OBJECT ( button_move_up ), "clicked",
+    g_signal_connect ( G_OBJECT ( button_move_up ), "clicked",
 		       G_CALLBACK (gsb_reconcile_sort_config_move_up), reconcile_treeview );
     gtk_box_pack_start ( GTK_BOX (vbox_fleches_tri),
 			 button_move_up,
@@ -188,7 +188,7 @@ GtkWidget *gsb_reconcile_sort_config_create ( void )
 
     button_move_down = gtk_button_new_from_stock (GTK_STOCK_GO_DOWN);
     gtk_button_set_relief ( GTK_BUTTON ( button_move_down ), GTK_RELIEF_NONE );
-    g_signal_connect ( GTK_OBJECT ( button_move_down ), "clicked",
+    g_signal_connect ( G_OBJECT ( button_move_down ), "clicked",
 		       G_CALLBACK (gsb_reconcile_sort_config_move_down), reconcile_treeview);
     gtk_box_pack_start ( GTK_BOX (vbox_fleches_tri),
 			 button_move_down,

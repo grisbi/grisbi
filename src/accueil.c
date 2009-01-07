@@ -503,17 +503,17 @@ void update_liste_comptes_accueil ( gboolean force )
 
 		/* Création d'une boite à évènement qui sera rattachée au nom du compte */
 		pEventBox = gtk_event_box_new ();
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "enter-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_prelight ),
+				     G_CALLBACK ( met_en_prelight ),
 				     NULL );
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "leave-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_normal ),
+				     G_CALLBACK ( met_en_normal ),
 				     NULL );
-		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
+					    G_CALLBACK ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER (account_number) );
 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
 					    0, 1, i, i+1 );
@@ -555,17 +555,17 @@ void update_liste_comptes_accueil ( gboolean force )
 
 		/* Création d'une boite à évènement qui sera rattachée au solde courant du compte */
 		pEventBox = gtk_event_box_new ();
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "enter-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_prelight ),
+				     G_CALLBACK ( met_en_prelight ),
 				     NULL );
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "leave-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_normal ),
+				     G_CALLBACK ( met_en_normal ),
 				     NULL );
-		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
+					    G_CALLBACK ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER (account_number) );
 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
 					    1, 2, i, i+1 );
@@ -607,17 +607,17 @@ void update_liste_comptes_accueil ( gboolean force )
 
 		/* Création d'une boite à évènement qui sera rattachée au solde pointé du compte */
 		pEventBox = gtk_event_box_new ();
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "enter-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_prelight ),
+				     G_CALLBACK ( met_en_prelight ),
 				     NULL );
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "leave-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_normal ),
+				     G_CALLBACK ( met_en_normal ),
 				     NULL );
-		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC (gsb_main_page_click_on_account),
+					    G_CALLBACK (gsb_main_page_click_on_account),
 					    GINT_TO_POINTER (account_number) );
 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
 					    2, 4, i, i+1 );
@@ -752,17 +752,17 @@ void update_liste_comptes_accueil ( gboolean force )
 
 		/* Création d'une boite à évènement qui sera rattachée au nom du compte */
 		pEventBox = gtk_event_box_new ();
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "enter-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_prelight ),
+				     G_CALLBACK ( met_en_prelight ),
 				     NULL );
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "leave-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_normal ),
+				     G_CALLBACK ( met_en_normal ),
 				     NULL );
-		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
+					    G_CALLBACK ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ) );
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   0, 1, i, i+1,
@@ -806,17 +806,17 @@ void update_liste_comptes_accueil ( gboolean force )
 
 		/* Création d'une boite à évènement qui sera rattachée au solde courant du compte */
 		pEventBox = gtk_event_box_new ();
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "enter-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_prelight ),
+				     G_CALLBACK ( met_en_prelight ),
 				     NULL );
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "leave-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_normal ),
+				     G_CALLBACK ( met_en_normal ),
 				     NULL );
-		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
+					    G_CALLBACK ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ));
 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
 					    1, 2, i, i+1 );
@@ -858,17 +858,17 @@ void update_liste_comptes_accueil ( gboolean force )
 
 		/* Création d'une boite à évènement qui sera rattachée au solde courant du compte */
 		pEventBox = gtk_event_box_new ();
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "enter-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_prelight ),
+				     G_CALLBACK ( met_en_prelight ),
 				     NULL );
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "leave-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_normal ),
+				     G_CALLBACK ( met_en_normal ),
 				     NULL );
-		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
+					    G_CALLBACK ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ));
 		gtk_table_attach ( GTK_TABLE ( pTable ), pEventBox,
 				   2, 4, i, i+1,
@@ -1014,17 +1014,17 @@ void update_liste_comptes_accueil ( gboolean force )
 
 		/* Création d'une boite à évènement qui sera rattachée au nom du compte */
 		pEventBox = gtk_event_box_new ();
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "enter-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_prelight ),
+				     G_CALLBACK ( met_en_prelight ),
 				     NULL );
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "leave-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_normal ),
+				     G_CALLBACK ( met_en_normal ),
 				     NULL );
-		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
+					    G_CALLBACK ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ) );
 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
 					    0, 1, i, i+1 );
@@ -1066,17 +1066,17 @@ void update_liste_comptes_accueil ( gboolean force )
 
 		/* Création d'une boite à évènement qui sera rattachée au solde courant du compte */
 		pEventBox = gtk_event_box_new ();
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "enter-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_prelight ),
+				     G_CALLBACK ( met_en_prelight ),
 				     NULL );
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "leave-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_normal ),
+				     G_CALLBACK ( met_en_normal ),
 				     NULL );
-		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
+					    G_CALLBACK ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( GINT_TO_POINTER (account_number) ));
 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
 					    1, 2, i, i+1 );
@@ -1118,17 +1118,17 @@ void update_liste_comptes_accueil ( gboolean force )
 
 		/* Création d'une boite à évènement qui sera rattachée au solde pointé du compte */
 		pEventBox = gtk_event_box_new ();
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "enter-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_prelight ),
+				     G_CALLBACK ( met_en_prelight ),
 				     NULL );
-		gtk_signal_connect ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect ( G_OBJECT ( pEventBox ),
 				     "leave-notify-event",
-				     GTK_SIGNAL_FUNC ( met_en_normal ),
+				     G_CALLBACK ( met_en_normal ),
 				     NULL );
-		gtk_signal_connect_object ( GTK_OBJECT ( pEventBox ),
+		g_signal_connect_swapped ( G_OBJECT ( pEventBox ),
 					    "button-press-event",
-					    GTK_SIGNAL_FUNC ( gsb_main_page_click_on_account ),
+					    G_CALLBACK ( gsb_main_page_click_on_account ),
 					    GINT_TO_POINTER ( account_number ));
 		gtk_table_attach_defaults ( GTK_TABLE ( pTable ), pEventBox,
 					    2, 4, i, i+1 );
@@ -1277,15 +1277,15 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    /* bouton à gauche */
 
 	    event_box = gtk_event_box_new ();
-	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
+	    g_signal_connect ( G_OBJECT ( event_box ),
 				 "enter-notify-event",
-				 GTK_SIGNAL_FUNC ( met_en_prelight ),
+				 G_CALLBACK ( met_en_prelight ),
 				 NULL );
-	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
+	    g_signal_connect ( G_OBJECT ( event_box ),
 				 "leave-notify-event",
-				 GTK_SIGNAL_FUNC ( met_en_normal ),
+				 G_CALLBACK ( met_en_normal ),
 				 NULL );
-	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
+	    g_signal_connect ( G_OBJECT ( event_box ),
 				 "button-press-event",
 				 (GtkSignalFunc) saisie_echeance_accueil,
 				 GINT_TO_POINTER (scheduled_number));
@@ -1397,13 +1397,13 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	    gtk_widget_show (  hbox );
 
 	    event_box = gtk_event_box_new ();
-	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
+	    g_signal_connect ( G_OBJECT ( event_box ),
 				 "enter-notify-event",
-				 GTK_SIGNAL_FUNC ( met_en_prelight ),
+				 G_CALLBACK ( met_en_prelight ),
 				 NULL );
-	    gtk_signal_connect ( GTK_OBJECT ( event_box ),
+	    g_signal_connect ( G_OBJECT ( event_box ),
 				 "leave-notify-event",
-				 GTK_SIGNAL_FUNC ( met_en_normal ),
+				 G_CALLBACK ( met_en_normal ),
 				 NULL );
 	    g_signal_connect_swapped ( G_OBJECT ( event_box ),
 				       "button-press-event",

@@ -149,11 +149,11 @@ void gsb_autofunc_entry_set_value ( GtkWidget *entry,
 {
     /* Block everything */
     if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(entry),
+	g_signal_handler_block ( G_OBJECT(entry),
 				 (gulong) g_object_get_data (G_OBJECT (entry), 
 							     "changed"));
     if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(entry),
+	g_signal_handler_block ( G_OBJECT(entry),
 				 (gulong) g_object_get_data (G_OBJECT (entry), 
 							     "changed-hook"));
 
@@ -168,11 +168,11 @@ void gsb_autofunc_entry_set_value ( GtkWidget *entry,
 
     /* Unblock everything */
     if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
+	g_signal_handler_unblock ( G_OBJECT(entry),
 				   (gulong) g_object_get_data (G_OBJECT (entry), 
 							       "changed"));
     if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
+	g_signal_handler_unblock ( G_OBJECT(entry),
 				   (gulong) g_object_get_data (G_OBJECT (entry), 
 							       "changed-hook"));
 }
@@ -388,11 +388,11 @@ GtkWidget *gsb_autofunc_int_new ( gint value,
 			"number_for_func", GINT_TO_POINTER (number_for_func));
     if (default_func)
 	g_object_set_data ( G_OBJECT ( entry ), "changed", 
-			    (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "changed",
+			    (gpointer) g_signal_connect_after (G_OBJECT(entry), "changed",
 							       ((GCallback) gsb_autofunc_int_changed), default_func ));
     if ( hook )
 	g_object_set_data ( G_OBJECT ( entry ), "changed-hook", 
-			    (gpointer) g_signal_connect_after (GTK_OBJECT(entry), "changed",
+			    (gpointer) g_signal_connect_after (G_OBJECT(entry), "changed",
 							       ((GCallback) hook), data ));
     return entry;
 }
@@ -416,11 +416,11 @@ void gsb_autofunc_int_set_value ( GtkWidget *entry,
 {
     /* Block everything */
     if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(entry),
+	g_signal_handler_block ( G_OBJECT(entry),
 				 (gulong) g_object_get_data (G_OBJECT (entry), 
 							     "changed"));
     if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(entry),
+	g_signal_handler_block ( G_OBJECT(entry),
 				 (gulong) g_object_get_data (G_OBJECT (entry), 
 							     "changed-hook"));
 
@@ -434,11 +434,11 @@ void gsb_autofunc_int_set_value ( GtkWidget *entry,
 
     /* Unblock everything */
     if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
+	g_signal_handler_unblock ( G_OBJECT(entry),
 				   (gulong) g_object_get_data (G_OBJECT (entry), 
 							       "changed"));
     if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
+	g_signal_handler_unblock ( G_OBJECT(entry),
 				   (gulong) g_object_get_data (G_OBJECT (entry), 
 							       "changed-hook"));
 }
@@ -458,11 +458,11 @@ void gsb_autofunc_int_erase_entry ( GtkWidget *entry )
 {
     /* Block everything */
     if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(entry),
+	g_signal_handler_block ( G_OBJECT(entry),
 				 (gulong) g_object_get_data (G_OBJECT (entry), 
 							     "changed"));
     if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(entry),
+	g_signal_handler_block ( G_OBJECT(entry),
 				 (gulong) g_object_get_data (G_OBJECT (entry), 
 							     "changed-hook"));
 
@@ -475,11 +475,11 @@ void gsb_autofunc_int_erase_entry ( GtkWidget *entry )
 
     /* Unblock everything */
     if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
+	g_signal_handler_unblock ( G_OBJECT(entry),
 				   (gulong) g_object_get_data (G_OBJECT (entry), 
 							       "changed"));
     if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
+	g_signal_handler_unblock ( G_OBJECT(entry),
 				   (gulong) g_object_get_data (G_OBJECT (entry), 
 							       "changed-hook"));
 }
@@ -565,7 +565,7 @@ GtkWidget *gsb_autofunc_spin_new ( gint value,
 							       G_CALLBACK (gsb_autofunc_spin_changed), default_func ));
     if ( hook )
 	g_object_set_data ( G_OBJECT (spin_button), "changed-hook", 
-			    (gpointer) g_signal_connect_after (GTK_OBJECT(spin_button), "value-changed",
+			    (gpointer) g_signal_connect_after (G_OBJECT(spin_button), "value-changed",
 							       G_CALLBACK ( hook), data ));
     return spin_button;
 }
@@ -589,11 +589,11 @@ void gsb_autofunc_spin_set_value ( GtkWidget *spin_button,
 {
     /* Block everything */
     if ( g_object_get_data (G_OBJECT (spin_button), "changed") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(spin_button),
+	g_signal_handler_block ( G_OBJECT(spin_button),
 				 (gulong) g_object_get_data (G_OBJECT (spin_button), 
 							     "changed"));
     if ( g_object_get_data (G_OBJECT (spin_button), "changed-hook") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(spin_button),
+	g_signal_handler_block ( G_OBJECT(spin_button),
 				 (gulong) g_object_get_data (G_OBJECT (spin_button), 
 							     "changed-hook"));
 
@@ -606,11 +606,11 @@ void gsb_autofunc_spin_set_value ( GtkWidget *spin_button,
 
     /* Unblock everything */
     if ( g_object_get_data (G_OBJECT (spin_button), "changed") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(spin_button),
+	g_signal_handler_unblock ( G_OBJECT(spin_button),
 				   (gulong) g_object_get_data (G_OBJECT (spin_button), 
 							       "changed"));
     if ( g_object_get_data (G_OBJECT (spin_button), "changed-hook") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(spin_button),
+	g_signal_handler_unblock ( G_OBJECT(spin_button),
 				   (gulong) g_object_get_data (G_OBJECT (spin_button), 
 							       "changed-hook"));
 }
@@ -689,11 +689,11 @@ GtkWidget *gsb_autofunc_checkbutton_new ( const gchar *label,
 			"number_for_func", GINT_TO_POINTER (number_for_func));
     if (default_func)
 	g_object_set_data ( G_OBJECT (button), "changed", 
-			    (gpointer) g_signal_connect_after (GTK_OBJECT(button), "toggled",
+			    (gpointer) g_signal_connect_after (G_OBJECT(button), "toggled",
 							       ((GCallback) gsb_autofunc_checkbutton_changed), default_func ));
     if ( hook )
 	g_object_set_data ( G_OBJECT (button), "changed-hook", 
-			    (gpointer) g_signal_connect_after (GTK_OBJECT(button), "toggled",
+			    (gpointer) g_signal_connect_after (G_OBJECT(button), "toggled",
 							       ((GCallback) hook), data ));
     return button;
 }
@@ -717,11 +717,11 @@ void gsb_autofunc_checkbutton_set_value ( GtkWidget *button,
 {
     /* Block everything */
     if ( g_object_get_data (G_OBJECT (button), "changed") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(button),
+	g_signal_handler_block ( G_OBJECT(button),
 				 (gulong) g_object_get_data (G_OBJECT (button), 
 							     "changed"));
     if ( g_object_get_data (G_OBJECT (button), "changed-hook") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(button),
+	g_signal_handler_block ( G_OBJECT(button),
 				 (gulong) g_object_get_data (G_OBJECT (button), 
 							     "changed-hook"));
 
@@ -733,11 +733,11 @@ void gsb_autofunc_checkbutton_set_value ( GtkWidget *button,
 
     /* Unblock everything */
     if ( g_object_get_data (G_OBJECT (button), "changed") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(button),
+	g_signal_handler_unblock ( G_OBJECT(button),
 				   (gulong) g_object_get_data (G_OBJECT (button), 
 							       "changed"));
     if ( g_object_get_data (G_OBJECT (button), "changed-hook") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(button),
+	g_signal_handler_unblock ( G_OBJECT(button),
 				   (gulong) g_object_get_data (G_OBJECT (button), 
 							       "changed-hook"));
 }
@@ -861,11 +861,11 @@ GtkWidget *gsb_autofunc_radiobutton_new ( const gchar *choice1,
 
     // Block everything, the signals were on button2
     if ( g_object_get_data (G_OBJECT (button2), "changed") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(button2),
+	g_signal_handler_block ( G_OBJECT(button2),
 				 (gulong) g_object_get_data (G_OBJECT (button2), 
 							     "changed"));
     if ( g_object_get_data (G_OBJECT (button2), "changed-hook") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(button2),
+	g_signal_handler_block ( G_OBJECT(button2),
 				 (gulong) g_object_get_data (G_OBJECT (button2), 
 							     "changed-hook"));
 
@@ -880,11 +880,11 @@ GtkWidget *gsb_autofunc_radiobutton_new ( const gchar *choice1,
 
     // Unblock everything
     if ( g_object_get_data (G_OBJECT (button2), "changed") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(button2),
+	g_signal_handler_unblock ( G_OBJECT(button2),
 				   (gulong) g_object_get_data (G_OBJECT (button2), 
 							       "changed"));
     if ( g_object_get_data (G_OBJECT (button2), "changed-hook") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(button2),
+	g_signal_handler_unblock ( G_OBJECT(button2),
 				   (gulong) g_object_get_data (G_OBJECT (button2), 
 							       "changed-hook"));
 }*/
@@ -982,11 +982,11 @@ void gsb_autofunc_date_set ( GtkWidget *entry,
 
     /* Unblock everything */
     if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
+	g_signal_handler_unblock ( G_OBJECT(entry),
 				   (gulong) g_object_get_data (G_OBJECT (entry), 
 							       "changed"));
     if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
+	g_signal_handler_unblock ( G_OBJECT(entry),
 				   (gulong) g_object_get_data (G_OBJECT (entry), 
 							       "changed-hook"));
 }
@@ -1122,11 +1122,11 @@ void gsb_autofunc_real_set ( GtkWidget *entry,
 
     /* Unblock everything */
     if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
+	g_signal_handler_unblock ( G_OBJECT(entry),
 				   (gulong) g_object_get_data (G_OBJECT (entry), 
 							       "changed"));
     if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(entry),
+	g_signal_handler_unblock ( G_OBJECT(entry),
 				   (gulong) g_object_get_data (G_OBJECT (entry), 
 							       "changed-hook"));
 }
@@ -1238,11 +1238,11 @@ void gsb_autofunc_combobox_set_index ( GtkWidget *combobox,
 {
     /* Block everything */
     if ( g_object_get_data (G_OBJECT (combobox), "changed") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(combobox),
+	g_signal_handler_block ( G_OBJECT(combobox),
 				 (gulong) g_object_get_data (G_OBJECT (combobox), 
 							     "changed"));
     if ( g_object_get_data (G_OBJECT (combobox), "changed-hook") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(combobox),
+	g_signal_handler_block ( G_OBJECT(combobox),
 				 (gulong) g_object_get_data (G_OBJECT (combobox), 
 							     "changed-hook"));
 
@@ -1254,11 +1254,11 @@ void gsb_autofunc_combobox_set_index ( GtkWidget *combobox,
 
     /* Unblock everything */
     if ( g_object_get_data (G_OBJECT (combobox), "changed") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(combobox),
+	g_signal_handler_unblock ( G_OBJECT(combobox),
 				   (gulong) g_object_get_data (G_OBJECT (combobox), 
 							       "changed"));
     if ( g_object_get_data (G_OBJECT (combobox), "changed-hook") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(combobox),
+	g_signal_handler_unblock ( G_OBJECT(combobox),
 				   (gulong) g_object_get_data (G_OBJECT (combobox), 
 							       "changed-hook"));
 }
@@ -1371,11 +1371,11 @@ void gsb_autofunc_currency_set_currency_number ( GtkWidget *combobox,
 {
     /* Block everything */
     if ( g_object_get_data (G_OBJECT (combobox), "changed") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(combobox),
+	g_signal_handler_block ( G_OBJECT(combobox),
 				 (gulong) g_object_get_data (G_OBJECT (combobox), 
 							     "changed"));
     if ( g_object_get_data (G_OBJECT (combobox), "changed-hook") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(combobox),
+	g_signal_handler_block ( G_OBJECT(combobox),
 				 (gulong) g_object_get_data (G_OBJECT (combobox), 
 							     "changed-hook"));
 
@@ -1387,11 +1387,11 @@ void gsb_autofunc_currency_set_currency_number ( GtkWidget *combobox,
 
     /* Unblock everything */
     if ( g_object_get_data (G_OBJECT (combobox), "changed") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(combobox),
+	g_signal_handler_unblock ( G_OBJECT(combobox),
 				   (gulong) g_object_get_data (G_OBJECT (combobox), 
 							       "changed"));
     if ( g_object_get_data (G_OBJECT (combobox), "changed-hook") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(combobox),
+	g_signal_handler_unblock ( G_OBJECT(combobox),
 				   (gulong) g_object_get_data (G_OBJECT (combobox), 
 							       "changed-hook"));
 }

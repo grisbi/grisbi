@@ -403,8 +403,8 @@ gboolean popup_scheduled_view_mode_menu ( GtkWidget * button )
     for ( i = 0 ; names[i] ; i++ )
     {
 	item = gtk_menu_item_new_with_label ( names[i] );
-	gtk_signal_connect_object ( GTK_OBJECT ( item ), "activate",
-				    GTK_SIGNAL_FUNC ( gsb_scheduler_list_change_scheduler_view ),
+	g_signal_connect_swapped ( G_OBJECT ( item ), "activate",
+				    G_CALLBACK ( gsb_scheduler_list_change_scheduler_view ),
 				    GINT_TO_POINTER(i) );
 	gtk_menu_append ( GTK_MENU ( menu ), item );
     }

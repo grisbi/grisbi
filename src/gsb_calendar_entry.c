@@ -450,9 +450,9 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
     /* make the popup */
     popup = gtk_window_new ( GTK_WINDOW_POPUP );
     gtk_window_set_modal ( GTK_WINDOW ( popup ), TRUE );
-    gtk_signal_connect_object ( GTK_OBJECT ( popup ),
+    g_signal_connect_swapped ( G_OBJECT ( popup ),
 				"destroy",
-				GTK_SIGNAL_FUNC ( gdk_pointer_ungrab ),
+				G_CALLBACK ( gdk_pointer_ungrab ),
 				GDK_CURRENT_TIME );
 
     /* set the decoration */

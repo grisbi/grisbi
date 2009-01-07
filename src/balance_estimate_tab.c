@@ -230,7 +230,7 @@ GtkWidget *bet_create_balance_estimate_tab(void)
 	}
 	gtk_widget_show(GTK_WIDGET(widget));
 	gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(widget), FALSE, FALSE, 5);
-	g_signal_connect(GTK_OBJECT(widget),
+	g_signal_connect(G_OBJECT(widget),
 			 "toggled",
 			 G_CALLBACK(bet_duration_button_clicked),
 			 GINT_TO_POINTER(bet_months_array[iduration]));

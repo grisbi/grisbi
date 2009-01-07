@@ -462,11 +462,11 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     /* set the connections */
     g_signal_connect ( G_OBJECT (combobox_1),
 		       "changed",
-		       GTK_SIGNAL_FUNC ( gsb_currency_select_change_currency ),
+		       G_CALLBACK ( gsb_currency_select_change_currency ),
 		       combobox_2 );
     g_signal_connect ( G_OBJECT (combobox_2),
 		       "changed",
-		       GTK_SIGNAL_FUNC ( gsb_currency_select_change_currency ),
+		       G_CALLBACK ( gsb_currency_select_change_currency ),
 		       combobox_1);
 
     /* exchange fees line label */

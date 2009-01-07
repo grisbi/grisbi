@@ -260,7 +260,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 				    GTK_RELIEF_NONE );
 	    gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
 					  SPACIFY(_("Define the change for that transaction")));
-	    g_signal_connect ( GTK_OBJECT (  widget ),
+	    g_signal_connect ( G_OBJECT (  widget ),
 			       "clicked",
 			       G_CALLBACK (gsb_form_transaction_change_clicked),
 			       NULL );
@@ -292,19 +292,19 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	/* set the signals */
 	if ( GTK_IS_ENTRY ( widget ))
 	{
-	    g_signal_connect ( GTK_OBJECT ( widget ),
+	    g_signal_connect ( G_OBJECT ( widget ),
 			       "focus-in-event",
 			       G_CALLBACK ( gsb_form_entry_get_focus ),
 			       GINT_TO_POINTER ( element_number ));
-	    g_signal_connect ( GTK_OBJECT ( widget ),
+	    g_signal_connect ( G_OBJECT ( widget ),
 			       "focus-out-event",
 			       G_CALLBACK ( gsb_form_entry_lose_focus ),
 			       GINT_TO_POINTER ( element_number ));
-	    g_signal_connect ( GTK_OBJECT ( widget ),
+	    g_signal_connect ( G_OBJECT ( widget ),
 			       "button-press-event",
 			       G_CALLBACK ( gsb_form_button_press_event ),
 			       GINT_TO_POINTER ( element_number ));
-	    g_signal_connect ( GTK_OBJECT ( widget ),
+	    g_signal_connect ( G_OBJECT ( widget ),
 			       "key-press-event",
 			       G_CALLBACK ( gsb_form_key_press_event ),
 			       GINT_TO_POINTER ( element_number ));
@@ -313,26 +313,26 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	{
 	    if ( GTK_IS_COMBOFIX ( widget ))
 	    {
-		g_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX ( widget ) -> entry ),
+		g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( widget ) -> entry ),
 				   "focus-in-event",
 				   G_CALLBACK ( gsb_form_entry_get_focus ),
 				   GINT_TO_POINTER ( element_number ));
-		g_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
+		g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
 				   "focus-out-event",
 				   G_CALLBACK ( gsb_form_entry_lose_focus ),
 				   GINT_TO_POINTER ( element_number ));
-		g_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
+		g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
 				   "button-press-event",
 				   G_CALLBACK ( gsb_form_button_press_event ),
 				   GINT_TO_POINTER ( element_number ));
-		g_signal_connect ( GTK_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
+		g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (widget ) -> entry ),
 				   "key-press-event",
 				   G_CALLBACK ( gsb_form_key_press_event ),
 				   GINT_TO_POINTER ( element_number ));
 	    }
 	    else
 		/* neither an entry, neither a combofix */
-		g_signal_connect ( GTK_OBJECT ( widget ),
+		g_signal_connect ( G_OBJECT ( widget ),
 				   "key-press-event",
 				   G_CALLBACK ( gsb_form_key_press_event ),
 				   GINT_TO_POINTER ( element_number ));

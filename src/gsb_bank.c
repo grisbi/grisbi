@@ -169,7 +169,7 @@ GtkWidget *gsb_bank_create_combobox ( gint index,
     /* add the hook if exists */
     if ( hook )
 	g_object_set_data ( G_OBJECT (combo_box), "changed-hook",
-			    (gpointer) g_signal_connect_after (GTK_OBJECT(combo_box), "changed",
+			    (gpointer) g_signal_connect_after (G_OBJECT(combo_box), "changed",
 							       ((GCallback) hook), data ));
 
     /* set the index */
@@ -229,11 +229,11 @@ gboolean gsb_bank_list_set_bank ( GtkWidget *combobox,
 
     /* Block hook and default_func */
     if ( g_object_get_data (G_OBJECT (combobox), "changed") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(combobox),
+	g_signal_handler_block ( G_OBJECT(combobox),
 				 (gulong) g_object_get_data (G_OBJECT (combobox),
 							     "changed"));
     if ( g_object_get_data (G_OBJECT (combobox), "changed-hook") > 0 )
-	g_signal_handler_block ( GTK_OBJECT(combobox),
+	g_signal_handler_block ( G_OBJECT(combobox),
 				 (gulong) g_object_get_data (G_OBJECT (combobox),
 							     "changed-hook"));
 
@@ -261,11 +261,11 @@ gboolean gsb_bank_list_set_bank ( GtkWidget *combobox,
 
     /* Unblock everything */
     if ( g_object_get_data (G_OBJECT (combobox), "changed") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(combobox),
+	g_signal_handler_unblock ( G_OBJECT(combobox),
 				   (gulong) g_object_get_data (G_OBJECT (combobox),
 							       "changed"));
     if ( g_object_get_data (G_OBJECT (combobox), "changed-hook") > 0 )
-	g_signal_handler_unblock ( GTK_OBJECT(combobox),
+	g_signal_handler_unblock ( G_OBJECT(combobox),
 				   (gulong) g_object_get_data (G_OBJECT (combobox),
 							       "changed-hook"));
     return FALSE;

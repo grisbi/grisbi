@@ -198,7 +198,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 				       "focus-in-event",
 				       G_CALLBACK (gsb_form_entry_get_focus),
 				       GINT_TO_POINTER (element_number));
-		    g_signal_connect_after ( GTK_OBJECT (widget),
+		    g_signal_connect_after ( G_OBJECT (widget),
 					     "focus-out-event",
 					     G_CALLBACK (gsb_form_scheduler_entry_lose_focus),
 					     GINT_TO_POINTER (element_number));
@@ -232,7 +232,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 						      element );
 
 	    /* set the key signal */
-	    g_signal_connect ( GTK_OBJECT (widget),
+	    g_signal_connect ( G_OBJECT (widget),
 			       "key-press-event",
 			       G_CALLBACK (gsb_form_key_press_event),
 			       GINT_TO_POINTER (SCHEDULED_FORM_ACCOUNT));

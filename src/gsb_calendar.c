@@ -74,13 +74,13 @@ GtkWidget *gsb_calendar_new ( void )
 				localtime ( &temps ) -> tm_mon,
 				localtime ( &temps ) -> tm_year + 1900 );
 
-    gtk_signal_connect ( GTK_OBJECT ( scheduled_calendar ),
+    g_signal_connect ( G_OBJECT ( scheduled_calendar ),
 			 "month-changed",
-			 GTK_SIGNAL_FUNC (gsb_calendar_update),
+			 G_CALLBACK (gsb_calendar_update),
 			 NULL );
-    gtk_signal_connect_after ( GTK_OBJECT ( scheduled_calendar ),
+    g_signal_connect_after ( G_OBJECT ( scheduled_calendar ),
 			       "day-selected",
-			       GTK_SIGNAL_FUNC ( click_sur_jour_calendrier_echeance ),
+			       G_CALLBACK ( click_sur_jour_calendrier_echeance ),
 			       NULL );
 
     gtk_widget_show ( scheduled_calendar );
@@ -154,8 +154,8 @@ void click_sur_jour_calendrier_echeance ( GtkWidget *calendrier,
 
     time ( &temps );
 
-    gtk_signal_handler_block_by_func ( GTK_OBJECT ( calendrier ),
-				       GTK_SIGNAL_FUNC ( click_sur_jour_calendrier_echeance ),
+    g_signal_handlers_block_by_func ( G_OBJECT ( calendrier ),
+				       G_CALLBACK ( click_sur_jour_calendrier_echeance ),
 				       NULL );
 
     if ( ( localtime ( &temps ) -> tm_mon == GTK_CALENDAR ( scheduled_calendar ) -> month )
@@ -167,8 +167,8 @@ void click_sur_jour_calendrier_echeance ( GtkWidget *calendrier,
 	gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ),
 				  FALSE );
 
-    gtk_signal_handler_unblock_by_func ( GTK_OBJECT ( calendrier ),
-					 GTK_SIGNAL_FUNC ( click_sur_jour_calendrier_echeance ),
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( calendrier ),
+					 G_CALLBACK ( click_sur_jour_calendrier_echeance ),
 					 NULL );
 
 }

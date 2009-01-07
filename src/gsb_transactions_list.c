@@ -2166,7 +2166,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 
     /* Add accounts submenu */
     gtk_menu_item_set_submenu ( GTK_MENU_ITEM(menu_item),
-				GTK_WIDGET(gsb_account_create_menu_list (GTK_SIGNAL_FUNC(move_selected_operation_to_account), FALSE, FALSE)) );
+				GTK_WIDGET(gsb_account_create_menu_list (G_CALLBACK(move_selected_operation_to_account), FALSE, FALSE)) );
 
 
     /* Separator */

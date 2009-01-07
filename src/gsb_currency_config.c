@@ -852,8 +852,8 @@ GtkWidget * gsb_currency_config_new_combobox ( gint * value, GCallback hook )
 	gsb_currency_set_combobox_history ( combo_box,
 					    *value );
 
-    g_signal_connect ( GTK_OBJECT (combo_box), "changed", (GCallback) gsb_currency_config_set_int_from_combobox, value );
-    g_signal_connect ( GTK_OBJECT (combo_box), "changed", (GCallback) hook, value );
+    g_signal_connect ( G_OBJECT (combo_box), "changed", (GCallback) gsb_currency_config_set_int_from_combobox, value );
+    g_signal_connect ( G_OBJECT (combo_box), "changed", (GCallback) hook, value );
     g_object_set_data ( G_OBJECT ( combo_box ), "pointer", value);
 
     return combo_box;

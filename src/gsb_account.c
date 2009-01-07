@@ -497,7 +497,7 @@ GtkWidget *gsb_account_create_menu_list ( GtkSignalFunc func,
 				  "account_number",
 				  GINT_TO_POINTER (i));
 	    if ( func )
-		gtk_signal_connect ( GTK_OBJECT ( item ), "activate", GTK_SIGNAL_FUNC(func), NULL );
+		g_signal_connect ( G_OBJECT ( item ), "activate", G_CALLBACK(func), NULL );
 	    gtk_menu_append ( GTK_MENU ( menu ), item );
 
 	    if ( !activate_currrent && 

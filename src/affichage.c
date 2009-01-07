@@ -177,7 +177,7 @@ GtkWidget * onglet_display_fonts ( void )
 
     gtk_container_add (GTK_CONTAINER(logo_button), preview);
     g_signal_connect_swapped ( G_OBJECT ( logo_button ), "clicked",
-			       GTK_SIGNAL_FUNC ( modification_logo_accueil ), NULL );
+			       G_CALLBACK ( modification_logo_accueil ), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), logo_button, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Click on preview to change logo") );
