@@ -231,7 +231,7 @@ GtkWidget * print_config_general ( GtkWidget * dialog )
     gtk_entry_set_text ( GTK_ENTRY(input1), etat.print_config.printer_name );
 
     /* Print to file */
-    radio2 = gtk_radio_button_new_with_label ( gtk_radio_button_group (GTK_RADIO_BUTTON(radio1)), _("File") );
+    radio2 = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (GTK_RADIO_BUTTON(radio1)), _("File") );
     gtk_table_attach ( GTK_TABLE(table), radio2, 0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL,
 		       0, 0 );
@@ -316,7 +316,7 @@ GtkWidget * print_config_paper ( GtkWidget * dialog )
     radio = gtk_radio_button_new_with_label ( NULL, _("Portrait") );
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
 
-    radio = gtk_radio_button_new_with_label ( gtk_radio_button_group (GTK_RADIO_BUTTON(radio)), _("Landscape") );
+    radio = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (GTK_RADIO_BUTTON(radio)), _("Landscape") );
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
     g_object_set_data ( G_OBJECT(dialog), "orientation", radio );
 

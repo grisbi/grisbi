@@ -810,7 +810,7 @@ GtkWidget *gsb_autofunc_radiobutton_new ( const gchar *choice1,
 
     button1 = gtk_radio_button_new_with_mnemonic ( NULL, choice1 );
     gtk_box_pack_start (GTK_BOX(vbox), button1, FALSE, FALSE, 0 );
-    button2 = gtk_radio_button_new_with_mnemonic ( gtk_radio_button_group (GTK_RADIO_BUTTON(button1)), 
+    button2 = gtk_radio_button_new_with_mnemonic ( gtk_radio_button_get_group (GTK_RADIO_BUTTON(button1)), 
 						   choice2 );
     gtk_box_pack_start (GTK_BOX(vbox), button2, FALSE, FALSE, 0 );
 

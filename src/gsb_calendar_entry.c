@@ -518,17 +518,14 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
     y -= popup_size -> height;
 
     /* si une des coordonnées est négative, alors la fonction
-       gtk_widget_set_uposition échoue et affiche la popup en 0,0 */
+       gtk_window_move échoue et affiche la popup en 0,0 */
     if ( x < 0 )
 	x = 0 ;
 
     if ( y < 0 )
 	y = 0 ;
 
-    gtk_widget_set_uposition ( GTK_WIDGET ( popup ),
-			       x,
-			       y );
-
+    gtk_window_move ( GTK_WINDOW ( popup ), x, y );
     gtk_widget_show ( popup );
     gtk_widget_grab_focus ( GTK_WIDGET ( pCalendar ) );
     return ( popup );

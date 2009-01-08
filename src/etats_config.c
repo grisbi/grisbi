@@ -2178,7 +2178,7 @@ GtkWidget *onglet_etat_dates ( void )
 			 0 );
     gtk_widget_show ( vbox );
 
-    radio_button_utilise_exo = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( radio_button_utilise_dates )),
+    radio_button_utilise_exo = gtk_radio_button_new_with_label ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( radio_button_utilise_dates )),
 								 _("Use financial years") );
     g_signal_connect ( G_OBJECT (radio_button_utilise_exo ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &radio_button_utilise_exo );
@@ -2230,7 +2230,7 @@ GtkWidget *onglet_etat_dates ( void )
 			 0 );
     gtk_widget_show ( bouton_exo_tous );
 
-    bouton_exo_courant = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_exo_tous )),
+    bouton_exo_courant = gtk_radio_button_new_with_label ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( bouton_exo_tous )),
 							   _("Current financial year"));
     g_signal_connect ( G_OBJECT (bouton_exo_courant ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_exo_courant );
@@ -2241,7 +2241,7 @@ GtkWidget *onglet_etat_dates ( void )
 			 0 );
     gtk_widget_show ( bouton_exo_courant );
 
-    bouton_exo_precedent = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_exo_tous )),
+    bouton_exo_precedent = gtk_radio_button_new_with_label ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( bouton_exo_tous )),
 							     _("Former financial year"));
     g_signal_connect ( G_OBJECT (bouton_exo_precedent ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_exo_precedent );
@@ -2254,7 +2254,7 @@ GtkWidget *onglet_etat_dates ( void )
 
 
 
-    bouton_detaille_exo_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_exo_tous )),
+    bouton_detaille_exo_etat = gtk_radio_button_new_with_label ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( bouton_exo_tous )),
 								 _("Detail financial years") );
     g_signal_connect ( G_OBJECT (bouton_detaille_exo_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_detaille_exo_etat );
@@ -2753,7 +2753,7 @@ GtkWidget *onglet_etat_virements ( void )
 			 0 );
     gtk_widget_show ( bouton_non_inclusion_virements );
 
-    bouton_inclusion_virements_actifs_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
+    bouton_inclusion_virements_actifs_etat = gtk_radio_button_new_with_label ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
 									       _("Include transfers from or to assets or liabilities accounts") );
     g_signal_connect ( G_OBJECT (bouton_inclusion_virements_actifs_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_inclusion_virements_actifs_etat );
@@ -2768,7 +2768,7 @@ GtkWidget *onglet_etat_virements ( void )
 			 0 );
     gtk_widget_show ( bouton_inclusion_virements_actifs_etat );
 
-    bouton_inclusion_virements_hors_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
+    bouton_inclusion_virements_hors_etat = gtk_radio_button_new_with_label ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
 									     _("Include transfers from or to accounts not in this report") );
     g_signal_connect ( G_OBJECT (bouton_inclusion_virements_hors_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_inclusion_virements_hors_etat );
@@ -2783,7 +2783,7 @@ GtkWidget *onglet_etat_virements ( void )
 			 0 );
     gtk_widget_show ( bouton_inclusion_virements_hors_etat );
 
-    bouton_inclusion_virements_perso = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
+    bouton_inclusion_virements_perso = gtk_radio_button_new_with_label ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( bouton_non_inclusion_virements )),
 									 _("Include transfers from or to these accounts") );
     g_signal_connect ( G_OBJECT (bouton_inclusion_virements_perso ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_inclusion_virements_perso );
@@ -4583,7 +4583,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
     gsb_data_report_text_comparison_set_button_use_text ( text_comparison_number,
 							  gtk_radio_button_new ( NULL ));
     gsb_data_report_text_comparison_set_button_use_number ( text_comparison_number,
-							    gtk_radio_button_new ( gtk_radio_button_group ( GTK_RADIO_BUTTON(gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)))));
+							    gtk_radio_button_new ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON(gsb_data_report_text_comparison_get_button_use_text (text_comparison_number)))));
 
     gsb_data_report_text_comparison_set_button_field ( text_comparison_number,
 						       cree_bouton_champ ( text_comparison_number ));
@@ -6233,7 +6233,7 @@ GtkWidget *onglet_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_opes_r_et_non_r_etat );
 
-    bouton_opes_non_r_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_opes_r_et_non_r_etat )),
+    bouton_opes_non_r_etat = gtk_radio_button_new_with_label ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( bouton_opes_r_et_non_r_etat )),
 							       _("Select unreconciled transactions") );
     g_signal_connect ( G_OBJECT (bouton_opes_non_r_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_opes_non_r_etat );
@@ -6248,7 +6248,7 @@ GtkWidget *onglet_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_opes_non_r_etat );
 
-    bouton_opes_r_etat = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_opes_r_et_non_r_etat )),
+    bouton_opes_r_etat = gtk_radio_button_new_with_label ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( bouton_opes_r_et_non_r_etat )),
 							   _("Select reconciled transactions") );
     g_signal_connect ( G_OBJECT (bouton_opes_r_etat ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_opes_r_etat );
@@ -6836,7 +6836,7 @@ GtkWidget *onglet_affichage_etat_operations ( void )
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_titre_changement );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_titre_changement, FALSE, FALSE, 0 );
 
-    bouton_titre_en_haut = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( bouton_titre_changement )),
+    bouton_titre_en_haut = gtk_radio_button_new_with_label ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( bouton_titre_changement )),
 							     _("at the top of the report") );
     g_signal_connect ( G_OBJECT (bouton_titre_en_haut ), "destroy",
     		G_CALLBACK ( gtk_widget_destroyed), &bouton_titre_en_haut );

@@ -1185,10 +1185,7 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
 	    height = gdk_screen_height () - y;
     }
 
-    gtk_widget_set_uposition ( GTK_WIDGET ( combofix->popup ),
-			       x,
-			       y );
-
+    gtk_window_move ( GTK_WINDOW ( combofix->popup ), x, y );
     gtk_widget_set_size_request ( GTK_WIDGET ( combofix->popup ),
 			   GTK_WIDGET ( combofix ) ->allocation.width,
 			   height );

@@ -1720,7 +1720,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model
 	tmpstr = g_strdup_printf(_("Just remove this %s."), _(iface -> meta_name) );
     else
 	tmpstr = g_strdup_printf(_("Just remove this sub-%s."), _(iface -> meta_name) );
-    button_delete = gtk_radio_button_new_with_label ( gtk_radio_button_group ( GTK_RADIO_BUTTON ( button_move )), tmpstr );
+    button_delete = gtk_radio_button_new_with_label ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( button_move )), tmpstr );
     g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_delete, FALSE, FALSE, 0 );
 
