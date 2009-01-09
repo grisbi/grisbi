@@ -953,7 +953,7 @@ GtkWidget * csv_import_fields_menu ( GtkTreeViewColumn * col, gint field,
 	g_object_set_data ( G_OBJECT ( item ), "assistant", assistant );
 	g_signal_connect ( G_OBJECT ( item ), "activate",
 			     G_CALLBACK ( csv_import_change_field ), GINT_TO_POINTER(  i ) );
-	gtk_menu_append ( GTK_MENU ( menu ), item );
+	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
     }
 
     gtk_widget_show_all ( menu );

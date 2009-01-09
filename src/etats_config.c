@@ -4900,7 +4900,7 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     menu = gtk_menu_new ();
 
     menu_item = gtk_menu_item_new_with_label ( _("payee"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
@@ -4928,7 +4928,7 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("payee information"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
@@ -4956,7 +4956,7 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("category"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
@@ -4984,7 +4984,7 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("sub-category"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
@@ -5012,7 +5012,7 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("budgetary line"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
@@ -5040,7 +5040,7 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("sub-budgetary line"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
@@ -5068,7 +5068,7 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("note"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
@@ -5096,7 +5096,7 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("bank reference"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
@@ -5124,7 +5124,7 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("voucher"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
@@ -5145,7 +5145,7 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
 
 
     menu_item = gtk_menu_item_new_with_label ( _("cheque number"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
@@ -5165,7 +5165,7 @@ GtkWidget *cree_bouton_champ ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("reconciliation reference"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_champ",
@@ -5220,7 +5220,7 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     menu = gtk_menu_new ();
 
     menu_item = gtk_menu_item_new_with_label ( _("contains"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_operateur",
@@ -5232,7 +5232,7 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("doesn't contain"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_operateur",
@@ -5244,7 +5244,7 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("begins with"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_operateur",
@@ -5256,7 +5256,7 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("ends with"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_operateur",
@@ -5268,7 +5268,7 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("is empty"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_operateur",
@@ -5280,7 +5280,7 @@ GtkWidget *cree_bouton_operateur_txt ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("isn't empty"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_operateur",
@@ -5755,7 +5755,7 @@ GtkWidget *cree_bouton_lien_lignes_comparaison ( void )
     menu = gtk_menu_new ();
 
     menu_item = gtk_menu_item_new_with_label ( _("and"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_lien",
@@ -5763,7 +5763,7 @@ GtkWidget *cree_bouton_lien_lignes_comparaison ( void )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("or"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_lien",
@@ -5771,7 +5771,7 @@ GtkWidget *cree_bouton_lien_lignes_comparaison ( void )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("except"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_lien",
@@ -5801,7 +5801,7 @@ GtkWidget *cree_bouton_comparateur_montant ( gint amount_comparison_number )
     menu = gtk_menu_new ();
 
     menu_item = gtk_menu_item_new_with_label ( _("equal"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -5813,7 +5813,7 @@ GtkWidget *cree_bouton_comparateur_montant ( gint amount_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("less than"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -5825,7 +5825,7 @@ GtkWidget *cree_bouton_comparateur_montant ( gint amount_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("less than or equal"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -5837,7 +5837,7 @@ GtkWidget *cree_bouton_comparateur_montant ( gint amount_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("greater than"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -5849,7 +5849,7 @@ GtkWidget *cree_bouton_comparateur_montant ( gint amount_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("greater than or equal"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -5861,7 +5861,7 @@ GtkWidget *cree_bouton_comparateur_montant ( gint amount_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("different from"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -5873,7 +5873,7 @@ GtkWidget *cree_bouton_comparateur_montant ( gint amount_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("null"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -5885,7 +5885,7 @@ GtkWidget *cree_bouton_comparateur_montant ( gint amount_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("not null"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -5897,7 +5897,7 @@ GtkWidget *cree_bouton_comparateur_montant ( gint amount_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("positive"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -5909,7 +5909,7 @@ GtkWidget *cree_bouton_comparateur_montant ( gint amount_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("negative"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -5979,7 +5979,7 @@ GtkWidget *cree_bouton_comparateur_texte ( gint text_comparison_number )
     menu = gtk_menu_new ();
 
     menu_item = gtk_menu_item_new_with_label ( _("equal"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -5991,7 +5991,7 @@ GtkWidget *cree_bouton_comparateur_texte ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("less than"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -6003,7 +6003,7 @@ GtkWidget *cree_bouton_comparateur_texte ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("less than or equal"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -6015,7 +6015,7 @@ GtkWidget *cree_bouton_comparateur_texte ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("greater than"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -6027,7 +6027,7 @@ GtkWidget *cree_bouton_comparateur_texte ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("greater than or equal"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -6039,7 +6039,7 @@ GtkWidget *cree_bouton_comparateur_texte ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("different from"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -6051,7 +6051,7 @@ GtkWidget *cree_bouton_comparateur_texte ( gint text_comparison_number )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("the biggest"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_comparateur",
@@ -6112,7 +6112,7 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
     menu = gtk_menu_new ();
 
     menu_item = gtk_menu_item_new_with_label ( _("and"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_lien",
@@ -6124,7 +6124,7 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("or"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_lien",
@@ -6136,7 +6136,7 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("except"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_lien",
@@ -6148,7 +6148,7 @@ GtkWidget *cree_bouton_lien ( GtkWidget *hbox )
     gtk_widget_show ( menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("stop"));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_lien",
@@ -6469,19 +6469,19 @@ GtkWidget *page_data_separation ( void )
     menu = gtk_menu_new ();
     menu_item = gtk_menu_item_new_with_label ( _("Day") );
     g_object_set_data ( G_OBJECT ( menu_item ), "type", NULL );
-    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("Week") );
     g_object_set_data ( G_OBJECT ( menu_item ), "type", GINT_TO_POINTER (1) );
-    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("Month") );
     g_object_set_data ( G_OBJECT ( menu_item ), "type", GINT_TO_POINTER (2) );
-    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("Year") );
     g_object_set_data ( G_OBJECT ( menu_item ), "type", GINT_TO_POINTER (3));
-    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ), menu );
 
@@ -6513,7 +6513,7 @@ GtkWidget *page_data_separation ( void )
     {
 	menu_item = gtk_menu_item_new_with_label ( _(jours_semaine[i]) );
 	g_object_set_data ( G_OBJECT ( menu_item ), "day", GINT_TO_POINTER (i));
-	gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 	i++;
     }
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_debut_semaine ), menu );
@@ -6857,84 +6857,84 @@ GtkWidget *onglet_affichage_etat_operations ( void )
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 0 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("value date"));
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 1 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("transaction number"));
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 2 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("payee"));
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 3 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("category"));
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 4 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("budgetary line"));
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 5 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("note"));
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 6 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("method of payment"));
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 7 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("cheque/transfer number"));
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 8 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("voucher"));
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 9 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("bank reference"));
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 10 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
 
     menu_item = gtk_menu_item_new_with_label ( _("reconciliation reference"));
     g_object_set_data ( G_OBJECT ( menu_item ),
 			  "no_classement",
 			  GINT_TO_POINTER ( 11 ));
-    gtk_menu_append ( GTK_MENU ( menu ),
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 		      menu_item );
 
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_choix_classement_ope_etat ),

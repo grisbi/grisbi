@@ -309,7 +309,7 @@ gboolean ajout_etat ( void )
     menu = gtk_menu_new ();
 
     menu_item = gtk_menu_item_new_with_label ( _("Last month incomes and outgoings"));
-    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
 			  GINT_TO_POINTER ( 0 ));
     g_signal_connect ( G_OBJECT ( menu_item ), "activate",
@@ -320,7 +320,7 @@ gboolean ajout_etat ( void )
     change_choix_nouvel_etat ( menu_item, label_description );
 
     menu_item = gtk_menu_item_new_with_label ( _("Current month incomes and outgoings"));
-    gtk_menu_append ( GTK_MENU ( menu ), menu_item )
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item )
 	; g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
 				GINT_TO_POINTER ( 1 ));
     g_signal_connect ( G_OBJECT ( menu_item ), "activate",
@@ -328,7 +328,7 @@ gboolean ajout_etat ( void )
 			 G_OBJECT ( label_description ));
 
     menu_item = gtk_menu_item_new_with_label ( _("Annual budget"));
-    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
 			  GINT_TO_POINTER ( 2 ));
     g_signal_connect ( G_OBJECT ( menu_item ), "activate",
@@ -336,7 +336,7 @@ gboolean ajout_etat ( void )
 			 G_OBJECT ( label_description ));
 
     menu_item = gtk_menu_item_new_with_label ( _("Cheques deposit"));
-    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
 			  GINT_TO_POINTER ( 4 ));
     g_signal_connect ( G_OBJECT ( menu_item ), "activate",
@@ -344,7 +344,7 @@ gboolean ajout_etat ( void )
 			 G_OBJECT ( label_description ));
 
     menu_item = gtk_menu_item_new_with_label ( _("Monthly outgoings by payee"));
-    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
 			  GINT_TO_POINTER ( 5 ));
     g_signal_connect ( G_OBJECT ( menu_item ), "activate",
@@ -352,7 +352,7 @@ gboolean ajout_etat ( void )
 			 G_OBJECT ( label_description ));
 
     menu_item = gtk_menu_item_new_with_label ( _("Search"));
-    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
 			  GINT_TO_POINTER ( 6 ));
     g_signal_connect ( G_OBJECT ( menu_item ), "activate",
@@ -360,7 +360,7 @@ gboolean ajout_etat ( void )
 			 G_OBJECT ( label_description ));
 
     menu_item = gtk_menu_item_new_with_label ( _("Blank report"));
-    gtk_menu_append ( GTK_MENU ( menu ), menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
     g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
 			  GINT_TO_POINTER ( 3 ));
     g_signal_connect ( G_OBJECT ( menu_item ), "activate",

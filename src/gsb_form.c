@@ -3157,7 +3157,7 @@ gboolean gsb_form_button_press ( GtkWidget *vbox,
 		       "activate",
 		       G_CALLBACK (gsb_preferences_menu_open),
 		       GINT_TO_POINTER (TRANSACTION_FORM_PAGE));
-    gtk_menu_append ( menu, menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Finish all. */
     gtk_widget_show_all (menu);

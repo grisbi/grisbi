@@ -361,13 +361,13 @@ gboolean popup_payee_view_mode_menu ( GtkWidget * button )
     g_signal_connect ( G_OBJECT(menu_item), "activate",
 		       G_CALLBACK(expand_arbre_division), (gpointer) 0 );
     g_object_set_data ( G_OBJECT(menu_item), "tree-view", payee_tree );
-    gtk_menu_append ( menu, menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     menu_item = gtk_image_menu_item_new_with_label ( _("Complete view") );
     g_signal_connect ( G_OBJECT(menu_item), "activate",
 		       G_CALLBACK(expand_arbre_division), (gpointer) 2 );
     g_object_set_data ( G_OBJECT(menu_item), "tree-view", payee_tree );
-    gtk_menu_append ( menu, menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     gtk_widget_show_all ( menu );
 

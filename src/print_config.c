@@ -254,9 +254,9 @@ GtkWidget * print_config_general ( GtkWidget * dialog )
     g_object_set_data ( G_OBJECT(dialog), "filetype", omenu );
 
     item = gtk_menu_item_new_with_label ( _("Postscript file") );
-    gtk_menu_append ( GTK_MENU ( menu ), item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
     item = gtk_menu_item_new_with_label ( _("LaTeX file") );
-    gtk_menu_append ( GTK_MENU ( menu ), item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
     gtk_option_menu_set_history ( GTK_OPTION_MENU(omenu), etat.print_config.filetype );
     gtk_table_attach_defaults ( GTK_TABLE(table), omenu, 1, 2, 2, 3 );
 
@@ -306,7 +306,7 @@ GtkWidget * print_config_paper ( GtkWidget * dialog )
 	if ( !strcmp ( _(paper_sizes[i].name), etat.print_config.paper_config.name ))
 	    history = i;
 
-	gtk_menu_append ( GTK_MENU ( menu ), item );
+	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
     }
     gtk_option_menu_set_history ( GTK_OPTION_MENU(omenu), history );
 

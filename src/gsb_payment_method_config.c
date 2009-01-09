@@ -306,21 +306,21 @@ GtkWidget *gsb_payment_method_config_create ( void )
 		       "activate",
 		       G_CALLBACK ( gsb_payment_method_config_sign_changed ),
 		       GINT_TO_POINTER (GSB_PAYMENT_NEUTRAL));
-    gtk_menu_append ( GTK_MENU ( menu ), item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
     /* Debit method_ptr */
     item = gtk_menu_item_new_with_label ( _("Debit") );
     g_signal_connect ( G_OBJECT ( item ),
 		       "activate",
 		       G_CALLBACK ( gsb_payment_method_config_sign_changed ),
 		       GINT_TO_POINTER (GSB_PAYMENT_DEBIT));
-    gtk_menu_append ( GTK_MENU ( menu ), item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
     /* Credit method_ptr */
     item = gtk_menu_item_new_with_label ( _("Credit") );
     g_signal_connect ( G_OBJECT ( item ),
 		       "activate",
 		       G_CALLBACK ( gsb_payment_method_config_sign_changed ),
 		       GINT_TO_POINTER (GSB_PAYMENT_CREDIT));
-    gtk_menu_append ( GTK_MENU ( menu ), item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
     /* Set menu */
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( payment_sign_button ), menu );
     gtk_table_attach ( GTK_TABLE ( table ),

@@ -1766,7 +1766,7 @@ gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity p
  * */
 gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
 {
-    GtkWidget * dialog, *hbox, *hbox2, *paddingbox, *omenu, *menu, *label, *entry, *item;
+    GtkWidget * dialog, *hbox, *hbox2, *paddingbox, *label, *entry, *combobox;
     gchar * names[] = { _("days"), _("weeks"), _("months"), _("years"), NULL };
     int i;
 
@@ -1796,25 +1796,22 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
 					  NULL, NULL );
     gtk_box_pack_start ( GTK_BOX(hbox2), entry, FALSE, FALSE, 6 );
 
-    omenu = gtk_option_menu_new ();
-    menu = gtk_menu_new();
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU(omenu), menu );
-    gtk_box_pack_start ( GTK_BOX(hbox2), omenu, FALSE, FALSE, 0 );
+    /* combobox for userdefined frequency */
+    combobox = gtk_combo_box_new_text ();
+    gtk_box_pack_start ( GTK_BOX(hbox2), combobox, FALSE, FALSE, 0 );
 
     for ( i = 0; names[i]; i++ )
     {
-	item = gtk_menu_item_new_with_label ( names[i] );
-	gtk_menu_append ( menu, item );
+	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), names[i] );
     }
-    gtk_option_menu_set_history ( GTK_OPTION_MENU ( omenu ),
-				  affichage_echeances_perso_j_m_a );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combobox ), affichage_echeances_perso_j_m_a );
 
     gtk_widget_show_all ( dialog );
 
     switch ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
     {
 	case GTK_RESPONSE_OK:
-	    affichage_echeances_perso_j_m_a = gtk_option_menu_get_history ( GTK_OPTION_MENU ( omenu ) );
+	    affichage_echeances_perso_j_m_a = gtk_combo_box_get_active ( GTK_COMBO_BOX (combobox) );
 	    affichage_echeances_perso_nb_libre = utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY(entry)) );
 	    gtk_widget_destroy ( dialog );
 	    return TRUE;

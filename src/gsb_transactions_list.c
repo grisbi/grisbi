@@ -2090,10 +2090,10 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 			       G_CALLBACK (gsb_transactions_list_edit_transaction_by_pointer),
 			       GINT_TO_POINTER (transaction_number));
     gtk_widget_set_sensitive ( menu_item, full );
-    gtk_menu_append ( menu, menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Separator */
-    gtk_menu_append ( menu, gtk_separator_menu_item_new() );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     /* New transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("New transaction") );
@@ -2101,7 +2101,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 				    gtk_image_new_from_stock ( GTK_STOCK_NEW,
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item), "activate", G_CALLBACK (new_transaction), NULL );
-    gtk_menu_append ( menu, menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Delete transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Delete transaction") );
@@ -2115,7 +2115,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 	 ||
 	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELERAPPROCHEE )
 	gtk_widget_set_sensitive ( menu_item, FALSE );
-    gtk_menu_append ( menu, menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* use transaction as template */
     menu_item = gtk_image_menu_item_new_with_label ( _("Use selected transaction as a template") );
@@ -2125,7 +2125,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     g_signal_connect ( G_OBJECT(menu_item), "activate",
 		       G_CALLBACK (gsb_transactions_list_clone_template), NULL );
     gtk_widget_set_sensitive ( menu_item, full );
-    gtk_menu_append ( menu, menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Clone transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Clone transaction") );
@@ -2135,10 +2135,10 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     g_signal_connect ( G_OBJECT(menu_item), "activate",
 		       G_CALLBACK (clone_selected_transaction), NULL );
     gtk_widget_set_sensitive ( menu_item, full );
-    gtk_menu_append ( menu, menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Separator */
-    gtk_menu_append ( menu, gtk_separator_menu_item_new() );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     /* Convert to scheduled transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Convert transaction to scheduled transaction") );
@@ -2147,7 +2147,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item), "activate", schedule_selected_transaction, NULL );
     gtk_widget_set_sensitive ( menu_item, full && mi_full );
-    gtk_menu_append ( menu, menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Move to another account */
     menu_item = gtk_image_menu_item_new_with_label ( _("Move transaction to another account") );
@@ -2162,7 +2162,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 	 ||
 	 gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_TELERAPPROCHEE )
 	gtk_widget_set_sensitive ( menu_item, FALSE );
-    gtk_menu_append ( menu, menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Add accounts submenu */
     gtk_menu_item_set_submenu ( GTK_MENU_ITEM(menu_item),
@@ -2170,7 +2170,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 
 
     /* Separator */
-    gtk_menu_append ( menu, gtk_separator_menu_item_new() );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
     /* Change cell content. */
     menu_item = gtk_menu_item_new_with_label ( _("Change cell content") );
@@ -2178,7 +2178,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
 	gtk_menu_item_set_submenu ( GTK_MENU_ITEM ( menu_item ),
 				    GTK_WIDGET ( gsb_gui_create_cell_contents_menu ( x, y ) ) );
     gtk_widget_set_sensitive ( menu_item, full );
-    gtk_menu_append ( menu, menu_item );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Finish all. */
     gtk_widget_show_all (menu);
@@ -2212,7 +2212,7 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
 	g_object_set_data ( G_OBJECT (item), "y", GINT_TO_POINTER (y) );
 	g_signal_connect ( G_OBJECT(item), "activate",
 			   G_CALLBACK(gsb_gui_change_cell_content), GINT_TO_POINTER (i+1));
-	gtk_menu_append ( menu, item );
+	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
     }
 
     return menu;
@@ -2824,12 +2824,12 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
 			       G_CALLBACK ( gtk_true ),
 			       NULL );
 
-	    gtk_menu_append ( menu,
+	    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 			      menu_item );
 	    gtk_widget_show_all ( menu_item );
 
 	    menu_item = gtk_separator_menu_item_new ();
-	    gtk_menu_append ( menu,
+	    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 			      menu_item );
 	    gtk_widget_show ( menu_item );
 
@@ -2876,7 +2876,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
 				       "activate",
 				       G_CALLBACK ( gsb_transactions_list_change_sort_type ),
 				       no_column );
-		    gtk_menu_append ( menu,
+		    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ),
 				      menu_item );
 		    gtk_widget_show ( menu_item );
 		}
