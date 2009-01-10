@@ -296,7 +296,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 				   GdkEventButton *event,
 				   gint scheduled_number )
 {
-    GtkWidget *parent_save, *dialog;
+    GtkWidget *parent_save, *dialog, *hbox;
     gint result;
 
     parent_save = form_transaction_part -> parent;
@@ -310,12 +310,14 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 					   NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
-    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
     gtk_dialog_set_default_response ( GTK_DIALOG (dialog), GTK_RESPONSE_OK );
 
-    /* first we reparent the form in the dialog */
-    gtk_widget_reparent ( form_transaction_part, GTK_DIALOG ( dialog ) -> vbox );
-    gtk_container_set_border_width ( GTK_CONTAINER (form_transaction_part), 12 );
+	/* first we reparent the form in the dialog */
+	hbox = gtk_hbox_new ( FALSE, 0 );
+	gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, TRUE, TRUE, 0 );
+	gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
+	gtk_widget_reparent ( form_transaction_part, hbox );
 
     /* next we fill the form,
      * don't use gsb_form_show because we are neither on transactions list, neither scheduled list */
@@ -324,7 +326,8 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     /* fill the form with the scheduled transaction */
     gsb_scheduler_list_execute_transaction(scheduled_number);
 
-    result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+	gtk_widget_show_all ( hbox );
+	result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
 
     if ( result == GTK_RESPONSE_OK )
