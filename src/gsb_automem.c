@@ -651,7 +651,7 @@ GtkWidget *gsb_automem_spin_button_new ( gint *value,
     upper = G_MAXDOUBLE;
     step_increment = 1.0;
     page_increment = 5.0;
-    page_size = 5.0;
+    page_size = 0.0;
     climb_rate = 2.0;
 
     return gsb_automem_spin_button_new_full ( value,

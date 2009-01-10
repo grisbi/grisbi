@@ -101,6 +101,7 @@ gboolean gsb_calendar_update ( void )
     time_t temps;
     GSList *tmp_list;
     gint calendar_month;
+	gint calendar_year;
 
     gtk_calendar_clear_marks ( GTK_CALENDAR ( scheduled_calendar ));
 
@@ -117,6 +118,7 @@ gboolean gsb_calendar_update ( void )
 				  FALSE );
 
     calendar_month = GTK_CALENDAR ( scheduled_calendar ) -> month + 1;
+	calendar_year = GTK_CALENDAR ( scheduled_calendar ) -> year + 25;
 
     /* check the scheduled transactions and bold them in the calendar */
     tmp_list = gsb_data_scheduled_get_scheduled_list ();
@@ -130,7 +132,7 @@ gboolean gsb_calendar_update ( void )
 
 	tmp_date = gsb_date_copy (gsb_data_scheduled_get_date (scheduled_number));
 
-	while (tmp_date && g_date_get_month (tmp_date) == calendar_month)
+	while (tmp_date && g_date_get_month (tmp_date) == calendar_month && g_date_get_year (tmp_date) < calendar_year)
 	{
 	    GDate *new_date;
 
