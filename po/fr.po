@@ -407,7 +407,8 @@ msgstr "Paramètres approximatifs"
 msgid ""
 "Please select an account and a duration\n"
 "and select the estimate array tab."
-msgstr ""
+msgstr "Veuillez sélectionner un compte et une durée\n"
+"et choisissez le tableau d'estimation. "
 
 #. set the choice of account
 #: src/balance_estimate_tab.c:201 src/categories_onglet.c:151
@@ -422,7 +423,7 @@ msgstr "Compte"
 #. ***** Estimation array page *****
 #: src/balance_estimate_tab.c:236
 msgid "Estimate array"
-msgstr ""
+msgstr "Tableau d'estimation"
 
 #: src/balance_estimate_tab.c:286 src/etats_affiche.c:2398
 #: src/export_csv.c:747 src/gsb_assistant_reconcile_config.c:612
@@ -464,12 +465,12 @@ msgstr "Moyenne"
 #. ***** Estimation graph page *****
 #: src/balance_estimate_tab.c:345
 msgid "Estimation graph"
-msgstr ""
+msgstr "Graphique d'estimation"
 
 #: src/balance_estimate_tab.c:578
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
-msgstr ""
+msgstr "Balance d'estimation du compte \"%s\" de %s à %s"
 
 #. New transaction
 #: src/barre_outils.c:95 src/gsb_transactions_list.c:2099
@@ -1034,8 +1035,7 @@ msgstr "Grisbi a effectué une copie de sauvegarde dans '%s'."
 msgid ""
 "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
 msgstr ""
-"Veuillez rapporter cette erreur à <tt>http://www.grisbi.org/bugtracking/</"
-"tt>.  "
+"Veuillez rapporter cette erreur à <tt>http://www.grisbi.org/bugtracking/</tt>.  "
 
 #: src/erreur.c:140
 msgid "Copy and paste the following backtrace with your bug report."
@@ -3903,7 +3903,7 @@ msgstr "État"
 #. set up the menu
 #: src/gsb_assistant_archive.c:412
 msgid "Please choose a name for archive"
-msgstr "Choisissez un nom pour le fichier"
+msgstr "Choisissez un nom pour l'archive"
 
 #: src/gsb_assistant_archive.c:483 src/import.c:801
 msgid "Congratulations !"
@@ -3918,11 +3918,17 @@ msgid ""
 "Press the 'Previous' button to create another archive of 'Close' to exit "
 "this assistant."
 msgstr ""
+"Au cas ou grisbi serait lent après avoir créé une archive, souvenez-vous que "
+"vous pouvez le configurer pour ne pas charger les opérations rapprochées (R) au démarrage, afin "
+"d'augmenter la rapidité.\n"
+"\n"
+"Appuyez sur le bouton 'Précédent' pour créer une autre archive ou sur 'Fermeture' pour quitter "
+"cet assistant."
 
 #: src/gsb_assistant_archive.c:527
 #, fuzzy
 msgid "Failed !"
-msgstr "Fichier"
+msgstr "Impossible !"
 
 #: src/gsb_assistant_archive.c:539
 msgid ""
@@ -3932,21 +3938,24 @@ msgid ""
 "\n"
 "Press the Previous button to try again or cancel this process."
 msgstr ""
+"Une erreur est survenue durant la création de l'archive...\n"
+"Le plus probable, c'est que vous essayiez de créer une archive vide que grisbi "
+"a lâchement refusé de créer.\n"
 
 #: src/gsb_assistant_archive.c:644
 #, fuzzy, c-format
 msgid "Archive from %s to %s"
-msgstr "Résultat pour %s"
+msgstr "Archive de %s vers %s"
 
 #: src/gsb_assistant_archive.c:652
 #, fuzzy, c-format
 msgid "Archive of financial year %s"
-msgstr "Séparer les résultats par exercice"
+msgstr "Archive de l'exercice %s""
 
 #: src/gsb_assistant_archive.c:659
 #, fuzzy, c-format
 msgid "Archive of report %s"
-msgstr "Effacer l'état"
+msgstr "Archive du rapport %s"
 
 #. set the message
 #: src/gsb_assistant_archive.c:763
@@ -4004,10 +4013,12 @@ msgid ""
 "<span foreground=\"red\">There is already an archive for that financial year."
 "</span>"
 msgstr ""
+"<span foreground=\"red\">Il y a déjà une archive pour cet exercice."
+"</span>"
 
 #: src/gsb_assistant_archive.c:955
 msgid "<span foreground=\"red\">Please choose a report</span>"
-msgstr ""
+msgstr "<span foreground=\"red\">Veuillez choisir un rapport</span>"
 
 #. there is some transactions to archive
 #: src/gsb_assistant_archive.c:986
@@ -4045,7 +4056,7 @@ msgstr "Format Grisbi (GSB)"
 #: src/gsb_assistant_archive_export.c:386
 #, c-format
 msgid "<span size=\"x-large\">Exporting the archive : %s</span>"
-msgstr "<span size=\"x-large\">Exportation de : <i>%s</i></span>"
+msgstr "<span size=\"x-large\">Exporter l'archive : %s</span>"
 
 #: src/gsb_assistant_archive_export.c:444
 msgid ""
@@ -4055,7 +4066,7 @@ msgid ""
 "You can now close the assistant."
 msgstr ""
 "Opération réussie !\n"
-"L'export de l''archive s'est bien terminée.\n"
+"L'export de l'archive s'est bien terminé.\n"
 "\n"
 "Vous pouvez clore l'assistant."
 
@@ -4070,12 +4081,13 @@ msgstr ""
 "Erreur !\n"
 "Une erreur est intervenue pendant l'enregistrement de l'archive\n"
 "\n"
-"Revenez à l'écran précédent ou abandonner l'opération"
+"Veuillez cliquer sur le bouton 'Précédent' pour corriger le problème,\n"
+"ou sur 'Fermer' pour annuler l'action."
 
 #: src/gsb_assistant.c:221
 #, c-format
 msgid "%s (%d of %d)"
-msgstr ""
+msgstr "%s (%d de %d)"
 
 #. create the assistant
 #: src/gsb_assistant_file.c:115 src/gsb_assistant_first.c:75
@@ -4094,6 +4106,13 @@ msgid ""
 "Once the file created, you will be able to create a new account or to import "
 "some previous datas"
 msgstr ""
+"La configuration générale de Grisbi est terminée.\n"
+"\n"
+"L'assistant suivant va vous aider à créer et configurer un nouveau fichier de compte \n"
+"N'ayez aucunes craintes, vous pourrez tout modifier ensuite dans les 'Preferences'.\n"
+"\n"
+"Une fois le fichier créé, vous devrez créer un nouveau compte ou importer "
+"des données précédentes"
 
 #: src/gsb_assistant_file.c:126
 #, fuzzy
@@ -4112,6 +4131,15 @@ msgid ""
 "account from scratch or to import previous data, i.e. from your previous "
 "accounting software or your bank website."
 msgstr ""
+
+"Avant d'importer des données, vous avez besoin de créer un nouveau fichier et de remplir certaines valeurs "
+"par défaut comme créer une nouvelle monnaie.\n"
+"Cet assistant va vous aider à créer un nouveau fichier de compte.\n"
+"\n"
+"Chaques étapes de cet assistant pourront être éditées ultérieurement dans la zone 'Préférences'.n"
+"Une fois votre fichier de compte créé, vous pourrez alors créer un nouveau "
+"compte account à partir de zéro ou importer des données précédentes, i.e. de votre précédent "
+"logiciel de comptabilité ou du site internet de votre banque."
 
 #: src/gsb_assistant_file.c:138
 #, fuzzy
@@ -4137,12 +4165,12 @@ msgstr ""
 #: src/gsb_assistant_file.c:261
 #, fuzzy
 msgid "General configuration"
-msgstr "Généralités"
+msgstr "Configuration générale"
 
 #. Account file title
 #: src/gsb_assistant_file.c:273
 msgid "Titles and filenames"
-msgstr ""
+msgstr "Titres et noms des fichiers"
 
 #. filename
 #: src/gsb_assistant_file.c:299
@@ -4204,7 +4232,7 @@ msgstr "Mes comptes"
 #: src/gsb_assistant_file.c:586
 #, fuzzy
 msgid "Create filename"
-msgstr "Fichier LaTeX"
+msgstr "Créer le nom de fichier"
 
 #: src/gsb_assistant_first.c:76
 msgid ""
@@ -4214,6 +4242,11 @@ msgid ""
 "\n"
 "Thanks for using Grisbi, enjoy!"
 msgstr ""
+"C'est votre première utilisation de Grisbi, cet assistant va vous guider à travers "
+"le processus de configuration. Vous pourrez modifier toutes les options ultérieurement dans la "
+"fenêtre de configuration, où vous trouverez d'autres options de disponibles.\n"
+"\n"
+"Merci d'utiliser Grisbi et amusez-vous bien avec !"
 
 #. create the assistant
 #: src/gsb_assistant_first.c:125
