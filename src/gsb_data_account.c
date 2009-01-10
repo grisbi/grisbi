@@ -2613,7 +2613,10 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
     devel_debug ( NULL );
     image = gtk_button_get_image ( GTK_BUTTON ( button ) );
     pixbuf = gtk_image_get_pixbuf ( GTK_IMAGE ( image ) );
-    name_icon = g_object_get_data ( G_OBJECT ( pixbuf ), "name_icon" );
+    if ( pixbuf )
+        name_icon = g_object_get_data ( G_OBJECT ( pixbuf ), "name_icon" );
+    else
+        name_icon = g_build_filename (PIXMAPS_DIR, "ac_bank.png", NULL);
     devel_debug (name_icon);
     new_icon = gsb_select_icon_create_window ( name_icon );
     devel_debug (new_icon);

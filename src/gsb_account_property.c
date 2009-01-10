@@ -140,16 +140,23 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC );
+				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
     gtk_box_pack_start ( GTK_BOX ( onglet ), scrolled_window, TRUE, TRUE, 0 );
 
     vbox = gtk_vbox_new ( FALSE, 5 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ), vbox );
-    gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window ) -> child ),
-				   GTK_SHADOW_NONE );
+
+    /* WARNING test pour le bug affichage initial du bouton */
+    //~ gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ), vbox );
+    //~ gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window ) -> child ),
+				   //~ GTK_SHADOW_NONE );
+    /* suppression de la scrolled_window */
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), vbox );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW 
+                     ( scrolled_window ), GTK_SHADOW_NONE );
+    /* fin du WARNING                                                       */
 
     /* création de la ligne des détails du compte */
-    paddingbox = new_paddingbox_with_button_title (vbox, TRUE, _("Account details"));
+    paddingbox = new_paddingbox_with_button_title (vbox, FALSE, _("Account details"));
     bouton_icon = g_object_get_data ( G_OBJECT ( paddingbox ), "bouton_icon" );
 
     /* création de la ligne du nom du compte */
@@ -212,6 +219,12 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), detail_compte_cloture, FALSE, FALSE, 0 );
 
     /* set the callback for the button_icon */
+    g_signal_connect ( G_OBJECT (bouton_icon ), 
+                            "destroy",
+                            G_CALLBACK ( gtk_widget_destroyed), 
+                            &bouton_icon );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_icon ), GTK_RELIEF_NONE );
+
     g_signal_connect ( G_OBJECT( bouton_icon ), 
                             "pressed", 
                             G_CALLBACK(gsb_data_account_change_account_icon), 
@@ -440,6 +453,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_container_add ( GTK_CONTAINER ( scrolled_window_text ), detail_commentaire );
 
     gtk_widget_show_all ( onglet );
+    
     return ( onglet );
 }
 
@@ -468,9 +482,6 @@ void gsb_account_property_fill_page ( void )
     
     /* modification pour mettre à jour l'icône du sélecteur d'icône du compte */
     image = gsb_data_account_get_account_icon_image ( current_account );
-    gtk_image_set_pixel_size ( GTK_IMAGE (image ), 32 );
-    gint size = gtk_image_get_pixel_size ( GTK_IMAGE (image ) );
-    devel_debug_int ( size );
     gtk_button_set_image ( GTK_BUTTON ( bouton_icon ), image );
 
     gsb_autofunc_currency_set_currency_number (detail_devise_compte,

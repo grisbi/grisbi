@@ -322,7 +322,6 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 	case 1:
 	    gsb_form_set_expander_visible (FALSE,
 					   FALSE );
-        gsb_account_property_fill_page ();
 	    break;
     }
     return ( FALSE );

@@ -270,7 +270,6 @@ GtkWidget *new_paddingbox_with_button_title (GtkWidget * parent,
                                 gboolean fill, gchar * title)
 {
     GtkWidget *vbox, *hbox, *paddingbox, *label, *align, *button;
-    //~ GtkWidget *image;
 
     vbox = gtk_vbox_new ( FALSE, 0 );
     if ( GTK_IS_BOX(parent) )
@@ -298,8 +297,6 @@ GtkWidget *new_paddingbox_with_button_title (GtkWidget * parent,
     /* add the button */
     align = gtk_alignment_new (0.5, 0.1, 0.0, 0.0);
     button = gtk_button_new ( );
-    gtk_widget_set_size_request ( button, 60, 60 );
-    gtk_widget_show (button);
     gtk_container_add (GTK_CONTAINER (align), button);
     gtk_box_pack_start ( GTK_BOX ( hbox ), align, FALSE, FALSE, 20 );
 
