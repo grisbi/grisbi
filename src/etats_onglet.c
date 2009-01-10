@@ -56,7 +56,7 @@
 
 /*START_STATIC*/
 static gboolean ajout_etat ( void );
-static void change_choix_nouvel_etat ( GtkWidget *menu_item, GtkWidget *label_description );
+static void change_choix_nouvel_etat ( GtkWidget *combobox, GtkWidget *label_description );
 static void dupliquer_etat ( void );
 static void efface_etat ( void );
 static void export_etat_courant_vers_csv ( gchar * filename );
@@ -263,7 +263,7 @@ GtkWidget *creation_onglet_etats ( void )
 gboolean ajout_etat ( void )
 {
     gint report_number, amount_comparison_number, resultat;
-    GtkWidget *dialog, *frame, *option_menu, *menu, *menu_item, *label_description;
+    GtkWidget *dialog, *frame, *combobox, *label_description;
     GtkWidget *scrolled_window;
 
 
@@ -278,12 +278,9 @@ gboolean ajout_etat ( void )
     frame = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, FALSE,
 					_("Report type"));
 
-    /* on commence par créer l'option menu */
-    option_menu = gtk_option_menu_new ();
-    gtk_box_pack_start ( GTK_BOX(frame), option_menu, FALSE, FALSE, 0 );
-
-    /* On met une ligne blanche entre les paddingboxes */
-    /*   gtk_box_pack_start ( GTK_BOX(frame), gtk_label_new(NULL), FALSE, FALSE, 6 ); */
+    /* combobox for predefined reports */
+    combobox = gtk_combo_box_new_text ();
+    gtk_box_pack_start ( GTK_BOX(frame), combobox, FALSE, FALSE, 0 );
 
     /* on ajoute maintenant la frame */
     frame = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, TRUE,
@@ -305,75 +302,30 @@ gboolean ajout_etat ( void )
     gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( label_description -> parent ),
 				   GTK_SHADOW_NONE );
 
-    /* on crée ici le menu qu'on ajoute à l'option menu */
-    menu = gtk_menu_new ();
+	/* fill combobox */
+	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), _("Last month incomes and outgoings") );
+	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), _("Current month incomes and outgoings") );
+	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), _("Annual budget") );
+	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), _("Blank report") );
+	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), _("Cheques deposit") );
+	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), _("Monthly outgoings by payee") );
+	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), _("Search") );
 
-    menu_item = gtk_menu_item_new_with_label ( _("Last month incomes and outgoings"));
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-    g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
-			  GINT_TO_POINTER ( 0 ));
-    g_signal_connect ( G_OBJECT ( menu_item ), "activate",
-			 G_CALLBACK ( change_choix_nouvel_etat ),
-			 G_OBJECT ( label_description ));
 
-    /* on met le texte du 1er choix */
-    change_choix_nouvel_etat ( menu_item, label_description );
+	/* set first entry and description */
+	gtk_combo_box_set_active ( GTK_COMBO_BOX ( combobox ), 0 );
+	change_choix_nouvel_etat ( combobox, label_description );
 
-    menu_item = gtk_menu_item_new_with_label ( _("Current month incomes and outgoings"));
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item )
-	; g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
-				GINT_TO_POINTER ( 1 ));
-    g_signal_connect ( G_OBJECT ( menu_item ), "activate",
-			 G_CALLBACK ( change_choix_nouvel_etat ),
-			 G_OBJECT ( label_description ));
-
-    menu_item = gtk_menu_item_new_with_label ( _("Annual budget"));
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-    g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
-			  GINT_TO_POINTER ( 2 ));
-    g_signal_connect ( G_OBJECT ( menu_item ), "activate",
-			 G_CALLBACK ( change_choix_nouvel_etat ),
-			 G_OBJECT ( label_description ));
-
-    menu_item = gtk_menu_item_new_with_label ( _("Cheques deposit"));
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-    g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
-			  GINT_TO_POINTER ( 4 ));
-    g_signal_connect ( G_OBJECT ( menu_item ), "activate",
-			 G_CALLBACK ( change_choix_nouvel_etat ),
-			 G_OBJECT ( label_description ));
-
-    menu_item = gtk_menu_item_new_with_label ( _("Monthly outgoings by payee"));
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-    g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
-			  GINT_TO_POINTER ( 5 ));
-    g_signal_connect ( G_OBJECT ( menu_item ), "activate",
-			 G_CALLBACK ( change_choix_nouvel_etat ),
-			 G_OBJECT ( label_description ));
-
-    menu_item = gtk_menu_item_new_with_label ( _("Search"));
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-    g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
-			  GINT_TO_POINTER ( 6 ));
-    g_signal_connect ( G_OBJECT ( menu_item ), "activate",
-			 G_CALLBACK ( change_choix_nouvel_etat ),
-			 G_OBJECT ( label_description ));
-
-    menu_item = gtk_menu_item_new_with_label ( _("Blank report"));
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-    g_object_set_data ( G_OBJECT ( menu_item ), "no_etat",
-			  GINT_TO_POINTER ( 3 ));
-    g_signal_connect ( G_OBJECT ( menu_item ), "activate",
-			 G_CALLBACK ( change_choix_nouvel_etat ),
-			 G_OBJECT ( label_description ));
-    gtk_option_menu_set_menu ( GTK_OPTION_MENU ( option_menu ), menu );
+	/* update description based on selection */
+	g_signal_connect ( G_OBJECT ( combobox ), "changed",
+			G_CALLBACK ( change_choix_nouvel_etat ),
+			G_OBJECT ( label_description ));
 
     gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog)->vbox), 6 );
     gtk_widget_show_all ( dialog );
 
     /* on attend le choix de l'utilisateur */
-
-    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
     if ( resultat != GTK_RESPONSE_OK )
     {
@@ -381,20 +333,18 @@ gboolean ajout_etat ( void )
 	return FALSE;
     }
 
-    /* get the wanted report */
-
-    resultat = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( option_menu ) -> menu_item ),
-						       "no_etat" ));
-    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
+	/* get the wanted report */
+	resultat = gtk_combo_box_get_active ( GTK_COMBO_BOX (combobox) );
+	gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
     /* create and fill the new report */
 
     switch ( resultat )
     {
 	case 0:
-	    /*  Previous month incomes and outgoings  */
+	    /*  Last month incomes and outgoings  */
 
-	    report_number = gsb_data_report_new (_("Previous month incomes and outgoings"));
+	    report_number = gsb_data_report_new (_("Last month incomes and outgoings"));
 
 	    gsb_data_report_set_split_credit_debit ( report_number,
 						     1 );
@@ -583,9 +533,9 @@ gboolean ajout_etat ( void )
 
 	case 3:
 
-	    /* New report */
+	    /* Blank report */
 
-	    report_number = gsb_data_report_new (_("New report"));
+	    report_number = gsb_data_report_new (_("Blank report"));
 
 	    /*   le classement de base est 1-2-3-4-5-6  */
 
@@ -933,58 +883,57 @@ gboolean ajout_etat ( void )
  * \param label_description	A GtkLabel to fill with the long
  *				description of template report.
  */
-void change_choix_nouvel_etat ( GtkWidget *menu_item, GtkWidget *label_description )
+void change_choix_nouvel_etat ( GtkWidget *combobox, GtkWidget *label_description )
 {
     gchar *description;
 
-    switch ( GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( menu_item ),
-						     "no_etat" )))
+    switch ( gtk_combo_box_get_active ( GTK_COMBO_BOX (combobox) ) )
     {
 	case 0:
-	    /* revenus et dépenses du mois dernier  */
+	    /* Last month incomes and outgoings */
 
 	    description = _("This report displays totals for last month's transactions sorted by categories and sub-categories. You just need to select the account(s). By default, all accounts are selected.");
 	    break;
 
 	case 1:
-	    /* revenus et dépenses du mois en cours  */
+	    /* Current month incomes and outgoings */
 
 	    description = _("This report displays totals of current month's transactions sorted by categories and sub-categories. You just need to select the account(s). By default, all accounts are selected.");
 	    break;
 
 	case 2:
-	    /* budget annuel  */
+	    /* Annual budget */
 
 	    description = _("This report displays annual budget. You just need to select the account(s). By default all accounts are selected.");
 	    break;
 
 	case 3:
-	    /* etat vierge  */
+	    /* Blank report */
 
 	    description = _("This report is an empty one. You need to customize it entirely.");
 	    break;
 
 	case 4:
-	    /* remise de chèques  */
+	    /* Cheques deposit */
 
 	    description = _("This report displays the cheques deposit. You just need to select the account(s). By default all accounts are selected.");
 	    break;
 
 	case 5:
-	    /* dépenses mensuelles par tiers  */
+	    /* Monthly outgoings by payee */
 
 	    description = _("This report displays current month's outgoings sorted by payees. You just need to select the account(s). By default all accounts areselected.");
 	    break;
 
 	case 6:
-	    /* recherche  */
+	    /* Search */
 
 	    description = _("This report displays all the information for all transactions of all accounts for the current year. You just have to add the amount, date, payees etc. criteria thant you want. By default the transactions are clickables.");
 	    break;
 
 	default:
 
-	    description = _("???? should not be displayed...");
+	    description = _("No description available");
     }
 
     gtk_label_set_text ( GTK_LABEL ( label_description ),
