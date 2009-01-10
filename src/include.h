@@ -26,9 +26,8 @@
 #include <errno.h>
 #include <math.h>
 
-#define GTK_ENABLE_BROKEN 1
 #define G_BROKEN_FILENAMES 1
-#include <gtk/gtktext.h>
+#include <gtk/gtktextview.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>

@@ -25,7 +25,7 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 #include <string.h>
-#include <gtk/gtkoldeditable.h>
+#include <gtk/gtkeditable.h>
 
 
 #ifdef __cplusplus

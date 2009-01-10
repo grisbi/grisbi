@@ -4,7 +4,6 @@
 #include <libintl.h>
 #include <locale.h>
 
-#define GTK_ENABLE_BROKEN 1
 #define G_BROKEN_FILENAMES 1
 #include <gtk/gtk.h>
 
