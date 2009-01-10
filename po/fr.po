@@ -3941,6 +3941,8 @@ msgstr ""
 "Une erreur est survenue durant la création de l'archive...\n"
 "Le plus probable, c'est que vous essayiez de créer une archive vide que grisbi "
 "a lâchement refusé de créer.\n"
+"\n"
+"Cliquez sur le bouton 'Précédent' pour essayer de nouveau ou annulez ce processus."
 
 #: src/gsb_assistant_archive.c:644
 #, fuzzy, c-format
@@ -3950,7 +3952,7 @@ msgstr "Archive de %s vers %s"
 #: src/gsb_assistant_archive.c:652
 #, fuzzy, c-format
 msgid "Archive of financial year %s"
-msgstr "Archive de l'exercice %s""
+msgstr "Archive de l'exercice %s"
 
 #: src/gsb_assistant_archive.c:659
 #, fuzzy, c-format
