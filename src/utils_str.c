@@ -651,8 +651,7 @@ GSList *gsb_string_get_categ_budget_struct_list_from_string ( const gchar *strin
 
 
 /**
- * Create and return a string where underscores are escaped so that
- * gtk_item_factory_get_item won't be confused.
+ * Create and return a string where underscores are escaped
  *
  * \param orig		Original string.
  *

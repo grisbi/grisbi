@@ -574,8 +574,7 @@ gboolean gsb_gui_sensitive_menu_item ( gchar * root_menu_name, gchar * submenu_n
 void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *current, 
 				     gpointer user_data )
 {
-    /* FIXME benj: ugly but I cannot find a way to block this ... I
-       understand why gtkitemfactory is deprecated. */
+    /* FIXME benj: ugly but I cannot find a way to block this ... */
     if ( block_menu_cb ) return;
 
     switch ( gtk_radio_action_get_current_value(current) )
@@ -606,8 +605,7 @@ gboolean gsb_gui_toggle_show_form ()
 {
     devel_debug (NULL);
 
-    /* FIXME benj: ugly but I cannot find a way to block this ... I
-       understand why gtkitemfactory is deprecated. */
+    /* FIXME benj: ugly but I cannot find a way to block this ... */
     if ( block_menu_cb ) return FALSE;
 
     gsb_form_switch_expander ( );
