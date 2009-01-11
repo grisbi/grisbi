@@ -28,7 +28,6 @@
 #include "./balance_estimate_tab.h"
 #include "./navigation.h"
 #include "./gsb_transactions_list.h"
-#include "./gsb_account_property.h"
 #include "./accueil.h"
 #include "./comptes_onglet.h"
 #include "./etats_onglet.h"

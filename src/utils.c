@@ -266,54 +266,6 @@ GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar *
     return paddingbox;
 }
 
-GtkWidget *new_paddingbox_with_button_title (GtkWidget * parent,
-                                gboolean fill, gchar * title)
-{
-    GtkWidget *vbox, *hbox, *paddingbox, *label, *align, *button;
-
-    vbox = gtk_vbox_new ( FALSE, 0 );
-    if ( GTK_IS_BOX(parent) )
-    {
-	gtk_box_pack_start ( GTK_BOX ( parent ), vbox,
-			     fill, fill, 0);
-    }
-
-    /* Creating label */
-    label = gtk_label_new ( NULL );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1 );
-    gchar* tmp_str = g_strconcat ("<span weight=\"bold\">",
-					title, "</span>", NULL );
-    gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
-    g_free(tmp_str);
-    gtk_box_pack_start ( GTK_BOX ( vbox ), label,
-			 FALSE, FALSE, 0);
-    gtk_widget_show ( label );
-
-    /* Creating horizontal box */
-    hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox,
-			 fill, fill, 0);
-
-    /* add the button */
-    align = gtk_alignment_new (0.5, 0.1, 0.0, 0.0);
-    button = gtk_button_new ( );
-    gtk_container_add (GTK_CONTAINER (align), button);
-    gtk_box_pack_start ( GTK_BOX ( hbox ), align, FALSE, FALSE, 20 );
-
-    /* Then make the vbox itself */
-    paddingbox = gtk_vbox_new ( FALSE, 6 );
-    g_object_set_data ( G_OBJECT ( paddingbox ), "bouton_icon", button );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), paddingbox,
-			 TRUE, TRUE, 0);
-
-    if ( GTK_IS_BOX(parent) )
-    {
-	gtk_box_set_spacing ( GTK_BOX(parent), 18 );
-    }
-
-    return paddingbox;
-}
-
 /**
  * Function that makes a nice title with an optional icon.  It is
  * mainly used to automate preference tabs with titles.

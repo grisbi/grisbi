@@ -15,8 +15,6 @@ gboolean met_en_normal ( GtkWidget *event_box,
 gboolean met_en_prelight ( GtkWidget *event_box,
 			   GdkEventMotion *event,
 			   gpointer pointeur );
-GtkWidget *new_paddingbox_with_button_title (GtkWidget * parent,
-                                gboolean fill, gchar * title);
 GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar * title);
 GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
 					  gchar * image_filename);

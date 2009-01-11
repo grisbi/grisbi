@@ -127,6 +127,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     GtkWidget *onglet, *vbox, *scrolled_window, *hbox, *vbox2;
     GtkWidget *label, *scrolled_window_text, *paddingbox;
     GtkSizeGroup * size_group;
+	GtkWidget *align;
 
     devel_debug ( NULL );
 
@@ -135,9 +136,18 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
 
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
+	
+	
+    /* Création du bouton pour modifier l'icône de compte. C'est un moyen de 
+     * contourner le bug du gtk_viewport */
+    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
+    bouton_icon = gtk_button_new ( );
+    gtk_widget_set_size_request ( bouton_icon, -1, 40 );
+    gtk_button_set_relief ( GTK_BUTTON ( bouton_icon ), GTK_RELIEF_NORMAL );
+    gtk_container_add ( GTK_CONTAINER ( align ), bouton_icon );
+    gtk_box_pack_start ( GTK_BOX ( onglet ), align, FALSE, FALSE, 0);
 
     /* partie du haut avec les détails du compte */
-
     scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
@@ -145,19 +155,12 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     vbox = gtk_vbox_new ( FALSE, 5 );
 
-    /* WARNING test pour le bug affichage initial du bouton */
-    //~ gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ), vbox );
-    //~ gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window ) -> child ),
-				   //~ GTK_SHADOW_NONE );
-    /* suppression de la scrolled_window */
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), vbox );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW 
-                     ( scrolled_window ), GTK_SHADOW_NONE );
-    /* fin du WARNING                                                       */
+    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ), vbox );
+    gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window ) -> child ),
+				   GTK_SHADOW_NONE );
 
     /* création de la ligne des détails du compte */
-    paddingbox = new_paddingbox_with_button_title (vbox, FALSE, _("Account details"));
-    bouton_icon = g_object_get_data ( G_OBJECT ( paddingbox ), "bouton_icon" );
+    paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Account details"));
 
     /* création de la ligne du nom du compte */
     hbox = gtk_hbox_new ( FALSE, 6 );
@@ -483,7 +486,7 @@ void gsb_account_property_fill_page ( void )
     /* modification pour mettre à jour l'icône du sélecteur d'icône du compte */
     image = gsb_data_account_get_account_icon_image ( current_account );
     gtk_button_set_image ( GTK_BUTTON ( bouton_icon ), image );
-
+    
     gsb_autofunc_currency_set_currency_number (detail_devise_compte,
 					       gsb_data_account_get_currency (current_account), current_account);
 
