@@ -4117,9 +4117,8 @@ msgstr ""
 "des données précédentes"
 
 #: src/gsb_assistant_file.c:126
-#, fuzzy
 msgid "New file Assistant to import"
-msgstr "Sélectionner les fichiers à importer"
+msgstr "Aide à l'importation de fichiers"
 
 #: src/gsb_assistant_file.c:127
 msgid ""
@@ -4140,13 +4139,12 @@ msgstr ""
 "\n"
 "Chaques étapes de cet assistant pourront être éditées ultérieurement dans la zone 'Préférences'.n"
 "Une fois votre fichier de compte créé, vous pourrez alors créer un nouveau "
-"compte account à partir de zéro ou importer des données précédentes, i.e. de votre précédent "
+"compte à partir de zéro ou importer des données précédentes, i.e. de votre précédent "
 "logiciel de comptabilité ou du site internet de votre banque."
 
 #: src/gsb_assistant_file.c:138
-#, fuzzy
 msgid "New file Assistant"
-msgstr "Sélectionner les fichiers à importer"
+msgstr "Aide à la création d'un nouveau fichier de compte"
 
 #: src/gsb_assistant_file.c:139
 msgid ""
@@ -4165,7 +4163,6 @@ msgstr ""
 " "
 
 #: src/gsb_assistant_file.c:261
-#, fuzzy
 msgid "General configuration"
 msgstr "Configuration générale"
 
@@ -4176,9 +4173,8 @@ msgstr "Titres et noms des fichiers"
 
 #. filename
 #: src/gsb_assistant_file.c:299
-#, fuzzy
 msgid "Filename"
-msgstr "Nom de fichier"
+msgstr "Nom du fichier"
 
 #. will we crypt the file ?
 #. crypt the grisbi file
@@ -4188,23 +4184,20 @@ msgid "Encrypt Grisbi file"
 msgstr "Chiffrer le fichier Grisbi"
 
 #: src/gsb_assistant_file.c:324
-#, fuzzy
 msgid "Your address"
-msgstr "Le titulaire a sa propre adresse"
+msgstr "Adresse générale"
 
 #: src/gsb_assistant_file.c:361
-#, fuzzy
 msgid "Select base currency"
-msgstr "Sélectionner les comptes bancaires"
+msgstr "Sélection de la devise de base"
 
 #: src/gsb_assistant_file.c:400
 msgid "Select the list of categories you will use"
-msgstr "Sélectionner les catégories à utiliser"
+msgstr "Sélection des catégories à utiliser"
 
 #: src/gsb_assistant_file.c:463
-#, fuzzy
 msgid "Configuration finished !"
-msgstr "Félicitations !"
+msgstr "Configuration terminée !"
 
 #. set up the menu
 #: src/gsb_assistant_file.c:470
@@ -4216,15 +4209,22 @@ msgid ""
 "\n"
 "Select a way to populate your account file and press the 'Close' button."
 msgstr ""
+"Votre nouveau fichier de compte est maintenant configuré avec des données "
+"par défaut.\n"
+"L'assistant suivant va vous aider à créer un nouveau compte\n"
+"\n"
+"Souvenez vous que toutes les valeurs pourront être modifiées dans les préférences.\n"
+"\n"
+"Selectionnez la façon de créer votre compte puis appuyez sur le bouton Fermer."
 
 #: src/gsb_assistant_file.c:481
-#, fuzzy
 msgid "Create a new account from scratch"
-msgstr "Créer un nouveau compte"
+msgstr "Créer un nouveau compte vide"
 
 #: src/gsb_assistant_file.c:487
 msgid "Import data from online bank services or from accounting software"
-msgstr ""
+msgstr "A partir de données provenant d'un fichier bancaire ou d'un autre "
+"logiciel."
 
 #: src/gsb_assistant_file.c:559 src/navigation.c:1167
 #: src/traitement_variables.c:289
@@ -4672,19 +4672,16 @@ msgid "Cancel"
 msgstr "Annuler"
 
 #: src/gsb_category.c:213
-#, fuzzy
 msgid "Category list"
-msgstr "Catégories"
+msgstr "Modèles de catégories"
 
 #: src/gsb_category.c:224
-#, fuzzy
 msgid "Display foreign category sets"
-msgstr "Afficher les sous-catégories"
+msgstr "Afficher des modèles de catégories étrangers"
 
 #: src/gsb_category.c:360
-#, fuzzy
 msgid "Cannot open the category file."
-msgstr "Exporter les catégories"
+msgstr "Impossible d'ouvrir le fichier des catégories."
 
 #: src/gsb_category.c:377
 #, fuzzy
@@ -8204,23 +8201,23 @@ msgid ""
 "What do you want to do with contents from <span foreground=\"blue\">%s</"
 "span> ?\n"
 msgstr ""
+"Que voulez vous faire avec les données du fichier <span foreground=\"blue\">%s</"
+"span> ?\n"
 
 #: src/import.c:1104
-#, fuzzy
 msgid "Add transactions to an account"
-msgstr "Déplacer l'opération vers un autre compte"
+msgstr "Ajouter les opérations à un compte"
 
 #: src/import.c:1141
-#, fuzzy
 msgid "Mark transactions of an account"
-msgstr "Déplacer l'opération vers un autre compte"
+msgstr "Marquer les opérations d'un compte"
 
-#. la devise avait un nom mais n'a pas Ã©tÃ© retrouvÃ©e; 2 possibilitÃ©s :
-#. - soit elle n'est pas cree (l'utilisateur
-#. la crÃ©era une fois la fenetre affichÃ©e)
-#. - soit elle est crÃ©Ã© mais pas avec le bon code
+#. la devise avait un nom mais n'a pas été retrouvée; 2 possibilités :
+#. - soit elle n'est pas crée (l'utilisateur
+#. la créera une fois la fenetre affichée)
+#. - soit elle est créée mais pas avec le bon code
 #: src/import.c:1191
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Currency of imported account '%s' is %s.  Either this currency doesn't exist "
 "so you have to create it in next window, or this currency already exists but "
@@ -8241,13 +8238,12 @@ msgstr "Impossible d'associer un code ISO 4217 à la devise « %s »."
 
 #. invert amount of transactions
 #: src/import.c:1204
-#, fuzzy
 msgid "Invert the amount of the imported transactions"
-msgstr "jours autour de la date de l'opération importée."
+msgstr "Inverse le montant de l'opération importée."
 
 #: src/import.c:1216
 msgid "Create a rule for this import. Name of the rule : "
-msgstr ""
+msgstr "Créer une règle. Nom de la règle : "
 
 #: src/import.c:1309
 #, c-format
@@ -8255,6 +8251,9 @@ msgid ""
 "An error occured while creating the new account %s,\n"
 "We try to continue to import but bad things can happen..."
 msgstr ""
+"Une erreur s'est produite à la création du compte %s,\n"
+"Vous pouvez continuer l'opération mais des incohérences pourront "
+"apparaître..."
 
 #: src/import.c:1362
 #, c-format
