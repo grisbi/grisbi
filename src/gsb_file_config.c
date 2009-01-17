@@ -120,10 +120,18 @@ gboolean gsb_file_config_load_config ( void )
             result = gsb_file_config_load_last_xml_config (filename);
             g_free (filename);
             g_key_file_free (config);
+            if ( result )
+            {
+                gsb_file_config_create_config_rep ( );
+                g_remove ( filename );
+            }
             return result;
         }
         else
+        {
+            gsb_file_config_create_config_rep ( );
             g_remove ( filename );
+        }
     }
 
     /* get the geometry */
