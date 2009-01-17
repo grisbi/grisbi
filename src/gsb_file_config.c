@@ -95,7 +95,7 @@ gboolean gsb_file_config_load_config ( void )
     
     gsb_file_config_clean_config ();
 
-    filename = g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC, NULL );
+    filename = g_strconcat ( my_get_XDG_grisbirc_dir(), C_GRISBIRC, NULL );
     config = g_key_file_new ();
     
     result = g_key_file_load_from_file ( config,
@@ -103,13 +103,27 @@ gboolean gsb_file_config_load_config ( void )
 					 G_KEY_FILE_KEEP_COMMENTS,
 					 NULL );
     /* if key_file couldn't load the conf, it's because it's the last
-     * conf (xml) or no conf... try the xml conf */
+     * conf (HOME or xml) or no conf... try the HOME conf and the xml conf */
     if (!result)
     {
-	result = gsb_file_config_load_last_xml_config (filename);
-	g_free (filename);
-	g_key_file_free (config);
-	return result;
+        /* On recherche le fichier dans HOME */
+        filename = g_strconcat ( my_get_grisbirc_dir(), C_OLD_GRISBIRC, NULL );
+        config = g_key_file_new ();
+    
+        result = g_key_file_load_from_file ( config,
+					 filename,
+					 G_KEY_FILE_KEEP_COMMENTS,
+					 NULL );
+        /* si on ne le trouve pas on recherche le fichier au format xml */
+        if (!result)
+        {
+            result = gsb_file_config_load_last_xml_config (filename);
+            g_free (filename);
+            g_key_file_free (config);
+            return result;
+        }
+        else
+            g_remove ( filename );
     }
 
     /* get the geometry */
@@ -406,7 +420,7 @@ gboolean gsb_file_config_save_config ( void )
     
     devel_debug (NULL);
 
-    filename = g_strconcat ( my_get_grisbirc_dir(), C_GRISBIRC, NULL );
+    filename = g_strconcat ( my_get_XDG_grisbirc_dir(), C_GRISBIRC, NULL );
     config = g_key_file_new ();
     
     /* get the geometry */
@@ -1207,6 +1221,22 @@ void gsb_file_config_clean_config ( void )
 }
 
 
+/**
+ * create the config repertory 
+ * using the mechanisms described in the XDG Base Directory Specification
+ *
+ * \param
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_file_config_create_config_rep ( void )
+{
+    /* permissions = 450 trouvé au pif */
+    if ( g_mkdir_with_parents ( C_PATH_CONFIG, 450 ) == 0 )
+        return TRUE;
+    else
+        return FALSE;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

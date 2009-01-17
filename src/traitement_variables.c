@@ -138,7 +138,6 @@ gchar *adresse_secondaire = NULL;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GtkTreeModel *bank_list_model ;
-extern gchar *chemin_logo ;
 extern gint current_tree_view_width ;
 extern gint display_one_line;
 extern gint display_three_lines;
@@ -272,10 +271,6 @@ void init_variables ( void )
 
     solde_label = NULL;
     solde_label_pointe = NULL;
-
-    if ( chemin_logo )
-        g_free ( chemin_logo);
-    chemin_logo = NULL;
 
     affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW;
     affichage_echeances_perso_nb_libre = 0;

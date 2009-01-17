@@ -32,6 +32,7 @@
 #include "./utils_dates.h"
 #include "./gsb_file.h"
 #include "./utils_str.h"
+#include "./gsb_file_config.h"
 #include "./utils_file_selection.h"
 #include "./include.h"
 #include "./erreur.h"
@@ -94,7 +95,25 @@ void browse_file ( GtkButton *button, gpointer data )
 gchar* my_get_grisbirc_dir(void)
 {
 #ifndef _WIN32
-    return (gchar *) g_get_home_dir();
+    return (gchar *) g_get_home_dir ();
+#else
+    return win32_get_grisbirc_folder_path();
+#endif
+}
+
+
+/**
+ * return the absolute path of where the configuration file should be located
+ * On UNIX platforms this is determined using the mechanisms described 
+ * in the  XDG Base Directory Specification
+ * on Windows based systems return APPDATA\Grisbi
+ * 
+ * \return the absolute path of the configuration file directory
+ */
+gchar* my_get_XDG_grisbirc_dir(void)
+{
+#ifndef _WIN32
+    return (gchar *) C_PATH_CONFIG;
 #else
     return win32_get_grisbirc_folder_path();
 #endif

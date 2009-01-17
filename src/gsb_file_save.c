@@ -55,6 +55,7 @@
 #include "./navigation.h"
 #include "./gsb_plugins.h"
 #include "./gsb_real.h"
+#include "./gsb_select_icon.h"
 #include "./utils_str.h"
 #include "./structures.h"
 #include "./custom_list.h"
@@ -97,6 +98,9 @@ static gulong gsb_file_save_general_part ( gulong iterator,
 static gulong gsb_file_save_import_rule_part ( gulong iterator,
 					gulong *length_calculated,
 					gchar **file_content );
+static gulong gsb_file_save_logo_part ( gulong iterator,
+					gulong *length_calculated,
+					gchar **file_content );
 static gulong gsb_file_save_party_part ( gulong iterator,
 				  gulong *length_calculated,
 				  gchar **file_content );
@@ -127,7 +131,6 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
-extern gchar *chemin_logo ;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
@@ -187,6 +190,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint reconcile_part;
     gint report_part;
     gint import_rule_part;
+    gint logo_part;
 
     struct stat buf;
 
@@ -231,6 +235,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     reconcile_part = 50;
     report_part = 2500;
     import_rule_part = 50;
+    logo_part = 65536;
     
     length_calculated = general_part
 	+ account_part * gsb_data_account_get_accounts_amount ()
@@ -245,12 +250,13 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 	+ archive_part * g_slist_length (gsb_data_archive_get_archives_list ())
 	+ reconcile_part * g_list_length (gsb_data_reconcile_get_reconcile_list ())
 	+ report_part * g_slist_length ( gsb_data_report_get_report_list ())
-	+ import_rule_part * g_slist_length ( gsb_data_import_rule_get_list ());
+	+ import_rule_part * g_slist_length ( gsb_data_import_rule_get_list ())
+    + logo_part;
 
     iterator = 0;
     file_content = g_malloc0 ( length_calculated );
 
-    /* begin the file whit xml markup */
+    /* begin the file whith xml markup */
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
 					   &file_content,
@@ -332,10 +338,15 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 						&length_calculated,
 						&file_content );
 
-     iterator = gsb_file_save_report_part ( iterator,
+    iterator = gsb_file_save_report_part ( iterator,
 					   &length_calculated,
 					   &file_content,
 					   FALSE );
+
+    iterator = gsb_file_save_logo_part ( iterator,
+					   &length_calculated,
+					   &file_content );
+
     /* finish the file */
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
@@ -587,7 +598,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tImport_interval_search=\"%d\"\n"
 					   "\t\tImport_fyear_by_value_date=\"%d\"\n"
 					   "\t\tUse_logo=\"%d\"\n"
-					   "\t\tPath_logo=\"%s\"\n"
 					   "\t\tRemind_display_per_account=\"%d\"\n"
 					   "\t\tTransactions_view=\"%s\"\n"
 					   "\t\tOne_line_showed=\"%d\"\n"
@@ -621,7 +631,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	valeur_echelle_recherche_date_import,
 	etat.get_fyear_by_value_date,
 	etat.utilise_logo,
-	chemin_logo,
 	etat.retient_affichage_par_compte,
 	transactions_view,
 	display_one_line,
@@ -2375,5 +2384,35 @@ gulong gsb_file_save_report_part ( gulong iterator,
 }
 
 
+/**
+ * save the logo
+ *
+ * \param iterator the current iterator
+ * \param length_calculated a pointer to the variable lengh_calculated
+ * \param file_content a pointer to the variable file_content
+ *
+ * \return the new iterator
+ * */
+gulong gsb_file_save_logo_part ( gulong iterator,
+					gulong *length_calculated,
+					gchar **file_content )
+{
+    gchar *new_string;
+    gchar * str64;
+
+    str64 = gsb_select_icon_create_chaine_base64_from_pixbuf (
+                            gsb_select_icon_get_logo_pixbuf ( ) );
+
+    new_string = g_markup_printf_escaped ( "\t<Logo\n"
+                            "\t\tImage=\"%s\" />\n", 
+                            str64 );
+
+    iterator = gsb_file_save_append_part ( iterator,
+					       length_calculated,
+					       file_content,
+					       new_string );
+
+    return iterator;
+}
 
 

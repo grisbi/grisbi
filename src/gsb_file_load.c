@@ -54,6 +54,7 @@
 #include "./gsb_file_util.h"
 #include "./gsb_plugins.h"
 #include "./gsb_real.h"
+#include "./gsb_select_icon.h"
 #include "./utils_str.h"
 #include "./traitement_variables.h"
 #include "./custom_list.h"
@@ -101,6 +102,8 @@ static gint gsb_file_load_get_new_payment_number ( gint account_number,
 					    gint payment_number );
 static void gsb_file_load_import_rule ( const gchar **attribute_names,
 				 const gchar **attribute_values );
+static void gsb_file_load_logo_accueil ( const gchar **attribute_names,
+				       const gchar **attribute_values );
 static void gsb_file_load_party ( const gchar **attribute_names,
 			   const gchar **attribute_values );
 static void gsb_file_load_payment_part ( const gchar **attribute_names,
@@ -143,7 +146,6 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
-extern gchar *chemin_logo ;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
@@ -151,6 +153,7 @@ extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
 extern struct iso_4217_currency iso_4217_currencies[] ;
+extern GtkWidget *logo_accueil ;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -579,6 +582,13 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 					  attribute_values);
 	return;
     }
+    if ( !strcmp ( element_name,
+		   "Logo" ))
+    {
+        gsb_file_load_logo_accueil ( attribute_names,
+					  attribute_values );
+    return;
+    }
     /* the first time we come here, we check if it's a grisbi file */
 }
 
@@ -734,12 +744,16 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	else if ( !strcmp ( attribute_names[i],
 			    "Path_logo" ))
 	{
-	    if ( chemin_logo )
-	        g_free ( chemin_logo );
+        GdkPixbuf *pixbuf;
+        gchar *chemin_logo;
+
 	    chemin_logo = my_strdup (attribute_values[i]);
+        pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
+        gsb_select_icon_set_logo_pixbuf ( pixbuf );
         /* modify the icon of grisbi (set in the panel of gnome or other) */
         if (g_file_test ( chemin_logo, G_FILE_TEST_EXISTS ) && etat.utilise_logo)
             gtk_window_set_default_icon_from_file ( chemin_logo, NULL );
+        g_free ( chemin_logo );
 	}
 
 	else if ( !strcmp ( attribute_names[i],
@@ -4277,7 +4291,43 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
 }
 
 
+/**
+ * load the logo_accueil in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_logo_accueil ( const gchar **attribute_names,
+				       const gchar **attribute_values )
+{
+    gint i=0;
 
+    do
+    {
+        /* 	we test at the beginning if the attribute_value is NULL, if yes, */
+        /* 	   go to the next */
+
+        if ( !strcmp (attribute_values[i],
+                  "(null)"))
+        {
+            i++;
+            continue;
+        }
+        if ( !strcmp ( attribute_names[i],
+                   "Image" ))
+        {
+            gsb_select_icon_create_pixbuf_from_chaine_base64 ( (gchar *) 
+                                attribute_values[i] );
+            gtk_window_set_default_icon ( 
+                            gsb_select_icon_get_logo_pixbuf ( ) );
+            devel_debug ("Chargement du logo");
+            i++;
+            continue;
+        }
+    }
+    while ( attribute_names[i] );
+}
 void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 					      const gchar *element_name,
 					      const gchar **attribute_names,
@@ -5560,10 +5610,17 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Chemin_logo" ))
     {
-	if ( chemin_logo )
-	    g_free ( chemin_logo );
-	chemin_logo = my_strdup (text);
-	return;
+        GdkPixbuf *pixbuf;
+        gchar *chemin_logo;
+
+        chemin_logo = my_strdup (text);
+        pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
+        gsb_select_icon_set_logo_pixbuf ( pixbuf );
+        /* modify the icon of grisbi (set in the panel of gnome or other) */
+        if (g_file_test ( chemin_logo, G_FILE_TEST_EXISTS ) && etat.utilise_logo)
+            gtk_window_set_default_icon_from_file ( chemin_logo, NULL );
+        g_free ( chemin_logo );
+        return;
     }
 
     if ( !strcmp ( element_name,
@@ -7516,21 +7573,19 @@ gboolean gsb_file_load_update_previous_version ( void )
     /* general stuff for all versions */
     
     /* if no logo, set it */
-    if ( !chemin_logo
-	 ||
-	 !strlen ( chemin_logo )
-	 ||
-	 ( chemin_logo
-	   &&
-	   strlen ( chemin_logo )
-	   &&
-	   !g_file_test (chemin_logo, G_FILE_TEST_EXISTS)))
+    if ( gsb_select_icon_get_logo_pixbuf ( ) == NULL )
     {
-        if ( chemin_logo )
-	    g_free ( chemin_logo );
-        chemin_logo = my_strdup ( LOGO_PATH );
-    }
+        GdkPixbuf *pixbuf;
+        gchar *chemin_logo;
 
+        chemin_logo = my_strdup ( LOGO_PATH );
+        pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
+        gsb_select_icon_set_logo_pixbuf ( pixbuf );
+        /* modify the icon of grisbi (set in the panel of gnome or other) */
+        if (g_file_test ( chemin_logo, G_FILE_TEST_EXISTS ) && etat.utilise_logo)
+            gtk_window_set_default_icon_from_file ( chemin_logo, NULL );
+        g_free ( chemin_logo );
+    }
     /* mark the file as opened */
     gsb_file_util_modify_lock ( TRUE );
 

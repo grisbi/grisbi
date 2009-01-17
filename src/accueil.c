@@ -37,10 +37,10 @@
 #include "./gsb_real.h"
 #include "./gsb_scheduler.h"
 #include "./gsb_scheduler_list.h"
+#include "./gsb_select_icon.h"
 #include "./gsb_transactions_list.h"
 #include "./main.h"
 #include "./utils.h"
-#include "./utils_str.h"
 #include "./structures.h"
 #include "./fenetre_principale.h"
 #include "./gsb_data_account.h"
@@ -80,7 +80,6 @@ extern gchar *titre_fichier ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 
-gchar *chemin_logo = NULL;
 GtkWidget *logo_accueil = NULL;
 GtkWidget *hbox_title = NULL;
 GtkWidget *label_titre_fichier = NULL;
@@ -113,6 +112,8 @@ GtkWidget *creation_onglet_accueil ( void )
 {
     GtkWidget *paddingbox, *base, *base_scroll;
 
+    devel_debug ( NULL );
+
     /* on crée à ce niveau base_scroll qui est aussi une vbox mais qui peut
        scroller verticalement */
 
@@ -127,13 +128,6 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( base_scroll ), base );
     gtk_widget_show ( base_scroll );
     gtk_widget_show ( base );
-
-    if ( !chemin_logo || !strlen ( chemin_logo ))
-    {
-	if ( chemin_logo )
-	    g_free ( chemin_logo );
-	chemin_logo = my_strdup ( LOGO_PATH );
-    }
 
     /* en dessous, on met le titre du fichier s'il existe */
     if ( titre_fichier )
@@ -157,9 +151,10 @@ GtkWidget *creation_onglet_accueil ( void )
 	gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr);
 	g_free ( tmpstr );
 
-	if ( etat.utilise_logo && chemin_logo )
+	if ( etat.utilise_logo )
 	{
-	    logo_accueil =  gtk_image_new_from_file ( chemin_logo );
+	    logo_accueil =  gtk_image_new_from_pixbuf ( 
+                    gsb_select_icon_get_logo_pixbuf ( ) );
 	    g_signal_connect ( G_OBJECT ( logo_accueil ), "destroy",
 	    			G_CALLBACK( gtk_widget_destroyed ), &logo_accueil);
 	    gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 20 );

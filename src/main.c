@@ -51,6 +51,7 @@
 #include "./parse_cmdline.h"
 #include "./import.h"
 #include "./parse_cmdline.h"
+#include "./gsb_file_config.h"
 #include "./include.h"
 #include "./erreur.h"
 #include "./structures.h"
@@ -171,9 +172,11 @@ int main (int argc, char **argv)
     init_variables ();
     register_import_formats ();
 
+    /* on crée ici le nouveau répertoire de conf  */
     if ( ! gsb_file_config_load_config () )
     {
-	first_use = TRUE;
+        gsb_file_config_create_config_rep ( );
+        first_use = TRUE;
     }
 
     /* create the toplevel window */
@@ -218,7 +221,8 @@ int main (int argc, char **argv)
     menus_sensitifs ( FALSE );
 
     /* charge les raccourcis claviers */
-    path = g_strconcat (g_get_home_dir (), "/.gnome2/accels/", PACKAGE, NULL);
+    path = g_strconcat ( C_PATH_CONFIG, G_DIR_SEPARATOR_S, 
+                        "grisbi-accels", NULL );
     gtk_accel_map_load (path);
 
     /* set the last opened files */

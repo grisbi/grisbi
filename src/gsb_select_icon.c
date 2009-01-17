@@ -47,13 +47,14 @@ static gchar * gsb_select_icon_troncate_name_icon ( gchar *name_icon, gint trunc
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 static GtkWidget * dialog;
 static GtkWidget * bouton_OK;
 static GtkWidget * entry_text;
 static GtkWidget * icon_view;
+static GdkPixbuf * pixbuf_logo = NULL;
 
 static GtkListStore *store = NULL;
 
@@ -182,6 +183,11 @@ GtkWidget * gsb_select_icon_create_entry_text ( gchar * name_icon )
         devel_debug ( "combo n'existe pas" );
         store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
         gtk_list_store_append (store, &iter);
+        if ( g_strcmp0 ( PIXMAPS_DIR, path_icon ) != 0 )
+        {
+            gtk_list_store_set (store, &iter, 0, PIXMAPS_DIR, -1);
+            gtk_list_store_prepend (store, &iter);
+        }
         gtk_list_store_set (store, &iter, 0, path_icon, -1);
     }
     
@@ -510,3 +516,54 @@ gboolean gsb_select_icon_add_path ( void )
     return TRUE;
 }
 
+
+/**
+ * Convertit un pixbuf en chaine codéé en base 64
+ *
+ * \param pixbuf
+ *
+* */
+gchar * gsb_select_icon_create_chaine_base64_from_pixbuf ( GdkPixbuf *pixbuf )
+{
+    GdkPixdata pixdata;
+    guint8 *str;
+    guint longueur;
+    gchar * str64;
+
+    gdk_pixdata_from_pixbuf ( &pixdata, pixbuf, FALSE );
+    str = gdk_pixdata_serialize ( &pixdata, &longueur );
+    str64 = g_base64_encode(str, longueur);
+    g_free(str);
+    return str64;
+}
+
+
+/**
+ * Convertit une chaine codée en base 64 en pixbuf
+ *
+ * \param str_base64
+ *
+* */
+void gsb_select_icon_create_pixbuf_from_chaine_base64 ( gchar *str_base64 )
+{
+    guchar *data;
+    gsize longueur;
+    GdkPixdata pixdata;
+
+    data = g_base64_decode ( str_base64, &longueur );
+    gdk_pixdata_deserialize( &pixdata, longueur, data, NULL );
+    pixbuf_logo = gdk_pixbuf_from_pixdata( &pixdata, TRUE, NULL );
+}
+
+
+GdkPixbuf *gsb_select_icon_get_logo_pixbuf ( void )
+{
+    return pixbuf_logo;
+}
+
+void gsb_select_icon_set_logo_pixbuf ( GdkPixbuf *pixbuf )
+{
+    if ( pixbuf_logo != NULL )
+        g_object_unref ( G_OBJECT ( pixbuf_logo ) );
+    pixbuf_logo = pixbuf ;
+}

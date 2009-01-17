@@ -31,6 +31,7 @@
 #include "./gsb_file.h"
 #include "./barre_outils.h"
 #include "./gsb_scheduler_list.h"
+#include "./gsb_select_icon.h"
 #include "./main.h"
 #include "./traitement_variables.h"
 #include "./utils_str.h"
@@ -71,7 +72,6 @@ extern gchar *adresse_commune ;
 extern gchar *adresse_secondaire ;
 extern GdkColor archive_background_color;
 extern GdkColor calendar_entry_color;
-extern gchar *chemin_logo ;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
@@ -145,10 +145,7 @@ GtkWidget * onglet_display_fonts ( void )
     		G_CALLBACK ( gtk_widget_destroyed), &logo_button );
     gtk_button_set_relief ( GTK_BUTTON ( logo_button ), GTK_RELIEF_NONE );
 
-    if ( chemin_logo )
-    {
-	pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
-    }
+	pixbuf = gsb_select_icon_get_logo_pixbuf ( );
 
     if (!pixbuf)
     {
@@ -268,26 +265,21 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 
     if ( etat.utilise_logo )
     {
-	/* 	on recharge l'ancien logo */
+        /* 	on recharge l'ancien logo */
 
-	if ( !chemin_logo ||
-	     !strlen ( g_strstrip ( chemin_logo )) )
-	{
-	    chemin_logo = NULL;
-	    if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
-		gtk_widget_hide ( logo_accueil );
-	}
-	else
-	{
-	    /* Update homepage logo */
-
-	    logo_accueil =  gtk_image_new_from_file ( chemin_logo );
-	    gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
-	    gtk_widget_show ( logo_accueil );
-	}
+        if ( GTK_IS_WIDGET ( logo_accueil ) )
+            gtk_widget_hide ( logo_accueil );
+        else
+        {
+            /* Update homepage logo */
+            logo_accueil =  gtk_image_new_from_pixbuf ( 
+                            gsb_select_icon_get_logo_pixbuf ( ) );
+            gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
+            gtk_widget_show ( logo_accueil );
+        }
     }
     else
-	gtk_widget_destroy ( logo_accueil );
+        gtk_widget_destroy ( logo_accueil );
 
     modification_fichier ( TRUE );
 
@@ -426,64 +418,73 @@ GtkWidget *onglet_display_addresses ( void )
 void change_logo_accueil ( GtkWidget * file_selector )
 {
     GdkPixbuf * pixbuf;
+
     const gchar *selected_filename;
 
     selected_filename = file_selection_get_filename (GTK_FILE_CHOOSER (file_selector));
 
     if ( gsb_data_account_get_accounts_amount () )
     {
-	/* on change le logo */
-	if ( chemin_logo )
-	    g_free ( chemin_logo );
-	chemin_logo = my_strdup ( (gchar *) selected_filename );
-
-	if ( !chemin_logo ||
-	     !strlen ( g_strstrip ( chemin_logo )) )
-	{
-	    chemin_logo = NULL;
-	    if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
-		gtk_widget_hide ( logo_accueil );
-	}
-	else
-	{
-	    /* Update homepage logo */
-	    gtk_widget_destroy ( logo_accueil );
-
-	    logo_accueil =  gtk_image_new_from_file ( chemin_logo );
-	    gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
-	    gtk_widget_show ( logo_accueil );
-	}
-
-	/* Update preview */
-	pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
-	gtk_container_remove (GTK_CONTAINER(logo_button), preview);
-	if (!pixbuf)
-	{
-	    preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE,
-						 GTK_ICON_SIZE_BUTTON );
-	}
-	else
-	{
-	    if ( gdk_pixbuf_get_width(pixbuf) > 64 ||
-		 gdk_pixbuf_get_height(pixbuf) > 64)
-	    {
-		GdkPixbuf * tmp;
-		tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8,
-				       gdk_pixbuf_get_width(pixbuf)/2,
-				       gdk_pixbuf_get_height(pixbuf)/2 );
-		gdk_pixbuf_scale ( pixbuf, tmp, 0, 0,
-				   gdk_pixbuf_get_width(pixbuf)/2,
-				   gdk_pixbuf_get_height(pixbuf)/2,
-				   0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
-		pixbuf = tmp;
-	    }
-	    preview = gtk_image_new_from_pixbuf (pixbuf);
-	}
-	gtk_widget_show ( preview );
-	gtk_container_add ( GTK_CONTAINER(logo_button), preview );
-
-	/* Mark file as modified */
-	modification_fichier ( TRUE );
+        /* on change le logo */
+        gchar * chemin_logo;
+        
+        chemin_logo = my_strdup ( (gchar *) selected_filename );
+        
+        if ( !chemin_logo ||
+             !strlen ( g_strstrip ( chemin_logo )) )
+        {
+            if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
+                gtk_widget_hide ( logo_accueil );
+            preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE,
+                             GTK_ICON_SIZE_BUTTON );
+        }
+        else
+        {
+            /* Update preview */
+            pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
+            gtk_container_remove (GTK_CONTAINER(logo_button), preview);
+            if (!pixbuf)
+            {
+                if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
+                    gtk_widget_hide ( logo_accueil );
+                preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE,
+                                    GTK_ICON_SIZE_BUTTON );
+            }
+            else
+            {
+                if ( gdk_pixbuf_get_width(pixbuf) > 64 ||
+                 gdk_pixbuf_get_height(pixbuf) > 64)
+                {
+                    GdkPixbuf * tmp;
+                    tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8,
+                                    gdk_pixbuf_get_width(pixbuf)/2,
+                                    gdk_pixbuf_get_height(pixbuf)/2 );
+                    gdk_pixbuf_scale ( pixbuf, tmp, 0, 0,
+                                gdk_pixbuf_get_width(pixbuf)/2,
+                                gdk_pixbuf_get_height(pixbuf)/2,
+                                0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
+                    pixbuf = tmp;
+                }
+                gsb_select_icon_set_logo_pixbuf ( pixbuf );
+                preview = gtk_image_new_from_pixbuf ( pixbuf );
+                
+                /* Update homepage logo */
+                gtk_widget_destroy ( logo_accueil );
+                
+                logo_accueil =  gtk_image_new_from_pixbuf ( 
+                                    gsb_select_icon_get_logo_pixbuf ( ) );
+                gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
+                gtk_widget_show ( logo_accueil );
+                /* modify the icon of grisbi (set in the panel of gnome or other) */
+                gtk_window_set_default_icon ( 
+                            gsb_select_icon_get_logo_pixbuf ( ) );
+            }
+        }
+        gtk_widget_show ( preview );
+        gtk_container_add ( GTK_CONTAINER(logo_button), preview );
+        
+        /* Mark file as modified */
+        modification_fichier ( TRUE );
     }
 }
 /* **************************************************************************************************************************** */

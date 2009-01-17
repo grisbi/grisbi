@@ -25,6 +25,7 @@
 /*START_INCLUDE*/
 #include "help.h"
 #include "./gsb_plugins.h"
+#include "./gsb_select_icon.h"
 #include "./utils.h"
 #include "./utils_str.h"
 #include "./include.h"
@@ -36,7 +37,6 @@ static void launch_url (GtkAboutDialog *about, const gchar * link, gpointer data
 
 
 /*START_EXTERN*/
-extern gchar *chemin_logo ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
 
@@ -68,6 +68,7 @@ void a_propos ( GtkWidget *bouton,
 		gint data )
 {
     GdkPixbuf * logo;
+    gchar *chemin_logo ;
 
 #define CSUFFIX "\n"
 
@@ -76,7 +77,7 @@ _("Programming"),
 "Benjamin Drieu (bdrieu[at]april.org)",
 "Cedric Auger (cedric[at]grisbi.org)",
 "Francois Terrot (grisbi[at]terrot.net)",
-"Pierre Bavia ([at]terrot.net)",
+"Pierre Biava ([at]nerim.net)",
 "",
 
 _("Packaging"),
@@ -139,10 +140,12 @@ NULL};
     GtkWidget * about;
 
     /* Logo */
-    if ( !chemin_logo || !strlen ( chemin_logo ))
-	chemin_logo = my_strdup ( LOGO_PATH );
-    logo =  gdk_pixbuf_new_from_file ( chemin_logo, NULL );
-
+    logo = gsb_select_icon_get_logo_pixbuf ( );
+    if (logo == NULL )
+    {
+        chemin_logo = my_strdup ( LOGO_PATH );
+        logo =  gdk_pixbuf_new_from_file ( chemin_logo, NULL );
+    }
     about = gtk_about_dialog_new ( );
     gtk_about_dialog_set_url_hook (launch_url, NULL, NULL);
     gtk_about_dialog_set_name ( GTK_ABOUT_DIALOG (about), "Grisbi" );

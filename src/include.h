@@ -31,6 +31,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
+#include <gdk-pixbuf/gdk-pixdata.h>
 
 #ifndef NOSSL
 #  include <openssl/des.h>

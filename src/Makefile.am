@@ -104,6 +104,7 @@ sources = \
 	gsb_report.c		\
 	gsb_scheduler.c		\
 	gsb_scheduler_list.c	\
+	gsb_select_icon.c \
 	gsb_status.c		\
 	gsb_transactions_list.c	\
 	gsb_transactions_list_sort.c	\
@@ -144,8 +145,7 @@ sources = \
 	utils_str.c		\
 	balance_estimate_tab.c
 
-grisbi_SOURCES = $(sources) $(sources_config) \
-	gsb_select_icon.c
+grisbi_SOURCES = $(sources) $(sources_config)
 
 grisbi_INCLUDES =		\
 	$(include_config)       \
@@ -232,6 +232,7 @@ grisbi_INCLUDES =		\
 	gsb_reconcile_sort_config.h	\
 	gsb_report.h		\
         gsb_status.h            \
+	gsb_select_icon.h \
 	gsb_scheduler.h		\
 	gsb_scheduler_list.h	\
 	gsb_transactions_list.h	\
