@@ -46,13 +46,16 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gchar *gsb_config_get_old_conf_name ( void );
 static void gsb_file_config_clean_config ( void );
+static gboolean gsb_file_config_create_config_rep ( void );
 static void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 					     const gchar *text,
 					     gsize text_len,  
 					     gpointer user_data,
 					     GError **error);
 static gboolean gsb_file_config_load_last_xml_config ( gchar *filename );
+static  void gsb_file_config_remove_old_config_file ( gchar *filename );
 /*END_STATIC*/
 
 
@@ -107,9 +110,19 @@ gboolean gsb_file_config_load_config ( void )
     if (!result)
     {
         /* On recherche le fichier dans HOME */
+        #ifndef _WIN32
+        /* On recherche les fichiers possibles seulement sous linux */
+        g_free ( filename );
+        filename = gsb_config_get_old_conf_name ( );
+        devel_debug (filename);
+        if ( ! filename || strlen ( filename ) == 0 )
+            return FALSE;
+        #else
         filename = g_strconcat ( my_get_grisbirc_dir(), C_OLD_GRISBIRC, NULL );
+        #endif
+        
         config = g_key_file_new ();
-    
+        
         result = g_key_file_load_from_file ( config,
 					 filename,
 					 G_KEY_FILE_KEEP_COMMENTS,
@@ -117,21 +130,14 @@ gboolean gsb_file_config_load_config ( void )
         /* si on ne le trouve pas on recherche le fichier au format xml */
         if (!result)
         {
-            result = gsb_file_config_load_last_xml_config (filename);
-            g_free (filename);
-            g_key_file_free (config);
+            result = gsb_file_config_load_last_xml_config ( filename );
             if ( result )
-            {
-                gsb_file_config_create_config_rep ( );
-                g_remove ( filename );
-            }
+                gsb_file_config_remove_old_config_file ( filename );
+            g_free (filename);
             return result;
         }
         else
-        {
-            gsb_file_config_create_config_rep ( );
-            g_remove ( filename );
-        }
+            g_unlink ( filename );
     }
 
     /* get the geometry */
@@ -710,6 +716,12 @@ gboolean gsb_file_config_save_config ( void )
     conf_file = fopen ( filename,
 			  "w" );
 
+    if ( !conf_file )
+    {
+        gsb_file_config_create_config_rep ( );
+        conf_file = fopen ( filename, "w" );
+    }
+
     if ( !conf_file
 	 ||
 	 !fwrite ( file_content,
@@ -1244,6 +1256,171 @@ gboolean gsb_file_config_create_config_rep ( void )
         return TRUE;
     else
         return FALSE;
+}
+
+static void gsb_file_config_remove_old_config_file ( gchar *filename )
+{
+    GtkWidget *dialog;
+    GtkWidget *content_area;
+    GtkWidget *hbox;
+    GtkWidget *image;
+    GtkWidget *label;
+    gint resultat;
+
+    dialog = gtk_dialog_new_with_buttons ( _("Delete an old config file"),
+                        GTK_WINDOW ( window ),
+                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                        GTK_STOCK_NO, GTK_RESPONSE_CANCEL,
+                        GTK_STOCK_YES, GTK_RESPONSE_OK,
+                        NULL );
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
+
+    content_area = GTK_DIALOG(dialog) -> vbox;
+    hbox = gtk_hbox_new ( FALSE, 5);
+	gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
+    gtk_box_pack_start ( GTK_BOX ( content_area ), hbox, FALSE, FALSE, 5 );
+
+    image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, 
+                        GTK_ICON_SIZE_DIALOG );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
+
+    gchar *tmpstr = g_strconcat ( 
+                        _("Careful, you are about to deleting the file\n"
+                        "of configuration of an old version of Grisbi.\n"
+                        "\n<b>Do you want to continue ?</b>"),
+                        NULL );
+
+    label = gtk_label_new ( tmpstr );
+    gtk_label_set_use_markup ( GTK_LABEL( label ), TRUE );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
+    g_free ( tmpstr );
+
+    gtk_widget_show_all ( dialog );
+
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+
+    if ( resultat == GTK_RESPONSE_OK )
+        g_unlink ( filename );
+    if ( GTK_IS_DIALOG ( dialog ) )
+        gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+}
+
+
+gchar *gsb_config_get_old_conf_name ( void )
+{
+    GtkWidget *dialog;
+    GtkWidget *hbox;
+    GtkWidget *image;
+    GtkWidget *label;
+    GtkWidget *combo;
+    GtkWidget *content_area;
+    GDir *dir;
+    gchar *filename = NULL;
+    GSList *liste = NULL;
+    GtkListStore *store;
+    GtkTreeIter iter;
+    GtkCellRenderer *renderer;
+    GError *error = NULL;
+    gint resultat;
+    gint i = 0, j = 0;
+    
+    dir = g_dir_open ( my_get_grisbirc_dir ( ), 0, &error );
+    if ( dir )
+    {
+        const gchar *name = NULL;
+        
+        while ( (name = g_dir_read_name ( dir ) ) )
+        {
+            if ( g_strstr_len ( name, -1, ".grisbi" ) &&
+                        g_str_has_suffix ( name, "rc" ) )
+                liste = g_slist_append ( liste, g_strdup ( name ) );
+        }
+    }
+    else
+        dialogue_error ( error -> message );
+    if ( g_slist_length ( liste ) == 1 )
+        return g_strconcat ( my_get_grisbirc_dir ( ),
+                            G_DIR_SEPARATOR_S,
+                            g_slist_nth_data ( liste, 0 ), 
+                            NULL );
+
+    dialog = gtk_dialog_new_with_buttons ( _("Choose a file"),
+                        GTK_WINDOW ( window ),
+                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                        GTK_STOCK_OK, GTK_RESPONSE_OK,
+                        NULL );
+
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), 
+                        GTK_WIN_POS_CENTER_ON_PARENT );
+
+    content_area = GTK_DIALOG(dialog) -> vbox;
+
+    hbox = gtk_hbox_new ( FALSE, 5);
+	gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
+    gtk_box_pack_start ( GTK_BOX ( content_area ), hbox, FALSE, FALSE, 5 );
+
+    image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_INFO, 
+                        GTK_ICON_SIZE_DIALOG );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
+
+    gchar *tmpstr = g_strconcat ( 
+                        _("Please Choose the name of file\n"
+                        "of configuration.\n\n"
+                        "and press the 'OK' button."),
+                        NULL );
+
+    label = gtk_label_new ( tmpstr );
+    gtk_label_set_use_markup ( GTK_LABEL( label ), TRUE );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
+    g_free ( tmpstr );
+
+    store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
+    while ( liste )
+    {
+        gtk_list_store_append ( store, &iter );
+        gtk_list_store_set (store, &iter, 
+                        0, (gchar *) liste -> data,
+                        -1);
+        if ( g_strcmp0 ( (gchar *) liste -> data, 
+                        ( C_OLD_GRISBIRC + 1 ) ) == 0 )
+            j = i;
+        liste = liste -> next;
+        i++;
+    }
+
+    combo = gtk_combo_box_new_with_model ( GTK_TREE_MODEL ( store ) );
+    renderer = gtk_cell_renderer_text_new ();
+    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), renderer,
+                                "text", 0,
+                                NULL);
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), j );
+    gtk_box_pack_start ( GTK_BOX ( content_area ), combo, FALSE, FALSE, 5 );
+
+    gtk_widget_show_all ( dialog );
+
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+    if ( resultat == GTK_RESPONSE_OK )
+    {
+        gtk_combo_box_get_active_iter ( GTK_COMBO_BOX ( combo ), &iter );
+        gtk_tree_model_get ( GTK_TREE_MODEL ( store ),
+                        &iter,
+                        0, &filename,
+                        -1 );
+        filename = g_strconcat ( my_get_grisbirc_dir ( ),
+                            G_DIR_SEPARATOR_S,
+                            filename, 
+                            NULL );
+    }
+    if ( GTK_IS_DIALOG ( dialog ) )
+        gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+
+    return filename;
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */

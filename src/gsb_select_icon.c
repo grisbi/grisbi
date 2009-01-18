@@ -259,7 +259,6 @@ GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon )
         GdkPixbuf *pixbuf;
         GSList *liste = NULL;
         gint i = 0;
-        
         const gchar *name = NULL;
         
         while ( (name = g_dir_read_name ( dir ) ) )
@@ -518,7 +517,7 @@ gboolean gsb_select_icon_add_path ( void )
 
 
 /**
- * Convertit un pixbuf en chaine codéé en base 64
+ * Convertit un pixbuf en chaine codée en base 64
  *
  * \param pixbuf
  *

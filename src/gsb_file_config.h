@@ -19,7 +19,6 @@
 
 
 /* START_DECLARATION */
-gboolean gsb_file_config_create_config_rep ( void );
 gboolean gsb_file_config_load_config ( void );
 gboolean gsb_file_config_save_config ( void );
 /* END_DECLARATION */

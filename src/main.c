@@ -174,10 +174,7 @@ int main (int argc, char **argv)
 
     /* on crée ici le nouveau répertoire de conf  */
     if ( ! gsb_file_config_load_config () )
-    {
-        gsb_file_config_create_config_rep ( );
         first_use = TRUE;
-    }
 
     /* create the toplevel window */
     window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
