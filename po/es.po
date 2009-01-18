@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-18 18:45+0100\n"
-"PO-Revision-Date: 2009-01-11 23:38+0100\n"
+"PO-Revision-Date: 2009-01-18 22:52+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:191
 msgid "Closed liabilities accounts"
@@ -6263,12 +6263,12 @@ msgid "No budget line"
 msgstr "Sin línea presupuestaria"
 
 #: src/gsb_data_budget.c:1290
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The transaction %d has a budget n°%d and sub-budget n°%d but they don't "
 "exist."
 msgstr ""
-"La transacción %d debería tener una línea y una sublínea presupuestaria nº%"
+"La transacción %d tiene una línea y una sublínea presupuestaria nº%"
 "d, pero no existen."
 
 #: src/gsb_data_budget.c:1431 src/gsb_data_category.c:1530
@@ -6277,12 +6277,12 @@ msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr "ln <i>%s</i>, <i> es un duplicado de <i>%s</i>.\n"
 
 #: src/gsb_data_category.c:1389
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The transaction %d has a category n°%d and sub-category n°%d but they don't "
 "exist."
 msgstr ""
-"La transacción %d tiene una categoría nº%d y una subcategoría nº%d pero "
+"La transacción %d tiene una categoría n°%d y una subcategoría n°%d pero "
 "éstas no existen."
 
 #: src/gsb_data_currency_link.c:475
@@ -6322,9 +6322,9 @@ msgid "No payee defined"
 msgstr "No hay tercero definido"
 
 #: src/gsb_data_payee.c:704
-#, fuzzy, c-format
+#, c-format
 msgid "The transaction %d has a payee n°%d but it doesn't exist."
-msgstr "La transacción %d tiene un tercero nº%d pero ésta no existe."
+msgstr "La transacción %d tiene un tercero n°%d pero éste no existe."
 
 #. Deposit = DÃ©pÃ´t
 #: src/gsb_data_payment.c:714 src/import.c:2309 src/plugins/ofx/ofx.c:451
@@ -6842,9 +6842,8 @@ msgid "A4"
 msgstr "A4"
 
 #: src/gsb_file_config.c:1270
-#, fuzzy
 msgid "Delete an old config file"
-msgstr "Borrar la reconciliación"
+msgstr "Borrar un fichero de configuración viejo"
 
 #: src/gsb_file_config.c:1290
 msgid ""
@@ -6853,11 +6852,14 @@ msgid ""
 "\n"
 "<b>Do you want to continue ?</b>"
 msgstr ""
+"Cuidado, está a punto de borrar el fichero\n"
+"de configuración de una vieja versión de Grisbi.\n"
+"\n"
+"<b>¿ Quiere continuar ?</b>"
 
 #: src/gsb_file_config.c:1349
-#, fuzzy
 msgid "Choose a file"
-msgstr "Escogiendo una reconciliación"
+msgstr "Elija un fichero"
 
 #: src/gsb_file_config.c:1372
 msgid ""
@@ -6866,6 +6868,10 @@ msgid ""
 "\n"
 "and press the 'OK' button."
 msgstr ""
+"Por favor elija el nombre del fichero\n"
+"de configuración.\n"
+"\n"
+"y pulse el botón de 'OK'."
 
 #: src/gsb_file_load.c:245 src/gsb_file_load.c:357 src/gsb_file_others.c:417
 #: src/gsb_file_others.c:547
@@ -7689,7 +7695,7 @@ msgstr ""
 #. we are on a reconcile,
 #. * we ask if the user want to continue and warn him
 #: src/gsb_reconcile_config.c:510
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Careful, you are about to deleting a reconcile.\n"
 "If you continue, the reconcile %s will be erased and all the transactions "
