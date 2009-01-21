@@ -496,6 +496,8 @@ void gsb_assistant_account_change_account_icon ( GtkWidget *button, gpointer dat
     name_icon = g_object_get_data ( G_OBJECT ( pixbuf ), "name_icon" );
     devel_debug (name_icon);
     new_icon = gsb_select_icon_create_window ( name_icon );
+    if ( ! new_icon )
+        return;
     devel_debug (new_icon);
     pixbuf = gdk_pixbuf_new_from_file_at_size ( new_icon , 32, 32, &error );
     if ( ! pixbuf )
