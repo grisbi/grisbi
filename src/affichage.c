@@ -41,6 +41,7 @@
 #include "./structures.h"
 #include "./custom_list.h"
 #include "./utils_buttons.h"
+#include "./gsb_select_icon.h"
 #include "./include.h"
 #include "./erreur.h"
 /*END_INCLUDE*/
@@ -259,9 +260,9 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 				     GtkWidget *hbox )
 {
 
-    etat.utilise_logo = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button ));
-    gtk_widget_set_sensitive ( hbox,
-			       etat.utilise_logo );
+    etat.utilise_logo = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON 
+                            ( check_button ));
+    gtk_widget_set_sensitive ( hbox, etat.utilise_logo );
 
     if ( etat.utilise_logo )
     {
@@ -275,6 +276,7 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
             logo_accueil =  gtk_image_new_from_pixbuf ( 
                             gsb_select_icon_get_logo_pixbuf ( ) );
             gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
+            gtk_widget_set_size_request ( hbox_title, -1, LOGO_HEIGHT + 20 );
             gtk_widget_show ( logo_accueil );
         }
     }
@@ -427,9 +429,9 @@ void change_logo_accueil ( GtkWidget * file_selector )
     {
         /* on change le logo */
         gchar * chemin_logo;
-        
+
+        gtk_container_remove (GTK_CONTAINER(logo_button), preview);
         chemin_logo = my_strdup ( (gchar *) selected_filename );
-        
         if ( !chemin_logo ||
              !strlen ( g_strstrip ( chemin_logo )) )
         {
@@ -442,7 +444,6 @@ void change_logo_accueil ( GtkWidget * file_selector )
         {
             /* Update preview */
             pixbuf = gdk_pixbuf_new_from_file (chemin_logo, NULL);
-            gtk_container_remove (GTK_CONTAINER(logo_button), preview);
             if (!pixbuf)
             {
                 if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
@@ -452,21 +453,10 @@ void change_logo_accueil ( GtkWidget * file_selector )
             }
             else
             {
-                if ( gdk_pixbuf_get_width(pixbuf) > 64 ||
-                 gdk_pixbuf_get_height(pixbuf) > 64)
-                {
-                    GdkPixbuf * tmp;
-                    tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8,
-                                    gdk_pixbuf_get_width(pixbuf)/2,
-                                    gdk_pixbuf_get_height(pixbuf)/2 );
-                    gdk_pixbuf_scale ( pixbuf, tmp, 0, 0,
-                                gdk_pixbuf_get_width(pixbuf)/2,
-                                gdk_pixbuf_get_height(pixbuf)/2,
-                                0, 0, 0.5, 0.5, GDK_INTERP_HYPER );
-                    pixbuf = tmp;
-                }
                 gsb_select_icon_set_logo_pixbuf ( pixbuf );
-                preview = gtk_image_new_from_pixbuf ( pixbuf );
+                preview = gtk_image_new_from_pixbuf ( 
+                        gdk_pixbuf_scale_simple ( 
+                        pixbuf, 48, 48, GDK_INTERP_BILINEAR ) );
                 
                 /* Update homepage logo */
                 gtk_widget_destroy ( logo_accueil );
@@ -547,15 +537,16 @@ static gboolean preferences_view_update_preview_logo ( GtkFileChooser *file_choo
   if (!filename)
       return FALSE;
 
-  pixbuf = gdk_pixbuf_new_from_file_at_size (filename, 128, 128, NULL);
-  have_preview = (pixbuf != NULL);
+  pixbuf = gdk_pixbuf_new_from_file_at_size ( filename, 
+                        LOGO_WIDTH, LOGO_HEIGHT, NULL );
+  have_preview = ( pixbuf != NULL );
   g_free (filename);
 
-  gtk_image_set_from_pixbuf (GTK_IMAGE (preview), pixbuf);
-  if (pixbuf)
-    g_object_unref (pixbuf);
+  gtk_image_set_from_pixbuf ( GTK_IMAGE ( preview ), pixbuf );
+  if ( pixbuf )
+    g_object_unref ( pixbuf );
 
-  gtk_file_chooser_set_preview_widget_active (file_chooser, have_preview);
+  gtk_file_chooser_set_preview_widget_active ( file_chooser, have_preview );
   return FALSE;
 }
 

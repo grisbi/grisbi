@@ -1150,7 +1150,7 @@ void gsb_file_config_clean_config ( void )
 
     etat.r_modifiable = 0;       /* on ne peux modifier les opé relevées */
     etat.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
-    etat.sauvegarde_auto = 0;    /* on ne sauvegarde pas automatiquement */
+    etat.sauvegarde_auto = 1;    /* on sauvegarde automatiquement par défaut pbiava 24/01/2009*/
     etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
     nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
     execute_scheduled_of_month = FALSE;
@@ -1174,7 +1174,7 @@ void gsb_file_config_clean_config ( void )
     etat.force_enregistrement = 1;     /* par défaut, on force l'enregistrement */
     gsb_file_update_last_path (g_get_home_dir ());
     gsb_file_set_backup_path (g_get_home_dir ());
-    etat.make_backup = FALSE;
+    etat.make_backup = 1;       /* on force aussi le backup pbiava le 24/01/2009*/
     etat.make_backup_every_minutes = FALSE;
     etat.make_backup_nb_minutes = 0;
 

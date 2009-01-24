@@ -172,7 +172,7 @@ int main (int argc, char **argv)
     init_variables ();
     register_import_formats ();
 
-    /* on crée ici le nouveau répertoire de conf  */
+    /* firt use ? */
     if ( ! gsb_file_config_load_config () )
         first_use = TRUE;
 

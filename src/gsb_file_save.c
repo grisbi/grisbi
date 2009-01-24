@@ -343,6 +343,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 					   &file_content,
 					   FALSE );
 
+    if ( etat.utilise_logo )
     iterator = gsb_file_save_logo_part ( iterator,
 					   &length_calculated,
 					   &file_content );
@@ -2397,11 +2398,15 @@ gulong gsb_file_save_logo_part ( gulong iterator,
 					gulong *length_calculated,
 					gchar **file_content )
 {
+    GdkPixbuf *pixbuf = NULL;
     gchar *new_string;
     gchar * str64;
 
-    str64 = gsb_select_icon_create_chaine_base64_from_pixbuf (
-                            gsb_select_icon_get_logo_pixbuf ( ) );
+    pixbuf = gsb_select_icon_get_logo_pixbuf ( );
+    if ( ! pixbuf )
+        pixbuf = gsb_select_icon_get_default_logo_pixbuf ( );
+    
+    str64 = gsb_select_icon_create_chaine_base64_from_pixbuf ( pixbuf );
 
     new_string = g_markup_printf_escaped ( "\t<Logo\n"
                             "\t\tImage=\"%s\" />\n", 

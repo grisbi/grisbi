@@ -121,6 +121,23 @@ gchar* my_get_XDG_grisbirc_dir(void)
 
 
 /**
+ * return the absolute path of where the data files should be located
+ * On UNIX platforms this is determined using the mechanisms described 
+ * in the  XDG Base Directory Specification
+ * on Windows based systems return APPDATA\Grisbi
+ * 
+ * \return the absolute path of the home directory
+ */
+gchar* my_get_XDG_grisbi_data_dir(void)
+{
+#ifndef _WIN32
+    return (gchar *) C_PATH_DATA_FILES;
+#else
+    return g_get_home_dir ();
+#endif
+}
+
+/**
  * return the absolute path of the default accounts files location
  * on Un*x based system return $HOME
  * on Windows based systems return "My Documents"

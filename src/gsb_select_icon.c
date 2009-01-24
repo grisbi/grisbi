@@ -2,7 +2,7 @@
 /*                                                                            */
 /*    copyright (c)	2000-2008 Cédric Auger (cedric@grisbi.org)	              */
 /*			2004-2009 Benjamin Drieu (bdrieu@april.org) 	                  */
-/*          2000-2009 Pierre Biava (pierre@pierre.biava.name                  */
+/*          2008-2009 Pierre Biava (pierre@pierre.biava.name                  */
 /*			                                                                  */
 /*			http://www.grisbi.org   			                              */
 /*                                                                            */
@@ -41,13 +41,14 @@ static GtkWidget * gsb_select_icon_create_icon_view ( gchar * name_icon );
 static void gsb_select_icon_entry_text_changed ( GtkComboBoxEntry *entry,
                                           gpointer user_data );
 static GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon );
+static GdkPixbuf *gsb_select_icon_resize_logo_pixbuf ( GdkPixbuf *pixbuf );
 static void gsb_select_icon_selection_changed ( GtkIconView *icon_view,
                                          gpointer user_data );
 static gchar * gsb_select_icon_troncate_name_icon ( gchar *name_icon, gint trunc );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *window ;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 static GtkWidget * dialog;
@@ -543,15 +544,18 @@ gchar * gsb_select_icon_create_chaine_base64_from_pixbuf ( GdkPixbuf *pixbuf )
  * \param str_base64
  *
 * */
-void gsb_select_icon_create_pixbuf_from_chaine_base64 ( gchar *str_base64 )
+GdkPixbuf *gsb_select_icon_create_pixbuf_from_chaine_base64 ( gchar *str_base64 )
 {
     guchar *data;
     gsize longueur;
     GdkPixdata pixdata;
+    GdkPixbuf *pixbuf = NULL;
 
     data = g_base64_decode ( str_base64, &longueur );
     gdk_pixdata_deserialize( &pixdata, longueur, data, NULL );
-    pixbuf_logo = gdk_pixbuf_from_pixdata( &pixdata, TRUE, NULL );
+    pixbuf = gdk_pixbuf_from_pixdata( &pixdata, TRUE, NULL );
+
+    return pixbuf;
 }
 
 
@@ -560,9 +564,65 @@ GdkPixbuf *gsb_select_icon_get_logo_pixbuf ( void )
     return pixbuf_logo;
 }
 
+
+GdkPixbuf *gsb_select_icon_get_default_logo_pixbuf ( void )
+{
+    GdkPixbuf *pixbuf = NULL;
+    GError *error = NULL;
+
+    pixbuf = gdk_pixbuf_new_from_file ( g_build_filename 
+                        (PIXMAPS_DIR, "grisbi-logo.png", NULL), &error );
+
+    if ( ! pixbuf )
+        devel_debug ( error -> message );
+
+    if ( gdk_pixbuf_get_width (pixbuf) > LOGO_WIDTH ||
+	     gdk_pixbuf_get_height (pixbuf) > LOGO_HEIGHT )
+    {
+        return gsb_select_icon_resize_logo_pixbuf ( pixbuf );
+	}
+    else
+        return pixbuf;
+}
+
+
 void gsb_select_icon_set_logo_pixbuf ( GdkPixbuf *pixbuf )
 {
     if ( pixbuf_logo != NULL )
         g_object_unref ( G_OBJECT ( pixbuf_logo ) );
-    pixbuf_logo = pixbuf ;
+
+    if ( gdk_pixbuf_get_width (pixbuf) > LOGO_WIDTH ||
+	     gdk_pixbuf_get_height (pixbuf) > LOGO_HEIGHT )
+	{
+        pixbuf_logo = gsb_select_icon_resize_logo_pixbuf ( pixbuf );
+	}
+    else
+        pixbuf_logo = pixbuf ;
+}
+
+
+GdkPixbuf *gsb_select_icon_resize_logo_pixbuf ( GdkPixbuf *pixbuf )
+{
+    GdkPixbuf * tmp;
+    gint ratio_width, ratio_height, ratio;
+
+    ratio_width = gdk_pixbuf_get_width ( pixbuf ) / LOGO_WIDTH;
+    if ( ( gdk_pixbuf_get_width ( pixbuf ) % LOGO_WIDTH ) > 0 )
+        ratio_width ++;
+    ratio_height = gdk_pixbuf_get_height ( pixbuf ) / LOGO_HEIGHT;
+    if ( ( gdk_pixbuf_get_width ( pixbuf ) % LOGO_HEIGHT ) > 0 )
+        ratio_height ++;
+    ratio = ( ratio_width > ratio_height ) ? ratio_width : ratio_height;
+    devel_debug_int ( ratio );
+
+    warning_debug ( "le logo est trop grand " );
+    tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8,
+               gdk_pixbuf_get_width ( pixbuf )/ratio,
+               gdk_pixbuf_get_height ( pixbuf )/ratio );
+    tmp = gdk_pixbuf_scale_simple ( pixbuf,
+                        gdk_pixbuf_get_width ( pixbuf )/ratio,
+                        gdk_pixbuf_get_height ( pixbuf )/ratio,
+                        GDK_INTERP_HYPER );
+
+    return tmp;
 }

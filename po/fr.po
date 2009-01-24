@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-18 18:45+0100\n"
+"POT-Creation-Date: 2009-01-21 22:35+0100\n"
 "PO-Revision-Date: 2008-12-15 22:09+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -6212,8 +6212,7 @@ msgid ""
 "Currency name and either international currency code or currency nickname "
 "should be set."
 msgstr ""
-"Le nom, le code ISO, ou le symbole de la devise "
-"doivent être renseignés."
+"Le nom, le code ISO, ou le symbole de la devise doivent être renseignés."
 
 #: src/gsb_currency_config.c:1049
 msgid "All fields are not filled in"
@@ -6803,7 +6802,7 @@ msgstr "Fermer sans sauver"
 #: src/gsb_file.c:763
 #, c-format
 msgid "Save changes to document '%s' before closing?"
-msgstr "Sauver les modifications au document « %s » avant de quitter ?"
+msgstr "Sauver les modifications du fichier « %s » avant de quitter ?"
 
 #: src/gsb_file.c:776
 #, c-format
@@ -6821,11 +6820,11 @@ msgid "%d seconds"
 msgstr "%d mois"
 
 #: src/gsb_file.c:789
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr ""
-"Si vous fermez sans sauver votre fichier, toutes vos modifications seront "
+"Si vous fermez sans sauvegarder votre fichier, toutes vos modifications seront "
 "ignorées."
 
 #: src/gsb_file.c:825
@@ -6842,27 +6841,26 @@ msgid "Cannot save configuration file '%s': %s"
 msgstr "Impossible d'enregistrer le fichier de configuration « %s » : %s"
 
 #: src/gsb_file_config.c:772
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
 "please check it."
 msgstr ""
-"%s ne semble pas être un fichier normal,\n"
+"%s ne semble pas être un fichier de configuration,\n"
 "veuillez vérifier et réessayer."
 
 #: src/gsb_file_config.c:809
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open config file '%s': %s"
-msgstr "Impossible d'ouvrir le fichier « %s » : %s"
+msgstr "Impossible d'ouvrir le fichier de configuration « %s » : %s"
 
 #: src/gsb_file_config.c:1235 src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
 #: src/gsb_file_config.c:1270
-#, fuzzy
 msgid "Delete an old config file"
-msgstr "Supprimer le raprochement"
+msgstr "Supprimer l'ancien fichier de configuration"
 
 #: src/gsb_file_config.c:1290
 msgid ""
@@ -6873,7 +6871,8 @@ msgid ""
 msgstr ""
 "Attention vous allez supprimer le fichier\n"
 "de configuration d'une ancienne version de grisbi.\n"
-"\n<b>Voulez-vous continuer ?</b>"
+"\n"
+"<b>Voulez-vous continuer ?</b>"
 
 #: src/gsb_file_config.c:1349
 #, fuzzy

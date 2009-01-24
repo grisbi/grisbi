@@ -152,8 +152,8 @@ extern GdkColor couleur_selection;
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
-extern struct iso_4217_currency iso_4217_currencies[] ;
-extern GtkWidget *logo_accueil ;
+extern struct iso_4217_currency iso_4217_currencies[];
+extern GtkWidget *logo_accueil;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -585,8 +585,9 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Logo" ))
     {
-        gsb_file_load_logo_accueil ( attribute_names,
-					  attribute_values );
+        if ( etat.utilise_logo )
+            gsb_file_load_logo_accueil ( attribute_names,
+                        attribute_values );
     return;
     }
     /* the first time we come here, we check if it's a grisbi file */
@@ -4317,10 +4318,12 @@ void gsb_file_load_logo_accueil ( const gchar **attribute_names,
         if ( !strcmp ( attribute_names[i],
                    "Image" ))
         {
-            gsb_select_icon_create_pixbuf_from_chaine_base64 ( (gchar *) 
-                                attribute_values[i] );
-            gtk_window_set_default_icon ( 
-                            gsb_select_icon_get_logo_pixbuf ( ) );
+            GdkPixbuf *pixbuf = NULL;
+
+            pixbuf = gsb_select_icon_create_pixbuf_from_chaine_base64 ( 
+                                (gchar *) attribute_values[i] );
+            gtk_window_set_default_icon ( pixbuf );
+            gsb_select_icon_set_logo_pixbuf ( pixbuf );
             devel_debug ("Chargement du logo");
             i++;
             continue;

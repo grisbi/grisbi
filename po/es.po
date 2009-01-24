@@ -8,13 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-18 18:45+0100\n"
+"POT-Creation-Date: 2009-01-21 22:35+0100\n"
 "PO-Revision-Date: 2009-01-18 22:52+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: src/accueil.c:191
 msgid "Closed liabilities accounts"
@@ -6268,8 +6268,8 @@ msgid ""
 "The transaction %d has a budget n°%d and sub-budget n°%d but they don't "
 "exist."
 msgstr ""
-"La transacción %d tiene una línea y una sublínea presupuestaria nº%"
-"d, pero no existen."
+"La transacción %d tiene una línea y una sublínea presupuestaria nº%d, pero "
+"no existen."
 
 #: src/gsb_data_budget.c:1431 src/gsb_data_category.c:1530
 #, c-format

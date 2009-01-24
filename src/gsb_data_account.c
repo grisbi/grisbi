@@ -2590,13 +2590,7 @@ GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_k
                            account_icon, NULL) );
 
     if ( ! pixbuf )
-    {
-        gchar* tmpstr = g_strconcat( "Erreur de pixbuf : " , 
-             error -> message, " image ",
-             account_icon, NULL );
-        devel_debug (tmpstr);
-        g_free ( tmpstr );
-    }
+        devel_debug ( error -> message );
 
     return pixbuf;
 }

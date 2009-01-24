@@ -44,6 +44,7 @@
 #include "./structures.h"
 #include "./fenetre_principale.h"
 #include "./gsb_data_account.h"
+#include "./gsb_select_icon.h"
 #include "./include.h"
 #include "./erreur.h"
 #include "./gsb_real.h"
@@ -155,9 +156,13 @@ GtkWidget *creation_onglet_accueil ( void )
 	{
 	    logo_accueil =  gtk_image_new_from_pixbuf ( 
                     gsb_select_icon_get_logo_pixbuf ( ) );
+        if ( ! logo_accueil )
+            logo_accueil =  gtk_image_new_from_pixbuf ( 
+                    gsb_select_icon_get_default_logo_pixbuf ( ) );
 	    g_signal_connect ( G_OBJECT ( logo_accueil ), "destroy",
 	    			G_CALLBACK( gtk_widget_destroyed ), &logo_accueil);
 	    gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 20 );
+        gtk_widget_set_size_request ( hbox_title, -1, LOGO_HEIGHT + 20 );
 	}
 
 	gtk_box_pack_end ( GTK_BOX ( hbox_title ), label_titre_fichier, TRUE, TRUE, 20 );

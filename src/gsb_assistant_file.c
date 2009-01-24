@@ -38,6 +38,7 @@
 #include "./gsb_currency.h"
 #include "./gsb_file.h"
 #include "./parametres.h"
+#include "./gsb_select_icon.h"
 #include "./import.h"
 #include "./traitement_variables.h"
 #include "./utils_files.h"
@@ -219,8 +220,13 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
     gsb_category_assistant_create_categories (assistant);
 
     /* get the next assistant to launch */
-    launch_account_assistant = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button_create_account_next));
+    launch_account_assistant = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON 
+                        (button_create_account_next));
     gtk_widget_destroy (assistant);
+
+    /* initialise le logo accueil */
+    gsb_select_icon_set_logo_pixbuf ( 
+                        gsb_select_icon_get_default_logo_pixbuf ( ) );
 
     /* and now, launch the next assistant */
     if (launch_account_assistant)
@@ -335,7 +341,6 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     textview = gsb_automem_textview_new ( &adresse_commune, NULL, NULL );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 			textview );
-
 
     gtk_widget_show_all (page);
     return page;
