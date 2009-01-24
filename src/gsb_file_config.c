@@ -1340,6 +1340,10 @@ gchar *gsb_config_get_old_conf_name ( void )
     }
     else
         dialogue_error ( error -> message );
+
+    if ( g_slist_length ( liste ) == 0 )
+        return NULL;
+
     if ( g_slist_length ( liste ) == 1 )
         return g_strconcat ( my_get_grisbirc_dir ( ),
                             G_DIR_SEPARATOR_S,
