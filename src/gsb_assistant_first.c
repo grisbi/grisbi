@@ -36,6 +36,7 @@
 #include "./parametres.h"
 #include "./gsb_file.h"
 #include "./traitement_variables.h"
+#include "./utils_files.h"
 #include "./utils.h"
 #include "./structures.h"
 #include "./include.h"
@@ -88,6 +89,11 @@ GtkResponseType gsb_assistant_first_run ( void )
 
     /* set up all the default variables */
     init_variables ();
+
+    /* set up the XDG Environment variables for linux*/
+    #ifndef _WIN32
+        utils_files_create_XDG_dir ( );
+    #endif
 
     /* now we launch the assistant */
     return_value = gsb_assistant_run (assistant);
@@ -171,6 +177,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     GtkSizeGroup *size_group;
     gchar *text;
     GtkWidget *hbox;
+    GtkWidget *dialog;
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page),
@@ -268,12 +275,15 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0);
 
-    button = gtk_file_chooser_button_new (_("Select/Create backup directory"),
-					  GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER );
+    dialog = utils_files_create_file_chooser ( window,
+                        _("Select/Create backup directory") );
+    button = gtk_file_chooser_button_new_with_dialog (dialog);
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (button),
+                        my_get_XDG_grisbi_data_dir () );
     g_signal_connect ( G_OBJECT (button),
-		       "current-folder-changed",
-		       G_CALLBACK (gsb_config_backup_dir_chosen),
-		       NULL );
+                        "selection-changed",
+                        G_CALLBACK (gsb_config_backup_dir_chosen),
+                        NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button,
 			 FALSE, TRUE, 0);
 

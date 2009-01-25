@@ -319,7 +319,7 @@ GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon )
 void gsb_select_icon_create_file_chooser ( GtkWidget * button, 
                                            gpointer user_data )
 {
-    GtkWidget * chooser;
+    GtkWidget *chooser;
     GtkFileFilter *filter;
     
     chooser = gtk_file_chooser_dialog_new ( _("Select icon directory"),

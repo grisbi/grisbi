@@ -6701,7 +6701,7 @@ msgstr "Sélectionner les comptes bancaires"
 
 #: src/gsb_file.c:379 src/gsb_file.c:390 src/gsb_file_load.c:248
 #: src/gsb_file_load.c:262 src/gsb_file_load.c:360
-#, fuzzy, c-format
+#, c-format
 msgid "Error loading file '%s'"
 msgstr "Erreur lors de l'ouverture du fichier « %s »."
 
@@ -6714,6 +6714,10 @@ msgid ""
 "Please contact the Grisbi's team on devel@listes.grisbi.org to find what "
 "happened to you current file."
 msgstr ""
+"Grisbi ne peut pas ouvrir le fichier. Vous pourrez trouver les dernières "
+"sauvegardes datées dans  « %s » ce qui vous donnera facilement la dernière.\n"
+"Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour "
+"leur expliquer ce qui s'est passé."
 
 #: src/gsb_file.c:394
 #, c-format

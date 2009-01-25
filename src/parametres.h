@@ -33,7 +33,7 @@ enum preference_page  {
 
 /*START_DECLARATION*/
 gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
-					gpointer null );
+					GtkWidget *dialog );
 gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data );
 gboolean gsb_preferences_menu_open ( GtkWidget *menu_item,
 				     gpointer page_ptr );

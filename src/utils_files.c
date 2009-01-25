@@ -40,17 +40,13 @@
 
 /*START_STATIC*/
 static void browse_file ( GtkButton *button, gpointer data );
-static gchar *utils_files_create_backup_name ( const gchar *filename );
+static void utils_files_file_chooser_cancel ( GtkWidget *bouton, GtkWidget *chooser);
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
 extern GtkWidget *window ;
 /*END_EXTERN*/
-
-
-
-
 
 
 /**
@@ -305,6 +301,81 @@ gchar * safe_file_name ( gchar* filename )
     return g_strdelimit ( my_strdup(filename), G_DIR_SEPARATOR_S, '_' );
 }
 
+
+/** 
+ * \brief pallie à un bug du gtk_file_chooser_button_new
+ *
+ * \param widget parent et titre de la femnêtre
+ *
+ * \return chooser
+ */
+GtkWidget *utils_files_create_file_chooser ( GtkWidget *parent, gchar * titre )
+{
+    GtkWidget *chooser;
+    GtkWidget *bouton_cancel, *bouton_OK;
+    
+    chooser = gtk_file_chooser_dialog_new ( titre,
+                        GTK_WINDOW (parent),
+                        GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+                        NULL, NULL, NULL );
+
+    bouton_cancel = gtk_dialog_add_button (GTK_DIALOG ( chooser ),
+                                GTK_STOCK_CANCEL,
+                                GTK_RESPONSE_CANCEL);
+    g_signal_connect ( G_OBJECT (bouton_cancel),
+		       "clicked",
+		       G_CALLBACK (utils_files_file_chooser_cancel),
+		       chooser );
+
+    bouton_OK = gtk_dialog_add_button (GTK_DIALOG ( chooser ),
+                                GTK_STOCK_OPEN,
+                                GTK_RESPONSE_ACCEPT);
+
+	gtk_window_set_position ( GTK_WINDOW (chooser), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_transient_for (GTK_WINDOW (chooser), GTK_WINDOW (parent));
+    gtk_widget_set_size_request ( chooser, 600, 750 );
+
+    return  chooser;
+}
+
+
+/** 
+ * \brief permet de pallier au bug de l'annulation du 
+ * gtk_file_chooser_button_new
+ *
+ * \param bouton appellant et chooser
+ */
+void utils_files_file_chooser_cancel ( GtkWidget *bouton, GtkWidget *chooser)
+{
+    gchar *path;
+
+    path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (chooser));
+    devel_debug ( path);
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (chooser), path );
+    if (path && strlen (path) > 0)
+        g_free (path);
+}
+
+
+/** 
+ * \brief create the config and the data directories
+ * using the mechanisms described in the XDG Base Directory Specification
+ *
+ * \param 
+ *
+ * \return TRUE if ok
+ */
+gboolean utils_files_create_XDG_dir (void)
+{
+    if ( g_mkdir_with_parents ( C_PATH_CONFIG, 450 ) == 0 &&
+         g_mkdir_with_parents ( C_PATH_DATA_FILES, 450 ) == 0 )
+        return TRUE;
+    else
+        return FALSE;
+}
+
+
+/* comment by pbiava 24/01/2009 */
 /**
  * create a full path backup name from the filename
  * using the backup repertory and add the date and .bak
@@ -313,63 +384,64 @@ gchar * safe_file_name ( gchar* filename )
  *
  * \return a newly allocated string
  * */
-gchar *utils_files_create_backup_name ( const gchar *filename )
-{
-    gchar *string;
-    gchar *tmp_name;
-    GDate *today;
-    gchar **split;
-    gchar *inserted_string;
+//~ gchar *utils_files_create_backup_name ( const gchar *filename )
+//~ {
+    //~ gchar *string;
+    //~ gchar *tmp_name;
+    //~ GDate *today;
+    //~ gchar **split;
+    //~ gchar *inserted_string;
 
-    /* get the filename */
-    tmp_name = g_path_get_basename (filename);
+    //~ /* get the filename */
+    //~ tmp_name = g_path_get_basename (filename);
 
-    /* create the string to insert into the backup name */
-    today = gdate_today ();
-    inserted_string = g_strdup_printf ( "-%d_%d_%d-backup",
-					g_date_year (today),
-					g_date_month (today),
-					g_date_day (today));
-    g_date_free (today);
+    //~ /* create the string to insert into the backup name */
+    //~ today = gdate_today ();
+    //~ inserted_string = g_strdup_printf ( "-%d_%d_%d-backup",
+					//~ g_date_year (today),
+					//~ g_date_month (today),
+					//~ g_date_day (today));
+    //~ g_date_free (today);
 
-    /* insert the date and backup before .gsb if it exists */
-    split = g_strsplit ( tmp_name,
-			 ".",
-			 0 );
-    g_free (tmp_name);
+    //~ /* insert the date and backup before .gsb if it exists */
+    //~ split = g_strsplit ( tmp_name,
+			 //~ ".",
+			 //~ 0 );
+    //~ g_free (tmp_name);
 
-    if (split[1])
-    {
-	/* have extension */
-	gchar *tmpstr, *tmp_end;
+    //~ if (split[1])
+    //~ {
+	//~ /* have extension */
+	//~ gchar *tmpstr, *tmp_end;
 
-	tmp_end = g_strconcat ( inserted_string,
-				".",
-				split[g_strv_length (split) - 1],
-				NULL );
-	split[g_strv_length (split) - 1] = NULL;
+	//~ tmp_end = g_strconcat ( inserted_string,
+				//~ ".",
+				//~ split[g_strv_length (split) - 1],
+				//~ NULL );
+	//~ split[g_strv_length (split) - 1] = NULL;
 
-	tmpstr = g_strjoinv ( ".",
-			      split );
-	tmp_name = g_strconcat ( tmpstr,
-				 tmp_end,
-				 NULL );
-	g_free (tmpstr);
-	g_free (tmp_end);
-    }
-    else
-	tmp_name = g_strconcat ( split[0],
-				 inserted_string,
-				 NULL );
+	//~ tmpstr = g_strjoinv ( ".",
+			      //~ split );
+	//~ tmp_name = g_strconcat ( tmpstr,
+				 //~ tmp_end,
+				 //~ NULL );
+	//~ g_free (tmpstr);
+	//~ g_free (tmp_end);
+    //~ }
+    //~ else
+	//~ tmp_name = g_strconcat ( split[0],
+				 //~ inserted_string,
+				 //~ NULL );
 
-    g_strfreev (split);
+    //~ g_strfreev (split);
 
-    string = g_build_filename ( gsb_file_get_backup_path (),
-				tmp_name,
-				NULL );
-    g_free (tmp_name);
-    return string;
-}
+    //~ string = g_build_filename ( gsb_file_get_backup_path (),
+				//~ tmp_name,
+				//~ NULL );
+    //~ g_free (tmp_name);
+    //~ return string;
+//~ }
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

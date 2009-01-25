@@ -46,6 +46,7 @@
 #include "./gsb_reconcile_config.h"
 #include "./gsb_reconcile_sort_config.h"
 #include "./traitement_variables.h"
+#include "./utils_files.h"
 #include "./affichage_liste.h"
 #include "./affichage.h"
 #include "./import.h"
@@ -649,6 +650,7 @@ GtkWidget *onglet_fichier ( void )
     GtkWidget *hbox;
     GtkWidget *label;
     GtkWidget *button;
+    GtkWidget *dialog;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Files"),
 					       "files.png" );
@@ -765,15 +767,22 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0);
 
-    button = gtk_file_chooser_button_new (_("Select/Create backup directory"),
-					  GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER );
+    /* on passe par une fonction intermédiaire pour pallier à un bug
+     * du gtk_file_chooser_button_new qui donne le répertoire home
+     * lorsque l'on annule le choix du nouveau répertoire */
+    dialog = utils_files_create_file_chooser ( window,
+                        _("Select/Create backup directory") );
+    button = gtk_file_chooser_button_new_with_dialog (dialog);
     if (gsb_file_get_backup_path ())
-	gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (button),
-					      gsb_file_get_backup_path ());
+        gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (button),
+                        gsb_file_get_backup_path ());
+    else
+        gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (button),
+                        my_get_XDG_grisbi_data_dir () );
     g_signal_connect ( G_OBJECT (button),
-		       "current-folder-changed",
-		       G_CALLBACK (gsb_config_backup_dir_chosen),
-		       NULL );
+		       "selection-changed",
+		       G_CALLBACK ( gsb_config_backup_dir_chosen ),
+		       dialog );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button,
 			 FALSE, TRUE, 0);
 
@@ -816,14 +825,15 @@ gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data )
  * \return FALSE
  * */
 gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
-					gpointer null )
+					GtkWidget *dialog )
 {
     gchar *path;
 
     path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (button));
+    devel_debug ( path);
     gsb_file_set_backup_path (path);
-    if (path)
-	g_free (path);
+    if (path && strlen (path) > 0)
+        g_free (path);
 
     modification_fichier (TRUE);
 

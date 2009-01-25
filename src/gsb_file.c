@@ -595,7 +595,7 @@ gboolean gsb_file_save_backup ( void )
      * filename-yyyy-mm-dd_mm:hh:ss */
     time ( &temps );
     day_time = localtime (&temps);
-    filename = g_strdup_printf ( "%s/%s_%d-%02d-%d_%d:%d:%d",
+    filename = g_strdup_printf ( "%s/%s_%d-%02d-%02d_%02d:%02d:%02d",
 				 gsb_file_get_backup_path (),
 				 name,
 				 day_time -> tm_year + 1900, day_time -> tm_mon + 1, day_time -> tm_mday,

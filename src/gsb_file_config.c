@@ -48,7 +48,6 @@
 /*START_STATIC*/
 static gchar *gsb_config_get_old_conf_name ( void );
 static void gsb_file_config_clean_config ( void );
-static gboolean gsb_file_config_create_config_rep ( void );
 static void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 					     const gchar *text,
 					     gsize text_len,  
@@ -716,11 +715,13 @@ gboolean gsb_file_config_save_config ( void )
     conf_file = fopen ( filename,
 			  "w" );
 
+    #ifndef _WIN32
     if ( !conf_file )
     {
-        gsb_file_config_create_config_rep ( );
+        utils_files_create_XDG_dir ( );
         conf_file = fopen ( filename, "w" );
     }
+    #endif
 
     if ( !conf_file
 	 ||
@@ -1173,7 +1174,7 @@ void gsb_file_config_clean_config ( void )
     
     etat.force_enregistrement = 1;     /* par défaut, on force l'enregistrement */
     gsb_file_update_last_path (g_get_home_dir ());
-    gsb_file_set_backup_path (g_get_home_dir ());
+    gsb_file_set_backup_path (my_get_XDG_grisbi_data_dir ());
     etat.make_backup = 1;       /* on force aussi le backup pbiava le 24/01/2009*/
     etat.make_backup_every_minutes = FALSE;
     etat.make_backup_nb_minutes = 0;
@@ -1240,23 +1241,6 @@ void gsb_file_config_clean_config ( void )
     memset ( etat.csv_skipped_lines, '\0', sizeof(gboolean) * CSV_MAX_TOP_LINES );
 }
 
-
-/**
- * create the config repertory 
- * using the mechanisms described in the XDG Base Directory Specification
- *
- * \param
- *
- * \return TRUE if ok
- * */
-gboolean gsb_file_config_create_config_rep ( void )
-{
-    /* permissions = 450 trouvé au pif */
-    if ( g_mkdir_with_parents ( C_PATH_CONFIG, 450 ) == 0 )
-        return TRUE;
-    else
-        return FALSE;
-}
 
 static void gsb_file_config_remove_old_config_file ( gchar *filename )
 {
