@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-21 22:35+0100\n"
+"POT-Creation-Date: 2009-01-25 18:52+0100\n"
 "PO-Revision-Date: 2008-12-15 22:09+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -22,87 +22,87 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: french\n"
 
-#: src/accueil.c:191
+#: src/accueil.c:196
 msgid "Closed liabilities accounts"
 msgstr "Comptes passifs terminés"
 
-#: src/accueil.c:204
+#: src/accueil.c:209
 msgid "Run out manual scheduled transactions"
 msgstr "Exécuter l'opération planifiée"
 
-#: src/accueil.c:220
+#: src/accueil.c:225
 msgid "Automatic scheduled transactions entered"
 msgstr "Opérations planifiées automatiques saisies"
 
-#: src/accueil.c:231
+#: src/accueil.c:236
 msgid "Closed scheduled transactions"
 msgstr "Opérations planifiées terminées"
 
-#: src/accueil.c:242
+#: src/accueil.c:247
 msgid "Accounts under authorized balance"
 msgstr "Comptes sous le solde autorisé"
 
-#: src/accueil.c:253
+#: src/accueil.c:258
 msgid "Accounts under desired balance"
 msgstr "Comptes sous le solde minimum voulu"
 
 #. crÃ©e la boite de dialogue
-#: src/accueil.c:300
+#: src/accueil.c:305
 msgid "Enter a scheduled transaction"
 msgstr "Saisir une opération planifiée"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
-#: src/accueil.c:452
+#: src/accueil.c:457
 #, c-format
 msgid "Account balances in %s"
 msgstr "Solde des comptes en %s"
 
-#: src/accueil.c:464 src/accueil.c:714 src/accueil.c:975
+#: src/accueil.c:469 src/accueil.c:719 src/accueil.c:980
 msgid "Reconciled balance"
 msgstr "Solde pointé"
 
-#: src/accueil.c:468 src/accueil.c:718 src/accueil.c:979
+#: src/accueil.c:473 src/accueil.c:723 src/accueil.c:984
 msgid "Current balance"
 msgstr "Solde courant"
 
 #. CrÃ©ation et remplissage de la (nb_comptes + 3)iÃ¨me ligne du tableau :
 #. elle contient la somme des soldes de chaque compte
 #. PremiÃ¨re colonne
-#: src/accueil.c:640 src/accueil.c:894 src/accueil.c:1151
+#: src/accueil.c:645 src/accueil.c:899 src/accueil.c:1156
 msgid "Global balances"
 msgstr "Soldes finaux"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
-#: src/accueil.c:702
+#: src/accueil.c:707
 #, c-format
 msgid "Liabilities accounts balances in %s"
 msgstr "Solde des comptes de passif en %s"
 
 #. CrÃ©ation du tableau dans lequel seront stockÃ©s les comptes avec leur
 #. solde.
-#: src/accueil.c:963
+#: src/accueil.c:968
 #, c-format
 msgid "Assets accounts balances in %s"
 msgstr "Solde des comptes d'actif en %s"
 
-#: src/accueil.c:1311 src/accueil.c:1432 src/accueil.c:1888
+#: src/accueil.c:1316 src/accueil.c:1437 src/accueil.c:1893
 #, c-format
 msgid "%s credited on %s"
 msgstr "Crédit de %s sur %s"
 
-#: src/accueil.c:1321 src/accueil.c:1442 src/accueil.c:1897
+#: src/accueil.c:1326 src/accueil.c:1447 src/accueil.c:1902
 #, c-format
 msgid "%s debited on %s"
 msgstr "Débit de %s sur %s"
 
-#: src/accueil.c:1663
+#: src/accueil.c:1668
 #, c-format
 msgid "balance of account %s is under desired and authorised minima!"
 msgstr "le compte %s est passé sous les seuils minimums autorisés et voulus !"
 
-#: src/accueil.c:1667
+#: src/accueil.c:1672
 msgid ""
 "accounts with the balance under desired and authorised minimal :\n"
 "\n"
@@ -110,12 +110,12 @@ msgstr ""
 "compte dont le solde est sous les seuils minimums autorisés et voulus :\n"
 "\n"
 
-#: src/accueil.c:1696
+#: src/accueil.c:1701
 #, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr "le compte %s est passé sous le seuil minimum autorisé !"
 
-#: src/accueil.c:1706
+#: src/accueil.c:1711
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
@@ -123,12 +123,12 @@ msgstr ""
 "comptes dont le solde est passé sous seuil minimum autorisé :\n"
 "\n"
 
-#: src/accueil.c:1738
+#: src/accueil.c:1743
 #, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr "le compte %s est passé sous le seuil minimum voulu !"
 
-#: src/accueil.c:1748
+#: src/accueil.c:1753
 msgid ""
 "accounts with the balance under desired minimal :\n"
 "\n"
@@ -136,136 +136,136 @@ msgstr ""
 "comptes dont le solde est sous le seuil minimum voulu :\n"
 "\n"
 
-#: src/affichage.c:121 src/parametres.c:313
+#: src/affichage.c:122 src/parametres.c:314
 msgid "Fonts & logo"
 msgstr "Polices et logo"
 
 #. Change Grisbi Logo
-#: src/affichage.c:124
+#: src/affichage.c:125
 msgid "Grisbi logo"
 msgstr "Logo de Grisbi"
 
-#: src/affichage.c:129
+#: src/affichage.c:130
 msgid "Display a logo"
 msgstr "Afficher un logo"
 
-#: src/affichage.c:180
+#: src/affichage.c:181
 msgid "Click on preview to change logo"
 msgstr "Cliquer sur la prévisualisation pour modifier le logo"
 
 #. Change fonts
-#: src/affichage.c:184 src/print_report.c:105 src/print_report.c:405
+#: src/affichage.c:185 src/print_report.c:105 src/print_report.c:405
 #: src/print_transactions_list.c:260
 msgid "Fonts"
 msgstr "Polices"
 
-#: src/affichage.c:189
+#: src/affichage.c:190
 msgid "Use a custom font for the transactions"
 msgstr "Choisir une police pour les opérations"
 
 #. change colors
-#: src/affichage.c:214
+#: src/affichage.c:215
 msgid "Colors"
 msgstr "Couleurs"
 
-#: src/affichage.c:225
+#: src/affichage.c:226
 msgid "Choosing color"
 msgstr "Choisissez une couleur"
 
-#: src/affichage.c:240
+#: src/affichage.c:241
 msgid "Back to default"
 msgstr "Restaurer les réglages par défaut"
 
-#: src/affichage.c:345 src/parametres.c:331
+#: src/affichage.c:347 src/parametres.c:332
 msgid "Addresses & titles"
 msgstr "Adresses et titres"
 
-#: src/affichage.c:350 src/etats_config.c:626 src/etats_config.c:629
+#: src/affichage.c:352 src/etats_config.c:626 src/etats_config.c:629
 #: src/etats_config.c:7155
 msgid "Titles"
 msgstr "Titres"
 
 #. label account name
-#: src/affichage.c:355 src/gsb_assistant_file.c:277
+#: src/affichage.c:357 src/gsb_assistant_file.c:283
 msgid "Accounts file title"
 msgstr "Titre du fichier de comptes"
 
-#: src/affichage.c:366
+#: src/affichage.c:368
 msgid "Addresses"
 msgstr "Adresses"
 
 #. Common address
-#: src/affichage.c:369
+#: src/affichage.c:371
 msgid "Common address"
 msgstr "Adresse commune"
 
 #. Secondary address
 #. * \note This is not implemented yet
-#: src/affichage.c:388
+#: src/affichage.c:390
 msgid "Secondary address"
 msgstr "Adresse secondaire"
 
-#: src/affichage.c:500
+#: src/affichage.c:490
 msgid "Select a new logo"
 msgstr "Sélectionner un nouveau logo"
 
-#: src/affichage.c:630 src/parametres.c:349
+#: src/affichage.c:621 src/parametres.c:350
 msgid "Toolbars"
 msgstr "Barres d'outils"
 
-#: src/affichage.c:633
+#: src/affichage.c:624
 msgid "Display toolbar buttons as"
 msgstr "Afficher les boutons de barres d'outils avec"
 
-#: src/affichage.c:635
+#: src/affichage.c:626
 msgid "Text"
 msgstr "Du texte"
 
-#: src/affichage.c:644
+#: src/affichage.c:635
 msgid "Icons"
 msgstr "Des icônes"
 
-#: src/affichage.c:653
+#: src/affichage.c:644
 msgid "Both"
 msgstr "Les deux"
 
-#: src/affichage.c:675
+#: src/affichage.c:666
 msgid "Display headings bar"
 msgstr "Afficher la barre d'informations"
 
-#: src/affichage.c:704
+#: src/affichage.c:695
 msgid "Transaction list background 1"
 msgstr "Couleur de fond 1 de la liste des opérations"
 
-#: src/affichage.c:705
+#: src/affichage.c:696
 msgid "Transaction list background 2"
 msgstr "Couleur de fond 2 de la liste des opérations"
 
-#: src/affichage.c:706
+#: src/affichage.c:697
 msgid "Color of transaction's text"
 msgstr "Couleur du texte des opérations"
 
-#: src/affichage.c:707
+#: src/affichage.c:698
 msgid "Text of unfinished splitted transaction"
 msgstr "Couleur d'une transaction ventilée non terminée"
 
-#: src/affichage.c:708
+#: src/affichage.c:699
 msgid "Children of splitted transaction"
 msgstr "Couleur d'une sous-opération"
 
-#: src/affichage.c:709
+#: src/affichage.c:700
 msgid "Selection color"
 msgstr "Couleur d'une sélection"
 
-#: src/affichage.c:710
+#: src/affichage.c:701
 msgid "Background of non selectable scheduled transactions"
 msgstr "Couleur de fond d'une opération planifiée non sélectionnable"
 
-#: src/affichage.c:711
+#: src/affichage.c:702
 msgid "Archive color"
 msgstr "Couleur de fond de la ligne archive"
 
-#: src/affichage.c:712
+#: src/affichage.c:703
 msgid "Background of invalid date entry"
 msgstr "Couleur de fond d'une zone de saisie d'une date invalide"
 
@@ -728,7 +728,7 @@ msgid "Create a new sub-category"
 msgstr "Créer une nouvelle sous-catégorie"
 
 #: src/categories_onglet.c:479 src/etats_onglet.c:130 src/import.c:349
-#: src/import.c:3077 src/imputation_budgetaire.c:510 src/parametres.c:286
+#: src/import.c:3077 src/imputation_budgetaire.c:510 src/parametres.c:287
 msgid "Import"
 msgstr "Importer"
 
@@ -1430,7 +1430,7 @@ msgstr "Remarques"
 #. Now we have a model, create view
 #: src/etats_affiche.c:2447 src/etats_config.c:564 src/etats_config.c:567
 #: src/etats_config.c:7415 src/gsb_payment_method_config.c:117
-#: src/parametres.c:485
+#: src/parametres.c:486
 msgid "Payment methods"
 msgstr "Modes de règlements"
 
@@ -1612,12 +1612,12 @@ msgid "Generalities"
 msgstr "Généralités"
 
 #: src/etats_config.c:635 src/etats_config.c:638 src/export_csv.c:738
-#: src/fenetre_principale.c:248 src/parametres.c:359
+#: src/fenetre_principale.c:248 src/parametres.c:360
 msgid "Transactions"
 msgstr "Opérations"
 
 #: src/etats_config.c:644 src/etats_config.c:647 src/gsb_currency_config.c:293
-#: src/parametres.c:449
+#: src/parametres.c:450
 msgid "Currencies"
 msgstr "Devises"
 
@@ -2227,7 +2227,7 @@ msgstr "Opérations clickables"
 msgid "Make transactions clickable"
 msgstr "Rendre les opérations interactives"
 
-#: src/etats_config.c:6985 src/gsb_currency_config.c:794 src/parametres.c:340
+#: src/etats_config.c:6985 src/gsb_currency_config.c:794 src/parametres.c:341
 msgid "Totals currencies"
 msgstr "Devises des totaux"
 
@@ -2818,8 +2818,8 @@ msgstr "N° de rapprochement"
 msgid "Main page"
 msgstr "Accueil"
 
-#: src/fenetre_principale.c:261 src/navigation.c:270 src/parametres.c:440
-#: src/parametres.c:923
+#: src/fenetre_principale.c:261 src/navigation.c:270 src/parametres.c:441
+#: src/parametres.c:933
 msgid "Scheduler"
 msgstr "Échéancier"
 
@@ -3599,7 +3599,7 @@ msgid "Change the transactions currency"
 msgstr "Transférer les opérations sur le tiers"
 
 #. create the page
-#: src/gsb_archive_config.c:111 src/parametres.c:277
+#: src/gsb_archive_config.c:111 src/parametres.c:278
 msgid "Archives"
 msgstr "Archives"
 
@@ -4093,11 +4093,11 @@ msgid "%s (%d of %d)"
 msgstr "%s (%d de %d)"
 
 #. create the assistant
-#: src/gsb_assistant_file.c:115 src/gsb_assistant_first.c:75
+#: src/gsb_assistant_file.c:116 src/gsb_assistant_first.c:76
 msgid "Welcome to Grisbi!"
 msgstr "Bienvenue dans Grisbi"
 
-#: src/gsb_assistant_file.c:116
+#: src/gsb_assistant_file.c:117
 msgid ""
 "General configuration of Grisbi is done.\n"
 "\n"
@@ -4119,11 +4119,11 @@ msgstr ""
 "Une fois le fichier créé, vous devrez créer un nouveau compte ou importer "
 "des données précédentes"
 
-#: src/gsb_assistant_file.c:126
+#: src/gsb_assistant_file.c:127
 msgid "New file Assistant to import"
 msgstr "Aide à l'importation de fichiers"
 
-#: src/gsb_assistant_file.c:127
+#: src/gsb_assistant_file.c:128
 msgid ""
 "Before importing files, you need to create a new file and fill some default "
 "values as created a new currency.\n"
@@ -4146,11 +4146,11 @@ msgstr ""
 "précédentes, i.e. de votre précédent logiciel de comptabilité ou du site "
 "internet de votre banque."
 
-#: src/gsb_assistant_file.c:138
+#: src/gsb_assistant_file.c:139
 msgid "New file Assistant"
 msgstr "Aide à la création d'un nouveau fichier de compte"
 
-#: src/gsb_assistant_file.c:139
+#: src/gsb_assistant_file.c:140
 msgid ""
 "This assistant will help you to create a new account file.\n"
 "\n"
@@ -4166,45 +4166,45 @@ msgstr ""
 "du compte.\n"
 " "
 
-#: src/gsb_assistant_file.c:261
+#: src/gsb_assistant_file.c:267
 msgid "General configuration"
 msgstr "Configuration générale"
 
 #. Account file title
-#: src/gsb_assistant_file.c:273
+#: src/gsb_assistant_file.c:279
 msgid "Titles and filenames"
 msgstr "Titres et noms des fichiers"
 
 #. filename
-#: src/gsb_assistant_file.c:299
+#: src/gsb_assistant_file.c:305
 msgid "Filename"
 msgstr "Nom du fichier"
 
 #. will we crypt the file ?
 #. crypt the grisbi file
-#: src/gsb_assistant_file.c:317 src/gsb_assistant_first.c:229
-#: src/parametres.c:684
+#: src/gsb_assistant_file.c:323 src/gsb_assistant_first.c:236
+#: src/parametres.c:686
 msgid "Encrypt Grisbi file"
 msgstr "Chiffrer le fichier Grisbi"
 
-#: src/gsb_assistant_file.c:324
+#: src/gsb_assistant_file.c:330
 msgid "Your address"
 msgstr "Adresse générale"
 
-#: src/gsb_assistant_file.c:361
+#: src/gsb_assistant_file.c:366
 msgid "Select base currency"
 msgstr "Sélection de la devise de base"
 
-#: src/gsb_assistant_file.c:400
+#: src/gsb_assistant_file.c:405
 msgid "Select the list of categories you will use"
 msgstr "Sélection des catégories à utiliser"
 
-#: src/gsb_assistant_file.c:463
+#: src/gsb_assistant_file.c:468
 msgid "Configuration finished !"
 msgstr "Configuration terminée !"
 
 #. set up the menu
-#: src/gsb_assistant_file.c:470
+#: src/gsb_assistant_file.c:475
 msgid ""
 "Default values are now configured for your account file. Next assistant will "
 "help you creating a new account.\n"
@@ -4223,26 +4223,26 @@ msgstr ""
 "Selectionnez la façon de créer votre compte puis appuyez sur le bouton "
 "Fermer."
 
-#: src/gsb_assistant_file.c:481
+#: src/gsb_assistant_file.c:486
 msgid "Create a new account from scratch"
 msgstr "Créer un nouveau compte vide"
 
-#: src/gsb_assistant_file.c:487
+#: src/gsb_assistant_file.c:492
 msgid "Import data from online bank services or from accounting software"
 msgstr ""
 "A partir de données provenant d'un fichier bancaire ou d'un autre logiciel."
 
-#: src/gsb_assistant_file.c:559 src/navigation.c:1137
+#: src/gsb_assistant_file.c:564 src/navigation.c:1137
 #: src/traitement_variables.c:284
 msgid "My accounts"
 msgstr "Mes comptes"
 
-#: src/gsb_assistant_file.c:586
+#: src/gsb_assistant_file.c:591
 #, fuzzy
 msgid "Create filename"
 msgstr "Créer le nom de fichier"
 
-#: src/gsb_assistant_first.c:76
+#: src/gsb_assistant_first.c:77
 msgid ""
 "This is the first time you use Grisbi, this assistant will guide you through "
 "the configuration process. You can change any option later in the "
@@ -4258,11 +4258,11 @@ msgstr ""
 "Merci d'utiliser Grisbi et amusez-vous bien avec !"
 
 #. create the assistant
-#: src/gsb_assistant_first.c:125
+#: src/gsb_assistant_first.c:131
 msgid "Welcome to Grisbi 0.6!"
 msgstr "Bienvenue dans Grisbi 0.6"
 
-#: src/gsb_assistant_first.c:126
+#: src/gsb_assistant_first.c:132
 msgid ""
 "You are using Grisbi 0.6 for the first time.  While most of the interface "
 "has not changed, you will notice a lot of improvements. Do not hesitate to "
@@ -4288,58 +4288,58 @@ msgstr ""
 "\n"
 "Vous pouvez découvrir d'autres améliorations sur http: // www.grisbi.org/."
 
-#: src/gsb_assistant_first.c:181
+#: src/gsb_assistant_first.c:188
 msgid "General configuration of Grisbi"
 msgstr "Généralités"
 
 #. configure the browser
-#: src/gsb_assistant_first.c:188 src/parametres.c:848
+#: src/gsb_assistant_first.c:195 src/parametres.c:858
 msgid "Web"
 msgstr "Web"
 
-#: src/gsb_assistant_first.c:195 src/parametres.c:855
+#: src/gsb_assistant_first.c:202 src/parametres.c:865
 msgid "Web browser command"
 msgstr "Navigateur Web"
 
-#: src/gsb_assistant_first.c:204 src/parametres.c:864
+#: src/gsb_assistant_first.c:211 src/parametres.c:874
 #, c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr ""
 "En cas de non fonctionnement vous pouvez essayer de mettre %s\n"
 "Exemple : 'firefox -remote %s'"
 
-#: src/gsb_assistant_first.c:214 src/parametres.c:658
+#: src/gsb_assistant_first.c:221 src/parametres.c:660
 msgid "Account files handling"
 msgstr "Gestion des fichiers de comptes"
 
 #. Automatically load last file on startup?
-#: src/gsb_assistant_first.c:217 src/parametres.c:661
+#: src/gsb_assistant_first.c:224 src/parametres.c:663
 msgid "Automatically load last file on startup"
 msgstr "Chargement automatique du dernier fichier consulté"
 
 #. automatically save file at closing
-#: src/gsb_assistant_first.c:223 src/parametres.c:668
+#: src/gsb_assistant_first.c:230 src/parametres.c:670
 msgid "Automatically save on exit"
 msgstr "Enregistrer automatiquement en fermant"
 
 #. Automatic backup ?
-#: src/gsb_assistant_first.c:237 src/parametres.c:734
+#: src/gsb_assistant_first.c:244 src/parametres.c:736
 msgid "Make a backup copy before saving files"
 msgstr "Effectuer une copie de sauvegarde avant d'enregistrer les fichiers"
 
-#: src/gsb_assistant_first.c:247 src/parametres.c:744
+#: src/gsb_assistant_first.c:254 src/parametres.c:746
 msgid "Make a backup copy every "
 msgstr "Effectuer une copie de sauvegarde toutes les "
 
-#: src/gsb_assistant_first.c:258 src/parametres.c:755
+#: src/gsb_assistant_first.c:265 src/parametres.c:757
 msgid " minutes"
 msgstr " minutes"
 
-#: src/gsb_assistant_first.c:267 src/parametres.c:764
+#: src/gsb_assistant_first.c:274 src/parametres.c:766
 msgid "Backup directory"
 msgstr "Répertoire de sauvegarde"
 
-#: src/gsb_assistant_first.c:271 src/parametres.c:768
+#: src/gsb_assistant_first.c:279 src/parametres.c:774
 msgid "Select/Create backup directory"
 msgstr "Sélectionner/Créer un répertoire de sauvegarde"
 
@@ -4612,7 +4612,7 @@ msgstr "Ajouter une nouvelle banque"
 msgid "Contact name"
 msgstr "Correspondant"
 
-#: src/gsb_bank.c:513 src/parametres.c:467
+#: src/gsb_bank.c:513 src/parametres.c:468
 msgid "Banks"
 msgstr "Banques"
 
@@ -6716,8 +6716,8 @@ msgid ""
 msgstr ""
 "Grisbi ne peut pas ouvrir le fichier. Vous pourrez trouver les dernières "
 "sauvegardes datées dans  « %s » ce qui vous donnera facilement la dernière.\n"
-"Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour "
-"leur expliquer ce qui s'est passé."
+"Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
+"expliquer ce qui s'est passé."
 
 #: src/gsb_file.c:394
 #, c-format
@@ -6760,7 +6760,7 @@ msgstr ""
 "configuration. Alternativement, choisissez l'option « %s » ci dessous."
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:525 src/gsb_file.c:754 src/parametres.c:676
+#: src/gsb_file.c:525 src/gsb_file.c:754 src/parametres.c:678
 msgid "Force saving of locked files"
 msgstr "Forcer l'enregistrement des fichiers verrouillés"
 
@@ -6828,8 +6828,8 @@ msgstr "%d mois"
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr ""
-"Si vous fermez sans sauvegarder votre fichier, toutes vos modifications seront "
-"ignorées."
+"Si vous fermez sans sauvegarder votre fichier, toutes vos modifications "
+"seront ignorées."
 
 #: src/gsb_file.c:825
 msgid "Name the accounts file"
@@ -6839,12 +6839,12 @@ msgstr "Création d'un nom de fichier de comptes"
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: src/gsb_file_config.c:732
+#: src/gsb_file_config.c:735
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Impossible d'enregistrer le fichier de configuration « %s » : %s"
 
-#: src/gsb_file_config.c:772
+#: src/gsb_file_config.c:775
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -6853,20 +6853,20 @@ msgstr ""
 "%s ne semble pas être un fichier de configuration,\n"
 "veuillez vérifier et réessayer."
 
-#: src/gsb_file_config.c:809
+#: src/gsb_file_config.c:812
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "Impossible d'ouvrir le fichier de configuration « %s » : %s"
 
-#: src/gsb_file_config.c:1235 src/print_config.c:51
+#: src/gsb_file_config.c:1238 src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: src/gsb_file_config.c:1270
+#: src/gsb_file_config.c:1256
 msgid "Delete an old config file"
 msgstr "Supprimer l'ancien fichier de configuration"
 
-#: src/gsb_file_config.c:1290
+#: src/gsb_file_config.c:1276
 msgid ""
 "Careful, you are about to deleting the file\n"
 "of configuration of an old version of Grisbi.\n"
@@ -6878,12 +6878,12 @@ msgstr ""
 "\n"
 "<b>Voulez-vous continuer ?</b>"
 
-#: src/gsb_file_config.c:1349
+#: src/gsb_file_config.c:1339
 #, fuzzy
 msgid "Choose a file"
 msgstr "Choisir un fichier"
 
-#: src/gsb_file_config.c:1372
+#: src/gsb_file_config.c:1362
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -6914,7 +6914,7 @@ msgstr ""
 "%s ne semble pas être un fichier normal,\n"
 "veuillez vérifier et réessayer."
 
-#: src/gsb_file_load.c:301 src/gsb_file_save.c:370
+#: src/gsb_file_load.c:301 src/gsb_file_save.c:371
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -6927,17 +6927,17 @@ msgstr ""
 "Vérifiez qu'il soit bien installé (i.e. vérifiez que le paquet 'grisbi-ssl' "
 "est installé) et essayez à nouveau."
 
-#: src/gsb_file_load.c:306 src/gsb_file_save.c:375
+#: src/gsb_file_load.c:306 src/gsb_file_save.c:376
 msgid "Encryption plugin not found."
 msgstr "Plugin de cryptage non trouvé"
 
-#: src/gsb_file_load.c:401 src/gsb_file_load.c:4346
+#: src/gsb_file_load.c:401 src/gsb_file_load.c:4349
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Ce n'est pas un fichier Grisbi...chargement interrompu"
 
 #. the first time we come here, we check if it's a grisbi file
-#: src/gsb_file_load.c:603
+#: src/gsb_file_load.c:604
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -6949,7 +6949,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:7564
+#: src/gsb_file_load.c:7567
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -6958,7 +6958,7 @@ msgstr ""
 "Pour ouvrir ce fichier, il vous faut la version %s de GrisbiVous utilisez la "
 "version %s."
 
-#: src/gsb_file_load.c:7603
+#: src/gsb_file_load.c:7606
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -6966,13 +6966,13 @@ msgid ""
 "transactions or important informations."
 msgstr ""
 
-#: src/gsb_file_load.c:7604
+#: src/gsb_file_load.c:7607
 #, fuzzy
 msgid "Grisbi archive opened"
 msgstr "Paramètres"
 
 #: src/gsb_file_others.c:136 src/gsb_file_others.c:218
-#: src/gsb_file_others.c:301 src/gsb_file_save.c:395 src/gsb_file_save.c:413
+#: src/gsb_file_others.c:301 src/gsb_file_save.c:396 src/gsb_file_save.c:414
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr ""
@@ -7218,7 +7218,7 @@ msgstr ""
 msgid "Configure the form"
 msgstr "Configurer le formulaire"
 
-#: src/gsb_form_config.c:120 src/parametres.c:396
+#: src/gsb_form_config.c:120 src/parametres.c:397
 msgid "Transaction form"
 msgstr "Formulaire des opérations"
 
@@ -7449,7 +7449,7 @@ msgstr "N° opération"
 msgid "Automatic/Manual"
 msgstr "Auto/Manuel"
 
-#: src/gsb_fyear_config.c:99 src/parametres.c:476
+#: src/gsb_fyear_config.c:99 src/parametres.c:477
 msgid "Financial years"
 msgstr "Exercices"
 
@@ -7690,7 +7690,7 @@ msgstr "Date de début"
 msgid "Init balance"
 msgstr "Solde au début"
 
-#: src/gsb_reconcile_config.c:102 src/parametres.c:377
+#: src/gsb_reconcile_config.c:102 src/parametres.c:378
 msgid "Reconciliation"
 msgstr "Rapprochement"
 
@@ -7731,7 +7731,7 @@ msgstr ""
 msgid "Deleting a reconcile"
 msgstr "Supprimer un rapprochement"
 
-#: src/gsb_reconcile_sort_config.c:85 src/parametres.c:386
+#: src/gsb_reconcile_sort_config.c:85 src/parametres.c:387
 msgid "Sort for reconciliation"
 msgstr "Options de tri pour les rapprochements"
 
@@ -7814,18 +7814,17 @@ msgstr "Supprimer une opération planifiée"
 
 #: src/gsb_scheduler_list.c:1639 src/gsb_transactions_list.c:1874
 #: src/gsb_transactions_list.c:1889
-#, fuzzy
 msgid "Delete a transaction"
 msgstr "Supprimer l'opération"
 
 #: src/gsb_scheduler_list.c:1640
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "Voulez vous vraiment supprimer l'opération avec le tiers « %s » ?"
 
 #: src/gsb_scheduler_list.c:1673
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
 "transaction?\n"
@@ -7836,7 +7835,6 @@ msgstr ""
 "complète ?"
 
 #: src/gsb_scheduler_list.c:1681
-#, fuzzy
 msgid "Delete this scheduled transaction?"
 msgstr "Voulez vous supprimer cette opération planifiée ?"
 
@@ -7871,9 +7869,8 @@ msgid "years"
 msgstr "années"
 
 #: src/gsb_scheduler_list.c:1773
-#, fuzzy
 msgid "Show scheduled transactions"
-msgstr "Opérations planifiées terminées"
+msgstr "Montrer les Opérations planifiées"
 
 #: src/gsb_scheduler_list.c:1786
 #, fuzzy
@@ -7885,17 +7882,17 @@ msgstr "Alertes de l'échéancier"
 msgid "Show transactions for the next"
 msgstr "Sélectionner les opérations par rapport à du texte"
 
-#: src/gsb_select_icon.c:89
+#: src/gsb_select_icon.c:90
 #, fuzzy
 msgid "Browse icons"
 msgstr "Parcourir"
 
 #. crÃ©ation du bouton de sÃ©lection des rÃ©pertoires
-#: src/gsb_select_icon.c:115 src/utils_files.c:241
+#: src/gsb_select_icon.c:116 src/utils_files.c:254
 msgid "Browse"
 msgstr "Parcourir"
 
-#: src/gsb_select_icon.c:324
+#: src/gsb_select_icon.c:325
 #, fuzzy
 msgid "Select icon directory"
 msgstr "Couleur d'une sélection"
@@ -9053,122 +9050,122 @@ msgid "closed"
 msgstr "fermé"
 
 #. Create dialog
-#: src/parametres.c:219
+#: src/parametres.c:220
 msgid "Grisbi preferences"
 msgstr "Paramètres de Grisbi"
 
-#: src/parametres.c:258
+#: src/parametres.c:259
 #, fuzzy
 msgid "Main"
 msgstr "Espagne"
 
-#: src/parametres.c:267 src/parametres.c:653
+#: src/parametres.c:268 src/parametres.c:655
 msgid "Files"
 msgstr "Fichiers"
 
-#: src/parametres.c:295 src/parametres.c:846
+#: src/parametres.c:296 src/parametres.c:856
 msgid "Programs"
 msgstr "Programmes"
 
-#: src/parametres.c:305
+#: src/parametres.c:306
 msgid "Display"
 msgstr "Affichage"
 
-#: src/parametres.c:322 src/parametres.c:555
+#: src/parametres.c:323 src/parametres.c:556
 msgid "Messages & warnings"
 msgstr "Messages et alertes"
 
-#: src/parametres.c:367
+#: src/parametres.c:368
 msgid "List behavior"
 msgstr "Comportement de la liste"
 
-#: src/parametres.c:404
+#: src/parametres.c:405
 msgid "Content"
 msgstr "Contenu"
 
-#: src/parametres.c:413
+#: src/parametres.c:414
 msgid "Behavior"
 msgstr "Comportement"
 
-#: src/parametres.c:422
+#: src/parametres.c:423
 msgid "Completion"
 msgstr "Aide à la saisie"
 
-#: src/parametres.c:432
+#: src/parametres.c:433
 msgid "Resources"
 msgstr "Ressources"
 
-#: src/parametres.c:458
+#: src/parametres.c:459
 msgid "Currencies links"
 msgstr "Liens entre devises"
 
 #. Tip of the day
-#: src/parametres.c:559
+#: src/parametres.c:560
 msgid "Tip of the day"
 msgstr "Astuce du jour"
 
 #. Display or not tips
-#: src/parametres.c:562
+#: src/parametres.c:563
 msgid "Display tip of the day"
 msgstr "Afficher l'astuce du jour"
 
 #. Warnings
-#: src/parametres.c:568
+#: src/parametres.c:569
 msgid "Display following warnings messages"
 msgstr "Afficher les messages ou alertes suivants"
 
-#: src/parametres.c:588
+#: src/parametres.c:589
 msgid "Message"
 msgstr "Message"
 
 #. Compression level of files
-#: src/parametres.c:692
+#: src/parametres.c:694
 msgid "Compress Grisbi file"
 msgstr "Compresser le fichier Grisbi"
 
-#: src/parametres.c:703
+#: src/parametres.c:705
 msgid "Memorise last opened files"
 msgstr "Mémorisation des derniers fichiers ouverts"
 
-#: src/parametres.c:715
+#: src/parametres.c:717
 msgid "Backups"
 msgstr "Sauvegardes"
 
 #. Compression level of backups
-#: src/parametres.c:718
+#: src/parametres.c:720
 msgid "Compress Grisbi backup"
 msgstr "Compresser le fichier de sauvegarde"
 
 #. Backup at each opening?
-#: src/parametres.c:726
+#: src/parametres.c:728
 msgid "Make a backup copy after opening files"
 msgstr "Effectuer une copie de sauvegarde après avoir ouvert les fichiers"
 
-#: src/parametres.c:873
+#: src/parametres.c:883
 msgid "LaTeX support (old print system)"
 msgstr "Support LaTex (ancien système d'impression)"
 
-#: src/parametres.c:880
+#: src/parametres.c:890
 msgid "LaTeX command"
 msgstr "Commande LaTeX"
 
-#: src/parametres.c:888
+#: src/parametres.c:898
 msgid "dvips command"
 msgstr "Commande dvips"
 
-#: src/parametres.c:929
+#: src/parametres.c:939
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Alertes de l'échéancier"
 
-#: src/parametres.c:930
+#: src/parametres.c:940
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr "Alerter/Exécuter les opérations planifiées arrivées à terme"
 
-#: src/parametres.c:931
+#: src/parametres.c:941
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Alerter/Exécuter les opérations planifiées du mois"
 
-#: src/parametres.c:942
+#: src/parametres.c:952
 msgid "Number of days before the warning or the execution"
 msgstr ""
 "Nombre de jours précédant l'alerte ou l'exécution d'une opération planifiée"
@@ -9763,12 +9760,12 @@ msgstr ""
 "La commande était : %s.\n"
 "Veuillez modifier votre configuration vers un exécutable valide."
 
-#: src/utils_files.c:68
+#: src/utils_files.c:64
 msgid "Print to file"
 msgstr "Imprimer dans un fichier"
 
 #. ouch, not enough memory
-#: src/utils_files.c:169 src/utils_files.c:186
+#: src/utils_files.c:182 src/utils_files.c:199
 msgid "Memory allocation error"
 msgstr "Erreur d'allocation mémoire"
 
