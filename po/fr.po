@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-25 18:52+0100\n"
-"PO-Revision-Date: 2008-12-15 22:09+0100\n"
+"POT-Creation-Date: 2009-01-27 21:29+0100\n"
+"PO-Revision-Date: 2009-01-27 20:48+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -1083,7 +1083,7 @@ msgstr "%s : %s - %s:%d:%s\n"
 #: src/erreur.c:317
 #, fuzzy, c-format
 msgid "%s : %s - %s:%d:%s - %d\n"
-msgstr "%s : %s - %s\n"
+msgstr "%s : %s - %s:%d:%s - %d\n"
 
 #: src/erreur.c:403
 #, c-format
@@ -2629,9 +2629,9 @@ msgid "all dates"
 msgstr "toutes les dates"
 
 #: src/etats_support.c:188 src/etats_support.c:292
-#, fuzzy, c-format
+#, c-format
 msgid "Result from %s to %s"
-msgstr "Résultat pour %s"
+msgstr "Résultat de %s pour %s"
 
 #: src/etats_support.c:194
 msgid "Custom dates ranges not filled"
@@ -4709,9 +4709,9 @@ msgid "The password was incorrect ! Please try again..."
 msgstr "Mot de passe incorrect ! Essayez à nouveau..."
 
 #: src/gsb_crypt.c:185 src/plugins/openssl/openssl.c:183
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open encrypted file '%s'"
-msgstr "Impossible d'ouvrir le fichier '%s': %s"
+msgstr "Impossible d'ouvrir le fichier '%s'"
 
 #. FIXME: import symbols to be sure we can call this kind of stuff.
 #: src/gsb_crypt.c:187 src/plugins/openssl/openssl.c:181
@@ -6301,13 +6301,13 @@ msgid "No budget line"
 msgstr "Aucune imputation"
 
 #: src/gsb_data_budget.c:1290
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The transaction %d has a budget n°%d and sub-budget n°%d but they don't "
 "exist."
 msgstr ""
-"La sous-imputation budgétaire %d de l'imputation budgétaire %d de la "
-"transaction %d est invalide.\n"
+"L'opération %d a une imputation budgétaire %d et une sous-imputation "
+"%d inexistantes."
 
 #: src/gsb_data_budget.c:1431 src/gsb_data_category.c:1530
 #, c-format
@@ -6327,6 +6327,8 @@ msgid ""
 "<span foreground=\"red\">Warning : the two currencies of the link are "
 "identicals</span>"
 msgstr ""
+"<span foreground=\"red\">Attention: les liens entre les deux devises sont "
+"identiques</span>"
 
 #: src/gsb_data_currency_link.c:477
 #, fuzzy
@@ -6402,7 +6404,7 @@ msgid ""
 "sum of reconcilied transactions.  Generally, the cause is too many transfers "
 "to other accounts are reconciled.  You have to manually unreconcile some "
 "transferts in inconsistent accounts.It happens sometimes too for old "
-"accounts wich pass to EuroIn that case the inconsistent is only some cents "
+"accounts wich pass to Euro. In that case the inconsistent is only some cents "
 "and it's normal."
 msgstr ""
 "Grisbi a trouvé des comptes dont le montant du dernier rapprochement n'est "
@@ -6417,8 +6419,7 @@ msgid "Duplicate sub-categories check"
 msgstr "Vérification des sous-catégories dupliquées"
 
 #: src/gsb_debug.c:80 src/gsb_debug.c:93 src/gsb_debug.c:106
-#, fuzzy
-msgid "free"
+msgid "fee"
 msgstr "Frais"
 
 #: src/gsb_debug.c:81
@@ -6464,7 +6465,6 @@ msgstr ""
 "modifier la sous-imputation pour ces transactions."
 
 #: src/gsb_debug.c:105
-#, fuzzy
 msgid "Orphan countra-transactions check"
 msgstr "Vérifications des contre-opérations orphelines"
 
@@ -6476,19 +6476,24 @@ msgid ""
 "To fix this, you will have to manually edit your .gsb file (with a text "
 "editor) and fix transactions using their numeric ID."
 msgstr ""
+"Dans certains cas rares, les transferts ne sont pas correctement liés à des "
+"contre-opérations. C'est peut-être à cause de bugs ou en raison "
+"d'importations ayant échouées.\n"
+"Pour résoudre ce problème, vous devrez modifier manuellement le fichier .gsb "
+"(avec un éditeur de texte) et fixer les transactions en utilisant leur ID "
+"numérique."
 
 #: src/gsb_debug.c:113
 msgid "Incorrect category/sub-category number"
-msgstr ""
+msgstr "Numéro de catégorie/sous-catégorie incorrect"
 
 #: src/gsb_debug.c:114
-#, fuzzy
 msgid ""
 "This test will look for transactions wich have non existant categories/sub-"
 "categories."
 msgstr ""
-"Ce test va chercher des comptes où les totaux de rapprochement ne "
-"correspondent pas aux totaux des opérations rapprochées."
+"Ce test recherche des transactions ayant des catégories/sous-catégories "
+"inexistantes."
 
 #: src/gsb_debug.c:115
 msgid ""
@@ -6496,16 +6501,21 @@ msgid ""
 "If you choose to continue, Grisbi will remove that category error and that "
 "transactions will have no categories."
 msgstr ""
+"Grisbi a trouvé des transactions avec des catégories/sous-catégories "
+"inexistantes. Si vous choisissez de continuer, Grisbi supprimera ces "
+"catégories et ces transactions n'auront plus de catégorie."
 
 #: src/gsb_debug.c:120
 msgid "Incorrect budget/sub-budget number"
-msgstr ""
+msgstr "Numéro d'imputation/sous-imputation incorrect"
 
 #: src/gsb_debug.c:121
 msgid ""
 "This test will look for transactions wich have non existant budgets/sub-"
 "budgets."
 msgstr ""
+"Ce test recherche des transactions ayant des imputations/sous-imputations "
+"inexistantes."
 
 #: src/gsb_debug.c:122
 msgid ""
@@ -6513,6 +6523,9 @@ msgid ""
 "choose to continue, Grisbi will remove that budget error and that "
 "transactions will have no budgets."
 msgstr ""
+"Grisbi a trouvé des transactions avec des imputations/sous-imputations "
+"inexistantes. Si vous choisissez de continuer, Grisbi supprimera ces "
+"imputations et ces transactions n'auront plus d'imputation."
 
 #: src/gsb_debug.c:127
 msgid "Incorrect payee number"
@@ -6527,15 +6540,17 @@ msgid ""
 "Grisbi found some transactions with non existants payees If you choose to "
 "continue, Grisbi will remove them and that transactions will have no payee."
 msgstr ""
+"Grisbi a trouvé des transactions avec des tiers inexistants. Si vous "
+"choisissez de continuer, Grisbi supprimera ces tiers et ces transactions "
+"n'auront plus de tiers."
 
 #: src/gsb_debug.c:151
 msgid "Checking file for possible corruption..."
 msgstr "Recherche d'une possible corruption dans le fichier..."
 
 #: src/gsb_debug.c:153
-#, fuzzy
 msgid "Grisbi accounts debug"
-msgstr "Configuration Grisbi"
+msgstr "Débogage du fichier de comptes"
 
 #: src/gsb_debug.c:154
 msgid ""
@@ -6544,14 +6559,15 @@ msgid ""
 "manipulation."
 msgstr ""
 "Cet assistant va vous aider à chercher des incohérences dans votre fichier, "
-"qui peuvent être causées par des bugs ou par des mauvaises manipulations."
+"qui peuvent être causées par des bugs ou par de mauvaises manipulations."
 
 #: src/gsb_debug.c:225
-#, fuzzy
 msgid ""
 "Inconsistencies found\n"
 "\n"
-msgstr "Pas d'incohérence."
+msgstr ""
+"Incohérences trouvées\n"
+"\n"
 
 #: src/gsb_debug.c:228
 msgid ""
@@ -6610,15 +6626,15 @@ msgid "Unable to fix account"
 msgstr "Type de compte"
 
 #: src/gsb_debug.c:430
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<span weight=\"bold\">%s</span>\n"
 "  Last reconciliation amount : %s\n"
 "  Computed reconciliation amount : %s\n"
 msgstr ""
 "<span weight=\"bold\">%s</span>\n"
-"  Montant du dernier rapprochement : %4.2f%s\n"
-"  Montant du rapprochement recalculé : %4.2f%s\n"
+"  Montant du dernier rapprochement : %s\n"
+"  Montant du rapprochement recalculé : %s\n"
 
 #: src/gsb_debug.c:509
 #, fuzzy, c-format
@@ -6715,7 +6731,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 "Grisbi ne peut pas ouvrir le fichier. Vous pourrez trouver les dernières "
-"sauvegardes datées dans  « %s » ce qui vous donnera facilement la dernière.\n"
+"sauvegardes datées dans « %s » ce qui vous donnera facilement la dernière.\n"
 "Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
 "expliquer ce qui s'est passé."
 
@@ -6729,6 +6745,12 @@ msgid ""
 "Please contact the Grisbi's team on devel@listes.grisbi.org to find what "
 "happened to you current file."
 msgstr ""
+"Grisbi ne peut pas ouvrir le fichier et les sauvegardes ne semblent pas "
+"être activées ... C'est une mauvaise chose.\n"
+"Le chemin des sauvegardes est « %s », essayer d'y trouver des copies de "
+"sauvegarde\n"
+"Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
+"expliquer ce qui s'est passé."
 
 #: src/gsb_file.c:397
 msgid ""
@@ -6737,6 +6759,10 @@ msgid ""
 "Please contact the Grisbi's team on devel@listes.grisbi.org to find what "
 "happened to you current file."
 msgstr ""
+"Grisbi ne peut pas ouvrir le fichier et les sauvegardes ne semblent pas "
+"être activées ... C'est une mauvaise chose.\n"
+"Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
+"expliquer ce qui s'est passé."
 
 #. ok, here the file or backup is loaded
 #: src/gsb_file.c:408
@@ -6750,14 +6776,14 @@ msgid "Checking amounts"
 msgstr "Pointage"
 
 #: src/gsb_file.c:524
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
 "with another name or activate the \"%s\" option in preferences."
 msgstr ""
 "Grisbi n'a pas pu sauvegarder ce fichier car il est marqué comme utilisé. "
-"Veuillez le sauvegarder sous un autre nom ou activer l'option « %s » dans la "
-"configuration. Alternativement, choisissez l'option « %s » ci dessous."
+"Veuillez le sauvegarder sous un autre nom ou activer l'option « %s » dans les "
+"préférences."
 
 #. Warn if file is used by someone else?
 #: src/gsb_file.c:525 src/gsb_file.c:754 src/parametres.c:678
@@ -6793,7 +6819,7 @@ msgid ""
 msgstr ""
 "Le document « %s » est verrouillé et également modifié.  Si vous voulez "
 "l'enregistrer, vous devez annuler et le sauvegarder sous un autre nom ou "
-"alors activer l'option « %s » dans la configuration."
+"alors activer l'option « %s » dans les préférences."
 
 #: src/gsb_file.c:753 src/gsb_file.c:764 src/gsb_file.c:949
 msgid "unnamed"
@@ -7026,9 +7052,8 @@ msgid "This is not a report file, loading canceled..."
 msgstr "Ce fichier n'est pas un fichier d'état Grisbi, action annulée."
 
 #: src/gsb_file_util.c:63
-#, fuzzy
 msgid "No name to the file !"
-msgstr "Impossible d'ouvrir le fichier '%s': %s"
+msgstr "Le fichier n'a pas de nom"
 
 #: src/gsb_file_util.c:74
 #, c-format
@@ -7119,37 +7144,41 @@ msgid "You must enter a date."
 msgstr "Une date est obligatoire."
 
 #: src/gsb_form.c:2413
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid date %s"
-msgstr "Date invalide"
+msgstr "Date invalide %s"
 
 #: src/gsb_form.c:2432
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid value date %s"
-msgstr "La date est invalide."
+msgstr "La date est invalide %s"
 
 #: src/gsb_form.c:2458
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
 msgstr ""
+"Vous ne pouvez pas choisir la catégorie « opération ventilée » pour "
+"une opération fille"
 
 #: src/gsb_form.c:2491
 #, fuzzy
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
-msgstr "Convertir l'opération en opération planifiée"
+msgstr ""
+"Vous ne pouvez pas associer un virement pour un compte supprimé dans "
+"une opération programmée."
 
 #: src/gsb_form.c:2498
-#, fuzzy
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
-msgstr "Le compte associé au virement est invalide"
+msgstr ""
+"Il n'y a pas de compte associé à ce virement où il est invalide"
 
 #: src/gsb_form.c:2506
 msgid "Can't issue a transfer its own account."
-msgstr "Impossibilité de transférer sur son propre compte"
+msgstr "Impossible d'effectuer un virement sur son propre compte"
 
 #: src/gsb_form.c:2511
 msgid "Can't issue a transfer on a closed account."
@@ -7383,19 +7412,17 @@ msgid "Limit date"
 msgstr "Date limite"
 
 #: src/gsb_form_scheduler.c:658
-#, fuzzy
 msgid "User frequency"
 msgstr "Périodicité personnalisée"
 
 #: src/gsb_form_scheduler.c:864
 #, fuzzy
 msgid "Own frequency"
-msgstr "Périodicité personnalisée"
+msgstr "Périodicité propre"
 
 #: src/gsb_form_transaction.c:320
-#, fuzzy
 msgid "Report : "
-msgstr "État"
+msgstr "État : "
 
 #: src/gsb_form_widget.c:183
 msgid "Choose the financial year"
@@ -7426,9 +7453,8 @@ msgstr "Mode de règlement de la contre-opération"
 msgid "Category line"
 msgstr "Catégorie"
 
-#: src/gsb_form_widget.c:426
-#, fuzzy
-msgid "Free"
+#: src/gsb_form_widget.c:426 src/plugins/ofx/ofx.c:447
+msgid "Fee"
 msgstr "Frais"
 
 #: src/gsb_form_widget.c:438 src/gsb_transactions_list.c:151
@@ -7666,9 +7692,9 @@ msgid ""
 msgstr ""
 
 #: src/gsb_reconcile.c:529
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid date: '%s'"
-msgstr "Date invalide"
+msgstr "Date invalide: '%s'"
 
 #: src/gsb_reconcile.c:539
 msgid ""
@@ -7802,11 +7828,11 @@ msgstr "Trimestriel"
 
 #. ask all the time for a child
 #: src/gsb_scheduler_list.c:1621
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
-msgstr "Voulez vous vraiment supprimer l'opération avec le tiers « %s » ?"
+msgstr "Voulez vous vraiment supprimer la sous-opération avec le tiers « %s » ?"
 
 #: src/gsb_scheduler_list.c:1624
 msgid "Delete a scheduled transaction"
@@ -7833,10 +7859,12 @@ msgid ""
 msgstr ""
 "Voulez-vous effacer simplement cette occurence ou l'opération planifiée "
 "complète ?"
+"\n"
+"%s : %s [%s %s]"
 
 #: src/gsb_scheduler_list.c:1681
 msgid "Delete this scheduled transaction?"
-msgstr "Voulez vous supprimer cette opération planifiée ?"
+msgstr "Supprimer cette opération planifiée ?"
 
 #: src/gsb_scheduler_list.c:1686
 msgid "All the occurences"
@@ -7848,9 +7876,8 @@ msgstr "Juste celle-ci"
 
 #. set the title
 #: src/gsb_scheduler_list.c:1744 src/navigation.c:1183
-#, fuzzy
 msgid "Scheduled transactions"
-msgstr "Opérations planifiées terminées"
+msgstr "Opérations planifiées"
 
 #: src/gsb_scheduler_list.c:1770
 msgid "days"
@@ -7878,14 +7905,12 @@ msgid "Scheduler frequency"
 msgstr "Alertes de l'échéancier"
 
 #: src/gsb_scheduler_list.c:1793
-#, fuzzy
 msgid "Show transactions for the next"
-msgstr "Sélectionner les opérations par rapport à du texte"
+msgstr "Montrer les opérations pour le"
 
 #: src/gsb_select_icon.c:90
-#, fuzzy
 msgid "Browse icons"
-msgstr "Parcourir"
+msgstr "Parcourir les fichiers d'icônes"
 
 #. crÃ©ation du bouton de sÃ©lection des rÃ©pertoires
 #: src/gsb_select_icon.c:116 src/utils_files.c:254
@@ -7895,7 +7920,7 @@ msgstr "Parcourir"
 #: src/gsb_select_icon.c:325
 #, fuzzy
 msgid "Select icon directory"
-msgstr "Couleur d'une sélection"
+msgstr "Sélectionner un répertoire"
 
 #: src/gsb_transactions_list.c:160
 #, fuzzy
@@ -8146,7 +8171,7 @@ msgstr "Entrer le taux de change"
 #: src/import.c:220
 #, c-format
 msgid "Adding '%s' as an import format"
-msgstr ""
+msgstr "Ajouter « %s » en tant que format d'importation"
 
 #: src/import.c:264
 msgid ""
@@ -8195,9 +8220,9 @@ msgid "Choose files to import."
 msgstr "Sélectionner les fichiers à importer"
 
 #: src/import.c:666
-#, fuzzy, c-format
+#, c-format
 msgid "Known files (%s)"
-msgstr "fichiers %s (*.%s)"
+msgstr "Fichiers connus (%s)"
 
 #: src/import.c:678
 #, c-format
@@ -8261,8 +8286,8 @@ msgid ""
 "What do you want to do with contents from <span foreground=\"blue\">%s</"
 "span> ?\n"
 msgstr ""
-"Que voulez vous faire avec les données du fichier <span foreground=\"blue\">%"
-"s</span> ?\n"
+"Que voulez vous faire avec les données du fichier <span foreground=\"blue\">"
+"%s</span> ?\n"
 
 #: src/import.c:1106
 msgid "Add transactions to an account"
@@ -8323,14 +8348,12 @@ msgid ""
 msgstr ""
 
 #: src/import.c:1366
-#, fuzzy
 msgid "No name for the import rule"
-msgstr "Impossible d'ouvrir le fichier '%s': %s"
+msgstr "La règle d'importation n'a pas de nom"
 
 #: src/import.c:1366
-#, fuzzy
 msgid "Name of the rule :"
-msgstr "Impossible d'ouvrir le fichier '%s': %s"
+msgstr "Nom de la règle"
 
 #: src/import.c:1392
 msgid ""
@@ -8358,7 +8381,7 @@ msgstr "Compte importé"
 #. there is a difference between the imported account id and grisbi account id,
 #. * ask to be sure
 #: src/import.c:1729
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The Grisbi's id account is %s, but the imported id account is %s.\n"
 "\n"
@@ -8366,6 +8389,9 @@ msgid ""
 "If you choose to continue, the id of the Grisbi's account will be changed.  "
 "Do you want to continue ?"
 msgstr ""
+"L'id du compte Grisbi est %s et celui du compte importé %s"
+"\n"
+"Peut-être avez choisi un mauvais compte ?\n"
 "Avez-vous choisi un mauvais compte ? Si vous choisissez de continuer, "
 "l'identifiant du compte sera changé. Voulez-vous continuer ?"
 
@@ -8388,19 +8414,19 @@ msgstr ""
 "opérations à importer."
 
 #: src/import.c:2050
-#, fuzzy, c-format
+#, c-format
 msgid "Transactions to import : %s ; %s ; %s"
-msgstr "Opérations à importer : %02d/%02d/%04d ; %s ; %4.2f"
+msgstr "Opérations à importer : %s ; %s ; %s"
 
 #: src/import.c:2089
 #, fuzzy, c-format
 msgid "Transaction found : %s ; %s ; %s ; %s"
-msgstr "Opération trouvée : %02d/%02d/%04d ; %s ; %4.2f ; %s"
+msgstr "Opération trouvée : %s ; %s ; %s ; %s"
 
 #: src/import.c:2102
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction found : %s ; %s ; %s"
-msgstr "Opération trouvée : %02d/%02d/%04d ; %s ; %4.2f"
+msgstr "Opération trouvée : %s ; %s ; %s"
 
 #. Check = ChÃ¨que
 #: src/import.c:2295 src/plugins/ofx/ofx.c:431
@@ -8413,13 +8439,13 @@ msgid "Cash withdrawal"
 msgstr "Liquide"
 
 #: src/import.c:2429
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Warning : the cheque number %ld is already used.\n"
 "We skip it"
 msgstr ""
-"Attention, le numéro du chèque est déjà utilisé.\n"
-"Souhaitez-vous continuer ?"
+"Attention, le numéro du chèque %ld est déjà utilisé.\n"
+"Nous le sautons"
 
 #: src/import.c:2494
 msgid ""
@@ -8444,9 +8470,9 @@ msgid "Mark"
 msgstr "Marqué"
 
 #: src/import.c:3053
-#, fuzzy, c-format
+#, c-format
 msgid "%s #%d"
-msgstr "%s %d"
+msgstr "%s #%d"
 
 #: src/import.c:3088
 msgid "Threshold while matching transaction date during import (in days)"
@@ -8494,9 +8520,9 @@ msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Les opérations importées seront ajoutées au compte : %s.\n"
 
 #: src/import.c:3429
-#, fuzzy, c-format
+#, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
-msgstr "Déplacer l'opération vers un autre compte"
+msgstr "Les opérations importées seront marquées dans le compte\n"
 
 #. textstring 2
 #: src/import.c:3433
@@ -8514,9 +8540,9 @@ msgid "Name of the file to import "
 msgstr "Nom du fichier à importer "
 
 #: src/import.c:3543
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create tmp file: %s\n"
-msgstr "Impossible d'ouvrir le fichier '%s'."
+msgstr "Impossible de créer le fichier '%s'\n"
 
 #: src/import_csv.c:76
 #, fuzzy
@@ -8911,9 +8937,8 @@ msgid "en"
 msgstr "Menu"
 
 #: src/menu.c:751
-#, fuzzy
 msgid "Unnamed account"
-msgstr "Compte importé"
+msgstr "Compte inconnu"
 
 #. * Find a unique name for budget
 #: src/meta_budgetary.c:213
@@ -8989,12 +9014,11 @@ msgstr "Impossible de supprimer la division sélectionnée"
 
 #. create the box to move change the division and sub-div of the transactions
 #: src/metatree.c:1605
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' still contains transactions or archived transactions."
 msgstr ""
-"La catégorie sélectionnée contient encore des opérations.\n"
-"\n"
-"Vous pouvez"
+"La catégorie %s contient encore des opérations archivées ou non."
+
 
 #: src/metatree.c:1609
 #, fuzzy, c-format
@@ -9003,24 +9027,24 @@ msgid ""
 "them to another (sub-)%s.  Otherwise, transactions can be simply deleted "
 "along with their division."
 msgstr ""
-"Si vous voulez supprimer cette sous-division mais voulez conserver les "
-"opérations associées, vous pouvez les transformer vers une autre (sous-)"
-"division.  Sinon, les transactions peuvent être simplement supprimées.."
+"Si vous voulez la supprimer mais en conserver les  opérations associées, "
+"vous pouvez les transferer vers une autre (sous-)%s. Sinon, les "
+"transactions peuvent être simplement supprimées."
 
 #: src/metatree.c:1621
-#, fuzzy, c-format
+#, c-format
 msgid "Transfer transactions to %s"
-msgstr "Transférer les opérations sur la catégorie"
+msgstr "Transférer les opérations sur %s"
 
 #: src/metatree.c:1720
-#, fuzzy, c-format
+#, c-format
 msgid "Just remove this %s."
-msgstr "Supprimer simplement cette sous-catégorie."
+msgstr "Supprimer simplement cette %s."
 
 #: src/metatree.c:1722
-#, fuzzy, c-format
+#, c-format
 msgid "Just remove this sub-%s."
-msgstr "Supprimer simplement cette sous-catégorie."
+msgstr "Supprimer simplement cette sous-%s."
 
 #: src/metatree.c:1745
 #, fuzzy, c-format
@@ -9028,8 +9052,8 @@ msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
 "was entered."
 msgstr ""
-"Il est nécessaire de spécifier une catégorie de destination pour déplacer "
-"les opérations, mais aucune catégorie n'a été entrée."
+"Il est nécessaire de spécifier une %s de destination pour déplacer "
+"les opérations, mais aucune %s n'a été entrée."
 
 #: src/metatree.c:1746
 #, fuzzy, c-format
@@ -9194,10 +9218,10 @@ msgstr ""
 "  -v, --version             Affiche la version du logiciel et sortir\n"
 
 #: src/parse_cmdline.c:172
-#, fuzzy, c-format
+#, c-format
 msgid "Grisbi version %s, %s\n"
 msgstr ""
-"Version %s\n"
+"Grisbi version %s, %s\n"
 "\n"
 
 #: src/parse_cmdline.c:221
@@ -9215,7 +9239,7 @@ msgid ""
 "Syntax error (%s)\n"
 "\n"
 msgstr ""
-"Erreur de syntaxe\n"
+"Erreur de syntaxe (%s)\n"
 "\n"
 
 #: src/parse_cmdline.c:227
@@ -9231,6 +9255,7 @@ msgid ""
 "Too many parameters (%s)\n"
 "\n"
 msgstr ""
+"Trop de paramètres (%s)\n"
 
 #: src/parse_cmdline.c:233
 #, c-format
@@ -9238,6 +9263,7 @@ msgid ""
 "Tab is is out of range (%s)\n"
 "\n"
 msgstr ""
+"L'onglet est hors de portée (%s)\n"
 
 #: src/parse_cmdline.c:236
 #, c-format
@@ -9245,12 +9271,15 @@ msgid ""
 "Something strange happend (%s)\n"
 "\n"
 msgstr ""
+"Quelque chos d'étrange est apparu (%s)\n"
 
 #: src/parse_cmdline.c:239
 msgid ""
 "Syntax error!\n"
 "\n"
 msgstr ""
+"Erreur de syntaxe\n"
+"\n"
 
 #: src/plugins/gnucash/gnucash.c:171
 #, fuzzy
@@ -9323,10 +9352,6 @@ msgstr "Dividende"
 msgid "Service charge"
 msgstr "Frais de service"
 
-#: src/plugins/ofx/ofx.c:447
-msgid "Fee"
-msgstr "Frais"
-
 #: src/plugins/ofx/ofx.c:455
 msgid "Cash dispenser"
 msgstr "Distributeur de billets"
@@ -9368,7 +9393,7 @@ msgid ""
 "%sPlease enter password to encrypt file\n"
 "'<span foreground=\"blue\">%s</span>'"
 msgstr ""
-"Entrer le mot de passe pour crypter le fichier\n"
+"%sEntrer le mot de passe pour crypter le fichier\n"
 "« <tt>%s</tt> »"
 
 #: src/plugins/openssl/openssl.c:243
@@ -9377,7 +9402,7 @@ msgid ""
 "%sPlease enter password to decrypt file\n"
 "'<span foreground=\"blue\">%s</span>'"
 msgstr ""
-"Entrer le mot de passe pour décrypter le fichier\n"
+"%sEntrer le mot de passe pour décrypter le fichier\n"
 "« <tt>%s</tt> »"
 
 #: src/print_config.c:50
@@ -9579,8 +9604,9 @@ msgid ""
 "Grisbi found an investment account (%s), which is not implemented yet.  "
 "Nevertheless, Grisbi will try to import it as a bank account."
 msgstr ""
-"Grisbi a trouvé un compte d'investissement, qui n'est pas encore implémenté. "
-"Cependant, Grisbi va tenter de l'importer comme un compte en banque"
+"Grisbi a trouvé un compte d'investissement (%s), qui n'est pas encore "
+"implémenté. Cependant, Grisbi va tenter de l'importer comme un compte "
+"en banque"
 
 #: src/qif.c:464 src/qif.c:467
 msgid " [Transaction imported without date]"
@@ -9610,6 +9636,9 @@ msgid ""
 "This shouldn't happen. Please contact the Grisbi team to try to add your "
 "strange format into Grisbi"
 msgstr ""
+"La date % s semble contenir plus de 2 séparateurs.\n"
+"Cela ne devrait pas se produire. S'il vous plaît contacter l'équipe de "
+"Grisbi pour essayer d'ajouter cet étrange format à Grisbi"
 
 #: src/qif.c:663
 msgid "The order cannot be determined,\n"
@@ -13477,7 +13506,7 @@ msgstr "Aucune police définie"
 
 #, fuzzy
 #~ msgid "%s : %s [%4.2f %s]"
-#~ msgstr "%4.2f %s"
+#~ msgstr "%s : %s [%4.2f %s]"
 
 #~ msgid ""
 #~ "Do you want to delete just this occurrence or the whole scheduled "
@@ -13882,7 +13911,7 @@ msgstr "Aucune police définie"
 #~ "recompiler Grisbi en activant la gestion du format OFX."
 
 #~ msgid "Cannot process OFX file '%s'"
-#~ msgstr "Impossible d'ouvrir le fichier '%s'"
+#~ msgstr "Impossible d'ouvrir le fichier OFX '%s'"
 
 #~ msgid "Invalid date"
 #~ msgstr "Date invalide"
@@ -13934,7 +13963,7 @@ msgstr "Aucune police définie"
 #~ msgstr "Le fichier '%s' existe déjà"
 
 #~ msgid "Do you want to overwrite it?"
-#~ msgstr "Voulez-vous écraser le fichier « %s » ?"
+#~ msgstr "Voulez-vous écraser le fichier ?"
 
 #~ msgid "File \"%s\" exists and is not a regular file."
 #~ msgstr ""
@@ -13942,7 +13971,7 @@ msgstr "Aucune police définie"
 
 #, fuzzy
 #~ msgid "Error saving file '%s'."
-#~ msgstr "Erreur lors de l'enregistrement du fichier '%s': %s"
+#~ msgstr "Erreur lors de l'enregistrement du fichier : %s"
 
 #~ msgid "Nb"
 #~ msgstr "Nb"
@@ -13980,7 +14009,7 @@ msgstr "Aucune police définie"
 
 #, fuzzy
 #~ msgid "%s %s"
-#~ msgstr "%s %d"
+#~ msgstr "%s %s"
 
 #, fuzzy
 #~ msgid "Initial current_balance"
