@@ -50,6 +50,7 @@
 #include "./gsb_data_transaction.h"
 #include "./include.h"
 #include "./gsb_real.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -57,9 +58,9 @@ static gboolean gsb_reconcile_cancel ( GtkWidget *button,
 				gpointer null );
 static gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 					       gpointer null );
-static gboolean gsb_reconcile_key_press_event ( GtkWidget *entry,
-					 GdkEventKey *event,
-					 gpointer null );
+//~ static gboolean gsb_reconcile_key_press_event ( GtkWidget *entry,
+					 //~ GdkEventKey *event,
+					 //~ gpointer null );
 static void gsb_reconcile_sensitive ( gboolean sensitive );
 /*END_STATIC*/
 
@@ -110,8 +111,8 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_container_add ( GTK_CONTAINER ( frame ), vbox );
 
     /* if we use the arrows in the reconcile widget, work on the transaction list */
-    g_signal_connect ( G_OBJECT ( vbox ), "key_press_event",
-		       G_CALLBACK ( gsb_transactions_list_key_press ), NULL );
+    //~ g_signal_connect ( G_OBJECT ( vbox ), "key_press_event",
+		       //~ G_CALLBACK ( gsb_transactions_list_key_press ), NULL );
 
     /* the title of the frame */ 
     label = gtk_label_new ( NULL );
@@ -130,9 +131,9 @@ GtkWidget *gsb_reconcile_create_box ( void )
     reconcile_number_entry = gtk_entry_new ();
     gtk_widget_set_tooltip_text ( GTK_WIDGET (reconcile_number_entry),
 				  SPACIFY(_("If reconciliation reference ends in a digit, it is automatically incremented at each reconciliation.\nYou can let it empty if you don't want to keep a trace of the reconciliation.")));
-    g_signal_connect ( G_OBJECT ( reconcile_number_entry ),
-		       "key-press-event",
-		       G_CALLBACK ( gsb_reconcile_key_press_event ), NULL );
+    //~ g_signal_connect ( G_OBJECT ( reconcile_number_entry ),
+		       //~ "key-press-event",
+		       //~ G_CALLBACK ( gsb_reconcile_key_press_event ), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_number_entry, TRUE, TRUE, 0);
 
     separator = gtk_hseparator_new();
@@ -169,18 +170,18 @@ GtkWidget *gsb_reconcile_create_box ( void )
     g_signal_connect ( G_OBJECT ( reconcile_initial_balance_entry ), "changed",
 		       G_CALLBACK (gsb_reconcile_update_amounts),
 		       NULL );
-    g_signal_connect ( G_OBJECT ( reconcile_initial_balance_entry ),
-		       "key-press-event",
-		       G_CALLBACK ( gsb_reconcile_key_press_event ), NULL );
+    //~ g_signal_connect ( G_OBJECT ( reconcile_initial_balance_entry ),
+		       //~ "key-press-event",
+		       //~ G_CALLBACK ( gsb_reconcile_key_press_event ), NULL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_initial_balance_entry,
 				2, 3, 2, 3 );
 
     /* make the new date entry */
     reconcile_new_date_entry = gsb_calendar_entry_new (TRUE);
     gtk_widget_set_size_request ( reconcile_new_date_entry, 50, -1 );
-    g_signal_connect ( G_OBJECT ( reconcile_new_date_entry ),
-		       "key-press-event",
-		       G_CALLBACK( gsb_reconcile_key_press_event ), NULL );
+    //~ g_signal_connect ( G_OBJECT ( reconcile_new_date_entry ),
+		       //~ "key-press-event",
+		       //~ G_CALLBACK( gsb_reconcile_key_press_event ), NULL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_new_date_entry,
 				0, 1, 4, 5 );
 
@@ -190,9 +191,9 @@ GtkWidget *gsb_reconcile_create_box ( void )
     g_signal_connect ( G_OBJECT ( reconcile_final_balance_entry ), "changed",
 		       G_CALLBACK (gsb_reconcile_update_amounts),
 		       NULL );
-    g_signal_connect ( G_OBJECT ( reconcile_final_balance_entry ),
-		       "key-press-event",
-		       G_CALLBACK ( gsb_reconcile_key_press_event ), NULL );
+    //~ g_signal_connect ( G_OBJECT ( reconcile_final_balance_entry ),
+		       //~ "key-press-event",
+		       //~ G_CALLBACK ( gsb_reconcile_key_press_event ), NULL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_final_balance_entry,
 				2, 3, 4, 5 );
 
@@ -700,35 +701,36 @@ gboolean gsb_reconcile_cancel ( GtkWidget *button,
  *
  * \return FALSE
  * */
-gboolean gsb_reconcile_key_press_event ( GtkWidget *entry,
-					 GdkEventKey *event,
-					 gpointer null )
-{
-    switch ( event -> keyval )
-    {
-	case GDK_Tab:
-	    /* This is hardcoded because normal cycle does not work
-	     * ... why? -- benj */
-	    if ( entry == reconcile_number_entry )
-	    {
-		gtk_widget_grab_focus ( GTK_WIDGET ( reconcile_new_date_entry ) );
-	    }
-	    if ( entry == reconcile_new_date_entry )
-	    {
-		gtk_widget_grab_focus ( GTK_WIDGET ( reconcile_final_balance_entry ) );
-	    }
-	    if ( entry == reconcile_final_balance_entry )
-	    {
-		gtk_widget_grab_focus ( GTK_WIDGET ( reconcile_number_entry ) );
-	    }
-	    return FALSE;
-
-	default:
-	    /* Reverting to default handler */
-	    return FALSE;
-    }
-    return TRUE;
-}
+//~ gboolean gsb_reconcile_key_press_event ( GtkWidget *entry,
+					 //~ GdkEventKey *event,
+					 //~ gpointer null )
+//~ {
+    //~ switch ( event -> keyval )
+    //~ {
+	//~ case GDK_Tab:
+	    //~ /* This is hardcoded because normal cycle does not work
+	     //~ * ... why? -- benj 
+         //~ * tabs now operating normally in my configuration pbiava*/
+        //~ devel_debug ("GDK_Tab");
+	    //~ if ( entry == reconcile_number_entry )
+	    //~ {
+            //~ gtk_widget_grab_focus ( GTK_WIDGET ( reconcile_new_date_entry ) );
+	    //~ }
+	    //~ else if ( entry == reconcile_new_date_entry )
+	    //~ {
+            //~ gtk_widget_grab_focus ( GTK_WIDGET ( reconcile_final_balance_entry ) );
+	    //~ }
+	    //~ else if ( entry == reconcile_final_balance_entry )
+	    //~ {
+            //~ gtk_widget_grab_focus ( GTK_WIDGET ( reconcile_number_entry ) );
+	    //~ }
+	    //~ return FALSE;
+	//~ default:
+	    //~ /* Reverting to default handler */
+	    //~ return FALSE;
+    //~ }
+    //~ return TRUE;
+//~ }
 
 
 /**

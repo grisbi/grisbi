@@ -283,7 +283,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     g_signal_connect ( G_OBJECT (button),
                         "selection-changed",
                         G_CALLBACK (gsb_config_backup_dir_chosen),
-                        NULL );
+                        dialog );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button,
 			 FALSE, TRUE, 0);
 

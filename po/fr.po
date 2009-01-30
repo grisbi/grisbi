@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-27 21:29+0100\n"
+"POT-Creation-Date: 2009-01-30 19:16+0100\n"
 "PO-Revision-Date: 2009-01-27 20:48+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -428,7 +428,7 @@ msgstr "Tableau d'estimation"
 
 #: src/balance_estimate_tab.c:290 src/etats_affiche.c:2398
 #: src/export_csv.c:747 src/gsb_assistant_reconcile_config.c:612
-#: src/gsb_form.c:1273 src/gsb_form_widget.c:398 src/gsb_reconcile.c:155
+#: src/gsb_form.c:1273 src/gsb_form_widget.c:398 src/gsb_reconcile.c:156
 #: src/gsb_scheduler_list.c:331 src/gsb_transactions_list.c:143
 #: src/import.c:2860 src/import_csv.c:78 src/traitement_variables.c:74
 msgid "Date"
@@ -648,7 +648,7 @@ msgstr "Montrer les opérations rapprochées (Alt+R)"
 msgid "Category"
 msgstr "Catégorie"
 
-#: src/categories_onglet.c:159 src/export_csv.c:774 src/gsb_reconcile.c:158
+#: src/categories_onglet.c:159 src/export_csv.c:774 src/gsb_reconcile.c:159
 #: src/gsb_scheduler_list.c:332 src/gsb_transactions_list.c:149
 #: src/gsb_transactions_list.c:2859 src/import_csv.c:86
 #: src/imputation_budgetaire.c:170 src/tiers_onglet.c:193
@@ -2742,7 +2742,7 @@ msgstr "Format CSV"
 
 #. set the initial balance
 #: src/export_csv.c:274 src/gsb_account_property.c:395
-#: src/gsb_assistant_reconcile_config.c:441 src/gsb_reconcile.c:208
+#: src/gsb_assistant_reconcile_config.c:441 src/gsb_reconcile.c:209
 #: src/gsb_reconcile_config.c:228
 msgid "Initial balance"
 msgstr "Solde initial"
@@ -4468,7 +4468,7 @@ msgstr ""
 "rapprochement\""
 
 #. set the final balance
-#: src/gsb_assistant_reconcile_config.c:454 src/gsb_reconcile.c:216
+#: src/gsb_assistant_reconcile_config.c:454 src/gsb_reconcile.c:217
 #: src/gsb_reconcile_config.c:97 src/gsb_reconcile_config.c:241
 msgid "Final balance"
 msgstr "Solde final"
@@ -4600,7 +4600,7 @@ msgstr "Sélectionnez le rapprochement à associer aux opérations sélectionné
 msgid "No selection found, the transactions are not modified."
 msgstr "Aucune opération sélectionnée, elles ne sont pas modifiées."
 
-#: src/gsb_bank.c:380 src/gsb_reconcile.c:417
+#: src/gsb_bank.c:380 src/gsb_reconcile.c:418
 msgid "None"
 msgstr "Aucun"
 
@@ -6306,8 +6306,8 @@ msgid ""
 "The transaction %d has a budget n°%d and sub-budget n°%d but they don't "
 "exist."
 msgstr ""
-"L'opération %d a une imputation budgétaire %d et une sous-imputation "
-"%d inexistantes."
+"L'opération %d a une imputation budgétaire %d et une sous-imputation %d "
+"inexistantes."
 
 #: src/gsb_data_budget.c:1431 src/gsb_data_category.c:1530
 #, c-format
@@ -6419,8 +6419,8 @@ msgid "Duplicate sub-categories check"
 msgstr "Vérification des sous-catégories dupliquées"
 
 #: src/gsb_debug.c:80 src/gsb_debug.c:93 src/gsb_debug.c:106
-msgid "fee"
-msgstr "Frais"
+msgid "free"
+msgstr ""
 
 #: src/gsb_debug.c:81
 msgid ""
@@ -6745,8 +6745,8 @@ msgid ""
 "Please contact the Grisbi's team on devel@listes.grisbi.org to find what "
 "happened to you current file."
 msgstr ""
-"Grisbi ne peut pas ouvrir le fichier et les sauvegardes ne semblent pas "
-"être activées ... C'est une mauvaise chose.\n"
+"Grisbi ne peut pas ouvrir le fichier et les sauvegardes ne semblent pas être "
+"activées ... C'est une mauvaise chose.\n"
 "Le chemin des sauvegardes est « %s », essayer d'y trouver des copies de "
 "sauvegarde\n"
 "Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
@@ -6759,8 +6759,8 @@ msgid ""
 "Please contact the Grisbi's team on devel@listes.grisbi.org to find what "
 "happened to you current file."
 msgstr ""
-"Grisbi ne peut pas ouvrir le fichier et les sauvegardes ne semblent pas "
-"être activées ... C'est une mauvaise chose.\n"
+"Grisbi ne peut pas ouvrir le fichier et les sauvegardes ne semblent pas être "
+"activées ... C'est une mauvaise chose.\n"
 "Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
 "expliquer ce qui s'est passé."
 
@@ -7158,23 +7158,22 @@ msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
 msgstr ""
-"Vous ne pouvez pas choisir la catégorie « opération ventilée » pour "
-"une opération fille"
+"Vous ne pouvez pas choisir la catégorie « opération ventilée » pour une "
+"opération fille"
 
 #: src/gsb_form.c:2491
 #, fuzzy
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
-"Vous ne pouvez pas associer un virement pour un compte supprimé dans "
-"une opération programmée."
+"Vous ne pouvez pas associer un virement pour un compte supprimé dans une "
+"opération programmée."
 
 #: src/gsb_form.c:2498
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
-msgstr ""
-"Il n'y a pas de compte associé à ce virement où il est invalide"
+msgstr "Il n'y a pas de compte associé à ce virement où il est invalide"
 
 #: src/gsb_form.c:2506
 msgid "Can't issue a transfer its own account."
@@ -7453,9 +7452,9 @@ msgstr "Mode de règlement de la contre-opération"
 msgid "Category line"
 msgstr "Catégorie"
 
-#: src/gsb_form_widget.c:426 src/plugins/ofx/ofx.c:447
-msgid "Fee"
-msgstr "Frais"
+#: src/gsb_form_widget.c:426
+msgid "Free"
+msgstr ""
 
 #: src/gsb_form_widget.c:438 src/gsb_transactions_list.c:151
 #: src/traitement_variables.c:82
@@ -7637,11 +7636,11 @@ msgstr "Associer ces opérations avec"
 msgid "with plugins"
 msgstr "avec les greffons"
 
-#: src/gsb_reconcile.c:127 src/gsb_transactions_list.c:152
+#: src/gsb_reconcile.c:128 src/gsb_transactions_list.c:152
 msgid "Reconciliation reference"
 msgstr "N° rapprochement"
 
-#: src/gsb_reconcile.c:132
+#: src/gsb_reconcile.c:133
 #, fuzzy
 msgid ""
 "If reconciliation reference ends in a digit, it is automatically incremented "
@@ -7651,25 +7650,25 @@ msgstr ""
 "Si le numéro de rapprochement est terminé par un chiffre, celui-ci est "
 "automatiquement incrémenté à chaque nouveau rapprochement."
 
-#: src/gsb_reconcile.c:224
+#: src/gsb_reconcile.c:225
 msgid "Checking"
 msgstr "Pointage"
 
-#: src/gsb_reconcile.c:235
+#: src/gsb_reconcile.c:236
 msgid "Variance"
 msgstr "Écart"
 
-#: src/gsb_reconcile.c:250
+#: src/gsb_reconcile.c:251
 msgid "Sort by method of payment"
 msgstr "Trier les opérations par mode de règlement"
 
 #. set the title
-#: src/gsb_reconcile.c:438
+#: src/gsb_reconcile.c:439
 #, c-format
 msgid " <b>%s reconciliation</b> "
 msgstr " <b>%s rapprochement</b> "
 
-#: src/gsb_reconcile.c:510
+#: src/gsb_reconcile.c:511
 msgid ""
 "There is a variance in balances, check that both final balance and initial "
 "balance minus marked transactions are equal."
@@ -7677,13 +7676,12 @@ msgstr ""
 "Il y a une inconsistance dans les soldes, vérifiez que le solde de départ "
 "moins les opérations marquées donnent bien le solde final."
 
-#: src/gsb_reconcile.c:511 src/gsb_reconcile.c:520 src/gsb_reconcile.c:532
-#: src/gsb_reconcile.c:540
-#, fuzzy
+#: src/gsb_reconcile.c:512 src/gsb_reconcile.c:521 src/gsb_reconcile.c:533
+#: src/gsb_reconcile.c:541
 msgid "Reconciliation can't be completed."
-msgstr "N° de rapprochement"
+msgstr "La réconciliation ne peux pas être terminée."
 
-#: src/gsb_reconcile.c:519
+#: src/gsb_reconcile.c:520
 msgid ""
 "There is already a reconcile with that name, you must use another name or "
 "let it free.\n"
@@ -7691,18 +7689,18 @@ msgid ""
 "it will be automatically incremented."
 msgstr ""
 
-#: src/gsb_reconcile.c:529
+#: src/gsb_reconcile.c:530
 #, c-format
 msgid "Invalid date: '%s'"
 msgstr "Date invalide: '%s'"
 
-#: src/gsb_reconcile.c:539
+#: src/gsb_reconcile.c:540
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automaticaly incremented later"
 msgstr ""
 
-#: src/gsb_reconcile.c:552 src/navigation.c:1024
+#: src/gsb_reconcile.c:553 src/navigation.c:1024
 #, c-format
 msgid "Last statement: %s"
 msgstr "Dernier relevé : %s"
@@ -7858,7 +7856,7 @@ msgid ""
 "%s : %s [%s %s]"
 msgstr ""
 "Voulez-vous effacer simplement cette occurence ou l'opération planifiée "
-"complète ?"
+"complète ?\n"
 "\n"
 "%s : %s [%s %s]"
 
@@ -7963,12 +7961,13 @@ msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
 msgstr ""
+"Vous ne pouvez pas (dé-)rapprocher une opération pendant un rapprochement.\n"
+"Il faut d'abord finir ou annuler le rapprochement."
 
 #. it's a normal transaction, ask to be sure
 #: src/gsb_transactions_list.c:1532 src/gsb_transactions_list.c:1547
-#, fuzzy
 msgid "Confirmation of manual (un)reconciliation"
-msgstr "Confirmation de suppression de banque"
+msgstr "Confirmation d'un (dé-)rapprochement manuel"
 
 #: src/gsb_transactions_list.c:1533
 msgid ""
@@ -7981,12 +7980,19 @@ msgid ""
 "\n"
 "Are you really sure to know what you do?"
 msgstr ""
+"Vous essayez de (dé-)rapprocher manuellement une opération ce qui n'est pas "
+"recommandé. Ce n'est pas la bonne façon de faire.\n"
+"De plus si l'opération que vous essayez de rapprocher a des sous-opérations "
+"la modification s'appliquera à l'opération mère et à toutes ses filles.\n"
+"Êtes-vous vraiment sûr que vous savez ce que vous faites ?"
 
 #: src/gsb_transactions_list.c:1548
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
 "not a recommended action. Are you really sure you know what you're doing?"
 msgstr ""
+"Vous essayez de (dé-)rapprocher manuellement une opération ce qui n'est pas "
+"recommandé. Êtes-vous vraiment sûr que vous savez ce que vous faites ?"
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
@@ -8389,7 +8395,7 @@ msgid ""
 "If you choose to continue, the id of the Grisbi's account will be changed.  "
 "Do you want to continue ?"
 msgstr ""
-"L'id du compte Grisbi est %s et celui du compte importé %s"
+"L'id du compte Grisbi est %s et celui du compte importé %s.\n"
 "\n"
 "Peut-être avez choisi un mauvais compte ?\n"
 "Avez-vous choisi un mauvais compte ? Si vous choisissez de continuer, "
@@ -9016,9 +9022,7 @@ msgstr "Impossible de supprimer la division sélectionnée"
 #: src/metatree.c:1605
 #, c-format
 msgid "'%s' still contains transactions or archived transactions."
-msgstr ""
-"La catégorie %s contient encore des opérations archivées ou non."
-
+msgstr "%s contient encore des opérations archivées ou non."
 
 #: src/metatree.c:1609
 #, fuzzy, c-format
@@ -9028,8 +9032,8 @@ msgid ""
 "along with their division."
 msgstr ""
 "Si vous voulez la supprimer mais en conserver les  opérations associées, "
-"vous pouvez les transferer vers une autre (sous-)%s. Sinon, les "
-"transactions peuvent être simplement supprimées."
+"vous pouvez les transferer vers une autre (sous-)%s. Sinon, les transactions "
+"peuvent être simplement supprimées."
 
 #: src/metatree.c:1621
 #, c-format
@@ -9052,8 +9056,8 @@ msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
 "was entered."
 msgstr ""
-"Il est nécessaire de spécifier une %s de destination pour déplacer "
-"les opérations, mais aucune %s n'a été entrée."
+"Il est nécessaire de spécifier une %s de destination pour déplacer les "
+"opérations, mais aucune %s n'a été entrée."
 
 #: src/metatree.c:1746
 #, fuzzy, c-format
@@ -9254,24 +9258,21 @@ msgstr "Option inconnue: %s\n"
 msgid ""
 "Too many parameters (%s)\n"
 "\n"
-msgstr ""
-"Trop de paramètres (%s)\n"
+msgstr "Trop de paramètres (%s)\n"
 
 #: src/parse_cmdline.c:233
 #, c-format
 msgid ""
 "Tab is is out of range (%s)\n"
 "\n"
-msgstr ""
-"L'onglet est hors de portée (%s)\n"
+msgstr "L'onglet est hors de portée (%s)\n"
 
 #: src/parse_cmdline.c:236
 #, c-format
 msgid ""
 "Something strange happend (%s)\n"
 "\n"
-msgstr ""
-"Quelque chos d'étrange est apparu (%s)\n"
+msgstr "Quelque chos d'étrange est apparu (%s)\n"
 
 #: src/parse_cmdline.c:239
 msgid ""
@@ -9351,6 +9352,10 @@ msgstr "Dividende"
 #: src/plugins/ofx/ofx.c:443
 msgid "Service charge"
 msgstr "Frais de service"
+
+#: src/plugins/ofx/ofx.c:447
+msgid "Fee"
+msgstr "Frais"
 
 #: src/plugins/ofx/ofx.c:455
 msgid "Cash dispenser"
@@ -9605,8 +9610,8 @@ msgid ""
 "Nevertheless, Grisbi will try to import it as a bank account."
 msgstr ""
 "Grisbi a trouvé un compte d'investissement (%s), qui n'est pas encore "
-"implémenté. Cependant, Grisbi va tenter de l'importer comme un compte "
-"en banque"
+"implémenté. Cependant, Grisbi va tenter de l'importer comme un compte en "
+"banque"
 
 #: src/qif.c:464 src/qif.c:467
 msgid " [Transaction imported without date]"

@@ -2585,11 +2585,12 @@ GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_k
     }
     pixbuf = gdk_pixbuf_new_from_file ( g_build_filename (PIXMAPS_DIR,
                            account_icon, NULL), &error );
-    g_object_set_data ( G_OBJECT ( pixbuf ), "name_icon",  
-                           g_build_filename (PIXMAPS_DIR,
-                           account_icon, NULL) );
+    if ( pixbuf )
+        g_object_set_data ( G_OBJECT ( pixbuf ), "name_icon",  
+                               g_build_filename (PIXMAPS_DIR,
+                               account_icon, NULL) );
 
-    if ( ! pixbuf )
+    else
         devel_debug ( error -> message );
 
     return pixbuf;

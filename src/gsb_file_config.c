@@ -508,10 +508,12 @@ gboolean gsb_file_config_save_config ( void )
 				"General",
 				"Font name",
 				etat.font_string );
+    if (etat.latex_command)
     g_key_file_set_string ( config,
 			    "General",
 			    "Latex command",
 			    etat.latex_command );
+    if (etat.dvips_command)
     g_key_file_set_string ( config,
 			    "General",
 			    "Dvips command",
