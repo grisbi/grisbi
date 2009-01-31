@@ -66,6 +66,7 @@ gchar *gsb_data_account_get_name_icon (gint account_number);
 gint gsb_data_account_get_nb_rows ( gint account_number );
 gint gsb_data_account_get_no_account ( gpointer account_ptr );
 gint gsb_data_account_get_no_account_by_name ( const gchar *account_name );
+gchar *gsb_data_account_get_owner (gint account_number);
 gboolean gsb_data_account_get_r ( gint account_number );
 gint gsb_data_account_get_reconcile_sort_type ( gint account_number );
 gfloat gsb_data_account_get_row_align ( gint account_number );

@@ -79,6 +79,7 @@ struct {
     gint en_train_de_sauvegarder;
     gint en_train_de_charger;
     gint utilise_logo;
+    gint display_grisbi_title;   /* selection du titre principal de grisbi */
 
     gint utilise_fonte_listes;		/* TRUE to use a custom font for the lists */
     gchar *font_string;			/* contain the description of the font, or NULL */

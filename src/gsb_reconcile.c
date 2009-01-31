@@ -49,8 +49,8 @@
 #include "./gsb_transactions_list.h"
 #include "./gsb_data_transaction.h"
 #include "./include.h"
-#include "./gsb_real.h"
 #include "./erreur.h"
+#include "./gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -58,9 +58,6 @@ static gboolean gsb_reconcile_cancel ( GtkWidget *button,
 				gpointer null );
 static gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 					       gpointer null );
-//~ static gboolean gsb_reconcile_key_press_event ( GtkWidget *entry,
-					 //~ GdkEventKey *event,
-					 //~ gpointer null );
 static void gsb_reconcile_sensitive ( gboolean sensitive );
 /*END_STATIC*/
 

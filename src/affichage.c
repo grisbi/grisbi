@@ -29,6 +29,7 @@
 #include "./gsb_automem.h"
 #include "./gsb_data_account.h"
 #include "./gsb_file.h"
+#include "./navigation.h"
 #include "./barre_outils.h"
 #include "./gsb_scheduler_list.h"
 #include "./gsb_select_icon.h"
@@ -40,6 +41,7 @@
 #include "./utils_font.h"
 #include "./structures.h"
 #include "./custom_list.h"
+#include "./utils_str.h"
 #include "./utils_buttons.h"
 #include "./gsb_select_icon.h"
 #include "./include.h"
@@ -51,8 +53,9 @@ static gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
 					    GtkWidget *vbox );
 static gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 				     GtkWidget *hbox );
+static gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry );
 static void change_logo_accueil ( GtkWidget * file_selector );
-static gboolean change_toolbar_display_mode ( GtkRadioButton * button );
+static gboolean change_toolbar_display_mode ( GtkRadioButton *button );
 static gboolean modification_logo_accueil ( );
 static  gboolean preferences_view_color_changed ( GtkWidget *color_button,
 						 GtkWidget *combobox );
@@ -87,6 +90,7 @@ extern GtkWidget *fenetre_preferences ;
 extern GtkWidget *hbox_title ;
 extern GtkWidget *label_titre_fichier ;
 extern GtkWidget *logo_accueil ;
+extern gchar *nom_fichier_comptes ;
 extern GdkColor split_background;
 extern GdkColor text_color[2];
 extern gchar *titre_fichier ;
@@ -343,6 +347,7 @@ GtkWidget *onglet_display_addresses ( void )
     GtkWidget *hbox, *vbox_pref, *scrolled_window, *label;
     GtkWidget *paddingbox;
     GtkWidget *entry;
+    GtkWidget *radio, *radiogroup;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Addresses & titles"),
 					       "addresses.png" );
@@ -350,6 +355,56 @@ GtkWidget *onglet_display_addresses ( void )
     /* Account file title */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
 					     _("Titles") );
+
+    /* It first creates the entry of title */
+    entry = gsb_automem_entry_new (&titre_fichier,
+				   ((GCallback)update_homepage_title), NULL);
+    /* Choice of title type */
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+			 FALSE, FALSE, 0);
+    radiogroup = radio = gtk_radio_button_new_with_label ( NULL, 
+                        _("Accounts file title") );
+    g_object_set_data ( G_OBJECT(radio), "display", 
+                        GINT_TO_POINTER(GSB_ACCOUNTS_FILE) );
+    gtk_box_pack_start ( GTK_BOX( hbox ), radio, FALSE, FALSE, 0 );
+    if ( etat.display_grisbi_title == GSB_ACCOUNTS_FILE )
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
+    g_signal_connect ( G_OBJECT(radio), 
+                        "toggled",
+                        G_CALLBACK(change_grisbi_title_type), 
+                        entry );
+
+    if (  gsb_data_account_get_owner ( 0 ) &&
+                        strlen ( gsb_data_account_get_owner ( 0 ) ) )
+    {
+        radio = gtk_radio_button_new_with_label_from_widget ( 
+                            GTK_RADIO_BUTTON(radiogroup),
+                            _("Account owner name") );
+        g_object_set_data ( G_OBJECT(radio), "display", 
+                            GINT_TO_POINTER(GSB_ACCOUNT_OWNER) );
+        gtk_box_pack_start ( GTK_BOX( hbox ), radio, FALSE, FALSE, 0 );
+        if ( etat.display_grisbi_title == GSB_ACCOUNT_OWNER )
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
+        g_signal_connect ( G_OBJECT(radio), 
+                            "toggled",
+                            G_CALLBACK(change_grisbi_title_type), 
+                            entry );
+    }
+
+    radio = gtk_radio_button_new_with_label_from_widget ( 
+                        GTK_RADIO_BUTTON(radiogroup),
+                        _("Filename") );
+    g_object_set_data ( G_OBJECT(radio), "display", 
+                        GINT_TO_POINTER(GSB_FILENAME) );
+    gtk_box_pack_start ( GTK_BOX( hbox ), radio, FALSE, FALSE, 0 );
+    if ( etat.display_grisbi_title == GSB_FILENAME )
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
+    g_signal_connect ( G_OBJECT(radio), 
+                        "toggled",
+                        G_CALLBACK(change_grisbi_title_type), 
+                        entry );
+
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0);
@@ -358,8 +413,10 @@ GtkWidget *onglet_display_addresses ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0);
 
-    entry = gsb_automem_entry_new (&titre_fichier,
-				   ((GCallback)update_homepage_title), NULL);
+    if ( etat.display_grisbi_title == GSB_ACCOUNTS_FILE )
+        gtk_widget_set_sensitive ( entry, TRUE);
+    else
+        gtk_widget_set_sensitive ( entry, FALSE);
     gtk_box_pack_start ( GTK_BOX ( hbox ), entry,
 			 TRUE, TRUE, 0);
 
@@ -566,9 +623,6 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
     /* at the first use of grisbi,label_titre_fichier doesn't still exist */
     if (label_titre_fichier)
     {
-	gtk_label_set_text ( GTK_LABEL(label_titre_fichier),
-			     (gchar *) gtk_entry_get_text (GTK_ENTRY (entry)) );
-
 	gchar* tmpstr = g_strconcat ("<span size=\"x-large\">",
 				     (gchar *) gtk_entry_get_text (GTK_ENTRY (entry)),
 				     "</span>", NULL );
@@ -594,7 +648,7 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
  *
  * \return FALSE
  */
-gboolean change_toolbar_display_mode ( GtkRadioButton * button )
+gboolean change_toolbar_display_mode ( GtkRadioButton *button )
 {
     if ( gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(button)) )
     {
@@ -855,6 +909,90 @@ static gboolean preferences_view_color_default ( GtkWidget *button,
 	    /* update scheduled list */
 	    gsb_scheduler_list_redraw ();
 	}
+    }
+    return FALSE;
+}
+
+/**
+ * Signal triggered when user configure display grisbi title
+ *
+ * \param button	Radio button that triggered event.
+ *
+ * \return FALSE
+ */
+gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry )
+{
+    gint account_number;
+    gchar *tmpstr = NULL;
+
+    if ( gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(button)) )
+    {
+        etat.display_grisbi_title = GPOINTER_TO_INT (g_object_get_data 
+                        ( G_OBJECT(button), "display" ));
+    }
+    
+    switch ( etat.display_grisbi_title )
+    {
+        case GSB_ACCOUNTS_FILE:
+        gtk_widget_set_sensitive ( entry, TRUE);
+        if (titre_fichier && strlen (titre_fichier) )
+                g_free (titre_fichier);
+        tmpstr = my_strdup ( gtk_entry_get_text (GTK_ENTRY (entry) ) );
+        if (tmpstr && strlen (tmpstr) )
+        {
+            titre_fichier = my_strdup ( tmpstr );
+            g_free ( tmpstr );
+            gsb_file_update_window_title ( );
+            if (label_titre_fichier)
+            {
+                tmpstr = g_strconcat ("<span size=\"x-large\">",
+                            titre_fichier, "</span>", NULL );
+                gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr );
+                g_free ( tmpstr );
+            }
+        }
+        break;
+        case GSB_ACCOUNT_OWNER:
+        gtk_widget_set_sensitive ( entry, FALSE);
+	    account_number = gsb_gui_navigation_get_current_account ( );
+        if ( account_number == -1 )
+        {
+            account_number = gsb_gui_navigation_get_last_account ( );
+            if ( account_number == -1 )
+                account_number = 0;
+        }
+        if (titre_fichier && strlen (titre_fichier) )
+                g_free (titre_fichier);
+        tmpstr = my_strdup ( gsb_data_account_get_owner 
+                        (account_number) );
+        if (tmpstr && strlen (tmpstr) )
+        {
+            titre_fichier = my_strdup ( tmpstr );
+            g_free ( tmpstr );
+            gsb_file_update_window_title ( );
+            if (label_titre_fichier)
+            {
+                tmpstr = g_strconcat ("<span size=\"x-large\">",
+                            titre_fichier, "</span>", NULL );
+                gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr );
+                g_free ( tmpstr );
+            }
+        }
+        break;
+        case GSB_FILENAME:
+        gtk_widget_set_sensitive ( entry, FALSE);
+        if (titre_fichier && strlen (titre_fichier) )
+            g_free (titre_fichier);
+        titre_fichier = g_path_get_basename (nom_fichier_comptes);
+        gsb_file_update_window_title ( );
+        if (label_titre_fichier)
+        {
+            tmpstr = g_strconcat ("<span size=\"x-large\">",
+                        titre_fichier, "</span>", NULL );
+            gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr );
+            g_free ( tmpstr );
+        }
+        break;
     }
     return FALSE;
 }

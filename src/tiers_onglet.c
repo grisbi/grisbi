@@ -67,7 +67,7 @@ static gboolean payee_remove_unused ( GtkWidget *button,
 static gboolean popup_payee_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
 
-GtkWidget *arbre_tiers = NULL;
+//~ GtkWidget *arbre_tiers = NULL;
 
 gint no_devise_totaux_tiers;
 

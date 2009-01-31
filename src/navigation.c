@@ -33,6 +33,7 @@
 #include "./gsb_data_reconcile.h"
 #include "./gsb_data_report.h"
 #include "./utils_dates.h"
+#include "./gsb_file.h"
 #include "./gsb_form.h"
 #include "./gsb_form_scheduler.h"
 #include "./fenetre_principale.h"
@@ -45,11 +46,13 @@
 #include "./main.h"
 #include "./accueil.h"
 #include "./traitement_variables.h"
+#include "./utils_str.h"
 #include "./tiers_onglet.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
 #include "./transaction_list_select.h"
 #include "./transaction_list_sort.h"
+#include "./utils_str.h"
 #include "./fenetre_principale.h"
 #include "./include.h"
 #include "./balance_estimate_tab.h"
@@ -62,7 +65,6 @@ static void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_ite
 static gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 					      GdkEventKey *ev,
 					      GtkTreeModel *model );
-static gint gsb_gui_navigation_get_last_account ( void );
 static  gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree_model, 
 							     GtkTreePath *path, 
 							     GtkTreeIter *iter, 
@@ -102,6 +104,7 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source,
 extern GtkTreeStore *budgetary_line_tree_model ;
 extern GtkTreeStore * categ_tree_model ;
 extern GtkWidget *label_last_statement ;
+extern GtkWidget *label_titre_fichier ;
 extern GtkWidget *menu_import_rules;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkWidget *notebook_general ;
@@ -998,6 +1001,24 @@ gboolean navigation_change_account ( gint *no_account )
 	gtk_widget_show (menu_import_rules);
     else
 	gtk_widget_hide (menu_import_rules);
+
+    /* Update the title of the file if needed */
+    if ( etat.display_grisbi_title == GSB_ACCOUNT_OWNER )
+    {
+         if (titre_fichier && strlen (titre_fichier) )
+            g_free (titre_fichier);
+        titre_fichier = my_strdup ( gsb_data_account_get_owner 
+                        (new_account) );
+        devel_debug ( titre_fichier );
+        gsb_file_update_window_title ( );
+        if (label_titre_fichier)
+        {
+            gchar* tmpstr = g_strconcat ("<span size=\"x-large\">",
+                        titre_fichier, "</span>", NULL );
+            gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmpstr );
+            g_free ( tmpstr );
+        }
+    }
 
     /* unset the last date written */
     gsb_date_free_last_date ();

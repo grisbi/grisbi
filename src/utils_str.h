@@ -32,5 +32,9 @@ gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
 					       gint exponent );
 /* END_DECLARATION */
 
-
+typedef enum GSB_TITLE_NAME {
+    GSB_ACCOUNTS_FILE,
+    GSB_ACCOUNT_OWNER,
+    GSB_FILENAME,
+} GsbTitleType;
 #endif

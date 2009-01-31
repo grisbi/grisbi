@@ -2626,3 +2626,14 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
 }
 
 
+gchar *gsb_data_account_get_owner (gint account_number)
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+	return NULL;
+
+    return account -> holder_name;
+}
