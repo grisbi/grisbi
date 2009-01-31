@@ -2139,8 +2139,10 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 	{
 	    div_id = iface -> transaction_div_id (current_number);
 	    sub_div_id = iface -> transaction_sub_div_id (current_number);
+        metatree_set_linked_widgets_sensitive ( model, FALSE, "selection" );
 	}
-
+    else
+        metatree_set_linked_widgets_sensitive ( model, TRUE, "selection" );
 	text = g_strconcat ( _(iface -> meta_name),  " : ", 
 			     (div_id ? iface -> div_name ( div_id ) : _(iface->no_div_label) ),
 			     NULL );
@@ -2171,7 +2173,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel
 	return FALSE;
 
     /* Update sensitiveness of linked widgets. */
-    metatree_set_linked_widgets_sensitive ( model, selection_is_set, "selection" );
+    //~ metatree_set_linked_widgets_sensitive ( model, selection_is_set, "selection" );
     if ( ! div_id || ( sub_div_id <= 0 && current_number <= 0 ) )
     {
 	metatree_set_linked_widgets_sensitive ( model, FALSE, "selection" );
