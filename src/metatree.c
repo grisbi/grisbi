@@ -262,8 +262,6 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
     if ( type != META_TREE_DIV && type != META_TREE_INVALID )
 	return;
 
-    devel_debug_int (division);
-
     string_tmp = iface -> div_name (division);
     number_transactions = iface -> div_nb_transactions (division);
 
@@ -399,8 +397,6 @@ void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
 
     if ( ! metatree_model_is_displayed ( model ) )
 	return;
-
-    devel_debug_int (transaction_number);
 
     path = gtk_tree_model_get_path ( model, iter );
     type = metatree_get_row_type ( model, path );

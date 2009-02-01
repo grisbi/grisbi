@@ -12,6 +12,7 @@ GSList *gsb_string_get_int_list_from_string ( const gchar *string,
 					      gchar *delimiter );
 GSList *gsb_string_get_string_list_from_string ( const gchar *string,
 						 gchar *delimiter );
+gchar * gsb_string_remplace_string ( gchar * str, gchar *old_str, gchar *new_str );
 gchar * gsb_string_truncate ( gchar * string );
 gchar * latin2utf8 ( const gchar * inchar);
 gchar *limit_string ( gchar *string,

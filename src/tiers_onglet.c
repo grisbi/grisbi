@@ -43,6 +43,7 @@
 #include "./utils_editables.h"
 #include "./gsb_form_widget.h"
 #include "./gsb_status.h"
+#include "./utils_str.h"
 #include "./gtk_combofix.h"
 #include "./traitement_variables.h"
 #include "./utils.h"
@@ -64,6 +65,9 @@ static gboolean payee_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePa
 			       GtkSelectionData * selection_data );
 static gboolean payee_remove_unused ( GtkWidget *button,
 			       gpointer null );
+static void payee_tree_update_transactions ( GtkTreeModel * model, 
+                        MetatreeInterface * iface, GtkTreeIter * iter,
+                        gint division, gchar * old_payee );
 static gboolean popup_payee_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
 
@@ -480,6 +484,7 @@ gboolean edit_payee ( GtkTreeView * view )
     gint no_division = -1;
     gint payee_number = 0;
     gchar * title;
+    gchar * old_payee;
     GtkTreeIter *div_iter;
 
     devel_debug (NULL);
@@ -488,23 +493,23 @@ gboolean edit_payee ( GtkTreeView * view )
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
     {
 	gtk_tree_model_get ( model, &iter,
-			     META_TREE_POINTER_COLUMN, &payee_number,
-			     META_TREE_NO_DIV_COLUMN, &no_division,
-			     -1 );
+                        META_TREE_POINTER_COLUMN, &payee_number,
+                        META_TREE_NO_DIV_COLUMN, &no_division,
+                        -1 );
     }
 
     if ( !selection || no_division <= 0 )
-	return FALSE;
+        return FALSE;
 
-    title = g_strdup_printf ( _("Properties for %s"), gsb_data_payee_get_name(payee_number,
-									      TRUE));
+    old_payee = g_strdup ( gsb_data_payee_get_name ( payee_number, TRUE ) );
+    title = g_strdup_printf ( _("Properties for %s"), old_payee );
 
     dialog = gtk_dialog_new_with_buttons ( title,
-					   GTK_WINDOW ( window ),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
-					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,
-					   NULL );
+                        GTK_WINDOW ( window ),
+                        GTK_DIALOG_MODAL,
+                        GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
+                        GTK_STOCK_APPLY, GTK_RESPONSE_OK,
+                        NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
@@ -525,12 +530,12 @@ gboolean edit_payee ( GtkTreeView * view )
     label = gtk_label_new ( _("Name"));
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
     entry_name = gtk_entry_new ();
     gtk_entry_set_text ( GTK_ENTRY ( entry_name ),
 			 gsb_data_payee_get_name(payee_number,
-						 TRUE));
+                        TRUE));
     gtk_widget_set_size_request ( entry_name, 400, -1 );
     gtk_table_attach ( GTK_TABLE(table), entry_name, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
@@ -538,36 +543,37 @@ gboolean edit_payee ( GtkTreeView * view )
     label = gtk_label_new ( _("Description"));
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
 
     entry_description = gsb_editable_text_view_new (gsb_data_payee_get_description (payee_number));
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
+                        GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
-					  GTK_SHADOW_IN );
+                        GTK_SHADOW_IN );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), entry_description );
     gtk_table_attach ( GTK_TABLE(table), scrolled_window,
-		       1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+                        1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     gtk_widget_show_all ( dialog );
-    g_free ( title );
 
     while ( 1 )
     {
 	if ( gtk_dialog_run ( GTK_DIALOG(dialog) ) != GTK_RESPONSE_OK )
 	{
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+        g_free ( title );
+
 	    return FALSE;
 	}
 
 	if ( ! gsb_data_payee_get_number_by_name ( gtk_entry_get_text ( GTK_ENTRY ( entry_name ) ),
-						   FALSE ) ||
+                        FALSE ) ||
 	     gsb_data_payee_get_number_by_name ( gtk_entry_get_text ( GTK_ENTRY ( entry_name ) ),
-						 FALSE ) == payee_number )
+                        FALSE ) == payee_number )
 	{
 	    gsb_data_payee_set_name ( payee_number,
-				      gtk_entry_get_text ( GTK_ENTRY (entry_name)));
+                        gtk_entry_get_text ( GTK_ENTRY (entry_name)));
 	    break;
 	}
 	else
@@ -575,9 +581,9 @@ gboolean edit_payee ( GtkTreeView * view )
 	    gchar * message;
 
 	    message = g_strdup_printf ( _("You tried to rename current payee to '%s' "
-					  "but this payee already exists.  Please "
-					  "choose another name."),
-					gtk_entry_get_text ( GTK_ENTRY ( entry_name ) ) );
+                        "but this payee already exists.  Please "
+                        "choose another name."),
+                        gtk_entry_get_text ( GTK_ENTRY ( entry_name ) ) );
 	    dialogue_warning_hint ( message, _("Payee already exists") );
 	    g_free ( message );
 	}
@@ -591,18 +597,45 @@ gboolean edit_payee ( GtkTreeView * view )
 
     div_iter = get_iter_from_div ( model, payee_number, 0 );
     fill_division_row ( model, payee_interface,
-			div_iter, payee_number );
+                        div_iter, payee_number );
+    payee_tree_update_transactions ( model, payee_interface,
+                        div_iter, payee_number, old_payee );
     gtk_tree_iter_free (div_iter);
+    g_free ( title );
 
     /* update the transactions list */
     transaction_list_update_element (ELEMENT_PARTY);
-
     modification_fichier (TRUE);
     return FALSE;
 }
 
 
+void payee_tree_update_transactions ( GtkTreeModel * model, 
+                        MetatreeInterface * iface, GtkTreeIter * iter,
+                        gint division, gchar * old_payee )
+{
+    GtkTreeIter child_iter;
+    gchar *name;
+    gint number_transactions;
+    gint transaction_number;
+    gint i = 0;
 
+    number_transactions = iface -> div_nb_transactions (division);
+
+    for ( i = 0; i < number_transactions; i++ )
+    {
+        gtk_tree_model_iter_nth_child ( model, &child_iter, iter, i );
+        gtk_tree_model_get ( model, &child_iter, META_TREE_TEXT_COLUMN, &name, -1 );
+        if ( !name )
+            return;
+        gtk_tree_model_get ( model, &child_iter, META_TREE_NO_TRANSACTION_COLUMN, 
+                        &transaction_number, -1 );
+        name = gsb_string_remplace_string ( name, old_payee, (gchar *) 
+                        gsb_data_payee_get_name ( division, FALSE ) );
+        gtk_tree_store_set ( GTK_TREE_STORE(model), &child_iter, 
+                        META_TREE_TEXT_COLUMN, name, -1 );
+    }
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

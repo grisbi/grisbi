@@ -710,9 +710,10 @@ void gsb_data_payee_add_transaction_to_payee ( gint transaction_number )
     }
 
     payee -> payee_nb_transactions ++;
-    payee -> payee_balance = gsb_real_add ( payee -> payee_balance,
-					    gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-												    payee_tree_currency (), -1));
+    if ( ! gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
+        payee -> payee_balance = gsb_real_add ( payee -> payee_balance,
+					    gsb_data_transaction_get_adjusted_amount_for_currency 
+                        ( transaction_number, payee_tree_currency (), -1));
 }
 
 

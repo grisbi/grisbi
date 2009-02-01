@@ -28,6 +28,7 @@
 /*START_INCLUDE*/
 #include "utils_str.h"
 #include "./include.h"
+#include "./erreur.h"
 #include "./gsb_data_report.h"
 /*END_INCLUDE*/
 
@@ -167,7 +168,7 @@ gint utils_str_atoi ( const gchar *chaine )
 /* Fonction my_strtod (string to decimal)                                    */
 /* Convertie une chaine de caractères en un nombre                            */
 /* Paramètres d'entrée :                                                      */
-/*   - nptr : pointeur sur la chaine de caractÃšres Ã  convertir                */
+/*   - nptr : pointeur sur la chaine de caractères à convertir                */
 /*   - endptr : n'est pas utilisé, alors à quoi peut-il bien servir ?         */
 /* Valeur de retour :                                                         */
 /*   - resultat : le résultat de la conversion                                */
@@ -730,6 +731,20 @@ gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
 	g_free(trunc);
 	return result;
     }
+}
+
+gchar * gsb_string_remplace_string ( gchar * str, gchar *old_str, gchar *new_str )
+{
+    gchar *ptr_debut;
+    gint long_old;
+    gchar *chaine;
+
+    ptr_debut = g_strstr_len ( str, -1, old_str);
+    long_old = g_utf8_strlen ( old_str, -1 );
+    chaine = g_strndup ( str, (ptr_debut - str) );
+    chaine = g_strconcat ( chaine, new_str, ( ptr_debut + long_old ), NULL );
+    devel_debug ( chaine );
+    return g_strdup ( chaine );
 }
 
 /**
