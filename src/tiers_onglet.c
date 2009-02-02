@@ -80,7 +80,7 @@ GtkTreeStore *payee_tree_model = NULL;
 
 /*START_EXTERN*/
 extern MetatreeInterface * payee_interface ;
-extern GtkWidget *window ;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -563,6 +563,7 @@ gboolean edit_payee ( GtkTreeView * view )
 	{
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
         g_free ( title );
+        g_free ( old_payee );
 
 	    return FALSE;
 	}
@@ -600,8 +601,11 @@ gboolean edit_payee ( GtkTreeView * view )
                         div_iter, payee_number );
     payee_tree_update_transactions ( model, payee_interface,
                         div_iter, payee_number, old_payee );
+    gtk_tree_selection_select_iter ( selection, div_iter );
+    gtk_widget_grab_focus ( GTK_WIDGET ( view ) );
     gtk_tree_iter_free (div_iter);
     g_free ( title );
+    g_free ( old_payee );
 
     /* update the transactions list */
     transaction_list_update_element (ELEMENT_PARTY);
