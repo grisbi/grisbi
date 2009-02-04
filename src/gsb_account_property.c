@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2008 Benjamin Drieu (bdrieu@april.org) 	      */
+/*			2004-2009 Benjamin Drieu (bdrieu@april.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -69,8 +69,6 @@
 /*START_STATIC*/
 static gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
 						gpointer null );
-static gboolean gsb_account_property_changed ( GtkWidget *widget,
-					gint *p_origin  );
 static gboolean gsb_account_property_changed_bank_label ( GtkWidget *combobox,
 						   gpointer null );
 /*END_STATIC*/
@@ -87,7 +85,7 @@ static GtkWidget *detail_no_compte = NULL;
 static GtkWidget *label_code_banque = NULL;
 static GtkWidget *detail_guichet = NULL;
 static GtkWidget *detail_cle_compte = NULL;
-static GtkWidget *detail_devise_compte = NULL;
+GtkWidget *detail_devise_compte = NULL;
 static GtkWidget *detail_compte_cloture = NULL;
 static GtkWidget *detail_solde_init = NULL;
 static GtkWidget *detail_solde_mini_autorise = NULL;

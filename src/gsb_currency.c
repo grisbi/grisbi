@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2007 C�dric Auger (cedric@grisbi.org)	      */
-/*			2003-2007 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2009 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -55,6 +55,9 @@ static gboolean gsb_currency_select_change_currency ( GtkWidget *combobox_1,
 					       GtkWidget *combobox_2 );
 /*END_STATIC*/
 
+/*START_EXTERN*/
+extern GtkWidget *detail_devise_compte;
+/*END_EXTERN*/
 /**
  * the currency list store, contains 3 columns :
  * 1 : the code of the currency
@@ -257,6 +260,7 @@ gint gsb_currency_get_currency_from_combobox ( GtkWidget *combo_box )
 }
 
 
+
 /**
  * update the list of the currencies for combobox, wich change all
  * the current combobox content
@@ -273,6 +277,14 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
 	||
 	!gsb_data_currency_get_currency_list ())
 	return FALSE;
+
+    /* XXX still buggy, very slow on the gtk_list_store_clear() call,
+     * try to find why. */
+    if ( detail_devise_compte )
+    {
+	g_signal_handler_block ( detail_devise_compte,
+				 g_object_get_data ( detail_devise_compte, "changed-hook" ) );
+    }
 
     gtk_list_store_clear (GTK_LIST_STORE (combobox_currency_store));
     list_tmp = gsb_data_currency_get_currency_list ();
@@ -313,6 +325,12 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
     mise_a_jour_liste_echeances_auto_accueil = 1;
+
+    if ( detail_devise_compte )
+    {
+	g_signal_handler_unblock ( detail_devise_compte,
+				   g_object_get_data ( detail_devise_compte, "changed-hook" ) );
+    }
 
     return FALSE;
 }
