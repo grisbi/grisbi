@@ -69,6 +69,8 @@
 /*START_STATIC*/
 static gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
 						gpointer null );
+static gboolean gsb_account_property_changed ( GtkWidget *widget,
+					gint *p_origin  );
 static gboolean gsb_account_property_changed_bank_label ( GtkWidget *combobox,
 						   gpointer null );
 /*END_STATIC*/
