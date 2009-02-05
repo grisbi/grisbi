@@ -592,6 +592,7 @@ void gsb_currency_config_remove_currency ( GtkWidget *button,
     GSList *list_tmp;
     gint currency_number;
 
+    devel_debug (NULL);
     currency_number = gsb_currency_config_get_selected ( GTK_TREE_VIEW ( tree_view ) );
     if ( !currency_number )
 	return;
@@ -608,10 +609,11 @@ void gsb_currency_config_remove_currency ( GtkWidget *button,
 
 	if ( gsb_data_transaction_get_currency_number (transaction_number) == currency_number )
 	{
-	    gchar* tmpstr1 = g_strdup_printf ( _("Currency '%s' is used in current file.  Grisbi can't delete it."),
-						    gsb_data_currency_get_name (currency_number));
+	    gchar* tmpstr1 = g_strdup_printf ( _("Currency '%s' is used in current "
+                        "file.  Grisbi can't delete it."),
+                        gsb_data_currency_get_name (currency_number));
 	    gchar* tmpstr2 = g_strdup_printf ( _("Impossible to remove currency '%s'"),
-						    gsb_data_currency_get_name (currency_number) );
+                        gsb_data_currency_get_name (currency_number) );
 	    dialogue_error_hint ( tmpstr1, tmpstr2);
 	    g_free ( tmpstr1 );
 	    g_free ( tmpstr2 );
@@ -631,10 +633,11 @@ void gsb_currency_config_remove_currency ( GtkWidget *button,
 	scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp -> data);
 	if ( gsb_data_scheduled_get_currency_number (scheduled_number) == currency_number )
 	{
-	    gchar* tmpstr1 = g_strdup_printf ( _("Currency '%s' is used in current file.  Grisbi can't delete it."),
-						    gsb_data_currency_get_name (currency_number));
+	    gchar* tmpstr1 = g_strdup_printf ( _("Currency '%s' is used in current "
+                        "file. Grisbi can't delete it."),
+                        gsb_data_currency_get_name (currency_number));
 	    gchar* tmpstr2 = g_strdup_printf ( _("Impossible to remove currency '%s'"),
-						    gsb_data_currency_get_name (currency_number) );
+                        gsb_data_currency_get_name (currency_number) );
 	    dialogue_error_hint ( tmpstr1, tmpstr2);
 	    g_free ( tmpstr1 );
 	    g_free ( tmpstr2 );
@@ -1000,56 +1003,54 @@ dialog_return:
     {
 	case 1 :
 
-	    currency_name = gtk_entry_get_text ( GTK_ENTRY ( entry_name ));
-	    currency_code = gtk_entry_get_text ( GTK_ENTRY ( entry_code ));
-	    currency_isocode = gtk_entry_get_text ( GTK_ENTRY ( entry_isocode ));
-	    floating_point = utils_str_atoi (gtk_entry_get_text ( GTK_ENTRY ( entry_floating_point )));
+    currency_name = gtk_entry_get_text ( GTK_ENTRY ( entry_name ));
+    currency_code = gtk_entry_get_text ( GTK_ENTRY ( entry_code ));
+    currency_isocode = gtk_entry_get_text ( GTK_ENTRY ( entry_isocode ));
+    floating_point = utils_str_atoi (gtk_entry_get_text ( GTK_ENTRY ( entry_floating_point )));
 
-	    if ( strlen ( currency_name ) &&
-		 (strlen ( currency_code ) ||
-		  strlen ( currency_isocode )))
-	    {
-		/* check if the currency exists si la devise existe on ne fait rien */
+    if ( strlen ( currency_name ) &&
+     (strlen ( currency_code ) ||
+      strlen ( currency_isocode )))
+    {
+        /* check if the currency exists si la devise existe on ne fait rien */
 
-		if ( gsb_data_currency_get_number_by_name ( currency_name ) )
-		{
-		    currency_number = 0;
-		}
-		else if ( gsb_data_currency_get_number_by_code_iso4217 ( currency_isocode ) )
-		{
-		    currency_number = 0;
-		}
-		else
-		{
-		    currency_number = gsb_currency_config_create_currency ( currency_name, currency_code,
-									    currency_isocode, floating_point );
-		}
+        if ( gsb_data_currency_get_number_by_name ( currency_name ) )
+        {
+            currency_number = gsb_data_currency_get_number_by_name 
+                        ( currency_name );
+        }
+        else if ( gsb_data_currency_get_number_by_code_iso4217 
+                        ( currency_isocode ) )
+        {
+            currency_number = gsb_data_currency_get_number_by_code_iso4217 
+                        ( currency_isocode );
+        }
+        else
+        {
+            currency_number = gsb_currency_config_create_currency ( currency_name, 
+                        currency_code, currency_isocode, floating_point );
 
-		/* update the currency list for combobox */
-        /* mise en commentaire car introduit deux bugs 
-         * 1) passage à 0 des variaables no_devise_totaux_categ, no_devise_totaux_ib,
-         *    no_devise_totaux_tiers dans le fichier gribi;
-         * 2) bug affichage de la liste des opérations (passage à 0 de la devise du 
-         *    premier compte de la liste des comptes */
+            /* update the currencies list in account properties */
+            gsb_currency_update_combobox_currency_list ();
 
-		gsb_currency_update_combobox_currency_list ();
-
-		if ( currency_tree_model && currency_number > 0 )
-		{
-		    gsb_currency_append_currency_to_list ( GTK_LIST_STORE ( currency_tree_model ),
-							   currency_number );
-		    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
-		    modification_fichier ( TRUE );
-		    return TRUE;
-		}
-	    }
-	    else
-	    {
-		dialogue_warning_hint ( _("Currency name and either international currency code or currency nickname should be set."),
-					_("All fields are not filled in") );
-		goto dialog_return;
-	    }
-	    break;
+            if ( currency_tree_model && currency_number > 0 )
+            {
+                gsb_currency_append_currency_to_list ( GTK_LIST_STORE ( currency_tree_model ),
+                                   currency_number );
+                gtk_widget_destroy ( GTK_WIDGET ( dialog ));
+                modification_fichier ( TRUE );
+                return TRUE;
+            }
+        }
+    }
+    else
+    {
+        dialogue_warning_hint ( _("Currency name and either international "
+                        "currency code or currency nickname should be set."),
+                        _("All fields are not filled in") );
+        goto dialog_return;
+    }
+    break;
     }
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
     return TRUE;
@@ -1263,7 +1264,8 @@ gboolean gsb_currency_config_update_list ( GtkWidget * checkbox,
 
     model = gtk_tree_view_get_model ( tree_view );
     gtk_list_store_clear ( GTK_LIST_STORE (model) );
-    gsb_currency_config_fill_popup_list ( tree_view, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbox)) );
+    gsb_currency_config_fill_popup_list ( tree_view, 
+                        gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbox)) );
 
     /* re-select the default currency
      * TODO : should use the GtkTreeModelFilter to show or not the obsoletes currencies,

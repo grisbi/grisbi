@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2009 Benjamin Drieu (bdrieu@april.org) 	      */
-/*			http://www.grisbi.org   			      */
+/*     Copyright (C)	2000-2009 Cédric Auger (cedric@grisbi.org)	          */
+/*			2004-2009 Benjamin Drieu (bdrieu@april.org) 	                  */
+/*			http://www.grisbi.org   			                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -207,7 +207,8 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     detail_devise_compte = gsb_autofunc_currency_new (TRUE, 0,
-						      G_CALLBACK (gsb_account_property_changed), GINT_TO_POINTER (PROPERTY_CURRENCY),
+						      G_CALLBACK (gsb_account_property_changed), 
+                              GINT_TO_POINTER (PROPERTY_CURRENCY),
 						      NULL, 0 );
     g_signal_connect ( G_OBJECT (detail_devise_compte ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &detail_devise_compte );
@@ -215,7 +216,8 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     /* create closed account line */
     detail_compte_cloture = gsb_autofunc_checkbutton_new (_("Closed account"), FALSE,
-							  G_CALLBACK (gsb_account_property_changed), GINT_TO_POINTER (PROPERTY_CLOSED_ACCOUNT),
+							  G_CALLBACK (gsb_account_property_changed), 
+                              GINT_TO_POINTER (PROPERTY_CLOSED_ACCOUNT),
 							  G_CALLBACK (gsb_data_account_set_closed_account), 0 );
     g_signal_connect ( G_OBJECT (detail_compte_cloture ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &detail_compte_cloture );
@@ -686,6 +688,9 @@ gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
     account_currency_number = gsb_data_account_get_currency (account_number);
 
     new_currency_number = gsb_currency_get_currency_from_combobox (detail_devise_compte);
+
+    if ( account_currency_number == new_currency_number )
+        return FALSE;
 
     /* set the new currency, must set here and no in the autofunc directly  */
     gsb_data_account_set_currency ( account_number,

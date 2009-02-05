@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-31 19:41+0100\n"
+"POT-Creation-Date: 2009-02-04 21:12+0100\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -432,7 +432,7 @@ msgstr ""
 #: src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_payment_method_config.c:159 src/gsb_reconcile_config.c:96
 #: src/gsb_scheduler_list.c:331 src/imputation_budgetaire.c:161
-#: src/tiers_onglet.c:184
+#: src/tiers_onglet.c:188
 msgid "Account"
 msgstr "حساب ها"
 
@@ -451,7 +451,7 @@ msgstr "تاریخ"
 
 #. Description entry
 #: src/balance_estimate_tab.c:300 src/etats_onglet.c:287
-#: src/tiers_onglet.c:538
+#: src/tiers_onglet.c:543
 msgid "Description"
 msgstr "توضیحات"
 
@@ -499,7 +499,7 @@ msgstr ""
 
 #: src/barre_outils.c:107 src/barre_outils.c:453 src/categories_onglet.c:498
 #: src/etats_onglet.c:173 src/imputation_budgetaire.c:529
-#: src/tiers_onglet.c:265
+#: src/tiers_onglet.c:269
 msgid "Delete"
 msgstr "حذف"
 
@@ -537,7 +537,7 @@ msgid "Print the transactions list"
 msgstr "جستجوی تراکنش"
 
 #: src/barre_outils.c:153 src/barre_outils.c:513 src/categories_onglet.c:517
-#: src/imputation_budgetaire.c:550 src/tiers_onglet.c:292
+#: src/imputation_budgetaire.c:550 src/tiers_onglet.c:296
 msgid "View"
 msgstr ""
 
@@ -566,7 +566,7 @@ msgid "Three lines view"
 msgstr ""
 
 #: src/barre_outils.c:237 src/categories_onglet.c:561
-#: src/imputation_budgetaire.c:594 src/tiers_onglet.c:366
+#: src/imputation_budgetaire.c:594 src/tiers_onglet.c:370
 msgid "Complete view"
 msgstr ""
 
@@ -676,7 +676,7 @@ msgstr "بخش"
 #: src/categories_onglet.c:159 src/export_csv.c:774 src/gsb_reconcile.c:156
 #: src/gsb_scheduler_list.c:332 src/gsb_transactions_list.c:149
 #: src/gsb_transactions_list.c:2859 src/import_csv.c:86
-#: src/imputation_budgetaire.c:170 src/tiers_onglet.c:193
+#: src/imputation_budgetaire.c:170 src/tiers_onglet.c:197
 #: src/traitement_variables.c:80
 msgid "Balance"
 msgstr ""
@@ -771,7 +771,7 @@ msgstr ""
 
 #: src/categories_onglet.c:507 src/etats_onglet.c:184
 #: src/fenetre_principale.c:251 src/imputation_budgetaire.c:539
-#: src/tiers_onglet.c:274
+#: src/tiers_onglet.c:278
 msgid "Properties"
 msgstr ""
 
@@ -779,7 +779,7 @@ msgstr ""
 msgid "Edit selected category"
 msgstr ""
 
-#: src/categories_onglet.c:521 src/tiers_onglet.c:296
+#: src/categories_onglet.c:521 src/tiers_onglet.c:300
 #, fuzzy
 msgid "Change view mode"
 msgstr "تغییر محتوای سلول ها"
@@ -795,7 +795,7 @@ msgstr ""
 
 #: src/categories_onglet.c:606 src/categories_onglet.c:610
 #: src/imputation_budgetaire.c:637 src/imputation_budgetaire.c:642
-#: src/tiers_onglet.c:499
+#: src/tiers_onglet.c:505
 #, c-format
 msgid "Properties for %s"
 msgstr ""
@@ -823,7 +823,7 @@ msgstr ""
 #: src/gsb_bank.c:832 src/gsb_currency_config.c:352 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:239
 #: src/gsb_reconcile_config.c:179 src/gsb_transactions_list.c:1725
-#: src/imputation_budgetaire.c:670 src/tiers_onglet.c:525
+#: src/imputation_budgetaire.c:670 src/tiers_onglet.c:530
 msgid "Name"
 msgstr ""
 
@@ -1810,7 +1810,7 @@ msgstr ""
 
 #. set the title
 #: src/etats_config.c:4041 src/navigation.c:290 src/navigation.c:1228
-#: src/tiers_onglet.c:172
+#: src/tiers_onglet.c:176
 msgid "Payees"
 msgstr ""
 
@@ -2195,7 +2195,7 @@ msgstr "حذف تراکنش"
 msgid "Make transactions clickable"
 msgstr ""
 
-#: src/etats_config.c:6985 src/gsb_currency_config.c:794 src/parametres.c:341
+#: src/etats_config.c:6985 src/gsb_currency_config.c:797 src/parametres.c:341
 msgid "Totals currencies"
 msgstr ""
 
@@ -3452,7 +3452,7 @@ msgid "Assets account"
 msgstr ""
 
 #. ask for the currency of the transactions
-#: src/gsb_account_property.c:695
+#: src/gsb_account_property.c:698
 #, c-format
 msgid ""
 "You are changing the currency of the account, do you want to change the "
@@ -3463,7 +3463,7 @@ msgid ""
 "Archived and reconcilied transactions will be left unmodified."
 msgstr ""
 
-#: src/gsb_account_property.c:698
+#: src/gsb_account_property.c:701
 #, fuzzy
 msgid "Change the transactions currency"
 msgstr "جستجوی تراکنش"
@@ -4443,28 +4443,28 @@ msgstr ""
 msgid "Don't ask password again for this session."
 msgstr ""
 
-#: src/gsb_currency.c:399
+#: src/gsb_currency.c:423
 msgid "Enter exchange rate"
 msgstr ""
 
 #. text for paddingbox
-#: src/gsb_currency.c:409
+#: src/gsb_currency.c:433
 #, c-format
 msgid "Please enter exchange rate for %s"
 msgstr ""
 
 #. echange line label
-#: src/gsb_currency.c:427
+#: src/gsb_currency.c:451
 msgid "1"
 msgstr ""
 
 #. echange line compare sign
-#: src/gsb_currency.c:442
+#: src/gsb_currency.c:466
 msgid "="
 msgstr ""
 
 #. exchange fees line label
-#: src/gsb_currency.c:473
+#: src/gsb_currency.c:497
 msgid "Exchange fees"
 msgstr ""
 
@@ -5601,7 +5601,7 @@ msgstr ""
 msgid "United States Dollar"
 msgstr ""
 
-#: src/gsb_currency_config.c:235 src/gsb_currency_config.c:1369
+#: src/gsb_currency_config.c:235 src/gsb_currency_config.c:1371
 msgid "United States"
 msgstr ""
 
@@ -5844,7 +5844,7 @@ msgid "ISO code"
 msgstr ""
 
 #. Create floating point entry
-#: src/gsb_currency_config.c:391 src/gsb_currency_config.c:980
+#: src/gsb_currency_config.c:391 src/gsb_currency_config.c:983
 msgid "Floating point"
 msgstr ""
 
@@ -5853,7 +5853,7 @@ msgid "Country name"
 msgstr "نام کشور"
 
 #. Currency name
-#: src/gsb_currency_config.c:474 src/gsb_currency_config.c:946
+#: src/gsb_currency_config.c:474 src/gsb_currency_config.c:949
 msgid "Currency name"
 msgstr "نام واحد"
 
@@ -5861,52 +5861,57 @@ msgstr "نام واحد"
 msgid "ISO Code"
 msgstr ""
 
-#: src/gsb_currency_config.c:611 src/gsb_currency_config.c:634
+#: src/gsb_currency_config.c:612
 #, c-format
 msgid "Currency '%s' is used in current file.  Grisbi can't delete it."
 msgstr ""
 
-#: src/gsb_currency_config.c:613 src/gsb_currency_config.c:636
+#: src/gsb_currency_config.c:615 src/gsb_currency_config.c:639
 #, c-format
 msgid "Impossible to remove currency '%s'"
 msgstr ""
 
-#: src/gsb_currency_config.c:801
+#: src/gsb_currency_config.c:636
+#, c-format
+msgid "Currency '%s' is used in current file. Grisbi can't delete it."
+msgstr ""
+
+#: src/gsb_currency_config.c:804
 msgid "Currency for payees tree"
 msgstr ""
 
-#: src/gsb_currency_config.c:811
+#: src/gsb_currency_config.c:814
 msgid "Currency for categories tree"
 msgstr ""
 
-#: src/gsb_currency_config.c:821
+#: src/gsb_currency_config.c:824
 msgid "Currency for budgetary lines tree"
 msgstr ""
 
-#: src/gsb_currency_config.c:910
+#: src/gsb_currency_config.c:913
 msgid "Add a currency"
 msgstr ""
 
-#: src/gsb_currency_config.c:919
+#: src/gsb_currency_config.c:922
 msgid "Select base currency for your account"
 msgstr ""
 
-#: src/gsb_currency_config.c:928
+#: src/gsb_currency_config.c:931
 msgid "World currencies"
 msgstr ""
 
-#: src/gsb_currency_config.c:937
+#: src/gsb_currency_config.c:940
 msgid "Currency details"
 msgstr ""
 
 #. Currency ISO code
-#: src/gsb_currency_config.c:958
+#: src/gsb_currency_config.c:961
 #, fuzzy
 msgid "Currency international code"
 msgstr "نام واحد"
 
 #. Currency usual sign
-#: src/gsb_currency_config.c:969
+#: src/gsb_currency_config.c:972
 msgid "Currency sign"
 msgstr ""
 
@@ -5916,11 +5921,11 @@ msgid ""
 "should be set."
 msgstr ""
 
-#: src/gsb_currency_config.c:1049
+#: src/gsb_currency_config.c:1050
 msgid "All fields are not filled in"
 msgstr ""
 
-#: src/gsb_currency_config.c:1177
+#: src/gsb_currency_config.c:1178
 msgid "Include obsolete currencies"
 msgstr ""
 
@@ -6461,33 +6466,33 @@ msgstr ""
 msgid "Grisbi"
 msgstr ""
 
-#: src/gsb_file_config.c:745
+#: src/gsb_file_config.c:746
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr ""
 
-#: src/gsb_file_config.c:785
+#: src/gsb_file_config.c:786
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
 "please check it."
 msgstr ""
 
-#: src/gsb_file_config.c:822
+#: src/gsb_file_config.c:823
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr ""
 
-#: src/gsb_file_config.c:1249 src/print_config.c:51
+#: src/gsb_file_config.c:1250 src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: src/gsb_file_config.c:1267
+#: src/gsb_file_config.c:1268
 #, fuzzy
 msgid "Delete an old config file"
 msgstr "حساب حذف شده"
 
-#: src/gsb_file_config.c:1287
+#: src/gsb_file_config.c:1288
 msgid ""
 "Careful, you are about to deleting the file\n"
 "of configuration of an old version of Grisbi.\n"
@@ -6495,12 +6500,12 @@ msgid ""
 "<b>Do you want to continue ?</b>"
 msgstr ""
 
-#: src/gsb_file_config.c:1350
+#: src/gsb_file_config.c:1351
 #, fuzzy
 msgid "Choose a file"
 msgstr "انتخاب نوع حساب"
 
-#: src/gsb_file_config.c:1373
+#: src/gsb_file_config.c:1374
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -8442,7 +8447,7 @@ msgid "No sub-payee"
 msgstr ""
 
 #. * Find a unique name for payee
-#: src/meta_payee.c:320 src/tiers_onglet.c:257
+#: src/meta_payee.c:320 src/tiers_onglet.c:261
 msgid "New payee"
 msgstr ""
 
@@ -8451,26 +8456,26 @@ msgstr ""
 msgid "New payee #%d"
 msgstr ""
 
-#: src/metatree.c:459
+#: src/metatree.c:455
 msgid "split"
 msgstr ""
 
 #. FIXME: tell the truth ;-)
-#: src/metatree.c:688
+#: src/metatree.c:684
 msgid "This should not theorically happen."
 msgstr ""
 
-#: src/metatree.c:689
+#: src/metatree.c:685
 msgid "Can't remove selected division."
 msgstr ""
 
 #. create the box to move change the division and sub-div of the transactions
-#: src/metatree.c:1605
+#: src/metatree.c:1601
 #, c-format
 msgid "'%s' still contains transactions or archived transactions."
 msgstr ""
 
-#: src/metatree.c:1609
+#: src/metatree.c:1605
 #, c-format
 msgid ""
 "If you want to remove it but want to keep transactions, you can transfer "
@@ -8478,29 +8483,29 @@ msgid ""
 "along with their division."
 msgstr ""
 
-#: src/metatree.c:1621
+#: src/metatree.c:1617
 #, fuzzy, c-format
 msgid "Transfer transactions to %s"
 msgstr "جستجوی تراکنش"
 
-#: src/metatree.c:1720
+#: src/metatree.c:1716
 #, c-format
 msgid "Just remove this %s."
 msgstr ""
 
-#: src/metatree.c:1722
+#: src/metatree.c:1718
 #, c-format
 msgid "Just remove this sub-%s."
 msgstr ""
 
-#: src/metatree.c:1745
+#: src/metatree.c:1741
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
 "was entered."
 msgstr ""
 
-#: src/metatree.c:1746
+#: src/metatree.c:1742
 #, c-format
 msgid "Please enter a %s!"
 msgstr ""
@@ -9077,29 +9082,29 @@ msgstr ""
 msgid "Error opening file '%s'"
 msgstr ""
 
-#: src/tiers_onglet.c:261
+#: src/tiers_onglet.c:265
 msgid "Create a new payee"
 msgstr ""
 
-#: src/tiers_onglet.c:270
+#: src/tiers_onglet.c:274
 msgid "Delete selected payee"
 msgstr ""
 
-#: src/tiers_onglet.c:279
+#: src/tiers_onglet.c:283
 msgid "Edit selected payee"
 msgstr ""
 
-#: src/tiers_onglet.c:283
+#: src/tiers_onglet.c:287
 #, fuzzy
 msgid "Remove unused payees"
 msgstr "حذف روش پرداخت"
 
-#: src/tiers_onglet.c:287 src/tiers_onglet.c:322
+#: src/tiers_onglet.c:291 src/tiers_onglet.c:326
 #, fuzzy
 msgid "Remove orphan payees"
 msgstr "حذف روش پرداخت"
 
-#: src/tiers_onglet.c:323
+#: src/tiers_onglet.c:327
 msgid ""
 "This will remove all the payees wich are not used in any transactions.  "
 "Payees linked to an archived transactions will not be removed, even if not "
@@ -9108,24 +9113,24 @@ msgid ""
 "Are you sure you want to do that?"
 msgstr ""
 
-#: src/tiers_onglet.c:335
+#: src/tiers_onglet.c:339
 #, c-format
 msgid "Removed %d payees."
 msgstr ""
 
 #. Edit transaction
-#: src/tiers_onglet.c:360
+#: src/tiers_onglet.c:364
 msgid "Payee view"
 msgstr ""
 
-#: src/tiers_onglet.c:577
+#: src/tiers_onglet.c:584
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
 "Please choose another name."
 msgstr ""
 
-#: src/tiers_onglet.c:581
+#: src/tiers_onglet.c:588
 #, fuzzy
 msgid "Payee already exists"
 msgstr "این فایل موجود است."

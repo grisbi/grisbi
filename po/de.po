@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-31 19:41+0100\n"
+"POT-Creation-Date: 2009-02-04 21:12+0100\n"
 "PO-Revision-Date: 2009-01-18 20:26+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -420,7 +420,7 @@ msgstr ""
 #: src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_payment_method_config.c:159 src/gsb_reconcile_config.c:96
 #: src/gsb_scheduler_list.c:331 src/imputation_budgetaire.c:161
-#: src/tiers_onglet.c:184
+#: src/tiers_onglet.c:188
 msgid "Account"
 msgstr "Konto"
 
@@ -439,7 +439,7 @@ msgstr "Datum"
 
 #. Description entry
 #: src/balance_estimate_tab.c:300 src/etats_onglet.c:287
-#: src/tiers_onglet.c:538
+#: src/tiers_onglet.c:543
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -487,7 +487,7 @@ msgstr "Eine neue Buchung erstellen"
 
 #: src/barre_outils.c:107 src/barre_outils.c:453 src/categories_onglet.c:498
 #: src/etats_onglet.c:173 src/imputation_budgetaire.c:529
-#: src/tiers_onglet.c:265
+#: src/tiers_onglet.c:269
 msgid "Delete"
 msgstr "Löschen"
 
@@ -522,7 +522,7 @@ msgid "Print the transactions list"
 msgstr "Buchungen drucken"
 
 #: src/barre_outils.c:153 src/barre_outils.c:513 src/categories_onglet.c:517
-#: src/imputation_budgetaire.c:550 src/tiers_onglet.c:292
+#: src/imputation_budgetaire.c:550 src/tiers_onglet.c:296
 msgid "View"
 msgstr "Ansicht"
 
@@ -551,7 +551,7 @@ msgid "Three lines view"
 msgstr "Dreizeilig"
 
 #: src/barre_outils.c:237 src/categories_onglet.c:561
-#: src/imputation_budgetaire.c:594 src/tiers_onglet.c:366
+#: src/imputation_budgetaire.c:594 src/tiers_onglet.c:370
 msgid "Complete view"
 msgstr "Vollständig"
 
@@ -654,7 +654,7 @@ msgstr "Kategorie"
 #: src/categories_onglet.c:159 src/export_csv.c:774 src/gsb_reconcile.c:156
 #: src/gsb_scheduler_list.c:332 src/gsb_transactions_list.c:149
 #: src/gsb_transactions_list.c:2859 src/import_csv.c:86
-#: src/imputation_budgetaire.c:170 src/tiers_onglet.c:193
+#: src/imputation_budgetaire.c:170 src/tiers_onglet.c:197
 #: src/traitement_variables.c:80
 msgid "Balance"
 msgstr "Saldo"
@@ -759,7 +759,7 @@ msgstr "Die selektiere Kategorie löschen"
 
 #: src/categories_onglet.c:507 src/etats_onglet.c:184
 #: src/fenetre_principale.c:251 src/imputation_budgetaire.c:539
-#: src/tiers_onglet.c:274
+#: src/tiers_onglet.c:278
 msgid "Properties"
 msgstr "Eigenschaften"
 
@@ -767,7 +767,7 @@ msgstr "Eigenschaften"
 msgid "Edit selected category"
 msgstr "Die selektierte Kategorie bearbeiten"
 
-#: src/categories_onglet.c:521 src/tiers_onglet.c:296
+#: src/categories_onglet.c:521 src/tiers_onglet.c:300
 msgid "Change view mode"
 msgstr "Die Darstellung ändern"
 
@@ -782,7 +782,7 @@ msgstr "Unterkategorien"
 
 #: src/categories_onglet.c:606 src/categories_onglet.c:610
 #: src/imputation_budgetaire.c:637 src/imputation_budgetaire.c:642
-#: src/tiers_onglet.c:499
+#: src/tiers_onglet.c:505
 #, c-format
 msgid "Properties for %s"
 msgstr "Eigenschaften von %s"
@@ -810,7 +810,7 @@ msgstr "Keine Kategorie definiert"
 #: src/gsb_bank.c:832 src/gsb_currency_config.c:352 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:239
 #: src/gsb_reconcile_config.c:179 src/gsb_transactions_list.c:1725
-#: src/imputation_budgetaire.c:670 src/tiers_onglet.c:525
+#: src/imputation_budgetaire.c:670 src/tiers_onglet.c:530
 msgid "Name"
 msgstr "Name"
 
@@ -1850,7 +1850,7 @@ msgstr "Budgeteinträge Ausgaben"
 
 #. set the title
 #: src/etats_config.c:4041 src/navigation.c:290 src/navigation.c:1228
-#: src/tiers_onglet.c:172
+#: src/tiers_onglet.c:176
 msgid "Payees"
 msgstr "Empfänger"
 
@@ -2221,7 +2221,7 @@ msgstr "Buchungen Aufruf"
 msgid "Make transactions clickable"
 msgstr "Buchungen sind aufrufbar"
 
-#: src/etats_config.c:6985 src/gsb_currency_config.c:794 src/parametres.c:341
+#: src/etats_config.c:6985 src/gsb_currency_config.c:797 src/parametres.c:341
 msgid "Totals currencies"
 msgstr "Währungen"
 
@@ -3545,7 +3545,7 @@ msgid "Assets account"
 msgstr "Anlagekonto"
 
 #. ask for the currency of the transactions
-#: src/gsb_account_property.c:695
+#: src/gsb_account_property.c:698
 #, c-format
 msgid ""
 "You are changing the currency of the account, do you want to change the "
@@ -3562,7 +3562,7 @@ msgstr ""
 "\n"
 "Archivierte und abgestimmte Buchungen werden dadurch nicht verändert."
 
-#: src/gsb_account_property.c:698
+#: src/gsb_account_property.c:701
 msgid "Change the transactions currency"
 msgstr "Die Währung der Buchungen ändern"
 
@@ -4727,28 +4727,28 @@ msgstr "Passwort"
 msgid "Don't ask password again for this session."
 msgstr "Solange das Programm geöffnet ist nicht mehr nach dem Passwort fragen."
 
-#: src/gsb_currency.c:399
+#: src/gsb_currency.c:423
 msgid "Enter exchange rate"
 msgstr "Wechselkurs eingeben - Grisbi"
 
 #. text for paddingbox
-#: src/gsb_currency.c:409
+#: src/gsb_currency.c:433
 #, c-format
 msgid "Please enter exchange rate for %s"
 msgstr "Wechselkurs für %s eingeben"
 
 #. echange line label
-#: src/gsb_currency.c:427
+#: src/gsb_currency.c:451
 msgid "1"
 msgstr "1"
 
 #. echange line compare sign
-#: src/gsb_currency.c:442
+#: src/gsb_currency.c:466
 msgid "="
 msgstr "="
 
 #. exchange fees line label
-#: src/gsb_currency.c:473
+#: src/gsb_currency.c:497
 msgid "Exchange fees"
 msgstr "Wechselgebühren"
 
@@ -5863,7 +5863,7 @@ msgstr "Trinidad und Tobago"
 msgid "United States Dollar"
 msgstr "US Dollar"
 
-#: src/gsb_currency_config.c:235 src/gsb_currency_config.c:1369
+#: src/gsb_currency_config.c:235 src/gsb_currency_config.c:1371
 msgid "United States"
 msgstr "USA"
 
@@ -6099,7 +6099,7 @@ msgid "ISO code"
 msgstr "ISO Code"
 
 #. Create floating point entry
-#: src/gsb_currency_config.c:391 src/gsb_currency_config.c:980
+#: src/gsb_currency_config.c:391 src/gsb_currency_config.c:983
 msgid "Floating point"
 msgstr "Kommastellen"
 
@@ -6108,7 +6108,7 @@ msgid "Country name"
 msgstr "Landesname"
 
 #. Currency name
-#: src/gsb_currency_config.c:474 src/gsb_currency_config.c:946
+#: src/gsb_currency_config.c:474 src/gsb_currency_config.c:949
 msgid "Currency name"
 msgstr "Währungsname"
 
@@ -6116,53 +6116,60 @@ msgstr "Währungsname"
 msgid "ISO Code"
 msgstr "ISO Code"
 
-#: src/gsb_currency_config.c:611 src/gsb_currency_config.c:634
+#: src/gsb_currency_config.c:612
 #, c-format
 msgid "Currency '%s' is used in current file.  Grisbi can't delete it."
 msgstr ""
 "Die Währung %s wird von der aktuellen Datei benötigt.\n"
 "Diese Währung kann nicht gelöscht werden."
 
-#: src/gsb_currency_config.c:613 src/gsb_currency_config.c:636
+#: src/gsb_currency_config.c:615 src/gsb_currency_config.c:639
 #, c-format
 msgid "Impossible to remove currency '%s'"
 msgstr "Die Währung '%s' kann nicht entfernt werden"
 
-#: src/gsb_currency_config.c:801
+#: src/gsb_currency_config.c:636
+#, fuzzy, c-format
+msgid "Currency '%s' is used in current file. Grisbi can't delete it."
+msgstr ""
+"Die Währung %s wird von der aktuellen Datei benötigt.\n"
+"Diese Währung kann nicht gelöscht werden."
+
+#: src/gsb_currency_config.c:804
 msgid "Currency for payees tree"
 msgstr "Währung der Empfänger"
 
-#: src/gsb_currency_config.c:811
+#: src/gsb_currency_config.c:814
 msgid "Currency for categories tree"
 msgstr "Währung der Kategorien"
 
-#: src/gsb_currency_config.c:821
+#: src/gsb_currency_config.c:824
 msgid "Currency for budgetary lines tree"
 msgstr "Währung der Budgeteinträge"
 
-#: src/gsb_currency_config.c:910
+#: src/gsb_currency_config.c:913
 msgid "Add a currency"
 msgstr "Währung hinzufügen - Grisbi"
 
-#: src/gsb_currency_config.c:919
+#: src/gsb_currency_config.c:922
 msgid "Select base currency for your account"
 msgstr "Basiswährung für das Konto festlegen"
 
-#: src/gsb_currency_config.c:928
+#: src/gsb_currency_config.c:931
 msgid "World currencies"
 msgstr "Weltweite Währungen"
 
-#: src/gsb_currency_config.c:937
+#: src/gsb_currency_config.c:940
 msgid "Currency details"
 msgstr "Währungsdetails"
 
 #. Currency ISO code
-#: src/gsb_currency_config.c:958
+#: src/gsb_currency_config.c:961
 msgid "Currency international code"
 msgstr "Währung ISO-Code"
 
 #. Currency usual sign
-#: src/gsb_currency_config.c:969
+#: src/gsb_currency_config.c:972
 msgid "Currency sign"
 msgstr "Währungssymbol"
 
@@ -6173,11 +6180,11 @@ msgid ""
 msgstr ""
 "Es muss entweder der Währungsname oder der 'ISO-Code' eingegeben werden."
 
-#: src/gsb_currency_config.c:1049
+#: src/gsb_currency_config.c:1050
 msgid "All fields are not filled in"
 msgstr "Es wurden nicht alle Eingabefelder befüllt"
 
-#: src/gsb_currency_config.c:1177
+#: src/gsb_currency_config.c:1178
 msgid "Include obsolete currencies"
 msgstr "Inklusive veralteter Währungen"
 
@@ -6808,12 +6815,12 @@ msgstr "Datei speichern - Grisbi"
 msgid "Grisbi"
 msgstr "Grisbi"
 
-#: src/gsb_file_config.c:745
+#: src/gsb_file_config.c:746
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Die Konfiguration kann nicht gespeichert werden '%s': %s"
 
-#: src/gsb_file_config.c:785
+#: src/gsb_file_config.c:786
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -6822,20 +6829,20 @@ msgstr ""
 "%s scheint keine gültige Konfigurationsdatei zu sein,\n"
 "bitte prüfen."
 
-#: src/gsb_file_config.c:822
+#: src/gsb_file_config.c:823
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "Die Konfiguration kann nicht geöffnet werden '%s': %s"
 
-#: src/gsb_file_config.c:1249 src/print_config.c:51
+#: src/gsb_file_config.c:1250 src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: src/gsb_file_config.c:1267
+#: src/gsb_file_config.c:1268
 msgid "Delete an old config file"
 msgstr "Alte Konfigurationsdatei löschen"
 
-#: src/gsb_file_config.c:1287
+#: src/gsb_file_config.c:1288
 msgid ""
 "Careful, you are about to deleting the file\n"
 "of configuration of an old version of Grisbi.\n"
@@ -6847,11 +6854,11 @@ msgstr ""
 "\n"
 "<b>Wollen Sie die Löschung ausführen?</b>"
 
-#: src/gsb_file_config.c:1350
+#: src/gsb_file_config.c:1351
 msgid "Choose a file"
 msgstr "Eine Datei auswählen"
 
-#: src/gsb_file_config.c:1373
+#: src/gsb_file_config.c:1374
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -8992,7 +8999,7 @@ msgid "No sub-payee"
 msgstr "Neuer Teil-Empfänger"
 
 #. * Find a unique name for payee
-#: src/meta_payee.c:320 src/tiers_onglet.c:257
+#: src/meta_payee.c:320 src/tiers_onglet.c:261
 msgid "New payee"
 msgstr "Neuer Empfänger"
 
@@ -9001,26 +9008,26 @@ msgstr "Neuer Empfänger"
 msgid "New payee #%d"
 msgstr "Neuer Empfänger #%d"
 
-#: src/metatree.c:459
+#: src/metatree.c:455
 msgid "split"
 msgstr "splitten"
 
 #. FIXME: tell the truth ;-)
-#: src/metatree.c:688
+#: src/metatree.c:684
 msgid "This should not theorically happen."
 msgstr "Dieser Zustand sollte theoretisch nicht eintreten."
 
-#: src/metatree.c:689
+#: src/metatree.c:685
 msgid "Can't remove selected division."
 msgstr "Der gewählte Bereich kann nicht entfernt werden."
 
 #. create the box to move change the division and sub-div of the transactions
-#: src/metatree.c:1605
+#: src/metatree.c:1601
 #, c-format
 msgid "'%s' still contains transactions or archived transactions."
 msgstr "'%s' sind Buchungen oder archivierte Buchungen zugeordnet."
 
-#: src/metatree.c:1609
+#: src/metatree.c:1605
 #, c-format
 msgid ""
 "If you want to remove it but want to keep transactions, you can transfer "
@@ -9031,22 +9038,22 @@ msgstr ""
 "zugeordnet werden sollen. Es besteht auch die Möglichkeit, %s ohne einer "
 "Neuzuordnung von Buchungen zu löschen."
 
-#: src/metatree.c:1621
+#: src/metatree.c:1617
 #, c-format
 msgid "Transfer transactions to %s"
 msgstr "Buchungen von %s neu zuordnen"
 
-#: src/metatree.c:1720
+#: src/metatree.c:1716
 #, c-format
 msgid "Just remove this %s."
 msgstr "%s ohne Neuzuordnung löschen"
 
-#: src/metatree.c:1722
+#: src/metatree.c:1718
 #, c-format
 msgid "Just remove this sub-%s."
 msgstr "%s ohne Neuzuordnung löschen."
 
-#: src/metatree.c:1745
+#: src/metatree.c:1741
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
@@ -9055,7 +9062,7 @@ msgstr ""
 "Für das Verschieben von Buchungen muss ein %s angegeben werden, es wurde "
 "jedoch kein %s angegeben."
 
-#: src/metatree.c:1746
+#: src/metatree.c:1742
 #, c-format
 msgid "Please enter a %s!"
 msgstr "Bitte Daten für %s eingeben"
@@ -9672,27 +9679,27 @@ msgstr ""
 msgid "Error opening file '%s'"
 msgstr "Fehler beim Öffnen der Datei '%s'"
 
-#: src/tiers_onglet.c:261
+#: src/tiers_onglet.c:265
 msgid "Create a new payee"
 msgstr "Einen neuen Empfänger erstellen"
 
-#: src/tiers_onglet.c:270
+#: src/tiers_onglet.c:274
 msgid "Delete selected payee"
 msgstr "Den selektierten Empfänger löschen"
 
-#: src/tiers_onglet.c:279
+#: src/tiers_onglet.c:283
 msgid "Edit selected payee"
 msgstr "Den selektierten Empfänger bearbeiten"
 
-#: src/tiers_onglet.c:283
+#: src/tiers_onglet.c:287
 msgid "Remove unused payees"
 msgstr "Verwaiste löschen"
 
-#: src/tiers_onglet.c:287 src/tiers_onglet.c:322
+#: src/tiers_onglet.c:291 src/tiers_onglet.c:326
 msgid "Remove orphan payees"
 msgstr "Verwaiste Empfänger löschen"
 
-#: src/tiers_onglet.c:323
+#: src/tiers_onglet.c:327
 msgid ""
 "This will remove all the payees wich are not used in any transactions.  "
 "Payees linked to an archived transactions will not be removed, even if not "
@@ -9705,17 +9712,17 @@ msgstr ""
 "\n"
 "Sollen diese Empfänger gelöscht werden?"
 
-#: src/tiers_onglet.c:335
+#: src/tiers_onglet.c:339
 #, c-format
 msgid "Removed %d payees."
 msgstr "Es wurden %d Empfänger gelöscht."
 
 #. Edit transaction
-#: src/tiers_onglet.c:360
+#: src/tiers_onglet.c:364
 msgid "Payee view"
 msgstr "Einfach"
 
-#: src/tiers_onglet.c:577
+#: src/tiers_onglet.c:584
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
@@ -9725,7 +9732,7 @@ msgstr ""
 "ein Empfänger mit diesem Namen vorhanden. Bitte wählen Sie einen anderen "
 "Namen aus."
 
-#: src/tiers_onglet.c:581
+#: src/tiers_onglet.c:588
 msgid "Payee already exists"
 msgstr "Der Empfänger ist bereits vorhanden"
 

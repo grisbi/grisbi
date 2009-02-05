@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2007 C�dric Auger (cedric@grisbi.org)	      */
+/*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
 /*			2003-2009 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
@@ -41,6 +41,7 @@
 #include "./utils_files.h"
 #include "./include.h"
 #include "./gsb_currency_config.h"
+#include "./erreur.h"
 #include "./gsb_real.h"
 /*END_INCLUDE*/
 
@@ -55,9 +56,6 @@ static gboolean gsb_currency_select_change_currency ( GtkWidget *combobox_1,
 					       GtkWidget *combobox_2 );
 /*END_STATIC*/
 
-/*START_EXTERN*/
-extern GtkWidget *detail_devise_compte;
-/*END_EXTERN*/
 /**
  * the currency list store, contains 3 columns :
  * 1 : the code of the currency
@@ -94,6 +92,7 @@ static gsb_real current_exchange_fees;
 
 
 /*START_EXTERN*/
+extern GtkWidget *detail_devise_compte ;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
@@ -164,7 +163,8 @@ GtkWidget *gsb_currency_make_combobox ( gboolean set_name )
     if (!combobox_currency_store)
 	gsb_currency_create_combobox_store ();
 
-    combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL (combobox_currency_store));
+    combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL 
+                        (combobox_currency_store));
 
     /* Flag renderer */
     flag_renderer = gtk_cell_renderer_pixbuf_new ();
@@ -272,7 +272,9 @@ gint gsb_currency_get_currency_from_combobox ( GtkWidget *combo_box )
 gboolean gsb_currency_update_combobox_currency_list ( void )
 {
     GSList *list_tmp;
+    gint old_currency_number = -1;
 
+    devel_debug (NULL);
     if (!combobox_currency_store
 	||
 	!gsb_data_currency_get_currency_list ())
@@ -282,8 +284,11 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
      * try to find why. */
     if ( detail_devise_compte )
     {
-	g_signal_handler_block ( detail_devise_compte,
-				 g_object_get_data ( detail_devise_compte, "changed-hook" ) );
+	g_signal_handler_block ( (gpointer *) detail_devise_compte,
+                        (gulong) g_object_get_data ( G_OBJECT 
+                        (detail_devise_compte), "changed-hook" ) );
+    old_currency_number = gtk_combo_box_get_active (GTK_COMBO_BOX 
+                        (detail_devise_compte));
     }
 
     gtk_list_store_clear (GTK_LIST_STORE (combobox_currency_store));
@@ -291,35 +296,34 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
 
     while ( list_tmp )
     {
-	GtkTreeIter iter;
-	GdkPixbuf * pixbuf;
-	gchar * string;
-	gint currency_number;
+        GtkTreeIter iter;
+        GdkPixbuf * pixbuf;
+        gchar * string;
+        gint currency_number;
 
-	currency_number = gsb_data_currency_get_no_currency (list_tmp -> data);
+        currency_number = gsb_data_currency_get_no_currency (list_tmp -> data);
+        string = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
+                    "flags", C_DIRECTORY_SEPARATOR,
+                    gsb_data_currency_get_code_iso4217 (currency_number),
+                    ".png", NULL );
+        pixbuf = gdk_pixbuf_new_from_file ( string, NULL );
+        g_free (string);
 
-	string = g_strconcat( PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-			      "flags", C_DIRECTORY_SEPARATOR,
-			      gsb_data_currency_get_code_iso4217 (currency_number),
-			      ".png", NULL );
-	pixbuf = gdk_pixbuf_new_from_file ( string, NULL );
-	g_free (string);
 
-
-	gtk_list_store_append ( GTK_LIST_STORE (combobox_currency_store), &iter );
-	gchar* tmpstr = g_strconcat ( gsb_data_currency_get_name (currency_number),
-				" (",
-				gsb_data_currency_get_code_or_isocode (currency_number),
-				")",
-				NULL );
-	gtk_list_store_set ( combobox_currency_store, &iter,
-			     CURRENCY_COL_FLAG, pixbuf,
-			     CURRENCY_COL_CODE, gsb_data_currency_get_code_or_isocode (currency_number),
-			     CURRENCY_COL_NAME, tmpstr,
-			     CURRENCY_COL_NUMBER, currency_number,
-			     -1 );
-	g_free ( tmpstr );
-	list_tmp = list_tmp -> next;
+        gtk_list_store_append ( GTK_LIST_STORE (combobox_currency_store), &iter );
+        gchar* tmpstr = g_strconcat ( gsb_data_currency_get_name (currency_number),
+                    " (",
+                    gsb_data_currency_get_code_or_isocode (currency_number),
+                    ")",
+                    NULL );
+        gtk_list_store_set ( combobox_currency_store, &iter,
+                    CURRENCY_COL_FLAG, pixbuf,
+                    CURRENCY_COL_CODE, gsb_data_currency_get_code_or_isocode (currency_number),
+                    CURRENCY_COL_NAME, tmpstr,
+                    CURRENCY_COL_NUMBER, currency_number,
+                    -1 );
+        g_free ( tmpstr );
+        list_tmp = list_tmp -> next;
     }
 
     mise_a_jour_liste_comptes_accueil = 1;
@@ -329,7 +333,10 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
     if ( detail_devise_compte )
     {
 	g_signal_handler_unblock ( detail_devise_compte,
-				   g_object_get_data ( detail_devise_compte, "changed-hook" ) );
+                        (gulong) g_object_get_data ( G_OBJECT 
+                        (detail_devise_compte), "changed-hook" ) );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX (detail_devise_compte), 
+                    old_currency_number );
     }
 
     return FALSE;
