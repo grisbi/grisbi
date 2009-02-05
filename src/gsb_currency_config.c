@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2007 Cédric Auger (cedric@grisbi.org)	      */
-/*			2006-2008 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2006-2009 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -168,19 +168,19 @@ struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Central America"), N_("Panama Balboa"), N_("Panama"), "PAB", NULL, TRUE, "PAB.png", 2, 1 },
 
     { N_("Europe"), N_("Euro"), N_("Germany"), "EUR", "€", TRUE, "DEM.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Austria"), "ATS", "€", TRUE, "ATS.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Belgium"), "BEF", "€", TRUE, "BEF.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Cyprus"), "CYP", "€", TRUE, "CYP.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Spain"), "ESP", "€", TRUE, "ESP.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Finland"), "FIM", "€", TRUE, "FIM.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("France"), "FRF", "€", TRUE, "FRF.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Greece"), "GRD", "€", TRUE, "GRD.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Ireland"), "IEP", "€", TRUE, "IEP.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Italy"), "ITL", "€", TRUE, "VAT.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Luxembourg"), "LUF", "€", TRUE, "LUF.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Netherlands"), "NLG", "€", TRUE, "NLG.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Portugal"), "PTE", "€", TRUE, "PTE.png", 2, 0 },
-    { N_("Europe"), N_("Euro"), N_("Slovenia"), "SIT", "€", TRUE, "SIT.png", 2, 0 },
+    { N_("Europe"), N_("Euro"), N_("Austria"), "EUR", "€", TRUE, "ATS.png", 2, 0 },
+    { N_("Europe"), N_("Euro"), N_("Belgium"), "EUR", "€", TRUE, "BEF.png", 2, 0 },
+    { N_("Europe"), N_("Euro"), N_("Cyprus"), "EUR", "€", TRUE, "CYP.png", 2, 0 },
+    { N_("Europe"), N_("Euro"), N_("Spain"), "EUR", "€", TRUE, "ESP.png", 2, 0 },
+    { N_("Europe"), N_("Euro"), N_("Finland"), "EUR", "€", TRUE, "FIM.png", 2, 0 },
+    { N_("Europe"), N_("Euro"), N_("France"), "EUR", "€", TRUE, "FRF.png", 2, 0 },
+    { N_("Europe"), N_("Euro"), N_("Greece"), "EUR", "€", TRUE, "GRD.png", 2, 0 },
+    { N_("Europe"), N_("Euro"), N_("Ireland"), "EUR", "€", TRUE, "IEP.png", 2, 0 },
+    { N_("Europe"), N_("Euro"), N_("Italy"), "EUR", "€", TRUE, "VAT.png", 2, 0 },
+    { N_("Europe"), N_("Euro"), N_("Luxembourg"), "EUR", "€", TRUE, "LUF.png", 2, 0 },
+    { N_("Europe"), N_("Euro"), N_("Netherlands"), "EUR", "€", TRUE, "NLG.png", 2, 0 },
+    { N_("Europe"), N_("Euro"), N_("Portugal"), "EUR", "€", TRUE, "PTE.png", 2, 0 },
+    { N_("Europe"), N_("Euro"), N_("Slovenia"), "EUR", "€", TRUE, "SIT.png", 2, 0 },
 
     { N_("Europe"), N_("Albanian Lek"), N_("Albania"), "ALL", NULL, TRUE, "ALL.png", 3, 1 },
     { N_("Europe"), N_("Austrian Schilling"), N_("Austria"), "ATS", NULL, FALSE, "ATS.png", 2, 1 },
@@ -1032,7 +1032,7 @@ dialog_return:
          * 2) bug affichage de la liste des opérations (passage à 0 de la devise du 
          *    premier compte de la liste des comptes */
 
-		//~ gsb_currency_update_combobox_currency_list ();
+		gsb_currency_update_combobox_currency_list ();
 
 		if ( currency_tree_model && currency_number > 0 )
 		{
