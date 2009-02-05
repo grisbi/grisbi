@@ -649,6 +649,7 @@ void gsb_currency_config_remove_currency ( GtkWidget *button,
 
     gsb_currency_config_remove_selected_from_view ( GTK_TREE_VIEW(tree_view) );
     gsb_data_currency_remove (currency_number);
+    gsb_currency_update_combobox_currency_list ();
 }
 
 /**
