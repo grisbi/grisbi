@@ -74,13 +74,16 @@ static gboolean gsb_currency_config_update_list ( GtkWidget * checkbox,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *main_vbox ;
+extern GtkWidget *main_vbox;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern GtkWidget *window ;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
+GtkWidget *combo_devise_totaux_tiers;
+GtkWidget *combo_devise_totaux_ib;
+GtkWidget *combo_devise_totaux_categ;
 
 /* struct iso_4217_currency; */
 struct iso_4217_currency iso_4217_currencies[] = {
@@ -793,7 +796,7 @@ gboolean gsb_currency_config_select_currency ( GtkTreeSelection *selection,
  */
 GtkWidget *gsb_currency_config_create_totals_page ( void )
 {
-    GtkWidget *vbox_pref, *combo_box, *table, *label;
+    GtkWidget *vbox_pref, *table, *label;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Totals currencies"),
 					       "currencies.png" );
@@ -807,9 +810,9 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label,
 		       0, 1, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    combo_box = gsb_currency_config_new_combobox ( &no_devise_totaux_tiers,
+    combo_devise_totaux_tiers = gsb_currency_config_new_combobox ( &no_devise_totaux_tiers,
 						   payee_fill_tree );
-    gtk_table_attach ( GTK_TABLE ( table ), combo_box,
+    gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_tiers,
 		       1, 2, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     label = gtk_label_new (COLON(_("Currency for categories tree")));
@@ -817,9 +820,9 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label,
 		       0, 1, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    combo_box = gsb_currency_config_new_combobox ( &no_devise_totaux_categ,
+    combo_devise_totaux_categ = gsb_currency_config_new_combobox ( &no_devise_totaux_categ,
 					       remplit_arbre_categ );
-    gtk_table_attach ( GTK_TABLE ( table ), combo_box,
+    gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_categ,
 		       1, 2, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     label = gtk_label_new (COLON(_("Currency for budgetary lines tree")));
@@ -827,9 +830,9 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label,
 		       0, 1, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-    combo_box = gsb_currency_config_new_combobox ( &no_devise_totaux_ib,
+    combo_devise_totaux_ib = gsb_currency_config_new_combobox ( &no_devise_totaux_ib,
 					       remplit_arbre_imputation );
-    gtk_table_attach ( GTK_TABLE ( table ), combo_box,
+    gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_ib,
 		       1, 2, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), table, TRUE, TRUE, 0);
@@ -856,9 +859,14 @@ GtkWidget * gsb_currency_config_new_combobox ( gint * value, GCallback hook )
 	gsb_currency_set_combobox_history ( combo_box,
 					    *value );
 
-    g_signal_connect ( G_OBJECT (combo_box), "changed", (GCallback) gsb_currency_config_set_int_from_combobox, value );
-    g_signal_connect ( G_OBJECT (combo_box), "changed", (GCallback) hook, value );
+    g_signal_connect ( G_OBJECT (combo_box), "changed", (GCallback) 
+                        gsb_currency_config_set_int_from_combobox, value );
+    //~ g_signal_connect ( G_OBJECT (combo_box), "changed", (GCallback) hook, value );
     g_object_set_data ( G_OBJECT ( combo_box ), "pointer", value);
+
+	g_object_set_data ( G_OBJECT (combo_box), "changed-hook", 
+			    (gpointer) g_signal_connect_after (G_OBJECT(combo_box), "changed",
+							       G_CALLBACK (hook), value ));
 
     return combo_box;
 }
