@@ -92,15 +92,15 @@ static gsb_real current_exchange_fees;
 
 
 /*START_EXTERN*/
+extern GtkWidget *combo_devise_totaux_categ;
+extern GtkWidget *combo_devise_totaux_ib;
+extern GtkWidget *combo_devise_totaux_tiers;
 extern GtkWidget *detail_devise_compte ;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gsb_real null_real;
 extern GtkWidget *window;
-extern GtkWidget *combo_devise_totaux_tiers;
-extern GtkWidget *combo_devise_totaux_ib;
-extern GtkWidget *combo_devise_totaux_categ;
 /*END_EXTERN*/
 
 

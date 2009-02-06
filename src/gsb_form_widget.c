@@ -54,15 +54,16 @@
 
 /*START_STATIC*/
 static gboolean gsb_form_widget_can_focus ( gint element_number );
+static gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, gint *ptr_origin );
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern GtkWidget *form_button_cancel;
+extern GtkWidget *form_button_valid;
 /*END_EXTERN*/
 
 /** contains a list of struct_element according to the current form */
 static GSList *form_list_widgets = NULL;
-
-
 
 
 /**
@@ -294,7 +295,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	{
 	    g_signal_connect ( G_OBJECT ( widget ),
 			       "focus-in-event",
-			       G_CALLBACK ( gsb_form_entry_get_focus ),
+			       G_CALLBACK ( gsb_form_widget_entry_get_focus ),
 			       GINT_TO_POINTER ( element_number ));
 	    g_signal_connect ( G_OBJECT ( widget ),
 			       "focus-out-event",
@@ -724,3 +725,132 @@ void gsb_form_widget_set_empty ( GtkWidget *entry,
 }
 
 
+/**
+ * called when an debit or credit entry get the focus, 
+ * if the entry is free, set it normal and erase the help content
+ *
+ * \param entry
+ * \param ev
+ *
+ * \return FALSE
+ * */
+gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, gint *ptr_origin )
+{
+    GtkWidget *fyear_button;
+    GtkWidget *widget;
+    gchar *string;
+    gint element_number;
+    gint account_number;
+
+    devel_debug (NULL);
+    /* still not found, if change the content of the form, something come in entry
+     * wich is nothing, so protect here */
+    if ( !GTK_IS_WIDGET (entry)
+	 ||
+	 !GTK_IS_ENTRY (entry))
+	return FALSE;
+
+    /* it clears the entry in question */
+    if ( gsb_form_widget_check_empty (entry) )
+    {
+        gtk_entry_set_text ( GTK_ENTRY (entry), "" );
+        gsb_form_widget_set_empty ( entry,
+                    FALSE );
+    }
+    element_number = GPOINTER_TO_INT (ptr_origin);
+    account_number = gsb_form_get_account_number ();
+
+    switch ( element_number )
+    {
+    case TRANSACTION_FORM_DEBIT :
+	    /* we change the payment method to adapt it for the debit */
+        /* empty the credit */
+        widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CREDIT);
+        if (!gsb_form_widget_check_empty (widget))
+        {
+            gtk_entry_set_text ( GTK_ENTRY (widget),
+                     gsb_form_widget_get_name (TRANSACTION_FORM_CREDIT));
+            gsb_form_widget_set_empty ( widget,
+                        TRUE );
+        }
+
+        widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE);
+
+        /* change the method of payment if necessary
+         * (if grey, it's a child of split so do nothing) */
+        if ( widget
+             &&
+             GTK_WIDGET_SENSITIVE (widget))
+        {
+            /* change the signe of the method of payment and the contra */
+            if ( gsb_payment_method_get_combo_sign (widget) == GSB_PAYMENT_CREDIT)
+            {
+                gsb_payment_method_create_combo_list ( widget,
+                                       GSB_PAYMENT_DEBIT,
+                                       account_number, 0 );
+                /* if there is no payment method, the last function hide it, but we have
+                 * to hide the cheque element too */
+                if ( !GTK_WIDGET_VISIBLE (widget))
+                    gtk_widget_hide (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
+
+                widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA);
+                if ( GTK_WIDGET_VISIBLE (widget))
+                    gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA),
+                                       GSB_PAYMENT_CREDIT,
+                                       account_number, 0 );
+            }
+        }
+        gsb_form_check_auto_separator (entry);
+	    break;
+	case TRANSACTION_FORM_CREDIT :
+	    /* we change the payment method to adapt it for the debit */
+        /* empty the credit */
+        widget = gsb_form_widget_get_widget (TRANSACTION_FORM_DEBIT);
+        if (!gsb_form_widget_check_empty (widget))
+        {
+            gtk_entry_set_text ( GTK_ENTRY (widget),
+                     gsb_form_widget_get_name (TRANSACTION_FORM_DEBIT));
+            gsb_form_widget_set_empty ( widget,
+                        TRUE );
+        }
+        widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE);
+
+        /* change the method of payment if necessary
+         * (if grey, it's a child of split so do nothing) */
+        if ( widget
+             &&
+             GTK_WIDGET_SENSITIVE (widget))
+        {
+            /* change the signe of the method of payment and the contra */
+            if ( gsb_payment_method_get_combo_sign (widget) == GSB_PAYMENT_DEBIT)
+            {
+                gsb_payment_method_create_combo_list ( widget,
+                                       GSB_PAYMENT_CREDIT,
+                                       account_number, 0 );
+                /* if there is no payment method, the last function hide it, but we have
+                 * to hide the cheque element too */
+                if ( !GTK_WIDGET_VISIBLE (widget))
+                    gtk_widget_hide (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
+
+                widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA);
+                if ( GTK_WIDGET_VISIBLE (widget))
+                    gsb_payment_method_create_combo_list ( widget,
+                                       GSB_PAYMENT_DEBIT,
+                                       account_number, 0 );
+            }
+        }
+        gsb_form_check_auto_separator (entry);
+	    break;
+    }
+    
+    /* sensitive the valid and cancel buttons */
+    gtk_widget_set_sensitive (GTK_WIDGET (form_button_valid), TRUE);
+    gtk_widget_set_sensitive (GTK_WIDGET (form_button_cancel), TRUE);
+
+    /* set the financial year on automatic by default */
+    fyear_button = gsb_form_widget_get_widget (TRANSACTION_FORM_EXERCICE);
+    if (fyear_button)
+        gsb_fyear_set_combobox_history ( fyear_button, 0 );
+
+    return FALSE;
+}

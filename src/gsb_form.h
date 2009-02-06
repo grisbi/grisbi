@@ -28,6 +28,7 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
 				       GdkEventButton *ev,
 				       gint *ptr_origin );
 gboolean gsb_form_change_sensitive_buttons ( gboolean sensitive );
+void gsb_form_check_auto_separator ( GtkWidget *entry );
 gboolean gsb_form_clean ( gint account_number );
 void gsb_form_create_widgets ();
 gboolean gsb_form_entry_get_focus ( GtkWidget *entry );

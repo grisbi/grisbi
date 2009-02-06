@@ -89,7 +89,6 @@ static gboolean gsb_form_activate_expander ( GtkWidget *expander,
 static gboolean gsb_form_button_press ( GtkWidget *vbox,
 				 GdkEventButton *ev,
 				 gpointer null );
-static void gsb_form_check_auto_separator ( GtkWidget *entry );
 static gint gsb_form_check_for_transfer ( const gchar *entry_string );
 static gboolean gsb_form_get_categories ( gint transaction_number,
 				   gint new_transaction,
@@ -109,8 +108,6 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 extern GtkWidget * navigation_tree_view ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
-
-
 
 /** label of the last statement */
 GtkWidget *label_last_statement = NULL;
@@ -137,8 +134,8 @@ GtkWidget *form_button_recover_split;
 
 /** need to set the 2 buttons valid/cancel here and cannot
  * just show/hide the form_button_part because of the split button */
-static GtkWidget *form_button_valid;
-static GtkWidget *form_button_cancel;
+GtkWidget *form_button_valid;
+GtkWidget *form_button_cancel;
 
 /* Buttons for the form */
 GtkWidget *form_button_part;

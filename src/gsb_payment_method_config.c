@@ -389,7 +389,7 @@ void gsb_payment_method_config_fill_list ( GtkTreeModel *model)
 			    PAYMENT_METHODS_ACCOUNT_COLUMN, account_number,
 			    -1 );
 
-	/* Create the "Debit" node */
+	/* Create the "Credit" node */
 	gtk_tree_store_append (GTK_TREE_STORE (model), &credit_iter, &account_iter);
 	gtk_tree_store_set (GTK_TREE_STORE (model), &credit_iter,
 			    PAYMENT_METHODS_NAME_COLUMN, _("Credit"),
