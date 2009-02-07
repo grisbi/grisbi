@@ -359,8 +359,9 @@ gboolean gsb_file_open_file ( gchar *filename )
     gsb_status_message ( _("Loading accounts") );
 
     /* try to load the file */
-    /* FIXME:BUG under Windows: for unknwon reason yet filename is cleared when returning from gsb_file_load_open_file!
-       making application crashes! */
+    /* FIXME:BUG under Windows: for unknwon reason yet filename is cleared 
+     * when returning from gsb_file_load_open_file!
+     * making application crashes! */
 
     if ( gsb_file_load_open_file (filename))
     {
