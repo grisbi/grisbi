@@ -148,11 +148,12 @@ guint gtk_combofix_get_type ( void )
  *
  * \return the new widget
  * */
+/* comment by pbiava the 08/02/2009 : unused function 
 GtkWidget *gtk_combofix_new ( GSList *list )
 {
     GtkComboFix *combofix = GTK_COMBOFIX ( gtk_type_new ( gtk_combofix_get_type () ) );
 
-    /* fill the field of the combofix */
+    !* fill the field of the combofix *!
     combofix -> force = FALSE;
     combofix -> complex = 0;
     combofix -> auto_sort = TRUE;
@@ -165,7 +166,7 @@ GtkWidget *gtk_combofix_new ( GSList *list )
 			      0 );
 
     return ( GTK_WIDGET ( combofix ) );
-}
+} */
 
 
 /**
@@ -326,6 +327,7 @@ void gtk_combofix_set_max_items ( GtkComboFix *combofix,
  *
  * \return
  * */
+/* comment by pbiava the 08/02/2009 : unused function 
 void gtk_combofix_set_sort ( GtkComboFix *combofix,
 			     gboolean auto_sort )
 {
@@ -333,7 +335,7 @@ void gtk_combofix_set_sort ( GtkComboFix *combofix,
     g_return_if_fail (GTK_IS_COMBOFIX (combofix));
 
     combofix -> auto_sort = auto_sort;
-}
+} */
 
 /**
  * set if the completion is case sensitive or not
@@ -402,6 +404,7 @@ void gtk_combofix_set_mixed_sort ( GtkComboFix *combofix,
  *
  * \return
  * */
+/* comment by pbiava the 08/02/2009 : unused function 
 void gtk_combofix_view_list ( GtkComboFix *combofix,
 			      gboolean show )
 {
@@ -412,7 +415,7 @@ void gtk_combofix_view_list ( GtkComboFix *combofix,
 	gtk_combofix_show_popup ( combofix );
     else
 	gtk_combofix_hide_popup (combofix);
-}
+} */
 
 
 /**
@@ -605,7 +608,7 @@ gtk_container_add ( GTK_CONTAINER (frame),
 		    scrolled_window );
 gtk_widget_show (scrolled_window);
 
-/* the tree_store is 4 columns :
+/* the tree_store is 5 columns :
  * COMBOFIX_COL_VISIBLE_STRING (a string) : what we see in the combofix
  * COMBOFIX_COL_REAL_STRING (a string) : what we set in the entry when selecting something
  * COMBOFIX_COL_VISIBLE (a boolean) : if that line has to be showed

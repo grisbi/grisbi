@@ -1422,7 +1422,7 @@ msgstr "Opération ventilée"
 #: src/gsb_data_category.c:154
 #: src/meta_categories.c:65
 msgid "No category"
-msgstr "Aucune catégorie"
+msgstr "Pas de catégorie"
 
 #: src/etats_affiche.c:1939
 msgid "No subcategory"
@@ -1441,9 +1441,8 @@ msgstr "Pas de sous-imputation"
 #: src/etats_affiche.c:2259
 #: src/gsb_data_payee.c:115
 #: src/meta_payee.c:77
-#, fuzzy
 msgid "No payee"
-msgstr "Non affiché"
+msgstr "Pas de tiers"
 
 #: src/etats_affiche.c:2288
 msgid "Incomes"

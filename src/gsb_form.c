@@ -1496,6 +1496,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
     GtkWidget *widget;
     gint account_number;
 
+    devel_debug (NULL);
     /* still not found, if change the content of the form, something come in entry
      * wich is nothing, so protect here */
     if ( !GTK_IS_WIDGET (entry)
@@ -1629,7 +1630,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 	case TRANSACTION_FORM_CATEGORY :
 	    if ( strlen ( gtk_entry_get_text ( GTK_ENTRY (entry))))
 	    {
-		/* if it's a transafer, set the content of the contra combo */
+		/* if it's a transfer, set the content of the contra combo */
 		if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA ))
 		{
 		    /* if it's a transfer, set the contra_method of payment menu */
@@ -2091,20 +2092,20 @@ gboolean gsb_form_finish_edition ( void )
 	||
 	gsb_form_get_origin () == ORIGIN_VALUE_HOME )
     {
-	if (g_object_get_data ( G_OBJECT (transaction_form), "execute_scheduled"))
-	   {
+        if (g_object_get_data ( G_OBJECT (transaction_form), "execute_scheduled"))
+        {
 	       /* we want to execute the scheduled transaction */
 	       is_transaction = TRUE;
 	       execute_scheduled = TRUE;
 
 	       /* we need to keep the number of scheduled, to check later if there is
-		* some children and modifie the scheduled transaction */
+            * some children and modifie the scheduled transaction */
 	       saved_scheduled_number = transaction_number;
 	       /* as it's a new transaction, do the same as a white line */
 	       transaction_number = -1;
-	   }
-	else
-	    is_transaction = FALSE;
+        }
+        else
+            is_transaction = FALSE;
     }
     else
 	is_transaction = TRUE;
