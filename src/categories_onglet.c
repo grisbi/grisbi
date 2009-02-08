@@ -52,6 +52,7 @@ static gboolean edit_category ( GtkTreeView * view );
 static gboolean exporter_categ ( GtkButton * widget, gpointer data );
 static void importer_categ ( void );
 static gboolean popup_category_view_mode_menu ( GtkWidget * button );
+static void appui_sur_ajout_division ( GtkTreeModel * model );
 /*END_STATIC*/
 
 
@@ -455,7 +456,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
 					       _("New\ncategory"),
 					       "new-categ.png",
-					       G_CALLBACK(metatree_new_division),
+					       G_CALLBACK( appui_sur_ajout_division ),
 					       categ_tree_model );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
 				  SPACIFY(_("Create a new category")));
@@ -757,6 +758,16 @@ gboolean edit_category ( GtkTreeView * view )
 }
 
 
+/**
+ * function to create and editing a new category. it's very bad.
+ *
+ * \param the model for the division
+ */
+void appui_sur_ajout_division ( GtkTreeModel * model )
+{
+    metatree_new_division ( model );
+    edit_category ( GTK_TREE_VIEW ( arbre_categ ) );
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
