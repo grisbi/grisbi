@@ -2119,9 +2119,6 @@ gboolean gsb_form_finish_edition ( void )
     else
 	new_transaction = 0;
 
-    /* the current widget has to lose the focus to make all the changes if necessary */
-    gtk_widget_grab_focus (navigation_tree_view);
-    
     /* check if the datas are ok */
     if ( !gsb_form_validate_form_transaction (transaction_number, is_transaction))
 	return FALSE;
@@ -2369,6 +2366,9 @@ gboolean gsb_form_finish_edition ( void )
 
     /* as we modify or create a transaction, we invalidate the current report */
     gsb_report_set_current (0);
+
+    /* give the focus to the navigation_tree_view */
+    gtk_widget_grab_focus (navigation_tree_view);
 
     modification_fichier ( TRUE );
     return FALSE;

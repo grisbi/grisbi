@@ -54,6 +54,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void appui_sur_ajout_imputation ( GtkTreeModel * model );
 static gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 					GtkSelectionData * selection_data );
 static GtkWidget *creation_barre_outils_ib ( void );
@@ -61,7 +62,6 @@ static gboolean edit_budgetary_line ( GtkTreeView * view );
 static void exporter_ib ( void );
 static void importer_ib ( void );
 static gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
-static void appui_sur_ajout_imputation ( GtkTreeModel * model );
 /*END_STATIC*/
 
 

@@ -45,6 +45,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void appui_sur_ajout_category ( GtkTreeModel * model );
 static gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 			       GtkSelectionData * selection_data );
 static GtkWidget *creation_barre_outils_categ ( void );
@@ -52,7 +53,6 @@ static gboolean edit_category ( GtkTreeView * view );
 static gboolean exporter_categ ( GtkButton * widget, gpointer data );
 static void importer_categ ( void );
 static gboolean popup_category_view_mode_menu ( GtkWidget * button );
-static void appui_sur_ajout_category ( GtkTreeModel * model );
 /*END_STATIC*/
 
 

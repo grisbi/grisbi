@@ -1351,6 +1351,9 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
 	&&
 	gsb_form_is_visible ())
 	gsb_form_fill_by_transaction (new_selected_transaction, TRUE, FALSE);
+
+    /* give the focus to the navigation_tree_view */
+    gtk_widget_grab_focus (navigation_tree_view);
 }
 
 

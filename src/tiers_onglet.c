@@ -59,6 +59,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void appui_sur_ajout_payee ( GtkTreeModel * model );
 static GtkWidget *creation_barre_outils_tiers ( void );
 static gboolean edit_payee ( GtkTreeView * view );
 static gboolean payee_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
@@ -69,7 +70,6 @@ static void payee_tree_update_transactions ( GtkTreeModel * model,
                         MetatreeInterface * iface, GtkTreeIter * iter,
                         gint division, gchar * old_payee );
 static gboolean popup_payee_view_mode_menu ( GtkWidget * button );
-static void appui_sur_ajout_payee ( GtkTreeModel * model );
 /*END_STATIC*/
 
 //~ GtkWidget *arbre_tiers = NULL;
@@ -84,7 +84,7 @@ gboolean sortie_edit_payee = FALSE;
 
 /*START_EXTERN*/
 extern MetatreeInterface * payee_interface ;
-extern GtkWidget *window;
+extern GtkWidget *window ;
 /*END_EXTERN*/
 
 
