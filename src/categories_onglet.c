@@ -52,7 +52,7 @@ static gboolean edit_category ( GtkTreeView * view );
 static gboolean exporter_categ ( GtkButton * widget, gpointer data );
 static void importer_categ ( void );
 static gboolean popup_category_view_mode_menu ( GtkWidget * button );
-static void appui_sur_ajout_division ( GtkTreeModel * model );
+static void appui_sur_ajout_category ( GtkTreeModel * model );
 /*END_STATIC*/
 
 
@@ -61,13 +61,13 @@ GtkTreeStore * categ_tree_model = NULL;
 GtkWidget *arbre_categ = NULL;
 gint no_devise_totaux_categ;
 
+/* variable for the management of the cancelled edition */
+static gboolean sortie_edit_category = FALSE;
 
 /*START_EXTERN*/
 extern MetatreeInterface * category_interface ;
 extern GtkWidget *window ;
 /*END_EXTERN*/
-
-
 
 
 /**
@@ -456,7 +456,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
 					       _("New\ncategory"),
 					       "new-categ.png",
-					       G_CALLBACK( appui_sur_ajout_division ),
+					       G_CALLBACK( appui_sur_ajout_category ),
 					       categ_tree_model );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
 				  SPACIFY(_("Create a new category")));
@@ -680,6 +680,7 @@ gboolean edit_category ( GtkTreeView * view )
     {
 	if ( gtk_dialog_run ( GTK_DIALOG(dialog) ) != GTK_RESPONSE_OK )
 	{
+        sortie_edit_category = TRUE;
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
 	    return FALSE;
 	}
@@ -759,14 +760,18 @@ gboolean edit_category ( GtkTreeView * view )
 
 
 /**
- * function to create and editing a new category. it's very bad.
+ * function to create and editing a new category.
  *
  * \param the model for the division
  */
-void appui_sur_ajout_division ( GtkTreeModel * model )
+void appui_sur_ajout_category ( GtkTreeModel * model )
 {
     metatree_new_division ( model );
+    sortie_edit_category = FALSE;
     edit_category ( GTK_TREE_VIEW ( arbre_categ ) );
+    if ( sortie_edit_category )
+        supprimer_division ( GTK_TREE_VIEW ( arbre_categ ) );
+    sortie_edit_category = FALSE;
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */

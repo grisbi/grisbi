@@ -61,6 +61,7 @@ static gboolean edit_budgetary_line ( GtkTreeView * view );
 static void exporter_ib ( void );
 static void importer_ib ( void );
 static gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
+static void appui_sur_ajout_imputation ( GtkTreeModel * model );
 /*END_STATIC*/
 
 
@@ -68,6 +69,8 @@ GtkWidget *budgetary_line_tree = NULL;
 GtkTreeStore *budgetary_line_tree_model = NULL;
 gint no_devise_totaux_ib;
 
+/* variable for the management of the cancelled edition */
+gboolean sortie_edit_budgetary_line = FALSE;
 
 /*START_EXTERN*/
 extern MetatreeInterface * budgetary_interface ;
@@ -486,7 +489,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     /* New budgetary line button */
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
 					       _("New\nbudgetary line"), "new-ib.png",
-					       G_CALLBACK(metatree_new_division),
+					       G_CALLBACK(appui_sur_ajout_imputation),
 					       budgetary_line_tree_model );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
 				  SPACIFY(_("Create a new budgetary line")));
@@ -712,6 +715,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     {
 	if ( gtk_dialog_run ( GTK_DIALOG(dialog) ) != GTK_RESPONSE_OK )
 	{
+        sortie_edit_budgetary_line = TRUE;
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
 	    return FALSE;
 	}
@@ -790,8 +794,20 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 }
 
 
-
-
+/**
+ * function to create and editing a new budgetary line.
+ *
+ * \param the model for the division
+ */
+void appui_sur_ajout_imputation ( GtkTreeModel * model )
+{
+    metatree_new_division ( model );
+    sortie_edit_budgetary_line = FALSE;
+    edit_budgetary_line ( GTK_TREE_VIEW ( budgetary_line_tree ) );
+    if ( sortie_edit_budgetary_line )
+        supprimer_division ( GTK_TREE_VIEW ( budgetary_line_tree ) );
+    sortie_edit_budgetary_line = FALSE;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

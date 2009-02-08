@@ -69,6 +69,7 @@ static void payee_tree_update_transactions ( GtkTreeModel * model,
                         MetatreeInterface * iface, GtkTreeIter * iter,
                         gint division, gchar * old_payee );
 static gboolean popup_payee_view_mode_menu ( GtkWidget * button );
+static void appui_sur_ajout_payee ( GtkTreeModel * model );
 /*END_STATIC*/
 
 //~ GtkWidget *arbre_tiers = NULL;
@@ -77,6 +78,9 @@ gint no_devise_totaux_tiers;
 
 GtkWidget *payee_tree = NULL;
 GtkTreeStore *payee_tree_model = NULL;
+
+/* variable for the management of the cancelled edition */
+gboolean sortie_edit_payee = FALSE;
 
 /*START_EXTERN*/
 extern MetatreeInterface * payee_interface ;
@@ -259,7 +263,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     /* Add various icons */
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
 					       _("New payee"), "new-payee.png",
-					       G_CALLBACK(metatree_new_division),
+					       G_CALLBACK(appui_sur_ajout_payee),
 					       payee_tree_model );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
 				  SPACIFY(_("Create a new payee")));
@@ -561,6 +565,7 @@ gboolean edit_payee ( GtkTreeView * view )
     {
 	if ( gtk_dialog_run ( GTK_DIALOG(dialog) ) != GTK_RESPONSE_OK )
 	{
+        sortie_edit_payee = TRUE;
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
         g_free ( title );
         g_free ( old_payee );
@@ -641,6 +646,21 @@ void payee_tree_update_transactions ( GtkTreeModel * model,
     }
 }
 
+
+/**
+ * function to create and editing a new payee.
+ *
+ * \param the model for the division
+ */
+void appui_sur_ajout_payee ( GtkTreeModel * model )
+{
+    metatree_new_division ( model );
+    sortie_edit_payee = FALSE;
+    edit_payee ( GTK_TREE_VIEW ( payee_tree ) );
+    if ( sortie_edit_payee )
+        supprimer_division ( GTK_TREE_VIEW ( payee_tree ) );
+    sortie_edit_payee = FALSE;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-07 19:19+0100\n"
-"PO-Revision-Date: 2009-02-07 19:55+0100\n"
+"PO-Revision-Date: 2009-02-08 16:51+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -6400,19 +6400,19 @@ msgid "No name %d"
 msgstr "Sans nom %d"
 
 #: src/gsb_data_account.c:522
-#, fuzzy, c-format
+#, c-format
 msgid "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
-msgstr "Nombre de lignes invalide dans gsb_data_accoutn_set_nb_rows() dans data_account.\n"
+msgstr "Nombre de lignes invalide dans gsb_data_accoutn_set_nb_rows() dans data_account.c\n"
 
 #. TODO dOm : the return value of g_strdup_printf was not used ! I add the devel_debug to print it. Is it OK to do that ?
 #: src/gsb_data_account.c:1177
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
 "no_column = %d\n"
 msgstr ""
-"Nombre de colonnes invalide dans gsb_data_account_get_column_sort() dans data_account.\n"
-"Numéro de colonne ) %d\n"
+"Numéro de colonnes invalide dans gsb_data_account_get_column_sort() dans data_account.c\n"
+"Numéro de colonne %d\n"
 
 #. TODO dOm : the value of g_strdup_printf was not used. I add the devel_debug function to print it. Is it OK ?
 #: src/gsb_data_account.c:1215
@@ -7316,15 +7316,11 @@ msgstr "colonnes"
 
 #: src/gsb_form_config.c:651
 msgid ""
-"Warning : all the form of the accounts will be updated according to "
-"the selected account. All the changes in the other accounts will be "
-"overwritten.\n"
+"Warning : all the form of the accounts will be updated according to the selected account. All the changes in the other accounts will be overwritten.\n"
 "\n"
 "Are you sure to do that ?"
 msgstr ""
-"Attention: les formulaires des autres comptes seront mis à jour "
-"selon le modèle du compte sélectionné. Toutes les différences seront "
-"effacées pour les autres comptes.\n"
+"Attention: les formulaires des autres comptes seront mis à jour selon le modèle du compte sélectionné. Toutes les différences seront effacées pour les autres comptes.\n"
 "\n"
 "Êtes-vous certain de vouloir le faire ?"
 
@@ -7349,8 +7345,7 @@ msgid ""
 msgstr ""
 "gsb_form_scheduler_create est appelée avec un mauvais tableau,\n"
 "le nombre de lignes ou des colonnes ne sont pas bons.\n"
-"La fonction redimensionne la table avec les valeurs correctes, mais vérifiez "
-"le résultat."
+"La fonction redimensionne la table avec les valeurs correctes, mais vérifiez le résultat."
 
 #: src/gsb_form_scheduler.c:164
 #: src/gsb_fyear.c:271
@@ -7626,22 +7621,16 @@ msgid ""
 "Problem while filling the target method of payment to delete it.\n"
 "This is not normal, please contact the grisbi team."
 msgstr ""
-"Problème lors de la création de la liste des moyens de payement avant "
-"d'en supprimer un.\n"
+"Problème lors de la création de la liste des moyens de payement avant d'en supprimer un.\n"
 "Ce n'est pas normal, contactez les développeurs de Grisbi."
 
 #: src/gsb_payment_method_config.c:1288
 msgid "Some transactions still use that payment method.  As deletion of this method is irreversible, these transactions are to be associated with another payment method."
-msgstr ""
-"Des opérations sont encore affectées à ce mode de règlement. Cette "
-"suppression étant irréversible, ces opérations seront associées à un "
-"autre mode de règlement."
+msgstr "Des opérations sont encore affectées à ce mode de règlement. Cette suppression étant irréversible, ces opérations seront associées à un autre mode de règlement."
 
 #: src/gsb_payment_method_config.c:1290
 msgid "No target method of payment to switch the transactions to another method of payment. If you continue, the transactions with this method of payment will have no new one."
-msgstr ""
-"Il n'existe pas d'autre méthode de payement pour cette opération. Si vous "
-"continuez l'opération n'aura plus de méthode de payement."
+msgstr "Il n'existe pas d'autre méthode de payement pour cette opération. Si vous continuez l'opération n'aura plus de méthode de payement."
 
 #: src/gsb_payment_method_config.c:1300
 msgid "Associate transactions with"
@@ -7661,10 +7650,8 @@ msgid ""
 "If reconciliation reference ends in a digit, it is automatically incremented at each reconciliation.\n"
 "You can let it empty if you don't want to keep a trace of the reconciliation."
 msgstr ""
-"Si le nom du rapprochement est terminé par un chiffre, celui-ci est "
-"automatiquement incrémenté à chaque nouveau rapprochement.\n"
-"Vous pouvez le laisser vide si vous ne voulez pas garder une trace "
-"du rapprochement."
+"Si le nom du rapprochement est terminé par un chiffre, celui-ci est automatiquement incrémenté à chaque nouveau rapprochement.\n"
+"Vous pouvez le laisser vide si vous ne voulez pas garder une trace du rapprochement."
 
 #: src/gsb_reconcile.c:222
 msgid "Checking"
@@ -7686,9 +7673,7 @@ msgstr " <b>%s rapprochement</b> "
 
 #: src/gsb_reconcile.c:508
 msgid "There is a variance in balances, check that both final balance and initial balance minus marked transactions are equal."
-msgstr ""
-"Il y a une inconsistance dans les soldes, vérifiez que le solde de "
-"départ moins les opérations marquées donnent bien le solde final."
+msgstr "Il y a une inconsistance dans les soldes, vérifiez que le solde de départ moins les opérations marquées donnent bien le solde final."
 
 #: src/gsb_reconcile.c:509
 #: src/gsb_reconcile.c:518
@@ -7703,9 +7688,8 @@ msgid ""
 "If the reconcile name is ending by a number,\n"
 "it will be automatically incremented."
 msgstr ""
-"Il existe déjà un rapprochement avec ce nom, vous devez utiliser un "
-"autre nom ou le laisser libre.\n "
-"Si le nom du rapprochement se termine par un chiffre,\n"
+"Il existe déjà un rapprochement avec ce nom, vous devez utiliser un autre nom ou le laisser libre.\n"
+" Si le nom du rapprochement se termine par un chiffre,\n"
 "il sera automatiquement incrémenté."
 
 #: src/gsb_reconcile.c:527
@@ -7808,10 +7792,7 @@ msgid ""
 "\n"
 "The concerned children number are :\n"
 msgstr ""
-"Certaines opérations filles n'ont pas trouvé l'opération mère dans la liste, "
-"cela ne devrait pas se produire et il s'agit probablement d'un bug. "
-"S'il vous plaît contactez les développeurs de Grisbi."
-"\n"
+"Certaines opérations filles n'ont pas trouvé l'opération mère dans la liste, cela ne devrait pas se produire et il s'agit probablement d'un bug. S'il vous plaît contactez les développeurs de Grisbi.\n"
 "Les numéros des sous-opérations concernées sont :\n"
 
 #: src/gsb_scheduler_list.c:824
@@ -7955,10 +7936,7 @@ msgid ""
 "\n"
 "The concerned children number are :\n"
 msgstr ""
-"Certaines opérations filles n'ont pas trouvé l'opération mère dans la liste, "
-"cela ne devrait pas se produire et il s'agit probablement d'un bug. "
-"S'il vous plaît contactez les développeurs de Grisbi."
-"\n"
+"Certaines opérations filles n'ont pas trouvé l'opération mère dans la liste, cela ne devrait pas se produire et il s'agit probablement d'un bug. S'il vous plaît contactez les développeurs de Grisbi.\n"
 "Les numéros des sous-opérations concernées sont :\n"
 
 #: src/gsb_transactions_list.c:786
@@ -8279,9 +8257,7 @@ msgstr "Import terminé"
 
 #: src/import.c:921
 msgid "You have successfully set up transactions import into Grisbi.  Press the 'Close' button to terminate import."
-msgstr ""
-"Vous avez réussi l'importation des opérations dans Grisbi. Appuyez sur "
-"le bouton 'Fermer' pour terminer l'opération."
+msgstr "Vous avez réussi l'importation des opérations dans Grisbi. Appuyez sur le bouton 'Fermer' pour terminer l'opération."
 
 #: src/import.c:1042
 msgid "file"
@@ -8689,7 +8665,7 @@ msgstr "Supprimer l'imputation sélectionnée"
 
 #: src/imputation_budgetaire.c:544
 msgid "Edit selected budgetary line"
-msgstr "Editer l'imputation sélectionnée"
+msgstr "Éditer l'imputation sélectionnée"
 
 #: src/imputation_budgetaire.c:554
 msgid "Change display mode"
@@ -8813,7 +8789,7 @@ msgstr "É_diter l'opération"
 
 #: src/menu.c:230
 msgid "Convert to _scheduled transaction"
-msgstr "Saisie d'une opération _planifiée"
+msgstr "Conversion en opération _planifiée"
 
 #: src/menu.c:233
 msgid "_Move transaction to another account"
@@ -8959,7 +8935,7 @@ msgstr "Nouvelle sous-catégorie %d"
 
 #: src/meta_payee.c:78
 msgid "No sub-payee"
-msgstr "Aucune sous-tiers"
+msgstr "Aucun sous-tiers"
 
 #. * Find a unique name for payee
 #: src/meta_payee.c:320
@@ -9231,7 +9207,7 @@ msgstr "L'onglet est hors de portée (%s)\n"
 msgid ""
 "Something strange happend (%s)\n"
 "\n"
-msgstr "Quelque chos d'étrange est apparu (%s)\n"
+msgstr "Quelque chose d'étrange est apparu (%s)\n"
 
 #: src/parse_cmdline.c:239
 msgid ""
@@ -9439,8 +9415,7 @@ msgstr "Paysage"
 
 #: src/print_report.c:99
 msgid "Please select a report before trying to print it."
-msgstr ""
-"S'il vous plaît sélectionnez un état avant d'essayer de l'imprimer."
+msgstr "S'il vous plaît sélectionnez un état avant d'essayer de l'imprimer."
 
 #: src/print_report.c:99
 msgid "No report selected"
@@ -9473,7 +9448,7 @@ msgstr "Imprimer un titre : "
 
 #: src/print_transactions_list.c:171
 msgid "Select dates interval : "
-msgstr "Sélectionner l'interval des dates : "
+msgstr "Sélectionner l'intervalle des dates : "
 
 #: src/print_transactions_list.c:184
 #, fuzzy
@@ -9536,7 +9511,7 @@ msgstr "Banque"
 #: src/qif.c:181
 #: src/qif.c:263
 msgid "cash)"
-msgstr "especes)"
+msgstr "espèces)"
 
 #: src/qif.c:184
 msgid "ccard)"
@@ -9624,7 +9599,7 @@ msgstr "Supprimer le tiers sélectionné"
 
 #: src/tiers_onglet.c:283
 msgid "Edit selected payee"
-msgstr "Editer le tiers sélectionné"
+msgstr "Éditer le tiers sélectionné"
 
 #: src/tiers_onglet.c:287
 msgid "Remove unused payees"
