@@ -1352,8 +1352,9 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
 	gsb_form_is_visible ())
 	gsb_form_fill_by_transaction (new_selected_transaction, TRUE, FALSE);
 
-    /* give the focus to the navigation_tree_view */
-    gtk_widget_grab_focus (navigation_tree_view);
+    /* give the focus to the transaction_tree_view pbiava 02/09/2009 
+     * edit due to a regression (perte de <CtrlR>) */
+    gtk_widget_grab_focus ( transactions_tree_view );
 }
 
 
