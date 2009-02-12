@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     copyright (c)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2008 Benjamin Drieu (bdrieu@april.org) 	      */
+/*			2004-2009 Benjamin Drieu (bdrieu@april.org) 	      */
 /*			http://www.grisbi.org   			      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -1535,7 +1535,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
     {
 	if (question_yes_no_hint ( _("Confirmation of manual (un)reconciliation"),
 				   _("You are trying to reconcile or unreconcile a transaction manually, "
-				     "which is not a recommended action. Are you really sure you know what you're doing?"
+				     "which is not a recommended action. Are you really sure you know what you are doing?"
 				     "manually a transaction which isn't a regular way to do.\n\n"
 				     "And moreover the transaction you try to reconcile is a child of split, so "
 				     "the modification will be done on the mother and all its children.\n\n"
@@ -1550,7 +1550,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 	/* it's a normal transaction, ask to be sure */
 	if ( !question_yes_no_hint ( _("Confirmation of manual (un)reconciliation"),
 				     _("You are trying to reconcile or unreconcile a transaction manually, "
-				       "which is not a recommended action. Are you really sure you know what you're doing?"),
+				       "which is not a recommended action. Are you really sure you know what you are doing?"),
 				     GTK_RESPONSE_NO ))
 	    return FALSE;
 
@@ -1597,7 +1597,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 
 	/* set the R on the transaction */
 	transaction_list_set ( &iter,
-			       r_column, _("R"),
+			       r_column, g_strdup ( _("R") ),
 			       -1 );
 
 	/* if we don't want to see the marked R transactions, we re-filter the model */
