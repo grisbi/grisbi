@@ -1230,7 +1230,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE,
 					   FALSE );
-        /* comment by pbiava the 08/02/2009 bug 428 */
+        /* comment by pbiava the 02/08/2009 bug 428 */
 	    //~ if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (payee_tree_model), 
 						   //~ &dummy_iter ) )
 		payee_fill_tree ();
@@ -1258,7 +1258,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE,
 					   FALSE );
-        /* comment by pbiava the 08/02/2009 bug 428 */
+        /* comment by pbiava the 02/08/2009 bug 428 */
 	    //~ if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (categ_tree_model), 
 						   //~ &dummy_iter ) )
         remplit_arbre_categ ();
@@ -1273,7 +1273,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE,
 					   FALSE );
-        /* comment by pbiava the 08/02/2009 bug 428 */
+        /* comment by pbiava the 02/08/2009 bug 428 */
 	    //~ if ( ! gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (budgetary_line_tree_model), 
 						   //~ &dummy_iter ) )
 		remplit_arbre_imputation ();
