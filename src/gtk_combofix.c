@@ -148,7 +148,7 @@ guint gtk_combofix_get_type ( void )
  *
  * \return the new widget
  * */
-/* comment by pbiava the 08/02/2009 : unused function 
+/* comment by pbiava the 02/08/2009 : unused function 
 GtkWidget *gtk_combofix_new ( GSList *list )
 {
     GtkComboFix *combofix = GTK_COMBOFIX ( gtk_type_new ( gtk_combofix_get_type () ) );
@@ -327,7 +327,7 @@ void gtk_combofix_set_max_items ( GtkComboFix *combofix,
  *
  * \return
  * */
-/* comment by pbiava the 08/02/2009 : unused function 
+/* comment by pbiava the 02/08/2009 : unused function 
 void gtk_combofix_set_sort ( GtkComboFix *combofix,
 			     gboolean auto_sort )
 {
@@ -404,7 +404,7 @@ void gtk_combofix_set_mixed_sort ( GtkComboFix *combofix,
  *
  * \return
  * */
-/* comment by pbiava the 08/02/2009 : unused function 
+/* comment by pbiava the 02/08/2009 : unused function 
 void gtk_combofix_view_list ( GtkComboFix *combofix,
 			      gboolean show )
 {

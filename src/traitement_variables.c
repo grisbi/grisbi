@@ -196,8 +196,10 @@ void modification_fichier ( gboolean modif )
 	etat.modification_fichier = 0;
 	gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, FALSE );
     }
-    /* give the focus to the navigation_tree_view */
-    gtk_widget_grab_focus (navigation_tree_view);
+    /* give the focus to the navigation_tree_view pbiava 02/08/2009
+     * for account property window */
+    if ( navigation_tree_view )
+        gtk_widget_grab_focus ( navigation_tree_view );
 }
 
 

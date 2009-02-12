@@ -602,7 +602,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 
     /* update the P and T to R in the list if R are shown,
      * else just re-filter */
-    /* comment by pbiava 02/11/2009 not update the tag P or T in R  bug */
+    /* comment by pbiava 02/11/2009 no update tag P or T in R  fix bug 477 */
     //~ if (gsb_data_account_get_r (account_number))
         transaction_list_update_element (ELEMENT_MARK);
     //~ else

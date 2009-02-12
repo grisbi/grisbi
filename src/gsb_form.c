@@ -2367,7 +2367,7 @@ gboolean gsb_form_finish_edition ( void )
     /* as we modify or create a transaction, we invalidate the current report */
     gsb_report_set_current (0);
 
-    /* give the focus to the navigation_tree_view */
+    /* give the focus to the navigation_tree_view pbiava 02/08/2009 */
     gtk_widget_grab_focus (navigation_tree_view);
 
     modification_fichier ( TRUE );

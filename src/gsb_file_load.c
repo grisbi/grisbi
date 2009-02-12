@@ -85,6 +85,7 @@ static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
 static void gsb_file_load_color_part ( const gchar **attribute_names,
 				const gchar **attribute_values );
 static gboolean gsb_file_load_copy_old_file ( gchar *filename );
+static gboolean gsb_file_load_copy_old_file_and_glib ( gchar *filename, gchar *file_content);
 static void gsb_file_load_currency ( const gchar **attribute_names,
 			      const gchar **attribute_values );
 static void gsb_file_load_currency_link ( const gchar **attribute_names,
@@ -321,9 +322,13 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	else
 	{
         /* backup of an old file grisbi */
+#if GLIB_CHECK_VERSION(2,18,0)
         if ( ! gsb_file_load_copy_old_file ( filename ) )
             return FALSE;
-
+# else
+        if ( ! gsb_file_load_copy_old_file_and_glib ( filename, file_content ) )
+            return FALSE;
+#endif
 	    /* fill the GMarkupParser for the last xml structure */
 	    markup_parser -> start_element = (void *) gsb_file_load_start_element_before_0_6;
 	    markup_parser -> end_element = (void *) gsb_file_load_end_element_before_0_6;
@@ -7675,6 +7680,30 @@ gboolean gsb_file_load_copy_old_file ( gchar *filename )
         file_copy = g_file_new_for_path ( new_filename );
         if ( g_file_copy ( file_ori, file_copy, G_FILE_COPY_OVERWRITE, 
                         NULL, NULL, NULL, &error ) )
+        {
+            gchar *tmpstr = g_strdup_printf ( 
+                        _("Your old file grisbi was saved as: \n\n%s"),
+                        basename ( new_filename ) );
+            dialogue ( tmpstr );
+            g_free ( tmpstr );
+            return TRUE;
+        }
+        else
+            dialogue_error (error -> message );
+    }
+    return FALSE;
+}
+
+gboolean gsb_file_load_copy_old_file_and_glib ( gchar *filename, gchar *file_content)
+{
+    if ( g_str_has_suffix (filename, ".gsb" ) )
+    {
+        gchar *new_filename;
+        GError * error = NULL;
+
+        new_filename = gsb_string_remplace_string ( filename, ".gsb",
+                        "-old-version.gsb" );
+        if (g_file_set_contents ( new_filename, file_content,-1, &error ))
         {
             gchar *tmpstr = g_strdup_printf ( 
                         _("Your old file grisbi was saved as: \n\n%s"),

@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-07 19:19+0100\n"
-"PO-Revision-Date: 2009-02-08 16:51+0100\n"
+"PO-Revision-Date: 2009-02-08 22:49+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -7467,7 +7467,7 @@ msgstr "Catégorie"
 
 #: src/gsb_form_widget.c:427
 msgid "Free"
-msgstr ""
+msgstr "Libre"
 
 #: src/gsb_form_widget.c:439
 #: src/gsb_transactions_list.c:151
@@ -7802,6 +7802,10 @@ msgid ""
 "but didn't find the iter in the list...\n"
 "It's normal if appending a new scheduled transaction, but abnormal else..."
 msgstr ""
+"dans la fonction gsb_scheduler_list_remove_transaction_from_list, on vous "
+"demande de supprimer l'opération N° %d,\n"
+"mais elle n'a pas trouvé l'item dans la liste ...\n"
+"C'est normal si c'est une nouvelle opération, anormal autrement..."
 
 #: src/gsb_scheduler_list.c:968
 #, c-format
@@ -7950,15 +7954,23 @@ msgstr "Voulez vous vraiment supprimer l'opération avec le tiers « %s » ?"
 
 #: src/gsb_transactions_list.c:1185
 msgid ""
-"An archive was clicked but Grisbi is unable to get the name. It seems like a bug.\n"
+"An archive was clicked but Grisbi is unable to get the name. It seems "
+"like a bug.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
+"Une archive a été sélectionnée mais Grisbi ne peux pas récupérer son nom. "
+"Cela ressemble à un bug.\n"
+"Essayez de le reproduire et contactez les développeurs de Grisbi."
 
 #: src/gsb_transactions_list.c:1187
 msgid ""
-"An archive was clicked but it seems to have the number 0, wich should not happen.\n"
+"An archive was clicked but it seems to have the number 0, wich should "
+"not happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
+"Une archive a été sélectionnée mais elle semble avoir le numéro 0, ce qui "
+"ne devrait pas arriver.\n"
+"Essayez de le reproduire et contactez les développeurs de Grisbi."
 
 #: src/gsb_transactions_list.c:1525
 msgid ""
@@ -7995,18 +8007,21 @@ msgstr "Vous essayez de (dé-)rapprocher manuellement une opération ce qui n'es
 #: src/gsb_transactions_list.c:1609
 msgid ""
 "The transaction has disappear from the list...\n"
-"Don't worry, it's because you marked it as R, and you choosed not to show the R transactions into the list ; show them if you want to check what you did."
+"Don't worry, it's because you marked it as R, and you choosed not to show "
+"the R transactions into the list ; show them if you want to check what you did."
 msgstr ""
+"La transaction a disparu de la liste ...\n"
+"Ne vous inquiétez pas, c'est parce que vous avez l'avez rapprochée, et que "
+"vous avez choisi de ne pas montrer les opérations rapprochées dans la liste, "
+"Il vous suffit de faire apparaître (alt+R) pour vérifier ce que  vous avez fait."
 
 #: src/gsb_transactions_list.c:1610
-#, fuzzy
 msgid "Marking a transaction as R"
-msgstr "correspondant à la date de l'opération"
+msgstr "Marquer l'opération comme Rapprochée"
 
 #: src/gsb_transactions_list.c:1688
-#, fuzzy
 msgid "Select the reconciliation to associate to the selected transaction"
-msgstr "Convertir l'opération en opération planifiée"
+msgstr "Sélectionnez le rapprochement à associer aux opérations sélectionnées"
 
 #: src/gsb_transactions_list.c:1810
 #, fuzzy
@@ -8094,6 +8109,11 @@ msgid ""
 "\n"
 "Sow the R transactions to make them visible."
 msgstr ""
+"Vous venez de récupérer une archive, si vous ne voyez pas de nouvelles "
+"opérations, n'oubliez pas que les opérations rapprochées ne sont pas "
+"montré et que les opérations archivées sont probablement cachées...\n"
+"\n"
+"Montrer les opérations rapprochées pour les rendre visibles."
 
 #: src/gsb_transactions_list_sort.c:348
 #, c-format
@@ -8101,9 +8121,8 @@ msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""
 
 #: src/help.c:76
-#, fuzzy
 msgid "Programming"
-msgstr "Programmes"
+msgstr "Programmation"
 
 #: src/help.c:83
 msgid "Packaging"
@@ -8112,7 +8131,6 @@ msgstr "Création du package"
 #: src/help.c:103
 #: src/help.c:104
 #: src/help.c:106
-#, fuzzy
 msgid "English"
 msgstr "Anglais (ASCII)"
 
@@ -8122,7 +8140,7 @@ msgstr "Espagnol"
 
 #: src/help.c:107
 msgid "Dutch"
-msgstr ""
+msgstr "Allemand"
 
 #: src/help.c:108
 #: src/help.c:110
@@ -8131,7 +8149,7 @@ msgstr "Italien"
 
 #: src/help.c:109
 msgid "Brazilian Portuguese"
-msgstr ""
+msgstr "Brésilien"
 
 #: src/help.c:111
 msgid "German"
@@ -8149,6 +8167,10 @@ msgid ""
 "This version of Grisbi does not support print feature.\n"
 "Version of GTK+ it was built with is obsolete."
 msgstr ""
+"\n"
+"\n"
+"Cette version de Grisbi ne supporte pas les fonction d'impression.\n"
+"La version de gtk utilisée pour la construire est obsolète."
 
 #. Plugins list
 #: src/help.c:135
@@ -9557,6 +9579,10 @@ msgid ""
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the problem.\n"
 "For now, all the dates will be imported as 01.01.1970"
 msgstr ""
+"Grisbi ne peut pas déterminer le format de la date dans le fichier QIF.\n"
+"Contactez les développeurs de Grisbi (devel@listes.grisbi.org) pour "
+"déterminer le problème\n"
+"En attendant toutes les dates seront importées comme 01.01.1970"
 
 #: src/qif.c:592
 #, c-format
