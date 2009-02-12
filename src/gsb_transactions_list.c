@@ -227,13 +227,13 @@ void gsb_transactions_list_update_tree_view ( gint account_number,
 	return;
 
     if (keep_selected_transaction)
-	selected_transaction = transaction_list_select_get ();
+        selected_transaction = transaction_list_select_get ();
     transaction_list_filter (account_number);
     transaction_list_sort ();
     transaction_list_colorize ();
     transaction_list_set_balances ();
     if (keep_selected_transaction)
-	transaction_list_select (selected_transaction);
+        transaction_list_select (selected_transaction);
 }
 
 
@@ -1333,7 +1333,7 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
     if ( new_selected_transaction != -1 )
     {
 	account_number = gsb_data_transaction_get_account_number (new_selected_transaction);
-	gsb_menu_transaction_operations_set_sensitive ( TRUE );
+    gsb_menu_transaction_operations_set_sensitive ( TRUE );
     }
     else
     {
@@ -1353,8 +1353,9 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
 	gsb_form_fill_by_transaction (new_selected_transaction, TRUE, FALSE);
 
     /* give the focus to the transaction_tree_view pbiava 02/09/2009 
-     * edit due to a regression (perte de <CtrlR>) */
-    gtk_widget_grab_focus ( transactions_tree_view );
+     * edit due to a regression loss of <CtrlR> */
+    if ( transactions_tree_view )
+        gtk_widget_grab_focus ( transactions_tree_view );
 }
 
 
@@ -1483,8 +1484,11 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
 
     /* if we are reconciling, update the amounts label */
     if ( etat.equilibrage )
+    {
+    /* pbiava 02/12/2009 : shows the balance after you mark the transaction */
+    transaction_list_set_balances (  );
 	gsb_reconcile_update_amounts (NULL, NULL);
-
+    }
     /* need to update the marked amount on the home page */
     mise_a_jour_liste_comptes_accueil = 1;
 
