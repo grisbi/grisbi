@@ -3,7 +3,7 @@
 /*                                                                            */
 /*     Copyright (C)	2004 François Terrot (francois.terrot at grisbi.org) */
 /*			2005 Alain Portal (aportal@univ-montp2.fr)	      */
-/*			2006 Benjamin Drieu (bdrieu@april.org)		      */
+/*			2009 Benjamin Drieu (bdrieu@april.org)		      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -456,13 +456,13 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	switch ( gsb_data_transaction_get_marked_transaction ( transaction_number ) )
 	{
 	    case 0: /* CHECKED_TRANSACTION */
-		csv_field_pointage = my_strdup (_("C"));
+		csv_field_pointage = my_strdup ("C");
 		break;
 	    case 1: /* RECONCILED_TRANSACTION */
-		csv_field_pointage = my_strdup (_("R"));
+		csv_field_pointage = my_strdup ("R");
 		break;
 	    case 2: /* TELECHECKED_TRANSACTION */
-		csv_field_pointage = my_strdup (_("T"));
+		csv_field_pointage = my_strdup ("T");
 		break;
 	}
 
