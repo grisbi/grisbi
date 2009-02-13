@@ -739,7 +739,6 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry, GdkEventFocus *ev, 
 {
     GtkWidget *fyear_button;
     GtkWidget *widget;
-    gchar *string;
     gint element_number;
     gint account_number;
 
