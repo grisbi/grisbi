@@ -1665,7 +1665,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 	case TRANSACTION_FORM_NOTES :
 	case TRANSACTION_FORM_BANK :
 	    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ))))
-		string = gsb_form_widget_get_name (element_number);
+		string = _(gsb_form_widget_get_name (element_number));
 	    break;
 
 	default :
