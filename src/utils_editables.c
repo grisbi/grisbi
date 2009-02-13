@@ -137,12 +137,12 @@ void increment_decrement_champ ( GtkWidget *entry, gint increment )
 
 
 /**
- * calcule le total du contenu de l'entrÃ©e donnÃ©e en argument 
+ * calcule le total du contenu de l'entrée donnée en argument 
  * accepte les + et les - 
  * 
- * \param entry entrÃ©e d'un montant 
+ * \param entry entrée d'un montant 
  * 
- * \return gsb_real total de ce qui est dans l'entrÃ©e 
+ * \return gsb_real total de ce qui est dans l'entrée 
  */
 gsb_real gsb_utils_edit_calculate_entry ( GtkWidget *entry )
 {
@@ -151,7 +151,11 @@ gsb_real gsb_utils_edit_calculate_entry ( GtkWidget *entry )
     gsb_real total = null_real;
 	
     string = my_strdup (gtk_entry_get_text ( GTK_ENTRY (entry)));
-    pointeur = string + strlen (string);
+    /* modified by pbiava 02/13/2009 To avoid a crash at the entrance to a 0 */
+    if (string && strlen (string))
+        pointeur = string + strlen (string);
+    else
+        return total;
 
     while ( pointeur != string )
     {
