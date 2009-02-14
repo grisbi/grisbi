@@ -84,7 +84,7 @@ static void gsb_file_load_bank ( const gchar **attribute_names,
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
 static void gsb_file_load_color_part ( const gchar **attribute_names,
 				const gchar **attribute_values );
-static gboolean gsb_file_load_copy_old_file ( gchar *filename );
+//~ static gboolean gsb_file_load_copy_old_file ( gchar *filename );
 static gboolean gsb_file_load_copy_old_file_and_glib ( gchar *filename, gchar *file_content);
 static void gsb_file_load_currency ( const gchar **attribute_names,
 			      const gchar **attribute_values );
@@ -322,13 +322,13 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	else
 	{
         /* backup of an old file grisbi */
-#if GLIB_CHECK_VERSION(2,18,0)
-        if ( ! gsb_file_load_copy_old_file ( filename ) )
-            return FALSE;
-# else
+//~ #if GLIB_CHECK_VERSION(2,18,0)
+        //~ if ( ! gsb_file_load_copy_old_file ( filename ) )
+            //~ return FALSE;
+//~ # else
         if ( ! gsb_file_load_copy_old_file_and_glib ( filename, file_content ) )
             return FALSE;
-#endif
+//~ #endif
 	    /* fill the GMarkupParser for the last xml structure */
 	    markup_parser -> start_element = (void *) gsb_file_load_start_element_before_0_6;
 	    markup_parser -> end_element = (void *) gsb_file_load_end_element_before_0_6;
@@ -1786,6 +1786,11 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	    /* get the entire real, even if the floating point of the currency is less deep */
 	    gsb_data_transaction_set_amount ( transaction_number,
 					      gsb_real_get_from_string (attribute_values[i]));
+        /* added by pbiava on the 02/14//2009 fix bug 417 */
+        if (attribute_values[i][0] == '-')
+            gsb_data_transaction_set_sign ( transaction_number, GSB_PAYMENT_DEBIT );
+        else
+            gsb_data_transaction_set_sign ( transaction_number, GSB_PAYMENT_CREDIT );
 	    i++;
 	    continue;
 	}
@@ -7665,7 +7670,7 @@ gint gsb_file_load_get_new_payment_number ( gint account_number,
  *
  * \return TRUE : ok, FALSE : problem
  * */
-gboolean gsb_file_load_copy_old_file ( gchar *filename )
+/*gboolean gsb_file_load_copy_old_file ( gchar *filename )
 {
     if ( g_str_has_suffix (filename, ".gsb" ) )
     {
@@ -7692,7 +7697,7 @@ gboolean gsb_file_load_copy_old_file ( gchar *filename )
             dialogue_error (error -> message );
     }
     return FALSE;
-}
+} */
 
 gboolean gsb_file_load_copy_old_file_and_glib ( gchar *filename, gchar *file_content)
 {
