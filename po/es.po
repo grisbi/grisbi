@@ -8,13 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-13 21:10+0100\n"
-"PO-Revision-Date: 2009-01-18 22:52+0100\n"
+"POT-Creation-Date: 2009-02-15 11:58+0100\n"
+"PO-Revision-Date: 2009-02-15 12:03+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:196
 msgid "Closed liabilities accounts"
@@ -186,9 +186,8 @@ msgid "Accounts file title"
 msgstr "Título del fichero de cuentas"
 
 #: src/affichage.c:383
-#, fuzzy
 msgid "Account owner name"
-msgstr "Nombre de la cuenta"
+msgstr "Nombre del titular de la cuenta"
 
 #. filename
 #: src/affichage.c:397 src/gsb_assistant_file.c:305
@@ -6122,11 +6121,10 @@ msgid "Impossible to remove currency '%s'"
 msgstr "Imposible eliminar la moneda '%s'"
 
 #: src/gsb_currency_config.c:639
-#, fuzzy, c-format
+#, c-format
 msgid "Currency '%s' is used in current file. Grisbi can't delete it."
 msgstr ""
-"La moneda '%s' se está usando en el archivo actual.  Grisbi no puede "
-"borrarla."
+"La moneda '%s' se está usando en el archivo actual.  Grisbi no puede borrarla."
 
 #: src/gsb_currency_config.c:808
 msgid "Currency for payees tree"
@@ -6904,7 +6902,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "No se ha"
 
-#: src/gsb_file_load.c:411 src/gsb_file_load.c:4359
+#: src/gsb_file_load.c:411 src/gsb_file_load.c:4364
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Este fichero no es de de Grisbi... Carga interrumpida."
 
@@ -6921,7 +6919,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:7577
+#: src/gsb_file_load.c:7582
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -6930,7 +6928,7 @@ msgstr ""
 "Se necesita la versión de Grisbi %s para abrir este archivo.\n"
 "Usted está usando la versión %s."
 
-#: src/gsb_file_load.c:7616
+#: src/gsb_file_load.c:7621
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -6942,17 +6940,20 @@ msgstr ""
 "más tarde (nuevos informes...) pero recuerde que es un archivo antes de "
 "modificar algunas transacciones o informaciones importantes."
 
-#: src/gsb_file_load.c:7617
+#: src/gsb_file_load.c:7622
 msgid "Grisbi archive opened"
 msgstr "Archivo de Grisbi abierto"
 
-#: src/gsb_file_load.c:7685 src/gsb_file_load.c:7709
+#: src/gsb_file_load.c:7714
 #, c-format
 msgid ""
 "Your old file grisbi was saved as: \n"
 "\n"
 "%s"
 msgstr ""
+"Su antiguo fichero de Grisbi se guardó como: \n"
+"\n"
+"%s"
 
 #: src/gsb_file_others.c:136 src/gsb_file_others.c:218
 #: src/gsb_file_others.c:301 src/gsb_file_save.c:396 src/gsb_file_save.c:414
@@ -7972,23 +7973,21 @@ msgid ""
 "Are you really sure to know what you do?"
 msgstr ""
 "Está intentando reconciliar o irreconciliar manualmente una transacción y "
-"esta no es una acción recomendada ¿ Está realmente seguro de que sabe lo que "
-"está haciendo ?\n"
+"eso no es recomendable. ¿ Está seguro de que sabe lo que está haciendo ?\n"
 "\n"
-"Y además la transacción que esté intentando reconciliar es la hija de una "
+"Y además la transacción que está intentando reconciliar es la hija de una "
 "anotación, por lo que la modificación será hecha en la madre y en todos sus "
 "hijos.\n"
 "\n"
 "¿ Está seguro de que sabe lo que está haciendo ?"
 
 #: src/gsb_transactions_list.c:1556
-#, fuzzy
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
 "not a recommended action. Are you really sure you know what you are doing?"
 msgstr ""
 "Está intentando reconciliar o irreconciliar manualmente una transacción y "
-"esto no es la forma recomendada de hacer esto ¿Está seguro de que sabe lo "
+"no es recomendable hacer esto ¿Está seguro de que sabe lo "
 "que está haciendo?"
 
 #. we warn the user the transaction disappear
