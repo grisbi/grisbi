@@ -704,12 +704,12 @@ void gsb_form_fill_element ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_DEBIT:
-	    if (gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa < 0)
+        /* changed by pbiava on the 02/14//2009 fix bug 417 */
+	    if ( gsb_data_transaction_get_sign ( transaction_number ) == GSB_PAYMENT_DEBIT )
 	    {
 		char_tmp = gsb_real_get_string_with_currency (gsb_real_abs (gsb_data_mix_get_amount (transaction_number, is_transaction)),
 							      gsb_data_mix_get_currency_number (transaction_number, is_transaction),
 							      FALSE );
-
 		gsb_form_entry_get_focus (widget);
 		gtk_entry_set_text ( GTK_ENTRY ( widget ),
 				     char_tmp );
@@ -718,7 +718,8 @@ void gsb_form_fill_element ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_CREDIT:
-	    if (gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa >= 0)
+        /* changed by pbiava on the 02/14//2009 fix bug 417 */
+	    if ( gsb_data_transaction_get_sign ( transaction_number ) == GSB_PAYMENT_CREDIT )
 	    {
 		char_tmp = gsb_real_get_string_with_currency (gsb_data_mix_get_amount (transaction_number, is_transaction),
 							      gsb_data_mix_get_currency_number (transaction_number, is_transaction),
@@ -2672,13 +2673,25 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		break;
 
 	    case TRANSACTION_FORM_DEBIT:
-		if (!gsb_form_widget_check_empty (element -> element_widget)) 
-		    gsb_data_mix_set_amount ( transaction_number, gsb_real_opposite (gsb_utils_edit_calculate_entry ( element -> element_widget )), is_transaction);
-		break;
+		if (!gsb_form_widget_check_empty (element -> element_widget))
+        {
+		    gsb_data_mix_set_amount ( transaction_number, gsb_real_opposite 
+                        (gsb_utils_edit_calculate_entry ( 
+                        element -> element_widget )), is_transaction);
+            gsb_data_transaction_set_sign ( transaction_number, 
+                        GSB_PAYMENT_DEBIT );
+        }
+        break;
 
 	    case TRANSACTION_FORM_CREDIT:
-		if (!gsb_form_widget_check_empty (element -> element_widget)) 
-		    gsb_data_mix_set_amount ( transaction_number, gsb_utils_edit_calculate_entry ( element -> element_widget ), is_transaction);
+		if (!gsb_form_widget_check_empty (element -> element_widget))
+        {
+		    gsb_data_mix_set_amount ( transaction_number, gsb_real_opposite 
+                        (gsb_utils_edit_calculate_entry ( 
+                        element -> element_widget )), is_transaction);
+            gsb_data_transaction_set_sign ( transaction_number, 
+                        GSB_PAYMENT_CREDIT );
+        }
 		break;
 
 	    case TRANSACTION_FORM_BUDGET:

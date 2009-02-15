@@ -127,6 +127,8 @@ gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
 					       const GDate *date );
 gboolean gsb_data_transaction_set_voucher ( gint transaction_number,
 					    const gchar *voucher );
+gint gsb_data_transaction_get_sign ( gint transaction_number );
+gboolean gsb_data_transaction_set_sign ( gint transaction_number, gint sign );
 /* END_DECLARATION */
 
 

@@ -934,6 +934,7 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
     custom_list = transaction_model_get_model ();
 
     g_return_val_if_fail ( custom_list != NULL, FALSE);
+    devel_debug_int (transaction_number);
 
     /* we can update a transaction wich is not visible, so need to find the iter into
      * all the transactions */
@@ -1075,7 +1076,7 @@ gboolean transaction_list_update_element ( gint element_number )
     gint line_element;
 
     /* for now, this is the same position for all accounts, so no problem */
-
+    devel_debug_int (element_number);
     /* get the position of the element */
     column_element = find_element_col (element_number);		/*  0 to CUSTOM_MODEL_N_VISIBLES_COLUMN */
     line_element = find_element_line (element_number);		/*  0 to TRANSACTION_LIST_ROWS_NB */

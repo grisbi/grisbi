@@ -1102,6 +1102,10 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 
 	/* set the reals */
 	amount = gsb_real_get_string (gsb_data_transaction_get_amount ( transaction_number ));
+    /* added by pbiava on the 02/14//2009 fix bug 417 */
+    if ( strcmp (amount, "0") == 0 && 
+                        gsb_data_transaction_get_sign ( transaction_number ) == GSB_PAYMENT_DEBIT )
+        amount = g_strconcat ( "-", amount, NULL );
 	exchange_rate = gsb_real_get_string (gsb_data_transaction_get_exchange_rate (transaction_number ));
 	exchange_fees = gsb_real_get_string (gsb_data_transaction_get_exchange_fees ( transaction_number));
 	
@@ -1111,34 +1115,34 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 
 	/* now we can fill the file content */
 	new_string = g_markup_printf_escaped ( "\t<Transaction Ac=\"%d\" Nb=\"%d\" Id=\"%s\" Dt=\"%s\" Dv=\"%s\" Cu=\"%d\" Am=\"%s\" Exb=\"%d\" Exr=\"%s\" Exf=\"%s\" Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Br=\"%d\" No=\"%s\" Pn=\"%d\" Pc=\"%s\" Ma=\"%d\" Ar=\"%d\" Au=\"%d\" Re=\"%d\" Fi=\"%d\" Bu=\"%d\" Sbu=\"%d\" Vo=\"%s\" Ba=\"%s\" Trt=\"%d\" Mo=\"%d\" />\n",
-					       gsb_data_transaction_get_account_number ( transaction_number ),
-					       transaction_number,
-					       gsb_data_transaction_get_transaction_id ( transaction_number),
-					       date,
-					       value_date,
-					       gsb_data_transaction_get_currency_number (transaction_number ),
-					       amount,
-					       gsb_data_transaction_get_change_between (transaction_number ),
-					       exchange_rate,
-					       exchange_fees,
-					       gsb_data_transaction_get_party_number ( transaction_number),
-					       gsb_data_transaction_get_category_number ( transaction_number),
-					       gsb_data_transaction_get_sub_category_number (transaction_number),
-					       gsb_data_transaction_get_split_of_transaction (transaction_number),
-					       gsb_data_transaction_get_notes (transaction_number),
-					       gsb_data_transaction_get_method_of_payment_number (transaction_number),
-					       gsb_data_transaction_get_method_of_payment_content (transaction_number),
-					       gsb_data_transaction_get_marked_transaction (transaction_number),
-					       transaction_archive_number,
-					       gsb_data_transaction_get_automatic_transaction (transaction_number),
-					       gsb_data_transaction_get_reconcile_number (transaction_number),
-					       gsb_data_transaction_get_financial_year_number (transaction_number),
-					       gsb_data_transaction_get_budgetary_number (transaction_number),
-					       gsb_data_transaction_get_sub_budgetary_number (transaction_number),
-					       gsb_data_transaction_get_voucher (transaction_number),
-					       gsb_data_transaction_get_bank_references (transaction_number),
-					       gsb_data_transaction_get_contra_transaction_number (transaction_number),
-					       gsb_data_transaction_get_mother_transaction_number (transaction_number));
+                        gsb_data_transaction_get_account_number ( transaction_number ),
+                        transaction_number,
+                        gsb_data_transaction_get_transaction_id ( transaction_number),
+					    date,
+					    value_date,
+                        gsb_data_transaction_get_currency_number (transaction_number ),
+                        amount,
+                        gsb_data_transaction_get_change_between (transaction_number ),
+                        exchange_rate,
+                        exchange_fees,
+                        gsb_data_transaction_get_party_number ( transaction_number),
+                        gsb_data_transaction_get_category_number ( transaction_number),
+                        gsb_data_transaction_get_sub_category_number (transaction_number),
+                        gsb_data_transaction_get_split_of_transaction (transaction_number),
+                        gsb_data_transaction_get_notes (transaction_number),
+                        gsb_data_transaction_get_method_of_payment_number (transaction_number),
+                        gsb_data_transaction_get_method_of_payment_content (transaction_number),
+                        gsb_data_transaction_get_marked_transaction (transaction_number),
+                        transaction_archive_number,
+                        gsb_data_transaction_get_automatic_transaction (transaction_number),
+                        gsb_data_transaction_get_reconcile_number (transaction_number),
+                        gsb_data_transaction_get_financial_year_number (transaction_number),
+                        gsb_data_transaction_get_budgetary_number (transaction_number),
+                        gsb_data_transaction_get_sub_budgetary_number (transaction_number),
+                        gsb_data_transaction_get_voucher (transaction_number),
+                        gsb_data_transaction_get_bank_references (transaction_number),
+                        gsb_data_transaction_get_contra_transaction_number (transaction_number),
+                        gsb_data_transaction_get_mother_transaction_number (transaction_number));
 
 	g_free (amount);
 	g_free (exchange_rate);

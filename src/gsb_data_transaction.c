@@ -58,6 +58,7 @@ typedef struct
     gchar *transaction_id;				/**< filled by ofx */
     gint account_number;
     gsb_real transaction_amount;
+    gint transaction_sign;              /*< GSB_PAYMENT_DEBIT 1, GSB_PAYMENT_CREDIT 2 pbiava 02/14/2009 */
     gint party_number;
     gchar *notes;
     gint marked_transaction;				/**<  OPERATION_NORMALE=nothing, OPERATION_POINTEE=P, OPERATION_TELERAPPROCHEE=T, OPERATION_RAPPROCHEE=R */
@@ -2533,4 +2534,44 @@ gint gsb_data_transaction_check_content_payment ( gint payment_number,
 }
 
 
+/**
+ * get the  transaction_sign
+ * 
+ * \param transaction_number the number of the transaction
+ * 
+ * \return the sign of the transaction
+ * */
+gint gsb_data_transaction_get_sign ( gint transaction_number )
+{
+    struct_transaction *transaction;
 
+    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
+
+    if ( !transaction )
+        return -1;
+
+    return transaction -> transaction_sign;
+}
+
+
+/**
+ * set the  transaction_sign
+ * 
+ * \param transaction_number the number of the transaction
+ * \param sign of the transaction = GSB_PAYMENT_DEBIT 1, GSB_PAYMENT_CREDIT 2
+ * 
+ * \return \return TRUE if ok
+ * */
+gint gsb_data_transaction_set_sign ( gint transaction_number, gint sign )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
+
+    if ( !transaction )
+        return -1;
+
+    transaction -> transaction_sign = sign;
+
+    return TRUE;
+}
