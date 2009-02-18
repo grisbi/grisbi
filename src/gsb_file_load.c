@@ -1786,11 +1786,6 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
 	    /* get the entire real, even if the floating point of the currency is less deep */
 	    gsb_data_transaction_set_amount ( transaction_number,
 					      gsb_real_get_from_string (attribute_values[i]));
-        /* added by pbiava on the 02/14//2009 fix bug 417 */
-        if (attribute_values[i][0] == '-')
-            gsb_data_transaction_set_sign ( transaction_number, GSB_PAYMENT_DEBIT );
-        else
-            gsb_data_transaction_set_sign ( transaction_number, GSB_PAYMENT_CREDIT );
 	    i++;
 	    continue;
 	}

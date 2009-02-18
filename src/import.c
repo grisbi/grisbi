@@ -1906,18 +1906,8 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
 	    /* invert the amount of the transaction if asked */
 	    if (imported_account -> invert_transaction_amount)
-        {
-            if ( gsb_data_transaction_get_sign ( 
-                        transaction_number ) == GSB_PAYMENT_DEBIT )
-                gsb_data_transaction_set_sign ( transaction_number, 
-                        GSB_PAYMENT_CREDIT );
-            else
-                gsb_data_transaction_set_sign ( transaction_number, 
-                        GSB_PAYMENT_DEBIT );
-            gsb_data_transaction_set_amount ( transaction_number,
-                        gsb_real_opposite (gsb_data_transaction_get_amount (
-                        transaction_number)));
-        }
+		gsb_data_transaction_set_amount ( transaction_number,
+						  gsb_real_opposite (gsb_data_transaction_get_amount (transaction_number)));
 
 	    /* we need to add the transaction now to the tree model here
 	     * to avoid to write again all the account */
@@ -2152,6 +2142,8 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	else
 	    action_derniere_ventilation = 1;
 
+
+
 	if ( ope_import -> bouton
 	     &&
 	     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( ope_import -> bouton )))
@@ -2216,11 +2208,6 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     /* récupération du montant */
     gsb_data_transaction_set_amount ( transaction_number,
 				      imported_transaction -> montant );
-    /* added by pbiava on the 02/17/2009 fix bug 417 */
-    if ( (imported_transaction -> montant).mantissa >= 0)
-        gsb_data_transaction_set_sign ( transaction_number, GSB_PAYMENT_CREDIT );
-    else
-        gsb_data_transaction_set_sign ( transaction_number, GSB_PAYMENT_DEBIT );
 
     /* 	  récupération de la devise */
     gsb_data_transaction_set_currency_number ( transaction_number,

@@ -721,22 +721,19 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 							   NULL )));
 
 	case ELEMENT_DEBIT:
-        /* give the amount of the transaction on the transaction currency */
-        if ( gsb_data_transaction_get_sign ( transaction_number ) == GSB_PAYMENT_DEBIT )
-		return gsb_real_get_string_with_currency ( gsb_real_abs (
-                        gsb_data_transaction_get_amount ( transaction_number )),
-                        gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-	    else
-            return NULL;
-	    break;
 	case ELEMENT_CREDIT:
 	    /* give the amount of the transaction on the transaction currency */
-        if ( gsb_data_transaction_get_sign ( transaction_number ) == GSB_PAYMENT_CREDIT )
-		return gsb_real_get_string_with_currency ( gsb_real_abs (
-                        gsb_data_transaction_get_amount ( transaction_number )),
-                        gsb_data_transaction_get_currency_number (transaction_number), TRUE);
+	    if ( (cell_content_number == ELEMENT_DEBIT
+		  &&
+		  gsb_data_transaction_get_amount ( transaction_number).mantissa < 0 )
+		 ||
+		 (cell_content_number == ELEMENT_CREDIT
+		  &&
+		  gsb_data_transaction_get_amount ( transaction_number).mantissa >= 0 ))
+		return gsb_real_get_string_with_currency ( gsb_real_abs (gsb_data_transaction_get_amount ( transaction_number )),
+							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 	    else
-            return NULL;
+		return NULL;
 	    break;
 
 	case ELEMENT_BALANCE:
