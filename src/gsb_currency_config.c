@@ -592,8 +592,10 @@ void gsb_currency_append_currency_to_list ( GtkListStore *model,
 void gsb_currency_config_remove_currency ( GtkWidget *button,
 					   GtkWidget *tree_view )
 {
+    GtkWidget *entry_name, *entry_iso_code, *entry_code, *entry_floating_point;
     GSList *list_tmp;
     gint currency_number;
+    GtkTreeModel *model;
 
     devel_debug (NULL);
     currency_number = gsb_currency_config_get_selected ( GTK_TREE_VIEW ( tree_view ) );
@@ -651,6 +653,18 @@ void gsb_currency_config_remove_currency ( GtkWidget *button,
     }
 
     gsb_currency_config_remove_selected_from_view ( GTK_TREE_VIEW(tree_view) );
+
+    /*  pbiava the 02/22/09 erase the entries */
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+    entry_name = g_object_get_data ( G_OBJECT(model), "entry_name" );
+    gsb_autofunc_int_erase_entry ( entry_name );
+    entry_iso_code = g_object_get_data ( G_OBJECT(model), "entry_iso_code" );
+    gsb_autofunc_int_erase_entry ( entry_iso_code );
+    entry_code = g_object_get_data ( G_OBJECT(model), "entry_code" );
+    gsb_autofunc_int_erase_entry ( entry_code );
+    entry_floating_point = g_object_get_data ( G_OBJECT(model), "entry_floating_point" );
+    gsb_autofunc_int_erase_entry ( entry_floating_point );
+
     gsb_data_currency_remove (currency_number);
     gsb_currency_update_combobox_currency_list ();
 }
