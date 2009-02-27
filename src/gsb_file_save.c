@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -597,6 +597,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tScheduler_custom_number=\"%d\"\n"
 					   "\t\tScheduler_custom_menu=\"%d\"\n"
 					   "\t\tImport_interval_search=\"%d\"\n"
+                       "\t\tImport_categorie_for_payee=\"%d\"\n"
 					   "\t\tImport_fyear_by_value_date=\"%d\"\n"
 					   "\t\tUse_logo=\"%d\"\n"
 					   "\t\tRemind_display_per_account=\"%d\"\n"
@@ -630,6 +631,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	affichage_echeances_perso_nb_libre,
 	affichage_echeances_perso_j_m_a,
 	valeur_echelle_recherche_date_import,
+    etat.get_categorie_for_payee,
 	etat.get_fyear_by_value_date,
 	etat.utilise_logo,
 	etat.retient_affichage_par_compte,

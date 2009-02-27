@@ -84,7 +84,6 @@ static void gsb_file_load_bank ( const gchar **attribute_names,
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
 static void gsb_file_load_color_part ( const gchar **attribute_names,
 				const gchar **attribute_values );
-//~ static gboolean gsb_file_load_copy_old_file ( gchar *filename );
 static gboolean gsb_file_load_copy_old_file_and_glib ( gchar *filename, gchar *file_content);
 static void gsb_file_load_currency ( const gchar **attribute_names,
 			      const gchar **attribute_values );
@@ -741,6 +740,12 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 	}
 
 	else if ( !strcmp ( attribute_names[i],
+			    "Import_categorie_for_payee" ))
+	{
+	    etat.get_categorie_for_payee = utils_str_atoi ( attribute_values[i]);
+	}
+
+    else if ( !strcmp ( attribute_names[i],
 			    "Import_fyear_by_value_date" ))
 	{
 	    etat.get_fyear_by_value_date = utils_str_atoi ( attribute_values[i]);

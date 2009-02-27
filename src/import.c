@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
+/*			2004-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -49,6 +49,7 @@
 #include "./gsb_data_transaction.h"
 #include "./gsb_file.h"
 #include "./gsb_form_scheduler.h"
+#include "./gsb_form_transaction.h"
 #include "./utils_dates.h"
 #include "./fenetre_principale.h"
 #include "./navigation.h"
@@ -2176,7 +2177,10 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 {
     gchar **tab_str;
     gint transaction_number;
+    gint payee_number = 0;
     gint fyear = 0;
+    gint last_transaction_number;
+    gint category_number;
 
     /* we create the new transaction */
     transaction_number = gsb_data_transaction_new_transaction ( account_number );
@@ -2209,7 +2213,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gsb_data_transaction_set_amount ( transaction_number,
 				      imported_transaction -> montant );
 
-    /* 	  récupération de la devise */
+    /* récupération de la devise */
     gsb_data_transaction_set_currency_number ( transaction_number,
 					       imported_transaction -> devise );
 
@@ -2217,9 +2221,11 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     if ( imported_transaction -> tiers
 	 &&
 	 strlen (imported_transaction -> tiers))
-	gsb_data_transaction_set_party_number ( transaction_number,
-						gsb_data_payee_get_number_by_name ( imported_transaction -> tiers,
-										    TRUE ));
+    {
+        payee_number = gsb_data_payee_get_number_by_name ( imported_transaction -> tiers,
+										    TRUE );
+        gsb_data_transaction_set_party_number ( transaction_number, payee_number );
+    }
 
     /* vérification si c'est ventilé, sinon récupération des catégories */
     if ( imported_transaction -> operation_ventilee )
@@ -2273,6 +2279,22 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 														   TRUE ));
 	    }
 	}
+    else if ( etat.get_categorie_for_payee )
+    {
+        /* pbiava the 02/26/2009 associate category to the tiers */
+        last_transaction_number = gsb_form_transactions_look_for_last_party ( 
+                                    payee_number, transaction_number, 
+                                    account_number );
+        category_number = gsb_data_transaction_get_category_number (
+                                    last_transaction_number );
+        devel_debug_int (category_number);
+        gsb_data_transaction_set_category_number ( transaction_number,
+                                category_number );
+        category_number = gsb_data_transaction_get_sub_category_number ( 
+                                last_transaction_number );
+        gsb_data_transaction_set_sub_category_number ( transaction_number,
+                                category_number );
+    }
 	else
 	{
 	    gsb_data_transaction_set_category_number ( transaction_number, 0 );
@@ -3107,6 +3129,19 @@ GtkWidget *onglet_importation (void)
 			 FALSE,
 			 FALSE,
 			 12 );
+    gtk_widget_show ( button );
+
+    /* automatically associate the category of the payee if it is possible */
+    button = gsb_automem_checkbutton_new ( 
+                        _("automatically associate the category of the payee if it is possible"),
+                        &etat.get_categorie_for_payee, 
+                        NULL, NULL );
+    
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+			 button,
+			 FALSE,
+			 FALSE,
+			 0 );
     gtk_widget_show ( button );
 
     /* propose to choose between getting the fyear by value date or by date */

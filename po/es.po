@@ -8,13 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-15 11:58+0100\n"
+"POT-Creation-Date: 2009-02-26 23:21+0100\n"
 "PO-Revision-Date: 2009-02-15 12:03+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: src/accueil.c:196
 msgid "Closed liabilities accounts"
@@ -433,7 +433,7 @@ msgstr "Estimar tabla"
 #: src/export_csv.c:747 src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_form.c:1270 src/gsb_form_widget.c:400 src/gsb_reconcile.c:154
 #: src/gsb_scheduler_list.c:331 src/gsb_transactions_list.c:143
-#: src/import.c:2860 src/import_csv.c:78 src/traitement_variables.c:74
+#: src/import.c:2881 src/import_csv.c:78 src/traitement_variables.c:74
 msgid "Date"
 msgstr "Fecha"
 
@@ -677,7 +677,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr "Archivos de categorías de Grisbi (*.cgsb)"
 
 #: src/categories_onglet.c:372 src/etats_onglet.c:1254
-#: src/file_obfuscate_qif.c:105 src/gsb_file.c:234 src/import.c:701
+#: src/file_obfuscate_qif.c:105 src/gsb_file.c:235 src/import.c:701
 #: src/imputation_budgetaire.c:407
 msgid "All files"
 msgstr "Todos los archivos"
@@ -736,7 +736,7 @@ msgid "Create a new sub-category"
 msgstr "Crear una nueva subcategoría"
 
 #: src/categories_onglet.c:480 src/etats_onglet.c:130 src/import.c:349
-#: src/import.c:3077 src/imputation_budgetaire.c:513 src/parametres.c:287
+#: src/import.c:3098 src/imputation_budgetaire.c:513 src/parametres.c:287
 msgid "Import"
 msgstr "Importar"
 
@@ -1357,7 +1357,7 @@ msgstr "Total general"
 
 #. Transfer = Virement
 #. Direct deposit remplacÃ© par Transfert = Virement
-#: src/etats_affiche.c:1837 src/import.c:2327 src/import.c:2345
+#: src/etats_affiche.c:1837 src/import.c:2348 src/import.c:2366
 msgid "Transfert"
 msgstr "Transferencia"
 
@@ -1417,7 +1417,7 @@ msgstr "Año financiero"
 #: src/etats_config.c:687 src/etats_config.c:7193 src/export_csv.c:762
 #: src/fenetre_principale.c:266 src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_form.c:1297 src/gsb_form_widget.c:420 src/gsb_scheduler_list.c:331
-#: src/gsb_transactions_list.c:145 src/import.c:2867 src/import_csv.c:80
+#: src/gsb_transactions_list.c:145 src/import.c:2888 src/import_csv.c:80
 #: src/meta_payee.c:76 src/traitement_variables.c:76
 msgid "Payee"
 msgstr "Tercero"
@@ -1972,7 +1972,7 @@ msgstr "no está vacío"
 
 #: src/etats_config.c:5310 src/export_csv.c:771
 #: src/gsb_assistant_reconcile_config.c:612 src/gsb_scheduler_list.c:332
-#: src/gsb_transactions_list.c:150 src/import.c:2875
+#: src/gsb_transactions_list.c:150 src/import.c:2896
 #: src/traitement_variables.c:81
 msgid "Amount"
 msgstr "Cantidad"
@@ -2231,7 +2231,7 @@ msgstr "Transacciones pulsables"
 msgid "Make transactions clickable"
 msgstr "Hacer las transacciones cliqueables"
 
-#: src/etats_config.c:6985 src/gsb_currency_config.c:801 src/parametres.c:341
+#: src/etats_config.c:6985 src/gsb_currency_config.c:815 src/parametres.c:341
 msgid "Totals currencies"
 msgstr "Monedas totales"
 
@@ -2585,8 +2585,8 @@ msgstr "Archivo de LaTeX"
 msgid "Exporting report ..."
 msgstr "Exportando el informe ..."
 
-#: src/etats_onglet.c:1216 src/gsb_debug.c:245 src/gsb_file.c:449
-#: src/gsb_file.c:565 src/gsb_file.c:610
+#: src/etats_onglet.c:1216 src/gsb_debug.c:245 src/gsb_file.c:454
+#: src/gsb_file.c:570 src/gsb_file.c:615
 msgid "Done"
 msgstr "Hecho"
 
@@ -4187,7 +4187,7 @@ msgstr ""
 "contabilidad"
 
 #: src/gsb_assistant_file.c:564 src/navigation.c:1158
-#: src/traitement_variables.c:288
+#: src/traitement_variables.c:289
 msgid "My accounts"
 msgstr "Mis cuentas"
 
@@ -5855,7 +5855,7 @@ msgstr "Trinidad y Tobago"
 msgid "United States Dollar"
 msgstr "Dolar estadoudinense"
 
-#: src/gsb_currency_config.c:238 src/gsb_currency_config.c:1380
+#: src/gsb_currency_config.c:238 src/gsb_currency_config.c:1394
 msgid "United States"
 msgstr "Estados Unidos"
 
@@ -6091,7 +6091,7 @@ msgid "ISO code"
 msgstr "Código ISO"
 
 #. Create floating point entry
-#: src/gsb_currency_config.c:394 src/gsb_currency_config.c:992
+#: src/gsb_currency_config.c:394 src/gsb_currency_config.c:1006
 msgid "Floating point"
 msgstr "Punto decimal"
 
@@ -6100,7 +6100,7 @@ msgid "Country name"
 msgstr "Nombre del pais"
 
 #. Currency name
-#: src/gsb_currency_config.c:477 src/gsb_currency_config.c:958
+#: src/gsb_currency_config.c:477 src/gsb_currency_config.c:972
 msgid "Currency name"
 msgstr "Nombre de la moneda"
 
@@ -6108,63 +6108,64 @@ msgstr "Nombre de la moneda"
 msgid "ISO Code"
 msgstr "Código ISO"
 
-#: src/gsb_currency_config.c:615
+#: src/gsb_currency_config.c:617
 #, c-format
 msgid "Currency '%s' is used in current file.  Grisbi can't delete it."
 msgstr ""
 "La moneda '%s' se está usando en el archivo actual.  Grisbi no puede "
 "borrarla."
 
-#: src/gsb_currency_config.c:618 src/gsb_currency_config.c:642
+#: src/gsb_currency_config.c:620 src/gsb_currency_config.c:644
 #, c-format
 msgid "Impossible to remove currency '%s'"
 msgstr "Imposible eliminar la moneda '%s'"
 
-#: src/gsb_currency_config.c:639
+#: src/gsb_currency_config.c:641
 #, c-format
 msgid "Currency '%s' is used in current file. Grisbi can't delete it."
 msgstr ""
-"La moneda '%s' se está usando en el archivo actual.  Grisbi no puede borrarla."
+"La moneda '%s' se está usando en el archivo actual.  Grisbi no puede "
+"borrarla."
 
-#: src/gsb_currency_config.c:808
+#: src/gsb_currency_config.c:822
 msgid "Currency for payees tree"
 msgstr "Moneda para el arbol de terceros"
 
-#: src/gsb_currency_config.c:818
+#: src/gsb_currency_config.c:832
 msgid "Currency for categories tree"
 msgstr "Moneda para el arbol de categorías"
 
-#: src/gsb_currency_config.c:828
+#: src/gsb_currency_config.c:842
 msgid "Currency for budgetary lines tree"
 msgstr "Moneda para el árbol de líneas presupuestarias"
 
-#: src/gsb_currency_config.c:922
+#: src/gsb_currency_config.c:936
 msgid "Add a currency"
 msgstr "Añadir una moneda"
 
-#: src/gsb_currency_config.c:931
+#: src/gsb_currency_config.c:945
 msgid "Select base currency for your account"
 msgstr "Seleccione la moneda para su cuenta"
 
-#: src/gsb_currency_config.c:940
+#: src/gsb_currency_config.c:954
 msgid "World currencies"
 msgstr "Monedas del mundo"
 
-#: src/gsb_currency_config.c:949
+#: src/gsb_currency_config.c:963
 msgid "Currency details"
 msgstr "Detalles de la moneda"
 
 #. Currency ISO code
-#: src/gsb_currency_config.c:970
+#: src/gsb_currency_config.c:984
 msgid "Currency international code"
 msgstr "Código de moneda internacional"
 
 #. Currency usual sign
-#: src/gsb_currency_config.c:981
+#: src/gsb_currency_config.c:995
 msgid "Currency sign"
 msgstr "Símbolo de la moneda"
 
-#: src/gsb_currency_config.c:1057
+#: src/gsb_currency_config.c:1071
 msgid ""
 "Currency name and either international currency code or currency nickname "
 "should be set."
@@ -6172,11 +6173,11 @@ msgstr ""
 "Los nombres de moneda y o bien  los códigos de moneda o bien los apodos de "
 "las monedas deben ser configurados."
 
-#: src/gsb_currency_config.c:1059
+#: src/gsb_currency_config.c:1073
 msgid "All fields are not filled in"
 msgstr "No están todos los campos rellenos"
 
-#: src/gsb_currency_config.c:1187
+#: src/gsb_currency_config.c:1201
 msgid "Include obsolete currencies"
 msgstr "Incluir monedas antiguas"
 
@@ -6321,19 +6322,19 @@ msgid "The transaction %d has a payee n°%d but it doesn't exist."
 msgstr "La transacción %d tiene un tercero n°%d pero éste no existe."
 
 #. Deposit = DÃ©pÃ´t
-#: src/gsb_data_payment.c:714 src/import.c:2309 src/plugins/ofx/ofx.c:451
+#: src/gsb_data_payment.c:714 src/import.c:2330 src/plugins/ofx/ofx.c:451
 msgid "Deposit"
 msgstr "Depósito"
 
 #. pas trouvÃ© de dÃ©finition remplacÃ© par carte de crÃ©dit
 #. Point of sale = Point de vente remplacÃ© par carte de crÃ©dit
-#: src/gsb_data_payment.c:723 src/import.c:2315 src/import.c:2321
+#: src/gsb_data_payment.c:723 src/import.c:2336 src/import.c:2342
 msgid "Credit card"
 msgstr "Tarjeta de crédito"
 
 #. Electronic payment remplacÃ© par Direct debit = PrÃ©lÃ¨vement
 #. Merchant initiated debit remplacÃ© par Direct debit = PrÃ©lÃ¨vement
-#: src/gsb_data_payment.c:732 src/import.c:2333 src/import.c:2351
+#: src/gsb_data_payment.c:732 src/import.c:2354 src/import.c:2372
 msgid "Direct debit"
 msgstr "Cargo a cuenta"
 
@@ -6639,40 +6640,40 @@ msgid "Transaction %d has invalid payee %d.\n"
 msgstr "La transacción %d tiene un tercero %d que no es válido.\n"
 
 #. Create main widget.
-#: src/gsb_file.c:170
+#: src/gsb_file.c:171
 msgid "Creating main window"
 msgstr "Creando la ventana principal"
 
-#: src/gsb_file.c:177
+#: src/gsb_file.c:178
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
 msgstr "El modelo de la lista no puedo crearse... Algo malo sucederá pronto..."
 
-#: src/gsb_file.c:217
+#: src/gsb_file.c:218
 msgid "Open an accounts file"
 msgstr "Abrir un fichero de cuentas"
 
-#: src/gsb_file.c:228
+#: src/gsb_file.c:229
 msgid "Grisbi files (*.gsb)"
 msgstr "Archivos de Grisbi (*.gsb)"
 
-#: src/gsb_file.c:359
+#: src/gsb_file.c:364
 msgid "Loading accounts"
 msgstr "Cargando cuentas"
 
 #. Loading failed.
-#: src/gsb_file.c:376
+#: src/gsb_file.c:381
 msgid "Failed to load accounts"
 msgstr "Fallo al cargar las cuentas"
 
-#: src/gsb_file.c:380 src/gsb_file.c:391 src/gsb_file_load.c:250
-#: src/gsb_file_load.c:264 src/gsb_file_load.c:370
+#: src/gsb_file.c:385 src/gsb_file.c:396 src/gsb_file_load.c:249
+#: src/gsb_file_load.c:263 src/gsb_file_load.c:369
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Error abriendo el archivo '%s'"
 
-#: src/gsb_file.c:381
+#: src/gsb_file.c:386
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -6688,7 +6689,7 @@ msgstr ""
 "Por favor, póngase en contacto con el equipo de Grisbi en devel@listes."
 "grisbi.org para averiguar que le ocurrió a su último fichero."
 
-#: src/gsb_file.c:395
+#: src/gsb_file.c:400
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -6705,7 +6706,7 @@ msgstr ""
 "Por favor, contacte con el equipo de Grisbi en devel@listes.grisbi.org para "
 "averiguar qué ocurrió con su fichero actual."
 
-#: src/gsb_file.c:398
+#: src/gsb_file.c:403
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -6718,16 +6719,16 @@ msgstr ""
 "averiguar qué le sucedió a su fichero actual."
 
 #. ok, here the file or backup is loaded
-#: src/gsb_file.c:409
+#: src/gsb_file.c:414
 msgid "Checking schedulers"
 msgstr "Comprobando los planificadores"
 
 #. check the amounts of all the accounts
-#: src/gsb_file.c:422
+#: src/gsb_file.c:427
 msgid "Checking amounts"
 msgstr "Comprobando cantidades"
 
-#: src/gsb_file.c:525
+#: src/gsb_file.c:530
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -6737,30 +6738,30 @@ msgstr ""
 "guárdelo con otro nombre o active la opción \"%s\" en la configuración."
 
 #. Warn if file is used by someone else?
-#: src/gsb_file.c:526 src/gsb_file.c:755 src/parametres.c:678
+#: src/gsb_file.c:531 src/gsb_file.c:760 src/parametres.c:678
 msgid "Force saving of locked files"
 msgstr "Forzar guardar en los fichero bloqueados"
 
-#: src/gsb_file.c:527
+#: src/gsb_file.c:532
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "No se puede guardar el archivo \"%s\""
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: src/gsb_file.c:542
+#: src/gsb_file.c:547
 msgid "Saving file"
 msgstr "Guardando archivo"
 
-#: src/gsb_file.c:591
+#: src/gsb_file.c:596
 msgid "Saving backup"
 msgstr "Guardando la copia de seguridad"
 
-#: src/gsb_file.c:752
+#: src/gsb_file.c:757
 msgid "Save locked files?"
 msgstr "¿Guardar archivos bloqueados?"
 
-#: src/gsb_file.c:753
+#: src/gsb_file.c:758
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
@@ -6770,45 +6771,45 @@ msgstr ""
 "debe cancelar y guardarlo con otro nombre o activar la  opción \"%s\" en la "
 "configuración."
 
-#: src/gsb_file.c:754 src/gsb_file.c:765 src/gsb_file.c:950
+#: src/gsb_file.c:759 src/gsb_file.c:770 src/gsb_file.c:955
 msgid "unnamed"
 msgstr "Sin nombre"
 
-#: src/gsb_file.c:757 src/gsb_file.c:768
+#: src/gsb_file.c:762 src/gsb_file.c:773
 msgid "Close without saving"
 msgstr "Cerrar sin guardar"
 
-#: src/gsb_file.c:764
+#: src/gsb_file.c:769
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "¿Guardar los cambios al documento '%s' antes de cerrar?"
 
-#: src/gsb_file.c:777
+#: src/gsb_file.c:782
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr "%d minutos y %d segundos"
 
-#: src/gsb_file.c:782
+#: src/gsb_file.c:787
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr "1 minuto y %d segundos"
 
-#: src/gsb_file.c:787
+#: src/gsb_file.c:792
 #, c-format
 msgid "%d seconds"
 msgstr "%d segundos"
 
-#: src/gsb_file.c:790
+#: src/gsb_file.c:795
 #, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr "Si cierra sin guardar, todos los cambios desde %s se perderán."
 
-#: src/gsb_file.c:826
+#: src/gsb_file.c:831
 msgid "Name the accounts file"
 msgstr "Nombre de los ficheros de cuentas"
 
-#: src/gsb_file.c:954
+#: src/gsb_file.c:959
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -6867,17 +6868,17 @@ msgstr ""
 "\n"
 "y pulse el botón de 'OK'."
 
-#: src/gsb_file_load.c:247 src/gsb_file_load.c:367 src/gsb_file_others.c:417
+#: src/gsb_file_load.c:246 src/gsb_file_load.c:366 src/gsb_file_others.c:417
 #: src/gsb_file_others.c:547
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "No se puede abrir el archivo '%s': %s"
 
-#: src/gsb_file_load.c:249
+#: src/gsb_file_load.c:248
 msgid "File does not exist"
 msgstr "El fichero no existe"
 
-#: src/gsb_file_load.c:262 src/gsb_file_others.c:429
+#: src/gsb_file_load.c:261 src/gsb_file_others.c:429
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular file,\n"
@@ -6886,7 +6887,7 @@ msgstr ""
 "%s No parece que sea un fichero convencional,\n"
 "por favor compruébelo y pruebe de nuevo."
 
-#: src/gsb_file_load.c:303 src/gsb_file_save.c:371
+#: src/gsb_file_load.c:302 src/gsb_file_save.c:371
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -6898,16 +6899,16 @@ msgstr ""
 "Por favor, asegúrese de que está instalado (por ejemplo, compruebe que el "
 "paquete 'grisbi-ssl' está instalado) y pruebe de nuevo."
 
-#: src/gsb_file_load.c:308 src/gsb_file_save.c:376
+#: src/gsb_file_load.c:307 src/gsb_file_save.c:376
 msgid "Encryption plugin not found."
 msgstr "No se ha"
 
-#: src/gsb_file_load.c:411 src/gsb_file_load.c:4364
+#: src/gsb_file_load.c:410 src/gsb_file_load.c:4364
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Este fichero no es de de Grisbi... Carga interrumpida."
 
 #. the first time we come here, we check if it's a grisbi file
-#: src/gsb_file_load.c:614
+#: src/gsb_file_load.c:613
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7986,9 +7987,8 @@ msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
 "not a recommended action. Are you really sure you know what you are doing?"
 msgstr ""
-"Está intentando reconciliar o irreconciliar manualmente una transacción y "
-"no es recomendable hacer esto ¿Está seguro de que sabe lo "
-"que está haciendo?"
+"Está intentando reconciliar o irreconciliar manualmente una transacción y no "
+"es recomendable hacer esto ¿Está seguro de que sabe lo que está haciendo?"
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
@@ -8220,11 +8220,11 @@ msgstr "Añadir ficheros para importar..."
 msgid "File name"
 msgstr "Nombre del archivo"
 
-#: src/import.c:525 src/import.c:607 src/import.c:3172 src/import.c:3195
+#: src/import.c:525 src/import.c:607 src/import.c:3206 src/import.c:3229
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: src/import.c:567 src/import.c:3275 src/import_csv.c:1045
+#: src/import.c:567 src/import.c:3309 src/import_csv.c:1045
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr "No se puede leer el fichero: %s\n"
@@ -8421,7 +8421,7 @@ msgstr ""
 
 #. l'id du compte choisi et l'id du compte importÃ© sont diffÃ©rents
 #. on propose encore d'arrÃªter...
-#: src/import.c:1732 src/import.c:2493
+#: src/import.c:1732 src/import.c:2514
 msgid "The id of the imported and chosen accounts are different"
 msgstr "El id de las cuentas importada y elegida son distintos"
 
@@ -8453,16 +8453,16 @@ msgid "Transaction found : %s ; %s ; %s"
 msgstr "Transacción encontrada : %s ; %s ; %s"
 
 #. Check = ChÃ¨que
-#: src/import.c:2295 src/plugins/ofx/ofx.c:431
+#: src/import.c:2316 src/plugins/ofx/ofx.c:431
 msgid "Check"
 msgstr "Comprobar"
 
 #. Cash withdrawal = retrait en liquide
-#: src/import.c:2339
+#: src/import.c:2360
 msgid "Cash withdrawal"
 msgstr "Retirada de efectivo"
 
-#: src/import.c:2429
+#: src/import.c:2450
 #, c-format
 msgid ""
 "Warning : the cheque number %ld is already used.\n"
@@ -8471,7 +8471,7 @@ msgstr ""
 "Aviso: El número de cheque %ld ya está siendo usado.\n"
 "Lo saltamos"
 
-#: src/import.c:2494
+#: src/import.c:2515
 msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
@@ -8479,43 +8479,47 @@ msgstr ""
 "¿Quizá eligió una cuenta equivocada? Si elige coninuar, el id de la cuenta "
 "cambiará.  ¿Desea continuar ?"
 
-#: src/import.c:2770
+#: src/import.c:2791
 msgid "Orphaned transactions"
 msgstr "Transacciones huérfanas"
 
-#: src/import.c:2783
+#: src/import.c:2804
 msgid "Mark transactions you want to add to the list and click the add button"
 msgstr ""
 "Marque las transacciones que desea añadir a la lista y pinche en el botón "
 "añadir"
 
-#: src/import.c:2852
+#: src/import.c:2873
 msgid "Mark"
 msgstr "Marcar"
 
-#: src/import.c:3053
+#: src/import.c:3074
 #, c-format
 msgid "%s #%d"
 msgstr "%s #%d"
 
-#: src/import.c:3088
+#: src/import.c:3109
 msgid "Threshold while matching transaction date during import (in days)"
 msgstr ""
 "Umbral para cuadrar la fecha de transacción en la importación (en días)"
 
-#: src/import.c:3114
+#: src/import.c:3135
+msgid "automatically associate the category of the payee if it is possible"
+msgstr ""
+
+#: src/import.c:3148
 msgid "Set the financial year"
 msgstr "Configurar el año financiero"
 
-#: src/import.c:3115
+#: src/import.c:3149
 msgid "According to the date"
 msgstr "De acuerdo con la fecha"
 
-#: src/import.c:3116
+#: src/import.c:3150
 msgid "According to the value date (if fail, try with the date)"
 msgstr "De acuerdo con la fecha valor (si fall, intentar con la fecha)"
 
-#: src/import.c:3260
+#: src/import.c:3294
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
@@ -8524,7 +8528,7 @@ msgstr ""
 "%s no es un fichero OFX, ni un fichero QIF. No se hará nada para este "
 "fichero."
 
-#: src/import.c:3318
+#: src/import.c:3352
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
@@ -8533,43 +8537,43 @@ msgstr ""
 "%s no se importó con éxito. Un error ocurrió mientras que se tomaban las "
 "transacciones."
 
-#: src/import.c:3396
+#: src/import.c:3430
 msgid "Import a file with a rule"
 msgstr "Importar un fichero con una regla"
 
 #. text for paddingbox
-#: src/import.c:3407
+#: src/import.c:3441
 #, c-format
 msgid "Properties of the rule : %s\n"
 msgstr "Propiedades de la regla : %s\n"
 
-#: src/import.c:3426
+#: src/import.c:3460
 #, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Las transacciones importadas se añadirán a la cuenta %s.\n"
 
-#: src/import.c:3429
+#: src/import.c:3463
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr ""
 "Las transacciones importadas marcarán las transacciones en la cuenta %s.\n"
 
 #. textstring 2
-#: src/import.c:3433
+#: src/import.c:3467
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr "La moneda a importar es %s.\n"
 
-#: src/import.c:3439
+#: src/import.c:3473
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Se invertirán las cantidades de las transacciones.\n"
 
 #. label filename
-#: src/import.c:3449
+#: src/import.c:3483
 msgid "Name of the file to import "
 msgstr "Nombre del fichero a importar "
 
-#: src/import.c:3543
+#: src/import.c:3577
 #, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr "No se ha podido crear el fichero tmp: %s\n"
