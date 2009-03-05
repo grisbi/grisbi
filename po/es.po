@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-26 23:21+0100\n"
-"PO-Revision-Date: 2009-02-15 12:03+0100\n"
+"PO-Revision-Date: 2009-03-05 23:47+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:196
 msgid "Closed liabilities accounts"
@@ -7962,7 +7962,6 @@ msgid "Confirmation of manual (un)reconciliation"
 msgstr "Confirmación de (ir)reconciliación manual"
 
 #: src/gsb_transactions_list.c:1541
-#, fuzzy
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
 "not a recommended action. Are you really sure you know what you are doing?"
@@ -7974,7 +7973,7 @@ msgid ""
 "Are you really sure to know what you do?"
 msgstr ""
 "Está intentando reconciliar o irreconciliar manualmente una transacción y "
-"eso no es recomendable. ¿ Está seguro de que sabe lo que está haciendo ?\n"
+"eso no es recomendable. ¿ Está seguro de que sabe lo que está haciendo ?"
 "\n"
 "Y además la transacción que está intentando reconciliar es la hija de una "
 "anotación, por lo que la modificación será hecha en la madre y en todos sus "
@@ -8505,7 +8504,7 @@ msgstr ""
 
 #: src/import.c:3135
 msgid "automatically associate the category of the payee if it is possible"
-msgstr ""
+msgstr "Asociar automáticamente la categoría del tercero si es posible"
 
 #: src/import.c:3148
 msgid "Set the financial year"
