@@ -38,7 +38,7 @@
 
 /*START_EXTERN*/
 extern gint max;
-extern GtkWidget *window ;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 /** Status bar displayed in the bottom of Grisbi window.  */

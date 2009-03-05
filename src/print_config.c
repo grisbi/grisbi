@@ -58,7 +58,7 @@ struct paper_config paper_sizes[8] = {
 };
 
 /*START_EXTERN*/
-extern GtkWidget *window ;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 

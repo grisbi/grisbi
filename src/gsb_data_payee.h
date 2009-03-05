@@ -34,5 +34,6 @@ gboolean gsb_data_payee_set_name ( gint no_payee,
 gint gsb_data_payee_set_new_number ( gint no_payee,
 				     gint new_no_payee );
 void gsb_data_payee_update_counters ( void );
+
 /* END_DECLARATION */
 #endif

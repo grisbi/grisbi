@@ -66,7 +66,7 @@ gint display_three_lines;
 
 
 /*START_EXTERN*/
-extern GSList *liste_labels_titres_colonnes_liste_ope ;
+extern GSList *liste_labels_titres_colonnes_liste_ope;
 extern gint max;
 extern gchar *tips_col_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];

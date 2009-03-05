@@ -102,7 +102,7 @@ static gint gsb_data_sub_budget_compare ( struct_sub_budget * a, struct_sub_budg
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real ;
+extern gsb_real null_real;
 /*END_EXTERN*/
 
 /** contains the g_slist of struct_budget */

@@ -101,15 +101,15 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource * drag_source,
 
 
 /*START_EXTERN*/
-extern GtkTreeStore *budgetary_line_tree_model ;
-extern GtkTreeStore * categ_tree_model ;
-extern GtkWidget *label_last_statement ;
-extern GtkWidget *label_titre_fichier ;
+extern GtkTreeStore *budgetary_line_tree_model;
+extern GtkTreeStore * categ_tree_model;
+extern GtkWidget *label_last_statement;
+extern GtkWidget *label_titre_fichier;
 extern GtkWidget *menu_import_rules;
 extern gint mise_a_jour_liste_comptes_accueil;
-extern GtkWidget *notebook_general ;
-extern GtkTreeStore *payee_tree_model ;
-extern gchar *titre_fichier ;
+extern GtkWidget *notebook_general;
+extern GtkTreeStore *payee_tree_model;
+extern gchar *titre_fichier;
 /*END_EXTERN*/
 
 

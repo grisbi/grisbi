@@ -64,7 +64,7 @@ static  void print_report_draw_row ( GtkPrintContext *context,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *table_etat ;
+extern GtkWidget *table_etat;
 /*END_EXTERN*/
 
 

@@ -1029,7 +1029,7 @@ msgstr "Vous utilisez Grisbi version %s"
 msgid "Warning, please be aware that the version you run is a DEVELOPMENT version. In any case do not work with this version on your original accounting files. (File format may change and render files incompatible with previous versions)."
 msgstr ""
 "Attention vous utilisez une version de DÉVELOPPEMENT.\n"
-" N'utilisez en aucun cas votre fichier grisbi original car il ne sera plus compatible avec la version précédente. "
+"N'utilisez en aucun cas votre fichier grisbi original car il ne sera plus compatible avec la version précédente. "
 
 #: src/dialog.c:286
 msgid "Do not show this message again"
@@ -8441,7 +8441,7 @@ msgstr "Intervalle de recherche des opérations similaires en jour"
 
 #: src/import.c:3135
 msgid "automatically associate the category of the payee if it is possible"
-msgstr "associer automatiquement la catégorie du bénéficiaire si c'est possible"
+msgstr "associer automatiquement la catégorie du tiers si c'est possible"
 
 #: src/import.c:3148
 msgid "Set the financial year"

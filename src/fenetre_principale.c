@@ -55,7 +55,7 @@ static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *window ;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 

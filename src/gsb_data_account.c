@@ -122,7 +122,7 @@ static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real ;
+extern gsb_real null_real;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 

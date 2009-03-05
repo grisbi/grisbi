@@ -162,16 +162,16 @@ gchar *cell_views[] = {
 
 
 /*START_EXTERN*/
-extern GSList *liste_labels_titres_colonnes_liste_ope ;
+extern GSList *liste_labels_titres_colonnes_liste_ope;
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern GtkWidget * navigation_tree_view ;
-extern GtkWidget *notebook_general ;
+extern GtkWidget * navigation_tree_view;
+extern GtkWidget *notebook_general;
 extern GtkWidget *reconcile_sort_list_button;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern GtkWidget *window ;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 

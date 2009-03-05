@@ -65,8 +65,8 @@ gint no_devise_totaux_categ;
 static gboolean sortie_edit_category = FALSE;
 
 /*START_EXTERN*/
-extern MetatreeInterface * category_interface ;
-extern GtkWidget *window ;
+extern MetatreeInterface * category_interface;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 

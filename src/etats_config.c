@@ -365,11 +365,11 @@ static GtkTreeIter parent_iter;
 
 
 /*START_EXTERN*/
-extern GtkWidget * navigation_tree_view ;
-extern GtkWidget *notebook_config_etat ;
-extern GtkWidget *notebook_etats ;
-extern GtkWidget *notebook_general ;
-extern GtkWidget *window ;
+extern GtkWidget * navigation_tree_view;
+extern GtkWidget *notebook_config_etat;
+extern GtkWidget *notebook_etats;
+extern GtkWidget *notebook_general;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 

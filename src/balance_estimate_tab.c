@@ -60,8 +60,8 @@ static  gboolean bet_update_graph (GtkTreeModel *model, GtkTreePath *path, GtkTr
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real ;
-extern GtkWidget *window ;
+extern gsb_real null_real;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 

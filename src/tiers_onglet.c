@@ -84,7 +84,7 @@ gboolean sortie_edit_payee = FALSE;
 
 /*START_EXTERN*/
 extern MetatreeInterface * payee_interface ;
-extern GtkWidget *window ;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 

@@ -61,12 +61,12 @@ static  void gsb_file_config_remove_old_config_file ( gchar *filename );
 
 /*START_EXTERN*/
 extern gboolean execute_scheduled_of_month;
-extern GtkWidget *main_hpaned ;
+extern GtkWidget *main_hpaned;
 extern gint max;
-extern struct conditional_message messages[] ;
+extern struct conditional_message messages[];
 extern gint nb_days_before_scheduled;
-extern gchar *nom_fichier_comptes ;
-extern GtkWidget *window ;
+extern gchar *nom_fichier_comptes;
+extern GtkWidget *window;
 /*END_EXTERN*/
 
 gint largeur_window;
