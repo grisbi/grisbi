@@ -1,9 +1,9 @@
 /* ************************************************************************** */
-/*                                  utils_buttons.c			      */
+/*                                  utils_buttons.c			                  */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -26,8 +26,6 @@
 /*START_INCLUDE*/
 #include "utils_buttons.h"
 #include "./gsb_automem.h"
-#include "./utils.h"
-#include "./utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -37,32 +35,6 @@
 /*START_EXTERN*/
 extern GtkWidget *window;
 /*END_EXTERN*/
-
-
-
-
-/* **************************************************************************************************************************** */
-/* ne devrait plus servir 30/09/08 pbi92*/
- //~ GtkWidget *cree_bouton_url ( const gchar *adr,
-			     //~ const gchar *inscription )
-//~ {
-    //~ GtkWidget *bouton;
-
-    //~ bouton = gtk_button_new_with_mnemonic ( inscription );
-    //~ gtk_button_set_relief ( GTK_BUTTON ( bouton ),
-			    //~ GTK_RELIEF_NONE );
-    //~ g_signal_connect_data ( G_OBJECT ( bouton ),
-			    //~ "clicked",
-			    //~ G_CALLBACK ( lance_navigateur_web ),
-			    //~ my_strdup ( adr),
-			    //~ NULL,
-			    //~ G_CONNECT_SWAPPED );
-    //~ return ( bouton );
-
-//~ }
-/* **************************************************************************************************************************** */
-
-
 
 
 GtkWidget * new_stock_image_label ( GsbButtonStyle style, const gchar * stock_id, const gchar * name )

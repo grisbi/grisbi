@@ -7,11 +7,14 @@
 /* START_DECLARATION */
 gint gsb_strcasecmp ( gchar *string_1,
 		      gchar *string_2 );
+gchar *gsb_string_extract_int ( const gchar *chaine );
 GSList *gsb_string_get_categ_budget_struct_list_from_string ( const gchar *string );
 GSList *gsb_string_get_int_list_from_string ( const gchar *string,
 					      gchar *delimiter );
 GSList *gsb_string_get_string_list_from_string ( const gchar *string,
 						 gchar *delimiter );
+gboolean gsb_string_is_trouve ( const gchar *payee_name, const gchar *needle );
+gchar * gsb_string_remplace_joker ( const gchar *chaine, gchar *new_str );
 gchar * gsb_string_remplace_string ( gchar * str, gchar *old_str, gchar *new_str );
 gchar * gsb_string_truncate ( gchar * string );
 gchar * latin2utf8 ( const gchar * inchar);
@@ -19,6 +22,7 @@ gchar *limit_string ( gchar *string,
 		      gint length );
 gint my_strcasecmp ( const gchar *string_1,
 		     const gchar *string_2 );
+gint my_strcmp ( gchar *string_1, gchar *string_2 );
 gchar *my_strdelimit ( const gchar *string,
 		       const gchar *delimiters,
 		       const gchar *new_delimiters );

@@ -833,7 +833,18 @@ void gsb_form_fill_element ( gint element_number,
 		    is_transaction
 		    &&
 		    !gsb_data_mix_get_mother_transaction_number (transaction_number, is_transaction))
-		    gtk_widget_show (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
+            {
+                gsb_form_entry_get_focus ( gsb_form_widget_get_widget (
+                        TRANSACTION_FORM_CHEQUE) );
+                if ( gsb_data_transaction_get_method_of_payment_content (
+                        transaction_number) )
+                gtk_entry_set_text ( GTK_ENTRY ( 
+                        gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE) ),
+                        gsb_data_transaction_get_method_of_payment_content (
+                        transaction_number) );
+                gtk_widget_show (gsb_form_widget_get_widget (
+                        TRANSACTION_FORM_CHEQUE) );
+            }
 	    }
 	    else
 		gtk_widget_hide ( gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));

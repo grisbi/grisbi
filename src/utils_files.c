@@ -384,63 +384,63 @@ gboolean utils_files_create_XDG_dir (void)
  *
  * \return a newly allocated string
  * */
-//~ gchar *utils_files_create_backup_name ( const gchar *filename )
-//~ {
-    //~ gchar *string;
-    //~ gchar *tmp_name;
-    //~ GDate *today;
-    //~ gchar **split;
-    //~ gchar *inserted_string;
+/*gchar *utils_files_create_backup_name ( const gchar *filename )
+{
+    gchar *string;
+    gchar *tmp_name;
+    GDate *today;
+    gchar **split;
+    gchar *inserted_string;
 
-    //~ /* get the filename */
-    //~ tmp_name = g_path_get_basename (filename);
+    !* get the filename *!
+    tmp_name = g_path_get_basename (filename);
 
-    //~ /* create the string to insert into the backup name */
-    //~ today = gdate_today ();
-    //~ inserted_string = g_strdup_printf ( "-%d_%d_%d-backup",
-					//~ g_date_year (today),
-					//~ g_date_month (today),
-					//~ g_date_day (today));
-    //~ g_date_free (today);
+    !* create the string to insert into the backup name *!
+    today = gdate_today ();
+    inserted_string = g_strdup_printf ( "-%d_%d_%d-backup",
+					g_date_year (today),
+					g_date_month (today),
+					g_date_day (today));
+    g_date_free (today);
 
-    //~ /* insert the date and backup before .gsb if it exists */
-    //~ split = g_strsplit ( tmp_name,
-			 //~ ".",
-			 //~ 0 );
-    //~ g_free (tmp_name);
+    !* insert the date and backup before .gsb if it exists *!
+    split = g_strsplit ( tmp_name,
+			 ".",
+			 0 );
+    g_free (tmp_name);
 
-    //~ if (split[1])
-    //~ {
-	//~ /* have extension */
-	//~ gchar *tmpstr, *tmp_end;
+    if (split[1])
+    {
+	!* have extension *!
+	gchar *tmpstr, *tmp_end;
 
-	//~ tmp_end = g_strconcat ( inserted_string,
-				//~ ".",
-				//~ split[g_strv_length (split) - 1],
-				//~ NULL );
-	//~ split[g_strv_length (split) - 1] = NULL;
+	tmp_end = g_strconcat ( inserted_string,
+				".",
+				split[g_strv_length (split) - 1],
+				NULL );
+	split[g_strv_length (split) - 1] = NULL;
 
-	//~ tmpstr = g_strjoinv ( ".",
-			      //~ split );
-	//~ tmp_name = g_strconcat ( tmpstr,
-				 //~ tmp_end,
-				 //~ NULL );
-	//~ g_free (tmpstr);
-	//~ g_free (tmp_end);
-    //~ }
-    //~ else
-	//~ tmp_name = g_strconcat ( split[0],
-				 //~ inserted_string,
-				 //~ NULL );
+	tmpstr = g_strjoinv ( ".",
+			      split );
+	tmp_name = g_strconcat ( tmpstr,
+				 tmp_end,
+				 NULL );
+	g_free (tmpstr);
+	g_free (tmp_end);
+    }
+    else
+	tmp_name = g_strconcat ( split[0],
+				 inserted_string,
+				 NULL );
 
-    //~ g_strfreev (split);
+    g_strfreev (split);
 
-    //~ string = g_build_filename ( gsb_file_get_backup_path (),
-				//~ tmp_name,
-				//~ NULL );
-    //~ g_free (tmp_name);
-    //~ return string;
-//~ }
+    string = g_build_filename ( gsb_file_get_backup_path (),
+				tmp_name,
+				NULL );
+    g_free (tmp_name);
+    return string;
+}*/
 
 
 /* Local Variables: */

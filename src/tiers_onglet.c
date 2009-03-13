@@ -1,8 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/*          2009 Pierre Biava (pierre@pierre.biava.name)                      */
+/* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -37,9 +38,11 @@
 #include "tiers_onglet.h"
 #include "./dialog.h"
 #include "./metatree.h"
+#include "./gsb_assistant.h"
 #include "./gsb_automem.h"
 #include "./gsb_data_form.h"
 #include "./gsb_data_payee.h"
+#include "./gsb_data_transaction.h"
 #include "./utils_editables.h"
 #include "./gsb_form_widget.h"
 #include "./gsb_status.h"
@@ -60,12 +63,30 @@
 
 /*START_STATIC*/
 static void appui_sur_ajout_payee ( GtkTreeModel * model );
+static void appui_sur_manage_tiers ( void );
 static GtkWidget *creation_barre_outils_tiers ( void );
 static gboolean edit_payee ( GtkTreeView * view );
+static void gsb_assistant_payees_clicked ( GtkButton *button, GtkWidget *assistant );
+static  gboolean gsb_assistant_payees_enter_page_2 ( GtkWidget *assistant );
+static  gboolean gsb_assistant_payees_enter_page_3 ( GtkWidget *assistant );
+static  gboolean gsb_assistant_payees_enter_page_finish ( GtkWidget *assistant );
+static void gsb_assistant_payees_entry_changed ( GtkEditable *editable, 
+                        GtkWidget *assistant );
+static  GtkWidget *gsb_assistant_payees_page_2 ( GtkWidget *assistant );
+static  GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant );
+static  GtkWidget *gsb_assistant_payees_page_finish ( GtkWidget *assistant );
+static gboolean gsb_assistant_payees_select_func (GtkTreeModel *model,
+                        GtkTreePath *path,
+                        GtkTreeIter *iter,
+                        gpointer data);
+static void gsb_assistant_payees_toggled ( GtkCellRendererToggle *cell,
+                        gchar *path_str,
+                        GtkWidget *assistant );
+static gint gsb_assistant_payees_valide_model_recherche ( const gchar *needle );
 static gboolean payee_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
-			       GtkSelectionData * selection_data );
+                        GtkSelectionData * selection_data );
 static gboolean payee_remove_unused ( GtkWidget *button,
-			       gpointer null );
+                        gpointer null );
 static void payee_tree_update_transactions ( GtkTreeModel * model, 
                         MetatreeInterface * iface, GtkTreeIter * iter,
                         gint division, gchar * old_payee );
@@ -83,11 +104,24 @@ GtkTreeStore *payee_tree_model = NULL;
 gboolean sortie_edit_payee = FALSE;
 
 /*START_EXTERN*/
-extern MetatreeInterface * payee_interface ;
+extern MetatreeInterface * payee_interface;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
+enum payees_assistant_page
+{
+    PAYEES_ASSISTANT_INTRO= 0,
+    PAYEES_ASSISTANT_PAGE_2,
+    PAYEES_ASSISTANT_PAGE_3,
+    PAYEES_ASSISTANT_PAGE_FINISH,
+};
 
+enum {
+  COLUMN_BOOLEAN,
+  COLUMN_INT,
+  COLUMN_STRING,
+  N_COLUMNS
+};
 
 /**
  * update the payee combofix in the form with the current list of payee
@@ -304,6 +338,15 @@ GtkWidget *creation_barre_outils_tiers ( void )
 				  SPACIFY(_("Change view mode")));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+						GTK_STOCK_FIND_AND_REPLACE,
+						_("Manage payees"),
+						G_CALLBACK( appui_sur_manage_tiers ),
+						NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  SPACIFY(_("Manage the payees")));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+
     gtk_widget_show_all ( handlebox );
 
     metatree_set_linked_widgets_sensitive ( GTK_TREE_MODEL(payee_tree_model),
@@ -323,7 +366,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
  * \return FALSE
  * */
 gboolean payee_remove_unused ( GtkWidget *button,
-			       gpointer null )
+                        gpointer null )
 {
     gint result;
 
@@ -451,7 +494,7 @@ void payee_fill_tree ( void )
  * \return FALSE, to allow future processing by the callback chain.
  */
 gboolean payee_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
-			       GtkSelectionData * selection_data )
+                        GtkSelectionData * selection_data )
 {
     if ( path )
     {
@@ -465,8 +508,8 @@ gboolean payee_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * pa
 
 
 gint classement_alphabetique_tree ( GtkWidget *tree,
-				    GtkCListRow *ligne_1,
-				    GtkCListRow *ligne_2 )
+                        GtkCListRow *ligne_1,
+                        GtkCListRow *ligne_2 )
 {
     return g_utf8_collate ( ligne_1->cell->u.text, ligne_2->cell->u.text );
 }
@@ -481,7 +524,8 @@ gint classement_alphabetique_tree ( GtkWidget *tree,
  */
 gboolean edit_payee ( GtkTreeView * view )
 {
-    GtkWidget * dialog, *paddingbox, *table, *label, *entry_name, *entry_description, *hbox, *scrolled_window;
+    GtkWidget * dialog, *paddingbox, *table, *label, *entry_name;
+    GtkWidget *entry_description, *hbox, *scrolled_window;
     GtkTreeSelection * selection;
     GtkTreeModel * model;
     GtkTreeIter iter;
@@ -660,6 +704,763 @@ void appui_sur_ajout_payee ( GtkTreeModel * model )
     if ( sortie_edit_payee )
         supprimer_division ( GTK_TREE_VIEW ( payee_tree ) );
     sortie_edit_payee = FALSE;
+}
+
+
+/* pbiava le 03/01/09*/
+/* ******************************************************************************/
+/* assistant de gestion des tiers :                                             */
+/* permet de modifier en masse le nom d'un tiers contenant une chaine           */
+/* par une autre chaine                                                         */
+/* **************************************************************************** */
+
+/**
+ * assistant pour nettoyer les tiers
+ *
+ * 
+ */
+void appui_sur_manage_tiers ( void )
+{
+    GtkWidget *assistant;
+    GtkResponseType return_value;
+
+    devel_debug ( "PAGE 1" );
+
+    assistant = gsb_assistant_new ( _("Manage the payees"),
+				    _("This wizard will help you to simplify the list of payees.\n\n"
+                    "Warning the changes you will make be irreparable.\n\n"
+                    "It is better to make a backup of your Grisbi file if you have not yet done. "),
+				    "payees.png",
+				    NULL );
+
+    gsb_assistant_add_page ( assistant,
+			     gsb_assistant_payees_page_2 (assistant),
+			     PAYEES_ASSISTANT_PAGE_2,
+			     PAYEES_ASSISTANT_INTRO,
+			     PAYEES_ASSISTANT_PAGE_3,
+			     G_CALLBACK (gsb_assistant_payees_enter_page_2) );
+
+    gsb_assistant_add_page ( assistant,
+			     gsb_assistant_payees_page_3 (assistant),
+			     PAYEES_ASSISTANT_PAGE_3,
+			     PAYEES_ASSISTANT_PAGE_2,
+			     PAYEES_ASSISTANT_PAGE_FINISH,
+			     G_CALLBACK (gsb_assistant_payees_enter_page_3 ) );
+
+    gsb_assistant_add_page ( assistant,
+			     gsb_assistant_payees_page_finish (assistant),
+			     PAYEES_ASSISTANT_PAGE_FINISH,
+			     PAYEES_ASSISTANT_PAGE_3,
+			     0,
+			     G_CALLBACK (gsb_assistant_payees_enter_page_finish) );
+
+    return_value = gsb_assistant_run (assistant);
+
+    if (return_value == GTK_RESPONSE_APPLY)
+    {
+        GSList *tmp_list;
+        GSList *sup_payees;
+        GtkTreeSelection *selection;
+        GtkTreeIter iter;
+        GtkTreePath *path = NULL;
+        gint nb_removed;
+        gchar *tmpstr;
+        gint new_payee_number = 0;
+        gboolean save_notes = FALSE;
+        gboolean extract_num = FALSE;
+        gboolean valid = FALSE;
+
+        /* on remplace les anciens tiers par le nouveau et on sauvegarde si nécessaire */
+        gsb_status_wait ( TRUE );
+        sup_payees = g_object_get_data ( G_OBJECT (assistant), "sup_payees" );
+        new_payee_number = gsb_data_payee_get_number_by_name ( 
+                        gtk_entry_get_text ( g_object_get_data (
+                        G_OBJECT (assistant), "new_payee") ), TRUE );
+        extract_num = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (
+                        g_object_get_data ( G_OBJECT (assistant), 
+                        "check_option_1" ) ) );
+        save_notes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (
+                        g_object_get_data ( G_OBJECT (assistant), 
+                        "check_option_2" ) ) );
+        tmp_list = gsb_data_transaction_get_complete_transactions_list ( );
+
+        while (tmp_list)
+        {
+            gint payee_number;
+            gint transaction_number;
+            gchar *nombre;
+
+            transaction_number = 
+                        gsb_data_transaction_get_transaction_number ( 
+                        tmp_list -> data );
+            payee_number = gsb_data_transaction_get_party_number (
+                        transaction_number );
+            if ( g_slist_find (sup_payees, GINT_TO_POINTER (payee_number)))
+            {
+                gsb_data_transaction_set_party_number ( transaction_number,
+						new_payee_number );
+                if ( save_notes )
+                    gsb_data_transaction_set_notes ( transaction_number,
+                        gsb_data_payee_get_name ( payee_number, TRUE ) );
+                if ( extract_num )
+                {
+                    nombre = gsb_string_extract_int ( 
+                        gsb_data_payee_get_name ( payee_number, FALSE ) );
+                    gsb_data_transaction_set_method_of_payment_content (
+                        transaction_number, nombre );
+                }
+            }
+            tmp_list = tmp_list -> next;
+        }
+        transaction_list_update_element (ELEMENT_PARTY);
+        /* on efface les tiers inutilisés */
+        nb_removed = gsb_data_payee_remove_unused ();
+        payee_fill_tree ();
+        tmpstr = g_strdup_printf ( _("Removed %d payees."), nb_removed);
+        dialogue (tmpstr);
+        g_free (tmpstr);
+        modification_fichier (TRUE);
+        /* On sélectionne le nouveau tiers */
+        valid = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (
+                    payee_tree_model), &iter );
+        while (valid)
+        {
+            gint payee_number;
+
+            gtk_tree_model_get ( GTK_TREE_MODEL (payee_tree_model),
+                    &iter, META_TREE_POINTER_COLUMN, &payee_number, -1 );
+            if ( payee_number == new_payee_number )
+            {
+                path = gtk_tree_model_get_path ( GTK_TREE_MODEL (
+                    payee_tree_model), &iter );
+                break;
+            }
+            valid = gtk_tree_model_iter_next ( GTK_TREE_MODEL (
+                    payee_tree_model), &iter );
+        }
+        /* et on centre l'affichage dessus */
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (payee_tree) );
+        gtk_tree_selection_select_iter (selection, &iter);
+        gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (payee_tree), path,
+                        NULL, TRUE, 0.5, 0.5 );
+        gtk_tree_path_free ( path );
+        gsb_status_stop_wait ( TRUE );
+    }
+
+    gtk_widget_destroy (assistant);
+}
+
+
+/**
+ *
+ *
+ */
+static GtkWidget *gsb_assistant_payees_page_2 ( GtkWidget *assistant )
+{
+    GtkWidget *page;
+    GtkWidget *label;
+    GtkWidget *entry;
+    GtkWidget *paddingbox;
+    GtkWidget *check_option_1;
+    GtkWidget *check_option_2;
+    gchar *texte;
+
+    devel_debug ( "PAGE 2" );
+    
+    page = gtk_vbox_new ( FALSE, 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER( page ), 12 );
+
+    paddingbox = new_paddingbox_with_title ( page, TRUE, _("Choose a payee"));
+
+    texte = g_strdup ( _("Select one payee in the list that you modify to "
+                        "serve as the basis for your research.\n"
+                        "You can use % as wildcard. Templates availables:\n"
+                        "string%\n"
+                        "%string\n"
+                        "%string%\n"
+                        "string_1%string_2") );
+    label = gtk_label_new ( texte );
+    g_free ( texte );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), label, FALSE, FALSE, 6 );
+
+    entry = gtk_combofix_new_complex ( gsb_data_payee_get_name_and_report_list());
+    gtk_combofix_set_force_text ( GTK_COMBOFIX (entry),FALSE );
+    gtk_combofix_set_max_items ( GTK_COMBOFIX (entry),
+                        etat.combofix_max_item );
+    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (entry),
+                        etat.combofix_case_sensitive );
+    gtk_combofix_set_enter_function ( GTK_COMBOFIX (entry),
+					      FALSE );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), entry, FALSE, FALSE, 6 );
+    g_object_set_data ( G_OBJECT (assistant), "payee", entry );
+    paddingbox = new_paddingbox_with_title ( page, TRUE, _("Enter the new payee"));
+
+    texte = g_strdup ( _("Enter the name of the new payee") );
+    label = gtk_label_new ( texte );
+    g_free ( texte );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), label, FALSE, FALSE, 6 );
+
+    entry = gtk_entry_new ( );
+    g_signal_connect ( entry, 
+                        "changed", 
+                        G_CALLBACK (gsb_assistant_payees_entry_changed), 
+                        assistant );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), entry, FALSE, FALSE, 6 );
+    g_object_set_data ( G_OBJECT (assistant), "new_payee", entry );
+
+    paddingbox = new_paddingbox_with_title ( page, TRUE, _("Options"));
+    check_option_1 = gtk_check_button_new_with_label ( 
+                        _("Extracting a number and save it in the field No Cheque/Virement") );
+
+    gtk_box_pack_start ( GTK_BOX(paddingbox), check_option_1, FALSE, FALSE, 6 );
+    g_object_set_data ( G_OBJECT (assistant), "check_option_1", check_option_1 );
+    
+    check_option_2 = gtk_check_button_new_with_label ( 
+                        _("Save the payees in the notes") );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (check_option_2),
+				       TRUE );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), check_option_2, FALSE, FALSE, 6 );
+    g_object_set_data ( G_OBJECT (assistant), "check_option_2", check_option_2 );
+
+    gtk_widget_show_all (page);
+    return page;
+}
+
+/**
+ *
+ *
+ */
+static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
+{
+    GtkWidget *page;
+    GtkWidget *label;
+    GtkWidget *paddingbox;
+    GtkWidget *sw;
+    GtkWidget *treeview;
+    GtkWidget *table;
+    GtkWidget *button;
+    GtkListStore *list_store;
+    GtkTreeViewColumn *column;
+    GtkCellRenderer *cell;
+
+    devel_debug ( "PAGE 3" );
+    
+    page = gtk_vbox_new ( FALSE, 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER( page ), 12 );
+
+    paddingbox = new_paddingbox_with_title ( page, TRUE, 
+                        _("List of payees who will be modified"));
+
+    label = gtk_label_new ( "" );
+    gtk_box_pack_start ( GTK_BOX (paddingbox), label, FALSE, FALSE, 0 );
+    g_object_set_data ( G_OBJECT (assistant), "payee_search_label", label );
+
+    label = gtk_label_new ( "" );
+    gtk_box_pack_start ( GTK_BOX (paddingbox), label, FALSE, FALSE, 0 );
+    g_object_set_data ( G_OBJECT (assistant), "new_payee_label", label );
+
+    sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
+                        GTK_SHADOW_ETCHED_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+                        GTK_POLICY_NEVER,
+                        GTK_POLICY_ALWAYS);
+
+    /* create the model */
+    list_store = gtk_list_store_new ( N_COLUMNS, G_TYPE_BOOLEAN, 
+                        G_TYPE_UINT, G_TYPE_STRING );
+
+    /* create the treeview */
+    treeview = gtk_tree_view_new_with_model ( 
+                        GTK_TREE_MODEL (list_store) );
+    g_object_unref (list_store);
+
+    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
+    gtk_widget_set_size_request ( treeview, -1, 200 );
+    gtk_container_add (GTK_CONTAINER (sw), treeview);
+    gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
+    gtk_box_pack_start ( GTK_BOX (paddingbox), sw, FALSE, FALSE, 0 );
+    g_object_set_data ( G_OBJECT (assistant), "treeview", treeview );
+
+    /* select payee */
+    cell = gtk_cell_renderer_toggle_new ( );
+    g_signal_connect ( cell, 
+                        "toggled", 
+                        G_CALLBACK (gsb_assistant_payees_toggled), 
+                        assistant );
+    gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), FALSE );
+    g_object_set (cell, "xalign", 0.5, NULL);
+
+    column = gtk_tree_view_column_new_with_attributes ( _("Select"),
+						     cell,
+						     "active", COLUMN_BOOLEAN,
+						     NULL);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
+
+    /* payee_number */
+    cell = gtk_cell_renderer_text_new ();
+    column = gtk_tree_view_column_new_with_attributes ( _("Payee number"),
+						     cell,
+						     "text",
+						     COLUMN_INT,
+						     NULL);
+    gtk_tree_view_column_set_sort_column_id (column, COLUMN_INT);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW (treeview), column );
+
+    /* payee name */
+    cell = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes ( _("Payee name"),
+						     cell,
+						     "text",
+						     COLUMN_STRING,
+						     NULL);
+    gtk_tree_view_column_set_expand ( column, TRUE );
+    gtk_tree_view_column_set_sort_column_id (column, COLUMN_STRING);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW (treeview), column);
+
+    /* ajoute le nombre de tiers total */
+    table = gtk_table_new ( 0, 5, TRUE );
+    gtk_table_set_row_spacings ( GTK_TABLE ( table ), 6 );
+    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
+
+    gtk_box_pack_start ( GTK_BOX (page), table, FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( _("Total number of payees :") );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_table_attach ( GTK_TABLE ( table ), label, 
+		       0, 1, 0, 1,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
+    label = gtk_label_new ( "   0" );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_table_attach ( GTK_TABLE ( table ), label, 
+		       1, 2, 0, 1,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
+    g_object_set_data ( G_OBJECT (assistant), "nbre_tiers_total", label );
+
+    /* ajoute le nombre de tiers sélectionnés */
+    label = gtk_label_new ( _("Number of selected payees :") );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_table_attach ( GTK_TABLE ( table ), label, 
+		      2, 3, 0, 1,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
+    label = gtk_label_new ( "   0" );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
+    gtk_table_attach ( GTK_TABLE ( table ), label, 
+		       3, 4, 0, 1,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
+    g_object_set_data ( G_OBJECT (assistant), "nbre_tiers_select", label );
+
+    /* ajoute le bouton (dé)sélectionne tout */
+    button = gtk_button_new_with_label ( _("Unselect all") );
+    g_signal_connect ( button, 
+                        "clicked", 
+                        G_CALLBACK (gsb_assistant_payees_clicked), 
+                        assistant );
+    gtk_table_attach ( GTK_TABLE ( table ), button, 
+		       4, 5, 0, 1,
+		       GTK_SHRINK | GTK_FILL,
+		       GTK_SHRINK | GTK_FILL,
+		       0, 0 );
+    g_object_set_data ( G_OBJECT (assistant), "button", button );
+
+    gtk_widget_show_all (page);
+    return page;
+}
+
+
+/**
+ *
+ *
+ */
+static GtkWidget *gsb_assistant_payees_page_finish ( GtkWidget *assistant )
+{
+    GtkWidget *page;
+    GtkWidget *label;
+
+    devel_debug ( "PAGE FINISH" );
+    
+    page = gtk_vbox_new ( FALSE, 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER( page ), 12 );
+
+    label = gtk_label_new ( NULL );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
+    gtk_box_pack_start ( GTK_BOX (page), label, FALSE, FALSE, 0 );
+    g_object_set_data ( G_OBJECT (assistant), "finish_label", label );
+
+    gtk_widget_show_all (page);
+    return page;
+}
+
+
+/**
+ *
+ *
+ */
+static gboolean gsb_assistant_payees_enter_page_2 ( GtkWidget *assistant )
+{
+    GtkWidget *entry;
+
+    devel_debug ("Enter page 2");
+
+    entry = g_object_get_data ( G_OBJECT (assistant), "new_payee" );
+    gtk_entry_set_text ( GTK_ENTRY ( entry), "" );
+
+    gsb_assistant_change_button_next ( assistant,
+				       GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
+    gsb_assistant_sensitive_button_next ( assistant,FALSE );
+    
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ */
+static gboolean gsb_assistant_payees_enter_page_3 ( GtkWidget *assistant )
+{
+    GtkWidget *payee_search_label;
+    GtkWidget *new_payee_label;
+    GtkTreeView *treeview;
+    GtkWidget *label;
+    GtkListStore *list_store;
+    GtkTreeIter iter;
+    GSList *payee_list_tmp;
+    GSList *sup_payees = NULL;
+    gchar *str;
+    const gchar *str_cherche;
+    const gchar *new_tiers;
+    gint i = 0;
+
+    devel_debug ("Enter page 3");
+
+    str_cherche = gtk_combofix_get_text ( g_object_get_data (
+                        G_OBJECT (assistant), "payee") );
+    str = g_strdup_printf ( _("Payee sought : %s\n"), str_cherche );
+    payee_search_label = g_object_get_data (
+                        G_OBJECT (assistant), "payee_search_label" );
+    gtk_label_set_text ( GTK_LABEL (payee_search_label), str );
+    new_tiers = gtk_entry_get_text( g_object_get_data (
+                        G_OBJECT (assistant), "new_payee") );
+    new_tiers = g_strdup_printf ( _("New payee : %s"), new_tiers );
+    new_payee_label = g_object_get_data (
+                        G_OBJECT (assistant), "new_payee_label" );
+    gtk_label_set_text ( GTK_LABEL (new_payee_label), new_tiers );
+
+    payee_list_tmp = gsb_data_payee_get_payees_list ();
+    list_store = gtk_list_store_new ( N_COLUMNS, G_TYPE_BOOLEAN, 
+                        G_TYPE_UINT, G_TYPE_STRING );
+
+    while ( payee_list_tmp )
+    {
+        gint payee_number;
+        const gchar *tmpstr;
+
+        payee_number = gsb_data_payee_get_no_payee (payee_list_tmp -> data);
+        tmpstr = gsb_data_payee_get_name ( payee_number, FALSE );
+        if ( gsb_string_is_trouve ( tmpstr, str_cherche ) )
+        {
+            //~ printf ("payee : %s\n", tmpstr );
+            if (!g_slist_find (sup_payees, GINT_TO_POINTER (payee_number)))
+            {
+                sup_payees = g_slist_append ( sup_payees,
+                        GINT_TO_POINTER (payee_number));
+            }
+            gtk_list_store_append (GTK_LIST_STORE (list_store), &iter);
+            gtk_list_store_set (GTK_LIST_STORE (list_store), &iter,
+                        COLUMN_BOOLEAN,  TRUE,
+                        COLUMN_INT, payee_number,
+                        COLUMN_STRING, tmpstr,
+                        -1);
+            i++;
+        }
+        payee_list_tmp = payee_list_tmp -> next;
+    }
+
+    if ( i > 0 )
+    {
+        treeview = g_object_get_data ( G_OBJECT (assistant), "treeview" );
+        if ( treeview )
+            gtk_tree_view_set_model (GTK_TREE_VIEW (treeview), 
+                            GTK_TREE_MODEL (list_store));
+        label = g_object_get_data ( G_OBJECT (assistant), "nbre_tiers_total" );
+        gtk_label_set_text ( GTK_LABEL (label ),
+                        g_strdup_printf ("%d", i ) );
+        label = g_object_get_data ( G_OBJECT (assistant), "nbre_tiers_select" );
+        gtk_label_set_text ( GTK_LABEL (label ),
+                        g_strdup_printf ("%d", i ) );
+        g_object_set_data ( G_OBJECT (assistant), "sup_payees", sup_payees );
+        //~ printf ( "nombre de tiers trouvés = %d\n", g_slist_length (sup_payees) );
+    }
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ */
+static gboolean gsb_assistant_payees_enter_page_finish ( GtkWidget *assistant )
+{
+    GtkTreeView *treeview;
+    GtkLabel *label;
+    GtkComboFix *combo;
+    GtkEntry *entry;
+    GSList *sup_payees;
+    gchar *tmpstr;
+    const gchar *str_cherche;
+
+    devel_debug ("Enter page finish");
+    treeview = g_object_get_data ( G_OBJECT (assistant), "treeview" );
+    sup_payees = g_object_get_data ( G_OBJECT (assistant), "sup_payees" );
+    //~ printf ( "nombre de tiers à supprimer = %d\n", g_slist_length (sup_payees) );
+    combo = g_object_get_data ( G_OBJECT (assistant), "payee");
+    str_cherche = gtk_combofix_get_text ( combo );
+    entry = g_object_get_data ( G_OBJECT (assistant), "new_payee");
+    tmpstr = g_strdup_printf ( 
+                        _("You are about to replace %d payees whose names contain %s\n"
+                        "by %s\n\n"
+                        "<span weight=\"bold\">Are you sure?</span>"),
+                        g_slist_length (sup_payees),
+                        gsb_string_remplace_joker ( str_cherche, "..." ),
+                        gtk_entry_get_text ( entry) );
+    label = g_object_get_data ( G_OBJECT (assistant), "finish_label" );
+    gtk_label_set_markup ( label, tmpstr );
+
+    g_free ( tmpstr);
+    
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ */
+void gsb_assistant_payees_clicked ( GtkButton *button, GtkWidget *assistant )
+{
+    GtkTreeView *treeview;
+    GtkLabel *label;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GSList *sup_payees;
+    gchar *tmpstr;
+    gboolean select, valid = FALSE;
+
+    treeview = g_object_get_data ( G_OBJECT (assistant), "treeview" );
+    sup_payees = g_object_get_data ( G_OBJECT (assistant), "sup_payees" );
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW (treeview) );
+    tmpstr = g_strdup ( gtk_button_get_label ( button ) );
+
+    if ( my_strcmp ( tmpstr, _("Select all") ) == 0 )
+    {
+        gtk_button_set_label ( button, _("Unselect all") );
+        valid = gtk_tree_model_get_iter_first (model, &iter);
+
+        while (valid)
+        {
+            gint payee_number;
+
+            /* remplit la liste et coche les cases */
+            gtk_tree_model_get ( model, &iter, COLUMN_INT, &payee_number, -1 );
+            sup_payees = g_slist_append ( sup_payees,
+                        GINT_TO_POINTER (payee_number) );
+            gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+                        COLUMN_BOOLEAN,  TRUE , -1);
+            valid = gtk_tree_model_iter_next ( model, &iter );
+        }
+    }
+    else
+    {
+        gtk_button_set_label ( button, _("Select all") );
+        /* décoche les cases */
+        select = FALSE;
+        gtk_tree_model_foreach ( model, gsb_assistant_payees_select_func, 
+                        GINT_TO_POINTER ( select ) );
+        g_slist_free ( sup_payees );
+        sup_payees = NULL;
+    }
+
+    g_object_set_data ( G_OBJECT (assistant), "sup_payees", sup_payees );
+    label = g_object_get_data ( G_OBJECT (assistant), "nbre_tiers_select" );
+    gtk_label_set_text ( label, g_strdup_printf ("%d", 
+                        g_slist_length (sup_payees)) );
+
+    /* gestion du bouton next */
+    if ( g_slist_length (sup_payees) == 0 )
+        gsb_assistant_sensitive_button_next ( assistant, FALSE );
+    else
+        gsb_assistant_sensitive_button_next ( assistant, TRUE );
+    g_free ( tmpstr );
+}
+
+
+/**
+ *
+ *
+ */
+gboolean gsb_assistant_payees_select_func (GtkTreeModel *model,
+                        GtkTreePath *path,
+                        GtkTreeIter *iter,
+                        gpointer data)
+{
+    gtk_list_store_set (GTK_LIST_STORE (model), iter,
+                        COLUMN_BOOLEAN,  GPOINTER_TO_INT ( data ),
+                        -1);
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ */
+void gsb_assistant_payees_toggled ( GtkCellRendererToggle *cell,
+                        gchar *path_str,
+                        GtkWidget *assistant )
+{
+    GtkTreeView *treeview;
+    GtkLabel *label;
+    GtkTreeModel *model;
+    GtkTreeIter  iter;
+    GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
+    GSList *sup_payees;
+    gint payee_number;
+    gboolean fixed;
+
+    /* get model, iter and data */
+    treeview = g_object_get_data ( G_OBJECT (assistant), "treeview" );
+    model = gtk_tree_view_get_model ( treeview );
+    gtk_tree_model_get_iter (model, &iter, path);
+    gtk_tree_model_get (model, &iter, COLUMN_BOOLEAN, &fixed, 
+                        COLUMN_INT, &payee_number, -1);
+
+    /* do something with the value */
+    sup_payees = g_object_get_data ( G_OBJECT (assistant), "sup_payees" );
+    if (!sup_payees)
+        return;
+    if ( g_slist_find (sup_payees, GINT_TO_POINTER (payee_number)) && fixed )
+        sup_payees = g_slist_delete_link ( sup_payees, 
+                        g_slist_find ( sup_payees, 
+                        GINT_TO_POINTER (payee_number) ) );
+    else
+        sup_payees = g_slist_prepend ( sup_payees, 
+                        GINT_TO_POINTER (payee_number) );
+
+    g_object_set_data ( G_OBJECT (assistant), "sup_payees", sup_payees );
+    label = g_object_get_data ( G_OBJECT (assistant), "nbre_tiers_select" );
+    gtk_label_set_text ( label, g_strdup_printf ("%d", 
+                        g_slist_length (sup_payees)) );
+    fixed ^= 1;
+
+    /* set new value */
+    gtk_list_store_set (GTK_LIST_STORE (model), &iter, COLUMN_BOOLEAN, fixed, -1);
+
+    /* clean up */
+    gtk_tree_path_free (path);
+
+    /* gestion du bouton next */
+    if ( g_slist_length (sup_payees) == 0 )
+        gsb_assistant_sensitive_button_next ( assistant, FALSE );
+    else
+        gsb_assistant_sensitive_button_next ( assistant, TRUE );
+}
+
+
+/**
+ *
+ *
+ */
+void gsb_assistant_payees_entry_changed ( GtkEditable *editable, 
+                        GtkWidget *assistant )
+{
+    GtkWidget *entry;
+    const gchar *str_cherche;
+
+    entry = g_object_get_data ( G_OBJECT (assistant), "payee" );
+    str_cherche = gtk_combofix_get_text ( GTK_COMBOFIX (entry) );
+    switch ( gsb_assistant_payees_valide_model_recherche ( str_cherche ) )
+	{
+        case 0:
+        dialogue_warning ( _("You must choose a payee for searching.") );
+        break;
+        case -1:
+        dialogue_warning ( 
+                        _("Beware you don't use one of models for the research.") );
+        break;
+        case 1:
+        gsb_assistant_sensitive_button_next ( assistant,TRUE );
+        return;
+        break;
+    }
+    g_signal_handlers_block_by_func ( G_OBJECT (editable),
+                        G_CALLBACK (gsb_assistant_payees_entry_changed),
+                        assistant );
+    gtk_editable_delete_text ( editable, 0, -1 );
+    gtk_widget_grab_focus ( GTK_COMBOFIX (entry) -> entry );
+    g_signal_handlers_unblock_by_func ( G_OBJECT (editable),
+                        G_CALLBACK (gsb_assistant_payees_entry_changed),
+                        assistant );
+}
+
+
+/**
+ * Valide les modèles possibles pour la recherche ( toto% %toto %toto% toto%tata)
+ *
+ \param needle chaine de recherche
+ *
+ * \return 1 si correct 0 si vide -1 si non conforme au modèle
+ */
+gint gsb_assistant_payees_valide_model_recherche ( const gchar *needle )
+{
+    gchar **tab_str;
+    gboolean is_prefix = FALSE, is_suffix = FALSE;
+
+    if ( needle && strlen ( needle ) )
+    {
+        if ( g_str_has_prefix ( needle, "%" )||
+                        g_str_has_prefix ( needle, "*") )
+            is_prefix = TRUE;
+
+        if ( g_str_has_suffix ( needle, "%" ) ||
+                        g_str_has_suffix ( needle, "*") )
+            is_suffix = TRUE;
+
+        if ( is_prefix && is_suffix )
+        {
+            tab_str = g_strsplit_set ( needle, "%*", 0 );
+            if ( g_strv_length ( tab_str ) == 3 )
+                return 1;
+            else
+                return -1;
+        }
+        else if ( is_prefix && ! is_suffix )
+            return 1;
+        else if ( is_suffix && ! is_prefix )
+            return 1;
+        else if ( ! is_prefix && ! is_suffix )
+        {
+            tab_str = g_strsplit_set ( needle, "%*", 0 );
+            if ( g_strv_length ( tab_str ) == 2 )
+                return 1;
+            else if ( gsb_data_payee_get_number_by_name ( needle, FALSE ) )
+                return 1;
+            else
+                return -1;
+        }
+        else
+            return -1;
+    }
+    else
+        return 0;
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */

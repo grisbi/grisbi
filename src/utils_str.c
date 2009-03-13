@@ -24,7 +24,6 @@
 #include "include.h"
 #include <stdlib.h>
 
-
 /*START_INCLUDE*/
 #include "utils_str.h"
 #include "./include.h"
@@ -33,6 +32,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static gchar *gsb_string_supprime_joker ( const gchar *chaine );
 static gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc );
 /*END_STATIC*/
 
@@ -165,7 +165,7 @@ gint utils_str_atoi ( const gchar *chaine )
 
 
 /******************************************************************************/
-/* Fonction my_strtod (string to decimal)                                    */
+/* Fonction my_strtod (string to decimal)                                     */
 /* Convertie une chaine de caractères en un nombre                            */
 /* Paramètres d'entrée :                                                      */
 /*   - nptr : pointeur sur la chaine de caractères à convertir                */
@@ -282,9 +282,8 @@ gchar *my_strdelimit ( const gchar *string,
 /* ******************************************************************************* */
 /* my_strcasecmp : compare 2 chaines sensitive que ce soit utf8 ou ascii */
 /* ******************************************************************************* */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-gint my_strcmp ( gchar *string_1,
-		 gchar *string_2 )
+/* uncomment by pbiava the 03/08/2009 */
+gint my_strcmp ( gchar *string_1, gchar *string_2 )
 {
     if ( string_1
 	 &&
@@ -314,7 +313,6 @@ gint my_strcmp ( gchar *string_1,
 
     return 0;
 }
-*/
 /* ******************************************************************************* */
 
 
@@ -733,6 +731,11 @@ gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
     }
 }
 
+
+/**
+ *
+ *
+ */
 gchar * gsb_string_remplace_string ( gchar * str, gchar *old_str, gchar *new_str )
 {
     gchar *ptr_debut;
@@ -746,6 +749,146 @@ gchar * gsb_string_remplace_string ( gchar * str, gchar *old_str, gchar *new_str
     devel_debug ( chaine );
     return g_strdup ( chaine );
 }
+
+
+/**
+ * recherche des mots séparés par des jokers "%*" dans une chaine 
+ *
+ * \param haystack
+ * \param needle
+ *
+ * \return TRUE si trouvé FALSE autrement
+ */
+gboolean gsb_string_is_trouve ( const gchar *payee_name, const gchar *needle )
+{
+    gchar **tab_str;
+    gchar *tmpstr;
+    gint i;
+    gboolean is_prefix = FALSE, is_suffix = FALSE;
+
+    if ( g_strstr_len ( needle, -1, "%" ) == NULL && 
+                        g_strstr_len ( needle, -1, "*" ) == NULL )
+    {
+        if ( my_strcasecmp ( payee_name, needle ) == 0 )
+            return TRUE;
+        else
+            return FALSE;
+    }
+    if ( g_str_has_prefix ( needle, "%" ) == FALSE &&
+                        g_str_has_prefix ( needle, "*" ) == FALSE )
+        is_prefix = TRUE;
+
+    if ( g_str_has_suffix ( needle, "%" ) == FALSE &&
+                        g_str_has_suffix ( needle, "*" ) == FALSE )
+        is_suffix = TRUE;
+
+    if ( is_prefix && is_suffix )
+    {
+        tab_str = g_strsplit_set ( needle, "%*", 0 );
+        //~ printf ("prefix = TRUE suffix = TRUE - contenant :%s needle %s\n", payee_name, needle );
+        is_prefix = g_str_has_prefix ( payee_name, tab_str[0] );
+        is_suffix = g_str_has_suffix ( payee_name, tab_str[1] );
+        if ( is_prefix && is_suffix )
+            return TRUE;
+        else
+            return FALSE;
+    }
+    else if ( is_prefix && ! is_suffix )
+    {
+        tmpstr = gsb_string_supprime_joker ( needle );
+        //~ printf ("prefix = TRUE - contenant :%s needle %s\n", payee_name, tmpstr );
+        is_prefix = g_str_has_prefix (payee_name, tmpstr);
+        g_free (tmpstr);
+        return is_prefix;
+    }
+    else if ( is_suffix && ! is_prefix )
+    {
+        tmpstr = gsb_string_supprime_joker ( needle );
+        //~ printf ("suffix = TRUE - contenant :%s needle %s\n", payee_name, tmpstr );
+        is_suffix = g_str_has_suffix (payee_name, tmpstr);
+        g_free (tmpstr);
+        return is_suffix;
+    }
+
+    tab_str = g_strsplit_set ( needle, "%*", 0 );
+
+    for (i = 0; tab_str[i] != NULL; i++)
+	{
+        if ( tab_str[i] && strlen (tab_str[i]) > 0)
+        {
+            if ( g_strstr_len (payee_name, -1, tab_str[i]))
+                return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+
+/**
+ * remplace les jokers "%*" par une chaine
+ *
+ * \param str
+ * \param new_str
+ *
+ * \return chaine avec chaine de remplacement
+ */
+gchar * gsb_string_remplace_joker ( const gchar *chaine, gchar *new_str )
+{
+    gchar **tab_str;
+
+    tab_str = g_strsplit_set ( chaine, "%*", 0 );
+    return g_strjoinv ( new_str, tab_str );
+}
+
+
+/**
+ *supprime les jokers "%*" dans une chaine
+ *
+ * \param chaine
+ *
+ * \return chaine sans joker
+ */
+gchar *gsb_string_supprime_joker ( const gchar *chaine )
+{
+    gchar **tab_str;
+
+    tab_str = g_strsplit_set ( chaine, "%*", 0 );
+    return g_strjoinv ( "", tab_str );
+}
+
+
+/*
+ * extrait un nombre d'une chaine
+ * 
+ * \param chaine
+ *
+ * \return guint
+ */
+gchar *gsb_string_extract_int ( const gchar *chaine )
+{
+    gchar *ptr;
+    gchar *tmpstr;
+    gunichar ch;
+    gint i = 0;
+
+    devel_debug ( chaine );
+    
+    tmpstr = g_malloc0 ( 11*sizeof (gchar) );
+    ptr = g_strdup ( chaine );
+    while ( g_utf8_strlen (ptr, -1) > 0 )
+    {
+        ptr = g_utf8_next_char (ptr);
+        ch = g_utf8_get_char (ptr);
+        if ( g_ascii_isdigit ( ch ) )
+        {
+            tmpstr[i] = ptr[0];
+            i++;
+        }
+    }
+
+    return tmpstr;
+}
+
 
 /**
  * all the gtk_entry_set_text in grisbi should be my_gtk_entry_set_text which just
