@@ -9875,9 +9875,8 @@ msgstr "Nombre total de tiers :"
 
 #. ajoute le nombre de tiers sÃ©lectionnÃ©s
 #: src/tiers_onglet.c:1045
-#, fuzzy
 msgid "Number of selected payees :"
-msgstr "Supprimer le tiers sélectionné"
+msgstr "Nombre de tiers sélectionnés"
 
 #: src/tiers_onglet.c:1147
 #, c-format
@@ -9887,7 +9886,7 @@ msgstr "Tiers recherché : %s\n"
 #: src/tiers_onglet.c:1153
 #, c-format
 msgid "New payee : %s"
-msgstr "Nouveau tiers %d"
+msgstr "Nouveau tiers %s"
 
 #: src/tiers_onglet.c:1229
 #, c-format
