@@ -801,8 +801,14 @@ void appui_sur_manage_tiers ( void )
                 gsb_data_transaction_set_party_number ( transaction_number,
 						new_payee_number );
                 if ( save_notes )
+                {
+                    if ( my_strcmp ( (gchar *) gsb_data_payee_get_name (
+                        payee_number, TRUE ), 
+                        (gchar *) gsb_data_payee_get_name ( 
+                        new_payee_number, TRUE ) ) != 0 )
                     gsb_data_transaction_set_notes ( transaction_number,
                         gsb_data_payee_get_name ( payee_number, TRUE ) );
+                }
                 if ( extract_num )
                 {
                     nombre = gsb_string_extract_int ( 
@@ -834,7 +840,11 @@ void appui_sur_manage_tiers ( void )
                 gsb_data_scheduled_set_party_number ( scheduled_number,
 						new_payee_number );
                 if ( save_notes )
-                    gsb_data_scheduled_set_notes ( scheduled_number,
+                    if ( my_strcmp ( (gchar *) gsb_data_payee_get_name (
+                        payee_number, TRUE ), 
+                        (gchar *) gsb_data_payee_get_name ( 
+                        new_payee_number, TRUE ) ) != 0 )
+                        gsb_data_scheduled_set_notes ( scheduled_number,
                         gsb_data_payee_get_name ( payee_number, TRUE ) );
                 if ( extract_num )
                 {
