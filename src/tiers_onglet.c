@@ -42,6 +42,7 @@
 #include "./gsb_automem.h"
 #include "./gsb_data_form.h"
 #include "./gsb_data_payee.h"
+#include "./gsb_data_scheduled.h"
 #include "./gsb_data_transaction.h"
 #include "./utils_editables.h"
 #include "./gsb_form_widget.h"
@@ -813,6 +814,38 @@ void appui_sur_manage_tiers ( void )
             tmp_list = tmp_list -> next;
         }
         transaction_list_update_element (ELEMENT_PARTY);
+
+        /* on fait la même chose pour les opérations planifiées */
+        tmp_list = gsb_data_scheduled_get_scheduled_list ();
+
+        while (tmp_list)
+        {
+            gint payee_number;
+            gint scheduled_number;
+            gchar *nombre;
+
+            scheduled_number = 
+                        gsb_data_scheduled_get_scheduled_number ( 
+                        tmp_list -> data );
+            payee_number = gsb_data_scheduled_get_party_number (
+                        scheduled_number );
+            if ( g_slist_find (sup_payees, GINT_TO_POINTER (payee_number)))
+            {
+                gsb_data_scheduled_set_party_number ( scheduled_number,
+						new_payee_number );
+                if ( save_notes )
+                    gsb_data_scheduled_set_notes ( scheduled_number,
+                        gsb_data_payee_get_name ( payee_number, TRUE ) );
+                if ( extract_num )
+                {
+                    nombre = gsb_string_extract_int ( 
+                        gsb_data_payee_get_name ( payee_number, FALSE ) );
+                    gsb_data_scheduled_set_method_of_payment_content ( 
+                        scheduled_number, nombre );
+                }
+            }
+            tmp_list = tmp_list -> next;
+        }
         /* on efface les tiers inutilisés */
         nb_removed = gsb_data_payee_remove_unused ();
         payee_fill_tree ();
