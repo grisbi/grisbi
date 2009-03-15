@@ -33,6 +33,7 @@
 #include "./utils_str.h"
 #include "./gsb_data_payment.h"
 #include "./gsb_data_form.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -294,6 +295,7 @@ gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
     GtkWidget *cheque_entry;
     gint account_number;
 
+    devel_debug (NULL);
     account_number = gsb_form_get_account_number ();
     cheque_entry = gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE);
     if ( !cheque_entry)
@@ -307,12 +309,19 @@ gboolean gsb_payment_method_changed_callback ( GtkWidget *combo_box,
     if (gsb_data_payment_get_show_entry (payment_number))
     {
 	/* set the next number if needed */
-	if (gsb_data_payment_get_automatic_numbering (payment_number))
+	if (gsb_data_payment_get_automatic_numbering (payment_number) )
 	{
-	    gsb_form_entry_get_focus (cheque_entry);
-	    gchar* tmpstr = utils_str_itoa (gsb_data_payment_get_last_number (payment_number));
-	    gtk_entry_set_text ( GTK_ENTRY (cheque_entry), tmpstr);
-	    g_free ( tmpstr );
+        /* pbiava the 03/15/09 fix the bug 493 */
+        if ( gsb_form_widget_check_empty (cheque_entry) )
+        {
+            gsb_form_entry_get_focus (cheque_entry);
+            /* pbiava the 03/15/09 incremente le futur n° de Cheque */
+            gchar* tmpstr = utils_str_itoa (gsb_data_payment_get_last_number (
+                        payment_number) + 1);
+            printf ("next numero = %s\n", tmpstr );
+            gtk_entry_set_text ( GTK_ENTRY (cheque_entry), tmpstr);
+            g_free ( tmpstr );
+        }
 	}
 	else
 	{
