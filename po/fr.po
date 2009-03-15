@@ -14248,7 +14248,7 @@ msgstr "Aucune police définie"
 #, fuzzy
 #~ msgid ""
 #~ "Do you really want to delete the child of split whith the category '%s' ?"
-#~ msgstr "Voulez vous réellement supprimer l'opération tière de la catégorie « %s » ?"
+#~ msgstr "Voulez vous réellement supprimer l'opération tièrce de la catégorie « %s » ?"
 
 #, fuzzy
 #~ msgid "Create an archive..."
