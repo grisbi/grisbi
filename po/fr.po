@@ -24,11 +24,11 @@ msgstr ""
 
 #: src/accueil.c:196
 msgid "Closed liabilities accounts"
-msgstr "Comptes passifs terminés"
+msgstr "Clôture des comptes de passifs"
 
 #: src/accueil.c:209
 msgid "Run out manual scheduled transactions"
-msgstr "Exécuter l'opération planifiée"
+msgstr "Exécuter les opérations planifiées"
 
 #: src/accueil.c:225
 msgid "Automatic scheduled transactions entered"
@@ -36,7 +36,7 @@ msgstr "Opérations planifiées automatiques saisies"
 
 #: src/accueil.c:236
 msgid "Closed scheduled transactions"
-msgstr "Opérations planifiées terminées"
+msgstr "Clôture des opérations planifiées"
 
 #: src/accueil.c:247
 msgid "Accounts under authorized balance"
@@ -90,12 +90,12 @@ msgstr "Solde des comptes d'actif en %s"
 #: src/accueil.c:1316 src/accueil.c:1437 src/accueil.c:1893
 #, c-format
 msgid "%s credited on %s"
-msgstr "Crédit de %s sur %s"
+msgstr "%s Crédité sur %s"
 
 #: src/accueil.c:1326 src/accueil.c:1447 src/accueil.c:1902
 #, c-format
 msgid "%s debited on %s"
-msgstr "Débit de %s sur %s"
+msgstr "%s Débité sur %s"
 
 #: src/accueil.c:1668
 #, c-format
@@ -113,7 +113,7 @@ msgstr ""
 #: src/accueil.c:1701
 #, c-format
 msgid "balance of account %s is under authorised minimum!"
-msgstr "le compte %s est passé sous le seuil minimum autorisé !"
+msgstr "le solde du compte %s est passé sous le seuil minimum autorisé !"
 
 #: src/accueil.c:1711
 msgid ""
@@ -228,7 +228,7 @@ msgstr "Afficher les boutons de barres d'outils avec"
 
 #: src/affichage.c:680
 msgid "Text"
-msgstr "Du texte"
+msgstr "du texte"
 
 #: src/affichage.c:689
 msgid "Icons"
@@ -317,7 +317,7 @@ msgstr "Comportement du formulaire"
 
 #: src/affichage_liste.c:395
 msgid "Pressing RETURN in transaction form"
-msgstr "Presser ENTRÉE dans le formulaire de saisie des opérations"
+msgstr "Appuyer sur ENTRÉE dans le formulaire de saisie des opérations"
 
 #: src/affichage_liste.c:396
 msgid "selects next field"
@@ -337,7 +337,7 @@ msgstr "correspond à la date de l'opération"
 
 #: src/affichage_liste.c:404
 msgid "according to transaction value date"
-msgstr "correspond à la date de valeur l'opération"
+msgstr "correspond à la date de valeur de l'opération"
 
 #: src/affichage_liste.c:410
 msgid "Automatic amount separator"
@@ -346,7 +346,7 @@ msgstr "Séparateur décimal automatique"
 #: src/affichage_liste.c:413
 msgid "Automagically add separator in amounts fields if unspecified"
 msgstr ""
-"Ajout automagique du séparateur dans les champs numériques s'il est omis"
+"Ajout automatique du séparateur dans les champs numériques s'il est omis"
 
 #: src/affichage_liste.c:435
 msgid "Form completion"
@@ -2955,9 +2955,9 @@ msgid ""
 "there is no personal information anymore in this file.Grisbi will close "
 "immediatly after saving the obfuscated file"
 msgstr ""
-"Appuyez sur le bouton 'Fermer' pour terminer l'opération.\n"
+"Appuyez sur le bouton 'Fermer' pour anonymiser le fichier.\n"
 "\n"
-"Le fichier sera nommé %s et enregistré dans le même répertoire que "
+"Le fichier anonymisé sera nommé %s et enregistré dans le même répertoire que "
 "l'original.\n"
 "\n"
 "Vérifiez que le bug est toujours présent et envoyez le avec vos explications "
@@ -2971,12 +2971,12 @@ msgstr ""
 #: src/file_obfuscate_qif.c:64
 #, fuzzy
 msgid "Obfuscating qif file..."
-msgstr "Enregistrer le fichier"
+msgstr "Anonymisation du fichier..."
 
 #: src/file_obfuscate_qif.c:66
 #, fuzzy
 msgid "Grisbi QIF obfuscation"
-msgstr "Documentation de Grisbi"
+msgstr "Fichier Grisbi anonymisé"
 
 #: src/file_obfuscate_qif.c:67
 #, fuzzy
@@ -3013,7 +3013,7 @@ msgstr "Ouvrir un fichier QIF"
 
 #: src/file_obfuscate_qif.c:99
 msgid "QIF files (*.qif)"
-msgstr "Fichier QIF"
+msgstr "Fichiers QIF (*.qif)"
 
 #: src/file_obfuscate_qif.c:149
 msgid "Cannot open the QIF file."
@@ -3024,8 +3024,8 @@ msgid ""
 "This file doesn't seem to be a QIF file,\n"
 "operation canceled."
 msgstr ""
-"Ce fichier n'est pas un fichier QIF,\n"
-"action annulée..."
+"Ce fichier ne semble pas être un fichier QIF,\n"
+"opération annulée..."
 
 #: src/file_obfuscate_qif.c:240
 #, c-format
@@ -3477,7 +3477,7 @@ msgid ""
 msgstr ""
 "Cela supprimera irrémédiablement ce compte ainsi que toutes les opérations "
 "associées. Il n'y a pas d'annulation possible.\n"
-"Habituellement c'est le meilleur moyen de clore un compte."
+"C'est généralement le meilleur moyen de clôturer un compte."
 
 #. crÃ©ation de la ligne des dÃ©tails du compte
 #: src/gsb_account_property.c:163
@@ -4670,11 +4670,11 @@ msgstr "Annuler"
 
 #: src/gsb_category.c:213
 msgid "Category list"
-msgstr "Modèles de catégories"
+msgstr "Liste des catégories"
 
 #: src/gsb_category.c:224
 msgid "Display foreign category sets"
-msgstr "Afficher des modèles de catégories étrangers"
+msgstr "Afficher l'ensemble des catégories"
 
 #: src/gsb_category.c:360
 msgid "Cannot open the category file."
@@ -4683,16 +4683,16 @@ msgstr "Impossible d'ouvrir le fichier des catégories."
 #: src/gsb_category.c:377
 #, fuzzy
 msgid "Unnamed category list"
-msgstr "Catégories de revenus"
+msgstr "Liste des catégories anonymes"
 
 #: src/gsb_crypt.c:174
 msgid "The password was incorrect ! Please try again..."
-msgstr "Mot de passe incorrect ! Essayez à nouveau..."
+msgstr "Le mot de passe est incorrect ! Veuillez essayer à nouveau..."
 
 #: src/gsb_crypt.c:185 src/plugins/openssl/openssl.c:183
 #, c-format
 msgid "Cannot open encrypted file '%s'"
-msgstr "Impossible d'ouvrir le fichier '%s'"
+msgstr "Impossible d'ouvrir le fichier crypté '%s'"
 
 #. FIXME: import symbols to be sure we can call this kind of stuff.
 #: src/gsb_crypt.c:187 src/plugins/openssl/openssl.c:181
@@ -4700,23 +4700,23 @@ msgid ""
 "This build of Grisbi does not support encryption.\n"
 "Please recompile Grisbi with OpenSSL encryption enabled."
 msgstr ""
-"Cette version de Grisbi ne gère pas le format OFX. Veuillez recompiler "
-"Grisbi en activant la gestion du format OFX."
+"Cette version compilée de Grisbi ne gère pas le cryptage.\n"
+"Veuillez recompiler Grisbi avec le cryptage OpenSSL d'activé."
 
 #: src/gsb_crypt.c:212 src/plugins/openssl/openssl.c:208
 #, fuzzy
 msgid "Grisbi password"
-msgstr "Logo de Grisbi"
+msgstr "Mot de passe Grisbi"
 
 #: src/gsb_crypt.c:216 src/plugins/openssl/openssl.c:212
 #, fuzzy
 msgid "Crypt file"
-msgstr "Fichier Postscript"
+msgstr "Crypter le fichier"
 
 #: src/gsb_crypt.c:216 src/plugins/openssl/openssl.c:212
 #, fuzzy
 msgid "Decrypt file"
-msgstr "Fichier Postscript"
+msgstr "Décrypter le fichier"
 
 #: src/gsb_crypt.c:243
 #, c-format
@@ -4724,7 +4724,7 @@ msgid ""
 "Please enter password to encrypt file\n"
 "'<tt>%s</tt>'"
 msgstr ""
-"Entrer le mot de passe pour crypter le fichier\n"
+"Veillez entrer le mot de passe pour crypter le fichier\n"
 "« <tt>%s</tt> »"
 
 #: src/gsb_crypt.c:250
@@ -4733,7 +4733,7 @@ msgid ""
 "Please enter password to decrypt file\n"
 "'<tt>%s</tt>'"
 msgstr ""
-"Entrer le mot de passe pour décrypter le fichier\n"
+"Veuillez entrer le mot de passe pour décrypter le fichier\n"
 "« <tt>%s</tt> »"
 
 #: src/gsb_crypt.c:260 src/plugins/openssl/openssl.c:250
@@ -4742,7 +4742,7 @@ msgstr "Mot de passe"
 
 #: src/gsb_crypt.c:268 src/plugins/openssl/openssl.c:258
 msgid "Don't ask password again for this session."
-msgstr "Ne pas redemander le mot de passe pour la session."
+msgstr "Ne pas redemander le mot de passe pour cette session."
 
 #: src/gsb_currency.c:463
 msgid "Enter exchange rate"
@@ -4752,7 +4752,7 @@ msgstr "Entrer le taux de change"
 #: src/gsb_currency.c:473
 #, c-format
 msgid "Please enter exchange rate for %s"
-msgstr "Veuillez entrer le taux de change pour la monnaie %s"
+msgstr "Veuillez entrer le taux de change pour %s"
 
 #. echange line label
 #: src/gsb_currency.c:491
@@ -5127,7 +5127,7 @@ msgstr "Cambodge"
 
 #: src/gsb_currency_config.c:131
 msgid "Cyprus Pound"
-msgstr "Livre cypriote"
+msgstr "Livre Chypriote"
 
 #: src/gsb_currency_config.c:131 src/gsb_currency_config.c:176
 msgid "Cyprus"
@@ -5976,11 +5976,11 @@ msgstr "Samoa occidental"
 
 #: src/gsb_currency_config.c:251
 msgid "Solomon Islands Dollar"
-msgstr "Dollar de Salomon"
+msgstr "Dollar des Îles Salomon"
 
 #: src/gsb_currency_config.c:251
 msgid "Solomon Islands"
-msgstr "Iles Salomon"
+msgstr "Îles Salomon"
 
 #: src/gsb_currency_config.c:252
 msgid "Timor Escudo"
@@ -6314,31 +6314,31 @@ msgid ""
 "<span foreground=\"red\">Warning : the two currencies of the link are "
 "identicals</span>"
 msgstr ""
-"<span foreground=\"red\">Attention: les liens entre les deux devises sont "
+"<span foreground=\"red\">Attention : les liens entre les deux devises sont "
 "identiques</span>"
 
 #: src/gsb_data_currency_link.c:477
 #, fuzzy
 msgid "<span foreground=\"red\">Warning : that link is already defined</span>"
-msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
+msgstr "Attention : ce lien est déjà défini"
 
 #: src/gsb_data_fyear.c:574
 #, fuzzy
 msgid ""
 "<span foreground=\"red\">Warning : the dates are not in good order</span>"
-msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
+msgstr "Attention : les dates ne sont pas dans le bon ordre"
 
 #: src/gsb_data_fyear.c:577
 #, fuzzy
 msgid ""
 "<span foreground=\"red\">Warning : that financial year cross with another "
 "one</span>"
-msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
+msgstr "Attention : cette année financière en chevauche une autre"
 
 #: src/gsb_data_fyear.c:580
 #, fuzzy
 msgid "<span foreground=\"red\">Warning : Invalid date</span>"
-msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
+msgstr "Attention : date invalide"
 
 #: src/gsb_data_payee.c:398
 #, fuzzy
@@ -6431,7 +6431,7 @@ msgstr ""
 
 #: src/gsb_debug.c:92
 msgid "Duplicate sub-budgetary lines check"
-msgstr "Vérification des sous-imutations dupliquées"
+msgstr "Vérification des sous-imputations dupliquées"
 
 #: src/gsb_debug.c:94
 msgid ""
@@ -6605,13 +6605,13 @@ msgid ""
 "Grisbi was unable to repair this account file.  No modification has been "
 "done."
 msgstr ""
-"Grisbi a réparé votre fichier de comptes avec succès.  Vous pouvez "
-"maintenant sauvegarder vos modifications."
+"Grisbi n'a pas pu réparer ce fichier de comptes. Il n'y a pas eu de "
+"modifications."
 
 #: src/gsb_debug.c:341
 #, fuzzy
 msgid "Unable to fix account"
-msgstr "Type de compte"
+msgstr "Impossible de fixer le compte"
 
 #: src/gsb_debug.c:430
 #, c-format
@@ -6683,7 +6683,7 @@ msgstr "Création de la fenêtre principale"
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
-msgstr "Erreur de création de la liste. Des incohérences ou pire peut arriver."
+msgstr "Erreur de création de la liste... Des incohérences peuvent arriver..."
 
 #: src/gsb_file.c:218
 msgid "Open an accounts file"
@@ -6734,7 +6734,7 @@ msgid ""
 msgstr ""
 "Grisbi ne peut pas ouvrir le fichier et les sauvegardes ne semblent pas être "
 "activées ... C'est une mauvaise chose.\n"
-"Le chemin des sauvegardes est « %s », essayer d'y trouver des copies de "
+"Le chemin des sauvegardes est « %s », essayez d'y trouver des copies de "
 "sauvegarde\n"
 "Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
 "expliquer ce qui s'est passé."
@@ -6789,12 +6789,12 @@ msgstr "Enregistrer le fichier"
 
 #: src/gsb_file.c:596
 msgid "Saving backup"
-msgstr "Enregistrement de la sauvegarde"
+msgstr "Enregistrer la sauvegarde"
 
 #: src/gsb_file.c:757
 #, fuzzy
 msgid "Save locked files?"
-msgstr "Enregistrer le fichier"
+msgstr "Enregistrer le fichier verrouillé ?"
 
 #: src/gsb_file.c:758
 #, c-format
@@ -6802,7 +6802,7 @@ msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
-"Le document « %s » est verrouillé et également modifié.  Si vous voulez "
+"Le document « %s » est verrouillé mais a été modifié.  Si vous voulez "
 "l'enregistrer, vous devez annuler et le sauvegarder sous un autre nom ou "
 "alors activer l'option « %s » dans les préférences."
 
@@ -7722,12 +7722,12 @@ msgstr "Dernier relevé : %s"
 
 #: src/gsb_reconcile_config.c:96 src/gsb_transactions_list.c:1733
 msgid "Init date"
-msgstr "Date de début"
+msgstr "Date initiale"
 
 #: src/gsb_reconcile_config.c:97
 #, fuzzy
 msgid "Init balance"
-msgstr "Solde au début"
+msgstr "Solde initial"
 
 #: src/gsb_reconcile_config.c:102 src/parametres.c:378
 msgid "Reconciliation"
@@ -8390,7 +8390,7 @@ msgstr "Inverse le montant de l'opération importée."
 
 #: src/import.c:1219
 msgid "Create a rule for this import. Name of the rule : "
-msgstr "Créer une règle. Nom de la règle : "
+msgstr "Créer une règle pour cet import. Nom de la règle : "
 
 #: src/import.c:1312
 #, c-format
@@ -8428,13 +8428,13 @@ msgid ""
 "Please contact the grisbi team to find the problem."
 msgstr ""
 "Pas de compte en mémoire maintenant, c'est mauvais ...\n"
-"Il vaut mieux arrêter l'importation, avant un accident.\n"
+"Il vaut mieux arrêter l'importation, avant un crash.\n"
 "\n"
-"S'il vous plaît contactez l'équipe de grisbi pour trouver le problème."
+"Veuillez contacter l'équipe Grisbi pour trouver le problème."
 
 #: src/import.c:1401
 msgid "Please wait"
-msgstr "Le traitement des informations peut prendre un certain temps ..."
+msgstr "Veuillez patienter ..."
 
 #: src/import.c:1425
 msgid ""
@@ -8461,11 +8461,11 @@ msgid ""
 "If you choose to continue, the id of the Grisbi's account will be changed.  "
 "Do you want to continue ?"
 msgstr ""
-"L'id du compte Grisbi est %s et celui du compte importé %s.\n"
+"L'id du compte Grisbi est %s et celui du compte importé est %s.\n"
 "\n"
-"Peut-être avez choisi un mauvais compte ?\n"
-"Avez-vous choisi un mauvais compte ? Si vous choisissez de continuer, "
-"l'identifiant du compte sera changé. Voulez-vous continuer ?"
+"Peut-être avez-vous choisi un mauvais compte ?\n"
+"Si vous choisissez de continuer, l'id du compte Grisbi sera changé. "
+"Voulez-vous continuer ?"
 
 #. l'id du compte choisi et l'id du compte importÃ© sont diffÃ©rents
 #. on propose encore d'arrÃªter...
@@ -8482,7 +8482,7 @@ msgid ""
 "Some imported transactions seem to be already saved. Please select the "
 "transactions to import."
 msgstr ""
-"Certaines opérations à importer semblent déjà écrites.Sélectionner les "
+"Certaines opérations à importer semblent déjà écrites. Sélectionnez les "
 "opérations à importer."
 
 #: src/import.c:2051
@@ -8578,7 +8578,8 @@ msgstr "%s n'est pas un fichier OFX ou QIF. Il ne peut pas être importé"
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
 "transactions."
-msgstr "%s : echec de l'import des opérations."
+msgstr "%s n'a pas été importé avec succès. Une erreur est survenue durant "
+"la transaction."
 
 #: src/import.c:3431
 msgid "Import a file with a rule"
@@ -9950,7 +9951,7 @@ msgid ""
 "Grisbi team to fix that issue."
 msgstr ""
 "Essai d'ajouter l'enfant %d à l'opération mère %d dans le modèle, mais sans "
-"q'une opération blanche n'ait été crée avant... Mieux vaut s'arrêter ici. "
+"qu'une opération blanche n'ait été crée avant... Mieux vaut s'arrêter ici. "
 "Contactez les développeurs de Grisbi pour corriger ce bug."
 
 #: src/transaction_list_sort.c:136
@@ -10006,7 +10007,7 @@ msgstr "Aucune police définie"
 #~ msgstr "Revenus et dépenses du mois précédent"
 
 #~ msgid "???? should not be displayed..."
-#~ msgstr "???? ne devrait pas être affiché ..."
+#~ msgstr "???? ne devrait pas être affiché..."
 
 #~ msgid "_C"
 #~ msgstr "_fr"
@@ -10019,15 +10020,15 @@ msgstr "Aucune police définie"
 
 #, fuzzy
 #~ msgid "Online banking will not be available"
-#~ msgstr "Impossible d'initialiser AqBanking"
+#~ msgstr "La Banque en ligne ne sera pas disponible"
 
 #, fuzzy
 #~ msgid "Could not initialize AqBanking."
-#~ msgstr "Impossible d'initialiser AqBanking, connexion non disponible (%d)\n"
+#~ msgstr "Impossible d'initialiser AqBanking."
 
 #, fuzzy
 #~ msgid "Could not uninitialize AqBanking (%d)\n"
-#~ msgstr "Impossible d'initialiser AqBanking, connexion non disponible (%d)\n"
+#~ msgstr "Impossible d'initialiser AqBanking (%d)\n"
 
 #~ msgid "Warning"
 #~ msgstr "Attention"
@@ -10078,7 +10079,7 @@ msgstr "Aucune police définie"
 #~ msgstr "Par défaut, utiliser l'exercice"
 
 #~ msgid "last selected financial year"
-#~ msgstr "sélectionné en dernier"
+#~ msgstr "Dernier exercice sélectionné"
 
 #~ msgid "Web browser"
 #~ msgstr "Navigateur Web"
@@ -10093,15 +10094,14 @@ msgstr "Aucune police définie"
 #~ msgid ""
 #~ "Select the reconcile wich the transaction should be associated with :"
 #~ msgstr ""
-#~ "Marquer les opérations que vous voulez ajouter à la liste en cliquer sur "
-#~ "le bouton ajouter"
+#~ "Sélectionner les opérations que le rapprochement soit associer avec :"
 
 #~ msgid "Manual scheduled transactions at maturity date"
 #~ msgstr "Opérations planifiées manuelles arrivées à terme"
 
 #, fuzzy
 #~ msgid "Transaction separation"
-#~ msgstr "Police de la liste des opérations"
+#~ msgstr "Séparation des opérations"
 
 #, fuzzy
 #~ msgid ""
@@ -10141,7 +10141,7 @@ msgstr "Aucune police définie"
 
 #, fuzzy
 #~ msgid "Welcome to Grisbi !"
-#~ msgstr "Bienvenue dans Grisbi"
+#~ msgstr "Bienvenue dans Grisbi !"
 
 #, fuzzy
 #~ msgid "Search the transaction "
@@ -10167,7 +10167,7 @@ msgstr "Aucune police définie"
 #, fuzzy
 #~ msgid "Development list (discuss, participate, criticize, ...) : "
 #~ msgstr ""
-#~ "Liste de développement (discussion, participation, critiques, ...) : "
+#~ "Liste de développement (discussions, participation, critiques, ...) : "
 
 #~ msgid "subscribe"
 #~ msgstr "s'inscrire"
@@ -11360,11 +11360,11 @@ msgstr "Aucune police définie"
 #~ "pour dépréciations des autres immobilisations financières"
 
 #~ msgid ""
-#~ "29. Provision pour dépréciation des immobilisations : 2971. Tires "
+#~ "29. Provision pour dépréciation des immobilisations : 2971. Titres "
 #~ "immobilisés (droit de propriété) (même ventilation que celle du compte "
 #~ "271)"
 #~ msgstr ""
-#~ "29. Provision pour dépréciation des immobilisations : 2971. Tires "
+#~ "29. Provision pour dépréciation des immobilisations : 2971. Titres "
 #~ "immobilisés (droit de propriété) (même ventilation que celle du compte "
 #~ "271)"
 
@@ -12071,10 +12071,10 @@ msgstr "Aucune police définie"
 
 #~ msgid ""
 #~ "51. Banques, établissements financiers et assimilés : 5186. Intérêts "
-#~ "couris à payer"
+#~ "courus à payer"
 #~ msgstr ""
 #~ "51. Banques, établissements financiers et assimilés : 5186. Intérêts "
-#~ "couris à payer"
+#~ "courus à payer"
 
 #~ msgid ""
 #~ "51. Banques, établissements financiers et assimilés : 5187. Intérêts "
@@ -13497,11 +13497,11 @@ msgstr "Aucune police définie"
 
 #, fuzzy
 #~ msgid "logo"
-#~ msgstr "Congo"
+#~ msgstr "logo"
 
 #, fuzzy
 #~ msgid "administration"
-#~ msgstr "Opération"
+#~ msgstr "administration"
 
 #~ msgid "About..."
 #~ msgstr "À propos..."
@@ -13534,7 +13534,7 @@ msgstr "Aucune police définie"
 #~ msgstr "Rétablir la police par défaut"
 
 #~ msgid "Select a new animation"
-#~ msgstr "Sélection d'une nouvelle animation"
+#~ msgstr "Sélectionner une nouvelle animation"
 
 #~ msgid "by value date"
 #~ msgstr "Classer par date de valeur"
@@ -13554,16 +13554,16 @@ msgstr "Aucune police définie"
 #~ msgstr "Afficher la grille"
 
 #~ msgid "Show one line per transaction"
-#~ msgstr "1 ligne par opération"
+#~ msgstr "Montrer 1 ligne par opération"
 
 #~ msgid "Show two lines per transaction"
-#~ msgstr "2 lignes par opération"
+#~ msgstr "Montrer 2 lignes par opération"
 
 #~ msgid "Show four lines per transaction"
-#~ msgstr "4 lignes par opération"
+#~ msgstr "Montrer 4 lignes par opération"
 
 #~ msgid "Show reconciled transactions"
-#~ msgstr "Les opérations rapprochées"
+#~ msgstr "Montrer les opérations rapprochées"
 
 #~ msgid "Local variable value NULL"
 #~ msgstr "Valeur de la variable locale : NULL"
@@ -13590,13 +13590,13 @@ msgstr "Aucune police définie"
 
 #, fuzzy
 #~ msgid "Account name is empty"
-#~ msgstr "Numéro de compte / Clé"
+#~ msgstr "Lenom de compte est vide"
 
 #~ msgid "Account \"%s\" already exists!"
-#~ msgstr "Le fichier « %s » existe déjà !"
+#~ msgstr "Le fichier \"%s\" existe déjà !"
 
 #~ msgid "Confirm currency change"
-#~ msgstr "Confirmation de changement de devise"
+#~ msgstr "Confirmation du changement de devise"
 
 #~ msgid ""
 #~ "You are changing from a currency that is in the euro zone (%s) to one "
@@ -13604,8 +13604,9 @@ msgstr "Aucune police définie"
 #~ "for this.\n"
 #~ "Do you confirm this change?"
 #~ msgstr ""
-#~ "Attention, vous passez d'une devise qui passera à l'euro (%s) à une qui "
-#~ "n'y passera pas (%s). Les paiements en euro du compte seront perdus !\n"
+#~ "Attention, vous passez d'une devise de la zone euro (%s) à une qui "
+#~ "n'y est pas (%s). Les transactions en euro seront perdues ! Il n'y aura "
+"pas de retour possible.\n"
 #~ "Confirmez-vous le changement ?"
 
 #~ msgid "Apply changes to account?"
@@ -13616,8 +13617,8 @@ msgstr "Aucune police définie"
 #~ "Account \"%s\" has been modified.\n"
 #~ "Do you want to save changes?"
 #~ msgstr ""
-#~ "Des modifications ont été apportées au compte « %s »\n"
-#~ "Voulez-vous les enregistrer ?"
+#~ "Le compte \"%s\" a été modifié.\n"
+#~ "Voulez-vous enregistrer les modifications ?"
 
 #~ msgid "Choose account type"
 #~ msgstr "Choix du type de compte"
@@ -13639,7 +13640,7 @@ msgstr "Aucune police définie"
 #~ "choisir un nouveau nom pour la devise."
 
 #~ msgid "Currency '%s' already exists."
-#~ msgstr "La device « %s » existe déjà."
+#~ msgstr "La devise '%s' existe déjà."
 
 #~ msgid "QIF format does not define currencies."
 #~ msgstr "Le format QIF ne définit pas de devise."
@@ -13651,14 +13652,14 @@ msgstr "Aucune police définie"
 #~ "respectif."
 
 #~ msgid "Transfer reference"
-#~ msgstr "N° Virement"
+#~ msgstr "N° de virement"
 
 #~ msgid "Input"
 #~ msgstr "Saisie"
 
 #, fuzzy
 #~ msgid "Invalid date '%s'"
-#~ msgstr "Date invalide"
+#~ msgstr "Date invalide '%s'"
 
 #~ msgid ""
 #~ "This split of transaction has a transfer on itself.  Either change the "
@@ -13670,7 +13671,7 @@ msgstr "Aucune police définie"
 #~ "de l'opération ventilée elle même."
 
 #~ msgid "Invalid split of transaction."
-#~ msgstr "Opération ventilée"
+#~ msgstr "Opération ventilée invalide"
 
 #~ msgid ""
 #~ "Transfers can't be associated with their own account.  Please associate "
@@ -13680,17 +13681,19 @@ msgstr "Aucune police définie"
 #~ "autre compte pour ce virement."
 
 #~ msgid "Invalid transfer."
-#~ msgstr "La date est invalide."
+#~ msgstr "Virement invalide."
 
 #~ msgid ""
 #~ "Transfer is not associated with an account.  Please associate a valid "
 #~ "account with this transfer."
-#~ msgstr "Il n'y a pas de compte associé au virement."
+#~ msgstr "Il n'y a pas de compte associé au virement. Veuillez associer un "
+" compte valide avec ce virement."
 
 #~ msgid ""
 #~ "Associated account of this transfer does not exist.  Please associate a "
 #~ "valid account with this transfer."
-#~ msgstr "Le compte associé au virement est invalide"
+#~ msgstr "Le compte associé au virement n'existe pas. Veuillez associer un "
+"compte valide avec ce virement."
 
 #, fuzzy
 #~ msgid ""
@@ -13702,7 +13705,7 @@ msgstr "Aucune police définie"
 #~ "avec un chèque ou un mode de règlement à incrémentation automatique."
 
 #~ msgid "Invalid scheduled transaction."
-#~ msgstr "Opérations planifiées terminées"
+#~ msgstr "Opération planifiée invalide"
 
 #, fuzzy
 #~ msgid "%s : %s [%4.2f %s]"
@@ -13724,7 +13727,7 @@ msgstr "Aucune police définie"
 #~ msgstr "Opérations planifiées ventilées"
 
 #~ msgid "Scheduled transaction _form"
-#~ msgstr "Opérations planifiées terminées"
+#~ msgstr "Formulaire d'opérations planifiées"
 
 #~ msgid "Associated method of payment"
 #~ msgstr "Type d'opération associée"
@@ -13741,7 +13744,7 @@ msgstr "Aucune police définie"
 
 #~ msgid "A split line is to be deleted thought it is not yet registered."
 #~ msgstr ""
-#~ "Une opé de ventilation a été marquée pour la suppression alors qu'elle "
+#~ "Une opération de ventilation a été marquée pour la suppression alors qu'elle "
 #~ "n'était pas encore enregistrée."
 
 #, fuzzy
@@ -13752,7 +13755,7 @@ msgstr "Aucune police définie"
 #~ "Grisbi triggered a segmentation fault and cannot continue its execution.\n"
 #~ "\n"
 #~ msgstr ""
-#~ "Grisbi a déclenché une erreur de segmentation (segmentation fault) et ne "
+#~ "Grisbi a subi une erreur de segmentation et ne "
 #~ "peut pas continuer son exécution.\n"
 #~ "\n"
 
@@ -13825,15 +13828,15 @@ msgstr "Aucune police définie"
 
 #, fuzzy
 #~ msgid "Clone report"
-#~ msgstr "État vierge"
+#~ msgstr "Cloner l'état"
 
 #, fuzzy
 #~ msgid "Print report..."
-#~ msgstr "Imprimer l'état"
+#~ msgstr "Imprimer l'état..."
 
 #, fuzzy
 #~ msgid "Export report..."
-#~ msgstr "Exporter un état"
+#~ msgstr "Exporter un état..."
 
 #~ msgid "Export report as HTML..."
 #~ msgstr "Exporter un état en HTML..."
@@ -13843,18 +13846,18 @@ msgstr "Aucune police définie"
 #~ msgstr "Effacer l'état"
 
 #~ msgid "Edit report..."
-#~ msgstr "Éditer l'état"
+#~ msgstr "Éditer l'état..."
 
 #~ msgid "Not displayed"
 #~ msgstr "Non affiché"
 
 #, fuzzy
 #~ msgid "Load an accounts file"
-#~ msgstr "Ouverture d'un fichier de comptes"
+#~ msgstr "Ouvrir un fichier de comptes"
 
 #, fuzzy
 #~ msgid "Gnucash invalid account"
-#~ msgstr "Fichier de compte invalide."
+#~ msgstr "Fichier de compte Gnucash invalide."
 
 #, fuzzy
 #~ msgid "Merge the categories list"
@@ -13879,11 +13882,11 @@ msgstr "Aucune police définie"
 
 #, fuzzy
 #~ msgid "File compression"
-#~ msgstr "Niveau de compression du fichier"
+#~ msgstr "Compression du fichier"
 
 #, fuzzy
 #~ msgid "File uncompression"
-#~ msgstr "Niveau de compression du fichier"
+#~ msgstr "Décompression du fichier"
 
 #~ msgid "Error while crypting the file, the file saved won't be crypted."
 #~ msgstr ""
@@ -13896,18 +13899,18 @@ msgstr "Aucune police définie"
 
 #, fuzzy
 #~ msgid "Cannot open file '%s' to mark it as used: %s"
-#~ msgstr "Impossible d'ouvrir le fichier « %s » : %s"
+#~ msgstr "Impossible d'ouvrir le fichier '%s' pour l'indiquer comme utilisé : %s"
 
 #, fuzzy
 #~ msgid "Expander state"
 #~ msgstr "Date invalide"
 
 #~ msgid "Inconsistent state"
-#~ msgstr "Etat non valide"
+#~ msgstr "Etat incompatible"
 
 #, fuzzy
 #~ msgid "The inconsistent state of the button"
-#~ msgstr "Etat non valide"
+#~ msgstr "Les incohérences du boutton"
 
 #~ msgid "Activatable"
 #~ msgstr "Activer"
@@ -14020,7 +14023,7 @@ msgstr "Aucune police définie"
 
 #, fuzzy
 #~ msgid "Account type:"
-#~ msgstr "Type du compte"
+#~ msgstr "Type du compte :"
 
 #, fuzzy
 #~ msgid "Account name:"
@@ -14031,7 +14034,7 @@ msgstr "Aucune police définie"
 #~ msgstr "Devise du compte"
 
 #~ msgid "Autodetect"
-#~ msgstr "Automatique"
+#~ msgstr "Détection automatique"
 
 #~ msgid "QIF file"
 #~ msgstr "Fichier QIF"
@@ -14043,7 +14046,7 @@ msgstr "Aucune police définie"
 #~ msgstr "Exercice précédent"
 
 #~ msgid "Unknown format"
-#~ msgstr "Inconnu"
+#~ msgstr "Format inconnu"
 
 #~ msgid "P/R"
 #~ msgstr "P/R"
@@ -14052,56 +14055,56 @@ msgstr "Aucune police définie"
 #~ msgstr "Compte importé sans nom"
 
 #~ msgid "_Import QIF/OFX/CSV/Gnucash file..."
-#~ msgstr "Fichier QIF\\/OFX\\/Gnucash ..."
+#~ msgstr "_Importer un fichier QIF\\/OFX\\/Gnucash ..."
 
 #, fuzzy
 #~ msgid "_Export QIF file..."
-#~ msgstr "Exporter un fichier QIF"
+#~ msgstr "_Exporter un fichier QIF"
 
 #~ msgid "_Accounts"
-#~ msgstr "Comptes"
+#~ msgstr "_Comptes"
 
 #~ msgid "_Reports"
-#~ msgstr "États"
+#~ msgstr "_États"
 
 #~ msgid "_New report"
-#~ msgstr "Nouvel état"
+#~ msgstr "_Nouvel état"
 
 #, fuzzy
 #~ msgid "_Clone report"
-#~ msgstr "Nouvel état"
+#~ msgstr "_Dupliquer l'état"
 
 #~ msgid "_Print report..."
-#~ msgstr "Imprimer l'état"
+#~ msgstr "_Imprimer l'état"
 
 #~ msgid "_Import report..."
-#~ msgstr "Importer un état"
+#~ msgstr "_Importer un état"
 
 #~ msgid "_Export report..."
-#~ msgstr "Exporter un état"
+#~ msgstr "_Exporter un état"
 
 #~ msgid "_Export report as HTML..."
-#~ msgstr "Exporter un état en HTML..."
+#~ msgstr "_Exporter un état en HTML..."
 
 #~ msgid "_Remove report"
-#~ msgstr "Effacer l'état"
+#~ msgstr "_Effacer l'état"
 
 #, fuzzy
 #~ msgid "_Edit report"
-#~ msgstr "Éditer l'état"
+#~ msgstr "_Éditer l'état"
 
 #, fuzzy
 #~ msgid "Just remove this sub-division."
 #~ msgstr "Supprimer simplement cette sous-catégorie."
 
 #~ msgid "Aqbanking"
-#~ msgstr "Albanie"
+#~ msgstr "Aqbanking"
 
 #~ msgid ""
 #~ "This build of Grisbi does not support OFX, please recompile Grisbi with "
 #~ "OFX support enabled"
 #~ msgstr ""
-#~ "Cette construction de Grisbi ne gère pas le format OFX. Veuillez "
+#~ "Cette version compilée de Grisbi ne gère pas le format OFX. Veuillez "
 #~ "recompiler Grisbi en activant la gestion du format OFX."
 
 #~ msgid "Cannot process OFX file '%s'"
@@ -14115,7 +14118,7 @@ msgstr "Aucune police définie"
 
 #, fuzzy
 #~ msgid "Show transaction form"
-#~ msgstr "Formulaire de saisie d'opérations"
+#~ msgstr "Montrer le formulaire de saisie"
 
 #, fuzzy
 #~ msgid "Transaction _form"
@@ -14161,7 +14164,7 @@ msgstr "Aucune police définie"
 
 #~ msgid "File \"%s\" exists and is not a regular file."
 #~ msgstr ""
-#~ "Soit le fichier « %s » n'existe pas, soit ce n'est pas un fichier normal."
+#~ "Le fichier « %s » existe mais n'est pas un fichier normal."
 
 #, fuzzy
 #~ msgid "Error saving file '%s'."
@@ -14171,13 +14174,13 @@ msgstr "Aucune police définie"
 #~ msgstr "Nb"
 
 #~ msgid "My accounting"
-#~ msgstr "Nouveau compte"
+#~ msgstr "Mon compte"
 
 #~ msgid "No name"
 #~ msgstr "Sans nom"
 
 #~ msgid "Invalid filename: \"%s\"!"
-#~ msgstr "Nom de fichier invalide : « %s » !"
+#~ msgstr "Nom de fichier invalide : \"%s\" !"
 
 #~ msgid "Creating interface"
 #~ msgstr "Création de l'interface"
@@ -14187,19 +14190,19 @@ msgstr "Aucune police définie"
 #~ "(use it for slow configurations)"
 #~ msgstr ""
 #~ "Ne pas charger les opérations rapprochées dans la liste au démarrage\n"
-#~ "(à utiliser pour les environnements lents)."
+#~ "(à utiliser pour les configurations lentes)"
 
 #, fuzzy
 #~ msgid "Loading reconciled transactions."
-#~ msgstr "Les opérations non rapprochées"
+#~ msgstr "Chargement des opérations rapprochées."
 
 #, fuzzy
 #~ msgid "This operation can take some time..."
-#~ msgstr "Cette opération a retourné un message"
+#~ msgstr "Cette opération peut prendre du temps..."
 
 #, fuzzy
 #~ msgid "Loading archived transactions."
-#~ msgstr "Les opérations rapprochées"
+#~ msgstr "Chargement des opérations archivées."
 
 #, fuzzy
 #~ msgid "%s %s"
@@ -14211,11 +14214,11 @@ msgstr "Aucune police définie"
 
 #, fuzzy
 #~ msgid "\t\tChosen financial year :"
-#~ msgstr "Choix de l'exercice"
+#~ msgstr "\t\t exercices financiers choisis :"
 
 #, fuzzy
 #~ msgid "\t\tChosen report :"
-#~ msgstr "Cloner l'état"
+#~ msgstr "\t\t reports choisis :"
 
 #, fuzzy
 #~ msgid "Congratulation !\n"
@@ -14226,7 +14229,7 @@ msgstr "Aucune police définie"
 
 #, fuzzy
 #~ msgid "Archive some transactions ?"
-#~ msgstr "Chercher l'opération"
+#~ msgstr "Archiver des opérations ?"
 
 #, fuzzy
 #~ msgid "Imported report"
@@ -14244,30 +14247,30 @@ msgstr "Aucune police définie"
 
 #, fuzzy
 #~ msgid ""
-#~ "Do you really want to delete the child of split whit the category '%s' ?"
-#~ msgstr "Voulez vous vraiment supprimer l'opération avec le tiers « %s » ?"
+#~ "Do you really want to delete the child of split whith the category '%s' ?"
+#~ msgstr "Voulez vous réellement supprimer l'opération tière de la catégorie « %s » ?"
 
 #, fuzzy
 #~ msgid "Create an archive..."
-#~ msgstr "Créer un nouveau compte"
+#~ msgstr "Créer une archive..."
 
 #~ msgid "Checking scheduled transactions"
 #~ msgstr "Opérations planifiées terminées"
 
 #~ msgid "OFX files (*.ofx)"
-#~ msgstr "Fichier OFX"
+#~ msgstr "Fichiers OFX (*.ofx)"
 
 #~ msgid "Gnucash files (*.gnc)"
-#~ msgstr "Fichier Gnucash"
+#~ msgstr "Fichiers Gnucash (*.gnc)"
 
 #~ msgid "HBCI import"
-#~ msgstr "Importer"
+#~ msgstr "Importer HBCI"
 
 #~ msgid "Force the item in the payee"
-#~ msgstr "Créer un nouveau compte"
+#~ msgstr "Forcer le libellé du tiers"
 
 #~ msgid "CSV files"
-#~ msgstr "Enregistrer le fichier"
+#~ msgstr "Fichier CVS"
 
 #~ msgid "xxx"
 #~ msgstr "xxx"
