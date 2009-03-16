@@ -881,12 +881,12 @@ msgid ""
 "I repeat: if you ever forget your password, there is no coming back, we "
 "cannot help you."
 msgstr ""
-"Grisbi chiffre ses fichiers d'une manière sécurisée qui ne permet pas de "
-"retrouver le fichier original sans le mot de passe.  Cela signifie que si "
-"vous oubliez votre mot de passe, vous perdrez toutes vos données.\n"
+"Grisbi chiffre ses fichiers d'une manière totalement sécurisée qui ne permet pas de "
+"récupérer le fichier sans le mot de passe.  Cela signifie que si "
+"vous oubliez votre mot de passe, vous perdrez toutes vos données. C'est à utiliser avec précaution.\n"
 "\n"
-"Utilisez avec précaution. Je répète : si vous oubliez votre mot de passe, il "
-"n'y a pas de retour en arrière, ne venez pas vous plaindre auprès de nous."
+"Je répète : si jamais vous oubliez votre mot de passe, il n'y aura pas de solution, "
+"nous ne pourrons rien pour vous."
 
 #: src/dialog.c:63
 msgid "Account file is world readable."
@@ -4723,7 +4723,8 @@ msgstr "Décrypter le fichier"
 msgid ""
 "Please enter password to encrypt file\n"
 "'<tt>%s</tt>'"
-msgstr "Veuillez entrer le mot de passe pour crypter le fichier\n"
+msgstr ""
+"Veuillez entrer le mot de passe pour crypter le fichier\n"
 "« <tt>%s</tt> »"
 
 #: src/gsb_crypt.c:250
@@ -4731,7 +4732,8 @@ msgstr "Veuillez entrer le mot de passe pour crypter le fichier\n"
 msgid ""
 "Please enter password to decrypt file\n"
 "'<tt>%s</tt>'"
-msgstr "Veuillez entrer le mot de passe pour décrypter le fichier\n"
+msgstr ""
+"Veuillez entrer le mot de passe pour décrypter le fichier\n"
 "« <tt>%s</tt> »"
 
 #: src/gsb_crypt.c:260 src/plugins/openssl/openssl.c:250
@@ -9455,7 +9457,9 @@ msgstr "Paiement répété"
 msgid ""
 "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n"
 "\n"
-msgstr "<span foreground=\"red\">Saisir la date finale</span>"
+msgstr ""
+"<span weight=\"bold\" foreground=\"red\">Mot de passe incorrect !</span>\n"
+"\n"
 
 #: src/plugins/openssl/openssl.c:239
 #, fuzzy, c-format
