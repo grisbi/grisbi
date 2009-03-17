@@ -1995,9 +1995,20 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
 							     GSB_RIGHT );
-
 	    if ( element_suivant == -2 )
 		gsb_form_finish_edition();
+        /* pbiava the 03/15/09 fix the bug 494 */
+        else if ( element_suivant == TRANSACTION_FORM_DEBIT ||
+                        element_suivant == TRANSACTION_FORM_CREDIT )
+        {
+            do {
+                element_suivant = gsb_form_widget_next_element ( account_number,
+							     element_suivant,
+							     GSB_RIGHT );
+            } while ( element_suivant == TRANSACTION_FORM_DEBIT ||
+                        element_suivant == TRANSACTION_FORM_CREDIT );
+            gsb_form_widget_set_focus ( element_suivant );
+        }
 	    else
 		gsb_form_widget_set_focus ( element_suivant );
 	    return TRUE;

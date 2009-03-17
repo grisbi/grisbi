@@ -99,6 +99,7 @@ struct {
     gint display_message_ofx_security;
 
     /* import rules */
+    gint get_fusion_import_planed_transactions; /* TRUE if merge transactions imported with planned transactions */
     gint get_categorie_for_payee;   /* TRUE to automatically retrieve the category of the payee if it exists */
     gint get_fyear_by_value_date;	/* TRUE to get the fyear by value date, FALSE by date */
 

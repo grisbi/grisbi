@@ -1799,8 +1799,9 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	/* on ne fait le tour de la liste des opés que si la date de l'opé importée est inférieure à la dernière date */
 	/* de la liste */
 
-	if ( last_date_import && g_date_compare ( last_date_import,
-						  imported_transaction -> date ) >= 0 )
+	if ( (last_date_import && g_date_compare ( last_date_import,
+                        imported_transaction -> date ) >= 0) || 
+                        etat.get_fusion_import_planed_transactions )
 	{
 	    /* that transaction is before the last transaction in the account,
 	     * so check if the transaction already exists */
@@ -1957,22 +1958,38 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     GtkWidget *scrolled_window;
     GtkWidget *label;
     GtkWidget *frame;
+    gchar* tmpstr;
+    gchar* tmpstr2;
     gint action_derniere_ventilation;
 
-
-    dialog = gtk_dialog_new_with_buttons ( _("Confirmation of importation of transactions"),
+    /* pbiava the 03/17/2009 modifications pour la fusion des opérations */
+    if ( etat.get_fusion_import_planed_transactions )
+        tmpstr = g_strdup ( 
+                        _("Confirmation of transactions to be merged") );
+    else
+        tmpstr = g_strdup ( 
+                        _("Confirmation of importation of transactions") );
+    dialog = gtk_dialog_new_with_buttons ( tmpstr,
 					   GTK_WINDOW ( window ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_OK,
 					   GTK_RESPONSE_OK,
 					   NULL );
+    g_free ( tmpstr );
 
     gtk_window_set_default_size ( GTK_WINDOW ( dialog ), 770, 412 );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
     gtk_container_set_border_width ( GTK_CONTAINER(dialog), 12 );
 
-    label = gtk_label_new ( _("Some imported transactions seem to be already saved. Please select the transactions to import." ));
+    if ( etat.get_fusion_import_planed_transactions )
+        tmpstr = g_strdup (
+                        _("Please select the transactions to be merged") );
+    else
+        tmpstr = g_strdup ( 
+                        _("Some imported transactions seem to be already saved."
+                        "Please select the transactions to import.") );
+    label = gtk_label_new ( tmpstr );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog )-> vbox ),
 			 label,
@@ -1980,6 +1997,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 			 FALSE,
 			 10 );
     gtk_widget_show ( label );
+    g_free ( tmpstr );
 
     /* set the decoration */
     frame = gtk_frame_new (NULL);
@@ -2047,8 +2065,14 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 				 0 );
 	    gtk_widget_show ( ope_import -> bouton );
 
-	    gchar* tmpstr2 = gsb_real_get_string (ope_import -> montant);
-	    gchar* tmpstr = g_strdup_printf ( _("Transactions to import : %s ; %s ; %s"),
+	    tmpstr2 = gsb_real_get_string (ope_import -> montant);
+        if ( etat.get_fusion_import_planed_transactions )
+            tmpstr = g_strdup_printf ( _("Transactions to be merged : %s ; %s ; %s"),
+						      gsb_format_gdate ( ope_import -> date ),
+						      ope_import -> tiers,
+						      tmpstr2);
+        else
+            tmpstr = g_strdup_printf ( _("Transactions to import : %s ; %s ; %s"),
 						      gsb_format_gdate ( ope_import -> date ),
 						      ope_import -> tiers,
 						      tmpstr2);
@@ -2085,9 +2109,9 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
 	    if ( gsb_data_transaction_get_notes (ope_import -> ope_correspondante))
 	    {
-		gchar* tmpstr2 = gsb_real_get_string (gsb_data_transaction_get_amount (
+		tmpstr2 = gsb_real_get_string (gsb_data_transaction_get_amount (
 							ope_import -> ope_correspondante));
-		gchar* tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s ; %s"),
+		tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s ; %s"),
 					gsb_format_gdate ( gsb_data_transaction_get_date (ope_import -> ope_correspondante)),
 					tiers,
 					tmpstr2,
@@ -2098,9 +2122,9 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    }
 	    else
 	    {
-		gchar* tmpstr2 = gsb_real_get_string (gsb_data_transaction_get_amount (
+		tmpstr2 = gsb_real_get_string (gsb_data_transaction_get_amount (
 							ope_import -> ope_correspondante));
-		gchar* tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s"),
+		tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s"),
 							  gsb_format_gdate ( gsb_data_transaction_get_date (ope_import -> ope_correspondante)),
 							  tiers,
 							  tmpstr2);
@@ -2143,8 +2167,6 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	else
 	    action_derniere_ventilation = 1;
 
-
-
 	if ( ope_import -> bouton
 	     &&
 	     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( ope_import -> bouton )))
@@ -2156,6 +2178,15 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    if ( ope_import -> operation_ventilee )
 		action_derniere_ventilation = 0;
 	}
+    /* pbiava the 03/17/2009 sélection des opérations non cochées */
+    else if ( etat.get_fusion_import_planed_transactions && 
+                        ope_import -> ope_correspondante > 0 )
+    {
+        ope_import -> action = 0;
+        if ( ope_import -> operation_ventilee )
+		action_derniere_ventilation = 0;
+        ope_import -> ope_correspondante = 0;
+    }
 
 	list_tmp = list_tmp -> next;
     }
@@ -2483,6 +2514,12 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 							     mother_transaction_number );
     else
 	mother_transaction_number  = transaction_number;
+
+    /* pbiava the 03/17/2009 delete the found transaction */
+    if ( etat.get_fusion_import_planed_transactions && 
+                        imported_transaction -> ope_correspondante > 0 )
+        gsb_data_transaction_remove_transaction ( 
+                        imported_transaction -> ope_correspondante );
 
     return (transaction_number);
 }
@@ -3129,6 +3166,19 @@ GtkWidget *onglet_importation (void)
 			 FALSE,
 			 FALSE,
 			 12 );
+    gtk_widget_show ( button );
+
+    /* merge transactions imported with planned transactions */
+    button = gsb_automem_checkbutton_new ( 
+                        _("merge transactions imported with planned transactions"),
+                        &etat.get_fusion_import_planed_transactions, 
+                        NULL, NULL );
+    
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
+			 button,
+			 FALSE,
+			 FALSE,
+			 0 );
     gtk_widget_show ( button );
 
     /* automatically associate the category of the payee if it is possible */
