@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
+/* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -62,12 +62,16 @@
 static  void transaction_list_append_child ( gint transaction_number );
 static  CustomRecord *transaction_list_create_record ( gint transaction_number,
 						      gint line_in_transaction );
+static gint transaction_list_get_last_line ( gint nb_rows );
 static  gboolean transaction_list_update_white_child ( CustomRecord *white_record );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 extern GdkColor archive_background_color;
 extern GdkColor couleur_fond[2];
+extern gint display_one_line;
+extern gint display_three_lines;
+extern gint display_two_lines;
 extern gsb_real null_real;
 extern GSList *orphan_child_transactions;
 extern GdkColor split_background;
@@ -677,7 +681,8 @@ void transaction_list_filter ( gint account_number )
 		/* the row is shown, if it's the last row chowed of the transaction
 		 * we have to move the children to that row if they exist */
 		if ( record -> number_of_children && 
-		     record -> line_in_transaction == (gsb_data_account_get_nb_rows (account_number) - 1))
+		     record -> line_in_transaction == ( transaction_list_get_last_line (
+                        gsb_data_account_get_nb_rows (account_number) ) ) )
 		{
 		    /* ok, we are on the last visible line, there is some children and if before
 		     * the children were not associated to that row, we have to move them */
@@ -1813,4 +1818,76 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
     return TRUE;
 }
 
+
+/**
+ * return the last visible line
+ *
+ * \param nb_rows	the number of visibles lines (1, 2, 3 or 4)
+ *
+ * \return numero of the last line
+ * */
+gint transaction_list_get_last_line ( gint nb_rows )
+{
+
+    switch (nb_rows)
+    {
+	case 1:
+	    /* 1 line visible mode */
+		return display_one_line;
+	    break;
+	case 2:
+	    /* 2 lines visibles mode */
+	    switch (display_two_lines)
+	    {
+		case 0:
+		    /* show lines 1-2 */
+			return 1;
+		    break;
+		case 1:
+		    /* show lines 1-3 */
+			return 2;
+		    break;
+		case 2:
+		    /* show lines 1-4 */
+			return 3;
+		    break;
+		case 3:
+		    /* show lines 2-3 */
+			return 2;
+		    break;
+		case 4:
+		    /* show lines 2-4 */
+			return 3;
+		    break;
+		case 5:
+		    /* show lines 3-4 */
+			return 3;
+		    break;
+	    }
+	    break;
+	case 3:
+	    /* 3 lines visibles mode */
+	    switch (display_three_lines)
+	    {
+		case 0:
+		    /* show lines 1-2-3 */
+			return 2;
+		    break;
+		case 1:
+		    /* show lines 1-2-4 */
+			return 3;
+		    break;
+		case 2:
+		    /* show lines 1-3-4 */
+			return 3;
+		    break;
+		case 3:
+		    /* show lines 2-3-4 */
+			return 3;
+		    break;
+	    }
+	    break;
+    }
+    return 3;
+}
 

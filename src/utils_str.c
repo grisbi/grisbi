@@ -785,7 +785,6 @@ gboolean gsb_string_is_trouve ( const gchar *payee_name, const gchar *needle )
     if ( is_prefix && is_suffix )
     {
         tab_str = g_strsplit_set ( needle, "%*", 0 );
-        //~ printf ("prefix = TRUE suffix = TRUE - contenant :%s needle %s\n", payee_name, needle );
         is_prefix = g_str_has_prefix ( payee_name, tab_str[0] );
         is_suffix = g_str_has_suffix ( payee_name, tab_str[1] );
         if ( is_prefix && is_suffix )
@@ -796,7 +795,6 @@ gboolean gsb_string_is_trouve ( const gchar *payee_name, const gchar *needle )
     else if ( is_prefix && ! is_suffix )
     {
         tmpstr = gsb_string_supprime_joker ( needle );
-        //~ printf ("prefix = TRUE - contenant :%s needle %s\n", payee_name, tmpstr );
         is_prefix = g_str_has_prefix (payee_name, tmpstr);
         g_free (tmpstr);
         return is_prefix;
@@ -804,7 +802,6 @@ gboolean gsb_string_is_trouve ( const gchar *payee_name, const gchar *needle )
     else if ( is_suffix && ! is_prefix )
     {
         tmpstr = gsb_string_supprime_joker ( needle );
-        //~ printf ("suffix = TRUE - contenant :%s needle %s\n", payee_name, tmpstr );
         is_suffix = g_str_has_suffix (payee_name, tmpstr);
         g_free (tmpstr);
         return is_suffix;
