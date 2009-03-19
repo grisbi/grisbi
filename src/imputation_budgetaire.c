@@ -41,6 +41,7 @@
 #include "./gsb_form_widget.h"
 #include "./gtk_combofix.h"
 #include "./main.h"
+#include "./utils_str.h"
 #include "./utils.h"
 #include "./utils_buttons.h"
 #include "./transaction_list.h"
@@ -54,7 +55,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void appui_sur_ajout_imputation ( GtkTreeModel * model );
+static void appui_sur_ajout_imputation ( GtkTreeModel * model, GtkButton *button );
 static gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 					GtkSelectionData * selection_data );
 static GtkWidget *creation_barre_outils_ib ( void );
@@ -62,6 +63,7 @@ static gboolean edit_budgetary_line ( GtkTreeView * view );
 static void exporter_ib ( void );
 static void importer_ib ( void );
 static gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
+static void selectionne_sub_budgetary ( GtkTreeModel * model );
 /*END_STATIC*/
 
 
@@ -494,18 +496,20 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
 				  SPACIFY(_("Create a new budgetary line")));
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
+    g_object_set_data ( G_OBJECT (button), "type", GINT_TO_POINTER (1) );
 
     /* New sub budgetary line button */
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
 					       _("New sub\nbudgetary line"),
 					       "new-sub-ib.png",
-					       G_CALLBACK(appui_sur_ajout_sub_division),
+					       G_CALLBACK(appui_sur_ajout_imputation),
 					       budgetary_line_tree_model );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL(budgetary_line_tree_model), button, "selection" );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL(budgetary_line_tree_model), button, "sub-division" );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
 				  SPACIFY(_("Create a new sub-budgetary line")));
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
+    g_object_set_data ( G_OBJECT (button), "type", GINT_TO_POINTER (2) );
 
     /* Import button */
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -799,14 +803,80 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
  *
  * \param the model for the division
  */
-void appui_sur_ajout_imputation ( GtkTreeModel * model )
+void appui_sur_ajout_imputation ( GtkTreeModel * model, GtkButton *button )
 {
-    metatree_new_division ( model );
+    gint type;
+
+    type = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (button), "type" ) );
+    if ( type == 1 )
+        metatree_new_division ( model );
+    else
+    {
+        appui_sur_ajout_sub_division ( model );
+        selectionne_sub_budgetary ( model );
+    }
     sortie_edit_budgetary_line = FALSE;
     edit_budgetary_line ( GTK_TREE_VIEW ( budgetary_line_tree ) );
     if ( sortie_edit_budgetary_line )
         supprimer_division ( GTK_TREE_VIEW ( budgetary_line_tree ) );
     sortie_edit_budgetary_line = FALSE;
+}
+
+
+/**
+ * function to expand budgetary and select new sub-budgetary.
+ *
+ * \param the model for the division
+ */
+void selectionne_sub_budgetary ( GtkTreeModel * model )
+{
+    GtkTreeSelection * selection;
+    GtkTreeIter parent;
+    GtkTreeIter iter;
+    gchar * name;
+    gint budget_number = -1, sub_budget_number = -1;
+    gint i = 0,j = 0;
+
+    selection = gtk_tree_view_get_selection ( 
+                        GTK_TREE_VIEW (budgetary_line_tree) );
+    if ( selection && gtk_tree_selection_get_selected (
+                        selection, &model, &parent ) )
+    {
+	gtk_tree_model_get ( model, &parent,
+                        META_TREE_NO_DIV_COLUMN, &budget_number,
+                        META_TREE_NO_SUB_DIV_COLUMN, &sub_budget_number,
+                        -1 );
+    }
+
+    if ( !selection || budget_number <= 0 )
+        return;
+
+    if ( sub_budget_number > 0 )
+        return;
+
+    name =  my_strdup (_("New sub-budget"));
+    sub_budget_number = gsb_data_budget_get_sub_budget_number_by_name ( 
+                        budget_number, name, FALSE );
+    j = gtk_tree_model_iter_n_children ( model, &parent );
+    for (i = 0; i < j; i++ )
+    {
+        gint numero;
+
+        gtk_tree_model_iter_nth_child ( model, &iter, &parent, i );
+        gtk_tree_model_get ( model, &iter,
+                        META_TREE_NO_SUB_DIV_COLUMN, &numero,
+                        -1 );
+        if ( numero == sub_budget_number )
+            break;
+    }
+    GtkTreePath * path = gtk_tree_model_get_path ( model, &iter );
+    gtk_tree_view_expand_to_path ( GTK_TREE_VIEW (budgetary_line_tree), path );
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (budgetary_line_tree) );
+    gtk_tree_selection_select_path ( selection, path );
+    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (budgetary_line_tree), path,
+                        NULL, TRUE, 0.5, 0.5 );
+    gtk_tree_path_free ( path );
+    g_free ( name );
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */

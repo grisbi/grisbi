@@ -34,6 +34,7 @@
 #include "./gsb_file.h"
 #include "./gsb_file_others.h"
 #include "./main.h"
+#include "./utils_str.h"
 #include "./utils.h"
 #include "./utils_buttons.h"
 #include "./transaction_list.h"
@@ -45,7 +46,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void appui_sur_ajout_category ( GtkTreeModel * model );
+static void appui_sur_ajout_category ( GtkTreeModel * model, GtkButton *button );
 static gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 			       GtkSelectionData * selection_data );
 static GtkWidget *creation_barre_outils_categ ( void );
@@ -53,6 +54,7 @@ static gboolean edit_category ( GtkTreeView * view );
 static gboolean exporter_categ ( GtkButton * widget, gpointer data );
 static void importer_categ ( void );
 static gboolean popup_category_view_mode_menu ( GtkWidget * button );
+static void selectionne_sub_category ( GtkTreeModel * model );
 /*END_STATIC*/
 
 
@@ -456,29 +458,31 @@ GtkWidget *creation_barre_outils_categ ( void )
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
 					       _("New\ncategory"),
 					       "new-categ.png",
-					       G_CALLBACK( appui_sur_ajout_category ),
+					       G_CALLBACK ( appui_sur_ajout_category ),
 					       categ_tree_model );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
 				  SPACIFY(_("Create a new category")));
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
+    g_object_set_data ( G_OBJECT (button), "type", GINT_TO_POINTER (1) );
 
     /* New sub category button */
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
 					       _("New sub\ncategory"),
 					       "new-sub-categ.png",
-					       G_CALLBACK(appui_sur_ajout_sub_division),
+					       G_CALLBACK (appui_sur_ajout_category),
 					       categ_tree_model );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL(categ_tree_model), button, "selection" );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL(categ_tree_model), button, "sub-division" );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
 				  SPACIFY(_("Create a new sub-category")));
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
+    g_object_set_data ( G_OBJECT (button), "type", GINT_TO_POINTER (2) );
 
     /* Import button */
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_OPEN,
 					   _("Import"),
-					   G_CALLBACK(importer_categ),
+					   G_CALLBACK (importer_categ),
 					   NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
 				  SPACIFY(_("Import a Grisbi category file (.cgsb)")));
@@ -497,7 +501,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     /* Delete button */
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_DELETE, _("Delete"),
-					   G_CALLBACK(supprimer_division), arbre_categ );
+					   G_CALLBACK (supprimer_division), arbre_categ );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL(categ_tree_model), button, "selection" );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
 				  SPACIFY(_("Delete selected category")));
@@ -506,7 +510,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     /* Properties button */
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_PROPERTIES, _("Properties"),
-					   G_CALLBACK(edit_category), arbre_categ );
+					   G_CALLBACK (edit_category), arbre_categ );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL(categ_tree_model), button, "selection" );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
 				  SPACIFY(_("Edit selected category")));
@@ -516,7 +520,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
 						GTK_STOCK_SELECT_COLOR,
 						_("View"),
-						G_CALLBACK(popup_category_view_mode_menu),
+						G_CALLBACK (popup_category_view_mode_menu),
 						NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
 				  SPACIFY(_("Change view mode")));
@@ -764,14 +768,79 @@ gboolean edit_category ( GtkTreeView * view )
  *
  * \param the model for the division
  */
-void appui_sur_ajout_category ( GtkTreeModel * model )
+void appui_sur_ajout_category ( GtkTreeModel * model, GtkButton *button )
 {
-    metatree_new_division ( model );
+    gint type;
+
+    type = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (button), "type" ) );
+    if ( type == 1 )
+        metatree_new_division ( model );
+    else
+    {
+        appui_sur_ajout_sub_division ( model );
+        selectionne_sub_category ( model );
+    }
     sortie_edit_category = FALSE;
     edit_category ( GTK_TREE_VIEW ( arbre_categ ) );
     if ( sortie_edit_category )
         supprimer_division ( GTK_TREE_VIEW ( arbre_categ ) );
     sortie_edit_category = FALSE;
+}
+
+
+/**
+ * function to expand category and select new sub-category.
+ *
+ * \param the model for the division
+ */
+void selectionne_sub_category ( GtkTreeModel * model )
+{
+    GtkTreeSelection * selection;
+    GtkTreeIter parent;
+    GtkTreeIter iter;
+    gchar * name;
+    gint category_number = -1, sub_category_number = -1;
+    gint i = 0,j = 0;
+
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (arbre_categ) );
+    if ( selection && gtk_tree_selection_get_selected (
+                        selection, &model, &parent ) )
+    {
+	gtk_tree_model_get ( model, &parent,
+                        META_TREE_NO_DIV_COLUMN, &category_number,
+                        META_TREE_NO_SUB_DIV_COLUMN, &sub_category_number,
+                        -1 );
+    }
+
+    if ( !selection || category_number <= 0 )
+        return;
+
+    if ( sub_category_number > 0 )
+        return;
+
+    name =  my_strdup (_("New sub-category"));
+    sub_category_number = gsb_data_category_get_sub_category_number_by_name ( 
+                        category_number, name, FALSE );
+    j = gtk_tree_model_iter_n_children ( model, &parent );
+    for (i = 0; i < j; i++ )
+    {
+        gint numero;
+
+        gtk_tree_model_iter_nth_child ( model, &iter, &parent, i );
+        gtk_tree_model_get ( model, &iter,
+                        META_TREE_NO_SUB_DIV_COLUMN, &numero,
+                        -1 );
+        if ( numero == sub_category_number )
+            break;
+    }
+    GtkTreePath * path = gtk_tree_model_get_path ( model, &iter );
+    gtk_tree_view_expand_to_path ( GTK_TREE_VIEW (arbre_categ), path );
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (arbre_categ) );
+    gtk_tree_selection_select_path ( selection, path );
+    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW (arbre_categ), path,
+                        NULL, TRUE, 0.5, 0.5 );
+    gtk_tree_path_free ( path );
+    g_free ( name );
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */
