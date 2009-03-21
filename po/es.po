@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-19 23:08+0100\n"
-"PO-Revision-Date: 2009-02-15 12:03+0100\n"
+"PO-Revision-Date: 2009-03-21 17:13+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:196
 msgid "Closed liabilities accounts"
@@ -8432,21 +8432,18 @@ msgid "The id of the imported and chosen accounts are different"
 msgstr "El id de las cuentas importada y elegida son distintos"
 
 #: src/import.c:1969
-#, fuzzy
 msgid "Confirmation of transactions to be merged"
-msgstr "Confirmación de borrado de una transacción"
+msgstr "Confirmación de las transacciones a unir"
 
 #: src/import.c:1972
 msgid "Confirmation of importation of transactions"
 msgstr "Confirmación de la importación de transacciones"
 
 #: src/import.c:1988
-#, fuzzy
 msgid "Please select the transactions to be merged"
-msgstr "Usar las transacciones seleccionadas como una plantilla"
+msgstr "Por favor, elija las transacciones a unir"
 
 #: src/import.c:1991
-#, fuzzy
 msgid ""
 "Some imported transactions seem to be already saved.Please select the "
 "transactions to import."
@@ -8455,7 +8452,7 @@ msgstr ""
 "Por favor seleccione las transacciones a importar."
 
 #: src/import.c:2071
-#, fuzzy, c-format
+#, c-format
 msgid "Transactions to be merged : %s ; %s ; %s"
 msgstr "Transacciones a importar : %s ; %s ; %s"
 
@@ -8526,9 +8523,8 @@ msgstr ""
 "Umbral para cuadrar la fecha de transacción en la importación (en días)"
 
 #: src/import.c:3174
-#, fuzzy
 msgid "merge transactions imported with planned transactions"
-msgstr "Convertir la transacción en un transacción programada"
+msgstr "Unir las transacciones importadas con las transacciones planeadas"
 
 #: src/import.c:3187
 msgid "automatically associate the category of the payee if it is possible"
@@ -9725,14 +9721,12 @@ msgid "Remove orphan payees"
 msgstr "Eliminar terceros huérfanos"
 
 #: src/tiers_onglet.c:344
-#, fuzzy
 msgid "Manage payees"
-msgstr "Página principal"
+msgstr "Administrar terceras partes"
 
 #: src/tiers_onglet.c:348 src/tiers_onglet.c:730
-#, fuzzy
 msgid "Manage the payees"
-msgstr "Detallar terceros"
+msgstr "Administrar los terceros"
 
 #: src/tiers_onglet.c:375
 msgid ""
@@ -9779,20 +9773,24 @@ msgid ""
 "\n"
 "It is better to make a backup of your Grisbi file if you have not yet done. "
 msgstr ""
+"Este asistente le ayudará a simplicar la lista de terceras partes.\n"
+"\n"
+"Tenga cuidado porque los cambios que haga no tendrán vuelta atrás.\n"
+"\n"
+"Es mejor que haga una copia de seguridad de su fichero Grisbi si aun no tiene una. "
 
 #: src/tiers_onglet.c:864
 msgid "One payee was replaced with a new one."
-msgstr ""
+msgstr "Se ha reemplazado una tercera parte con otra."
 
 #: src/tiers_onglet.c:868
 #, c-format
 msgid "%d payees were replaced with a new one."
-msgstr ""
+msgstr "%d terceras partes se reemplazaron con una nueva."
 
 #: src/tiers_onglet.c:923
-#, fuzzy
 msgid "Choose a payee"
-msgstr "Elija un fichero"
+msgstr "Elija una tercera parte"
 
 #: src/tiers_onglet.c:925
 msgid ""
@@ -9802,67 +9800,65 @@ msgid ""
 "   %string, string%\n"
 "   %string%, string_1%string_2"
 msgstr ""
+"Elija una tercera parte de la lista que modificó para que sirva como base para su búsqueda.\n"
+"Puede usar % como comodín. Las plantillas permitidas son:\n"
+"   %string, string%\n"
+"   %string%, string_1%string_2"
 
 #: src/tiers_onglet.c:946
-#, fuzzy
 msgid "Enter the new payee"
-msgstr "Introduzca el nombre de la nueva tercera parte"
+msgstr "Introduzca la nueva tercera parte"
 
 #: src/tiers_onglet.c:948
-#, fuzzy
 msgid "Enter the name of the new payee"
-msgstr "Introduzca el nombre de la nueva línea subresupuestaria"
+msgstr "Introduzca el nombre de la nueva tercera parte"
 
 #: src/tiers_onglet.c:963
-#, fuzzy
 msgid "Options"
-msgstr "Salidas"
+msgstr "Opciones"
 
 #: src/tiers_onglet.c:965
 msgid "Extracting a number and save it in the field No Cheque/Virement"
-msgstr ""
+msgstr "Extrayendo un número y guardándolo en el campo Sin Cheque/Transferencia"
 
 #: src/tiers_onglet.c:971
 msgid "Save the payees in the notes"
-msgstr ""
+msgstr "Guardar las terceras partes en las notas"
 
 #: src/tiers_onglet.c:1004
 msgid "List of payees who will be modified"
-msgstr ""
+msgstr "Lista de terceras partes que serán modificadas"
 
 #: src/tiers_onglet.c:1050
 msgid "Select"
 msgstr "Seleccionar"
 
 #: src/tiers_onglet.c:1058
-#, fuzzy
 msgid "Payee number"
-msgstr "número de cheque"
+msgstr "Número de tercero"
 
 #: src/tiers_onglet.c:1068
-#, fuzzy
 msgid "Payee name"
-msgstr "Vista de terceros"
+msgstr "Nombre de la tercera parte"
 
 #: src/tiers_onglet.c:1084
 msgid "Total number of payees :"
-msgstr ""
+msgstr "Número total de terceras partes :"
 
 #. ajoute le nombre de tiers sÃ©lectionnÃ©s
 #: src/tiers_onglet.c:1101
-#, fuzzy
 msgid "Number of selected payees :"
-msgstr "Borrar el tercero seleccionado"
+msgstr "Número de terceros seleccionados :"
 
 #: src/tiers_onglet.c:1204
 #, c-format
 msgid "Payee sought : %s"
-msgstr ""
+msgstr "Tercera parte buscada : %s"
 
 #: src/tiers_onglet.c:1210
-#, fuzzy, c-format
+#, c-format
 msgid "New payee : %s"
-msgstr "Nuevo tercero #%d"
+msgstr "Nuevo tercero : %s"
 
 #: src/tiers_onglet.c:1288
 #, c-format
@@ -9871,6 +9867,9 @@ msgid ""
 "\n"
 "Are you sure?"
 msgstr ""
+"Está a punto de reemplazar una tercera parte cuyo nombre contiene %s por %s\n"
+"\n"
+"¿Está seguro?"
 
 #: src/tiers_onglet.c:1296
 #, c-format
@@ -9879,15 +9878,17 @@ msgid ""
 "\n"
 "Are you sure?"
 msgstr ""
+"Está a punto de reemplazar las terceras partes cuyos nombres contienen %s por %s\n"
+"\n"
+"¿Está seguro?"
 
 #: src/tiers_onglet.c:1460
-#, fuzzy
 msgid "You must choose a payee for searching."
-msgstr "Por favor, elija un nombre para el fichero"
+msgstr "Debe elegir un tercero para la búsqueda."
 
 #: src/tiers_onglet.c:1464
 msgid "Beware you don't use one of models for the research."
-msgstr ""
+msgstr "Tenga cuidado y no use uno de los modelos para la búsqueda."
 
 #: src/tip.c:78 src/tip.c:109 src/tip.c:116
 msgid "Did you know that..."
