@@ -339,9 +339,8 @@ GtkWidget *creation_barre_outils_tiers ( void )
 				  SPACIFY(_("Change view mode")));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
-						GTK_STOCK_FIND_AND_REPLACE,
-						_("Manage payees"),
+	button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+						_("Manage payees"), "payeesmg.png",
 						G_CALLBACK( appui_sur_manage_tiers ),
 						NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
@@ -731,7 +730,7 @@ void appui_sur_manage_tiers ( void )
 				    _("This wizard will help you to simplify the list of payees.\n\n"
                     "Warning the changes you will make be irreparable.\n\n"
                     "It is better to make a backup of your Grisbi file if you have not yet done. "),
-				    "payees.png",
+				    "payeeslg.png",
 				    NULL );
 
     gsb_assistant_add_page ( assistant,

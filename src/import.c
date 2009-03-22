@@ -1801,7 +1801,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	/* de la liste */
 
 	if ( (last_date_import && g_date_compare ( last_date_import,
-                        imported_transaction -> date ) >= 0) || 
+                        imported_transaction -> date ) >= 0) ||
                         etat.get_fusion_import_planed_transactions )
 	{
 	    /* that transaction is before the last transaction in the account,
@@ -1965,10 +1965,10 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
     /* pbiava the 03/17/2009 modifications pour la fusion des opérations */
     if ( etat.get_fusion_import_planed_transactions )
-        tmpstr = g_strdup ( 
+        tmpstr = g_strdup (
                         _("Confirmation of transactions to be merged") );
     else
-        tmpstr = g_strdup ( 
+        tmpstr = g_strdup (
                         _("Confirmation of importation of transactions") );
     dialog = gtk_dialog_new_with_buttons ( tmpstr,
 					   GTK_WINDOW ( window ),
@@ -1987,7 +1987,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
         tmpstr = g_strdup (
                         _("Please select the transactions to be merged") );
     else
-        tmpstr = g_strdup ( 
+        tmpstr = g_strdup (
                         _("Some imported transactions seem to be already saved."
                         "Please select the transactions to import.") );
     label = gtk_label_new ( tmpstr );
@@ -2180,7 +2180,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 		action_derniere_ventilation = 0;
 	}
     /* pbiava the 03/17/2009 sélection des opérations non cochées */
-    else if ( etat.get_fusion_import_planed_transactions && 
+    else if ( etat.get_fusion_import_planed_transactions &&
                         ope_import -> ope_correspondante > 0 )
     {
         ope_import -> action = 0;
@@ -2314,15 +2314,15 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     else if ( etat.get_categorie_for_payee )
     {
         /* pbiava the 02/26/2009 associate category to the tiers */
-        last_transaction_number = gsb_form_transactions_look_for_last_party ( 
-                                    payee_number, transaction_number, 
+        last_transaction_number = gsb_form_transactions_look_for_last_party (
+                                    payee_number, transaction_number,
                                     account_number );
         category_number = gsb_data_transaction_get_category_number (
                                     last_transaction_number );
         devel_debug_int (category_number);
         gsb_data_transaction_set_category_number ( transaction_number,
                                 category_number );
-        category_number = gsb_data_transaction_get_sub_category_number ( 
+        category_number = gsb_data_transaction_get_sub_category_number (
                                 last_transaction_number );
         gsb_data_transaction_set_sub_category_number ( transaction_number,
                                 category_number );
@@ -2517,9 +2517,9 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	mother_transaction_number  = transaction_number;
 
     /* pbiava the 03/17/2009 delete the found transaction */
-    if ( etat.get_fusion_import_planed_transactions && 
+    if ( etat.get_fusion_import_planed_transactions &&
                         imported_transaction -> ope_correspondante > 0 )
-        gsb_data_transaction_remove_transaction ( 
+        gsb_data_transaction_remove_transaction (
                         imported_transaction -> ope_correspondante );
 
     return (transaction_number);
@@ -3129,29 +3129,26 @@ gchar * unique_imported_name ( gchar * account_name )
 /* *******************************************************************************/
 GtkWidget *onglet_importation (void)
 {
-    GtkWidget *vbox_pref;
+    GtkWidget *vbox_pref, *paddingbox;
     GtkWidget *hbox;
     GtkWidget *label;
     GtkWidget *button;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Import"),
 					       "importlg.png" );
-    hbox = gtk_hbox_new ( FALSE,
-			  0 );
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-			 hbox,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( _("Threshold while matching transaction date during import (in days)"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 label,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( label );
+    /* Dataimport settings */
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
+					    _("Import settings"));
+
+	/* hbox for label and range-selection */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
+			 FALSE, FALSE, 0 );
+
+	label = gtk_label_new ( _("Threshold while matching transaction date during import (in days)"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
+			 FALSE, FALSE, 0 );
 
     button = gtk_spin_button_new_with_range ( 0.0,
 					      100.0,
@@ -3162,38 +3159,24 @@ GtkWidget *onglet_importation (void)
 		       "value-changed",
 		       G_CALLBACK ( changement_valeur_echelle_recherche_date_import ),
 		       NULL );
-    gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 button,
-			 FALSE,
-			 FALSE,
-			 12 );
-    gtk_widget_show ( button );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button,
+			 FALSE, FALSE, 0 );
 
     /* merge transactions imported with planned transactions */
-    button = gsb_automem_checkbutton_new ( 
+    button = gsb_automem_checkbutton_new (
                         _("merge transactions imported with planned transactions"),
-                        &etat.get_fusion_import_planed_transactions, 
+                        &etat.get_fusion_import_planed_transactions,
                         NULL, NULL );
-    
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-			 button,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
+			 FALSE, FALSE, 0 );
 
     /* automatically associate the category of the payee if it is possible */
-    button = gsb_automem_checkbutton_new ( 
+    button = gsb_automem_checkbutton_new (
                         _("automatically associate the category of the payee if it is possible"),
-                        &etat.get_categorie_for_payee, 
+                        &etat.get_categorie_for_payee,
                         NULL, NULL );
-    
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-			 button,
-			 FALSE,
-			 FALSE,
-			 0 );
-    gtk_widget_show ( button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
+			 FALSE, FALSE, 0 );
 
     /* propose to choose between getting the fyear by value date or by date */
     gsb_automem_radiobutton_new_with_title ( vbox_pref,
@@ -3202,6 +3185,8 @@ GtkWidget *onglet_importation (void)
 					     _("According to the value date (if fail, try with the date)"),
 					     &etat.get_fyear_by_value_date,
 					     NULL, NULL );
+
+	gtk_widget_show_all ( vbox_pref );
 
     return ( vbox_pref );
 }
