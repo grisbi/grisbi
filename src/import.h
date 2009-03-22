@@ -111,7 +111,18 @@ struct import_format {
 };
 
 
+/* structure définissant une association entre un tiers
+ * et une chaine de recherche contenant un ou des jokers (%)
+ */
+struct struct_payee_asso
+{
+    gint    payee_number;
+    gchar   *search_str;
+};
+
 /* START_DECLARATION */
+gint gsb_import_associations_list_append_assoc ( gint payee_number, 
+                        const gchar *search_str );
 gboolean gsb_import_by_rule ( gint rule );
 void gsb_import_register_account ( struct struct_compte_importation * account );
 void gsb_import_register_account_error ( struct struct_compte_importation * account );

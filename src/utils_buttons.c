@@ -39,15 +39,22 @@ extern GtkWidget *window;
 
 GtkWidget * new_stock_image_label ( GsbButtonStyle style, const gchar * stock_id, const gchar * name )
 {
-    GtkWidget * vbox, * label, * image;
+    GtkWidget * vbox, *hbox, * label, * image;
 
     vbox = gtk_vbox_new ( FALSE, 0 );
+    hbox = gtk_hbox_new ( FALSE, 5 );
 
     /* Define image */
     if ( style == GSB_BUTTON_ICON || style == GSB_BUTTON_BOTH )
     {
 	image = gtk_image_new_from_stock ( stock_id, GTK_ICON_SIZE_LARGE_TOOLBAR );
 	gtk_box_pack_start ( GTK_BOX(vbox), image, TRUE, TRUE, 0 );
+    }
+    else if (style == GSB_BUTTON_BOTH_HORIZ )
+    {
+        image = gtk_image_new_from_stock ( stock_id, 
+                        GTK_ICON_SIZE_SMALL_TOOLBAR );
+        gtk_box_pack_start ( GTK_BOX(hbox), image, TRUE, TRUE, 0 );
     }
 
     /* Define label */
@@ -58,7 +65,19 @@ GtkWidget * new_stock_image_label ( GsbButtonStyle style, const gchar * stock_id
 	gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_CENTER );
 	gtk_box_pack_start ( GTK_BOX(vbox), label, TRUE, TRUE, 0 );
     }
-    
+    else if (style == GSB_BUTTON_BOTH_HORIZ )
+    {
+        label = gtk_label_new ( name );
+        gtk_label_set_text_with_mnemonic ( GTK_LABEL(label), name );
+        gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_CENTER );
+        gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 0 );
+    }
+
+    if (style == GSB_BUTTON_BOTH_HORIZ )
+    {
+        gtk_box_pack_start ( GTK_BOX(vbox), hbox, TRUE, TRUE, 0 );
+    }
+
     return vbox;
 }
 
@@ -67,9 +86,10 @@ GtkWidget * new_stock_image_label ( GsbButtonStyle style, const gchar * stock_id
 
 GtkWidget * new_image_label ( GsbButtonStyle style, const gchar * image_name, const gchar * name )
 {
-    GtkWidget * vbox, * label, * image;
+    GtkWidget * vbox, *hbox, * label, * image;
 
     vbox = gtk_vbox_new ( FALSE, 0 );
+    hbox = gtk_hbox_new ( FALSE, 0 );
 
     /* Define image */
     if ( style == GSB_BUTTON_ICON || style == GSB_BUTTON_BOTH )
@@ -77,6 +97,12 @@ GtkWidget * new_image_label ( GsbButtonStyle style, const gchar * image_name, co
 	image = gtk_image_new_from_file (g_build_filename (PIXMAPS_DIR,
 							   image_name, NULL));
 	gtk_box_pack_start ( GTK_BOX(vbox), image, TRUE, TRUE, 0 );
+    }
+    else if (style == GSB_BUTTON_BOTH_HORIZ )
+    {
+        image = gtk_image_new_from_file (g_build_filename (PIXMAPS_DIR,
+							   image_name, NULL));
+        gtk_box_pack_start ( GTK_BOX(hbox), image, TRUE, TRUE, 0 );
     }
 
     /* Define label */
@@ -88,7 +114,19 @@ GtkWidget * new_image_label ( GsbButtonStyle style, const gchar * image_name, co
 	gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_CENTER );
 	gtk_box_pack_start ( GTK_BOX(vbox), label, TRUE, TRUE, 0 );
     }
+    else if (style == GSB_BUTTON_BOTH_HORIZ )
+    {
+        label = gtk_label_new ( name );
+        gtk_label_set_text_with_mnemonic ( GTK_LABEL(label), name );
+        gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
+        gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_CENTER );
+        gtk_box_pack_start ( GTK_BOX(hbox), label, TRUE, TRUE, 0 );
+    }
 
+    if (style == GSB_BUTTON_BOTH_HORIZ )
+    {
+        gtk_box_pack_start ( GTK_BOX(vbox), hbox, TRUE, TRUE, 0 );
+    }
     gtk_widget_show_all ( vbox );
 
     return vbox;

@@ -763,9 +763,11 @@ void appui_sur_manage_tiers ( void )
         GtkTreeSelection *selection;
         GtkTreeIter iter;
         GtkTreePath *path = NULL;
-        gint nb_removed;
+        GtkComboFix *combo;
+        const gchar *str_cherche;
         gchar *tmpstr;
         gint new_payee_number = 0;
+        gint nb_removed;
         gboolean save_notes = FALSE;
         gboolean extract_num = FALSE;
         gboolean valid = FALSE;
@@ -776,6 +778,10 @@ void appui_sur_manage_tiers ( void )
         new_payee_number = gsb_data_payee_get_number_by_name (
                         gtk_entry_get_text ( g_object_get_data (
                         G_OBJECT (assistant), "new_payee") ), TRUE );
+        /* on sauvegarde la chaine de recherche */
+        combo = g_object_get_data ( G_OBJECT (assistant), "payee");
+        str_cherche = gtk_combofix_get_text ( combo );
+        gsb_data_payee_set_search_string ( new_payee_number, str_cherche );
         extract_num = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (
                         g_object_get_data ( G_OBJECT (assistant),
                         "check_option_1" ) ) );
@@ -864,7 +870,8 @@ void appui_sur_manage_tiers ( void )
 		}
 		else
 		{
-			tmpstr = g_strdup_printf ( _("%d payees were replaced with a new one."), nb_removed);
+			tmpstr = g_strdup_printf ( _("%d payees were replaced with a new one."), 
+                        nb_removed);
 		}
         dialogue (tmpstr);
         g_free (tmpstr);
@@ -1224,7 +1231,6 @@ static gboolean gsb_assistant_payees_enter_page_3 ( GtkWidget *assistant )
         tmpstr = gsb_data_payee_get_name ( payee_number, FALSE );
         if ( gsb_string_is_trouve ( tmpstr, str_cherche ) )
         {
-            //~ printf ("payee : %s\n", tmpstr );
             if (!g_slist_find (sup_payees, GINT_TO_POINTER (payee_number)))
             {
                 sup_payees = g_slist_append ( sup_payees,
@@ -1254,7 +1260,6 @@ static gboolean gsb_assistant_payees_enter_page_3 ( GtkWidget *assistant )
         gtk_label_set_text ( GTK_LABEL (label ),
                         g_strdup_printf ("%d", i ) );
         g_object_set_data ( G_OBJECT (assistant), "sup_payees", sup_payees );
-        //~ printf ( "nombre de tiers trouvés = %d\n", g_slist_length (sup_payees) );
     }
     return FALSE;
 }
@@ -1277,14 +1282,13 @@ static gboolean gsb_assistant_payees_enter_page_finish ( GtkWidget *assistant )
     devel_debug ("Enter page finish");
     treeview = g_object_get_data ( G_OBJECT (assistant), "treeview" );
     sup_payees = g_object_get_data ( G_OBJECT (assistant), "sup_payees" );
-    //~ printf ( "nombre de tiers à supprimer = %d\n", g_slist_length (sup_payees) );
     combo = g_object_get_data ( G_OBJECT (assistant), "payee");
     str_cherche = gtk_combofix_get_text ( combo );
     entry = g_object_get_data ( G_OBJECT (assistant), "new_payee");
 	if ( g_slist_length (sup_payees) == 1 )
 	{
     tmpstr = g_strdup_printf (
-                        _("You are about to replace one payee whose names contain %s by %s\n\n"
+                        _("You are about to replace one payee which name contain %s by %s\n\n"
                         "Are you sure?"),
                         gsb_string_remplace_joker ( str_cherche, "..." ),
                         gtk_entry_get_text ( entry) );

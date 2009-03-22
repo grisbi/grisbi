@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-19 23:08+0100\n"
+"POT-Creation-Date: 2009-03-22 19:34+0100\n"
 "PO-Revision-Date: 2009-03-05 20:37+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -421,11 +421,11 @@ msgstr ""
 "et choisissez le tableau d'estimation. "
 
 #. set the choice of account
-#: src/balance_estimate_tab.c:205 src/categories_onglet.c:152
+#: src/balance_estimate_tab.c:205 src/categories_onglet.c:153
 #: src/etats_config.c:683 src/gsb_assistant_reconcile_config.c:401
 #: src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_payment_method_config.c:159 src/gsb_reconcile_config.c:96
-#: src/gsb_scheduler_list.c:331 src/imputation_budgetaire.c:165
+#: src/gsb_scheduler_list.c:331 src/imputation_budgetaire.c:166
 #: src/tiers_onglet.c:227
 msgid "Account"
 msgstr "Compte"
@@ -439,32 +439,32 @@ msgstr "Tableau d'estimation"
 #: src/export_csv.c:747 src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_form.c:1281 src/gsb_form_widget.c:400 src/gsb_reconcile.c:154
 #: src/gsb_scheduler_list.c:331 src/gsb_transactions_list.c:143
-#: src/import.c:2920 src/import_csv.c:78 src/traitement_variables.c:74
+#: src/import.c:2974 src/import_csv.c:78 src/traitement_variables.c:74
 msgid "Date"
 msgstr "Date"
 
 #. Description entry
 #: src/balance_estimate_tab.c:300 src/etats_onglet.c:287
-#: src/tiers_onglet.c:592
+#: src/tiers_onglet.c:591
 msgid "Description"
 msgstr "Description"
 
 #. Debit method_ptr
-#: src/balance_estimate_tab.c:311 src/categories_onglet.c:672
+#: src/balance_estimate_tab.c:311 src/categories_onglet.c:673
 #: src/export_csv.c:768 src/gsb_form.c:1315 src/gsb_form_widget.c:404
 #: src/gsb_payment_method_config.c:311 src/gsb_payment_method_config.c:382
 #: src/gsb_payment_method_config.c:1070 src/gsb_transactions_list.c:147
-#: src/import_csv.c:89 src/imputation_budgetaire.c:706
+#: src/import_csv.c:89 src/imputation_budgetaire.c:707
 #: src/traitement_variables.c:78
 msgid "Debit"
 msgstr "Débit"
 
 #. Credit method_ptr
-#: src/balance_estimate_tab.c:325 src/categories_onglet.c:672
+#: src/balance_estimate_tab.c:325 src/categories_onglet.c:673
 #: src/export_csv.c:765 src/gsb_form.c:1322 src/gsb_form_widget.c:408
 #: src/gsb_payment_method_config.c:318 src/gsb_payment_method_config.c:395
 #: src/gsb_payment_method_config.c:1066 src/gsb_transactions_list.c:148
-#: src/imputation_budgetaire.c:706 src/traitement_variables.c:79
+#: src/imputation_budgetaire.c:707 src/traitement_variables.c:79
 msgid "Credit"
 msgstr "Crédit"
 
@@ -491,8 +491,8 @@ msgstr "Nouvelle opération"
 msgid "Blank the form to create a new transaction"
 msgstr "Effacer le formulaire pour créer une nouvelle opération"
 
-#: src/barre_outils.c:107 src/barre_outils.c:453 src/categories_onglet.c:502
-#: src/etats_onglet.c:173 src/imputation_budgetaire.c:535
+#: src/barre_outils.c:107 src/barre_outils.c:453 src/categories_onglet.c:503
+#: src/etats_onglet.c:173 src/imputation_budgetaire.c:536
 #: src/tiers_onglet.c:308
 msgid "Delete"
 msgstr "Supprimer"
@@ -527,8 +527,8 @@ msgstr "Imprimer"
 msgid "Print the transactions list"
 msgstr "Imprimer la liste des opérations"
 
-#: src/barre_outils.c:153 src/barre_outils.c:513 src/categories_onglet.c:521
-#: src/imputation_budgetaire.c:556 src/tiers_onglet.c:335
+#: src/barre_outils.c:153 src/barre_outils.c:513 src/categories_onglet.c:522
+#: src/imputation_budgetaire.c:557 src/tiers_onglet.c:335
 msgid "View"
 msgstr "Affichage"
 
@@ -556,8 +556,8 @@ msgstr "Mode « deux lignes »"
 msgid "Three lines view"
 msgstr "Mode « trois lignes »"
 
-#: src/barre_outils.c:237 src/categories_onglet.c:565
-#: src/imputation_budgetaire.c:600 src/tiers_onglet.c:418
+#: src/barre_outils.c:237 src/categories_onglet.c:566
+#: src/imputation_budgetaire.c:601 src/tiers_onglet.c:417
 msgid "Complete view"
 msgstr "Vue complète"
 
@@ -651,47 +651,47 @@ msgstr "Affiche les opérations rapprochées"
 msgid "Display reconciled transactions"
 msgstr "Montrer les opérations rapprochées (Alt+R)"
 
-#: src/categories_onglet.c:140 src/etats_affiche.c:2426 src/etats_config.c:675
+#: src/categories_onglet.c:141 src/etats_affiche.c:2426 src/etats_config.c:675
 #: src/export_csv.c:777 src/gsb_transactions_list.c:154 src/import_csv.c:84
 #: src/meta_categories.c:64 src/traitement_variables.c:85
 msgid "Category"
 msgstr "Catégorie"
 
-#: src/categories_onglet.c:161 src/export_csv.c:774 src/gsb_reconcile.c:157
+#: src/categories_onglet.c:162 src/export_csv.c:774 src/gsb_reconcile.c:157
 #: src/gsb_scheduler_list.c:332 src/gsb_transactions_list.c:149
 #: src/gsb_transactions_list.c:2867 src/import_csv.c:86
-#: src/imputation_budgetaire.c:174 src/tiers_onglet.c:236
+#: src/imputation_budgetaire.c:175 src/tiers_onglet.c:236
 #: src/traitement_variables.c:80
 msgid "Balance"
 msgstr "Solde"
 
-#: src/categories_onglet.c:313
+#: src/categories_onglet.c:314
 msgid "Export categories"
 msgstr "Exporter les catégories"
 
-#: src/categories_onglet.c:320
+#: src/categories_onglet.c:321
 msgid "Categories.cgsb"
 msgstr "Catégories.cgsb"
 
-#: src/categories_onglet.c:356
+#: src/categories_onglet.c:357
 msgid "Import categories"
 msgstr "Importer des catégories"
 
-#: src/categories_onglet.c:367
+#: src/categories_onglet.c:368
 msgid "Grisbi category files (*.cgsb)"
 msgstr "Fichier des catégories Grisbi (*.cgsb)"
 
-#: src/categories_onglet.c:373 src/etats_onglet.c:1254
-#: src/file_obfuscate_qif.c:105 src/gsb_file.c:235 src/import.c:703
-#: src/imputation_budgetaire.c:408
+#: src/categories_onglet.c:374 src/etats_onglet.c:1254
+#: src/file_obfuscate_qif.c:105 src/gsb_file.c:235 src/import.c:728
+#: src/imputation_budgetaire.c:409
 msgid "All files"
 msgstr "Tous les fichiers"
 
-#: src/categories_onglet.c:394
+#: src/categories_onglet.c:395
 msgid "Merge imported categories with existing?"
 msgstr "Fusionner les catégories importées avec celles existantes ?"
 
-#: src/categories_onglet.c:396
+#: src/categories_onglet.c:397
 msgid ""
 "File already contains categories.  If you decide to continue, existing "
 "categories will be merged with imported ones."
@@ -699,7 +699,7 @@ msgstr ""
 "Le fichier contient déjà des catégories, les catégories existantes seront "
 "fusionnées avec celles importées."
 
-#: src/categories_onglet.c:397
+#: src/categories_onglet.c:398
 msgid ""
 "File does not contain categories.  If you decide to continue, existing "
 "categories will be merged with imported ones.  Once performed, there is no "
@@ -712,87 +712,87 @@ msgstr ""
 "Vous pouvez également décider de remplacer les catégories existantes par les "
 "catégories que vous êtes en train d'importer."
 
-#: src/categories_onglet.c:404 src/imputation_budgetaire.c:439
+#: src/categories_onglet.c:405 src/imputation_budgetaire.c:440
 msgid "Replace existing"
 msgstr "Remplacer l'existant"
 
-#: src/categories_onglet.c:458
+#: src/categories_onglet.c:459
 msgid ""
 "New\n"
 "category"
 msgstr "Nouvelle catégorie"
 
-#: src/categories_onglet.c:463
+#: src/categories_onglet.c:464
 msgid "Create a new category"
 msgstr "Créer une nouvelle catégorie"
 
-#: src/categories_onglet.c:469
+#: src/categories_onglet.c:470
 msgid ""
 "New sub\n"
 "category"
 msgstr "Nouvelle sous-catég."
 
-#: src/categories_onglet.c:476
+#: src/categories_onglet.c:477
 msgid "Create a new sub-category"
 msgstr "Créer une nouvelle sous-catégorie"
 
-#: src/categories_onglet.c:483 src/etats_onglet.c:130 src/import.c:351
-#: src/import.c:3137 src/imputation_budgetaire.c:516 src/parametres.c:287
+#: src/categories_onglet.c:484 src/etats_onglet.c:130 src/import.c:376
+#: src/import.c:3191 src/imputation_budgetaire.c:517 src/parametres.c:287
 msgid "Import"
 msgstr "Importer"
 
-#: src/categories_onglet.c:487
+#: src/categories_onglet.c:488
 msgid "Import a Grisbi category file (.cgsb)"
 msgstr "Importer une liste de catégories (.csgb)"
 
-#: src/categories_onglet.c:493 src/etats_onglet.c:139 src/export.c:160
-#: src/imputation_budgetaire.c:526
+#: src/categories_onglet.c:494 src/etats_onglet.c:139 src/export.c:160
+#: src/imputation_budgetaire.c:527
 msgid "Export"
 msgstr "Exporter"
 
-#: src/categories_onglet.c:497
+#: src/categories_onglet.c:498
 msgid "Export a Grisbi category file (.cgsb)"
 msgstr "Exporter une liste de catégories (.cgsb)"
 
-#: src/categories_onglet.c:506
+#: src/categories_onglet.c:507
 msgid "Delete selected category"
 msgstr "Supprimer la catégorie sélectionnée"
 
-#: src/categories_onglet.c:511 src/etats_onglet.c:184
-#: src/fenetre_principale.c:251 src/imputation_budgetaire.c:545
+#: src/categories_onglet.c:512 src/etats_onglet.c:184
+#: src/fenetre_principale.c:251 src/imputation_budgetaire.c:546
 #: src/tiers_onglet.c:317
 msgid "Properties"
 msgstr "Propriétés"
 
-#: src/categories_onglet.c:515
+#: src/categories_onglet.c:516
 msgid "Edit selected category"
 msgstr "Editer la catégorie sélectionnée"
 
-#: src/categories_onglet.c:525 src/tiers_onglet.c:339
+#: src/categories_onglet.c:526 src/tiers_onglet.c:339
 msgid "Change view mode"
 msgstr "Changer le mode d'affichage"
 
 #. Edit transaction
-#: src/categories_onglet.c:553
+#: src/categories_onglet.c:554
 msgid "Category view"
 msgstr "Vue des catégories uniquement"
 
-#: src/categories_onglet.c:559
+#: src/categories_onglet.c:560
 msgid "Subcategory view"
 msgstr "Vue des catégories et sous-catégories"
 
-#: src/categories_onglet.c:610 src/categories_onglet.c:614
-#: src/imputation_budgetaire.c:643 src/imputation_budgetaire.c:648
-#: src/tiers_onglet.c:554
+#: src/categories_onglet.c:611 src/categories_onglet.c:615
+#: src/imputation_budgetaire.c:644 src/imputation_budgetaire.c:649
+#: src/tiers_onglet.c:553
 #, c-format
 msgid "Properties for %s"
 msgstr "Propriétés pour %s"
 
-#: src/categories_onglet.c:612
+#: src/categories_onglet.c:613
 msgid "No sub-category defined"
 msgstr "Pas de sous-catégorie définie"
 
-#: src/categories_onglet.c:616 src/qif.c:1125 src/qif.c:1132
+#: src/categories_onglet.c:617 src/qif.c:1125 src/qif.c:1132
 msgid "No category defined"
 msgstr "Pas de catégorie définie"
 
@@ -804,26 +804,26 @@ msgstr "Pas de catégorie définie"
 #. Financial year name
 #. set the name
 #. Name entry
-#: src/categories_onglet.c:642 src/gsb_archive_config.c:98
+#: src/categories_onglet.c:643 src/gsb_archive_config.c:98
 #: src/gsb_archive_config.c:188 src/gsb_assistant_archive_export.c:150
 #: src/gsb_assistant_reconcile_config.c:388
 #: src/gsb_assistant_reconcile_config.c:1243 src/gsb_bank.c:726
 #: src/gsb_bank.c:832 src/gsb_currency_config.c:355 src/gsb_fyear_config.c:191
 #: src/gsb_fyear_config.c:278 src/gsb_payment_method_config.c:239
 #: src/gsb_reconcile_config.c:179 src/gsb_transactions_list.c:1733
-#: src/imputation_budgetaire.c:676 src/tiers_onglet.c:579
+#: src/imputation_budgetaire.c:677 src/tiers_onglet.c:578
 msgid "Name"
 msgstr "Nom"
 
 #. Description entry
 #. Payment method method_ptr
 #. Description entry
-#: src/categories_onglet.c:667 src/gsb_payment_method_config.c:292
-#: src/import.c:384 src/imputation_budgetaire.c:701
+#: src/categories_onglet.c:668 src/gsb_payment_method_config.c:292
+#: src/import.c:409 src/imputation_budgetaire.c:702
 msgid "Type"
 msgstr "Type"
 
-#: src/categories_onglet.c:707
+#: src/categories_onglet.c:708
 #, c-format
 msgid ""
 "You tried to rename current sub-category to '%s' but this sub-category "
@@ -832,7 +832,7 @@ msgstr ""
 "Vous avez tenté de renommer cette sous-catégorie en «%s» mais elle existe "
 "déjà. Veuillez choisir un autre nom."
 
-#: src/categories_onglet.c:714
+#: src/categories_onglet.c:715
 #, c-format
 msgid ""
 "You tried to rename current category to '%s' but this category already "
@@ -841,12 +841,12 @@ msgstr ""
 "Vous avez tenté de renommer cette catégorie en «%s» mais elle existe déjà. "
 "Veuillez choisir un autre nom."
 
-#: src/categories_onglet.c:719
+#: src/categories_onglet.c:720
 msgid "Category already exists"
 msgstr "La catégorie existe déjà"
 
 #. * Find a unique name for category
-#: src/categories_onglet.c:820 src/meta_categories.c:304
+#: src/categories_onglet.c:821 src/meta_categories.c:304
 msgid "New sub-category"
 msgstr "Nouvelle sous-catégorie"
 
@@ -1360,7 +1360,7 @@ msgstr "Total général"
 
 #. Transfer = Virement
 #. Direct deposit remplacÃ© par Transfert = Virement
-#: src/etats_affiche.c:1837 src/import.c:2381 src/import.c:2399
+#: src/etats_affiche.c:1837 src/import.c:2435 src/import.c:2453
 msgid "Transfert"
 msgstr "Virement"
 
@@ -1387,7 +1387,7 @@ msgstr "Pas d'imputation budgétaire"
 msgid "No sub-budgetary line"
 msgstr "Pas de sous-imputation"
 
-#: src/etats_affiche.c:2259 src/gsb_data_payee.c:115 src/meta_payee.c:77
+#: src/etats_affiche.c:2259 src/gsb_data_payee.c:116 src/meta_payee.c:77
 msgid "No payee"
 msgstr "Pas de tiers"
 
@@ -1420,14 +1420,14 @@ msgstr "Exercice"
 #: src/etats_config.c:687 src/etats_config.c:7193 src/export_csv.c:762
 #: src/fenetre_principale.c:266 src/gsb_assistant_reconcile_config.c:612
 #: src/gsb_form.c:1308 src/gsb_form_widget.c:420 src/gsb_scheduler_list.c:331
-#: src/gsb_transactions_list.c:145 src/import.c:2927 src/import_csv.c:80
+#: src/gsb_transactions_list.c:145 src/import.c:2981 src/import_csv.c:80
 #: src/meta_payee.c:76 src/traitement_variables.c:76
 msgid "Payee"
 msgstr "Tiers"
 
 #: src/etats_affiche.c:2433 src/etats_config.c:679 src/gsb_form.c:1339
 #: src/gsb_form_widget.c:432 src/gsb_transactions_list.c:146
-#: src/imputation_budgetaire.c:153 src/meta_budgetary.c:62
+#: src/imputation_budgetaire.c:154 src/meta_budgetary.c:62
 msgid "Budgetary line"
 msgstr "Imputation budgétaire"
 
@@ -1750,14 +1750,14 @@ msgstr "Sélectionner les comptes à inclure dans l'état"
 
 #: src/etats_config.c:2581 src/etats_config.c:2848 src/etats_config.c:3138
 #: src/etats_config.c:3951 src/etats_config.c:4147 src/etats_config.c:7512
-#: src/tiers_onglet.c:1330 src/tiers_onglet.c:1350
+#: src/tiers_onglet.c:1333 src/tiers_onglet.c:1353
 msgid "Select all"
 msgstr "Sélectionner tout"
 
 #. ajoute le bouton (dÃ©)sÃ©lectionne tout
 #: src/etats_config.c:2596 src/etats_config.c:2863 src/etats_config.c:3153
 #: src/etats_config.c:3966 src/etats_config.c:4162 src/etats_config.c:7527
-#: src/tiers_onglet.c:1118 src/tiers_onglet.c:1332
+#: src/tiers_onglet.c:1124 src/tiers_onglet.c:1335
 msgid "Unselect all"
 msgstr "Désélectionner tout"
 
@@ -1978,7 +1978,7 @@ msgstr "est non vide"
 
 #: src/etats_config.c:5310 src/export_csv.c:771
 #: src/gsb_assistant_reconcile_config.c:612 src/gsb_scheduler_list.c:332
-#: src/gsb_transactions_list.c:150 src/import.c:2935
+#: src/gsb_transactions_list.c:150 src/import.c:2989
 #: src/traitement_variables.c:81
 msgid "Amount"
 msgstr "Montant"
@@ -2703,7 +2703,7 @@ msgid "Select accounts to export"
 msgstr "Sélectionner les comptes à exporter"
 
 #: src/export.c:169 src/export_csv.c:741 src/gsb_account_property.c:169
-#: src/import.c:1115 src/import.c:1151
+#: src/import.c:1140 src/import.c:1176
 msgid "Account name"
 msgstr "Nom du compte"
 
@@ -3490,11 +3490,11 @@ msgstr ""
 msgid "Account details"
 msgstr "Détails du compte"
 
-#: src/gsb_account_property.c:186 src/import.c:1067
+#: src/gsb_account_property.c:186 src/import.c:1092
 msgid "Account type"
 msgstr "Type du compte"
 
-#: src/gsb_account_property.c:204 src/import.c:1169
+#: src/gsb_account_property.c:204 src/import.c:1194
 msgid "Account currency"
 msgstr "Devise du compte"
 
@@ -3680,7 +3680,7 @@ msgid "Deleting an archive and its transactions"
 msgstr "Supprimer une archive et les opérations qu'elle contient"
 
 #. New account
-#: src/gsb_assistant_account.c:96 src/import.c:1059
+#: src/gsb_assistant_account.c:96 src/import.c:1084
 msgid "Create a new account"
 msgstr "Créer un nouveau compte"
 
@@ -3888,7 +3888,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 "Grisbi archivera toutes les transactions appartenant à l'état sélectionné"
 
-#: src/gsb_assistant_archive.c:354 src/gsb_data_payee.c:511
+#: src/gsb_assistant_archive.c:354 src/gsb_data_payee.c:512
 #: src/gsb_form.c:2583 src/gsb_form.c:2584 src/navigation.c:1289
 msgid "Report"
 msgstr "État"
@@ -3898,7 +3898,7 @@ msgstr "État"
 msgid "Please choose a name for archive"
 msgstr "Choisissez un nom pour l'archive"
 
-#: src/gsb_assistant_archive.c:483 src/import.c:805
+#: src/gsb_assistant_archive.c:483 src/import.c:830
 msgid "Congratulations !"
 msgstr "Félicitations !"
 
@@ -6346,30 +6346,30 @@ msgstr "Attention : cette année financière en chevauche une autre"
 msgid "<span foreground=\"red\">Warning : Invalid date</span>"
 msgstr "Attention : date invalide"
 
-#: src/gsb_data_payee.c:398
+#: src/gsb_data_payee.c:399
 #, fuzzy
 msgid "No payee defined"
 msgstr "Aucun tiers défini"
 
-#: src/gsb_data_payee.c:704
+#: src/gsb_data_payee.c:705
 #, fuzzy, c-format
 msgid "The transaction %d has a payee n°%d but it doesn't exist."
 msgstr "Le tiers %d de la transaction %d est invalide.\n"
 
 #. Deposit = DÃ©pÃ´t
-#: src/gsb_data_payment.c:714 src/import.c:2363 src/plugins/ofx/ofx.c:451
+#: src/gsb_data_payment.c:714 src/import.c:2417 src/plugins/ofx/ofx.c:451
 msgid "Deposit"
 msgstr "Dépôt"
 
 #. pas trouvÃ© de dÃ©finition remplacÃ© par carte de crÃ©dit
 #. Point of sale = Point de vente remplacÃ© par carte de crÃ©dit
-#: src/gsb_data_payment.c:723 src/import.c:2369 src/import.c:2375
+#: src/gsb_data_payment.c:723 src/import.c:2423 src/import.c:2429
 msgid "Credit card"
 msgstr "Carte de crédit"
 
 #. Electronic payment remplacÃ© par Direct debit = PrÃ©lÃ¨vement
 #. Merchant initiated debit remplacÃ© par Direct debit = PrÃ©lÃ¨vement
-#: src/gsb_data_payment.c:732 src/import.c:2387 src/import.c:2405
+#: src/gsb_data_payment.c:732 src/import.c:2441 src/import.c:2459
 msgid "Direct debit"
 msgstr "Prélèvement"
 
@@ -6708,8 +6708,8 @@ msgstr "Chargement des comptes"
 msgid "Failed to load accounts"
 msgstr "Échec du chargement des comptes"
 
-#: src/gsb_file.c:385 src/gsb_file.c:396 src/gsb_file_load.c:249
-#: src/gsb_file_load.c:263 src/gsb_file_load.c:369
+#: src/gsb_file.c:385 src/gsb_file.c:396 src/gsb_file_load.c:250
+#: src/gsb_file_load.c:264 src/gsb_file_load.c:370
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Erreur lors de l'ouverture du fichier « %s »."
@@ -6910,17 +6910,17 @@ msgstr ""
 "\n"
 "puis appuyez le bouton Valider"
 
-#: src/gsb_file_load.c:246 src/gsb_file_load.c:366 src/gsb_file_others.c:417
+#: src/gsb_file_load.c:247 src/gsb_file_load.c:367 src/gsb_file_others.c:417
 #: src/gsb_file_others.c:547
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "Impossible d'ouvrir le fichier « %s » : %s"
 
-#: src/gsb_file_load.c:248
+#: src/gsb_file_load.c:249
 msgid "File does not exist"
 msgstr "Le fichier existe déjà"
 
-#: src/gsb_file_load.c:261 src/gsb_file_others.c:429
+#: src/gsb_file_load.c:262 src/gsb_file_others.c:429
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular file,\n"
@@ -6929,7 +6929,7 @@ msgstr ""
 "%s ne semble pas être un fichier normal,\n"
 "veuillez vérifier et réessayer."
 
-#: src/gsb_file_load.c:302 src/gsb_file_save.c:371
+#: src/gsb_file_load.c:303 src/gsb_file_save.c:371
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -6942,16 +6942,16 @@ msgstr ""
 "Vérifiez qu'il soit bien installé (i.e. vérifiez que le paquet 'grisbi-ssl' "
 "est installé) et essayez à nouveau."
 
-#: src/gsb_file_load.c:307 src/gsb_file_save.c:376
+#: src/gsb_file_load.c:308 src/gsb_file_save.c:376
 msgid "Encryption plugin not found."
 msgstr "Plugin de cryptage non trouvé"
 
-#: src/gsb_file_load.c:410 src/gsb_file_load.c:4370
+#: src/gsb_file_load.c:411 src/gsb_file_load.c:4383
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Ce n'est pas un fichier Grisbi...chargement interrompu"
 
 #. the first time we come here, we check if it's a grisbi file
-#: src/gsb_file_load.c:613
+#: src/gsb_file_load.c:614
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -6963,7 +6963,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: src/gsb_file_load.c:7588
+#: src/gsb_file_load.c:7601
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -6972,7 +6972,7 @@ msgstr ""
 "Pour ouvrir ce fichier, il vous faut la version %s de GrisbiVous utilisez la "
 "version %s."
 
-#: src/gsb_file_load.c:7627
+#: src/gsb_file_load.c:7640
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -6985,11 +6985,11 @@ msgstr ""
 "c'est une archive avant de modifier certaines transactions ou informations "
 "importantes."
 
-#: src/gsb_file_load.c:7628
+#: src/gsb_file_load.c:7641
 msgid "Grisbi archive opened"
 msgstr "Archive grisbi ouverte"
 
-#: src/gsb_file_load.c:7720
+#: src/gsb_file_load.c:7733
 #, c-format
 msgid ""
 "Your old file grisbi was saved as: \n"
@@ -8225,21 +8225,21 @@ msgstr ""
 msgid "Personal finance manager for everyone\n"
 msgstr "Gestionnaire de finances personnelles\n"
 
-#: src/import.c:163
+#: src/import.c:184
 msgid "Comma Separated Values"
 msgstr "CSV"
 
-#: src/import.c:164
+#: src/import.c:185
 #, fuzzy
 msgid "Quicken Interchange Format"
 msgstr "Entrer le taux de change"
 
-#: src/import.c:222
+#: src/import.c:247
 #, c-format
 msgid "Adding '%s' as an import format"
 msgstr "Ajouter « %s » en tant que format d'importation"
 
-#: src/import.c:266
+#: src/import.c:291
 msgid ""
 "This assistant will help you import one or several files into Grisbi.\n"
 "\n"
@@ -8256,50 +8256,50 @@ msgstr ""
 "Pour l'instant les formats suivants sont supportés :\n"
 "\n"
 
-#: src/import.c:272
+#: src/import.c:297
 msgid "Importing transactions into Grisbi"
 msgstr "Importation des opérations par Grisbi"
 
-#: src/import.c:321
+#: src/import.c:346
 msgid "Choose file to import"
 msgstr "Sélectionner un fichier à importer"
 
-#: src/import.c:323
+#: src/import.c:348
 msgid "Add file to import..."
 msgstr "Ajouter un ou des fichiers..."
 
-#: src/import.c:391
+#: src/import.c:416
 msgid "File name"
 msgstr "Nom de fichier"
 
-#: src/import.c:527 src/import.c:609 src/import.c:3258 src/import.c:3281
+#: src/import.c:552 src/import.c:634 src/import.c:3788 src/import.c:3811
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: src/import.c:569 src/import.c:3361 src/import_csv.c:1045
+#: src/import.c:594 src/import.c:3891 src/import_csv.c:1045
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr "Impossible d'ouvrir le fichier '%s'.\n"
 
-#: src/import.c:642
+#: src/import.c:667
 msgid "Choose files to import."
 msgstr "Sélectionner les fichiers à importer"
 
-#: src/import.c:668
+#: src/import.c:693
 #, c-format
 msgid "Known files (%s)"
 msgstr "Fichiers connus (%s)"
 
-#: src/import.c:680
+#: src/import.c:705
 #, c-format
 msgid "%s files (*.%s)"
 msgstr "Fichiers %s (*.%s)"
 
-#: src/import.c:710
+#: src/import.c:735
 msgid "Encoding"
 msgstr "Codage"
 
-#: src/import.c:810
+#: src/import.c:835
 msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files"
@@ -8308,15 +8308,15 @@ msgstr ""
 "vous permettre de fixer les paramètres de l'importation des données pour les "
 "fichiers suivants"
 
-#: src/import.c:823
+#: src/import.c:848
 msgid "Unnamed Imported account"
 msgstr "Compte Importé anonyme"
 
-#: src/import.c:849
+#: src/import.c:874
 msgid "Error !"
 msgstr "Erreur !"
 
-#: src/import.c:854
+#: src/import.c:879
 msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
@@ -8324,15 +8324,15 @@ msgstr ""
 "Aucun dossier n'a été importé, Vérifiez que les fichiers sont valides."
 "Assurez vous qu'ils ne sont pas compressés et que leur format est valide."
 
-#: src/import.c:866
+#: src/import.c:891
 msgid "The following files are in error:"
 msgstr "Les fichiers suivants sont en erreur"
 
-#: src/import.c:919
+#: src/import.c:944
 msgid "Import terminated"
 msgstr "Import terminé"
 
-#: src/import.c:923
+#: src/import.c:948
 msgid ""
 "You have successfully set up transactions import into Grisbi.  Press the "
 "'Close' button to terminate import."
@@ -8340,11 +8340,11 @@ msgstr ""
 "Vous avez réussi l'importation des opérations dans Grisbi. Appuyez sur le "
 "bouton 'Fermer' pour terminer l'opération."
 
-#: src/import.c:1044
+#: src/import.c:1069
 msgid "file"
 msgstr "fichier"
 
-#: src/import.c:1050
+#: src/import.c:1075
 #, c-format
 msgid ""
 "<span size=\"x-large\">%s</span>\n"
@@ -8357,11 +8357,11 @@ msgstr ""
 "Que voulez vous faire avec les données du fichier <span foreground=\"blue\">%"
 "s</span> ?\n"
 
-#: src/import.c:1108
+#: src/import.c:1133
 msgid "Add transactions to an account"
 msgstr "Ajouter les opérations à un compte"
 
-#: src/import.c:1145
+#: src/import.c:1170
 msgid "Mark transactions of an account"
 msgstr "Marquer les opérations d'un compte"
 
@@ -8369,7 +8369,7 @@ msgstr "Marquer les opérations d'un compte"
 #. - soit elle n'est pas cree (l'utilisateur
 #. la crÃ©era une fois la fenetre affichÃ©e)
 #. - soit elle est crÃ©Ã© mais pas avec le bon code
-#: src/import.c:1195
+#: src/import.c:1220
 #, c-format
 msgid ""
 "Currency of imported account '%s' is %s.  Either this currency doesn't exist "
@@ -8384,21 +8384,21 @@ msgstr ""
 "Pour éviter ce message la prochaine fois et détecter la devise "
 "automatiquement,veuillez changer le code ISO dans la configuration."
 
-#: src/import.c:1198
+#: src/import.c:1223
 #, c-format
 msgid "Can't associate ISO 4217 code for currency '%s'."
 msgstr "Impossible d'associer un code ISO 4217 à la devise « %s »."
 
 #. invert amount of transactions
-#: src/import.c:1208
+#: src/import.c:1233
 msgid "Invert the amount of the imported transactions"
 msgstr "Inverse le montant de l'opération importée."
 
-#: src/import.c:1220
+#: src/import.c:1245
 msgid "Create a rule for this import. Name of the rule : "
 msgstr "Créer une règle pour cet import. Nom de la règle : "
 
-#: src/import.c:1313
+#: src/import.c:1338
 #, c-format
 msgid ""
 "An error occured while creating the new account %s,\n"
@@ -8408,7 +8408,7 @@ msgstr ""
 "Vous pouvez continuer l'opération mais des incohérences pourront "
 "apparaître..."
 
-#: src/import.c:1366
+#: src/import.c:1391
 #, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
@@ -8418,15 +8418,15 @@ msgstr ""
 "n'avez pas donné un nom à cette règle. définissez un nom ou laissez vide la "
 "zone pour annuler la création de la règle."
 
-#: src/import.c:1368
+#: src/import.c:1393
 msgid "No name for the import rule"
 msgstr "La règle d'importation n'a pas de nom"
 
-#: src/import.c:1368
+#: src/import.c:1393
 msgid "Name of the rule :"
 msgstr "Nom de la règle"
 
-#: src/import.c:1394
+#: src/import.c:1419
 msgid ""
 "No account in memory now, this is bad...\n"
 "Better to leave the import before a crash.\n"
@@ -8438,11 +8438,11 @@ msgstr ""
 "\n"
 "Veuillez contacter l'équipe Grisbi pour trouver le problème."
 
-#: src/import.c:1402
+#: src/import.c:1427
 msgid "Please wait"
 msgstr "Veuillez patienter ..."
 
-#: src/import.c:1426
+#: src/import.c:1451
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet. You may associate them with a reconcilation later "
@@ -8452,13 +8452,13 @@ msgstr ""
 "associées avec un numéro de rapprochement. Vous pourrez le faire plus tard "
 "via la fenêtre des préférences."
 
-#: src/import.c:1678
+#: src/import.c:1703
 msgid "Imported account"
 msgstr "Compte importé"
 
 #. there is a difference between the imported account id and grisbi account id,
 #. * ask to be sure
-#: src/import.c:1731
+#: src/import.c:1756
 #, c-format
 msgid ""
 "The Grisbi's id account is %s, but the imported id account is %s.\n"
@@ -8475,23 +8475,23 @@ msgstr ""
 
 #. l'id du compte choisi et l'id du compte importÃ© sont diffÃ©rents
 #. on propose encore d'arrÃªter...
-#: src/import.c:1734 src/import.c:2553
+#: src/import.c:1759 src/import.c:2607
 msgid "The id of the imported and chosen accounts are different"
 msgstr "Les identifiants du compte importé et du compte choisi sont différents"
 
-#: src/import.c:1969
+#: src/import.c:1997
 msgid "Confirmation of transactions to be merged"
 msgstr "Confirmation des opérations à fusionner"
 
-#: src/import.c:1972
+#: src/import.c:2000
 msgid "Confirmation of importation of transactions"
 msgstr "Confirmation de l'importation d'opérations"
 
-#: src/import.c:1988
+#: src/import.c:2016
 msgid "Please select the transactions to be merged"
 msgstr "Sélectionnez les opérations à fusionner"
 
-#: src/import.c:1991
+#: src/import.c:2019
 msgid ""
 "Some imported transactions seem to be already saved.Please select the "
 "transactions to import."
@@ -8499,37 +8499,37 @@ msgstr ""
 "Certaines opérations à importer semblent déjà écrites. Sélectionnez les "
 "opérations à importer."
 
-#: src/import.c:2071
+#: src/import.c:2099
 #, c-format
 msgid "Transactions to be merged : %s ; %s ; %s"
 msgstr "Opérations à fusionner : %s ; %s ; %s"
 
-#: src/import.c:2076
+#: src/import.c:2104
 #, c-format
 msgid "Transactions to import : %s ; %s ; %s"
 msgstr "Opérations à importer : %s ; %s ; %s"
 
-#: src/import.c:2115
+#: src/import.c:2143
 #, c-format
 msgid "Transaction found : %s ; %s ; %s ; %s"
 msgstr "Opération trouvée : %s ; %s ; %s ; %s"
 
-#: src/import.c:2128
+#: src/import.c:2156
 #, c-format
 msgid "Transaction found : %s ; %s ; %s"
 msgstr "Opération trouvée : %s ; %s ; %s"
 
 #. Check = ChÃ¨que
-#: src/import.c:2349 src/plugins/ofx/ofx.c:431
+#: src/import.c:2403 src/plugins/ofx/ofx.c:431
 msgid "Check"
 msgstr "Chèque"
 
 #. Cash withdrawal = retrait en liquide
-#: src/import.c:2393
+#: src/import.c:2447
 msgid "Cash withdrawal"
 msgstr "Liquide"
 
-#: src/import.c:2483
+#: src/import.c:2537
 #, c-format
 msgid ""
 "Warning : the cheque number %ld is already used.\n"
@@ -8538,7 +8538,7 @@ msgstr ""
 "Attention, le numéro du chèque %ld est déjà utilisé.\n"
 "Nous le sautons"
 
-#: src/import.c:2554
+#: src/import.c:2608
 msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
@@ -8546,58 +8546,107 @@ msgstr ""
 "Avez-vous choisi un mauvais compte ? Si vous choisissez de continuer, "
 "l'identifiant du compte sera changé. Voulez-vous continuer ?"
 
-#: src/import.c:2830
+#: src/import.c:2884
 msgid "Orphaned transactions"
 msgstr "Opérations orphelines"
 
-#: src/import.c:2843
+#: src/import.c:2897
 msgid "Mark transactions you want to add to the list and click the add button"
 msgstr ""
 "Marquer les opérations que vous voulez ajouter à la liste en cliquer sur le "
 "bouton ajouter"
 
-#: src/import.c:2912
+#: src/import.c:2966
 msgid "Mark"
 msgstr "Marqué"
 
-#: src/import.c:3113
+#: src/import.c:3167
 #, c-format
 msgid "%s #%d"
 msgstr "%s #%d"
 
-#: src/import.c:3148
+#: src/import.c:3196
+#, fuzzy
+msgid "Import settings"
+msgstr "Import rapide"
+
+#: src/import.c:3202
 msgid "Threshold while matching transaction date during import (in days)"
 msgstr "Intervalle de recherche des opérations similaires en jour"
 
-#: src/import.c:3174
+#: src/import.c:3218
 msgid "merge transactions imported with planned transactions"
 msgstr ""
 "Fusionner les opérations importées avec les opération planifiée trouvées"
 
-#: src/import.c:3187
+#: src/import.c:3228
 msgid "automatically associate the category of the payee if it is possible"
 msgstr "associer automatiquement la catégorie du tiers si c'est possible"
 
-#: src/import.c:3200
+#: src/import.c:3237 src/tiers_onglet.c:343
+msgid "Manage payees"
+msgstr "Gérer les tiers"
+
+#: src/import.c:3241
+msgid "create an association between two payees to simplify the list"
+msgstr ""
+"Créer une association entre deux tiers pour simplifier la liste des tiers"
+
+#: src/import.c:3249
 msgid "Set the financial year"
 msgstr "Définition de l'exercice"
 
-#: src/import.c:3201
+#: src/import.c:3250
 msgid "According to the date"
 msgstr "Utiliser la date de l'opération"
 
-#: src/import.c:3202
+#: src/import.c:3251
 msgid "According to the value date (if fail, try with the date)"
 msgstr "Utiliser la date de valeur ou la date de l'opération si non présente"
 
-#: src/import.c:3346
+#: src/import.c:3281
+msgid "Associations for the import of payees"
+msgstr "Associations pour l'import des tiers"
+
+#: src/import.c:3291
+msgid "Manage the associations"
+msgstr "Gérer les associations"
+
+#: src/import.c:3301
+msgid "Associations"
+msgstr "Associations"
+
+#: src/import.c:3303
+msgid ""
+"To modify a search string, just edit it into the cell.\n"
+"Make Enter to validate"
+msgstr ""
+"Pour modifier une chaîne de recherche éditez la directement dans la "
+"cellule.\n"
+"Puis Enter pour valider"
+
+#. Create entry liste des tiers
+#: src/import.c:3370 src/import.c:3402 src/tiers_onglet.c:1074
+msgid "Payee name"
+msgstr "Nom du tiers"
+
+#. Create entry search string
+#: src/import.c:3384 src/import.c:3427
+msgid "Search string"
+msgstr "Chaîne recherchée"
+
+#: src/import.c:3393
+msgid "Details of associations"
+msgstr "Détails des associations"
+
+#: src/import.c:3876
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr "%s n'est pas un fichier OFX ou QIF. Il ne peut pas être importé"
 
-#: src/import.c:3404
+#: src/import.c:3934
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
@@ -8606,42 +8655,42 @@ msgstr ""
 "%s n'a pas été importé avec succès. Une erreur est survenue durant la "
 "transaction."
 
-#: src/import.c:3482
+#: src/import.c:4012
 msgid "Import a file with a rule"
 msgstr "Importer un fichier à partir d'une règle"
 
 #. text for paddingbox
-#: src/import.c:3493
+#: src/import.c:4023
 #, c-format
 msgid "Properties of the rule : %s\n"
 msgstr "Propriétés de la règle : %s\n"
 
-#: src/import.c:3512
+#: src/import.c:4042
 #, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Les opérations importées seront ajoutées au compte : %s.\n"
 
-#: src/import.c:3515
+#: src/import.c:4045
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "Les opérations importées seront marquées dans le compte %s.\n"
 
 #. textstring 2
-#: src/import.c:3519
+#: src/import.c:4049
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr "La devise des opérations importées est : %s.\n"
 
-#: src/import.c:3525
+#: src/import.c:4055
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Le montant des opérations sera inversé.\n"
 
 #. label filename
-#: src/import.c:3535
+#: src/import.c:4065
 msgid "Name of the file to import "
 msgstr "Nom du fichier à importer "
 
-#: src/import.c:3629
+#: src/import.c:4167
 #, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr "Impossible de créer le fichier '%s'\n"
@@ -8715,41 +8764,39 @@ msgid "<b>Following fields are missing:</b> %s"
 msgstr "<b>Les champs suivants manquent :</b> %s"
 
 #: src/import_csv.c:921
-#, fuzzy
 msgid "All mandatory fields are filed in."
-msgstr "Tous les champs ne sont pas remplis."
+msgstr "Tous les champs obligatoires sont remplis."
 
 #: src/import_csv.c:1094
-#, fuzzy
 msgid "Imported CSV account"
-msgstr "Compte importé"
+msgstr "Compte CSV importé"
 
-#: src/imputation_budgetaire.c:342
+#: src/imputation_budgetaire.c:343
 msgid "Export the budgetary lines"
 msgstr "Exporter les imputations budgétaires"
 
-#: src/imputation_budgetaire.c:349
+#: src/imputation_budgetaire.c:350
 #, fuzzy
 msgid "Budgetary-lines.igsb"
 msgstr "Imputations budgétaires"
 
-#: src/imputation_budgetaire.c:367
+#: src/imputation_budgetaire.c:368
 msgid "Cannot save file."
 msgstr "Impossible d'enregistrer le fichier."
 
-#: src/imputation_budgetaire.c:391
+#: src/imputation_budgetaire.c:392
 msgid "Import budgetary lines"
 msgstr "Importer une liste d'imputations budgétaires"
 
-#: src/imputation_budgetaire.c:402
+#: src/imputation_budgetaire.c:403
 msgid "Grisbi budgetary lines files (*.igsb)"
 msgstr "Fichier d'imputations budgétaires (.igsb)"
 
-#: src/imputation_budgetaire.c:429
+#: src/imputation_budgetaire.c:430
 msgid "Merge imported budgetary lines with existing?"
 msgstr "Fusionner une liste d'imputations importées avec celles existantes"
 
-#: src/imputation_budgetaire.c:431
+#: src/imputation_budgetaire.c:432
 msgid ""
 "File already contains budgetary lines.  If you decide to continue, existing "
 "budgetary lines will be merged with imported ones."
@@ -8757,7 +8804,7 @@ msgstr ""
 "Le fichier contient déjà des opérations, les deux listes de catégories "
 "seront fusionnées."
 
-#: src/imputation_budgetaire.c:432
+#: src/imputation_budgetaire.c:433
 msgid ""
 "File does not contain budgetary lines.  If you decide to continue, existing "
 "budgetary lines will be merged with imported ones.  Once performed, there is "
@@ -8770,7 +8817,7 @@ msgstr ""
 "Vous pouvez également décider de remplacer les catégories existantes par les "
 "catégories que vous êtes en train d'importer."
 
-#: src/imputation_budgetaire.c:492
+#: src/imputation_budgetaire.c:493
 msgid ""
 "New\n"
 "budgetary line"
@@ -8778,11 +8825,11 @@ msgstr ""
 "Nouvelle\n"
 "imputation"
 
-#: src/imputation_budgetaire.c:496
+#: src/imputation_budgetaire.c:497
 msgid "Create a new budgetary line"
 msgstr "Créer une imputation"
 
-#: src/imputation_budgetaire.c:502
+#: src/imputation_budgetaire.c:503
 msgid ""
 "New sub\n"
 "budgetary line"
@@ -8790,49 +8837,49 @@ msgstr ""
 "Nouvelle\n"
 "sous-imputation"
 
-#: src/imputation_budgetaire.c:509
+#: src/imputation_budgetaire.c:510
 msgid "Create a new sub-budgetary line"
 msgstr "Créer une sous-imputation"
 
-#: src/imputation_budgetaire.c:520
+#: src/imputation_budgetaire.c:521
 msgid "Import a Grisbi budgetary line file (.igsb)"
 msgstr "Importer une liste d'imputations budgétaires (.igsb)"
 
-#: src/imputation_budgetaire.c:530
+#: src/imputation_budgetaire.c:531
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "Exporter une liste d'imputations budgétaires (.igsb)"
 
-#: src/imputation_budgetaire.c:540
+#: src/imputation_budgetaire.c:541
 msgid "Delete selected budgetary line"
 msgstr "Supprimer l'imputation sélectionnée"
 
-#: src/imputation_budgetaire.c:550
+#: src/imputation_budgetaire.c:551
 msgid "Edit selected budgetary line"
 msgstr "Éditer l'imputation sélectionnée"
 
-#: src/imputation_budgetaire.c:560
+#: src/imputation_budgetaire.c:561
 msgid "Change display mode"
 msgstr "Changer le mode d'affichage"
 
 #. Edit transaction
-#: src/imputation_budgetaire.c:588
+#: src/imputation_budgetaire.c:589
 msgid "Budgetary line view"
 msgstr "Vue des imputation uniquement"
 
-#: src/imputation_budgetaire.c:594
+#: src/imputation_budgetaire.c:595
 msgid "Sub-budgetary line view"
 msgstr "Vue des imputations et des sous-imputations"
 
-#: src/imputation_budgetaire.c:646
+#: src/imputation_budgetaire.c:647
 msgid "No sub-budget defined"
 msgstr "Aucune sous-imputation définie"
 
-#: src/imputation_budgetaire.c:651
+#: src/imputation_budgetaire.c:652
 #, fuzzy
 msgid "No budget defined"
 msgstr "Aucune imputation définie"
 
-#: src/imputation_budgetaire.c:742
+#: src/imputation_budgetaire.c:743
 #, c-format
 msgid ""
 "You tried to rename current sub-budgetary line to '%s' but this sub-"
@@ -8841,7 +8888,7 @@ msgstr ""
 "Vous avez tenté de renommer la sous-imputation sélectionnée en '%s' mais "
 "elle existe déjà. Veuillez choisir un autre nom."
 
-#: src/imputation_budgetaire.c:749
+#: src/imputation_budgetaire.c:750
 #, c-format
 msgid ""
 "You tried to rename current budgetary line to '%s' but this budgetary line "
@@ -8850,12 +8897,12 @@ msgstr ""
 "Vous avez tenté de renommer l'imputation sélectionnée en '%s' mais elle "
 "existe déjà.  Veuillez choisir un autre nom."
 
-#: src/imputation_budgetaire.c:754
+#: src/imputation_budgetaire.c:755
 msgid "Budgetary line already exists"
 msgstr "L'imputation existe déjà"
 
 #. * Find a unique name for budget
-#: src/imputation_budgetaire.c:856 src/meta_budgetary.c:244
+#: src/imputation_budgetaire.c:857 src/meta_budgetary.c:244
 msgid "New sub-budget"
 msgstr "Nouvelle sous-imputation"
 
@@ -9770,19 +9817,15 @@ msgstr "Éditer le tiers sélectionné"
 msgid "Remove unused payees"
 msgstr "Supprimer les tiers inutilisés"
 
-#: src/tiers_onglet.c:330 src/tiers_onglet.c:374
+#: src/tiers_onglet.c:330 src/tiers_onglet.c:373
 msgid "Remove orphan payees"
 msgstr "Supprimer les tiers sans opérations"
 
-#: src/tiers_onglet.c:344
-msgid "Manage payees"
-msgstr "Gérer les tiers"
-
-#: src/tiers_onglet.c:348 src/tiers_onglet.c:730
+#: src/tiers_onglet.c:347 src/tiers_onglet.c:729
 msgid "Manage the payees"
 msgstr "Gérer les tiers"
 
-#: src/tiers_onglet.c:375
+#: src/tiers_onglet.c:374
 msgid ""
 "This will remove all the payees wich are not used in any transactions.  "
 "Payees linked to an archived transactions will not be removed, even if not "
@@ -9795,17 +9838,17 @@ msgstr ""
 "\n"
 "Voulez vous continuer ?"
 
-#: src/tiers_onglet.c:387
+#: src/tiers_onglet.c:386
 #, c-format
 msgid "Removed %d payees."
 msgstr "Suppression de %d tiers."
 
 #. Edit transaction
-#: src/tiers_onglet.c:412
+#: src/tiers_onglet.c:411
 msgid "Payee view"
 msgstr "Vue des tiers uniquement"
 
-#: src/tiers_onglet.c:634
+#: src/tiers_onglet.c:633
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
@@ -9814,11 +9857,11 @@ msgstr ""
 "Vous avez tenté de renommer ce tiers en '%s' mais il existe déjà.  Veuillez "
 "choisir un autre nom."
 
-#: src/tiers_onglet.c:638
+#: src/tiers_onglet.c:637
 msgid "Payee already exists"
 msgstr "Le tiers existe déjà"
 
-#: src/tiers_onglet.c:731
+#: src/tiers_onglet.c:730
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -9833,20 +9876,20 @@ msgstr ""
 "Il est préférable de faire une sauvegarde de votre fichier Grisbi si vous ne "
 "l'avez pas encore fait."
 
-#: src/tiers_onglet.c:864
+#: src/tiers_onglet.c:869
 msgid "One payee was replaced with a new one."
 msgstr "Un tiers à été remplacé par le nouveau tiers."
 
-#: src/tiers_onglet.c:868
+#: src/tiers_onglet.c:873
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr "%d tiers ont été remplacés par le nouveau tiers."
 
-#: src/tiers_onglet.c:923
+#: src/tiers_onglet.c:929
 msgid "Choose a payee"
 msgstr "Choisir un tiers"
 
-#: src/tiers_onglet.c:925
+#: src/tiers_onglet.c:931
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
 "research.\n"
@@ -9860,65 +9903,61 @@ msgstr ""
 "   %chaine, chaine%\n"
 "   %chaine%, chaine_1%chaine_2"
 
-#: src/tiers_onglet.c:946
+#: src/tiers_onglet.c:952
 msgid "Enter the new payee"
 msgstr "Entrez le nouveau tiers"
 
-#: src/tiers_onglet.c:948
+#: src/tiers_onglet.c:954
 msgid "Enter the name of the new payee"
 msgstr "Entrez le nom du nouveau tiers : "
 
-#: src/tiers_onglet.c:963
+#: src/tiers_onglet.c:969
 msgid "Options"
 msgstr "Options"
 
-#: src/tiers_onglet.c:965
+#: src/tiers_onglet.c:971
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr "Extraire un numéro à enregistrer dans N° de chèque/Virement"
 
-#: src/tiers_onglet.c:971
+#: src/tiers_onglet.c:977
 msgid "Save the payees in the notes"
 msgstr "Sauvegarder les tiers dans les notes"
 
-#: src/tiers_onglet.c:1004
+#: src/tiers_onglet.c:1010
 msgid "List of payees who will be modified"
 msgstr "Liste des tiers qui seront modifiés"
 
-#: src/tiers_onglet.c:1050
+#: src/tiers_onglet.c:1056
 msgid "Select"
 msgstr "Sélectionner"
 
-#: src/tiers_onglet.c:1058
+#: src/tiers_onglet.c:1064
 msgid "Payee number"
 msgstr "Numéro du tiers"
 
-#: src/tiers_onglet.c:1068
-msgid "Payee name"
-msgstr "Nom du tiers"
-
-#: src/tiers_onglet.c:1084
+#: src/tiers_onglet.c:1090
 msgid "Total number of payees :"
 msgstr "Nombre total de tiers :"
 
 #. ajoute le nombre de tiers sÃ©lectionnÃ©s
-#: src/tiers_onglet.c:1101
+#: src/tiers_onglet.c:1107
 msgid "Number of selected payees :"
 msgstr "Nombre de tiers sélectionnés"
 
-#: src/tiers_onglet.c:1204
+#: src/tiers_onglet.c:1210
 #, c-format
 msgid "Payee sought : %s"
 msgstr "Tiers recherché : %s"
 
-#: src/tiers_onglet.c:1210
+#: src/tiers_onglet.c:1216
 #, c-format
 msgid "New payee : %s"
 msgstr "Nouveau tiers %s"
 
-#: src/tiers_onglet.c:1288
-#, c-format
+#: src/tiers_onglet.c:1291
+#, fuzzy, c-format
 msgid ""
-"You are about to replace one payee whose names contain %s by %s\n"
+"You are about to replace one payee which name contain %s by %s\n"
 "\n"
 "Are you sure?"
 msgstr ""
@@ -9927,7 +9966,7 @@ msgstr ""
 "\n"
 "<span weight=\"bold\">Etes-vous sûr ?</span>"
 
-#: src/tiers_onglet.c:1296
+#: src/tiers_onglet.c:1299
 #, c-format
 msgid ""
 "You are about to replace %d payees whose names contain %s by %s\n"
@@ -9939,11 +9978,11 @@ msgstr ""
 "\n"
 "<span weight=\"bold\">Etes-vous sûr ?</span>"
 
-#: src/tiers_onglet.c:1460
+#: src/tiers_onglet.c:1463
 msgid "You must choose a payee for searching."
 msgstr "Vous devez choisir un tiers pour la recherche"
 
-#: src/tiers_onglet.c:1464
+#: src/tiers_onglet.c:1467
 msgid "Beware you don't use one of models for the research."
 msgstr "Attention, vous n'utilisez pas l'un des modèles pour la recherche."
 

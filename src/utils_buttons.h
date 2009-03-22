@@ -9,6 +9,7 @@ typedef enum GSB_BUTTON_STYLE {
     GSB_BUTTON_TEXT,
     GSB_BUTTON_ICON,
     GSB_BUTTON_BOTH,
+    GSB_BUTTON_BOTH_HORIZ,
 } GsbButtonStyle;
 
 

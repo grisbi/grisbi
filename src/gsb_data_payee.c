@@ -52,6 +52,7 @@ typedef struct
     guint payee_number;
     gchar *payee_name;
     gchar *payee_description;
+    gchar *payee_search_string;
 
     gint payee_nb_transactions;
     gsb_real payee_balance;
@@ -800,4 +801,42 @@ gint gsb_data_payee_remove_unused ( void )
 	}
     }
     return nb_removed;
+}
+
+
+const gchar *gsb_data_payee_get_search_string ( gint no_payee )
+{
+    struct_payee *payee;
+
+    payee = gsb_data_payee_get_structure ( no_payee );
+
+    if (!payee)
+        return "";
+
+    if ( payee -> payee_search_string && strlen (payee -> payee_search_string) )
+        return payee -> payee_search_string;
+    else
+        return "";
+}
+
+gboolean gsb_data_payee_set_search_string ( gint no_payee, const gchar *search_string )
+{
+    struct_payee *payee;
+
+    payee = gsb_data_payee_get_structure ( no_payee );
+
+    if (!payee)
+        return FALSE;
+
+    /* we free the last name */
+    if ( payee -> payee_search_string )
+        g_free (payee -> payee_search_string);
+    
+    /* and copy the new one */
+    if (search_string)
+        payee -> payee_search_string = my_strdup (search_string);
+    else
+        payee -> payee_search_string = NULL;
+
+    return TRUE;
 }

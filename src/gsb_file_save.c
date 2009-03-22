@@ -102,8 +102,8 @@ static gulong gsb_file_save_logo_part ( gulong iterator,
 					gulong *length_calculated,
 					gchar **file_content );
 static gulong gsb_file_save_party_part ( gulong iterator,
-				  gulong *length_calculated,
-				  gchar **file_content );
+                        gulong *length_calculated,
+                        gchar **file_content );
 static gulong gsb_file_save_payment_part ( gulong iterator,
 				    gulong *length_calculated,
 				    gchar **file_content );
@@ -115,8 +115,8 @@ static gulong gsb_file_save_reconcile_part ( gulong iterator,
 				      gulong *length_calculated,
 				      gchar **file_content );
 static gulong gsb_file_save_scheduled_part ( gulong iterator,
-				      gulong *length_calculated,
-				      gchar **file_content );
+                        gulong *length_calculated,
+                        gchar **file_content );
 static gulong gsb_file_save_transaction_part ( gulong iterator,
 					gulong *length_calculated,
 					gchar **file_content,
@@ -1173,8 +1173,8 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_scheduled_part ( gulong iterator,
-				      gulong *length_calculated,
-				      gchar **file_content )
+                        gulong *length_calculated,
+                        gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -1250,8 +1250,8 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
  * \return the new iterator
  * */
 gulong gsb_file_save_party_part ( gulong iterator,
-				  gulong *length_calculated,
-				  gchar **file_content )
+                        gulong *length_calculated,
+                        gchar **file_content )
 {
     GSList *list_tmp;
 	
@@ -1259,26 +1259,27 @@ gulong gsb_file_save_party_part ( gulong iterator,
 
     while ( list_tmp )
     {
-	gchar *new_string;
-	gint payee_number;
+        gchar *new_string;
+        gint payee_number;
 
-	payee_number = gsb_data_payee_get_no_payee (list_tmp -> data);
-	/* now we can fill the file content */
+        payee_number = gsb_data_payee_get_no_payee (list_tmp -> data);
+        /* now we can fill the file content */
 
-	new_string = g_markup_printf_escaped ( "\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" />\n",
-					       payee_number,
-					       gsb_data_payee_get_name (payee_number,
-								   TRUE ),
-					       gsb_data_payee_get_description (payee_number));
+        new_string = g_markup_printf_escaped ( 
+                            "\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" Search=\"%s\" />\n",
+                            payee_number,
+                            gsb_data_payee_get_name (payee_number, TRUE ),
+                            gsb_data_payee_get_description (payee_number),
+                            gsb_data_payee_get_search_string (payee_number) );
 
-	/* append the new string to the file content
-	 * and take the new iterator */
+        /* append the new string to the file content
+         * and take the new iterator */
 
-	iterator = gsb_file_save_append_part ( iterator,
-					       length_calculated,
-					       file_content,
-					       new_string );
-	list_tmp = list_tmp -> next;
+        iterator = gsb_file_save_append_part ( iterator,
+                            length_calculated,
+                            file_content,
+                            new_string );
+        list_tmp = list_tmp -> next;
     }
     return iterator;
 }
