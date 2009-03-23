@@ -2326,10 +2326,12 @@ void gsb_file_load_party ( const gchar **attribute_names,
 		       "Search" ))
 	{
         if ( attribute_values[i] && strlen (attribute_values[i]) > 0 )
-	    gsb_data_payee_set_search_string ( payee_number,
+        {
+            gsb_data_payee_set_search_string ( payee_number,
 					attribute_values[i]);
-        gsb_import_associations_list_append_assoc ( payee_number,
+            gsb_import_associations_list_append_assoc ( payee_number,
                     attribute_values[i] );
+        }
 	    i++;
 	    continue;
 	}
