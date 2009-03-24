@@ -2365,11 +2365,10 @@ msgid ""
 "See console output for details.  Be sure you have installed LaTeX properly "
 "with unicode support."
 msgstr ""
-"Détails dans la sortie console. Vérifiez que vous avez installé LaTeX "
+"Détails dans la console. Vérifiez que vous avez installé LaTeX "
 "correctement avec support unicode."
 
 #: src/etats_latex.c:362
-#, fuzzy
 msgid "LaTeX run was unable to complete."
 msgstr ""
 "L'exécution de LaTeX a échoué, consulter la sortie de la console pour plus "
@@ -2516,10 +2515,9 @@ msgstr ""
 
 #. Blank report
 #: src/etats_onglet.c:913
-#, fuzzy
 msgid "This report is an empty one. You need to customize it entirely."
 msgstr ""
-"Cette option crée un état vierge dans lequel vous devez tout configurer."
+"Cet état est vide. Vous pouvez entièrement le configurer."
 
 #. Cheques deposit
 #: src/etats_onglet.c:919
@@ -2532,18 +2530,16 @@ msgstr ""
 
 #. Monthly outgoings by payee
 #: src/etats_onglet.c:925
-#, fuzzy
 msgid ""
 "This report displays current month's outgoings sorted by payees. You just "
-"need to select the account(s). By default all accounts areselected."
+"need to select the account(s). By default all accounts are selected."
 msgstr ""
-"Cet état affiche les dépenses du mois classées par tiers. Il suffira de "
-"choisir le ou les comptes et de valider (par-défaut, tous les comptes sont "
+"Cet état affiche les dépenses du mois classées par tiers. Vous aurez juste "
+"à choisir le ou les comptes et de valider. Par-défaut, tous les comptes sont "
 "utilisés)."
 
 #. Search
 #: src/etats_onglet.c:931
-#, fuzzy
 msgid ""
 "This report displays all the information for all transactions of all "
 "accounts for the current year. You just have to add the amount, date, payees "
@@ -2555,9 +2551,8 @@ msgstr ""
 "opérations sont interactives par défaut."
 
 #: src/etats_onglet.c:936
-#, fuzzy
 msgid "No description available"
-msgstr "Astuces du jour"
+msgstr "Aucune description disponible"
 
 #: src/etats_onglet.c:962
 #, c-format
@@ -2586,9 +2581,8 @@ msgid "HTML file"
 msgstr "Fichier HTML"
 
 #: src/etats_onglet.c:1153
-#, fuzzy
 msgid "CSV file"
-msgstr "Enregistrer le fichier"
+msgstr "Fichier CSV"
 
 #: src/etats_onglet.c:1154 src/print_config.c:256
 msgid "Postscript file"
@@ -2599,7 +2593,6 @@ msgid "Latex file"
 msgstr "Fichier LaTeX"
 
 #: src/etats_onglet.c:1172
-#, fuzzy
 msgid "Exporting report ..."
 msgstr "Exporter un état en CSV..."
 
@@ -2613,9 +2606,8 @@ msgid "Import a report"
 msgstr "Importer un état"
 
 #: src/etats_onglet.c:1248
-#, fuzzy
 msgid "Grisbi report files (*.egsb)"
-msgstr "Importer un état"
+msgstr "Fichiers Grisbi d'état (*.egsb)"
 
 #: src/etats_support.c:65
 msgid "all financial years"
@@ -2647,9 +2639,9 @@ msgid "Custom dates ranges not filled"
 msgstr "plages perso non remplies"
 
 #: src/etats_support.c:203
-#, fuzzy, c-format
+#, c-format
 msgid "total at %s"
-msgstr "Total %s"
+msgstr "Total au %s"
 
 #: src/etats_support.c:218 src/etats_support.c:265
 #, c-format
@@ -2662,14 +2654,14 @@ msgid "year %d"
 msgstr "année %d"
 
 #: src/etats_support.c:238
-#, fuzzy, c-format
+#, c-format
 msgid "month total at %s"
-msgstr "cumul mensuel au %d/%d/%d"
+msgstr "cumul mensuel au %s"
 
 #: src/etats_support.c:248
-#, fuzzy, c-format
+#, c-format
 msgid "year total at %s"
-msgstr "cumul annuel au %d/%d/%d"
+msgstr "cumul annuel au %s"
 
 #: src/etats_support.c:317 src/etats_support.c:347 src/etats_support.c:376
 #, c-format
@@ -2708,9 +2700,8 @@ msgid "Account name"
 msgstr "Nom du compte"
 
 #: src/export.c:252
-#, fuzzy
 msgid "Export setup terminated"
-msgstr "Exporter un état"
+msgstr "Assistant d'export terminé"
 
 #: src/export.c:256
 msgid ""
@@ -2818,19 +2809,16 @@ msgstr "Échéancier"
 
 #. set the title
 #: src/fenetre_principale.c:273 src/navigation.c:308 src/navigation.c:1244
-#, fuzzy
 msgid "Balance estimate"
-msgstr "Soldes"
+msgstr "Budget prévisionnel"
 
 #: src/file_obfuscate.c:86
-#, fuzzy
 msgid "Obfuscating file..."
-msgstr "Enregistrer le fichier"
+msgstr "Rendre anonyme le fichier..."
 
 #: src/file_obfuscate.c:88
-#, fuzzy
 msgid "Grisbi file obfuscation"
-msgstr "Documentation de Grisbi"
+msgstr "Fichier Grisbi anonyme"
 
 #: src/file_obfuscate.c:89
 msgid ""
@@ -2880,7 +2868,7 @@ msgid "Obfuscation succeeded"
 msgstr "L'opération pour rendre anonyme le fichier a réussi"
 
 #: src/file_obfuscate.c:352
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Grisbi couldn't save the file\n"
 "'%s'"
@@ -2889,12 +2877,10 @@ msgstr ""
 "<tt>%s</tt>"
 
 #: src/file_obfuscate.c:353
-#, fuzzy
 msgid "Obfuscation failed"
-msgstr "Enregistrer le fichier"
+msgstr "Echec de l'opération de rendre anonyme le fichier"
 
 #: src/file_obfuscate.c:360 src/file_obfuscate_qif.c:125
-#, fuzzy
 msgid "Done."
 msgstr "Terminé"
 
@@ -2975,17 +2961,15 @@ msgstr ""
 "immédiatement après avoir sauvegardé le fichier."
 
 #: src/file_obfuscate_qif.c:64
-#, fuzzy
 msgid "Obfuscating qif file..."
-msgstr "Anonymisation du fichier..."
+msgstr "Rendre anonyme le fichier QIF..."
 
 #: src/file_obfuscate_qif.c:66
-#, fuzzy
 msgid "Grisbi QIF obfuscation"
 msgstr "Fichier Grisbi anonymisé"
 
 #: src/file_obfuscate_qif.c:67
-#, fuzzy
+
 msgid ""
 "This assistant produces anonymized copies of qif files, with all personal "
 "data replaced with harmless random data, in order to attach an anonimized "
@@ -3096,9 +3080,8 @@ msgid "Vietnamese"
 msgstr "Viêt-namien"
 
 #: src/go-charmap-sel.c:193
-#, fuzzy
 msgid "Western"
-msgstr "Web"
+msgstr "Europe de l'Ouest"
 
 #: src/go-charmap-sel.c:194 src/help.c:96 src/import_csv.c:110
 msgid "Other"
@@ -3301,9 +3284,8 @@ msgid "Icelandic (MacIcelandic)"
 msgstr "Islandais (MacIcelandic)"
 
 #: src/go-charmap-sel.c:274
-#, fuzzy
 msgid "Japanese (EUC-JP)"
-msgstr "Yen"
+msgstr "Japonais (EUC-JP)"
 
 #: src/go-charmap-sel.c:275
 msgid "Japanese (ISO-2022-JP)"
@@ -3605,9 +3587,8 @@ msgstr ""
 "Les transactions archivées et rapprochées ne seront pas modifiées."
 
 #: src/gsb_account_property.c:766
-#, fuzzy
 msgid "Change the transactions currency"
-msgstr "Transférer les opérations sur le tiers"
+msgstr "Changer la devise des opérations"
 
 #. create the page
 #: src/gsb_archive_config.c:111 src/parametres.c:278
@@ -3806,18 +3787,17 @@ msgid "New bank"
 msgstr "Nouvelle banque"
 
 #: src/gsb_assistant_account.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "%s account"
 msgstr "Compte %s"
 
 #: src/gsb_assistant_account.c:439
-#, fuzzy
 msgid "Cashier"
 msgstr "Espèces"
 
 #. come from check while opening file
 #: src/gsb_assistant_archive.c:123
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "There are a lot of transactions in your file (%d) and it is advised not to "
 "keep more than about %d transactions unarchived.\n"
@@ -3833,7 +3813,7 @@ msgid ""
 "Press Cancel if you don't want make an archive now\n"
 msgstr ""
 "Il y a de nombreuses transactions dans votre fichier (%d) et il est "
-"conseillé de ne pas garder plus de ùd transactions non archivées.\n"
+"conseillé de ne pas garder plus de %d transactions non archivées.\n"
 "Pour augmenter la vitesse, vous devez les archiver (la limite actuelle et le "
 "contrôle à l'ouverture peuvent être modifiés dans les préférences)\n"
 "\n"
@@ -3938,7 +3918,6 @@ msgstr ""
 "'Fermeture' pour quitter cet assistant."
 
 #: src/gsb_assistant_archive.c:527
-#, fuzzy
 msgid "Failed !"
 msgstr "Impossible !"
 
@@ -3958,17 +3937,17 @@ msgstr ""
 "processus."
 
 #: src/gsb_assistant_archive.c:644
-#, fuzzy, c-format
+#, c-format
 msgid "Archive from %s to %s"
 msgstr "Archive de %s vers %s"
 
 #: src/gsb_assistant_archive.c:652
-#, fuzzy, c-format
+#, c-format
 msgid "Archive of financial year %s"
 msgstr "Archive de l'exercice %s"
 
 #: src/gsb_assistant_archive.c:659
-#, fuzzy, c-format
+#, c-format
 msgid "Archive of report %s"
 msgstr "Archive du rapport %s"
 
@@ -4244,9 +4223,8 @@ msgid "My accounts"
 msgstr "Mes comptes"
 
 #: src/gsb_assistant_file.c:591
-#, fuzzy
 msgid "Create filename"
-msgstr "Créer le nom de fichier"
+msgstr "Créer le fichier"
 
 #: src/gsb_assistant_first.c:77
 msgid ""
@@ -4706,7 +4684,6 @@ msgid "Cannot open the category file."
 msgstr "Impossible d'ouvrir le fichier des catégories."
 
 #: src/gsb_category.c:377
-#, fuzzy
 msgid "Unnamed category list"
 msgstr "Liste des catégories anonymes"
 
@@ -4729,17 +4706,14 @@ msgstr ""
 "Veuillez recompiler Grisbi avec le cryptage OpenSSL d'activé."
 
 #: src/gsb_crypt.c:212 src/plugins/openssl/openssl.c:208
-#, fuzzy
 msgid "Grisbi password"
 msgstr "Mot de passe Grisbi"
 
 #: src/gsb_crypt.c:216 src/plugins/openssl/openssl.c:212
-#, fuzzy
 msgid "Crypt file"
 msgstr "Crypter le fichier"
 
 #: src/gsb_crypt.c:216 src/plugins/openssl/openssl.c:212
-#, fuzzy
 msgid "Decrypt file"
 msgstr "Décrypter le fichier"
 
@@ -4781,7 +4755,6 @@ msgstr "Veuillez entrer le taux de change pour %s"
 
 #. echange line label
 #: src/gsb_currency.c:491
-#, fuzzy
 msgid "1"
 msgstr "1 "
 
@@ -5626,7 +5599,6 @@ msgid "Estonia"
 msgstr "Estonie"
 
 #: src/gsb_currency_config.c:197
-#, fuzzy
 msgid "UE (Europe)"
 msgstr "Europe"
 
@@ -6175,7 +6147,7 @@ msgid "Impossible to remove currency '%s'"
 msgstr "Impossible de supprimer la devise « %s »"
 
 #: src/gsb_currency_config.c:641
-#, fuzzy, c-format
+#, c-format
 msgid "Currency '%s' is used in current file. Grisbi can't delete it."
 msgstr ""
 "La devise « %s » est utilisée dans le fichier courant. Grisbi ne peut donc "
@@ -6299,14 +6271,14 @@ msgstr ""
 
 #. TODO dOm : the value of g_strdup_printf was not used. I add the devel_debug function to print it. Is it OK ?
 #: src/gsb_data_account.c:1216
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
 "no_column = %d\n"
 msgstr ""
-"Colonne invalide passé à gsb_data_account_set_column_sort() dans "
-"data_account.\n"
-"colonne = %d\n"
+"Colonne passée à gsb_data_account_set_element_sort() invalide dans "
+"gsb_data_account.c\n"
+"no_colonne = %d\n"
 
 #: src/gsb_data_budget.c:147
 msgid "No budget line"
@@ -6327,12 +6299,13 @@ msgid "In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"
 msgstr "Dans <i>%s</i>,·<i>%s</i> est un doublon de <i>%s</i>.\n"
 
 #: src/gsb_data_category.c:1390
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The transaction %d has a category n°%d and sub-category n°%d but they don't "
 "exist."
 msgstr ""
-"La sous-catégorie %d de la catégorie %d de la transaction %d est invalide.\n"
+"L'opération %d a une catégorie N° %d et une sous-catégorie N° %d "
+"inexistantes."
 
 #: src/gsb_data_currency_link.c:475
 msgid ""
@@ -6343,37 +6316,37 @@ msgstr ""
 "identiques</span>"
 
 #: src/gsb_data_currency_link.c:477
-#, fuzzy
 msgid "<span foreground=\"red\">Warning : that link is already defined</span>"
-msgstr "Attention : ce lien est déjà défini"
+msgstr "<span foreground=\"red\">Attention : ce lien est déjà défini</span>"
 
 #: src/gsb_data_fyear.c:574
-#, fuzzy
+
 msgid ""
 "<span foreground=\"red\">Warning : the dates are not in good order</span>"
-msgstr "Attention : les dates ne sont pas dans le bon ordre"
+msgstr ""
+"<span foreground=\"red\">Attention : les dates ne sont pas dans le "
+"bon ordre</span>"
 
 #: src/gsb_data_fyear.c:577
-#, fuzzy
 msgid ""
 "<span foreground=\"red\">Warning : that financial year cross with another "
 "one</span>"
-msgstr "Attention : cette année financière en chevauche une autre"
+msgstr ""
+"<span foreground=\"red\">Attention : cette année financière en chevauche "
+"une autre</span>"
 
 #: src/gsb_data_fyear.c:580
-#, fuzzy
 msgid "<span foreground=\"red\">Warning : Invalid date</span>"
-msgstr "Attention : date invalide"
+msgstr "<span foreground=\"red\">Attention : date invalide</span>"
 
 #: src/gsb_data_payee.c:399
-#, fuzzy
 msgid "No payee defined"
 msgstr "Aucun tiers défini"
 
 #: src/gsb_data_payee.c:705
-#, fuzzy, c-format
+#, c-format
 msgid "The transaction %d has a payee n°%d but it doesn't exist."
-msgstr "Le tiers %d de la transaction %d est invalide.\n"
+msgstr "L'opération a un tiers N° %d qui n'existe pas."
 
 #. Deposit = DÃ©pÃ´t
 #: src/gsb_data_payment.c:714 src/import.c:2417 src/plugins/ofx/ofx.c:451
@@ -6411,7 +6384,6 @@ msgstr ""
 "correspondent pas aux totaux des opérations rapprochées."
 
 #: src/gsb_debug.c:71
-#, fuzzy
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
 "sum of reconcilied transactions.  Generally, the cause is too many transfers "
@@ -6609,7 +6581,7 @@ msgstr "Détails"
 #: src/gsb_debug.c:306
 #, fuzzy
 msgid "Try to fix this inconsistency."
-msgstr "Un compte comporte des incohérences."
+msgstr "Essai pour résoudre cette incohérence."
 
 #: src/gsb_debug.c:333
 msgid ""
@@ -6620,12 +6592,10 @@ msgstr ""
 "maintenant sauvegarder vos modifications."
 
 #: src/gsb_debug.c:335
-#, fuzzy
 msgid "Fix completed"
-msgstr "Remplissement automatique du formulaire"
+msgstr "Résolution terminée"
 
 #: src/gsb_debug.c:339
-#, fuzzy
 msgid ""
 "Grisbi was unable to repair this account file.  No modification has been "
 "done."
@@ -6634,9 +6604,8 @@ msgstr ""
 "modifications."
 
 #: src/gsb_debug.c:341
-#, fuzzy
 msgid "Unable to fix account"
-msgstr "Impossible de fixer le compte"
+msgstr "Impossible de réparer le compte"
 
 #: src/gsb_debug.c:430
 #, c-format
@@ -6650,20 +6619,19 @@ msgstr ""
 "  Montant du rapprochement recalculé : %s\n"
 
 #: src/gsb_debug.c:509
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction #%d is linked to non existent transaction #%d.\n"
 msgstr ""
-"L'opération N°%d dit avoir une contre-opération N°%d, mais l'opération N°%d "
-"a une contre-opération N°%d au lieu d'une contre-opération N°%d.\n"
+"L'opération N°%d  a un lien avec l'opération inexistante N°%d.\n"
 
 #: src/gsb_debug.c:532
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Transaction #%d is linked to transaction #%d, which is linked to transaction "
 "#%d.\n"
 msgstr ""
-"L'opération N°%d dit avoir une contre-opération N°%d, mais l'opération N°%d "
-"a une contre-opération N°%d au lieu d'une contre-opération N°%d.\n"
+"L'opération N°%d à une contre-opération N°%d, qui est, elle même, liée "
+"a la contre-opération N°%d.\n"
 
 #. sub-category not found
 #: src/gsb_debug.c:594
@@ -6700,7 +6668,6 @@ msgstr "Le tiers %d de la transaction %d est invalide.\n"
 
 #. Create main widget.
 #: src/gsb_file.c:171
-#, fuzzy
 msgid "Creating main window"
 msgstr "Création de la fenêtre principale"
 
@@ -6817,7 +6784,6 @@ msgid "Saving backup"
 msgstr "Enregistrer la sauvegarde"
 
 #: src/gsb_file.c:757
-#, fuzzy
 msgid "Save locked files?"
 msgstr "Enregistrer le fichier verrouillé ?"
 
@@ -6983,13 +6949,13 @@ msgstr ""
 
 #. we don't know here the release of that file, give the release needed
 #: src/gsb_file_load.c:7612
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr ""
-"Pour ouvrir ce fichier, il vous faut la version %s de GrisbiVous utilisez la "
-"version %s."
+"Pour ouvrir ce fichier, il vous faut la version %s de Grisbi.\n"
+"Vous utilisez la version %s."
 
 #: src/gsb_file_load.c:7651
 msgid ""
@@ -7060,9 +7026,9 @@ msgstr ""
 "La version de fichier est inférieure à 0.6.0, Grisbi ne peut pas l'importer."
 
 #: src/gsb_file_others.c:593
-#, fuzzy
 msgid "This is not a category file, loading canceled..."
-msgstr "Ce fichier n'est pas une liste de catégories Grisbi"
+msgstr ""
+"Ce fichier n'est pas une liste de catégories Grisbi, action annulée..."
 
 #: src/gsb_file_others.c:609
 msgid "This is not a budget file, loading canceled..."
@@ -7130,7 +7096,6 @@ msgid "Recover the children"
 msgstr "Restaurer les sous-opérations"
 
 #: src/gsb_form.c:751
-#, fuzzy
 msgid "Transfer : Deleted account"
 msgstr "Virement : Compte supprimé"
 
@@ -7182,7 +7147,6 @@ msgstr ""
 "opération fille"
 
 #: src/gsb_form.c:2511
-#, fuzzy
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
