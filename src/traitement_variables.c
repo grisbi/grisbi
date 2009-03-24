@@ -29,6 +29,7 @@
 
 /*START_INCLUDE*/
 #include "traitement_variables.h"
+#include "./gsb_account_property.h"
 #include "./gsb_currency.h"
 #include "./gsb_data_account.h"
 #include "./gsb_data_archive.h"
@@ -182,6 +183,9 @@ void modification_fichier ( gboolean modif )
     {
 	return;
     }
+
+    /* pbiava on 03/24/2009 fix bug display bank code */
+    gsb_account_property_set_label_code_banque ( );
 
     if ( modif )
     {

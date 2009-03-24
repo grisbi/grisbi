@@ -14,5 +14,6 @@ struct iso_13616_iban
 GSList *gsb_account_property_create_combobox_list ( void );
 GtkWidget *gsb_account_property_create_page ( void );
 void gsb_account_property_fill_page ( void );
+void gsb_account_property_set_label_code_banque ( void );
 /* END_DECLARATION */
 #endif

@@ -36,6 +36,7 @@ GdkPixbuf *gsb_data_account_get_account_icon_pixbuf ( gint account_number );
 GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_kind );
 gint gsb_data_account_get_accounts_amount ( void );
 gint gsb_data_account_get_bank ( gint account_number );
+gchar *gsb_data_account_get_bank_account_IBAN (gint account_number);
 gchar *gsb_data_account_get_bank_account_key ( gint account_number );
 gchar *gsb_data_account_get_bank_account_number ( gint account_number );
 gchar *gsb_data_account_get_bank_branch_code ( gint account_number );
@@ -83,6 +84,7 @@ gint gsb_data_account_set_account_number ( gint account_number,
 					   gint new_no );
 gboolean gsb_data_account_set_bank ( gint account_number,
 				     gint bank );
+gboolean gsb_data_account_set_bank_account_IBAN ( gint account_number, const gchar *IBAN );
 gboolean gsb_data_account_set_bank_account_key ( gint account_number,
 						 const gchar *bank_account_key );
 gboolean gsb_data_account_set_bank_account_number ( gint account_number,
@@ -153,9 +155,6 @@ gboolean gsb_data_account_sort_list_add ( gint account_number,
 gboolean gsb_data_account_sort_list_free ( gint account_number );
 gboolean gsb_data_account_sort_list_remove ( gint account_number,
 					     gint payment_number );
-gboolean gsb_data_account_set_bank_account_IBAN ( gint account_number,
-					       const gchar *IBAN );
-gchar *gsb_data_account_get_bank_account_IBAN (gint account_number);
 /* END_DECLARATION */
 
 

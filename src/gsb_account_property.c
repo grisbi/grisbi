@@ -348,7 +348,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-    label_code_banque = gtk_label_new (NULL);
+    label_code_banque = gtk_label_new ( NULL );
     g_signal_connect ( G_OBJECT (label_code_banque ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &label_code_banque );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
@@ -565,12 +565,10 @@ void gsb_account_property_fill_page ( void )
 
     /* fill bank informations */
     bank_number = gsb_data_account_get_bank (current_account);
-    /* here i don't know why, at the opening of the file, if we go into the property of account,
-     * the bank code is not shown, but the function under really show it... and if we do anything
-     * (toggle a checkbutton, change account...) this code appear. didn't find why... */
     gsb_bank_list_set_bank (bank_list_combobox,
 			    bank_number,
 			    current_account );
+    gsb_account_property_set_label_code_banque ( );
 
     gsb_autofunc_entry_set_value (detail_guichet,
 				  gsb_data_account_get_bank_branch_code (current_account), current_account);
@@ -810,6 +808,25 @@ gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
 }
 
 
+/**
+ * pbiava on 03/24/2009 fix bug display bank code
+ *
+ * appellée au moment de l'ouverture de l'onglet caractéristique du compte
+ * 
+ * */
+void gsb_account_property_set_label_code_banque ( void )
+{
+    gint bank_number;
+    gint current_account;
+
+    if ( label_code_banque && GTK_WIDGET_VISIBLE ( label_code_banque) )
+    {
+        current_account = gsb_gui_navigation_get_current_account ();
+        bank_number = gsb_data_account_get_bank (current_account);
+        gtk_label_set_text ( GTK_LABEL (label_code_banque),
+                            gsb_data_bank_get_code (bank_number) );
+    }
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
