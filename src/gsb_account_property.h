@@ -3,6 +3,12 @@
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
+struct iso_13616_iban
+{
+    gchar *locale;
+    gchar *iban;
+    gint nbre_char;
+};
 
 /* START_DECLARATION */
 GSList *gsb_account_property_create_combobox_list ( void );

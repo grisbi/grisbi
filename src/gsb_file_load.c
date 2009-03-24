@@ -1363,6 +1363,15 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 	    continue;
 	}
 
+    if ( !strcmp ( attribute_names[i],
+		       "Bank_account_IBAN" ))
+	{
+	    gsb_data_account_set_bank_account_IBAN ( account_number,
+						       attribute_values[i]);
+	    i++;
+	    continue;
+	}
+
 	if ( !strcmp ( attribute_names[i],
 		       "Initial_balance" ))
 	{

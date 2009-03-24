@@ -153,6 +153,9 @@ gboolean gsb_data_account_sort_list_add ( gint account_number,
 gboolean gsb_data_account_sort_list_free ( gint account_number );
 gboolean gsb_data_account_sort_list_remove ( gint account_number,
 					     gint payment_number );
+gboolean gsb_data_account_set_bank_account_IBAN ( gint account_number,
+					       const gchar *IBAN );
+gchar *gsb_data_account_get_bank_account_IBAN (gint account_number);
 /* END_DECLARATION */
 
 

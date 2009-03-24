@@ -937,6 +937,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 					       "\t\tBank_branch_code=\"%s\"\n"
 					       "\t\tBank_account_number=\"%s\"\n"
 					       "\t\tKey=\"%s\"\n"
+                           "\t\tBank_account_IBAN=\"%s\"\n"
 					       "\t\tInitial_balance=\"%s\"\n"
 					       "\t\tMinimum_wanted_balance=\"%s\"\n"
 					       "\t\tMinimum_authorised_balance=\"%s\"\n"
@@ -968,6 +969,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 	    gsb_data_account_get_bank_branch_code (account_number),
 	    gsb_data_account_get_bank_account_number (account_number),
 	    gsb_data_account_get_bank_account_key (account_number),
+        gsb_data_account_get_bank_account_IBAN (account_number),
 	    init_balance,
 	    mini_wanted,
 	    mini_auto,

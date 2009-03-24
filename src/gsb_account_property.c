@@ -75,7 +75,14 @@ static gboolean gsb_account_property_changed_bank_label ( GtkWidget *combobox,
 						   gpointer null );
 /*END_STATIC*/
 
-
+struct iso_13616_iban iso_13616_ibans [] = {
+    { "de_DE", "DEkk BBBB BBBB CCCC CCCC CC", 22 },
+    { "en_EN", "GBkk BBBB SSSS SSCC CCCC CC", 22 },
+    { "fr_BE", "BEkk BBBC CCCC CCKK", 16 },
+    { "fr_FR", "FRkk BBBB BGGG GGCC CCCC CCCC CKK", 27 },
+    { "fr_LU", "LUkk BBBC CCCC CCCC CCCC", 20 },
+    { NULL },
+};
 
 static GtkWidget *edit_bank_button = NULL;
 static GtkWidget *detail_nom_compte = NULL;
@@ -95,6 +102,7 @@ static GtkWidget *detail_solde_mini_voulu = NULL;
 static GtkWidget *detail_commentaire = NULL;
 static GtkWidget *button_holder_address = NULL;
 static GtkWidget *bouton_icon = NULL;
+static GtkWidget *detail_IBAN = NULL;
 
 enum origin
 {
@@ -128,6 +136,8 @@ GtkWidget *gsb_account_property_create_page ( void )
     GtkWidget *label, *scrolled_window_text, *paddingbox;
     GtkSizeGroup * size_group;
 	GtkWidget *align;
+    struct iso_13616_iban *iban = iso_13616_ibans;
+    const gchar *locale;
 
     devel_debug ( NULL );
 
@@ -387,6 +397,55 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_widget_set_size_request ( detail_cle_compte, 30, -1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_cle_compte, FALSE, FALSE, 0 );
 
+    /* création de la ligne du numéro IBAN */
+    /* récupération de la locale pour le format de l'IBAN */
+    locale = g_getenv ( "LANG" );
+    while (iban -> locale )
+    {
+        if ( g_strstr_len (locale, -1, iban -> locale) )
+            break;
+        iban ++;
+    }
+
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( COLON(_("IBAN number")) );
+    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
+    gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
+
+    detail_IBAN = gsb_autofunc_entry_new ( NULL,
+                        NULL, NULL,
+                        G_CALLBACK (gsb_data_account_set_bank_account_IBAN),
+                        0);
+    g_signal_connect ( G_OBJECT (detail_IBAN ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &detail_IBAN );
+    if ( iban -> iban )
+        gtk_entry_set_max_length ( GTK_ENTRY (detail_IBAN), 
+                        strlen (iban -> iban) );
+    else
+        gtk_entry_set_max_length ( GTK_ENTRY (detail_IBAN), 34 );
+    gtk_widget_set_size_request ( detail_IBAN, 280, -1 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), detail_IBAN, FALSE, FALSE, 0 );
+
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( COLON(_("IBAN format")) );
+    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
+    gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
+
+    gchar * tmpstr = g_strdup_printf ( _("%s\n"
+                        "B = bank code, G = agency code,\n"
+                        "C = account number, R = key RIB"),
+                        iban -> iban );
+
+    label = gtk_label_new ( tmpstr );
+    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
+    g_free ( tmpstr );
 
     /* création de la ligne du solde initial */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Balances"));
@@ -519,6 +578,8 @@ void gsb_account_property_fill_page ( void )
 				  gsb_data_account_get_bank_account_number (current_account), current_account );
     gsb_autofunc_entry_set_value (detail_cle_compte,
 				  gsb_data_account_get_bank_account_key (current_account), current_account );
+    gsb_autofunc_entry_set_value (detail_IBAN,
+				  gsb_data_account_get_bank_account_IBAN (current_account), current_account );
 
     gsb_autofunc_real_set ( detail_solde_init,
 			    gsb_data_account_get_init_balance (current_account,

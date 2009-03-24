@@ -91,6 +91,7 @@ typedef struct
     gchar 	*bank_branch_code;
     gchar 	*bank_account_number;
     gchar 	*bank_account_key;
+    gchar   *bank_account_IBAN;
 
     /** @name reconcile sort */
     gint 	reconcile_sort_type;			/**< 1 : sort by method of payment ; 0 : let the user sort by himself */
@@ -2636,4 +2637,38 @@ gchar *gsb_data_account_get_owner (gint account_number)
 	return NULL;
 
     return account -> holder_name;
+}
+
+
+gchar *gsb_data_account_get_bank_account_IBAN (gint account_number)
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+        return NULL;
+
+    return account -> bank_account_IBAN;
+}
+
+
+gboolean gsb_data_account_set_bank_account_IBAN ( gint account_number, const gchar *IBAN )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if (!account )
+        return FALSE;
+
+    if ( account -> bank_account_IBAN )
+        g_free ( account -> bank_account_IBAN );
+
+    if (!IBAN || !strlen (IBAN))
+        account -> bank_account_IBAN = NULL;
+    else
+        account -> bank_account_IBAN = my_strdup (IBAN);
+
+    return TRUE;
 }
