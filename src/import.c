@@ -1889,7 +1889,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 						date_fin_comparaison ) <= 0 )
 
 			     &&
-			     !imported_transaction -> ope_de_ventilation 
+			     !imported_transaction -> ope_de_ventilation
                  &&
                 gsb_data_transaction_get_automatic_transaction (
                         transaction_number_tmp) > 0 )
@@ -2280,7 +2280,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     /* récupération du tiers */
     /* pbiava on 03/22/2009 utilisation des remplacements de tiers.
      * on sauvegarde systématiquement le tiers importé. Peut-etre
-     * remplacé plus loin si des notes sont attachées aux 
+     * remplacé plus loin si des notes sont attachées aux
      * transactions importées */
     if ( imported_transaction -> tiers
 	 &&
@@ -2372,7 +2372,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
                                     last_transaction_number );
         gsb_data_transaction_set_budgetary_number ( transaction_number,
                                 category_number );
-        category_number = gsb_data_transaction_get_sub_budgetary_number ( 
+        category_number = gsb_data_transaction_get_sub_budgetary_number (
                                 last_transaction_number );
         gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
                                 category_number );
@@ -3217,7 +3217,7 @@ GtkWidget *onglet_importation (void)
     button = gsb_automem_checkbutton_new (
                         _("merge transactions imported with planned transactions"),
                         &etat.get_fusion_import_planed_transactions, NULL, NULL );
-    
+
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* automatically associate the category of the payee if it is possible */
@@ -3232,9 +3232,12 @@ GtkWidget *onglet_importation (void)
     gtk_box_pack_start ( GTK_BOX (hbox ), button, FALSE, FALSE, 0 );
 
     /* button manage payees */
-    button = gsb_automem_stock_button_new ( GSB_BUTTON_BOTH_HORIZ, 
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
+
+    button = gsb_automem_stock_button_new ( GSB_BUTTON_BOTH_HORIZ,
                         GTK_STOCK_PREFERENCES,
-                        _("Manage payees"), 
+                        _("Manage payees"),
                         G_CALLBACK (gsb_import_associations_gere_tiers), NULL );
 #if GTK_CHECK_VERSION(2,12,0)
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
@@ -3242,7 +3245,7 @@ GtkWidget *onglet_importation (void)
                         "to simplify the list")));
 #endif
 
-    gtk_box_pack_start ( GTK_BOX (hbox ), button, FALSE, FALSE, 10 );
+    gtk_box_pack_start ( GTK_BOX (hbox ), button, FALSE, FALSE, 0 );
 
     /* propose to choose between getting the fyear by value date or by date */
     gsb_automem_radiobutton_new_with_title ( vbox_pref,
@@ -3261,8 +3264,8 @@ GtkWidget *onglet_importation (void)
 /**
  * callback quand on appuie sur le bouton gestion des associations des tiers
  *
- * \param button	
- * \param data	
+ * \param button
+ * \param data
  *
  * */
 void gsb_import_associations_gere_tiers (GtkWidget *button, gpointer data )
@@ -3277,20 +3280,21 @@ void gsb_import_associations_gere_tiers (GtkWidget *button, gpointer data )
     gchar *texte;
     gint result;
 
-    dialog = gtk_dialog_new_with_buttons ( 
+    dialog = gtk_dialog_new_with_buttons (
                         _("Associations for the import of payees"),
                         GTK_WINDOW ( window ),
                         GTK_DIALOG_MODAL,
                         GTK_STOCK_CLOSE, 1,
                         NULL );
 
+    gtk_window_set_default_size ( GTK_WINDOW ( dialog ), 700, -1 );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
 
-    vbox_main = new_vbox_with_title_and_icon ( 
+    vbox_main = new_vbox_with_title_and_icon (
                         _("Manage the associations"),
                         "payees.png" );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), 
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
                         vbox_main, TRUE, TRUE, 0 );
 
     vbox = gtk_vbox_new ( FALSE, 12 );
@@ -3343,7 +3347,7 @@ void gsb_import_associations_gere_tiers (GtkWidget *button, gpointer data )
     g_object_set_data ( G_OBJECT (dialog), "remove_button", button );
 
     /* create the model */
-    list_store = gtk_list_store_new ( 
+    list_store = gtk_list_store_new (
                         3, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT );
 
     /* remplit le modèle si nécessaire */
@@ -3358,7 +3362,7 @@ void gsb_import_associations_gere_tiers (GtkWidget *button, gpointer data )
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
     gtk_widget_set_size_request ( treeview, -1, 230 );
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (treeview) );
-    gtk_tree_selection_set_select_function ( selection, 
+    gtk_tree_selection_set_select_function ( selection,
                         gsb_import_associations_select_func,
                         dialog, NULL );
     gtk_container_add (GTK_CONTAINER (sw), treeview);
@@ -3377,9 +3381,9 @@ void gsb_import_associations_gere_tiers (GtkWidget *button, gpointer data )
     /* Search string */
     cell = gtk_cell_renderer_text_new ( );
     g_object_set (cell, "editable", TRUE, NULL);
-    g_signal_connect ( cell, 
+    g_signal_connect ( cell,
                         "edited",
-                        G_CALLBACK (gsb_import_associations_cell_edited), 
+                        G_CALLBACK (gsb_import_associations_cell_edited),
                         dialog );
     column = gtk_tree_view_column_new_with_attributes ( _("Search string"),
 						     cell, "text", 1, NULL);
@@ -3405,11 +3409,11 @@ void gsb_import_associations_gere_tiers (GtkWidget *button, gpointer data )
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-    entry = gtk_combofix_new_complex ( 
+    entry = gtk_combofix_new_complex (
                         gsb_data_payee_get_name_and_report_list());
     g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (entry) -> entry ),
                         "changed",
-                        G_CALLBACK (gsb_import_associations_combo_changed), 
+                        G_CALLBACK (gsb_import_associations_combo_changed),
                         dialog );
     gtk_combofix_set_text ( GTK_COMBOFIX (entry), "" );
     gtk_combofix_set_force_text ( GTK_COMBOFIX (entry),FALSE );
@@ -3479,7 +3483,7 @@ void gsb_import_associations_add_assoc ( GtkWidget *button, GtkWidget *dialog )
                         assoc );
         gsb_data_payee_set_search_string ( payee_number, search_str );
     }
-    else 
+    else
     {
         struct struct_payee_asso *assoc;
 
@@ -3496,8 +3500,8 @@ void gsb_import_associations_add_assoc ( GtkWidget *button, GtkWidget *dialog )
         }
         else
         {
-            liste_associations_tiers = g_slist_insert_sorted ( 
-                        liste_associations_tiers, 
+            liste_associations_tiers = g_slist_insert_sorted (
+                        liste_associations_tiers,
                         assoc,
                         (GCompareFunc) gsb_import_associations_cmp_assoc);
             gsb_data_payee_set_search_string ( payee_number, search_str );
@@ -3533,12 +3537,12 @@ void gsb_import_associations_del_assoc ( GtkWidget *button, GtkWidget *dialog )
     gint payee_number;
 
     treeview = g_object_get_data ( G_OBJECT (dialog), "treeview" );
-    if ( !gtk_tree_selection_get_selected ( 
+    if ( !gtk_tree_selection_get_selected (
                         gtk_tree_view_get_selection (treeview),
 					    &model,
 					    &iter ))
     return;
-    
+
     gtk_tree_model_get ( model, &iter, 2, &payee_number, -1 );
     printf ("numero de tiers = %d\n", payee_number);
     if ( payee_number > 0 )
@@ -3552,9 +3556,9 @@ void gsb_import_associations_del_assoc ( GtkWidget *button, GtkWidget *dialog )
             assoc = list_tmp -> data;
             if ( assoc -> payee_number == payee_number )
             {
-                liste_associations_tiers = g_slist_remove ( 
+                liste_associations_tiers = g_slist_remove (
                         liste_associations_tiers, assoc );
-                gsb_import_associations_fill_model ( 
+                gsb_import_associations_fill_model (
                         GTK_LIST_STORE (model) );
                 break;
             }
@@ -3677,7 +3681,7 @@ void gsb_import_associations_combo_changed ( GtkEditable *editable,
     tmpstr = gsb_data_payee_get_search_string ( payee_number );
 
     entry = g_object_get_data ( G_OBJECT (dialog), "Search_string" );
-    
+
     if ( strlen ( tmpstr) == 0 )
     {
         gtk_entry_set_text ( GTK_ENTRY (entry), tmpstr );
@@ -3702,7 +3706,7 @@ gint gsb_import_associations_find_payee ( gchar *imported_tiers)
         struct struct_payee_asso *assoc;
 
         assoc = list_tmp -> data;
-        printf ("imported_tiers = %s et search_str = %s\n", 
+        printf ("imported_tiers = %s et search_str = %s\n",
                         imported_tiers, assoc -> search_str);
         if ( gsb_string_is_trouve ( imported_tiers, assoc -> search_str ) )
         {
@@ -3714,7 +3718,7 @@ gint gsb_import_associations_find_payee ( gchar *imported_tiers)
     return 0;
 }
 
-gint gsb_import_associations_list_append_assoc ( gint payee_number, 
+gint gsb_import_associations_list_append_assoc ( gint payee_number,
                         const gchar *search_str )
 {
     struct struct_payee_asso *assoc;
@@ -3726,8 +3730,8 @@ gint gsb_import_associations_list_append_assoc ( gint payee_number,
      if ( ! g_slist_find_custom (liste_associations_tiers,
                         assoc,
                         (GCompareFunc) gsb_import_associations_cmp_assoc) )
-        liste_associations_tiers = g_slist_insert_sorted ( 
-                        liste_associations_tiers, 
+        liste_associations_tiers = g_slist_insert_sorted (
+                        liste_associations_tiers,
                         assoc,
                         (GCompareFunc) gsb_import_associations_cmp_assoc);
 
