@@ -23,7 +23,7 @@
 
 /**
  * \file gsb_account_property.c
- * work with the property page of the accounts 
+ * work with the property page of the accounts
  */
 
 
@@ -76,6 +76,8 @@ static gboolean gsb_account_property_changed_bank_label ( GtkWidget *combobox,
 /*END_STATIC*/
 
 struct iso_13616_iban iso_13616_ibans [] = {
+	{ "de_AT", "ATkk BBBB BCCC CCCC CCCC", 20 },
+	{ "de_CH", "CHkk BBBB BCCC CCCC CCCC C", 21 },
     { "de_DE", "DEkk BBBB BBBB CCCC CCCC CC", 22 },
     { "en_EN", "GBkk BBBB SSSS SSCC CCCC CC", 22 },
     { "fr_BE", "BEkk BBBC CCCC CCKK", 16 },
@@ -146,9 +148,9 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
 
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
-	
-	
-    /* Création du bouton pour modifier l'icône de compte. C'est un moyen de 
+
+
+    /* Création du bouton pour modifier l'icône de compte. C'est un moyen de
      * contourner le bug du gtk_viewport */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     bouton_icon = gtk_button_new ( );
@@ -182,7 +184,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     detail_nom_compte = gsb_autofunc_entry_new ( NULL,
-						 G_CALLBACK (gsb_account_property_changed), GINT_TO_POINTER (PROPERTY_NAME), 
+						 G_CALLBACK (gsb_account_property_changed), GINT_TO_POINTER (PROPERTY_NAME),
 						 G_CALLBACK (gsb_data_account_set_name),
 						 0 );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_nom_compte, TRUE, TRUE, 0);
@@ -217,7 +219,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
     detail_devise_compte = gsb_autofunc_currency_new (TRUE, 0,
-						      G_CALLBACK (gsb_account_property_changed), 
+						      G_CALLBACK (gsb_account_property_changed),
                               GINT_TO_POINTER (PROPERTY_CURRENCY),
 						      NULL, 0 );
     g_signal_connect ( G_OBJECT (detail_devise_compte ), "destroy",
@@ -226,7 +228,7 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     /* create closed account line */
     detail_compte_cloture = gsb_autofunc_checkbutton_new (_("Closed account"), FALSE,
-							  G_CALLBACK (gsb_account_property_changed), 
+							  G_CALLBACK (gsb_account_property_changed),
                               GINT_TO_POINTER (PROPERTY_CLOSED_ACCOUNT),
 							  G_CALLBACK (gsb_data_account_set_closed_account), 0 );
     g_signal_connect ( G_OBJECT (detail_compte_cloture ), "destroy",
@@ -234,15 +236,15 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), detail_compte_cloture, FALSE, FALSE, 0 );
 
     /* set the callback for the button_icon */
-    g_signal_connect ( G_OBJECT (bouton_icon ), 
+    g_signal_connect ( G_OBJECT (bouton_icon ),
                             "destroy",
-                            G_CALLBACK ( gtk_widget_destroyed), 
+                            G_CALLBACK ( gtk_widget_destroyed),
                             &bouton_icon );
     gtk_button_set_relief ( GTK_BUTTON ( bouton_icon ), GTK_RELIEF_NONE );
 
-    g_signal_connect ( G_OBJECT( bouton_icon ), 
-                            "pressed", 
-                            G_CALLBACK(gsb_data_account_change_account_icon), 
+    g_signal_connect ( G_OBJECT( bouton_icon ),
+                            "pressed",
+                            G_CALLBACK(gsb_data_account_change_account_icon),
                             NULL );
 
 
@@ -296,7 +298,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     scrolled_window_text = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window_text ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_text), 
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_text),
 					  GTK_SHADOW_IN );
     gtk_box_pack_start ( GTK_BOX(hbox), scrolled_window_text, TRUE, TRUE, 0);
 
@@ -422,7 +424,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     g_signal_connect ( G_OBJECT (detail_IBAN ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &detail_IBAN );
     if ( iban -> iban )
-        gtk_entry_set_max_length ( GTK_ENTRY (detail_IBAN), 
+        gtk_entry_set_max_length ( GTK_ENTRY (detail_IBAN),
                         strlen (iban -> iban) );
     else
         gtk_entry_set_max_length ( GTK_ENTRY (detail_IBAN), 34 );
@@ -505,7 +507,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     scrolled_window_text = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window_text ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_text), 
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window_text),
 					  GTK_SHADOW_IN );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window_text, TRUE, TRUE, 5 );
 
@@ -517,7 +519,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_container_add ( GTK_CONTAINER ( scrolled_window_text ), detail_commentaire );
 
     gtk_widget_show_all ( onglet );
-    
+
     return ( onglet );
 }
 
@@ -543,11 +545,11 @@ void gsb_account_property_fill_page ( void )
 
     gsb_autofunc_combobox_set_index (detail_type_compte,
 				     gsb_data_account_get_kind (current_account), current_account);
-    
+
     /* modification pour mettre à jour l'icône du sélecteur d'icône du compte */
     image = gsb_data_account_get_account_icon_image ( current_account );
     gtk_button_set_image ( GTK_BUTTON ( bouton_icon ), image );
-    
+
     gsb_autofunc_currency_set_currency_number (detail_devise_compte,
 					       gsb_data_account_get_currency (current_account), current_account);
 
@@ -756,7 +758,7 @@ gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
 				    new_currency_number );
 
     /* ask for the currency of the transactions */
-    gchar* tmpstr = g_strdup_printf ( _("You are changing the currency of the account, do you want to change the currency of the transactions too ?\n(yes will change all the transactions currency from %s to %s, all the transactions with another currency will stay the same).\n\nArchived and reconcilied transactions will be left unmodified."), 
+    gchar* tmpstr = g_strdup_printf ( _("You are changing the currency of the account, do you want to change the currency of the transactions too ?\n(yes will change all the transactions currency from %s to %s, all the transactions with another currency will stay the same).\n\nArchived and reconcilied transactions will be left unmodified."),
 				      gsb_data_currency_get_name (account_currency_number),
 				      gsb_data_currency_get_name (new_currency_number));
     result = question_yes_no_hint ( _("Change the transactions currency"),
@@ -812,7 +814,7 @@ gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
  * pbiava on 03/24/2009 fix bug display bank code
  *
  * appellée au moment de l'ouverture de l'onglet caractéristique du compte
- * 
+ *
  * */
 void gsb_account_property_set_label_code_banque ( void )
 {
