@@ -8549,13 +8549,12 @@ msgid "%s #%d"
 msgstr "%s #%d"
 
 #: src/import.c:3196
-#, fuzzy
 msgid "Import settings"
-msgstr "Import rapide"
+msgstr "Paramètres pour l'import"
 
 #: src/import.c:3202
 msgid "Threshold while matching transaction date during import (in days)"
-msgstr "Intervalle de recherche des opérations similaires en jour"
+msgstr "Intervalle de recherche des opérations similaires (en jours)   "
 
 #: src/import.c:3218
 msgid "merge transactions imported with planned transactions"
