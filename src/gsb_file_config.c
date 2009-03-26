@@ -1177,7 +1177,7 @@ void gsb_file_config_clean_config ( void )
     etat.display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */
     etat.show_toolbar = TRUE;                       /* Show toolbar or not. */
     etat.show_headings_bar = TRUE;                  /* Show toolbar or not. */
-
+    etat.show_transaction_selected_in_form = 1;     /* show selected transaction in form */
     etat.show_closed_accounts = FALSE;
 
     if (etat.font_string)
