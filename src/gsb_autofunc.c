@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2008 Cedric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2009 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -54,8 +54,8 @@ static  gboolean gsb_autofunc_checkbutton_changed ( GtkWidget *button,
 						   gboolean default_func (gint, gboolean));
 static  gboolean gsb_autofunc_combobox_changed ( GtkWidget *combobox,
 						gboolean default_func (gint, gint));
-static  gboolean gsb_autofunc_currency_changed ( GtkWidget *combobox,
-						gboolean default_func (gint, gint));
+static gboolean gsb_autofunc_currency_changed ( GtkWidget *combobox,
+					 gboolean default_func (gint, gint));
 static  gboolean gsb_autofunc_date_changed ( GtkWidget *entry,
 					    gboolean default_func (gint, const GDate *));
 static  gboolean gsb_autofunc_entry_changed ( GtkWidget *entry,
@@ -1406,8 +1406,8 @@ void gsb_autofunc_currency_set_currency_number ( GtkWidget *combobox,
  *
  * \return FALSE
  */
-static gboolean gsb_autofunc_currency_changed ( GtkWidget *combobox,
-						gboolean default_func (gint, gint))
+gboolean gsb_autofunc_currency_changed ( GtkWidget *combobox,
+					 gboolean default_func (gint, gint))
 {
     gint number_for_func;
 

@@ -1164,7 +1164,7 @@ void gsb_file_config_clean_config ( void )
 
     etat.r_modifiable = 0;       /* on ne peux modifier les opé relevées */
     etat.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
-    etat.sauvegarde_auto = 1;    /* on sauvegarde automatiquement par défaut pbiava 24/01/2009*/
+    etat.sauvegarde_auto = 0;    /* on NE sauvegarde PAS * automatiquement par défaut */
     etat.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
     nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
     execute_scheduled_of_month = FALSE;

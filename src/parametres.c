@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2009 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -42,6 +42,7 @@
 #include "./gsb_file.h"
 #include "./gsb_form_config.h"
 #include "./gsb_fyear_config.h"
+#include "./import.h"
 #include "./gsb_payment_method_config.h"
 #include "./gsb_reconcile_config.h"
 #include "./gsb_reconcile_sort_config.h"
@@ -49,7 +50,6 @@
 #include "./utils_files.h"
 #include "./affichage_liste.h"
 #include "./affichage.h"
-#include "./import.h"
 #include "./structures.h"
 #include "./include.h"
 #include "./erreur.h"
@@ -293,11 +293,29 @@ gboolean preferences ( gint page )
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
 			&iter2,
+			0, _("Import associations"),
+			1, IMPORT_ASSOCIATION_PAGE,
+			2, 400,
+			-1);
+    gtk_notebook_append_page (preference_frame, gsb_import_associations_gere_tiers (), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter2,
 			0, _("Programs"),
 			1, SOFTWARE_PAGE,
 			2, 400,
 			-1);
     gtk_notebook_append_page (preference_frame, onglet_programmes(), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+			&iter2,
+			0, _("Scheduler"),
+			1, SCHEDULER_PAGE,
+			2, 400,
+			-1);
+    gtk_notebook_append_page (preference_frame, gsb_config_scheduler_page (), NULL);
 
     /* Display subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
@@ -434,15 +452,6 @@ gboolean preferences ( gint page )
 			1, NOT_A_PAGE,
 			2, 800,
 			-1);
-
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-			&iter2,
-			0, _("Scheduler"),
-			1, SCHEDULER_PAGE,
-			2, 400,
-			-1);
-    gtk_notebook_append_page (preference_frame, gsb_config_scheduler_page (), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),

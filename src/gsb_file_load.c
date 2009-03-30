@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2009 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -24,6 +24,7 @@
 
 #include "include.h"
 #include <glib/gstdio.h>
+#include <gio/gio.h>
 
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
@@ -85,7 +86,6 @@ static void gsb_file_load_bank ( const gchar **attribute_names,
 static gboolean gsb_file_load_check_new_structure ( gchar *file_content );
 static void gsb_file_load_color_part ( const gchar **attribute_names,
 				const gchar **attribute_values );
-static gboolean gsb_file_load_copy_old_file_and_glib ( gchar *filename, gchar *file_content);
 static void gsb_file_load_currency ( const gchar **attribute_names,
 			      const gchar **attribute_values );
 static void gsb_file_load_currency_link ( const gchar **attribute_names,
@@ -321,14 +321,6 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 	}
 	else
 	{
-        /* backup of an old file grisbi */
-//~ #if GLIB_CHECK_VERSION(2,18,0)
-        //~ if ( ! gsb_file_load_copy_old_file ( filename ) )
-            //~ return FALSE;
-//~ # else
-        if ( ! gsb_file_load_copy_old_file_and_glib ( filename, file_content ) )
-            return FALSE;
-//~ #endif
 	    /* fill the GMarkupParser for the last xml structure */
 	    markup_parser -> start_element = (void *) gsb_file_load_start_element_before_0_6;
 	    markup_parser -> end_element = (void *) gsb_file_load_end_element_before_0_6;
@@ -7569,11 +7561,6 @@ gboolean gsb_file_load_update_previous_version ( void )
 		list_tmp = list_tmp -> next;
 	    }
 
-	    /* fourth step : show a message, because it's not all the time sure,
-	     * for example if someone used the same name for several reconcile, there will have a mix between all...
-	     * or the same without name, so better to check in the configuration */
-	    dialog_message ( "reconcile-start-end-dates" );
-
 	    /*
 	     * untill 0.6, no archive, so by default we let grisbi check at opening and set
 	     * the transactions limit to 3000 */
@@ -7693,65 +7680,7 @@ gint gsb_file_load_get_new_payment_number ( gint account_number,
 }
 
 
-/** 
- * save an old grisbi file 
- *
- * \param filename the name of the file
- *
- * \return TRUE : ok, FALSE : problem
- * */
-/*gboolean gsb_file_load_copy_old_file ( gchar *filename )
-{
-    if ( g_str_has_suffix (filename, ".gsb" ) )
-    {
-        gchar *new_filename;
-        GFile * file_ori;
-        GFile * file_copy;
-        GError * error = NULL;
 
-        new_filename = gsb_string_remplace_string ( filename, ".gsb",
-                        "-old-version.gsb" );
-        file_ori = g_file_new_for_path ( filename );
-        file_copy = g_file_new_for_path ( new_filename );
-        if ( g_file_copy ( file_ori, file_copy, G_FILE_COPY_OVERWRITE, 
-                        NULL, NULL, NULL, &error ) )
-        {
-            gchar *tmpstr = g_strdup_printf ( 
-                        _("Your old file grisbi was saved as: \n\n%s"),
-                        basename ( new_filename ) );
-            dialogue ( tmpstr );
-            g_free ( tmpstr );
-            return TRUE;
-        }
-        else
-            dialogue_error (error -> message );
-    }
-    return FALSE;
-} */
-
-gboolean gsb_file_load_copy_old_file_and_glib ( gchar *filename, gchar *file_content)
-{
-    if ( g_str_has_suffix (filename, ".gsb" ) )
-    {
-        gchar *new_filename;
-        GError * error = NULL;
-
-        new_filename = gsb_string_remplace_string ( filename, ".gsb",
-                        "-old-version.gsb" );
-        if (g_file_set_contents ( new_filename, file_content,-1, &error ))
-        {
-            gchar *tmpstr = g_strdup_printf ( 
-                        _("Your old file grisbi was saved as: \n\n%s"),
-                        basename ( new_filename ) );
-            dialogue ( tmpstr );
-            g_free ( tmpstr );
-            return TRUE;
-        }
-        else
-            dialogue_error (error -> message );
-    }
-    return FALSE;
-}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

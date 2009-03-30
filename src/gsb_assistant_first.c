@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2003-2009 Benjamin Drieu (bdrieu@april.org)	      */
 /* 			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -140,6 +140,8 @@ GtkResponseType gsb_assistant_first_come_to_0_6 ( void )
 				      "Also, we advise you to configure your web browser "
 				      "to your system configuration and to configure various settings "
 				      "in next screen.\n\n" 
+				      "If you want to make backups of your Grisbi file in case you want to revert "
+				      "to old version of Grisbi, we would advise you to do that right now.\n\n"
 				      "You can find out other improvements on http://www.grisbi.org/."),
 				    "grisbi.png",
 				    NULL );

@@ -121,7 +121,8 @@ struct struct_payee_asso
 };
 
 /* START_DECLARATION */
-gint gsb_import_associations_list_append_assoc ( gint payee_number, 
+GtkWidget * gsb_import_associations_gere_tiers ( );
+gint gsb_import_associations_list_append_assoc ( gint payee_number,
                         const gchar *search_str );
 gboolean gsb_import_by_rule ( gint rule );
 void gsb_import_register_account ( struct struct_compte_importation * account );

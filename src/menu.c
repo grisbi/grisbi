@@ -4,7 +4,7 @@
 /*                                  menu.c                                    */
 /*                                                                            */
 /*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2004-2008 Benjamin Drieu (bdrieu@april.org)	      */
+/*			2004-2009 Benjamin Drieu (bdrieu@april.org)	      */
 /*			http://www.grisbi.org				      */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -286,7 +286,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	  NULL,			NULL,			FOUR_LINES_PER_TRANSACTION },
     }; 
     GtkToggleActionEntry toggle_entries[] = {
-	{ "DebugMode",		NULL,			_("Start the Debug mode"),
+	{ "DebugMode",		NULL,			_("Debug mode"),
 	  NULL,			NULL,			G_CALLBACK(gsb_debug_start_log ),
 	  etat.debug_mode },
 
