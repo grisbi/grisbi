@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-31 22:03+0200\n"
-"PO-Revision-Date: 2009-03-31 22:57+0200\n"
+"POT-Creation-Date: 2009-04-02 22:35+0200\n"
+"PO-Revision-Date: 2009-04-02 23:06+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8523,18 +8523,21 @@ msgstr "entsprechend Datum der Durchführung"
 
 #: src/import.c:3266
 msgid "Manage import associations"
-msgstr "Ersetzungen verwalten"
+msgstr "Zuordnungen verwalten"
 
 #: src/import.c:3274 src/parametres.c:296
 msgid "Import associations"
-msgstr "Ersetzungen"
+msgstr "Zuordnungen"
 
 #: src/import.c:3276
 msgid ""
 "This will associate a search string to a payee every time you import a "
-"file.  For instance, all QIF labels containing 'Rent' could be associated "
-"with a specific payee representing your landlord."
-msgstr "Es wird eine Ersetzung - basierend auf einen Suchbegriff und einem vorhandenen Empfänger durchgeführt."
+"file.\n"
+"For instance, all QIF labels containing 'Rent' could be associated with a "
+"specific payee representing your landlord."
+msgstr ""
+"Empfänger aus einer Importdatei können mit der Festlegung von einem\n"
+"Suchkriterium und einem Empfänger dem ausgewählten Empfänger zugeordnet werden."
 
 #. Create entry liste des tiers
 #: src/import.c:3345 src/import.c:3377 src/tiers_onglet.c:1074
@@ -8548,7 +8551,7 @@ msgstr "Suchkriterium"
 
 #: src/import.c:3368
 msgid "Details of associations"
-msgstr "Ersetzung Details"
+msgstr "Zuordnung Details"
 
 #: src/import.c:3885
 #, c-format
