@@ -3261,7 +3261,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( )
     GtkCellRenderer *cell;
     GtkTreeSelection *selection;
     gchar *texte;
-    
+
     vbox_main = new_vbox_with_title_and_icon (
                         _("Manage import associations"),
                         "payees.png" );
@@ -3273,15 +3273,15 @@ GtkWidget * gsb_import_associations_gere_tiers ( )
     paddingbox = new_paddingbox_with_title ( vbox,
 					     TRUE, _("Import associations"));
 
-    texte = g_strdup ( _("This will associate a search string to a payee every time you import a file.  "
+    texte = g_strdup ( _("This will associate a search string to a payee every time you import a file.\n"
 			 "For instance, all QIF labels containing 'Rent' could be associated with "
 			 "a specific payee representing your landlord.") );
     label = gtk_label_new ( texte );
-    gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
+    gtk_label_set_line_wrap ( GTK_LABEL ( label ), FALSE );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0);
 	gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
 	g_free ( texte );
-	gtk_box_pack_start ( GTK_BOX(paddingbox), label, FALSE, FALSE, 6 );
+	gtk_box_pack_start ( GTK_BOX(paddingbox), label, TRUE, TRUE, 6 );
 
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 0);
