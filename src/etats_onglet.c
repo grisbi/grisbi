@@ -922,7 +922,7 @@ void change_choix_nouvel_etat ( GtkWidget *combobox, GtkWidget *label_descriptio
 	case 5:
 	    /* Monthly outgoings by payee */
 
-	    description = _("This report displays current month's outgoings sorted by payees. You just need to select the account(s). By default all accounts areselected.");
+	    description = _("This report displays current month's outgoings sorted by payees. You just need to select the account(s). By default all accounts are selected.");
 	    break;
 
 	case 6:

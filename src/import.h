@@ -4,6 +4,7 @@
 /* START_INCLUDE_H */
 #include "././gsb_real.h"
 #include "././gsb_data_transaction.h"
+#include "././structures.h"
 /* END_INCLUDE_H */
 
 /* struture d'une importation : compte contient la liste des opés importées */
@@ -110,17 +111,9 @@ struct import_format {
     gboolean ( * import ) ( GtkWidget * assistant, struct imported_file * );
 };
 
-
-/* structure définissant une association entre un tiers
- * et une chaine de recherche contenant un ou des jokers (%)
- */
-struct struct_payee_asso
-{
-    gint    payee_number;
-    gchar   *search_str;
-};
-
 /* START_DECLARATION */
+gint gsb_import_associations_cmp_assoc (struct struct_payee_asso *assoc_1,
+                                        struct struct_payee_asso *assoc_2);
 GtkWidget * gsb_import_associations_gere_tiers ( );
 gint gsb_import_associations_list_append_assoc ( gint payee_number,
                         const gchar *search_str );

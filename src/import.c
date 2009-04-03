@@ -102,8 +102,6 @@ static  void gsb_import_associations_cell_edited (GtkCellRendererText *cell,
 						 const gchar *new_text,
 						 GObject * main_widget );
 static gboolean gsb_import_associations_check_add_button ( GObject * main_widget );
-static gint gsb_import_associations_cmp_assoc (struct struct_payee_asso *assoc_1,
-                                        struct struct_payee_asso *assoc_2);
 static void gsb_import_associations_combo_changed ( GtkEditable *editable,
 					     GObject * main_widget );
 static void gsb_import_associations_del_assoc ( GtkWidget *button, GtkWidget *main_widget );
@@ -113,7 +111,7 @@ static gboolean gsb_import_associations_select_func ( GtkTreeSelection *selectio
 					       GtkTreeModel *model,
 					       GtkTreePath *path,
 					       gboolean path_currently_selected,
-					       GObject * main_widget );
+					       GObject *main_widget );
 static gchar **gsb_import_by_rule_ask_filename ( gint rule );
 static gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
 				       GtkWidget *entry );
@@ -1038,7 +1036,6 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
 
     return ( FALSE );
 }
-
 
 
 /**
@@ -2400,8 +2397,17 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
 	    case OFX_CHECK:
         /* Check = Chèque */
         payment_number = gsb_data_payment_get_number_by_name ( _("Check"),
-						    account_number );
-        gsb_data_transaction_set_method_of_payment_number (transaction_number, payment_number);
+                        account_number );
+        gsb_data_transaction_set_method_of_payment_number (transaction_number, 
+                        payment_number);
+        if ( etat.get_extract_number_for_check )
+        {
+            gchar *nombre = gsb_string_extract_int (
+                gsb_data_transaction_get_notes (transaction_number) );
+            gsb_data_transaction_set_method_of_payment_content (
+                transaction_number, nombre );
+            g_free ( nombre );
+        }
 		break;
 	    //~ case OFX_INT:
 		//~ break;
@@ -3213,11 +3219,14 @@ GtkWidget *onglet_importation (void)
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* merge transactions imported with planned transactions */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+
     button = gsb_automem_checkbutton_new (
                         _("merge transactions imported with planned transactions"),
                         &etat.get_fusion_import_planed_transactions, NULL, NULL );
 
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* automatically associate the category of the payee if it is possible */
     hbox = gtk_hbox_new ( FALSE, 0 );
@@ -3228,7 +3237,18 @@ GtkWidget *onglet_importation (void)
                         &etat.get_categorie_for_payee,
                         NULL, NULL );
 
-    gtk_box_pack_start ( GTK_BOX (hbox ), button, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    /* extraire le numéro de chèque du tiers pour le mettre dans No Cheque/Virement */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+
+    button = gsb_automem_checkbutton_new (
+                        _("Extracting a number and save it in the field No Cheque/Virement"),
+                        &etat.get_extract_number_for_check,
+                        NULL, NULL );
+
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* propose to choose between getting the fyear by value date or by date */
     gsb_automem_radiobutton_new_with_title ( vbox_pref,
@@ -3273,15 +3293,15 @@ GtkWidget * gsb_import_associations_gere_tiers ( )
     paddingbox = new_paddingbox_with_title ( vbox,
 					     TRUE, _("Import associations"));
 
-    texte = g_strdup ( _("This will associate a search string to a payee every time you import a file.\n"
+    texte = g_strdup ( _("This will associate a search string to a payee every time you import a file.  "
 			 "For instance, all QIF labels containing 'Rent' could be associated with "
 			 "a specific payee representing your landlord.") );
     label = gtk_label_new ( texte );
-    gtk_label_set_line_wrap ( GTK_LABEL ( label ), FALSE );
+    gtk_label_set_line_wrap ( GTK_LABEL ( label ), TRUE );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0);
 	gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
 	g_free ( texte );
-	gtk_box_pack_start ( GTK_BOX(paddingbox), label, TRUE, TRUE, 6 );
+	gtk_box_pack_start ( GTK_BOX(paddingbox), label, FALSE, FALSE, 6 );
 
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 0);
@@ -3334,7 +3354,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( )
     gtk_widget_set_size_request ( treeview, -1, 230 );
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (treeview) );
     gtk_tree_selection_set_select_function ( selection,
-                        gsb_import_associations_select_func,
+                        (GtkTreeSelectionFunc) gsb_import_associations_select_func,
                         vbox_main, NULL );
     gtk_container_add (GTK_CONTAINER (sw), treeview);
     gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
@@ -3382,7 +3402,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( )
 
     entry = gtk_combofix_new_complex (
                         gsb_data_payee_get_name_and_report_list());
-    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX (entry) -> entry ),
+    g_signal_connect ( G_OBJECT (GTK_COMBOFIX (entry) -> entry),
                         "changed",
                         G_CALLBACK (gsb_import_associations_combo_changed),
                         vbox_main );
@@ -3409,10 +3429,13 @@ GtkWidget * gsb_import_associations_gere_tiers ( )
     gtk_entry_set_text ( GTK_ENTRY (entry), "" );
     gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 1, 2,
 		       GTK_EXPAND|GTK_FILL, 0, 0, 0 );
-    g_signal_connect_swapped ( entry, "changed", gsb_import_associations_check_add_button, vbox_main );
+    g_signal_connect_swapped ( entry, 
+                        "changed", 
+                        G_CALLBACK (gsb_import_associations_check_add_button),
+                        vbox_main );
     g_object_set_data ( G_OBJECT (vbox_main), "Search_string", entry );
 
-    gsb_import_associations_check_add_button ( vbox_main );
+    gsb_import_associations_check_add_button ( G_OBJECT (vbox_main) );
 
     return vbox_main;
 }
@@ -3501,6 +3524,7 @@ gint gsb_import_associations_cmp_assoc (struct struct_payee_asso *assoc_1,
 
 void gsb_import_associations_del_assoc ( GtkWidget *button, GtkWidget *main_widget )
 {
+    GtkWidget *combo, *entry;
     GtkTreeView *treeview;
     GtkTreeModel *model;
     GtkTreeIter iter;
@@ -3515,7 +3539,6 @@ void gsb_import_associations_del_assoc ( GtkWidget *button, GtkWidget *main_widg
     return;
 
     gtk_tree_model_get ( model, &iter, 2, &payee_number, -1 );
-    printf ("numero de tiers = %d\n", payee_number);
     if ( payee_number > 0 )
     {
         gsb_data_payee_set_search_string ( payee_number, "" );
@@ -3535,6 +3558,10 @@ void gsb_import_associations_del_assoc ( GtkWidget *button, GtkWidget *main_widg
             }
             list_tmp = list_tmp -> next;
         }
+        combo = g_object_get_data ( G_OBJECT (main_widget), "payee" );
+        gtk_combofix_set_text ( GTK_COMBOFIX (combo), "" );
+        entry = g_object_get_data ( G_OBJECT (main_widget), "Search_string" );
+        gtk_entry_set_text ( GTK_ENTRY (entry), "" );
     }
 }
 
@@ -3569,7 +3596,7 @@ gboolean gsb_import_associations_select_func ( GtkTreeSelection *selection,
 					       GtkTreeModel *model,
 					       GtkTreePath *path,
 					       gboolean path_currently_selected,
-					       GObject * main_widget )
+					       GObject *main_widget )
 {
     GtkWidget *combo, *entry, *button;
     GtkTreeIter iter;
@@ -3583,7 +3610,13 @@ gboolean gsb_import_associations_select_func ( GtkTreeSelection *selection,
     gtk_tree_model_get_iter ( model, &iter, path );
     gtk_tree_model_get ( model, &iter, 0, &payee_str, 1, &search_str, -1 );
 
+    g_signal_handlers_block_by_func ( G_OBJECT (GTK_COMBOFIX (combo) -> entry),
+                        G_CALLBACK (gsb_import_associations_combo_changed),
+                        main_widget );
     gtk_combofix_set_text ( GTK_COMBOFIX (combo), payee_str );
+    g_signal_handlers_unblock_by_func ( G_OBJECT (GTK_COMBOFIX (combo) -> entry),
+                        G_CALLBACK (gsb_import_associations_combo_changed),
+                        main_widget );
     gtk_entry_set_text ( GTK_ENTRY (entry), search_str );
     gtk_widget_set_sensitive ( entry, FALSE );
     gtk_widget_set_sensitive ( button, TRUE );
@@ -3656,7 +3689,20 @@ void gsb_import_associations_combo_changed ( GtkEditable *editable,
         gtk_widget_set_sensitive ( entry, TRUE );
     }
     else
-        gtk_editable_delete_text  ( editable, 0, -1 );
+    {
+        gchar * str;
+
+        str = g_strdup_printf ( _("You cannot choose this payee because it "
+                        "already has an association") );
+        dialogue_warning ( str );
+        gtk_editable_delete_text ( editable, 0, -1 );
+        if ( strlen (gtk_entry_get_text (GTK_ENTRY (entry))) )
+        {
+            gtk_entry_set_text ( GTK_ENTRY (entry), "" );
+            
+        }
+        g_free ( str );
+    }
 
     /* on empeche la suppression par inadvertance d'une association */
     button = g_object_get_data ( main_widget, "remove_button" );
@@ -3725,7 +3771,7 @@ gboolean gsb_import_associations_check_add_button ( GObject * main_widget )
     payee_widget = g_object_get_data ( main_widget, "payee" );
     if ( payee_widget )
     {
-	gchar * content = gtk_combofix_get_text ( GTK_COMBOFIX ( payee_widget ) );
+	const gchar * content = gtk_combofix_get_text ( GTK_COMBOFIX ( payee_widget ) );
 	if ( ! content || ! strlen(content) )
 	    sensitive = FALSE;
     }
@@ -3733,7 +3779,7 @@ gboolean gsb_import_associations_check_add_button ( GObject * main_widget )
     search_string_widget = g_object_get_data ( main_widget, "Search_string" );
     if ( search_string_widget )
     {
-	gchar * content = gtk_entry_get_text ( GTK_ENTRY ( search_string_widget ) );
+	const gchar * content = gtk_entry_get_text ( GTK_ENTRY ( search_string_widget ) );
 	if ( ! content || ! strlen(content) )
 	    sensitive = FALSE;
     }

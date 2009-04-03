@@ -99,6 +99,7 @@ struct {
     gint display_message_ofx_security;
 
     /* import rules */
+    gint get_extract_number_for_check; /* TRUE if Extracting a number and save it in the field No Cheque/Virement */
     gint get_fusion_import_planed_transactions; /* TRUE if merge transactions imported with planned transactions */
     gint get_categorie_for_payee;   /* TRUE to automatically retrieve the category of the payee if it exists */
     gint get_fyear_by_value_date;	/* TRUE to get the fyear by value date, FALSE by date */
@@ -142,6 +143,14 @@ struct {
 } etat;
 
 
+/* structure définissant une association entre un tiers
+ * et une chaine de recherche contenant un ou des jokers (%)
+ */
+struct struct_payee_asso
+{
+    gint    payee_number;
+    gchar   *search_str;
+};
 
 enum alignement {
     LEFT, CENTER, RIGHT,

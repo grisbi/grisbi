@@ -46,6 +46,7 @@
 #include "./gsb_data_transaction.h"
 #include "./utils_editables.h"
 #include "./gsb_form_widget.h"
+#include "./import.h"
 #include "./gsb_status.h"
 #include "./utils_str.h"
 #include "./gtk_combofix.h"
@@ -105,6 +106,7 @@ GtkTreeStore *payee_tree_model = NULL;
 gboolean sortie_edit_payee = FALSE;
 
 /*START_EXTERN*/
+extern GSList *liste_associations_tiers;
 extern MetatreeInterface * payee_interface;
 extern GtkWidget *window;
 /*END_EXTERN*/
@@ -771,6 +773,7 @@ void appui_sur_manage_tiers ( void )
         gboolean save_notes = FALSE;
         gboolean extract_num = FALSE;
         gboolean valid = FALSE;
+        struct struct_payee_asso *assoc;
 
         /* on remplace les anciens tiers par le nouveau et on sauvegarde si nécessaire */
         gsb_status_wait ( TRUE );
@@ -788,6 +791,20 @@ void appui_sur_manage_tiers ( void )
         save_notes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (
                         g_object_get_data ( G_OBJECT (assistant),
                         "check_option_2" ) ) );
+
+        /* on ajoute la nouvelle association à la liste des assoc */
+        assoc = g_malloc ( sizeof (struct struct_payee_asso) );
+        assoc -> payee_number = new_payee_number;
+        assoc -> search_str = g_strdup ( str_cherche );
+        if ( ! g_slist_find_custom (liste_associations_tiers,
+                        assoc,
+                        (GCompareFunc) gsb_import_associations_cmp_assoc) )
+        {
+            liste_associations_tiers = g_slist_insert_sorted (
+                        liste_associations_tiers,
+                        assoc,
+                        (GCompareFunc) gsb_import_associations_cmp_assoc);
+        }
         tmp_list = gsb_data_transaction_get_complete_transactions_list ( );
 
         while (tmp_list)
@@ -820,6 +837,7 @@ void appui_sur_manage_tiers ( void )
                         gsb_data_payee_get_name ( payee_number, FALSE ) );
                     gsb_data_transaction_set_method_of_payment_content (
                         transaction_number, nombre );
+                    g_free ( nombre );
                 }
             }
             tmp_list = tmp_list -> next;
