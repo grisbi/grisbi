@@ -29,6 +29,7 @@
 #include "gtk_combofix.h"
 #include "./gsb_form_widget.h"
 #include "./utils_str.h"
+#include "./erreur.h"
 /*END_INCLUDE*/
 
 
@@ -702,7 +703,7 @@ static gboolean gtk_combofix_fill_store ( GtkComboFix *combofix,
 	 &&
 	 ((gchar *)(list -> data))[0] == '\t' )
     {
-	printf ( "GtkComboFix error : the first entry in the list is a child, cannot fill the combofix\n");
+	devel_debug ( "GtkComboFix error : the first entry in the list is a child, cannot fill the combofix\n");
 	return FALSE;
     }
 

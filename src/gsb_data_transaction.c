@@ -1154,8 +1154,9 @@ gint gsb_data_transaction_get_sub_category_number ( gint transaction_number )
 
     transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
 
+    /* pbiava le 04/04/2009 uniformisation avec les autres fonctions similaires */
     if ( !transaction )
-	return 0;
+	return -1;
 
     return transaction -> sub_category_number;
 }

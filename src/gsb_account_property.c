@@ -33,6 +33,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_account_property.h"
+#include "./dialog.h"
 #include "./gsb_account.h"
 #include "./gsb_autofunc.h"
 #include "./gsb_bank.h"
@@ -51,9 +52,10 @@
 #include "./gsb_real.h"
 #include "./gsb_scheduler_list.h"
 #include "./main.h"
+#include "./traitement_variables.h"
+#include "./utils_str.h"
 #include "./utils.h"
 #include "./tiers_onglet.h"
-#include "./dialog.h"
 #include "./categories_onglet.h"
 #include "./imputation_budgetaire.h"
 #include "./transaction_list.h"
@@ -70,19 +72,43 @@
 static gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
 						gpointer null );
 static gboolean gsb_account_property_changed ( GtkWidget *widget,
-					gint *p_origin  );
+                        gint *p_origin  );
 static gboolean gsb_account_property_changed_bank_label ( GtkWidget *combobox,
-						   gpointer null );
+                        gpointer null );
+static gint gsb_account_property_iban_control_iban ( gchar *iban );
+static void gsb_account_property_iban_delete_text ( GtkEditable *entry,                                                        
+                        gint start_pos,
+                        gint end_pos,
+                        GtkWidget *combobox );
+static gboolean gsb_account_property_iban_focus_in_event ( GtkWidget *entry, 
+                        GdkEventFocus *ev,
+                        gpointer data );
+static gboolean gsb_account_property_iban_focus_out_event ( GtkWidget *entry, 
+                        GdkEventFocus *ev,
+                        gpointer data );
+static struct iso_13616_iban *gsb_account_property_iban_get_struc ( gchar *pays );
+static void gsb_account_property_iban_insert_text ( GtkEditable *entry,                                                        
+                        gchar *text,
+                        gint length,
+                        gint *position,
+                        GtkWidget *combobox );
+static gboolean gsb_account_property_iban_key_press_event ( GtkWidget *entry, 
+                        GdkEventKey *ev,
+                        gpointer data );
+static gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban );
+static void gsb_account_property_iban_set_iban ( const gchar *iban );
+static void gsb_account_property_iban_set_sensitive_bank_data ( gboolean sensitive );
 /*END_STATIC*/
 
 struct iso_13616_iban iso_13616_ibans [] = {
-	{ "de_AT", "ATkk BBBB BCCC CCCC CCCC", 20 },
-	{ "de_CH", "CHkk BBBB BCCC CCCC CCCC C", 21 },
-    { "de_DE", "DEkk BBBB BBBB CCCC CCCC CC", 22 },
-    { "en_EN", "GBkk BBBB SSSS SSCC CCCC CC", 22 },
-    { "fr_BE", "BEkk BBBC CCCC CCKK", 16 },
-    { "fr_FR", "FRkk BBBB BGGG GGCC CCCC CCCC CKK", 27 },
-    { "fr_LU", "LUkk BBBC CCCC CCCC CCCC", 20 },
+    { "XX", "XXkk XXXX XXXX XXXX XXXX XXXX XXXX XXXX XX", 34 },
+	{ "AT", "ATkk BBBB BCCC CCCC CCCC", 20 },
+    { "BE", "BEkk BBBC CCCC CCKK", 16 },
+	{ "CH", "CHkk BBBB BCCC CCCC CCCC C", 21 },
+    { "DE", "DEkk BBBB BBBB CCCC CCCC CC", 22 },
+    { "EN", "GBkk BBBB SSSS SSCC CCCC CC", 22 },
+    { "FR", "FRkk BBBB BGGG GGCC CCCC CCCC CKK", 27 },
+    { "LU", "LUkk BBBC CCCC CCCC CCCC", 20 },
     { NULL },
 };
 
@@ -138,8 +164,6 @@ GtkWidget *gsb_account_property_create_page ( void )
     GtkWidget *label, *scrolled_window_text, *paddingbox;
     GtkSizeGroup * size_group;
 	GtkWidget *align;
-    struct iso_13616_iban *iban = iso_13616_ibans;
-    const gchar *locale;
 
     devel_debug ( NULL );
 
@@ -310,7 +334,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_widget_set_sensitive (detail_adresse_titulaire, FALSE);
 
 
-    /* ligne de l'établissement financier */
+    /* création de la ligne de l'établissement financier */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Bank"));
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
@@ -341,6 +365,37 @@ GtkWidget *gsb_account_property_create_page ( void )
 		       bank_list_combobox );
     gtk_box_pack_start ( GTK_BOX ( hbox ), edit_bank_button, FALSE, FALSE, 0 );
 
+     /* création de la ligne du numéro IBAN */
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( COLON(_("IBAN number")) );
+    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
+    gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
+
+    detail_IBAN = gtk_entry_new ( );
+    g_signal_connect ( G_OBJECT (detail_IBAN ), "insert-text",
+                        G_CALLBACK (gsb_account_property_iban_insert_text),
+                        bank_list_combobox );
+    g_signal_connect ( G_OBJECT (detail_IBAN ), "delete-text",
+                        G_CALLBACK (gsb_account_property_iban_delete_text),
+                        bank_list_combobox );
+    g_signal_connect ( G_OBJECT ( detail_IBAN ), "key-press-event",
+                        G_CALLBACK ( gsb_account_property_iban_key_press_event ),
+                        NULL );
+    g_signal_connect ( G_OBJECT ( detail_IBAN ), "focus-in-event",
+                        G_CALLBACK ( gsb_account_property_iban_focus_in_event ),
+                        NULL );
+    g_signal_connect ( G_OBJECT ( detail_IBAN ), "focus-out-event",
+                        G_CALLBACK ( gsb_account_property_iban_focus_out_event ),
+                        NULL );
+    g_signal_connect ( G_OBJECT (detail_IBAN ), "destroy",
+                        G_CALLBACK ( gtk_widget_destroyed), &detail_IBAN );
+
+    gtk_widget_set_size_request ( detail_IBAN, 280, -1 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), detail_IBAN, FALSE, FALSE, 0 );
+
     /* create the code of bank */
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
@@ -357,7 +412,6 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_box_pack_start ( GTK_BOX(hbox), label_code_banque, FALSE, FALSE, 0 );
 
-
     /* création de la ligne du guichet */
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
@@ -373,7 +427,6 @@ GtkWidget *gsb_account_property_create_page ( void )
     g_signal_connect ( G_OBJECT (detail_guichet ), "destroy",
 		       G_CALLBACK ( gtk_widget_destroyed), &detail_guichet );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_guichet, TRUE, TRUE, 0);
-
 
     /* création de la ligne du numéro du compte */
     hbox = gtk_hbox_new ( FALSE, 6 );
@@ -399,55 +452,6 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_widget_set_size_request ( detail_cle_compte, 30, -1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_cle_compte, FALSE, FALSE, 0 );
 
-    /* création de la ligne du numéro IBAN */
-    /* récupération de la locale pour le format de l'IBAN */
-    locale = g_getenv ( "LANG" );
-    while (iban -> locale )
-    {
-        if ( g_strstr_len (locale, -1, iban -> locale) )
-            break;
-        iban ++;
-    }
-
-    hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
-
-    label = gtk_label_new ( COLON(_("IBAN number")) );
-    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
-    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
-    gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
-
-    detail_IBAN = gsb_autofunc_entry_new ( NULL,
-                        NULL, NULL,
-                        G_CALLBACK (gsb_data_account_set_bank_account_IBAN),
-                        0);
-    g_signal_connect ( G_OBJECT (detail_IBAN ), "destroy",
-		       G_CALLBACK ( gtk_widget_destroyed), &detail_IBAN );
-    if ( iban -> iban )
-        gtk_entry_set_max_length ( GTK_ENTRY (detail_IBAN),
-                        strlen (iban -> iban) );
-    else
-        gtk_entry_set_max_length ( GTK_ENTRY (detail_IBAN), 34 );
-    gtk_widget_set_size_request ( detail_IBAN, 280, -1 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), detail_IBAN, FALSE, FALSE, 0 );
-
-    hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
-
-    label = gtk_label_new ( COLON(_("IBAN format")) );
-    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
-    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
-    gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
-
-    gchar * tmpstr = g_strdup_printf ( _("%s\n"
-                        "B = bank code, G = agency code,\n"
-                        "C = account number, R = key RIB"),
-                        iban -> iban );
-
-    label = gtk_label_new ( tmpstr );
-    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
-    gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
-    g_free ( tmpstr );
 
     /* création de la ligne du solde initial */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Balances"));
@@ -567,19 +571,34 @@ void gsb_account_property_fill_page ( void )
 
     /* fill bank informations */
     bank_number = gsb_data_account_get_bank (current_account);
-    gsb_bank_list_set_bank (bank_list_combobox,
-			    bank_number,
-			    current_account );
-    gsb_account_property_set_label_code_banque ( );
 
-    gsb_autofunc_entry_set_value (detail_guichet,
-				  gsb_data_account_get_bank_branch_code (current_account), current_account);
-    gsb_autofunc_entry_set_value (detail_no_compte,
-				  gsb_data_account_get_bank_account_number (current_account), current_account );
-    gsb_autofunc_entry_set_value (detail_cle_compte,
-				  gsb_data_account_get_bank_account_key (current_account), current_account );
-    gsb_autofunc_entry_set_value (detail_IBAN,
-				  gsb_data_account_get_bank_account_IBAN (current_account), current_account );
+    gsb_account_property_iban_set_iban (
+                    gsb_data_account_get_bank_account_iban (current_account) );
+    
+    if ( gsb_account_property_iban_set_bank_from_iban (
+                        gsb_data_account_get_bank_account_iban (current_account)) )
+        gsb_account_property_iban_set_sensitive_bank_data ( FALSE );    
+    else
+    {
+        gsb_bank_list_set_bank (bank_list_combobox,
+                        bank_number,
+                        current_account );
+
+        gsb_account_property_set_label_code_banque ( );
+
+        gsb_autofunc_entry_set_value (detail_guichet,
+                        gsb_data_account_get_bank_branch_code (
+                        current_account), current_account);
+
+        gsb_autofunc_entry_set_value (detail_no_compte,
+                        gsb_data_account_get_bank_account_number (
+                        current_account), current_account );
+        
+        gsb_autofunc_entry_set_value (detail_cle_compte,
+                        gsb_data_account_get_bank_account_key (
+                        current_account), current_account );
+        gsb_account_property_iban_set_sensitive_bank_data ( TRUE );
+    }
 
     gsb_autofunc_real_set ( detail_solde_init,
 			    gsb_data_account_get_init_balance (current_account,
@@ -605,7 +624,7 @@ void gsb_account_property_fill_page ( void )
  * \return FALSE
  * */
 gboolean gsb_account_property_changed_bank_label ( GtkWidget *combobox,
-						   gpointer null )
+                        gpointer null )
 {
     gint bank_number;
 
@@ -658,7 +677,7 @@ GSList *gsb_account_property_create_combobox_list ( void )
  * \return FALSE;
  * */
 gboolean gsb_account_property_changed ( GtkWidget *widget,
-					gint *p_origin  )
+                        gint *p_origin  )
 {
     gint origin = GPOINTER_TO_INT (p_origin);
     gint account_number;
@@ -824,10 +843,509 @@ void gsb_account_property_set_label_code_banque ( void )
     if ( label_code_banque && GTK_WIDGET_VISIBLE ( label_code_banque) )
     {
         current_account = gsb_gui_navigation_get_current_account ();
-        bank_number = gsb_data_account_get_bank (current_account);
-        gtk_label_set_text ( GTK_LABEL (label_code_banque),
+        if ( gsb_data_account_get_bank_account_iban (current_account) )
+            gsb_account_property_iban_set_bank_from_iban (
+                        gsb_data_account_get_bank_account_iban (current_account) );
+        else
+        {
+            bank_number = gsb_data_account_get_bank (current_account);
+            gtk_label_set_text ( GTK_LABEL (label_code_banque),
                             gsb_data_bank_get_code (bank_number) );
+        }
     }
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void gsb_account_property_iban_insert_text ( GtkEditable *entry,                                                        
+                        gchar *text,
+                        gint length,
+                        gint *position,
+                        GtkWidget *combobox )
+{
+    static struct iso_13616_iban *s_iban = iso_13616_ibans;
+    gchar *iban;
+    gint nbre_char;
+
+    iban = g_utf8_strup (text, length);
+    
+    /* on bloque l'appel de la fonction */
+    g_signal_handlers_block_by_func ( G_OBJECT (entry),
+                        G_CALLBACK (gsb_account_property_iban_insert_text),
+                        bank_list_combobox );
+
+    /* on met en majuscule l'entrée */
+    gtk_editable_insert_text (entry, iban, length, position);
+    g_free ( iban );
+
+    /* on fait les traitements complémentaires */
+    iban = g_utf8_strup ( gtk_editable_get_chars ( entry, 0, -1 ), -1 );
+
+    /* on autorise ou pas la saisie des données banquaires */
+    if ( g_utf8_strlen (iban, -1) == 0 )
+        gsb_account_property_iban_set_sensitive_bank_data ( TRUE );
+    else if ( GTK_WIDGET_IS_SENSITIVE ( bank_list_combobox ) )
+        gsb_account_property_iban_set_sensitive_bank_data ( FALSE );
+
+    /* on contrôle l'existence d'un modèle pour le numéro IBAN */
+    if ( g_utf8_strlen (iban, -1) >= 2 )
+    {
+        if ( g_utf8_collate ( s_iban -> locale, g_strndup (iban, 2)) != 0)
+        {
+            s_iban = gsb_account_property_iban_get_struc ( iban );
+
+            if ( s_iban -> nbre_char % 4 == 0 )
+                nbre_char = s_iban -> nbre_char + (s_iban -> nbre_char / 4) - 1;
+            else
+                nbre_char = s_iban -> nbre_char + (s_iban -> nbre_char / 4);
+            gtk_entry_set_max_length ( GTK_ENTRY (entry), nbre_char );
+        }
+    }
+
+    g_free ( iban );
+    g_signal_handlers_unblock_by_func ( G_OBJECT (entry),
+                        G_CALLBACK (gsb_account_property_iban_insert_text),
+                        bank_list_combobox );
+    g_signal_stop_emission_by_name (entry, "insert_text"); 
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void gsb_account_property_iban_delete_text ( GtkEditable *entry,                                                        
+                        gint start_pos,
+                        gint end_pos,
+                        GtkWidget *combobox )
+{    
+    /* on autorise ou pas la saisie des données banquaires */
+    if ( start_pos == 0 )
+        gsb_account_property_iban_set_sensitive_bank_data ( TRUE );
+    else if ( GTK_WIDGET_IS_SENSITIVE ( bank_list_combobox ) )
+        gsb_account_property_iban_set_sensitive_bank_data ( FALSE );
+}
+
+
+/**
+ * retourne la structure du compte IBAN pour le pays concerné 
+ *
+ * \param le code du pays concerné
+ *
+ * \return une structure modèle (XX si pays non défini)
+ * */
+struct iso_13616_iban *gsb_account_property_iban_get_struc ( gchar *pays )
+{
+    struct iso_13616_iban *s_iban = iso_13616_ibans;
+
+    while (s_iban -> iban )
+    {
+        if ( g_strstr_len (s_iban -> locale, 2, g_strndup ( pays, 2)) )
+            break;
+        s_iban ++;
+    }
+    if ( s_iban -> iban == NULL )
+        s_iban = iso_13616_ibans;
+
+    return s_iban;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_account_property_iban_key_press_event ( GtkWidget *entry, 
+                        GdkEventKey *ev,
+                        gpointer data )
+{
+    gchar *iban;
+    gint current_account;
+
+    switch ( ev -> keyval )
+    {
+	case GDK_Escape :
+        
+        return TRUE;
+	    break;
+
+	case GDK_KP_Enter :
+	case GDK_Return :
+        iban = gtk_editable_get_chars ( GTK_EDITABLE (entry), 0, -1 );
+        if ( gsb_account_property_iban_control_iban (iban) == 1 )
+        {
+            current_account = gsb_gui_navigation_get_current_account ();
+            gsb_data_account_set_bank_account_iban ( current_account, iban );
+            gsb_account_property_iban_set_bank_from_iban ( iban );
+        }
+        else if ( gsb_account_property_iban_control_iban (iban) == -1 )
+        {
+            current_account = gsb_gui_navigation_get_current_account ();
+            gsb_data_account_set_bank_account_iban ( current_account, iban );
+        }
+        else
+        {
+            gchar *tmpstr = g_strdup_printf (
+                        _("Your IBAN number is not correct. Please check your entry.") );
+            dialogue_warning ( tmpstr );
+            g_free ( tmpstr );
+        }
+        modification_fichier ( TRUE );
+
+        if ( iban && strlen (iban) > 0 )
+            g_free ( iban );
+		return TRUE;
+	    break;
+
+    }
+    return FALSE;
+}
+
+
+gboolean gsb_account_property_iban_focus_in_event ( GtkWidget *entry, 
+                        GdkEventFocus *ev,
+                        gpointer data )
+{
+    gint current_account;
+
+    /* on sauvegarde le numéro de compte initiateur pour éviter de conserver
+     * les données de l'ancien compte lorsque l'on change de compte */
+
+    current_account = gsb_gui_navigation_get_current_account ();
+    g_object_set_data ( G_OBJECT (entry), "old_account", 
+                        GINT_TO_POINTER (current_account) );
+
+    return FALSE;
+}
+
+/**
+ * If the IBAN is correct it is saved, otherwise we return the 
+ * previous version.
+ *
+ * */
+gboolean gsb_account_property_iban_focus_out_event ( GtkWidget *entry, 
+                        GdkEventFocus *ev,
+                        gpointer data )
+{
+    gchar *iban;
+    gint current_account;
+    gint old_account;
+
+    old_account = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (entry), 
+                        "old_account") );
+    current_account = gsb_gui_navigation_get_current_account ();
+    if ( old_account != current_account )
+        return FALSE;
+
+    iban = gtk_editable_get_chars ( GTK_EDITABLE (entry), 0, -1 );
+
+    if ( gsb_account_property_iban_control_iban (iban) == 1 )
+    {
+        gsb_data_account_set_bank_account_iban ( current_account, iban );
+        gsb_account_property_iban_set_bank_from_iban ( iban );
+    }
+    else if ( gsb_account_property_iban_control_iban (iban) == -1 )
+        gsb_data_account_set_bank_account_iban ( current_account, iban );
+    else
+       gsb_account_property_iban_set_iban (
+                    gsb_data_account_get_bank_account_iban (current_account) );
+
+    modification_fichier ( TRUE );
+
+    if ( iban && strlen (iban) > 0 )
+        g_free ( iban );
+
+    return FALSE;
+}
+
+
+/**
+ * Affiche les données bancaires à partir du numero IBAN
+ *
+ * \param le numéro IBAN
+ *
+ * \return TRUE si OK FALSE autrement
+ * */
+gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
+{
+    struct iso_13616_iban *s_iban;
+    gchar *model;
+    gchar *tmpstr;
+    gchar *str;
+    gchar *ptr_1;
+    gchar *ptr_2;
+    gchar *code;
+    gint pos_char_1;
+    gint pos_char_2;
+    gint bank_number;
+    gint current_account;
+    gunichar c;
+    gboolean set_label = FALSE;
+    //~ gboolean set_branch = FALSE;
+    //~ gboolean set_account = FALSE;
+    //~ gboolean set_key = FALSE;
+
+    if ( iban == NULL || strlen (iban) == 0 )
+        return FALSE;
+
+    s_iban = gsb_account_property_iban_get_struc ( g_strndup (iban, 2) );
+    if ( g_strcmp0 (s_iban -> locale, "XX") == 0 )
+    {
+        tmpstr = g_strdup_printf ( _("Your number IBAN does not have model. "
+                        "The updating of banking data is not possible.") );
+        dialogue_warning ( tmpstr );
+        g_free ( tmpstr );
+        return FALSE;
+    }
+    model = my_strdelimit ( s_iban -> iban, " -", "" );
+    tmpstr = my_strdelimit ( iban, " -", "" );
+    if ( g_utf8_strlen (model, -1) != g_utf8_strlen (tmpstr, -1) )
+        return FALSE;
+
+    code = g_malloc0 ( 36 * sizeof (gunichar) );
+
+    /* set bank à revoir avec gestion des iban */
+    current_account = gsb_gui_navigation_get_current_account ();
+    bank_number = gsb_data_account_get_bank (current_account);
+
+    g_signal_handlers_block_by_func ( G_OBJECT (bank_list_combobox),
+                        G_CALLBACK (gsb_account_property_changed_bank_label),
+                        NULL );
+    gsb_bank_list_set_bank (bank_list_combobox,
+                        bank_number,
+                        current_account );
+    g_signal_handlers_unblock_by_func ( G_OBJECT (bank_list_combobox),
+                        G_CALLBACK (gsb_account_property_changed_bank_label),
+                        NULL );
+
+    /* set label_code_banque */
+    c = 'A';
+    ptr_1 = g_utf8_strchr ( model, -1, c );
+    if ( ptr_1 )
+    {
+        pos_char_1 = g_utf8_pointer_to_offset ( model, ptr_1 );
+        ptr_2 = g_utf8_strrchr ( model, -1, c );
+        pos_char_2 = g_utf8_pointer_to_offset ( model, ptr_2 );
+        if ( (pos_char_2 - pos_char_1) > 0 )
+        {
+            code = g_utf8_strncpy ( code, ptr_1, (pos_char_2 - pos_char_1) + 1 );
+            gtk_label_set_text ( GTK_LABEL (label_code_banque), code );
+            set_label = TRUE;
+        }
+    }
+    c = 'B';
+    ptr_1 = g_utf8_strchr ( model, -1, c );
+    if ( set_label == FALSE && ptr_1 )
+    {
+        pos_char_1 = g_utf8_pointer_to_offset ( model, ptr_1 );
+        ptr_1 = g_utf8_offset_to_pointer ( tmpstr, pos_char_1 );
+        
+        ptr_2 = g_utf8_strrchr ( model, -1, c );
+        pos_char_2 = g_utf8_pointer_to_offset ( model, ptr_2 );
+
+        code = g_utf8_strncpy ( code, ptr_1, (pos_char_2 - pos_char_1) + 1 );
+        gtk_label_set_text ( GTK_LABEL (label_code_banque), code );
+        set_label = TRUE;
+    }
+
+    /* set bank_branch_code */
+    c = 'G';
+    ptr_1 = g_utf8_strchr ( model, -1, c );
+    if ( ptr_1 == NULL )
+        c = 'S';
+    if ( ptr_1 )
+    {
+        pos_char_1 = g_utf8_pointer_to_offset ( model, ptr_1 );
+        ptr_1 = g_utf8_offset_to_pointer ( tmpstr, pos_char_1 );
+        
+        ptr_2 = g_utf8_strrchr ( model, -1, c );
+        pos_char_2 = g_utf8_pointer_to_offset ( model, ptr_2 );
+
+        code = g_utf8_strncpy ( code, ptr_1, (pos_char_2 - pos_char_1) + 1 );
+        if ( g_object_get_data (G_OBJECT (detail_guichet), "changed") > 0 )
+            g_signal_handler_block ( (gpointer *) detail_guichet,
+                            (gulong) g_object_get_data ( G_OBJECT 
+                            (detail_guichet), "changed" ) );
+        gtk_entry_set_text ( GTK_ENTRY (detail_guichet), code );
+        if ( g_object_get_data (G_OBJECT (detail_guichet), "changed") > 0 )
+            g_signal_handler_unblock ( (gpointer *) detail_guichet,
+                            (gulong) g_object_get_data ( G_OBJECT 
+                            (detail_guichet), "changed" ) );
+        str = gsb_data_account_get_bank_branch_code ( current_account );
+        if ( str == NULL || g_utf8_collate (code, str) != 0 )
+            gsb_data_account_set_bank_branch_code ( current_account, code );
+    }
+
+    /* set bank_account_number */
+    c = 'C';
+    ptr_1 = g_utf8_strchr ( model, -1, c );
+    if ( ptr_1 )
+    {
+        pos_char_1 = g_utf8_pointer_to_offset ( model, ptr_1 );
+        ptr_1 = g_utf8_offset_to_pointer ( tmpstr, pos_char_1 );
+        
+        ptr_2 = g_utf8_strrchr ( model, -1, c );
+        pos_char_2 = g_utf8_pointer_to_offset ( model, ptr_2 );
+
+        code = g_utf8_strncpy ( code, ptr_1, (pos_char_2 - pos_char_1) + 1 );
+        if ( g_object_get_data (G_OBJECT (detail_no_compte), "changed") > 0 )
+            g_signal_handler_block ( (gpointer *) detail_no_compte,
+                            (gulong) g_object_get_data ( G_OBJECT 
+                            (detail_no_compte), "changed" ) );
+        gtk_entry_set_text ( GTK_ENTRY (detail_no_compte), code );
+        if ( g_object_get_data (G_OBJECT (detail_no_compte), "changed") > 0 )
+            g_signal_handler_unblock ( (gpointer *) detail_no_compte,
+                            (gulong) g_object_get_data ( G_OBJECT 
+                            (detail_no_compte), "changed" ) );
+        str = gsb_data_account_get_bank_account_number ( current_account );
+        if ( str == NULL || g_utf8_collate (code, str) != 0 )
+            gsb_data_account_set_bank_account_number ( current_account, code );
+    }
+
+    /* set bank_account_key */
+    c = 'K';
+    ptr_1 = g_utf8_strchr ( model, -1, c );
+    if ( ptr_1 )
+    {
+        pos_char_1 = g_utf8_pointer_to_offset ( model, ptr_1 );
+        ptr_1 = g_utf8_offset_to_pointer ( tmpstr, pos_char_1 );
+        
+        ptr_2 = g_utf8_strrchr ( model, -1, c );
+        pos_char_2 = g_utf8_pointer_to_offset ( model, ptr_2 );
+
+        code = g_utf8_strncpy ( code, ptr_1, (pos_char_2 - pos_char_1) + 1 );
+        if ( g_object_get_data (G_OBJECT (detail_cle_compte), "changed") > 0 )
+            g_signal_handler_block ( (gpointer *) detail_cle_compte,
+                        (gulong) g_object_get_data ( G_OBJECT 
+                        (detail_cle_compte), "changed" ) );
+        gtk_entry_set_text ( GTK_ENTRY (detail_cle_compte), code );
+        if ( g_object_get_data (G_OBJECT (detail_cle_compte), "changed") > 0 )
+            g_signal_handler_unblock ( (gpointer *) detail_cle_compte,
+                        (gulong) g_object_get_data ( G_OBJECT 
+                        (detail_cle_compte), "changed" ) );
+        str = gsb_data_account_get_bank_account_key ( current_account );
+        if ( str == NULL || g_utf8_collate (code, str) != 0 )
+            gsb_data_account_set_bank_account_key ( current_account, code );
+   }
+
+    g_free ( model );
+    g_free ( tmpstr );
+    g_free ( code );
+
+    return TRUE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void gsb_account_property_iban_set_iban ( const gchar *iban )
+{
+    gint position = 0;
+
+    if ( iban == NULL || strlen (iban) == 0 )
+        gtk_editable_delete_text ( GTK_EDITABLE (detail_IBAN), 0, -1 );
+    else
+    {
+        gtk_editable_delete_text ( GTK_EDITABLE (detail_IBAN), 0, -1 );
+        gtk_editable_insert_text ( GTK_EDITABLE (detail_IBAN),
+                            iban, -1, &position );
+    }
+}
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void gsb_account_property_iban_set_sensitive_bank_data ( gboolean sensitive )
+{
+    gtk_widget_set_sensitive ( GTK_WIDGET (bank_list_combobox), sensitive );
+    gtk_widget_set_sensitive ( GTK_WIDGET (label_code_banque), sensitive );
+    gtk_widget_set_sensitive ( GTK_WIDGET (detail_guichet), sensitive );
+    gtk_widget_set_sensitive ( GTK_WIDGET (detail_no_compte), sensitive );
+    gtk_widget_set_sensitive ( GTK_WIDGET (detail_cle_compte), sensitive );
+}
+
+
+/**
+ * Contrôle la validité du numéro IBAN (non opérationnel pour la partie IBAN)
+ *
+ * \param le numéro IBAN
+ *
+ * \return 1 si OK 0 si NON OK -1 si longueur IBAN = 0
+ * */
+gint gsb_account_property_iban_control_iban ( gchar *iban )
+{
+    struct iso_13616_iban *s_iban;
+    gchar *model;
+    gchar *tmpstr = NULL;
+    gchar *ptr = NULL;
+    gchar *buffer = NULL;
+    gint i = 0;
+
+    if ( iban == NULL )
+        return 0;
+    else if ( strlen (iban) == 0 )
+        return -1;
+
+    s_iban = gsb_account_property_iban_get_struc ( g_strndup (iban, 2) );
+    if ( g_strcmp0 (s_iban -> locale, "XX") != 0 )
+    {
+
+        model = my_strdelimit ( s_iban -> iban, " -", "" );
+        tmpstr = my_strdelimit ( iban, " -", "" );
+        if ( g_utf8_strlen (model, -1) != g_utf8_strlen (tmpstr, -1) )
+        {
+            g_free ( model );
+            g_free ( tmpstr );
+            return 0;
+        }
+    }
+
+    /* mise en forme de l'IBAN avant contrôle */
+    tmpstr = g_strconcat ( tmpstr + 4, g_strndup (tmpstr, 4), NULL );
+
+    ptr = tmpstr;
+    while ( ptr[i]  )
+	{
+        if ( g_ascii_isdigit ( ptr[i] ) )
+        {
+            if ( buffer == NULL )
+                buffer = g_strdup_printf ( "%c", ptr[i] );
+            else
+                buffer = g_strconcat ( buffer, 
+                        g_strdup_printf ("%c", ptr[i]), NULL );
+        }
+        else
+        {
+            if ( buffer == NULL )
+                buffer = g_strdup_printf ( "%d", ptr[i] - 55 );
+            else
+                buffer = g_strconcat ( buffer, 
+                        g_strdup_printf ("%d", ptr[i] - 55), NULL );
+        }
+        i++;
+    }
+
+    /* pas encore réussi à vérifier le calcul de l'IBAN */
+
+    g_free ( buffer );
+
+    return 1;
 }
 /* Local Variables: */
 /* c-basic-offset: 4 */

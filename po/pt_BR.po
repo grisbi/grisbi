@@ -44,7 +44,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-03 21:37+0200\n"
+"POT-Creation-Date: 2009-04-04 11:57+0200\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
@@ -694,7 +694,7 @@ msgid "Edit selected transaction"
 msgstr "Apagar lançamento"
 
 #. comments line
-#: src/barre_outils.c:483 src/gsb_account_property.c:505
+#: src/barre_outils.c:483 src/gsb_account_property.c:502
 #: src/gsb_scheduler_list.c:332
 msgid "Comments"
 msgstr "Comentários"
@@ -2821,7 +2821,7 @@ msgstr ""
 msgid "Select accounts to export"
 msgstr "Selecionar contas para exportar"
 
-#: src/export.c:169 src/export_csv.c:741 src/gsb_account_property.c:181
+#: src/export.c:169 src/export_csv.c:741 src/gsb_account_property.c:201
 #: src/import.c:1136 src/import.c:1172
 msgid "Account name"
 msgstr "Nome da conta"
@@ -2868,7 +2868,7 @@ msgid "CSV format"
 msgstr ""
 
 #. set the initial balance
-#: src/export_csv.c:274 src/gsb_account_property.c:458
+#: src/export_csv.c:274 src/gsb_account_property.c:455
 #: src/gsb_assistant_reconcile_config.c:441 src/gsb_reconcile.c:209
 #: src/gsb_reconcile_config.c:228
 msgid "Initial balance"
@@ -3581,109 +3581,96 @@ msgstr ""
 "tem volta."
 
 #. crÃ©ation de la ligne des dÃ©tails du compte
-#: src/gsb_account_property.c:175
+#: src/gsb_account_property.c:195
 msgid "Account details"
 msgstr "Detalhes da conta"
 
-#: src/gsb_account_property.c:198 src/import.c:1088
+#: src/gsb_account_property.c:218 src/import.c:1088
 msgid "Account type"
 msgstr "Tipo da conta"
 
-#: src/gsb_account_property.c:216 src/import.c:1190
+#: src/gsb_account_property.c:236 src/import.c:1190
 msgid "Account currency"
 msgstr "Moeda da conta"
 
 #. create closed account line
-#: src/gsb_account_property.c:230
+#: src/gsb_account_property.c:250
 msgid "Closed account"
 msgstr "Conta fechada"
 
 #. crÃ©ation de la ligne du titulaire du compte
-#: src/gsb_account_property.c:252
+#: src/gsb_account_property.c:272
 msgid "Account holder"
 msgstr "Titular da conta"
 
-#: src/gsb_account_property.c:256
+#: src/gsb_account_property.c:276
 msgid "Holder name"
 msgstr "Nome do titular"
 
 #. now the checkbutton for different address
-#: src/gsb_account_property.c:281
+#: src/gsb_account_property.c:301
 #, fuzzy
 msgid "Holder's own address"
 msgstr "Titular tem seu próprio endereço"
 
-#. ligne de l'Ã©tablissement financier
-#: src/gsb_account_property.c:314 src/gsb_bank.c:505
+#. crÃ©ation de la ligne de l'Ã©tablissement financier
+#: src/gsb_account_property.c:334 src/gsb_bank.c:505
 msgid "Bank"
 msgstr "Banco"
 
-#: src/gsb_account_property.c:318
+#: src/gsb_account_property.c:338
 msgid "Financial institution"
 msgstr "Instituição financeira"
 
-#: src/gsb_account_property.c:348
-msgid "Bank sort code"
-msgstr "Código do banco automático"
-
-#: src/gsb_account_property.c:365
-msgid "Bank branch code"
-msgstr "Código do banco em branco"
-
-#: src/gsb_account_property.c:382
-msgid "Account number / Key"
-msgstr "Número da conta  / Dígito"
-
-#: src/gsb_account_property.c:415
+#: src/gsb_account_property.c:368
 #, fuzzy
 msgid "IBAN number"
 msgstr "Número"
 
-#: src/gsb_account_property.c:437
-#, fuzzy
-msgid "IBAN format"
-msgstr "Informações"
+#: src/gsb_account_property.c:396
+msgid "Bank sort code"
+msgstr "Código do banco automático"
 
-#: src/gsb_account_property.c:442
-#, c-format
-msgid ""
-"%s\n"
-"B = bank code, G = agency code,\n"
-"C = account number, R = key RIB"
-msgstr ""
+#: src/gsb_account_property.c:412
+msgid "Bank branch code"
+msgstr "Código do banco em branco"
+
+#: src/gsb_account_property.c:428
+msgid "Account number / Key"
+msgstr "Número da conta  / Dígito"
 
 #. crÃ©ation de la ligne du solde initial
-#: src/gsb_account_property.c:453
+#: src/gsb_account_property.c:450
 msgid "Balances"
 msgstr "Saldos"
 
-#: src/gsb_account_property.c:475
+#: src/gsb_account_property.c:472
 msgid "Minimum authorised balance"
 msgstr "Saldo mínimo autorizado"
 
-#: src/gsb_account_property.c:492
+#: src/gsb_account_property.c:489
 #, fuzzy
 msgid "Minimum desired balance"
 msgstr "Saldo mínimo desejado"
 
-#: src/gsb_account_property.c:637 src/gsb_assistant_account.c:434
+#: src/gsb_account_property.c:649 src/gsb_assistant_account.c:434
 msgid "Bank account"
 msgstr "Conta bancária"
 
-#: src/gsb_account_property.c:637
+#: src/gsb_account_property.c:649
 msgid "Cash account"
 msgstr "Conta de caixa"
 
-#: src/gsb_account_property.c:637 src/gsb_assistant_account.c:447
+#: src/gsb_account_property.c:649 src/gsb_assistant_account.c:447
 msgid "Liabilities account"
 msgstr "Conta de responsabilidades"
 
-#: src/gsb_account_property.c:637 src/gsb_assistant_account.c:443
+#: src/gsb_account_property.c:649 src/gsb_assistant_account.c:443
 msgid "Assets account"
 msgstr "Conta de bens"
 
 #. ask for the currency of the transactions
-#: src/gsb_account_property.c:761
+#: src/gsb_account_property.c:773
 #, c-format
 msgid ""
 "You are changing the currency of the account, do you want to change the "
@@ -3694,10 +3681,20 @@ msgid ""
 "Archived and reconcilied transactions will be left unmodified."
 msgstr ""
 
-#: src/gsb_account_property.c:764
+#: src/gsb_account_property.c:776
 #, fuzzy
 msgid "Change the transactions currency"
 msgstr "Transferir os lançamentos para"
+
+#: src/gsb_account_property.c:994
+msgid "Your IBAN number is not correct. Please check your entry."
+msgstr ""
+
+#: src/gsb_account_property.c:1075
+msgid ""
+"Your number IBAN does not have model. The updating of banking data is not "
+"possible."
+msgstr ""
 
 #. create the page
 #: src/gsb_archive_config.c:111 src/parametres.c:278
@@ -9957,6 +9954,10 @@ msgstr "Erro na alocação de memória"
 #, fuzzy
 msgid "No font defined"
 msgstr "Nenhum orçamento"
+
+#, fuzzy
+#~ msgid "IBAN format"
+#~ msgstr "Informações"
 
 #, fuzzy
 #~ msgid "Associations for the import of payees"

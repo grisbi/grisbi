@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-04-03 21:37+0200\n"
+"POT-Creation-Date: 2009-04-04 11:57+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -652,7 +652,7 @@ msgid "Edit selected transaction"
 msgstr "删除交易"
 
 #. comments line
-#: src/barre_outils.c:483 src/gsb_account_property.c:505
+#: src/barre_outils.c:483 src/gsb_account_property.c:502
 #: src/gsb_scheduler_list.c:332
 msgid "Comments"
 msgstr "备注"
@@ -2753,7 +2753,7 @@ msgstr ""
 msgid "Select accounts to export"
 msgstr "选择要导出的账户"
 
-#: src/export.c:169 src/export_csv.c:741 src/gsb_account_property.c:181
+#: src/export.c:169 src/export_csv.c:741 src/gsb_account_property.c:201
 #: src/import.c:1136 src/import.c:1172
 msgid "Account name"
 msgstr "账户名称"
@@ -2800,7 +2800,7 @@ msgid "CSV format"
 msgstr ""
 
 #. set the initial balance
-#: src/export_csv.c:274 src/gsb_account_property.c:458
+#: src/export_csv.c:274 src/gsb_account_property.c:455
 #: src/gsb_assistant_reconcile_config.c:441 src/gsb_reconcile.c:209
 #: src/gsb_reconcile_config.c:228
 msgid "Initial balance"
@@ -3507,109 +3507,96 @@ msgid ""
 msgstr "删除本账户是无法恢复的，包括之前所有的操作。"
 
 #. crÃ©ation de la ligne des dÃ©tails du compte
-#: src/gsb_account_property.c:175
+#: src/gsb_account_property.c:195
 msgid "Account details"
 msgstr "账户明细"
 
-#: src/gsb_account_property.c:198 src/import.c:1088
+#: src/gsb_account_property.c:218 src/import.c:1088
 msgid "Account type"
 msgstr "账户类型"
 
-#: src/gsb_account_property.c:216 src/import.c:1190
+#: src/gsb_account_property.c:236 src/import.c:1190
 msgid "Account currency"
 msgstr "账户货币"
 
 #. create closed account line
-#: src/gsb_account_property.c:230
+#: src/gsb_account_property.c:250
 msgid "Closed account"
 msgstr "已结清账户"
 
 #. crÃ©ation de la ligne du titulaire du compte
-#: src/gsb_account_property.c:252
+#: src/gsb_account_property.c:272
 msgid "Account holder"
 msgstr "账户所有者"
 
-#: src/gsb_account_property.c:256
+#: src/gsb_account_property.c:276
 msgid "Holder name"
 msgstr "所有者名称"
 
 #. now the checkbutton for different address
-#: src/gsb_account_property.c:281
+#: src/gsb_account_property.c:301
 #, fuzzy
 msgid "Holder's own address"
 msgstr "所有者有单独的地址"
 
-#. ligne de l'Ã©tablissement financier
-#: src/gsb_account_property.c:314 src/gsb_bank.c:505
+#. crÃ©ation de la ligne de l'Ã©tablissement financier
+#: src/gsb_account_property.c:334 src/gsb_bank.c:505
 msgid "Bank"
 msgstr "银行"
 
-#: src/gsb_account_property.c:318
+#: src/gsb_account_property.c:338
 msgid "Financial institution"
 msgstr "财务制度"
 
-#: src/gsb_account_property.c:348
-msgid "Bank sort code"
-msgstr "银行排序编号"
-
-#: src/gsb_account_property.c:365
-msgid "Bank branch code"
-msgstr "支行代码"
-
-#: src/gsb_account_property.c:382
-msgid "Account number / Key"
-msgstr "账户编号 / Key "
-
-#: src/gsb_account_property.c:415
+#: src/gsb_account_property.c:368
 #, fuzzy
 msgid "IBAN number"
 msgstr "编号"
 
-#: src/gsb_account_property.c:437
-#, fuzzy
-msgid "IBAN format"
-msgstr "信息"
+#: src/gsb_account_property.c:396
+msgid "Bank sort code"
+msgstr "银行排序编号"
 
-#: src/gsb_account_property.c:442
-#, c-format
-msgid ""
-"%s\n"
-"B = bank code, G = agency code,\n"
-"C = account number, R = key RIB"
-msgstr ""
+#: src/gsb_account_property.c:412
+msgid "Bank branch code"
+msgstr "支行代码"
+
+#: src/gsb_account_property.c:428
+msgid "Account number / Key"
+msgstr "账户编号 / Key "
 
 #. crÃ©ation de la ligne du solde initial
-#: src/gsb_account_property.c:453
+#: src/gsb_account_property.c:450
 msgid "Balances"
 msgstr "结余"
 
-#: src/gsb_account_property.c:475
+#: src/gsb_account_property.c:472
 msgid "Minimum authorised balance"
 msgstr "最小许可余额"
 
-#: src/gsb_account_property.c:492
+#: src/gsb_account_property.c:489
 #, fuzzy
 msgid "Minimum desired balance"
 msgstr "最小期望余额"
 
-#: src/gsb_account_property.c:637 src/gsb_assistant_account.c:434
+#: src/gsb_account_property.c:649 src/gsb_assistant_account.c:434
 msgid "Bank account"
 msgstr "银行账户"
 
-#: src/gsb_account_property.c:637
+#: src/gsb_account_property.c:649
 msgid "Cash account"
 msgstr "现金账户"
 
-#: src/gsb_account_property.c:637 src/gsb_assistant_account.c:447
+#: src/gsb_account_property.c:649 src/gsb_assistant_account.c:447
 msgid "Liabilities account"
 msgstr "负债账户"
 
-#: src/gsb_account_property.c:637 src/gsb_assistant_account.c:443
+#: src/gsb_account_property.c:649 src/gsb_assistant_account.c:443
 msgid "Assets account"
 msgstr "资产账户"
 
 #. ask for the currency of the transactions
-#: src/gsb_account_property.c:761
+#: src/gsb_account_property.c:773
 #, c-format
 msgid ""
 "You are changing the currency of the account, do you want to change the "
@@ -3620,10 +3607,20 @@ msgid ""
 "Archived and reconcilied transactions will be left unmodified."
 msgstr ""
 
-#: src/gsb_account_property.c:764
+#: src/gsb_account_property.c:776
 #, fuzzy
 msgid "Change the transactions currency"
 msgstr "转移这些交易到"
+
+#: src/gsb_account_property.c:994
+msgid "Your IBAN number is not correct. Please check your entry."
+msgstr ""
+
+#: src/gsb_account_property.c:1075
+msgid ""
+"Your number IBAN does not have model. The updating of banking data is not "
+"possible."
+msgstr ""
 
 #. create the page
 #: src/gsb_archive_config.c:111 src/parametres.c:278
@@ -9822,6 +9819,10 @@ msgstr "应用程序不能获得足够的内存"
 #, fuzzy
 msgid "No font defined"
 msgstr "没有定义汇率"
+
+#, fuzzy
+#~ msgid "IBAN format"
+#~ msgstr "信息"
 
 #, fuzzy
 #~ msgid "Associations for the import of payees"

@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -91,7 +91,7 @@ typedef struct
     gchar 	*bank_branch_code;
     gchar 	*bank_account_number;
     gchar 	*bank_account_key;
-    gchar   *bank_account_IBAN;
+    gchar   *bank_account_iban;
 
     /** @name reconcile sort */
     gint 	reconcile_sort_type;			/**< 1 : sort by method of payment ; 0 : let the user sort by himself */
@@ -520,8 +520,8 @@ gboolean gsb_data_account_set_nb_rows ( gint account_number,
 	 ||
 	 nb_rows > 4 )
     {
-	printf ( _("Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"),
-		 nb_rows );
+	devel_debug ( g_strdup_printf ( _("Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"),
+		 nb_rows ) );
 	return FALSE;
     }
 
@@ -2640,7 +2640,13 @@ gchar *gsb_data_account_get_owner (gint account_number)
 }
 
 
-gchar *gsb_data_account_get_bank_account_IBAN (gint account_number)
+/**
+ *
+ *
+ *
+ *
+ * */
+gchar *gsb_data_account_get_bank_account_iban (gint account_number)
 {
     struct_account *account;
 
@@ -2649,11 +2655,17 @@ gchar *gsb_data_account_get_bank_account_IBAN (gint account_number)
     if (!account )
         return NULL;
 
-    return account -> bank_account_IBAN;
+    return account -> bank_account_iban;
 }
 
 
-gboolean gsb_data_account_set_bank_account_IBAN ( gint account_number, const gchar *IBAN )
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_data_account_set_bank_account_iban ( gint account_number, const gchar *iban )
 {
     struct_account *account;
 
@@ -2661,14 +2673,14 @@ gboolean gsb_data_account_set_bank_account_IBAN ( gint account_number, const gch
 
     if (!account )
         return FALSE;
+    
+    if ( account -> bank_account_iban )
+        g_free ( account -> bank_account_iban );
 
-    if ( account -> bank_account_IBAN )
-        g_free ( account -> bank_account_IBAN );
-
-    if (!IBAN || !strlen (IBAN))
-        account -> bank_account_IBAN = NULL;
+    if (!iban || !strlen (iban))
+        account -> bank_account_iban = NULL;
     else
-        account -> bank_account_IBAN = my_strdup (IBAN);
+        account -> bank_account_iban = my_strdup ( iban );
 
     return TRUE;
 }

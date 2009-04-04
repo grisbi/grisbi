@@ -2358,19 +2358,23 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
                                     account_number );
         category_number = gsb_data_transaction_get_category_number (
                                     last_transaction_number );
-        gsb_data_transaction_set_category_number ( transaction_number,
+        if ( category_number != -1 )
+            gsb_data_transaction_set_category_number ( transaction_number,
                                 category_number );
         category_number = gsb_data_transaction_get_sub_category_number (
                                 last_transaction_number );
-        gsb_data_transaction_set_sub_category_number ( transaction_number,
+        if ( category_number != -1 )
+            gsb_data_transaction_set_sub_category_number ( transaction_number,
                                 category_number );
         category_number = gsb_data_transaction_get_budgetary_number (
                                     last_transaction_number );
-        gsb_data_transaction_set_budgetary_number ( transaction_number,
+        if ( category_number != -1 )
+            gsb_data_transaction_set_budgetary_number ( transaction_number,
                                 category_number );
         category_number = gsb_data_transaction_get_sub_budgetary_number (
                                 last_transaction_number );
-        gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
+        if ( category_number != -1 )
+            gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
                                 category_number );
     }
 	else
@@ -3722,8 +3726,6 @@ gint gsb_import_associations_find_payee ( gchar *imported_tiers)
         struct struct_payee_asso *assoc;
 
         assoc = list_tmp -> data;
-        printf ("imported_tiers = %s et search_str = %s\n",
-                        imported_tiers, assoc -> search_str);
         if ( gsb_string_is_trouve ( imported_tiers, assoc -> search_str ) )
         {
            return assoc -> payee_number;
