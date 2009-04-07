@@ -1563,19 +1563,20 @@ gulong gsb_file_save_bank_part ( gulong iterator,
 	bank_number = gsb_data_bank_get_no_bank (list_tmp -> data);
 
 	/* now we can fill the file content */
-	new_string = g_markup_printf_escaped ( "\t<Bank Nb=\"%d\" Na=\"%s\" Co=\"%s\" Adr=\"%s\" Tel=\"%s\" Mail=\"%s\" Web=\"%s\" Nac=\"%s\" Faxc=\"%s\" Telc=\"%s\" Mailc=\"%s\" Rem=\"%s\" />\n",
-					       bank_number,
-					       gsb_data_bank_get_name (bank_number),
-					       gsb_data_bank_get_code (bank_number),
-					       gsb_data_bank_get_bank_address (bank_number),
-					       gsb_data_bank_get_bank_tel (bank_number),
-					       gsb_data_bank_get_bank_mail (bank_number),
-					       gsb_data_bank_get_bank_web (bank_number),
-					       gsb_data_bank_get_correspondent_name (bank_number),
-					       gsb_data_bank_get_correspondent_fax (bank_number),
-					       gsb_data_bank_get_correspondent_tel (bank_number),
-					       gsb_data_bank_get_correspondent_mail (bank_number),
-					       gsb_data_bank_get_bank_note (bank_number));
+	new_string = g_markup_printf_escaped ( "\t<Bank Nb=\"%d\" Na=\"%s\" Co=\"%s\" BIC=\"%s\" Adr=\"%s\" Tel=\"%s\" Mail=\"%s\" Web=\"%s\" Nac=\"%s\" Faxc=\"%s\" Telc=\"%s\" Mailc=\"%s\" Rem=\"%s\" />\n",
+                        bank_number,
+                        gsb_data_bank_get_name (bank_number),
+                        gsb_data_bank_get_code (bank_number),
+                        gsb_data_bank_get_bic (bank_number),
+                        gsb_data_bank_get_bank_address (bank_number),
+                        gsb_data_bank_get_bank_tel (bank_number),
+                        gsb_data_bank_get_bank_mail (bank_number),
+                        gsb_data_bank_get_bank_web (bank_number),
+                        gsb_data_bank_get_correspondent_name (bank_number),
+                        gsb_data_bank_get_correspondent_fax (bank_number),
+                        gsb_data_bank_get_correspondent_tel (bank_number),
+                        gsb_data_bank_get_correspondent_mail (bank_number),
+                        gsb_data_bank_get_bank_note (bank_number));
 
 	/* append the new string to the file content
 	 * and take the new iterator */

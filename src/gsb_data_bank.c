@@ -1,8 +1,8 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
+/* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -46,6 +46,7 @@ typedef struct
     gint bank_number;
     gchar *bank_name;
     gchar *bank_code;
+    gchar *bank_BIC;                /* BIC number */
 
     gchar *bank_address;
     gchar *bank_tel;
@@ -237,6 +238,8 @@ static void _gsb_data_bank_free ( struct_bank* bank)
 	g_free ( bank -> bank_name );
     if ( bank -> bank_code )
 	g_free ( bank -> bank_code );
+    if ( bank -> bank_BIC )
+	g_free ( bank -> bank_BIC );
     if ( bank -> bank_address )
 	g_free ( bank -> bank_address );
     if ( bank -> bank_web )
@@ -868,4 +871,51 @@ gboolean gsb_data_bank_set_correspondent_fax ( gint bank_number,
 }
 
 
+/**
+ * return the  BIC code of the bank
+ *
+ * \param bank_number the number of the bank
+ *
+ * \return the bank_BIC of the bank or NULL if problem
+ * */
+const gchar *gsb_data_bank_get_bic ( gint bank_number )
+{
+    struct_bank *bank;
+
+    bank = gsb_data_bank_get_structure ( bank_number );
+
+    if (!bank)
+	return NULL;
+
+    return bank -> bank_BIC;
+}
+
+
+/**
+ * set the  BIC code of the bank
+ * the value is dupplicate in memory
+ *
+ * \param bank_number the number of the bank
+ * \param  the  BIC of the bank
+ *
+ * \return TRUE if ok or FALSE if problem
+ * */
+gboolean gsb_data_bank_set_bic ( gint bank_number, const gchar *bank_BIC )
+{
+    struct_bank *bank;
+
+    bank = gsb_data_bank_get_structure ( bank_number );
+
+    if (!bank)
+	return FALSE;
+
+    /* we free the last  */
+    if ( bank -> bank_BIC )
+	g_free (bank -> bank_BIC);
+
+    /* and copy the new one */
+    bank -> bank_BIC = my_strdup (bank_BIC);
+    
+    return TRUE;
+}
 

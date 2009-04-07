@@ -709,7 +709,6 @@ void appui_sur_ajout_payee ( GtkTreeModel * model )
 }
 
 
-/* pbiava le 03/01/09*/
 /* ******************************************************************************/
 /* assistant de gestion des tiers :                                             */
 /* permet de modifier en masse le nom d'un tiers contenant une chaine           */

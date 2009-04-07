@@ -97,7 +97,7 @@ static gboolean gsb_account_property_iban_key_press_event ( GtkWidget *entry,
                         gpointer data );
 static gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban );
 static void gsb_account_property_iban_set_iban ( const gchar *iban );
-static void gsb_account_property_iban_set_sensitive_bank_data ( gboolean sensitive );
+static void gsb_account_property_iban_switch_bank_data ( gboolean sensitive );
 /*END_STATIC*/
 
 struct iso_13616_iban iso_13616_ibans [] = {
@@ -123,9 +123,9 @@ static GtkWidget *detail_type_compte = NULL;
 static GtkWidget *detail_titulaire_compte = NULL;
 static GtkWidget *detail_adresse_titulaire = NULL;
 static GtkWidget *bank_list_combobox = NULL;
-static GtkWidget *detail_no_compte = NULL;
 static GtkWidget *label_code_banque = NULL;
 static GtkWidget *detail_guichet = NULL;
+static GtkWidget *detail_no_compte = NULL;
 static GtkWidget *detail_cle_compte = NULL;
 GtkWidget *detail_devise_compte = NULL;
 static GtkWidget *detail_compte_cloture = NULL;
@@ -136,6 +136,11 @@ static GtkWidget *detail_commentaire = NULL;
 static GtkWidget *button_holder_address = NULL;
 static GtkWidget *bouton_icon = NULL;
 static GtkWidget *detail_IBAN = NULL;
+static GtkWidget *label_code_bic = NULL;
+static GtkWidget *label_guichet = NULL;
+static GtkWidget *label_no_compte = NULL;
+static GtkWidget *label_cle_compte = NULL;
+
 
 enum origin
 {
@@ -370,6 +375,23 @@ GtkWidget *gsb_account_property_create_page ( void )
 		       bank_list_combobox );
     gtk_box_pack_start ( GTK_BOX ( hbox ), edit_bank_button, FALSE, FALSE, 0 );
 
+    /* création du numéro BIC */
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( COLON(_("BIC code")) );
+    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
+    gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
+
+    label_code_bic = gtk_label_new ( NULL );
+    g_signal_connect ( G_OBJECT (label_code_bic ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &label_code_bic );
+    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+    gtk_box_pack_start ( GTK_BOX(hbox), label_code_bic, FALSE, FALSE, 0 );
+    g_object_set_data ( G_OBJECT (label_code_bic), "label", label );
+
      /* création de la ligne du numéro IBAN */
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
@@ -398,7 +420,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     g_signal_connect ( G_OBJECT (detail_IBAN ), "destroy",
                         G_CALLBACK ( gtk_widget_destroyed), &detail_IBAN );
 
-    gtk_widget_set_size_request ( detail_IBAN, 280, -1 );
+    gtk_widget_set_size_request ( detail_IBAN, 350, -1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_IBAN, FALSE, FALSE, 0 );
 
     /* create the code of bank */
@@ -433,6 +455,13 @@ GtkWidget *gsb_account_property_create_page ( void )
 		       G_CALLBACK ( gtk_widget_destroyed), &detail_guichet );
     gtk_box_pack_start ( GTK_BOX(hbox), detail_guichet, TRUE, TRUE, 0);
 
+    label_guichet = gtk_label_new ( NULL );
+    g_signal_connect ( G_OBJECT (label_guichet ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &label_guichet );
+    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+    gtk_box_pack_start ( GTK_BOX(hbox), label_guichet, FALSE, FALSE, 0 );
+
     /* création de la ligne du numéro du compte */
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
@@ -449,6 +478,13 @@ GtkWidget *gsb_account_property_create_page ( void )
 		       G_CALLBACK ( gtk_widget_destroyed), &detail_no_compte );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_no_compte, TRUE, TRUE, 0 );
 
+    label_no_compte = gtk_label_new ( NULL );
+    g_signal_connect ( G_OBJECT (label_no_compte ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &label_no_compte );
+    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+    gtk_box_pack_start ( GTK_BOX(hbox), label_no_compte, FALSE, FALSE, 0 );
+
     detail_cle_compte = gsb_autofunc_entry_new ( NULL,
 						 NULL, NULL,
 						 G_CALLBACK (gsb_data_account_set_bank_account_key), 0);
@@ -456,6 +492,13 @@ GtkWidget *gsb_account_property_create_page ( void )
 		       G_CALLBACK ( gtk_widget_destroyed), &detail_cle_compte );
     gtk_widget_set_size_request ( detail_cle_compte, 30, -1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_cle_compte, FALSE, FALSE, 0 );
+
+    label_cle_compte = gtk_label_new ( NULL );
+    g_signal_connect ( G_OBJECT (label_cle_compte ), "destroy",
+		       G_CALLBACK ( gtk_widget_destroyed), &label_cle_compte );
+    gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
+    gtk_box_pack_start ( GTK_BOX(hbox), label_cle_compte, FALSE, FALSE, 0 );
 
 
     /* création de la ligne du solde initial */
@@ -577,14 +620,16 @@ void gsb_account_property_fill_page ( void )
     /* fill bank informations */
     bank_number = gsb_data_account_get_bank (current_account);
 
+    gsb_account_property_set_label_code_bic ( bank_number );
+
     gsb_account_property_iban_set_iban (
                     gsb_data_account_get_bank_account_iban (current_account) );
     
     if ( gsb_account_property_iban_set_bank_from_iban (
                         gsb_data_account_get_bank_account_iban (current_account)) )
-        gsb_account_property_iban_set_sensitive_bank_data ( FALSE );    
+        gsb_account_property_iban_switch_bank_data ( FALSE );    
     else
-        gsb_account_property_iban_set_sensitive_bank_data ( TRUE );
+        gsb_account_property_iban_switch_bank_data ( TRUE );
 
     gsb_autofunc_real_set ( detail_solde_init,
 			    gsb_data_account_get_init_balance (current_account,
@@ -847,7 +892,33 @@ void gsb_account_property_set_label_code_banque ( void )
  *
  *
  *
- * */
+ **/
+void gsb_account_property_set_label_code_bic ( gint bank_number )
+{
+    GtkWidget *label;
+
+    label = g_object_get_data ( G_OBJECT (label_code_bic), "label" );
+    if ( gsb_data_bank_get_bic ( bank_number ) )
+    {
+        gtk_label_set_text ( GTK_LABEL (label_code_bic), 
+                        gsb_data_bank_get_bic ( bank_number ) );
+        gtk_widget_show ( GTK_WIDGET (label) );
+        gtk_widget_show ( GTK_WIDGET (label_code_bic) );
+    }
+    else
+    {
+        gtk_widget_hide ( GTK_WIDGET (label) );
+        gtk_widget_hide ( GTK_WIDGET (label_code_bic) );
+    }
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ **/
 void gsb_account_property_iban_insert_text ( GtkEditable *entry,                                                        
                         gchar *text,
                         gint length,
@@ -874,9 +945,9 @@ void gsb_account_property_iban_insert_text ( GtkEditable *entry,
 
     /* on autorise ou pas la saisie des données banquaires */
     if ( g_utf8_strlen (iban, -1) == 0 )
-        gsb_account_property_iban_set_sensitive_bank_data ( TRUE );
+        gsb_account_property_iban_switch_bank_data ( TRUE );
     else if ( GTK_WIDGET_IS_SENSITIVE ( bank_list_combobox ) )
-        gsb_account_property_iban_set_sensitive_bank_data ( FALSE );
+        gsb_account_property_iban_switch_bank_data ( FALSE );
 
     /* on contrôle l'existence d'un modèle pour le numéro IBAN */
     if ( g_utf8_strlen (iban, -1) >= 2 )
@@ -914,9 +985,9 @@ void gsb_account_property_iban_delete_text ( GtkEditable *entry,
 {    
     /* on autorise ou pas la saisie des données banquaires */
     if ( start_pos == 0 )
-        gsb_account_property_iban_set_sensitive_bank_data ( TRUE );
+        gsb_account_property_iban_switch_bank_data ( TRUE );
     else if ( GTK_WIDGET_IS_SENSITIVE ( bank_list_combobox ) )
-        gsb_account_property_iban_set_sensitive_bank_data ( FALSE );
+        gsb_account_property_iban_switch_bank_data ( FALSE );
 }
 
 
@@ -1105,7 +1176,7 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
     {
         gsb_bank_list_set_bank (bank_list_combobox, 0, current_account );
         gtk_label_set_text ( GTK_LABEL (label_code_banque), "" );
-        gsb_account_property_iban_set_sensitive_bank_data ( TRUE );
+        gsb_account_property_iban_switch_bank_data ( TRUE );
         return FALSE;
     }
 
@@ -1143,7 +1214,6 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
 
         code = g_utf8_strncpy ( code, ptr_1, (pos_char_2 - pos_char_1) + 1 );
         gtk_label_set_text ( GTK_LABEL (label_code_banque), code );
-        set_label = TRUE;
     }
 
     /* set bank_branch_code */
@@ -1166,16 +1236,7 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
     }
     else
         code = g_strdup ( "" );
-
-    if ( g_object_get_data (G_OBJECT (detail_guichet), "changed") > 0 )
-        g_signal_handler_block ( (gpointer *) detail_guichet,
-                        (gulong) g_object_get_data ( G_OBJECT 
-                        (detail_guichet), "changed" ) );
-    gtk_entry_set_text ( GTK_ENTRY (detail_guichet), code );
-    if ( g_object_get_data (G_OBJECT (detail_guichet), "changed") > 0 )
-        g_signal_handler_unblock ( (gpointer *) detail_guichet,
-                        (gulong) g_object_get_data ( G_OBJECT 
-                        (detail_guichet), "changed" ) );
+    gtk_label_set_text ( GTK_LABEL (label_guichet), code );
 
     /* set bank_account_number */
     c = 'C';
@@ -1189,15 +1250,7 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
         pos_char_2 = g_utf8_pointer_to_offset ( model, ptr_2 );
 
         code = g_utf8_strncpy ( code, ptr_1, (pos_char_2 - pos_char_1) + 1 );
-        if ( g_object_get_data (G_OBJECT (detail_no_compte), "changed") > 0 )
-            g_signal_handler_block ( (gpointer *) detail_no_compte,
-                            (gulong) g_object_get_data ( G_OBJECT 
-                            (detail_no_compte), "changed" ) );
-        gtk_entry_set_text ( GTK_ENTRY (detail_no_compte), code );
-        if ( g_object_get_data (G_OBJECT (detail_no_compte), "changed") > 0 )
-            g_signal_handler_unblock ( (gpointer *) detail_no_compte,
-                            (gulong) g_object_get_data ( G_OBJECT 
-                            (detail_no_compte), "changed" ) );
+        gtk_label_set_text ( GTK_LABEL (label_no_compte), code );
     }
 
     /* set bank_account_key */
@@ -1215,15 +1268,7 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
     }
     else
         code = g_strdup ( "" );
-    if ( g_object_get_data (G_OBJECT (detail_cle_compte), "changed") > 0 )
-        g_signal_handler_block ( (gpointer *) detail_cle_compte,
-                    (gulong) g_object_get_data ( G_OBJECT 
-                    (detail_cle_compte), "changed" ) );
-    gtk_entry_set_text ( GTK_ENTRY (detail_cle_compte), code );
-    if ( g_object_get_data (G_OBJECT (detail_cle_compte), "changed") > 0 )
-        g_signal_handler_unblock ( (gpointer *) detail_cle_compte,
-                    (gulong) g_object_get_data ( G_OBJECT 
-                    (detail_cle_compte), "changed" ) );
+    gtk_label_set_text ( GTK_LABEL (label_cle_compte), code );
 
     g_free ( model );
     g_free ( tmpstr );
@@ -1259,13 +1304,28 @@ void gsb_account_property_iban_set_iban ( const gchar *iban )
  *
  *
  * */
-void gsb_account_property_iban_set_sensitive_bank_data ( gboolean sensitive )
+void gsb_account_property_iban_switch_bank_data ( gboolean sensitive )
 {
-    gtk_widget_set_sensitive ( GTK_WIDGET (bank_list_combobox), sensitive );
-    gtk_widget_set_sensitive ( GTK_WIDGET (label_code_banque), sensitive );
-    gtk_widget_set_sensitive ( GTK_WIDGET (detail_guichet), sensitive );
-    gtk_widget_set_sensitive ( GTK_WIDGET (detail_no_compte), sensitive );
-    gtk_widget_set_sensitive ( GTK_WIDGET (detail_cle_compte), sensitive );
+    if ( sensitive )
+    {
+        gtk_widget_set_sensitive ( GTK_WIDGET (bank_list_combobox), sensitive );
+        gtk_widget_show ( GTK_WIDGET (detail_guichet) );
+        gtk_widget_hide ( GTK_WIDGET (label_guichet) );
+        gtk_widget_show ( GTK_WIDGET (detail_no_compte) );
+        gtk_widget_hide ( GTK_WIDGET (label_no_compte) );
+        gtk_widget_show ( GTK_WIDGET (detail_cle_compte) );
+        gtk_widget_hide ( GTK_WIDGET (label_cle_compte) );
+    }
+    else
+    {
+        gtk_widget_set_sensitive ( GTK_WIDGET (bank_list_combobox), sensitive );
+        gtk_widget_hide ( GTK_WIDGET (detail_guichet) );
+        gtk_widget_show ( GTK_WIDGET (label_guichet) );
+        gtk_widget_hide ( GTK_WIDGET (detail_no_compte) );
+        gtk_widget_show ( GTK_WIDGET (label_no_compte) );
+        gtk_widget_hide ( GTK_WIDGET (detail_cle_compte) );
+        gtk_widget_show ( GTK_WIDGET (label_cle_compte) );
+    }
 }
 
 
@@ -1307,9 +1367,9 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
             return 0;
         }
     }
-    
+
     /* mise en forme de l'IBAN avant contrôle */
-    tmpstr = g_strconcat ( tmpstr + 4, g_strndup (tmpstr, 4), NULL );
+    tmpstr = g_strconcat ( tmpstr + 4, g_strndup (tmpstr, 2), "00", NULL );
 
     ptr = tmpstr;
     while ( ptr[i]  )

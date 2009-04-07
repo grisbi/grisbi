@@ -1,9 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
+/*			2003-2008 Benjamin Drieu (bdrieu@april.org)             	      */
+/* 			http://www.grisbi.org				                              */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -266,6 +266,8 @@ static void _gsb_data_payee_free ( struct_payee* payee)
         g_free ( payee -> payee_name);
     if ( payee -> payee_description)
         g_free ( payee -> payee_description);
+    if ( payee -> payee_search_string)
+        g_free ( payee -> payee_search_string);
     g_free ( payee );
     if ( payee_buffer == payee )
 	payee_buffer = NULL;

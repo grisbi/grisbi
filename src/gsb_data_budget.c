@@ -1300,9 +1300,10 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
     if ( budget )
     {
 	budget -> budget_nb_transactions ++;
-	budget -> budget_balance = gsb_real_add ( budget -> budget_balance,
-						  gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-													  budgetary_line_tree_currency (), -1));
+    if ( ! gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
+        budget -> budget_balance = gsb_real_add ( budget -> budget_balance,
+                        gsb_data_transaction_get_adjusted_amount_for_currency (
+                        transaction_number, budgetary_line_tree_currency (), -1));
     }
 
     /* if we are on empty_budget, no sub-budget */
@@ -1312,16 +1313,20 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
     if ( sub_budget )
     {
 	sub_budget -> sub_budget_nb_transactions ++;
-	sub_budget -> sub_budget_balance = gsb_real_add ( sub_budget -> sub_budget_balance,
-							  gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-														  budgetary_line_tree_currency (), -1));
+    if ( ! gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
+        sub_budget -> sub_budget_balance = gsb_real_add (
+                        sub_budget -> sub_budget_balance,
+                        gsb_data_transaction_get_adjusted_amount_for_currency (
+                        transaction_number, budgetary_line_tree_currency (), -1));
     }
     else
     {
 	budget -> budget_nb_direct_transactions ++;
-	budget -> budget_direct_balance = gsb_real_add ( budget -> budget_direct_balance,
-							 gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-														 budgetary_line_tree_currency (), -1));
+    if ( ! gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
+        budget -> budget_direct_balance = gsb_real_add (
+                            budget -> budget_direct_balance,
+                            gsb_data_transaction_get_adjusted_amount_for_currency (
+                            transaction_number, budgetary_line_tree_currency (), -1));
     }
 }
 

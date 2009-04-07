@@ -12,6 +12,7 @@ const gchar *gsb_data_bank_get_bank_mail ( gint bank_number );
 const gchar *gsb_data_bank_get_bank_note ( gint bank_number );
 const gchar *gsb_data_bank_get_bank_tel ( gint bank_number );
 const gchar *gsb_data_bank_get_bank_web ( gint bank_number );
+const gchar *gsb_data_bank_get_bic ( gint bank_number );
 const gchar *gsb_data_bank_get_code ( gint bank_number );
 const gchar *gsb_data_bank_get_correspondent_fax ( gint bank_number );
 const gchar *gsb_data_bank_get_correspondent_mail ( gint bank_number );
@@ -33,6 +34,7 @@ gboolean gsb_data_bank_set_bank_tel ( gint bank_number,
 				      const gchar *bank_tel );
 gboolean gsb_data_bank_set_bank_web ( gint bank_number,
 				      const gchar *bank_web );
+gboolean gsb_data_bank_set_bic ( gint bank_number, const gchar *bank_BIC );
 gboolean gsb_data_bank_set_code ( gint bank_number,
 				  const gchar *bank_code );
 gboolean gsb_data_bank_set_correspondent_fax ( gint bank_number,

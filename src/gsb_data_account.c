@@ -271,6 +271,8 @@ static void _gsb_data_account_free ( struct_account* account )
 	g_free ( account -> account_id );
     if ( account -> account_name );
 	g_free ( account -> account_name );
+    if ( account -> name_icon );
+	g_free ( account -> name_icon );
     if ( account -> comment );
 	g_free ( account -> comment );
     if ( account -> holder_name );
@@ -283,6 +285,8 @@ static void _gsb_data_account_free ( struct_account* account )
 	g_free ( account -> bank_account_number );
     if ( account -> bank_account_key );
 	g_free ( account -> bank_account_key );
+    if ( account -> bank_account_iban );
+	g_free ( account -> bank_account_iban );
     /* TODO dOm : free row_align */
     /* TODO dOm : free sort_list */
     g_free ( account );

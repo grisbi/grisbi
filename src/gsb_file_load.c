@@ -2823,6 +2823,15 @@ void gsb_file_load_bank ( const gchar **attribute_names,
 	    continue;
 	}
 
+    if ( !strcmp ( attribute_names[i],
+		       "BIC" ))
+	{
+	    gsb_data_bank_set_bic ( bank_number,
+				     attribute_values[i] );
+	    i++;
+	    continue;
+	}
+
 	if ( !strcmp ( attribute_names[i],
 		       "Adr" ))
 	{

@@ -1400,9 +1400,10 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
     if ( category )
     {
 	category -> category_nb_transactions ++;
-	category -> category_balance = gsb_real_add ( category -> category_balance,
-						      gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-													      category_tree_currency (), -1));
+    if ( ! gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
+        category -> category_balance = gsb_real_add ( category -> category_balance,
+                        gsb_data_transaction_get_adjusted_amount_for_currency (
+                        transaction_number, category_tree_currency (), -1));
     }
 
     /* if we were on empty category, no sub-category */
@@ -1412,16 +1413,20 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
     if ( sub_category )
     {
 	sub_category -> sub_category_nb_transactions ++;
-	sub_category -> sub_category_balance = gsb_real_add ( sub_category -> sub_category_balance,
-							      gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-														      category_tree_currency (), -1));
+    if ( ! gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
+        sub_category -> sub_category_balance = gsb_real_add (
+                        sub_category -> sub_category_balance,
+                        gsb_data_transaction_get_adjusted_amount_for_currency (
+                        transaction_number, category_tree_currency (), -1));
     }
     else
     {
 	category -> category_nb_direct_transactions ++;
-	category -> category_direct_balance = gsb_real_add ( category -> category_direct_balance,
-							     gsb_data_transaction_get_adjusted_amount_for_currency ( transaction_number,
-														     category_tree_currency (), -1));
+    if ( ! gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
+        category -> category_direct_balance = gsb_real_add (
+                        category -> category_direct_balance,
+                        gsb_data_transaction_get_adjusted_amount_for_currency (
+                        transaction_number, category_tree_currency (), -1));
     }
 }
 
