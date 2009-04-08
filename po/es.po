@@ -9,12 +9,12 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-07 20:50+0200\n"
-"PO-Revision-Date: 2009-03-21 17:13+0100\n"
+"PO-Revision-Date: 2009-04-08 13:48+0200\n"
 "Last-Translator: Carlos M. Cámara Mora <carcam_moceu@yahoo.es>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: src/accueil.c:196
 msgid "Closed liabilities accounts"
@@ -2527,14 +2527,13 @@ msgstr ""
 
 #. Monthly outgoings by payee
 #: src/etats_onglet.c:925
-#, fuzzy
 msgid ""
 "This report displays current month's outgoings sorted by payees. You just "
 "need to select the account(s). By default all accounts are selected."
 msgstr ""
 "Este informe muestra los gastos para las transacciones del mes actual  "
 "ordenadas por terceros. Tan sólo debe seleccionar la(s) cuenta(s). Por "
-"defecto, todas las cuentas están seleccionadas."
+"defecto, están seleccionadas todas las cuentas."
 
 #. Search
 #: src/etats_onglet.c:931
@@ -3502,14 +3501,12 @@ msgstr "Institución financiera"
 
 #. Bank BIC code item
 #: src/gsb_account_property.c:382 src/gsb_bank.c:759
-#, fuzzy
 msgid "BIC code"
-msgstr "Código ISO"
+msgstr "Código BIC"
 
 #: src/gsb_account_property.c:399
-#, fuzzy
 msgid "IBAN number"
-msgstr "Número"
+msgstr "Número IBAN"
 
 #: src/gsb_account_property.c:430
 msgid "Bank sort code"
@@ -3576,7 +3573,7 @@ msgstr "Cambiar la moneda de las transacciones"
 
 #: src/gsb_account_property.c:1047
 msgid "Your IBAN number is not correct. Please check your entry."
-msgstr ""
+msgstr "Su número IBAN no es correcto. Por favor, compruebe su entrada."
 
 #. create the page
 #: src/gsb_archive_config.c:111 src/parametres.c:278
@@ -4239,7 +4236,6 @@ msgid "Welcome to Grisbi 0.6!"
 msgstr "¡ Bienvenido a Grisbi 0.6!"
 
 #: src/gsb_assistant_first.c:132
-#, fuzzy
 msgid ""
 "You are using Grisbi 0.6 for the first time.  While most of the interface "
 "has not changed, you will notice a lot of improvements. Do not hesitate to "
@@ -4268,6 +4264,9 @@ msgstr ""
 "También le aconsejamos que configura el navegador de internet a la "
 "configuración de su sistema y que configure las siguientes opciones en la "
 "próxima pantalla.\n"
+"\n"
+"Si quiere hacer copias de seguridad de su fichero Grisbi por si deseara volver a una "
+"versión anterior de Grisbi, le aconsejamos que lo haga ahora.\n"
 "\n"
 "Puede encontrar otras mejoras en http://www.grisbi.org/."
 
@@ -8527,9 +8526,8 @@ msgid "%s #%d"
 msgstr "%s #%d"
 
 #: src/import.c:3205
-#, fuzzy
 msgid "Import settings"
-msgstr "Importar reglas"
+msgstr "Importar configuración"
 
 #: src/import.c:3211
 msgid "Threshold while matching transaction date during import (in days)"
@@ -8562,14 +8560,12 @@ msgid "According to the value date (if fail, try with the date)"
 msgstr "De acuerdo con la fecha valor (si fall, intentar con la fecha)"
 
 #: src/import.c:3290
-#, fuzzy
 msgid "Manage import associations"
-msgstr "Administrar los terceros"
+msgstr "Administrar la importación de asociaciones"
 
 #: src/import.c:3298 src/parametres.c:296
-#, fuzzy
 msgid "Import associations"
-msgstr "Acción"
+msgstr "Importar asociaciones"
 
 #: src/import.c:3300
 msgid ""
@@ -8577,6 +8573,9 @@ msgid ""
 "file.  For instance, all QIF labels containing 'Rent' could be associated "
 "with a specific payee representing your landlord."
 msgstr ""
+"Esto asociará una cadena de búsqueda a un pagador cada vez que importe un fichero.  "
+"Por ejemplo, todas las etiquetas QIF que contengan 'Renta' podrían asociarse con un tercero "
+"específico que represente a su casero."
 
 #. Create entry liste des tiers
 #: src/import.c:3369 src/import.c:3401 src/tiers_onglet.c:1091
@@ -8585,18 +8584,16 @@ msgstr "Nombre de la tercera parte"
 
 #. Create entry search string
 #: src/import.c:3383 src/import.c:3426
-#, fuzzy
 msgid "Search string"
-msgstr "Buscar"
+msgstr "Cadena de búsqueda"
 
 #: src/import.c:3392
-#, fuzzy
 msgid "Details of associations"
-msgstr "No detallar el desglose de las transacciones"
+msgstr "Detalles de las asociaciones"
 
 #: src/import.c:3699
 msgid "You cannot choose this payee because it already has an association"
-msgstr ""
+msgstr "No puede elegir este tercero porque ya tiene una asociación"
 
 #: src/import.c:3933
 #, c-format
@@ -9023,9 +9020,8 @@ msgid "Show _four lines per transaction"
 msgstr "Muestra _cuatro líneas por transacción"
 
 #: src/menu.c:289
-#, fuzzy
 msgid "Debug mode"
-msgstr "Depurar el archivo"
+msgstr "Mode de depuración"
 
 #: src/menu.c:293
 msgid "Show transaction _form"
@@ -9912,7 +9908,7 @@ msgid "New payee : %s"
 msgstr "Nuevo tercero : %s"
 
 #: src/tiers_onglet.c:1308
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You are about to replace one payee which name contain %s by %s\n"
 "\n"
